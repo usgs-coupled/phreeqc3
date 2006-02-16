@@ -1,0 +1,188 @@
+   Input file: /z/parkplace/home/dlpark/../../home/dlpark/programs/phreeqc/src/../src/Sun/../../examples/ex12a
+  Output file: ex12a.out
+Database file: /z/parkplace/home/dlpark/../../home/dlpark/programs/phreeqc/src/../src/Sun/../../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Example 12a.--Advective and diffusive transport of heat and solutes.
+	      Constant boundary condition at one end, closed at other.
+	      The problem is designed so that temperature should equal Na-conc 
+	      (in mmol/kgw) after diffusion. Compares with analytical solution
+	      for 20-cell and 60-cell models.
+	EXCHANGE_SPECIES
+	  Na+ + X- = NaX
+	    log_k       0.0
+	    gamma      4.0     0.075
+	  H+ + X- = HX
+	    log_k       -99.
+	    gamma      9.0     0.0
+	  K+ + X- = KX
+	    log_k       0.0
+	    gamma       3.5     0.015
+	SOLUTION 0   Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet
+	    units  mol/kgw
+	    temp 24
+	    pH  7.0
+	    pe  12.0   O2(g) -0.67
+	    Na  24.e-3
+	    Cl  24.e-3
+	SOLUTION 1-19   24.0 mM KNO3
+	    units mol/kgw
+	    temp  0                 # Incoming solution 0C
+	    pH    7.0
+	    pe   12.0   O2(g) -0.67
+	    K    24.e-3
+	    N(5) 24.e-3
+	EXCHANGE 1-19
+	    KX    0.048
+	SOLUTION 20  Same as soln 0 in cell 20 at closed column end (second type boundary cond)
+	    units  mol/kgw
+	    temp 24
+	    pH  7.0
+	    pe  12.0   O2(g) -0.67
+	    Na  24.e-3
+	    Cl  24.e-3
+	EXCHANGE 20
+	    NaX    0.048
+	PRINT
+	   reset   false
+	END
+	TRANSPORT                   # Diffuse 24C, NaCl solution from column end
+	   cells   20
+	   shifts 1
+	   flow_direction diffusion
+	   bcond   constant  closed
+	   length  1.0
+	   thermal_diffusion  3.0  # Heat is retarded equal to Na
+	   disp    0.0             # No dispersion
+	   diffc  0.3e-9           # m^2/s
+	   timest 1.0e+10          # 317 years, 19 substeps will be used
+	SELECTED_OUTPUT
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
+	   file    ex12a.sel
+	   high_precision  true
+	   reset   false
+	   distance    true
+	   temperature    true
+	USER_PUNCH
+	  heading Na_mmol K_mmol Cl_mmol Cl-analytic  Na_analytic
+	  10  PUNCH TOT("Na")*1000, TOT("K")*1000, TOT("Cl")*1000
+	  20  DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429
+	  30  x = DIST
+	  40  if (x > 8.5 OR SIM_TIME <= 0) THEN END
+	  50  IF (ABS(x MOD 0.5) > 1e-3) OR (TC <= 0) THEN END
+	  60  READ a1, a2, a3, a4, a5
+	  70      REM  calculate error in Cl
+	  80  Arg = x / (2*SQRT(3e-10 * SIM_TIME / 1.0))
+	  90  e = 1/(1 + 0.3275911 * Arg)
+	  100 erfc_Cl = (e*(a1+e*(a2+e*(a3+e*(a4+e*a5)))))*EXP(-Arg*Arg)
+	  110     REM  calculate error in Na
+	  120 Arg = x / (2*SQRT(3e-10 * SIM_TIME / 3.0))
+	  130 e = 1/(1 + 0.3275911 * Arg)
+	  140 erfc_Na = (e*(a1+e*(a2+e*(a3+e*(a4+e*a5)))))*EXP(-Arg*Arg)
+	  150     REM punch results
+	  160 error_Cl = 0.024 * erfc_Cl - TOT("Cl")
+	  170 error_Na = 0.024 * erfc_Na - TOT("Na")
+	  180 PUNCH error_Cl, error_Na
+	  190     REM store results
+	  200 j = x - 0.5
+	  210 PUT(error_Cl, SIM_NO, j, 1) 
+	  220 PUT(error_Na, SIM_NO, j, 2) 
+	  500 END
+	END
+	SELECTED_OUTPUT
+	   user_punch false
+	SOLUTION 0  Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet
+	    units  mol/kgw
+	    temp 24
+	    pH  7.0
+	    pe  12.0   O2(g) -0.67
+	    Na  24.e-3
+	    Cl  24.e-3
+	SOLUTION 1-59   24.0 mM KNO3
+	    units mol/kgw
+	    temp  0                 # Incoming solution 0C
+	    pH    7.0
+	    pe   12.0   O2(g) -0.67
+	    K    24.e-3
+	    N(5) 24.e-3
+	EXCHANGE 1-59
+	    KX    0.048
+	SOLUTION 60  Same as soln 0 in cell 60 at closed column end (second type boundary cond)
+	    units  mol/kgw
+	    temp 24
+	    pH  7.0
+	    pe  12.0   O2(g) -0.67
+	    Na  24.e-3
+	    Cl  24.e-3
+	EXCHANGE 60
+	    NaX    0.048
+	END
+	TRANSPORT                   # Diffuse 24C, NaCl solution from column end
+	   cells   60
+	   shifts 1
+	   flow_direction diffusion
+	   bcond   constant  closed
+	   thermal_diffusion  3.0  # Heat is retarded equal to Na
+	   disp    0.0             # No dispersion
+	   diffc  0.3e-9           # m^2/s
+	   length .33333333333333333
+	   timest 1.0e+10          # 317 years 
+	   punch_cells 1-60
+	SELECTED_OUTPUT
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 60.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 60.
+	   high_precision  true
+	   user_punch true
+	   reset   false
+	   distance    true
+	   temperature    true
+	END
+	SOLUTION                    # Initial solution calculation for pure water
+	PRINT
+	   reset false             # Initial solution calculation not printed
+	   user_print true
+	SELECTED_OUTPUT
+	   high_precision false    # Controls precision for USER_PRINT too.
+	USER_PRINT
+	  10  PRINT "             Error in Cl concentration Error in Na concentration"
+	  20  PRINT "             ------------------------- -------------------------"    
+	  30  PRINT "    Distance      20-cell      60-cell      20-cell      60-cell"
+	  40  PRINT " "
+	  50  FOR j = 0 TO 8
+	  60    PRINT j + 0.5, GET(2, j, 1), GET(4, j, 1), GET(2, j, 2), GET(4, j, 2)
+	  70  NEXT j
+	END
+----------------------------------User print-----------------------------------
+
+             Error in Cl concentration Error in Na concentration 
+             ------------------------- ------------------------- 
+    Distance      20-cell      60-cell      20-cell      60-cell 
+  
+  5.0000e-01   4.3817e-06   9.0009e-08   5.0636e-04   3.9397e-05 
+  1.5000e+00   1.7304e-05   1.0407e-06   5.1077e-04   5.5286e-05 
+  2.5000e+00   3.5613e-05   3.2028e-06   9.0486e-05   1.4725e-05 
+  3.5000e+00   4.9599e-05   5.2170e-06  -3.7312e-05  -3.8884e-06 
+  4.5000e+00   5.0063e-05   5.6394e-06  -1.9794e-05  -2.5770e-06 
+  5.5000e+00   3.8208e-05   4.4562e-06  -4.0684e-06  -5.0254e-07 
+  6.5000e+00   2.2627e-05   2.7007e-06  -4.8926e-07  -4.8938e-08 
+  7.5000e+00   1.0547e-05   1.2850e-06  -3.9174e-08  -2.7009e-09 
+  8.5000e+00   3.8231e-06   4.5302e-07  -2.2318e-09  -9.0081e-11 
+
+No memory leaks
