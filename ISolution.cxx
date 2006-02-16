@@ -37,7 +37,7 @@ cxxISolution::cxxISolution(struct solution *solution_ptr)
         units       = solution_ptr->units;
         // totals
         for (int i = 0; solution_ptr->totals[i].description != NULL; i++) {
-                cxxSolutionComp c(&(solution_ptr->totals[i]));
+                cxxISolutionComp c(&(solution_ptr->totals[i]));
                 comps.insert(c);
         }
         default_pe  = solution_ptr->default_pe;
@@ -65,7 +65,7 @@ struct solution *cxxISolution::cxxISolution2solution()
         soln_ptr->pe = pe_data_dup(this->pes);
         // totals
         soln_ptr->totals = (struct conc *) free_check_null(soln_ptr->totals);
-        soln_ptr->totals = cxxSolutionComp::cxxSolutionComp2conc(this->comps);
+        soln_ptr->totals = cxxISolutionComp::cxxISolutionComp2conc(this->comps);
         return(soln_ptr);
 }
 #ifdef SKIP
@@ -162,8 +162,8 @@ cxxISolution& cxxISolution::read(CParser& parser)
 
                 case 6: // ph
                         {
-                                cxxSolutionComp conc;
-                                if (conc.read(parser, sol) == cxxSolutionComp::ERROR) {
+                                cxxISolutionComp conc;
+                                if (conc.read(parser, sol) == cxxISolutionComp::ERROR) {
                                         parser.incr_input_error();
                                         break;
                                 }
@@ -178,8 +178,8 @@ cxxISolution& cxxISolution::read(CParser& parser)
 
                 case 7: // pe
                         {
-                                cxxSolutionComp conc;
-                                if (conc.read(parser, sol) == cxxSolutionComp::ERROR) {
+                                cxxISolutionComp conc;
+                                if (conc.read(parser, sol) == cxxISolutionComp::ERROR) {
                                         parser.incr_input_error();
                                         break;
                                 }
@@ -216,8 +216,8 @@ cxxISolution& cxxISolution::read(CParser& parser)
                 case CParser::OPTION_DEFAULT:
                         {
                                 //  Read concentration
-                                cxxSolutionComp conc;
-                                if (conc.read(parser, sol) == cxxSolutionComp::ERROR) {
+                                cxxISolutionComp conc;
+                                if (conc.read(parser, sol) == cxxISolutionComp::ERROR) {
                                         parser.incr_input_error();
                                 } else {
                                         sol.add(conc);
@@ -238,7 +238,7 @@ cxxISolution& cxxISolution::read(CParser& parser)
         // fix up default units and default pe
         //
         std::string token1;
-        std::vector<cxxSolutionComp>::iterator iter = sol.totals.begin();
+        std::vector<cxxISolutionComp>::iterator iter = sol.totals.begin();
         for (; iter != sol.totals.end(); ++iter)
         {
                 token = (*iter).get_description();
@@ -299,7 +299,7 @@ void cxxISolution::dump_xml(std::ostream& os, unsigned int indent)const
                 for(i = 0; i < indent + 1; ++i) os << Utilities::INDENT;                
                 os << "<totals>\n";
 
-                std::vector<cxxSolutionComp>::const_iterator iter = this->totals.begin();
+                std::vector<cxxISolutionComp>::const_iterator iter = this->totals.begin();
                 for(; iter != this->totals.end(); ++iter)
                 {
                         (*iter).dump_xml(*this, os, indent + 2);

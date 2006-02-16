@@ -3,7 +3,6 @@
 
 #include "NumKeyword.h"
 #include "Isotope.h"
-#include "SolutionComp.h"
 #include "NameDouble.h"
 #define EXTERNAL extern
 #include "global.h"
@@ -76,15 +75,9 @@ protected:
         double cb;
         double mass_water;
         double total_alkalinity;
-        // maps element name to moles
-        //std::map <char *, double, CHARSTAR_LESS> totals; 
         cxxNameDouble totals;
         std::list<cxxIsotope> isotopes;
-        // maps master species name log activity
-        //std::map <char *, double> master_activity;
         cxxNameDouble master_activity;
-        // maps species name to Pitzer activty coefficient 
-        //std::map <char *, double> species_gamma;
         cxxNameDouble species_gamma;
 public:
         //static std::map<int, cxxSolution>& map;
