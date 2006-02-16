@@ -1,0 +1,68 @@
+PRINT
+#	-status false
+TITLE Example 11.--Transport and ion exchange.
+SOLUTION 0  CaCl2
+        units            mmol/kgw
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5    O2(g)   -0.68
+        Ca               0.6
+        Cl               1.2
+SOLUTION 1-40  Initial solution for column
+        units            mmol/kgw
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5    O2(g)   -0.68
+        Na               1.0
+        K                0.2
+        N(5)             1.2
+EXCHANGE 1-40
+        equilibrate 1
+        X                0.0011
+ADVECTION
+        -cells           40
+        -shifts          120
+        -punch_cells     40
+        -punch_frequency 1
+        -print_cells     40
+        -print_frequency 20      
+SELECTED_OUTPUT
+        -file            ex11adv.sel
+        -reset           false
+        -step
+        -totals          Na Cl K Ca
+USER_PUNCH
+  -heading  Pore_vol
+  10 PUNCH (STEP_NO + .5) / 40.
+END
+SOLUTION 1-40  Initial solution for column
+        units            mmol/kgw
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5    O2(g)   -0.68
+        Na               1.0
+        K                0.2
+        N(5)             1.2
+EXCHANGE 1-40
+        equilibrate 1
+        X                0.0011
+TRANSPORT
+        -cells           40
+        -length          0.002
+        -shifts          120
+        -time_step       720.0
+        -flow_direction  forward
+        -boundary_cond   flux    flux
+        -diffc           0.0e-9
+        -dispersivity    0.002
+        -correct_disp    true
+        -punch           40
+        -punch_frequency 1
+        -print           40
+        -print_frequency 20
+SELECTED_OUTPUT
+        -file            ex11trn.sel
+        -reset           false
+        -step
+        -totals          Na Cl K Ca
+END

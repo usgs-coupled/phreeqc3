@@ -1,0 +1,59 @@
+TITLE Example 13A.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    Implicit definition of first-order exchange model.
+SOLUTION 0    # 1 mmol/l NaCl
+        units   mmol/l
+        pH       7.0
+        pe      13.0    O2(g)   -0.7
+        Na       1.0    # Na has Retardation = 2
+        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+        N(5)     1.0    # NO3 is conservative
+#       charge imbalance is no problem ...
+END
+SOLUTION 1-41  # Column with KNO3
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+EXCHANGE 1-41
+        -equil  1
+        X       1.e-3
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+        K+ + X- = KX
+        log_k   0.0
+        -gamma  3.5     0.015
+END
+TRANSPORT
+        -cells  20
+        -shifts 5
+        -flow_d   forward
+        -timest 3600
+        -bcon   flux  flux
+        -diffc  0.0
+        -length 0.1
+        -disp   0.015
+        -stag       1  6.8e-6  0.3        0.1
+#   1 stagnant layer^, ^alpha, ^theta(m), ^theta(im) 
+PRINT
+        -reset false
+	-echo true
+END
+SOLUTION 0  # Original solution reenters
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+TRANSPORT
+        -shifts 10
+        -punch_frequency    10
+        -punch_cells        1-20
+SELECTED_OUTPUT
+        -file   ex13a.sel
+        -reset  false
+        -solution
+        -distance       true
+USER_PUNCH
+        -head Cl_mmol Na_mmol
+10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+END
