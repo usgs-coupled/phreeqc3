@@ -1,5 +1,5 @@
-#if !defined(CONC_H_INCLUDED)
-#define CONC_H_INCLUDED
+#if !defined(SOLUTIONCOMP_H_INCLUDED)
+#define SOLUTIONCOMP_H_INCLUDED
 
 //#include "Parser.h"
 #include "Utils.h"
@@ -13,12 +13,12 @@
 // forward declarations
 class cxxISolution;  // reqd for read and dump_xml
 
-class cxxConc
+class cxxSolutionComp
 {
 public:
-        cxxConc(void);
-        cxxConc(struct conc *conc_ptr);
-        ~cxxConc(void);
+        cxxSolutionComp(void);
+        cxxSolutionComp(struct conc *conc_ptr);
+        ~cxxSolutionComp(void);
 
         enum STATUS_TYPE {
                 ERROR  = 0,
@@ -46,12 +46,9 @@ public:
         int get_n_pe()const {return this->n_pe;}
         void set_n_pe(int n_pe) {this->n_pe = n_pe;}
 
-        //bool operator<(const cxxConc& conc)const    { return (this->description < conc.description); }
-        bool operator<(const cxxConc& conc)const    { return ::strcmp(this->description, conc.description) < 0; }
+        bool operator<(const cxxSolutionComp& conc)const    { return ::strcmp(this->description, conc.description) < 0; }
 
-        //static struct conc * concarray(std::map<char *, double, CHARSTAR_LESS> &t );
-
-        static struct conc * cxxConc2conc(const std::set<cxxConc> &t );
+        static struct conc * cxxSolutionComp2conc(const std::set<cxxSolutionComp> &t );
 
 private:
         char * description;
@@ -59,12 +56,10 @@ private:
         double input_conc;
         char * units;
         char * equation_name;
-        //struct phase *phase;
         double phase_si;
         int n_pe;
         char * as;
         double gfw;
-        //int skip;
 };
 
-#endif // CONC_H_INCLUDED
+#endif // SOLUTIONCOMP_H_INCLUDED

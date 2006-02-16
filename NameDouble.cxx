@@ -6,7 +6,6 @@
 #endif
 
 #include "Utils.h"   // define first
-#include "Conc.h"
 #include "NameDouble.h"
 #define EXTERNAL extern
 #include "global.h"
