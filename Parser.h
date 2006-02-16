@@ -56,7 +56,7 @@ public:
 
         enum ONERROR_TYPE {
                 OT_CONTINUE     = 0,
-                OT_STOP         = 1,
+                OT_STOP         = 1
         };
 
         enum STATUS_TYPE {

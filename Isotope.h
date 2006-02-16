@@ -24,7 +24,7 @@ public:
         void dump_xml(std::ostream& os, unsigned int indent)const;
         void dump_raw(std::ostream& os, unsigned int indent)const;
 
-        CParser::STATUS_TYPE cxxIsotope::read_raw(CParser& parser);
+        CParser::STATUS_TYPE read_raw(CParser& parser);
 
         char * get_isotope_name()const          { return this->isotope_name;}
         void   set_isotope_name(char * cstring) { this->isotope_name = cstring;}

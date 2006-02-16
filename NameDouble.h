@@ -37,7 +37,7 @@ public:
 
         struct name_coef *name_coef()const;
 
-        void cxxNameDouble::dump_xml(std::ostream& s_oss, unsigned int indent)const;
+        void dump_xml(std::ostream& s_oss, unsigned int indent)const;
 
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
