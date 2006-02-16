@@ -4,7 +4,7 @@
 //#include "Parser.h"
 #include "NumKeyword.h"
 #include "Solution.h"
-#include "Conc.h"
+#include "SolutionComp.h"
 //#include "Isotope.h"
 #include <cassert> // assert
 #include <map>     // std::map
@@ -25,7 +25,7 @@ public:
 
         //static cxxISolution& read(CParser& parser);
 
-        //void add(cxxConc conc)       { this->concs.push_back(conc); }
+        //void add(cxxSolutionComp conc)       { this->concs.push_back(conc); }
 
         struct solution *cxxISolution2solution();
 
@@ -40,11 +40,10 @@ public:
         //void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 protected:
-        friend class cxxConc; // for this->pe access
+        friend class cxxSolutionComp; // for this->pe access
         double density;
         std::string units;
-        std::set<cxxConc> concs; 
-        //std::map <char *, struct reaction *> pe;
+        std::set<cxxSolutionComp> comps; 
         struct pe_data *pes;
         int default_pe;
 

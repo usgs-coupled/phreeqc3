@@ -2,7 +2,7 @@
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
 
-#include "Conc.h"
+#include "SolutionComp.h"
 #include "ISolution.h"
 #include "Utils.h"
 #include <cassert>
@@ -11,7 +11,7 @@
 #include "phrqproto.h"
 #include "phqalloc.h"
 
-cxxConc::cxxConc(void)
+cxxSolutionComp::cxxSolutionComp(void)
 : description(NULL)
 , moles(0.0)
 , input_conc(0.0)
@@ -25,7 +25,7 @@ cxxConc::cxxConc(void)
         //, phase(NULL)
 {
 }
-cxxConc::cxxConc(struct conc *conc_ptr)
+cxxSolutionComp::cxxSolutionComp(struct conc *conc_ptr)
 {
         description         = conc_ptr->description;
         moles               = conc_ptr->moles; 
@@ -40,11 +40,11 @@ cxxConc::cxxConc(struct conc *conc_ptr)
         //phase               = conc_ptr->phase;
 }
 
-cxxConc::~cxxConc(void)
+cxxSolutionComp::~cxxSolutionComp(void)
 {
 }
 /*
-struct conc *cxxConc::concarray(std::map <char *, double, CHARSTAR_LESS> &totals)
+struct conc *cxxSolutionComp::concarray(std::map <char *, double, CHARSTAR_LESS> &totals)
         // for Solutions, not ISolutions
         // takes a map of (elt name, moles)
         // returns list of conc structures
@@ -71,16 +71,16 @@ struct conc *cxxConc::concarray(std::map <char *, double, CHARSTAR_LESS> &totals
         return(c);
 }
 */
-struct conc *cxxConc::cxxConc2conc(const std::set <cxxConc> &totals)
+struct conc *cxxSolutionComp::cxxSolutionComp2conc(const std::set <cxxSolutionComp> &totals)
         // for ISolutions
-        // takes a std::vector cxxConc structures
+        // takes a std::vector cxxSolutionComp structures
         // returns list of conc structures
 {
         struct conc *c;
         c = (struct conc *) PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
         if (c == NULL) malloc_error();
         int i = 0;
-        for (std::set<cxxConc>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
+        for (std::set<cxxSolutionComp>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
                 c[i].description         = it->description;
                 c[i].moles               = it->moles;
                 c[i].input_conc          = it->input_conc;
@@ -99,7 +99,7 @@ struct conc *cxxConc::cxxConc2conc(const std::set <cxxConc> &totals)
 }
 
 #ifdef SKIP
-cxxConc::STATUS_TYPE cxxConc::read(CParser& parser, cxxISolution& solution)
+cxxSolutionComp::STATUS_TYPE cxxSolutionComp::read(CParser& parser, cxxISolution& solution)
 {
         // std::string& str = parser.line(); 
         std::string str = parser.line();
@@ -133,7 +133,7 @@ cxxConc::STATUS_TYPE cxxConc::read(CParser& parser, cxxISolution& solution)
         if (count_redox_states == 0) {
                 parser.incr_input_error();
                 parser.error_msg("No element or master species given for concentration input.", CParser::OT_CONTINUE);
-                return cxxConc::ERROR;
+                return cxxSolutionComp::ERROR;
         }
         description = token1;
 
@@ -149,9 +149,9 @@ cxxConc::STATUS_TYPE cxxConc::read(CParser& parser, cxxISolution& solution)
                 std::ostringstream err;
                 err << "Concentration data error for " << token1 << " in solution input.";
                 parser.error_msg(err, CParser::OT_CONTINUE);
-                return cxxConc::ERROR;
+                return cxxSolutionComp::ERROR;
         }
-        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxConc::OK;
+        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxSolutionComp::OK;
 
         // Read optional data
         token1 = token;
@@ -160,9 +160,9 @@ cxxConc::STATUS_TYPE cxxConc::read(CParser& parser, cxxISolution& solution)
         if (parser.check_units(token1, alk, false, solution.get_units(), false) == CParser::OK) {
                 if (parser.check_units(token1, alk, false, solution.get_units(), true) == CParser::OK) {
                         this->units = token1;
-                        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxConc::OK;
+                        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxSolutionComp::OK;
                 } else {
-                        return cxxConc::ERROR;
+                        return cxxSolutionComp::ERROR;
                 }
         }
 
@@ -173,49 +173,49 @@ cxxConc::STATUS_TYPE cxxConc::read(CParser& parser, cxxISolution& solution)
         {
                 parser.copy_token(token, ptr);
                 this->as = token;
-                if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxConc::OK;
+                if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxSolutionComp::OK;
         }
         // Check for "gfw" followed by gram formula weight
         else if (token1.compare("gfw") == 0)
         {
                 if (parser.copy_token(token, ptr) != CParser::TT_DIGIT) {
                         parser.error_msg("Expecting gram formula weight.", CParser::OT_CONTINUE);
-                        return cxxConc::ERROR;
+                        return cxxSolutionComp::ERROR;
                 } else {
                         parser.get_iss() >> this->gfw;
-                        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxConc::OK;
+                        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxSolutionComp::OK;
                 }
         }
 
         // Check for redox couple for pe
         if  ( Utilities::strcmp_nocase_arg1(token.c_str(), "pe") == 0 ) {
                 this->n_pe = cxxPe_Data::store(solution.pe, token);
-                if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxConc::OK;
+                if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxSolutionComp::OK;
         } else if (token.find("/") != std::string::npos) {
                 if (parser.parse_couple(token) == CParser::OK) {
                         this->n_pe = cxxPe_Data::store(solution.pe, token);
-                        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxConc::OK;
+                        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxSolutionComp::OK;
                 } else {
-                        return cxxConc::ERROR;
+                        return cxxSolutionComp::ERROR;
                 }
         }
 
         // Must have phase
         this->equation_name = token;
-        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxConc::OK;
+        if ( (j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY) return cxxSolutionComp::OK;
 
         // Check for saturation index
         if (!(std::istringstream(token) >> this->phase_si))
         {
                 parser.error_msg("Expected saturation index.", CParser::OT_CONTINUE);
-                return cxxConc::ERROR;
+                return cxxSolutionComp::ERROR;
         }
-        return cxxConc::OK;
+        return cxxSolutionComp::OK;
 }
 #endif
 
 #ifdef SKIP
-void cxxConc::dump_xml(std::ostream& s_oss, unsigned int indent)const
+void cxxSolutionComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
 {
         unsigned int i;
         std::string indent0("");

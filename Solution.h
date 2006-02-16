@@ -3,7 +3,7 @@
 
 #include "NumKeyword.h"
 #include "Isotope.h"
-#include "Conc.h"
+#include "SolutionComp.h"
 #include "NameDouble.h"
 #define EXTERNAL extern
 #include "global.h"
