@@ -2,9 +2,9 @@
 #define ISOLUTION_H_INCLUDED
 
 //#include "Parser.h"
+#include "ISolutionComp.h"
 #include "NumKeyword.h"
 #include "Solution.h"
-#include "SolutionComp.h"
 //#include "Isotope.h"
 #include <cassert> // assert
 #include <map>     // std::map
@@ -25,7 +25,7 @@ public:
 
         //static cxxISolution& read(CParser& parser);
 
-        //void add(cxxSolutionComp conc)       { this->concs.push_back(conc); }
+        //void add(cxxISolutionComp conc)       { this->concs.push_back(conc); }
 
         struct solution *cxxISolution2solution();
 
@@ -40,10 +40,10 @@ public:
         //void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 protected:
-        friend class cxxSolutionComp; // for this->pe access
+        friend class cxxISolutionComp; // for this->pe access
         double density;
         std::string units;
-        std::set<cxxSolutionComp> comps; 
+        std::set<cxxISolutionComp> comps; 
         struct pe_data *pes;
         int default_pe;
 
