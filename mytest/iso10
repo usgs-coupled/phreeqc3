@@ -1,0 +1,39 @@
+DATABASE ../database/iso.dat
+SOLUTION
+	pH	8 charge
+	-units mmol/kgw
+	D	100
+#	[18O]	100
+	Ca 10
+	C  10
+	Na 2000
+	Cl 2000
+END
+GAS_PHASE
+	-fixed_volume	1
+	CO2(g)		1
+	CO[18O](g)	.01
+	C[18O]2(g)	.0001
+	[13C]O2(g)	.01
+	[13C]O[18O](g)	.0001
+	[13C][18O]2(g)	.000001
+	H2O(g)		.03
+	HDO(g)		.0003
+	D2O(g)		.000003
+	H2[18O](g)	.0003
+	HD[18O](g)	.000003
+	D2[18O](g)	.00000003
+USE solution 1
+SOLID_SOLUTION
+Calcite
+	-comp	Calcite         	0
+	-comp 	Ca[13C]O3       	0
+	-comp	CaCO2[18O]      	0
+	-comp	CaCO[18O]2      	0
+	-comp	CaC[18O]3       	0
+	-comp	Ca[13C][18O]3   	0
+	-comp	Ca[13C]O2[18O]  	0
+	-comp	Ca[13C]O[18O]2  	0
+#USE solid_solution none
+#USE gas_phase none
+END

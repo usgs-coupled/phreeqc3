@@ -1,0 +1,262 @@
+   Input file: fluorite
+  Output file: fluorite.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	solution 1
+	units ppm
+	Ca 10
+	 F 5.5
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                2.495e-04   2.495e-04
+	F                 2.895e-04   2.895e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   6.427e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -4.152e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   2.095e-04
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  26.61
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               1.030e-07   1.001e-07    -6.987    -7.000    -0.013
+	H+                1.028e-07   1.000e-07    -6.988    -7.000    -0.012
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+Ca               2.495e-04
+	Ca+2              2.489e-04   2.221e-04    -3.604    -3.653    -0.049
+	CaF+              5.589e-07   5.430e-07    -6.253    -6.265    -0.012
+	CaOH+             3.794e-10   3.687e-10    -9.421    -9.433    -0.012
+F                2.895e-04
+	F-                2.889e-04   2.807e-04    -3.539    -3.552    -0.013
+	CaF+              5.589e-07   5.430e-07    -6.253    -6.265    -0.012
+	HF                4.209e-08   4.209e-08    -7.376    -7.376     0.000
+	HF2-              4.666e-11   4.533e-11   -10.331   -10.344    -0.012
+H(0)             1.416e-25
+	H2                7.078e-26   7.079e-26   -25.150   -25.150     0.000
+O(0)             0.000e+00
+	O2                0.000e+00   0.000e+00   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Fluorite         -0.16  -10.76  -10.60  CaF2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	knobs 
+	use solution 1
+	EQUILIBRIUM_PHASES 1
+	Fluorite 0 Gypsum
+	end
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-14 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling and reduced tolerance 1e-16 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns 1e-10 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns and diagonal scale 1e-10 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased scaling 1e-09 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Skipping optimize equations for first 5 iterations ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Adding inequality to make concentrations greater than zero.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                       Moles in assemblage
+	Phase               SI log IAP  log KT     Initial       Final       Delta
+
+	Fluorite          0.00  -10.60  -10.60
+		CaSO4:2H2O      is reactant      1.000e+01   1.000e+01  -1.376e-04
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                3.871e-04   3.871e-04
+	F                 2.895e-04   2.895e-04
+	S                 1.376e-04   1.376e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =  12.291      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.164e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -4.152e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   2.095e-04
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  16.02
+                               Iterations  =  50
+                                  Total H  = 1.110130e+02
+                                  Total O  = 5.550704e+01
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               1.042e-07   1.003e-07    -6.982    -6.999    -0.017
+	H+                1.035e-07   9.984e-08    -6.985    -7.001    -0.016
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+Ca               3.871e-04
+	Ca+2              3.790e-04   3.259e-04    -3.421    -3.487    -0.066
+	CaSO4             7.280e-06   7.282e-06    -5.138    -5.138     0.000
+	CaF+              8.190e-07   7.883e-07    -6.087    -6.103    -0.017
+	CaOH+             5.628e-10   5.417e-10    -9.250    -9.266    -0.017
+	CaHSO4+           4.425e-12   4.259e-12   -11.354   -11.371    -0.017
+F                2.895e-04
+	F-                2.886e-04   2.777e-04    -3.540    -3.556    -0.017
+	CaF+              8.190e-07   7.883e-07    -6.087    -6.103    -0.017
+	HF                4.157e-08   4.159e-08    -7.381    -7.381     0.000
+	HF2-              4.605e-11   4.432e-11   -10.337   -10.353    -0.017
+H(0)             0.000e+00
+	H2                0.000e+00   0.000e+00   -41.733   -41.733     0.000
+O(0)             2.436e-09
+	O2                1.218e-09   1.218e-09    -8.914    -8.914     0.000
+S(-2)            0.000e+00
+	HS-               0.000e+00   0.000e+00  -131.616  -131.633    -0.017
+	H2S               0.000e+00   0.000e+00  -131.692  -131.692     0.000
+	S-2               0.000e+00   0.000e+00  -137.485  -137.550    -0.066
+S(6)             1.376e-04
+	SO4-2             1.303e-04   1.120e-04    -3.885    -3.951    -0.066
+	CaSO4             7.280e-06   7.282e-06    -5.138    -5.138     0.000
+	HSO4-             1.129e-09   1.087e-09    -8.947    -8.964    -0.017
+	CaHSO4+           4.425e-12   4.259e-12   -11.354   -11.371    -0.017
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Anhydrite        -3.08   -7.44   -4.36  CaSO4
+	Fluorite          0.00  -10.60  -10.60  CaF2
+	Gypsum           -2.86   -7.44   -4.58  CaSO4:2H2O
+	H2(g)           -38.58  -41.73   -3.15  H2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	H2S(g)         -130.70 -131.69   -1.00  H2S
+	O2(g)            -6.02   -8.91   -2.89  O2
+	Sulfur          -97.99  -93.11    4.88  S
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
+No memory leaks

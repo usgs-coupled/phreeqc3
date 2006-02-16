@@ -1,0 +1,183 @@
+TITLE Example 8.--Sorption of zinc on hydrous 
+                  iron oxides.
+SURFACE_SPECIES
+        Hfo_sOH  + H+ = Hfo_sOH2+
+        log_k  7.18
+
+        Hfo_sOH = Hfo_sO- + H+
+        log_k  -8.82
+
+        Hfo_sOH + Zn+2 = Hfo_sOZn+ + H+
+        log_k  0.66
+
+        Hfo_wOH  + H+ = Hfo_wOH2+
+        log_k  7.18
+
+        Hfo_wOH = Hfo_wO- + H+
+        log_k  -8.82
+
+        Hfo_wOH + Zn+2 = Hfo_wOZn+ + H+
+        log_k  -2.32
+SURFACE 1
+        Hfo_sOH        5e-6    600.    0.09
+        Hfo_wOH        2e-4    
+SOLUTION 1
+        -units  mmol/kgw
+        pH      8.0
+        Zn      0.0001 
+        Na      100.    charge 
+        N(5)    100.
+SOLUTION 2
+        -units  mmol/kgw
+        pH      8.0
+        Zn      0.1 
+        Na      100.    charge 
+        N(5)    100.
+USE solution none
+#
+# Model definitions
+#
+PHASES
+        Fix_H+
+        H+ = H+
+        log_k  0.0
+END
+#
+#   Zn = 1e-7
+#
+SELECTED_OUTPUT
+        -file ex8.sel
+        -molalities     Zn+2    Hfo_wOZn+      Hfo_sOZn+
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.0   NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.25  NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.5   NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.75  NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.0   NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.25  NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.5   NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.75  NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.0   NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.25  NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.5   NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.75  NaOH    10.0
+END
+USE solution 1
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -8.0   NaOH    10.0
+END
+#
+#   Zn = 1e-4
+#
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.0   NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.25  NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.5   NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -5.75  NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.0   NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.25  NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.5   NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -6.75  NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.0   NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.25  NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.5   NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -7.75  NaOH    10.0
+END
+USE solution 2
+USE surface 1
+EQUILIBRIUM_PHASES 1
+        Fix_H+   -8.0   NaOH    10.0
+END

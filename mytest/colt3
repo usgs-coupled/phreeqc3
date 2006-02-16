@@ -1,0 +1,59 @@
+DATABASE tony.dat
+#
+# Colt3.-- 1 mmol/l NaCl/NO3 enters column with stagnant zones
+#       -- first order exchange model
+#
+SOLUTION 0    # 1 mmol/l NaCl
+	units	mmol/l
+	pH	 7.0
+	pe	13.0	O2(g)	-0.7
+	Na	 1.0	# Na has Retardation = 2
+	Cl	 1.0	# Cl has Retardation = 1, stagnant exchange
+	N(5)	 1.0	# NO3 is conservative
+#	charge imbalance is no problem ...
+END
+SOLUTION 1-41  # Column with KNO3
+	units	mmol/l
+	pH	 7.0
+	pe	13.0   O2(g)	-0.7
+	K 	 1.0
+	N(5)	 1.0
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+	K+ + X- = KX
+	log_k	0.0
+	-gamma	3.5	0.015
+EXCHANGE 1-41
+	-equil	1
+	X	1.e-3
+END
+PRINT
+	-reset false
+	-echo  true
+TRANSPORT
+	-cells  20
+	-shifts  5  1
+	-timest 3600 
+	-tempr  3.0
+	-bcon   3  3
+	-diffc  0.0e-9
+	-length 0.10
+	-disp   0.015
+ 	-stag	1  6.8e-6  0.3  0.1
+END
+SOLUTION 0  # Original solution reenters
+	units	mmol/l
+	pH	 7.0
+	pe	13.0   O2(g)	-0.7
+	K 	 1.0
+	N(5)	 1.0
+END
+SELECTED_OUTPUT
+	-file  colt3.prn
+	-sim false; -state false; -soln false; -time false; -step false
+	-pH false;  -pe    false;
+	-totals Cl Na
+TRANSPORT
+	-shifts  10  1
+	-se	 10
+	-punch	1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+END

@@ -1,0 +1,295 @@
+   Input file: colt3
+  Output file: colt3.out
+Database file: tony.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE tony.dat
+	SOLUTION 0    # 1 mmol/l NaCl
+		units	mmol/l
+		pH	 7.0
+		pe	13.0	O2(g)	-0.7
+		Na	 1.0	# Na has Retardation = 2
+		Cl	 1.0	# Cl has Retardation = 1, stagnant exchange
+		N(5)	 1.0	# NO3 is conservative
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03
+	N(5)              1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  13.605      Equilibrium with O2(g)
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.500e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.551e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -1.000e-03
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -33.33
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550965e+01
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               1.046e-07   1.001e-07    -6.981    -7.000    -0.019
+	H+                1.042e-07   1.000e-07    -6.982    -7.000    -0.018
+	H2O               5.551e+01   9.999e-01     1.744    -0.000     0.000
+Cl               1.000e-03
+	Cl-               1.000e-03   9.576e-04    -3.000    -3.019    -0.019
+H(0)             0.000e+00
+	H2                0.000e+00   0.000e+00   -44.360   -44.360     0.000
+N(5)             1.000e-03
+	NO3-              1.000e-03   9.573e-04    -3.000    -3.019    -0.019
+Na               1.000e-03
+	Na+               1.000e-03   9.580e-04    -3.000    -3.019    -0.019
+	NaOH              6.327e-11   6.329e-11   -10.199   -10.199     0.000
+O(0)             4.374e-04
+	O2                2.187e-04   2.188e-04    -3.660    -3.660     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -41.21  -44.36   -3.15  H2
+	O2(g)            -0.70   -3.66   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1-41  # Column with KNO3
+		units	mmol/l
+		pH	 7.0
+		pe	13.0   O2(g)	-0.7
+		K 	 1.0
+		N(5)	 1.0
+	EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+		K+ + X- = KX
+		log_k	0.0
+		gamma	3.5	0.015
+	EXCHANGE 1-41
+		equilibrate	1
+		X	1.e-3
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                 1.000e-03   1.000e-03
+	N(5)              1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  13.605      Equilibrium with O2(g)
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.351e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -3.351e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550965e+01
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               1.038e-07   1.001e-07    -6.984    -7.000    -0.016
+	H+                1.034e-07   1.000e-07    -6.985    -7.000    -0.015
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+H(0)             0.000e+00
+	H2                0.000e+00   0.000e+00   -44.360   -44.360     0.000
+K                1.000e-03
+	K+                1.000e-03   9.649e-04    -3.000    -3.016    -0.016
+	KOH               3.345e-11   3.346e-11   -10.476   -10.476     0.000
+N(5)             1.000e-03
+	NO3-              1.000e-03   9.647e-04    -3.000    -3.016    -0.016
+O(0)             4.375e-04
+	O2                2.187e-04   2.188e-04    -3.660    -3.660     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -41.21  -44.36   -3.15  H2
+	O2(g)            -0.70   -3.66   -2.96  O2
+
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X                1.000e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                1.000e-03   1.000e-03   1.000e+00    -0.016
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using exchange 1.	Exchange assemblage after simulation 2.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.000e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                1.000e-03   1.000e-03   1.000e+00    -0.016
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                 1.000e-03   1.000e-03
+	N                 1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  13.605      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.351e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -3.351e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550965e+01
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               1.038e-07   1.001e-07    -6.984    -7.000    -0.016
+	H+                1.034e-07   1.000e-07    -6.985    -7.000    -0.015
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+H(0)             0.000e+00
+	H2                0.000e+00   0.000e+00   -44.360   -44.360     0.000
+K                1.000e-03
+	K+                1.000e-03   9.649e-04    -3.000    -3.016    -0.016
+	KOH               3.345e-11   3.346e-11   -10.476   -10.476     0.000
+N(0)             1.994e-19
+	N2                9.971e-20   9.973e-20   -19.001   -19.001     0.000
+N(3)             2.291e-16
+	NO2-              2.291e-16   2.210e-16   -15.640   -15.656    -0.016
+N(5)             1.000e-03
+	NO3-              1.000e-03   9.647e-04    -3.000    -3.016    -0.016
+O(0)             4.375e-04
+	O2                2.187e-04   2.188e-04    -3.660    -3.660     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -41.21  -44.36   -3.15  H2
+	N2(g)           -15.74  -19.00   -3.26  N2
+	O2(g)            -0.70   -3.66   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	PRINT
+		reset false
+	TRANSPORT
+		cells  20
+		shifts  5  1
+		timest 3600 
+		tempr  3.0
+		bcond   3  3
+		diffc  0.0e-9
+		length 0.10
+		disp   0.015
+	 	stagnant	1  6.8e-6  0.3  0.1
+	END
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
+	SOLUTION 0  # Original solution reenters
+		units	mmol/l
+		pH	 7.0
+		pe	13.0   O2(g)	-0.7
+		K 	 1.0
+		N(5)	 1.0
+	END
+	SELECTED_OUTPUT
+		file  colt3.prn
+		simulation false
+	 state false
+	 soln false
+	 time false
+	 step false
+		ph false
+	  pe    false
+		totals Cl Na
+	TRANSPORT
+		shifts  10  1
+		selected_output	 10
+		punch	1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+	END
+No memory leaks

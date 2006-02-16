@@ -1,0 +1,362 @@
+   Input file: oxygen
+  Output file: oxygen.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION 1
+		units mmol/kgw
+		pH	7.0 	charge
+		O(0)	1.0
+	REACTION 1
+		CH2O	1.0
+		0.5 mmol
+	SAVE solution 2
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -4.111e-19
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   4.111e-19
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550722e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          13.6950      0.8101
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	H+                1.001e-07   1.001e-07    -7.000    -7.000    -0.000
+	OH-               1.001e-07   1.001e-07    -7.000    -7.000    -0.000
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+H(0)             1.417e-25
+	H2                7.087e-26   7.087e-26   -25.150   -25.150     0.000
+O(0)             1.000e-03
+	O2                5.000e-04   5.000e-04    -3.301    -3.301     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -22.00  -25.15   -3.15  H2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	O2(g)            -0.41   -3.30   -2.89  O2
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	Irreversible reaction defined in simulation 1.
+
+	  5.000e-04 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CH2O                 1.00
+
+	                 Relative
+	Element             moles
+	C                    1.00
+	H                    2.00
+	O                    1.00
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 5.000e-04   5.000e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.833      Charge balance
+                                       pe  =   0.908      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.476e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.763e-17
+                       Total CO2 (mol/kg)  =   5.000e-04
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   3.763e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  12
+                                  Total H  = 1.110134e+02
+                                  Total O  = 5.550772e+01
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	H+                1.476e-05   1.469e-05    -4.831    -4.833    -0.002
+	OH-               6.845e-10   6.814e-10    -9.165    -9.167    -0.002
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+C(-4)            1.399e-25
+	CH4               1.399e-25   1.399e-25   -24.854   -24.854     0.000
+C(4)             5.000e-04
+	CO2               4.852e-04   4.852e-04    -3.314    -3.314     0.000
+	HCO3-             1.476e-05   1.469e-05    -4.831    -4.833    -0.002
+	CO3-2             4.774e-11   4.689e-11   -10.321   -10.329    -0.008
+H(0)             4.660e-15
+	H2                2.330e-15   2.330e-15   -14.633   -14.633     0.000
+O(0)             0.000e+00
+	O2                0.000e+00   0.000e+00   -63.115   -63.115     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	CH4(g)          -21.99  -24.85   -2.86  CH4
+	CO2(g)           -1.85   -3.31   -1.47  CO2
+	H2(g)           -11.48  -14.63   -3.15  H2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	O2(g)           -60.22  -63.11   -2.89  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	INVERSE_MODELING 1
+		solutions 1 2
+		phases
+			CH2O	
+	PHASES
+		CH2O
+		CH2O = 0.5CO2 + 0.5CH4
+		log_k 	0.0
+	END
+---------------------------------------------
+Beginning of inverse modeling 1 calculations.
+---------------------------------------------
+
+Using Cl1 standard precision optimization routine.
+
+Solution 1: 
+
+                         Input          Delta    Input+Delta
+             pH      7.000e+00  +   0.000e+00  =   7.000e+00
+     Alkalinity      0.000e+00  +   0.000e+00  =   0.000e+00
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      1.000e-03  +  -8.744e-09  =   1.000e-03
+
+Solution 2: Solution after simulation 1.
+
+                         Input          Delta    Input+Delta
+             pH      4.833e+00  +   0.000e+00  =   4.833e+00
+     Alkalinity      0.000e+00  +   0.000e+00  =   0.000e+00
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      5.000e-04  +   0.000e+00  =   5.000e-04
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+
+Solution fractions:                   Minimum        Maximum
+   Solution   1      1.000e+00      0.000e+00      0.000e+00
+   Solution   2      1.000e+00      0.000e+00      0.000e+00
+
+Phase mole transfers:                 Minimum        Maximum
+           CH2O      5.000e-04      0.000e+00      0.000e+00   CH2O
+
+Redox mole transfers:    
+          C(-4)      2.500e-04
+           O(0)      1.000e-03
+
+Sum of residuals (epsilons in documentation):         1.749e-04
+Sum of delta/uncertainty limit:                       1.749e-04
+Maximum fractional error in element concentration:    8.744e-06
+
+Model contains minimum number of phases.
+===============================================================================
+
+
+Summary of inverse modeling:
+
+	Number of models found: 1
+	Number of minimal models found: 1
+	Number of infeasible sets of phases saved: 2
+	Number of calls to cl1: 6
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SOLUTION 3
+	INVERSE_MODELING 1
+		solutions 3 2
+		balances
+			Alkalinity	1.0	0.05
+		phases
+			CH2O	
+			O2(g)
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 3.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+	                                           Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               1.002e-07   1.001e-07    -6.999    -6.999    -0.000
+	H+                1.001e-07   1.000e-07    -7.000    -7.000    -0.000
+	H2O               5.551e+01   1.000e+00     1.744     0.000     0.000
+H(0)             1.416e-25
+	H2                7.079e-26   7.079e-26   -25.150   -25.150     0.000
+O(0)             0.000e+00
+	O2                0.000e+00   0.000e+00   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -22.00  -25.15   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+---------------------------------------------
+Beginning of inverse modeling 1 calculations.
+---------------------------------------------
+
+Using Cl1 standard precision optimization routine.
+
+Solution 3: 
+
+                         Input          Delta    Input+Delta
+             pH      7.000e+00  +  -2.342e-04  =   7.000e+00
+     Alkalinity      1.082e-10  +  -1.082e-10  =   0.000e+00
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+
+Solution 2: Solution after simulation 1.
+
+                         Input          Delta    Input+Delta
+             pH      4.833e+00  +   0.000e+00  =   4.833e+00
+     Alkalinity      0.000e+00  +   0.000e+00  =   0.000e+00
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      5.000e-04  +   0.000e+00  =   5.000e-04
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+
+Solution fractions:                   Minimum        Maximum
+   Solution   3      1.000e+00      0.000e+00      0.000e+00
+   Solution   2      1.000e+00      0.000e+00      0.000e+00
+
+Phase mole transfers:                 Minimum        Maximum
+           CH2O      5.000e-04      0.000e+00      0.000e+00   CH2O
+          O2(g)      5.000e-04      0.000e+00      0.000e+00   O2
+
+Redox mole transfers:    
+          C(-4)      2.500e-04
+           O(0)      1.000e-03
+
+Sum of residuals (epsilons in documentation):         1.005e+00
+Sum of delta/uncertainty limit:                       1.005e+00
+Maximum fractional error in element concentration:    1.000e-00
+
+Model contains minimum number of phases.
+===============================================================================
+
+
+Summary of inverse modeling:
+
+	Number of models found: 1
+	Number of minimal models found: 1
+	Number of infeasible sets of phases saved: 3
+	Number of calls to cl1: 7
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
+No memory leaks

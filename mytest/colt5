@@ -1,0 +1,117 @@
+DATABASE tony.dat
+RATES
+#######
+Calcite
+   -start
+1 rem	parm(1) = A/V, 1/dm	parm(2) = exponent for m/m0
+
+10 si_cc = si("Calcite")
+20 if (m <= 0  and si_cc < 0) then goto 200
+30  k1 = 10^(0.198 - 444.0 / (273.16 + tc) )
+40  k2 = 10^(2.84 - 2177.0 / (273.16 + tc) )
+50  if tc <= 25 then k3 = 10^(-5.86 - 317.0 / (273.16 + tc) )
+60  if tc > 25 then k3 = 10^(-1.1 - 1737.0 / (273.16 + tc) )
+70   t = 1
+80   if m0 > 0 then t = m/m0
+90   if t = 0 then t = 1
+100   moles = parm(1) * 0.1 * (t)^parm(2)
+110   moles = moles * (k1 * act("H+") + k2 * act("CO2") + k3 * act("H2O"))
+120   moles = moles * (1 - 10^(2/3*si_cc))
+130   moles = moles * time
+140  if (moles > m) then moles = m
+150 if (moles >= 0) then goto 200
+160  temp = tot("Ca")
+170  mc  = tot("C(4)")
+180  if mc < temp then temp = mc
+190  if -moles > temp then moles = -temp
+200save moles
+   -end
+
+#######
+Pyrite
+   -start
+1 rem	parm(1) = log10(A/V, 1/dm)	parm(2) = exp for (m/m0)
+2 rem	parm(3) = exp for O2		parm(4) = exp for H+
+   
+10 if (m <= 0) then goto 200
+20 if (si("Pyrite") >= 0) then goto 200
+20  rate = -10.19 + parm(1) + parm(3)*lm("O2") + parm(4)*lm("H+") + parm(2)*log10(m/m0)
+30  moles = 10^rate * time
+40 if (moles > m) then moles = m
+50 if (moles >= (mol("O2")/3.5)) then moles = mol("O2")/3.5
+200save moles
+   -end
+#######
+C
+   -start
+10 if (m <= 0) then goto 200
+20  mO2 = mol("O2")
+30  mNO3 = tot("N(5)")
+40  mSO4 = tot("S(6)")
+50   rate = 7.93e-10*mO2/(2.e-5 + mO2) + 1.59e-11*mNO3/(2.e-5 + mNO3)
+60   rate = rate + 1.e-12*mSO4/(2.e-5 + mSO4)
+70  moles = rate * 6 * m * (m/m0)^2 * time
+80 if (moles > m) then moles = m
+200save moles
+   -end
+
+#
+# Kinetic dissolution of calcite, pyrite and org_C:
+#         Compares 2 timestep discretizations
+#
+SOLUTION 1-2  # distilled water, equilibrated with P_CO2 = 10^-2
+        temp 25.0
+        pH  7.0  charge
+        pe  16.09
+        C(4)  3.528e-1
+END
+knobs
+#	-log
+#	-debug_set
+PRINT
+#        -reset false
+#        -other true
+SELECTED_OUTPUT
+        -file colt5.prn
+        -totals Ca C(4) S(6)
+	-si   calcite pyrite
+KINETICS 1
+Pyrite  
+	-tol    1e-6
+	-m0 	5.e-4
+	-m	5.e-4
+	-parms -5.0 	0.1 	.5 	-0.11 
+Calcite 
+	-tol    1e-6
+	-m0 	3.e-3
+	-m	3.e-3
+	-parms	50  	0.6
+C
+	-tol	1e-6
+	-m0	5e-3
+	-m	5e-3
+KINETICS 2
+Pyrite  
+	-tol    1e-8
+	-m0 	5.e-4
+	-m	5.e-4
+	-parms -6.0 	0.1 	.5 	-0.11 
+Calcite 
+	-tol    1e-8
+	-m0 	3.e-3
+	-m	3.e-3
+	-parms	50  	0.6
+C
+	-tol	1e-8
+	-m0	5e-2
+	-m	5e-2
+	-parms  3.17e-10  1.e-11  0.5
+TRANSPORT
+        -cells  2
+        -shifts 5  0
+#        -shifts 10  0
+        -bcon   2  2
+        -diffc  1.0e-20
+        -timest 3600
+	-print_frequency 5
+END

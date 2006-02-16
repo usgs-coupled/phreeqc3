@@ -1,0 +1,408 @@
+   Input file: fixed_volume_gas_pz
+  Output file: fixed_volume_gas_pz.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SOLUTION 1
+	EQUILIBRIUM_PHASES 1
+		CO2(g)	-1.5
+	SAVE solution 1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.003e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.618e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -4.618e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.23
+                               Iterations  =   2
+                         Gamma iterations  =   2
+                      Osmotic coefficient  =   0.99988
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               1.005e-07   1.005e-07    -6.998    -6.998    -0.000
+	H+                1.000e-07   1.000e-07    -7.000    -7.000    -0.000
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2O(g)           -1.51   -0.00    1.51  H2O
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                       Moles in assemblage
+	Phase               SI log IAP  log KT     Initial       Final       Delta
+
+	CO2(g)           -1.50   -2.97   -1.47   1.000e+01   9.999e+00  -1.099e-03
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.099e-03   1.099e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.653      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.237e-05
+                       Mass of water (kg)  =   1.000e-00
+                 Total alkalinity (eq/kg)  =   4.618e-10
+                       Total CO2 (mol/kg)  =   1.099e-03
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -4.618e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.99993
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550841e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	H+                2.237e-05   2.225e-05    -4.650    -4.653    -0.002
+	OH-               4.540e-10   4.515e-10    -9.343    -9.345    -0.002
+	H2O               5.551e+01   1.000e-00     1.744    -0.000     0.000
+C(4)             1.099e-03
+	CO2               1.077e-03   1.077e-03    -2.968    -2.968     0.000
+	HCO3-             2.237e-05   2.225e-05    -4.650    -4.653    -0.002
+	CO3-2             4.682e-11   4.579e-11   -10.330   -10.339    -0.010
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	CO2(g)           -1.50   -2.97   -1.47  CO2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	GAS_PHASE 1
+		equilibrium	1
+		fixed_volume
+		volume 	1
+		CO2(g)	0.0
+	END
+--------------------------------------------------------
+Beginning of initial gas_phase-composition calculations.
+--------------------------------------------------------
+
+Gas_Phase 1.	
+
+-----------------------------------Gas phase-----------------------------------
+
+
+Total pressure:   0.0316   atmospheres
+    Gas volume:   1.00e+00 liters
+
+                                                      Moles in gas
+                                         ----------------------------------
+Component             log P           P     Initial       Final       Delta
+CO2(g)                -1.50   3.162e-02   1.293e-03   1.293e-03   0.000e+00
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	GAS_PHASE 2
+		fixed_volume
+		volume 	1
+		CO2(g)	0.0
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	use solution 1
+	use gas_phase 1
+	equilibrium_phases 2
+		Calcite
+		Dolomite
+	end
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 1.
+Using pure phase assemblage 2.	
+Using gas phase 1.	Gas phase after simulation 2.
+
+-----------------------------------Gas phase-----------------------------------
+
+
+Total pressure:   0.0075   atmospheres
+    Gas volume:   1.00e+00 liters
+
+                                                      Moles in gas
+                                         ----------------------------------
+Component             log P           P     Initial       Final       Delta
+CO2(g)                -2.12   7.512e-03   1.293e-03   3.070e-04  -9.855e-04
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                       Moles in assemblage
+	Phase               SI log IAP  log KT     Initial       Final       Delta
+
+	Calcite          -0.00   -8.41   -8.41   1.000e+01   9.999e+00  -5.441e-04
+	Dolomite         -0.00  -17.08  -17.08   1.000e+01   9.999e+00  -6.494e-04
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 3.927e-03   3.927e-03
+	Ca                1.194e-03   1.193e-03
+	Mg                6.494e-04   6.494e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.459      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   5.513e-03
+                       Mass of water (kg)  =   1.000e-00
+                 Total alkalinity (eq/kg)  =   3.686e-03
+                       Total CO2 (mol/kg)  =   3.927e-03
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -4.618e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.95407
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551591e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               3.179e-07   2.890e-07    -6.498    -6.539    -0.041
+	H+                3.776e-08   3.476e-08    -7.423    -7.459    -0.036
+	H2O               5.551e+01   9.999e-01     1.744    -0.000     0.000
+C(4)             3.927e-03
+	HCO3-             3.658e-03   3.383e-03    -2.437    -2.471    -0.034
+	CO2               2.556e-04   2.558e-04    -3.592    -3.592     0.000
+	CO3-2             6.313e-06   4.456e-06    -5.200    -5.351    -0.151
+	CaCO3             5.560e-06   5.560e-06    -5.255    -5.255     0.000
+	MgCO3             1.784e-06   1.784e-06    -5.749    -5.749     0.000
+Ca               1.194e-03
+	Ca+2              1.188e-03   8.806e-04    -2.925    -3.055    -0.130
+	CaCO3             5.560e-06   5.560e-06    -5.255    -5.255     0.000
+Mg               6.494e-04
+	Mg+2              6.476e-04   4.723e-04    -3.189    -3.326    -0.137
+	MgCO3             1.784e-06   1.784e-06    -5.749    -5.749     0.000
+	MgOH+             2.292e-08   2.109e-08    -7.640    -7.676    -0.036
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Aragonite        -0.19   -8.41   -8.22  CaCO3
+	Brucite          -5.52  -16.40  -10.88  Mg(OH)2
+	Calcite          -0.00   -8.41   -8.41  CaCO3
+	CO2(g)           -2.12   -3.59   -1.47  CO2
+	Dolomite         -0.00  -17.08  -17.08  CaMg(CO3)2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	Magnesite        -0.84   -8.68   -7.83  MgCO3
+	Nesquehonite     -3.51   -8.68   -5.17  MgCO3:3H2O
+	Portlandite     -10.94  -16.13   -5.19  Ca(OH)2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	use solution 1
+	use gas_phase 2
+	equilibrium_phases 2
+		Calcite
+		Dolomite
+	end
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 1.
+Using pure phase assemblage 2.	
+Using gas phase 2.	
+
+-----------------------------------Gas phase-----------------------------------
+
+
+Total pressure:   0.0014   atmospheres
+    Gas volume:   1.00e+00 liters
+
+                                                      Moles in gas
+                                         ----------------------------------
+Component             log P           P     Initial       Final       Delta
+CO2(g)                -2.86   1.365e-03   0.000e+00   5.580e-05   5.580e-05
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                       Moles in assemblage
+	Phase               SI log IAP  log KT     Initial       Final       Delta
+
+	Calcite           0.00   -8.41   -8.41   1.000e+01   1.000e+01  -3.036e-04
+	Dolomite          0.00  -17.08  -17.08   1.000e+01   1.000e+01  -3.556e-04
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 2.058e-03   2.058e-03
+	Ca                6.592e-04   6.592e-04
+	Mg                3.556e-04   3.556e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.944      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.032e-03
+                       Mass of water (kg)  =   1.000e-00
+                 Total alkalinity (eq/kg)  =   2.030e-03
+                       Total CO2 (mol/kg)  =   2.058e-03
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -4.618e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.96296
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551135e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+	Species            Molality    Activity  Molality  Activity     Gamma
+
+	OH-               9.472e-07   8.833e-07    -6.024    -6.054    -0.030
+	H+                1.211e-08   1.137e-08    -7.917    -7.944    -0.027
+	H2O               5.551e+01   9.999e-01     1.744    -0.000     0.000
+C(4)             2.058e-03
+	HCO3-             1.994e-03   1.879e-03    -2.700    -2.726    -0.026
+	CO2               4.646e-05   4.648e-05    -4.333    -4.333     0.000
+	CO3-2             9.804e-06   7.565e-06    -5.009    -5.121    -0.113
+	CaCO3             5.560e-06   5.560e-06    -5.255    -5.255     0.000
+	MgCO3             1.784e-06   1.784e-06    -5.749    -5.749     0.000
+Ca               6.592e-04
+	Ca+2              6.537e-04   5.188e-04    -3.185    -3.285    -0.100
+	CaCO3             5.560e-06   5.560e-06    -5.255    -5.255     0.000
+Mg               3.556e-04
+	Mg+2              3.538e-04   2.783e-04    -3.451    -3.556    -0.104
+	MgCO3             1.784e-06   1.784e-06    -5.749    -5.749     0.000
+	MgOH+             4.045e-08   3.798e-08    -7.393    -7.420    -0.027
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Aragonite        -0.19   -8.41   -8.22  CaCO3
+	Brucite          -4.78  -15.66  -10.88  Mg(OH)2
+	Calcite           0.00   -8.41   -8.41  CaCO3
+	CO2(g)           -2.86   -4.33   -1.47  CO2
+	Dolomite          0.00  -17.08  -17.08  CaMg(CO3)2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	Magnesite        -0.84   -8.68   -7.83  MgCO3
+	Nesquehonite     -3.51   -8.68   -5.17  MgCO3:3H2O
+	Portlandite     -10.20  -15.39   -5.19  Ca(OH)2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
+No memory leaks

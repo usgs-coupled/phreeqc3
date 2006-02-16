@@ -1,0 +1,127 @@
+TITLE Example 9.--Kinetically controlled oxidation of ferrous 
+                  iron. Decoupled valence states of iron.
+SOLUTION_MASTER_SPECIES
+Fe_di              Fe_di+2    0.0     Fe_di              55.847
+Fe_tri             Fe_tri+3   0.0     Fe_tri             55.847
+SOLUTION_SPECIES
+Fe_di+2 = Fe_di+2
+        log_k   0.0
+Fe_tri+3 = Fe_tri+3
+        log_k   0.0
+#
+# Fe+2 species
+#
+Fe_di+2 + H2O = Fe_diOH+ + H+
+        log_k   -9.5
+        delta_h 13.20   kcal
+#
+#... and also other Fe+2 species
+#
+Fe_di+2 + Cl- = Fe_diCl+
+        log_k   0.14
+Fe_di+2 + CO3-2 = Fe_diCO3
+        log_k   4.38
+Fe_di+2 + HCO3- = Fe_diHCO3+
+        log_k   2.0
+Fe_di+2 + SO4-2 = Fe_diSO4
+        log_k   2.25
+        delta_h 3.230   kcal
+Fe_di+2 + HSO4- = Fe_diHSO4+
+        log_k   1.08
+Fe_di+2 + 2HS- = Fe_di(HS)2
+        log_k   8.95
+Fe_di+2 + 3HS- = Fe_di(HS)3-
+        log_k   10.987
+Fe_di+2 + HPO4-2 = Fe_diHPO4
+        log_k   3.6
+Fe_di+2 + H2PO4- = Fe_diH2PO4+
+        log_k   2.7
+Fe_di+2 + F- = Fe_diF+
+        log_k   1.0
+#
+# Fe+3 species
+#
+Fe_tri+3 + H2O = Fe_triOH+2 + H+
+        log_k   -2.19
+        delta_h 10.4    kcal
+#
+#... and also other Fe+3 species
+#
+Fe_tri+3 + 2 H2O = Fe_tri(OH)2+ + 2 H+
+        log_k   -5.67
+        delta_h 17.1    kcal
+Fe_tri+3 + 3 H2O = Fe_tri(OH)3 + 3 H+
+        log_k   -12.56
+        delta_h 24.8    kcal
+Fe_tri+3 + 4 H2O = Fe_tri(OH)4- + 4 H+
+        log_k   -21.6
+        delta_h 31.9    kcal
+2 Fe_tri+3 + 2 H2O = Fe_tri2(OH)2+4 + 2 H+
+        log_k   -2.95
+        delta_h 13.5    kcal
+3 Fe_tri+3 + 4 H2O = Fe_tri3(OH)4+5 + 4 H+
+        log_k   -6.3
+        delta_h 14.3    kcal
+Fe_tri+3 + Cl- = Fe_triCl+2
+        log_k   1.48
+        delta_h 5.6     kcal
+Fe_tri+3 + 2 Cl- = Fe_triCl2+
+        log_k   2.13
+Fe_tri+3 + 3 Cl- = Fe_triCl3
+        log_k   1.13
+Fe_tri+3 + SO4-2 = Fe_triSO4+
+        log_k   4.04
+        delta_h 3.91    kcal
+Fe_tri+3 + HSO4- = Fe_triHSO4+2
+        log_k   2.48
+Fe_tri+3 + 2 SO4-2 = Fe_tri(SO4)2-
+        log_k   5.38
+        delta_h 4.60    kcal
+Fe_tri+3 + HPO4-2 = Fe_triHPO4+
+        log_k   5.43
+        delta_h 5.76    kcal
+Fe_tri+3 + H2PO4- = Fe_triH2PO4+2
+        log_k   5.43
+Fe_tri+3 + F- = Fe_triF+2
+        log_k   6.2
+        delta_h 2.7     kcal
+Fe_tri+3 + 2 F- = Fe_triF2+
+        log_k   10.8
+        delta_h 4.8     kcal
+Fe_tri+3 + 3 F- = Fe_triF3
+        log_k   14.0
+        delta_h 5.4     kcal
+PHASES
+Goethite
+        Fe_triOOH + 3 H+ = Fe_tri+3 + 2 H2O
+        log_k   -1.0
+END
+SOLUTION 1
+        pH  7.0
+        pe 10.0  O2(g) -0.67
+        Fe_di  0.1
+        Na  10.
+        Cl  10.  charge
+EQUILIBRIUM_PHASES 1
+        O2(g)           -0.67
+RATES
+Fe_di_ox
+-start
+10  Fe_di = TOT("Fe_di")
+20  if (Fe_di <= 0) then goto 200
+30  p_o2 = 10^(SI("O2(g)"))
+40  moles = (2.91e-9 + 1.33e12 * (ACT("OH-"))^2 * p_o2) * Fe_di * TIME
+200 SAVE moles
+-end
+KINETICS 1
+Fe_di_ox
+        -formula  Fe_di  -1.0  Fe_tri  1.0
+        -steps 100 400 3100 10800 21600 5.04e4 8.64e4 1.728e5 1.728e5 1.728e5 1.728e5 
+INCREMENTAL_REACTIONS true
+SELECTED_OUTPUT
+        -file ex9.sel
+        -reset false
+USER_PUNCH
+-headings Days  Fe(2)  Fe(3)  pH  si_goethite
+10 PUNCH SIM_TIME/3600/24 TOT("Fe_di")*1e6, TOT("Fe_tri")*1e6, -LA("H+"), SI("Goethite")
+END
