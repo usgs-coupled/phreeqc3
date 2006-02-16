@@ -2,7 +2,7 @@
 #define SOLUTION_H_INCLUDED
 
 #include "NumKeyword.h"
-#include "Isotope.h"
+#include "SolutionIsotope.h"
 #include "NameDouble.h"
 #define EXTERNAL extern
 #include "global.h"
@@ -76,7 +76,7 @@ protected:
         double mass_water;
         double total_alkalinity;
         cxxNameDouble totals;
-        std::list<cxxIsotope> isotopes;
+        std::list<cxxSolutionIsotope> isotopes;
         cxxNameDouble master_activity;
         cxxNameDouble species_gamma;
 public:
