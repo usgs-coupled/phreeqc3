@@ -60,9 +60,9 @@ public:
 
         void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
-        void cxxSolution::dump_raw(std::ostream& s_oss, unsigned int indent)const;
+        void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
-        void cxxSolution::read_raw(CParser& parser);
+        void read_raw(CParser& parser);
 
 
 protected:
