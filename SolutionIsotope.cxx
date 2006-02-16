@@ -1,7 +1,7 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
-#include "Isotope.h"
+#include "SolutionIsotope.h"
 #include "Utils.h"
 #include "Parser.h"
 #define EXTERNAL extern
@@ -11,12 +11,12 @@
 #include <cassert>
 #include <sstream>                       // std::ostrstream
 
-cxxIsotope::cxxIsotope(void)
+cxxSolutionIsotope::cxxSolutionIsotope(void)
 : isotope_number(0.0)
 {
 }
 
-cxxIsotope::cxxIsotope(struct isotope *isotope_ptr)
+cxxSolutionIsotope::cxxSolutionIsotope(struct isotope *isotope_ptr)
 {
         isotope_number          = isotope_ptr->isotope_number;
         elt_name                = isotope_ptr->elt_name;
@@ -26,12 +26,12 @@ cxxIsotope::cxxIsotope(struct isotope *isotope_ptr)
         ratio_uncertainty       = isotope_ptr->ratio_uncertainty;
 }
 
-cxxIsotope::~cxxIsotope(void)
+cxxSolutionIsotope::~cxxSolutionIsotope(void)
 {
 }
 
-struct isotope *cxxIsotope::list2isotope(std::list <cxxIsotope> &isolist)
-        // takes a std::list of cxxIsotope structures
+struct isotope *cxxSolutionIsotope::list2isotope(std::list <cxxSolutionIsotope> &isolist)
+        // takes a std::list of cxxSolutionIsotope structures
         // returns array of isotope structures
 {
         struct isotope *iso;
@@ -41,7 +41,7 @@ struct isotope *cxxIsotope::list2isotope(std::list <cxxIsotope> &isolist)
                 iso = (struct isotope *) PHRQ_malloc((size_t) ((isolist.size()) * sizeof(struct isotope)));
                 if (iso == NULL) malloc_error();
                 int i = 0;
-                for (std::list <cxxIsotope>::iterator it = isolist.begin(); it != isolist.end(); ++it) {
+                for (std::list <cxxSolutionIsotope>::iterator it = isolist.begin(); it != isolist.end(); ++it) {
                         iso[i].isotope_number          = it->isotope_number;
                         iso[i].elt_name                = it->elt_name;
                         iso[i].total                   = it->total;
@@ -56,7 +56,7 @@ struct isotope *cxxIsotope::list2isotope(std::list <cxxIsotope> &isolist)
 }
 
 #ifdef SKIP
-std::string cxxIsotope::get_name()const
+std::string cxxSolutionIsotope::get_name()const
 {
         std::ostringstream oss;
         //std::ostrstream oss;
@@ -65,7 +65,7 @@ std::string cxxIsotope::get_name()const
 }
 #endif
 
-void cxxIsotope::dump_xml(std::ostream& s_oss, unsigned int indent)const
+void cxxSolutionIsotope::dump_xml(std::ostream& s_oss, unsigned int indent)const
 {
         unsigned int i;
 
@@ -99,7 +99,7 @@ void cxxIsotope::dump_xml(std::ostream& s_oss, unsigned int indent)const
         s_oss << "\">" << std::endl;
 }
 
-void cxxIsotope::dump_raw(std::ostream& s_oss, unsigned int indent)const
+void cxxSolutionIsotope::dump_raw(std::ostream& s_oss, unsigned int indent)const
 {
         unsigned int i;
 
@@ -118,7 +118,7 @@ void cxxIsotope::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << std::endl;
 }
 
-CParser::STATUS_TYPE cxxIsotope::read_raw(CParser& parser)
+CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser& parser)
 {
         std::string token;
         std::istream::pos_type next_char;
@@ -168,25 +168,25 @@ CParser::STATUS_TYPE cxxIsotope::read_raw(CParser& parser)
         return CParser::PARSER_OK;
 }
 
-bool cxxIsotope::operator<(const cxxIsotope& isotope)const
+bool cxxSolutionIsotope::operator<(const cxxSolutionIsotope& isotope)const
 {
         int i = Utilities::strcmp_nocase(this->elt_name, isotope.elt_name);
         if (i != 0) return (i < 0);
         return ( this->isotope_number < isotope.isotope_number );
 }
 
-struct master *cxxIsotope::master(void)
+struct master *cxxSolutionIsotope::master(void)
 {
         return (master_bsearch(this->elt_name));
 }
 
-struct master *cxxIsotope::primary(void)
+struct master *cxxSolutionIsotope::primary(void)
 {
         return (master_bsearch_primary(this->elt_name));
 }
 
 #ifdef SKIP
-cxxIsotope::STATUS cxxIsotope::read(CParser& parser)
+cxxSolutionIsotope::STATUS cxxSolutionIsotope::read(CParser& parser)
 {
         if ( !(parser.get_iss() >> this->isotope_number) ) {
                 assert(parser.get_iss().fail());

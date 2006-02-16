@@ -1,25 +1,25 @@
-#if !defined(ISOTOPE_H_INCLUDED)
-#define ISOTOPE_H_INCLUDED
+#if !defined(SOLUTIONISOTOPE_H_INCLUDED)
+#define SOLUTIONISOTOPE_H_INCLUDED
 
 #include "Parser.h"
 #include <ostream>   // std::ostream
 #include <string>    // std::string
 #include <list>    // std::list
 
-class cxxIsotope
+class cxxSolutionIsotope
 {
 public:
-        cxxIsotope(void);
-        cxxIsotope(struct isotope *isotope_ptr);
-        ~cxxIsotope(void);
+        cxxSolutionIsotope(void);
+        cxxSolutionIsotope(struct isotope *isotope_ptr);
+        ~cxxSolutionIsotope(void);
 
         enum STATUS {
                 ERROR = 0,
                 OK    = 1
         };
 
-        //cxxIsotope::STATUS read(CParser& parser);
-        static struct isotope * list2isotope(std::list<cxxIsotope> &t);
+        //cxxSolutionIsotope::STATUS read(CParser& parser);
+        static struct isotope * list2isotope(std::list<cxxSolutionIsotope> &t);
 
         void dump_xml(std::ostream& os, unsigned int indent)const;
         void dump_raw(std::ostream& os, unsigned int indent)const;
@@ -37,7 +37,7 @@ public:
 
         bool get_ratio_uncertainty_defined()const  { return this->ratio_uncertainty_defined; }
 
-        bool operator<(const cxxIsotope& conc)const;
+        bool operator<(const cxxSolutionIsotope& conc)const;
         
         struct master *master(void);
         struct master *primary(void);
@@ -53,4 +53,4 @@ private:
         //struct master *primary;
         bool         ratio_uncertainty_defined;
 };
-#endif // ISOTOPE_H_INCLUDED
+#endif // SOLUTIONISOTOPE_H_INCLUDED

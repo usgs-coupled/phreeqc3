@@ -69,7 +69,7 @@ species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma, cx
 
         // Isotopes
         for (i = 0; i < solution_ptr->count_isotopes; i++) {
-                cxxIsotope iso(&solution_ptr->isotopes[i]);
+                cxxSolutionIsotope iso(&solution_ptr->isotopes[i]);
                 isotopes.push_back(iso);
         }
 
@@ -123,7 +123,7 @@ struct solution *cxxSolution::cxxSolution2solution()
 
         // isotopes
         solution_ptr->isotopes = (struct isotope *) free_check_null(solution_ptr->isotopes);
-        solution_ptr->isotopes = cxxIsotope::list2isotope(this->isotopes);
+        solution_ptr->isotopes = cxxSolutionIsotope::list2isotope(this->isotopes);
         solution_ptr->count_isotopes = this->isotopes.size();
 
         return(solution_ptr);
@@ -223,7 +223,7 @@ void cxxSolution::dump_xml(std::ostream& s_oss, unsigned int indent)const
         }
         */
 
-        for (std::list<cxxIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
+        for (std::list<cxxSolutionIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
                 it->dump_xml(s_oss, indent + 1);
         }
 
@@ -326,7 +326,7 @@ void cxxSolution::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent1;
         s_oss << "-Isotopes" << std::endl;
         {
-                for (std::list<cxxIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
+                for (std::list<cxxSolutionIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
                         it->dump_raw(s_oss, indent + 2);
                 }
         }
@@ -429,7 +429,7 @@ void cxxSolution::read_raw(CParser& parser)
 
                 case 3: // isotopes
                         {
-                                cxxIsotope iso;
+                                cxxSolutionIsotope iso;
                                 if ( iso.read_raw(parser) != CParser::PARSER_OK) {
                                         parser.incr_input_error();
                                         parser.error_msg("Expected data for isotopes.", CParser::OT_CONTINUE);
