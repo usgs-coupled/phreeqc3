@@ -2,6 +2,11 @@
 #define UTILITIES_H_INCLUDED
 
 #include <string>
+#include <sstream>  // std::istringstream std::ostringstream
+#include <ostream>  // std::ostream
+#include <istream>  // std::istream
+#include <map>      // std::map
+#include "char_star.h"
 
 namespace Utilities {
 
@@ -26,6 +31,22 @@ namespace Utilities {
 
         void error_msg(const std::string&, const int stopflag);
 
+	// operations on maps of entities (Solution, Exchange, ...)
+        template<class T> 
+                bool exists (std::map<int, T> b, int i){
+                return (b.find(i) != b.end());}
+
+	/*
+        template<class T> 
+                void dump_raw ( std::map<int, T> b, std::ostream& s_oss, unsigned int indent ) 
+		{
+			std :: map < int, T > :: iterator it;
+			for (it = b.begin(); it != b.end(); ++it) {
+				it->second.dump_raw(s_oss, indent);
+			}
+			return;
+		}
+	*/
 }
 
 #endif // UTILITIES_H_INCLUDED

@@ -809,6 +809,8 @@ cxxSolution& cxxSolution::read(CParser& parser)
 #include "Reaction.h"
 #include "Mix.h"
 #include "Temperature.h"
+#include "StorageBin.h"
+#include "NumKeyword.h"
 #include <iostream>     // std::cout std::cerr
 //#include <strstream>
 #include <sstream>
@@ -816,8 +818,22 @@ cxxSolution& cxxSolution::read(CParser& parser)
 void test_classes(void)
 {
         int i;
-        bool b(true);
-        i = (int) b;
+
+	
+
+	/*
+	std::map<int, cxxSolution>      Solutions;
+	cxxSolution soln(solution[0]);
+	Solutions[solution[0]->n_user] = soln;
+	bool b = Utilities::exists(Solutions, 1);
+	*/
+	/*
+	cxxEntityMap x;
+	cxxSolution soln(solution[0]);
+	cxxNumKeyword nk;
+	x[solution[0]->n_user] = soln;
+	*/
+
         for (i=0; i < count_solution; i++) {
                 if (solution[i]->new_def == TRUE) {
                         cxxISolution sol(solution[i]);
