@@ -1,5 +1,5 @@
-#if !defined(SOLUTIONCOMP_H_INCLUDED)
-#define SOLUTIONCOMP_H_INCLUDED
+#if !defined(ISOLUTIONCOMP_H_INCLUDED)
+#define ISOLUTIONCOMP_H_INCLUDED
 
 //#include "Parser.h"
 #include "Utils.h"
@@ -13,17 +13,12 @@
 // forward declarations
 class cxxISolution;  // reqd for read and dump_xml
 
-class cxxSolutionComp
+class cxxISolutionComp
 {
 public:
-        cxxSolutionComp(void);
-        cxxSolutionComp(struct conc *conc_ptr);
-        ~cxxSolutionComp(void);
-
-        enum STATUS_TYPE {
-                ERROR  = 0,
-                OK     = 1
-        };
+        cxxISolutionComp(void);
+        cxxISolutionComp(struct conc *conc_ptr);
+        ~cxxISolutionComp(void);
 
 public:
 
@@ -46,9 +41,9 @@ public:
         int get_n_pe()const {return this->n_pe;}
         void set_n_pe(int n_pe) {this->n_pe = n_pe;}
 
-        bool operator<(const cxxSolutionComp& conc)const    { return ::strcmp(this->description, conc.description) < 0; }
+        bool operator<(const cxxISolutionComp& conc)const    { return ::strcmp(this->description, conc.description) < 0; }
 
-        static struct conc * cxxSolutionComp2conc(const std::set<cxxSolutionComp> &t );
+        static struct conc * cxxISolutionComp2conc(const std::set<cxxISolutionComp> &t );
 
 private:
         char * description;
@@ -62,4 +57,4 @@ private:
         double gfw;
 };
 
-#endif // SOLUTIONCOMP_H_INCLUDED
+#endif // ISOLUTIONCOMP_H_INCLUDED
