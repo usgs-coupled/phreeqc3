@@ -233,9 +233,13 @@ bool CParser::check_key(std::string::iterator begin, std::string::iterator end)
         static std::map<std::string, KEY_TYPE> s_keyword_map;
         if (s_keyword_map.size() == 0)
         {
-                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("solution", KT_SOLUTION));
-                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("solution_raw", KT_SOLUTION_RAW));
-                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("end",      KT_END));
+                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("solution_raw",    KT_SOLUTION_RAW));
+                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("exchange_raw",    KT_EXCHANGE_RAW));
+                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("gas_phase_raw",   KT_GASPHASE_RAW));
+                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("kinetics_raw",    KT_KINETICS_RAW));
+                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("equilibrium_phases_raw",    KT_PPASSEMBLAGE_RAW));
+                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("solid_solutions_raw",    KT_SSASSEMBLAGE_RAW));
+                s_keyword_map.insert(std::map<std::string, KEY_TYPE>::value_type("surface_raw",     KT_SURFACE_RAW));
         }
 
         std::string lowercase;

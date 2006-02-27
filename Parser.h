@@ -40,11 +40,17 @@ public:
         };
 
         enum KEY_TYPE {
-                KT_NONE         = -1,
-                KT_END          =  0,
-                KT_EOF          =  1,
-                KT_SOLUTION     =  4,
-                KT_SOLUTION_RAW     =  5
+                KT_NONE             = -1,
+                KT_END              =  0,
+                KT_EOF              =  1,
+                KT_SOLUTION_RAW     =  5,
+                KT_EXCHANGE_RAW     =  6,
+                KT_GASPHASE_RAW     =  7,
+                KT_KINETICS_RAW     =  8,
+                KT_PPASSEMBLAGE_RAW =  9,
+                KT_SSASSEMBLAGE_RAW =  10,
+                KT_SURFACE_RAW      =  11
+
         };
 
         enum OPT_TYPE {

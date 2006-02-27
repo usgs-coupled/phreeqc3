@@ -158,6 +158,7 @@ COMMON_CXXOBJS = \
 	       ISolutionComp.o \
 	       SSassemblage.o \
 	       SSassemblageSS.o \
+               StorageBin.o \
 	       Surface.o \
 	       SurfCharge.o \
 	       SurfComp.o \
@@ -178,6 +179,9 @@ ${PROGRAM} : ${OBJECT_FILES}
 #
 #  CXX files
 #
+EntityMap.o: ../EntityMap.cxx ../Utils.h ../EntityMap.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h ../Parser.h \
+  ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 Exchange.o: ../Exchange.cxx ../Utils.h ../Exchange.h ../NumKeyword.h \
   ../Parser.h ../char_star.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
   ../char_star.h ../ExchComp.h ../NameDouble.h ../char_star.h ../Parser.h \
@@ -281,6 +285,9 @@ SSassemblageSS.o: ../SSassemblageSS.cxx ../Utils.h ../SSassemblageSS.h \
   ../NameDouble.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
   ../char_star.h ../Parser.h ../char_star.h ../char_star.h \
   ../NameDouble.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+StorageBin.o: ../StorageBin.cxx ../Utils.h ../StorageBin.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h
 Surface.o: ../Surface.cxx ../Utils.h ../Surface.h ../NumKeyword.h \
   ../Parser.h ../char_star.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
   ../char_star.h ../SurfComp.h ../NameDouble.h ../char_star.h ../Parser.h \
