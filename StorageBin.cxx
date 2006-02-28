@@ -7,6 +7,7 @@
 
 #include "Utils.h"   // define first
 #include "StorageBin.h"
+#include "Solution.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -21,8 +22,60 @@
 cxxStorageBin::cxxStorageBin()
         //
         // default constructor for cxxStorageBin 
+	// pull data out of c storage
         //
 {
+	int i;
+
+	// Solutions
+	for (i = 0; i < count_solution; i++) {
+		Solutions[solution[i]->n_user] = cxxSolution(solution[i]);
+	}
+
+	// Exchangers
+	for (i = 0; i < count_exchange; i++) {
+		Exchangers[exchange[i].n_user] = cxxExchange(&exchange[i]);
+	}
+
+	// GasPhases
+	for (i = 0; i < count_gas_phase; i++) {
+		GasPhases[gas_phase[i].n_user] = cxxGasPhase(&gas_phase[i]);
+	}
+
+	// Kinetics
+	for (i = 0; i < count_kinetics; i++) {
+		Kinetics[kinetics[i].n_user] = cxxKinetics(&kinetics[i]);
+	}
+
+	// PPassemblages
+	for (i = 0; i < count_pp_assemblage; i++) {
+		PPassemblages[pp_assemblage[i].n_user] = cxxPPassemblage(&pp_assemblage[i]);
+	}
+
+	// SSassemblages
+	for (i = 0; i < count_s_s_assemblage; i++) {
+		SSassemblages[s_s_assemblage[i].n_user] = cxxSSassemblage(&s_s_assemblage[i]);
+	}
+
+	// Surfaces
+	for (i = 0; i < count_surface; i++) {
+		Surfaces[surface[i].n_user] = cxxSurface(&surface[i]);
+	}
+
+	// Mixes
+	for (i = 0; i < count_mix; i++) {
+		Mixes[mix[i].n_user] = cxxMix(&mix[i]);
+	}
+
+	// Reactions
+	for (i = 0; i < count_irrev; i++) {
+		Reactions[irrev[i].n_user] = cxxReaction(&irrev[i]);
+	}
+
+	// Temperatures
+	for (i = 0; i < count_temperature; i++) {
+		Temperatures[temperature[i].n_user] = cxxTemperature(&temperature[i]);
+	}
 }
 
 cxxStorageBin::~cxxStorageBin()
@@ -66,35 +119,58 @@ void cxxStorageBin::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss.precision(DBL_DIG - 1);
 
 	// Solutions
-	
-	//	for (std::map<int, cxxSolution>::const_iterator it = this->Solutions.begin(); it != this->Solutions.end(); ++it) {
+	Utilities::dump_raw(Solutions, s_oss, indent);
+	//for (std::map<int, cxxSolution>::const_iterator it = this->Solutions.begin(); it != this->Solutions.end(); ++it) {
 	//it->second.dump_raw(s_oss, indent);
 	//}
+
 	// Exchange
+	Utilities::dump_raw(Exchangers, s_oss, indent);
+	/*
 	for (std::map<int, cxxExchange>::const_iterator it = this->Exchangers.begin(); it != this->Exchangers.end(); ++it) {
 		it->second.dump_raw(s_oss, indent);
 
 	}
+	*/
+
 	// Gas Phases
+	Utilities::dump_raw(GasPhases, s_oss, indent);
+	/*
 	for (std::map<int, cxxGasPhase>::const_iterator it = this->GasPhases.begin(); it != this->GasPhases.end(); ++it) {
 		it->second.dump_raw(s_oss, indent);
 	}
+	*/
 	// Kinetics
+	Utilities::dump_raw(Kinetics, s_oss, indent);
+	/*
 	for (std::map<int, cxxKinetics>::const_iterator it = this->Kinetics.begin(); it != this->Kinetics.end(); ++it) {
 		it->second.dump_raw(s_oss, indent);
 	}
+	*/
+
 	// PPassemblage
+	Utilities::dump_raw(PPassemblages, s_oss, indent);
+	/*
 	for (std::map<int, cxxPPassemblage>::const_iterator it = this->PPassemblages.begin(); it != this->PPassemblages.end(); ++it) {
 		it->second.dump_raw(s_oss, indent);
 	}
+	*/
+
 	// SSassemblage
+	Utilities::dump_raw(SSassemblages, s_oss, indent);
+	/*
 	for (std::map<int, cxxSSassemblage>::const_iterator it = this->SSassemblages.begin(); it != this->SSassemblages.end(); ++it) {
 		it->second.dump_raw(s_oss, indent);
 	}
+	*/
+
 	// Surface
+	Utilities::dump_raw(Surfaces, s_oss, indent);
+	/*
 	for (std::map<int, cxxSurface>::const_iterator it = this->Surfaces.begin(); it != this->Surfaces.end(); ++it) {
 		it->second.dump_raw(s_oss, indent);
 	}
+	*/
 }
 
 void cxxStorageBin::read_raw(CParser& parser)

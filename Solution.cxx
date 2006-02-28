@@ -817,11 +817,11 @@ cxxSolution& cxxSolution::read(CParser& parser)
 #include <fstream>
 void test_classes(void)
 {
-        int i;
 
 	
 
 	/*
+        int i;
 	std::map<int, cxxSolution>      Solutions;
 	cxxSolution soln(solution[0]);
 	Solutions[solution[0]->n_user] = soln;
@@ -834,6 +834,7 @@ void test_classes(void)
 	x[solution[0]->n_user] = soln;
 	*/
 
+#ifdef SKIP
         for (i=0; i < count_solution; i++) {
                 if (solution[i]->new_def == TRUE) {
                         cxxISolution sol(solution[i]);
@@ -1115,4 +1116,13 @@ void test_classes(void)
                         free_check_null(temperature_ptr);
 
         }
+#endif
+	{
+		cxxStorageBin cstorage;
+		std::ostringstream oss;
+		cstorage.dump_raw(oss, 0);
+		std::cerr << oss.str();
+		//char string[200];
+		//strcpy_s(string, "abc");
+	}
 } 
