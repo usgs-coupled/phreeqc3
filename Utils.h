@@ -32,21 +32,25 @@ namespace Utilities {
         void error_msg(const std::string&, const int stopflag);
 
 	// operations on maps of entities (Solution, Exchange, ...)
-        template<class T> 
-                bool exists (std::map<int, T> b, int i){
-                return (b.find(i) != b.end());}
-
-	/*
-        template<class T> 
-                void dump_raw ( std::map<int, T> b, std::ostream& s_oss, unsigned int indent ) 
+        template<typename T> 
+                void dump_raw (const T &b, std::ostream& s_oss, unsigned int indent) 
 		{
-			std :: map < int, T > :: iterator it;
+			//std :: map < int, T > :: const_iterator it;
+			typename T::const_iterator it;
 			for (it = b.begin(); it != b.end(); ++it) {
 				it->second.dump_raw(s_oss, indent);
 			}
 			return;
 		}
+        template<typename T> 
+                bool exists (const T &b, int i){
+                return (b.find(i) != b.end());}
+	/*
+        template<class T> 
+                bool exists (std::map<int, T> b, int i){
+                return (b.find(i) != b.end());}
 	*/
+
 }
 
 #endif // UTILITIES_H_INCLUDED
