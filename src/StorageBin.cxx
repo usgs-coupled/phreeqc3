@@ -18,8 +18,11 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-
 cxxStorageBin::cxxStorageBin()
+{
+}
+
+cxxStorageBin::cxxStorageBin(cxxStorageBin::SB_CONSTRUCTOR flag)
         //
         // default constructor for cxxStorageBin 
 	// pull data out of c storage
@@ -120,63 +123,30 @@ void cxxStorageBin::dump_raw(std::ostream& s_oss, unsigned int indent)const
 
 	// Solutions
 	Utilities::dump_raw(Solutions, s_oss, indent);
-	//for (std::map<int, cxxSolution>::const_iterator it = this->Solutions.begin(); it != this->Solutions.end(); ++it) {
-	//it->second.dump_raw(s_oss, indent);
-	//}
 
 	// Exchange
 	Utilities::dump_raw(Exchangers, s_oss, indent);
-	/*
-	for (std::map<int, cxxExchange>::const_iterator it = this->Exchangers.begin(); it != this->Exchangers.end(); ++it) {
-		it->second.dump_raw(s_oss, indent);
-
-	}
-	*/
 
 	// Gas Phases
 	Utilities::dump_raw(GasPhases, s_oss, indent);
-	/*
-	for (std::map<int, cxxGasPhase>::const_iterator it = this->GasPhases.begin(); it != this->GasPhases.end(); ++it) {
-		it->second.dump_raw(s_oss, indent);
-	}
-	*/
+
 	// Kinetics
 	Utilities::dump_raw(Kinetics, s_oss, indent);
-	/*
-	for (std::map<int, cxxKinetics>::const_iterator it = this->Kinetics.begin(); it != this->Kinetics.end(); ++it) {
-		it->second.dump_raw(s_oss, indent);
-	}
-	*/
 
 	// PPassemblage
 	Utilities::dump_raw(PPassemblages, s_oss, indent);
-	/*
-	for (std::map<int, cxxPPassemblage>::const_iterator it = this->PPassemblages.begin(); it != this->PPassemblages.end(); ++it) {
-		it->second.dump_raw(s_oss, indent);
-	}
-	*/
 
 	// SSassemblage
 	Utilities::dump_raw(SSassemblages, s_oss, indent);
-	/*
-	for (std::map<int, cxxSSassemblage>::const_iterator it = this->SSassemblages.begin(); it != this->SSassemblages.end(); ++it) {
-		it->second.dump_raw(s_oss, indent);
-	}
-	*/
 
 	// Surface
 	Utilities::dump_raw(Surfaces, s_oss, indent);
-	/*
-	for (std::map<int, cxxSurface>::const_iterator it = this->Surfaces.begin(); it != this->Surfaces.end(); ++it) {
-		it->second.dump_raw(s_oss, indent);
-	}
-	*/
 }
 
 void cxxStorageBin::read_raw(CParser& parser)
 {
 	CParser::LINE_TYPE i;
-	while ((i = parser.check_line("Subroutine Read", false, true, true, true)) != CParser::LT_KEYWORD)
+	while ((i = parser.check_line("StorageBin read_raw", false, true, true, true)) != CParser::LT_KEYWORD)
 	{
 		if (i == CParser::LT_EOF) return; // CParser::LT_EOF;
 	}
@@ -189,15 +159,15 @@ void cxxStorageBin::read_raw(CParser& parser)
 		case CParser::KT_NONE:
 			goto END_OF_SIMULATION_INPUT;
 			break;
-			/*
-                KT_SOLUTION_RAW     =  5,
-                KT_EXCHANGE_RAW     =  6,
-                KT_GASPHASE_RAW     =  7,
-                KT_KINETICS_RAW     =  8,
-                KT_PPASSEMBLAGE_RAW =  9,
-                KT_SSASSEMBLAGE_RAW =  10,
-                KT_SURFACE_RAW      =  11
-			*/
+		/*
+		  KT_SOLUTION_RAW     =  5,
+		  KT_EXCHANGE_RAW     =  6,
+		  KT_GASPHASE_RAW     =  7,
+		  KT_KINETICS_RAW     =  8,
+		  KT_PPASSEMBLAGE_RAW =  9,
+		  KT_SSASSEMBLAGE_RAW =  10,
+		  KT_SURFACE_RAW      =  11
+		*/
 		case CParser::KT_SOLUTION_RAW:
 			{
 				cxxSolution entity;
