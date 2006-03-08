@@ -20,15 +20,16 @@
 #include <list>    // std::list
 #include <vector>  // std::vector
 
-template<class T> 
-bool exists (std::map<int, T> b, int i){
-	return (b.find(i) != b.end());}
-
 class cxxStorageBin 
 {
 
 public:
+        enum SB_CONSTRUCTOR {
+                SB_GLOBAL       = 1
+        };
+
         cxxStorageBin();
+        cxxStorageBin(SB_CONSTRUCTOR flag);
         ~cxxStorageBin();
 
         //void dump_xml(std::ostream& os, unsigned int indent = 0)const;

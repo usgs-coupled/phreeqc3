@@ -14,6 +14,7 @@
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -1118,11 +1119,29 @@ void test_classes(void)
         }
 #endif
 	{
+		// get all c storage
+		cxxStorageBin cstorage(cxxStorageBin::SB_GLOBAL);
+		//std::ostringstream oss;
+		//cstorage.dump_raw(oss, 0);
+		//write it out
+                std::fstream myfile;
+		myfile.open("tfile", std::ios_base::out);
+		cstorage.dump_raw(myfile, 0);
+		myfile.close();
+	}
+	{
+		// empty storage bin
 		cxxStorageBin cstorage;
+		// fstream
+                std::fstream myfile;
+		myfile.open("tfile", std::ios_base::in);
+		// ostream
 		std::ostringstream oss;
-		cstorage.dump_raw(oss, 0);
-		std::cerr << oss.str();
-		//char string[200];
-		//strcpy_s(string, "abc");
+		// parser
+		CParser cparser(myfile, oss, std::cerr);
+		cstorage.read_raw(cparser);
+		//std::cerr << oss.str();
+
+		// read it back
 	}
 } 
