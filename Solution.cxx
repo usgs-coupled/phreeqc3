@@ -19,6 +19,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+
 cxxSolution::cxxSolution()
         //
         // default constructor for cxxSolution 
@@ -39,7 +40,27 @@ cxxSolution::cxxSolution()
         master_activity.type = cxxNameDouble::ND_SPECIES_LA;
         species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
 }
-
+cxxSolution::cxxSolution(double zero)
+        //
+        // empty cxxSolution constructor
+        //
+: cxxNumKeyword()
+{
+	assert (zero == 0.0);
+        tc          = 0.0;
+        ph          = 0.0;
+        pe          = 0.0;
+        mu          = 0.0;
+        ah2o        = 0.0;
+        total_h     = 0.0;
+        total_o     = 0.0;
+        cb          = 0.0;
+        mass_water  = 0.0;
+        total_alkalinity = 0.0;
+        totals.type = cxxNameDouble::ND_ELT_MOLES;
+        master_activity.type = cxxNameDouble::ND_SPECIES_LA;
+        species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
+}
 cxxSolution::cxxSolution(struct solution *solution_ptr)
         //
         // constructor for cxxSolution from struct solution
@@ -48,9 +69,9 @@ cxxSolution::cxxSolution(struct solution *solution_ptr)
 cxxNumKeyword(),
 totals(solution_ptr->totals),
 master_activity(solution_ptr->master_activity, solution_ptr->count_master_activity, cxxNameDouble::ND_SPECIES_LA),
-species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma, cxxNameDouble::ND_SPECIES_GAMMA)
+species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma, cxxNameDouble::ND_SPECIES_GAMMA),
+isotopes(solution_ptr)
 {
-        int i;
 
         this->set_description(solution_ptr->description);
         n_user      = solution_ptr->n_user;
@@ -69,18 +90,57 @@ species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma, cx
         // Totals filled in constructor, just save description and moles 
 
         // Isotopes
+	/*
         for (i = 0; i < solution_ptr->count_isotopes; i++) {
                 cxxSolutionIsotope iso(&solution_ptr->isotopes[i]);
                 isotopes.push_back(iso);
         }
-
+	*/
         // Master_activity in constructor
         // Species_gamma in constructor
 }
 
+#ifdef SKIP
+cxxSolution::cxxSolution(const cxxSolution &old, double intensive, double extensive)
+        //
+        // constructor for cxxSolution from struct solution
+        //
+: 
+cxxNumKeyword(),
+totals(old.totals, extensive),
+master_activity(old.master_activity, intensive),
+species_gamma(old.species_gamma, intensive)
+{
+
+        this->set_description(old.description);
+        this->n_user                   = old.n_user;
+        this->n_user_end               = old.n_user_end;
+	this->tc                       = old.tc * intensive;
+	this->ph                       = old.ph * intensive;
+	this->pe                       = old.pe * intensive;
+	this->mu                       = old.mu * intensive;
+	this->ah2o                     = old.ah2o * intensive;
+	this->total_h                  = old.total_h * extensive;
+	this->total_o                  = old.total_o * extensive;
+	this->cb                       = old.cb * extensive;
+	this->mass_water               = old.mass_water * extensive;
+	this->total_alkalinity         = old.total_alkalinity * extensive;
+	/*
+        cxxNameDouble totals;
+        std::list<cxxSolutionIsotope> isotopes;
+        cxxNameDouble master_activity;
+        cxxNameDouble species_gamma;
+	*/
+	for (std::list<cxxSolutionIsotope>::const_iterator it = old.isotopes.begin(); it != old.isotopes.end(); it++) {
+		this->isotopes.push_back(cxxSolutionIsotope((*it), intensive, extensive));
+	}
+}
+#endif
+
 cxxSolution::~cxxSolution()
 {
 }
+
 
 struct solution *cxxSolution::cxxSolution2solution()
         //
@@ -124,7 +184,8 @@ struct solution *cxxSolution::cxxSolution2solution()
 
         // isotopes
         solution_ptr->isotopes = (struct isotope *) free_check_null(solution_ptr->isotopes);
-        solution_ptr->isotopes = cxxSolutionIsotope::list2isotope(this->isotopes);
+        //solution_ptr->isotopes = cxxSolutionIsotope::list2isotope(this->isotopes);
+	solution_ptr->isotopes = this->isotopes.cxxSolutionIsotopeList2isotope();
         solution_ptr->count_isotopes = this->isotopes.size();
 
         return(solution_ptr);
@@ -605,6 +666,70 @@ void cxxSolution::read_raw(CParser& parser)
                 parser.error_msg("Total alkalinity not defined for SOLUTION_RAW input.", CParser::OT_CONTINUE);
         }
         return;
+}
+
+void cxxSolution::add(const cxxSolution &old, double intensive, double extensive)
+        //
+        // Add existing solution to "this" solution
+        //
+{
+
+	this->tc                       += old.tc * intensive;
+	this->ph                       += old.ph * intensive;
+	this->pe                       += old.pe * intensive;
+	this->mu                       += old.mu * intensive;
+	this->ah2o                     += old.ah2o * intensive;
+	this->total_h                  += old.total_h * extensive;
+	this->total_o                  += old.total_o * extensive;
+	this->cb                       += old.cb * extensive;
+	this->mass_water               += old.mass_water * extensive;
+	this->total_alkalinity         += old.total_alkalinity * extensive;
+
+	this->totals.add(old.totals, extensive);
+	this->master_activity.add(old.master_activity, intensive);
+	this->species_gamma.add(old.species_gamma, intensive);
+	this->isotopes.add(old.isotopes, intensive, extensive);
+
+#ifdef SKIP
+	//
+	//  isotopes
+	//  go through old list, update or add to current list 
+	//
+	for (std::list <cxxSolutionIsotope>::const_iterator itold = old.isotopes.begin(); itold != old.isotopes.end(); ++itold) {
+		bool found = false;
+		for (std::list <cxxSolutionIsotope>::iterator it = this->isotopes.begin(); it != this->isotopes.end(); ++it) {
+			if ((it->isotope_number == itold->isotope_number) &&
+			    (it->elt_name       == itold->elt_name) &&
+			    (it->isotope_name   == itold->isotope_name)) {
+				it->total                   += itold->total * extensive;
+				it->ratio                   += itold->ratio * intensive;
+				it->ratio_uncertainty       += itold->ratio_uncertainty * intensive;
+				it->ratio_uncertainty_defined = (it->ratio_uncertainty_defined || itold->ratio_uncertainty_defined);
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			this->isotopes.push_back(*itold);
+		}
+        }
+#endif
+	/*
+        cxxNameDouble totals;
+        std::list<cxxSolutionIsotope> isotopes;
+        cxxNameDouble master_activity;
+        cxxNameDouble species_gamma;
+	*/
+}
+
+double cxxSolution::get_total(char *string)const
+{
+	cxxNameDouble::const_iterator it = this->totals.find(string);
+	if (it == this->totals.end()) {
+		return(0.0);
+	} else {
+		return(it->second);
+	}
 }
 
 #ifdef SKIP
@@ -1145,3 +1270,4 @@ void test_classes(void)
 		// read it back
 	}
 } 
+

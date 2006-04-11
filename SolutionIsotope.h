@@ -42,7 +42,10 @@ public:
         struct master *master(void);
         struct master *primary(void);
 
-private:
+	void add(const cxxSolutionIsotope &isotope_ptr, double intensive, double extensive);
+
+protected:
+	friend class cxxSolutionIsotopeList;
         double       isotope_number;
         char *       elt_name;
         char *       isotope_name;

@@ -2,8 +2,10 @@
 #define SOLUTION_H_INCLUDED
 
 #include "NumKeyword.h"
-#include "SolutionIsotope.h"
+#include "SolutionIsotopeList.h"
 #include "NameDouble.h"
+#include "Mix.h"
+
 #define EXTERNAL extern
 #include "global.h"
 #include <cassert> // assert
@@ -19,7 +21,11 @@ class cxxSolution : public cxxNumKeyword
 
 public:
         cxxSolution();
+        cxxSolution(double zero);
         cxxSolution(struct solution *);
+	cxxSolution(const std::map<int, cxxSolution> &solution_map, cxxMix &mx);
+	cxxSolution(const cxxSolution &old, double intensive, double extensive);
+
         //cxxSolution(const cxxSolution&);
         ~cxxSolution();
 
@@ -41,17 +47,21 @@ public:
         void set_ah2o(double ah2o) {this->pe = ah2o;}
 
         double get_total_h()const {return this->total_h;}
-        void set_total_h(double total_h) {this->pe = mu;}
+        void set_total_h(double total_h) {this->pe = total_h;}
 
         double get_total_o()const {return this->total_o;}
-        void set_total_o(double total_o) {this->pe = mu;}
+        void set_total_o(double total_o) {this->pe = total_o;}
 
-        double get_mass_water()const {return this->mass_water;};
-        void set_mass_water(long double mass_water) {this->mass_water = mass_water;};
+        double get_mass_water()const {return this->mass_water;}
+        void set_mass_water(long double mass_water) {this->mass_water = mass_water;}
 
         double get_total_alkalinity()const {return this->total_alkalinity;}
         void set_total_alkalinity(double total_alkalinity) {this->pe = total_alkalinity;}
 
+        double get_cb()const {return this->cb;}
+        void set_cb(double cb) {this->cb = cb;}
+
+	double get_total(char *string)const;
         //char * get_pe_reaction()const {return this->pe_reaction;}
         //void set_pe_reaction(char * pe_reaction) {this->pe_reaction = pe_reaction;}
 
@@ -63,6 +73,7 @@ public:
 
         void read_raw(CParser& parser);
 
+        void add(const cxxSolution &sol, double intensive, double extensive);
 
 protected:
         double tc;
@@ -76,9 +87,10 @@ protected:
         double mass_water;
         double total_alkalinity;
         cxxNameDouble totals;
-        std::list<cxxSolutionIsotope> isotopes;
+        //std::list<cxxSolutionIsotope> isotopes;
         cxxNameDouble master_activity;
         cxxNameDouble species_gamma;
+	cxxSolutionIsotopeList isotopes;
 public:
         //static std::map<int, cxxSolution>& map;
 
