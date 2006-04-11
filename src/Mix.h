@@ -28,6 +28,8 @@ public:
 
         void read_raw(CParser& parser);
 
+	std::map<int, double> comps()          {return mixComps;}
+
 protected:
 	std::map<int, double> mixComps;
 

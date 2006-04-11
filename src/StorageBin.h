@@ -1,6 +1,7 @@
 #if !defined(STORAGEBIN_H_INCLUDED)
 #define STORAGEBIN_H_INCLUDED
 
+#include "Utils.h"
 #include "Parser.h"
 #include "Solution.h"
 #include "Exchange.h"
@@ -9,7 +10,6 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "Surface.h"
-
 #include "Mix.h"
 #include "Reaction.h"
 #include "Temperature.h"
@@ -34,9 +34,21 @@ public:
 
         //void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
+	struct cxxSolution *get_solution(int i) { 
+		//cxxSolution *solution_ptr = Utilities::get_entity(this->Solutions, i);
+		return(Utilities::get_entity(this->Solutions, i));
+		//if (this->Solutions.find(i) != this->Solutions.end()) {
+		//return(&(this->Solutions.find(i)->second));
+		//} else {
+		//return(NULL);
+		//}
+	}
+
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void read_raw(CParser& parser);
+
+	void add(struct system *sys_ptr);
 
 protected:
 	// Tidied classes

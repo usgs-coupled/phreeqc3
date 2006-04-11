@@ -26,6 +26,7 @@ cxxSolutionIsotope::cxxSolutionIsotope(struct isotope *isotope_ptr)
         ratio_uncertainty       = isotope_ptr->ratio_uncertainty;
 }
 
+
 cxxSolutionIsotope::~cxxSolutionIsotope(void)
 {
 }
@@ -183,6 +184,18 @@ struct master *cxxSolutionIsotope::master(void)
 struct master *cxxSolutionIsotope::primary(void)
 {
         return (master_bsearch_primary(this->elt_name));
+}
+
+void cxxSolutionIsotope::add(const cxxSolutionIsotope &isotope_ptr, double intensive, double extensive)
+{
+        if ((this->isotope_number == isotope_ptr.isotope_number) &&
+	    (this->elt_name       == isotope_ptr.elt_name) &&
+	    (this->isotope_name   == isotope_ptr.isotope_name)) {
+		this->total                   += isotope_ptr.total * extensive;
+		this->ratio                   += isotope_ptr.ratio * intensive;
+		this->ratio_uncertainty       += isotope_ptr.ratio_uncertainty * intensive;
+		this->ratio_uncertainty_defined = (this->ratio_uncertainty_defined || isotope_ptr.ratio_uncertainty_defined);
+	}
 }
 
 #ifdef SKIP
