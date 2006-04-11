@@ -20,11 +20,11 @@
 //////////////////////////////////////////////////////////////////////
 cxxStorageBin::cxxStorageBin()
 {
+        // default constructor for cxxStorageBin 
 }
 
 cxxStorageBin::cxxStorageBin(cxxStorageBin::SB_CONSTRUCTOR flag)
         //
-        // default constructor for cxxStorageBin 
 	// pull data out of c storage
         //
 {
@@ -233,3 +233,44 @@ END_OF_SIMULATION_INPUT:
 	return; //CParser::LT_OK;
 }
 
+void cxxStorageBin::add(struct system * system_ptr)
+        //
+        // add data from a system structure
+        //
+{
+
+	// Solutions
+	if (system_ptr->solution != NULL) {
+		this->Solutions[system_ptr->solution->n_user] = cxxSolution(system_ptr->solution);
+	}
+
+	// Exchangers
+	if (system_ptr->exchange != NULL) {
+		this->Exchangers[system_ptr->exchange->n_user] = cxxExchange(system_ptr->exchange);
+	}
+
+	// GasPhases
+	if (system_ptr->gas_phase != NULL) {
+		this->GasPhases[system_ptr->gas_phase->n_user] = cxxGasPhase(system_ptr->gas_phase);
+	}
+
+	// Kinetics
+	if (system_ptr->kinetics != NULL) {
+		this->Kinetics[system_ptr->kinetics->n_user] = cxxKinetics(system_ptr->kinetics);
+	}
+
+	// PPassemblages
+	if (system_ptr->pp_assemblage != NULL) {
+		this->PPassemblages[system_ptr->pp_assemblage->n_user] = cxxPPassemblage(system_ptr->pp_assemblage);
+	}
+
+	// SSassemblages
+	if (system_ptr->s_s_assemblage != NULL) {
+		this->SSassemblages[system_ptr->s_s_assemblage->n_user] = cxxSSassemblage(system_ptr->s_s_assemblage);
+	}
+
+	// Surfaces
+	if (system_ptr->surface != NULL) {
+		this->Surfaces[system_ptr->surface->n_user] = cxxSurface(system_ptr->surface);
+	}
+}

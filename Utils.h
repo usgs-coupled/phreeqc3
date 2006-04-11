@@ -45,6 +45,17 @@ namespace Utilities {
         template<typename T> 
                 bool exists (const T &b, int i){
                 return (b.find(i) != b.end());}
+
+	template<typename T>
+		T *get_entity(std::map<int, T> b, int i) {
+		if (b.find(i) != b.end()) {
+			return(&(b.find(i)->second));
+		} else {
+			return (NULL);
+		}
+	}
+		   
+
 	/*
         template<class T> 
                 bool exists (std::map<int, T> b, int i){

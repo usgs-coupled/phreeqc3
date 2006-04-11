@@ -27,6 +27,7 @@ public:
         cxxNameDouble(struct conc *);
         cxxNameDouble(struct master_activity *ma, int count, ND_TYPE);
         cxxNameDouble(struct name_coef *nc, int count, ND_TYPE);
+	cxxNameDouble(const cxxNameDouble &old, double factor);
         ~cxxNameDouble();
 
         struct elt_list *elt_list();
@@ -43,9 +44,12 @@ public:
 
         CParser::STATUS_TYPE read_raw(CParser& parser, std::istream::pos_type& pos);
 
-        enum ND_TYPE type;
+        void add(const cxxNameDouble &old, double factor);
 
+        enum ND_TYPE type;
+	
 protected:
+
         //std::map <char *, double, CHARSTAR_LESS> totals; 
 
 

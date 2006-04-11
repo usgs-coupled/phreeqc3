@@ -39,6 +39,22 @@ cxxNameDouble::cxxNameDouble(struct elt_list *elt_list_ptr)
         }
         this->type = ND_ELT_MOLES;
 }
+cxxNameDouble::cxxNameDouble(const cxxNameDouble &old, double factor)
+        //
+        // constructor for cxxNameDouble from list of elt_list
+        //
+{
+	for (cxxNameDouble::const_iterator it = old.begin(); it != old.end(); it++) {
+		if (old.type == ND_ELT_MOLES) {
+			if (it->second * factor > 0) {
+				(*this)[(it->first)] = it->second * factor;
+			}
+		} else {
+			(*this)[(it->first)] = it->second * factor;
+		}
+        }
+	this->type = old.type;
+}
 cxxNameDouble::cxxNameDouble(struct conc *tots)
         //
         // constructor for cxxNameDouble from list of elt_list
@@ -255,4 +271,20 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser& parser, std::istream::pos_
         ctoken = string_hsave(token.c_str());
         (*this)[ctoken] = d;
         return CParser::PARSER_OK;
+}
+
+void cxxNameDouble::add(const cxxNameDouble &old, double factor)
+        //
+        // constructor for cxxNameDouble from list of elt_list
+        //
+{
+        for (cxxNameDouble::const_iterator it = old.begin(); it != old.end(); it++) {
+		cxxNameDouble::iterator current = (*this).find(it->first);
+		if (current != (*this).end()) {
+			(*this)[it->first] = current->second + it->second * factor;
+		} else {
+			(*this)[it->first] = it->second * factor;
+		}
+        }
+
 }
