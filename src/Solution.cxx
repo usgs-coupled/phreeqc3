@@ -732,6 +732,26 @@ double cxxSolution::get_total(char *string)const
 	}
 }
 
+void cxxSolution::set_total(char *string, double d)
+{
+	this->totals[string] = d;
+}
+
+double cxxSolution::get_master_activity(char *string)const
+{
+	cxxNameDouble::const_iterator it = this->master_activity.find(string);
+	if (it == this->master_activity.end()) {
+		return(0.0);
+	} else {
+		return(it->second);
+	}
+}
+
+void cxxSolution::set_master_activity(char *string, double d)
+{
+	this->master_activity[string] = d;
+}
+
 #ifdef SKIP
 cxxSolution& cxxSolution::read(CParser& parser)
 {
@@ -1245,7 +1265,8 @@ void test_classes(void)
 #endif
 	{
 		// get all c storage
-		cxxStorageBin cstorage(cxxStorageBin::SB_GLOBAL);
+		cxxStorageBin cstorage;
+		cstorage.import_phreeqc();
 		//std::ostringstream oss;
 		//cstorage.dump_raw(oss, 0);
 		//write it out

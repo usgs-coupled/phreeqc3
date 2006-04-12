@@ -24,24 +24,24 @@ class cxxStorageBin
 {
 
 public:
-        enum SB_CONSTRUCTOR {
-                SB_GLOBAL       = 1
-        };
-
         cxxStorageBin();
-        cxxStorageBin(SB_CONSTRUCTOR flag);
+
         ~cxxStorageBin();
 
-        //void dump_xml(std::ostream& os, unsigned int indent = 0)const;
+        void import_phreeqc(void);
 
-	struct cxxSolution *get_solution(int i) { 
-		//cxxSolution *solution_ptr = Utilities::get_entity(this->Solutions, i);
-		return(Utilities::get_entity(this->Solutions, i));
-		//if (this->Solutions.find(i) != this->Solutions.end()) {
-		//return(&(this->Solutions.find(i)->second));
-		//} else {
-		//return(NULL);
-		//}
+	void cxxStorageBin2phreeqc(int n);
+
+	void phreeqc2cxxStorageBin(int n);
+
+	struct cxxSolution *get_solution(int n_user) { 
+		if (this->Solutions.find(n_user) != this->Solutions.end()) {
+			return(&(this->Solutions.find(n_user)->second));
+		} 
+		return (NULL);
+	}
+	void set_solution(int n_user, cxxSolution soln) { 
+		Solutions[n_user] = soln;
 	}
 
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
