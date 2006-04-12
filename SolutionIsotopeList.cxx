@@ -14,6 +14,13 @@ cxxSolutionIsotopeList::cxxSolutionIsotopeList(void)
 {
 }
 
+cxxSolutionIsotopeList::~cxxSolutionIsotopeList(void)
+        //
+        // default destructor for cxxSolution 
+        //
+{
+}
+
 cxxSolutionIsotopeList::cxxSolutionIsotopeList(struct solution *solution_ptr)
 {
 	int i;

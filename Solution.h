@@ -41,29 +41,39 @@ public:
         void set_pe(double pe) {this->pe =pe;}
 
         double get_mu()const {return this->mu;}
-        void set_mu(double mu) {this->pe = mu;}
+        void set_mu(double mu) {this->mu = mu;}
 
         double get_ah2o()const {return this->ah2o;}
-        void set_ah2o(double ah2o) {this->pe = ah2o;}
+        void set_ah2o(double ah2o) {this->ah2o = ah2o;}
 
         double get_total_h()const {return this->total_h;}
-        void set_total_h(double total_h) {this->pe = total_h;}
+        void set_total_h(double total_h) {this->total_h = total_h;}
 
         double get_total_o()const {return this->total_o;}
-        void set_total_o(double total_o) {this->pe = total_o;}
+        void set_total_o(double total_o) {this->total_o = total_o;}
+
+        double get_cb()const {return this->cb;}
+        void set_cb(double cb) {this->cb = cb;}
 
         double get_mass_water()const {return this->mass_water;}
         void set_mass_water(long double mass_water) {this->mass_water = mass_water;}
 
         double get_total_alkalinity()const {return this->total_alkalinity;}
-        void set_total_alkalinity(double total_alkalinity) {this->pe = total_alkalinity;}
-
-        double get_cb()const {return this->cb;}
-        void set_cb(double cb) {this->cb = cb;}
+        void set_total_alkalinity(double total_alkalinity) {this->total_alkalinity = total_alkalinity;}
 
 	double get_total(char *string)const;
-        //char * get_pe_reaction()const {return this->pe_reaction;}
-        //void set_pe_reaction(char * pe_reaction) {this->pe_reaction = pe_reaction;}
+	void set_total(char *string, double value);
+
+	double get_master_activity(char *string)const;
+	void set_master_activity(char *string, double value);
+
+	/*
+	double get_species_gamma(char *string)const;
+	void set_species_gamma(char *string, double value);
+
+	double get_isotope(char *string)const;
+	void set_isotope(char *string, double value);
+	*/
 
         struct solution *cxxSolution2solution();
 

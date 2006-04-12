@@ -156,7 +156,7 @@ COMMON_CXXOBJS = \
 	       ReadClass.o \
 	       Solution.o \
 	       SolutionIsotope.o \
-	       SolutionIsotopelist.o \
+	       SolutionIsotopeList.o \
 	       SSassemblage.o \
 	       SSassemblageSS.o \
                StorageBin.o \
