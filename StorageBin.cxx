@@ -12,6 +12,7 @@
 #include "global.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
+#include "output.h"
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 
@@ -23,7 +24,11 @@ cxxStorageBin::cxxStorageBin()
         // default constructor for cxxStorageBin 
 }
 
-cxxStorageBin::cxxStorageBin(cxxStorageBin::SB_CONSTRUCTOR flag)
+cxxStorageBin::~cxxStorageBin()
+{
+}
+
+void cxxStorageBin::import_phreeqc(void)
         //
 	// pull data out of c storage
         //
@@ -80,11 +85,6 @@ cxxStorageBin::cxxStorageBin(cxxStorageBin::SB_CONSTRUCTOR flag)
 		Temperatures[temperature[i].n_user] = cxxTemperature(&temperature[i]);
 	}
 }
-
-cxxStorageBin::~cxxStorageBin()
-{
-}
-
 
 
 #ifdef SKIP
@@ -273,4 +273,136 @@ void cxxStorageBin::add(struct system * system_ptr)
 	if (system_ptr->surface != NULL) {
 		this->Surfaces[system_ptr->surface->n_user] = cxxSurface(system_ptr->surface);
 	}
+}
+
+void cxxStorageBin::cxxStorageBin2phreeqc(int n)
+        //
+        // copy data fromphreeqc storage to storage bin
+        //
+{
+
+	// Solutions
+	{
+		
+		std::map <int, cxxSolution>::iterator it = this->Solutions.find(n);
+		if (it != this->Solutions.end()){
+			solution[0] = (it->second).cxxSolution2solution();
+			solution[0]->n_user = n;
+			solution[0]->n_user_end = n;
+			count_solution++;
+		} else {
+			error_msg("cxxSolution not found in system2phreeqc", STOP);
+		}
+	}
+
+	// Exchangers
+	{
+		std::map <int, cxxExchange>::iterator it = this->Exchangers.find(n);
+		if ( it != this->Exchangers.end()) {
+			struct exchange *exchange_ptr = (it->second).cxxExchange2exchange();
+			exchange_copy(exchange_ptr, &exchange[0], n);
+			count_exchange++;
+		} 
+	}
+
+	// GasPhases
+	{
+		std::map <int, cxxGasPhase>::iterator it = this->GasPhases.find(n);
+		if ( it != this->GasPhases.end()) {
+			struct gas_phase *gas_phase_ptr = (it->second).cxxGasPhase2gas_phase();
+			gas_phase_copy(gas_phase_ptr, &gas_phase[0], n);
+			count_gas_phase++;
+		} 
+	}
+
+	// Kinetics
+	{
+		std::map <int, cxxKinetics>::iterator it = this->Kinetics.find(n);
+		if ( it != this->Kinetics.end()) {
+			struct kinetics *kinetics_ptr = (it->second).cxxKinetics2kinetics();
+			kinetics_copy(kinetics_ptr, &kinetics[0], n);
+			count_kinetics++;
+		} 
+	}
+
+	// PPassemblages
+	{
+		std::map <int, cxxPPassemblage>::iterator it = this->PPassemblages.find(n);
+		if ( it != this->PPassemblages.end()) {
+			struct pp_assemblage *pp_assemblage_ptr = (it->second).cxxPPassemblage2pp_assemblage();
+			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[0], n);
+			count_pp_assemblage++;
+		} 
+	}
+
+	// SSassemblages
+	{
+		std::map <int, cxxSSassemblage>::iterator it = this->SSassemblages.find(n);
+		if ( it != this->SSassemblages.end()) {
+			struct s_s_assemblage *s_s_assemblage_ptr = (it->second).cxxSSassemblage2s_s_assemblage();
+			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[0], n);
+			count_s_s_assemblage++;
+		} 
+	}
+
+	// Surfaces
+	{
+		std::map <int, cxxSurface>::iterator it = this->Surfaces.find(n);
+		if ( it != this->Surfaces.end()) {
+			struct surface *surface_ptr = (it->second).cxxSurface2surface();
+			surface_copy(surface_ptr, &surface[0], n);
+			count_surface++;
+		} 
+	}
+
+}
+void cxxStorageBin::phreeqc2cxxStorageBin(int n)
+        //
+        // copy data fromphreeqc storage to storage bin
+        //
+{
+	int pos;
+
+	// Solutions
+	{
+		solution_bsearch(n, &pos, TRUE);
+		this->Solutions[n] = cxxSolution(solution[pos]);
+	}
+
+	// Exchangers
+	{
+		exchange_bsearch(n, &pos);
+		this->Exchangers[n] = cxxExchange(&(exchange[pos]));
+	}
+
+	// GasPhases
+	{
+		gas_phase_bsearch(n, &pos);
+		this->GasPhases[n] = cxxGasPhase(&(gas_phase[pos]));
+	}
+
+	// Kinetics
+	{
+		kinetics_bsearch(n, &pos);
+		this->Kinetics[n] = cxxKinetics(&(kinetics[pos]));
+	}
+
+	// PPassemblages
+	{
+		pp_assemblage_bsearch(n, &pos);
+		this->PPassemblages[n] = cxxPPassemblage(&(pp_assemblage[pos]));
+	}
+
+	// SSassemblages
+	{
+		s_s_assemblage_bsearch(n, &pos);
+		this->SSassemblages[n] = cxxSSassemblage(&(s_s_assemblage[pos]));
+	}
+
+	// Surfaces
+	{
+		surface_bsearch(n, &pos);
+		this->Surfaces[n] = cxxSurface(&(surface[pos]));
+	}
+
 }
