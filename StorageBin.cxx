@@ -275,17 +275,20 @@ void cxxStorageBin::add(struct system * system_ptr)
 	}
 }
 
+//#include <iostream>     // std::cout std::cerr
 void cxxStorageBin::cxxStorageBin2phreeqc(int n)
         //
         // copy data fromphreeqc storage to storage bin
         //
 {
+	//std::ostringstream oss;
 
 	// Solutions
 	{
 		
 		std::map <int, cxxSolution>::iterator it = this->Solutions.find(n);
 		if (it != this->Solutions.end()){
+			//(it->second).dump_raw(oss,0);
 			solution[0] = (it->second).cxxSolution2solution();
 			solution[0]->n_user = n;
 			solution[0]->n_user_end = n;
@@ -299,6 +302,7 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxExchange>::iterator it = this->Exchangers.find(n);
 		if ( it != this->Exchangers.end()) {
+			//(it->second).dump_raw(oss,0);
 			struct exchange *exchange_ptr = (it->second).cxxExchange2exchange();
 			exchange_copy(exchange_ptr, &exchange[0], n);
 			count_exchange++;
@@ -311,6 +315,7 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxGasPhase>::iterator it = this->GasPhases.find(n);
 		if ( it != this->GasPhases.end()) {
+			//(it->second).dump_raw(oss,0);
 			struct gas_phase *gas_phase_ptr = (it->second).cxxGasPhase2gas_phase();
 			gas_phase_copy(gas_phase_ptr, &gas_phase[0], n);
 			count_gas_phase++;
@@ -323,6 +328,7 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxKinetics>::iterator it = this->Kinetics.find(n);
 		if ( it != this->Kinetics.end()) {
+			//(it->second).dump_raw(oss,0);
 			struct kinetics *kinetics_ptr = (it->second).cxxKinetics2kinetics();
 			kinetics_copy(kinetics_ptr, &kinetics[0], n);
 			count_kinetics++;
@@ -335,6 +341,7 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxPPassemblage>::iterator it = this->PPassemblages.find(n);
 		if ( it != this->PPassemblages.end()) {
+			//(it->second).dump_raw(oss,0);
 			struct pp_assemblage *pp_assemblage_ptr = (it->second).cxxPPassemblage2pp_assemblage();
 			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[0], n);
 			count_pp_assemblage++;
@@ -347,6 +354,7 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxSSassemblage>::iterator it = this->SSassemblages.find(n);
 		if ( it != this->SSassemblages.end()) {
+			//(it->second).dump_raw(oss,0);
 			struct s_s_assemblage *s_s_assemblage_ptr = (it->second).cxxSSassemblage2s_s_assemblage();
 			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[0], n);
 			count_s_s_assemblage++;
@@ -359,6 +367,8 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxSurface>::iterator it = this->Surfaces.find(n);
 		if ( it != this->Surfaces.end()) {
+			//(it->second).dump_raw(oss,0);
+
 			struct surface *surface_ptr = (it->second).cxxSurface2surface();
 			surface_copy(surface_ptr, &surface[0], n);
 			count_surface++;
@@ -366,6 +376,7 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 			surface_ptr = (struct surface *) free_check_null(surface_ptr);
 		} 
 	}
+	//std::cerr << oss.str();
 
 }
 void cxxStorageBin::phreeqc2cxxStorageBin(int n)
