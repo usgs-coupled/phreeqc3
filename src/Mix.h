@@ -28,9 +28,10 @@ public:
 
         void read_raw(CParser& parser);
 
-	std::map<int, double> comps()          {return mixComps;}
+	std::map<int, double> *comps()          {return &mixComps;}
 
 protected:
+	friend class cxxStorageBin;
 	std::map<int, double> mixComps;
 
 public:

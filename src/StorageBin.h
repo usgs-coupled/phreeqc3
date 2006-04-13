@@ -50,6 +50,8 @@ public:
 
 	void add(struct system *sys_ptr);
 
+	cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
+
 protected:
 	// Tidied classes
 	std::map<int, cxxSolution>      Solutions;
