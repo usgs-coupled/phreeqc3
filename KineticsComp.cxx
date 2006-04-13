@@ -36,7 +36,7 @@ cxxKineticsComp::cxxKineticsComp(struct kinetics_comp *kinetics_comp_ptr)
         // constructor for cxxKineticsComp from struct kinetics_comp
         //
 : 
-namecoef(kinetics_comp_ptr->list, kinetics_comp_ptr->count_list, cxxNameDouble::ND_NAME_COEF)
+namecoef(kinetics_comp_ptr->list, kinetics_comp_ptr->count_list)
 {
         rate_name                    = kinetics_comp_ptr->rate_name;
         tol                          = kinetics_comp_ptr->tol;

@@ -302,6 +302,8 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 			struct exchange *exchange_ptr = (it->second).cxxExchange2exchange();
 			exchange_copy(exchange_ptr, &exchange[0], n);
 			count_exchange++;
+			exchange_free(exchange_ptr);
+			exchange_ptr = (struct exchange *) free_check_null(exchange_ptr);
 		} 
 	}
 
@@ -312,6 +314,8 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 			struct gas_phase *gas_phase_ptr = (it->second).cxxGasPhase2gas_phase();
 			gas_phase_copy(gas_phase_ptr, &gas_phase[0], n);
 			count_gas_phase++;
+			gas_phase_free(gas_phase_ptr);
+			gas_phase_ptr = (struct gas_phase *) free_check_null(gas_phase_ptr);
 		} 
 	}
 
@@ -322,6 +326,8 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 			struct kinetics *kinetics_ptr = (it->second).cxxKinetics2kinetics();
 			kinetics_copy(kinetics_ptr, &kinetics[0], n);
 			count_kinetics++;
+			kinetics_free(kinetics_ptr);
+			kinetics_ptr = (struct kinetics *) free_check_null(kinetics_ptr);
 		} 
 	}
 
@@ -332,6 +338,8 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 			struct pp_assemblage *pp_assemblage_ptr = (it->second).cxxPPassemblage2pp_assemblage();
 			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[0], n);
 			count_pp_assemblage++;
+			pp_assemblage_free(pp_assemblage_ptr);
+			pp_assemblage_ptr = (struct pp_assemblage *) free_check_null(pp_assemblage_ptr);
 		} 
 	}
 
@@ -342,6 +350,8 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 			struct s_s_assemblage *s_s_assemblage_ptr = (it->second).cxxSSassemblage2s_s_assemblage();
 			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[0], n);
 			count_s_s_assemblage++;
+			s_s_assemblage_free(s_s_assemblage_ptr);
+			s_s_assemblage_ptr = (struct s_s_assemblage *) free_check_null(s_s_assemblage_ptr);
 		} 
 	}
 
@@ -352,6 +362,8 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 			struct surface *surface_ptr = (it->second).cxxSurface2surface();
 			surface_copy(surface_ptr, &surface[0], n);
 			count_surface++;
+			surface_free(surface_ptr);
+			surface_ptr = (struct surface *) free_check_null(surface_ptr);
 		} 
 	}
 
@@ -371,38 +383,84 @@ void cxxStorageBin::phreeqc2cxxStorageBin(int n)
 
 	// Exchangers
 	{
-		exchange_bsearch(n, &pos);
-		this->Exchangers[n] = cxxExchange(&(exchange[pos]));
+		if (exchange_bsearch(n, &pos) != NULL) {
+			this->Exchangers[n] = cxxExchange(&(exchange[pos]));
+		}
 	}
 
 	// GasPhases
 	{
-		gas_phase_bsearch(n, &pos);
-		this->GasPhases[n] = cxxGasPhase(&(gas_phase[pos]));
+		if (gas_phase_bsearch(n, &pos) != NULL) {
+			this->GasPhases[n] = cxxGasPhase(&(gas_phase[pos]));
+		}
 	}
 
 	// Kinetics
 	{
-		kinetics_bsearch(n, &pos);
-		this->Kinetics[n] = cxxKinetics(&(kinetics[pos]));
+		if (kinetics_bsearch(n, &pos) != NULL) {
+			this->Kinetics[n] = cxxKinetics(&(kinetics[pos]));
+		}
 	}
 
 	// PPassemblages
 	{
-		pp_assemblage_bsearch(n, &pos);
-		this->PPassemblages[n] = cxxPPassemblage(&(pp_assemblage[pos]));
+		if (pp_assemblage_bsearch(n, &pos) != NULL) {
+			this->PPassemblages[n] = cxxPPassemblage(&(pp_assemblage[pos]));
+		}
 	}
 
 	// SSassemblages
 	{
-		s_s_assemblage_bsearch(n, &pos);
-		this->SSassemblages[n] = cxxSSassemblage(&(s_s_assemblage[pos]));
+		if (s_s_assemblage_bsearch(n, &pos) != NULL) {
+			this->SSassemblages[n] = cxxSSassemblage(&(s_s_assemblage[pos]));
+		}
 	}
 
 	// Surfaces
 	{
-		surface_bsearch(n, &pos);
-		this->Surfaces[n] = cxxSurface(&(surface[pos]));
+		if (surface_bsearch(n, &pos) != NULL) {
+			this->Surfaces[n] = cxxSurface(&(surface[pos]));
+		}
 	}
+}
 
+cxxSolution *cxxStorageBin::mix_cxxSolutions(cxxMix &mixmap)
+
+{
+/*
+ *   mixes solutions based on cxxMix structure, returns new solution
+ *   return solution must be freed by calling method
+ */
+	double intensive, extensive;
+	cxxSolution *cxxsoln_ptr, *cxxsoln_ptr1;
+/*
+ *   Zero out global solution data
+ */
+	cxxsoln_ptr = new cxxSolution(0.0);
+/*
+ *   Determine sum of mixing fractions
+ */	
+	extensive = 0.0;
+	
+	std::map<int, double> *mixcomps = mixmap.comps();
+	
+	std::map<int, double>::const_iterator it;
+	for (it = mixcomps->begin(); it != mixcomps->end(); it++) {
+		extensive += it->second;
+	}
+/*
+ *   Add solutions 
+ */	
+	for (it = mixcomps->begin(); it != mixcomps->end(); it++) {
+		cxxsoln_ptr1 = &((this->Solutions.find(it->first))->second);
+		if (cxxsoln_ptr1 == NULL) {
+			sprintf(error_string, "Solution %d not found in mix_cxxSolutions.", it->first);
+			error_msg(error_string, CONTINUE);
+			input_error++;
+			return(NULL);
+		} 
+		intensive = it->second/extensive;
+		cxxsoln_ptr->add(*cxxsoln_ptr1, intensive, it->second);
+	} 
+	return(cxxsoln_ptr);
 }

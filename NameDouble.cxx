@@ -66,7 +66,7 @@ cxxNameDouble::cxxNameDouble(struct conc *tots)
         }
         this->type = ND_ELT_MOLES;
 }
-cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count, cxxNameDouble::ND_TYPE)
+cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count, cxxNameDouble::ND_TYPE type)
         //
         // constructor for cxxNameDouble from list of elt_list
         //
@@ -76,9 +76,9 @@ cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count, cxxNameDoubl
                 if (ma[i].description == NULL) continue;
                 (*this)[ma[i].description] = ma[i].la;
         }
-        this->type = ND_SPECIES_LA;
+        this->type = type;
 }
-cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count, cxxNameDouble::ND_TYPE)
+cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
         //
         // constructor for cxxNameDouble from list of elt_list
         //

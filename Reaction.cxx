@@ -37,7 +37,7 @@ cxxReaction::cxxReaction(struct irrev *irrev_ptr)
         //
 : 
 cxxNumKeyword(),
-reactantList(irrev_ptr->list, irrev_ptr->count_list, cxxNameDouble::ND_NAME_COEF),
+reactantList(irrev_ptr->list, irrev_ptr->count_list),
 elementList(irrev_ptr->elts)
 {
         int i;

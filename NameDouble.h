@@ -26,7 +26,7 @@ public:
         cxxNameDouble(struct elt_list *);
         cxxNameDouble(struct conc *);
         cxxNameDouble(struct master_activity *ma, int count, ND_TYPE);
-        cxxNameDouble(struct name_coef *nc, int count, ND_TYPE);
+        cxxNameDouble(struct name_coef *nc, int count);
 	cxxNameDouble(const cxxNameDouble &old, double factor);
         ~cxxNameDouble();
 
