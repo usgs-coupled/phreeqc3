@@ -13,6 +13,8 @@
 
 cxxNumKeyword::cxxNumKeyword()
 {
+	this->n_user = 1;
+	this->n_user_end = 1;
 }
 
 cxxNumKeyword::~cxxNumKeyword()
