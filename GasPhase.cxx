@@ -51,6 +51,7 @@ cxxNumKeyword()
 
         // gas_phase components
         for (i = 0; i < gas_phase_ptr->count_comps; i++) {
+		if (gas_phase_ptr->comps[i].name == NULL) continue;
 		gasPhaseComps[gas_phase_ptr->comps[i].name] = gas_phase_ptr->comps[i].moles;
         }
 }

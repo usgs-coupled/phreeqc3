@@ -435,6 +435,30 @@ void cxxStorageBin::phreeqc2cxxStorageBin(int n)
 	}
 }
 
+void cxxStorageBin::remove(int n)
+{
+	// Solution
+	this->Solutions.erase(n);
+
+	// Exchanger
+	this->Exchangers.erase(n);
+
+	// GasPhase
+	this->GasPhases.erase(n);
+
+	// Kinetics
+	this->Kinetics.erase(n);
+
+	// PPassemblage
+	this->PPassemblages.erase(n);
+
+	// SSassemblage
+	this->SSassemblages.erase(n);
+
+	// Surface
+	this->Surfaces.erase(n);
+}
+
 cxxSolution *cxxStorageBin::mix_cxxSolutions(cxxMix &mixmap)
 
 {
@@ -474,4 +498,63 @@ cxxSolution *cxxStorageBin::mix_cxxSolutions(cxxMix &mixmap)
 		cxxsoln_ptr->add(*cxxsoln_ptr1, intensive, it->second);
 	} 
 	return(cxxsoln_ptr);
+}
+
+struct system *cxxStorageBin::cxxStorageBin2system(int n)
+        //
+        // make a system from storagebin
+        //
+{
+	struct system *system_ptr = new (struct system);
+
+	// Solutions
+	
+	if (this->getSolution(n) != NULL) {
+		system_ptr->solution = (this->getSolution(n))->cxxSolution2solution();
+	} else {
+		system_ptr->solution = NULL;
+	}
+
+	// Exchangers
+	if (this->getExchange(n) != NULL) {
+		system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange();
+	} else {
+		system_ptr->exchange = NULL;
+	}
+
+	// GasPhases
+	if (this->getGasPhase(n) != NULL) {
+		system_ptr->gas_phase = (this->getGasPhase(n))->cxxGasPhase2gas_phase();
+	} else {
+		system_ptr->gas_phase = NULL;
+	}
+
+	// Kinetics
+	if (this->getKinetics(n) != NULL) {
+		system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics();
+	} else {
+		system_ptr->kinetics = NULL;
+	}
+
+	// PPassemblages
+	if (this->getPPassemblage(n) != NULL) {
+		system_ptr->pp_assemblage = (this->getPPassemblage(n))->cxxPPassemblage2pp_assemblage();
+	} else {
+		system_ptr->pp_assemblage = NULL;
+	}
+
+	// SSassemblages
+	if (this->getSSassemblage(n) != NULL) {
+		system_ptr->s_s_assemblage = (this->getSSassemblage(n))->cxxSSassemblage2s_s_assemblage();
+	} else {
+		system_ptr->s_s_assemblage = NULL;
+	}
+
+	// Surfaces
+	if (this->getSurface(n) != NULL) {
+		system_ptr->surface = (this->getSurface(n))->cxxSurface2surface();
+	} else {
+		system_ptr->surface = NULL;
+	}
+	return system_ptr;
 }
