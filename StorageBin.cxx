@@ -505,7 +505,8 @@ struct system *cxxStorageBin::cxxStorageBin2system(int n)
         // make a system from storagebin
         //
 {
-	struct system *system_ptr = new (struct system);
+	struct system *system_ptr = (struct system *) PHRQ_malloc(sizeof(struct system));
+	if (system_ptr  == NULL) malloc_error();
 
 	// Solutions
 	
