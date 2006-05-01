@@ -118,6 +118,8 @@ void cxxStorageBin::dump_xml(std::ostream& s_oss, unsigned int indent)const
 
 void cxxStorageBin::dump_raw(std::ostream& s_oss, unsigned int indent)const
 {
+	// Dump all data
+
         //const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
         s_oss.precision(DBL_DIG - 1);
 
@@ -141,6 +143,48 @@ void cxxStorageBin::dump_raw(std::ostream& s_oss, unsigned int indent)const
 
 	// Surface
 	Utilities::dump_raw(Surfaces, s_oss, indent);
+}
+void cxxStorageBin::dump_raw(std::ostream& s_oss, int n, unsigned int indent)
+{
+	// Dump one user number
+
+        //const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
+        s_oss.precision(DBL_DIG - 1);
+
+	// Solutions
+	if (this->getSolution(n) != NULL) {
+		this->getSolution(n)->dump_raw(s_oss, indent);
+	}
+
+	// Exchange
+	if (this->getExchange(n) != NULL) {
+		this->getExchange(n)->dump_raw(s_oss, indent);
+	}
+
+	// Gas Phases
+	if (this->getGasPhase(n) != NULL) {
+		this->getGasPhase(n)->dump_raw(s_oss, indent);
+	}
+
+	// Kinetics
+	if (this->getKinetics(n) != NULL) {
+		this->getKinetics(n)->dump_raw(s_oss, indent);
+	}
+
+	// PPassemblage
+	if (this->getPPassemblage(n) != NULL) {
+		this->getPPassemblage(n)->dump_raw(s_oss, indent);
+	}
+
+	// SSassemblage
+	if (this->getSSassemblage(n) != NULL) {
+		this->getSSassemblage(n)->dump_raw(s_oss, indent);
+	}
+
+	// Surface
+	if (this->getSurface(n) != NULL) {
+		this->getSurface(n)->dump_raw(s_oss, indent);
+	}
 }
 
 void cxxStorageBin::read_raw(CParser& parser)
@@ -288,7 +332,6 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		
 		std::map <int, cxxSolution>::iterator it = this->Solutions.find(n);
 		if (it != this->Solutions.end()){
-			//(it->second).dump_raw(oss,0);
 			solution[0] = (it->second).cxxSolution2solution();
 			solution[0]->n_user = n;
 			solution[0]->n_user_end = n;
@@ -302,7 +345,6 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxExchange>::iterator it = this->Exchangers.find(n);
 		if ( it != this->Exchangers.end()) {
-			//(it->second).dump_raw(oss,0);
 			struct exchange *exchange_ptr = (it->second).cxxExchange2exchange();
 			exchange_copy(exchange_ptr, &exchange[0], n);
 			count_exchange++;
@@ -315,7 +357,6 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxGasPhase>::iterator it = this->GasPhases.find(n);
 		if ( it != this->GasPhases.end()) {
-			//(it->second).dump_raw(oss,0);
 			struct gas_phase *gas_phase_ptr = (it->second).cxxGasPhase2gas_phase();
 			gas_phase_copy(gas_phase_ptr, &gas_phase[0], n);
 			count_gas_phase++;
@@ -328,7 +369,6 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxKinetics>::iterator it = this->Kinetics.find(n);
 		if ( it != this->Kinetics.end()) {
-			//(it->second).dump_raw(oss,0);
 			struct kinetics *kinetics_ptr = (it->second).cxxKinetics2kinetics();
 			kinetics_copy(kinetics_ptr, &kinetics[0], n);
 			count_kinetics++;
@@ -341,7 +381,6 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxPPassemblage>::iterator it = this->PPassemblages.find(n);
 		if ( it != this->PPassemblages.end()) {
-			//(it->second).dump_raw(oss,0);
 			struct pp_assemblage *pp_assemblage_ptr = (it->second).cxxPPassemblage2pp_assemblage();
 			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[0], n);
 			count_pp_assemblage++;
@@ -354,7 +393,6 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxSSassemblage>::iterator it = this->SSassemblages.find(n);
 		if ( it != this->SSassemblages.end()) {
-			//(it->second).dump_raw(oss,0);
 			struct s_s_assemblage *s_s_assemblage_ptr = (it->second).cxxSSassemblage2s_s_assemblage();
 			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[0], n);
 			count_s_s_assemblage++;
@@ -367,8 +405,6 @@ void cxxStorageBin::cxxStorageBin2phreeqc(int n)
 	{
 		std::map <int, cxxSurface>::iterator it = this->Surfaces.find(n);
 		if ( it != this->Surfaces.end()) {
-			//(it->second).dump_raw(oss,0);
-
 			struct surface *surface_ptr = (it->second).cxxSurface2surface();
 			surface_copy(surface_ptr, &surface[0], n);
 			count_surface++;
