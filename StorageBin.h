@@ -129,6 +129,8 @@ public:
 
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
+        void dump_raw(std::ostream& s_oss, int i, unsigned int indent);
+
         void read_raw(CParser& parser);
 
 	void add(struct system *sys_ptr);

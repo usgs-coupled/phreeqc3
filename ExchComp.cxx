@@ -57,6 +57,7 @@ totals(exch_comp_ptr->totals)
 cxxExchComp::~cxxExchComp()
 {
 }
+#include <iostream>     // std::cout std::cerr
 
 struct master *cxxExchComp::get_master()
 {       
@@ -78,10 +79,33 @@ struct master *cxxExchComp::get_master()
                 break;
         }
         if (master_ptr == NULL) {
+		for (std::map <char *, double, CHARSTAR_LESS>::iterator it = this->formula_totals.begin(); it != formula_totals.end(); it++) {
+
+			/* Find master species */
+			char *eltName = it->first;
+			struct element *elt_ptr = element_store(eltName);
+			if (elt_ptr->master == NULL) {
+				std::ostringstream error_oss;
+				error_oss << "Master species not in data base for " << elt_ptr->name << std::endl;
+				//Utilities::error_msg(error_oss.str(), STOP);
+				error_msg(error_oss.str().c_str(), CONTINUE);
+				return(NULL);
+			}
+			if (elt_ptr->master->type != EX) continue;
+			master_ptr = elt_ptr->master;
+			break;
+		}
+        }
+        if (master_ptr == NULL) {
                 std::ostringstream error_oss;
                 error_oss << "Exchange formula does not contain an exchange master species, " << this->formula << std::endl;
                 //Utilities::error_msg(error_oss.str(), CONTINUE);
 		error_msg(error_oss.str().c_str(), CONTINUE);
+
+		std::ostringstream oss;
+		this->dump_raw(oss, 0);
+		std::cerr << oss.str();
+
         }
         return(master_ptr);
 }
