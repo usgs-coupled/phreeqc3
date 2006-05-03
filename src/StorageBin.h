@@ -36,7 +36,7 @@ public:
 
 	void remove(int n);
 
-	struct cxxSolution *getSolution(int n_user) { 
+	cxxSolution *getSolution(int n_user) { 
 		if (this->Solutions.find(n_user) != this->Solutions.end()) {
 			return(&(this->Solutions.find(n_user)->second));
 		} 
@@ -49,7 +49,7 @@ public:
 		Solutions.erase(n_user);
 	}
 
-	struct cxxExchange *getExchange(int n_user) { 
+	cxxExchange *getExchange(int n_user) { 
 		if (this->Exchangers.find(n_user) != this->Exchangers.end()) {
 			return(&(this->Exchangers.find(n_user)->second));
 		} 
@@ -62,7 +62,7 @@ public:
 		Exchangers.erase(n_user);
 	}
 
-	struct cxxPPassemblage *getPPassemblage(int n_user) { 
+	cxxPPassemblage *getPPassemblage(int n_user) { 
 		if (this->PPassemblages.find(n_user) != this->PPassemblages.end()) {
 			return(&(this->PPassemblages.find(n_user)->second));
 		} 
@@ -75,7 +75,7 @@ public:
 		PPassemblages.erase(n_user);
 	}
 
-	struct cxxGasPhase *getGasPhase(int n_user) { 
+	cxxGasPhase *getGasPhase(int n_user) { 
 		if (this->GasPhases.find(n_user) != this->GasPhases.end()) {
 			return(&(this->GasPhases.find(n_user)->second));
 		} 
@@ -88,7 +88,7 @@ public:
 		GasPhases.erase(n_user);
 	}
 
-	struct cxxSSassemblage *getSSassemblage(int n_user) { 
+	cxxSSassemblage *getSSassemblage(int n_user) { 
 		if (this->SSassemblages.find(n_user) != this->SSassemblages.end()) {
 			return(&(this->SSassemblages.find(n_user)->second));
 		} 
@@ -101,7 +101,7 @@ public:
 		SSassemblages.erase(n_user);
 	}
 
-	struct cxxKinetics *getKinetics(int n_user) { 
+	cxxKinetics *getKinetics(int n_user) { 
 		if (this->Kinetics.find(n_user) != this->Kinetics.end()) {
 			return(&(this->Kinetics.find(n_user)->second));
 		} 
@@ -114,7 +114,7 @@ public:
 		Kinetics.erase(n_user);
 	}
 
-	struct cxxSurface *getSurface(int n_user) { 
+	cxxSurface *getSurface(int n_user) { 
 		if (this->Surfaces.find(n_user) != this->Surfaces.end()) {
 			return(&(this->Surfaces.find(n_user)->second));
 		} 
