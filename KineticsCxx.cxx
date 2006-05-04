@@ -345,3 +345,48 @@ void cxxKinetics::read_raw(CParser& parser)
                 parser.error_msg("Use_cvode not defined for KINETICS_RAW input.", CParser::OT_CONTINUE);
         }
 }
+#ifdef USE_MPI
+void cxxKinetics::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+{
+	ints.push_back(this->n_user);
+	ints.push_back(this->kineticsComps.size());
+	for (std::list<cxxKineticsComp>::iterator it = this->kineticsComps.begin(); it != this->kineticsComps.end(); it++) {
+		it->mpi_pack(ints, doubles);
+	}
+	ints.push_back(this->steps.size());
+	for (std::vector<double>::iterator it = this->steps.begin(); it != this->steps.end(); it++) {
+		doubles.push_back(*it);
+	}
+	doubles.push_back(this->step_divide);
+	ints.push_back(this->rk);
+	ints.push_back(this->bad_step_max);
+	ints.push_back(this->use_cvode);
+}
+void cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+{
+	int i = *ii;
+	int d = *dd;
+	this->n_user = ints[i++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+
+	int n = ints[i++];
+	this->kineticsComps.clear();
+	for (int j = 0; j < n; j++) {
+		cxxKineticsComp kc;
+		kc.mpi_unpack(ints, &i, doubles, &d);
+		this->kineticsComps.push_back(kc);
+	}
+	n = ints[i++];
+	this->steps.clear();
+	for (int j = 0; j < n; j++) {
+		this->steps.push_back(doubles[d++]);
+	}
+	this->step_divide = doubles[d++];
+	this->rk = ints[i++];
+	this->bad_step_max = ints[i++];
+	this->use_cvode = (bool) ints[i++];
+	*ii = i;
+	*dd = d;
+}
+#endif

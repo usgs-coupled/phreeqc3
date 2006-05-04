@@ -13,11 +13,12 @@ public:
         cxxSolutionIsotope(struct isotope *isotope_ptr);
         ~cxxSolutionIsotope(void);
 
+	/*
         enum STATUS {
                 ERROR = 0,
                 OK    = 1
         };
-
+	*/
         //cxxSolutionIsotope::STATUS read(CParser& parser);
         static struct isotope * list2isotope(std::list<cxxSolutionIsotope> &t);
 

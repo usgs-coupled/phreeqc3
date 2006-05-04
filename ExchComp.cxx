@@ -4,7 +4,7 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
-
+#include <iostream>     // std::cout std::cerr
 #include "Utils.h"   // define first
 #include "ExchComp.h"
 #define EXTERNAL extern
@@ -57,7 +57,6 @@ totals(exch_comp_ptr->totals)
 cxxExchComp::~cxxExchComp()
 {
 }
-#include <iostream>     // std::cout std::cerr
 
 struct master *cxxExchComp::get_master()
 {       
@@ -383,3 +382,38 @@ void cxxExchComp::read_raw(CParser& parser)
                 parser.error_msg("Formula_z not defined for ExchComp input.", CParser::OT_CONTINUE);
         }
 }
+#ifdef USE_MPI
+#include "Dictionary.h"
+void cxxExchComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+{
+	extern cxxDictionary dictionary;
+	ints.push_back(dictionary.string2int(this->formula));
+	doubles.push_back(this->moles);
+	this->formula_totals.mpi_pack(ints, doubles);
+	this->totals.mpi_pack(ints, doubles);
+	doubles.push_back(this->la);
+        doubles.push_back(this->charge_balance);
+	ints.push_back(dictionary.string2int(this->phase_name));
+	doubles.push_back(this->phase_proportion);
+	ints.push_back(dictionary.string2int(this->rate_name));
+	doubles.push_back(this->formula_z);
+}
+void cxxExchComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+{
+	extern cxxDictionary dictionary;
+	int i = *ii;
+	int d = *dd;
+	this->formula = dictionary.int2char(ints[i++]);
+	this->moles = doubles[d++];
+	this->formula_totals.mpi_unpack(ints, &i, doubles, &d);
+	this->totals.mpi_unpack(ints, &i, doubles, &d);
+	this->la = doubles[d++];
+        this->charge_balance = doubles[d++];
+	this->phase_name = dictionary.int2char(ints[i++]);
+        this->phase_proportion = doubles[d++];
+	this->rate_name = dictionary.int2char(ints[i++]);
+        this->formula_z = doubles[d++];
+	*ii = i;
+	*dd = d;
+}
+#endif

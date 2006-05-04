@@ -36,7 +36,10 @@ public:
 
         void read_raw(CParser& parser);
 
-
+#ifdef USE_MPI
+	void cxxGasPhase::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void cxxGasPhase::mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
 protected:
         cxxNameDouble gasPhaseComps;
 	GP_TYPE type;

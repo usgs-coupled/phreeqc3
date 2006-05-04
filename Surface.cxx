@@ -7,7 +7,7 @@
 
 #include "Utils.h"   // define first
 #include "Surface.h"
-#include "SurfComp.h"
+#include "SurfaceComp.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -52,13 +52,13 @@ cxxNumKeyword()
         thickness                    = surface_ptr->thickness; 
         // Surface components
         for (i = 0; i < surface_ptr->count_comps; i++) {
-                cxxSurfComp ec(&(surface_ptr->comps[i]));
-                surfComps.push_back(ec);
+                cxxSurfaceComp ec(&(surface_ptr->comps[i]));
+                surfaceComps.push_back(ec);
         }
         // Surface charge
         for (i = 0; i < surface_ptr->count_charge; i++) {
-                cxxSurfCharge ec(&(surface_ptr->charge[i]));
-                surfCharges.push_back(ec);
+                cxxSurfaceCharge ec(&(surface_ptr->charge[i]));
+                surfaceCharges.push_back(ec);
         }
 }
 
@@ -68,7 +68,7 @@ cxxSurface::~cxxSurface()
 
 bool cxxSurface::get_related_phases()
 {       
-        for (std::list<cxxSurfComp>::const_iterator it = this->surfComps.begin(); it != this->surfComps.end(); ++it) {
+        for (std::list<cxxSurfaceComp>::const_iterator it = this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it) {
                 if (it->get_phase_name() == NULL) continue;
                 return(true);
         }
@@ -77,7 +77,7 @@ bool cxxSurface::get_related_phases()
 
 bool cxxSurface::get_related_rate()
 {       
-        for (std::list<cxxSurfComp>::const_iterator it = this->surfComps.begin(); it != this->surfComps.end(); ++it) {
+        for (std::list<cxxSurfaceComp>::const_iterator it = this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it) {
                 if (it->get_rate_name() == NULL) continue;
                 return(true);
         }
@@ -95,7 +95,7 @@ struct surface *cxxSurface::cxxSurface2surface()
         surface_ptr->n_user                      = this->n_user;             
         surface_ptr->n_user_end                  = this->n_user_end;         
         surface_ptr->new_def                     = FALSE;  
-                surface_ptr->diffuse_layer               = this->diffuse_layer;
+        surface_ptr->diffuse_layer               = this->diffuse_layer;
         surface_ptr->edl                         = this->edl;
         surface_ptr->only_counter_ions           = this->only_counter_ions;                
         surface_ptr->donnan                      = this->donnan;  
@@ -108,15 +108,19 @@ struct surface *cxxSurface::cxxSurface2surface()
         surface_ptr->transport                   = FALSE;
 
         // Surface comps
-        surface_ptr->count_comps = this->surfComps.size();
+        surface_ptr->count_comps = this->surfaceComps.size();
         surface_ptr->comps = (struct surface_comp *) free_check_null(surface_ptr->comps);
-        surface_ptr->comps = cxxSurfComp::cxxSurfComp2surface_comp(this->surfComps);
+        surface_ptr->comps = cxxSurfaceComp::cxxSurfaceComp2surface_comp(this->surfaceComps);
 
         // Surface charge
-        surface_ptr->count_charge = this->surfCharges.size();
-        surface_ptr->charge = (struct surface_charge *) free_check_null(surface_ptr->charge);
-        surface_ptr->charge = cxxSurfCharge::cxxSurfCharge2surface_charge(this->surfCharges);
-
+	surface_ptr->charge = (struct surface_charge *) free_check_null(surface_ptr->charge);
+	if (surface_ptr->edl == TRUE) {
+		surface_ptr->count_charge = this->surfaceCharges.size();
+		surface_ptr->charge = cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(this->surfaceCharges);
+	} else {
+		surface_ptr->count_charge = 0;
+	}
+		
         return(surface_ptr);
 }
 
@@ -153,14 +157,14 @@ void cxxSurface::dump_xml(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent1;
         s_oss << "<component " << std::endl;
         {
-        for (std::list<cxxSurfComp>::const_iterator it = this->surfComps.begin(); it != this->surfComps.end(); ++it) {
+        for (std::list<cxxSurfaceComp>::const_iterator it = this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it) {
                 it->dump_xml(s_oss, indent + 2);
         }
         }
         // surface charge structures
         s_oss << indent1;
         s_oss << "<charge_component " << std::endl;
-        for (std::list<cxxSurfCharge>::const_iterator it = surfCharges.begin(); it != surfCharges.end(); ++it) {
+        for (std::list<cxxSurfaceCharge>::const_iterator it = surfaceCharges.begin(); it != surfaceCharges.end(); ++it) {
                 it->dump_xml(s_oss, indent + 2);
         }
 
@@ -196,15 +200,15 @@ void cxxSurface::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent1;
         s_oss << "-thickness " << this->thickness << std::endl;
 
-        // surfComps structures
-        for (std::list<cxxSurfComp>::const_iterator it = surfComps.begin(); it != surfComps.end(); ++it) {
+        // surfaceComps structures
+        for (std::list<cxxSurfaceComp>::const_iterator it = surfaceComps.begin(); it != surfaceComps.end(); ++it) {
                 s_oss << indent1;
                 s_oss << "-component" << std::endl;
                 it->dump_raw(s_oss, indent + 2);
         }
         // surface charge structures
                 {
-        for (std::list<cxxSurfCharge>::const_iterator it = surfCharges.begin(); it != surfCharges.end(); ++it) {
+        for (std::list<cxxSurfaceCharge>::const_iterator it = surfaceCharges.begin(); it != surfaceCharges.end(); ++it) {
                 s_oss << indent1;
                 s_oss << "-charge_component " << std::endl;
                 it->dump_raw(s_oss, indent + 2);
@@ -323,18 +327,18 @@ void cxxSurface::read_raw(CParser& parser)
 
                 case 5: // component
                         {
-                                cxxSurfComp ec;
+                                cxxSurfaceComp ec;
                                 ec.read_raw(parser);
-                                this->surfComps.push_back(ec);
+                                this->surfaceComps.push_back(ec);
                         }
                         useLastLine = true;
                         break;
 
                 case 6: // charge_component
                         {
-                                cxxSurfCharge ec;
+                                cxxSurfaceCharge ec;
                                 ec.read_raw(parser);
-                                this->surfCharges.push_back(ec);
+                                this->surfaceCharges.push_back(ec);
                         }
                         useLastLine = true;
                         break;
@@ -364,3 +368,58 @@ void cxxSurface::read_raw(CParser& parser)
                 parser.error_msg("Thickness not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }
 }
+#ifdef USE_MPI
+/* ---------------------------------------------------------------------- */
+void cxxSurface::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+/* ---------------------------------------------------------------------- */
+{
+	/* int n_user; */
+	ints.push_back(this->n_user);
+	ints.push_back(this->surfaceComps.size());
+	for (std::list<cxxSurfaceComp>::iterator it = this->surfaceComps.begin(); it != this->surfaceComps.end(); it++) {
+		it->mpi_pack(ints, doubles);
+	}
+	ints.push_back(this->surfaceCharges.size());
+	for (std::list<cxxSurfaceCharge>::iterator it = this->surfaceCharges.begin(); it != this->surfaceCharges.end(); it++) {
+		it->mpi_pack(ints, doubles);
+	}
+	ints.push_back((int) this->diffuse_layer);
+	ints.push_back((int) this->edl);
+	ints.push_back((int) this->only_counter_ions);
+	ints.push_back((int) this->donnan);
+	doubles.push_back(this->thickness);
+}
+/* ---------------------------------------------------------------------- */
+void cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+/* ---------------------------------------------------------------------- */
+{
+	int i = *ii;
+	int d = *dd;
+	/* int n_user; */
+	this->n_user = ints[i++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+
+	int count = ints[i++];
+	this->surfaceComps.clear();
+	for (int n = 0; n < count; n++) {
+		cxxSurfaceComp sc;
+		sc.mpi_unpack(ints, &i, doubles, &d);
+		this->surfaceComps.push_back(sc);
+	}
+	count = ints[i++];
+	this->surfaceCharges.clear();
+	for (int n = 0; n < count; n++) {
+		cxxSurfaceCharge sc;
+		sc.mpi_unpack(ints, &i, doubles, &d);
+		this->surfaceCharges.push_back(sc);
+	}
+	this->diffuse_layer = (bool) ints[i++];
+	this->edl = (bool) ints[i++];
+	this->only_counter_ions = (bool) ints[i++];
+	this->donnan = (bool) ints[i++];
+	this->thickness = doubles[d++];
+	*ii = i;
+	*dd = d;
+}
+#endif

@@ -5,10 +5,12 @@
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
 
+#include <iostream>     // std::cout std::cerr
 #include "Utils.h"   // define first
 #include "NameDouble.h"
 #define EXTERNAL extern
 #include "global.h"
+#include "output.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include <cassert>     // assert
@@ -288,3 +290,56 @@ void cxxNameDouble::add(const cxxNameDouble &old, double factor)
         }
 
 }
+#ifdef USE_MPI
+#include "Dictionary.h"
+void cxxNameDouble::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles) {
+	extern cxxDictionary dictionary;
+	ints.push_back( (*this).size() );
+        for (const_iterator it = (*this).begin(); it != (*this).end(); it++) {
+		assert(it->first != NULL);
+		int n = dictionary.string2int(it->first);
+		ints.push_back(n);
+		doubles.push_back(it->second);
+        }
+}
+void cxxNameDouble::mpi_pack(int *ints, int *ii, double *doubles, int *dd)
+{
+	int i = *ii;
+	int d = *dd;
+	extern cxxDictionary dictionary;
+	//ints.push_back( (*this).size() );
+	ints[i++] = this->size();
+        for (const_iterator it = this->begin(); it != this->end(); it++) {
+		int n = dictionary.string2int(it->first);
+		if (n < 0) {
+			std::cerr << it->first << std::endl;
+			error_msg("Name in NameDouble was not defined in dictionary?\n", STOP);
+		}
+		//ints.push_back(n);
+		ints[i++] = n;
+		//doubles.push_back(it->second);
+		doubles[d++] = it->second;
+        }
+	*ii = i;
+	*dd = d;
+}
+void cxxNameDouble::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+{
+	int i = *ii;
+	int d = *dd;
+	extern cxxDictionary dictionary;
+	this->clear();
+	int count = ints[i++];
+	for (int j = 0; j < count; j++) {
+		int n = ints[i++];
+		assert(n >= 0);
+		std::string *str = dictionary.int2string(n);
+		if (str != NULL) {
+			char *cstr = string_hsave(str->c_str());
+			(*this)[cstr] = doubles[d++];
+		}
+        }
+	*ii = i;
+	*dd = d;
+}
+#endif

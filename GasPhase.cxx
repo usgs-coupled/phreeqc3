@@ -282,3 +282,36 @@ void cxxGasPhase::read_raw(CParser& parser)
                 parser.error_msg("Volume not defined for GAS_PHASE_RAW input.", CParser::OT_CONTINUE);
         }
 }
+#ifdef USE_MPI
+void cxxGasPhase::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+{
+	ints.push_back(this->n_user);
+	this->gasPhaseComps.mpi_pack(ints, doubles);
+	if (this->type == cxxGasPhase::GP_PRESSURE) {
+		ints.push_back(0);
+	} else {
+		ints.push_back(1);
+	}
+	doubles.push_back(this->total_p);
+        doubles.push_back(this->volume);
+}
+void cxxGasPhase::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+{
+	int i = *ii;
+	int d = *dd;
+	this->n_user = ints[i++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+	this->gasPhaseComps.mpi_unpack(ints, &i, doubles, &d);
+	int n = ints[i++];
+	if (n == 0) {
+		this->type = cxxGasPhase::GP_PRESSURE;
+	} else {
+		this->type = cxxGasPhase::GP_VOLUME;
+	}
+	this->total_p = doubles[d++];
+        this->volume = doubles[d++];
+	*ii = i;
+	*dd = d;
+}
+#endif

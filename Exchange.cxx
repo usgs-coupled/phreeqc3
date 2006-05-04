@@ -5,6 +5,7 @@
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
 
+#include <iostream>     // std::cout std::cerr
 #include "Utils.h"   // define first
 #include "Exchange.h"
 #include "ExchComp.h"
@@ -220,3 +221,41 @@ void cxxExchange::read_raw(CParser& parser)
                 parser.error_msg("Pitzer_exchange_gammsa not defined for EXCHANGE_RAW input.", CParser::OT_CONTINUE);
         }
 }
+#ifdef USE_MPI
+/* ---------------------------------------------------------------------- */
+void cxxExchange::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+/* ---------------------------------------------------------------------- */
+{
+	/* int n_user; */
+	ints.push_back(this->n_user);
+	
+	ints.push_back((int) this->pitzer_exchange_gammas);
+	ints.push_back(this->exchComps.size());
+	for (std::list<cxxExchComp>::iterator it = this->exchComps.begin(); it != this->exchComps.end(); it++) {
+		it->mpi_pack(ints, doubles);
+	}
+}
+/* ---------------------------------------------------------------------- */
+void cxxExchange::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+/* ---------------------------------------------------------------------- */
+{
+	int i = *ii;
+	int d = *dd;
+	/* int n_user; */
+	this->n_user = ints[i++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+
+	
+	this->pitzer_exchange_gammas = (bool) ints[i++];
+	int count = ints[i++];
+	this->exchComps.clear();
+	for (int n = 0; n < count; n++) {
+		cxxExchComp ec;
+		ec.mpi_unpack(ints, &i, doubles, &d);
+		this->exchComps.push_back(ec);
+	}
+	*ii = i;
+	*dd = d;
+}
+#endif

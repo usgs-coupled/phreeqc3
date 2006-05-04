@@ -28,6 +28,10 @@ public:
 
         void read_raw(CParser& parser);
 
+#ifdef USE_MPI
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+#endif
 protected:
         char * rate_name;
         cxxNameDouble namecoef;

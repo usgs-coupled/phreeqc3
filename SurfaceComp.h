@@ -1,5 +1,5 @@
-#if !defined(SURFCOMP_H_INCLUDED)
-#define SURFCOMP_H_INCLUDED
+#if !defined(SURFACECOMP_H_INCLUDED)
+#define SURFACECOMP_H_INCLUDED
 
 #include "NameDouble.h"
 #define EXTERNAL extern
@@ -12,27 +12,32 @@
 
 #include "char_star.h"
 
-class cxxSurfComp 
+class cxxSurfaceComp 
 {
 
 public:
 
-        cxxSurfComp();
-        cxxSurfComp(struct surface_comp *);
-        ~cxxSurfComp();
+        cxxSurfaceComp();
+        cxxSurfaceComp(struct surface_comp *);
+        ~cxxSurfaceComp();
 
 
         struct master *get_master();
         char *get_phase_name()const {return this->phase_name;}
         char *get_rate_name()const {return this->rate_name;}
 
-        static struct surface_comp *cxxSurfComp2surface_comp(std::list<cxxSurfComp>& el);
+        static struct surface_comp *cxxSurfaceComp2surface_comp(std::list<cxxSurfaceComp>& el);
 
         void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void read_raw(CParser& parser);
+
+#ifdef USE_MPI
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
 
 protected:
         char * formula;
@@ -49,4 +54,4 @@ public:
 
 };
 
-#endif // !defined(SURFCOMP_H_INCLUDED)
+#endif // !defined(SURFACECOMP_H_INCLUDED)

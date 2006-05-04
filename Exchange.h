@@ -35,6 +35,10 @@ public:
 
         bool get_related_rate(void);
 
+#ifdef USE_MPI
+	void cxxExchange::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void cxxExchange::mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
 protected:
         std::list<cxxExchComp> exchComps;
         bool pitzer_exchange_gammas;

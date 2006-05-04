@@ -1,4 +1,4 @@
-// SurfComp.cxx: implementation of the cxxSurfComp class.
+// SurfaceComp.cxx: implementation of the cxxSurfaceComp class.
 //
 //////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
@@ -6,7 +6,7 @@
 #endif
 
 #include "Utils.h"   // define first
-#include "SurfComp.h"
+#include "SurfaceComp.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -19,9 +19,9 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxSurfComp::cxxSurfComp()
+cxxSurfaceComp::cxxSurfaceComp()
         //
-        // default constructor for cxxSurfComp 
+        // default constructor for cxxSurfaceComp 
         //
 {
         formula                 = NULL;
@@ -35,9 +35,9 @@ cxxSurfComp::cxxSurfComp()
         rate_name               = NULL;
 }
 
-cxxSurfComp::cxxSurfComp(struct surface_comp *surf_comp_ptr)
+cxxSurfaceComp::cxxSurfaceComp(struct surface_comp *surf_comp_ptr)
         //
-        // constructor for cxxSurfComp from struct surface_comp
+        // constructor for cxxSurfaceComp from struct surface_comp
         //
 : 
 totals(surf_comp_ptr->totals)
@@ -52,11 +52,11 @@ totals(surf_comp_ptr->totals)
         rate_name                = surf_comp_ptr->rate_name;
 }
 
-cxxSurfComp::~cxxSurfComp()
+cxxSurfaceComp::~cxxSurfaceComp()
 {
 }
 
-struct master *cxxSurfComp::get_master()
+struct master *cxxSurfaceComp::get_master()
 {       
         struct master *master_ptr = NULL;
         //for (std::map <char *, double, CHARSTAR_LESS>::iterator it = totals.begin(); it != totals.end(); it++) {
@@ -84,16 +84,16 @@ struct master *cxxSurfComp::get_master()
         return(master_ptr);
 }
 
-struct surface_comp *cxxSurfComp::cxxSurfComp2surface_comp(std::list<cxxSurfComp>& el)
+struct surface_comp *cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::list<cxxSurfaceComp>& el)
         //
-        // Builds surface_comp structure from of cxxSurfComp 
+        // Builds surface_comp structure from of cxxSurfaceComp 
         //
 {
         struct surface_comp *surf_comp_ptr = (struct surface_comp *) PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_comp)));
         if (surf_comp_ptr == NULL) malloc_error();
 
         int i = 0;
-        for (std::list<cxxSurfComp>::iterator it = el.begin(); it != el.end(); ++it) {
+        for (std::list<cxxSurfaceComp>::iterator it = el.begin(); it != el.end(); ++it) {
                 surf_comp_ptr[i].formula                =  it->formula;
                 surf_comp_ptr[i].moles                  =  it->moles;
                 surf_comp_ptr[i].master                 =  it->get_master();
@@ -110,7 +110,7 @@ struct surface_comp *cxxSurfComp::cxxSurfComp2surface_comp(std::list<cxxSurfComp
         return(surf_comp_ptr);
 }
 
-void cxxSurfComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
+void cxxSurfaceComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
 {
         //const char    ERR_MESSAGE[] = "Packing surf_comp message: %s, element not found\n";
         unsigned int i;
@@ -142,7 +142,7 @@ void cxxSurfComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
 
 }
 
-void cxxSurfComp::dump_raw(std::ostream& s_oss, unsigned int indent)const
+void cxxSurfaceComp::dump_raw(std::ostream& s_oss, unsigned int indent)const
 {
         //const char    ERR_MESSAGE[] = "Packing surf_comp message: %s, element not found\n";
         unsigned int i;
@@ -174,7 +174,7 @@ void cxxSurfComp::dump_raw(std::ostream& s_oss, unsigned int indent)const
 
 }
 
-void cxxSurfComp::read_raw(CParser& parser)
+void cxxSurfaceComp::read_raw(CParser& parser)
 {
         std::string str;
         
@@ -312,7 +312,7 @@ void cxxSurfComp::read_raw(CParser& parser)
                 case 8: // totals
                         if ( this->totals.read_raw(parser, next_char) != CParser::PARSER_OK) {
                                 parser.incr_input_error();
-                                parser.error_msg("Expected element name and molality for SurfComp totals.", CParser::OT_CONTINUE);
+                                parser.error_msg("Expected element name and molality for SurfaceComp totals.", CParser::OT_CONTINUE);
                         }                               
                         opt_save = 8;
                         break;
@@ -323,22 +323,56 @@ void cxxSurfComp::read_raw(CParser& parser)
         // members that must be defined
         if (formula_defined == false) {
                 parser.incr_input_error();
-                parser.error_msg("Formula not defined for SurfComp input.", CParser::OT_CONTINUE);
+                parser.error_msg("Formula not defined for SurfaceComp input.", CParser::OT_CONTINUE);
         }
         if (moles_defined == false) {
                 parser.incr_input_error();
-                parser.error_msg("Moles not defined for SurfComp input.", CParser::OT_CONTINUE);
+                parser.error_msg("Moles not defined for SurfaceComp input.", CParser::OT_CONTINUE);
         }
         if (la_defined == false) {
                 parser.incr_input_error();
-                parser.error_msg("La not defined for SurfComp input.", CParser::OT_CONTINUE);
+                parser.error_msg("La not defined for SurfaceComp input.", CParser::OT_CONTINUE);
         }
         if (charge_number_defined == false) {
                 parser.incr_input_error();
-                parser.error_msg("Charge_number not defined for SurfComp input.", CParser::OT_CONTINUE);
+                parser.error_msg("Charge_number not defined for SurfaceComp input.", CParser::OT_CONTINUE);
         }
         if (charge_balance_defined == false) {
                 parser.incr_input_error();
-                parser.error_msg("Charge_balance not defined for SurfComp input.", CParser::OT_CONTINUE);
+                parser.error_msg("Charge_balance not defined for SurfaceComp input.", CParser::OT_CONTINUE);
         }
 }
+#ifdef USE_MPI
+#include "Dictionary.h"
+void cxxSurfaceComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+{
+	extern cxxDictionary dictionary;
+
+	ints.push_back(dictionary.string2int(this->formula));
+	doubles.push_back(this->moles);
+	this->totals.mpi_pack(ints, doubles);
+	doubles.push_back(this->la);
+	ints.push_back(charge_number);
+        doubles.push_back(this->charge_balance);
+	ints.push_back(dictionary.string2int(this->phase_name));
+	doubles.push_back(this->phase_proportion);
+	ints.push_back(dictionary.string2int(this->rate_name));
+}
+void cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+{
+	extern cxxDictionary dictionary;
+	int i = *ii;
+	int d = *dd;
+	this->formula = dictionary.int2char(ints[i++]);
+	this->moles = doubles[d++];
+	this->totals.mpi_unpack(ints, &i, doubles, &d);
+	this->la = doubles[d++];
+	this->charge_number = ints[i++];
+        this->charge_balance = doubles[d++];
+	this->phase_name = dictionary.int2char(ints[i++]);
+        this->phase_proportion = doubles[d++];
+	this->rate_name = dictionary.int2char(ints[i++]);
+	*ii = i;
+	*dd = d;
+}
+#endif

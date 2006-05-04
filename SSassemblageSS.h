@@ -42,21 +42,18 @@ public:
 
         void read_raw(CParser& parser);
 
+#ifdef USE_MPI
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
+
 protected:
         char *name;
-        //std::list<cxxSSassemblageSS> ppAssemblageSS;
 	cxxNameDouble comps;
-        //double total_moles;
-        //double dn;
         double a0, a1;
         double ag0, ag1;
-        //bool s_s_in;
         bool miscibility;
-        //bool spinodal;
-        //double tk;
 	double xb1, xb2;
-        //SS_PARAMETER_TYPE type;
-        //double p[4];
 
 public:
 

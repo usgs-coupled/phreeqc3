@@ -11,8 +11,8 @@
 #include <vector>  // std::vector
 
 #include "char_star.h"
-#include "SurfComp.h"
-#include "SurfCharge.h"
+#include "SurfaceComp.h"
+#include "SurfaceCharge.h"
 
 class cxxSurface : public cxxNumKeyword
 {
@@ -24,7 +24,7 @@ public:
 
         struct surface *cxxSurface2surface();
 
-        struct surf_comp *cxxSurfComp2surf_comp();
+        struct surf_comp *cxxSurfaceComp2surf_comp();
 
         void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
@@ -36,10 +36,14 @@ public:
 
         bool get_related_rate(void);
 
+#ifdef USE_MPI
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
 
 protected:
-        std::list<cxxSurfComp> surfComps;
-        std::list<cxxSurfCharge> surfCharges;
+        std::list<cxxSurfaceComp> surfaceComps;
+        std::list<cxxSurfaceCharge> surfaceCharges;
         bool diffuse_layer;
         bool edl;
         bool only_counter_ions;

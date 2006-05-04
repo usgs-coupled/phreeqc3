@@ -5,6 +5,8 @@
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
 
+#include <fstream>
+#include <iostream>     // std::cout std::cerr
 #include "Utils.h"   // define first
 #include "StorageBin.h"
 #include "Solution.h"
@@ -595,3 +597,221 @@ struct system *cxxStorageBin::cxxStorageBin2system(int n)
 	}
 	return system_ptr;
 }
+#ifdef USE_MPI
+#include <mpi.h>
+void cxxStorageBin::mpi_send(int n, int task_number)
+{
+        //
+        // Send data for system n to task_number
+        //
+	std::vector<int> ints;
+	std::vector<double> doubles;
+	
+	// Solution
+	if (this->getSolution(n) != NULL) {
+		ints.push_back(1);
+		this->getSolution(n)->mpi_pack(ints, doubles);
+	} else {
+		ints.push_back(0);
+	}
+	//std::cerr << "Packed Solution" << std::endl;
+
+	// Exchanger
+	if (this->getExchange(n) != NULL) {
+		ints.push_back(1);
+		this->getExchange(n)->mpi_pack(ints, doubles);
+	} else {
+		ints.push_back(0);
+	}
+	//std::cerr << "Packed Exchange" << std::endl;
+
+	// GasPhase
+	if (this->getGasPhase(n) != NULL) {
+		ints.push_back(1);
+		this->getGasPhase(n)->mpi_pack(ints, doubles);
+	} else {
+		ints.push_back(0);
+	}
+	//std::cerr << "Packed GasPhase" << std::endl;
+
+	// Kinetics
+	if (this->getKinetics(n) != NULL) {
+		ints.push_back(1);
+		this->getKinetics(n)->mpi_pack(ints, doubles);
+	} else {
+		ints.push_back(0);
+	}
+	//std::cerr << "Packed Kinetics" << std::endl;
+
+	// PPassemblages
+	if (this->getPPassemblage(n) != NULL) {
+		ints.push_back(1);
+		this->getPPassemblage(n)->mpi_pack(ints, doubles);
+	} else {
+		ints.push_back(0);
+	}
+	//std::cerr << "Packed PPassemblage" << std::endl;
+
+	// SSassemblages
+	if (this->getSSassemblage(n) != NULL) {
+		ints.push_back(1);
+		this->getSSassemblage(n)->mpi_pack(ints, doubles);
+	} else {
+		ints.push_back(0);
+	}
+	//std::cerr << "Packed SSassemblage" << std::endl;
+
+	// Surfaces
+	if (this->getSurface(n) != NULL) {
+		ints.push_back(1);
+		this->getSurface(n)->mpi_pack(ints, doubles);
+	} else {
+		ints.push_back(0);
+	}
+	//std::cerr << "Packed Surface" << std::endl;
+
+	// Pack data
+	int max_size = 0;
+	int member_size = 0;
+	MPI_Pack_size(ints.size(), MPI_INT, MPI_COMM_WORLD, &member_size);
+	max_size += member_size;
+	MPI_Pack_size(doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
+	max_size += member_size + 10;
+	void *buffer = PHRQ_malloc(max_size);
+	if (buffer == NULL) malloc_error();
+	
+	// Convert to arrays
+	int i = ints.size();
+	int int_array[i];
+	int d = doubles.size();
+	double double_array[d];
+	for (int j = 0; j < i; j++) {
+		int_array[j] = ints[j];
+		//std::cerr << "Sending ints " << j << " value " << ints[j] << std::endl;
+	}
+	for (int j = 0; j < d; j++) {
+		double_array[j] = doubles[j];
+		//std::cerr << "Sending doubles " << j << " value " << doubles[j] << std::endl;
+	}
+
+	/*
+	 *   Send message to processor
+	 */
+	int position = 0;
+	MPI_Send(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD);
+	MPI_Pack(&i, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&int_array, i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&d, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&double_array, d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Send(buffer, position, MPI_PACKED, task_number, 0, MPI_COMM_WORLD);
+
+	buffer = (void *) free_check_null(buffer);
+}
+/* ---------------------------------------------------------------------- */
+void cxxStorageBin::mpi_recv(int task_number)
+/* ---------------------------------------------------------------------- */
+{
+	MPI_Status mpi_status;
+/*
+ *   Malloc space for a buffer
+ */
+	int max_size;
+        // buffer size
+
+	MPI_Recv(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD, &mpi_status);
+	void *buffer = PHRQ_malloc(max_size);
+	if (buffer == NULL) malloc_error();
+	/*
+	 *   Recieve system
+	 */
+	MPI_Recv(buffer, max_size, MPI_PACKED, task_number, 0, MPI_COMM_WORLD, &mpi_status);
+ 	int position = 0;
+	int msg_size;
+ 	MPI_Get_count(&mpi_status, MPI_PACKED, &msg_size);
+
+	/* Unpack ints */
+	int count_ints;
+ 	MPI_Unpack(buffer, msg_size, &position, &count_ints, 1, MPI_INT, MPI_COMM_WORLD);
+	int ints[count_ints];
+ 	MPI_Unpack(buffer, msg_size, &position, ints, count_ints, MPI_INT, MPI_COMM_WORLD);
+
+	/* Unpack doubles */
+	int count_doubles;
+ 	MPI_Unpack(buffer, msg_size, &position, &count_doubles, 1, MPI_INT, MPI_COMM_WORLD);
+	double doubles[count_doubles];
+ 	MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles, MPI_DOUBLE, MPI_COMM_WORLD);
+	buffer = free_check_null(buffer);
+#ifdef SKIP
+	for (int j = 0; j < count_ints; j++) {
+		std::cerr << "Recving ints " << j << " value " << ints[j] << std::endl;
+	}
+	for (int j = 0; j < count_doubles; j++) {
+		std::cerr << "Recving doubles " << j << " value " << doubles[j] << std::endl;
+	}
+#endif
+	/*
+	 *   Make list of list of ints and doubles from solution structure
+	 *   This list is not the complete structure, but only enough
+	 *   for batch-reaction, advection, and transport calculations
+	 */
+	int i = 0;
+	int d = 0;
+
+	// Solution
+	if (ints[i++] != 0) {
+		cxxSolution entity;
+		entity.mpi_unpack(ints, &i, doubles, &d);
+		this->setSolution(entity.get_n_user(), &entity);
+	}
+	//std::cerr << "Unpacked Solution" << std::endl;
+	
+	// Exchanger
+	if (ints[i++] != 0) {
+		cxxExchange entity;
+		entity.mpi_unpack(ints, &i, doubles, &d);
+		this->setExchange(entity.get_n_user(), &entity);
+	}
+	//std::cerr << "Unpacked Exchange" << std::endl;
+
+	// GasPhase
+	if (ints[i++] != 0) {
+		cxxGasPhase entity;
+		entity.mpi_unpack(ints, &i, doubles, &d);
+		this->setGasPhase(entity.get_n_user(), &entity);
+	}
+	//std::cerr << "Unpacked GasPhase" << std::endl;
+
+	// Kinetics
+	if (ints[i++] != 0) {
+		cxxKinetics entity;
+		entity.mpi_unpack(ints, &i, doubles, &d);
+		this->setKinetics(entity.get_n_user(), &entity);
+	}
+	//std::cerr << "Unpacked Kinetics" << std::endl;
+
+	// PPassemblage
+	if (ints[i++] != 0) {
+		cxxPPassemblage entity;
+		entity.mpi_unpack(ints, &i, doubles, &d);
+		this->setPPassemblage(entity.get_n_user(), &entity);
+	}
+	//std::cerr << "Unpacked PPassemblage" << std::endl;
+
+	// SSassemblage
+	if (ints[i++] != 0) {
+		cxxSSassemblage entity;
+		entity.mpi_unpack(ints, &i, doubles, &d);
+		this->setSSassemblage(entity.get_n_user(), &entity);
+	}
+	//std::cerr << "Unpacked SSassemblage" << std::endl;
+
+	// Surfaces
+	if (ints[i++] != 0) {
+		cxxSurface entity;
+		entity.mpi_unpack(ints, &i, doubles, &d);
+		this->setSurface(entity.get_n_user(), &entity);
+	}
+	//std::cerr << "Unpacked Surface" << std::endl;
+
+}
+#endif

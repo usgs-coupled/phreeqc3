@@ -1,5 +1,5 @@
-#if !defined(SURFCHARGE_H_INCLUDED)
-#define SURFCHARGE_H_INCLUDED
+#if !defined(SURFACECHARGE_H_INCLUDED)
+#define SURFACECHARGE_H_INCLUDED
 
 #include "NameDouble.h"
 #define EXTERNAL extern
@@ -12,25 +12,30 @@
 
 #include "char_star.h"
 
-class cxxSurfCharge 
+class cxxSurfaceCharge 
 {
 
 public:
 
-        cxxSurfCharge();
-        cxxSurfCharge(struct surface_charge *);
-        ~cxxSurfCharge();
+        cxxSurfaceCharge();
+        cxxSurfaceCharge(struct surface_charge *);
+        ~cxxSurfaceCharge();
 
 
         struct master *get_psi_master();
 
-        static struct surface_charge *cxxSurfCharge2surface_charge(std::list<cxxSurfCharge>& el);
+        static struct surface_charge *cxxSurfaceCharge2surface_charge(std::list<cxxSurfaceCharge>& el);
 
         void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void read_raw(CParser& parser);
+
+#ifdef USE_MPI
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
 
 protected:
         char * name;
@@ -47,4 +52,4 @@ public:
 
 };
 
-#endif // !defined(SURFCHARGE_H_INCLUDED)
+#endif // !defined(SURFACECHARGE_H_INCLUDED)
