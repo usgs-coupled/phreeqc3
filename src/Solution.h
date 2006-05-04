@@ -85,6 +85,12 @@ public:
 
         void add(const cxxSolution &sol, double intensive, double extensive);
 
+#ifdef USE_MPI
+        void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+        void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+        void mpi_send(int task_number);
+        void mpi_recv(int task_number);
+#endif
 protected:
         double tc;
         double ph;

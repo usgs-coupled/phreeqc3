@@ -189,3 +189,39 @@ void cxxPPassemblage::read_raw(CParser& parser)
         }
         // members that must be defined
 }
+#ifdef USE_MPI
+/* ---------------------------------------------------------------------- */
+void cxxPPassemblage::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+/* ---------------------------------------------------------------------- */
+{
+	/* int n_user; */
+	ints.push_back(this->n_user);
+	ints.push_back(this->ppAssemblageComps.size());
+	for (std::list<cxxPPassemblageComp>::iterator it = this->ppAssemblageComps.begin(); it != this->ppAssemblageComps.end(); it++) {
+		it->mpi_pack(ints, doubles);
+	}
+	this->eltList.mpi_pack(ints, doubles);
+}
+/* ---------------------------------------------------------------------- */
+void cxxPPassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+/* ---------------------------------------------------------------------- */
+{
+	int i = *ii;
+	int d = *dd;
+	/* int n_user; */
+	this->n_user = ints[i++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+
+	int count = ints[i++];
+	this->ppAssemblageComps.clear();
+	for (int n = 0; n < count; n++) {
+		cxxPPassemblageComp ppc;
+		ppc.mpi_unpack(ints, &i, doubles, &d);
+		this->ppAssemblageComps.push_back(ppc);
+	}
+	this->eltList.mpi_unpack(ints, &i, doubles, &d);
+	*ii = i;
+	*dd = d;
+}
+#endif

@@ -169,3 +169,37 @@ void cxxSSassemblage::read_raw(CParser& parser)
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
 }
+#ifdef USE_MPI
+/* ---------------------------------------------------------------------- */
+void cxxSSassemblage::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+/* ---------------------------------------------------------------------- */
+{
+	/* int n_user; */
+	ints.push_back(this->n_user);
+	ints.push_back(this->ssAssemblageSSs.size());
+	for (std::list<cxxSSassemblageSS>::iterator it = this->ssAssemblageSSs.begin(); it != this->ssAssemblageSSs.end(); it++) {
+		it->mpi_pack(ints, doubles);
+	}
+}
+/* ---------------------------------------------------------------------- */
+void cxxSSassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+/* ---------------------------------------------------------------------- */
+{
+	int i = *ii;
+	int d = *dd;
+	/* int n_user; */
+	this->n_user = ints[i++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+
+	int count = ints[i++];
+	this->ssAssemblageSSs.clear();
+	for (int n = 0; n < count; n++) {
+		cxxSSassemblageSS ssc;
+		ssc.mpi_unpack(ints, &i, doubles, &d);
+		this->ssAssemblageSSs.push_back(ssc);
+	}
+	*ii = i;
+	*dd = d;
+}
+#endif

@@ -30,7 +30,10 @@ public:
         void read_raw(CParser& parser);
 
         struct phase *get_phase();
-
+#ifdef USE_MPI
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
 protected:
         char * name;
         char *add_formula;

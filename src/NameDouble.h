@@ -2,13 +2,13 @@
 #define NAMEDOUBLE_H_INCLUDED
 
 #define EXTERNAL extern
-#include "global.h"
 #include <cassert> // assert
 #include <map>     // std::map
 #include <string>  // std::string
 #include <list>    // std::list
 #include <vector>  // std::vector
 
+#include "global.h"
 #include "char_star.h"
 #include "Parser.h"
 class cxxNameDouble : public std::map <char *, double, CHARSTAR_LESS> 
@@ -45,6 +45,11 @@ public:
         CParser::STATUS_TYPE read_raw(CParser& parser, std::istream::pos_type& pos);
 
         void add(const cxxNameDouble &old, double factor);
+
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_pack(int *ints, int *ii, double *doubles, int *dd);
+
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 
         enum ND_TYPE type;
 	

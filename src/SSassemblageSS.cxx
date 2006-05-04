@@ -441,3 +441,36 @@ void cxxSSassemblageSS::read_raw(CParser& parser)
         }
 }
 
+#ifdef USE_MPI
+#include "Dictionary.h"
+void cxxSSassemblageSS::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+{
+	extern cxxDictionary dictionary;
+	ints.push_back(dictionary.string2int(this->name));
+	this->comps.mpi_pack(ints, doubles);
+	doubles.push_back(this->a0);
+	doubles.push_back(this->a1);
+	doubles.push_back(this->ag0);
+	doubles.push_back(this->ag1);
+	ints.push_back((int) this->miscibility);
+	doubles.push_back(this->xb1);
+	doubles.push_back(this->xb2);
+}
+void cxxSSassemblageSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+{
+	extern cxxDictionary dictionary;
+	int i = *ii;
+	int d = *dd;
+	this->name = dictionary.int2char(ints[i++]);
+	this->comps.mpi_unpack(ints, &i, doubles, &d);
+	this->a0 = doubles[d++];
+	this->a1 = doubles[d++];
+	this->ag0 = doubles[d++];
+	this->ag1 = doubles[d++];
+	this->miscibility = (bool) ints[i++];
+	this->xb1 = doubles[d++];
+	this->xb2 = doubles[d++];
+	*ii = i;
+	*dd = d;
+}
+#endif
