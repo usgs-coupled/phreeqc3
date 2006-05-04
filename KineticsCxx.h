@@ -35,6 +35,11 @@ public:
 
         bool get_related_rate(void);
 
+#ifdef USE_MPI
+	void cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void cxxKinetics::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+#endif
+
 protected:
         std::list<cxxKineticsComp> kineticsComps;
         std::vector<double> steps;

@@ -276,3 +276,33 @@ void cxxPPassemblageComp::read_raw(CParser& parser)
         }
 }
 
+#ifdef USE_MPI
+#include "Dictionary.h"
+void cxxPPassemblageComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+{
+	extern cxxDictionary dictionary;
+
+	ints.push_back(dictionary.string2int(this->name));
+	ints.push_back(dictionary.string2int(this->add_formula));
+	doubles.push_back(this->si);
+	doubles.push_back(this->moles);
+	doubles.push_back(this->delta);
+	doubles.push_back(this->initial_moles);
+	ints.push_back((int) this->dissolve_only);
+}
+void cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+{
+	extern cxxDictionary dictionary;
+	int i = *ii;
+	int d = *dd;
+	this->name = dictionary.int2char(ints[i++]);
+	this->add_formula = dictionary.int2char(ints[i++]);
+	this->si = doubles[d++];
+	this->moles = doubles[d++];
+	this->delta = doubles[d++];
+	this->initial_moles = doubles[d++];
+	this->dissolve_only = (bool) ints[i++];
+	*ii = i;
+	*dd = d;
+}
+#endif

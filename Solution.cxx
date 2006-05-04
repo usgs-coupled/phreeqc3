@@ -11,6 +11,7 @@
 #include "global.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
+#include "output.h"
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 
@@ -746,7 +747,258 @@ double cxxSolution::get_master_activity(char *string)const
 		return(it->second);
 	}
 }
+#ifdef USE_MPI
+#include <mpi.h>
+/* ---------------------------------------------------------------------- */
+void cxxSolution::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Make list of list of ints and doubles from solution structure
+ *   This list is not the complete structure, but only enough
+ *   for batch-reaction, advection, and transport calculations
+ */
+	ints.push_back(this->n_user);
+	doubles.push_back(this->tc);
+	doubles.push_back(this->ph);
+	doubles.push_back(this->pe);
+	doubles.push_back(this->mu);
+	doubles.push_back(this->ah2o);
+	doubles.push_back(this->total_h);
+	doubles.push_back(this->total_o);
+	doubles.push_back(this->cb);
+	doubles.push_back(this->mass_water);
+	doubles.push_back(this->total_alkalinity);
+/*
+ *	struct conc *totals;
+*/
+	this->totals.mpi_pack(ints, doubles);
+/*
+ *	struct master_activity *master_activity;
+ */
+	this->master_activity.mpi_pack(ints, doubles);
+/*
+ *	struct master_activity *species_gamma
+ */
+	this->species_gamma.mpi_pack(ints, doubles);
 
+	/*
+	position = 0;
+	int i = ints.size();
+	int int_array[i];
+	int d = doubles.size();
+	double double_array[d];
+	for (int j = 0; j < i; j++) {
+		int_array[j] = ints[j];
+	}
+	for (int j = 0; j < d; j++) {
+		double_array[j] = ints[j];
+	}
+	MPI_Send(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD);
+	MPI_Pack(&i, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&int_array, i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&d, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&double_array, d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Send(buffer, position, MPI_PACKED, task_number, 0, MPI_COMM_WORLD);
+
+	buffer = (void *) free_check_null(buffer);
+	*/
+}
+/* ---------------------------------------------------------------------- */
+void cxxSolution::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+/* ---------------------------------------------------------------------- */
+{
+	int i = *ii;
+	int d = *dd;
+	this->n_user = ints[i++];
+	this->n_user_end = this->n_user;
+	this->description = "  ";
+	this->tc = doubles[d++];
+	this->ph = doubles[d++];
+	this->pe = doubles[d++];
+	this->mu = doubles[d++];
+	this->ah2o = doubles[d++];
+	this->total_h = doubles[d++];
+	this->total_o = doubles[d++];
+	this->cb = doubles[d++];
+	this->mass_water = doubles[d++];
+	this->total_alkalinity = doubles[d++];
+/*
+ *	struct conc *totals;
+*/
+	this->totals.mpi_unpack(ints, &i, doubles, &d);
+/*
+ *	struct master_activity *master_activity;
+ */
+	this->master_activity.mpi_unpack(ints, &i, doubles, &d);
+/*
+ *	struct master_activity *species_gamma;
+ */
+	this->species_gamma.mpi_unpack(ints, &i, doubles, &d);
+
+	*ii = i;
+	*dd = d;
+}
+/* ---------------------------------------------------------------------- */
+void cxxSolution::mpi_send(int task_number)
+/* ---------------------------------------------------------------------- */
+{
+	//int count_totals, count_totals_position, count_activity, count_activity_position;
+	int max_size, member_size, position;
+	//int ints[MESSAGE_MAX_NUMBERS];
+	//double doubles[MESSAGE_MAX_NUMBERS];
+	void *buffer;
+	std::vector<int> ints;
+	std::vector<double> doubles;
+/*
+ *   Make list of list of ints and doubles from solution structure
+ *   This list is not the complete structure, but only enough
+ *   for batch-reaction, advection, and transport calculations
+ */
+	ints.push_back(this->n_user);
+	/*	int n_user_end; */
+	/*	char *description; */
+	doubles.push_back(this->tc);
+	doubles.push_back(this->ph);
+	doubles.push_back(this->pe);
+	doubles.push_back(this->mu);
+	doubles.push_back(this->ah2o);
+	doubles.push_back(this->total_h);
+	doubles.push_back(this->total_o);
+	doubles.push_back(this->cb);
+	doubles.push_back(this->mass_water);
+	doubles.push_back(this->total_alkalinity);
+/*
+ *	struct conc *totals;
+*/
+	this->totals.mpi_pack(ints, doubles);
+/*
+ *	struct master_activity *master_activity;
+ */
+	this->master_activity.mpi_pack(ints, doubles);
+/*
+ *	struct master_activity *species_gamma
+ */
+	this->species_gamma.mpi_pack(ints, doubles);
+
+	/*	int count_isotopes; */
+	/*	struct isotope *isotopes; */
+	if (input_error > 0) {
+		std::string errstr("Stopping due to errors\n");
+		error_msg(errstr.c_str(), STOP);
+	}
+/*
+ *   Malloc space for a buffer
+ */
+	max_size = 0;
+	//MPI_Pack_size(MESSAGE_MAX_NUMBERS, MPI_INT, MPI_COMM_WORLD, &member_size);
+	MPI_Pack_size(ints.size(), MPI_INT, MPI_COMM_WORLD, &member_size);
+	max_size += member_size;
+	//MPI_Pack_size(MESSAGE_MAX_NUMBERS, MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
+	MPI_Pack_size(doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
+	max_size += member_size + 10;
+	buffer = PHRQ_malloc(max_size);
+	if (buffer == NULL) malloc_error();
+/*
+ *   Send message to processor
+ */
+	position = 0;
+	int i = ints.size();
+	int int_array[i];
+	int d = doubles.size();
+	double double_array[d];
+	for (int j = 0; j < i; j++) {
+		int_array[j] = ints[j];
+	}
+	for (int j = 0; j < d; j++) {
+		double_array[j] = doubles[j];
+	}
+
+	MPI_Send(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD);
+	MPI_Pack(&i, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&int_array, i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&d, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&double_array, d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Send(buffer, position, MPI_PACKED, task_number, 0, MPI_COMM_WORLD);
+
+	buffer = (void *) free_check_null(buffer);
+}
+/* ---------------------------------------------------------------------- */
+void cxxSolution::mpi_recv(int task_number)
+/* ---------------------------------------------------------------------- */
+{
+	MPI_Status mpi_status;
+/*
+ *   Malloc space for a buffer
+ */
+	int max_size;
+        // buffer size
+
+	MPI_Recv(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD, &mpi_status);
+	void *buffer = PHRQ_malloc(max_size);
+	if (buffer == NULL) malloc_error();
+	/*
+	 *   Recieve solution
+	 */
+	MPI_Recv(buffer, max_size, MPI_PACKED, task_number, 0, MPI_COMM_WORLD, &mpi_status);
+ 	int position = 0;
+	int msg_size;
+ 	MPI_Get_count(&mpi_status, MPI_PACKED, &msg_size);
+
+	/* Unpack ints */
+	int count_ints;
+ 	MPI_Unpack(buffer, msg_size, &position, &count_ints, 1, MPI_INT, MPI_COMM_WORLD);
+	int ints[count_ints];
+ 	MPI_Unpack(buffer, msg_size, &position, ints, count_ints, MPI_INT, MPI_COMM_WORLD);
+
+	/* Unpack doubles */
+	int count_doubles;
+ 	MPI_Unpack(buffer, msg_size, &position, &count_doubles, 1, MPI_INT, MPI_COMM_WORLD);
+	double doubles[count_doubles];
+ 	MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles, MPI_DOUBLE, MPI_COMM_WORLD);
+	buffer = free_check_null(buffer);
+/*
+ *   Make list of list of ints and doubles from solution structure
+ *   This list is not the complete structure, but only enough
+ *   for batch-reaction, advection, and transport calculations
+ */
+	int i = 0;
+	int d = 0;
+	/*	int new_def; */
+	/* solution_ptr->new_def = FALSE; */
+	/*	int n_user; */
+	this->n_user = ints[i++];
+	/*	int n_user_end; */
+	this->n_user_end = this->n_user;
+
+	/*debugging*/
+	//this->description = (char *) free_check_null(this->description);
+	//this->description = string_duplicate(" ");
+	this->description = " ";
+	this->tc = doubles[d++];
+	this->ph = doubles[d++];
+	this->pe = doubles[d++];
+	this->mu = doubles[d++];
+	this->ah2o = doubles[d++];
+	this->total_h = doubles[d++];
+	this->total_o = doubles[d++];
+	this->cb = doubles[d++];
+	this->mass_water = doubles[d++];
+	this->total_alkalinity = 0;
+/*
+ *	struct conc *totals;
+*/
+	this->totals.mpi_unpack(ints, &i, doubles, &d);
+/*
+ *	struct master_activity *master_activity;
+ */
+	this->master_activity.mpi_unpack(ints, &i, doubles, &d);
+/*
+ *	struct master_activity *species_gamma;
+ */
+	this->species_gamma.mpi_unpack(ints, &i, doubles, &d);
+}
+#endif
 void cxxSolution::set_master_activity(char *string, double d)
 {
 	this->master_activity[string] = d;

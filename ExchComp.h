@@ -22,6 +22,7 @@ public:
 
 
         struct master *get_master();
+        char *get_formula()const {return this->formula;}
         char *get_phase_name()const {return this->phase_name;}
         char *get_rate_name()const {return this->rate_name;}
 
@@ -33,6 +34,10 @@ public:
 
         void read_raw(CParser& parser);
 
+#ifdef USE_MPI
+	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+#endif
 protected:
         char * formula;
         double moles;

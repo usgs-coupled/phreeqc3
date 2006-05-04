@@ -139,6 +139,11 @@ public:
 
 	cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 
+#ifdef USE_MPI
+	void mpi_send(int n, int task_number);
+	void mpi_recv(int task_number);
+#endif
+
 protected:
 	// Tidied classes
 	std::map<int, cxxSolution>      Solutions;
