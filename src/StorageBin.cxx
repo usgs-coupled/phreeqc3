@@ -682,9 +682,10 @@ void cxxStorageBin::mpi_send(int n, int task_number)
 	
 	// Convert to arrays
 	int i = ints.size();
-	int int_array[i];
+	//int int_array[i];
 	int d = doubles.size();
-	double double_array[d];
+	//double double_array[d];
+	/*
 	for (int j = 0; j < i; j++) {
 		int_array[j] = ints[j];
 		//std::cerr << "Sending ints " << j << " value " << ints[j] << std::endl;
@@ -693,16 +694,18 @@ void cxxStorageBin::mpi_send(int n, int task_number)
 		double_array[j] = doubles[j];
 		//std::cerr << "Sending doubles " << j << " value " << doubles[j] << std::endl;
 	}
-
+	*/
 	/*
 	 *   Send message to processor
 	 */
 	int position = 0;
 	MPI_Send(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD);
 	MPI_Pack(&i, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
-	MPI_Pack(&int_array, i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	//MPI_Pack(&int_array, i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&(ints.front()), i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
 	MPI_Pack(&d, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
-	MPI_Pack(&double_array, d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
+	//MPI_Pack(&double_array, d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
+	MPI_Pack(&(doubles.front()), d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
 	MPI_Send(buffer, position, MPI_PACKED, task_number, 0, MPI_COMM_WORLD);
 
 	buffer = (void *) free_check_null(buffer);
