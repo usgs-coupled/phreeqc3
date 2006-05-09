@@ -4,7 +4,7 @@
 #include "NumKeyword.h"
 #include "SolutionIsotopeList.h"
 #include "NameDouble.h"
-#include "Mix.h"
+#include "cxxMix.h"
 
 #define EXTERNAL extern
 #include "global.h"
