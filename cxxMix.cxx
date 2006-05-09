@@ -6,7 +6,7 @@
 #endif
 
 #include "Utils.h"   // define first
-#include "Mix.h"
+#include "cxxMix.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"

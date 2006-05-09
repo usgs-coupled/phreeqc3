@@ -6,11 +6,11 @@
 #include "Exchange.h"
 #include "Surface.h"
 #include "PPassemblage.h"
-#include "KineticsCxx.h"
+#include "cxxKinetics.h"
 #include "SSassemblage.h"
 #include "GasPhase.h"
 #include "Reaction.h"
-#include "Mix.h"
+#include "cxxMix.h"
 #include "Temperature.h"
 #define EXTERNAL extern
 #include "global.h"
