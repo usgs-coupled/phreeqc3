@@ -1,5 +1,5 @@
-#if !defined(KINETICS_H_INCLUDED)
-#define KINETICS_H_INCLUDED
+#if !defined(CXXKINETICS_H_INCLUDED)
+#define CXXKINETICS_H_INCLUDED
 
 #include "NumKeyword.h"
 #define EXTERNAL extern
@@ -53,4 +53,4 @@ public:
 
 };
 
-#endif // !defined(KINETICS_H_INCLUDED)
+#endif // !defined(CXXKINETICS_H_INCLUDED)

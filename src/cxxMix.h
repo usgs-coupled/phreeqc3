@@ -1,5 +1,5 @@
-#if !defined(MIX_H_INCLUDED)
-#define MIX_H_INCLUDED
+#if !defined(CXXMIX_H_INCLUDED)
+#define CXXMIX_H_INCLUDED
 
 #include "NumKeyword.h"
 #define EXTERNAL extern
@@ -43,4 +43,4 @@ public:
 
 };
 
-#endif // !defined(MIX_H_INCLUDED)
+#endif // !defined(CXXMIX_H_INCLUDED)

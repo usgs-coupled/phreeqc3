@@ -6,11 +6,11 @@
 #include "Solution.h"
 #include "Exchange.h"
 #include "GasPhase.h"
-#include "KineticsCxx.h"
+#include "cxxKinetics.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "Surface.h"
-#include "Mix.h"
+#include "cxxMix.h"
 #include "Reaction.h"
 #include "Temperature.h"
 

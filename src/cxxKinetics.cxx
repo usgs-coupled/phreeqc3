@@ -6,7 +6,7 @@
 #endif
 
 #include "Utils.h"   // define first
-#include "KineticsCxx.h"
+#include "cxxKinetics.h"
 #include "KineticsComp.h"
 #define EXTERNAL extern
 #include "global.h"
