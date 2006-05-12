@@ -138,6 +138,7 @@ public:
 	struct system *cxxStorageBin2system(int i);
 
 	cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
+	cxxExchange *mix_cxxExchange(cxxMix &mixmap);
 
 #ifdef USE_MPI
 	void mpi_send(int n, int task_number);

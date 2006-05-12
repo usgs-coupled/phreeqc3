@@ -18,6 +18,7 @@ class cxxExchComp
 public:
         cxxExchComp();
         cxxExchComp(struct exch_comp *);
+	cxxExchComp(std::vector<cxxExchComp> &ec_vector, std::vector<double> &f_vector);
         ~cxxExchComp();
 
 
