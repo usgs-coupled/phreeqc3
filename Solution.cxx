@@ -1003,6 +1003,50 @@ void cxxSolution::set_master_activity(char *string, double d)
 {
 	this->master_activity[string] = d;
 }
+#ifdef SKIP
+#include "../hst.h"
+/* ---------------------------------------------------------------------- */
+void cxxSolution::xsolution_save(int n)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Save solution composition into Solution class
+ *
+ *   input:  n is pointer number in solution
+ */
+        this->set_description(" ");
+        this->n_user      = n;
+        this->n_user_end  = n;
+        this->tc          = tc_x;
+        this->ph          = ph_x;
+        this->pe          = solution_pe_x;
+        this->mu          = mu_x;
+        this->ah2o        = ah2o_x;
+        this->total_h     = total_h_x;
+        this->total_o     = total_o_x;
+        this->cb          = cb_x;
+        this->mass_water  = mass_water_aq_x;
+        this->total_alkalinity = total_alkalinity;
+/*
+ *   Copy totals data
+ */
+	for (int j = 2; j < count_total; j++) {
+		this->totals.insert(buffer[j].master->elt->name, buffer[j].master->total_primary);
+	}
+
+	for (int j = 0; j < count_activity_list; j++) {
+		this->master_activity.insert(activity_list[j].master->elt->name, activity_list[j].master->s->la);
+	}
+	if (pitzer_model == TRUE) {
+		for (int j= 0; j < count_s; j++) {
+			if (s[j]->lg != 0.0) {
+				this->species_gamma.insert(s[j]->name, s[j]->lg);
+			}
+		}
+	} 
+}
+#endif
+
 
 #include "ISolution.h"
 #include "Exchange.h"

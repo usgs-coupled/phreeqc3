@@ -46,6 +46,10 @@ public:
 
         void add(const cxxNameDouble &old, double factor);
 
+        void insert(char *str, double d) {
+		(*this)[str] = d;
+	}
+
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_pack(int *ints, int *ii, double *doubles, int *dd);
 
