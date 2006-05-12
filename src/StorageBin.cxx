@@ -321,7 +321,6 @@ void cxxStorageBin::add(struct system * system_ptr)
 	}
 }
 
-//#include <iostream>     // std::cout std::cerr
 void cxxStorageBin::cxxStorageBin2phreeqc(int n)
         //
         // copy data fromphreeqc storage to storage bin
@@ -818,3 +817,85 @@ void cxxStorageBin::mpi_recv(int task_number)
 
 }
 #endif
+
+cxxExchange *cxxStorageBin::mix_cxxExchange(cxxMix &mixmap)
+
+{
+/*
+ *   mixes exchangers based on cxxMix structure, returns new exchanger
+ *   return exchanger must be freed by calling method
+ */
+	cxxExchange *new_exch_ptr, *old_exch_ptr;
+/*
+ *   Zero out global solution data
+ */
+	new_exch_ptr = new cxxExchange();
+	
+	std::map<int, double>::const_iterator it_mix;
+	std::map<int, double> *mixcomps = mixmap.comps();
+/*
+ *   Make list of ExchComps
+ */	
+	std::vector<cxxExchComp> ec_vector;
+	std::vector<double> f_vector;
+	//
+	// make list of all exchange components and their mix fractions
+	//
+	for (it_mix = mixcomps->begin(); it_mix != mixcomps->end(); it_mix++) {
+		old_exch_ptr = &((this->Exchangers.find(it_mix->first))->second);
+		if (old_exch_ptr == NULL) {
+			sprintf(error_string, "Exchange %d not found in mix_cxxExchange.", it_mix->first);
+			error_msg(error_string, CONTINUE);
+			input_error++;
+			return(NULL);
+		} 
+		//  Add exchange components to vector ec_vector
+		std::list<cxxExchComp>::const_iterator it_ec;
+		std::list<cxxExchComp> &eclist = old_exch_ptr->get_exchComps();
+		for (it_ec = eclist.begin(); it_ec != eclist.end(); it_ec++) {
+			f_vector.push_back(it_mix->second);
+			//cxxExchComp ec = *it_ec;
+			//ec_vector.push_back(ec);
+			ec_vector.push_back(*it_ec);
+		}
+	} 
+	//
+	// Process list to make mixture
+	//
+	char *current_formula = ec_vector.begin()->get_formula();
+	while (current_formula != NULL) {
+		
+		std::vector<cxxExchComp> ec_subvector;
+		std::vector<double> f_subvector;
+		std::vector<cxxExchComp>::iterator it_ec = ec_vector.begin();
+		std::vector<double>::iterator it_f = f_vector.begin();
+		current_formula = NULL;
+		for ( ; it_ec != ec_vector.end(); it_ec++) {
+			if (*it_f != 0) {
+				if (current_formula == NULL) current_formula = it_ec->get_formula();
+				if (it_ec->get_formula() == current_formula) {
+					ec_subvector.push_back(*it_ec);
+					f_subvector.push_back(*it_f);
+					*it_f = 0;
+					//ec_vector.erase(it_ec);
+					//f_vector.erase(it_f);
+				}
+			}
+			it_f++;
+		}
+		//
+		//  mix ec_subvector to make
+		// one exchange component
+		//
+		if (current_formula != NULL) {
+			cxxExchComp new_comp(ec_subvector, f_subvector);
+			new_exch_ptr->get_exchComps().push_back(new_comp);
+		}
+	}
+	/*
+	std::ostringstream oss;
+	new_exch_ptr->dump_raw(oss, 0);
+	std::cerr << oss.str();
+	*/
+	return(new_exch_ptr);
+}
