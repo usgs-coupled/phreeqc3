@@ -734,13 +734,13 @@ void cxxStorageBin::mpi_recv(int task_number)
 	/* Unpack ints */
 	int count_ints;
  	MPI_Unpack(buffer, msg_size, &position, &count_ints, 1, MPI_INT, MPI_COMM_WORLD);
-	int ints[count_ints];
+	int *ints = new int[count_ints];
  	MPI_Unpack(buffer, msg_size, &position, ints, count_ints, MPI_INT, MPI_COMM_WORLD);
 
 	/* Unpack doubles */
 	int count_doubles;
  	MPI_Unpack(buffer, msg_size, &position, &count_doubles, 1, MPI_INT, MPI_COMM_WORLD);
-	double doubles[count_doubles];
+	double *doubles = new double[count_doubles];
  	MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles, MPI_DOUBLE, MPI_COMM_WORLD);
 	buffer = free_check_null(buffer);
 #ifdef SKIP
@@ -815,6 +815,8 @@ void cxxStorageBin::mpi_recv(int task_number)
 	}
 	//std::cerr << "Unpacked Surface" << std::endl;
 
+	delete[] ints;
+	delete[] doubles;
 }
 #endif
 
