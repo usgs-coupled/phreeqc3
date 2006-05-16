@@ -904,9 +904,9 @@ void cxxSolution::mpi_send(int task_number)
  */
 	position = 0;
 	int i = ints.size();
-	int int_array[i];
+	int *int_array = new int[i];
 	int d = doubles.size();
-	double double_array[d];
+	double *double_array = new double[d];
 	for (int j = 0; j < i; j++) {
 		int_array[j] = ints[j];
 	}
@@ -922,6 +922,8 @@ void cxxSolution::mpi_send(int task_number)
 	MPI_Send(buffer, position, MPI_PACKED, task_number, 0, MPI_COMM_WORLD);
 
 	buffer = (void *) free_check_null(buffer);
+	delete[] int_array;
+	delete[] double_array;
 }
 /* ---------------------------------------------------------------------- */
 void cxxSolution::mpi_recv(int task_number)
@@ -948,13 +950,13 @@ void cxxSolution::mpi_recv(int task_number)
 	/* Unpack ints */
 	int count_ints;
  	MPI_Unpack(buffer, msg_size, &position, &count_ints, 1, MPI_INT, MPI_COMM_WORLD);
-	int ints[count_ints];
+	int *ints = new int[count_ints];
  	MPI_Unpack(buffer, msg_size, &position, ints, count_ints, MPI_INT, MPI_COMM_WORLD);
 
 	/* Unpack doubles */
 	int count_doubles;
  	MPI_Unpack(buffer, msg_size, &position, &count_doubles, 1, MPI_INT, MPI_COMM_WORLD);
-	double doubles[count_doubles];
+	double *doubles = new double[count_doubles];
  	MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles, MPI_DOUBLE, MPI_COMM_WORLD);
 	buffer = free_check_null(buffer);
 /*
@@ -997,6 +999,8 @@ void cxxSolution::mpi_recv(int task_number)
  *	struct master_activity *species_gamma;
  */
 	this->species_gamma.mpi_unpack(ints, &i, doubles, &d);
+	delete[] ints;
+	delete[] doubles;
 }
 #endif
 void cxxSolution::set_master_activity(char *string, double d)
