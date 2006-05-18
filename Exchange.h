@@ -35,6 +35,13 @@ public:
 
         bool get_related_rate(void);
 
+        bool get_pitzer_exchange_gammas() {
+		return this->pitzer_exchange_gammas;
+	}
+        void set_pitzer_exchange_gammas(bool b) {
+		this->pitzer_exchange_gammas = b;
+	}
+
         std::list<cxxExchComp> &get_exchComps(void) {
 		return(this->exchComps);
 	}

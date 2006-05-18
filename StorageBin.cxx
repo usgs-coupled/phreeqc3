@@ -832,9 +832,20 @@ cxxExchange *cxxStorageBin::mix_cxxExchange(cxxMix &mixmap)
  *   Zero out global solution data
  */
 	new_exch_ptr = new cxxExchange();
-	
+
 	std::map<int, double>::const_iterator it_mix;
 	std::map<int, double> *mixcomps = mixmap.comps();
+
+	// Pitzer_exchange_gammas
+	it_mix = mixcomps->begin();
+	old_exch_ptr = &((this->Exchangers.find(it_mix->first))->second);
+	if (old_exch_ptr == NULL) {
+		sprintf(error_string, "Exchange %d not found in mix_cxxExchange.", it_mix->first);
+		error_msg(error_string, CONTINUE);
+		input_error++;
+		return(NULL);
+	} 
+	new_exch_ptr->set_pitzer_exchange_gammas(old_exch_ptr->get_pitzer_exchange_gammas());
 /*
  *   Make list of ExchComps
  */	
