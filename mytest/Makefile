@@ -1,9 +1,9 @@
 # %.o : %.c
 #             $(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
-PROGRAM=../bin/phreeqc
+PROGRAM=../src/Release/phreeqcpp
 
-%.out : % ../bin/phreeqc ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat tony.dat ../database/pitzer.dat
-	../bin/phreeqc $< 
+%.out : % ../src/Release/phreeqcpp ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat tony.dat ../database/pitzer.dat
+	../src/Release/phreeqcpp $< 
 	mv phreeqc.log $<.log
 
 all: alkalinity.out \
@@ -14,6 +14,7 @@ all: alkalinity.out \
 	brown.out \
 	co2.out \
 	comments.out \
+	desc.out \
 	dissolve_only.out \
 	evap.out \
 	exch_related.out \

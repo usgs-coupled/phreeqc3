@@ -1,7 +1,7 @@
 INPUT=../examples
 PHREEQCDAT=../database/phreeqc.dat
 WATEQ4FDAT=../database/wateq4f.dat
-PHREEQC=../bin/phreeqc
+PHREEQC=../src/Release/phreeqcpp
 
 all: ex1.out ex2.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
 	ex10.out ex11.out ex12.out ex12a.out ex13a.out ex13b.out ex13c.out ex14.out \

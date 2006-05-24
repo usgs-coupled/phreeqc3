@@ -145,8 +145,8 @@ COMMON_CXXOBJS = \
 	       ISolution.o \
 	       ISolutionComp.o \
 	       KineticsComp.o \
-	       KineticsCxx.o \
-	       Mix.o \
+	       cxxKinetics.o \
+	       cxxMix.o \
 	       NameDouble.o \
 	       NumKeyword.o \
 	       Parser.o \
@@ -161,8 +161,8 @@ COMMON_CXXOBJS = \
 	       SSassemblageSS.o \
                StorageBin.o \
 	       Surface.o \
-	       SurfCharge.o \
-	       SurfComp.o \
+	       SurfaceCharge.o \
+	       SurfaceComp.o \
 	       Temperature.o \
 	       Utils.o 
 
@@ -180,104 +180,120 @@ ${PROGRAM} : ${OBJECT_FILES}
 #
 #  CXX files
 #
-EntityMap.o: ../EntityMap.cxx ../Utils.h ../EntityMap.h \
+cxxKinetics.o: ../cxxKinetics.cxx ../Utils.h ../char_star.h \
+  ../cxxKinetics.h ../NumKeyword.h ../Parser.h ../char_star.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h \
+  ../KineticsComp.h ../NameDouble.h ../char_star.h ../Parser.h \
+  ../char_star.h ../KineticsComp.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h
+cxxMix.o: ../cxxMix.cxx ../Utils.h ../char_star.h ../cxxMix.h \
+  ../NumKeyword.h ../Parser.h ../char_star.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h
+Dictionary.o: ../Dictionary.cxx ../Dictionary.h ../Solution.h \
+  ../NumKeyword.h ../Parser.h ../char_star.h ../SolutionIsotopeList.h \
+  ../SolutionIsotope.h ../Parser.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../NameDouble.h \
+  ../char_star.h ../Parser.h ../cxxMix.h ../NumKeyword.h ../char_star.h \
+  ../char_star.h ../NameDouble.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h ../phreeqc/output.h
+EntityMap.o: ../EntityMap.cxx ../Utils.h ../char_star.h ../EntityMap.h \
   ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h ../Parser.h \
   ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-Exchange.o: ../Exchange.cxx ../Utils.h ../Exchange.h ../NumKeyword.h \
-  ../Parser.h ../char_star.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../char_star.h ../ExchComp.h ../NameDouble.h ../char_star.h ../Parser.h \
-  ../char_star.h ../ExchComp.h ../phreeqc/phqalloc.h \
-  ../phreeqc/phrqproto.h
-ExchComp.o: ../ExchComp.cxx ../Utils.h ../ExchComp.h ../NameDouble.h \
-  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h ../Parser.h \
-  ../char_star.h ../char_star.h ../phreeqc/phqalloc.h \
-  ../phreeqc/phrqproto.h ../phreeqc/output.h
-GasPhase.o: ../GasPhase.cxx ../Utils.h ../GasPhase.h ../NumKeyword.h \
-  ../Parser.h ../char_star.h ../NameDouble.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
+Exchange.o: ../Exchange.cxx ../Utils.h ../char_star.h ../Exchange.h \
+  ../NumKeyword.h ../Parser.h ../char_star.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../ExchComp.h ../NameDouble.h \
+  ../char_star.h ../Parser.h ../char_star.h ../ExchComp.h \
   ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-ISolutionComp.o: ../ISolutionComp.cxx ../ISolutionComp.h ../Utils.h \
-  ../char_star.h ../ISolution.h ../ISolutionComp.h ../NumKeyword.h \
-  ../Parser.h ../char_star.h ../Solution.h ../NumKeyword.h \
-  ../SolutionIsotope.h ../Parser.h ../NameDouble.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
-  ../Utils.h ../phreeqc/phrqproto.h ../phreeqc/phqalloc.h
-ISolution.o: ../ISolution.cxx ../ISolution.h ../ISolutionComp.h \
-  ../Utils.h ../char_star.h ../NumKeyword.h ../Parser.h ../char_star.h \
-  ../Solution.h ../NumKeyword.h ../SolutionIsotope.h ../Parser.h \
-  ../NameDouble.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../char_star.h ../Parser.h ../char_star.h ../phreeqc/phqalloc.h \
-  ../phreeqc/phrqproto.h
-KineticsComp.o: ../KineticsComp.cxx ../Utils.h ../KineticsComp.h \
+ExchComp.o: ../ExchComp.cxx ../Utils.h ../char_star.h ../ExchComp.h \
   ../NameDouble.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
   ../char_star.h ../Parser.h ../char_star.h ../char_star.h \
-  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-KineticsCxx.o: ../KineticsCxx.cxx ../Utils.h ../KineticsCxx.h \
-  ../NumKeyword.h ../Parser.h ../char_star.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../char_star.h ../KineticsComp.h ../NameDouble.h \
-  ../char_star.h ../Parser.h ../char_star.h ../KineticsComp.h \
-  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-Mix.o: ../Mix.cxx ../Utils.h ../Mix.h ../NumKeyword.h ../Parser.h \
-  ../char_star.h ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h \
-  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-NameDouble.o: ../NameDouble.cxx ../Utils.h ../NameDouble.h \
+  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h ../phreeqc/output.h
+GasPhase.o: ../GasPhase.cxx ../Utils.h ../char_star.h ../GasPhase.h \
+  ../NumKeyword.h ../Parser.h ../char_star.h ../NameDouble.h \
   ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h ../Parser.h \
   ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+ISolutionComp.o: ../ISolutionComp.cxx ../ISolutionComp.h ../Utils.h \
+  ../char_star.h ../char_star.h ../ISolution.h ../ISolutionComp.h \
+  ../NumKeyword.h ../Parser.h ../char_star.h ../Solution.h \
+  ../NumKeyword.h ../SolutionIsotopeList.h ../SolutionIsotope.h \
+  ../Parser.h ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h \
+  ../Parser.h ../NameDouble.h ../char_star.h ../Parser.h ../cxxMix.h \
+  ../NumKeyword.h ../char_star.h ../char_star.h ../Utils.h \
+  ../phreeqc/phrqproto.h ../phreeqc/phqalloc.h
+ISolution.o: ../ISolution.cxx ../ISolution.h ../ISolutionComp.h \
+  ../Utils.h ../char_star.h ../char_star.h ../NumKeyword.h ../Parser.h \
+  ../char_star.h ../Solution.h ../NumKeyword.h ../SolutionIsotopeList.h \
+  ../SolutionIsotope.h ../Parser.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../NameDouble.h \
+  ../char_star.h ../Parser.h ../cxxMix.h ../NumKeyword.h ../char_star.h \
+  ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+KineticsComp.o: ../KineticsComp.cxx ../Utils.h ../char_star.h \
+  ../KineticsComp.h ../NameDouble.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
+  ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+NameDouble.o: ../NameDouble.cxx ../Utils.h ../char_star.h ../NameDouble.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h ../Parser.h \
+  ../char_star.h ../phreeqc/output.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h
 NumKeyword.o: ../NumKeyword.cxx ../NumKeyword.h ../Parser.h \
   ../char_star.h
 Parser.o: ../Parser.cxx ../Parser.h ../char_star.h ../Utils.h \
-  ../char_star.h
-PPassemblageComp.o: ../PPassemblageComp.cxx ../Utils.h \
+  ../char_star.h ../char_star.h
+PPassemblageComp.o: ../PPassemblageComp.cxx ../Utils.h ../char_star.h \
   ../PPassemblageComp.h ../NameDouble.h ../phreeqc/global.h \
   ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
   ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-PPassemblage.o: ../PPassemblage.cxx ../Utils.h ../PPassemblage.h \
-  ../NumKeyword.h ../Parser.h ../char_star.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../char_star.h ../PPassemblageComp.h \
-  ../NameDouble.h ../char_star.h ../Parser.h ../char_star.h \
-  ../PPassemblageComp.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-Reaction.o: ../Reaction.cxx ../Utils.h ../Reaction.h ../NumKeyword.h \
-  ../Parser.h ../char_star.h ../NameDouble.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
-  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+PPassemblage.o: ../PPassemblage.cxx ../Utils.h ../char_star.h \
+  ../PPassemblage.h ../NumKeyword.h ../Parser.h ../char_star.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h \
+  ../PPassemblageComp.h ../NameDouble.h ../char_star.h ../Parser.h \
+  ../char_star.h ../PPassemblageComp.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h
+Reaction.o: ../Reaction.cxx ../Utils.h ../char_star.h ../Reaction.h \
+  ../NumKeyword.h ../Parser.h ../char_star.h ../NameDouble.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h ../Parser.h \
+  ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 ReadClass.o: ../ReadClass.cxx ../Parser.h ../char_star.h ../Solution.h \
-  ../NumKeyword.h ../Parser.h ../SolutionIsotope.h ../Parser.h \
-  ../NameDouble.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../char_star.h ../Parser.h ../char_star.h ../Exchange.h ../NumKeyword.h \
-  ../char_star.h ../ExchComp.h ../NameDouble.h ../char_star.h \
-  ../Surface.h ../NumKeyword.h ../char_star.h ../SurfComp.h \
-  ../NameDouble.h ../char_star.h ../SurfCharge.h ../NameDouble.h \
-  ../char_star.h ../PPassemblage.h ../NumKeyword.h ../char_star.h \
-  ../PPassemblageComp.h ../NameDouble.h ../char_star.h ../KineticsCxx.h \
-  ../NumKeyword.h ../char_star.h ../KineticsComp.h ../NameDouble.h \
-  ../char_star.h ../SSassemblage.h ../NumKeyword.h ../char_star.h \
-  ../SSassemblageSS.h ../NameDouble.h ../char_star.h ../GasPhase.h \
-  ../NumKeyword.h ../NameDouble.h ../char_star.h ../Reaction.h \
-  ../NumKeyword.h ../NameDouble.h ../char_star.h ../Mix.h ../NumKeyword.h \
-  ../char_star.h ../Temperature.h ../NumKeyword.h ../char_star.h \
-  ../phreeqc/phqalloc.h ../phreeqc/output.h ../phreeqc/phrqproto.h
+  ../NumKeyword.h ../Parser.h ../SolutionIsotopeList.h \
+  ../SolutionIsotope.h ../Parser.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../NameDouble.h \
+  ../char_star.h ../Parser.h ../cxxMix.h ../NumKeyword.h ../char_star.h \
+  ../char_star.h ../Exchange.h ../NumKeyword.h ../char_star.h \
+  ../ExchComp.h ../NameDouble.h ../char_star.h ../Surface.h \
+  ../NumKeyword.h ../char_star.h ../SurfaceComp.h ../NameDouble.h \
+  ../char_star.h ../SurfaceCharge.h ../NameDouble.h ../char_star.h \
+  ../PPassemblage.h ../NumKeyword.h ../char_star.h ../PPassemblageComp.h \
+  ../NameDouble.h ../char_star.h ../cxxKinetics.h ../NumKeyword.h \
+  ../char_star.h ../KineticsComp.h ../NameDouble.h ../char_star.h \
+  ../SSassemblage.h ../NumKeyword.h ../char_star.h ../SSassemblageSS.h \
+  ../NameDouble.h ../char_star.h ../GasPhase.h ../NumKeyword.h \
+  ../NameDouble.h ../char_star.h ../Reaction.h ../NumKeyword.h \
+  ../NameDouble.h ../char_star.h ../cxxMix.h ../Temperature.h \
+  ../NumKeyword.h ../char_star.h ../phreeqc/phqalloc.h \
+  ../phreeqc/output.h ../phreeqc/phrqproto.h
 Solution.o: ../Solution.cxx ../Utils.h ../char_star.h ../Solution.h \
   ../NumKeyword.h ../Parser.h ../char_star.h ../SolutionIsotopeList.h \
   ../SolutionIsotope.h ../Parser.h ../phreeqc/global.h \
   ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../NameDouble.h \
-  ../char_star.h ../Parser.h ../Mix.h ../NumKeyword.h ../char_star.h \
+  ../char_star.h ../Parser.h ../cxxMix.h ../NumKeyword.h ../char_star.h \
   ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h \
-  ../ISolution.h ../ISolutionComp.h ../Utils.h ../char_star.h \
-  ../NumKeyword.h ../Solution.h ../Exchange.h ../NumKeyword.h \
-  ../char_star.h ../ExchComp.h ../NameDouble.h ../char_star.h \
-  ../Surface.h ../NumKeyword.h ../char_star.h ../SurfComp.h \
-  ../NameDouble.h ../char_star.h ../SurfCharge.h ../NameDouble.h \
-  ../char_star.h ../PPassemblage.h ../NumKeyword.h ../char_star.h \
-  ../PPassemblageComp.h ../NameDouble.h ../char_star.h ../KineticsCxx.h \
-  ../NumKeyword.h ../char_star.h ../KineticsComp.h ../NameDouble.h \
-  ../char_star.h ../SSassemblage.h ../NumKeyword.h ../char_star.h \
-  ../SSassemblageSS.h ../NameDouble.h ../char_star.h ../GasPhase.h \
-  ../NumKeyword.h ../NameDouble.h ../char_star.h ../Reaction.h \
-  ../NumKeyword.h ../NameDouble.h ../char_star.h ../Mix.h \
+  ../phreeqc/output.h ../ISolution.h ../ISolutionComp.h ../Utils.h \
+  ../char_star.h ../NumKeyword.h ../Solution.h ../Exchange.h \
+  ../NumKeyword.h ../char_star.h ../ExchComp.h ../NameDouble.h \
+  ../char_star.h ../Surface.h ../NumKeyword.h ../char_star.h \
+  ../SurfaceComp.h ../NameDouble.h ../char_star.h ../SurfaceCharge.h \
+  ../NameDouble.h ../char_star.h ../PPassemblage.h ../NumKeyword.h \
+  ../char_star.h ../PPassemblageComp.h ../NameDouble.h ../char_star.h \
+  ../cxxKinetics.h ../NumKeyword.h ../char_star.h ../KineticsComp.h \
+  ../NameDouble.h ../char_star.h ../SSassemblage.h ../NumKeyword.h \
+  ../char_star.h ../SSassemblageSS.h ../NameDouble.h ../char_star.h \
+  ../GasPhase.h ../NumKeyword.h ../NameDouble.h ../char_star.h \
+  ../Reaction.h ../NumKeyword.h ../NameDouble.h ../char_star.h \
   ../Temperature.h ../NumKeyword.h ../char_star.h ../StorageBin.h \
   ../Utils.h ../Parser.h ../Solution.h ../Exchange.h ../GasPhase.h \
-  ../KineticsCxx.h ../PPassemblage.h ../SSassemblage.h ../Surface.h \
-  ../Mix.h ../Reaction.h ../Temperature.h ../NumKeyword.h
+  ../cxxKinetics.h ../PPassemblage.h ../SSassemblage.h ../Surface.h \
+  ../cxxMix.h ../Reaction.h ../Temperature.h ../NumKeyword.h
 SolutionIsotope.o: ../SolutionIsotope.cxx ../SolutionIsotope.h \
   ../Parser.h ../char_star.h ../Utils.h ../char_star.h ../Parser.h \
   ../phreeqc/global.h ../phreeqc/phrqtype.h ../phreeqc/phqalloc.h \
@@ -286,37 +302,57 @@ SolutionIsotopeList.o: ../SolutionIsotopeList.cxx ../Utils.h \
   ../char_star.h ../SolutionIsotopeList.h ../SolutionIsotope.h \
   ../Parser.h ../char_star.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
   ../char_star.h ../Parser.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-SSassemblage.o: ../SSassemblage.cxx ../Utils.h ../SSassemblage.h \
-  ../NumKeyword.h ../Parser.h ../char_star.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../char_star.h ../SSassemblageSS.h \
-  ../NameDouble.h ../char_star.h ../Parser.h ../char_star.h \
-  ../SSassemblageSS.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-SSassemblageSS.o: ../SSassemblageSS.cxx ../Utils.h ../SSassemblageSS.h \
-  ../NameDouble.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../char_star.h ../Parser.h ../char_star.h ../char_star.h \
-  ../NameDouble.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-StorageBin.o: ../StorageBin.cxx ../Utils.h ../StorageBin.h \
-  ../phreeqc/global.h ../phreeqc/phrqtype.h ../phreeqc/phqalloc.h \
+SSassemblage.o: ../SSassemblage.cxx ../Utils.h ../char_star.h \
+  ../SSassemblage.h ../NumKeyword.h ../Parser.h ../char_star.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h \
+  ../SSassemblageSS.h ../NameDouble.h ../char_star.h ../Parser.h \
+  ../char_star.h ../SSassemblageSS.h ../phreeqc/phqalloc.h \
   ../phreeqc/phrqproto.h
-Surface.o: ../Surface.cxx ../Utils.h ../Surface.h ../NumKeyword.h \
-  ../Parser.h ../char_star.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../char_star.h ../SurfComp.h ../NameDouble.h ../char_star.h ../Parser.h \
-  ../char_star.h ../SurfCharge.h ../NameDouble.h ../char_star.h \
-  ../SurfComp.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-SurfCharge.o: ../SurfCharge.cxx ../Utils.h ../SurfCharge.h \
-  ../NameDouble.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../char_star.h ../Parser.h ../char_star.h ../char_star.h \
-  ../phreeqc/output.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
-SurfComp.o: ../SurfComp.cxx ../Utils.h ../SurfComp.h ../NameDouble.h \
+SSassemblageSS.o: ../SSassemblageSS.cxx ../Utils.h ../char_star.h \
+  ../SSassemblageSS.h ../NameDouble.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
+  ../char_star.h ../NameDouble.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h
+StorageBin.o: ../StorageBin.cxx ../Utils.h ../char_star.h ../StorageBin.h \
+  ../Utils.h ../Parser.h ../char_star.h ../Solution.h ../NumKeyword.h \
+  ../Parser.h ../SolutionIsotopeList.h ../SolutionIsotope.h ../Parser.h \
   ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h ../Parser.h \
-  ../char_star.h ../char_star.h ../phreeqc/phqalloc.h \
-  ../phreeqc/phrqproto.h ../phreeqc/output.h
-Temperature.o: ../Temperature.cxx ../Utils.h ../Temperature.h \
-  ../NumKeyword.h ../Parser.h ../char_star.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../char_star.h ../phreeqc/phqalloc.h \
+  ../NameDouble.h ../char_star.h ../Parser.h ../cxxMix.h ../NumKeyword.h \
+  ../char_star.h ../char_star.h ../Exchange.h ../NumKeyword.h \
+  ../char_star.h ../ExchComp.h ../NameDouble.h ../char_star.h \
+  ../GasPhase.h ../NumKeyword.h ../NameDouble.h ../char_star.h \
+  ../cxxKinetics.h ../NumKeyword.h ../char_star.h ../KineticsComp.h \
+  ../NameDouble.h ../char_star.h ../PPassemblage.h ../NumKeyword.h \
+  ../char_star.h ../PPassemblageComp.h ../NameDouble.h ../char_star.h \
+  ../SSassemblage.h ../NumKeyword.h ../char_star.h ../SSassemblageSS.h \
+  ../NameDouble.h ../char_star.h ../Surface.h ../NumKeyword.h \
+  ../char_star.h ../SurfaceComp.h ../NameDouble.h ../char_star.h \
+  ../SurfaceCharge.h ../NameDouble.h ../char_star.h ../cxxMix.h \
+  ../Reaction.h ../NumKeyword.h ../NameDouble.h ../char_star.h \
+  ../Temperature.h ../NumKeyword.h ../char_star.h ../Solution.h \
+  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h ../phreeqc/output.h
+SurfaceCharge.o: ../SurfaceCharge.cxx ../Utils.h ../char_star.h \
+  ../SurfaceCharge.h ../NameDouble.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
+  ../char_star.h ../phreeqc/output.h ../phreeqc/phqalloc.h \
   ../phreeqc/phrqproto.h
-Utils.o: ../Utils.cxx ../Utils.h ../Parser.h ../char_star.h \
+SurfaceComp.o: ../SurfaceComp.cxx ../Utils.h ../char_star.h \
+  ../SurfaceComp.h ../NameDouble.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../Parser.h ../char_star.h \
+  ../char_star.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h \
   ../phreeqc/output.h
+Surface.o: ../Surface.cxx ../Utils.h ../char_star.h ../Surface.h \
+  ../NumKeyword.h ../Parser.h ../char_star.h ../phreeqc/global.h \
+  ../phreeqc/phrqtype.h ../char_star.h ../SurfaceComp.h ../NameDouble.h \
+  ../char_star.h ../Parser.h ../char_star.h ../SurfaceCharge.h \
+  ../NameDouble.h ../char_star.h ../SurfaceComp.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h
+Temperature.o: ../Temperature.cxx ../Utils.h ../char_star.h \
+  ../Temperature.h ../NumKeyword.h ../Parser.h ../char_star.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../char_star.h \
+  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+Utils.o: ../Utils.cxx ../Utils.h ../char_star.h ../Parser.h \
+  ../char_star.h ../phreeqc/output.h
 #
 #  PHREEQC files
 #
