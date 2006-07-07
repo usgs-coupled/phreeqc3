@@ -294,7 +294,7 @@ void cxxNameDouble::add(const cxxNameDouble &old, double factor)
 #include "Dictionary.h"
 void cxxNameDouble::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles) {
 	extern cxxDictionary dictionary;
-	ints.push_back( (*this).size() );
+	ints.push_back( (int) (*this).size() );
         for (const_iterator it = (*this).begin(); it != (*this).end(); it++) {
 		assert(it->first != NULL);
 		int n = dictionary.string2int(it->first);
@@ -308,7 +308,7 @@ void cxxNameDouble::mpi_pack(int *ints, int *ii, double *doubles, int *dd)
 	int d = *dd;
 	extern cxxDictionary dictionary;
 	//ints.push_back( (*this).size() );
-	ints[i++] = this->size();
+	ints[i++] = (int) this->size();
         for (const_iterator it = this->begin(); it != this->end(); it++) {
 		int n = dictionary.string2int(it->first);
 		if (n < 0) {

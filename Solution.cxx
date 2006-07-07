@@ -177,17 +177,17 @@ struct solution *cxxSolution::cxxSolution2solution()
         // master_activity
         solution_ptr->master_activity = (struct master_activity *) free_check_null(solution_ptr->master_activity);
         solution_ptr->master_activity = this->master_activity.master_activity();
-        solution_ptr->count_master_activity = this->master_activity.size() + 1;
+        solution_ptr->count_master_activity = (int) this->master_activity.size() + 1;
 
         // species_gamma
         solution_ptr->species_gamma = this->species_gamma.master_activity();
-        solution_ptr->count_species_gamma = this->species_gamma.size();
+        solution_ptr->count_species_gamma = (int) this->species_gamma.size();
 
         // isotopes
         solution_ptr->isotopes = (struct isotope *) free_check_null(solution_ptr->isotopes);
         //solution_ptr->isotopes = cxxSolutionIsotope::list2isotope(this->isotopes);
 	solution_ptr->isotopes = this->isotopes.cxxSolutionIsotopeList2isotope();
-        solution_ptr->count_isotopes = this->isotopes.size();
+        solution_ptr->count_isotopes = (int) this->isotopes.size();
 
         return(solution_ptr);
 }
@@ -892,10 +892,10 @@ void cxxSolution::mpi_send(int task_number)
  */
 	max_size = 0;
 	//MPI_Pack_size(MESSAGE_MAX_NUMBERS, MPI_INT, MPI_COMM_WORLD, &member_size);
-	MPI_Pack_size(ints.size(), MPI_INT, MPI_COMM_WORLD, &member_size);
+	MPI_Pack_size((int) ints.size(), MPI_INT, MPI_COMM_WORLD, &member_size);
 	max_size += member_size;
 	//MPI_Pack_size(MESSAGE_MAX_NUMBERS, MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
-	MPI_Pack_size(doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
+	MPI_Pack_size((int) doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
 	max_size += member_size + 10;
 	buffer = PHRQ_malloc(max_size);
 	if (buffer == NULL) malloc_error();
@@ -903,9 +903,9 @@ void cxxSolution::mpi_send(int task_number)
  *   Send message to processor
  */
 	position = 0;
-	int i = ints.size();
+	int i = (int) ints.size();
 	int *int_array = new int[i];
-	int d = doubles.size();
+	int d = (int) doubles.size();
 	double *double_array = new double[d];
 	for (int j = 0; j < i; j++) {
 		int_array[j] = ints[j];

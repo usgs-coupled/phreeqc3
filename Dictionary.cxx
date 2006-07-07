@@ -56,7 +56,7 @@ int cxxDictionary::putString(std::string str) {
 	if (it != stringkey.end()) {
 		n = it->second;
 	} else {
-		n = stringkey.size();
+		n = (int) stringkey.size();
 		stringkey[str] = n;
 		intkey[n] = str;
 	}

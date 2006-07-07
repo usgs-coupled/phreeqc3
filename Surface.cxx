@@ -108,14 +108,14 @@ struct surface *cxxSurface::cxxSurface2surface()
         surface_ptr->transport                   = FALSE;
 
         // Surface comps
-        surface_ptr->count_comps = this->surfaceComps.size();
+        surface_ptr->count_comps = (int) this->surfaceComps.size();
         surface_ptr->comps = (struct surface_comp *) free_check_null(surface_ptr->comps);
         surface_ptr->comps = cxxSurfaceComp::cxxSurfaceComp2surface_comp(this->surfaceComps);
 
         // Surface charge
 	surface_ptr->charge = (struct surface_charge *) free_check_null(surface_ptr->charge);
 	if (surface_ptr->edl == TRUE) {
-		surface_ptr->count_charge = this->surfaceCharges.size();
+		surface_ptr->count_charge = (int) this->surfaceCharges.size();
 		surface_ptr->charge = cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(this->surfaceCharges);
 	} else {
 		surface_ptr->count_charge = 0;
@@ -375,11 +375,11 @@ void cxxSurface::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	/* int n_user; */
 	ints.push_back(this->n_user);
-	ints.push_back(this->surfaceComps.size());
+	ints.push_back((int) this->surfaceComps.size());
 	for (std::list<cxxSurfaceComp>::iterator it = this->surfaceComps.begin(); it != this->surfaceComps.end(); it++) {
 		it->mpi_pack(ints, doubles);
 	}
-	ints.push_back(this->surfaceCharges.size());
+	ints.push_back((int) this->surfaceCharges.size());
 	for (std::list<cxxSurfaceCharge>::iterator it = this->surfaceCharges.begin(); it != this->surfaceCharges.end(); it++) {
 		it->mpi_pack(ints, doubles);
 	}

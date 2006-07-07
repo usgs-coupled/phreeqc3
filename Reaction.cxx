@@ -81,7 +81,7 @@ struct irrev *cxxReaction::cxxReaction2irrev()
         irrev_ptr->n_user_end                  = this->n_user_end;        
 
         irrev_ptr->list                        = this->reactantList.name_coef();
-        irrev_ptr->count_list                  = this->reactantList.size();
+        irrev_ptr->count_list                  = (int) this->reactantList.size();
 	if (this->elementList.size() > 0) {
 		irrev_ptr->elts                        = this->elementList.elt_list();
 	} else {
@@ -98,7 +98,7 @@ struct irrev *cxxReaction::cxxReaction2irrev()
 	if (this->equalIncrements) {
 		irrev_ptr->count_steps         = -this->countSteps;
 	} else {
-		irrev_ptr->count_steps         = this->steps.size();
+		irrev_ptr->count_steps         = (int) this->steps.size();
 	}
         irrev_ptr->units                       = this->units;
         return(irrev_ptr);

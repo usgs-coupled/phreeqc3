@@ -91,7 +91,7 @@ struct exchange *cxxExchange::cxxExchange2exchange()
         exchange_ptr->related_phases              = (int) this->get_related_phases();
         exchange_ptr->related_rate                = (int) this->get_related_rate();
         exchange_ptr->pitzer_exchange_gammas      = (int) this->pitzer_exchange_gammas;
-        exchange_ptr->count_comps = this->exchComps.size();
+        exchange_ptr->count_comps = (int) this->exchComps.size();
         exchange_ptr->comps = (struct exch_comp *) free_check_null(exchange_ptr->comps);
         exchange_ptr->comps = cxxExchComp::cxxExchComp2exch_comp(this->exchComps);
         return(exchange_ptr);
@@ -230,7 +230,7 @@ void cxxExchange::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 	ints.push_back(this->n_user);
 	
 	ints.push_back((int) this->pitzer_exchange_gammas);
-	ints.push_back(this->exchComps.size());
+	ints.push_back((int) this->exchComps.size());
 	for (std::list<cxxExchComp>::iterator it = this->exchComps.begin(); it != this->exchComps.end(); it++) {
 		it->mpi_pack(ints, doubles);
 	}
