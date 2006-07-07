@@ -82,9 +82,9 @@ struct temperature *cxxTemperature::cxxTemperature2temperature()
                 std::copy(this->temps.begin(), this->temps.end(), temperature_ptr->t);
         }
 	if (this->equalIncrements) {
-		temperature_ptr->count_t         = -this->countTemps;
+		temperature_ptr->count_t         = - (int) this->countTemps;
 	} else {
-		temperature_ptr->count_t         = this->temps.size();
+		temperature_ptr->count_t         = (int) this->temps.size();
 	}
         return(temperature_ptr);
 }

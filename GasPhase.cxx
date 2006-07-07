@@ -103,7 +103,7 @@ struct gas_phase *cxxGasPhase::cxxGasPhase2gas_phase()
         gas_phase_ptr->temperature                 = 273.15;
 
         // comps
-        gas_phase_ptr->count_comps                 = this->gasPhaseComps.size();
+        gas_phase_ptr->count_comps                 = (int) this->gasPhaseComps.size();
         gas_phase_ptr->comps                       = (struct gas_comp *) free_check_null(gas_phase_ptr->comps);
 	gas_phase_ptr->comps                       = this->cxxGasPhaseComp2gas_comp();
 

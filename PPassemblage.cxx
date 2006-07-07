@@ -62,7 +62,7 @@ struct pp_assemblage *cxxPPassemblage::cxxPPassemblage2pp_assemblage()
         pp_assemblage_ptr->n_user                      = this->n_user;               
         pp_assemblage_ptr->n_user_end                  = this->n_user_end;           
         pp_assemblage_ptr->new_def                     = FALSE;                    
-        pp_assemblage_ptr->count_comps                 = this->ppAssemblageComps.size();
+        pp_assemblage_ptr->count_comps                 = (int) this->ppAssemblageComps.size();
         pp_assemblage_ptr->pure_phases                 = (struct pure_phase *) free_check_null(pp_assemblage_ptr->pure_phases);
         pp_assemblage_ptr->pure_phases                 = cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(this->ppAssemblageComps);
         pp_assemblage_ptr->next_elt                    = this->eltList.elt_list();
@@ -196,7 +196,7 @@ void cxxPPassemblage::mpi_pack(std::vector<int>& ints, std::vector<double>& doub
 {
 	/* int n_user; */
 	ints.push_back(this->n_user);
-	ints.push_back(this->ppAssemblageComps.size());
+	ints.push_back((int) this->ppAssemblageComps.size());
 	for (std::list<cxxPPassemblageComp>::iterator it = this->ppAssemblageComps.begin(); it != this->ppAssemblageComps.end(); it++) {
 		it->mpi_pack(ints, doubles);
 	}

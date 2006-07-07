@@ -20,7 +20,7 @@ public:
         void add_phreeqc();
 
 	int size() {
-		return stringkey.size();
+		return (int) stringkey.size();
 	}
 
 	int putString(std::string str);

@@ -76,7 +76,7 @@ struct mix *cxxMix::cxxMix2mix()
 			i++;
 		}
 	}
-	mix_ptr->count_comps = this->mixComps.size();
+	mix_ptr->count_comps = (int) this->mixComps.size();
         return(mix_ptr);
 }
 

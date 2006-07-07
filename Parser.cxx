@@ -196,12 +196,12 @@ CParser::LINE_TYPE CParser::get_logical_line()
                         break;
                 }
                 if (c == '\\') {
-                        pos = m_line_save.size();
+                        pos = (int) m_line_save.size();
                         m_line_save += c;
                         while ((j = m_input_stream.get()) != std::char_traits<char>::eof()) {
                                 c = (char) j;
                                 if (c == '\\') {
-                                        pos = m_line_save.size();
+                                        pos = (int) m_line_save.size();
                                         m_line_save += c;
                                         continue;
                                 }
