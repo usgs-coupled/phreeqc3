@@ -414,10 +414,10 @@ void cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 		sc.mpi_unpack(ints, &i, doubles, &d);
 		this->surfaceCharges.push_back(sc);
 	}
-	this->diffuse_layer = (bool) ints[i++];
-	this->edl = (bool) ints[i++];
-	this->only_counter_ions = (bool) ints[i++];
-	this->donnan = (bool) ints[i++];
+	this->diffuse_layer = (ints[i++] != 0);
+	this->edl = (ints[i++] != 0);
+	this->only_counter_ions = (ints[i++] != 0);
+	this->donnan = (ints[i++] != 0);
 	this->thickness = doubles[d++];
 	*ii = i;
 	*dd = d;

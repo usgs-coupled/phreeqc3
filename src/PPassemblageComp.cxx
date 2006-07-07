@@ -301,7 +301,7 @@ void cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *d
 	this->moles = doubles[d++];
 	this->delta = doubles[d++];
 	this->initial_moles = doubles[d++];
-	this->dissolve_only = (bool) ints[i++];
+	this->dissolve_only = (ints[i++] != 0);
 	*ii = i;
 	*dd = d;
 }

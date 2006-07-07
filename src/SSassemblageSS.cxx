@@ -467,7 +467,7 @@ void cxxSSassemblageSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->a1 = doubles[d++];
 	this->ag0 = doubles[d++];
 	this->ag1 = doubles[d++];
-	this->miscibility = (bool) ints[i++];
+	this->miscibility = (ints[i++] != 0);
 	this->xb1 = doubles[d++];
 	this->xb2 = doubles[d++];
 	*ii = i;
