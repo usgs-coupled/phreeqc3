@@ -64,7 +64,7 @@ struct kinetics_comp *cxxKineticsComp::cxxKineticsComp2kinetics_comp(std::list<c
         for (std::list<cxxKineticsComp>::iterator it = el.begin(); it != el.end(); ++it) {
                 kinetics_comp_ptr[i].rate_name              =  it->rate_name;
                 kinetics_comp_ptr[i].list                   =  it->namecoef.name_coef();
-                kinetics_comp_ptr[i].count_list             =  it->namecoef.size();
+                kinetics_comp_ptr[i].count_list             =  (int) it->namecoef.size();
                 kinetics_comp_ptr[i].tol                    =  it->tol;
                 kinetics_comp_ptr[i].m                      =  it->m;
                 kinetics_comp_ptr[i].initial_moles          =  0.;
@@ -77,7 +77,7 @@ struct kinetics_comp *cxxKineticsComp::cxxKineticsComp2kinetics_comp(std::list<c
                 kinetics_comp_ptr[i].d_params               =  NULL;
 */
 
-                kinetics_comp_ptr[i].count_d_params         =  it->d_params.size();
+                kinetics_comp_ptr[i].count_d_params         =  (int) it->d_params.size();
                 kinetics_comp_ptr[i].d_params               =  NULL;
                 if (it->d_params.size() > 0) {
                         kinetics_comp_ptr[i].d_params = (double *) PHRQ_malloc((size_t) (it->d_params.size() * sizeof(double)));
@@ -320,7 +320,7 @@ void cxxKineticsComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doub
         doubles.push_back(this->m);
         doubles.push_back(this->m0);
         doubles.push_back(this->moles);
-	ints.push_back(this->d_params.size());
+	ints.push_back((int) this->d_params.size());
 	for (std::vector<double>::iterator it = this->d_params.begin(); it != this->d_params.end(); it++) {
 		doubles.push_back(*it);
 	}

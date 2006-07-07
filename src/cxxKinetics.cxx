@@ -85,12 +85,12 @@ struct kinetics *cxxKinetics::cxxKinetics2kinetics()
         kinetics_ptr->totals                      = this->totals.elt_list();
 
         // comps
-        kinetics_ptr->count_comps             = this->kineticsComps.size();
+        kinetics_ptr->count_comps             = (int) this->kineticsComps.size();
         kinetics_ptr->comps                   = (struct kinetics_comp *) free_check_null(kinetics_ptr->comps);
         kinetics_ptr->comps                   = cxxKineticsComp::cxxKineticsComp2kinetics_comp(this->kineticsComps);
 
         // steps
-    kinetics_ptr->count_steps                     = this->steps.size();
+    kinetics_ptr->count_steps                     = (int) this->steps.size();
     kinetics_ptr->steps                       = (double *) free_check_null(kinetics_ptr->steps);
         if (this->steps.size() > 0) {
                 kinetics_ptr->steps = (double *) PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
@@ -349,11 +349,11 @@ void cxxKinetics::read_raw(CParser& parser)
 void cxxKinetics::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	ints.push_back(this->n_user);
-	ints.push_back(this->kineticsComps.size());
+	ints.push_back((int) this->kineticsComps.size());
 	for (std::list<cxxKineticsComp>::iterator it = this->kineticsComps.begin(); it != this->kineticsComps.end(); it++) {
 		it->mpi_pack(ints, doubles);
 	}
-	ints.push_back(this->steps.size());
+	ints.push_back((int) this->steps.size());
 	for (std::vector<double>::iterator it = this->steps.begin(); it != this->steps.end(); it++) {
 		doubles.push_back(*it);
 	}

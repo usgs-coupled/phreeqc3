@@ -672,17 +672,17 @@ void cxxStorageBin::mpi_send(int n, int task_number)
 	// Pack data
 	int max_size = 0;
 	int member_size = 0;
-	MPI_Pack_size(ints.size(), MPI_INT, MPI_COMM_WORLD, &member_size);
+	MPI_Pack_size((int) ints.size(), MPI_INT, MPI_COMM_WORLD, &member_size);
 	max_size += member_size;
-	MPI_Pack_size(doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
+	MPI_Pack_size((int) doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
 	max_size += member_size + 10;
 	void *buffer = PHRQ_malloc(max_size);
 	if (buffer == NULL) malloc_error();
 	
 	// Convert to arrays
-	int i = ints.size();
+	int i = (int) ints.size();
 	//int int_array[i];
-	int d = doubles.size();
+	int d = (int) doubles.size();
 	//double double_array[d];
 	/*
 	for (int j = 0; j < i; j++) {

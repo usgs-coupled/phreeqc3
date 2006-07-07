@@ -59,7 +59,7 @@ struct s_s_assemblage *cxxSSassemblage::cxxSSassemblage2s_s_assemblage()
         s_s_assemblage_ptr->n_user                      = this->n_user;               
         s_s_assemblage_ptr->n_user_end                  = this->n_user_end;           
         s_s_assemblage_ptr->new_def                     = FALSE;                    
-        s_s_assemblage_ptr->count_s_s                   = this->ssAssemblageSSs.size();
+        s_s_assemblage_ptr->count_s_s                   = (int) this->ssAssemblageSSs.size();
         s_s_assemblage_ptr->s_s                         = cxxSSassemblageSS::cxxSSassemblageSS2s_s(this->ssAssemblageSSs);
         return(s_s_assemblage_ptr);
 }
@@ -176,7 +176,7 @@ void cxxSSassemblage::mpi_pack(std::vector<int>& ints, std::vector<double>& doub
 {
 	/* int n_user; */
 	ints.push_back(this->n_user);
-	ints.push_back(this->ssAssemblageSSs.size());
+	ints.push_back((int) this->ssAssemblageSSs.size());
 	for (std::list<cxxSSassemblageSS>::iterator it = this->ssAssemblageSSs.begin(); it != this->ssAssemblageSSs.end(); it++) {
 		it->mpi_pack(ints, doubles);
 	}

@@ -111,7 +111,7 @@ struct s_s *cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::list<cxxSSassemblageSS
                 // 
                 //  generate s_s_comp structures
                 //
-                s_s_ptr[j].count_comps = it->comps.size();
+                s_s_ptr[j].count_comps = (int) it->comps.size();
                 s_s_ptr[j].comps = NULL;
                 if (it->comps.size() > 0) {
                         int i = 0;
