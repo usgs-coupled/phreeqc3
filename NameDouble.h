@@ -1,14 +1,14 @@
 #if !defined(NAMEDOUBLE_H_INCLUDED)
 #define NAMEDOUBLE_H_INCLUDED
 
-#define EXTERNAL extern
+//#define EXTERNAL extern
 #include <cassert> // assert
 #include <map>     // std::map
 #include <string>  // std::string
 #include <list>    // std::list
 #include <vector>  // std::vector
 
-#include "global.h"
+//#include "global.h"
 #include "char_star.h"
 #include "Parser.h"
 class cxxNameDouble : public std::map <char *, double, CHARSTAR_LESS> 

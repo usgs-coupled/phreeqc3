@@ -6,8 +6,8 @@
 #include "NameDouble.h"
 #include "cxxMix.h"
 
-#define EXTERNAL extern
-#include "global.h"
+//#define EXTERNAL extern
+//#include "global.h"
 #include <cassert> // assert
 #include <map>     // std::map
 #include <string>  // std::string
