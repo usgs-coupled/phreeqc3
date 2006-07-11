@@ -62,7 +62,8 @@ cxxGasPhase::~cxxGasPhase()
 
 struct gas_comp * cxxGasPhase::cxxGasPhaseComp2gas_comp()
 {
-	struct gas_comp *gas_comp_ptr(NULL);
+	//struct gas_comp *gas_comp_ptr(NULL);
+	struct gas_comp *gas_comp_ptr = NULL;
 	if (this->gasPhaseComps.size() > 0) {
 		int i = 0;
 		int n;
