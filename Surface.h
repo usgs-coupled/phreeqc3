@@ -22,6 +22,10 @@ public:
         cxxSurface(struct surface *);
         ~cxxSurface();
 
+        //enum SURFACE_STYPE { UNKNOWN_DL, NO_EDL, DDL, CD_MUSIC };
+        //enum SURFACE_DL_TYPE { NO_DL, BORKOVEC_DL, DONNAN_DL } ;
+        //enum SURFACE_SITES_UNITS { SITES_ABSOLUTE, SITES_DENSITY } ;
+
         struct surface *cxxSurface2surface();
 
         struct surf_comp *cxxSurfaceComp2surf_comp();
@@ -44,17 +48,16 @@ public:
 protected:
         std::list<cxxSurfaceComp> surfaceComps;
         std::list<cxxSurfaceCharge> surfaceCharges;
-        bool diffuse_layer;
-        bool edl;
+	enum SURFACE_TYPE type;
+	enum DIFFUSE_LAYER_TYPE dl_type;
+	enum SITES_UNITS sites_units;
         bool only_counter_ions;
-        bool donnan;
         double thickness;
         //double debye_units;
         //int transport;
 
 public:
         //static std::map<int, cxxSurface>& map;
-
 };
 
 #endif // !defined(SURFACE_H_INCLUDED)

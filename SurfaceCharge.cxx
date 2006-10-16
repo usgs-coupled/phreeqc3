@@ -30,6 +30,10 @@ cxxSurfaceCharge::cxxSurfaceCharge()
         charge_balance          = 0.0;
         mass_water              = 0.0;
         la_psi                  = 0.0;
+        la_psi1                 = 0.0;
+        la_psi2                 = 0.0;
+        capacitance[0]          = 1.0;
+        capacitance[1]          = 5.0;
         diffuse_layer_totals.type = cxxNameDouble::ND_ELT_MOLES;
 }
 
@@ -46,6 +50,10 @@ diffuse_layer_totals(surf_charge_ptr->diffuse_layer_totals)
         charge_balance           = surf_charge_ptr->charge_balance;
         mass_water               = surf_charge_ptr->mass_water;
         la_psi                   = surf_charge_ptr->la_psi;
+        la_psi1                  = surf_charge_ptr->la_psi1;
+        la_psi2                  = surf_charge_ptr->la_psi2;
+	capacitance[0]           = surf_charge_ptr->capacitance[0];
+	capacitance[1]           = surf_charge_ptr->capacitance[1];
 }
 
 cxxSurfaceCharge::~cxxSurfaceCharge()
@@ -84,8 +92,12 @@ struct surface_charge *cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::li
                 surf_charge_ptr[i].charge_balance       = it->charge_balance;
                 surf_charge_ptr[i].mass_water           = it->mass_water;
                 surf_charge_ptr[i].la_psi               = it->la_psi;
+                surf_charge_ptr[i].la_psi1              = it->la_psi1;
+                surf_charge_ptr[i].la_psi2              = it->la_psi2;
+                surf_charge_ptr[i].capacitance[0]       = it->capacitance[0];
+                surf_charge_ptr[i].capacitance[1]       = it->capacitance[1];
                 surf_charge_ptr[i].diffuse_layer_totals = it->diffuse_layer_totals.elt_list();
-                surf_charge_ptr[i].psi_master           = it->get_psi_master();
+                //surf_charge_ptr[i].psi_master           = it->get_psi_master();
                 surf_charge_ptr[i].count_g              = 0;
                 surf_charge_ptr[i].g                    = NULL;
                 i++;
@@ -111,6 +123,9 @@ void cxxSurfaceCharge::dump_xml(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent0 << "charge_balance=\"" << this->charge_balance << "\"" << std::endl;
         s_oss << indent0 << "mass_water=\"" << this->mass_water << "\"" << std::endl;
         s_oss << indent0 << "la_psi=\"" << this->la_psi << "\"" << std::endl;
+        s_oss << indent0 << "la_psi1=\"" << this->la_psi1 << "\"" << std::endl;
+        s_oss << indent0 << "la_psi2=\"" << this->la_psi2 << "\"" << std::endl;
+        s_oss << indent0 << "capacitance=\"" << this->capacitance[0] << " " << this->capacitance[0] << "\"" << std::endl;
 
         // totals
         s_oss << indent0;
@@ -137,6 +152,10 @@ void cxxSurfaceCharge::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent0 << "-charge_balance        " << this->charge_balance     << std::endl;
         s_oss << indent0 << "-mass_water            " << this->mass_water  << std::endl;
         s_oss << indent0 << "-la_psi                " << this->la_psi << std::endl;
+        s_oss << indent0 << "-la_psi1               " << this->la_psi1 << std::endl;
+        s_oss << indent0 << "-la_psi2               " << this->la_psi2 << std::endl;
+        s_oss << indent0 << "-capacitance0          " << this->capacitance[0] << std::endl;
+        s_oss << indent0 << "-capacitance1          " << this->capacitance[1] << std::endl;
 
         // totals
         s_oss << indent0;
@@ -159,6 +178,10 @@ void cxxSurfaceCharge::read_raw(CParser& parser)
                 vopts.push_back("mass_water");                 // 4 
                 vopts.push_back("la_psi");                     // 5 
                 vopts.push_back("diffuse_layer_totals");       // 6 
+                vopts.push_back("la_psi1");                    // 7 
+                vopts.push_back("la_psi2");                    // 8 
+                vopts.push_back("capacitance0");               // 9 
+                vopts.push_back("capacitance1");               // 10 
         }                                                      
 
         std::istream::pos_type ptr;
@@ -173,6 +196,10 @@ void cxxSurfaceCharge::read_raw(CParser& parser)
         bool charge_balance_defined(false); 
         bool mass_water_defined(false); 
         bool la_psi_defined(false); 
+        bool la_psi1_defined(false); 
+        bool la_psi2_defined(false); 
+        bool capacitance0_defined(false); 
+        bool capacitance1_defined(false); 
 
         for (;;)
         {
@@ -269,6 +296,46 @@ void cxxSurfaceCharge::read_raw(CParser& parser)
                         opt_save = 6;
                         break;
 
+                case 7: // la_psi1
+                        if (!(parser.get_iss() >> this->la_psi1))
+                        {
+                                this->la_psi1 = 0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for la_psi1.", CParser::OT_CONTINUE);
+                        }
+                        la_psi1_defined = true;
+                        break;
+
+                case 8: // la_psi2
+                        if (!(parser.get_iss() >> this->la_psi2))
+                        {
+                                this->la_psi2 = 0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for la_psi.", CParser::OT_CONTINUE);
+                        }
+                        la_psi_defined = true;
+                        break;
+
+                case 9: // capacitance0
+                        if (!(parser.get_iss() >> this->capacitance[0]))
+                        {
+                                this->capacitance[0] = 0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for capacitance0.", CParser::OT_CONTINUE);
+                        }
+                        capacitance0_defined = true;
+                        break;
+
+                case 10: // capacitance1
+                        if (!(parser.get_iss() >> this->capacitance[1]))
+                        {
+                                this->capacitance[1] = 0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for capacitance1.", CParser::OT_CONTINUE);
+                        }
+                        capacitance1_defined = true;
+                        break;
+
                 }
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
@@ -297,6 +364,22 @@ void cxxSurfaceCharge::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("La_psi not defined for SurfaceCharge input.", CParser::OT_CONTINUE);
         }
+        if (la_psi1_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("La_psi1 not defined for SurfaceCharge input.", CParser::OT_CONTINUE);
+        }
+        if (la_psi2_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("La_psi2 not defined for SurfaceCharge input.", CParser::OT_CONTINUE);
+        }
+        if (capacitance0_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Capacitance0 not defined for SurfaceCharge input.", CParser::OT_CONTINUE);
+        }
+        if (capacitance1_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Capacitance1 not defined for SurfaceCharge input.", CParser::OT_CONTINUE);
+        }
 }
 #ifdef USE_MPI
 #include "Dictionary.h"
@@ -310,6 +393,10 @@ void cxxSurfaceCharge::mpi_pack(std::vector<int>& ints, std::vector<double>& dou
         doubles.push_back(this->charge_balance);
         doubles.push_back(this->mass_water);
         doubles.push_back(this->la_psi);
+        doubles.push_back(this->la_psi1);
+        doubles.push_back(this->la_psi2);
+        doubles.push_back(this->capacitance[0]);
+        doubles.push_back(this->capacitance[1]);
 	this->diffuse_layer_totals.mpi_pack(ints, doubles);
 }
 void cxxSurfaceCharge::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
@@ -323,6 +410,10 @@ void cxxSurfaceCharge::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->charge_balance = doubles[d++];
 	this->mass_water = doubles[d++];
 	this->la_psi = doubles[d++];
+	this->la_psi1 = doubles[d++];
+	this->la_psi2 = doubles[d++];
+	this->capacitance[0] = doubles[d++];
+	this->capacitance[1] = doubles[d++];
 	this->diffuse_layer_totals.mpi_unpack(ints, &i, doubles, &d);
 	*ii = i;
 	*dd = d;

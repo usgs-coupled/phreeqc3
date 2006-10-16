@@ -25,10 +25,13 @@ cxxSurface::cxxSurface()
         //
 : cxxNumKeyword()
 {
-        diffuse_layer           = false;
-        edl                     = false;
+	type = NO_EDL;
+	dl_type = NO_DL;
+	sites_units = SITES_ABSOLUTE;
+        //diffuse_layer           = false;
+        //edl                     = false;
         only_counter_ions       = false;
-        donnan                  = false;
+        //donnan                  = false;
         thickness               = 0.0;
 }
 
@@ -45,10 +48,13 @@ cxxNumKeyword()
         this->set_description(surface_ptr->description);
         n_user                       = surface_ptr->n_user;      
         n_user_end                   = surface_ptr->n_user_end;  
-        diffuse_layer                = (surface_ptr->diffuse_layer == TRUE); 
-        edl                          = (surface_ptr->edl == TRUE); 
+	type                         = surface_ptr->type;  
+        dl_type                      = surface_ptr->dl_type;  
+	sites_units                  = surface_ptr->sites_units;  
+        //diffuse_layer                = (surface_ptr->diffuse_layer == TRUE); 
+        //edl                          = (surface_ptr->edl == TRUE); 
         only_counter_ions            = (surface_ptr->only_counter_ions == TRUE); 
-        donnan                       = (surface_ptr->donnan == TRUE); 
+        //donnan                       = (surface_ptr->donnan == TRUE); 
         thickness                    = surface_ptr->thickness; 
         // Surface components
         for (i = 0; i < surface_ptr->count_comps; i++) {
@@ -95,10 +101,13 @@ struct surface *cxxSurface::cxxSurface2surface()
         surface_ptr->n_user                      = this->n_user;             
         surface_ptr->n_user_end                  = this->n_user_end;         
         surface_ptr->new_def                     = FALSE;  
-        surface_ptr->diffuse_layer               = this->diffuse_layer;
-        surface_ptr->edl                         = this->edl;
+	surface_ptr->type                        = this->type;
+	surface_ptr->dl_type                     = this->dl_type;
+	surface_ptr->sites_units                 = this->sites_units;
+        //surface_ptr->diffuse_layer               = this->diffuse_layer;
+        //surface_ptr->edl                         = this->edl;
         surface_ptr->only_counter_ions           = this->only_counter_ions;                
-        surface_ptr->donnan                      = this->donnan;  
+        //surface_ptr->donnan                      = this->donnan;  
         surface_ptr->thickness                   = this->thickness;             
         surface_ptr->debye_units                 = 1.0;          
         surface_ptr->solution_equilibria         = FALSE;
@@ -114,7 +123,8 @@ struct surface *cxxSurface::cxxSurface2surface()
 
         // Surface charge
 	surface_ptr->charge = (struct surface_charge *) free_check_null(surface_ptr->charge);
-	if (surface_ptr->edl == TRUE) {
+	//if (surface_ptr->edl == TRUE) {
+	if (surface_ptr->type == DDL || surface_ptr->type == CD_MUSIC) {
 		surface_ptr->count_charge = (int) this->surfaceCharges.size();
 		surface_ptr->charge = cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(this->surfaceCharges);
 	} else {
@@ -139,16 +149,21 @@ void cxxSurface::dump_xml(std::ostream& s_oss, unsigned int indent)const
         s_oss << "<surface " << std::endl;
 
         s_oss << indent1;
-        s_oss << "diffuse_layer=\"" << this->diffuse_layer << "\"" << std::endl;
+        //s_oss << "diffuse_layer=\"" << this->diffuse_layer << "\"" << std::endl;
+        s_oss << "surface_type=\"" << this->type << "\"" << std::endl;
 
         s_oss << indent1;
-        s_oss << "edl=\"" << this->edl << "\"" << std::endl;
+        //s_oss << "edl=\"" << this->edl << "\"" << std::endl;
+	s_oss << "dl_type=\"" << this->dl_type << "\"" << std::endl;
+
+        s_oss << indent1;
+	s_oss << "sites_units=\"" << this->sites_units << "\"" << std::endl;
 
         s_oss << indent1;
         s_oss << "only_counter_ions=\"" << this->only_counter_ions << "\"" << std::endl;
 
-        s_oss << indent1;
-        s_oss << "donnan=\"" << this->donnan << "\"" << std::endl;
+        //s_oss << indent1;
+        //s_oss << "donnan=\"" << this->donnan << "\"" << std::endl;
 
         s_oss << indent1;
         s_oss << "thickness=\"" << this->thickness << "\"" << std::endl;
@@ -186,16 +201,21 @@ void cxxSurface::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << "SURFACE_RAW       " << this->n_user  << " " << this->description << std::endl;
 
         s_oss << indent1;
-        s_oss << "-diffuse_layer " << this->diffuse_layer << std::endl;
+        //s_oss << "-diffuse_layer " << this->diffuse_layer << std::endl;
+        s_oss << "-type " << this->type << std::endl;
 
         s_oss << indent1;
-        s_oss << "-edl " << this->edl << std::endl;
+        //s_oss << "-edl " << this->edl << std::endl;
+	s_oss << "-dl_type " << this->dl_type << std::endl;
+
+        s_oss << indent1;
+	s_oss << "-sites_units " << this->sites_units << std::endl;
 
         s_oss << indent1;
         s_oss << "-only_counter_ions " << this->only_counter_ions << std::endl;
 
-        s_oss << indent1;
-        s_oss << "-donnan " << this->donnan << std::endl;
+        //s_oss << indent1;
+        //s_oss << "-donnan " << this->donnan << std::endl;
 
         s_oss << indent1;
         s_oss << "-thickness " << this->thickness << std::endl;
@@ -221,6 +241,7 @@ void cxxSurface::dump_raw(std::ostream& s_oss, unsigned int indent)const
 void cxxSurface::read_raw(CParser& parser)
 {
         static std::vector<std::string> vopts;
+	int i = 0;
         if (vopts.empty()) {
                 vopts.reserve(15);
                 vopts.push_back("diffuse_layer");             // 0 
@@ -230,6 +251,9 @@ void cxxSurface::read_raw(CParser& parser)
                 vopts.push_back("thickness");                 // 4 
                 vopts.push_back("component");                 // 5
                 vopts.push_back("charge_component");          // 6 
+                vopts.push_back("type ");                     // 7
+                vopts.push_back("dl_type");                   // 8 
+                vopts.push_back("sites_units");               // 9 
         }                                                     
                                                               
         std::istream::pos_type ptr;                           
@@ -242,11 +266,14 @@ void cxxSurface::read_raw(CParser& parser)
         this->read_number_description(parser);
 
         opt_save = CParser::OPT_ERROR;
-        bool diffuse_layer_defined(false); 
-        bool edl_defined(false); 
+        //bool diffuse_layer_defined(false); 
+        //bool edl_defined(false); 
         bool only_counter_ions_defined(false); 
-        bool donnan_defined(false); 
+        //bool donnan_defined(false); 
         bool thickness_defined(false); 
+	bool type_defined(false);
+	bool dl_type_defined(false);
+	bool sites_units_defined(false);
 
         for (;;)
         {
@@ -271,6 +298,9 @@ void cxxSurface::read_raw(CParser& parser)
                         break;
 
                 case 0: // diffuse_layer
+			parser.incr_input_error();
+			parser.error_msg("Diffuse layer is obsolete, use -type.", CParser::OT_CONTINUE);
+			/*
                         if (!(parser.get_iss() >> this->diffuse_layer))
                         {
                                 this->diffuse_layer = false;
@@ -278,10 +308,14 @@ void cxxSurface::read_raw(CParser& parser)
                                 parser.error_msg("Expected boolean value for diffuse_layer.", CParser::OT_CONTINUE);
                         }
                         diffuse_layer_defined = true;
+			*/
                         useLastLine = false;
                         break;
 
                 case 1: // edl
+			parser.incr_input_error();
+			parser.error_msg("-edl is obsolete, use -type.", CParser::OT_CONTINUE);
+			/*
                         if (!(parser.get_iss() >> this->edl))
                         {
                                 this->edl = false;
@@ -289,6 +323,7 @@ void cxxSurface::read_raw(CParser& parser)
                                 parser.error_msg("Expected boolean value for edl.", CParser::OT_CONTINUE);
                         }
                         edl_defined = true;
+			*/
                         useLastLine = false;
                         break;
 
@@ -304,6 +339,9 @@ void cxxSurface::read_raw(CParser& parser)
                         break;
 
                 case 3: // donnan
+			parser.incr_input_error();
+			parser.error_msg("-Donnan is obsolete, use -dl_type.", CParser::OT_CONTINUE);
+			/*
                         if (!(parser.get_iss() >> this->donnan))
                         {
                                 this->donnan = false;
@@ -311,6 +349,7 @@ void cxxSurface::read_raw(CParser& parser)
                                 parser.error_msg("Expected boolean value for donnan.", CParser::OT_CONTINUE);
                         }
                         donnan_defined = true;
+			*/
                         useLastLine = false;
                         break;
 
@@ -342,11 +381,48 @@ void cxxSurface::read_raw(CParser& parser)
                         }
                         useLastLine = true;
                         break;
+                case 7: // type
+			i = 0;
+                        if (!(parser.get_iss() >> i))
+                        {
+                                this->type = NO_EDL;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for type.", CParser::OT_CONTINUE);
+                        }
+			this->type = (SURFACE_TYPE) i;
+                        type_defined = true;
+                        useLastLine = false;
+                        break;
+                case 8: // dl_type
+			i = 0;
+			if (!(parser.get_iss() >> i))
+			{
+				this->dl_type = NO_DL;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for dl_type.", CParser::OT_CONTINUE);
+			}
+			this->dl_type = (DIFFUSE_LAYER_TYPE) i;
+                        dl_type_defined = true;
+                        useLastLine = false;
+                        break;
+                case 9: // type
+			i = 0;
+                        if (!(parser.get_iss() >> i))
+                        {
+                                this->sites_units = SITES_ABSOLUTE;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for sites_units.", CParser::OT_CONTINUE);
+                        }
+			this->sites_units = (SITES_UNITS) i;
+                        sites_units_defined = true;
+                        useLastLine = false;
+                        break;
                 }
 
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
         // members that must be defined
+	/*
         if (diffuse_layer_defined == false) {
                 parser.incr_input_error();
                 parser.error_msg("Diffuse_layer not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
@@ -355,17 +431,32 @@ void cxxSurface::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Edl not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }
+	*/
         if (only_counter_ions_defined == false) {
                 parser.incr_input_error();
                 parser.error_msg("Only_counter_ions not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }
+	/*
         if (donnan_defined == false) {
                 parser.incr_input_error();
                 parser.error_msg("Donnan not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }
+	*/
         if (thickness_defined == false) {
                 parser.incr_input_error();
                 parser.error_msg("Thickness not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+        }
+        if (type_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Surface type not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+        }
+        if (dl_type_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Dl_type not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+        }
+        if (sites_units == false) {
+                parser.incr_input_error();
+                parser.error_msg("Sites_units not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }
 }
 #ifdef USE_MPI
@@ -383,10 +474,14 @@ void cxxSurface::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 	for (std::list<cxxSurfaceCharge>::iterator it = this->surfaceCharges.begin(); it != this->surfaceCharges.end(); it++) {
 		it->mpi_pack(ints, doubles);
 	}
-	ints.push_back((int) this->diffuse_layer);
-	ints.push_back((int) this->edl);
+	//ints.push_back((int) this->diffuse_layer);
+	//ints.push_back((int) this->edl);
+	ints.push_back((int) this->type);
+	ints.push_back((int) this->dl_type);
+	ints.push_back((int) this->sites_units);
+	
 	ints.push_back((int) this->only_counter_ions);
-	ints.push_back((int) this->donnan);
+	//ints.push_back((int) this->donnan);
 	doubles.push_back(this->thickness);
 }
 /* ---------------------------------------------------------------------- */
@@ -414,10 +509,13 @@ void cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 		sc.mpi_unpack(ints, &i, doubles, &d);
 		this->surfaceCharges.push_back(sc);
 	}
-	this->diffuse_layer = (ints[i++] != 0);
-	this->edl = (ints[i++] != 0);
-	this->only_counter_ions = (ints[i++] != 0);
-	this->donnan = (ints[i++] != 0);
+	//this->diffuse_layer = (bool) ints[i++];
+	//this->edl = (bool) ints[i++];
+	this->type = (SURFACE_TYPE) ints[i++];
+	this->dl_type = (DIFFUSE_LAYER_TYPE) ints[i++];
+	this->sites_units = (SITES_UNITS) ints[i++];
+	this->only_counter_ions = (bool) ints[i++];
+	//this->donnan = (bool) ints[i++];
 	this->thickness = doubles[d++];
 	*ii = i;
 	*dd = d;
