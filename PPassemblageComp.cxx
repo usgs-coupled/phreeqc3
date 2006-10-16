@@ -29,6 +29,7 @@ cxxPPassemblageComp::cxxPPassemblageComp()
         moles                            = 0;
         delta                            = 0;
         initial_moles                    = 0;
+        force_equality                   = false;
         dissolve_only                    = false;
 }
 
@@ -44,6 +45,7 @@ cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase *pure_phase_ptr)
         moles                     = pure_phase_ptr->moles;
         delta                     = pure_phase_ptr->delta;
         initial_moles             = pure_phase_ptr->initial_moles;
+        force_equality            = ( pure_phase_ptr->force_equality == TRUE);
         dissolve_only             = ( pure_phase_ptr->dissolve_only == TRUE);
 }
 
@@ -73,6 +75,7 @@ struct pure_phase *cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(std::list
                 pure_phase_ptr[i].moles                 =  it->moles;
                 pure_phase_ptr[i].delta                 =  it->delta;
                 pure_phase_ptr[i].initial_moles         =  it->initial_moles;
+                pure_phase_ptr[i].force_equality        =  (int) it->force_equality;
                 pure_phase_ptr[i].dissolve_only         =  (int) it->dissolve_only;
                 i++;
         }
@@ -97,6 +100,7 @@ void cxxPPassemblageComp::dump_xml(std::ostream& s_oss, unsigned int indent)cons
         s_oss << indent0 << "moles=\"" << this->moles << "\"" << std::endl;
         s_oss << indent0 << "delta=\"" << this->delta << "\"" << std::endl;
         s_oss << indent0 << "initial_moles=\"" << this->initial_moles << "\"" << std::endl;
+        s_oss << indent0 << "force_equality=\"" << this->force_equality  << "\"" << std::endl;
         s_oss << indent0 << "dissolve_only=\"" << this->dissolve_only  << "\"" << std::endl;
 
 }
@@ -119,6 +123,7 @@ void cxxPPassemblageComp::dump_raw(std::ostream& s_oss, unsigned int indent)cons
         s_oss << indent0 << "-moles                 " << this->moles << std::endl;
         s_oss << indent0 << "-delta                 " << this->delta << std::endl;
         s_oss << indent0 << "-initial_moles         " << this->initial_moles << std::endl;
+        s_oss << indent0 << "-force_equality        " << this->force_equality  << std::endl;
         s_oss << indent0 << "-dissolve_only         " << this->dissolve_only  << std::endl;
 }
 
@@ -136,6 +141,7 @@ void cxxPPassemblageComp::read_raw(CParser& parser)
                 vopts.push_back("delta");                    // 4
                 vopts.push_back("initial_moles");            // 5     
                 vopts.push_back("dissolve_only");            // 6
+                vopts.push_back("force_equality");           // 7
         }
 
         std::istream::pos_type ptr;
@@ -150,6 +156,7 @@ void cxxPPassemblageComp::read_raw(CParser& parser)
         bool delta_defined(false); 
         bool initial_moles_defined(false); 
         bool dissolve_only_defined(false);
+        bool force_equality_defined(false);
 
         for (;;)
         {
@@ -246,6 +253,16 @@ void cxxPPassemblageComp::read_raw(CParser& parser)
                         }
                         dissolve_only_defined = true;
                         break;
+
+                case 7: // force_equality
+                        if (!(parser.get_iss() >> this->force_equality))
+                        {
+                                this->force_equality = false;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected boolean value for force_equality.", CParser::OT_CONTINUE);
+                        }
+                        force_equality_defined = true;
+                        break;
                 }
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
@@ -274,6 +291,10 @@ void cxxPPassemblageComp::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Dissolve_only not defined for PPassemblageComp input.", CParser::OT_CONTINUE);
         }
+        if (force_equality_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Force_equality not defined for PPassemblageComp input.", CParser::OT_CONTINUE);
+        }
 }
 
 #ifdef USE_MPI
@@ -288,6 +309,7 @@ void cxxPPassemblageComp::mpi_pack(std::vector<int>& ints, std::vector<double>& 
 	doubles.push_back(this->moles);
 	doubles.push_back(this->delta);
 	doubles.push_back(this->initial_moles);
+	ints.push_back((int) this->force_equality);
 	ints.push_back((int) this->dissolve_only);
 }
 void cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
@@ -301,6 +323,7 @@ void cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *d
 	this->moles = doubles[d++];
 	this->delta = doubles[d++];
 	this->initial_moles = doubles[d++];
+	this->force_equality = (ints[i++] != 0);
 	this->dissolve_only = (ints[i++] != 0);
 	*ii = i;
 	*dd = d;
