@@ -43,7 +43,8 @@ protected:
         double grams;
         double charge_balance;
         double mass_water;
-        double la_psi;
+        double la_psi, la_psi1, la_psi2;
+	double capacitance[2];
         //std::map<double, cxxSurfDL> g;
         //char * psi_master_name;
         cxxNameDouble diffuse_layer_totals; 
