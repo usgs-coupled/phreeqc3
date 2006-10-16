@@ -54,9 +54,10 @@ totals(exch_comp_ptr->totals)
         rate_name                = exch_comp_ptr->rate_name;
         formula_z                = exch_comp_ptr->formula_z;
 }
+
 cxxExchComp::cxxExchComp(std::vector<cxxExchComp> &ec_vector, std::vector<double> &f_vector) 
         //
-        // constructor for cxxExchComp from struct exch_comp
+        // constructor for cxxExchComp from mixing 
         //
 {
 	if (ec_vector.size() <= 0) return;
@@ -201,6 +202,7 @@ void cxxExchComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
         // Exch_Comp element and attributes
 
         s_oss << indent0 << "formula=\"" << this->formula << "\"" << std::endl;
+        s_oss << indent0 << "formula_z=\"" << this->formula_z << "\"" << std::endl;
         s_oss << indent0 << "moles=\"" << this->moles  << "\"" << std::endl;
         s_oss << indent0 << "la=\"" << this->la     << "\"" << std::endl;
         s_oss << indent0 << "charge_balance=\"" << this->charge_balance << "\"" << std::endl;

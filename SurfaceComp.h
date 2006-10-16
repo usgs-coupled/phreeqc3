@@ -41,6 +41,8 @@ public:
 
 protected:
         char * formula;
+        cxxNameDouble formula_totals; 
+	double formula_z;
         double moles;
         cxxNameDouble totals; 
         double la;
