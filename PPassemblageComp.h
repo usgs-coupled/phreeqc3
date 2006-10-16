@@ -41,6 +41,7 @@ protected:
         double moles;
         double delta;
         double initial_moles;
+	bool force_equality;
         bool dissolve_only;
 
 public:
