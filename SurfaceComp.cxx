@@ -25,6 +25,8 @@ cxxSurfaceComp::cxxSurfaceComp()
         //
 {
         formula                 = NULL;
+        formula_totals.type     = cxxNameDouble::ND_ELT_MOLES;
+	formula_z               = 0.0;
         moles                   = 0.0;
         totals.type             = cxxNameDouble::ND_ELT_MOLES;
         la                      = 0.0;
@@ -40,9 +42,11 @@ cxxSurfaceComp::cxxSurfaceComp(struct surface_comp *surf_comp_ptr)
         // constructor for cxxSurfaceComp from struct surface_comp
         //
 : 
+formula_totals(surf_comp_ptr->formula_totals),
 totals(surf_comp_ptr->totals)
 {
         formula                  = surf_comp_ptr->formula;
+        formula_z                = surf_comp_ptr->formula_z;
         moles                    = surf_comp_ptr->moles;
         la                       = surf_comp_ptr->la;
         charge_number            = surf_comp_ptr->charge;
@@ -95,6 +99,8 @@ struct surface_comp *cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::list<cxxSu
         int i = 0;
         for (std::list<cxxSurfaceComp>::iterator it = el.begin(); it != el.end(); ++it) {
                 surf_comp_ptr[i].formula                =  it->formula;
+                surf_comp_ptr[i].formula_totals         =  it->formula_totals.elt_list();
+                surf_comp_ptr[i].formula_z              =  it->formula_z;
                 surf_comp_ptr[i].moles                  =  it->moles;
                 surf_comp_ptr[i].master                 =  it->get_master();
                 surf_comp_ptr[i].totals                 =  it->totals.elt_list();
@@ -123,6 +129,7 @@ void cxxSurfaceComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
         // Surf_Comp element and attributes
 
         s_oss << indent0 << "formula=\"" << this->formula << "\"" << std::endl;
+        s_oss << indent0 << "formula_z=\"" << this->formula_z << "\"" << std::endl;
         s_oss << indent0 << "moles=\"" << this->moles  << "\"" << std::endl;
         s_oss << indent0 << "la=\"" << this->la     << "\"" << std::endl;
         s_oss << indent0 << "charge_number=\"" << this->charge_number   << "\"" << std::endl;
@@ -134,6 +141,11 @@ void cxxSurfaceComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
                 s_oss << indent0 << "rate_name=\"" << this->rate_name << "\"" << std::endl;
         }
         s_oss << indent0 << "phase_proportion=\"" << this->phase_proportion  << "\"" << std::endl;
+
+        // formula_totals
+        s_oss << indent0;
+        s_oss << "<formula_totals " << std::endl;
+        this->formula_totals.dump_xml(s_oss, indent + 1);
 
         // totals
         s_oss << indent0;
@@ -155,6 +167,7 @@ void cxxSurfaceComp::dump_raw(std::ostream& s_oss, unsigned int indent)const
         // Surf_Comp element and attributes
 
         s_oss << indent0 << "-formula               " << this->formula << std::endl;
+        s_oss << indent0 << "-formula_z             " << this->formula_z  << std::endl;
         s_oss << indent0 << "-moles                 " << this->moles  << std::endl;
         s_oss << indent0 << "-la                    " << this->la     << std::endl;
         s_oss << indent0 << "-charge_number         " << this->charge_number  << std::endl;
@@ -166,6 +179,11 @@ void cxxSurfaceComp::dump_raw(std::ostream& s_oss, unsigned int indent)const
                 s_oss << indent0 << "-rate_name             " << this->rate_name << std::endl;
         }
         s_oss << indent0 << "-phase_proportion      " << this->phase_proportion  << std::endl;
+
+        // formula_totals
+        s_oss << indent0;
+        s_oss << "-formula_totals" << std::endl;
+        this->formula_totals.dump_raw(s_oss, indent + 1);
 
         // totals
         s_oss << indent0;
@@ -190,6 +208,8 @@ void cxxSurfaceComp::read_raw(CParser& parser)
                 vopts.push_back("rate_name");                 // 6 
                 vopts.push_back("phase_proportion");          // 7 
                 vopts.push_back("totals");                    // 8
+                vopts.push_back("formula_z");                 // 9
+                vopts.push_back("formula_totals");            // 10
         }
 
         std::istream::pos_type ptr;
@@ -203,6 +223,7 @@ void cxxSurfaceComp::read_raw(CParser& parser)
         bool la_defined(false); 
         bool charge_number_defined(false); 
         bool charge_balance_defined(false); 
+        bool formula_z_defined(false);
 
         for (;;)
         {
@@ -317,6 +338,24 @@ void cxxSurfaceComp::read_raw(CParser& parser)
                         opt_save = 8;
                         break;
 
+                case 9: // formula_z
+                        if (!(parser.get_iss() >> this->formula_z))
+                        {
+                                this->formula_z = 0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for formula_z.", CParser::OT_CONTINUE);
+                        }
+                        formula_z_defined = true;
+                        break;
+
+                case 10: // formula_totals
+                        if ( this->formula_totals.read_raw(parser, next_char) != CParser::PARSER_OK) {
+                                parser.incr_input_error();
+                                parser.error_msg("Expected element name and molality for SurfaceComp formula totals.", CParser::OT_CONTINUE);
+                        }                               
+                        opt_save = 10;
+                        break;
+
                 }
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
@@ -324,6 +363,10 @@ void cxxSurfaceComp::read_raw(CParser& parser)
         if (formula_defined == false) {
                 parser.incr_input_error();
                 parser.error_msg("Formula not defined for SurfaceComp input.", CParser::OT_CONTINUE);
+        }
+        if (formula_z_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Formula_z not defined for ExchComp input.", CParser::OT_CONTINUE);
         }
         if (moles_defined == false) {
                 parser.incr_input_error();
@@ -349,6 +392,8 @@ void cxxSurfaceComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubl
 	extern cxxDictionary dictionary;
 
 	ints.push_back(dictionary.string2int(this->formula));
+	doubles.push_back(this->formula_z);
+	this->formula_totals.mpi_pack(ints, doubles);
 	doubles.push_back(this->moles);
 	this->totals.mpi_pack(ints, doubles);
 	doubles.push_back(this->la);
@@ -364,6 +409,8 @@ void cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	int i = *ii;
 	int d = *dd;
 	this->formula = dictionary.int2char(ints[i++]);
+	this->formula_z = doubles[d++];
+	this->formula_totals.mpi_unpack(ints, &i, doubles, &d);
 	this->moles = doubles[d++];
 	this->totals.mpi_unpack(ints, &i, doubles, &d);
 	this->la = doubles[d++];
