@@ -405,7 +405,7 @@ void cxxSurface::read_raw(CParser& parser)
                         dl_type_defined = true;
                         useLastLine = false;
                         break;
-                case 9: // type
+                case 9: // sites_units
 			i = 0;
                         if (!(parser.get_iss() >> i))
                         {
@@ -454,7 +454,7 @@ void cxxSurface::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Dl_type not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }
-        if (sites_units == false) {
+        if (sites_units_defined == false) {
                 parser.incr_input_error();
                 parser.error_msg("Sites_units not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }

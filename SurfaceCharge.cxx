@@ -313,7 +313,7 @@ void cxxSurfaceCharge::read_raw(CParser& parser)
                                 parser.incr_input_error();
                                 parser.error_msg("Expected numeric value for la_psi.", CParser::OT_CONTINUE);
                         }
-                        la_psi_defined = true;
+                        la_psi2_defined = true;
                         break;
 
                 case 9: // capacitance0
