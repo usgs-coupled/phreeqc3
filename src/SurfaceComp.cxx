@@ -35,6 +35,7 @@ cxxSurfaceComp::cxxSurfaceComp()
         phase_name              = NULL;
         phase_proportion        = 0.0;
         rate_name               = NULL;
+        Dw                      = 0.0;
 }
 
 cxxSurfaceComp::cxxSurfaceComp(struct surface_comp *surf_comp_ptr)
@@ -54,6 +55,7 @@ totals(surf_comp_ptr->totals)
         phase_name               = surf_comp_ptr->phase_name;
         phase_proportion         = surf_comp_ptr->phase_proportion;
         rate_name                = surf_comp_ptr->rate_name;
+        Dw                       = surf_comp_ptr->Dw;
 }
 
 cxxSurfaceComp::~cxxSurfaceComp()
@@ -110,6 +112,7 @@ struct surface_comp *cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::list<cxxSu
                 surf_comp_ptr[i].phase_name             =  it->phase_name;
                 surf_comp_ptr[i].phase_proportion       =  it->phase_proportion;
                 surf_comp_ptr[i].rate_name              =  it->rate_name;
+                surf_comp_ptr[i].Dw                     =  it->Dw;
                 surf_comp_ptr[i].master                 =  it->get_master();
                 i++;
         }
@@ -141,6 +144,7 @@ void cxxSurfaceComp::dump_xml(std::ostream& s_oss, unsigned int indent)const
                 s_oss << indent0 << "rate_name=\"" << this->rate_name << "\"" << std::endl;
         }
         s_oss << indent0 << "phase_proportion=\"" << this->phase_proportion  << "\"" << std::endl;
+        s_oss << indent0 << "Dw=\"" << this->Dw  << "\"" << std::endl;
 
         // formula_totals
         s_oss << indent0;
@@ -179,6 +183,7 @@ void cxxSurfaceComp::dump_raw(std::ostream& s_oss, unsigned int indent)const
                 s_oss << indent0 << "-rate_name             " << this->rate_name << std::endl;
         }
         s_oss << indent0 << "-phase_proportion      " << this->phase_proportion  << std::endl;
+	s_oss << indent0 << "-Dw                    " << this->Dw << std::endl;
 
         // formula_totals
         s_oss << indent0;
@@ -210,6 +215,7 @@ void cxxSurfaceComp::read_raw(CParser& parser)
                 vopts.push_back("totals");                    // 8
                 vopts.push_back("formula_z");                 // 9
                 vopts.push_back("formula_totals");            // 10
+                vopts.push_back("Dw");                        // 11
         }
 
         std::istream::pos_type ptr;
@@ -224,6 +230,7 @@ void cxxSurfaceComp::read_raw(CParser& parser)
         bool charge_number_defined(false); 
         bool charge_balance_defined(false); 
         bool formula_z_defined(false);
+        bool Dw_defined(false);
 
         for (;;)
         {
@@ -356,6 +363,15 @@ void cxxSurfaceComp::read_raw(CParser& parser)
                         opt_save = 10;
                         break;
 
+                case 11: // Dw
+                        if (!(parser.get_iss() >> this->Dw))
+                        {
+                                this->Dw = 0.0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for Dw.", CParser::OT_CONTINUE);
+                        }
+                        Dw_defined = true;
+                        break;
                 }
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
@@ -384,6 +400,10 @@ void cxxSurfaceComp::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Charge_balance not defined for SurfaceComp input.", CParser::OT_CONTINUE);
         }
+        if (Dw_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Dw not defined for SurfaceComp input.", CParser::OT_CONTINUE);
+        }
 }
 #ifdef USE_MPI
 #include "Dictionary.h"
@@ -402,6 +422,7 @@ void cxxSurfaceComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubl
 	ints.push_back(dictionary.string2int(this->phase_name));
 	doubles.push_back(this->phase_proportion);
 	ints.push_back(dictionary.string2int(this->rate_name));
+	doubles.push_back(this->Dw);
 }
 void cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 {
@@ -419,6 +440,7 @@ void cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->phase_name = dictionary.int2char(ints[i++]);
         this->phase_proportion = doubles[d++];
 	this->rate_name = dictionary.int2char(ints[i++]);
+        this->Dw = doubles[d++];
 	*ii = i;
 	*dd = d;
 }

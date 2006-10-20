@@ -51,7 +51,7 @@ protected:
         char   *phase_name;
         double phase_proportion;
         char   *rate_name;
-
+	double Dw;
 public:
 
 };
