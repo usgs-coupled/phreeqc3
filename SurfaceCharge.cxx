@@ -96,6 +96,10 @@ struct surface_charge *cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::li
                 surf_charge_ptr[i].la_psi2              = it->la_psi2;
                 surf_charge_ptr[i].capacitance[0]       = it->capacitance[0];
                 surf_charge_ptr[i].capacitance[1]       = it->capacitance[1];
+		surf_charge_ptr[i].sigma0               = 0;
+		surf_charge_ptr[i].sigma1               = 0;
+		surf_charge_ptr[i].sigma2               = 0;
+		surf_charge_ptr[i].sigmaddl             = 0;
                 surf_charge_ptr[i].diffuse_layer_totals = it->diffuse_layer_totals.elt_list();
                 //surf_charge_ptr[i].psi_master           = it->get_psi_master();
                 surf_charge_ptr[i].count_g              = 0;
