@@ -25,14 +25,18 @@ cxxSurface::cxxSurface()
         //
 : cxxNumKeyword()
 {
-	type = NO_EDL;
-	dl_type = NO_DL;
-	sites_units = SITES_ABSOLUTE;
+	type                      = NO_EDL;
+	dl_type                   = NO_DL;
+	sites_units               = SITES_ABSOLUTE;
         //diffuse_layer           = false;
         //edl                     = false;
-        only_counter_ions       = false;
+        only_counter_ions         = false;
         //donnan                  = false;
-        thickness               = 0.0;
+        thickness                 = 0.0;
+        debye_lengths             = 0.0;
+	DDL_viscosity             = 0.0;
+	DDL_limit                 = 0.0;
+        transport                 = false;
 }
 
 cxxSurface::cxxSurface(struct surface *surface_ptr)
@@ -56,6 +60,10 @@ cxxNumKeyword()
         only_counter_ions            = (surface_ptr->only_counter_ions == TRUE); 
         //donnan                       = (surface_ptr->donnan == TRUE); 
         thickness                    = surface_ptr->thickness; 
+        debye_lengths                = surface_ptr->debye_lengths; 
+	DDL_viscosity                = surface_ptr->DDL_viscosity; 
+	DDL_limit                    = surface_ptr->DDL_limit;
+        transport                    = (surface_ptr->transport == TRUE); 
         // Surface components
         for (i = 0; i < surface_ptr->count_comps; i++) {
                 cxxSurfaceComp ec(&(surface_ptr->comps[i]));
@@ -109,12 +117,15 @@ struct surface *cxxSurface::cxxSurface2surface()
         surface_ptr->only_counter_ions           = this->only_counter_ions;                
         //surface_ptr->donnan                      = this->donnan;  
         surface_ptr->thickness                   = this->thickness;             
-        surface_ptr->debye_units                 = 1.0;          
+        surface_ptr->debye_lengths               = 1.0;          
         surface_ptr->solution_equilibria         = FALSE;
         surface_ptr->n_solution                  = -2;
         surface_ptr->related_phases              = (int) this->get_related_phases();
         surface_ptr->related_rate                = (int) this->get_related_rate();
-        surface_ptr->transport                   = FALSE;
+        surface_ptr->transport                   = this->transport;
+        surface_ptr->debye_lengths               = this->debye_lengths;
+	surface_ptr->DDL_viscosity               = this->DDL_viscosity;
+	surface_ptr->DDL_limit                   = this->DDL_limit;
 
         // Surface comps
         surface_ptr->count_comps = (int) this->surfaceComps.size();
@@ -168,6 +179,18 @@ void cxxSurface::dump_xml(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent1;
         s_oss << "thickness=\"" << this->thickness << "\"" << std::endl;
 
+        s_oss << indent1;
+        s_oss << "debye_lengths=\"" << this->debye_lengths << "\"" << std::endl;
+
+        s_oss << indent1;
+        s_oss << "DDL_viscosity=\"" << this->DDL_viscosity << "\"" << std::endl;
+
+        s_oss << indent1;
+        s_oss << "DDL_limit=\"" << this->DDL_limit << "\"" << std::endl;
+
+        s_oss << indent1;
+        s_oss << "transport=\"" << this->transport << "\"" << std::endl;
+
         // surface component structures
         s_oss << indent1;
         s_oss << "<component " << std::endl;
@@ -220,6 +243,18 @@ void cxxSurface::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent1;
         s_oss << "-thickness " << this->thickness << std::endl;
 
+        s_oss << indent1;
+        s_oss << "-debye_lengths " << this->debye_lengths << std::endl;
+
+        s_oss << indent1;
+        s_oss << "-DDL_viscosity " << this->DDL_viscosity << std::endl;
+
+        s_oss << indent1;
+        s_oss << "-DDL_limit= " << this->DDL_limit << std::endl;
+
+        s_oss << indent1;
+        s_oss << "-transport= " << this->transport << std::endl;
+
         // surfaceComps structures
         for (std::list<cxxSurfaceComp>::const_iterator it = surfaceComps.begin(); it != surfaceComps.end(); ++it) {
                 s_oss << indent1;
@@ -254,6 +289,10 @@ void cxxSurface::read_raw(CParser& parser)
                 vopts.push_back("type ");                     // 7
                 vopts.push_back("dl_type");                   // 8 
                 vopts.push_back("sites_units");               // 9 
+                vopts.push_back("debye_lengths");             // 10
+                vopts.push_back("DDL_viscosity");             // 11
+                vopts.push_back("DDL_limit");                 // 12
+                vopts.push_back("transport");                 // 13
         }                                                     
                                                               
         std::istream::pos_type ptr;                           
@@ -274,6 +313,10 @@ void cxxSurface::read_raw(CParser& parser)
 	bool type_defined(false);
 	bool dl_type_defined(false);
 	bool sites_units_defined(false);
+	bool debye_lengths_defined(false);
+	bool DDL_viscosity_defined(false);
+	bool DDL_limit_defined(false);
+	bool transport_defined(false);
 
         for (;;)
         {
@@ -417,6 +460,50 @@ void cxxSurface::read_raw(CParser& parser)
                         sites_units_defined = true;
                         useLastLine = false;
                         break;
+
+                case 10: // debye_lengths
+                        if (!(parser.get_iss() >> this->debye_lengths))
+                        {
+                                this->debye_lengths = 0.0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for debye_lengths.", CParser::OT_CONTINUE);
+                        }
+                        debye_lengths_defined = true;
+                        useLastLine = false;
+                        break;
+
+                case 11: // DDL_viscosity
+                        if (!(parser.get_iss() >> this->DDL_viscosity))
+                        {
+                                this->DDL_viscosity = 0.0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for DDL_viscosity.", CParser::OT_CONTINUE);
+                        }
+                        DDL_viscosity_defined = true;
+                        useLastLine = false;
+                        break;
+
+                case 12: // DDL_limit
+                        if (!(parser.get_iss() >> this->DDL_limit))
+                        {
+                                this->DDL_limit = 0.0;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected numeric value for DDL_limit.", CParser::OT_CONTINUE);
+                        }
+                        DDL_limit_defined = true;
+                        useLastLine = false;
+                        break;
+
+                case 13: // transport
+                        if (!(parser.get_iss() >> this->transport))
+                        {
+                                this->transport = false;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected boolean value for transport.", CParser::OT_CONTINUE);
+                        }
+                        transport_defined = true;
+                        useLastLine = false;
+                        break;
                 }
 
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
@@ -458,6 +545,22 @@ void cxxSurface::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Sites_units not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
         }
+        if (debye_lengths_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Debye_lengths not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+        }
+        if (DDL_viscosity_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("DDL_viscosity not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+        }
+        if (DDL_limit_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("DDL_limit not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+        }
+        if (transport_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Transport not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+        }
 }
 #ifdef USE_MPI
 /* ---------------------------------------------------------------------- */
@@ -483,6 +586,10 @@ void cxxSurface::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 	ints.push_back((int) this->only_counter_ions);
 	//ints.push_back((int) this->donnan);
 	doubles.push_back(this->thickness);
+	doubles.push_back(this->debye_lengths);
+	doubles.push_back(this->DDL_viscosity);
+	doubles.push_back(this->DDL_limit);
+	ints.push_back((int) this->transport);
 }
 /* ---------------------------------------------------------------------- */
 void cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
@@ -517,6 +624,10 @@ void cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->only_counter_ions = (bool) ints[i++];
 	//this->donnan = (bool) ints[i++];
 	this->thickness = doubles[d++];
+	this->debye_lengths = doubles[d++];
+	this->DDL_viscosity = doubles[d++];
+	this->DDL_limit = doubles[d++];
+	this->transport = (bool) ints[i++];
 	*ii = i;
 	*dd = d;
 }

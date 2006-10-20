@@ -53,8 +53,10 @@ protected:
 	enum SITES_UNITS sites_units;
         bool only_counter_ions;
         double thickness;
-        //double debye_units;
-        //int transport;
+        double debye_lengths;
+	double DDL_viscosity;
+	double DDL_limit;
+        bool transport;
 
 public:
         //static std::map<int, cxxSurface>& map;
