@@ -79,7 +79,7 @@ ifeq ($(CFG), RELEASE)
   INCLUDES     = -I../phreeqc
   CXX          = g++
   CXXFLAGS     = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
-  CXXFLAGS_MODEL = -Wall -pedantic -O2 $(DEFINES) $(INCLUDES)
+  CXXFLAGS_MODEL = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
   OBJECT_FILES = $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
   LD_FLAGS     = -lm ${CL1MP_LIB} 
 endif

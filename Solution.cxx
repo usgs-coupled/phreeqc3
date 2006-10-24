@@ -1072,8 +1072,9 @@ void test_classes(void)
 
 	
 
-	/*
+
         int i;
+	/*
 	std::map<int, cxxSolution>      Solutions;
 	cxxSolution soln(solution[0]);
 	Solutions[solution[0]->n_user] = soln;
@@ -1085,10 +1086,12 @@ void test_classes(void)
 	cxxNumKeyword nk;
 	x[solution[0]->n_user] = soln;
 	*/
-
-#ifdef SKIP
+	std::ostringstream msg;
+	status_on = FALSE;
+	std::cout << std::endl << "TEST CLASSES" << std::endl;
         for (i=0; i < count_solution; i++) {
                 if (solution[i]->new_def == TRUE) {
+			std::cout << "Solution new_def " << solution[i]->n_user << std::endl;
                         cxxISolution sol(solution[i]);
                         solution[i] = (struct solution *) solution_free(solution[i]);
                         solution[i] = sol.cxxISolution2solution();
@@ -1096,6 +1099,7 @@ void test_classes(void)
                         soln_ptr = solution[i];
                         soln_ptr = solution[i];
                 } else {
+			std::cout << "Solution " << solution[i]->n_user << std::endl;
                         std::ostringstream oss;
                         cxxSolution sol(solution[i]);
                         solution[i] = (struct solution *) solution_free(solution[i]);
@@ -1121,10 +1125,11 @@ void test_classes(void)
         }
         for (i=0; i < count_exchange; i++) {
                 if (exchange[i].new_def != TRUE) {
+			std::cout << "Exchange " << exchange[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxExchange ex(&(exchange[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
                         cxxExchange ex1;
                         std::string keyInput = oss.str();
@@ -1147,10 +1152,11 @@ void test_classes(void)
         }
         for (i=0; i < count_surface; i++) {
                 if (surface[i].new_def != TRUE) {
+			std::cout << "Surface " << surface[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxSurface ex(&(surface[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
 
                         cxxSurface ex1;
@@ -1176,10 +1182,11 @@ void test_classes(void)
         }
         for (i=0; i < count_pp_assemblage; i++) {
                 if (pp_assemblage[i].new_def != TRUE) {
+			std::cout << "PPassemblage " << pp_assemblage[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxPPassemblage ex(&(pp_assemblage[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
 
                         cxxPPassemblage ex1;
@@ -1204,37 +1211,39 @@ void test_classes(void)
 
         }
         for (i=0; i < count_kinetics; i++) {
-                        std::ostringstream oss;
-                        cxxKinetics ex(&(kinetics[i]));
-                        ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+		std::cout << "Kinetics " << kinetics[i].n_user << std::endl;
+		std::ostringstream oss;
+		cxxKinetics ex(&(kinetics[i]));
+		ex.dump_raw(oss, 0);
+		//std::cerr << oss.str();
+		
+
+		cxxKinetics ex1;
+		std::string keyInput = oss.str();
+		std::istringstream iss(keyInput);
+
+		CParser cparser(iss, oss, std::cerr);
+		//For testing, need to read line to get started
+		std::vector<std::string> vopts;
+		std::istream::pos_type next_char;
+		cparser.get_option(vopts, next_char);
 
 
-                        cxxKinetics ex1;
-                        std::string keyInput = oss.str();
-                        std::istringstream iss(keyInput);
+		ex1.read_raw(cparser);
 
-                        CParser cparser(iss, oss, std::cerr);
-                        //For testing, need to read line to get started
-                        std::vector<std::string> vopts;
-                        std::istream::pos_type next_char;
-                        cparser.get_option(vopts, next_char);
-
-
-                        ex1.read_raw(cparser);
-
-                        struct kinetics *kinetics_ptr = ex1.cxxKinetics2kinetics();
-                        kinetics_free(&kinetics[i]);
-                        kinetics_copy(kinetics_ptr, &kinetics[i], kinetics_ptr->n_user);
-                        kinetics_free(kinetics_ptr);
-                        free_check_null(kinetics_ptr);
+		struct kinetics *kinetics_ptr = ex1.cxxKinetics2kinetics();
+		kinetics_free(&kinetics[i]);
+		kinetics_copy(kinetics_ptr, &kinetics[i], kinetics_ptr->n_user);
+		kinetics_free(kinetics_ptr);
+		free_check_null(kinetics_ptr);
         }
         for (i=0; i < count_s_s_assemblage; i++) {
                 if (s_s_assemblage[i].new_def != TRUE) {
+			std::cout << "Solid solution " << s_s_assemblage[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxSSassemblage ex(&(s_s_assemblage[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
 
                         cxxSSassemblage ex1;
@@ -1260,10 +1269,11 @@ void test_classes(void)
         }
         for (i=0; i < count_gas_phase; i++) {
                 if (gas_phase[i].new_def != TRUE) {
+			std::cout << "Gas phase " << gas_phase[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxGasPhase ex(&(gas_phase[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
 
                         cxxGasPhase ex1;
@@ -1288,10 +1298,11 @@ void test_classes(void)
 
         }
         for (i=0; i < count_irrev; i++) {
+			std::cout << "Reaction " << irrev[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxReaction ex(&(irrev[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
 
                         cxxReaction ex1;
@@ -1315,10 +1326,11 @@ void test_classes(void)
 
         }
         for (i=0; i < count_mix; i++) {
+			std::cout << "Mix " << mix[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxMix ex(&(mix[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
 
                         cxxMix ex1;
@@ -1342,10 +1354,11 @@ void test_classes(void)
 
         }
         for (i=0; i < count_temperature; i++) {
+			std::cout << "Temperature " << temperature[i].n_user << std::endl;
                         std::ostringstream oss;
                         cxxTemperature ex(&(temperature[i]));
                         ex.dump_raw(oss, 0);
-                        std::cerr << oss.str();
+                        //std::cerr << oss.str();
 
 
                         cxxTemperature ex1;
@@ -1368,7 +1381,7 @@ void test_classes(void)
                         free_check_null(temperature_ptr);
 
         }
-#endif
+	/*
 	{
 		// get all c storage
 		cxxStorageBin cstorage;
@@ -1396,4 +1409,5 @@ void test_classes(void)
 
 		// read it back
 	}
+	*/
 } 
