@@ -1,7 +1,8 @@
 INPUT=../examples
 PHREEQCDAT=../database/phreeqc.dat
 WATEQ4FDAT=../database/wateq4f.dat
-PHREEQC=../src/Release/phreeqcpp
+PHREEQC=/cygdrive/c/Programs/phreeqc/build/win32/Debug/phreeqc
+PHREEQC=../bin/phreeqc
 
 all: ex1.out ex2.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
 	ex10.out ex11.out ex12.out ex12a.out ex13a.out ex13b.out ex13c.out ex14.out \
@@ -96,3 +97,29 @@ diff:
 
 clean:
 	rm -f *.out *.log *.sel
+
+revert:
+	svn st | egrep ^! | cut -b 2- | xargs svn revert
+
+zero:
+	./zero.sed ex1.out
+	./zero.sed ex2.out
+	./zero.sed ex3.out
+	./zero.sed ex4.out
+	./zero.sed ex5.out
+	./zero.sed ex6.out
+	./zero.sed ex7.out
+	./zero.sed ex8.out
+	./zero.sed ex9.out
+	./zero.sed ex10.out
+	./zero.sed ex11.out
+	./zero.sed ex12.out
+	./zero.sed ex12a.out
+	./zero.sed ex13a.out
+	./zero.sed ex13b.out
+	./zero.sed ex13c.out
+	./zero.sed ex14.out
+	./zero.sed ex15.out
+	./zero.sed ex16.out
+	./zero.sed ex17.out
+	./zero.sed ex18.out

@@ -1,0 +1,68 @@
+#DATABASE phreeqd.dat
+SOLUTION_SPECIES
+ Na+ = Na+; -log_k 0; -gamma 1e10 0
+ Ca+2 = Ca+2; -log_k 0; -gamma 1e10 0
+ Cl- = Cl-; -log_k 0; -gamma 1e10 0
+ H2O + 0.01e- = H2O-0.01; -log_k -9
+SURFACE_MASTER_SPECIES; Sua Sua; Sub Sub; Suc Suc
+SURFACE_SPECIES; Sua = Sua; log_k 0; Sub = Sub; log_k 0; Suc = Suc; log_k 0
+
+SURFACE_MASTER_SPECIES /* defined sorbed form of Hfo = Sorbedhfo */
+ Sorbedhfo_s Sorbedhfo_sOH; Sorbedhfo_w Sorbedhfo_wOH
+SURFACE_SPECIES
+ Sorbedhfo_sOH = Sorbedhfo_sOH; log_k 0.0
+ Sorbedhfo_sOH + H+ = Sorbedhfo_sOH2+; log_k 7.29
+ Sorbedhfo_sOH = Sorbedhfo_sO- + H+; log_k -8.93
+ Sorbedhfo_wOH = Sorbedhfo_wOH; log_k 0.0
+ Sorbedhfo_wOH + H+ = Sorbedhfo_wOH2+; log_k 7.29
+ Sorbedhfo_wOH = Sorbedhfo_wO- + H+; log_k -8.93
+# Calcium
+ Sorbedhfo_sOH + Ca+2 = Sorbedhfo_sOHCa+2; log_k 4.97
+ Sorbedhfo_wOH + Ca+2 = Sorbedhfo_wOCa+ + H+; log_k -5.85
+# Zinc
+ Sorbedhfo_sOH + Zn+2 = Sorbedhfo_sOZn+ + H+; log_k 0.99
+ Sorbedhfo_wOH + Zn+2 = Sorbedhfo_wOZn+ + H+; log_k -1.99
+SOLUTION 0-21
+END          
+SOLUTION 0
+ Na 1; Ca 1e-3; Cl 1
+SURFACE 0
+ Sua 1e-3 1e4 1 Dw 1e-9
+ -donnan 1e-12 #d 1 l 0.99 v 1# 1e-9
+ Sub 1e-3 1e4 1 Dw 1e-12
+ -donnan 1e-12 #d 1 l 0.99 v 1# 1e-9
+# Sorbedhfo_w 1e-10 600 1e-10 Dw 0
+# -donnan 1e-12
+ Hfo_w 97.5e-5 600 88e-3 Dw 1e-12
+ Hfo_s 2.5e-5
+ -donnan 1e-12 #d 1 l 0.99 v 1# 1e-9
+ -equil 0
+END
+PRINT; -reset false; -user_pr true; -surface true
+USER_PRINT
+ -start
+ 1 if (step_no = 0) then goto 30
+ 10 print 'Adapting surface in', cell_no
+ 20 if cell_no > 0 then change_surf("Hfo", 0.5, "Sorbedhfo", 0, cell_no)
+ 22 if cell_no > 0 then change_surf("Sua", 1, "Sub", 1e-20, cell_no)
+ 30 end
+ -end
+SELECTED_OUTPUT
+ -file sc6b.prn
+ -reset false
+USER_PUNCH
+ -head cell Cl Sua Hfo Sub Sorbedhfo
+ -start
+ 10 punch cell_no
+ 20 punch tot("Cl")*1e3 , tot("Sua")*1e3, (tot("Hfo_w") + tot("Hfo_s")) * 1e3, tot("Sub")*1e3, (tot("Sorbedhfo_w") + tot("Sorbedhfo_s")) * 1e3
+ -end
+TRANSPORT
+ -cells 3
+ -length 0.1; -disp 0.0
+ -shifts 4 1
+ -bcon 3 3
+ -diffc 0e-9
+ -timest 1e4
+ -multi_D true 1e-9
+ -stag 1 1e-4 0.2 0.2
+END

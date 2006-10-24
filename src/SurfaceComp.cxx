@@ -215,7 +215,7 @@ void cxxSurfaceComp::read_raw(CParser& parser)
                 vopts.push_back("totals");                    // 8
                 vopts.push_back("formula_z");                 // 9
                 vopts.push_back("formula_totals");            // 10
-                vopts.push_back("Dw");                        // 11
+                vopts.push_back("dw");                        // 11
         }
 
         std::istream::pos_type ptr;

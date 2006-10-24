@@ -1,0 +1,100 @@
+DATABASE ../database/wateq4f.dat
+SOLUTION_SPECIES
+ Na+ = Na+; -log_k 0; -gamma 1e10 0
+ Ca+2 = Ca+2; -log_k 0; -gamma 1e10 0
+ Cl- = Cl-; -log_k 0; -gamma 1e10 0
+ H2O + 0.01e- = H2O-0.01; -log_k -9
+
+SURFACE_MASTER_SPECIES /* define sorbed form of Hfo = Sfo */
+ Sfo_s Sfo_sOH; Sfo_w Sfo_wOH
+SURFACE_SPECIES
+ Sfo_sOH = Sfo_sOH; log_k 0.0
+ Sfo_sOH + H+ = Sfo_sOH2+; log_k 7.29
+ Sfo_sOH = Sfo_sO- + H+; log_k -8.93
+ Sfo_wOH = Sfo_wOH; log_k 0.0
+ Sfo_wOH + H+ = Sfo_wOH2+; log_k 7.29
+ Sfo_wOH = Sfo_wO- + H+; log_k -8.93
+# Calcium
+ Sfo_sOH + Ca+2 = Sfo_sOHCa+2; log_k 4.97
+ Sfo_wOH + Ca+2 = Sfo_wOCa+ + H+; log_k -5.85
+# Zinc
+ Sfo_sOH + Zn+2 = Sfo_sOZn+ + H+; log_k 0.99
+ Sfo_wOH + Zn+2 = Sfo_wOZn+ + H+; log_k -1.99
+# Uranyl
+ Sfo_sOH + UO2+2 = Sfo_sOHUO2+2; log_k 5.2
+ Sfo_wOH + UO2+2 = Sfo_wOUO2+ + H+; log_k 2.8
+SOLUTION 1-21
+ pe 14 O2(g) -0.58
+ Na 1; Ca 1; Cl 1 charge
+SURFACE 1-21                        # define small conc's
+ Hfo_w 97.5e-15 600 88e-13 Dw 1e-13
+ Hfo_s 2.5e-15
+ Sfo_w 97.5e-15 600 88e-13 Dw 0
+ Sfo_s 2.5e-15
+ -donnan 1e-10
+ -equil 1
+END          
+SOLUTION 0
+ pe 14 O2(g) -0.58
+ Na 10; Ca 1; U 0.001; Cl 100 charge
+SURFACE 0
+ Hfo_w 97.5e-5 600 88e-3 Dw 1e-13
+ Hfo_s 2.5e-5
+ -donnan 1e-10 #d 1 l 0.99 v 1# 1e-9
+ -equil 0
+END
+PRINT; -reset false
+RATES
+Sorb_hfo
+ -start
+ 10 if tot("Ca") > 1e-10 then sar = tot("Na") * 10^1.5 / tot("Ca")^0.5 else sar = 1
+ 20 if sar < 11 then rate = -40 * tot("Hfo_w") else rate = 400 * tot("Sfo_w")
+ 30 save rate * time
+ 40 put(sar, 99)
+ -end
+KINETICS 1-21
+ Sorb_Hfo; -formula Hfo_w 0.975 Hfo_s 0.025 Sfo_w -0.975 Sfo_s -0.025
+SELECTED_OUTPUT
+ -file colloid_u.sel
+ -reset false
+USER_PUNCH
+ -head PV Cl SAR Hfo U_col U_tot U_sol
+ -start
+ 10 punch (step_no + 0.5) / 1 / cell_no
+ 20 Zn_sol = 1e3 * tot("Zn")
+ 30 Zn_col = 1e3 * (mol("Hfo_sOZn+") + mol("Hfo_wOZn+"))
+ 32 U_sol = 1e3 * tot("U")
+ 34 U_col = 1e3 * (mol("Hfo_sOHUO2+2") + mol("Hfo_wOUO2+"))
+ 40 punch tot("Cl")*1e3 , get(99), (tot("Hfo_w") + tot("Hfo_s")) * 1e3, U_col, U_sol + U_col, U_sol
+ -end
+TRANSPORT
+ -cells 10
+ -length 0.1; -disp 0.066
+ -shifts 10 1
+ -punch_fr 1
+ -punch_c 10
+ -time 0.5e-2
+ -bcon 3 3
+ -diffc 0.3e-9
+ -multi_d true 1e-9 0.3 0 1
+END
+PRINT; -sel false
+SURFACE 0
+SOLUTION 0
+ pe 14 O2(g) -0.58
+ Na 1; Ca 0; Cl 1 charge
+END
+PRINT; -sel true
+USER_PUNCH
+ -head PV Cl SAR Hfo U_col U_tot U_sol
+ -start
+ 10 punch 1.05 + (step_no + 0.5) / 1 / cell_no
+ 20 Zn_sol = 1e3 * tot("Zn")
+ 30 Zn_col = 1e3 * (mol("Hfo_sOZn+") + mol("Hfo_wOZn+"))
+ 32 U_sol = 1e3 * tot("U")
+ 34 U_col = 1e3 * (mol("Hfo_sOHUO2+2") + mol("Hfo_wOUO2+"))
+ 40 punch tot("Cl")*1e3 , get(99), (tot("Hfo_w") + tot("Hfo_s")) * 1e3, U_col, U_sol + U_col, U_sol
+ -end
+TRANSPORT
+ -shifts 30 1
+END

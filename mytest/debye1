@@ -1,0 +1,47 @@
+DATABASE phreeqd.dat
+# compare salt diffusion (nm scale). First without surface.
+
+SOLUTION 0; Na 100; Cl 100 charge
+SOLUTION 1-10; Ca 0.1; C(4) 1 charge; water 1
+
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES; Su- = Su-; log_k 0
+#SURFACE 1-10; Su 1 3.3338e4 1; -equil 1
+# -donnan 1.4998e-8
+END
+
+TRANSPORT; -cells 10; -length 1e-9; -shifts 1 0; -bcon 1 2; -time 5e-10
+ -punch_fr 1
+ -multi_d true 1e-9 1 0 1
+SELECTED_OUTPUT
+ -file debye1.sel; -reset false
+USER_PUNCH
+ -head dist H2O_aq H2O_edl H2O_tot Na Cl pH mass_Na mass_Cl
+ -start
+ 1 if step_no = 0 then goto 80
+ 10 punch dist, tot("water"), edl("water"), tot("water") + edl("water"), tot("Na")*1e3, tot("Cl")*1e3, -la("H+")
+
+ 20 if cell_no = 1 then put(0, 1)
+ 30 if cell_no = 1 then put(0, 2)
+
+ 40 put(sys("Na") + get(1), 1)
+ 50 put(sys("Cl") + get(2), 2)
+ 60 if cell_no = 10 then punch get(1) * 1e3
+ 70 if cell_no = 10 then punch get(2) * 1e3
+ 80 end
+ -end
+END
+
+# Once more, with 1 M Su- surface and variable DDL.
+
+PRINT; -sel false
+SOLUTION 0; Na 100; Cl 100 charge
+SOLUTION 1-10; Ca 0.1; C(4) 1 charge; water 0.5
+
+SURFACE 1-10; Su 1 3.3338e4 1; -equil 1
+ -donnan debye_length 1 limit_DDL 0.99 viscosity 1
+END
+
+PRINT; -sel true
+TRANSPORT; -shifts 1 0
+END

@@ -1,0 +1,52 @@
+DATABASE ../database/newiso.dat
+print
+	-status off
+NAMED_EXPRESSIONS
+        Log_KH_CO2(g)  CO2(g) = CO2(aq)
+                log_k           -1.468
+
+        Log_alpha_18O_CO2(g)/CO2(aq)            # 1000ln(alpha(25C)) = -1.07
+                # 0-60 C
+#                -ln_alpha1000   1.9585 0.0     -1.44176e3       0.0     0.160515e6
+		 log_k   -1.07
+
+        Log_alpha_13C_CO2(g)/CO2(aq)            # 1000ln(alpha(25C)) = 0.8
+                # 0-100 C
+#                -ln_alpha1000   0.91   0.0     0.0     0.0     -0.0063e6
+		 log_k   0.8
+PHASES
+CO2(g)
+        CO2 = CO2
+        -add_logk       Log_KH_CO2(g)                           1.0
+
+CO[18O](g)
+        CO[18O] = CO[18O]
+        -add_logk       Log_KH_CO2(g)                           1.0
+        -add_logk       Log_alpha_18O_CO2(g)/CO2(aq)            -1.0
+
+#C[18O]2(g)
+#        C[18O]2 = C[18O]2
+#        -add_logk       Log_KH_CO2(g)                           1.0
+#        -add_logk       Log_alpha_18O_CO2(g)/CO2(aq)            -2.0
+
+# Using PHASE reactions in definition
+C[18O]2(g)
+	C[18O]2(g) + CO2(g) = 2CO[18O](g) 
+        log_k           0.602059991327962396                   # log10(4)
+
+[13C]O2(g)
+        [13C]O2 = [13C]O2
+        -add_logk       Log_KH_CO2(g)                           1.0
+        -add_logk       Log_alpha_13C_CO2(g)/CO2(aq)            -1.0
+
+#[13C]O[18O](g)
+#        [13C]O[18O] = [13C]O[18O]
+#        -add_logk       Log_KH_CO2(g)                           1.0
+#        -add_logk       Log_alpha_13C_CO2(g)/CO2(aq)            -1.0
+#        -add_logk       Log_alpha_18O_CO2(g)/CO2(aq)            -1.0
+
+# Using PHASE reactions in definition
+[13C]O[18O](g)
+	[13C]O[18O] + CO2(g) = [13C]O2(g) + CO[18O](g)
+        log_k           0.0
+END

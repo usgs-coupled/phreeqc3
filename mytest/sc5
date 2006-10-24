@@ -1,0 +1,46 @@
+#DATABASE phreeqd.dat
+SOLUTION_SPECIES
+ Na+ = Na+; -log_k 0; -gamma 1e10 0
+ Cl- = Cl-; -log_k 0; -gamma 1e10 0
+SURFACE_MASTER_SPECIES; Su_a Su_a; Su_b Su_b
+SURFACE_SPECIES; Su_a = Su_a; log_k 0; Su_b = Su_b; log_k 0
+SOLUTION 0
+ pH 7.0
+SOLUTION 1-2; pH 7 charge
+SOLUTION 4-6; pH 7 charge; water 0.5  # Note that MCD adds absolute moles,
+SOLUTION 8; pH 7 charge; water 0.25   # adapt water to match conc'n change
+END          
+SOLUTION 1
+ Na 1; Cl 0.1 charge
+ water 1
+SURFACE 1
+ Su_a 1e-3 1e4 1 Dw 1e-9
+ Su_b 1e-3
+# Hfo_w 1e-7 600 1 #Dw 1e-9
+# Hfo_s 1e-7
+ -equil 1
+ -donnan 1e-17 #d 1 l 0.99 v 1# 1e-9
+END
+# Define mixf only 1 time for each interface (1,4), (4,6), (4,8), (2,5)
+MIX 1; 4 0.03                         # Note to take small fractions if
+MIX 4; 6 0.03; 8 0.03                 #   Dw(Am-) = 10 * default_Dw
+MIX 2; 5 0.02
+END
+PRINT; -reset false
+SELECTED_OUTPUT
+ -file sc5.prn
+ -reset false
+USER_PUNCH
+ -head cell Cl Su_a Su_b Hfo_w Hfo_s
+ -start
+ 10 punch cell_no, tot("Cl")*1e3 , tot("Su_a")*1e3, tot("Su_b")*1e3, tot("Hfo_w")*1e3, tot("Hfo_s")*1e3
+ -end
+TRANSPORT
+ -cells 2
+ -shifts 3 0
+ -punch_fr 1
+ -time 1e8
+ -bcon 2 2
+ -multi_d true 1e-9 0.547723 0.0 1.0 # D_w  porosity
+ -stag 3
+END

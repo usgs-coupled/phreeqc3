@@ -1,0 +1,68 @@
+DATABASE phreeqd.dat
+SOLUTION_MASTER_SPECIES
+ Hto Hto 0 Hto 1
+ Nat Nat+ 0 Nat 23
+ I I- 0 I 126.9
+SOLUTION_SPECIES                                                        
+ Hto = Hto;     log_k 0;  Dw 2.24e-9; -gamma 1e20 0;
+ Nat+ = Nat+;   log_k 0;  Dw 1.33e-9; -gamma 1e20 0
+ I- = I-;       log_k 0;  Dw 2.0e-9; -gamma 1e20 0
+SOLUTION 0-3
+ pH 7.09
+ Na 239;        K 1.54;         Mg 17.2;        Ca 25.9;        Sr 0.500
+ Alkalinity 2.5; S(6) 12.6;     Cl 304 charge
+ Hto 1e-3;      Nat 1e-3;       I 1e-3
+ water 0.5
+SOLUTION 4-23
+ pH 7.09
+ Na 239;        K 1.54;         Mg 17.2;        Ca 25.9;        Sr 0.500
+ Alkalinity 2.5; S(6) 12.6;     Cl 304 charge
+ water 0.117809725                                     
+KINETICS 3-23
+END                                             
+SURFACE_MASTER_SPECIES; Su Su-                                          
+SURFACE_SPECIES;        Su- = Su-;      log_k 0                         
+SURFACE 4-23;   -equil 4;       Su      0.376991118     1.00E+05        1; -donnan      1.18E-09
+-only_counter
+END
+MIX     3       ;       4       1.08000E-02
+MIX     4       ;       5       5.40000E-03
+MIX     5       ;       6       5.40000E-03
+MIX     6       ;       7       5.40000E-03
+MIX     7       ;       8       5.40000E-03
+MIX     8       ;       9       5.40000E-03
+MIX     9       ;       10      5.40000E-03
+MIX     10      ;       11      5.40000E-03
+MIX     11      ;       12      5.40000E-03
+MIX     12      ;       13      5.40000E-03
+MIX     13      ;       14      5.40000E-03
+MIX     14      ;       15      5.40000E-03
+MIX     15      ;       16      5.40000E-03
+MIX     16      ;       17      5.40000E-03
+MIX     17      ;       18      5.40000E-03
+MIX     18      ;       19      5.40000E-03
+MIX     19      ;       20      5.40000E-03
+MIX     20      ;       21      5.40000E-03
+MIX     21      ;       22      5.40000E-03
+MIX     22      ;       23      5.40000E-03
+END
+PRINT; -reset false
+SELECTED_OUTPUT
+ -file opa_col2.sel; -reset false
+USER_PUNCH
+ -head time/days HTO Nat I
+ -start
+ 10 punch total_time / (3600 * 24)
+ 20 punch tot("Hto")*1e6, tot("Nat")*1e6, tot("I")*1e6
+ -end
+TRANSPORT
+ -cells 1
+ -bcon 1 2
+ -shifts 50 0
+ -punch_fr 1
+ -punch_c 3
+ -diffc 1e-19
+ -time 0.6e6
+ -stag 21
+ -multi_d true 1e-9 0.15 0.0 1.0
+END
