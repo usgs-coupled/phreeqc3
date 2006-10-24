@@ -250,10 +250,10 @@ void cxxSurface::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << "-DDL_viscosity " << this->DDL_viscosity << std::endl;
 
         s_oss << indent1;
-        s_oss << "-DDL_limit= " << this->DDL_limit << std::endl;
+        s_oss << "-DDL_limit " << this->DDL_limit << std::endl;
 
         s_oss << indent1;
-        s_oss << "-transport= " << this->transport << std::endl;
+        s_oss << "-transport " << this->transport << std::endl;
 
         // surfaceComps structures
         for (std::list<cxxSurfaceComp>::const_iterator it = surfaceComps.begin(); it != surfaceComps.end(); ++it) {
@@ -290,8 +290,8 @@ void cxxSurface::read_raw(CParser& parser)
                 vopts.push_back("dl_type");                   // 8 
                 vopts.push_back("sites_units");               // 9 
                 vopts.push_back("debye_lengths");             // 10
-                vopts.push_back("DDL_viscosity");             // 11
-                vopts.push_back("DDL_limit");                 // 12
+                vopts.push_back("ddl_viscosity");             // 11
+                vopts.push_back("ddl_limit");                 // 12
                 vopts.push_back("transport");                 // 13
         }                                                     
                                                               
@@ -335,7 +335,7 @@ void cxxSurface::read_raw(CParser& parser)
                 case CParser::OPT_DEFAULT:
                 case CParser::OPT_ERROR:
                         opt = CParser::OPT_EOF;
-                        parser.error_msg("Unknown input in SURF_COMP_RAW keyword.", CParser::OT_CONTINUE);
+                        parser.error_msg("Unknown input in SURFACE keyword.", CParser::OT_CONTINUE);
                         parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
                         useLastLine = false;
                         break;
