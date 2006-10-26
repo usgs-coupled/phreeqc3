@@ -1093,7 +1093,8 @@ void test_classes(void)
                 if (solution[i]->new_def == TRUE) {
 			std::cout << "Solution new_def " << solution[i]->n_user << std::endl;
                         cxxISolution sol(solution[i]);
-                        solution[i] = (struct solution *) solution_free(solution[i]);
+                        solution_free(solution[i]);
+						solution[i] = NULL;
                         solution[i] = sol.cxxISolution2solution();
                         struct solution *soln_ptr;
                         soln_ptr = solution[i];
@@ -1102,7 +1103,8 @@ void test_classes(void)
 			std::cout << "Solution " << solution[i]->n_user << std::endl;
                         std::ostringstream oss;
                         cxxSolution sol(solution[i]);
-                        solution[i] = (struct solution *) solution_free(solution[i]);
+                        solution_free(solution[i]);
+						solution[i] = NULL;
                         sol.dump_raw(oss, 0);
 
                         //std::fstream myfile("t");
