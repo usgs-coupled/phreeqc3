@@ -102,24 +102,10 @@ revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert
 
 zero:
-	./zero.sed ex1.out
-	./zero.sed ex2.out
-	./zero.sed ex3.out
-	./zero.sed ex4.out
-	./zero.sed ex5.out
-	./zero.sed ex6.out
-	./zero.sed ex7.out
-	./zero.sed ex8.out
-	./zero.sed ex9.out
-	./zero.sed ex10.out
-	./zero.sed ex11.out
-	./zero.sed ex12.out
-	./zero.sed ex12a.out
-	./zero.sed ex13a.out
-	./zero.sed ex13b.out
-	./zero.sed ex13c.out
-	./zero.sed ex14.out
-	./zero.sed ex15.out
-	./zero.sed ex16.out
-	./zero.sed ex17.out
-	./zero.sed ex18.out
+	for FILE in *.out *.sel; \
+		do \
+			if [ $$FILE != make.out ]; then \
+				echo $$FILE; \
+				./zero.sed $$FILE; \
+			fi \
+		done; 
