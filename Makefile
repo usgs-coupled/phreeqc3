@@ -1,7 +1,7 @@
 INPUT=../examples
 PHREEQCDAT=../database/phreeqc.dat
 WATEQ4FDAT=../database/wateq4f.dat
-PHREEQC=/cygdrive/c/Programs/phreeqc/build/win32/Debug/phreeqc
+PHREEQC=/cygdrive/c/Programs/phreeqcpp/Release/phreeqcpp.exe
 PHREEQC=../src/Release/phreeqcpp
 
 all: ex1.out ex2.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
@@ -93,7 +93,7 @@ ex18.out: $(INPUT)/ex18 $(PHREEQC) $(PHREEQCDAT)
 	mv phreeqc.log ex18.log
 
 diff:
-	svn diff .
+	svn diff --diff-cmd diff -x -bw	
 
 clean:
 	rm -f *.out *.log *.sel
