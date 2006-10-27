@@ -1,8 +1,9 @@
 # %.o : %.c
 #             $(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+PROGRAM=/cygdrive/c/Programs/phreeqcpp/Release/phreeqcpp.exe
 PROGRAM=../src/Release/phreeqcpp
 
-%.out : % $(PROGRAM) ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat tony.dat ../database/pitzer.dat
+%.out : % $(PROGRAM)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat tony.dat ../database/pitzer.dat
 	$(PROGRAM) $< 
 	mv phreeqc.log $<.log
 
