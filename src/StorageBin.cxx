@@ -707,7 +707,6 @@ void cxxStorageBin::mpi_send(int n, int task_number)
 	if (d > 0) {
 		MPI_Pack(&(doubles.front()), d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
 	}
-	std::cerr << "Packed 4" << std::endl;
 	MPI_Send(buffer, position, MPI_PACKED, task_number, 0, MPI_COMM_WORLD);
 
 	buffer = (void *) free_check_null(buffer);
