@@ -621,13 +621,13 @@ void cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->type = (SURFACE_TYPE) ints[i++];
 	this->dl_type = (DIFFUSE_LAYER_TYPE) ints[i++];
 	this->sites_units = (SITES_UNITS) ints[i++];
-	this->only_counter_ions = (bool) ints[i++];
+	this->only_counter_ions = (ints[i++] == TRUE);
 	//this->donnan = (bool) ints[i++];
 	this->thickness = doubles[d++];
 	this->debye_lengths = doubles[d++];
 	this->DDL_viscosity = doubles[d++];
 	this->DDL_limit = doubles[d++];
-	this->transport = (bool) ints[i++];
+	this->transport = (ints[i++] == TRUE);
 	*ii = i;
 	*dd = d;
 }
