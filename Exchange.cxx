@@ -247,7 +247,7 @@ void cxxExchange::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->description = " ";
 
 	
-	this->pitzer_exchange_gammas = (bool) ints[i++];
+	this->pitzer_exchange_gammas = (ints[i++] == TRUE);
 	int count = ints[i++];
 	this->exchComps.clear();
 	for (int n = 0; n < count; n++) {

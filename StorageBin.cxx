@@ -672,7 +672,7 @@ void cxxStorageBin::mpi_send(int n, int task_number)
 	// Pack data
 	int max_size = 0;
 	int member_size = 0;
-	MPI_Pack_size((int) ints.size(), MPI_INT, MPI_COMM_WORLD, &member_size);
+	MPI_Pack_size((int) ints.size() + 10, MPI_INT, MPI_COMM_WORLD, &member_size);
 	max_size += member_size;
 	MPI_Pack_size((int) doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD, &member_size);
 	max_size += member_size + 10;
@@ -704,7 +704,10 @@ void cxxStorageBin::mpi_send(int n, int task_number)
 	MPI_Pack(&(ints.front()), i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
 	MPI_Pack(&d, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
 	//MPI_Pack(&double_array, d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
-	MPI_Pack(&(doubles.front()), d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
+	if (d > 0) {
+		MPI_Pack(&(doubles.front()), d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
+	}
+	std::cerr << "Packed 4" << std::endl;
 	MPI_Send(buffer, position, MPI_PACKED, task_number, 0, MPI_COMM_WORLD);
 
 	buffer = (void *) free_check_null(buffer);
@@ -741,7 +744,9 @@ void cxxStorageBin::mpi_recv(int task_number)
 	int count_doubles;
  	MPI_Unpack(buffer, msg_size, &position, &count_doubles, 1, MPI_INT, MPI_COMM_WORLD);
 	double *doubles = new double[count_doubles];
- 	MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles, MPI_DOUBLE, MPI_COMM_WORLD);
+	if (count_doubles > 0) {
+ 		MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles, MPI_DOUBLE, MPI_COMM_WORLD);
+	}
 	buffer = free_check_null(buffer);
 #ifdef SKIP
 	for (int j = 0; j < count_ints; j++) {
