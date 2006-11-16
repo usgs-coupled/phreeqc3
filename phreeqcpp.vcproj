@@ -44,7 +44,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(DEV_GMP_INC),$(DEV_XERCES)\include,.\src\phreeqc"
+				AdditionalIncludeDirectories="$(DEV_GMP_INC_MT),$(DEV_XERCES)\include,.\src\phreeqc"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -73,7 +73,7 @@
 				OutputFile=".\Release/phreeqcpp.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="$(DEV_GMP_LIB),$(DEV_XERCES)\lib"
+				AdditionalLibraryDirectories="$(DEV_GMP_LIB_MT),$(DEV_XERCES)\lib"
 				IgnoreDefaultLibraryNames="LIBC.lib"
 				ProgramDatabaseFile=".\Release/phreeqcpp.pdb"
 				SubSystem="1"
@@ -136,7 +136,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(DEV_GMP_INC),$(DEV_XERCES)\include,.\src\phreeqc"
+				AdditionalIncludeDirectories="$(DEV_GMP_INC_MT),$(DEV_XERCES)\include,.\src\phreeqc"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE,WIN32_MEMORY_DEBUG;INVERSE_CL1MP;WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -166,7 +166,7 @@
 				OutputFile=".\Debug/phreeqcpp.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="$(DEV_GMP_LIB),$(DEV_XERCES)\lib"
+				AdditionalLibraryDirectories="$(DEV_GMP_LIB_MT),$(DEV_XERCES)\lib"
 				IgnoreDefaultLibraryNames="LIBCD.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/phreeqcpp.pdb"
@@ -1691,19 +1691,19 @@
 				>
 			</File>
 			<File
-				RelativePath="src\phreeqc\cvdense.h"
-				>
-			</File>
-			<File
 				RelativePath="src\cvdense.h"
 				>
 			</File>
 			<File
-				RelativePath="src\phreeqc\cvode.h"
+				RelativePath="src\phreeqc\cvdense.h"
 				>
 			</File>
 			<File
 				RelativePath="src\cvode.h"
+				>
+			</File>
+			<File
+				RelativePath="src\phreeqc\cvode.h"
 				>
 			</File>
 			<File
@@ -1739,11 +1739,11 @@
 				>
 			</File>
 			<File
-				RelativePath="src\phreeqc\kinetics.h"
+				RelativePath="src\kinetics.h"
 				>
 			</File>
 			<File
-				RelativePath="src\kinetics.h"
+				RelativePath="src\phreeqc\kinetics.h"
 				>
 			</File>
 			<File
