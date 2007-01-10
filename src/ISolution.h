@@ -39,11 +39,13 @@ public:
 
         //void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
+	void ConvertUnits();
+
 protected:
         friend class cxxISolutionComp; // for this->pe access
         double density;
         std::string units;
-        std::set<cxxISolutionComp> comps; 
+        std::map<char *, cxxISolutionComp, CHARSTAR_LESS> comps; 
         struct pe_data *pes;
         int default_pe;
 

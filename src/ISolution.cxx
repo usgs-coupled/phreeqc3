@@ -6,13 +6,16 @@
 #endif
 
 #include "ISolution.h"
+#include "ISolutionComp.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
+#include "output.h"
 
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
+#include <sstream>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -38,7 +41,8 @@ cxxISolution::cxxISolution(struct solution *solution_ptr)
         // totals
         for (int i = 0; solution_ptr->totals[i].description != NULL; i++) {
                 cxxISolutionComp c(&(solution_ptr->totals[i]));
-                comps.insert(c);
+                //comps.insert(solution_ptr->totals[i].description, c);
+		comps[solution_ptr->totals[i].description] = c;
         }
         default_pe  = solution_ptr->default_pe;
         // pe_data
@@ -67,6 +71,88 @@ struct solution *cxxISolution::cxxISolution2solution()
         soln_ptr->totals = (struct conc *) free_check_null(soln_ptr->totals);
         soln_ptr->totals = cxxISolutionComp::cxxISolutionComp2conc(this->comps);
         return(soln_ptr);
+}
+void cxxISolution::ConvertUnits()
+  //
+  // Converts from input units to moles per kilogram water
+  //
+{
+  double sum_solutes = 0;
+  // foreach conc
+  std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin();
+  for(; iter != this->comps.end(); ++iter)
+  {
+    struct master *master_ptr = master_bsearch (iter->first);
+    if (master_ptr != NULL && (master_ptr->minor_isotope == TRUE)) continue;
+    if (iter->second.get_description() == "H(1)" || iter->second.get_description() == "E") continue;
+    if (iter->second.get_input_conc() <= 0.0) continue;
+/*
+*   Convert liters to kg solution
+*/
+    double moles = iter->second.get_input_conc();
+    if (this->units.find("/l") != std::string::npos )
+    {
+	moles /= this->density;
+    }
+/*
+* Convert to moles
+*/
+    //set gfw for element
+    iter->second.set_gfw();
+    // convert to moles
+    if (iter->second.get_units().find("g/") != std::string::npos)
+    {
+      if (iter->second.get_gfw() != 0)
+      {
+	moles /= iter->second.get_gfw();
+      }
+      else 
+      {
+	std::ostringstream oss;
+	oss << "Could not find gfw, " <<  iter->second.get_description();
+	error_msg(oss.str().c_str(), CONTINUE);
+	input_error++;
+      }
+    }
+/*
+*   Convert milli or micro
+*/
+    char c = iter->second.get_units().c_str()[0];
+    if (c == 'm')
+    {
+	moles *= 1e-3;
+    }
+    else if (c == 'u')
+    {
+	moles *= 1e-6;
+    }
+    iter->second.set_moles(moles);
+/*
+*   Sum grams of solute, convert from moles necessary
+*/
+    sum_solutes += moles * (iter->second.get_gfw());
+  }
+/*
+ *   Convert /kgs to /kgw
+ */
+  double mass_water;
+  if ((this->units.find("kgs") != std::string::npos) ||
+    (this->units.find("/l") != std::string::npos))
+  {
+    mass_water = 1.0 - 1e-3 * sum_solutes;
+    for(; iter != this->comps.end(); ++iter)
+    {
+      iter->second.set_moles(iter->second.get_moles() / mass_water);
+    }
+  }
+/*
+ *   Scale by mass of water in solution
+ */
+  mass_water = this->mass_water;
+  for(; iter != this->comps.end(); ++iter)
+  {
+    iter->second.set_moles(iter->second.get_moles() * mass_water);
+  }
 }
 #ifdef SKIP
 cxxISolution& cxxISolution::read(CParser& parser)
@@ -124,8 +210,8 @@ cxxISolution& cxxISolution::read(CParser& parser)
                         break;
                 case CParser::OPTION_ERROR:
                         opt = CParser::OPTION_EOF;
-                        parser.error_msg("Unknown input in SOLUTION keyword.", CParser::OT_CONTINUE);
-                        parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+                        CParser::error_msg("Unknown input in SOLUTION keyword.", CParser::OT_CONTINUE);
+                        CParser::error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
                         break;
 
                 case 0: // temp

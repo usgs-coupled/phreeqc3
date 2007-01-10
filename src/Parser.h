@@ -1,6 +1,7 @@
 #if !defined(PARSER_H_INCLUDED)
 #define PARSER_H_INCLUDED
 
+extern int input_error;
 #include <string>   // std::string
 #include <map>      // std::map
 #include <vector>   // std::vector
@@ -64,11 +65,18 @@ public:
                 OT_CONTINUE     = 0,
                 OT_STOP         = 1
         };
+	
+	enum ECHO_OPTION {
+                EO_NONE         = 0,
+                EO_ALL          = 1,
+		EO_KEWORDS      = 2
+        };
 
-        enum STATUS_TYPE {
+	enum STATUS_TYPE {
                 PARSER_ERROR    = 0,
                 PARSER_OK       = 1
         };
+
 
         /**
                 Function gets a new line and checks for empty, eof, and keywords.
@@ -123,7 +131,7 @@ public:
 
         std::string& line()            {return m_line;}
         std::istringstream& get_iss()  {return m_line_iss;}
-        int incr_input_error()         {return ++m_input_error;}
+	int incr_input_error()         {++::input_error; return ++m_input_error;}
         std::ostream& get_output()     {return m_output_stream;}
         int get_input_error()          {return m_input_error;}
 
@@ -186,7 +194,12 @@ public:
         int error_msg(const std::ostringstream& err_str, ONERROR_TYPE stop)    {return error_msg(err_str.str().c_str(), stop);}
         int error_msg(const char *err_str, ONERROR_TYPE stop);
         int warning_msg(const char *err_str);
+        
+	void set_echo_file(ECHO_OPTION opt) {echo_file = opt;}
+	ECHO_OPTION get_echo_file() {return this->echo_file;};
 
+	void set_echo_stream(ECHO_OPTION opt) {echo_stream = opt;}
+	ECHO_OPTION get_echo_stream() {return this->echo_stream;};
 
         STATUS_TYPE parse_couple(std::string& token);
 
@@ -206,6 +219,8 @@ private:
         std::string          m_line_save;
         std::istringstream   m_line_iss;
         LINE_TYPE            m_line_type;
+	ECHO_OPTION          echo_stream;
+	ECHO_OPTION          echo_file;
 };
 
 #endif // PARSER_H_INCLUDED

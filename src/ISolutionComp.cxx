@@ -10,6 +10,7 @@
 #include "global.h"
 #include "phrqproto.h"
 #include "phqalloc.h"
+#include "output.h"
 
 cxxISolutionComp::cxxISolutionComp(void)
 : description(NULL)
@@ -71,7 +72,7 @@ struct conc *cxxISolutionComp::concarray(std::map <char *, double, CHARSTAR_LESS
         return(c);
 }
 */
-struct conc *cxxISolutionComp::cxxISolutionComp2conc(const std::set <cxxISolutionComp> &totals)
+struct conc *cxxISolutionComp::cxxISolutionComp2conc(const std::map <char *, cxxISolutionComp, CHARSTAR_LESS> &totals)
         // for ISolutions
         // takes a std::vector cxxISolutionComp structures
         // returns list of conc structures
@@ -80,16 +81,16 @@ struct conc *cxxISolutionComp::cxxISolutionComp2conc(const std::set <cxxISolutio
         c = (struct conc *) PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
         if (c == NULL) malloc_error();
         int i = 0;
-        for (std::set<cxxISolutionComp>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
-                c[i].description         = it->description;
-                c[i].moles               = it->moles;
-                c[i].input_conc          = it->input_conc;
-                c[i].units               = it->units;
-                c[i].equation_name       = it->equation_name;
-                c[i].phase_si            = it->phase_si;
-                c[i].n_pe                = it->n_pe;
-                c[i].as                  = it->as;
-                c[i].gfw                 = it->gfw;
+        for (std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
+                c[i].description         = it->second.description;
+                c[i].moles               = it->second.moles;
+                c[i].input_conc          = it->second.input_conc;
+                c[i].units               = it->second.units;
+                c[i].equation_name       = it->second.equation_name;
+                c[i].phase_si            = it->second.phase_si;
+                c[i].n_pe                = it->second.n_pe;
+                c[i].as                  = it->second.as;
+                c[i].gfw                 = it->second.gfw;
                 //c[i].skip                = 0;
                 c[i].phase               = NULL;
                 i++;
@@ -97,6 +98,47 @@ struct conc *cxxISolutionComp::cxxISolutionComp2conc(const std::set <cxxISolutio
         c[i].description = NULL;
         return(c);
 }
+
+void cxxISolutionComp::set_gfw() 
+{
+// return gfw
+  if (this->gfw > 0.0) return;
+// calculate gfw from as or from master species gfw
+  if (this->as != NULL)
+  {
+    /* use given chemical formula to calculate gfw */
+    double gfw;
+    if (compute_gfw (this->as, &gfw) == ERROR)
+    {
+      std::ostringstream oss;
+      oss << "Could not compute gfw, " <<  this->as;
+      error_msg(oss.str().c_str(), CONTINUE);
+      input_error++;
+      return;
+    }
+    if (this->description == "Alkalinity" && this->as == "CaCO3") 
+    {
+      gfw /= 2.;
+    }
+    this->gfw = gfw;
+    return;
+  }
+  /* use gfw of master species */
+  std::string str(this->description);
+  struct master *master_ptr = master_bsearch (str.c_str());
+  if (master_ptr != NULL)
+  {
+    /* use gfw for element redox state */
+    this->gfw = master_ptr->gfw;
+    return;
+  }
+  std::ostringstream oss;
+  oss << "Could not find gfw, " <<  this->description;
+  error_msg(oss.str().c_str(), CONTINUE);
+  input_error++;
+  return;
+}
+
 
 #ifdef SKIP
 cxxISolutionComp::STATUS_TYPE cxxISolutionComp::read(CParser& parser, cxxISolution& solution)
