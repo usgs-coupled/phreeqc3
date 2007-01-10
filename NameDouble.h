@@ -45,6 +45,7 @@ public:
         CParser::STATUS_TYPE read_raw(CParser& parser, std::istream::pos_type& pos);
 
         void add(const cxxNameDouble &old, double factor);
+	void add(char * key, double total);
 
         void insert(char *str, double d) {
 		(*this)[str] = d;

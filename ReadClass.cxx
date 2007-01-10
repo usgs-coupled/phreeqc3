@@ -17,6 +17,8 @@
 #include "phqalloc.h"
 #include "output.h"
 #include "phrqproto.h"
+#include <iostream>
+
 
 extern int check_line(const char *string, int allow_empty, int allow_eof, int allow_keyword,
 		      int print);
@@ -50,7 +52,7 @@ int read_solution_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("solution_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("solution_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -119,7 +121,7 @@ int read_exchange_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("exchange_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("exchange_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -187,7 +189,7 @@ int read_surface_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("surface_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("surface_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -255,7 +257,7 @@ int read_equilibrium_phases_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("equilibrium_phases_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("equilibrium_phases_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -323,7 +325,7 @@ int read_kinetics_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("kinetics_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("kinetics_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -391,7 +393,7 @@ int read_solid_solutions_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("solid_solution_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("solid_solution_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -459,7 +461,7 @@ int read_gas_phase_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("solid_solution_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("gas_phase_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -527,7 +529,7 @@ int read_reaction_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("solid_solution_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("reaction_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -594,7 +596,7 @@ int read_mix_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("solid_solution_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("mix_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
@@ -661,7 +663,7 @@ int read_temperature_raw (void)
  *   Read additonal lines
  */
 	for (;;) {
-		return_value = check_line("solid_solution_raw",TRUE,TRUE,TRUE,TRUE);
+		return_value = check_line("temperature_raw",TRUE,TRUE,TRUE,FALSE);
                                                /* empty, eof, keyword, print */
 		if (return_value == EOF || return_value == KEYWORD ) break;
 		keywordLines.append(line);
