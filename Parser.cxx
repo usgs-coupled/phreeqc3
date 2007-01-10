@@ -688,7 +688,7 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::istream::
                         }
                         //error_msg("Unknown option.", OT_CONTINUE);
                         //error_msg(m_line_save.c_str(), OT_CONTINUE);
-                        incr_input_error();
+                        //incr_input_error();
                         j = OPT_ERROR;
                         next_pos = pos_ptr;
                 }
