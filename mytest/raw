@@ -1,119 +1,120 @@
-database ../database/wateq4f.dat
-EXCHANGE_MASTER_SPECIES
-Y  Y-
-EXCHANGE_SPECIES
-        Y- = Y-
-        log_k           0.0
-
-        Na+ + Y- = NaY
-        log_k   0.0
-        -gamma  4.0     0.075
-
+database ../database/phreeqc.dat
 SURFACE_MASTER_SPECIES
-        Surf_s  Surf_sOH
-        Surf_w  Surf_wOH
-
+        Surf    SurfOH
 SURFACE_SPECIES
-        Hfo_wOH + Mg+2 = Hfo_wOMg+ + H+
-        log_k -15.
-        Hfo_wOH + Ca+2 = Hfo_wOCa+ + H+
-        log_k -15.
+        SurfOH = SurfOH
+                log_k   0.0
+        SurfOH  + H+ = SurfOH2+
+                log_k   7.29
+        SurfOH = SurfO- + H+
+                log_k   -8.93
+        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O
+                log_k   29.31
+        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O
+                log_k   23.51
+        SurfOH + AsO4-3 = SurfOHAsO4-3
+                log_k   10.58
+SOLUTION_MASTER_SPECIES
+        As       H3AsO4        -1.0     74.9216         74.9216
+SOLUTION_SPECIES
+#
+# Nordstrom and Archer
+#
+#H2AsO4- 		482	
+	H3AsO4 = H2AsO4- + H+
+	log_k	-2.3
+	delta_h	-7.066	kJ
+#HAsO4-2 		483	
+	H3AsO4 = HAsO4-2 + 2H+
+	log_k	-9.46
+	delta_h	-3.846	kJ
 
-	Surf_wOH = Surf_wOH
-	log_k 0
-        Surf_wOH + Mg+2 = Surf_wOMg+ + H+
-        log_k 0.
-        Surf_wOH + Ca+2 = Surf_wOCa+ + H+
-        log_k 0
+#AsO43- 		484	
+	H3AsO4 = AsO4-3 + 3H+
+	log_k	-21.11
+	delta_h	14.354	kJ
+#
+# Old Wateq4f
+#
+#H2AsO4-             482
+        H3AsO4 = H2AsO4- + H+ 
+        log_k           -2.243
+        delta_h -1.69 kcal
 
-	Surf_sOH = Surf_sOH
-	log_k 0
-        Surf_sOH + Mg+2 = Surf_sOMg+ + H+
-        log_k 0.
-        Surf_sOH + Ca+2 = Surf_sOCa+ + H+
-        log_k 0
+#HAsO4-2             483
+        H3AsO4 = HAsO4-2 + 2H+ 
+        log_k           -9.001
+        delta_h -0.92 kcal
+
+#AsO4-3              484
+        H3AsO4 = AsO4-3 + 3H+
+        log_k           -20.597
+        delta_h 3.43 kcal
+#
+#  Dzombak and Morel
+#
+#H3AsO4 primary master species
+        H3AsO4 = H3AsO4
+        log_k           0.0
+#H2AsO4-             482
+        H3AsO4 = AsO4-3 + 3H+
+        log_k   -20.7
+#HAsO4-2                483     
+        H+ + AsO4-3 = HAsO4-2
+        log_k   11.50
+#AsO4-3              484
+        2H+ + AsO4-3 = H2AsO4-
+        log_k           18.46
+
 END
-EXCHANGE_RAW       1 Exchanger defined in simulation 4.
+SOLUTION_RAW       20
+  -temp              25
+  -pH                7
+  -pe                4
+  -mu                1e-07
+  -ah2o              1
+  -total_h           111.01974134192
+  -total_o           55.535325076996
+  -cb                0.0012883279473439
+  -mass_water        1
+  -total_alkalinity  0
+  -totals
+    As   4.1908616387069e-07
+    C   0.0096003939798442
+    Ca   9.3009440332783e-05
+    Cl   0.0032689522220291
+    Mg   6.6514137243683e-05
+    Na   0.01444565173261
+    S   0.00023718575024482
+  -activities
+    As   -8.3776966771614
+    C(-4)   -4.0177109440686
+    C(4)   -4.0177109440686
+    Ca   -6.0314729689045
+    Cl   -4.4855914268839
+    Mg   -6.1770860377888
+    Na   -3.8402628596702
+    S(-2)   -5.6249114062687
+    S(6)   -5.6249114062687
+  -gammas
+  -Isotopes
+EXCHANGE_RAW       20 Exchanger defined in simulation 1.
   -pitzer_exchange_gammas 1
   -component
     -formula               X
     -moles                 0
-    -la                    -1.0041812458642
+    -la                    0.60688497237009
     -charge_balance        0
     -phase_proportion              0
     -formula_z                     0
     -totals
-      Ca   0.021989326284077
-      H   4.428065530868e-06
-      Mg   0.010277125827424
-      Na   0.93546266771251
-      X   1.000000000001
+      Ca   0.067100780469236
+      Mg   0.029709189613889
+      Na   0.30638006319249
+      X   0.50000000335874
     -formula_totals
-      X   1
-  -component
-    -formula               Y
-    -moles                 0
-    -la                    -0.73247373940631
-    -charge_balance        0
-    -phase_proportion              0
-    -formula_z                     0
-    -totals
-      Na   0.5
-      Y   0.5
-    -formula_totals
-      Y   0.5
-END
-SOLUTION_RAW       1 SEAWATER FROM NORDSTROM ET AL. (1979)
-  -temp              25
-  -pH                8.22
-  -pe                8.451
-  -mu                0.67484981624056
-  -ah2o              0.98055362384571
-  -total_h           111.01469281241
-  -total_o           55.630473314853
-  -cb                0.0007936016860734
-  -mass_water        1
-  -total_alkalinity  0.002406351925274
-  -totals
-    C(4)   0.0021798938676403
-    Ca   0.010660949433974
-    Cl   0.56572525576263
-    Fe(2)   6.9088504737245e-19
-    Fe(3)   3.7114226053272e-08
-    K   0.010577743166832
-    Mg   0.055066167902661
-    Mn(2)   3.7728315236408e-09
-    N(-3)   1.723559499125e-06
-    N(5)   4.847486071877e-06
-    Na   0.48541156053348
-    O(0)   0.00037458036977648
-    S(6)   0.029257639234393
-    Si   7.3823226873903e-05
-#    U(4)   1.0341214911064e-21
-#    U(5)   1.6222546737816e-18
-#    U(6)   1.4367934162094e-08
-  -activities
-    H(0)   -44.368528650872
-    E   -8.451
-    O(0)   -3.66
-    Ca   -2.6233347151558
-    Mg   -1.8630073523258
-    Na   -0.47020211930351
-    K   -2.1874431385515
-    Fe(2)   -18.922798099144
-    Fe(3)   -19.553533748519
-    Mn(2)   -9.3026153126522
-    Mn(3)   -26.361615310865
-    Si   -4.0806274003272
-    Cl   -0.45249717435789
-    C(4)   -5.0991322038876
-    Alkalinity   -5.0991322038876
-    S(6)   -2.5744025289887
-    N(5)   -5.5457518274427
-    N(-3)   -6.0434130218396
-#    U(4)   -49.0224391382
-END
-EQUILIBRIUM_PHASES_RAW       1 Pp_Assemblage defined in simulation 2.
+      X   0.5
+EQUILIBRIUM_PHASES_RAW       20 Pp_Assemblage defined in simulation 1.
   -eltList       
     C   3
     Ca   2
@@ -122,156 +123,94 @@ EQUILIBRIUM_PHASES_RAW       1 Pp_Assemblage defined in simulation 2.
   -component
     -name                  Calcite
     -si                    0
-    -moles                 0.1
+    -moles                 0.11781770315801
     -delta                 0
-    -initial_moles         0.1
+    -initial_moles         0.1180709871316
+    -force_equality        0
     -dissolve_only         0
   -component
     -name                  Dolomite
     -si                    0
-    -moles                 1.6
+    -moles                 1.568403984096
     -delta                 0
-    -initial_moles         1.6
+    -initial_moles         1.5687877423086
+    -force_equality        0
     -dissolve_only         0
-END
-SURFACE_RAW       1 Surface assemblage after simulation 3.
-  -diffuse_layer 0
-  -edl 1
+SURFACE_RAW       20 Surface defined in simulation 1.
+  -type 2
+  -dl_type 0
+  -sites_units 0
   -only_counter_ions 0
-  -donnan 0
   -thickness 1e-08
+  -debye_lengths 0
+  -DDL_viscosity 1
+  -DDL_limit 0.8
+  -transport 0
   -component
-    -formula               Hfo_s
+    -formula               SurfOH
+    -formula_z             0
     -moles                 0
-    -la                    -3.0197491390345
+    -la                    -0.20250616397962
     -charge_number         0
-    -charge_balance        0.013913746003963
+    -charge_balance        0.084703340238721
     -phase_proportion      0
+    -Dw                    0
+    -formula_totals
+      H   0.14
+      O   0.14
+      Surf   0.14
     -totals
-      Ca   0.0069204629590434
-      H   0.0070728200858757
-      Hfo_s   0.007
-      O   0.007
-  -component
-    -formula               Hfo_w
-    -moles                 0
-    -la                    -1.0903022008002
-    -charge_number         0
-    -charge_balance        0.059186413868542
-    -phase_proportion      0
-    -totals
-      As   0.0013125451713146
-      Ca   1.1287451134448e-13
-      H   0.13124042527965
-      Hfo_w   0.07
-      Mg   8.3609501387663e-14
-      O   0.077538196157839
-      S   0.0010766091746007
-  -component
-    -formula               Surf_s
-    -moles                 0
-    -la                    -4.5030922888346
-    -charge_number         1
-    -charge_balance        0.0069997802111022
-    -phase_proportion      0
-    -totals
-      Ca   0.0040211758700389
-      H   2.197888978314e-07
-      Mg   0.0029786043410633
-      O   0.007
-      Surf_s   0.007
-  -component
-    -formula               Surf_w
-    -moles                 0
-    -la                    -4.5030922888346
-    -charge_number         1
-    -charge_balance        0.069997802111022
-    -phase_proportion      0
-    -totals
-      Ca   0.040211758700389
-      H   2.197888978314e-06
-      Mg   0.029786043410633
-      O   0.07
-      Surf_w   0.07
-  -charge_component 
-    -name                  Hfo
-    -specific_area         600
-    -grams                 30
-    -charge_balance        0.073100159872505
-    -mass_water            0
-    -la_psi                0.4517045408516
-    -diffuse_layer_totals
+      As   0.0080729678646393
+      H   0.17518734394924
+      O   0.17225449222186
+      Surf   0.14000000006222
   -charge_component 
     -name                  Surf
     -specific_area         600
     -grams                 30
-    -charge_balance        0.076997582322124
+    -charge_balance        0.011043198890933
     -mass_water            0
-    -la_psi                0.46943090451996
+    -la_psi                0.46673410986017
+    -la_psi1               0
+    -la_psi2               0
+    -capacitance0          1
+    -capacitance1          5
     -diffuse_layer_totals
+USE solution 20
+USE exchange 20
+USE equilibrium_phases 20
+USE surface 20
 END
-KINETICS_RAW       1 
-  -step_divide       1e-06
-  -rk                3
-  -bad_step_max      500
-  -use_cvode         0
-  -component
-    -rate_name             K-feldspar
-    -tol                   1e-08
-    -m                     1.94
-    -m0                    2.16
-    -moles                 -0.010783499092906
-    -namecoef
-      K-feldspar   1
-    -d_params
-      1.36e-11 
-  -totals         
-END
-SOLID_SOLUTIONS_RAW       1 
-  -solid_solution
-    -name                  Ca(x)Sr(1-x)CO3
-    -a0                    3.43
-    -a1                    -1.82
-    -components            
-      Aragonite   0
-      Strontianite   0
-END
-GAS_PHASE_RAW       1 Fixed volume gas phase
-  -type               1
-  -total_p            1
-  -volume             22.5
-  -component
-    CH4(g)   0
-    CO2(g)   0
-    N2(g)   0
-    NH3(g)   0
-END
-REACTION_RAW        1
-  -units              Mol
-  -reactant_list
-    SrCO3   1
-  -element_list
-  -steps
-    0.005  
-  -equal_increments   1
-  -count_steps        1
-END
-MIX        1 Mix defined in simulation 4.
-  1     0.7
-#  2     0.3
-END
-REACTION_TEMPERATURE_RAW        1 
-  -temps              
-    25 75 
-  -equal_increments   1
-  -count_temps        2
-END
-USE mix 1
-USE reaction_temperature 1
-USE exchange 1
-USE surface 1
-USE equilibrium_phases 1
-USE kinetics 1
-USE solid_solution 1
-USE gas_phase 1
-USE reaction 1
+SOLUTION_RAW       20
+  -temp              25
+  -pH                7
+  -pH                xx
+  -xx                1
+  -pe                4
+  -mu                1e-07
+  -ah2o              1
+  -total_h           111.01974134192
+  -total_o           55.535325076996
+  -cb                0.0012883279473439
+  -mass_water        1
+  -total_alkalinity  0
+  -totals
+    As   4.1908616387069e-07
+    C   0.0096003939798442
+    Ca   9.3009440332783e-05
+    Cl   0.0032689522220291
+    Mg   6.6514137243683e-05
+    Na   0.01444565173261
+    S   0.00023718575024482
+  -activities
+    As   -8.3776966771614
+    C(-4)   -4.0177109440686
+    C(4)   -4.0177109440686
+    Ca   -6.0314729689045
+    Cl   -4.4855914268839
+    Mg   -6.1770860377888
+    Na   -3.8402628596702
+    S(-2)   -5.6249114062687
+    S(6)   -5.6249114062687
+  -gammas
+  -Isotopes

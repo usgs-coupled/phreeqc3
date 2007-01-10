@@ -63,6 +63,7 @@ all: alkalinity.out \
 	phrqpitz.tst.out \
 	pitzalphas.out \
 	prob8.out \
+	raw.out \
 	s1.out \
 	saver.out \
 	saunders.out \
