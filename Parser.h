@@ -69,7 +69,7 @@ public:
 	enum ECHO_OPTION {
                 EO_NONE         = 0,
                 EO_ALL          = 1,
-		EO_KEWORDS      = 2
+		EO_KEYWORDS     = 2
         };
 
 	enum STATUS_TYPE {

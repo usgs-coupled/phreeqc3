@@ -78,7 +78,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string& str, bool allow_empty,
 		    get_output() << msg;
 		  }
 		  break;
-		case EO_KEWORDS:
+		case EO_KEYWORDS:
 		  if (i == LT_KEYWORD) 
 		  {
 		    std::ostringstream msg;
@@ -100,7 +100,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string& str, bool allow_empty,
 		    output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());
 		  }
 		  break;
-		case EO_KEWORDS:
+		case EO_KEYWORDS:
 		  if (i == LT_KEYWORD) 
 		  {
 		    std::ostringstream msg;
