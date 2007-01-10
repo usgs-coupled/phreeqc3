@@ -68,12 +68,13 @@ int read_solution_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -150,12 +151,13 @@ int read_exchange_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -233,12 +235,13 @@ int read_surface_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -316,12 +319,13 @@ int read_equilibrium_phases_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -399,12 +403,13 @@ int read_kinetics_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -482,12 +487,13 @@ int read_solid_solutions_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -565,12 +571,13 @@ int read_gas_phase_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -648,12 +655,13 @@ int read_reaction_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -730,12 +738,13 @@ int read_mix_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;
@@ -812,12 +821,13 @@ int read_temperature_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
+	assert (!reading_database ());
 	if (pr.echo_input == FALSE) 
 	{
 	  parser.set_echo_file(CParser::EO_NONE);
-	} else if (reading_database ()) 
+	} else  
 	{
-	  parser.set_echo_file(CParser::EO_KEYWORDS);
+	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	} 
 	//For testing, need to read line to get started
 	std::vector<std::string> vopts;

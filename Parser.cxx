@@ -86,6 +86,14 @@ CParser::LINE_TYPE CParser::check_line(const std::string& str, bool allow_empty,
 		    get_output() << msg;
 		  }
 		  break;
+		case EO_NOKEYWORDS:
+		  if (i != LT_KEYWORD && i != LT_EOF) 
+		  {
+		    std::ostringstream msg;
+		    msg << "\t" << m_line_save << "\n";
+		    get_output() << msg;
+		  }
+		  break;
 		}
 		// output for file
                 switch (this->echo_file) 
@@ -106,6 +114,15 @@ CParser::LINE_TYPE CParser::check_line(const std::string& str, bool allow_empty,
 		    std::ostringstream msg;
 		    msg << "\t" << m_line_save << "\n";
 		    output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());
+		  }
+		  break;
+
+		case EO_NOKEYWORDS:
+		  if (i != LT_KEYWORD && i != LT_EOF) 
+		  {
+		    std::ostringstream msg;
+		    msg << "\t" << m_line_save << "\n";
+		    output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());		    
 		  }
 		  break;
 		}
