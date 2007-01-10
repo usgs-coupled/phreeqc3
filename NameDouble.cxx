@@ -290,6 +290,18 @@ void cxxNameDouble::add(const cxxNameDouble &old, double factor)
         }
 
 }
+void cxxNameDouble::add(char * key, double total)
+//
+// add to total for a specified element
+//
+{
+  cxxNameDouble::iterator current = (*this).find(key);
+  if (current != (*this).end()) {
+    (*this)[key] = current->second + total;
+  } else {
+    (*this)[key] = total;
+  }
+}
 #ifdef USE_MPI
 #include "Dictionary.h"
 void cxxNameDouble::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles) {

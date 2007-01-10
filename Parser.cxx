@@ -7,6 +7,7 @@
 
 #include "Parser.h"
 #include "Utils.h"
+#include "output.h"
 #include <algorithm>    // std::transform
 #include <map>          // std::map
 #include <cassert>      // assert
@@ -24,6 +25,8 @@ CParser::CParser(std::istream& input)
 {
         m_line_save.reserve(80);
         m_line.reserve(80);
+	echo_file = EO_ALL;
+	echo_stream = EO_NONE;
 }
 
 CParser::CParser(std::istream& input, std::ostream& output)
@@ -32,6 +35,8 @@ CParser::CParser(std::istream& input, std::ostream& output)
 {
         m_line_save.reserve(80);
         m_line.reserve(80);
+	echo_file = EO_ALL;
+	echo_stream = EO_NONE;
 }
 
 CParser::CParser(std::istream& input, std::ostream& output, std::ostream& error)
@@ -40,6 +45,8 @@ CParser::CParser(std::istream& input, std::ostream& output, std::ostream& error)
 {
         m_line_save.reserve(80);
         m_line.reserve(80);
+	echo_file = EO_ALL;
+	echo_stream = EO_NONE;
 }
 
 CParser::~CParser()
@@ -58,15 +65,50 @@ CParser::LINE_TYPE CParser::check_line(const std::string& str, bool allow_empty,
                 m_line_iss.seekg(0, std::ios_base::beg);
                 m_line_iss.clear();
 
-
-                if (true) // pr.echo_input == TRUE
-                {
-                        if ((print && i != LT_EOF) || i == LT_KEYWORD)
-                        {
-                                get_output() << "\t" << m_line_save << "\n";
-                        }
-                }
-
+		// output for stream
+                switch (this->echo_stream) 
+		{
+		case EO_NONE:
+		  break;
+		case EO_ALL:
+		  if (i != LT_EOF) 
+		  {
+		    std::ostringstream msg;
+		    msg << "\t" << m_line_save << "\n";
+		    get_output() << msg;
+		  }
+		  break;
+		case EO_KEWORDS:
+		  if (i == LT_KEYWORD) 
+		  {
+		    std::ostringstream msg;
+		    msg << "\t" << m_line_save << "\n";
+		    get_output() << msg;
+		  }
+		  break;
+		}
+		// output for file
+                switch (this->echo_file) 
+		{
+		case EO_NONE:
+		  break;
+		case EO_ALL:
+		  if (i != LT_EOF) 
+		  {
+		    std::ostringstream msg;
+		    msg << "\t" << m_line_save << "\n";
+		    output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());
+		  }
+		  break;
+		case EO_KEWORDS:
+		  if (i == LT_KEYWORD) 
+		  {
+		    std::ostringstream msg;
+		    msg << "\t" << m_line_save << "\n";
+		    output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());
+		  }
+		  break;
+		}
         } while (i == LT_EMPTY && allow_empty == false);
 
         // Check eof
@@ -507,7 +549,7 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::string::i
         //
         // Read line
         //
-        LINE_TYPE lt = check_line("get_option", false, true, true, false);
+        LINE_TYPE lt = check_line("get_option", false, true, true, true);
         if (lt == LT_EOF)
         {
                 j = OPT_EOF;
@@ -598,7 +640,7 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::istream::
         //
         // Read line
         //
-        LINE_TYPE lt = check_line("get_option", false, true, true, false);
+        LINE_TYPE lt = check_line("get_option", false, true, true, true);
         if (lt == LT_EOF)
         {
                 j = OPT_EOF;
@@ -678,6 +720,7 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::istream::
 
 int CParser::error_msg(const char *err_str, ONERROR_TYPE ot)
 {
+        ::error_msg(err_str, (int)ot);
         m_error_stream  << "ERROR: " << err_str << "\n";
         m_error_stream.flush();
 

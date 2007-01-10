@@ -464,7 +464,7 @@ void cxxSolution::read_raw(CParser& parser)
                         opt = CParser::OPT_EOF;
                         parser.error_msg("Unknown input in SOLUTION_RAW keyword.", CParser::OT_CONTINUE);
                         parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
-                        break;
+                        continue;
 
                 case 0: // totals
                         if ( this->totals.read_raw(parser, next_char) != CParser::PARSER_OK) {
