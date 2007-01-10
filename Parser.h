@@ -70,7 +70,7 @@ public:
                 EO_NONE         = 0,
                 EO_ALL          = 1,
 		EO_KEYWORDS     = 2,
-		EO_NOKEYWORDS   = 3,
+		EO_NOKEYWORDS   = 3
         };
 
 	enum STATUS_TYPE {
