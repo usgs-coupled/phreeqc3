@@ -1,0 +1,2230 @@
+   Input file: deb2
+  Output file: deb2.out
+Database file: phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	KNOBS
+	 iterations 400
+	SURFACE_MASTER_SPECIES
+	 Su Su-
+	SURFACE_SPECIES
+	 Su- = Su-
+	 log_k 0
+	SOLUTION 1-2
+	 pH 7.0
+	 Na 1
+	 Cl 1 charge
+	 water 1
+	SURFACE 1
+	 Su 0.1 1e4 1
+	 Hfo_w 1e-3 600 1
+	 equilibrate 1
+	 donnan debye_lengths 1 limit_ddl 0.8 viscosity 1# 1e-9
+	SELECTED_OUTPUT
+	 file d2.prn
+	 reset false#; -high_pr
+	USER_PUNCH
+	 heading H2O_aq H2O_Su H2O_Hfo H2O_tot newH2O_tot Na Cl pH
+	 start
+	  2 if sim_no = 1 then put(edl("water"), 1)
+	 10 punch tot("water"), edl("water", "Su"), edl("water", "Hfo"), tot("water") + edl("water", "Su") + edl("water", "Hfo"), 0.5*tot("water") + edl("water", "Su") + edl("water", "Hfo"), tot("Na")*1e3, tot("Cl")*1e3 , -la("H+")
+	 end
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03  Charge balance
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.658e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -7.745e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.038e-07   1.001e-07    -6.984    -7.000    -0.016
+   H+                     1.034e-07   1.000e-07    -6.985    -7.000    -0.015
+   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+Cl               1.000e-03
+   Cl-                    1.000e-03   9.649e-04    -3.000    -3.016    -0.016
+H(0)             1.416e-25
+   H2                     7.078e-26   7.079e-26   -25.150   -25.150     0.000
+Na               1.000e-03
+   Na+                    1.000e-03   9.652e-04    -3.000    -3.015    -0.015
+   NaOH                   6.375e-11   6.377e-11   -10.196   -10.195     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -22.00  -25.15   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.61   -6.03    1.58  NaCl
+	O2(g)           -39.12  -42.08   -2.96  O2
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 -1.038e-17  Surface + diffuse layer charge, eq
+	  3.497e-05  Surface charge, eq
+	  5.623e-03  sigma, C/m**2
+	  6.180e-02  psi, V
+	 -2.406e+00  -F*psi/RT
+	  9.021e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.762854e-03 kg.   Thickness: 9.618554e-09 m.
+	Radius of total pore:   3.666114e-06 m; of free pore: 3.656496e-06 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.5887e-05
+	H             	  3.8195e-09
+	Na            	  9.2542e-07
+	O             	  3.7237e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.656e-04       0.766   7.656e-04      -3.116
+	Hfo_wOH2+         1.347e-04       0.135   1.347e-04      -3.871
+	Hfo_wO-           9.971e-05       0.100   9.971e-05      -4.001
+
+Su            
+	  6.939e-17  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.213e-01  psi, V
+	  1.251e+01  -F*psi/RT
+	  2.702e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 9.407149e-02 kg.   Thickness: 9.618554e-09 m.
+	Radius of total pore:   2.199669e-07 m; of free pore: 2.103483e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  8.8504e-08
+	H             	  1.0344e-05
+	Na            	  9.9990e-02
+	O             	  1.5180e-11
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   1.000e-01      -1.000
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -1.950e-14  Surface + diffuse layer charge, eq
+	  3.497e-05  Surface charge, eq
+	  5.623e-03  sigma, C/m**2
+	  6.180e-02  psi, V
+	 -2.406e+00  -F*psi/RT
+	  9.021e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.763530e-03 kg.   Thickness: 9.618502e-09 m.
+	Radius of total pore:   3.666114e-06 m; of free pore: 3.656496e-06 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.5887e-05
+	H             	  3.8195e-09
+	Na            	  9.2564e-07
+	O             	  3.7237e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.656e-04       0.766   7.656e-04      -3.116
+	Hfo_wOH2+         1.347e-04       0.135   1.347e-04      -3.871
+	Hfo_wO-           9.971e-05       0.100   9.971e-05      -4.001
+
+Su            
+	  5.580e-11  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.213e-01  psi, V
+	  1.251e+01  -F*psi/RT
+	  2.702e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 9.408207e-02 kg.   Thickness: 9.618502e-09 m.
+	Radius of total pore:   2.199669e-07 m; of free pore: 2.103484e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  8.8525e-08
+	H             	  1.0344e-05
+	Na            	  9.9990e-02
+	O             	  1.5183e-11
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   1.000e-01      -1.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  -1.344      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.662e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -7.745e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   3
+                                  Total H  = 1.110112e+02
+                                  Total O  = 5.550559e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.038e-07   1.001e-07    -6.984    -7.000    -0.016
+   H+                     1.034e-07   1.000e-07    -6.985    -7.000    -0.015
+   H2O                    6.105e+01   1.000e+00     1.786     0.000     0.000
+Cl               1.000e-03
+   Cl-                    1.000e-03   9.649e-04    -3.000    -3.016    -0.016
+H(0)             6.894e-15
+   H2                     3.447e-15   3.448e-15   -14.463   -14.462     0.000
+Na               1.000e-03
+   Na+                    1.000e-03   9.652e-04    -3.000    -3.015    -0.015
+   NaOH                   6.375e-11   6.377e-11   -10.195   -10.195     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -63.455   -63.455     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -11.31  -14.46   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.61   -6.03    1.58  NaCl
+	O2(g)           -60.50  -63.46   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE surface 1
+	MIX 1
+	 1 0.5
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	                                                       
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.991e-14  Surface + diffuse layer charge, eq
+	  3.493e-05  Surface charge, eq
+	  5.617e-03  sigma, C/m**2
+	  6.182e-02  psi, V
+	 -2.406e+00  -F*psi/RT
+	  9.014e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.766178e-03 kg.   Thickness: 9.633505e-09 m.
+	Radius of total pore:   1.999448e-06 m; of free pore: 1.989814e-06 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.5845e-05
+	H             	  3.8242e-09
+	Na            	  9.2182e-07
+	O             	  3.7285e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.656e-04       0.766   1.526e-03      -2.816
+	Hfo_wOH2+         1.347e-04       0.135   2.684e-04      -3.571
+	Hfo_wO-           9.973e-05       0.100   1.988e-04      -3.702
+
+Su            
+	  8.566e-11  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.214e-01  psi, V
+	  1.251e+01  -F*psi/RT
+	  2.710e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 9.246713e-02 kg.   Thickness: 9.633505e-09 m.
+	Radius of total pore:   1.199669e-07 m; of free pore: 1.103334e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  8.4981e-08
+	H             	  1.0382e-05
+	Na            	  9.9990e-02
+	O             	  1.4712e-11
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   1.994e-01      -0.700
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                9.969e-04   5.000e-04
+	Na                9.969e-04   5.000e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  -1.379      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   9.970e-04
+                       Mass of water (kg)  =   5.016e-01
+                 Total alkalinity (eq/kg)  =   2.385e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -3.872e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   3
+                                  Total H  = 5.568395e+01
+                                  Total O  = 2.784198e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.037e-07   1.000e-07    -6.984    -7.000    -0.016
+   H+                     1.035e-07   1.001e-07    -6.985    -7.000    -0.015
+   H2O                    6.638e+01   1.000e+00     1.822     0.000     0.000
+Cl               9.969e-04
+   Cl-                    9.969e-04   9.619e-04    -3.001    -3.017    -0.016
+H(0)             8.125e-15
+   H2                     4.063e-15   4.064e-15   -14.391   -14.391     0.000
+Na               9.969e-04
+   Na+                    9.969e-04   9.622e-04    -3.001    -3.017    -0.015
+   NaOH                   6.352e-11   6.353e-11   -10.197   -10.197     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -63.598   -63.598     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -11.24  -14.39   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.62   -6.03    1.58  NaCl
+	O2(g)           -60.64  -63.60   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 2.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 2.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.835e-13  Surface + diffuse layer charge, eq
+	  3.482e-05  Surface charge, eq
+	  5.599e-03  sigma, C/m**2
+	  6.188e-02  psi, V
+	 -2.409e+00  -F*psi/RT
+	  8.995e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.781979e-03 kg.   Thickness: 9.676874e-09 m.
+	Radius of total pore:   1.163446e-06 m; of free pore: 1.153769e-06 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.5726e-05
+	H             	  3.8393e-09
+	Na            	  9.1340e-07
+	O             	  3.7426e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.656e-04       0.766   3.024e-03      -2.519
+	Hfo_wOH2+         1.346e-04       0.135   5.316e-04      -3.274
+	Hfo_wO-           9.978e-05       0.100   3.941e-04      -3.404
+
+Su            
+	  8.142e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.216e-01  psi, V
+	  1.252e+01  -F*psi/RT
+	  2.735e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 9.006153e-02 kg.   Thickness: 9.676874e-09 m.
+	Radius of total pore:   6.980677e-08 m; of free pore: 6.012989e-08 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  7.9181e-08
+	H             	  1.0492e-05
+	Na            	  9.9990e-02
+	O             	  1.3954e-11
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   3.950e-01      -0.403
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                9.880e-04   2.501e-04
+	Na                9.880e-04   2.501e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  -3.500      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   9.881e-04
+                       Mass of water (kg)  =   2.532e-01
+                 Total alkalinity (eq/kg)  =  -1.229e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   8.369e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 2.810727e+01
+                                  Total O  = 1.405364e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.037e-07   1.002e-07    -6.984    -6.999    -0.015
+   OH-                    1.035e-07   9.987e-08    -6.985    -7.001    -0.015
+   H2O                    7.652e+01   1.000e+00     1.884     0.000     0.000
+Cl               9.880e-04
+   Cl-                    9.880e-04   9.535e-04    -3.005    -3.021    -0.015
+H(0)             1.424e-10
+   H2                     7.121e-11   7.123e-11   -10.147   -10.147     0.000
+Na               9.880e-04
+   Na+                    9.880e-04   9.538e-04    -3.005    -3.021    -0.015
+   NaOH                   6.285e-11   6.287e-11   -10.202   -10.202     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -72.085   -72.085     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -7.00  -10.15   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.62   -6.04    1.58  NaCl
+	O2(g)           -69.13  -72.09   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 3.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 3.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  6.210e-14  Surface + diffuse layer charge, eq
+	  3.456e-05  Surface charge, eq
+	  5.558e-03  sigma, C/m**2
+	  6.201e-02  psi, V
+	 -2.414e+00  -F*psi/RT
+	  8.950e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.828565e-03 kg.   Thickness: 9.778758e-09 m.
+	Radius of total pore:   7.414622e-07 m; of free pore: 7.316835e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.5450e-05
+	H             	  3.8727e-09
+	Na            	  8.9703e-07
+	O             	  3.7781e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.657e-04       0.766   5.909e-03      -2.228
+	Hfo_wOH2+         1.344e-04       0.134   1.038e-03      -2.984
+	Hfo_wO-           9.989e-05       0.100   7.709e-04      -3.113
+
+Su            
+	 -1.797e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.222e-01  psi, V
+	  1.254e+01  -F*psi/RT
+	  2.792e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 8.704034e-02 kg.   Thickness: 9.778758e-09 m.
+	Radius of total pore:   4.448773e-08 m; of free pore: 3.470898e-08 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  7.0923e-08
+	H             	  1.0752e-05
+	Na            	  9.9989e-02
+	O             	  4.0311e-11
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   7.718e-01      -0.113
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                9.675e-04   1.254e-04
+	Na                9.675e-04   1.254e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.997      Charge balance
+                                       pe  =  12.072      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   9.676e-04
+                       Mass of water (kg)  =   1.296e-01
+                 Total alkalinity (eq/kg)  =  -9.277e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   8.558e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   3
+                                  Total H  = 1.438385e+01
+                                  Total O  = 7.191927e+00
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.040e-07   1.006e-07    -6.983    -6.997    -0.015
+   OH-                    1.031e-07   9.949e-08    -6.987    -7.002    -0.015
+   H2O                    9.529e+01   1.000e+00     1.979     0.000     0.000
+Cl               9.675e-04
+   Cl-                    9.675e-04   9.340e-04    -3.014    -3.030    -0.015
+H(0)             0.000e+00
+   H2                     0.000e+00   0.000e+00   -41.289   -41.289     0.000
+Na               9.675e-04
+   Na+                    9.675e-04   9.343e-04    -3.014    -3.029    -0.015
+   NaOH                   6.133e-11   6.135e-11   -10.212   -10.212     0.000
+O(0)             3.150e-10
+   O2                     1.575e-10   1.575e-10    -9.803    -9.803     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -38.14  -41.29   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.64   -6.06    1.58  NaCl
+	O2(g)            -6.84   -9.80   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 4.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 4.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.004e-13  Surface + diffuse layer charge, eq
+	  3.408e-05  Surface charge, eq
+	  5.481e-03  sigma, C/m**2
+	  6.222e-02  psi, V
+	 -2.422e+00  -F*psi/RT
+	  8.876e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.922337e-03 kg.   Thickness: 9.965043e-09 m.
+	Radius of total pore:   5.255126e-07 m; of free pore: 5.155476e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.4947e-05
+	H             	  3.9577e-09
+	Na            	  8.7116e-07
+	O             	  3.8394e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.657e-04       0.766   1.129e-02      -1.947
+	Hfo_wOH2+         1.342e-04       0.134   1.978e-03      -2.704
+	Hfo_wO-           1.001e-04       0.100   1.476e-03      -2.831
+
+Su            
+	 -2.947e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.231e-01  psi, V
+	  1.258e+01  -F*psi/RT
+	  2.900e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 8.390357e-02 kg.   Thickness: 9.965043e-09 m.
+	Radius of total pore:   3.153076e-08 m; of free pore: 2.156571e-08 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  6.1112e-08
+	H             	  1.1230e-05
+	Na            	  9.9989e-02
+	O             	  1.1641e-11
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   1.474e+00       0.169
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                9.317e-04   6.319e-05
+	Na                9.317e-04   6.319e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.995      Charge balance
+                                       pe  =  -4.189      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   9.318e-04
+                       Mass of water (kg)  =   6.783e-02
+                 Total alkalinity (eq/kg)  =  -2.226e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   2.482e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   3
+                                  Total H  = 7.529737e+00
+                                  Total O  = 3.764869e+00
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.046e-07   1.013e-07    -6.980    -6.995    -0.014
+   OH-                    1.023e-07   9.887e-08    -6.990    -7.005    -0.015
+   H2O                    1.290e+02   1.000e+00     2.111     0.000     0.000
+Cl               9.317e-04
+   Cl-                    9.317e-04   9.000e-04    -3.031    -3.046    -0.015
+H(0)             3.463e-09
+   H2                     1.731e-09   1.732e-09    -8.762    -8.762     0.000
+Na               9.317e-04
+   Na+                    9.317e-04   9.003e-04    -3.031    -3.046    -0.015
+   NaOH                   5.873e-11   5.874e-11   -10.231   -10.231     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -74.857   -74.857     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -5.61   -8.76   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.67   -6.09    1.58  NaCl
+	O2(g)           -71.90  -74.86   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 5.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 5.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.631e-13  Surface + diffuse layer charge, eq
+	  3.340e-05  Surface charge, eq
+	  5.372e-03  sigma, C/m**2
+	  6.248e-02  psi, V
+	 -2.432e+00  -F*psi/RT
+	  8.788e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 6.060533e-03 kg.   Thickness: 1.022769e-08 m.
+	Radius of total pore:   4.124662e-07 m; of free pore: 4.022385e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.4239e-05
+	H             	  4.0840e-09
+	Na            	  8.3912e-07
+	O             	  3.9309e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.658e-04       0.766   2.096e-02      -1.679
+	Hfo_wOH2+         1.338e-04       0.134   3.662e-03      -2.436
+	Hfo_wO-           1.004e-04       0.100   2.748e-03      -2.561
+
+Su            
+	 -4.883e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.245e-01  psi, V
+	  1.263e+01  -F*psi/RT
+	  3.055e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 8.114273e-02 kg.   Thickness: 1.022769e-08 m.
+	Radius of total pore:   2.474797e-08 m; of free pore: 1.452028e-08 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  5.1507e-08
+	H             	  1.1905e-05
+	Na            	  9.9988e-02
+	O             	  1.0409e-11
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   2.737e+00       0.437
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                8.844e-04   3.231e-05
+	Na                8.844e-04   3.231e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.992      Charge balance
+                                       pe  =  -4.388      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   8.845e-04
+                       Mass of water (kg)  =   3.654e-02
+                 Total alkalinity (eq/kg)  =  -3.711e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -1.705e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   3
+                                  Total H  = 4.056015e+00
+                                  Total O  = 2.028008e+00
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.053e-07   1.020e-07    -6.978    -6.992    -0.014
+   OH-                    1.015e-07   9.817e-08    -6.993    -7.008    -0.015
+   H2O                    1.880e+02   1.000e+00     2.274     0.000     0.000
+Cl               8.844e-04
+   Cl-                    8.844e-04   8.551e-04    -3.053    -3.068    -0.015
+H(0)             8.775e-09
+   H2                     4.388e-09   4.389e-09    -8.358    -8.358     0.000
+Na               8.844e-04
+   Na+                    8.844e-04   8.554e-04    -3.053    -3.068    -0.015
+   NaOH                   5.540e-11   5.542e-11   -10.256   -10.256     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -75.665   -75.665     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -5.21   -8.36   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.72   -6.14    1.58  NaCl
+	O2(g)           -72.70  -75.66   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 6.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 6.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -3.172e-13  Surface + diffuse layer charge, eq
+	  3.250e-05  Surface charge, eq
+	  5.226e-03  sigma, C/m**2
+	  6.275e-02  psi, V
+	 -2.442e+00  -F*psi/RT
+	  8.695e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 4.776070e-03 kg.   Thickness: 1.057915e-08 m.
+	Radius of total pore:   3.515719e-07 m; of free pore: 3.409927e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  3.2966e-05
+	H             	  4.1602e-09
+	Na            	  4.7281e-07
+	O             	  4.0180e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.659e-04       0.766   3.631e-02      -1.440
+	Hfo_wOH2+         1.333e-04       0.133   6.319e-03      -2.199
+	Hfo_wO-           1.008e-04       0.101   4.779e-03      -2.321
+
+Su            
+	  9.762e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.262e-01  psi, V
+	  1.270e+01  -F*psi/RT
+	  3.268e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 7.960117e-02 kg.   Thickness: 1.057915e-08 m.
+	Radius of total pore:   2.109431e-08 m; of free pore: 1.051516e-08 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  4.3302e-08
+	H             	  1.2811e-05
+	Na            	  9.9987e-02
+	O             	  9.3765e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   4.741e+00       0.676
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                8.266e-04   1.744e-05
+	Na                8.266e-04   1.744e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.989      Charge balance
+                                       pe  =  -4.529      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   8.267e-04
+                       Mass of water (kg)  =   2.109e-02
+                 Total alkalinity (eq/kg)  =  -5.100e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -5.733e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  41
+                                  Total H  = 2.341731e+00
+                                  Total O  = 1.170865e+00
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.059e-07   1.027e-07    -6.975    -6.989    -0.013
+   OH-                    1.007e-07   9.751e-08    -6.997    -7.011    -0.014
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               8.266e-04
+   Cl-                    8.266e-04   8.001e-04    -3.083    -3.097    -0.014
+H(0)             1.707e-08
+   H2                     8.537e-09   8.538e-09    -8.069    -8.069     0.000
+Na               8.266e-04
+   Na+                    8.266e-04   8.003e-04    -3.083    -3.097    -0.014
+   NaOH                   5.149e-11   5.150e-11   -10.288   -10.288     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -76.243   -76.243     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -4.92   -8.07   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.78   -6.19    1.58  NaCl
+	O2(g)           -73.28  -76.24   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 7.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 7.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -5.382e-15  Surface + diffuse layer charge, eq
+	  2.909e-05  Surface charge, eq
+	  4.678e-03  sigma, C/m**2
+	  6.313e-02  psi, V
+	 -2.457e+00  -F*psi/RT
+	  8.568e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 4.298463e-03 kg.   Thickness: 1.049458e-08 m.
+	Radius of total pore:   3.164147e-07 m; of free pore: 3.059201e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  2.9352e-05
+	H             	  4.5957e-09
+	Na            	  2.6661e-07
+	O             	  4.5273e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.662e-04       0.766   4.036e-02      -1.394
+	Hfo_wOH2+         1.314e-04       0.131   6.923e-03      -2.160
+	Hfo_wO-           1.023e-04       0.102   5.391e-03      -2.268
+
+Su            
+	  1.850e-11  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.323e-01  psi, V
+	  1.294e+01  -F*psi/RT
+	  4.151e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 7.164106e-02 kg.   Thickness: 1.049458e-08 m.
+	Radius of total pore:   1.898488e-08 m; of free pore: 8.490296e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  2.1741e-08
+	H             	  1.6219e-05
+	Na            	  9.9984e-02
+	O             	  6.2676e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   5.267e+00       0.722
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                6.508e-04   1.235e-05
+	Na                6.508e-04   1.236e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.989      Charge balance
+                                       pe  =  -4.296      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   6.509e-04
+                       Mass of water (kg)  =   1.898e-02
+                 Total alkalinity (eq/kg)  =  -5.157e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   6.892e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 2.107558e+00
+                                  Total O  = 1.053779e+00
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.056e-07   1.027e-07    -6.976    -6.989    -0.012
+   OH-                    1.004e-07   9.750e-08    -6.998    -7.011    -0.013
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               6.508e-04
+   Cl-                    6.508e-04   6.321e-04    -3.187    -3.199    -0.013
+H(0)             5.846e-09
+   H2                     2.923e-09   2.924e-09    -8.534    -8.534     0.000
+Na               6.508e-04
+   Na+                    6.508e-04   6.323e-04    -3.187    -3.199    -0.013
+   NaOH                   4.068e-11   4.069e-11   -10.391   -10.391     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -75.312   -75.312     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -5.38   -8.53   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.98   -6.40    1.58  NaCl
+	O2(g)           -72.35  -75.31   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 8.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 8.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.567e-13  Surface + diffuse layer charge, eq
+	  2.621e-05  Surface charge, eq
+	  4.215e-03  sigma, C/m**2
+	  6.277e-02  psi, V
+	 -2.443e+00  -F*psi/RT
+	  8.687e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 3.868617e-03 kg.   Thickness: 9.445125e-09 m.
+	Radius of total pore:   2.847732e-07 m; of free pore: 2.753281e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  2.6365e-05
+	H             	  5.1037e-09
+	Na            	  1.6365e-07
+	O             	  5.0469e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.665e-04       0.766   4.486e-02      -1.348
+	Hfo_wOH2+         1.299e-04       0.130   7.600e-03      -2.119
+	Hfo_wO-           1.036e-04       0.104   6.066e-03      -2.217
+
+Su            
+	  9.795e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.373e-01  psi, V
+	  1.313e+01  -F*psi/RT
+	  5.031e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 6.447695e-02 kg.   Thickness: 9.445125e-09 m.
+	Radius of total pore:   1.708639e-08 m; of free pore: 7.641267e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  1.1987e-08
+	H             	  1.9103e-05
+	Na            	  9.9981e-02
+	O             	  4.5220e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   5.853e+00       0.767
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                5.369e-04   9.174e-06
+	Na                5.369e-04   9.174e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  -4.335      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   5.370e-04
+                       Mass of water (kg)  =   1.709e-02
+                 Total alkalinity (eq/kg)  =   2.198e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   3.631e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.896802e+00
+                                  Total O  = 9.484010e-01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.028e-07   1.001e-07    -6.988    -7.000    -0.011
+   H+                     1.026e-07   1.000e-07    -6.989    -7.000    -0.011
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               5.369e-04
+   Cl-                    5.369e-04   5.229e-04    -3.270    -3.282    -0.011
+H(0)             6.614e-09
+   H2                     3.307e-09   3.308e-09    -8.481    -8.480     0.000
+Na               5.369e-04
+   Na+                    5.369e-04   5.230e-04    -3.270    -3.281    -0.011
+   NaOH                   3.455e-11   3.455e-11   -10.462   -10.462     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -75.419   -75.419     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -5.33   -8.48   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -8.15   -6.56    1.58  NaCl
+	O2(g)           -72.46  -75.42   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 9.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 9.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.047e-13  Surface + diffuse layer charge, eq
+	  2.381e-05  Surface charge, eq
+	  3.829e-03  sigma, C/m**2
+	  6.205e-02  psi, V
+	 -2.415e+00  -F*psi/RT
+	  8.934e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 3.481755e-03 kg.   Thickness: 8.500613e-09 m.
+	Radius of total pore:   2.562959e-07 m; of free pore: 2.477953e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  2.3910e-05
+	H             	  5.5870e-09
+	Na            	  1.0647e-07
+	O             	  5.5616e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.667e-04       0.767   4.986e-02      -1.302
+	Hfo_wOH2+         1.286e-04       0.129   8.360e-03      -2.078
+	Hfo_wO-           1.047e-04       0.105   6.812e-03      -2.167
+
+Su            
+	  8.594e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.414e-01  psi, V
+	  1.329e+01  -F*psi/RT
+	  5.895e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.802926e-02 kg.   Thickness: 8.500613e-09 m.
+	Radius of total pore:   1.537775e-08 m; of free pore: 6.877140e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  7.0729e-09
+	H             	  2.1501e-05
+	Na            	  9.9979e-02
+	O             	  3.4264e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   6.503e+00       0.813
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                4.582e-04   7.046e-06
+	Na                4.583e-04   7.048e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.017      Charge balance
+                                       pe  =  -3.867      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   4.584e-04
+                       Mass of water (kg)  =   1.538e-02
+                 Total alkalinity (eq/kg)  =   8.051e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   1.161e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.01
+                               Iterations  =   0
+                                  Total H  = 1.707122e+00
+                                  Total O  = 8.535609e-01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.066e-07   1.040e-07    -6.972    -6.983    -0.011
+   H+                     9.856e-08   9.626e-08    -7.006    -7.017    -0.010
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               4.582e-04
+   Cl-                    4.582e-04   4.471e-04    -3.339    -3.350    -0.011
+H(0)             7.106e-10
+   H2                     3.553e-10   3.553e-10    -9.449    -9.449     0.000
+Na               4.583e-04
+   Na+                    4.583e-04   4.473e-04    -3.339    -3.349    -0.011
+   NaOH                   3.070e-11   3.070e-11   -10.513   -10.513     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -73.481   -73.481     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -6.30   -9.45   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -8.28   -6.70    1.58  NaCl
+	O2(g)           -70.52  -73.48   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 10.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 10.                          
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  2.175e-13  Surface + diffuse layer charge, eq
+	  2.182e-05  Surface charge, eq
+	  3.509e-03  sigma, C/m**2
+	  6.117e-02  psi, V
+	 -2.381e+00  -F*psi/RT
+	  9.248e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 3.133580e-03 kg.   Thickness: 7.650551e-09 m.
+	Radius of total pore:   2.306663e-07 m; of free pore: 2.230157e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  2.1886e-05
+	H             	  6.0797e-09
+	Na            	  7.2189e-08
+	O             	  6.0703e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.668e-04       0.767   5.541e-02      -1.256
+	Hfo_wOH2+         1.275e-04       0.127   9.212e-03      -2.036
+	Hfo_wO-           1.057e-04       0.106   7.635e-03      -2.117
+
+Su            
+	 -9.966e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.448e-01  psi, V
+	  1.342e+01  -F*psi/RT
+	  6.734e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 5.222633e-02 kg.   Thickness: 7.650551e-09 m.
+	Radius of total pore:   1.383998e-08 m; of free pore: 6.189426e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  4.3896e-09
+	H             	  2.3492e-05
+	Na            	  9.9977e-02
+	O             	  1.2939e-10
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   7.225e+00       0.859
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                4.011e-04   5.551e-06
+	Na                4.012e-04   5.552e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.035      Charge balance
+                                       pe  =  12.256      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   4.012e-04
+                       Mass of water (kg)  =   1.384e-02
+                 Total alkalinity (eq/kg)  =   1.686e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   1.440e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.01
+                               Iterations  =   0
+                                  Total H  = 1.536410e+00
+                                  Total O  = 7.682048e-01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.111e-07   1.086e-07    -6.954    -6.964    -0.010
+   H+                     9.427e-08   9.220e-08    -7.026    -7.035    -0.010
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               4.011e-04
+   Cl-                    4.011e-04   3.920e-04    -3.397    -3.407    -0.010
+H(0)             0.000e+00
+   H2                     0.000e+00   0.000e+00   -41.732   -41.732     0.000
+Na               4.012e-04
+   Na+                    4.012e-04   3.921e-04    -3.397    -3.407    -0.010
+   NaOH                   2.810e-11   2.810e-11   -10.551   -10.551     0.000
+O(0)             2.426e-09
+   O2                     1.213e-09   1.213e-09    -8.916    -8.916     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -38.58  -41.73   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -8.40   -6.81    1.58  NaCl
+	O2(g)            -5.96   -8.92   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 12.
+-------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 11.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 11.                          
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.852e-13  Surface + diffuse layer charge, eq
+	  2.016e-05  Surface charge, eq
+	  3.242e-03  sigma, C/m**2
+	  6.021e-02  psi, V
+	 -2.344e+00  -F*psi/RT
+	  9.597e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 2.820222e-03 kg.   Thickness: 6.885496e-09 m.
+	Radius of total pore:   2.075997e-07 m; of free pore: 2.007142e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  2.0203e-05
+	H             	  6.5762e-09
+	Na            	  5.0474e-08
+	O             	  6.5440e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.670e-04       0.767   6.157e-02      -1.211
+	Hfo_wOH2+         1.266e-04       0.127   1.016e-02      -1.993
+	Hfo_wO-           1.064e-04       0.106   8.545e-03      -2.068
+
+Su            
+	 -9.188e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.477e-01  psi, V
+	  1.353e+01  -F*psi/RT
+	  7.544e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 4.700370e-02 kg.   Thickness: 6.885496e-09 m.
+	Radius of total pore:   1.245598e-08 m; of free pore: 5.570483e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  2.8332e-09
+	H             	  2.5153e-05
+	Na            	  9.9975e-02
+	O             	  2.1512e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   8.028e+00       0.905
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                3.581e-04   4.460e-06
+	Na                3.581e-04   4.460e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.054      Charge balance
+                                       pe  =  -4.399      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.582e-04
+                       Mass of water (kg)  =   1.246e-02
+                 Total alkalinity (eq/kg)  =   2.592e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -2.766e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.382769e+00
+                                  Total O  = 6.913843e-01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.160e-07   1.135e-07    -6.936    -6.945    -0.009
+   H+                     9.008e-08   8.821e-08    -7.045    -7.054    -0.009
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               3.581e-04
+   Cl-                    3.581e-04   3.504e-04    -3.446    -3.455    -0.009
+H(0)             6.908e-09
+   H2                     3.454e-09   3.454e-09    -8.462    -8.462     0.000
+Na               3.581e-04
+   Na+                    3.581e-04   3.504e-04    -3.446    -3.455    -0.009
+   NaOH                   2.624e-11   2.625e-11   -10.581   -10.581     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -75.457   -75.457     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -5.31   -8.46   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -8.49   -6.91    1.58  NaCl
+	O2(g)           -72.50  -75.46   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 13.
+-------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 12.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 12.                          
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.796e-13  Surface + diffuse layer charge, eq
+	  1.876e-05  Surface charge, eq
+	  3.018e-03  sigma, C/m**2
+	  5.926e-02  psi, V
+	 -2.306e+00  -F*psi/RT
+	  9.961e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 2.538200e-03 kg.   Thickness: 6.196947e-09 m.
+	Radius of total pore:   1.868397e-07 m; of free pore: 1.806427e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  1.8794e-05
+	H             	  7.0608e-09
+	Na            	  3.6124e-08
+	O             	  7.0035e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.670e-04       0.767   6.842e-02      -1.165
+	Hfo_wOH2+         1.259e-04       0.126   1.123e-02      -1.950
+	Hfo_wO-           1.071e-04       0.107   9.553e-03      -2.020
+
+Su            
+	 -9.572e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.502e-01  psi, V
+	  1.363e+01  -F*psi/RT
+	  8.321e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 4.230333e-02 kg.   Thickness: 6.196947e-09 m.
+	Radius of total pore:   1.121038e-08 m; of free pore: 5.013435e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  1.8864e-09
+	H             	  2.6547e-05
+	Na            	  9.9973e-02
+	O             	  1.7549e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   8.920e+00       0.950
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                3.247e-04   3.639e-06
+	Na                3.246e-04   3.639e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.073      Charge balance
+                                       pe  =  -4.635      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.247e-04
+                       Mass of water (kg)  =   1.121e-02
+                 Total alkalinity (eq/kg)  =   3.481e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -1.057e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =   0
+                                  Total H  = 1.244492e+00
+                                  Total O  = 6.222459e-01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.210e-07   1.185e-07    -6.917    -6.926    -0.009
+   H+                     8.619e-08   8.448e-08    -7.065    -7.073    -0.009
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               3.247e-04
+   Cl-                    3.247e-04   3.180e-04    -3.489    -3.498    -0.009
+H(0)             1.880e-08
+   H2                     9.402e-09   9.403e-09    -8.027    -8.027     0.000
+Na               3.246e-04
+   Na+                    3.246e-04   3.180e-04    -3.489    -3.498    -0.009
+   NaOH                   2.487e-11   2.487e-11   -10.604   -10.604     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -76.327   -76.327     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -4.88   -8.03   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -8.58   -7.00    1.58  NaCl
+	O2(g)           -73.37  -76.33   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 14.
+-------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 13.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 13.                          
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -1.711e-13  Surface + diffuse layer charge, eq
+	  1.759e-05  Surface charge, eq
+	  2.828e-03  sigma, C/m**2
+	  5.833e-02  psi, V
+	 -2.270e+00  -F*psi/RT
+	  1.033e-01  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 2.284380e-03 kg.   Thickness: 5.577252e-09 m.
+	Radius of total pore:   1.681557e-07 m; of free pore: 1.625785e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  1.7606e-05
+	H             	  7.5218e-09
+	Na            	  2.6334e-08
+	O             	  7.4389e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.671e-04       0.767   7.603e-02      -1.119
+	Hfo_wOH2+         1.252e-04       0.125   1.241e-02      -1.906
+	Hfo_wO-           1.076e-04       0.108   1.067e-02      -1.972
+
+Su            
+	  9.734e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.524e-01  psi, V
+	  1.372e+01  -F*psi/RT
+	  9.061e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 3.807299e-02 kg.   Thickness: 5.577252e-09 m.
+	Radius of total pore:   1.008934e-08 m; of free pore: 4.512092e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  1.2883e-09
+	H             	  2.7725e-05
+	Na            	  9.9972e-02
+	O             	  1.4509e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   9.911e+00       0.996
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.981e-04   3.008e-06
+	Na                2.980e-04   3.007e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.091      Charge balance
+                                       pe  =  -4.775      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.982e-04
+                       Mass of water (kg)  =   1.009e-02
+                 Total alkalinity (eq/kg)  =   4.334e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -1.485e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  =   0
+                                  Total H  = 1.120043e+00
+                                  Total O  = 5.600213e-01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.260e-07   1.235e-07    -6.900    -6.908    -0.009
+   H+                     8.265e-08   8.107e-08    -7.083    -7.091    -0.008
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               2.981e-04
+   Cl-                    2.981e-04   2.923e-04    -3.526    -3.534    -0.009
+H(0)             3.308e-08
+   H2                     1.654e-08   1.654e-08    -7.781    -7.781     0.000
+Na               2.980e-04
+   Na+                    2.980e-04   2.922e-04    -3.526    -3.534    -0.009
+   NaOH                   2.381e-11   2.381e-11   -10.623   -10.623     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -76.817   -76.817     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -4.63   -7.78   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -8.65   -7.07    1.58  NaCl
+	O2(g)           -73.86  -76.82   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 15.
+-------------------------------------
+
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 16.
+-------------------------------------
+
+	USE surface 1
+	 USE mix 1
+	SAVE solution 1
+	 SAVE surface 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+Using surface 1.	Surface assemblage after simulation 14.
+
+Mixture 1.	
+
+	  5.000e-01 Solution 1	Solution after simulation 14.                          
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.529e-13  Surface + diffuse layer charge, eq
+	  1.659e-05  Surface charge, eq
+	  2.668e-03  sigma, C/m**2
+	  5.745e-02  psi, V
+	 -2.236e+00  -F*psi/RT
+	  1.069e-01  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 2.055942e-03 kg.   Thickness: 5.019527e-09 m.
+	Radius of total pore:   1.513402e-07 m; of free pore: 1.463206e-07 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  1.6600e-05
+	H             	  7.9053e-09
+	Na            	  1.9477e-08
+	O             	  7.8520e-09
+
+Hfo_w         
+	  1.000e-03  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.672e-04       0.767   8.449e-02      -1.073
+	Hfo_wOH2+         1.247e-04       0.125   1.373e-02      -1.862
+	Hfo_wO-           1.081e-04       0.108   1.191e-02      -1.924
+
+Su            
+	 -9.217e-10  Surface + diffuse layer charge, eq
+	 -1.000e-01  Surface charge, eq
+	 -9.649e-01  sigma, C/m**2
+	 -3.543e-01  psi, V
+	  1.379e+01  -F*psi/RT
+	  9.766e+05  exp(-F*psi/RT)
+	  1.000e+04  specific area, m**2/g
+	  1.000e+04  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 3.426570e-02 kg.   Thickness: 5.019527e-09 m.
+	Radius of total pore:   9.080409e-09 m; of free pore: 4.060882e-09 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  8.9836e-10
+	H             	  2.8725e-05
+	Na            	  9.9971e-02
+	O             	  1.2125e-12
+
+Su            
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-01       1.000   1.101e+01       1.042
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.765e-04   2.511e-06
+	Na                2.766e-04   2.512e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.108      Charge balance
+                                       pe  =  -4.715      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.767e-04
+                       Mass of water (kg)  =   9.080e-03
+                 Total alkalinity (eq/kg)  =   5.135e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =   2.305e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.008038e+00
+                                  Total O  = 5.040192e-01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.308e-07   1.283e-07    -6.883    -6.892    -0.008
+   H+                     7.948e-08   7.801e-08    -7.100    -7.108    -0.008
+   H2O                    2.775e+02   1.000e+00     2.443     0.000     0.000
+Cl               2.765e-04
+   Cl-                    2.765e-04   2.713e-04    -3.558    -3.567    -0.008
+H(0)             2.322e-08
+   H2                     1.161e-08   1.161e-08    -7.935    -7.935     0.000
+Na               2.766e-04
+   Na+                    2.766e-04   2.714e-04    -3.558    -3.566    -0.008
+   NaOH                   2.298e-11   2.298e-11   -10.639   -10.639     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -76.510   -76.510     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)            -4.79   -7.94   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -8.71   -7.13    1.58  NaCl
+	O2(g)           -73.55  -76.51   -2.96  O2
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 17.
+-------------------------------------
+
+-----------
+End of run.
+-----------
+
+No memory leaks

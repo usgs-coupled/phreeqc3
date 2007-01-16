@@ -46,6 +46,8 @@ all: alkalinity.out \
 	jgb2col.out \
 	jgbcol.out \
 	joe.out \
+	kinex.out \
+	kinsurf.out \
 	krest.out \
 	lam7.out \
 	lam10.out \
@@ -54,6 +56,7 @@ all: alkalinity.out \
 	local_min_pz.out \
 	mahoney.out \
 	mu.out \
+	n3.out \
 	np.test.out \
 	opa_col2.out \
 	org_gas.out \
@@ -62,6 +65,7 @@ all: alkalinity.out \
 	phreeqc.test.out \
 	phrqpitz.tst.out \
 	pitzalphas.out \
+	pitzgas.out \
 	prob8.out \
 	raw.out \
 	s1.out \
@@ -80,6 +84,7 @@ all: alkalinity.out \
 	sc6a.out \
 	sc6b.out \
 	sc7.out \
+	stag_diss_only.out \
 	surf3.out \
 	surf3_density.out \
 	surf_related.out \
