@@ -19,6 +19,7 @@ all: alkalinity.out \
 	comments.out \
 	desc.out \
 	dissolve_only.out \
+	donly.out \
 	eco.out \
 	evap.out \
 	deb1.out \
