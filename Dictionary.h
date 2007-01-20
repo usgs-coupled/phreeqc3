@@ -32,7 +32,7 @@ public:
 
 	std::string *int2string(int i);
 
-	char *cxxDictionary::int2char(int i);
+	char *int2char(int i);
 
 protected:
 	std::map<std::string, int>           stringkey;
