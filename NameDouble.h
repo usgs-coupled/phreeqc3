@@ -44,9 +44,7 @@ public:
 
         CParser::STATUS_TYPE read_raw(CParser& parser, std::istream::pos_type& pos);
 
-        void add_extensive(const cxxNameDouble &old, double factor);
-	void add_intensive(const cxxNameDouble &addee, double fthis, double f2);
-	void add_log_activities(const cxxNameDouble &addee, double fthis, double f2);
+        void add(const cxxNameDouble &old, double factor);
 	void add(char * key, double total);
 
         void insert(char *str, double d) {
