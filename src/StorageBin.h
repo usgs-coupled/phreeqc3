@@ -42,8 +42,8 @@ public:
 		} 
 		return (NULL);
 	}
-	void setSolution(int n_user, cxxSolution &entity) { 
-		Solutions[n_user] = entity;
+	void setSolution(int n_user, cxxSolution *entity) { 
+		Solutions[n_user] = *entity;
 	}
 	void removeSolution(int n_user) { 
 		Solutions.erase(n_user);
@@ -137,16 +137,8 @@ public:
 
 	struct system *cxxStorageBin2system(int i);
 
-	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
+	cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix &mixmap);
-
-	const std::map<int, cxxSolution>& getSolutions()const {return this->Solutions;};
-	const std::map<int, cxxExchange>& getExchangers()const {return this->Exchangers;};
-	const std::map<int, cxxGasPhase>& getGasPhases()const {return this->GasPhases;};
-	const std::map<int, cxxKinetics>& getKinetics()const {return this->Kinetics;};
-	const std::map<int, cxxPPassemblage>& getPPassemblages()const {return this->PPassemblages;};
-	const std::map<int, cxxSSassemblage>& getSSassemblages()const {return this->SSassemblages;};
-	const std::map<int, cxxSurface>& getSurfaces()const {return this->Surfaces;};
 
 #ifdef USE_MPI
 	void mpi_send(int n, int task_number);

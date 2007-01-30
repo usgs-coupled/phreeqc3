@@ -102,7 +102,7 @@ cxxExchComp::cxxExchComp(std::vector<cxxExchComp> &ec_vector, std::vector<double
 		this->la += it_ec->la*intensive;
 		this->charge_balance += it_ec->charge_balance*extensive;
 		this->phase_proportion += it_ec->phase_proportion*intensive;
-		this->totals.add_extensive(it_ec->totals, extensive);
+		this->totals.add(it_ec->totals, extensive);
 		it_ec++;
 		it_f++;
 	}
