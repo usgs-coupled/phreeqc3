@@ -27,20 +27,21 @@ cxxSolution::cxxSolution()
         //
 : cxxNumKeyword()
 {
-        tc          = 25.0;
-        ph          = 7.0;
-        pe          = 4.0;
-        mu          = 1e-7;
-        ah2o        = 1.0;
-        total_h     = 111.1;
-        total_o     = 55.55;
-        cb          = 0.0;
-        mass_water  = 1.0;
-        total_alkalinity = 0.0;
-        totals.type = cxxNameDouble::ND_ELT_MOLES;
-        master_activity.type = cxxNameDouble::ND_SPECIES_LA;
-        species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
+        this->tc          = 25.0;
+        this->ph          = 7.0;
+        this->pe          = 4.0;
+        this->mu          = 1e-7;
+        this->ah2o        = 1.0;
+        this->total_h     = 111.1;
+        this->total_o     = 55.55;
+        this->cb          = 0.0;
+        this->mass_water  = 1.0;
+        this->total_alkalinity = 0.0;
+        this->totals.type = cxxNameDouble::ND_ELT_MOLES;
+        this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
+        this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
 }
+/*
 cxxSolution::cxxSolution(double zero)
         //
         // empty cxxSolution constructor
@@ -62,6 +63,7 @@ cxxSolution::cxxSolution(double zero)
         master_activity.type = cxxNameDouble::ND_SPECIES_LA;
         species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
 }
+*/
 cxxSolution::cxxSolution(struct solution *solution_ptr)
         //
         // constructor for cxxSolution from struct solution
@@ -75,18 +77,18 @@ isotopes(solution_ptr)
 {
 
         this->set_description(solution_ptr->description);
-        n_user      = solution_ptr->n_user;
-        n_user_end  = solution_ptr->n_user_end;
-        tc          = solution_ptr->tc;
-        ph          = solution_ptr->ph;
-        pe          = solution_ptr->solution_pe;
-        mu          = solution_ptr->mu;
-        ah2o        = solution_ptr->ah2o;
-        total_h     = solution_ptr->total_h;
-        total_o     = solution_ptr->total_o;
-        cb          = solution_ptr->cb;
-        mass_water  = solution_ptr->mass_water;
-        total_alkalinity     = solution_ptr->total_alkalinity;
+        this->n_user      = solution_ptr->n_user;
+        this->n_user_end  = solution_ptr->n_user_end;
+        this->tc          = solution_ptr->tc;
+        this->ph          = solution_ptr->ph;
+        this->pe          = solution_ptr->solution_pe;
+        this->mu          = solution_ptr->mu;
+        this->ah2o        = solution_ptr->ah2o;
+        this->total_h     = solution_ptr->total_h;
+        this->total_o     = solution_ptr->total_o;
+        this->cb          = solution_ptr->cb;
+        this->mass_water  = solution_ptr->mass_water;
+        this->total_alkalinity     = solution_ptr->total_alkalinity;
 
         // Totals filled in constructor, just save description and moles 
 
@@ -99,6 +101,83 @@ isotopes(solution_ptr)
 	*/
         // Master_activity in constructor
         // Species_gamma in constructor
+}
+
+#ifdef SKIP
+cxxSolution::cxxSolution( const std::map<int, cxxSolution>& solutions, cxxMix &mix)
+        //
+        // constructor for cxxSolution from struct solution
+        //cxxSolution *cxxStorageBin::mix_cxxSolutions(cxxMix &mixmap)
+
+{
+/*
+*   mixes solutions based on cxxMix structure, returns new solution
+*   return solution must be freed by calling method
+*/
+  double intensive, extensive;
+/*
+*   Zero out global solution data
+*/
+  this->zero();
+/*
+*   Determine sum of mixing fractions
+*/	
+  extensive = 0.0;
+	
+  std::map<int, double> *mixcomps = mix.comps();
+	
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) {
+    extensive += it->second;
+  }
+/*
+*   Add solutions 
+*/	
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    const cxxSolution *cxxsoln_ptr1 = &(solutions.find(it->first)->second);
+    if (cxxsoln_ptr1 == NULL) 
+    {
+      sprintf(error_string, "Solution %d not found in mix_cxxSolutions.", it->first);
+      error_msg(error_string, CONTINUE);
+      input_error++;
+      return;
+    } 
+    intensive = it->second/extensive;
+    double ext = it->second;
+    this->add(*cxxsoln_ptr1, intensive, it->second);
+  } 
+}
+#endif
+
+cxxSolution::cxxSolution( const std::map<int, cxxSolution>& solutions, cxxMix &mix)
+//
+// constructor for cxxSolution from mixture of solutions
+//
+
+{
+
+//
+//   Zero out solution data
+//
+  this->zero();
+//
+//   Mix solutions
+//
+  std::map<int, double> *mixcomps = mix.comps();
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    const cxxSolution *cxxsoln_ptr1 = &(solutions.find(it->first)->second);
+    if (cxxsoln_ptr1 == NULL) 
+    {
+      sprintf(error_string, "Solution %d not found in mix_cxxSolutions.", it->first);
+      error_msg(error_string, CONTINUE);
+      input_error++;
+      return;
+    } 
+    this->add(*cxxsoln_ptr1, it->second);
+  } 
 }
 
 #ifdef SKIP
@@ -669,6 +748,23 @@ void cxxSolution::read_raw(CParser& parser)
         return;
 }
 
+void cxxSolution::zero()
+{
+  this->tc                              = 0.0;
+  this->ph                              = 0.0;
+  this->pe                              = 0.0;
+  this->mu                              = 0.0;
+  this->ah2o                            = 0.0;
+  this->total_h                         = 0.0;
+  this->total_o                         = 0.0;
+  this->cb                              = 0.0;
+  this->mass_water                      = 0.0;
+  this->total_alkalinity                = 0.0;
+  this->totals.type                     = cxxNameDouble::ND_ELT_MOLES;
+  this->master_activity.type            = cxxNameDouble::ND_SPECIES_LA;
+  this->species_gamma.type              = cxxNameDouble::ND_SPECIES_GAMMA;
+}
+#ifdef SKIP
 void cxxSolution::add(const cxxSolution &old, double intensive, double extensive)
         //
         // Add existing solution to "this" solution
@@ -722,7 +818,31 @@ void cxxSolution::add(const cxxSolution &old, double intensive, double extensive
         cxxNameDouble species_gamma;
 	*/
 }
-
+#endif
+void cxxSolution::add(const cxxSolution &addee, double extensive)
+        //
+        // Add existing solution to "this" solution
+        //
+{
+  double ext1 = this->mass_water;
+  double ext2 = addee.mass_water * extensive;
+  double f1 = ext1/(ext1 + ext2);
+  double f2 = ext2/(ext1 + ext2);
+  this->tc                       = f1*this->tc + f2*addee.tc;
+  this->ph                       = f1*this->ph + f2*addee.ph;
+  this->pe                       = f1*this->pe + f2*addee.pe; 
+  this->mu                       = f1*this->mu + f2*addee.mu;
+  this->ah2o                     = f1*this->mu + f2*addee.ah2o;
+  this->total_h                  += addee.total_h * extensive;
+  this->total_o                  += addee.total_o * extensive;
+  this->cb                       += addee.cb * extensive;
+  this->mass_water               += addee.mass_water * extensive;
+  this->total_alkalinity         += addee.total_alkalinity * extensive;
+  this->totals.add_extensive(addee.totals, extensive);
+  this->master_activity.add_log_activities(addee.master_activity, f1, f2);
+  this->species_gamma.add_intensive(addee.species_gamma, f1, f2);
+  this->isotopes.add(addee.isotopes, f2, extensive);
+}
 double cxxSolution::get_total(char *string)const
 {
 	cxxNameDouble::const_iterator it = this->totals.find(string);
