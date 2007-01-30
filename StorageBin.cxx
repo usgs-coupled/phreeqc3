@@ -495,7 +495,7 @@ void cxxStorageBin::remove(int n)
 	// Surface
 	this->Surfaces.erase(n);
 }
-#ifdef SKIP
+
 cxxSolution *cxxStorageBin::mix_cxxSolutions(cxxMix &mixmap)
 
 {
@@ -536,7 +536,7 @@ cxxSolution *cxxStorageBin::mix_cxxSolutions(cxxMix &mixmap)
 	} 
 	return(cxxsoln_ptr);
 }
-#endif
+
 struct system *cxxStorageBin::cxxStorageBin2system(int n)
         //
         // make a system from storagebin
