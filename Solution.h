@@ -11,7 +11,7 @@
 #include <cassert> // assert
 #include <map>     // std::map
 #include <string>  // std::string
-#include <list>    // std::list
+
 #include <vector>  // std::vector
 
 #include "char_star.h"
@@ -21,12 +21,11 @@ class cxxSolution : public cxxNumKeyword
 
 public:
         cxxSolution();
-        cxxSolution(double zero);
+        //cxxSolution(double zero);
         cxxSolution(struct solution *);
 	cxxSolution(const std::map<int, cxxSolution> &solution_map, cxxMix &mx);
-	cxxSolution(const cxxSolution &old, double intensive, double extensive);
-
-        //cxxSolution(const cxxSolution&);
+	//cxxSolution(const cxxSolution &old, double intensive, double extensive);
+         //cxxSolution(const cxxSolution&);
         ~cxxSolution();
 
         //static cxxSolution& read(CParser& parser);
@@ -77,13 +76,10 @@ public:
 
         struct solution *cxxSolution2solution();
 
-        void dump_xml(std::ostream& os, unsigned int indent = 0)const;
-
-        void dump_raw(std::ostream& s_oss, unsigned int indent)const;
+	void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void read_raw(CParser& parser);
 
-        void add(const cxxSolution &sol, double intensive, double extensive);
 
 #ifdef USE_MPI
         void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
@@ -91,6 +87,14 @@ public:
         void mpi_send(int task_number);
         void mpi_recv(int task_number);
 #endif
+
+private:
+        void zero();
+        //void add(const cxxSolution &sol, double intensive, double extensive);
+	void add(const cxxSolution &addee, double extensive);
+	// not checked
+        void dump_xml(std::ostream& os, unsigned int indent = 0)const;
+
 protected:
         double tc;
         double ph;

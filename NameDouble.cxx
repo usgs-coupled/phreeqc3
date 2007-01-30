@@ -275,21 +275,63 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser& parser, std::istream::pos_
         return CParser::PARSER_OK;
 }
 
-void cxxNameDouble::add(const cxxNameDouble &old, double factor)
-        //
-        // constructor for cxxNameDouble from list of elt_list
-        //
+void cxxNameDouble::add_extensive(const cxxNameDouble &addee, double factor)
+//
+// Sums two name doubles, this + factor*nd2
+//
 {
-        for (cxxNameDouble::const_iterator it = old.begin(); it != old.end(); it++) {
-		cxxNameDouble::iterator current = (*this).find(it->first);
-		if (current != (*this).end()) {
-			(*this)[it->first] = current->second + it->second * factor;
-		} else {
-			(*this)[it->first] = it->second * factor;
-		}
-        }
-
+  if (factor == 0) return;
+  assert (factor > 0.0);
+  for (cxxNameDouble::const_iterator it = addee.begin(); it != addee.end(); it++) 
+  {
+    cxxNameDouble::iterator current = (*this).find(it->first);
+    if (current != (*this).end()) 
+    {
+      (*this)[it->first] = current->second + it->second * factor;
+    } else {
+      (*this)[it->first] = it->second * factor;
+    }
+  }
 }
+void cxxNameDouble::add_intensive(const cxxNameDouble &addee, double f1, double f2)
+//
+// Sums two name doubles, this*f1 + f2*nd2
+//
+{
+  assert(f1 > 0 && f2 > 0);
+  for (cxxNameDouble::const_iterator it = addee.begin(); it != addee.end(); it++) 
+  {
+    cxxNameDouble::iterator current = (*this).find(it->first);
+    if (current != (*this).end()) 
+    {
+      (*this)[it->first] = f1*current->second + f2*it->second;
+    } else {
+      (*this)[it->first] = f2 * it->second;
+    }
+  }
+}
+void cxxNameDouble::add_log_activities(const cxxNameDouble &addee, double f1, double f2)
+//
+// Sums two name doubles, this*f1 + f2*nd2, assuming log values
+//
+{
+  assert (f1 > 0 && f2 > 0);
+  for (cxxNameDouble::const_iterator it = addee.begin(); it != addee.end(); it++) 
+  {
+    cxxNameDouble::iterator current = (*this).find(it->first);
+    if (current != (*this).end()) 
+    {
+      double a1 = pow(10., current->second);
+      double a2 = pow(10., it->second);
+      (*this)[it->first] = log10(f1*a1 + f2*a2);
+    } else {
+      //double a2 = pow(10. it->second);
+      //(*this)[it->first] = log10(f2 * a2);
+      (*this)[it->first] = it->second + log10(f2);
+    }
+  }
+}
+
 void cxxNameDouble::add(char * key, double total)
 //
 // add to total for a specified element
