@@ -467,6 +467,11 @@ dependencies:
 	mkdir -p $(DEBUG_DIR) 
 	cd $(DEBUG_DIR); gcc -MM -I../phreeqc ../*.cxx
 
+tester:
+	cd ../mytest; make clean; make -k >& make.out; make zero; make diff >& diff.out
+	cd ../examples; make clean; make >& make.out; make zero; make diff >& diff.out
+	svn status -q ../mytest 
+	svn status -q ../examples
 
 # =============================================================================
 # End of makefile.
