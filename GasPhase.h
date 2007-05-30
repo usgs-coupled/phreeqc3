@@ -12,6 +12,7 @@
 #include <vector>  // std::vector
 
 #include "char_star.h"
+#include "cxxMix.h"
 
 class cxxGasPhase : public cxxNumKeyword
 {
@@ -19,6 +20,7 @@ class cxxGasPhase : public cxxNumKeyword
 public:
         cxxGasPhase();
         cxxGasPhase(struct gas_phase *);
+	cxxGasPhase(const std::map<int, cxxGasPhase> &entity_map, cxxMix &mx, int n_user);
         ~cxxGasPhase();
 
         enum GP_TYPE {
@@ -40,11 +42,24 @@ public:
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
+
+	void totalize();
+
+	const cxxNameDouble& get_totals()const
+	{
+	  return this->totals;
+	};
+
+private:
+	void add(const cxxGasPhase &addee, double extensive);
+
 protected:
         cxxNameDouble gasPhaseComps;
 	GP_TYPE type;
         double total_p;
         double volume;
+	cxxNameDouble totals;
+
 public:
         //static std::map<int, cxxGasPhase>& map;
 

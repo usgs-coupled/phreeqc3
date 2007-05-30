@@ -41,11 +41,22 @@ public:
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void read_raw(CParser& parser);
+	
+	char *get_name()const {return this->name;}
+
+	void totalize();
+	const cxxNameDouble &get_totals()const
+	{
+	  return (this->totals);
+	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
+
+	void add(const cxxSSassemblageSS &comp, double extensive);
+	void multiply(double extensive);
 
 protected:
         char *name;
@@ -54,6 +65,7 @@ protected:
         double ag0, ag1;
         bool miscibility;
 	double xb1, xb2;
+	cxxNameDouble totals;
 
 public:
 

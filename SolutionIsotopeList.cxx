@@ -32,54 +32,55 @@ cxxSolutionIsotopeList::cxxSolutionIsotopeList(struct solution *solution_ptr)
 }
 void cxxSolutionIsotopeList::add(cxxSolutionIsotopeList old, double intensive, double extensive)
 {
-
-	for (cxxSolutionIsotopeList::const_iterator itold = old.begin(); itold != old.end(); ++itold) {
-
-		//for (std::list <cxxSolutionIsotope>::const_iterator itold = old.isotopes.begin(); itold != old.isotopes.end(); ++itold) {
-		bool found = false;
-		for (cxxSolutionIsotopeList::iterator it = this->begin(); it != this->end(); ++it) {
-			//for (std::list <cxxSolutionIsotope>::iterator it = this->isotopes.begin(); it != this->isotopes.end(); ++it) {
-			if ((it->isotope_number == itold->isotope_number) &&
-			    (it->elt_name       == itold->elt_name) &&
-			    (it->isotope_name   == itold->isotope_name)) {
-				it->total                   += itold->total * extensive;
-				it->ratio                   += itold->ratio * intensive;
-				it->ratio_uncertainty       += itold->ratio_uncertainty * intensive;
-				it->ratio_uncertainty_defined = (it->ratio_uncertainty_defined || itold->ratio_uncertainty_defined);
-				found = true;
-				break;
-			}
-		}
-		if (!found) {
-			cxxSolutionIsotope iso;
-			iso.total                   = itold->total * extensive;
-			iso.ratio                   = itold->ratio * intensive;
-			iso.ratio_uncertainty       = itold->ratio_uncertainty * intensive;
-			iso.ratio_uncertainty_defined = itold->ratio_uncertainty_defined;
-			this->push_back(iso);
-		}
-        }
+  for (cxxSolutionIsotopeList::const_iterator itold = old.begin(); itold != old.end(); ++itold) {
+    //for (std::list <cxxSolutionIsotope>::const_iterator itold = old.isotopes.begin(); itold != old.isotopes.end(); ++itold) {
+    bool found = false;
+    for (cxxSolutionIsotopeList::iterator it = this->begin(); it != this->end(); ++it)
+    {
+      //for (std::list <cxxSolutionIsotope>::iterator it = this->isotopes.begin(); it != this->isotopes.end(); ++it) {
+	if ((it->isotope_number == itold->isotope_number) &&
+	    (it->elt_name       == itold->elt_name) &&
+	    (it->isotope_name   == itold->isotope_name)) 
+	{
+	  it->total                   += itold->total * extensive;
+	  it->ratio                   += itold->ratio * intensive;
+	  it->ratio_uncertainty       += itold->ratio_uncertainty * intensive;
+	  it->ratio_uncertainty_defined = (it->ratio_uncertainty_defined || itold->ratio_uncertainty_defined);
+	  found = true;
+	  break;
+	}
+    }
+    if (!found) 
+    {
+	cxxSolutionIsotope iso;
+	iso.total                   = itold->total * extensive;
+	iso.ratio                   = itold->ratio * intensive;
+	iso.ratio_uncertainty       = itold->ratio_uncertainty * intensive;
+	iso.ratio_uncertainty_defined = itold->ratio_uncertainty_defined;
+	this->push_back(iso);
+    }
+  }
 }
 struct isotope * cxxSolutionIsotopeList::cxxSolutionIsotopeList2isotope()
 {
-        struct isotope *iso;
-        if (this->size() <= 0) {
-                return NULL;
-        } else {
-                iso = (struct isotope *) PHRQ_malloc((size_t) ((this->size()) * sizeof(struct isotope)));
-                if (iso == NULL) malloc_error();
-                int i = 0;
-                for (cxxSolutionIsotopeList::iterator it = this->begin(); it != this->end(); ++it) {
-                        iso[i].isotope_number          = it->isotope_number;
-                        iso[i].elt_name                = it->elt_name;
-                        iso[i].total                   = it->total;
-                        iso[i].ratio                   = it->ratio;
-                        iso[i].ratio_uncertainty       = it->ratio_uncertainty;
-                        iso[i].master                  = it->master();
-                        iso[i].primary                 = it->primary();
-                        i++;
-                }                       
-        }
-        return(iso);
+  struct isotope *iso;
+  if (this->size() <= 0) {
+    return NULL;
+  } else {
+    iso = (struct isotope *) PHRQ_malloc((size_t) ((this->size()) * sizeof(struct isotope)));
+    if (iso == NULL) malloc_error();
+    int i = 0;
+    for (cxxSolutionIsotopeList::iterator it = this->begin(); it != this->end(); ++it) {
+      iso[i].isotope_number          = it->isotope_number;
+      iso[i].elt_name                = it->elt_name;
+      iso[i].total                   = it->total;
+      iso[i].ratio                   = it->ratio;
+      iso[i].ratio_uncertainty       = it->ratio_uncertainty;
+      iso[i].master                  = it->master();
+      iso[i].primary                 = it->primary();
+      i++;
+    }                       
+  }
+  return(iso);
 }
 

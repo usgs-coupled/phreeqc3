@@ -474,3 +474,51 @@ void cxxSSassemblageSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+
+void cxxSSassemblageSS::totalize()
+{
+  this->totals.clear();
+  // component structures
+  for (cxxNameDouble::const_iterator it = this->comps.begin(); it != this->comps.end(); it++) {
+    struct phase *phase_ptr;
+    int l;
+    phase_ptr = phase_bsearch(it->first, &l, FALSE);
+    if (phase_ptr != NULL)
+    {
+      cxxNameDouble phase_formula(phase_ptr->next_elt);
+      this->totals.add_extensive(phase_formula, it->second);
+    } else
+    {
+     assert(false);
+    }
+  }
+  return;
+}
+
+void cxxSSassemblageSS::add(const cxxSSassemblageSS &addee, double extensive)
+{
+  if (extensive == 0.0) return;
+  if (addee.name == NULL) return;
+  // this and addee must have same name
+  // otherwise generate a new PPassemblagComp with multiply
+
+  //char *name;
+  //cxxNameDouble comps;
+  this->comps.add_extensive(addee.comps, extensive);
+  //double a0, a1;
+  //double ag0, ag1;
+  //bool miscibility;
+  //double xb1, xb2;
+}
+
+void cxxSSassemblageSS::multiply(double extensive)
+{
+  //char *name;
+  //cxxNameDouble comps;
+  this->comps.multiply(extensive);
+  //double a0, a1;
+  //double ag0, ag1;
+  //bool miscibility;
+  //double xb1, xb2;
+}
+

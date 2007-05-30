@@ -345,3 +345,38 @@ void cxxKineticsComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+void cxxKineticsComp::add(const cxxKineticsComp &addee, double extensive)
+{
+  if (extensive == 0.0) return;
+  if (addee.rate_name == NULL) return;
+  // this and addee must have same name
+  // otherwise generate a new KineticsComp with multiply
+  if (this->rate_name == NULL && addee.rate_name == NULL) {
+    return;
+  }
+  //char * rate_name;
+  assert (this->rate_name == addee.rate_name);  
+  //cxxNameDouble namecoef;
+  //double tol;
+  //double m;
+  this->m += addee.m * extensive;
+  //double m0;
+  this->m0 += addee.m0 * extensive;
+  //double moles;  
+  this->moles += addee.moles * extensive;
+  //std::vector<double> d_params;
+}
+
+void cxxKineticsComp::multiply(double extensive)
+{
+  //char * rate_name;
+  //cxxNameDouble namecoef;
+  //double tol;
+  //double m;
+  this->m *= extensive;
+  //double m0;
+  this->m0 *= extensive;
+  //double moles;  
+  this->moles *= extensive;
+  //std::vector<double> d_params;
+}

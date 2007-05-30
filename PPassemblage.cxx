@@ -46,7 +46,26 @@ eltList(pp_assemblage_ptr->next_elt)
                 ppAssemblageComps.push_back(ppComp);
         }
 }
-
+cxxPPassemblage::cxxPPassemblage(const std::map<int, cxxPPassemblage> &entities, cxxMix &mix, int n_user)
+:
+cxxNumKeyword()
+{
+  this->n_user = this->n_user_end = n_user;
+  eltList.type                    = cxxNameDouble::ND_ELT_MOLES;
+//
+//   Mix
+//
+  std::map<int, double> *mixcomps = mix.comps();
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    if (entities.find(it->first) != entities.end()) 
+    {
+      const cxxPPassemblage *entity_ptr = &(entities.find(it->first)->second);
+      this->add(*entity_ptr, it->second);
+    }
+  } 
+}
 cxxPPassemblage::~cxxPPassemblage()
 {
 }
@@ -225,3 +244,45 @@ void cxxPPassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+
+void cxxPPassemblage::totalize()
+{
+  this->totals.clear();
+  // component structures
+  for (std::list<cxxPPassemblageComp>::iterator it = ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it) 
+  {
+    it->totalize();
+    this->totals.add_extensive(it->get_totals(), 1.0);
+  }
+  return;
+}
+
+void cxxPPassemblage::add(const cxxPPassemblage &addee, double extensive)
+        //
+        // Add to existing ppassemblage to "this" ppassemblage
+        //
+{
+  if (extensive == 0.0) return;
+  //std::list<cxxPPassemblageComp> ppAssemblageComps;
+  for (std::list<cxxPPassemblageComp>::const_iterator itadd = addee.ppAssemblageComps.begin(); itadd != addee.ppAssemblageComps.end(); ++itadd) 
+  {
+    bool found = false;
+    for (std::list<cxxPPassemblageComp>::iterator it = this->ppAssemblageComps.begin(); it != this->ppAssemblageComps.end(); ++it) 
+    {
+      if (it->get_name() == itadd->get_name()) 
+      {
+	it->add((*itadd), extensive);
+	found = true;
+	break;
+      }
+    }
+    if (!found) {
+      cxxPPassemblageComp entity = *itadd;
+      entity.multiply(extensive);
+      this->ppAssemblageComps.push_back(entity);
+    }
+  }
+  //cxxNameDouble eltList;
+  this->eltList.add_extensive(addee.eltList, extensive);
+}
+

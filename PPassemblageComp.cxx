@@ -11,6 +11,7 @@
 #include "global.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
+#include "output.h"
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 
@@ -329,3 +330,82 @@ void cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *d
 	*dd = d;
 }
 #endif
+ 
+void cxxPPassemblageComp::totalize()
+{
+  this->totals.clear();
+  // component structures
+  if (this->add_formula != NULL) return;
+  struct phase *phase_ptr;
+  int l;
+  phase_ptr = phase_bsearch(this->name, &l, FALSE);
+  if (phase_ptr != NULL)
+  {
+    cxxNameDouble phase_formula(phase_ptr->next_elt);
+    this->totals.add_extensive(phase_formula, this->moles);
+  } else
+  {
+    assert(false);
+  }
+  return;
+}
+
+
+void cxxPPassemblageComp::add(const cxxPPassemblageComp &addee, double extensive)
+{
+  double ext1, ext2, f1, f2;
+  if (extensive == 0.0) return;
+  if (addee.name == NULL) return;
+  // this and addee must have same name
+  // otherwise generate a new PPassemblagComp with multiply
+
+  ext1 = this->moles;
+  ext2 = addee.moles * extensive;
+  if (ext1 + ext2 != 0) {
+    f1 = ext1/(ext1 + ext2);
+    f2 = ext2/(ext1 + ext2);
+  } else {
+    f1 = 0.5;
+    f2 = 0.5;
+  }
+  //char * name;
+  //char *add_formula;
+
+  if (this->name == NULL && addee.name == NULL) {
+    return;
+  }
+  assert (this->name == addee.name);
+  if (this->add_formula != addee.add_formula) {
+    std::ostringstream oss;
+    oss << "Can not mix two Equilibrium_phases with differing add_formulae., " <<  this->name;
+    error_msg(oss.str().c_str(), CONTINUE);
+    input_error++; 
+    return;
+  }
+  //double si;
+  this->si = this->si * f1 + addee.si * f2;
+  //double moles;
+  this->moles += addee.moles * extensive;
+  //double delta;
+  this->delta += addee.delta * extensive;
+  //double initial_moles;
+  this->initial_moles += addee.initial_moles * extensive;
+  //bool force_equality;
+  //bool dissolve_only;
+
+}
+
+void cxxPPassemblageComp::multiply(double extensive)
+{
+  //char * name;
+  //char *add_formula;
+  //double si;
+  //double moles;
+  this->moles *= extensive;
+  //double delta;
+  this->delta *= extensive;
+  //double initial_moles;
+  this->initial_moles *= extensive;
+  //bool force_equality;
+  //bool dissolve_only;
+}

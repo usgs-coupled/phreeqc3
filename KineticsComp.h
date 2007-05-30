@@ -27,19 +27,24 @@ public:
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void read_raw(CParser& parser);
+	
+	char *get_rate_name()const {return this->rate_name;}
 
 #ifdef USE_MPI
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 #endif
+	void add(const cxxKineticsComp &comp, double extensive);
+	void multiply(double extensive);
+
 protected:
-        char * rate_name;
-        cxxNameDouble namecoef;
-        double tol;
-        double m;
-        double m0;
-        double moles;
-        std::vector<double> d_params;
+  char * rate_name;
+  cxxNameDouble namecoef;           //stoichiometry of reaction
+  double tol;
+  double m;
+  double m0;
+  double moles;
+  std::vector<double> d_params;
 
 public:
 

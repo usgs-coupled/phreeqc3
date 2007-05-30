@@ -43,6 +43,7 @@ public:
 		return (NULL);
 	}
 	void setSolution(int n_user, cxxSolution *entity) { 
+	  	if (entity == NULL) return;
 		Solutions[n_user] = *entity;
 	}
 	void removeSolution(int n_user) { 
@@ -56,7 +57,8 @@ public:
 		return (NULL);
 	}
 	void setExchange(int n_user, cxxExchange *entity) { 
-		Exchangers[n_user] = *entity;
+	  if (entity == NULL) return;
+	  Exchangers[n_user] = *entity;
 	}
 	void removeExchange(int n_user) { 
 		Exchangers.erase(n_user);
@@ -69,6 +71,7 @@ public:
 		return (NULL);
 	}
 	void setPPassemblage(int n_user, cxxPPassemblage *entity) { 
+	  	if (entity == NULL) return;
 		PPassemblages[n_user] = *entity;
 	}
 	void removePPassemblage(int n_user) { 
@@ -81,8 +84,9 @@ public:
 		} 
 		return (NULL);
 	}
-	void setGasPhase(int n_user, cxxGasPhase *entity) { 
-		GasPhases[n_user] = *entity;
+	void setGasPhase(int n_user, cxxGasPhase *entity) {
+	  if (entity == NULL) return;
+	  GasPhases[n_user] = *entity;
 	}
 	void removeGasPhase(int n_user) { 
 		GasPhases.erase(n_user);
@@ -94,8 +98,9 @@ public:
 		} 
 		return (NULL);
 	}
-	void setSSassemblage(int n_user, cxxSSassemblage *entity) { 
-		SSassemblages[n_user] = *entity;
+	void setSSassemblage(int n_user, cxxSSassemblage *entity) {
+	  if (entity == NULL) return;
+	  SSassemblages[n_user] = *entity;
 	}
 	void removeSSassemblage(int n_user) { 
 		SSassemblages.erase(n_user);
@@ -107,21 +112,25 @@ public:
 		} 
 		return (NULL);
 	}
-	void setKinetics(int n_user, cxxKinetics *entity) { 
-		Kinetics[n_user] = *entity;
+	void setKinetics(int n_user, cxxKinetics *entity) {
+	  if (entity == NULL) return;
+	  Kinetics[n_user] = *entity;
 	}
 	void removeKinetics(int n_user) { 
 		Kinetics.erase(n_user);
 	}
 
-	cxxSurface *getSurface(int n_user) { 
-		if (this->Surfaces.find(n_user) != this->Surfaces.end()) {
-			return(&(this->Surfaces.find(n_user)->second));
-		} 
-		return (NULL);
+	cxxSurface *getSurface(int n_user) 
+	{ 
+	  if (this->Surfaces.find(n_user) != this->Surfaces.end()) 
+	  {
+	    return(&(this->Surfaces.find(n_user)->second));
+	  } 
+	  return (NULL);
 	}
-	void setSurface(int n_user, cxxSurface *entity) { 
-		Surfaces[n_user] = *entity;
+	void setSurface(int n_user, cxxSurface *entity) {
+	  if (entity == NULL) return;
+	  Surfaces[n_user] = *entity;
 	}
 	void removeSurface(int n_user) { 
 		Surfaces.erase(n_user);
@@ -137,8 +146,16 @@ public:
 
 	struct system *cxxStorageBin2system(int i);
 
-	cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
+	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix &mixmap);
+
+	const std::map<int, cxxSolution>& getSolutions()const {return this->Solutions;};
+	const std::map<int, cxxExchange>& getExchangers()const {return this->Exchangers;};
+	const std::map<int, cxxGasPhase>& getGasPhases()const {return this->GasPhases;};
+	const std::map<int, cxxKinetics>& getKinetics()const {return this->Kinetics;};
+	const std::map<int, cxxPPassemblage>& getPPassemblages()const {return this->PPassemblages;};
+	const std::map<int, cxxSSassemblage>& getSSassemblages()const {return this->SSassemblages;};
+	const std::map<int, cxxSurface>& getSurfaces()const {return this->Surfaces;};
 
 #ifdef USE_MPI
 	void mpi_send(int n, int task_number);

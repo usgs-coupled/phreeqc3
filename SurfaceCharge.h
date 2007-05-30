@@ -32,6 +32,11 @@ public:
 
         void read_raw(CParser& parser);
 
+	char *get_name()const {return this->name;}
+
+	void add(const cxxSurfaceCharge &comp, double extensive);
+	void multiply(double extensive);
+
 #ifdef USE_MPI
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);

@@ -12,7 +12,7 @@
 
 #include "char_star.h"
 
-class cxxPPassemblageComp 
+class cxxPPassemblageComp
 {
 
 public:
@@ -29,13 +29,25 @@ public:
 
         void read_raw(CParser& parser);
 
+        char *get_name()const {return this->name;}
+
         struct phase *get_phase();
+
+	void totalize();
+	const cxxNameDouble &get_totals()const
+	{
+	  return (this->totals);
+	};
+
+	void add(const cxxPPassemblageComp &comp, double extensive);
+	void multiply(double extensive);
+
 #ifdef USE_MPI
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 protected:
-        char * name;
+        char *name;
         char *add_formula;
         double si;
         double moles;
@@ -43,6 +55,7 @@ protected:
         double initial_moles;
 	bool force_equality;
         bool dissolve_only;
+	cxxNameDouble totals;
 
 public:
 

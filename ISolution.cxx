@@ -418,3 +418,471 @@ void cxxISolution::dump_xml(std::ostream& os, unsigned int indent)const
         os << "</solution>" << "\n";
 }
 #endif
+
+void cxxISolution::ORCH_write_chemistry(std::ostringstream &chemistry_dat)
+{
+  this->ORCH_write_chemistry_water(chemistry_dat);
+  this->ORCH_write_chemistry_primary(chemistry_dat);
+  this->ORCH_write_chemistry_total_O_H(chemistry_dat);
+  this->ORCH_write_chemistry_alkalinity(chemistry_dat);
+  this->ORCH_write_chemistry_species(chemistry_dat);
+  this->ORCH_write_chemistry_minerals(chemistry_dat);
+}
+
+
+void cxxISolution::ORCH_write_chemistry_water(std::ostringstream &chemistry_dat)
+{
+  //
+  //  Write water entities
+  //
+  chemistry_dat << std::endl << "//********* The water entities" << std::endl;
+
+  //  e-
+  chemistry_dat << "@entity(e-, diss, 0)" << std::endl;
+  if (this->comps.find("E") == this->comps.end() || this->comps.find("E")->second.get_equation_name() == NULL) 
+  {
+    // fixed pe
+    chemistry_dat << "@Calc: (1, \"e-.act = 10^-pe\")" << std::endl;
+
+  } else if (this->comps.find("E")->second.get_equation_name() == string_hsave("charge"))
+  {
+    // charge balance
+    chemistry_dat << "@Calc: (1, \"pe = -log10({e-.act})\")" << std::endl;
+    chemistry_dat << "@solve (e-.act, 1e-6, log, 1, chargebalance,  1e-14)" << std::endl;
+  } else
+  {
+    // adjust to equilbirium with a phase
+    chemistry_dat << "@Calc: (1, \"pe = -log10({e-.act})\")" << std::endl;
+    int n;
+    struct phase *phase_ptr = phase_bsearch(this->comps.find("E)")->second.get_equation_name(), &n, FALSE);
+    assert (phase_ptr != NULL);
+    std::string phase_name(phase_ptr->name);
+    std::replace(phase_name.begin(), phase_name.end(), '(', '[');
+    std::replace(phase_name.begin(), phase_name.end(), ')', ']');
+    chemistry_dat << "@solve (e-.act, 1e-6, log, 1, " << phase_name.c_str() << ".si_raw, 1e-9)" << std::endl;
+  }
+  
+  //  H+
+  if (this->comps.find("H(1)") == this->comps.end() || this->comps.find("H(1)")->second.get_equation_name() == NULL) 
+  {
+    // fixed pH
+    chemistry_dat << "@Calc: (1, \"H+.act = 10^-pH\")" << std::endl;
+
+  } else if (this->comps.find("H(1)")->second.get_equation_name() == string_hsave("charge"))
+  {
+    // charge balance
+    chemistry_dat << "@Calc: (1, \"pH = -log10({H+.act})\")" << std::endl;
+    chemistry_dat << "@solve (H+.act, 1e-6, log, 1, chargebalance,  1e-14)" << std::endl;
+  } else
+  {
+    // adjust to equilbirium with a phase
+    chemistry_dat << "@Calc: (1, \"pH = -log10({H+.act})\")" << std::endl;
+    int n;
+    struct phase *phase_ptr = phase_bsearch(this->comps.find("H(1)")->second.get_equation_name(), &n, FALSE);
+    assert (phase_ptr != NULL);
+    chemistry_dat << "@solve (H+.act, 1e-6, log, 1, " << phase_ptr->name << ".si_raw, 1e-9)" << std::endl;
+  }
+
+  // H2O
+  chemistry_dat << "@entity(" << s_h2o->name << ", diss, 55.506)" << std::endl;
+  chemistry_dat << std::endl;
+}
+
+void cxxISolution::ORCH_write_chemistry_primary(std::ostringstream &chemistry_dat)
+{
+  chemistry_dat << std::endl << "//********* The primary species" << std::endl;
+  //
+  //  Write other master species definitions, i.e. primary entities
+  //
+  std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin();
+  chemistry_dat << "@species(H+, 1)" << std::endl;
+  for(; iter != this->comps.end(); ++iter)
+  {
+    std::string name(iter->second.get_description());
+    if (name == "H(1)" || name == "E" || name == "Alkalinity") continue;
+    struct element *elt;
+    char *element_name = string_hsave(name.c_str());
+    elt = element_store(element_name);
+    assert(elt != NULL);
+    struct species *s_ptr;
+    s_ptr = elt->master->s;
+    assert(s_ptr != NULL);
+    chemistry_dat << "@species(" << s_ptr->name << ", " << s_ptr->z << ")" << std::endl;
+    if (iter->second.get_equation_name() == NULL) 
+    {
+      // regular mole balance
+      chemistry_dat << "@primary_entity(" << s_ptr->name << ", 1e-9, diss, 1.0e-9)" << std::endl;
+    } else
+    {
+      std::string eqn(iter->second.get_equation_name());
+      if (eqn == "charge") 
+      {
+	// charge balance
+	chemistry_dat << "@solve (" << s_ptr->name << ".act, 1e-6, log, 1, chargebalance, 1e-9)" << std::endl; 
+      } else 
+      {
+	// adjust to phase equilibrium
+	int n;
+	struct phase *phase_ptr = phase_bsearch(eqn.c_str(), &n, FALSE);
+	assert (phase_ptr != NULL);
+	std::string phase_name(phase_ptr->name);
+	std::replace(phase_name.begin(), phase_name.end(), '(', '[');
+	std::replace(phase_name.begin(), phase_name.end(), ')', ']');
+	chemistry_dat << "@solve (" << s_ptr->name << ".act, 1e-6, log, 1, " << phase_name << ".si_raw, 1e-9)" << std::endl;
+      }
+    }
+  } 
+  chemistry_dat << std::endl;
+}
+
+void cxxISolution::ORCH_write_chemistry_total_O_H(std::ostringstream &chemistry_dat)
+{
+  chemistry_dat << std::endl << "//********* Define total hydrogen and oxygen" << std::endl;
+  // Define total hydrogen, total oxygen, and difference
+  //chemistry_dat << "@var: total_diff 0" << std::endl;
+  //chemistry_dat << "@calc: (5, \"total_diff = total_hydrogen - 2*total_oxygen" << "\")" << std::endl;
+
+  // Write H total equation
+  chemistry_dat << "@var: total_hydrogen 0" << std::endl;
+  chemistry_dat << "@calc: (5, \"total_hydrogen = 0";
+  int i;
+  for (i = 0; i < count_s_x; i++) 
+  {
+    // write in terms of orchestra components
+    if (s_x[i]->primary != NULL || (s_x[i]->secondary != NULL && s_x[i]->secondary->in == TRUE))
+    {
+      if (s_x[i]->h != 0) 
+      {
+	chemistry_dat << "+";
+	if (s_x[i]->h != 1)
+	{
+	  chemistry_dat << s_x[i]->h << "*";
+	}
+	chemistry_dat << "{" << s_x[i]->name << ".diss}";
+      }
+    }
+  } 
+  chemistry_dat << "\")" << std::endl;
+
+  // Write O total equation
+  chemistry_dat << "@var: total_oxygen 0" << std::endl;
+  chemistry_dat << "@calc: (5, \"total_oxygen = 0";
+  for (i = 0; i < count_s_x; i++) 
+  {
+    if (s_x[i]->o != 0) 
+    {
+      // write in terms of orchestra components
+      if (s_x[i]->primary != NULL || (s_x[i]->secondary != NULL && s_x[i]->secondary->in == TRUE))
+      {
+	chemistry_dat << "+";
+	if (s_x[i]->o != 1)
+	{
+	  chemistry_dat << s_x[i]->o << "*";
+	}
+	chemistry_dat << "{" << s_x[i]->name << ".diss}";
+      }
+    }
+  } 
+  chemistry_dat << "\")" << std::endl;
+  chemistry_dat << std::endl;
+}
+
+void cxxISolution::ORCH_write_chemistry_alkalinity(std::ostringstream &chemistry_dat)
+{
+  chemistry_dat << std::endl << "//********* Alkalinity definitions" << std::endl;
+  //
+  // Define alkalinity 
+  //
+  chemistry_dat << "@Var: Alkalinity 0" << std::endl;
+  chemistry_dat << "@calc: (5, \"Alkalinity = 0";
+  for (int i = 0; i < count_s_x; i++) 
+  {
+    if (s_x[i]->alk == 0) continue;
+    std::string name(s_x[i]->name);
+    std::replace(name.begin(), name.end(), '(', '[');
+    std::replace(name.begin(), name.end(), ')', ']');
+    if (s_x[i]->alk < 0) 
+    {
+	if (s_x[i]->alk != -1) 
+	{
+	  chemistry_dat << s_x[i]->alk << "*{" << name << ".con}";
+	} else 
+	{
+	  chemistry_dat << "-{" << name << ".con}";
+	}
+    } else if (s_x[i]->alk > 0)
+    {
+      if (s_x[i]->alk != 1) 
+      {
+	chemistry_dat << "+" << s_x[i]->alk << "*{" << name << ".con}";
+      } else 
+      {
+	chemistry_dat << "+{" << name << ".con}";
+      }
+    }
+  }
+  chemistry_dat << "\")" << std::endl;
+  //
+  //  Alkalinity (or pH) equation
+  //
+  std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin();
+  if ((iter = this->comps.find("Alkalinity")) != this->comps.end())
+  {
+    if ((this->comps.find("C(4)") != this->comps.end()) || (this->comps.find("C") != this->comps.end()))
+    {
+      if (this->comps.find("H(1)") != this->comps.end() )
+      {
+	std::ostringstream oss;
+	oss << "pH can not be adjusted to charge balance or phase equilibrium when specifying C or C(4) and Alkalinty.";
+	error_msg(oss.str().c_str(), CONTINUE);
+	input_error++;
+      }
+      chemistry_dat << "@solve (pH, 1e-6, lin, 1, Alkalinity, 7)" << std::endl;
+      chemistry_dat << std::endl;
+    } else
+    {
+      struct master *master_ptr = master_bsearch("Alkalinity");
+      if (master_ptr == NULL)
+      {
+	  std::ostringstream oss;
+	  oss << "Could not find Alkalinity definition in database.";
+	  error_msg(oss.str().c_str(), CONTINUE);
+	  input_error++;
+      }
+      chemistry_dat << "@species(" << master_ptr->s->name << ", " << master_ptr->s->z << ")" << std::endl;
+      chemistry_dat << "@solve (" << master_ptr->s->name << ".act, 1e-6, log, 1, Alkalinity, 1e-9)" << std::endl;
+      chemistry_dat << std::endl; 
+    }
+  }
+}
+void cxxISolution::ORCH_write_chemistry_species(std::ostringstream &chemistry_dat)
+{
+  chemistry_dat << std::endl << "//********* Aqueous species" << std::endl;
+  //
+  //  Write species definitions 
+  //
+  for (int i = 0; i < count_s_x; i++) {
+    if (s_x[i]->primary != NULL) continue;
+    if (s_x[i]->secondary != NULL && s_x[i]->secondary->in == TRUE) continue;
+
+    // write species
+    std::string name(s_x[i]->name);
+    std::replace(name.begin(), name.end(), '(', '[');
+    std::replace(name.begin(), name.end(), ')', ']');
+    chemistry_dat << "@species(" << name.c_str() << ", " << s_x[i]->z << ")" << std::endl;
+
+    // write reaction
+    chemistry_dat << "@reaction(" << name.c_str() << ", " << pow(10.0,  s_x[i]->lk);
+    struct rxn_token *next_token = s_x[i]->rxn_x->token;
+    next_token++;
+    while (next_token->s != NULL || next_token->name != NULL)
+    {
+      chemistry_dat << ", " << next_token->coef;
+      if (next_token->s != NULL)
+      {
+	chemistry_dat << ", " << next_token->s->name;
+      } else {
+	chemistry_dat << ", " << next_token->name;
+      }
+      next_token++;
+    }
+    chemistry_dat << ")" << std::endl;
+  }
+  chemistry_dat << std::endl;
+}
+void cxxISolution::ORCH_write_chemistry_minerals(std::ostringstream &chemistry_dat)
+{
+  chemistry_dat << std::endl << "//********* Adjustments to mineral equilibrium" << std::endl;
+//
+// Write minerals
+//
+  std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin();
+  for(iter = this->comps.begin(); iter != this->comps.end(); ++iter)
+  {
+    if (iter->second.get_equation_name() != NULL) 
+    {
+      std::string name(iter->second.get_equation_name());
+      if (name != "charge") 
+      {
+	struct phase *phase_ptr;
+	int n;
+	phase_ptr = phase_bsearch(name.c_str(), &n, FALSE);
+	assert (phase_ptr != NULL);
+	std::string phase_name(phase_ptr->name);
+	std::replace(phase_name.begin(), phase_name.end(), '(', '[');
+        std::replace(phase_name.begin(), phase_name.end(), ')', ']');
+	chemistry_dat << "@si_mineral(" << phase_name << ")" << std::endl;
+	chemistry_dat << "@reaction(" << phase_name << ", " << pow(10.0,  -phase_ptr->lk);
+	struct rxn_token *next_token = phase_ptr->rxn_x->token;
+	next_token++;
+	while (next_token->s != NULL || next_token->name != NULL)
+	{
+	  chemistry_dat << ", " << next_token->coef;
+	  if (next_token->s != NULL)
+	  {
+	    chemistry_dat << ", " << next_token->s->name;
+	  } else {
+	    chemistry_dat << ", " << next_token->name;
+	  }
+	  next_token++;
+	}
+	chemistry_dat << ")" << std::endl;
+      }
+    }
+  }
+}
+void cxxISolution::ORCH_write_input(std::ostringstream &input_dat)
+{
+
+
+//
+//  Write orchestra input file info
+//
+  std::ostringstream headings, data;
+  data.precision(DBL_DIG - 1);
+  headings << "var:   ";
+  data << "data:  ";
+
+
+  // Solution element and attributes
+
+  //s_oss << "SOLUTION_RAW       " << this->n_user  << " " << this->description << std::endl;
+
+  //s_oss << "-temp              " << this->tc << std::endl;
+
+  //s_oss << "-pH                " << this->ph << std::endl;
+  headings << "pH\t";
+  data   << this->ph << "\t";
+
+  //s_oss << "-pe                " << this->pe << std::endl;
+  headings << "pe\t";
+  data   << this->pe << "\t";
+
+  //s_oss << "-mu                " << this->mu << std::endl;
+
+  //s_oss << "-ah2o              " << this->ah2o << std::endl;
+  headings << "H2O.act\t";
+  data   << 1 << "\t";
+  //s_oss << "-total_h           " << this->total_h << std::endl;
+
+  //s_oss << "-total_o           " << this->total_o << std::endl;
+
+  //s_oss << "-cb                " << this->cb << std::endl;
+
+  //s_oss << "-mass_water        " << this->mass_water << std::endl;
+
+  //s_oss << "-total_alkalinity  " << this->total_alkalinity << std::endl;
+
+  // soln_total conc structures
+  //this->totals.dump_raw(s_oss, indent + 2);
+  //this->totals.write_orchestra(headings, s_oss);
+
+  std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin();
+  for (; iter != this->comps.end(); ++iter) 
+  {
+    std::string master_name;
+    struct master *master_ptr;
+    master_ptr = master_bsearch (iter->first);
+    assert (master_ptr != NULL);
+    std::string ename(iter->first);
+
+    if (ename != "Alkalinity") 
+    {
+      ename = master_ptr->s->name;
+      ename.append(".diss");
+    } 
+
+    if (iter->second.get_equation_name() == NULL) 
+    {
+      headings << ename  << "\t";
+      data << (this->totals.find(iter->first))->second << "\t";
+    } else
+    {
+      std::string name(iter->second.get_equation_name());
+      if (name == "charge") 
+      {
+	headings << ename << "\t";
+	data << (this->totals.find(iter->first))->second << "\t";
+      } else
+      {
+	int n;
+	struct phase *phase_ptr = phase_bsearch(name.c_str(),&n, TRUE);
+	assert(phase_ptr != NULL);
+	std::string phase_name(phase_ptr->name);
+	std::replace(phase_name.begin(), phase_name.end(), '(', '[');
+	std::replace(phase_name.begin(), phase_name.end(), ')', ']');
+	headings << phase_name << ".si_raw" << "\t";
+	data << iter->second.get_phase_si() << "\t";
+      }
+    }
+    //  activity estimate
+    if (ename == "Alkalinity")
+    {
+      if ((this->comps.find("C") == this->comps.end()) && (this->comps.find("C(4)") == this->comps.end())) 
+      {
+	headings << master_ptr->s->name << ".act\t";
+	data << iter->second.get_moles()*1e-3 << "\t";
+      }
+    }
+    else
+    {
+      headings << master_ptr->s->name << ".act\t";
+      data << iter->second.get_moles()*1e-3 << "\t";
+    }
+  }
+  // Isotopes
+  //s_oss << "-Isotopes" << std::endl;
+  /*
+  {
+          for (std::list<cxxSolutionIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
+                  it->dump_raw(s_oss, indent + 2);
+          }
+  }
+  */
+
+  // Write data to string
+  input_dat << headings.str() << std::endl;
+  input_dat << data.str() << std::endl;
+
+  return;
+}
+
+void cxxISolution::ORCH_write_output(std::ostringstream &outstream)
+{
+  outstream << "Var:";
+  outstream << "\tnr_iter";
+  //
+  //  Write total concentrations in solution
+  //
+  outstream << "\tH2O.diss";
+  outstream << "\te-.diss";
+  outstream << "\tH+.diss";
+  std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin();
+  for(; iter != this->comps.end(); ++iter)
+  {
+    std::string name(iter->second.get_description());
+    if (name == "H(1)" || name == "E" || name == "Alkalinity") continue;
+    struct element *elt;
+    char *element_name = string_hsave(name.c_str());
+    elt = element_store(element_name);
+    assert(elt != NULL);
+    struct species *s_ptr;
+    s_ptr = elt->master->s;
+    assert(s_ptr != NULL);
+    outstream << "\t" << s_ptr->name << ".diss";
+  }
+  outstream << "\tchargebalance";
+  outstream<< "\tI";
+  //
+  // Write all species activities and concentrations
+  //
+  int i;
+  for (i = 0; i < count_s_x; i++) {
+    std::string name(s_x[i]->name);
+    std::replace(name.begin(), name.end(), '(', '[');
+    std::replace(name.begin(), name.end(), ')', ']');
+    outstream << "\t" << name.c_str() << ".act" << "\t" << name.c_str() << ".con";
+  }
+  outstream << std::endl;
+  return;
+}

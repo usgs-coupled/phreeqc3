@@ -13,6 +13,7 @@
 #include "char_star.h"
 #include "SurfaceComp.h"
 #include "SurfaceCharge.h"
+#include "cxxMix.h"
 
 class cxxSurface : public cxxNumKeyword
 {
@@ -20,6 +21,7 @@ class cxxSurface : public cxxNumKeyword
 public:
         cxxSurface();
         cxxSurface(struct surface *);
+	cxxSurface(const std::map<int, cxxSurface> &entity_map, cxxMix &mx, int n_user);
         ~cxxSurface();
 
         //enum SURFACE_STYPE { UNKNOWN_DL, NO_EDL, DDL, CD_MUSIC };
@@ -39,11 +41,20 @@ public:
         bool get_related_phases(void);
 
         bool get_related_rate(void);
+	
+	void totalize();
+
+	const cxxNameDouble& get_totals()const 
+	{
+	  return this->totals;
+	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
+private:
+	void add(const cxxSurface &addee, double extensive);
 
 protected:
         std::list<cxxSurfaceComp> surfaceComps;
@@ -57,6 +68,7 @@ protected:
 	double DDL_viscosity;
 	double DDL_limit;
         bool transport;
+	cxxNameDouble totals;
 
 public:
         //static std::map<int, cxxSurface>& map;

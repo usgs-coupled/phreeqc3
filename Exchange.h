@@ -1,17 +1,15 @@
 #if !defined(EXCHANGE_H_INCLUDED)
 #define EXCHANGE_H_INCLUDED
 
-#include "NumKeyword.h"
 #define EXTERNAL extern
 #include "global.h"
 #include <cassert> // assert
 #include <map>     // std::map
 #include <string>  // std::string
-#include <list>    // std::list
-#include <vector>  // std::vector
+#include <list>  // std::list
 
-#include "char_star.h"
 #include "ExchComp.h"
+#include "cxxMix.h"
 
 class cxxExchange : public cxxNumKeyword
 {
@@ -19,13 +17,12 @@ class cxxExchange : public cxxNumKeyword
 public:
         cxxExchange();
         cxxExchange(struct exchange *);
+	cxxExchange(const std::map<int, cxxExchange> &exchange_map, cxxMix &mx, int n_user);
         ~cxxExchange();
 
         struct exchange *cxxExchange2exchange();
 
         struct exch_comp *cxxExchComp2exch_comp();
-
-        void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
@@ -45,18 +42,27 @@ public:
         std::list<cxxExchComp> &get_exchComps(void) {
 		return(this->exchComps);
 	}
+	void totalize();
+
+	const cxxNameDouble& get_totals()const 
+	{
+	  return totals;
+	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
+private:
+	void add(const cxxExchange &addee, double extensive);
+	// not written
+        void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 protected:
         std::list<cxxExchComp> exchComps;
         bool pitzer_exchange_gammas;
-
+	cxxNameDouble totals;
 public:
-        //static std::map<int, cxxExchange>& map;
 
 };
 

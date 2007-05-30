@@ -12,6 +12,7 @@
 
 #include "char_star.h"
 #include "KineticsComp.h"
+#include "cxxMix.h"
 
 class cxxKinetics : public cxxNumKeyword
 {
@@ -19,7 +20,8 @@ class cxxKinetics : public cxxNumKeyword
 public:
         cxxKinetics();
         cxxKinetics(struct kinetics *);
-        ~cxxKinetics();
+	cxxKinetics(const std::map<int, cxxKinetics> &entity_map, cxxMix &mx, int n_user);
+	~cxxKinetics();
 
         struct kinetics *cxxKinetics2kinetics();
 
@@ -39,6 +41,8 @@ public:
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 #endif
+private:
+	void add(const cxxKinetics &addee, double extensive);
 
 protected:
         std::list<cxxKineticsComp> kineticsComps;

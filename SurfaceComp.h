@@ -4,6 +4,7 @@
 #include "NameDouble.h"
 #define EXTERNAL extern
 #include "global.h"
+#include "phrqproto.h"
 #include <cassert> // assert
 #include <map>     // std::map
 #include <string>  // std::string
@@ -12,7 +13,7 @@
 
 #include "char_star.h"
 
-class cxxSurfaceComp 
+class cxxSurfaceComp
 {
 
 public:
@@ -25,6 +26,7 @@ public:
         struct master *get_master();
         char *get_phase_name()const {return this->phase_name;}
         char *get_rate_name()const {return this->rate_name;}
+        char *get_formula()const {return this->formula;}
 
         static struct surface_comp *cxxSurfaceComp2surface_comp(std::list<cxxSurfaceComp>& el);
 
@@ -33,6 +35,29 @@ public:
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void read_raw(CParser& parser);
+	const cxxNameDouble &get_totals()const
+	{
+	  return (this->totals);
+	};
+
+
+	void add(const cxxSurfaceComp &comp, double extensive);
+	void multiply(double extensive);
+
+	char *charge_name() {return(get_charge_name(this->formula));};
+
+	static char *get_charge_name(char * token) {
+	  char name[100];
+	  int l;
+	  char *ptr1 = token;
+	  get_elt (&ptr1, name, &l);
+	  ptr1 = strchr (name, '_');
+	  if (ptr1 != NULL)
+	  {
+	    ptr1[0] = '\0';
+	  }
+	  return(string_hsave(name));
+	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
@@ -41,12 +66,12 @@ public:
 
 protected:
         char * formula;
-        cxxNameDouble formula_totals; 
+        cxxNameDouble formula_totals;
 	double formula_z;
         double moles;
-        cxxNameDouble totals; 
+        cxxNameDouble totals;
         double la;
-        int charge_number;
+        //int charge_number;
         double charge_balance;
         char   *phase_name;
         double phase_proportion;

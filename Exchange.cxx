@@ -13,6 +13,7 @@
 #include "global.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
+#include "output.h"
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 
@@ -51,6 +52,37 @@ cxxNumKeyword()
 
 
 
+}
+cxxExchange::cxxExchange(const std::map<int, cxxExchange> &entities, cxxMix &mix, int n_user)
+:
+cxxNumKeyword()
+{
+  this->n_user = this->n_user_end = n_user;
+  this->pitzer_exchange_gammas = false;
+//
+//   Mix exchangers
+//
+  std::map<int, double> *mixcomps = mix.comps();
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    if (entities.find(it->first) != entities.end()) 
+    {
+      const cxxExchange *entity_ptr = &(entities.find(it->first)->second);
+      this->add(*entity_ptr, it->second);
+      this->pitzer_exchange_gammas = entity_ptr->pitzer_exchange_gammas;
+    }
+#ifdef SKIP
+    if (entity_ptr == NULL) 
+    {
+      sprintf(error_string, "Exchange %d not found while mixing.", it->first);
+      error_msg(error_string, CONTINUE);
+      input_error++;
+      return;
+    } 
+#endif
+
+  } 
 }
 
 cxxExchange::~cxxExchange()
@@ -221,6 +253,36 @@ void cxxExchange::read_raw(CParser& parser)
                 parser.error_msg("Pitzer_exchange_gammsa not defined for EXCHANGE_RAW input.", CParser::OT_CONTINUE);
         }
 }
+void cxxExchange::add(const cxxExchange &addee, double extensive)
+        //
+        // Add existing exchange to "this" exchange
+        //
+{
+  //std::list<cxxExchComp> exchComps;
+  // exchComps
+  if (extensive == 0.0) return;
+  for (std::list<cxxExchComp>::const_iterator itadd = addee.exchComps.begin(); itadd != addee.exchComps.end(); ++itadd) 
+  {
+    bool found = false;
+    for (std::list<cxxExchComp>::iterator it = this->exchComps.begin(); it != this->exchComps.end(); ++it) 
+    {
+      if (it->get_formula() == itadd->get_formula()) 
+      {
+	it->add((*itadd), extensive);
+	found = true;
+	break;
+      }
+    }
+    if (!found) {
+      cxxExchComp exc = *itadd;
+      exc.multiply(extensive);
+      //exc.add(*itadd, extensive);
+      this->exchComps.push_back(exc);
+    }
+  }
+  //bool pitzer_exchange_gammas;
+  this->pitzer_exchange_gammas = addee.pitzer_exchange_gammas;
+}
 #ifdef USE_MPI
 /* ---------------------------------------------------------------------- */
 void cxxExchange::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
@@ -259,3 +321,13 @@ void cxxExchange::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+void cxxExchange::totalize()
+{
+  this->totals.clear();
+  // component structures
+  for (std::list<cxxExchComp>::const_iterator it = exchComps.begin(); it != exchComps.end(); ++it) 
+  {
+    this->totals.add_extensive(it->get_totals(), 1.0);
+  }
+  return;
+}
