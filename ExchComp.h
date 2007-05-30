@@ -12,15 +12,13 @@
 
 #include "char_star.h"
 
-class cxxExchComp 
+class cxxExchComp
 {
 
 public:
         cxxExchComp();
         cxxExchComp(struct exch_comp *);
-	cxxExchComp(std::vector<cxxExchComp> &ec_vector, std::vector<double> &f_vector);
         ~cxxExchComp();
-
 
         struct master *get_master();
         char *get_formula()const {return this->formula;}
@@ -35,6 +33,17 @@ public:
 
         void read_raw(CParser& parser);
 
+
+	const cxxNameDouble &get_totals()const
+	{
+	  return (this->totals);
+	};
+
+
+	void add(const cxxExchComp &comp, double extensive);
+	void multiply(double extensive);
+
+
 #ifdef USE_MPI
 	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
@@ -43,7 +52,7 @@ protected:
         char * formula;
         double moles;
         cxxNameDouble formula_totals;
-        cxxNameDouble totals; 
+        cxxNameDouble totals;
         double la;
         double charge_balance;
         char   *phase_name;

@@ -12,8 +12,9 @@
 #include <list>    // std::list
 #include <vector>  // std::vector
 #include <set>     // std::set
-
-
+#include <iostream>
+#include <sstream>
+#include <fstream>
 class cxxISolution : public cxxSolution
 {
 
@@ -40,7 +41,10 @@ public:
         //void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void ConvertUnits();
-
+	void ORCH_write_chemistry(std::ostringstream &chemistry_dat);
+	void ORCH_write_input(std::ostringstream &input_dat);
+	void ORCH_write_output(std::ostringstream &input_dat);
+	void print();
 protected:
         friend class cxxISolutionComp; // for this->pe access
         double density;
@@ -52,6 +56,13 @@ protected:
 public:
         //static std::map<int, cxxISolution>& map;
 
+private:
+  void ORCH_write_chemistry_water(std::ostringstream &chemistry_dat);
+  void ORCH_write_chemistry_primary(std::ostringstream &chemistry_dat);
+  void ORCH_write_chemistry_total_O_H(std::ostringstream &chemistry_dat);
+  void ORCH_write_chemistry_alkalinity(std::ostringstream &chemistry_dat);
+  void ORCH_write_chemistry_species(std::ostringstream &chemistry_dat);
+  void ORCH_write_chemistry_minerals(std::ostringstream &chemistry_dat);
 };
 
 #endif // !defined(ISOLUTION_H_INCLUDED)

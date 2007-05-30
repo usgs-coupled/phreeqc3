@@ -11,6 +11,7 @@
 #include "global.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
+#include "output.h"
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 
@@ -55,7 +56,53 @@ cxxNumKeyword()
 		gasPhaseComps[gas_phase_ptr->comps[i].name] = gas_phase_ptr->comps[i].moles;
         }
 }
+cxxGasPhase::cxxGasPhase(const std::map<int, cxxGasPhase> &entities, cxxMix &mix, int n_user)
+:
+cxxNumKeyword()
+{
+  this->n_user = this->n_user_end = n_user;
+  gasPhaseComps.type              = cxxNameDouble::ND_NAME_COEF;
+  total_p                         = 0;
+  volume                          = 0;
+  bool first = true;
+//
+//   Mix
+//
+  //cxxNameDouble gasPhaseComps;
+  std::map<int, double> *mixcomps = mix.comps();
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    if (entities.find(it->first) != entities.end()) 
+    {
+      const cxxGasPhase *entity_ptr = &(entities.find(it->first)->second);
+      this->gasPhaseComps.add_extensive(entity_ptr->gasPhaseComps, it->second);
+      //GP_TYPE type;
+      //double total_p;
+      //double volume;
+      if (first) 
+      {
+	this->type = entity_ptr->type;
+	this->total_p = entity_ptr->total_p * it->second;
+	this->volume = entity_ptr->volume * it->second;
+	first = false;
+      } else 
+      {
+	if (this->type != entity_ptr->type) 
+	{
+	  std::ostringstream oss;
+	  oss << "Can not mix two gas_phases with differing types." ;
+	  error_msg(oss.str().c_str(), CONTINUE);
+	  input_error++; 
+	  return;
+	}
 
+	this->total_p += entity_ptr->total_p * it->second;
+	this->volume += entity_ptr->volume * it->second;
+      }
+    }
+  } 
+}
 cxxGasPhase::~cxxGasPhase()
 {
 }
@@ -316,3 +363,22 @@ void cxxGasPhase::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+void cxxGasPhase::totalize()
+{
+  this->totals.clear();
+  // component structures
+  for (cxxNameDouble::const_iterator it = this->gasPhaseComps.begin(); it != this->gasPhaseComps.end(); it++) {
+    struct phase *phase_ptr;
+    int l;
+    phase_ptr = phase_bsearch(it->first, &l, FALSE);
+    if (phase_ptr != NULL)
+    {
+      cxxNameDouble phase_formula(phase_ptr->next_elt);
+      this->totals.add_extensive(phase_formula, it->second);
+    } else
+    {
+     assert(false);
+    }
+  }
+  return;
+}

@@ -54,7 +54,7 @@ totals(exch_comp_ptr->totals)
         rate_name                = exch_comp_ptr->rate_name;
         formula_z                = exch_comp_ptr->formula_z;
 }
-
+#ifdef SKIP
 cxxExchComp::cxxExchComp(std::vector<cxxExchComp> &ec_vector, std::vector<double> &f_vector) 
         //
         // constructor for cxxExchComp from mixing 
@@ -102,12 +102,12 @@ cxxExchComp::cxxExchComp(std::vector<cxxExchComp> &ec_vector, std::vector<double
 		this->la += it_ec->la*intensive;
 		this->charge_balance += it_ec->charge_balance*extensive;
 		this->phase_proportion += it_ec->phase_proportion*intensive;
-		this->totals.add(it_ec->totals, extensive);
+		this->totals.add_extensive(it_ec->totals, extensive);
 		it_ec++;
 		it_f++;
 	}
 }
-
+#endif
 cxxExchComp::~cxxExchComp()
 {
 }
@@ -436,6 +436,91 @@ void cxxExchComp::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Formula_z not defined for ExchComp input.", CParser::OT_CONTINUE);
         }
+}
+void cxxExchComp::add(const cxxExchComp &addee, double extensive)
+{
+  double ext1, ext2, f1, f2;
+  if (extensive == 0.0) return;
+  if (addee.formula == NULL) return;
+  // this and addee must have same formula
+  // otherwise generate a new exchcomp with multiply
+
+  ext1 = this->moles;
+  ext2 = addee.moles * extensive;
+  if (ext1 + ext2 != 0) {
+    f1 = ext1/(ext1 + ext2);
+    f2 = ext2/(ext1 + ext2);
+  } else {
+    f1 = 0.5;
+    f2 = 0.5;
+  }
+
+  //char * formula;
+  //cxxNameDouble formula_totals;
+  if (this->formula == NULL && addee.formula == NULL) {
+    return;
+  }
+  assert (this->formula == addee.formula);
+  assert (this->formula_z == addee.formula_z);
+  if (this->formula == NULL && addee.formula != NULL) {
+    this->formula = addee.formula;
+    this->formula_totals = addee.formula_totals;
+  }
+  //double moles;
+  this->moles += addee.moles * extensive;
+  //cxxNameDouble totals; 
+  this->totals.add_extensive(addee.totals, extensive);
+  //double la;
+  this->la = f1*this->la + f2*addee.la;
+  //double charge_balance;
+  this->charge_balance += addee.charge_balance * extensive;
+  //char   *phase_name;
+
+  if (this->phase_name != addee.phase_name) {
+    std::ostringstream oss;
+    oss << "Can not mix two exchange components with same formula and different related phases, " <<  this->formula;
+    error_msg(oss.str().c_str(), CONTINUE);
+    input_error++; 
+    return;
+  } else if (this->phase_name != NULL) {
+    this->phase_proportion = this->phase_proportion*f1 + addee.phase_proportion*f2;
+  }
+  //char   *rate_name;
+  if (this->rate_name != addee.rate_name) {
+    std::ostringstream oss;
+    oss << "Can not mix two exchange components with same formula and different related kinetics, " <<  this->formula;
+    error_msg(oss.str().c_str(), CONTINUE);
+    input_error++;  
+    return;
+  } else if (this->rate_name != NULL) {
+    //double phase_proportion;
+    this->phase_proportion = this->phase_proportion*f1 + addee.phase_proportion*f2;
+  }
+  if ((this->rate_name != NULL && addee.phase_name != NULL) ||
+    (this->phase_name != NULL && addee.rate_name != NULL) )
+  {
+    std::ostringstream oss;
+    oss << "Can not mix exchange components related to phase with exchange components related to kinetics, " <<  this->formula;
+    error_msg(oss.str().c_str(), CONTINUE);
+    input_error++; 
+    return;
+  }
+}
+void cxxExchComp::multiply(double extensive)
+{
+  //char * formula;
+  //double moles;
+  this->moles *= extensive;
+  //cxxNameDouble formula_totals;
+  //cxxNameDouble totals; 
+  this->totals.multiply(extensive);
+  //double la;
+  //double charge_balance;
+  this->charge_balance *= extensive;
+  //char   *phase_name;
+  //double phase_proportion;  
+  this->phase_proportion *= extensive;
+  //double formula_z;
 }
 #ifdef USE_MPI
 #include "Dictionary.h"
