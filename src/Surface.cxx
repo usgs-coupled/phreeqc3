@@ -25,17 +25,17 @@ cxxSurface::cxxSurface()
         //
 : cxxNumKeyword()
 {
-	type                      = NO_EDL;
+	type                      = DDL;
 	dl_type                   = NO_DL;
 	sites_units               = SITES_ABSOLUTE;
         //diffuse_layer           = false;
         //edl                     = false;
         only_counter_ions         = false;
         //donnan                  = false;
-        thickness                 = 0.0;
+        thickness                 = 1e-8;
         debye_lengths             = 0.0;
-	DDL_viscosity             = 0.0;
-	DDL_limit                 = 0.0;
+	DDL_viscosity             = 1.0;
+	DDL_limit                 = 0.8;
         transport                 = false;
 }
 
@@ -74,6 +74,34 @@ cxxNumKeyword()
                 cxxSurfaceCharge ec(&(surface_ptr->charge[i]));
                 surfaceCharges.push_back(ec);
         }
+}
+cxxSurface::cxxSurface(const std::map<int, cxxSurface> &entities, cxxMix &mix, int n_user)
+:
+cxxNumKeyword()
+{
+  this->n_user = this->n_user_end = n_user;
+  type                      = DDL;
+  dl_type                   = NO_DL;
+  sites_units               = SITES_ABSOLUTE;
+  only_counter_ions         = false;
+  thickness                 = 1e-8;
+  debye_lengths             = 0.0;
+  DDL_viscosity             = 1.0;
+  DDL_limit                 = 0.8;
+  transport                 = false;
+//
+//   Mix exchangers
+//
+  std::map<int, double> *mixcomps = mix.comps();
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    if (entities.find(it->first) != entities.end()) 
+    {
+      const cxxSurface *entity_ptr = &(entities.find(it->first)->second);
+      this->add(*entity_ptr, it->second);
+    }
+  } 
 }
 
 cxxSurface::~cxxSurface()
@@ -141,7 +169,19 @@ struct surface *cxxSurface::cxxSurface2surface()
 	} else {
 		surface_ptr->count_charge = 0;
 	}
-		
+	// Need to fill in charge (number) in comps list
+	int i,j;
+	for (i = 0; i < surface_ptr->count_comps; i++) {
+	  char *charge_name = cxxSurfaceComp::get_charge_name(surface_ptr->comps[i].formula);
+	  for (j = 0; j < surface_ptr->count_charge; j++) {
+	    if (charge_name == surface_ptr->charge[j].name) {
+	      surface_ptr->comps[i].charge = j;
+	      break;
+	    }
+	  }
+	  assert(j < surface_ptr->count_charge);
+	}
+
         return(surface_ptr);
 }
 
@@ -632,3 +672,97 @@ void cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+
+void cxxSurface::totalize()
+{
+  this->totals.clear();
+  // component structures
+  for (std::list<cxxSurfaceComp>::const_iterator it = surfaceComps.begin(); it != surfaceComps.end(); ++it) 
+  {
+    this->totals.add_extensive(it->get_totals(), 1.0);
+  }
+  return;
+}
+
+void cxxSurface::add(const cxxSurface &addee, double extensive)
+        //
+        // Add surface to "this" exchange
+        //
+{
+  //std::list<cxxSurfaceComp> surfaceComps;
+  //std::list<cxxSurfaceCharge> surfaceCharges;
+  //enum SURFACE_TYPE type;
+  //enum DIFFUSE_LAYER_TYPE dl_type;
+  //enum SITES_UNITS sites_units;
+  //bool only_counter_ions;
+  //double thickness;
+  //double debye_lengths;
+  //double DDL_viscosity;
+  //double DDL_limit;
+  //bool transport;
+  if (extensive == 0.0) return;
+  if (this->surfaceComps.size() == 0) 
+  {
+    //enum SURFACE_TYPE type;
+    this->type = addee.type;
+    //enum DIFFUSE_LAYER_TYPE dl_type;
+    this->dl_type = addee.dl_type;
+    //enum SITES_UNITS sites_units;
+    this->sites_units = addee.sites_units;
+    //bool only_counter_ions;
+    this->only_counter_ions = addee.only_counter_ions;
+    //double thickness;
+    this->thickness = addee.thickness;
+    //double debye_lengths;
+    this->debye_lengths = addee.debye_lengths;
+    //double DDL_viscosity;
+    this->DDL_viscosity = addee.DDL_viscosity;
+    //double DDL_limit;
+    this->DDL_limit = addee.DDL_limit;
+    //bool transport;
+    this->transport = addee.transport;
+  }
+  //std::list<cxxSurfaceComp> surfaceComps;
+
+  for (std::list<cxxSurfaceComp>::const_iterator itadd = addee.surfaceComps.begin(); itadd != addee.surfaceComps.end(); ++itadd) 
+  {
+    bool found = false;
+    for (std::list<cxxSurfaceComp>::iterator it = this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it) 
+    {
+      if (it->get_formula() == itadd->get_formula()) 
+      {
+	it->add((*itadd), extensive);
+	found = true;
+	break;
+      }
+    }
+    if (!found) {
+      cxxSurfaceComp entity = *itadd;
+      entity.multiply(extensive);
+      //exc.add(*itadd, extensive);
+      this->surfaceComps.push_back(entity);
+    }
+  }
+  //std::list<cxxSurfaceCharge> surfaceCharges;
+  for (std::list<cxxSurfaceCharge>::const_iterator itadd = addee.surfaceCharges.begin(); itadd != addee.surfaceCharges.end(); ++itadd) 
+  {
+    bool found = false;
+    for (std::list<cxxSurfaceCharge>::iterator it = this->surfaceCharges.begin(); it != this->surfaceCharges.end(); ++it) 
+    {
+      if (it->get_name() == itadd->get_name()) 
+      {
+	it->add((*itadd), extensive);
+	found = true;
+	break;
+      }
+    }
+    if (!found) {
+      cxxSurfaceCharge entity = *itadd;
+      entity.multiply(extensive);
+      //exc.add(*itadd, extensive);
+      this->surfaceCharges.push_back(entity);
+    }
+  }
+
+}
+

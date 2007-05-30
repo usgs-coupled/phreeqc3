@@ -43,7 +43,26 @@ cxxNumKeyword()
                 ssAssemblageSSs.push_back(ssSS);
         }
 }
-
+cxxSSassemblage::cxxSSassemblage(const std::map<int, cxxSSassemblage> &entities, cxxMix &mix, int n_user)
+:
+cxxNumKeyword()
+{
+  this->n_user = this->n_user_end = n_user;
+  //std::list<cxxSSassemblageSS> ssAssemblageSSs;
+//
+//   Mix
+//
+  std::map<int, double> *mixcomps = mix.comps();
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    if (entities.find(it->first) != entities.end()) 
+    {
+      const cxxSSassemblage *entity_ptr = &(entities.find(it->first)->second);
+      this->add(*entity_ptr, it->second);
+    }
+  } 
+}
 cxxSSassemblage::~cxxSSassemblage()
 {
 }
@@ -203,3 +222,43 @@ void cxxSSassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+ 
+void cxxSSassemblage::totalize()
+{
+  this->totals.clear();
+  // component structures
+  for (std::list<cxxSSassemblageSS>::iterator it = ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it) 
+  {
+    it->totalize();
+    this->totals.add_extensive(it->get_totals(), 1.0);
+  }
+  return;
+}
+
+void cxxSSassemblage::add(const cxxSSassemblage &addee, double extensive)
+        //
+        // Add to existing ssassemblage to "this" ssassemblage
+        //
+{
+  if (extensive == 0.0) return;
+
+  for (std::list<cxxSSassemblageSS>::const_iterator itadd = addee.ssAssemblageSSs.begin(); itadd != addee.ssAssemblageSSs.end(); ++itadd) 
+  {
+    bool found = false;
+    for (std::list<cxxSSassemblageSS>::iterator it = this->ssAssemblageSSs.begin(); it != this->ssAssemblageSSs.end(); ++it) 
+    {
+      if (it->get_name() == itadd->get_name()) 
+      {
+	it->add((*itadd), extensive);
+	found = true;
+	break;
+      }
+    }
+    if (!found) {
+      cxxSSassemblageSS entity = *itadd;
+      entity.multiply(extensive);
+      this->ssAssemblageSSs.push_back(entity);
+    }
+  }
+}
+

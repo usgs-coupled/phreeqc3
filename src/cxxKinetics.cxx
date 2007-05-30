@@ -61,7 +61,30 @@ totals(kinetics_ptr->totals)
                 this->steps.push_back(kinetics_ptr->steps[i]);
         }
 }
-
+cxxKinetics::cxxKinetics(const std::map<int, cxxKinetics> &entities, cxxMix &mix, int n_user)
+:
+cxxNumKeyword()
+{
+  this->n_user = this->n_user_end = n_user;
+  step_divide                 = 1.0;
+  rk                          = 3;
+  bad_step_max                = 500;
+  use_cvode                   = false;
+  totals.type                 = cxxNameDouble::ND_ELT_MOLES;
+//
+//   Mix
+//
+  std::map<int, double> *mixcomps = mix.comps();
+  std::map<int, double>::const_iterator it;
+  for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
+  {
+    if (entities.find(it->first) != entities.end()) 
+    {
+      const cxxKinetics *entity_ptr = &(entities.find(it->first)->second);
+      this->add(*entity_ptr, it->second);
+    }
+  } 
+}
 cxxKinetics::~cxxKinetics()
 {
 }
@@ -390,3 +413,40 @@ void cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+void cxxKinetics::add(const cxxKinetics &addee, double extensive)
+        //
+        // Add to existing ppassemblage to "this" ppassemblage
+        //
+{
+  if (extensive == 0.0) return;
+  //std::list<cxxKineticsComp> kineticsComps;
+  for (std::list<cxxKineticsComp>::const_iterator itadd = addee.kineticsComps.begin(); itadd != addee.kineticsComps.end(); ++itadd) 
+  {
+    bool found = false;
+    for (std::list<cxxKineticsComp>::iterator it = this->kineticsComps.begin(); it != this->kineticsComps.end(); ++it) 
+    {
+      if (it->get_rate_name() == itadd->get_rate_name()) 
+      {
+	it->add((*itadd), extensive);
+	found = true;
+	break;
+      }
+    }
+    if (!found) {
+      cxxKineticsComp entity = *itadd;
+      entity.multiply(extensive);
+      this->kineticsComps.push_back(entity);
+    }
+  }
+  //std::vector<double> steps;
+  this->steps = addee.steps;
+  //cxxNameDouble totals;
+  //double step_divide;
+  this->step_divide = addee.step_divide;
+  //int rk;
+  this->rk = addee.rk;
+  //int bad_step_max;
+  this->bad_step_max = addee.bad_step_max;
+  //bool use_cvode;
+  this->use_cvode = addee.use_cvode;
+}

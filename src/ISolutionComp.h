@@ -30,7 +30,7 @@ public:
 
         void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
-        std::string get_description()const {return this->description;}
+        char * get_description()const {return this->description;}
         void set_description(char * description) {this->description = description;}
 
         double get_moles()const {return this->moles;}
@@ -42,7 +42,7 @@ public:
         std::string get_units()const {return this->units;}
         void set_units(char * units) {this->units = units;}
 
-        std::string get_equation_name()const {return this->equation_name;}
+        char * get_equation_name()const {return this->equation_name;}
         void set_equation_name(char * equation_name) {this->equation_name = equation_name;}
 
         double get_phase_si()const {return this->phase_si;}

@@ -12,6 +12,7 @@
 
 #include "char_star.h"
 #include "PPassemblageComp.h"
+#include "cxxMix.h"
 
 class cxxPPassemblage : public cxxNumKeyword
 {
@@ -19,13 +20,12 @@ class cxxPPassemblage : public cxxNumKeyword
 public:
         cxxPPassemblage();
         cxxPPassemblage(struct pp_assemblage *);
-        ~cxxPPassemblage();
+	cxxPPassemblage(const std::map<int, cxxPPassemblage> &entity_map, cxxMix &mx, int n_user);
+	~cxxPPassemblage();
 
         struct pp_assemblage *cxxPPassemblage2pp_assemblage();
 
         struct pure_phase *cxxPPassemblageComp2pure_phase();
-
-        void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
         void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
@@ -36,9 +36,22 @@ public:
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 
+	void totalize();
+
+private:
+	void add(const cxxPPassemblage &addee, double extensive);
+	// not written
+        void dump_xml(std::ostream& os, unsigned int indent = 0)const;
+
+	const cxxNameDouble& get_totals()const
+	{
+	  return this->totals;
+	};
+
 protected:
         std::list<cxxPPassemblageComp> ppAssemblageComps;
         cxxNameDouble eltList;
+	cxxNameDouble totals;
 
 public:
         //static std::map<int, cxxPPassemblage>& map;
