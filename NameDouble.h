@@ -24,6 +24,7 @@ public:
 
         cxxNameDouble();
         cxxNameDouble(struct elt_list *);
+        cxxNameDouble(struct elt_list *, int count);
         cxxNameDouble(struct conc *);
         cxxNameDouble(struct master_activity *ma, int count, ND_TYPE);
         cxxNameDouble(struct name_coef *nc, int count);

@@ -85,6 +85,84 @@ cxxNumKeyword()
   } 
 }
 
+cxxExchange::cxxExchange(int n_user)
+        //
+        // constructor for cxxExchange from reaction calculation
+        // equivalent of xexchange_save
+        //        std::list<cxxExchComp> exchComps;
+        //        bool pitzer_exchange_gammas;
+	//        cxxNameDouble totals;
+
+: 
+cxxNumKeyword()
+
+{
+  int i;
+
+  //this->set_description(exchange_ptr->description);
+  this->n_user                 = n_user;
+  this->n_user_end             = n_user;
+  this->pitzer_exchange_gammas = (use.exchange_ptr->pitzer_exchange_gammas == TRUE);
+  this->totals.type            = cxxNameDouble::ND_ELT_MOLES;
+  for (i = 0; i < count_unknowns; i++)
+  {
+    if (x[i]->type == EXCH)
+    {
+      cxxExchComp ec;
+      //char * formula;
+      ec.set_formula                (x[i]->exch_comp->formula);
+      //double moles;
+      ec.set_moles                  (0.0);
+      //cxxNameDouble formula_totals;
+      ec.set_formula_totals         (x[i]->exch_comp->formula_totals);
+      //cxxNameDouble totals; see below
+      //double la;
+      ec.set_la                     (x[i]->master[0]->s->la);
+      //double charge_balance; see below
+      //char   *phase_name;
+      ec.set_phase_name             (x[i]->exch_comp->phase_name);
+      //double phase_proportion;
+      ec.set_phase_proportion       (x[i]->exch_comp->phase_proportion);
+      //char   *rate_name;
+      ec.set_rate_name              (x[i]->exch_comp->rate_name);
+      //double formula_z;                         
+      ec.set_formula_z              (x[i]->exch_comp->formula_z);
+
+      // calculate charge and totals
+      count_elts = 0;
+      paren_count = 0;
+      double charge = 0.0;
+      int j;
+      for (j = 0; j < count_species_list; j++)
+      {
+	if (species_list[j].master_s == x[i]->master[0]->s)
+	{
+	  add_elt_list (species_list[j].s->next_elt,
+			species_list[j].s->moles);
+	  charge += species_list[j].s->moles * species_list[j].s->z;
+	}
+      }
+      // Keep exchanger related to phase even if none currently in solution
+      if (x[i]->exch_comp->phase_name != NULL && count_elts == 0)
+      {
+	add_elt_list (x[i]->master[0]->s->next_elt, 1e-20);
+      }
+      //double charge_balance
+      ec.set_charge_balance    (charge);
+      //cxxNameDouble totals;
+      if (count_elts > 0)
+      {
+	qsort (elt_list, (size_t) count_elts,
+	       (size_t) sizeof (struct elt_list), elt_list_compare);
+	elt_list_combine ();
+      }
+      ec.set_totals(elt_list, count_elts);
+
+      // add to comp list
+      this->exchComps.push_back(ec);
+    }
+  }
+}
 cxxExchange::~cxxExchange()
 {
 }

@@ -16,6 +16,7 @@ class cxxExchange : public cxxNumKeyword
 
 public:
         cxxExchange();
+	cxxExchange(int n_user);
         cxxExchange(struct exchange *);
 	cxxExchange(const std::map<int, cxxExchange> &exchange_map, cxxMix &mx, int n_user);
         ~cxxExchange();

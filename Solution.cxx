@@ -113,6 +113,140 @@ cxxNumKeyword()
   } 
 }
 
+cxxSolution::cxxSolution(int n_user)
+        //
+        // constructor for cxxSolution from results of calculation
+        //
+: 
+cxxNumKeyword()
+{
+
+  //this->set_description none;
+  this->n_user      = n_user;
+  this->n_user_end  = n_user;
+  this->tc          = tc_x;
+  this->ph          = ph_x;
+  this->pe          = solution_pe_x;
+  this->mu          = mu_x;
+  this->ah2o        = ah2o_x;
+  this->total_h     = total_h_x;
+  this->total_o     = total_o_x;
+  this->cb          = cb_x;
+  this->mass_water  = mass_water_aq_x;
+  this->total_alkalinity     = total_alkalinity;
+  this->totals.type = cxxNameDouble::ND_ELT_MOLES;
+  this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
+  this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
+  /*
+   * Add in minor isotopes if initial solution calculation
+   */
+  int i;
+  if (initial_solution_isotopes == TRUE)
+  {
+    struct master *master_ptr, *master_i_ptr;
+    for (i = 0; i < count_master_isotope; i++)
+    {
+      if (master_isotope[i]->moles > 0)
+      {
+	master_i_ptr = master_bsearch (master_isotope[i]->name);
+	master_ptr = master_isotope[i]->elt->master;
+	if (master_isotope[i]->minor_isotope == TRUE)
+	{
+	  master_i_ptr->total = master_isotope[i]->moles;
+	  if (master_ptr->total > 0)
+	  {
+	    master_i_ptr->s->la =
+	      master_ptr->s->la +
+	      log10 (master_i_ptr->total / master_ptr->total);
+	  }
+	  else
+	  {
+	    master_i_ptr->s->la = master_ptr->s->la;
+	  }
+	}
+	else if (master_isotope[i]->minor_isotope == FALSE
+		 && master_ptr->s != s_hplus && master_ptr->s != s_h2o)
+	{
+	  if (master_ptr->s->secondary != NULL)
+	  {
+	    master_ptr->s->secondary->total = master_isotope[i]->moles;
+	  }
+	  else
+	  {
+	    master_ptr->s->primary->total = master_isotope[i]->moles;
+	  }
+	}
+      }
+    }
+  }
+  /*
+    cxxNameDouble totals;
+    cxxNameDouble master_activity;
+    cxxNameDouble species_gamma;
+    cxxSolutionIsotopeList isotopes;
+  */
+
+// totals and master_activity
+  for (i = 0; i < count_master; i++)
+  {
+    if (master[i]->s->type == EX ||
+	master[i]->s->type == SURF || master[i]->s->type == SURF_PSI)
+      continue;
+    if (master[i]->s == s_hplus) continue;
+    if (master[i]->s == s_h2o) continue;
+    if (master[i]->in != FALSE)
+    {
+      this->master_activity[master[i]->elt->name] = master[i]->s->la;
+    }
+    if (master[i]->total <= MIN_TOTAL)
+    {
+      master[i]->total = 0.0;
+      master[i]->total_primary = 0.0;
+      continue;
+    }
+    this->totals[master[i]->elt->name] = master[i]->total;
+  }
+
+// species_gammas for Pitzer 
+  if (pitzer_model == TRUE)
+  {
+    int j;
+    for (j = 0; j < count_s; j++)
+    {
+      if (s[j]->lg != 0.0)
+      {
+	this->species_gamma[s[j]->name] = s[j]->lg;
+      }
+    }
+  }
+
+// Save isotope data
+
+  if (count_isotopes_x > 0)
+  {
+    for (i = 0; i < count_isotopes_x; i++)
+    {
+      cxxSolutionIsotope cxxiso;
+      cxxiso.set_isotope_number (isotopes_x[i].isotope_number);
+      cxxiso.set_elt_name       (isotopes_x[i].elt_name);
+      cxxiso.set_isotope_name   (isotopes_x[i].isotope_name);
+      cxxiso.set_total          (isotopes_x[i].master->total);
+      if (isotopes_x[i].master == s_hplus->secondary)
+      {
+	cxxiso.set_total        (2 * mass_water_aq_x / gfw_water);
+      }
+      if (isotopes_x[i].master == s_h2o->secondary)
+      {
+	cxxiso.set_total        (mass_water_aq_x / gfw_water);
+      }
+      // cxxiso.ratio                 
+      // cxxiso.ratio_uncertainty
+      // cxxiso.ratio_uncertainty_defined 
+      this->isotopes.push_back(cxxiso);
+    }
+  }
+}
+
 cxxSolution::~cxxSolution()
 {
 }
@@ -1057,50 +1191,6 @@ void cxxSolution::set_master_activity(char *string, double d)
 {
 	this->master_activity[string] = d;
 }
-#ifdef SKIP
-#include "../hst.h"
-/* ---------------------------------------------------------------------- */
-void cxxSolution::xsolution_save(int n)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Save solution composition into Solution class
- *
- *   input:  n is pointer number in solution
- */
-        this->set_description(" ");
-        this->n_user      = n;
-        this->n_user_end  = n;
-        this->tc          = tc_x;
-        this->ph          = ph_x;
-        this->pe          = solution_pe_x;
-        this->mu          = mu_x;
-        this->ah2o        = ah2o_x;
-        this->total_h     = total_h_x;
-        this->total_o     = total_o_x;
-        this->cb          = cb_x;
-        this->mass_water  = mass_water_aq_x;
-        this->total_alkalinity = total_alkalinity;
-/*
- *   Copy totals data
- */
-	for (int j = 2; j < count_total; j++) {
-		this->totals.insert(buffer[j].master->elt->name, buffer[j].master->total_primary);
-	}
-
-	for (int j = 0; j < count_activity_list; j++) {
-		this->master_activity.insert(activity_list[j].master->elt->name, activity_list[j].master->s->la);
-	}
-	if (pitzer_model == TRUE) {
-		for (int j= 0; j < count_s; j++) {
-			if (s[j]->lg != 0.0) {
-				this->species_gamma.insert(s[j]->name, s[j]->lg);
-			}
-		}
-	} 
-}
-#endif
-
 
 #include "ISolution.h"
 #include "Exchange.h"

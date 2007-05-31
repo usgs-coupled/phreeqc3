@@ -22,6 +22,7 @@ class cxxSolution : public cxxNumKeyword
 public:
         cxxSolution();
         cxxSolution(struct solution *);
+        cxxSolution(int n_user);
 	cxxSolution(const std::map<int, cxxSolution> &solution_map, cxxMix &mx, int n_user);
         ~cxxSolution();
 
