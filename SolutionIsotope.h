@@ -27,10 +27,14 @@ public:
 
         CParser::STATUS_TYPE read_raw(CParser& parser);
 
-        char * get_isotope_name()const          { return this->isotope_name;}
-        void   set_isotope_name(char * cstring) { this->isotope_name = cstring;}
+        double get_isotope_number()const        { return this->isotope_number;}
+        void   set_isotope_number(double d)     { this->isotope_number = d;}
         char * get_elt_name()const              { return this->elt_name;}
         void   set_elt_name(char * cstring)     { this->elt_name = cstring;}
+        char * get_isotope_name()const          { return this->isotope_name;}
+        void   set_isotope_name(char * cstring) { this->isotope_name = cstring;}
+        double get_total()const                 { return this->total;}
+        void   set_total(double d)              { this->total = d;}
 
         double get_ratio()const              { return this->ratio; }
 

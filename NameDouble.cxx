@@ -41,6 +41,22 @@ cxxNameDouble::cxxNameDouble(struct elt_list *elt_list_ptr)
         }
         this->type = ND_ELT_MOLES;
 }
+
+cxxNameDouble::cxxNameDouble(struct elt_list *elt_list_ptr, int count)
+        //
+        // constructor for cxxNameDouble from list of elt_list with known count
+        //
+{
+        int i;
+        if (elt_list_ptr != NULL) {
+	  for (i = 0; i < count; i++)
+	  {
+	    (*this)[elt_list_ptr[i].elt->name] = elt_list_ptr[i].coef;
+	  }
+        }
+        this->type = ND_ELT_MOLES;
+}
+
 cxxNameDouble::cxxNameDouble(const cxxNameDouble &old, double factor)
         //
         // constructor for cxxNameDouble from list of elt_list
