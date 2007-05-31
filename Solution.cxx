@@ -116,7 +116,8 @@ cxxNumKeyword()
 cxxSolution::cxxSolution(int n_user)
         //
         // constructor for cxxSolution from results of calculation
-        //
+        // does not work in phast because phast uses only the total molalities
+        // of elements in buffer, not individual redox states.
 : 
 cxxNumKeyword()
 {
@@ -133,7 +134,7 @@ cxxNumKeyword()
   this->total_o     = total_o_x;
   this->cb          = cb_x;
   this->mass_water  = mass_water_aq_x;
-  this->total_alkalinity     = total_alkalinity;
+  this->total_alkalinity     = ::total_alkalinity;
   this->totals.type = cxxNameDouble::ND_ELT_MOLES;
   this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
   this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
