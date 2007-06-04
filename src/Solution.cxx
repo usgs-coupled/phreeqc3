@@ -917,7 +917,25 @@ double cxxSolution::get_total(char *string)const
 		return(it->second);
 	}
 }
-
+double cxxSolution::get_total_element(char *string)const
+{
+  cxxNameDouble::const_iterator it;
+  double d = 0.0;
+  for (it = this->totals.begin(); it != this->totals.end(); ++it)
+  {
+    char token[MAX_LENGTH], token1[MAX_LENGTH];
+    int n;
+    char *ptr;
+    strcpy(token, it->first);
+    replace("(", "", token);
+    ptr = token;
+    copy_token(token1, &ptr, &n);
+    if (strcmp(token1, string) == 0) {
+      d += it->second;
+    }
+  }
+  return(d);
+}
 void cxxSolution::set_total(char *string, double d)
 {
 	this->totals[string] = d;
