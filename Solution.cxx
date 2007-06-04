@@ -247,12 +247,9 @@ cxxNumKeyword()
     }
   }
 }
-
 cxxSolution::~cxxSolution()
 {
 }
-
-
 struct solution *cxxSolution::cxxSolution2solution()
         //
         // Builds a solution structure from instance of cxxSolution 
@@ -927,7 +924,7 @@ double cxxSolution::get_total_element(char *string)const
     int n;
     char *ptr;
     strcpy(token, it->first);
-    replace("(", "", token);
+    replace("(", " ", token);
     ptr = token;
     copy_token(token1, &ptr, &n);
     if (strcmp(token1, string) == 0) {
