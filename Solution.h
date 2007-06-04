@@ -59,7 +59,12 @@ public:
         void set_total_alkalinity(double total_alkalinity) {this->total_alkalinity = total_alkalinity;}
 
 	double get_total(char *string)const;
+	double get_total_element(char *string)const;
 	void set_total(char *string, double value);
+
+	void set_totals(cxxNameDouble &nd) {this->totals = nd; this->totals.type = cxxNameDouble::ND_ELT_MOLES;}
+	void clear_totals() {this->totals.clear();}
+
 
 	double get_master_activity(char *string)const;
 	void set_master_activity(char *string, double value);
