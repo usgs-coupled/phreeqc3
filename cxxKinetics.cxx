@@ -408,7 +408,7 @@ void cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->step_divide = doubles[d++];
 	this->rk = ints[i++];
 	this->bad_step_max = ints[i++];
-	this->use_cvode = (bool) ints[i++];
+	this->use_cvode = (ints[i++] == TRUE);
 	*ii = i;
 	*dd = d;
 }
