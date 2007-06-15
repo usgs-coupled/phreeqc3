@@ -101,15 +101,17 @@ cxxNumKeyword()
   std::map<int, double>::const_iterator it;
   for (it = mixcomps->begin(); it != mixcomps->end(); it++) 
   {
-    const cxxSolution *cxxsoln_ptr1 = &(solutions.find(it->first)->second);
-    if (cxxsoln_ptr1 == NULL) 
+    std::map<int, cxxSolution>::const_iterator sol = solutions.find(it->first);
+    if (sol == solutions.end())
     {
       sprintf(error_string, "Solution %d not found in mix_cxxSolutions.", it->first);
       error_msg(error_string, CONTINUE);
       input_error++;
-      return;
-    } 
-    this->add(*cxxsoln_ptr1, it->second);
+    } else
+    {
+      const cxxSolution *cxxsoln_ptr1 = &(sol->second);
+      this->add(*cxxsoln_ptr1, it->second);
+    }
   } 
 }
 
