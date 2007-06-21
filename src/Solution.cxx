@@ -907,6 +907,20 @@ void cxxSolution::add(const cxxSolution &addee, double extensive)
   this->species_gamma.add_intensive(addee.species_gamma, f1, f2);
   this->isotopes.add(addee.isotopes, f2, extensive);
 }
+void cxxSolution::multiply(double extensive)
+        //
+        // Multiply existing solution by extensive
+        //
+{
+  if (extensive == 0.0 || extensive == 1.0) return;
+  this->total_h                  *= extensive;
+  this->total_o                  *= extensive;
+  this->cb                       *= extensive;
+  this->mass_water               *= extensive;
+  this->total_alkalinity         *= extensive;
+  this->totals.multiply(extensive);
+  this->isotopes.multiply(extensive);
+}
 double cxxSolution::get_total(char *string)const
 {
 	cxxNameDouble::const_iterator it = this->totals.find(string);
