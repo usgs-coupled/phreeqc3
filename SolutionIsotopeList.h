@@ -24,6 +24,7 @@ public:
 	struct isotope *cxxSolutionIsotopeList2isotope();
 
 	void add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
+	void multiply(double extensive);
 	
 protected:
 

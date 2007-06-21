@@ -197,6 +197,10 @@ void cxxSolutionIsotope::add(const cxxSolutionIsotope &isotope_ptr, double inten
 		this->ratio_uncertainty_defined = (this->ratio_uncertainty_defined || isotope_ptr.ratio_uncertainty_defined);
 	}
 }
+void cxxSolutionIsotope::multiply(double extensive)
+{
+  this->total                   *= extensive;
+}
 
 #ifdef SKIP
 cxxSolutionIsotope::STATUS cxxSolutionIsotope::read(CParser& parser)

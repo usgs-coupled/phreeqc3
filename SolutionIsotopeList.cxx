@@ -61,6 +61,13 @@ void cxxSolutionIsotopeList::add(cxxSolutionIsotopeList old, double intensive, d
     }
   }
 }
+void cxxSolutionIsotopeList::multiply(double extensive)
+{
+  for (cxxSolutionIsotopeList::iterator it = this->begin(); it != this->end(); ++it)
+  {
+    it->total                   *= extensive;
+  }
+}
 struct isotope * cxxSolutionIsotopeList::cxxSolutionIsotopeList2isotope()
 {
   struct isotope *iso;
