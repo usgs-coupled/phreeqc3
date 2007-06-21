@@ -83,6 +83,7 @@ public:
 	void write_orchestra(std::ostream& headings, std::ostream& input_data)const;
 
         void read_raw(CParser& parser);
+	void multiply(double extensive);
 
 
 #ifdef USE_MPI

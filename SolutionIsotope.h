@@ -48,6 +48,7 @@ public:
         struct master *primary(void);
 
 	void add(const cxxSolutionIsotope &isotope_ptr, double intensive, double extensive);
+	void multiply(double extensive);
 
 protected:
 	friend class cxxSolutionIsotopeList;
