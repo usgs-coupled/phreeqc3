@@ -30,6 +30,7 @@ units("mMol/kgw")
 {
         density     = 1.0;
         default_pe  = -1;
+	pes = NULL;
 }
 
 cxxISolution::cxxISolution(struct solution *solution_ptr)
@@ -419,7 +420,7 @@ void cxxISolution::dump_xml(std::ostream& os, unsigned int indent)const
 }
 #endif
 
-void cxxISolution::ORCH_write_chemistry(std::ostringstream &chemistry_dat)
+void cxxISolution::ORCH_write_chemistry(std::ostream &chemistry_dat)
 {
   this->ORCH_write_chemistry_water(chemistry_dat);
   this->ORCH_write_chemistry_primary(chemistry_dat);
@@ -430,7 +431,7 @@ void cxxISolution::ORCH_write_chemistry(std::ostringstream &chemistry_dat)
 }
 
 
-void cxxISolution::ORCH_write_chemistry_water(std::ostringstream &chemistry_dat)
+void cxxISolution::ORCH_write_chemistry_water(std::ostream &chemistry_dat)
 {
   //
   //  Write water entities
@@ -488,7 +489,7 @@ void cxxISolution::ORCH_write_chemistry_water(std::ostringstream &chemistry_dat)
   chemistry_dat << std::endl;
 }
 
-void cxxISolution::ORCH_write_chemistry_primary(std::ostringstream &chemistry_dat)
+void cxxISolution::ORCH_write_chemistry_primary(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* The primary species" << std::endl;
   //
@@ -535,7 +536,7 @@ void cxxISolution::ORCH_write_chemistry_primary(std::ostringstream &chemistry_da
   chemistry_dat << std::endl;
 }
 
-void cxxISolution::ORCH_write_chemistry_total_O_H(std::ostringstream &chemistry_dat)
+void cxxISolution::ORCH_write_chemistry_total_O_H(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* Define total hydrogen and oxygen" << std::endl;
   // Define total hydrogen, total oxygen, and difference
@@ -587,7 +588,7 @@ void cxxISolution::ORCH_write_chemistry_total_O_H(std::ostringstream &chemistry_
   chemistry_dat << std::endl;
 }
 
-void cxxISolution::ORCH_write_chemistry_alkalinity(std::ostringstream &chemistry_dat)
+void cxxISolution::ORCH_write_chemistry_alkalinity(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* Alkalinity definitions" << std::endl;
   //
@@ -655,7 +656,7 @@ void cxxISolution::ORCH_write_chemistry_alkalinity(std::ostringstream &chemistry
     }
   }
 }
-void cxxISolution::ORCH_write_chemistry_species(std::ostringstream &chemistry_dat)
+void cxxISolution::ORCH_write_chemistry_species(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* Aqueous species" << std::endl;
   //
@@ -690,7 +691,7 @@ void cxxISolution::ORCH_write_chemistry_species(std::ostringstream &chemistry_da
   }
   chemistry_dat << std::endl;
 }
-void cxxISolution::ORCH_write_chemistry_minerals(std::ostringstream &chemistry_dat)
+void cxxISolution::ORCH_write_chemistry_minerals(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* Adjustments to mineral equilibrium" << std::endl;
 //
@@ -731,7 +732,7 @@ void cxxISolution::ORCH_write_chemistry_minerals(std::ostringstream &chemistry_d
     }
   }
 }
-void cxxISolution::ORCH_write_input(std::ostringstream &input_dat)
+void cxxISolution::ORCH_write_input(std::ostream &input_dat)
 {
 
 
@@ -749,6 +750,8 @@ void cxxISolution::ORCH_write_input(std::ostringstream &input_dat)
   //s_oss << "SOLUTION_RAW       " << this->n_user  << " " << this->description << std::endl;
 
   //s_oss << "-temp              " << this->tc << std::endl;
+  headings << "tempc\t";
+  data   << this->tc << "\t";
 
   //s_oss << "-pH                " << this->ph << std::endl;
   headings << "pH\t";
@@ -847,18 +850,39 @@ void cxxISolution::ORCH_write_input(std::ostringstream &input_dat)
   return;
 }
 
-void cxxISolution::ORCH_write_output(std::ostringstream &outstream)
+void cxxISolution::ORCH_write_output(std::ostream &outstream)
 {
   outstream << "Var:";
   outstream << "\tnr_iter";
   //
-  //  Write total concentrations in solution
+  //  Serialize solution
   //
+  outstream << "\tstart_solution";
+  //tc
+  outstream << "\ttempc";
+  //pH
+  outstream << "\tpH";
+  //pe
+  outstream << "\tpe";
+  //mu
+  outstream << "\tI";
+  //ah2o
+  outstream << "\tH2O.act";
+  //total_h;
+  outstream << "\ttotal_hydrogen";
+  //total_o;
+  outstream << "\ttotal_oxygen";
+  //cb
+  outstream << "\tchargebalance";
+  //mass_water;
   outstream << "\tH2O.diss";
-  outstream << "\te-.diss";
+  //total_alkalinity;
+  outstream << "\tAlkalinity";
+  //orchestra master variables
   outstream << "\tH+.diss";
-  std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin();
-  for(; iter != this->comps.end(); ++iter)
+  outstream << "\te-.diss";
+  //totals 
+  for(std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin(); iter != this->comps.end(); ++iter)
   {
     std::string name(iter->second.get_description());
     if (name == "H(1)" || name == "E" || name == "Alkalinity") continue;
@@ -871,8 +895,21 @@ void cxxISolution::ORCH_write_output(std::ostringstream &outstream)
     assert(s_ptr != NULL);
     outstream << "\t" << s_ptr->name << ".diss";
   }
-  outstream << "\tchargebalance";
-  outstream<< "\tI";
+  outstream << "\tend_totals";
+  for(std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin(); iter != this->comps.end(); ++iter)
+  {
+    std::string name(iter->second.get_description());
+    if (name == "H(1)" || name == "E" || name == "Alkalinity") continue;
+    struct element *elt;
+    char *element_name = string_hsave(name.c_str());
+    elt = element_store(element_name);
+    assert(elt != NULL);
+    struct species *s_ptr;
+    s_ptr = elt->master->s;
+    assert(s_ptr != NULL);
+    outstream << "\t" << s_ptr->name << ".act";
+  }
+  outstream << "\tend_master_activities";
   //
   // Write all species activities and concentrations
   //
@@ -883,6 +920,89 @@ void cxxISolution::ORCH_write_output(std::ostringstream &outstream)
     std::replace(name.begin(), name.end(), ')', ']');
     outstream << "\t" << name.c_str() << ".act" << "\t" << name.c_str() << ".con";
   }
+  outstream << "\tend_species";
   outstream << std::endl;
   return;
+}
+/* ---------------------------------------------------------------------- */
+int
+initial_solutions (int print)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Go through list of solutions, make initial solution calculations
+ *   for any marked "new".
+ */
+  int i, converge, converge1;
+  int n, last, n_user, print1;
+  char token[2 * MAX_LENGTH];
+
+  state = INITIAL_SOLUTION;
+  set_use ();
+  for (n = 0; n < count_solution; n++)
+  {
+    initial_solution_isotopes = FALSE;
+    if (solution[n] != NULL && solution[n]->new_def == TRUE)
+    {
+      if (print1 == TRUE && print == TRUE)
+      {
+	dup_print ("Beginning of initial solution calculations.", TRUE);
+	print1 = FALSE;
+      }
+      if (print == TRUE)
+      {
+	sprintf (token, "Initial solution %d.\t%.350s", solution[n]->n_user,
+		 solution[n]->description);
+	dup_print (token, FALSE);
+      }
+      use.solution_ptr = solution[n];
+      prep ();
+      k_temp (solution[n]->tc);
+      set (TRUE);
+      converge = model ();
+      if (converge == ERROR && diagonal_scale == FALSE)
+      {
+	diagonal_scale = TRUE;
+	set (TRUE);
+	converge = model ();
+	diagonal_scale = FALSE;
+      }
+      converge1 = check_residuals ();
+      sum_species ();
+      add_isotopes (solution[n]);
+      punch_all ();
+      print_all ();
+      /* free_model_allocs(); */
+      if (converge == ERROR || converge1 == ERROR)
+      {
+	error_msg ("Model failed to converge for initial solution.", STOP);
+      }
+      n_user = solution[n]->n_user;
+      last = solution[n]->n_user_end;
+      /* copy isotope data */
+      if (solution[n]->count_isotopes > 0)
+      {
+	count_isotopes_x = solution[n]->count_isotopes;
+	isotopes_x =
+	  (struct isotope *) PHRQ_realloc (isotopes_x,
+					   (size_t) count_isotopes_x *
+					   sizeof (struct isotope));
+	if (isotopes_x == NULL)
+	  malloc_error ();
+	memcpy (isotopes_x, solution[n]->isotopes,
+		(size_t) count_isotopes_x * sizeof (struct isotope));
+      }
+      else
+      {
+	count_isotopes_x = 0;
+      }
+      xsolution_save (n_user);
+      for (i = n_user + 1; i <= last; i++)
+      {
+	solution_duplicate (n_user, i);
+      }
+    }
+  }
+  initial_solution_isotopes = FALSE;
+  return (OK);
 }

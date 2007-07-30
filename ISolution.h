@@ -41,9 +41,9 @@ public:
         //void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void ConvertUnits();
-	void ORCH_write_chemistry(std::ostringstream &chemistry_dat);
-	void ORCH_write_input(std::ostringstream &input_dat);
-	void ORCH_write_output(std::ostringstream &input_dat);
+	void ORCH_write_chemistry(std::ostream &chemistry_dat);
+	void ORCH_write_input(std::ostream &input_dat);
+	void ORCH_write_output(std::ostream &input_dat);
 	void print();
 protected:
         friend class cxxISolutionComp; // for this->pe access
@@ -57,12 +57,12 @@ public:
         //static std::map<int, cxxISolution>& map;
 
 private:
-  void ORCH_write_chemistry_water(std::ostringstream &chemistry_dat);
-  void ORCH_write_chemistry_primary(std::ostringstream &chemistry_dat);
-  void ORCH_write_chemistry_total_O_H(std::ostringstream &chemistry_dat);
-  void ORCH_write_chemistry_alkalinity(std::ostringstream &chemistry_dat);
-  void ORCH_write_chemistry_species(std::ostringstream &chemistry_dat);
-  void ORCH_write_chemistry_minerals(std::ostringstream &chemistry_dat);
+  void ORCH_write_chemistry_water(std::ostream &chemistry_dat);
+  void ORCH_write_chemistry_primary(std::ostream &chemistry_dat);
+  void ORCH_write_chemistry_total_O_H(std::ostream &chemistry_dat);
+  void ORCH_write_chemistry_alkalinity(std::ostream &chemistry_dat);
+  void ORCH_write_chemistry_species(std::ostream &chemistry_dat);
+  void ORCH_write_chemistry_minerals(std::ostream &chemistry_dat);
 };
 
 #endif // !defined(ISOLUTION_H_INCLUDED)

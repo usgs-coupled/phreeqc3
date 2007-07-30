@@ -343,8 +343,8 @@ void cxxSolution::dump_xml(std::ostream& s_oss, unsigned int indent)const
 
         s_oss << indent1;
         s_oss << "soln_total_o=\"" << this->total_o << "\"" << std::endl;
-
-        s_oss << indent1;
+	
+	s_oss << indent1;
         s_oss << "soln_cb=\"" << this->cb << "\"" << std::endl;
 
         s_oss << indent1;
@@ -446,7 +446,7 @@ void cxxSolution::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent1;
         s_oss << "-total_o           " << this->total_o << std::endl;
 
-        // new identifier
+	// new identifier
         s_oss << indent1;
         s_oss << "-cb                " << this->cb << std::endl;
 
@@ -819,7 +819,8 @@ void cxxSolution::read_raw(CParser& parser)
                         break;
 
                 }
-                if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
+           
+		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
         // all members must be defined
         if (tc_defined == false) {
@@ -862,7 +863,7 @@ void cxxSolution::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Total alkalinity not defined for SOLUTION_RAW input.", CParser::OT_CONTINUE);
         }
-        return;
+	return;
 }
 
 void cxxSolution::zero()
@@ -962,6 +963,79 @@ double cxxSolution::get_master_activity(char *string)const
 	} else {
 		return(it->second);
 	}
+}
+void cxxSolution::read_orchestra(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it)
+{
+  this->tc = it->second; it++;
+  this->ph = it->second; it++;
+  this->pe = it->second; it++;
+  this->mu = it->second; it++;
+  this->ah2o = it->second; it++;
+  this->total_h = it->second; it++;
+  this->total_o = it->second; it++;
+  this->cb = it->second; it++;
+  this->mass_water = it->second * gfw_water; it++;
+  this->total_alkalinity = it->second; it++;
+  it++; //orch total H+
+  it++; //orch total e-
+  //cxxNameDouble totals;
+  char token[MAX_LENGTH];
+  while (it->first.compare("end_totals") != 0) 
+  {
+    strcpy(token, it->first.c_str());
+    replace(".diss","",token);
+    struct species *s_ptr = s_search(token);
+    if (s_ptr == NULL) error_msg("Species not found in orchestra read", STOP);
+    if (s_ptr->secondary != NULL) 
+    {
+      this->totals[s_ptr->secondary->elt->name] = it->second;
+    } else if (s_ptr->primary != NULL)
+    {
+      this->totals[s_ptr->primary->elt->name] = it->second;
+    } else 
+    {
+      error_msg("Species not secondary or primary master species in orchestra read", STOP);
+    }
+    it++;
+  }
+  //cxxNameDouble master_activity;
+  it++;
+  while (it->first.compare("end_master_activities") != 0) 
+  {
+    strcpy(token, it->first.c_str());
+    replace(".act","",token);
+    struct species *s_ptr = s_search(token);
+    if (s_ptr == NULL) error_msg("Species not found in orchestra read", STOP);
+    if (s_ptr->secondary != NULL) 
+    {
+      this->master_activity[s_ptr->secondary->elt->name] = log10(it->second);
+    } else if (s_ptr->primary != NULL)
+    {
+      this->master_activity[s_ptr->primary->elt->name] = log10(it->second);
+    } else 
+    {
+      error_msg("Species not secondary or primary master species in orchestra read", STOP);
+    }
+    it++;
+  }
+  //cxxNameDouble species_gamma;
+  //cxxSolutionIsotopeList isotopes;
+  //
+  // Also process aqueous species data
+  //
+  it++;
+  while (it->first.compare("end_species") != 0) 
+  {
+    strcpy(token, it->first.c_str());
+    replace(".act","",token);
+    while (replace("[","(", token));
+    while (replace("]",")", token));
+    struct species *s_ptr = s_search(token);
+    if (s_ptr == NULL) error_msg("Species not found in orchestra read", STOP);
+    s_ptr->la = log10(it->second);    it++;
+    s_ptr->lm = log10(it->second);    it++;
+    s_ptr->lg = s_ptr->la - s_ptr->lm;
+  }
 }
 #ifdef USE_MPI
 #include <mpi.h>

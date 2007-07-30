@@ -84,6 +84,7 @@ public:
 
         void read_raw(CParser& parser);
 	void multiply(double extensive);
+	void read_orchestra(std::vector <std::pair <std::string, double>> output_vector, std::vector < std::pair < std::string, double > >::iterator &it);
 
 
 #ifdef USE_MPI
