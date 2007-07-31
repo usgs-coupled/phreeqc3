@@ -788,7 +788,11 @@ void cxxISolution::ORCH_write_input(std::ostream &input_dat)
     master_ptr = master_bsearch (iter->first);
     assert (master_ptr != NULL);
     std::string ename(iter->first);
-
+    double coef = master_ptr->coef;
+    if (master_ptr->coef == 0) 
+    {
+      coef = 1;
+    }
     if (ename != "Alkalinity") 
     {
       ename = master_ptr->s->name;
@@ -798,14 +802,14 @@ void cxxISolution::ORCH_write_input(std::ostream &input_dat)
     if (iter->second.get_equation_name() == NULL) 
     {
       headings << ename  << "\t";
-      data << (this->totals.find(iter->first))->second << "\t";
+      data << (this->totals.find(iter->first))->second / coef << "\t";
     } else
     {
       std::string name(iter->second.get_equation_name());
       if (name == "charge") 
       {
 	headings << ename << "\t";
-	data << (this->totals.find(iter->first))->second << "\t";
+	data << (this->totals.find(iter->first))->second /coef << "\t";
       } else
       {
 	int n;
@@ -924,85 +928,31 @@ void cxxISolution::ORCH_write_output(std::ostream &outstream)
   outstream << std::endl;
   return;
 }
-/* ---------------------------------------------------------------------- */
-int
-initial_solutions (int print)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Go through list of solutions, make initial solution calculations
- *   for any marked "new".
- */
-  int i, converge, converge1;
-  int n, last, n_user, print1;
-  char token[2 * MAX_LENGTH];
 
-  state = INITIAL_SOLUTION;
-  set_use ();
-  for (n = 0; n < count_solution; n++)
+void cxxISolution::ORCH_store_global(std::map < std::string, double > output_map)
+{
+  int i;
+  tc_x = this->tc;
+  mass_water_aq_x = this->mass_water;
+  mu_x = this->mu;
+  s_h2o->moles = output_map["H2O.con"];
+  s_h2o->la = log10(output_map["H2O.act"]);
+  s_h2o->lm = s_h2o->la;
+  s_h2o->lg = 0;
+  for (i = 0; i < count_unknowns; i++)
   {
-    initial_solution_isotopes = FALSE;
-    if (solution[n] != NULL && solution[n]->new_def == TRUE)
+    residual[i] = 0;
+    // MB, ALK, CB, SOLUTION_PHASE_BOUNDARY, MU, AH2O
+    switch (x[i]->type)
     {
-      if (print1 == TRUE && print == TRUE)
-      {
-	dup_print ("Beginning of initial solution calculations.", TRUE);
-	print1 = FALSE;
-      }
-      if (print == TRUE)
-      {
-	sprintf (token, "Initial solution %d.\t%.350s", solution[n]->n_user,
-		 solution[n]->description);
-	dup_print (token, FALSE);
-      }
-      use.solution_ptr = solution[n];
-      prep ();
-      k_temp (solution[n]->tc);
-      set (TRUE);
-      converge = model ();
-      if (converge == ERROR && diagonal_scale == FALSE)
-      {
-	diagonal_scale = TRUE;
-	set (TRUE);
-	converge = model ();
-	diagonal_scale = FALSE;
-      }
-      converge1 = check_residuals ();
-      sum_species ();
-      add_isotopes (solution[n]);
-      punch_all ();
-      print_all ();
-      /* free_model_allocs(); */
-      if (converge == ERROR || converge1 == ERROR)
-      {
-	error_msg ("Model failed to converge for initial solution.", STOP);
-      }
-      n_user = solution[n]->n_user;
-      last = solution[n]->n_user_end;
-      /* copy isotope data */
-      if (solution[n]->count_isotopes > 0)
-      {
-	count_isotopes_x = solution[n]->count_isotopes;
-	isotopes_x =
-	  (struct isotope *) PHRQ_realloc (isotopes_x,
-					   (size_t) count_isotopes_x *
-					   sizeof (struct isotope));
-	if (isotopes_x == NULL)
-	  malloc_error ();
-	memcpy (isotopes_x, solution[n]->isotopes,
-		(size_t) count_isotopes_x * sizeof (struct isotope));
-      }
-      else
-      {
-	count_isotopes_x = 0;
-      }
-      xsolution_save (n_user);
-      for (i = n_user + 1; i <= last; i++)
-      {
-	solution_duplicate (n_user, i);
-      }
+      case MB:
+      case CB:
+      case SOLUTION_PHASE_BOUNDARY:
+	x[i]->sum = this->totals[x[i]->description]*mass_water_aq_x;
+	break;
+      case ALK:
+	x[i]->f = this->total_alkalinity*mass_water_aq_x;
+	break;
     }
   }
-  initial_solution_isotopes = FALSE;
-  return (OK);
 }

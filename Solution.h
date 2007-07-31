@@ -80,11 +80,11 @@ public:
         struct solution *cxxSolution2solution();
 
 	void dump_raw(std::ostream& s_oss, unsigned int indent)const;
-	void write_orchestra(std::ostream& headings, std::ostream& input_data)const;
 
         void read_raw(CParser& parser);
 	void multiply(double extensive);
-	void read_orchestra(std::vector <std::pair <std::string, double>> output_vector, std::vector < std::pair < std::string, double > >::iterator &it);
+	void ORCH_write(std::ostream& headings, std::ostream& input_data)const;
+	void ORCH_read(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it);
 
 
 #ifdef USE_MPI
