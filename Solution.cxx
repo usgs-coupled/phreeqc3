@@ -506,7 +506,7 @@ void cxxSolution::dump_raw(std::ostream& s_oss, unsigned int indent)const
 
         return;
 }
-void cxxSolution::write_orchestra(std::ostream& headings, std::ostream& data)const
+void cxxSolution::ORCH_write(std::ostream& headings, std::ostream& data)const
 {
 
   data.precision(DBL_DIG - 1);
@@ -964,7 +964,7 @@ double cxxSolution::get_master_activity(char *string)const
 		return(it->second);
 	}
 }
-void cxxSolution::read_orchestra(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it)
+void cxxSolution::ORCH_read(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it)
 {
   this->tc = it->second; it++;
   this->ph = it->second; it++;
@@ -1033,6 +1033,7 @@ void cxxSolution::read_orchestra(std::vector <std::pair <std::string, double> > 
     struct species *s_ptr = s_search(token);
     if (s_ptr == NULL) error_msg("Species not found in orchestra read", STOP);
     s_ptr->la = log10(it->second);    it++;
+    s_ptr->moles = it->second * this->mass_water;
     s_ptr->lm = log10(it->second);    it++;
     s_ptr->lg = s_ptr->la - s_ptr->lm;
   }
