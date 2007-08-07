@@ -964,6 +964,7 @@ double cxxSolution::get_master_activity(char *string)const
 		return(it->second);
 	}
 }
+
 void cxxSolution::ORCH_read(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it)
 {
   this->tc = it->second; it++;
@@ -1038,6 +1039,35 @@ void cxxSolution::ORCH_read(std::vector <std::pair <std::string, double> > outpu
     s_ptr->lg = s_ptr->la - s_ptr->lm;
   }
 }
+
+void cxxSolution::ORCH_store_global(std::map < std::string, double > output_map)
+{
+  int i;
+  tc_x = this->tc;
+  mass_water_aq_x = this->mass_water;
+  mu_x = this->mu;
+  s_h2o->moles = output_map["H2O.con"];
+  s_h2o->la = log10(output_map["H2O.act"]);
+  s_h2o->lm = s_h2o->la;
+  s_h2o->lg = 0;
+  for (i = 0; i < count_unknowns; i++)
+  {
+    residual[i] = 0;
+    // MB, ALK, CB, SOLUTION_PHASE_BOUNDARY, MU, AH2O
+    switch (x[i]->type)
+    {
+      case MB:
+      case CB:
+      case SOLUTION_PHASE_BOUNDARY:
+	x[i]->sum = this->totals[x[i]->description]*mass_water_aq_x;
+	break;
+      case ALK:
+	x[i]->f = this->total_alkalinity*mass_water_aq_x;
+	break;
+    }
+  }
+}
+
 #ifdef USE_MPI
 #include <mpi.h>
 /* ---------------------------------------------------------------------- */

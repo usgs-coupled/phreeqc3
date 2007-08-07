@@ -43,8 +43,7 @@ public:
 	void ConvertUnits();
 	void ORCH_write_chemistry(std::ostream &chemistry_dat);
 	void ORCH_write_input(std::ostream &input_dat);
-	void ORCH_write_output(std::ostream &input_dat);
-	void ORCH_store_global(std::map < std::string, double > output_map);
+	void ORCH_write_output_vars(std::ostream &input_dat);
 
 protected:
         friend class cxxISolutionComp; // for this->pe access
