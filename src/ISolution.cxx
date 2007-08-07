@@ -731,6 +731,8 @@ void cxxISolution::ORCH_write_chemistry_minerals(std::ostream &chemistry_dat)
       }
     }
   }
+  //chemistry_dat << "@mineral(Quartz)" << std::endl;
+  //chemistry_dat << "@sreaction(Quartz, 10139.1138573668, -2.0, H2O, 1.0, H4SiO4)" << std::endl;
 }
 void cxxISolution::ORCH_write_input(std::ostream &input_dat)
 {
@@ -854,7 +856,7 @@ void cxxISolution::ORCH_write_input(std::ostream &input_dat)
   return;
 }
 
-void cxxISolution::ORCH_write_output(std::ostream &outstream)
+void cxxISolution::ORCH_write_output_vars(std::ostream &outstream)
 {
   outstream << "Var:";
   outstream << "\tnr_iter";
@@ -927,32 +929,4 @@ void cxxISolution::ORCH_write_output(std::ostream &outstream)
   outstream << "\tend_species";
   outstream << std::endl;
   return;
-}
-
-void cxxISolution::ORCH_store_global(std::map < std::string, double > output_map)
-{
-  int i;
-  tc_x = this->tc;
-  mass_water_aq_x = this->mass_water;
-  mu_x = this->mu;
-  s_h2o->moles = output_map["H2O.con"];
-  s_h2o->la = log10(output_map["H2O.act"]);
-  s_h2o->lm = s_h2o->la;
-  s_h2o->lg = 0;
-  for (i = 0; i < count_unknowns; i++)
-  {
-    residual[i] = 0;
-    // MB, ALK, CB, SOLUTION_PHASE_BOUNDARY, MU, AH2O
-    switch (x[i]->type)
-    {
-      case MB:
-      case CB:
-      case SOLUTION_PHASE_BOUNDARY:
-	x[i]->sum = this->totals[x[i]->description]*mass_water_aq_x;
-	break;
-      case ALK:
-	x[i]->f = this->total_alkalinity*mass_water_aq_x;
-	break;
-    }
-  }
 }
