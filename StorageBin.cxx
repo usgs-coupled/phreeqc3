@@ -9,7 +9,7 @@
 #include <iostream>     // std::cout std::cerr
 #include "Utils.h"   // define first
 #include "StorageBin.h"
-#include "Solution.h"
+#include "System.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -25,7 +25,73 @@ cxxStorageBin::cxxStorageBin()
 {
         // default constructor for cxxStorageBin 
 }
+cxxStorageBin::cxxStorageBin(struct Use *use_ptr)
+{
+  //Construct from use pointer
 
+  // Solution
+  if (use_ptr->solution_ptr != NULL)
+  {
+    cxxSolution entity(use_ptr->solution_ptr);
+    this->setSolution(use_ptr->n_solution_user, &entity);
+  }
+  // Exchange
+  if (use_ptr->exchange_ptr != NULL)
+  {
+    cxxExchange entity(use_ptr->exchange_ptr);
+    this->setExchange(use_ptr->n_exchange_user, &entity);
+  }	
+  // gas_phase
+  if (use_ptr->gas_phase_ptr != NULL)
+  {
+    cxxGasPhase entity(use_ptr->gas_phase_ptr);
+    this->setGasPhase(use_ptr->n_gas_phase_user, &entity);
+  }
+  // kinetics
+  if (use_ptr->kinetics_ptr != NULL)
+  {
+    cxxKinetics entity(use_ptr->kinetics_ptr);
+    this->setKinetics(use_ptr->n_kinetics_user, &entity);
+  }
+  // pp_assemblage
+  if (use_ptr->pp_assemblage_ptr != NULL)
+  {
+    cxxPPassemblage entity(use_ptr->pp_assemblage_ptr);
+    this->setPPassemblage(use_ptr->n_pp_assemblage_user, &entity);
+  }	
+  // s_s_assemblage
+  if (use_ptr->s_s_assemblage_ptr != NULL)
+  {
+    cxxSSassemblage entity(use_ptr->s_s_assemblage_ptr);
+    this->setSSassemblage(use_ptr->n_s_s_assemblage_user, &entity);
+  }	
+  // surface
+  if (use_ptr->surface_ptr != NULL)
+  {
+    cxxSurface entity(use_ptr->surface_ptr);
+    this->setSurface(use_ptr->n_surface_user, &entity);
+  }	
+  // mix
+  if (use_ptr->mix_ptr != NULL)
+  {
+    cxxMix entity(use_ptr->mix_ptr);
+    this->setMix(use_ptr->n_mix_user, &entity);
+  }	
+  // reaction
+  if (use_ptr->irrev_ptr != NULL)
+  {
+    cxxReaction entity(use_ptr->irrev_ptr);
+    this->setReaction(use_ptr->n_irrev_user, &entity);
+  }	
+  // reaction temperature
+  if (use_ptr->temperature_ptr != NULL)
+  {
+    cxxTemperature entity(use_ptr->temperature_ptr);
+    this->setTemperature(use_ptr->n_temperature_user, &entity);
+  }
+  // set system
+  this->setSystem(use_ptr);
+}
 cxxStorageBin::~cxxStorageBin()
 {
 }
@@ -917,3 +983,107 @@ cxxExchange *cxxStorageBin::mix_cxxExchange(cxxMix &mixmap)
 	return(new_exch_ptr);
 }
 #endif
+
+void cxxStorageBin::ORCH_write(std::ostream &chemistry_dat, std::ostream &input_dat, std::ostream &output_dat)
+{
+  //std::ostringstream oss;
+
+  // Liter concentrations
+  this->system.ORCH_write(chemistry_dat, input_dat, output_dat);
+
+}
+void cxxStorageBin::setSystem(struct Use *use_ptr)
+{
+  // Initialize
+  this->system.Initialize();
+  // Solution
+  if (use_ptr->solution_ptr != NULL)
+  {
+    std::map <int, cxxSolution>::iterator it = this->Solutions.find(use_ptr->n_solution_user);
+    if (it != this->Solutions.end())
+    {
+      this->system.setSolution(&(it->second));
+    }
+  }
+  // Exchange
+  if (use_ptr->exchange_ptr != NULL)
+  {
+    std::map <int, cxxExchange>::iterator it = this->Exchangers.find(use_ptr->n_exchange_user);
+    if (it != this->Exchangers.end())
+    {
+      this->system.setExchange(&(it->second));
+    }
+   }	
+  // gas_phase
+  if (use_ptr->gas_phase_ptr != NULL)
+  {
+    std::map <int, cxxGasPhase>::iterator it = this->GasPhases.find(use_ptr->n_gas_phase_user);
+    if (it != this->GasPhases.end())
+    {
+      this->system.setGasPhase(&(it->second));
+    }
+  }
+  // kinetics
+  if (use_ptr->kinetics_ptr != NULL)
+  {
+    std::map <int, cxxKinetics>::iterator it = this->Kinetics.find(use_ptr->n_kinetics_user);
+    if (it != this->Kinetics.end())
+    {
+      this->system.setKinetics(&(it->second));
+    }
+  }
+  // pp_assemblage
+  if (use_ptr->pp_assemblage_ptr != NULL)
+  {
+    std::map <int, cxxPPassemblage>::iterator it = this->PPassemblages.find(use_ptr->n_pp_assemblage_user);
+    if (it != this->PPassemblages.end())
+    {
+      this->system.setPPassemblage(&(it->second));
+    }
+  }	
+  // s_s_assemblage
+  if (use_ptr->s_s_assemblage_ptr != NULL)
+  {
+    std::map <int, cxxSSassemblage>::iterator it = this->SSassemblages.find(use_ptr->n_s_s_assemblage_user);
+    if (it != this->SSassemblages.end())
+    {
+      this->system.setSSassemblage(&(it->second));
+    }
+  }	
+  // surface
+  if (use_ptr->surface_ptr != NULL)
+  {
+    std::map <int, cxxSurface>::iterator it = this->Surfaces.find(use_ptr->n_surface_user);
+    if (it != this->Surfaces.end())
+    {
+      this->system.setSurface(&(it->second));
+    }
+  }	
+  // mix
+  if (use_ptr->mix_ptr != NULL)
+  {
+    std::map <int, cxxMix>::iterator it = this->Mixes.find(use_ptr->n_mix_user);
+    if (it != this->Mixes.end())
+    {
+      this->system.setMix(&(it->second));
+    }
+  }	
+  // reaction
+  if (use_ptr->irrev_ptr != NULL)
+  {
+    std::map <int, cxxReaction>::iterator it = this->Reactions.find(use_ptr->n_irrev_user);
+    if (it != this->Reactions.end())
+    {
+      this->system.setReaction(&(it->second));
+    }
+  }	
+  // reaction temperature
+  if (use_ptr->temperature_ptr != NULL)
+  {
+    std::map <int, cxxTemperature>::iterator it = this->Temperatures.find(use_ptr->n_temperature_user);
+    if (it != this->Temperatures.end())
+    {
+      this->system.setTemperature(&(it->second));
+    }
+  }
+}

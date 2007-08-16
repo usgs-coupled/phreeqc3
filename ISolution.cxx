@@ -16,7 +16,7 @@
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 #include <sstream>
-
+extern void ORCH_write_chemistry_species(std::ostream &chemistry_dat);
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -426,7 +426,7 @@ void cxxISolution::ORCH_write_chemistry(std::ostream &chemistry_dat)
   this->ORCH_write_chemistry_primary(chemistry_dat);
   this->ORCH_write_chemistry_total_O_H(chemistry_dat);
   this->ORCH_write_chemistry_alkalinity(chemistry_dat);
-  this->ORCH_write_chemistry_species(chemistry_dat);
+  ORCH_write_chemistry_species(chemistry_dat);
   this->ORCH_write_chemistry_minerals(chemistry_dat);
 }
 
@@ -587,7 +587,6 @@ void cxxISolution::ORCH_write_chemistry_total_O_H(std::ostream &chemistry_dat)
   chemistry_dat << "\")" << std::endl;
   chemistry_dat << std::endl;
 }
-
 void cxxISolution::ORCH_write_chemistry_alkalinity(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* Alkalinity definitions" << std::endl;
@@ -656,41 +655,7 @@ void cxxISolution::ORCH_write_chemistry_alkalinity(std::ostream &chemistry_dat)
     }
   }
 }
-void cxxISolution::ORCH_write_chemistry_species(std::ostream &chemistry_dat)
-{
-  chemistry_dat << std::endl << "//********* Aqueous species" << std::endl;
-  //
-  //  Write species definitions 
-  //
-  for (int i = 0; i < count_s_x; i++) {
-    if (s_x[i]->primary != NULL) continue;
-    if (s_x[i]->secondary != NULL && s_x[i]->secondary->in == TRUE) continue;
 
-    // write species
-    std::string name(s_x[i]->name);
-    std::replace(name.begin(), name.end(), '(', '[');
-    std::replace(name.begin(), name.end(), ')', ']');
-    chemistry_dat << "@species(" << name.c_str() << ", " << s_x[i]->z << ")" << std::endl;
-
-    // write reaction
-    chemistry_dat << "@reaction(" << name.c_str() << ", " << pow(10.0,  s_x[i]->lk);
-    struct rxn_token *next_token = s_x[i]->rxn_x->token;
-    next_token++;
-    while (next_token->s != NULL || next_token->name != NULL)
-    {
-      chemistry_dat << ", " << next_token->coef;
-      if (next_token->s != NULL)
-      {
-	chemistry_dat << ", " << next_token->s->name;
-      } else {
-	chemistry_dat << ", " << next_token->name;
-      }
-      next_token++;
-    }
-    chemistry_dat << ")" << std::endl;
-  }
-  chemistry_dat << std::endl;
-}
 void cxxISolution::ORCH_write_chemistry_minerals(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* Adjustments to mineral equilibrium" << std::endl;
@@ -881,12 +846,13 @@ void cxxISolution::ORCH_write_output_vars(std::ostream &outstream)
   //cb
   outstream << "\tchargebalance";
   //mass_water;
-  outstream << "\tH2O.diss";
+  outstream << "\tH2O.con";
   //total_alkalinity;
   outstream << "\tAlkalinity";
   //orchestra master variables
   outstream << "\tH+.diss";
   outstream << "\te-.diss";
+  outstream << "\tH2O.diss";
   //totals 
   for(std::map<char *, cxxISolutionComp, CHARSTAR_LESS>::iterator iter = this->comps.begin(); iter != this->comps.end(); ++iter)
   {
@@ -930,3 +896,31 @@ void cxxISolution::ORCH_write_output_vars(std::ostream &outstream)
   outstream << std::endl;
   return;
 }
+void cxxISolution::ORCH_write(std::ostream &chemistry_dat, std::ostream &input_dat, std::ostream &output_dat)
+{
+  //
+  // Write orchestra chemistry file definition
+  //
+  chemistry_dat << std::endl << "// Write ORCHESTRA chemistry definitions" << std::endl;
+  // mark for Orchestra include 
+  chemistry_dat << std::endl << "@class: species_reactions () {" << std::endl;
+  this->ORCH_write_chemistry(chemistry_dat);
+  // end orchestra include block
+  chemistry_dat << std::endl << "}" << std::endl;
+  //
+  // Write orchestra input file definition
+  //
+  input_dat << std::endl << "@class: input_file_data () {" << std::endl;
+  this->ORCH_write_input(input_dat);
+  input_dat << std::endl << "}" << std::endl;
+
+  //
+  // Write orchestra output file definition
+  //
+  output_dat << std::endl << "Output_every: 1" << std::endl;
+  this->ORCH_write_output_vars(output_dat);
+
+  //write data to stderr
+  //std::cerr << chemistry_dat.str() << input_dat.str() << output_dat.str();
+
+} 

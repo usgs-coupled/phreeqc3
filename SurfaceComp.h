@@ -27,6 +27,8 @@ public:
         char *get_phase_name()const {return this->phase_name;}
         char *get_rate_name()const {return this->rate_name;}
         char *get_formula()const {return this->formula;}
+        double get_charge_balance()const        { return this->charge_balance;}
+        void   set_charge_balance(double d)     { this->charge_balance = d;}
 
         static struct surface_comp *cxxSurfaceComp2surface_comp(std::list<cxxSurfaceComp>& el);
 

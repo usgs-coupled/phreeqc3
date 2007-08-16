@@ -62,10 +62,11 @@ public:
 	double get_total_element(char *string)const;
 	void set_total(char *string, double value);
 
+	const cxxNameDouble& get_totals(void)const {return this->totals;}
 	void set_totals(cxxNameDouble &nd) {this->totals = nd; this->totals.type = cxxNameDouble::ND_ELT_MOLES;}
 	void clear_totals() {this->totals.clear();}
 
-
+	const cxxNameDouble& get_master_activity(void)const {return this->master_activity;}
 	double get_master_activity(char *string)const;
 	void set_master_activity(char *string, double value);
 
