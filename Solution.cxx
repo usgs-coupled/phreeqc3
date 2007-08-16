@@ -506,93 +506,6 @@ void cxxSolution::dump_raw(std::ostream& s_oss, unsigned int indent)const
 
         return;
 }
-void cxxSolution::ORCH_write(std::ostream& headings, std::ostream& data)const
-{
-
-  data.precision(DBL_DIG - 1);
-
-  // Solution element and attributes
-
-  //s_oss << "SOLUTION_RAW       " << this->n_user  << " " << this->description << std::endl;
-
-  //s_oss << "-temp              " << this->tc << std::endl;
-
-  //s_oss << "-pH                " << this->ph << std::endl;
-  headings << "pH\t";
-  data   << this->ph << "\t";
-
-  //s_oss << "-pe                " << this->pe << std::endl;
-  headings << "pe\t";
-  data   << this->pe << "\t";
-
-  //s_oss << "-mu                " << this->mu << std::endl;
-
-  //s_oss << "-ah2o              " << this->ah2o << std::endl;
-  headings << "H2O.act\t";
-  data   << 1 << "\t";
-  //s_oss << "-total_h           " << this->total_h << std::endl;
-
-  //s_oss << "-total_o           " << this->total_o << std::endl;
-
-  //s_oss << "-cb                " << this->cb << std::endl;
-
-  //s_oss << "-mass_water        " << this->mass_water << std::endl;
-
-  //s_oss << "-total_alkalinity  " << this->total_alkalinity << std::endl;
-
-  // soln_total conc structures
-  //this->totals.dump_raw(s_oss, indent + 2);
-  //this->totals.write_orchestra(headings, s_oss);
-  for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) 
-  {
-    std::string master_name;
-    struct master *master_ptr;
-    master_ptr = master_bsearch (it->first);
-    if (master_ptr != NULL) 
-    {
-      //headings << it->first << ".tot" << "\t";
-      headings << master_ptr->s->name << ".diss" << "\t";
-      data << it->second << "\t";
-    } else
-    {
-      assert(false);
-    }
-  }
-
-  // master_activity map
-  //this->master_activity.dump_raw(s_oss, indent + 2);
-  /*
-  {
-          for (std::map <char *, double>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
-                  s_oss << indent2;
-                  s_oss << it->first << "   " << it->second << std::endl;
-          }
-  }
-  */
-  // species_gamma map
-  //this->species_gamma.dump_raw(s_oss, indent + 2);
-  /*
-  {
-          {
-                  for (std::map <char *, double>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
-                          s_oss << indent2;
-                          s_oss << it->first << "   " << it->second << std::endl;
-                  }
-          }
-  }
-  */
-  // Isotopes
-  //s_oss << "-Isotopes" << std::endl;
-  /*
-  {
-          for (std::list<cxxSolutionIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
-                  it->dump_raw(s_oss, indent + 2);
-          }
-  }
-  */
-
-  return;
-}
 void cxxSolution::read_raw(CParser& parser)
 {
         static std::vector<std::string> vopts;
@@ -965,6 +878,95 @@ double cxxSolution::get_master_activity(char *string)const
 	}
 }
 
+#ifdef ORCHESTRA
+void cxxSolution::ORCH_write(std::ostream& headings, std::ostream& data)const
+{
+
+  data.precision(DBL_DIG - 1);
+
+  // Solution element and attributes
+
+  //s_oss << "SOLUTION_RAW       " << this->n_user  << " " << this->description << std::endl;
+
+  //s_oss << "-temp              " << this->tc << std::endl;
+
+  //s_oss << "-pH                " << this->ph << std::endl;
+  headings << "pH\t";
+  data   << this->ph << "\t";
+
+  //s_oss << "-pe                " << this->pe << std::endl;
+  headings << "pe\t";
+  data   << this->pe << "\t";
+
+  //s_oss << "-mu                " << this->mu << std::endl;
+
+  //s_oss << "-ah2o              " << this->ah2o << std::endl;
+  headings << "H2O.act\t";
+  data   << 1 << "\t";
+  //s_oss << "-total_h           " << this->total_h << std::endl;
+
+  //s_oss << "-total_o           " << this->total_o << std::endl;
+
+  //s_oss << "-cb                " << this->cb << std::endl;
+
+  //s_oss << "-mass_water        " << this->mass_water << std::endl;
+
+  //s_oss << "-total_alkalinity  " << this->total_alkalinity << std::endl;
+
+  // soln_total conc structures
+  //this->totals.dump_raw(s_oss, indent + 2);
+  //this->totals.write_orchestra(headings, s_oss);
+  for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) 
+  {
+    std::string master_name;
+    struct master *master_ptr;
+    master_ptr = master_bsearch (it->first);
+    if (master_ptr != NULL) 
+    {
+      //headings << it->first << ".tot" << "\t";
+      headings << master_ptr->s->name << ".diss" << "\t";
+      data << it->second << "\t";
+    } else
+    {
+      assert(false);
+    }
+  }
+
+  // master_activity map
+  //this->master_activity.dump_raw(s_oss, indent + 2);
+  /*
+  {
+          for (std::map <char *, double>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
+                  s_oss << indent2;
+                  s_oss << it->first << "   " << it->second << std::endl;
+          }
+  }
+  */
+  // species_gamma map
+  //this->species_gamma.dump_raw(s_oss, indent + 2);
+  /*
+  {
+          {
+                  for (std::map <char *, double>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
+                          s_oss << indent2;
+                          s_oss << it->first << "   " << it->second << std::endl;
+                  }
+          }
+  }
+  */
+  // Isotopes
+  //s_oss << "-Isotopes" << std::endl;
+  /*
+  {
+          for (std::list<cxxSolutionIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
+                  it->dump_raw(s_oss, indent + 2);
+          }
+  }
+  */
+
+  return;
+}
+
 void cxxSolution::ORCH_read(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it)
 {
   this->tc = it->second; it++;
@@ -1069,7 +1071,7 @@ void cxxSolution::ORCH_store_global(std::map < std::string, double > output_map)
     }
   }
 }
-
+#endif
 #ifdef USE_MPI
 #include <mpi.h>
 /* ---------------------------------------------------------------------- */

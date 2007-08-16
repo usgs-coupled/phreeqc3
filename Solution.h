@@ -84,9 +84,11 @@ public:
 
         void read_raw(CParser& parser);
 	void multiply(double extensive);
+#ifdef ORCHESTRA
 	void ORCH_write(std::ostream& headings, std::ostream& input_data)const;
 	void ORCH_read(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it);
 	void ORCH_store_global(std::map < std::string, double > output_map);
+#endif
 
 #ifdef USE_MPI
         void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);

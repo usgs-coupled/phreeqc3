@@ -285,6 +285,7 @@ void cxxPPassemblage::add(const cxxPPassemblage &addee, double extensive)
   //cxxNameDouble eltList;
   this->eltList.add_extensive(addee.eltList, extensive);
 }
+#ifdef ORCHESTRA
 void cxxPPassemblage::ORCH_write_chemistry(std::ostream &chemistry_dat)
 {
   chemistry_dat << std::endl << "//********* Mineral equilibria" << std::endl;
@@ -331,6 +332,7 @@ void cxxPPassemblage::ORCH_write_output_vars(std::ostream &outstream)
   }
   outstream << "\tend_ppassemblage";
 }
+
 void cxxPPassemblage::ORCH_read(std::vector <std::pair <std::string, double> > output_vector, std::vector < std::pair < std::string, double > >::iterator &it)
 {
   while (it->first.compare("end_ppassemblage") != 0) 
@@ -358,3 +360,4 @@ void cxxPPassemblage::ORCH_store_global(std::map < std::string, double > output_
     }
   }
 }
+#endif

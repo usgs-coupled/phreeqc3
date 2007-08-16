@@ -48,6 +48,7 @@ public:
     this->temperature = entity;
   }
   void totalize();
+#ifdef ORCHESTRA
   void ORCH_components();
   void ORCH_write(std::ostream &chemistry_dat, std::ostream &input_dat, std::ostream &output_dat);
   void ORCH_write_chemistry_water(std::ostream &chemistry_dat);
@@ -55,6 +56,7 @@ public:
   void ORCH_write_chemistry_total_O_H(std::ostream &chemistry_dat);
   void ORCH_write_output_vars(std::ostream &outstream);
   void ORCH_write_input(std::ostream &input_dat);
+#endif
 
 private:
   cxxSolution *solution;
