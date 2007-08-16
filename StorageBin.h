@@ -10,6 +10,7 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "Surface.h"
+#include "System.h"
 #include "cxxMix.h"
 #include "Reaction.h"
 #include "Temperature.h"
@@ -25,7 +26,7 @@ class cxxStorageBin
 
 public:
         cxxStorageBin();
-
+        cxxStorageBin(struct Use *use_ptr);
         ~cxxStorageBin();
 
         void import_phreeqc(void);
@@ -136,7 +137,51 @@ public:
 		Surfaces.erase(n_user);
 	}
 
-        void dump_raw(std::ostream& s_oss, unsigned int indent)const;
+	cxxMix *getMix(int n_user) { 
+		if (this->Mixes.find(n_user) != this->Mixes.end()) {
+			return(&(this->Mixes.find(n_user)->second));
+		} 
+		return (NULL);
+	}
+	void setMix(int n_user, cxxMix *entity) {
+	  if (entity == NULL) return;
+	  Mixes[n_user] = *entity;
+	}
+	void removeMix(int n_user) { 
+		Mixes.erase(n_user);
+	}
+
+ 	cxxReaction *getReaction(int n_user) { 
+		if (this->Reactions.find(n_user) != this->Reactions.end()) {
+			return(&(this->Reactions.find(n_user)->second));
+		} 
+		return (NULL);
+	}
+	void setReaction(int n_user, cxxReaction *entity) {
+	  if (entity == NULL) return;
+	  Reactions[n_user] = *entity;
+	}
+	void removeReaction(int n_user) { 
+		Reactions.erase(n_user);
+	}
+
+ 	cxxTemperature *getTemperature(int n_user) { 
+		if (this->Temperatures.find(n_user) != this->Temperatures.end()) {
+			return(&(this->Temperatures.find(n_user)->second));
+		} 
+		return (NULL);
+	}
+	void setTemperature(int n_user, cxxTemperature *entity) {
+	  if (entity == NULL) return;
+	  Temperatures[n_user] = *entity;
+	}
+	void removeTemperature(int n_user) { 
+		Temperatures.erase(n_user);
+	}
+
+	void setSystem(struct Use *use_ptr); 
+
+	void dump_raw(std::ostream& s_oss, unsigned int indent)const;
 
         void dump_raw(std::ostream& s_oss, int i, unsigned int indent);
 
@@ -161,7 +206,7 @@ public:
 	void mpi_send(int n, int task_number);
 	void mpi_recv(int task_number);
 #endif
-
+	void ORCH_write(std::ostream &chemistry_dat, std::ostream &input_dat, std::ostream &output_dat);
 protected:
 	// Tidied classes
 	std::map<int, cxxSolution>      Solutions;
@@ -180,7 +225,7 @@ protected:
 	std::map<int, cxxMix>           Mixes;
 	std::map<int, cxxReaction>      Reactions;
 	std::map<int, cxxTemperature>   Temperatures;
-
+	cxxSystem                       system;
 public:
         //static std::map<int, cxxStorageBin>& map;
 

@@ -680,6 +680,7 @@ void cxxSurface::totalize()
   for (std::list<cxxSurfaceComp>::const_iterator it = surfaceComps.begin(); it != surfaceComps.end(); ++it) 
   {
     this->totals.add_extensive(it->get_totals(), 1.0);
+    this->totals.add("Charge", it->get_charge_balance());
   }
   return;
 }
