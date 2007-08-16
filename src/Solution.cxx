@@ -976,9 +976,11 @@ void cxxSolution::ORCH_read(std::vector <std::pair <std::string, double> > outpu
   this->total_o = it->second; it++;
   this->cb = it->second; it++;
   this->mass_water = it->second * gfw_water; it++;
+  this->mass_water = 1.0;
   this->total_alkalinity = it->second; it++;
   it++; //orch total H+
   it++; //orch total e-
+  it++; //orch total H2O
   //cxxNameDouble totals;
   char token[MAX_LENGTH];
   while (it->first.compare("end_totals") != 0) 

@@ -406,6 +406,7 @@ void cxxExchange::totalize()
   for (std::list<cxxExchComp>::const_iterator it = exchComps.begin(); it != exchComps.end(); ++it) 
   {
     this->totals.add_extensive(it->get_totals(), 1.0);
+    this->totals.add("Charge", it->get_charge_balance());
   }
   return;
 }
