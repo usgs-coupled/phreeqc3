@@ -16,7 +16,9 @@
 #include <cassert>     // assert
 #include <algorithm>   // std::sort 
 #include <sstream>
+#ifdef ORCHESTRA
 extern void ORCH_write_chemistry_species(std::ostream &chemistry_dat);
+#endif
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -420,6 +422,7 @@ void cxxISolution::dump_xml(std::ostream& os, unsigned int indent)const
 }
 #endif
 
+#ifdef ORCHESTRA
 void cxxISolution::ORCH_write_chemistry(std::ostream &chemistry_dat)
 {
   this->ORCH_write_chemistry_water(chemistry_dat);
@@ -924,3 +927,4 @@ void cxxISolution::ORCH_write(std::ostream &chemistry_dat, std::ostream &input_d
   //std::cerr << chemistry_dat.str() << input_dat.str() << output_dat.str();
 
 } 
+#endif

@@ -984,6 +984,7 @@ cxxExchange *cxxStorageBin::mix_cxxExchange(cxxMix &mixmap)
 }
 #endif
 
+#ifdef ORCHESTRA
 void cxxStorageBin::ORCH_write(std::ostream &chemistry_dat, std::ostream &input_dat, std::ostream &output_dat)
 {
   //std::ostringstream oss;
@@ -992,6 +993,7 @@ void cxxStorageBin::ORCH_write(std::ostream &chemistry_dat, std::ostream &input_
   this->system.ORCH_write(chemistry_dat, input_dat, output_dat);
 
 }
+#endif
 void cxxStorageBin::setSystem(struct Use *use_ptr)
 {
   // Initialize
