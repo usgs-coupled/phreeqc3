@@ -79,6 +79,7 @@ void cxxSystem::totalize(void)
   //this->totals.dump_raw(std::cerr, 1);
   return;
 }
+#ifdef ORCHESTRA
 void cxxSystem::ORCH_write(std::ostream &chemistry_dat, std::ostream &input_dat, std::ostream &output_dat)
 {
   //
@@ -214,88 +215,6 @@ void cxxSystem::ORCH_write_chemistry_total_O_H(std::ostream &chemistry_dat)
   chemistry_dat << "\")" << std::endl;
   chemistry_dat << std::endl;
 }
-#ifdef SKIP
-void cxxSystem::ORCH_write_input(std::ostream &input_dat)
-{
-
-
-//
-//  Write orchestra input file info
-//
-  std::ostringstream headings, data;
-  data.precision(DBL_DIG - 1);
-  headings << "var:   ";
-  data << "data:  ";
-
-
-  headings << "tempc\t";
-  data   << this->solution->get_tc() << "\t";
-
-  headings << "pH\t";
-  data   << this->solution->get_ph() << "\t";
-
-  headings << "pe\t";
-  data   << this->solution->get_pe() << "\t";
-
-  headings << "H2O.act\t";
-  data   << 1 << "\t";
-
-  for (cxxNameDouble::iterator iter = this->totals.begin(); iter != this->totals.end(); ++iter) 
-  {
-    if (iter->first == "O") continue;
-    std::string master_name;
-    struct master *master_ptr;
-    master_ptr = master_bsearch (iter->first);
-    assert (master_ptr != NULL);
-    double coef = master_ptr->coef;
-    if (master_ptr->coef == 0) 
-    {
-      coef = 1;
-    }
-    if (iter->first == "H")
-    {
-      headings << "system_hydrogen"  << "\t";
-      data << iter->second << "\t";
-      continue;
-    } else
-    {
-      headings << master_ptr->s->name << ".liter"  << "\t";
-      data << iter->second / coef << "\t";
-    }
-
-    //  activity estimate
-    cxxNameDouble ma = this->solution->get_master_activity();
-    cxxNameDouble::iterator it = ma.find(iter->first);
-    if (it == ma.end())
-    {
-      it = ma.find(master_ptr->s->secondary->elt->name);
-    }
-    headings << master_ptr->s->name << ".act\t";
-    if (it != ma.end())
-    {
-      data << pow(10., it->second) << "\t";
-    } else
-    {
-      data << 1e-9 << "\t";
-    }
-  }
-  // Isotopes
-  //s_oss << "-Isotopes" << std::endl;
-  /*
-  {
-          for (std::list<cxxSolutionIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
-                  it->dump_raw(s_oss, indent + 2);
-          }
-  }
-  */
-
-  // Write data to string
-  input_dat << headings.str() << std::endl;
-  input_dat << data.str() << std::endl;
-
-  return;
-}
-#endif
 void cxxSystem::ORCH_write_input(std::ostream &input_dat)
 {
 
@@ -495,7 +414,6 @@ void cxxSystem::ORCH_write_output_vars(std::ostream &outstream)
   for (cxxNameDouble::iterator it = this->orch_totals.begin(); it != this->orch_totals.end(); it++)
   {
     if ( it->first == "H+" || it->first == "H2O" || it->first == "e-") continue;
-    struct species *s_ptr = s_search(it->first);
     outstream << "\t" << it->first << ".act";
   }
   outstream << "\tend_master_activities";
@@ -511,3 +429,4 @@ void cxxSystem::ORCH_write_output_vars(std::ostream &outstream)
   }
   outstream << "\tend_species";
 }
+#endif
