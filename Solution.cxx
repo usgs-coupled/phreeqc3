@@ -4,7 +4,10 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
-
+#ifdef USE_MPI
+//MPICH seems to require mpi.h to be first
+  #include <mpi.h>
+#endif
 #include "Utils.h"   // define first
 #include "Solution.h"
 #define EXTERNAL extern
@@ -1073,7 +1076,6 @@ void cxxSolution::ORCH_store_global(std::map < std::string, double > output_map)
 }
 #endif
 #ifdef USE_MPI
-#include <mpi.h>
 /* ---------------------------------------------------------------------- */
 void cxxSolution::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 /* ---------------------------------------------------------------------- */
