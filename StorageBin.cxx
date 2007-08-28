@@ -4,6 +4,10 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
 #endif
+#ifdef USE_MPI
+//MPICH seems to require mpi.h to be first
+  #include <mpi.h>
+#endif
 
 #include <fstream>
 #include <iostream>     // std::cout std::cerr
@@ -663,7 +667,6 @@ struct system *cxxStorageBin::cxxStorageBin2system(int n)
 	return system_ptr;
 }
 #ifdef USE_MPI
-#include <mpi.h>
 void cxxStorageBin::mpi_send(int n, int task_number)
 {
         //
