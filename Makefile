@@ -79,18 +79,16 @@ ifeq ($(CFG), RELEASE)
   INCLUDES     = -I../phreeqc
   CXX          = g++
   CXXFLAGS     = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
-  CXXFLAGS_MODEL = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
   OBJECT_FILES = $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
   LD_FLAGS     = -lm ${CL1MP_LIB} 
 endif
 
 ifeq ($(CFG), DEBUG)
-  DEFINES      = -DPHREEQC_CPP -DINVERSE_CL1MP
+  DEFINES      = -DPHREEQC_CPP -DINVERSE_CL1MP -DUSE_PHRQ_ALLOC
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc
   CXX          = g++
   CXXFLAGS     = -Wall -g $(DEFINES) $(INCLUDES)
-  CXXFLAGS_MODEL = -Wall -g $(DEFINES) $(INCLUDES)
   OBJECT_FILES = $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
   LD_FLAGS     = -lm ${CL1MP_LIB} 
 endif
@@ -355,7 +353,6 @@ mainsubs.o: ../phreeqc/mainsubs.c ../phreeqc/global.h \
   ../phreeqc/phrqproto.h ../phreeqc/input.h
 model.o: ../phreeqc/model.c ../phreeqc/global.h ../phreeqc/phrqtype.h \
   ../phreeqc/phqalloc.h ../phreeqc/output.h ../phreeqc/phrqproto.h
-	${CXX} ${CXXFLAGS_MODEL} -c -o $@ $<
 nvector.o: ../phreeqc/nvector.c ../phreeqc/nvector.h \
   ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/output.h
 nvector_serial.o: ../phreeqc/nvector_serial.c ../phreeqc/nvector_serial.h \
