@@ -17,6 +17,7 @@ all: alkalinity.out \
 	co2.out \
 	colloid_U.out \
 	comments.out \
+	de.out \
 	desc.out \
 	dissolve_only.out \
 	donly.out \
@@ -25,6 +26,7 @@ all: alkalinity.out \
 	deb1.out \
 	deb2.out \
 	debye1.out \
+	ddlsurf.out \
 	exch_related.out \
 	exch_related_pz.out \
 	exch_kin_related.out \
@@ -56,6 +58,9 @@ all: alkalinity.out \
 	llnl.out \
 	local_min_pz.out \
 	mahoney.out \
+	membrane.out \
+	mmb.out \
+	mmb2.out \
 	mu.out \
 	n3.out \
 	np.test.out \

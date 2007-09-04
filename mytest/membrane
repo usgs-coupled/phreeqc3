@@ -1,0 +1,39 @@
+DATABASE ../database/phreeqd.dat
+# diffusion of NaCl in clay membrane. Membrane opens up when DDL thickness reduces.
+KNOBS; -step_size 10; -pe_step_size 5; -iterations 1000
+SOLUTION 0; Na 500; Cl 500 # saline outer solution
+END
+SOLUTION 1-20; Na 1; Cl 1; water 0.02
+SOLUTION 21;  Na 1; Cl 1
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES; Su- = Su-; log_k 0
+
+SURFACE 1-20; Su 0.1 1.786e5 1; -equil 1
+ -donnan debye_length 1 limit_DDL 0.98 viscosity 1
+END
+PRINT; -reset false
+TRANSPORT; -cells 20; -length 1e-2; -shifts 1 0; -bcon 1 3; -time 2.592e5
+ -multi_d true 1e-9 1 0 1
+SELECTED_OUTPUT; -file mmbr.prn; -reset false
+USER_PUNCH
+ -head dist Na Cl aq_DDL pH
+ -start
+ 1 if step_no = 0 then goto 20
+ 10 punch dist, sys("Na"), sys("Cl"), edl("water"), -la("H+")
+ 20 end
+ -end
+END
+PRINT; -sel false
+SOLUTION 1-20; Na 1; Cl 1; water 0.02
+SOLUTION 21;  Na 1; Cl 1
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES; Su- = Su-; log_k 0
+
+SURFACE 1-20; Su 0.1 1.786e5 1; -equil 1
+ -donnan debye_length 1 limit_DDL 0.98 viscosity 1
+END
+PRINT; -sel true
+TRANSPORT
+ -shifts 1 0; -time 2.592e5 2
+END
+

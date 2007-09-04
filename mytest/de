@@ -1,0 +1,53 @@
+ SOLUTION_SPECIES
+  H2O + 0.01e- = H2O-0.01  # For program convergence
+  log_k  -9.0 
+ EQUILIBRIUM_PHASES 1-50   # Define sediment
+  Goethite 3.0  10.7e-3    # Goetite equilibrium, SI, moles (100 ppm Fe in solid)
+ SOLUTION 1-50             # Define groundwater, 50 cells
+  -temp 10
+  pH   7.0;  pe   0.0  Goethite 3.0
+  Ca   3;  C(4) 6 charge
+  Fe   0.1
+  Cl   1e-3                # Cl added as tracer
+END
+ EXCHANGE 1-50
+  X    0.06;  -equil 1
+ SURFACE  1-50
+  Hfo_w Goethite 0.2 5.3e4 # Coupled to Goethite, proportion, m2/mol
+  Hfo_s Goethite 1e-3      # Coupled to Goethite, proportion
+  -equil 1
+END
+ PRINT;  -reset false
+ SOLUTION 0                # Inject oxygenated water
+  -temp 10
+  pH   7.0;  pe  14.0  O2(g) -0.68
+  Ca   3;  C(4) 6 charge
+ TRANSPORT
+  -cells  15
+  -length 1                # Flowtube is 15 x 1 = 15 m.
+  -disp   0.1              # Dispersivity, m
+  -shifts 10 1             # Inject 10 m3
+  -time   8640             # 1 shift = 2.4 hours residence time
+  -punch_cells 1
+END
+ TRANSPORT                 # Pump  30 m3
+  -shifts 30  -1           # No of displacements, direction backward
+ SELECTED_OUTPUT; -file de.prn; -reset false
+ USER_PUNCH
+  -heading days Tracer Fe
+  -start
+   10 punch (sim_time + 4320)/(3600*24)
+   20 punch tot("Cl")*1e6, tot("Fe(2)")*5e4
+  -end
+END
+ SOLUTION 100                # Inject oxygenated water, 2nd cycle
+  -temp 10;  pH   7.0;  pe  14.0  O2(g) -0.68;  Ca   3;  C(4) 6 charge
+ TRANSPORT; -shifts 10 1; END
+ TRANSPORT; -shifts 30 -1
+END
+ SOLUTION 100                # Inject oxygenated water, 3rd cycle
+  -temp 10;  pH   7.0;  pe  14.0  O2(g) -0.68;  Ca   3;  C(4) 6 charge
+ TRANSPORT; -shifts 10 1; END
+ TRANSPORT; -shifts 30 -1
+END
+
