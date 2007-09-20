@@ -186,6 +186,7 @@ public:
         void dump_raw(std::ostream& s_oss, int i, unsigned int indent);
 
         void read_raw(CParser& parser);
+	int read_raw_keyword(CParser& parser);
 
 	void add(struct system *sys_ptr);
 
