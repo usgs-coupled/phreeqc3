@@ -348,7 +348,99 @@ void cxxStorageBin::read_raw(CParser& parser)
 END_OF_SIMULATION_INPUT:
 	return; //CParser::LT_OK;
 }
+int cxxStorageBin::read_raw_keyword(CParser& parser)
+{
+  CParser::LINE_TYPE i;
+  int entity_number = -999;
 
+  switch(parser.next_keyword())
+  {
+  case CParser::KT_NONE:
+  case CParser::KT_END: 
+    while ((i = parser.check_line("StorageBin read_raw_keyword", false, true, true, true)) != CParser::LT_KEYWORD)
+    {
+      if (i == CParser::LT_EOF) break; // CParser::LT_EOF;
+    }
+    break;
+  case CParser::KT_EOF:
+    break;
+    /*
+    KT_SOLUTION_RAW     =  5,
+    KT_EXCHANGE_RAW     =  6,
+    KT_GASPHASE_RAW     =  7,
+    KT_KINETICS_RAW     =  8,
+    KT_PPASSEMBLAGE_RAW =  9,
+    KT_SSASSEMBLAGE_RAW =  10,
+    KT_SURFACE_RAW      =  11
+    */
+  case CParser::KT_SOLUTION_RAW:
+    {
+      cxxSolution entity;
+      entity.read_raw(parser);
+      Solutions[entity.get_n_user()] = entity;
+      entity_number = entity.get_n_user();
+    }
+    break;
+
+  case CParser::KT_EXCHANGE_RAW:
+    {
+      cxxExchange entity;
+      entity.read_raw(parser);
+      Exchangers[entity.get_n_user()] = entity;
+      entity_number = entity.get_n_user();
+    }
+    break;
+
+  case CParser::KT_GASPHASE_RAW:
+    {
+      cxxGasPhase entity;
+      entity.read_raw(parser);
+      GasPhases[entity.get_n_user()] = entity;
+      entity_number = entity.get_n_user();
+    }
+    break;
+
+  case CParser::KT_KINETICS_RAW:
+    {
+      cxxKinetics entity;
+      entity.read_raw(parser);
+      Kinetics[entity.get_n_user()] = entity;
+      entity_number = entity.get_n_user();
+    }
+    break;
+
+  case CParser::KT_PPASSEMBLAGE_RAW:
+    {
+      cxxPPassemblage entity;
+      entity.read_raw(parser);
+      PPassemblages[entity.get_n_user()] = entity;
+      entity_number = entity.get_n_user();
+    }
+    break;
+
+  case CParser::KT_SSASSEMBLAGE_RAW:
+    {
+      cxxSSassemblage entity;
+      entity.read_raw(parser);
+      SSassemblages[entity.get_n_user()] = entity;
+      entity_number = entity.get_n_user();
+    }
+    break;
+
+  case CParser::KT_SURFACE_RAW:
+    {
+      cxxSurface entity;
+      entity.read_raw(parser);
+      Surfaces[entity.get_n_user()] = entity;
+      entity_number = entity.get_n_user();
+    }
+    break;
+
+  default:
+    break;
+  }
+  return(entity_number); //CParser::LT_OK;
+}
 void cxxStorageBin::add(struct system * system_ptr)
         //
         // add data from a system structure
