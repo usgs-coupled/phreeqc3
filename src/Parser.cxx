@@ -563,6 +563,7 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::string::i
         // char option[MAX_LENGTH];
         std::string option;
 
+	fprintf(stderr, "Did not think this get_option was called\n");
         //
         // Read line
         //
@@ -689,6 +690,7 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::istream::
                         //{{
                         ////  m_line_iss.clear();
                         //}}
+/*
                         if (true) // pr.echo_input == TRUE
                         {
                                 if (true) // database_file == NULL
@@ -696,13 +698,16 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::istream::
                                         get_output() << "\t" << m_line_save << "\n";
                                 }
                         }
+*/
                 }
                 else
                 {
+/*
                         if (true) // (database_file == NULL)
                         {
                                 get_output() << "\t" << m_line_save << "\n";
                         }
+*/
                         //error_msg("Unknown option.", OT_CONTINUE);
                         //error_msg(m_line_save.c_str(), OT_CONTINUE);
                         //incr_input_error();
@@ -724,13 +729,16 @@ int CParser::get_option(const std::vector<std::string>& opt_list, std::istream::
                         j = OPT_DEFAULT;
                         next_pos = 0;
                 }
+/*
                 if (true) // pr.echo_input == TRUE
                 {
                         if (true) // database_file == NULL
                         {
+				  fprintf(stderr, "Yikes 3\n");
                                 get_output() << "\t" << m_line_save  << "\n";
                         }
                 }
+*/
         }
         return (j);
 }
