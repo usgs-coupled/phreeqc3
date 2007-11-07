@@ -853,6 +853,7 @@ double cxxSolution::get_total_element(char *string)const
   double d = 0.0;
   for (it = this->totals.begin(); it != this->totals.end(); ++it)
   {
+#ifdef SKIP
     char token[MAX_LENGTH], token1[MAX_LENGTH];
     int n;
     char *ptr;
@@ -861,6 +862,19 @@ double cxxSolution::get_total_element(char *string)const
     ptr = token;
     copy_token(token1, &ptr, &n);
     if (strcmp(token1, string) == 0) {
+      d += it->second;
+    }
+#endif
+    std::string ename(string);
+    std::string current_ename(string);
+    std::basic_string <char>::size_type indexCh;
+    indexCh = current_ename.find("(");
+    if (indexCh != std::string::npos) 
+    {
+      current_ename = current_ename.substr(0, indexCh);
+    }
+    if (current_ename == ename)
+    {
       d += it->second;
     }
   }
