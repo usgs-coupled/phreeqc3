@@ -865,8 +865,17 @@ double cxxSolution::get_total_element(char *string)const
       d += it->second;
     }
 #endif
+    char token[MAX_LENGTH], token1[MAX_LENGTH];
+    int n;
+    char *ptr;
+    strcpy(token, it->first);
+    replace("(", "\0", token);
+    if (strcmp(token, string) == 0) {
+      d += it->second;
+    }
+#ifdef SKIP
     std::string ename(string);
-    std::string current_ename(string);
+    std::string current_ename(it->first);
     std::basic_string <char>::size_type indexCh;
     indexCh = current_ename.find("(");
     if (indexCh != std::string::npos) 
@@ -877,6 +886,7 @@ double cxxSolution::get_total_element(char *string)const
     {
       d += it->second;
     }
+#endif
   }
   return(d);
 }
