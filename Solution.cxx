@@ -853,27 +853,18 @@ double cxxSolution::get_total_element(char *string)const
   double d = 0.0;
   for (it = this->totals.begin(); it != this->totals.end(); ++it)
   {
-#ifdef SKIP
-    char token[MAX_LENGTH], token1[MAX_LENGTH];
-    int n;
-    char *ptr;
-    strcpy(token, it->first);
-    replace("(", " ", token);
-    ptr = token;
-    copy_token(token1, &ptr, &n);
-    if (strcmp(token1, string) == 0) {
-      d += it->second;
-    }
-#endif
-    char token[MAX_LENGTH], token1[MAX_LENGTH];
-    int n;
-    char *ptr;
-    strcpy(token, it->first);
-    replace("(", "\0", token);
-    if (strcmp(token, string) == 0) {
-      d += it->second;
+    char token[MAX_LENGTH];
+    if (it->first[0] == string[0])
+    {
+      strcpy(token, it->first);
+      replace("(", "\0", token);
+      if (strcmp(token, string) == 0) 
+      {
+	d += it->second;
+      }
     }
 #ifdef SKIP
+    // C++ way to do it
     std::string ename(string);
     std::string current_ename(it->first);
     std::basic_string <char>::size_type indexCh;
