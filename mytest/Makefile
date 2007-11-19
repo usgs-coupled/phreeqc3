@@ -1,10 +1,13 @@
-# %.o : %.c
-#             $(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
-PROGRAM=/cygdrive/c/Programs/phreeqcpp/Release/phreeqcpp.exe
-PROGRAM=../src/Release/phreeqcpp
+CFG1 :=`uname`
+CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
-%.out : % $(PROGRAM)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat tony.dat ../database/pitzer.dat
-	$(PROGRAM) $< 
+PHREEQC=../src/Release/phreeqcpp
+ifeq ($(CFG), CYGWIN)
+   PHREEQC=/cygdrive/c/Programs/phreeqcpp/Release/phreeqcpp.exe
+endif
+
+%.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat tony.dat ../database/pitzer.dat
+	$(PHREEQC) $< 
 	mv phreeqc.log $<.log
 
 all: alkalinity.out \
