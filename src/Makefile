@@ -12,6 +12,16 @@
 
 PROGRAM = phreeqcpp
 
+CFG1 :=`uname`
+CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
+ifeq ($(CFG), CYGWIN)
+	SPOOL=>
+	SPOOL2=2>&1
+else
+	SPOOL=>&
+	SPOOL2=
+endif
+
 all: release debug
 
 RELEASE_DIR             = Release
@@ -415,8 +425,8 @@ dependencies:
 	cd $(DEBUG_DIR); gcc -MM -I../phreeqc ../*.cxx
 
 tester:
-	cd ../mytest; make clean; make -k >& make.out; make zero; make diff >& diff.out
-	cd ../examples; make clean; make >& make.out; make zero; make diff >& diff.out
+	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)
+	cd ../examples; make clean; make $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)
 	svn status -q ../mytest 
 	svn status -q ../examples
 
