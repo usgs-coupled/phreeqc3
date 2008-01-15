@@ -28,6 +28,11 @@ RELEASE_DIR             = Release
 DEBUG_DIR               = Debug
 MAKEFILE                = Makefile
 
+# -----------------------------------------------------------------------------
+# fixes shared object lookup error(SIGFPE floating point exception)
+HASH_STYLE=$(call ld-option, -Wl$(comma)--hash-style=sysv)
+
+
 #########################
 #### Serial Versions ####
 #########################
@@ -90,7 +95,7 @@ ifeq ($(CFG), RELEASE)
   CXX          = g++
   CXXFLAGS     = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
   OBJECT_FILES = $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
-  LD_FLAGS     = -lm ${CL1MP_LIB} 
+  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
 endif
 
 ifeq ($(CFG), DEBUG)
@@ -100,7 +105,7 @@ ifeq ($(CFG), DEBUG)
   CXX          = g++
   CXXFLAGS     = -Wall -g $(DEFINES) $(INCLUDES)
   OBJECT_FILES = $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
-  LD_FLAGS     = -lm ${CL1MP_LIB} 
+  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
 endif
 
 # -----------------------------------------------------------------------------
@@ -429,6 +434,13 @@ tester:
 	cd ../examples; make clean; make $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)
 	svn status -q ../mytest 
 	svn status -q ../examples
+
+#ld-option
+# Usage: ldflags += $(call ld-option, -Wl$(comma)--hash-style=sysv)
+comma=,
+ld-option = $(shell if $(CC) $(1) \
+              -nostdlib -o /dev/null -xc /dev/null \
+              > /dev/null 2>&1 ; then echo "$(1)" ; else echo "$(2)"; fi)
 
 # =============================================================================
 # End of makefile.
