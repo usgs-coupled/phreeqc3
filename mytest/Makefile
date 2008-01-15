@@ -20,16 +20,17 @@ all: alkalinity.out \
 	co2.out \
 	colloid_U.out \
 	comments.out \
+	ddlsurf.out \
 	de.out \
+	deb1.out \
+	deb2.out \
+	debye1.out \
 	desc.out \
 	dissolve_only.out \
 	donly.out \
 	eco.out \
+	eq_EC.out \
 	evap.out \
-	deb1.out \
-	deb2.out \
-	debye1.out \
-	ddlsurf.out \
 	exch_related.out \
 	exch_related_pz.out \
 	exch_kin_related.out \
@@ -66,6 +67,7 @@ all: alkalinity.out \
 	mmb2.out \
 	mu.out \
 	n3.out \
+	netpathxl.out \
 	np.test.out \
 	opa_col2.out \
 	org_gas.out \
@@ -78,6 +80,7 @@ all: alkalinity.out \
 	prob8.out \
 	raw.out \
 	s1.out \
+	salt_ec.out \
 	saver.out \
 	saunders.out \
 	solid_solution.out \
