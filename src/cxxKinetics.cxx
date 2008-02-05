@@ -29,6 +29,8 @@ cxxKinetics::cxxKinetics()
         rk                          = 3;
         bad_step_max                = 500;
         use_cvode                   = false;
+	cvode_steps                 = 100;
+	cvode_order                 = 5;
         totals.type                 = cxxNameDouble::ND_ELT_MOLES;
 }
 
@@ -49,6 +51,8 @@ totals(kinetics_ptr->totals)
         rk                           = kinetics_ptr->rk; 
         bad_step_max                 = kinetics_ptr->bad_step_max; 
         use_cvode                    = (kinetics_ptr->use_cvode == TRUE); 
+	cvode_steps                  = kinetics_ptr->cvode_steps;
+	cvode_order                  = kinetics_ptr->cvode_order;
 
         // kinetics components
         for (i = 0; i < kinetics_ptr->count_comps; i++) {
@@ -70,6 +74,8 @@ cxxNumKeyword()
   rk                          = 3;
   bad_step_max                = 500;
   use_cvode                   = false;
+  cvode_steps                 = 100;
+  cvode_order                 = 5;
   totals.type                 = cxxNameDouble::ND_ELT_MOLES;
 //
 //   Mix
@@ -103,6 +109,8 @@ struct kinetics *cxxKinetics::cxxKinetics2kinetics()
         kinetics_ptr->rk                          = this->rk;
         kinetics_ptr->bad_step_max                = this->bad_step_max;
         kinetics_ptr->use_cvode                   = (int) this->use_cvode;
+        kinetics_ptr->cvode_steps                 = this->cvode_steps;
+        kinetics_ptr->cvode_order                 = this->cvode_order;
 
         // totals
         kinetics_ptr->totals                      = this->totals.elt_list();
@@ -184,7 +192,13 @@ void cxxKinetics::dump_raw(std::ostream& s_oss, unsigned int indent)const
         s_oss << indent1;
         s_oss << "-use_cvode         " << this->use_cvode  << std::endl;
 
-        // kineticsComps structures
+        s_oss << indent1;
+        s_oss << "-cvode_steps       " << this->cvode_steps  << std::endl;
+
+        s_oss << indent1;
+        s_oss << "-cvode_order       " << this->cvode_order  << std::endl;
+
+	// kineticsComps structures
         for (std::list<cxxKineticsComp>::const_iterator it = kineticsComps.begin(); it != kineticsComps.end(); ++it) {
                 s_oss << indent1;
                 s_oss << "-component" << std::endl;
@@ -225,10 +239,12 @@ void cxxKinetics::read_raw(CParser& parser)
                 vopts.push_back("step_divide");     
                 vopts.push_back("rk");                  
                 vopts.push_back("bad_step_max");                
-                vopts.push_back("use_cvode");           
+                vopts.push_back("use_cvode");
                 vopts.push_back("component");           
                 vopts.push_back("totals");              
                 vopts.push_back("steps");               
+                vopts.push_back("cvode_steps");
+                vopts.push_back("cvode_order");
         }                                                      
                                                                
         std::istream::pos_type ptr;                            
@@ -245,6 +261,8 @@ void cxxKinetics::read_raw(CParser& parser)
         bool rk_defined(false); 
         bool bad_step_max_defined(false); 
         bool use_cvode_defined(false); 
+        bool cvode_steps_defined(false); 
+        bool cvode_order_defined(false); 
 
         for (;;)
         {
@@ -347,6 +365,29 @@ void cxxKinetics::read_raw(CParser& parser)
                         }
                         opt_save = 6;
                         useLastLine = false;
+
+                case 7: // cvode_steps
+                        if (!(parser.get_iss() >> this->cvode_steps))
+                        {
+                                this->cvode_steps = 100;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected integer value for cvode_steps.", CParser::OT_CONTINUE);
+                        }
+                        cvode_steps_defined = true;
+                        useLastLine = false;
+                        break;
+
+                case 8: // cvode_order
+                        if (!(parser.get_iss() >> this->cvode_order))
+                        {
+                                this->cvode_order = 5;
+                                parser.incr_input_error();
+                                parser.error_msg("Expected integer value for cvode_order.", CParser::OT_CONTINUE);
+                        }
+                        cvode_order_defined = true;
+                        useLastLine = false;
+                        break;
+
                 }
                 if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD) break;
         }
@@ -367,6 +408,14 @@ void cxxKinetics::read_raw(CParser& parser)
                 parser.incr_input_error();
                 parser.error_msg("Use_cvode not defined for KINETICS_RAW input.", CParser::OT_CONTINUE);
         }
+        if (cvode_steps_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Cvode_steps not defined for KINETICS_RAW input.", CParser::OT_CONTINUE);
+        }
+        if (cvode_order_defined == false) {
+                parser.incr_input_error();
+                parser.error_msg("Cvode_order not defined for KINETICS_RAW input.", CParser::OT_CONTINUE);
+        }
 }
 #ifdef USE_MPI
 void cxxKinetics::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
@@ -384,6 +433,8 @@ void cxxKinetics::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 	ints.push_back(this->rk);
 	ints.push_back(this->bad_step_max);
 	ints.push_back(this->use_cvode);
+	ints.push_back(this->cvode_steps);
+	ints.push_back(this->cvode_order);
 }
 void cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 {
@@ -409,6 +460,8 @@ void cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->rk = ints[i++];
 	this->bad_step_max = ints[i++];
 	this->use_cvode = (ints[i++] == TRUE);
+	this->cvode_steps = ints[i++];
+	this->cvode_order = ints[i++];
 	*ii = i;
 	*dd = d;
 }
@@ -449,4 +502,6 @@ void cxxKinetics::add(const cxxKinetics &addee, double extensive)
   this->bad_step_max = addee.bad_step_max;
   //bool use_cvode;
   this->use_cvode = addee.use_cvode;
+  this->cvode_steps = addee.cvode_steps;
+  this->cvode_order = addee.cvode_order;
 }
