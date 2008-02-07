@@ -350,6 +350,7 @@ void cxxKinetics::read_raw(CParser& parser)
                         }                               
                         opt_save = 5;
                         useLastLine = false;
+			break;
 
                 case 6: // steps
                         while (parser.copy_token(token, next_char) == CParser::TT_DIGIT) {
@@ -365,6 +366,7 @@ void cxxKinetics::read_raw(CParser& parser)
                         }
                         opt_save = 6;
                         useLastLine = false;
+			break;
 
                 case 7: // cvode_steps
                         if (!(parser.get_iss() >> this->cvode_steps))
