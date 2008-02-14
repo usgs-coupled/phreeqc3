@@ -7,6 +7,7 @@
 #include <iostream>     // std::cout std::cerr
 #include "Utils.h"   // define first
 #include "ExchComp.h"
+#include "Dictionary.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -523,7 +524,6 @@ void cxxExchComp::multiply(double extensive)
   //double formula_z;
 }
 #ifdef USE_MPI
-#include "Dictionary.h"
 void cxxExchComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	extern cxxDictionary dictionary;

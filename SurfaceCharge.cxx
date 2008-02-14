@@ -7,6 +7,7 @@
 
 #include "Utils.h"   // define first
 #include "SurfaceCharge.h"
+#include "Dictionary.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "output.h"
@@ -386,7 +387,6 @@ void cxxSurfaceCharge::read_raw(CParser& parser)
         }
 }
 #ifdef USE_MPI
-#include "Dictionary.h"
 void cxxSurfaceCharge::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	extern cxxDictionary dictionary;

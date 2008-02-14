@@ -7,6 +7,7 @@
 
 #include "Utils.h"   // define first
 #include "SurfaceComp.h"
+#include "Dictionary.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -408,7 +409,6 @@ void cxxSurfaceComp::read_raw(CParser& parser)
         }
 }
 #ifdef USE_MPI
-#include "Dictionary.h"
 void cxxSurfaceComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	extern cxxDictionary dictionary;
