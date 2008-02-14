@@ -7,6 +7,7 @@
 
 #include "Utils.h"   // define first
 #include "KineticsComp.h"
+#include "Dictionary.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -310,7 +311,6 @@ void cxxKineticsComp::read_raw(CParser& parser)
         }
 }
 #ifdef USE_MPI
-#include "Dictionary.h"
 void cxxKineticsComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	extern cxxDictionary dictionary;

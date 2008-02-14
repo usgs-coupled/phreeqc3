@@ -7,6 +7,7 @@
 
 #include "Utils.h"   // define first
 #include "PPassemblageComp.h"
+#include "Dictionary.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -299,7 +300,6 @@ void cxxPPassemblageComp::read_raw(CParser& parser)
 }
 
 #ifdef USE_MPI
-#include "Dictionary.h"
 void cxxPPassemblageComp::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	extern cxxDictionary dictionary;

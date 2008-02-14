@@ -8,6 +8,7 @@
 #include "Utils.h"   // define first
 #include "SSassemblageSS.h"
 #include "NameDouble.h"
+#include "Dictionary.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -442,7 +443,6 @@ void cxxSSassemblageSS::read_raw(CParser& parser)
 }
 
 #ifdef USE_MPI
-#include "Dictionary.h"
 void cxxSSassemblageSS::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles)
 {
 	extern cxxDictionary dictionary;

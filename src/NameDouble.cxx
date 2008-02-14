@@ -8,6 +8,7 @@
 #include <iostream>     // std::cout std::cerr
 #include "Utils.h"   // define first
 #include "NameDouble.h"
+#include "Dictionary.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "output.h"
@@ -372,7 +373,6 @@ void cxxNameDouble::multiply(double extensive)
   }
 }
 #ifdef USE_MPI
-#include "Dictionary.h"
 void cxxNameDouble::mpi_pack(std::vector<int>& ints, std::vector<double>& doubles) {
 	extern cxxDictionary dictionary;
 	ints.push_back( (int) (*this).size() );
