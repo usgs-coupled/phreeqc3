@@ -39,9 +39,13 @@ void cxxSystem::totalize(void)
   //add solution
   if (this->solution != NULL)
   {
-    this->totals["O"] = this->solution->get_total_o();
-    this->totals["H"] = this->solution->get_total_h();
-    this->totals["Charge"] = this->solution->get_cb();
+    char token[MAX_LENGTH];
+    strcpy(token, "O");
+    this->totals[token] = this->solution->get_total_o();
+    strcpy(token, "H");
+    this->totals[token] = this->solution->get_total_h();
+    strcpy(token, "Charge");
+    this->totals[token] = this->solution->get_cb();
     this->totals.add_extensive(this->solution->get_totals(), 1.0);
   }
   if (this->exchange != NULL)

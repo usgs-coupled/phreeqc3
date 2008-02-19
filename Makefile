@@ -24,6 +24,11 @@ endif
 
 all: release debug
 
+Release: release
+
+Debug: debug
+
+
 RELEASE_DIR             = Release
 DEBUG_DIR               = Debug
 MAKEFILE                = Makefile
@@ -78,8 +83,10 @@ debug:
 # #define gmp for inverse modeling
 # comment the following lines to remove multiprecision option
 DINVERSE_CL1MP=TRUE
-CL1MP_LIB=/z/parkplace/usr/lib/libgmp.a 
-CL1MP_OBJS=cl1mp.o
+ifdef INVERSE_CL1MP
+	DEFINE_INVERSE_CL1MP=-DINVERSE_CL1MP
+	CL1MP_OBJS=cl1mp.o
+endif
 
 # -----------------------------------------------------------------------------
 #efence for debugging
@@ -89,7 +96,7 @@ EFENCE_LIB=-L$(HOME)/packages/efence
 # 2 Versions
 # -----------------------------------------------------------------------------
 ifeq ($(CFG), RELEASE)
-  DEFINES      = -DPHREEQC_CPP -DINVERSE_CL1MP
+  DEFINES      = -DPHREEQC_CPP $(DEFINE_INVERSE_CL1MP)
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc
   CXX          = g++
@@ -99,7 +106,7 @@ ifeq ($(CFG), RELEASE)
 endif
 
 ifeq ($(CFG), DEBUG)
-  DEFINES      = -DPHREEQC_CPP -DINVERSE_CL1MP -DUSE_PHRQ_ALLOC
+  DEFINES      = -DPHREEQC_CPP -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP)
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc
   CXX          = g++
