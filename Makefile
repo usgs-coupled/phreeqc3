@@ -82,10 +82,11 @@ debug:
 # -----------------------------------------------------------------------------
 # #define gmp for inverse modeling
 # comment the following lines to remove multiprecision option
-DINVERSE_CL1MP=TRUE
+INVERSE_CL1MP=TRUE
 ifdef INVERSE_CL1MP
 	DEFINE_INVERSE_CL1MP=-DINVERSE_CL1MP
 	CL1MP_OBJS=cl1mp.o
+	CL1MP_LIB=-lgmp
 endif
 
 # -----------------------------------------------------------------------------
