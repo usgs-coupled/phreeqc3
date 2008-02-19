@@ -48,7 +48,7 @@ public:
         void add_extensive(const cxxNameDouble &old, double factor);
 	void add_intensive(const cxxNameDouble &addee, double fthis, double f2);
 	void add_log_activities(const cxxNameDouble &addee, double fthis, double f2);
-	void add(char * key, double total);
+	void add(const char * key, double total);
 	void multiply(double factor);
 
         void insert(char *str, double d) {

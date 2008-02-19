@@ -116,7 +116,8 @@ void cxxISolutionComp::set_gfw()
       input_error++;
       return;
     }
-    if (this->description == "Alkalinity" && this->as == "CaCO3") 
+    //if (this->description == "Alkalinity" && this->as == "CaCO3") 
+    if (strcmp(this->description,"Alkalinity") == 0 && strcmp(this->as, "CaCO3")) 
     {
       gfw /= 2.;
     }
