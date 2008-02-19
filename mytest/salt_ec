@@ -1,0 +1,115 @@
+DATABASE ../database/phreeqd.dat
+PRINT; -warn 0; #-reset false
+SELECTED_OUTPUT
+ -file salt_ec.prn; -reset false
+USER_PUNCH
+ -head conc_Cl EC_20 I
+ -start
+ 10 punch tot("Cl"), SC * 0.89 * 298 / 293, mu
+ -end
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+K	Cl	HB_EC
+0.067069081	 1 charge	8200
+0.134138162	 1 charge	15700
+0.202548625	 1 charge	22700
+0.270959088	 1 charge	29500
+0.340710932	 1 charge	36500
+0.409121395	 1 charge	43600
+0.478873239	 1 charge	50600
+0.549966465	 1 charge	57600
+0.690811536	 1 charge	71900
+0.83433937	 1 charge	86200
+0.979208585	 1 charge	100000
+1.052984574	 1 charge	108000
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Na	Cl	HB_EC
+0.085557837	 1 charge	8200
+0.172826831	 1 charge	16000
+0.258384668	 1 charge	23200
+0.345653662	 1 charge	30200
+0.434633812	 1 charge	37100
+0.523613963	 1 charge	44000
+0.612594114	 1 charge	50700
+0.684462697	 1 charge	56000
+0.865845311	 1 charge	68900
+1.031827515	 1 charge	80000
+1.368925394	 1 charge	101000
+1.676933607	 1 charge	118000
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Ca	Cl	HB_EC
+4.50E-02	 1 charge	8100
+9.10E-02	 1 charge	15700
+1.37E-01	 1 charge	22700
+1.83E-01	 1 charge	29400
+2.30E-01	 1 charge	36100
+2.77E-01	 1 charge	42600
+3.24E-01	 1 charge	48900
+3.72E-01	 1 charge	55100
+4.69E-01	 1 charge	67000
+5.67E-01	 1 charge	78300
+6.67E-01	 1 charge	88700
+8.20E-01	 1 charge	103000
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Mg	Cl	HB_EC
+0.052504463	 1 charge	8600
+0.106059015	 1 charge	16600
+0.213168119	 1 charge	31200
+0.322377402	 1 charge	44500
+0.432636774	 1 charge	56400
+0.546046414	 1 charge	66900
+0.660506143	 1 charge	77200
+0.777066051	 1 charge	86400
+0.894676047	 1 charge	94500
+1.014386223	 1 charge	102000
+END
+USER_PUNCH
+ -head conc EC_20 I
+ -start
+ 10 punch tot("Mg"), SC * 0.89 * 298 / 293, mu
+ -end
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Mg	S(6)	HB_EC
+0.041538589	 1 charge	41000
+0.08390795	 1 charge	76000
+0.169477445	 1 charge	13300
+0.256708482	 1 charge	18400
+0.345601063	 1 charge	23100
+0.436155188	 1 charge	27400
+0.528370857	 1 charge	31100
+0.62307884	 1 charge	34400
+0.718617596	 1 charge	37300
+0.916341281	 1 charge	42700
+END
+USER_PUNCH
+ -head conc EC_20 I
+ -start		
+ 10 if step_no > 0 then punch tot("N(5)"), SC * 0.89 * 298 / 293, mu
+ -end		
+SOLUTION_MASTER_SPECIES
+La	La+3	0.0	La	138.9055
+SOLUTION_SPECIES
+La+3 = La+3; log_k 0.0; -gamma 9.0 0.0
+ -dw 6.36e-10
+NO3- + La+3  =  LaNO3+2; -gamma 4.5 0.0; log_k 0.58
+ -dw 3e-10 # a rough estimate
+La+3 + Cl-  =  LaCl+2; -gamma 4.5 0.0; log_k 0.31
+ -dw 3e-10 # a rough estimate
+SOLUTION 1; temp 20
+reaction 1
+ La(NO3)3 1; 0.0311	0.0625	0.0945	0.1268	0.1600	0.1936	0.2277	0.2625	0.2979
+#HB_EC: 7800	14200	20100	25600	31100	36000	40600	45000	49500
+END
+
