@@ -87,7 +87,8 @@ void cxxISolution::ConvertUnits()
   {
     struct master *master_ptr = master_bsearch (iter->first);
     if (master_ptr != NULL && (master_ptr->minor_isotope == TRUE)) continue;
-    if (iter->second.get_description() == "H(1)" || iter->second.get_description() == "E") continue;
+    //if (iter->second.get_description() == "H(1)" || iter->second.get_description() == "E") continue;
+    if (strcmp(iter->second.get_description(),"H(1)") == 0 || strcmp(iter->second.get_description(), "E")) continue;
     if (iter->second.get_input_conc() <= 0.0) continue;
 /*
 *   Convert liters to kg solution

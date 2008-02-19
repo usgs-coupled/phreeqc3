@@ -349,11 +349,14 @@ void cxxNameDouble::add_log_activities(const cxxNameDouble &addee, double f1, do
   }
 }
 
-void cxxNameDouble::add(char * key, double total)
+void cxxNameDouble::add(const char * token, double total)
 //
 // add to total for a specified element
 //
 {
+  char key[MAX_LENGTH];
+  strcpy(key, token);
+
   cxxNameDouble::iterator current = (*this).find(key);
   if (current != (*this).end()) {
     (*this)[key] = current->second + total;
