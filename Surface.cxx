@@ -170,16 +170,19 @@ struct surface *cxxSurface::cxxSurface2surface()
 		surface_ptr->count_charge = 0;
 	}
 	// Need to fill in charge (number) in comps list
-	int i,j;
-	for (i = 0; i < surface_ptr->count_comps; i++) {
-	  char *charge_name = cxxSurfaceComp::get_charge_name(surface_ptr->comps[i].formula);
-	  for (j = 0; j < surface_ptr->count_charge; j++) {
-	    if (charge_name == surface_ptr->charge[j].name) {
-	      surface_ptr->comps[i].charge = j;
-	      break;
+	if (surface_ptr->type != NO_EDL)
+	{
+	  int i,j;
+	  for (i = 0; i < surface_ptr->count_comps; i++) {
+	    char *charge_name = cxxSurfaceComp::get_charge_name(surface_ptr->comps[i].formula);
+	    for (j = 0; j < surface_ptr->count_charge; j++) {
+	      if (charge_name == surface_ptr->charge[j].name) {
+		surface_ptr->comps[i].charge = j;
+		break;
+	      }
 	    }
+	    assert(j < surface_ptr->count_charge);
 	  }
-	  assert(j < surface_ptr->count_charge);
 	}
 
         return(surface_ptr);
