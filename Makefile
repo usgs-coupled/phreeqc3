@@ -116,3 +116,10 @@ zero:
 				./zero.sed $$FILE; \
 			fi \
 		done; 
+
+diff_phreeqc:
+	for FILE in ex*.out ex*.sel; \
+		do \
+			echo $$FILE; \
+			diff -bw $$FILE ../../phreeqc/examples; \
+		done; 
