@@ -156,3 +156,11 @@ zero:
 				./zero.sed $$FILE; \
 			fi \
 		done; 
+diff_phreeqc:
+	for FILE in *.out *.sel *.pun *.prn; \
+		do \
+			if [ $$FILE != make.out ]; then \
+				echo $$FILE =-=-=-=-=-; \
+				diff -bw $$FILE ../../phreeqc/mytest; \
+			fi \
+		done; 	
