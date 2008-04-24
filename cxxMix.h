@@ -29,7 +29,13 @@ public:
         void read_raw(CParser& parser);
 
         void add(int n, double f) {
-		mixComps[n] = f;
+	  if (this->mixComps.find(n) != this->mixComps.end())
+	  {
+	    mixComps[n] += f;
+	  } else
+	  {
+	    mixComps[n] = f;
+	  }
 	};
 
 	std::map<int, double> *comps()          {return &mixComps;}
