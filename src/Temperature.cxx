@@ -141,7 +141,7 @@ cxxTemperature::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 #endif
 
 void
-cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing temperature message: %s, element not found\n";
 	unsigned int i;

@@ -158,7 +158,7 @@ cxxReaction::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 #endif
 
 void
-cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing irrev message: %s, element not found\n";
 	unsigned int i;

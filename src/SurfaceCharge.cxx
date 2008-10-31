@@ -122,7 +122,7 @@ cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::list <
 }
 
 void
-cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing surf_charge message: %s, element not found\n";
 	unsigned int i;
@@ -159,7 +159,7 @@ cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const cons
 }
 
 void
-cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing surf_charge message: %s, element not found\n";
 	unsigned int i;

@@ -220,7 +220,7 @@ cxxExchComp::cxxExchComp2exch_comp(std::list < cxxExchComp > &el)
 }
 
 void
-cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;
@@ -267,7 +267,7 @@ cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 
 void
-cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;

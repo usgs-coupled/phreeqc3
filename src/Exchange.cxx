@@ -220,7 +220,7 @@ cxxExchange::cxxExchange2exchange()
 }
 
 void
-cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing exchange message: %s, element not found\n";
 	unsigned int i;
@@ -254,7 +254,7 @@ cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 
 void
-cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing exchange message: %s, element not found\n";
 	unsigned int i;

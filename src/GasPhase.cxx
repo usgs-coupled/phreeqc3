@@ -219,7 +219,7 @@ cxxGasPhase::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 #endif
 
 void
-cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing gas_phase message: %s, element not found\n";
 	unsigned int i;

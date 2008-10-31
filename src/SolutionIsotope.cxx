@@ -76,7 +76,7 @@ std::string cxxSolutionIsotope::get_name() constconst
 #endif
 
 void
-cxxSolutionIsotope::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxSolutionIsotope::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	unsigned int i;
 
@@ -116,7 +116,7 @@ cxxSolutionIsotope::dump_xml(std::ostream & s_oss, unsigned int indent) const co
 }
 
 void
-cxxSolutionIsotope::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxSolutionIsotope::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	unsigned int i;
 
@@ -200,7 +200,7 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser)
 }
 
 bool
-cxxSolutionIsotope::operator<(const cxxSolutionIsotope & isotope) const const
+cxxSolutionIsotope::operator<(const cxxSolutionIsotope & isotope) const
 {
 	int i = Utilities::strcmp_nocase(this->elt_name, isotope.elt_name);
 	if (i != 0)
