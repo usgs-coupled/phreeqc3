@@ -129,7 +129,7 @@ cxxMix::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 #endif
 
 void
-cxxMix::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxMix::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
 	unsigned int i;

@@ -324,7 +324,7 @@ cxxSolution::cxxSolution2solution()
 }
 
 void
-cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing solution message: %s, element not found\n";
 	unsigned int i;
@@ -436,7 +436,7 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 
 void
-cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing solution message: %s, element not found\n";
 	unsigned int i;
@@ -936,7 +936,7 @@ cxxSolution::multiply(double extensive)
 }
 
 double
-cxxSolution::get_total(char *string) const const
+cxxSolution::get_total(char *string) const
 {
 	cxxNameDouble::const_iterator it = this->totals.find(string);
 	if (it == this->totals.end())
@@ -949,7 +949,7 @@ cxxSolution::get_total(char *string) const const
 	}
 }
 double
-cxxSolution::get_total_element(char *string) const const
+cxxSolution::get_total_element(char *string) const
 {
 	cxxNameDouble::const_iterator it;
 	double d = 0.0;
@@ -991,7 +991,7 @@ cxxSolution::set_total(char *string, double d)
 }
 
 double
-cxxSolution::get_master_activity(char *string) const const
+cxxSolution::get_master_activity(char *string) const
 {
 	cxxNameDouble::const_iterator it = this->master_activity.find(string);
 	if (it == this->master_activity.end())

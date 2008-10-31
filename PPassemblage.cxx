@@ -97,7 +97,7 @@ cxxPPassemblage::cxxPPassemblage2pp_assemblage()
 }
 
 void
-cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing PPassemblage message: %s, element not found\n";
 	unsigned int i;
@@ -128,7 +128,7 @@ cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 
 void
-cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing PPassemblage message: %s, element not found\n";
 	unsigned int i;

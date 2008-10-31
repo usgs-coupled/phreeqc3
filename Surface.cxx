@@ -213,7 +213,7 @@ cxxSurface::cxxSurface2surface()
 }
 
 void
-cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing surface message: %s, element not found\n";
 	unsigned int i;
@@ -286,7 +286,7 @@ cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 
 void
-cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing surface message: %s, element not found\n";
 	unsigned int i;

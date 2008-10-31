@@ -154,7 +154,7 @@ cxxNameDouble::elt_list()
 }
 
 struct master_activity *
-cxxNameDouble::master_activity() const const
+cxxNameDouble::master_activity() const
 		//
 		// Builds a list of master_activity structures from instance of cxxNameDouble 
 		//
@@ -213,7 +213,7 @@ cxxNameDouble::master_activity() const const
 }
 
 struct conc *
-cxxNameDouble::conc() const const
+cxxNameDouble::conc() const
 		// for Solutions, not ISolutions
 		// takes a map of (elt name, moles)
 		// returns list of conc structures
@@ -245,7 +245,7 @@ cxxNameDouble::conc() const const
 }
 
 struct name_coef *
-cxxNameDouble::name_coef() const const
+cxxNameDouble::name_coef() const
 		//
 		// Builds a name_coef structure from instance of cxxNameDouble 
 		//
@@ -267,7 +267,7 @@ cxxNameDouble::name_coef() const const
 }
 
 void
-cxxNameDouble::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxNameDouble::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;
@@ -312,7 +312,7 @@ cxxNameDouble::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 
 void
-cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;

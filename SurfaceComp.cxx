@@ -136,7 +136,7 @@ cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::list < cxxSurfaceComp > &el)
 }
 
 void
-cxxSurfaceComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxSurfaceComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing surf_comp message: %s, element not found\n";
 	unsigned int i;
@@ -186,7 +186,7 @@ cxxSurfaceComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 
 void
-cxxSurfaceComp::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxSurfaceComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing surf_comp message: %s, element not found\n";
 	unsigned int i;

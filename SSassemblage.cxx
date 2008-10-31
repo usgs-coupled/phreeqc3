@@ -122,7 +122,7 @@ cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 #endif
 void
-cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing SSassemblage message: %s, element not found\n";
 	unsigned int i;
