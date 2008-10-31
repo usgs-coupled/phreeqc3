@@ -2,84 +2,92 @@
 #define PARSER_H_INCLUDED
 
 extern int input_error;
-#include <string>   // std::string
-#include <map>      // std::map
-#include <vector>   // std::vector
-#include <sstream>  // std::istringstream std::ostringstream
-#include <ostream>  // std::ostream
-#include <istream>  // std::istream
+#include <string>				// std::string
+#include <map>					// std::map
+#include <vector>				// std::vector
+#include <sstream>				// std::istringstream std::ostringstream
+#include <ostream>				// std::ostream
+#include <istream>				// std::istream
 #include "char_star.h"
 
 class CParser
 {
-public:
-        CParser(std::istream& input);
-        CParser(std::istream& input, std::ostream& output);
-        CParser(std::istream& input, std::ostream& output, std::ostream& error);
+  public:
+	CParser(std::istream & input);
+	CParser(std::istream & input, std::ostream & output);
+	CParser(std::istream & input, std::ostream & output,
+			std::ostream & error);
 
-        virtual ~CParser();
+	virtual ~ CParser();
 
-        enum LINE_TYPE {
-                LT_EOF          = -1,
-                LT_OK           = 1,
-                LT_EMPTY        = 2,
-                LT_KEYWORD      = 3,
-                LT_OPTION       = 8
-        };
+	enum LINE_TYPE
+	{
+		LT_EOF = -1,
+		LT_OK = 1,
+		LT_EMPTY = 2,
+		LT_KEYWORD = 3,
+		LT_OPTION = 8
+	};
 
-        enum TOKEN_TYPE {
-                TT_EMPTY        = 2,
-                TT_UPPER        = 4,
-                TT_LOWER        = 5,
-                TT_DIGIT        = 6,
-                TT_UNKNOWN      = 7
-        };
+	enum TOKEN_TYPE
+	{
+		TT_EMPTY = 2,
+		TT_UPPER = 4,
+		TT_LOWER = 5,
+		TT_DIGIT = 6,
+		TT_UNKNOWN = 7
+	};
 
-        enum FIND_TYPE {
-                FT_OK           = 0,
-                FT_ERROR        = 1
-        };
+	enum FIND_TYPE
+	{
+		FT_OK = 0,
+		FT_ERROR = 1
+	};
 
-        enum KEY_TYPE {
-                KT_NONE             = -1,
-                KT_END              =  0,
-                KT_EOF              =  1,
-                KT_SOLUTION_RAW     =  5,
-                KT_EXCHANGE_RAW     =  6,
-                KT_GASPHASE_RAW     =  7,
-                KT_KINETICS_RAW     =  8,
-                KT_PPASSEMBLAGE_RAW =  9,
-                KT_SSASSEMBLAGE_RAW =  10,
-                KT_SURFACE_RAW      =  11
+	enum KEY_TYPE
+	{
+		KT_NONE = -1,
+		KT_END = 0,
+		KT_EOF = 1,
+		KT_SOLUTION_RAW = 5,
+		KT_EXCHANGE_RAW = 6,
+		KT_GASPHASE_RAW = 7,
+		KT_KINETICS_RAW = 8,
+		KT_PPASSEMBLAGE_RAW = 9,
+		KT_SSASSEMBLAGE_RAW = 10,
+		KT_SURFACE_RAW = 11
+	};
 
-        };
+	enum OPT_TYPE
+	{
+		OPT_DEFAULT = -4,
+		OPT_ERROR = -3,
+		OPT_KEYWORD = -2,
+		OPT_EOF = -1
+	};
 
-        enum OPT_TYPE {
-                OPT_DEFAULT  = -4,
-                OPT_ERROR    = -3,
-                OPT_KEYWORD  = -2,
-                OPT_EOF      = -1
-        };
+	enum ONERROR_TYPE
+	{
+		OT_CONTINUE = 0,
+		OT_STOP = 1
+	};
 
-        enum ONERROR_TYPE {
-                OT_CONTINUE     = 0,
-                OT_STOP         = 1
-        };
-	
-	enum ECHO_OPTION {
-                EO_NONE         = 0,
-                EO_ALL          = 1,
-		EO_KEYWORDS     = 2,
-		EO_NOKEYWORDS   = 3
-        };
+	enum ECHO_OPTION
+	{
+		EO_NONE = 0,
+		EO_ALL = 1,
+		EO_KEYWORDS = 2,
+		EO_NOKEYWORDS = 3
+	};
 
-	enum STATUS_TYPE {
-                PARSER_ERROR    = 0,
-                PARSER_OK       = 1
-        };
+	enum STATUS_TYPE
+	{
+		PARSER_ERROR = 0,
+		PARSER_OK = 1
+	};
 
 
-        /**
+		/**
                 Function gets a new line and checks for empty, eof, and keywords.
 
                 Arguments:
@@ -98,9 +106,10 @@ public:
 
            Terminates       if EOF and allow_eof == false.
         */
-        LINE_TYPE check_line(const std::string& str, bool allow_empty, bool allow_eof, bool allow_keyword, bool print);
+	LINE_TYPE check_line(const std::string & str, bool allow_empty,
+						 bool allow_eof, bool allow_keyword, bool print);
 
-        /**
+		/**
                 Read a line from input file put in "line".
                 Copy of input line is stored in "line_save".
                 Characters after # are discarded in line but retained in "line_save"
@@ -114,30 +123,54 @@ public:
                         LT_OK,
                         LT_OPTION
         */
-        LINE_TYPE get_line();
+	LINE_TYPE get_line();
 
-        // bool check_key(const std::string::iterator ptr);
-        bool check_key(std::string::iterator begin, std::string::iterator end);
+	// bool check_key(const std::string::iterator ptr);
+	bool check_key(std::string::iterator begin, std::string::iterator end);
 
-        STATUS_TYPE check_units(std::string& tot_units, bool alkalinity, bool check_compatibility,
-                const std::string& default_units, bool print);
-
-
-        KEY_TYPE next_keyword()const { return m_next_keyword; }
-        int get_option(const std::vector<std::string>& opt_list, std::string::iterator& next_char);
-        int get_option(const std::vector<std::string>& opt_list, std::istream::pos_type& next_pos);
-        int getOptionFromLastLine(const std::vector<std::string>& opt_list, std::string::iterator& next_char);
-        int getOptionFromLastLine(const std::vector<std::string>& opt_list, std::istream::pos_type& next_pos);
+	STATUS_TYPE check_units(std::string & tot_units, bool alkalinity,
+							bool check_compatibility,
+							const std::string & default_units, bool print);
 
 
-        std::string& line()            {return m_line;}
-        std::istringstream& get_iss()  {return m_line_iss;}
-	int incr_input_error()         {++::input_error; return ++m_input_error;}
-        std::ostream& get_output()     {return m_output_stream;}
-        int get_input_error()          {return m_input_error;}
+	KEY_TYPE next_keyword() const
+	{
+		return m_next_keyword;
+	}
+	int get_option(const std::vector < std::string > &opt_list,
+				   std::string::iterator & next_char);
+	int get_option(const std::vector < std::string > &opt_list,
+				   std::istream::pos_type & next_pos);
+	int getOptionFromLastLine(const std::vector < std::string > &opt_list,
+							  std::string::iterator & next_char);
+	int getOptionFromLastLine(const std::vector < std::string > &opt_list,
+							  std::istream::pos_type & next_pos);
 
 
-        /**
+	  std::string & line()
+	{
+		return m_line;
+	}
+	std::istringstream & get_iss()
+	{
+		return m_line_iss;
+	}
+	int incr_input_error()
+	{
+		++::input_error;
+		return ++m_input_error;
+	}
+	std::ostream & get_output()
+	{
+		return m_output_stream;
+	}
+	int get_input_error()
+	{
+		return m_input_error;
+	}
+
+
+		/**
                 Copies from begin to token until first space is encountered.
 
                 Arguments:
@@ -152,13 +185,15 @@ public:
                         TT_DIGIT
                         TT_UNKNOWN
         */
-        static TOKEN_TYPE copy_token(std::string& token, std::string::iterator& begin, std::string::iterator& end);
-        static TOKEN_TYPE token_type(const std::string& token);
-        static TOKEN_TYPE copy_token(std::string& token, std::istream& is);
-        TOKEN_TYPE copy_token(std::string& token, std::istream::pos_type& pos);
-        CParser::TOKEN_TYPE peek_token();
+	static TOKEN_TYPE copy_token(std::string & token,
+								 std::string::iterator & begin,
+								 std::string::iterator & end);
+	static TOKEN_TYPE token_type(const std::string & token);
+	static TOKEN_TYPE copy_token(std::string & token, std::istream & is);
+	TOKEN_TYPE copy_token(std::string & token, std::istream::pos_type & pos);
+	CParser::TOKEN_TYPE peek_token();
 
-        /**
+		/**
                 Function reads an element name out of the equation string.
                 An element name is composed of a capital letter followed by any number
                 of lower case characters.
@@ -170,10 +205,12 @@ public:
                         end      input, points to last position in the equation
                         element  input pointer to place to return element character string
         */
-        STATUS_TYPE get_elt(std::string::iterator& begin, const std::string::iterator end, std::string& element);
+	STATUS_TYPE get_elt(std::string::iterator & begin,
+						const std::string::iterator end,
+						std::string & element);
 
 
-        /**
+		/**
                 Compares a string value to match beginning letters of a list of options
 
                 Arguments:
@@ -189,39 +226,58 @@ public:
                         n       -1      item not matched
                                 i       position of match in list
         */
-        static FIND_TYPE find_option(const std::string& item, int *n, const std::vector<std::string>& list, bool exact);
+	static FIND_TYPE find_option(const std::string & item, int *n,
+								 const std::vector < std::string > &list,
+								 bool exact);
 
 
-        int error_msg(const std::ostringstream& err_str, ONERROR_TYPE stop)    {return error_msg(err_str.str().c_str(), stop);}
-        int error_msg(const char *err_str, ONERROR_TYPE stop);
-        int warning_msg(const char *err_str);
-        
-	void set_echo_file(ECHO_OPTION opt) {echo_file = opt;}
-	ECHO_OPTION get_echo_file() {return this->echo_file;};
+	int error_msg(const std::ostringstream & err_str, ONERROR_TYPE stop)
+	{
+		return error_msg(err_str.str().c_str(), stop);
+	}
+	int error_msg(const char *err_str, ONERROR_TYPE stop);
+	int warning_msg(const char *err_str);
 
-	void set_echo_stream(ECHO_OPTION opt) {echo_stream = opt;}
-	ECHO_OPTION get_echo_stream() {return this->echo_stream;};
+	void set_echo_file(ECHO_OPTION opt)
+	{
+		echo_file = opt;
+	}
+	ECHO_OPTION get_echo_file()
+	{
+		return this->echo_file;
+	};
 
-        STATUS_TYPE parse_couple(std::string& token);
+	void set_echo_stream(ECHO_OPTION opt)
+	{
+		echo_stream = opt;
+	}
+	ECHO_OPTION get_echo_stream()
+	{
+		return this->echo_stream;
+	};
 
-        STATUS_TYPE addPair(std::map<char *, double, CHARSTAR_LESS> &totals, std::istream::pos_type& pos);
-        STATUS_TYPE addPair(std::map<char *, double> &totals, std::istream::pos_type& pos);
+	STATUS_TYPE parse_couple(std::string & token);
 
-protected:
-        LINE_TYPE get_logical_line();
+	STATUS_TYPE addPair(std::map < char *, double, CHARSTAR_LESS > &totals,
+						std::istream::pos_type & pos);
+	STATUS_TYPE addPair(std::map < char *, double >&totals,
+						std::istream::pos_type & pos);
 
-private:
-        std::istream&        m_input_stream;
-        std::ostream&        m_output_stream;
-        std::ostream&        m_error_stream;
-        int                  m_input_error;
-        KEY_TYPE             m_next_keyword;
-        std::string          m_line;
-        std::string          m_line_save;
-        std::istringstream   m_line_iss;
-        LINE_TYPE            m_line_type;
-	ECHO_OPTION          echo_stream;
-	ECHO_OPTION          echo_file;
+  protected:
+	LINE_TYPE get_logical_line();
+
+  private:
+	std::istream & m_input_stream;
+	std::ostream & m_output_stream;
+	std::ostream & m_error_stream;
+	int m_input_error;
+	KEY_TYPE m_next_keyword;
+	std::string m_line;
+	std::string m_line_save;
+	std::istringstream m_line_iss;
+	LINE_TYPE m_line_type;
+	ECHO_OPTION echo_stream;
+	ECHO_OPTION echo_file;
 };
 
 #endif // PARSER_H_INCLUDED

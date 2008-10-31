@@ -4,32 +4,38 @@
 //#define EXTERNAL extern
 #include "SolutionIsotope.h"
 //#include "global.h"
-#include <cassert> // assert
-#include <string>  // std::string
-#include <list>    // std::list
+#include <cassert>				// assert
+#include <string>				// std::string
+#include <list>					// std::list
 
 #include "char_star.h"
 #include "Parser.h"
 
-class cxxSolutionIsotopeList : public std::list <cxxSolutionIsotope> 
+class cxxSolutionIsotopeList:public
+	std::list <
+	cxxSolutionIsotope >
 {
 
-public:
-        cxxSolutionIsotopeList();
+  public:
+	cxxSolutionIsotopeList();
 
-        cxxSolutionIsotopeList(struct solution *solution_ptr);
+	cxxSolutionIsotopeList(struct solution *solution_ptr);
 
-        ~cxxSolutionIsotopeList();
+	 ~
+	cxxSolutionIsotopeList();
 
-	struct isotope *cxxSolutionIsotopeList2isotope();
+	struct isotope *
+	cxxSolutionIsotopeList2isotope();
 
-	void add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
-	void multiply(double extensive);
-	
-protected:
+	void
+	add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
+	void
+	multiply(double extensive);
+
+  protected:
 
 
-public:
+  public:
 
 
 };
