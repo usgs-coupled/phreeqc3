@@ -1,5 +1,5 @@
 #ifdef _DEBUG
-#pragma warning(disable : 4786)   // disable truncation warning (Only used by debugger)
+#pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
 #include "Parser.h"
 #include "Solution.h"
@@ -20,12 +20,13 @@
 #include <iostream>
 
 
-extern int reading_database (void);
-extern int check_line(const char *string, int allow_empty, int allow_eof, int allow_keyword,
-		      int print);
+extern int reading_database(void);
+extern int check_line(const char *string, int allow_empty, int allow_eof,
+					  int allow_keyword, int print);
 
 /* ---------------------------------------------------------------------- */
-int read_solution_raw (void)
+int
+read_solution_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -54,10 +55,12 @@ int read_solution_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("solution_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("solution_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -68,16 +71,17 @@ int read_solution_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -91,24 +95,31 @@ int read_solution_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (solution_bsearch(soln_ptr->n_user, &n, FALSE) != NULL) {
+	if (solution_bsearch(soln_ptr->n_user, &n, FALSE) != NULL)
+	{
 		solution_free(solution[n]);
 		solution[n] = soln_ptr;
-	} else {
-		n=count_solution++;
-		if (count_solution >= max_solution) {
-			space ((void **) ((void *) &(solution)), count_solution, &max_solution, sizeof (struct solution *) );
+	}
+	else
+	{
+		n = count_solution++;
+		if (count_solution >= max_solution)
+		{
+			space((void **) ((void *) &(solution)), count_solution,
+				  &max_solution, sizeof(struct solution *));
 		}
 		solution[n] = soln_ptr;
-		solution_sort ();
+		solution_sort();
 	}
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_exchange_raw (void)
+int
+read_exchange_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -137,10 +148,12 @@ int read_exchange_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("exchange_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("exchange_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -151,16 +164,17 @@ int read_exchange_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -173,26 +187,33 @@ int read_exchange_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (exchange_bsearch(exchange_ptr->n_user, &n) != NULL) {
+	if (exchange_bsearch(exchange_ptr->n_user, &n) != NULL)
+	{
 		exchange_free(&exchange[n]);
 		exchange_copy(exchange_ptr, &exchange[n], exchange_ptr->n_user);
-	} else {
-		n=count_exchange++;
-		if (count_exchange >= max_exchange) {
-			space ((void **) ((void *) &(exchange)), count_exchange, &max_exchange, sizeof (struct exchange *) );
+	}
+	else
+	{
+		n = count_exchange++;
+		if (count_exchange >= max_exchange)
+		{
+			space((void **) ((void *) &(exchange)), count_exchange,
+				  &max_exchange, sizeof(struct exchange *));
 		}
 		exchange_copy(exchange_ptr, &exchange[n], exchange_ptr->n_user);
-		exchange_sort ();
+		exchange_sort();
 	}
 	exchange_free(exchange_ptr);
 	free_check_null(exchange_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_surface_raw (void)
+int
+read_surface_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -221,10 +242,12 @@ int read_surface_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("surface_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("surface_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -235,16 +258,17 @@ int read_surface_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -257,26 +281,33 @@ int read_surface_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (surface_bsearch(surface_ptr->n_user, &n) != NULL) {
+	if (surface_bsearch(surface_ptr->n_user, &n) != NULL)
+	{
 		surface_free(&surface[n]);
 		surface_copy(surface_ptr, &surface[n], surface_ptr->n_user);
-	} else {
-		n=count_surface++;
-		if (count_surface >= max_surface) {
-			space ((void **) ((void *) &(surface)), count_surface, &max_surface, sizeof (struct surface *) );
+	}
+	else
+	{
+		n = count_surface++;
+		if (count_surface >= max_surface)
+		{
+			space((void **) ((void *) &(surface)), count_surface,
+				  &max_surface, sizeof(struct surface *));
 		}
 		surface_copy(surface_ptr, &surface[n], surface_ptr->n_user);
-		surface_sort ();
+		surface_sort();
 	}
 	surface_free(surface_ptr);
 	free_check_null(surface_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_equilibrium_phases_raw (void)
+int
+read_equilibrium_phases_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -305,10 +336,13 @@ int read_equilibrium_phases_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("equilibrium_phases_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value =
+			check_line("equilibrium_phases_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -319,48 +353,59 @@ int read_equilibrium_phases_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
 	cxxPPassemblage ex;
 	ex.read_raw(parser);
-	struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage();
+	struct pp_assemblage *pp_assemblage_ptr =
+		ex.cxxPPassemblage2pp_assemblage();
 	int n;
 
 	/*
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (pp_assemblage_bsearch(pp_assemblage_ptr->n_user, &n) != NULL) {
+	if (pp_assemblage_bsearch(pp_assemblage_ptr->n_user, &n) != NULL)
+	{
 		pp_assemblage_free(&pp_assemblage[n]);
-		pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[n], pp_assemblage_ptr->n_user);
-	} else {
-		n=count_pp_assemblage++;
-		if (count_pp_assemblage >= max_pp_assemblage) {
-			space ((void **) ((void *) &(pp_assemblage)), count_pp_assemblage, &max_pp_assemblage, sizeof (struct pp_assemblage *) );
+		pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[n],
+						   pp_assemblage_ptr->n_user);
+	}
+	else
+	{
+		n = count_pp_assemblage++;
+		if (count_pp_assemblage >= max_pp_assemblage)
+		{
+			space((void **) ((void *) &(pp_assemblage)), count_pp_assemblage,
+				  &max_pp_assemblage, sizeof(struct pp_assemblage *));
 		}
-		pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[n], pp_assemblage_ptr->n_user);
-		pp_assemblage_sort ();
+		pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[n],
+						   pp_assemblage_ptr->n_user);
+		pp_assemblage_sort();
 	}
 	pp_assemblage_free(pp_assemblage_ptr);
 	free_check_null(pp_assemblage_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_kinetics_raw (void)
+int
+read_kinetics_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -389,10 +434,12 @@ int read_kinetics_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("kinetics_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("kinetics_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -403,16 +450,17 @@ int read_kinetics_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -425,26 +473,33 @@ int read_kinetics_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (kinetics_bsearch(kinetics_ptr->n_user, &n) != NULL) {
+	if (kinetics_bsearch(kinetics_ptr->n_user, &n) != NULL)
+	{
 		kinetics_free(&kinetics[n]);
 		kinetics_copy(kinetics_ptr, &kinetics[n], kinetics_ptr->n_user);
-	} else {
-		n=count_kinetics++;
-		if (count_kinetics >= max_kinetics) {
-			space ((void **) ((void *) &(kinetics)), count_kinetics, &max_kinetics, sizeof (struct kinetics *) );
+	}
+	else
+	{
+		n = count_kinetics++;
+		if (count_kinetics >= max_kinetics)
+		{
+			space((void **) ((void *) &(kinetics)), count_kinetics,
+				  &max_kinetics, sizeof(struct kinetics *));
 		}
 		kinetics_copy(kinetics_ptr, &kinetics[n], kinetics_ptr->n_user);
-		kinetics_sort ();
+		kinetics_sort();
 	}
 	kinetics_free(kinetics_ptr);
 	free_check_null(kinetics_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_solid_solutions_raw (void)
+int
+read_solid_solutions_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -473,10 +528,13 @@ int read_solid_solutions_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("solid_solution_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value =
+			check_line("solid_solution_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -487,48 +545,60 @@ int read_solid_solutions_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
 	cxxSSassemblage ex;
 	ex.read_raw(parser);
-	struct s_s_assemblage *s_s_assemblage_ptr = ex.cxxSSassemblage2s_s_assemblage();
+	struct s_s_assemblage *s_s_assemblage_ptr =
+		ex.cxxSSassemblage2s_s_assemblage();
 	int n;
 
 	/*
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (s_s_assemblage_bsearch(s_s_assemblage_ptr->n_user, &n) != NULL) {
+	if (s_s_assemblage_bsearch(s_s_assemblage_ptr->n_user, &n) != NULL)
+	{
 		s_s_assemblage_free(&s_s_assemblage[n]);
-		s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[n], s_s_assemblage_ptr->n_user);
-	} else {
-		n=count_s_s_assemblage++;
-		if (count_s_s_assemblage >= max_s_s_assemblage) {
-			space ((void **) ((void *) &(s_s_assemblage)), count_s_s_assemblage, &max_s_s_assemblage, sizeof (struct s_s_assemblage *) );
+		s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[n],
+							s_s_assemblage_ptr->n_user);
+	}
+	else
+	{
+		n = count_s_s_assemblage++;
+		if (count_s_s_assemblage >= max_s_s_assemblage)
+		{
+			space((void **) ((void *) &(s_s_assemblage)),
+				  count_s_s_assemblage, &max_s_s_assemblage,
+				  sizeof(struct s_s_assemblage *));
 		}
-		s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[n], s_s_assemblage_ptr->n_user);
-		s_s_assemblage_sort ();
+		s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[n],
+							s_s_assemblage_ptr->n_user);
+		s_s_assemblage_sort();
 	}
 	s_s_assemblage_free(s_s_assemblage_ptr);
 	free_check_null(s_s_assemblage_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_gas_phase_raw (void)
+int
+read_gas_phase_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -557,10 +627,12 @@ int read_gas_phase_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("gas_phase_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("gas_phase_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -571,16 +643,17 @@ int read_gas_phase_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -593,26 +666,33 @@ int read_gas_phase_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (gas_phase_bsearch(gas_phase_ptr->n_user, &n) != NULL) {
+	if (gas_phase_bsearch(gas_phase_ptr->n_user, &n) != NULL)
+	{
 		gas_phase_free(&gas_phase[n]);
 		gas_phase_copy(gas_phase_ptr, &gas_phase[n], gas_phase_ptr->n_user);
-	} else {
-		n=count_gas_phase++;
-		if (count_gas_phase >= max_gas_phase) {
-			space ((void **) ((void *) &(gas_phase)), count_gas_phase, &max_gas_phase, sizeof (struct gas_phase *) );
+	}
+	else
+	{
+		n = count_gas_phase++;
+		if (count_gas_phase >= max_gas_phase)
+		{
+			space((void **) ((void *) &(gas_phase)), count_gas_phase,
+				  &max_gas_phase, sizeof(struct gas_phase *));
 		}
 		gas_phase_copy(gas_phase_ptr, &gas_phase[n], gas_phase_ptr->n_user);
-		gas_phase_sort ();
+		gas_phase_sort();
 	}
 	gas_phase_free(gas_phase_ptr);
 	free_check_null(gas_phase_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_reaction_raw (void)
+int
+read_reaction_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -641,10 +721,12 @@ int read_reaction_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("reaction_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("reaction_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -655,16 +737,17 @@ int read_reaction_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -677,25 +760,34 @@ int read_reaction_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (irrev_bsearch(irrev_ptr->n_user, &n) != NULL) {
+	if (irrev_bsearch(irrev_ptr->n_user, &n) != NULL)
+	{
 		irrev_free(&irrev[n]);
 		irrev_copy(irrev_ptr, &irrev[n], irrev_ptr->n_user);
-	} else {
-		n=count_irrev++;
-		irrev = (struct irrev *) PHRQ_realloc(irrev, (size_t) count_irrev * sizeof (struct irrev));
-		if (irrev == NULL) malloc_error();
+	}
+	else
+	{
+		n = count_irrev++;
+		irrev =
+			(struct irrev *) PHRQ_realloc(irrev,
+										  (size_t) count_irrev *
+										  sizeof(struct irrev));
+		if (irrev == NULL)
+			malloc_error();
 		irrev_copy(irrev_ptr, &irrev[n], irrev_ptr->n_user);
-		irrev_sort ();
+		irrev_sort();
 	}
 	irrev_free(irrev_ptr);
 	free_check_null(irrev_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_mix_raw (void)
+int
+read_mix_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -724,10 +816,12 @@ int read_mix_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("mix_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("mix_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -738,16 +832,17 @@ int read_mix_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -760,25 +855,34 @@ int read_mix_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (mix_bsearch(mix_ptr->n_user, &n) != NULL) {
+	if (mix_bsearch(mix_ptr->n_user, &n) != NULL)
+	{
 		mix_free(&mix[n]);
 		mix_copy(mix_ptr, &mix[n], mix_ptr->n_user);
-	} else {
-		n=count_mix++;
-		mix = (struct mix *) PHRQ_realloc(mix, (size_t) count_mix * sizeof (struct mix));
-		if (mix == NULL) malloc_error();
+	}
+	else
+	{
+		n = count_mix++;
+		mix =
+			(struct mix *) PHRQ_realloc(mix,
+										(size_t) count_mix *
+										sizeof(struct mix));
+		if (mix == NULL)
+			malloc_error();
 		mix_copy(mix_ptr, &mix[n], mix_ptr->n_user);
-		mix_sort ();
+		mix_sort();
 	}
 	mix_free(mix_ptr);
 	free_check_null(mix_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
-int read_temperature_raw (void)
+int
+read_temperature_raw(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -807,10 +911,12 @@ int read_temperature_raw (void)
  */
 	int save_echo_input = pr.echo_input;
 	pr.echo_input = FALSE;
-	for (;;) {
-		return_value = check_line("temperature_raw",TRUE,TRUE,TRUE,FALSE);
-                                               /* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD ) break;
+	for (;;)
+	{
+		return_value = check_line("temperature_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
 		keywordLines.append(line);
 		keywordLines.append("\n");
 	}
@@ -821,16 +927,17 @@ int read_temperature_raw (void)
 	std::ostringstream oss_err;
 
 	CParser parser(iss_in, oss_out, oss_err);
-	assert (!reading_database ());
-	if (pr.echo_input == FALSE) 
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
 	{
-	  parser.set_echo_file(CParser::EO_NONE);
-	} else  
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
 	{
-	  parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	} 
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
 	//For testing, need to read line to get started
-	std::vector<std::string> vopts;
+	std::vector < std::string > vopts;
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
@@ -843,20 +950,29 @@ int read_temperature_raw (void)
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (temperature_bsearch(temperature_ptr->n_user, &n) != NULL) {
+	if (temperature_bsearch(temperature_ptr->n_user, &n) != NULL)
+	{
 		temperature_free(&temperature[n]);
-		temperature_copy(temperature_ptr, &temperature[n], temperature_ptr->n_user);
-	} else {
-		n=count_temperature++;
-		temperature = (struct temperature *) PHRQ_realloc(temperature, (size_t) count_temperature * sizeof (struct temperature));
-		if (temperature == NULL) malloc_error();
-		temperature_copy(temperature_ptr, &temperature[n], temperature_ptr->n_user);
-		temperature_sort ();
+		temperature_copy(temperature_ptr, &temperature[n],
+						 temperature_ptr->n_user);
+	}
+	else
+	{
+		n = count_temperature++;
+		temperature =
+			(struct temperature *) PHRQ_realloc(temperature,
+												(size_t) count_temperature *
+												sizeof(struct temperature));
+		if (temperature == NULL)
+			malloc_error();
+		temperature_copy(temperature_ptr, &temperature[n],
+						 temperature_ptr->n_user);
+		temperature_sort();
 	}
 	temperature_free(temperature_ptr);
 	free_check_null(temperature_ptr);
 
 	// Need to output the next keyword
-	output_msg (OUTPUT_CHECKLINE, "\t%s\n", line);
-	return(return_value);
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
