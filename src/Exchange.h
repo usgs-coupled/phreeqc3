@@ -3,67 +3,71 @@
 
 #define EXTERNAL extern
 #include "global.h"
-#include <cassert> // assert
-#include <map>     // std::map
-#include <string>  // std::string
-#include <list>  // std::list
+#include <cassert>				// assert
+#include <map>					// std::map
+#include <string>				// std::string
+#include <list>					// std::list
 
 #include "ExchComp.h"
 #include "cxxMix.h"
 
-class cxxExchange : public cxxNumKeyword
+class cxxExchange:public cxxNumKeyword
 {
 
-public:
-        cxxExchange();
+  public:
+	cxxExchange();
 	cxxExchange(int n_user);
-        cxxExchange(struct exchange *);
-	cxxExchange(const std::map<int, cxxExchange> &exchange_map, cxxMix &mx, int n_user);
-        ~cxxExchange();
+	  cxxExchange(struct exchange *);
+	  cxxExchange(const std::map < int, cxxExchange > &exchange_map,
+				  cxxMix & mx, int n_user);
+	 ~cxxExchange();
 
-        struct exchange *cxxExchange2exchange();
+	struct exchange *cxxExchange2exchange();
 
-        struct exch_comp *cxxExchComp2exch_comp();
+	struct exch_comp *cxxExchComp2exch_comp();
 
-        void dump_raw(std::ostream& s_oss, unsigned int indent)const;
+	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-        void read_raw(CParser& parser);
+	void read_raw(CParser & parser);
 
-        bool get_related_phases(void);
+	bool get_related_phases(void);
 
-        bool get_related_rate(void);
+	bool get_related_rate(void);
 
-        bool get_pitzer_exchange_gammas() {
+	bool get_pitzer_exchange_gammas()
+	{
 		return this->pitzer_exchange_gammas;
 	}
-        void set_pitzer_exchange_gammas(bool b) {
+	void set_pitzer_exchange_gammas(bool b)
+	{
 		this->pitzer_exchange_gammas = b;
 	}
 
-        std::list<cxxExchComp> &get_exchComps(void) {
-		return(this->exchComps);
+	std::list < cxxExchComp > &get_exchComps(void)
+	{
+		return (this->exchComps);
 	}
 	void totalize();
 
-	const cxxNameDouble& get_totals()const 
+	const cxxNameDouble & get_totals() const
 	{
-	  return totals;
+		return totals;
 	};
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector<int>& ints, std::vector<double>& doubles);
+	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
-private:
-	void add(const cxxExchange &addee, double extensive);
+  private:
+	void add(const cxxExchange & addee, double extensive);
 	// not written
-        void dump_xml(std::ostream& os, unsigned int indent = 0)const;
+	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
-protected:
-        std::list<cxxExchComp> exchComps;
-        bool pitzer_exchange_gammas;
+  protected:
+	std::list < cxxExchComp > exchComps;
+	bool pitzer_exchange_gammas;
 	cxxNameDouble totals;
-public:
+  public:
 
 };
 
