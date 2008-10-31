@@ -22,7 +22,7 @@ cxxNumKeyword::~cxxNumKeyword()
 }
 
 void
-cxxNumKeyword::dump_xml(std::ostream & os, unsigned int indent) const const
+cxxNumKeyword::dump_xml(std::ostream & os, unsigned int indent) const
 {
 	unsigned int i;
 

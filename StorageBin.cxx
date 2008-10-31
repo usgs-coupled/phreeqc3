@@ -210,7 +210,7 @@ cxxStorageBin::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 #endif
 
 void
-cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	// Dump all data
 

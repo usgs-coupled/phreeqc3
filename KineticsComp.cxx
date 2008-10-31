@@ -150,7 +150,7 @@ cxxKineticsComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 #endif
 void
-cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing kinetics_comp message: %s, element not found\n";
 	unsigned int i;

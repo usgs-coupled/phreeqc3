@@ -93,7 +93,7 @@ cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(std::list <
 }
 
 void
-cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing pure_phase message: %s, element not found\n";
 	unsigned int i;
@@ -124,7 +124,7 @@ cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const c
 }
 
 void
-cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const const
+cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing pure_phase message: %s, element not found\n";
 	unsigned int i;
