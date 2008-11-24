@@ -60,6 +60,7 @@ class cxxPPassemblageComp
 	double initial_moles;
 	bool force_equality;
 	bool dissolve_only;
+	bool precipitate_only;
 	cxxNameDouble totals;
 
   public:

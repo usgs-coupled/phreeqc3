@@ -33,6 +33,7 @@ cxxPPassemblageComp::cxxPPassemblageComp()
 	initial_moles = 0;
 	force_equality = false;
 	dissolve_only = false;
+	precipitate_only = false;
 }
 
 cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase * pure_phase_ptr)
@@ -87,6 +88,7 @@ cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(std::list <
 		pure_phase_ptr[i].initial_moles = it->initial_moles;
 		pure_phase_ptr[i].force_equality = (int) it->force_equality;
 		pure_phase_ptr[i].dissolve_only = (int) it->dissolve_only;
+		pure_phase_ptr[i].precipitate_only = (int) it->precipitate_only;
 		i++;
 	}
 	return (pure_phase_ptr);
@@ -120,6 +122,8 @@ cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 		force_equality << "\"" << std::endl;
 	s_oss << indent0 << "dissolve_only=\"" << this->
 		dissolve_only << "\"" << std::endl;
+	s_oss << indent0 << "precipitate_only=\"" << this->
+		precipitate_only << "\"" << std::endl;
 
 }
 
@@ -154,6 +158,8 @@ cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		force_equality << std::endl;
 	s_oss << indent0 << "-dissolve_only         " << this->
 		dissolve_only << std::endl;
+	s_oss << indent0 << "-precipitate_only         " << this->
+		precipitate_only << std::endl;
 }
 
 void
@@ -173,6 +179,7 @@ cxxPPassemblageComp::read_raw(CParser & parser)
 		vopts.push_back("initial_moles");	// 5     
 		vopts.push_back("dissolve_only");	// 6
 		vopts.push_back("force_equality");	// 7
+		vopts.push_back("precipitate_only");	// 8
 	}
 
 	std::istream::pos_type ptr;
@@ -188,6 +195,7 @@ cxxPPassemblageComp::read_raw(CParser & parser)
 	bool initial_moles_defined(false);
 	bool dissolve_only_defined(false);
 	bool force_equality_defined(false);
+	bool precipitate_only_defined(false);
 
 	for (;;)
 	{
@@ -294,6 +302,10 @@ cxxPPassemblageComp::read_raw(CParser & parser)
 								 CParser::OT_CONTINUE);
 			}
 			dissolve_only_defined = true;
+			if (this->dissolve_only)
+			{
+				this->precipitate_only = false;
+			}
 			break;
 
 		case 7:				// force_equality
@@ -305,6 +317,21 @@ cxxPPassemblageComp::read_raw(CParser & parser)
 								 CParser::OT_CONTINUE);
 			}
 			force_equality_defined = true;
+			break;
+
+		case 8:				// precipitate_only
+			if (!(parser.get_iss() >> this->precipitate_only))
+			{
+				this->precipitate_only = false;
+				parser.incr_input_error();
+				parser.error_msg("Expected boolean value for precipitate_only.",
+								 CParser::OT_CONTINUE);
+			}
+			precipitate_only_defined = true;
+			if (this->precipitate_only)
+			{
+				this->dissolve_only = false;
+			}
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
@@ -349,6 +376,15 @@ cxxPPassemblageComp::read_raw(CParser & parser)
 			error_msg("Dissolve_only not defined for PPassemblageComp input.",
 					  CParser::OT_CONTINUE);
 	}
+	/* don't check to maintain backward compatibility
+	if (precipitate_only_defined == false)
+	{
+		parser.incr_input_error();
+		parser.
+			error_msg("Precipitate_only not defined for PPassemblageComp input.",
+					  CParser::OT_CONTINUE);
+	}
+	*/
 	if (force_equality_defined == false)
 	{
 		parser.incr_input_error();
@@ -374,6 +410,7 @@ cxxPPassemblageComp::mpi_pack(std::vector < int >&ints,
 	doubles.push_back(this->initial_moles);
 	ints.push_back((int) this->force_equality);
 	ints.push_back((int) this->dissolve_only);
+	ints.push_back((int) this->precipitate_only);
 }
 
 void
@@ -390,6 +427,7 @@ cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->initial_moles = doubles[d++];
 	this->force_equality = (ints[i++] != 0);
 	this->dissolve_only = (ints[i++] != 0);
+	this->precipitate_only = (ints[i++] != 0);
 	*ii = i;
 	*dd = d;
 }
