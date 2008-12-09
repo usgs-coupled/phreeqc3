@@ -49,6 +49,7 @@ cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase * pure_phase_ptr)
 	initial_moles = pure_phase_ptr->initial_moles;
 	force_equality = (pure_phase_ptr->force_equality == TRUE);
 	dissolve_only = (pure_phase_ptr->dissolve_only == TRUE);
+	precipitate_only = (pure_phase_ptr->precipitate_only == TRUE);
 }
 
 cxxPPassemblageComp::~cxxPPassemblageComp()
