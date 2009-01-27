@@ -17,9 +17,11 @@ all: alkalinity.out \
 	ball.out \
 	brown.out \
 	cdmusic_related.out \
+	cd_ddl.out \
 	co2.out \
 	colloid_U.out \
 	comments.out \
+	ddl_flux.out \
 	ddlsurf.out \
 	de.out \
 	deb1.out \
@@ -35,6 +37,8 @@ all: alkalinity.out \
 	exch_related_pz.out \
 	exch_kin_related.out \
 	exch_kin_related_pz.out \
+	ex_ild.out \
+	ferri_surface.out \
 	fiona.out \
 	fixed_volume_gas.out \
 	fixed_volume_gas_pz.out \
@@ -63,6 +67,7 @@ all: alkalinity.out \
 	local_min_pz.out \
 	mahoney.out \
 	membrane.out \
+	millero.out \
 	mmb.out \
 	mmb2.out \
 	mu.out \
@@ -77,7 +82,9 @@ all: alkalinity.out \
 	phrqpitz.tst.out \
 	pitzalphas.out \
 	pitzgas.out \
+	precipitate_only.out \
 	prob8.out \
+	rahn.out \
 	raw.out \
 	s1.out \
 	salt_ec.out \
@@ -140,7 +147,7 @@ all: alkalinity.out \
 	spread_redox.out 
 
 clean:
-	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp
+	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt
 
 revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert
@@ -157,7 +164,7 @@ zero:
 			fi \
 		done; 
 diff_phreeqc:
-	for FILE in *.out *.sel *.pun *.prn; \
+	for FILE in *.out *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt; \
 		do \
 			if [ $$FILE != make.out ]; then \
 				echo $$FILE =-=-=-=-=-; \

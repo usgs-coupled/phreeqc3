@@ -1,0 +1,210 @@
+   Input file: cd_ddl
+  Output file: cd_ddl.out
+Database file: phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	SOLUTION 1
+	 Na 1
+	 Ca 0.1
+	 Cl 1.2
+	SURFACE_MASTER_SPECIES
+	 Su Su-
+	 Suc Suc-
+	SURFACE_SPECIES
+	 Su- = Su-
+	 log_k 0
+	 Suc- = Suc-
+	 log_k 0
+	 cd_music  0 0 0 0 0
+	SURFACE 1
+	 Su 1e-4 1 1
+	 equilibrate 1
+	 donnan 0.01e-3
+	USE solution none
+	SURFACE 2
+	 Suc 1e-4 1 1
+	 equilibrate 1
+	 donnan 0.01e-3
+	 cd_music
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e-04   1.000e-04
+	Cl                1.200e-03   1.200e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.300e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.678e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  -5.660e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.043e-07   1.001e-07    -6.982    -7.000    -0.018
+   H+                     1.039e-07   1.000e-07    -6.983    -7.000    -0.017
+   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+Ca               1.000e-04
+   Ca+2                   1.000e-04   8.528e-05    -4.000    -4.069    -0.069
+   CaOH+                  1.474e-10   1.415e-10    -9.832    -9.849    -0.018
+Cl               1.200e-03
+   Cl-                    1.200e-03   1.152e-03    -2.921    -2.938    -0.018
+H(0)             1.415e-25
+   H2                     7.077e-26   7.079e-26   -25.150   -25.150     0.000
+Na               1.000e-03
+   Na+                    1.000e-03   9.606e-04    -3.000    -3.017    -0.017
+   NaOH                   6.345e-11   6.347e-11   -10.198   -10.197     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -22.00  -25.15   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	Halite           -7.54   -5.96    1.58  NaCl
+	O2(g)           -39.12  -42.08   -2.96  O2
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Su            
+	  7.435e-13  Surface + diffuse layer charge, eq
+	 -1.000e-04  Surface charge, eq
+	 -9.649e+00  sigma, C/m**2
+	 -4.329e-01  psi, V
+	  1.685e+01  -F*psi/RT
+	  2.078e+07  exp(-F*psi/RT)
+	  1.000e+00  specific area, m**2/g
+	  1.000e+00  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e-02 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	  2.5788e-05
+	Cl            	  2.3630e-06
+	H             	  5.4894e-09
+	Na            	  5.0782e-05
+	O             	  2.1341e-10
+
+Su            
+	  1.000e-04  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-04       1.000   1.000e-04      -4.000
+
+Surface 2.	
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+Suc           
+	  2.416e-18  Surface + diffuse layer charge, eq
+
+	 -1.000e-04  Surface charge, plane 0, eq
+	  0.000e+00  Surface charge, plane 1, eq
+	  0.000e+00  Surface charge, plane 2, eq
+	 -1.000e-04  Sum of surface charge, all planes, eq
+
+	 -9.649e+00  sigma, plane 0, C/m**2
+	  0.000e+00  sigma, plane 1, C/m**2
+	  0.000e+00  sigma, plane 2, C/m**2
+	  9.649e+00  sigma, diffuse layer, C/m**2
+
+	 -1.198e+01  psi, plane 0, V
+	 -2.336e+00  psi, plane 1, V
+	 -4.057e-01  psi, plane 2, V
+
+	 3.965e+202  exp(-F*psi/RT), plane 0
+	  3.029e+39  exp(-F*psi/RT), plane 1
+	  7.209e+06  exp(-F*psi/RT), plane 2
+
+	  1.000e+00  capacitance 0-1, F/m^2
+	  5.000e+00  capacitance 1-2, F/m^2
+	  1.000e+00  specific area, m^2/g
+	  1.000e+00  m^2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e-02 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	  2.5788e-05
+	Cl            	  2.3630e-06
+	H             	  5.4894e-09
+	Na            	  5.0782e-05
+	O             	  2.1341e-10
+
+Suc           
+	  1.000e-04  moles
+	                                        Mole                     Log
+	Species                    Moles    Fraction    Molality    Molality
+
+	Suc-                   1.000e-04       1.000   1.000e-04      -4.000
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
