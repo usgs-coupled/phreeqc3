@@ -198,7 +198,7 @@ read_exchange_raw(void)
 		if (count_exchange >= max_exchange)
 		{
 			space((void **) ((void *) &(exchange)), count_exchange,
-				  &max_exchange, sizeof(struct exchange *));
+				  &max_exchange, sizeof(struct exchange));
 		}
 		exchange_copy(exchange_ptr, &exchange[n], exchange_ptr->n_user);
 		exchange_sort();
@@ -292,7 +292,7 @@ read_surface_raw(void)
 		if (count_surface >= max_surface)
 		{
 			space((void **) ((void *) &(surface)), count_surface,
-				  &max_surface, sizeof(struct surface *));
+				  &max_surface, sizeof(struct surface));
 		}
 		surface_copy(surface_ptr, &surface[n], surface_ptr->n_user);
 		surface_sort();
@@ -389,7 +389,7 @@ read_equilibrium_phases_raw(void)
 		if (count_pp_assemblage >= max_pp_assemblage)
 		{
 			space((void **) ((void *) &(pp_assemblage)), count_pp_assemblage,
-				  &max_pp_assemblage, sizeof(struct pp_assemblage *));
+				  &max_pp_assemblage, sizeof(struct pp_assemblage));
 		}
 		pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[n],
 						   pp_assemblage_ptr->n_user);
@@ -484,7 +484,7 @@ read_kinetics_raw(void)
 		if (count_kinetics >= max_kinetics)
 		{
 			space((void **) ((void *) &(kinetics)), count_kinetics,
-				  &max_kinetics, sizeof(struct kinetics *));
+				  &max_kinetics, sizeof(struct kinetics));
 		}
 		kinetics_copy(kinetics_ptr, &kinetics[n], kinetics_ptr->n_user);
 		kinetics_sort();
@@ -582,7 +582,7 @@ read_solid_solutions_raw(void)
 		{
 			space((void **) ((void *) &(s_s_assemblage)),
 				  count_s_s_assemblage, &max_s_s_assemblage,
-				  sizeof(struct s_s_assemblage *));
+				  sizeof(struct s_s_assemblage));
 		}
 		s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[n],
 							s_s_assemblage_ptr->n_user);
@@ -677,7 +677,7 @@ read_gas_phase_raw(void)
 		if (count_gas_phase >= max_gas_phase)
 		{
 			space((void **) ((void *) &(gas_phase)), count_gas_phase,
-				  &max_gas_phase, sizeof(struct gas_phase *));
+				  &max_gas_phase, sizeof(struct gas_phase));
 		}
 		gas_phase_copy(gas_phase_ptr, &gas_phase[n], gas_phase_ptr->n_user);
 		gas_phase_sort();
