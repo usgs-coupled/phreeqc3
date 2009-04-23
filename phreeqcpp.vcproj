@@ -42,13 +42,16 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(DEV_GMP_INC_MT),$(DEV_XERCES)\include,.\src\phreeqc"
-				PreprocessorDefinitions="PHREEQC_CPP;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="PHREEQC_CPP;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;DOS"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
+				FloatingPointModel="0"
+				FloatingPointExceptions="false"
 				PrecompiledHeaderFile=".\Release/phreeqcpp.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
@@ -135,9 +138,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(DEV_GMP_INC_MT),$(DEV_XERCES)\include,.\src\phreeqc"
-				PreprocessorDefinitions="PHREEQC_CPP;_CRT_SECURE_NO_DEPRECATE;WIN32_MEMORY_DEBUG;INVERSE_CL1MP;WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="PHREEQC_CPP;_CRT_SECURE_NO_DEPRECATE;WIN32_MEMORY_DEBUG;INVERSE_CL1MP;WIN32;DOS;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
