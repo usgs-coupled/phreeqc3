@@ -554,7 +554,7 @@ cxxSolution::read_raw(CParser & parser)
 		vopts.push_back("gammas");	// 2 
 		vopts.push_back("isotopes");	// 3 
 		vopts.push_back("temp");	// 4 
-		vopts.push_back("tc");	// 5 
+		vopts.push_back("tc_avoid_conflict_with_technetium");	// 5 
 		vopts.push_back("temperature");	// 6 
 		vopts.push_back("ph");	// 7 
 		vopts.push_back("pe");	// 8 
@@ -673,7 +673,7 @@ cxxSolution::read_raw(CParser & parser)
 			break;
 
 		case 4:				// temp
-		case 5:				// tc
+		case 5:				// tc_avoid_conflict_with_technetium
 		case 6:				// temperature                  
 			if (!(parser.get_iss() >> this->tc))
 			{
