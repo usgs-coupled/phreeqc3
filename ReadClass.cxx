@@ -12,18 +12,21 @@
 #include "Reaction.h"
 #include "cxxMix.h"
 #include "Temperature.h"
+#include "dumper.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
 #include "output.h"
 #include "phrqproto.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
-
+static int streamify_to_next_keyword(std::istringstream & lines);
 extern int reading_database(void);
 extern int check_line(const char *string, int allow_empty, int allow_eof,
 					  int allow_keyword, int print);
-
+dumper dump_info;
 /* ---------------------------------------------------------------------- */
 int
 read_solution_raw(void)
@@ -928,6 +931,7 @@ read_temperature_raw(void)
 
 	CParser parser(iss_in, oss_out, oss_err);
 	assert(!reading_database());
+
 	if (pr.echo_input == FALSE)
 	{
 		parser.set_echo_file(CParser::EO_NONE);
@@ -975,4 +979,358 @@ read_temperature_raw(void)
 	// Need to output the next keyword
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
 	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int
+read_dump(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads DUMP data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	dumper dmp(parser);
+	dump_info = dmp;
+
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int
+streamify_to_next_keyword(std::istringstream & lines)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Reads to next keyword or eof
+ *
+ *   Returns:
+ *       KEYWORD
+ *       OPTION
+ *       EOF
+ */
+	const char *opt_list[] = {
+		"none"
+	};
+	int count_opt_list = 0;
+	int opt;
+	char *next_char;
+
+	// Handle echo
+	int save_echo_input = pr.echo_input;
+	pr.echo_input = FALSE;
+
+	std::string accumulate(line);
+	accumulate.append("\n");
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		if (opt == OPTION_EOF)
+		{						/* end of file */
+			break;
+		}
+		else if (opt == OPTION_KEYWORD)
+		{						/* keyword */
+			break;
+		}
+		else
+		{
+			accumulate.append(line);
+			accumulate.append("\n");
+		}
+	}
+	pr.echo_input = save_echo_input;
+	lines.str(accumulate);
+	return (opt);
+}
+#endif
+/* ---------------------------------------------------------------------- */
+int
+streamify_to_next_keyword(std::istringstream & lines)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Reads to next keyword or eof
+ *
+ *   Returns:
+ *       OPTION_KEYWORD
+ *       OPTION_EOF
+ *       
+ */
+	// Handle echo
+	int save_echo_input = pr.echo_input;
+	pr.echo_input = FALSE;
+
+	std::string accumulate(line);
+	accumulate.append("\n");
+	int j;
+	for (;;)
+	{
+		j = check_line("Streamify", FALSE, TRUE, TRUE, FALSE);
+		if (j == EOF)
+		{						/* end of file */
+			break;
+		}
+		else if (j == KEYWORD)
+		{						/* keyword */
+			break;
+		}
+		else
+		{
+			accumulate.append(line);
+			accumulate.append("\n");
+		}
+	}
+
+	lines.str(accumulate);
+	//std::cerr << accumulate;
+	pr.echo_input = save_echo_input;
+	if (j == EOF) return (OPTION_EOF);
+	if (j == KEYWORD) return (OPTION_KEYWORD);
+
+
+	return (OPTION_ERROR);
+}
+/* ---------------------------------------------------------------------- */
+int
+dump_entities(void)
+/* ---------------------------------------------------------------------- */
+{
+	int i, n, return_value;
+	return_value = OK;
+
+
+
+	std::ofstream dump_stream;
+	if (dump_info.get_append())
+	{
+		//dump_stream.open(dump_info.get_file_name(), std::ios_base::app);
+		dump_stream.open(dump_info.get_file_name().c_str(), std::ios_base::app);
+	}
+	else
+	{
+		dump_stream.open(dump_info.get_file_name().c_str());
+	}
+	// solutions
+	if (dump_info.get_dump_solution())
+	{
+		if (dump_info.get_solution().size() == 0)
+		{
+			for (i = 0; i < count_solution; i++)
+			{
+					cxxSolution cxxsoln(solution[i]);
+					cxxsoln.dump_raw(dump_stream,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.get_solution().begin(); it != dump_info.get_solution().end(); it++)
+			{
+				if (solution_bsearch(*it, &n, FALSE) != NULL)
+				{
+					cxxSolution cxxsoln(solution[n]);
+					cxxsoln.dump_raw(dump_stream,0);
+				}
+			}
+		}
+	}
+
+	// pp_assemblages
+	if (dump_info.get_dump_pp_assemblage())
+	{
+		if (dump_info.get_pp_assemblage().size() == 0)
+		{
+			for (i = 0; i < count_pp_assemblage; i++)
+			{
+					cxxPPassemblage cxxentity(&pp_assemblage[i]);
+					cxxentity.dump_raw(dump_stream,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.get_pp_assemblage().begin(); it != dump_info.get_pp_assemblage().end(); it++)
+			{
+
+				if (pp_assemblage_bsearch(*it, &n) != NULL)
+				{
+					cxxPPassemblage cxxentity(&pp_assemblage[n]);
+					cxxentity.dump_raw(dump_stream,0);
+				}
+			}
+		}
+	}
+
+	// exchanges
+	if (dump_info.get_dump_exchange())
+	{
+		if (dump_info.get_exchange().size() == 0)
+		{
+			for (i = 0; i < count_exchange; i++)
+			{
+					cxxExchange cxxentity(&exchange[i]);
+					cxxentity.dump_raw(dump_stream,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.get_exchange().begin(); it != dump_info.get_exchange().end(); it++)
+			{
+
+				if (exchange_bsearch(*it, &n) != NULL)
+				{
+					cxxExchange cxxentity(&exchange[n]);
+					cxxentity.dump_raw(dump_stream,0);
+				}
+			}
+		}
+	}
+
+	// surfaces
+	if (dump_info.get_dump_surface())
+	{
+		if (dump_info.get_surface().size() == 0)
+		{
+			for (i = 0; i < count_surface; i++)
+			{
+					cxxSurface cxxentity(&surface[i]);
+					cxxentity.dump_raw(dump_stream,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.get_surface().begin(); it != dump_info.get_surface().end(); it++)
+			{
+
+				if (surface_bsearch(*it, &n) != NULL)
+				{
+					cxxSurface cxxentity(&surface[n]);
+					cxxentity.dump_raw(dump_stream,0);
+				}
+			}
+		}
+	}
+
+	// s_s_assemblages
+	if (dump_info.get_dump_s_s_assemblage())
+	{
+		if (dump_info.get_s_s_assemblage().size() == 0)
+		{
+			for (i = 0; i < count_s_s_assemblage; i++)
+			{
+					cxxSSassemblage cxxentity(&s_s_assemblage[i]);
+					cxxentity.dump_raw(dump_stream,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.get_s_s_assemblage().begin(); it != dump_info.get_s_s_assemblage().end(); it++)
+			{
+
+				if (s_s_assemblage_bsearch(*it, &n) != NULL)
+				{
+					cxxSSassemblage cxxentity(&s_s_assemblage[n]);
+					cxxentity.dump_raw(dump_stream,0);
+				}
+			}
+		}
+	}
+
+	// gas_phases
+	if (dump_info.get_dump_gas_phase())
+	{
+		if (dump_info.get_gas_phase().size() == 0)
+		{
+			for (i = 0; i < count_gas_phase; i++)
+			{
+					cxxGasPhase cxxentity(&gas_phase[i]);
+					cxxentity.dump_raw(dump_stream,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.get_gas_phase().begin(); it != dump_info.get_gas_phase().end(); it++)
+			{
+
+				if (gas_phase_bsearch(*it, &n) != NULL)
+				{
+					cxxGasPhase cxxentity(&gas_phase[n]);
+					cxxentity.dump_raw(dump_stream,0);
+				}
+			}
+		}
+	}
+
+	// kineticss
+	if (dump_info.get_dump_kinetics())
+	{
+		if (dump_info.get_kinetics().size() == 0)
+		{
+			for (i = 0; i < count_kinetics; i++)
+			{
+					cxxKinetics cxxentity(&kinetics[i]);
+					cxxentity.dump_raw(dump_stream,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.get_kinetics().begin(); it != dump_info.get_kinetics().end(); it++)
+			{
+
+				if (kinetics_bsearch(*it, &n) != NULL)
+				{
+					cxxKinetics cxxentity(&kinetics[n]);
+					cxxentity.dump_raw(dump_stream,0);
+				}
+			}
+		}
+	}
+
+	dump_info.DumpAll(false);
+
+
+	return (OK);
 }
