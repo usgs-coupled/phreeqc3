@@ -280,4 +280,22 @@ class CParser
 	ECHO_OPTION echo_file;
 };
 
+// Global functions
+inline std::string trim_right(const std::string &source , const std::string& t = " \t")
+{
+	std::string str = source;
+	return str.erase( str.find_last_not_of(t) + 1);
+}
+
+inline std::string trim_left( const std::string& source, const std::string& t = " \t")
+{
+	std::string str = source;
+	return str.erase(0 , source.find_first_not_of(t) );
+}
+
+inline std::string trim(const std::string& source, const std::string& t = " \t")
+{
+	std::string str = source;
+	return trim_left( trim_right( str , t) , t );
+} 
 #endif // PARSER_H_INCLUDED
