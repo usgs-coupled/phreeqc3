@@ -1135,7 +1135,16 @@ dump_entities(void)
 {
 	int i, n, return_value;
 	return_value = OK;
-
+	if (!dump_info.get_dump_solution() &&
+		!dump_info.get_dump_pp_assemblage() &&
+		!dump_info.get_dump_exchange() &&
+		!dump_info.get_dump_surface() &&
+		!dump_info.get_dump_s_s_assemblage() &&
+		!dump_info.get_dump_gas_phase() &&
+		!dump_info.get_dump_kinetics()) 
+	{
+		return(OK);
+	}
 
 
 	std::ofstream dump_stream;
