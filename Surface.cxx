@@ -359,7 +359,7 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSurface::read_raw(CParser & parser)
+cxxSurface::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	int i = 0;
@@ -613,77 +613,80 @@ cxxSurface::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	/*
-	   if (diffuse_layer_defined == false) {
-	   parser.incr_input_error();
-	   parser.error_msg("Diffuse_layer not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
-	   }
-	   if (edl_defined == false) {
-	   parser.incr_input_error();
-	   parser.error_msg("Edl not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
-	   }
-	 */
-	if (only_counter_ions_defined == false)
+	if (check)
 	{
+		// members that must be defined
+		/*
+		if (diffuse_layer_defined == false) {
 		parser.incr_input_error();
-		parser.
-			error_msg("Only_counter_ions not defined for SURFACE_RAW input.",
-					  CParser::OT_CONTINUE);
-	}
-	/*
-	   if (donnan_defined == false) {
-	   parser.incr_input_error();
-	   parser.error_msg("Donnan not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
-	   }
-	 */
-	if (thickness_defined == false)
-	{
+		parser.error_msg("Diffuse_layer not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+		}
+		if (edl_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("Thickness not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (type_defined == false)
-	{
+		parser.error_msg("Edl not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+		}
+		*/
+		if (only_counter_ions_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Only_counter_ions not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		/*
+		if (donnan_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("Surface type not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (dl_type_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Dl_type not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (sites_units_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Sites_units not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (debye_lengths_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Debye_lengths not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (DDL_viscosity_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("DDL_viscosity not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (DDL_limit_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("DDL_limit not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (transport_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Transport not defined for SURFACE_RAW input.",
-						 CParser::OT_CONTINUE);
+		parser.error_msg("Donnan not defined for SURFACE_RAW input.", CParser::OT_CONTINUE);
+		}
+		*/
+		if (thickness_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Thickness not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (type_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Surface type not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (dl_type_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Dl_type not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (sites_units_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Sites_units not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (debye_lengths_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Debye_lengths not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (DDL_viscosity_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("DDL_viscosity not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (DDL_limit_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("DDL_limit not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (transport_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Transport not defined for SURFACE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 

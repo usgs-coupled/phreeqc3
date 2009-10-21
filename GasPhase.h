@@ -38,7 +38,7 @@ class cxxGasPhase:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser);
+	void read_raw(CParser & parser, bool check = true);
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);

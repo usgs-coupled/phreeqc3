@@ -151,7 +151,7 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSSassemblage::read_raw(CParser & parser)
+cxxSSassemblage::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())

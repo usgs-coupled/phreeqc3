@@ -253,7 +253,7 @@ cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxGasPhase::read_raw(CParser & parser)
+cxxGasPhase::read_raw(CParser & parser, bool check)
 {
 
 	int i;
@@ -369,24 +369,27 @@ cxxGasPhase::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	if (type_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Type not defined for GAS_PHASE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (total_p_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Total_p not defined for GAS_PHASE_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (volume_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Volume not defined for GAS_PHASE_RAW input.",
-						 CParser::OT_CONTINUE);
+		// members that must be defined
+		if (type_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Type not defined for GAS_PHASE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (total_p_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Total_p not defined for GAS_PHASE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (volume_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Volume not defined for GAS_PHASE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 
