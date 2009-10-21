@@ -1032,55 +1032,589 @@ read_dump(void)
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
 	return (return_value);
 }
-#ifdef SKIP
+/*
 /* ---------------------------------------------------------------------- */
 int
-streamify_to_next_keyword(std::istringstream & lines)
+read_solution_modify(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Reads to next keyword or eof
+ *      Reads solution_modify data block
  *
- *   Returns:
- *       KEYWORD
- *       OPTION
- *       EOF
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
  */
-	const char *opt_list[] = {
-		"none"
-	};
-	int count_opt_list = 0;
-	int opt;
-	char *next_char;
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
 
-	// Handle echo
-	int save_echo_input = pr.echo_input;
-	pr.echo_input = FALSE;
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
 
-	std::string accumulate(line);
-	accumulate.append("\n");
-	for (;;)
+	if (pr.echo_input == FALSE)
 	{
-		opt = get_option(opt_list, count_opt_list, &next_char);
-		if (opt == OPTION_EOF)
-		{						/* end of file */
-			break;
-		}
-		else if (opt == OPTION_KEYWORD)
-		{						/* keyword */
-			break;
-		}
-		else
-		{
-			accumulate.append(line);
-			accumulate.append("\n");
-		}
+		parser.set_echo_file(CParser::EO_NONE);
 	}
-	pr.echo_input = save_echo_input;
-	lines.str(accumulate);
-	return (opt);
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	// find solution number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected solution number following SOLUTION_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	if (solution_bsearch(n_user, &n, FALSE) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Solution %d not found for SOLUTION_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	cxxSolution sol(solution[n]);
+	sol.read_raw(parser, false);
+
+	struct solution *soln_ptr = sol.cxxSolution2solution();
+
+	/*
+	 *  This is not quite right, may not produce sort order, forced sort
+	 */
+
+	solution_free(solution[n]);
+	solution[n] = soln_ptr;
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
 }
-#endif
+/* ---------------------------------------------------------------------- */
+int
+read_equilibrium_phases_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads equilibrium_phases_modify data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	// find equilibrium_phases number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected equilibrium_phases number following EQUILIBRIUM_PHASES_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	if (pp_assemblage_bsearch(n_user, &n) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Equlibrium_phases %d not found for EQUILIBRIUM_PHASES_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	cxxPPassemblage entity(&(pp_assemblage[n]));
+	entity.read_raw(parser, false);
+
+	// save entity
+	struct pp_assemblage *entity_ptr = entity.cxxPPassemblage2pp_assemblage();
+	pp_assemblage_free(&(pp_assemblage[n]));
+	pp_assemblage_copy(entity_ptr, &(pp_assemblage[n]), entity_ptr->n_user);
+	pp_assemblage_free(entity_ptr);
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int
+read_exchange_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads EXCHANGE_MODIFY data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	// find exchange number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected exchange number following EXCHANGE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	if (exchange_bsearch(n_user, &n) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Exchange %d not found for EXCHANGE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	cxxExchange entity(&(exchange[n]));
+	entity.read_raw(parser, false);
+
+	// save entity
+	struct exchange *entity_ptr = entity.cxxExchange2exchange();
+	exchange_free(&(exchange[n]));
+	exchange_copy(entity_ptr, &(exchange[n]), entity_ptr->n_user);
+	exchange_free(entity_ptr);
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int
+read_surface_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads SURFACE_MODIFY data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	// find surface number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected surface number following SURFACE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	if (surface_bsearch(n_user, &n) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Surface %d not found for SURFACE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	cxxSurface entity(&(surface[n]));
+	entity.read_raw(parser, false);
+
+	// save entity
+	struct surface *entity_ptr = entity.cxxSurface2surface();
+	surface_free(&(surface[n]));
+	surface_copy(entity_ptr, &(surface[n]), entity_ptr->n_user);
+	surface_free(entity_ptr);
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int
+read_solid_solutions_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads SOLID_SOLUTIONS_MODIFY data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	// find solid_solutions number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected solid_solutions number following SOLID_SOLUTIONS_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	if (s_s_assemblage_bsearch(n_user, &n) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Solid_solutions %d not found for SOLID_SOLUTIONS_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	cxxSSassemblage entity(&(s_s_assemblage[n]));
+	entity.read_raw(parser, false);
+
+	// save entity
+	struct s_s_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage();
+	s_s_assemblage_free(&(s_s_assemblage[n]));
+	s_s_assemblage_copy(entity_ptr, &(s_s_assemblage[n]), entity_ptr->n_user);
+	s_s_assemblage_free(entity_ptr);
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int
+read_gas_phase_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads GAS_PHASE_MODIFY data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	// find gas_phase number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected gas_phase number following GAS_PHASE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	if (gas_phase_bsearch(n_user, &n) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Gas_phase %d not found for GAS_PHASE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	cxxGasPhase entity(&(gas_phase[n]));
+	entity.read_raw(parser, false);
+	// save entity
+	struct gas_phase *entity_ptr = entity.cxxGasPhase2gas_phase();
+	gas_phase_free(&(gas_phase[n]));
+	gas_phase_copy(entity_ptr, &(gas_phase[n]), entity_ptr->n_user);
+	gas_phase_free(entity_ptr);
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int
+read_kinetics_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads KINETICS_MODIFY data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	// find kinetics number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected kinetics number following KINETICS_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	if (kinetics_bsearch(n_user, &n) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Kinetics %d not found for KINETICS_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	cxxKinetics entity(&(kinetics[n]));
+	entity.read_raw(parser, false);
+
+	// save entity
+	struct kinetics *entity_ptr = entity.cxxKinetics2kinetics();
+	kinetics_free(&(kinetics[n]));
+	kinetics_copy(entity_ptr, &(kinetics[n]), entity_ptr->n_user);
+	kinetics_free(entity_ptr);
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
 /* ---------------------------------------------------------------------- */
 int
 streamify_to_next_keyword(std::istringstream & lines)
@@ -1135,13 +1669,13 @@ dump_entities(void)
 {
 	int i, n, return_value;
 	return_value = OK;
-	if (!dump_info.get_dump_solution() &&
-		!dump_info.get_dump_pp_assemblage() &&
-		!dump_info.get_dump_exchange() &&
-		!dump_info.get_dump_surface() &&
-		!dump_info.get_dump_s_s_assemblage() &&
-		!dump_info.get_dump_gas_phase() &&
-		!dump_info.get_dump_kinetics()) 
+	if (!dump_info.get_bool_solution() &&
+		!dump_info.get_bool_pp_assemblage() &&
+		!dump_info.get_bool_exchange() &&
+		!dump_info.get_bool_surface() &&
+		!dump_info.get_bool_s_s_assemblage() &&
+		!dump_info.get_bool_gas_phase() &&
+		!dump_info.get_bool_kinetics()) 
 	{
 		return(OK);
 	}
@@ -1158,7 +1692,7 @@ dump_entities(void)
 		dump_stream.open(dump_info.get_file_name().c_str());
 	}
 	// solutions
-	if (dump_info.get_dump_solution())
+	if (dump_info.get_bool_solution())
 	{
 		if (dump_info.get_solution().size() == 0)
 		{
@@ -1183,7 +1717,7 @@ dump_entities(void)
 	}
 
 	// pp_assemblages
-	if (dump_info.get_dump_pp_assemblage())
+	if (dump_info.get_bool_pp_assemblage())
 	{
 		if (dump_info.get_pp_assemblage().size() == 0)
 		{
@@ -1209,7 +1743,7 @@ dump_entities(void)
 	}
 
 	// exchanges
-	if (dump_info.get_dump_exchange())
+	if (dump_info.get_bool_exchange())
 	{
 		if (dump_info.get_exchange().size() == 0)
 		{
@@ -1235,7 +1769,7 @@ dump_entities(void)
 	}
 
 	// surfaces
-	if (dump_info.get_dump_surface())
+	if (dump_info.get_bool_surface())
 	{
 		if (dump_info.get_surface().size() == 0)
 		{
@@ -1261,7 +1795,7 @@ dump_entities(void)
 	}
 
 	// s_s_assemblages
-	if (dump_info.get_dump_s_s_assemblage())
+	if (dump_info.get_bool_s_s_assemblage())
 	{
 		if (dump_info.get_s_s_assemblage().size() == 0)
 		{
@@ -1287,7 +1821,7 @@ dump_entities(void)
 	}
 
 	// gas_phases
-	if (dump_info.get_dump_gas_phase())
+	if (dump_info.get_bool_gas_phase())
 	{
 		if (dump_info.get_gas_phase().size() == 0)
 		{
@@ -1313,7 +1847,7 @@ dump_entities(void)
 	}
 
 	// kineticss
-	if (dump_info.get_dump_kinetics())
+	if (dump_info.get_bool_kinetics())
 	{
 		if (dump_info.get_kinetics().size() == 0)
 		{

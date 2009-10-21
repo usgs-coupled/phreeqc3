@@ -543,7 +543,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSolution::read_raw(CParser & parser)
+cxxSolution::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -806,68 +806,71 @@ cxxSolution::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// all members must be defined
-	if (tc_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Temp not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (ph_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("pH not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (pe_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("pe not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (mu_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Ionic strength not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (ah2o_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg("Activity of water not defined for SOLUTION_RAW input.",
-					  CParser::OT_CONTINUE);
-	}
-	if (total_h_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Total hydrogen not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (total_o_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Total oxygen not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (cb_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Charge balance not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (mass_water_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Temp not defined for SOLUTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (total_alkalinity_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg("Total alkalinity not defined for SOLUTION_RAW input.",
-					  CParser::OT_CONTINUE);
+		// all members must be defined
+		if (tc_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Temp not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (ph_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("pH not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (pe_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("pe not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (mu_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Ionic strength not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (ah2o_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Activity of water not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (total_h_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Total hydrogen not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (total_o_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Total oxygen not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (cb_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Charge balance not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (mass_water_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Temp not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (total_alkalinity_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Total alkalinity not defined for SOLUTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 	return;
 }

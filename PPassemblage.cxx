@@ -163,7 +163,7 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxPPassemblage::read_raw(CParser & parser)
+cxxPPassemblage::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())

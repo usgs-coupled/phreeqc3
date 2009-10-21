@@ -5,26 +5,26 @@ dumper::dumper(void)
 {
 	this->file_name = "dump.out";
 	this->append = false;
-	this->dump_solution = false;
-	this->dump_pp_assemblage = false;
-	this->dump_exchange = false;
-	this->dump_surface = false;
-	this->dump_s_s_assemblage = false;
-	this->dump_gas_phase = false;
-	this->dump_kinetics = false;
+	this->bool_solution = false;
+	this->bool_pp_assemblage = false;
+	this->bool_exchange = false;
+	this->bool_surface = false;
+	this->bool_s_s_assemblage = false;
+	this->bool_gas_phase = false;
+	this->bool_kinetics = false;
 }
 dumper::dumper(CParser & parser)
 {
 	this->file_name = "dump.out";
 	this->append = false;
 
-	this->dump_solution = false;
-	this->dump_pp_assemblage = false;
-	this->dump_exchange = false;
-	this->dump_surface = false;
-	this->dump_s_s_assemblage = false;
-	this->dump_gas_phase = false;
-	this->dump_kinetics = false;
+	this->bool_solution = false;
+	this->bool_pp_assemblage = false;
+	this->bool_exchange = false;
+	this->bool_surface = false;
+	this->bool_s_s_assemblage = false;
+	this->bool_gas_phase = false;
+	this->bool_kinetics = false;
 	this->Read(parser);
 }
 
@@ -44,23 +44,23 @@ void dumper::DumpAll(bool tf)
 
 	if (tf)
 	{
-		this->dump_solution = true;
-		this->dump_pp_assemblage = true;
-		this->dump_exchange = true;
-		this->dump_surface = true;
-		this->dump_s_s_assemblage = true;
-		this->dump_gas_phase = true;
-		this->dump_kinetics = true;
+		this->bool_solution = true;
+		this->bool_pp_assemblage = true;
+		this->bool_exchange = true;
+		this->bool_surface = true;
+		this->bool_s_s_assemblage = true;
+		this->bool_gas_phase = true;
+		this->bool_kinetics = true;
 	}
 	else
 	{
-		this->dump_solution = false;
-		this->dump_pp_assemblage = false;
-		this->dump_exchange = false;
-		this->dump_surface = false;
-		this->dump_s_s_assemblage = false;
-		this->dump_gas_phase = false;
-		this->dump_kinetics = false;
+		this->bool_solution = false;
+		this->bool_pp_assemblage = false;
+		this->bool_exchange = false;
+		this->bool_surface = false;
+		this->bool_s_s_assemblage = false;
+		this->bool_gas_phase = false;
+		this->bool_kinetics = false;
 	}
 }
 bool dumper::Read(CParser & parser)
@@ -198,7 +198,7 @@ bool dumper::Read(CParser & parser)
 			{
 				this->solution.insert(*it);
 			}
-			this->dump_solution = true;
+			this->bool_solution = true;
 			break;
 		case 1:
 		case 2:
@@ -206,40 +206,42 @@ bool dumper::Read(CParser & parser)
 			{
 				this->pp_assemblage.insert(*it);
 			}
-			this->dump_pp_assemblage = true;
+			this->bool_pp_assemblage = true;
 			break;
 		case 3:
 			for (it = accumulator.begin(); it != accumulator.end(); it++)
 			{
 				this->exchange.insert(*it);
 			}
-			this->dump_exchange = true;
+			this->bool_exchange = true;
 			break;
 		case 4:
 			for (it = accumulator.begin(); it != accumulator.end(); it++)
 			{
 				this->surface.insert(*it);
 			}
-			this->dump_surface = true;
+			this->bool_surface = true;
 			break;
 		case 5:
 			for (it = accumulator.begin(); it != accumulator.end(); it++)
 			{
 				this->s_s_assemblage.insert(*it);
-			}			this->dump_s_s_assemblage = true;
+			}			
+			this->bool_s_s_assemblage = true;
 			break;
 		case 6:
 			for (it = accumulator.begin(); it != accumulator.end(); it++)
 			{
 				this->gas_phase.insert(*it);
-			}			this->dump_gas_phase = true;
+			}			
+			this->bool_gas_phase = true;
 			break;
 		case 7:
 			for (it = accumulator.begin(); it != accumulator.end(); it++)
 			{
 				this->kinetics.insert(*it);
 			}
-			this->dump_kinetics = true;
+			this->bool_kinetics = true;
 			break;
 		case 8:				//file
 			std::getline(parser.get_iss(), this->file_name);

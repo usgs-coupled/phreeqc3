@@ -259,7 +259,7 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxKinetics::read_raw(CParser & parser)
+cxxKinetics::read_raw(CParser & parser, bool check)
 {
 
 	double d;
@@ -445,42 +445,45 @@ cxxKinetics::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	if (step_divide_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Step_divide not defined for KINETICS_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (rk_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Rk not defined for KINETICS_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (bad_step_max_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Bad_step_max not defined for KINETICS_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (use_cvode_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Use_cvode not defined for KINETICS_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (cvode_steps_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Cvode_steps not defined for KINETICS_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (cvode_order_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Cvode_order not defined for KINETICS_RAW input.",
-						 CParser::OT_CONTINUE);
+		// members that must be defined
+		if (step_divide_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Step_divide not defined for KINETICS_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (rk_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Rk not defined for KINETICS_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (bad_step_max_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Bad_step_max not defined for KINETICS_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (use_cvode_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Use_cvode not defined for KINETICS_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (cvode_steps_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Cvode_steps not defined for KINETICS_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (cvode_order_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Cvode_order not defined for KINETICS_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 

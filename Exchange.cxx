@@ -289,7 +289,7 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxExchange::read_raw(CParser & parser)
+cxxExchange::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -363,13 +363,16 @@ cxxExchange::read_raw(CParser & parser)
 			break;
 	}
 	// members that must be defined
-	if (pitzer_exchange_gammas_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.
-			error_msg
-			("Pitzer_exchange_gammsa not defined for EXCHANGE_RAW input.",
-			 CParser::OT_CONTINUE);
+		if (pitzer_exchange_gammas_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg
+				("Pitzer_exchange_gammsa not defined for EXCHANGE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 void
