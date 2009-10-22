@@ -1,0 +1,68 @@
+SOLUTION 1
+	Na	1
+	Cl	1
+END
+EQUILIBRIUM_PHASES 1
+	Barite	0	10
+END
+EXCHANGE 1
+	X	1
+	-eq	solution 1
+END
+SURFACE 1
+    -equilibrate with solution 1
+    Hfo_s   0.01   600    1
+END
+GAS_PHASE 1
+    -fixed_pressure
+    -pressure 1
+    -volume 1
+    -temperature 25
+    CO2(g)    0.00035
+END
+SOLID_SOLUTIONS 1
+    Calcite
+        -comp calcite 0.1
+        -comp siderite 0.001
+END
+KINETICS 1
+Calcite
+    -formula  CaCO3  1
+    -m        1
+    -m0       1
+    -parms    1 1 1 1
+    -tol      1e-008
+-steps       1 in 1 steps # seconds
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+END
+DUMP
+	-file	ppdump.dmp
+	-all
+END
+SOLUTION_RAW       1 
+  -temp              25
+  -pH                7
+  -pe                4
+  -mu                0.0010001035690258
+  -ah2o              0.99996599647757
+  -total_h           111.01243359981
+  -total_o           55.506216800086
+  -cb                -3.6579285790756e-010
+  -mass_water        1
+  -total_alkalinity  3.6579283856577e-010
+  -totals
+    Cl   0.0010000000000003
+    H(0)   1.4155655514601e-025
+    Na   0.0010000000000003
+  -activities
+    Cl   -3.0155266404974
+    E   -4
+    H(0)   -25.15
+    Na   -3.0153891985103
+    O(0)   -42.080029535586
+  -gammas
+  -Isotopes
+USE solution 1
+USE equilibrium 1
