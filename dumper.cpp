@@ -5,26 +5,12 @@ dumper::dumper(void)
 {
 	this->file_name = "dump.out";
 	this->append = false;
-	this->bool_solution = false;
-	this->bool_pp_assemblage = false;
-	this->bool_exchange = false;
-	this->bool_surface = false;
-	this->bool_s_s_assemblage = false;
-	this->bool_gas_phase = false;
-	this->bool_kinetics = false;
+	this->on = false;
 }
 dumper::dumper(CParser & parser)
 {
 	this->file_name = "dump.out";
 	this->append = false;
-
-	this->bool_solution = false;
-	this->bool_pp_assemblage = false;
-	this->bool_exchange = false;
-	this->bool_surface = false;
-	this->bool_s_s_assemblage = false;
-	this->bool_gas_phase = false;
-	this->bool_kinetics = false;
 	this->Read(parser);
 }
 
@@ -32,37 +18,12 @@ dumper::~dumper(void)
 {
 }
 
-void dumper::DumpAll(bool tf)
+void dumper::SetAll(bool tf)
 {
-	this->solution.clear();
-	this->pp_assemblage.clear();
-	this->exchange.clear();
-	this->surface.clear();
-	this->s_s_assemblage.clear();
-	this->gas_phase.clear();
-	this->kinetics.clear();
+	this->binList.SetAll(tf);
 
-	if (tf)
-	{
-		this->bool_solution = true;
-		this->bool_pp_assemblage = true;
-		this->bool_exchange = true;
-		this->bool_surface = true;
-		this->bool_s_s_assemblage = true;
-		this->bool_gas_phase = true;
-		this->bool_kinetics = true;
-	}
-	else
-	{
-		this->bool_solution = false;
-		this->bool_pp_assemblage = false;
-		this->bool_exchange = false;
-		this->bool_surface = false;
-		this->bool_s_s_assemblage = false;
-		this->bool_gas_phase = false;
-		this->bool_kinetics = false;
-	}
 }
+#ifdef SKIP
 bool dumper::Read(CParser & parser)
 {
 
@@ -265,6 +226,161 @@ bool dumper::Read(CParser & parser)
 			break;
 		case 10:			//all
 			this->DumpAll(true);
+			break;
+		}
+
+		
+		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
+			break;
+	}
+	return(return_value);
+}
+#endif
+bool dumper::Read(CParser & parser)
+{
+
+	bool return_value(true);
+	static std::vector < std::string > vopts;
+	if (vopts.empty())
+	{
+		vopts.reserve(15);
+		vopts.push_back("solution");
+		vopts.push_back("pp_assemblage");
+		vopts.push_back("equilibrium_phases");
+		vopts.push_back("exchange");
+		vopts.push_back("surface");
+		vopts.push_back("s_s_assemblage");
+		vopts.push_back("gas_phase");
+		vopts.push_back("kinetics");
+		vopts.push_back("file");
+		vopts.push_back("append");
+		vopts.push_back("all");	
+		vopts.push_back("on");	
+		vopts.push_back("off");	
+	}
+
+	std::istream::pos_type ptr;
+	std::istream::pos_type next_char;
+	std::string token;
+	int opt_save;
+	bool useLastLine(false);
+
+	// Read mix number and description
+	//this->read_number_description(parser);
+
+	opt_save = CParser::OPT_DEFAULT;
+
+	for (;;)
+	{
+		int opt;
+		opt = parser.get_option(vopts, next_char);
+		if (opt == CParser::OPT_DEFAULT)
+		{
+			opt = opt_save;
+		}
+		else
+		{
+			opt_save = opt;
+		}
+
+		// Select StorageBinListItem
+		StorageBinListItem &item(binList.Get_solution());
+		switch (opt)
+		{
+		case 0:
+			item = this->binList.Get_solution();
+			break;
+		case 1:
+		case 2:
+			item = this->binList.Get_pp_assemblage();
+			break;
+		case 3:
+			item = this->binList.Get_exchange();
+			break;
+		case 4:
+			item = this->binList.Get_surface();
+			break;
+		case 5:
+			item = this->binList.Get_s_s_assemblage();
+			break;
+		case 6:
+			item = this->binList.Get_gas_phase();
+			break;
+		case 7:
+			item = this->binList.Get_kinetics();
+			break;
+		default:
+			break;
+		}
+
+		// Read dump entity list of numbers or number ranges for line, store in item
+		if (opt >= 0 && opt <= 7)
+		{
+			for (;;)
+			{ 
+				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+				if (j == CParser::TT_EMPTY || j == CParser::TT_DIGIT)
+				{
+					item.Augment(token);
+				}
+				else
+				{
+					parser.error_msg("Expected single number or range of numbers.",
+						CParser::OT_CONTINUE);
+				}
+			}
+		}
+
+		// Process other identifiers
+		std::set < int >::iterator it;
+		switch (opt)
+		{
+		case CParser::OPT_EOF:
+			break;
+		case CParser::OPT_KEYWORD:
+			break;
+
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			break;
+		case 8:				//file
+			std::getline(parser.get_iss(), this->file_name);
+			this->file_name = trim(this->file_name, " \t");
+			if (this->file_name.size() == 0)
+			{
+				this->file_name = "dump.out";
+			}
+
+			break;
+		case 9:				//append
+			{
+				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+				//if (!(parser.get_iss() >> this->append))
+				this->append = true;
+				if (token.c_str()[0] == 'f' || token.c_str()[0] == 'F')
+				{
+					this->append = false;
+				}
+			}
+			break;
+		case 10:			//all
+			this->SetAll(true);
+			break;
+		default:
+		case CParser::OPT_DEFAULT:
+		case CParser::OPT_ERROR:
+			opt = CParser::OPT_EOF;
+			parser.error_msg("Unknown input reading DUMP definition.",
+							 CParser::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+			useLastLine = false;
+			return_value = false;
 			break;
 		}
 

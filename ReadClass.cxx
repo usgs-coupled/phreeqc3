@@ -27,6 +27,7 @@ extern int reading_database(void);
 extern int check_line(const char *string, int allow_empty, int allow_eof,
 					  int allow_keyword, int print);
 dumper dump_info;
+StorageBinList delete_info;
 /* ---------------------------------------------------------------------- */
 int
 read_solution_raw(void)
@@ -1032,6 +1033,58 @@ read_dump(void)
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
 	return (return_value);
 }
+/* ---------------------------------------------------------------------- */
+int
+read_delete(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads DELETE data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	StorageBinList deleter(parser);
+	delete_info = deleter;
+
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
 /*
 /* ---------------------------------------------------------------------- */
 int
@@ -1669,13 +1722,13 @@ dump_entities(void)
 {
 	int i, n, return_value;
 	return_value = OK;
-	if (!dump_info.get_bool_solution() &&
-		!dump_info.get_bool_pp_assemblage() &&
-		!dump_info.get_bool_exchange() &&
-		!dump_info.get_bool_surface() &&
-		!dump_info.get_bool_s_s_assemblage() &&
-		!dump_info.get_bool_gas_phase() &&
-		!dump_info.get_bool_kinetics()) 
+	if (!dump_info.Get_bool_solution() &&
+		!dump_info.Get_bool_pp_assemblage() &&
+		!dump_info.Get_bool_exchange() &&
+		!dump_info.Get_bool_surface() &&
+		!dump_info.Get_bool_s_s_assemblage() &&
+		!dump_info.Get_bool_gas_phase() &&
+		!dump_info.Get_bool_kinetics()) 
 	{
 		return(OK);
 	}
@@ -1692,9 +1745,9 @@ dump_entities(void)
 		dump_stream.open(dump_info.get_file_name().c_str());
 	}
 	// solutions
-	if (dump_info.get_bool_solution())
+	if (dump_info.Get_bool_solution())
 	{
-		if (dump_info.get_solution().size() == 0)
+		if (dump_info.Get_solution().size() == 0)
 		{
 			for (i = 0; i < count_solution; i++)
 			{
@@ -1705,7 +1758,7 @@ dump_entities(void)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.get_solution().begin(); it != dump_info.get_solution().end(); it++)
+			for (it = dump_info.Get_solution().begin(); it != dump_info.Get_solution().end(); it++)
 			{
 				if (solution_bsearch(*it, &n, FALSE) != NULL)
 				{
@@ -1717,9 +1770,9 @@ dump_entities(void)
 	}
 
 	// pp_assemblages
-	if (dump_info.get_bool_pp_assemblage())
+	if (dump_info.Get_bool_pp_assemblage())
 	{
-		if (dump_info.get_pp_assemblage().size() == 0)
+		if (dump_info.Get_pp_assemblage().size() == 0)
 		{
 			for (i = 0; i < count_pp_assemblage; i++)
 			{
@@ -1730,7 +1783,7 @@ dump_entities(void)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.get_pp_assemblage().begin(); it != dump_info.get_pp_assemblage().end(); it++)
+			for (it = dump_info.Get_pp_assemblage().begin(); it != dump_info.Get_pp_assemblage().end(); it++)
 			{
 
 				if (pp_assemblage_bsearch(*it, &n) != NULL)
@@ -1743,9 +1796,9 @@ dump_entities(void)
 	}
 
 	// exchanges
-	if (dump_info.get_bool_exchange())
+	if (dump_info.Get_bool_exchange())
 	{
-		if (dump_info.get_exchange().size() == 0)
+		if (dump_info.Get_exchange().size() == 0)
 		{
 			for (i = 0; i < count_exchange; i++)
 			{
@@ -1756,7 +1809,7 @@ dump_entities(void)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.get_exchange().begin(); it != dump_info.get_exchange().end(); it++)
+			for (it = dump_info.Get_exchange().begin(); it != dump_info.Get_exchange().end(); it++)
 			{
 
 				if (exchange_bsearch(*it, &n) != NULL)
@@ -1769,9 +1822,9 @@ dump_entities(void)
 	}
 
 	// surfaces
-	if (dump_info.get_bool_surface())
+	if (dump_info.Get_bool_surface())
 	{
-		if (dump_info.get_surface().size() == 0)
+		if (dump_info.Get_surface().size() == 0)
 		{
 			for (i = 0; i < count_surface; i++)
 			{
@@ -1782,7 +1835,7 @@ dump_entities(void)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.get_surface().begin(); it != dump_info.get_surface().end(); it++)
+			for (it = dump_info.Get_surface().begin(); it != dump_info.Get_surface().end(); it++)
 			{
 
 				if (surface_bsearch(*it, &n) != NULL)
@@ -1795,9 +1848,9 @@ dump_entities(void)
 	}
 
 	// s_s_assemblages
-	if (dump_info.get_bool_s_s_assemblage())
+	if (dump_info.Get_bool_s_s_assemblage())
 	{
-		if (dump_info.get_s_s_assemblage().size() == 0)
+		if (dump_info.Get_s_s_assemblage().size() == 0)
 		{
 			for (i = 0; i < count_s_s_assemblage; i++)
 			{
@@ -1808,7 +1861,7 @@ dump_entities(void)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.get_s_s_assemblage().begin(); it != dump_info.get_s_s_assemblage().end(); it++)
+			for (it = dump_info.Get_s_s_assemblage().begin(); it != dump_info.Get_s_s_assemblage().end(); it++)
 			{
 
 				if (s_s_assemblage_bsearch(*it, &n) != NULL)
@@ -1821,9 +1874,9 @@ dump_entities(void)
 	}
 
 	// gas_phases
-	if (dump_info.get_bool_gas_phase())
+	if (dump_info.Get_bool_gas_phase())
 	{
-		if (dump_info.get_gas_phase().size() == 0)
+		if (dump_info.Get_gas_phase().size() == 0)
 		{
 			for (i = 0; i < count_gas_phase; i++)
 			{
@@ -1834,7 +1887,7 @@ dump_entities(void)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.get_gas_phase().begin(); it != dump_info.get_gas_phase().end(); it++)
+			for (it = dump_info.Get_gas_phase().begin(); it != dump_info.Get_gas_phase().end(); it++)
 			{
 
 				if (gas_phase_bsearch(*it, &n) != NULL)
@@ -1847,9 +1900,9 @@ dump_entities(void)
 	}
 
 	// kineticss
-	if (dump_info.get_bool_kinetics())
+	if (dump_info.Get_bool_kinetics())
 	{
-		if (dump_info.get_kinetics().size() == 0)
+		if (dump_info.Get_kinetics().size() == 0)
 		{
 			for (i = 0; i < count_kinetics; i++)
 			{
@@ -1860,7 +1913,7 @@ dump_entities(void)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.get_kinetics().begin(); it != dump_info.get_kinetics().end(); it++)
+			for (it = dump_info.Get_kinetics().begin(); it != dump_info.Get_kinetics().end(); it++)
 			{
 
 				if (kinetics_bsearch(*it, &n) != NULL)
@@ -1872,8 +1925,259 @@ dump_entities(void)
 		}
 	}
 
-	dump_info.DumpAll(false);
+	// Turn off dump until next read
+	dump_info.SetAll(false);
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int
+delete_entities(void)
+/* ---------------------------------------------------------------------- */
+{
+	int i, n, return_value;
+	return_value = OK;
+	if (!delete_info.Get_solution().Get_defined() &&
+		!delete_info.Get_pp_assemblage().Get_defined() &&
+		!delete_info.Get_exchange().Get_defined() &&
+		!delete_info.Get_surface().Get_defined() &&
+		!delete_info.Get_s_s_assemblage().Get_defined() &&
+		!delete_info.Get_gas_phase().Get_defined() &&
+		!delete_info.Get_kinetics().Get_defined() &&
+		!delete_info.Get_mix().Get_defined() &&
+		!delete_info.Get_reaction().Get_defined() &&
+		!delete_info.Get_temperature().Get_defined() )
+	{
+		return(OK);
+	}
 
+	// solutions
+	if (delete_info.Get_solution().Get_defined())
+	{
+		if (delete_info.Get_solution().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_solution; i++)
+			{
+				solution_delete_n(i);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_solution().Get_numbers().begin(); it != delete_info.Get_solution().Get_numbers().end(); it++)
+			{
+				if (solution_bsearch(*it, &n, FALSE) != NULL)
+				{
+					solution_delete_n(n);
+				}
+			}
+		}
+	}
 
+	// pp_assemblages
+	if (delete_info.Get_pp_assemblage().Get_defined())
+	{
+		if (delete_info.Get_pp_assemblage().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_pp_assemblage; i++)
+			{
+				pp_assemblage_delete(pp_assemblage[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_pp_assemblage().Get_numbers().begin(); it != delete_info.Get_pp_assemblage().Get_numbers().end(); it++)
+			{
+
+				if (pp_assemblage_bsearch(*it, &n) != NULL)
+				{
+					pp_assemblage_delete(*it);
+				}
+			}
+		}
+	}
+
+	// exchangers
+	if (delete_info.Get_exchange().Get_defined())
+	{
+		if (delete_info.Get_exchange().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_exchange; i++)
+			{
+				exchange_delete(exchange[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_exchange().Get_numbers().begin(); it != delete_info.Get_exchange().Get_numbers().end(); it++)
+			{
+				if (exchange_bsearch(*it, &n) != NULL)
+				{
+					exchange_delete(*it);
+				}
+			}
+		}
+	}
+
+	// surfaces
+	if (delete_info.Get_surface().Get_defined())
+	{
+		if (delete_info.Get_surface().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_surface; i++)
+			{
+				surface_delete(surface[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_surface().Get_numbers().begin(); it != delete_info.Get_surface().Get_numbers().end(); it++)
+			{
+				if (surface_bsearch(*it, &n) != NULL)
+				{
+					surface_delete(*it);
+				}
+			}
+		}
+	}
+
+	// s_s_assemblages
+	if (delete_info.Get_s_s_assemblage().Get_defined())
+	{
+		if (delete_info.Get_s_s_assemblage().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_s_s_assemblage; i++)
+			{
+				s_s_assemblage_delete(s_s_assemblage[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_s_s_assemblage().Get_numbers().begin(); it != delete_info.Get_s_s_assemblage().Get_numbers().end(); it++)
+			{
+				if (s_s_assemblage_bsearch(*it, &n) != NULL)
+				{
+					s_s_assemblage_delete(*it);
+				}
+			}
+		}
+	}
+
+	// gas_phases
+	if (delete_info.Get_gas_phase().Get_defined())
+	{
+		if (delete_info.Get_gas_phase().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_gas_phase; i++)
+			{
+				gas_phase_delete(gas_phase[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_gas_phase().Get_numbers().begin(); it != delete_info.Get_gas_phase().Get_numbers().end(); it++)
+			{
+				if (gas_phase_bsearch(*it, &n) != NULL)
+				{
+					gas_phase_delete(*it);
+				}
+			}
+		}
+	}
+
+	// kineticss
+	if (delete_info.Get_kinetics().Get_defined())
+	{
+		if (delete_info.Get_kinetics().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_kinetics; i++)
+			{
+				kinetics_delete(kinetics[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_kinetics().Get_numbers().begin(); it != delete_info.Get_kinetics().Get_numbers().end(); it++)
+			{
+				if (kinetics_bsearch(*it, &n) != NULL)
+				{
+					kinetics_delete(*it);
+				}
+			}
+		}
+	}
+	// mixes
+	if (delete_info.Get_mix().Get_defined())
+	{
+		if (delete_info.Get_mix().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_mix; i++)
+			{
+				mix_delete(mix[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_mix().Get_numbers().begin(); it != delete_info.Get_mix().Get_numbers().end(); it++)
+			{
+				if (mix_bsearch(*it, &n) != NULL)
+				{
+					mix_delete(*it);
+				}
+			}
+		}
+	}
+	// reactions
+	if (delete_info.Get_reaction().Get_defined())
+	{
+		if (delete_info.Get_reaction().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_irrev; i++)
+			{
+				irrev_delete(irrev[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_reaction().Get_numbers().begin(); it != delete_info.Get_reaction().Get_numbers().end(); it++)
+			{
+				if (irrev_bsearch(*it, &n) != NULL)
+				{
+					irrev_delete(*it);
+				}
+			}
+		}
+	}
+	// temperatures
+	if (delete_info.Get_temperature().Get_defined())
+	{
+		if (delete_info.Get_temperature().Get_numbers().size() == 0)
+		{
+			for (i = 0; i < count_temperature; i++)
+			{
+				temperature_delete(temperature[i].n_user);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_temperature().Get_numbers().begin(); it != delete_info.Get_temperature().Get_numbers().end(); it++)
+			{
+				if (temperature_bsearch(*it, &n) != NULL)
+				{
+					temperature_delete(*it);
+				}
+			}
+		}
+	}
+	// Turn off delete until next read
+	delete_info.SetAll(false);
 	return (OK);
 }

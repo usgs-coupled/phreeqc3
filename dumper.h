@@ -5,49 +5,37 @@
 #include <list>					// std::list
 #include <vector>					// std::vector
 #include "Parser.h"
-class dumper
+#include "StorageBinList.h"
+class dumper 
 {
 public:
 	dumper(void);
 	dumper(CParser & parser);
 	~dumper(void);
 	bool Read(CParser & parser);
-	void DumpAll(bool tf);
+	void SetAll(bool tf);
 	std::string get_file_name(void) { return(this->file_name); };
 	bool get_append(void) { return(this->append); };
-	bool get_bool_solution(void) { return(this->bool_solution); };
-	bool get_bool_pp_assemblage(void) { return(this->bool_pp_assemblage); };
-	bool get_bool_exchange(void) { return(this->bool_exchange); };
-	bool get_bool_surface(void) { return(this->bool_surface); };
-	bool get_bool_s_s_assemblage(void) { return(this->bool_s_s_assemblage); };
-	bool get_bool_gas_phase(void) { return(this->bool_gas_phase); };
-	bool get_bool_kinetics(void) { return(this->bool_kinetics); };
+	bool Get_bool_solution(void) { return(this->binList.Get_solution().Get_defined()); };
+	bool Get_bool_pp_assemblage(void) { return(this->binList.Get_pp_assemblage().Get_defined()); };
+	bool Get_bool_exchange(void) { return(this->binList.Get_exchange().Get_defined()); };
+	bool Get_bool_surface(void) { return(this->binList.Get_surface().Get_defined()); };
+	bool Get_bool_s_s_assemblage(void) { return(this->binList.Get_s_s_assemblage().Get_defined()); };
+	bool Get_bool_gas_phase(void) { return(this->binList.Get_gas_phase().Get_defined()); };
+	bool Get_bool_kinetics(void) { return(this->binList.Get_kinetics().Get_defined()); };
 
-	std::set < int > & get_solution(void) { return(this->solution); };
-	std::set < int > & get_pp_assemblage(void) { return(this->pp_assemblage); };
-	std::set < int > & get_exchange(void) { return(this->exchange); };
-	std::set < int > & get_surface(void) { return(this->surface); };
-	std::set < int > & get_s_s_assemblage(void) { return(this->s_s_assemblage); };
-	std::set < int > & get_gas_phase(void) { return(this->gas_phase); };
-	std::set < int > & get_kinetics(void) { return(this->kinetics); };
+	std::set < int > & Get_solution(void) { return(this->binList.Get_solution().Get_numbers()); };
+	std::set < int > & Get_pp_assemblage(void) { return(this->binList.Get_pp_assemblage().Get_numbers()); };
+	std::set < int > & Get_exchange(void) { return(this->binList.Get_exchange().Get_numbers()); };
+	std::set < int > & Get_surface(void) { return(this->binList.Get_surface().Get_numbers()); };
+	std::set < int > & Get_s_s_assemblage(void) { return(this->binList.Get_s_s_assemblage().Get_numbers()); };
+	std::set < int > & Get_gas_phase(void) { return(this->binList.Get_gas_phase().Get_numbers()); };
+	std::set < int > & Get_kinetics(void) { return(this->binList.Get_kinetics().Get_numbers()); };
 protected:
 	std::string file_name;
 	bool append;
-	bool bool_solution;
-	bool bool_pp_assemblage;
-	bool bool_exchange;
-	bool bool_surface;
-	bool bool_s_s_assemblage;
-	bool bool_gas_phase;
-	bool bool_kinetics;
-
-	std::set < int > solution;
-	std::set < int > pp_assemblage;
-	std::set < int > exchange;
-	std::set < int > surface;
-	std::set < int > s_s_assemblage;
-	std::set < int > gas_phase;
-	std::set < int > kinetics;
+	bool on;
+	StorageBinList binList;
 };
 
 #endif // !defined(DUMPER_H_INCLUDED)
