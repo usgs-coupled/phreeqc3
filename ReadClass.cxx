@@ -1105,6 +1105,24 @@ read_solution_modify(void)
  *
  */
 	int return_value;
+
+	// find solution number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected solution number following SOLUTION_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}	
 	/*
 	 *  Make parser
 	 */
@@ -1130,23 +1148,7 @@ read_solution_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	// find solution number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		sprintf(error_string, "Expected solution number following SOLUTION_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
+
 	if (solution_bsearch(n_user, &n, FALSE) == NULL)
 	{
 		input_error++;
@@ -1190,6 +1192,24 @@ read_equilibrium_phases_modify(void)
  *
  */
 	int return_value;
+
+	// find equilibrium_phases number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected equilibrium_phases number following EQUILIBRIUM_PHASES_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
 	/*
 	 *  Make parser
 	 */
@@ -1215,23 +1235,6 @@ read_equilibrium_phases_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	// find equilibrium_phases number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		sprintf(error_string, "Expected equilibrium_phases number following EQUILIBRIUM_PHASES_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
 	if (pp_assemblage_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
