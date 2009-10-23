@@ -1,31 +1,31 @@
-SOLUTION 1
+SOLUTION 1-3
 	Na	1
 	Cl	1
 END
-EQUILIBRIUM_PHASES 1
+EQUILIBRIUM_PHASES 1-3
 	Barite	0	10
 END
-EXCHANGE 1
+EXCHANGE 1-3
 	X	1
 	-eq	solution 1
 END
-SURFACE 1
+SURFACE 1-3
     -equilibrate with solution 1
     Hfo_s   0.01   600    1
 END
-GAS_PHASE 1
+GAS_PHASE 1-3
     -fixed_pressure
     -pressure 1
     -volume 1
     -temperature 25
     CO2(g)    0.00035
 END
-SOLID_SOLUTIONS 1
+SOLID_SOLUTIONS 1-3
     Calcite
         -comp calcite 0.1
         -comp siderite 0.001
 END
-KINETICS 1
+KINETICS 1-3
 Calcite
     -formula  CaCO3  1
     -m        1
@@ -39,30 +39,86 @@ Calcite
 END
 DUMP
 	-file	ppdump.dmp
-	-all
+	-solution 1	 	
+		2
+		3
+	-equilibrium_phases	1-3
+	-exchange		1
+		2-3
+	-surface
+		1-3
+	-solid_solution 1
+		2 3
+	-gas_phase	1
+	-gas_phase      2-3
+	-kinetics	1
+	-kinetics	2
+	-kinetics       3
 END
-SOLUTION_RAW       1 
-  -temp              25
-  -pH                7
-  -pe                4
-  -mu                0.0010001035690258
-  -ah2o              0.99996599647757
-  -total_h           111.01243359981
-  -total_o           55.506216800086
-  -cb                -3.6579285790756e-010
-  -mass_water        1
-  -total_alkalinity  3.6579283856577e-010
-  -totals
-    Cl   0.0010000000000003
-    H(0)   1.4155655514601e-025
-    Na   0.0010000000000003
-  -activities
-    Cl   -3.0155266404974
-    E   -4
-    H(0)   -25.15
-    Na   -3.0153891985103
-    O(0)   -42.080029535586
-  -gammas
-  -Isotopes
+REACTION 1-3
+	NaCl  1
+	0.001
+END	
+MIX 1
+	1 0.5
+MIX 2   
+	2 0.5
+	3 0.5
+MIX 3
+	3 1.0
+USE mix none
+END
+REACTION_TEMPERATURE 1-3
+	30
+END
+DELETE
+	-solution 	 	
+		2
+		3
+	-equilibrium_phases	2-3
+	-exchange		2
+		3
+	-surface
+		2-3		
+	-solid_solution
+		2 3
+	-gas_phase	2-3
+	-kinetics	3 2
+	-mix		2 
+	-mix		3
+	-reaction       2-3
+	-temperature    
+		2
+		3
+END
 USE solution 1
-USE equilibrium 1
+USE equilibrium_phases 1
+USE exchange 1
+USE surface 1
+USE solid_solution 1
+USE gas_phase 1
+USE kinetics 1
+USE mix 1
+USE reaction 1
+USE reaction_temperature 1
+END
+DELETE
+	-solution  -1--2	 	
+	-equilibrium_phases	-1
+		-2
+	-exchange	-2--1
+	-surface	-1
+		-2
+	-solid_solution
+		-2
+		-1
+	-gas_phase	
+		-2--1
+	-kinetics	
+		-1--2 -5
+END
+DUMP
+	-file	ppdump.dmp
+	-all
+	-append
+END
