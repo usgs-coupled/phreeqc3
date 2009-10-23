@@ -816,17 +816,34 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 	}
 	else
 	{
-		pos_ptr = 0;
-		copy_token(option, pos_ptr);
+		//pos_ptr = 0;
+		//copy_token(option, pos_ptr);
+		//if (find_option(option, &opt, opt_list, true) == FT_OK)
+		//{
+		//	j = opt;
+		//	next_pos = pos_ptr;
+		//}
+		//else
+		//{
+		//	j = OPT_DEFAULT;
+		//	next_pos = 0;
+		//}
+
+		//std::istringstream m_line_iss_copy = m_line_iss;
+		pos_ptr = m_line_iss.tellg();
+		m_line_iss >> option;
 		if (find_option(option, &opt, opt_list, true) == FT_OK)
 		{
 			j = opt;
-			next_pos = pos_ptr;
+			next_pos = m_line_iss.tellg();
 		}
 		else
 		{
 			j = OPT_DEFAULT;
-			next_pos = 0;
+			m_line_iss.seekg(pos_ptr);
+			m_line_iss.clear();
+			next_pos = pos_ptr;
+			//m_line_iss >> option;
 		}
 /*
                 if (true) // pr.echo_input == TRUE

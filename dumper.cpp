@@ -243,20 +243,24 @@ bool dumper::Read(CParser & parser)
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
 	{
-		vopts.reserve(15);
+		vopts.reserve(20);
 		vopts.push_back("solution");
+		vopts.push_back("solutions");
 		vopts.push_back("pp_assemblage");
+		vopts.push_back("pp_assemblages");
+		vopts.push_back("equilibrium_phase");
 		vopts.push_back("equilibrium_phases");
 		vopts.push_back("exchange");
 		vopts.push_back("surface");
 		vopts.push_back("s_s_assemblage");
+		vopts.push_back("solid_solution");
+		vopts.push_back("solid_solutions");
 		vopts.push_back("gas_phase");
+		vopts.push_back("gas_phases");
 		vopts.push_back("kinetics");
 		vopts.push_back("file");
 		vopts.push_back("append");
 		vopts.push_back("all");	
-		vopts.push_back("on");	
-		vopts.push_back("off");	
 	}
 
 	std::istream::pos_type ptr;
@@ -284,44 +288,55 @@ bool dumper::Read(CParser & parser)
 		}
 
 		// Select StorageBinListItem
-		StorageBinListItem &item(binList.Get_solution());
+		StorageBinListItem *item;
 		switch (opt)
 		{
 		case 0:
-			item = this->binList.Get_solution();
-			break;
 		case 1:
+			item = &(this->binList.Get_solution());
+			break;
 		case 2:
-			item = this->binList.Get_pp_assemblage();
-			break;
 		case 3:
-			item = this->binList.Get_exchange();
-			break;
 		case 4:
-			item = this->binList.Get_surface();
-			break;
 		case 5:
-			item = this->binList.Get_s_s_assemblage();
+			item = &(this->binList.Get_pp_assemblage());
 			break;
 		case 6:
-			item = this->binList.Get_gas_phase();
+			item = &(this->binList.Get_exchange());
 			break;
 		case 7:
-			item = this->binList.Get_kinetics();
+			item = &(this->binList.Get_surface());
+			break;
+		case 8:
+		case 9:
+		case 10:
+			item = &(this->binList.Get_s_s_assemblage());
+			break;
+		case 11:
+		case 12:
+			item = &(this->binList.Get_gas_phase());
+			break;
+		case 13:
+			item = &(this->binList.Get_kinetics());
 			break;
 		default:
 			break;
 		}
 
 		// Read dump entity list of numbers or number ranges for line, store in item
-		if (opt >= 0 && opt <= 7)
+		if (opt >= 0 && opt <= 13)
 		{
 			for (;;)
 			{ 
 				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
-				if (j == CParser::TT_EMPTY || j == CParser::TT_DIGIT)
+				if (j == CParser::TT_DIGIT)
 				{
-					item.Augment(token);
+					item->Augment(token);
+				}
+				else if (j == CParser::TT_EMPTY)
+				{
+					item->Augment(token);
+					break;
 				}
 				else
 				{
@@ -348,8 +363,14 @@ bool dumper::Read(CParser & parser)
 		case 5:
 		case 6:
 		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
 			break;
-		case 8:				//file
+		case 14:				//file
 			std::getline(parser.get_iss(), this->file_name);
 			this->file_name = trim(this->file_name, " \t");
 			if (this->file_name.size() == 0)
@@ -358,7 +379,7 @@ bool dumper::Read(CParser & parser)
 			}
 
 			break;
-		case 9:				//append
+		case 15:				//append
 			{
 				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
 				//if (!(parser.get_iss() >> this->append))
@@ -369,7 +390,7 @@ bool dumper::Read(CParser & parser)
 				}
 			}
 			break;
-		case 10:			//all
+		case 16:			//all
 			this->SetAll(true);
 			break;
 		default:
