@@ -59,7 +59,7 @@ class cxxPPassemblage:public cxxNumKeyword
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
   protected:
-	  std::list < cxxPPassemblageComp > ppAssemblageComps;
+	std::list < cxxPPassemblageComp > ppAssemblageComps;
 	cxxNameDouble eltList;
 	cxxNameDouble totals;
 
