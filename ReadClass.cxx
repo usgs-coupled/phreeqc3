@@ -1085,7 +1085,6 @@ read_delete(void)
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
 	return (return_value);
 }
-/*
 /* ---------------------------------------------------------------------- */
 int
 read_solution_modify(void)
@@ -1152,7 +1151,7 @@ read_solution_modify(void)
 	if (solution_bsearch(n_user, &n, FALSE) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Solution %d not found for SOLUTION_MODIFY.\n%s\n", line_save);
+		sprintf(error_string, "Solution %d not found for SOLUTION_MODIFY.\n%s\n", n_user, line_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1238,7 +1237,7 @@ read_equilibrium_phases_modify(void)
 	if (pp_assemblage_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Equlibrium_phases %d not found for EQUILIBRIUM_PHASES_MODIFY.\n%s\n", line_save);
+		sprintf(error_string, "Equlibrium_phases %d not found for EQUILIBRIUM_PHASES_MODIFY.\n%s\n", n_user, line_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1322,7 +1321,7 @@ read_exchange_modify(void)
 	if (exchange_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Exchange %d not found for EXCHANGE_MODIFY.\n%s\n", line_save);
+		sprintf(error_string, "Exchange %d not found for EXCHANGE_MODIFY.\n%s\n", n_user, line_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1405,7 +1404,7 @@ read_surface_modify(void)
 	if (surface_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Surface %d not found for SURFACE_MODIFY.\n%s\n", line_save);
+		sprintf(error_string, "Surface %d not found for SURFACE_MODIFY.\n%s\n", n_user, line_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1488,7 +1487,7 @@ read_solid_solutions_modify(void)
 	if (s_s_assemblage_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Solid_solutions %d not found for SOLID_SOLUTIONS_MODIFY.\n%s\n", line_save);
+		sprintf(error_string, "Solid_solutions %d not found for SOLID_SOLUTIONS_MODIFY.\n%s\n", n_user, line_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1571,7 +1570,7 @@ read_gas_phase_modify(void)
 	if (gas_phase_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Gas_phase %d not found for GAS_PHASE_MODIFY.\n%s\n", line_save);
+		sprintf(error_string, "Gas_phase %d not found for GAS_PHASE_MODIFY.\n%s\n", n_user, line_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1653,7 +1652,7 @@ read_kinetics_modify(void)
 	if (kinetics_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Kinetics %d not found for KINETICS_MODIFY.\n%s\n", line_save);
+		sprintf(error_string, "Kinetics %d not found for KINETICS_MODIFY.\n%s\n", n_user, line_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}

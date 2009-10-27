@@ -3,18 +3,18 @@
 StorageBinListItem::StorageBinListItem(void)
 {
 	this->defined = false;
-};
+}
 
 StorageBinListItem::~StorageBinListItem(void)
 {
-};
+}
 void StorageBinListItem::Augment(std::string token)
 {
 	this->defined = true;
 	if (token.size() == 0) return;
 
 	// split string accounting for possible negative numbers
-	int pos;
+	unsigned int pos;
 	if ((pos = token.find("--")) != std::string::npos)
 	{
 		token.replace(pos,2," &");
@@ -55,7 +55,7 @@ void StorageBinListItem::Augment(std::string token)
 			this->numbers.insert(i);
 		}
 	}
-};
+}
 StorageBinList::StorageBinList(void)
 {
 }
@@ -136,7 +136,7 @@ bool StorageBinList::Read(CParser & parser)
 		}
 
 		// Select StorageBinListItem
-		StorageBinListItem *item;
+		StorageBinListItem *item = NULL;
 		switch (opt)
 		{
 		case 0:
@@ -241,3 +241,4 @@ bool StorageBinList::Read(CParser & parser)
 	}
 	return(return_value);
 }
+

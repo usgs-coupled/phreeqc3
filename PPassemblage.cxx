@@ -232,8 +232,10 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 			{
 				std::istream::pos_type pos = parser.tellg();
 				cxxPPassemblageComp ppComp;
+				CParser::ECHO_OPTION eo = parser.get_echo_stream();
+				parser.set_echo_stream(CParser::EO_NONE);
 				ppComp.read_raw(parser, false);
-				
+				parser.set_echo_stream(eo);
 
 				if (this->ppAssemblageComps.find(ppComp.get_name()) != this->ppAssemblageComps.end())
 				{
@@ -241,7 +243,6 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 					parser.seekg(pos).clear();
 					parser.seekg(pos);
 					comp.read_raw(parser, false);
-					int i=1;
 				}
 				else
 				{
