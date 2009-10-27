@@ -11,9 +11,12 @@ endif
 	mv phreeqc.log $<.log
 
 all: alkalinity.out \
+	a_e_t2.out \
 	aj1.out \
 	all_llnl.out \
+	aquia.out \
 	as.ex.out \
+	asf.out \
 	ball.out \
 	brown.out \
 	cdmusic_related.out \
@@ -30,6 +33,7 @@ all: alkalinity.out \
 	desc.out \
 	dissolve_only.out \
 	donly.out \
+	dump.out \
 	eco.out \
 	eq_EC.out \
 	evap.out \
@@ -85,7 +89,6 @@ all: alkalinity.out \
 	precipitate_only.out \
 	prob8.out \
 	rahn.out \
-	raw.out \
 	s1.out \
 	salt_ec.out \
 	saver.out \
@@ -110,8 +113,11 @@ all: alkalinity.out \
 	surf_related_pz.out \
 	surf_kin_related.out \
 	surf_kin_related_pz.out \
+	surf_transport.out \
 	ss_r.out \
+	sys_ex.out \
 	t922.out \
+	test_sit.out \
 	transport.out \
 	transport.dl.out \
 	user_print.out \
@@ -144,7 +150,9 @@ all: alkalinity.out \
 	katz.out \
 	np.testmp.out \
 	oxygenmp.out \
-	spread_redox.out 
+	spread_redox.out \
+	raw.out \
+	ppdump.out
 
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt

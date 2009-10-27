@@ -369,6 +369,7 @@ Reading input data for simulation 2.
 	 bcond 3 3
 	 timest 1e-8
 	 punch_frequency 1
+	 multi_d true 1e-9 1#0.547723 0 1
 	SELECTED_OUTPUT
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 2.
 WARNING: Dispersivities were read for 1 cells. Last value is used till cell 2.
@@ -553,8 +554,16 @@ O(0)             8.341e-13
 
 Transport step   1.
 
-Using solution 1.	Solution after simulation 2.
+Transport step   1. Multicomponent diffusion run   1.
+
+Using mix 1.	 
 Using surface 1.	Surface defined in simulation 2.
+
+Mixture 1.	 
+
+	  0.000e+00 Solution 0	Solution after simulation 2.                           
+	  0.000e+00 Solution 2	Solution after simulation 2.                           
+	  1.000e+00 Solution 1	Solution after simulation 2.                           
 
 ------------------------------Surface composition------------------------------
 
@@ -591,6 +600,44 @@ Su_b
 	Species               Moles    Fraction    Molality    Molality
 
 	Su_b              1.000e-03       1.000   1.000e-03      -3.000
+
+Hfo           
+	  5.129e-29  Surface + diffuse layer charge, eq
+	  5.129e-29  Surface charge, eq
+	undefined  sigma, C/m**2
+	  6.564e-02  psi, V
+	 -2.555e+00  -F*psi/RT
+	  7.769e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  0.000e+00  m**2 for   0.000e+00 g
+
+	Water in diffuse layer: 0.000e+00 kg,  0.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  5.0000e-16
+	H             	  2.0522e-19
+	Na            	  5.0000e-16
+	O             	  1.0270e-19
+
+Hfo_s         
+	  1.000e-25  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH           7.676e-26       0.000   7.676e-26     -25.115
+	Hfo_sOH2+         1.163e-26       0.000   1.163e-26     -25.934
+	Hfo_sO-           1.161e-26       0.000   1.161e-26     -25.935
+
+Hfo_w         
+	  1.000e-25  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.676e-26       0.000   7.676e-26     -25.115
+	Hfo_wOH2+         1.163e-26       0.000   1.163e-26     -25.934
+	Hfo_wO-           1.161e-26       0.000   1.161e-26     -25.935
 
 -----------------------------Solution composition------------------------------
 
@@ -643,13 +690,19 @@ O(0)             4.873e-13
 	Halite           -8.21   -6.62    1.58  NaCl
 	O2(g)            -9.65  -12.61   -2.96  O2
 
-Using solution 2.	Solution after simulation 2.
+Using mix 2.	 
 Using surface 2.	Surface defined in simulation 2.
+
+Mixture 2.	 
+
+	  0.000e+00 Solution 1	Solution after simulation 2.                           
+	  0.000e+00 Solution 3	Solution after simulation 2.                           
+	  1.000e+00 Solution 2	Solution after simulation 2.                           
 
 ------------------------------Surface composition------------------------------
 
 Hfo           
-	 -1.453e-13  Surface + diffuse layer charge, eq
+	 -1.059e-19  Surface + diffuse layer charge, eq
 	  3.821e-07  Surface charge, eq
 	  6.145e-05  sigma, C/m**2
 	  6.564e-02  psi, V
@@ -663,7 +716,9 @@ Hfo
 	Total moles in diffuse layer (excluding water), Donnan calculation 
 
 	Element       	     Moles
+	Cl            	  3.8621e-21
 	H             	  3.8232e-07
+	Na            	  4.5934e-24
 	O             	  3.8222e-07
 
 Hfo_s         
@@ -688,20 +743,21 @@ Hfo_w
 
 	Elements           Molality       Moles
 
-	Pure water     
+	Cl                1.012e-21   1.012e-21
+	Na                4.870e-21   4.870e-21
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000      Charge balance
-                                       pe  =  -1.735      Adjusted to redox equilibrium
+                                       pe  =  -1.705      Adjusted to redox equilibrium
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.081e-10
+                 Total alkalinity (eq/kg)  =   1.083e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
-                  Electrical balance (eq)  =  -1.081e-10
+                  Electrical balance (eq)  =  -1.083e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
                                Iterations  =   0
                                   Total H  = 1.110124e+02
@@ -715,28 +771,42 @@ Hfo_w
    OH-                    1.001e-07   1.001e-07    -6.999    -7.000     0.000
    H+                     1.000e-07   1.000e-07    -7.000    -7.000     0.000
    H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
-H(0)             4.172e-14
-   H2                     2.086e-14   2.086e-14   -13.681   -13.681     0.000
+Cl               1.012e-21
+   Cl-                    1.012e-21   1.012e-21   -20.995   -20.995     0.000
+H(0)             3.642e-14
+   H2                     1.821e-14   1.821e-14   -13.740   -13.740     0.000
+Na               4.870e-21
+   Na+                    4.870e-21   4.868e-21   -20.312   -20.313     0.000
+   NaOH                   3.216e-28   3.216e-28   -27.493   -27.493     0.000
 O(0)             0.000e+00
-   O2                     0.000e+00   0.000e+00   -65.019   -65.019     0.000
+   O2                     0.000e+00   0.000e+00   -64.901   -64.901     0.000
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI log IAP  log KT
 
-	H2(g)           -10.53  -13.68   -3.15  H2
+	H2(g)           -10.59  -13.74   -3.15  H2
 	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)           -62.06  -65.02   -2.96  O2
+	Halite          -42.89  -41.31    1.58  NaCl
+	O2(g)           -61.94  -64.90   -2.96  O2
 
 Transport step   2.
 
-Using solution 1.	Solution after simulation 2.
-Using surface 1.	Surface assemblage after simulation 2.
+Transport step   2. Multicomponent diffusion run   1.
+
+Using mix 1.	 
+Using surface 1.	Surface defined in simulation 2.
+
+Mixture 1.	 
+
+	  0.000e+00 Solution 0	Solution after simulation 2.                           
+	  0.000e+00 Solution 2	Solution after simulation 2.                           
+	  1.000e+00 Solution 1	Solution after simulation 2.                           
 
 ------------------------------Surface composition------------------------------
 
 Su            
-	 -1.941e-14  Surface + diffuse layer charge, eq
+	 -2.024e-12  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m**2
 	  2.992e-12  psi, V
@@ -768,6 +838,44 @@ Su_b
 	Species               Moles    Fraction    Molality    Molality
 
 	Su_b              1.000e-03       1.000   1.000e-03      -3.000
+
+Hfo           
+	  4.484e-29  Surface + diffuse layer charge, eq
+	  4.484e-29  Surface charge, eq
+	undefined  sigma, C/m**2
+	  6.564e-02  psi, V
+	 -2.555e+00  -F*psi/RT
+	  7.769e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  0.000e+00  m**2 for   0.000e+00 g
+
+	Water in diffuse layer: 0.000e+00 kg,  0.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  7.5000e-16
+	H             	  2.0634e-19
+	Na            	  7.5000e-16
+	O             	  1.0331e-19
+
+Hfo_s         
+	  1.000e-25  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH           7.676e-26       0.000   7.676e-26     -25.115
+	Hfo_sOH2+         1.163e-26       0.000   1.163e-26     -25.934
+	Hfo_sO-           1.161e-26       0.000   1.161e-26     -25.935
+
+Hfo_w         
+	  1.000e-25  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.676e-26       0.000   7.676e-26     -25.115
+	Hfo_wOH2+         1.163e-26       0.000   1.163e-26     -25.934
+	Hfo_wO-           1.161e-26       0.000   1.161e-26     -25.935
 
 -----------------------------Solution composition------------------------------
 
@@ -820,7 +928,54 @@ O(0)             2.953e-12
 	Halite           -7.86   -6.28    1.58  NaCl
 	O2(g)            -8.87  -11.83   -2.96  O2
 
-Using solution 2.	Solution after simulation 2.
+Using mix 2.	 
+Using surface 2.	Surface defined in simulation 2.
+
+Mixture 2.	 
+
+	  0.000e+00 Solution 1	Solution after simulation 2.                           
+	  0.000e+00 Solution 3	Solution after simulation 2.                           
+	  1.000e+00 Solution 2	Solution after simulation 2.                           
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  5.129e-29  Surface + diffuse layer charge, eq
+	  5.129e-29  Surface charge, eq
+	undefined  sigma, C/m**2
+	  6.564e-02  psi, V
+	 -2.555e+00  -F*psi/RT
+	  7.769e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  0.000e+00  m**2 for   0.000e+00 g
+
+	Water in diffuse layer: 0.000e+00 kg,  0.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  5.0000e-16
+	H             	  2.0522e-19
+	Na            	  5.0000e-16
+	O             	  1.0270e-19
+
+Hfo_s         
+	  1.000e-25  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH           7.676e-26       0.000   7.676e-26     -25.115
+	Hfo_sOH2+         1.163e-26       0.000   1.163e-26     -25.934
+	Hfo_sO-           1.161e-26       0.000   1.161e-26     -25.935
+
+Hfo_w         
+	  1.000e-25  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.676e-26       0.000   7.676e-26     -25.115
+	Hfo_wOH2+         1.163e-26       0.000   1.163e-26     -25.934
+	Hfo_wO-           1.161e-26       0.000   1.161e-26     -25.935
 
 -----------------------------Solution composition------------------------------
 

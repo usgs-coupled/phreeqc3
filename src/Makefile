@@ -59,7 +59,7 @@ debug:
 # =============================================================================
 
 #SRC     = ../phreeqc
-.SUFFIXES : .o .c .cxx
+.SUFFIXES : .o .c .cxx .cpp
 
 # compilers
 
@@ -68,6 +68,9 @@ debug:
 	${CXX} ${CXXFLAGS} -c -o $@ $<
 
 .cxx.o :
+	${CXX} ${CXXFLAGS} -c -o $@ $<
+
+.cpp.o :
 	${CXX} ${CXXFLAGS} -c -o $@ $<
 
 # -----------------------------------------------------------------------------
@@ -149,6 +152,7 @@ COMMON_COBJS =  \
 	       print.o \
 	       read.o \
 	       readtr.o \
+	       sit.o \
 	       smalldense.o \
 	       spread.o \
 	       step.o \
@@ -160,6 +164,7 @@ COMMON_COBJS =  \
 	       utilities.o 	                
 
 COMMON_CXXOBJS = \
+	       dumper.o \
 	       Exchange.o \
 	       ExchComp.o \
 	       GasPhase.o \
@@ -181,6 +186,7 @@ COMMON_CXXOBJS = \
 	       SSassemblage.o \
 	       SSassemblageSS.o \
                StorageBin.o \
+               StorageBinList.o \
 	       Surface.o \
 	       SurfaceCharge.o \
 	       SurfaceComp.o \
@@ -220,7 +226,9 @@ Exchange.o: ../Exchange.cxx ../Utils.h ../char_star.h ../Exchange.h \
   ../phreeqc/phrqproto.h ../phreeqc/output.h
 ExchComp.o: ../ExchComp.cxx ../Utils.h ../char_star.h ../ExchComp.h \
   ../NameDouble.h ../Parser.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h ../phreeqc/output.h
+  ../Dictionary.h ../Solution.h ../NumKeyword.h ../SolutionIsotopeList.h \
+  ../SolutionIsotope.h ../cxxMix.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqproto.h ../phreeqc/output.h
 GasPhase.o: ../GasPhase.cxx ../Utils.h ../char_star.h ../GasPhase.h \
   ../NumKeyword.h ../Parser.h ../NameDouble.h ../phreeqc/global.h \
   ../phreeqc/phrqtype.h ../cxxMix.h ../phreeqc/phqalloc.h \
@@ -237,18 +245,23 @@ ISolution.o: ../ISolution.cxx ../ISolution.h ../ISolutionComp.h \
   ../NameDouble.h ../cxxMix.h ../phreeqc/output.h
 KineticsComp.o: ../KineticsComp.cxx ../Utils.h ../char_star.h \
   ../KineticsComp.h ../NameDouble.h ../Parser.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+  ../phreeqc/phrqtype.h ../Dictionary.h ../Solution.h ../NumKeyword.h \
+  ../SolutionIsotopeList.h ../SolutionIsotope.h ../cxxMix.h \
+  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 NameDouble.o: ../NameDouble.cxx ../Utils.h ../char_star.h ../NameDouble.h \
-  ../Parser.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
-  ../phreeqc/output.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+  ../Parser.h ../Dictionary.h ../Solution.h ../NumKeyword.h \
+  ../SolutionIsotopeList.h ../SolutionIsotope.h ../cxxMix.h \
+  ../phreeqc/global.h ../phreeqc/phrqtype.h ../phreeqc/output.h \
+  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 NumKeyword.o: ../NumKeyword.cxx ../NumKeyword.h ../Parser.h \
   ../char_star.h
 Parser.o: ../Parser.cxx ../Parser.h ../char_star.h ../Utils.h \
   ../phreeqc/output.h
 PPassemblageComp.o: ../PPassemblageComp.cxx ../Utils.h ../char_star.h \
   ../PPassemblageComp.h ../NameDouble.h ../Parser.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h \
-  ../phreeqc/output.h
+  ../phreeqc/phrqtype.h ../Dictionary.h ../Solution.h ../NumKeyword.h \
+  ../SolutionIsotopeList.h ../SolutionIsotope.h ../cxxMix.h \
+  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h ../phreeqc/output.h
 PPassemblage.o: ../PPassemblage.cxx ../Utils.h ../char_star.h \
   ../PPassemblage.h ../NumKeyword.h ../Parser.h ../phreeqc/global.h \
   ../phreeqc/phrqtype.h ../PPassemblageComp.h ../NameDouble.h ../cxxMix.h \
@@ -263,7 +276,8 @@ ReadClass.o: ../ReadClass.cxx ../Parser.h ../char_star.h ../Solution.h \
   ../phreeqc/phrqproto.h ../SurfaceCharge.h ../PPassemblage.h \
   ../PPassemblageComp.h ../cxxKinetics.h ../KineticsComp.h \
   ../SSassemblage.h ../SSassemblageSS.h ../GasPhase.h ../Reaction.h \
-  ../Temperature.h ../phreeqc/phqalloc.h ../phreeqc/output.h
+  ../Temperature.h ../dumper.h ../StorageBinList.h ../phreeqc/phqalloc.h \
+  ../phreeqc/output.h
 SAXPhreeqc.o: ../SAXPhreeqc.cxx ../SAXPhreeqc.h ../SaxPhreeqcHandlers.h \
   ../phreeqc/global.h ../phreeqc/phrqtype.h ../phreeqc/phrqproto.h \
   ../phreeqc/phqalloc.h ../phreeqc/output.h
@@ -289,7 +303,9 @@ SSassemblage.o: ../SSassemblage.cxx ../Utils.h ../char_star.h \
   ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 SSassemblageSS.o: ../SSassemblageSS.cxx ../Utils.h ../char_star.h \
   ../SSassemblageSS.h ../NameDouble.h ../Parser.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
+  ../phreeqc/phrqtype.h ../Dictionary.h ../Solution.h ../NumKeyword.h \
+  ../SolutionIsotopeList.h ../SolutionIsotope.h ../cxxMix.h \
+  ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 StorageBin.o: ../StorageBin.cxx ../Utils.h ../char_star.h ../StorageBin.h \
   ../Parser.h ../Solution.h ../NumKeyword.h ../SolutionIsotopeList.h \
   ../SolutionIsotope.h ../NameDouble.h ../cxxMix.h ../Exchange.h \
@@ -301,11 +317,14 @@ StorageBin.o: ../StorageBin.cxx ../Utils.h ../char_star.h ../StorageBin.h \
   ../phreeqc/output.h
 SurfaceCharge.o: ../SurfaceCharge.cxx ../Utils.h ../char_star.h \
   ../SurfaceCharge.h ../NameDouble.h ../Parser.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../phreeqc/output.h ../phreeqc/phqalloc.h \
-  ../phreeqc/phrqproto.h
+  ../phreeqc/phrqtype.h ../Dictionary.h ../Solution.h ../NumKeyword.h \
+  ../SolutionIsotopeList.h ../SolutionIsotope.h ../cxxMix.h \
+  ../phreeqc/output.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 SurfaceComp.o: ../SurfaceComp.cxx ../Utils.h ../char_star.h \
   ../SurfaceComp.h ../NameDouble.h ../Parser.h ../phreeqc/global.h \
-  ../phreeqc/phrqtype.h ../phreeqc/phrqproto.h ../phreeqc/phqalloc.h \
+  ../phreeqc/phrqtype.h ../phreeqc/phrqproto.h ../Dictionary.h \
+  ../Solution.h ../NumKeyword.h ../SolutionIsotopeList.h \
+  ../SolutionIsotope.h ../cxxMix.h ../phreeqc/phqalloc.h \
   ../phreeqc/output.h
 Surface.o: ../Surface.cxx ../Utils.h ../char_star.h ../Surface.h \
   ../NumKeyword.h ../Parser.h ../phreeqc/global.h ../phreeqc/phrqtype.h \
@@ -324,6 +343,10 @@ Temperature.o: ../Temperature.cxx ../Utils.h ../char_star.h \
   ../phreeqc/phrqtype.h ../phreeqc/phqalloc.h ../phreeqc/phrqproto.h
 Utils.o: ../Utils.cxx ../Utils.h ../char_star.h ../Parser.h \
   ../phreeqc/output.h
+dumper.o: ../dumper.cpp ../dumper.h ../Parser.h ../char_star.h \
+  ../StorageBinList.h
+StorageBinList.o: ../StorageBinList.cpp ../StorageBinList.h ../Parser.h \
+  ../char_star.h
 #
 #  PHREEQC files
 #
@@ -435,7 +458,7 @@ clean:
 
 dependencies:
 	mkdir -p $(DEBUG_DIR) 
-	cd $(DEBUG_DIR); gcc -MM -I../phreeqc ../*.cxx
+	cd $(DEBUG_DIR); gcc -MM -I../phreeqc ../*.cxx ../*.cpp
 
 tester:
 	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)

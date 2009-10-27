@@ -288,7 +288,7 @@ bool dumper::Read(CParser & parser)
 		}
 
 		// Select StorageBinListItem
-		StorageBinListItem *item;
+		StorageBinListItem *item = NULL;
 		switch (opt)
 		{
 		case 0:

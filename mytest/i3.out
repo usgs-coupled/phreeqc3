@@ -26,6 +26,8 @@ Reading input data for simulation 1.
 	 A = A
 	 log_k 0
 	 dw 0.9e-9
+	 H2O + 0.01e- = H2O-0.01
+	 log_k -12
 	SOLUTION 0
 	 pH 7.0 charge
 	 Cl 1
@@ -52,6 +54,8 @@ Initial solution 0.
 
                                        pH  =   7.213      Charge balance
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 115
+                          Density (g/cm3)  =   0.99712
                         Activity of water  =   1.000
                            Ionic strength  =   1.410e-03
                        Mass of water (kg)  =   1.000e+00
@@ -59,7 +63,7 @@ Initial solution 0.
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
-                  Electrical balance (eq)  =   1.565e-14
+                  Electrical balance (eq)  =   1.564e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   5
                                   Total H  = 1.110140e+02
@@ -72,6 +76,7 @@ Initial solution 0.
 
    OH-                    1.705e-07   1.634e-07    -6.768    -6.787    -0.018
    H+                     6.373e-08   6.125e-08    -7.196    -7.213    -0.017
+   H2O-0.01               9.120e-13   9.120e-13   -12.040   -12.040     0.000
    H2O                    5.551e+01   9.999e-01     1.744     0.000     0.000
 A                1.000e-03
    A                      1.000e-03   1.000e-03    -3.000    -3.000     0.000
@@ -124,14 +129,16 @@ Initial solution 1.
 
                                        pH  =   7.000      Charge balance
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.121e-18
+                 Total alkalinity (eq/kg)  =  -9.117e-15
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
-                  Electrical balance (eq)  =  -3.121e-18
+                  Electrical balance (eq)  =  -3.122e-18
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110124e+02
@@ -142,8 +149,9 @@ Initial solution 1.
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.001e-07   1.001e-07    -7.000    -7.000     0.000
    H+                     1.001e-07   1.001e-07    -7.000    -7.000     0.000
+   OH-                    1.001e-07   1.001e-07    -7.000    -7.000     0.000
+   H2O-0.01               9.120e-13   9.120e-13   -12.040   -12.040     0.000
    H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
 H(0)             1.417e-25
    H2                     7.087e-26   7.087e-26   -25.150   -25.150     0.000
