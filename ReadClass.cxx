@@ -373,8 +373,7 @@ read_equilibrium_phases_raw(void)
 
 	cxxPPassemblage ex;
 	ex.read_raw(parser);
-	struct pp_assemblage *pp_assemblage_ptr =
-		ex.cxxPPassemblage2pp_assemblage();
+	struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage();
 	int n;
 
 	/*
@@ -1250,6 +1249,8 @@ read_equilibrium_phases_modify(void)
 	struct pp_assemblage *entity_ptr = entity.cxxPPassemblage2pp_assemblage();
 	pp_assemblage_free(&(pp_assemblage[n]));
 	pp_assemblage_copy(entity_ptr, &(pp_assemblage[n]), entity_ptr->n_user);
+	free_check_null(pp_assemblage[n].description);
+	pp_assemblage[n].description = string_duplicate(entity_ptr->description);
 	pp_assemblage_free(entity_ptr);
 	free_check_null(entity_ptr);
 
@@ -1276,6 +1277,25 @@ read_exchange_modify(void)
  *
  */
 	int return_value;
+
+	// find exchange number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected exchange number following EXCHANGE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+
 	/*
 	 *  Make parser
 	 */
@@ -1301,23 +1321,6 @@ read_exchange_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	// find exchange number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		sprintf(error_string, "Expected exchange number following EXCHANGE_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
 	if (exchange_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
@@ -1334,7 +1337,11 @@ read_exchange_modify(void)
 	struct exchange *entity_ptr = entity.cxxExchange2exchange();
 	exchange_free(&(exchange[n]));
 	exchange_copy(entity_ptr, &(exchange[n]), entity_ptr->n_user);
+	free_check_null(exchange[n].description);
+	exchange[n].description = string_duplicate(entity_ptr->description);
 	exchange_free(entity_ptr);
+	free_check_null(entity_ptr);
+	
 
 	// Need to output the next keyword
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
