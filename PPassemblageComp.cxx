@@ -64,8 +64,7 @@ cxxPPassemblageComp::get_phase()
 }
 
 struct pure_phase *
-cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(std::list <
-													cxxPPassemblageComp > &el)
+	cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(std::map < std::string, cxxPPassemblageComp > &el)
 		//
 		// Builds pure_phase structure from of cxxPPassemblageComp 
 		//
@@ -77,19 +76,19 @@ cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(std::list <
 		malloc_error();
 
 	int i = 0;
-	for (std::list < cxxPPassemblageComp >::iterator it = el.begin();
+	for (std::map < std::string, cxxPPassemblageComp >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		pure_phase_ptr[i].phase = it->get_phase();
-		pure_phase_ptr[i].name = it->name;
-		pure_phase_ptr[i].add_formula = it->add_formula;
-		pure_phase_ptr[i].si = it->si;
-		pure_phase_ptr[i].moles = it->moles;
-		pure_phase_ptr[i].delta = it->delta;
-		pure_phase_ptr[i].initial_moles = it->initial_moles;
-		pure_phase_ptr[i].force_equality = (int) it->force_equality;
-		pure_phase_ptr[i].dissolve_only = (int) it->dissolve_only;
-		pure_phase_ptr[i].precipitate_only = (int) it->precipitate_only;
+		pure_phase_ptr[i].phase = (*it).second.get_phase();
+		pure_phase_ptr[i].name = (*it).second.name;
+		pure_phase_ptr[i].add_formula = (*it).second.add_formula;
+		pure_phase_ptr[i].si = (*it).second.si;
+		pure_phase_ptr[i].moles = (*it).second.moles;
+		pure_phase_ptr[i].delta = (*it).second.delta;
+		pure_phase_ptr[i].initial_moles = (*it).second.initial_moles;
+		pure_phase_ptr[i].force_equality = (int) (*it).second.force_equality;
+		pure_phase_ptr[i].dissolve_only = (int) (*it).second.dissolve_only;
+		pure_phase_ptr[i].precipitate_only = (int) (*it).second.precipitate_only;
 		i++;
 	}
 	return (pure_phase_ptr);
@@ -148,23 +147,19 @@ cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		s_oss << indent0 << "-name                  " << this->
 			name << std::endl;
 	if (this->add_formula != NULL)
-		s_oss << indent0 << "-add_formula           " << this->
+		s_oss << indent1 << "-add_formula           " << this->
 			add_formula << std::endl;
-	s_oss << indent0 << "-si                    " << this->si << std::endl;
-	s_oss << indent0 << "-moles                 " << this->moles << std::endl;
-	s_oss << indent0 << "-delta                 " << this->delta << std::endl;
-	s_oss << indent0 << "-initial_moles         " << this->
-		initial_moles << std::endl;
-	s_oss << indent0 << "-force_equality        " << this->
-		force_equality << std::endl;
-	s_oss << indent0 << "-dissolve_only         " << this->
-		dissolve_only << std::endl;
-	s_oss << indent0 << "-precipitate_only         " << this->
-		precipitate_only << std::endl;
+	s_oss << indent1 << "-si                    " << this->si << std::endl;
+	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
+	s_oss << indent1 << "-delta                 " << this->delta << std::endl;
+	s_oss << indent1 << "-initial_moles         " << this->initial_moles << std::endl;
+	s_oss << indent1 << "-force_equality        " << this->force_equality << std::endl;
+	s_oss << indent1 << "-dissolve_only         " << this->dissolve_only << std::endl;
+	s_oss << indent1 << "-precipitate_only      " << this->precipitate_only << std::endl;
 }
 
 void
-cxxPPassemblageComp::read_raw(CParser & parser)
+cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -339,60 +334,63 @@ cxxPPassemblageComp::read_raw(CParser & parser)
 			break;
 	}
 	// members that must be defined
-	if (name_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Name not defined for PPassemblageComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (si_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Si not defined for PPassemblageComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (moles_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Moles not defined for PPassemblageComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (delta_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Delta not defined for PPassemblageComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (initial_moles_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg("Initial_moles not defined for PPassemblageComp input.",
-					  CParser::OT_CONTINUE);
-	}
-	if (dissolve_only_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg("Dissolve_only not defined for PPassemblageComp input.",
-					  CParser::OT_CONTINUE);
-	}
-	/* don't check to maintain backward compatibility
-	if (precipitate_only_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg("Precipitate_only not defined for PPassemblageComp input.",
-					  CParser::OT_CONTINUE);
-	}
-	*/
-	if (force_equality_defined == false)
-	{
+		if (name_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Name not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (si_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Si not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (moles_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Moles not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (delta_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Delta not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (initial_moles_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Initial_moles not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (dissolve_only_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Dissolve_only not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
+		/* don't check to maintain backward compatibility
+		if (precipitate_only_defined == false)
+		{
 		parser.incr_input_error();
 		parser.
-			error_msg
-			("Force_equality not defined for PPassemblageComp input.",
-			 CParser::OT_CONTINUE);
+		error_msg("Precipitate_only not defined for PPassemblageComp input.",
+		CParser::OT_CONTINUE);
+		}
+		*/
+		if (force_equality_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg
+				("Force_equality not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 

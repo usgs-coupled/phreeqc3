@@ -44,7 +44,9 @@ eltList(pp_assemblage_ptr->next_elt)
 	for (i = 0; i < pp_assemblage_ptr->count_comps; i++)
 	{
 		cxxPPassemblageComp ppComp(&(pp_assemblage_ptr->pure_phases[i]));
-		ppAssemblageComps.push_back(ppComp);
+		//ppAssemblageComps.push_back(ppComp);
+		std::string str(ppComp.get_name());
+		this->ppAssemblageComps[str] = ppComp;
 	}
 }
 cxxPPassemblage::cxxPPassemblage(const std::map < int,
@@ -90,8 +92,7 @@ cxxPPassemblage::cxxPPassemblage2pp_assemblage()
 	pp_assemblage_ptr->pure_phases =
 		(struct pure_phase *) free_check_null(pp_assemblage_ptr->pure_phases);
 	pp_assemblage_ptr->pure_phases =
-		cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(this->
-															ppAssemblageComps);
+		cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(this->ppAssemblageComps);
 	pp_assemblage_ptr->next_elt = this->eltList.elt_list();
 	return (pp_assemblage_ptr);
 }
@@ -120,10 +121,10 @@ cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	// ppAssemblageComps
 	s_oss << indent1;
 	s_oss << "<pure_phases " << std::endl;
-	for (std::list < cxxPPassemblageComp >::const_iterator it =
+	for (std::map < std::string, cxxPPassemblageComp >::const_iterator it =
 		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
 	{
-		it->dump_xml(s_oss, indent + 2);
+		(*it).second.dump_xml(s_oss, indent + 2);
 	}
 }
 
@@ -153,12 +154,12 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	this->eltList.dump_raw(s_oss, indent + 2);
 
 	// ppAssemblagComps
-	for (std::list < cxxPPassemblageComp >::const_iterator it =
+	for (std::map < std::string, cxxPPassemblageComp >::const_iterator it =
 		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
 	{
 		s_oss << indent1;
 		s_oss << "-component" << std::endl;
-		it->dump_raw(s_oss, indent + 2);
+		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 }
 
@@ -229,9 +230,28 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 
 		case 1:				// component
 			{
+				std::istream::pos_type pos = parser.tellg();
 				cxxPPassemblageComp ppComp;
-				ppComp.read_raw(parser);
-				this->ppAssemblageComps.push_back(ppComp);
+				ppComp.read_raw(parser, false);
+				
+
+				if (this->ppAssemblageComps.find(ppComp.get_name()) != this->ppAssemblageComps.end())
+				{
+					cxxPPassemblageComp & comp = ppAssemblageComps.find(ppComp.get_name())->second;
+					parser.seekg(pos).clear();
+					parser.seekg(pos);
+					comp.read_raw(parser, false);
+					int i=1;
+				}
+				else
+				{
+					parser.seekg(pos).clear();
+					parser.seekg(pos);
+					cxxPPassemblageComp ppComp1;
+					ppComp1.read_raw(parser, false);
+					std::string str(ppComp1.get_name());
+					this->ppAssemblageComps[str] = ppComp1;
+				}
 			}
 			useLastLine = true;
 			break;
@@ -292,11 +312,11 @@ cxxPPassemblage::totalize()
 {
 	this->totals.clear();
 	// component structures
-	for (std::list < cxxPPassemblageComp >::iterator it =
+	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
 		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
 	{
-		it->totalize();
-		this->totals.add_extensive(it->get_totals(), 1.0);
+		(*it).second.totalize();
+		this->totals.add_extensive((*it).second.get_totals(), 1.0);
 	}
 	return;
 }
@@ -310,27 +330,27 @@ cxxPPassemblage::add(const cxxPPassemblage & addee, double extensive)
 	if (extensive == 0.0)
 		return;
 	//std::list<cxxPPassemblageComp> ppAssemblageComps;
-	for (std::list < cxxPPassemblageComp >::const_iterator itadd =
-		 addee.ppAssemblageComps.begin();
+	for (std::map < std::string, cxxPPassemblageComp >::const_iterator itadd = addee.ppAssemblageComps.begin();
 		 itadd != addee.ppAssemblageComps.end(); ++itadd)
 	{
 		bool found = false;
-		for (std::list < cxxPPassemblageComp >::iterator it =
+		for (std::map < std::string, cxxPPassemblageComp >::iterator it =
 			 this->ppAssemblageComps.begin();
 			 it != this->ppAssemblageComps.end(); ++it)
 		{
-			if (it->get_name() == itadd->get_name())
+			if ((*it).second.get_name() == itadd->second.get_name())
 			{
-				it->add((*itadd), extensive);
+				(*it).second.add((*itadd).second, extensive);
 				found = true;
 				break;
 			}
 		}
 		if (!found)
 		{
-			cxxPPassemblageComp entity = *itadd;
+			cxxPPassemblageComp entity = (*itadd).second;
 			entity.multiply(extensive);
-			this->ppAssemblageComps.push_back(entity);
+			std::string str(entity.get_name());
+			this->ppAssemblageComps[str] = entity;
 		}
 	}
 	//cxxNameDouble eltList;

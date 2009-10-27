@@ -169,6 +169,17 @@ class CParser
 		return m_input_error;
 	}
 
+	std::istream::pos_type tellg()
+	{
+		return m_input_stream.tellg();
+	} 
+	std::istream& seekg(std::istream::pos_type p)
+	{
+		return m_input_stream.seekg(p);
+	} 
+
+
+
 
 		/**
                 Copies from begin to token until first space is encountered.
@@ -298,4 +309,5 @@ inline std::string trim(const std::string& source, const std::string& t = " \t")
 	std::string str = source;
 	return trim_left( trim_right( str , t) , t );
 } 
+
 #endif // PARSER_H_INCLUDED
