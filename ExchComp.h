@@ -22,14 +22,14 @@ class cxxExchComp
 
 	struct master *get_master();
 
-	static struct exch_comp *cxxExchComp2exch_comp(std::list < cxxExchComp >
+	static struct exch_comp *cxxExchComp2exch_comp(std::map < std::string, cxxExchComp >
 												   &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser);
+	void read_raw(CParser & parser, bool check=true);
 
 	char *get_formula() const
 	{

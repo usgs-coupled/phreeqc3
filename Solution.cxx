@@ -454,7 +454,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "SOLUTION_RAW       " << this->n_user << " " << this->
 		description << std::endl;
 
-	s_oss << "# Critical values" << std::endl;
+	//s_oss << "# Critical values" << std::endl;
 
 	s_oss << indent1;
 	s_oss << "-temp              " << this->tc << std::endl;
@@ -476,7 +476,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "-totals" << std::endl;
 	this->totals.dump_raw(s_oss, indent + 2);
 
-	s_oss << "# Optional critical values" << std::endl;
+	//s_oss << "# Optional critical values" << std::endl;
 
 	// Isotopes
 	s_oss << indent1;
@@ -495,7 +495,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	   }
 	 */
 
-	s_oss << "# Non-critical values" << std::endl;
+	//s_oss << "# Non-critical values" << std::endl;
 
 	s_oss << indent1;
 	s_oss << "-pH                " << this->ph << std::endl;
