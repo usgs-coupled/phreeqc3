@@ -1252,6 +1252,7 @@ read_equilibrium_phases_modify(void)
 	pp_assemblage_free(&(pp_assemblage[n]));
 	pp_assemblage_copy(entity_ptr, &(pp_assemblage[n]), entity_ptr->n_user);
 	pp_assemblage_free(entity_ptr);
+	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);

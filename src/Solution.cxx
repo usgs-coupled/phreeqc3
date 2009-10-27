@@ -454,8 +454,48 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "SOLUTION_RAW       " << this->n_user << " " << this->
 		description << std::endl;
 
+	s_oss << "# Critical values" << std::endl;
+
 	s_oss << indent1;
 	s_oss << "-temp              " << this->tc << std::endl;
+
+	// new identifier
+	s_oss << indent1;
+	s_oss << "-total_h           " << this->total_h << std::endl;
+
+	// new identifier
+	s_oss << indent1;
+	s_oss << "-total_o           " << this->total_o << std::endl;
+
+	// new identifier
+	s_oss << indent1;
+	s_oss << "-cb                " << this->cb << std::endl;
+
+	// soln_total conc structures
+	s_oss << indent1;
+	s_oss << "-totals" << std::endl;
+	this->totals.dump_raw(s_oss, indent + 2);
+
+	s_oss << "# Optional critical values" << std::endl;
+
+	// Isotopes
+	s_oss << indent1;
+	s_oss << "-Isotopes" << std::endl;
+	{
+		for (std::list < cxxSolutionIsotope >::const_iterator it =
+			 this->isotopes.begin(); it != isotopes.end(); ++it)
+		{
+			it->dump_raw(s_oss, indent + 2);
+		}
+	}
+	/*
+	   for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
+	   s_oss << indent2;
+	   s_oss << it->first << "   " <<  it->second << std::endl;
+	   }
+	 */
+
+	s_oss << "# Non-critical values" << std::endl;
 
 	s_oss << indent1;
 	s_oss << "-pH                " << this->ph << std::endl;
@@ -473,34 +513,11 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-total_h           " << this->total_h << std::endl;
-
-	// new identifier
-	s_oss << indent1;
-	s_oss << "-total_o           " << this->total_o << std::endl;
-
-	// new identifier
-	s_oss << indent1;
-	s_oss << "-cb                " << this->cb << std::endl;
-
-	// new identifier
-	s_oss << indent1;
 	s_oss << "-mass_water        " << this->mass_water << std::endl;
 
 	// new identifier
 	s_oss << indent1;
 	s_oss << "-total_alkalinity  " << this->total_alkalinity << std::endl;
-
-	// soln_total conc structures
-	s_oss << indent1;
-	s_oss << "-totals" << std::endl;
-	this->totals.dump_raw(s_oss, indent + 2);
-	/*
-	   for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
-	   s_oss << indent2;
-	   s_oss << it->first << "   " <<  it->second << std::endl;
-	   }
-	 */
 
 	// master_activity map
 	s_oss << indent1;
@@ -528,16 +545,6 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	   }
 	   }
 	 */
-	// Isotopes
-	s_oss << indent1;
-	s_oss << "-Isotopes" << std::endl;
-	{
-		for (std::list < cxxSolutionIsotope >::const_iterator it =
-			 this->isotopes.begin(); it != isotopes.end(); ++it)
-		{
-			it->dump_raw(s_oss, indent + 2);
-		}
-	}
 
 	return;
 }
