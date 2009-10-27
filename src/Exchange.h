@@ -43,7 +43,7 @@ class cxxExchange:public cxxNumKeyword
 		this->pitzer_exchange_gammas = b;
 	}
 
-	std::list < cxxExchComp > &get_exchComps(void)
+	std::map < std::string, cxxExchComp > &get_exchComps(void)
 	{
 		return (this->exchComps);
 	}
@@ -64,7 +64,7 @@ class cxxExchange:public cxxNumKeyword
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
   protected:
-	std::list < cxxExchComp > exchComps;
+	  std::map < std::string, cxxExchComp > exchComps;
 	bool pitzer_exchange_gammas;
 	cxxNameDouble totals;
   public:

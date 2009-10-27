@@ -188,7 +188,7 @@ cxxExchComp::get_master()
 }
 
 struct exch_comp *
-cxxExchComp::cxxExchComp2exch_comp(std::list < cxxExchComp > &el)
+	cxxExchComp::cxxExchComp2exch_comp(std::map < std::string, cxxExchComp > &el)
 		//
 		// Builds exch_comp structure from of cxxExchComp 
 		//
@@ -200,20 +200,20 @@ cxxExchComp::cxxExchComp2exch_comp(std::list < cxxExchComp > &el)
 		malloc_error();
 
 	int i = 0;
-	for (std::list < cxxExchComp >::iterator it = el.begin(); it != el.end();
+	for (std::map < std::string, cxxExchComp >::iterator it = el.begin(); it != el.end();
 		 ++it)
 	{
-		exch_comp_ptr[i].formula = it->formula;
-		exch_comp_ptr[i].formula_z = it->formula_z;
-		exch_comp_ptr[i].totals = it->totals.elt_list();
-		exch_comp_ptr[i].moles = it->moles;
-		exch_comp_ptr[i].formula_totals = it->formula_totals.elt_list();
-		exch_comp_ptr[i].la = it->la;
-		exch_comp_ptr[i].charge_balance = it->charge_balance;
-		exch_comp_ptr[i].phase_name = it->phase_name;
-		exch_comp_ptr[i].phase_proportion = it->phase_proportion;
-		exch_comp_ptr[i].rate_name = it->rate_name;
-		exch_comp_ptr[i].master = it->get_master();
+		exch_comp_ptr[i].formula = (*it).second.formula;
+		exch_comp_ptr[i].formula_z = (*it).second.formula_z;
+		exch_comp_ptr[i].totals = (*it).second.totals.elt_list();
+		exch_comp_ptr[i].moles = (*it).second.moles;
+		exch_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list();
+		exch_comp_ptr[i].la = (*it).second.la;
+		exch_comp_ptr[i].charge_balance = (*it).second.charge_balance;
+		exch_comp_ptr[i].phase_name = (*it).second.phase_name;
+		exch_comp_ptr[i].phase_proportion = (*it).second.phase_proportion;
+		exch_comp_ptr[i].rate_name = (*it).second.rate_name;
+		exch_comp_ptr[i].master = (*it).second.get_master();
 		i++;
 	}
 	return (exch_comp_ptr);
@@ -282,40 +282,41 @@ cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Exch_Comp element and attributes
 
-	s_oss << indent0 << "-formula               " << this->
-		formula << std::endl;
-	s_oss << indent0 << "-moles                 " << this->moles << std::endl;
-	s_oss << indent0 << "-la                    " << this->la << std::endl;
-	s_oss << indent0 << "-charge_balance        " << this->
-		charge_balance << std::endl;
+	s_oss << indent0 << "-formula               " << this->formula << std::endl;
+
+	//s_oss << indent1 << "# critical values" << std::endl;
+
+	// totals
+	s_oss << indent1;
+	s_oss << "-totals" << std::endl;
+	this->totals.dump_raw(s_oss, indent + 2);
+
+	s_oss << indent1 << "-charge_balance        " << this->charge_balance << std::endl;
+
+	//s_oss << indent1 << "# Noncritical values" << std::endl;
+	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
+	s_oss << indent1 << "-la                    " << this->la << std::endl;
+
 	if (this->phase_name != NULL)
 	{
-		s_oss << indent0 << "-phase_name            " << this->
-			phase_name << std::endl;
+		s_oss << indent1 << "-phase_name            " << this->phase_name << std::endl;
 	}
 	if (this->rate_name != NULL)
 	{
-		s_oss << indent0 << "-rate_name             " << this->
-			rate_name << std::endl;
+		s_oss << indent1 << "-rate_name             " << this->rate_name << std::endl;
 	}
-	s_oss << indent0 << "-phase_proportion              " << this->
-		phase_proportion << std::endl;
-	s_oss << indent0 << "-formula_z                     " << this->
-		formula_z << std::endl;
-
-	// totals
-	s_oss << indent0;
-	s_oss << "-totals" << std::endl;
-	this->totals.dump_raw(s_oss, indent + 1);
+	s_oss << indent1 << "-phase_proportion      " << this->phase_proportion << std::endl;
+	s_oss << indent1 << "-formula_z             " << this->formula_z << std::endl;
 
 	// formula_totals
-	s_oss << indent0;
+	s_oss << indent1;
 	s_oss << "-formula_totals" << std::endl;
-	this->formula_totals.dump_raw(s_oss, indent + 1);
+	this->formula_totals.dump_raw(s_oss, indent + 2);
+
 }
 
 void
-cxxExchComp::read_raw(CParser & parser)
+cxxExchComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -496,36 +497,39 @@ cxxExchComp::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	if (formula_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Formula not defined for ExchComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (moles_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Moles not defined for ExchComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (la_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("La not defined for ExchComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (charge_balance_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Charge_balance not defined for ExchComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (formula_z_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Formula_z not defined for ExchComp input.",
-						 CParser::OT_CONTINUE);
+		// members that must be defined
+		if (formula_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Formula not defined for ExchComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (moles_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Moles not defined for ExchComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (la_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("La not defined for ExchComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (charge_balance_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Charge_balance not defined for ExchComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (formula_z_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Formula_z not defined for ExchComp input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 void
