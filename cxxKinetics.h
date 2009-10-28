@@ -46,8 +46,8 @@ class cxxKinetics:public cxxNumKeyword
 	void add(const cxxKinetics & addee, double extensive);
 
   protected:
-	  std::list < cxxKineticsComp > kineticsComps;
-	  std::vector < double >steps;
+	std::map < std::string, cxxKineticsComp > kineticsComps;
+	std::vector < double >steps;
 	cxxNameDouble totals;
 	double step_divide;
 	int rk;

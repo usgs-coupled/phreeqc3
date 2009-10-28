@@ -17,12 +17,12 @@
 class cxxSSassemblage:public cxxNumKeyword
 {
 
-  public:
+public:
 	cxxSSassemblage();
 	cxxSSassemblage(struct s_s_assemblage *);
-	  cxxSSassemblage(const std::map < int, cxxSSassemblage > &entity_map,
-					  cxxMix & mx, int n_user);
-	 ~cxxSSassemblage();
+	cxxSSassemblage(const std::map < int, cxxSSassemblage > &entity_map,
+		cxxMix & mx, int n_user);
+	~cxxSSassemblage();
 
 	struct s_s_assemblage *cxxSSassemblage2s_s_assemblage();
 
@@ -46,14 +46,14 @@ class cxxSSassemblage:public cxxNumKeyword
 	};
 
 
-  private:
+private:
 	void add(const cxxSSassemblage & addee, double extensive);
 
-  protected:
-	  std::list < cxxSSassemblageSS > ssAssemblageSSs;
+protected:
+	std::map < std::string, cxxSSassemblageSS > ssAssemblageSSs;
 	cxxNameDouble totals;
 
-  public:
+public:
 	//static std::map<int, cxxSSassemblage>& map;
 
 };

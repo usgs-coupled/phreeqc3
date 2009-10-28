@@ -101,7 +101,7 @@ cxxSurfaceComp::get_master()
 }
 
 struct surface_comp *
-cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::list < cxxSurfaceComp > &el)
+	cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::map < std::string, cxxSurfaceComp > &el)
 		//
 		// Builds surface_comp structure from of cxxSurfaceComp 
 		//
@@ -113,23 +113,23 @@ cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::list < cxxSurfaceComp > &el)
 		malloc_error();
 
 	int i = 0;
-	for (std::list < cxxSurfaceComp >::iterator it = el.begin();
+	for (std::map < std::string, cxxSurfaceComp >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		surf_comp_ptr[i].formula = it->formula;
-		surf_comp_ptr[i].formula_totals = it->formula_totals.elt_list();
-		surf_comp_ptr[i].formula_z = it->formula_z;
-		surf_comp_ptr[i].moles = it->moles;
-		surf_comp_ptr[i].master = it->get_master();
-		surf_comp_ptr[i].totals = it->totals.elt_list();
-		surf_comp_ptr[i].la = it->la;
+		surf_comp_ptr[i].formula = (*it).second.formula;
+		surf_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list();
+		surf_comp_ptr[i].formula_z = (*it).second.formula_z;
+		surf_comp_ptr[i].moles = (*it).second.moles;
+		surf_comp_ptr[i].master = (*it).second.get_master();
+		surf_comp_ptr[i].totals = (*it).second.totals.elt_list();
+		surf_comp_ptr[i].la = (*it).second.la;
 		//surf_comp_ptr[i].charge                 =  it->charge_number;
-		surf_comp_ptr[i].cb = it->charge_balance;
-		surf_comp_ptr[i].phase_name = it->phase_name;
-		surf_comp_ptr[i].phase_proportion = it->phase_proportion;
-		surf_comp_ptr[i].rate_name = it->rate_name;
-		surf_comp_ptr[i].Dw = it->Dw;
-		surf_comp_ptr[i].master = it->get_master();
+		surf_comp_ptr[i].cb = (*it).second.charge_balance;
+		surf_comp_ptr[i].phase_name = (*it).second.phase_name;
+		surf_comp_ptr[i].phase_proportion = (*it).second.phase_proportion;
+		surf_comp_ptr[i].rate_name = (*it).second.rate_name;
+		surf_comp_ptr[i].Dw = (*it).second.Dw;
+		surf_comp_ptr[i].master = (*it).second.get_master();
 		i++;
 	}
 	return (surf_comp_ptr);
@@ -203,41 +203,41 @@ cxxSurfaceComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	s_oss << indent0 << "-formula               " << this->
 		formula << std::endl;
-	s_oss << indent0 << "-formula_z             " << this->
+	s_oss << indent1 << "-formula_z             " << this->
 		formula_z << std::endl;
-	s_oss << indent0 << "-moles                 " << this->moles << std::endl;
-	s_oss << indent0 << "-la                    " << this->la << std::endl;
-	//s_oss << indent0 << "-charge_number         " << this->charge_number  << std::endl;
-	s_oss << indent0 << "-charge_balance        " << this->
+	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
+	s_oss << indent1 << "-la                    " << this->la << std::endl;
+	//s_oss << indent1 << "-charge_number         " << this->charge_number  << std::endl;
+	s_oss << indent1 << "-charge_balance        " << this->
 		charge_balance << std::endl;
 	if (this->phase_name != NULL)
 	{
-		s_oss << indent0 << "-phase_name            " << this->
+		s_oss << indent1 << "-phase_name            " << this->
 			phase_name << std::endl;
 	}
 	if (this->rate_name != NULL)
 	{
-		s_oss << indent0 << "-rate_name             " << this->
+		s_oss << indent1 << "-rate_name             " << this->
 			rate_name << std::endl;
 	}
-	s_oss << indent0 << "-phase_proportion      " << this->
+	s_oss << indent1 << "-phase_proportion      " << this->
 		phase_proportion << std::endl;
-	s_oss << indent0 << "-Dw                    " << this->Dw << std::endl;
+	s_oss << indent1 << "-Dw                    " << this->Dw << std::endl;
 
 	// formula_totals
-	s_oss << indent0;
+	s_oss << indent1;
 	s_oss << "-formula_totals" << std::endl;
-	this->formula_totals.dump_raw(s_oss, indent + 1);
+	this->formula_totals.dump_raw(s_oss, indent + 2);
 
 	// totals
-	s_oss << indent0;
+	s_oss << indent1;
 	s_oss << "-totals" << std::endl;
-	this->totals.dump_raw(s_oss, indent + 1);
+	this->totals.dump_raw(s_oss, indent + 2);
 
 }
 
 void
-cxxSurfaceComp::read_raw(CParser & parser)
+cxxSurfaceComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -444,50 +444,53 @@ cxxSurfaceComp::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	if (formula_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Formula not defined for SurfaceComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (formula_z_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Formula_z not defined for ExchComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (moles_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Moles not defined for SurfaceComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (la_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("La not defined for SurfaceComp input.",
-						 CParser::OT_CONTINUE);
-	}
+		// members that must be defined
+		if (formula_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Formula not defined for SurfaceComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (formula_z_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Formula_z not defined for ExchComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (moles_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Moles not defined for SurfaceComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (la_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("La not defined for SurfaceComp input.",
+				CParser::OT_CONTINUE);
+		}
 #ifdef SKIP
-	if (charge_number_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Charge_number not defined for SurfaceComp input.",
-						 CParser::OT_CONTINUE);
-	}
+		if (charge_number_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Charge_number not defined for SurfaceComp input.",
+				CParser::OT_CONTINUE);
+		}
 #endif
-	if (charge_balance_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Charge_balance not defined for SurfaceComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (Dw_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Dw not defined for SurfaceComp input.",
-						 CParser::OT_CONTINUE);
+		if (charge_balance_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Charge_balance not defined for SurfaceComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (Dw_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Dw not defined for SurfaceComp input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 

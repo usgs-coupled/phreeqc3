@@ -56,7 +56,7 @@ class cxxGasPhase:public cxxNumKeyword
 	void add(const cxxGasPhase & addee, double extensive);
 
   protected:
-	  cxxNameDouble gasPhaseComps;
+	cxxNameDouble gasPhaseComps;
 	GP_TYPE type;
 	double total_p;
 	double volume;

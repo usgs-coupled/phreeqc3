@@ -15,14 +15,12 @@
 class cxxKineticsComp
 {
 
-  public:
+public:
 	cxxKineticsComp();
 	cxxKineticsComp(struct kinetics_comp *);
-	 ~cxxKineticsComp();
+	~cxxKineticsComp();
 
-	static struct kinetics_comp *cxxKineticsComp2kinetics_comp(std::list <
-															   cxxKineticsComp
-															   > &el);
+	static struct kinetics_comp *cxxKineticsComp2kinetics_comp(std::map < std::string, cxxKineticsComp > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -49,7 +47,7 @@ class cxxKineticsComp
 	double m;
 	double m0;
 	double moles;
-	  std::vector < double >d_params;
+	std::vector < double >d_params;
 
   public:
 
