@@ -24,15 +24,13 @@ class cxxSurfaceCharge
 
 	struct master *get_psi_master();
 
-	static struct surface_charge *cxxSurfaceCharge2surface_charge(std::list <
-																  cxxSurfaceCharge
-																  > &el);
+	static struct surface_charge *cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSurfaceCharge > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser);
+	void read_raw(CParser & parser, bool check = true);
 
 	char *get_name() const
 	{

@@ -41,7 +41,8 @@ cxxNumKeyword()
 	for (i = 0; i < s_s_assemblage_ptr->count_s_s; i++)
 	{
 		cxxSSassemblageSS ssSS(&(s_s_assemblage_ptr->s_s[i]));
-		ssAssemblageSSs.push_back(ssSS);
+		std::string str(ssSS.get_name());
+		ssAssemblageSSs[str] = ssSS;
 	}
 }
 cxxSSassemblage::cxxSSassemblage(const std::map < int,
@@ -141,12 +142,12 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		description << std::endl;
 
 	// ssAssemblageSSs
-	for (std::list < cxxSSassemblageSS >::const_iterator it =
+	for (std::map < std::string, cxxSSassemblageSS >::const_iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
 		s_oss << indent1;
 		s_oss << "-solid_solution" << std::endl;
-		it->dump_raw(s_oss, indent + 2);
+		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 }
 
@@ -206,7 +207,8 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 			{
 				cxxSSassemblageSS ssSS;
 				ssSS.read_raw(parser);
-				this->ssAssemblageSSs.push_back(ssSS);
+				std::string str(ssSS.get_name());
+				this->ssAssemblageSSs[str] = ssSS;
 			}
 			useLastLine = true;
 			break;
@@ -264,15 +266,15 @@ cxxSSassemblage::totalize()
 {
 	this->totals.clear();
 	// component structures
-	for (std::list < cxxSSassemblageSS >::iterator it =
+	for (std::map < std::string, cxxSSassemblageSS >::iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
-		it->totalize();
-		this->totals.add_extensive(it->get_totals(), 1.0);
+		(*it).second.totalize();
+		this->totals.add_extensive((*it).second.get_totals(), 1.0);
 	}
 	return;
 }
-
+#ifdef SKIP
 void
 cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
 		//
@@ -306,3 +308,33 @@ cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
 		}
 	}
 }
+#endif
+void
+cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
+		//
+		// Add to existing ssassemblage to "this" ssassemblage
+		//
+{
+	if (extensive == 0.0)
+		return;
+
+	for (std::map < std::string, cxxSSassemblageSS >::const_iterator itadd =
+		 addee.ssAssemblageSSs.begin(); itadd != addee.ssAssemblageSSs.end();
+		 ++itadd)
+	{
+		std::map < std::string, cxxSSassemblageSS >::iterator it =
+			this->ssAssemblageSSs.find((*itadd).first);
+		if (it != this->ssAssemblageSSs.end())
+		{
+			(*it).second.add((*itadd).second, extensive);
+		}
+		else
+		{
+			cxxSSassemblageSS entity = (*itadd).second;
+			entity.multiply(extensive);
+			std::string str(entity.get_name());
+			this->ssAssemblageSSs[str] = entity;
+		}
+	}
+}
+

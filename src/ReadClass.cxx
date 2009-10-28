@@ -1366,6 +1366,24 @@ read_surface_modify(void)
  *
  */
 	int return_value;
+
+	// find surface number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected surface number following SURFACE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
 	/*
 	 *  Make parser
 	 */
@@ -1391,23 +1409,6 @@ read_surface_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	// find surface number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		sprintf(error_string, "Expected surface number following SURFACE_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
 	if (surface_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;

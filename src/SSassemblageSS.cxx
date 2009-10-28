@@ -74,7 +74,7 @@ cxxSSassemblageSS::~cxxSSassemblageSS()
 }
 
 struct s_s *
-cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::list < cxxSSassemblageSS > &el)
+	cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblageSS > &el)
 		//
 		// Builds s_s structure from of cxxSSassemblageSS 
 		//
@@ -88,27 +88,27 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::list < cxxSSassemblageSS > &el)
 	if (s_s_ptr == NULL)
 		malloc_error();
 	int j = 0;
-	for (std::list < cxxSSassemblageSS >::iterator it = el.begin();
+	for (std::map < std::string, cxxSSassemblageSS >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		s_s_ptr[j].name = it->name;
+		s_s_ptr[j].name = (*it).second.name;
 		//s_s_ptr[j].total_moles                                 = it->total_moles;
 		s_s_ptr[j].total_moles = 0;
 		s_s_ptr[j].dn = 0;
-		s_s_ptr[j].a0 = it->a0;
-		s_s_ptr[j].a1 = it->a1;
-		s_s_ptr[j].ag0 = it->ag0;
-		s_s_ptr[j].ag1 = it->ag1;
+		s_s_ptr[j].a0 = (*it).second.a0;
+		s_s_ptr[j].a1 = (*it).second.a1;
+		s_s_ptr[j].ag0 = (*it).second.ag0;
+		s_s_ptr[j].ag1 = (*it).second.ag1;
 		//s_s_ptr[j].ag0                                         = 0;
 		//s_s_ptr[j].ag1                                         = 0;
 		s_s_ptr[j].s_s_in = TRUE;
-		s_s_ptr[j].miscibility = it->miscibility;
+		s_s_ptr[j].miscibility = (*it).second.miscibility;
 		//s_s_ptr[j].spinodal                                    = it->spinodal;
 		s_s_ptr[j].spinodal = FALSE;
 		//s_s_ptr[j].tk                                          = it->tk;
 		s_s_ptr[j].tk = 273.15;
-		s_s_ptr[j].xb1 = it->xb1;
-		s_s_ptr[j].xb2 = it->xb2;
+		s_s_ptr[j].xb1 = (*it).second.xb1;
+		s_s_ptr[j].xb2 = (*it).second.xb2;
 		s_s_ptr[j].input_case = 0;
 		s_s_ptr[j].p[0] = 0;
 		s_s_ptr[j].p[1] = 0;
@@ -117,20 +117,20 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::list < cxxSSassemblageSS > &el)
 		// 
 		//  generate s_s_comp structures
 		//
-		s_s_ptr[j].count_comps = (int) it->comps.size();
+		s_s_ptr[j].count_comps = (int) (*it).second.comps.size();
 		s_s_ptr[j].comps = NULL;
-		if (it->comps.size() > 0)
+		if ((*it).second.comps.size() > 0)
 		{
 			int i = 0;
 			int n;
 			struct s_s_comp *s_s_comp_ptr =
 				(struct s_s_comp *)
 				PHRQ_malloc((size_t)
-							(it->comps.size() * sizeof(struct s_s_comp)));
+							((*it).second.comps.size() * sizeof(struct s_s_comp)));
 			if (s_s_comp_ptr == NULL)
 				malloc_error();
-			for (cxxNameDouble::iterator itc = it->comps.begin();
-				 itc != it->comps.end(); ++itc)
+			for (cxxNameDouble::iterator itc = (*it).second.comps.begin();
+				 itc != (*it).second.comps.end(); ++itc)
 			{
 				s_s_comp_ptr[i].name = itc->first;
 				s_s_comp_ptr[i].phase = phase_bsearch(itc->first, &n, TRUE);
