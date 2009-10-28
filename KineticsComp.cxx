@@ -55,7 +55,7 @@ cxxKineticsComp::~cxxKineticsComp()
 }
 
 struct kinetics_comp *
-cxxKineticsComp::cxxKineticsComp2kinetics_comp(std::list < cxxKineticsComp >
+	cxxKineticsComp::cxxKineticsComp2kinetics_comp(std::map < std::string, cxxKineticsComp >
 											   &el)
 		//
 		// Builds kinetics_comp structure from of cxxKineticsComp 
@@ -68,17 +68,17 @@ cxxKineticsComp::cxxKineticsComp2kinetics_comp(std::list < cxxKineticsComp >
 		malloc_error();
 
 	int i = 0;
-	for (std::list < cxxKineticsComp >::iterator it = el.begin();
+	for (std::map < std::string, cxxKineticsComp >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		kinetics_comp_ptr[i].rate_name = it->rate_name;
-		kinetics_comp_ptr[i].list = it->namecoef.name_coef();
-		kinetics_comp_ptr[i].count_list = (int) it->namecoef.size();
-		kinetics_comp_ptr[i].tol = it->tol;
-		kinetics_comp_ptr[i].m = it->m;
+		kinetics_comp_ptr[i].rate_name = (*it).second.rate_name;
+		kinetics_comp_ptr[i].list = (*it).second.namecoef.name_coef();
+		kinetics_comp_ptr[i].count_list = (int) (*it).second.namecoef.size();
+		kinetics_comp_ptr[i].tol = (*it).second.tol;
+		kinetics_comp_ptr[i].m = (*it).second.m;
 		kinetics_comp_ptr[i].initial_moles = 0.;
-		kinetics_comp_ptr[i].m0 = it->m0;
-		kinetics_comp_ptr[i].moles = it->moles;
+		kinetics_comp_ptr[i].m0 = (*it).second.m0;
+		kinetics_comp_ptr[i].moles = (*it).second.moles;
 		kinetics_comp_ptr[i].count_c_params = 0;
 		kinetics_comp_ptr[i].c_params = NULL;
 /*
@@ -86,16 +86,15 @@ cxxKineticsComp::cxxKineticsComp2kinetics_comp(std::list < cxxKineticsComp >
                 kinetics_comp_ptr[i].d_params               =  NULL;
 */
 
-		kinetics_comp_ptr[i].count_d_params = (int) it->d_params.size();
+		kinetics_comp_ptr[i].count_d_params = (int) (*it).second.d_params.size();
 		kinetics_comp_ptr[i].d_params = NULL;
-		if (it->d_params.size() > 0)
+		if ((*it).second.d_params.size() > 0)
 		{
-			kinetics_comp_ptr[i].d_params =
-				(double *)
-				PHRQ_malloc((size_t) (it->d_params.size() * sizeof(double)));
+			kinetics_comp_ptr[i].d_params =	(double *)
+				PHRQ_malloc((size_t) ((*it).second.d_params.size() * sizeof(double)));
 			if (kinetics_comp_ptr[i].d_params == NULL)
 				malloc_error();
-			std::copy(it->d_params.begin(), it->d_params.end(),
+			std::copy((*it).second.d_params.begin(), (*it).second.d_params.end(),
 					  kinetics_comp_ptr[i].d_params);
 		}
 		i++;

@@ -58,8 +58,8 @@ class cxxSurface:public cxxNumKeyword
 	void add(const cxxSurface & addee, double extensive);
 
   protected:
-	  std::list < cxxSurfaceComp > surfaceComps;
-	  std::list < cxxSurfaceCharge > surfaceCharges;
+	  std::map < std::string, cxxSurfaceComp > surfaceComps;
+	  std::map < std::string, cxxSurfaceCharge > surfaceCharges;
 	enum SURFACE_TYPE type;
 	enum DIFFUSE_LAYER_TYPE dl_type;
 	enum SITES_UNITS sites_units;

@@ -45,15 +45,13 @@ class cxxSurfaceComp
 		this->charge_balance = d;
 	}
 
-	static struct surface_comp *cxxSurfaceComp2surface_comp(std::list <
-															cxxSurfaceComp >
-															&el);
+	static struct surface_comp *cxxSurfaceComp2surface_comp(std::map < std::string, cxxSurfaceComp > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser);
+	void read_raw(CParser & parser, bool check = true);
 	const cxxNameDouble & get_totals() const
 	{
 		return (this->totals);

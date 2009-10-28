@@ -58,7 +58,8 @@ totals(kinetics_ptr->totals)
 	for (i = 0; i < kinetics_ptr->count_comps; i++)
 	{
 		cxxKineticsComp ec(&(kinetics_ptr->comps[i]));
-		this->kineticsComps.push_back(ec);
+		std::string str(ec.get_rate_name());
+		this->kineticsComps[str] = ec;
 	}
 
 	// steps
@@ -223,12 +224,12 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "-cvode_order       " << this->cvode_order << std::endl;
 
 	// kineticsComps structures
-	for (std::list < cxxKineticsComp >::const_iterator it =
+	for (std::map < std::string, cxxKineticsComp >::const_iterator it =
 		 kineticsComps.begin(); it != kineticsComps.end(); ++it)
 	{
 		s_oss << indent1;
 		s_oss << "-component" << std::endl;
-		it->dump_raw(s_oss, indent + 2);
+		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 
 	// totals
@@ -377,7 +378,8 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 			{
 				cxxKineticsComp kc;
 				kc.read_raw(parser);
-				this->kineticsComps.push_back(kc);
+				std::string str(kc.get_rate_name());
+				this->kineticsComps[str] = kc;
 			}
 			useLastLine = true;
 			break;
@@ -546,6 +548,7 @@ cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 #endif
+#ifdef SKIP
 void
 cxxKinetics::add(const cxxKinetics & addee, double extensive)
 		//
@@ -576,6 +579,47 @@ cxxKinetics::add(const cxxKinetics & addee, double extensive)
 			cxxKineticsComp entity = *itadd;
 			entity.multiply(extensive);
 			this->kineticsComps.push_back(entity);
+		}
+	}
+	//std::vector<double> steps;
+	this->steps = addee.steps;
+	//cxxNameDouble totals;
+	//double step_divide;
+	this->step_divide = addee.step_divide;
+	//int rk;
+	this->rk = addee.rk;
+	//int bad_step_max;
+	this->bad_step_max = addee.bad_step_max;
+	//bool use_cvode;
+	this->use_cvode = addee.use_cvode;
+	this->cvode_steps = addee.cvode_steps;
+	this->cvode_order = addee.cvode_order;
+}
+#endif
+void
+cxxKinetics::add(const cxxKinetics & addee, double extensive)
+		//
+		// Add to existing ppassemblage to "this" ppassemblage
+		//
+{
+	if (extensive == 0.0)
+		return;
+	//std::map < std::string, cxxKineticsComp> kineticsComps;
+	for (std::map < std::string, cxxKineticsComp >::const_iterator itadd =
+		 addee.kineticsComps.begin(); itadd != addee.kineticsComps.end();
+		 ++itadd)
+	{
+		std::map < std::string, cxxKineticsComp >::iterator it = this->kineticsComps.find((*itadd).first);
+		if (it != this->kineticsComps.end())
+		{
+			(*it).second.add((*itadd).second, extensive);
+		}
+		else
+		{
+			cxxKineticsComp entity = (*itadd).second;
+			entity.multiply(extensive);
+			std::string str(entity.get_rate_name());
+			this->kineticsComps[str] = entity;
 		}
 	}
 	//std::vector<double> steps;

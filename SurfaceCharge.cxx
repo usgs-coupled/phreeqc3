@@ -81,8 +81,7 @@ cxxSurfaceCharge::get_psi_master()
 }
 
 struct surface_charge *
-cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::list <
-												  cxxSurfaceCharge > &el)
+	cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSurfaceCharge > &el)
 		//
 		// Builds surface_charge structure from of cxxSurfaceCharge 
 		//
@@ -94,25 +93,24 @@ cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::list <
 		malloc_error();
 
 	int i = 0;
-	for (std::list < cxxSurfaceCharge >::iterator it = el.begin();
+	for (std::map < std::string, cxxSurfaceCharge >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		surf_charge_ptr[i].name = it->name;
-		surf_charge_ptr[i].specific_area = it->specific_area;
-		surf_charge_ptr[i].grams = it->grams;
-		surf_charge_ptr[i].charge_balance = it->charge_balance;
-		surf_charge_ptr[i].mass_water = it->mass_water;
-		surf_charge_ptr[i].la_psi = it->la_psi;
-		surf_charge_ptr[i].la_psi1 = it->la_psi1;
-		surf_charge_ptr[i].la_psi2 = it->la_psi2;
-		surf_charge_ptr[i].capacitance[0] = it->capacitance[0];
-		surf_charge_ptr[i].capacitance[1] = it->capacitance[1];
+		surf_charge_ptr[i].name = (*it).second.name;
+		surf_charge_ptr[i].specific_area = (*it).second.specific_area;
+		surf_charge_ptr[i].grams = (*it).second.grams;
+		surf_charge_ptr[i].charge_balance = (*it).second.charge_balance;
+		surf_charge_ptr[i].mass_water = (*it).second.mass_water;
+		surf_charge_ptr[i].la_psi = (*it).second.la_psi;
+		surf_charge_ptr[i].la_psi1 = (*it).second.la_psi1;
+		surf_charge_ptr[i].la_psi2 = (*it).second.la_psi2;
+		surf_charge_ptr[i].capacitance[0] = (*it).second.capacitance[0];
+		surf_charge_ptr[i].capacitance[1] = (*it).second.capacitance[1];
 		surf_charge_ptr[i].sigma0 = 0;
 		surf_charge_ptr[i].sigma1 = 0;
 		surf_charge_ptr[i].sigma2 = 0;
 		surf_charge_ptr[i].sigmaddl = 0;
-		surf_charge_ptr[i].diffuse_layer_totals =
-			it->diffuse_layer_totals.elt_list();
+		surf_charge_ptr[i].diffuse_layer_totals = (*it).second.diffuse_layer_totals.elt_list();
 		//surf_charge_ptr[i].psi_master           = it->get_psi_master();
 		surf_charge_ptr[i].count_g = 0;
 		surf_charge_ptr[i].g = NULL;
@@ -175,33 +173,33 @@ cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	// Surf_Charge element and attributes
 
 	s_oss << indent0 << "-name                  " << this->name << std::endl;
-	s_oss << indent0 << "-specific_area         " << this->
+	s_oss << indent1 << "-specific_area         " << this->
 		specific_area << std::endl;
-	s_oss << indent0 << "-grams                 " << this->grams << std::endl;
-	s_oss << indent0 << "-charge_balance        " << this->
+	s_oss << indent1 << "-grams                 " << this->grams << std::endl;
+	s_oss << indent1 << "-charge_balance        " << this->
 		charge_balance << std::endl;
-	s_oss << indent0 << "-mass_water            " << this->
+	s_oss << indent1 << "-mass_water            " << this->
 		mass_water << std::endl;
-	s_oss << indent0 << "-la_psi                " << this->
+	s_oss << indent1 << "-la_psi                " << this->
 		la_psi << std::endl;
-	s_oss << indent0 << "-la_psi1               " << this->
+	s_oss << indent1 << "-la_psi1               " << this->
 		la_psi1 << std::endl;
-	s_oss << indent0 << "-la_psi2               " << this->
+	s_oss << indent1 << "-la_psi2               " << this->
 		la_psi2 << std::endl;
-	s_oss << indent0 << "-capacitance0          " << this->
+	s_oss << indent1 << "-capacitance0          " << this->
 		capacitance[0] << std::endl;
-	s_oss << indent0 << "-capacitance1          " << this->
+	s_oss << indent1 << "-capacitance1          " << this->
 		capacitance[1] << std::endl;
 
 	// totals
-	s_oss << indent0;
+	s_oss << indent1;
 	s_oss << "-diffuse_layer_totals" << std::endl;
-	this->diffuse_layer_totals.dump_raw(s_oss, indent + 1);
+	this->diffuse_layer_totals.dump_raw(s_oss, indent + 2);
 
 }
 
 void
-cxxSurfaceCharge::read_raw(CParser & parser)
+cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -395,67 +393,70 @@ cxxSurfaceCharge::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	if (name_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Name not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (specific_area_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Specific_area not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (grams_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Grams not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (charge_balance_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg("Charge_balance not defined for SurfaceCharge input.",
-					  CParser::OT_CONTINUE);
-	}
-	if (mass_water_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Mass_water not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (la_psi_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("La_psi not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (la_psi1_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("La_psi1 not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (la_psi2_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("La_psi2 not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (capacitance0_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Capacitance0 not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (capacitance1_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Capacitance1 not defined for SurfaceCharge input.",
-						 CParser::OT_CONTINUE);
+		// members that must be defined
+		if (name_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Name not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (specific_area_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Specific_area not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (grams_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Grams not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (charge_balance_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Charge_balance not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (mass_water_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Mass_water not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (la_psi_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("La_psi not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (la_psi1_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("La_psi1 not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (la_psi2_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("La_psi2 not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (capacitance0_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Capacitance0 not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
+		if (capacitance1_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Capacitance1 not defined for SurfaceCharge input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 

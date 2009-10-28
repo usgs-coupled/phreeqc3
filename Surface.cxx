@@ -67,13 +67,15 @@ cxxNumKeyword()
 	for (i = 0; i < surface_ptr->count_comps; i++)
 	{
 		cxxSurfaceComp ec(&(surface_ptr->comps[i]));
-		surfaceComps.push_back(ec);
+		std::string str(ec.get_formula());
+		surfaceComps[str] = ec;
 	}
 	// Surface charge
 	for (i = 0; i < surface_ptr->count_charge; i++)
 	{
 		cxxSurfaceCharge ec(&(surface_ptr->charge[i]));
-		surfaceCharges.push_back(ec);
+		std::string str(ec.get_name());
+		surfaceCharges[str] = ec;
 	}
 }
 cxxSurface::cxxSurface(const std::map < int, cxxSurface > &entities,
@@ -113,10 +115,10 @@ cxxSurface::~cxxSurface()
 bool
 cxxSurface::get_related_phases()
 {
-	for (std::list < cxxSurfaceComp >::const_iterator it =
+	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
 	{
-		if (it->get_phase_name() == NULL)
+		if ((*it).second.get_phase_name() == NULL)
 			continue;
 		return (true);
 	}
@@ -126,10 +128,10 @@ cxxSurface::get_related_phases()
 bool
 cxxSurface::get_related_rate()
 {
-	for (std::list < cxxSurfaceComp >::const_iterator it =
+	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
 	{
-		if (it->get_rate_name() == NULL)
+		if ((*it).second.get_rate_name() == NULL)
 			continue;
 		return (true);
 	}
@@ -181,8 +183,7 @@ cxxSurface::cxxSurface2surface()
 	{
 		surface_ptr->count_charge = (int) this->surfaceCharges.size();
 		surface_ptr->charge =
-			cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(this->
-															  surfaceCharges);
+			cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(this->surfaceCharges);
 	}
 	else
 	{
@@ -267,19 +268,19 @@ cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent1;
 	s_oss << "<component " << std::endl;
 	{
-		for (std::list < cxxSurfaceComp >::const_iterator it =
+		for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 			 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
 		{
-			it->dump_xml(s_oss, indent + 2);
+			(*it).second.dump_xml(s_oss, indent + 2);
 		}
 	}
 	// surface charge structures
 	s_oss << indent1;
 	s_oss << "<charge_component " << std::endl;
-	for (std::list < cxxSurfaceCharge >::const_iterator it =
+	for (std::map < std::string, cxxSurfaceCharge >::const_iterator it =
 		 surfaceCharges.begin(); it != surfaceCharges.end(); ++it)
 	{
-		it->dump_xml(s_oss, indent + 2);
+		(*it).second.dump_xml(s_oss, indent + 2);
 	}
 
 	return;
@@ -337,21 +338,21 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "-transport " << this->transport << std::endl;
 
 	// surfaceComps structures
-	for (std::list < cxxSurfaceComp >::const_iterator it =
+	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 surfaceComps.begin(); it != surfaceComps.end(); ++it)
 	{
 		s_oss << indent1;
 		s_oss << "-component" << std::endl;
-		it->dump_raw(s_oss, indent + 2);
+		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 	// surface charge structures
 	{
-		for (std::list < cxxSurfaceCharge >::const_iterator it =
+		for (std::map < std::string, cxxSurfaceCharge >::const_iterator it =
 			 surfaceCharges.begin(); it != surfaceCharges.end(); ++it)
 		{
 			s_oss << indent1;
 			s_oss << "-charge_component " << std::endl;
-			it->dump_raw(s_oss, indent + 2);
+			(*it).second.dump_raw(s_oss, indent + 2);
 		}
 	}
 
@@ -507,8 +508,31 @@ cxxSurface::read_raw(CParser & parser, bool check)
 		case 5:				// component
 			{
 				cxxSurfaceComp ec;
-				ec.read_raw(parser);
-				this->surfaceComps.push_back(ec);
+
+				// preliminary read
+				std::istream::pos_type pos = parser.tellg();
+				CParser::ECHO_OPTION eo = parser.get_echo_file();
+				parser.set_echo_file(CParser::EO_NONE);
+				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
+				parser.set_echo_stream(CParser::EO_NONE);
+				ec.read_raw(parser, false);
+				parser.set_echo_file(eo);
+				parser.set_echo_file(eo_s);
+				parser.seekg(pos).clear();
+				parser.seekg(pos);
+
+				if (this->surfaceComps.find(ec.get_formula()) != this->surfaceComps.end())
+				{
+					cxxSurfaceComp & comp = this->surfaceComps.find(ec.get_formula())->second;
+					comp.read_raw(parser, false);
+				}
+				else
+				{
+					cxxSurfaceComp ec1;
+					ec1.read_raw(parser, false);
+					std::string str(ec1.get_formula());
+					this->surfaceComps[str] = ec1;
+				}
 			}
 			useLastLine = true;
 			break;
@@ -516,8 +540,31 @@ cxxSurface::read_raw(CParser & parser, bool check)
 		case 6:				// charge_component
 			{
 				cxxSurfaceCharge ec;
-				ec.read_raw(parser);
-				this->surfaceCharges.push_back(ec);
+
+				// preliminary read
+				std::istream::pos_type pos = parser.tellg();
+				CParser::ECHO_OPTION eo = parser.get_echo_file();
+				parser.set_echo_file(CParser::EO_NONE);
+				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
+				parser.set_echo_stream(CParser::EO_NONE);
+				ec.read_raw(parser, false);
+				parser.set_echo_file(eo);
+				parser.set_echo_file(eo_s);
+				parser.seekg(pos).clear();
+				parser.seekg(pos);
+
+				if (this->surfaceCharges.find(ec.get_name()) != this->surfaceCharges.end())
+				{
+					cxxSurfaceCharge & comp = this->surfaceCharges.find(ec.get_name())->second;
+					comp.read_raw(parser, false);
+				}
+				else
+				{
+					cxxSurfaceCharge ec1;
+					ec1.read_raw(parser, false);
+					std::string str(ec1.get_name());
+					this->surfaceCharges[str] = ec1;
+				}
 			}
 			useLastLine = true;
 			break;
@@ -775,15 +822,15 @@ cxxSurface::totalize()
 {
 	this->totals.clear();
 	// component structures
-	for (std::list < cxxSurfaceComp >::const_iterator it =
+	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 surfaceComps.begin(); it != surfaceComps.end(); ++it)
 	{
-		this->totals.add_extensive(it->get_totals(), 1.0);
-		this->totals.add("Charge", it->get_charge_balance());
+		this->totals.add_extensive((*it).second.get_totals(), 1.0);
+		this->totals.add("Charge", (*it).second.get_charge_balance());
 	}
 	return;
 }
-
+#ifdef SKIP
 void
 cxxSurface::add(const cxxSurface & addee, double extensive)
 		//
@@ -875,4 +922,73 @@ cxxSurface::add(const cxxSurface & addee, double extensive)
 		}
 	}
 
+}
+#endif
+void
+cxxSurface::add(const cxxSurface & addee, double extensive)
+		//
+		// Add surface to "this" exchange
+		//
+{
+	if (extensive == 0.0)
+		return;
+	if (this->surfaceComps.size() == 0)
+	{
+		//enum SURFACE_TYPE type;
+		this->type = addee.type;
+		//enum DIFFUSE_LAYER_TYPE dl_type;
+		this->dl_type = addee.dl_type;
+		//enum SITES_UNITS sites_units;
+		this->sites_units = addee.sites_units;
+		//bool only_counter_ions;
+		this->only_counter_ions = addee.only_counter_ions;
+		//double thickness;
+		this->thickness = addee.thickness;
+		//double debye_lengths;
+		this->debye_lengths = addee.debye_lengths;
+		//double DDL_viscosity;
+		this->DDL_viscosity = addee.DDL_viscosity;
+		//double DDL_limit;
+		this->DDL_limit = addee.DDL_limit;
+		//bool transport;
+		this->transport = addee.transport;
+	}
+
+	//std::map <std::string, cxxSurfaceComp> surfaceComps;
+	for (std::map < std::string, cxxSurfaceComp >::const_iterator itadd =
+		 addee.surfaceComps.begin(); itadd != addee.surfaceComps.end();
+		 ++itadd)
+	{
+		std::map < std::string, cxxSurfaceComp >::iterator it = this->surfaceComps.find((*itadd).first);
+		if (it != this->surfaceComps.end())
+		{
+			(*it).second.add( (*itadd).second, extensive);
+		}
+		else
+		{
+			cxxSurfaceComp entity = (*itadd).second;
+			entity.multiply(extensive);
+			std::string str(entity.get_formula());
+			this->surfaceComps[str] = entity;
+		}
+	}
+
+	//std::map < std::string, cxxSurfaceCharge > surfaceCharges;
+	for (std::map < std::string, cxxSurfaceCharge >::const_iterator itadd =
+		 addee.surfaceCharges.begin(); itadd != addee.surfaceCharges.end();
+		 ++itadd)
+	{
+		std::map < std::string, cxxSurfaceCharge >::iterator it = this->surfaceCharges.find((*itadd).first);
+		if (it != this->surfaceCharges.end())
+		{
+			(*it).second.add( (*itadd).second, extensive);
+		}
+		else
+		{
+			cxxSurfaceCharge entity = (*itadd).second;
+			entity.multiply(extensive);
+			std::string str(entity.get_name());
+			this->surfaceCharges[str] = entity;
+		}
+	}
 }

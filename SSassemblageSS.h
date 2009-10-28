@@ -35,7 +35,7 @@ class cxxSSassemblageSS
 		SS_PARM_MARGULES = 9
 	};
 
-	static struct s_s *cxxSSassemblageSS2s_s(std::list < cxxSSassemblageSS >
+	static struct s_s *cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblageSS >
 											 &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
