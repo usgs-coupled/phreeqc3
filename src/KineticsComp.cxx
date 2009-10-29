@@ -166,29 +166,29 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	s_oss << indent0 << "-rate_name             " << this->
 		rate_name << std::endl;
-	s_oss << indent0 << "-tol                   " << this->tol << std::endl;
-	s_oss << indent0 << "-m                     " << this->m << std::endl;
-	s_oss << indent0 << "-m0                    " << this->m0 << std::endl;
-	s_oss << indent0 << "-moles                 " << this->moles << std::endl;
+	s_oss << indent1 << "-tol                   " << this->tol << std::endl;
+	s_oss << indent1 << "-m                     " << this->m << std::endl;
+	s_oss << indent1 << "-m0                    " << this->m0 << std::endl;
+	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
 
 	// namecoef
-	s_oss << indent0;
+	s_oss << indent1;
 	s_oss << "-namecoef" << std::endl;
-	this->namecoef.dump_raw(s_oss, indent + 1);
+	this->namecoef.dump_raw(s_oss, indent + 2);
 
 	// d_params
-	s_oss << indent0;
+	s_oss << indent1;
 	s_oss << "-d_params" << std::endl;
 	{
 		int i = 0;
-		s_oss << indent1;
+		s_oss << indent2;
 		for (std::vector < double >::const_iterator it = d_params.begin();
 			 it != d_params.end(); it++)
 		{
 			if (i++ == 5)
 			{
 				s_oss << std::endl;
-				s_oss << indent1;
+				s_oss << indent2;
 				i = 0;
 			}
 			s_oss << *it << " ";
@@ -198,7 +198,7 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxKineticsComp::read_raw(CParser & parser)
+cxxKineticsComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 	double d;
@@ -221,12 +221,14 @@ cxxKineticsComp::read_raw(CParser & parser)
 	std::string token;
 	int opt_save;
 
+	std::vector < double > temp_d_params;
 	opt_save = CParser::OPT_ERROR;
 	bool rate_name_defined(false);
 	bool tol_defined(false);
 	bool m_defined(false);
 	bool m0_defined(false);
 	bool moles_defined(false);
+	bool d_params_defined(false);
 
 	for (;;)
 	{
@@ -328,12 +330,18 @@ cxxKineticsComp::read_raw(CParser & parser)
 			while (parser.copy_token(token, next_char) == CParser::TT_DIGIT)
 			{
 				sscanf(token.c_str(), "%lf", &d);
-				this->d_params.push_back(d);
+				temp_d_params.push_back(d);
+				d_params_defined = true;
 			}
 			opt_save = 6;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
+	}
+
+	if (d_params_defined)
+	{
+		this->d_params = temp_d_params;
 	}
 	// members that must be defined
 	if (rate_name_defined == false)
