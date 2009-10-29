@@ -525,10 +525,10 @@ cxxKinetics::mpi_pack(std::vector < int >&ints,
 {
 	ints.push_back(this->n_user);
 	ints.push_back((int) this->kineticsComps.size());
-	for (std::list < cxxKineticsComp >::iterator it =
+	for (std::map < std::string, cxxKineticsComp >::iterator it =
 		 this->kineticsComps.begin(); it != this->kineticsComps.end(); it++)
 	{
-		it->mpi_pack(ints, doubles);
+		(*it).second.mpi_pack(ints, doubles);
 	}
 	ints.push_back((int) this->steps.size());
 	for (std::vector < double >::iterator it = this->steps.begin();
@@ -559,7 +559,8 @@ cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	{
 		cxxKineticsComp kc;
 		kc.mpi_unpack(ints, &i, doubles, &d);
-		this->kineticsComps.push_back(kc);
+		std::string str(kc.get_rate_name());
+		this->kineticsComps[str] = kc;
 	}
 	n = ints[i++];
 	this->steps.clear();
