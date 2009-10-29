@@ -491,10 +491,10 @@ cxxExchange::mpi_pack(std::vector < int >&ints,
 
 	ints.push_back((int) this->pitzer_exchange_gammas);
 	ints.push_back((int) this->exchComps.size());
-	for (std::list < cxxExchComp >::iterator it = this->exchComps.begin();
+	for (std::map < std::string, cxxExchComp >::iterator it = this->exchComps.begin();
 		 it != this->exchComps.end(); it++)
 	{
-		it->mpi_pack(ints, doubles);
+		(*it).second.mpi_pack(ints, doubles);
 	}
 }
 
@@ -518,7 +518,8 @@ cxxExchange::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	{
 		cxxExchComp ec;
 		ec.mpi_unpack(ints, &i, doubles, &d);
-		this->exchComps.push_back(ec);
+		std::string str(ec.get_formula());
+		this->exchComps[str] = ec;
 	}
 	*ii = i;
 	*dd = d;

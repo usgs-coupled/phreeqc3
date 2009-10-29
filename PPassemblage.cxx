@@ -278,11 +278,11 @@ cxxPPassemblage::mpi_pack(std::vector < int >&ints,
 	/* int n_user; */
 	ints.push_back(this->n_user);
 	ints.push_back((int) this->ppAssemblageComps.size());
-	for (std::list < cxxPPassemblageComp >::iterator it =
+	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
 		 this->ppAssemblageComps.begin(); it != this->ppAssemblageComps.end();
 		 it++)
 	{
-		it->mpi_pack(ints, doubles);
+		(*it).second.mpi_pack(ints, doubles);
 	}
 	this->eltList.mpi_pack(ints, doubles);
 }
@@ -305,7 +305,8 @@ cxxPPassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	{
 		cxxPPassemblageComp ppc;
 		ppc.mpi_unpack(ints, &i, doubles, &d);
-		this->ppAssemblageComps.push_back(ppc);
+		std::string str(ppc.get_name());
+		this->ppAssemblageComps[str] = ppc;
 	}
 	this->eltList.mpi_unpack(ints, &i, doubles, &d);
 	*ii = i;

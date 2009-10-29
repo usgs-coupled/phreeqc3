@@ -746,16 +746,16 @@ cxxSurface::mpi_pack(std::vector < int >&ints, std::vector < double >&doubles)
 	/* int n_user; */
 	ints.push_back(this->n_user);
 	ints.push_back((int) this->surfaceComps.size());
-	for (std::list < cxxSurfaceComp >::iterator it =
+	for (std::map < std::string, cxxSurfaceComp >::iterator it =
 		 this->surfaceComps.begin(); it != this->surfaceComps.end(); it++)
 	{
-		it->mpi_pack(ints, doubles);
+		(*it).second.mpi_pack(ints, doubles);
 	}
 	ints.push_back((int) this->surfaceCharges.size());
-	for (std::list < cxxSurfaceCharge >::iterator it =
+	for (std::map < std::string, cxxSurfaceCharge >::iterator it =
 		 this->surfaceCharges.begin(); it != this->surfaceCharges.end(); it++)
 	{
-		it->mpi_pack(ints, doubles);
+		(*it).second.mpi_pack(ints, doubles);
 	}
 	//ints.push_back((int) this->diffuse_layer);
 	//ints.push_back((int) this->edl);
@@ -790,7 +790,8 @@ cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	{
 		cxxSurfaceComp sc;
 		sc.mpi_unpack(ints, &i, doubles, &d);
-		this->surfaceComps.push_back(sc);
+		std::string str(sc.get_formula());
+		this->surfaceComps[str] = sc;
 	}
 	count = ints[i++];
 	this->surfaceCharges.clear();
@@ -798,7 +799,8 @@ cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	{
 		cxxSurfaceCharge sc;
 		sc.mpi_unpack(ints, &i, doubles, &d);
-		this->surfaceCharges.push_back(sc);
+		std::string str(sc.get_name());
+		this->surfaceCharges[str] = sc;
 	}
 	//this->diffuse_layer = (bool) ints[i++];
 	//this->edl = (bool) ints[i++];

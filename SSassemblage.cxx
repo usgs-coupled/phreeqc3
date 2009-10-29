@@ -251,11 +251,11 @@ cxxSSassemblage::mpi_pack(std::vector < int >&ints,
 	/* int n_user; */
 	ints.push_back(this->n_user);
 	ints.push_back((int) this->ssAssemblageSSs.size());
-	for (std::list < cxxSSassemblageSS >::iterator it =
+	for (std::map < std::string, cxxSSassemblageSS >::iterator it =
 		 this->ssAssemblageSSs.begin(); it != this->ssAssemblageSSs.end();
 		 it++)
 	{
-		it->mpi_pack(ints, doubles);
+		(*it).second.mpi_pack(ints, doubles);
 	}
 }
 
@@ -277,7 +277,8 @@ cxxSSassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	{
 		cxxSSassemblageSS ssc;
 		ssc.mpi_unpack(ints, &i, doubles, &d);
-		this->ssAssemblageSSs.push_back(ssc);
+		std::string str(ssc.get_name());
+		this->ssAssemblageSSs[str] = ssc;
 	}
 	*ii = i;
 	*dd = d;

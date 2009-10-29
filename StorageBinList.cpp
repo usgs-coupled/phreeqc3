@@ -14,7 +14,7 @@ void StorageBinListItem::Augment(std::string token)
 	if (token.size() == 0) return;
 
 	// split string accounting for possible negative numbers
-	unsigned int pos;
+	size_t pos;
 	if ((pos = token.find("--")) != std::string::npos)
 	{
 		token.replace(pos,2," &");
