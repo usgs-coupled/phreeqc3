@@ -189,30 +189,30 @@ cxxSSassemblageSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	//const char    ERR_MESSAGE[] = "Packing s_s message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
-	std::string indent0("");
+	std::string indent0(""), indent1("");
 	for (i = 0; i < indent; ++i)
 		indent0.append(Utilities::INDENT);
-
+	for (i = 0; i < indent + 1; ++i)
+		indent1.append(Utilities::INDENT);
 	// S_S element and attributes
 
 	s_oss << indent0 << "-name                  " << this->name << std::endl;
 	//s_oss << indent0 << "-total_moles           " << this->total_moles    << std::endl;
-	s_oss << indent0 << "-a0                    " << this->a0 << std::endl;
-	s_oss << indent0 << "-a1                    " << this->a1 << std::endl;
-	s_oss << indent0 << "-ag0                   " << this->ag0 << std::endl;
-	s_oss << indent0 << "-ag1                   " << this->ag1 << std::endl;
-	s_oss << indent0 << "-miscibility           " << this->
-		miscibility << std::endl;
+	s_oss << indent1 << "-a0                    " << this->a0 << std::endl;
+	s_oss << indent1 << "-a1                    " << this->a1 << std::endl;
+	s_oss << indent1 << "-ag0                   " << this->ag0 << std::endl;
+	s_oss << indent1 << "-ag1                   " << this->ag1 << std::endl;
+	s_oss << indent1 << "-miscibility           " << this->miscibility << std::endl;
 	//s_oss << indent0 << "-spinodal              " << this->spinodal << std::endl;
 	//s_oss << indent0 << "-tk                    " << this->tk << std::endl;
-	s_oss << indent0 << "-xb1                   " << this->xb1 << std::endl;
-	s_oss << indent0 << "-xb2                   " << this->xb2 << std::endl;
-	s_oss << indent0 << "-component             " << std::endl;
-	this->comps.dump_raw(s_oss, indent + 1);
+	s_oss << indent1 << "-xb1                   " << this->xb1 << std::endl;
+	s_oss << indent1 << "-xb2                   " << this->xb2 << std::endl;
+	s_oss << indent1 << "-component             " << std::endl;
+	this->comps.dump_raw(s_oss, indent + 2);
 }
 
 void
-cxxSSassemblageSS::read_raw(CParser & parser)
+cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -428,70 +428,73 @@ cxxSSassemblageSS::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	if (name_defined == false)
+	if (check)
 	{
+		// members that must be defined
+		if (name_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Name not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
+		/*
+		if (total_moles_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("Name not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
-	}
-	/*
-	   if (total_moles_defined == false) {
-	   parser.incr_input_error();
-	   parser.error_msg("Total_moles not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
-	   }
-	 */
-	if (a0_defined == false)
-	{
+		parser.error_msg("Total_moles not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
+		}
+		*/
+		if (a0_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("A0 not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
+		if (a1_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("A1 not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
+		if (ag0_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Ag0 not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
+		if (ag1_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Ag1 not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
+		if (miscibility_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Miscibility not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
+		/*
+		if (spinodal_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("A0 not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (a1_defined == false)
-	{
+		parser.error_msg("Spinodal not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
+		}
+		if (tk_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("A1 not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (ag0_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Ag0 not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (ag1_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Ag1 not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (miscibility_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Miscibility not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
-	}
-	/*
-	   if (spinodal_defined == false) {
-	   parser.incr_input_error();
-	   parser.error_msg("Spinodal not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
-	   }
-	   if (tk_defined == false) {
-	   parser.incr_input_error();
-	   parser.error_msg("Tk not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
-	   }
-	 */
-	if (xb1_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Xb1 not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (xb2_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Xb2 not defined for SSassemblageSS input.",
-						 CParser::OT_CONTINUE);
+		parser.error_msg("Tk not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
+		}
+		*/
+		if (xb1_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Xb1 not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
+		if (xb2_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Xb2 not defined for SSassemblageSS input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 

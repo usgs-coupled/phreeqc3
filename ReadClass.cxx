@@ -1425,7 +1425,10 @@ read_surface_modify(void)
 	struct surface *entity_ptr = entity.cxxSurface2surface();
 	surface_free(&(surface[n]));
 	surface_copy(entity_ptr, &(surface[n]), entity_ptr->n_user);
+	free_check_null(surface[n].description);
+	surface[n].description = string_duplicate(entity_ptr->description);
 	surface_free(entity_ptr);
+	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
@@ -1450,6 +1453,24 @@ read_solid_solutions_modify(void)
  *
  */
 	int return_value;
+
+	// find solid_solutions number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected solid_solutions number following SOLID_SOLUTIONS_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
 	/*
 	 *  Make parser
 	 */
@@ -1475,23 +1496,6 @@ read_solid_solutions_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	// find solid_solutions number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		sprintf(error_string, "Expected solid_solutions number following SOLID_SOLUTIONS_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
 	if (s_s_assemblage_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
@@ -1508,7 +1512,10 @@ read_solid_solutions_modify(void)
 	struct s_s_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage();
 	s_s_assemblage_free(&(s_s_assemblage[n]));
 	s_s_assemblage_copy(entity_ptr, &(s_s_assemblage[n]), entity_ptr->n_user);
+	free_check_null(s_s_assemblage[n].description);
+	s_s_assemblage[n].description = string_duplicate(entity_ptr->description);
 	s_s_assemblage_free(entity_ptr);
+	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
@@ -1533,6 +1540,23 @@ read_gas_phase_modify(void)
  *
  */
 	int return_value;
+	// find gas_phase number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected gas_phase number following GAS_PHASE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
 	/*
 	 *  Make parser
 	 */
@@ -1558,23 +1582,6 @@ read_gas_phase_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	// find gas_phase number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		sprintf(error_string, "Expected gas_phase number following GAS_PHASE_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
 	if (gas_phase_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
@@ -1590,7 +1597,10 @@ read_gas_phase_modify(void)
 	struct gas_phase *entity_ptr = entity.cxxGasPhase2gas_phase();
 	gas_phase_free(&(gas_phase[n]));
 	gas_phase_copy(entity_ptr, &(gas_phase[n]), entity_ptr->n_user);
+	free_check_null(gas_phase[n].description);
+	gas_phase[n].description = string_duplicate(entity_ptr->description);
 	gas_phase_free(entity_ptr);
+	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
@@ -1615,6 +1625,24 @@ read_kinetics_modify(void)
  *
  */
 	int return_value;
+
+	// find kinetics number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected kinetics number following KINETICS_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
 	/*
 	 *  Make parser
 	 */
@@ -1640,23 +1668,6 @@ read_kinetics_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	// find kinetics number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		sprintf(error_string, "Expected kinetics number following KINETICS_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
 	if (kinetics_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
@@ -1673,7 +1684,10 @@ read_kinetics_modify(void)
 	struct kinetics *entity_ptr = entity.cxxKinetics2kinetics();
 	kinetics_free(&(kinetics[n]));
 	kinetics_copy(entity_ptr, &(kinetics[n]), entity_ptr->n_user);
+	free_check_null(kinetics[n].description);
+	kinetics[n].description = string_duplicate(entity_ptr->description);
 	kinetics_free(entity_ptr);
+	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
 	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);

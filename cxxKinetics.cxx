@@ -284,6 +284,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 	std::string token;
 	int opt_save;
 	bool useLastLine(false);
+	std::vector < double > temp_steps;
 
 	// Read kinetics number and description
 	this->read_number_description(parser);
@@ -295,6 +296,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 	bool use_cvode_defined(false);
 	bool cvode_steps_defined(false);
 	bool cvode_order_defined(false);
+	bool steps_defined(false);
 
 	for (;;)
 	{
@@ -376,10 +378,32 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 
 		case 4:				// component
 			{
-				cxxKineticsComp kc;
-				kc.read_raw(parser);
-				std::string str(kc.get_rate_name());
-				this->kineticsComps[str] = kc;
+				cxxKineticsComp ec;
+
+				// preliminary read
+				std::istream::pos_type pos = parser.tellg();
+				CParser::ECHO_OPTION eo = parser.get_echo_file();
+				parser.set_echo_file(CParser::EO_NONE);
+				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
+				parser.set_echo_stream(CParser::EO_NONE);
+				ec.read_raw(parser, false);
+				parser.set_echo_file(eo);
+				parser.set_echo_file(eo_s);
+				parser.seekg(pos).clear();
+				parser.seekg(pos);
+
+				if (this->kineticsComps.find(ec.get_rate_name()) != this->kineticsComps.end())
+				{
+					cxxKineticsComp & comp = this->kineticsComps.find(ec.get_rate_name())->second;
+					comp.read_raw(parser, false);
+				}
+				else
+				{
+					cxxKineticsComp ec1;
+					ec1.read_raw(parser, false);
+					std::string str(ec1.get_rate_name());
+					this->kineticsComps[str] = ec1;
+				}
 			}
 			useLastLine = true;
 			break;
@@ -412,7 +436,8 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				}
 				else
 				{
-					this->steps.push_back(d);
+					temp_steps.push_back(d);
+					steps_defined = true;
 				}
 			}
 			opt_save = 6;
@@ -446,6 +471,10 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
+	}
+	if (steps_defined)
+	{
+		this->steps = temp_steps;
 	}
 	if (check)
 	{

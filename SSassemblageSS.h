@@ -42,7 +42,7 @@ class cxxSSassemblageSS
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser);
+	void read_raw(CParser & parser, bool check = true);
 
 	char *get_name() const
 	{

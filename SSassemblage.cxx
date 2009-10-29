@@ -205,10 +205,33 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 
 		case 0:				// solid_solution
 			{
-				cxxSSassemblageSS ssSS;
-				ssSS.read_raw(parser);
-				std::string str(ssSS.get_name());
-				this->ssAssemblageSSs[str] = ssSS;
+				cxxSSassemblageSS ec;
+
+				// preliminary read
+				std::istream::pos_type pos = parser.tellg();
+				CParser::ECHO_OPTION eo = parser.get_echo_file();
+				parser.set_echo_file(CParser::EO_NONE);
+				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
+				parser.set_echo_stream(CParser::EO_NONE);
+				ec.read_raw(parser, false);
+				parser.set_echo_file(eo);
+				parser.set_echo_file(eo_s);
+				parser.seekg(pos).clear();
+				parser.seekg(pos);
+
+				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())
+				{
+					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.get_name())->second;
+					ec1.read_raw(parser, false);
+				}
+				else
+				{
+					cxxSSassemblageSS ec1;
+					ec1.read_raw(parser, false);
+					std::string str(ec1.get_name());
+					this->ssAssemblageSSs[str] = ec1;
+				}
+
 			}
 			useLastLine = true;
 			break;
