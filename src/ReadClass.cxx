@@ -13,6 +13,7 @@
 #include "cxxMix.h"
 #include "Temperature.h"
 #include "dumper.h"
+#include "runner.h"
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -26,8 +27,12 @@ static int streamify_to_next_keyword(std::istringstream & lines);
 extern int reading_database(void);
 extern int check_line(const char *string, int allow_empty, int allow_eof,
 					  int allow_keyword, int print);
+extern int set_use(void);
+extern int copy_use(int i);
 dumper dump_info;
 StorageBinList delete_info;
+runner run_info;
+
 /* ---------------------------------------------------------------------- */
 int
 read_solution_raw(void)
@@ -1078,6 +1083,58 @@ read_delete(void)
 
 	StorageBinList deleter(parser);
 	delete_info = deleter;
+
+
+	// Need to output the next keyword
+	output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int
+read_run_cells(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads DELETE data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	runner r(parser);
+	run_info = r;
 
 
 	// Need to output the next keyword
@@ -2204,5 +2261,147 @@ delete_entities(void)
 	}
 	// Turn off delete until next read
 	delete_info.SetAll(false);
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int
+run_as_cells(void)
+/* ---------------------------------------------------------------------- */
+{
+	int i, n;
+	LDBLE kin_time;
+/*
+ *   Calculate advection
+ */
+	state = ADVECTION;
+/*	mass_water_switch = TRUE; */
+/*
+ *   Check existence of all solutions
+ */
+	if (run_info.Get_cells().Get_numbers().size() == 0 ||
+		!(run_info.Get_cells().Get_defined())) return(OK);
+
+	dup_print("Beginning of run as cells.", TRUE);
+
+	std::set < int >::iterator it = run_info.Get_cells().Get_numbers().begin();
+	last_model.force_prep = TRUE;
+	initial_total_time = run_info.Get_start_time();
+	rate_sim_time_start = 0;
+	kin_time = run_info.Get_time_step();
+	double advection_kin_time_save = advection_kin_time;
+	advection_kin_time = kin_time;
+
+	for ( ; it != run_info.Get_cells().Get_numbers().end(); it++)
+	{
+		i = *it;
+		if (i < 0) continue;
+		//if (solution_bsearch(i, &n, TRUE) == NULL)
+		//{
+		//	sprintf(error_string,
+		//			"Solution %d is needed for RUN, but is not defined.", i);
+		//	warning_msg(error_string);
+		//	continue;
+		//}
+		/*
+		*  Equilibrate and (or) mix
+		*/
+		set_initial_moles(i);
+		cell_no = i;
+		set_advection(i, TRUE, TRUE, i);
+		reactions();
+
+		//run_reactions(i, kin_time, TRUE, 1.0);
+		////rate_sim_time = rate_sim_time_start + kin_time;
+
+		//punch_all();
+		//print_all();
+		//save.n_solution_user = i;
+		//save.n_solution_user_end = i;
+		//struct save save_dbg = save;
+		saver();
+	}
+	double advection_kin_time = advection_kin_time_save;
+	initial_total_time += rate_sim_time_start;
+	/* free_model_allocs(); */
+	mass_water_switch = FALSE;
+	run_info.Get_cells().Set_defined(false);
+	return (OK);
+}
+#endif
+/* ---------------------------------------------------------------------- */
+int
+run_as_cells(void)
+/* ---------------------------------------------------------------------- */
+{
+	int count_steps, use_mix, m;
+	char token[2 * MAX_LENGTH];
+	struct save save_data;
+	LDBLE kin_time;
+	struct kinetics *kinetics_ptr;
+
+	state = REACTION;
+	if (run_info.Get_cells().Get_numbers().size() == 0 ||
+		!(run_info.Get_cells().Get_defined())) return(OK);
+
+	dup_print("Beginning of run as cells.", TRUE);
+
+	std::set < int >::iterator it = run_info.Get_cells().Get_numbers().begin();
+	last_model.force_prep = TRUE;
+	initial_total_time = run_info.Get_start_time();
+	rate_sim_time_start = 0;
+	kin_time = run_info.Get_time_step();
+
+	for ( ; it != run_info.Get_cells().Get_numbers().end(); it++)
+	{
+		int i = *it;
+		if (i < 0) continue;
+
+		set_advection(i, TRUE, TRUE, i);
+
+		save_data = save;
+
+		/* last_model.force_prep = TRUE; */
+		if (set_use() == FALSE)
+			return (OK);
+
+		/*
+		*  save data for saving solutions
+		*/
+		//memcpy(&save_data, &save, sizeof(struct save));
+		/* 
+		*Copy everything to -2
+		*/
+		copy_use(-2);
+		rate_sim_time_start = 0;
+		rate_sim_time = 0;
+
+		set_initial_moles(-2);
+
+/*
+ *   Run reaction step
+ */
+		run_reactions(-2, kin_time, TRUE, 1.0);
+		rate_sim_time = kin_time;
+
+		punch_all();
+		print_all();
+
+		/* saves back into -2 */
+		save = save_data;
+		saver();
+	}
+/*
+ *   save end of reaction
+ */
+	//memcpy(&save, &save_data, sizeof(struct save));
+	//if (use.kinetics_in == TRUE)
+	//{
+	//	kinetics_duplicate(-2, use.n_kinetics_user);
+	//}
+	//saver();
+	run_info.Get_cells().Set_defined(false);
+	/* free_model_allocs(); */
+	/* last_model.force_prep = TRUE; */
 	return (OK);
 }

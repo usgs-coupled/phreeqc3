@@ -8,6 +8,38 @@ StorageBinListItem::StorageBinListItem(void)
 StorageBinListItem::~StorageBinListItem(void)
 {
 }
+StorageBinListItem::StorageBinListItem(CParser & parser)
+{
+	this->Clear();
+	// Read list of numbers or number ranges 
+	for (;;)
+	{
+		//read lines
+		CParser::LINE_TYPE l = parser.check_line("read StorageBinListLtem", false, true, true, true);
+		std::istream::pos_type next_char = 0;
+		if (l == CParser::LT_EOF) break;
+		for (;;)
+		{ 
+			std::string token;
+			CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+			if (j == CParser::TT_DIGIT)
+			{
+				this->Augment(token);
+			}
+			else if (j == CParser::TT_EMPTY)
+			{
+				break;
+			}
+			else
+			{
+				// ignore characters like RUN
+				//parser.error_msg("Expected single number or range of numbers.",
+				//	CParser::OT_CONTINUE);
+				//break;
+			}
+		}
+	}
+}
 void StorageBinListItem::Augment(std::string token)
 {
 	this->defined = true;
