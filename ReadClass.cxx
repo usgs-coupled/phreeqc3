@@ -2334,11 +2334,8 @@ int
 run_as_cells(void)
 /* ---------------------------------------------------------------------- */
 {
-	int count_steps, use_mix, m;
-	char token[2 * MAX_LENGTH];
 	struct save save_data;
 	LDBLE kin_time;
-	struct kinetics *kinetics_ptr;
 
 	state = REACTION;
 	if (run_info.Get_cells().Get_numbers().size() == 0 ||

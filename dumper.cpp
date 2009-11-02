@@ -381,7 +381,7 @@ bool dumper::Read(CParser & parser)
 			break;
 		case 15:				//append
 			{
-				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+				parser.copy_token(token, next_char);
 				//if (!(parser.get_iss() >> this->append))
 				this->append = true;
 				if (token.c_str()[0] == 'f' || token.c_str()[0] == 'F')
