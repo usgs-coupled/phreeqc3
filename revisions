@@ -8,6 +8,47 @@ File contains:
 ************************************************************
 ************************************************************
 	--------
+	svn 3730
+	--------
+	
+	
+	RUN_CELLS 
+		-cells 1 2
+		       5-6
+		       7
+		-time_step   10000
+		-start_time  100
+		
+	
+	Added keyword RUN_CELLS. For each i listed in -cells
+	it is the equivalent of the following:
+	
+	USE solution i
+	USE equilibrium_phases i
+	USE exchange i
+	USE surface i
+	USE solid_solution i
+	USE gas_phase i
+	USE kinetics i
+	USE reaction i
+	USE reaction_temperature i
+	SAVE solution i
+	SAVE equilibrium_phases i
+	SAVE exchange i
+	SAVE surface i
+	SAVE solid_solution i
+	SAVE gas_phase i
+	
+	If MIX i is defined, it is used in place of USE solution i.
+	A MIX i or SOLUTION i must be defined. All other entities
+	are used only if they are defined. 
+	
+	-start_time and -time_step are needed if any kinetic reactions
+	are calculated. -start_time is the time at the start of the 
+	calculation, and -time_step is the length of time over which 
+	to integrate the kinetic reactions. 
+	
+	--------
 	svn 3727
 	--------
 	Added keywords to allow modification of each reactant.
