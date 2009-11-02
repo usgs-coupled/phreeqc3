@@ -180,6 +180,7 @@ COMMON_CXXOBJS = \
 	       PPassemblage.o \
 	       Reaction.o \
 	       ReadClass.o \
+	       runner.o \
 	       Solution.o \
 	       SolutionIsotope.o \
 	       SolutionIsotopeList.o \
