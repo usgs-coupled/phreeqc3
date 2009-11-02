@@ -601,6 +601,146 @@ End of simulation.
 Reading input data for simulation 16.
 -------------------------------------
 
+	SOLUTION_MODIFY       1 New soln description
+	  -totals
+	    Cl   0.0020000000000003
+	    H(0)   1.4155655514601e-25
+	    Na   0.0020000000000003
+	EQUILIBRIUM_PHASES_MODIFY       1 New pp description
+	  -component
+	    -name                  Barite
+	    -moles                 20
+	    -dissolve_only         1
+	  -component
+	    -name                  Calcite
+	    -moles                 20
+	    -dissolve_only         1
+	EXCHANGE_MODIFY       1 New ex description
+	  -pitzer_exchange_gammas 1
+	  -component
+	    -formula              X
+	    -totals
+	      Na   3.0000000058717
+	      X   3.0000000058717
+	  -component
+	    -formula               Y
+	    -moles                 0
+	    -la                    2.0000000302372
+	    -charge_balance        0
+	    -phase_proportion              0
+	    -formula_z                     0
+	    -totals
+	      Na   2.0000000058717
+	      X   2.0000000058717
+	    -formula_totals
+	      X   1
+	SURFACE_MODIFY      1 New surface def
+	  -type 2
+	  -dl_type 0
+	  -sites_units 0
+	  -only_counter_ions 0
+	  -thickness 1e-08
+	  -debye_lengths 0
+	  -DDL_viscosity 1
+	  -DDL_limit 0.8
+	  -transport 0
+	  -component
+	    -formula               Hfo_s
+	      -formula_z             0
+	      -moles                 0
+	      -la                    -0.11486188676541
+	      -charge_balance        3.7853465372651e-05
+	      -phase_proportion      0
+	      -Dw                    0
+	      -formula_totals
+	        Hfo_s   0.02
+	      -totals
+	        H   0.02003785346547
+	        Hfo_s   0.020000000000097
+	        O   0.020000000000097
+	  -charge_component 
+	    -name                  Hfo
+	      -specific_area         700
+	      -grams                 1
+	      -charge_balance        5.7853465372651e-05
+	      -mass_water            0
+	      -la_psi                0.55146269389617
+	      -la_psi1               1
+	      -la_psi2               2
+	      -capacitance0          3
+	      -capacitance1          5
+	      -diffuse_layer_totals 
+	SOLID_SOLUTIONS_MODIFY       1 New ss def
+	  -solid_solution
+	    -name                  Calcite
+	      -a0                    0
+	      -a1                    0
+	      -ag0                   0
+	      -ag1                   0
+	      -miscibility           0
+	      -xb1                   -6.2774385622042e+66
+	      -xb2                   -6.2774385622042e+66
+	      -component             
+	        calcite   0.2
+		rhodochrosite 0.2  
+	  -solid_solution
+	    -name                  Barite
+	      -a0                    0
+	      -a1                    0
+	      -ag0                   0
+	      -ag1                   0
+	      -miscibility           0
+	      -xb1                   -6.2774385622042e+66
+	      -xb2                   -6.2774385622042e+66
+	      -component             
+	        Barite   0.2
+	        Gypsum   0.2         
+	GAS_PHASE_MODIFY      1 New gas_phase def
+	  -type               0
+	  -total_p            1
+	  -volume             1
+	  -component
+	    CO2(g)   2.4305508698401e-05
+	    N2(g)     1e-5
+	KINETICS_MODIFY       1 New kinetics def
+	  -bad_step_max      200
+	  -use_cvode         1
+	  -cvode_steps       200
+	  -cvode_order       5
+	  -component
+	    -rate_name             Calcite
+	    -tol                   1e-09
+	    -m                     0.9999999999991
+	    -m0                    1
+	    -moles                 8.9805940461929e-10
+	    -namecoef
+	      CaCO3   1
+	      MgCO3   2
+	    -d_params
+	      1 1 1 1 
+	  -totals         
+	    C   8.9801193858101e-13
+	    Ca   8.9801193858101e-13
+	    O   2.694035815743e-12
+	DUMP
+		-file	ppdump.dmp
+		-append    
+		-solution 1
+		-equilibrium 1
+		-exchange 1
+		-surface 1
+		-solid_solution 1
+		-gas_phase 1
+		-kinetics  1
+		-kinetics  1
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 17.
+-------------------------------------
+
 -----------
 End of run.
 -----------
