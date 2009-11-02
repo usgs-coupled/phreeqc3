@@ -363,19 +363,18 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				parser.set_echo_stream(CParser::EO_NONE);
 				ec.read_raw(parser, false);
 				parser.set_echo_file(eo);
-				parser.set_echo_file(eo_s);
+				parser.set_echo_stream(eo_s);
+				parser.seekg(pos).clear();
+				parser.seekg(pos);
 
 				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
 				{
 					cxxExchComp & comp = this->exchComps.find(ec.get_formula())->second;
-					parser.seekg(pos).clear();
-					parser.seekg(pos);
+
 					comp.read_raw(parser, false);
 				}
 				else
 				{
-					parser.seekg(pos).clear();
-					parser.seekg(pos);
 					cxxExchComp ec1;
 					ec1.read_raw(parser, false);
 					std::string str(ec1.get_formula());
