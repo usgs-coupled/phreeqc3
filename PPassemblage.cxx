@@ -240,7 +240,7 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 				parser.set_echo_stream(CParser::EO_NONE);
 				ppComp.read_raw(parser, false);
 				parser.set_echo_file(eo);
-				parser.set_echo_file(eo_s);
+				parser.set_echo_stream(eo_s);
 
 				if (this->ppAssemblageComps.find(ppComp.get_name()) != this->ppAssemblageComps.end())
 				{

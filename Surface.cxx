@@ -517,7 +517,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				parser.set_echo_stream(CParser::EO_NONE);
 				ec.read_raw(parser, false);
 				parser.set_echo_file(eo);
-				parser.set_echo_file(eo_s);
+				parser.set_echo_stream(eo_s);
 				parser.seekg(pos).clear();
 				parser.seekg(pos);
 
@@ -549,7 +549,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				parser.set_echo_stream(CParser::EO_NONE);
 				ec.read_raw(parser, false);
 				parser.set_echo_file(eo);
-				parser.set_echo_file(eo_s);
+				parser.set_echo_stream(eo_s);
 				parser.seekg(pos).clear();
 				parser.seekg(pos);
 
