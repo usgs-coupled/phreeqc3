@@ -540,6 +540,8 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
+				reread.set_echo_file(CParser::EO_NONE);
+				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceComps.find(ec.get_formula()) != this->surfaceComps.end())
 				{
 					cxxSurfaceComp & comp = this->surfaceComps.find(ec.get_formula())->second;
@@ -591,6 +593,8 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
+				reread.set_echo_file(CParser::EO_NONE);
+				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceCharges.find(ec.get_name()) != this->surfaceCharges.end())
 				{
 					cxxSurfaceCharge & comp = this->surfaceCharges.find(ec.get_name())->second;

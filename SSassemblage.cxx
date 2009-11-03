@@ -238,6 +238,8 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
+				reread.set_echo_file(CParser::EO_NONE);
+				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())
 				{
 					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.get_name())->second;
