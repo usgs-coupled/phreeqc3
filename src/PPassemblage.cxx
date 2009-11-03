@@ -265,7 +265,8 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
-
+				reread.set_echo_file(CParser::EO_NONE);
+				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->ppAssemblageComps.find(ec.get_name()) != this->ppAssemblageComps.end())
 				{
 					cxxPPassemblageComp & comp = this->ppAssemblageComps.find(ec.get_name())->second;

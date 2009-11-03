@@ -387,6 +387,8 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
+				reread.set_echo_file(CParser::EO_NONE);
+				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
 				{
 					cxxExchComp & comp = this->exchComps.find(ec.get_formula())->second;
