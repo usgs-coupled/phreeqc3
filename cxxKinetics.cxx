@@ -381,6 +381,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				cxxKineticsComp ec;
 
 				// preliminary read
+#ifdef SKIP
 				std::istream::pos_type pos = parser.tellg();
 				CParser::ECHO_OPTION eo = parser.get_echo_file();
 				parser.set_echo_file(CParser::EO_NONE);
@@ -401,6 +402,25 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				{
 					cxxKineticsComp ec1;
 					ec1.read_raw(parser, false);
+					std::string str(ec1.get_rate_name());
+					this->kineticsComps[str] = ec1;
+				}
+#endif
+				parser.set_accumulate(true);
+				ec.read_raw(parser, false);
+				parser.set_accumulate(false);
+				std::istringstream is(parser.get_accumulated());
+				CParser reread(is);
+
+				if (this->kineticsComps.find(ec.get_rate_name()) != this->kineticsComps.end())
+				{
+					cxxKineticsComp & comp = this->kineticsComps.find(ec.get_rate_name())->second;
+					comp.read_raw(reread, false);
+				}
+				else
+				{
+					cxxKineticsComp ec1;
+					ec1.read_raw(reread, false);
 					std::string str(ec1.get_rate_name());
 					this->kineticsComps[str] = ec1;
 				}

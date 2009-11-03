@@ -356,6 +356,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				cxxExchComp ec;
 
 				// preliminary read
+#ifdef SKIP
 				std::istream::pos_type pos = parser.tellg();
 				CParser::ECHO_OPTION eo = parser.get_echo_file();
 				parser.set_echo_file(CParser::EO_NONE);
@@ -377,6 +378,24 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				{
 					cxxExchComp ec1;
 					ec1.read_raw(parser, false);
+					std::string str(ec1.get_formula());
+					this->exchComps[str] = ec1;
+				}
+#endif
+				parser.set_accumulate(true);
+				ec.read_raw(parser, false);
+				parser.set_accumulate(false);
+				std::istringstream is(parser.get_accumulated());
+				CParser reread(is);
+				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
+				{
+					cxxExchComp & comp = this->exchComps.find(ec.get_formula())->second;
+					comp.read_raw(reread, false);
+				}
+				else
+				{
+					cxxExchComp ec1;
+					ec1.read_raw(reread, false);
 					std::string str(ec1.get_formula());
 					this->exchComps[str] = ec1;
 				}

@@ -151,6 +151,18 @@ class CParser
 	{
 		return m_line;
 	}
+	std::string & get_accumulated()
+	{
+		return accumulated;
+	}
+	void set_accumulate(bool tf) 
+	{ 
+		if (tf)
+		{
+			accumulated.clear();
+		}
+		this->accumulate = tf; 
+	}
 	std::istringstream & get_iss()
 	{
 		return m_line_iss;
@@ -289,6 +301,8 @@ class CParser
 	LINE_TYPE m_line_type;
 	ECHO_OPTION echo_stream;
 	ECHO_OPTION echo_file;
+	std::string accumulated;
+	bool accumulate;
 };
 
 // Global functions
