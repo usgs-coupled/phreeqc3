@@ -510,6 +510,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				cxxSurfaceComp ec;
 
 				// preliminary read
+#ifdef SKIP
 				std::istream::pos_type pos = parser.tellg();
 				CParser::ECHO_OPTION eo = parser.get_echo_file();
 				parser.set_echo_file(CParser::EO_NONE);
@@ -533,6 +534,24 @@ cxxSurface::read_raw(CParser & parser, bool check)
 					std::string str(ec1.get_formula());
 					this->surfaceComps[str] = ec1;
 				}
+#endif
+				parser.set_accumulate(true);
+				ec.read_raw(parser, false);
+				parser.set_accumulate(false);
+				std::istringstream is(parser.get_accumulated());
+				CParser reread(is);
+				if (this->surfaceComps.find(ec.get_formula()) != this->surfaceComps.end())
+				{
+					cxxSurfaceComp & comp = this->surfaceComps.find(ec.get_formula())->second;
+					comp.read_raw(reread, false);
+				}
+				else
+				{
+					cxxSurfaceComp ec1;
+					ec1.read_raw(reread, false);
+					std::string str(ec1.get_formula());
+					this->surfaceComps[str] = ec1;
+				}
 			}
 			useLastLine = true;
 			break;
@@ -542,6 +561,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				cxxSurfaceCharge ec;
 
 				// preliminary read
+#ifdef SKIP
 				std::istream::pos_type pos = parser.tellg();
 				CParser::ECHO_OPTION eo = parser.get_echo_file();
 				parser.set_echo_file(CParser::EO_NONE);
@@ -562,6 +582,24 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				{
 					cxxSurfaceCharge ec1;
 					ec1.read_raw(parser, false);
+					std::string str(ec1.get_name());
+					this->surfaceCharges[str] = ec1;
+				}
+#endif
+				parser.set_accumulate(true);
+				ec.read_raw(parser, false);
+				parser.set_accumulate(false);
+				std::istringstream is(parser.get_accumulated());
+				CParser reread(is);
+				if (this->surfaceCharges.find(ec.get_name()) != this->surfaceCharges.end())
+				{
+					cxxSurfaceCharge & comp = this->surfaceCharges.find(ec.get_name())->second;
+					comp.read_raw(reread, false);
+				}
+				else
+				{
+					cxxSurfaceCharge ec1;
+					ec1.read_raw(reread, false);
 					std::string str(ec1.get_name());
 					this->surfaceCharges[str] = ec1;
 				}

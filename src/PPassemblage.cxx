@@ -230,9 +230,10 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 
 		case 1:				// component
 			{
-				cxxPPassemblageComp ppComp;
+				cxxPPassemblageComp ec;
 
 				// preliminary read
+#ifdef SKIP
 				std::istream::pos_type pos = parser.tellg();
 				CParser::ECHO_OPTION eo = parser.get_echo_file();
 				parser.set_echo_file(CParser::EO_NONE);
@@ -255,6 +256,25 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 					parser.seekg(pos);
 					cxxPPassemblageComp ppComp1;
 					ppComp1.read_raw(parser, false);
+					std::string str(ppComp1.get_name());
+					this->ppAssemblageComps[str] = ppComp1;
+				}
+#endif
+				parser.set_accumulate(true);
+				ec.read_raw(parser, false);
+				parser.set_accumulate(false);
+				std::istringstream is(parser.get_accumulated());
+				CParser reread(is);
+
+				if (this->ppAssemblageComps.find(ec.get_name()) != this->ppAssemblageComps.end())
+				{
+					cxxPPassemblageComp & comp = this->ppAssemblageComps.find(ec.get_name())->second;
+					comp.read_raw(reread, false);
+				}
+				else
+				{
+					cxxPPassemblageComp ppComp1;
+					ppComp1.read_raw(reread, false);
 					std::string str(ppComp1.get_name());
 					this->ppAssemblageComps[str] = ppComp1;
 				}

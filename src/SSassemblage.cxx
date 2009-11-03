@@ -208,6 +208,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				cxxSSassemblageSS ec;
 
 				// preliminary read
+#ifdef SKIP
 				std::istream::pos_type pos = parser.tellg();
 				CParser::ECHO_OPTION eo = parser.get_echo_file();
 				parser.set_echo_file(CParser::EO_NONE);
@@ -231,7 +232,24 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 					std::string str(ec1.get_name());
 					this->ssAssemblageSSs[str] = ec1;
 				}
-
+#endif
+				parser.set_accumulate(true);
+				ec.read_raw(parser, false);
+				parser.set_accumulate(false);
+				std::istringstream is(parser.get_accumulated());
+				CParser reread(is);
+				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())
+				{
+					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.get_name())->second;
+					ec1.read_raw(reread, false);
+				}
+				else
+				{
+					cxxSSassemblageSS ec1;
+					ec1.read_raw(reread, false);
+					std::string str(ec1.get_name());
+					this->ssAssemblageSSs[str] = ec1;
+				}
 			}
 			useLastLine = true;
 			break;
