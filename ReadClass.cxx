@@ -1826,6 +1826,11 @@ dump_entities(void)
 	{
 		dump_stream.open(dump_info.get_file_name().c_str());
 	}
+	if (!dump_stream.is_open())
+	{
+		sprintf(error_string, "Unable to open dump file \"%s\"", dump_info.get_file_name().c_str());
+		error_msg(error_string, STOP);
+	}
 	// solutions
 	if (dump_info.Get_bool_solution())
 	{
