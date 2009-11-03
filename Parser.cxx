@@ -27,6 +27,7 @@ m_next_keyword(KT_NONE)
 	m_line.reserve(80);
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
+	accumulate = false;
 }
 
 CParser::CParser(std::istream & input, std::ostream & output):m_input_stream(input), m_output_stream(output), m_error_stream(std::cerr),
@@ -37,6 +38,7 @@ m_next_keyword(KT_NONE)
 	m_line.reserve(80);
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
+	accumulate = false;
 }
 
 CParser::CParser(std::istream & input, std::ostream & output, std::ostream & error):m_input_stream(input), m_output_stream(output), m_error_stream(error),
@@ -47,6 +49,7 @@ m_next_keyword(KT_NONE)
 	m_line.reserve(80);
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
+	accumulate = false;
 }
 
 CParser::~CParser()
@@ -199,6 +202,11 @@ CParser::LINE_TYPE CParser::get_line()
 			}
 		}
 
+		if (this->accumulate)
+		{
+			this->accumulated.append(m_line_save);
+			this->accumulated.append("\n");
+		}
 		//
 		// New line character encountered 
 		//
