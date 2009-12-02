@@ -2364,8 +2364,8 @@ run_as_cells(void)
 		save_data = save;
 
 		/* last_model.force_prep = TRUE; */
-		if (set_use() == FALSE)
-			return (OK);
+		//if (set_use() == FALSE)
+		//	return (OK);
 
 		/*
 		*  save data for saving solutions
