@@ -10,8 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxKineticsComp
 {
 
@@ -28,9 +26,16 @@ public:
 
 	void read_raw(CParser & parser, bool check = true);
 
-	char *get_rate_name() const
+	const std::string &get_rate_name() const
 	{
 		return this->rate_name;
+	}
+	void set_rate_name(char * s)
+	{
+		if (s != NULL)
+			this->rate_name = std::string(s);
+		else
+			this->rate_name.clear();
 	}
 
 #ifdef USE_MPI
@@ -41,13 +46,13 @@ public:
 	void multiply(double extensive);
 
   protected:
-	char *rate_name;
-	cxxNameDouble namecoef;		//stoichiometry of reaction
-	double tol;
-	double m;
-	double m0;
-	double moles;
-	std::vector < double >d_params;
+	  std::string rate_name;
+	  cxxNameDouble namecoef;		//stoichiometry of reaction
+	  double tol;
+	  double m;
+	  double m0;
+	  double moles;
+	  std::vector < double >d_params;
 
   public:
 

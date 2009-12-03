@@ -144,7 +144,7 @@ cxxNameDouble::elt_list()
 	int i = 0;
 	for (iterator it = this->begin(); it != this->end(); ++it)
 	{
-		elt_list_ptr[i].elt = element_store(it->first);
+		elt_list_ptr[i].elt = element_store(it->first.c_str());
 		elt_list_ptr[i].coef = it->second;
 		i++;
 	}
@@ -177,7 +177,7 @@ cxxNameDouble::master_activity() const
 			for (const_iterator it = (*this).begin(); it != (*this).end();
 				 it++)
 			{
-				master_activity_ptr[i].description = (char *) it->first;
+				master_activity_ptr[i].description = string_hsave(it->first.c_str());
 				master_activity_ptr[i].la = it->second;
 				i++;
 			}
@@ -198,7 +198,7 @@ cxxNameDouble::master_activity() const
 				for (const_iterator it = (*this).begin(); it != (*this).end();
 					 it++)
 				{
-					master_activity_ptr[i].description = (char *) it->first;
+					master_activity_ptr[i].description = string_hsave(it->first.c_str());
 					master_activity_ptr[i].la = it->second;
 					i++;
 				}
@@ -227,7 +227,7 @@ cxxNameDouble::conc() const
 	int i = 0;
 	for (const_iterator it = (*this).begin(); it != (*this).end(); ++it)
 	{
-		c[i].description = (char *) it->first;
+		c[i].description = string_hsave(it->first.c_str());
 		c[i].moles = it->second;
 		c[i].input_conc = it->second;
 		c[i].units = NULL;
@@ -259,7 +259,7 @@ cxxNameDouble::name_coef() const
 	int i = 0;
 	for (const_iterator it = (*this).begin(); it != (*this).end(); ++it)
 	{
-		name_coef_ptr[i].name = it->first;
+		name_coef_ptr[i].name = string_hsave(it->first.c_str());
 		name_coef_ptr[i].coef = it->second;
 		i++;
 	}
@@ -468,7 +468,6 @@ cxxNameDouble::mpi_pack(std::vector < int >&ints,
 	ints.push_back((int) (*this).size());
 	for (const_iterator it = (*this).begin(); it != (*this).end(); it++)
 	{
-		assert(it->first != NULL);
 		int n = dictionary.string2int(it->first);
 		ints.push_back(n);
 		doubles.push_back(it->second);
@@ -500,6 +499,28 @@ cxxNameDouble::mpi_pack(int *ints, int *ii, double *doubles, int *dd)
 	*dd = d;
 }
 
+//void
+//cxxNameDouble::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+//{
+//	int i = *ii;
+//	int d = *dd;
+//	extern cxxDictionary dictionary;
+//	this->clear();
+//	int count = ints[i++];
+//	for (int j = 0; j < count; j++)
+//	{
+//		int n = ints[i++];
+//		assert(n >= 0);
+//		std::string * str = dictionary.int2string(n);
+//		if (str != NULL)
+//		{
+//			char *cstr = string_hsave(str->c_str());
+//			(*this)[cstr] = doubles[d++];
+//		}
+//	}
+//	*ii = i;
+//	*dd = d;
+//}
 void
 cxxNameDouble::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 {
@@ -512,11 +533,10 @@ cxxNameDouble::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	{
 		int n = ints[i++];
 		assert(n >= 0);
-		std::string * str = dictionary.int2string(n);
-		if (str != NULL)
+		std::string str = dictionary.int2stdstring(n);
+		if (str.size() != 0)
 		{
-			char *cstr = string_hsave(str->c_str());
-			(*this)[cstr] = doubles[d++];
+			(*this)[str] = doubles[d++];
 		}
 	}
 	*ii = i;

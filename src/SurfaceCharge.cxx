@@ -25,7 +25,6 @@ cxxSurfaceCharge::cxxSurfaceCharge()
 	// default constructor for cxxSurfaceCharge 
 	//
 {
-	name = NULL;
 	specific_area = 0.0;
 	grams = 0.0;
 	charge_balance = 0.0;
@@ -45,7 +44,7 @@ cxxSurfaceCharge::cxxSurfaceCharge(struct surface_charge *surf_charge_ptr)
 	:
 diffuse_layer_totals(surf_charge_ptr->diffuse_layer_totals)
 {
-	name = surf_charge_ptr->name;
+	this->set_name(surf_charge_ptr->name);
 	specific_area = surf_charge_ptr->specific_area;
 	grams = surf_charge_ptr->grams;
 	charge_balance = surf_charge_ptr->charge_balance;
@@ -96,7 +95,8 @@ struct surface_charge *
 	for (std::map < std::string, cxxSurfaceCharge >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		surf_charge_ptr[i].name = (*it).second.name;
+		surf_charge_ptr[i].name = string_hsave((*it).second.name.c_str());
+		assert((*it).second.name.size() > 0);
 		surf_charge_ptr[i].specific_area = (*it).second.specific_area;
 		surf_charge_ptr[i].grams = (*it).second.grams;
 		surf_charge_ptr[i].charge_balance = (*it).second.charge_balance;
@@ -262,14 +262,14 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 		case 0:				// name
 			if (!(parser.get_iss() >> str))
 			{
-				this->name = NULL;
+				this->name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->name = string_hsave(str.c_str());
+				this->name = str;
 			}
 			name_defined = true;
 			break;
@@ -486,7 +486,7 @@ cxxSurfaceCharge::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	extern cxxDictionary dictionary;
 	int i = *ii;
 	int d = *dd;
-	this->name = dictionary.int2char(ints[i++]);
+	this->name = dictionary.int2stdstring(ints[i++]);
 	this->specific_area = doubles[d++];
 	this->grams = doubles[d++];
 	this->charge_balance = doubles[d++];
@@ -515,7 +515,7 @@ cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, double extensive)
 	//double capacitance[2];
 
 	//char * name;
-	if (this->name == NULL && addee.name == NULL)
+	if (this->name.size() == 0 && addee.name.size() == 0)
 	{
 		return;
 	}

@@ -19,8 +19,8 @@ isotope_number(0.0)
 cxxSolutionIsotope::cxxSolutionIsotope(struct isotope *isotope_ptr)
 {
 	isotope_number = isotope_ptr->isotope_number;
-	elt_name = isotope_ptr->elt_name;
-	isotope_name = isotope_ptr->isotope_name;
+	this->set_elt_name(isotope_ptr->elt_name);
+	this->set_isotope_name(isotope_ptr->isotope_name);
 	total = isotope_ptr->total;
 	ratio = isotope_ptr->ratio;
 	ratio_uncertainty = isotope_ptr->ratio_uncertainty;
@@ -53,7 +53,7 @@ cxxSolutionIsotope::list2isotope(std::list < cxxSolutionIsotope > &isolist)
 			 it != isolist.end(); ++it)
 		{
 			iso[i].isotope_number = it->isotope_number;
-			iso[i].elt_name = it->elt_name;
+			iso[i].elt_name = string_hsave(it->elt_name.c_str());
 			iso[i].total = it->total;
 			iso[i].ratio = it->ratio;
 			iso[i].ratio_uncertainty = it->ratio_uncertainty;
@@ -148,10 +148,10 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser)
 
 	if (j == CParser::TT_EMPTY)
 	{
-		this->isotope_name = NULL;
+		this->isotope_name.clear();
 		return (CParser::PARSER_OK);
 	}
-	this->isotope_name = string_hsave(token.c_str());
+	this->set_isotope_name(token.c_str());
 
 	// isotope_number
 	if (!(parser.get_iss() >> isotope_number))
@@ -164,7 +164,7 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser)
 	{
 		return CParser::PARSER_ERROR;
 	}
-	this->elt_name = string_hsave(token.c_str());
+	this->set_elt_name(token.c_str());
 
 	// total
 	if (!(parser.get_iss() >> this->total))
@@ -202,7 +202,7 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser)
 bool
 cxxSolutionIsotope::operator<(const cxxSolutionIsotope & isotope) const
 {
-	int i = Utilities::strcmp_nocase(this->elt_name, isotope.elt_name);
+	int i = Utilities::strcmp_nocase(this->elt_name.c_str(), isotope.elt_name.c_str());
 	if (i != 0)
 		return (i < 0);
 	return (this->isotope_number < isotope.isotope_number);
@@ -211,13 +211,14 @@ cxxSolutionIsotope::operator<(const cxxSolutionIsotope & isotope) const
 struct master *
 cxxSolutionIsotope::master(void)
 {
-	return (master_bsearch(this->elt_name));
+	return (master_bsearch(this->elt_name.c_str()));
 }
 
 struct master *
 cxxSolutionIsotope::primary(void)
 {
-	return (master_bsearch_primary(this->elt_name));
+	char * str = string_hsave(this->elt_name.c_str());
+	return (master_bsearch_primary(str));
 }
 
 void

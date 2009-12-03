@@ -10,8 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxPPassemblageComp
 {
 
@@ -29,11 +27,28 @@ class cxxPPassemblageComp
 
 	void read_raw(CParser & parser, bool check = true);
 
-	char *get_name() const
+	const std::string &get_name() const
 	{
 		return this->name;
 	}
-
+	void set_name(char * s)
+	{
+		if(s != NULL)
+			this->name = std::string(s);
+		else
+			this->name.clear();
+	}
+	const std::string &get_add_formula() const
+	{
+		return this->add_formula;
+	}
+	void set_add_formula(char * s)
+	{
+		if(s != NULL)
+			this->add_formula = std::string(s);
+		else
+			this->add_formula.clear();
+	}
 	struct phase *get_phase();
 
 	void totalize();
@@ -49,9 +64,9 @@ class cxxPPassemblageComp
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
-  protected:
-	char *name;
-	char *add_formula;
+protected:
+	std::string name;
+	std::string add_formula;
 	double si;
 	double moles;
 	double delta;
@@ -61,7 +76,7 @@ class cxxPPassemblageComp
 	bool precipitate_only;
 	cxxNameDouble totals;
 
-  public:
+public:
 
 };
 

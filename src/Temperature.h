@@ -10,8 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxTemperature:public cxxNumKeyword
 {
 
@@ -28,12 +26,12 @@ class cxxTemperature:public cxxNumKeyword
 
 	void read_raw(CParser & parser);
 
-  protected:
-	  std::vector < double >temps;
+protected:
+	std::vector < double >temps;
 	int countTemps;
 	bool equalIncrements;
 
-  public:
+public:
 	//static std::map<int, cxxTemperature>& map;
 
 };

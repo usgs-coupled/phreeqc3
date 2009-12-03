@@ -32,6 +32,7 @@ class cxxDictionary
 	int string2int(char *str);
 
 	std::string * int2string(int i);
+	std::string & int2stdstring(int i);
 
 	char *int2char(int i);
 
