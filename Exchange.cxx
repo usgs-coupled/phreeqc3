@@ -23,7 +23,7 @@
 
 cxxExchange::cxxExchange()
 	//
-	// default constructor for cxxExchange 
+	// default constructor for cxxExchange
 	//
 :	cxxNumKeyword()
 {
@@ -127,7 +127,7 @@ cxxNumKeyword()
 			ec.set_phase_proportion(x[i]->exch_comp->phase_proportion);
 			//char   *rate_name;
 			ec.set_rate_name(x[i]->exch_comp->rate_name);
-			//double formula_z;                         
+			//double formula_z;
 			ec.set_formula_z(x[i]->exch_comp->formula_z);
 
 			// calculate charge and totals
@@ -200,7 +200,7 @@ cxxExchange::get_related_rate()
 struct exchange *
 cxxExchange::cxxExchange2exchange()
 		//
-		// Builds a exchange structure from instance of cxxExchange 
+		// Builds a exchange structure from instance of cxxExchange
 		//
 {
 	struct exchange *exchange_ptr = exchange_alloc();
@@ -486,7 +486,7 @@ cxxExchange::add(const cxxExchange & addee, double extensive)
 		//	}
 		//}
 		/*if (!found)*/
-			
+
 		}
 		else
 		{
