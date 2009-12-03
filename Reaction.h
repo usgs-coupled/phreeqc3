@@ -11,8 +11,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxReaction:public cxxNumKeyword
 {
 
@@ -29,15 +27,23 @@ class cxxReaction:public cxxNumKeyword
 
 	void read_raw(CParser & parser);
 
-  protected:
-	  cxxNameDouble reactantList;
+	void set_units(const char * s)
+	{
+		if (s != NULL)
+			this->units = std::string(s);
+		else
+			this->units.clear();
+	}
+
+protected:
+	cxxNameDouble reactantList;
 	cxxNameDouble elementList;
-	  std::vector < double >steps;
+	std::vector < double >steps;
 	int countSteps;
 	bool equalIncrements;
-	char *units;
+	std::string units;
 
-  public:
+public:
 	//static std::map<int, cxxReaction>& map;
 
 };

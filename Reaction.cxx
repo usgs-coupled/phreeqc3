@@ -24,7 +24,7 @@ cxxReaction::cxxReaction()
 	//
 :	cxxNumKeyword()
 {
-	units = string_hsave("Mol");
+	this->set_units("Mol");
 	countSteps = 0;
 	equalIncrements = false;
 	reactantList.type = cxxNameDouble::ND_NAME_COEF;
@@ -45,7 +45,7 @@ elementList(irrev_ptr->elts)
 	this->set_description(irrev_ptr->description);
 	this->n_user = irrev_ptr->n_user;
 	this->n_user_end = irrev_ptr->n_user_end;
-	this->units = irrev_ptr->units;
+	this->set_units(irrev_ptr->units);
 	// steps
 	if (irrev_ptr->count_steps < 0)
 	{
@@ -117,7 +117,10 @@ cxxReaction::cxxReaction2irrev()
 	{
 		irrev_ptr->count_steps = (int) this->steps.size();
 	}
-	irrev_ptr->units = this->units;
+	if (this->units.size() == 0)
+		irrev_ptr->units = NULL;
+	else
+		irrev_ptr->units = string_hsave(this->units.c_str());
 	return (irrev_ptr);
 }
 
@@ -282,7 +285,7 @@ cxxReaction::read_raw(CParser & parser)
 			j = parser.copy_token(token, next_char);
 			if (j == CParser::TT_EMPTY)
 				break;
-			this->units = string_hsave(token.c_str());
+			this->set_units(token.c_str());
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
 			units_defined = true;

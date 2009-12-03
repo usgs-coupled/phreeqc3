@@ -58,16 +58,16 @@ class cxxExchange:public cxxNumKeyword
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
-  private:
+private:
 	void add(const cxxExchange & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
-  protected:
-	  std::map < std::string, cxxExchComp > exchComps;
+protected:
+	std::map < std::string, cxxExchComp > exchComps;
 	bool pitzer_exchange_gammas;
 	cxxNameDouble totals;
-  public:
+public:
 
 };
 

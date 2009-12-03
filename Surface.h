@@ -10,7 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
 #include "SurfaceComp.h"
 #include "SurfaceCharge.h"
 #include "cxxMix.h"
@@ -54,12 +53,12 @@ class cxxSurface:public cxxNumKeyword
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
-  private:
+private:
 	void add(const cxxSurface & addee, double extensive);
 
-  protected:
-	  std::map < std::string, cxxSurfaceComp > surfaceComps;
-	  std::map < std::string, cxxSurfaceCharge > surfaceCharges;
+protected:
+	std::map < std::string, cxxSurfaceComp > surfaceComps;
+	std::map < std::string, cxxSurfaceCharge > surfaceCharges;
 	enum SURFACE_TYPE type;
 	enum DIFFUSE_LAYER_TYPE dl_type;
 	enum SITES_UNITS sites_units;
@@ -71,7 +70,7 @@ class cxxSurface:public cxxNumKeyword
 	bool transport;
 	cxxNameDouble totals;
 
-  public:
+public:
 	//static std::map<int, cxxSurface>& map;
 };
 

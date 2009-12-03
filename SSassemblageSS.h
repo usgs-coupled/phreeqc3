@@ -10,8 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxSSassemblageSS
 {
 
@@ -44,9 +42,16 @@ class cxxSSassemblageSS
 
 	void read_raw(CParser & parser, bool check = true);
 
-	char *get_name() const
+	const std::string &get_name() const
 	{
 		return this->name;
+	}
+	void set_name (const char * s)
+	{
+		if (s != NULL)
+			this->name = std::string(s);
+		else
+			this->name.clear();
 	}
 
 	void totalize();
@@ -63,8 +68,8 @@ class cxxSSassemblageSS
 	void add(const cxxSSassemblageSS & comp, double extensive);
 	void multiply(double extensive);
 
-  protected:
-	char *name;
+protected:
+	std::string name;
 	cxxNameDouble comps;
 	double a0, a1;
 	double ag0, ag1;
@@ -72,7 +77,7 @@ class cxxSSassemblageSS
 	double xb1, xb2;
 	cxxNameDouble totals;
 
-  public:
+public:
 
 };
 

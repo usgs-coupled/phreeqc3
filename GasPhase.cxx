@@ -136,8 +136,9 @@ cxxGasPhase::cxxGasPhaseComp2gas_comp()
 		for (cxxNameDouble::iterator it = this->gasPhaseComps.begin();
 			 it != this->gasPhaseComps.end(); it++)
 		{
-			gas_comp_ptr[i].name = it->first;
-			gas_comp_ptr[i].phase = phase_bsearch(it->first, &n, TRUE);
+			gas_comp_ptr[i].name = string_hsave(it->first.c_str());
+			assert(it->first.size() != 0);
+			gas_comp_ptr[i].phase = phase_bsearch(it->first.c_str(), &n, TRUE);
 			gas_comp_ptr[i].p_read = 0;
 			gas_comp_ptr[i].moles = it->second;
 			gas_comp_ptr[i].initial_moles = 0;
@@ -446,7 +447,7 @@ cxxGasPhase::totalize()
 	{
 		struct phase *phase_ptr;
 		int l;
-		phase_ptr = phase_bsearch(it->first, &l, FALSE);
+		phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);

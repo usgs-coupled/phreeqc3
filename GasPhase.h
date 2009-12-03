@@ -11,7 +11,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
 #include "cxxMix.h"
 
 class cxxGasPhase:public cxxNumKeyword
@@ -52,17 +51,17 @@ class cxxGasPhase:public cxxNumKeyword
 		return this->totals;
 	};
 
-  private:
+private:
 	void add(const cxxGasPhase & addee, double extensive);
 
-  protected:
+protected:
 	cxxNameDouble gasPhaseComps;
 	GP_TYPE type;
 	double total_p;
 	double volume;
 	cxxNameDouble totals;
 
-  public:
+public:
 	//static std::map<int, cxxGasPhase>& map;
 
 };

@@ -10,7 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
 #include "SSassemblageSS.h"
 #include "cxxMix.h"
 

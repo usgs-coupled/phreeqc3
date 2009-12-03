@@ -670,7 +670,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				}
 				else
 				{
-					if (iso.get_isotope_name() != NULL)
+					if (iso.get_isotope_name().size() != 0)
 					{
 						this->isotopes.push_back(iso);
 					}
@@ -968,7 +968,7 @@ cxxSolution::get_total_element(char *string) const
 		char token[MAX_LENGTH];
 		if (it->first[0] == string[0])
 		{
-			strcpy(token, it->first);
+			strcpy(token, it->first.c_str());
 			replace("(", "\0", token);
 			if (strcmp(token, string) == 0)
 			{

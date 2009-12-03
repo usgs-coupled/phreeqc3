@@ -8,7 +8,6 @@
 #include <string>				// std::string
 #include <list>					// std::list
 
-#include "char_star.h"
 #include "Parser.h"
 
 class cxxSolutionIsotopeList:public
@@ -16,23 +15,18 @@ class cxxSolutionIsotopeList:public
 	cxxSolutionIsotope >
 {
 
-  public:
+public:
 	cxxSolutionIsotopeList();
 
 	cxxSolutionIsotopeList(struct solution *solution_ptr);
 
-	 ~
-	cxxSolutionIsotopeList();
+	~cxxSolutionIsotopeList();
 
-	struct isotope *
-	cxxSolutionIsotopeList2isotope();
+	struct isotope * cxxSolutionIsotopeList2isotope();
+	void add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
+	void multiply(double extensive);
 
-	void
-	add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
-	void
-	multiply(double extensive);
-
-  protected:
+protected:
 
 
   public:

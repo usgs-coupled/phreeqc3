@@ -35,21 +35,27 @@ class cxxSolutionIsotope
 	{
 		this->isotope_number = d;
 	}
-	char *get_elt_name() const
+	const std::string &get_elt_name() const
 	{
 		return this->elt_name;
 	}
-	void set_elt_name(char *cstring)
+	void set_elt_name(const char *cstring)
 	{
-		this->elt_name = cstring;
+		if (cstring != NULL)
+			this->elt_name = std::string(cstring);
+		else
+			this->elt_name.clear();
 	}
-	char *get_isotope_name() const
+	const std::string &get_isotope_name() const
 	{
 		return this->isotope_name;
 	}
-	void set_isotope_name(char *cstring)
+	void set_isotope_name(const char *cstring)
 	{
-		this->isotope_name = cstring;
+		if (cstring != NULL)
+			this->isotope_name = std::string(cstring);
+		else
+			this->isotope_name.clear();
 	}
 	double get_total() const
 	{
@@ -87,13 +93,11 @@ class cxxSolutionIsotope
   protected:
 	friend class cxxSolutionIsotopeList;
 	double isotope_number;
-	char *elt_name;
-	char *isotope_name;
+	std::string elt_name;
+	std::string isotope_name;
 	double total;
 	double ratio;
 	double ratio_uncertainty;
-	//struct master *master;
-	//struct master *primary;
 	bool ratio_uncertainty_defined;
 };
 #endif // SOLUTIONISOTOPE_H_INCLUDED

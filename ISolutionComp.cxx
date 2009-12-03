@@ -21,14 +21,14 @@ gfw(0.0)
 }
 cxxISolutionComp::cxxISolutionComp(struct conc *conc_ptr)
 {
-	description = conc_ptr->description;
+	this->set_description(conc_ptr->description);
 	moles = conc_ptr->moles;
 	input_conc = conc_ptr->input_conc;
-	units = conc_ptr->units;
-	equation_name = conc_ptr->equation_name;
+	this->set_units(conc_ptr->units);
+	this->set_equation_name(conc_ptr->equation_name);
 	phase_si = conc_ptr->phase_si;
 	n_pe = conc_ptr->n_pe;
-	as = conc_ptr->as;
+	this->set_as(conc_ptr->as);
 	gfw = conc_ptr->gfw;
 	//skip                = conc_ptr->skip;
 	//phase               = conc_ptr->phase;
@@ -67,9 +67,8 @@ struct conc *cxxISolutionComp::concarray(std::map <char *, double, CHARSTAR_LESS
 }
 */
 struct conc *
-cxxISolutionComp::cxxISolutionComp2conc(const std::map < char *,
-										cxxISolutionComp,
-										CHARSTAR_LESS > &totals)
+	cxxISolutionComp::cxxISolutionComp2conc(const std::map < std::string,
+										cxxISolutionComp > &totals)
 		// for ISolutions
 		// takes a std::vector cxxISolutionComp structures
 		// returns list of conc structures
@@ -80,18 +79,23 @@ cxxISolutionComp::cxxISolutionComp2conc(const std::map < char *,
 	if (c == NULL)
 		malloc_error();
 	int i = 0;
-	for (std::map < char *, cxxISolutionComp,
-		 CHARSTAR_LESS >::const_iterator it = totals.begin();
+	for (std::map < std::string, cxxISolutionComp >::const_iterator it = totals.begin();
 		 it != totals.end(); ++it)
 	{
-		c[i].description = it->second.description;
+		c[i].description = string_duplicate(it->second.description.c_str());
 		c[i].moles = it->second.moles;
 		c[i].input_conc = it->second.input_conc;
-		c[i].units = it->second.units;
-		c[i].equation_name = it->second.equation_name;
+		if (it->second.units.size() == 0)
+			c[i].units = NULL;
+		else
+			c[i].units = string_hsave(it->second.units.c_str());
+		if (it->second.equation_name.size() == 0)
+			c[i].equation_name = NULL;
+		else
+			c[i].equation_name = string_hsave(it->second.equation_name.c_str());
 		c[i].phase_si = it->second.phase_si;
 		c[i].n_pe = it->second.n_pe;
-		c[i].as = it->second.as;
+		c[i].as = string_hsave(it->second.as.c_str());
 		c[i].gfw = it->second.gfw;
 		//c[i].skip                = 0;
 		c[i].phase = NULL;
@@ -108,11 +112,11 @@ cxxISolutionComp::set_gfw()
 	if (this->gfw > 0.0)
 		return;
 // calculate gfw from as or from master species gfw
-	if (this->as != NULL)
+	if (this->as.size() != 0)
 	{
 		/* use given chemical formula to calculate gfw */
 		double gfw;
-		if (compute_gfw(this->as, &gfw) == ERROR)
+		if (compute_gfw(this->as.c_str(), &gfw) == ERROR)
 		{
 			std::ostringstream oss;
 			oss << "Could not compute gfw, " << this->as;
@@ -121,8 +125,8 @@ cxxISolutionComp::set_gfw()
 			return;
 		}
 		//if (this->description == "Alkalinity" && this->as == "CaCO3") 
-		if (strcmp(this->description, "Alkalinity") == 0
-			&& strcmp(this->as, "CaCO3"))
+		if (strcmp(this->description.c_str(), "Alkalinity") == 0
+			&& strcmp(this->as.c_str(), "CaCO3"))
 		{
 			gfw /= 2.;
 		}

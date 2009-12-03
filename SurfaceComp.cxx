@@ -25,7 +25,6 @@ cxxSurfaceComp::cxxSurfaceComp()
 	// default constructor for cxxSurfaceComp 
 	//
 {
-	formula = NULL;
 	formula_totals.type = cxxNameDouble::ND_ELT_MOLES;
 	formula_z = 0.0;
 	moles = 0.0;
@@ -33,9 +32,7 @@ cxxSurfaceComp::cxxSurfaceComp()
 	la = 0.0;
 	//charge_number           = -99;
 	charge_balance = 0;
-	phase_name = NULL;
 	phase_proportion = 0.0;
-	rate_name = NULL;
 	Dw = 0.0;
 }
 
@@ -47,15 +44,15 @@ cxxSurfaceComp::cxxSurfaceComp(struct surface_comp *surf_comp_ptr)
 formula_totals(surf_comp_ptr->formula_totals),
 totals(surf_comp_ptr->totals)
 {
-	formula = surf_comp_ptr->formula;
+	this->set_formula(surf_comp_ptr->formula);
 	formula_z = surf_comp_ptr->formula_z;
 	moles = surf_comp_ptr->moles;
 	la = surf_comp_ptr->la;
 	//charge_number            = surf_comp_ptr->charge;
 	charge_balance = surf_comp_ptr->cb;
-	phase_name = surf_comp_ptr->phase_name;
+	this->set_phase_name(surf_comp_ptr->phase_name);
 	phase_proportion = surf_comp_ptr->phase_proportion;
-	rate_name = surf_comp_ptr->rate_name;
+	this->set_rate_name(surf_comp_ptr->rate_name);
 	Dw = surf_comp_ptr->Dw;
 }
 
@@ -72,7 +69,8 @@ cxxSurfaceComp::get_master()
 		 it != this->totals.end(); it++)
 	{
 		/* Find master species */
-		char *eltName = it->first;
+		char *eltName = string_hsave(it->first.c_str());
+		assert(it->first.size() > 0);
 		struct element *elt_ptr = element_store(eltName);
 		if (elt_ptr->master == NULL)
 		{
@@ -116,7 +114,8 @@ struct surface_comp *
 	for (std::map < std::string, cxxSurfaceComp >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		surf_comp_ptr[i].formula = (*it).second.formula;
+		surf_comp_ptr[i].formula = string_hsave((*it).second.formula.c_str());
+		assert((*it).second.formula.size() > 0);
 		surf_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list();
 		surf_comp_ptr[i].formula_z = (*it).second.formula_z;
 		surf_comp_ptr[i].moles = (*it).second.moles;
@@ -125,9 +124,15 @@ struct surface_comp *
 		surf_comp_ptr[i].la = (*it).second.la;
 		//surf_comp_ptr[i].charge                 =  it->charge_number;
 		surf_comp_ptr[i].cb = (*it).second.charge_balance;
-		surf_comp_ptr[i].phase_name = (*it).second.phase_name;
+		if ((*it).second.phase_name.size() == 0)
+			surf_comp_ptr[i].phase_name = NULL;
+		else
+			surf_comp_ptr[i].phase_name = string_hsave((*it).second.phase_name.c_str());
 		surf_comp_ptr[i].phase_proportion = (*it).second.phase_proportion;
-		surf_comp_ptr[i].rate_name = (*it).second.rate_name;
+		if ((*it).second.rate_name.size() == 0)
+			surf_comp_ptr[i].rate_name = NULL;
+		else
+			surf_comp_ptr[i].rate_name = string_hsave((*it).second.rate_name.c_str());
 		surf_comp_ptr[i].Dw = (*it).second.Dw;
 		surf_comp_ptr[i].master = (*it).second.get_master();
 		i++;
@@ -159,12 +164,12 @@ cxxSurfaceComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	//s_oss << indent0 << "charge_number=\"" << this->charge_number   << "\"" << std::endl;
 	s_oss << indent0 << "charge_balance=\"" << this->
 		charge_balance << "\"" << std::endl;
-	if (this->phase_name != NULL)
+	if (this->phase_name.size() != 0)
 	{
 		s_oss << indent0 << "phase_name=\"" << this->
 			phase_name << "\"" << std::endl;
 	}
-	if (this->rate_name != NULL)
+	if (this->rate_name.size() != 0)
 	{
 		s_oss << indent0 << "rate_name=\"" << this->
 			rate_name << "\"" << std::endl;
@@ -210,12 +215,12 @@ cxxSurfaceComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	//s_oss << indent1 << "-charge_number         " << this->charge_number  << std::endl;
 	s_oss << indent1 << "-charge_balance        " << this->
 		charge_balance << std::endl;
-	if (this->phase_name != NULL)
+	if (this->phase_name.size() != 0)
 	{
 		s_oss << indent1 << "-phase_name            " << this->
 			phase_name << std::endl;
 	}
-	if (this->rate_name != NULL)
+	if (this->rate_name.size() != 0)
 	{
 		s_oss << indent1 << "-rate_name             " << this->
 			rate_name << std::endl;
@@ -298,14 +303,14 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 		case 0:				// formula
 			if (!(parser.get_iss() >> str))
 			{
-				this->formula = NULL;
+				this->formula.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for formula.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->formula = string_hsave(str.c_str());
+				this->formula = str;
 			}
 			formula_defined = true;
 			break;
@@ -357,28 +362,28 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 		case 5:				// phase_name
 			if (!(parser.get_iss() >> str))
 			{
-				this->phase_name = NULL;
+				this->phase_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for phase_name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->phase_name = string_hsave(str.c_str());
+				this->phase_name = str;
 			}
 			break;
 
 		case 6:				// rate_name
 			if (!(parser.get_iss() >> str))
 			{
-				this->rate_name = NULL;
+				this->rate_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for rate_name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->rate_name = string_hsave(str.c_str());
+				this->rate_name = str;
 			}
 			break;
 
@@ -521,7 +526,7 @@ cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	extern cxxDictionary dictionary;
 	int i = *ii;
 	int d = *dd;
-	this->formula = dictionary.int2char(ints[i++]);
+	this->formula = dictionary.int2stdstring(ints[i++]);
 	this->formula_z = doubles[d++];
 	this->formula_totals.mpi_unpack(ints, &i, doubles, &d);
 	this->moles = doubles[d++];
@@ -529,9 +534,9 @@ cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->la = doubles[d++];
 	//this->charge_number = ints[i++];
 	this->charge_balance = doubles[d++];
-	this->phase_name = dictionary.int2char(ints[i++]);
+	this->phase_name = dictionary.int2stdstring(ints[i++]);
 	this->phase_proportion = doubles[d++];
-	this->rate_name = dictionary.int2char(ints[i++]);
+	this->rate_name = dictionary.int2stdstring(ints[i++]);
 	this->Dw = doubles[d++];
 	*ii = i;
 	*dd = d;
@@ -542,18 +547,18 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 {
 	if (extensive == 0.0)
 		return;
-	if (addee.formula == NULL)
+	if (addee.formula.size() == 0)
 		return;
 
 	//char * formula;
 	//cxxNameDouble formula_totals; 
-	if (this->formula == NULL && addee.formula == NULL)
+	if (this->formula.size() == 0 && addee.formula.size() == 0)
 	{
 		return;
 	}
 	assert(this->formula == addee.formula);
 	assert(this->formula_z == addee.formula_z);
-	if (this->formula == NULL && addee.formula != NULL)
+	if (this->formula.size() == 0 && addee.formula.size() != 0)
 	{
 		this->formula = addee.formula;
 		this->formula_totals = addee.formula_totals;
@@ -597,7 +602,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 		input_error++;
 		return;
 	}
-	else if (this->phase_name != NULL)
+	else if (this->phase_name.size() != 0)
 	{
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
@@ -614,14 +619,14 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 		input_error++;
 		return;
 	}
-	else if (this->rate_name != NULL)
+	else if (this->rate_name.size() != 0)
 	{
 		//double phase_proportion;
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
 	}
-	if ((this->rate_name != NULL && addee.phase_name != NULL) ||
-		(this->phase_name != NULL && addee.rate_name != NULL))
+	if ((this->rate_name.size() != 0 && addee.phase_name.size() != 0) ||
+		(this->phase_name.size() != 0 && addee.rate_name.size() != 0))
 	{
 		std::ostringstream oss;
 		oss <<

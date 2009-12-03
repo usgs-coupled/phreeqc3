@@ -25,7 +25,6 @@ cxxSSassemblageSS::cxxSSassemblageSS()
 	// default constructor for cxxSSassemblageSS 
 	//
 {
-	name = NULL;
 	//total_moles                    = 0;
 	a0 = 0;
 	a1 = 0;
@@ -45,7 +44,7 @@ cxxSSassemblageSS::cxxSSassemblageSS(struct s_s *s_s_ptr)
 		// constructor for cxxSSassemblageSS from struct s_s
 		//
 {
-	name = s_s_ptr->name;
+	this->set_name(s_s_ptr->name);
 	//total_moles                              = s_s_ptr->total_moles;                            
 	a0 = s_s_ptr->a0;
 	a1 = s_s_ptr->a1;
@@ -91,7 +90,8 @@ struct s_s *
 	for (std::map < std::string, cxxSSassemblageSS >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		s_s_ptr[j].name = (*it).second.name;
+		s_s_ptr[j].name = string_hsave((*it).second.name.c_str());
+		assert((*it).second.name.size() > 0);
 		//s_s_ptr[j].total_moles                                 = it->total_moles;
 		s_s_ptr[j].total_moles = 0;
 		s_s_ptr[j].dn = 0;
@@ -132,8 +132,9 @@ struct s_s *
 			for (cxxNameDouble::iterator itc = (*it).second.comps.begin();
 				 itc != (*it).second.comps.end(); ++itc)
 			{
-				s_s_comp_ptr[i].name = itc->first;
-				s_s_comp_ptr[i].phase = phase_bsearch(itc->first, &n, TRUE);
+				s_s_comp_ptr[i].name = string_hsave(itc->first.c_str());
+				assert(itc->first.size() > 0);
+				s_s_comp_ptr[i].phase = phase_bsearch(itc->first.c_str(), &n, TRUE);
 				s_s_comp_ptr[i].initial_moles = 0;
 				s_s_comp_ptr[i].moles = itc->second;
 				s_s_comp_ptr[i].init_moles = 0;
@@ -277,14 +278,14 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 		case 0:				// name
 			if (!(parser.get_iss() >> str))
 			{
-				this->name = NULL;
+				this->name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->name = string_hsave(str.c_str());
+				this->name = str;
 			}
 			name_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -521,7 +522,7 @@ cxxSSassemblageSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	extern cxxDictionary dictionary;
 	int i = *ii;
 	int d = *dd;
-	this->name = dictionary.int2char(ints[i++]);
+	this->name = dictionary.int2stdstring(ints[i++]);
 	this->comps.mpi_unpack(ints, &i, doubles, &d);
 	this->a0 = doubles[d++];
 	this->a1 = doubles[d++];
@@ -545,7 +546,7 @@ cxxSSassemblageSS::totalize()
 	{
 		struct phase *phase_ptr;
 		int l;
-		phase_ptr = phase_bsearch(it->first, &l, FALSE);
+		phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);
@@ -564,7 +565,7 @@ cxxSSassemblageSS::add(const cxxSSassemblageSS & addee, double extensive)
 {
 	if (extensive == 0.0)
 		return;
-	if (addee.name == NULL)
+	if (addee.name.size() == 0)
 		return;
 	// this and addee must have same name
 	// otherwise generate a new PPassemblagComp with multiply

@@ -10,7 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
 #include "PPassemblageComp.h"
 #include "cxxMix.h"
 
@@ -53,18 +52,18 @@ class cxxPPassemblage:public cxxNumKeyword
 	void ORCH_store_global(std::map < std::string, double >output_map);
 #endif
 
-  private:
+private:
 	void add(const cxxPPassemblage & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
-  protected:
+protected:
 	//std::list < cxxPPassemblageComp > ppAssemblageComps;
-	  std::map <std::string, cxxPPassemblageComp > ppAssemblageComps;
+	std::map <std::string, cxxPPassemblageComp > ppAssemblageComps;
 	cxxNameDouble eltList;
 	cxxNameDouble totals;
 
-  public:
+public:
 	//static std::map<int, cxxPPassemblage>& map;
 
 };

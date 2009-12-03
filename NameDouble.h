@@ -8,12 +8,9 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-//#include "global.h"
-#include "char_star.h"
 #include "Parser.h"
 class cxxNameDouble:public
-std::map < char *, double,
-	CHARSTAR_LESS >
+	std::map < std::string, double >
 {
 
   public:

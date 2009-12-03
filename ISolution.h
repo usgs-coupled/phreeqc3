@@ -47,6 +47,13 @@ class cxxISolution:public cxxSolution
 	{
 		units = units;
 	}
+	void set_units(char * units)
+	{
+		if (units != NULL)
+			this->units = std::string(units);
+		else
+			this->units.clear();
+	}
 
 	//char * get_redox()const {return this->pe[this->default_pe].get_name();}
 
@@ -72,7 +79,8 @@ class cxxISolution:public cxxSolution
 	friend class cxxISolutionComp;	// for this->pe access
 	double density;
 	std::string units;
-	std::map < char *, cxxISolutionComp, CHARSTAR_LESS > comps;
+	//std::map < char *, cxxISolutionComp, CHARSTAR_LESS > comps;
+	std::map < std::string, cxxISolutionComp > comps;
 	struct pe_data *pes;
 	int default_pe;
 

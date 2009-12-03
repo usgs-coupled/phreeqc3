@@ -10,8 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxSurfaceCharge
 {
 
@@ -32,11 +30,19 @@ class cxxSurfaceCharge
 
 	void read_raw(CParser & parser, bool check = true);
 
-	char *get_name() const
+	const std::string &get_name() const
 	{
 		return this->name;
 	}
 
+	void set_name(const char * s)
+	{
+		if (s != NULL)
+			this->name = std::string(s);
+		else
+			this->name.clear();
+
+	}
 	void add(const cxxSurfaceCharge & comp, double extensive);
 	void multiply(double extensive);
 
@@ -45,8 +51,8 @@ class cxxSurfaceCharge
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 
-  protected:
-	char *name;
+protected:
+	std::string name;
 	double specific_area;
 	double grams;
 	double charge_balance;
@@ -57,7 +63,7 @@ class cxxSurfaceCharge
 	//char * psi_master_name;
 	cxxNameDouble diffuse_layer_totals;
 
-  public:
+public:
 
 };
 

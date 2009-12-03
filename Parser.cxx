@@ -12,7 +12,7 @@
 #include <map>					// std::map
 #include <cassert>				// assert
 #include <iostream>				// std::cout std::cerr
-#include "char_star.h"
+
 extern char *string_hsave(const char *str);
 
 //////////////////////////////////////////////////////////////////////
@@ -1078,16 +1078,41 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	return PARSER_OK;
 }
 
-CParser::STATUS_TYPE CParser::addPair(std::map < char *, double,
-									  CHARSTAR_LESS > &totals,
+//CParser::STATUS_TYPE CParser::addPair(std::map < char *, double,
+//									  CHARSTAR_LESS > &totals,
+//									  std::istream::pos_type & pos)
+//{
+//	std::string token;
+//	char *
+//		ctoken;
+//	double
+//		d;
+//
+//	CParser::TOKEN_TYPE j;
+//
+//	m_line_iss.seekg(pos);
+//
+//	j = copy_token(token, pos);
+//
+//	if (j == TT_EMPTY)
+//		return PARSER_OK;
+//
+//	if (!(m_line_iss >> d))
+//	{
+//		return PARSER_ERROR;
+//	}
+//	ctoken = string_hsave(token.c_str());
+//	totals[ctoken] = d;
+//	return PARSER_OK;
+//}
+
+CParser::STATUS_TYPE CParser::addPair(std::map < std::string, double >&totals,
 									  std::istream::pos_type & pos)
 {
 	std::string token;
-	char *
-		ctoken;
+	//char * ctoken;
 	double
 		d;
-
 	CParser::TOKEN_TYPE j;
 
 	m_line_iss.seekg(pos);
@@ -1101,34 +1126,9 @@ CParser::STATUS_TYPE CParser::addPair(std::map < char *, double,
 	{
 		return PARSER_ERROR;
 	}
-	ctoken = string_hsave(token.c_str());
-	totals[ctoken] = d;
-	return PARSER_OK;
-}
-
-CParser::STATUS_TYPE CParser::addPair(std::map < char *, double >&totals,
-									  std::istream::pos_type & pos)
-{
-	std::string token;
-	char *
-		ctoken;
-	double
-		d;
-	CParser::TOKEN_TYPE j;
-
-	m_line_iss.seekg(pos);
-
-	j = copy_token(token, pos);
-
-	if (j == TT_EMPTY)
-		return PARSER_OK;
-
-	if (!(m_line_iss >> d))
-	{
-		return PARSER_ERROR;
-	}
-	ctoken = string_hsave(token.c_str());
-	totals[ctoken] = d;
+	//ctoken = string_hsave(token.c_str());
+	//totals[ctoken] = d;
+	totals[token] = d;
 	return PARSER_OK;
 }
 

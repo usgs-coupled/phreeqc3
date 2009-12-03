@@ -6,7 +6,6 @@
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
 #include <map>					// std::map
-#include "char_star.h"
 
 namespace Utilities
 {

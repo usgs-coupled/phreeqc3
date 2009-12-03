@@ -118,7 +118,7 @@ cxxSurface::get_related_phases()
 	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
 	{
-		if ((*it).second.get_phase_name() == NULL)
+		if ((*it).second.get_phase_name().size() == 0)
 			continue;
 		return (true);
 	}
@@ -131,7 +131,7 @@ cxxSurface::get_related_rate()
 	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
 	{
-		if ((*it).second.get_rate_name() == NULL)
+		if ((*it).second.get_rate_name().size() == 0)
 			continue;
 		return (true);
 	}
@@ -195,9 +195,9 @@ cxxSurface::cxxSurface2surface()
 		int i, j;
 		for (i = 0; i < surface_ptr->count_comps; i++)
 		{
-			char *charge_name =
+			char *charge_name = string_hsave(
 				cxxSurfaceComp::get_charge_name(surface_ptr->comps[i].
-												formula);
+												formula).c_str());
 			for (j = 0; j < surface_ptr->count_charge; j++)
 			{
 				if (charge_name == surface_ptr->charge[j].name)

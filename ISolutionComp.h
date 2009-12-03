@@ -12,7 +12,6 @@
 #include <map>					// std::map
 #include <vector>
 #include <set>
-#include "char_star.h"
 
 // forward declarations
 class cxxISolution;				// reqd for read and dump_xml
@@ -30,13 +29,16 @@ class cxxISolutionComp
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
-	char *get_description() const
+	const std::string &get_description() const
 	{
 		return this->description;
 	}
 	void set_description(char *description)
 	{
-		this->description = description;
+		if (description != NULL)
+			this->description = std::string(description);
+		else
+			this->description.clear();
 	}
 
 	double get_moles() const
@@ -63,16 +65,23 @@ class cxxISolutionComp
 	}
 	void set_units(char *units)
 	{
-		this->units = units;
+		if (units != NULL)
+			this->units = std::string(units);
+		else
+			this->units.clear();
 	}
 
-	char *get_equation_name() const
+	const std::string &get_equation_name() const
 	{
 		return this->equation_name;
 	}
 	void set_equation_name(char *equation_name)
 	{
-		this->equation_name = equation_name;
+		if (equation_name != NULL)
+			this->equation_name = std::string(equation_name);
+		else
+			this->equation_name.clear();
+
 	}
 
 	double get_phase_si() const
@@ -93,13 +102,16 @@ class cxxISolutionComp
 		this->n_pe = n_pe;
 	}
 
-	char *get_as() const
+	const std::string &get_as() const
 	{
 		return this->as;
 	}
 	void set_as(char *as)
 	{
-		this->as = as;
+		if (as != NULL)
+			this->as = std::string(as);
+		else
+			this->as.clear();
 	}
 
 	//double get_gfw()const {return this->gfw;}
@@ -115,23 +127,21 @@ class cxxISolutionComp
 
 	bool operator<(const cxxISolutionComp & conc) const
 	{
-		return::strcmp(this->description, conc.description) < 0;
+		return ::strcmp(this->description.c_str(), conc.description.c_str()) < 0;
 	}
 
-	static struct conc *cxxISolutionComp2conc(const std::map < char *,
-											  cxxISolutionComp,
-											  CHARSTAR_LESS > &t);
+	static struct conc *cxxISolutionComp2conc(const std::map < std::string,	cxxISolutionComp > &t);
 
   private:
-	char *description;
-	double moles;
-	double input_conc;
-	char *units;
-	char *equation_name;
-	double phase_si;
-	int n_pe;
-	char *as;
-	double gfw;
+	  std::string description;
+	  double moles;
+	  double input_conc;
+	  std::string units;
+	  std::string equation_name;
+	  double phase_si;
+	  int n_pe;
+	  std::string as;
+	  double gfw;
 };
 
 #endif // ISOLUTIONCOMP_H_INCLUDED

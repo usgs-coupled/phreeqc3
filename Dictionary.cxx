@@ -55,6 +55,9 @@ cxxDictionary::add_phreeqc()
 			}
 		}
 	}
+	this->putString(std::string(""));
+
+
 }
 
 int
@@ -123,6 +126,21 @@ std::string * cxxDictionary::int2string(int i)
 	}
 }
 
+std::string & cxxDictionary::int2stdstring(int i)
+{
+	std::map < int,
+		std::string >::iterator
+		it = intkey.find(i);
+	if (it != intkey.end())
+	{
+		return (it->second);
+	}
+	else
+	{
+		exit(4);
+	}
+}
+
 char *
 cxxDictionary::int2char(int i)
 {
@@ -136,3 +154,4 @@ cxxDictionary::int2char(int i)
 		return (NULL);
 	}
 }
+
