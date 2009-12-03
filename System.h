@@ -10,7 +10,7 @@
 #include "cxxMix.h"
 #include "Reaction.h"
 #include "Temperature.h"
-class cxxSystem 
+class cxxSystem
 {
   public:cxxSystem(void);
   public: ~cxxSystem(void);
@@ -46,7 +46,7 @@ class cxxSystem
 	{
 		this->temperature = entity;
 	} void totalize();
-	
+
 #ifdef ORCHESTRA
 	void ORCH_components();
 	void ORCH_write(std::ostream & chemistry_dat, std::ostream & input_dat,
@@ -56,7 +56,7 @@ class cxxSystem
 	void ORCH_write_chemistry_total_O_H(std::ostream & chemistry_dat);
 	void ORCH_write_output_vars(std::ostream & outstream);
 	void ORCH_write_input(std::ostream & input_dat);
-	
+
 #endif	/*  */
   private:cxxSolution * solution;
 	cxxExchange * exchange;
