@@ -14,8 +14,6 @@
 #include <vector>				// std::vector
 #include <iostream>
 
-#include "char_star.h"
-
 class cxxSolution:public cxxNumKeyword
 {
 

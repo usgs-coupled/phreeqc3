@@ -24,7 +24,6 @@ cxxKineticsComp::cxxKineticsComp()
 	// default constructor for cxxKineticsComp 
 	//
 {
-	rate_name = NULL;
 	tol = 1e-8;
 	m = 0.0;
 	m0 = 0.0;
@@ -39,7 +38,7 @@ cxxKineticsComp::cxxKineticsComp(struct kinetics_comp *kinetics_comp_ptr)
 	:
 namecoef(kinetics_comp_ptr->list, kinetics_comp_ptr->count_list)
 {
-	rate_name = kinetics_comp_ptr->rate_name;
+	this->set_rate_name(kinetics_comp_ptr->rate_name);
 	tol = kinetics_comp_ptr->tol;
 	m = kinetics_comp_ptr->m;
 	m0 = kinetics_comp_ptr->m0;
@@ -71,7 +70,10 @@ struct kinetics_comp *
 	for (std::map < std::string, cxxKineticsComp >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		kinetics_comp_ptr[i].rate_name = (*it).second.rate_name;
+		if ((*it).second.rate_name.size() == 0)
+			kinetics_comp_ptr[i].rate_name = NULL;
+		else
+			kinetics_comp_ptr[i].rate_name = string_hsave((*it).second.rate_name.c_str());
 		kinetics_comp_ptr[i].list = (*it).second.namecoef.name_coef();
 		kinetics_comp_ptr[i].count_list = (int) (*it).second.namecoef.size();
 		kinetics_comp_ptr[i].tol = (*it).second.tol;
@@ -255,14 +257,14 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		case 0:				// rate_name
 			if (!(parser.get_iss() >> str))
 			{
-				this->rate_name = NULL;
+				this->rate_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for rate_name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->rate_name = string_hsave(str.c_str());
+				this->rate_name = str;
 			}
 			rate_name_defined = true;
 			break;
@@ -401,7 +403,7 @@ cxxKineticsComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	extern cxxDictionary dictionary;
 	int i = *ii;
 	int d = *dd;
-	this->rate_name = dictionary.int2char(ints[i++]);
+	this->rate_name = dictionary.int2stdstring(ints[i++]);
 	this->namecoef.mpi_unpack(ints, &i, doubles, &d);
 	this->tol = doubles[d++];
 	this->m = doubles[d++];
@@ -422,11 +424,11 @@ cxxKineticsComp::add(const cxxKineticsComp & addee, double extensive)
 {
 	if (extensive == 0.0)
 		return;
-	if (addee.rate_name == NULL)
+	if (addee.rate_name.size() == 0)
 		return;
 	// this and addee must have same name
 	// otherwise generate a new KineticsComp with multiply
-	if (this->rate_name == NULL && addee.rate_name == NULL)
+	if (this->rate_name.size() == 0 && addee.rate_name.size() == 0)
 	{
 		return;
 	}

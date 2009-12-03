@@ -98,7 +98,7 @@ cxxSolutionIsotopeList::cxxSolutionIsotopeList2isotope()
 			 it != this->end(); ++it)
 		{
 			iso[i].isotope_number = it->isotope_number;
-			iso[i].elt_name = it->elt_name;
+			iso[i].elt_name = string_hsave(it->elt_name.c_str());
 			iso[i].total = it->total;
 			iso[i].ratio = it->ratio;
 			iso[i].ratio_uncertainty = it->ratio_uncertainty;

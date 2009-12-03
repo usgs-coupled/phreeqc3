@@ -11,8 +11,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxSurfaceComp
 {
 
@@ -24,17 +22,38 @@ class cxxSurfaceComp
 
 
 	struct master *get_master();
-	char *get_phase_name() const
+	const std::string &get_phase_name() const
 	{
 		return this->phase_name;
 	}
-	char *get_rate_name() const
+	void set_phase_name(char * f) 
+	{
+		if (f != NULL)
+			this->phase_name = std::string(f);
+		else
+			this->phase_name.clear();
+	}
+	const std::string &get_rate_name() const
 	{
 		return this->rate_name;
 	}
-	char *get_formula() const
+	void set_rate_name(char * f) 
+	{
+		if (f != NULL)
+			this->rate_name = std::string(f);
+		else
+			this->rate_name.clear();
+	}
+	const std::string &get_formula() const
 	{
 		return this->formula;
+	}
+	void set_formula(char * f) 
+	{
+		if (f != NULL)
+			this->formula = std::string(f);
+		else
+			this->formula.clear();
 	}
 	double get_charge_balance() const
 	{
@@ -61,12 +80,26 @@ class cxxSurfaceComp
 	void add(const cxxSurfaceComp & comp, double extensive);
 	void multiply(double extensive);
 
-	char *charge_name()
+	std::string charge_name()
 	{
-		return (get_charge_name(this->formula));
+		char * str = string_hsave(this->formula.c_str());
+		return (get_charge_name(str));
 	};
 
-	static char *get_charge_name(char *token)
+	//static std::string &get_charge_name(char *token)
+	//{
+	//	char name[100];
+	//	int l;
+	//	char *ptr1 = token;
+	//	get_elt(&ptr1, name, &l);
+	//	ptr1 = strchr(name, '_');
+	//	if (ptr1 != NULL)
+	//	{
+	//		ptr1[0] = '\0';
+	//	}
+	//	return (string_hsave(name));
+	//};
+	static std::string get_charge_name(char *token)
 	{
 		char name[100];
 		int l;
@@ -77,27 +110,26 @@ class cxxSurfaceComp
 		{
 			ptr1[0] = '\0';
 		}
-		return (string_hsave(name));
+		return (std::string(name));
 	};
-
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 
   protected:
-	char *formula;
-	cxxNameDouble formula_totals;
-	double formula_z;
-	double moles;
-	cxxNameDouble totals;
-	double la;
-	//int charge_number;
-	double charge_balance;
-	char *phase_name;
-	double phase_proportion;
-	char *rate_name;
-	double Dw;
+	  std::string formula;
+	  cxxNameDouble formula_totals;
+	  double formula_z;
+	  double moles;
+	  cxxNameDouble totals;
+	  double la;
+	  //int charge_number;
+	  double charge_balance;
+	  std::string phase_name;
+	  double phase_proportion;
+	  std::string rate_name;
+	  double Dw;
   public:
 
 };

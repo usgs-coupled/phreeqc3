@@ -177,7 +177,7 @@ cxxExchange::get_related_phases()
 	for (std::map < std::string, cxxExchComp >::const_iterator it =
 		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
 	{
-		if ((*it).second.get_phase_name() == NULL)
+		if ((*it).second.get_phase_name().size() == 0)
 			continue;
 		return (true);
 	}
@@ -190,7 +190,7 @@ cxxExchange::get_related_rate()
 	for (std::map < std::string, cxxExchComp >::const_iterator it =
 		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
 	{
-		if ((*it).second.get_rate_name() == NULL)
+		if ((*it).second.get_rate_name().size() == 0)
 			continue;
 		return (true);
 	}

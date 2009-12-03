@@ -39,7 +39,7 @@ cxxSolution(solution_ptr)
 		//, pe(cxxPe_Data::alloc())
 {
 	density = solution_ptr->density;
-	units = solution_ptr->units;
+	this->set_units(solution_ptr->units);
 	// totals
 	for (int i = 0; solution_ptr->totals[i].description != NULL; i++)
 	{
@@ -66,7 +66,10 @@ cxxISolution::cxxISolution2solution()
 	struct solution *soln_ptr = this->cxxSolution2solution();
 	soln_ptr->new_def = TRUE;
 	soln_ptr->density = this->density;
-	soln_ptr->units = string_hsave(this->units.c_str());
+	if (this->units.size() == 0)
+		soln_ptr->units = NULL;
+	else
+		soln_ptr->units = string_hsave(this->units.c_str());
 	soln_ptr->default_pe = this->default_pe;
 	// pe
 	soln_ptr->pe = (struct pe_data *) pe_data_free(soln_ptr->pe);
@@ -85,16 +88,16 @@ cxxISolution::ConvertUnits()
 {
 	double sum_solutes = 0;
 	// foreach conc
-	std::map < char *, cxxISolutionComp, CHARSTAR_LESS >::iterator iter =
+	std::map < std::string, cxxISolutionComp >::iterator iter =
 		this->comps.begin();
 	for (; iter != this->comps.end(); ++iter)
 	{
-		struct master *master_ptr = master_bsearch(iter->first);
+		struct master *master_ptr = master_bsearch(iter->first.c_str());
 		if (master_ptr != NULL && (master_ptr->minor_isotope == TRUE))
 			continue;
 		//if (iter->second.get_description() == "H(1)" || iter->second.get_description() == "E") continue;
-		if (strcmp(iter->second.get_description(), "H(1)") == 0
-			|| strcmp(iter->second.get_description(), "E"))
+		if (strcmp(iter->second.get_description().c_str(), "H(1)") == 0
+			|| strcmp(iter->second.get_description().c_str(), "E"))
 			continue;
 		if (iter->second.get_input_conc() <= 0.0)
 			continue;

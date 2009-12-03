@@ -10,8 +10,6 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
-
 class cxxExchComp
 {
 
@@ -31,13 +29,16 @@ class cxxExchComp
 
 	void read_raw(CParser & parser, bool check=true);
 
-	char *get_formula() const
+	const std::string &get_formula() const
 	{
 		return this->formula;
 	}
 	void set_formula(char *cstring)
 	{
-		this->formula = cstring;
+		if (cstring != NULL)
+			this->formula = std::string(cstring);
+		else
+			this->formula.clear();
 	}
 	double get_moles() const
 	{
@@ -63,13 +64,16 @@ class cxxExchComp
 	{
 		this->charge_balance = d;
 	}
-	char *get_phase_name() const
+	const std::string &get_phase_name() const
 	{
 		return this->phase_name;
 	}
 	void set_phase_name(char *cstring)
 	{
-		this->phase_name = cstring;
+		if (cstring != NULL)
+			this->phase_name = std::string(cstring);
+		else
+			this->phase_name.clear();
 	}
 	double get_phase_proportion() const
 	{
@@ -79,13 +83,16 @@ class cxxExchComp
 	{
 		this->phase_proportion = d;
 	}
-	char *get_rate_name() const
+	const std::string &get_rate_name() const
 	{
 		return this->rate_name;
 	}
 	void set_rate_name(char *cstring)
 	{
-		this->rate_name = cstring;
+		if (cstring != NULL)
+			this->rate_name = std::string(cstring);
+		else
+			this->rate_name.clear();
 	}
 	double get_formula_z() const
 	{
@@ -135,15 +142,15 @@ class cxxExchComp
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
   protected:
-	char *formula;
+	std::string formula;
 	double moles;
 	cxxNameDouble formula_totals;
 	cxxNameDouble totals;
 	double la;
 	double charge_balance;
-	char *phase_name;
+	std::string phase_name;
 	double phase_proportion;
-	char *rate_name;
+	std::string rate_name;
 	double formula_z;			// charge on formula
 
   public:

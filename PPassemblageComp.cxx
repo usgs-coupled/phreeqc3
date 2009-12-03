@@ -25,8 +25,6 @@ cxxPPassemblageComp::cxxPPassemblageComp()
 	// default constructor for cxxPPassemblageComp 
 	//
 {
-	name = NULL;
-	add_formula = NULL;
 	si = 0;
 	moles = 0;
 	delta = 0;
@@ -41,8 +39,8 @@ cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase * pure_phase_ptr)
 	// constructor for cxxPPassemblageComp from struct pure_phase
 	//
 {
-	name = pure_phase_ptr->name;
-	add_formula = pure_phase_ptr->add_formula;
+	this->set_name(pure_phase_ptr->name);
+	this->set_add_formula(pure_phase_ptr->add_formula);
 	si = pure_phase_ptr->si;
 	moles = pure_phase_ptr->moles;
 	delta = pure_phase_ptr->delta;
@@ -60,7 +58,7 @@ struct phase *
 cxxPPassemblageComp::get_phase()
 {
 	int i;
-	return phase_bsearch(this->name, &i, FALSE);
+	return phase_bsearch(this->name.c_str(), &i, FALSE);
 }
 
 struct pure_phase *
@@ -80,8 +78,14 @@ struct pure_phase *
 		 it != el.end(); ++it)
 	{
 		pure_phase_ptr[i].phase = (*it).second.get_phase();
-		pure_phase_ptr[i].name = (*it).second.name;
-		pure_phase_ptr[i].add_formula = (*it).second.add_formula;
+		if ((*it).second.name.size() == 0)
+			pure_phase_ptr[i].name = NULL;
+		else
+			pure_phase_ptr[i].name = string_hsave((*it).second.name.c_str());
+		if ((*it).second.add_formula.size() == 0)
+			pure_phase_ptr[i].add_formula = NULL;
+		else
+			pure_phase_ptr[i].add_formula = string_hsave((*it).second.add_formula.c_str());
 		pure_phase_ptr[i].si = (*it).second.si;
 		pure_phase_ptr[i].moles = (*it).second.moles;
 		pure_phase_ptr[i].delta = (*it).second.delta;
@@ -143,12 +147,10 @@ cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Pure_Phase element and attributes
 
-	if (this->name != NULL)
-		s_oss << indent0 << "-name                  " << this->
-			name << std::endl;
-	if (this->add_formula != NULL)
-		s_oss << indent1 << "-add_formula           " << this->
-			add_formula << std::endl;
+	if (this->name.size() != 0)
+		s_oss << indent0 << "-name                  " << this->name << std::endl;
+	if (this->add_formula.size() != 0)
+		s_oss << indent1 << "-add_formula           " << this->add_formula << std::endl;
 	s_oss << indent1 << "-si                    " << this->si << std::endl;
 	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
 	s_oss << indent1 << "-delta                 " << this->delta << std::endl;
@@ -218,14 +220,14 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		case 0:				// name
 			if (!(parser.get_iss() >> str))
 			{
-				this->name = NULL;
+				this->name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->name = string_hsave(str.c_str());
+				this->name = str;
 			}
 			name_defined = true;
 			break;
@@ -233,14 +235,14 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		case 1:				// add_formula
 			if (!(parser.get_iss() >> str))
 			{
-				this->add_formula = NULL;
+				this->add_formula.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for add_formula.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->add_formula = string_hsave(str.c_str());
+				this->add_formula = str;
 			}
 			break;
 
@@ -418,8 +420,8 @@ cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	extern cxxDictionary dictionary;
 	int i = *ii;
 	int d = *dd;
-	this->name = dictionary.int2char(ints[i++]);
-	this->add_formula = dictionary.int2char(ints[i++]);
+	this->name = dictionary.int2stdstring(ints[i++]);
+	this->add_formula = dictionary.int2stdstring(ints[i++]);
 	this->si = doubles[d++];
 	this->moles = doubles[d++];
 	this->delta = doubles[d++];
@@ -437,11 +439,11 @@ cxxPPassemblageComp::totalize()
 {
 	this->totals.clear();
 	// component structures
-	if (this->add_formula != NULL)
+	if (this->add_formula.size() != 0)
 		return;
 	struct phase *phase_ptr;
 	int l;
-	phase_ptr = phase_bsearch(this->name, &l, FALSE);
+	phase_ptr = phase_bsearch(this->name.c_str(), &l, FALSE);
 	if (phase_ptr != NULL)
 	{
 		cxxNameDouble phase_formula(phase_ptr->next_elt);
@@ -461,7 +463,7 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 	double ext1, ext2, f1, f2;
 	if (extensive == 0.0)
 		return;
-	if (addee.name == NULL)
+	if (addee.name.size() == 0)
 		return;
 	// this and addee must have same name
 	// otherwise generate a new PPassemblagComp with multiply
@@ -481,7 +483,7 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 	//char * name;
 	//char *add_formula;
 
-	if (this->name == NULL && addee.name == NULL)
+	if (this->name.size() == 0 && addee.name.size() == 0)
 	{
 		return;
 	}

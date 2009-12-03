@@ -30,9 +30,9 @@ cxxExchComp::cxxExchComp()
 	totals.type = cxxNameDouble::ND_ELT_MOLES;
 	la = 0.0;
 	charge_balance = 0.0;
-	phase_name = NULL;
+	//phase_name = NULL;
 	phase_proportion = 0.0;
-	rate_name = NULL;
+	//rate_name = NULL;
 	formula_z = 0.0;
 }
 
@@ -43,15 +43,15 @@ cxxExchComp::cxxExchComp(struct exch_comp * exch_comp_ptr)
 :
 formula_totals(exch_comp_ptr->formula_totals), totals(exch_comp_ptr->totals)
 {
-	formula = exch_comp_ptr->formula;
+	this->set_formula(exch_comp_ptr->formula);
 	moles = exch_comp_ptr->moles;
 	// totals in constructor
 	//formula_totals in constructor
 	la = exch_comp_ptr->la;
 	charge_balance = exch_comp_ptr->charge_balance;
-	phase_name = exch_comp_ptr->phase_name;
+	this->set_phase_name(exch_comp_ptr->phase_name);
 	phase_proportion = exch_comp_ptr->phase_proportion;
-	rate_name = exch_comp_ptr->rate_name;
+	this->set_rate_name(exch_comp_ptr->rate_name);
 	formula_z = exch_comp_ptr->formula_z;
 }
 
@@ -125,12 +125,13 @@ struct master *
 cxxExchComp::get_master()
 {
 	struct master *master_ptr = NULL;
-	for (std::map < char *, double, CHARSTAR_LESS >::iterator it =
+	for (std::map < std::string, double >::iterator it =
 		 totals.begin(); it != totals.end(); it++)
 	{
 
 		/* Find master species */
-		char *eltName = it->first;
+		char *eltName = string_hsave(it->first.c_str());
+		assert(it->first.size() != 0);
 		struct element *elt_ptr = element_store(eltName);
 		if (elt_ptr->master == NULL)
 		{
@@ -148,12 +149,13 @@ cxxExchComp::get_master()
 	}
 	if (master_ptr == NULL)
 	{
-		for (std::map < char *, double, CHARSTAR_LESS >::iterator it =
+		for (std::map < std::string, double >::iterator it =
 			 this->formula_totals.begin(); it != formula_totals.end(); it++)
 		{
 
 			/* Find master species */
-			char *eltName = it->first;
+			char *eltName = string_hsave(it->first.c_str());
+			assert(it->first.size() != 0);
 			struct element *elt_ptr = element_store(eltName);
 			if (elt_ptr->master == NULL)
 			{
@@ -203,16 +205,25 @@ struct exch_comp *
 	for (std::map < std::string, cxxExchComp >::iterator it = el.begin(); it != el.end();
 		 ++it)
 	{
-		exch_comp_ptr[i].formula = (*it).second.formula;
+		if ((*it).second.formula.size() == 0)
+			exch_comp_ptr[i].formula = NULL;
+		else
+			exch_comp_ptr[i].formula = string_hsave((*it).second.formula.c_str());
 		exch_comp_ptr[i].formula_z = (*it).second.formula_z;
 		exch_comp_ptr[i].totals = (*it).second.totals.elt_list();
 		exch_comp_ptr[i].moles = (*it).second.moles;
 		exch_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list();
 		exch_comp_ptr[i].la = (*it).second.la;
 		exch_comp_ptr[i].charge_balance = (*it).second.charge_balance;
-		exch_comp_ptr[i].phase_name = (*it).second.phase_name;
+		if ((*it).second.phase_name.size() == 0)
+			exch_comp_ptr[i].phase_name = NULL;
+		else
+			exch_comp_ptr[i].phase_name = string_hsave((*it).second.phase_name.c_str());
 		exch_comp_ptr[i].phase_proportion = (*it).second.phase_proportion;
-		exch_comp_ptr[i].rate_name = (*it).second.rate_name;
+		if ((*it).second.rate_name.size() == 0)
+			exch_comp_ptr[i].rate_name = NULL;
+		else
+			exch_comp_ptr[i].rate_name = string_hsave((*it).second.rate_name.c_str());
 		exch_comp_ptr[i].master = (*it).second.get_master();
 		i++;
 	}
@@ -242,12 +253,11 @@ cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent0 << "la=\"" << this->la << "\"" << std::endl;
 	s_oss << indent0 << "charge_balance=\"" << this->
 		charge_balance << "\"" << std::endl;
-	if (this->phase_name != NULL)
+	if (this->phase_name.size() != 0)
 	{
-		s_oss << indent0 << "phase_name=\"" << this->
-			phase_name << "\"" << std::endl;
+		s_oss << indent0 << "phase_name=\"" << this->phase_name << "\"" << std::endl;
 	}
-	if (this->rate_name != NULL)
+	if (this->rate_name.size() != 0)
 	{
 		s_oss << indent0 << "rate_name=\"" << this->
 			rate_name << "\"" << std::endl;
@@ -297,11 +307,11 @@ cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
 	s_oss << indent1 << "-la                    " << this->la << std::endl;
 
-	if (this->phase_name != NULL)
+	if (this->phase_name.size() != 0)
 	{
 		s_oss << indent1 << "-phase_name            " << this->phase_name << std::endl;
 	}
-	if (this->rate_name != NULL)
+	if (this->rate_name.size() != 0)
 	{
 		s_oss << indent1 << "-rate_name             " << this->rate_name << std::endl;
 	}
@@ -373,14 +383,14 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 		case 0:				// formula
 			if (!(parser.get_iss() >> str))
 			{
-				this->formula = NULL;
+				this->formula.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for formula.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->formula = string_hsave(str.c_str());
+				this->formula = str;
 			}
 			formula_defined = true;
 			break;
@@ -421,28 +431,28 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 		case 4:				// phase_name
 			if (!(parser.get_iss() >> str))
 			{
-				this->phase_name = NULL;
+				this->phase_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for phase_name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->phase_name = string_hsave(str.c_str());
+				this->phase_name = str;
 			}
 			break;
 
 		case 5:				// rate_name
 			if (!(parser.get_iss() >> str))
 			{
-				this->rate_name = NULL;
+				this->rate_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for rate_name.",
 								 CParser::OT_CONTINUE);
 			}
 			else
 			{
-				this->rate_name = string_hsave(str.c_str());
+				this->rate_name = str;
 			}
 			break;
 
@@ -538,7 +548,7 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 	double ext1, ext2, f1, f2;
 	if (extensive == 0.0)
 		return;
-	if (addee.formula == NULL)
+	if (addee.formula.size() == 0)
 		return;
 	// this and addee must have same formula
 	// otherwise generate a new exchcomp with multiply
@@ -558,13 +568,13 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 
 	//char * formula;
 	//cxxNameDouble formula_totals;
-	if (this->formula == NULL && addee.formula == NULL)
+	if (this->formula.size() == 0 && addee.formula.size() == 0)
 	{
 		return;
 	}
 	assert(this->formula == addee.formula);
 	assert(this->formula_z == addee.formula_z);
-	if (this->formula == NULL && addee.formula != NULL)
+	if (this->formula.size() == 0 && addee.formula.size() != 0)
 	{
 		this->formula = addee.formula;
 		this->formula_totals = addee.formula_totals;
@@ -589,7 +599,7 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 		input_error++;
 		return;
 	}
-	else if (this->phase_name != NULL)
+	else if (this->phase_name.size() != 0)
 	{
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
@@ -605,14 +615,14 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 		input_error++;
 		return;
 	}
-	else if (this->rate_name != NULL)
+	else if (this->rate_name.size() != 0)
 	{
 		//double phase_proportion;
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
 	}
-	if ((this->rate_name != NULL && addee.phase_name != NULL) ||
-		(this->phase_name != NULL && addee.rate_name != NULL))
+	if ((this->rate_name.size() != 0 && addee.phase_name.size() != 0) ||
+		(this->phase_name.size() != 0 && addee.rate_name.size() != 0))
 	{
 		std::ostringstream oss;
 		oss <<
@@ -665,15 +675,15 @@ cxxExchComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	extern cxxDictionary dictionary;
 	int i = *ii;
 	int d = *dd;
-	this->formula = dictionary.int2char(ints[i++]);
+	this->formula = dictionary.int2stdstring(ints[i++]);
 	this->moles = doubles[d++];
 	this->formula_totals.mpi_unpack(ints, &i, doubles, &d);
 	this->totals.mpi_unpack(ints, &i, doubles, &d);
 	this->la = doubles[d++];
 	this->charge_balance = doubles[d++];
-	this->phase_name = dictionary.int2char(ints[i++]);
+	this->phase_name = dictionary.int2stdstring(ints[i++]);
 	this->phase_proportion = doubles[d++];
-	this->rate_name = dictionary.int2char(ints[i++]);
+	this->rate_name = dictionary.int2stdstring(ints[i++]);
 	this->formula_z = doubles[d++];
 	*ii = i;
 	*dd = d;

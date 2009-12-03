@@ -8,7 +8,6 @@ extern int input_error;
 #include <sstream>				// std::istringstream std::ostringstream
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
-#include "char_star.h"
 
 class CParser
 {
@@ -281,9 +280,9 @@ class CParser
 
 	STATUS_TYPE parse_couple(std::string & token);
 
-	STATUS_TYPE addPair(std::map < char *, double, CHARSTAR_LESS > &totals,
-						std::istream::pos_type & pos);
-	STATUS_TYPE addPair(std::map < char *, double >&totals,
+	//STATUS_TYPE addPair(std::map < char *, double, CHARSTAR_LESS > &totals,
+	//					std::istream::pos_type & pos);
+	STATUS_TYPE addPair(std::map < std::string, double >&totals,
 						std::istream::pos_type & pos);
 
   protected:
