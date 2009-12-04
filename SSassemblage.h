@@ -2,8 +2,6 @@
 #define SSASSEMBLAGE_H_INCLUDED
 
 #include "NumKeyword.h"
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
@@ -11,7 +9,11 @@
 #include <vector>				// std::vector
 
 #include "SSassemblageSS.h"
+//#include "NameDouble.h"
+//class cxxSSassemblageSS;
+
 #include "cxxMix.h"
+//class cxxMix;
 
 class cxxSSassemblage:public cxxNumKeyword
 {

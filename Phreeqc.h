@@ -31,6 +31,7 @@
 #define extern
 #include "p2c.h"
 #undef extern 
+#include "global_structures.h"
 
 class Phreeqc
 {
@@ -39,57 +40,57 @@ public:
 	~Phreeqc(void);
 
 
-private:
-
-struct _generic_N_Vector;
-struct calculate_value;
-struct conc;
-struct CVodeMemRec;
-struct element;
-struct exchange;
-struct exch_comp;
-struct elt_list;
-struct gas_phase;
-struct gas_comp;
-struct inverse;
-struct inv_elts;
-struct inv_phases;
-struct inv_isotope;
-struct irrev;
-struct isotope;
-struct kinetics;
-struct kinetics_comp;
-struct LOC_exec;
-struct master;
-struct master_activity;
-struct master_isotope;
-struct mix;
-struct mix_comp;
-struct name_coef;
-struct pe_data;
-struct phase;
-struct PHRQMemHeader;
-struct pitz_param;
-struct pp_assemblage;
-struct pure_phase;
-struct reaction;
-struct reaction_temp;
-struct rxn_token;
-struct rxn_token_temp;
-struct solution;
-struct species;
-struct s_s;
-struct s_s_assemblage;
-struct s_s_comp;
-struct species_diff_layer;
-struct surface;
-struct surface_comp;
-struct surface_charge;
-struct surface_diff_layer;
-struct theta_param;
-struct tokenrec;
-struct varrec;
-struct unknown;
+//private:
+//
+//struct _generic_N_Vector;
+//struct calculate_value;
+//struct conc;
+//struct CVodeMemRec;
+//struct element;
+//struct exchange;
+//struct exch_comp;
+//struct elt_list;
+//struct gas_phase;
+//struct gas_comp;
+//struct inverse;
+//struct inv_elts;
+//struct inv_phases;
+//struct inv_isotope;
+//struct irrev;
+//struct isotope;
+//struct kinetics;
+//struct kinetics_comp;
+//struct LOC_exec;
+//struct master;
+//struct master_activity;
+//struct master_isotope;
+//struct mix;
+//struct mix_comp;
+//struct name_coef;
+//struct pe_data;
+//struct phase;
+//struct PHRQMemHeader;
+//struct pitz_param;
+//struct pp_assemblage;
+//struct pure_phase;
+//struct reaction;
+//struct reaction_temp;
+//struct rxn_token;
+//struct rxn_token_temp;
+//struct solution;
+//struct species;
+//struct s_s;
+//struct s_s_assemblage;
+//struct s_s_comp;
+//struct species_diff_layer;
+//struct surface;
+//struct surface_comp;
+//struct surface_charge;
+//struct surface_diff_layer;
+//struct theta_param;
+//struct tokenrec;
+//struct varrec;
+//struct unknown;
 
 #define PITZER_EXTERNAL 
 #include "pitzer.h"

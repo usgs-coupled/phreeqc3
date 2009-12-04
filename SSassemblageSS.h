@@ -2,8 +2,6 @@
 #define SSASSEMBLAGESS_H_INCLUDED
 
 #include "NameDouble.h"
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
