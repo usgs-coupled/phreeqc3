@@ -8,10 +8,13 @@
 #include "GasPhase.h"
 #include "cxxKinetics.h"
 #include "PPassemblage.h"
-#include "SSassemblage.h"
+//#include "SSassemblage.h"
+class NameDouble;
+class cxxSSassemblageSS;
 #include "Surface.h"
 #include "System.h"
-#include "cxxMix.h"
+//#include "cxxMix.h"
+class cxxMix;
 #include "Reaction.h"
 #include "Temperature.h"
 
