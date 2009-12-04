@@ -12,8 +12,21 @@
 #include <fstream>
 #include <iostream>				// std::cout std::cerr
 #include "Utils.h"				// define first
+#include "NameDouble.h"
 #include "StorageBin.h"
-#include "System.h"
+#include "SSassemblage.h"
+#include "Solution.h"
+#include "Exchange.h"
+#include "GasPhase.h"
+#include "cxxKinetics.h"
+#include "PPassemblage.h"
+#include "SSassemblageSS.h"
+#include "SSassemblage.h"
+#include "Surface.h"
+#include "cxxMix.h"
+#include "Reaction.h"
+#include "Temperature.h"
+
 #define EXTERNAL extern
 #include "global.h"
 #include "phqalloc.h"
@@ -100,7 +113,261 @@ cxxStorageBin::cxxStorageBin(struct Use *use_ptr)
 cxxStorageBin::~cxxStorageBin()
 {
 }
+cxxSolution *
+cxxStorageBin::getSolution(int n_user)
+{
+	if (this->Solutions.find(n_user) != this->Solutions.end())
+	{
+		return (&(this->Solutions.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setSolution(int n_user, cxxSolution * entity)
+{
+	if (entity == NULL)
+		return;
+	Solutions[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeSolution(int n_user)
+{
+	Solutions.erase(n_user);
+}
 
+cxxExchange *
+cxxStorageBin::getExchange(int n_user)
+{
+	if (this->Exchangers.find(n_user) != this->Exchangers.end())
+	{
+		return (&(this->Exchangers.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setExchange(int n_user, cxxExchange * entity)
+{
+	if (entity == NULL)
+		return;
+	Exchangers[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeExchange(int n_user)
+{
+	Exchangers.erase(n_user);
+}
+
+cxxPPassemblage *
+cxxStorageBin::getPPassemblage(int n_user)
+{
+	if (this->PPassemblages.find(n_user) != this->PPassemblages.end())
+	{
+		return (&(this->PPassemblages.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setPPassemblage(int n_user, cxxPPassemblage * entity)
+{
+	if (entity == NULL)
+		return;
+	PPassemblages[n_user] = *entity;
+}
+void 
+cxxStorageBin::removePPassemblage(int n_user)
+{
+	PPassemblages.erase(n_user);
+}
+
+cxxGasPhase *
+cxxStorageBin::getGasPhase(int n_user)
+{
+	if (this->GasPhases.find(n_user) != this->GasPhases.end())
+	{
+		return (&(this->GasPhases.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setGasPhase(int n_user, cxxGasPhase * entity)
+{
+	if (entity == NULL)
+		return;
+	GasPhases[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeGasPhase(int n_user)
+{
+	GasPhases.erase(n_user);
+}
+
+cxxSSassemblage *
+cxxStorageBin::getSSassemblage(int n_user)
+{
+	if (this->SSassemblages.find(n_user) != this->SSassemblages.end())
+	{
+		return (&(this->SSassemblages.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setSSassemblage(int n_user, cxxSSassemblage * entity)
+{
+	if (entity == NULL)
+		return;
+	SSassemblages[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeSSassemblage(int n_user)
+{
+	SSassemblages.erase(n_user);
+}
+
+cxxKinetics *
+cxxStorageBin::getKinetics(int n_user)
+{
+	if (this->Kinetics.find(n_user) != this->Kinetics.end())
+	{
+		return (&(this->Kinetics.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setKinetics(int n_user, cxxKinetics * entity)
+{
+	if (entity == NULL)
+		return;
+	Kinetics[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeKinetics(int n_user)
+{
+	Kinetics.erase(n_user);
+}
+
+cxxSurface *
+cxxStorageBin::getSurface(int n_user)
+{
+	if (this->Surfaces.find(n_user) != this->Surfaces.end())
+	{
+		return (&(this->Surfaces.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setSurface(int n_user, cxxSurface * entity)
+{
+	if (entity == NULL)
+		return;
+	Surfaces[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeSurface(int n_user)
+{
+	Surfaces.erase(n_user);
+}
+
+cxxMix *
+cxxStorageBin::getMix(int n_user)
+{
+	if (this->Mixes.find(n_user) != this->Mixes.end())
+	{
+		return (&(this->Mixes.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setMix(int n_user, cxxMix * entity)
+{
+	if (entity == NULL)
+		return;
+	Mixes[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeMix(int n_user)
+{
+	Mixes.erase(n_user);
+}
+
+cxxReaction *
+cxxStorageBin::getReaction(int n_user)
+{
+	if (this->Reactions.find(n_user) != this->Reactions.end())
+	{
+		return (&(this->Reactions.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setReaction(int n_user, cxxReaction * entity)
+{
+	if (entity == NULL)
+		return;
+	Reactions[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeReaction(int n_user)
+{
+	Reactions.erase(n_user);
+}
+
+cxxTemperature *
+cxxStorageBin::getTemperature(int n_user)
+{
+	if (this->Temperatures.find(n_user) != this->Temperatures.end())
+	{
+		return (&(this->Temperatures.find(n_user)->second));
+	}
+	return (NULL);
+}
+void 
+cxxStorageBin::setTemperature(int n_user, cxxTemperature * entity)
+{
+	if (entity == NULL)
+		return;
+	Temperatures[n_user] = *entity;
+}
+void 
+cxxStorageBin::removeTemperature(int n_user)
+{
+	Temperatures.erase(n_user);
+}
+
+const std::map < int, cxxSolution > &
+cxxStorageBin::getSolutions() const
+{
+	return this->Solutions;
+};
+const std::map < int, cxxExchange > &
+cxxStorageBin::getExchangers() const
+{
+	return this->Exchangers;
+};
+const std::map < int, cxxGasPhase > &
+cxxStorageBin::getGasPhases() const
+{
+	return this->GasPhases;
+};
+const std::map < int, cxxKinetics > &
+cxxStorageBin::getKinetics() const
+{
+	return this->Kinetics;
+};
+const std::map < int, cxxPPassemblage > &
+cxxStorageBin::getPPassemblages() const
+{
+	return this->PPassemblages;
+};
+const std::map < int, cxxSSassemblage > &
+cxxStorageBin::getSSassemblages() const
+{
+	return this->SSassemblages;
+};
+const std::map < int, cxxSurface > &
+cxxStorageBin::getSurfaces() const
+{
+	return this->Surfaces;
+};
 void
 cxxStorageBin::import_phreeqc(void)
 		//
