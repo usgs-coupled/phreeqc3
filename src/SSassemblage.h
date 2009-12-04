@@ -8,12 +8,12 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "SSassemblageSS.h"
-//#include "NameDouble.h"
-//class cxxSSassemblageSS;
+//#include "SSassemblageSS.h"
+#include "NameDouble.h"
+class cxxSSassemblageSS;
 
-#include "cxxMix.h"
-//class cxxMix;
+//#include "cxxMix.h"
+class cxxMix;
 
 class cxxSSassemblage:public cxxNumKeyword
 {
