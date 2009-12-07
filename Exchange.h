@@ -1,26 +1,25 @@
 #if !defined(EXCHANGE_H_INCLUDED)
 #define EXCHANGE_H_INCLUDED
 
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
-
+#include "NumKeyword.h"
 #include "ExchComp.h"
-#include "cxxMix.h"
+#include "NameDouble.h"
+class cxxMix;
 
 class cxxExchange:public cxxNumKeyword
 {
 
-  public:
+public:
 	cxxExchange();
 	cxxExchange(int n_user);
-	  cxxExchange(struct exchange *);
-	  cxxExchange(const std::map < int, cxxExchange > &exchange_map,
-				  cxxMix & mx, int n_user);
-	 ~cxxExchange();
+	cxxExchange(struct exchange *);
+	cxxExchange(const std::map < int, cxxExchange > &exchange_map,
+		cxxMix & mx, int n_user);
+	~cxxExchange();
 
 	struct exchange *cxxExchange2exchange();
 
@@ -34,25 +33,13 @@ class cxxExchange:public cxxNumKeyword
 
 	bool get_related_rate(void);
 
-	bool get_pitzer_exchange_gammas()
-	{
-		return this->pitzer_exchange_gammas;
-	}
-	void set_pitzer_exchange_gammas(bool b)
-	{
-		this->pitzer_exchange_gammas = b;
-	}
+	bool get_pitzer_exchange_gammas();
+	void set_pitzer_exchange_gammas(bool b);
 
-	std::map < std::string, cxxExchComp > &get_exchComps(void)
-	{
-		return (this->exchComps);
-	}
+	std::map < std::string, cxxExchComp > &get_exchComps(void);
 	void totalize();
 
-	const cxxNameDouble & get_totals() const
-	{
-		return totals;
-	};
+	const cxxNameDouble & get_totals() const;
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);

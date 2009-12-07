@@ -1,13 +1,16 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
-
-#include "ISolutionComp.h"
-#include "ISolution.h"
-#include "Utils.h"
 #include <cassert>
+
+#include "Utils.h"
+#if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "ISolutionComp.h"
 #include "phrqproto.h"
 #include "phqalloc.h"
 #include "output.h"

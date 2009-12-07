@@ -4,17 +4,22 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "PPassemblageComp.h"
-#include "Dictionary.h"
+#if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "PPassemblageComp.h"
+#include "Dictionary.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -365,15 +370,13 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		if (initial_moles_defined == false)
 		{
 			parser.incr_input_error();
-			parser.
-				error_msg("Initial_moles not defined for PPassemblageComp input.",
+			parser.error_msg("Initial_moles not defined for PPassemblageComp input.",
 				CParser::OT_CONTINUE);
 		}
 		if (dissolve_only_defined == false)
 		{
 			parser.incr_input_error();
-			parser.
-				error_msg("Dissolve_only not defined for PPassemblageComp input.",
+			parser.error_msg("Dissolve_only not defined for PPassemblageComp input.",
 				CParser::OT_CONTINUE);
 		}
 		/* don't check to maintain backward compatibility
@@ -388,8 +391,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		if (force_equality_defined == false)
 		{
 			parser.incr_input_error();
-			parser.
-				error_msg
+			parser.error_msg
 				("Force_equality not defined for PPassemblageComp input.",
 				CParser::OT_CONTINUE);
 		}

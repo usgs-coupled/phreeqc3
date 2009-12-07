@@ -9,16 +9,17 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
+#if !defined(PHREEQC_CLASS)
+#define EXTERNAL extern
+#include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
 #include "SSassemblage.h"
 #include "SSassemblageSS.h"
 #include "cxxMix.h"
-#if defined(PHREEQC_CLASS)
-#define CLASS_STATIC static
-#endif
-#include "global_structures.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
-
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

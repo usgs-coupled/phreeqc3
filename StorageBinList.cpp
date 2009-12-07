@@ -1,5 +1,7 @@
-#include "StorageBinList.h"
 #include <algorithm>			// std::replace
+#include "StorageBinList.h"
+#include "Parser.h"
+
 StorageBinListItem::StorageBinListItem(void)
 {
 	this->defined = false;

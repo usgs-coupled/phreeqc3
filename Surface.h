@@ -1,18 +1,16 @@
 #if !defined(SURFACE_H_INCLUDED)
 #define SURFACE_H_INCLUDED
 
-#include "NumKeyword.h"
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
 
+#include "NumKeyword.h"
 #include "SurfaceComp.h"
 #include "SurfaceCharge.h"
-#include "cxxMix.h"
+class cxxMix;
 
 class cxxSurface:public cxxNumKeyword
 {
