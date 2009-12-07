@@ -7,6 +7,9 @@
  *   INCLUDE FILES
  * ---------------------------------------------------------------------- */
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -32,7 +35,7 @@
 #include "p2c.h"
 #undef extern 
 #include "global_structures.h"
-
+#include "pitzer_structures.h"
 class Phreeqc
 {
 public:
@@ -830,6 +833,32 @@ void SetAxisScale(char *a, int c, char *v, int l);
 void SetChartTitle(char *s);
 #endif
 int next_keyword_or_option(const char **opt_list, int count_opt_list);
+
+// ReadClass.cxx
+ int read_solution_raw(void);
+ int read_exchange_raw(void);
+ int read_surface_raw(void);
+ int read_equilibrium_phases_raw(void);
+ int read_kinetics_raw(void);
+ int read_solid_solutions_raw(void);
+ int read_gas_phase_raw(void);
+ int read_reaction_raw(void);
+ int read_mix_raw(void);
+ int read_temperature_raw(void);
+ int read_dump(void);
+ int read_solution_modify(void);
+ int read_equilibrium_phases_modify(void);
+ int read_exchange_modify(void);
+ int read_surface_modify(void);
+ int read_solid_solutions_modify(void);
+ int read_gas_phase_modify(void);
+ int read_kinetics_modify(void);
+ int read_delete(void);
+ int read_run_cells(void);
+ int streamify_to_next_keyword(std::istringstream & lines);
+ int dump_entities(void);
+ int delete_entities(void);
+ int run_as_cells(void);
 
 // readtr.c -------------------------------
 
