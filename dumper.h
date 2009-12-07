@@ -4,8 +4,9 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>					// std::vector
-#include "Parser.h"
 #include "StorageBinList.h"
+class CParser;
+
 class dumper 
 {
 public:

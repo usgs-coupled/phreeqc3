@@ -4,18 +4,22 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
+#include <sstream>
 
-#include "ISolution.h"
-#include "ISolutionComp.h"
+#include "Utils.h" // define first
+#if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "ISolution.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
 
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
-#include <sstream>
 #ifdef ORCHESTRA
 extern void ORCH_write_chemistry_species(std::ostream & chemistry_dat);
 #endif

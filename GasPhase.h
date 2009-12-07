@@ -1,17 +1,15 @@
 #if !defined(GASPHASE_H_INCLUDED)
 #define GASPHASE_H_INCLUDED
 
-#include "NumKeyword.h"
-#include "NameDouble.h"
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "cxxMix.h"
+#include "NumKeyword.h"
+#include "NameDouble.h"
+class cxxMix;
 
 class cxxGasPhase:public cxxNumKeyword
 {

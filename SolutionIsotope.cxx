@@ -1,15 +1,19 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
-#include "SolutionIsotope.h"
-#include "Utils.h"
-#include "Parser.h"
-#define EXTERNAL extern
-#include "global.h"
-#include "phqalloc.h"
-#include "phrqproto.h"
 #include <cassert>
 #include <sstream>				// std::ostrstream
+
+#include "Utils.h"
+#if !defined(PHREEQC_CLASS)
+#define EXTERNAL extern
+#include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "SolutionIsotope.h"
+#include "phqalloc.h"
+#include "phrqproto.h"
 
 cxxSolutionIsotope::cxxSolutionIsotope(void):
 isotope_number(0.0)

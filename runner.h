@@ -2,8 +2,10 @@
 #define RUNNER_H_INCLUDED
 #include <set>					// std::set
 #include <string>				// std::string
-#include "Parser.h"
+
 #include "StorageBinList.h"
+class CParser;
+
 class runner
 {
 public:

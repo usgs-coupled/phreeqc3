@@ -6,9 +6,7 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-//#include "Utils.h"
-//#include "Parser.h"
-
+#include "System.h"
 class cxxSolution;
 class cxxExchange;
 class cxxGasPhase;
@@ -16,10 +14,8 @@ class cxxKinetics;
 class cxxPPassemblage;
 class cxxSSassemblage;
 class cxxSurface;
-#include "System.h"
 class cxxReaction;
 class cxxTemperature;
-
 
 class cxxStorageBin
 {

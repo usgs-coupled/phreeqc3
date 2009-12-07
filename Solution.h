@@ -1,18 +1,16 @@
 #if !defined(SOLUTION_H_INCLUDED)
 #define SOLUTION_H_INCLUDED
 
-#include "NumKeyword.h"
-#include "SolutionIsotopeList.h"
-#include "NameDouble.h"
-#include "cxxMix.h"
-
-//#define EXTERNAL extern
-//#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <vector>				// std::vector
 #include <iostream>
+
+#include "NumKeyword.h"
+#include "SolutionIsotopeList.h"
+#include "NameDouble.h"
+class cxxMix;
 
 class cxxSolution:public cxxNumKeyword
 {

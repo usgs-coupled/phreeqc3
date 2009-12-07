@@ -1,11 +1,6 @@
 #if !defined(ISOLUTION_H_INCLUDED)
 #define ISOLUTION_H_INCLUDED
 
-//#include "Parser.h"
-#include "ISolutionComp.h"
-#include "NumKeyword.h"
-#include "Solution.h"
-//#include "Isotope.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
@@ -15,6 +10,11 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+
+#include "ISolutionComp.h"
+#include "NumKeyword.h"
+#include "Solution.h"
+
 class cxxISolution:public cxxSolution
 {
 

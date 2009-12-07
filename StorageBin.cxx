@@ -4,14 +4,22 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
+#include <fstream>
+#include <iostream>				// std::cout std::cerr
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
+
 #ifdef USE_MPI
 //MPICH seems to require mpi.h to be first
 #include <mpi.h>
 #endif
-
-#include <fstream>
-#include <iostream>				// std::cout std::cerr
 #include "Utils.h"				// define first
+#if !defined(PHREEQC_CLASS)
+#define EXTERNAL extern
+#include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
 #include "NameDouble.h"
 #include "StorageBin.h"
 #include "SSassemblage.h"
@@ -26,14 +34,9 @@
 #include "cxxMix.h"
 #include "Reaction.h"
 #include "Temperature.h"
-
-#define EXTERNAL extern
-#include "global.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

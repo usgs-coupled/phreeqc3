@@ -9,6 +9,7 @@
 #include <vector>				// std::vector
 
 #include "Parser.h"
+
 class cxxNameDouble:public
 	std::map < std::string, double >
 {

@@ -4,18 +4,22 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
-
 #include <iostream>				// std::cout std::cerr
-#include "Utils.h"				// define first
-#include "Exchange.h"
-#include "ExchComp.h"
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
+
+#include "Utils.h" // define first
+#if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "cxxMix.h"
+#include "Exchange.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -551,10 +555,31 @@ cxxExchange::totalize()
 	this->totals.clear();
 	// component structures
 	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
-		 it != exchComps.end(); ++it)
+		it != exchComps.end(); ++it)
 	{
 		this->totals.add_extensive((*it).second.get_totals(), 1.0);
 		this->totals.add("Charge", (*it).second.get_charge_balance());
 	}
 	return;
 }
+bool 
+cxxExchange::get_pitzer_exchange_gammas()
+{
+	return this->pitzer_exchange_gammas;
+}
+void 
+cxxExchange::set_pitzer_exchange_gammas(bool b)
+{
+	this->pitzer_exchange_gammas = b;
+}
+
+std::map < std::string, cxxExchComp > &
+cxxExchange::get_exchComps(void)
+{
+	return (this->exchComps);
+}
+const cxxNameDouble & 
+cxxExchange::get_totals() const
+{
+	return totals;
+};

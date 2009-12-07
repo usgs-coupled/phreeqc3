@@ -1,18 +1,14 @@
 #if !defined(SOLUTIONISOTOPELIST_H_INCLUDED)
 #define SOLUTIONISOTOPELIST_H_INCLUDED
 
-//#define EXTERNAL extern
-#include "SolutionIsotope.h"
-//#include "global.h"
 #include <cassert>				// assert
 #include <string>				// std::string
 #include <list>					// std::list
 
-#include "Parser.h"
+#include "SolutionIsotope.h"
 
 class cxxSolutionIsotopeList:public
-	std::list <
-	cxxSolutionIsotope >
+	std::list <	cxxSolutionIsotope >
 {
 
 public:
@@ -29,7 +25,7 @@ public:
 protected:
 
 
-  public:
+public:
 
 
 };

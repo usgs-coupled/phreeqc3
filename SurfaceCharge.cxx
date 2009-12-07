@@ -4,26 +4,30 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
-
-#include "Utils.h"				// define first
-#include "SurfaceCharge.h"
-#include "Dictionary.h"
-#define EXTERNAL extern
-#include "global.h"
-#include "output.h"
-#include "phqalloc.h"
-#include "phrqproto.h"
 #include <cassert>				// assert
 #include <algorithm>			// std::sort
+
+#include "Utils.h"				// define first
+#if !defined(PHREEQC_CLASS)
+#define EXTERNAL extern
+#include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "SurfaceCharge.h"
+#include "Dictionary.h"
+#include "phqalloc.h"
+#include "phrqproto.h"
+#include "output.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 cxxSurfaceCharge::cxxSurfaceCharge()
-	//
-	// default constructor for cxxSurfaceCharge 
-	//
+//
+// default constructor for cxxSurfaceCharge 
+//
 {
 	specific_area = 0.0;
 	grams = 0.0;
@@ -38,10 +42,10 @@ cxxSurfaceCharge::cxxSurfaceCharge()
 }
 
 cxxSurfaceCharge::cxxSurfaceCharge(struct surface_charge *surf_charge_ptr)
-		//
-		// constructor for cxxSurfaceCharge from struct surface_charge
-		//
-	:
+//
+// constructor for cxxSurfaceCharge from struct surface_charge
+//
+:
 diffuse_layer_totals(surf_charge_ptr->diffuse_layer_totals)
 {
 	this->set_name(surf_charge_ptr->name);
@@ -61,7 +65,7 @@ cxxSurfaceCharge::~cxxSurfaceCharge()
 }
 
 struct master *
-cxxSurfaceCharge::get_psi_master()
+	cxxSurfaceCharge::get_psi_master()
 {
 	struct master *master_ptr = NULL;
 	std::string str = this->name;
@@ -81,9 +85,9 @@ cxxSurfaceCharge::get_psi_master()
 
 struct surface_charge *
 	cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSurfaceCharge > &el)
-		//
-		// Builds surface_charge structure from of cxxSurfaceCharge 
-		//
+	//
+	// Builds surface_charge structure from of cxxSurfaceCharge 
+	//
 {
 	struct surface_charge *surf_charge_ptr =
 		(struct surface_charge *)
@@ -93,7 +97,7 @@ struct surface_charge *
 
 	int i = 0;
 	for (std::map < std::string, cxxSurfaceCharge >::iterator it = el.begin();
-		 it != el.end(); ++it)
+		it != el.end(); ++it)
 	{
 		surf_charge_ptr[i].name = string_hsave((*it).second.name.c_str());
 		assert((*it).second.name.size() > 0);
@@ -265,7 +269,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for name.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			else
 			{
@@ -280,7 +284,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->specific_area = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for specific_area.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			specific_area_defined = true;
 			break;
@@ -291,7 +295,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->grams = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for grams.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			grams_defined = true;
 			break;
@@ -303,7 +307,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->charge_balance = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for charge_balance.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			charge_balance_defined = true;
 			break;
@@ -314,7 +318,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->mass_water = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for mass_water.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			mass_water_defined = true;
 			break;
@@ -326,7 +330,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->la_psi = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la_psi.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			la_psi_defined = true;
 			break;
@@ -340,7 +344,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for SurfaceCharge diffuse_layer_totals.",
-					 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			opt_save = 6;
 			break;
@@ -351,7 +355,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->la_psi1 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la_psi1.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			la_psi1_defined = true;
 			break;
@@ -362,7 +366,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->la_psi2 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la_psi.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			la_psi2_defined = true;
 			break;
@@ -373,7 +377,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->capacitance[0] = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for capacitance0.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			capacitance0_defined = true;
 			break;
@@ -384,7 +388,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->capacitance[1] = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for capacitance1.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			capacitance1_defined = true;
 			break;

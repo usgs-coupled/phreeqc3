@@ -1,5 +1,26 @@
-#include "System.h"
 #include <algorithm>			// std::replace 
+
+#if !defined(PHREEQC_CLASS)
+#define EXTERNAL extern
+#include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "System.h"
+#include "SSassemblage.h"
+#include "Solution.h"
+#include "Exchange.h"
+#include "GasPhase.h"
+#include "cxxKinetics.h"
+#include "PPassemblage.h"
+#include "SSassemblageSS.h"
+#include "SSassemblage.h"
+#include "Surface.h"
+#include "cxxMix.h"
+#include "Reaction.h"
+#include "Temperature.h"
+
+
 extern void ORCH_write_chemistry_species(std::ostream & chemistry_dat);
 cxxSystem::cxxSystem(void) 
 {
