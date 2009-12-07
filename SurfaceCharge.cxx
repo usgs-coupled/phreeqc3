@@ -65,7 +65,7 @@ cxxSurfaceCharge::~cxxSurfaceCharge()
 }
 
 struct master *
-	cxxSurfaceCharge::get_psi_master()
+cxxSurfaceCharge::get_psi_master()
 {
 	struct master *master_ptr = NULL;
 	std::string str = this->name;
@@ -84,7 +84,7 @@ struct master *
 }
 
 struct surface_charge *
-	cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSurfaceCharge > &el)
+cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSurfaceCharge > &el)
 	//
 	// Builds surface_charge structure from of cxxSurfaceCharge 
 	//
