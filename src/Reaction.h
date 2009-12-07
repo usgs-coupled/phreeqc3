@@ -1,15 +1,14 @@
 #if !defined(REACTION_H_INCLUDED)
 #define REACTION_H_INCLUDED
 
-#include "NumKeyword.h"
-#include "NameDouble.h"
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
+
+#include "NumKeyword.h"
+#include "NameDouble.h"
 
 class cxxReaction:public cxxNumKeyword
 {

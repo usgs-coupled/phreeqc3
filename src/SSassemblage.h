@@ -1,14 +1,14 @@
 #if !defined(SSASSEMBLAGE_H_INCLUDED)
 #define SSASSEMBLAGE_H_INCLUDED
 
-#include "NumKeyword.h"
+
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-//#include "SSassemblageSS.h"
+#include "NumKeyword.h"
 #include "NameDouble.h"
 class cxxSSassemblageSS;
 

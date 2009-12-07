@@ -4,26 +4,30 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "SurfaceComp.h"
-#include "Dictionary.h"
+#if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "SurfaceComp.h"
+#include "Dictionary.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 cxxSurfaceComp::cxxSurfaceComp()
-	//
-	// default constructor for cxxSurfaceComp 
-	//
+//
+// default constructor for cxxSurfaceComp 
+//
 {
 	formula_totals.type = cxxNameDouble::ND_ELT_MOLES;
 	formula_z = 0.0;
@@ -37,10 +41,10 @@ cxxSurfaceComp::cxxSurfaceComp()
 }
 
 cxxSurfaceComp::cxxSurfaceComp(struct surface_comp *surf_comp_ptr)
-		//
-		// constructor for cxxSurfaceComp from struct surface_comp
-		//
-	:
+//
+// constructor for cxxSurfaceComp from struct surface_comp
+//
+:
 formula_totals(surf_comp_ptr->formula_totals),
 totals(surf_comp_ptr->totals)
 {
@@ -61,12 +65,12 @@ cxxSurfaceComp::~cxxSurfaceComp()
 }
 
 struct master *
-cxxSurfaceComp::get_master()
+	cxxSurfaceComp::get_master()
 {
 	struct master *master_ptr = NULL;
 	//for (std::map <char *, double, CHARSTAR_LESS>::iterator it = totals.begin(); it != totals.end(); it++) {
 	for (cxxNameDouble::iterator it = this->totals.begin();
-		 it != this->totals.end(); it++)
+		it != this->totals.end(); it++)
 	{
 		/* Find master species */
 		char *eltName = string_hsave(it->first.c_str());
@@ -100,9 +104,9 @@ cxxSurfaceComp::get_master()
 
 struct surface_comp *
 	cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::map < std::string, cxxSurfaceComp > &el)
-		//
-		// Builds surface_comp structure from of cxxSurfaceComp 
-		//
+	//
+	// Builds surface_comp structure from of cxxSurfaceComp 
+	//
 {
 	struct surface_comp *surf_comp_ptr =
 		(struct surface_comp *)
@@ -112,7 +116,7 @@ struct surface_comp *
 
 	int i = 0;
 	for (std::map < std::string, cxxSurfaceComp >::iterator it = el.begin();
-		 it != el.end(); ++it)
+		it != el.end(); ++it)
 	{
 		surf_comp_ptr[i].formula = string_hsave((*it).second.formula.c_str());
 		assert((*it).second.formula.size() > 0);
@@ -306,7 +310,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->formula.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for formula.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			else
 			{
@@ -321,7 +325,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->moles = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for moles.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			moles_defined = true;
 			break;
@@ -332,7 +336,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->la = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			la_defined = true;
 			break;
@@ -343,7 +347,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->charge_number = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for charge_number.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			charge_number_defined = true;
 			break;
@@ -354,7 +358,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->charge_balance = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for charge_balance.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			charge_balance_defined = true;
 			break;
@@ -365,7 +369,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->phase_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for phase_name.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			else
 			{
@@ -379,7 +383,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->rate_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for rate_name.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			else
 			{
@@ -394,7 +398,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected numeric value for phase_proportion.",
-							  CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			break;
 
@@ -406,7 +410,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for SurfaceComp totals.",
-					 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			opt_save = 8;
 			break;
@@ -417,7 +421,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->formula_z = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for formula_z.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			formula_z_defined = true;
 			break;
@@ -430,7 +434,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for SurfaceComp formula totals.",
-					 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			opt_save = 10;
 			break;
@@ -441,7 +445,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->Dw = 0.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for Dw.",
-								 CParser::OT_CONTINUE);
+					CParser::OT_CONTINUE);
 			}
 			Dw_defined = true;
 			break;
@@ -658,3 +662,77 @@ cxxSurfaceComp::multiply(double extensive)
 	//char   *rate_name;
 	//double Dw;
 }
+const std::string &
+cxxSurfaceComp::get_phase_name() const
+{
+	return this->phase_name;
+}
+void 
+cxxSurfaceComp::set_phase_name(char * f) 
+{
+	if (f != NULL)
+		this->phase_name = std::string(f);
+	else
+		this->phase_name.clear();
+}
+const std::string &
+cxxSurfaceComp::get_rate_name() const
+{
+	return this->rate_name;
+}
+void 
+cxxSurfaceComp::set_rate_name(char * f) 
+{
+	if (f != NULL)
+		this->rate_name = std::string(f);
+	else
+		this->rate_name.clear();
+}
+const std::string &
+cxxSurfaceComp::get_formula() const
+{
+	return this->formula;
+}
+void 
+cxxSurfaceComp::set_formula(char * f) 
+{
+	if (f != NULL)
+		this->formula = std::string(f);
+	else
+		this->formula.clear();
+}
+double 
+cxxSurfaceComp::get_charge_balance() const
+{
+	return this->charge_balance;
+}
+void 
+cxxSurfaceComp::set_charge_balance(double d)
+{
+	this->charge_balance = d;
+}
+const cxxNameDouble & 
+cxxSurfaceComp::get_totals() const
+{
+	return (this->totals);
+};
+std::string 
+cxxSurfaceComp::charge_name()
+{
+	char * str = string_hsave(this->formula.c_str());
+	return (get_charge_name(str));
+};
+std::string 
+cxxSurfaceComp::get_charge_name(char *token)
+{
+	char name[100];
+	int l;
+	char *ptr1 = token;
+	get_elt(&ptr1, name, &l);
+	ptr1 = strchr(name, '_');
+	if (ptr1 != NULL)
+	{
+		ptr1[0] = '\0';
+	}
+	return (std::string(name));
+};

@@ -1,10 +1,10 @@
 #if !defined(SOLUTIONISOTOPE_H_INCLUDED)
 #define SOLUTIONISOTOPE_H_INCLUDED
 
-#include "Parser.h"
 #include <ostream>				// std::ostream
 #include <string>				// std::string
 #include <list>					// std::list
+#include "Parser.h"
 
 class cxxSolutionIsotope
 {

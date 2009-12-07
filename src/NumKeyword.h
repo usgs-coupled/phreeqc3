@@ -1,12 +1,11 @@
 #if !defined(NUMKEYWORD_H_INCLUDED)
 #define NUMKEYWORD_H_INCLUDED
 
-#include "Parser.h"
+//#include "Parser.h"
 #include <ostream>				// std::ostream
 #include <string>				// std::string
-//#define EXTERNAL extern
-//#include "global.h"
-//#include "phrqproto.h"
+class CParser;
+
 extern char *string_duplicate(const char *);
 
 class cxxNumKeyword

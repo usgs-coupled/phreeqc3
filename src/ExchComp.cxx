@@ -5,16 +5,23 @@
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
 #include <iostream>				// std::cout std::cerr
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
+#include <float.h>
+
 #include "Utils.h"				// define first
-#include "ExchComp.h"
-#include "Dictionary.h"
+#if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "ExchComp.h"
+#include "Dictionary.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

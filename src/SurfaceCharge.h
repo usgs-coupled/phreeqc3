@@ -1,23 +1,22 @@
 #if !defined(SURFACECHARGE_H_INCLUDED)
 #define SURFACECHARGE_H_INCLUDED
 
-#include "NameDouble.h"
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
 
+#include "NameDouble.h"
+
 class cxxSurfaceCharge
 {
 
-  public:
+public:
 
 	cxxSurfaceCharge();
 	cxxSurfaceCharge(struct surface_charge *);
-	 ~cxxSurfaceCharge();
+	~cxxSurfaceCharge();
 
 
 	struct master *get_psi_master();

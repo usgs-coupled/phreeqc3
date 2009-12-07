@@ -1,15 +1,27 @@
 #if !defined(SYSTEM_H_INCLUDED)
 #define SYSTEM_H_INCLUDED
-#include "Solution.h"
-#include "Exchange.h"
-#include "GasPhase.h"
-#include "cxxKinetics.h"
-#include "PPassemblage.h"
-#include "SSassemblage.h"
-#include "Surface.h"
-#include "cxxMix.h"
-#include "Reaction.h"
-#include "Temperature.h"
+//#include "Solution.h"
+//#include "Exchange.h"
+//#include "GasPhase.h"
+//#include "cxxKinetics.h"
+//#include "PPassemblage.h"
+//#include "SSassemblage.h"
+//#include "Surface.h"
+//#include "cxxMix.h"
+//#include "Reaction.h"
+//#include "Temperature.h"
+#include "NameDouble.h"
+class cxxSolution;
+class cxxExchange;
+class cxxGasPhase;
+class cxxKinetics;
+class cxxPPassemblage;
+class cxxSSassemblage;
+class cxxSurface;
+class cxxReaction;
+class cxxTemperature;
+class cxxMix;
+
 class cxxSystem 
 {
   public:cxxSystem(void);

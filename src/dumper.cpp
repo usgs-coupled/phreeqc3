@@ -1,5 +1,7 @@
-#include "dumper.h"
 #include <algorithm>			// std::replace
+
+#include "dumper.h"
+#include "Parser.h"
 
 dumper::dumper(void)
 {

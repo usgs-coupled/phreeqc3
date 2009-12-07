@@ -1,12 +1,13 @@
 #if !defined(SSASSEMBLAGESS_H_INCLUDED)
 #define SSASSEMBLAGESS_H_INCLUDED
 
-#include "NameDouble.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
+
+#include "NameDouble.h"
 
 class cxxSSassemblageSS
 {

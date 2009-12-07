@@ -1,14 +1,13 @@
 #if !defined(EXCHCOMP_H_INCLUDED)
 #define EXCHCOMP_H_INCLUDED
 
-#include "NameDouble.h"
-#define EXTERNAL extern
-#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
+
+#include "NameDouble.h"
 
 class cxxExchComp
 {

@@ -1,11 +1,17 @@
 #include "Utils.h"				// define first
-#include "SolutionIsotopeList.h"
-#define EXTERNAL extern
-#include "global.h"
-#include "phqalloc.h"
-#include "phrqproto.h"
 #include <cassert>				// assert
 #include <algorithm>			// std::sort
+
+#if !defined(PHREEQC_CLASS)
+#define EXTERNAL extern
+#include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "SolutionIsotopeList.h"
+#include "phqalloc.h"
+#include "phrqproto.h"
+
 
 cxxSolutionIsotopeList::cxxSolutionIsotopeList(void)
 	//

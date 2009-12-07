@@ -1,6 +1,16 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+#if !defined(PHREEQC_CLASS)
+#define EXTERNAL extern
+#include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
 #include "Parser.h"
 #include "Solution.h"
 #include "Exchange.h"
@@ -14,14 +24,10 @@
 #include "Temperature.h"
 #include "dumper.h"
 #include "runner.h"
-#define EXTERNAL extern
-#include "global.h"
+#include "cxxMix.h"
 #include "phqalloc.h"
-#include "output.h"
 #include "phrqproto.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
+#include "output.h"
 
 static int streamify_to_next_keyword(std::istringstream & lines);
 extern int reading_database(void);

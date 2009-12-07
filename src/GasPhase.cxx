@@ -4,16 +4,23 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
+#include <float.h>
 
 #include "Utils.h"				// define first
-#include "GasPhase.h"
+#if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#else
+#include "Phreeqc.h"
+#endif
+#include "GasPhase.h"
+#include "cxxMix.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

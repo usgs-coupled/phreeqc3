@@ -1,16 +1,13 @@
 #if !defined(CXXMIX_H_INCLUDED)
 #define CXXMIX_H_INCLUDED
 
-#include "NumKeyword.h"
-//#define EXTERNAL extern
-//#include "global.h"
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
 
-#include "char_star.h"
+#include "NumKeyword.h"
 
 class cxxMix:public cxxNumKeyword
 {

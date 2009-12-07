@@ -1,13 +1,6 @@
 #if !defined(ISOLUTIONCOMP_H_INCLUDED)
 #define ISOLUTIONCOMP_H_INCLUDED
 
-//#include "Parser.h"
-#include "Utils.h"
-#define EXTERNAL extern
-#include "global.h"
-#include "phqalloc.h"
-#include "phrqproto.h"
-
 #include <string>
 #include <map>					// std::map
 #include <vector>
