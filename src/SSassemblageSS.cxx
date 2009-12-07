@@ -77,7 +77,7 @@ cxxSSassemblageSS::~cxxSSassemblageSS()
 }
 
 struct s_s *
-	cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblageSS > &el)
+cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblageSS > &el)
 		//
 		// Builds s_s structure from of cxxSSassemblageSS 
 		//
