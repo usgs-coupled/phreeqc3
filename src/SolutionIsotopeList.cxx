@@ -96,7 +96,7 @@ cxxSolutionIsotopeList::cxxSolutionIsotopeList2isotope(PHREEQC_PTR_ARG)
 	{
 		iso =
 			(struct isotope *)
-			PHRQ_malloc((size_t) ((this->size()) * sizeof(struct isotope)));
+			P_INSTANCE_POINTER PHRQ_malloc((size_t) ((this->size()) * sizeof(struct isotope)));
 		if (iso == NULL)
 			P_INSTANCE_POINTER malloc_error();
 		int i = 0;

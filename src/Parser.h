@@ -1,20 +1,31 @@
 #if !defined(PARSER_H_INCLUDED)
 #define PARSER_H_INCLUDED
 
-extern int input_error;
 #include <string>				// std::string
 #include <map>					// std::map
 #include <vector>				// std::vector
 #include <sstream>				// std::istringstream std::ostringstream
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
+#include "Phreeqc_class.h"
+#if defined (PHREEQC_CLASS)
+class Phreeqc;
+#define PHREEQC_NAME_SPACE Phreeqc::
+#define PHREEQC_COOKIE this->p_instance->
+#define ERROR_MESSAGE_QUALIFIER this->p_instance->
+#else
+#define PHREEQC_NAME_SPACE ::
+#define PHREEQC_COOKIE
+#define ERROR_MESSAGE_QUALIFIER ::
+extern int input_error;
+#endif
 
 class CParser
 {
   public:
-	CParser(std::istream & input);
-	CParser(std::istream & input, std::ostream & output);
-	CParser(std::istream & input, std::ostream & output,
+	CParser(PHREEQC_PTR_ARG_COMMA std::istream & input);
+	CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output);
+	CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output,
 			std::ostream & error);
 
 	virtual ~ CParser();
@@ -166,11 +177,7 @@ class CParser
 	{
 		return m_line_iss;
 	}
-	int incr_input_error()
-	{
-		++::input_error;
-		return ++m_input_error;
-	}
+	int incr_input_error();
 	std::ostream & get_output()
 	{
 		return m_output_stream;
@@ -302,7 +309,9 @@ class CParser
 	ECHO_OPTION echo_file;
 	std::string accumulated;
 	bool accumulate;
-	//int const &input_error_parser;
+#if defined(PHREEQC_CLASS)
+	Phreeqc * p_instance;
+#endif
 };
 
 // Global functions

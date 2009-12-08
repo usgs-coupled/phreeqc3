@@ -91,7 +91,7 @@ cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map
 {
 	struct surface_charge *surf_charge_ptr =
 		(struct surface_charge *)
-		PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_charge)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_charge)));
 	if (surf_charge_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 

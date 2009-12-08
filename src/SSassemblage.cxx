@@ -86,7 +86,7 @@ cxxSSassemblage::cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG)
 {
 	struct s_s_assemblage *s_s_assemblage_ptr = P_INSTANCE_POINTER s_s_assemblage_alloc();
 
-	s_s_assemblage_ptr->description = this->get_description();
+	s_s_assemblage_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	s_s_assemblage_ptr->n_user = this->n_user;
 	s_s_assemblage_ptr->n_user_end = this->n_user_end;
 	s_s_assemblage_ptr->new_def = FALSE;
@@ -243,7 +243,7 @@ cxxSSassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(is);
+				CParser reread(P_INSTANCE_COMMA is);
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())

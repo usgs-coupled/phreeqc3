@@ -110,7 +110,7 @@ struct surface_comp *
 {
 	struct surface_comp *surf_comp_ptr =
 		(struct surface_comp *)
-		PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_comp)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_comp)));
 	if (surf_comp_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 

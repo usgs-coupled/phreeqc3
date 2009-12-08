@@ -67,7 +67,7 @@ struct kinetics_comp *
 {
 	struct kinetics_comp *kinetics_comp_ptr =
 		(struct kinetics_comp *)
-		PHRQ_malloc((size_t) (el.size() * sizeof(struct kinetics_comp)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct kinetics_comp)));
 	if (kinetics_comp_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 
@@ -98,7 +98,7 @@ struct kinetics_comp *
 		if ((*it).second.d_params.size() > 0)
 		{
 			kinetics_comp_ptr[i].d_params =	(double *)
-				PHRQ_malloc((size_t) ((*it).second.d_params.size() * sizeof(double)));
+				P_INSTANCE_POINTER PHRQ_malloc((size_t) ((*it).second.d_params.size() * sizeof(double)));
 			if (kinetics_comp_ptr[i].d_params == NULL)
 				P_INSTANCE_POINTER malloc_error();
 			std::copy((*it).second.d_params.begin(), (*it).second.d_params.end(),

@@ -83,11 +83,11 @@ cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
 		//
 {
 	struct irrev *irrev_ptr;
-	irrev_ptr = (struct irrev *) PHRQ_malloc(sizeof(struct irrev));
+	irrev_ptr = (struct irrev *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct irrev));
 	if (irrev_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 
-	irrev_ptr->description = this->get_description();
+	irrev_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	irrev_ptr->n_user = this->n_user;
 	irrev_ptr->n_user_end = this->n_user_end;
 
@@ -108,7 +108,7 @@ cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
 	{
 		irrev_ptr->steps =
 			(double *)
-			PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
+			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
 		if (irrev_ptr->steps == NULL)
 			P_INSTANCE_POINTER malloc_error();
 		std::copy(this->steps.begin(), this->steps.end(), irrev_ptr->steps);

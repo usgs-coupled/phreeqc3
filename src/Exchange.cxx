@@ -209,7 +209,7 @@ cxxExchange::cxxExchange2exchange(PHREEQC_PTR_ARG)
 {
 	struct exchange *exchange_ptr = P_INSTANCE_POINTER exchange_alloc();
 
-	exchange_ptr->description = this->get_description();
+	exchange_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	exchange_ptr->n_user = this->n_user;
 	exchange_ptr->n_user_end = this->n_user_end;
 	exchange_ptr->new_def = FALSE;
@@ -390,7 +390,7 @@ cxxExchange::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(is);
+				CParser reread(P_INSTANCE_COMMA is);
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
