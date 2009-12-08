@@ -582,4 +582,4 @@ const cxxNameDouble &
 cxxExchange::get_totals() const
 {
 	return totals;
-};
+}

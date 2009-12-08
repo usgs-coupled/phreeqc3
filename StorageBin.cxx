@@ -340,37 +340,37 @@ const std::map < int, cxxSolution > &
 cxxStorageBin::getSolutions() const
 {
 	return this->Solutions;
-};
+}
 const std::map < int, cxxExchange > &
 cxxStorageBin::getExchangers() const
 {
 	return this->Exchangers;
-};
+}
 const std::map < int, cxxGasPhase > &
 cxxStorageBin::getGasPhases() const
 {
 	return this->GasPhases;
-};
+}
 const std::map < int, cxxKinetics > &
 cxxStorageBin::getKinetics() const
 {
 	return this->Kinetics;
-};
+}
 const std::map < int, cxxPPassemblage > &
 cxxStorageBin::getPPassemblages() const
 {
 	return this->PPassemblages;
-};
+}
 const std::map < int, cxxSSassemblage > &
 cxxStorageBin::getSSassemblages() const
 {
 	return this->SSassemblages;
-};
+}
 const std::map < int, cxxSurface > &
 cxxStorageBin::getSurfaces() const
 {
 	return this->Surfaces;
-};
+}
 void
 cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 		//

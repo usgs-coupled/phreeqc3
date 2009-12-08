@@ -715,13 +715,13 @@ const cxxNameDouble &
 cxxSurfaceComp::get_totals() const
 {
 	return (this->totals);
-};
+}
 std::string 
 cxxSurfaceComp::charge_name(PHREEQC_PTR_ARG)
 {
 	char * str = P_INSTANCE_POINTER string_hsave(this->formula.c_str());
 	return (get_charge_name(P_INSTANCE_COMMA str));
-};
+}
 std::string 
 cxxSurfaceComp::get_charge_name(PHREEQC_PTR_ARG_COMMA char *token)
 {
@@ -735,4 +735,4 @@ cxxSurfaceComp::get_charge_name(PHREEQC_PTR_ARG_COMMA char *token)
 		ptr1[0] = '\0';
 	}
 	return (std::string(name));
-};
+}
