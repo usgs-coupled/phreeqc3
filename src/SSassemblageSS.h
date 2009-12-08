@@ -8,6 +8,7 @@
 #include <vector>				// std::vector
 
 #include "NameDouble.h"
+#include "Phreeqc_class.h"
 
 class cxxSSassemblageSS
 {
@@ -32,7 +33,7 @@ class cxxSSassemblageSS
 		SS_PARM_MARGULES = 9
 	};
 
-	static struct s_s *cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblageSS >
+	static struct s_s *cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSSassemblageSS >
 											 &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
@@ -53,7 +54,7 @@ class cxxSSassemblageSS
 			this->name.clear();
 	}
 
-	void totalize();
+	void totalize(PHREEQC_PTR_ARG);
 	const cxxNameDouble & get_totals() const
 	{
 		return (this->totals);

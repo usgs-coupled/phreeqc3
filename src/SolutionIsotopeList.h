@@ -6,6 +6,7 @@
 #include <list>					// std::list
 
 #include "SolutionIsotope.h"
+#include "Phreeqc_class.h"
 
 class cxxSolutionIsotopeList:public
 	std::list <	cxxSolutionIsotope >
@@ -18,7 +19,7 @@ public:
 
 	~cxxSolutionIsotopeList();
 
-	struct isotope * cxxSolutionIsotopeList2isotope();
+	struct isotope * cxxSolutionIsotopeList2isotope(PHREEQC_PTR_ARG);
 	void add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
 	void multiply(double extensive);
 

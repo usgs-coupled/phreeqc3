@@ -70,7 +70,7 @@ struct conc *cxxISolutionComp::concarray(std::map <char *, double, CHARSTAR_LESS
 }
 */
 struct conc *
-	cxxISolutionComp::cxxISolutionComp2conc(const std::map < std::string,
+cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < std::string,
 										cxxISolutionComp > &totals)
 		// for ISolutions
 		// takes a std::vector cxxISolutionComp structures
@@ -80,25 +80,25 @@ struct conc *
 	c = (struct conc *)
 		PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
 	if (c == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 	int i = 0;
 	for (std::map < std::string, cxxISolutionComp >::const_iterator it = totals.begin();
 		 it != totals.end(); ++it)
 	{
-		c[i].description = string_duplicate(it->second.description.c_str());
+		c[i].description = P_INSTANCE_POINTER string_duplicate(it->second.description.c_str());
 		c[i].moles = it->second.moles;
 		c[i].input_conc = it->second.input_conc;
 		if (it->second.units.size() == 0)
 			c[i].units = NULL;
 		else
-			c[i].units = string_hsave(it->second.units.c_str());
+			c[i].units = P_INSTANCE_POINTER string_hsave(it->second.units.c_str());
 		if (it->second.equation_name.size() == 0)
 			c[i].equation_name = NULL;
 		else
-			c[i].equation_name = string_hsave(it->second.equation_name.c_str());
+			c[i].equation_name = P_INSTANCE_POINTER string_hsave(it->second.equation_name.c_str());
 		c[i].phase_si = it->second.phase_si;
 		c[i].n_pe = it->second.n_pe;
-		c[i].as = string_hsave(it->second.as.c_str());
+		c[i].as = P_INSTANCE_POINTER string_hsave(it->second.as.c_str());
 		c[i].gfw = it->second.gfw;
 		//c[i].skip                = 0;
 		c[i].phase = NULL;
@@ -109,7 +109,7 @@ struct conc *
 }
 
 void
-cxxISolutionComp::set_gfw()
+cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 {
 // return gfw
 	if (this->gfw > 0.0)
@@ -119,12 +119,12 @@ cxxISolutionComp::set_gfw()
 	{
 		/* use given chemical formula to calculate gfw */
 		double gfw;
-		if (compute_gfw(this->as.c_str(), &gfw) == ERROR)
+		if (P_INSTANCE_POINTER compute_gfw(this->as.c_str(), &gfw) == ERROR)
 		{
 			std::ostringstream oss;
 			oss << "Could not compute gfw, " << this->as;
-			error_msg(oss.str().c_str(), CONTINUE);
-			input_error++;
+			P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
+			P_INSTANCE_POINTER input_error++;
 			return;
 		}
 		//if (this->description == "Alkalinity" && this->as == "CaCO3") 
@@ -138,7 +138,7 @@ cxxISolutionComp::set_gfw()
 	}
 	/* use gfw of master species */
 	std::string str(this->description);
-	struct master *master_ptr = master_bsearch(str.c_str());
+	struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(str.c_str());
 	if (master_ptr != NULL)
 	{
 		/* use gfw for element redox state */
@@ -147,8 +147,8 @@ cxxISolutionComp::set_gfw()
 	}
 	std::ostringstream oss;
 	oss << "Could not find gfw, " << this->description;
-	error_msg(oss.str().c_str(), CONTINUE);
-	input_error++;
+	P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
+	P_INSTANCE_POINTER input_error++;
 	return;
 }
 

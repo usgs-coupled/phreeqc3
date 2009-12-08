@@ -94,7 +94,7 @@ species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma,
 }
 
 
-cxxSolution::cxxSolution(const std::map < int, cxxSolution > &solutions,
+cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solutions,
 						 cxxMix & mix, int n_user)
 //
 // constructor for cxxSolution from mixture of solutions
@@ -119,9 +119,9 @@ cxxNumKeyword()
 			solutions.find(it->first);
 		if (sol == solutions.end())
 		{
-			sprintf(error_string,
+			sprintf(P_INSTANCE_POINTER error_string,
 					"Solution %d not found in mix_cxxSolutions.", it->first);
-			error_msg(error_string, CONTINUE);
+			P_INSTANCE_POINTER error_msg(P_INSTANCE_POINTER error_string, CONTINUE);
 			input_error++;
 		}
 		else
@@ -132,7 +132,7 @@ cxxNumKeyword()
 	}
 }
 
-cxxSolution::cxxSolution(int n_user)
+cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user)
 		//
 		// constructor for cxxSolution from results of calculation
 		// does not work in phast because phast uses only the total molalities
@@ -144,16 +144,16 @@ cxxNumKeyword()
 	//this->set_description none;
 	this->n_user = n_user;
 	this->n_user_end = n_user;
-	this->tc = tc_x;
-	this->ph = ph_x;
-	this->pe = solution_pe_x;
-	this->mu = mu_x;
-	this->ah2o = ah2o_x;
-	this->total_h = total_h_x;
-	this->total_o = total_o_x;
-	this->cb = cb_x;
-	this->mass_water = mass_water_aq_x;
-	this->total_alkalinity =::total_alkalinity;
+	this->tc = P_INSTANCE_POINTER tc_x;
+	this->ph = P_INSTANCE_POINTER ph_x;
+	this->pe = P_INSTANCE_POINTER solution_pe_x;
+	this->mu = P_INSTANCE_POINTER mu_x;
+	this->ah2o = P_INSTANCE_POINTER ah2o_x;
+	this->total_h = P_INSTANCE_POINTER total_h_x;
+	this->total_o = P_INSTANCE_POINTER total_o_x;
+	this->cb = P_INSTANCE_POINTER  cb_x;
+	this->mass_water = P_INSTANCE_POINTER mass_water_aq_x;
+	this->total_alkalinity = P_INSTANCE_POINTER total_alkalinity;
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
 	this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
 	this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
@@ -161,18 +161,18 @@ cxxNumKeyword()
 	 * Add in minor isotopes if initial solution calculation
 	 */
 	int i;
-	if (initial_solution_isotopes == TRUE)
+	if (P_INSTANCE_POINTER initial_solution_isotopes == TRUE)
 	{
 		struct master *master_ptr, *master_i_ptr;
-		for (i = 0; i < count_master_isotope; i++)
+		for (i = 0; i < P_INSTANCE_POINTER count_master_isotope; i++)
 		{
-			if (master_isotope[i]->moles > 0)
+			if (P_INSTANCE_POINTER master_isotope[i]->moles > 0)
 			{
-				master_i_ptr = master_bsearch(master_isotope[i]->name);
-				master_ptr = master_isotope[i]->elt->master;
-				if (master_isotope[i]->minor_isotope == TRUE)
+				master_i_ptr = P_INSTANCE_POINTER master_bsearch(P_INSTANCE_POINTER master_isotope[i]->name);
+				master_ptr = P_INSTANCE_POINTER master_isotope[i]->elt->master;
+				if (P_INSTANCE_POINTER master_isotope[i]->minor_isotope == TRUE)
 				{
-					master_i_ptr->total = master_isotope[i]->moles;
+					master_i_ptr->total = P_INSTANCE_POINTER master_isotope[i]->moles;
 					if (master_ptr->total > 0)
 					{
 						master_i_ptr->s->la =
@@ -184,19 +184,19 @@ cxxNumKeyword()
 						master_i_ptr->s->la = master_ptr->s->la;
 					}
 				}
-				else if (master_isotope[i]->minor_isotope == FALSE
-						 && master_ptr->s != s_hplus
-						 && master_ptr->s != s_h2o)
+				else if (P_INSTANCE_POINTER master_isotope[i]->minor_isotope == FALSE
+						 && master_ptr->s != P_INSTANCE_POINTER s_hplus
+						 && master_ptr->s != P_INSTANCE_POINTER s_h2o)
 				{
 					if (master_ptr->s->secondary != NULL)
 					{
 						master_ptr->s->secondary->total =
-							master_isotope[i]->moles;
+							P_INSTANCE_POINTER master_isotope[i]->moles;
 					}
 					else
 					{
 						master_ptr->s->primary->total =
-							master_isotope[i]->moles;
+							P_INSTANCE_POINTER master_isotope[i]->moles;
 					}
 				}
 			}
@@ -210,59 +210,59 @@ cxxNumKeyword()
 	 */
 
 // totals and master_activity
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_master; i++)
 	{
-		if (master[i]->s->type == EX ||
-			master[i]->s->type == SURF || master[i]->s->type == SURF_PSI)
+		if (P_INSTANCE_POINTER master[i]->s->type == EX ||
+			P_INSTANCE_POINTER master[i]->s->type == SURF || P_INSTANCE_POINTER master[i]->s->type == SURF_PSI)
 			continue;
-		if (master[i]->s == s_hplus)
+		if (P_INSTANCE_POINTER master[i]->s == P_INSTANCE_POINTER s_hplus)
 			continue;
-		if (master[i]->s == s_h2o)
+		if (P_INSTANCE_POINTER master[i]->s == P_INSTANCE_POINTER s_h2o)
 			continue;
-		if (master[i]->in != FALSE)
+		if (P_INSTANCE_POINTER master[i]->in != FALSE)
 		{
-			this->master_activity[master[i]->elt->name] = master[i]->s->la;
+			this->master_activity[P_INSTANCE_POINTER master[i]->elt->name] = P_INSTANCE_POINTER master[i]->s->la;
 		}
-		if (master[i]->total <= MIN_TOTAL)
+		if (P_INSTANCE_POINTER master[i]->total <= MIN_TOTAL)
 		{
-			master[i]->total = 0.0;
-			master[i]->total_primary = 0.0;
+			P_INSTANCE_POINTER master[i]->total = 0.0;
+			P_INSTANCE_POINTER master[i]->total_primary = 0.0;
 			continue;
 		}
-		this->totals[master[i]->elt->name] = master[i]->total;
+		this->totals[P_INSTANCE_POINTER master[i]->elt->name] = P_INSTANCE_POINTER master[i]->total;
 	}
 
 // species_gammas for Pitzer 
-	if (pitzer_model == TRUE)
+	if (P_INSTANCE_POINTER pitzer_model == TRUE)
 	{
 		int j;
-		for (j = 0; j < count_s; j++)
+		for (j = 0; j < P_INSTANCE_POINTER count_s; j++)
 		{
-			if (s[j]->lg != 0.0)
+			if (P_INSTANCE_POINTER s[j]->lg != 0.0)
 			{
-				this->species_gamma[s[j]->name] = s[j]->lg;
+				this->species_gamma[P_INSTANCE_POINTER s[j]->name] = P_INSTANCE_POINTER s[j]->lg;
 			}
 		}
 	}
 
 // Save isotope data
 
-	if (count_isotopes_x > 0)
+	if (P_INSTANCE_POINTER count_isotopes_x > 0)
 	{
-		for (i = 0; i < count_isotopes_x; i++)
+		for (i = 0; i < P_INSTANCE_POINTER count_isotopes_x; i++)
 		{
 			cxxSolutionIsotope cxxiso;
-			cxxiso.set_isotope_number(isotopes_x[i].isotope_number);
-			cxxiso.set_elt_name(isotopes_x[i].elt_name);
-			cxxiso.set_isotope_name(isotopes_x[i].isotope_name);
-			cxxiso.set_total(isotopes_x[i].master->total);
-			if (isotopes_x[i].master == s_hplus->secondary)
+			cxxiso.set_isotope_number(P_INSTANCE_POINTER isotopes_x[i].isotope_number);
+			cxxiso.set_elt_name(P_INSTANCE_POINTER isotopes_x[i].elt_name);
+			cxxiso.set_isotope_name(P_INSTANCE_POINTER isotopes_x[i].isotope_name);
+			cxxiso.set_total(P_INSTANCE_POINTER isotopes_x[i].master->total);
+			if (P_INSTANCE_POINTER isotopes_x[i].master == P_INSTANCE_POINTER s_hplus->secondary)
 			{
-				cxxiso.set_total(2 * mass_water_aq_x / gfw_water);
+				cxxiso.set_total(2 * P_INSTANCE_POINTER mass_water_aq_x / P_INSTANCE_POINTER gfw_water);
 			}
-			if (isotopes_x[i].master == s_h2o->secondary)
+			if (P_INSTANCE_POINTER isotopes_x[i].master == P_INSTANCE_POINTER s_h2o->secondary)
 			{
-				cxxiso.set_total(mass_water_aq_x / gfw_water);
+				cxxiso.set_total(P_INSTANCE_POINTER mass_water_aq_x / P_INSTANCE_POINTER gfw_water);
 			}
 			// cxxiso.ratio                 
 			// cxxiso.ratio_uncertainty
@@ -276,13 +276,13 @@ cxxSolution::~cxxSolution()
 {
 }
 struct solution *
-cxxSolution::cxxSolution2solution()
+cxxSolution::cxxSolution2solution(PHREEQC_PTR_ARG)
 		//
 		// Builds a solution structure from instance of cxxSolution 
 		//
 {
 
-	struct solution *solution_ptr = solution_alloc();
+	struct solution *solution_ptr = P_INSTANCE_POINTER solution_alloc();
 
 	solution_ptr->description = this->get_description();
 	solution_ptr->n_user = this->n_user;
@@ -299,18 +299,18 @@ cxxSolution::cxxSolution2solution()
 	solution_ptr->mass_water = this->mass_water;
 	solution_ptr->total_alkalinity = this->total_alkalinity;
 	solution_ptr->density = 1.0;
-	solution_ptr->units = moles_per_kilogram_string;
+	solution_ptr->units = P_INSTANCE_POINTER moles_per_kilogram_string;
 	solution_ptr->default_pe = 0;
 	// pe_data
 
 	// totals
 	solution_ptr->totals =
-		(struct conc *) free_check_null(solution_ptr->totals);
+		(struct conc *) P_INSTANCE_POINTER free_check_null(solution_ptr->totals);
 	solution_ptr->totals = this->totals.conc();
 
 	// master_activity
 	solution_ptr->master_activity =
-		(struct master_activity *) free_check_null(solution_ptr->
+		(struct master_activity *) P_INSTANCE_POINTER free_check_null(solution_ptr->
 												   master_activity);
 	solution_ptr->master_activity = this->master_activity.master_activity();
 	solution_ptr->count_master_activity =
@@ -322,9 +322,9 @@ cxxSolution::cxxSolution2solution()
 
 	// isotopes
 	solution_ptr->isotopes =
-		(struct isotope *) free_check_null(solution_ptr->isotopes);
+		(struct isotope *) P_INSTANCE_POINTER free_check_null(solution_ptr->isotopes);
 	//solution_ptr->isotopes = cxxSolutionIsotope::list2isotope(this->isotopes);
-	solution_ptr->isotopes = this->isotopes.cxxSolutionIsotopeList2isotope();
+	solution_ptr->isotopes = this->isotopes.cxxSolutionIsotopeList2isotope(P_INSTANCE);
 	solution_ptr->count_isotopes = (int) this->isotopes.size();
 
 	return (solution_ptr);
@@ -976,7 +976,7 @@ cxxSolution::get_total_element(char *string) const
 		if (it->first[0] == string[0])
 		{
 			strcpy(token, it->first.c_str());
-			replace("(", "\0", token);
+			CLASS_QUALIFIER replace("(", "\0", token);
 			if (strcmp(token, string) == 0)
 			{
 				d += it->second;
@@ -1531,393 +1531,393 @@ cxxSolution::set_master_activity(char *string, double d)
 	this->master_activity[string] = d;
 }
 
-#include "ISolution.h"
-#include "Exchange.h"
-#include "Surface.h"
-#include "PPassemblage.h"
-#include "cxxKinetics.h"
-#include "SSassemblage.h"
-#include "GasPhase.h"
-#include "Reaction.h"
-#include "Temperature.h"
-#include "StorageBin.h"
-#include "NumKeyword.h"
-#include <iostream>				// std::cout std::cerr
-//#include <strstream>
-#include <sstream>
-#include <fstream>
-void
-test_classes(void)
-{
-
-
-
-
-	int i;
-	/*
-	   std::map<int, cxxSolution>      Solutions;
-	   cxxSolution soln(solution[0]);
-	   Solutions[solution[0]->n_user] = soln;
-	   bool b = Utilities::exists(Solutions, 1);
-	 */
-	/*
-	   cxxEntityMap x;
-	   cxxSolution soln(solution[0]);
-	   cxxNumKeyword nk;
-	   x[solution[0]->n_user] = soln;
-	 */
-	std::ostringstream msg;
-	status_on = FALSE;
-	std::cout << std::endl << "TEST CLASSES" << std::endl;
-	for (i = 0; i < count_solution; i++)
-	{
-		if (solution[i]->new_def == TRUE)
-		{
-			std::cout << "Solution new_def " << solution[i]->
-				n_user << std::endl;
-			cxxISolution sol(solution[i]);
-			solution_free(solution[i]);
-			solution[i] = NULL;
-			solution[i] = sol.cxxISolution2solution();
-			struct solution *soln_ptr;
-			soln_ptr = solution[i];
-			soln_ptr = solution[i];
-		}
-		else
-		{
-			std::cout << "Solution " << solution[i]->n_user << std::endl;
-			std::ostringstream oss;
-			cxxSolution sol(solution[i]);
-			solution_free(solution[i]);
-			solution[i] = NULL;
-			sol.dump_raw(oss, 0);
-
-			//std::fstream myfile("t");
-			//CParser cparser(myfile, std::cout, std::cerr);
-			cxxSolution sol1;
-			std::string keyInput = oss.str();
-			std::istringstream iss(keyInput);
-
-			CParser cparser(iss, oss, std::cerr);
-			//For testing, need to read line to get started
-			std::vector < std::string > vopts;
-			std::istream::pos_type next_char;
-			cparser.get_option(vopts, next_char);
-
-
-			sol1.read_raw(cparser);
-
-			solution[i] = sol1.cxxSolution2solution();
-		}
-	}
-	for (i = 0; i < count_exchange; i++)
-	{
-		if (exchange[i].new_def != TRUE)
-		{
-			std::cout << "Exchange " << exchange[i].n_user << std::endl;
-			std::ostringstream oss;
-			cxxExchange ex(&(exchange[i]));
-			ex.dump_raw(oss, 0);
-			//std::cerr << oss.str();
-
-			cxxExchange ex1;
-			std::string keyInput = oss.str();
-			std::istringstream iss(keyInput);
-
-			CParser cparser(iss, oss, std::cerr);
-			//For testing, need to read line to get started
-			std::vector < std::string > vopts;
-			std::istream::pos_type next_char;
-			cparser.get_option(vopts, next_char);
-
-			ex1.read_raw(cparser);
-
-			struct exchange *exchange_ptr = ex1.cxxExchange2exchange();
-			exchange_free(&exchange[i]);
-			exchange_copy(exchange_ptr, &exchange[i], exchange_ptr->n_user);
-			exchange_free(exchange_ptr);
-			free_check_null(exchange_ptr);
-		}
-	}
-	for (i = 0; i < count_surface; i++)
-	{
-		if (surface[i].new_def != TRUE)
-		{
-			std::cout << "Surface " << surface[i].n_user << std::endl;
-			std::ostringstream oss;
-			cxxSurface ex(&(surface[i]));
-			ex.dump_raw(oss, 0);
-			//std::cerr << oss.str();
-
-
-			cxxSurface ex1;
-			std::string keyInput = oss.str();
-			std::istringstream iss(keyInput);
-
-			CParser cparser(iss, oss, std::cerr);
-			//For testing, need to read line to get started
-			std::vector < std::string > vopts;
-			std::istream::pos_type next_char;
-			cparser.get_option(vopts, next_char);
-
-			ex1.read_raw(cparser);
-
-			struct surface *surface_ptr = ex1.cxxSurface2surface();
-			surface_free(&surface[i]);
-			surface_copy(surface_ptr, &surface[i], surface_ptr->n_user);
-			surface_free(surface_ptr);
-			free_check_null(surface_ptr);
-
-		}
-
-	}
-	for (i = 0; i < count_pp_assemblage; i++)
-	{
-		if (pp_assemblage[i].new_def != TRUE)
-		{
-			std::cout << "PPassemblage " << pp_assemblage[i].
-				n_user << std::endl;
-			std::ostringstream oss;
-			cxxPPassemblage ex(&(pp_assemblage[i]));
-			ex.dump_raw(oss, 0);
-			//std::cerr << oss.str();
-
-
-			cxxPPassemblage ex1;
-			std::string keyInput = oss.str();
-			std::istringstream iss(keyInput);
-
-			CParser cparser(iss, oss, std::cerr);
-			//For testing, need to read line to get started
-			std::vector < std::string > vopts;
-			std::istream::pos_type next_char;
-			cparser.get_option(vopts, next_char);
-
-			ex1.read_raw(cparser);
-
-			struct pp_assemblage *pp_assemblage_ptr =
-				ex1.cxxPPassemblage2pp_assemblage();
-			pp_assemblage_free(&pp_assemblage[i]);
-			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[i],
-							   pp_assemblage_ptr->n_user);
-			pp_assemblage_free(pp_assemblage_ptr);
-			free_check_null(pp_assemblage_ptr);
-
-		}
-
-	}
-	for (i = 0; i < count_kinetics; i++)
-	{
-		std::cout << "Kinetics " << kinetics[i].n_user << std::endl;
-		std::ostringstream oss;
-		cxxKinetics ex(&(kinetics[i]));
-		ex.dump_raw(oss, 0);
-		//std::cerr << oss.str();
-
-
-		cxxKinetics ex1;
-		std::string keyInput = oss.str();
-		std::istringstream iss(keyInput);
-
-		CParser cparser(iss, oss, std::cerr);
-		//For testing, need to read line to get started
-		std::vector < std::string > vopts;
-		std::istream::pos_type next_char;
-		cparser.get_option(vopts, next_char);
-
-
-		ex1.read_raw(cparser);
-
-		struct kinetics *kinetics_ptr = ex1.cxxKinetics2kinetics();
-		kinetics_free(&kinetics[i]);
-		kinetics_copy(kinetics_ptr, &kinetics[i], kinetics_ptr->n_user);
-		kinetics_free(kinetics_ptr);
-		free_check_null(kinetics_ptr);
-	}
-	for (i = 0; i < count_s_s_assemblage; i++)
-	{
-		if (s_s_assemblage[i].new_def != TRUE)
-		{
-			std::cout << "Solid solution " << s_s_assemblage[i].
-				n_user << std::endl;
-			std::ostringstream oss;
-			cxxSSassemblage ex(&(s_s_assemblage[i]));
-			ex.dump_raw(oss, 0);
-			//std::cerr << oss.str();
-
-
-			cxxSSassemblage ex1;
-			std::string keyInput = oss.str();
-			std::istringstream iss(keyInput);
-
-			CParser cparser(iss, oss, std::cerr);
-			//For testing, need to read line to get started
-			std::vector < std::string > vopts;
-			std::istream::pos_type next_char;
-			cparser.get_option(vopts, next_char);
-
-			ex1.read_raw(cparser);
-
-			struct s_s_assemblage *s_s_assemblage_ptr =
-				ex1.cxxSSassemblage2s_s_assemblage();
-			s_s_assemblage_free(&s_s_assemblage[i]);
-			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[i],
-								s_s_assemblage_ptr->n_user);
-			s_s_assemblage_free(s_s_assemblage_ptr);
-			free_check_null(s_s_assemblage_ptr);
-
-		}
-
-	}
-	for (i = 0; i < count_gas_phase; i++)
-	{
-		if (gas_phase[i].new_def != TRUE)
-		{
-			std::cout << "Gas phase " << gas_phase[i].n_user << std::endl;
-			std::ostringstream oss;
-			cxxGasPhase ex(&(gas_phase[i]));
-			ex.dump_raw(oss, 0);
-			//std::cerr << oss.str();
-
-
-			cxxGasPhase ex1;
-			std::string keyInput = oss.str();
-			std::istringstream iss(keyInput);
-
-			CParser cparser(iss, oss, std::cerr);
-			//For testing, need to read line to get started
-			std::vector < std::string > vopts;
-			std::istream::pos_type next_char;
-			cparser.get_option(vopts, next_char);
-
-			ex1.read_raw(cparser);
-
-			struct gas_phase *gas_phase_ptr = ex1.cxxGasPhase2gas_phase();
-			gas_phase_free(&gas_phase[i]);
-			gas_phase_copy(gas_phase_ptr, &gas_phase[i],
-						   gas_phase_ptr->n_user);
-			gas_phase_free(gas_phase_ptr);
-			free_check_null(gas_phase_ptr);
-
-		}
-
-	}
-	for (i = 0; i < count_irrev; i++)
-	{
-		std::cout << "Reaction " << irrev[i].n_user << std::endl;
-		std::ostringstream oss;
-		cxxReaction ex(&(irrev[i]));
-		ex.dump_raw(oss, 0);
-		//std::cerr << oss.str();
-
-
-		cxxReaction ex1;
-		std::string keyInput = oss.str();
-		std::istringstream iss(keyInput);
-
-		CParser cparser(iss, oss, std::cerr);
-		//For testing, need to read line to get started
-		std::vector < std::string > vopts;
-		std::istream::pos_type next_char;
-		cparser.get_option(vopts, next_char);
-
-		ex1.read_raw(cparser);
-		struct irrev *irrev_ptr = ex1.cxxReaction2irrev();
-
-		irrev_free(&irrev[i]);
-		irrev_copy(irrev_ptr, &irrev[i], irrev_ptr->n_user);
-
-		irrev_free(irrev_ptr);
-		free_check_null(irrev_ptr);
-
-	}
-	for (i = 0; i < count_mix; i++)
-	{
-		std::cout << "Mix " << mix[i].n_user << std::endl;
-		std::ostringstream oss;
-		cxxMix ex(&(mix[i]));
-		ex.dump_raw(oss, 0);
-		//std::cerr << oss.str();
-
-
-		cxxMix ex1;
-		std::string keyInput = oss.str();
-		std::istringstream iss(keyInput);
-
-		CParser cparser(iss, oss, std::cerr);
-		//For testing, need to read line to get started
-		std::vector < std::string > vopts;
-		std::istream::pos_type next_char;
-		cparser.get_option(vopts, next_char);
-
-		ex1.read_raw(cparser);
-		struct mix *mix_ptr = ex1.cxxMix2mix();
-
-		mix_free(&mix[i]);
-		mix_copy(mix_ptr, &mix[i], mix_ptr->n_user);
-
-		mix_free(mix_ptr);
-		free_check_null(mix_ptr);
-
-	}
-	for (i = 0; i < count_temperature; i++)
-	{
-		std::cout << "Temperature " << temperature[i].n_user << std::endl;
-		std::ostringstream oss;
-		cxxTemperature ex(&(temperature[i]));
-		ex.dump_raw(oss, 0);
-		//std::cerr << oss.str();
-
-
-		cxxTemperature ex1;
-		std::string keyInput = oss.str();
-		std::istringstream iss(keyInput);
-
-		CParser cparser(iss, oss, std::cerr);
-		//For testing, need to read line to get started
-		std::vector < std::string > vopts;
-		std::istream::pos_type next_char;
-		cparser.get_option(vopts, next_char);
-
-		ex1.read_raw(cparser);
-		struct temperature *temperature_ptr =
-			ex1.cxxTemperature2temperature();
-
-		temperature_free(&temperature[i]);
-		temperature_copy(temperature_ptr, &temperature[i],
-						 temperature_ptr->n_user);
-
-		temperature_free(temperature_ptr);
-		free_check_null(temperature_ptr);
-
-	}
-	/*
-	   {
-	   // get all c storage
-	   cxxStorageBin cstorage;
-	   cstorage.import_phreeqc();
-	   //std::ostringstream oss;
-	   //cstorage.dump_raw(oss, 0);
-	   //write it out
-	   std::fstream myfile;
-	   myfile.open("tfile", std::ios_base::out);
-	   cstorage.dump_raw(myfile, 0);
-	   myfile.close();
-	   }
-	   {
-	   // empty storage bin
-	   cxxStorageBin cstorage;
-	   // fstream
-	   std::fstream myfile;
-	   myfile.open("tfile", std::ios_base::in);
-	   // ostream
-	   std::ostringstream oss;
-	   // parser
-	   CParser cparser(myfile, oss, std::cerr);
-	   cstorage.read_raw(cparser);
-	   //std::cerr << oss.str();
-
-	   // read it back
-	   }
-	 */
-}
+//#include "ISolution.h"
+//#include "Exchange.h"
+//#include "Surface.h"
+//#include "PPassemblage.h"
+//#include "cxxKinetics.h"
+//#include "SSassemblage.h"
+//#include "GasPhase.h"
+//#include "Reaction.h"
+//#include "Temperature.h"
+//#include "StorageBin.h"
+//#include "NumKeyword.h"
+//#include <iostream>				// std::cout std::cerr
+////#include <strstream>
+//#include <sstream>
+//#include <fstream>
+//void
+//test_classes(void)
+//{
+//
+//
+//
+//
+//	int i;
+//	/*
+//	   std::map<int, cxxSolution>      Solutions;
+//	   cxxSolution soln(solution[0]);
+//	   Solutions[solution[0]->n_user] = soln;
+//	   bool b = Utilities::exists(Solutions, 1);
+//	 */
+//	/*
+//	   cxxEntityMap x;
+//	   cxxSolution soln(solution[0]);
+//	   cxxNumKeyword nk;
+//	   x[solution[0]->n_user] = soln;
+//	 */
+//	std::ostringstream msg;
+//	status_on = FALSE;
+//	std::cout << std::endl << "TEST CLASSES" << std::endl;
+//	for (i = 0; i < count_solution; i++)
+//	{
+//		if (solution[i]->new_def == TRUE)
+//		{
+//			std::cout << "Solution new_def " << solution[i]->
+//				n_user << std::endl;
+//			cxxISolution sol(solution[i]);
+//			solution_free(solution[i]);
+//			solution[i] = NULL;
+//			solution[i] = sol.cxxISolution2solution();
+//			struct solution *soln_ptr;
+//			soln_ptr = solution[i];
+//			soln_ptr = solution[i];
+//		}
+//		else
+//		{
+//			std::cout << "Solution " << solution[i]->n_user << std::endl;
+//			std::ostringstream oss;
+//			cxxSolution sol(solution[i]);
+//			solution_free(solution[i]);
+//			solution[i] = NULL;
+//			sol.dump_raw(oss, 0);
+//
+//			//std::fstream myfile("t");
+//			//CParser cparser(myfile, std::cout, std::cerr);
+//			cxxSolution sol1;
+//			std::string keyInput = oss.str();
+//			std::istringstream iss(keyInput);
+//
+//			CParser cparser(iss, oss, std::cerr);
+//			//For testing, need to read line to get started
+//			std::vector < std::string > vopts;
+//			std::istream::pos_type next_char;
+//			cparser.get_option(vopts, next_char);
+//
+//
+//			sol1.read_raw(cparser);
+//
+//			solution[i] = sol1.cxxSolution2solution();
+//		}
+//	}
+//	for (i = 0; i < count_exchange; i++)
+//	{
+//		if (exchange[i].new_def != TRUE)
+//		{
+//			std::cout << "Exchange " << exchange[i].n_user << std::endl;
+//			std::ostringstream oss;
+//			cxxExchange ex(&(exchange[i]));
+//			ex.dump_raw(oss, 0);
+//			//std::cerr << oss.str();
+//
+//			cxxExchange ex1;
+//			std::string keyInput = oss.str();
+//			std::istringstream iss(keyInput);
+//
+//			CParser cparser(iss, oss, std::cerr);
+//			//For testing, need to read line to get started
+//			std::vector < std::string > vopts;
+//			std::istream::pos_type next_char;
+//			cparser.get_option(vopts, next_char);
+//
+//			ex1.read_raw(cparser);
+//
+//			struct exchange *exchange_ptr = ex1.cxxExchange2exchange();
+//			exchange_free(&exchange[i]);
+//			exchange_copy(exchange_ptr, &exchange[i], exchange_ptr->n_user);
+//			exchange_free(exchange_ptr);
+//			free_check_null(exchange_ptr);
+//		}
+//	}
+//	for (i = 0; i < count_surface; i++)
+//	{
+//		if (surface[i].new_def != TRUE)
+//		{
+//			std::cout << "Surface " << surface[i].n_user << std::endl;
+//			std::ostringstream oss;
+//			cxxSurface ex(&(surface[i]));
+//			ex.dump_raw(oss, 0);
+//			//std::cerr << oss.str();
+//
+//
+//			cxxSurface ex1;
+//			std::string keyInput = oss.str();
+//			std::istringstream iss(keyInput);
+//
+//			CParser cparser(iss, oss, std::cerr);
+//			//For testing, need to read line to get started
+//			std::vector < std::string > vopts;
+//			std::istream::pos_type next_char;
+//			cparser.get_option(vopts, next_char);
+//
+//			ex1.read_raw(cparser);
+//
+//			struct surface *surface_ptr = ex1.cxxSurface2surface();
+//			surface_free(&surface[i]);
+//			surface_copy(surface_ptr, &surface[i], surface_ptr->n_user);
+//			surface_free(surface_ptr);
+//			free_check_null(surface_ptr);
+//
+//		}
+//
+//	}
+//	for (i = 0; i < count_pp_assemblage; i++)
+//	{
+//		if (pp_assemblage[i].new_def != TRUE)
+//		{
+//			std::cout << "PPassemblage " << pp_assemblage[i].
+//				n_user << std::endl;
+//			std::ostringstream oss;
+//			cxxPPassemblage ex(&(pp_assemblage[i]));
+//			ex.dump_raw(oss, 0);
+//			//std::cerr << oss.str();
+//
+//
+//			cxxPPassemblage ex1;
+//			std::string keyInput = oss.str();
+//			std::istringstream iss(keyInput);
+//
+//			CParser cparser(iss, oss, std::cerr);
+//			//For testing, need to read line to get started
+//			std::vector < std::string > vopts;
+//			std::istream::pos_type next_char;
+//			cparser.get_option(vopts, next_char);
+//
+//			ex1.read_raw(cparser);
+//
+//			struct pp_assemblage *pp_assemblage_ptr =
+//				ex1.cxxPPassemblage2pp_assemblage();
+//			pp_assemblage_free(&pp_assemblage[i]);
+//			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[i],
+//							   pp_assemblage_ptr->n_user);
+//			pp_assemblage_free(pp_assemblage_ptr);
+//			free_check_null(pp_assemblage_ptr);
+//
+//		}
+//
+//	}
+//	for (i = 0; i < count_kinetics; i++)
+//	{
+//		std::cout << "Kinetics " << kinetics[i].n_user << std::endl;
+//		std::ostringstream oss;
+//		cxxKinetics ex(&(kinetics[i]));
+//		ex.dump_raw(oss, 0);
+//		//std::cerr << oss.str();
+//
+//
+//		cxxKinetics ex1;
+//		std::string keyInput = oss.str();
+//		std::istringstream iss(keyInput);
+//
+//		CParser cparser(iss, oss, std::cerr);
+//		//For testing, need to read line to get started
+//		std::vector < std::string > vopts;
+//		std::istream::pos_type next_char;
+//		cparser.get_option(vopts, next_char);
+//
+//
+//		ex1.read_raw(cparser);
+//
+//		struct kinetics *kinetics_ptr = ex1.cxxKinetics2kinetics();
+//		kinetics_free(&kinetics[i]);
+//		kinetics_copy(kinetics_ptr, &kinetics[i], kinetics_ptr->n_user);
+//		kinetics_free(kinetics_ptr);
+//		free_check_null(kinetics_ptr);
+//	}
+//	for (i = 0; i < count_s_s_assemblage; i++)
+//	{
+//		if (s_s_assemblage[i].new_def != TRUE)
+//		{
+//			std::cout << "Solid solution " << s_s_assemblage[i].
+//				n_user << std::endl;
+//			std::ostringstream oss;
+//			cxxSSassemblage ex(&(s_s_assemblage[i]));
+//			ex.dump_raw(oss, 0);
+//			//std::cerr << oss.str();
+//
+//
+//			cxxSSassemblage ex1;
+//			std::string keyInput = oss.str();
+//			std::istringstream iss(keyInput);
+//
+//			CParser cparser(iss, oss, std::cerr);
+//			//For testing, need to read line to get started
+//			std::vector < std::string > vopts;
+//			std::istream::pos_type next_char;
+//			cparser.get_option(vopts, next_char);
+//
+//			ex1.read_raw(cparser);
+//
+//			struct s_s_assemblage *s_s_assemblage_ptr =
+//				ex1.cxxSSassemblage2s_s_assemblage();
+//			s_s_assemblage_free(&s_s_assemblage[i]);
+//			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[i],
+//								s_s_assemblage_ptr->n_user);
+//			s_s_assemblage_free(s_s_assemblage_ptr);
+//			free_check_null(s_s_assemblage_ptr);
+//
+//		}
+//
+//	}
+//	for (i = 0; i < count_gas_phase; i++)
+//	{
+//		if (gas_phase[i].new_def != TRUE)
+//		{
+//			std::cout << "Gas phase " << gas_phase[i].n_user << std::endl;
+//			std::ostringstream oss;
+//			cxxGasPhase ex(&(gas_phase[i]));
+//			ex.dump_raw(oss, 0);
+//			//std::cerr << oss.str();
+//
+//
+//			cxxGasPhase ex1;
+//			std::string keyInput = oss.str();
+//			std::istringstream iss(keyInput);
+//
+//			CParser cparser(iss, oss, std::cerr);
+//			//For testing, need to read line to get started
+//			std::vector < std::string > vopts;
+//			std::istream::pos_type next_char;
+//			cparser.get_option(vopts, next_char);
+//
+//			ex1.read_raw(cparser);
+//
+//			struct gas_phase *gas_phase_ptr = ex1.cxxGasPhase2gas_phase();
+//			gas_phase_free(&gas_phase[i]);
+//			gas_phase_copy(gas_phase_ptr, &gas_phase[i],
+//						   gas_phase_ptr->n_user);
+//			gas_phase_free(gas_phase_ptr);
+//			free_check_null(gas_phase_ptr);
+//
+//		}
+//
+//	}
+//	for (i = 0; i < count_irrev; i++)
+//	{
+//		std::cout << "Reaction " << irrev[i].n_user << std::endl;
+//		std::ostringstream oss;
+//		cxxReaction ex(&(irrev[i]));
+//		ex.dump_raw(oss, 0);
+//		//std::cerr << oss.str();
+//
+//
+//		cxxReaction ex1;
+//		std::string keyInput = oss.str();
+//		std::istringstream iss(keyInput);
+//
+//		CParser cparser(iss, oss, std::cerr);
+//		//For testing, need to read line to get started
+//		std::vector < std::string > vopts;
+//		std::istream::pos_type next_char;
+//		cparser.get_option(vopts, next_char);
+//
+//		ex1.read_raw(cparser);
+//		struct irrev *irrev_ptr = ex1.cxxReaction2irrev();
+//
+//		irrev_free(&irrev[i]);
+//		irrev_copy(irrev_ptr, &irrev[i], irrev_ptr->n_user);
+//
+//		irrev_free(irrev_ptr);
+//		free_check_null(irrev_ptr);
+//
+//	}
+//	for (i = 0; i < count_mix; i++)
+//	{
+//		std::cout << "Mix " << mix[i].n_user << std::endl;
+//		std::ostringstream oss;
+//		cxxMix ex(&(mix[i]));
+//		ex.dump_raw(oss, 0);
+//		//std::cerr << oss.str();
+//
+//
+//		cxxMix ex1;
+//		std::string keyInput = oss.str();
+//		std::istringstream iss(keyInput);
+//
+//		CParser cparser(iss, oss, std::cerr);
+//		//For testing, need to read line to get started
+//		std::vector < std::string > vopts;
+//		std::istream::pos_type next_char;
+//		cparser.get_option(vopts, next_char);
+//
+//		ex1.read_raw(cparser);
+//		struct mix *mix_ptr = ex1.cxxMix2mix();
+//
+//		mix_free(&mix[i]);
+//		mix_copy(mix_ptr, &mix[i], mix_ptr->n_user);
+//
+//		mix_free(mix_ptr);
+//		free_check_null(mix_ptr);
+//
+//	}
+//	for (i = 0; i < count_temperature; i++)
+//	{
+//		std::cout << "Temperature " << temperature[i].n_user << std::endl;
+//		std::ostringstream oss;
+//		cxxTemperature ex(&(temperature[i]));
+//		ex.dump_raw(oss, 0);
+//		//std::cerr << oss.str();
+//
+//
+//		cxxTemperature ex1;
+//		std::string keyInput = oss.str();
+//		std::istringstream iss(keyInput);
+//
+//		CParser cparser(iss, oss, std::cerr);
+//		//For testing, need to read line to get started
+//		std::vector < std::string > vopts;
+//		std::istream::pos_type next_char;
+//		cparser.get_option(vopts, next_char);
+//
+//		ex1.read_raw(cparser);
+//		struct temperature *temperature_ptr =
+//			ex1.cxxTemperature2temperature();
+//
+//		temperature_free(&temperature[i]);
+//		temperature_copy(temperature_ptr, &temperature[i],
+//						 temperature_ptr->n_user);
+//
+//		temperature_free(temperature_ptr);
+//		free_check_null(temperature_ptr);
+//
+//	}
+//	/*
+//	   {
+//	   // get all c storage
+//	   cxxStorageBin cstorage;
+//	   cstorage.import_phreeqc();
+//	   //std::ostringstream oss;
+//	   //cstorage.dump_raw(oss, 0);
+//	   //write it out
+//	   std::fstream myfile;
+//	   myfile.open("tfile", std::ios_base::out);
+//	   cstorage.dump_raw(myfile, 0);
+//	   myfile.close();
+//	   }
+//	   {
+//	   // empty storage bin
+//	   cxxStorageBin cstorage;
+//	   // fstream
+//	   std::fstream myfile;
+//	   myfile.open("tfile", std::ios_base::in);
+//	   // ostream
+//	   std::ostringstream oss;
+//	   // parser
+//	   CParser cparser(myfile, oss, std::cerr);
+//	   cstorage.read_raw(cparser);
+//	   //std::cerr << oss.str();
+//
+//	   // read it back
+//	   }
+//	 */
+//}

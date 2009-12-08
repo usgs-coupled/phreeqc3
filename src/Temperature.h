@@ -8,6 +8,7 @@
 #include <vector>				// std::vector
 
 #include "NumKeyword.h"
+#include "Phreeqc_class.h"
 
 class cxxTemperature:public cxxNumKeyword
 {
@@ -17,7 +18,7 @@ class cxxTemperature:public cxxNumKeyword
 	cxxTemperature(struct temperature *);
 	 ~cxxTemperature();
 
-	struct temperature *cxxTemperature2temperature();
+	struct temperature *cxxTemperature2temperature(PHREEQC_PTR_ARG);
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
