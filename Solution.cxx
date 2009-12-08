@@ -122,7 +122,7 @@ cxxNumKeyword()
 			sprintf(P_INSTANCE_POINTER error_string,
 					"Solution %d not found in mix_cxxSolutions.", it->first);
 			P_INSTANCE_POINTER error_msg(P_INSTANCE_POINTER error_string, CONTINUE);
-			input_error++;
+			P_INSTANCE_POINTER input_error++;
 		}
 		else
 		{
@@ -284,7 +284,7 @@ cxxSolution::cxxSolution2solution(PHREEQC_PTR_ARG)
 
 	struct solution *solution_ptr = P_INSTANCE_POINTER solution_alloc();
 
-	solution_ptr->description = this->get_description();
+	solution_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	solution_ptr->n_user = this->n_user;
 	solution_ptr->n_user_end = this->n_user_end;
 	solution_ptr->new_def = FALSE;
@@ -1389,7 +1389,7 @@ cxxSolution::mpi_send(int task_number)
 
 	/*  int count_isotopes; */
 	/*  struct isotope *isotopes; */
-	if (input_error > 0)
+	if (P_INSTANCE_POINTER input_error > 0)
 	{
 		std::string errstr("Stopping due to errors\n");
 		error_msg(errstr.c_str(), STOP);
@@ -1405,7 +1405,7 @@ cxxSolution::mpi_send(int task_number)
 	MPI_Pack_size((int) doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD,
 				  &member_size);
 	max_size += member_size + 10;
-	buffer = PHRQ_malloc(max_size);
+	buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 /*
@@ -1453,7 +1453,7 @@ cxxSolution::mpi_recv(int task_number)
 
 	MPI_Recv(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD,
 			 &mpi_status);
-	void *buffer = PHRQ_malloc(max_size);
+	void *buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 	/*

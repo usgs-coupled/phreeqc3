@@ -86,7 +86,7 @@ read_solution_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -179,7 +179,7 @@ read_exchange_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -273,7 +273,7 @@ read_surface_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -368,7 +368,7 @@ read_equilibrium_phases_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -464,7 +464,7 @@ read_kinetics_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -559,7 +559,7 @@ read_solid_solutions_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -656,7 +656,7 @@ read_gas_phase_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -750,7 +750,7 @@ read_reaction_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -845,7 +845,7 @@ read_mix_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -940,7 +940,7 @@ read_temperature_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	if (pr.echo_input == FALSE)
@@ -1017,7 +1017,7 @@ read_dump(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1069,7 +1069,7 @@ read_delete(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1121,7 +1121,7 @@ read_run_cells(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1191,7 +1191,7 @@ read_solution_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1278,7 +1278,7 @@ read_equilibrium_phases_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1366,7 +1366,7 @@ read_exchange_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1454,7 +1454,7 @@ read_surface_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1541,7 +1541,7 @@ read_solid_solutions_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1627,7 +1627,7 @@ read_gas_phase_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1713,7 +1713,7 @@ read_kinetics_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started

@@ -6,19 +6,22 @@
 #include <string>				// std::string
 class CParser;
 
-extern char *string_duplicate(const char *);
+//extern char *string_duplicate(const char *);
 
 class cxxNumKeyword
 {
   public:
 	cxxNumKeyword();
 	virtual ~ cxxNumKeyword();
-
-
-	char *get_description() const
+	const std::string &get_description() const
 	{
-		return string_duplicate(this->description.c_str());
+		return this->description;
 	}
+
+	//char *get_description() const
+	//{
+	//	return string_duplicate(this->description.c_str());
+	//}
 	void set_description(std::string str)
 	{
 		this->description = str;

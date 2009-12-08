@@ -48,7 +48,7 @@ struct conc *cxxISolutionComp::concarray(std::map <char *, double, CHARSTAR_LESS
         // returns list of conc structures
 {
         struct conc *c;
-        c = (struct conc *) PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
+        c = (struct conc *) P_INSTANCE_POINTER PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
         if (c == NULL) malloc_error();
         int i = 0;
         for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
@@ -78,7 +78,7 @@ cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < s
 {
 	struct conc *c;
 	c = (struct conc *)
-		PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
 	if (c == NULL)
 		P_INSTANCE_POINTER malloc_error();
 	int i = 0;

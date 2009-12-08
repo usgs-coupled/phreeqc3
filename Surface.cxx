@@ -150,7 +150,7 @@ cxxSurface::cxxSurface2surface(PHREEQC_PTR_ARG)
 {
 	struct surface *surface_ptr = P_INSTANCE_POINTER surface_alloc();
 
-	surface_ptr->description = this->get_description();
+	surface_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	surface_ptr->n_user = this->n_user;
 	surface_ptr->n_user_end = this->n_user_end;
 	surface_ptr->new_def = FALSE;
@@ -542,7 +542,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(is);
+				CParser reread(P_INSTANCE_COMMA is);
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceComps.find(ec.get_formula()) != this->surfaceComps.end())
@@ -595,7 +595,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(is);
+				CParser reread(P_INSTANCE_COMMA is);
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceCharges.find(ec.get_name()) != this->surfaceCharges.end())

@@ -141,7 +141,7 @@ cxxNameDouble::elt_list(PHREEQC_PTR_ARG)
 	assert(this->type == cxxNameDouble::ND_ELT_MOLES);
 	struct elt_list *elt_list_ptr =
 		(struct elt_list *)
-		PHRQ_malloc((size_t) ((this->size() + 1) * sizeof(struct elt_list)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) ((this->size() + 1) * sizeof(struct elt_list)));
 	if (elt_list_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 	int i = 0;
@@ -172,7 +172,7 @@ cxxNameDouble::master_activity(PHREEQC_PTR_ARG) const
 		{
 			master_activity_ptr =
 				(struct master_activity *)
-				PHRQ_malloc((size_t)
+				P_INSTANCE_POINTER PHRQ_malloc((size_t)
 							(((*this).size() +
 							  1) * sizeof(struct master_activity)));
 			if (master_activity_ptr == NULL)
@@ -193,7 +193,7 @@ cxxNameDouble::master_activity(PHREEQC_PTR_ARG) const
 			{
 				master_activity_ptr =
 					(struct master_activity *)
-					PHRQ_malloc((size_t)
+					P_INSTANCE_POINTER PHRQ_malloc((size_t)
 								(((*this).size()) *
 								 sizeof(struct master_activity)));
 				if (master_activity_ptr == NULL)
@@ -224,7 +224,7 @@ cxxNameDouble::conc(PHREEQC_PTR_ARG) const
 	struct conc *c;
 	assert(this->type == cxxNameDouble::ND_ELT_MOLES);
 	c = (struct conc *)
-		PHRQ_malloc((size_t) (((*this).size() + 1) * sizeof(struct conc)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) (((*this).size() + 1) * sizeof(struct conc)));
 	if (c == NULL)
 		P_INSTANCE_POINTER malloc_error();
 	int i = 0;
@@ -256,7 +256,7 @@ cxxNameDouble::name_coef(PHREEQC_PTR_ARG) const
 	assert(this->type == cxxNameDouble::ND_NAME_COEF);
 	struct name_coef *name_coef_ptr =
 		(struct name_coef *)
-		PHRQ_malloc((size_t) ((this->size()) * sizeof(struct name_coef)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) ((this->size()) * sizeof(struct name_coef)));
 	if (name_coef_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 	int i = 0;

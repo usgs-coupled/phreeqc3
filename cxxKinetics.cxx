@@ -115,7 +115,7 @@ cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
 {
 	struct kinetics *kinetics_ptr = P_INSTANCE_POINTER kinetics_alloc();
 
-	kinetics_ptr->description = this->get_description();
+	kinetics_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	kinetics_ptr->n_user = this->n_user;
 	kinetics_ptr->n_user_end = this->n_user_end;
 	kinetics_ptr->step_divide = this->step_divide;
@@ -142,7 +142,7 @@ cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
 	{
 		kinetics_ptr->steps =
 			(double *)
-			PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
+			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
 		if (kinetics_ptr->steps == NULL)
 			P_INSTANCE_POINTER malloc_error();
 		std::copy(this->steps.begin(), this->steps.end(),
@@ -417,7 +417,7 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(is);
+				CParser reread(P_INSTANCE_COMMA is);
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 

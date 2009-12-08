@@ -5,21 +5,24 @@
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
 
-#include "Parser.h"
-#include "Utils.h"
-#include "output.h"
 #include <algorithm>			// std::transform
 #include <map>					// std::map
 #include <cassert>				// assert
 #include <iostream>				// std::cout std::cerr
+#include "Utils.h"
+#if defined (PHREEQC_CLASS)
+#include "Phreeqc.h"
+#endif
+#include "Parser.h"
+#include "output.h"
 
-extern char *string_hsave(const char *str);
+//extern char *string_hsave(const char *str);
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CParser::CParser(std::istream & input):m_input_stream(input), m_output_stream(std::cout), m_error_stream(std::cerr),
+CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input):m_input_stream(input), m_output_stream(std::cout), m_error_stream(std::cerr),
 m_input_error(0),
 m_next_keyword(KT_NONE)
 {
@@ -30,7 +33,7 @@ m_next_keyword(KT_NONE)
 	accumulate = false;
 }
 
-CParser::CParser(std::istream & input, std::ostream & output):m_input_stream(input), m_output_stream(output), m_error_stream(std::cerr),
+CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output):m_input_stream(input), m_output_stream(output), m_error_stream(std::cerr),
 m_input_error(0),
 m_next_keyword(KT_NONE)
 {
@@ -41,7 +44,7 @@ m_next_keyword(KT_NONE)
 	accumulate = false;
 }
 
-CParser::CParser(std::istream & input, std::ostream & output, std::ostream & error):m_input_stream(input), m_output_stream(output), m_error_stream(error),
+CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, std::ostream & error):m_input_stream(input), m_output_stream(output), m_error_stream(error),
 m_input_error(0),
 m_next_keyword(KT_NONE)
 {
@@ -112,7 +115,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());
+				PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
 			}
 			break;
 		case EO_KEYWORDS:
@@ -120,7 +123,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());
+				PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
 			}
 			break;
 
@@ -129,7 +132,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				output_msg(OUTPUT_MESSAGE, "%s", msg.str().c_str());
+				PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
 			}
 			break;
 		}
@@ -870,7 +873,7 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 int
 CParser::error_msg(const char *err_str, ONERROR_TYPE ot)
 {
-	::error_msg(err_str, (int) ot);
+	ERROR_MESSAGE_QUALIFIER error_msg(err_str, (int) ot);
 	m_error_stream << "ERROR: " << err_str << "\n";
 	m_error_stream.flush();
 
@@ -1322,4 +1325,10 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		}
 	}
 	return (j);
+}
+int CParser::
+incr_input_error()
+{
+	++ ERROR_MESSAGE_QUALIFIER input_error;
+	return ++m_input_error;
 }

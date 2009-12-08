@@ -87,7 +87,7 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::s
 	//  generate s_s structures
 	//
 	struct s_s *s_s_ptr =
-		(struct s_s *) PHRQ_malloc((size_t) (el.size() * sizeof(struct s_s)));
+		(struct s_s *) P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct s_s)));
 	if (s_s_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 	int j = 0;
@@ -129,7 +129,7 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::s
 			int n;
 			struct s_s_comp *s_s_comp_ptr =
 				(struct s_s_comp *)
-				PHRQ_malloc((size_t)
+				P_INSTANCE_POINTER PHRQ_malloc((size_t)
 							((*it).second.comps.size() * sizeof(struct s_s_comp)));
 			if (s_s_comp_ptr == NULL)
 				P_INSTANCE_POINTER malloc_error();

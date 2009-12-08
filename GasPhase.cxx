@@ -109,7 +109,7 @@ cxxNumKeyword()
 					std::ostringstream oss;
 					oss << "Can not mix two gas_phases with differing types.";
 					P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-					input_error++;
+					P_INSTANCE_POINTER input_error++;
 					return;
 				}
 
@@ -135,7 +135,7 @@ cxxGasPhase::cxxGasPhaseComp2gas_comp(PHREEQC_PTR_ARG)
 		int n;
 		gas_comp_ptr =
 			(struct gas_comp *)
-			PHRQ_malloc((size_t)
+			P_INSTANCE_POINTER PHRQ_malloc((size_t)
 						(this->gasPhaseComps.size() *
 						 sizeof(struct gas_comp)));
 		if (gas_comp_ptr == NULL)
@@ -163,7 +163,7 @@ cxxGasPhase::cxxGasPhase2gas_phase(PHREEQC_PTR_ARG)
 {
 	struct gas_phase *gas_phase_ptr = P_INSTANCE_POINTER gas_phase_alloc();
 
-	gas_phase_ptr->description = this->get_description();
+	gas_phase_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	gas_phase_ptr->n_user = this->n_user;
 	gas_phase_ptr->n_user_end = this->n_user_end;
 	gas_phase_ptr->new_def = FALSE;

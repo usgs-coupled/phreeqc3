@@ -84,7 +84,7 @@ cxxTemperature::cxxTemperature2temperature(PHREEQC_PTR_ARG)
 	if (temperature_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 
-	temperature_ptr->description = this->get_description();
+	temperature_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	temperature_ptr->n_user = this->n_user;
 	temperature_ptr->n_user_end = this->n_user_end;
 
@@ -94,7 +94,7 @@ cxxTemperature::cxxTemperature2temperature(PHREEQC_PTR_ARG)
 	{
 		temperature_ptr->t =
 			(double *)
-			PHRQ_malloc((size_t) (this->temps.size() * sizeof(double)));
+			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->temps.size() * sizeof(double)));
 		if (temperature_ptr->t == NULL)
 			P_INSTANCE_POINTER malloc_error();
 		std::copy(this->temps.begin(), this->temps.end(), temperature_ptr->t);

@@ -1050,7 +1050,7 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
 			sprintf(error_string,
 					"Solution %d not found in mix_cxxSolutions.", it->first);
 			error_msg(error_string, CONTINUE);
-			input_error++;
+			P_INSTANCE_POINTER input_error++;
 			return (NULL);
 		}
 		intensive = it->second / extensive;
@@ -1066,7 +1066,7 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 		//
 {
 	struct system *system_ptr =
-		(struct system *) PHRQ_malloc(sizeof(struct system));
+		(struct system *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct system));
 	if (system_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 
@@ -1249,7 +1249,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	MPI_Pack_size((int) doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD,
 				  &member_size);
 	max_size += member_size + 10;
-	void *buffer = PHRQ_malloc(max_size);
+	void *buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 
@@ -1303,7 +1303,7 @@ cxxStorageBin::mpi_recv(int task_number)
 
 	MPI_Recv(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD,
 			 &mpi_status);
-	void *buffer = PHRQ_malloc(max_size);
+	void *buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 	/*
@@ -1447,7 +1447,7 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 		sprintf(error_string, "Exchange %d not found in mix_cxxExchange.",
 				it_mix->first);
 		error_msg(error_string, CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER input_error++;
 		return (NULL);
 	}
 	new_exch_ptr->set_pitzer_exchange_gammas(old_exch_ptr->
@@ -1468,7 +1468,7 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 			sprintf(error_string, "Exchange %d not found in mix_cxxExchange.",
 					it_mix->first);
 			error_msg(error_string, CONTINUE);
-			input_error++;
+			P_INSTANCE_POINTER input_error++;
 			return (NULL);
 		}
 		//  Add exchange components to vector ec_vector
