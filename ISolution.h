@@ -20,7 +20,7 @@ class cxxISolution:public cxxSolution
 
   public:
 	cxxISolution();
-	cxxISolution(struct solution *);
+	cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *);
 	//cxxISolution(const cxxISolution&);
 	 ~cxxISolution();
 
@@ -28,7 +28,7 @@ class cxxISolution:public cxxSolution
 
 	//void add(cxxISolutionComp conc)       { this->concs.push_back(conc); }
 
-	struct solution *cxxISolution2solution();
+	struct solution *cxxISolution2solution(PHREEQC_PTR_ARG);
 
 	double get_density() const
 	{
@@ -59,7 +59,7 @@ class cxxISolution:public cxxSolution
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
-	void ConvertUnits();
+	void ConvertUnits(PHREEQC_PTR_ARG);
 
 #ifdef ORCHESTRA
 	void ORCH_write(std::ostream & chemistry_dat, std::ostream & input_dat,

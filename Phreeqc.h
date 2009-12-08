@@ -870,6 +870,7 @@ int dump_reaction(int k);
 int dump_s_s_assemblage(int k);
 int dump_solution(int k);
 int dump_surface(int k);
+int dump_cpp(void);
 
 int read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d,
 							int *count_alloc);
@@ -948,42 +949,56 @@ int copier_add(struct copier *copier_ptr, int n_user, int start, int end);
 int copier_free(struct copier *copier_ptr);
 int copier_init(struct copier *copier_ptr);
 CLASS_STATIC int element_compare(const void *ptr1, const void *ptr2);
-struct element *element_store(const char *element);
-int elt_list_combine(void);
-CLASS_STATIC int elt_list_compare(const void *ptr1, const void *ptr2);
+public:
+	struct element *element_store(const char *element);
+	int elt_list_combine(void);
+	CLASS_STATIC int elt_list_compare(const void *ptr1, const void *ptr2);
+private:
 struct elt_list *elt_list_dup(struct elt_list *elt_list_ptr_old);
 int elt_list_print(struct elt_list *elt_list_ptr);
 struct elt_list *elt_list_save(void);
-struct exchange *exchange_alloc(void);
-struct exchange *exchange_bsearch(int k, int *n);
+public:
+	struct exchange *exchange_alloc(void);
+	struct exchange *exchange_bsearch(int k, int *n);
+private:
 int exchange_comp_compare(const void *ptr1, const void *ptr2);
 void exchange_comp_init(struct exch_comp *exch_comp_ptr);
-int exchange_copy(struct exchange *exchange_old_ptr,
-				  struct exchange *exchange_new_ptr, int n_user_new);
+public:
+	int exchange_copy(struct exchange *exchange_old_ptr,
+		struct exchange *exchange_new_ptr, int n_user_new);
+private:
 CLASS_STATIC int exchange_compare(const void *ptr1, const void *ptr2);
 int exchange_copy_to_last(int n, int n_user);
 int exchange_delete(int n_user_old);
 int exchange_duplicate(int n_user_old, int n_user_new);
 int exchange_init(struct exchange *exchange_ptr, int n_user, int n_user_end,
 				  const char *description);
-int exchange_free(struct exchange *exchange_ptr);
+public:
+	int exchange_free(struct exchange *exchange_ptr);
+private:
 int exchange_ptr_to_user(struct exchange *exchange_old_ptr, int n_user_new);
 struct exchange *exchange_replicate(struct exchange *exchange_old_ptr,
 									int n_user_new);
 struct exchange *exchange_search(int n_user, int *n, int print);
 int exchange_sort(void);
 CLASS_STATIC int gas_comp_compare(const void *ptr1, const void *ptr2);
-struct gas_phase *gas_phase_alloc(void);
-struct gas_phase *gas_phase_bsearch(int k, int *n);
+public:
+	struct gas_phase *gas_phase_alloc(void);
+	struct gas_phase *gas_phase_bsearch(int k, int *n);
+private:
 CLASS_STATIC int gas_phase_compare(const void *ptr1, const void *ptr2);
+public:
 int gas_phase_copy(struct gas_phase *gas_phase_old_ptr,
 				   struct gas_phase *gas_phase_new_ptr, int n_user_new);
+private:
 int gas_phase_copy_to_last(int n, int n_user);
 int gas_phase_delete(int n_user_old);
 int gas_phase_duplicate(int n_user_old, int n_user_new);
 int gas_phase_init(struct gas_phase *gas_phase_ptr, int n_user,
 				   int n_user_end, char *description);
+public:
 int gas_phase_free(struct gas_phase *gas_phase_ptr);
+private:
 int gas_phase_ptr_to_user(struct gas_phase *gas_phase_ptr_old,
 						  int n_user_new);
 struct gas_phase *gas_phase_replicate(struct gas_phase *gas_phase_old_ptr,
@@ -1004,19 +1019,25 @@ int irrev_duplicate(int n_user_old, int n_user_new);
 int irrev_free(struct irrev *irrev_ptr);
 struct irrev *irrev_search(int n_user, int *n);
 int irrev_sort(void);
-struct kinetics *kinetics_alloc(void);
-struct kinetics *kinetics_bsearch(int k, int *n);
+public:
+	struct kinetics *kinetics_alloc(void);
+	struct kinetics *kinetics_bsearch(int k, int *n);
+private:
 int kinetics_delete(int n_user_old);
 int kinetics_comp_duplicate(struct kinetics_comp *kinetics_comp_new_ptr,
 							struct kinetics_comp *kinetics_comp_old_ptr);
 CLASS_STATIC int kinetics_compare(const void *ptr1, const void *ptr2);
+public:
 int kinetics_copy(struct kinetics *kinetics_old_ptr,
 				  struct kinetics *kinetics_new_ptr, int n_user_new);
+private:				 
 int kinetics_copy_to_last(int n, int n_user);
 int kinetics_duplicate(int n_user_old, int n_user_new);
 int kinetics_init(struct kinetics *kinetics_ptr, int n_user, int n_user_end,
 				  char *description);
+public:
 int kinetics_free(struct kinetics *kinetics_ptr);
+private:
 int kinetics_ptr_to_user(struct kinetics *kinetics_ptr_old, int n_user_new);
 struct kinetics *kinetics_replicate(struct kinetics *kinetics_old_ptr,
 									int n_user_new);
@@ -1043,8 +1064,10 @@ int mix_free(struct mix *mix_ptr);
 struct mix *mix_search(int n_user, int *n, int print);
 int mix_sort(void);
 struct pe_data *pe_data_alloc(void);
-struct pe_data *pe_data_dup(struct pe_data *pe_ptr_old);
-struct pe_data *pe_data_free(struct pe_data *pe_data_ptr);
+public:
+	struct pe_data *pe_data_dup(struct pe_data *pe_ptr_old);
+	struct pe_data *pe_data_free(struct pe_data *pe_data_ptr);
+private:
 int pe_data_store(struct pe_data **pe, const char *token);
 public:
 struct phase *phase_bsearch(const char *ptr, int *j, int print);
@@ -1052,16 +1075,22 @@ private:
 CLASS_STATIC int phase_compare(const void *ptr1, const void *ptr2);
 int phase_delete(int i);
 struct phase *phase_store(char *name);
+public:
 struct pp_assemblage *pp_assemblage_alloc(void);
 struct pp_assemblage *pp_assemblage_bsearch(int k, int *n);
+private:
 CLASS_STATIC int pp_assemblage_compare(const void *ptr1, const void *ptr2);
+public:
 int pp_assemblage_copy(struct pp_assemblage *pp_assemblage_old_ptr,
 					   struct pp_assemblage *pp_assemblage_new_ptr,
 					   int n_user_new);
+private:
 int pp_assemblage_copy_to_last(int n, int n_user);
 int pp_assemblage_delete(int n_user_old);
 int pp_assemblage_duplicate(int n_user_old, int n_user_new);
+public:
 int pp_assemblage_free(struct pp_assemblage *pp_assemblage_ptr);
+private:
 int pp_assemblage_init(struct pp_assemblage *pp_assemblage_ptr, int n_user,
 					   int n_user_end, char *description);
 int pp_assemblage_ptr_to_user(struct pp_assemblage *pp_assemblage_ptr_old,
@@ -1087,17 +1116,20 @@ struct species *s_search(const char *name);
 struct species *s_store(char *name, LDBLE z, int replace_if_found);
 public:
 	struct s_s_assemblage *s_s_assemblage_alloc(void);
+	struct s_s_assemblage *s_s_assemblage_bsearch(int k, int *n);
 private:
-struct s_s_assemblage *s_s_assemblage_bsearch(int k, int *n);
 CLASS_STATIC int s_s_assemblage_compare(const void *ptr1, const void *ptr2);
-
-int s_s_assemblage_copy(struct s_s_assemblage *s_s_assemblage_old_ptr,
+public:
+	int s_s_assemblage_copy(struct s_s_assemblage *s_s_assemblage_old_ptr,
 						struct s_s_assemblage *s_s_assemblage_new_ptr,
 						int n_user_new);
+private:
 int s_s_assemblage_copy_to_last(int n, int n_user);
 int s_s_assemblage_duplicate(int n_user_old, int n_user_new);
 int s_s_assemblage_delete(int n_user_old);
-int s_s_assemblage_free(struct s_s_assemblage *s_s_assemblage_ptr);
+public:
+	int s_s_assemblage_free(struct s_s_assemblage *s_s_assemblage_ptr);
+private:
 int s_s_assemblage_init(struct s_s_assemblage *s_s_assemblage_ptr,
 						int n_user, int n_user_end, char *description);
 int s_s_assemblage_ptr_to_user(struct s_s_assemblage *s_s_assemblage_ptr_old,
@@ -1117,9 +1149,9 @@ int conc_init(struct conc *conc_ptr);
 CLASS_STATIC int isotope_compare(const void *ptr1, const void *ptr2);
 public:
 	struct solution *solution_alloc(void);
+	struct solution *solution_bsearch(int k, int *n, int print);
 private:
-struct solution *solution_bsearch(int k, int *n, int print);
-struct solution *solution_copy(struct solution *solution_old_ptr,
+	struct solution *solution_copy(struct solution *solution_old_ptr,
 							   int n_user_new);
 int solution_copy_to_last(int n, int n_user_new);
 int solution_duplicate(int n_user_old, int n_user_new);
@@ -1136,20 +1168,24 @@ int species_list_sort(void);
 struct Change_Surf *change_surf_alloc(int count);
 public:
 	struct surface *surface_alloc(void);
+	struct surface *surface_bsearch(int k, int *n);
 private:
-struct surface *surface_bsearch(int k, int *n);
 struct master *surface_get_psi_master(const char *name, int plane);
 CLASS_STATIC int surface_comp_compare(const void *ptr1, const void *ptr2);
 CLASS_STATIC int surface_charge_compare(const void *ptr1, const void *ptr2);
 struct surface_charge * surface_charge_duplicate(struct surface_charge *charge_old_ptr);
 int surface_charge_free(struct surface_charge *charge);
 CLASS_STATIC int surface_compare(const void *ptr1, const void *ptr2);
-int surface_copy(struct surface *surface_old_ptr,
+public:
+	int surface_copy(struct surface *surface_old_ptr,
 				 struct surface *surface_new_ptr, int n_user_new);
+private:
 int surface_copy_to_last(int n, int n_user);
 int surface_delete(int n_user_old);
 int surface_duplicate(int n_user_old, int n_user_new);
-int surface_free(struct surface *surface_ptr);
+public:
+	int surface_free(struct surface *surface_ptr);
+private:
 int surface_init(struct surface *surface_ptr, int n_user, int n_user_end,
 				 char *description);
 int surface_ptr_to_user(struct surface *surface_ptr_old, int n_user_new);
@@ -1315,8 +1351,9 @@ int mix_stag(int i, LDBLE stagkin_time, int punch,
 
 
 // utilities.c -------------------------------
-
+public:
 int add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef);
+private:
 int backspace_screen(int spaces);
 LDBLE calc_alk(struct reaction *rxn_ptr);
 public:

@@ -38,7 +38,7 @@ units("mMol/kgw")
 	pes = NULL;
 }
 
-cxxISolution::cxxISolution(struct solution *solution_ptr):
+cxxISolution::cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *solution_ptr):
 cxxSolution(solution_ptr)
 		//, pe(cxxPe_Data::alloc())
 {
@@ -53,39 +53,39 @@ cxxSolution(solution_ptr)
 	}
 	default_pe = solution_ptr->default_pe;
 	// pe_data
-	pes = pe_data_dup(solution_ptr->pe);
+	pes = P_INSTANCE_POINTER pe_data_dup(solution_ptr->pe);
 }
 
 cxxISolution::~cxxISolution()
 {
-	pe_data_free(this->pes);
+	//// ToDo //pe_data_free(this->pes);
 }
 
 struct solution *
-cxxISolution::cxxISolution2solution()
+cxxISolution::cxxISolution2solution(PHREEQC_PTR_ARG)
 		//
 		// Builds a solution structure from instance of cxxISolution 
 		//
 {
-	struct solution *soln_ptr = this->cxxSolution2solution();
+	struct solution *soln_ptr = this->cxxSolution2solution(P_INSTANCE);
 	soln_ptr->new_def = TRUE;
 	soln_ptr->density = this->density;
 	if (this->units.size() == 0)
 		soln_ptr->units = NULL;
 	else
-		soln_ptr->units = string_hsave(this->units.c_str());
+		soln_ptr->units = P_INSTANCE_POINTER string_hsave(this->units.c_str());
 	soln_ptr->default_pe = this->default_pe;
 	// pe
-	soln_ptr->pe = (struct pe_data *) pe_data_free(soln_ptr->pe);
-	soln_ptr->pe = pe_data_dup(this->pes);
+	soln_ptr->pe = (struct pe_data *) P_INSTANCE_POINTER pe_data_free(soln_ptr->pe);
+	soln_ptr->pe = P_INSTANCE_POINTER pe_data_dup(this->pes);
 	// totals
-	soln_ptr->totals = (struct conc *) free_check_null(soln_ptr->totals);
-	soln_ptr->totals = cxxISolutionComp::cxxISolutionComp2conc(this->comps);
+	soln_ptr->totals = (struct conc *) P_INSTANCE_POINTER free_check_null(soln_ptr->totals);
+	soln_ptr->totals = cxxISolutionComp::cxxISolutionComp2conc(P_INSTANCE_COMMA this->comps);
 	return (soln_ptr);
 }
 
 void
-cxxISolution::ConvertUnits()
+cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
   //
   // Converts from input units to moles per kilogram water
   //
@@ -96,7 +96,7 @@ cxxISolution::ConvertUnits()
 		this->comps.begin();
 	for (; iter != this->comps.end(); ++iter)
 	{
-		struct master *master_ptr = master_bsearch(iter->first.c_str());
+		struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(iter->first.c_str());
 		if (master_ptr != NULL && (master_ptr->minor_isotope == TRUE))
 			continue;
 		//if (iter->second.get_description() == "H(1)" || iter->second.get_description() == "E") continue;
@@ -117,7 +117,7 @@ cxxISolution::ConvertUnits()
 * Convert to moles
 */
 		//set gfw for element
-		iter->second.set_gfw();
+		iter->second.set_gfw(P_INSTANCE);
 		// convert to moles
 		if (iter->second.get_units().find("g/") != std::string::npos)
 		{
@@ -130,7 +130,7 @@ cxxISolution::ConvertUnits()
 				std::ostringstream oss;
 				oss << "Could not find gfw, " << iter->second.
 					get_description();
-				error_msg(oss.str().c_str(), CONTINUE);
+				P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
 				input_error++;
 			}
 		}

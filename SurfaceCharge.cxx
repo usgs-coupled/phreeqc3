@@ -203,7 +203,7 @@ cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSurfaceCharge::read_raw(CParser & parser, bool check)
+cxxSurfaceCharge::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	std::string str;
 
@@ -337,7 +337,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 
 
 		case 6:				// diffuse_layer_totals
-			if (this->diffuse_layer_totals.read_raw(parser, next_char) !=
+			if (this->diffuse_layer_totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

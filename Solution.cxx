@@ -306,18 +306,18 @@ cxxSolution::cxxSolution2solution(PHREEQC_PTR_ARG)
 	// totals
 	solution_ptr->totals =
 		(struct conc *) P_INSTANCE_POINTER free_check_null(solution_ptr->totals);
-	solution_ptr->totals = this->totals.conc();
+	solution_ptr->totals = this->totals.conc(P_INSTANCE);
 
 	// master_activity
 	solution_ptr->master_activity =
 		(struct master_activity *) P_INSTANCE_POINTER free_check_null(solution_ptr->
 												   master_activity);
-	solution_ptr->master_activity = this->master_activity.master_activity();
+	solution_ptr->master_activity = this->master_activity.master_activity(P_INSTANCE);
 	solution_ptr->count_master_activity =
 		(int) this->master_activity.size() + 1;
 
 	// species_gamma
-	solution_ptr->species_gamma = this->species_gamma.master_activity();
+	solution_ptr->species_gamma = this->species_gamma.master_activity(P_INSTANCE);
 	solution_ptr->count_species_gamma = (int) this->species_gamma.size();
 
 	// isotopes
@@ -557,7 +557,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSolution::read_raw(CParser & parser, bool check)
+cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -629,7 +629,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			continue;
 
 		case 0:				// totals
-			if (this->totals.read_raw(parser, next_char) !=
+			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -641,7 +641,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			break;
 
 		case 1:				// activities
-			if (this->master_activity.read_raw(parser, next_char) !=
+			if (this->master_activity.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -654,7 +654,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			break;
 
 		case 2:				// gammas
-			if (this->species_gamma.read_raw(parser, next_char) !=
+			if (this->species_gamma.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

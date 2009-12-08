@@ -82,7 +82,7 @@ cxxNumKeyword()
 		surfaceCharges[str] = ec;
 	}
 }
-cxxSurface::cxxSurface(const std::map < int, cxxSurface > &entities,
+cxxSurface::cxxSurface(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSurface > &entities,
 					   cxxMix & mix, int n_user):
 cxxNumKeyword()
 {
@@ -107,7 +107,7 @@ cxxNumKeyword()
 		{
 			const cxxSurface *entity_ptr =
 				&(entities.find(it->first)->second);
-			this->add(*entity_ptr, it->second);
+			this->add(P_INSTANCE_COMMA *entity_ptr, it->second);
 		}
 	}
 }
@@ -177,7 +177,7 @@ cxxSurface::cxxSurface2surface(PHREEQC_PTR_ARG)
 	surface_ptr->comps =
 		(struct surface_comp *) P_INSTANCE_POINTER free_check_null(surface_ptr->comps);
 	surface_ptr->comps =
-		cxxSurfaceComp::cxxSurfaceComp2surface_comp(this->surfaceComps);
+		cxxSurfaceComp::cxxSurfaceComp2surface_comp(P_INSTANCE_COMMA this->surfaceComps);
 
 	// Surface charge
 	surface_ptr->charge =
@@ -200,8 +200,7 @@ cxxSurface::cxxSurface2surface(PHREEQC_PTR_ARG)
 		for (i = 0; i < surface_ptr->count_comps; i++)
 		{
 			char *charge_name = P_INSTANCE_POINTER string_hsave(
-				cxxSurfaceComp::get_charge_name(surface_ptr->comps[i].
-												formula).c_str());
+				cxxSurfaceComp::get_charge_name(P_INSTANCE_COMMA surface_ptr->comps[i].formula).c_str());
 			for (j = 0; j < surface_ptr->count_charge; j++)
 			{
 				if (charge_name == surface_ptr->charge[j].name)
@@ -364,7 +363,7 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSurface::read_raw(CParser & parser, bool check)
+cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	int i = 0;
@@ -540,7 +539,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
+				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
@@ -549,12 +548,12 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				if (this->surfaceComps.find(ec.get_formula()) != this->surfaceComps.end())
 				{
 					cxxSurfaceComp & comp = this->surfaceComps.find(ec.get_formula())->second;
-					comp.read_raw(reread, false);
+					comp.read_raw(P_INSTANCE_COMMA reread, false);
 				}
 				else
 				{
 					cxxSurfaceComp ec1;
-					ec1.read_raw(reread, false);
+					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_formula());
 					this->surfaceComps[str] = ec1;
 				}
@@ -593,7 +592,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
+				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
@@ -602,12 +601,12 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				if (this->surfaceCharges.find(ec.get_name()) != this->surfaceCharges.end())
 				{
 					cxxSurfaceCharge & comp = this->surfaceCharges.find(ec.get_name())->second;
-					comp.read_raw(reread, false);
+					comp.read_raw(P_INSTANCE_COMMA reread, false);
 				}
 				else
 				{
 					cxxSurfaceCharge ec1;
-					ec1.read_raw(reread, false);
+					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_name());
 					this->surfaceCharges[str] = ec1;
 				}
@@ -973,7 +972,7 @@ cxxSurface::add(const cxxSurface & addee, double extensive)
 }
 #endif
 void
-cxxSurface::add(const cxxSurface & addee, double extensive)
+cxxSurface::add(PHREEQC_PTR_ARG_COMMA const cxxSurface & addee, double extensive)
 		//
 		// Add surface to "this" exchange
 		//
@@ -1010,7 +1009,7 @@ cxxSurface::add(const cxxSurface & addee, double extensive)
 		std::map < std::string, cxxSurfaceComp >::iterator it = this->surfaceComps.find((*itadd).first);
 		if (it != this->surfaceComps.end())
 		{
-			(*it).second.add( (*itadd).second, extensive);
+			(*it).second.add(P_INSTANCE_COMMA (*itadd).second, extensive);
 		}
 		else
 		{

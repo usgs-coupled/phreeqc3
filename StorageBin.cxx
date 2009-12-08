@@ -372,7 +372,7 @@ cxxStorageBin::getSurfaces() const
 	return this->Surfaces;
 };
 void
-cxxStorageBin::import_phreeqc(void)
+cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 		//
 	// pull data out of c storage
 		//
@@ -380,65 +380,65 @@ cxxStorageBin::import_phreeqc(void)
 	int i;
 
 	// Solutions
-	for (i = 0; i < count_solution; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_solution; i++)
 	{
-		Solutions[solution[i]->n_user] = cxxSolution(solution[i]);
+		Solutions[P_INSTANCE_POINTER solution[i]->n_user] = cxxSolution(P_INSTANCE_POINTER solution[i]);
 	}
 
 	// Exchangers
-	for (i = 0; i < count_exchange; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_exchange; i++)
 	{
-		Exchangers[exchange[i].n_user] = cxxExchange(&exchange[i]);
+		Exchangers[P_INSTANCE_POINTER exchange[i].n_user] = cxxExchange(&P_INSTANCE_POINTER exchange[i]);
 	}
 
 	// GasPhases
-	for (i = 0; i < count_gas_phase; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_gas_phase; i++)
 	{
-		GasPhases[gas_phase[i].n_user] = cxxGasPhase(&gas_phase[i]);
+		GasPhases[P_INSTANCE_POINTER gas_phase[i].n_user] = cxxGasPhase(&P_INSTANCE_POINTER gas_phase[i]);
 	}
 
 	// Kinetics
-	for (i = 0; i < count_kinetics; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_kinetics; i++)
 	{
-		Kinetics[kinetics[i].n_user] = cxxKinetics(&kinetics[i]);
+		Kinetics[P_INSTANCE_POINTER kinetics[i].n_user] = cxxKinetics(&P_INSTANCE_POINTER kinetics[i]);
 	}
 
 	// PPassemblages
-	for (i = 0; i < count_pp_assemblage; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_pp_assemblage; i++)
 	{
-		PPassemblages[pp_assemblage[i].n_user] =
-			cxxPPassemblage(&pp_assemblage[i]);
+		PPassemblages[P_INSTANCE_POINTER pp_assemblage[i].n_user] =
+			cxxPPassemblage(&P_INSTANCE_POINTER pp_assemblage[i]);
 	}
 
 	// SSassemblages
-	for (i = 0; i < count_s_s_assemblage; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_s_s_assemblage; i++)
 	{
-		SSassemblages[s_s_assemblage[i].n_user] =
-			cxxSSassemblage(&s_s_assemblage[i]);
+		SSassemblages[P_INSTANCE_POINTER s_s_assemblage[i].n_user] =
+			cxxSSassemblage(&P_INSTANCE_POINTER s_s_assemblage[i]);
 	}
 
 	// Surfaces
-	for (i = 0; i < count_surface; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_surface; i++)
 	{
-		Surfaces[surface[i].n_user] = cxxSurface(&surface[i]);
+		Surfaces[P_INSTANCE_POINTER surface[i].n_user] = cxxSurface(&P_INSTANCE_POINTER surface[i]);
 	}
 
 	// Mixes
-	for (i = 0; i < count_mix; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_mix; i++)
 	{
-		Mixes[mix[i].n_user] = cxxMix(&mix[i]);
+		Mixes[P_INSTANCE_POINTER mix[i].n_user] = cxxMix(&P_INSTANCE_POINTER mix[i]);
 	}
 
 	// Reactions
-	for (i = 0; i < count_irrev; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_irrev; i++)
 	{
-		Reactions[irrev[i].n_user] = cxxReaction(&irrev[i]);
+		Reactions[P_INSTANCE_POINTER irrev[i].n_user] = cxxReaction(&P_INSTANCE_POINTER irrev[i]);
 	}
 
 	// Temperatures
-	for (i = 0; i < count_temperature; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_temperature; i++)
 	{
-		Temperatures[temperature[i].n_user] = cxxTemperature(&temperature[i]);
+		Temperatures[P_INSTANCE_POINTER temperature[i].n_user] = cxxTemperature(&P_INSTANCE_POINTER temperature[i]);
 	}
 }
 
@@ -561,7 +561,7 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent)
 }
 
 void
-cxxStorageBin::read_raw(CParser & parser)
+cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 {
 	CParser::LINE_TYPE i;
 	while ((i =
@@ -593,7 +593,7 @@ cxxStorageBin::read_raw(CParser & parser)
 		case CParser::KT_SOLUTION_RAW:
 			{
 				cxxSolution entity;
-				entity.read_raw(parser);
+				entity.read_raw(P_INSTANCE_COMMA parser);
 				Solutions[entity.get_n_user()] = entity;
 			}
 			break;
@@ -601,7 +601,7 @@ cxxStorageBin::read_raw(CParser & parser)
 		case CParser::KT_EXCHANGE_RAW:
 			{
 				cxxExchange entity;
-				entity.read_raw(parser);
+				entity.read_raw(P_INSTANCE_COMMA parser);
 				Exchangers[entity.get_n_user()] = entity;
 			}
 			break;
@@ -609,7 +609,7 @@ cxxStorageBin::read_raw(CParser & parser)
 		case CParser::KT_GASPHASE_RAW:
 			{
 				cxxGasPhase entity;
-				entity.read_raw(parser);
+				entity.read_raw(P_INSTANCE_COMMA parser);
 				GasPhases[entity.get_n_user()] = entity;
 			}
 			break;
@@ -617,7 +617,7 @@ cxxStorageBin::read_raw(CParser & parser)
 		case CParser::KT_KINETICS_RAW:
 			{
 				cxxKinetics entity;
-				entity.read_raw(parser);
+				entity.read_raw(P_INSTANCE_COMMA parser);
 				Kinetics[entity.get_n_user()] = entity;
 			}
 			break;
@@ -625,7 +625,7 @@ cxxStorageBin::read_raw(CParser & parser)
 		case CParser::KT_PPASSEMBLAGE_RAW:
 			{
 				cxxPPassemblage entity;
-				entity.read_raw(parser);
+				entity.read_raw(P_INSTANCE_COMMA parser);
 				PPassemblages[entity.get_n_user()] = entity;
 			}
 			break;
@@ -633,7 +633,7 @@ cxxStorageBin::read_raw(CParser & parser)
 		case CParser::KT_SSASSEMBLAGE_RAW:
 			{
 				cxxSSassemblage entity;
-				entity.read_raw(parser);
+				entity.read_raw(P_INSTANCE_COMMA parser);
 				SSassemblages[entity.get_n_user()] = entity;
 			}
 			break;
@@ -641,7 +641,7 @@ cxxStorageBin::read_raw(CParser & parser)
 		case CParser::KT_SURFACE_RAW:
 			{
 				cxxSurface entity;
-				entity.read_raw(parser);
+				entity.read_raw(P_INSTANCE_COMMA parser);
 				Surfaces[entity.get_n_user()] = entity;
 			}
 			break;
@@ -656,7 +656,7 @@ cxxStorageBin::read_raw(CParser & parser)
 }
 
 int
-cxxStorageBin::read_raw_keyword(CParser & parser)
+cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 {
 	CParser::LINE_TYPE i;
 	int entity_number = -999;
@@ -687,7 +687,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case CParser::KT_SOLUTION_RAW:
 		{
 			cxxSolution entity;
-			entity.read_raw(parser);
+			entity.read_raw(P_INSTANCE_COMMA parser);
 			Solutions[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -696,7 +696,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case CParser::KT_EXCHANGE_RAW:
 		{
 			cxxExchange entity;
-			entity.read_raw(parser);
+			entity.read_raw(P_INSTANCE_COMMA parser);
 			Exchangers[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -705,7 +705,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case CParser::KT_GASPHASE_RAW:
 		{
 			cxxGasPhase entity;
-			entity.read_raw(parser);
+			entity.read_raw(P_INSTANCE_COMMA parser);
 			GasPhases[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -714,7 +714,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case CParser::KT_KINETICS_RAW:
 		{
 			cxxKinetics entity;
-			entity.read_raw(parser);
+			entity.read_raw(P_INSTANCE_COMMA parser);
 			Kinetics[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -723,7 +723,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case CParser::KT_PPASSEMBLAGE_RAW:
 		{
 			cxxPPassemblage entity;
-			entity.read_raw(parser);
+			entity.read_raw(P_INSTANCE_COMMA parser);
 			PPassemblages[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -732,7 +732,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case CParser::KT_SSASSEMBLAGE_RAW:
 		{
 			cxxSSassemblage entity;
-			entity.read_raw(parser);
+			entity.read_raw(P_INSTANCE_COMMA parser);
 			SSassemblages[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -741,7 +741,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case CParser::KT_SURFACE_RAW:
 		{
 			cxxSurface entity;
-			entity.read_raw(parser);
+			entity.read_raw(P_INSTANCE_COMMA parser);
 			Surfaces[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -811,7 +811,7 @@ cxxStorageBin::add(struct system *system_ptr)
 }
 
 void
-cxxStorageBin::cxxStorageBin2phreeqc(int n)
+cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		//
 		// copy data fromphreeqc storage to storage bin
 		//
@@ -824,14 +824,14 @@ cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		std::map < int, cxxSolution >::iterator it = this->Solutions.find(n);
 		if (it != this->Solutions.end())
 		{
-			solution[0] = (it->second).cxxSolution2solution();
-			solution[0]->n_user = n;
-			solution[0]->n_user_end = n;
-			count_solution++;
+			P_INSTANCE_POINTER solution[0] = (it->second).cxxSolution2solution(P_INSTANCE);
+			P_INSTANCE_POINTER solution[0]->n_user = n;
+			P_INSTANCE_POINTER solution[0]->n_user_end = n;
+			P_INSTANCE_POINTER count_solution++;
 		}
 		else
 		{
-			error_msg("cxxSolution not found in system2phreeqc", STOP);
+			P_INSTANCE_POINTER error_msg("cxxSolution not found in system2phreeqc", STOP);
 		}
 	}
 
@@ -841,11 +841,11 @@ cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		if (it != this->Exchangers.end())
 		{
 			struct exchange *exchange_ptr =
-				(it->second).cxxExchange2exchange();
-			exchange_copy(exchange_ptr, &exchange[0], n);
-			count_exchange++;
-			exchange_free(exchange_ptr);
-			exchange_ptr = (struct exchange *) free_check_null(exchange_ptr);
+				(it->second).cxxExchange2exchange(P_INSTANCE);
+			P_INSTANCE_POINTER exchange_copy(exchange_ptr, &P_INSTANCE_POINTER exchange[0], n);
+			P_INSTANCE_POINTER count_exchange++;
+			P_INSTANCE_POINTER exchange_free(exchange_ptr);
+			exchange_ptr = (struct exchange *) P_INSTANCE_POINTER free_check_null(exchange_ptr);
 		}
 	}
 
@@ -855,12 +855,12 @@ cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		if (it != this->GasPhases.end())
 		{
 			struct gas_phase *gas_phase_ptr =
-				(it->second).cxxGasPhase2gas_phase();
-			gas_phase_copy(gas_phase_ptr, &gas_phase[0], n);
-			count_gas_phase++;
-			gas_phase_free(gas_phase_ptr);
+				(it->second).cxxGasPhase2gas_phase(P_INSTANCE);
+			P_INSTANCE_POINTER gas_phase_copy(gas_phase_ptr, &P_INSTANCE_POINTER gas_phase[0], n);
+			P_INSTANCE_POINTER count_gas_phase++;
+			P_INSTANCE_POINTER gas_phase_free(gas_phase_ptr);
 			gas_phase_ptr =
-				(struct gas_phase *) free_check_null(gas_phase_ptr);
+				(struct gas_phase *) P_INSTANCE_POINTER free_check_null(gas_phase_ptr);
 		}
 	}
 
@@ -870,11 +870,11 @@ cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		if (it != this->Kinetics.end())
 		{
 			struct kinetics *kinetics_ptr =
-				(it->second).cxxKinetics2kinetics();
-			kinetics_copy(kinetics_ptr, &kinetics[0], n);
-			count_kinetics++;
-			kinetics_free(kinetics_ptr);
-			kinetics_ptr = (struct kinetics *) free_check_null(kinetics_ptr);
+				(it->second).cxxKinetics2kinetics(P_INSTANCE);
+			P_INSTANCE_POINTER kinetics_copy(kinetics_ptr, &P_INSTANCE_POINTER kinetics[0], n);
+			P_INSTANCE_POINTER count_kinetics++;
+			P_INSTANCE_POINTER kinetics_free(kinetics_ptr);
+			kinetics_ptr = (struct kinetics *) P_INSTANCE_POINTER free_check_null(kinetics_ptr);
 		}
 	}
 
@@ -885,12 +885,12 @@ cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		if (it != this->PPassemblages.end())
 		{
 			struct pp_assemblage *pp_assemblage_ptr =
-				(it->second).cxxPPassemblage2pp_assemblage();
-			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[0], n);
-			count_pp_assemblage++;
-			pp_assemblage_free(pp_assemblage_ptr);
+				(it->second).cxxPPassemblage2pp_assemblage(P_INSTANCE);
+			P_INSTANCE_POINTER pp_assemblage_copy(pp_assemblage_ptr, &P_INSTANCE_POINTER pp_assemblage[0], n);
+			P_INSTANCE_POINTER count_pp_assemblage++;
+			P_INSTANCE_POINTER pp_assemblage_free(pp_assemblage_ptr);
 			pp_assemblage_ptr =
-				(struct pp_assemblage *) free_check_null(pp_assemblage_ptr);
+				(struct pp_assemblage *) P_INSTANCE_POINTER free_check_null(pp_assemblage_ptr);
 		}
 	}
 
@@ -901,12 +901,12 @@ cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		if (it != this->SSassemblages.end())
 		{
 			struct s_s_assemblage *s_s_assemblage_ptr =
-				(it->second).cxxSSassemblage2s_s_assemblage();
-			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[0], n);
-			count_s_s_assemblage++;
-			s_s_assemblage_free(s_s_assemblage_ptr);
+				(it->second).cxxSSassemblage2s_s_assemblage(P_INSTANCE);
+			P_INSTANCE_POINTER s_s_assemblage_copy(s_s_assemblage_ptr, &P_INSTANCE_POINTER s_s_assemblage[0], n);
+			P_INSTANCE_POINTER count_s_s_assemblage++;
+			P_INSTANCE_POINTER s_s_assemblage_free(s_s_assemblage_ptr);
 			s_s_assemblage_ptr =
-				(struct s_s_assemblage *) free_check_null(s_s_assemblage_ptr);
+				(struct s_s_assemblage *) P_INSTANCE_POINTER free_check_null(s_s_assemblage_ptr);
 		}
 	}
 
@@ -915,18 +915,18 @@ cxxStorageBin::cxxStorageBin2phreeqc(int n)
 		std::map < int, cxxSurface >::iterator it = this->Surfaces.find(n);
 		if (it != this->Surfaces.end())
 		{
-			struct surface *surface_ptr = (it->second).cxxSurface2surface();
-			surface_copy(surface_ptr, &surface[0], n);
-			count_surface++;
-			surface_free(surface_ptr);
-			surface_ptr = (struct surface *) free_check_null(surface_ptr);
+			struct surface *surface_ptr = (it->second).cxxSurface2surface(P_INSTANCE);
+			P_INSTANCE_POINTER surface_copy(surface_ptr, &P_INSTANCE_POINTER surface[0], n);
+			P_INSTANCE_POINTER count_surface++;
+			P_INSTANCE_POINTER surface_free(surface_ptr);
+			surface_ptr = (struct surface *) P_INSTANCE_POINTER free_check_null(surface_ptr);
 		}
 	}
 	//std::cerr << oss.str();
 
 }
 void
-cxxStorageBin::phreeqc2cxxStorageBin(int n)
+cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 		//
 		// copy data fromphreeqc storage to storage bin
 		//
@@ -935,55 +935,55 @@ cxxStorageBin::phreeqc2cxxStorageBin(int n)
 
 	// Solutions
 	{
-		solution_bsearch(n, &pos, TRUE);
-		this->Solutions[n] = cxxSolution(solution[pos]);
+		P_INSTANCE_POINTER solution_bsearch(n, &pos, TRUE);
+		this->Solutions[n] = cxxSolution(P_INSTANCE_POINTER solution[pos]);
 	}
 
 	// Exchangers
 	{
-		if (exchange_bsearch(n, &pos) != NULL)
+		if (P_INSTANCE_POINTER exchange_bsearch(n, &pos) != NULL)
 		{
-			this->Exchangers[n] = cxxExchange(&(exchange[pos]));
+			this->Exchangers[n] = cxxExchange(&(P_INSTANCE_POINTER exchange[pos]));
 		}
 	}
 
 	// GasPhases
 	{
-		if (gas_phase_bsearch(n, &pos) != NULL)
+		if (P_INSTANCE_POINTER gas_phase_bsearch(n, &pos) != NULL)
 		{
-			this->GasPhases[n] = cxxGasPhase(&(gas_phase[pos]));
+			this->GasPhases[n] = cxxGasPhase(&(P_INSTANCE_POINTER gas_phase[pos]));
 		}
 	}
 
 	// Kinetics
 	{
-		if (kinetics_bsearch(n, &pos) != NULL)
+		if (P_INSTANCE_POINTER kinetics_bsearch(n, &pos) != NULL)
 		{
-			this->Kinetics[n] = cxxKinetics(&(kinetics[pos]));
+			this->Kinetics[n] = cxxKinetics(&(P_INSTANCE_POINTER kinetics[pos]));
 		}
 	}
 
 	// PPassemblages
 	{
-		if (pp_assemblage_bsearch(n, &pos) != NULL)
+		if (P_INSTANCE_POINTER pp_assemblage_bsearch(n, &pos) != NULL)
 		{
-			this->PPassemblages[n] = cxxPPassemblage(&(pp_assemblage[pos]));
+			this->PPassemblages[n] = cxxPPassemblage(&(P_INSTANCE_POINTER pp_assemblage[pos]));
 		}
 	}
 
 	// SSassemblages
 	{
-		if (s_s_assemblage_bsearch(n, &pos) != NULL)
+		if (P_INSTANCE_POINTER s_s_assemblage_bsearch(n, &pos) != NULL)
 		{
-			this->SSassemblages[n] = cxxSSassemblage(&(s_s_assemblage[pos]));
+			this->SSassemblages[n] = cxxSSassemblage(&(P_INSTANCE_POINTER s_s_assemblage[pos]));
 		}
 	}
 
 	// Surfaces
 	{
-		if (surface_bsearch(n, &pos) != NULL)
+		if (P_INSTANCE_POINTER surface_bsearch(n, &pos) != NULL)
 		{
-			this->Surfaces[n] = cxxSurface(&(surface[pos]));
+			this->Surfaces[n] = cxxSurface(&(P_INSTANCE_POINTER surface[pos]));
 		}
 	}
 }
@@ -1060,7 +1060,7 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
 }
 #endif
 struct system *
-cxxStorageBin::cxxStorageBin2system(int n)
+cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 		//
 		// make a system from storagebin
 		//
@@ -1068,13 +1068,13 @@ cxxStorageBin::cxxStorageBin2system(int n)
 	struct system *system_ptr =
 		(struct system *) PHRQ_malloc(sizeof(struct system));
 	if (system_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	// Solutions
 
 	if (this->getSolution(n) != NULL)
 	{
-		system_ptr->solution = (this->getSolution(n))->cxxSolution2solution();
+		system_ptr->solution = (this->getSolution(n))->cxxSolution2solution(P_INSTANCE);
 	}
 	else
 	{
@@ -1084,7 +1084,7 @@ cxxStorageBin::cxxStorageBin2system(int n)
 	// Exchangers
 	if (this->getExchange(n) != NULL)
 	{
-		system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange();
+		system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange(P_INSTANCE);
 	}
 	else
 	{
@@ -1095,7 +1095,7 @@ cxxStorageBin::cxxStorageBin2system(int n)
 	if (this->getGasPhase(n) != NULL)
 	{
 		system_ptr->gas_phase =
-			(this->getGasPhase(n))->cxxGasPhase2gas_phase();
+			(this->getGasPhase(n))->cxxGasPhase2gas_phase(P_INSTANCE);
 	}
 	else
 	{
@@ -1105,7 +1105,7 @@ cxxStorageBin::cxxStorageBin2system(int n)
 	// Kinetics
 	if (this->getKinetics(n) != NULL)
 	{
-		system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics();
+		system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics(P_INSTANCE);
 	}
 	else
 	{
@@ -1116,7 +1116,7 @@ cxxStorageBin::cxxStorageBin2system(int n)
 	if (this->getPPassemblage(n) != NULL)
 	{
 		system_ptr->pp_assemblage =
-			(this->getPPassemblage(n))->cxxPPassemblage2pp_assemblage();
+			(this->getPPassemblage(n))->cxxPPassemblage2pp_assemblage(P_INSTANCE);
 	}
 	else
 	{
@@ -1127,7 +1127,7 @@ cxxStorageBin::cxxStorageBin2system(int n)
 	if (this->getSSassemblage(n) != NULL)
 	{
 		system_ptr->s_s_assemblage =
-			(this->getSSassemblage(n))->cxxSSassemblage2s_s_assemblage();
+			(this->getSSassemblage(n))->cxxSSassemblage2s_s_assemblage(P_INSTANCE);
 	}
 	else
 	{
@@ -1137,7 +1137,7 @@ cxxStorageBin::cxxStorageBin2system(int n)
 	// Surfaces
 	if (this->getSurface(n) != NULL)
 	{
-		system_ptr->surface = (this->getSurface(n))->cxxSurface2surface();
+		system_ptr->surface = (this->getSurface(n))->cxxSurface2surface(P_INSTANCE);
 	}
 	else
 	{

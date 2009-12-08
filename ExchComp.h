@@ -17,16 +17,16 @@ class cxxExchComp
 	cxxExchComp(struct exch_comp *);
 	 ~cxxExchComp();
 
-	struct master *get_master();
+	struct master *get_master(PHREEQC_PTR_ARG);
 
-	static struct exch_comp *cxxExchComp2exch_comp(std::map < std::string, cxxExchComp >
+	static struct exch_comp *cxxExchComp2exch_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxExchComp >
 												   &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser, bool check=true);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check=true);
 
 	const std::string &get_formula() const
 	{
@@ -132,7 +132,7 @@ class cxxExchComp
 	};
 
 
-	void add(const cxxExchComp & comp, double extensive);
+	void add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & comp, double extensive);
 	void multiply(double extensive);
 
 

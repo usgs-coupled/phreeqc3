@@ -61,7 +61,7 @@ cxxMix::~cxxMix()
 
 
 struct mix *
-cxxMix::cxxMix2mix()
+cxxMix::cxxMix2mix(PHREEQC_PTR_ARG)
 		//
 		// Builds a mix structure from instance of cxxMix 
 		//
@@ -69,7 +69,7 @@ cxxMix::cxxMix2mix()
 	struct mix *mix_ptr;
 	mix_ptr = (struct mix *) PHRQ_malloc(sizeof(struct mix));
 	if (mix_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	mix_ptr->description = this->get_description();
 	mix_ptr->n_user = this->n_user;
@@ -85,7 +85,7 @@ cxxMix::cxxMix2mix()
 			PHRQ_malloc((size_t)
 						(this->mixComps.size() * sizeof(struct mix_comp)));
 		if (mix_ptr->comps == NULL)
-			malloc_error();
+			P_INSTANCE_POINTER malloc_error();
 		for (std::map < int, double >::iterator it = mixComps.begin();
 			 it != mixComps.end(); it++)
 		{

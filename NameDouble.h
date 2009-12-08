@@ -8,6 +8,7 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 #include "Phreeqc_class.h"
+class Phreeqc;
 #include "Parser.h"
 
 class cxxNameDouble:public
@@ -37,13 +38,13 @@ class cxxNameDouble:public
 	elt_list(PHREEQC_PTR_ARG);
 
 	struct master_activity *
-	master_activity() const;
+	master_activity(PHREEQC_PTR_ARG) const;
 
 	struct conc *
-	conc() const;
+	conc(PHREEQC_PTR_ARG) const;
 
 	struct name_coef *
-	name_coef() const;
+	name_coef(PHREEQC_PTR_ARG) const;
 
 	void
 	dump_xml(std::ostream & s_oss, unsigned int indent) const;
@@ -52,7 +53,7 @@ class cxxNameDouble:public
 	dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	CParser::STATUS_TYPE
-	read_raw(CParser & parser, std::istream::pos_type & pos);
+	read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, std::istream::pos_type & pos);
 
 	void
 	add_extensive(const cxxNameDouble & old, double factor);
