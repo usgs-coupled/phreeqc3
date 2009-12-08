@@ -217,7 +217,7 @@ cxxSSassemblageSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSSassemblageSS::read_raw(CParser & parser, bool check)
+cxxSSassemblageSS::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	std::string str;
 
@@ -333,7 +333,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 			break;
 
 		case 4:				// components
-			if (this->comps.read_raw(parser, next_char) != CParser::PARSER_OK)
+			if (this->comps.read_raw(P_INSTANCE_COMMA parser, next_char) != CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
 				parser.error_msg("Expected phase name and moles for comps.",

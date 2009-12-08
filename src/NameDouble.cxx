@@ -157,7 +157,7 @@ cxxNameDouble::elt_list(PHREEQC_PTR_ARG)
 }
 
 struct master_activity *
-cxxNameDouble::master_activity() const
+cxxNameDouble::master_activity(PHREEQC_PTR_ARG) const
 		//
 		// Builds a list of master_activity structures from instance of cxxNameDouble 
 		//
@@ -180,7 +180,7 @@ cxxNameDouble::master_activity() const
 			for (const_iterator it = (*this).begin(); it != (*this).end();
 				 it++)
 			{
-				master_activity_ptr[i].description = string_hsave(it->first.c_str());
+				master_activity_ptr[i].description = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 				master_activity_ptr[i].la = it->second;
 				i++;
 			}
@@ -197,11 +197,11 @@ cxxNameDouble::master_activity() const
 								(((*this).size()) *
 								 sizeof(struct master_activity)));
 				if (master_activity_ptr == NULL)
-					malloc_error();
+					P_INSTANCE_POINTER malloc_error();
 				for (const_iterator it = (*this).begin(); it != (*this).end();
 					 it++)
 				{
-					master_activity_ptr[i].description = string_hsave(it->first.c_str());
+					master_activity_ptr[i].description = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 					master_activity_ptr[i].la = it->second;
 					i++;
 				}
@@ -216,7 +216,7 @@ cxxNameDouble::master_activity() const
 }
 
 struct conc *
-cxxNameDouble::conc() const
+cxxNameDouble::conc(PHREEQC_PTR_ARG) const
 		// for Solutions, not ISolutions
 		// takes a map of (elt name, moles)
 		// returns list of conc structures
@@ -226,11 +226,11 @@ cxxNameDouble::conc() const
 	c = (struct conc *)
 		PHRQ_malloc((size_t) (((*this).size() + 1) * sizeof(struct conc)));
 	if (c == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 	int i = 0;
 	for (const_iterator it = (*this).begin(); it != (*this).end(); ++it)
 	{
-		c[i].description = string_hsave(it->first.c_str());
+		c[i].description = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 		c[i].moles = it->second;
 		c[i].input_conc = it->second;
 		c[i].units = NULL;
@@ -248,7 +248,7 @@ cxxNameDouble::conc() const
 }
 
 struct name_coef *
-cxxNameDouble::name_coef() const
+cxxNameDouble::name_coef(PHREEQC_PTR_ARG) const
 		//
 		// Builds a name_coef structure from instance of cxxNameDouble 
 		//
@@ -258,11 +258,11 @@ cxxNameDouble::name_coef() const
 		(struct name_coef *)
 		PHRQ_malloc((size_t) ((this->size()) * sizeof(struct name_coef)));
 	if (name_coef_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 	int i = 0;
 	for (const_iterator it = (*this).begin(); it != (*this).end(); ++it)
 	{
-		name_coef_ptr[i].name = string_hsave(it->first.c_str());
+		name_coef_ptr[i].name = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 		name_coef_ptr[i].coef = it->second;
 		i++;
 	}
@@ -331,7 +331,7 @@ cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	}
 }
 
-CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
+CParser::STATUS_TYPE cxxNameDouble::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser,
 											 std::istream::pos_type & pos)
 {
 	std::string token;
@@ -353,7 +353,7 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 	{
 		return CParser::PARSER_ERROR;
 	}
-	ctoken = string_hsave(token.c_str());
+	ctoken = P_INSTANCE_POINTER string_hsave(token.c_str());
 	(*this)[ctoken] = d;
 	return CParser::PARSER_OK;
 }

@@ -25,11 +25,11 @@ class cxxStorageBin
 	cxxStorageBin(struct Use *use_ptr);
 	 ~cxxStorageBin();
 
-	void import_phreeqc(void);
+	void import_phreeqc(PHREEQC_PTR_ARG);
 
-	void cxxStorageBin2phreeqc(int n);
+	void cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n);
 
-	void phreeqc2cxxStorageBin(int n);
+	void phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n);
 
 	void remove(int n);
 
@@ -79,12 +79,12 @@ class cxxStorageBin
 
 	void dump_raw(std::ostream & s_oss, int i, unsigned int indent);
 
-	void read_raw(CParser & parser);
-	int read_raw_keyword(CParser & parser);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser);
+	int read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser);
 
 	void add(struct system *sys_ptr);
 
-	struct system *cxxStorageBin2system(int i);
+	struct system *cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int i);
 
 	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix & mixmap);

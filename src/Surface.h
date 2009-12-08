@@ -18,7 +18,7 @@ class cxxSurface:public cxxNumKeyword
   public:
 	cxxSurface();
 	cxxSurface(struct surface *);
-	  cxxSurface(const std::map < int, cxxSurface > &entity_map, cxxMix & mx,
+	  cxxSurface(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSurface > &entity_map, cxxMix & mx,
 				 int n_user);
 	 ~cxxSurface();
 
@@ -34,7 +34,7 @@ class cxxSurface:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser, bool check = true);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
 
 	bool get_related_phases(void);
 
@@ -52,7 +52,7 @@ class cxxSurface:public cxxNumKeyword
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 private:
-	void add(const cxxSurface & addee, double extensive);
+	void add(PHREEQC_PTR_ARG_COMMA const cxxSurface & addee, double extensive);
 
 protected:
 	std::map < std::string, cxxSurfaceComp > surfaceComps;

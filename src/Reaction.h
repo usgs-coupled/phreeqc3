@@ -24,7 +24,7 @@ class cxxReaction:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser);
 
 	void set_units(const char * s)
 	{

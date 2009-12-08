@@ -69,7 +69,7 @@ cxxNumKeyword()
 			gas_phase_ptr->comps[i].moles;
 	}
 }
-cxxGasPhase::cxxGasPhase(const std::map < int, cxxGasPhase > &entities,
+cxxGasPhase::cxxGasPhase(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxGasPhase > &entities,
 						 cxxMix & mix, int n_user):
 cxxNumKeyword()
 {
@@ -108,7 +108,7 @@ cxxNumKeyword()
 				{
 					std::ostringstream oss;
 					oss << "Can not mix two gas_phases with differing types.";
-					error_msg(oss.str().c_str(), CONTINUE);
+					P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
 					input_error++;
 					return;
 				}
@@ -125,7 +125,7 @@ cxxGasPhase::~cxxGasPhase()
 }
 
 struct gas_comp *
-cxxGasPhase::cxxGasPhaseComp2gas_comp()
+cxxGasPhase::cxxGasPhaseComp2gas_comp(PHREEQC_PTR_ARG)
 {
 	//struct gas_comp *gas_comp_ptr(NULL);
 	struct gas_comp *gas_comp_ptr = NULL;
@@ -139,13 +139,13 @@ cxxGasPhase::cxxGasPhaseComp2gas_comp()
 						(this->gasPhaseComps.size() *
 						 sizeof(struct gas_comp)));
 		if (gas_comp_ptr == NULL)
-			malloc_error();
+			P_INSTANCE_POINTER malloc_error();
 		for (cxxNameDouble::iterator it = this->gasPhaseComps.begin();
 			 it != this->gasPhaseComps.end(); it++)
 		{
-			gas_comp_ptr[i].name = string_hsave(it->first.c_str());
+			gas_comp_ptr[i].name = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 			assert(it->first.size() != 0);
-			gas_comp_ptr[i].phase = phase_bsearch(it->first.c_str(), &n, TRUE);
+			gas_comp_ptr[i].phase = P_INSTANCE_POINTER phase_bsearch(it->first.c_str(), &n, TRUE);
 			gas_comp_ptr[i].p_read = 0;
 			gas_comp_ptr[i].moles = it->second;
 			gas_comp_ptr[i].initial_moles = 0;
@@ -156,12 +156,12 @@ cxxGasPhase::cxxGasPhaseComp2gas_comp()
 }
 
 struct gas_phase *
-cxxGasPhase::cxxGasPhase2gas_phase()
+cxxGasPhase::cxxGasPhase2gas_phase(PHREEQC_PTR_ARG)
 		//
 		// Builds a gas_phase structure from instance of cxxGasPhase 
 		//
 {
-	struct gas_phase *gas_phase_ptr = gas_phase_alloc();
+	struct gas_phase *gas_phase_ptr = P_INSTANCE_POINTER gas_phase_alloc();
 
 	gas_phase_ptr->description = this->get_description();
 	gas_phase_ptr->n_user = this->n_user;
@@ -184,8 +184,8 @@ cxxGasPhase::cxxGasPhase2gas_phase()
 	// comps
 	gas_phase_ptr->count_comps = (int) this->gasPhaseComps.size();
 	gas_phase_ptr->comps =
-		(struct gas_comp *) free_check_null(gas_phase_ptr->comps);
-	gas_phase_ptr->comps = this->cxxGasPhaseComp2gas_comp();
+		(struct gas_comp *) P_INSTANCE_POINTER free_check_null(gas_phase_ptr->comps);
+	gas_phase_ptr->comps = this->cxxGasPhaseComp2gas_comp(P_INSTANCE);
 
 	return (gas_phase_ptr);
 }
@@ -261,7 +261,7 @@ cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxGasPhase::read_raw(CParser & parser, bool check)
+cxxGasPhase::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 
 	int i;
@@ -361,7 +361,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			break;
 
 		case 3:				// component
-			if (this->gasPhaseComps.read_raw(parser, next_char) !=
+			if (this->gasPhaseComps.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -445,7 +445,7 @@ cxxGasPhase::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 }
 #endif
 void
-cxxGasPhase::totalize()
+cxxGasPhase::totalize(PHREEQC_PTR_ARG)
 {
 	this->totals.clear();
 	// component structures
@@ -454,7 +454,7 @@ cxxGasPhase::totalize()
 	{
 		struct phase *phase_ptr;
 		int l;
-		phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
+		phase_ptr = P_INSTANCE_POINTER phase_bsearch(it->first.c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);

@@ -6,7 +6,7 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-
+#include "Phreeqc_class.h"
 #include "NumKeyword.h"
 
 class cxxMix:public cxxNumKeyword
@@ -17,7 +17,7 @@ class cxxMix:public cxxNumKeyword
 	cxxMix(struct mix *);
 	 ~cxxMix();
 
-	struct mix *cxxMix2mix();
+	struct mix *cxxMix2mix(PHREEQC_PTR_ARG);
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 

@@ -53,7 +53,7 @@ cxxSystem::Initialize(void)
 	this->temperature = NULL;
 } 
 void
-cxxSystem::totalize(void) 
+cxxSystem::totalize(PHREEQC_PTR_ARG) 
 {
 	//initialize
 	this->totals.clear();
@@ -76,22 +76,22 @@ cxxSystem::totalize(void)
 	}
 	if (this->ppassemblage != NULL)
 	{
-		this->ppassemblage->totalize();
+		this->ppassemblage->totalize(P_INSTANCE);
 		this->totals.add_extensive(this->ppassemblage->get_totals(), 1.0);
 	}
 	if (this->gasphase != NULL)
 	{
-		this->gasphase->totalize();
+		this->gasphase->totalize(P_INSTANCE);
 		this->totals.add_extensive(this->gasphase->get_totals(), 1.0);
 	}
 	if (this->ssassemblage != NULL)
 	{
-		this->ssassemblage->totalize();
+		this->ssassemblage->totalize(P_INSTANCE);
 		this->totals.add_extensive(this->ssassemblage->get_totals(), 1.0);
 	}
 	if (this->surface != NULL)
 	{
-		this->ssassemblage->totalize();
+		this->ssassemblage->totalize(P_INSTANCE);
 		this->totals.add_extensive(this->surface->get_totals(), 1.0);
 	}
 	//Need to handle the following 3 reactions:

@@ -15,19 +15,19 @@ class cxxExchange:public cxxNumKeyword
 
 public:
 	cxxExchange();
-	cxxExchange(int n_user);
+	cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user);
 	cxxExchange(struct exchange *);
-	cxxExchange(const std::map < int, cxxExchange > &exchange_map,
+	cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &exchange_map,
 		cxxMix & mx, int n_user);
 	~cxxExchange();
 
-	struct exchange *cxxExchange2exchange();
+	struct exchange *cxxExchange2exchange(PHREEQC_PTR_ARG);
 
 	struct exch_comp *cxxExchComp2exch_comp();
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser, bool check = true);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
 
 	bool get_related_phases(void);
 
@@ -46,7 +46,7 @@ public:
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 private:
-	void add(const cxxExchange & addee, double extensive);
+	void add(PHREEQC_PTR_ARG_COMMA const cxxExchange & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 

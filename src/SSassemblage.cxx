@@ -158,7 +158,7 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSSassemblage::read_raw(CParser & parser, bool check)
+cxxSSassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -240,7 +240,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
+				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
@@ -249,12 +249,12 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())
 				{
 					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.get_name())->second;
-					ec1.read_raw(reread, false);
+					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 				}
 				else
 				{
 					cxxSSassemblageSS ec1;
-					ec1.read_raw(reread, false);
+					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_name());
 					this->ssAssemblageSSs[str] = ec1;
 				}

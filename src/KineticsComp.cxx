@@ -59,7 +59,7 @@ cxxKineticsComp::~cxxKineticsComp()
 }
 
 struct kinetics_comp *
-	cxxKineticsComp::cxxKineticsComp2kinetics_comp(std::map < std::string, cxxKineticsComp >
+	cxxKineticsComp::cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxKineticsComp >
 											   &el)
 		//
 		// Builds kinetics_comp structure from of cxxKineticsComp 
@@ -69,7 +69,7 @@ struct kinetics_comp *
 		(struct kinetics_comp *)
 		PHRQ_malloc((size_t) (el.size() * sizeof(struct kinetics_comp)));
 	if (kinetics_comp_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	int i = 0;
 	for (std::map < std::string, cxxKineticsComp >::iterator it = el.begin();
@@ -78,8 +78,8 @@ struct kinetics_comp *
 		if ((*it).second.rate_name.size() == 0)
 			kinetics_comp_ptr[i].rate_name = NULL;
 		else
-			kinetics_comp_ptr[i].rate_name = string_hsave((*it).second.rate_name.c_str());
-		kinetics_comp_ptr[i].list = (*it).second.namecoef.name_coef();
+			kinetics_comp_ptr[i].rate_name = P_INSTANCE_POINTER string_hsave((*it).second.rate_name.c_str());
+		kinetics_comp_ptr[i].list = (*it).second.namecoef.name_coef(P_INSTANCE);
 		kinetics_comp_ptr[i].count_list = (int) (*it).second.namecoef.size();
 		kinetics_comp_ptr[i].tol = (*it).second.tol;
 		kinetics_comp_ptr[i].m = (*it).second.m;
@@ -100,7 +100,7 @@ struct kinetics_comp *
 			kinetics_comp_ptr[i].d_params =	(double *)
 				PHRQ_malloc((size_t) ((*it).second.d_params.size() * sizeof(double)));
 			if (kinetics_comp_ptr[i].d_params == NULL)
-				malloc_error();
+				P_INSTANCE_POINTER malloc_error();
 			std::copy((*it).second.d_params.begin(), (*it).second.d_params.end(),
 					  kinetics_comp_ptr[i].d_params);
 		}
@@ -205,7 +205,7 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxKineticsComp::read_raw(CParser & parser, bool check)
+cxxKineticsComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	std::string str;
 	double d;
@@ -321,7 +321,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 
 
 		case 5:				// namecoef
-			if (this->namecoef.read_raw(parser, next_char) !=
+			if (this->namecoef.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
