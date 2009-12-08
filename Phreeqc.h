@@ -16,7 +16,6 @@
 #include <math.h>
 #include <errno.h>
 #include <float.h>
-#include <assert.h>
 #include <setjmp.h>
 #include "phrqtype.h"
 #include "sundialstypes.h"
@@ -103,9 +102,8 @@ public:
 							    /* integertype, and the constant FALSE            */
 public:
 #include "output.h"
-private:
+public:
 #include "global.h"
-
 /*
   All functions are included as methods here
 */
@@ -437,7 +435,6 @@ static void Jac(integertype N, DenseMat J, RhsFn f, void *f_data, realtype t,
 				realtype uround, void *jac_data, long int *nfePtr,
 				N_Vector vtemp1, N_Vector vtemp2, N_Vector vtemp3);
 
-private:
 int calc_final_kinetic_reaction(struct kinetics *kinetics_ptr);
 int calc_kinetic_reaction(struct kinetics *kinetics_ptr,
 								 LDBLE time_step);
@@ -534,7 +531,6 @@ int get_secondary(char **t_ptr, char *element, int *i);
 int get_species(char **ptr);
 
 // phqalloc.c -------------------------------
-
 public:
 #if !defined(NDEBUG)
 void *PHRQ_malloc(size_t, const char *, int);
@@ -546,8 +542,9 @@ void *PHRQ_calloc(size_t, size_t);
 void *PHRQ_realloc(void *, size_t);
 #endif
 void PHRQ_free(void *ptr);
-private:
+
 void PHRQ_free_all(void);
+private:
 
 // phreeqc_files.c -------------------------------
 
@@ -1032,8 +1029,10 @@ struct logk *logk_search(char *name);
 struct master *master_alloc(void);
 CLASS_STATIC int master_compare(const void *ptr1, const void *ptr2);
 int master_delete(char *ptr);
+public:
 struct master *master_bsearch(const char *ptr);
 struct master *master_bsearch_primary(char *ptr);
+private:
 struct master *master_search(char *ptr, int *n);
 struct mix *mix_bsearch(int k, int *n);
 int mix_copy(struct mix *mix_old_ptr,
@@ -1047,7 +1046,9 @@ struct pe_data *pe_data_alloc(void);
 struct pe_data *pe_data_dup(struct pe_data *pe_ptr_old);
 struct pe_data *pe_data_free(struct pe_data *pe_data_ptr);
 int pe_data_store(struct pe_data **pe, const char *token);
+public:
 struct phase *phase_bsearch(const char *ptr, int *j, int print);
+private:
 CLASS_STATIC int phase_compare(const void *ptr1, const void *ptr2);
 int phase_delete(int i);
 struct phase *phase_store(char *name);
@@ -1084,7 +1085,9 @@ CLASS_STATIC int s_compare(const void *ptr1, const void *ptr2);
 int s_delete(int i);
 struct species *s_search(const char *name);
 struct species *s_store(char *name, LDBLE z, int replace_if_found);
-struct s_s_assemblage *s_s_assemblage_alloc(void);
+public:
+	struct s_s_assemblage *s_s_assemblage_alloc(void);
+private:
 struct s_s_assemblage *s_s_assemblage_bsearch(int k, int *n);
 CLASS_STATIC int s_s_assemblage_compare(const void *ptr1, const void *ptr2);
 
@@ -1112,7 +1115,9 @@ int save_values_store(struct save_values *s_v);
 CLASS_STATIC int conc_compare(const void *ptr1, const void *ptr2);
 int conc_init(struct conc *conc_ptr);
 CLASS_STATIC int isotope_compare(const void *ptr1, const void *ptr2);
-struct solution *solution_alloc(void);
+public:
+	struct solution *solution_alloc(void);
+private:
 struct solution *solution_bsearch(int k, int *n, int print);
 struct solution *solution_copy(struct solution *solution_old_ptr,
 							   int n_user_new);
@@ -1129,7 +1134,9 @@ CLASS_STATIC int species_list_compare_alk(const void *ptr1, const void *ptr2);
 CLASS_STATIC int species_list_compare_master(const void *ptr1, const void *ptr2);
 int species_list_sort(void);
 struct Change_Surf *change_surf_alloc(int count);
-struct surface *surface_alloc(void);
+public:
+	struct surface *surface_alloc(void);
+private:
 struct surface *surface_bsearch(int k, int *n);
 struct master *surface_get_psi_master(const char *name, int plane);
 CLASS_STATIC int surface_comp_compare(const void *ptr1, const void *ptr2);
@@ -1312,21 +1319,29 @@ int mix_stag(int i, LDBLE stagkin_time, int punch,
 int add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef);
 int backspace_screen(int spaces);
 LDBLE calc_alk(struct reaction *rxn_ptr);
-int compute_gfw(const char *string, LDBLE * gfw);
+public:
+	int compute_gfw(const char *string, LDBLE * gfw);
+private:
 int copy_token(char *token_ptr, char **ptr, int *length);
 int dup_print(const char *ptr, int emphasis);
 int equal(LDBLE a, LDBLE b, LDBLE eps);
-void *free_check_null(void *ptr);
+public:
+	void *free_check_null(void *ptr);
+private:
 void free_hash_strings(HashTable * Table);
 int get_token(char **eqnaddr, char *string, LDBLE * z, int *l);
 int hcreate_multi(unsigned Count, HashTable ** HashTable_ptr);
 void hdestroy_multi(HashTable * HashTable_ptr);
 ENTRY *hsearch_multi(HashTable * Table, ENTRY item, ACTION action);
 int islegit(const char c);
+public:
 void malloc_error(void);
+private:
 int parse_couple(char *token);
 int print_centered(const char *string);
-int replace(const char *str1, const char *str2, char *str);
+public:
+CLASS_STATIC int replace(const char *str1, const char *str2, char *str);
+private:
 void space(void **ptr, int i, int *max, int struct_size);
 void squeeze_white(char *s_l);
 int status(int count, const char *str);
@@ -1334,8 +1349,10 @@ void str_tolower(char *str);
 void str_toupper(char *str);
 CLASS_STATIC int strcmp_nocase(const char *str1, const char *str2);
 int strcmp_nocase_arg1(const char *str1, const char *str2);
-char *string_duplicate(const char *token);
-char *string_hsave(const char *str);
+public:
+	char *string_duplicate(const char *token);
+	char *string_hsave(const char *str);
+private:
 char *string_pad(char *str, int i);
 int string_trim(char *str);
 int string_trim_right(char *str);

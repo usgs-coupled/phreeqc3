@@ -18,7 +18,7 @@ public:
 	cxxSurfaceComp(struct surface_comp *);
 	~cxxSurfaceComp();
 
-	struct master *get_master();
+	struct master *get_master(PHREEQC_PTR_ARG);
 	const std::string &get_phase_name() const;
 	void set_phase_name(char * f);
 	const std::string &get_rate_name() const;

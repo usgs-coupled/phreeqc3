@@ -133,7 +133,7 @@ cxxNameDouble::~cxxNameDouble()
 }
 
 struct elt_list *
-cxxNameDouble::elt_list()
+cxxNameDouble::elt_list(PHREEQC_PTR_ARG)
 		//
 		// Builds a exch_comp structure from instance of cxxNameDouble 
 		//
@@ -143,11 +143,11 @@ cxxNameDouble::elt_list()
 		(struct elt_list *)
 		PHRQ_malloc((size_t) ((this->size() + 1) * sizeof(struct elt_list)));
 	if (elt_list_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 	int i = 0;
 	for (iterator it = this->begin(); it != this->end(); ++it)
 	{
-		elt_list_ptr[i].elt = element_store(it->first.c_str());
+		elt_list_ptr[i].elt = P_INSTANCE_POINTER element_store(it->first.c_str());
 		elt_list_ptr[i].coef = it->second;
 		i++;
 	}
@@ -176,7 +176,7 @@ cxxNameDouble::master_activity() const
 							(((*this).size() +
 							  1) * sizeof(struct master_activity)));
 			if (master_activity_ptr == NULL)
-				malloc_error();
+				P_INSTANCE_POINTER malloc_error();
 			for (const_iterator it = (*this).begin(); it != (*this).end();
 				 it++)
 			{

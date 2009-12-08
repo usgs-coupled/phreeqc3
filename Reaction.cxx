@@ -77,7 +77,7 @@ cxxReaction::~cxxReaction()
 
 
 struct irrev *
-cxxReaction::cxxReaction2irrev()
+cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
 		//
 		// Builds a irrev structure from instance of cxxReaction 
 		//
@@ -85,7 +85,7 @@ cxxReaction::cxxReaction2irrev()
 	struct irrev *irrev_ptr;
 	irrev_ptr = (struct irrev *) PHRQ_malloc(sizeof(struct irrev));
 	if (irrev_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	irrev_ptr->description = this->get_description();
 	irrev_ptr->n_user = this->n_user;
@@ -95,7 +95,7 @@ cxxReaction::cxxReaction2irrev()
 	irrev_ptr->count_list = (int) this->reactantList.size();
 	if (this->elementList.size() > 0)
 	{
-		irrev_ptr->elts = this->elementList.elt_list();
+		irrev_ptr->elts = this->elementList.elt_list(P_INSTANCE);
 	}
 	else
 	{
@@ -110,7 +110,7 @@ cxxReaction::cxxReaction2irrev()
 			(double *)
 			PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
 		if (irrev_ptr->steps == NULL)
-			malloc_error();
+			P_INSTANCE_POINTER malloc_error();
 		std::copy(this->steps.begin(), this->steps.end(), irrev_ptr->steps);
 	}
 	if (this->equalIncrements)
@@ -124,7 +124,7 @@ cxxReaction::cxxReaction2irrev()
 	if (this->units.size() == 0)
 		irrev_ptr->units = NULL;
 	else
-		irrev_ptr->units = string_hsave(this->units.c_str());
+		irrev_ptr->units = P_INSTANCE_POINTER string_hsave(this->units.c_str());
 	return (irrev_ptr);
 }
 

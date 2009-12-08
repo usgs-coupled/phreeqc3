@@ -302,6 +302,7 @@ class CParser
 	ECHO_OPTION echo_file;
 	std::string accumulated;
 	bool accumulate;
+	//int const &input_error_parser;
 };
 
 // Global functions

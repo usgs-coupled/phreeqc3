@@ -79,12 +79,12 @@ cxxSSassemblage::~cxxSSassemblage()
 }
 
 struct s_s_assemblage *
-cxxSSassemblage::cxxSSassemblage2s_s_assemblage()
+cxxSSassemblage::cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG)
 		//
 		// Builds a s_s_assemblage structure from instance of cxxSSassemblage 
 		//
 {
-	struct s_s_assemblage *s_s_assemblage_ptr = s_s_assemblage_alloc();
+	struct s_s_assemblage *s_s_assemblage_ptr = P_INSTANCE_POINTER s_s_assemblage_alloc();
 
 	s_s_assemblage_ptr->description = this->get_description();
 	s_s_assemblage_ptr->n_user = this->n_user;
@@ -92,7 +92,7 @@ cxxSSassemblage::cxxSSassemblage2s_s_assemblage()
 	s_s_assemblage_ptr->new_def = FALSE;
 	s_s_assemblage_ptr->count_s_s = (int) this->ssAssemblageSSs.size();
 	s_s_assemblage_ptr->s_s =
-		cxxSSassemblageSS::cxxSSassemblageSS2s_s(this->ssAssemblageSSs);
+		cxxSSassemblageSS::cxxSSassemblageSS2s_s(P_INSTANCE_COMMA this->ssAssemblageSSs);
 	return (s_s_assemblage_ptr);
 }
 
@@ -312,14 +312,14 @@ cxxSSassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 #endif
 
 void
-cxxSSassemblage::totalize()
+cxxSSassemblage::totalize(PHREEQC_PTR_ARG)
 {
 	this->totals.clear();
 	// component structures
 	for (std::map < std::string, cxxSSassemblageSS >::iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
-		(*it).second.totalize();
+		(*it).second.totalize(P_INSTANCE);
 		this->totals.add_extensive((*it).second.get_totals(), 1.0);
 	}
 	return;

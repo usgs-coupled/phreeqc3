@@ -6,7 +6,7 @@
 #include <string>				// std::string
 #include <vector>				// std::vector
 #include <iostream>
-
+#include "Phreeqc_class.h"
 #include "NumKeyword.h"
 #include "SolutionIsotopeList.h"
 #include "NameDouble.h"
@@ -18,8 +18,8 @@ class cxxSolution:public cxxNumKeyword
   public:
 	cxxSolution();
 	cxxSolution(struct solution *);
-	  cxxSolution(int n_user);
-	  cxxSolution(const std::map < int, cxxSolution > &solution_map,
+	  cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user);
+	  cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solution_map,
 				  cxxMix & mx, int n_user);
 	 ~cxxSolution();
 
@@ -148,7 +148,7 @@ class cxxSolution:public cxxNumKeyword
 	   void set_isotope(char *string, double value);
 	 */
 
-	struct solution *cxxSolution2solution();
+	struct solution *cxxSolution2solution(PHREEQC_PTR_ARG);
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 

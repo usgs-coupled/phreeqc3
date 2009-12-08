@@ -5,7 +5,7 @@
 #include <map>					// std::map
 #include <vector>
 #include <set>
-
+#include "Phreeqc_class.h"
 // forward declarations
 class cxxISolution;				// reqd for read and dump_xml
 
@@ -116,14 +116,14 @@ class cxxISolutionComp
 	{
 		this->gfw = gfw;
 	}
-	void set_gfw();
+	void set_gfw(PHREEQC_PTR_ARG);
 
 	bool operator<(const cxxISolutionComp & conc) const
 	{
 		return ::strcmp(this->description.c_str(), conc.description.c_str()) < 0;
 	}
 
-	static struct conc *cxxISolutionComp2conc(const std::map < std::string,	cxxISolutionComp > &t);
+	static struct conc *cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < std::string,	cxxISolutionComp > &t);
 
   private:
 	  std::string description;

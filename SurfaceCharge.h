@@ -8,6 +8,7 @@
 #include <vector>				// std::vector
 
 #include "NameDouble.h"
+#include "Phreeqc_class.h"
 
 class cxxSurfaceCharge
 {
@@ -21,7 +22,7 @@ public:
 
 	struct master *get_psi_master();
 
-	static struct surface_charge *cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSurfaceCharge > &el);
+	static struct surface_charge *cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceCharge > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 

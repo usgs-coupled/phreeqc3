@@ -7,7 +7,7 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-
+#include "Phreeqc_class.h"
 #include "Parser.h"
 
 class cxxNameDouble:public
@@ -34,7 +34,7 @@ class cxxNameDouble:public
 	cxxNameDouble();
 
 	struct elt_list *
-	elt_list();
+	elt_list(PHREEQC_PTR_ARG);
 
 	struct master_activity *
 	master_activity() const;

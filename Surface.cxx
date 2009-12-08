@@ -6,7 +6,7 @@
 #endif
 #include <cassert>				// assert
 #include <algorithm>			// std::sort
-
+#include "Phreeqc_class.h"
 #include "Utils.h"				// define first
 #if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
@@ -143,12 +143,12 @@ cxxSurface::get_related_rate()
 }
 
 struct surface *
-cxxSurface::cxxSurface2surface()
+cxxSurface::cxxSurface2surface(PHREEQC_PTR_ARG)
 		//
 		// Builds a surface structure from instance of cxxSurface 
 		//
 {
-	struct surface *surface_ptr = surface_alloc();
+	struct surface *surface_ptr = P_INSTANCE_POINTER surface_alloc();
 
 	surface_ptr->description = this->get_description();
 	surface_ptr->n_user = this->n_user;
@@ -175,19 +175,19 @@ cxxSurface::cxxSurface2surface()
 	// Surface comps
 	surface_ptr->count_comps = (int) this->surfaceComps.size();
 	surface_ptr->comps =
-		(struct surface_comp *) free_check_null(surface_ptr->comps);
+		(struct surface_comp *) P_INSTANCE_POINTER free_check_null(surface_ptr->comps);
 	surface_ptr->comps =
 		cxxSurfaceComp::cxxSurfaceComp2surface_comp(this->surfaceComps);
 
 	// Surface charge
 	surface_ptr->charge =
-		(struct surface_charge *) free_check_null(surface_ptr->charge);
+		(struct surface_charge *) P_INSTANCE_POINTER free_check_null(surface_ptr->charge);
 	//if (surface_ptr->edl == TRUE) {
 	if (surface_ptr->type == DDL || surface_ptr->type == CD_MUSIC)
 	{
 		surface_ptr->count_charge = (int) this->surfaceCharges.size();
 		surface_ptr->charge =
-			cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(this->surfaceCharges);
+			cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(P_INSTANCE_COMMA this->surfaceCharges);
 	}
 	else
 	{
@@ -199,7 +199,7 @@ cxxSurface::cxxSurface2surface()
 		int i, j;
 		for (i = 0; i < surface_ptr->count_comps; i++)
 		{
-			char *charge_name = string_hsave(
+			char *charge_name = P_INSTANCE_POINTER string_hsave(
 				cxxSurfaceComp::get_charge_name(surface_ptr->comps[i].
 												formula).c_str());
 			for (j = 0; j < surface_ptr->count_charge; j++)

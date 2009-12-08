@@ -8,6 +8,7 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 
+#include "Phreeqc_class.h"
 #include "NumKeyword.h"
 #include "NameDouble.h"
 class cxxSSassemblageSS;
@@ -25,7 +26,7 @@ public:
 		cxxMix & mx, int n_user);
 	~cxxSSassemblage();
 
-	struct s_s_assemblage *cxxSSassemblage2s_s_assemblage();
+	struct s_s_assemblage *cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG);
 
 	struct s_s *cxxSSassemblageComp2s_s();
 

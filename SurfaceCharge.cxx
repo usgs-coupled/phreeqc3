@@ -64,27 +64,27 @@ cxxSurfaceCharge::~cxxSurfaceCharge()
 {
 }
 
-struct master *
-cxxSurfaceCharge::get_psi_master()
-{
-	struct master *master_ptr = NULL;
-	std::string str = this->name;
-
-	str.append("_psi");
-	master_ptr = master_bsearch(str.c_str());
-	if (master_ptr == NULL)
-	{
-		std::ostringstream error_oss;
-		error_oss << "Surface charge psi_master not found." << this->
-			name << std::endl;
-		//Utilities::error_msg(error_oss.str(), CONTINUE);
-		error_msg(error_oss.str().c_str(), CONTINUE);
-	}
-	return (master_ptr);
-}
+//struct master *
+//cxxSurfaceCharge::get_psi_master()
+//{
+//	struct master *master_ptr = NULL;
+//	std::string str = this->name;
+//
+//	str.append("_psi");
+//	master_ptr = master_bsearch(str.c_str());
+//	if (master_ptr == NULL)
+//	{
+//		std::ostringstream error_oss;
+//		error_oss << "Surface charge psi_master not found." << this->
+//			name << std::endl;
+//		//Utilities::error_msg(error_oss.str(), CONTINUE);
+//		error_msg(error_oss.str().c_str(), CONTINUE);
+//	}
+//	return (master_ptr);
+//}
 
 struct surface_charge *
-cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSurfaceCharge > &el)
+cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceCharge > &el)
 	//
 	// Builds surface_charge structure from of cxxSurfaceCharge 
 	//
@@ -93,13 +93,13 @@ cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSur
 		(struct surface_charge *)
 		PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_charge)));
 	if (surf_charge_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	int i = 0;
 	for (std::map < std::string, cxxSurfaceCharge >::iterator it = el.begin();
 		it != el.end(); ++it)
 	{
-		surf_charge_ptr[i].name = string_hsave((*it).second.name.c_str());
+		surf_charge_ptr[i].name = P_INSTANCE_POINTER string_hsave((*it).second.name.c_str());
 		assert((*it).second.name.size() > 0);
 		surf_charge_ptr[i].specific_area = (*it).second.specific_area;
 		surf_charge_ptr[i].grams = (*it).second.grams;
@@ -114,7 +114,7 @@ cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(std::map < std::string, cxxSur
 		surf_charge_ptr[i].sigma1 = 0;
 		surf_charge_ptr[i].sigma2 = 0;
 		surf_charge_ptr[i].sigmaddl = 0;
-		surf_charge_ptr[i].diffuse_layer_totals = (*it).second.diffuse_layer_totals.elt_list();
+		surf_charge_ptr[i].diffuse_layer_totals = (*it).second.diffuse_layer_totals.elt_list(P_INSTANCE);
 		//surf_charge_ptr[i].psi_master           = it->get_psi_master();
 		surf_charge_ptr[i].count_g = 0;
 		surf_charge_ptr[i].g = NULL;

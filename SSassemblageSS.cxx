@@ -77,7 +77,7 @@ cxxSSassemblageSS::~cxxSSassemblageSS()
 }
 
 struct s_s *
-cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblageSS > &el)
+cxxSSassemblageSS::cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSSassemblageSS > &el)
 		//
 		// Builds s_s structure from of cxxSSassemblageSS 
 		//
@@ -89,12 +89,12 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblage
 	struct s_s *s_s_ptr =
 		(struct s_s *) PHRQ_malloc((size_t) (el.size() * sizeof(struct s_s)));
 	if (s_s_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 	int j = 0;
 	for (std::map < std::string, cxxSSassemblageSS >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		s_s_ptr[j].name = string_hsave((*it).second.name.c_str());
+		s_s_ptr[j].name = P_INSTANCE_POINTER string_hsave((*it).second.name.c_str());
 		assert((*it).second.name.size() > 0);
 		//s_s_ptr[j].total_moles                                 = it->total_moles;
 		s_s_ptr[j].total_moles = 0;
@@ -132,13 +132,13 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(std::map < std::string, cxxSSassemblage
 				PHRQ_malloc((size_t)
 							((*it).second.comps.size() * sizeof(struct s_s_comp)));
 			if (s_s_comp_ptr == NULL)
-				malloc_error();
+				P_INSTANCE_POINTER malloc_error();
 			for (cxxNameDouble::iterator itc = (*it).second.comps.begin();
 				 itc != (*it).second.comps.end(); ++itc)
 			{
-				s_s_comp_ptr[i].name = string_hsave(itc->first.c_str());
+				s_s_comp_ptr[i].name = P_INSTANCE_POINTER string_hsave(itc->first.c_str());
 				assert(itc->first.size() > 0);
-				s_s_comp_ptr[i].phase = phase_bsearch(itc->first.c_str(), &n, TRUE);
+				s_s_comp_ptr[i].phase = P_INSTANCE_POINTER phase_bsearch(itc->first.c_str(), &n, TRUE);
 				s_s_comp_ptr[i].initial_moles = 0;
 				s_s_comp_ptr[i].moles = itc->second;
 				s_s_comp_ptr[i].init_moles = 0;
@@ -541,7 +541,7 @@ cxxSSassemblageSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 #endif
 
 void
-cxxSSassemblageSS::totalize()
+cxxSSassemblageSS::totalize(PHREEQC_PTR_ARG)
 {
 	this->totals.clear();
 	// component structures
@@ -550,7 +550,7 @@ cxxSSassemblageSS::totalize()
 	{
 		struct phase *phase_ptr;
 		int l;
-		phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
+		phase_ptr = P_INSTANCE_POINTER phase_bsearch(it->first.c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);
