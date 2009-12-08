@@ -17,13 +17,13 @@ public:
 	cxxKineticsComp(struct kinetics_comp *);
 	~cxxKineticsComp();
 
-	static struct kinetics_comp *cxxKineticsComp2kinetics_comp(std::map < std::string, cxxKineticsComp > &el);
+	static struct kinetics_comp *cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxKineticsComp > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser, bool check = true);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
 
 	const std::string &get_rate_name() const
 	{

@@ -21,7 +21,7 @@ class cxxKinetics:public cxxNumKeyword
 				int n_user);
 	 ~cxxKinetics();
 
-	struct kinetics *cxxKinetics2kinetics();
+	struct kinetics *cxxKinetics2kinetics(PHREEQC_PTR_ARG);
 
 	struct kinetics_comp *cxxKineticsComp2kinetics_comp();
 
@@ -29,7 +29,7 @@ class cxxKinetics:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser, bool check = true);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
 
 	bool get_related_phases(void);
 

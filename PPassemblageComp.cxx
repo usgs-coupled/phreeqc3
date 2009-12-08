@@ -60,14 +60,14 @@ cxxPPassemblageComp::~cxxPPassemblageComp()
 }
 
 struct phase *
-cxxPPassemblageComp::get_phase()
+cxxPPassemblageComp::get_phase(PHREEQC_PTR_ARG)
 {
 	int i;
-	return phase_bsearch(this->name.c_str(), &i, FALSE);
+	return P_INSTANCE_POINTER phase_bsearch(this->name.c_str(), &i, FALSE);
 }
 
 struct pure_phase *
-	cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(std::map < std::string, cxxPPassemblageComp > &el)
+cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxPPassemblageComp > &el)
 		//
 		// Builds pure_phase structure from of cxxPPassemblageComp 
 		//
@@ -76,21 +76,21 @@ struct pure_phase *
 		(struct pure_phase *)
 		PHRQ_malloc((size_t) (el.size() * sizeof(struct pure_phase)));
 	if (pure_phase_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	int i = 0;
 	for (std::map < std::string, cxxPPassemblageComp >::iterator it = el.begin();
 		 it != el.end(); ++it)
 	{
-		pure_phase_ptr[i].phase = (*it).second.get_phase();
+		pure_phase_ptr[i].phase = (*it).second.get_phase(P_INSTANCE);
 		if ((*it).second.name.size() == 0)
 			pure_phase_ptr[i].name = NULL;
 		else
-			pure_phase_ptr[i].name = string_hsave((*it).second.name.c_str());
+			pure_phase_ptr[i].name = P_INSTANCE_POINTER string_hsave((*it).second.name.c_str());
 		if ((*it).second.add_formula.size() == 0)
 			pure_phase_ptr[i].add_formula = NULL;
 		else
-			pure_phase_ptr[i].add_formula = string_hsave((*it).second.add_formula.c_str());
+			pure_phase_ptr[i].add_formula = P_INSTANCE_POINTER string_hsave((*it).second.add_formula.c_str());
 		pure_phase_ptr[i].si = (*it).second.si;
 		pure_phase_ptr[i].moles = (*it).second.moles;
 		pure_phase_ptr[i].delta = (*it).second.delta;
@@ -437,7 +437,7 @@ cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 #endif
 
 void
-cxxPPassemblageComp::totalize()
+cxxPPassemblageComp::totalize(PHREEQC_PTR_ARG)
 {
 	this->totals.clear();
 	// component structures
@@ -445,7 +445,7 @@ cxxPPassemblageComp::totalize()
 		return;
 	struct phase *phase_ptr;
 	int l;
-	phase_ptr = phase_bsearch(this->name.c_str(), &l, FALSE);
+	phase_ptr = P_INSTANCE_POINTER phase_bsearch(this->name.c_str(), &l, FALSE);
 	if (phase_ptr != NULL)
 	{
 		cxxNameDouble phase_formula(phase_ptr->next_elt);
@@ -460,7 +460,7 @@ cxxPPassemblageComp::totalize()
 
 
 void
-cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
+cxxPPassemblageComp::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblageComp & addee, double extensive)
 {
 	double ext1, ext2, f1, f2;
 	if (extensive == 0.0)
@@ -496,7 +496,7 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 		oss <<
 			"Can not mix two Equilibrium_phases with differing add_formulae., "
 			<< this->name;
-		error_msg(oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
 		input_error++;
 		return;
 	}

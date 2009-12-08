@@ -58,7 +58,7 @@ cxxNumKeyword()
 
 
 }
-cxxExchange::cxxExchange(const std::map < int, cxxExchange > &entities,
+cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &entities,
 						 cxxMix & mix, int n_user):
 cxxNumKeyword()
 {
@@ -75,7 +75,7 @@ cxxNumKeyword()
 		{
 			const cxxExchange *entity_ptr =
 				&(entities.find(it->first)->second);
-			this->add(*entity_ptr, it->second);
+			this->add(P_INSTANCE_COMMA *entity_ptr, it->second);
 			this->pitzer_exchange_gammas = entity_ptr->pitzer_exchange_gammas;
 		}
 #ifdef SKIP
@@ -92,7 +92,7 @@ cxxNumKeyword()
 	}
 }
 
-cxxExchange::cxxExchange(int n_user)
+cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user)
 	//
 	// constructor for cxxExchange from reaction calculation
 	// equivalent of xexchange_save
@@ -108,61 +108,61 @@ cxxNumKeyword()
 	this->n_user = n_user;
 	this->n_user_end = n_user;
 	this->pitzer_exchange_gammas =
-		(use.exchange_ptr->pitzer_exchange_gammas == TRUE);
+		(P_INSTANCE_POINTER use.exchange_ptr->pitzer_exchange_gammas == TRUE);
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < P_INSTANCE_POINTER count_unknowns; i++)
 	{
-		if (x[i]->type == EXCH)
+		if (P_INSTANCE_POINTER x[i]->type == EXCH)
 		{
 			cxxExchComp ec;
 			//char * formula;
-			ec.set_formula(x[i]->exch_comp->formula);
+			ec.set_formula(P_INSTANCE_POINTER x[i]->exch_comp->formula);
 			//double moles;
 			ec.set_moles(0.0);
 			//cxxNameDouble formula_totals;
-			ec.set_formula_totals(x[i]->exch_comp->formula_totals);
+			ec.set_formula_totals(P_INSTANCE_POINTER x[i]->exch_comp->formula_totals);
 			//cxxNameDouble totals; see below
 			//double la;
-			ec.set_la(x[i]->master[0]->s->la);
+			ec.set_la(P_INSTANCE_POINTER x[i]->master[0]->s->la);
 			//double charge_balance; see below
 			//char   *phase_name;
-			ec.set_phase_name(x[i]->exch_comp->phase_name);
+			ec.set_phase_name(P_INSTANCE_POINTER x[i]->exch_comp->phase_name);
 			//double phase_proportion;
-			ec.set_phase_proportion(x[i]->exch_comp->phase_proportion);
+			ec.set_phase_proportion(P_INSTANCE_POINTER x[i]->exch_comp->phase_proportion);
 			//char   *rate_name;
-			ec.set_rate_name(x[i]->exch_comp->rate_name);
+			ec.set_rate_name(P_INSTANCE_POINTER x[i]->exch_comp->rate_name);
 			//double formula_z;
-			ec.set_formula_z(x[i]->exch_comp->formula_z);
+			ec.set_formula_z(P_INSTANCE_POINTER x[i]->exch_comp->formula_z);
 
 			// calculate charge and totals
-			count_elts = 0;
-			paren_count = 0;
+			P_INSTANCE_POINTER count_elts = 0;
+			P_INSTANCE_POINTER paren_count = 0;
 			double charge = 0.0;
 			int j;
-			for (j = 0; j < count_species_list; j++)
+			for (j = 0; j < P_INSTANCE_POINTER count_species_list; j++)
 			{
-				if (species_list[j].master_s == x[i]->master[0]->s)
+				if (P_INSTANCE_POINTER species_list[j].master_s == P_INSTANCE_POINTER x[i]->master[0]->s)
 				{
-					add_elt_list(species_list[j].s->next_elt,
-								 species_list[j].s->moles);
-					charge += species_list[j].s->moles * species_list[j].s->z;
+					P_INSTANCE_POINTER add_elt_list(P_INSTANCE_POINTER species_list[j].s->next_elt,
+								 P_INSTANCE_POINTER species_list[j].s->moles);
+					charge += P_INSTANCE_POINTER species_list[j].s->moles * P_INSTANCE_POINTER species_list[j].s->z;
 				}
 			}
 			// Keep exchanger related to phase even if none currently in solution
-			if (x[i]->exch_comp->phase_name != NULL && count_elts == 0)
+			if (P_INSTANCE_POINTER x[i]->exch_comp->phase_name != NULL && P_INSTANCE_POINTER count_elts == 0)
 			{
-				add_elt_list(x[i]->master[0]->s->next_elt, 1e-20);
+				P_INSTANCE_POINTER add_elt_list(P_INSTANCE_POINTER x[i]->master[0]->s->next_elt, 1e-20);
 			}
 			//double charge_balance
 			ec.set_charge_balance(charge);
 			//cxxNameDouble totals;
-			if (count_elts > 0)
+			if (P_INSTANCE_POINTER count_elts > 0)
 			{
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
+				qsort(P_INSTANCE_POINTER elt_list, (size_t) P_INSTANCE_POINTER count_elts,
+					  (size_t) sizeof(struct elt_list), P_INSTANCE_POINTER elt_list_compare);
+				P_INSTANCE_POINTER elt_list_combine();
 			}
-			ec.set_totals(elt_list, count_elts);
+			ec.set_totals(P_INSTANCE_POINTER elt_list, P_INSTANCE_POINTER count_elts);
 
 			// add to comp list
 			std::string str(ec.get_formula());
@@ -202,12 +202,12 @@ cxxExchange::get_related_rate()
 }
 
 struct exchange *
-cxxExchange::cxxExchange2exchange()
+cxxExchange::cxxExchange2exchange(PHREEQC_PTR_ARG)
 		//
 		// Builds a exchange structure from instance of cxxExchange
 		//
 {
-	struct exchange *exchange_ptr = exchange_alloc();
+	struct exchange *exchange_ptr = P_INSTANCE_POINTER exchange_alloc();
 
 	exchange_ptr->description = this->get_description();
 	exchange_ptr->n_user = this->n_user;
@@ -219,8 +219,8 @@ cxxExchange::cxxExchange2exchange()
 	exchange_ptr->related_rate = (int) this->get_related_rate();
 	exchange_ptr->pitzer_exchange_gammas = (int) this->pitzer_exchange_gammas;
 	exchange_ptr->count_comps = (int) this->exchComps.size();
-	exchange_ptr->comps = (struct exch_comp *) free_check_null(exchange_ptr->comps);
-	exchange_ptr->comps = cxxExchComp::cxxExchComp2exch_comp(this->exchComps);
+	exchange_ptr->comps = (struct exch_comp *) P_INSTANCE_POINTER free_check_null(exchange_ptr->comps);
+	exchange_ptr->comps = cxxExchComp::cxxExchComp2exch_comp(P_INSTANCE_COMMA this->exchComps);
 	return (exchange_ptr);
 }
 
@@ -294,7 +294,7 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxExchange::read_raw(CParser & parser, bool check)
+cxxExchange::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -387,7 +387,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
+				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
@@ -396,12 +396,12 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
 				{
 					cxxExchComp & comp = this->exchComps.find(ec.get_formula())->second;
-					comp.read_raw(reread, false);
+					comp.read_raw(P_INSTANCE_COMMA reread, false);
 				}
 				else
 				{
 					cxxExchComp ec1;
-					ec1.read_raw(reread, false);
+					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_formula());
 					this->exchComps[str] = ec1;
 				}
@@ -463,7 +463,7 @@ cxxExchange::add(const cxxExchange & addee, double extensive)
 }
 #endif
 void
-cxxExchange::add(const cxxExchange & addee, double extensive)
+cxxExchange::add(PHREEQC_PTR_ARG_COMMA const cxxExchange & addee, double extensive)
 		//
 		// Add existing exchange to "this" exchange
 		//
@@ -477,7 +477,7 @@ cxxExchange::add(const cxxExchange & addee, double extensive)
 		std::map < std::string, cxxExchComp >::iterator it = this->exchComps.find((*itadd).first);
 		if (it != this->exchComps.end())
 		{
-			(*it).second.add((*itadd).second, extensive);
+			(*it).second.add(P_INSTANCE_COMMA (*itadd).second, extensive);
 		//bool found = false;
 		//for (std::list < cxxExchComp >::iterator it = this->exchComps.begin();
 		//	 it != this->exchComps.end(); ++it)

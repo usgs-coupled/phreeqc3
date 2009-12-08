@@ -129,7 +129,7 @@ cxxExchComp::~cxxExchComp()
 }
 
 struct master *
-cxxExchComp::get_master()
+cxxExchComp::get_master(PHREEQC_PTR_ARG)
 {
 	struct master *master_ptr = NULL;
 	for (std::map < std::string, double >::iterator it =
@@ -137,16 +137,16 @@ cxxExchComp::get_master()
 	{
 
 		/* Find master species */
-		char *eltName = string_hsave(it->first.c_str());
+		char *eltName = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 		assert(it->first.size() != 0);
-		struct element *elt_ptr = element_store(eltName);
+		struct element *elt_ptr = P_INSTANCE_POINTER element_store(eltName);
 		if (elt_ptr->master == NULL)
 		{
 			std::ostringstream error_oss;
 			error_oss << "Master species not in data base for " << elt_ptr->
 				name << std::endl;
 			//Utilities::error_msg(error_oss.str(), STOP);
-			error_msg(error_oss.str().c_str(), CONTINUE);
+			P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
 			return (NULL);
 		}
 		if (elt_ptr->master->type != EX)
@@ -161,16 +161,16 @@ cxxExchComp::get_master()
 		{
 
 			/* Find master species */
-			char *eltName = string_hsave(it->first.c_str());
+			char *eltName = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 			assert(it->first.size() != 0);
-			struct element *elt_ptr = element_store(eltName);
+			struct element *elt_ptr = P_INSTANCE_POINTER element_store(eltName);
 			if (elt_ptr->master == NULL)
 			{
 				std::ostringstream error_oss;
 				error_oss << "Master species not in data base for " <<
 					elt_ptr->name << std::endl;
 				//Utilities::error_msg(error_oss.str(), STOP);
-				error_msg(error_oss.str().c_str(), CONTINUE);
+				P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
 				return (NULL);
 			}
 			if (elt_ptr->master->type != EX)
@@ -186,7 +186,7 @@ cxxExchComp::get_master()
 			"Exchange formula does not contain an exchange master species, "
 			<< this->formula << std::endl;
 		//Utilities::error_msg(error_oss.str(), CONTINUE);
-		error_msg(error_oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
 
 		std::ostringstream oss;
 		this->dump_raw(oss, 0);
@@ -197,7 +197,7 @@ cxxExchComp::get_master()
 }
 
 struct exch_comp *
-	cxxExchComp::cxxExchComp2exch_comp(std::map < std::string, cxxExchComp > &el)
+	cxxExchComp::cxxExchComp2exch_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxExchComp > &el)
 		//
 		// Builds exch_comp structure from of cxxExchComp 
 		//
@@ -206,7 +206,7 @@ struct exch_comp *
 		(struct exch_comp *)
 		PHRQ_malloc((size_t) (el.size() * sizeof(struct exch_comp)));
 	if (exch_comp_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	int i = 0;
 	for (std::map < std::string, cxxExchComp >::iterator it = el.begin(); it != el.end();
@@ -215,23 +215,23 @@ struct exch_comp *
 		if ((*it).second.formula.size() == 0)
 			exch_comp_ptr[i].formula = NULL;
 		else
-			exch_comp_ptr[i].formula = string_hsave((*it).second.formula.c_str());
+			exch_comp_ptr[i].formula = P_INSTANCE_POINTER string_hsave((*it).second.formula.c_str());
 		exch_comp_ptr[i].formula_z = (*it).second.formula_z;
-		exch_comp_ptr[i].totals = (*it).second.totals.elt_list();
+		exch_comp_ptr[i].totals = (*it).second.totals.elt_list(P_INSTANCE);
 		exch_comp_ptr[i].moles = (*it).second.moles;
-		exch_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list();
+		exch_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list(P_INSTANCE);
 		exch_comp_ptr[i].la = (*it).second.la;
 		exch_comp_ptr[i].charge_balance = (*it).second.charge_balance;
 		if ((*it).second.phase_name.size() == 0)
 			exch_comp_ptr[i].phase_name = NULL;
 		else
-			exch_comp_ptr[i].phase_name = string_hsave((*it).second.phase_name.c_str());
+			exch_comp_ptr[i].phase_name = P_INSTANCE_POINTER string_hsave((*it).second.phase_name.c_str());
 		exch_comp_ptr[i].phase_proportion = (*it).second.phase_proportion;
 		if ((*it).second.rate_name.size() == 0)
 			exch_comp_ptr[i].rate_name = NULL;
 		else
-			exch_comp_ptr[i].rate_name = string_hsave((*it).second.rate_name.c_str());
-		exch_comp_ptr[i].master = (*it).second.get_master();
+			exch_comp_ptr[i].rate_name = P_INSTANCE_POINTER string_hsave((*it).second.rate_name.c_str());
+		exch_comp_ptr[i].master = (*it).second.get_master(P_INSTANCE);
 		i++;
 	}
 	return (exch_comp_ptr);
@@ -333,7 +333,7 @@ cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxExchComp::read_raw(CParser & parser, bool check)
+cxxExchComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	std::string str;
 
@@ -486,7 +486,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 			break;
 
 		case 8:				// totals
-			if (this->totals.read_raw(parser, next_char) !=
+			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -499,7 +499,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 			break;
 
 		case 9:				// formula_totals
-			if (this->formula_totals.read_raw(parser, next_char) !=
+			if (this->formula_totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -550,7 +550,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 	}
 }
 void
-cxxExchComp::add(const cxxExchComp & addee, double extensive)
+cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensive)
 {
 	double ext1, ext2, f1, f2;
 	if (extensive == 0.0)
@@ -602,7 +602,7 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 		oss <<
 			"Can not mix two exchange components with same formula and different related phases, "
 			<< this->formula;
-		error_msg(oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
 		input_error++;
 		return;
 	}
@@ -618,7 +618,7 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 		oss <<
 			"Can not mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
-		error_msg(oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
 		input_error++;
 		return;
 	}
@@ -635,7 +635,7 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 		oss <<
 			"Can not mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
-		error_msg(oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
 		input_error++;
 		return;
 	}

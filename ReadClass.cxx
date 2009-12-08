@@ -11,6 +11,7 @@
 #else
 #include "Phreeqc.h"
 #endif
+#include "Phreeqc_class.h"
 #include "Parser.h"
 #include "Solution.h"
 #include "Exchange.h"
@@ -102,8 +103,8 @@ read_solution_raw(void)
 
 
 	cxxSolution sol;
-	sol.read_raw(parser);
-	struct solution *soln_ptr = sol.cxxSolution2solution();
+	sol.read_raw(PHREEQC_THIS_COMMA parser);
+	struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -194,8 +195,8 @@ read_exchange_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxExchange ex;
-	ex.read_raw(parser);
-	struct exchange *exchange_ptr = ex.cxxExchange2exchange();
+	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	struct exchange *exchange_ptr = ex.cxxExchange2exchange(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -288,8 +289,8 @@ read_surface_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxSurface ex;
-	ex.read_raw(parser);
-	struct surface *surface_ptr = ex.cxxSurface2surface();
+	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	struct surface *surface_ptr = ex.cxxSurface2surface(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -383,8 +384,8 @@ read_equilibrium_phases_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxPPassemblage ex;
-	ex.read_raw(parser);
-	struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage();
+	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -479,8 +480,8 @@ read_kinetics_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxKinetics ex;
-	ex.read_raw(parser);
-	struct kinetics *kinetics_ptr = ex.cxxKinetics2kinetics();
+	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	struct kinetics *kinetics_ptr = ex.cxxKinetics2kinetics(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -574,9 +575,8 @@ read_solid_solutions_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxSSassemblage ex;
-	ex.read_raw(parser);
-	struct s_s_assemblage *s_s_assemblage_ptr =
-		ex.cxxSSassemblage2s_s_assemblage();
+	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	struct s_s_assemblage *s_s_assemblage_ptr =	ex.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -672,8 +672,8 @@ read_gas_phase_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxGasPhase ex;
-	ex.read_raw(parser);
-	struct gas_phase *gas_phase_ptr = ex.cxxGasPhase2gas_phase();
+	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	struct gas_phase *gas_phase_ptr = ex.cxxGasPhase2gas_phase(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -766,8 +766,8 @@ read_reaction_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxReaction ex;
-	ex.read_raw(parser);
-	struct irrev *irrev_ptr = ex.cxxReaction2irrev();
+	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	struct irrev *irrev_ptr = ex.cxxReaction2irrev(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -862,7 +862,7 @@ read_mix_raw(void)
 
 	cxxMix ex;
 	ex.read_raw(parser);
-	struct mix *mix_ptr = ex.cxxMix2mix();
+	struct mix *mix_ptr = ex.cxxMix2mix(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -958,7 +958,7 @@ read_temperature_raw(void)
 
 	cxxTemperature ex;
 	ex.read_raw(parser);
-	struct temperature *temperature_ptr = ex.cxxTemperature2temperature();
+	struct temperature *temperature_ptr = ex.cxxTemperature2temperature(PHREEQC_THIS);
 	int n;
 
 	/*
@@ -1219,9 +1219,9 @@ read_solution_modify(void)
 	}
 
 	cxxSolution sol(solution[n]);
-	sol.read_raw(parser, false);
+	sol.read_raw(PHREEQC_THIS_COMMA parser, false);
 
-	struct solution *soln_ptr = sol.cxxSolution2solution();
+	struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
 
 	/*
 	 *  This is not quite right, may not produce sort order, forced sort
@@ -1306,10 +1306,10 @@ read_equilibrium_phases_modify(void)
 
 	// read entity
 	cxxPPassemblage entity(&(pp_assemblage[n]));
-	entity.read_raw(parser, false);
+	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
-	struct pp_assemblage *entity_ptr = entity.cxxPPassemblage2pp_assemblage();
+	struct pp_assemblage *entity_ptr = entity.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
 	pp_assemblage_free(&(pp_assemblage[n]));
 	pp_assemblage_copy(entity_ptr, &(pp_assemblage[n]), entity_ptr->n_user);
 	free_check_null(pp_assemblage[n].description);
@@ -1394,10 +1394,10 @@ read_exchange_modify(void)
 
 	// read entity
 	cxxExchange entity(&(exchange[n]));
-	entity.read_raw(parser, false);
+	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
-	struct exchange *entity_ptr = entity.cxxExchange2exchange();
+	struct exchange *entity_ptr = entity.cxxExchange2exchange(PHREEQC_THIS);
 	exchange_free(&(exchange[n]));
 	exchange_copy(entity_ptr, &(exchange[n]), entity_ptr->n_user);
 	free_check_null(exchange[n].description);
@@ -1482,10 +1482,10 @@ read_surface_modify(void)
 
 	// read entity
 	cxxSurface entity(&(surface[n]));
-	entity.read_raw(parser, false);
+	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
-	struct surface *entity_ptr = entity.cxxSurface2surface();
+	struct surface *entity_ptr = entity.cxxSurface2surface(PHREEQC_THIS);
 	surface_free(&(surface[n]));
 	surface_copy(entity_ptr, &(surface[n]), entity_ptr->n_user);
 	free_check_null(surface[n].description);
@@ -1569,10 +1569,10 @@ read_solid_solutions_modify(void)
 
 	// read entity
 	cxxSSassemblage entity(&(s_s_assemblage[n]));
-	entity.read_raw(parser, false);
+	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
-	struct s_s_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage();
+	struct s_s_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
 	s_s_assemblage_free(&(s_s_assemblage[n]));
 	s_s_assemblage_copy(entity_ptr, &(s_s_assemblage[n]), entity_ptr->n_user);
 	free_check_null(s_s_assemblage[n].description);
@@ -1655,9 +1655,9 @@ read_gas_phase_modify(void)
 
 	// read entity
 	cxxGasPhase entity(&(gas_phase[n]));
-	entity.read_raw(parser, false);
+	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 	// save entity
-	struct gas_phase *entity_ptr = entity.cxxGasPhase2gas_phase();
+	struct gas_phase *entity_ptr = entity.cxxGasPhase2gas_phase(PHREEQC_THIS);
 	gas_phase_free(&(gas_phase[n]));
 	gas_phase_copy(entity_ptr, &(gas_phase[n]), entity_ptr->n_user);
 	free_check_null(gas_phase[n].description);
@@ -1741,10 +1741,10 @@ read_kinetics_modify(void)
 
 	// read entity
 	cxxKinetics entity(&(kinetics[n]));
-	entity.read_raw(parser, false);
+	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
-	struct kinetics *entity_ptr = entity.cxxKinetics2kinetics();
+	struct kinetics *entity_ptr = entity.cxxKinetics2kinetics(PHREEQC_THIS);
 	kinetics_free(&(kinetics[n]));
 	kinetics_copy(entity_ptr, &(kinetics[n]), entity_ptr->n_user);
 	free_check_null(kinetics[n].description);

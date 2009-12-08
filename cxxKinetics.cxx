@@ -108,12 +108,12 @@ cxxKinetics::~cxxKinetics()
 }
 
 struct kinetics *
-cxxKinetics::cxxKinetics2kinetics()
+cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
 		//
 		// Builds a kinetics structure from instance of cxxKinetics 
 		//
 {
-	struct kinetics *kinetics_ptr = kinetics_alloc();
+	struct kinetics *kinetics_ptr = P_INSTANCE_POINTER kinetics_alloc();
 
 	kinetics_ptr->description = this->get_description();
 	kinetics_ptr->n_user = this->n_user;
@@ -126,25 +126,25 @@ cxxKinetics::cxxKinetics2kinetics()
 	kinetics_ptr->cvode_order = this->cvode_order;
 
 	// totals
-	kinetics_ptr->totals = this->totals.elt_list();
+	kinetics_ptr->totals = this->totals.elt_list(P_INSTANCE);
 
 	// comps
 	kinetics_ptr->count_comps = (int) this->kineticsComps.size();
 	kinetics_ptr->comps =
-		(struct kinetics_comp *) free_check_null(kinetics_ptr->comps);
+		(struct kinetics_comp *) P_INSTANCE_POINTER free_check_null(kinetics_ptr->comps);
 	kinetics_ptr->comps =
-		cxxKineticsComp::cxxKineticsComp2kinetics_comp(this->kineticsComps);
+		cxxKineticsComp::cxxKineticsComp2kinetics_comp(P_INSTANCE_COMMA this->kineticsComps);
 
 	// steps
 	kinetics_ptr->count_steps = (int) this->steps.size();
-	kinetics_ptr->steps = (double *) free_check_null(kinetics_ptr->steps);
+	kinetics_ptr->steps = (double *) P_INSTANCE_POINTER free_check_null(kinetics_ptr->steps);
 	if (this->steps.size() > 0)
 	{
 		kinetics_ptr->steps =
 			(double *)
 			PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
 		if (kinetics_ptr->steps == NULL)
-			malloc_error();
+			P_INSTANCE_POINTER malloc_error();
 		std::copy(this->steps.begin(), this->steps.end(),
 				  kinetics_ptr->steps);
 		/*
@@ -267,7 +267,7 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxKinetics::read_raw(CParser & parser, bool check)
+cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 
 	double d;
@@ -414,7 +414,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
+				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
 				CParser reread(is);
@@ -424,12 +424,12 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				if (this->kineticsComps.find(ec.get_rate_name()) != this->kineticsComps.end())
 				{
 					cxxKineticsComp & comp = this->kineticsComps.find(ec.get_rate_name())->second;
-					comp.read_raw(reread, false);
+					comp.read_raw(P_INSTANCE_COMMA reread, false);
 				}
 				else
 				{
 					cxxKineticsComp ec1;
-					ec1.read_raw(reread, false);
+					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_rate_name());
 					this->kineticsComps[str] = ec1;
 				}
@@ -438,7 +438,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 			break;
 
 		case 5:				// totals
-			if (this->totals.read_raw(parser, next_char) !=
+			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

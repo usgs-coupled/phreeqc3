@@ -91,7 +91,7 @@ cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
 	irrev_ptr->n_user = this->n_user;
 	irrev_ptr->n_user_end = this->n_user_end;
 
-	irrev_ptr->list = this->reactantList.name_coef();
+	irrev_ptr->list = this->reactantList.name_coef(P_INSTANCE);
 	irrev_ptr->count_list = (int) this->reactantList.size();
 	if (this->elementList.size() > 0)
 	{
@@ -223,7 +223,7 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxReaction::read_raw(CParser & parser)
+cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 {
 
 	int j;
@@ -296,7 +296,7 @@ cxxReaction::read_raw(CParser & parser)
 			break;
 
 		case 1:				// reactant_list
-			if (this->reactantList.read_raw(parser, next_char) !=
+			if (this->reactantList.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -308,7 +308,7 @@ cxxReaction::read_raw(CParser & parser)
 			break;
 
 		case 2:				// element_list
-			if (this->elementList.read_raw(parser, next_char) !=
+			if (this->elementList.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

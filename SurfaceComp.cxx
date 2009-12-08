@@ -103,7 +103,7 @@ struct master *
 }
 
 struct surface_comp *
-	cxxSurfaceComp::cxxSurfaceComp2surface_comp(std::map < std::string, cxxSurfaceComp > &el)
+	cxxSurfaceComp::cxxSurfaceComp2surface_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceComp > &el)
 	//
 	// Builds surface_comp structure from of cxxSurfaceComp 
 	//
@@ -112,33 +112,33 @@ struct surface_comp *
 		(struct surface_comp *)
 		PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_comp)));
 	if (surf_comp_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	int i = 0;
 	for (std::map < std::string, cxxSurfaceComp >::iterator it = el.begin();
 		it != el.end(); ++it)
 	{
-		surf_comp_ptr[i].formula = string_hsave((*it).second.formula.c_str());
+		surf_comp_ptr[i].formula = P_INSTANCE_POINTER string_hsave((*it).second.formula.c_str());
 		assert((*it).second.formula.size() > 0);
-		surf_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list();
+		surf_comp_ptr[i].formula_totals = (*it).second.formula_totals.elt_list(P_INSTANCE);
 		surf_comp_ptr[i].formula_z = (*it).second.formula_z;
 		surf_comp_ptr[i].moles = (*it).second.moles;
-		surf_comp_ptr[i].master = (*it).second.get_master();
-		surf_comp_ptr[i].totals = (*it).second.totals.elt_list();
+		surf_comp_ptr[i].master = (*it).second.get_master(P_INSTANCE);
+		surf_comp_ptr[i].totals = (*it).second.totals.elt_list(P_INSTANCE);
 		surf_comp_ptr[i].la = (*it).second.la;
 		//surf_comp_ptr[i].charge                 =  it->charge_number;
 		surf_comp_ptr[i].cb = (*it).second.charge_balance;
 		if ((*it).second.phase_name.size() == 0)
 			surf_comp_ptr[i].phase_name = NULL;
 		else
-			surf_comp_ptr[i].phase_name = string_hsave((*it).second.phase_name.c_str());
+			surf_comp_ptr[i].phase_name = P_INSTANCE_POINTER string_hsave((*it).second.phase_name.c_str());
 		surf_comp_ptr[i].phase_proportion = (*it).second.phase_proportion;
 		if ((*it).second.rate_name.size() == 0)
 			surf_comp_ptr[i].rate_name = NULL;
 		else
-			surf_comp_ptr[i].rate_name = string_hsave((*it).second.rate_name.c_str());
+			surf_comp_ptr[i].rate_name = P_INSTANCE_POINTER string_hsave((*it).second.rate_name.c_str());
 		surf_comp_ptr[i].Dw = (*it).second.Dw;
-		surf_comp_ptr[i].master = (*it).second.get_master();
+		surf_comp_ptr[i].master = (*it).second.get_master(P_INSTANCE);
 		i++;
 	}
 	return (surf_comp_ptr);
@@ -246,7 +246,7 @@ cxxSurfaceComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSurfaceComp::read_raw(CParser & parser, bool check)
+cxxSurfaceComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 {
 	std::string str;
 
@@ -403,7 +403,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 			break;
 
 		case 8:				// totals
-			if (this->totals.read_raw(parser, next_char) !=
+			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -427,7 +427,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 			break;
 
 		case 10:				// formula_totals
-			if (this->formula_totals.read_raw(parser, next_char) !=
+			if (this->formula_totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -547,7 +547,7 @@ cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 }
 #endif
 void
-cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
+cxxSurfaceComp::add(PHREEQC_PTR_ARG_COMMA const cxxSurfaceComp & addee, double extensive)
 {
 	if (extensive == 0.0)
 		return;
@@ -602,8 +602,8 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 		oss <<
 			"Can not mix two Surface components with same formula and different related phases, "
 			<< this->formula;
-		error_msg(oss.str().c_str(), CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->phase_name.size() != 0)
@@ -619,8 +619,8 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 		oss <<
 			"Can not mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
-		error_msg(oss.str().c_str(), CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->rate_name.size() != 0)
@@ -636,8 +636,8 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 		oss <<
 			"Can not mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
-		error_msg(oss.str().c_str(), CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	//double Dw;
@@ -717,18 +717,18 @@ cxxSurfaceComp::get_totals() const
 	return (this->totals);
 };
 std::string 
-cxxSurfaceComp::charge_name()
+cxxSurfaceComp::charge_name(PHREEQC_PTR_ARG)
 {
-	char * str = string_hsave(this->formula.c_str());
-	return (get_charge_name(str));
+	char * str = P_INSTANCE_POINTER string_hsave(this->formula.c_str());
+	return (get_charge_name(P_INSTANCE_COMMA str));
 };
 std::string 
-cxxSurfaceComp::get_charge_name(char *token)
+cxxSurfaceComp::get_charge_name(PHREEQC_PTR_ARG_COMMA char *token)
 {
 	char name[100];
 	int l;
 	char *ptr1 = token;
-	get_elt(&ptr1, name, &l);
+	P_INSTANCE_POINTER get_elt(&ptr1, name, &l);
 	ptr1 = strchr(name, '_');
 	if (ptr1 != NULL)
 	{

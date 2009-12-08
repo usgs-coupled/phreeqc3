@@ -18,7 +18,7 @@ class cxxPPassemblageComp
 	 ~cxxPPassemblageComp();
 
 
-	static struct pure_phase *cxxPPassemblageComp2pure_phase(std::map < std::string, cxxPPassemblageComp > &el);
+	static struct pure_phase *cxxPPassemblageComp2pure_phase(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxPPassemblageComp > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -48,15 +48,15 @@ class cxxPPassemblageComp
 		else
 			this->add_formula.clear();
 	}
-	struct phase *get_phase();
+	struct phase *get_phase(PHREEQC_PTR_ARG);
 
-	void totalize();
+	void totalize(PHREEQC_PTR_ARG);
 	const cxxNameDouble & get_totals() const
 	{
 		return (this->totals);
 	};
 
-	void add(const cxxPPassemblageComp & comp, double extensive);
+	void add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblageComp & comp, double extensive);
 	void multiply(double extensive);
 
 #ifdef USE_MPI

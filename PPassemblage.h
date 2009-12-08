@@ -17,17 +17,17 @@ class cxxPPassemblage:public cxxNumKeyword
   public:
 	cxxPPassemblage();
 	cxxPPassemblage(struct pp_assemblage *);
-	  cxxPPassemblage(const std::map < int, cxxPPassemblage > &entity_map,
+	  cxxPPassemblage(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxPPassemblage > &entity_map,
 					  cxxMix & mx, int n_user);
 	 ~cxxPPassemblage();
 
-	struct pp_assemblage *cxxPPassemblage2pp_assemblage();
+	struct pp_assemblage *cxxPPassemblage2pp_assemblage(PHREEQC_PTR_ARG);
 
 	struct pure_phase *cxxPPassemblageComp2pure_phase();
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(CParser & parser, bool check = true);
+	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
 
 	const cxxNameDouble & get_totals() const
 	{
@@ -39,7 +39,7 @@ class cxxPPassemblage:public cxxNumKeyword
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 
-	void totalize();
+	void totalize(PHREEQC_PTR_ARG);
 #ifdef ORCHESTRA
 	void ORCH_write_chemistry(std::ostream & chemistry_dat);
 	void ORCH_write_output_vars(std::ostream & outstream);
@@ -51,7 +51,7 @@ class cxxPPassemblage:public cxxNumKeyword
 #endif
 
 private:
-	void add(const cxxPPassemblage & addee, double extensive);
+	void add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblage & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
