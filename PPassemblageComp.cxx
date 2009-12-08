@@ -74,7 +74,7 @@ cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(PHREEQC_PTR_ARG_COMMA std::m
 {
 	struct pure_phase *pure_phase_ptr =
 		(struct pure_phase *)
-		PHRQ_malloc((size_t) (el.size() * sizeof(struct pure_phase)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct pure_phase)));
 	if (pure_phase_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 
@@ -497,7 +497,7 @@ cxxPPassemblageComp::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblageComp & addee
 			"Can not mix two Equilibrium_phases with differing add_formulae., "
 			<< this->name;
 		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	//double si;

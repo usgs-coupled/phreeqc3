@@ -204,7 +204,7 @@ struct exch_comp *
 {
 	struct exch_comp *exch_comp_ptr =
 		(struct exch_comp *)
-		PHRQ_malloc((size_t) (el.size() * sizeof(struct exch_comp)));
+		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct exch_comp)));
 	if (exch_comp_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 
@@ -603,7 +603,7 @@ cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensi
 			"Can not mix two exchange components with same formula and different related phases, "
 			<< this->formula;
 		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->phase_name.size() != 0)
@@ -619,7 +619,7 @@ cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensi
 			"Can not mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
 		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->rate_name.size() != 0)
@@ -636,7 +636,7 @@ cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensi
 			"Can not mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
 		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		input_error++;
+		P_INSTANCE_POINTER input_error++;
 		return;
 	}
 }

@@ -49,7 +49,7 @@ cxxSolutionIsotope::list2isotope(PHREEQC_PTR_ARG_COMMA std::list < cxxSolutionIs
 	{
 		iso =
 			(struct isotope *)
-			PHRQ_malloc((size_t) ((isolist.size()) * sizeof(struct isotope)));
+			P_INSTANCE_POINTER PHRQ_malloc((size_t) ((isolist.size()) * sizeof(struct isotope)));
 		if (iso == NULL)
 			P_INSTANCE_POINTER malloc_error();
 		int i = 0;

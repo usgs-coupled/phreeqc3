@@ -67,11 +67,11 @@ cxxMix::cxxMix2mix(PHREEQC_PTR_ARG)
 		//
 {
 	struct mix *mix_ptr;
-	mix_ptr = (struct mix *) PHRQ_malloc(sizeof(struct mix));
+	mix_ptr = (struct mix *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct mix));
 	if (mix_ptr == NULL)
 		P_INSTANCE_POINTER malloc_error();
 
-	mix_ptr->description = this->get_description();
+	mix_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
 	mix_ptr->n_user = this->n_user;
 	mix_ptr->n_user_end = this->n_user_end;
 
@@ -82,7 +82,7 @@ cxxMix::cxxMix2mix(PHREEQC_PTR_ARG)
 		int i = 0;
 		mix_ptr->comps =
 			(struct mix_comp *)
-			PHRQ_malloc((size_t)
+			P_INSTANCE_POINTER PHRQ_malloc((size_t)
 						(this->mixComps.size() * sizeof(struct mix_comp)));
 		if (mix_ptr->comps == NULL)
 			P_INSTANCE_POINTER malloc_error();
