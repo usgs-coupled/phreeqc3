@@ -18,7 +18,7 @@ class cxxReaction:public cxxNumKeyword
 	cxxReaction(struct irrev *);
 	 ~cxxReaction();
 
-	struct irrev *cxxReaction2irrev();
+	struct irrev *cxxReaction2irrev(PHREEQC_PTR_ARG);
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 

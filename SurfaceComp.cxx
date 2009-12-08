@@ -65,7 +65,7 @@ cxxSurfaceComp::~cxxSurfaceComp()
 }
 
 struct master *
-	cxxSurfaceComp::get_master()
+	cxxSurfaceComp::get_master(PHREEQC_PTR_ARG)
 {
 	struct master *master_ptr = NULL;
 	//for (std::map <char *, double, CHARSTAR_LESS>::iterator it = totals.begin(); it != totals.end(); it++) {
@@ -73,16 +73,16 @@ struct master *
 		it != this->totals.end(); it++)
 	{
 		/* Find master species */
-		char *eltName = string_hsave(it->first.c_str());
+		char *eltName = P_INSTANCE_POINTER string_hsave(it->first.c_str());
 		assert(it->first.size() > 0);
-		struct element *elt_ptr = element_store(eltName);
+		struct element *elt_ptr = P_INSTANCE_POINTER element_store(eltName);
 		if (elt_ptr->master == NULL)
 		{
 			std::ostringstream error_oss;
 			error_oss << "Master species not in data base for " << elt_ptr->
 				name << std::endl;
 			//Utilities::error_msg(error_oss.str(), CONTINUE);
-			error_msg(error_oss.str().c_str(), CONTINUE);
+			P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
 			return (NULL);
 		}
 		if (elt_ptr->master->type != SURF)
@@ -97,7 +97,7 @@ struct master *
 			"Surface formula does not contain an surface master species, " <<
 			this->formula << std::endl;
 		//Utilities::error_msg(error_oss.str(), CONTINUE);
-		error_msg(error_oss.str().c_str(), CONTINUE);
+		P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
 	}
 	return (master_ptr);
 }

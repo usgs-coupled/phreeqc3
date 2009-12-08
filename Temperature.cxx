@@ -73,16 +73,16 @@ cxxTemperature::~cxxTemperature()
 
 
 struct temperature *
-cxxTemperature::cxxTemperature2temperature()
+cxxTemperature::cxxTemperature2temperature(PHREEQC_PTR_ARG)
 		//
 		// Builds a temperature structure from instance of cxxTemperature 
 		//
 {
 	struct temperature *temperature_ptr;
 	temperature_ptr =
-		(struct temperature *) PHRQ_malloc(sizeof(struct temperature));
+		(struct temperature *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct temperature));
 	if (temperature_ptr == NULL)
-		malloc_error();
+		P_INSTANCE_POINTER malloc_error();
 
 	temperature_ptr->description = this->get_description();
 	temperature_ptr->n_user = this->n_user;
@@ -96,7 +96,7 @@ cxxTemperature::cxxTemperature2temperature()
 			(double *)
 			PHRQ_malloc((size_t) (this->temps.size() * sizeof(double)));
 		if (temperature_ptr->t == NULL)
-			malloc_error();
+			P_INSTANCE_POINTER malloc_error();
 		std::copy(this->temps.begin(), this->temps.end(), temperature_ptr->t);
 	}
 	if (this->equalIncrements)

@@ -5,6 +5,7 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include "Parser.h"
+#include "Phreeqc_class.h"
 
 class cxxSolutionIsotope
 {
@@ -20,7 +21,7 @@ class cxxSolutionIsotope
 	   };
 	 */
 	//cxxSolutionIsotope::STATUS read(CParser& parser);
-	static struct isotope *list2isotope(std::list < cxxSolutionIsotope > &t);
+	static struct isotope *list2isotope(PHREEQC_PTR_ARG_COMMA std::list < cxxSolutionIsotope > &t);
 
 	void dump_xml(std::ostream & os, unsigned int indent) const;
 	void dump_raw(std::ostream & os, unsigned int indent) const;
@@ -83,8 +84,8 @@ class cxxSolutionIsotope
 
 	bool operator<(const cxxSolutionIsotope & conc) const;
 
-	struct master *master(void);
-	struct master *primary(void);
+	struct master *master(PHREEQC_PTR_ARG);
+	struct master *primary(PHREEQC_PTR_ARG);
 
 	void add(const cxxSolutionIsotope & isotope_ptr, double intensive,
 			 double extensive);
