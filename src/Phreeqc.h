@@ -25,6 +25,9 @@
 							/* NV_Ith_S, prototypes for N_VNew, N_VFree       */
 #include "dense.h"			/* definitions of type DenseMat, macro DENSE_ELEM */
 #include "nvector.h"
+#include "runner.h"
+#include "dumper.h"
+#include "StorageBinList.h"
 
 #define STATIC
 #define EXTERNAL
