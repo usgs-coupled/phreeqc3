@@ -30,6 +30,8 @@
 #include "phrqproto.h"
 #include "output.h"
 
+
+#if !defined(PHREEQC_CLASS)
 static int streamify_to_next_keyword(std::istringstream & lines);
 extern int reading_database(void);
 extern int check_line(const char *string, int allow_empty, int allow_eof,
@@ -39,6 +41,7 @@ extern int copy_use(int i);
 dumper dump_info;
 StorageBinList delete_info;
 runner run_info;
+#endif
 
 /* ---------------------------------------------------------------------- */
 int CLASS_QUALIFIER
