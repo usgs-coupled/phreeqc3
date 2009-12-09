@@ -73,7 +73,7 @@ class cxxNameDouble:public
 	}
 
 	void
-	mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
+	mpi_pack(PHREEQC_PTR_ARG_COMMA std::vector < int >&ints, std::vector < double >&doubles);
 	void
 	mpi_pack(int *ints, int *ii, double *doubles, int *dd);
 
