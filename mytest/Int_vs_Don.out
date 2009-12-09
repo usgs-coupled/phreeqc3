@@ -60,7 +60,7 @@ Reading input data for simulation 1.
 	 25 bb_Al = dl_Al / (dl_Ca + dl_Na + dl_Al)
 	 26 bb_Cl = 1 - (dl_Ca + dl_Na + dl_Al) / (mol("Su-") * tot("water"))
 	 30 K_Na_Ca = bb_Na / bb_Ca^0.5 * tot("Ca")^0.5 / tot("Na")
-	 40 print 'solution', cell_no, ' ( 1 is Donnan, 2 is integration)
+	 40 print 'solution', cell_no, ' ( 1 is Donnan, 2 is integration)'
 	 41 punch step_no
 	 42 if cell_no = 1 then punch 'Donnan' else punch 'Integrated'
 	 44 punch tot("Na")*1e3, dl_Na*1e3, dl_Ca*1e3, dl_Al*1e3, (edl("Cl", "Su")- tot("Cl")*edl("water", "Su"))*1e3, edl("S")
@@ -102,7 +102,7 @@ Initial solution 1.
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
-                  Electrical balance (eq)  =  -1.275e-15
+                  Electrical balance (eq)  =  -1.289e-15
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  10
                                   Total H  = 1.110124e+02
@@ -276,12 +276,12 @@ Ca               9.501e-09
 Cl               1.000e-01
    Cl-                    1.000e-01   7.645e-02    -1.000    -1.117    -0.117
 H(0)             1.828e-39
-   H2                     9.139e-40   9.352e-40   -39.039   -39.029     0.010
+   H2                     9.140e-40   9.353e-40   -39.039   -39.029     0.010
 Na               1.000e-01
    Na+                    1.000e-01   7.829e-02    -1.000    -1.106    -0.106
    NaOH                   5.038e-10   5.155e-10    -9.298    -9.288     0.010
-O(0)             9.253e-15
-   O2                     4.626e-15   4.734e-15   -14.335   -14.325     0.010
+O(0)             9.250e-15
+   O2                     4.625e-15   4.733e-15   -14.335   -14.325     0.010
 
 ------------------------------Saturation indices-------------------------------
 
@@ -324,7 +324,7 @@ Reaction 1.	Irreversible reaction defined in simulation 1.
 ------------------------------Surface composition------------------------------
 
 Su            
-	  1.730e-12  Surface + diffuse layer charge, eq
+	  1.728e-12  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -1.275e-02  psi, V
@@ -397,8 +397,8 @@ Ca               1.947e-03
    CaOH+                  1.590e-10   1.236e-10    -9.799    -9.908    -0.109
 Cl               9.982e-02
    Cl-                    9.982e-02   7.578e-02    -1.001    -1.120    -0.120
-H(0)             7.487e-14
-   H2                     3.744e-14   3.837e-14   -13.427   -13.416     0.011
+H(0)             7.488e-14
+   H2                     3.744e-14   3.838e-14   -13.427   -13.416     0.011
 Na               9.022e-02
    Na+                    9.022e-02   7.025e-02    -1.045    -1.153    -0.109
    NaOH                   4.520e-10   4.633e-10    -9.345    -9.334     0.011
@@ -519,13 +519,13 @@ Ca               3.907e-03
    CaOH+                  3.150e-10   2.437e-10    -9.502    -9.613    -0.111
 Cl               9.966e-02
    Cl-                    9.966e-02   7.515e-02    -1.001    -1.124    -0.123
-H(0)             8.409e-14
-   H2                     4.204e-14   4.317e-14   -13.376   -13.365     0.012
+H(0)             8.403e-14
+   H2                     4.202e-14   4.314e-14   -13.377   -13.365     0.012
 Na               8.039e-02
    Na+                    8.039e-02   6.227e-02    -1.095    -1.206    -0.111
    NaOH                   4.006e-10   4.113e-10    -9.397    -9.386     0.012
 O(0)             0.000e+00
-   O2                     0.000e+00   0.000e+00   -65.665   -65.653     0.012
+   O2                     0.000e+00   0.000e+00   -65.664   -65.653     0.012
 
 ------------------------------Saturation indices-------------------------------
 
@@ -533,7 +533,7 @@ O(0)             0.000e+00
 
 	Al(OH)3(a)        4.01   14.81   10.80  Al(OH)3
 	Gibbsite          6.70   14.81    8.11  Al(OH)3
-	H2(g)           -10.21  -13.36   -3.15  H2
+	H2(g)           -10.22  -13.37   -3.15  H2
 	H2O(g)           -1.51    0.00    1.51  H2O
 	Halite           -3.91   -2.33    1.58  NaCl
 	O2(g)           -62.69  -65.65   -2.96  O2
@@ -568,7 +568,7 @@ Reaction 1.	Irreversible reaction defined in simulation 1.
 ------------------------------Surface composition------------------------------
 
 Su            
-	  9.659e-13  Surface + diffuse layer charge, eq
+	  9.657e-13  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -1.195e-02  psi, V
@@ -647,7 +647,7 @@ Na               7.050e-02
    Na+                    7.050e-02   5.435e-02    -1.152    -1.265    -0.113
    NaOH                   3.496e-10   3.596e-10    -9.456    -9.444     0.012
 O(0)             0.000e+00
-   O2                     0.000e+00   0.000e+00   -68.086   -68.074     0.012
+   O2                     0.000e+00   0.000e+00   -68.086   -68.073     0.012
 
 ------------------------------Saturation indices-------------------------------
 
@@ -764,12 +764,12 @@ Ca               7.857e-03
 Cl               9.940e-02
    Cl-                    9.940e-02   7.403e-02    -1.003    -1.131    -0.128
 H(0)             1.442e-12
-   H2                     7.210e-13   7.429e-13   -12.142   -12.129     0.013
+   H2                     7.209e-13   7.429e-13   -12.142   -12.129     0.013
 Na               6.058e-02
    Na+                    6.058e-02   4.649e-02    -1.218    -1.333    -0.115
    NaOH                   2.990e-10   3.081e-10    -9.524    -9.511     0.013
 O(0)             0.000e+00
-   O2                     0.000e+00   0.000e+00   -68.138   -68.125     0.013
+   O2                     0.000e+00   0.000e+00   -68.138   -68.124     0.013
 
 ------------------------------Saturation indices-------------------------------
 
@@ -891,7 +891,7 @@ Na               5.062e-02
    Na+                    5.062e-02   3.868e-02    -1.296    -1.413    -0.117
    NaOH                   2.487e-10   2.568e-10    -9.604    -9.590     0.014
 O(0)             0.000e+00
-   O2                     0.000e+00   0.000e+00   -68.148   -68.134     0.014
+   O2                     0.000e+00   0.000e+00   -68.147   -68.134     0.014
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1374,7 +1374,7 @@ Ca               1.784e-02
 Cl               9.897e-02
    Cl-                    9.897e-02   7.173e-02    -1.004    -1.144    -0.140
 H(0)             1.498e-12
-   H2                     7.491e-13   7.790e-13   -12.125   -12.108     0.017
+   H2                     7.492e-13   7.790e-13   -12.125   -12.108     0.017
 Na               1.056e-02
    Na+                    1.056e-02   7.947e-03    -1.976    -2.100    -0.123
    NaOH                   5.107e-11   5.310e-11   -10.292   -10.275     0.017
@@ -1669,13 +1669,13 @@ Ca               9.386e-09
    CaOH+                  7.771e-16   6.073e-16   -15.110   -15.217    -0.107
 Cl               1.000e-01
    Cl-                    1.000e-01   7.645e-02    -1.000    -1.117    -0.117
-H(0)             1.839e-39
-   H2                     9.193e-40   9.408e-40   -39.037   -39.027     0.010
+H(0)             1.840e-39
+   H2                     9.200e-40   9.414e-40   -39.036   -39.026     0.010
 Na               1.000e-01
    Na+                    1.000e-01   7.829e-02    -1.000    -1.106    -0.106
    NaOH                   5.038e-10   5.155e-10    -9.298    -9.288     0.010
-O(0)             9.143e-15
-   O2                     4.572e-15   4.678e-15   -14.340   -14.330     0.010
+O(0)             9.131e-15
+   O2                     4.565e-15   4.672e-15   -14.341   -14.331     0.010
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1718,7 +1718,7 @@ Reaction 2.	Irreversible reaction defined in simulation 2.
 ------------------------------Surface composition------------------------------
 
 Su            
-	 -2.429e-17  Surface + diffuse layer charge, eq
+	  3.123e-17  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -1.240e-02  psi, V
@@ -1758,7 +1758,7 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.000      Charge balance
-                                       pe  =  11.926      Adjusted to redox equilibrium
+                                       pe  =  11.925      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                            Ionic strength  =   1.073e-01
                        Mass of water (kg)  =   1.000e+00
@@ -1791,13 +1791,13 @@ Ca               1.930e-03
    CaOH+                  1.575e-10   1.225e-10    -9.803    -9.912    -0.109
 Cl               9.978e-02
    Cl-                    9.978e-02   7.576e-02    -1.001    -1.121    -0.120
-H(0)             1.944e-39
-   H2                     9.721e-40   9.964e-40   -39.012   -39.002     0.011
+H(0)             1.946e-39
+   H2                     9.732e-40   9.976e-40   -39.012   -39.001     0.011
 Na               9.036e-02
    Na+                    9.036e-02   7.036e-02    -1.044    -1.153    -0.109
    NaOH                   4.521e-10   4.634e-10    -9.345    -9.334     0.011
-O(0)             8.138e-15
-   O2                     4.069e-15   4.171e-15   -14.390   -14.380     0.011
+O(0)             8.120e-15
+   O2                     4.060e-15   4.161e-15   -14.391   -14.381     0.011
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1840,7 +1840,7 @@ Reaction 2.	Irreversible reaction defined in simulation 2.
 ------------------------------Surface composition------------------------------
 
 Su            
-	  2.602e-17  Surface + diffuse layer charge, eq
+	 -1.735e-18  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -1.175e-02  psi, V
@@ -2084,7 +2084,7 @@ Reaction 2.	Irreversible reaction defined in simulation 2.
 ------------------------------Surface composition------------------------------
 
 Su            
-	 -3.123e-17  Surface + diffuse layer charge, eq
+	 -3.469e-18  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -1.075e-02  psi, V
@@ -2450,7 +2450,7 @@ Reaction 2.	Irreversible reaction defined in simulation 2.
 ------------------------------Surface composition------------------------------
 
 Su            
-	 -8.527e-14  Surface + diffuse layer charge, eq
+	 -8.530e-14  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -9.697e-03  psi, V
@@ -2572,7 +2572,7 @@ Reaction 2.	Irreversible reaction defined in simulation 2.
 ------------------------------Surface composition------------------------------
 
 Su            
-	 -4.722e-14  Surface + diffuse layer charge, eq
+	 -4.725e-14  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -9.418e-03  psi, V
@@ -2694,7 +2694,7 @@ Reaction 2.	Irreversible reaction defined in simulation 2.
 ------------------------------Surface composition------------------------------
 
 Su            
-	 -2.680e-14  Surface + diffuse layer charge, eq
+	 -2.670e-14  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -9.164e-03  psi, V
@@ -2816,7 +2816,7 @@ Reaction 2.	Irreversible reaction defined in simulation 2.
 ------------------------------Surface composition------------------------------
 
 Su            
-	 -1.534e-14  Surface + diffuse layer charge, eq
+	 -1.526e-14  Surface + diffuse layer charge, eq
 	 -1.000e-02  Surface charge, eq
 	 -9.649e-03  sigma, C/m**2
 	 -8.933e-03  psi, V
@@ -2895,7 +2895,7 @@ Na               7.547e-04
    Na+                    7.547e-04   5.662e-04    -3.122    -3.247    -0.125
    NaOH                   3.622e-12   3.773e-12   -11.441   -11.423     0.018
 O(0)             4.688e-10
-   O2                     2.344e-10   2.441e-10    -9.630    -9.612     0.018
+   O2                     2.344e-10   2.442e-10    -9.630    -9.612     0.018
 
 ------------------------------Saturation indices-------------------------------
 

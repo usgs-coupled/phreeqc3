@@ -22,7 +22,7 @@ else
 	SPOOL2=
 endif
 
-all: release debug
+all: release debug class_release class_debug
 
 Release: release
 
@@ -243,7 +243,7 @@ COMMON_CXXOBJS = \
 
 ${PROGRAM} : ${OBJECT_FILES}
 	${CXX} -o $@ ${OBJECT_FILES}  ${LD_FLAGS} 
-	@echo; echo Done making for phast
+	@echo; echo Done making for phreeqcpp
 # -----------------------------------------------------------------------------
 # Module dependency list
 # -----------------------------------------------------------------------------

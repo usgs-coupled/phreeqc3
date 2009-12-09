@@ -42,7 +42,7 @@ USER_PUNCH
  26 bb_Cl = 1 - (dl_Ca + dl_Na + dl_Al) / (mol("Su-") * tot("water"))
  30 K_Na_Ca = bb_Na / bb_Ca^0.5 * tot("Ca")^0.5 / tot("Na")
 
- 40 print 'solution', cell_no, ' ( 1 is Donnan, 2 is integration)
+ 40 print 'solution', cell_no, ' ( 1 is Donnan, 2 is integration)'
  41 punch step_no
  42 if cell_no = 1 then punch 'Donnan' else punch 'Integrated'
  44 punch tot("Na")*1e3, dl_Na*1e3, dl_Ca*1e3, dl_Al*1e3, (edl("Cl", "Su")- tot("Cl")*edl("water", "Su"))*1e3, edl("S")
