@@ -4,13 +4,14 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
-#include <cassert>				// assert
-#include <algorithm>			// std::sort
+
 
 #ifdef USE_MPI
 //MPICH seems to require mpi.h to be first
 #include <mpi.h>
 #endif
+#include <cassert>				// assert
+#include <algorithm>			// std::sort
 #include "Utils.h"				// define first
 #if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
