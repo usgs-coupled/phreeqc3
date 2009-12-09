@@ -31,6 +31,9 @@ m_next_keyword(KT_NONE)
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
 	accumulate = false;
+#if defined(PHREEQC_CLASS)
+	this->p_instance = p_instance;
+#endif
 }
 
 CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output):m_input_stream(input), m_output_stream(output), m_error_stream(std::cerr),
@@ -42,6 +45,9 @@ m_next_keyword(KT_NONE)
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
 	accumulate = false;
+#if defined(PHREEQC_CLASS)
+	this->p_instance = p_instance;
+#endif
 }
 
 CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, std::ostream & error):m_input_stream(input), m_output_stream(output), m_error_stream(error),
@@ -53,6 +59,9 @@ m_next_keyword(KT_NONE)
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
 	accumulate = false;
+#if defined(PHREEQC_CLASS)
+	this->p_instance = p_instance;
+#endif
 }
 
 CParser::~CParser()
