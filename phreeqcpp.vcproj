@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -53,9 +53,6 @@
 				FloatingPointModel="0"
 				FloatingPointExceptions="false"
 				PrecompiledHeaderFile=".\Release/phreeqcpp.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -73,12 +70,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="gmp.lib"
-				OutputFile=".\Release/phreeqcpp.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(DEV_GMP_LIB_MT)"
 				IgnoreDefaultLibraryNames="LIBC.lib"
-				ProgramDatabaseFile=".\Release/phreeqcpp.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -94,7 +89,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Release/phreeqcpp.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -111,8 +105,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -146,9 +140,6 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/phreeqcpp.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -167,13 +158,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="gmpDebug.lib"
-				OutputFile=".\Debug/phreeqcpp.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(DEV_GMP_LIB_MT)"
 				IgnoreDefaultLibraryNames="LIBCD.lib"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/phreeqcpp.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -189,7 +178,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/phreeqcpp.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -206,8 +194,8 @@
 		</Configuration>
 		<Configuration
 			Name="Class_debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -241,9 +229,6 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/phreeqcpp.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -263,13 +248,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="gmpDebug.lib"
-				OutputFile=".\Debug/phreeqcpp.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(DEV_GMP_LIB_MT)"
 				IgnoreDefaultLibraryNames="LIBCD.lib"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/phreeqcpp.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -285,7 +268,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/phreeqcpp.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -2483,19 +2465,19 @@
 				>
 			</File>
 			<File
-				RelativePath="src\cvdense.h"
-				>
-			</File>
-			<File
 				RelativePath="src\phreeqc\cvdense.h"
 				>
 			</File>
 			<File
-				RelativePath="src\phreeqc\cvode.h"
+				RelativePath="src\cvdense.h"
 				>
 			</File>
 			<File
 				RelativePath="src\cvode.h"
+				>
+			</File>
+			<File
+				RelativePath="src\phreeqc\cvode.h"
 				>
 			</File>
 			<File
@@ -2547,11 +2529,11 @@
 				>
 			</File>
 			<File
-				RelativePath="src\phreeqc\kinetics.h"
+				RelativePath="src\kinetics.h"
 				>
 			</File>
 			<File
-				RelativePath="src\kinetics.h"
+				RelativePath="src\phreeqc\kinetics.h"
 				>
 			</File>
 			<File
