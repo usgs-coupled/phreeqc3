@@ -36,6 +36,14 @@ class cxxMix:public cxxNumKeyword
 			mixComps[n] = f;
 		}
 	};
+	void multiply(double f)
+	{
+		for (std::map < int, double >::iterator it = this->mixComps.begin();
+			it != this->mixComps.end(); it++)
+		{
+			it->second *= f;
+		}
+	};
 
 	std::map < int, double >*comps()
 	{
