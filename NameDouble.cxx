@@ -114,6 +114,7 @@ cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count,
 	}
 	this->type = type;
 }
+/*
 cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
 		//
 		// constructor for cxxNameDouble from list of elt_list
@@ -125,6 +126,30 @@ cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
 		if (nc[i].name == NULL)
 			continue;
 		(*this)[nc[i].name] = nc[i].coef;
+	}
+	this->type = ND_NAME_COEF;
+}
+*/
+cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
+		//
+		// constructor for cxxNameDouble from list of elt_list
+		//
+{
+	int i;
+	for (i = 0; i < count; i++)
+	{
+		if (nc[i].name == NULL)
+			continue;
+
+		if ((*this).find(nc[i].name) == (*this).end())
+		{
+			(*this)[nc[i].name] = nc[i].coef;
+		}
+		else
+		{
+			(*this)[nc[i].name] = (*this).find(nc[i].name)->second + nc[i].coef;
+		}
+
 	}
 	this->type = ND_NAME_COEF;
 }
@@ -462,7 +487,70 @@ cxxNameDouble::multiply(double extensive)
 		it->second *= extensive;
 	}
 }
+void
+cxxNameDouble::merge_redox(const cxxNameDouble & source)
+//
+// Merges source into this
+// Accounts for possible conflicts between redox state and
+// totals
+//
+{
+	for (cxxNameDouble::const_iterator sit = source.begin(); sit != source.end(); sit++)
+	{
+		
+		std::string redox_name = sit->first;
+		std::string elt_name;
+		size_t pos = redox_name.find("(");
 
+		bool redox;
+		if (pos != std::string::npos) 
+		{
+			redox = true;
+			elt_name = redox_name.substr(0, pos - 1);
+		}
+		else
+		{
+			redox = false;
+			elt_name = redox_name;
+		}
+		if (redox)
+		{
+			// Remove elt_name, if present
+			if ((*this).find(elt_name) != (*this).end())
+			{
+				(*this).erase((*this).find(elt_name));
+			}
+			// Put in redox name
+			(*this)[redox_name] = sit->second;
+		}
+		else
+		{
+			std::string substring;
+			substring.append(elt_name);
+			substring.append("(");
+
+			// Remove all redox
+			bool deleted = true;
+			while (deleted)
+			{
+				deleted = false;
+				cxxNameDouble::iterator current = (*this).begin();
+				for ( ; current != (*this).end(); current++)
+				{
+					if (current->first.find(substring) == 0)
+					{
+						(*this).erase(current);
+						deleted = true;
+						break;
+					}
+				}
+			}
+			// Put in elt name
+			(*this)[elt_name] = sit->second;
+		}
+
+	}
+}
 #ifdef USE_MPI
 void
 cxxNameDouble::mpi_pack(std::vector < int >&ints,
