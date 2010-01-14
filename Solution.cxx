@@ -630,13 +630,27 @@ cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			continue;
 
 		case 0:				// totals
-			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
-				CParser::PARSER_OK)
+			//if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			//	CParser::PARSER_OK)
+			//{
+			//	parser.incr_input_error();
+			//	parser.
+			//		error_msg("Expected element name and moles for totals.",
+			//				  CParser::OT_CONTINUE);
+			//}
 			{
-				parser.incr_input_error();
-				parser.
-					error_msg("Expected element name and moles for totals.",
-							  CParser::OT_CONTINUE);
+				cxxNameDouble temp_totals;
+				if (temp_totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=	CParser::PARSER_OK)
+				{
+					parser.incr_input_error();
+					parser.
+						error_msg("Expected element name and moles for totals.",
+						CParser::OT_CONTINUE);
+				}
+				else
+				{
+					this->totals.merge_redox(temp_totals);
+				}
 			}
 			opt_save = 0;
 			break;

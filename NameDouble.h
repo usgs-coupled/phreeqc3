@@ -67,6 +67,9 @@ class cxxNameDouble:public
 	multiply(double factor);
 
 	void
+	merge_redox(const cxxNameDouble & source);
+
+	void
 	insert(char *str, double d)
 	{
 		(*this)[str] = d;
