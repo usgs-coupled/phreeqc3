@@ -510,7 +510,7 @@ int initial_guesses(void);
 int revise_guesses(void);
 int s_s_binary(struct s_s *s_s_ptr);
 int s_s_ideal(struct s_s *s_s_ptr);
-int remove_unstable_phases;
+//int remove_unstable_phases;
 int gas_in;
 void ineq_init(int max_row_count, int max_column_count);
 
