@@ -1333,6 +1333,7 @@ int sum_surface_comp(struct surface *source1, LDBLE f1,
 					 struct surface *target, LDBLE new_Dw);
 int reformat_surf(char *comp_name, LDBLE fraction, char *new_comp_name,
 				  LDBLE new_Dw, int cell);
+LDBLE viscosity(void);
 
 int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 int find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
