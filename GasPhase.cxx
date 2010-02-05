@@ -273,6 +273,7 @@ cxxGasPhase::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 		vopts.push_back("total_p");	//1
 		vopts.push_back("volume");	//2
 		vopts.push_back("component");	//3
+		vopts.push_back("pressure");	//4
 	}
 
 	std::istream::pos_type ptr;
@@ -337,6 +338,7 @@ cxxGasPhase::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 1:				// total_p
+		case 4:				// pressure
 			if (!(parser.get_iss() >> this->total_p))
 			{
 				this->total_p = 0;
