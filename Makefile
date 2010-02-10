@@ -549,7 +549,7 @@ utilities.o: ../phreeqc/utilities.c ../phreeqc/global.h \
 # -----------------------------------------------------------------------------
 
 clean:
-	rm -rf Release Debug
+	rm -rf Release Debug Class_release Class_debug
 
 dependencies:
 	mkdir -p $(DEBUG_DIR) 
