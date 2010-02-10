@@ -556,8 +556,10 @@ dependencies:
 	cd $(DEBUG_DIR); gcc -MM -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.c
 
 tester:
-	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)
-	cd ../examples; make clean; make $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)
+#	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)
+#	cd ../examples; make clean; make $(SPOOL) make.out $(SPOOL2); make zero; make diff $(SPOOL) diff.out $(SPOOL2)
+	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
+	cd ../examples; make clean; make $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
 	svn status -q ../mytest 
 	svn status -q ../examples
 
