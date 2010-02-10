@@ -1,8 +1,8 @@
 CFG1 :=`uname`
 CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
-PHREEQC=../src/Release/phreeqcpp
-#PHREEQC=../src/Class_release/phreeqcpp
+#PHREEQC=../src/Release/phreeqcpp
+PHREEQC=../src/Class_release/phreeqcpp
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqcpp/Release/phreeqcpp.exe
 endif
@@ -20,6 +20,7 @@ all: alkalinity.out \
 	asf.out \
 	ball.out \
 	brown.out \
+	calc_SC.out \
 	cdmusic_related.out \
 	cd_ddl.out \
 	co2.out \
