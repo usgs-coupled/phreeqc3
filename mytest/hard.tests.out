@@ -93,8 +93,8 @@ Initial solution 1.	Pure water
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.002e-07   1.001e-07    -6.999    -6.999     0.000
-   H+                     1.001e-07   1.000e-07    -7.000    -7.000     0.000
+   OH-                    1.002e-07   1.001e-07    -6.999    -6.999    -0.000
+   H+                     1.001e-07   1.000e-07    -7.000    -7.000    -0.000
    H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
 H(0)             1.416e-25
    H2                     7.079e-26   7.079e-26   -25.150   -25.150     0.000
@@ -128,8 +128,8 @@ Dolomite            -3.95  -21.04  -17.09    2.000e+00           0  -2.000e+00
 FeS(ppt)           -12.46  -16.37   -3.92    2.000e+00           0  -2.000e+00
 Goethite            -1.02   -2.02   -1.00    2.000e+00           0  -2.000e+00
 Greigite           -41.61  -86.65  -45.03    2.000e+00           0  -2.000e+00
-Gypsum               0.00   -4.58   -4.58    2.000e+00   5.995e+00   3.995e+00
-Hematite             0.00   -4.01   -4.01    2.000e+00   1.300e+01   1.100e+01
+Gypsum              -0.00   -4.58   -4.58    2.000e+00   5.995e+00   3.995e+00
+Hematite            -0.00   -4.01   -4.01    2.000e+00   1.300e+01   1.100e+01
 Mackinawite        -11.72  -16.37   -4.65    2.000e+00           0  -2.000e+00
 Magnetite           -2.03    1.71    3.74    2.000e+00           0  -2.000e+00
 Pyrite              -9.39  -27.87  -18.48    2.000e+00           0  -2.000e+00
@@ -143,10 +143,10 @@ Zn(OH)2-b           -1.30   10.45   11.75    2.000e+00           0  -2.000e+00
 Zn(OH)2-c           -1.75   10.45   12.20    2.000e+00           0  -2.000e+00
 Zn(OH)2-e           -1.05   10.45   11.50    2.000e+00           0  -2.000e+00
 Zn(OH)2-g           -1.26   10.45   11.71    2.000e+00           0  -2.000e+00
-Zn2(OH)2SO4          0.00    7.50    7.50    2.000e+00   2.408e+00   4.084e-01
+Zn2(OH)2SO4         -0.00    7.50    7.50    2.000e+00   2.408e+00   4.084e-01
 Zn3O(SO4)2         -14.45    4.57   19.02    2.000e+00           0  -2.000e+00
-Zn4(OH)6SO4          0.00   28.40   28.40    2.000e+00   1.864e+00  -1.361e-01
-ZnCO3:H2O            0.00  -10.26  -10.26    2.000e+00   1.200e+01   1.000e+01
+Zn4(OH)6SO4         -0.00   28.40   28.40    2.000e+00   1.864e+00  -1.361e-01
+ZnCO3:H2O           -0.00  -10.26  -10.26    2.000e+00   1.200e+01   1.000e+01
 ZnMetal            -25.88   -0.12   25.76    2.000e+00           0  -2.000e+00
 ZnO(a)              -0.84   10.47   11.31    2.000e+00           0  -2.000e+00
 ZnS(a)              -2.57  -11.62   -9.05    2.000e+00           0  -2.000e+00
@@ -174,7 +174,7 @@ ZnSO4:H2O           -2.40   -2.97   -0.57    2.000e+00           0  -2.000e+00
                        Total CO2 (mol/kg)  =   3.752e-04
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -1.702e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  17
                                   Total H  = 1.010320e+02
                                   Total O  = 5.944689e+01
@@ -302,11 +302,11 @@ Zn               2.504e-01
 	Goethite         -1.02   -2.02   -1.00  FeOOH
 	Goslarite        -1.15   -3.11   -1.96  ZnSO4:7H2O
 	Greigite        -41.61  -86.65  -45.03  Fe3S4
-	Gypsum            0.00   -4.58   -4.58  CaSO4:2H2O
+	Gypsum           -0.00   -4.58   -4.58  CaSO4:2H2O
 	H2(g)           -10.61  -13.76   -3.15  H2
 	H2O(g)           -1.53   -0.02    1.51  H2O
 	H2S(g)          -14.17  -15.17   -1.00  H2S
-	Hematite          0.00   -4.01   -4.01  Fe2O3
+	Hematite         -0.00   -4.01   -4.01  Fe2O3
 	Huntite          -9.50  -39.47  -29.97  CaMg3(CO3)4
 	Hydromagnesite  -16.71  -25.48   -8.76  Mg5(CO3)4(OH)2:4H2O
 	JarositeH       -27.57  -32.96   -5.39  (H3O)Fe3(SO4)2(OH)6
@@ -332,10 +332,10 @@ Zn               2.504e-01
 	Zn(OH)2-c        -1.75   10.45   12.20  Zn(OH)2
 	Zn(OH)2-e        -1.05   10.45   11.50  Zn(OH)2
 	Zn(OH)2-g        -1.26   10.45   11.71  Zn(OH)2
-	Zn2(OH)2SO4       0.00    7.50    7.50  Zn2(OH)2SO4
+	Zn2(OH)2SO4      -0.00    7.50    7.50  Zn2(OH)2SO4
 	Zn3O(SO4)2      -14.45    4.57   19.02  ZnO:2ZnSO4
-	Zn4(OH)6SO4       0.00   28.40   28.40  Zn4(OH)6SO4
-	ZnCO3:H2O         0.00  -10.26  -10.26  ZnCO3:H2O
+	Zn4(OH)6SO4      -0.00   28.40   28.40  Zn4(OH)6SO4
+	ZnCO3:H2O        -0.00  -10.26  -10.26  ZnCO3:H2O
 	ZnMetal         -25.88   -0.12   25.76  Zn
 	ZnO(a)           -0.84   10.47   11.31  ZnO
 	ZnS(a)           -2.57  -11.62   -9.05  ZnS
@@ -410,7 +410,7 @@ Initial solution 1.
 
    H+                     3.776e-06   3.162e-06    -5.423    -5.500    -0.077
    OH-                    3.961e-09   3.162e-09    -8.402    -8.500    -0.098
-   H2O                    5.551e+01   9.989e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.989e-01     1.744    -0.000     0.000
 C(4)             1.560e-02
    CO2                    1.278e-02   1.301e-02    -1.893    -1.886     0.007
    HCO3-                  2.267e-03   1.827e-03    -2.644    -2.738    -0.094
@@ -535,7 +535,7 @@ Zn               3.227e-03
 	Goslarite        -3.29   -5.25   -1.96  ZnSO4:7H2O
 	Gypsum           -0.15   -4.73   -4.58  CaSO4:2H2O
 	H2(g)           -20.40  -23.55   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -7.51   -5.93    1.58  NaCl
 	Hematite         14.47   10.46   -4.01  Fe2O3
 	Huntite         -11.32  -41.28  -29.97  CaMg3(CO3)4
@@ -607,7 +607,7 @@ Reaction 1.	Irreversible reaction defined in simulation 2.
 Phase                  SI log IAP  log KT      Initial       Final       Delta
 
 Pyrite               0.00  -18.48  -18.48    1.000e+01   1.000e+01   1.078e-03
-Sphalerite           0.00  -11.62  -11.62    1.000e+01   1.000e+01   3.114e-03
+Sphalerite          -0.00  -11.62  -11.62    1.000e+01   1.000e+01   3.114e-03
 
 -----------------------------Solution composition------------------------------
 
@@ -792,7 +792,7 @@ Zn               1.129e-04
 	Greigite        -19.50  -64.54  -45.03  Fe3S4
 	Gypsum           -0.17   -4.75   -4.58  CaSO4:2H2O
 	H2(g)            -9.65  -12.80   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	H2S(g)          -10.18  -11.17   -1.00  H2S
 	Halite           -7.50   -5.92    1.58  NaCl
 	Hematite          3.82   -0.18   -4.01  Fe2O3
@@ -815,7 +815,7 @@ Zn               1.129e-04
 	Siderite          0.64  -10.25  -10.89  FeCO3
 	Siderite(d)(3)    0.20  -10.25  -10.45  FeCO3
 	Smithsonite      -1.86  -11.86  -10.00  ZnCO3
-	Sphalerite        0.00  -11.62  -11.62  ZnS
+	Sphalerite       -0.00  -11.62  -11.62  ZnS
 	Sulfur           -6.36  -21.39  -15.03  S
 	Thenardite       -7.08   -7.26   -0.18  Na2SO4
 	Thermonatrite   -12.51  -12.38    0.12  Na2CO3:H2O
@@ -867,7 +867,7 @@ Reaction 1.	Irreversible reaction defined in simulation 2.
 Phase                  SI log IAP  log KT      Initial       Final       Delta
 
 Pyrite               0.00  -18.48  -18.48    1.000e+01   1.000e+01   3.885e-03
-Sphalerite           0.00  -11.62  -11.62    1.000e+01   1.000e+01   3.202e-03
+Sphalerite          -0.00  -11.62  -11.62    1.000e+01   1.000e+01   3.202e-03
 
 -----------------------------Solution composition------------------------------
 
@@ -1052,7 +1052,7 @@ Zn               2.490e-05
 	Greigite        -19.38  -64.41  -45.03  Fe3S4
 	Gypsum           -0.21   -4.79   -4.58  CaSO4:2H2O
 	H2(g)            -9.46  -12.61   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	H2S(g)          -10.05  -11.05   -1.00  H2S
 	Halite           -7.49   -5.91    1.58  NaCl
 	Hematite          3.51   -0.50   -4.01  Fe2O3
@@ -1075,7 +1075,7 @@ Zn               2.490e-05
 	Siderite          0.65  -10.24  -10.89  FeCO3
 	Siderite(d)(3)    0.21  -10.24  -10.45  FeCO3
 	Smithsonite      -1.91  -11.91  -10.00  ZnCO3
-	Sphalerite        0.00  -11.62  -11.62  ZnS
+	Sphalerite       -0.00  -11.62  -11.62  ZnS
 	Sulfur           -6.42  -21.45  -15.03  S
 	Thenardite       -7.14   -7.32   -0.18  Na2SO4
 	Thermonatrite   -11.86  -11.74    0.12  Na2CO3:H2O
@@ -1126,8 +1126,8 @@ Reaction 1.	Irreversible reaction defined in simulation 2.
                                                       Moles in assemblage
 Phase                  SI log IAP  log KT      Initial       Final       Delta
 
-Pyrite               0.00  -18.48  -18.48    1.000e+01   1.000e+01   4.856e-03
-Sphalerite           0.00  -11.62  -11.62    1.000e+01   1.000e+01   3.226e-03
+Pyrite              -0.00  -18.48  -18.48    1.000e+01   1.000e+01   4.856e-03
+Sphalerite          -0.00  -11.62  -11.62    1.000e+01   1.000e+01   3.226e-03
 
 -----------------------------Solution composition------------------------------
 
@@ -1312,7 +1312,7 @@ Zn               6.761e-07
 	Greigite        -31.85  -76.88  -45.03  Fe3S4
 	Gypsum           -0.30   -4.88   -4.58  CaSO4:2H2O
 	H2(g)            -7.19  -10.34   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	H2S(g)           -1.55   -2.55   -1.00  H2S
 	Halite           -7.48   -5.90    1.58  NaCl
 	Hematite        -28.23  -32.23   -4.01  Fe2O3
@@ -1331,11 +1331,11 @@ Zn               6.761e-07
 	Nesquehonite     -3.15   -8.77   -5.62  MgCO3:3H2O
 	O2(g)           -68.80  -71.70   -2.89  O2
 	Portlandite     -13.26    9.54   22.80  Ca(OH)2
-	Pyrite            0.00  -18.48  -18.48  FeS2
+	Pyrite           -0.00  -18.48  -18.48  FeS2
 	Siderite        -14.05  -24.94  -10.89  FeCO3
 	Siderite(d)(3)  -14.49  -24.94  -10.45  FeCO3
 	Smithsonite     -10.37  -20.37  -10.00  ZnCO3
-	Sphalerite        0.00  -11.62  -11.62  ZnS
+	Sphalerite       -0.00  -11.62  -11.62  ZnS
 	Sulfur           -0.19  -15.21  -15.03  S
 	Thenardite       -7.25   -7.43   -0.18  Na2SO4
 	Thermonatrite   -11.38  -11.25    0.12  Na2CO3:H2O

@@ -1,6 +1,6 @@
    Input file: exch_related
   Output file: exch_related.out
-Database file: phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,6 +19,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	knobs
 		logfile
 	solution 1
@@ -43,6 +44,8 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -61,8 +64,8 @@ Initial solution 1.
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.002e-07   1.001e-07    -6.999    -6.999     0.000
-   H+                     1.001e-07   1.000e-07    -7.000    -7.000     0.000
+   OH-                    1.002e-07   1.001e-07    -6.999    -6.999    -0.000
+   H+                     1.001e-07   1.000e-07    -7.000    -7.000    -0.000
    H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
 H(0)             1.416e-25
    H2                     7.079e-26   7.079e-26   -25.150   -25.150     0.000
@@ -75,7 +78,7 @@ O(0)             0.000e+00
 
 	H2(g)           -22.00  -25.15   -3.15  H2
 	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)           -39.12  -42.08   -2.96  O2
+	O2(g)           -39.19  -42.08   -2.89  O2
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -91,7 +94,7 @@ Using pure phase assemblage 1.
                                                       Moles in assemblage
 Phase                  SI log IAP  log KT      Initial       Final       Delta
 
-Ca-Montmorillonite   0.00  -45.03  -45.03    1.000e-02   9.997e-03  -2.610e-06
+Ca-Montmorillonite  -0.00  -45.03  -45.03    1.000e-02   9.997e-03  -2.610e-06
 
 -----------------------------Solution composition------------------------------
 
@@ -105,6 +108,8 @@ Ca-Montmorillonite   0.00  -45.03  -45.03    1.000e-02   9.997e-03  -2.610e-06
 
                                        pH  =   6.400      Charge balance
                                        pe  =  11.380      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   3.926e-06
                        Mass of water (kg)  =   1.000e+00
@@ -113,7 +118,7 @@ Ca-Montmorillonite   0.00  -45.03  -45.03    1.000e-02   9.997e-03  -2.610e-06
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -1.082e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  12
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550625e+01
@@ -125,7 +130,7 @@ Ca-Montmorillonite   0.00  -45.03  -45.03    1.000e-02   9.997e-03  -2.610e-06
 
    H+                     3.991e-07   3.982e-07    -6.399    -6.400    -0.001
    OH-                    2.520e-08   2.514e-08    -7.599    -7.600    -0.001
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 Al               6.082e-06
    Al(OH)4-               3.356e-06   3.348e-06    -5.474    -5.475    -0.001
    Al(OH)2+               1.916e-06   1.912e-06    -5.718    -5.719    -0.001
@@ -150,13 +155,13 @@ Si               9.580e-06
 
 	Al(OH)3(a)       -0.01   10.79   10.80  Al(OH)3
 	Anorthite        -7.64  -27.36  -19.71  CaAl2Si2O8
-	Ca-Montmorillonite   0.00  -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2
+	Ca-Montmorillonite  -0.00  -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2
 	Chalcedony       -1.47   -5.02   -3.55  SiO2
 	Gibbsite          2.68   10.79    8.11  Al(OH)3
 	H2(g)           -35.56  -38.71   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Kaolinite         4.11   11.54    7.43  Al2Si2O5(OH)4
-	O2(g)           -12.00  -14.96   -2.96  O2
+	O2(g)           -12.07  -14.96   -2.89  O2
 	Quartz           -1.04   -5.02   -3.98  SiO2
 	SiO2(a)          -2.31   -5.02   -2.71  SiO2
 
@@ -248,6 +253,8 @@ X                8.847e-17 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
 
                                        pH  =   0.861      Charge balance
                                        pe  =  17.125      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 70432
+                          Density (g/cm3)  =   1.00211
                         Activity of water  =   0.992
                            Ionic strength  =   3.229e-01
                        Mass of water (kg)  =   9.995e-01
@@ -256,7 +263,7 @@ X                8.847e-17 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -1.082e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  22
                                   Total H  = 1.112826e+02
                                   Total O  = 5.562639e+01
@@ -299,9 +306,9 @@ Si               3.672e-02
 	Chalcedony        2.16   -1.40   -3.55  SiO2
 	Gibbsite         -8.13   -0.02    8.11  Al(OH)3
 	H2(g)           -35.97  -39.12   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Kaolinite       -10.26   -2.83    7.43  Al2Si2O5(OH)4
-	O2(g)           -11.19  -14.15   -2.96  O2
+	O2(g)           -11.25  -14.15   -2.89  O2
 	Quartz            2.58   -1.40   -3.98  SiO2
 	SiO2(a)           1.32   -1.40   -2.71  SiO2
 
@@ -355,6 +362,8 @@ X                8.847e-17 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
 
                                        pH  =   0.861      Charge balance
                                        pe  =  17.173      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 70432
+                          Density (g/cm3)  =   1.00211
                         Activity of water  =   0.992
                            Ionic strength  =   3.229e-01
                        Mass of water (kg)  =   9.995e-01
@@ -363,7 +372,7 @@ X                8.847e-17 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -1.082e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   1
                                   Total H  = 1.112826e+02
                                   Total O  = 5.562639e+01
@@ -406,9 +415,9 @@ Si               3.672e-02
 	Chalcedony        2.16   -1.40   -3.55  SiO2
 	Gibbsite         -8.13   -0.02    8.11  Al(OH)3
 	H2(g)           -36.07  -39.22   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Kaolinite       -10.26   -2.83    7.43  Al2Si2O5(OH)4
-	O2(g)           -10.99  -13.95   -2.96  O2
+	O2(g)           -11.06  -13.95   -2.89  O2
 	Quartz            2.58   -1.40   -3.98  SiO2
 	SiO2(a)           1.32   -1.40   -2.71  SiO2
 
@@ -441,6 +450,8 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -459,8 +470,8 @@ Initial solution 1.
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.002e-07   1.001e-07    -6.999    -6.999     0.000
-   H+                     1.001e-07   1.000e-07    -7.000    -7.000     0.000
+   OH-                    1.002e-07   1.001e-07    -6.999    -6.999    -0.000
+   H+                     1.001e-07   1.000e-07    -7.000    -7.000    -0.000
    H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
 H(0)             1.416e-25
    H2                     7.079e-26   7.079e-26   -25.150   -25.150     0.000
@@ -473,7 +484,7 @@ O(0)             0.000e+00
 
 	H2(g)           -22.00  -25.15   -3.15  H2
 	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)           -39.12  -42.08   -2.96  O2
+	O2(g)           -39.19  -42.08   -2.89  O2
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -510,6 +521,8 @@ Ca-Montmorillonite   Element not present.    0.000e+00           0   0.000e+00
 
                                        pH  =   7.000      Charge balance
                                        pe  =  11.425      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -528,9 +541,9 @@ Ca-Montmorillonite   Element not present.    0.000e+00           0   0.000e+00
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.001e-07   1.001e-07    -6.999    -7.000     0.000
-   H+                     1.000e-07   1.000e-07    -7.000    -7.000     0.000
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   OH-                    1.001e-07   1.001e-07    -6.999    -7.000    -0.000
+   H+                     1.000e-07   1.000e-07    -7.000    -7.000    -0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 H(0)             0.000e+00
    H2                     0.000e+00   0.000e+00   -40.000   -40.000     0.000
 O(0)             8.341e-13
@@ -541,8 +554,8 @@ O(0)             8.341e-13
 	Phase               SI log IAP  log KT
 
 	H2(g)           -36.85  -40.00   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)            -9.42  -12.38   -2.96  O2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	O2(g)            -9.49  -12.38   -2.89  O2
 
 ------------------
 End of simulation.
@@ -626,6 +639,8 @@ X                3.300e-02 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
 
                                        pH  =   7.305      Charge balance
                                        pe  =  11.119      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.143e-05
                        Mass of water (kg)  =   1.000e+00
@@ -634,7 +649,7 @@ X                3.300e-02 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -1.082e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  24
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550627e+01
@@ -646,7 +661,7 @@ X                3.300e-02 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
 
    OH-                    2.029e-07   2.021e-07    -6.693    -6.694    -0.002
    H+                     4.973e-08   4.954e-08    -7.303    -7.305    -0.002
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 Al               7.664e-06
    Al(OH)4-               7.404e-06   7.375e-06    -5.131    -5.132    -0.002
    Al(OH)3                1.938e-07   1.938e-07    -6.713    -6.713     0.000
@@ -675,9 +690,9 @@ Si               1.644e-05
 	Chalcedony       -1.23   -4.79   -3.55  SiO2
 	Gibbsite          2.12   10.23    8.11  Al(OH)3
 	H2(g)           -36.85  -40.00   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Kaolinite         3.45   10.88    7.43  Al2Si2O5(OH)4
-	O2(g)            -9.42  -12.38   -2.96  O2
+	O2(g)            -9.49  -12.38   -2.89  O2
 	Quartz           -0.81   -4.79   -3.98  SiO2
 	SiO2(a)          -2.07   -4.79   -2.71  SiO2
 

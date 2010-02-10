@@ -1,6 +1,6 @@
    Input file: sc3
   Output file: sc3.out
-Database file: phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,6 +19,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	SOLUTION_SPECIES
 	 Na+ = Na+
 	 log_k 0
@@ -52,6 +53,8 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -70,8 +73,8 @@ Initial solution 1.
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.002e-07   1.001e-07    -6.999    -6.999     0.000
-   H+                     1.001e-07   1.000e-07    -7.000    -7.000     0.000
+   OH-                    1.002e-07   1.001e-07    -6.999    -6.999    -0.000
+   H+                     1.001e-07   1.000e-07    -7.000    -7.000    -0.000
    H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
 H(0)             1.416e-25
    H2                     7.079e-26   7.079e-26   -25.150   -25.150     0.000
@@ -84,7 +87,7 @@ O(0)             0.000e+00
 
 	H2(g)           -22.00  -25.15   -3.15  H2
 	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)           -39.12  -42.08   -2.96  O2
+	O2(g)           -39.19  -42.08   -2.89  O2
 
 ------------------
 End of simulation.
@@ -122,6 +125,8 @@ Initial solution 0.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
@@ -142,13 +147,13 @@ Initial solution 0.
 
    OH-                    1.038e-07   1.001e-07    -6.984    -7.000    -0.016
    H+                     1.034e-07   1.000e-07    -6.985    -7.000    -0.015
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 Cl               1.000e-03
-   Cl-                    1.000e-03   1.000e-03    -3.000    -3.000     0.000
+   Cl-                    1.000e-03   1.000e-03    -3.000    -3.000    -0.000
 H(0)             1.416e-25
    H2                     7.078e-26   7.079e-26   -25.150   -25.150     0.000
 Na               1.000e-03
-   Na+                    1.000e-03   1.000e-03    -3.000    -3.000     0.000
+   Na+                    1.000e-03   1.000e-03    -3.000    -3.000    -0.000
    NaOH                   6.605e-11   6.607e-11   -10.180   -10.180     0.000
 O(0)             0.000e+00
    O2                     0.000e+00   0.000e+00   -42.080   -42.080     0.000
@@ -158,9 +163,9 @@ O(0)             0.000e+00
 	Phase               SI log IAP  log KT
 
 	H2(g)           -22.00  -25.15   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -7.58   -6.00    1.58  NaCl
-	O2(g)           -39.12  -42.08   -2.96  O2
+	O2(g)           -39.19  -42.08   -2.89  O2
 
 ------------------------------------------------------
 Beginning of initial surface-composition calculations.

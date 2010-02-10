@@ -1,6 +1,6 @@
    Input file: de
   Output file: de.out
-Database file: phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,6 +19,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	 SOLUTION_SPECIES
 	  H2O + 0.01e- = H2O-0.01  # For program convergence
 	  log_k  -9.0 
@@ -52,6 +53,8 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =  -0.721      Equilibrium with Goethite
+       Specific Conductance (uS/cm, 10 oC) = 380
+                          Density (g/cm3)  =   1.00012
                         Activity of water  =   1.000
                            Ionic strength  =   9.001e-03
                        Mass of water (kg)  =   1.000e+00
@@ -71,8 +74,8 @@ Initial solution 1.
 
    H+                     1.089e-07   1.000e-07    -6.963    -7.000    -0.037
    OH-                    3.226e-08   2.925e-08    -7.491    -7.534    -0.043
-   H2O-0.01               1.017e-09   1.017e-09    -8.993    -8.993     0.000
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O-0.01               1.017e-09   1.017e-09    -8.993    -8.993    -0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 C(4)             7.786e-03
    HCO3-                  6.040e-03   5.503e-03    -2.219    -2.259    -0.040
    CO2                    1.596e-03   1.600e-03    -2.797    -2.796     0.001
@@ -124,9 +127,9 @@ O(0)             0.000e+00
 	Fe(OH)3(a)       -2.33    2.56    4.89  Fe(OH)3
 	Goethite          3.00    2.56   -0.44  FeOOH
 	H2(g)           -12.56  -15.64   -3.08  H2
-	H2O(g)           -1.92    0.00    1.92  H2O
+	H2O(g)           -1.92   -0.00    1.92  H2O
 	Hematite          7.93    5.12   -2.81  Fe2O3
-	O2(g)           -63.31  -66.20   -2.89  O2
+	O2(g)           -63.43  -66.20   -2.77  O2
 	Siderite          0.73  -10.07  -10.79  FeCO3
 
 -----------------------------------------
@@ -158,6 +161,8 @@ Goethite             3.00    2.56   -0.44    1.070e-02   1.070e-02  -5.738e-15
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -0.721      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 10 oC) = 380
+                          Density (g/cm3)  =   1.00012
                         Activity of water  =   1.000
                            Ionic strength  =   9.001e-03
                        Mass of water (kg)  =   1.000e+00
@@ -177,8 +182,8 @@ Goethite             3.00    2.56   -0.44    1.070e-02   1.070e-02  -5.738e-15
 
    H+                     1.089e-07   1.000e-07    -6.963    -7.000    -0.037
    OH-                    3.226e-08   2.925e-08    -7.491    -7.534    -0.043
-   H2O-0.01               1.017e-09   1.017e-09    -8.993    -8.993     0.000
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O-0.01               1.017e-09   1.017e-09    -8.993    -8.993    -0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 C(-4)            2.892e-27
    CH4                    2.892e-27   2.898e-27   -26.539   -26.538     0.001
 C(4)             7.786e-03
@@ -233,9 +238,9 @@ O(0)             0.000e+00
 	Fe(OH)3(a)       -2.33    2.56    4.89  Fe(OH)3
 	Goethite          3.00    2.56   -0.44  FeOOH
 	H2(g)           -12.56  -15.64   -3.08  H2
-	H2O(g)           -1.92    0.00    1.92  H2O
+	H2O(g)           -1.92   -0.00    1.92  H2O
 	Hematite          7.93    5.12   -2.81  Fe2O3
-	O2(g)           -63.31  -66.20   -2.89  O2
+	O2(g)           -63.43  -66.20   -2.77  O2
 	Siderite          0.73  -10.07  -10.79  FeCO3
 
 ------------------

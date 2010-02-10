@@ -97,7 +97,7 @@ Reading input data for simulation 2.
 		As(3)   1.e-4
 		As(5)   1.e-4
 		Cl      .001   charge
-		Fe(3)   1.00000e-01
+		Fe(3)   1.00000e-001
 		Na      .001
 	EQUILIBRIUM_PHASES 1
 		Goethite	0.0	0.01
@@ -148,7 +148,7 @@ Initial solution 1.
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     1.458e-02   1.122e-02    -1.836    -1.950    -0.114
-   H2O-0.01               9.066e-09   9.066e-09    -8.043    -8.043     0.000
+   H2O-0.01               9.066e-09   9.066e-09    -8.043    -8.043    -0.000
    OH-                    1.213e-12   8.869e-13   -11.916   -12.052    -0.136
    H2O                    5.551e+01   9.941e-01     1.744    -0.003     0.000
 As(3)            1.000e-04
@@ -198,7 +198,7 @@ O(0)             0.000e+00
 	Fix_H+           -1.95   -1.95    0.00  H+
 	Goethite          4.18    3.18   -1.00  FeOOH
 	H2(g)           -11.90  -15.05   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.53   -3.95    1.58  NaCl
 	Hematite         10.36    6.35   -4.01  Fe2O3
 	Maghemite        -0.03    6.35    6.39  Fe2O3
@@ -253,7 +253,7 @@ Goethite             0.00   -1.00   -1.00    1.000e-02   8.628e-02   7.628e-02
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     2.247e-01   1.754e-01    -0.648    -0.756    -0.108
-   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144     0.000
+   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144    -0.000
    OH-                    7.720e-14   5.657e-14   -13.112   -13.247    -0.135
    H2O                    5.551e+01   9.910e-01     1.744    -0.004     0.000
 As(3)            1.253e-14
@@ -311,7 +311,7 @@ O(0)             2.322e-27
 	Fix_H+           -0.76   -0.76    0.00  H+
 	Goethite          0.00   -1.00   -1.00  FeOOH
 	H2(g)           -29.59  -32.74   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.45   -3.86    1.58  NaCl
 	Hematite          2.01   -2.00   -4.01  Fe2O3
 	Maghemite        -8.38   -2.00    6.39  Fe2O3
@@ -332,9 +332,9 @@ Reading input data for simulation 3.
 	USE equilibrium_phases 1
 	SURFACE 1
 		cd_music
-		Goe_triOH0.5  	Goethite       equi   1.50000e-01  53300
+		Goe_triOH0.5  	Goethite       equi   1.50000e-001  53300
 		capacitances           .85   .75
-		Goe_uniOHH0.5  	Goethite       equi   2.00000e-01  53300
+		Goe_uniOHH0.5  	Goethite       equi   2.00000e-001  53300
 	END
 -----
 TITLE
@@ -357,7 +357,7 @@ Using pure phase assemblage 1.
                                                       Moles in assemblage
 Phase                  SI log IAP  log KT      Initial       Final       Delta
 
-Goethite             0.00   -1.00   -1.00    1.000e-02   1.011e-02   1.125e-04
+Goethite            -0.00   -1.00   -1.00    1.000e-02   1.011e-02   1.125e-04
 
 ------------------------------Surface composition------------------------------
 
@@ -441,7 +441,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     2.243e-01   1.751e-01    -0.649    -0.757    -0.108
-   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144     0.000
+   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144    -0.000
    OH-                    7.732e-14   5.666e-14   -13.112   -13.247    -0.135
    H2O                    5.551e+01   9.910e-01     1.744    -0.004     0.000
 As(3)            1.144e-21
@@ -497,9 +497,9 @@ O(0)             2.291e-27
 	Fe(OH)3(a)       -5.89   -1.00    4.89  Fe(OH)3
 	Fe3(OH)8        -25.00   -4.78   20.22  Fe3(OH)8
 	Fix_H+           -0.76   -0.76    0.00  H+
-	Goethite          0.00   -1.00   -1.00  FeOOH
+	Goethite         -0.00   -1.00   -1.00  FeOOH
 	H2(g)           -29.59  -32.74   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.45   -3.86    1.58  NaCl
 	Hematite          2.01   -2.00   -4.01  Fe2O3
 	Maghemite        -8.38   -2.00    6.39  Fe2O3
@@ -518,9 +518,9 @@ Reading input data for simulation 4.
 	Title initial surface calculation
 	SURFACE 1
 		cd_music
-		Goe_triOH0.5      	Goethite       equi   1.50000e-01  53300
+		Goe_triOH0.5      	Goethite       equi   1.50000e-001  53300
 		capacitances           .85   .75
-		Goe_uniOHH0.5      	Goethite       equi   2.00000e-01  53300
+		Goe_uniOHH0.5      	Goethite       equi   2.00000e-001  53300
 	        equilibrate solution 1
 	END
 -----
@@ -701,7 +701,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     2.247e-01   1.754e-01    -0.648    -0.756    -0.108
-   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144     0.000
+   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144    -0.000
    OH-                    7.720e-14   5.657e-14   -13.112   -13.247    -0.135
    H2O                    5.551e+01   9.910e-01     1.744    -0.004     0.000
 As(3)            1.253e-14
@@ -759,7 +759,7 @@ O(0)             2.322e-27
 	Fix_H+           -0.76   -0.76    0.00  H+
 	Goethite          0.00   -1.00   -1.00  FeOOH
 	H2(g)           -29.59  -32.74   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.45   -3.86    1.58  NaCl
 	Hematite          2.01   -2.00   -4.01  Fe2O3
 	Maghemite        -8.38   -2.00    6.39  Fe2O3
@@ -902,7 +902,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     4.453e-01   3.391e-01    -0.351    -0.470    -0.118
-   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147     0.000
+   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147    -0.000
    OH-                    3.941e-14   2.902e-14   -13.404   -13.537    -0.133
    H2O                    5.551e+01   9.831e-01     1.744    -0.007     0.000
 As(3)            2.826e-13
@@ -1082,7 +1082,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     4.453e-01   3.391e-01    -0.351    -0.470    -0.118
-   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147     0.000
+   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147    -0.000
    OH-                    3.941e-14   2.902e-14   -13.404   -13.537    -0.133
    H2O                    5.551e+01   9.831e-01     1.744    -0.007     0.000
 As(3)            2.826e-13
@@ -1160,9 +1160,9 @@ Reading input data for simulation 8.
 	USE solution 1
 	SURFACE 1
 		cd_music
-		Goe_triOH0.5      	Goethite       equi   1.50000e-01  53300
+		Goe_triOH0.5      	Goethite       equi   1.50000e-001  53300
 		capacitances           .85   .75
-		Goe_uniOHH0.5      	Goethite       equi   2.00000e-01  53300
+		Goe_uniOHH0.5      	Goethite       equi   2.00000e-001  53300
 	        equilibrate solution 1
 	EQUILIBRIUM_PHASES 1
 		Goethite	0.0	0.0
@@ -1340,7 +1340,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     3.904e-01   2.911e-01    -0.408    -0.536    -0.128
-   H2O-0.01               6.967e-09   6.967e-09    -8.157    -8.157     0.000
+   H2O-0.01               6.967e-09   6.967e-09    -8.157    -8.157    -0.000
    OH-                    4.311e-14   3.359e-14   -13.365   -13.474    -0.108
    H2O                    5.551e+01   9.768e-01     1.744    -0.010     0.000
 As(3)            3.652e-24
@@ -1423,7 +1423,7 @@ Reading input data for simulation 9.
 		As(3)   1.e-4
 		As(5)   1.e-4
 		Cl      .001   charge
-		Fe(3)   1.00000e-01
+		Fe(3)   1.00000e-001
 		Na      .001
 	EQUILIBRIUM_PHASES 1
 		Goethite	0.0	0.01
@@ -1474,7 +1474,7 @@ Initial solution 1.
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     1.458e-02   1.122e-02    -1.836    -1.950    -0.114
-   H2O-0.01               9.066e-09   9.066e-09    -8.043    -8.043     0.000
+   H2O-0.01               9.066e-09   9.066e-09    -8.043    -8.043    -0.000
    OH-                    1.213e-12   8.869e-13   -11.916   -12.052    -0.136
    H2O                    5.551e+01   9.941e-01     1.744    -0.003     0.000
 As(3)            1.000e-04
@@ -1524,7 +1524,7 @@ O(0)             0.000e+00
 	Fix_H+           -1.95   -1.95    0.00  H+
 	Goethite          4.18    3.18   -1.00  FeOOH
 	H2(g)           -11.90  -15.05   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.53   -3.95    1.58  NaCl
 	Hematite         10.36    6.35   -4.01  Fe2O3
 	Maghemite        -0.03    6.35    6.39  Fe2O3
@@ -1579,7 +1579,7 @@ Goethite             0.00   -1.00   -1.00    1.000e-02   8.628e-02   7.628e-02
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     2.247e-01   1.754e-01    -0.648    -0.756    -0.108
-   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144     0.000
+   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144    -0.000
    OH-                    7.720e-14   5.657e-14   -13.112   -13.247    -0.135
    H2O                    5.551e+01   9.910e-01     1.744    -0.004     0.000
 As(3)            1.253e-14
@@ -1637,7 +1637,7 @@ O(0)             2.322e-27
 	Fix_H+           -0.76   -0.76    0.00  H+
 	Goethite          0.00   -1.00   -1.00  FeOOH
 	H2(g)           -29.59  -32.74   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.45   -3.86    1.58  NaCl
 	Hematite          2.01   -2.00   -4.01  Fe2O3
 	Maghemite        -8.38   -2.00    6.39  Fe2O3
@@ -1659,9 +1659,9 @@ Reading input data for simulation 10.
 	SURFACE 1
 		donnan
 		cd_music
-		Goe_triOH0.5  	Goethite       equi   1.50000e-01  53300
+		Goe_triOH0.5  	Goethite       equi   1.50000e-001  53300
 		capacitances           .85   .75
-		Goe_uniOHH0.5  	Goethite       equi   2.00000e-01  53300
+		Goe_uniOHH0.5  	Goethite       equi   2.00000e-001  53300
 	END
 -----
 TITLE
@@ -1781,7 +1781,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     2.238e-01   1.747e-01    -0.650    -0.758    -0.107
-   H2O-0.01               7.174e-09   7.174e-09    -8.144    -8.144     0.000
+   H2O-0.01               7.174e-09   7.174e-09    -8.144    -8.144    -0.000
    OH-                    7.746e-14   5.678e-14   -13.111   -13.246    -0.135
    H2O                    5.551e+01   9.911e-01     1.744    -0.004     0.000
 As(3)            9.958e-22
@@ -1839,7 +1839,7 @@ O(0)             2.281e-27
 	Fix_H+           -0.76   -0.76    0.00  H+
 	Goethite          0.00   -1.00   -1.00  FeOOH
 	H2(g)           -29.59  -32.74   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.45   -3.87    1.58  NaCl
 	Hematite          2.01   -2.00   -4.01  Fe2O3
 	Maghemite        -8.38   -2.00    6.39  Fe2O3
@@ -1859,9 +1859,9 @@ Reading input data for simulation 11.
 	SURFACE 1
 		donnan
 		cd_music
-		Goe_triOH0.5      	Goethite       equi   1.50000e-01  53300
+		Goe_triOH0.5      	Goethite       equi   1.50000e-001  53300
 		capacitances           .85   .75
-		Goe_uniOHH0.5      	Goethite       equi   2.00000e-01  53300
+		Goe_uniOHH0.5      	Goethite       equi   2.00000e-001  53300
 	        equilibrate solution 1
 	END
 -----
@@ -1971,7 +1971,7 @@ Using pure phase assemblage 1.
                                                       Moles in assemblage
 Phase                  SI log IAP  log KT      Initial       Final       Delta
 
-Goethite             0.00   -1.00   -1.00    1.000e-02   1.000e-02   1.251e-12
+Goethite            -0.00   -1.00   -1.00    1.000e-02   1.000e-02   1.251e-12
 
 ------------------------------Surface composition------------------------------
 
@@ -2068,7 +2068,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     2.247e-01   1.754e-01    -0.648    -0.756    -0.108
-   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144     0.000
+   H2O-0.01               7.173e-09   7.173e-09    -8.144    -8.144    -0.000
    OH-                    7.720e-14   5.657e-14   -13.112   -13.247    -0.135
    H2O                    5.551e+01   9.910e-01     1.744    -0.004     0.000
 As(3)            1.253e-14
@@ -2124,9 +2124,9 @@ O(0)             2.322e-27
 	Fe(OH)3(a)       -5.89   -1.00    4.89  Fe(OH)3
 	Fe3(OH)8        -25.01   -4.78   20.22  Fe3(OH)8
 	Fix_H+           -0.76   -0.76    0.00  H+
-	Goethite          0.00   -1.00   -1.00  FeOOH
+	Goethite         -0.00   -1.00   -1.00  FeOOH
 	H2(g)           -29.59  -32.74   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -5.45   -3.86    1.58  NaCl
 	Hematite          2.01   -2.00   -4.01  Fe2O3
 	Maghemite        -8.38   -2.00    6.39  Fe2O3
@@ -2282,7 +2282,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     4.464e-01   3.399e-01    -0.350    -0.469    -0.118
-   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147     0.000
+   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147    -0.000
    OH-                    3.931e-14   2.896e-14   -13.406   -13.538    -0.133
    H2O                    5.551e+01   9.831e-01     1.744    -0.007     0.000
 As(3)            2.864e-13
@@ -2475,7 +2475,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     4.464e-01   3.399e-01    -0.350    -0.469    -0.118
-   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147     0.000
+   H2O-0.01               7.121e-09   7.121e-09    -8.147    -8.147    -0.000
    OH-                    3.931e-14   2.896e-14   -13.406   -13.538    -0.133
    H2O                    5.551e+01   9.831e-01     1.744    -0.007     0.000
 As(3)            2.864e-13
@@ -2554,9 +2554,9 @@ Reading input data for simulation 15.
 	SURFACE 1
 		donnan
 		cd_music
-		Goe_triOH0.5      	Goethite       equi   1.50000e-01  53300
+		Goe_triOH0.5      	Goethite       equi   1.50000e-001  53300
 		capacitances           .85   .75
-		Goe_uniOHH0.5      	Goethite       equi   2.00000e-01  53300
+		Goe_uniOHH0.5      	Goethite       equi   2.00000e-001  53300
 	        equilibrate solution 1
 	EQUILIBRIUM_PHASES 1
 		Goethite	0.0	0.0
@@ -2760,7 +2760,7 @@ Goe_uni
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    H+                     3.876e-01   2.892e-01    -0.412    -0.539    -0.127
-   H2O-0.01               6.970e-09   6.969e-09    -8.157    -8.157     0.000
+   H2O-0.01               6.970e-09   6.969e-09    -8.157    -8.157    -0.000
    OH-                    4.356e-14   3.383e-14   -13.361   -13.471    -0.110
    H2O                    5.551e+01   9.773e-01     1.744    -0.010     0.000
 As(3)            3.335e-24

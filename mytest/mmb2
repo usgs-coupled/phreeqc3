@@ -1,3 +1,4 @@
+DATABASE ../database/phreeqc.dat
 #DATABASE phreeqd.dat
 # diffusion of NaCl in clay membrane.
 # Long-time test run, EB and a_Na goto steady values if
@@ -19,7 +20,8 @@ SURFACE 1-20; Su 0.1 1e6 1; -equil 1
 # -donnan 3.8391e-10
 # -only_co
 END
-TRANSPORT; -cells 1; -length 1e-2; -shifts 8 0; -bcon 1 2
+#TRANSPORT; -cells 1; -length 1e-2; -shifts 8 0; -bcon 1 2
+TRANSPORT; -cells 1; -length 1e-2; -shifts 1 0; -bcon 1 2
  -time 0.5e6 40
  -multi_d true 1e-9 0.3 0 1; -print_c 1
 END

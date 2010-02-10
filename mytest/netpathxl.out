@@ -1,6 +1,6 @@
    Input file: netpathxl
   Output file: netpathxl.out
-Database file: phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,6 +19,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	SOLUTION_SPREAD
 	 Number	                                     Description	 Units	 Redox	   Temp	    pH	 pe	       Ca	       Mg	        Na	       K	        Cl	   S(6)	   Alkalinity	         C(4)	    Fe	    Mn	    Al	     F	      Si	      Br	     I	     Ba	    Li	      Sr	   N(5)	  N(-3)	    P	 O(0)	 S(-2)	 N(0)	  C(-4)	     13C	     14C	 34S(6)	 34S(-2)	      2H	 3H	    18O	 87Sr	 15N(0)	 15N(5)	 15N(-3)	 15N(3)	 Density
 	      	                                                	      	      	       	      	   	    as Ca	    as Mg	     as Na	    as K	     as Cl	 as SO4	 gfw 50.04289	 gfw 50.04289	 as Fe	 as Mn	 as Al	  as F	 as SiO2	   as Br	  as I	  as Ba	 as Li	   as Sr	   as N	   as N	 as P	 as O	  as S	 as N	 as CH4	        	        	       	        	        	   	       	     	       	       	        	       	        
@@ -109,6 +110,8 @@ Initial solution 1.	 02S-01E-22 ABB 1   Chapman Line Camp well
 
                                        pH  =   6.860    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 523
+                          Density (g/cm3)  =   0.99890
                         Activity of water  =   1.000
                            Ionic strength  =   9.685e-03
                        Mass of water (kg)  =   1.000e+00
@@ -134,7 +137,7 @@ Initial solution 1.	 02S-01E-22 ABB 1   Chapman Line Camp well
 
    H+                     1.508e-07   1.380e-07    -6.822    -6.860    -0.038
    OH-                    4.909e-08   4.430e-08    -7.309    -7.354    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               5.172e-07
    Ba+2                   4.847e-07   3.270e-07    -6.315    -6.485    -0.171
    BaSO4                  1.729e-08   1.733e-08    -7.762    -7.761     0.001
@@ -241,11 +244,11 @@ Sr               3.277e-06
 	Fluorite         -2.13  -12.80  -10.68  CaF2
 	Gypsum           -2.13   -6.71   -4.58  CaSO4:2H2O
 	H2(g)           -21.72  -24.84   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -9.04   -7.47    1.57  NaCl
 	NaBr             -9.67   -9.67    0.00  NaBr
 	NH3(g)          -10.07   -8.17    1.90  NH3
-	O2(g)           -41.84  -44.77   -2.93  O2
+	O2(g)           -41.93  -44.77   -2.84  O2
 	Strontianite     -2.22  -11.49   -9.27  SrCO3
 	Witherite        -3.71  -12.29   -8.58  BaCO3
 
@@ -275,6 +278,8 @@ Initial solution 2.	 01S-04E-03 ACA 1
 
                                        pH  =   6.900    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 746
+                          Density (g/cm3)  =   0.99906
                         Activity of water  =   1.000
                            Ionic strength  =   1.364e-02
                        Mass of water (kg)  =   1.000e+00
@@ -300,7 +305,7 @@ Initial solution 2.	 01S-04E-03 ACA 1
 
    H+                     1.392e-07   1.259e-07    -6.856    -6.900    -0.044
    OH-                    5.342e-08   4.740e-08    -7.272    -7.324    -0.052
-   H2O                    5.551e+01   9.997e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.997e-01     1.744    -0.000     0.000
 Ba               7.213e-07
    Ba+2                   6.655e-07   4.222e-07    -6.177    -6.374    -0.198
    BaSO4                  3.316e-08   3.327e-08    -7.479    -7.478     0.001
@@ -407,11 +412,11 @@ Sr               7.651e-07
 	Fluorite         -2.29  -12.97  -10.68  CaF2
 	Gypsum           -2.07   -6.65   -4.58  CaSO4:2H2O
 	H2(g)           -21.80  -24.92   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -7.82   -6.25    1.57  NaCl
 	NaBr             -8.91   -8.91    0.00  NaBr
 	NH3(g)          -10.06   -8.15    1.91  NH3
-	O2(g)           -41.79  -44.72   -2.93  O2
+	O2(g)           -41.88  -44.72   -2.84  O2
 	Strontianite     -2.78  -12.05   -9.27  SrCO3
 	Witherite        -3.51  -12.09   -8.58  BaCO3
 
@@ -441,6 +446,8 @@ Initial solution 3.	 01S-05E-27 AAB 1
 
                                        pH  =   6.910    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 562
+                          Density (g/cm3)  =   0.99899
                         Activity of water  =   1.000
                            Ionic strength  =   1.075e-02
                        Mass of water (kg)  =   1.000e+00
@@ -466,7 +473,7 @@ Initial solution 3.	 01S-05E-27 AAB 1
 
    H+                     1.349e-07   1.230e-07    -6.870    -6.910    -0.040
    OH-                    5.358e-08   4.812e-08    -7.271    -7.318    -0.047
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               1.552e-06
    Ba+2                   1.474e-06   9.770e-07    -5.831    -6.010    -0.179
    BaHCO3+                4.866e-08   4.380e-08    -7.313    -7.359    -0.046
@@ -573,11 +580,11 @@ Sr               7.422e-07
 	Fluorite         -2.92  -13.61  -10.68  CaF2
 	Gypsum           -2.55   -7.14   -4.58  CaSO4:2H2O
 	H2(g)           -21.82  -24.94   -3.12  H2
-	H2O(g)           -1.69    0.00    1.69  H2O
+	H2O(g)           -1.69   -0.00    1.69  H2O
 	Halite           -8.95   -7.39    1.57  NaCl
 	NaBr             -9.76   -9.76    0.00  NaBr
 	NH3(g)          -10.05   -8.14    1.91  NH3
-	O2(g)           -41.78  -44.71   -2.93  O2
+	O2(g)           -41.87  -44.71   -2.84  O2
 	Strontianite     -2.78  -12.05   -9.27  SrCO3
 	Witherite        -3.15  -11.73   -8.58  BaCO3
 
@@ -607,6 +614,8 @@ Initial solution 4.	 01S-06E-22 BCC 1        Washington Spring
 
                                        pH  =   7.100    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 17 oC) = 511
+                          Density (g/cm3)  =   0.99913
                         Activity of water  =   1.000
                            Ionic strength  =   1.011e-02
                        Mass of water (kg)  =   1.000e+00
@@ -632,7 +641,7 @@ Initial solution 4.	 01S-06E-22 BCC 1        Washington Spring
 
    H+                     8.690e-08   7.943e-08    -7.061    -7.100    -0.039
    OH-                    7.751e-08   6.982e-08    -7.111    -7.156    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.424e-07
    Ba+2                   3.281e-07   2.199e-07    -6.484    -6.658    -0.174
    BaHCO3+                1.107e-08   9.995e-09    -7.956    -8.000    -0.044
@@ -739,11 +748,11 @@ Sr               6.166e-07
 	Fluorite         -2.34  -13.04  -10.69  CaF2
 	Gypsum           -2.92   -7.51   -4.58  CaSO4:2H2O
 	H2(g)           -22.20  -25.32   -3.12  H2
-	H2O(g)           -1.71    0.00    1.71  H2O
+	H2O(g)           -1.71   -0.00    1.71  H2O
 	Halite           -9.87   -8.31    1.56  NaCl
 	NaBr             -9.72   -9.72    0.00  NaBr
 	NH3(g)           -9.90   -7.97    1.92  NH3
-	O2(g)           -41.30  -44.23   -2.93  O2
+	O2(g)           -41.40  -44.23   -2.83  O2
 	Strontianite     -2.66  -11.93   -9.27  SrCO3
 	Witherite        -3.60  -12.18   -8.59  BaCO3
 
@@ -773,6 +782,8 @@ Initial solution 5.	 01S-06E-26 ADD 1
 
                                        pH  =   6.700    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 725
+                          Density (g/cm3)  =   0.99913
                         Activity of water  =   1.000
                            Ionic strength  =   1.417e-02
                        Mass of water (kg)  =   1.000e+00
@@ -798,7 +809,7 @@ Initial solution 5.	 01S-06E-26 ADD 1
 
    H+                     2.210e-07   1.995e-07    -6.656    -6.700    -0.044
    OH-                    3.377e-08   2.991e-08    -7.471    -7.524    -0.053
-   H2O                    5.551e+01   9.997e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.997e-01     1.744    -0.000     0.000
 Ba               4.663e-07
    Ba+2                   4.363e-07   2.748e-07    -6.360    -6.561    -0.201
    BaHCO3+                1.840e-08   1.634e-08    -7.735    -7.787    -0.051
@@ -905,11 +916,11 @@ Sr               7.766e-07
 	Fluorite         -2.87  -13.55  -10.68  CaF2
 	Gypsum           -2.32   -6.90   -4.58  CaSO4:2H2O
 	H2(g)           -21.40  -24.52   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -8.65   -7.09    1.57  NaCl
 	NaBr             -9.48   -9.48    0.00  NaBr
 	NH3(g)          -10.26   -8.35    1.91  NH3
-	O2(g)           -42.59  -45.52   -2.93  O2
+	O2(g)           -42.68  -45.52   -2.84  O2
 	Strontianite     -2.88  -12.15   -9.27  SrCO3
 	Witherite        -3.79  -12.37   -8.58  BaCO3
 
@@ -938,6 +949,8 @@ Initial solution 6.	 01S-07E-23 BCC 1  Wood well
 
                                        pH  =   7.200    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 1225
+                          Density (g/cm3)  =   0.99924
                         Activity of water  =   1.000
                            Ionic strength  =   1.744e-02
                        Mass of water (kg)  =   1.000e+00
@@ -957,7 +970,7 @@ Initial solution 6.	 01S-07E-23 BCC 1  Wood well
 
    OH-                    1.080e-07   9.457e-08    -6.966    -7.024    -0.058
    H+                     7.045e-08   6.310e-08    -7.152    -7.200    -0.048
-   H2O                    5.551e+01   9.996e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.996e-01     1.744    -0.000     0.000
 Ba               5.757e-07
    Ba+2                   5.310e-07   3.208e-07    -6.275    -6.494    -0.219
    BaSO4                  3.174e-08   3.187e-08    -7.498    -7.497     0.002
@@ -1062,11 +1075,11 @@ Sr               2.833e-05
 	Fluorite         -1.27  -11.95  -10.68  CaF2
 	Gypsum           -2.04   -6.62   -4.58  CaSO4:2H2O
 	H2(g)           -22.40  -25.52   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -6.00   -4.43    1.57  NaCl
 	NaBr             -7.25   -7.25    0.00  NaBr
 	NH3(g)           -8.88   -6.98    1.91  NH3
-	O2(g)           -40.59  -43.52   -2.93  O2
+	O2(g)           -40.68  -43.52   -2.84  O2
 	Strontianite     -1.06  -10.33   -9.27  SrCO3
 	Witherite        -3.46  -12.04   -8.58  BaCO3
 
@@ -1096,6 +1109,8 @@ Initial solution 7.	 02S-05E-08 ABB 1  Johnston County RWD 3 Well 1
 
                                        pH  =   6.970    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 16 oC) = 494
+                          Density (g/cm3)  =   0.99937
                         Activity of water  =   1.000
                            Ionic strength  =   1.010e-02
                        Mass of water (kg)  =   1.000e+00
@@ -1121,7 +1136,7 @@ Initial solution 7.	 02S-05E-08 ABB 1  Johnston County RWD 3 Well 1
 
    H+                     1.172e-07   1.072e-07    -6.931    -6.970    -0.039
    OH-                    5.117e-08   4.611e-08    -7.291    -7.336    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.278e-07
    Ba+2                   3.112e-07   2.088e-07    -6.507    -6.680    -0.173
    BaHCO3+                9.691e-09   8.751e-09    -8.014    -8.058    -0.044
@@ -1228,11 +1243,11 @@ Sr               9.477e-07
 	Fluorite         -2.28  -12.99  -10.71  CaF2
 	Gypsum           -2.50   -7.09   -4.58  CaSO4:2H2O
 	H2(g)           -21.94  -25.05   -3.11  H2
-	H2O(g)           -1.75    0.00    1.75  H2O
+	H2O(g)           -1.75   -0.00    1.75  H2O
 	Halite           -9.47   -7.91    1.56  NaCl
 	NaBr            -10.07  -10.07    0.00  NaBr
 	NH3(g)          -10.10   -8.15    1.95  NH3
-	O2(g)           -42.32  -45.24   -2.92  O2
+	O2(g)           -42.42  -45.24   -2.82  O2
 	Strontianite     -2.63  -11.90   -9.27  SrCO3
 	Witherite        -3.77  -12.36   -8.59  BaCO3
 
@@ -1261,6 +1276,8 @@ Initial solution 8.	 02S-06E-11 DBC 1
 
                                        pH  =   7.050    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 552
+                          Density (g/cm3)  =   0.99894
                         Activity of water  =   1.000
                            Ionic strength  =   1.040e-02
                        Mass of water (kg)  =   1.000e+00
@@ -1286,7 +1303,7 @@ Initial solution 8.	 02S-06E-11 DBC 1
 
    H+                     9.762e-08   8.913e-08    -7.010    -7.050    -0.040
    OH-                    7.506e-08   6.751e-08    -7.125    -7.171    -0.046
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.351e-07
    Ba+2                   3.190e-07   2.126e-07    -6.496    -6.672    -0.176
    BaHCO3+                1.062e-08   9.577e-09    -7.974    -8.019    -0.045
@@ -1388,11 +1405,11 @@ Sr               4.796e-07
 	Fluorite         -2.96  -13.63  -10.68  CaF2
 	Gypsum           -2.65   -7.23   -4.58  CaSO4:2H2O
 	H2(g)           -22.10  -25.22   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -9.19   -7.62    1.57  NaCl
 	NaBr             -9.95   -9.95    0.00  NaBr
 	NH3(g)           -9.90   -7.99    1.90  NH3
-	O2(g)           -41.15  -44.08   -2.93  O2
+	O2(g)           -41.24  -44.08   -2.84  O2
 	Strontianite     -2.83  -12.10   -9.27  SrCO3
 	Witherite        -3.67  -12.25   -8.58  BaCO3
 
@@ -1422,6 +1439,8 @@ Initial solution 9.	 02S-06E-18 CAA 1        Unnamed Spring
 
                                        pH  =   7.020    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 17 oC) = 535
+                          Density (g/cm3)  =   0.99917
                         Activity of water  =   1.000
                            Ionic strength  =   1.069e-02
                        Mass of water (kg)  =   1.000e+00
@@ -1447,7 +1466,7 @@ Initial solution 9.	 02S-06E-18 CAA 1        Unnamed Spring
 
    H+                     1.047e-07   9.550e-08    -6.980    -7.020    -0.040
    OH-                    6.411e-08   5.760e-08    -7.193    -7.240    -0.047
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.205e-07
    Ba+2                   3.064e-07   2.034e-07    -6.514    -6.692    -0.178
    BaHCO3+                1.071e-08   9.646e-09    -7.970    -8.016    -0.046
@@ -1554,11 +1573,11 @@ Sr               7.194e-07
 	Fluorite         -2.94  -13.63  -10.69  CaF2
 	Gypsum           -2.85   -7.43   -4.58  CaSO4:2H2O
 	H2(g)           -22.04  -25.16   -3.12  H2
-	H2O(g)           -1.71    0.00    1.71  H2O
+	H2O(g)           -1.71   -0.00    1.71  H2O
 	Halite           -9.85   -8.29    1.56  NaCl
 	NaBr             -9.95   -9.95    0.00  NaBr
 	NH3(g)           -9.98   -8.06    1.93  NH3
-	O2(g)           -41.66  -44.58   -2.92  O2
+	O2(g)           -41.75  -44.58   -2.83  O2
 	Strontianite     -2.66  -11.93   -9.27  SrCO3
 	Witherite        -3.69  -12.28   -8.59  BaCO3
 
@@ -1588,6 +1607,8 @@ Initial solution 10.	 02S-07E-05 CBA 1
 
                                        pH  =   7.200    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 485
+                          Density (g/cm3)  =   0.99899
                         Activity of water  =   1.000
                            Ionic strength  =   9.292e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1613,7 +1634,7 @@ Initial solution 10.	 02S-07E-05 CBA 1
 
    OH-                    1.021e-07   9.231e-08    -6.991    -7.035    -0.044
    H+                     6.884e-08   6.310e-08    -7.162    -7.200    -0.038
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               4.516e-07
    Ba+2                   4.248e-07   2.887e-07    -6.372    -6.540    -0.168
    BaSO4                  1.349e-08   1.352e-08    -7.870    -7.869     0.001
@@ -1720,11 +1741,11 @@ Sr               1.290e-06
 	Fluorite         -2.35  -13.03  -10.68  CaF2
 	Gypsum           -2.39   -6.97   -4.58  CaSO4:2H2O
 	H2(g)           -22.40  -25.52   -3.12  H2
-	H2O(g)           -1.69    0.00    1.69  H2O
+	H2O(g)           -1.69   -0.00    1.69  H2O
 	Halite           -8.99   -7.42    1.57  NaCl
 	NaBr             -9.34   -9.34    0.00  NaBr
 	NH3(g)           -9.76   -7.85    1.91  NH3
-	O2(g)           -40.69  -43.62   -2.93  O2
+	O2(g)           -40.78  -43.62   -2.84  O2
 	Strontianite     -2.28  -11.55   -9.27  SrCO3
 	Witherite        -3.43  -12.01   -8.58  BaCO3
 
@@ -1754,6 +1775,8 @@ Initial solution 11.	 02S-07E-17 BCB 1
 
                                        pH  =   6.800    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 19 oC) = 540
+                          Density (g/cm3)  =   0.99875
                         Activity of water  =   1.000
                            Ionic strength  =   1.025e-02
                        Mass of water (kg)  =   1.000e+00
@@ -1779,7 +1802,7 @@ Initial solution 11.	 02S-07E-17 BCB 1
 
    H+                     1.735e-07   1.585e-07    -6.761    -6.800    -0.039
    OH-                    4.572e-08   4.115e-08    -7.340    -7.386    -0.046
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               2.622e-07
    Ba+2                   2.503e-07   1.672e-07    -6.601    -6.777    -0.175
    BaHCO3+                8.891e-09   8.019e-09    -8.051    -8.096    -0.045
@@ -1886,11 +1909,11 @@ Sr               7.079e-07
 	Fluorite         -2.95  -13.62  -10.67  CaF2
 	Gypsum           -2.79   -7.37   -4.58  CaSO4:2H2O
 	H2(g)           -21.60  -24.73   -3.13  H2
-	H2O(g)           -1.66    0.00    1.65  H2O
+	H2O(g)           -1.66   -0.00    1.65  H2O
 	Halite          -10.11   -8.54    1.57  NaCl
 	NaBr            -10.45  -10.45    0.00  NaBr
 	NH3(g)          -10.09   -8.21    1.88  NH3
-	O2(g)           -41.80  -44.74   -2.93  O2
+	O2(g)           -41.89  -44.74   -2.85  O2
 	Strontianite     -2.89  -12.15   -9.27  SrCO3
 	Witherite        -4.01  -12.58   -8.58  BaCO3
 
@@ -1920,6 +1943,8 @@ Initial solution 12.	 03S-04E-04 BCD 1
 
                                        pH  =   6.880    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 19 oC) = 528
+                          Density (g/cm3)  =   0.99874
                         Activity of water  =   1.000
                            Ionic strength  =   9.935e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1945,7 +1970,7 @@ Initial solution 12.	 03S-04E-04 BCD 1
 
    H+                     1.442e-07   1.318e-07    -6.841    -6.880    -0.039
    OH-                    5.489e-08   4.947e-08    -7.260    -7.306    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               4.298e-07
    Ba+2                   4.114e-07   2.762e-07    -6.386    -6.559    -0.173
    BaHCO3+                1.403e-08   1.267e-08    -7.853    -7.897    -0.044
@@ -2052,11 +2077,11 @@ Sr               1.884e-06
 	Fluorite         -2.22  -12.88  -10.67  CaF2
 	Gypsum           -2.74   -7.32   -4.58  CaSO4:2H2O
 	H2(g)           -21.76  -24.89   -3.13  H2
-	H2O(g)           -1.66    0.00    1.65  H2O
+	H2O(g)           -1.66   -0.00    1.65  H2O
 	Halite          -10.18   -8.61    1.57  NaCl
 	NaBr            -10.82  -10.82    0.00  NaBr
 	NH3(g)          -10.01   -8.13    1.88  NH3
-	O2(g)           -41.48  -44.42   -2.93  O2
+	O2(g)           -41.57  -44.42   -2.85  O2
 	Strontianite     -2.40  -11.67   -9.27  SrCO3
 	Witherite        -3.73  -12.30   -8.58  BaCO3
 
@@ -2086,6 +2111,8 @@ Initial solution 13.	 01S-01E-21 CDD 1
 
                                        pH  =   6.740    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 19 oC) = 534
+                          Density (g/cm3)  =   0.99868
                         Activity of water  =   1.000
                            Ionic strength  =   9.961e-03
                        Mass of water (kg)  =   1.000e+00
@@ -2111,7 +2138,7 @@ Initial solution 13.	 01S-01E-21 CDD 1
 
    H+                     1.990e-07   1.820e-07    -6.701    -6.740    -0.039
    OH-                    4.074e-08   3.671e-08    -7.390    -7.435    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.278e-07
    Ba+2                   3.127e-07   2.098e-07    -6.505    -6.678    -0.173
    BaHCO3+                1.087e-08   9.817e-09    -7.964    -8.008    -0.044
@@ -2218,11 +2245,11 @@ Sr               8.906e-07
 	Fluorite         -2.84  -13.50  -10.66  CaF2
 	Gypsum           -2.64   -7.22   -4.58  CaSO4:2H2O
 	H2(g)           -21.48  -24.61   -3.13  H2
-	H2O(g)           -1.65    0.00    1.65  H2O
+	H2O(g)           -1.65   -0.00    1.65  H2O
 	Halite          -10.12   -8.55    1.57  NaCl
 	NaBr            -10.54  -10.54    0.00  NaBr
 	NH3(g)          -10.13   -8.26    1.88  NH3
-	O2(g)           -41.94  -44.87   -2.94  O2
+	O2(g)           -42.02  -44.87   -2.85  O2
 	Strontianite     -2.86  -12.12   -9.27  SrCO3
 	Witherite        -3.98  -12.56   -8.58  BaCO3
 
@@ -2252,6 +2279,8 @@ Initial solution 14.	 01S-03E-01 ABB 1 Antelope Spring at Sulphur, OK
 
                                        pH  =   7.090    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 17 oC) = 510
+                          Density (g/cm3)  =   0.99907
                         Activity of water  =   1.000
                            Ionic strength  =   1.004e-02
                        Mass of water (kg)  =   1.000e+00
@@ -2277,7 +2306,7 @@ Initial solution 14.	 01S-03E-01 ABB 1 Antelope Spring at Sulphur, OK
 
    H+                     8.891e-08   8.128e-08    -7.051    -7.090    -0.039
    OH-                    7.761e-08   6.993e-08    -7.110    -7.155    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               1.246e-06
    Ba+2                   1.172e-06   7.860e-07    -5.931    -6.105    -0.173
    BaHCO3+                3.690e-08   3.332e-08    -7.433    -7.477    -0.044
@@ -2384,11 +2413,11 @@ Sr               9.591e-07
 	Fluorite         -2.91  -13.60  -10.69  CaF2
 	Gypsum           -2.35   -6.94   -4.58  CaSO4:2H2O
 	H2(g)           -22.18  -25.30   -3.12  H2
-	H2O(g)           -1.70    0.00    1.70  H2O
+	H2O(g)           -1.70   -0.00    1.70  H2O
 	Halite           -9.51   -7.95    1.57  NaCl
 	NaBr            -10.23  -10.23    0.00  NaBr
 	NH3(g)           -9.89   -7.97    1.92  NH3
-	O2(g)           -41.24  -44.17   -2.93  O2
+	O2(g)           -41.33  -44.17   -2.84  O2
 	Strontianite     -2.51  -11.78   -9.27  SrCO3
 	Witherite        -3.08  -11.67   -8.58  BaCO3
 
@@ -2417,6 +2446,8 @@ Initial solution 15.	 01S-03E-03 ABA 1        Vendome Well
 
                                        pH  =   7.140    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 19 oC) = 2043
+                          Density (g/cm3)  =   0.99935
                         Activity of water  =   0.999
                            Ionic strength  =   2.543e-02
                        Mass of water (kg)  =   1.000e+00
@@ -2436,7 +2467,7 @@ Initial solution 15.	 01S-03E-03 ABA 1        Vendome Well
 
    OH-                    1.061e-07   9.071e-08    -6.974    -7.042    -0.068
    H+                     8.218e-08   7.244e-08    -7.085    -7.140    -0.055
-   H2O                    5.551e+01   9.993e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.993e-01     1.744    -0.000     0.000
 Ba               1.473e-06
    Ba+2                   1.377e-06   7.648e-07    -5.861    -6.116    -0.255
    BaSO4                  6.162e-08   6.198e-08    -7.210    -7.208     0.003
@@ -2541,11 +2572,11 @@ Sr               7.840e-05
 	Fluorite         -1.33  -12.00  -10.66  CaF2
 	Gypsum           -2.15   -6.73   -4.58  CaSO4:2H2O
 	H2(g)           -22.28  -25.41   -3.13  H2
-	H2O(g)           -1.65    0.00    1.65  H2O
+	H2O(g)           -1.65   -0.00    1.65  H2O
 	Halite           -5.37   -3.80    1.57  NaCl
 	NaBr             -6.58   -6.58    0.00  NaBr
 	NH3(g)           -8.74   -6.86    1.88  NH3
-	O2(g)           -40.41  -43.34   -2.94  O2
+	O2(g)           -40.49  -43.34   -2.85  O2
 	Strontianite     -0.68   -9.95   -9.27  SrCO3
 	Witherite        -3.11  -11.69   -8.58  BaCO3
 
@@ -2575,6 +2606,8 @@ Initial solution 16.	 01S-03E-24 BAA 1
 
                                        pH  =   6.930    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 643
+                          Density (g/cm3)  =   0.99909
                         Activity of water  =   1.000
                            Ionic strength  =   1.236e-02
                        Mass of water (kg)  =   1.000e+00
@@ -2600,7 +2633,7 @@ Initial solution 16.	 01S-03E-24 BAA 1
 
    H+                     1.295e-07   1.175e-07    -6.888    -6.930    -0.042
    OH-                    5.603e-08   4.998e-08    -7.252    -7.301    -0.050
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.716e-07
    Ba+2                   3.394e-07   2.194e-07    -6.469    -6.659    -0.189
    BaSO4                  1.992e-08   1.998e-08    -7.701    -7.700     0.001
@@ -2707,11 +2740,11 @@ Sr               1.405e-06
 	Fluorite         -2.33  -13.01  -10.68  CaF2
 	Gypsum           -2.05   -6.63   -4.58  CaSO4:2H2O
 	H2(g)           -21.86  -24.98   -3.12  H2
-	H2O(g)           -1.69    0.00    1.69  H2O
+	H2O(g)           -1.69   -0.00    1.69  H2O
 	Halite           -8.36   -6.79    1.57  NaCl
 	NaBr             -9.07   -9.07    0.00  NaBr
 	NH3(g)          -10.04   -8.13    1.91  NH3
-	O2(g)           -41.74  -44.67   -2.93  O2
+	O2(g)           -41.83  -44.67   -2.84  O2
 	Strontianite     -2.46  -11.73   -9.27  SrCO3
 	Witherite        -3.74  -12.32   -8.58  BaCO3
 
@@ -2741,6 +2774,8 @@ Initial solution 17.	 01S-04E-05 DAD 1
 
                                        pH  =   6.700    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 19 oC) = 635
+                          Density (g/cm3)  =   0.99885
                         Activity of water  =   1.000
                            Ionic strength  =   1.145e-02
                        Mass of water (kg)  =   1.000e+00
@@ -2766,7 +2801,7 @@ Initial solution 17.	 01S-04E-05 DAD 1
 
    H+                     2.193e-07   1.995e-07    -6.659    -6.700    -0.041
    OH-                    3.536e-08   3.165e-08    -7.452    -7.500    -0.048
-   H2O                    5.551e+01   9.997e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.997e-01     1.744    -0.000     0.000
 Ba               1.748e-06
    Ba+2                   1.662e-06   1.089e-06    -5.779    -5.963    -0.184
    BaHCO3+                5.884e-08   5.280e-08    -7.230    -7.277    -0.047
@@ -2873,11 +2908,11 @@ Sr               7.765e-07
 	Fluorite         -2.84  -13.51  -10.67  CaF2
 	Gypsum           -2.53   -7.11   -4.58  CaSO4:2H2O
 	H2(g)           -21.40  -24.52   -3.12  H2
-	H2O(g)           -1.67    0.00    1.67  H2O
+	H2O(g)           -1.67   -0.00    1.67  H2O
 	Halite           -9.04   -7.47    1.57  NaCl
 	NaBr             -9.74   -9.74    0.00  NaBr
 	NH3(g)          -10.21   -8.32    1.89  NH3
-	O2(g)           -42.34  -45.27   -2.93  O2
+	O2(g)           -42.43  -45.27   -2.85  O2
 	Strontianite     -2.95  -12.22   -9.27  SrCO3
 	Witherite        -3.28  -11.86   -8.58  BaCO3
 
@@ -2907,6 +2942,8 @@ Initial solution 18.	 01S-04E-09 CCB 1
 
                                        pH  =   6.730    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 678
+                          Density (g/cm3)  =   0.99908
                         Activity of water  =   1.000
                            Ionic strength  =   1.239e-02
                        Mass of water (kg)  =   1.000e+00
@@ -2932,7 +2969,7 @@ Initial solution 18.	 01S-04E-09 CCB 1
 
    H+                     2.052e-07   1.862e-07    -6.688    -6.730    -0.042
    OH-                    3.565e-08   3.179e-08    -7.448    -7.498    -0.050
-   H2O                    5.551e+01   9.997e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.997e-01     1.744    -0.000     0.000
 Ba               5.755e-07
    Ba+2                   5.160e-07   3.334e-07    -6.287    -6.477    -0.190
    BaSO4                  4.256e-08   4.268e-08    -7.371    -7.370     0.001
@@ -3039,11 +3076,11 @@ Sr               2.010e-06
 	Fluorite         -2.11  -12.79  -10.68  CaF2
 	Gypsum           -1.71   -6.29   -4.58  CaSO4:2H2O
 	H2(g)           -21.46  -24.58   -3.12  H2
-	H2O(g)           -1.69    0.00    1.69  H2O
+	H2O(g)           -1.69   -0.00    1.69  H2O
 	Halite           -8.22   -6.65    1.57  NaCl
 	NaBr             -9.16   -9.16    0.00  NaBr
 	NH3(g)          -10.23   -8.32    1.91  NH3
-	O2(g)           -42.50  -45.43   -2.93  O2
+	O2(g)           -42.59  -45.43   -2.84  O2
 	Strontianite     -2.55  -11.82   -9.27  SrCO3
 	Witherite        -3.79  -12.38   -8.58  BaCO3
 
@@ -3073,6 +3110,8 @@ Initial solution 19.	 02S-01E-02 CBA 1
 
                                        pH  =   6.750    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 17 oC) = 527
+                          Density (g/cm3)  =   0.99907
                         Activity of water  =   1.000
                            Ionic strength  =   1.020e-02
                        Mass of water (kg)  =   1.000e+00
@@ -3098,7 +3137,7 @@ Initial solution 19.	 02S-01E-02 CBA 1
 
    H+                     1.946e-07   1.778e-07    -6.711    -6.750    -0.039
    OH-                    3.579e-08   3.222e-08    -7.446    -7.492    -0.046
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               6.411e-07
    Ba+2                   6.115e-07   4.091e-07    -6.214    -6.388    -0.175
    BaHCO3+                1.990e-08   1.796e-08    -7.701    -7.746    -0.045
@@ -3205,11 +3244,11 @@ Sr               5.036e-06
 	Fluorite         -2.65  -13.34  -10.69  CaF2
 	Gypsum           -2.43   -7.01   -4.58  CaSO4:2H2O
 	H2(g)           -21.50  -24.62   -3.12  H2
-	H2O(g)           -1.70    0.00    1.70  H2O
+	H2O(g)           -1.70   -0.00    1.70  H2O
 	Halite          -10.10   -8.54    1.57  NaCl
 	NaBr            -10.40  -10.40    0.00  NaBr
 	NH3(g)          -10.23   -8.31    1.92  NH3
-	O2(g)           -42.56  -45.49   -2.93  O2
+	O2(g)           -42.65  -45.49   -2.84  O2
 	Strontianite     -2.11  -11.38   -9.27  SrCO3
 	Witherite        -3.69  -12.28   -8.58  BaCO3
 
@@ -3239,6 +3278,8 @@ Initial solution 20.	 02S-01W-03 CCD 1
 
                                        pH  =   6.820    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 511
+                          Density (g/cm3)  =   0.99904
                         Activity of water  =   1.000
                            Ionic strength  =   9.811e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3264,7 +3305,7 @@ Initial solution 20.	 02S-01W-03 CCD 1
 
    H+                     1.654e-07   1.514e-07    -6.781    -6.820    -0.039
    OH-                    4.232e-08   3.817e-08    -7.373    -7.418    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               6.920e-07
    Ba+2                   6.526e-07   4.395e-07    -6.185    -6.357    -0.172
    BaHCO3+                2.107e-08   1.905e-08    -7.676    -7.720    -0.044
@@ -3371,11 +3412,11 @@ Sr               1.541e-05
 	Fluorite         -2.10  -12.78  -10.69  CaF2
 	Gypsum           -2.22   -6.80   -4.58  CaSO4:2H2O
 	H2(g)           -21.64  -24.76   -3.12  H2
-	H2O(g)           -1.70    0.00    1.70  H2O
+	H2O(g)           -1.70   -0.00    1.70  H2O
 	Halite          -10.31   -8.74    1.57  NaCl
 	NaBr             -9.88   -9.88    0.00  NaBr
 	NH3(g)          -10.15   -8.24    1.91  NH3
-	O2(g)           -42.25  -45.18   -2.93  O2
+	O2(g)           -42.34  -45.18   -2.84  O2
 	Strontianite     -1.56  -10.83   -9.27  SrCO3
 	Witherite        -3.60  -12.18   -8.58  BaCO3
 
@@ -3405,6 +3446,8 @@ Initial solution 21.	 02S-02E-18 BDB 1
 
                                        pH  =   6.950    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 509
+                          Density (g/cm3)  =   0.99891
                         Activity of water  =   1.000
                            Ionic strength  =   9.597e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3430,7 +3473,7 @@ Initial solution 21.	 02S-02E-18 BDB 1
 
    H+                     1.226e-07   1.122e-07    -6.912    -6.950    -0.038
    OH-                    5.988e-08   5.406e-08    -7.223    -7.267    -0.044
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               6.046e-07
    Ba+2                   5.787e-07   3.911e-07    -6.238    -6.408    -0.170
    BaHCO3+                1.843e-08   1.667e-08    -7.734    -7.778    -0.044
@@ -3537,11 +3580,11 @@ Sr               1.861e-06
 	Fluorite         -2.10  -12.78  -10.68  CaF2
 	Gypsum           -2.57   -7.15   -4.58  CaSO4:2H2O
 	H2(g)           -21.90  -25.02   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -9.56   -7.99    1.57  NaCl
 	NaBr            -10.27  -10.27    0.00  NaBr
 	NH3(g)           -9.99   -8.09    1.90  NH3
-	O2(g)           -41.52  -44.45   -2.93  O2
+	O2(g)           -41.60  -44.45   -2.84  O2
 	Strontianite     -2.36  -11.63   -9.27  SrCO3
 	Witherite        -3.53  -12.11   -8.58  BaCO3
 
@@ -3571,6 +3614,8 @@ Initial solution 22.	 02S-03E-10 CDD 1
 
                                        pH  =   7.100    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 334
+                          Density (g/cm3)  =   0.99875
                         Activity of water  =   1.000
                            Ionic strength  =   6.131e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3596,7 +3641,7 @@ Initial solution 22.	 02S-03E-10 CDD 1
 
    H+                     8.552e-08   7.943e-08    -7.068    -7.100    -0.032
    OH-                    8.301e-08   7.637e-08    -7.081    -7.117    -0.036
-   H2O                    5.551e+01   9.999e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.999e-01     1.744    -0.000     0.000
 Ba               2.549e-07
    Ba+2                   2.431e-07   1.761e-07    -6.614    -6.754    -0.140
    BaSO4                  6.826e-09   6.836e-09    -8.166    -8.165     0.001
@@ -3703,11 +3748,11 @@ Sr               7.877e-07
 	Fluorite         -2.84  -13.51  -10.68  CaF2
 	Gypsum           -2.40   -6.98   -4.58  CaSO4:2H2O
 	H2(g)           -22.20  -25.32   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -9.58   -8.02    1.57  NaCl
 	NaBr             -9.99   -9.99    0.00  NaBr
 	NH3(g)           -9.83   -7.93    1.90  NH3
-	O2(g)           -40.92  -43.85   -2.93  O2
+	O2(g)           -41.00  -43.85   -2.84  O2
 	Strontianite     -2.77  -12.04   -9.27  SrCO3
 	Witherite        -3.95  -12.53   -8.58  BaCO3
 
@@ -3737,6 +3782,8 @@ Initial solution 23.	 02S-04E-09 DAB 1
 
                                        pH  =   6.780    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 20 oC) = 577
+                          Density (g/cm3)  =   0.99849
                         Activity of water  =   1.000
                            Ionic strength  =   1.010e-02
                        Mass of water (kg)  =   1.000e+00
@@ -3762,7 +3809,7 @@ Initial solution 23.	 02S-04E-09 DAB 1
 
    H+                     1.816e-07   1.660e-07    -6.741    -6.780    -0.039
    OH-                    4.764e-08   4.290e-08    -7.322    -7.368    -0.046
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.424e-07
    Ba+2                   3.270e-07   2.188e-07    -6.485    -6.660    -0.175
    BaHCO3+                1.081e-08   9.751e-09    -7.966    -8.011    -0.045
@@ -3869,11 +3916,11 @@ Sr               1.781e-06
 	Fluorite         -2.95  -13.60  -10.65  CaF2
 	Gypsum           -2.71   -7.29   -4.58  CaSO4:2H2O
 	H2(g)           -21.56  -24.69   -3.13  H2
-	H2O(g)           -1.63    0.00    1.63  H2O
+	H2O(g)           -1.63   -0.00    1.63  H2O
 	Halite           -9.23   -7.66    1.57  NaCl
 	NaBr            -10.29  -10.29    0.00  NaBr
 	NH3(g)          -10.05   -8.19    1.86  NH3
-	O2(g)           -41.50  -44.44   -2.94  O2
+	O2(g)           -41.58  -44.44   -2.86  O2
 	Strontianite     -2.54  -11.81   -9.27  SrCO3
 	Witherite        -3.95  -12.52   -8.57  BaCO3
 
@@ -3903,6 +3950,8 @@ Initial solution 24.	 02S-04E-28 DCB 1
 
                                        pH  =   6.990    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 489
+                          Density (g/cm3)  =   0.99881
                         Activity of water  =   1.000
                            Ionic strength  =   9.195e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3928,7 +3977,7 @@ Initial solution 24.	 02S-04E-28 DCB 1
 
    H+                     1.116e-07   1.023e-07    -6.952    -6.990    -0.038
    OH-                    6.714e-08   6.073e-08    -7.173    -7.217    -0.044
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.715e-07
    Ba+2                   3.551e-07   2.417e-07    -6.450    -6.617    -0.167
    BaHCO3+                1.057e-08   9.583e-09    -7.976    -8.019    -0.043
@@ -4035,11 +4084,11 @@ Sr               1.267e-06
 	Fluorite         -2.96  -13.64  -10.67  CaF2
 	Gypsum           -2.70   -7.28   -4.58  CaSO4:2H2O
 	H2(g)           -21.98  -25.10   -3.12  H2
-	H2O(g)           -1.67    0.00    1.67  H2O
+	H2O(g)           -1.67   -0.00    1.67  H2O
 	Halite           -9.16   -7.59    1.57  NaCl
 	NaBr            -10.04  -10.04    0.00  NaBr
 	NH3(g)           -9.93   -8.04    1.90  NH3
-	O2(g)           -41.25  -44.18   -2.93  O2
+	O2(g)           -41.34  -44.18   -2.85  O2
 	Strontianite     -2.51  -11.78   -9.27  SrCO3
 	Witherite        -3.73  -12.31   -8.58  BaCO3
 
@@ -4067,6 +4116,8 @@ Initial solution 25.	 01N-05E-22 CBB 1
 
                                        pH  =   6.990    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 16 oC) = 404
+                          Density (g/cm3)  =   0.99917
                         Activity of water  =   1.000
                            Ionic strength  =   7.981e-03
                        Mass of water (kg)  =   1.000e+00
@@ -4092,7 +4143,7 @@ Initial solution 25.	 01N-05E-22 CBB 1
 
    H+                     1.111e-07   1.023e-07    -6.954    -6.990    -0.036
    OH-                    5.574e-08   5.075e-08    -7.254    -7.295    -0.041
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               4.152e-07
    Ba+2                   3.960e-07   2.761e-07    -6.402    -6.559    -0.157
    BaHCO3+                1.023e-08   9.331e-09    -7.990    -8.030    -0.040
@@ -4192,10 +4243,10 @@ Sr               4.909e-07
 	Fluorite         -2.95  -13.66  -10.70  CaF2
 	Gypsum           -2.60   -7.18   -4.58  CaSO4:2H2O
 	H2(g)           -21.98  -25.09   -3.11  H2
-	H2O(g)           -1.73    0.00    1.73  H2O
+	H2O(g)           -1.73   -0.00    1.73  H2O
 	Halite           -9.90   -8.34    1.56  NaCl
 	NH3(g)          -10.05   -8.10    1.94  NH3
-	O2(g)           -42.03  -44.95   -2.92  O2
+	O2(g)           -42.12  -44.95   -2.83  O2
 	Strontianite     -2.97  -12.24   -9.27  SrCO3
 	Witherite        -3.73  -12.32   -8.59  BaCO3
 
@@ -4225,6 +4276,8 @@ Initial solution 26.	 01N-06E-07 CDC 1
 
                                        pH  =   7.050    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 19 oC) = 479
+                          Density (g/cm3)  =   0.99877
                         Activity of water  =   1.000
                            Ionic strength  =   9.096e-03
                        Mass of water (kg)  =   1.000e+00
@@ -4250,7 +4303,7 @@ Initial solution 26.	 01N-06E-07 CDC 1
 
    H+                     9.717e-08   8.913e-08    -7.012    -7.050    -0.038
    OH-                    7.830e-08   7.086e-08    -7.106    -7.150    -0.043
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               2.768e-07
    Ba+2                   2.657e-07   1.811e-07    -6.576    -6.742    -0.166
    BaHCO3+                8.110e-09   7.354e-09    -8.091    -8.133    -0.043
@@ -4357,11 +4410,11 @@ Sr               2.626e-07
 	Fluorite         -2.99  -13.66  -10.67  CaF2
 	Gypsum           -2.89   -7.47   -4.58  CaSO4:2H2O
 	H2(g)           -22.10  -25.22   -3.12  H2
-	H2O(g)           -1.67    0.00    1.67  H2O
+	H2O(g)           -1.67   -0.00    1.67  H2O
 	Halite          -10.22   -8.66    1.57  NaCl
 	NaBr            -10.58  -10.58    0.00  NaBr
 	NH3(g)           -9.86   -7.97    1.89  NH3
-	O2(g)           -40.94  -43.87   -2.93  O2
+	O2(g)           -41.03  -43.87   -2.85  O2
 	Strontianite     -3.12  -12.39   -9.27  SrCO3
 	Witherite        -3.79  -12.37   -8.58  BaCO3
 
@@ -4391,6 +4444,8 @@ Initial solution 27.	 01N-07E-30 DBB 1
 
                                        pH  =   6.750    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 550
+                          Density (g/cm3)  =   0.99890
                         Activity of water  =   1.000
                            Ionic strength  =   1.035e-02
                        Mass of water (kg)  =   1.000e+00
@@ -4416,7 +4471,7 @@ Initial solution 27.	 01N-07E-30 DBB 1
 
    H+                     1.947e-07   1.778e-07    -6.711    -6.750    -0.039
    OH-                    3.853e-08   3.467e-08    -7.414    -7.460    -0.046
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               4.371e-07
    Ba+2                   4.142e-07   2.763e-07    -6.383    -6.559    -0.176
    BaHCO3+                1.417e-08   1.277e-08    -7.849    -7.894    -0.045
@@ -4523,11 +4578,11 @@ Sr               8.678e-07
 	Fluorite         -2.78  -13.45  -10.68  CaF2
 	Gypsum           -2.39   -6.97   -4.58  CaSO4:2H2O
 	H2(g)           -21.50  -24.62   -3.12  H2
-	H2O(g)           -1.67    0.00    1.67  H2O
+	H2O(g)           -1.67   -0.00    1.67  H2O
 	Halite           -9.61   -8.04    1.57  NaCl
 	NaBr            -10.35  -10.35    0.00  NaBr
 	NH3(g)          -10.18   -8.28    1.90  NH3
-	O2(g)           -42.25  -45.18   -2.93  O2
+	O2(g)           -42.33  -45.18   -2.84  O2
 	Strontianite     -2.86  -12.13   -9.27  SrCO3
 	Witherite        -3.85  -12.43   -8.58  BaCO3
 
@@ -4557,6 +4612,8 @@ Initial solution 28.	 02N-05E-17 BDD 1
 
                                        pH  =   6.950    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 526
+                          Density (g/cm3)  =   0.99895
                         Activity of water  =   1.000
                            Ionic strength  =   9.988e-03
                        Mass of water (kg)  =   1.000e+00
@@ -4582,7 +4639,7 @@ Initial solution 28.	 02N-05E-17 BDD 1
 
    H+                     1.227e-07   1.122e-07    -6.911    -6.950    -0.039
    OH-                    5.902e-08   5.319e-08    -7.229    -7.274    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               6.410e-07
    Ba+2                   6.055e-07   4.065e-07    -6.218    -6.391    -0.173
    BaHCO3+                1.829e-08   1.652e-08    -7.738    -7.782    -0.044
@@ -4689,11 +4746,11 @@ Sr               8.221e-07
 	Fluorite         -2.33  -13.01  -10.68  CaF2
 	Gypsum           -2.41   -6.99   -4.58  CaSO4:2H2O
 	H2(g)           -21.90  -25.02   -3.12  H2
-	H2O(g)           -1.68    0.00    1.68  H2O
+	H2O(g)           -1.68   -0.00    1.68  H2O
 	Halite           -8.68   -7.11    1.57  NaCl
 	NaBr             -9.75   -9.75    0.00  NaBr
 	NH3(g)          -10.00   -8.09    1.91  NH3
-	O2(g)           -41.59  -44.52   -2.93  O2
+	O2(g)           -41.68  -44.52   -2.84  O2
 	Strontianite     -2.73  -12.00   -9.27  SrCO3
 	Witherite        -3.53  -12.12   -8.58  BaCO3
 
@@ -4723,6 +4780,8 @@ Initial solution 29.	 02N-06E-32 CBC 1
 
                                        pH  =   6.700    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 17 oC) = 882
+                          Density (g/cm3)  =   0.99943
                         Activity of water  =   1.000
                            Ionic strength  =   1.785e-02
                        Mass of water (kg)  =   1.000e+00
@@ -4748,7 +4807,7 @@ Initial solution 29.	 02N-06E-32 CBC 1
 
    H+                     2.230e-07   1.995e-07    -6.652    -6.700    -0.048
    OH-                    3.231e-08   2.825e-08    -7.491    -7.549    -0.058
-   H2O                    5.551e+01   9.996e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.996e-01     1.744    -0.000     0.000
 Ba               8.672e-07
    Ba+2                   7.761e-07   4.669e-07    -6.110    -6.331    -0.221
    BaSO4                  5.315e-08   5.337e-08    -7.275    -7.273     0.002
@@ -4855,11 +4914,11 @@ Sr               9.823e-07
 	Fluorite         -2.26  -12.95  -10.69  CaF2
 	Gypsum           -1.85   -6.43   -4.58  CaSO4:2H2O
 	H2(g)           -21.40  -24.52   -3.12  H2
-	H2O(g)           -1.70    0.00    1.70  H2O
+	H2O(g)           -1.70   -0.00    1.70  H2O
 	Halite           -8.66   -7.09    1.57  NaCl
 	NaBr             -9.03   -9.03    0.00  NaBr
 	NH3(g)          -10.30   -8.38    1.92  NH3
-	O2(g)           -42.83  -45.76   -2.93  O2
+	O2(g)           -42.92  -45.76   -2.84  O2
 	Strontianite     -2.73  -12.00   -9.27  SrCO3
 	Witherite        -3.48  -12.06   -8.58  BaCO3
 
@@ -4888,6 +4947,8 @@ Initial solution 30.	 02N-06E-34 CCD 1 Byrds Mill Spring
 
                                        pH  =   7.100    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 18 oC) = 515
+                          Density (g/cm3)  =   0.99899
                         Activity of water  =   1.000
                            Ionic strength  =   9.933e-03
                        Mass of water (kg)  =   1.000e+00
@@ -4913,7 +4974,7 @@ Initial solution 30.	 02N-06E-34 CCD 1 Byrds Mill Spring
 
    H+                     8.686e-08   7.943e-08    -7.061    -7.100    -0.039
    OH-                    8.201e-08   7.393e-08    -7.086    -7.131    -0.045
-   H2O                    5.551e+01   9.998e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.998e-01     1.744    -0.000     0.000
 Ba               3.715e-07
    Ba+2                   3.540e-07   2.379e-07    -6.451    -6.624    -0.173
    BaHCO3+                1.185e-08   1.071e-08    -7.926    -7.970    -0.044
@@ -5018,10 +5079,10 @@ Sr               1.838e-06
 	Fluorite         -2.95  -13.64  -10.68  CaF2
 	Gypsum           -2.70   -7.28   -4.58  CaSO4:2H2O
 	H2(g)           -22.20  -25.32   -3.12  H2
-	H2O(g)           -1.69    0.00    1.69  H2O
+	H2O(g)           -1.69   -0.00    1.69  H2O
 	Halite           -9.35   -7.78    1.57  NaCl
 	NH3(g)           -9.86   -7.95    1.91  NH3
-	O2(g)           -41.06  -43.99   -2.93  O2
+	O2(g)           -41.15  -43.99   -2.84  O2
 	Strontianite     -2.19  -11.46   -9.27  SrCO3
 	Witherite        -3.57  -12.15   -8.58  BaCO3
 
@@ -5050,6 +5111,8 @@ Initial solution 31.	 01S-02E-01 DCB 1 Harrison, Nace
 
                                        pH  =   6.500    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 33 oC) = 135679
+                          Density (g/cm3)  =   1.05784
                         Activity of water  =   0.946
                            Ionic strength  =   1.810e+00
                        Mass of water (kg)  =   1.000e+00
@@ -5178,7 +5241,7 @@ Sr               2.576e-03
 	Halite           -1.62   -0.02    1.60  NaCl
 	NaBr             -2.84   -2.84    0.00  NaBr
 	NH3(g)           -6.99   -5.38    1.61  NH3
-	O2(g)           -38.52  -41.51   -3.00  O2
+	O2(g)           -38.57  -41.51   -2.95  O2
 	Strontianite     -0.57   -9.86   -9.29  SrCO3
 	Witherite        -2.58  -11.14   -8.56  BaCO3
 
@@ -5199,6 +5262,8 @@ Initial solution 32.	 Precipitation
 
                                        pH  =   4.714      Charge balance
                                        pe  =   0.000    
+       Specific Conductance (uS/cm, 17 oC) = 39
+                          Density (g/cm3)  =   0.99880
                         Activity of water  =   1.000
                            Ionic strength  =   5.705e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5219,7 +5284,7 @@ Initial solution 32.	 Precipitation
 
    H+                     1.981e-05   1.931e-05    -4.703    -4.714    -0.011
    OH-                    2.833e-10   2.757e-10    -9.548    -9.560    -0.012
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 Ca               1.000e-04
    Ca+2                   9.813e-05   8.824e-05    -4.008    -4.054    -0.046
    CaSO4                  1.869e-06   1.869e-06    -5.728    -5.728     0.000
@@ -5259,9 +5324,9 @@ S(6)             1.300e-04
 	Anhydrite        -3.66   -7.99   -4.34  CaSO4
 	Gypsum           -3.41   -7.99   -4.58  CaSO4:2H2O
 	H2(g)            -9.43  -12.54   -3.11  H2
-	H2O(g)           -1.72    0.00    1.72  H2O
+	H2O(g)           -1.72   -0.00    1.72  H2O
 	Halite           -9.96   -8.40    1.56  NaCl
-	O2(g)           -67.02  -69.95   -2.92  O2
+	O2(g)           -67.12  -69.95   -2.83  O2
 
 ------------------
 End of simulation.
@@ -5295,6 +5360,8 @@ Initial solution 34.
 
                                        pH  =   6.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-06
                        Mass of water (kg)  =   1.000e+00
@@ -5314,7 +5381,7 @@ Initial solution 34.
 
    H+                     1.001e-06   1.000e-06    -5.999    -6.000    -0.001
    OH-                    1.002e-08   1.001e-08    -7.999    -8.000    -0.001
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 C(-4)            0.000e+00
    CH4                    0.000e+00   0.000e+00   -61.262   -61.262     0.000
 C(4)             3.217e-06
@@ -5334,8 +5401,8 @@ O(0)             0.000e+00
 	CH4(g)          -58.40  -61.26   -2.86  CH4
 	CO2(g)           -4.18   -5.65   -1.47  CO2
 	H2(g)           -20.00  -23.15   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)           -43.12  -46.08   -2.96  O2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	O2(g)           -43.19  -46.08   -2.89  O2
 
 ------------------
 End of simulation.
@@ -5368,7 +5435,7 @@ Phase                  SI log IAP  log KT      Initial       Final       Delta
 
 Calcite              0.00   -8.44   -8.44    1.000e+01   9.998e+00  -2.412e-03
 CO2(g)              -1.70   -3.07   -1.37    1.000e+01   9.997e+00  -3.237e-03
-O2(g)              -15.00  -17.92   -2.92    1.000e+01   1.000e+01  -1.457e-13
+O2(g)              -15.00  -17.83   -2.83    1.000e+01   1.000e+01  -1.474e-13
 
 -----------------------------Solution composition------------------------------
 
@@ -5385,7 +5452,9 @@ O2(g)              -15.00  -17.92   -2.92    1.000e+01   1.000e+01  -1.457e-13
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.105      Charge balance
-                                       pe  =  10.615      Adjusted to redox equilibrium
+                                       pe  =  10.638      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 17 oC) = 389
+                          Density (g/cm3)  =   0.99912
                         Activity of water  =   1.000
                            Ionic strength  =   7.512e-03
                        Mass of water (kg)  =   1.000e+00
@@ -5405,9 +5474,9 @@ O2(g)              -15.00  -17.92   -2.92    1.000e+01   1.000e+01  -1.457e-13
 
    H+                     8.500e-08   7.847e-08    -7.071    -7.105    -0.035
    OH-                    7.432e-08   6.784e-08    -7.129    -7.169    -0.040
-   H2O                    5.551e+01   9.999e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.999e-01     1.744    -0.000     0.000
 C(-4)            0.000e+00
-   CH4                    0.000e+00   0.000e+00  -119.337  -119.336     0.001
+   CH4                    0.000e+00   0.000e+00  -119.523  -119.522     0.001
 C(4)             5.650e-03
    HCO3-                  4.699e-03   4.307e-03    -2.328    -2.366    -0.038
    CO2                    8.539e-04   8.553e-04    -3.069    -3.068     0.001
@@ -5427,8 +5496,8 @@ Ca               2.512e-03
    CaHSO4+                1.073e-11   9.805e-12   -10.970   -11.009    -0.039
 Cl               7.000e-05
    Cl-                    7.000e-05   6.391e-05    -4.155    -4.194    -0.040
-H(0)             5.560e-39
-   H2                     2.780e-39   2.785e-39   -38.556   -38.555     0.001
+H(0)             4.995e-39
+   H2                     2.497e-39   2.502e-39   -38.603   -38.602     0.001
 K                1.000e-05
    K+                     9.996e-06   9.126e-06    -5.000    -5.040    -0.040
    KSO4-                  4.549e-09   4.158e-09    -8.342    -8.381    -0.039
@@ -5445,12 +5514,12 @@ Na               6.000e-05
    NaSO4-                 2.133e-08   1.950e-08    -7.671    -7.710    -0.039
    NaCO3-                 1.586e-09   1.450e-09    -8.800    -8.839    -0.039
    NaOH                   4.602e-12   4.610e-12   -11.337   -11.336     0.001
-O(0)             2.385e-18
-   O2                     1.193e-18   1.195e-18   -17.923   -17.923     0.001
+O(0)             2.956e-18
+   O2                     1.478e-18   1.480e-18   -17.830   -17.830     0.001
 S(-2)            0.000e+00
-   HS-                    0.000e+00   0.000e+00  -118.089  -118.128    -0.040
-   H2S                    0.000e+00   0.000e+00  -118.180  -118.180     0.001
-   S-2                    0.000e+00   0.000e+00  -124.033  -124.186    -0.153
+   HS-                    0.000e+00   0.000e+00  -118.275  -118.315    -0.040
+   H2S                    0.000e+00   0.000e+00  -118.367  -118.366     0.001
+   S-2                    0.000e+00   0.000e+00  -124.219  -124.372    -0.153
 S(6)             1.300e-04
    SO4-2                  1.064e-04   7.485e-05    -3.973    -4.126    -0.153
    CaSO4                  2.334e-05   2.338e-05    -4.632    -4.631     0.001
@@ -5467,17 +5536,17 @@ S(6)             1.300e-04
 	Anhydrite        -2.56   -6.90   -4.34  CaSO4
 	Aragonite        -0.15   -8.44   -8.29  CaCO3
 	Calcite           0.00   -8.44   -8.44  CaCO3
-	CH2O            -61.20  -61.20    0.00  CH2O
-	CH4(g)         -116.54 -119.34   -2.79  CH4
+	CH2O            -61.29  -61.29    0.00  CH2O
+	CH4(g)         -116.73 -119.52   -2.79  CH4
 	CO2(g)           -1.70   -3.07   -1.37  CO2
 	Dolomite         -2.08  -18.98  -16.90  CaMg(CO3)2
 	Gypsum           -2.32   -6.90   -4.58  CaSO4:2H2O
-	H2(g)           -35.44  -38.56   -3.11  H2
-	H2O(g)           -1.72    0.00    1.72  H2O
-	H2S(g)         -117.27 -118.18   -0.90  H2S
+	H2(g)           -35.49  -38.60   -3.11  H2
+	H2O(g)           -1.72   -0.00    1.72  H2O
+	H2S(g)         -117.46 -118.37   -0.90  H2S
 	Halite          -10.02   -8.46    1.56  NaCl
-	O2(g)           -15.00  -17.92   -2.92  O2
-	Sulfur          -87.81  -82.74    5.07  S
+	O2(g)           -15.00  -17.83   -2.83  O2
+	Sulfur          -87.95  -82.88    5.07  S
 
 ------------------
 End of simulation.

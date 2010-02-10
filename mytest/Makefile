@@ -7,7 +7,7 @@ ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqcpp/Release/phreeqcpp.exe
 endif
 
-%.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat tony.dat ../database/pitzer.dat
+%.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
 	$(PHREEQC) $< 
 	mv phreeqc.log $<.log
 
@@ -90,6 +90,7 @@ all: alkalinity.out \
 	pitzgas.out \
 	precipitate_only.out \
 	prob8.out \
+	pyrite_34s.out \
 	rahn.out \
 	s1.out \
 	salt_ec.out \
@@ -157,7 +158,7 @@ all: alkalinity.out \
 	ppdump.out
 
 clean:
-	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt
+	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt *.csv
 
 revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert

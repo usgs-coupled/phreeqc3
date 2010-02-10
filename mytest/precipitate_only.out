@@ -1,6 +1,6 @@
    Input file: precipitate_only
   Output file: precipitate_only.out
-Database file: phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,6 +19,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	SOLUTION
 	EQUILIBRIUM_PHASES
 		Calcite	0	10 preciptate_only
@@ -44,6 +45,8 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -62,8 +65,8 @@ Initial solution 1.
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.002e-07   1.001e-07    -6.999    -6.999     0.000
-   H+                     1.001e-07   1.000e-07    -7.000    -7.000     0.000
+   OH-                    1.002e-07   1.001e-07    -6.999    -6.999    -0.000
+   H+                     1.001e-07   1.000e-07    -7.000    -7.000    -0.000
    H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
 H(0)             1.416e-25
    H2                     7.079e-26   7.079e-26   -25.150   -25.150     0.000
@@ -76,7 +79,7 @@ O(0)             0.000e+00
 
 	H2(g)           -22.00  -25.15   -3.15  H2
 	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)           -39.12  -42.08   -2.96  O2
+	O2(g)           -39.19  -42.08   -2.89  O2
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -108,7 +111,7 @@ Reaction 1.	Irreversible reaction defined in simulation 1.
                                                       Moles in assemblage
 Phase                  SI log IAP  log KT      Initial       Final       Delta
 
-Calcite              0.00   -8.48   -8.48    1.000e+01   1.002e+01   1.988e-02
+Calcite             -0.00   -8.48   -8.48    1.000e+01   1.002e+01   1.988e-02
 
 -----------------------------Solution composition------------------------------
 
@@ -121,6 +124,8 @@ Calcite              0.00   -8.48   -8.48    1.000e+01   1.002e+01   1.988e-02
 
                                        pH  =   9.910      Charge balance
                                        pe  =   8.088      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 37
+                          Density (g/cm3)  =   0.99706
                         Activity of water  =   1.000
                            Ionic strength  =   3.848e-04
                        Mass of water (kg)  =   1.000e+00
@@ -128,7 +133,7 @@ Calcite              0.00   -8.48   -8.48    1.000e+01   1.002e+01   1.988e-02
                        Total CO2 (mol/kg)  =   1.227e-04
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -1.082e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  16
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550658e+01
@@ -140,7 +145,7 @@ Calcite              0.00   -8.48   -8.48    1.000e+01   1.002e+01   1.988e-02
 
    OH-                    8.316e-05   8.131e-05    -4.080    -4.090    -0.010
    H+                     1.258e-10   1.231e-10    -9.900    -9.910    -0.009
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 C(-4)            0.000e+00
    CH4                    0.000e+00   0.000e+00  -127.241  -127.241     0.000
 C(4)             1.227e-04
@@ -164,12 +169,12 @@ O(0)             1.631e-14
 	Phase               SI log IAP  log KT
 
 	Aragonite        -0.14   -8.48   -8.34  CaCO3
-	Calcite           0.00   -8.48   -8.48  CaCO3
+	Calcite          -0.00   -8.48   -8.48  CaCO3
 	CH4(g)         -124.38 -127.24   -2.86  CH4
 	CO2(g)           -6.18   -7.65   -1.47  CO2
 	H2(g)           -36.00  -39.15   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
-	O2(g)           -11.13  -14.09   -2.96  O2
+	H2O(g)           -1.51   -0.00    1.51  H2O
+	O2(g)           -11.20  -14.09   -2.89  O2
 
 ------------------
 End of simulation.
@@ -228,6 +233,8 @@ Calcite            -16.29  -24.77   -8.48    1.002e+01   1.002e+01   0.000e+00
 
                                        pH  =   0.129      Charge balance
                                        pe  =  17.890      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 305602
+                          Density (g/cm3)  =   1.01423
                         Activity of water  =   0.966
                            Ionic strength  =   1.000e+00
                        Mass of water (kg)  =   1.000e+00
@@ -235,7 +242,7 @@ Calcite            -16.29  -24.77   -8.48    1.002e+01   1.002e+01   0.000e+00
                        Total CO2 (mol/kg)  =   1.227e-04
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -1.082e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  14
                                   Total H  = 1.120124e+02
                                   Total O  = 5.550658e+01
@@ -245,7 +252,7 @@ Calcite            -16.29  -24.77   -8.48    1.002e+01   1.002e+01   0.000e+00
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   H+                     9.998e-01   7.432e-01     0.000    -0.129    -0.129
+   H+                     9.998e-01   7.432e-01    -0.000    -0.129    -0.129
    OH-                    2.246e-14   1.301e-14   -13.649   -13.886    -0.237
    H2O                    5.551e+01   9.660e-01     1.744    -0.015     0.000
 C(-4)            0.000e+00
@@ -262,7 +269,7 @@ Ca               1.227e-04
    CaOH+                  8.287e-18   6.554e-18   -17.082   -17.183    -0.102
    CaCO3                  2.285e-22   2.877e-22   -21.641   -21.541     0.100
 Cl               1.000e+00
-   Cl-                    1.000e+00   5.998e-01     0.000    -0.222    -0.222
+   Cl-                    1.000e+00   5.998e-01    -0.000    -0.222    -0.222
 H(0)             1.030e-39
    H2                     5.151e-40   6.485e-40   -39.288   -39.188     0.100
 O(0)             1.470e-14
@@ -278,7 +285,7 @@ O(0)             1.470e-14
 	CO2(g)           -2.34   -3.81   -1.47  CO2
 	H2(g)           -36.04  -39.19   -3.15  H2
 	H2O(g)           -1.53   -0.02    1.51  H2O
-	O2(g)           -11.07  -14.03   -2.96  O2
+	O2(g)           -11.14  -14.03   -2.89  O2
 
 ------------------
 End of simulation.

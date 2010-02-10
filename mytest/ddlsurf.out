@@ -1,6 +1,6 @@
    Input file: ddlsurf
   Output file: ddlsurf.out
-Database file: phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,6 +19,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	SOLUTION 1
 	                units   mol/kgw
 	 pH 7.5
@@ -126,7 +127,9 @@ Initial solution 1.
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.500    
-                                       pe  =  10.780      Equilibrium with O2(g)
+                                       pe  =  10.797      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 4013
+                          Density (g/cm3)  =   0.99856
                         Activity of water  =   0.999
                            Ionic strength  =   4.040e-02
                        Mass of water (kg)  =   1.000e+00
@@ -135,7 +138,7 @@ Initial solution 1.
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -6.958e-17
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   8
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
@@ -147,28 +150,28 @@ Initial solution 1.
 
    OH-                    3.829e-07   3.162e-07    -6.417    -6.500    -0.083
    H+                     3.666e-08   3.162e-08    -7.436    -7.500    -0.064
-   H2O                    5.551e+01   9.989e-01     1.744     0.000     0.000
+   H2O                    5.551e+01   9.989e-01     1.744    -0.000     0.000
 Ca               4.800e-03
    Ca+2                   4.800e-03   2.399e-03    -2.319    -2.620    -0.301
    CaOH+                  1.509e-08   1.258e-08    -7.821    -7.900    -0.079
 Cl               3.560e-02
    Cl-                    3.560e-02   2.944e-02    -1.449    -1.531    -0.083
-H(0)             3.859e-40
-   H2                     1.930e-40   1.948e-40   -39.715   -39.710     0.004
+H(0)             3.570e-40
+   H2                     1.785e-40   1.802e-40   -39.748   -39.744     0.004
 Na               2.600e-02
    Na+                    2.600e-02   2.173e-02    -1.585    -1.663    -0.078
    NaOH                   4.492e-09   4.534e-09    -8.348    -8.343     0.004
-O(0)             2.173e-13
-   O2                     1.086e-13   1.096e-13   -12.964   -12.960     0.004
+O(0)             2.539e-13
+   O2                     1.269e-13   1.281e-13   -12.896   -12.892     0.004
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI log IAP  log KT
 
-	H2(g)           -36.56  -39.71   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2(g)           -36.59  -39.74   -3.15  H2
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -4.78   -3.19    1.58  NaCl
-	O2(g)           -10.00  -12.96   -2.96  O2
+	O2(g)           -10.00  -12.89   -2.89  O2
 
 -------------------------------------------------------
 Beginning of initial exchange-composition calculations.
@@ -191,7 +194,7 @@ Beginning of initial surface-composition calculations.
 Surface 1.	
 
 Bfa           
-	  5.889e-18  Surface + diffuse layer charge, eq
+	  5.895e-18  Surface + diffuse layer charge, eq
 	  2.629e-01  Surface charge, eq
 	  8.455e-02  sigma, C/m**2
 	  1.022e-01  psi, V
@@ -221,7 +224,7 @@ Bfa
 	BfaOH2+           2.629e-01       0.011   2.629e-01      -0.580
 
 Hfo           
-	 -2.593e-17  Surface + diffuse layer charge, eq
+	 -2.589e-17  Surface + diffuse layer charge, eq
 	  3.756e-01  Surface charge, eq
 	  6.040e-04  sigma, C/m**2
 	  1.315e-03  psi, V
@@ -325,7 +328,7 @@ Bfa
 	BfaOH2+           2.629e-01       0.011   2.629e-01      -0.580
 
 Hfo           
-	 -3.826e-11  Surface + diffuse layer charge, eq
+	 -3.825e-11  Surface + diffuse layer charge, eq
 	  3.756e-01  Surface charge, eq
 	  6.040e-04  sigma, C/m**2
 	  1.315e-03  psi, V
@@ -361,7 +364,7 @@ Hfw
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m**2
 	 -1.150e-11  psi, V
-	  4.476e-10  -F*psi/RT
+	  4.475e-10  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  3.000e+01  specific area, m**2/g
 	  3.000e+07  m**2 for   1.000e+06 g
@@ -407,7 +410,9 @@ X                6.000e+01 mol
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.500      Charge balance
-                                       pe  =  10.779      Adjusted to redox equilibrium
+                                       pe  =  10.796      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 4013
+                          Density (g/cm3)  =   0.99856
                         Activity of water  =   0.999
                            Ionic strength  =   4.040e-02
                        Mass of water (kg)  =   1.000e+00
@@ -415,8 +420,8 @@ X                6.000e+01 mol
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
-                  Electrical balance (eq)  =  -1.942e-15
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                  Electrical balance (eq)  =  -1.946e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
@@ -428,28 +433,28 @@ X                6.000e+01 mol
 
    OH-                    3.829e-07   3.162e-07    -6.417    -6.500    -0.083
    H+                     3.666e-08   3.162e-08    -7.436    -7.500    -0.064
-   H2O                    4.280e+03   9.989e-01     3.631     0.000     0.000
+   H2O                    4.280e+03   9.989e-01     3.631    -0.000     0.000
 Ca               4.800e-03
    Ca+2                   4.800e-03   2.399e-03    -2.319    -2.620    -0.301
    CaOH+                  1.509e-08   1.258e-08    -7.821    -7.900    -0.079
 Cl               3.560e-02
    Cl-                    3.560e-02   2.944e-02    -1.449    -1.531    -0.083
-H(0)             3.880e-40
-   H2                     1.940e-40   1.958e-40   -39.712   -39.708     0.004
+H(0)             3.595e-40
+   H2                     1.797e-40   1.814e-40   -39.745   -39.741     0.004
 Na               2.600e-02
    Na+                    2.600e-02   2.173e-02    -1.585    -1.663    -0.078
    NaOH                   4.492e-09   4.534e-09    -8.348    -8.343     0.004
-O(0)             2.150e-13
-   O2                     1.075e-13   1.085e-13   -12.969   -12.965     0.004
+O(0)             2.504e-13
+   O2                     1.252e-13   1.264e-13   -12.902   -12.898     0.004
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI log IAP  log KT
 
-	H2(g)           -36.56  -39.71   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2(g)           -36.59  -39.74   -3.15  H2
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -4.78   -3.19    1.58  NaCl
-	O2(g)           -10.00  -12.96   -2.96  O2
+	O2(g)           -10.01  -12.90   -2.89  O2
 
 ------------------
 End of simulation.
@@ -536,11 +541,11 @@ Hfo_w
 	Hfo_wO-           2.265e-02       0.023   2.265e-02      -1.645
 
 Hfw           
-	 -4.928e-14  Surface + diffuse layer charge, eq
+	 -4.917e-14  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m**2
-	 -7.468e-12  psi, V
-	  2.907e-10  -F*psi/RT
+	 -7.466e-12  psi, V
+	  2.906e-10  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  3.000e+01  specific area, m**2/g
 	  3.000e+07  m**2 for   1.000e+06 g
@@ -576,7 +581,9 @@ Hfw
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.500      Charge balance
-                                       pe  =  10.779      Adjusted to redox equilibrium
+                                       pe  =  10.796      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 4013
+                          Density (g/cm3)  =   0.99856
                         Activity of water  =   0.999
                            Ionic strength  =   4.040e-02
                        Mass of water (kg)  =   1.000e+00
@@ -584,8 +591,8 @@ Hfw
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
-                  Electrical balance (eq)  =  -1.949e-15
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                  Electrical balance (eq)  =  -1.952e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
@@ -597,28 +604,28 @@ Hfw
 
    OH-                    3.829e-07   3.162e-07    -6.417    -6.500    -0.083
    H+                     3.666e-08   3.162e-08    -7.436    -7.500    -0.064
-   H2O                    4.280e+03   9.989e-01     3.631     0.000     0.000
+   H2O                    4.280e+03   9.989e-01     3.631    -0.000     0.000
 Ca               4.800e-03
    Ca+2                   4.800e-03   2.399e-03    -2.319    -2.620    -0.301
    CaOH+                  1.509e-08   1.258e-08    -7.821    -7.900    -0.079
 Cl               3.560e-02
    Cl-                    3.560e-02   2.944e-02    -1.449    -1.531    -0.083
-H(0)             3.879e-40
-   H2                     1.940e-40   1.958e-40   -39.712   -39.708     0.004
+H(0)             3.595e-40
+   H2                     1.797e-40   1.814e-40   -39.745   -39.741     0.004
 Na               2.600e-02
    Na+                    2.600e-02   2.173e-02    -1.585    -1.663    -0.078
    NaOH                   4.492e-09   4.534e-09    -8.348    -8.343     0.004
-O(0)             2.150e-13
-   O2                     1.075e-13   1.085e-13   -12.969   -12.965     0.004
+O(0)             2.504e-13
+   O2                     1.252e-13   1.264e-13   -12.902   -12.898     0.004
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI log IAP  log KT
 
-	H2(g)           -36.56  -39.71   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2(g)           -36.59  -39.74   -3.15  H2
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite           -4.78   -3.19    1.58  NaCl
-	O2(g)           -10.00  -12.96   -2.96  O2
+	O2(g)           -10.01  -12.90   -2.89  O2
 
 ------------------
 End of simulation.

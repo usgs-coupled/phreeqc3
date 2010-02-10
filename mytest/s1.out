@@ -1,6 +1,6 @@
    Input file: s1
   Output file: s1.out
-Database file: phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,6 +19,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	DATABASE ../database/phreeqc.dat
 	SURFACE_MASTER_SPECIES
 	 Su Su-
 	SURFACE_SPECIES
@@ -52,6 +53,8 @@ Initial solution 0.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   1.010e-07
                        Mass of water (kg)  =   1.000e+00
@@ -60,7 +63,7 @@ Initial solution 0.
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.000
                   Electrical balance (eq)  =  -6.617e-22
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  12
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
@@ -70,15 +73,15 @@ Initial solution 0.
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.001e-07   1.001e-07    -6.999    -7.000     0.000
-   H+                     1.000e-07   1.000e-07    -7.000    -7.000     0.000
-   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+   OH-                    1.001e-07   1.001e-07    -6.999    -7.000    -0.000
+   H+                     1.000e-07   1.000e-07    -7.000    -7.000    -0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 Cl               8.918e-10
-   Cl-                    8.918e-10   8.915e-10    -9.050    -9.050     0.000
+   Cl-                    8.918e-10   8.915e-10    -9.050    -9.050    -0.000
 H(0)             1.416e-25
    H2                     7.079e-26   7.079e-26   -25.150   -25.150     0.000
 Na               1.000e-09
-   Na+                    1.000e-09   9.996e-10    -9.000    -9.000     0.000
+   Na+                    1.000e-09   9.996e-10    -9.000    -9.000    -0.000
    NaOH                   6.604e-17   6.604e-17   -16.180   -16.180     0.000
 O(0)             0.000e+00
    O2                     0.000e+00   0.000e+00   -42.080   -42.080     0.000
@@ -88,9 +91,9 @@ O(0)             0.000e+00
 	Phase               SI log IAP  log KT
 
 	H2(g)           -22.00  -25.15   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite          -19.63  -18.05    1.58  NaCl
-	O2(g)           -39.12  -42.08   -2.96  O2
+	O2(g)           -39.19  -42.08   -2.89  O2
 
 Initial solution 1.	
 
@@ -105,6 +108,8 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 81489
+                          Density (g/cm3)  =   1.03620
                         Activity of water  =   0.966
                            Ionic strength  =   1.000e+00
                        Mass of water (kg)  =   1.000e+00
@@ -127,11 +132,11 @@ Initial solution 1.
    H+                     1.345e-07   1.000e-07    -6.871    -7.000    -0.129
    H2O                    5.551e+01   9.660e-01     1.744    -0.015     0.000
 Cl               1.000e+00
-   Cl-                    1.000e+00   5.998e-01     0.000    -0.222    -0.222
+   Cl-                    1.000e+00   5.998e-01    -0.000    -0.222    -0.222
 H(0)             1.125e-25
    H2                     5.623e-26   7.079e-26   -25.250   -25.150     0.100
 Na               1.000e+00
-   Na+                    1.000e+00   7.159e-01     0.000    -0.145    -0.145
+   Na+                    1.000e+00   7.159e-01    -0.000    -0.145    -0.145
    NaOH                   3.629e-08   4.569e-08    -7.440    -7.340     0.100
 O(0)             0.000e+00
    O2                     0.000e+00   0.000e+00   -42.210   -42.110     0.100
@@ -143,7 +148,7 @@ O(0)             0.000e+00
 	H2(g)           -22.00  -25.15   -3.15  H2
 	H2O(g)           -1.53   -0.02    1.51  H2O
 	Halite           -1.95   -0.37    1.58  NaCl
-	O2(g)           -39.15  -42.11   -2.96  O2
+	O2(g)           -39.22  -42.11   -2.89  O2
 
 ------------------
 End of simulation.
@@ -243,6 +248,8 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =   3.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81489
+                          Density (g/cm3)  =   1.03620
                         Activity of water  =   0.966
                            Ionic strength  =   1.000e+00
                        Mass of water (kg)  =   1.000e+00
@@ -265,11 +272,11 @@ Su
    H+                     1.345e-07   1.000e-07    -6.871    -7.000    -0.129
    H2O                    5.567e+01   9.660e-01     1.746    -0.015     0.000
 Cl               1.000e+00
-   Cl-                    1.000e+00   5.998e-01     0.000    -0.222    -0.222
+   Cl-                    1.000e+00   5.998e-01    -0.000    -0.222    -0.222
 H(0)             1.125e-23
    H2                     5.623e-24   7.079e-24   -23.250   -23.150     0.100
 Na               1.000e+00
-   Na+                    1.000e+00   7.159e-01     0.000    -0.145    -0.145
+   Na+                    1.000e+00   7.159e-01    -0.000    -0.145    -0.145
    NaOH                   3.629e-08   4.569e-08    -7.440    -7.340     0.100
 O(0)             0.000e+00
    O2                     0.000e+00   0.000e+00   -46.210   -46.110     0.100
@@ -281,7 +288,7 @@ O(0)             0.000e+00
 	H2(g)           -20.00  -23.15   -3.15  H2
 	H2O(g)           -1.53   -0.02    1.51  H2O
 	Halite           -1.95   -0.37    1.58  NaCl
-	O2(g)           -43.15  -46.11   -2.96  O2
+	O2(g)           -43.22  -46.11   -2.89  O2
 
 ------------------
 End of simulation.
@@ -349,6 +356,8 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =   5.300      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81489
+                          Density (g/cm3)  =   1.03620
                         Activity of water  =   0.966
                            Ionic strength  =   1.000e+00
                        Mass of water (kg)  =   1.000e+00
@@ -371,11 +380,11 @@ Su
    H+                     1.345e-07   1.000e-07    -6.871    -7.000    -0.129
    H2O                    5.567e+01   9.660e-01     1.746    -0.015     0.000
 Cl               1.000e+00
-   Cl-                    1.000e+00   5.998e-01     0.000    -0.222    -0.222
+   Cl-                    1.000e+00   5.998e-01    -0.000    -0.222    -0.222
 H(0)             2.825e-28
    H2                     1.413e-28   1.778e-28   -27.850   -27.750     0.100
 Na               1.000e+00
-   Na+                    1.000e+00   7.159e-01     0.000    -0.145    -0.145
+   Na+                    1.000e+00   7.159e-01    -0.000    -0.145    -0.145
    NaOH                   3.629e-08   4.569e-08    -7.440    -7.340     0.100
 O(0)             1.954e-37
    O2                     9.771e-38   1.230e-37   -37.010   -36.910     0.100
@@ -387,7 +396,7 @@ O(0)             1.954e-37
 	H2(g)           -24.60  -27.75   -3.15  H2
 	H2O(g)           -1.53   -0.02    1.51  H2O
 	Halite           -1.95   -0.37    1.58  NaCl
-	O2(g)           -33.95  -36.91   -2.96  O2
+	O2(g)           -34.02  -36.91   -2.89  O2
 
 Transport step   1.
 
@@ -435,6 +444,8 @@ Su
 
                                        pH  =   9.331      Charge balance
                                        pe  =  -3.885      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 7
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
                            Ionic strength  =   3.782e-05
                        Mass of water (kg)  =   5.694e-01
@@ -455,7 +466,7 @@ Su
 
    OH-                    2.160e-05   2.144e-05    -4.666    -4.669    -0.003
    H+                     4.702e-10   4.669e-10    -9.328    -9.331    -0.003
-   H2O                    9.778e+01   1.000e+00     1.990     0.000     0.000
+   H2O                    9.778e+01   1.000e+00     1.990    -0.000     0.000
 Cl               1.623e-05
    Cl-                    1.623e-05   1.611e-05    -4.790    -4.793    -0.003
 H(0)             1.814e-14
@@ -471,9 +482,9 @@ O(0)             0.000e+00
 	Phase               SI log IAP  log KT
 
 	H2(g)           -10.89  -14.04   -3.15  H2
-	H2O(g)           -1.51    0.00    1.51  H2O
+	H2O(g)           -1.51   -0.00    1.51  H2O
 	Halite          -10.80   -9.22    1.58  NaCl
-	O2(g)           -61.34  -64.30   -2.96  O2
+	O2(g)           -61.40  -64.30   -2.89  O2
 
 ------------------
 End of simulation.
