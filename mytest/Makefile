@@ -26,6 +26,7 @@ all: alkalinity.out \
 	co2.out \
 	colloid_U.out \
 	comments.out \
+	count_database_species.out \
 	ddl_flux.out \
 	ddlsurf.out \
 	de.out \
