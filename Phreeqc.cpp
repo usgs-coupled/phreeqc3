@@ -125,7 +125,8 @@ Phreeqc::Phreeqc(void)
 	{"isotope_alphas", 0},
 	{"copy", 0},
 	{"pitzer", 0},
-	{"sit", 0}
+	{"sit", 0},
+	{"equilibrium_phase"}
 #ifdef PHREEQC_CPP
 	,
 	{"solution_raw", 0},
