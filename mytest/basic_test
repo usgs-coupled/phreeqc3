@@ -1,0 +1,222 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 10 Test solution
+    temp      25
+    pH        7
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    -water    1 # kg
+    Na		1000
+    Cl		1000
+    C		1
+    P		1
+    S(6)        1
+    Ca		1  charge
+END
+SURFACE 1
+    -sites DENSITY
+    Hfo_wOH    3         600       1
+    Hfo_sOH    0.06
+    -donnan 1e-008
+END
+EQUILIBRIUM_PHASES  1
+   Calcite  0 .02 
+END
+SOLID_SOLUTION 1
+ FeZnCO3
+ -comp1 Siderite 0.1
+ -comp2 Smithsonite 0.1
+ -Gugg_non 4
+END
+KINETICS
+Organic_C
+    -formula  C  1
+    -m        .1
+    -m0       .11
+    -tol      1e-008
+    -steps       86400000
+END
+GAS_PHASE 1
+    -fixed_volume
+    -pressure 1
+    -volume 1
+    -temperature 25
+    CO2(g)    0.003
+    N2(g)     0.79
+    O2(g)     0.2
+END
+EXCHANGE 1
+    X 0.001
+    -equil 10
+END
+REACTION
+	O2   1
+	0.0001 mol
+END
+USE solution 10
+USE surface 1
+USE equilibrium_phases 1
+USE kinetics 1
+USE solid_solution 1
+USE gas_phase 1
+USE reaction 1
+USE exchange 1
+
+USER_PRINT
+-start 
+1 PUT(111, 1)
+2 a$ = "   abc   def   "
+10 PRINT  "ALK:                                                 ",  ALK                
+20 PRINT  "CALC_VALUE:                                          ",  CALC_VALUE("Acidity")
+30 PRINT  "CELL_NO:                                             ",  CELL_NO
+40 CHANGE_POR(.55, 1)						
+50 CHANGE_SURF("Hfo", 0.5, "Sfo", 1e-8, 1)			
+60 PRINT  "CHARGE_BALANCE:                                      ",  CHARGE_BALANCE
+70 PRINT  "DESCRIPTION:                                         ",  DESCRIPTION
+80 PRINT  "DIST:                                                ",  DIST
+90 PRINT  "EDL(P,Hfo):                                          ",  EDL("P", "Hfo")
+100 PRINT  "EQUI(calcite):                                       ",  EQUI("calcite")
+110 PRINT  "EXISTS(1):                                           ",  EXISTS(1)
+120 PRINT  "GAMMA(H+):                                           ",  GAMMA("H+")
+130 PRINT  "GAS(CO2(g)):                                         ",  GAS("CO2(g)")
+140 PRINT  "GET(1):                                              ",  GET(1)
+150 PRINT  "GET_POR(CELL_NO):                                    ",  GET_POR(CELL_NO)
+160 PRINT  "KIN(Organic_C):                                      ",  KIN("Organic_C")
+170 PRINT  "LA(H+):                                              ",  LA("H+")
+180 PRINT  "LG(H+):                                              ",  LG("H+")
+190 PRINT  "LK_NAMED(name):                                      ",  LK_NAMED("name")
+200 PRINT  "LK_PHASE(Calcite):                                   ",  LK_PHASE("Calcite")
+210 PRINT  "LK_SPECIES(CaOH+):                                   ",  LK_SPECIES("CaOH+")
+220 PRINT  "LM(H+):                                              ",  LM("H+")
+230 PRINT  "LTRIM(a$):                                           ",  LTRIM(a$)
+240 PRINT  "M:                                                   ",  M
+250 PRINT  "M0:                                                  ",  M0
+260 PRINT  "MISC1(FeZnCO3):                                      ",  MISC1("FeZnCO3")
+270 PRINT  "MISC2(FeZnCO3):                                      ",  MISC2("FEZnCO3")
+280 PRINT  "MOL(H+):                                             ",  MOL("H+")
+290 PRINT  "MU:                                                  ",  MU
+300 PRINT  "OSMOTIC:                                             ",  OSMOTIC
+310 PRINT  "PAD(a$, 20):                                         ",  PAD(a$, 20)
+320 PRINT "Print"
+330 PUT(x, i1)
+340 PRINT  "RHO:                                                 ",  RHO
+350 PRINT  "RTRIM(a$):                                           ",  RTRIM(a$)                                           
+360 PRINT  "RXN:                                                 ",  RXN
+370 PRINT  "S_S(Siderite):                                       ",  S_S("Siderite")
+380 PRINT  "SC:                                                  ",  SC
+390 PRINT  "SI(Siderite):                                        ",  SI("Siderite")
+400 PRINT  "SIM_NO:                                              ",  SIM_NO
+410 PRINT  "SIM_TIME:                                            ",  SIM_TIME
+420 PRINT  "SR(Smithsonite):                                     ",  SR("Smithsonite")
+430 PRINT  "STEP_NO:                                             ",  STEP_NO
+440 PRINT  "SUM_GAS(CO2*, O):                                    ",  SUM_GAS("CO2*", "O")
+450 PRINT  "SUM_S_S(FeZnCO3, Fe):                                ",  SUM_S_S("FeZnCO3", "Fe")
+460 PRINT  "SUM_SPECIES(Ca*, Ca):                                ",  SUM_SPECIES("Ca*", "Ca")
+470 PRINT  "SURF(Fe, Hfo):                                       ",  SURF("Fe", "Hfo")
+480 PRINT  "SYS(aq, count, names$, types$, values):              ",  SYS("aq", count, names$, types$, values)
+485 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+490 PRINT  "SYS(H, count_species, names$, types$, moles):        ",  SYS("H", count_species, names$, types$, moles)
+495 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+500 PRINT  "SYS(elements, count, names$, types$, values):        ",  SYS("elements", count, names$, types$, values)
+505 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+510 PRINT  "SYS(ex, count, names$, types$, values):              ",  SYS("ex", count, names$, types$, values)
+515 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+520 PRINT  "SYS(gas, count, names$, types$, values):             ",  SYS("gas", count, names$, types$, values)
+525 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+530 PRINT  "SYS(phases, count, names$, types$, values):          ",  SYS("phases", count, names$, types$, values)
+535 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+540 PRINT  "SYS(s_s, count, names$, types$, values):             ",  SYS("s_s", count, names$, types$, values)
+545 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+550 PRINT  "SYS(surf, count, names$, types$, values):            ",  SYS("surf", count, names$, types$, values)
+555 PRINT  "                                                     ",  pad(names$(1),12), values(1)
+560 PRINT  "TC:                                                  ",  TC
+570 PRINT  "TIME:                                                ",  TIME
+580 PRINT  "TK:                                                  ",  TK
+590 PRINT  "TOT(H):                                              ",  TOT("H")
+600 PRINT  "TOTAL_TIME:                                          ",  TOTAL_TIME
+610 PRINT  "TRIM(a$):                                            ",  TRIM(a$)
+620 PRINT  "8 MOD 3:                                             ",  8 MOD 3
+625 pi = 4*arctan(1)
+630 PRINT  "SQR(2):                                              ",  SQR(2)
+640 PRINT  "SQRT(2):                                             ",  SQRT(2)
+650 PRINT  "SIN(pi/4):                                           ",  SIN(pi/4)
+660 PRINT  "COS(pi/4):                                           ",  COS(pi/4)
+670 PRINT  "TAN(pi/4):                                           ",  TAN(pi/4)
+680 PRINT  "ARCTAN(1):                                           ",  ARCTAN(1)
+690 PRINT  "LOG(10):                                             ",  LOG(10)
+700 PRINT  "EXP(2):                                              ",  EXP(2)
+710 PRINT  "ABS(-2):                                             ",  ABS(-2)
+720 PRINT  "SGN(-2):                                             ",  SGN(-2)
+730 PRINT  "STR$(1.33):                                          ",  STR$(1.33)
+740 PRINT  "VAL( 2.34 ):                                         ",  VAL("2.34")
+750 PRINT  "Q= + CHR$(81):                                       ",  "Q="+CHR$(81)
+760 PRINT  "ASC(A):                                              ",  ASC("A")
+770 PRINT  "LEN( string ), LEN():                                ",  LEN("string"), LEN("")
+780 PRINT  "MID$( abc , 1, 2):                                   ",  MID$("abc", 1, 2)
+790 LET b = a
+800 GOTO 820
+810 GOTO 830
+820 GOTO 810
+830 IF(b < a) THEN a = b ELSE b = a
+835 PRINT  "String cat"
+840 a$ = "cats "
+850 b$ = "and dogs"
+860 c$ = a$+b$
+870 PRINT  c$
+880 i = 0
+885 PRINT  "While"
+890 WHILE(i < 5)
+900 PRINT  i
+910 i = i+1
+920 WEND
+925 PRINT  "For"
+930 FOR i = 10 TO 100 STEP 10
+940 PRINT  i
+950 NEXT i
+955 PRINT  "Gosub"
+960 GOSUB 990
+970 PRINT "Returned from gosub"
+980 END
+990 REM Start of gosub
+1000 PRINT "     Data and Read 1010"
+1010 DATA 1, 2, 3, "abc"
+1020 READ i
+1030 READ j
+1040 READ k
+1050 READ s$
+1060 PRINT  i, j, k, s$
+1065 PRINT "     Data and Read 1070"
+1070 DATA 10, 20, 30, "abc"
+1080 READ i
+1090 READ j
+1100 READ k
+1110 READ s$
+1120 PRINT  i, j, k, s$
+1125 PRINT "     Restore 1010"
+1130 RESTORE 1010
+1140 READ i
+1150 READ j
+1160 READ k
+1170 READ s$
+1180 PRINT  i, j, k, s$
+1190 REM GOTOXY not tested
+1195 PRINT "     ON(i) GOTO"
+1200 ON((i MOD 3)+1)GOTO 1210, 1220, 1230
+1210 PRINT  1210
+1220 PRINT  1220
+1230 PRINT  1230
+1235 PRINT "     DIM"
+1240 DIM arr(10)
+1250 FOR i = 1 TO 10
+1260 arr(i) = i*2
+1270 NEXT i
+1280 FOR i = 1 TO 10
+1290 PRINT  arr(i)
+1300 NEXT i
+1310 REM POKE not tested
+1320 REM NEW not tested
+1330 REM LOAD not tested
+1340 RETURN
+1350 PRINT "***should never see this***"
+-end

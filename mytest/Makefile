@@ -4,7 +4,7 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 #PHREEQC=../src/Release/phreeqcpp
 PHREEQC=../src/Class_release/phreeqcpp
 ifeq ($(CFG), CYGWIN)
-   PHREEQC=/cygdrive/c/Programs/phreeqcpp/Release/phreeqcpp.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/Class_release/phreeqcpp.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -19,6 +19,7 @@ all: alkalinity.out \
 	as.ex.out \
 	asf.out \
 	ball.out \
+	basic_test.out \
 	brown.out \
 	calc_SC.out \
 	cdmusic_related.out \
