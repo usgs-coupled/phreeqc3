@@ -10,6 +10,7 @@
 #include <cassert>				// assert
 #include <iostream>				// std::cout std::cerr
 #include "Utils.h"
+#include <stdio.h>
 #if defined (PHREEQC_CLASS)
 #include "Phreeqc.h"
 #endif

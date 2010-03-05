@@ -5,6 +5,7 @@
 #include <ctype.h>				// ::tolower
 #include <algorithm>			//std::transform
 #include <iostream>				// std::cout std::cerr
+#include <string.h>
 
 #include "Utils.h"
 #include "Parser.h"
@@ -66,7 +67,7 @@ Utilities::replace(const char *str1, const char *str2, std::string & str)
 	if (n == std::string::npos)
 		return false;
 
-	str.replace(n,::strlen(str1), str2);
+	str.replace(n, ::strlen(str1), str2);
 	return true;
 }
 
