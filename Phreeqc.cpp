@@ -8,6 +8,7 @@
 
 Phreeqc::Phreeqc(void)
 {
+	phast = FALSE;
 	s_pTail = NULL;
 	user_database = NULL;
 	output = NULL;
@@ -15,6 +16,8 @@ Phreeqc::Phreeqc(void)
 	punch_file = NULL;
 	dump_file = NULL;
 	error_file = NULL;
+	database_file = NULL;
+	input_file = NULL;
 	rates = NULL;
 	tally_table = NULL;
 	spec = NULL;
