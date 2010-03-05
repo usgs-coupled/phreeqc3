@@ -547,7 +547,7 @@ void *PHRQ_realloc(void *, size_t);
 void PHRQ_free(void *ptr);
 
 void PHRQ_free_all(void);
-private:
+protected:
 
 // phreeqc_files.c -------------------------------
 
@@ -1188,7 +1188,7 @@ int surface_delete(int n_user_old);
 int surface_duplicate(int n_user_old, int n_user_new);
 public:
 	int surface_free(struct surface *surface_ptr);
-private:
+protected:
 int surface_init(struct surface *surface_ptr, int n_user, int n_user_end,
 				 char *description);
 int surface_ptr_to_user(struct surface *surface_ptr_old, int n_user_new);
@@ -1362,7 +1362,7 @@ int backspace_screen(int spaces);
 LDBLE calc_alk(struct reaction *rxn_ptr);
 public:
 	int compute_gfw(const char *string, LDBLE * gfw);
-private:
+protected:
 int copy_token(char *token_ptr, char **ptr, int *length);
 int dup_print(const char *ptr, int emphasis);
 int equal(LDBLE a, LDBLE b, LDBLE eps);
@@ -1412,9 +1412,8 @@ Address Hash_multi(HashTable * Table, char *Key);
 void ExpandTable_multi(HashTable * Table);
 
 #if defined(SWIG_SHARED_OBJ)
-int EndRow(void);
-void AddSelectedOutput(const char *name, const char *format,
-							  va_list argptr);
+public:
+virtual int EndRow(void);
 #endif
 
 
