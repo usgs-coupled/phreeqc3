@@ -413,3 +413,16 @@ bool dumper::Read(CParser & parser)
 	}
 	return(return_value);
 }
+
+bool dumper::Get_bool_any(void)
+{
+	return (
+		Get_bool_solution()       ||
+		Get_bool_pp_assemblage()  ||
+		Get_bool_exchange()       ||
+		Get_bool_surface()        ||
+		Get_bool_s_s_assemblage() ||
+		Get_bool_gas_phase()      ||
+		Get_bool_kinetics()
+		);
+}

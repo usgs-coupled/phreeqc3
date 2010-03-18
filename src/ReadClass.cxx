@@ -1811,19 +1811,12 @@ int CLASS_QUALIFIER
 dump_entities(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i, n, return_value;
+	int return_value;
 	return_value = OK;
-	if (!dump_info.Get_bool_solution() &&
-		!dump_info.Get_bool_pp_assemblage() &&
-		!dump_info.Get_bool_exchange() &&
-		!dump_info.Get_bool_surface() &&
-		!dump_info.Get_bool_s_s_assemblage() &&
-		!dump_info.Get_bool_gas_phase() &&
-		!dump_info.Get_bool_kinetics()) 
+	if (!dump_info.Get_bool_any())
 	{
 		return(OK);
 	}
-
 
 	std::ofstream dump_stream;
 	if (dump_info.get_append())
@@ -1840,189 +1833,9 @@ dump_entities(void)
 		sprintf(error_string, "Unable to open dump file \"%s\"", dump_info.get_file_name().c_str());
 		error_msg(error_string, STOP);
 	}
-	// solutions
-	if (dump_info.Get_bool_solution())
-	{
-		if (dump_info.Get_solution().size() == 0)
-		{
-			for (i = 0; i < count_solution; i++)
-			{
-					cxxSolution cxxsoln(solution[i]);
-					cxxsoln.dump_raw(dump_stream,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_solution().begin(); it != dump_info.Get_solution().end(); it++)
-			{
-				if (solution_bsearch(*it, &n, FALSE) != NULL)
-				{
-					cxxSolution cxxsoln(solution[n]);
-					cxxsoln.dump_raw(dump_stream,0);
-				}
-			}
-		}
-	}
 
-	// pp_assemblages
-	if (dump_info.Get_bool_pp_assemblage())
-	{
-		if (dump_info.Get_pp_assemblage().size() == 0)
-		{
-			for (i = 0; i < count_pp_assemblage; i++)
-			{
-					cxxPPassemblage cxxentity(&pp_assemblage[i]);
-					cxxentity.dump_raw(dump_stream,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_pp_assemblage().begin(); it != dump_info.Get_pp_assemblage().end(); it++)
-			{
+	dump_ostream(dump_stream);
 
-				if (pp_assemblage_bsearch(*it, &n) != NULL)
-				{
-					cxxPPassemblage cxxentity(&pp_assemblage[n]);
-					cxxentity.dump_raw(dump_stream,0);
-				}
-			}
-		}
-	}
-
-	// exchanges
-	if (dump_info.Get_bool_exchange())
-	{
-		if (dump_info.Get_exchange().size() == 0)
-		{
-			for (i = 0; i < count_exchange; i++)
-			{
-					cxxExchange cxxentity(&exchange[i]);
-					cxxentity.dump_raw(dump_stream,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_exchange().begin(); it != dump_info.Get_exchange().end(); it++)
-			{
-
-				if (exchange_bsearch(*it, &n) != NULL)
-				{
-					cxxExchange cxxentity(&exchange[n]);
-					cxxentity.dump_raw(dump_stream,0);
-				}
-			}
-		}
-	}
-
-	// surfaces
-	if (dump_info.Get_bool_surface())
-	{
-		if (dump_info.Get_surface().size() == 0)
-		{
-			for (i = 0; i < count_surface; i++)
-			{
-					cxxSurface cxxentity(&surface[i]);
-					cxxentity.dump_raw(dump_stream,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_surface().begin(); it != dump_info.Get_surface().end(); it++)
-			{
-
-				if (surface_bsearch(*it, &n) != NULL)
-				{
-					cxxSurface cxxentity(&surface[n]);
-					cxxentity.dump_raw(dump_stream,0);
-				}
-			}
-		}
-	}
-
-	// s_s_assemblages
-	if (dump_info.Get_bool_s_s_assemblage())
-	{
-		if (dump_info.Get_s_s_assemblage().size() == 0)
-		{
-			for (i = 0; i < count_s_s_assemblage; i++)
-			{
-					cxxSSassemblage cxxentity(&s_s_assemblage[i]);
-					cxxentity.dump_raw(dump_stream,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_s_s_assemblage().begin(); it != dump_info.Get_s_s_assemblage().end(); it++)
-			{
-
-				if (s_s_assemblage_bsearch(*it, &n) != NULL)
-				{
-					cxxSSassemblage cxxentity(&s_s_assemblage[n]);
-					cxxentity.dump_raw(dump_stream,0);
-				}
-			}
-		}
-	}
-
-	// gas_phases
-	if (dump_info.Get_bool_gas_phase())
-	{
-		if (dump_info.Get_gas_phase().size() == 0)
-		{
-			for (i = 0; i < count_gas_phase; i++)
-			{
-					cxxGasPhase cxxentity(&gas_phase[i]);
-					cxxentity.dump_raw(dump_stream,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_gas_phase().begin(); it != dump_info.Get_gas_phase().end(); it++)
-			{
-
-				if (gas_phase_bsearch(*it, &n) != NULL)
-				{
-					cxxGasPhase cxxentity(&gas_phase[n]);
-					cxxentity.dump_raw(dump_stream,0);
-				}
-			}
-		}
-	}
-
-	// kineticss
-	if (dump_info.Get_bool_kinetics())
-	{
-		if (dump_info.Get_kinetics().size() == 0)
-		{
-			for (i = 0; i < count_kinetics; i++)
-			{
-					cxxKinetics cxxentity(&kinetics[i]);
-					cxxentity.dump_raw(dump_stream,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_kinetics().begin(); it != dump_info.Get_kinetics().end(); it++)
-			{
-
-				if (kinetics_bsearch(*it, &n) != NULL)
-				{
-					cxxKinetics cxxentity(&kinetics[n]);
-					cxxentity.dump_raw(dump_stream,0);
-				}
-			}
-		}
-	}
-
-	// Turn off dump until next read
-	dump_info.SetAll(false);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -2415,4 +2228,196 @@ run_as_cells(void)
 	/* free_model_allocs(); */
 	/* last_model.force_prep = TRUE; */
 	return (OK);
+}
+
+/* ---------------------------------------------------------------------- */
+void CLASS_QUALIFIER
+dump_ostream(std::ostream& os)
+/* ---------------------------------------------------------------------- */
+{
+	int i, n;
+
+	// solutions
+	if (dump_info.Get_bool_solution())
+	{
+		if (dump_info.Get_solution().size() == 0)
+		{
+			for (i = 0; i < count_solution; i++)
+			{
+					cxxSolution cxxsoln(solution[i]);
+					cxxsoln.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_solution().begin(); it != dump_info.Get_solution().end(); it++)
+			{
+				if (solution_bsearch(*it, &n, FALSE) != NULL)
+				{
+					cxxSolution cxxsoln(solution[n]);
+					cxxsoln.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// pp_assemblages
+	if (dump_info.Get_bool_pp_assemblage())
+	{
+		if (dump_info.Get_pp_assemblage().size() == 0)
+		{
+			for (i = 0; i < count_pp_assemblage; i++)
+			{
+					cxxPPassemblage cxxentity(&pp_assemblage[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_pp_assemblage().begin(); it != dump_info.Get_pp_assemblage().end(); it++)
+			{
+
+				if (pp_assemblage_bsearch(*it, &n) != NULL)
+				{
+					cxxPPassemblage cxxentity(&pp_assemblage[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// exchanges
+	if (dump_info.Get_bool_exchange())
+	{
+		if (dump_info.Get_exchange().size() == 0)
+		{
+			for (i = 0; i < count_exchange; i++)
+			{
+					cxxExchange cxxentity(&exchange[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_exchange().begin(); it != dump_info.Get_exchange().end(); it++)
+			{
+
+				if (exchange_bsearch(*it, &n) != NULL)
+				{
+					cxxExchange cxxentity(&exchange[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// surfaces
+	if (dump_info.Get_bool_surface())
+	{
+		if (dump_info.Get_surface().size() == 0)
+		{
+			for (i = 0; i < count_surface; i++)
+			{
+					cxxSurface cxxentity(&surface[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_surface().begin(); it != dump_info.Get_surface().end(); it++)
+			{
+
+				if (surface_bsearch(*it, &n) != NULL)
+				{
+					cxxSurface cxxentity(&surface[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// s_s_assemblages
+	if (dump_info.Get_bool_s_s_assemblage())
+	{
+		if (dump_info.Get_s_s_assemblage().size() == 0)
+		{
+			for (i = 0; i < count_s_s_assemblage; i++)
+			{
+					cxxSSassemblage cxxentity(&s_s_assemblage[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_s_s_assemblage().begin(); it != dump_info.Get_s_s_assemblage().end(); it++)
+			{
+
+				if (s_s_assemblage_bsearch(*it, &n) != NULL)
+				{
+					cxxSSassemblage cxxentity(&s_s_assemblage[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// gas_phases
+	if (dump_info.Get_bool_gas_phase())
+	{
+		if (dump_info.Get_gas_phase().size() == 0)
+		{
+			for (i = 0; i < count_gas_phase; i++)
+			{
+					cxxGasPhase cxxentity(&gas_phase[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_gas_phase().begin(); it != dump_info.Get_gas_phase().end(); it++)
+			{
+
+				if (gas_phase_bsearch(*it, &n) != NULL)
+				{
+					cxxGasPhase cxxentity(&gas_phase[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// kineticss
+	if (dump_info.Get_bool_kinetics())
+	{
+		if (dump_info.Get_kinetics().size() == 0)
+		{
+			for (i = 0; i < count_kinetics; i++)
+			{
+					cxxKinetics cxxentity(&kinetics[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_kinetics().begin(); it != dump_info.Get_kinetics().end(); it++)
+			{
+
+				if (kinetics_bsearch(*it, &n) != NULL)
+				{
+					cxxKinetics cxxentity(&kinetics[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// Turn off dump until next read
+	dump_info.SetAll(false);
 }
