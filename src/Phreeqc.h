@@ -1423,7 +1423,7 @@ virtual int EndRow(void);
 public:        // public methods for PHREEQC_CLASS
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
-
+	size_t list_components(std::list<std::string> &list_c);
 };
 #endif /* _INC_PHREEQC_H */
 
