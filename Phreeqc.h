@@ -859,6 +859,8 @@ int next_keyword_or_option(const char **opt_list, int count_opt_list);
  int dump_entities(void);
  int delete_entities(void);
  int run_as_cells(void);
+ void dump_ostream(std::ostream& os);
+
 
 // readtr.c -------------------------------
 

@@ -24,6 +24,7 @@ public:
 	bool Get_bool_s_s_assemblage(void) { return(this->binList.Get_s_s_assemblage().Get_defined()); };
 	bool Get_bool_gas_phase(void) { return(this->binList.Get_gas_phase().Get_defined()); };
 	bool Get_bool_kinetics(void) { return(this->binList.Get_kinetics().Get_defined()); };
+	bool Get_bool_any(void);
 
 	std::set < int > & Get_solution(void) { return(this->binList.Get_solution().Get_numbers()); };
 	std::set < int > & Get_pp_assemblage(void) { return(this->binList.Get_pp_assemblage().Get_numbers()); };
