@@ -25,6 +25,10 @@ class cxxReaction:public cxxNumKeyword
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser);
+	cxxNameDouble &get_elementList(void)
+	{
+		return this->elementList;
+	}
 
 	void set_units(const char * s)
 	{

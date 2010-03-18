@@ -737,3 +737,7 @@ cxxKinetics::add(const cxxKinetics & addee, double extensive)
 	this->cvode_steps = addee.cvode_steps;
 	this->cvode_order = addee.cvode_order;
 }
+//cxxNameDouble & cxxKinetics::get_totals(void)
+//{
+//	return this->totals;
+//}
