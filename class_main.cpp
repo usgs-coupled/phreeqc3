@@ -2,6 +2,15 @@
 #include "output.h"
 #include "phrqproto.h"
 #include "input.h"
+#include "NameDouble.h"
+#include "Solution.h"
+#include "Reaction.h"
+#include "PPassemblage.h"
+#include "Exchange.h"
+#include "Surface.h"
+#include "GasPhase.h"
+#include "SSassemblage.h"
+#include "cxxKinetics.h"
 
 
 /* ----------------------------------------------------------------------
@@ -37,7 +46,14 @@ main(int argc, char *argv[])
 
 	Phreeqc phreeqc_instance;
 	phreeqc_instance.main_method(argc, argv);
-
+	std::list<std::string> components;
+	phreeqc_instance.list_components(components);
+	std::list<std::string>::iterator it;
+	std::cout << "Number of components: " << components.size() << std::endl;
+	for (it = components.begin(); it != components.end(); it++)
+	{
+		std::cout << "   " << *it << std::endl;
+	}
 }
 
 
@@ -188,3 +204,90 @@ write_banner(void)
 	return 0;
 }
 #endif
+size_t CLASS_QUALIFIER
+list_components(std::list<std::string> &list_c)
+/*
+ *   Find all elements in any class definition
+ */
+{
+	cxxNameDouble accumulator;
+	accumulator.add("H", 1);
+	accumulator.add("O", 1);
+
+	int i;
+
+	// solutions
+	for (i = 0; i < count_solution; i++)
+	{
+		cxxSolution entity(solution[i]);
+		accumulator.add_extensive(entity.get_totals(), 1.0);
+	}
+
+	// irreversible reactions
+	for (i = 0; i < count_irrev; i++)
+	{
+		reaction_calc(&irrev[i]);
+		cxxReaction entity(&irrev[i]);
+		accumulator.add_extensive(entity.get_elementList(), 1.0);
+	}
+
+	// pure phases
+	for (i = 0; i < count_pp_assemblage; i++)
+	{
+		cxxPPassemblage entity(&pp_assemblage[i]);
+		entity.totalize(this);
+		accumulator.add_extensive(entity.get_totals(), 1.0);
+	}
+
+	// exchangers
+	for (i = 0; i < count_exchange; i++)
+	{
+		cxxExchange entity(&exchange[i]);
+		entity.totalize();
+		accumulator.add_extensive(entity.get_totals(), 1.0);
+	}
+
+	// surfaces
+	for (i = 0; i < count_surface; i++)
+	{
+		cxxSurface entity(&surface[i]);
+		entity.totalize();
+		accumulator.add_extensive(entity.get_totals(), 1.0);
+	}
+
+	// gas phases
+	for (i = 0; i < count_gas_phase; i++)
+	{
+		cxxGasPhase entity(&gas_phase[i]);
+		entity.totalize(this);
+		accumulator.add_extensive(entity.get_totals(), 1.0);
+	}
+
+	// solid-solutions
+	for (i = 0; i < count_s_s_assemblage; i++)
+	{
+		cxxSSassemblage entity(&s_s_assemblage[i]);
+		entity.totalize(this);
+		accumulator.add_extensive(entity.get_totals(), 1.0);
+	}
+
+	// kinetics
+	for (i = 0; i < count_kinetics; i++)
+	{
+		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
+		cxxKinetics entity(&kinetics[i]);
+		accumulator.add_extensive(entity.get_totals(), 1.0);
+	}
+
+	// print list
+	cxxNameDouble::iterator it;
+	for (it = accumulator.begin(); it != accumulator.end(); it++)
+	{
+		struct master *master_ptr = master_bsearch(it->first.c_str());
+		if (master_ptr == NULL) continue;
+		if (master_ptr->type != AQ) continue;
+		if (master_ptr->primary == 0) continue;
+		list_c.push_back(it->first);
+	}
+	return(accumulator.size());
+}

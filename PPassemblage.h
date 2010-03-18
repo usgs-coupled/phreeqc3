@@ -33,6 +33,10 @@ class cxxPPassemblage:public cxxNumKeyword
 	{
 		return this->totals;
 	};
+	const cxxNameDouble & get_eltList() const
+	{
+		return this->eltList;
+	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);

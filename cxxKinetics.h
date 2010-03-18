@@ -35,6 +35,10 @@ class cxxKinetics:public cxxNumKeyword
 
 	bool get_related_rate(void);
 
+	cxxNameDouble & get_totals(void)
+	{
+		return this->totals;
+	}
 #ifdef USE_MPI
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
