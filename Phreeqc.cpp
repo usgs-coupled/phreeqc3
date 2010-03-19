@@ -405,8 +405,8 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
  */
 {
 	cxxNameDouble accumulator;
-	accumulator.add("H", 1);
-	accumulator.add("O", 1);
+	//accumulator.add("H", 1);
+	//accumulator.add("O", 1);
 
 	int i;
 
@@ -473,14 +473,30 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
 
-	// print list
+	// Put in all primaries
 	cxxNameDouble::iterator it;
+	for (it = accumulator.begin(); it != accumulator.end(); it++)
+	{
+		if (it->first == "Charge") continue;
+		char string[MAX_LENGTH];
+		strcpy(string, it->first.c_str()); 
+		struct master *master_ptr = master_bsearch_primary(string);
+		if (master_ptr == NULL) continue;
+		if (master_ptr->type != AQ) continue;
+		//std::string name(master_ptr->elt->name);
+		//char 
+		accumulator.add(master_ptr->elt->name, 1);
+	}
+	// print list
 	for (it = accumulator.begin(); it != accumulator.end(); it++)
 	{
 		struct master *master_ptr = master_bsearch(it->first.c_str());
 		if (master_ptr == NULL) continue;
 		if (master_ptr->type != AQ) continue;
 		if (master_ptr->primary == 0) continue;
+		if (it->first == "Charge") continue;
+		if (it->first == "O") continue;
+		if (it->first == "H") continue;
 		list_c.push_back(it->first);
 	}
 	return(list_c.size());
