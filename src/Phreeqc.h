@@ -225,6 +225,8 @@ LDBLE find_misc1(const char *s_s_name);
 LDBLE find_misc2(const char *s_s_name);
 LDBLE find_s_s_comp(const char *s_s_comp_name);
 LDBLE get_calculate_value(const char *name);
+char * iso_unit(const char *total_name);
+LDBLE iso_value(const char *total_name);
 LDBLE kinetics_moles(const char *kinetics_name);
 LDBLE log_activity(const char *species_name);
 LDBLE log_molality(const char *species_name);
@@ -251,6 +253,7 @@ int system_total_s_s(void);
 int system_total_elt(const char *total_name);
 int system_total_elt_secondary(const char *total_name);
 LDBLE total(const char *total_name);
+LDBLE total_mole(const char *total_name);
 int system_total_solids(struct exchange *exchange_ptr,
 					struct pp_assemblage *pp_assemblage_ptr,
 					struct gas_phase *gas_phase_ptr,
