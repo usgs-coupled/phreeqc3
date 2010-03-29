@@ -41,6 +41,11 @@ extern int copy_use(int i);
 dumper dump_info;
 StorageBinList delete_info;
 runner run_info;
+
+int dump_entities(void);
+void dump_ostream(std::ostream& os);
+int delete_entities(void);
+int run_as_cells(void);
 #endif
 
 /* ---------------------------------------------------------------------- */
