@@ -285,6 +285,7 @@ int write_banner(void);
 #endif
 
 /* default.c */
+public:
 int close_input_files(void);
 int close_output_files(void);
 CLASS_STATIC int getc_callback(void *cookie);
@@ -559,6 +560,7 @@ void check_line_breaks(char *s);
 char *prefix_database_dir(char *s);
 void show_progress(const int type, char *s);
 #endif
+public:
 int fileop_handler(const int type, int (*PFN) (FILE *));
 int open_handler(const int type, const char *file_name);
 int output_handler(const int type, const char *err_str,
@@ -716,6 +718,7 @@ int write_phase_sys_total(int n);
 
 int fpunchf(const char *name, const char *format, ...);
 int fpunchf_user(int user_index, const char *format, ...);
+int fpunchf_end_row(const char *format, ...);
 char *sformatf(const char *format, ...);
 int array_print(LDBLE * array_l, int row_count, int column_count,
 				int max_column_count);
@@ -1295,6 +1298,7 @@ int replace_solids_gases(void);
 int s_s_prep(LDBLE t, struct s_s *s_s_ptr, int print);
 int select_log_k_expression(LDBLE * source_k, LDBLE * target_k);
 int slnq(int n, LDBLE * a, LDBLE * delta, int ncols, int print);
+public:
 int tidy_punch(void);
 int tidy_model(void);
 
@@ -1367,7 +1371,6 @@ int backspace_screen(int spaces);
 LDBLE calc_alk(struct reaction *rxn_ptr);
 public:
 	int compute_gfw(const char *string, LDBLE * gfw);
-protected:
 int copy_token(char *token_ptr, char **ptr, int *length);
 int dup_print(const char *ptr, int emphasis);
 int equal(LDBLE a, LDBLE b, LDBLE eps);
@@ -1427,6 +1430,8 @@ public:        // public methods for PHREEQC_CLASS
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
 	size_t list_components(std::list<std::string> &list_c);
+protected:
+	void init(void);
 };
 #endif /* _INC_PHREEQC_H */
 
