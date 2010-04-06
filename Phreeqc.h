@@ -1419,13 +1419,6 @@ int isamong(char c, const char *s_l);
 Address Hash_multi(HashTable * Table, char *Key);
 void ExpandTable_multi(HashTable * Table);
 
-#if defined(SWIG_SHARED_OBJ)
-public:
-virtual int EndRow(void);
-#endif
-
-
-
 public:        // public methods for PHREEQC_CLASS
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
