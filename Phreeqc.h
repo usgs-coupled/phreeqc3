@@ -634,7 +634,6 @@ int ETHETAS(LDBLE ZJ, LDBLE ZK, LDBLE I, LDBLE * etheta,
 int BDK(LDBLE X);
 int pitzer_initial_guesses(void);
 int pitzer_revise_guesses(void);
-int pitzer_remove_unstable_phases;
 int PTEMP(LDBLE TK);
 LDBLE JAY(LDBLE X);
 LDBLE JPRIME(LDBLE Y);
@@ -903,7 +902,6 @@ int sit_ISPEC(char *name);
 /*int DH_AB (LDBLE TK, LDBLE *A, LDBLE *B);*/
 int sit_initial_guesses(void);
 int sit_revise_guesses(void);
-int sit_remove_unstable_phases;
 int PTEMP_SIT(LDBLE tk);
 int jacobian_sit(void);
 
