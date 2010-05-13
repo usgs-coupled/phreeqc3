@@ -520,11 +520,6 @@ void ineq_init(int max_row_count, int max_column_count);
 
 // output.c -------------------------------
 
-#if 0
-int output_message(const int type, const char *err_str, const int stop,
-			   const char *format, va_list args);
-#endif
-
 // parse.c -------------------------------
 
 int check_eqn(int association);
