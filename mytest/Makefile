@@ -75,6 +75,7 @@ all: alkalinity.out \
 	local_min_pz.out \
 	mahoney.out \
 	membrane.out \
+	mgcl2mgso4_pz.out \
 	millero.out \
 	mmb.out \
 	mmb2.out \
