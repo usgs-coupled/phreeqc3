@@ -96,6 +96,7 @@ public:
 //struct tokenrec;
 //struct varrec;
 //struct unknown;
+//struct Curves_c;
 
 #define PITZER_EXTERNAL 
 #include "pitzer.h"
@@ -181,10 +182,13 @@ void cmddel(struct LOC_exec *LINK);
 void cmdrenum(struct LOC_exec *LINK);
 void cmdprint(struct LOC_exec *LINK);
 void cmdpunch(struct LOC_exec *LINK);
-#ifdef PHREEQ98
+#if defined PHREEQ98 || defined CHART
 void cmdgraph_x(struct LOC_exec *LINK);
 void cmdgraph_y(struct LOC_exec *LINK);
 void cmdgraph_sy(struct LOC_exec *LINK);
+#endif
+#ifdef CHART
+void cmdplot_xy(struct LOC_exec *LINK);
 #endif
 void cmdlet(boolean implied, struct LOC_exec *LINK);
 void cmdgoto(struct LOC_exec *LINK);
@@ -262,6 +266,21 @@ int system_total_solids(struct exchange *exchange_ptr,
 
 static LDBLE f_rho(LDBLE rho_old, void *cookie);
 
+// chart.cpp
+#if defined PHREEQ98 || defined CHART
+void DeleteCurves(void);
+void ExtractCurveInfo(char *line, int curvenr);
+void  GridChar(char *s, char *a);
+void MallocCurves(int nc, int ncxy);
+int OpenCSVFile(char file_name[MAX_LENGTH]);
+void PlotXY(char *x, char *y);
+void ReallocCurves(int new_nc);
+void ReallocCurveXY(int i);
+void SetAxisScale(char *a, int j, char *token, int true_);
+void SetAxisTitles(char *s, int i);
+void SetChartTitle(char *s);
+void start_chart(bool end);
+#endif
 // cl1.c -------------------------------
 int cl1(int k, int l, int m, int n,
 		int nklmd, int n2d,
@@ -278,6 +297,8 @@ int cl1mp(int k, int l, int m, int n,
 		  int *kode, LDBLE toler,
 		  int *iter, LDBLE * x_arg, LDBLE * res_arg, LDBLE * error,
 		  LDBLE * cu_arg, int *iu, int *s, int check, LDBLE censor_arg);
+
+
 
 // class_main.c -------------------------------
 #ifdef DOS
@@ -564,7 +585,7 @@ int output_handler(const int type, const char *err_str,
 						  const int stop, void *cookie, const char *format,
 						  va_list args);
 static int rewind_wrapper(FILE * file_ptr);
-Void PASCAL_MAIN(int argc, Char **argv);
+void PASCAL_MAIN(int argc, Char **argv);
 long my_labs(long x);
 Anyptr my_memmove(Anyptr d, Const Anyptr s, size_t n);
 Anyptr my_memcpy(Anyptr d, Const Anyptr s, size_t n);
@@ -585,8 +606,8 @@ void strinsert(register char *src, register char *dst, register int pos);
 int P_peek(FILE * f);
 int P_eof(void);
 int P_eoln(FILE * f);
-Void P_readpaoc(FILE * f, char *s, int len);
-Void P_readlnpaoc(FILE * f, char *s, int len);
+void P_readpaoc(FILE * f, char *s, int len);
+void P_readlnpaoc(FILE * f, char *s, int len);
 long P_maxpos(FILE * f);
 Char * P_trimname(register Char * fn, register int len);
 long memavail(void);
@@ -751,7 +772,7 @@ int punch_s_s_assemblage(void);
 int punch_saturation_indices(void);
 int punch_totals(void);
 int punch_user_punch(void);
-#ifdef PHREEQ98
+#if defined PHREEQ98 || defined CHART
 int punch_user_graph(void);
 #endif
 
@@ -825,14 +846,8 @@ int read_use(void);
 int read_title(void);
 int read_user_print(void);
 int read_user_punch(void);
-#ifdef PHREEQ98
+#if defined PHREEQ98 || defined CHART
 int read_user_graph(void);
-int copy_title(char *token_ptr, char **ptr, int *length);
-int OpenCSVFile(char file_name[MAX_LENGTH]);
-void GridHeadings(char *s, int i);
-void SetAxisTitles(char *s, int i);
-void SetAxisScale(char *a, int c, char *v, int l);
-void SetChartTitle(char *s);
 #endif
 int next_keyword_or_option(const char **opt_list, int count_opt_list);
 
@@ -1366,6 +1381,9 @@ int backspace_screen(int spaces);
 LDBLE calc_alk(struct reaction *rxn_ptr);
 public:
 	int compute_gfw(const char *string, LDBLE * gfw);
+	#if defined PHREEQ98 || defined CHART
+	int copy_title(char *token_ptr, char **ptr, int *length);
+	#endif
 int copy_token(char *token_ptr, char **ptr, int *length);
 int dup_print(const char *ptr, int emphasis);
 int equal(LDBLE a, LDBLE b, LDBLE eps);
