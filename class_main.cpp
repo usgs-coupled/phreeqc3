@@ -44,16 +44,22 @@ main(int argc, char *argv[])
 		fprintf(stderr, " ");*/
 
 
-	Phreeqc phreeqc_instance;
-	phreeqc_instance.main_method(argc, argv);
-	std::list<std::string> components;
-	phreeqc_instance.list_components(components);
-	std::list<std::string>::iterator it;
-	std::cout << "Number of components: " << components.size() << std::endl;
-	for (it = components.begin(); it != components.end(); it++)
+	Phreeqc *phreeqc_instance = new Phreeqc;
+	phreeqc_instance->main_method(argc, argv);
+	if (phreeqc_instance->u_g)
 	{
-		std::cout << "   " << *it << std::endl;
+		double a;
+		//phreeqc_instance->start_chart(true);
 	}
+	//std::list<std::string> components;
+	//phreeqc_instance.list_components(components);
+	//std::list<std::string>::iterator it;
+	//std::cout << "Number of components: " << components.size() << std::endl;
+	//for (it = components.begin(); it != components.end(); it++)
+	//{
+	//	std::cout << "   " << *it << std::endl;
+	//}
+	delete phreeqc_instance;
 }
 
 
