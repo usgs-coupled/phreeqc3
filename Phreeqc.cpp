@@ -386,6 +386,7 @@ Phreeqc::Phreeqc(void)
 	FirstCallToUSER_GRAPH = 1;
 	new_ug = false;					    /* in case USER_GRAPH is redefined */
 	u_g = false;
+	u_g_active = false;
 #endif // CHART
 
 	//cl1.c
