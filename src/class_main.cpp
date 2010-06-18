@@ -44,13 +44,21 @@ main(int argc, char *argv[])
 		fprintf(stderr, " ");*/
 
 
-	Phreeqc *phreeqc_instance = new Phreeqc;
-	phreeqc_instance->main_method(argc, argv);
-	if (phreeqc_instance->u_g)
+	Phreeqc phreeqc_instance;
+	phreeqc_instance.main_method(argc, argv);
+#ifdef CHART
+	if (phreeqc_instance.u_g)
 	{
-		double a;
-		//phreeqc_instance->start_chart(true);
+		System::Diagnostics::Process^ currentProcess = System::Diagnostics::Process::GetCurrentProcess();
+		//System::Console::WriteLine(currentProcess->Threads->Count);
+		while (currentProcess->Threads->Count > 8)
+		{
+			currentProcess->Refresh();
+			//System::Console::WriteLine(currentProcess->Threads->Count);
+			System::Threading::Thread::CurrentThread->Sleep(100);
+		}
 	}
+#endif
 	//std::list<std::string> components;
 	//phreeqc_instance.list_components(components);
 	//std::list<std::string>::iterator it;
@@ -59,7 +67,6 @@ main(int argc, char *argv[])
 	//{
 	//	std::cout << "   " << *it << std::endl;
 	//}
-	delete phreeqc_instance;
 }
 
 
