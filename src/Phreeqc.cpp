@@ -177,6 +177,21 @@ Phreeqc::Phreeqc(void)
 
 	// basic.c
 	struct const_key command_temp[] = {
+		{"+", tokplus},
+		{"-", tokminus},
+		{"*", toktimes},
+		{"/", tokdiv},
+		{"^", tokup},
+		{"( or [", toklp},
+		{") or ]", tokrp},
+		{",", tokcomma},
+		{";", toksemi},
+		{":", tokcolon},
+		{"=", tokeq},
+		{"<", toklt},
+		{"<=", tokle},
+		{">", tokgt},
+		{">=", tokge},
 		{"and", tokand},
 		{"or", tokor},
 		{"xor", tokxor},
@@ -202,11 +217,14 @@ Phreeqc::Phreeqc(void)
 		{"let", toklet},
 		{"print", tokprint},
 		{"punch", tokpunch},
-#ifdef PHREEQ98
+	#if defined PHREEQ98 || defined CHART
 		{"graph_x", tokgraph_x},
 		{"graph_y", tokgraph_y},
 		{"graph_sy", tokgraph_sy},
-#endif
+	#endif
+	#ifdef CHART
+		{"plot_xy", tokplot_xy},
+	#endif
 		{"input", tokinput},
 		{"goto", tokgoto},
 		{"go to", tokgoto},
@@ -298,11 +316,17 @@ Phreeqc::Phreeqc(void)
 		{"porevolume", tokporevolume},
 		{"sc", toksc},
 		{"gamma", tokgamma},
-		/* VP: Density Start */
+	/* VP: Density Start */
 		{"lg", toklg},
-		{"rho", tokrho}
-		/* VP: Density End */
-	};
+		{"rho", tokrho},
+	/* VP: Density End */
+		{"cell_volume", tokcell_volume},
+		{"cell_pore_volume", tokcell_pore_volume},
+		{"cell_porosity", tokcell_porosity},
+		{"cell_saturation", tokcell_saturation},
+		{"totmole", toktotmole},
+		{"iso", tokiso},
+		{"iso_unit", tokiso_unit}	};
 	NCMDS = (sizeof(command_temp) / sizeof(struct const_key));
 	command = new const_key[NCMDS];
 	for (i = 0; i < NCMDS; i++)
