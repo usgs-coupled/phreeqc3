@@ -273,6 +273,7 @@ void ExtractCurveInfo(char *line, int curvenr);
 void  GridChar(char *s, char *a);
 void MallocCurves(int nc, int ncxy);
 int OpenCSVFile(char file_name[MAX_LENGTH]);
+void SaveCurvesToFile(char file_name[MAX_LENGTH]);
 void PlotXY(char *x, char *y);
 void ReallocCurves(int new_nc);
 void ReallocCurveXY(int i);
