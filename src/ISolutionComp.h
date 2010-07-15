@@ -38,28 +38,28 @@ class cxxISolutionComp
 	{
 		return this->moles;
 	}
-	void set_moles(double moles)
+	void set_moles(double moles1)
 	{
-		this->moles = moles;
+		this->moles = moles1;
 	}
 
 	double get_input_conc() const
 	{
 		return this->input_conc;
 	}
-	void set_input_conc(double input_conc)
+	void set_input_conc(double input_conc1)
 	{
-		this->input_conc = input_conc;
+		this->input_conc = input_conc1;
 	}
 
 	std::string get_units()const
 	{
 		return this->units;
 	}
-	void set_units(char *units)
+	void set_units(char *units1)
 	{
-		if (units != NULL)
-			this->units = std::string(units);
+		if (units1 != NULL)
+			this->units = std::string(units1);
 		else
 			this->units.clear();
 	}
@@ -68,10 +68,10 @@ class cxxISolutionComp
 	{
 		return this->equation_name;
 	}
-	void set_equation_name(char *equation_name)
+	void set_equation_name(char *equation_name1)
 	{
-		if (equation_name != NULL)
-			this->equation_name = std::string(equation_name);
+		if (equation_name1 != NULL)
+			this->equation_name = std::string(equation_name1);
 		else
 			this->equation_name.clear();
 
@@ -81,28 +81,28 @@ class cxxISolutionComp
 	{
 		return this->phase_si;
 	}
-	void set_phase_si(int phase_si)
+	void set_phase_si(int phase_si1)
 	{
-		this->phase_si = phase_si;
+		this->phase_si = phase_si1;
 	}
 
 	int get_n_pe() const
 	{
 		return this->n_pe;
 	}
-	void set_n_pe(int n_pe)
+	void set_n_pe(int n_pe1)
 	{
-		this->n_pe = n_pe;
+		this->n_pe = n_pe1;
 	}
 
 	const std::string &get_as() const
 	{
 		return this->as;
 	}
-	void set_as(char *as)
+	void set_as(char *as1)
 	{
-		if (as != NULL)
-			this->as = std::string(as);
+		if (as1 != NULL)
+			this->as = std::string(as1);
 		else
 			this->as.clear();
 	}
@@ -112,9 +112,9 @@ class cxxISolutionComp
 	{
 		return this->gfw;
 	};
-	void set_gfw(double gfw)
+	void set_gfw(double gfw1)
 	{
-		this->gfw = gfw;
+		this->gfw = gfw1;
 	}
 	void set_gfw(PHREEQC_PTR_ARG);
 
