@@ -29,9 +29,9 @@ class cxxSolution:public cxxNumKeyword
 	{
 		return this->tc;
 	}
-	void set_tc(double tc)
+	void set_tc(double tc1)
 	{
-		this->tc = tc;
+		this->tc = tc1;
 	}
 
 	double get_ph() const
@@ -47,72 +47,72 @@ class cxxSolution:public cxxNumKeyword
 	{
 		return this->pe;
 	}
-	void set_pe(double pe)
+	void set_pe(double pe1)
 	{
-		this->pe = pe;
+		this->pe = pe1;
 	}
 
 	double get_mu() const
 	{
 		return this->mu;
 	}
-	void set_mu(double mu)
+	void set_mu(double mu1)
 	{
-		this->mu = mu;
+		this->mu = mu1;
 	}
 
 	double get_ah2o() const
 	{
 		return this->ah2o;
 	}
-	void set_ah2o(double ah2o)
+	void set_ah2o(double ah2o1)
 	{
-		this->ah2o = ah2o;
+		this->ah2o = ah2o1;
 	}
 
 	double get_total_h() const
 	{
 		return this->total_h;
 	}
-	void set_total_h(double total_h)
+	void set_total_h(double total_h1)
 	{
-		this->total_h = total_h;
+		this->total_h = total_h1;
 	}
 
 	double get_total_o() const
 	{
 		return this->total_o;
 	}
-	void set_total_o(double total_o)
+	void set_total_o(double total_o1)
 	{
-		this->total_o = total_o;
+		this->total_o = total_o1;
 	}
 
 	double get_cb() const
 	{
 		return this->cb;
 	}
-	void set_cb(double cb)
+	void set_cb(double cb1)
 	{
-		this->cb = cb;
+		this->cb = cb1;
 	}
 
 	double get_mass_water() const
 	{
 		return this->mass_water;
 	}
-	void set_mass_water(long double mass_water)
+	void set_mass_water(long double mass_water1)
 	{
-		this->mass_water = mass_water;
+		this->mass_water = mass_water1;
 	}
 
 	double get_total_alkalinity() const
 	{
 		return this->total_alkalinity;
 	}
-	void set_total_alkalinity(double total_alkalinity)
+	void set_total_alkalinity(double total_alkalinity1)
 	{
-		this->total_alkalinity = total_alkalinity;
+		this->total_alkalinity = total_alkalinity1;
 	}
 
 	double get_total(char *string) const;
