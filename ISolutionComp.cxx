@@ -118,8 +118,8 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 	if (this->as.size() != 0)
 	{
 		/* use given chemical formula to calculate gfw */
-		double gfw;
-		if (P_INSTANCE_POINTER compute_gfw(this->as.c_str(), &gfw) == ERROR)
+		double gfw1;
+		if (P_INSTANCE_POINTER compute_gfw(this->as.c_str(), &gfw1) == ERROR)
 		{
 			std::ostringstream oss;
 			oss << "Could not compute gfw, " << this->as;
@@ -131,9 +131,9 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 		if (strcmp(this->description.c_str(), "Alkalinity") == 0
 			&& strcmp(this->as.c_str(), "CaCO3"))
 		{
-			gfw /= 2.;
+			gfw1 /= 2.;
 		}
-		this->gfw = gfw;
+		this->gfw = gfw1;
 		return;
 	}
 	/* use gfw of master species */
