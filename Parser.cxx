@@ -33,7 +33,7 @@ m_next_keyword(KT_NONE)
 	echo_stream = EO_NONE;
 	accumulate = false;
 #if defined(PHREEQC_CLASS)
-	this->p_instance = p_instance;
+	this->p_instance = p_instance1;
 #endif
 }
 
@@ -47,7 +47,7 @@ m_next_keyword(KT_NONE)
 	echo_stream = EO_NONE;
 	accumulate = false;
 #if defined(PHREEQC_CLASS)
-	this->p_instance = p_instance;
+	this->p_instance = p_instance1;
 #endif
 }
 
@@ -61,7 +61,7 @@ m_next_keyword(KT_NONE)
 	echo_stream = EO_NONE;
 	accumulate = false;
 #if defined(PHREEQC_CLASS)
-	this->p_instance = p_instance;
+	this->p_instance = p_instance1;
 #endif
 }
 
