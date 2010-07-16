@@ -155,23 +155,23 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 /*
  *   Convert /kgs to /kgw
  */
-	double mass_water;
+	double mass_water1;
 	if ((this->units.find("kgs") != std::string::npos) ||
 		(this->units.find("/l") != std::string::npos))
 	{
-		mass_water = 1.0 - 1e-3 * sum_solutes;
+		mass_water1 = 1.0 - 1e-3 * sum_solutes;
 		for (; iter != this->comps.end(); ++iter)
 		{
-			iter->second.set_moles(iter->second.get_moles() / mass_water);
+			iter->second.set_moles(iter->second.get_moles() / mass_water1);
 		}
 	}
 /*
  *   Scale by mass of water in solution
  */
-	mass_water = this->mass_water;
+	mass_water1 = this->mass_water;
 	for (; iter != this->comps.end(); ++iter)
 	{
-		iter->second.set_moles(iter->second.get_moles() * mass_water);
+		iter->second.set_moles(iter->second.get_moles() * mass_water1);
 	}
 }
 

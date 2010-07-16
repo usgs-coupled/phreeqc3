@@ -59,10 +59,10 @@ cxxNumKeyword()
 
 }
 cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &entities,
-						 cxxMix & mix, int n_user):
+						 cxxMix & mix, int n_user1):
 cxxNumKeyword()
 {
-	this->n_user = this->n_user_end = n_user;
+	this->n_user = this->n_user_end = n_user1;
 	this->pitzer_exchange_gammas = false;
 //
 //   Mix exchangers
@@ -92,7 +92,7 @@ cxxNumKeyword()
 	}
 }
 
-cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user)
+cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user1)
 	//
 	// constructor for cxxExchange from reaction calculation
 	// equivalent of xexchange_save
@@ -105,8 +105,8 @@ cxxNumKeyword()
 	int i;
 
 	//this->set_description(exchange_ptr->description);
-	this->n_user = n_user;
-	this->n_user_end = n_user;
+	this->n_user = n_user1;
+	this->n_user_end = n_user1;
 	this->pitzer_exchange_gammas =
 		(P_INSTANCE_POINTER use.exchange_ptr->pitzer_exchange_gammas == TRUE);
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
