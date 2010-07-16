@@ -96,7 +96,7 @@ species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma,
 
 
 cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solutions,
-						 cxxMix & mix, int n_user)
+						 cxxMix & mix, int n_user1)
 //
 // constructor for cxxSolution from mixture of solutions
 //
@@ -108,7 +108,7 @@ cxxNumKeyword()
 //   Zero out solution data
 //
 	this->zero();
-	this->n_user = this->n_user_end = n_user;
+	this->n_user = this->n_user_end = n_user1;
 //
 //   Mix solutions
 //
@@ -133,7 +133,7 @@ cxxNumKeyword()
 	}
 }
 
-cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user)
+cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user1)
 		//
 		// constructor for cxxSolution from results of calculation
 		// does not work in phast because phast uses only the total molalities
@@ -143,8 +143,8 @@ cxxNumKeyword()
 {
 
 	//this->set_description none;
-	this->n_user = n_user;
-	this->n_user_end = n_user;
+	this->n_user = n_user1;
+	this->n_user_end = n_user1;
 	this->tc = P_INSTANCE_POINTER tc_x;
 	this->ph = P_INSTANCE_POINTER ph_x;
 	this->pe = P_INSTANCE_POINTER solution_pe_x;

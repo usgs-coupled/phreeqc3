@@ -55,10 +55,10 @@ eltList(pp_assemblage_ptr->next_elt)
 }
 cxxPPassemblage::cxxPPassemblage(PHREEQC_PTR_ARG_COMMA const std::map < int,
 								 cxxPPassemblage > &entities, cxxMix & mix,
-								 int n_user):
+								 int n_user1):
 cxxNumKeyword()
 {
-	this->n_user = this->n_user_end = n_user;
+	this->n_user = this->n_user_end = n_user1;
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
 //
 //   Mix

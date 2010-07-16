@@ -26,10 +26,10 @@ class cxxISolutionComp
 	{
 		return this->description;
 	}
-	void set_description(char *description)
+	void set_description(char *description1)
 	{
-		if (description != NULL)
-			this->description = std::string(description);
+		if (description1 != NULL)
+			this->description = std::string(description1);
 		else
 			this->description.clear();
 	}
