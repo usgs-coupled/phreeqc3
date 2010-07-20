@@ -11,6 +11,7 @@
 #include <iostream>				// std::cout std::cerr
 #include "Utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 #if defined (PHREEQC_CLASS)
 #include "Phreeqc.h"
 #endif
