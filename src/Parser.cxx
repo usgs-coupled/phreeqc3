@@ -8,6 +8,7 @@
 #include <algorithm>			// std::transform
 #include <map>					// std::map
 #include <cassert>				// assert
+#include <stdlib.h>
 #include <iostream>				// std::cout std::cerr
 #include "Utils.h"
 #include <stdio.h>
