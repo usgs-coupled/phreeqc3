@@ -77,10 +77,10 @@ totals(kinetics_ptr->totals)
 	}
 }
 cxxKinetics::cxxKinetics(const std::map < int, cxxKinetics > &entities,
-						 cxxMix & mix, int n_user1):
+						 cxxMix & mix, int l_n_user):
 cxxNumKeyword()
 {
-	this->n_user = this->n_user_end = n_user1;
+	this->n_user = this->n_user_end = l_n_user;
 	step_divide = 1.0;
 	rk = 3;
 	bad_step_max = 500;
