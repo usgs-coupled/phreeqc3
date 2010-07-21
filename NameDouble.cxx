@@ -100,7 +100,7 @@ cxxNameDouble::cxxNameDouble(struct conc *tots)
 	this->type = ND_ELT_MOLES;
 }
 cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count,
-							 cxxNameDouble::ND_TYPE type1)
+							 cxxNameDouble::ND_TYPE l_type)
 		//
 		// constructor for cxxNameDouble from list of elt_list
 		//
@@ -112,7 +112,7 @@ cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count,
 			continue;
 		(*this)[ma[i].description] = ma[i].la;
 	}
-	this->type = type1;
+	this->type = l_type;
 }
 /*
 cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)

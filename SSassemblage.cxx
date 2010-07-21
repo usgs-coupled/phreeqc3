@@ -53,10 +53,10 @@ cxxNumKeyword()
 }
 cxxSSassemblage::cxxSSassemblage(const std::map < int,
 								 cxxSSassemblage > &entities, cxxMix & mix,
-								 int n_user1):
+								 int l_n_user):
 cxxNumKeyword()
 {
-	this->n_user = this->n_user_end = n_user1;
+	this->n_user = this->n_user_end = l_n_user;
 	//std::list<cxxSSassemblageSS> ssAssemblageSSs;
 //
 //   Mix
