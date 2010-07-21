@@ -70,10 +70,10 @@ cxxNumKeyword()
 	}
 }
 cxxGasPhase::cxxGasPhase(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxGasPhase > &entities,
-						 cxxMix & mix, int n_user1):
+						 cxxMix & mix, int l_n_user):
 cxxNumKeyword()
 {
-	this->n_user = this->n_user_end = n_user1;
+	this->n_user = this->n_user_end = l_n_user;
 	gasPhaseComps.type = cxxNameDouble::ND_NAME_COEF;
 	total_p = 0;
 	volume = 0;

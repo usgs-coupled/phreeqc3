@@ -26,10 +26,10 @@ class cxxISolutionComp
 	{
 		return this->description;
 	}
-	void set_description(char *description1)
+	void set_description(char *l_description)
 	{
-		if (description1 != NULL)
-			this->description = std::string(description1);
+		if (l_description != NULL)
+			this->description = std::string(l_description);
 		else
 			this->description.clear();
 	}
@@ -38,28 +38,28 @@ class cxxISolutionComp
 	{
 		return this->moles;
 	}
-	void set_moles(double moles1)
+	void set_moles(double l_moles)
 	{
-		this->moles = moles1;
+		this->moles = l_moles;
 	}
 
 	double get_input_conc() const
 	{
 		return this->input_conc;
 	}
-	void set_input_conc(double input_conc1)
+	void set_input_conc(double l_input_conc)
 	{
-		this->input_conc = input_conc1;
+		this->input_conc = l_input_conc;
 	}
 
 	std::string get_units()const
 	{
 		return this->units;
 	}
-	void set_units(char *units1)
+	void set_units(char *l_units)
 	{
-		if (units1 != NULL)
-			this->units = std::string(units1);
+		if (l_units != NULL)
+			this->units = std::string(l_units);
 		else
 			this->units.clear();
 	}
@@ -68,10 +68,10 @@ class cxxISolutionComp
 	{
 		return this->equation_name;
 	}
-	void set_equation_name(char *equation_name1)
+	void set_equation_name(char *l_equation_name)
 	{
-		if (equation_name1 != NULL)
-			this->equation_name = std::string(equation_name1);
+		if (l_equation_name != NULL)
+			this->equation_name = std::string(l_equation_name);
 		else
 			this->equation_name.clear();
 
@@ -81,28 +81,28 @@ class cxxISolutionComp
 	{
 		return this->phase_si;
 	}
-	void set_phase_si(int phase_si1)
+	void set_phase_si(int l_phase_si)
 	{
-		this->phase_si = phase_si1;
+		this->phase_si = l_phase_si;
 	}
 
 	int get_n_pe() const
 	{
 		return this->n_pe;
 	}
-	void set_n_pe(int n_pe1)
+	void set_n_pe(int l_n_pe)
 	{
-		this->n_pe = n_pe1;
+		this->n_pe = l_n_pe;
 	}
 
 	const std::string &get_as() const
 	{
 		return this->as;
 	}
-	void set_as(char *as1)
+	void set_as(char *l_as)
 	{
-		if (as1 != NULL)
-			this->as = std::string(as1);
+		if (l_as != NULL)
+			this->as = std::string(l_as);
 		else
 			this->as.clear();
 	}
@@ -112,9 +112,9 @@ class cxxISolutionComp
 	{
 		return this->gfw;
 	};
-	void set_gfw(double gfw1)
+	void set_gfw(double l_gfw)
 	{
-		this->gfw = gfw1;
+		this->gfw = l_gfw;
 	}
 	void set_gfw(PHREEQC_PTR_ARG);
 

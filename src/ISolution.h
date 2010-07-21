@@ -34,23 +34,23 @@ class cxxISolution:public cxxSolution
 	{
 		return this->density;
 	}
-	void set_density(double density1)
+	void set_density(double l_density)
 	{
-		this->density = density1;
+		this->density = l_density;
 	}
 
 	std::string get_units() const
 	{
 		return units;
 	}
-	void set_units(std::string units1)
+	void set_units(std::string l_units)
 	{
-		units = units1;
+		units = l_units;
 	}
-	void set_units(char * units1)
+	void set_units(char * l_units)
 	{
-		if (units1 != NULL)
-			this->units = std::string(units1);
+		if (l_units != NULL)
+			this->units = std::string(l_units);
 		else
 			this->units.clear();
 	}

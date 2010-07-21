@@ -11,7 +11,6 @@
 #include <iostream>				// std::cout std::cerr
 #include "Utils.h"
 #include <stdio.h>
-#include <stdlib.h>
 #if defined (PHREEQC_CLASS)
 #include "Phreeqc.h"
 #endif
@@ -62,7 +61,7 @@ m_next_keyword(KT_NONE)
 	echo_stream = EO_NONE;
 	accumulate = false;
 #if defined(PHREEQC_CLASS)
-	this->p_instance = p_instance1;
+	this->p_instance = p_instance;
 #endif
 }
 

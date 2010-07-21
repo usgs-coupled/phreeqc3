@@ -83,10 +83,10 @@ cxxNumKeyword()
 	}
 }
 cxxSurface::cxxSurface(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSurface > &entities,
-					   cxxMix & mix, int n_user1):
+					   cxxMix & mix, int l_n_user):
 cxxNumKeyword()
 {
-	this->n_user = this->n_user_end = n_user1;
+	this->n_user = this->n_user_end = l_n_user;
 	type = DDL;
 	dl_type = NO_DL;
 	sites_units = SITES_ABSOLUTE;
