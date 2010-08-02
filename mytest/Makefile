@@ -2,7 +2,7 @@ CFG1 :=`uname`
 CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
 #PHREEQC=../src/Release/phreeqcpp
-PHREEQC=../src/Class_release/phreeqcpp
+PHREEQC=../src/Class_debug/phreeqcpp
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/Class_release/phreeqcpp.exe
 endif
@@ -22,6 +22,7 @@ all: alkalinity.out \
 	basic_test.out \
 	brown.out \
 	calc_SC.out \
+	cdmus3.out \
 	cdmusic_related.out \
 	cd_ddl.out \
 	co2.out \
@@ -99,6 +100,7 @@ all: alkalinity.out \
 	salt_ec.out \
 	saver.out \
 	saunders.out \
+	sit_redox.out \
 	solid_solution.out \
 	solid_solution_pz.out \
 	solution_s.out \

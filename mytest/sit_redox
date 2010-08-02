@@ -1,0 +1,38 @@
+# Reference Porewater
+# High Salinity, High Sulphate Version
+# Effingen Member
+# NAB 09-13, Pre-release version, reviewed, Oct. 15 2009, p. 41
+#
+# For use with sit_amphos_andra.dat 
+DATABASE ../database/sit.dat
+TITLE  High-salinity high-sulphate PW, Effingen M. 
+
+SOLUTION 2 High_SO4_high_sal # 1st extract from OFT-13
+    pH 	7.25  # average of extracts #2-5
+    pe 	4.0	# initial estimate
+    -units mg/L
+    temp 25.0
+	Na    10343     #increased
+	K        75.4
+	Mg      958.    Dolomite 0.0
+	Ca     2980     Gypsum 0.0
+	Sr      154.    Celestite 0.0
+	Cl    16543.    charge
+	S      3500.    as SO4 # aim at SO4/Cl>0.3
+	C(4)     10.0   Calcite 0.0
+	Si        2.0   Quartz  0.0
+SAVE SOLUTION 2
+END
+USE SOLUTION 2
+EQUILIBRIUM_PHASES
+	Dolomite       0.0 1.0
+	Calcite        0.0 1.0
+	Celestite      0.0 1.0
+	Quartz         0.0 1.0
+	Gypsum         0.0 0.0
+	Siderite       0.0 1.0
+	Pyrite         0.0 1.0
+REACTION
+	H2O	-1.0
+	27 moles in 9 steps
+END
