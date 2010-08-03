@@ -2,7 +2,7 @@ CFG1 :=`uname`
 CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
 #PHREEQC=../src/Release/phreeqcpp
-PHREEQC=../src/Class_debug/phreeqcpp
+PHREEQC=../src/Class_release/phreeqcpp
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/Class_release/phreeqcpp.exe
 endif
