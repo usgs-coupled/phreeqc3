@@ -495,6 +495,8 @@ int xs_s_assemblage_save(int n_user);
 int xsurface_save(int n_user);
 int do_initialize(void);
 int do_status(void);
+void save_init(int i);
+void use_init(void);
 
 int copy_use(int i);
 int set_use(void);
