@@ -5,7 +5,7 @@ INPUT=../examples
 PHREEQCDAT=../database/phreeqc.dat
 WATEQ4FDAT=../database/wateq4f.dat
 
-PHREEQC=../src/Release/phreeqcpp
+PHREEQC=../src/Class_debug/phreeqcpp
 
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/Release/phreeqcpp.exe
