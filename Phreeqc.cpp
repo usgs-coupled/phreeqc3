@@ -325,6 +325,8 @@ Phreeqc::Phreeqc(void)
 		{"cell_porosity", tokcell_porosity},
 		{"cell_saturation", tokcell_saturation},
 		{"totmole", toktotmole},
+		{"totmol", toktotmol},
+		{"totmoles", toktotmoles},
 		{"iso", tokiso},
 		{"iso_unit", tokiso_unit}	};
 	NCMDS = (sizeof(command_temp) / sizeof(struct const_key));
