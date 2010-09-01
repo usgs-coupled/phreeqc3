@@ -83,6 +83,7 @@ all: alkalinity.out \
 	mu.out \
 	n3.out \
 	netpathxl.out \
+	negexp_totmol.out \
 	np.test.out \
 	opa_col2.out \
 	org_gas.out \
