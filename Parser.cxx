@@ -366,6 +366,12 @@ CParser::check_key(std::string::iterator begin, std::string::iterator end)
 		s_keyword_map.insert(std::map < std::string,
 							 KEY_TYPE >::value_type("surface_raw",
 													KT_SURFACE_RAW));
+		s_keyword_map.insert(std::map < std::string,
+							 KEY_TYPE >::value_type("reaction_temperature_raw",
+													KT_TEMPERATURE_RAW));
+		s_keyword_map.insert(std::map < std::string,
+							 KEY_TYPE >::value_type("reaction_raw",
+													KT_REACTION_RAW));
 	}
 
 	std::string lowercase;

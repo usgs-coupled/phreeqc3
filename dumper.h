@@ -24,6 +24,9 @@ public:
 	bool Get_bool_s_s_assemblage(void) { return(this->binList.Get_s_s_assemblage().Get_defined()); };
 	bool Get_bool_gas_phase(void) { return(this->binList.Get_gas_phase().Get_defined()); };
 	bool Get_bool_kinetics(void) { return(this->binList.Get_kinetics().Get_defined()); };
+	bool Get_bool_mix(void) { return(this->binList.Get_mix().Get_defined()); };
+	bool Get_bool_reaction(void) { return(this->binList.Get_reaction().Get_defined()); };
+	bool Get_bool_temperature(void) { return(this->binList.Get_temperature().Get_defined()); };
 	bool Get_bool_any(void);
 
 	std::set < int > & Get_solution(void) { return(this->binList.Get_solution().Get_numbers()); };
@@ -33,6 +36,9 @@ public:
 	std::set < int > & Get_s_s_assemblage(void) { return(this->binList.Get_s_s_assemblage().Get_numbers()); };
 	std::set < int > & Get_gas_phase(void) { return(this->binList.Get_gas_phase().Get_numbers()); };
 	std::set < int > & Get_kinetics(void) { return(this->binList.Get_kinetics().Get_numbers()); };
+	std::set < int > & Get_mix(void) { return(this->binList.Get_mix().Get_numbers()); };
+	std::set < int > & Get_reaction(void) { return(this->binList.Get_reaction().Get_numbers()); };
+	std::set < int > & Get_temperature(void) { return(this->binList.Get_temperature().Get_numbers()); };
 protected:
 	std::string file_name;
 	bool append;

@@ -160,10 +160,16 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	for (i = 0; i < indent + 2; ++i)
 		indent2.append(Utilities::INDENT);
 
-	// Temperature element and attributes
 	s_oss << indent0;
-	s_oss << "REACTION_TEMPERATURE_RAW        " << this->
-		n_user << " " << this->description << std::endl;
+	s_oss << "REACTION_TEMPERATURE_RAW        " << this->n_user << " " << this->description << std::endl;
+
+	s_oss << indent1;
+	s_oss << "-count_temps        " << this->countTemps << std::endl;
+
+	s_oss << indent1;
+	s_oss << "-equal_increments   " << this->equalIncrements << std::endl;
+
+	// Temperature element and attributes
 
 	s_oss << indent1;
 	s_oss << "-temps              " << std::endl;
@@ -183,14 +189,6 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		}
 		s_oss << std::endl;
 	}
-
-	s_oss << indent1;
-	s_oss << "-equal_increments   " << this->equalIncrements << std::endl;
-
-	s_oss << indent1;
-	s_oss << "-count_temps        " << this->countTemps << std::endl;
-
-
 }
 
 void
