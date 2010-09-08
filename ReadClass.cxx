@@ -2397,7 +2397,7 @@ dump_ostream(std::ostream& os)
 		}
 	}
 
-	// kineticss
+	// kinetics
 	if (dump_info.Get_bool_kinetics())
 	{
 		if (dump_info.Get_kinetics().size() == 0)
@@ -2422,6 +2422,89 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
+
+	// mix
+	if (dump_info.Get_bool_mix())
+	{
+		if (dump_info.Get_mix().size() == 0)
+		{
+			for (i = 0; i < count_mix; i++)
+			{
+					cxxMix cxxentity(&mix[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_mix().begin(); it != dump_info.Get_mix().end(); it++)
+			{
+
+				if (mix_bsearch(*it, &n) != NULL)
+				{
+					cxxMix cxxentity(&mix[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// reaction
+	if (dump_info.Get_bool_reaction())
+	{
+		if (dump_info.Get_reaction().size() == 0)
+		{
+			for (i = 0; i < count_irrev; i++)
+			{
+					cxxReaction cxxentity(&irrev[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_reaction().begin(); it != dump_info.Get_reaction().end(); it++)
+			{
+
+				if (irrev_bsearch(*it, &n) != NULL)
+				{
+					cxxReaction cxxentity(&irrev[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// temperature
+	if (dump_info.Get_bool_temperature())
+	{
+		if (dump_info.Get_temperature().size() == 0)
+		{
+			for (i = 0; i < count_temperature; i++)
+			{
+					cxxTemperature cxxentity(&temperature[i]);
+					cxxentity.dump_raw(os,0);
+			}
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_temperature().begin(); it != dump_info.Get_temperature().end(); it++)
+			{
+
+				if (temperature_bsearch(*it, &n) != NULL)
+				{
+					cxxTemperature cxxentity(&temperature[n]);
+					cxxentity.dump_raw(os,0);
+				}
+			}
+		}
+	}
+
+	// Turn off any reaction calculation
+	os << "USE mix none" << std::endl;
+	os << "USE reaction none" << std::endl;
+	os << "USE reaction_temperature none" << std::endl;
 
 	// Turn off dump until next read
 	dump_info.SetAll(false);

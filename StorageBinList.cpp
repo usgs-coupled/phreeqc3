@@ -90,6 +90,13 @@ void StorageBinListItem::Augment(std::string token)
 		}
 	}
 }
+void StorageBinListItem::Augment(int i)
+{
+	// Skip if all are defined
+	if (this->defined == true && this->numbers.size() ==  0) return;
+	this->defined = true;
+	this->numbers.insert(i);
+}
 StorageBinList::StorageBinList(void)
 {
 }
@@ -276,3 +283,20 @@ bool StorageBinList::Read(CParser & parser)
 	return(return_value);
 }
 
+void StorageBinList::TransferAll(StorageBinListItem &source)
+{
+	std::set < int >::iterator it;
+	for (it = source.Get_numbers().begin(); it != source.Get_numbers().end(); it++)
+	{
+		this->solution.Augment(*it);
+		this->pp_assemblage.Augment(*it);
+		this->exchange.Augment(*it);
+		this->surface.Augment(*it);
+		this->s_s_assemblage.Augment(*it);
+		this->gas_phase.Augment(*it);
+		this->kinetics.Augment(*it);
+		this->mix.Augment(*it);
+		this->reaction.Augment(*it);
+		this->temperature.Augment(*it);
+	}
+}
