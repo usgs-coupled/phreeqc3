@@ -263,6 +263,15 @@ bool dumper::Read(CParser & parser)
 		vopts.push_back("file");
 		vopts.push_back("append");
 		vopts.push_back("all");	
+		vopts.push_back("cell");
+		vopts.push_back("cells");			// 18
+		vopts.push_back("mix");				// 19
+		vopts.push_back("reaction");		// 20
+		vopts.push_back("reactions");		// 21
+		vopts.push_back("temperature");		// 22
+		vopts.push_back("temperatures");	// 23
+
+
 	}
 
 	std::istream::pos_type ptr;
@@ -279,6 +288,7 @@ bool dumper::Read(CParser & parser)
 	for (;;)
 	{
 		int opt;
+		StorageBinListItem cells;
 		opt = parser.get_option(vopts, next_char);
 		if (opt == CParser::OPT_DEFAULT)
 		{
@@ -321,12 +331,27 @@ bool dumper::Read(CParser & parser)
 		case 13:
 			item = &(this->binList.Get_kinetics());
 			break;
+		case 17:	// cell
+		case 18:	// cells
+			item = &cells;
+			break;
+		case 19:	// mix
+			item = &(this->binList.Get_mix());
+			break;
+		case 20:	// reaction
+		case 21:	// reactions
+			item = &(this->binList.Get_reaction());
+			break;
+		case 22:	// temperature
+		case 23:	// temperatures
+			item = &(this->binList.Get_temperature());
+			break;
 		default:
 			break;
 		}
 
 		// Read dump entity list of numbers or number ranges for line, store in item
-		if (opt >= 0 && opt <= 13)
+		if ((opt >= 0 && opt <= 13) || (opt >= 17 && opt <= 23))
 		{
 			for (;;)
 			{ 
@@ -348,6 +373,10 @@ bool dumper::Read(CParser & parser)
 			}
 		}
 
+		if (opt == 17 || opt == 18)
+		{
+			this->binList.TransferAll(cells);
+		}
 		// Process other identifiers
 		std::set < int >::iterator it;
 		switch (opt)
@@ -371,6 +400,13 @@ bool dumper::Read(CParser & parser)
 		case 11:
 		case 12:
 		case 13:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
 			break;
 		case 14:				//file
 			std::getline(parser.get_iss(), this->file_name);
@@ -417,12 +453,15 @@ bool dumper::Read(CParser & parser)
 bool dumper::Get_bool_any(void)
 {
 	return (
-		Get_bool_solution()       ||
-		Get_bool_pp_assemblage()  ||
-		Get_bool_exchange()       ||
-		Get_bool_surface()        ||
-		Get_bool_s_s_assemblage() ||
-		Get_bool_gas_phase()      ||
-		Get_bool_kinetics()
+		Get_bool_solution()			||
+		Get_bool_pp_assemblage()	||
+		Get_bool_exchange()			||
+		Get_bool_surface()			||
+		Get_bool_s_s_assemblage()	||
+		Get_bool_gas_phase()		||
+		Get_bool_kinetics()			||
+		Get_bool_mix()				||
+		Get_bool_reaction()			||
+		Get_bool_temperature()
 		);
 }

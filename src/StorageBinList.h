@@ -16,6 +16,7 @@ public:
 	void Set_defined(bool tf) { this->defined = tf; };
 	bool Get_defined(void) { return(this->defined); };
 	void Augment(std::string token);
+	void Augment(int i);
 	std::set < int > &Get_numbers(void) { return(this->numbers); };
 	void Clear(void) { this->numbers.clear(); };
 protected:
@@ -30,6 +31,7 @@ public:
 	~StorageBinList(void);
 	bool Read(CParser & parser);
 	void SetAll(bool tf);
+	void TransferAll(StorageBinListItem &source);
 
 	StorageBinListItem & Get_solution(void) { return(this->solution); };
 	StorageBinListItem & Get_pp_assemblage(void) { return(this->pp_assemblage); };

@@ -8,6 +8,57 @@ File contains:
 ************************************************************
 ************************************************************
 	--------
+	svn 4800
+	--------
+	
+	Added capability to dump REACTIONs, REACTION_TEMPERATUREs,
+	and MIXes.
+	
+	DUMP
+		-mix  1 4 6
+		-reaction 1-5
+		-reaction_temperature 1 3-9
+		
+	List of numbers may be formatted as described for DUMP.
+	Data are written in a format suitable for an input file
+	to PHREEQCPP.
+	
+	Example of dumped keywords:
+	
+	MIX        1 
+	  1     0.33
+	  2     0.33
+	  3     0.34
+	REACTION_RAW        1 
+	  -units              Mol
+	  -reactant_list      
+	    Ba   1
+	    Br   2
+	  -element_list       
+	  -steps              
+	    0.01 
+	  -equal_increments   1
+	  -count_steps        2
+	REACTION_TEMPERATURE_RAW        1 
+	  -count_temps        3
+	  -equal_increments   1
+	  -temps              
+    		25 45 
+	
+	--------
+	
+	Added -cells option to DUMP.
+	
+	DUMP
+		-cells 1-19 20
+		
+	This -cells option will dump any reactant with numbers
+	between 1 and 20, including SOLUTIONs, EXCHANGERs,
+	GAS_PHASEs, KINETICS, SOLID_SOLUTIONs, SURFACEs, REACTIONs, 
+	REACTION_TEMPERATUREs, and MIXes.
+	
+	
+	--------
 	svn 3730
 	--------
 	

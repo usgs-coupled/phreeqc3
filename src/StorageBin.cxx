@@ -588,7 +588,9 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 			   KT_KINETICS_RAW     =  8,
 			   KT_PPASSEMBLAGE_RAW =  9,
 			   KT_SSASSEMBLAGE_RAW =  10,
-			   KT_SURFACE_RAW      =  11
+			   KT_SURFACE_RAW      =  11,
+			   KT_TEMPERATURE_RAW  =  12,
+			   KT_REACTION_RAW     =  13
 			 */
 		case CParser::KT_SOLUTION_RAW:
 			{
@@ -646,6 +648,21 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 			}
 			break;
 
+		case CParser::KT_TEMPERATURE_RAW:
+			{
+				cxxTemperature entity;
+				entity.read_raw(parser);
+				Temperatures[entity.get_n_user()] = entity;
+			}
+			break;
+
+		case CParser::KT_REACTION_RAW:
+			{
+				cxxReaction entity;
+				entity.read_raw(P_INSTANCE_COMMA parser);
+				Reactions[entity.get_n_user()] = entity;
+			}
+			break;
 		default:
 			break;
 		}
@@ -682,7 +699,9 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		   KT_KINETICS_RAW     =  8,
 		   KT_PPASSEMBLAGE_RAW =  9,
 		   KT_SSASSEMBLAGE_RAW =  10,
-		   KT_SURFACE_RAW      =  11
+		   KT_SURFACE_RAW      =  11,
+		   KT_TEMPERATURE_RAW  =  12,
+		   KT_REACTION_RAW     =  13
 		 */
 	case CParser::KT_SOLUTION_RAW:
 		{
@@ -743,6 +762,24 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 			cxxSurface entity;
 			entity.read_raw(P_INSTANCE_COMMA parser);
 			Surfaces[entity.get_n_user()] = entity;
+			entity_number = entity.get_n_user();
+		}
+		break;
+
+	case CParser::KT_TEMPERATURE_RAW:
+		{
+			cxxTemperature entity;
+			entity.read_raw(parser);
+			Temperatures[entity.get_n_user()] = entity;
+			entity_number = entity.get_n_user();
+		}
+		break;
+
+	case CParser::KT_REACTION_RAW:
+		{
+			cxxReaction entity;
+			entity.read_raw(P_INSTANCE_COMMA parser);
+			Reactions[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
 		break;
