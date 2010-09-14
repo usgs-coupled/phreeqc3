@@ -1435,6 +1435,12 @@ int isamong(char c, const char *s_l);
 Address Hash_multi(HashTable * Table, char *Key);
 void ExpandTable_multi(HashTable * Table);
 
+#if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS)
+public:
+	bool recursive_include(FILE * input_file, std::ofstream & accumulated_file);
+	int simple_get_line(FILE * input_file, std::string & l_line);
+#endif /* #if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS) */
+
 public:        // public methods for PHREEQC_CLASS
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
