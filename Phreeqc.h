@@ -1437,7 +1437,7 @@ void ExpandTable_multi(HashTable * Table);
 
 #if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS)
 public:
-	bool recursive_include(FILE * input_file, std::ofstream & accumulated_file);
+	bool recursive_include(FILE * input_file, FILE * accumulated_file);
 	int simple_get_line(FILE * input_file, std::string & l_line);
 #endif /* #if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS) */
 
