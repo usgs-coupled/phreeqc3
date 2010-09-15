@@ -6,7 +6,47 @@ File contains:
 ************************************************************
 *        Features in PHREEQC++ Not in PHREEQC              *
 ************************************************************
-************************************************************
+	--------
+	svn 4816
+	--------
+	Added compile capability to use #include file_name
+	in input and database files. PHREEQCPP process the 
+	files at the start of the run, possibly following
+	multiple layers of include files, to produce a stream 
+	that is then used as input. Compile define is
+	MERGE_INCLUDE_FILES; PHREEQC_CLASS also must be defined.
+	
+	Input file:
+	SOLUTION 1 
+	#INCLUDE t2		  	 
+	#include t4
+	END 
+	
+	File t2:
+	REACTION
+		NaCl
+		1 mmol
+	#include t3
+	
+	File t3:
+	REACTION_TEMPERATURE
+	10 20 30
+	
+	File t4:
+	SAVE solution 1
+	
+	When compiled with the include file #defines, the above 
+	set of files produces the following input for PHREEQC:
+	
+	SOLUTION 1 
+	REACTION
+		NaCl
+		1 mmol
+	REACTION_TEMPERATURE
+	10 20 30	
+	SAVE solution 1	
+	END 
+
 	--------
 	svn 4800
 	--------
