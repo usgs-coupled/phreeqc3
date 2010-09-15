@@ -311,6 +311,9 @@ public:
 int close_input_files(void);
 int close_output_files(void);
 CLASS_STATIC int getc_callback(void *cookie);
+#if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS)
+CLASS_STATIC int istream_getc(void *cookie);
+#endif /* #if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS) */
 int process_file_names(int argc, char *argv[], void **db_cookie,
 					   void **input_cookie, int log);
 
@@ -1437,8 +1440,7 @@ void ExpandTable_multi(HashTable * Table);
 
 #if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS)
 public:
-	bool recursive_include(FILE * input_file, FILE * accumulated_file);
-	int simple_get_line(FILE * input_file, std::string & l_line);
+	bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
 #endif /* #if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS) */
 
 public:        // public methods for PHREEQC_CLASS
