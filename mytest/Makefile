@@ -25,6 +25,7 @@ all: alkalinity.out \
 	cdmus3.out \
 	cdmusic_related.out \
 	cd_ddl.out \
+	cell_operations.out \
 	co2.out \
 	colloid_U.out \
 	comments.out \
