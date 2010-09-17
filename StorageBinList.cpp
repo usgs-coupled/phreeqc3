@@ -139,7 +139,7 @@ bool StorageBinList::Read(CParser & parser)
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
 	{
-		vopts.reserve(15);
+		vopts.reserve(20);
 		vopts.push_back("solution");
 		vopts.push_back("pp_assemblage");
 		vopts.push_back("equilibrium_phases");
@@ -154,6 +154,8 @@ bool StorageBinList::Read(CParser & parser)
 		vopts.push_back("reaction");
 		vopts.push_back("temperature");	
 		vopts.push_back("all");
+		vopts.push_back("cell");
+		vopts.push_back("cells");  // 15
 	}
 
 	std::istream::pos_type next_char;
@@ -178,6 +180,7 @@ bool StorageBinList::Read(CParser & parser)
 
 		// Select StorageBinListItem
 		StorageBinListItem *item = NULL;
+		StorageBinListItem cell_list;
 		switch (opt)
 		{
 		case 0:
@@ -213,12 +216,16 @@ bool StorageBinList::Read(CParser & parser)
 		case 12:
 			item = &(this->Get_temperature());
 			break;
+		case 14:
+		case 15:
+			item = &cell_list;
+			break;
 		default:
 			break;
 		}
 
 		// Read dump entity list of numbers or number ranges for line, store in item
-		if (opt >= 0 && opt <= 12)
+		if (opt >= 0 && opt <= 12 || opt >= 14 && opt <= 15)
 		{
 			for (;;)
 			{ 
@@ -265,6 +272,10 @@ bool StorageBinList::Read(CParser & parser)
 			break;
 		case 13:			//all
 			this->SetAll(true);
+			break;
+		case 14:
+		case 15:
+			this->TransferAll(cell_list);
 			break;
 		default:
 		case CParser::OPT_DEFAULT:
