@@ -156,6 +156,7 @@ bool StorageBinList::Read(CParser & parser)
 		vopts.push_back("all");
 		vopts.push_back("cell");
 		vopts.push_back("cells");  // 15
+		vopts.push_back("reaction_temperature");
 	}
 
 	std::istream::pos_type next_char;
@@ -214,6 +215,7 @@ bool StorageBinList::Read(CParser & parser)
 			item = &(this->Get_reaction());
 			break;
 		case 12:
+		case 16:
 			item = &(this->Get_temperature());
 			break;
 		case 14:

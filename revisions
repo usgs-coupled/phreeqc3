@@ -6,7 +6,47 @@ File contains:
 ************************************************************
 *        Features in PHREEQC++ Not in PHREEQC              *
 ************************************************************
-	--------
+        --------
+        svn 4823
+        --------
+        Added -cells to DUMP and DELETE; cell option to COPY.
+        Example:
+        
+        COPY cell 1 4
+        COPY cell 1 5-10
+        DUMP 
+         	-cell 1 2-3  10
+        DELETE
+        	-cell 1-3 4 8-10
+        
+        COPY cell n range
+        
+        The cell option of the COPY keyword causes all reactants
+        defined with identifying number n to be copied to a single 
+        range of numbers. The range of numbers can be a single 
+        number or a range of numbers given by an integer, a 
+        hyphen, and an integer, with no intervening spaces.
+        
+        DUMP
+        	-cell list
+        
+        The  -cell option writes _RAW formatted output to a 
+        specified file(see below for more details) for each 
+        reactant that is defined in the list.
+        
+        DUMP
+        	-cell list
+        The -cell deletes from memory all reactants that are 
+        defined with identifying numbers in the list.
+        
+        The list of numbers for DUMP and DELETE are
+        more flexible than for COPY. A list of ranges can be 
+        given for DUMP and DELETE, where each element of 
+        the list can be a single number or a range of numbers
+        defined by an integer, a hyphen, and an ingeger, with 
+        no intervening spaces. 
+        
+        --------
 	svn 4816
 	--------
 	Added compile capability to use #include file_name
