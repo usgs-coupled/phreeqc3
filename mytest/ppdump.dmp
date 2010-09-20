@@ -376,6 +376,9 @@ KINETICS_RAW       3 Kinetics defined in simulation 7.
   -totals         
   -steps         
     
+USE mix none
+USE reaction none
+USE reaction_temperature none
 SOLUTION_RAW       3 Solution after simulation 13.
   -temp              30
   -total_h           111.02092790236
@@ -527,6 +530,9 @@ KINETICS_RAW       3 Kinetics defined in simulation 13.
     O   2.6191622195694e-08
   -steps         
     
+USE mix none
+USE reaction none
+USE reaction_temperature none
 SOLUTION_RAW       1 
   -temp              25
   -total_h           111.01243359981
@@ -656,6 +662,43 @@ KINETICS_RAW       1 Kinetics defined in simulation 15.
     O   2.6940358157434e-12
   -steps         
     
+MIX        -2 Mix defined in simulation 15.
+  1     0.5
+MIX        1 
+  1     0.5
+REACTION_RAW        -2 Irreversible reaction defined in simulation 15.
+  -units              Mol
+  -reactant_list      
+    NaCl   1
+  -element_list       
+    Cl   1
+    Na   1
+  -steps              
+    0.001 
+  -equal_increments   0
+  -count_steps        1
+REACTION_RAW        1 
+  -units              Mol
+  -reactant_list      
+    NaCl   1
+  -element_list       
+  -steps              
+    0.001 
+  -equal_increments   0
+  -count_steps        1
+REACTION_TEMPERATURE_RAW        -2 Temperature defined in simulation 15.
+  -count_temps        1
+  -equal_increments   0
+  -temps              
+    30 
+REACTION_TEMPERATURE_RAW        1 
+  -count_temps        1
+  -equal_increments   0
+  -temps              
+    30 
+USE mix none
+USE reaction none
+USE reaction_temperature none
 SOLUTION_RAW       1 New soln description
   -temp              25
   -total_h           111.01243359981
@@ -821,3 +864,6 @@ KINETICS_RAW       1 New kinetics def
     O   2.694035815743e-12
   -steps         
     
+USE mix none
+USE reaction none
+USE reaction_temperature none
