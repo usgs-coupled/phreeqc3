@@ -225,7 +225,7 @@ bool StorageBinList::Read(CParser & parser)
 		}
 
 		// Read dump entity list of numbers or number ranges for line, store in item
-		if (opt >= 0 && opt <= 12 || opt >= 14 && opt <= 15)
+		if ((opt >= 0 && opt <= 12) || (opt >= 14 && opt <= 15))
 		{
 			for (;;)
 			{ 
