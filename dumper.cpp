@@ -269,9 +269,8 @@ bool dumper::Read(CParser & parser)
 		vopts.push_back("reaction");		// 20
 		vopts.push_back("reactions");		// 21
 		vopts.push_back("temperature");		// 22
-		vopts.push_back("temperatures");	// 23
-
-
+		vopts.push_back("reaction_temperature");	// 23
+		vopts.push_back("reaction_temperatures");   // 24
 	}
 
 	std::istream::pos_type ptr;
@@ -343,7 +342,8 @@ bool dumper::Read(CParser & parser)
 			item = &(this->binList.Get_reaction());
 			break;
 		case 22:	// temperature
-		case 23:	// temperatures
+		case 23:	// reaction_temperature
+		case 24:    // reaction_temperatures
 			item = &(this->binList.Get_temperature());
 			break;
 		default:
