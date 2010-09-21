@@ -1322,6 +1322,8 @@ read_equilibrium_phases_modify(void)
 	pp_assemblage_copy(entity_ptr, &(pp_assemblage[n]), entity_ptr->n_user);
 	free_check_null(pp_assemblage[n].description);
 	pp_assemblage[n].description = string_duplicate(entity_ptr->description);
+	pp_assemblage[n].new_def = TRUE;
+	pp_assemblage[n].n_user_end = pp_assemblage[n].n_user;
 	pp_assemblage_free(entity_ptr);
 	free_check_null(entity_ptr);
 
