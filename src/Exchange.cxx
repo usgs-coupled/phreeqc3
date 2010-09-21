@@ -31,7 +31,7 @@ cxxExchange::cxxExchange()
 	//
 :	cxxNumKeyword()
 {
-	pitzer_exchange_gammas = false;
+	pitzer_exchange_gammas = true;
 }
 
 cxxExchange::cxxExchange(struct exchange * exchange_ptr)
@@ -63,7 +63,7 @@ cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange
 cxxNumKeyword()
 {
 	this->n_user = this->n_user_end = l_n_user;
-	this->pitzer_exchange_gammas = false;
+	this->pitzer_exchange_gammas = true;
 //
 //   Mix exchangers
 //
