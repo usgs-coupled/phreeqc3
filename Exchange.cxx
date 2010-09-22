@@ -278,7 +278,7 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		description << std::endl;
 
 	s_oss << indent1;
-	s_oss << "-pitzer_exchange_gammas " << this->
+	s_oss << "-exchange_gammas " << this->
 		pitzer_exchange_gammas << std::endl;
 
 	// exchComps structures
@@ -302,6 +302,7 @@ cxxExchange::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 		vopts.reserve(15);
 		vopts.push_back("pitzer_exchange_gammas");	// 0
 		vopts.push_back("component");	// 1
+		vopts.push_back("exchange_gammas"); // 2
 	}
 
 	std::istream::pos_type ptr;
@@ -343,6 +344,7 @@ cxxExchange::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 0:				// pitzer_exchange_gammas
+		case 2:				// exchange_gammas
 			if (!(parser.get_iss() >> this->pitzer_exchange_gammas))
 			{
 				this->pitzer_exchange_gammas = false;
