@@ -1324,6 +1324,7 @@ read_equilibrium_phases_modify(void)
 	pp_assemblage[n].description = string_duplicate(entity_ptr->description);
 	pp_assemblage[n].new_def = TRUE;
 	pp_assemblage[n].n_user_end = pp_assemblage[n].n_user;
+
 	pp_assemblage_free(entity_ptr);
 	free_check_null(entity_ptr);
 
@@ -1410,8 +1411,26 @@ read_exchange_modify(void)
 	struct exchange *entity_ptr = entity.cxxExchange2exchange(PHREEQC_THIS);
 	exchange_free(&(exchange[n]));
 	exchange_copy(entity_ptr, &(exchange[n]), entity_ptr->n_user);
+
+	/* tidy description and n_user_end */
 	free_check_null(exchange[n].description);
 	exchange[n].description = string_duplicate(entity_ptr->description);
+	exchange[n].n_user_end = exchange[n].n_user;
+
+	/* recalculate formula_totals */
+	int i;
+	for (i = 0; i < exchange[n].count_comps; i++)
+	{
+			count_elts = 0;
+			paren_count = 0;
+			char *ptr = exchange[n].comps[i].formula;
+			get_elts_in_species(&ptr, 1.0);
+			free_check_null(exchange[n].comps[i].formula_totals);
+			exchange[n].comps[i].formula_totals = elt_list_save();
+	}
+	
+
+	//exchange[n].new_def = TRUE;
 	exchange_free(entity_ptr);
 	free_check_null(entity_ptr);
 	
