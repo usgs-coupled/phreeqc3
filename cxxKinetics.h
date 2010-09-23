@@ -50,6 +50,7 @@ class cxxKinetics:public cxxNumKeyword
 	//std::map < std::string, cxxKineticsComp > kineticsComps;
 	std::list < cxxKineticsComp > kineticsComps;
 	std::vector < double >steps;
+	int equal_steps;
 	cxxNameDouble totals;
 	double step_divide;
 	int rk;

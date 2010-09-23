@@ -350,36 +350,39 @@ cxxKineticsComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 	{
 		this->d_params = temp_d_params;
 	}
-	// members that must be defined
-	if (rate_name_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Rate_name not defined for KineticsComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (tol_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Tol not defined for KineticsComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (m_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("M not defined for KineticsComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (m0_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("M0 not defined for KineticsComp input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (moles_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Moles not defined for KineticsComp input.",
-						 CParser::OT_CONTINUE);
+		// members that must be defined
+		if (rate_name_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Rate_name not defined for KineticsComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (tol_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Tol not defined for KineticsComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (m_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("M not defined for KineticsComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (m0_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("M0 not defined for KineticsComp input.",
+				CParser::OT_CONTINUE);
+		}
+		if (moles_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Moles not defined for KineticsComp input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 
