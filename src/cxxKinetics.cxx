@@ -39,6 +39,7 @@ cxxKinetics::cxxKinetics()
 	cvode_steps = 100;
 	cvode_order = 5;
 	totals.type = cxxNameDouble::ND_ELT_MOLES;
+	equal_steps = 0;
 }
 
 cxxKinetics::cxxKinetics(struct kinetics *kinetics_ptr)
@@ -71,7 +72,14 @@ totals(kinetics_ptr->totals)
 	}
 
 	// steps
-	for (i = 0; i < kinetics_ptr->count_steps; i++)
+	int n = kinetics_ptr->count_steps;
+	this->equal_steps = 0;
+	if (kinetics_ptr->count_steps < 0)
+	{
+		this->equal_steps = -kinetics_ptr->count_steps;
+		n = 1;
+	}
+	for (i = 0; i < n; i++)
 	{
 		this->steps.push_back(kinetics_ptr->steps[i]);
 	}
@@ -137,7 +145,14 @@ cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
 		cxxKineticsComp::cxxKineticsComp2kinetics_comp(P_INSTANCE_COMMA this->kineticsComps);
 
 	// steps
-	kinetics_ptr->count_steps = (int) this->steps.size();
+	if (this->equal_steps == 0) 
+	{
+		kinetics_ptr->count_steps = (int) this->steps.size();
+	}
+	else
+	{
+		kinetics_ptr->count_steps = -this->equal_steps;
+	}
 	kinetics_ptr->steps = (double *) P_INSTANCE_POINTER free_check_null(kinetics_ptr->steps);
 	if (this->steps.size() > 0)
 	{
@@ -245,6 +260,10 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "-totals         " << std::endl;
 	this->totals.dump_raw(s_oss, indent + 2);
 
+	// equal_steps
+	s_oss << indent1;
+	s_oss << "-equal_steps    " << this->equal_steps << std::endl;
+
 	// steps
 	s_oss << indent1;
 	s_oss << "-steps         " << std::endl;
@@ -285,6 +304,7 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 		vopts.push_back("steps");
 		vopts.push_back("cvode_steps");
 		vopts.push_back("cvode_order");
+		vopts.push_back("equal_steps");
 	}
 
 	std::istream::pos_type ptr;
@@ -305,6 +325,7 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 	bool cvode_steps_defined(false);
 	bool cvode_order_defined(false);
 	bool steps_defined(false);
+	bool equal_steps_defined(false);
 
 	for (;;)
 	{
@@ -520,6 +541,17 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			cvode_order_defined = true;
 			useLastLine = false;
 			break;
+		case 9:				// equal steps
+			if (!(parser.get_iss() >> this->equal_steps))
+			{
+				this->equal_steps = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected integer value for equal_steps.",
+								 CParser::OT_CONTINUE);
+			}
+			equal_steps_defined = true;
+			useLastLine = false;
+			break;
 
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
@@ -568,6 +600,12 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			parser.error_msg("Cvode_order not defined for KINETICS_RAW input.",
 				CParser::OT_CONTINUE);
 		}
+		if (equal_steps_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Equal_steps not defined for KINETICS_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 
@@ -602,6 +640,7 @@ cxxKinetics::mpi_pack(std::vector < int >&ints,
 	ints.push_back(this->use_cvode);
 	ints.push_back(this->cvode_steps);
 	ints.push_back(this->cvode_order);
+	ints.push_back(this->equal_steps);
 }
 
 void
@@ -635,6 +674,7 @@ cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->use_cvode = (ints[i++] == TRUE);
 	this->cvode_steps = ints[i++];
 	this->cvode_order = ints[i++];
+	this->equal_steps = ints[i++];
 	*ii = i;
 	*dd = d;
 }
@@ -736,6 +776,7 @@ cxxKinetics::add(const cxxKinetics & addee, double extensive)
 	this->use_cvode = addee.use_cvode;
 	this->cvode_steps = addee.cvode_steps;
 	this->cvode_order = addee.cvode_order;
+	this->equal_steps = addee.equal_steps;
 }
 //cxxNameDouble & cxxKinetics::get_totals(void)
 //{
