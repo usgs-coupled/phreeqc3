@@ -62,6 +62,7 @@ all: alkalinity.out \
 	i5.out \
 	i6.out \
 	i7.out \
+	include.out \
 	initial_gas.out \
 	Int_vs_Don.out \
 	iso_example.out \

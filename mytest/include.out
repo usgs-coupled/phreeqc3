@@ -1,0 +1,318 @@
+   Input file: include
+  Output file: include.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION 1 # comment on solution 1
+	REACTION
+		NaCl
+		1 mmol
+	REACTION_TEMPERATURE
+	10 20 30
+	SAVE solution 1
+	END #            comment at end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.082e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -1.082e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.002e-007  1.001e-007    -6.999    -6.999    -0.000
+   H+                    1.001e-007  1.000e-007    -7.000    -7.000    -0.000
+   H2O                   5.551e+001  1.000e+000     1.744     0.000     0.000
+H(0)            1.416e-025
+   H2                    7.079e-026  7.079e-026   -25.150   -25.150     0.000
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -22.00  -25.15   -3.15  H2
+	H2O(g)           -1.51    0.00    1.51  H2O
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	Irreversible reaction defined in simulation 1.
+
+	 1.000e-003 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.266      Charge balance
+                                       pe  =  12.326      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 10 oC) = 84
+                          Density (g/cm3)  =   0.99975
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.082e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  10.000
+                  Electrical balance (eq)  = -1.082e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                    5.596e-008  5.414e-008    -7.252    -7.266    -0.014
+   OH-                   5.595e-008  5.403e-008    -7.252    -7.267    -0.015
+   H2O                   5.551e+001  1.000e+000     1.744    -0.000     0.000
+Cl              1.000e-003
+   Cl-                   1.000e-003  9.657e-004    -3.000    -3.015    -0.015
+H(0)            0.000e+000
+   H2                    0.000e+000  0.000e+000   -42.267   -42.267     0.000
+Na              1.000e-003
+   Na+                   1.000e-003  9.660e-004    -3.000    -3.015    -0.015
+   NaOH                  1.179e-010  1.179e-010    -9.929    -9.929     0.000
+O(0)            2.274e-013
+   O2                    1.137e-013  1.137e-013   -12.944   -12.944     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -39.18  -42.27   -3.08  H2
+	H2O(g)           -1.92   -0.00    1.92  H2O
+	Halite           -7.58   -6.03    1.55  NaCl
+	O2(g)           -10.18  -12.94   -2.77  O2
+
+Reaction step 2.
+
+Using solution 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	Irreversible reaction defined in simulation 1.
+
+	 1.000e-003 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.084      Charge balance
+                                       pe  =  11.396      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 20 oC) = 109
+                          Density (g/cm3)  =   0.99825
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.082e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  20.000
+                  Electrical balance (eq)  = -1.082e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   8.531e-008  8.233e-008    -7.069    -7.084    -0.015
+   H+                    8.528e-008  8.246e-008    -7.069    -7.084    -0.015
+   H2O                   5.551e+001  1.000e+000     1.744    -0.000     0.000
+Cl              1.000e-003
+   Cl-                   1.000e-003  9.652e-004    -3.000    -3.015    -0.015
+H(0)            0.000e+000
+   H2                    0.000e+000  0.000e+000   -40.088   -40.088     0.000
+Na              1.000e-003
+   Na+                   1.000e-003  9.655e-004    -3.000    -3.015    -0.015
+   NaOH                  7.734e-011  7.736e-011   -10.112   -10.112     0.000
+O(0)            2.852e-014
+   O2                    1.426e-014  1.426e-014   -13.846   -13.846     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -36.96  -40.09   -3.13  H2
+	H2O(g)           -1.64   -0.00    1.64  H2O
+	Halite           -7.60   -6.03    1.57  NaCl
+	O2(g)           -10.99  -13.85   -2.85  O2
+
+Reaction step 3.
+
+Using solution 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	Irreversible reaction defined in simulation 1.
+
+	 1.000e-003 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.919      Charge balance
+                                       pe  =  10.420      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 30 oC) = 137
+                          Density (g/cm3)  =   0.99569
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.082e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  30.000
+                  Electrical balance (eq)  = -1.082e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.246e-007  1.202e-007    -6.904    -6.920    -0.016
+   H+                    1.246e-007  1.204e-007    -6.905    -6.919    -0.015
+   H2O                   5.551e+001  1.000e+000     1.744    -0.000     0.000
+Cl              1.000e-003
+   Cl-                   1.000e-003  9.646e-004    -3.000    -3.016    -0.016
+H(0)            2.823e-038
+   H2                    1.411e-038  1.412e-038   -37.850   -37.850     0.000
+Na              1.000e-003
+   Na+                   1.000e-003  9.649e-004    -3.000    -3.016    -0.016
+   NaOH                  5.294e-011  5.295e-011   -10.276   -10.276     0.000
+O(0)            1.616e-015
+   O2                    8.079e-016  8.081e-016   -15.093   -15.093     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	H2(g)           -34.68  -37.85   -3.17  H2
+	H2O(g)           -1.38   -0.00    1.38  H2O
+	Halite           -7.62   -6.03    1.59  NaCl
+	O2(g)           -12.17  -15.09   -2.93  O2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
+No memory leaks

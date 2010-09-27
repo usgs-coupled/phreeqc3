@@ -6,7 +6,29 @@ File contains:
 ************************************************************
 *        Features in PHREEQC++ Not in PHREEQC              *
 ************************************************************
-
+        --------
+        svn 4840
+        --------
+        Added capability to include files within the input
+        file. Files included in include files are also 
+        included. Files are included verbatim and need not
+        contain complete keyword datablocks; however, the
+        combination of included files must result in a
+        legal PHREEQC input file. 
+        
+        SOLUTION
+        #$include file_name
+        END
+        
+        where "file_name" contains:
+        EQUILIBRIUM_PHASES
+        	Calcite 0 10
+        
+        is the same as a single file with 
+        SOLUTION
+        EQUILIBRIUM_PHASES
+        	Calcite 0 10
+        END
         
         
         --------
