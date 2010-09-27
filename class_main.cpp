@@ -133,7 +133,7 @@ main_method(int argc, char *argv[])
 /*
  *   Load database into memory
  */
-#if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS)
+#if defined(MERGE_INCLUDE_FILES) 
 	errors = read_database(istream_getc, db_cookie);
 #else
 	errors = read_database(getc_callback, db_cookie);
@@ -147,7 +147,7 @@ main_method(int argc, char *argv[])
 /*
  *   Read input data for simulation
  */
-#if defined(MERGE_INCLUDE_FILES) && defined(PHREEQC_CLASS)
+#if defined(MERGE_INCLUDE_FILES) 
 	errors = run_simulations(istream_getc, input_cookie);
 #else
 	errors = run_simulations(getc_callback, input_cookie);
