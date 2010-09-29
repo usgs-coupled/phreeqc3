@@ -600,12 +600,13 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			parser.error_msg("Cvode_order not defined for KINETICS_RAW input.",
 				CParser::OT_CONTINUE);
 		}
-		if (equal_steps_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Equal_steps not defined for KINETICS_RAW input.",
-				CParser::OT_CONTINUE);
-		}
+		// disable to remain backward compatible with PHAST restart files?
+		//if (equal_steps_defined == false)
+		//{
+		//	parser.incr_input_error();
+		//	parser.error_msg("Equal_steps not defined for KINETICS_RAW input.",
+		//		CParser::OT_CONTINUE);
+		//}
 	}
 }
 
