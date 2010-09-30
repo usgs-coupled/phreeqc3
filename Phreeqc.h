@@ -876,6 +876,8 @@ int next_keyword_or_option(const char **opt_list, int count_opt_list);
  int read_solid_solutions_modify(void);
  int read_gas_phase_modify(void);
  int read_kinetics_modify(void);
+ int read_reaction_modify(void);
+ int read_reaction_temperature_modify(void);
  int read_delete(void);
  int read_run_cells(void);
  int streamify_to_next_keyword(std::istringstream & lines);

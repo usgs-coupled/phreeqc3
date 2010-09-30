@@ -223,7 +223,7 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
+cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, const bool check)
 {
 
 	int j;
@@ -240,6 +240,9 @@ cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		vopts.push_back("equal_increments");	//4
 		vopts.push_back("count_steps");	//5
 	}
+
+	// clear steps for modify operation, if steps are read
+	bool cleared_once = false;
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -320,6 +323,11 @@ cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 			break;
 
 		case 3:				// steps
+			if (!cleared_once) 
+			{
+				this->steps.clear();
+				cleared_once = true;
+			}
 			while ((k =
 					parser.copy_token(token, next_char)) == CParser::TT_DIGIT)
 			{
@@ -369,24 +377,27 @@ cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
-	if (units_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Units not defined for REACTION_RAW input.",
-						 CParser::OT_CONTINUE);
-	}
-	if (equalIncrements_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg("Equal_increments not defined for REACTION_RAW input.",
-					  CParser::OT_CONTINUE);
-	}
-	if (countSteps_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Count_steps not defined for REACTION_RAW input.",
-						 CParser::OT_CONTINUE);
+		// members that must be defined
+		if (units_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Units not defined for REACTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (equalIncrements_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Equal_increments not defined for REACTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
+		if (countSteps_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Count_steps not defined for REACTION_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
