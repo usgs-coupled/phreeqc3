@@ -659,7 +659,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_REACTION_RAW:
 			{
 				cxxReaction entity;
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(P_INSTANCE_COMMA parser, true);
 				Reactions[entity.get_n_user()] = entity;
 			}
 			break;
@@ -778,7 +778,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_REACTION_RAW:
 		{
 			cxxReaction entity;
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(P_INSTANCE_COMMA parser, true);
 			Reactions[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}

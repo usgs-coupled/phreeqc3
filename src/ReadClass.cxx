@@ -774,7 +774,7 @@ read_reaction_raw(void)
 	parser.get_option(vopts, next_char);
 
 	cxxReaction ex;
-	ex.read_raw(PHREEQC_THIS_COMMA parser);
+	ex.read_raw(PHREEQC_THIS_COMMA parser, true);
 	struct irrev *irrev_ptr = ex.cxxReaction2irrev(PHREEQC_THIS);
 	int n;
 
@@ -1186,6 +1186,8 @@ read_solution_modify(void)
 		input_error++;
 		sprintf(error_string, "Expected solution number following SOLUTION_MODIFY.\n%s\n", line_save);
 		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
 		return (ERROR);
 	} 
 	else
@@ -1221,7 +1223,7 @@ read_solution_modify(void)
 	if (solution_bsearch(n_user, &n, FALSE) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Solution %d not found for SOLUTION_MODIFY.\n%s\n", n_user, line_save);
+		sprintf(error_string, "Solution %d not found for SOLUTION_MODIFY.\n", n_user);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1273,6 +1275,8 @@ read_equilibrium_phases_modify(void)
 		input_error++;
 		sprintf(error_string, "Expected equilibrium_phases number following EQUILIBRIUM_PHASES_MODIFY.\n%s\n", line_save);
 		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
 		return (ERROR);
 	} 
 	else
@@ -1307,7 +1311,7 @@ read_equilibrium_phases_modify(void)
 	if (pp_assemblage_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Equlibrium_phases %d not found for EQUILIBRIUM_PHASES_MODIFY.\n%s\n", n_user, line_save);
+		sprintf(error_string, "Equlibrium_phases %d not found for EQUILIBRIUM_PHASES_MODIFY.\n", n_user);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1363,6 +1367,8 @@ read_exchange_modify(void)
 		input_error++;
 		sprintf(error_string, "Expected exchange number following EXCHANGE_MODIFY.\n%s\n", line_save);
 		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
 		return (ERROR);
 	} 
 	else
@@ -1398,7 +1404,7 @@ read_exchange_modify(void)
 	if (exchange_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Exchange %d not found for EXCHANGE_MODIFY.\n%s\n", n_user, line_save);
+		sprintf(error_string, "Exchange %d not found for EXCHANGE_MODIFY.\n", n_user);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1470,6 +1476,8 @@ read_surface_modify(void)
 		input_error++;
 		sprintf(error_string, "Expected surface number following SURFACE_MODIFY.\n%s\n", line_save);
 		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
 		return (ERROR);
 	} 
 	else
@@ -1504,7 +1512,7 @@ read_surface_modify(void)
 	if (surface_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Surface %d not found for SURFACE_MODIFY.\n%s\n", n_user, line_save);
+		sprintf(error_string, "Surface %d not found for SURFACE_MODIFY.\n", n_user);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1557,6 +1565,8 @@ read_solid_solutions_modify(void)
 		input_error++;
 		sprintf(error_string, "Expected solid_solutions number following SOLID_SOLUTIONS_MODIFY.\n%s\n", line_save);
 		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
 		return (ERROR);
 	} 
 	else
@@ -1591,7 +1601,7 @@ read_solid_solutions_modify(void)
 	if (s_s_assemblage_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Solid_solutions %d not found for SOLID_SOLUTIONS_MODIFY.\n%s\n", n_user, line_save);
+		sprintf(error_string, "Solid_solutions %d not found for SOLID_SOLUTIONS_MODIFY.\n", n_user);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1643,6 +1653,8 @@ read_gas_phase_modify(void)
 		input_error++;
 		sprintf(error_string, "Expected gas_phase number following GAS_PHASE_MODIFY.\n%s\n", line_save);
 		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
 		return (ERROR);
 	} 
 	else
@@ -1677,7 +1689,7 @@ read_gas_phase_modify(void)
 	if (gas_phase_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Gas_phase %d not found for GAS_PHASE_MODIFY.\n%s\n", n_user, line_save);
+		sprintf(error_string, "Gas_phase %d not found for GAS_PHASE_MODIFY.\n", n_user);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1729,6 +1741,8 @@ read_kinetics_modify(void)
 		input_error++;
 		sprintf(error_string, "Expected kinetics number following KINETICS_MODIFY.\n%s\n", line_save);
 		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
 		return (ERROR);
 	} 
 	else
@@ -1763,7 +1777,7 @@ read_kinetics_modify(void)
 	if (kinetics_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
-		sprintf(error_string, "Kinetics %d not found for KINETICS_MODIFY.\n%s\n", n_user, line_save);
+		sprintf(error_string, "Kinetics %d not found for KINETICS_MODIFY.\n", n_user);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -1779,6 +1793,93 @@ read_kinetics_modify(void)
 	free_check_null(kinetics[n].description);
 	kinetics[n].description = string_duplicate(entity_ptr->description);
 	kinetics_free(entity_ptr);
+	free_check_null(entity_ptr);
+
+	// Need to output the next keyword
+	if (return_value == OPTION_KEYWORD) output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int CLASS_QUALIFIER
+read_reaction_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads REACTION_MODIFY data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	// find gas_phase number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected reaction number following REACTION_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	if (irrev_bsearch(n_user, &n) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Reaction %d not found for REACTION_MODIFY.\n", n_user);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	cxxReaction entity(&(irrev[n]));
+	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
+	// save entity
+	struct irrev *entity_ptr = entity.cxxReaction2irrev(PHREEQC_THIS);
+	irrev_free(&(irrev[n]));
+	irrev_copy(entity_ptr, &(irrev[n]), entity_ptr->n_user);
+	free_check_null(irrev[n].description);
+	irrev[n].description = string_duplicate(entity_ptr->description);
+	irrev_free(entity_ptr);
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
