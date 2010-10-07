@@ -36,4 +36,12 @@ Calcite
 	-comp	Ca[13C]O[18O]2(s)  	0
 #USE solid_solution none
 #USE gas_phase none
+SELECTED_OUTPUT
+	-file  iso10.pun
+	-reset false
+	-isotopes R(D) R(D)_H3O+ R(D)_H2O(g)
+	-calculate_values R(18O) R(13C) R(D)
+USER_PUNCH
+-heading D_permil D_H3O+_permil
+10 PUNCH ISO("D"), ISO("R(D)_H3O+")
 END
