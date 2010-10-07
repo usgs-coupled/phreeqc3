@@ -11,6 +11,7 @@
 #if !defined(PHREEQC_CLASS)
 #define EXTERNAL extern
 #include "global.h"
+#include "output.h"
 #else
 #include "Phreeqc.h"
 #endif
@@ -95,6 +96,10 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::s
 		 it != el.end(); ++it)
 	{
 		s_s_ptr[j].name = P_INSTANCE_POINTER string_hsave((*it).second.name.c_str());
+		if ((*it).second.name.size() <= 0)
+		{
+			P_INSTANCE_POINTER error_msg("Name of a solid solution not defined in solid-solution assemblage. Error in _MODIFY definition?\n", STOP);
+		}
 		assert((*it).second.name.size() > 0);
 		//s_s_ptr[j].total_moles                                 = it->total_moles;
 		s_s_ptr[j].total_moles = 0;
@@ -212,7 +217,7 @@ cxxSSassemblageSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	//s_oss << indent0 << "-tk                    " << this->tk << std::endl;
 	s_oss << indent1 << "-xb1                   " << this->xb1 << std::endl;
 	s_oss << indent1 << "-xb2                   " << this->xb2 << std::endl;
-	s_oss << indent1 << "-component             " << std::endl;
+	s_oss << indent1 << "-components            " << std::endl;
 	this->comps.dump_raw(s_oss, indent + 2);
 }
 
