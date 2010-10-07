@@ -203,7 +203,7 @@ cxxSSassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.
-				error_msg("Unknown input in EQUILIBRIUM_PHASES_RAW keyword.",
+				error_msg("Unknown input in SOLID_SOLUTIONS_RAW or SOLID_SOLUTIONS_MODIFY keyword.",
 						  CParser::OT_CONTINUE);
 			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
 			useLastLine = false;
