@@ -110,7 +110,7 @@ EQUILIBRIUM_PHASES_RAW       3 Pp_Assemblage defined in simulation 2.
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -124,7 +124,7 @@ EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
       -formula_totals
         X   1
 EXCHANGE_RAW       2 Exchanger defined in simulation 3.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -138,7 +138,7 @@ EXCHANGE_RAW       2 Exchanger defined in simulation 3.
       -formula_totals
         X   1
 EXCHANGE_RAW       3 Exchanger defined in simulation 3.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -269,7 +269,7 @@ SOLID_SOLUTIONS_RAW       1
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.1
         siderite   0.001
 SOLID_SOLUTIONS_RAW       2 S_S_Assemblage defined in simulation 6.
@@ -282,7 +282,7 @@ SOLID_SOLUTIONS_RAW       2 S_S_Assemblage defined in simulation 6.
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.1
         siderite   0.001
 SOLID_SOLUTIONS_RAW       3 S_S_Assemblage defined in simulation 6.
@@ -295,7 +295,7 @@ SOLID_SOLUTIONS_RAW       3 S_S_Assemblage defined in simulation 6.
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.1
         siderite   0.001
 GAS_PHASE_RAW       1 
@@ -334,8 +334,9 @@ KINETICS_RAW       1
       -d_params
         1 1 1 1 
   -totals         
+  -equal_steps    1
   -steps         
-    
+    1 
 KINETICS_RAW       2 Kinetics defined in simulation 7.
   -step_divide       1
   -rk                3
@@ -354,8 +355,9 @@ KINETICS_RAW       2 Kinetics defined in simulation 7.
       -d_params
         1 1 1 1 
   -totals         
+  -equal_steps    1
   -steps         
-    
+    1 
 KINETICS_RAW       3 Kinetics defined in simulation 7.
   -step_divide       1
   -rk                3
@@ -374,8 +376,9 @@ KINETICS_RAW       3 Kinetics defined in simulation 7.
       -d_params
         1 1 1 1 
   -totals         
+  -equal_steps    1
   -steps         
-    
+    1 
 USE mix none
 USE reaction none
 USE reaction_temperature none
@@ -433,7 +436,7 @@ EQUILIBRIUM_PHASES_RAW       3 Pure-phase assemblage after simulation 13.
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       3 Exchange assemblage after simulation 13.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -498,7 +501,7 @@ SOLID_SOLUTIONS_RAW       3 Solid solution assemblage after simulation 13.
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.09036434302232
         siderite   0.00080552534912327
 GAS_PHASE_RAW       3 Gas phase after simulation 13.
@@ -528,8 +531,9 @@ KINETICS_RAW       3 Kinetics defined in simulation 13.
     C   8.7305407318979e-09
     Ca   8.7305407318979e-09
     O   2.6191622195694e-08
+  -equal_steps    1
   -steps         
-    
+    1 
 USE mix none
 USE reaction none
 USE reaction_temperature none
@@ -571,7 +575,7 @@ EQUILIBRIUM_PHASES_RAW       1
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -630,7 +634,7 @@ SOLID_SOLUTIONS_RAW       1
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.1
         siderite   0.001
 GAS_PHASE_RAW       1 
@@ -660,8 +664,9 @@ KINETICS_RAW       1 Kinetics defined in simulation 15.
     C   8.9801193858114e-13
     Ca   8.9801193858114e-13
     O   2.6940358157434e-12
+  -equal_steps    1
   -steps         
-    
+    1 
 MIX        -2 Mix defined in simulation 15.
   1     0.5
 MIX        1 
@@ -725,7 +730,9 @@ SOLUTION_RAW       1 New soln description
 EQUILIBRIUM_PHASES_RAW       1 New pp description
   -eltList       
     Ba   1
-    O   4
+    C   1
+    Ca   1
+    O   7
     S   1
   -component
     -name                  Barite
@@ -746,7 +753,7 @@ EQUILIBRIUM_PHASES_RAW       1 New pp description
       -dissolve_only         1
       -precipitate_only      0
 EXCHANGE_RAW       1 New ex description
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -770,7 +777,7 @@ EXCHANGE_RAW       1 New ex description
       -phase_proportion      0
       -formula_z             0
       -formula_totals
-        X   1
+        Y   1
 SURFACE_RAW       1 New surface def
   -type 2
   -dl_type 0
@@ -817,7 +824,7 @@ SOLID_SOLUTIONS_RAW       1 New ss def
       -miscibility           0
       -xb1                   -6.2774385622042e+66
       -xb2                   -6.2774385622042e+66
-      -component             
+      -components            
         Barite   0.2
         Gypsum   0.2
   -solid_solution
@@ -829,7 +836,7 @@ SOLID_SOLUTIONS_RAW       1 New ss def
       -miscibility           0
       -xb1                   -6.2774385622042e+66
       -xb2                   -6.2774385622042e+66
-      -component             
+      -components            
         calcite   0.2
         rhodochrosite   0.2
         siderite   0.001
@@ -862,8 +869,9 @@ KINETICS_RAW       1 New kinetics def
     C   8.9801193858101e-13
     Ca   8.9801193858101e-13
     O   2.694035815743e-12
+  -equal_steps    1
   -steps         
-    
+    1 
 USE mix none
 USE reaction none
 USE reaction_temperature none

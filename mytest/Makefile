@@ -66,6 +66,7 @@ all: alkalinity.out \
 	initial_gas.out \
 	Int_vs_Don.out \
 	iso_example.out \
+	iso10.out \
 	jgb2col.out \
 	jgbcol.out \
 	joe.out \

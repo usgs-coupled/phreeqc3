@@ -36,7 +36,7 @@ EQUILIBRIUM_PHASES_RAW       100 Pp_Assemblage defined in simulation 11.
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       100 Exchanger defined in simulation 11.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -95,7 +95,7 @@ SOLID_SOLUTIONS_RAW       100 S_S_Assemblage defined in simulation 11.
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.1
         siderite   0.001
 GAS_PHASE_RAW       100 Gas defined in simulation 11.
@@ -122,8 +122,9 @@ KINETICS_RAW       100 Kinetics defined in simulation 11.
       -d_params
         1 1 1 1 
   -totals         
+  -equal_steps    1
   -steps         
-    
+    1 
 MIX        100 Mix defined in simulation 11.
   1     0.5
 REACTION_RAW        100 Irreversible reaction defined in simulation 11.
@@ -218,7 +219,7 @@ EQUILIBRIUM_PHASES_RAW       2 Pp_Assemblage defined in simulation 2.
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -232,7 +233,7 @@ EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
       -formula_totals
         X   1
 EXCHANGE_RAW       2 Exchanger defined in simulation 3.
-  -pitzer_exchange_gammas 1
+  -exchange_gammas 1
   -component
     -formula               X
       -totals
@@ -327,7 +328,7 @@ SOLID_SOLUTIONS_RAW       1
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.1
         siderite   0.001
 SOLID_SOLUTIONS_RAW       2 S_S_Assemblage defined in simulation 6.
@@ -340,7 +341,7 @@ SOLID_SOLUTIONS_RAW       2 S_S_Assemblage defined in simulation 6.
       -miscibility           0
       -xb1                   0
       -xb2                   0
-      -component             
+      -components            
         calcite   0.1
         siderite   0.001
 GAS_PHASE_RAW       1 
@@ -373,8 +374,9 @@ KINETICS_RAW       1
       -d_params
         1 1 1 1 
   -totals         
+  -equal_steps    1
   -steps         
-    
+    1 
 KINETICS_RAW       2 Kinetics defined in simulation 7.
   -step_divide       1
   -rk                3
@@ -393,8 +395,9 @@ KINETICS_RAW       2 Kinetics defined in simulation 7.
       -d_params
         1 1 1 1 
   -totals         
+  -equal_steps    1
   -steps         
-    
+    1 
 MIX        1 
   1     0.5
 MIX        2 
