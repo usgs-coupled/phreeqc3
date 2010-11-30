@@ -377,7 +377,7 @@ Phreeqc::Phreeqc(void)
 
 	char *SymbolList_init[11] =  {"Square", "Diamond", "Triangle", "Circle", "XCross", "Plus", "Star",
 			"TriangleDown", "HDash", "VDash", "None"};
-	for (i = 1; i < 11; i++)
+	for (i = 0; i < 11; i++)
 	{
 		SymbolList[i] = string_duplicate(SymbolList_init[i]);
 	}
