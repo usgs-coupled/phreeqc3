@@ -1449,8 +1449,16 @@ public:        // public methods for PHREEQC_CLASS
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
 	size_t list_components(std::list<std::string> &list_c);
+	void *get_cookie();
+	void pop_cookie();
+	void set_cookie(std::istream * cookie);
+	void clear_cookie(void);
 protected:
 	void init(void);
+//Data
+	std::list <std::istream *> cookie_list;
+	std::ifstream * in_stream;
+	std::ifstream * db_stream;
 };
 #endif /* _INC_PHREEQC_H */
 

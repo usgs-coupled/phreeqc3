@@ -134,7 +134,9 @@ main_method(int argc, char *argv[])
  *   Load database into memory
  */
 #if defined(MERGE_INCLUDE_FILES) 
+	this->set_cookie((std::ifstream *) db_cookie);
 	errors = read_database(istream_getc, db_cookie);
+	this->clear_cookie();
 #else
 	errors = read_database(getc_callback, db_cookie);
 #endif
@@ -148,7 +150,9 @@ main_method(int argc, char *argv[])
  *   Read input data for simulation
  */
 #if defined(MERGE_INCLUDE_FILES) 
+	this->set_cookie((std::ifstream *)input_cookie);
 	errors = run_simulations(istream_getc, input_cookie);
+	this->clear_cookie();
 #else
 	errors = run_simulations(getc_callback, input_cookie);
 #endif
