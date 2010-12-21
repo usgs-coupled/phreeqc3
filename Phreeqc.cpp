@@ -210,6 +210,7 @@ Phreeqc::Phreeqc(void)
 		{"str$", tokstr_},
 		{"val", tokval},
 		{"chr$", tokchr_},
+		{"eol$", tokeol_},
 		{"asc", tokasc},
 		{"len", toklen},
 		{"mid$", tokmid_},
