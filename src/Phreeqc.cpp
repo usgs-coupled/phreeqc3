@@ -476,6 +476,7 @@ Phreeqc::~Phreeqc(void)
 
 	PHRQ_free_all();
 }
+
 void Phreeqc::set_phast(int tf)
 {
 	this->phast = tf;
@@ -1223,5 +1224,37 @@ void Phreeqc::init(void)
 	/* model.c */
 	gas_in = FALSE;
 
+	this->clear_cookie();
+
 	return;
+}
+void * Phreeqc::get_cookie()
+{
+	if (cookie_list.size() > 0)
+	{
+		return this->cookie_list.front();
+	}
+	else
+	{
+		return NULL;
+	}
+}
+void Phreeqc::set_cookie(std::istream * cookie)
+{
+	this->cookie_list.push_front(cookie);
+}
+void Phreeqc::clear_cookie(void)
+{
+	while (this->cookie_list.size() > 0)
+	{
+		this->pop_cookie();
+	}
+}
+void Phreeqc::pop_cookie()
+{
+	if (cookie_list.size() > 0)
+	{
+		delete this->cookie_list.front();
+		this->cookie_list.pop_front();
+	}
 }
