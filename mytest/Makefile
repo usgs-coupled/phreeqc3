@@ -144,6 +144,7 @@ all: alkalinity.out \
 	ex6.out \
 	ex7.out \
 	ex8.out \
+	ex8_tail_biter.out \
 	ex9.out \
 	ex10.out \
 	ex10_pz.out \
