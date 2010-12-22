@@ -67,7 +67,7 @@ Phreeqc::Phreeqc(void)
 
 	count_iso_defaults = temp_count_iso_defaults;
 	iso_defaults = new iso[count_iso_defaults];
-		
+
 	int i;
 	for (i = 0; i < temp_count_iso_defaults; i++)
 	{
@@ -371,12 +371,13 @@ Phreeqc::Phreeqc(void)
 
 	end_timer = false;					/* in mainsubs.c, stops the update timer in form1.h */
 
+	ncurves = 0;
 	for (i = 0; i < 3; i++)
 	{
-		ncurves_changed[i] = 0;		    /* for updating the chart: */
-	}								    /* 0 or 1 (if curves have changed), previous no, new no of curves with points*/
+		ncurves_changed[i] = 0;				/* for updating the chart: */
+	}										/* 0 or 1 (if curves have changed), previous no, new no of curves with points*/
 
-	char *SymbolList_init[11] =  {"Square", "Diamond", "Triangle", "Circle", "XCross", "Plus", "Star",
+	char *SymbolList_init[11] =	{"Square", "Diamond", "Triangle", "Circle", "XCross", "Plus", "Star",
 			"TriangleDown", "HDash", "VDash", "None"};
 	for (i = 0; i < 11; i++)
 	{
@@ -387,7 +388,7 @@ Phreeqc::Phreeqc(void)
 
 	nCSV_headers = 0;					/* no of CSV curves, also defines ColumnOffset if connect_simulations = 1 */
 	FirstCallToUSER_GRAPH = 1;
-	new_ug = false;					    /* in case USER_GRAPH is redefined */
+	new_ug = false;							/* in case USER_GRAPH is redefined */
 	u_g = false;
 	u_g_active = false;
 #endif // CHART
@@ -400,7 +401,7 @@ Phreeqc::Phreeqc(void)
 	GASCON = 0.461522e0;
 	TZ = 647.073e0;
 	AA = 1.e0;
-	G1 = 11.e0; 
+	G1 = 11.e0;
 	G2 = 44.333333333333e0;
 	GF = 3.5e0;
 
@@ -484,7 +485,7 @@ void Phreeqc::set_phast(int tf)
 }
 size_t Phreeqc::list_components(std::list<std::string> &list_c)
 /*
- *   Find all elements in any class definition
+ *	 Find all elements in any class definition
  */
 {
 	cxxNameDouble accumulator;
@@ -562,12 +563,12 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		if (it->first == "Charge") continue;
 		char string[MAX_LENGTH];
-		strcpy(string, it->first.c_str()); 
+		strcpy(string, it->first.c_str());
 		struct master *master_ptr = master_bsearch_primary(string);
 		if (master_ptr == NULL) continue;
 		if (master_ptr->type != AQ) continue;
 		//std::string name(master_ptr->elt->name);
-		//char 
+		//char
 		accumulator.add(master_ptr->elt->name, 1);
 	}
 	// print list
@@ -610,106 +611,106 @@ void Phreeqc::init(void)
 #else
 	inv_tol_default = pow((double) 10, (double) -DBL_DIG + 5);
 #endif
-	step_size               = 100.;
-	pe_step_size            = 10.;
-	pp_scale                = 1.0;
-	pp_column_scale         = 1.0;
-	diagonal_scale          = FALSE;
-	censor                  = 0.0;
-	mass_water_switch       = FALSE;
-	delay_mass_water        = FALSE;
-	incremental_reactions   = FALSE;
-	aqueous_only            = 0;
+	step_size							 = 100.;
+	pe_step_size						= 10.;
+	pp_scale								= 1.0;
+	pp_column_scale				 = 1.0;
+	diagonal_scale					= FALSE;
+	censor									= 0.0;
+	mass_water_switch			 = FALSE;
+	delay_mass_water				= FALSE;
+	incremental_reactions	 = FALSE;
+	aqueous_only						= 0;
 	negative_concentrations = FALSE;
 
 	LOG_10 = log(10.0);
 
-	max_solution       = MAX_SOLUTION;
-	max_pp_assemblage  = MAX_PP_ASSEMBLAGE;
-	max_exchange       = MAX_PP_ASSEMBLAGE;
-	max_surface        = MAX_PP_ASSEMBLAGE;
-	max_gas_phase      = MAX_PP_ASSEMBLAGE;
-	max_kinetics       = MAX_PP_ASSEMBLAGE;
+	max_solution			 = MAX_SOLUTION;
+	max_pp_assemblage	= MAX_PP_ASSEMBLAGE;
+	max_exchange			 = MAX_PP_ASSEMBLAGE;
+	max_surface				= MAX_PP_ASSEMBLAGE;
+	max_gas_phase			= MAX_PP_ASSEMBLAGE;
+	max_kinetics			 = MAX_PP_ASSEMBLAGE;
 	max_s_s_assemblage = MAX_PP_ASSEMBLAGE;
 
-	max_elements       = MAX_ELEMENTS;
-	max_elts           = MAX_ELTS;
-	max_line           = MAX_LINE;
-	max_master         = MAX_MASTER;
-	max_mb_unknowns    = MAX_TRXN;
-	max_phases         = MAX_PHASES;
-	max_s              = MAX_S;
-	max_strings        = MAX_STRINGS;
-	max_trxn           = MAX_TRXN;
-	max_logk           = MAX_S;
+	max_elements			 = MAX_ELEMENTS;
+	max_elts					 = MAX_ELTS;
+	max_line					 = MAX_LINE;
+	max_master				 = MAX_MASTER;
+	max_mb_unknowns		= MAX_TRXN;
+	max_phases				 = MAX_PHASES;
+	max_s							= MAX_S;
+	max_strings				= MAX_STRINGS;
+	max_trxn					 = MAX_TRXN;
+	max_logk					 = MAX_S;
 	max_master_isotope = MAX_ELTS;
 
-	count_solution       = 0;
-	count_pp_assemblage  = 0;
-	count_exchange       = 0;
-	count_surface        = 0;
-	count_gas_phase      = 0;
-	count_kinetics       = 0;
+	count_solution			 = 0;
+	count_pp_assemblage	= 0;
+	count_exchange			 = 0;
+	count_surface				= 0;
+	count_gas_phase			= 0;
+	count_kinetics			 = 0;
 	count_s_s_assemblage = 0;
 
-	count_elements       = 0;
-	count_irrev          = 0;
-	count_master         = 0;
-	count_mix            = 0;
-	count_phases         = 0;
-	count_s              = 0;
-	count_temperature    = 0;
-	count_logk           = 0;
+	count_elements			 = 0;
+	count_irrev					= 0;
+	count_master				 = 0;
+	count_mix						= 0;
+	count_phases				 = 0;
+	count_s							= 0;
+	count_temperature		= 0;
+	count_logk					 = 0;
 	count_master_isotope = 0;
 /*
- *   Initialize advection
+ *	 Initialize advection
  */
-	count_ad_cells   = 1;
-	count_ad_shifts  = 1;
+	count_ad_cells	 = 1;
+	count_ad_shifts	= 1;
 	print_ad_modulus = 1;
 	punch_ad_modulus = 1;
 
-	advection_punch            = 0;
-	advection_kin_time         = 0.0;
+	advection_punch						= 0;
+	advection_kin_time				 = 0.0;
 	advection_kin_time_defined = FALSE;
-	advection_print            = 0;
-	advection_warnings         = TRUE;
+	advection_print						= 0;
+	advection_warnings				 = TRUE;
 /*
- *   Initialize transport
+ *	 Initialize transport
  */
-	count_cells      = 1;
-	count_shifts     = 1;
-	ishift           = 1;
-	bcon_first       = bcon_last = 3;
-	diffc            = 0.3e-9;
-	simul_tr         = 0;
-	tempr            = 2.0;
-	heat_diffc       = -0.1;
-	timest           = 0.0;
-	multi_Dflag      = FALSE;
+	count_cells			= 1;
+	count_shifts		 = 1;
+	ishift					 = 1;
+	bcon_first			 = bcon_last = 3;
+	diffc						= 0.3e-9;
+	simul_tr				 = 0;
+	tempr						= 2.0;
+	heat_diffc			 = -0.1;
+	timest					 = 0.0;
+	multi_Dflag			= FALSE;
 	interlayer_Dflag = FALSE;
 	interlayer_tortf = 100.0;
-	interlayer_Dpor  = 0.1;
-/* !!!!        count_stag = 0; */
-	mcd_substeps       = 1.0;
-	print_modulus      = 1;
-	punch_modulus      = 1;
-	dump_modulus       = 0;
-	dump_in            = FALSE;
+	interlayer_Dpor	= 0.1;
+/* !!!!				count_stag = 0; */
+	mcd_substeps			 = 1.0;
+	print_modulus			= 1;
+	punch_modulus			= 1;
+	dump_modulus			 = 0;
+	dump_in						= FALSE;
 	transport_warnings = TRUE;
 
-	pp_assemblage  = 0;
-	exchange       = 0;
-	surface        = 0;
-	gas_phase      = 0;
-	kinetics       = 0;
+	pp_assemblage	= 0;
+	exchange			 = 0;
+	surface				= 0;
+	gas_phase			= 0;
+	kinetics			 = 0;
 	s_s_assemblage = 0;
-	cell_data      = 0;
-	elements       = 0;
-	elt_list       = 0;
+	cell_data			= 0;
+	elements			 = 0;
+	elt_list			 = 0;
 
 
-	inverse       = 0;
+	inverse			 = 0;
 	count_inverse = 0;
 
 	irrev = 0;
@@ -721,7 +722,7 @@ void Phreeqc::init(void)
 
 	mb_unknowns = 0;
 
-	mix       = 0;
+	mix			 = 0;
 	count_mix = 0;
 /* !!!! */
 	stag_data = 0;
@@ -740,70 +741,70 @@ void Phreeqc::init(void)
 
 	temperature = 0;
 
-	title_x       = NULL;
-	pe_x          = NULL;
+	title_x			 = NULL;
+	pe_x					= NULL;
 	description_x = NULL;
-	units_x       = NULL;
-	s_x           = NULL;
+	units_x			 = NULL;
+	s_x					 = NULL;
 
-	sum_mb1    = NULL;
-	sum_mb2    = NULL;
+	sum_mb1		= NULL;
+	sum_mb2		= NULL;
 	sum_jacob0 = NULL;
 	sum_jacob1 = NULL;
 	sum_jacob2 = NULL;
-	sum_delta  = NULL;
+	sum_delta	= NULL;
 
 	isotopes_x = 0;
 
-	x            = NULL;
+	x						= NULL;
 	max_unknowns = 0;
 
-	array     = NULL;
-	delta     = NULL;
-	residual  = NULL;
-	s_h2o     = NULL;
-	s_hplus   = NULL;
+	array		 = NULL;
+	delta		 = NULL;
+	residual	= NULL;
+	s_h2o		 = NULL;
+	s_hplus	 = NULL;
 	s_h3oplus = NULL;
-	s_eminus  = NULL;
-	s_co3     = NULL;
-	s_h2      = NULL;
-	s_o2      = NULL;
+	s_eminus	= NULL;
+	s_co3		 = NULL;
+	s_h2			= NULL;
+	s_o2			= NULL;
 
-	logk_hash_table           = 0;
+	logk_hash_table					 = 0;
 	master_isotope_hash_table = 0;
-	strings_hash_table        = 0;
-	elements_hash_table       = 0;
-	species_hash_table        = 0;
-	phases_hash_table         = 0;
-	keyword_hash_table        = 0;
+	strings_hash_table				= 0;
+	elements_hash_table			 = 0;
+	species_hash_table				= 0;
+	phases_hash_table				 = 0;
+	keyword_hash_table				= 0;
 /*
- *  Initialize use pointers
+ *	Initialize use pointers
  */
-	use.solution_in      = FALSE;
+	use.solution_in			= FALSE;
 	use.pp_assemblage_in = FALSE;
-	use.mix_in           = FALSE;
-	use.irrev_in         = FALSE;
+	use.mix_in					 = FALSE;
+	use.irrev_in				 = FALSE;
 /*
- *   Initialize punch
+ *	 Initialize punch
  */
-	punch.in               = FALSE;
-	punch.count_totals     = 0;
-	punch.totals           = 0;
+	punch.in							 = FALSE;
+	punch.count_totals		 = 0;
+	punch.totals					 = 0;
 	punch.count_molalities = 0;
 
-	punch.molalities       = 0;
+	punch.molalities			 = 0;
 	punch.count_activities = 0;
 
-	punch.activities        = 0;
+	punch.activities				= 0;
 	punch.count_pure_phases = 0;
 
 	punch.pure_phases = 0;
-	punch.count_si    = 0;
+	punch.count_si		= 0;
 
-	punch.si          = 0;
+	punch.si					= 0;
 	punch.count_gases = 0;
 
-	punch.gases     = 0;
+	punch.gases		 = 0;
 	punch.count_s_s = 0;
 	punch.s_s = 0;
 
@@ -811,52 +812,52 @@ void Phreeqc::init(void)
 	punch.kinetics = 0;
 
 	punch.count_isotopes = 0;
-	punch.isotopes       = 0;
+	punch.isotopes			 = 0;
 
 	punch.count_calculate_values = 0;
-	punch.calculate_values       = 0;
+	punch.calculate_values			 = 0;
 
 	count_save_values = 0;
-	save_values       = 0;
+	save_values			 = 0;
 
 
 	punch.inverse = TRUE;
 
-	punch.sim            = TRUE;
-	punch.state          = TRUE;
-	punch.soln           = TRUE;
-	punch.dist           = TRUE;
-	punch.time           = TRUE;
-	punch.step           = TRUE;
-	punch.rxn            = FALSE;
-	punch.temp           = FALSE;
-	punch.ph             = TRUE;
-	punch.pe             = TRUE;
-	punch.alk            = FALSE;
-	punch.mu             = FALSE;
-	punch.water          = FALSE;
+	punch.sim						= TRUE;
+	punch.state					= TRUE;
+	punch.soln					 = TRUE;
+	punch.dist					 = TRUE;
+	punch.time					 = TRUE;
+	punch.step					 = TRUE;
+	punch.rxn						= FALSE;
+	punch.temp					 = FALSE;
+	punch.ph						 = TRUE;
+	punch.pe						 = TRUE;
+	punch.alk						= FALSE;
+	punch.mu						 = FALSE;
+	punch.water					= FALSE;
 	punch.high_precision = FALSE;
-	punch.user_punch     = TRUE;
+	punch.user_punch		 = TRUE;
 	punch.charge_balance = FALSE;
-	punch.percent_error  = FALSE;
+	punch.percent_error	= FALSE;
 /*
- *   last model
+ *	 last model
  */
-	last_model.exchange       = NULL;
-	last_model.gas_phase      = NULL;
+	last_model.exchange			 = NULL;
+	last_model.gas_phase			= NULL;
 	last_model.s_s_assemblage = NULL;
-	last_model.kinetics       = NULL;
-	last_model.pp_assemblage  = NULL;
-	last_model.add_formula    = NULL;
-	last_model.si             = NULL;
-	last_model.surface_comp   = NULL;
+	last_model.kinetics			 = NULL;
+	last_model.pp_assemblage	= NULL;
+	last_model.add_formula		= NULL;
+	last_model.si						 = NULL;
+	last_model.surface_comp	 = NULL;
 	last_model.surface_charge = NULL;
 /*
- *   Update hash table
+ *	 Update hash table
  */
 	keyword_hash = 0;
 /*
- *   rates
+ *	 rates
  */
 	rates = 0;
 	count_rates = 0;
@@ -872,7 +873,7 @@ void Phreeqc::init(void)
 	initial_total_time = 0;
 
 /*
- *   user_print, user_punch
+ *	 user_print, user_punch
  */
 	user_print = 0;
 	user_punch = 0;
@@ -880,14 +881,14 @@ void Phreeqc::init(void)
 	user_punch_count_headings = 0;
 #ifdef PHREEQ98
 /*
- *   user_graph
+ *	 user_graph
  */
-	user_graph                = 0;
-	user_graph_headings       = 0
+	user_graph								= 0;
+	user_graph_headings			 = 0
 	user_graph_count_headings = 0;
 #endif
 	/*
-	   Initialize llnl aqueous model parameters
+		 Initialize llnl aqueous model parameters
 	 */
 	llnl_temp = 0;
 	llnl_count_temp = 0;
@@ -908,7 +909,7 @@ void Phreeqc::init(void)
  */
 	command_hash_table = 0;
 
-	change_surf       = 0;
+	change_surf			 = 0;
 	change_surf_count = 0;
 
 
@@ -916,26 +917,26 @@ void Phreeqc::init(void)
 	/* SRC pr.status = FALSE; */
 #endif
 	/* Initialize print here, not in global.h */
-	pr.all                = TRUE;
-	pr.initial_solutions  = TRUE;
+	pr.all								= TRUE;
+	pr.initial_solutions	= TRUE;
 	pr.initial_exchangers = TRUE;
-	pr.reactions          = TRUE;
-	pr.gas_phase          = TRUE;
-	pr.s_s_assemblage     = TRUE;
-	pr.pp_assemblage      = TRUE;
-	pr.surface            = TRUE;
-	pr.exchange           = TRUE;
-	pr.kinetics           = TRUE;
-	pr.totals             = TRUE;
-	pr.eh                 = TRUE;
-	pr.species            = TRUE;
+	pr.reactions					= TRUE;
+	pr.gas_phase					= TRUE;
+	pr.s_s_assemblage		 = TRUE;
+	pr.pp_assemblage			= TRUE;
+	pr.surface						= TRUE;
+	pr.exchange					 = TRUE;
+	pr.kinetics					 = TRUE;
+	pr.totals						 = TRUE;
+	pr.eh								 = TRUE;
+	pr.species						= TRUE;
 	pr.saturation_indices = TRUE;
-	pr.irrev              = TRUE;
-	pr.mix                = TRUE;
-	pr.reaction           = TRUE;
-	pr.use                = TRUE;
-	pr.logfile            = FALSE;
-	pr.punch              = TRUE;
+	pr.irrev							= TRUE;
+	pr.mix								= TRUE;
+	pr.reaction					 = TRUE;
+	pr.use								= TRUE;
+	pr.logfile						= FALSE;
+	pr.punch							= TRUE;
 	if (phast == TRUE)
 	{
 		pr.status = FALSE;
@@ -944,27 +945,27 @@ void Phreeqc::init(void)
 	{
 		pr.status = TRUE;
 	}
-	pr.inverse            = TRUE;
-	pr.dump               = TRUE;
-	pr.user_print         = TRUE;
-	pr.headings           = TRUE;
-	pr.user_graph         = TRUE;
-	pr.echo_input         = TRUE;
+	pr.inverse						= TRUE;
+	pr.dump							 = TRUE;
+	pr.user_print				 = TRUE;
+	pr.headings					 = TRUE;
+	pr.user_graph				 = TRUE;
+	pr.echo_input				 = TRUE;
 	count_warnings = 0;
-	pr.warnings           = 100;
-	pr.initial_isotopes   = TRUE;
-	pr.isotope_ratios     = TRUE;
-	pr.isotope_alphas     = TRUE;
-	pr.hdf                = FALSE;
-	pr.alkalinity         = FALSE;
+	pr.warnings					 = 100;
+	pr.initial_isotopes	 = TRUE;
+	pr.isotope_ratios		 = TRUE;
+	pr.isotope_alphas		 = TRUE;
+	pr.hdf								= FALSE;
+	pr.alkalinity				 = FALSE;
 
 	species_list = NULL;
 
-	user_database             = NULL;
-	first_read_input          = TRUE;
-	have_punch_name           = FALSE;
+	user_database						 = NULL;
+	first_read_input					= TRUE;
+	have_punch_name					 = FALSE;
 	selected_output_file_name = NULL;
-	dump_file_name            = NULL;
+	dump_file_name						= NULL;
 
 	/* calculate_value */
 	max_calculate_value = MAX_ELTS;
@@ -987,26 +988,26 @@ void Phreeqc::init(void)
 
 	phreeqc_mpi_myself = 0;
 
-	copy_solution.n_user       = copy_solution.start       = copy_solution.end       = 0;
-	copy_pp_assemblage.n_user  = copy_pp_assemblage.start  = copy_pp_assemblage.end  = 0;
-	copy_exchange.n_user       = copy_exchange.start       = copy_exchange.end       = 0;
-	copy_surface.n_user        = copy_surface.start        = copy_surface.end        = 0;
+	copy_solution.n_user			 = copy_solution.start			 = copy_solution.end			 = 0;
+	copy_pp_assemblage.n_user	= copy_pp_assemblage.start	= copy_pp_assemblage.end	= 0;
+	copy_exchange.n_user			 = copy_exchange.start			 = copy_exchange.end			 = 0;
+	copy_surface.n_user				= copy_surface.start				= copy_surface.end				= 0;
 	copy_s_s_assemblage.n_user = copy_s_s_assemblage.start = copy_s_s_assemblage.end = 0;
-	copy_gas_phase.n_user      = copy_gas_phase.start      = copy_gas_phase.end      = 0;
-	copy_kinetics.n_user       = copy_kinetics.start       = copy_kinetics.end       = 0;
-	copy_mix.n_user            = copy_mix.start            = copy_mix.end            = 0;
-	copy_irrev.n_user          = copy_irrev.start          = copy_irrev.end          = 0;
-	copy_temperature.n_user    = copy_temperature.start    = copy_temperature.end    = 0;
+	copy_gas_phase.n_user			= copy_gas_phase.start			= copy_gas_phase.end			= 0;
+	copy_kinetics.n_user			 = copy_kinetics.start			 = copy_kinetics.end			 = 0;
+	copy_mix.n_user						= copy_mix.start						= copy_mix.end						= 0;
+	copy_irrev.n_user					= copy_irrev.start					= copy_irrev.end					= 0;
+	copy_temperature.n_user		= copy_temperature.start		= copy_temperature.end		= 0;
 
 	set_forward_output_to_log(FALSE);
 	simulation = 0;
 	/*
-	 *  cvode
+	 *	cvode
 	 */
 
 	cvode_init();
 	/*
-	 *  Pitzer
+	 *	Pitzer
 	 */
 	pitzer_model = FALSE;
 	max_pitz_param = 100;
@@ -1029,41 +1030,41 @@ void Phreeqc::init(void)
 
 
 	/*
-	 *  SIT
+	 *	SIT
 	 */
-	sit_model       = FALSE;
-	max_sit_param   = 100;
+	sit_model			 = FALSE;
+	max_sit_param	 = 100;
 	count_sit_param = 0;
-	sit_params      = 0;
+	sit_params			= 0;
 
 	/*
 	 * to facilitate debuging
 	 */
-	dbg_use           = &use;
-	dbg_solution      = solution;
-	dbg_exchange      = exchange;
-	dbg_surface       = surface;
+	dbg_use					 = &use;
+	dbg_solution			= solution;
+	dbg_exchange			= exchange;
+	dbg_surface			 = surface;
 	dbg_pp_assemblage = pp_assemblage;
-	dbg_kinetics      = kinetics;
-	dbg_irrev         = irrev;
-	dbg_mix           = mix;
-	dbg_master        = master;
+	dbg_kinetics			= kinetics;
+	dbg_irrev				 = irrev;
+	dbg_mix					 = mix;
+	dbg_master				= master;
 	calculating_deriv = FALSE;
-	numerical_deriv   = FALSE;
+	numerical_deriv	 = FALSE;
 
-	zeros     = 0;
+	zeros		 = 0;
 	zeros_max = 1;
 
 	cell_pore_volume = 0;
-	cell_volume      = 0;
-	cell_porosity    = 0;
-	cell_saturation  = 0;
+	cell_volume			= 0;
+	cell_porosity		= 0;
+	cell_saturation	= 0;
 
 	charge_group = NULL;
 	print_density = 0;
 
-    //
-	//  Non-class statics
+		//
+	//	Non-class statics
 	//
 	/* basic.c */
 	n_user_punch_index = 0;
@@ -1259,3 +1260,4 @@ void Phreeqc::pop_cookie()
 		this->cookie_list.pop_front();
 	}
 }
+
