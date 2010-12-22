@@ -115,7 +115,7 @@ EFENCE_LIB=-L$(HOME)/packages/efence
 # 2 Versions
 # -----------------------------------------------------------------------------
 ifeq ($(CFG), RELEASE)
-  DEFINES      = -DPHREEQC_CPP -DNDEBUG -DMERGE_INCLUDE_FILES $(DEFINE_INVERSE_CL1MP)
+  DEFINES      = -DPHREEQC_CPP -DNDEBUG $(DEFINE_INVERSE_CL1MP)
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc
   CXX          = g++
@@ -125,7 +125,7 @@ ifeq ($(CFG), RELEASE)
 endif
 
 ifeq ($(CFG), DEBUG)
-  DEFINES      = -DPHREEQC_CPP -DUSE_PHRQ_ALLOC -DMERGE_INCLUDE_FILES $(DEFINE_INVERSE_CL1MP)
+  DEFINES      = -DPHREEQC_CPP -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP)
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc
   CXX          = g++
