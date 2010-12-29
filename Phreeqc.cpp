@@ -1229,6 +1229,8 @@ void Phreeqc::init(void)
 	/* model.c */
 	gas_in = FALSE;
 
+	count_strings = 0;
+
 	this->clear_cookie();
 
 	return;
