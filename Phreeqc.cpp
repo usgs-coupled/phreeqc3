@@ -463,6 +463,7 @@ Phreeqc::~Phreeqc(void)
 	{
 		iso_defaults[i].name = (char *) free_check_null((void *) iso_defaults[i].name);
 	}
+	delete[] iso_defaults;
 	for (i = 0; i < NKEYS; i++)
 	{
 		keyword[i].name = (char *) free_check_null((void *) keyword[i].name);
@@ -473,6 +474,8 @@ Phreeqc::~Phreeqc(void)
 		command[i].name = (char *) free_check_null((void *) command[i].name);
 	}
 	delete[] command;
+
+	delete[] output_callbacks;
 
 	free_check_null(default_data_base);
 
