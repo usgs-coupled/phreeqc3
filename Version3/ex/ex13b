@@ -1,0 +1,91 @@
+TITLE Example 13B.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    Explicit definition of first-order exchange factors.
+SOLUTION 0    # 1 mmol/l NaCl
+        units   mmol/l
+        pH       7.0
+        pe      13.0    O2(g)   -0.7
+        Na       1.0    # Na has Retardation = 2
+        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+        N(5)     1.0    # NO3 is conservative
+#       charge imbalance is no problem ...
+END
+SOLUTION 1-41  # Column with KNO3
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+        K+ + X- = KX
+        log_k   0.0
+        -gamma  3.5     0.015
+EXCHANGE 1-41
+        -equil  1
+        X       1.e-3
+END
+PRINT
+        -reset false
+        -echo_input true
+MIX  1;  1 .93038;      22 .06962       ;MIX  2;         2 .93038;      23 .06962;
+MIX  3;  3 .93038;      24 .06962       ;MIX  4;         4 .93038;      25 .06962;
+MIX  5;  5 .93038;      26 .06962       ;MIX  6;         6 .93038;      27 .06962;
+MIX  7;  7 .93038;      28 .06962       ;MIX  8;         8 .93038;      29 .06962;
+MIX  9;  9 .93038;      30 .06962       ;MIX 10;        10 .93038;      31 .06962;
+MIX 11; 11 .93038;      32 .06962       ;MIX 12;        12 .93038;      33 .06962;
+MIX 13; 13 .93038;      34 .06962       ;MIX 14;        14 .93038;      35 .06962;
+MIX 15; 15 .93038;      36 .06962       ;MIX 16;        16 .93038;      37 .06962;
+MIX 17; 17 .93038;      38 .06962       ;MIX 18;        18 .93038;      39 .06962;
+MIX 19; 19 .93038;      40 .06962       ;MIX 20;        20 .93038;      41 .06962;
+#
+MIX 22;  1 .20886;      22 .79114       ;MIX 23;         2 .20886;      23 .79114;
+MIX 24;  3 .20886;      24 .79114       ;MIX 25;         4 .20886;      25 .79114;
+MIX 26;  5 .20886;      26 .79114       ;MIX 27;         6 .20886;      27 .79114;
+MIX 28;  7 .20886;      28 .79114       ;MIX 29;         8 .20886;      29 .79114;
+MIX 30;  9 .20886;      30 .79114       ;MIX 31;        10 .20886;      31 .79114;
+MIX 32; 11 .20886;      32 .79114       ;MIX 33;        12 .20886;      33 .79114;
+MIX 34; 13 .20886;      34 .79114       ;MIX 35;        14 .20886;      35 .79114;
+MIX 36; 15 .20886;      36 .79114       ;MIX 37;        16 .20886;      37 .79114;
+MIX 38; 17 .20886;      38 .79114       ;MIX 39;        18 .20886;      39 .79114;
+MIX 40; 19 .20886;      40 .79114       ;MIX 41;        20 .20886;      41 .79114;
+TRANSPORT
+        -cells  20
+        -shifts 5
+        -flow_direction  forward
+        -time_step       3600
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -lengths         0.1
+        -dispersivities  0.015
+        -stagnant        1
+END
+SOLUTION 0  # Original solution reenters
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+END
+SELECTED_OUTPUT
+        -file   ex13b.sel
+        -reset  false
+        -distance       true
+        -solution
+USER_PUNCH
+        -headings Cl_mmol Na_mmol
+  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+TRANSPORT
+        -shifts  10
+        -punch_cells        1-20
+        -punch_frequency    10
+USER_GRAPH
+        -headings Distance Na Cl
+        -chart_title "Example 13B"
+        -axis_titles "Distance / m" "mmol / kgw"
+        -axis_scale x_axis 0 2
+        -axis_scale y_axis 0 0.8
+        -plot_concentration_vs x
+  -start
+  10 GRAPH_X DIST
+  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+  -end      
+END

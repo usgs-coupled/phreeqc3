@@ -1,0 +1,40 @@
+pcf
+* control data
+restart estimation
+2 16 1 0 1
+1 1 single point
+5 2 0.3 0.03 10
+3 3 0.0001
+0.1
+300 0.01 2 2 0.01 2
+1 1 1
+* parameter groups
+k1 relative 1e-2 0 switch 2 parabolic
+* parameter data
+K none relative 0.45 0.1 1 k1 1 0
+n none relative 0.9 0.1 2 k1 1 0
+* observation groups
+obs
+* observation data
+c1	0	1	obs
+c2	0	1	obs
+c3	0	1	obs
+c4	0	1	obs
+c5	0	1	obs
+c6	0	1	obs
+c7	0	1	obs
+c8	0	1	obs
+c9	0	1	obs
+c10	0	1	obs
+c11	0	1	obs
+c12	0	1	obs
+c13	0	1	obs
+c14	0	1	obs
+c15	0	1	obs
+c16	0	1	obs
+* model command line
+model.bat
+* model input/output
+ex19_pest.tpl ex19_pest.    # file names: template for PEST, input for PHREEQC
+ex19.ins ex19_p.prn         # file names: positions in outp, outp from PHREEQC
+* prior information

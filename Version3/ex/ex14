@@ -1,0 +1,84 @@
+DATABASE wateq4f.dat
+TITLE Example 14.--Transport with equilibrium_phases, exchange, and surface reactions
+***********
+PLEASE NOTE: This problem requires database file wateq4f.dat!!
+             Arsenic data of Archer and Nordstrom (2002) included in 
+             wateq4f.dat (PHREEQC Version 2.8).
+             Results differ from WRIR 99-4259 because of revised data.
+***********
+SURFACE_SPECIES
+        Hfo_wOH + Mg+2 = Hfo_wOMg+ + H+
+        log_k -15.
+        Hfo_wOH + Ca+2 = Hfo_wOCa+ + H+
+        log_k -15.
+SOLUTION 1 Brine
+        pH      5.713
+        pe      4.0     O2(g)   -0.7
+        temp    25.
+        units   mol/kgw
+        Ca      .4655
+        Mg      .1609
+        Na      5.402
+        Cl      6.642           charge
+        C       .00396
+        S       .004725
+        As      .05 umol/kgw
+END
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Dolomite        0.0     1.6
+        Calcite         0.0     0.1
+SAVE solution 1
+# prints initial condition to the selected-output file
+SELECTED_OUTPUT
+        -file ex14.sel
+        -reset false
+        -step
+USER_PUNCH
+        -head  m_Ca m_Mg m_Na umol_As pH
+  10 PUNCH TOT("Ca"), TOT("Mg"), TOT("Na"), TOT("As")*1e6, -LA("H+") 
+END
+PRINT
+# skips print of initial exchange and initial surface to the selected-output file
+        -selected_out false
+EXCHANGE 1
+        -equil with solution 1
+        X       1.0
+SURFACE 1
+        -equil solution 1
+# assumes 1/10 of iron is HFO
+        Hfo_w           0.07    600.    30.
+END
+SOLUTION 0 20 x precipitation
+        pH      4.6
+        pe      4.0     O2(g)   -0.7
+        temp    25.
+        units   mmol/kgw
+        Ca      .191625
+        Mg      .035797
+        Na      .122668
+        Cl      .133704
+        C       .01096
+        S       .235153         charge
+EQUILIBRIUM_PHASES 0
+        Dolomite        0.0     1.6
+        Calcite         0.0     0.1
+        CO2(g)          -1.5    10.
+SAVE solution 0
+END
+PRINT
+        -selected_out true
+ADVECTION
+        -cells 1
+        -shifts 200
+        -print_frequency 200
+USER_GRAPH
+        -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH
+        -chart_title "EXAMPLE 14"
+        -axis_titles "Pore Volumes or Shift" "Log c / (ppb or molal)" "pH"
+        -axis_scale x_axis 0 200
+        -axis_scale y_axis 1e-6 50 auto auto Log 
+  10 GRAPH_X STEP_NO
+  20 GRAPH_Y TOT("As") * 74.92e6, TOT("Ca"), TOT("Mg"), TOT("Na")
+  30 GRAPH_SY -LA("H+")
+END

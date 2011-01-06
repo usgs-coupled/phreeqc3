@@ -1,0 +1,89 @@
+TITLE Example 7.--Organic decomposition with fixed-pressure and
+                  fixed-volume gas phases
+SOLUTION_MASTER_SPECIES
+N(-3)    NH4+           0.0     N
+SOLUTION_SPECIES
+NH4+ = NH3 + H+
+        log_k           -9.252
+        delta_h 12.48   kcal
+        -analytic    0.6322    -0.001225     -2835.76
+
+NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
+        log_k           119.077
+        delta_h -187.055        kcal
+        -gamma    2.5000    0.0000
+PHASES
+NH3(g)
+        NH3 = NH3
+        log_k           1.770
+        delta_h -8.170  kcal
+SOLUTION 1
+EQUILIBRIUM_PHASES 1
+        Calcite
+        CO2(g)  -1.5
+SAVE solution 1
+SELECTED_OUTPUT
+        -reset false
+        -file ex7.sel
+        -simulation     true
+        -state          true
+        -reaction       true
+        -si CO2(g) CH4(g) N2(g) NH3(g)
+        -gas CO2(g) CH4(g) N2(g) NH3(g)
+END
+#  Simulation 2: Decomposition of organic matter, CH2O(NH3).07,
+#  at fixed pressure of 1.1 atm
+USE solution 1
+GAS_PHASE 1 Fixed-pressure gas phase
+        -fixed_pressure
+        -pressure       1.1
+        CO2(g)          0.0
+        CH4(g)          0.0
+        N2(g)           0.0
+        H2O(g)          0.0
+REACTION 1
+        CH2O(NH3)0.07     1.0
+        1. 2. 3. 4. 8. 16. 32 64. 125. 250. 500. 1000. mmol
+USER_GRAPH
+        -headings Fixed_Pressure: CH4 CO2 N2 H2O Volume
+#        -chart_title "Example 7"
+        -axis_titles "Organic Matter added / mmoles" "Log(Partial Pressure / atm)" "Volume / L"
+        -axis_scale x_axis 1 1e3 auto auto log
+        -axis_scale y_axis -5.0 1.0 1 1
+        -axis_scale y2_axis 1e-3 1e3 auto auto log
+        -connect_simulations false
+  -start
+  10 mM_OM = RXN * 1e3
+  20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0
+  30 IF GAS("CH4(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("CH4(g)"), color = Black, symbol = XCross
+  40 IF GAS("CO2(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("CO2(g)"), color = Red, symbol = XCross
+  50 IF GAS("N2(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("N2(g)"), color = Teal, symbol = XCross
+  60 IF GAS("H2O(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = XCross
+  70 V = (GAS("CH4(g)") + GAS("CO2(g)") + GAS("N2(g)") + GAS("H2O(g)")) * 0.08207 * TK / 1.1
+  80 IF GAS("CH4(g)") > 1e-10 THEN PLOT_XY mM_OM, (V), color = Cyan, symbol = XCross, y_axis = 2
+  -end
+END
+#  Simulation 3: Decomposition of organic matter, CH2O(NH3).07,
+#  at fixed volume of 22.5 L
+USE solution 1
+USE reaction 1
+GAS_PHASE 1 Fixed volume gas phase
+        -fixed_volume 
+        -volume         23.19
+        CO2(g)          0.0
+        CH4(g)          0.0
+        N2(g)           0.0
+        H2O(g)          0.0
+        -equilibrate 1
+USER_GRAPH
+        -headings Fixed_Volume: CH4 CO2 N2 H2O
+  -start
+  10 mM_OM = RXN * 1e3
+  20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0
+  30 PLOT_XY mM_OM, SI("CH4(g)"), color = Black, symbol = Circle
+  40 PLOT_XY mM_OM, SI("CO2(g)"), color = Red, symbol = Circle
+  50 PLOT_XY mM_OM, SI("N2(g)"), color = Teal, symbol = Circle
+  60 PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = Circle, symbol_size = 5
+  70 PLOT_XY mM_OM, 23.19, line_width = 0 symbol = None, y_axis = 2
+  -end
+END
