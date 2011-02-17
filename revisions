@@ -6,18 +6,23 @@ File contains:
 ************************************************************
 *        Features in PHREEQC++ Not in PHREEQC              *
 ************************************************************
+
         --------
-        svn 4840
+        svn 4897
         --------
         Added capability to include files within the input
         file. Files included in include files are also 
         included. Files are included verbatim and need not
         contain complete keyword datablocks; however, the
         combination of included files must result in a
-        legal PHREEQC input file. 
+        legal PHREEQC input file. Files are included as
+        simulations are proceeding, so it is possible to
+        write a file at one point of a run that is included
+        later in the same run. Included files can contain
+        INCLUDE$ directives.
         
         SOLUTION
-        #$include file_name
+        INCLUDE$ file_name
         END
         
         where "file_name" contains:
@@ -612,3 +617,9 @@ KINETICS_MODIFY      1
 *               Revisions and Bug Fixes                    *
 ************************************************************
 ************************************************************
+        --------
+        svn 4856
+        --------
+        Revised logic of searching pitzer parameters so that
+        order of ions in a parameter definition does not 
+        matter. 
