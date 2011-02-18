@@ -102,6 +102,9 @@ ex18.out: $(INPUT)/ex18 $(PHREEQC) $(PHREEQCDAT)
 diff:
 	svn diff --diff-cmd diff -x -bw	
 
+ndiff:
+	svn diff --diff-cmd /home/dlpark/bin/ndiff -x "--relative-error 1e-7"
+
 clean:
 	rm -f *.out *.log *.sel
 
