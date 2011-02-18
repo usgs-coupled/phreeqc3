@@ -177,6 +177,9 @@ revert:
 diff:
 	svn diff --diff-cmd diff -x -bw 
 
+ndiff:
+	svn diff --diff-cmd /home/dlpark/bin/ndiff -x "--relative-error 1e-7"
+
 zero:
 	for FILE in *.out *.sel *.pun *.prn *.flat *.sel *.dmp; \
 		do \
