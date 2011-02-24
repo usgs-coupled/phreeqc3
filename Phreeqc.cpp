@@ -199,6 +199,8 @@ Phreeqc::Phreeqc(void)
 		{"mod", tokmod},
 		{"sqr", toksqr},
 		{"sqrt", toksqrt},
+		{"ceil", tokceil},
+		{"floor", tokfloor},
 		{"sin", toksin},
 		{"cos", tokcos},
 		{"tan", toktan},
