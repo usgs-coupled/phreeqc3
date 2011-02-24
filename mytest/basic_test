@@ -71,7 +71,7 @@ USER_PRINT
 20 PRINT  "CALC_VALUE:                                          ",  CALC_VALUE("Acidity")
 30 PRINT  "CELL_NO:                                             ",  CELL_NO
 40 CHANGE_POR(.55, 1)						
-50 CHANGE_SURF("Hfo", 0.5, "Sfo", 1e-8, 1)			
+50 CHANGE_SURF("Hfo", 0.5, "Sfo", 1e-8, 1)
 60 PRINT  "CHARGE_BALANCE:                                      ",  CHARGE_BALANCE
 70 PRINT  "DESCRIPTION:                                         ",  DESCRIPTION
 80 PRINT  "DIST:                                                ",  DIST
@@ -217,6 +217,8 @@ USER_PRINT
 1310 REM POKE not tested
 1320 REM NEW not tested
 1330 REM LOAD not tested
-1340 RETURN
-1350 PRINT "***should never see this***"
+1340 PRINT "line 1" + EOL$ + "line 2" + EOL$
+1350 PRINT "ceil, floor: ", ceil(2.8), floor(2.8), ceil(-2.8), floor(-2.8)
+1360 RETURN
+1370 PRINT "***should never see this***"
 -end
