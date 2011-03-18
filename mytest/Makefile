@@ -30,6 +30,7 @@ all: alkalinity.out \
 	colloid_U.out \
 	comments.out \
 	count_database_species.out \
+	cumulativetime.out \
 	ddl_flux.out \
 	ddlsurf.out \
 	de.out \
