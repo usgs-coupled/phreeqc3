@@ -21,7 +21,7 @@ Phreeqc::Phreeqc(void)
 	phast = FALSE;
 	s_pTail = NULL;
 	user_database = NULL;
-	output = NULL;
+	output_file = NULL;
 	log_file = NULL;
 	punch_file = NULL;
 	dump_file = NULL;
