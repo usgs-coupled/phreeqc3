@@ -104,6 +104,7 @@ all: alkalinity.out \
 	rahn.out \
 	s1.out \
 	salt_ec.out \
+	samemodel.out \
 	saver.out \
 	saunders.out \
 	sit_redox.out \
