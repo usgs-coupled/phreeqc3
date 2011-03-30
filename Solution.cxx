@@ -1622,7 +1622,6 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 	}
 
 	// go through totals
-	double d = 0.0;
 	for (it = this->totals.begin(); it != this->totals.end(); ++it)
 	{
 		// find element name 
