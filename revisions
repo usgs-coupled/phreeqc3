@@ -618,6 +618,26 @@ KINETICS_MODIFY      1
 ************************************************************
 ************************************************************
         --------
+        svn 5270
+        --------
+	Added logic to update estimates of log activity when
+	modifying totals in SOLUTION_MODIFY. The initial 
+	guesses for activities are adjusted proportionally
+	to the change in total moles of elements (as defined
+	by SOLUTION_MODIFY; -totals). 
+
+	This automatic adjustment is suggested rather than
+	explicit definition of the initial guesses through
+	SOLUTION_MODIFY; -activities. However, the -activities
+	identifier may be used and will supercede the automatic
+	adjustment.  
+
+	The adjustment of the initial guesses for activities
+	should reduce the number of iterations needed to solve 
+	a given set of equations and, consequently, should
+	lessen the total CPU time for a simulation.
+
+        --------
         svn 4856
         --------
         Revised logic of searching pitzer parameters so that
