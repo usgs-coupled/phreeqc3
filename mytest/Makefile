@@ -85,6 +85,7 @@ all: alkalinity.out \
 	millero.out \
 	mmb.out \
 	mmb2.out \
+	modifyact.out \
 	mu.out \
 	n3.out \
 	netpathxl.out \
