@@ -132,6 +132,10 @@ class cxxSolution:public cxxNumKeyword
 	{
 		this->totals.clear();
 	}
+	void clear_master_activity()
+	{
+		this->master_activity.clear();
+	}
 
 	const cxxNameDouble & get_master_activity(void) const
 	{
@@ -154,6 +158,7 @@ class cxxSolution:public cxxNumKeyword
 
 	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
 	void multiply(double extensive);
+	void modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original);
 #ifdef ORCHESTRA
 	void ORCH_write(std::ostream & headings, std::ostream & input_data) const;
 	void ORCH_read(std::vector < std::pair < std::string,
