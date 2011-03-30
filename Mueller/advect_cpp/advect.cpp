@@ -34,7 +34,7 @@ int main(void)
 	// create IPhreeqc object and load database
 	int id = CreateIPhreeqc();
 	if (LoadDatabase(id, "phreeqc.dat") != 0) EHandler(id);
-	SetOutputFileOn(id, 1);
+	SetOutputFileOn(id, 0);
 
 	// run initial conditions, copy to column
 	initial_conditions(id, ncells);
