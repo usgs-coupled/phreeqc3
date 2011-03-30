@@ -1082,6 +1082,7 @@ int master_delete(char *ptr);
 public:
 struct master *master_bsearch(const char *ptr);
 struct master *master_bsearch_primary(char *ptr);
+struct master *master_bsearch_secondary(char *ptr);
 private:
 struct master *master_search(char *ptr, int *n);
 struct mix *mix_bsearch(int k, int *n);

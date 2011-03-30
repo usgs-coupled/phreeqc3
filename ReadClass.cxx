@@ -1155,6 +1155,7 @@ read_run_cells(void)
 	if (return_value == OPTION_KEYWORD) output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
 	return (return_value);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int CLASS_QUALIFIER
 read_solution_modify(void)
@@ -1244,6 +1245,105 @@ read_solution_modify(void)
 	if (return_value == OPTION_KEYWORD) output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
 	return (return_value);
 }
+#endif
+/* ---------------------------------------------------------------------- */
+int CLASS_QUALIFIER
+read_solution_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads solution_modify data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+
+	// find solution number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user, n;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		sprintf(error_string, "Expected solution number following SOLUTION_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}	
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+
+	if (solution_bsearch(n_user, &n, FALSE) == NULL)
+	{
+		input_error++;
+		sprintf(error_string, "Solution %d not found for SOLUTION_MODIFY.\n", n_user);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	cxxSolution sol(solution[n]);
+
+	// Clear activities so we can know what was read
+	sol.clear_master_activity();
+
+	sol.read_raw(PHREEQC_THIS_COMMA parser, false);
+
+	cxxSolution orig(solution[n]);
+
+	sol.modify_activities(PHREEQC_THIS_COMMA orig);
+
+	struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
+
+	/*
+	 *  This is not quite right, may not produce sort order, forced sort
+	 */
+
+	solution_free(solution[n]);
+	solution[n] = soln_ptr;
+
+	// Need to output the next keyword
+	if (return_value == OPTION_KEYWORD) output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+
 /* ---------------------------------------------------------------------- */
 int CLASS_QUALIFIER
 read_equilibrium_phases_modify(void)
