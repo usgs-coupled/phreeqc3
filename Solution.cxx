@@ -1545,7 +1545,143 @@ cxxSolution::set_master_activity(char *string, double d)
 {
 	this->master_activity[string] = d;
 }
+void
+cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original)
+//
+// Estimate activities after solution_modify
+//
+{
+	// Note: any master_activities in "this" have been read in SOLUTION_MODIFY
 
+	// to standardize, convert element to valence state if needed
+	// for original activity list (probably not needed)
+	cxxNameDouble orig_master_activity(original.get_master_activity());
+	cxxNameDouble::const_iterator it;
+	bool redo=true;
+	while (redo)
+	{
+		redo = false;
+		for (it = orig_master_activity.begin(); it != orig_master_activity.end(); it++)
+		{
+			struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(it->first.c_str());
+			if (master_ptr != NULL)
+			{
+				if (master_ptr->primary == TRUE)
+				{
+					struct master *master_ptr_secondary = P_INSTANCE_POINTER master_bsearch_secondary(master_ptr->elt->name);
+
+					// redox element erase and replace
+					if (master_ptr_secondary != master_ptr) 
+					{
+						double d = it->second;
+						orig_master_activity.erase(orig_master_activity.find(master_ptr->elt->name));
+						orig_master_activity[master_ptr_secondary->elt->name] = d;
+						redo = true;
+						break;
+					}
+				}
+			}
+			else
+			{
+				P_INSTANCE_POINTER error_msg("Could not find master species in modify_activities.", STOP);
+			}
+		}
+	}
+
+	// also for modified activity list
+	cxxNameDouble mod_master_activity(this->master_activity);
+	redo=true;
+	while (redo)
+	{
+		redo = false;
+		for (it = mod_master_activity.begin(); it != mod_master_activity.end(); it++)
+		{
+			struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(it->first.c_str());
+			if (master_ptr != NULL)
+			{
+				if (master_ptr->primary == TRUE)
+				{
+					struct master *master_ptr_secondary = P_INSTANCE_POINTER master_bsearch_secondary(master_ptr->elt->name);
+
+					// redox element erase and replace
+					if (master_ptr_secondary != master_ptr) 
+					{
+						double d = it->second;
+						mod_master_activity.erase(mod_master_activity.find(master_ptr->elt->name));
+						mod_master_activity[master_ptr_secondary->elt->name] = d;
+						redo = true;
+						break;
+					}
+				}
+			}
+			else
+			{
+				P_INSTANCE_POINTER error_msg("Could not find master species in modify_activities.", STOP);
+			}
+		}
+	}
+
+	// go through totals
+	double d = 0.0;
+	for (it = this->totals.begin(); it != this->totals.end(); ++it)
+	{
+		// find element name 
+		struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(it->first.c_str());
+		char * ename = master_ptr->elt->primary->elt->name;
+		char * secondary_name;
+		if (master_ptr->primary == TRUE)
+		{
+			struct master *m_ptr = P_INSTANCE_POINTER master_bsearch_secondary(ename);
+			secondary_name = m_ptr->elt->name;
+		}
+		else
+		{
+			secondary_name = master_ptr->elt->name;
+		}
+
+		double d_mod, d_orig;
+		d_mod = this->get_total_element(ename);
+		if (d_mod <= 0) continue;
+
+		d_orig = original.get_total_element(ename);
+		if (d_orig <= 0) 
+		{
+			// add estimate for la based on concentration if not in list
+			if (mod_master_activity.find(secondary_name) == mod_master_activity.end())
+			{
+				mod_master_activity[secondary_name] = log10(d_mod) - 2.0;
+			}
+			continue;
+		}
+
+		// case where total for both orig and modified are greater than 0
+		double lratio = log10(d_mod / d_orig);
+
+		if (mod_master_activity.find(secondary_name) == mod_master_activity.end())
+		{
+			cxxNameDouble::const_iterator it1;
+			it1 = orig_master_activity.find(secondary_name);
+			if (it1 != orig_master_activity.end())
+			{
+				double d = it1->second;
+				mod_master_activity[secondary_name] = d + lratio;
+			}
+			else
+			// Has total, but no activity, should not happen
+			{
+				mod_master_activity[secondary_name] = log10(d_mod) - 2.0;
+			}
+		}
+	}
+
+	// merge activities
+	this->master_activity = orig_master_activity;
+
+	for (it = mod_master_activity.begin(); it != mod_master_activity.end(); it++)
+	{
+		this->master_activity[it->first] = it->second;
+	}
+}
 //#include "ISolution.h"
 //#include "Exchange.h"
 //#include "Surface.h"
