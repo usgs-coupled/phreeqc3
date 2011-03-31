@@ -987,17 +987,6 @@ cxxSolution::get_total_element(char *string) const
 	double d = 0.0;
 	for (it = this->totals.begin(); it != this->totals.end(); ++it)
 	{
-		char token[MAX_LENGTH];
-		if (it->first[0] == string[0])
-		{
-			strcpy(token, it->first.c_str());
-			CLASS_QUALIFIER replace("(", "\0", token);
-			if (strcmp(token, string) == 0)
-			{
-				d += it->second;
-			}
-		}
-#ifdef SKIP
 		// C++ way to do it
 		std::string ename(string);
 		std::string current_ename(it->first);
@@ -1011,7 +1000,6 @@ cxxSolution::get_total_element(char *string) const
 		{
 			d += it->second;
 		}
-#endif
 	}
 	return (d);
 }
@@ -1626,6 +1614,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 	{
 		// find element name 
 		struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(it->first.c_str());
+		struct master *master_primary_ptr = master_ptr->elt->primary;
 		char * ename = master_ptr->elt->primary->elt->name;
 		char * secondary_name;
 		if (master_ptr->primary == TRUE)
@@ -1637,6 +1626,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 		{
 			secondary_name = master_ptr->elt->name;
 		}
+		if (strcmp(ename, "H") == 0 || strcmp(ename, "O") == 0) continue;
 
 		double d_mod, d_orig;
 		d_mod = this->get_total_element(ename);
@@ -1656,19 +1646,37 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 		// case where total for both orig and modified are greater than 0
 		double lratio = log10(d_mod / d_orig);
 
-		if (mod_master_activity.find(secondary_name) == mod_master_activity.end())
+		int j;
+		j = master_primary_ptr->number;
+		int j_first = j + 1;
+		int j_last = P_INSTANCE_POINTER count_master;
+
+		// non redox element
+		if ( (j+1 >= P_INSTANCE_POINTER count_master) || (P_INSTANCE_POINTER master[j+1]->elt->primary != master_primary_ptr) )
 		{
-			cxxNameDouble::const_iterator it1;
-			it1 = orig_master_activity.find(secondary_name);
-			if (it1 != orig_master_activity.end())
+			j_first = j;
+			j_last = j+1;
+		}
+
+		for (j = j_first ; j < j_last; j++)
+		{
+			if (P_INSTANCE_POINTER master[j]->elt->primary != master_primary_ptr) break;
+
+			if (mod_master_activity.find(P_INSTANCE_POINTER master[j]->elt->name) == mod_master_activity.end())
 			{
-				double d = it1->second;
-				mod_master_activity[secondary_name] = d + lratio;
-			}
-			else
-			// Has total, but no activity, should not happen
-			{
-				mod_master_activity[secondary_name] = log10(d_mod) - 2.0;
+				// has not been defined in SOLUTION_MODIFY
+				cxxNameDouble::const_iterator it1;
+				it1 = orig_master_activity.find(P_INSTANCE_POINTER master[j]->elt->name);
+				if (it1 != orig_master_activity.end())
+				{
+					double d = it1->second;
+					mod_master_activity[P_INSTANCE_POINTER master[j]->elt->name] = d + lratio;
+				}
+				else
+					// Has total, but no activity, should not happen
+				{
+					mod_master_activity[P_INSTANCE_POINTER master[j]->elt->name] = log10(d_mod) - 2.0;
+				}
 			}
 		}
 	}

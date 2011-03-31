@@ -1027,7 +1027,6 @@ int gas_phase_init(struct gas_phase *gas_phase_ptr, int n_user,
 				   int n_user_end, char *description);
 public:
 int gas_phase_free(struct gas_phase *gas_phase_ptr);
-private:
 int gas_phase_ptr_to_user(struct gas_phase *gas_phase_ptr_old,
 						  int n_user_new);
 struct gas_phase *gas_phase_replicate(struct gas_phase *gas_phase_old_ptr,
@@ -1083,7 +1082,7 @@ public:
 struct master *master_bsearch(const char *ptr);
 struct master *master_bsearch_primary(char *ptr);
 struct master *master_bsearch_secondary(char *ptr);
-private:
+//private:
 struct master *master_search(char *ptr, int *n);
 struct mix *mix_bsearch(int k, int *n);
 int mix_copy(struct mix *mix_old_ptr,
@@ -1215,7 +1214,6 @@ int surface_delete(int n_user_old);
 int surface_duplicate(int n_user_old, int n_user_new);
 public:
 	int surface_free(struct surface *surface_ptr);
-protected:
 int surface_init(struct surface *surface_ptr, int n_user, int n_user_end,
 				 char *description);
 int surface_ptr_to_user(struct surface *surface_ptr_old, int n_user_new);
