@@ -45,6 +45,7 @@ cxxStorageBin::cxxStorageBin()
 {
 	// default constructor for cxxStorageBin 
 }
+#ifdef SKIP
 cxxStorageBin::cxxStorageBin(struct Use *use_ptr)
 {
 	//Construct from use pointer
@@ -111,6 +112,115 @@ cxxStorageBin::cxxStorageBin(struct Use *use_ptr)
 	}
 	// set system
 	this->setSystem(use_ptr);
+}
+#endif
+cxxStorageBin::cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr)
+{
+	//Construct from use pointer
+
+	int n;
+	if (use_ptr->mix_in == TRUE)
+	{
+		struct mix *struct_entity = P_INSTANCE_POINTER mix_bsearch(use_ptr->n_mix_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxMix entity(struct_entity);
+			this->setMix(use_ptr->n_mix_user, &entity);
+
+			std::map<int, double> c = *(this->getMix(use_ptr->n_mix_user)->comps());
+			std::map<int, double>::iterator it;
+			for (it = c.begin(); it != c.end(); it++)
+			{
+				struct solution *struct_entity1 = P_INSTANCE_POINTER solution_bsearch(it->first, &n, FALSE);
+				if (struct_entity1 != NULL)
+				{
+					cxxSolution entity1(struct_entity1);
+					this->setSolution(it->first, &entity1);
+				}
+			}
+		}
+	}
+	else if (use_ptr->solution_in == TRUE)
+	{
+		struct solution *struct_entity = P_INSTANCE_POINTER solution_bsearch(use_ptr->n_solution_user, &n, FALSE);
+		if (struct_entity != NULL)
+		{
+			cxxSolution entity(struct_entity);
+			this->setSolution(use_ptr->n_solution_user, &entity);
+		}
+	}
+	if (use_ptr->pp_assemblage_in == TRUE)
+	{
+		struct pp_assemblage *struct_entity = P_INSTANCE_POINTER pp_assemblage_bsearch(use_ptr->n_pp_assemblage_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxPPassemblage entity(struct_entity);
+			this->setPPassemblage(use_ptr->n_pp_assemblage_user, &entity);
+		}
+	}
+	if (use_ptr->exchange_in == TRUE)
+	{
+		struct exchange *struct_entity = P_INSTANCE_POINTER exchange_bsearch(use_ptr->n_exchange_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxExchange entity(struct_entity);
+			this->setExchange(use_ptr->n_exchange_user, &entity);
+		}
+	}
+	if (use_ptr->surface_in == TRUE)
+	{
+		struct surface *struct_entity = P_INSTANCE_POINTER surface_bsearch(use_ptr->n_surface_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxSurface entity(struct_entity);
+			this->setSurface(use_ptr->n_surface_user, &entity);
+		}
+	}
+	if (use_ptr->gas_phase_in == TRUE)
+	{
+		struct gas_phase *struct_entity = P_INSTANCE_POINTER gas_phase_bsearch(use_ptr->n_gas_phase_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxGasPhase entity(struct_entity);
+			this->setGasPhase(use_ptr->n_gas_phase_user, &entity);
+		}
+	}
+	if (use_ptr->s_s_assemblage_in == TRUE)
+	{
+		struct s_s_assemblage *struct_entity = P_INSTANCE_POINTER s_s_assemblage_bsearch(use_ptr->n_s_s_assemblage_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxSSassemblage entity(struct_entity);
+			this->setSSassemblage(use_ptr->n_s_s_assemblage_user, &entity);
+		}
+	}
+	if (use_ptr->kinetics_in == TRUE)
+	{
+		struct kinetics *struct_entity = P_INSTANCE_POINTER kinetics_bsearch(use_ptr->n_kinetics_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxKinetics entity(struct_entity);
+			this->setKinetics(use_ptr->n_kinetics_user, &entity);
+		}
+	}
+	if (use_ptr->irrev_in == TRUE)
+	{
+		struct irrev *struct_entity = P_INSTANCE_POINTER irrev_bsearch(use_ptr->n_irrev_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxReaction entity(struct_entity);
+			this->setReaction(use_ptr->n_irrev_user, &entity);
+		}
+	}
+	if (use_ptr->temperature_in == TRUE)
+	{
+		struct temperature *struct_entity = P_INSTANCE_POINTER temperature_bsearch(use_ptr->n_temperature_user, &n);
+		if (struct_entity != NULL)
+		{
+			cxxTemperature entity(struct_entity);
+			this->setTemperature(use_ptr->n_temperature_user, &entity);
+		}
+	}
 }
 
 cxxStorageBin::~cxxStorageBin()
@@ -507,6 +617,15 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Surface
 	Utilities::dump_raw(Surfaces, s_oss, indent);
+
+	// Mix
+	Utilities::dump_raw(Mixes, s_oss, indent);
+
+	// Reactions
+	Utilities::dump_raw(Reactions, s_oss, indent);
+
+	// Temperature
+	Utilities::dump_raw(Temperatures, s_oss, indent);
 }
 
 void

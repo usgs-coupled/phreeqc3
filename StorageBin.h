@@ -22,7 +22,8 @@ class cxxStorageBin
 
   public:
 	cxxStorageBin();
-	cxxStorageBin(struct Use *use_ptr);
+	//cxxStorageBin(struct Use *use_ptr);
+	cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr);
 	 ~cxxStorageBin();
 
 	void import_phreeqc(PHREEQC_PTR_ARG);
