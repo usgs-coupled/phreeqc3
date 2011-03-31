@@ -1,0 +1,162 @@
+SOLUTION_RAW       1 
+  -temp              25
+  -total_h           111.01243359275
+  -total_o           55.506216796431
+  -cb                -1.0821249131518e-010
+  -totals
+    H(0)   1.4158915035641e-025
+  -Isotopes
+  -pH                7
+  -pe                4
+  -mu                1.0010649608521e-007
+  -ah2o              1
+  -mass_water        1
+  -total_alkalinity  1.0821249131518e-010
+  -activities
+    E   -4
+    H(0)   -29.99999998
+    O(0)   -29.99999998
+  -gammas
+SOLUTION_RAW       2 
+  -temp              25
+  -total_h           111.01243359978
+  -total_o           55.506216800055
+  -cb                -3.3548764062345e-010
+  -totals
+    Br   0.0010000000000003
+    H(0)   1.4155655514552e-025
+    K   0.0010000000000003
+  -Isotopes
+  -pH                7
+  -pe                4
+  -mu                0.0010001035841784
+  -ah2o              0.99996599647757
+  -mass_water        1
+  -total_alkalinity  3.3548762460476e-010
+  -activities
+    Br   -3.0156198855958
+    E   -4
+    H(0)   -25.15
+    K   -3.0155266551366
+    O(0)   -42.080029535586
+  -gammas
+EXCHANGE_RAW       1 
+  -exchange_gammas 1
+  -component
+    -formula               CaX2
+      -totals
+        Ca   1
+        X   2
+      -charge_balance        0
+      -moles                 1
+      -la                    0
+      -phase_proportion      0
+      -formula_z             0
+      -formula_totals
+        Ca   1
+        X   2
+GAS_PHASE_RAW       2 
+  -type               0
+  -total_p            1
+  -volume             1
+  -component
+    CO2(g)   1.226186459863e-005
+KINETICS_RAW       3 
+  -step_divide       1
+  -rk                3
+  -bad_step_max      500
+  -use_cvode         0
+  -cvode_steps       100
+  -cvode_order       5
+  -component
+    -rate_name             Calcite
+      -tol                   1e-008
+      -m                     0.003
+      -m0                    0.003
+      -moles                 0
+      -namecoef
+        Calcite   1
+      -d_params
+        5 0.6 
+  -totals         
+  -equal_steps    0
+  -steps         
+    1 
+EQUILIBRIUM_PHASES_RAW       1 
+  -eltList       
+    C   1
+    Ca   1
+    O   3
+  -component
+    -name                  calcite
+      -si                    0
+      -moles                 10
+      -delta                 0
+      -initial_moles         0
+      -force_equality        0
+      -dissolve_only         0
+      -precipitate_only      0
+SOLID_SOLUTIONS_RAW       5 
+  -solid_solution
+    -name                  Carbonate
+      -a0                    0
+      -a1                    0
+      -ag0                   0
+      -ag1                   0
+      -miscibility           0
+      -xb1                   0
+      -xb2                   0
+      -components            
+        Calcite   0
+        Strontianite   0
+SURFACE_RAW       1 
+  -type 2
+  -dl_type 0
+  -sites_units 0
+  -only_counter_ions 0
+  -thickness 1e-008
+  -debye_lengths 0
+  -DDL_viscosity 1
+  -DDL_limit 0.8
+  -transport 0
+  -component
+    -formula               Hfo_w
+      -formula_z             0
+      -moles                 1
+      -la                    0
+      -charge_balance        0
+      -phase_proportion      0
+      -Dw                    0
+      -formula_totals
+        Hfo_w   1
+      -totals
+        Hfo_w   1
+  -charge_component 
+    -name                  Hfo
+      -specific_area         600
+      -grams                 1
+      -charge_balance        0
+      -mass_water            0
+      -la_psi                0
+      -la_psi1               0
+      -la_psi2               0
+      -capacitance0          1
+      -capacitance1          5
+      -diffuse_layer_totals
+MIX        1 
+  1     0.5
+  2     0.5
+REACTION_RAW        1 
+  -units              Mol
+  -reactant_list      
+    NaCl   1
+  -element_list       
+  -steps              
+    100 
+  -equal_increments   0
+  -count_steps        1
+REACTION_TEMPERATURE_RAW        1 
+  -count_temps        1
+  -equal_increments   0
+  -temps              
+    31 

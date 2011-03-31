@@ -169,7 +169,8 @@ all: alkalinity.out \
 	oxygenmp.out \
 	spread_redox.out \
 	raw.out \
-	ppdump.out
+	ppdump.out \
+	errorinp.out
 
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt *.csv
