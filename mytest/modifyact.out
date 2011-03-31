@@ -20,7 +20,7 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
-	SOLUTION
+	SOLUTION 1-6
 		units mol/kgw
 		pe  -1
 		Na  1
@@ -101,10 +101,13 @@ End of simulation.
 Reading input data for simulation 2.
 ------------------------------------
 
-	USE solution 1
-	REACTION
-	SAVE solution 1
+	SOLUTION_MODIFY 2
+	    -totals
+		Na	2
+		S       1
 	END
+<<<<<<< .mine
+=======
 -----------------------------------------
 Beginning of batch-reaction calculations.
 -----------------------------------------
@@ -186,6 +189,7 @@ S(6)             5.000e-01
 	O2(g)           -59.21  -62.10   -2.89  O2
 	Sulfur          -15.58  -10.69    4.88  S
 
+>>>>>>> .r5280
 ------------------
 End of simulation.
 ------------------
@@ -194,9 +198,12 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
-	DUMP 
-		-file modifyact1.dmp
-		-solution 1
+	SOLUTION_MODIFY 3
+	    -totals
+		Na	2
+		S       1
+	    -activities
+	    	S    -7
 	END
 ------------------
 End of simulation.
@@ -206,10 +213,26 @@ End of simulation.
 Reading input data for simulation 4.
 ------------------------------------
 
-	SOLUTION_MODIFY 1
+	SOLUTION_MODIFY 4
 	    -totals
-		Na	1.1
-		S    0.505
+		Na	2
+		S       1
+	    -activities
+	    	S(6) -2    
+	    	S    -7
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	SOLUTION_MODIFY 5
+	    -totals
+		Na	2
+		S       1
 	    -activities
 	    	S    -7
 	    	S(6) -2
@@ -220,27 +243,19 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 5.
-------------------------------------
-
-	DUMP 
-		-file modifyact2.dmp
-		-solution 1
-	END
-------------------
-End of simulation.
-------------------
-
-------------------------------------
 Reading input data for simulation 6.
 ------------------------------------
 
-	USE solution 1
-	REACTION
-	SAVE solution 1
-	KNOBS 
-		debug_set
+	SOLUTION_MODIFY 6
+	    -totals
+		Na	2
+		S       1
+	    -activities
+	    	S(6) -2
+	    	S(-2) 1
 	END
+<<<<<<< .mine
+=======
 -----------------------------------------
 Beginning of batch-reaction calculations.
 -----------------------------------------
@@ -335,6 +350,7 @@ S(6)             4.892e-01
 	O2(g)           -72.12  -75.01   -2.89  O2
 	Sulfur           -7.58   -2.70    4.88  S
 
+>>>>>>> .r5280
 ------------------
 End of simulation.
 ------------------
@@ -344,8 +360,8 @@ Reading input data for simulation 7.
 ------------------------------------
 
 	DUMP 
-		-file modifyact3.dmp
-		-solution 1
+		-file modifyact.dmp
+		-solution 1-6
 	END
 ------------------
 End of simulation.
