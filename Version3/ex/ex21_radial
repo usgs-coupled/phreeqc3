@@ -51,216 +51,218 @@ SOLUTION 3 tracer solution
 SELECTED_OUTPUT
   -file radial; -reset false
 USER_PUNCH
-       # Define symbols and pi...
-  1    nl$ = CHR$(10) # newline, in unix use CHR$(13)
-  2    q$  = CHR$(34)            # quote '"'
-  3    x$  = CHR$(35)            # cross '#'
-  4    sc$ = CHR$(59)            # semicolon ';'
-  5    pi  = 2 * ARCTAN(1e10)    # 3.14159...
+     # Define symbols and pi...
+1    nl$ = EOL$
+2    q$  = CHR$(34)            # quote '"'
+3    x$  = CHR$(35)            # cross '#'
+4    sc$ = CHR$(59)            # semicolon ';'
+5    pi  = 2 * ARCTAN(1e10)    # 3.14159...
 
-       # Define experimental parameters...
-  10   height = 0.052           # length of the clay cylinder / m
-  20   r_int = 6.58e-3          # inner radius of clay cylinder / m
-  30   r_ext = 25.4e-3          # outer radius
-  40   thickn_filter1 = 1.8e-3  # tracer-in filter thickness / m
-  50   thickn_filter2 = 1.6e-3  # tracer-out filter thickness / m
-  60   por_filter1 = 0.418      # porosity
-  70   por_filter2 = 0.367
-  80   G_filter1 = 4.18         # geometrical factor. (for filters, por / G = 10)
-  90   G_filter2 = 3.67
-  100  V_end = 0.2              # volume of the tracer-out solution / L
-  110  thickn_clay = r_ext - r_int # clay thickness / m
-  120  por_clay = 0.159
-  130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
-  140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
-  150  A_por = 37.0e3 * rho_b_eps # pore surface area / (m2/L porewater)
+     # Define experimental parameters...
+10   height = 0.052           # length of the clay cylinder / m
+20   r_int = 6.58e-3          # inner radius of clay cylinder / m
+30   r_ext = 25.4e-3          # outer radius
+40   thickn_filter1 = 1.8e-3  # tracer-in filter thickness / m
+50   thickn_filter2 = 1.6e-3  # tracer-out filter thickness / m
+60   por_filter1 = 0.418      # porosity
+70   por_filter2 = 0.367
+80   G_filter1 = 4.18         # geometrical factor. (for filters, por / G = 10)
+90   G_filter2 = 3.67
+100  V_end = 0.2              # volume of the tracer-out solution / L
+110  thickn_clay = r_ext - r_int # clay thickness / m
+120  por_clay = 0.159
+130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
+140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
+150  A_por = 37.0e3 * rho_b_eps # pore surface area / (m2/L porewater)
 
-       # Define model parameters...
-  160  Dw = 2.5e-9              # default tracer diffusion coefficient / (m2/s)
-  170  nfilt1 = 1               # number of cells in filter 1
-  180  nfilt2 = 1               # number of cells in filter 2
-  190  nclay = 11               # number of clay cells
-  200  f_free = 0.117           # fraction of free pore water (0.01 - 1)
-  210  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer
-  220  tort_n = -0.99           # exponent in Archie's law, -1.045 without filters
-  230  G_clay = por_clay^tort_n # geometrical factor
-  240  interlayer_D$ = 'false'  # 'true' or 'false' for interlayer diffusion
-  250  G_IL = 750               # geometrical factor for clay interlayers
-  260  punch_time = 60 * 60 * 6 # punch time / seconds
+     # Define model parameters...
+160  Dw = 2.5e-9              # default tracer diffusion coefficient / (m2/s)
+170  nfilt1 = 1               # number of cells in filter 1
+180  nfilt2 = 1               # number of cells in filter 2
+190  nclay = 11               # number of clay cells
+200  f_free = 0.117           # fraction of free pore water (0.01 - 1)
+210  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer
+220  tort_n = -0.99           # exponent in Archie's law, -1.045 without filters
+230  G_clay = por_clay^tort_n # geometrical factor
+240  interlayer_D$ = 'false'  # 'true' or 'false' for interlayer diffusion
+250  G_IL = 750               # geometrical factor for clay interlayers
+260  punch_time = 60 * 60 * 6 # punch time / seconds
 
-       # See which tracer is present...
-  280  if tot("Hto") > 1e-10 THEN tracer$ = 'Hto' ELSE GOTO 330
-  290    exp_time = 60 * 60 * 24 * 20  # time of the experiment / seconds
-  300    scale1$ = '1e-15'             # scales the flux in the chart
-  310    scale2$ = '1e-11'             # scales the mass
-  320    GOTO 480
-  330  if tot("Cl_tr") > 1e-10 THEN tracer$ = 'Cl_tr' ELSE GOTO 390
-  340    exp_time = 60 * 60 * 24 * 40
-  350    scale1$ = '1e-11'             # scales the flux in the chart
-  360    scale2$ = '1e-7'              # scales the mass
-       # Anions have higher tortuosity in clay...
-  370    IF INSTR(tracer$, "Cl") THEN G_clay = G_clay * 1.57
-  380    GOTO 480
-  390  if tot("Na_tr") > 1e-10 THEN tracer$ = 'Na_tr' ELSE GOTO 440
-  400    exp_time = 60 * 60 * 24 * 45
-  410    scale1$ = '1e-15'             # scales the flux in the chart
-  420    scale2$ = '1e-11'             # scales the mass
-  430    GOTO 480
-  440  if tot("Cs") > 1e-10 THEN tracer$ = 'Cs'
-  450    exp_time = 60 * 60 * 24 * 1000
-  460    scale1$ = '1e-9'             # scales the flux in the chart
-  470    scale2$ = '1e-4'             # scales the mass
+     # See which tracer is present...
+280  if tot("Hto") > 1e-10 THEN tracer$ = 'Hto' ELSE GOTO 330
+290    exp_time = 60 * 60 * 24 * 20  # time of the experiment / seconds
+300    scale1$ = '1e-15'             # scales the flux in the chart
+310    scale2$ = '1e-11'             # scales the mass
+320    GOTO 480
+330  if tot("Cl_tr") > 1e-10 THEN tracer$ = 'Cl_tr' ELSE GOTO 390
+340    exp_time = 60 * 60 * 24 * 40
+350    scale1$ = '1e-11'             # scales the flux in the chart
+360    scale2$ = '1e-7'              # scales the mass
+     # Anions have higher tortuosity in clay...
+370    IF INSTR(tracer$, "Cl") THEN G_clay = G_clay * 1.57
+380    GOTO 480
+390  if tot("Na_tr") > 1e-10 THEN tracer$ = 'Na_tr' ELSE GOTO 440
+400    exp_time = 60 * 60 * 24 * 45
+410    scale1$ = '1e-15'             # scales the flux in the chart
+420    scale2$ = '1e-11'             # scales the mass
+430    GOTO 480
+440  if tot("Cs") > 1e-10 THEN tracer$ = 'Cs'
+450    exp_time = 60 * 60 * 24 * 1000
+460    scale1$ = '1e-9'             # scales the flux in the chart
+470    scale2$ = '1e-4'             # scales the mass
 
-       # Define solution composition...
-  480  sol$ = nl$ + ' pH 7.6' + sc$ +' pe 14 O2(g) -1.0' + sc$ +' temp 23'
-  490  sol$ = sol$ + nl$ + ' Na 240' + sc$ +' K 1.61' + sc$ +' Mg 16.9' + sc$ +' Ca 25.8' + sc$ +' Sr 0.505'
-  500  sol$ = sol$ + nl$ + ' Cl 300' + sc$ +' S(6) 14.1' + sc$ +' Fe(2) 0.0' + sc$ +' Alkalinity 0.476'
-       
-       # Define phases in which the tracers precipitate...
-  510  tracer_phases$ = nl$ + 'PHASES '
-  520  tracer_phases$ = tracer_phases$ + nl$ + ' A_Hto' + nl$ + ' Hto = Hto' + sc$ +' log_k -15'
-  530  tracer_phases$ = tracer_phases$ + nl$ + ' A_Na_tr' + nl$ + ' Na_trCl = Na_tr+ + Cl-' + sc$ + ' log_k -14'
-  540  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cl_tr' + nl$ + ' NaCl_tr = Na+ + Cl_tr-' + sc$ +' log_k -14'
-  550  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cs' + nl$ + ' CsCl = Cs+ + Cl-' + sc$ + ' log_k -13'
-  560  tracer_equi$ = nl$ + 'A_' + tracer$ + ' 0 0'
-       
-       # Write solutions for the cells...
-  600  punch nl$ + 'PRINT ' + sc$ + ' -reset false' + sc$ + ' -echo_input true' + sc$ + ' -user_print true'
-  610  IF nfilt1 = 0 THEN GOTO 800
-  620  punch nl$ + x$ + ' filter cells at tracer-in side...'
-  630  r1 = r_int - thickn_filter1
-  640  xf1 = thickn_filter1 / nfilt1
-  650  FOR i = 1 TO nfilt1
-  660    num$ = TRIM(STR$(i + 3)) + sc$
-  670    V_water = 1e3 * height * por_filter1 * pi * (SQR(r1 + xf1) - SQR(r1))
-  680    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)
-  690    punch sol$ + nl$
-  700    r1 = r1 + xf1
-  710  NEXT i
-       
-  800  punch nl$ + nl$ + x$ + ' cells in Opalinus Clay...'
-  810  r1 = r_int
-  820  x = thickn_clay / nclay
-  830  FOR i = 1 TO nclay
-  840    num$ = TRIM(STR$(i + 3 + nfilt1)) + sc$
-  850    V_water = 1e3 * height * por_clay * pi * (SQR(r1 + x) - SQR(r1))
-  860    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water * f_free)
-  870    punch sol$
-  880    IF f_free = 1 and tracer$ = 'Hto'  THEN GOTO 960
-  890    punch nl$ + 'SURFACE ' + num$ + ' -equil ' + num$
-  900    punch nl$ + ' Su_ ' + TRIM(STR$(f_DL_charge * CEC * V_water)) + STR$(A_por) + ' ' + STR$(V_water)
-  910    punch nl$ + ' Su_ii ' + TRIM(STR$(7.88e-4 * rho_b_eps * V_water))
-  920    punch nl$ + ' Su_fes ' + TRIM(STR$(7.4e-5 * rho_b_eps * V_water))
-  930    IF f_free < 1 THEN punch nl$ + ' -Donnan ' + TRIM(STR$((1 - f_free) * 1e-3 / A_por))
-  940    punch nl$ + 'EXCHANGE ' + num$ + ' -equil ' + num$
-  950    punch nl$ + ' X ' + TRIM(STR$((1 - f_DL_charge) * CEC * V_water)) + nl$
-  960    r1 = r1 + x
-  970  NEXT i
-       
-  1000 IF nfilt2 = 0 THEN GOTO 1200
-  1010 punch nl$ + nl$ + x$ + ' tracer-out filter cells...'
-  1020 r1 = r_ext
-  1030 xf2 = thickn_filter2 / nfilt2
-  1040 FOR i = 1 TO nfilt2
-  1050   num$ = TRIM(STR$(i + 3 + nfilt1 + nclay)) + sc$
-  1060   V_water = 1e3 * height * por_filter2 * pi * (SQR(r1 + xf2) - SQR(r1))
-  1070   punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)
-  1080   punch sol$ + nl$
-  1090   r1 = r1 + xf2
-  1100 NEXT i
-       
-  1200 punch nl$ + x$ + ' outside solution...'
-  1210 num$ = TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + sc$
-  1220 punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_end)
-  1230 punch sol$
-  1240 punch nl$ + 'END'
-  
-       # Write phases in which the tracers precipitate...
-  1300 punch nl$ + tracer_phases$
-  1310 punch nl$ + 'EQUILIBRIUM_PHASES ' + num$ + tracer_equi$
-  1320 punch nl$ + 'END'
-       
-       # Define mixing factors for the diffusive flux between cells 1 and 2:
-       #    J_12 = -2 * Dw / (x_1 / g_1 + x_2 / g_2) * (c_2 - c_1)
-       # Multiply with dt * A / (V = 1e-3 m3).  (Actual volumes are given with SOLUTION; -water)
-       # Use harmonic mean: g_1 = por_1 / G_1, g_2 = por_2 / G_2, x_1 = Delta(x_1), etc. 
-  1400 IF nfilt1 > 0 THEN gf1 = por_filter1 / G_filter1
-  1410 IF nfilt2 > 0 THEN gf2 = por_filter2 / G_filter2
-  1420 g = por_clay / G_clay
-       # Find max time step = 0.5 * V_water * dx * G_factor / (Dw * por * A * fbc)
-       #            V_water = por * pi * height * ((r + dr)^2 - r^2)
-       #                  A = por * pi * height * r * 2
-       # At the inlet of the tracers, fbc = 2...
-  1500 IF nfilt1 = 0 THEN GOTO 1530
-  1510   r1 = r_int - thickn_filter1
-  1520   ff = (SQR(r1 + xf1) - SQR(r1)) * xf1 * G_filter1 / (r1 * 2) / 2
-  1530 ff1 = (SQR(r_int + x) - SQR(r_int)) * x * G_clay / (r_int * 2) / 2
-       # Perhaps the clay has very small cells...
-  1540 IF nfilt1 = 0 THEN ff = ff1 ELSE IF ff1 * 2 < ff THEN ff = ff1 * 2
-       # Or at the filter-clay transition, fbc = 1...
-  1550 IF nfilt1 > 0 THEN ff1 = (SQR(r_int + x) - SQR(r_int)) * (xf1 / gf1 + x / g) / (2 * r_int * 2)
-  1560 IF nfilt1 > 0 AND ff1 < ff THEN ff = ff1
-  1570 dt_max = 0.5 * ff / Dw
-       # Check with punch times, set shifts...
-  1580 IF punch_time < dt_max THEN dt = punch_time ELSE dt = dt_max
-  1590 punch_fr = 1
-  1600 IF dt < punch_time THEN punch_fr = ceil(punch_time / dt)
-  1610 dt = punch_time / punch_fr
-  1620 shifts = ceil(exp_time / dt)
+     # Define solution composition...
+480  sol$ = nl$ + ' pH 7.6' + sc$ +' pe 14 O2(g) -1.0' + sc$ +' temp 23'
+490  sol$ = sol$ + nl$ + ' Na 240' + sc$ +' K 1.61' + sc$ +' Mg 16.9' + sc$ +' Ca 25.8' + sc$ +' Sr 0.505'
+500  sol$ = sol$ + nl$ + ' Cl 300' + sc$ +' S(6) 14.1' + sc$ +' Fe(2) 0.0' + sc$ +' Alkalinity 0.476'
+     
+     # Define phases in which the tracers precipitate...
+510  tracer_phases$ = nl$ + 'PHASES '
+520  tracer_phases$ = tracer_phases$ + nl$ + ' A_Hto' + nl$ + ' Hto = Hto' + sc$ +' log_k -15'
+530  tracer_phases$ = tracer_phases$ + nl$ + ' A_Na_tr' + nl$ + ' Na_trCl = Na_tr+ + Cl-' + sc$ + ' log_k -14'
+540  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cl_tr' + nl$ + ' NaCl_tr = Na+ + Cl_tr-' + sc$ +' log_k -14'
+550  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cs' + nl$ + ' CsCl = Cs+ + Cl-' + sc$ + ' log_k -13'
+560  tracer_equi$ = nl$ + 'A_' + tracer$ + ' 0 0'
+     
+     # Write solutions for the cells...
+600  punch nl$ + 'PRINT ' + sc$ + ' -reset false' + sc$ + ' -echo_input true' + sc$ + ' -user_print true'
+610  IF nfilt1 = 0 THEN GOTO 800
+620  punch nl$ + x$ + ' filter cells at tracer-in side...'
+630  r1 = r_int - thickn_filter1
+640  xf1 = thickn_filter1 / nfilt1
+650  FOR i = 1 TO nfilt1
+660    num$ = TRIM(STR$(i + 3)) + sc$
+670    V_water = 1e3 * height * por_filter1 * pi * (SQR(r1 + xf1) - SQR(r1))
+680    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)
+690    punch sol$ + nl$
+700    r1 = r1 + xf1
+710  NEXT i
+     
+800  punch nl$ + nl$ + x$ + ' cells in Opalinus Clay...'
+810  r1 = r_int
+820  x = thickn_clay / nclay
+830  FOR i = 1 TO nclay
+840    num$ = TRIM(STR$(i + 3 + nfilt1)) + sc$
+850    V_water = 1e3 * height * por_clay * pi * (SQR(r1 + x) - SQR(r1))
+860    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water * f_free)
+870    punch sol$
+880    IF f_free = 1 and tracer$ = 'Hto'  THEN GOTO 960
+890    punch nl$ + 'SURFACE ' + num$ + ' -equil ' + num$
+900    punch nl$ + ' Su_ ' + TRIM(STR$(f_DL_charge * CEC * V_water)) + STR$(A_por) + ' ' + STR$(V_water)
+910    punch nl$ + ' Su_ii ' + TRIM(STR$(7.88e-4 * rho_b_eps * V_water))
+920    punch nl$ + ' Su_fes ' + TRIM(STR$(7.4e-5 * rho_b_eps * V_water))
+930    IF f_free < 1 THEN punch nl$ + ' -Donnan ' + TRIM(STR$((1 - f_free) * 1e-3 / A_por))
+940    punch nl$ + 'EXCHANGE ' + num$ + ' -equil ' + num$
+950    punch nl$ + ' X ' + TRIM(STR$((1 - f_DL_charge) * CEC * V_water)) + nl$
+960    r1 = r1 + x
+970  NEXT i
+     
+1000 IF nfilt2 = 0 THEN GOTO 1200
+1010 punch nl$ + nl$ + x$ + ' tracer-out filter cells...'
+1020 r1 = r_ext
+1030 xf2 = thickn_filter2 / nfilt2
+1040 FOR i = 1 TO nfilt2
+1050   num$ = TRIM(STR$(i + 3 + nfilt1 + nclay)) + sc$
+1060   V_water = 1e3 * height * por_filter2 * pi * (SQR(r1 + xf2) - SQR(r1))
+1070   punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)
+1080   punch sol$ + nl$
+1090   r1 = r1 + xf2
+1100 NEXT i
+     
+1200 punch nl$ + x$ + ' outside solution...'
+1210 num$ = TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + sc$
+1220 punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_end)
+1230 punch sol$
+1240 punch nl$ + 'END'
 
-       # Write mixing factors...
-  1700 punch nl$ + nl$ + x$ + ' mixing factors...'
-  1710 r1 = r_int
-  1720 IF nfilt1 > 0 THEN r1 = r_int - thickn_filter1
-  1730 A = height * 2 * pi
-  1740 FOR i = 0 TO nfilt1 + nclay + nfilt2
-  1750   IF i = 0 OR i = nfilt1 + nclay + nfilt2 THEN fbc = 2 ELSE fbc = 1
-  1760   IF i > nfilt1 OR nfilt1 = 0 THEN GOTO 1810
-  1770     IF i < nfilt1 THEN mixf = Dw * fbc / (xf1 / gf1) * dt * A * r1 / 1e-3
-  1780     IF i = nfilt1 THEN mixf = 2 * Dw / (xf1 / gf1 + x / g) * dt * A * r1 / 1e-3
-  1790     IF i < nfilt1 THEN r1 = r1 + xf1 ELSE r1 = r1 + x
-  1800     GOTO 1880
-  1810   IF i > nfilt1 + nclay THEN GOTO 1860
-  1820     mixf = Dw * fbc / (x / g) * dt * A * r1 / 1e-3
-  1830     IF i = nfilt1 + nclay AND nfilt2 > 0 THEN mixf = 2 * Dw / (xf2 / gf2 + x / g) * dt * A * r1 / 1e-3
-  1840     IF i < nfilt1 + nclay THEN r1 = r1 + x ELSE r1 = r1 + xf2
-  1850     GOTO 1880
-  1860   mixf = Dw * fbc / (xf2 / gf2) * dt * A * r1 / 1e-3
-  1870   r1 = r1 + xf2
+     # Write phases in which the tracers precipitate...
+1300 punch nl$ + tracer_phases$
+1310 punch nl$ + 'EQUILIBRIUM_PHASES ' + num$ + tracer_equi$
+1320 punch nl$ + 'END'
+     
+     # Define mixing factors for the diffusive flux between cells 1 and 2:
+     #    J_12 = -2 * Dw / (x_1 / g_1 + x_2 / g_2) * (c_2 - c_1)
+     # Multiply with dt * A / (V = 1e-3 m3).  (Actual volumes are given with SOLUTION; -water)
+     # Use harmonic mean: g_1 = por_1 / G_1, g_2 = por_2 / G_2, x_1 = Delta(x_1), etc. 
+1400 IF nfilt1 > 0 THEN gf1 = por_filter1 / G_filter1
+1410 IF nfilt2 > 0 THEN gf2 = por_filter2 / G_filter2
+1420 g = por_clay / G_clay
+     # Find max time step = 0.5 * V_water * dx * G_factor / (Dw * por * A * fbc)
+     #            V_water = por * pi * height * ((r + dr)^2 - r^2)
+     #                  A = por * pi * height * r * 2
+     # At the inlet of the tracers, fbc = 2...
+1500 IF nfilt1 = 0 THEN GOTO 1530
+1510   r1 = r_int - thickn_filter1
+1520   ff = (SQR(r1 + xf1) - SQR(r1)) * xf1 * G_filter1 / (r1 * 2) / 2
+1530 ff1 = (SQR(r_int + x) - SQR(r_int)) * x * G_clay / (r_int * 2) / 2
+     # Perhaps the clay has very small cells...
+1540 IF nfilt1 = 0 THEN ff = ff1 ELSE IF ff1 * 2 < ff THEN ff = ff1 * 2
+     # Or at the filter-clay transition, fbc = 1...
+1550 IF nfilt1 > 0 THEN ff1 = (SQR(r_int + x) - SQR(r_int)) * (xf1 / gf1 + x / g) / (2 * r_int * 2)
+1560 IF nfilt1 > 0 AND ff1 < ff THEN ff = ff1
+1570 dt_max = 0.5 * ff / Dw
+     # Check with punch times, set shifts...
+1580 IF punch_time < dt_max THEN dt = punch_time ELSE dt = dt_max
+1590 punch_fr = 1
+1600 IF dt < punch_time THEN punch_fr = ceil(punch_time / dt)
+1610 dt = punch_time / punch_fr
+1620 shifts = ceil(exp_time / dt)
 
-  1880   punch nl$ + 'MIX ' + TRIM(STR$(i + 3)) + sc$ + STR$(i + 4) + STR$(mixf)
-  1890 NEXT i
-  1900 punch nl$ + 'END'
+     # Write mixing factors...
+1700 punch nl$ + nl$ + x$ + ' mixing factors...'
+1710 r1 = r_int
+1720 IF nfilt1 > 0 THEN r1 = r_int - thickn_filter1
+1730 A = height * 2 * pi
+1740 FOR i = 0 TO nfilt1 + nclay + nfilt2
+1750   IF i = 0 OR i = nfilt1 + nclay + nfilt2 THEN fbc = 2 ELSE fbc = 1
+1760   IF i > nfilt1 OR nfilt1 = 0 THEN GOTO 1810
+1770     IF i < nfilt1 THEN mixf = Dw * fbc / (xf1 / gf1) * dt * A * r1 / 1e-3
+1780     IF i = nfilt1 THEN mixf = 2 * Dw / (xf1 / gf1 + x / g) * dt * A * r1 / 1e-3
+1790     IF i < nfilt1 THEN r1 = r1 + xf1 ELSE r1 = r1 + x
+1800     GOTO 1880
+1810   IF i > nfilt1 + nclay THEN GOTO 1860
+1820     mixf = Dw * fbc / (x / g) * dt * A * r1 / 1e-3
+1830     IF i = nfilt1 + nclay AND nfilt2 > 0 THEN mixf = 2 * Dw / (xf2 / gf2 + x / g) * dt * A * r1 / 1e-3
+1840     IF i < nfilt1 + nclay THEN r1 = r1 + x ELSE r1 = r1 + xf2
+1850     GOTO 1880
+1860   mixf = Dw * fbc / (xf2 / gf2) * dt * A * r1 / 1e-3
+1870   r1 = r1 + xf2
+1880   punch nl$ + 'MIX ' + TRIM(STR$(i + 3)) + sc$ + STR$(i + 4) + STR$(mixf)
+1890 NEXT i
+1900 punch nl$ + 'END'
 
-       # Write TRANSPORT...
-  2000 punch nl$ + 'TRANSPORT'
-  2010 stag = 2 + nfilt1 + nclay + nfilt2
-  2020 punch nl$ + ' -warnings true'
-  2030 punch nl$ + ' -shifts ' + TRIM(STR$(shifts))
-  2040 punch nl$ + ' -flow diff' + sc$ + ' -cells 1' + sc$ + ' -bcon 1 2' + sc$ + ' -stag ' + TRIM(STR$(stag))
-  2050 punch nl$ + ' -time ' + STR$(dt)
-  2060 punch nl$ + ' -multi_D true ' + STR$(Dw) + STR$(por_clay) + ' 0.0 ' + TRIM(STR$(-tort_n))
-  2070 punch nl$ + ' -interlayer_D ' + interlayer_D$ + ' 0.04 0.0 ' + TRIM(STR$(G_IL))
-  2080 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c ' + TRIM(STR$(2 + stag))
-  
-       # Write USER_GRAPH...
-  2200 punch nl$ + 'USER_GRAPH'
-  2210 punch nl$ + ' -plot_csv_file ' + tracer$ + '_rad.csv'
-  2220 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time / (3600 * 24)))
-  2230 punch nl$ + ' -axis_titles ' + q$ + 'Time / days' + q$ + ' ' + q$ + 'Flux / (' + scale1$ + ' mol/m2/s)' + q$ + ' ' + q$ + 'Accumulated mass / (' + scale2$ + ' mol)' + q$
-  2240 punch nl$ + ' -plot_concentration_vs time'
-  2250 punch nl$ + ' 10 days = total_time / (3600 * 24)'
-  2260 punch nl$ + ' 20 if INSTR(' + q$ + tracer$ + q$ + ', ' + q$ + 'C' + q$ + ') THEN mm = 1 ELSE mm = 1e-3'
-  2270 punch nl$ + ' 30 s1 = ' + STR$(1 / val(scale1$)) + ' * mm'
-  2280 punch nl$ + ' 40 s2 = ' + STR$(1 / val(scale2$)) + ' * mm'
-  2290 punch nl$ + ' 50 a = equi(' + q$ + 'A_' + tracer$ + q$ + ') * s2'
-  2300 punch nl$ + ' 60 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)'
-  2310 punch nl$ + ' 70 dt = get(1)'
-  2320 A = 2 * pi * r_ext * height
-  2330 punch nl$ + ' 80 plot_xy days - dt / (2 * 3600 * 24), (a - get(2)) * s1 / s2 / dt /' + STR$(A) +', color = Green, symbol = None'
-  2340 punch nl$ + ' 90 put(a, 2)'
-  2350 punch nl$ + ' 100 plot_xy days, equi(' + q$ + 'A_' + tracer$ + q$ + ') * s2, y_axis = 2, color = Red, symbol = None'
-  2360 punch nl$ + 'END '
+     # Write TRANSPORT...
+2000 punch nl$ + 'TRANSPORT'
+2010 stag = 2 + nfilt1 + nclay + nfilt2
+2020 punch nl$ + ' -warnings true'
+2030 punch nl$ + ' -shifts ' + TRIM(STR$(shifts))
+2040 punch nl$ + ' -flow diff' + sc$ + ' -cells 1' + sc$ + ' -bcon 1 2' + sc$ + ' -stag ' + TRIM(STR$(stag))
+2050 punch nl$ + ' -time ' + STR$(dt)
+2060 punch nl$ + ' -multi_D true ' + STR$(Dw) + STR$(por_clay) + ' 0.0 ' + TRIM(STR$(-tort_n))
+2070 punch nl$ + ' -interlayer_D ' + interlayer_D$ + ' 0.04 0.0 ' + TRIM(STR$(G_IL))
+2080 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c ' + TRIM(STR$(2 + stag))
+
+     # Write USER_GRAPH...
+2200 punch nl$ + 'USER_GRAPH'
+2210 punch nl$ + ' -plot_csv_file ' + tracer$ + '_rad.csv'
+2220 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time / (3600 * 24)))
+2230 line$ = nl$ + ' -axis_titles ' + q$ + 'Time / days' + q$ + ' ' + q$ + 'Flux / (' + scale1$
+2240 punch line$  + ' mol/m2/s)' + q$ + ' ' + q$ + 'Accumulated mass / (' + scale2$ + ' mol)' + q$
+2250 punch nl$ + ' -plot_concentration_vs time'
+2260 punch nl$ + ' 10 days = total_time / (3600 * 24)'
+2270 punch nl$ + ' 20 if INSTR(' + q$ + tracer$ + q$ + ', ' + q$ + 'C' + q$ + ') THEN mm = 1 ELSE mm = 1e-3'
+2280 punch nl$ + ' 30 s1 = ' + STR$(1 / val(scale1$)) + ' * mm'
+2290 punch nl$ + ' 40 s2 = ' + STR$(1 / val(scale2$)) + ' * mm'
+2300 punch nl$ + ' 50 a = equi(' + q$ + 'A_' + tracer$ + q$ + ') * s2'
+2310 punch nl$ + ' 60 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)'
+2320 punch nl$ + ' 70 dt = get(1)'
+2330 A = 2 * pi * r_ext * height
+2340 line$ = nl$ + ' 80 plot_xy days - dt / (2 * 3600 * 24), (a - get(2)) * s1 / s2 / dt /'
+2350 punch line$ + STR$(A) +', color = Green, symbol = None'
+2360 punch nl$ + ' 90 put(a, 2)'
+2370 line$ = nl$ + ' 100 plot_xy days, equi(' + q$ + 'A_' + tracer$ + q$
+2380 punch line$ + ') * s2, y_axis = 2, color = Red, symbol = None'
+2390 punch nl$ + 'END '
 
 END  
 USER_PUNCH
