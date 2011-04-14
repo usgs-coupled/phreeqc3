@@ -153,11 +153,11 @@ cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
 	{
 		kinetics_ptr->count_steps = -this->equal_steps;
 	}
-	kinetics_ptr->steps = (double *) P_INSTANCE_POINTER free_check_null(kinetics_ptr->steps);
+	kinetics_ptr->steps = (LDBLE *) P_INSTANCE_POINTER free_check_null(kinetics_ptr->steps);
 	if (this->steps.size() > 0)
 	{
 		kinetics_ptr->steps =
-			(double *)
+			(LDBLE *)
 			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
 		if (kinetics_ptr->steps == NULL)
 			P_INSTANCE_POINTER malloc_error();

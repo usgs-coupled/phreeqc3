@@ -243,6 +243,11 @@ cxxStorageBin::setSolution(int n_user, cxxSolution * entity)
 	Solutions[n_user] = *entity;
 }
 void 
+cxxStorageBin::setSolution(int n_user, cxxSolution & entity)
+{
+	Solutions[n_user] = entity;
+}
+void 
 cxxStorageBin::removeSolution(int n_user)
 {
 	Solutions.erase(n_user);
@@ -287,6 +292,11 @@ cxxStorageBin::setPPassemblage(int n_user, cxxPPassemblage * entity)
 	PPassemblages[n_user] = *entity;
 }
 void 
+cxxStorageBin::setPPassemblage(int n_user, cxxPPassemblage & entity)
+{
+	PPassemblages[n_user] = entity;
+}
+void 
 cxxStorageBin::removePPassemblage(int n_user)
 {
 	PPassemblages.erase(n_user);
@@ -329,6 +339,11 @@ cxxStorageBin::setSSassemblage(int n_user, cxxSSassemblage * entity)
 	if (entity == NULL)
 		return;
 	SSassemblages[n_user] = *entity;
+}
+void 
+cxxStorageBin::setSSassemblage(int n_user, cxxSSassemblage & entity)
+{
+	SSassemblages[n_user] = entity;
 }
 void 
 cxxStorageBin::removeSSassemblage(int n_user)
@@ -1698,6 +1713,12 @@ cxxStorageBin::ORCH_write(std::ostream & chemistry_dat,
 
 }
 #endif
+cxxSystem &
+cxxStorageBin::getSystem(void)
+{
+	return this->system;
+}
+
 void
 cxxStorageBin::setSystem(struct Use *use_ptr)
 {
@@ -1798,6 +1819,94 @@ cxxStorageBin::setSystem(struct Use *use_ptr)
 	{
 		std::map < int, cxxTemperature >::iterator it =
 			this->Temperatures.find(use_ptr->n_temperature_user);
+		if (it != this->Temperatures.end())
+		{
+			this->system.setTemperature(&(it->second));
+		}
+	}
+}
+void
+cxxStorageBin::setSystem(int i)
+{
+	// Initialize
+	this->system.Initialize();
+	// Solution
+	{
+		std::map < int, cxxSolution >::iterator it = this->Solutions.find(i);
+		if (it != this->Solutions.end())
+		{
+			this->system.setSolution(&(it->second));
+		}
+	}
+
+	// Exchange
+	{
+		std::map < int, cxxExchange >::iterator it = this->Exchangers.find(i);
+		if (it != this->Exchangers.end())
+		{
+			this->system.setExchange(&(it->second));
+		}
+	}
+
+	// gas_phase
+	{
+		std::map < int, cxxGasPhase >::iterator it = this->GasPhases.find(i);
+		if (it != this->GasPhases.end())
+		{
+			this->system.setGasPhase(&(it->second));
+		}
+	}
+	// kinetics
+	{
+		std::map < int, cxxKinetics >::iterator it = this->Kinetics.find(i);
+		if (it != this->Kinetics.end())
+		{
+			this->system.setKinetics(&(it->second));
+		}
+	}
+	// pp_assemblage
+	{
+		std::map < int, cxxPPassemblage >::iterator it = this->PPassemblages.find(i);
+		if (it != this->PPassemblages.end())
+		{
+			this->system.setPPassemblage(&(it->second));
+		}
+	}
+	// s_s_assemblage
+	{
+		std::map < int, cxxSSassemblage >::iterator it = this->SSassemblages.find(i);
+		if (it != this->SSassemblages.end())
+		{
+			this->system.setSSassemblage(&(it->second));
+		}
+	}
+	// surface
+	{
+		std::map < int, cxxSurface >::iterator it = this->Surfaces.find(i);
+		if (it != this->Surfaces.end())
+		{
+			this->system.setSurface(&(it->second));
+		}
+	}
+	// mix
+	{
+		std::map < int, cxxMix >::iterator it =	this->Mixes.find(i);
+		if (it != this->Mixes.end())
+		{
+			this->system.setMix(&(it->second));
+		}
+	}
+	// reaction
+	{
+		std::map < int, cxxReaction >::iterator it = this->Reactions.find(i);
+		if (it != this->Reactions.end())
+		{
+			this->system.setReaction(&(it->second));
+		}
+	}
+	// reaction temperature
+	{
+		std::map < int, cxxTemperature >::iterator it = this->Temperatures.find(i);
 		if (it != this->Temperatures.end())
 		{
 			this->system.setTemperature(&(it->second));
