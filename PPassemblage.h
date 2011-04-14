@@ -37,7 +37,10 @@ class cxxPPassemblage:public cxxNumKeyword
 	{
 		return this->eltList;
 	};
-
+	std::map <std::string, cxxPPassemblageComp > & get_ppAssemblageComps() 
+	{
+		return this->ppAssemblageComps;
+	};
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);

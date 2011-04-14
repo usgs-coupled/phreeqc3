@@ -59,6 +59,10 @@ class cxxSSassemblageSS
 	{
 		return (this->totals);
 	};
+	const cxxNameDouble & get_comps() const
+	{
+		return (this->comps);
+	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);

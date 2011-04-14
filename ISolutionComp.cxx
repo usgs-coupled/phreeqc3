@@ -118,7 +118,7 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 	if (this->as.size() != 0)
 	{
 		/* use given chemical formula to calculate gfw */
-		double l_gfw;
+		LDBLE l_gfw;
 		if (P_INSTANCE_POINTER compute_gfw(this->as.c_str(), &l_gfw) == ERROR)
 		{
 			std::ostringstream oss;

@@ -93,7 +93,7 @@ cxxTemperature::cxxTemperature2temperature(PHREEQC_PTR_ARG)
 	if (this->temps.size() > 0)
 	{
 		temperature_ptr->t =
-			(double *)
+			(LDBLE *)
 			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->temps.size() * sizeof(double)));
 		if (temperature_ptr->t == NULL)
 			P_INSTANCE_POINTER malloc_error();
