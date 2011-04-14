@@ -35,6 +35,10 @@ public:
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
+	std::map <std::string, cxxSSassemblageSS > & get_ssAssemblageSSs() 
+	{
+		return this->ssAssemblageSSs;
+	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);

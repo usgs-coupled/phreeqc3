@@ -97,7 +97,7 @@ struct kinetics_comp *
 		kinetics_comp_ptr[i].d_params = NULL;
 		if ((*it).d_params.size() > 0)
 		{
-			kinetics_comp_ptr[i].d_params =	(double *)
+			kinetics_comp_ptr[i].d_params =	(LDBLE *)
 				P_INSTANCE_POINTER PHRQ_malloc((size_t) ((*it).d_params.size() * sizeof(double)));
 			if (kinetics_comp_ptr[i].d_params == NULL)
 				P_INSTANCE_POINTER malloc_error();

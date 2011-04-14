@@ -36,6 +36,7 @@ class cxxStorageBin
 
 	cxxSolution *getSolution(int n_user);
 	void setSolution(int n_user, cxxSolution * entity);
+	void setSolution(int n_user, cxxSolution & entity);
 	void removeSolution(int n_user);
 
 	cxxExchange *getExchange(int n_user);
@@ -44,6 +45,7 @@ class cxxStorageBin
 
 	cxxPPassemblage *getPPassemblage(int n_user);
 	void setPPassemblage(int n_user, cxxPPassemblage * entity);
+	void setPPassemblage(int n_user, cxxPPassemblage & entity);
 	void removePPassemblage(int n_user);
 
 	cxxGasPhase *getGasPhase(int n_user);
@@ -52,6 +54,7 @@ class cxxStorageBin
 
 	cxxSSassemblage *getSSassemblage(int n_user);
 	void setSSassemblage(int n_user, cxxSSassemblage * entity);
+	void setSSassemblage(int n_user, cxxSSassemblage & entity);
 	void removeSSassemblage(int n_user);
 
 	cxxKinetics *getKinetics(int n_user);
@@ -74,7 +77,9 @@ class cxxStorageBin
 	void setTemperature(int n_user, cxxTemperature * entity);
 	void removeTemperature(int n_user);
 
+	cxxSystem &getSystem(void);
 	void setSystem(struct Use *use_ptr);
+	void setSystem(int i);
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 

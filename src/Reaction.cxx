@@ -107,7 +107,7 @@ cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
 	if (this->steps.size() > 0)
 	{
 		irrev_ptr->steps =
-			(double *)
+			(LDBLE *)
 			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
 		if (irrev_ptr->steps == NULL)
 			P_INSTANCE_POINTER malloc_error();

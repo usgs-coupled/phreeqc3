@@ -532,7 +532,7 @@ void set_inert_moles(void);
 void unset_inert_moles(void);
 #ifdef SLNQ
 int add_trivial_eqns(int rows, int cols, LDBLE * matrix);
-int slnq(int n, LDBLE * a, LDBLE * delta, int ncols, int print);
+//int slnq(int n, LDBLE * a, LDBLE * delta, int ncols, int print);
 #endif
 int calc_gas_pressures(void);
 int calc_s_s_fractions(void);

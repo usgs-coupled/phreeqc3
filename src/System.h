@@ -69,6 +69,10 @@ public:
 		this->temperature = entity;
 	} 
 	void totalize(PHREEQC_PTR_ARG);
+	cxxNameDouble &getTotals(void)
+	{
+		return this->totals;
+	}
 	
 #ifdef ORCHESTRA
 	void ORCH_components();
