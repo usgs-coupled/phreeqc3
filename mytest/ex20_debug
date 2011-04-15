@@ -1,0 +1,721 @@
+DATABASE ../database/iso.dat
+
+ 	TITLE Example 21.--Isotope evolution.
+ 	PRINT
+ 		-censor_species        1e-006
+ 	SOLUTION 1 # water to find composition of marine carbonate
+ 		pH      8.2
+ 		Na	1       charge
+ 		Ca	10      Calcite        0
+ 		C	2	
+ 		[13C]	0       # permil
+ 		[14C]	0       # pmc
+ 		D	0       # permil
+ 		[18O]	0       # permil
+ 	END
+ 	SOLID_SOLUTION 1 No [14C]
+ 	Calcite 
+ 		-comp	Calcite                 0
+ 		-comp	CaCO2[18O](s)           0
+ 		-comp	CaCO[18O]2(s)           0
+ 		-comp	CaC[18O]3(s)            0
+ 		-comp 	Ca[13C]O3(s)            0
+ 		-comp	Ca[13C]O2[18O](s)       0
+ 		-comp	Ca[13C]O[18O]2(s)       0
+ 		-comp	Ca[13C][18O]3(s)        0
+  	SOLID_SOLUTION 2 With [14C]
+ 	Calcite 
+ 		-comp	Calcite                 0
+ 		-comp	CaCO2[18O](s)           0
+ 		-comp	CaCO[18O]2(s)           0
+ 		-comp	CaC[18O]3(s)            0
+ 		-comp 	Ca[13C]O3(s)            0
+ 		-comp	Ca[13C]O2[18O](s)       0
+ 		-comp	Ca[13C]O[18O]2(s)       0
+ 		-comp	Ca[13C][18O]3(s)        0
+ 		-comp 	Ca[14C]O3(s)            0
+ 		-comp	Ca[14C]O2[18O](s)       0
+ 		-comp	Ca[14C]O[18O]2(s)       0
+ 		-comp	Ca[14C][18O]3(s)        0		
+ 	EQUILIBRIUM_PHASES 2
+ 		O2(g)  -0.7
+ 	END	
+ 	RUN_CELLS
+ 		-cells 1
+ 	END
+ 	REACTION 2
+        Calcite             0.982825285292
+        Ca[13C]O3(s)        0.0110113720669
+        CaCO2[18O](s)       0.00608249850593
+        Ca[13C]O2[18O](s)   6.81470604684e-05
+        CaCO[18O]2(s)       1.25477670102e-05
+        Ca[13C]O[18O]2(s)   1.4058259716e-07
+        CaC[18O]3(s)        8.62838721009e-09
+        Ca[13C][18O]3(s)    9.66706731415e-11
+        0.0005 mole
+        END
+ 	USER_PUNCH
+ 	-start
+ 		10 t = SYS("s_s", count, name$, type$, values  )
+ 		20 PUNCH count
+ 		30 for i = 1 to count
+ 		40   PUNCH pad(name$(i),20), values(i)/t
+ 		50 next i
+ 	-end
+ 	END
+ 
+ 	SOLUTION 2
+		pH	5  	charge
+		C	2	CO2(g)  -1.0	
+		[13C]	-25	# permil
+		[14C]	100	# pmc
+		D	-40	# permil
+		[18O]	-5	# permil
+	END
+
+	SELECTED_OUTPUT
+		-reset false
+	USER_PUNCH
+		-headings D 18O 13C 14C 18O_calcite 13C_calcite 14C_calcite
+	-start
+	10 PUNCH ISO("R(D)"), ISO("R(18O)"), ISO("R(13C)"), ISO("R(14C)"),
+	20 PUNCH ISO("R(18O)_Calcite"), ISO("R(13C)_Calcite"), ISO("R(14C)_Calcite")
+	-end
+	END
+	KNOBS
+		#-tol 1e-16
+		#-iter   500
+		#-conv   1e-7
+		-diagonal
+		#-step 5
+		#-pe 2
+		
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	USE solution 2
+	USE solid_solution 2
+	USE reaction 2
+	USE equilibrium_phases 2
+	SAVE solution 2
+	END
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

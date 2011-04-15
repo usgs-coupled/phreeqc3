@@ -153,6 +153,7 @@ all: alkalinity.out \
 	ex10_pz.out \
 	ex11.out \
 	ex12.out \
+	ex20_debug \
 	ex6.cvode.out ex9.cvode.out ex15.cvode.out \
 	colt1.out \
 	colt2.out \
