@@ -79,7 +79,16 @@ Utilities::squeeze_white(std::string & s_l)
 	std::string str;
 	std::string::iterator beg = s_l.begin();
 	std::string::iterator end = s_l.end();
-	CParser::copy_token(str, beg, end);
+	//CParser::copy_token(str, beg, end);
+	std::string::iterator pos;
+	for (pos = beg; pos != end; pos++)
+	{
+		int c = *pos;
+		if (!::isspace(c))
+		{
+			str += c;
+		}
+	}
 	s_l = str;
 }
 
@@ -96,7 +105,7 @@ Utilities::error_msg(const std::string & err_str, const int stop)
 
 //+NAN double: 7ff8000000000000
 //-NAN double: fff8000000000000
-/*
+
 double Utilities::get_nan(void)
 {
 	unsigned long long raw = 0x7ff0000000000000;
@@ -104,5 +113,5 @@ double Utilities::get_nan(void)
 	return(d);
 
 }
-*/
+
 

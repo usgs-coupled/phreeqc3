@@ -28,7 +28,7 @@
 #include "runner.h"
 #include "dumper.h"
 #include "StorageBinList.h"
-
+#include "ChartHandler.h"
 #define STATIC
 #define EXTERNAL
 #define CLASS_QUALIFIER Phreeqc::
@@ -43,7 +43,6 @@ class Phreeqc
 public:
 	Phreeqc(void);
 	~Phreeqc(void);
-
 
 //private:
 //
@@ -182,12 +181,12 @@ void cmddel(struct LOC_exec *LINK);
 void cmdrenum(struct LOC_exec *LINK);
 void cmdprint(struct LOC_exec *LINK);
 void cmdpunch(struct LOC_exec *LINK);
-#if defined PHREEQ98 || defined CHART
+#if defined PHREEQ98 || defined CHART || defined MULTICHART
 void cmdgraph_x(struct LOC_exec *LINK);
 void cmdgraph_y(struct LOC_exec *LINK);
 void cmdgraph_sy(struct LOC_exec *LINK);
 #endif
-#ifdef CHART
+#if defined CHART || defined MULTICHART
 void cmdplot_xy(struct LOC_exec *LINK);
 #endif
 void cmdlet(boolean implied, struct LOC_exec *LINK);
@@ -778,7 +777,7 @@ int punch_s_s_assemblage(void);
 int punch_saturation_indices(void);
 int punch_totals(void);
 int punch_user_punch(void);
-#if defined PHREEQ98 || defined CHART
+#if defined PHREEQ98 || defined CHART || defined MULTICHART
 int punch_user_graph(void);
 #endif
 
@@ -854,6 +853,9 @@ int read_user_print(void);
 int read_user_punch(void);
 #if defined PHREEQ98 || defined CHART
 int read_user_graph(void);
+#endif
+#if defined MULTICHART
+int read_user_graph_handler();
 #endif
 int next_keyword_or_option(const char **opt_list, int count_opt_list);
 
