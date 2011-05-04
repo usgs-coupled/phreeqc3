@@ -112,6 +112,7 @@ ChartObject::ChartObject()
 
 ChartObject::~ChartObject()
 {
+	this->Rate_free();
 	delete this->user_graph;
 
 	std::vector<CurveObject *>::iterator it;
@@ -838,29 +839,6 @@ ChartObject::SaveCurvesToFile(std::string &file_name)
 	return;
 }
 // file only used with MULTICHART
-#if !defined PHREEQC_CLASS
-bool
-ChartObject::start_chart(void)
-{
-	Application::EnableVisualStyles();
-	Application::SetCompatibleTextRenderingDefault(true); 
-
-	// needed to send ChartObject pointer to thread
-	Thread ^t = gcnew Thread(
-                gcnew ParameterizedThreadStart(Form1::ThreadForm));
-
-	t->SetApartmentState(ApartmentState::STA);
-	t->IsBackground = false;
-	t->Priority = ThreadPriority::Normal;
-
-	ChartObj ^p = gcnew ChartObj(this);
-	t->Start(p);
-
-	//Thread::Sleep( 1 ); /* this when debugging... */
-	//_beginthread(void (Form1::ThreadForm), 0, NULL);
-	return true;
-}
-#else
 bool
 ChartObject::start_chart(void)
 {
@@ -883,7 +861,7 @@ ChartObject::start_chart(void)
 	//_beginthread(void (Form1::ThreadForm), 0, NULL);
 	return true;
 }
-#endif
+
 void 
 ChartObject::Rate_free(void)
 {
