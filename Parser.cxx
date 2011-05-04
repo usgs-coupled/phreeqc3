@@ -372,6 +372,11 @@ CParser::check_key(std::string::iterator begin, std::string::iterator end)
 		s_keyword_map.insert(std::map < std::string,
 							 KEY_TYPE >::value_type("reaction_raw",
 													KT_REACTION_RAW));
+#if defined MULTICHART
+		s_keyword_map.insert(std::map < std::string,
+							 KEY_TYPE >::value_type("user_graph",
+													KT_USER_GRAPH));
+#endif
 	}
 
 	std::string lowercase;
@@ -1348,4 +1353,92 @@ incr_input_error()
 {
 	++ ERROR_MESSAGE_QUALIFIER input_error;
 	return ++m_input_error;
+}
+
+CParser::TOKEN_TYPE CParser::copy_title(std::string & token,
+										std::string::iterator & begin,
+										std::string::iterator & end)
+{
+	if (begin != end)
+	{
+		std::string::iterator b = begin;
+		std::string::iterator e = end;
+		for (; b < end && (::isspace(*b) || (*b == ',')); ++b);
+		begin = b;
+		if (*begin == '"')
+		{
+			begin = ++b;
+			for (; begin != end && !(*begin == '"'); ++begin);
+			e = begin;
+			if (begin != end && *begin == '"')
+			{
+				e = begin++;
+			}
+		}
+		else
+		{
+			for (; begin < end && !(*begin == ',') && !(::isspace(*begin)); ++begin);
+			e = begin;
+		}
+		token.assign(b, e);
+	}
+	else
+	{
+		token.resize(0);
+	}
+	token = trim(token);
+	return token_type(token);
+}
+bool CParser::get_true_false(std::istream::pos_type & pos, bool def)
+{
+	std::string token;
+	this->copy_token(token, pos);
+	std::string::iterator b = token.begin();
+	for (; b != token.end() && (::isspace(*b)); ++b);
+	if (b != token.end())
+	{
+		if (*b == 'f' || *b == 'F')
+		{
+			return false;
+		}
+		else if (*b == 't' || *b == 'T')
+		{
+			return true;
+		}
+	}
+	return def;
+}
+CParser::TOKEN_TYPE CParser::get_rest_of_line(std::string &token)
+{
+	token.clear();
+	std::istringstream::pos_type pos = m_line_iss.tellg();
+	int j;
+	while ((j = m_line_iss.get()) != std::char_traits < char >::eof())
+	{
+		char c = (char) j;
+		token += c;
+	}
+	token = trim(token);
+	return token_type(token);
+}
+CParser::TOKEN_TYPE CParser::parse_delimited(std::string & source, std::string & result,
+										const std::string& t = " \t")
+{
+
+	size_t pos = source.find_first_of(t);
+	std::string temp;
+	if (pos != std::string::npos)
+	{
+		result = source.substr(0, pos);
+		temp = source.substr(pos+1);
+		source = temp;
+	}
+	else
+	{
+		result = source;
+		source.clear();
+	}
+	std::string str = result;
+
+	return token_type(trim_left(str));
 }

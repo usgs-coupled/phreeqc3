@@ -68,6 +68,9 @@ class CParser
 		KT_SURFACE_RAW = 11,
 		KT_TEMPERATURE_RAW = 12,
 		KT_REACTION_RAW = 13
+#if defined MULTICHART
+		, KT_USER_GRAPH = 14
+#endif
 	};
 
 	enum OPT_TYPE
@@ -159,7 +162,7 @@ class CParser
 							  std::istream::pos_type & next_pos);
 
 
-	  std::string & line()
+	std::string & line()
 	{
 		return m_line;
 	}
@@ -219,9 +222,15 @@ class CParser
 	static TOKEN_TYPE copy_token(std::string & token,
 								 std::string::iterator & begin,
 								 std::string::iterator & end);
+	static CParser::TOKEN_TYPE copy_title(std::string & token,
+										std::string::iterator & begin,
+										std::string::iterator & end);
 	static TOKEN_TYPE token_type(const std::string & token);
 	static TOKEN_TYPE copy_token(std::string & token, std::istream & is);
 	TOKEN_TYPE copy_token(std::string & token, std::istream::pos_type & pos);
+	bool get_true_false(std::istream::pos_type & pos, bool def);
+	TOKEN_TYPE get_rest_of_line(std::string &token);
+	static TOKEN_TYPE parse_delimited(std::string & source, std::string & result, const std::string& t);
 	CParser::TOKEN_TYPE peek_token();
 
 		/**

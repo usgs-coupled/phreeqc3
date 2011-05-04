@@ -1854,8 +1854,8 @@ read_kinetics_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
+	std::ostringstream oss_out;  // ??
+	std::ostringstream oss_err;  // ??
 	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
 	assert(!reading_database());
 
@@ -2731,3 +2731,56 @@ dump_ostream(std::ostream& os)
 	// Turn off dump until next read
 	dump_info.SetAll(false);
 }
+#if defined MULTICHART
+/* ---------------------------------------------------------------------- */
+int CLASS_QUALIFIER
+read_user_graph_handler(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads USER_GRAPH_DATA_BLOCK data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	std::ostringstream oss_out;
+	std::ostringstream oss_err;
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+
+	//For testing, need to read line to get started
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	//parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	assert(!reading_database());
+
+	bool success = chart_handler.Read(PHREEQC_THIS_COMMA parser);
+
+	// Need to output the next keyword
+	if (return_value == OPTION_KEYWORD) output_msg(OUTPUT_CHECKLINE, "\t%s\n", line);
+	return (return_value);
+}
+#endif

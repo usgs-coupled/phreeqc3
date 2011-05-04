@@ -220,12 +220,12 @@ Phreeqc::Phreeqc(void)
 		{"let", toklet},
 		{"print", tokprint},
 		{"punch", tokpunch},
-	#if defined PHREEQ98 || defined CHART
+	#if defined PHREEQ98 || defined CHART || defined MULTICHART
 		{"graph_x", tokgraph_x},
 		{"graph_y", tokgraph_y},
 		{"graph_sy", tokgraph_sy},
 	#endif
-	#ifdef CHART
+	#if defined CHART || defined MULTICHART
 		{"plot_xy", tokplot_xy},
 	#endif
 		{"input", tokinput},
