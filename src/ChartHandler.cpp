@@ -36,7 +36,6 @@ ChartHandler::~ChartHandler()
 	std::map<int, ChartObject *>::iterator it;
 	for (it = this->chart_map.begin(); it != chart_map.end(); it++)
 	{
-		it->second->Rate_free();
 		delete it->second;
 	}
 }
