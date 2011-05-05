@@ -135,6 +135,7 @@ ChartHandler::End_timer(PHREEQC_PTR_ARG)
 		//	}
 		//}
 		size_t i = 0;
+		it->second->Rate_free();
 		if (it->second->Get_form_started())
 		{
 			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1) && i < max_tries) 
@@ -143,7 +144,6 @@ ChartHandler::End_timer(PHREEQC_PTR_ARG)
 				System::Threading::Thread::Sleep(1);
 			}
 			it->second->Set_end_timer(true);
-			it->second->Rate_free();
 			System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
 
 			size_t i2 = 0;
