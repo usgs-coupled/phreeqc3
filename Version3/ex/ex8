@@ -34,7 +34,7 @@ SELECTED_OUTPUT
         -file Zn1e_7
         -reset false
 USER_PUNCH
-  10 FOR i = 5.5 to 8 STEP 0.25
+  10 FOR i = 5 to 8 STEP 0.25
   20 a$ = EOL$ + "USE solution 1" + CHR$(59) + " USE surface 1" + EOL$
   30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
   40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
@@ -51,8 +51,6 @@ SOLUTION 2
 SELECTED_OUTPUT
         -file Zn1e_4
         -reset false
-USER_PUNCH
-  10 FOR i = 5 to 8 STEP 0.25
 USER_PUNCH
   10 FOR i = 5 to 8 STEP 0.25
   20 a$ = EOL$ + "USE solution 2" + CHR$(59) + " USE surface 1" + EOL$
@@ -92,23 +90,24 @@ USER_GRAPH
   20 GRAPH_Y MOL("Zn+2"), MOL("Hfo_wOZn+"), MOL("Hfo_sOZn+")
   30 GRAPH_SY CHARGE_BALANCE * 1e3
   -end
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.0   NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.25  NaOH    10.0
-END
-# and so on...
 INCLUDE$ Zn1e_7
+END
+USER_GRAPH 1
+	-detach
+END
 #
 #   Zn = 1e-4
-PRINT
-        -user_graph false # true for the Zn_tot = 1e-4 plot
-USER_GRAPH # and, uncomment chart_title and axis_scale y_axis...
-#        -chart_title "total Zn = 1e-4 mol"
-#        -axis_scale y_axis 1e-8 1e-3 1 1 log
+USER_GRAPH 2 # and, uncomment chart_title and axis_scale y_axis...
+        -chart_title "Example 8, total Zn = 1e-4 mol"
+        -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_Balance
+        -axis_titles pH "Mol / kgw" "Charge Balance / meq"
+        -axis_scale x_axis 5.0 8.0 1 0.25
+        -axis_scale y_axis 1e-8 1e-3 1 1 log
+        -axis_scale sy_axis -0.15 0 0.03
+  -start
+  10 GRAPH_X -LA("H+")
+  20 GRAPH_Y MOL("Zn+2"), MOL("Hfo_wOZn+"), MOL("Hfo_sOZn+")
+  30 GRAPH_SY CHARGE_BALANCE * 1e3
+  -end        
 INCLUDE$ Zn1e_4
+END
