@@ -299,8 +299,11 @@ class ChartObject:public cxxNumKeyword
 	void Initialize_graph_pts(void);
 	void Finalize_graph_pts(void);
 	void Get_legal_symbol(std::string &sym);
+	void Get_legal_symbol_csv(std::string &sym);
+	void Get_color_string(std::string &color);
+	void Get_color_string_csv(std::string &color);
 	//void Add_new_series(void);
-	void Add_curve(std::string id = "", 
+	void Add_curve(bool plotxy, std::string id = "", 
 					   double line_width = 1.0, 
 					   std::string symbol = "",
 					   double symbol_size = 6.0, 
@@ -350,6 +353,9 @@ class ChartObject:public cxxNumKeyword
 	bool rate_new_def;
 
 	int default_symbol;
+	int default_symbol_csv;
+	int default_color;
+	int default_color_csv;
 
 	// temporary storage before stored graph_x/y/sy data are stored in curves
 	// Initialize_graph_pts and Finalize_graph_pts use this storage.
