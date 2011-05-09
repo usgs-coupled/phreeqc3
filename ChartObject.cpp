@@ -265,7 +265,8 @@ ChartObject::Read(CParser & parser)
 	std::string token;
 	int opt_save;
 	bool useLastLine(false);
-	bool new_command_lines(true);
+	bool new_command_lines(false);
+	bool no_def(true);
 	if (this->FirstCallToUSER_GRAPH)
 	{
 	}
@@ -408,10 +409,10 @@ ChartObject::Read(CParser & parser)
 			/* End of modifications */
 		case CParser::OPT_DEFAULT:	// Read Basic commands
 			{
-				if (new_command_lines)
+				if (!new_command_lines)
 				{
 					this->rate_command_list.clear();
-					new_command_lines = false;
+					new_command_lines = true;
 				}
 				this->rate_new_def = true;
 				/* read command */
@@ -436,10 +437,12 @@ ChartObject::Read(CParser & parser)
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
+		no_def = false;
 	}
 
 	// install new plotxy commands
-	this->Set_rate_struct();
+	// disable this user_graph if USER_GRAPH block is empty
+	if (new_command_lines || no_def) this->Set_rate_struct();
 	return true;
 }
 bool
