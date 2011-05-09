@@ -99,6 +99,9 @@ ChartObject::ChartObject()
 	user_graph->linebase = user_graph->loopbase = user_graph->varbase = NULL;
 
 	default_symbol = 0;
+	default_symbol_csv = 0;
+	default_color = 0;
+	default_color_csv = 0;
 
 	graph_x = NA;
 	graph_y.clear();
@@ -243,7 +246,7 @@ ChartObject::Read(CParser & parser)
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
 	{
-		vopts.reserve(15);
+		vopts.reserve(20);
 		vopts.push_back("start");	// 0 
 		vopts.push_back("end");	// 1 
 		vopts.push_back("heading");	// 2 
@@ -259,6 +262,8 @@ ChartObject::Read(CParser & parser)
 		vopts.push_back("plot_csv_file");	// 12	
 		vopts.push_back("clear");	// 13
 		vopts.push_back("detach");	// 14
+		vopts.push_back("active");	// 15
+
 	}
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -266,6 +271,7 @@ ChartObject::Read(CParser & parser)
 	int opt_save;
 	bool useLastLine(false);
 	bool new_command_lines(false);
+	// if no definitions in USER_GRAPH data block, deactivate plot
 	bool no_def(true);
 	if (this->FirstCallToUSER_GRAPH)
 	{
@@ -407,6 +413,10 @@ ChartObject::Read(CParser & parser)
 			this->detach = true;
 			break;
 			/* End of modifications */
+		case 15: /* active */
+			this->active = parser.get_true_false(next_char, true);
+			break;
+			/* End of modifications */
 		case CParser::OPT_DEFAULT:	// Read Basic commands
 			{
 				if (!new_command_lines)
@@ -442,7 +452,9 @@ ChartObject::Read(CParser & parser)
 
 	// install new plotxy commands
 	// disable this user_graph if USER_GRAPH block is empty
-	if (new_command_lines || no_def) this->Set_rate_struct();
+	//if (new_command_lines || no_def) this->Set_rate_struct();
+	if (new_command_lines) this->Set_rate_struct();
+	if (no_def) this->Set_active(false);
 	return true;
 }
 bool
@@ -494,7 +506,7 @@ ChartObject::OpenCSVFile(std::string file_name)
 				c->Set_id(headings[i]);
 				c->Set_line_w(0);
 				std::string sym = "";
-				this->Get_legal_symbol(sym);
+				this->Get_legal_symbol_csv(sym);
 				c->Set_symbol(sym);
 				csv_curves.push_back(c);
 			}
@@ -528,7 +540,10 @@ ChartObject::OpenCSVFile(std::string file_name)
 				}
 				else if (!strncmp(tok1.c_str(), "symbol_size", 8) || !strncmp(tok1.c_str(), "symbol-size", 8))
 				{
-					csv_curves[i]->Set_symbol_size(atof(tok2.c_str()));
+					if (tok2.size() > 0)
+					{
+						csv_curves[i]->Set_symbol_size(atof(tok2.c_str()));
+					}
 				}
 				else if (!strncmp(tok1.c_str(), "line_w", 5) || !strncmp(tok1.c_str(), "line-w", 5))
 				{
@@ -536,7 +551,10 @@ ChartObject::OpenCSVFile(std::string file_name)
 				}
 				else if (!strncmp(tok1.c_str(), "y_axis", 5) || !strncmp(tok1.c_str(), "y-axis", 5))
 				{
-					csv_curves[i]->Set_y_axis(atoi(tok2.c_str()));
+					if (tok2.size() > 0)
+					{
+						csv_curves[i]->Set_y_axis(atoi(tok2.c_str()));
+					}
 				}
 				i++;
 			}
@@ -584,6 +602,9 @@ ChartObject::OpenCSVFile(std::string file_name)
 	{
 		if ((*it)->Get_x().size() > 0)
 		{
+			std::string col = (*it)->Get_color();
+			this->Get_color_string_csv(col);
+			(*it)->Set_color(col);
 			this->CurvesCSV.push_back(*it);
 			this->Set_curve_added(true);
 		}
@@ -705,6 +726,48 @@ ChartObject::Get_legal_symbol(std::string &sym)
 		}
 		default_symbol++;
 		default_symbol = default_symbol % this->Symbol_map.size();
+	}
+	return;
+}
+void
+ChartObject::Get_legal_symbol_csv(std::string &sym)
+{
+	std::map<std::string, int>::iterator it;
+	if ((it = this->Symbol_map.find(sym)) == this->Symbol_map.end())
+	{
+		sym = "Default";
+		for (it = this->Symbol_map.begin(); it != this->Symbol_map.end(); it++)
+		{
+			if (this->default_symbol_csv == it->second)
+			{
+				sym = it->first;
+				break;
+			}
+		}
+		default_symbol_csv++;
+		default_symbol_csv = default_symbol_csv % this->Symbol_map.size();
+	}
+	return;
+}
+void
+ChartObject::Get_color_string(std::string &color)
+{
+	if (color.size() == 0)
+	{
+		color = Color_vector[this->default_color];
+		default_color++;
+		default_color = default_color % this->Color_vector.size();
+	}
+	return;
+}
+void
+ChartObject::Get_color_string_csv(std::string &color)
+{
+	if (color.size() == 0)
+	{
+		color = Color_vector[this->default_color_csv];
+		default_color_csv++;
+		default_color_csv = default_color_csv % this->Color_vector.size();
 	}
 	return;
 }
@@ -911,7 +974,7 @@ ChartObject::Finalize_graph_pts(void)
 }
 
 void 
-ChartObject::Add_curve(std::string id, 
+ChartObject::Add_curve(bool plotxy, std::string id, 
 					   double line_width, 
 					   std::string symbol,
 					   double symbol_size, 
@@ -925,7 +988,12 @@ ChartObject::Add_curve(std::string id,
 	this->Get_legal_symbol(symbol);
 	c->Set_symbol(symbol);
 	c->Set_symbol_size(symbol_size);
+	if (this->CurvesCSV.size() > 0 && !plotxy)
+	{
+		c->Set_symbol_size(0.0);
+	}
 	c->Set_y_axis(y_axis);
+	this->Get_color_string(color);
 	c->Set_color(color);
 
 	this->Curves.push_back(c);
