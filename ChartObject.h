@@ -129,6 +129,15 @@ class ChartObject:public cxxNumKeyword
 	{
 		return (this->ColumnOffset);
 	}	
+	// bool AddSeries;
+	void Set_AddSeries(bool b)
+	{
+		this->AddSeries = b;
+	}
+	bool Get_AddSeries()
+	{
+		return this->AddSeries;
+	}
 	// int prev_advection_step;
 	void Set_prev_advection_step(int i)
 	{
@@ -302,7 +311,7 @@ class ChartObject:public cxxNumKeyword
 	void Get_legal_symbol_csv(std::string &sym);
 	void Get_color_string(std::string &color);
 	void Get_color_string_csv(std::string &color);
-	//void Add_new_series(void);
+	void Add_new_series(void);
 	void Add_curve(bool plotxy, std::string id = "", 
 					   double line_width = 1.0, 
 					   std::string symbol = "",
@@ -332,6 +341,7 @@ class ChartObject:public cxxNumKeyword
 	int colnr;
 	int RowOffset;
 	int ColumnOffset;
+	bool AddSeries;
 	
 	int prev_advection_step;
 	int prev_transport_step;
