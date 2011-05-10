@@ -275,6 +275,7 @@ ChartObject::Read(CParser & parser)
 	bool no_def(true);
 	if (this->FirstCallToUSER_GRAPH)
 	{
+		this->new_ug = true;
 	}
 	else
 	{
@@ -621,6 +622,147 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 	int curvenr = (int) this->Curves.size();
 	std::string str_line = cmd_line;
 
+	// Massage line
+	while (Utilities::replace(" ,",",",str_line));
+	while (Utilities::replace("\t,",",",str_line));
+	while (Utilities::replace(",","#",str_line));
+	while (Utilities::replace("#",", ", str_line));
+
+	int sel;
+	std::string token, tok1, tok2;
+	std::string revised_line;
+	std::string::iterator b = str_line.begin();
+	std::string::iterator e = str_line.end();
+	// new curve
+	CurveObject new_curve;
+
+	while (CParser::copy_token(token, b, e) != CParser::TT_EMPTY)
+	{
+		sel = -1;
+		std::string token_save = token;
+		Utilities::str_tolower(token);
+		tok1 = token;
+		if (!strncmp(tok1.c_str(), "color", 5))
+		{
+			sel = 0;
+		}
+		else if (!strncmp(tok1.c_str(), "symbol", 5) && (strstr(tok1.c_str(), "_si") == NULL)
+			&& (strstr(tok1.c_str(), "-si") == NULL))
+		{
+			sel = 1;
+		}
+		else if (!strncmp(tok1.c_str(), "symbol_size", 8) || !strncmp(tok1.c_str(), "symbol-size", 8))
+		{
+			sel = 2;
+		}
+		else if (!strncmp(tok1.c_str(), "line_w", 5) || !strncmp(tok1.c_str(), "line-w", 5))
+		{
+			sel = 3;
+		}
+		else if (!strncmp(tok1.c_str(), "y_axis", 5) || !strncmp(tok1.c_str(), "y-axis", 5))
+		{
+			sel = 4;
+		}
+
+		// Append to command line
+		if (sel < 0)
+		{
+			revised_line.append(token_save);
+			revised_line.append(" ");
+		}
+		// Parse plot_xy pair
+		else
+		{
+			// remove preceding comma
+			std::string comma = revised_line.substr(revised_line.size() - 2);
+			if (comma == ", ")
+			{
+				revised_line = revised_line.substr(0, revised_line.size() - 2);
+				revised_line.append(" ");
+			}
+
+			size_t p1 = token.find("=");
+			std::string tok2;
+			// "=" found
+			if(p1 != std::string::npos)
+			{
+				if (p1 != token.size() - 1)
+				{
+					// color=Red
+					tok2 = token.substr(p1 + 1);
+				}
+				else
+				{
+					// color= Red
+					CParser::copy_token(tok2, b, e);
+				}
+			}
+			else
+			{
+				// no "=" found
+				CParser::copy_token(tok2, b, e);
+				p1 = tok2.find("=");
+				if (tok2 == "=")
+				{
+					// color = Red
+					CParser::copy_token(tok2, b, e);
+				}
+				else if (p1 != std::string::npos)
+				{
+					// color =Red
+					tok2 = tok2.substr(p1 + 1);
+				}
+				else
+				{
+					// color Red
+					tok2 = tok2;
+				}
+
+				// remove any commas
+				while(Utilities::replace(",","",tok1));
+				while(Utilities::replace(",","",tok2));
+
+				// tok1 is name, tok2 is value
+
+				switch (sel)
+				{
+				case 0:	
+					new_curve.Set_color(tok2);
+					break;
+				case 1:	
+					new_curve.Set_symbol(tok2);
+					break;
+				case 2:
+					new_curve.Set_symbol_size(atof(tok2.c_str()));
+					break;
+				case 3:
+					new_curve.Set_line_w(atof(tok2.c_str()));
+					break;
+				case 4:
+					new_curve.Set_y_axis(atoi(tok2.c_str()));
+					break;
+				}
+			}
+		}
+	}
+	
+	// Add to list of new plotxy curves
+	this->new_plotxy_curves.push_back(new_curve);
+	//std::cerr << revised_line << std::endl;
+	cmd_line = revised_line;
+}
+#ifdef SKIP_OLD
+void 
+ChartObject::ExtractCurveInfo(std::string & cmd_line)
+{
+	/* plot_xy x, tot("Cl"), color = Red, symbol = Circle, symbol_size = 0.0, line_w = 1.0, y_axis = 2 */
+
+	// Make copy of cmd_line
+	int curvenr = (int) this->Curves.size();
+	std::string str_line = cmd_line;
+
+
+
 	// find command part of cmd_line
 	Utilities::replace(",","#",cmd_line);
 	size_t pos = cmd_line.find(",");
@@ -689,6 +831,7 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 	// Add to list of new plotxy curves
 	this->new_plotxy_curves.push_back(new_curve);
 }
+#endif
 void 
 ChartObject::Set_rate_struct(void)
 {
@@ -961,6 +1104,9 @@ ChartObject::Finalize_graph_pts(void)
 		{
 			Curves[it->first]->Get_x().push_back(graph_x);
 			Curves[it->first]->Get_y().push_back(it->second);
+			// Mark added curve for first point, might have been invisible in DefineCurves
+			if (Curves[it->first]->Get_x().size() == 1)
+				this->Set_curve_added(true);
 		}
 	}
 	if (graph_x != NA)
@@ -972,7 +1118,25 @@ ChartObject::Finalize_graph_pts(void)
 		}
 	}
 }
-
+void 
+ChartObject::Add_new_series(void)
+{
+	std::vector<CurveObject *> Curves;
+	size_t i;
+	size_t e = this->Curves.size();
+	for (i = this->ColumnOffset; i < e; i++)
+	{
+		this->Add_curve(false, 
+			this->Curves[i]->Get_id(),
+			this->Curves[i]->Get_line_w(),
+			"",
+			this->Curves[i]->Get_symbol_size(),
+			this->Curves[i]->Get_y_axis(),
+			"");
+	}
+	this->ColumnOffset = (int) e;
+	this->curve_added = true;
+}
 void 
 ChartObject::Add_curve(bool plotxy, std::string id, 
 					   double line_width, 
