@@ -681,6 +681,7 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 				revised_line.append(" ");
 			}
 
+			token = token_save;
 			size_t p1 = token.find("=");
 			std::string tok2;
 			// "=" found
@@ -717,31 +718,30 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 					// color Red
 					tok2 = tok2;
 				}
+			}
+			// remove any commas
+			while(Utilities::replace(",","",tok1));
+			while(Utilities::replace(",","",tok2));
 
-				// remove any commas
-				while(Utilities::replace(",","",tok1));
-				while(Utilities::replace(",","",tok2));
+			// tok1 is name, tok2 is value
 
-				// tok1 is name, tok2 is value
-
-				switch (sel)
-				{
-				case 0:	
-					new_curve.Set_color(tok2);
-					break;
-				case 1:	
-					new_curve.Set_symbol(tok2);
-					break;
-				case 2:
-					new_curve.Set_symbol_size(atof(tok2.c_str()));
-					break;
-				case 3:
-					new_curve.Set_line_w(atof(tok2.c_str()));
-					break;
-				case 4:
-					new_curve.Set_y_axis(atoi(tok2.c_str()));
-					break;
-				}
+			switch (sel)
+			{
+			case 0:	
+				new_curve.Set_color(tok2);
+				break;
+			case 1:	
+				new_curve.Set_symbol(tok2);
+				break;
+			case 2:
+				new_curve.Set_symbol_size(atof(tok2.c_str()));
+				break;
+			case 3:
+				new_curve.Set_line_w(atof(tok2.c_str()));
+				break;
+			case 4:
+				new_curve.Set_y_axis(atoi(tok2.c_str()));
+				break;
 			}
 		}
 	}
