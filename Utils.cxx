@@ -105,7 +105,7 @@ Utilities::error_msg(const std::string & err_str, const int stop)
 
 //+NAN double: 7ff8000000000000
 //-NAN double: fff8000000000000
-
+/*
 double Utilities::get_nan(void)
 {
 	unsigned long long raw = 0x7ff0000000000000;
@@ -113,5 +113,4 @@ double Utilities::get_nan(void)
 	return(d);
 
 }
-
-
+*/
