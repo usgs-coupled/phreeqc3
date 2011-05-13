@@ -81,7 +81,7 @@ ChartObject::ChartObject()
 	shifts_as_points = false;
 	connect_simulations = true;
 	colnr = 0;
-	RowOffset = 0;
+	rownr = -1;
 	ColumnOffset = 0;
 	prev_advection_step = 0;
 	prev_transport_step = 0;
