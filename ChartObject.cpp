@@ -81,7 +81,6 @@ ChartObject::ChartObject()
 	shifts_as_points = false;
 	connect_simulations = true;
 	colnr = 0;
-	rownr = -1;
 	ColumnOffset = 0;
 	prev_advection_step = 0;
 	prev_transport_step = 0;
@@ -283,7 +282,6 @@ ChartObject::Read(CParser & parser)
 		this->new_ug = true;
 	}
 	this->new_plotxy_curves.clear();
-	//this->new_headings.clear();
 
 	// Read number and description
 	{
@@ -753,87 +751,6 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 	//std::cerr << revised_line << std::endl;
 	cmd_line = revised_line;
 }
-#ifdef SKIP_OLD
-void 
-ChartObject::ExtractCurveInfo(std::string & cmd_line)
-{
-	/* plot_xy x, tot("Cl"), color = Red, symbol = Circle, symbol_size = 0.0, line_w = 1.0, y_axis = 2 */
-
-	// Make copy of cmd_line
-	int curvenr = (int) this->Curves.size();
-	std::string str_line = cmd_line;
-
-
-
-	// find command part of cmd_line
-	Utilities::replace(",","#",cmd_line);
-	size_t pos = cmd_line.find(",");
-	if (pos != std::string::npos)
-	{
-		cmd_line = cmd_line.substr(0, pos);
-		Utilities::replace("#",",",cmd_line);
-		str_line.erase(0, pos + 1);
-	}
-	else
-	{
-		P_INSTANCE_POINTER error_msg("Did not find x and y expressions for plot_xy command in USER_GRAPH", STOP);
-	}
-
-	// new curve
-	CurveObject new_curve;
-
-	while (Utilities::replace(","," ",str_line));
-	while (Utilities::replace("="," ",str_line));
-	std::string::iterator b = str_line.begin();
-	std::string::iterator e = str_line.end();
-
-	//while (CParser::copy_title(tok, b, e) != CParser::TT_EMPTY)
-	for(;;)
-	{
-		std::string tok1, tok2;
-		if ((CParser::copy_token(tok1, b, e) == CParser::TT_EMPTY) ||
-			(CParser::copy_token(tok2, b, e) == CParser::TT_EMPTY))
-			break;
-		Utilities::str_tolower(tok1);
-		if (!strncmp(tok1.c_str(), "color", 5))
-		{
-			new_curve.Set_color(tok2);
-			continue;
-		}
-		else if (!strncmp(tok1.c_str(), "symbol", 5) && (strstr(tok1.c_str(), "_si") == NULL)
-			&& (strstr(tok1.c_str(), "-si") == NULL))
-		{
-			new_curve.Set_symbol(tok2);
-			continue;
-		}
-		else if (!strncmp(tok1.c_str(), "symbol_size", 8) || !strncmp(tok1.c_str(), "symbol-size", 8))
-		{
-			new_curve.Set_symbol_size(atof(tok2.c_str()));
-			continue;
-		}
-		else if (!strncmp(tok1.c_str(), "line_w", 5) || !strncmp(tok1.c_str(), "line-w", 5))
-		{
-			new_curve.Set_line_w(atof(tok2.c_str()));
-			continue;
-		}
-		else if (!strncmp(tok1.c_str(), "y_axis", 5) || !strncmp(tok1.c_str(), "y-axis", 5))
-		{
-			new_curve.Set_y_axis(atoi(tok2.c_str()));
-			continue;
-		}
-		else
-		{
-			std::ostringstream estream;
-			estream << "Unknown input for plot_xy in USER_GRAPH " << str_line << std::endl;
-			P_INSTANCE_POINTER warning_msg(estream.str().c_str());
-			continue;
-		}
-	}
-	
-	// Add to list of new plotxy curves
-	this->new_plotxy_curves.push_back(new_curve);
-}
-#endif
 void 
 ChartObject::Set_rate_struct(void)
 {

@@ -111,15 +111,6 @@ class ChartObject:public cxxNumKeyword
 	{
 		return (this->colnr);
 	}
-	// int rownr;
-	void Set_rownr(int i)
-	{
-		this->rownr = i;
-	}
-	int Get_rownr()
-	{
-		return (this->rownr);
-	}	
 	// int ColumnOffset;
 	void Set_ColumnOffset(int i)
 	{
@@ -339,7 +330,6 @@ class ChartObject:public cxxNumKeyword
 	bool connect_simulations;
 	int shifts_as_points;
 	int colnr;
-	int rownr;
 	int ColumnOffset;
 	bool AddSeries;
 	
