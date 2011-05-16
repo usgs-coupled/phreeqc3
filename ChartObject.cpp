@@ -327,10 +327,12 @@ ChartObject::Read(CParser & parser)
 			break;
 		case 2:				/* headings */
 		case 3:				/* heading */
+			this->new_headings.clear();
 			while (parser.copy_token(token, next_char) != CParser::TT_EMPTY)
 			{
 				this->new_headings.push_back(token);
 			}
+
 			break;
 		case 4:				/* chart title */
 			{
