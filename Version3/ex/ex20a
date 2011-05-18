@@ -1,0 +1,36 @@
+DATABASE iso.dat
+TITLE Example 20a.--Calculate carbonate solid solution
+PRINT
+	-censor_species        1e-006
+SOLUTION 1 # water to find composition of marine carbonate
+	pH      8.2
+	Na	1       charge
+	Ca	10      Calcite        0
+	C	2	
+	[13C]	0       # permil
+	[14C]	0       # pmc
+	D	0       # permil
+	[18O]	0       # permil
+END
+SOLID_SOLUTION 1 No [14C]
+Calcite 
+	-comp	Calcite                 0
+	-comp	CaCO2[18O](s)           0
+	-comp	CaCO[18O]2(s)           0
+	-comp	CaC[18O]3(s)            0
+	-comp 	Ca[13C]O3(s)            0
+	-comp	Ca[13C]O2[18O](s)       0
+	-comp	Ca[13C]O[18O]2(s)       0
+	-comp	Ca[13C][18O]3(s)        0
+END 	
+RUN_CELLS
+	-cells 1
+USER_PRINT
+-start
+	10 PRINT pad("Component", 20), "Mole fraction"
+	20 t = SYS("s_s", count, name$, type$, values  )
+	30 for i = 1 to count
+	40   PRINT pad(name$(i),20), values(i)/t
+	50 next i
+-end
+END	
