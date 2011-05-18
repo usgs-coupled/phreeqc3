@@ -1375,6 +1375,16 @@ CParser::TOKEN_TYPE CParser::copy_title(std::string & token,
 				e = begin++;
 			}
 		}
+		else if (*begin == '\'')
+		{
+			begin = ++b;
+			for (; begin != end && !(*begin == '\''); ++begin);
+			e = begin;
+			if (begin != end && *begin == '\'')
+			{
+				e = begin++;
+			}
+		}
 		else
 		{
 			for (; begin < end && !(*begin == ',') && !(::isspace(*begin)); ++begin);
