@@ -103,6 +103,7 @@ all: alkalinity.out \
 	prob8.out \
 	pyrite_34s.out \
 	rahn.out \
+	run_cells.out \
 	s1.out \
 	salt_ec.out \
 	samemodel.out \
