@@ -2383,6 +2383,7 @@ run_as_cells(void)
 	return (OK);
 }
 #endif
+#ifdef SKIP2
 /* ---------------------------------------------------------------------- */
 int CLASS_QUALIFIER
 run_as_cells(void)
@@ -2456,7 +2457,215 @@ run_as_cells(void)
 	/* last_model.force_prep = TRUE; */
 	return (OK);
 }
+#endif
+/* ---------------------------------------------------------------------- */
+int CLASS_QUALIFIER
+run_as_cells(void)
+/* ---------------------------------------------------------------------- */
+{
+	struct save save_data;
+	LDBLE kin_time;
+	int count_steps, use_mix, m;
+	char token[2 * MAX_LENGTH];
+	struct kinetics *kinetics_ptr;
 
+	state = REACTION;
+	if (run_info.Get_cells().Get_numbers().size() == 0 ||
+		!(run_info.Get_cells().Get_defined())) return(OK);
+
+	// running cells
+	run_info.Set_run_cells(true);
+
+	dup_print("Beginning of run as cells.", TRUE);
+	double initial_total_time_save;
+	if (run_info.Get_start_time() != NA)
+	{
+		initial_total_time_save = run_info.Get_start_time();
+	}
+	else
+	{
+		initial_total_time_save = initial_total_time;
+	}
+
+	std::set < int >::iterator it = run_info.Get_cells().Get_numbers().begin();
+
+	for ( ; it != run_info.Get_cells().Get_numbers().end(); it++)
+	{
+		int i = *it;
+		if (i < 0) continue;
+		initial_total_time = initial_total_time_save;
+		set_advection(i, TRUE, TRUE, i);
+/*
+ *   Run reaction step
+ */
+		/*
+		*   Find maximum number of steps
+		*/
+		dup_print("Beginning of batch-reaction calculations.", TRUE);
+		count_steps = 1;
+		if (use.irrev_in == TRUE && use.irrev_ptr != NULL)
+		{
+			if (abs(use.irrev_ptr->count_steps) > count_steps)
+				count_steps = abs(use.irrev_ptr->count_steps);
+		}
+		if (use.kinetics_in == TRUE && use.kinetics_ptr != NULL)
+		{
+			if (abs(use.kinetics_ptr->count_steps) > count_steps)
+				count_steps = abs(use.kinetics_ptr->count_steps);
+		}
+		if (use.temperature_in == TRUE && use.temperature_ptr != NULL)
+		{
+			if (abs(use.temperature_ptr->count_t) > count_steps)
+				count_steps = abs(use.temperature_ptr->count_t);
+		}
+		count_total_steps = count_steps;
+		/*
+		*  save data for saving solutions
+		*/
+		memcpy(&save_data, &save, sizeof(struct save));
+		/* 
+		*Copy everything to -2
+		*/
+		copy_use(-2);
+		rate_sim_time_start = 0;
+		rate_sim_time = 0;
+		for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
+		{
+			sprintf(token, "Reaction step %d.", reaction_step);
+			if (reaction_step > 1 && incremental_reactions == FALSE)
+			{
+				copy_use(-2);
+			}
+			set_initial_moles(-2);
+			dup_print(token, FALSE);
+			/*
+			*  Determine time step for kinetics
+			*/
+			kin_time = 0.0;
+			if (use.kinetics_in == TRUE)
+			{
+				// runner kin_time
+				// equivalent to kin_time in count_steps
+				if (run_info.Get_time_step() != NA)
+				{
+					if (incremental_reactions == FALSE)
+					{
+						/* not incremental reactions */
+						kin_time = reaction_step * run_info.Get_time_step() / ((LDBLE) count_steps);
+					}
+					else
+					{
+						/* incremental reactions */
+						kin_time = run_info.Get_time_step() / ((LDBLE) count_steps);
+					}
+				}
+				// runner kin_time not defined
+				else
+				{
+					kinetics_ptr = kinetics_bsearch(-2, &m);
+					if (incremental_reactions == FALSE)
+					{
+						if (kinetics_ptr->count_steps > 0)
+						{
+							if (reaction_step > kinetics_ptr->count_steps)
+							{
+								kin_time = kinetics_ptr->steps[kinetics_ptr->count_steps - 1];
+							}
+							else
+							{
+								kin_time = kinetics_ptr->steps[reaction_step - 1];
+							}
+						}
+						else if (kinetics_ptr->count_steps < 0)
+						{
+							if (reaction_step > -kinetics_ptr->count_steps)
+							{
+								kin_time = kinetics_ptr->steps[0];
+							}
+							else
+							{
+								kin_time = reaction_step * kinetics_ptr->steps[0] /	((LDBLE) (-kinetics_ptr->count_steps));
+							}
+						}
+					}
+					else
+					{
+						/* incremental reactions */
+						if (kinetics_ptr->count_steps > 0)
+						{
+							if (reaction_step > kinetics_ptr->count_steps)
+							{
+								kin_time = kinetics_ptr->steps[kinetics_ptr->count_steps - 1];
+							}
+							else
+							{
+								kin_time = kinetics_ptr->steps[reaction_step - 1];
+							}
+						}
+						else if (kinetics_ptr->count_steps < 0)
+						{
+							if (reaction_step > -kinetics_ptr->count_steps)
+							{
+								kin_time = 0;
+							}
+							else
+							{
+								kin_time =
+									kinetics_ptr->steps[0] / ((LDBLE) (-kinetics_ptr->count_steps));
+							}
+						}
+					}
+				}
+			}
+			if (incremental_reactions == FALSE ||
+				(incremental_reactions == TRUE && reaction_step == 1))
+			{
+				use_mix = TRUE;
+			}
+			else
+			{
+				use_mix = FALSE;
+			}
+			/*
+			*   Run reaction step
+			*/
+			run_reactions(-2, kin_time, use_mix, 1.0);
+			if (incremental_reactions == TRUE)
+			{
+				rate_sim_time_start += kin_time;
+				rate_sim_time = rate_sim_time_start;
+			}
+			else
+			{
+				rate_sim_time = kin_time;
+			}
+			if (state != ADVECTION)
+			{
+				punch_all();
+				print_all();
+			}
+			/* saves back into -2 */
+			if (reaction_step < count_steps)
+			{
+				saver();
+			}
+		}
+		/*
+		*   save end of reaction
+		*/
+		memcpy(&save, &save_data, sizeof(struct save));
+		if (use.kinetics_in == TRUE)
+		{
+			kinetics_duplicate(-2, use.n_kinetics_user);
+		}
+		saver();
+	}
+	initial_total_time += rate_sim_time;
+	run_info.Get_cells().Set_defined(false);
+	// not running cells
+	run_info.Set_run_cells(false);
+	return (OK);
+}
 /* ---------------------------------------------------------------------- */
 void CLASS_QUALIFIER
 dump_ostream(std::ostream& os)

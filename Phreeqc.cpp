@@ -875,7 +875,6 @@ void Phreeqc::init(void)
 	rate_sim_time_end = 0;
 	rate_sim_time = 0;
 	rate_moles = 0;
-	initial_total_time = 0;
 
 /*
  *	 user_print, user_punch
