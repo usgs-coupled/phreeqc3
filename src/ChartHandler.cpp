@@ -162,5 +162,16 @@ ChartHandler::End_timer(PHREEQC_PTR_ARG)
 
 	return true;
 }
+bool
+ChartHandler::dump(std::ostream & oss, unsigned int indent)
+{
+	std::map<int, ChartObject *>::iterator it = this->chart_map.begin();
+	for  ( ; it != chart_map.end(); it++)
+	{
+		size_t i = 0;
+		it->second->dump(oss, indent);
+	}
+	return true;
+}
 #endif
 
