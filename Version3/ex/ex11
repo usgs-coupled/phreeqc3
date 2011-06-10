@@ -74,6 +74,8 @@ TRANSPORT
         -punch_frequency 1
         -print_cells     40
         -print_frequency 120
+        -dump            ex11.dmp
+        -dump_frequency  10
 SELECTED_OUTPUT
         -file            ex11trn.sel
         -reset           false
@@ -81,6 +83,38 @@ SELECTED_OUTPUT
         -totals          Na Cl K Ca
         -high_precision true
 USER_GRAPH
+  -headings TRANSPORT Cl Na K Ca Cl_analytical
+  10 x = (STEP_NO + 0.5) / cell_no
+  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = Plus, symbol_size = 2 color = Red
+  40 PLOT_XY x, TOT("Na")*1000, symbol = Plus, symbol_size = 2 color = Blue
+  50 PLOT_XY x, TOT("K")*1000, symbol = Plus, symbol_size = 2 color = Orange
+  60 PLOT_XY x, TOT("Ca")*1000, symbol = Plus, symbol_size = 2 color = Magenta
+# calculate Cl_analytical...
+  70 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
+  80 READ a1, a2, a3, a4, a5, a6
+  90 Peclet = 0.08 / 0.002
+  100 z = (1 - x) / SQRT(4 * x / Peclet)
+  110 PA = 0
+  120 GOSUB 2000 # calculate e_erfc = exp(PA) * erfc(z)
+  130 e_erfc1 = e_erfc
+  140 z = (1 + x) / SQRT(4 * x / Peclet)
+  150 PA = Peclet
+  160 GOSUB 2000 # calculate exp(PA) * erfc(z)
+  170 y = 0.6 * (e_erfc1 + e_erfc)
+  180 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red
+  190 d = (y - TOT("Cl")*1000)^2
+  200 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)
+  210 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'
+  220 END
+  2000 REM calculate e_erfc = exp(PA) * erfc(z)...
+  2010 sgz = SGN(z)
+  2020 z = ABS(z)
+  2050 b = 1 / (1 + a6 * z)
+  2060 e_erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(PA - (z * z))
+  2070 IF sgz = -1 THEN e_erfc = 2 * EXP(PA) - e_erfc
+  2080 RETURN
+USER_GRAPH 2
   -headings TRANSPORT Cl Na K Ca Cl_analytical
   10 x = (STEP_NO + 0.5) / cell_no
   20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
