@@ -309,6 +309,7 @@ class ChartObject:public cxxNumKeyword
 					   double symbol_size = 6.0, 
 					   int y_axis = 1,
 					   std::string color = "");
+	void dump(std::ostream & s_oss, unsigned int indent);
   protected:
 
 	bool new_ug;
@@ -341,6 +342,7 @@ class ChartObject:public cxxNumKeyword
 	bool end_timer;
 	bool done;
 
+	std::vector<std::string> csv_file_names;
 	std::vector<CurveObject *> CurvesCSV;
 	std::vector<CurveObject *> Curves;
 	bool curve_added;
@@ -350,6 +352,7 @@ class ChartObject:public cxxNumKeyword
 	// C++ for rate struct
 	std::string rate_name;
 	std::list<std::string> rate_command_list;
+	std::list<std::string> rate_command_list_original;
 	bool rate_new_def;
 
 	int default_symbol;
@@ -370,12 +373,14 @@ class ChartObject:public cxxNumKeyword
 
 	// temporary headings until stored during basic_run
 	std::vector<std::string> new_headings;
+	std::vector<std::string> headings_original;
 	bool active;
 	bool detach;
 	bool form_started;
 #if defined PHREEQC_CLASS
 	class Phreeqc * p_instance1;
 #endif
+
 
   public:
 	int usingResource;

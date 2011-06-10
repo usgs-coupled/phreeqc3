@@ -29,7 +29,7 @@ public:
 	bool Read(PHREEQC_PTR_ARG_COMMA CParser &parser);
 	void Punch_user_graph(PHREEQC_PTR_ARG);
 	bool End_timer(PHREEQC_PTR_ARG);
-
+	bool dump(std::ostream & oss, unsigned int indent);
 protected:
 	std::map<int, ChartObject *> chart_map;
 	int current_chart_n_user;

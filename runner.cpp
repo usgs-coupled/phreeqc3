@@ -1,14 +1,18 @@
 #include "runner.h"
 #include "Parser.h"
+#include "NA.h"
 runner::runner(void)
 {
-	this->time_step = 0;
-	this->start_time = 0;
+	this->time_step = NA;
+	this->start_time = NA;
+	this->run_cells = false;
+
 }
 runner::runner(CParser & parser)
 {
-	this->time_step = 0;
-	this->start_time = 0;
+	this->time_step = NA;
+	this->start_time = NA;
+	this->run_cells = false;
 	this->Read(parser);
 }
 
@@ -27,6 +31,9 @@ bool runner::Read(CParser & parser)
 		vopts.push_back("cells");
 		vopts.push_back("start_time");
 		vopts.push_back("time_step");
+		vopts.push_back("time_steps");
+		vopts.push_back("step");
+		vopts.push_back("steps");
 	}
 
 	std::istream::pos_type ptr;
@@ -52,13 +59,11 @@ bool runner::Read(CParser & parser)
 			opt_save = opt;
 		}
 
+		//// Read dump entity list of numbers or number ranges for line, store in item
+		//if (opt >= 0 && opt <= 1)
+		//{
 
-
-		// Read dump entity list of numbers or number ranges for line, store in item
-		if (opt >= 0 && opt <= 1)
-		{
-
-		}
+		//}
 
 		// Process other identifiers
 		std::set < int >::iterator it;
@@ -99,6 +104,9 @@ bool runner::Read(CParser & parser)
 			}
 			break;
 		case 3:				//time_step
+		case 4:				//time_steps
+		case 5:				//step
+		case 6:				//steps
 			if (!(parser.get_iss() >> this->time_step))
 			{
 				parser.error_msg("Expected time_step for RUN_CELLS.",

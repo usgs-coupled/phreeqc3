@@ -205,7 +205,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 	if (string_vector.size() == 6)
 	{
 		std::string s = string_vector[5];
-		if (s[0] != 't' || s[0] != 'T' || s[0] != 'l' || s[0] != 'L')
+		if (s[0] == 't' || s[0] == 'T' || s[0] == 'l' || s[0] == 'L')
 		{
 			scale_ptr[4] = 10.0;
 			if (((fabs(scale_ptr[0] - NA) > 1e-3) && scale_ptr[0] <=0) ||
@@ -330,7 +330,7 @@ ChartObject::Read(CParser & parser)
 			{
 				this->new_headings.push_back(token);
 			}
-
+			this->headings_original = this->new_headings;
 			break;
 		case 4:				/* chart title */
 			{
@@ -407,6 +407,7 @@ ChartObject::Read(CParser & parser)
 				parser.get_rest_of_line(file_name);
 				file_name = trim(file_name);
 				this->OpenCSVFile(file_name);
+				this->csv_file_names.push_back(file_name);
 			}
 			break;
 		case 13: /* clear */
@@ -423,11 +424,13 @@ ChartObject::Read(CParser & parser)
 				if (!new_command_lines)
 				{
 					this->rate_command_list.clear();
+					this->rate_command_list_original.clear();
 					new_command_lines = true;
 				}
 				this->rate_new_def = true;
 				/* read command */
 				std::string cmd(parser.line());
+				this->rate_command_list_original.push_back(cmd);
 				std::string cmd_lower = cmd;
 				Utilities::str_tolower(cmd_lower);
 				if ((cmd_lower.find("graph_y") != std::string::npos) || 
@@ -1096,5 +1099,178 @@ ChartObject::Set_rate_new_def(bool tf)
 			this->user_graph->new_def = 0;
 		}
 	}	
+}
+void 
+ChartObject::dump(std::ostream & oss, unsigned int indent)
+{
+	size_t i;
+	oss.precision(DBL_DIG - 1);
+	std::string indent0(""), indent1("");
+	for (i = 0; i < indent; ++i)
+		indent0.append(Utilities::INDENT);
+	for (i = 0; i < indent + 1; ++i)
+		indent1.append(Utilities::INDENT);
+	oss << indent0 << "USER_GRAPH " << this->n_user << " " << this->description << std::endl;
+
+	// chart title
+	oss << indent1 << "-chart_title \"" << this->chart_title << "\"" << std::endl;
+
+	// axis titles
+	if (this->axis_titles.size() > 0)
+	{
+		oss << indent1 << "-axis_titles "; 
+
+		for (i = 0; i < this->axis_titles.size(); i++)
+		{
+			oss <<  "\"" << axis_titles[i] << "\" ";
+		}
+		oss << std::endl;
+	}
+
+	// axis_scale_x
+	double *scale_ptr = this->axis_scale_x;
+	{
+		oss << indent1 << "-axis_scale x_axis ";
+		for (i = 0; i < 4; i++)
+		{
+			if (scale_ptr[i] == NA)
+			{
+				oss << " auto";
+			}
+			else
+			{
+				oss << " " << scale_ptr[i];
+			}
+		}
+		if (scale_ptr[4] == 10.0)
+		{
+			oss << " log";
+		}
+		oss << std::endl;
+	}
+	// axis_scale_y
+	scale_ptr = this->axis_scale_y;
+	{
+		oss << indent1 << "-axis_scale y_axis ";
+		for (i = 0; i < 4; i++)
+		{
+			if (scale_ptr[i] == NA)
+			{
+				oss << " auto";
+			}
+			else
+			{
+				oss << " " << scale_ptr[i];
+			}
+		}
+		if (scale_ptr[4] == 10.0)
+		{
+			oss << " log";
+		}
+		oss << std::endl;
+	}
+	// axis_scale_sy
+	scale_ptr = this->axis_scale_y2;
+	{
+		oss << indent1 << "-axis_scale sy_axis ";
+		for (i = 0; i < 4; i++)
+		{
+			if (scale_ptr[i] == NA)
+			{
+				oss << " auto";
+			}
+			else
+			{
+				oss << " " << scale_ptr[i];
+			}
+		}
+		if (scale_ptr[4] == 10.0)
+		{
+			oss << " log";
+		}
+		oss << std::endl;
+	}
+	// chart type
+	if (this->chart_type == 0)
+	{
+		oss << indent1 << "-plot_concentration_vs x" << std::endl;
+	}
+	else
+	{
+		oss << indent1 << "-plot_concentration_vs t" << std::endl;
+	}
+	// graph_initial_solutions
+	if (this->graph_initial_solutions)
+	{
+		oss << indent1 << "-initial_solutions true" << std::endl;
+	}
+	else
+	{
+		oss << indent1 << "-initial_solutions false" << std::endl;
+	}
+	// connect_simulations
+	if (this->connect_simulations)
+	{
+		oss << indent1 << "-connect_simulations true" << std::endl;
+	}
+	else
+	{
+		oss << indent1 << "-connect_simulations false" << std::endl;
+	}
+	// csv files
+	for (i = 0; i < this->csv_file_names.size(); i++)
+	{
+		oss << indent1 << "-plot_csv_file " << this->csv_file_names[i] << std::endl;
+	}
+
+	// headings
+	if (this->headings_original.size() > 0)
+	{
+		oss << indent1 << "-headings "; 
+		for (i = 0; i < this->headings_original.size(); i++)
+		{
+			oss << this->headings_original[i] << " ";
+		}
+		oss << std::endl;
+	}
+
+	// commands
+	oss << indent1 << "-start" << std::endl;
+	std::list<std::string>::iterator it = rate_command_list_original.begin();
+	for (; it != rate_command_list_original.end(); it++)
+	{
+		oss << *it << std::endl;
+	}
+	oss << indent1 << "-end" << std::endl;
+
+	/*
+	struct rate *user_graph;
+	// C++ for rate struct
+	std::string rate_name;
+	std::list<std::string> rate_command_list;
+	bool rate_new_def;
+
+	int default_symbol;
+	int default_symbol_csv;
+	int default_color;
+	int default_color_csv;
+
+	// temporary storage before stored graph_x/y/sy data are stored in curves
+	// Initialize_graph_pts and Finalize_graph_pts use this storage.
+	double graph_x;
+	std::map<int, double> graph_y;
+	std::map<int, bool> secondary_y;
+
+	// temporary plotxy curve definitions before stored in curves
+	// a plotxy curve is copied to Curves when cmdplotxy is encountered
+	// this keeps order correct between plotxy and graph_x/y/sy
+	std::vector<CurveObject> new_plotxy_curves;
+
+	// temporary headings until stored during basic_run
+	std::vector<std::string> new_headings;
+	bool active;
+	bool detach;
+	bool form_started;
+	*/
 }
 #endif // MULTICHART
