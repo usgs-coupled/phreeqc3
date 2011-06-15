@@ -17,15 +17,16 @@ SELECTED_OUTPUT
         -total  Cl
         -si     Gypsum
         -equilibrium_phases  pyrite goethite calcite CO2(g) gypsum
-USER_GRAPH
+USER_GRAPH 1 Example 5
         -headings Pyrite Goethite Calcite CO2(g) Gypsum SI_Gypsum
-        -chart_title "Example 5"
-        -axis_titles "mmoles O2 added" "moles dissolved" "Saturation Index"
+        -chart_title "Pyrite Oxidation"
+        -axis_titles "O2 ADDED, IN MILLIMOLES" "MILLIMOLES DISSOLVED" "SATURATION INDEX"
   10 x = RXN * 1e3
-  20 PLOT_XY x, 10 - EQUI("Pyrite"), symbol = Plus
-  30 PLOT_XY x, 10 - EQUI("Goethite"), symbol = Plus
-  40 PLOT_XY x, 10 - EQUI("Calcite"), symbol = Plus
-  50 PLOT_XY x, 10 - EQUI("CO2(g)"), symbol = Plus
-  60 PLOT_XY x, -EQUI("Gypsum"), symbol = Plus, color = Magenta
-  70 PLOT_XY x, SI("Gypsum"), y-axis = 2, line_width = 2, symbol = Circle, symbol_size = 8, color = Magenta
+  20 PLOT_XY x, 1e3 * (10 - EQUI("Pyrite")), symbol = Plus
+  30 PLOT_XY x, 1e3 * (10 - EQUI("Goethite")), symbol = Plus
+  40 PLOT_XY x, 1e3 * (10 - EQUI("Calcite")), symbol = Plus
+  50 PLOT_XY x, 1e3 * (10 - EQUI("CO2(g)")), symbol = Plus
+  60 PLOT_XY x, 1e3 * (-EQUI("Gypsum")), symbol = Plus, color = Magenta
+  70 PLOT_XY x, SI("Gypsum"), y-axis = 2, line_width = 2, symbol = Circle, \
+  	symbol_size = 8, color = Magenta
 END

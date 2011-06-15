@@ -33,13 +33,14 @@ EQUILIBRIUM_PHASES 1
         Kaolinite       0.0     0.0
         K-mica          0.0     0.0
         K-feldspar      0.0     0.0
-USER_GRAPH
-        -headings 6A(Phase_B)
-        -chart_title "Example 6"
+USER_GRAPH 1 Example 6
+        -headings 6A--Intersections
+        -chart_title "K-Feldspar Reaction Path"
         -axis_titles "Log[H4SiO4]" "Log([K+] / [H+])"
         -axis_scale x_axis -8.0 0.0 1 1
         -axis_scale y_axis -1.0 8.0 1 1
-  10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Red, line_w = 0, symbol = Circle, symbol_size = 10
+  10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Red, line_w = 0, \
+  	symbol = Circle, symbol_size = 10
 END
 TITLE Example 6A2.--Find amount of K-feldspar dissolved to
                     reach kaolinite saturation.
@@ -94,7 +95,7 @@ REACTION 1
         0.04 0.08 0.16 0.32 0.64 1.0 2.0 4.0
         8.0 16.0 32.0 64.0 100 200 umol
 USER_GRAPH
-        -headings 6B(path)
+        -headings 6B--Increments
   10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Blue, line_w = 0, symbol = XCross, symbol_size = 7
 END
 TITLE Example 6C.--kinetic calculation
@@ -178,7 +179,7 @@ USER_PUNCH
   -headings pH+log[K]  log[H4SiO4]
   10 PUNCH LA("K+")-LA("H+") LA("H4SiO4")
 USER_GRAPH
-  -headings 6C(kinetics)
+  -headings 6C--Kinetics
   10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Blue, line_w = 2, symbol = None
 END
 PRINT; -user_print false
