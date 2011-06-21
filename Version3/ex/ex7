@@ -44,27 +44,43 @@ GAS_PHASE 1 Fixed-pressure gas phase
 REACTION 1
         CH2O(NH3)0.07     1.0
         1. 2. 3. 4. 8. 16. 32 64. 125. 250. 500. 1000. mmol
-USER_GRAPH
-        -headings Fixed_Pressure: CH4 CO2 N2 H2O Volume
-#        -chart_title "Example 7"
-        -axis_titles "Organic Matter added / mmoles" "Log(Partial Pressure / atm)" "Volume / L"
+USER_GRAPH Example 7
+        -headings Fixed_Pressure: CH4 CO2 N2 H2O #Volume
+        -chart_title "Gas Composition as a Result of Organic Decomposition"
+        -axis_titles "ORGANIC MATTER REACTED, IN MILLIMOLES" "Log(PARTIAL PRESSURE, IN ATMOSPHERES)" "VOLUME, IN LITERS"
         -axis_scale x_axis 1 1e3 auto auto log
         -axis_scale y_axis -5.0 1.0 1 1
-        -axis_scale y2_axis 1e-3 1e3 auto auto log
         -connect_simulations false
   -start
-  10 mM_OM = RXN * 1e3
-  20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0
-  30 IF GAS("CH4(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("CH4(g)"), color = Black, symbol = XCross
-  40 IF GAS("CO2(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("CO2(g)"), color = Red, symbol = XCross
-  50 IF GAS("N2(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("N2(g)"), color = Teal, symbol = XCross
-  60 IF GAS("H2O(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = XCross
-  70 V = (GAS("CH4(g)") + GAS("CO2(g)") + GAS("N2(g)") + GAS("H2O(g)")) * 0.08207 * TK / 1.1
-  80 IF GAS("CH4(g)") > 1e-10 THEN PLOT_XY mM_OM, (V), color = Cyan, symbol = XCross, y_axis = 2
+  10 IF GAS("CH4(g)") < 1e-10 THEN GOTO 100
+  20 mM_OM = RXN * 1e3
+  30 PLOT_XY -10, -10, line_width = 0, symbol_size = 0
+  40 PLOT_XY mM_OM, SI("CH4(g)"), color = Black, symbol = XCross
+  50 PLOT_XY mM_OM, SI("CO2(g)"), color = Red, symbol = XCross
+  60 PLOT_XY mM_OM, SI("N2(g)"), color = Teal, symbol = XCross
+  70 PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = XCross
+  100 REM end of program  
   -end
+USER_GRAPH 2 Example 7
+        -headings  Fixed_P_Pressure Fixed_P_Volume 
+        -chart_title "Total Gas Pressure and Volume as a Result of Organic Decomposition"
+        -axis_titles "ORGANIC MATTER REACTED, IN MILLIMOLES" "Log(PRESSURE, IN ATMOSPHERES)" "VOLUME, IN LITERS"
+        -axis_scale x_axis 1 1e3 auto auto log
+        -axis_scale y_axis -5.0 1.0 1 1
+        -axis_scale y2_axis 1e-3 1e5 auto auto log
+        -connect_simulations false
+  -start
+  10 IF GAS("CH4(g)") < 1e-10 THEN GOTO 100
+  20 mM_OM = RXN * 1e3
+  30 moles = (GAS("CH4(g)") + GAS("CO2(g)") + GAS("N2(g)") + GAS("H2O(g)")) 
+  40 vol = moles * 0.08207 * TK / 1.1
+  50 PLOT_XY mM_OM, LOG10(1.1), color = Magenta, symbol = XCross 
+  60 PLOT_XY mM_OM, vol, color = Cyan, symbol = XCross, y_axis = 2
+  100 REM end of program
+  -end  
 END
 #  Simulation 3: Decomposition of organic matter, CH2O(NH3).07,
-#  at fixed volume of 22.5 L
+#  at fixed volume of 23.19 L
 USE solution 1
 USE reaction 1
 GAS_PHASE 1 Fixed volume gas phase
@@ -76,7 +92,7 @@ GAS_PHASE 1 Fixed volume gas phase
         H2O(g)          0.0
         -equilibrate 1
 USER_GRAPH
-        -headings Fixed_Volume: CH4 CO2 N2 H2O
+        -headings Fixed_Volume: CH4 CO2 N2 H2O 
   -start
   10 mM_OM = RXN * 1e3
   20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0
@@ -84,6 +100,13 @@ USER_GRAPH
   40 PLOT_XY mM_OM, SI("CO2(g)"), color = Red, symbol = Circle
   50 PLOT_XY mM_OM, SI("N2(g)"), color = Teal, symbol = Circle
   60 PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = Circle, symbol_size = 5
-  70 PLOT_XY mM_OM, 23.19, line_width = 0 symbol = None, y_axis = 2
   -end
+USER_GRAPH 2
+        -headings Fixed_V_Pressure Fixed_V_Volume
+  -start
+  10 mM_OM = RXN * 1e3
+  20 tot_p = 10^SI("CH4(g)") + 10^SI("CO2(g)") + 10^SI("N2(g)") + 10^SI("H2O(g)")
+  30 PLOT_XY mM_OM, LOG10(tot_p), color = Magenta, symbol = Circle 
+  40 PLOT_XY mM_OM, 23.19, color = Cyan, line_width = 1 symbol = Circle, y_axis = 2  
+  -end    
 END

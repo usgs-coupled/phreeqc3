@@ -49,6 +49,7 @@ cxxNumKeyword::read_number_description(CParser & parser)
 	// skip keyword
 	parser.copy_token(keyword, ptr);
 
+	/*
 	std::istream::pos_type ptr1 = ptr;
 	std::string::size_type pos;
 	std::string token;
@@ -72,37 +73,31 @@ cxxNumKeyword::read_number_description(CParser & parser)
 			//      ptr1 = ptr;
 		}
 	}
-	/*
-	   else if ( (pos = token.find_first_of("-")) != std::string::npos )
-	   {
-	   token.replace(pos, 1, " ");
-	   std::istringstream iss(token);
-	   if (!(iss >> this->n_user >> this->n_user_end))
-	   {
-	   std::ostringstream err_oss;
-	   if (parser.next_keyword() >= 0)
-	   {
-	   err_oss << "Reading number range for " << keyword << ".";
-	   }
-	   else
-	   {
-	   err_oss << "Reading number range for keyword.";
-	   }
-	   parser.error_msg(err_oss, CParser::OT_CONTINUE);
-	   parser.incr_input_error();
-	   }
-	   ptr1 = ptr;
-	   }
-	   else
-	   {
-	   std::istringstream iss(token);
-	   iss >> this->n_user;
-	   this->n_user_end = this->n_user;
-	   ptr1 = ptr;
-	   }
-	 */
-	// reset get position
-	//parser.get_iss().seekg(ptr1);
+	*/
+
+	// skip whitespace
+	while (::isspace(parser.get_iss().peek()))
+		parser.get_iss().ignore();
+
+	// read number
+	if (::isdigit(parser.get_iss().peek()))
+	{
+		parser.get_iss() >> this->n_user;
+		char ch = parser.get_iss().peek();
+		if (ch == '-')
+		{
+			parser.get_iss() >> ch;			// eat '-'
+			parser.get_iss() >> this->n_user_end;
+		}
+		else
+		{
+			this->n_user_end = this->n_user;
+		}
+	}
+	else
+	{
+		this->n_user = this->n_user_end = 1;
+	}
 
 	// skip whitespace
 	while (::isspace(parser.get_iss().peek()))
