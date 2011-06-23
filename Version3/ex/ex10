@@ -87,14 +87,14 @@ USER_PUNCH
   300 PUNCH S_S("Aragonite")                 # Moles aragonite
   310 PUNCH S_S("Strontianite")              # Moles Strontianite
 -end
-USER_GRAPH
+USER_GRAPH Example 10
         -headings x_Aragonite  x_Srontianite
-        -chart_title "Example 10"
-        -axis_titles "Log(SrCO3 added / mol)" "Log(Mole-fraction)"
+        -chart_title "Aragonite-Strontianite Solid Solution"
+        -axis_titles "Log(SrCO3 ADDED, IN MOLES)" "Log(MOLE FRACTION OF COMPONENT)"
         -axis_scale x_axis -5 1 1 1
         -axis_scale y_axis -5 0.1 1 1
         -connect_simulations true
-	-start
+        -start
   10 sum = (S_S("Strontianite") + S_S("Aragonite"))
   20 IF sum = 0 THEN GOTO 70
   30 xb = S_S("Strontianite")/ sum
