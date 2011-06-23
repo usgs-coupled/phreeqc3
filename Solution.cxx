@@ -684,7 +684,7 @@ cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 		case 3:				// isotopes
 			{
 				cxxSolutionIsotope iso;
-				if (iso.read_raw(parser) != CParser::PARSER_OK)
+				if (iso.read_raw(parser, next_char) != CParser::PARSER_OK)
 				{
 					parser.incr_input_error();
 					parser.error_msg("Expected data for isotopes.",

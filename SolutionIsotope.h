@@ -26,7 +26,7 @@ class cxxSolutionIsotope
 	void dump_xml(std::ostream & os, unsigned int indent) const;
 	void dump_raw(std::ostream & os, unsigned int indent) const;
 
-	  CParser::STATUS_TYPE read_raw(CParser & parser);
+	CParser::STATUS_TYPE read_raw(CParser & parser, std::istream::pos_type next_char);
 
 	double get_isotope_number() const
 	{

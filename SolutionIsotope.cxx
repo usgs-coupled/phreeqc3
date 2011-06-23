@@ -18,13 +18,22 @@
 cxxSolutionIsotope::cxxSolutionIsotope(void):
 isotope_number(0.0)
 {
+	isotope_number = 0;
+	elt_name.clear();
+	isotope_name.clear();
+	total = 0;
+	ratio = -9999.9;
+	ratio_uncertainty = 1;
+	ratio_uncertainty_defined = false;
 }
 
 cxxSolutionIsotope::cxxSolutionIsotope(struct isotope *isotope_ptr)
 {
 	isotope_number = isotope_ptr->isotope_number;
 	this->set_elt_name(isotope_ptr->elt_name);
-	this->set_isotope_name(isotope_ptr->isotope_name);
+	std::ostringstream name;
+	name << isotope_ptr->isotope_number << isotope_ptr->elt_name;
+	this->set_isotope_name(name.str().c_str());
 	total = isotope_ptr->total;
 	ratio = isotope_ptr->ratio;
 	ratio_uncertainty = isotope_ptr->ratio_uncertainty;
@@ -141,10 +150,9 @@ cxxSolutionIsotope::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << std::endl;
 }
 
-CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser)
+CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser, std::istream::pos_type next_char )
 {
 	std::string token;
-	std::istream::pos_type next_char;
 	CParser::TOKEN_TYPE j;
 
 	// isotope_name
@@ -183,7 +191,7 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser)
 	}
 
 	// ratio_uncertainty
-	j = parser.copy_token(token, next_char);
+	j = parser.peek_token();
 	if (j == CParser::TT_EMPTY)
 	{
 		this->ratio_uncertainty = NAN;
@@ -197,7 +205,8 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser)
 	}
 	else
 	{
-		std::istringstream(token) >> this->ratio_uncertainty;
+		parser.get_iss() >> this->ratio_uncertainty;
+		this->ratio_uncertainty_defined = true;
 	}
 
 	return CParser::PARSER_OK;
