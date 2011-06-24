@@ -161,7 +161,10 @@ Phreeqc::Phreeqc(void)
 	{"gas_phase_modify", 0},
 	{"kinetics_modify", 0},
 	{"delete", 0},
-	{"run_cells", 0}
+	{"run_cells", 0},
+	{"reaction_modify"},
+	{"reaction_temperature_modify"},
+	{"solid_solution_modify", 0}
 #endif
 	};
 	NKEYS = (sizeof(keyword_temp) / sizeof(struct const_key));	/* Number of valid keywords */
