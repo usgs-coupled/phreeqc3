@@ -14,12 +14,11 @@ SOLUTION 1-40  Initial solution for column
         Na               1.0
         K                0.2
         N(5)             1.2
-COPY solution 1 101
 END
 EXCHANGE 1-40
-        equilibrate 1
+        -equilibrate 1
         X                0.0011
-COPY exchange 1 101
+COPY cell 1 101
 END
 ADVECTION
         -cells           40
@@ -36,30 +35,25 @@ SELECTED_OUTPUT
 USER_PUNCH
   -heading  Pore_vol
   10 PUNCH (STEP_NO + .5) / 40.
-USER_GRAPH
-  -headings ADVECTION Cl Na K Ca
-  -chart_title "Example 11"
-  -axis_titles "Pore Volumes" "mmol / kgw"
+USER_GRAPH 1 Example 11
+  -chart_title "Using ADVECTION Data Block"
+  -headings Cl Na K Ca
+  -axis_titles "PORE VOLUMES" "MILLIMOLES PER KILOGRAM WATER"
   -axis_scale x_axis 0 2.5
   -axis_scale y_axis 0 1.4
-  -initial_solutions false
   -plot_concentration_vs time
   -start
   10 x = (STEP_NO + 0.5) / cell_no
-  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
-  30 PLOT_XY x, TOT("Cl")*1000, symbol = None, color = Red
-  40 PLOT_XY x, TOT("Na")*1000, symbol = None
-  50 PLOT_XY x, TOT("K")*1000, symbol = None
-  60 PLOT_XY x, TOT("Ca")*1000, symbol = None
-  70 PUT(1, 1)
+  20 PLOT_XY x, TOT("Cl")*1000, symbol = None, color = Red
+  30 PLOT_XY x, TOT("Na")*1000, symbol = None
+  40 PLOT_XY x, TOT("K")*1000, symbol = None
+  50 PLOT_XY x, TOT("Ca")*1000, symbol = None
+  60 PUT(1, 1)
   -end
-COPY solution 101 1-40
-COPY exchange 101 1-40
-PRINT
-#  -user_graph false # uncomment to plot transport only, also comment advection headings
+COPY cell 101 1-40
 END
-PRINT
-  -user_graph true # false to plot advection only
+USER_GRAPH 1
+        -detach
 TRANSPORT
         -cells           40
         -lengths         0.002
@@ -74,71 +68,41 @@ TRANSPORT
         -punch_frequency 1
         -print_cells     40
         -print_frequency 120
-        -dump            ex11.dmp
-        -dump_frequency  10
 SELECTED_OUTPUT
         -file            ex11trn.sel
         -reset           false
         -step
         -totals          Na Cl K Ca
         -high_precision true
-USER_GRAPH
-  -headings TRANSPORT Cl Na K Ca Cl_analytical
+USER_GRAPH 2 Example 11
+  -chart_title "Using TRANSPORT Data Block"
+  -headings Cl Na K Ca Cl_analytical
+  -axis_titles "PORE VOLUMES" "MILLIMOLES PER KILOGRAM WATER"
+  -axis_scale x_axis 0 2.5
+  -axis_scale y_axis 0 1.4
+  -plot_concentration_vs time
   10 x = (STEP_NO + 0.5) / cell_no
-  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
-  30 PLOT_XY x, TOT("Cl")*1000, symbol = Plus, symbol_size = 2 color = Red
-  40 PLOT_XY x, TOT("Na")*1000, symbol = Plus, symbol_size = 2 color = Blue
-  50 PLOT_XY x, TOT("K")*1000, symbol = Plus, symbol_size = 2 color = Orange
-  60 PLOT_XY x, TOT("Ca")*1000, symbol = Plus, symbol_size = 2 color = Magenta
+  20 PLOT_XY x, TOT("Cl")*1000, symbol = Plus, symbol_size = 2 color = Red
+  30 PLOT_XY x, TOT("Na")*1000, symbol = Plus, symbol_size = 2 color = Blue
+  40 PLOT_XY x, TOT("K") *1000, symbol = Plus, symbol_size = 2 color = Orange
+  50 PLOT_XY x, TOT("Ca")*1000, symbol = Plus, symbol_size = 2 color = Magenta
 # calculate Cl_analytical...
-  70 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
-  80 READ a1, a2, a3, a4, a5, a6
-  90 Peclet = 0.08 / 0.002
-  100 z = (1 - x) / SQRT(4 * x / Peclet)
-  110 PA = 0
-  120 GOSUB 2000 # calculate e_erfc = exp(PA) * erfc(z)
-  130 e_erfc1 = e_erfc
-  140 z = (1 + x) / SQRT(4 * x / Peclet)
-  150 PA = Peclet
-  160 GOSUB 2000 # calculate exp(PA) * erfc(z)
-  170 y = 0.6 * (e_erfc1 + e_erfc)
-  180 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red
-  190 d = (y - TOT("Cl")*1000)^2
-  200 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)
-  210 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'
-  220 END
-  2000 REM calculate e_erfc = exp(PA) * erfc(z)...
-  2010 sgz = SGN(z)
-  2020 z = ABS(z)
-  2050 b = 1 / (1 + a6 * z)
-  2060 e_erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(PA - (z * z))
-  2070 IF sgz = -1 THEN e_erfc = 2 * EXP(PA) - e_erfc
-  2080 RETURN
-USER_GRAPH 2
-  -headings TRANSPORT Cl Na K Ca Cl_analytical
-  10 x = (STEP_NO + 0.5) / cell_no
-  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
-  30 PLOT_XY x, TOT("Cl")*1000, symbol = Plus, symbol_size = 2 color = Red
-  40 PLOT_XY x, TOT("Na")*1000, symbol = Plus, symbol_size = 2 color = Blue
-  50 PLOT_XY x, TOT("K")*1000, symbol = Plus, symbol_size = 2 color = Orange
-  60 PLOT_XY x, TOT("Ca")*1000, symbol = Plus, symbol_size = 2 color = Magenta
-# calculate Cl_analytical...
-  70 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
-  80 READ a1, a2, a3, a4, a5, a6
-  90 Peclet = 0.08 / 0.002
-  100 z = (1 - x) / SQRT(4 * x / Peclet)
-  110 PA = 0
-  120 GOSUB 2000 # calculate e_erfc = exp(PA) * erfc(z)
-  130 e_erfc1 = e_erfc
-  140 z = (1 + x) / SQRT(4 * x / Peclet)
-  150 PA = Peclet
-  160 GOSUB 2000 # calculate exp(PA) * erfc(z)
-  170 y = 0.6 * (e_erfc1 + e_erfc)
-  180 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red
-  190 d = (y - TOT("Cl")*1000)^2
-  200 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)
-  210 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'
-  220 END
+  60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
+  70 READ a1, a2, a3, a4, a5, a6
+  80 Peclet = 0.08 / 0.002
+  90  z = (1 - x) / SQRT(4 * x / Peclet)
+  100 PA = 0
+  110 GOSUB 2000 # calculate e_erfc = exp(PA) * erfc(z)
+  120 e_erfc1 = e_erfc
+  130 z = (1 + x) / SQRT(4 * x / Peclet)
+  140 PA = Peclet
+  150 GOSUB 2000 # calculate exp(PA) * erfc(z)
+  160 y = 0.6 * (e_erfc1 + e_erfc)
+  170 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red
+  180 d = (y - TOT("Cl")*1000)^2
+  190 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)
+  200 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'
+  210 END
   2000 REM calculate e_erfc = exp(PA) * erfc(z)...
   2010 sgz = SGN(z)
   2020 z = ABS(z)
