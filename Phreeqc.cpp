@@ -139,7 +139,7 @@ Phreeqc::Phreeqc(void)
 	{"copy", 0},
 	{"pitzer", 0},
 	{"sit", 0},
-	{"equilibrium_phase"}
+	{"equilibrium_phase", 0}
 #ifdef PHREEQC_CPP
 	,
 	{"solution_raw", 0},
@@ -162,8 +162,8 @@ Phreeqc::Phreeqc(void)
 	{"kinetics_modify", 0},
 	{"delete", 0},
 	{"run_cells", 0},
-	{"reaction_modify"},
-	{"reaction_temperature_modify"},
+	{"reaction_modify", 0},
+	{"reaction_temperature_modify", 0},
 	{"solid_solution_modify", 0}
 #endif
 	};
@@ -334,7 +334,9 @@ Phreeqc::Phreeqc(void)
 		{"totmol", toktotmol},
 		{"totmoles", toktotmoles},
 		{"iso", tokiso},
-		{"iso_unit", tokiso_unit}	};
+		{"iso_unit", tokiso_unit},
+		{"phase_formula", tokphase_formula}
+		};
 	NCMDS = (sizeof(command_temp) / sizeof(struct const_key));
 	command = new const_key[NCMDS];
 	for (i = 0; i < NCMDS; i++)
