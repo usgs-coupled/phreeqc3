@@ -29,6 +29,7 @@
 #include "dumper.h"
 #include "StorageBinList.h"
 #include "ChartHandler.h"
+class cxxNameDouble;
 #define STATIC
 #define EXTERNAL
 #define CLASS_QUALIFIER Phreeqc::
@@ -246,6 +247,7 @@ LDBLE surf_total(const char *total_name, const char *surface_name);
 CLASS_STATIC int system_species_compare(const void *ptr1, const void *ptr2);
 LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 				   char ***types, LDBLE ** moles);
+std::string phase_formula(std::string phase_name, cxxNameDouble &stoichiometry);
 int system_total_elements(void);
 int system_total_si(void);
 int system_total_aq(void);
