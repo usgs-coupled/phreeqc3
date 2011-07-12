@@ -1,15 +1,85 @@
-File contains:
-      "Features in PHREEQC++ Not in PHREEQC" 
-      "Revisions and Bug Fixes"
-
 ************************************************************
 ************************************************************
 *        Features in PHREEQC++ Not in PHREEQC              *
+*        Revisions and Bug Fixes                           *
+*        PHREEQC++ is used only in IPhreeqc Modules        *
 ************************************************************
 ------------------------------------------------------------
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 ------------------------------------------------------------
+        --------
+        svn 5455
+        --------
+        REACTION_MODIFY keyword was added to the modules. Previously,
+        REACTION_MODIFY was not recognized as a keyword.
+        
+        --------
+        svn 5453
+        --------     
+        Fixed bug with in READ_SOLUTION_RAW. A read error occurred
+        when -isotopes was encountered.
+        
+        --------
+        svn 5448
+        -------- 
+        Reading of default user number, but specified description
+        was in error under some conditions.
+ 
+        --------
+        svn 5431
+        --------  
+        RUN_CELLS was rewritten to perform multiple calculations
+        if multiple steps are defined in REACTION, REACTION_TEMPERATURE,
+        or KINETICS. It now operates in the same way that a 
+        series of USE and SAVES would operate. Previously, only
+        one step of a series of reaction steps was taken. If a 
+        time step is provided in RUN_CELLS for kinetic reactions and
+        nmax is the maximum number of steps defined for REACTION,
+        REACTION_TEMPERATURE, and KINETICS, the time step is divided 
+        into nmax equal increments. It is equivalent to the following
+        definition in kinetics: -step time_step in nmax steps.
+        
+        --------
+        svn 5324
+        --------   
+        Modified solution method for solid solutions so that
+        mole transfers were limited to the total amount
+        available in the system.
+        
+------------------------------------------------------------
+Version 2.18.0: April  9, 2011
+------------------------------------------------------------  
 
+        --------
+        svn 5281
+        -------- 
+        If SOLUTION_MODIFY is used to change a total for an element,
+        the activities for the master species of the element are
+        automatically updated by the ratio of the new total to the 
+        old total, unless activities are specifically set for the
+        element with -activities. All valence states of redox elements
+        are adjusted.
+
+        --------
+        svn 5270
+        --------
+	Added logic to update estimates of log activity when
+	modifying totals in SOLUTION_MODIFY. The initial 
+	guesses for activities are adjusted proportionally
+	to the change in total moles of elements (as defined
+	by SOLUTION_MODIFY; -totals). 
+
+	This automatic adjustment is suggested rather than
+	explicit definition of the initial guesses through
+	SOLUTION_MODIFY; -activities. However, the -activities
+	identifier may be used and will supercede the automatic
+	adjustment.  
+
+	The adjustment of the initial guesses for activities
+	should reduce the number of iterations needed to solve 
+	a given set of equations and, consequently, should
+	lessen the total CPU time for a simulation.
+	
         --------
         svn 4897
         --------
@@ -38,6 +108,12 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
         	Calcite 0 10
         END
         
+        --------
+        svn 4856
+        --------
+        Revised logic of searching pitzer parameters so that
+        order of ions in a parameter definition does not 
+        matter. 
         
         --------
         svn 4823
@@ -613,40 +689,5 @@ KINETICS_MODIFY      1
 	  -steps         
 	    
 
-	
 
-************************************************************
-************************************************************
-*               Revisions and Bug Fixes                    *
-************************************************************
-************************************************************
 
-------------------------------------------------------------
-Version @PHREEQC_VER@: @PHREEQC_DATE@
-------------------------------------------------------------
-        --------
-        svn 5270
-        --------
-	Added logic to update estimates of log activity when
-	modifying totals in SOLUTION_MODIFY. The initial 
-	guesses for activities are adjusted proportionally
-	to the change in total moles of elements (as defined
-	by SOLUTION_MODIFY; -totals). 
-
-	This automatic adjustment is suggested rather than
-	explicit definition of the initial guesses through
-	SOLUTION_MODIFY; -activities. However, the -activities
-	identifier may be used and will supercede the automatic
-	adjustment.  
-
-	The adjustment of the initial guesses for activities
-	should reduce the number of iterations needed to solve 
-	a given set of equations and, consequently, should
-	lessen the total CPU time for a simulation.
-
-        --------
-        svn 4856
-        --------
-        Revised logic of searching pitzer parameters so that
-        order of ions in a parameter definition does not 
-        matter. 
