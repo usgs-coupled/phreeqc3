@@ -18,16 +18,9 @@
 #include <float.h>
 #include <setjmp.h>
 #include "phrqtype.h"
-#include "sundialstypes.h"
-#include "nvector.h"
 #include "cvdense.h"	
-#include "nvector_serial.h"	/* definitions of type N_Vector and macro         */
-							/* NV_Ith_S, prototypes for N_VNew, N_VFree       */
-#include "dense.h"			/* definitions of type DenseMat, macro DENSE_ELEM */
-#include "nvector.h"
 #include "runner.h"
 #include "dumper.h"
-#include "StorageBinList.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
@@ -47,65 +40,10 @@ public:
 	Phreeqc(void);
 	~Phreeqc(void);
 
-//private:
-//
-//struct _generic_N_Vector;
-//struct calculate_value;
-//struct conc;
-//struct CVodeMemRec;
-//struct element;
-//struct exchange;
-//struct exch_comp;
-//struct elt_list;
-//struct gas_phase;
-//struct gas_comp;
-//struct inverse;
-//struct inv_elts;
-//struct inv_phases;
-//struct inv_isotope;
-//struct irrev;
-//struct isotope;
-//struct kinetics;
-//struct kinetics_comp;
-//struct LOC_exec;
-//struct master;
-//struct master_activity;
-//struct master_isotope;
-//struct mix;
-//struct mix_comp;
-//struct name_coef;
-//struct pe_data;
-//struct phase;
-//struct PHRQMemHeader;
-//struct pitz_param;
-//struct pp_assemblage;
-//struct pure_phase;
-//struct reaction;
-//struct reaction_temp;
-//struct rxn_token;
-//struct rxn_token_temp;
-//struct solution;
-//struct species;
-//struct s_s;
-//struct s_s_assemblage;
-//struct s_s_comp;
-//struct species_diff_layer;
-//struct surface;
-//struct surface_comp;
-//struct surface_charge;
-//struct surface_diff_layer;
-//struct theta_param;
-//struct tokenrec;
-//struct varrec;
-//struct unknown;
-//struct Curves_c;
-
 #define PITZER_EXTERNAL 
 #include "pitzer.h"
 #include "input.h"
-#define KINETICS_EXTERNAL 
-#include "sundialstypes.h"		/* definitions of types realtype and              */
-							    /* integertype, and the constant FALSE            */
+
 public:
 #include "output.h"
 public:
