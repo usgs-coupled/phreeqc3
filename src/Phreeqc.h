@@ -28,7 +28,9 @@
 #include "runner.h"
 #include "dumper.h"
 #include "StorageBinList.h"
+#ifdef MULTICHART
 #include "ChartHandler.h"
+#endif
 class cxxNameDouble;
 #define STATIC
 #define EXTERNAL
