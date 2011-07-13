@@ -95,6 +95,7 @@ all: alkalinity.out \
 	org_gas.out \
 	oxygen.out \
 	phantom_surface.out \
+	phase_formula.out \
 	phreeqc.test.out \
 	phrqpitz.tst.out \
 	pitzalphas.out \
