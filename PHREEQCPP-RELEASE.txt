@@ -8,6 +8,59 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 ------------------------------------------------------------
         --------
+        svn 5471
+        --------
+        Added PHASE_FORMULA and LIST_S_S Basic functions.
+        
+        PHASE_FORMULA returns a string value with the 
+        chemical formula for the phase as defined in 
+        PHASES data. If 4 arguments are provide, a list 
+        of the elements and stoichiometric coefficients for 
+        elements are returned.
+        
+        USER_PRINT
+        10 min$ = "Calcite"
+        20 form$ = PHASE_FORMULA(min$)
+	30 print min$, form$
+	40 form$ = PHASE_FORMULA(min$, count, elts$, coefs)
+	50 for i = 1 to count
+	60 print "   ", PAD(elts$[i], 20), coefs[i]
+	70 next i 
+	
+	This example produces the following output:
+	
+Calcite CaCO3 
+	C                               1 
+	Ca                              1 
+	O                               3 
+
+        LIST_S_S returns the sum of moles of all components
+        in a specified solid solution. Lists of the components
+        and the number of moles of each component are also
+        returned. 
+
+   
+	SOLID_SOLUTIONS 1
+	Calcite_s_s
+           -comp Calcite 0.01
+           -comp Smithsonite 0.001
+           -comp Strontianite 0.02
+	USER_PRINT
+        10 name$ = "Calcite_s_s"
+	20 total = LIST_S_S(name$, count, comp$, moles)
+	30 print PAD(name$, 20), total
+	40 for i = 1 to count
+	50 print "   ", PAD(comp$[i], 20), moles[i], moles[i]/total
+	60 next i
+
+        This example produces the following output:
+        
+Calcite_s_s           3.0876e-002 
+    Calcite               9.9316e-003  3.2166e-001 
+    Smithsonite           9.6666e-004  3.1308e-002 
+    Strontianite          1.9978e-002  6.4704e-001 
+    
+        --------
         svn 5455
         --------
         REACTION_MODIFY keyword was added to the modules. Previously,
