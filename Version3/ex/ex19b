@@ -1,4 +1,4 @@
-# Cd sorption on X, Hfo and OC in Christensen
+# Cd sorption on X, Hfo and OC in loamy soil
 #
 PRINT
         -reset false
@@ -91,22 +91,26 @@ SURFACE_SPECIES
 
 END
 SURFACE 1
-# 1 g soil = 0.7% Organic Matter = 0.35% Organic Carbon.
-# For Psi vs I (= ionic strength) dependence, adapt specific surface SS in PHRC:
+# 1 g soil = 0.7% Organic Matter ~ 3.5 mg Organic Carbon.
+# 7.1 meq charge per g OC
+# For Psi vs I (= ionic strength) dependence, adapt specific surface area in PHRC:
 # SS = 159300 - 220800/(I)^0.09 + 91260/(I)^0.18
-# Example: SS = 34170 m2/g for I = 0.01 mol/l
+# Example: SS = 46514 m2/g for I = 0.003 mol/l
 #
-# 1 mg HA
-  H_a  7.10e-07 46.5e3 1.00E-03
-  H_b  7.10e-7; H_c  7.10e-7; H_d  7.10e-7
-
-  H_e  3.55e-7; H_f  3.55e-7; H_g  3.55e-7; H_h  3.55e-7
-
-  H_ab 1.18e-07; H_ad 1.18e-07; H_af 1.18e-07; H_ah 1.18e-07
-  H_bc 1.18e-07; H_be 1.18e-07; H_bg 1.18e-07; H_cd 1.18e-07
-  H_cf 1.18e-07; H_ch 1.18e-07; H_de 1.18e-07; H_dg 1.18e-07
+# 3.5 mg OC, 0.025 meq total charge, distributed over the sites:
+# charge on 4 nHA sites: -2.84 / 4 * 3.5e-3 / 1e3 (eq)
+  H_a  2.48e-06 46.5e3 3.50E-03
+  H_b  2.48e-06; H_c  2.48e-06; H_d  2.48e-06
+# charge on 4 nHB sites: 0.5 * charge on nHA sites
+  H_e  1.24e-06; H_f  1.24e-06; H_g  1.24e-06; H_h  1.24e-06
+# charge on 12 diprotic sites: -2.84 / 12 * 3.5e-3 / 1e3
+  H_ab 8.28e-07; H_ad 8.28e-07; H_af 8.28e-07; H_ah 8.28e-07
+  H_bc 8.28e-07; H_be 8.28e-07; H_bg 8.28e-07; H_cd 8.28e-07
+  H_cf 8.28e-07; H_ch 8.28e-07; H_de 8.28e-07; H_dg 8.28e-07
         -donnan
- Hfo_w 1e-6 600 4.45e-3
+# 1 g soil = 2.79 mg Fe = 0.05 mmol Fe = 4.45 mg FeOOH
+# 10% has ferrihydrite reactivity
+ Hfo_w 1e-6 600 4.45e-4
  Hfo_s 0.025e-6
         -equilibrate 1
 EXCHANGE 1
@@ -120,34 +124,32 @@ SOLUTION 1
 REACTION 1
   CdCl2 1
   2e-6 in 20
-USER_GRAPH
-        -headings Cd_HumicAcids CdX2 Cd_Hfo
-        -chart_title "Example 19, Deterministic model"
-        -axis_titles "Solute Cd / (ug/kgw)" "Sorbed Cd / (ug/g soil)"
+USER_GRAPH Example 19
+        -headings Cd_HumicAcids CdX2 Cd_Hfo TOTAL
+        -chart_title "Deterministic Sorption Model"
+        -axis_titles "DISSOLVED Cd, IN MICROGRAMS PER KILOGRAM WATER" \
+                     "SORBED Cd, IN MICROGRAMS PER GRAM SOIL"
         -plot_csv_file ex19_meas.txt
         -axis_scale x_axis 0 40
         -axis_scale y_axis 0 6
         -initial_solutions true
   -start
-  10 H_Cd = mol("H_aCd+") + mol("H_bCd+") + mol("H_cCd+") + mol("H_dCd+")
-  20 H_Cd = H_Cd + mol("H_eCd+") + mol("H_fCd+") + mol("H_gCd+") + mol("H_hCd+")
-  30 H_Cd = H_Cd + mol("H_abCd") + mol("H_adCd") + mol("H_afCd") + mol("H_ahCd")
-  40 H_Cd = H_Cd + mol("H_bcCd") + mol("H_beCd") + mol("H_bgCd") + mol("H_cdCd")
-  50 H_Cd = H_Cd + mol("H_cfCd") + mol("H_chCd") + mol("H_deCd") + mol("H_dgCd")
-  60 print " ug Cd/L =", tot("Cd")*112.4e6, " ug Cd/g = ", H_Cd*112.4e6*0.05 \
-          ," Kd (L/kg) = ", H_Cd * 1e3 / tot("Cd") / 20, " ug Cd/g in DL =", edl("Cd")*112.4e6*0.05
-  70 print "Excess meq Ca in DL =", edl("Ca")*2 - edl("water")*tot("Ca")*2
-  80 print "Excess meq Cl in DL =", edl("Cl")   - edl("water")*tot("Cl")
-  90 print "Surface charge      =", edl("Charge")
-  100 H_Ca = mol("H_aCa+") + mol("H_bCa+") + mol("H_cCa+") + mol("H_dCa+")
-  120 H_Ca = H_Ca + mol("H_eCa+") + mol("H_fCa+") + mol("H_gCa+") + mol("H_hCa+")
-  130 H_Ca = H_Ca + mol("H_abCa") + mol("H_adCa") + mol("H_afCa") + mol("H_ahCa")
-  140 H_Ca = H_Ca + mol("H_bcCa") + mol("H_beCa") + mol("H_bgCa") + mol("H_cdCa")
-  150 H_Ca = H_Ca + mol("H_cfCa") + mol("H_chCa") + mol("H_deCa") + mol("H_dgCa")
-  160 print H_Ca*0.05
-  180 x = TOT("Cd") * 112.4e6
-  190 PLOT_XY x, H_Cd * 112.4e6, color = Red, line_width = 2, symbol = None
-  200 PLOT_XY x, mol("CdX2") * 112.4e6, color = Brown, line_width = 2, symbol = None
-  210 PLOT_XY x, (mol("Hfo_wOCd+") + mol("Hfo_sOCd+")) * 112.4e6, color = Black, line_width = 2, symbol = None
+10 H_Cd = SURF("Cd", "H") + EDL("Cd", "H")
+20 print CHR$(10) + " ug Cd/L =", tot("Cd") * 112.4e6, " ug Cd/g = ", H_Cd * 112.4e6 \
+        ," Kd (L/kg) = ", H_Cd*1e3/tot("Cd"), " ug Cd/g in DL =", EDL("Cd", "H") * 112.4e6
+30 print "Excess meq Ca in DL =", EDL("Ca", "H")*2 - EDL("water", "H") * tot("Ca")*2
+40 print "Excess meq Cl in DL =", EDL("Cl", "H")   - EDL("water", "H") * tot("Cl")
+50 print "Surface charge      =", EDL("Charge", "H")
+55 af_OM = 1 / 9
+60 H_Ca = (SURF("Ca", "H") + EDL("Ca", "H")) * af_OM
+70 print 'Total Ca in/on organic matter =', H_Ca, ' CEC on OM =' H_Ca*200/TOT("X"), '%.'
+80 x = TOT("Cd") * 112.4e6
+90 H_Cd = H_Cd * 112.4e6 * af_OM
+100 CdX2 = mol("CdX2") * 112.4e6 * 0.96
+110 Hfo_Cd = (mol("Hfo_wOCd+") + mol("Hfo_sOCd+")) * 112.4e6
+120 PLOT_XY x, H_Cd, color = Green, line_width = 2, symbol = None
+130 PLOT_XY x, CdX2, color = Brown, line_width = 2, symbol = None
+140 PLOT_XY x, Hfo_Cd, color = Black, line_width = 2, symbol = None
+150 PLOT_XY x, H_Cd + CdX2 + Hfo_Cd, color = Red, line_width = 2, symbol = None
   -end
 END

@@ -31,21 +31,21 @@ SOLUTION 1
 REACTION 1
       CdCl2 1
       0.7e-6 in 20
-USER_GRAPH
+USER_GRAPH Example 19
       -headings Linear Freundlich Langmuir
-      -chart_title "Example 19"
-      -axis_titles "Solute Cd / (ug/kgw)" "Sorbed Cd / (ug/g soil)"
+      -chart_title "Sorption Isotherms"
+      -axis_titles "DISSOLVED Cd, IN MICROGRAMS PER KILOGRAM WATER" \
+                    "SORBED Cd, IN MICROGRAMS PER GRAM SOIL"
       -plot_csv_file ex19_meas.txt
       -axis_scale x_axis 0 40
       -axis_scale y_axis 0 6
       -initial_solutions true
   -start
-  10 x = act("Cd+2") * 112.4e6
-  20 PLOT_XY x, mol("LinearCd+2") * 112e6, symbol = None, line_width = 2
-  30 PLOT_XY x, mol("FreundlichCd+2") * 112e6, symbol = None, line_width = 2
-  40 PLOT_XY x, mol("LangmuirCd+2") * 112e6, symbol = None, line_width = 2
+10 x = act("Cd+2") * 112.4e6
+20 PLOT_XY x, mol("LinearCd+2")*112e6, color = Green, symbol = None, line_width = 2
+30 PLOT_XY x, mol("FreundlichCd+2")*112e6, color = Blue, symbol = None, line_width = 2
+40 PLOT_XY x, mol("LangmuirCd+2")*112e6, color = Orange, symbol = None, line_width = 2
   -end
 PRINT
      -reset false
-     -echo_input true
 END
