@@ -28,9 +28,9 @@ RUN_CELLS
 USER_PRINT
 -start
 	10 PRINT pad("Component", 20), "Mole fraction"
-	20 t = SYS("s_s", count, name$, type$, values  )
+	20 t = LIST_S_S("Calcite", count, name$, moles)
 	30 for i = 1 to count
-	40   PRINT pad(name$(i),20), values(i)/t
+	40   PRINT pad(name$(i),20), moles(i)/t
 	50 next i
 -end
 END	
