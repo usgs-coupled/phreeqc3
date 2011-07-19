@@ -551,6 +551,20 @@ cxxNameDouble::merge_redox(const cxxNameDouble & source)
 
 	}
 }
+struct DblCmp {     
+	bool operator()(const std::pair<std::string, double> &lhs, std::pair<std::string, double> &rhs) 
+	{         
+		return lhs.second > rhs.second;     
+	} 
+}; 
+std::vector<std::pair<std::string, double>> 
+cxxNameDouble::sort_second(void)
+{
+	std::vector<std::pair<std::string, double>> myvec(this->begin(), this->end()); 
+	std::sort(myvec.begin(), myvec.end(), DblCmp());
+
+	return myvec;
+}
 #ifdef USE_MPI
 void
 cxxNameDouble::mpi_pack(std::vector < int >&ints,
