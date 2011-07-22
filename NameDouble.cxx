@@ -557,10 +557,10 @@ struct DblCmp {
 		return lhs.second > rhs.second;     
 	} 
 }; 
-std::vector<std::pair<std::string, double>> 
+std::vector< std::pair<std::string, double> > 
 cxxNameDouble::sort_second(void)
 {
-	std::vector<std::pair<std::string, double>> myvec(this->begin(), this->end()); 
+	std::vector< std::pair<std::string, double> > myvec(this->begin(), this->end()); 
 	std::sort(myvec.begin(), myvec.end(), DblCmp());
 
 	return myvec;
