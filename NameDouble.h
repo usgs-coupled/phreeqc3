@@ -69,7 +69,7 @@ class cxxNameDouble:public
 	void
 	merge_redox(const cxxNameDouble & source);
 
-	std::vector<std::pair<std::string, double>> 
+	std::vector< std::pair<std::string, double> > 
 	sort_second(void);
 
 	void
