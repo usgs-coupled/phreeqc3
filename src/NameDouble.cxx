@@ -552,7 +552,7 @@ cxxNameDouble::merge_redox(const cxxNameDouble & source)
 	}
 }
 struct DblCmp {     
-	bool operator()(const std::pair<std::string, double> &lhs, std::pair<std::string, double> &rhs) 
+	bool operator()(const std::pair<std::string, double> &lhs, const std::pair<std::string, double> &rhs) 
 	{         
 		return lhs.second > rhs.second;     
 	} 
