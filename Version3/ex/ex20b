@@ -40,7 +40,7 @@ USER_PRINT
 USER_GRAPH 1 Example 20
         -headings OPEN-Dissolved OPEN--Calcite
         -chart_title "OXYGEN-18"
-        -axis_titles "CALCITE REACTED, MOLES" "PERMIL"
+        -axis_titles "MARINE CALCITE REACTED, MOLES" "PERMIL"
         -axis_scale x_axis 0 0.05 a a 
         -axis_scale y_axis -10 30 a a
    -start
@@ -52,7 +52,7 @@ END
 USER_GRAPH 2 Example 20
         -headings OPEN-Dissolved OPEN-Calcite
         -chart_title "CARBON-13"
-        -axis_titles "CALCITE REACTED, MOLES" "PERMIL"
+        -axis_titles "MARINE CALCITE REACTED, MOLES" "PERMIL"
         -axis_scale x_axis 0 0.05 a a 
         -axis_scale y_axis -25 5.0 a a
         -plot_csv  ex20-c13.dat
@@ -64,7 +64,7 @@ END
 USER_GRAPH 3 Example 20
         -headings OPEN-Dissolved OPEN-Calcite
         -chart_title "CARBON-14"
-        -axis_titles "CALCITE REACTED, MOLES" "PERCENT MODERN CARBON"
+        -axis_titles "MARINE CALCITE REACTED, MOLES" "PERCENT MODERN CARBON"
         -axis_scale x_axis 0 0.05 a a 
         -axis_scale y_axis 0 100 a a
         -plot_csv  ex20-c14.dat
@@ -106,8 +106,8 @@ USER_GRAPH 1 Oxygen-18
         -headings Closed-Dissolved Closed--Calcite
    -start
 10 PUT(GET(1) + 1, 1)   
-20 PLOT_XY RXN*GET(1),ISO("R(18O)"), color=Blue, line_w=4, symbol=None
-30 PLOT_XY RXN*GET(1),ISO("R(18O)_Calcite"), color=Black, line_w=4, symbol=None
+20 PLOT_XY RXN*GET(1),ISO("R(18O)"), color=Blue, line_w=0, symbol=Circle
+30 PLOT_XY RXN*GET(1),ISO("R(18O)_Calcite"), color=Black, line_w=0, symbol=Circle
    -end
 END
 USER_GRAPH 2 Carbon-13

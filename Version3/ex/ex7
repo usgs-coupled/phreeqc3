@@ -62,7 +62,7 @@ USER_GRAPH Example 7
   100 REM end of program  
   -end
 USER_GRAPH 2 Example 7
-        -headings  Fixed_P_Pressure Fixed_P_Volume 
+        -headings  Fixed_P:...Pressure Fixed_P:...Volume 
         -chart_title "Total Gas Pressure and Volume as a Result of Organic Decomposition"
         -axis_titles "ORGANIC MATTER REACTED, IN MILLIMOLES" "Log(PRESSURE, IN ATMOSPHERES)" "VOLUME, IN LITERS"
         -axis_scale x_axis 1 1e3 auto auto log
@@ -102,7 +102,7 @@ USER_GRAPH
   60 PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = Circle, symbol_size = 5
   -end
 USER_GRAPH 2
-        -headings Fixed_V_Pressure Fixed_V_Volume
+        -headings Fixed_V:...Pressure Fixed_V:...Volume
   -start
   10 mM_OM = RXN * 1e3
   20 tot_p = 10^SI("CH4(g)") + 10^SI("CO2(g)") + 10^SI("N2(g)") + 10^SI("H2O(g)")
