@@ -1066,7 +1066,6 @@ ChartObject::Add_curve(bool plotxy, std::string id,
 					   double symbol_size, 
 					   int y_axis,
 					   std::string color)				
-
 {
 	CurveObject *c = new CurveObject;
 	c->Set_id(id);
@@ -1074,7 +1073,7 @@ ChartObject::Add_curve(bool plotxy, std::string id,
 	this->Get_legal_symbol(symbol);
 	c->Set_symbol(symbol);
 	c->Set_symbol_size(symbol_size);
-	if (this->CurvesCSV.size() > 0 && !plotxy)
+	if (this->CurvesCSV.size() > this->Curves.size() && !plotxy)
 	{
 		c->Set_symbol_size(0.0);
 	}
