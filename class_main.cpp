@@ -59,12 +59,6 @@ main(int argc, char *argv[])
 		}
 	}
 #endif
-#ifdef CHART
-	while (phreeqc_instance.u_g_active)
-	{
-		Sleep(100);
-	}
-#endif
 }
 
 

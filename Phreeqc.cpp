@@ -223,12 +223,12 @@ Phreeqc::Phreeqc(void)
 		{"let", toklet},
 		{"print", tokprint},
 		{"punch", tokpunch},
-	#if defined PHREEQ98 || defined CHART || defined MULTICHART
+	#if defined PHREEQ98 || defined MULTICHART
 		{"graph_x", tokgraph_x},
 		{"graph_y", tokgraph_y},
 		{"graph_sy", tokgraph_sy},
 	#endif
-	#if defined CHART || defined MULTICHART
+	#if defined MULTICHART
 		{"plot_xy", tokplot_xy},
 	#endif
 		{"input", tokinput},
@@ -345,61 +345,6 @@ Phreeqc::Phreeqc(void)
 		command[i].name = string_duplicate(command_temp[i].name);
 		command[i].keycount = command_temp[i].keycount;
 	}
-
-// chart.cpp -------------------------------
-#ifdef CHART
-	update_time_chart = 150;			/* milliseconds, maybe read */
-	PanelHeight = 510;
-	PanelWidth = 640;
-
-	axis_titles[0] = string_duplicate("X-axis");
-	axis_titles[1] = string_duplicate("Y-axis");
-	axis_titles[2] = string_duplicate("Y2-axis");
-
-	/* min, max, major tic, minor tic, log */
-	for (i = 0; i < 5; i++)
-	{
-		axis_scale_x[i] = NA;
-		axis_scale_y[i] = NA;
-		axis_scale_y2[i] = NA;
-	}
-
-	chart_title = string_duplicate("");
-
-	chart_type = 0;						/* default: plot vs distance. If chart_type = 1, plot vs time */
-	graph_initial_solutions = 0;		/* false */
-	connect_simulations = 1;			/* same curve properties in new simulations */
-	rownr = -1;
-	colnr = 0;							/* row and col no defined in basic.c for GridChar and Plot_XY */
-	RowOffset = 0;						/* = 1 if new simulations should add points to the same curve */
-	ColumnOffset = 0;					/* sets column offset, from CSV plot, and from new USER_GRAPH */
-	prev_advection_step = 0;
-	prev_transport_step = 0;			/* not used in chart, for compatibility with PfW */
-	AddSeries = 1;						/* new curve properties in new simulation (does the same, but opposite of connect_simulation) */
-
-	end_timer = false;					/* in mainsubs.c, stops the update timer in form1.h */
-
-	ncurves = 0;
-	for (i = 0; i < 3; i++)
-	{
-		ncurves_changed[i] = 0;				/* for updating the chart: */
-	}										/* 0 or 1 (if curves have changed), previous no, new no of curves with points*/
-
-	char *SymbolList_init[11] =	{"Square", "Diamond", "Triangle", "Circle", "XCross", "Plus", "Star",
-			"TriangleDown", "HDash", "VDash", "None"};
-	for (i = 0; i < 11; i++)
-	{
-		SymbolList[i] = string_duplicate(SymbolList_init[i]);
-	}
-	/*ColorList = {"Red", "Green", "Blue", "Orange", "Magenta", "Yellow", "Black" }; // defined in Form1.h as cli */
-	/* or any color from System::Drawing::Color */
-
-	nCSV_headers = 0;					/* no of CSV curves, also defines ColumnOffset if connect_simulations = 1 */
-	FirstCallToUSER_GRAPH = 1;
-	new_ug = false;							/* in case USER_GRAPH is redefined */
-	u_g = false;
-	u_g_active = false;
-#endif // CHART
 
 	//cl1.c
 	x_arg = NULL, res_arg = NULL, scratch = NULL;
