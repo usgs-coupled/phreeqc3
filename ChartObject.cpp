@@ -26,7 +26,7 @@ extern void * free_check_null(void *);
 #include "phqalloc.h"
 #include "phrqproto.h"
 #include "output.h"
-#include "Form2.h"
+#include "Form1.h"
 using namespace zdg_ui2;
 
 //////////////////////////////////////////////////////////////////////
