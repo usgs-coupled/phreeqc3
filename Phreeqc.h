@@ -122,12 +122,12 @@ void cmddel(struct LOC_exec *LINK);
 void cmdrenum(struct LOC_exec *LINK);
 void cmdprint(struct LOC_exec *LINK);
 void cmdpunch(struct LOC_exec *LINK);
-#if defined PHREEQ98 || defined CHART || defined MULTICHART
+#if defined PHREEQ98 || defined MULTICHART
 void cmdgraph_x(struct LOC_exec *LINK);
 void cmdgraph_y(struct LOC_exec *LINK);
 void cmdgraph_sy(struct LOC_exec *LINK);
 #endif
-#if defined CHART || defined MULTICHART
+#if defined MULTICHART
 void cmdplot_xy(struct LOC_exec *LINK);
 #endif
 void cmdlet(boolean implied, struct LOC_exec *LINK);
@@ -209,7 +209,7 @@ int system_total_solids(struct exchange *exchange_ptr,
 static LDBLE f_rho(LDBLE rho_old, void *cookie);
 
 // chart.cpp
-#if defined PHREEQ98 || defined CHART
+#if defined PHREEQ98 
 void DeleteCurves(void);
 void ExtractCurveInfo(char *line, int curvenr);
 void  GridChar(char *s, char *a);
@@ -720,7 +720,7 @@ int punch_s_s_assemblage(void);
 int punch_saturation_indices(void);
 int punch_totals(void);
 int punch_user_punch(void);
-#if defined PHREEQ98 || defined CHART || defined MULTICHART
+#if defined PHREEQ98 || defined MULTICHART
 int punch_user_graph(void);
 #endif
 
@@ -794,7 +794,7 @@ int read_use(void);
 int read_title(void);
 int read_user_print(void);
 int read_user_punch(void);
-#if defined PHREEQ98 || defined CHART
+#if defined PHREEQ98 
 int read_user_graph(void);
 #endif
 #if defined MULTICHART
@@ -1333,7 +1333,7 @@ int backspace_screen(int spaces);
 LDBLE calc_alk(struct reaction *rxn_ptr);
 public:
 	int compute_gfw(const char *string, LDBLE * gfw);
-	#if defined PHREEQ98 || defined CHART
+	#if defined PHREEQ98 
 	int copy_title(char *token_ptr, char **ptr, int *length);
 	#endif
 int copy_token(char *token_ptr, char **ptr, int *length);
