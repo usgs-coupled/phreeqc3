@@ -1443,6 +1443,12 @@ CParser::TOKEN_TYPE CParser::parse_delimited(std::string & source, std::string &
 		temp = source.substr(pos+1);
 		source = temp;
 	}
+	else if (pos == 0)
+	{
+		temp = source.substr(pos+1);
+		source = temp;
+		return token_type("");
+	}
 	else
 	{
 		result = source;
