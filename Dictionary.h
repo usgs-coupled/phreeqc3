@@ -6,8 +6,6 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-#include "Solution.h"
-#include "NameDouble.h"
 
 class cxxDictionary
 {
