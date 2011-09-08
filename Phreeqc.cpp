@@ -21,6 +21,7 @@ Phreeqc::Phreeqc(void)
 	phast = FALSE;
 	s_pTail = NULL;
 	user_database = NULL;
+#ifdef USE_OLD_IO
 	output_file = NULL;
 	log_file = NULL;
 	punch_file = NULL;
@@ -28,6 +29,7 @@ Phreeqc::Phreeqc(void)
 	error_file = NULL;
 	database_file = NULL;
 	input_file = NULL;
+#endif
 	rates = NULL;
 	tally_table = NULL;
 	spec = NULL;
@@ -408,8 +410,8 @@ Phreeqc::~Phreeqc(void)
 {
 
 	clean_up();
-	close_input_files();
-	close_output_files();
+	this->phrq_io.close_input_files();
+	this->phrq_io.close_output_files();
 
 	int i;
 	for (i = 0; i < count_iso_defaults; i++)
