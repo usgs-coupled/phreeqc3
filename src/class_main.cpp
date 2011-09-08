@@ -94,6 +94,7 @@ main_method(int argc, char *argv[])
 /*
  *   Add callbacks for error_msg and warning_msg
  */
+#ifdef USE_OLD_IO
 	if (add_output_callback(phreeqc_handler, this) != OK)
 	{
 		fprintf(stderr, "ERROR: %s\n",
@@ -101,6 +102,7 @@ main_method(int argc, char *argv[])
 		fprintf(stderr, "ERROR: %s\n", "Program terminating.");
 		return -1;
 	}
+#endif
 
 /*
  *   Open input/output files
@@ -129,7 +131,7 @@ main_method(int argc, char *argv[])
  */
 #if defined(MERGE_INCLUDE_FILES) 
 	this->set_cookie((std::ifstream *) db_cookie);
-	errors = read_database(istream_getc, db_cookie);
+	errors = read_database(PHRQ_io::istream_getc, db_cookie);
 	this->clear_cookie();
 #else
 	errors = read_database(getc_callback, db_cookie);
@@ -145,7 +147,7 @@ main_method(int argc, char *argv[])
  */
 #if defined(MERGE_INCLUDE_FILES) 
 	this->set_cookie((std::ifstream *)input_cookie);
-	errors = run_simulations(istream_getc, input_cookie);
+	errors = run_simulations(PHRQ_io::istream_getc, input_cookie);
 	this->clear_cookie();
 #else
 	errors = run_simulations(getc_callback, input_cookie);

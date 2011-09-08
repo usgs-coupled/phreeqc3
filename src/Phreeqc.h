@@ -24,6 +24,7 @@
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
+#include "PHRQ_io.h"
 class cxxNameDouble;
 #define STATIC
 #define EXTERNAL
@@ -527,12 +528,12 @@ char *prefix_database_dir(char *s);
 void show_progress(const int type, char *s);
 #endif
 public:
-int fileop_handler(const int type, int (*PFN) (FILE *));
-int open_handler(const int type, const char *file_name);
-int output_handler(const int type, const char *err_str,
-						  const int stop, void *cookie, const char *format,
-						  va_list args);
-static int rewind_wrapper(FILE * file_ptr);
+//int fileop_handler(const int type, int (*PFN) (FILE *));
+//int open_handler(const int type, const char *file_name);
+//int output_handler(const int type, const char *err_str,
+//						  const int stop, void *cookie, const char *format,
+//						  va_list args);
+//static int rewind_wrapper(FILE * file_ptr);
 void PASCAL_MAIN(int argc, Char **argv);
 long my_labs(long x);
 Anyptr my_memmove(Anyptr d, Const Anyptr s, size_t n);
@@ -1403,6 +1404,7 @@ protected:
 	std::list <std::istream *> cookie_list;
 	std::ifstream * in_stream;
 	std::ifstream * db_stream;
+	PHRQ_io phrq_io;
 };
 #endif /* _INC_PHREEQC_H */
 
