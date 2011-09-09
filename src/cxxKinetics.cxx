@@ -20,17 +20,19 @@
 
 #include "phqalloc.h"
 #include "phrqproto.h"
+#include "PHRQ_io.h"
 
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxKinetics::cxxKinetics()
+cxxKinetics::cxxKinetics(PHRQ_io *io)
 	//
 	// default constructor for cxxKinetics 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(),
+	PHRQ_base(io)
 {
 	step_divide = 1.0;
 	rk = 3;
@@ -42,12 +44,13 @@ cxxKinetics::cxxKinetics()
 	equal_steps = 0;
 }
 
-cxxKinetics::cxxKinetics(struct kinetics *kinetics_ptr)
+cxxKinetics::cxxKinetics(struct kinetics *kinetics_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxKinetics from struct kinetics
 		//
 	:
 cxxNumKeyword(),
+PHRQ_base(io),
 totals(kinetics_ptr->totals)
 {
 	int i;
@@ -85,8 +88,9 @@ totals(kinetics_ptr->totals)
 	}
 }
 cxxKinetics::cxxKinetics(const std::map < int, cxxKinetics > &entities,
-						 cxxMix & mix, int l_n_user):
-cxxNumKeyword()
+						 cxxMix & mix, int l_n_user, PHRQ_io *io):
+cxxNumKeyword(),
+PHRQ_base(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	step_divide = 1.0;

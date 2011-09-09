@@ -8,17 +8,18 @@
 #include "NumKeyword.h"
 #include "ExchComp.h"
 #include "NameDouble.h"
+#include "PHRQ_base.h"
 class cxxMix;
 
-class cxxExchange:public cxxNumKeyword
+class cxxExchange:public cxxNumKeyword, PHRQ_base
 {
 
 public:
-	cxxExchange();
-	cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user);
-	cxxExchange(struct exchange *);
+	cxxExchange(PHRQ_io *io=NULL);
+	cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io);
+	cxxExchange(struct exchange *, PHRQ_io *io);
 	cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &exchange_map,
-		cxxMix & mx, int n_user);
+		cxxMix & mx, int n_user, PHRQ_io *io);
 	~cxxExchange();
 
 	struct exchange *cxxExchange2exchange(PHREEQC_PTR_ARG);

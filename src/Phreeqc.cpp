@@ -478,7 +478,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// exchangers
 	for (i = 0; i < count_exchange; i++)
 	{
-		cxxExchange entity(&exchange[i]);
+		cxxExchange entity(&exchange[i], &this->phrq_io);
 		entity.totalize();
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -511,7 +511,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	for (i = 0; i < count_kinetics; i++)
 	{
 		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
-		cxxKinetics entity(&kinetics[i]);
+		cxxKinetics entity(&kinetics[i], &this->phrq_io);
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
 

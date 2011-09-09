@@ -25,21 +25,23 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxExchange::cxxExchange()
+cxxExchange::cxxExchange(PHRQ_io *io)
 	//
 	// default constructor for cxxExchange
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(),
+PHRQ_base(io)
 {
 	pitzer_exchange_gammas = true;
 }
 
-cxxExchange::cxxExchange(struct exchange * exchange_ptr)
+cxxExchange::cxxExchange(struct exchange * exchange_ptr, PHRQ_io *io)
 	//
 	// constructor for cxxExchange from struct exchange
 	//
 :
-cxxNumKeyword()
+cxxNumKeyword(),
+PHRQ_base(io)
 {
 	int i;
 
@@ -59,8 +61,9 @@ cxxNumKeyword()
 
 }
 cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &entities,
-						 cxxMix & mix, int l_n_user):
-cxxNumKeyword()
+						 cxxMix & mix, int l_n_user, PHRQ_io *io):
+cxxNumKeyword(),
+PHRQ_base(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	this->pitzer_exchange_gammas = true;
@@ -92,7 +95,7 @@ cxxNumKeyword()
 	}
 }
 
-cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int l_n_user)
+cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int l_n_user, PHRQ_io *io)
 	//
 	// constructor for cxxExchange from reaction calculation
 	// equivalent of xexchange_save
@@ -100,7 +103,8 @@ cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int l_n_user)
 	//        bool pitzer_exchange_gammas;
 	//        cxxNameDouble totals;
 :
-cxxNumKeyword()
+cxxNumKeyword(),
+PHRQ_base(io)
 {
 	int i;
 
