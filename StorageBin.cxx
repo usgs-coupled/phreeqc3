@@ -128,7 +128,7 @@ PHRQ_base(io)
 		struct mix *struct_entity = P_INSTANCE_POINTER mix_bsearch(use_ptr->n_mix_user, &n);
 		if (struct_entity != NULL)
 		{
-			cxxMix entity(struct_entity);
+			cxxMix entity(struct_entity, this->Get_io());
 			this->setMix(use_ptr->n_mix_user, &entity);
 
 			std::map<int, double> c = *(this->getMix(use_ptr->n_mix_user)->comps());
@@ -167,7 +167,7 @@ PHRQ_base(io)
 		struct exchange *struct_entity = P_INSTANCE_POINTER exchange_bsearch(use_ptr->n_exchange_user, &n);
 		if (struct_entity != NULL)
 		{
-			cxxExchange entity(struct_entity);
+			cxxExchange entity(struct_entity, this->Get_io());
 			this->setExchange(use_ptr->n_exchange_user, &entity);
 		}
 	}
@@ -203,7 +203,7 @@ PHRQ_base(io)
 		struct kinetics *struct_entity = P_INSTANCE_POINTER kinetics_bsearch(use_ptr->n_kinetics_user, &n);
 		if (struct_entity != NULL)
 		{
-			cxxKinetics entity(struct_entity);
+			cxxKinetics entity(struct_entity, this->Get_io());
 			this->setKinetics(use_ptr->n_kinetics_user, &entity);
 		}
 	}
@@ -517,7 +517,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	// Exchangers
 	for (i = 0; i < P_INSTANCE_POINTER count_exchange; i++)
 	{
-		Exchangers[P_INSTANCE_POINTER exchange[i].n_user] = cxxExchange(&P_INSTANCE_POINTER exchange[i]);
+		Exchangers[P_INSTANCE_POINTER exchange[i].n_user] = cxxExchange(&P_INSTANCE_POINTER exchange[i], this->Get_io());
 	}
 
 	// GasPhases
@@ -529,7 +529,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	// Kinetics
 	for (i = 0; i < P_INSTANCE_POINTER count_kinetics; i++)
 	{
-		Kinetics[P_INSTANCE_POINTER kinetics[i].n_user] = cxxKinetics(&P_INSTANCE_POINTER kinetics[i]);
+		Kinetics[P_INSTANCE_POINTER kinetics[i].n_user] = cxxKinetics(&P_INSTANCE_POINTER kinetics[i], this->Get_io());
 	}
 
 	// PPassemblages
@@ -555,7 +555,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	// Mixes
 	for (i = 0; i < P_INSTANCE_POINTER count_mix; i++)
 	{
-		Mixes[P_INSTANCE_POINTER mix[i].n_user] = cxxMix(&P_INSTANCE_POINTER mix[i]);
+		Mixes[P_INSTANCE_POINTER mix[i].n_user] = cxxMix(&P_INSTANCE_POINTER mix[i], this->Get_io());
 	}
 
 	// Reactions
@@ -740,7 +740,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 		case CParser::KT_EXCHANGE_RAW:
 			{
-				cxxExchange entity;
+				cxxExchange entity(this->Get_io());
 				entity.read_raw(P_INSTANCE_COMMA parser);
 				Exchangers[entity.get_n_user()] = entity;
 			}
@@ -756,7 +756,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 		case CParser::KT_KINETICS_RAW:
 			{
-				cxxKinetics entity;
+				cxxKinetics entity(this->Get_io());
 				entity.read_raw(P_INSTANCE_COMMA parser);
 				Kinetics[entity.get_n_user()] = entity;
 			}
@@ -852,7 +852,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 	case CParser::KT_EXCHANGE_RAW:
 		{
-			cxxExchange entity;
+			cxxExchange entity(this->Get_io());
 			entity.read_raw(P_INSTANCE_COMMA parser);
 			Exchangers[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
@@ -870,7 +870,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 	case CParser::KT_KINETICS_RAW:
 		{
-			cxxKinetics entity;
+			cxxKinetics entity(this->Get_io());
 			entity.read_raw(P_INSTANCE_COMMA parser);
 			Kinetics[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
@@ -946,7 +946,7 @@ cxxStorageBin::add(struct system *system_ptr)
 	if (system_ptr->exchange != NULL)
 	{
 		this->Exchangers[system_ptr->exchange->n_user] =
-			cxxExchange(system_ptr->exchange);
+			cxxExchange(system_ptr->exchange, this->Get_io());
 	}
 
 	// GasPhases
@@ -960,7 +960,7 @@ cxxStorageBin::add(struct system *system_ptr)
 	if (system_ptr->kinetics != NULL)
 	{
 		this->Kinetics[system_ptr->kinetics->n_user] =
-			cxxKinetics(system_ptr->kinetics);
+			cxxKinetics(system_ptr->kinetics, this->Get_io());
 	}
 
 	// PPassemblages
@@ -1118,7 +1118,7 @@ cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 	{
 		if (P_INSTANCE_POINTER exchange_bsearch(n, &pos) != NULL)
 		{
-			this->Exchangers[n] = cxxExchange(&(P_INSTANCE_POINTER exchange[pos]));
+			this->Exchangers[n] = cxxExchange(&(P_INSTANCE_POINTER exchange[pos]), this->Get_io());
 		}
 	}
 
@@ -1134,7 +1134,7 @@ cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 	{
 		if (P_INSTANCE_POINTER kinetics_bsearch(n, &pos) != NULL)
 		{
-			this->Kinetics[n] = cxxKinetics(&(P_INSTANCE_POINTER kinetics[pos]));
+			this->Kinetics[n] = cxxKinetics(&(P_INSTANCE_POINTER kinetics[pos]), this->Get_io());
 		}
 	}
 

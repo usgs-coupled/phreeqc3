@@ -9,16 +9,17 @@
 
 #include "NumKeyword.h"
 #include "KineticsComp.h"
+#include "PHRQ_base.h"
 class cxxMix;
 
-class cxxKinetics:public cxxNumKeyword
+class cxxKinetics:public cxxNumKeyword, PHRQ_base
 {
 
   public:
-	cxxKinetics();
-	cxxKinetics(struct kinetics *);
+	cxxKinetics(PHRQ_io *io = NULL);
+	cxxKinetics(struct kinetics *, PHRQ_io *io);
 	cxxKinetics(const std::map < int, cxxKinetics > &entity_map, cxxMix & mx,
-				int n_user);
+				int n_user, PHRQ_io *io);
 	 ~cxxKinetics();
 
 	struct kinetics *cxxKinetics2kinetics(PHREEQC_PTR_ARG);
