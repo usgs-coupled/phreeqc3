@@ -32,11 +32,12 @@
 //////////////////////////////////////////////////////////////////////
 
 
-cxxSolution::cxxSolution()
+cxxSolution::cxxSolution(PHRQ_io * io)
 	//
 	// default constructor for cxxSolution 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(),
+	PHRQ_base(io)
 {
 	this->tc = 25.0;
 	this->ph = 7.0;
@@ -53,12 +54,13 @@ cxxSolution::cxxSolution()
 	this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
 }
 
-cxxSolution::cxxSolution(struct solution * solution_ptr)
+cxxSolution::cxxSolution(struct solution * solution_ptr, PHRQ_io * io)
 	//
 	// constructor for cxxSolution from struct solution
 	//
 :
 cxxNumKeyword(),
+PHRQ_base(io),
 totals(solution_ptr->totals),
 master_activity(solution_ptr->master_activity,
 				solution_ptr->count_master_activity,
@@ -96,12 +98,13 @@ species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma,
 
 
 cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solutions,
-						 cxxMix & mix, int l_n_user)
+						 cxxMix & mix, int l_n_user, PHRQ_io * io)
 //
 // constructor for cxxSolution from mixture of solutions
 //
 	:
-cxxNumKeyword()
+cxxNumKeyword(),
+PHRQ_base(io)
 {
 
 //
@@ -133,13 +136,14 @@ cxxNumKeyword()
 	}
 }
 
-cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA int l_n_user)
+cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA int l_n_user, PHRQ_io * io)
 		//
 		// constructor for cxxSolution from results of calculation
 		// does not work in phast because phast uses only the total molalities
 		// of elements in buffer, not individual redox states.
 	:
-cxxNumKeyword()
+cxxNumKeyword(),
+PHRQ_base(io)
 {
 
 	//this->set_description none;

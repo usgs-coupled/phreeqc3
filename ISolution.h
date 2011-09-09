@@ -19,8 +19,8 @@ class cxxISolution:public cxxSolution
 {
 
   public:
-	cxxISolution();
-	cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *);
+	cxxISolution(PHRQ_io *io);
+	cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *, PHRQ_io *io);
 	//cxxISolution(const cxxISolution&);
 	 ~cxxISolution();
 

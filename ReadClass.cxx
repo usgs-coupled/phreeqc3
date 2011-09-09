@@ -110,7 +110,7 @@ read_solution_raw(void)
 	parser.get_option(vopts, next_char);
 
 
-	cxxSolution sol;
+	cxxSolution sol(&this->phrq_io);
 	sol.read_raw(PHREEQC_THIS_COMMA parser);
 	struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
 	int n;
@@ -1319,14 +1319,14 @@ read_solution_modify(void)
 		return (ERROR);
 	}
 
-	cxxSolution sol(solution[n]);
+	cxxSolution sol(solution[n], &this->phrq_io);
 
 	// Clear activities so we can know what was read
 	sol.clear_master_activity();
 
 	sol.read_raw(PHREEQC_THIS_COMMA parser, false);
 
-	cxxSolution orig(solution[n]);
+	cxxSolution orig(solution[n], &this->phrq_io );
 
 	sol.modify_activities(PHREEQC_THIS_COMMA orig);
 
@@ -2680,7 +2680,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_solution; i++)
 			{
-					cxxSolution cxxsoln(solution[i]);
+					cxxSolution cxxsoln(solution[i], &this->phrq_io);
 					cxxsoln.dump_raw(os,0);
 			}
 		}
@@ -2691,7 +2691,7 @@ dump_ostream(std::ostream& os)
 			{
 				if (solution_bsearch(*it, &n, FALSE) != NULL)
 				{
-					cxxSolution cxxsoln(solution[n]);
+					cxxSolution cxxsoln(solution[n], &this->phrq_io);
 					cxxsoln.dump_raw(os,0);
 				}
 			}

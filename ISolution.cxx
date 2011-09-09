@@ -30,7 +30,9 @@ extern void ORCH_write_chemistry_species(std::ostream & chemistry_dat);
 //static std::map<int, cxxISolution> ss_map;
 //std::map<int, cxxISolution>& cxxISolution::s_map = ss_map;
 
-cxxISolution::cxxISolution():
+cxxISolution::cxxISolution(PHRQ_io *io)
+:
+cxxSolution(io),
 units("mMol/kgw")
 {
 	density = 1.0;
@@ -38,8 +40,9 @@ units("mMol/kgw")
 	pes = NULL;
 }
 
-cxxISolution::cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *solution_ptr):
-cxxSolution(solution_ptr)
+cxxISolution::cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *solution_ptr, PHRQ_io *io)
+:
+cxxSolution(solution_ptr, io)
 		//, pe(cxxPe_Data::alloc())
 {
 	density = solution_ptr->density;
