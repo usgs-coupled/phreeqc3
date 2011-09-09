@@ -7,6 +7,8 @@
 #include <vector>				// std::vector
 
 #include "System.h"
+#include "PHRQ_io.h"
+#include "PHRQ_base.h"
 class cxxSolution;
 class cxxExchange;
 class cxxGasPhase;
@@ -17,13 +19,13 @@ class cxxSurface;
 class cxxReaction;
 class cxxTemperature;
 
-class cxxStorageBin
+class cxxStorageBin: public PHRQ_base
 {
 
   public:
-	cxxStorageBin();
+	cxxStorageBin(PHRQ_io *io);
 	//cxxStorageBin(struct Use *use_ptr);
-	cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr);
+	cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io *io);
 	 ~cxxStorageBin();
 
 	void import_phreeqc(PHREEQC_PTR_ARG);

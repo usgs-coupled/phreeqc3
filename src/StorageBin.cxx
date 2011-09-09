@@ -41,7 +41,9 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-cxxStorageBin::cxxStorageBin()
+cxxStorageBin::cxxStorageBin(PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	// default constructor for cxxStorageBin 
 }
@@ -114,7 +116,9 @@ cxxStorageBin::cxxStorageBin(struct Use *use_ptr)
 	this->setSystem(use_ptr);
 }
 #endif
-cxxStorageBin::cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr)
+cxxStorageBin::cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io * io)
+:
+PHRQ_base(io)
 {
 	//Construct from use pointer
 
@@ -134,7 +138,7 @@ cxxStorageBin::cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr)
 				struct solution *struct_entity1 = P_INSTANCE_POINTER solution_bsearch(it->first, &n, FALSE);
 				if (struct_entity1 != NULL)
 				{
-					cxxSolution entity1(struct_entity1);
+					cxxSolution entity1(struct_entity1, this->Get_io());
 					this->setSolution(it->first, &entity1);
 				}
 			}
@@ -145,7 +149,7 @@ cxxStorageBin::cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr)
 		struct solution *struct_entity = P_INSTANCE_POINTER solution_bsearch(use_ptr->n_solution_user, &n, FALSE);
 		if (struct_entity != NULL)
 		{
-			cxxSolution entity(struct_entity);
+			cxxSolution entity(struct_entity, this->Get_io());
 			this->setSolution(use_ptr->n_solution_user, &entity);
 		}
 	}
@@ -507,7 +511,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	// Solutions
 	for (i = 0; i < P_INSTANCE_POINTER count_solution; i++)
 	{
-		Solutions[P_INSTANCE_POINTER solution[i]->n_user] = cxxSolution(P_INSTANCE_POINTER solution[i]);
+		Solutions[P_INSTANCE_POINTER solution[i]->n_user] = cxxSolution(P_INSTANCE_POINTER solution[i], this->Get_io());
 	}
 
 	// Exchangers
@@ -728,7 +732,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 			 */
 		case CParser::KT_SOLUTION_RAW:
 			{
-				cxxSolution entity;
+				cxxSolution entity(this->Get_io());
 				entity.read_raw(P_INSTANCE_COMMA parser);
 				Solutions[entity.get_n_user()] = entity;
 			}
@@ -839,7 +843,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		 */
 	case CParser::KT_SOLUTION_RAW:
 		{
-			cxxSolution entity;
+			cxxSolution entity(this->Get_io());
 			entity.read_raw(P_INSTANCE_COMMA parser);
 			Solutions[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
@@ -935,7 +939,7 @@ cxxStorageBin::add(struct system *system_ptr)
 	if (system_ptr->solution != NULL)
 	{
 		this->Solutions[system_ptr->solution->n_user] =
-			cxxSolution(system_ptr->solution);
+			cxxSolution(system_ptr->solution, this->Get_io());
 	}
 
 	// Exchangers
@@ -1107,7 +1111,7 @@ cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 	// Solutions
 	{
 		P_INSTANCE_POINTER solution_bsearch(n, &pos, TRUE);
-		this->Solutions[n] = cxxSolution(P_INSTANCE_POINTER solution[pos]);
+		this->Solutions[n] = cxxSolution(P_INSTANCE_POINTER solution[pos], this->Get_io());
 	}
 
 	// Exchangers

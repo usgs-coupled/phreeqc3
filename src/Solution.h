@@ -6,22 +6,23 @@
 #include <string>				// std::string
 #include <vector>				// std::vector
 #include <iostream>
-#include "Phreeqc_class.h"
 #include "NumKeyword.h"
 #include "SolutionIsotopeList.h"
 #include "NameDouble.h"
+#include "PHRQ_base.h"
+#include "PHRQ_io.h"
 class cxxMix;
 
-class cxxSolution:public cxxNumKeyword
+class cxxSolution:public cxxNumKeyword, public PHRQ_base
 {
 
   public:
-	cxxSolution();
-	cxxSolution(struct solution *);
-	  cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user);
-	  cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solution_map,
-				  cxxMix & mx, int n_user);
-	 ~cxxSolution();
+	cxxSolution(PHRQ_io *io=NULL);
+	cxxSolution(struct solution *, PHRQ_io *io);
+	cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io);
+	cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solution_map,
+				  cxxMix & mx, int n_user, PHRQ_io *io);
+	~cxxSolution();
 
 	//static cxxSolution& read(CParser& parser);
 

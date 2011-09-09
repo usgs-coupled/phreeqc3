@@ -48,7 +48,7 @@ typedef enum
 						  const bool stop, const char *format,
 						  va_list args);
 	static int rewind_wrapper(FILE * file_ptr);	
-	
+	static void safe_close(FILE * file_ptr);	
 	int close_input_files(void);
 	int close_output_files(void);
 	static int istream_getc(void *cookie);
@@ -97,6 +97,46 @@ typedef enum
 			fclose(input_file);
 		}
 	}
+	void Set_output_file_on(bool tf)
+	{
+		this->output_file_on = tf;
+	}
+	void Set_log_file_on(bool tf)
+	{
+		this->log_file_on = tf;
+	}
+	void Set_punch_file_on(bool tf)
+	{
+		this->punch_file_on = tf;
+	}
+	void Set_error_file_on(bool tf)
+	{
+		this->error_file_on = tf;
+	}
+	void Set_dump_file_on(bool tf)
+	{
+		this->dump_file_on = tf;
+	}
+	bool Get_output_file_on(void)
+	{
+		return this->output_file_on;
+	}
+	bool Get_log_file_on(void)
+	{
+		return this->log_file_on;
+	}
+	bool Get_punch_file_on(void)
+	{
+		return this->punch_file_on;
+	}
+	bool Get_error_file_on(void)
+	{
+		return this->error_file_on;
+	}
+	bool Get_dump_file_on(void)
+	{
+		return this->dump_file_on;
+	}
 	// data
 private:
 	FILE *input_file;
@@ -107,6 +147,12 @@ private:
 	FILE *error_file;	/* OUTPUT_ERROR */
 	FILE *dump_file;	/* OUTPUT_DUMP */
 	int error_count;
+
+	bool output_file_on;
+	bool log_file_on;
+	bool punch_file_on;
+	bool error_file_on;
+	bool dump_file_on;
 };
 
 #endif /* _PHRQIO_H */
