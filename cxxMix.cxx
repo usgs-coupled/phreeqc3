@@ -24,20 +24,22 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxMix::cxxMix()
+cxxMix::cxxMix(PHRQ_io *io)
 	//
 	// default constructor for cxxMix 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(),
+	PHRQ_base(io)
 {
 }
 
-cxxMix::cxxMix(struct mix *mix_ptr)
+cxxMix::cxxMix(struct mix *mix_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxMix from struct mix
 		//
 	:
-cxxNumKeyword()
+cxxNumKeyword(),
+PHRQ_base(io)
 {
 	int i;
 

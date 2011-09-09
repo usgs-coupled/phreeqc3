@@ -8,13 +8,14 @@
 #include <vector>				// std::vector
 #include "Phreeqc_class.h"
 #include "NumKeyword.h"
+#include "PHRQ_base.h"
 
-class cxxMix:public cxxNumKeyword
+class cxxMix:public cxxNumKeyword, PHRQ_base
 {
 
   public:
-	cxxMix();
-	cxxMix(struct mix *);
+	cxxMix(PHRQ_io *io=NULL);
+	cxxMix(struct mix *, PHRQ_io *io);
 	 ~cxxMix();
 
 	struct mix *cxxMix2mix(PHREEQC_PTR_ARG);

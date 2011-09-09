@@ -202,7 +202,7 @@ read_exchange_raw(void)
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
-	cxxExchange ex;
+	cxxExchange ex(&this->phrq_io);
 	ex.read_raw(PHREEQC_THIS_COMMA parser);
 	struct exchange *exchange_ptr = ex.cxxExchange2exchange(PHREEQC_THIS);
 	int n;
@@ -487,7 +487,7 @@ read_kinetics_raw(void)
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
-	cxxKinetics ex;
+	cxxKinetics ex(&this->phrq_io);
 	ex.read_raw(PHREEQC_THIS_COMMA parser);
 	struct kinetics *kinetics_ptr = ex.cxxKinetics2kinetics(PHREEQC_THIS);
 	int n;
@@ -868,7 +868,7 @@ read_mix_raw(void)
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
-	cxxMix ex;
+	cxxMix ex(&this->phrq_io);
 	ex.read_raw(parser);
 	struct mix *mix_ptr = ex.cxxMix2mix(PHREEQC_THIS);
 	int n;
@@ -1510,7 +1510,7 @@ read_exchange_modify(void)
 	}
 
 	// read entity
-	cxxExchange entity(&(exchange[n]));
+	cxxExchange entity(&(exchange[n]), &this->phrq_io);
 	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
@@ -1883,7 +1883,7 @@ read_kinetics_modify(void)
 	}
 
 	// read entity
-	cxxKinetics entity(&(kinetics[n]));
+	cxxKinetics entity(&(kinetics[n]), &this->phrq_io);
 	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
@@ -2731,7 +2731,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_exchange; i++)
 			{
-					cxxExchange cxxentity(&exchange[i]);
+					cxxExchange cxxentity(&exchange[i], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -2743,7 +2743,7 @@ dump_ostream(std::ostream& os)
 
 				if (exchange_bsearch(*it, &n) != NULL)
 				{
-					cxxExchange cxxentity(&exchange[n]);
+					cxxExchange cxxentity(&exchange[n], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 				}
 			}
@@ -2835,7 +2835,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_kinetics; i++)
 			{
-					cxxKinetics cxxentity(&kinetics[i]);
+					cxxKinetics cxxentity(&kinetics[i], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -2847,7 +2847,7 @@ dump_ostream(std::ostream& os)
 
 				if (kinetics_bsearch(*it, &n) != NULL)
 				{
-					cxxKinetics cxxentity(&kinetics[n]);
+					cxxKinetics cxxentity(&kinetics[n], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 				}
 			}
@@ -2861,7 +2861,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_mix; i++)
 			{
-					cxxMix cxxentity(&mix[i]);
+					cxxMix cxxentity(&mix[i], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -2873,7 +2873,7 @@ dump_ostream(std::ostream& os)
 
 				if (mix_bsearch(*it, &n) != NULL)
 				{
-					cxxMix cxxentity(&mix[n]);
+					cxxMix cxxentity(&mix[n], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 				}
 			}
