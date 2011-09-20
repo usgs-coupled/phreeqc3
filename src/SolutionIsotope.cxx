@@ -15,7 +15,9 @@
 #include "phqalloc.h"
 #include "phrqproto.h"
 
-cxxSolutionIsotope::cxxSolutionIsotope(void):
+cxxSolutionIsotope::cxxSolutionIsotope(PHRQ_io *io)
+:
+PHRQ_base(io),
 isotope_number(0.0)
 {
 	isotope_number = 0;
@@ -27,7 +29,9 @@ isotope_number(0.0)
 	ratio_uncertainty_defined = false;
 }
 
-cxxSolutionIsotope::cxxSolutionIsotope(struct isotope *isotope_ptr)
+cxxSolutionIsotope::cxxSolutionIsotope(struct isotope *isotope_ptr, PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	isotope_number = isotope_ptr->isotope_number;
 	this->set_elt_name(isotope_ptr->elt_name);

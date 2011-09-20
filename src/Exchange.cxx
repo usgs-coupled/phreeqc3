@@ -29,8 +29,7 @@ cxxExchange::cxxExchange(PHRQ_io *io)
 	//
 	// default constructor for cxxExchange
 	//
-:	cxxNumKeyword(),
-PHRQ_base(io)
+:	cxxNumKeyword(io)
 {
 	pitzer_exchange_gammas = true;
 }
@@ -40,8 +39,7 @@ cxxExchange::cxxExchange(struct exchange * exchange_ptr, PHRQ_io *io)
 	// constructor for cxxExchange from struct exchange
 	//
 :
-cxxNumKeyword(),
-PHRQ_base(io)
+cxxNumKeyword(io)
 {
 	int i;
 
@@ -51,7 +49,7 @@ PHRQ_base(io)
 	pitzer_exchange_gammas = (exchange_ptr->pitzer_exchange_gammas == TRUE);
 	for (i = 0; i < exchange_ptr->count_comps; i++)
 	{
-		cxxExchComp ec(&(exchange_ptr->comps[i]));
+		cxxExchComp ec(&(exchange_ptr->comps[i]), this->Get_io());
 		std::string str(ec.get_formula());
 		exchComps[str] = ec;
 	}
@@ -62,8 +60,7 @@ PHRQ_base(io)
 }
 cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &entities,
 						 cxxMix & mix, int l_n_user, PHRQ_io *io):
-cxxNumKeyword(),
-PHRQ_base(io)
+cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	this->pitzer_exchange_gammas = true;
@@ -103,8 +100,7 @@ cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int l_n_user, PHRQ_io *io)
 	//        bool pitzer_exchange_gammas;
 	//        cxxNameDouble totals;
 :
-cxxNumKeyword(),
-PHRQ_base(io)
+cxxNumKeyword(io)
 {
 	int i;
 
@@ -118,7 +114,7 @@ PHRQ_base(io)
 	{
 		if (P_INSTANCE_POINTER x[i]->type == EXCH)
 		{
-			cxxExchComp ec;
+			cxxExchComp ec(this->Get_io());
 			//char * formula;
 			ec.set_formula(P_INSTANCE_POINTER x[i]->exch_comp->formula);
 			//double moles;
@@ -363,7 +359,7 @@ cxxExchange::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 		case 1:				// component
 			{
-				cxxExchComp ec;
+				cxxExchComp ec(this->Get_io());
 
 				// preliminary read
 #ifdef SKIP
@@ -396,7 +392,7 @@ cxxExchange::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is);
+				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
@@ -406,7 +402,7 @@ cxxExchange::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 				else
 				{
-					cxxExchComp ec1;
+					cxxExchComp ec1(this->Get_io());
 					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_formula());
 					this->exchComps[str] = ec1;

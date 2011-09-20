@@ -470,7 +470,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// pure phases
 	for (i = 0; i < count_pp_assemblage; i++)
 	{
-		cxxPPassemblage entity(&pp_assemblage[i]);
+		cxxPPassemblage entity(&pp_assemblage[i], &this->phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -486,7 +486,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// surfaces
 	for (i = 0; i < count_surface; i++)
 	{
-		cxxSurface entity(&surface[i]);
+		cxxSurface entity(&surface[i], &this->phrq_io);
 		entity.totalize();
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -494,7 +494,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// gas phases
 	for (i = 0; i < count_gas_phase; i++)
 	{
-		cxxGasPhase entity(&gas_phase[i]);
+		cxxGasPhase entity(&gas_phase[i], &this->phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -1184,6 +1184,9 @@ void Phreeqc::init(void)
 	gas_in = FALSE;
 
 	count_strings = 0;
+
+	chart_handler.Set_io(&this->phrq_io);
+	run_info.Set_io(&this->phrq_io);
 
 	this->clear_cookie();
 

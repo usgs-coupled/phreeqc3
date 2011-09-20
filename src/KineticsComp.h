@@ -9,12 +9,12 @@
 
 #include "NameDouble.h"
 
-class cxxKineticsComp
+class cxxKineticsComp: public PHRQ_base
 {
 
 public:
-	cxxKineticsComp();
-	cxxKineticsComp(struct kinetics_comp *);
+	cxxKineticsComp(PHRQ_io *io=NULL);
+	cxxKineticsComp(struct kinetics_comp *, PHRQ_io *io=NULL);
 	~cxxKineticsComp();
 
 	static struct kinetics_comp *cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::list < cxxKineticsComp > &el);

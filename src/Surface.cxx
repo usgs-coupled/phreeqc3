@@ -23,11 +23,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxSurface::cxxSurface()
+cxxSurface::cxxSurface(PHRQ_io *io)
 	//
 	// default constructor for cxxSurface 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(io)
 {
 	type = DDL;
 	dl_type = NO_DL;
@@ -43,12 +43,12 @@ cxxSurface::cxxSurface()
 	transport = false;
 }
 
-cxxSurface::cxxSurface(struct surface *surface_ptr)
+cxxSurface::cxxSurface(struct surface *surface_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxSurface from struct surface
 		//
 	:
-cxxNumKeyword()
+cxxNumKeyword(io)
 {
 	int i;
 
@@ -70,21 +70,21 @@ cxxNumKeyword()
 	// Surface components
 	for (i = 0; i < surface_ptr->count_comps; i++)
 	{
-		cxxSurfaceComp ec(&(surface_ptr->comps[i]));
+		cxxSurfaceComp ec(&(surface_ptr->comps[i]), this->Get_io());
 		std::string str(ec.get_formula());
 		surfaceComps[str] = ec;
 	}
 	// Surface charge
 	for (i = 0; i < surface_ptr->count_charge; i++)
 	{
-		cxxSurfaceCharge ec(&(surface_ptr->charge[i]));
+		cxxSurfaceCharge ec(&(surface_ptr->charge[i]), this->Get_io());
 		std::string str(ec.get_name());
 		surfaceCharges[str] = ec;
 	}
 }
 cxxSurface::cxxSurface(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSurface > &entities,
-					   cxxMix & mix, int l_n_user):
-cxxNumKeyword()
+					   cxxMix & mix, int l_n_user, PHRQ_io *io):
+cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	type = DDL;
@@ -510,7 +510,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 
 		case 5:				// component
 			{
-				cxxSurfaceComp ec;
+				cxxSurfaceComp ec(this->Get_io());
 
 				// preliminary read
 #ifdef SKIP
@@ -542,7 +542,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is);
+				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceComps.find(ec.get_formula()) != this->surfaceComps.end())
@@ -552,7 +552,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 				else
 				{
-					cxxSurfaceComp ec1;
+					cxxSurfaceComp ec1(this->Get_io());
 					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_formula());
 					this->surfaceComps[str] = ec1;
@@ -563,7 +563,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 
 		case 6:				// charge_component
 			{
-				cxxSurfaceCharge ec;
+				cxxSurfaceCharge ec(this->Get_io());
 
 				// preliminary read
 #ifdef SKIP
@@ -595,7 +595,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is);
+				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceCharges.find(ec.get_name()) != this->surfaceCharges.end())
@@ -605,7 +605,7 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 				else
 				{
-					cxxSurfaceCharge ec1;
+					cxxSurfaceCharge ec1(this->Get_io());
 					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_name());
 					this->surfaceCharges[str] = ec1;

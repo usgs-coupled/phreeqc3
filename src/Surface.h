@@ -16,10 +16,10 @@ class cxxSurface:public cxxNumKeyword
 {
 
   public:
-	cxxSurface();
-	cxxSurface(struct surface *);
+	cxxSurface(PHRQ_io *io=NULL);
+	cxxSurface(struct surface *, PHRQ_io *io=NULL);
 	  cxxSurface(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSurface > &entity_map, cxxMix & mx,
-				 int n_user);
+				 int n_user, PHRQ_io *io=NULL);
 	 ~cxxSurface();
 
 	//enum SURFACE_STYPE { UNKNOWN_DL, NO_EDL, DDL, CD_MUSIC };

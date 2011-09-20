@@ -11,6 +11,7 @@
 //#include "Reaction.h"
 //#include "Temperature.h"
 #include "NameDouble.h"
+#include "PHRQ_base.h"
 class cxxSolution;
 class cxxExchange;
 class cxxGasPhase;
@@ -22,10 +23,10 @@ class cxxReaction;
 class cxxTemperature;
 class cxxMix;
 
-class cxxSystem 
+class cxxSystem: public PHRQ_base 
 {
 public:
-	cxxSystem(void);
+	cxxSystem(PHRQ_io *io=NULL);
 	~cxxSystem(void);
 	void Initialize(void);
 	void setSolution(cxxSolution * entity)

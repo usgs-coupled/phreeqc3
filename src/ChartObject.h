@@ -20,8 +20,8 @@ class ChartObject:public cxxNumKeyword
 {
 
   public:
-	ChartObject();
-	ChartObject(int i);
+	ChartObject(PHRQ_io *io=NULL);
+	ChartObject(int i, PHRQ_io *io=NULL);
 	~ChartObject();
 
 	// new_ug

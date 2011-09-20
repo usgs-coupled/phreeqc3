@@ -1,14 +1,18 @@
 #include "runner.h"
 #include "Parser.h"
 #include "NA.h"
-runner::runner(void)
+runner::runner(PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	this->time_step = NA;
 	this->start_time = NA;
 	this->run_cells = false;
 
 }
-runner::runner(CParser & parser)
+runner::runner(CParser & parser, PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	this->time_step = NA;
 	this->start_time = NA;

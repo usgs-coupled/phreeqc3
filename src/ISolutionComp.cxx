@@ -15,14 +15,21 @@
 #include "phqalloc.h"
 #include "output.h"
 
-cxxISolutionComp::cxxISolutionComp(void):description(NULL), moles(0.0), input_conc(0.0), units(NULL),
-equation_name(NULL), phase_si(0.0), n_pe(-1), as(NULL),
+cxxISolutionComp::cxxISolutionComp(PHRQ_io *io):
+PHRQ_base(io),
+description(NULL), 
+moles(0.0), 
+input_conc(0.0), 
+units(NULL),
+equation_name(NULL), 
+phase_si(0.0), 
+n_pe(-1), 
+as(NULL),
 gfw(0.0)
-	//, skip(0);
-	//, phase(NULL)
 {
 }
-cxxISolutionComp::cxxISolutionComp(struct conc *conc_ptr)
+cxxISolutionComp::cxxISolutionComp(struct conc *conc_ptr, PHRQ_io *io)
+: PHRQ_base(io)
 {
 	this->set_description(conc_ptr->description);
 	moles = conc_ptr->moles;

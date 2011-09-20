@@ -24,22 +24,22 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxTemperature::cxxTemperature()
+cxxTemperature::cxxTemperature(PHRQ_io *io)
 	//
 	// default constructor for cxxTemperature 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(io)
 {
 	countTemps = 0;
 	equalIncrements = false;
 }
 
-cxxTemperature::cxxTemperature(struct temperature *temperature_ptr)
+cxxTemperature::cxxTemperature(struct temperature *temperature_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxTemperature from struct temperature
 		//
 	:
-cxxNumKeyword()
+cxxNumKeyword(io)
 {
 	int i;
 

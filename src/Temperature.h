@@ -14,9 +14,9 @@ class cxxTemperature:public cxxNumKeyword
 {
 
   public:
-	cxxTemperature();
-	cxxTemperature(struct temperature *);
-	 ~cxxTemperature();
+	cxxTemperature(PHRQ_io *io=NULL);
+	cxxTemperature(struct temperature *, PHRQ_io *io=NULL);
+	~cxxTemperature();
 
 	struct temperature *cxxTemperature2temperature(PHREEQC_PTR_ARG);
 

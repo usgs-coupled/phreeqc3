@@ -94,7 +94,7 @@ read_solution_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -187,7 +187,7 @@ read_exchange_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -281,7 +281,7 @@ read_surface_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -296,7 +296,7 @@ read_surface_raw(void)
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
-	cxxSurface ex;
+	cxxSurface ex(&this->phrq_io);
 	ex.read_raw(PHREEQC_THIS_COMMA parser);
 	struct surface *surface_ptr = ex.cxxSurface2surface(PHREEQC_THIS);
 	int n;
@@ -376,7 +376,7 @@ read_equilibrium_phases_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -391,7 +391,7 @@ read_equilibrium_phases_raw(void)
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
-	cxxPPassemblage ex;
+	cxxPPassemblage ex(&this->phrq_io);
 	ex.read_raw(PHREEQC_THIS_COMMA parser);
 	struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
 	int n;
@@ -472,7 +472,7 @@ read_kinetics_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -567,7 +567,7 @@ read_solid_solutions_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -664,7 +664,7 @@ read_gas_phase_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -679,7 +679,7 @@ read_gas_phase_raw(void)
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
-	cxxGasPhase ex;
+	cxxGasPhase ex(&this->phrq_io);
 	ex.read_raw(PHREEQC_THIS_COMMA parser);
 	struct gas_phase *gas_phase_ptr = ex.cxxGasPhase2gas_phase(PHREEQC_THIS);
 	int n;
@@ -758,7 +758,7 @@ read_reaction_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -853,7 +853,7 @@ read_mix_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -948,7 +948,7 @@ read_temperature_raw(void)
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
 
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	if (pr.echo_input == FALSE)
@@ -964,7 +964,7 @@ read_temperature_raw(void)
 	std::istream::pos_type next_char;
 	parser.get_option(vopts, next_char);
 
-	cxxTemperature ex;
+	cxxTemperature ex(&this->phrq_io);
 	ex.read_raw(parser);
 	struct temperature *temperature_ptr = ex.cxxTemperature2temperature(PHREEQC_THIS);
 	int n;
@@ -1025,7 +1025,7 @@ read_dump(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1043,7 +1043,7 @@ read_dump(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	dumper dmp(parser);
+	dumper dmp(parser, &this->phrq_io);
 	dump_info = dmp;
 
 
@@ -1077,7 +1077,7 @@ read_delete(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1095,7 +1095,7 @@ read_delete(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	StorageBinList deleter(parser);
+	StorageBinList deleter(parser, &this->phrq_io);
 	delete_info = deleter;
 
 
@@ -1129,7 +1129,7 @@ read_run_cells(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1147,7 +1147,7 @@ read_run_cells(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	runner r(parser);
+	runner r(parser, &this->phrq_io);
 	run_info = r;
 
 
@@ -1292,7 +1292,7 @@ read_solution_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1390,7 +1390,7 @@ read_equilibrium_phases_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1417,7 +1417,7 @@ read_equilibrium_phases_modify(void)
 	}
 
 	// read entity
-	cxxPPassemblage entity(&(pp_assemblage[n]));
+	cxxPPassemblage entity(&(pp_assemblage[n]), &this->phrq_io);
 	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
@@ -1483,7 +1483,7 @@ read_exchange_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1591,7 +1591,7 @@ read_surface_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1618,7 +1618,7 @@ read_surface_modify(void)
 	}
 
 	// read entity
-	cxxSurface entity(&(surface[n]));
+	cxxSurface entity(&(surface[n]), &this->phrq_io);
 	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 
 	// save entity
@@ -1680,7 +1680,7 @@ read_solid_solutions_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1768,7 +1768,7 @@ read_gas_phase_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1795,7 +1795,7 @@ read_gas_phase_modify(void)
 	}
 
 	// read entity
-	cxxGasPhase entity(&(gas_phase[n]));
+	cxxGasPhase entity(&(gas_phase[n]), &this->phrq_io);
 	entity.read_raw(PHREEQC_THIS_COMMA parser, false);
 	// save entity
 	struct gas_phase *entity_ptr = entity.cxxGasPhase2gas_phase(PHREEQC_THIS);
@@ -1856,7 +1856,7 @@ read_kinetics_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;  // ??
 	std::ostringstream oss_err;  // ??
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1944,7 +1944,7 @@ read_reaction_modify(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -2705,7 +2705,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_pp_assemblage; i++)
 			{
-					cxxPPassemblage cxxentity(&pp_assemblage[i]);
+					cxxPPassemblage cxxentity(&pp_assemblage[i], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -2717,7 +2717,7 @@ dump_ostream(std::ostream& os)
 
 				if (pp_assemblage_bsearch(*it, &n) != NULL)
 				{
-					cxxPPassemblage cxxentity(&pp_assemblage[n]);
+					cxxPPassemblage cxxentity(&pp_assemblage[n], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 				}
 			}
@@ -2757,7 +2757,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_surface; i++)
 			{
-					cxxSurface cxxentity(&surface[i]);
+					cxxSurface cxxentity(&surface[i], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -2769,7 +2769,7 @@ dump_ostream(std::ostream& os)
 
 				if (surface_bsearch(*it, &n) != NULL)
 				{
-					cxxSurface cxxentity(&surface[n]);
+					cxxSurface cxxentity(&surface[n], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 				}
 			}
@@ -2809,7 +2809,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_gas_phase; i++)
 			{
-					cxxGasPhase cxxentity(&gas_phase[i]);
+					cxxGasPhase cxxentity(&gas_phase[i], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -2821,7 +2821,7 @@ dump_ostream(std::ostream& os)
 
 				if (gas_phase_bsearch(*it, &n) != NULL)
 				{
-					cxxGasPhase cxxentity(&gas_phase[n]);
+					cxxGasPhase cxxentity(&gas_phase[n], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 				}
 			}
@@ -2913,7 +2913,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_temperature; i++)
 			{
-					cxxTemperature cxxentity(&temperature[i]);
+					cxxTemperature cxxentity(&temperature[i], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -2925,7 +2925,7 @@ dump_ostream(std::ostream& os)
 
 				if (temperature_bsearch(*it, &n) != NULL)
 				{
-					cxxTemperature cxxentity(&temperature[n]);
+					cxxTemperature cxxentity(&temperature[n], &this->phrq_io);
 					cxxentity.dump_raw(os,0);
 				}
 			}
@@ -2968,7 +2968,7 @@ read_user_graph_handler(void)
 	return_value = streamify_to_next_keyword(iss_in);
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err);
+	CParser parser(PHREEQC_THIS_COMMA iss_in, oss_out, oss_err, &this->phrq_io);
 
 	//For testing, need to read line to get started
 	std::vector < std::string > vopts;

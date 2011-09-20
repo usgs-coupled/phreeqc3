@@ -20,7 +20,9 @@ extern int error_msg(const char *err_str, const int stop, ...);
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-ChartHandler::ChartHandler()
+ChartHandler::ChartHandler(PHRQ_io *io)
+:
+PHRQ_base(io)
 	//
 	// default constructor for ChartHandler
 	//
@@ -78,7 +80,7 @@ ChartHandler::Read(PHREEQC_PTR_ARG_COMMA CParser &parser)
 	std::map<int, ChartObject *>::iterator it = this->chart_map.find(n_user);
 	if (it == this->chart_map.end())
 	{
-		chart_map[n_user] = new ChartObject();
+		chart_map[n_user] = new ChartObject(this->Get_io());
 		it = this->chart_map.find(n_user);
 #ifdef PHREEQC_CLASS
 		it->second->Set_phreeqc(P_INSTANCE);

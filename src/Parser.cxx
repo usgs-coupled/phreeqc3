@@ -24,7 +24,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input):m_input_stream(input), m_output_stream(std::cout), m_error_stream(std::cerr),
+CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, PHRQ_io *io):
+PHRQ_base(io),
+m_input_stream(input), 
+m_output_stream(std::cout), 
+m_error_stream(std::cerr),
 m_input_error(0),
 m_next_keyword(KT_NONE)
 {
@@ -38,7 +42,12 @@ m_next_keyword(KT_NONE)
 #endif
 }
 
-CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output):m_input_stream(input), m_output_stream(output), m_error_stream(std::cerr),
+CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, PHRQ_io *io)
+:
+PHRQ_base(io),
+m_input_stream(input), 
+m_output_stream(output), 
+m_error_stream(std::cerr),
 m_input_error(0),
 m_next_keyword(KT_NONE)
 {
@@ -52,7 +61,12 @@ m_next_keyword(KT_NONE)
 #endif
 }
 
-CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, std::ostream & error):m_input_stream(input), m_output_stream(output), m_error_stream(error),
+CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, std::ostream & error, PHRQ_io *io)
+:
+PHRQ_base(io),
+m_input_stream(input), 
+m_output_stream(output), 
+m_error_stream(error),
 m_input_error(0),
 m_next_keyword(KT_NONE)
 {

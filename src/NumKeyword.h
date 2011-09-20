@@ -4,14 +4,15 @@
 //#include "Parser.h"
 #include <ostream>				// std::ostream
 #include <string>				// std::string
+#include "PHRQ_base.h"
 class CParser;
 
 //extern char *string_duplicate(const char *);
 
-class cxxNumKeyword
+class cxxNumKeyword: public PHRQ_base
 {
   public:
-	cxxNumKeyword();
+	cxxNumKeyword(PHRQ_io *io=NULL);
 	virtual ~ cxxNumKeyword();
 	const std::string &get_description() const
 	{
