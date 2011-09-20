@@ -25,20 +25,20 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxSSassemblage::cxxSSassemblage()
+cxxSSassemblage::cxxSSassemblage(PHRQ_io * io)
 	//
 	// default constructor for cxxSSassemblage 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(io)
 {
 }
 
-cxxSSassemblage::cxxSSassemblage(struct s_s_assemblage * s_s_assemblage_ptr)
+cxxSSassemblage::cxxSSassemblage(struct s_s_assemblage * s_s_assemblage_ptr, PHRQ_io * io)
 	//
 	// constructor for cxxSSassemblage from struct SSassemblage
 	//
 :
-cxxNumKeyword()
+cxxNumKeyword(io)
 {
 	int i;
 	this->set_description(s_s_assemblage_ptr->description);
@@ -46,15 +46,15 @@ cxxNumKeyword()
 	n_user_end = s_s_assemblage_ptr->n_user_end;
 	for (i = 0; i < s_s_assemblage_ptr->count_s_s; i++)
 	{
-		cxxSSassemblageSS ssSS(&(s_s_assemblage_ptr->s_s[i]));
+		cxxSSassemblageSS ssSS(&(s_s_assemblage_ptr->s_s[i]), this->Get_io());
 		std::string str(ssSS.get_name());
 		ssAssemblageSSs[str] = ssSS;
 	}
 }
 cxxSSassemblage::cxxSSassemblage(const std::map < int,
 								 cxxSSassemblage > &entities, cxxMix & mix,
-								 int l_n_user):
-cxxNumKeyword()
+								 int l_n_user, PHRQ_io * io):
+cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	//std::list<cxxSSassemblageSS> ssAssemblageSSs;
@@ -211,7 +211,7 @@ cxxSSassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 
 		case 0:				// solid_solution
 			{
-				cxxSSassemblageSS ec;
+				cxxSSassemblageSS ec(this->Get_io());
 
 				// preliminary read
 #ifdef SKIP
@@ -243,7 +243,7 @@ cxxSSassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is);
+				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())
@@ -253,7 +253,7 @@ cxxSSassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 				else
 				{
-					cxxSSassemblageSS ec1;
+					cxxSSassemblageSS ec1(this->Get_io());
 					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_name());
 					this->ssAssemblageSSs[str] = ec1;

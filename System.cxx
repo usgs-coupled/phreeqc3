@@ -22,7 +22,9 @@
 
 
 extern void ORCH_write_chemistry_species(std::ostream & chemistry_dat);
-cxxSystem::cxxSystem(void) 
+cxxSystem::cxxSystem(PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	this->solution = NULL;
 	this->exchange = NULL;

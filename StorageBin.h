@@ -23,9 +23,9 @@ class cxxStorageBin: public PHRQ_base
 {
 
   public:
-	cxxStorageBin(PHRQ_io *io);
+	cxxStorageBin(PHRQ_io *io=NULL);
 	//cxxStorageBin(struct Use *use_ptr);
-	cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io *io);
+	cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io *io=NULL);
 	 ~cxxStorageBin();
 
 	void import_phreeqc(PHREEQC_PTR_ARG);

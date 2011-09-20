@@ -6,12 +6,13 @@
 #include <string>
 #include "Parser.h"
 #include "ChartObject.h"
+#include "PHRQ_base.h"
 
-class ChartHandler
+class ChartHandler: public PHRQ_base
 {
 
 public:
-	ChartHandler();
+	ChartHandler(PHRQ_io *io = NULL);
 	~ChartHandler();
 
 	size_t Get_chart_count()

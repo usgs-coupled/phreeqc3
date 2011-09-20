@@ -25,7 +25,9 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxSSassemblageSS::cxxSSassemblageSS()
+cxxSSassemblageSS::cxxSSassemblageSS(PHRQ_io *io)
+:
+PHRQ_base(io)
 	//
 	// default constructor for cxxSSassemblageSS 
 	//
@@ -44,8 +46,9 @@ cxxSSassemblageSS::cxxSSassemblageSS()
 	//double p[4];
 }
 
-cxxSSassemblageSS::cxxSSassemblageSS(struct s_s *s_s_ptr)
-		//
+cxxSSassemblageSS::cxxSSassemblageSS(struct s_s *s_s_ptr, PHRQ_io *io)
+:
+PHRQ_base(io)		//
 		// constructor for cxxSSassemblageSS from struct s_s
 		//
 {

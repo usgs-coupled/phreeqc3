@@ -22,11 +22,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxReaction::cxxReaction()
+cxxReaction::cxxReaction(PHRQ_io *io)
 	//
 	// default constructor for cxxReaction 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(io)
 {
 	this->set_units("Mol");
 	countSteps = 0;
@@ -34,13 +34,12 @@ cxxReaction::cxxReaction()
 	reactantList.type = cxxNameDouble::ND_NAME_COEF;
 	elementList.type = cxxNameDouble::ND_ELT_MOLES;
 }
-
-cxxReaction::cxxReaction(struct irrev *irrev_ptr)
+cxxReaction::cxxReaction(struct irrev *irrev_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxReaction from struct irrev
 		//
 	:
-cxxNumKeyword(),
+cxxNumKeyword(io),
 reactantList(irrev_ptr->list, irrev_ptr->count_list),
 elementList(irrev_ptr->elts)
 {

@@ -97,10 +97,17 @@ void StorageBinListItem::Augment(int i)
 	this->defined = true;
 	this->numbers.insert(i);
 }
-StorageBinList::StorageBinList(void)
+//
+//Class definitions for StorageBinList
+//
+StorageBinList::StorageBinList(PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 }
-StorageBinList::StorageBinList(CParser & parser)
+StorageBinList::StorageBinList(CParser & parser, PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	this->Read(parser);
 }

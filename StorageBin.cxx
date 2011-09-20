@@ -46,6 +46,7 @@ cxxStorageBin::cxxStorageBin(PHRQ_io *io)
 PHRQ_base(io)
 {
 	// default constructor for cxxStorageBin 
+	this->system.Set_io(io);
 }
 #ifdef SKIP
 cxxStorageBin::cxxStorageBin(struct Use *use_ptr)
@@ -123,6 +124,7 @@ PHRQ_base(io)
 	//Construct from use pointer
 
 	int n;
+	this->system.Set_io(io);
 	if (use_ptr->mix_in == TRUE)
 	{
 		struct mix *struct_entity = P_INSTANCE_POINTER mix_bsearch(use_ptr->n_mix_user, &n);
@@ -158,7 +160,7 @@ PHRQ_base(io)
 		struct pp_assemblage *struct_entity = P_INSTANCE_POINTER pp_assemblage_bsearch(use_ptr->n_pp_assemblage_user, &n);
 		if (struct_entity != NULL)
 		{
-			cxxPPassemblage entity(struct_entity);
+			cxxPPassemblage entity(struct_entity, this->Get_io());
 			this->setPPassemblage(use_ptr->n_pp_assemblage_user, &entity);
 		}
 	}
@@ -176,7 +178,7 @@ PHRQ_base(io)
 		struct surface *struct_entity = P_INSTANCE_POINTER surface_bsearch(use_ptr->n_surface_user, &n);
 		if (struct_entity != NULL)
 		{
-			cxxSurface entity(struct_entity);
+			cxxSurface entity(struct_entity, this->Get_io());
 			this->setSurface(use_ptr->n_surface_user, &entity);
 		}
 	}
@@ -185,7 +187,7 @@ PHRQ_base(io)
 		struct gas_phase *struct_entity = P_INSTANCE_POINTER gas_phase_bsearch(use_ptr->n_gas_phase_user, &n);
 		if (struct_entity != NULL)
 		{
-			cxxGasPhase entity(struct_entity);
+			cxxGasPhase entity(struct_entity, this->Get_io());
 			this->setGasPhase(use_ptr->n_gas_phase_user, &entity);
 		}
 	}
@@ -221,7 +223,7 @@ PHRQ_base(io)
 		struct temperature *struct_entity = P_INSTANCE_POINTER temperature_bsearch(use_ptr->n_temperature_user, &n);
 		if (struct_entity != NULL)
 		{
-			cxxTemperature entity(struct_entity);
+			cxxTemperature entity(struct_entity, this->Get_io());
 			this->setTemperature(use_ptr->n_temperature_user, &entity);
 		}
 	}
@@ -523,7 +525,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	// GasPhases
 	for (i = 0; i < P_INSTANCE_POINTER count_gas_phase; i++)
 	{
-		GasPhases[P_INSTANCE_POINTER gas_phase[i].n_user] = cxxGasPhase(&P_INSTANCE_POINTER gas_phase[i]);
+		GasPhases[P_INSTANCE_POINTER gas_phase[i].n_user] = cxxGasPhase(&P_INSTANCE_POINTER gas_phase[i], this->Get_io());
 	}
 
 	// Kinetics
@@ -536,7 +538,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	for (i = 0; i < P_INSTANCE_POINTER count_pp_assemblage; i++)
 	{
 		PPassemblages[P_INSTANCE_POINTER pp_assemblage[i].n_user] =
-			cxxPPassemblage(&P_INSTANCE_POINTER pp_assemblage[i]);
+			cxxPPassemblage(&P_INSTANCE_POINTER pp_assemblage[i], this->Get_io());
 	}
 
 	// SSassemblages
@@ -549,7 +551,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	// Surfaces
 	for (i = 0; i < P_INSTANCE_POINTER count_surface; i++)
 	{
-		Surfaces[P_INSTANCE_POINTER surface[i].n_user] = cxxSurface(&P_INSTANCE_POINTER surface[i]);
+		Surfaces[P_INSTANCE_POINTER surface[i].n_user] = cxxSurface(&P_INSTANCE_POINTER surface[i], this->Get_io());
 	}
 
 	// Mixes
@@ -567,7 +569,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 	// Temperatures
 	for (i = 0; i < P_INSTANCE_POINTER count_temperature; i++)
 	{
-		Temperatures[P_INSTANCE_POINTER temperature[i].n_user] = cxxTemperature(&P_INSTANCE_POINTER temperature[i]);
+		Temperatures[P_INSTANCE_POINTER temperature[i].n_user] = cxxTemperature(&P_INSTANCE_POINTER temperature[i], this->Get_io());
 	}
 }
 
@@ -748,7 +750,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 		case CParser::KT_GASPHASE_RAW:
 			{
-				cxxGasPhase entity;
+				cxxGasPhase entity(this->Get_io());
 				entity.read_raw(P_INSTANCE_COMMA parser);
 				GasPhases[entity.get_n_user()] = entity;
 			}
@@ -764,7 +766,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 		case CParser::KT_PPASSEMBLAGE_RAW:
 			{
-				cxxPPassemblage entity;
+				cxxPPassemblage entity(this->Get_io());
 				entity.read_raw(P_INSTANCE_COMMA parser);
 				PPassemblages[entity.get_n_user()] = entity;
 			}
@@ -780,7 +782,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 		case CParser::KT_SURFACE_RAW:
 			{
-				cxxSurface entity;
+				cxxSurface entity(this->Get_io());
 				entity.read_raw(P_INSTANCE_COMMA parser);
 				Surfaces[entity.get_n_user()] = entity;
 			}
@@ -788,7 +790,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 		case CParser::KT_TEMPERATURE_RAW:
 			{
-				cxxTemperature entity;
+				cxxTemperature entity(this->Get_io());
 				entity.read_raw(parser);
 				Temperatures[entity.get_n_user()] = entity;
 			}
@@ -861,7 +863,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 	case CParser::KT_GASPHASE_RAW:
 		{
-			cxxGasPhase entity;
+			cxxGasPhase entity(this->Get_io());
 			entity.read_raw(P_INSTANCE_COMMA parser);
 			GasPhases[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
@@ -879,7 +881,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 	case CParser::KT_PPASSEMBLAGE_RAW:
 		{
-			cxxPPassemblage entity;
+			cxxPPassemblage entity(this->Get_io());
 			entity.read_raw(P_INSTANCE_COMMA parser);
 			PPassemblages[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
@@ -897,7 +899,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 	case CParser::KT_SURFACE_RAW:
 		{
-			cxxSurface entity;
+			cxxSurface entity(this->Get_io());
 			entity.read_raw(P_INSTANCE_COMMA parser);
 			Surfaces[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
@@ -906,7 +908,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 
 	case CParser::KT_TEMPERATURE_RAW:
 		{
-			cxxTemperature entity;
+			cxxTemperature entity(this->Get_io());
 			entity.read_raw(parser);
 			Temperatures[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
@@ -953,7 +955,7 @@ cxxStorageBin::add(struct system *system_ptr)
 	if (system_ptr->gas_phase != NULL)
 	{
 		this->GasPhases[system_ptr->gas_phase->n_user] =
-			cxxGasPhase(system_ptr->gas_phase);
+			cxxGasPhase(system_ptr->gas_phase, this->Get_io());
 	}
 
 	// Kinetics
@@ -967,7 +969,7 @@ cxxStorageBin::add(struct system *system_ptr)
 	if (system_ptr->pp_assemblage != NULL)
 	{
 		this->PPassemblages[system_ptr->pp_assemblage->n_user] =
-			cxxPPassemblage(system_ptr->pp_assemblage);
+			cxxPPassemblage(system_ptr->pp_assemblage, this->Get_io());
 	}
 
 	// SSassemblages
@@ -981,7 +983,7 @@ cxxStorageBin::add(struct system *system_ptr)
 	if (system_ptr->surface != NULL)
 	{
 		this->Surfaces[system_ptr->surface->n_user] =
-			cxxSurface(system_ptr->surface);
+			cxxSurface(system_ptr->surface, this->Get_io());
 	}
 }
 
@@ -1126,7 +1128,7 @@ cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 	{
 		if (P_INSTANCE_POINTER gas_phase_bsearch(n, &pos) != NULL)
 		{
-			this->GasPhases[n] = cxxGasPhase(&(P_INSTANCE_POINTER gas_phase[pos]));
+			this->GasPhases[n] = cxxGasPhase(&(P_INSTANCE_POINTER gas_phase[pos]), this->Get_io());
 		}
 	}
 
@@ -1142,7 +1144,7 @@ cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 	{
 		if (P_INSTANCE_POINTER pp_assemblage_bsearch(n, &pos) != NULL)
 		{
-			this->PPassemblages[n] = cxxPPassemblage(&(P_INSTANCE_POINTER pp_assemblage[pos]));
+			this->PPassemblages[n] = cxxPPassemblage(&(P_INSTANCE_POINTER pp_assemblage[pos]), this->Get_io());
 		}
 	}
 
@@ -1158,7 +1160,7 @@ cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 	{
 		if (P_INSTANCE_POINTER surface_bsearch(n, &pos) != NULL)
 		{
-			this->Surfaces[n] = cxxSurface(&(P_INSTANCE_POINTER surface[pos]));
+			this->Surfaces[n] = cxxSurface(&(P_INSTANCE_POINTER surface[pos]), this->Get_io());
 		}
 	}
 }

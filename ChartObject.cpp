@@ -33,10 +33,12 @@ using namespace zdg_ui2;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-ChartObject::ChartObject()
+ChartObject::ChartObject(PHRQ_io *io)
 	//
 	// default constructor for cxxExchComp
 	//
+	:
+cxxNumKeyword(io)
 {
 	new_ug = false;
 	FirstCallToUSER_GRAPH = true;
@@ -478,7 +480,7 @@ ChartObject::OpenCSVFile(std::string file_name)
 
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(P_INSTANCE_COMMA f_csv, oss_out, oss_err);
+	CParser parser(P_INSTANCE_COMMA f_csv, oss_out, oss_err, this->Get_io());
 	parser.set_echo_file(CParser::EO_NONE);	
 
 	/* Get lines */

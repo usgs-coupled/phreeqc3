@@ -14,8 +14,8 @@ class cxxReaction:public cxxNumKeyword
 {
 
   public:
-	cxxReaction();
-	cxxReaction(struct irrev *);
+	cxxReaction(PHRQ_io *io = NULL);
+	cxxReaction(struct irrev *, PHRQ_io *io = NULL);
 	 ~cxxReaction();
 
 	struct irrev *cxxReaction2irrev(PHREEQC_PTR_ARG);

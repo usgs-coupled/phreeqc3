@@ -50,7 +50,7 @@ cxxSolution(solution_ptr, io)
 	// totals
 	for (int i = 0; solution_ptr->totals[i].description != NULL; i++)
 	{
-		cxxISolutionComp c(&(solution_ptr->totals[i]));
+		cxxISolutionComp c(&(solution_ptr->totals[i]), this->Get_io());
 		//comps.insert(solution_ptr->totals[i].description, c);
 		comps[solution_ptr->totals[i].description] = c;
 	}

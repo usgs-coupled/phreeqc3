@@ -13,15 +13,15 @@
 #include "PHRQ_io.h"
 class cxxMix;
 
-class cxxSolution:public cxxNumKeyword, public PHRQ_base
+class cxxSolution:public cxxNumKeyword
 {
 
   public:
 	cxxSolution(PHRQ_io *io=NULL);
-	cxxSolution(struct solution *, PHRQ_io *io);
-	cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io);
+	cxxSolution(struct solution *, PHRQ_io *io=NULL);
+	cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io=NULL);
 	cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solution_map,
-				  cxxMix & mx, int n_user, PHRQ_io *io);
+				  cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxSolution();
 
 	//static cxxSolution& read(CParser& parser);

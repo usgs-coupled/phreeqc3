@@ -36,8 +36,8 @@ cxxSolution::cxxSolution(PHRQ_io * io)
 	//
 	// default constructor for cxxSolution 
 	//
-:	cxxNumKeyword(),
-	PHRQ_base(io)
+:	cxxNumKeyword(io),
+isotopes(io)
 {
 	this->tc = 25.0;
 	this->ph = 7.0;
@@ -59,14 +59,13 @@ cxxSolution::cxxSolution(struct solution * solution_ptr, PHRQ_io * io)
 	// constructor for cxxSolution from struct solution
 	//
 :
-cxxNumKeyword(),
-PHRQ_base(io),
+cxxNumKeyword(io),
 totals(solution_ptr->totals),
 master_activity(solution_ptr->master_activity,
-				solution_ptr->count_master_activity,
-				cxxNameDouble::ND_SPECIES_LA),
-species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma,
-			  cxxNameDouble::ND_SPECIES_GAMMA), isotopes(solution_ptr)
+solution_ptr->count_master_activity,
+cxxNameDouble::ND_SPECIES_LA),
+species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma, cxxNameDouble::ND_SPECIES_GAMMA), 
+isotopes(solution_ptr, io)
 {
 
 	this->set_description(solution_ptr->description);
@@ -103,8 +102,8 @@ cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution
 // constructor for cxxSolution from mixture of solutions
 //
 	:
-cxxNumKeyword(),
-PHRQ_base(io)
+cxxNumKeyword(io),
+isotopes(io)
 {
 
 //
@@ -142,8 +141,8 @@ cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA int l_n_user, PHRQ_io * io)
 		// does not work in phast because phast uses only the total molalities
 		// of elements in buffer, not individual redox states.
 	:
-cxxNumKeyword(),
-PHRQ_base(io)
+cxxNumKeyword(io),
+isotopes(io)
 {
 
 	//this->set_description none;
@@ -256,7 +255,7 @@ PHRQ_base(io)
 	{
 		for (i = 0; i < P_INSTANCE_POINTER count_isotopes_x; i++)
 		{
-			cxxSolutionIsotope cxxiso;
+			cxxSolutionIsotope cxxiso(this->Get_io());
 			cxxiso.set_isotope_number(P_INSTANCE_POINTER isotopes_x[i].isotope_number);
 			cxxiso.set_elt_name(P_INSTANCE_POINTER isotopes_x[i].elt_name);
 			cxxiso.set_isotope_name(P_INSTANCE_POINTER isotopes_x[i].isotope_name);
@@ -687,7 +686,7 @@ cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 
 		case 3:				// isotopes
 			{
-				cxxSolutionIsotope iso;
+				cxxSolutionIsotope iso(this->Get_io());
 				if (iso.read_raw(parser, next_char) != CParser::PARSER_OK)
 				{
 					parser.incr_input_error();

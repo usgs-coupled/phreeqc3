@@ -28,8 +28,7 @@ cxxMix::cxxMix(PHRQ_io *io)
 	//
 	// default constructor for cxxMix 
 	//
-:	cxxNumKeyword(),
-	PHRQ_base(io)
+:	cxxNumKeyword(io)
 {
 }
 
@@ -38,8 +37,7 @@ cxxMix::cxxMix(struct mix *mix_ptr, PHRQ_io *io)
 		// constructor for cxxMix from struct mix
 		//
 	:
-cxxNumKeyword(),
-PHRQ_base(io)
+cxxNumKeyword(io)
 {
 	int i;
 

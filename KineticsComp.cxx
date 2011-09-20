@@ -24,7 +24,9 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxKineticsComp::cxxKineticsComp()
+cxxKineticsComp::cxxKineticsComp(PHRQ_io *io)
+:
+PHRQ_base(io)
 	//
 	// default constructor for cxxKineticsComp 
 	//
@@ -36,11 +38,12 @@ cxxKineticsComp::cxxKineticsComp()
 	namecoef.type = cxxNameDouble::ND_NAME_COEF;
 }
 
-cxxKineticsComp::cxxKineticsComp(struct kinetics_comp *kinetics_comp_ptr)
+cxxKineticsComp::cxxKineticsComp(struct kinetics_comp *kinetics_comp_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxKineticsComp from struct kinetics_comp
 		//
 	:
+PHRQ_base(io),
 namecoef(kinetics_comp_ptr->list, kinetics_comp_ptr->count_list)
 {
 	this->set_rate_name(kinetics_comp_ptr->rate_name);

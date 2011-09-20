@@ -10,12 +10,12 @@
 #include "NameDouble.h"
 #include "Phreeqc_class.h"
 
-class cxxSSassemblageSS
+class cxxSSassemblageSS: public PHRQ_base
 {
 
   public:
-	cxxSSassemblageSS();
-	cxxSSassemblageSS(struct s_s *);
+	cxxSSassemblageSS(PHRQ_io *io=NULL);
+	cxxSSassemblageSS(struct s_s *, PHRQ_io *io=NULL);
 	 ~cxxSSassemblageSS();
 
 	enum SS_PARAMETER_TYPE

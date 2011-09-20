@@ -12,10 +12,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxNumKeyword::cxxNumKeyword()
+cxxNumKeyword::cxxNumKeyword(PHRQ_io *io)
 {
 	this->n_user = 1;
 	this->n_user_end = 1;
+	this->Set_io(io);
 }
 
 cxxNumKeyword::~cxxNumKeyword()

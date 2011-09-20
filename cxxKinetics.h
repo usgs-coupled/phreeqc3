@@ -12,14 +12,14 @@
 #include "PHRQ_base.h"
 class cxxMix;
 
-class cxxKinetics:public cxxNumKeyword, PHRQ_base
+class cxxKinetics:public cxxNumKeyword
 {
 
   public:
-	cxxKinetics(PHRQ_io *io = NULL);
-	cxxKinetics(struct kinetics *, PHRQ_io *io);
+	cxxKinetics(PHRQ_io *io=NULL);
+	cxxKinetics(struct kinetics *, PHRQ_io *io=NULL);
 	cxxKinetics(const std::map < int, cxxKinetics > &entity_map, cxxMix & mx,
-				int n_user, PHRQ_io *io);
+				int n_user, PHRQ_io *io=NULL);
 	 ~cxxKinetics();
 
 	struct kinetics *cxxKinetics2kinetics(PHREEQC_PTR_ARG);

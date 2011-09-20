@@ -4,13 +4,14 @@
 #include <string>				// std::string
 
 #include "StorageBinList.h"
+#include "PHRQ_base.h"
 class CParser;
 
-class runner
+class runner: public PHRQ_base
 {
 public:
-	runner(void);
-	runner(CParser & parser);
+	runner(PHRQ_io *io=NULL);
+	runner(CParser & parser, PHRQ_io *io=NULL);
 	virtual ~runner(void);
 	bool Read(CParser & parser);
 	StorageBinListItem & Get_cells(void) { return(this->cells); };

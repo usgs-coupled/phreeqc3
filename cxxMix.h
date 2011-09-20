@@ -10,12 +10,12 @@
 #include "NumKeyword.h"
 #include "PHRQ_base.h"
 
-class cxxMix:public cxxNumKeyword, PHRQ_base
+class cxxMix:public cxxNumKeyword
 {
 
   public:
 	cxxMix(PHRQ_io *io=NULL);
-	cxxMix(struct mix *, PHRQ_io *io);
+	cxxMix(struct mix *, PHRQ_io *io=NULL);
 	 ~cxxMix();
 
 	struct mix *cxxMix2mix(PHREEQC_PTR_ARG);

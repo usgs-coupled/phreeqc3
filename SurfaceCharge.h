@@ -9,14 +9,15 @@
 
 #include "NameDouble.h"
 #include "Phreeqc_class.h"
+#include "PHRQ_base.h"
 
-class cxxSurfaceCharge
+class cxxSurfaceCharge: public PHRQ_base
 {
 
 public:
 
-	cxxSurfaceCharge();
-	cxxSurfaceCharge(struct surface_charge *);
+	cxxSurfaceCharge(PHRQ_io *io=NULL);
+	cxxSurfaceCharge(struct surface_charge *, PHRQ_io *io=NULL);
 	~cxxSurfaceCharge();
 
 

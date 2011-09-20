@@ -25,7 +25,9 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxPPassemblageComp::cxxPPassemblageComp()
+cxxPPassemblageComp::cxxPPassemblageComp(PHRQ_io *io)
+:
+PHRQ_base(io)
 	//
 	// default constructor for cxxPPassemblageComp 
 	//
@@ -39,7 +41,9 @@ cxxPPassemblageComp::cxxPPassemblageComp()
 	precipitate_only = false;
 }
 
-cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase * pure_phase_ptr)
+cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase * pure_phase_ptr, PHRQ_io *io)
+:
+PHRQ_base(io)
 	//
 	// constructor for cxxPPassemblageComp from struct pure_phase
 	//

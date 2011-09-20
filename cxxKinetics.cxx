@@ -31,8 +31,7 @@ cxxKinetics::cxxKinetics(PHRQ_io *io)
 	//
 	// default constructor for cxxKinetics 
 	//
-:	cxxNumKeyword(),
-	PHRQ_base(io)
+:	cxxNumKeyword(io)
 {
 	step_divide = 1.0;
 	rk = 3;
@@ -49,8 +48,7 @@ cxxKinetics::cxxKinetics(struct kinetics *kinetics_ptr, PHRQ_io *io)
 		// constructor for cxxKinetics from struct kinetics
 		//
 	:
-cxxNumKeyword(),
-PHRQ_base(io),
+cxxNumKeyword(io),
 totals(kinetics_ptr->totals)
 {
 	int i;
@@ -68,7 +66,7 @@ totals(kinetics_ptr->totals)
 	// kinetics components
 	for (i = 0; i < kinetics_ptr->count_comps; i++)
 	{
-		cxxKineticsComp ec(&(kinetics_ptr->comps[i]));
+		cxxKineticsComp ec(&(kinetics_ptr->comps[i]), this->Get_io());
 		std::string str(ec.get_rate_name());
 		//this->kineticsComps[str] = ec;
 		this->kineticsComps.push_back(ec);
@@ -89,8 +87,7 @@ totals(kinetics_ptr->totals)
 }
 cxxKinetics::cxxKinetics(const std::map < int, cxxKinetics > &entities,
 						 cxxMix & mix, int l_n_user, PHRQ_io *io):
-cxxNumKeyword(),
-PHRQ_base(io)
+cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	step_divide = 1.0;
@@ -411,7 +408,7 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 
 		case 4:				// component
 			{
-				cxxKineticsComp ec;
+				cxxKineticsComp ec(this->Get_io());
 
 				// preliminary read
 #ifdef SKIP
@@ -443,7 +440,7 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(P_INSTANCE_COMMA parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is);
+				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 
@@ -463,7 +460,7 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 				else
 				{
-					cxxKineticsComp ec1;
+					cxxKineticsComp ec1(this->Get_io());
 					ec1.read_raw(P_INSTANCE_COMMA reread, false);
 					std::string str(ec1.get_rate_name());
 					this->kineticsComps.push_back(ec1);

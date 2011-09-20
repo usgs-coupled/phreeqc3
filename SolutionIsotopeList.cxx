@@ -13,29 +13,33 @@
 #include "phrqproto.h"
 
 
-cxxSolutionIsotopeList::cxxSolutionIsotopeList(void)
+cxxSolutionIsotopeList::cxxSolutionIsotopeList(PHRQ_io * io)
+:
+PHRQ_base(io)
 	//
 	// default constructor for cxxSolution 
 	//
 {
 }
 
-cxxSolutionIsotopeList::~cxxSolutionIsotopeList(void)
-		//
-		// default destructor for cxxSolution 
-		//
-{
-}
-
-cxxSolutionIsotopeList::cxxSolutionIsotopeList(struct solution *solution_ptr)
+cxxSolutionIsotopeList::cxxSolutionIsotopeList(struct solution *solution_ptr, PHRQ_io * io)
+:
+PHRQ_base(io)
 {
 	int i;
 	// Isotopes
 	for (i = 0; i < solution_ptr->count_isotopes; i++)
 	{
-		//cxxSolutionIsotope iso(&solution_ptr->isotopes[i]);
-		(*this).push_back(&solution_ptr->isotopes[i]);
+		cxxSolutionIsotope iso(&solution_ptr->isotopes[i], this->Get_io());
+		(*this).push_back(iso);
 	}
+}
+
+cxxSolutionIsotopeList::~cxxSolutionIsotopeList()
+		//
+		// default destructor for cxxSolution 
+		//
+{
 }
 void
 cxxSolutionIsotopeList::add(cxxSolutionIsotopeList old, double intensive,
@@ -66,7 +70,7 @@ cxxSolutionIsotopeList::add(cxxSolutionIsotopeList old, double intensive,
 		}
 		if (!found)
 		{
-			cxxSolutionIsotope iso;
+			cxxSolutionIsotope iso(this->Get_io());
 			iso.total = itold->total * extensive;
 			iso.ratio = itold->ratio * intensive;
 			iso.ratio_uncertainty = itold->ratio_uncertainty * intensive;
