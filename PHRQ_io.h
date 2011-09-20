@@ -52,7 +52,7 @@ typedef enum
 	int close_input_files(void);
 	int close_output_files(void);
 	static int istream_getc(void *cookie);
-
+	void output_string(const int type, std::string str);
 	void Set_error_count(int i)
 	{
 		this->error_count = i;

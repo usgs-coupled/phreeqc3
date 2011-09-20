@@ -1184,8 +1184,9 @@ void Phreeqc::init(void)
 	gas_in = FALSE;
 
 	count_strings = 0;
-
+#ifdef MULTICHART
 	chart_handler.Set_io(&this->phrq_io);
+#endif
 	run_info.Set_io(&this->phrq_io);
 
 	this->clear_cookie();
