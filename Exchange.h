@@ -11,15 +11,15 @@
 #include "PHRQ_base.h"
 class cxxMix;
 
-class cxxExchange:public cxxNumKeyword, PHRQ_base
+class cxxExchange:public cxxNumKeyword
 {
 
 public:
 	cxxExchange(PHRQ_io *io=NULL);
-	cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io);
-	cxxExchange(struct exchange *, PHRQ_io *io);
+	cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io=NULL);
+	cxxExchange(struct exchange *, PHRQ_io *io=NULL);
 	cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &exchange_map,
-		cxxMix & mx, int n_user, PHRQ_io *io);
+		cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxExchange();
 
 	struct exchange *cxxExchange2exchange(PHREEQC_PTR_ARG);

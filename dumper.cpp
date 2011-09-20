@@ -3,13 +3,17 @@
 #include "dumper.h"
 #include "Parser.h"
 
-dumper::dumper(void)
+dumper::dumper(PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	this->file_name = "dump.out";
 	this->append = false;
 	this->on = false;
 }
-dumper::dumper(CParser & parser)
+dumper::dumper(CParser & parser, PHRQ_io *io)
+:
+PHRQ_base(io)
 {
 	this->file_name = "dump.out";
 	this->append = false;

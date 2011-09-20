@@ -24,7 +24,9 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxSurfaceComp::cxxSurfaceComp()
+cxxSurfaceComp::cxxSurfaceComp(PHRQ_io *io)
+:
+PHRQ_base(io)
 //
 // default constructor for cxxSurfaceComp 
 //
@@ -40,11 +42,12 @@ cxxSurfaceComp::cxxSurfaceComp()
 	Dw = 0.0;
 }
 
-cxxSurfaceComp::cxxSurfaceComp(struct surface_comp *surf_comp_ptr)
+cxxSurfaceComp::cxxSurfaceComp(struct surface_comp *surf_comp_ptr, PHRQ_io *io)
 //
 // constructor for cxxSurfaceComp from struct surface_comp
 //
 :
+PHRQ_base(io),
 formula_totals(surf_comp_ptr->formula_totals),
 totals(surf_comp_ptr->totals)
 {

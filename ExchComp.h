@@ -9,12 +9,12 @@
 
 #include "NameDouble.h"
 
-class cxxExchComp
+class cxxExchComp: public PHRQ_base
 {
 
   public:
-	cxxExchComp();
-	cxxExchComp(struct exch_comp *);
+	cxxExchComp(PHRQ_io *io=NULL);
+	cxxExchComp(struct exch_comp *, PHRQ_io *io=NULL);
 	 ~cxxExchComp();
 
 	struct master *get_master(PHREEQC_PTR_ARG);

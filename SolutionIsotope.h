@@ -7,12 +7,12 @@
 #include "Parser.h"
 #include "Phreeqc_class.h"
 
-class cxxSolutionIsotope
+class cxxSolutionIsotope: public PHRQ_base
 {
   public:
-	cxxSolutionIsotope(void);
-	  cxxSolutionIsotope(struct isotope *isotope_ptr);
-	 ~cxxSolutionIsotope(void);
+	cxxSolutionIsotope(PHRQ_io *io=NULL);
+	cxxSolutionIsotope(struct isotope *isotope_ptr, PHRQ_io *io=NULL);
+	~cxxSolutionIsotope(void);
 
 	/*
 	   enum STATUS {

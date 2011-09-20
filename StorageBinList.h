@@ -4,7 +4,7 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>					// std::vector
-
+#include "PHRQ_base.h"
 class CParser;
 
 class StorageBinListItem
@@ -23,11 +23,11 @@ protected:
 	std::set < int > numbers;
 	bool defined;
 };
-class StorageBinList
+class StorageBinList: public PHRQ_base
 {
 public:
-	StorageBinList(void);
-	StorageBinList(CParser & parser);
+	StorageBinList(PHRQ_io *io=NULL);
+	StorageBinList(CParser & parser, PHRQ_io *io=NULL);
 	~StorageBinList(void);
 	bool Read(CParser & parser);
 	void SetAll(bool tf);

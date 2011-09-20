@@ -7,11 +7,11 @@
 #include "StorageBinList.h"
 class CParser;
 
-class dumper 
+class dumper: public PHRQ_base
 {
 public:
-	dumper(void);
-	dumper(CParser & parser);
+	dumper(PHRQ_io *io=NULL);
+	dumper(CParser & parser, PHRQ_io *io=NULL);
 	~dumper(void);
 	bool Read(CParser & parser);
 	void SetAll(bool tf);

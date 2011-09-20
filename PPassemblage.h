@@ -15,10 +15,10 @@ class cxxPPassemblage:public cxxNumKeyword
 {
 
   public:
-	cxxPPassemblage();
-	cxxPPassemblage(struct pp_assemblage *);
+	cxxPPassemblage(PHRQ_io * io=NULL);
+	cxxPPassemblage(struct pp_assemblage *, PHRQ_io * io=NULL);
 	  cxxPPassemblage(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxPPassemblage > &entity_map,
-					  cxxMix & mx, int n_user);
+					  cxxMix & mx, int n_user, PHRQ_io * io=NULL);
 	 ~cxxPPassemblage();
 
 	struct pp_assemblage *cxxPPassemblage2pp_assemblage(PHREEQC_PTR_ARG);

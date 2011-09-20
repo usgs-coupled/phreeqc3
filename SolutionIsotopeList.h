@@ -9,13 +9,13 @@
 #include "Phreeqc_class.h"
 
 class cxxSolutionIsotopeList:public
-	std::list <	cxxSolutionIsotope >
+	std::list <	cxxSolutionIsotope >, public PHRQ_base
 {
 
 public:
-	cxxSolutionIsotopeList();
+	cxxSolutionIsotopeList(PHRQ_io *io=NULL);
 
-	cxxSolutionIsotopeList(struct solution *solution_ptr);
+	cxxSolutionIsotopeList(struct solution *solution_ptr, PHRQ_io *io=NULL);
 
 	~cxxSolutionIsotopeList();
 

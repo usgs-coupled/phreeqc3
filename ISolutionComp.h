@@ -9,12 +9,12 @@
 // forward declarations
 class cxxISolution;				// reqd for read and dump_xml
 
-class cxxISolutionComp
+class cxxISolutionComp: public PHRQ_base
 {
   public:
-	cxxISolutionComp(void);
-	  cxxISolutionComp(struct conc *conc_ptr);
-	 ~cxxISolutionComp(void);
+	cxxISolutionComp(PHRQ_io *io=NULL);
+	cxxISolutionComp(struct conc *conc_ptr, PHRQ_io *io=NULL);
+	~cxxISolutionComp(void);
 
   public:
 

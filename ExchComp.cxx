@@ -27,10 +27,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxExchComp::cxxExchComp()
+cxxExchComp::cxxExchComp(PHRQ_io *io)
 	//
 	// default constructor for cxxExchComp 
 	//
+	: PHRQ_base(io)
 {
 	moles = 0.0;
 	formula_totals.type = cxxNameDouble::ND_ELT_MOLES;
@@ -43,11 +44,12 @@ cxxExchComp::cxxExchComp()
 	formula_z = 0.0;
 }
 
-cxxExchComp::cxxExchComp(struct exch_comp * exch_comp_ptr)
+cxxExchComp::cxxExchComp(struct exch_comp * exch_comp_ptr, PHRQ_io *io)
 	//
 	// constructor for cxxExchComp from struct exch_comp
 	//
 :
+PHRQ_base(io),
 formula_totals(exch_comp_ptr->formula_totals), totals(exch_comp_ptr->totals)
 {
 	this->set_formula(exch_comp_ptr->formula);

@@ -9,13 +9,13 @@
 #include "Phreeqc_class.h"
 #include "NameDouble.h"
 
-class cxxSurfaceComp
+class cxxSurfaceComp: public PHRQ_base
 {
 
 public:
 
-	cxxSurfaceComp();
-	cxxSurfaceComp(struct surface_comp *);
+	cxxSurfaceComp(PHRQ_io *io=NULL);
+	cxxSurfaceComp(struct surface_comp *, PHRQ_io *io=NULL);
 	~cxxSurfaceComp();
 
 	struct master *get_master(PHREEQC_PTR_ARG);

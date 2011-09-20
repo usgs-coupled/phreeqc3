@@ -23,21 +23,21 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxPPassemblage::cxxPPassemblage()
+cxxPPassemblage::cxxPPassemblage(PHRQ_io * io)
 	//
 	// default constructor for cxxPPassemblage 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(io)
 {
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
 }
 
-cxxPPassemblage::cxxPPassemblage(struct pp_assemblage *pp_assemblage_ptr)
+cxxPPassemblage::cxxPPassemblage(struct pp_assemblage *pp_assemblage_ptr, PHRQ_io * io)
 		//
 		// constructor for cxxPPassemblage from struct PPassemblage
 		//
 	:
-cxxNumKeyword(),
+cxxNumKeyword(io),
 eltList(pp_assemblage_ptr->next_elt)
 {
 	int i;
@@ -47,7 +47,7 @@ eltList(pp_assemblage_ptr->next_elt)
 	n_user_end = pp_assemblage_ptr->n_user_end;
 	for (i = 0; i < pp_assemblage_ptr->count_comps; i++)
 	{
-		cxxPPassemblageComp ppComp(&(pp_assemblage_ptr->pure_phases[i]));
+		cxxPPassemblageComp ppComp(&(pp_assemblage_ptr->pure_phases[i]), this->Get_io());
 		//ppAssemblageComps.push_back(ppComp);
 		std::string str(ppComp.get_name());
 		this->ppAssemblageComps[str] = ppComp;
@@ -55,8 +55,8 @@ eltList(pp_assemblage_ptr->next_elt)
 }
 cxxPPassemblage::cxxPPassemblage(PHREEQC_PTR_ARG_COMMA const std::map < int,
 								 cxxPPassemblage > &entities, cxxMix & mix,
-								 int l_n_user):
-cxxNumKeyword()
+								 int l_n_user, PHRQ_io * io):
+cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
@@ -234,7 +234,7 @@ cxxPPassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 
 		case 1:				// component
 			{
-				cxxPPassemblageComp ec;
+				cxxPPassemblageComp ec(this->Get_io());
 
 				// preliminary read
 #ifdef SKIP
@@ -268,7 +268,7 @@ cxxPPassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is);
+				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->ppAssemblageComps.find(ec.get_name()) != this->ppAssemblageComps.end())
@@ -278,7 +278,7 @@ cxxPPassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 				else
 				{
-					cxxPPassemblageComp ppComp1;
+					cxxPPassemblageComp ppComp1(this->Get_io());
 					ppComp1.read_raw(reread, false);
 					std::string str(ppComp1.get_name());
 					this->ppAssemblageComps[str] = ppComp1;

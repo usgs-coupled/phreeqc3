@@ -24,7 +24,9 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxSurfaceCharge::cxxSurfaceCharge()
+cxxSurfaceCharge::cxxSurfaceCharge(PHRQ_io *io)
+:
+PHRQ_base(io)
 //
 // default constructor for cxxSurfaceCharge 
 //
@@ -41,11 +43,12 @@ cxxSurfaceCharge::cxxSurfaceCharge()
 	diffuse_layer_totals.type = cxxNameDouble::ND_ELT_MOLES;
 }
 
-cxxSurfaceCharge::cxxSurfaceCharge(struct surface_charge *surf_charge_ptr)
+cxxSurfaceCharge::cxxSurfaceCharge(struct surface_charge *surf_charge_ptr, PHRQ_io *io)
 //
 // constructor for cxxSurfaceCharge from struct surface_charge
 //
 :
+PHRQ_base(io),
 diffuse_layer_totals(surf_charge_ptr->diffuse_layer_totals)
 {
 	this->set_name(surf_charge_ptr->name);

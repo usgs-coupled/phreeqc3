@@ -9,12 +9,12 @@
 
 #include "NameDouble.h"
 
-class cxxPPassemblageComp
+class cxxPPassemblageComp: public PHRQ_base
 {
 
   public:
-	cxxPPassemblageComp();
-	cxxPPassemblageComp(struct pure_phase *);
+	cxxPPassemblageComp(PHRQ_io *io=NULL);
+	cxxPPassemblageComp(struct pure_phase *, PHRQ_io *io=NULL);
 	 ~cxxPPassemblageComp();
 
 

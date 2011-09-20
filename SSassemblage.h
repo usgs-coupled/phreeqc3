@@ -20,10 +20,10 @@ class cxxSSassemblage:public cxxNumKeyword
 {
 
 public:
-	cxxSSassemblage();
-	cxxSSassemblage(struct s_s_assemblage *);
+	cxxSSassemblage(PHRQ_io * io = NULL);
+	cxxSSassemblage(struct s_s_assemblage *, PHRQ_io * io = NULL);
 	cxxSSassemblage(const std::map < int, cxxSSassemblage > &entity_map,
-		cxxMix & mx, int n_user);
+		cxxMix & mx, int n_user, PHRQ_io * io = NULL);
 	~cxxSSassemblage();
 
 	struct s_s_assemblage *cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG);

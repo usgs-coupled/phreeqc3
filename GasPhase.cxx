@@ -26,23 +26,23 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxGasPhase::cxxGasPhase()
+cxxGasPhase::cxxGasPhase(PHRQ_io * io)
 	//
 	// default constructor for cxxGasPhase 
 	//
-:	cxxNumKeyword()
+:	cxxNumKeyword(io)
 {
 	total_p = 0;
 	volume = 0;
 	gasPhaseComps.type = cxxNameDouble::ND_NAME_COEF;
 }
 
-cxxGasPhase::cxxGasPhase(struct gas_phase *gas_phase_ptr)
+cxxGasPhase::cxxGasPhase(struct gas_phase *gas_phase_ptr, PHRQ_io * io)
 		//
 		// constructor for cxxGasPhase from struct gas_phase
 		//
 	:
-cxxNumKeyword()
+cxxNumKeyword(io)
 {
 	int i;
 
@@ -70,8 +70,8 @@ cxxNumKeyword()
 	}
 }
 cxxGasPhase::cxxGasPhase(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxGasPhase > &entities,
-						 cxxMix & mix, int l_n_user):
-cxxNumKeyword()
+						 cxxMix & mix, int l_n_user, PHRQ_io * io):
+cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	gasPhaseComps.type = cxxNameDouble::ND_NAME_COEF;
