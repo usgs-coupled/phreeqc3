@@ -455,7 +455,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// solutions
 	for (i = 0; i < count_solution; i++)
 	{
-		cxxSolution entity(solution[i], &this->phrq_io);
+		cxxSolution entity(solution[i], &phrq_io);
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
 
@@ -470,7 +470,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// pure phases
 	for (i = 0; i < count_pp_assemblage; i++)
 	{
-		cxxPPassemblage entity(&pp_assemblage[i], &this->phrq_io);
+		cxxPPassemblage entity(&pp_assemblage[i], &phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -478,7 +478,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// exchangers
 	for (i = 0; i < count_exchange; i++)
 	{
-		cxxExchange entity(&exchange[i], &this->phrq_io);
+		cxxExchange entity(&exchange[i], &phrq_io);
 		entity.totalize();
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -486,7 +486,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// surfaces
 	for (i = 0; i < count_surface; i++)
 	{
-		cxxSurface entity(&surface[i], &this->phrq_io);
+		cxxSurface entity(&surface[i], &phrq_io);
 		entity.totalize();
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -494,7 +494,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// gas phases
 	for (i = 0; i < count_gas_phase; i++)
 	{
-		cxxGasPhase entity(&gas_phase[i], &this->phrq_io);
+		cxxGasPhase entity(&gas_phase[i], &phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
@@ -511,7 +511,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	for (i = 0; i < count_kinetics; i++)
 	{
 		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
-		cxxKinetics entity(&kinetics[i], &this->phrq_io);
+		cxxKinetics entity(&kinetics[i], &phrq_io);
 		accumulator.add_extensive(entity.get_totals(), 1.0);
 	}
 
@@ -1185,42 +1185,42 @@ void Phreeqc::init(void)
 
 	count_strings = 0;
 #ifdef MULTICHART
-	chart_handler.Set_io(&this->phrq_io);
+	chart_handler.Set_io(&phrq_io);
 #endif
-	run_info.Set_io(&this->phrq_io);
+	run_info.Set_io(&phrq_io);
 
 	this->clear_cookie();
 
 	return;
 }
-void * Phreeqc::get_cookie()
-{
-	if (cookie_list.size() > 0)
-	{
-		return this->cookie_list.front();
-	}
-	else
-	{
-		return NULL;
-	}
-}
-void Phreeqc::set_cookie(std::istream * cookie)
-{
-	this->cookie_list.push_front(cookie);
-}
-void Phreeqc::clear_cookie(void)
-{
-	while (this->cookie_list.size() > 0)
-	{
-		this->pop_cookie();
-	}
-}
-void Phreeqc::pop_cookie()
-{
-	if (cookie_list.size() > 0)
-	{
-		delete this->cookie_list.front();
-		this->cookie_list.pop_front();
-	}
-}
+//void * Phreeqc::get_cookie()
+//{
+//	if (cookie_list.size() > 0)
+//	{
+//		return this->cookie_list.front();
+//	}
+//	else
+//	{
+//		return NULL;
+//	}
+//}
+//void Phreeqc::set_cookie(std::istream * cookie)
+//{
+//	this->cookie_list.push_front(cookie);
+//}
+//void Phreeqc::clear_cookie(void)
+//{
+//	while (this->cookie_list.size() > 0)
+//	{
+//		this->pop_cookie();
+//	}
+//}
+//void Phreeqc::pop_cookie()
+//{
+//	if (cookie_list.size() > 0)
+//	{
+//		delete this->cookie_list.front();
+//		this->cookie_list.pop_front();
+//	}
+//}
 
