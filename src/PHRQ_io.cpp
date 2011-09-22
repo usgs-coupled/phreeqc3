@@ -346,9 +346,14 @@ output_string(const int type, std::string str)
 	{
 
 	case OUTPUT_ERROR:
+		this->error_count++;
 		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "%s", str.c_str());
+		}
+		if (output_file != NULL && output_file_on)
+		{
+			fprintf(output_file, "%s", str.c_str());
 		}
 		fflush(error_file);
 		break;

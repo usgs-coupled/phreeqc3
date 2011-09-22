@@ -15,7 +15,7 @@ public:
 
 	// methods
 	void output_msg(const std::string &);
-	void error_msg(const std::string &);
+	void error_msg(const std::string &, int stop=0);
 	void warning_msg(const std::string &);
 
 	void Set_io(PHRQ_io * p_io)

@@ -253,7 +253,7 @@ int write_banner(void);
 public:
 int close_input_files(void);
 int close_output_files(void);
-CLASS_STATIC int getc_callback(void *cookie);
+//CLASS_STATIC int getc_callback(void *cookie);
 #if defined(MERGE_INCLUDE_FILES) 
 CLASS_STATIC int istream_getc(void *cookie);
 #endif /* #if defined(MERGE_INCLUDE_FILES) */
@@ -1404,7 +1404,7 @@ protected:
 	std::list <std::istream *> cookie_list;
 	std::ifstream * in_stream;
 	std::ifstream * db_stream;
-	PHRQ_io phrq_io;
+	
 };
 #endif /* _INC_PHREEQC_H */
 
