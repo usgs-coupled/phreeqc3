@@ -162,7 +162,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 //			status_on = FALSE;
 //#endif
 //		}
-		if (error_file != NULL)
+		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "ERROR: %s\n", err_str);
 			if (flush)
@@ -172,7 +172,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		sprintf(progress_str, "ERROR: %s\n", err_str);
 		show_progress(type, progress_str);
 #endif /* PHREEQ98 */
-		if (output_file != NULL)
+		if (output_file != NULL && output_file_on)
 		{
 			fprintf(output_file, "ERROR: %s\n", err_str);
 #ifdef PHREEQ98
@@ -183,7 +183,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		}
 		if (stop)
 		{
-			if (error_file != NULL)
+			if (error_file != NULL && error_file_on)
 			{
 				fprintf(error_file, "Stopping.\n");
 				fflush(error_file);
@@ -192,7 +192,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 			sprintf(progress_str, "Stopping.\n");
 			show_progress(type, progress_str);
 #endif /* PHREEQ98 */
-			if (output_file != NULL)
+			if (output_file != NULL && output_file_on)
 			{
 				fprintf(output_file, "Stopping.\n");
 #ifdef PHREEQ98
@@ -208,7 +208,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 
 	case OUTPUT_WARNING:
 		//if (pr.logfile == TRUE && log_file != NULL)
-		if (log_file != NULL)
+		if (log_file != NULL && log_file_on)
 		{
 			fprintf(log_file, "WARNING: %s\n", err_str);
 			if (flush)
@@ -233,7 +233,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 //			status_on = FALSE;
 //#endif
 //		}
-		if (error_file != NULL)
+		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "WARNING: %s\n", err_str);
 			if (flush)
@@ -243,7 +243,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		sprintf(progress_str, "WARNING: %s\n", err_str);
 		show_progress(type, progress_str);
 #endif /* PHREEQ98 */
-		if (output_file != NULL)
+		if (output_file != NULL && output_file_on)
 		{
 			fprintf(output_file, "WARNING: %s\n", err_str);
 #ifdef PHREEQ98
@@ -256,7 +256,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 	case OUTPUT_CHECKLINE:
 		//if (pr.echo_input == TRUE)
 		{
-			if (output_file != NULL)
+			if (output_file != NULL && output_file_on)
 			{
 				vfprintf(output_file, format, args);
 #ifdef PHREEQ98
@@ -269,7 +269,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		break;
 	case OUTPUT_MESSAGE:
 	case OUTPUT_BASIC:
-		if (output_file != NULL)
+		if (output_file != NULL && output_file_on)
 		{
 			vfprintf(output_file, format, args);
 #ifdef PHREEQ98
@@ -280,7 +280,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		}
 		break;
 	case OUTPUT_PUNCH:
-		if (punch_file != NULL)
+		if (punch_file != NULL && punch_file_on)
 		{
 			//if (pr.punch == TRUE && punch.in == TRUE)
 			{
@@ -292,7 +292,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		break;
 	case OUTPUT_LOG:
 		//if (pr.logfile == TRUE && log_file != NULL)
-		if (log_file != NULL)
+		if (log_file != NULL && log_file_on)
 		{
 			vfprintf(log_file, format, args);
 			if (flush)
@@ -300,7 +300,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		}
 		break;
 	case OUTPUT_SCREEN:
-		if (error_file != NULL)
+		if (error_file != NULL && error_file_on)
 		{
 			vfprintf(error_file, format, args);
 			if (flush)
@@ -320,7 +320,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 		}
 		break;
 	case OUTPUT_DUMP:
-		if (dump_file != NULL)
+		if (dump_file != NULL && dump_file_on)
 		{
 			vfprintf(dump_file, format, args);
 			if (flush)
