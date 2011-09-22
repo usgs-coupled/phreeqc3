@@ -6,6 +6,7 @@
 #include <vector>
 #include <set>
 #include "Phreeqc_class.h"
+#include "PHRQ_base.h"
 // forward declarations
 class cxxISolution;				// reqd for read and dump_xml
 

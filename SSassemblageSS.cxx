@@ -101,7 +101,12 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::s
 		s_s_ptr[j].name = P_INSTANCE_POINTER string_hsave((*it).second.name.c_str());
 		if ((*it).second.name.size() <= 0)
 		{
+#ifdef PHREEQC_CLASS
 			P_INSTANCE_POINTER error_msg("Name of a solid solution not defined in solid-solution assemblage. Error in _MODIFY definition?\n", STOP);
+#else
+			::error_msg("Name of a solid solution not defined in solid-solution assemblage. Error in _MODIFY definition?\n", STOP);
+#endif
+
 		}
 		assert((*it).second.name.size() > 0);
 		//s_s_ptr[j].total_moles                                 = it->total_moles;
