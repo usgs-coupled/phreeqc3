@@ -137,31 +137,12 @@ output_handler(const int type, const char *err_str, const bool stop,
 			   const char *format, va_list args)
 /* ---------------------------------------------------------------------- */
 {
-	int flush;
-	FILE *save_output = NULL;
-
-	flush = 1;
-
-	//if (get_forward_output_to_log())
-	//{
-	//	save_output = output_file;
-	//	output_file = log_file;
-	//}
+	int flush = 1;
 
 	switch (type)
 	{
 
 	case OUTPUT_ERROR:
-//		if (status_on == TRUE)
-//		{
-//			if (error_file != NULL)
-//			{
-//				fprintf(error_file, "\n");
-//			}
-//#ifndef DOS
-//			status_on = FALSE;
-//#endif
-//		}
 		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "ERROR: %s\n", err_str);
@@ -200,9 +181,6 @@ output_handler(const int type, const char *err_str, const bool stop,
 #endif
 				fflush(output_file);
 			}
-////#if defined MULTICHART
-////			chart_handler.End_timer(PHREEQC_THIS);
-////#endif
 		}
 		break;
 
@@ -218,21 +196,6 @@ output_handler(const int type, const char *err_str, const bool stop,
 		//	return (OK);
 		//if (state == ADVECTION && advection_warnings == FALSE)
 		//	return (OK);
-//		if (pr.warnings >= 0)
-//		{
-//			if (count_warnings > pr.warnings)
-//				return (OK);
-//		}
-//		if (status_on == TRUE)
-//		{
-//			if (error_file != NULL)
-//			{
-//				fprintf(error_file, "\n");
-//			}
-//#ifndef DOS
-//			status_on = FALSE;
-//#endif
-//		}
 		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "WARNING: %s\n", err_str);
@@ -329,11 +292,6 @@ output_handler(const int type, const char *err_str, const bool stop,
 		break;
 	}
 
-	//if (get_forward_output_to_log())
-	//{
-	//	output_file = save_output;
-	//}
-	//return (OK);
 	return 1;
 }
 /* ---------------------------------------------------------------------- */
@@ -350,10 +308,6 @@ output_string(const int type, std::string str)
 		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "%s", str.c_str());
-		}
-		if (output_file != NULL && output_file_on)
-		{
-			fprintf(output_file, "%s", str.c_str());
 		}
 		fflush(error_file);
 		break;
@@ -527,13 +481,6 @@ fileop_handler(const int type, int (*PFN) (FILE *))
 {
 	FILE *save_output = NULL;
 
-	//int forward = get_forward_output_to_log();
-	//if (forward)
-	//{
-	//	save_output = output_file;
-	//	output_file = log_file;
-	//}
-
 	switch (type)
 	{
 	case OUTPUT_ERROR:
@@ -582,11 +529,6 @@ fileop_handler(const int type, int (*PFN) (FILE *))
 		break;
 	}
 
-	//if (forward)
-	//{
-	//	output_file = save_output;
-	//}
-	//return (OK);
 	return 1;
 }
 
