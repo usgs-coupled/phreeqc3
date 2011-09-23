@@ -561,7 +561,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxSolution::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -633,7 +633,7 @@ cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			continue;
 
 		case 0:				// totals
-			//if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			//if (this->totals.read_raw(parser, next_char) !=
 			//	CParser::PARSER_OK)
 			//{
 			//	parser.incr_input_error();
@@ -643,7 +643,7 @@ cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			//}
 			{
 				cxxNameDouble temp_totals;
-				if (temp_totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=	CParser::PARSER_OK)
+				if (temp_totals.read_raw(parser, next_char) !=	CParser::PARSER_OK)
 				{
 					parser.incr_input_error();
 					parser.
@@ -659,7 +659,7 @@ cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 1:				// activities
-			if (this->master_activity.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->master_activity.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -672,7 +672,7 @@ cxxSolution::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 2:				// gammas
-			if (this->species_gamma.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->species_gamma.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

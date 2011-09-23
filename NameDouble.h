@@ -53,7 +53,7 @@ class cxxNameDouble:public
 	dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	CParser::STATUS_TYPE
-	read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, std::istream::pos_type & pos);
+	read_raw(CParser & parser, std::istream::pos_type & pos);
 
 	void
 	add_extensive(const cxxNameDouble & old, double factor);

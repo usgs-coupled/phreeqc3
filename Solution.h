@@ -157,7 +157,7 @@ class cxxSolution:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
+	void read_raw(CParser & parser, bool check = true);
 	void multiply(double extensive);
 	void modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original);
 #ifdef ORCHESTRA

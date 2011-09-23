@@ -1374,6 +1374,7 @@ int string_trim_right(char *str);
 int string_trim_left(char *str);
 CLASS_STATIC LDBLE under(LDBLE xval);
 void zero_double(LDBLE * target, int n);
+int get_input_errors(void);
 
 #ifdef PHREEQ98
 void AddToCEntry(char *a, int l, int i);

@@ -357,12 +357,12 @@ cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	}
 }
 
-CParser::STATUS_TYPE cxxNameDouble::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser,
+CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 											 std::istream::pos_type & pos)
 {
 	std::string token;
-	char *
-		ctoken;
+	//char *
+	//	ctoken;
 	double
 		d;
 
@@ -379,8 +379,9 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(PHREEQC_PTR_ARG_COMMA CParser & par
 	{
 		return CParser::PARSER_ERROR;
 	}
-	ctoken = P_INSTANCE_POINTER string_hsave(token.c_str());
-	(*this)[ctoken] = d;
+	//ctoken = P_INSTANCE_POINTER string_hsave(token.c_str());
+	//(*this)[ctoken] = d;
+	(*this)[token.c_str()] = d;
 	return CParser::PARSER_OK;
 }
 

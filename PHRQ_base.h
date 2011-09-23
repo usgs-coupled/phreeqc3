@@ -26,18 +26,18 @@ public:
 	{
 		return this->io;
 	}
-	void Set_error_count(int i)
+	void Set_base_error_count(int i)
 	{
-		this->error_count = i;
+		this->base_error_count = i;
 	}
-	int Get_error_count(void)
+	int Get_base_error_count(void)
 	{
-		return this->error_count;
+		return this->base_error_count;
 	}
 	// data
 private:
 	PHRQ_io * io;
-	int error_count;
+	int base_error_count;
 };
 
 #endif /* _PHRQBASE_H */

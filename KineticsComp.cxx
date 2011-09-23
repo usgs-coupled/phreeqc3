@@ -208,7 +208,7 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxKineticsComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxKineticsComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 	double d;
@@ -324,7 +324,7 @@ cxxKineticsComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 
 
 		case 5:				// namecoef
-			if (this->namecoef.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->namecoef.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

@@ -5,14 +5,14 @@ PHRQ_base::
 PHRQ_base(void)
 {
 	this->io = NULL;
-	error_count = 0;
+	base_error_count = 0;
 }
 
 PHRQ_base::
 PHRQ_base(PHRQ_io * p_io)
 {
 	this->io = p_io;
-	error_count = 0;
+	base_error_count = 0;
 }
 
 PHRQ_base::
@@ -23,18 +23,18 @@ PHRQ_base::
 void PHRQ_base::
 error_msg(const std::string & stdstr, int stop)
 {
-	this->error_count++;
+	this->base_error_count++;
 	if (this->io)
 	{
-		//this->io->phreeqc_handler(ACTION_OUTPUT, OUTPUT_ERROR, stdstr, stop, "", args);
-		this->io->output_string(PHRQ_io::OUTPUT_ERROR, stdstr);
+		this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_ERROR, stdstr.c_str(), stop!=0, "", NULL);
+		//this->io->output_string(PHRQ_io::OUTPUT_ERROR, stdstr);
 	}
 	else
 	{
 		std::cerr << stdstr << std::endl;
 		std::cout << stdstr << std::endl;
 	}
-	if (stop == 0)
+	if (stop != 0)
 	{
 		throw "PHRQ_base error message";
 	}
@@ -45,8 +45,8 @@ warning_msg(const std::string & stdstr)
 {
 	if (this->io)
 	{
-		//this->io->phreeqc_handler(ACTION_OUTPUT, OUTPUT_WARNING, stdstr, stop, "", args);
-		this->io->output_string(PHRQ_io::OUTPUT_WARNING, stdstr);
+		this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_WARNING, stdstr.c_str(), false, "", NULL);
+		//this->io->output_string(PHRQ_io::OUTPUT_WARNING, stdstr);
 	}
 	else
 	{
@@ -61,8 +61,8 @@ output_msg(const std::string & stdstr)
 	bool stop = false;
 	if (this->io)
 	{
-		//this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_MESSAGE, stdstr, stop, "");
-		this->io->output_string(PHRQ_io::OUTPUT_MESSAGE, stdstr);
+		this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_MESSAGE, stdstr.c_str(), stop!=0, "", NULL);
+		//this->io->output_string(PHRQ_io::OUTPUT_MESSAGE, stdstr);
 	}
 	else
 	{

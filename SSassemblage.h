@@ -34,7 +34,7 @@ public:
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
+	void read_raw(CParser & parser, bool check = true);
 	std::map <std::string, cxxSSassemblageSS > & get_ssAssemblageSSs() 
 	{
 		return this->ssAssemblageSSs;

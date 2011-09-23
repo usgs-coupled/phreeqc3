@@ -8,25 +8,14 @@
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
 #include "Phreeqc_class.h"
-#if defined (PHREEQC_CLASS)
-class Phreeqc;
-#define PHREEQC_NAME_SPACE Phreeqc::
-#define PHREEQC_COOKIE this->p_instance->
-#define ERROR_MESSAGE_QUALIFIER this->p_instance->
-#else
-#define PHREEQC_NAME_SPACE ::
-#define PHREEQC_COOKIE
-#define ERROR_MESSAGE_QUALIFIER ::
-extern int input_error;
-#endif
 #include "PHRQ_base.h"
 
 class CParser: public PHRQ_base
 {
   public:
-	CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, PHRQ_io *io=NULL);
-	CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, PHRQ_io *io=NULL);
-	CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output,
+	CParser(std::istream & input, PHRQ_io *io=NULL);
+	CParser(std::istream & input, std::ostream & output, PHRQ_io *io=NULL);
+	CParser(std::istream & input, std::ostream & output,
 			std::ostream & error, PHRQ_io *io=NULL);
 
 	virtual ~ CParser();
@@ -321,9 +310,7 @@ class CParser: public PHRQ_base
 	ECHO_OPTION echo_file;
 	std::string accumulated;
 	bool accumulate;
-#if defined(PHREEQC_CLASS)
-	Phreeqc * p_instance;
-#endif
+
 };
 
 // Global functions

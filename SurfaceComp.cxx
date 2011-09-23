@@ -249,7 +249,7 @@ cxxSurfaceComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSurfaceComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxSurfaceComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -406,7 +406,7 @@ cxxSurfaceComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 8:				// totals
-			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->totals.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -430,7 +430,7 @@ cxxSurfaceComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 10:				// formula_totals
-			if (this->formula_totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->formula_totals.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

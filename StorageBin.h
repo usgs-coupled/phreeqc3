@@ -87,8 +87,8 @@ class cxxStorageBin: public PHRQ_base
 
 	void dump_raw(std::ostream & s_oss, int i, unsigned int indent);
 
-	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser);
-	int read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser);
+	void read_raw(CParser & parser);
+	int read_raw_keyword(CParser & parser);
 
 	void add(struct system *sys_ptr);
 

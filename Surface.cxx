@@ -363,7 +363,7 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxSurface::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	int i = 0;
@@ -539,21 +539,21 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(P_INSTANCE_COMMA parser, false);
+				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
+				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceComps.find(ec.get_formula()) != this->surfaceComps.end())
 				{
 					cxxSurfaceComp & comp = this->surfaceComps.find(ec.get_formula())->second;
-					comp.read_raw(P_INSTANCE_COMMA reread, false);
+					comp.read_raw(reread, false);
 				}
 				else
 				{
 					cxxSurfaceComp ec1(this->Get_io());
-					ec1.read_raw(P_INSTANCE_COMMA reread, false);
+					ec1.read_raw(reread, false);
 					std::string str(ec1.get_formula());
 					this->surfaceComps[str] = ec1;
 				}
@@ -592,21 +592,21 @@ cxxSurface::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(P_INSTANCE_COMMA parser, false);
+				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
+				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->surfaceCharges.find(ec.get_name()) != this->surfaceCharges.end())
 				{
 					cxxSurfaceCharge & comp = this->surfaceCharges.find(ec.get_name())->second;
-					comp.read_raw(P_INSTANCE_COMMA reread, false);
+					comp.read_raw(reread, false);
 				}
 				else
 				{
 					cxxSurfaceCharge ec1(this->Get_io());
-					ec1.read_raw(P_INSTANCE_COMMA reread, false);
+					ec1.read_raw(reread, false);
 					std::string str(ec1.get_name());
 					this->surfaceCharges[str] = ec1;
 				}
