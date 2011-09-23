@@ -288,7 +288,7 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxKinetics::read_raw(CParser & parser, bool check)
 {
 
 	double d;
@@ -437,10 +437,10 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 #endif
 				parser.set_accumulate(true);
-				ec.read_raw(P_INSTANCE_COMMA parser, false);
+				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
+				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 
@@ -456,12 +456,12 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				}
 				if (found)
 				{
-					kit->read_raw(P_INSTANCE_COMMA reread, false);
+					kit->read_raw(reread, false);
 				}
 				else
 				{
 					cxxKineticsComp ec1(this->Get_io());
-					ec1.read_raw(P_INSTANCE_COMMA reread, false);
+					ec1.read_raw(reread, false);
 					std::string str(ec1.get_rate_name());
 					this->kineticsComps.push_back(ec1);
 				}
@@ -469,12 +469,12 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				if (this->kineticsComps.find(ec.get_rate_name()) != this->kineticsComps.end())
 				{
 					cxxKineticsComp & comp = this->kineticsComps.find(ec.get_rate_name())->second;
-					comp.read_raw(P_INSTANCE_COMMA reread, false);
+					comp.read_raw(reread, false);
 				}
 				else
 				{
 					cxxKineticsComp ec1;
-					ec1.read_raw(P_INSTANCE_COMMA reread, false);
+					ec1.read_raw(reread, false);
 					std::string str(ec1.get_rate_name());
 					this->kineticsComps[str] = ec1;
 				}
@@ -484,7 +484,7 @@ cxxKinetics::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 5:				// totals
-			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->totals.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

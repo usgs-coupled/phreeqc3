@@ -17,7 +17,7 @@ PHRQ_io(void)
 	punch_file = NULL;	/* OUTPUT_PUNCH */
 	error_file = NULL;	/* OUTPUT_ERROR */
 	dump_file = NULL;	/* OUTPUT_DUMP */
-	int error_count = 0;
+	io_error_count = 0;
 
 	output_file_on = true;
 	log_file_on = false;
@@ -137,12 +137,13 @@ output_handler(const int type, const char *err_str, const bool stop,
 			   const char *format, va_list args)
 /* ---------------------------------------------------------------------- */
 {
-	int flush = 1;
+	int flush = 0;
 
 	switch (type)
 	{
 
 	case OUTPUT_ERROR:
+		io_error_count++;
 		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "ERROR: %s\n", err_str);
@@ -304,7 +305,7 @@ output_string(const int type, std::string str)
 	{
 
 	case OUTPUT_ERROR:
-		this->error_count++;
+		//this->io_error_count++;
 		if (error_file != NULL && error_file_on)
 		{
 			fprintf(error_file, "%s", str.c_str());

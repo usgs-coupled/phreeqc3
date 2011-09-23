@@ -27,7 +27,7 @@ class cxxPPassemblage:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
+	void read_raw(CParser & parser, bool check = true);
 
 	const cxxNameDouble & get_totals() const
 	{

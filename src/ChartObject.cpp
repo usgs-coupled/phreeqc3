@@ -480,7 +480,7 @@ ChartObject::OpenCSVFile(std::string file_name)
 
 	std::ostringstream oss_out;
 	std::ostringstream oss_err;
-	CParser parser(P_INSTANCE_COMMA f_csv, oss_out, oss_err, this->Get_io());
+	CParser parser(f_csv, oss_out, oss_err, this->Get_io());
 	parser.set_echo_file(CParser::EO_NONE);	
 
 	/* Get lines */

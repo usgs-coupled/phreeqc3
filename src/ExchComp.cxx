@@ -335,7 +335,7 @@ cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxExchComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxExchComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -488,7 +488,7 @@ cxxExchComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 8:				// totals
-			if (this->totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->totals.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -501,7 +501,7 @@ cxxExchComp::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 9:				// formula_totals
-			if (this->formula_totals.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->formula_totals.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
