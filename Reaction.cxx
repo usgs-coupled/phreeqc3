@@ -222,7 +222,7 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, const bool check)
+cxxReaction::read_raw(CParser & parser, const bool check)
 {
 
 	int j;
@@ -298,7 +298,7 @@ cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, const bool check)
 			break;
 
 		case 1:				// reactant_list
-			if (this->reactantList.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->reactantList.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -310,7 +310,7 @@ cxxReaction::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, const bool check)
 			break;
 
 		case 2:				// element_list
-			if (this->elementList.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->elementList.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

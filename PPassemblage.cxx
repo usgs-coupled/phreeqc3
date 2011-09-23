@@ -168,7 +168,7 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxPPassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxPPassemblage::read_raw(CParser & parser, bool check)
 {
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -221,7 +221,7 @@ cxxPPassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 0:				// eltList
-			if (this->eltList.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->eltList.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();
@@ -268,7 +268,7 @@ cxxPPassemblage::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
 				std::istringstream is(parser.get_accumulated());
-				CParser reread(P_INSTANCE_COMMA is, this->Get_io());
+				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->ppAssemblageComps.find(ec.get_name()) != this->ppAssemblageComps.end())

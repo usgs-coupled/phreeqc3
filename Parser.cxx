@@ -25,7 +25,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, PHRQ_io *io):
+CParser::CParser(std::istream & input, PHRQ_io *io):
 PHRQ_base(io),
 m_input_stream(input), 
 m_output_stream(std::cout), 
@@ -38,12 +38,9 @@ m_next_keyword(KT_NONE)
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
 	accumulate = false;
-#if defined(PHREEQC_CLASS)
-	this->p_instance = p_instance1;
-#endif
 }
 
-CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, PHRQ_io *io)
+CParser::CParser(std::istream & input, std::ostream & output, PHRQ_io *io)
 :
 PHRQ_base(io),
 m_input_stream(input), 
@@ -57,12 +54,9 @@ m_next_keyword(KT_NONE)
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
 	accumulate = false;
-#if defined(PHREEQC_CLASS)
-	this->p_instance = p_instance1;
-#endif
 }
 
-CParser::CParser(PHREEQC_PTR_ARG_COMMA std::istream & input, std::ostream & output, std::ostream & error, PHRQ_io *io)
+CParser::CParser(std::istream & input, std::ostream & output, std::ostream & error, PHRQ_io *io)
 :
 PHRQ_base(io),
 m_input_stream(input), 
@@ -76,9 +70,6 @@ m_next_keyword(KT_NONE)
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
 	accumulate = false;
-#if defined(PHREEQC_CLASS)
-	this->p_instance = p_instance1;
-#endif
 }
 
 CParser::~CParser()
@@ -142,7 +133,8 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
 				//PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
-				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
+				this->Get_io()->output_handler(PHRQ_io::OUTPUT_MESSAGE, msg.str().c_str(), false, "", NULL);
+				//this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
 			}
 			break;
 		case EO_KEYWORDS:
@@ -151,7 +143,8 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
 				//PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
-				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
+				this->Get_io()->output_handler(PHRQ_io::OUTPUT_MESSAGE, msg.str().c_str(), false, "", NULL);
+				//this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
 			}
 			break;
 
@@ -161,7 +154,8 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
 				//PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
-				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
+				this->Get_io()->output_handler(PHRQ_io::OUTPUT_MESSAGE, msg.str().c_str(),false,"",NULL);
+				//this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
 			}
 			break;
 		}
@@ -174,7 +168,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 		std::ostringstream msg;
 		msg << "Unexpected eof while reading " << str <<
 			"\nExecution terminated.\n";
-		error_msg(msg, OT_STOP);
+		error_msg(msg.str().c_str(), OT_STOP);
 	}
 
 	// Check keyword
@@ -183,7 +177,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 		std::ostringstream msg;
 		msg << "Expected data for " << str <<
 			", but got a keyword ending data block.";
-		error_msg(msg, OT_CONTINUE);
+		error_msg(msg.str().c_str(), OT_CONTINUE);
 		incr_input_error();
 	}
 	m_line_type = i;
@@ -517,7 +511,7 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 		{
 			std::ostringstream err;
 			err << "Unknown unit, " << tot_units;
-			error_msg(err, OT_CONTINUE);
+			error_msg(err.str().c_str(), OT_CONTINUE);
 		}
 		return PARSER_ERROR;
 	}
@@ -578,7 +572,7 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 		std::ostringstream err;
 		err << "Units for master species, " << tot_units <<
 			", are not compatible with default units, " << str << ".";
-		error_msg(err, OT_CONTINUE);
+		error_msg(err.str().c_str(), OT_CONTINUE);
 	}
 	return PARSER_ERROR;
 }
@@ -913,7 +907,7 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 int
 CParser::error_msg(const char *err_str, ONERROR_TYPE ot)
 {
-	ERROR_MESSAGE_QUALIFIER error_msg(err_str, (int) ot);
+	PHRQ_base::error_msg(err_str, (int) ot);
 	m_error_stream << "ERROR: " << err_str << "\n";
 	m_error_stream.flush();
 
@@ -1023,7 +1017,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Element name must be followed by " <<
 			"parentheses in redox couple, " << token << ".";
-		error_msg(err_msg, OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), OT_CONTINUE);
 		incr_input_error();
 		return PARSER_ERROR;
 	}
@@ -1039,7 +1033,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 			std::ostringstream err_msg;
 			err_msg << "End of line or  " "/"
 				" encountered before end of parentheses, " << token << ".";
-			error_msg(err_msg, OT_CONTINUE);
+			error_msg(err_msg.str().c_str(), OT_CONTINUE);
 			return PARSER_ERROR;
 		}
 		paren1.insert(paren1.end(), *ptr);	// element.push_back(c);
@@ -1057,7 +1051,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << " " "/" " must follow parentheses " <<
 			"ending first half of redox couple, " << token << ".";
-		error_msg(err_msg, OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 	++ptr;
@@ -1068,7 +1062,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Redox couple must be two redox states " <<
 			"of the same element, " << token << ".";
-		error_msg(err_msg, OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 	if (*ptr != '(')
@@ -1076,7 +1070,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Element name must be followed by "
 			"parentheses in redox couple, " << token << ".";
-		error_msg(err_msg, OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), OT_CONTINUE);
 		incr_input_error();
 		return PARSER_ERROR;
 	}
@@ -1091,7 +1085,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 			std::ostringstream err_msg;
 			err_msg << "End of line or  " "/"
 				" encountered before end of parentheses, " << token << ".";
-			error_msg(err_msg, OT_CONTINUE);
+			error_msg(err_msg.str().c_str(), OT_CONTINUE);
 			return PARSER_ERROR;
 		}
 		paren2.insert(paren2.end(), *ptr);	// element.push_back(c);
@@ -1115,7 +1109,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Both parts of redox couple are the same, " <<
 			token << ".";
-		error_msg(err_msg, OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 	return PARSER_OK;
@@ -1369,7 +1363,6 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 int CParser::
 incr_input_error()
 {
-	++ ERROR_MESSAGE_QUALIFIER input_error;
 	return ++m_input_error;
 }
 

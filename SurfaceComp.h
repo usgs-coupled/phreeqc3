@@ -30,7 +30,7 @@ public:
 	static struct surface_comp *cxxSurfaceComp2surface_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceComp > &el);
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
-	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check = true);
+	void read_raw(CParser & parser, bool check = true);
 	const cxxNameDouble & get_totals() const;
 	void add(PHREEQC_PTR_ARG_COMMA const cxxSurfaceComp & comp, double extensive);
 	void multiply(double extensive);

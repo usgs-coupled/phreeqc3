@@ -53,13 +53,13 @@ typedef enum
 	int close_output_files(void);
 	static int istream_getc(void *cookie);
 	void output_string(const int type, std::string str);
-	void Set_error_count(int i)
+	void Set_io_error_count(int i)
 	{
-		this->error_count = i;
+		this->io_error_count = i;
 	}
-	int Get_error_count(void)
+	int Get_io_error_count(void)
 	{
-		return this->error_count;
+		return this->io_error_count;
 	}
 	void Set_input_file(FILE * in)
 	{
@@ -146,7 +146,7 @@ private:
 	FILE *punch_file;	/* OUTPUT_PUNCH */
 	FILE *error_file;	/* OUTPUT_ERROR */
 	FILE *dump_file;	/* OUTPUT_DUMP */
-	int error_count;
+	int io_error_count;
 
 	bool output_file_on;
 	bool log_file_on;

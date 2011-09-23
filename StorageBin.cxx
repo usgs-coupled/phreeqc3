@@ -701,7 +701,7 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent)
 }
 
 void
-cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
+cxxStorageBin::read_raw(CParser & parser)
 {
 	CParser::LINE_TYPE i;
 	while ((i =
@@ -735,7 +735,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_SOLUTION_RAW:
 			{
 				cxxSolution entity(this->Get_io());
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(parser);
 				Solutions[entity.get_n_user()] = entity;
 			}
 			break;
@@ -743,7 +743,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_EXCHANGE_RAW:
 			{
 				cxxExchange entity(this->Get_io());
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(parser);
 				Exchangers[entity.get_n_user()] = entity;
 			}
 			break;
@@ -751,7 +751,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_GASPHASE_RAW:
 			{
 				cxxGasPhase entity(this->Get_io());
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(parser);
 				GasPhases[entity.get_n_user()] = entity;
 			}
 			break;
@@ -759,7 +759,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_KINETICS_RAW:
 			{
 				cxxKinetics entity(this->Get_io());
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(parser);
 				Kinetics[entity.get_n_user()] = entity;
 			}
 			break;
@@ -767,7 +767,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_PPASSEMBLAGE_RAW:
 			{
 				cxxPPassemblage entity(this->Get_io());
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(parser);
 				PPassemblages[entity.get_n_user()] = entity;
 			}
 			break;
@@ -775,7 +775,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_SSASSEMBLAGE_RAW:
 			{
 				cxxSSassemblage entity;
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(parser);
 				SSassemblages[entity.get_n_user()] = entity;
 			}
 			break;
@@ -783,7 +783,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_SURFACE_RAW:
 			{
 				cxxSurface entity(this->Get_io());
-				entity.read_raw(P_INSTANCE_COMMA parser);
+				entity.read_raw(parser);
 				Surfaces[entity.get_n_user()] = entity;
 			}
 			break;
@@ -799,7 +799,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 		case CParser::KT_REACTION_RAW:
 			{
 				cxxReaction entity;
-				entity.read_raw(P_INSTANCE_COMMA parser, true);
+				entity.read_raw(parser, true);
 				Reactions[entity.get_n_user()] = entity;
 			}
 			break;
@@ -813,7 +813,7 @@ cxxStorageBin::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser)
 }
 
 int
-cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
+cxxStorageBin::read_raw_keyword(CParser & parser)
 {
 	CParser::LINE_TYPE i;
 	int entity_number = -999;
@@ -846,7 +846,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_SOLUTION_RAW:
 		{
 			cxxSolution entity(this->Get_io());
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(parser);
 			Solutions[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -855,7 +855,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_EXCHANGE_RAW:
 		{
 			cxxExchange entity(this->Get_io());
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(parser);
 			Exchangers[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -864,7 +864,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_GASPHASE_RAW:
 		{
 			cxxGasPhase entity(this->Get_io());
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(parser);
 			GasPhases[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -873,7 +873,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_KINETICS_RAW:
 		{
 			cxxKinetics entity(this->Get_io());
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(parser);
 			Kinetics[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -882,7 +882,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_PPASSEMBLAGE_RAW:
 		{
 			cxxPPassemblage entity(this->Get_io());
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(parser);
 			PPassemblages[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -891,7 +891,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_SSASSEMBLAGE_RAW:
 		{
 			cxxSSassemblage entity;
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(parser);
 			SSassemblages[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -900,7 +900,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_SURFACE_RAW:
 		{
 			cxxSurface entity(this->Get_io());
-			entity.read_raw(P_INSTANCE_COMMA parser);
+			entity.read_raw(parser);
 			Surfaces[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}
@@ -918,7 +918,7 @@ cxxStorageBin::read_raw_keyword(PHREEQC_PTR_ARG_COMMA CParser & parser)
 	case CParser::KT_REACTION_RAW:
 		{
 			cxxReaction entity;
-			entity.read_raw(P_INSTANCE_COMMA parser, true);
+			entity.read_raw(parser, true);
 			Reactions[entity.get_n_user()] = entity;
 			entity_number = entity.get_n_user();
 		}

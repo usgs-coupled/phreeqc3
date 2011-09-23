@@ -261,7 +261,7 @@ cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxGasPhase::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
+cxxGasPhase::read_raw(CParser & parser, bool check)
 {
 
 	int i;
@@ -363,7 +363,7 @@ cxxGasPhase::read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check)
 			break;
 
 		case 3:				// component
-			if (this->gasPhaseComps.read_raw(P_INSTANCE_COMMA parser, next_char) !=
+			if (this->gasPhaseComps.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
 				parser.incr_input_error();

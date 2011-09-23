@@ -24,7 +24,7 @@ class cxxReaction:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void read_raw(PHREEQC_PTR_ARG_COMMA CParser & parser, bool check);
+	void read_raw(CParser & parser, bool check);
 	cxxNameDouble &get_elementList(void)
 	{
 		return this->elementList;
