@@ -67,15 +67,15 @@ cxxNumKeyword(io)
 //
 //   Mix exchangers
 //
-	std::map < int, double >*mixcomps = mix.comps();
+	std::map < int, double >&mixcomps = mix.Get_mixComps();
 	std::map < int, double >::const_iterator it;
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
 		{
 			const cxxExchange *entity_ptr =
 				&(entities.find(it->first)->second);
-			this->add(P_INSTANCE_COMMA *entity_ptr, it->second);
+			this->add(*entity_ptr, it->second);
 			this->pitzer_exchange_gammas = entity_ptr->pitzer_exchange_gammas;
 		}
 #ifdef SKIP
@@ -465,7 +465,7 @@ cxxExchange::add(const cxxExchange & addee, double extensive)
 }
 #endif
 void
-cxxExchange::add(PHREEQC_PTR_ARG_COMMA const cxxExchange & addee, double extensive)
+cxxExchange::add(const cxxExchange & addee, double extensive)
 		//
 		// Add existing exchange to "this" exchange
 		//
@@ -479,7 +479,7 @@ cxxExchange::add(PHREEQC_PTR_ARG_COMMA const cxxExchange & addee, double extensi
 		std::map < std::string, cxxExchComp >::iterator it = this->exchComps.find((*itadd).first);
 		if (it != this->exchComps.end())
 		{
-			(*it).second.add(P_INSTANCE_COMMA (*itadd).second, extensive);
+			(*it).second.add((*itadd).second, extensive);
 		//bool found = false;
 		//for (std::list < cxxExchComp >::iterator it = this->exchComps.begin();
 		//	 it != this->exchComps.end(); ++it)

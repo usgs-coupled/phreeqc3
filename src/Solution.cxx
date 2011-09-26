@@ -96,7 +96,7 @@ isotopes(solution_ptr, io)
 }
 
 
-cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solutions,
+cxxSolution::cxxSolution(const std::map < int, cxxSolution > &solutions,
 						 cxxMix & mix, int l_n_user, PHRQ_io * io)
 //
 // constructor for cxxSolution from mixture of solutions
@@ -114,18 +114,21 @@ isotopes(io)
 //
 //   Mix solutions
 //
-	std::map < int, double >*mixcomps = mix.comps();
+	std::map < int, double >&mixcomps = mix.Get_mixComps();
 	std::map < int, double >::const_iterator it;
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		std::map < int, cxxSolution >::const_iterator sol =
 			solutions.find(it->first);
 		if (sol == solutions.end())
 		{
-			sprintf(P_INSTANCE_POINTER error_string,
-					"Solution %d not found in mix_cxxSolutions.", it->first);
-			P_INSTANCE_POINTER error_msg(P_INSTANCE_POINTER error_string, CONTINUE);
-			P_INSTANCE_POINTER input_error++;
+			//sprintf(P_INSTANCE_POINTER error_string,
+			//		"Solution %d not found in mix_cxxSolutions.", it->first);
+			//error_msg(P_INSTANCE_POINTER error_string, CONTINUE);
+			//P_INSTANCE_POINTER input_error++;
+			std::ostringstream msg;
+			msg << "Solution " << it->first << " not found in mix_cxxSolutions.";
+			error_msg(msg.str(), CONTINUE);
 		}
 		else
 		{
@@ -1574,7 +1577,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 			}
 			else
 			{
-				P_INSTANCE_POINTER error_msg("Could not find master species in modify_activities.", STOP);
+				error_msg("Could not find master species in modify_activities.", STOP);
 			}
 		}
 	}
@@ -1607,7 +1610,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 			}
 			else
 			{
-				P_INSTANCE_POINTER error_msg("Could not find master species in modify_activities.", STOP);
+				error_msg("Could not find master species in modify_activities.", STOP);
 			}
 		}
 	}

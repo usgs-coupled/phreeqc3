@@ -133,8 +133,8 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 				std::ostringstream oss;
 				oss << "Could not find gfw, " << iter->second.
 					get_description();
-				P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-				P_INSTANCE_POINTER input_error++;
+				error_msg(oss.str().c_str(), CONTINUE);
+				//P_INSTANCE_POINTER input_error++;
 			}
 		}
 /*
@@ -775,7 +775,7 @@ cxxISolution::ORCH_write_chemistry_alkalinity(std::ostream & chemistry_dat)
 				oss <<
 					"pH can not be adjusted to charge balance or phase equilibrium when specifying C or C(4) and Alkalinty.";
 				error_msg(oss.str().c_str(), CONTINUE);
-				P_INSTANCE_POINTER input_error++;
+				//P_INSTANCE_POINTER input_error++;
 			}
 			chemistry_dat << "@solve (pH, 1e-6, lin, 1, Alkalinity, 7)" <<
 				std::endl;

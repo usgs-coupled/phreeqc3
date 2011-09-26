@@ -152,7 +152,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 	}
 	if (string_vector.size() == 0)
 	{
-		P_INSTANCE_POINTER error_msg("No axis defined for scales", CParser::OT_CONTINUE);
+		error_msg("No axis defined for scales", CParser::OT_CONTINUE);
 		return false;
 	}
 	std::string str = string_vector[0];
@@ -179,7 +179,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 		estream << "Found " << str;
 		estream << ", but expect axis type \'x\', \'y\', \'y2\'or \'sy\'.";
 		estream << std::endl;
-		P_INSTANCE_POINTER error_msg(estream.str().c_str(), CParser::OT_CONTINUE);
+		error_msg(estream.str().c_str(), CParser::OT_CONTINUE);
 		return false;
 	}
 
@@ -200,7 +200,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 			estream << "Found " << s;
 			estream << ", but expect number or 'a(uto)'.";
 			estream << std::endl;
-			P_INSTANCE_POINTER error_msg(estream.str().c_str(), CONTINUE);
+			error_msg(estream.str().c_str(), CONTINUE);
 			return false;
 		}
 	}
@@ -216,7 +216,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 				std::ostringstream estream;
 				estream << "MIN and MAX must be > 0 for log " << type << "-scale.";
 				estream << std::endl;
-				P_INSTANCE_POINTER error_msg(estream.str().c_str(), CONTINUE);
+				error_msg(estream.str().c_str(), CONTINUE);
 				return false;
 			}
 
@@ -229,7 +229,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 			std::ostringstream estream;
 			estream << "Maximum must be larger than minimum of axis_scale " << type << "-scale." << std::endl;
 			estream << "Switching values for MIN and MAX. " << std::endl;
-			P_INSTANCE_POINTER warning_msg(estream.str().c_str());
+			warning_msg(estream.str().c_str());
 			double t;
 			t = scale_ptr[0];
 			scale_ptr[0] = scale_ptr[1];
@@ -315,8 +315,8 @@ ChartObject::Read(CParser & parser)
 			break;
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
-			P_INSTANCE_POINTER error_msg("Unknown input in USER_GRAPH keyword.", CONTINUE);
-			P_INSTANCE_POINTER error_msg(parser.line().c_str(), CONTINUE);
+			error_msg("Unknown input in USER_GRAPH keyword.", CONTINUE);
+			error_msg(parser.line().c_str(), CONTINUE);
 			useLastLine = false;
 			break;
 		case 0:				/* start */
@@ -376,7 +376,7 @@ ChartObject::Read(CParser & parser)
 			{
 				std::ostringstream estream;
 				estream << "Found " << token << ", but expect plot type: (\'x\' or \'dist\') for distance, (\'t\') for time.";
-				P_INSTANCE_POINTER error_msg(estream.str().c_str(), CONTINUE);			
+				error_msg(estream.str().c_str(), CONTINUE);			
 			}
 			break;
 		case 9:  /* shifts_as_points */
@@ -474,7 +474,7 @@ ChartObject::OpenCSVFile(std::string file_name)
 	{
 		std::ostringstream estream;
 		estream << "Could not open csv file for USER_GRAPH " << file_name;
-		P_INSTANCE_POINTER error_msg(estream.str().c_str(), CONTINUE);
+		error_msg(estream.str().c_str(), CONTINUE);
 		return false;
 	}
 
@@ -904,7 +904,7 @@ ChartObject::SaveCurvesToFile(std::string &file_name)
 	{
 		std::ostringstream estream;
 		estream << "Could not open csv file for USER_GRAPH " << file_name;
-		P_INSTANCE_POINTER error_msg(estream.str().c_str(), CONTINUE);
+		error_msg(estream.str().c_str(), CONTINUE);
 		return;
 	}
 

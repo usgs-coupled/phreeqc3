@@ -99,9 +99,9 @@ cxxNumKeyword(io)
 //
 //   Mix exchangers
 //
-	std::map < int, double >*mixcomps = mix.comps();
+	std::map < int, double >&mixcomps = mix.Get_mixComps();
 	std::map < int, double >::const_iterator it;
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
 		{
@@ -1009,7 +1009,7 @@ cxxSurface::add(PHREEQC_PTR_ARG_COMMA const cxxSurface & addee, double extensive
 		std::map < std::string, cxxSurfaceComp >::iterator it = this->surfaceComps.find((*itadd).first);
 		if (it != this->surfaceComps.end())
 		{
-			(*it).second.add(P_INSTANCE_COMMA (*itadd).second, extensive);
+			(*it).second.add((*itadd).second, extensive);
 		}
 		else
 		{

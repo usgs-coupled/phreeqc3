@@ -464,7 +464,7 @@ cxxPPassemblageComp::totalize(PHREEQC_PTR_ARG)
 
 
 void
-cxxPPassemblageComp::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblageComp & addee, double extensive)
+cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 {
 	double ext1, ext2, f1, f2;
 	if (extensive == 0.0)
@@ -500,8 +500,8 @@ cxxPPassemblageComp::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblageComp & addee
 		oss <<
 			"Can not mix two Equilibrium_phases with differing add_formulae., "
 			<< this->name;
-		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		error_msg(oss.str().c_str(), CONTINUE);
+		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	//double si;

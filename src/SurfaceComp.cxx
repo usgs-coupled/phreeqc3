@@ -85,7 +85,7 @@ struct master *
 			error_oss << "Master species not in data base for " << elt_ptr->
 				name << std::endl;
 			//Utilities::error_msg(error_oss.str(), CONTINUE);
-			P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
+			error_msg(error_oss.str().c_str(), CONTINUE);
 			return (NULL);
 		}
 		if (elt_ptr->master->type != SURF)
@@ -100,7 +100,7 @@ struct master *
 			"Surface formula does not contain an surface master species, " <<
 			this->formula << std::endl;
 		//Utilities::error_msg(error_oss.str(), CONTINUE);
-		P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
+		error_msg(error_oss.str().c_str(), CONTINUE);
 	}
 	return (master_ptr);
 }
@@ -550,7 +550,7 @@ cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 }
 #endif
 void
-cxxSurfaceComp::add(PHREEQC_PTR_ARG_COMMA const cxxSurfaceComp & addee, double extensive)
+cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 {
 	if (extensive == 0.0)
 		return;
@@ -605,8 +605,8 @@ cxxSurfaceComp::add(PHREEQC_PTR_ARG_COMMA const cxxSurfaceComp & addee, double e
 		oss <<
 			"Can not mix two Surface components with same formula and different related phases, "
 			<< this->formula;
-		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		error_msg(oss.str().c_str(), CONTINUE);
+		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->phase_name.size() != 0)
@@ -622,8 +622,8 @@ cxxSurfaceComp::add(PHREEQC_PTR_ARG_COMMA const cxxSurfaceComp & addee, double e
 		oss <<
 			"Can not mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
-		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		error_msg(oss.str().c_str(), CONTINUE);
+		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->rate_name.size() != 0)
@@ -639,8 +639,8 @@ cxxSurfaceComp::add(PHREEQC_PTR_ARG_COMMA const cxxSurfaceComp & addee, double e
 		oss <<
 			"Can not mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
-		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		error_msg(oss.str().c_str(), CONTINUE);
+		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	//double Dw;
