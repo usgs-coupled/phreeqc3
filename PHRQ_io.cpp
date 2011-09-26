@@ -137,7 +137,7 @@ output_handler(const int type, const char *err_str, const bool stop,
 			   const char *format, va_list args)
 /* ---------------------------------------------------------------------- */
 {
-	int flush = 0;
+	int flush = 1;
 
 	switch (type)
 	{
