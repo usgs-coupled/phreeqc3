@@ -67,7 +67,7 @@ totals(kinetics_ptr->totals)
 	for (i = 0; i < kinetics_ptr->count_comps; i++)
 	{
 		cxxKineticsComp ec(&(kinetics_ptr->comps[i]), this->Get_io());
-		std::string str(ec.get_rate_name());
+		std::string str(ec.Get_rate_name());
 		//this->kineticsComps[str] = ec;
 		this->kineticsComps.push_back(ec);
 	}
@@ -117,6 +117,7 @@ cxxKinetics::~cxxKinetics()
 {
 }
 
+#ifdef MOVE_TO_STRUCTURES
 struct kinetics *
 cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
 		//
@@ -173,7 +174,7 @@ cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
 	}
 	return (kinetics_ptr);
 }
-
+#endif
 #ifdef SKIP
 void
 cxxKinetics::dump_xml(std::ostream & s_oss, unsigned int indent) const const
@@ -448,7 +449,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				bool found = false;
 				for (kit = this->kineticsComps.begin(); kit != this->kineticsComps.end(); kit++)
 				{
-					if (kit->get_rate_name() == ec.get_rate_name())
+					if (kit->Get_rate_name() == ec.Get_rate_name())
 					{
 						found = true;
 						break;
@@ -462,7 +463,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				{
 					cxxKineticsComp ec1(this->Get_io());
 					ec1.read_raw(reread, false);
-					std::string str(ec1.get_rate_name());
+					std::string str(ec1.Get_rate_name());
 					this->kineticsComps.push_back(ec1);
 				}
 				/*
@@ -746,7 +747,7 @@ cxxKinetics::add(const cxxKinetics & addee, double extensive)
 		std::list <  cxxKineticsComp >::iterator it;
 		for (it = this->kineticsComps.begin(); it != this->kineticsComps.end(); it++)
 		{
-			if ((*it).get_rate_name() == (*itadd).get_rate_name())
+			if ((*it).Get_rate_name() == (*itadd).Get_rate_name())
 			{
 				found = true;
 				break;

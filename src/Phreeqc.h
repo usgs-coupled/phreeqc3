@@ -35,7 +35,9 @@ class cxxNameDouble;
 #undef extern 
 #include "global_structures.h"
 #include "pitzer_structures.h"
+class cxxKinetics;
 class cxxMix;
+class cxxKineticsComp;
 class Phreeqc
 {
 public:
@@ -1230,7 +1232,13 @@ extern void MergeFinalize(void);
 #endif
 
 // convert class to struct
-struct mix * cxxMix2mix(cxxMix &mx);
+
+struct mix * cxxMix2mix(cxxMix *mx);
+struct kinetics *cxxKinetics2kinetics(cxxKinetics * kin);
+struct elt_list * cxxNameDouble2elt_list(cxxNameDouble * nd);
+struct kinetics_comp * cxxKineticsComp2kinetics_comp(std::list < cxxKineticsComp > * el);
+struct name_coef * cxxNameDouble2name_coef(cxxNameDouble * nd);
+
 
 /* tally.c */
 

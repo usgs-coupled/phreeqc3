@@ -512,7 +512,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
 		cxxKinetics entity(&kinetics[i], &phrq_io);
-		accumulator.add_extensive(entity.get_totals(), 1.0);
+		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
 	// Put in all primaries

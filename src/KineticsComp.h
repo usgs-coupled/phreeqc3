@@ -17,7 +17,7 @@ public:
 	cxxKineticsComp(struct kinetics_comp *, PHRQ_io *io=NULL);
 	~cxxKineticsComp();
 
-	static struct kinetics_comp *cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::list < cxxKineticsComp > &el);
+	//static struct kinetics_comp *cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::list < cxxKineticsComp > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -25,17 +25,24 @@ public:
 
 	void read_raw(CParser & parser, bool check = true);
 
-	const std::string &get_rate_name() const
+	const std::string &Get_rate_name() const
 	{
 		return this->rate_name;
 	}
-	void set_rate_name(char * s)
+	void Set_rate_name(char * s)
 	{
 		if (s != NULL)
 			this->rate_name = std::string(s);
 		else
 			this->rate_name.clear();
 	}
+
+	cxxNameDouble &Get_namecoef(void) {return namecoef;};
+	double Get_tol(void) {return tol;};	
+	double Get_m(void) {return m;};	
+	double Get_m0(void) {return m0;};	
+	double Get_moles(void) {return moles;};	
+	std::vector < double > &Get_d_params(void) {return d_params;};
 
 #ifdef USE_MPI
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
