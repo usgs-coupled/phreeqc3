@@ -34,17 +34,14 @@ class cxxNameDouble:public
 	 ~
 	cxxNameDouble();
 
-	struct elt_list *
-	elt_list(PHREEQC_PTR_ARG);
+	struct elt_list * elt_list(PHREEQC_PTR_ARG);
 
 	struct master_activity *
 	master_activity(PHREEQC_PTR_ARG) const;
 
-	struct conc *
-	conc(PHREEQC_PTR_ARG) const;
+	struct conc * conc(PHREEQC_PTR_ARG) const;
 
-	struct name_coef *
-	name_coef(PHREEQC_PTR_ARG) const;
+	struct name_coef * name_coef(PHREEQC_PTR_ARG) const;
 
 	void
 	dump_xml(std::ostream & s_oss, unsigned int indent) const;

@@ -489,7 +489,8 @@ read_kinetics_raw(void)
 
 	cxxKinetics ex(&phrq_io);
 	ex.read_raw(parser);
-	struct kinetics *kinetics_ptr = ex.cxxKinetics2kinetics(PHREEQC_THIS);
+	//struct kinetics *kinetics_ptr = ex.cxxKinetics2kinetics(PHREEQC_THIS);
+	struct kinetics *kinetics_ptr = cxxKinetics2kinetics(&ex);
 	int n;
 
 	/*
@@ -871,7 +872,7 @@ read_mix_raw(void)
 	cxxMix ex(&phrq_io);
 	ex.read_raw(parser);
 	//struct mix *mix_ptr = ex.cxxMix2mix(PHREEQC_THIS);
-	struct mix *mix_ptr = cxxMix2mix(ex);
+	struct mix *mix_ptr = cxxMix2mix(&ex);
 	int n;
 
 	/*
@@ -1888,7 +1889,8 @@ read_kinetics_modify(void)
 	entity.read_raw(parser, false);
 
 	// save entity
-	struct kinetics *entity_ptr = entity.cxxKinetics2kinetics(PHREEQC_THIS);
+	//struct kinetics *entity_ptr = entity.cxxKinetics2kinetics(PHREEQC_THIS);
+	struct kinetics *entity_ptr = cxxKinetics2kinetics(&entity);
 	kinetics_free(&(kinetics[n]));
 	kinetics_copy(entity_ptr, &(kinetics[n]), entity_ptr->n_user);
 	free_check_null(kinetics[n].description);

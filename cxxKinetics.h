@@ -22,9 +22,9 @@ class cxxKinetics:public cxxNumKeyword
 				int n_user, PHRQ_io *io=NULL);
 	 ~cxxKinetics();
 
-	struct kinetics *cxxKinetics2kinetics(PHREEQC_PTR_ARG);
+	//struct kinetics *cxxKinetics2kinetics(PHREEQC_PTR_ARG);
 
-	struct kinetics_comp *cxxKineticsComp2kinetics_comp();
+	//struct kinetics_comp *cxxKineticsComp2kinetics_comp();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
@@ -32,14 +32,21 @@ class cxxKinetics:public cxxNumKeyword
 
 	void read_raw(CParser & parser, bool check = true);
 
-	bool get_related_phases(void);
+	bool Get_related_phases(void);
+	bool Get_related_rate(void);
 
-	bool get_related_rate(void);
+	std::vector < double > &Get_steps(void) {return steps;};
+	double Get_step_divide(void) {return step_divide;};
+	int Get_rk(void) {return rk;};
+	int Get_bad_step_max(void) {return bad_step_max;};
+	bool Get_use_cvode(void) {return use_cvode;};
+	int Get_cvode_steps(void) {return cvode_steps;};
+	int Get_cvode_order(void) {return cvode_order;};
+	std::list < cxxKineticsComp > &Get_kineticsComps(void) {return kineticsComps;};
+	cxxNameDouble & Get_totals(void) {return this->totals;};
+	int Get_equal_steps(void) {return equal_steps;};
 
-	cxxNameDouble & get_totals(void)
-	{
-		return this->totals;
-	}
+
 #ifdef USE_MPI
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
@@ -48,7 +55,6 @@ class cxxKinetics:public cxxNumKeyword
 	void add(const cxxKinetics & addee, double extensive);
 
   protected:
-	//std::map < std::string, cxxKineticsComp > kineticsComps;
 	std::list < cxxKineticsComp > kineticsComps;
 	std::vector < double >steps;
 	int equal_steps;

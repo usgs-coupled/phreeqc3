@@ -46,7 +46,7 @@ cxxKineticsComp::cxxKineticsComp(struct kinetics_comp *kinetics_comp_ptr, PHRQ_i
 PHRQ_base(io),
 namecoef(kinetics_comp_ptr->list, kinetics_comp_ptr->count_list)
 {
-	this->set_rate_name(kinetics_comp_ptr->rate_name);
+	this->Set_rate_name(kinetics_comp_ptr->rate_name);
 	tol = kinetics_comp_ptr->tol;
 	m = kinetics_comp_ptr->m;
 	m0 = kinetics_comp_ptr->m0;
@@ -61,6 +61,7 @@ cxxKineticsComp::~cxxKineticsComp()
 {
 }
 
+#ifdef MOVE_TO_STRUCTURES
 struct kinetics_comp *
 	cxxKineticsComp::cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::list < cxxKineticsComp >
 											   &el)
@@ -111,6 +112,7 @@ struct kinetics_comp *
 	}
 	return (kinetics_comp_ptr);
 }
+#endif
 
 #ifdef SKIP
 void
