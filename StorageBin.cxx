@@ -1046,8 +1046,9 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		std::map < int, cxxKinetics >::iterator it = this->Kinetics.find(n);
 		if (it != this->Kinetics.end())
 		{
-			struct kinetics *kinetics_ptr =
-				(it->second).cxxKinetics2kinetics(P_INSTANCE);
+			//struct kinetics *kinetics_ptr =
+			//	(it->second).cxxKinetics2kinetics(P_INSTANCE);
+			struct kinetics *kinetics_ptr =  P_INSTANCE_POINTER cxxKinetics2kinetics(&(it->second));
 			P_INSTANCE_POINTER kinetics_copy(kinetics_ptr, &P_INSTANCE_POINTER kinetics[0], n);
 			P_INSTANCE_POINTER count_kinetics++;
 			P_INSTANCE_POINTER kinetics_free(kinetics_ptr);
@@ -1282,7 +1283,9 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// Kinetics
 	if (this->getKinetics(n) != NULL)
 	{
-		system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics(P_INSTANCE);
+		//system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics(P_INSTANCE);
+		system_ptr->kinetics = P_INSTANCE_POINTER cxxKinetics2kinetics(this->getKinetics(n));
+		
 	}
 	else
 	{
