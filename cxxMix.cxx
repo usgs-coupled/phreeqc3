@@ -59,7 +59,7 @@ cxxMix::~cxxMix()
 {
 }
 
-
+#ifdef MOVE_TO_STRUCTURES
 struct mix *
 cxxMix::cxxMix2mix(PHREEQC_PTR_ARG)
 		//
@@ -97,6 +97,7 @@ cxxMix::cxxMix2mix(PHREEQC_PTR_ARG)
 	mix_ptr->count_comps = (int) this->mixComps.size();
 	return (mix_ptr);
 }
+#endif
 
 #ifdef SKIP
 void

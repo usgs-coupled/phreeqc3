@@ -133,7 +133,7 @@ PHRQ_base(io)
 			cxxMix entity(struct_entity, this->Get_io());
 			this->setMix(use_ptr->n_mix_user, &entity);
 
-			std::map<int, double> c = *(this->getMix(use_ptr->n_mix_user)->comps());
+			std::map<int, double> c = (this->getMix(use_ptr->n_mix_user)->Get_mixComps());
 			std::map<int, double>::iterator it;
 			for (it = c.begin(); it != c.end(); it++)
 			{
@@ -1008,7 +1008,7 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		}
 		else
 		{
-			P_INSTANCE_POINTER error_msg("cxxSolution not found in system2phreeqc", STOP);
+			error_msg("cxxSolution not found in system2phreeqc", STOP);
 		}
 	}
 

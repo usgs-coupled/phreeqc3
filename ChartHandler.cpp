@@ -120,7 +120,7 @@ ChartHandler::Read(PHREEQC_PTR_ARG_COMMA CParser &parser)
 	return true;
 }
 bool
-ChartHandler::End_timer(PHREEQC_PTR_ARG)
+ChartHandler::End_timer()
 {
 	
 	size_t max_tries = 1000; 
@@ -156,7 +156,7 @@ ChartHandler::End_timer(PHREEQC_PTR_ARG)
 			}
 			if (i >= max_tries || i2 >= max_tries)
 			{
-				P_INSTANCE_POINTER error_msg("Chart did not respond.", CONTINUE);
+				error_msg("Chart did not respond.", CONTINUE);
 			}
 		}
 	}

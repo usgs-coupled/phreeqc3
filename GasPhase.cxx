@@ -69,7 +69,7 @@ cxxNumKeyword(io)
 			gas_phase_ptr->comps[i].moles;
 	}
 }
-cxxGasPhase::cxxGasPhase(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxGasPhase > &entities,
+cxxGasPhase::cxxGasPhase(const std::map < int, cxxGasPhase > &entities,
 						 cxxMix & mix, int l_n_user, PHRQ_io * io):
 cxxNumKeyword(io)
 {
@@ -82,9 +82,9 @@ cxxNumKeyword(io)
 //   Mix
 //
 	//cxxNameDouble gasPhaseComps;
-	std::map < int, double >*mixcomps = mix.comps();
+	std::map < int, double >&mixcomps = mix.Get_mixComps();
 	std::map < int, double >::const_iterator it;
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
 		{
@@ -108,8 +108,8 @@ cxxNumKeyword(io)
 				{
 					std::ostringstream oss;
 					oss << "Can not mix two gas_phases with differing types.";
-					P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-					P_INSTANCE_POINTER input_error++;
+					error_msg(oss.str().c_str(), CONTINUE);
+					//input_error++;
 					return;
 				}
 

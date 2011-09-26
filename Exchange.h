@@ -47,7 +47,7 @@ public:
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 private:
-	void add(PHREEQC_PTR_ARG_COMMA const cxxExchange & addee, double extensive);
+	void add(const cxxExchange & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 

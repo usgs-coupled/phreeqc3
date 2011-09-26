@@ -130,8 +130,8 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 		{
 			std::ostringstream oss;
 			oss << "Could not compute gfw, " << this->as;
-			P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-			P_INSTANCE_POINTER input_error++;
+			error_msg(oss.str().c_str(), CONTINUE);
+			//P_INSTANCE_POINTER input_error++;
 			return;
 		}
 		//if (this->description == "Alkalinity" && this->as == "CaCO3") 
@@ -154,8 +154,8 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 	}
 	std::ostringstream oss;
 	oss << "Could not find gfw, " << this->description;
-	P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-	P_INSTANCE_POINTER input_error++;
+	error_msg(oss.str().c_str(), CONTINUE);
+	//P_INSTANCE_POINTER input_error++;
 	return;
 }
 
