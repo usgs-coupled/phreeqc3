@@ -100,9 +100,9 @@ cxxNumKeyword(io)
 //
 //   Mix
 //
-	std::map < int, double >*mixcomps = mix.comps();
+	std::map < int, double >&mixcomps = mix.Get_mixComps();
 	std::map < int, double >::const_iterator it;
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
 		{

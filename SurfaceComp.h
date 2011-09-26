@@ -32,7 +32,7 @@ public:
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 	void read_raw(CParser & parser, bool check = true);
 	const cxxNameDouble & get_totals() const;
-	void add(PHREEQC_PTR_ARG_COMMA const cxxSurfaceComp & comp, double extensive);
+	void add(const cxxSurfaceComp & comp, double extensive);
 	void multiply(double extensive);
 	std::string charge_name(PHREEQC_PTR_ARG);
 	static std::string get_charge_name(PHREEQC_PTR_ARG_COMMA char *token);

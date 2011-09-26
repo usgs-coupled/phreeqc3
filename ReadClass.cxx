@@ -870,7 +870,8 @@ read_mix_raw(void)
 
 	cxxMix ex(&phrq_io);
 	ex.read_raw(parser);
-	struct mix *mix_ptr = ex.cxxMix2mix(PHREEQC_THIS);
+	//struct mix *mix_ptr = ex.cxxMix2mix(PHREEQC_THIS);
+	struct mix *mix_ptr = cxxMix2mix(ex);
 	int n;
 
 	/*

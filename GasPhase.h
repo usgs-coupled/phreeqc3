@@ -17,7 +17,7 @@ class cxxGasPhase:public cxxNumKeyword
   public:
 	cxxGasPhase(PHRQ_io * io=NULL);
 	cxxGasPhase(struct gas_phase *, PHRQ_io * io=NULL);
-	  cxxGasPhase(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxGasPhase > &entity_map,
+	  cxxGasPhase(const std::map < int, cxxGasPhase > &entity_map,
 				  cxxMix & mx, int n_user, PHRQ_io * io=NULL);
 	 ~cxxGasPhase();
 

@@ -35,6 +35,7 @@ class cxxNameDouble;
 #undef extern 
 #include "global_structures.h"
 #include "pitzer_structures.h"
+class cxxMix;
 class Phreeqc
 {
 public:
@@ -1227,6 +1228,9 @@ extern void free_spread(void);
 #if defined(USE_MPI) && defined(HDF5_CREATE) && defined(MERGE_FILES)
 extern void MergeFinalize(void);
 #endif
+
+// convert class to struct
+struct mix * cxxMix2mix(cxxMix &mx);
 
 /* tally.c */
 

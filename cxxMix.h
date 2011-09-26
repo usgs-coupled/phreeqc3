@@ -18,7 +18,7 @@ class cxxMix:public cxxNumKeyword
 	cxxMix(struct mix *, PHRQ_io *io=NULL);
 	 ~cxxMix();
 
-	struct mix *cxxMix2mix(PHREEQC_PTR_ARG);
+	//struct mix *cxxMix2mix(PHREEQC_PTR_ARG);
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
@@ -46,9 +46,9 @@ class cxxMix:public cxxNumKeyword
 		}
 	};
 
-	std::map < int, double >*comps()
+	std::map < int, double > & Get_mixComps()
 	{
-		return &mixComps;
+		return mixComps;
 	}
 
   protected:

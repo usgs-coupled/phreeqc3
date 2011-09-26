@@ -63,9 +63,9 @@ cxxNumKeyword(io)
 //
 //   Mix
 //
-	std::map < int, double >*mixcomps = mix.comps();
+	std::map < int, double >&mixcomps = mix.Get_mixComps();
 	std::map < int, double >::const_iterator it;
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
 		{
@@ -372,7 +372,7 @@ cxxPPassemblage::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblage & addee, double
 		{
 			if ((*it).second.get_name() == itadd->second.get_name())
 			{
-				(*it).second.add(P_INSTANCE_COMMA (*itadd).second, extensive);
+				(*it).second.add((*itadd).second, extensive);
 				found = true;
 				break;
 			}

@@ -132,7 +132,7 @@ class cxxExchComp: public PHRQ_base
 	};
 
 
-	void add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & comp, double extensive);
+	void add(const cxxExchComp & comp, double extensive);
 	void multiply(double extensive);
 
 

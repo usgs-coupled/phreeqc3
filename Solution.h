@@ -20,7 +20,7 @@ class cxxSolution:public cxxNumKeyword
 	cxxSolution(PHRQ_io *io=NULL);
 	cxxSolution(struct solution *, PHRQ_io *io=NULL);
 	cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io=NULL);
-	cxxSolution(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSolution > &solution_map,
+	cxxSolution( const std::map < int, cxxSolution > &solution_map,
 				  cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxSolution();
 

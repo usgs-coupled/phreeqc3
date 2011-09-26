@@ -56,7 +56,7 @@ class cxxPPassemblageComp: public PHRQ_base
 		return (this->totals);
 	};
 
-	void add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblageComp & comp, double extensive);
+	void add(const cxxPPassemblageComp & comp, double extensive);
 	void multiply(double extensive);
 
 #ifdef USE_MPI

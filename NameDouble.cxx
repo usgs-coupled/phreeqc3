@@ -581,7 +581,7 @@ cxxNameDouble::mpi_pack(std::vector < int >&ints,
 	}
 }
 void
-cxxNameDouble::mpi_pack(PHREEQC_PTR_ARG_COMMA int *ints, int *ii, double *doubles, int *dd)
+cxxNameDouble::mpi_pack(int *ints, int *ii, double *doubles, int *dd)
 {
 	int i = *ii;
 	int d = *dd;
@@ -594,7 +594,7 @@ cxxNameDouble::mpi_pack(PHREEQC_PTR_ARG_COMMA int *ints, int *ii, double *double
 		if (n < 0)
 		{
 			std::cerr << it->first << std::endl;
-			P_INSTANCE_POINTER error_msg("Name in NameDouble was not defined in dictionary?\n",
+			error_msg("Name in NameDouble was not defined in dictionary?\n",
 					  STOP);
 		}
 		//ints.push_back(n);

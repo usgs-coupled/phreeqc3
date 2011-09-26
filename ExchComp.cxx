@@ -148,7 +148,7 @@ cxxExchComp::get_master(PHREEQC_PTR_ARG)
 			error_oss << "Master species not in data base for " << elt_ptr->
 				name << std::endl;
 			//Utilities::error_msg(error_oss.str(), STOP);
-			P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
+			error_msg(error_oss.str().c_str(), CONTINUE);
 			return (NULL);
 		}
 		if (elt_ptr->master->type != EX)
@@ -172,7 +172,7 @@ cxxExchComp::get_master(PHREEQC_PTR_ARG)
 				error_oss << "Master species not in data base for " <<
 					elt_ptr->name << std::endl;
 				//Utilities::error_msg(error_oss.str(), STOP);
-				P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
+				error_msg(error_oss.str().c_str(), CONTINUE);
 				return (NULL);
 			}
 			if (elt_ptr->master->type != EX)
@@ -188,7 +188,7 @@ cxxExchComp::get_master(PHREEQC_PTR_ARG)
 			"Exchange formula does not contain an exchange master species, "
 			<< this->formula << std::endl;
 		//Utilities::error_msg(error_oss.str(), CONTINUE);
-		P_INSTANCE_POINTER error_msg(error_oss.str().c_str(), CONTINUE);
+		error_msg(error_oss.str().c_str(), CONTINUE);
 
 		std::ostringstream oss;
 		this->dump_raw(oss, 0);
@@ -552,7 +552,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 	}
 }
 void
-cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensive)
+cxxExchComp::add(const cxxExchComp & addee, double extensive)
 {
 	double ext1, ext2, f1, f2;
 	if (extensive == 0.0)
@@ -604,8 +604,8 @@ cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensi
 		oss <<
 			"Can not mix two exchange components with same formula and different related phases, "
 			<< this->formula;
-		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		error_msg(oss.str().c_str(), CONTINUE);
+		//input_error++;
 		return;
 	}
 	else if (this->phase_name.size() != 0)
@@ -620,8 +620,8 @@ cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensi
 		oss <<
 			"Can not mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
-		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		error_msg(oss.str().c_str(), CONTINUE);
+		//input_error++;
 		return;
 	}
 	else if (this->rate_name.size() != 0)
@@ -637,8 +637,8 @@ cxxExchComp::add(PHREEQC_PTR_ARG_COMMA const cxxExchComp & addee, double extensi
 		oss <<
 			"Can not mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
-		P_INSTANCE_POINTER error_msg(oss.str().c_str(), CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		error_msg(oss.str().c_str(), CONTINUE);
+		//input_error++;
 		return;
 	}
 }
