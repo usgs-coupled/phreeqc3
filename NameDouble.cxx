@@ -182,6 +182,7 @@ cxxNameDouble::elt_list(PHREEQC_PTR_ARG)
 	return (elt_list_ptr);
 }
 
+#ifdef MOVE_TO_STRUCTURES
 struct master_activity *
 cxxNameDouble::master_activity(PHREEQC_PTR_ARG) const
 		//
@@ -294,6 +295,7 @@ cxxNameDouble::name_coef(PHREEQC_PTR_ARG) const
 	}
 	return (name_coef_ptr);
 }
+#endif
 
 void
 cxxNameDouble::dump_xml(std::ostream & s_oss, unsigned int indent) const
