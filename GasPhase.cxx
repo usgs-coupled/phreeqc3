@@ -123,7 +123,7 @@ cxxNumKeyword(io)
 cxxGasPhase::~cxxGasPhase()
 {
 }
-
+#ifdef MOVE_TO_STRUCTURES
 struct gas_comp *
 cxxGasPhase::cxxGasPhaseComp2gas_comp(PHREEQC_PTR_ARG)
 {
@@ -154,7 +154,9 @@ cxxGasPhase::cxxGasPhaseComp2gas_comp(PHREEQC_PTR_ARG)
 	}
 	return (gas_comp_ptr);
 }
+#endif
 
+#ifdef MOVE_TO_STRUCTURES
 struct gas_phase *
 cxxGasPhase::cxxGasPhase2gas_phase(PHREEQC_PTR_ARG)
 		//
@@ -189,6 +191,7 @@ cxxGasPhase::cxxGasPhase2gas_phase(PHREEQC_PTR_ARG)
 
 	return (gas_phase_ptr);
 }
+#endif
 
 #ifdef SKIP
 void

@@ -41,6 +41,8 @@ class cxxMix;
 class cxxKineticsComp;
 class cxxExchange;
 class cxxExchComp;
+class cxxGasPhase;
+class cxxTemperature;
 
 class Phreeqc
 {
@@ -1245,7 +1247,9 @@ struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
 struct exchange * cxxExchange2exchange(cxxExchange * ex);
 struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
 struct master * Get_exch_master(const cxxExchComp * ec);
-
+struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
+struct gas_comp * cxxGasPhaseComp2gas_comp(const cxxGasPhase * gp);
+struct temperature * cxxTemperature2temperature(const cxxTemperature *temp);
 /* tally.c */
 
 void add_all_components_tally(void);

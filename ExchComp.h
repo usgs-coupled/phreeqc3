@@ -17,11 +17,6 @@ class cxxExchComp: public PHRQ_base
 	cxxExchComp(struct exch_comp *, PHRQ_io *io=NULL);
 	 ~cxxExchComp();
 
-	//struct master *Get_master(PHREEQC_PTR_ARG);
-
-	//static struct exch_comp *cxxExchComp2exch_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxExchComp >
-	//											   &el);
-
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
