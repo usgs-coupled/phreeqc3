@@ -18,19 +18,19 @@ class cxxReaction:public cxxNumKeyword
 	cxxReaction(struct irrev *, PHRQ_io *io = NULL);
 	 ~cxxReaction();
 
-	struct irrev *cxxReaction2irrev(PHREEQC_PTR_ARG);
-
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	void read_raw(CParser & parser, bool check);
-	cxxNameDouble &get_elementList(void)
-	{
-		return this->elementList;
-	}
+	const cxxNameDouble &Get_elementList(void) const {return this->elementList;};
+	const cxxNameDouble &Get_reactantList(void) const {return this->reactantList;};
+	const std::vector < double > &Get_steps(void) const {return this->steps;};
+	int Get_countSteps(void) const {return this->countSteps;};
+	bool Get_equalIncrements(void) const {return this->equalIncrements;};
+	const std::string &Get_units(void) const {return this->units;};
 
-	void set_units(const char * s)
+	void Set_units(const char * s)
 	{
 		if (s != NULL)
 			this->units = std::string(s);

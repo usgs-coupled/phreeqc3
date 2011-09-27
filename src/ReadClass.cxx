@@ -394,7 +394,8 @@ read_equilibrium_phases_raw(void)
 
 	cxxPPassemblage ex(&phrq_io);
 	ex.read_raw(parser);
-	struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
+	//struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
+	struct pp_assemblage *pp_assemblage_ptr = cxxPPassemblage2pp_assemblage(&ex);
 	int n;
 
 	/*
@@ -778,7 +779,8 @@ read_reaction_raw(void)
 
 	cxxReaction ex;
 	ex.read_raw(parser, true);
-	struct irrev *irrev_ptr = ex.cxxReaction2irrev(PHREEQC_THIS);
+	//struct irrev *irrev_ptr = ex.cxxReaction2irrev(PHREEQC_THIS);
+	struct irrev *irrev_ptr = cxxReaction2irrev(&ex);
 	int n;
 
 	/*
@@ -1426,7 +1428,8 @@ read_equilibrium_phases_modify(void)
 	entity.read_raw(parser, false);
 
 	// save entity
-	struct pp_assemblage *entity_ptr = entity.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
+	//struct pp_assemblage *entity_ptr = entity.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
+	struct pp_assemblage *entity_ptr = cxxPPassemblage2pp_assemblage(&entity);
 	pp_assemblage_free(&(pp_assemblage[n]));
 	pp_assemblage_copy(entity_ptr, &(pp_assemblage[n]), entity_ptr->n_user);
 	free_check_null(pp_assemblage[n].description);
@@ -1982,7 +1985,8 @@ read_reaction_modify(void)
 	cxxReaction entity(&(irrev[n]));
 	entity.read_raw(parser, false);
 	// save entity
-	struct irrev *entity_ptr = entity.cxxReaction2irrev(PHREEQC_THIS);
+	//struct irrev *entity_ptr = entity.cxxReaction2irrev(PHREEQC_THIS);
+	struct irrev *entity_ptr = cxxReaction2irrev(&entity);
 	irrev_free(&(irrev[n]));
 	irrev_copy(entity_ptr, &(irrev[n]), entity_ptr->n_user);
 	free_check_null(irrev[n].description);

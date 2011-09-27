@@ -49,11 +49,12 @@ eltList(pp_assemblage_ptr->next_elt)
 	{
 		cxxPPassemblageComp ppComp(&(pp_assemblage_ptr->pure_phases[i]), this->Get_io());
 		//ppAssemblageComps.push_back(ppComp);
-		std::string str(ppComp.get_name());
+		std::string str(ppComp.Get_name());
 		this->ppAssemblageComps[str] = ppComp;
 	}
 }
-cxxPPassemblage::cxxPPassemblage(PHREEQC_PTR_ARG_COMMA const std::map < int,
+
+cxxPPassemblage::cxxPPassemblage(const std::map < int,
 								 cxxPPassemblage > &entities, cxxMix & mix,
 								 int l_n_user, PHRQ_io * io):
 cxxNumKeyword(io)
@@ -71,7 +72,7 @@ cxxNumKeyword(io)
 		{
 			const cxxPPassemblage *entity_ptr =
 				&(entities.find(it->first)->second);
-			this->add(P_INSTANCE_COMMA *entity_ptr, it->second);
+			this->add(*entity_ptr, it->second);
 		}
 	}
 }
@@ -80,6 +81,7 @@ cxxPPassemblage::~cxxPPassemblage()
 {
 }
 
+#ifdef MOVE_TO_STRUCTURES
 struct pp_assemblage *
 cxxPPassemblage::cxxPPassemblage2pp_assemblage(PHREEQC_PTR_ARG)
 		//
@@ -100,7 +102,7 @@ cxxPPassemblage::cxxPPassemblage2pp_assemblage(PHREEQC_PTR_ARG)
 	pp_assemblage_ptr->next_elt = this->eltList.elt_list(P_INSTANCE);
 	return (pp_assemblage_ptr);
 }
-
+#endif
 void
 cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
@@ -271,16 +273,16 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->ppAssemblageComps.find(ec.get_name()) != this->ppAssemblageComps.end())
+				if (this->ppAssemblageComps.find(ec.Get_name()) != this->ppAssemblageComps.end())
 				{
-					cxxPPassemblageComp & comp = this->ppAssemblageComps.find(ec.get_name())->second;
+					cxxPPassemblageComp & comp = this->ppAssemblageComps.find(ec.Get_name())->second;
 					comp.read_raw(reread, false);
 				}
 				else
 				{
 					cxxPPassemblageComp ppComp1(this->Get_io());
 					ppComp1.read_raw(reread, false);
-					std::string str(ppComp1.get_name());
+					std::string str(ppComp1.Get_name());
 					this->ppAssemblageComps[str] = ppComp1;
 				}
 			}
@@ -348,13 +350,13 @@ cxxPPassemblage::totalize(PHREEQC_PTR_ARG)
 		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
 	{
 		(*it).second.totalize(P_INSTANCE);
-		this->totals.add_extensive((*it).second.get_totals(), 1.0);
+		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
 	}
 	return;
 }
 
 void
-cxxPPassemblage::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblage & addee, double extensive)
+cxxPPassemblage::add(const cxxPPassemblage & addee, double extensive)
 		//
 		// Add to existing ppassemblage to "this" ppassemblage
 		//
@@ -370,7 +372,7 @@ cxxPPassemblage::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblage & addee, double
 			 this->ppAssemblageComps.begin();
 			 it != this->ppAssemblageComps.end(); ++it)
 		{
-			if ((*it).second.get_name() == itadd->second.get_name())
+			if ((*it).second.Get_name() == itadd->second.Get_name())
 			{
 				(*it).second.add((*itadd).second, extensive);
 				found = true;
@@ -381,7 +383,7 @@ cxxPPassemblage::add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblage & addee, double
 		{
 			cxxPPassemblageComp entity = (*itadd).second;
 			entity.multiply(extensive);
-			std::string str(entity.get_name());
+			std::string str(entity.Get_name());
 			this->ppAssemblageComps[str] = entity;
 		}
 	}

@@ -464,7 +464,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		reaction_calc(&irrev[i]);
 		cxxReaction entity(&irrev[i]);
-		accumulator.add_extensive(entity.get_elementList(), 1.0);
+		accumulator.add_extensive(entity.Get_elementList(), 1.0);
 	}
 
 	// pure phases
@@ -472,7 +472,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		cxxPPassemblage entity(&pp_assemblage[i], &phrq_io);
 		entity.totalize(this);
-		accumulator.add_extensive(entity.get_totals(), 1.0);
+		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
 	// exchangers

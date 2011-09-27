@@ -40,6 +40,7 @@ units("mMol/kgw")
 	pes = NULL;
 }
 
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 cxxISolution::cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *solution_ptr, PHRQ_io *io)
 :
 cxxSolution(solution_ptr, io)
@@ -58,12 +59,14 @@ cxxSolution(solution_ptr, io)
 	// pe_data
 	pes = P_INSTANCE_POINTER pe_data_dup(solution_ptr->pe);
 }
+#endif
 
 cxxISolution::~cxxISolution()
 {
 	//// ToDo //pe_data_free(this->pes);
 }
 
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 struct solution *
 cxxISolution::cxxISolution2solution(PHREEQC_PTR_ARG)
 		//
@@ -86,7 +89,9 @@ cxxISolution::cxxISolution2solution(PHREEQC_PTR_ARG)
 	soln_ptr->totals = cxxISolutionComp::cxxISolutionComp2conc(P_INSTANCE_COMMA this->comps);
 	return (soln_ptr);
 }
+#endif
 
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 void
 cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
   //
@@ -177,6 +182,7 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 		iter->second.set_moles(iter->second.get_moles() * l_mass_water);
 	}
 }
+#endif
 
 #ifdef SKIP
 cxxISolution & cxxISolution::read(CParser & parser)

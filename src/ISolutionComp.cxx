@@ -76,6 +76,8 @@ struct conc *cxxISolutionComp::concarray(std::map <char *, double, CHARSTAR_LESS
         return(c);
 }
 */
+
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 struct conc *
 cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < std::string,
 										cxxISolutionComp > &totals)
@@ -114,7 +116,9 @@ cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < s
 	c[i].description = NULL;
 	return (c);
 }
+#endif
 
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 void
 cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 {
@@ -158,6 +162,7 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 	//P_INSTANCE_POINTER input_error++;
 	return;
 }
+#endif
 
 
 #ifdef SKIP
