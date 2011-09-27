@@ -137,7 +137,7 @@ isotopes(io)
 		}
 	}
 }
-
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 cxxSolution::cxxSolution(PHREEQC_PTR_ARG_COMMA int l_n_user, PHRQ_io * io)
 		//
 		// constructor for cxxSolution from results of calculation
@@ -278,10 +278,12 @@ isotopes(io)
 		}
 	}
 }
-
+#endif
 cxxSolution::~cxxSolution()
 {
 }
+
+#ifdef MOVE_TO_STRUCTURES
 struct solution *
 cxxSolution::cxxSolution2solution(PHREEQC_PTR_ARG)
 		//
@@ -336,6 +338,7 @@ cxxSolution::cxxSolution2solution(PHREEQC_PTR_ARG)
 
 	return (solution_ptr);
 }
+#endif
 
 void
 cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
