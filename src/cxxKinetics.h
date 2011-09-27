@@ -22,10 +22,6 @@ class cxxKinetics:public cxxNumKeyword
 				int n_user, PHRQ_io *io=NULL);
 	 ~cxxKinetics();
 
-	//struct kinetics *cxxKinetics2kinetics(PHREEQC_PTR_ARG);
-
-	//struct kinetics_comp *cxxKineticsComp2kinetics_comp();
-
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

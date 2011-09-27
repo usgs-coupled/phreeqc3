@@ -1033,8 +1033,9 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		std::map < int, cxxGasPhase >::iterator it = this->GasPhases.find(n);
 		if (it != this->GasPhases.end())
 		{
-			struct gas_phase *gas_phase_ptr =
-				(it->second).cxxGasPhase2gas_phase(P_INSTANCE);
+			//struct gas_phase *gas_phase_ptr =
+			//	(it->second).cxxGasPhase2gas_phase(P_INSTANCE);
+			struct gas_phase *gas_phase_ptr = P_INSTANCE_POINTER cxxGasPhase2gas_phase(&(it->second));
 			P_INSTANCE_POINTER gas_phase_copy(gas_phase_ptr, &P_INSTANCE_POINTER gas_phase[0], n);
 			P_INSTANCE_POINTER count_gas_phase++;
 			P_INSTANCE_POINTER gas_phase_free(gas_phase_ptr);
@@ -1275,8 +1276,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// GasPhases
 	if (this->getGasPhase(n) != NULL)
 	{
-		system_ptr->gas_phase =
-			(this->getGasPhase(n))->cxxGasPhase2gas_phase(P_INSTANCE);
+		//system_ptr->gas_phase = (this->getGasPhase(n))->cxxGasPhase2gas_phase(P_INSTANCE);
+		system_ptr->gas_phase = P_INSTANCE_POINTER cxxGasPhase2gas_phase(this->getGasPhase(n));
 	}
 	else
 	{

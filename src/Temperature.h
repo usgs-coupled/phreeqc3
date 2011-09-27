@@ -18,13 +18,17 @@ class cxxTemperature:public cxxNumKeyword
 	cxxTemperature(struct temperature *, PHRQ_io *io=NULL);
 	~cxxTemperature();
 
-	struct temperature *cxxTemperature2temperature(PHREEQC_PTR_ARG);
+	//struct temperature *cxxTemperature2temperature(PHREEQC_PTR_ARG);
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	void read_raw(CParser & parser);
+
+	const std::vector<double> & Get_temps(void) const {return temps;};
+	int Get_countTemps(void) const {return countTemps;};
+	bool Get_equalIncrements(void) const {return equalIncrements;};
 
 protected:
 	std::vector < double >temps;

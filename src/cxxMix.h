@@ -18,8 +18,6 @@ class cxxMix:public cxxNumKeyword
 	cxxMix(struct mix *, PHRQ_io *io=NULL);
 	 ~cxxMix();
 
-	//struct mix *cxxMix2mix(PHREEQC_PTR_ARG);
-
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
