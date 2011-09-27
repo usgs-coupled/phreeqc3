@@ -64,12 +64,12 @@ cxxSystem::totalize(PHREEQC_PTR_ARG)
 	{
 		char token[MAX_LENGTH];
 		strcpy(token, "O");
-		this->totals[token] = this->solution->get_total_o();
+		this->totals[token] = this->solution->Get_total_o();
 		strcpy(token, "H");
-		this->totals[token] = this->solution->get_total_h();
+		this->totals[token] = this->solution->Get_total_h();
 		strcpy(token, "Charge");
-		this->totals[token] = this->solution->get_cb();
-		this->totals.add_extensive(this->solution->get_totals(), 1.0);
+		this->totals[token] = this->solution->Get_cb();
+		this->totals.add_extensive(this->solution->Get_totals(), 1.0);
 	}
 	if (this->exchange != NULL)
 	{

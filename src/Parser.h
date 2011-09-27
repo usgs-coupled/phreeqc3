@@ -7,7 +7,6 @@
 #include <sstream>				// std::istringstream std::ostringstream
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
-#include "Phreeqc_class.h"
 #include "PHRQ_base.h"
 
 class CParser: public PHRQ_base

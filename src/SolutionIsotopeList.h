@@ -6,7 +6,6 @@
 #include <list>					// std::list
 
 #include "SolutionIsotope.h"
-#include "Phreeqc_class.h"
 
 class cxxSolutionIsotopeList:public
 	std::list <	cxxSolutionIsotope >, public PHRQ_base

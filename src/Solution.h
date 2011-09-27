@@ -26,105 +26,105 @@ class cxxSolution:public cxxNumKeyword
 
 	//static cxxSolution& read(CParser& parser);
 
-	double get_tc() const
+	double Get_tc() const
 	{
 		return this->tc;
 	}
-	void set_tc(double l_tc)
+	void Set_tc(double l_tc)
 	{
 		this->tc = l_tc;
 	}
 
-	double get_ph() const
+	double Get_ph() const
 	{
 		return this->ph;
 	}
-	void set_ph(double pH)
+	void Set_ph(double pH)
 	{
 		this->ph = pH;
 	}
 
-	double get_pe() const
+	double Get_pe() const
 	{
 		return this->pe;
 	}
-	void set_pe(double l_pe)
+	void Set_pe(double l_pe)
 	{
 		this->pe = l_pe;
 	}
 
-	double get_mu() const
+	double Get_mu() const
 	{
 		return this->mu;
 	}
-	void set_mu(double l_mu)
+	void Set_mu(double l_mu)
 	{
 		this->mu = l_mu;
 	}
 
-	double get_ah2o() const
+	double Get_ah2o() const
 	{
 		return this->ah2o;
 	}
-	void set_ah2o(double l_ah2o)
+	void Set_ah2o(double l_ah2o)
 	{
 		this->ah2o = l_ah2o;
 	}
 
-	double get_total_h() const
+	double Get_total_h() const
 	{
 		return this->total_h;
 	}
-	void set_total_h(double l_total_h)
+	void Set_total_h(double l_total_h)
 	{
 		this->total_h = l_total_h;
 	}
 
-	double get_total_o() const
+	double Get_total_o() const
 	{
 		return this->total_o;
 	}
-	void set_total_o(double l_total_o)
+	void Set_total_o(double l_total_o)
 	{
 		this->total_o = l_total_o;
 	}
 
-	double get_cb() const
+	double Get_cb() const
 	{
 		return this->cb;
 	}
-	void set_cb(double l_cb)
+	void Set_cb(double l_cb)
 	{
 		this->cb = l_cb;
 	}
 
-	double get_mass_water() const
+	double Get_mass_water() const
 	{
 		return this->mass_water;
 	}
-	void set_mass_water(long double l_mass_water)
+	void Set_mass_water(long double l_mass_water)
 	{
 		this->mass_water = l_mass_water;
 	}
 
-	double get_total_alkalinity() const
+	double Get_total_alkalinity() const
 	{
 		return this->total_alkalinity;
 	}
-	void set_total_alkalinity(double l_total_alkalinity)
+	void Set_total_alkalinity(double l_total_alkalinity)
 	{
 		this->total_alkalinity = l_total_alkalinity;
 	}
 
-	double get_total(char *string) const;
-	double get_total_element(char *string) const;
-	void set_total(char *string, double value);
+	double Get_total(char *string) const;
+	double Get_total_element(char *string) const;
+	void Set_total(char *string, double value);
 
-	const cxxNameDouble & get_totals(void) const
+	const cxxNameDouble & Get_totals(void) const
 	{
 		return this->totals;
 	}
-	void set_totals(cxxNameDouble & nd)
+	void Set_totals(cxxNameDouble & nd)
 	{
 		this->totals = nd;
 		this->totals.type = cxxNameDouble::ND_ELT_MOLES;
@@ -138,25 +138,17 @@ class cxxSolution:public cxxNumKeyword
 		this->master_activity.clear();
 	}
 
-	const cxxNameDouble & get_master_activity(void) const
+	const cxxNameDouble & Get_master_activity(void) const
 	{
 		return this->master_activity;
 	}
-	const cxxNameDouble & get_species_gamma(void) const
+	const cxxNameDouble & Get_species_gamma(void) const
 	{
 		return this->species_gamma;
 	}
-	double get_master_activity(char *string) const;
-	void set_master_activity(char *string, double value);
+	double Get_master_activity(char *string) const;
+	void Set_master_activity(char *string, double value);
 	const cxxSolutionIsotopeList & Get_isotopes(void) const {return isotopes;};
-
-	/*
-	   double get_species_gamma(char *string)const;
-	   void set_species_gamma(char *string, double value);
-
-	   double get_isotope(char *string)const;
-	   void set_isotope(char *string, double value);
-	 */
 
 	//struct solution *cxxSolution2solution(PHREEQC_PTR_ARG);
 

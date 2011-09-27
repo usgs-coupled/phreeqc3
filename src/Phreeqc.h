@@ -48,6 +48,8 @@ class cxxPPassemblageComp;
 class cxxReaction;
 class cxxSolution;
 class cxxSolutionIsotopeList;
+class cxxSSassemblage;
+class cxxSSassemblageSS;
 
 class Phreeqc
 {
@@ -1258,6 +1260,8 @@ struct pure_phase * cxxPPassemblageComp2pure_phase(const std::map < std::string,
 struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
 struct solution * cxxSolution2solution(const cxxSolution * sol);
 struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
+struct s_s_assemblage * cxxSSassemblage2s_s_assemblage(const cxxSSassemblage * ss);
+struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSSassemblageSS > * sscomp);
 struct conc * cxxNameDouble2conc(const cxxNameDouble *nd); 
 struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
 struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
