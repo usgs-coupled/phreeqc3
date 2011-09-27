@@ -17,10 +17,10 @@ class cxxExchComp: public PHRQ_base
 	cxxExchComp(struct exch_comp *, PHRQ_io *io=NULL);
 	 ~cxxExchComp();
 
-	struct master *get_master(PHREEQC_PTR_ARG);
+	//struct master *Get_master(PHREEQC_PTR_ARG);
 
-	static struct exch_comp *cxxExchComp2exch_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxExchComp >
-												   &el);
+	//static struct exch_comp *cxxExchComp2exch_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxExchComp >
+	//											   &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -28,108 +28,106 @@ class cxxExchComp: public PHRQ_base
 
 	void read_raw(CParser & parser, bool check=true);
 
-	const std::string &get_formula() const
+	const std::string &Get_formula() const
 	{
 		return this->formula;
 	}
-	void set_formula(char *cstring)
+	void Set_formula(char *cstring)
 	{
 		if (cstring != NULL)
 			this->formula = std::string(cstring);
 		else
 			this->formula.clear();
 	}
-	double get_moles() const
+	double Get_moles() const
 	{
 		return this->moles;
 	}
-	void set_moles(double d)
+	void Set_moles(double d)
 	{
 		this->moles = d;
 	}
-	double get_la() const
+	double Get_la() const
 	{
 		return this->la;
 	}
-	void set_la(double d)
+	void Set_la(double d)
 	{
 		this->la = d;
 	}
-	double get_charge_balance() const
+	double Get_charge_balance() const
 	{
 		return this->charge_balance;
 	}
-	void set_charge_balance(double d)
+	void Set_charge_balance(double d)
 	{
 		this->charge_balance = d;
 	}
-	const std::string &get_phase_name() const
+	const std::string &Get_phase_name() const
 	{
 		return this->phase_name;
 	}
-	void set_phase_name(char *cstring)
+	void Set_phase_name(char *cstring)
 	{
 		if (cstring != NULL)
 			this->phase_name = std::string(cstring);
 		else
 			this->phase_name.clear();
 	}
-	double get_phase_proportion() const
+	double Get_phase_proportion() const
 	{
 		return this->phase_proportion;
 	}
-	void set_phase_proportion(double d)
+	void Set_phase_proportion(double d)
 	{
 		this->phase_proportion = d;
 	}
-	const std::string &get_rate_name() const
+	const std::string &Get_rate_name() const
 	{
 		return this->rate_name;
 	}
-	void set_rate_name(char *cstring)
+	void Set_rate_name(char *cstring)
 	{
 		if (cstring != NULL)
 			this->rate_name = std::string(cstring);
 		else
 			this->rate_name.clear();
 	}
-	double get_formula_z() const
+	double Get_formula_z() const
 	{
 		return this->formula_z;
 	}
-	void set_formula_z(double d)
+	void Set_formula_z(double d)
 	{
 		this->formula_z = d;
 	}
-	void set_totals(struct elt_list *e_l, int count)
+	void Set_totals(struct elt_list *e_l, int count)
 	{
 		this->totals = cxxNameDouble(e_l, count);
 	}
-	void set_totals(struct elt_list *e_l)
+	void Set_totals(struct elt_list *e_l)
 	{
 		this->totals = cxxNameDouble(e_l);
 	}
-	void set_totals(cxxNameDouble nd)
+	void Set_totals(cxxNameDouble nd)
 	{
 		this->totals = nd;
 	}
-	void set_formula_totals(struct elt_list *e_l, int count)
+	void Set_formula_totals(struct elt_list *e_l, int count)
 	{
 		this->formula_totals = cxxNameDouble(e_l, count);
 	}
-	void set_formula_totals(struct elt_list *e_l)
+	void Set_formula_totals(struct elt_list *e_l)
 	{
 		this->formula_totals = cxxNameDouble(e_l);
 	}
-	void set_formula_totals(cxxNameDouble nd)
+	void Set_formula_totals(cxxNameDouble nd)
 	{
 		this->formula_totals = nd;
 	}
 
-	const cxxNameDouble & get_totals() const
-	{
-		return (this->totals);
-	};
+	const cxxNameDouble & Get_totals() const {return (this->totals);};
+	const cxxNameDouble & Get_formula_totals(void) const {return this->formula_totals;};
 
 
 	void add(const cxxExchComp & comp, double extensive);

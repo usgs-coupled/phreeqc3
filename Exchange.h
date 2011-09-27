@@ -16,15 +16,15 @@ class cxxExchange:public cxxNumKeyword
 
 public:
 	cxxExchange(PHRQ_io *io=NULL);
-	cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io=NULL);
+	//cxxExchange(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io=NULL);
 	cxxExchange(struct exchange *, PHRQ_io *io=NULL);
-	cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &exchange_map,
+	cxxExchange(const std::map < int, cxxExchange > &exchange_map,
 		cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxExchange();
 
-	struct exchange *cxxExchange2exchange(PHREEQC_PTR_ARG);
+	//struct exchange *cxxExchange2exchange(PHREEQC_PTR_ARG);
 
-	struct exch_comp *cxxExchComp2exch_comp();
+	//struct exch_comp *cxxExchComp2exch_comp();
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
