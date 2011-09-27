@@ -46,6 +46,8 @@ class cxxTemperature;
 class cxxPPassemblage;
 class cxxPPassemblageComp;
 class cxxReaction;
+class cxxSolution;
+class cxxSolutionIsotopeList;
 
 class Phreeqc
 {
@@ -1244,9 +1246,7 @@ extern void MergeFinalize(void);
 
 struct mix * cxxMix2mix(cxxMix *mx);
 struct kinetics *cxxKinetics2kinetics(cxxKinetics * kin);
-struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
 struct kinetics_comp * cxxKineticsComp2kinetics_comp(std::list < cxxKineticsComp > * el);
-struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
 struct exchange * cxxExchange2exchange(cxxExchange * ex);
 struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
 struct master * Get_exch_master(const cxxExchComp * ec);
@@ -1256,7 +1256,12 @@ struct temperature * cxxTemperature2temperature(const cxxTemperature *temp);
 struct pp_assemblage * cxxPPassemblage2pp_assemblage(const cxxPPassemblage * pp);
 struct pure_phase * cxxPPassemblageComp2pure_phase(const std::map < std::string, cxxPPassemblageComp > * ppc);
 struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
-
+struct solution * cxxSolution2solution(const cxxSolution * sol);
+struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
+struct conc * cxxNameDouble2conc(const cxxNameDouble *nd); 
+struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
+struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
+struct master_activity * cxxNameDouble2master_activity(const cxxNameDouble * nd);
 /* tally.c */
 
 void add_all_components_tally(void);

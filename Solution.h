@@ -19,7 +19,7 @@ class cxxSolution:public cxxNumKeyword
   public:
 	cxxSolution(PHRQ_io *io=NULL);
 	cxxSolution(struct solution *, PHRQ_io *io=NULL);
-	cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io=NULL);
+	//cxxSolution(PHREEQC_PTR_ARG_COMMA int n_user, PHRQ_io *io=NULL);
 	cxxSolution( const std::map < int, cxxSolution > &solution_map,
 				  cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxSolution();
@@ -142,8 +142,13 @@ class cxxSolution:public cxxNumKeyword
 	{
 		return this->master_activity;
 	}
+	const cxxNameDouble & get_species_gamma(void) const
+	{
+		return this->species_gamma;
+	}
 	double get_master_activity(char *string) const;
 	void set_master_activity(char *string, double value);
+	const cxxSolutionIsotopeList & Get_isotopes(void) const {return isotopes;};
 
 	/*
 	   double get_species_gamma(char *string)const;
@@ -153,7 +158,7 @@ class cxxSolution:public cxxNumKeyword
 	   void set_isotope(char *string, double value);
 	 */
 
-	struct solution *cxxSolution2solution(PHREEQC_PTR_ARG);
+	//struct solution *cxxSolution2solution(PHREEQC_PTR_ARG);
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 

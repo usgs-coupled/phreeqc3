@@ -112,7 +112,8 @@ read_solution_raw(void)
 
 	cxxSolution sol(&phrq_io);
 	sol.read_raw(parser);
-	struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
+	//struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
+	struct solution *soln_ptr = cxxSolution2solution(&sol);
 	int n;
 
 	/*
@@ -1337,7 +1338,8 @@ read_solution_modify(void)
 
 	sol.modify_activities(PHREEQC_THIS_COMMA orig);
 
-	struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
+	//struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
+	struct solution *soln_ptr = cxxSolution2solution(&sol);
 
 	/*
 	 *  This is not quite right, may not produce sort order, forced sort
