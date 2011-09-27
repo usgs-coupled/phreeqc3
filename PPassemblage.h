@@ -17,27 +17,23 @@ class cxxPPassemblage:public cxxNumKeyword
   public:
 	cxxPPassemblage(PHRQ_io * io=NULL);
 	cxxPPassemblage(struct pp_assemblage *, PHRQ_io * io=NULL);
-	  cxxPPassemblage(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxPPassemblage > &entity_map,
+	cxxPPassemblage(const std::map < int, cxxPPassemblage > &entity_map,
 					  cxxMix & mx, int n_user, PHRQ_io * io=NULL);
-	 ~cxxPPassemblage();
-
-	struct pp_assemblage *cxxPPassemblage2pp_assemblage(PHREEQC_PTR_ARG);
-
-	struct pure_phase *cxxPPassemblageComp2pure_phase();
+	~cxxPPassemblage();
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	void read_raw(CParser & parser, bool check = true);
 
-	const cxxNameDouble & get_totals() const
+	const cxxNameDouble & Get_totals() const
 	{
 		return this->totals;
 	};
-	const cxxNameDouble & get_eltList() const
+	const cxxNameDouble & Get_eltList() const
 	{
 		return this->eltList;
 	};
-	std::map <std::string, cxxPPassemblageComp > & get_ppAssemblageComps() 
+	const std::map <std::string, cxxPPassemblageComp > & Get_ppAssemblageComps() const
 	{
 		return this->ppAssemblageComps;
 	};
@@ -58,7 +54,7 @@ class cxxPPassemblage:public cxxNumKeyword
 #endif
 
 private:
-	void add(PHREEQC_PTR_ARG_COMMA const cxxPPassemblage & addee, double extensive);
+	void add(const cxxPPassemblage & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
