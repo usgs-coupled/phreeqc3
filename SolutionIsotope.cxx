@@ -34,10 +34,10 @@ cxxSolutionIsotope::cxxSolutionIsotope(struct isotope *isotope_ptr, PHRQ_io *io)
 PHRQ_base(io)
 {
 	isotope_number = isotope_ptr->isotope_number;
-	this->set_elt_name(isotope_ptr->elt_name);
+	this->Set_elt_name(isotope_ptr->elt_name);
 	std::ostringstream name;
 	name << isotope_ptr->isotope_number << isotope_ptr->elt_name;
-	this->set_isotope_name(name.str().c_str());
+	this->Set_isotope_name(name.str().c_str());
 	total = isotope_ptr->total;
 	ratio = isotope_ptr->ratio;
 	ratio_uncertainty = isotope_ptr->ratio_uncertainty;
@@ -169,7 +169,7 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser, std::istream
 		this->isotope_name.clear();
 		return (CParser::PARSER_OK);
 	}
-	this->set_isotope_name(token.c_str());
+	this->Set_isotope_name(token.c_str());
 
 	// isotope_number
 	if (!(parser.get_iss() >> isotope_number))
@@ -182,7 +182,7 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser, std::istream
 	{
 		return CParser::PARSER_ERROR;
 	}
-	this->set_elt_name(token.c_str());
+	this->Set_elt_name(token.c_str());
 
 	// total
 	if (!(parser.get_iss() >> this->total))

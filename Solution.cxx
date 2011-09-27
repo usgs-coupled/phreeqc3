@@ -701,7 +701,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				}
 				else
 				{
-					if (iso.get_isotope_name().size() != 0)
+					if (iso.Get_isotope_name().size() != 0)
 					{
 						this->isotopes.push_back(iso);
 					}
@@ -977,7 +977,7 @@ cxxSolution::multiply(double extensive)
 }
 
 double
-cxxSolution::get_total(char *string) const
+cxxSolution::Get_total(char *string) const
 {
 	cxxNameDouble::const_iterator it = this->totals.find(string);
 	if (it == this->totals.end())
@@ -990,7 +990,7 @@ cxxSolution::get_total(char *string) const
 	}
 }
 double
-cxxSolution::get_total_element(char *string) const
+cxxSolution::Get_total_element(char *string) const
 {
 	cxxNameDouble::const_iterator it;
 	double d = 0.0;
@@ -1014,13 +1014,13 @@ cxxSolution::get_total_element(char *string) const
 }
 
 void
-cxxSolution::set_total(char *string, double d)
+cxxSolution::Set_total(char *string, double d)
 {
 	this->totals[string] = d;
 }
 
 double
-cxxSolution::get_master_activity(char *string) const
+cxxSolution::Get_master_activity(char *string) const
 {
 	cxxNameDouble::const_iterator it = this->master_activity.find(string);
 	if (it == this->master_activity.end())
@@ -1033,233 +1033,6 @@ cxxSolution::get_master_activity(char *string) const
 	}
 }
 
-#ifdef ORCHESTRA
-void
-cxxSolution::ORCH_write(std::ostream & headings, std::ostream & data) const const
-{
-
-	data.precision(DBL_DIG - 1);
-
-	// Solution element and attributes
-
-	//s_oss << "SOLUTION_RAW       " << this->n_user  << " " << this->description << std::endl;
-
-	//s_oss << "-temp              " << this->tc << std::endl;
-
-	//s_oss << "-pH                " << this->ph << std::endl;
-	headings << "pH\t";
-	data << this->ph << "\t";
-
-	//s_oss << "-pe                " << this->pe << std::endl;
-	headings << "pe\t";
-	data << this->pe << "\t";
-
-	//s_oss << "-mu                " << this->mu << std::endl;
-
-	//s_oss << "-ah2o              " << this->ah2o << std::endl;
-	headings << "H2O.act\t";
-	data << 1 << "\t";
-	//s_oss << "-total_h           " << this->total_h << std::endl;
-
-	//s_oss << "-total_o           " << this->total_o << std::endl;
-
-	//s_oss << "-cb                " << this->cb << std::endl;
-
-	//s_oss << "-mass_water        " << this->mass_water << std::endl;
-
-	//s_oss << "-total_alkalinity  " << this->total_alkalinity << std::endl;
-
-	// soln_total conc structures
-	//this->totals.dump_raw(s_oss, indent + 2);
-	//this->totals.write_orchestra(headings, s_oss);
-	for (std::map < char *, double, CHARSTAR_LESS >::const_iterator it =
-		 totals.begin(); it != totals.end(); ++it)
-	{
-		std::string master_name;
-		struct master *master_ptr;
-		master_ptr = master_bsearch(it->first);
-		if (master_ptr != NULL)
-		{
-			//headings << it->first << ".tot" << "\t";
-			headings << master_ptr->s->name << ".diss" << "\t";
-			data << it->second << "\t";
-		}
-		else
-		{
-			assert(false);
-		}
-	}
-
-	// master_activity map
-	//this->master_activity.dump_raw(s_oss, indent + 2);
-	/*
-	   {
-	   for (std::map <char *, double>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
-	   s_oss << indent2;
-	   s_oss << it->first << "   " << it->second << std::endl;
-	   }
-	   }
-	 */
-	// species_gamma map
-	//this->species_gamma.dump_raw(s_oss, indent + 2);
-	/*
-	   {
-	   {
-	   for (std::map <char *, double>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
-	   s_oss << indent2;
-	   s_oss << it->first << "   " << it->second << std::endl;
-	   }
-	   }
-	   }
-	 */
-	// Isotopes
-	//s_oss << "-Isotopes" << std::endl;
-	/*
-	   {
-	   for (std::list<cxxSolutionIsotope>::const_iterator it = this->isotopes.begin(); it != isotopes.end(); ++it) {
-	   it->dump_raw(s_oss, indent + 2);
-	   }
-	   }
-	 */
-
-	return;
-}
-
-void
-cxxSolution::ORCH_read(std::vector < std::pair < std::string,
-					   double >>output_vector,
-					   std::vector < std::pair < std::string,
-					   double >>::iterator & it)
-{
-	this->tc = it->second;
-	it++;
-	this->ph = it->second;
-	it++;
-	this->pe = it->second;
-	it++;
-	this->mu = it->second;
-	it++;
-	this->ah2o = it->second;
-	it++;
-	this->total_h = it->second;
-	it++;
-	this->total_o = it->second;
-	it++;
-	this->cb = it->second;
-	it++;
-	this->mass_water = it->second * gfw_water;
-	it++;
-	this->mass_water = 1.0;
-	this->total_alkalinity = it->second;
-	it++;
-	it++;						//orch total H+
-	it++;						//orch total e-
-	it++;						//orch total H2O
-	//cxxNameDouble totals;
-	char token[MAX_LENGTH];
-	while (it->first.compare("end_totals") != 0)
-	{
-		strcpy(token, it->first.c_str());
-		replace(".diss", "", token);
-		struct species *s_ptr = s_search(token);
-		if (s_ptr == NULL)
-			error_msg("Species not found in orchestra read", STOP);
-		if (s_ptr->secondary != NULL)
-		{
-			this->totals[s_ptr->secondary->elt->name] = it->second;
-		}
-		else if (s_ptr->primary != NULL)
-		{
-			this->totals[s_ptr->primary->elt->name] = it->second;
-		}
-		else
-		{
-			error_msg
-				("Species not secondary or primary master species in orchestra read",
-				 STOP);
-		}
-		it++;
-	}
-	//cxxNameDouble master_activity;
-	it++;
-	while (it->first.compare("end_master_activities") != 0)
-	{
-		strcpy(token, it->first.c_str());
-		replace(".act", "", token);
-		struct species *s_ptr = s_search(token);
-		if (s_ptr == NULL)
-			error_msg("Species not found in orchestra read", STOP);
-		if (s_ptr->secondary != NULL)
-		{
-			this->master_activity[s_ptr->secondary->elt->name] =
-				log10(it->second);
-		}
-		else if (s_ptr->primary != NULL)
-		{
-			this->master_activity[s_ptr->primary->elt->name] =
-				log10(it->second);
-		}
-		else
-		{
-			error_msg
-				("Species not secondary or primary master species in orchestra read",
-				 STOP);
-		}
-		it++;
-	}
-	//cxxNameDouble species_gamma;
-	//cxxSolutionIsotopeList isotopes;
-	//
-	// Also process aqueous species data
-	//
-	it++;
-	while (it->first.compare("end_species") != 0)
-	{
-		strcpy(token, it->first.c_str());
-		replace(".act", "", token);
-		while (replace("[", "(", token));
-		while (replace("]", ")", token));
-		struct species *s_ptr = s_search(token);
-		if (s_ptr == NULL)
-			error_msg("Species not found in orchestra read", STOP);
-		s_ptr->la = log10(it->second);
-		it++;
-		s_ptr->moles = it->second * this->mass_water;
-		s_ptr->lm = log10(it->second);
-		it++;
-		s_ptr->lg = s_ptr->la - s_ptr->lm;
-	}
-}
-
-void
-cxxSolution::ORCH_store_global(std::map < std::string, double >output_map)
-{
-	int i;
-	tc_x = this->tc;
-	mass_water_aq_x = this->mass_water;
-	mu_x = this->mu;
-	s_h2o->moles = output_map["H2O.con"];
-	s_h2o->la = log10(output_map["H2O.act"]);
-	s_h2o->lm = s_h2o->la;
-	s_h2o->lg = 0;
-	for (i = 0; i < count_unknowns; i++)
-	{
-		residual[i] = 0;
-		// MB, ALK, CB, SOLUTION_PHASE_BOUNDARY, MU, AH2O
-		switch (x[i]->type)
-		{
-		case MB:
-		case CB:
-		case SOLUTION_PHASE_BOUNDARY:
-			x[i]->sum = this->totals[x[i]->description] * mass_water_aq_x;
-			break;
-		case ALK:
-			x[i]->f = this->total_alkalinity * mass_water_aq_x;
-			break;
-		}
-	}
-}
-#endif
 #ifdef USE_MPI
 /* ---------------------------------------------------------------------- */
 void
@@ -1538,7 +1311,7 @@ cxxSolution::mpi_recv(int task_number)
 }
 #endif
 void
-cxxSolution::set_master_activity(char *string, double d)
+cxxSolution::Set_master_activity(char *string, double d)
 {
 	this->master_activity[string] = d;
 }
@@ -1552,7 +1325,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 
 	// to standardize, convert element to valence state if needed
 	// for original activity list (probably not needed)
-	cxxNameDouble orig_master_activity(original.get_master_activity());
+	cxxNameDouble orig_master_activity(original.Get_master_activity());
 	cxxNameDouble::const_iterator it;
 	bool redo=true;
 	while (redo)
@@ -1638,10 +1411,10 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 		if (strcmp(ename, "H") == 0 || strcmp(ename, "O") == 0) continue;
 
 		double d_mod, d_orig;
-		d_mod = this->get_total_element(ename);
+		d_mod = this->Get_total_element(ename);
 		if (d_mod <= 0) continue;
 
-		d_orig = original.get_total_element(ename);
+		d_orig = original.Get_total_element(ename);
 		if (d_orig <= 0) 
 		{
 			// add estimate for la based on concentration if not in list

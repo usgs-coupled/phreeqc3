@@ -52,7 +52,7 @@ PHRQ_base(io)		//
 		// constructor for cxxSSassemblageSS from struct s_s
 		//
 {
-	this->set_name(s_s_ptr->name);
+	this->Set_name(s_s_ptr->name);
 	//total_moles                              = s_s_ptr->total_moles;                            
 	a0 = s_s_ptr->a0;
 	a1 = s_s_ptr->a1;
@@ -80,6 +80,7 @@ cxxSSassemblageSS::~cxxSSassemblageSS()
 {
 }
 
+#ifdef MOVE_TO_STRUCTURES
 struct s_s *
 cxxSSassemblageSS::cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSSassemblageSS > &el)
 		//
@@ -170,6 +171,7 @@ cxxSSassemblageSS::cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::s
 	}
 	return (s_s_ptr);
 }
+#endif
 
 #ifdef SKIP
 void

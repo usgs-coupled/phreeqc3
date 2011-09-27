@@ -12,8 +12,10 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
-#ifdef PHREEQC_CLASS
+#ifdef PHREEQC_CPP
 #include "Phreeqc_class.h"
+#endif
+#ifdef PHREEQC_CLASS
 #include "Phreeqc.h"
 #else
 #include "phqalloc.h"

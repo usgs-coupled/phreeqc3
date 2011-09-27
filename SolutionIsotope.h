@@ -5,7 +5,6 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include "Parser.h"
-#include "Phreeqc_class.h"
 
 class cxxSolutionIsotope: public PHRQ_base
 {
@@ -28,56 +27,56 @@ class cxxSolutionIsotope: public PHRQ_base
 
 	CParser::STATUS_TYPE read_raw(CParser & parser, std::istream::pos_type next_char);
 
-	double get_isotope_number() const
+	double Get_isotope_number() const
 	{
 		return this->isotope_number;
 	}
-	void set_isotope_number(double d)
+	void Set_isotope_number(double d)
 	{
 		this->isotope_number = d;
 	}
-	const std::string &get_elt_name() const
+	const std::string &Get_elt_name() const
 	{
 		return this->elt_name;
 	}
-	void set_elt_name(const char *cstring)
+	void Set_elt_name(const char *cstring)
 	{
 		if (cstring != NULL)
 			this->elt_name = std::string(cstring);
 		else
 			this->elt_name.clear();
 	}
-	const std::string &get_isotope_name() const
+	const std::string &Get_isotope_name() const
 	{
 		return this->isotope_name;
 	}
-	void set_isotope_name(const char *cstring)
+	void Set_isotope_name(const char *cstring)
 	{
 		if (cstring != NULL)
 			this->isotope_name = std::string(cstring);
 		else
 			this->isotope_name.clear();
 	}
-	double get_total() const
+	double Get_total() const
 	{
 		return this->total;
 	}
-	void set_total(double d)
+	void Set_total(double d)
 	{
 		this->total = d;
 	}
 
-	double get_ratio() const
+	double Get_ratio() const
 	{
 		return this->ratio;
 	}
 
-	double get_ratio_uncertainty() const
+	double Get_ratio_uncertainty() const
 	{
 		return this->ratio_uncertainty;
 	}
 
-	bool get_ratio_uncertainty_defined() const
+	bool Get_ratio_uncertainty_defined() const
 	{
 		return this->ratio_uncertainty_defined;
 	}

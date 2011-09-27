@@ -456,7 +456,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	for (i = 0; i < count_solution; i++)
 	{
 		cxxSolution entity(solution[i], &phrq_io);
-		accumulator.add_extensive(entity.get_totals(), 1.0);
+		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
 	// irreversible reactions

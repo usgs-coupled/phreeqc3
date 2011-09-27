@@ -6,7 +6,6 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-#include "Phreeqc_class.h"
 #include "NumKeyword.h"
 #include "PHRQ_base.h"
 

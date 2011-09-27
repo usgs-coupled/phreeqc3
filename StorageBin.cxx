@@ -1083,8 +1083,11 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 			this->SSassemblages.find(n);
 		if (it != this->SSassemblages.end())
 		{
+			//struct s_s_assemblage *s_s_assemblage_ptr =
+			//	(it->second).cxxSSassemblage2s_s_assemblage(P_INSTANCE);
 			struct s_s_assemblage *s_s_assemblage_ptr =
-				(it->second).cxxSSassemblage2s_s_assemblage(P_INSTANCE);
+				P_INSTANCE_POINTER cxxSSassemblage2s_s_assemblage(&(it->second));
+
 			P_INSTANCE_POINTER s_s_assemblage_copy(s_s_assemblage_ptr, &P_INSTANCE_POINTER s_s_assemblage[0], n);
 			P_INSTANCE_POINTER count_s_s_assemblage++;
 			P_INSTANCE_POINTER s_s_assemblage_free(s_s_assemblage_ptr);
@@ -1315,8 +1318,10 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// SSassemblages
 	if (this->getSSassemblage(n) != NULL)
 	{
+		//system_ptr->s_s_assemblage =
+		//	(this->getSSassemblage(n))->cxxSSassemblage2s_s_assemblage(P_INSTANCE);
 		system_ptr->s_s_assemblage =
-			(this->getSSassemblage(n))->cxxSSassemblage2s_s_assemblage(P_INSTANCE);
+			P_INSTANCE_POINTER cxxSSassemblage2s_s_assemblage((this->getSSassemblage(n)));
 	}
 	else
 	{
