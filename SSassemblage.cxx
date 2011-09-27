@@ -47,7 +47,7 @@ cxxNumKeyword(io)
 	for (i = 0; i < s_s_assemblage_ptr->count_s_s; i++)
 	{
 		cxxSSassemblageSS ssSS(&(s_s_assemblage_ptr->s_s[i]), this->Get_io());
-		std::string str(ssSS.get_name());
+		std::string str(ssSS.Get_name());
 		ssAssemblageSSs[str] = ssSS;
 	}
 }
@@ -78,6 +78,7 @@ cxxSSassemblage::~cxxSSassemblage()
 {
 }
 
+#ifdef MOVE_TO_STRUCTURES
 struct s_s_assemblage *
 cxxSSassemblage::cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG)
 		//
@@ -95,6 +96,7 @@ cxxSSassemblage::cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG)
 		cxxSSassemblageSS::cxxSSassemblageSS2s_s(P_INSTANCE_COMMA this->ssAssemblageSSs);
 	return (s_s_assemblage_ptr);
 }
+#endif
 
 #ifdef SKIP
 void
@@ -246,16 +248,16 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())
+				if (this->ssAssemblageSSs.find(ec.Get_name()) != this->ssAssemblageSSs.end())
 				{
-					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.get_name())->second;
+					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.Get_name())->second;
 					ec1.read_raw(reread, false);
 				}
 				else
 				{
 					cxxSSassemblageSS ec1(this->Get_io());
 					ec1.read_raw(reread, false);
-					std::string str(ec1.get_name());
+					std::string str(ec1.Get_name());
 					this->ssAssemblageSSs[str] = ec1;
 				}
 			}
@@ -320,7 +322,7 @@ cxxSSassemblage::totalize(PHREEQC_PTR_ARG)
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
 		(*it).second.totalize(P_INSTANCE);
-		this->totals.add_extensive((*it).second.get_totals(), 1.0);
+		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
 	}
 	return;
 }
@@ -382,7 +384,7 @@ cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
 		{
 			cxxSSassemblageSS entity = (*itadd).second;
 			entity.multiply(extensive);
-			std::string str(entity.get_name());
+			std::string str(entity.Get_name());
 			this->ssAssemblageSSs[str] = entity;
 		}
 	}

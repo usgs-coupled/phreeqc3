@@ -8,7 +8,6 @@
 #include <vector>				// std::vector
 
 #include "NumKeyword.h"
-#include "Phreeqc_class.h"
 
 class cxxTemperature:public cxxNumKeyword
 {

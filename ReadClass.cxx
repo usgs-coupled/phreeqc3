@@ -588,7 +588,8 @@ read_solid_solutions_raw(void)
 
 	cxxSSassemblage ex;
 	ex.read_raw(parser);
-	struct s_s_assemblage *s_s_assemblage_ptr =	ex.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
+	//struct s_s_assemblage *s_s_assemblage_ptr =	ex.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
+	struct s_s_assemblage *s_s_assemblage_ptr =	cxxSSassemblage2s_s_assemblage(&ex);
 	int n;
 
 	/*
@@ -1722,7 +1723,8 @@ read_solid_solutions_modify(void)
 	entity.read_raw(parser, false);
 
 	// save entity
-	struct s_s_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
+	//struct s_s_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
+	struct s_s_assemblage *entity_ptr = cxxSSassemblage2s_s_assemblage(&entity);
 	s_s_assemblage_free(&(s_s_assemblage[n]));
 	s_s_assemblage_copy(entity_ptr, &(s_s_assemblage[n]), entity_ptr->n_user);
 	free_check_null(s_s_assemblage[n].description);

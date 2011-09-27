@@ -6,9 +6,7 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-
 #include "NameDouble.h"
-#include "Phreeqc_class.h"
 
 class cxxSSassemblageSS: public PHRQ_base
 {
@@ -33,8 +31,8 @@ class cxxSSassemblageSS: public PHRQ_base
 		SS_PARM_MARGULES = 9
 	};
 
-	static struct s_s *cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSSassemblageSS >
-											 &el);
+	//static struct s_s *cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSSassemblageSS >
+	//										 &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -42,11 +40,11 @@ class cxxSSassemblageSS: public PHRQ_base
 
 	void read_raw(CParser & parser, bool check = true);
 
-	const std::string &get_name() const
+	const std::string &Get_name() const
 	{
 		return this->name;
 	}
-	void set_name (const char * s)
+	void Set_name (const char * s)
 	{
 		if (s != NULL)
 			this->name = std::string(s);
@@ -55,11 +53,11 @@ class cxxSSassemblageSS: public PHRQ_base
 	}
 
 	void totalize(PHREEQC_PTR_ARG);
-	const cxxNameDouble & get_totals() const
+	const cxxNameDouble & Get_totals() const
 	{
 		return (this->totals);
 	};
-	const cxxNameDouble & get_comps() const
+	const cxxNameDouble & Get_comps() const
 	{
 		return (this->comps);
 	};
@@ -71,7 +69,13 @@ class cxxSSassemblageSS: public PHRQ_base
 
 	void add(const cxxSSassemblageSS & comp, double extensive);
 	void multiply(double extensive);
-
+	double Get_a0() const {return (this->a0);};
+	double Get_a1() const {return (this->a1);};
+	double Get_ag0() const {return (this->ag0);};
+	double Get_ag1() const {return (this->ag1);};
+	bool Get_miscibility() const {return (this->miscibility);};
+	double Get_xb1() const {return (this->xb1);};
+	double Get_xb2() const {return (this->xb2);};
 protected:
 	std::string name;
 	cxxNameDouble comps;
