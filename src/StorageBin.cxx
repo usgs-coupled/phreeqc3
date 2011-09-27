@@ -1001,7 +1001,8 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		std::map < int, cxxSolution >::iterator it = this->Solutions.find(n);
 		if (it != this->Solutions.end())
 		{
-			P_INSTANCE_POINTER solution[0] = (it->second).cxxSolution2solution(P_INSTANCE);
+			//P_INSTANCE_POINTER solution[0] = (it->second).cxxSolution2solution(P_INSTANCE);
+			P_INSTANCE_POINTER solution[0] = P_INSTANCE_POINTER cxxSolution2solution(&(it->second));
 			P_INSTANCE_POINTER solution[0]->n_user = n;
 			P_INSTANCE_POINTER solution[0]->n_user_end = n;
 			P_INSTANCE_POINTER count_solution++;
@@ -1256,7 +1257,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 
 	if (this->getSolution(n) != NULL)
 	{
-		system_ptr->solution = (this->getSolution(n))->cxxSolution2solution(P_INSTANCE);
+		//system_ptr->solution = (this->getSolution(n))->cxxSolution2solution(P_INSTANCE);
+		system_ptr->solution = P_INSTANCE_POINTER cxxSolution2solution(this->getSolution(n));
 	}
 	else
 	{

@@ -88,6 +88,7 @@ cxxSolutionIsotopeList::multiply(double extensive)
 		it->total *= extensive;
 	}
 }
+#ifdef MOVE_TO_STRUCTURES
 struct isotope *
 cxxSolutionIsotopeList::cxxSolutionIsotopeList2isotope(PHREEQC_PTR_ARG)
 {
@@ -119,3 +120,4 @@ cxxSolutionIsotopeList::cxxSolutionIsotopeList2isotope(PHREEQC_PTR_ARG)
 	}
 	return (iso);
 }
+#endif
