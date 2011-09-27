@@ -1017,8 +1017,10 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		std::map < int, cxxExchange >::iterator it = this->Exchangers.find(n);
 		if (it != this->Exchangers.end())
 		{
-			struct exchange *exchange_ptr =
-				(it->second).cxxExchange2exchange(P_INSTANCE);
+			//struct exchange *exchange_ptr =
+			//	(it->second).cxxExchange2exchange(P_INSTANCE);
+			struct exchange *exchange_ptr = P_INSTANCE_POINTER cxxExchange2exchange(&it->second);
+
 			P_INSTANCE_POINTER exchange_copy(exchange_ptr, &P_INSTANCE_POINTER exchange[0], n);
 			P_INSTANCE_POINTER count_exchange++;
 			P_INSTANCE_POINTER exchange_free(exchange_ptr);
@@ -1262,7 +1264,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// Exchangers
 	if (this->getExchange(n) != NULL)
 	{
-		system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange(P_INSTANCE);
+		//system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange(P_INSTANCE);
+		system_ptr->exchange = P_INSTANCE_POINTER cxxExchange2exchange(this->getExchange(n));
 	}
 	else
 	{

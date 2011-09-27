@@ -204,7 +204,8 @@ read_exchange_raw(void)
 
 	cxxExchange ex(&phrq_io);
 	ex.read_raw(parser);
-	struct exchange *exchange_ptr = ex.cxxExchange2exchange(PHREEQC_THIS);
+	//struct exchange *exchange_ptr = ex.cxxExchange2exchange(PHREEQC_THIS);
+	struct exchange *exchange_ptr = cxxExchange2exchange(&ex);
 	int n;
 
 	/*
@@ -1516,7 +1517,8 @@ read_exchange_modify(void)
 	entity.read_raw(parser, false);
 
 	// save entity
-	struct exchange *entity_ptr = entity.cxxExchange2exchange(PHREEQC_THIS);
+	//struct exchange *entity_ptr = entity.cxxExchange2exchange(PHREEQC_THIS);
+	struct exchange *entity_ptr = cxxExchange2exchange(&entity);
 	exchange_free(&(exchange[n]));
 	exchange_copy(entity_ptr, &(exchange[n]), entity_ptr->n_user);
 

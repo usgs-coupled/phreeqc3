@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <map>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -38,6 +39,9 @@ class cxxNameDouble;
 class cxxKinetics;
 class cxxMix;
 class cxxKineticsComp;
+class cxxExchange;
+class cxxExchComp;
+
 class Phreeqc
 {
 public:
@@ -1235,10 +1239,12 @@ extern void MergeFinalize(void);
 
 struct mix * cxxMix2mix(cxxMix *mx);
 struct kinetics *cxxKinetics2kinetics(cxxKinetics * kin);
-struct elt_list * cxxNameDouble2elt_list(cxxNameDouble * nd);
+struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
 struct kinetics_comp * cxxKineticsComp2kinetics_comp(std::list < cxxKineticsComp > * el);
-struct name_coef * cxxNameDouble2name_coef(cxxNameDouble * nd);
-
+struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
+struct exchange * cxxExchange2exchange(cxxExchange * ex);
+struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
+struct master * Get_exch_master(const cxxExchComp * ec);
 
 /* tally.c */
 

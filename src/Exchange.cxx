@@ -50,7 +50,7 @@ cxxNumKeyword(io)
 	for (i = 0; i < exchange_ptr->count_comps; i++)
 	{
 		cxxExchComp ec(&(exchange_ptr->comps[i]), this->Get_io());
-		std::string str(ec.get_formula());
+		std::string str(ec.Get_formula());
 		exchComps[str] = ec;
 	}
 
@@ -58,7 +58,7 @@ cxxNumKeyword(io)
 
 
 }
-cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxExchange > &entities,
+cxxExchange::cxxExchange(const std::map < int, cxxExchange > &entities,
 						 cxxMix & mix, int l_n_user, PHRQ_io *io):
 cxxNumKeyword(io)
 {
@@ -92,6 +92,7 @@ cxxNumKeyword(io)
 	}
 }
 
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 cxxExchange::cxxExchange(PHREEQC_PTR_ARG_COMMA int l_n_user, PHRQ_io *io)
 	//
 	// constructor for cxxExchange from reaction calculation
@@ -116,23 +117,23 @@ cxxNumKeyword(io)
 		{
 			cxxExchComp ec(this->Get_io());
 			//char * formula;
-			ec.set_formula(P_INSTANCE_POINTER x[i]->exch_comp->formula);
+			ec.Set_formula(P_INSTANCE_POINTER x[i]->exch_comp->formula);
 			//double moles;
-			ec.set_moles(0.0);
+			ec.Set_moles(0.0);
 			//cxxNameDouble formula_totals;
-			ec.set_formula_totals(P_INSTANCE_POINTER x[i]->exch_comp->formula_totals);
+			ec.Set_formula_totals(P_INSTANCE_POINTER x[i]->exch_comp->formula_totals);
 			//cxxNameDouble totals; see below
 			//double la;
-			ec.set_la(P_INSTANCE_POINTER x[i]->master[0]->s->la);
+			ec.Set_la(P_INSTANCE_POINTER x[i]->master[0]->s->la);
 			//double charge_balance; see below
 			//char   *phase_name;
-			ec.set_phase_name(P_INSTANCE_POINTER x[i]->exch_comp->phase_name);
+			ec.Set_phase_name(P_INSTANCE_POINTER x[i]->exch_comp->phase_name);
 			//double phase_proportion;
-			ec.set_phase_proportion(P_INSTANCE_POINTER x[i]->exch_comp->phase_proportion);
+			ec.Set_phase_proportion(P_INSTANCE_POINTER x[i]->exch_comp->phase_proportion);
 			//char   *rate_name;
-			ec.set_rate_name(P_INSTANCE_POINTER x[i]->exch_comp->rate_name);
+			ec.Set_rate_name(P_INSTANCE_POINTER x[i]->exch_comp->rate_name);
 			//double formula_z;
-			ec.set_formula_z(P_INSTANCE_POINTER x[i]->exch_comp->formula_z);
+			ec.Set_formula_z(P_INSTANCE_POINTER x[i]->exch_comp->formula_z);
 
 			// calculate charge and totals
 			P_INSTANCE_POINTER count_elts = 0;
@@ -154,7 +155,7 @@ cxxNumKeyword(io)
 				P_INSTANCE_POINTER add_elt_list(P_INSTANCE_POINTER x[i]->master[0]->s->next_elt, 1e-20);
 			}
 			//double charge_balance
-			ec.set_charge_balance(charge);
+			ec.Set_charge_balance(charge);
 			//cxxNameDouble totals;
 			if (P_INSTANCE_POINTER count_elts > 0)
 			{
@@ -162,14 +163,15 @@ cxxNumKeyword(io)
 					  (size_t) sizeof(struct elt_list), P_INSTANCE_POINTER elt_list_compare);
 				P_INSTANCE_POINTER elt_list_combine();
 			}
-			ec.set_totals(P_INSTANCE_POINTER elt_list, P_INSTANCE_POINTER count_elts);
+			ec.Set_totals(P_INSTANCE_POINTER elt_list, P_INSTANCE_POINTER count_elts);
 
 			// add to comp list
-			std::string str(ec.get_formula());
+			std::string str(ec.Get_formula());
 			this->exchComps[str] = ec;
 		}
 	}
 }
+#endif
 
 cxxExchange::~cxxExchange()
 {
@@ -181,7 +183,7 @@ cxxExchange::get_related_phases()
 	for (std::map < std::string, cxxExchComp >::const_iterator it =
 		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
 	{
-		if ((*it).second.get_phase_name().size() == 0)
+		if ((*it).second.Get_phase_name().size() == 0)
 			continue;
 		return (true);
 	}
@@ -194,13 +196,14 @@ cxxExchange::get_related_rate()
 	for (std::map < std::string, cxxExchComp >::const_iterator it =
 		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
 	{
-		if ((*it).second.get_rate_name().size() == 0)
+		if ((*it).second.Get_rate_name().size() == 0)
 			continue;
 		return (true);
 	}
 	return (false);
 }
 
+#ifdef MOVE_TO_STRUCTURES
 struct exchange *
 cxxExchange::cxxExchange2exchange(PHREEQC_PTR_ARG)
 		//
@@ -223,6 +226,7 @@ cxxExchange::cxxExchange2exchange(PHREEQC_PTR_ARG)
 	exchange_ptr->comps = cxxExchComp::cxxExchComp2exch_comp(P_INSTANCE_COMMA this->exchComps);
 	return (exchange_ptr);
 }
+#endif
 
 void
 cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
@@ -395,16 +399,16 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
+				if (this->exchComps.find(ec.Get_formula()) != this->exchComps.end())
 				{
-					cxxExchComp & comp = this->exchComps.find(ec.get_formula())->second;
+					cxxExchComp & comp = this->exchComps.find(ec.Get_formula())->second;
 					comp.read_raw(reread, false);
 				}
 				else
 				{
 					cxxExchComp ec1(this->Get_io());
 					ec1.read_raw(reread, false);
-					std::string str(ec1.get_formula());
+					std::string str(ec1.Get_formula());
 					this->exchComps[str] = ec1;
 				}
 			}
@@ -559,8 +563,8 @@ cxxExchange::totalize()
 	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
 		it != exchComps.end(); ++it)
 	{
-		this->totals.add_extensive((*it).second.get_totals(), 1.0);
-		this->totals.add("Charge", (*it).second.get_charge_balance());
+		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
+		this->totals.add("Charge", (*it).second.Get_charge_balance());
 	}
 	return;
 }
