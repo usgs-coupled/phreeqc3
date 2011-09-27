@@ -27,10 +27,6 @@ class cxxGasPhase:public cxxNumKeyword
 		GP_VOLUME = 1
 	};
 
-	// struct gas_phase *cxxGasPhase2gas_phase(PHREEQC_PTR_ARG);
-
-	// struct gas_comp *cxxGasPhaseComp2gas_comp(PHREEQC_PTR_ARG);
-
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

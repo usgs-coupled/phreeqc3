@@ -43,6 +43,9 @@ class cxxExchange;
 class cxxExchComp;
 class cxxGasPhase;
 class cxxTemperature;
+class cxxPPassemblage;
+class cxxPPassemblageComp;
+class cxxReaction;
 
 class Phreeqc
 {
@@ -1250,6 +1253,10 @@ struct master * Get_exch_master(const cxxExchComp * ec);
 struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
 struct gas_comp * cxxGasPhaseComp2gas_comp(const cxxGasPhase * gp);
 struct temperature * cxxTemperature2temperature(const cxxTemperature *temp);
+struct pp_assemblage * cxxPPassemblage2pp_assemblage(const cxxPPassemblage * pp);
+struct pure_phase * cxxPPassemblageComp2pure_phase(const std::map < std::string, cxxPPassemblageComp > * ppc);
+struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
+
 /* tally.c */
 
 void add_all_components_tally(void);

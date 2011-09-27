@@ -48,8 +48,8 @@ PHRQ_base(io)
 	// constructor for cxxPPassemblageComp from struct pure_phase
 	//
 {
-	this->set_name(pure_phase_ptr->name);
-	this->set_add_formula(pure_phase_ptr->add_formula);
+	this->Set_name(pure_phase_ptr->name);
+	this->Set_add_formula(pure_phase_ptr->add_formula);
 	si = pure_phase_ptr->si;
 	moles = pure_phase_ptr->moles;
 	delta = pure_phase_ptr->delta;
@@ -63,13 +63,7 @@ cxxPPassemblageComp::~cxxPPassemblageComp()
 {
 }
 
-struct phase *
-cxxPPassemblageComp::get_phase(PHREEQC_PTR_ARG)
-{
-	int i;
-	return P_INSTANCE_POINTER phase_bsearch(this->name.c_str(), &i, FALSE);
-}
-
+#ifdef MOVE_TO_STRUCTURES
 struct pure_phase *
 cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxPPassemblageComp > &el)
 		//
@@ -106,7 +100,7 @@ cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(PHREEQC_PTR_ARG_COMMA std::m
 	}
 	return (pure_phase_ptr);
 }
-
+#endif
 void
 cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {

@@ -28,7 +28,7 @@ cxxReaction::cxxReaction(PHRQ_io *io)
 	//
 :	cxxNumKeyword(io)
 {
-	this->set_units("Mol");
+	this->Set_units("Mol");
 	countSteps = 0;
 	equalIncrements = false;
 	reactantList.type = cxxNameDouble::ND_NAME_COEF;
@@ -48,7 +48,7 @@ elementList(irrev_ptr->elts)
 	this->set_description(irrev_ptr->description);
 	this->n_user = irrev_ptr->n_user;
 	this->n_user_end = irrev_ptr->n_user_end;
-	this->set_units(irrev_ptr->units);
+	this->Set_units(irrev_ptr->units);
 	// steps
 	if (irrev_ptr->count_steps < 0)
 	{
@@ -74,7 +74,7 @@ cxxReaction::~cxxReaction()
 {
 }
 
-
+#ifdef MOVE_TO_STRUCTURES
 struct irrev *
 cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
 		//
@@ -126,6 +126,7 @@ cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
 		irrev_ptr->units = P_INSTANCE_POINTER string_hsave(this->units.c_str());
 	return (irrev_ptr);
 }
+#endif
 
 #ifdef SKIP
 void
@@ -291,7 +292,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 			j = parser.copy_token(token, next_char);
 			if (j == CParser::TT_EMPTY)
 				break;
-			this->set_units(token.c_str());
+			this->Set_units(token.c_str());
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
 			units_defined = true;

@@ -17,8 +17,6 @@ public:
 	cxxKineticsComp(struct kinetics_comp *, PHRQ_io *io=NULL);
 	~cxxKineticsComp();
 
-	//static struct kinetics_comp *cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::list < cxxKineticsComp > &el);
-
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

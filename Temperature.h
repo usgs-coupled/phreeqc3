@@ -18,8 +18,6 @@ class cxxTemperature:public cxxNumKeyword
 	cxxTemperature(struct temperature *, PHRQ_io *io=NULL);
 	~cxxTemperature();
 
-	//struct temperature *cxxTemperature2temperature(PHREEQC_PTR_ARG);
-
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
