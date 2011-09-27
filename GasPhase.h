@@ -27,9 +27,9 @@ class cxxGasPhase:public cxxNumKeyword
 		GP_VOLUME = 1
 	};
 
-	struct gas_phase *cxxGasPhase2gas_phase(PHREEQC_PTR_ARG);
+	// struct gas_phase *cxxGasPhase2gas_phase(PHREEQC_PTR_ARG);
 
-	struct gas_comp *cxxGasPhaseComp2gas_comp(PHREEQC_PTR_ARG);
+	// struct gas_comp *cxxGasPhaseComp2gas_comp(PHREEQC_PTR_ARG);
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
@@ -48,6 +48,11 @@ class cxxGasPhase:public cxxNumKeyword
 	{
 		return this->totals;
 	};
+	const cxxNameDouble & Get_gasPhaseComps(void) const {return gasPhaseComps;};
+	GP_TYPE Get_type(void) const {return type;};
+	double Get_total_p(void) const {return total_p;};
+	double Get_volume(void) const {return volume;};
+	cxxNameDouble & Get_totals(void) {return totals;};
 
 private:
 	void add(const cxxGasPhase & addee, double extensive);

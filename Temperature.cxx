@@ -71,7 +71,7 @@ cxxTemperature::~cxxTemperature()
 {
 }
 
-
+#ifdef MOVE_TO_STRUCTURES
 struct temperature *
 cxxTemperature::cxxTemperature2temperature(PHREEQC_PTR_ARG)
 		//
@@ -109,6 +109,7 @@ cxxTemperature::cxxTemperature2temperature(PHREEQC_PTR_ARG)
 	}
 	return (temperature_ptr);
 }
+#endif
 
 #ifdef SKIP
 void

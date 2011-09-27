@@ -683,7 +683,8 @@ read_gas_phase_raw(void)
 
 	cxxGasPhase ex(&phrq_io);
 	ex.read_raw(parser);
-	struct gas_phase *gas_phase_ptr = ex.cxxGasPhase2gas_phase(PHREEQC_THIS);
+	//struct gas_phase *gas_phase_ptr = ex.cxxGasPhase2gas_phase(PHREEQC_THIS);
+	struct gas_phase *gas_phase_ptr = cxxGasPhase2gas_phase(&ex);
 	int n;
 
 	/*
@@ -969,7 +970,8 @@ read_temperature_raw(void)
 
 	cxxTemperature ex(&phrq_io);
 	ex.read_raw(parser);
-	struct temperature *temperature_ptr = ex.cxxTemperature2temperature(PHREEQC_THIS);
+	//struct temperature *temperature_ptr = ex.cxxTemperature2temperature(PHREEQC_THIS);
+	struct temperature *temperature_ptr = cxxTemperature2temperature(&ex);
 	int n;
 
 	/*
@@ -1802,7 +1804,8 @@ read_gas_phase_modify(void)
 	cxxGasPhase entity(&(gas_phase[n]), &phrq_io);
 	entity.read_raw(parser, false);
 	// save entity
-	struct gas_phase *entity_ptr = entity.cxxGasPhase2gas_phase(PHREEQC_THIS);
+	//struct gas_phase *entity_ptr = entity.cxxGasPhase2gas_phase(PHREEQC_THIS);
+	struct gas_phase *entity_ptr = cxxGasPhase2gas_phase(&entity);
 	gas_phase_free(&(gas_phase[n]));
 	gas_phase_copy(entity_ptr, &(gas_phase[n]), entity_ptr->n_user);
 	free_check_null(gas_phase[n].description);
