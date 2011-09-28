@@ -23,7 +23,7 @@ public:
 
 	struct master *get_psi_master();
 
-	static struct surface_charge *cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceCharge > &el);
+	//static struct surface_charge *cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceCharge > &el);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -31,18 +31,13 @@ public:
 
 	void read_raw(CParser & parser, bool check = true);
 
-	const std::string &get_name() const
-	{
-		return this->name;
-	}
-
-	void set_name(const char * s)
+	const std::string &Get_name() const	{return this->name;};
+	void Set_name(const char * s)
 	{
 		if (s != NULL)
 			this->name = std::string(s);
 		else
 			this->name.clear();
-
 	}
 	void add(const cxxSurfaceCharge & comp, double extensive);
 	void multiply(double extensive);
@@ -51,7 +46,16 @@ public:
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
-
+	double Get_specific_area() const {return this->specific_area;};
+	double Get_grams() const {return this->grams;};
+	double Get_charge_balance() const {return this->charge_balance;};
+	double Get_mass_water() const {return this->mass_water;};
+	double Get_la_psi() const {return this->la_psi;};
+	double Get_la_psi1() const {return this->la_psi1;};
+	double Get_la_psi2() const {return this->la_psi2;};
+	double Get_capacitance0() const {return this->capacitance[0];};
+	double Get_capacitance1() const {return this->capacitance[1];};
+	const cxxNameDouble & Get_diffuse_layer_totals(void) const {return this->diffuse_layer_totals;};
 protected:
 	std::string name;
 	double specific_area;
