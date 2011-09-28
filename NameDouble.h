@@ -7,7 +7,6 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-#include "Phreeqc_class.h"
 class Phreeqc;
 #include "Parser.h"
 

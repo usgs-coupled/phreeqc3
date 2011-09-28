@@ -10,6 +10,8 @@
 
 #include "NumKeyword.h"
 #include "NameDouble.h"
+#include "phreeqc_class.h"
+
 class cxxSSassemblageSS;
 
 //#include "cxxMix.h"

@@ -922,7 +922,7 @@ cxxStorageBin::add(struct system *system_ptr)
 void
 cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		//
-		// copy data fromphreeqc storage to storage bin
+		// copy data from phreeqc storage to storage bin
 		//
 {
 	//std::ostringstream oss;
@@ -1047,7 +1047,7 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 void
 cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 		//
-		// copy data fromphreeqc storage to storage bin
+		// copy data from phreeqc storage to storage bin
 		//
 {
 	int pos;
@@ -1645,18 +1645,6 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 }
 #endif
 
-#ifdef ORCHESTRA
-void
-cxxStorageBin::ORCH_write(std::ostream & chemistry_dat,
-						  std::ostream & input_dat, std::ostream & output_dat)
-{
-	//std::ostringstream oss;
-
-	// Liter concentrations
-	this->system.ORCH_write(chemistry_dat, input_dat, output_dat);
-
-}
-#endif
 cxxSystem &
 cxxStorageBin::getSystem(void)
 {
