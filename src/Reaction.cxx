@@ -74,60 +74,6 @@ cxxReaction::~cxxReaction()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct irrev *
-cxxReaction::cxxReaction2irrev(PHREEQC_PTR_ARG)
-		//
-		// Builds a irrev structure from instance of cxxReaction 
-		//
-{
-	struct irrev *irrev_ptr;
-	irrev_ptr = (struct irrev *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct irrev));
-	if (irrev_ptr == NULL)
-		P_INSTANCE_POINTER malloc_error();
-
-	irrev_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	irrev_ptr->n_user = this->n_user;
-	irrev_ptr->n_user_end = this->n_user_end;
-
-	irrev_ptr->list = this->reactantList.name_coef(P_INSTANCE);
-	irrev_ptr->count_list = (int) this->reactantList.size();
-	if (this->elementList.size() > 0)
-	{
-		irrev_ptr->elts = this->elementList.elt_list(P_INSTANCE);
-	}
-	else
-	{
-		// NULL value causes reaction stoichiometry to be calculated
-		irrev_ptr->elts = NULL;
-	}
-	// steps
-	irrev_ptr->steps = NULL;
-	if (this->steps.size() > 0)
-	{
-		irrev_ptr->steps =
-			(LDBLE *)
-			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
-		if (irrev_ptr->steps == NULL)
-			P_INSTANCE_POINTER malloc_error();
-		std::copy(this->steps.begin(), this->steps.end(), irrev_ptr->steps);
-	}
-	if (this->equalIncrements)
-	{
-		irrev_ptr->count_steps = -this->countSteps;
-	}
-	else
-	{
-		irrev_ptr->count_steps = (int) this->steps.size();
-	}
-	if (this->units.size() == 0)
-		irrev_ptr->units = NULL;
-	else
-		irrev_ptr->units = P_INSTANCE_POINTER string_hsave(this->units.c_str());
-	return (irrev_ptr);
-}
-#endif
-
 #ifdef SKIP
 void
 cxxReaction::dump_xml(std::ostream & s_oss, unsigned int indent) const const

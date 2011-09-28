@@ -63,44 +63,6 @@ cxxPPassemblageComp::~cxxPPassemblageComp()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct pure_phase *
-cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxPPassemblageComp > &el)
-		//
-		// Builds pure_phase structure from of cxxPPassemblageComp 
-		//
-{
-	struct pure_phase *pure_phase_ptr =
-		(struct pure_phase *)
-		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct pure_phase)));
-	if (pure_phase_ptr == NULL)
-		P_INSTANCE_POINTER malloc_error();
-
-	int i = 0;
-	for (std::map < std::string, cxxPPassemblageComp >::iterator it = el.begin();
-		 it != el.end(); ++it)
-	{
-		pure_phase_ptr[i].phase = (*it).second.get_phase(P_INSTANCE);
-		if ((*it).second.name.size() == 0)
-			pure_phase_ptr[i].name = NULL;
-		else
-			pure_phase_ptr[i].name = P_INSTANCE_POINTER string_hsave((*it).second.name.c_str());
-		if ((*it).second.add_formula.size() == 0)
-			pure_phase_ptr[i].add_formula = NULL;
-		else
-			pure_phase_ptr[i].add_formula = P_INSTANCE_POINTER string_hsave((*it).second.add_formula.c_str());
-		pure_phase_ptr[i].si = (*it).second.si;
-		pure_phase_ptr[i].moles = (*it).second.moles;
-		pure_phase_ptr[i].delta = (*it).second.delta;
-		pure_phase_ptr[i].initial_moles = (*it).second.initial_moles;
-		pure_phase_ptr[i].force_equality = (int) (*it).second.force_equality;
-		pure_phase_ptr[i].dissolve_only = (int) (*it).second.dissolve_only;
-		pure_phase_ptr[i].precipitate_only = (int) (*it).second.precipitate_only;
-		i++;
-	}
-	return (pure_phase_ptr);
-}
-#endif
 void
 cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {

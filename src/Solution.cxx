@@ -283,63 +283,6 @@ cxxSolution::~cxxSolution()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct solution *
-cxxSolution::cxxSolution2solution(PHREEQC_PTR_ARG)
-		//
-		// Builds a solution structure from instance of cxxSolution 
-		//
-{
-
-	struct solution *solution_ptr = P_INSTANCE_POINTER solution_alloc();
-
-	solution_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	solution_ptr->n_user = this->n_user;
-	solution_ptr->n_user_end = this->n_user_end;
-	solution_ptr->new_def = FALSE;
-	solution_ptr->tc = this->tc;
-	solution_ptr->ph = this->ph;
-	solution_ptr->solution_pe = this->pe;
-	solution_ptr->mu = this->mu;
-	solution_ptr->ah2o = this->ah2o;
-	solution_ptr->total_h = this->total_h;
-	solution_ptr->total_o = this->total_o;
-	solution_ptr->cb = this->cb;
-	solution_ptr->mass_water = this->mass_water;
-	solution_ptr->total_alkalinity = this->total_alkalinity;
-	solution_ptr->density = 1.0;
-	solution_ptr->units = P_INSTANCE_POINTER moles_per_kilogram_string;
-	solution_ptr->default_pe = 0;
-	// pe_data
-
-	// totals
-	solution_ptr->totals =
-		(struct conc *) P_INSTANCE_POINTER free_check_null(solution_ptr->totals);
-	solution_ptr->totals = this->totals.conc(P_INSTANCE);
-
-	// master_activity
-	solution_ptr->master_activity =
-		(struct master_activity *) P_INSTANCE_POINTER free_check_null(solution_ptr->
-												   master_activity);
-	solution_ptr->master_activity = this->master_activity.master_activity(P_INSTANCE);
-	solution_ptr->count_master_activity =
-		(int) this->master_activity.size() + 1;
-
-	// species_gamma
-	solution_ptr->species_gamma = this->species_gamma.master_activity(P_INSTANCE);
-	solution_ptr->count_species_gamma = (int) this->species_gamma.size();
-
-	// isotopes
-	solution_ptr->isotopes =
-		(struct isotope *) P_INSTANCE_POINTER free_check_null(solution_ptr->isotopes);
-	//solution_ptr->isotopes = cxxSolutionIsotope::list2isotope(this->isotopes);
-	solution_ptr->isotopes = this->isotopes.cxxSolutionIsotopeList2isotope(P_INSTANCE);
-	solution_ptr->count_isotopes = (int) this->isotopes.size();
-
-	return (solution_ptr);
-}
-#endif
-
 void
 cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {

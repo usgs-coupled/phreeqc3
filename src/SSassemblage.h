@@ -25,10 +25,6 @@ public:
 		cxxMix & mx, int n_user, PHRQ_io * io = NULL);
 	~cxxSSassemblage();
 
-	//struct s_s_assemblage *cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG);
-
-	//struct s_s *cxxSSassemblageComp2s_s();
-
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

@@ -84,16 +84,6 @@ cxxSolutionIsotope::list2isotope(PHREEQC_PTR_ARG_COMMA std::list < cxxSolutionIs
 }
 #endif
 
-#ifdef SKIP
-std::string cxxSolutionIsotope::get_name() constconst
-{
-	std::ostringstream oss;
-	//std::ostrstream oss;
-	oss << this->isotope_number << this->elt_name;
-	return oss.str();
-}
-#endif
-
 void
 cxxSolutionIsotope::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
@@ -226,21 +216,7 @@ cxxSolutionIsotope::operator<(const cxxSolutionIsotope & isotope) const
 		return (i < 0);
 	return (this->isotope_number < isotope.isotope_number);
 }
-#ifdef SKIP_OR_MOVE_TO_STRUCTURES
-struct master *
-cxxSolutionIsotope::master(PHREEQC_PTR_ARG)
-{
-	return (P_INSTANCE_POINTER master_bsearch(this->elt_name.c_str()));
-}
-#endif
-#ifdef SKIP_OR_MOVE_TO_STRUCTURES
-struct master *
-cxxSolutionIsotope::primary(PHREEQC_PTR_ARG)
-{
-	char * str = P_INSTANCE_POINTER string_hsave(this->elt_name.c_str());
-	return (P_INSTANCE_POINTER master_bsearch_primary(str));
-}
-#endif
+
 void
 cxxSolutionIsotope::add(const cxxSolutionIsotope & isotope_ptr,
 						double intensive, double extensive)

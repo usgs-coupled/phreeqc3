@@ -31,9 +31,6 @@ class cxxSSassemblageSS: public PHRQ_base
 		SS_PARM_MARGULES = 9
 	};
 
-	//static struct s_s *cxxSSassemblageSS2s_s(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSSassemblageSS >
-	//										 &el);
-
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

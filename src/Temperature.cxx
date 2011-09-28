@@ -71,46 +71,6 @@ cxxTemperature::~cxxTemperature()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct temperature *
-cxxTemperature::cxxTemperature2temperature(PHREEQC_PTR_ARG)
-		//
-		// Builds a temperature structure from instance of cxxTemperature 
-		//
-{
-	struct temperature *temperature_ptr;
-	temperature_ptr =
-		(struct temperature *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct temperature));
-	if (temperature_ptr == NULL)
-		P_INSTANCE_POINTER malloc_error();
-
-	temperature_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	temperature_ptr->n_user = this->n_user;
-	temperature_ptr->n_user_end = this->n_user_end;
-
-	// temps
-	temperature_ptr->t = NULL;
-	if (this->temps.size() > 0)
-	{
-		temperature_ptr->t =
-			(LDBLE *)
-			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->temps.size() * sizeof(double)));
-		if (temperature_ptr->t == NULL)
-			P_INSTANCE_POINTER malloc_error();
-		std::copy(this->temps.begin(), this->temps.end(), temperature_ptr->t);
-	}
-	if (this->equalIncrements)
-	{
-		temperature_ptr->count_t = -(int) this->countTemps;
-	}
-	else
-	{
-		temperature_ptr->count_t = (int) this->temps.size();
-	}
-	return (temperature_ptr);
-}
-#endif
-
 #ifdef SKIP
 void
 cxxTemperature::dump_xml(std::ostream & s_oss, unsigned int indent) const const
