@@ -109,10 +109,6 @@ class cxxStorageBin: public PHRQ_base
 	void mpi_send(int n, int task_number);
 	void mpi_recv(int task_number);
 #endif
-#ifdef ORCHESTRA
-	void ORCH_write(std::ostream & chemistry_dat, std::ostream & input_dat,
-					std::ostream & output_dat);
-#endif
   protected:
 	// Tidied classes
 	std::map < int, cxxSolution > Solutions;
