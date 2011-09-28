@@ -59,46 +59,6 @@ cxxMix::~cxxMix()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct mix *
-cxxMix::cxxMix2mix(PHREEQC_PTR_ARG)
-		//
-		// Builds a mix structure from instance of cxxMix 
-		//
-{
-	struct mix *mix_ptr;
-	mix_ptr = (struct mix *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct mix));
-	if (mix_ptr == NULL)
-		P_INSTANCE_POINTER malloc_error();
-
-	mix_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	mix_ptr->n_user = this->n_user;
-	mix_ptr->n_user_end = this->n_user_end;
-
-	// comps
-	mix_ptr->comps = NULL;
-	if (this->mixComps.size() > 0)
-	{
-		int i = 0;
-		mix_ptr->comps =
-			(struct mix_comp *)
-			P_INSTANCE_POINTER PHRQ_malloc((size_t)
-						(this->mixComps.size() * sizeof(struct mix_comp)));
-		if (mix_ptr->comps == NULL)
-			P_INSTANCE_POINTER malloc_error();
-		for (std::map < int, double >::iterator it = mixComps.begin();
-			 it != mixComps.end(); it++)
-		{
-			mix_ptr->comps[i].n_solution = it->first;
-			mix_ptr->comps[i].fraction = it->second;
-			i++;
-		}
-	}
-	mix_ptr->count_comps = (int) this->mixComps.size();
-	return (mix_ptr);
-}
-#endif
-
 #ifdef SKIP
 void
 cxxMix::dump_xml(std::ostream & s_oss, unsigned int indent) const const

@@ -22,14 +22,6 @@ class cxxSurface:public cxxNumKeyword
 				 int n_user, PHRQ_io *io=NULL);
 	~cxxSurface();
 
-	//enum SURFACE_STYPE { UNKNOWN_DL, NO_EDL, DDL, CD_MUSIC };
-	//enum SURFACE_DL_TYPE { NO_DL, BORKOVEC_DL, DONNAN_DL } ;
-	//enum SURFACE_SITES_UNITS { SITES_ABSOLUTE, SITES_DENSITY } ;
-
-	//struct surface *cxxSurface2surface(PHREEQC_PTR_ARG);
-
-	//struct surf_comp *cxxSurfaceComp2surf_comp(PHREEQC_PTR_ARG);
-
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

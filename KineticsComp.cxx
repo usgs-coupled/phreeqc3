@@ -61,59 +61,6 @@ cxxKineticsComp::~cxxKineticsComp()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct kinetics_comp *
-	cxxKineticsComp::cxxKineticsComp2kinetics_comp(PHREEQC_PTR_ARG_COMMA std::list < cxxKineticsComp >
-											   &el)
-		//
-		// Builds kinetics_comp structure from of cxxKineticsComp 
-		//
-{
-	struct kinetics_comp *kinetics_comp_ptr =
-		(struct kinetics_comp *)
-		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct kinetics_comp)));
-	if (kinetics_comp_ptr == NULL)
-		P_INSTANCE_POINTER malloc_error();
-
-	int i = 0;
-	for (std::list < cxxKineticsComp >::iterator it = el.begin();
-		 it != el.end(); ++it)
-	{
-		if ((*it).rate_name.size() == 0)
-			kinetics_comp_ptr[i].rate_name = NULL;
-		else
-			kinetics_comp_ptr[i].rate_name = P_INSTANCE_POINTER string_hsave((*it).rate_name.c_str());
-		kinetics_comp_ptr[i].list = (*it).namecoef.name_coef(P_INSTANCE);
-		kinetics_comp_ptr[i].count_list = (int) (*it).namecoef.size();
-		kinetics_comp_ptr[i].tol = (*it).tol;
-		kinetics_comp_ptr[i].m = (*it).m;
-		kinetics_comp_ptr[i].initial_moles = 0.;
-		kinetics_comp_ptr[i].m0 = (*it).m0;
-		kinetics_comp_ptr[i].moles = (*it).moles;
-		kinetics_comp_ptr[i].count_c_params = 0;
-		kinetics_comp_ptr[i].c_params = NULL;
-/*
-                kinetics_comp_ptr[i].count_d_params         =  0;
-                kinetics_comp_ptr[i].d_params               =  NULL;
-*/
-
-		kinetics_comp_ptr[i].count_d_params = (int) (*it).d_params.size();
-		kinetics_comp_ptr[i].d_params = NULL;
-		if ((*it).d_params.size() > 0)
-		{
-			kinetics_comp_ptr[i].d_params =	(LDBLE *)
-				P_INSTANCE_POINTER PHRQ_malloc((size_t) ((*it).d_params.size() * sizeof(double)));
-			if (kinetics_comp_ptr[i].d_params == NULL)
-				P_INSTANCE_POINTER malloc_error();
-			std::copy((*it).d_params.begin(), (*it).d_params.end(),
-					  kinetics_comp_ptr[i].d_params);
-		}
-		i++;
-	}
-	return (kinetics_comp_ptr);
-}
-#endif
-
 #ifdef SKIP
 void
 cxxKineticsComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const

@@ -92,17 +92,6 @@ Utilities::squeeze_white(std::string & s_l)
 	s_l = str;
 }
 
-#ifdef SKIP
-////////////////////////////////////////////////////////////////////////////
-void
-Utilities::error_msg(const std::string & err_str, const int stop)
-////////////////////////////////////////////////////////////////////////////
-{
-	//std::cerr << err_str << std::endl;
-	output_message(OUTPUT_ERROR, err_str, stop, "", args);
-}
-#endif
-
 //+NAN double: 7ff8000000000000
 //-NAN double: fff8000000000000
 /*

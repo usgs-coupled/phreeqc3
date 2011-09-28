@@ -78,17 +78,6 @@ cxxNumKeyword(io)
 			this->add(*entity_ptr, it->second);
 			this->pitzer_exchange_gammas = entity_ptr->pitzer_exchange_gammas;
 		}
-#ifdef SKIP
-		if (entity_ptr == NULL)
-		{
-			sprintf(error_string, "Exchange %d not found while mixing.",
-					it->first);
-			error_msg(error_string, CONTINUE);
-			input_error++;
-			return;
-		}
-#endif
-
 	}
 }
 
@@ -202,31 +191,6 @@ cxxExchange::get_related_rate()
 	}
 	return (false);
 }
-
-#ifdef MOVE_TO_STRUCTURES
-struct exchange *
-cxxExchange::cxxExchange2exchange(PHREEQC_PTR_ARG)
-		//
-		// Builds a exchange structure from instance of cxxExchange
-		//
-{
-	struct exchange *exchange_ptr = P_INSTANCE_POINTER exchange_alloc();
-
-	exchange_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	exchange_ptr->n_user = this->n_user;
-	exchange_ptr->n_user_end = this->n_user_end;
-	exchange_ptr->new_def = FALSE;
-	exchange_ptr->solution_equilibria = FALSE;
-	exchange_ptr->n_solution = -2;
-	exchange_ptr->related_phases = (int) this->get_related_phases();
-	exchange_ptr->related_rate = (int) this->get_related_rate();
-	exchange_ptr->pitzer_exchange_gammas = (int) this->pitzer_exchange_gammas;
-	exchange_ptr->count_comps = (int) this->exchComps.size();
-	exchange_ptr->comps = (struct exch_comp *) P_INSTANCE_POINTER free_check_null(exchange_ptr->comps);
-	exchange_ptr->comps = cxxExchComp::cxxExchComp2exch_comp(P_INSTANCE_COMMA this->exchComps);
-	return (exchange_ptr);
-}
-#endif
 
 void
 cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
@@ -366,32 +330,6 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				cxxExchComp ec(this->Get_io());
 
 				// preliminary read
-#ifdef SKIP
-				std::istream::pos_type pos = parser.tellg();
-				CParser::ECHO_OPTION eo = parser.get_echo_file();
-				parser.set_echo_file(CParser::EO_NONE);
-				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
-				parser.set_echo_stream(CParser::EO_NONE);
-				ec.read_raw(parser, false);
-				parser.set_echo_file(eo);
-				parser.set_echo_stream(eo_s);
-				parser.seekg(pos).clear();
-				parser.seekg(pos);
-
-				if (this->exchComps.find(ec.get_formula()) != this->exchComps.end())
-				{
-					cxxExchComp & comp = this->exchComps.find(ec.get_formula())->second;
-
-					comp.read_raw(parser, false);
-				}
-				else
-				{
-					cxxExchComp ec1;
-					ec1.read_raw(parser, false);
-					std::string str(ec1.get_formula());
-					this->exchComps[str] = ec1;
-				}
-#endif
 				parser.set_accumulate(true);
 				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
@@ -431,43 +369,6 @@ cxxExchange::read_raw(CParser & parser, bool check)
 		}
 	}
 }
-#ifdef SKIP
-void
-cxxExchange::add(const cxxExchange & addee, double extensive)
-		//
-		// Add existing exchange to "this" exchange
-		//
-{
-	//std::list<cxxExchComp> exchComps;
-	// exchComps
-	if (extensive == 0.0)
-		return;
-	for (std::list < cxxExchComp >::const_iterator itadd =
-		 addee.exchComps.begin(); itadd != addee.exchComps.end(); ++itadd)
-	{
-		bool found = false;
-		for (std::list < cxxExchComp >::iterator it = this->exchComps.begin();
-			 it != this->exchComps.end(); ++it)
-		{
-			if (it->get_formula() == itadd->get_formula())
-			{
-				it->add((*itadd), extensive);
-				found = true;
-				break;
-			}
-		}
-		if (!found)
-		{
-			cxxExchComp exc = *itadd;
-			exc.multiply(extensive);
-			//exc.add(*itadd, extensive);
-			this->exchComps.push_back(exc);
-		}
-	}
-	//bool pitzer_exchange_gammas;
-	this->pitzer_exchange_gammas = addee.pitzer_exchange_gammas;
-}
-#endif
 void
 cxxExchange::add(const cxxExchange & addee, double extensive)
 		//
@@ -484,19 +385,6 @@ cxxExchange::add(const cxxExchange & addee, double extensive)
 		if (it != this->exchComps.end())
 		{
 			(*it).second.add((*itadd).second, extensive);
-		//bool found = false;
-		//for (std::list < cxxExchComp >::iterator it = this->exchComps.begin();
-		//	 it != this->exchComps.end(); ++it)
-		//{
-		//	if (it->get_formula() == itadd->get_formula())
-		//	{
-		//		it->add((*itadd), extensive);
-		//		found = true;
-		//		break;
-		//	}
-		//}
-		/*if (!found)*/
-
 		}
 		else
 		{
@@ -506,7 +394,6 @@ cxxExchange::add(const cxxExchange & addee, double extensive)
 			this->exchComps[(*itadd).first] = exc;
 		}
 	}
-	//bool pitzer_exchange_gammas;
 	this->pitzer_exchange_gammas = addee.pitzer_exchange_gammas;
 }
 #ifdef USE_MPI

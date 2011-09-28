@@ -86,48 +86,6 @@ cxxSurfaceCharge::~cxxSurfaceCharge()
 //	return (master_ptr);
 //}
 
-#ifdef MOVE_TO_STRUCTURES
-struct surface_charge *
-cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceCharge > &el)
-	//
-	// Builds surface_charge structure from of cxxSurfaceCharge 
-	//
-{
-	struct surface_charge *surf_charge_ptr =
-		(struct surface_charge *)
-		P_INSTANCE_POINTER PHRQ_malloc((size_t) (el.size() * sizeof(struct surface_charge)));
-	if (surf_charge_ptr == NULL)
-		P_INSTANCE_POINTER malloc_error();
-
-	int i = 0;
-	for (std::map < std::string, cxxSurfaceCharge >::iterator it = el.begin();
-		it != el.end(); ++it)
-	{
-		surf_charge_ptr[i].name = P_INSTANCE_POINTER string_hsave((*it).second.name.c_str());
-		assert((*it).second.name.size() > 0);
-		surf_charge_ptr[i].specific_area = (*it).second.specific_area;
-		surf_charge_ptr[i].grams = (*it).second.grams;
-		surf_charge_ptr[i].charge_balance = (*it).second.charge_balance;
-		surf_charge_ptr[i].mass_water = (*it).second.mass_water;
-		surf_charge_ptr[i].la_psi = (*it).second.la_psi;
-		surf_charge_ptr[i].la_psi1 = (*it).second.la_psi1;
-		surf_charge_ptr[i].la_psi2 = (*it).second.la_psi2;
-		surf_charge_ptr[i].capacitance[0] = (*it).second.capacitance[0];
-		surf_charge_ptr[i].capacitance[1] = (*it).second.capacitance[1];
-		surf_charge_ptr[i].sigma0 = 0;
-		surf_charge_ptr[i].sigma1 = 0;
-		surf_charge_ptr[i].sigma2 = 0;
-		surf_charge_ptr[i].sigmaddl = 0;
-		surf_charge_ptr[i].diffuse_layer_totals = (*it).second.diffuse_layer_totals.elt_list(P_INSTANCE);
-		//surf_charge_ptr[i].psi_master           = it->get_psi_master();
-		surf_charge_ptr[i].count_g = 0;
-		surf_charge_ptr[i].g = NULL;
-		i++;
-	}
-	return (surf_charge_ptr);
-}
-#endif
-
 void
 cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
