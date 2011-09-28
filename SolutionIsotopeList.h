@@ -18,7 +18,6 @@ public:
 
 	~cxxSolutionIsotopeList();
 
-	//struct isotope * cxxSolutionIsotopeList2isotope(PHREEQC_PTR_ARG);
 	void add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
 	void multiply(double extensive);
 

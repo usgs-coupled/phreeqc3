@@ -18,7 +18,6 @@ public:
 	cxxSurfaceComp(struct surface_comp *, PHRQ_io *io=NULL);
 	~cxxSurfaceComp();
 
-	//struct master *get_master(PHREEQC_PTR_ARG);
 	const std::string &Get_phase_name() const;
 	void Set_phase_name(char * f);
 	const std::string &Get_rate_name() const;
@@ -27,7 +26,6 @@ public:
 	void Set_formula(char * f);
 	double Get_charge_balance() const;
 	void Set_charge_balance(double d);
-	//static struct surface_comp *cxxSurfaceComp2surface_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceComp > &el);
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 	void read_raw(CParser & parser, bool check = true);
@@ -40,8 +38,7 @@ public:
 	double Get_Dw(void) const {return Dw;};
 	void add(const cxxSurfaceComp & comp, double extensive);
 	void multiply(double extensive);
-	//std::string charge_name(PHREEQC_PTR_ARG);
-	//static std::string get_charge_name(PHREEQC_PTR_ARG_COMMA char *token);
+
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);

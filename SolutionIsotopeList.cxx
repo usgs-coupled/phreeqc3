@@ -88,36 +88,4 @@ cxxSolutionIsotopeList::multiply(double extensive)
 		it->total *= extensive;
 	}
 }
-#ifdef MOVE_TO_STRUCTURES
-struct isotope *
-cxxSolutionIsotopeList::cxxSolutionIsotopeList2isotope(PHREEQC_PTR_ARG)
-{
-	struct isotope *iso;
-	if (this->size() <= 0)
-	{
-		return NULL;
-	}
-	else
-	{
-		iso =
-			(struct isotope *)
-			P_INSTANCE_POINTER PHRQ_malloc((size_t) ((this->size()) * sizeof(struct isotope)));
-		if (iso == NULL)
-			P_INSTANCE_POINTER malloc_error();
-		int i = 0;
-		for (cxxSolutionIsotopeList::iterator it = this->begin();
-			 it != this->end(); ++it)
-		{
-			iso[i].isotope_number = it->isotope_number;
-			iso[i].elt_name = P_INSTANCE_POINTER string_hsave(it->elt_name.c_str());
-			iso[i].total = it->total;
-			iso[i].ratio = it->ratio;
-			iso[i].ratio_uncertainty = it->ratio_uncertainty;
-			iso[i].master = it->master(P_INSTANCE);
-			iso[i].primary = it->primary(P_INSTANCE);
-			i++;
-		}
-	}
-	return (iso);
-}
-#endif
+

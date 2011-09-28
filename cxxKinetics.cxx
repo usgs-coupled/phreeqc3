@@ -117,64 +117,6 @@ cxxKinetics::~cxxKinetics()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct kinetics *
-cxxKinetics::cxxKinetics2kinetics(PHREEQC_PTR_ARG)
-		//
-		// Builds a kinetics structure from instance of cxxKinetics 
-		//
-{
-	struct kinetics *kinetics_ptr = P_INSTANCE_POINTER kinetics_alloc();
-
-	kinetics_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	kinetics_ptr->n_user = this->n_user;
-	kinetics_ptr->n_user_end = this->n_user_end;
-	kinetics_ptr->step_divide = this->step_divide;
-	kinetics_ptr->rk = this->rk;
-	kinetics_ptr->bad_step_max = this->bad_step_max;
-	kinetics_ptr->use_cvode = (int) this->use_cvode;
-	kinetics_ptr->cvode_steps = this->cvode_steps;
-	kinetics_ptr->cvode_order = this->cvode_order;
-
-	// totals
-	kinetics_ptr->totals = this->totals.elt_list(P_INSTANCE);
-
-	// comps
-	kinetics_ptr->count_comps = (int) this->kineticsComps.size();
-	kinetics_ptr->comps =
-		(struct kinetics_comp *) P_INSTANCE_POINTER free_check_null(kinetics_ptr->comps);
-	kinetics_ptr->comps =
-		cxxKineticsComp::cxxKineticsComp2kinetics_comp(P_INSTANCE_COMMA this->kineticsComps);
-
-	// steps
-	if (this->equal_steps == 0) 
-	{
-		kinetics_ptr->count_steps = (int) this->steps.size();
-	}
-	else
-	{
-		kinetics_ptr->count_steps = -this->equal_steps;
-	}
-	kinetics_ptr->steps = (LDBLE *) P_INSTANCE_POINTER free_check_null(kinetics_ptr->steps);
-	if (this->steps.size() > 0)
-	{
-		kinetics_ptr->steps =
-			(LDBLE *)
-			P_INSTANCE_POINTER PHRQ_malloc((size_t) (this->steps.size() * sizeof(double)));
-		if (kinetics_ptr->steps == NULL)
-			P_INSTANCE_POINTER malloc_error();
-		std::copy(this->steps.begin(), this->steps.end(),
-				  kinetics_ptr->steps);
-		/*
-		   int i = 0;
-		   for (std::vector<double>::iterator it = this->steps.begin(); it != this->steps.end(); it++) {
-		   kinetics_ptr->steps[i] = *it;
-		   }
-		 */
-	}
-	return (kinetics_ptr);
-}
-#endif
 #ifdef SKIP
 void
 cxxKinetics::dump_xml(std::ostream & s_oss, unsigned int indent) const const
@@ -412,31 +354,6 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				cxxKineticsComp ec(this->Get_io());
 
 				// preliminary read
-#ifdef SKIP
-				std::istream::pos_type pos = parser.tellg();
-				CParser::ECHO_OPTION eo = parser.get_echo_file();
-				parser.set_echo_file(CParser::EO_NONE);
-				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
-				parser.set_echo_stream(CParser::EO_NONE);
-				ec.read_raw(parser, false);
-				parser.set_echo_file(eo);
-				parser.set_echo_stream(eo_s);
-				parser.seekg(pos).clear();
-				parser.seekg(pos);
-
-				if (this->kineticsComps.find(ec.get_rate_name()) != this->kineticsComps.end())
-				{
-					cxxKineticsComp & comp = this->kineticsComps.find(ec.get_rate_name())->second;
-					comp.read_raw(parser, false);
-				}
-				else
-				{
-					cxxKineticsComp ec1;
-					ec1.read_raw(parser, false);
-					std::string str(ec1.get_rate_name());
-					this->kineticsComps[str] = ec1;
-				}
-#endif
 				parser.set_accumulate(true);
 				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
@@ -680,54 +597,6 @@ cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->equal_steps = ints[i++];
 	*ii = i;
 	*dd = d;
-}
-#endif
-#ifdef SKIP
-void
-cxxKinetics::add(const cxxKinetics & addee, double extensive)
-		//
-		// Add to existing ppassemblage to "this" ppassemblage
-		//
-{
-	if (extensive == 0.0)
-		return;
-	//std::list<cxxKineticsComp> kineticsComps;
-	for (std::list < cxxKineticsComp >::const_iterator itadd =
-		 addee.kineticsComps.begin(); itadd != addee.kineticsComps.end();
-		 ++itadd)
-	{
-		bool found = false;
-		for (std::list < cxxKineticsComp >::iterator it =
-			 this->kineticsComps.begin(); it != this->kineticsComps.end();
-			 ++it)
-		{
-			if (it->get_rate_name() == itadd->get_rate_name())
-			{
-				it->add((*itadd), extensive);
-				found = true;
-				break;
-			}
-		}
-		if (!found)
-		{
-			cxxKineticsComp entity = *itadd;
-			entity.multiply(extensive);
-			this->kineticsComps.push_back(entity);
-		}
-	}
-	//std::vector<double> steps;
-	this->steps = addee.steps;
-	//cxxNameDouble totals;
-	//double step_divide;
-	this->step_divide = addee.step_divide;
-	//int rk;
-	this->rk = addee.rk;
-	//int bad_step_max;
-	this->bad_step_max = addee.bad_step_max;
-	//bool use_cvode;
-	this->use_cvode = addee.use_cvode;
-	this->cvode_steps = addee.cvode_steps;
-	this->cvode_order = addee.cvode_order;
 }
 #endif
 void

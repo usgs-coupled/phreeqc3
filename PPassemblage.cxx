@@ -81,28 +81,6 @@ cxxPPassemblage::~cxxPPassemblage()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct pp_assemblage *
-cxxPPassemblage::cxxPPassemblage2pp_assemblage(PHREEQC_PTR_ARG)
-		//
-		// Builds a pp_assemblage structure from instance of cxxPPassemblage 
-		//
-{
-	struct pp_assemblage *pp_assemblage_ptr = P_INSTANCE_POINTER pp_assemblage_alloc();
-
-	pp_assemblage_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	pp_assemblage_ptr->n_user = this->n_user;
-	pp_assemblage_ptr->n_user_end = this->n_user_end;
-	pp_assemblage_ptr->new_def = FALSE;
-	pp_assemblage_ptr->count_comps = (int) this->ppAssemblageComps.size();
-	pp_assemblage_ptr->pure_phases =
-		(struct pure_phase *) P_INSTANCE_POINTER free_check_null(pp_assemblage_ptr->pure_phases);
-	pp_assemblage_ptr->pure_phases =
-		cxxPPassemblageComp::cxxPPassemblageComp2pure_phase(P_INSTANCE_COMMA this->ppAssemblageComps);
-	pp_assemblage_ptr->next_elt = this->eltList.elt_list(P_INSTANCE);
-	return (pp_assemblage_ptr);
-}
-#endif
 void
 cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
@@ -239,33 +217,6 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 				cxxPPassemblageComp ec(this->Get_io());
 
 				// preliminary read
-#ifdef SKIP
-				std::istream::pos_type pos = parser.tellg();
-				CParser::ECHO_OPTION eo = parser.get_echo_file();
-				parser.set_echo_file(CParser::EO_NONE);
-				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
-				parser.set_echo_stream(CParser::EO_NONE);
-				ppComp.read_raw(parser, false);
-				parser.set_echo_file(eo);
-				parser.set_echo_stream(eo_s);
-
-				if (this->ppAssemblageComps.find(ppComp.get_name()) != this->ppAssemblageComps.end())
-				{
-					cxxPPassemblageComp & comp = this->ppAssemblageComps.find(ppComp.get_name())->second;
-					parser.seekg(pos).clear();
-					parser.seekg(pos);
-					comp.read_raw(parser, false);
-				}
-				else
-				{
-					parser.seekg(pos).clear();
-					parser.seekg(pos);
-					cxxPPassemblageComp ppComp1;
-					ppComp1.read_raw(parser, false);
-					std::string str(ppComp1.get_name());
-					this->ppAssemblageComps[str] = ppComp1;
-				}
-#endif
 				parser.set_accumulate(true);
 				ec.read_raw(parser, false);
 				parser.set_accumulate(false);

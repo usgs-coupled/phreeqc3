@@ -78,26 +78,6 @@ cxxSSassemblage::~cxxSSassemblage()
 {
 }
 
-#ifdef MOVE_TO_STRUCTURES
-struct s_s_assemblage *
-cxxSSassemblage::cxxSSassemblage2s_s_assemblage(PHREEQC_PTR_ARG)
-		//
-		// Builds a s_s_assemblage structure from instance of cxxSSassemblage 
-		//
-{
-	struct s_s_assemblage *s_s_assemblage_ptr = P_INSTANCE_POINTER s_s_assemblage_alloc();
-
-	s_s_assemblage_ptr->description = P_INSTANCE_POINTER string_duplicate (this->get_description().c_str());
-	s_s_assemblage_ptr->n_user = this->n_user;
-	s_s_assemblage_ptr->n_user_end = this->n_user_end;
-	s_s_assemblage_ptr->new_def = FALSE;
-	s_s_assemblage_ptr->count_s_s = (int) this->ssAssemblageSSs.size();
-	s_s_assemblage_ptr->s_s =
-		cxxSSassemblageSS::cxxSSassemblageSS2s_s(P_INSTANCE_COMMA this->ssAssemblageSSs);
-	return (s_s_assemblage_ptr);
-}
-#endif
-
 #ifdef SKIP
 void
 cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
@@ -216,31 +196,6 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				cxxSSassemblageSS ec(this->Get_io());
 
 				// preliminary read
-#ifdef SKIP
-				std::istream::pos_type pos = parser.tellg();
-				CParser::ECHO_OPTION eo = parser.get_echo_file();
-				parser.set_echo_file(CParser::EO_NONE);
-				CParser::ECHO_OPTION eo_s = parser.get_echo_stream();
-				parser.set_echo_stream(CParser::EO_NONE);
-				ec.read_raw(parser, false);
-				parser.set_echo_file(eo);
-				parser.set_echo_stream(eo_s);
-				parser.seekg(pos).clear();
-				parser.seekg(pos);
-
-				if (this->ssAssemblageSSs.find(ec.get_name()) != this->ssAssemblageSSs.end())
-				{
-					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.get_name())->second;
-					ec1.read_raw(parser, false);
-				}
-				else
-				{
-					cxxSSassemblageSS ec1;
-					ec1.read_raw(parser, false);
-					std::string str(ec1.get_name());
-					this->ssAssemblageSSs[str] = ec1;
-				}
-#endif
 				parser.set_accumulate(true);
 				ec.read_raw(parser, false);
 				parser.set_accumulate(false);
@@ -326,41 +281,6 @@ cxxSSassemblage::totalize(PHREEQC_PTR_ARG)
 	}
 	return;
 }
-#ifdef SKIP
-void
-cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
-		//
-		// Add to existing ssassemblage to "this" ssassemblage
-		//
-{
-	if (extensive == 0.0)
-		return;
-
-	for (std::list < cxxSSassemblageSS >::const_iterator itadd =
-		 addee.ssAssemblageSSs.begin(); itadd != addee.ssAssemblageSSs.end();
-		 ++itadd)
-	{
-		bool found = false;
-		for (std::list < cxxSSassemblageSS >::iterator it =
-			 this->ssAssemblageSSs.begin(); it != this->ssAssemblageSSs.end();
-			 ++it)
-		{
-			if (it->get_name() == itadd->get_name())
-			{
-				it->add((*itadd), extensive);
-				found = true;
-				break;
-			}
-		}
-		if (!found)
-		{
-			cxxSSassemblageSS entity = *itadd;
-			entity.multiply(extensive);
-			this->ssAssemblageSSs.push_back(entity);
-		}
-	}
-}
-#endif
 void
 cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
 		//

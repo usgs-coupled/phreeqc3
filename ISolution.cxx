@@ -40,56 +40,10 @@ units("mMol/kgw")
 	pes = NULL;
 }
 
-#ifdef SKIP_OR_MOVE_TO_STRUCTURES
-cxxISolution::cxxISolution(PHREEQC_PTR_ARG_COMMA struct solution *solution_ptr, PHRQ_io *io)
-:
-cxxSolution(solution_ptr, io)
-		//, pe(cxxPe_Data::alloc())
-{
-	density = solution_ptr->density;
-	this->set_units(solution_ptr->units);
-	// totals
-	for (int i = 0; solution_ptr->totals[i].description != NULL; i++)
-	{
-		cxxISolutionComp c(&(solution_ptr->totals[i]), this->Get_io());
-		//comps.insert(solution_ptr->totals[i].description, c);
-		comps[solution_ptr->totals[i].description] = c;
-	}
-	default_pe = solution_ptr->default_pe;
-	// pe_data
-	pes = P_INSTANCE_POINTER pe_data_dup(solution_ptr->pe);
-}
-#endif
-
 cxxISolution::~cxxISolution()
 {
 	//// ToDo //pe_data_free(this->pes);
 }
-
-#ifdef SKIP_OR_MOVE_TO_STRUCTURES
-struct solution *
-cxxISolution::cxxISolution2solution(PHREEQC_PTR_ARG)
-		//
-		// Builds a solution structure from instance of cxxISolution 
-		//
-{
-	struct solution *soln_ptr = this->cxxSolution2solution(P_INSTANCE);
-	soln_ptr->new_def = TRUE;
-	soln_ptr->density = this->density;
-	if (this->units.size() == 0)
-		soln_ptr->units = NULL;
-	else
-		soln_ptr->units = P_INSTANCE_POINTER string_hsave(this->units.c_str());
-	soln_ptr->default_pe = this->default_pe;
-	// pe
-	soln_ptr->pe = (struct pe_data *) P_INSTANCE_POINTER pe_data_free(soln_ptr->pe);
-	soln_ptr->pe = P_INSTANCE_POINTER pe_data_dup(this->pes);
-	// totals
-	soln_ptr->totals = (struct conc *) P_INSTANCE_POINTER free_check_null(soln_ptr->totals);
-	soln_ptr->totals = cxxISolutionComp::cxxISolutionComp2conc(P_INSTANCE_COMMA this->comps);
-	return (soln_ptr);
-}
-#endif
 
 #ifdef SKIP_OR_MOVE_TO_STRUCTURES
 void
@@ -382,13 +336,6 @@ cxxISolution & cxxISolution::read(CParser & parser)
 		if (opt == CParser::OPTION_EOF || opt == CParser::OPTION_KEYWORD)
 			break;
 	}
-#ifdef SKIP
-	//
-	// Sort totals by description
-	//
-	std::sort(sol.totals.begin(), sol.totals.end());
-#endif
-
 	//
 	// fix up default units and default pe
 	//

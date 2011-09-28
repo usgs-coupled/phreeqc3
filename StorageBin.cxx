@@ -48,75 +48,7 @@ PHRQ_base(io)
 	// default constructor for cxxStorageBin 
 	this->system.Set_io(io);
 }
-#ifdef SKIP
-cxxStorageBin::cxxStorageBin(struct Use *use_ptr)
-{
-	//Construct from use pointer
 
-	// Solution
-	if (use_ptr->solution_ptr != NULL)
-	{
-		cxxSolution entity(use_ptr->solution_ptr);
-		this->setSolution(use_ptr->n_solution_user, &entity);
-	}
-	// Exchange
-	if (use_ptr->exchange_ptr != NULL)
-	{
-		cxxExchange entity(use_ptr->exchange_ptr);
-		this->setExchange(use_ptr->n_exchange_user, &entity);
-	}
-	// gas_phase
-	if (use_ptr->gas_phase_ptr != NULL)
-	{
-		cxxGasPhase entity(use_ptr->gas_phase_ptr);
-		this->setGasPhase(use_ptr->n_gas_phase_user, &entity);
-	}
-	// kinetics
-	if (use_ptr->kinetics_ptr != NULL)
-	{
-		cxxKinetics entity(use_ptr->kinetics_ptr);
-		this->setKinetics(use_ptr->n_kinetics_user, &entity);
-	}
-	// pp_assemblage
-	if (use_ptr->pp_assemblage_ptr != NULL)
-	{
-		cxxPPassemblage entity(use_ptr->pp_assemblage_ptr);
-		this->setPPassemblage(use_ptr->n_pp_assemblage_user, &entity);
-	}
-	// s_s_assemblage
-	if (use_ptr->s_s_assemblage_ptr != NULL)
-	{
-		cxxSSassemblage entity(use_ptr->s_s_assemblage_ptr);
-		this->setSSassemblage(use_ptr->n_s_s_assemblage_user, &entity);
-	}
-	// surface
-	if (use_ptr->surface_ptr != NULL)
-	{
-		cxxSurface entity(use_ptr->surface_ptr);
-		this->setSurface(use_ptr->n_surface_user, &entity);
-	}
-	// mix
-	if (use_ptr->mix_ptr != NULL)
-	{
-		cxxMix entity(use_ptr->mix_ptr);
-		this->setMix(use_ptr->n_mix_user, &entity);
-	}
-	// reaction
-	if (use_ptr->irrev_ptr != NULL)
-	{
-		cxxReaction entity(use_ptr->irrev_ptr);
-		this->setReaction(use_ptr->n_irrev_user, &entity);
-	}
-	// reaction temperature
-	if (use_ptr->temperature_ptr != NULL)
-	{
-		cxxTemperature entity(use_ptr->temperature_ptr);
-		this->setTemperature(use_ptr->n_temperature_user, &entity);
-	}
-	// set system
-	this->setSystem(use_ptr);
-}
-#endif
 cxxStorageBin::cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io * io)
 :
 PHRQ_base(io)
@@ -1530,19 +1462,6 @@ cxxStorageBin::mpi_recv(int task_number)
 				   MPI_DOUBLE, MPI_COMM_WORLD);
 	}
 	buffer = free_check_null(buffer);
-#ifdef SKIP
-	for (int j = 0; j < count_ints; j++)
-	{
-		std::cerr << "Recving ints " << j << " value " << ints[j] << std::
-			endl;
-	}
-	for (int j = 0; j < count_doubles; j++)
-	{
-		std::
-			cerr << "Recving doubles " << j << " value " << doubles[j] <<
-			std::endl;
-	}
-#endif
 	/*
 	 *   Make list of list of ints and doubles from solution structure
 	 *   This list is not the complete structure, but only enough

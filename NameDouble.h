@@ -34,23 +34,12 @@ class cxxNameDouble:public
 	 ~
 	cxxNameDouble();
 
-	struct elt_list * elt_list(PHREEQC_PTR_ARG);
-
-	//struct master_activity * master_activity(PHREEQC_PTR_ARG) const;
-
-	//struct conc * conc(PHREEQC_PTR_ARG) const;
-
-	//struct name_coef * name_coef(PHREEQC_PTR_ARG) const;
-
 	void
 	dump_xml(std::ostream & s_oss, unsigned int indent) const;
-
 	void
 	dump_raw(std::ostream & s_oss, unsigned int indent) const;
-
 	CParser::STATUS_TYPE
 	read_raw(CParser & parser, std::istream::pos_type & pos);
-
 	void
 	add_extensive(const cxxNameDouble & old, double factor);
 	void
@@ -61,7 +50,6 @@ class cxxNameDouble:public
 	add(const char *key, double total);
 	void
 	multiply(double factor);
-
 	void
 	merge_redox(const cxxNameDouble & source);
 
@@ -75,7 +63,7 @@ class cxxNameDouble:public
 	}
 
 	void
-	mpi_pack(PHREEQC_PTR_ARG_COMMA std::vector < int >&ints, std::vector < double >&doubles);
+	mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void
 	mpi_pack(int *ints, int *ii, double *doubles, int *dd);
 
