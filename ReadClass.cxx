@@ -300,7 +300,8 @@ read_surface_raw(void)
 
 	cxxSurface ex(&phrq_io);
 	ex.read_raw(parser);
-	struct surface *surface_ptr = ex.cxxSurface2surface(PHREEQC_THIS);
+	//struct surface *surface_ptr = ex.cxxSurface2surface(PHREEQC_THIS);
+	struct surface *surface_ptr = cxxSurface2surface(&ex);
 	int n;
 
 	/*
@@ -1634,7 +1635,8 @@ read_surface_modify(void)
 	entity.read_raw(parser, false);
 
 	// save entity
-	struct surface *entity_ptr = entity.cxxSurface2surface(PHREEQC_THIS);
+	//struct surface *entity_ptr = entity.cxxSurface2surface(PHREEQC_THIS);
+	struct surface *entity_ptr = cxxSurface2surface(&entity);
 	surface_free(&(surface[n]));
 	surface_copy(entity_ptr, &(surface[n]), entity_ptr->n_user);
 	free_check_null(surface[n].description);

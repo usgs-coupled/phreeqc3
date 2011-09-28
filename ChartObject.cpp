@@ -18,7 +18,6 @@
 #ifdef PHREEQC_CLASS
 #include "Phreeqc.h"
 #else
-#include "phqalloc.h"
 extern int error_msg(const char *err_str, const int stop, ...);
 extern int warning_msg(const char *err_str, ...);
 extern int rate_free(struct rate *rate_ptr);
