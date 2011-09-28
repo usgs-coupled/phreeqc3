@@ -43,15 +43,6 @@ class cxxPPassemblage:public cxxNumKeyword
 #endif
 
 	void totalize(PHREEQC_PTR_ARG);
-#ifdef ORCHESTRA
-	void ORCH_write_chemistry(std::ostream & chemistry_dat);
-	void ORCH_write_output_vars(std::ostream & outstream);
-	void ORCH_read(std::vector < std::pair < std::string,
-				   double >>output_vector,
-				   std::vector < std::pair < std::string,
-				   double >>::iterator & it);
-	void ORCH_store_global(std::map < std::string, double >output_map);
-#endif
 
 private:
 	void add(const cxxPPassemblage & addee, double extensive);
