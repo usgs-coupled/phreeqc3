@@ -51,22 +51,22 @@ PHRQ_base(io),
 formula_totals(surf_comp_ptr->formula_totals),
 totals(surf_comp_ptr->totals)
 {
-	this->set_formula(surf_comp_ptr->formula);
+	this->Set_formula(surf_comp_ptr->formula);
 	formula_z = surf_comp_ptr->formula_z;
 	moles = surf_comp_ptr->moles;
 	la = surf_comp_ptr->la;
 	//charge_number            = surf_comp_ptr->charge;
 	charge_balance = surf_comp_ptr->cb;
-	this->set_phase_name(surf_comp_ptr->phase_name);
+	this->Set_phase_name(surf_comp_ptr->phase_name);
 	phase_proportion = surf_comp_ptr->phase_proportion;
-	this->set_rate_name(surf_comp_ptr->rate_name);
+	this->Set_rate_name(surf_comp_ptr->rate_name);
 	Dw = surf_comp_ptr->Dw;
 }
 
 cxxSurfaceComp::~cxxSurfaceComp()
 {
 }
-
+#ifdef MOVE_TO_STRUCTURES
 struct master *
 	cxxSurfaceComp::get_master(PHREEQC_PTR_ARG)
 {
@@ -104,7 +104,9 @@ struct master *
 	}
 	return (master_ptr);
 }
+#endif
 
+#ifdef MOVE_TO_STRUCTURES
 struct surface_comp *
 	cxxSurfaceComp::cxxSurfaceComp2surface_comp(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceComp > &el)
 	//
@@ -146,6 +148,7 @@ struct surface_comp *
 	}
 	return (surf_comp_ptr);
 }
+#endif
 
 void
 cxxSurfaceComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
@@ -666,12 +669,12 @@ cxxSurfaceComp::multiply(double extensive)
 	//double Dw;
 }
 const std::string &
-cxxSurfaceComp::get_phase_name() const
+cxxSurfaceComp::Get_phase_name() const
 {
 	return this->phase_name;
 }
 void 
-cxxSurfaceComp::set_phase_name(char * f) 
+cxxSurfaceComp::Set_phase_name(char * f) 
 {
 	if (f != NULL)
 		this->phase_name = std::string(f);
@@ -679,12 +682,12 @@ cxxSurfaceComp::set_phase_name(char * f)
 		this->phase_name.clear();
 }
 const std::string &
-cxxSurfaceComp::get_rate_name() const
+cxxSurfaceComp::Get_rate_name() const
 {
 	return this->rate_name;
 }
 void 
-cxxSurfaceComp::set_rate_name(char * f) 
+cxxSurfaceComp::Set_rate_name(char * f) 
 {
 	if (f != NULL)
 		this->rate_name = std::string(f);
@@ -692,12 +695,12 @@ cxxSurfaceComp::set_rate_name(char * f)
 		this->rate_name.clear();
 }
 const std::string &
-cxxSurfaceComp::get_formula() const
+cxxSurfaceComp::Get_formula() const
 {
 	return this->formula;
 }
 void 
-cxxSurfaceComp::set_formula(char * f) 
+cxxSurfaceComp::Set_formula(char * f) 
 {
 	if (f != NULL)
 		this->formula = std::string(f);
@@ -705,20 +708,26 @@ cxxSurfaceComp::set_formula(char * f)
 		this->formula.clear();
 }
 double 
-cxxSurfaceComp::get_charge_balance() const
+cxxSurfaceComp::Get_charge_balance() const
 {
 	return this->charge_balance;
 }
 void 
-cxxSurfaceComp::set_charge_balance(double d)
+cxxSurfaceComp::Set_charge_balance(double d)
 {
 	this->charge_balance = d;
 }
 const cxxNameDouble & 
-cxxSurfaceComp::get_totals() const
+cxxSurfaceComp::Get_totals() const
 {
 	return (this->totals);
 }
+const cxxNameDouble & 
+cxxSurfaceComp::Get_formula_totals() const
+{
+	return (this->formula_totals);
+}
+#ifdef MOVE_TO_STRUCTURES
 std::string 
 cxxSurfaceComp::charge_name(PHREEQC_PTR_ARG)
 {
@@ -739,3 +748,4 @@ cxxSurfaceComp::get_charge_name(PHREEQC_PTR_ARG_COMMA char *token)
 	}
 	return (std::string(name));
 }
+#endif

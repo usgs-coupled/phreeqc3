@@ -18,17 +18,17 @@ class cxxSurface:public cxxNumKeyword
   public:
 	cxxSurface(PHRQ_io *io=NULL);
 	cxxSurface(struct surface *, PHRQ_io *io=NULL);
-	  cxxSurface(PHREEQC_PTR_ARG_COMMA const std::map < int, cxxSurface > &entity_map, cxxMix & mx,
+	cxxSurface(const std::map < int, cxxSurface > &entity_map, cxxMix & mx,
 				 int n_user, PHRQ_io *io=NULL);
-	 ~cxxSurface();
+	~cxxSurface();
 
 	//enum SURFACE_STYPE { UNKNOWN_DL, NO_EDL, DDL, CD_MUSIC };
 	//enum SURFACE_DL_TYPE { NO_DL, BORKOVEC_DL, DONNAN_DL } ;
 	//enum SURFACE_SITES_UNITS { SITES_ABSOLUTE, SITES_DENSITY } ;
 
-	struct surface *cxxSurface2surface(PHREEQC_PTR_ARG);
+	//struct surface *cxxSurface2surface(PHREEQC_PTR_ARG);
 
-	struct surf_comp *cxxSurfaceComp2surf_comp(PHREEQC_PTR_ARG);
+	//struct surf_comp *cxxSurfaceComp2surf_comp(PHREEQC_PTR_ARG);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -36,13 +36,13 @@ class cxxSurface:public cxxNumKeyword
 
 	void read_raw(CParser & parser, bool check = true);
 
-	bool get_related_phases(void);
+	bool Get_related_phases(void);
 
-	bool get_related_rate(void);
+	bool Get_related_rate(void);
 
 	void totalize();
 
-	const cxxNameDouble & get_totals() const
+	const cxxNameDouble & Get_totals() const
 	{
 		return this->totals;
 	};
@@ -51,8 +51,19 @@ class cxxSurface:public cxxNumKeyword
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
-private:
-	void add(PHREEQC_PTR_ARG_COMMA const cxxSurface & addee, double extensive);
+
+	void add(const cxxSurface & addee, double extensive);
+	const std::map < std::string, cxxSurfaceComp > & Get_surfaceComps() const {return this->surfaceComps;};
+	const std::map < std::string, cxxSurfaceCharge > & Get_surfaceCharges() const {return this->surfaceCharges;};
+	SURFACE_TYPE Get_type(void) {return this->type;};
+	DIFFUSE_LAYER_TYPE Get_dl_type(void) {return dl_type;};
+	SITES_UNITS Get_sites_units(void) {return sites_units;};
+	bool Get_only_counter_ions(void) {return only_counter_ions;};
+	double Get_thickness(void) {return thickness;};
+	double Get_debye_lengths(void) {return debye_lengths;};
+	double Get_DDL_viscosity(void) {return DDL_viscosity;};
+	double Get_DDL_limit(void) const {return DDL_limit;};
+	bool Get_transport(void) {return transport;};
 
 protected:
 	std::map < std::string, cxxSurfaceComp > surfaceComps;

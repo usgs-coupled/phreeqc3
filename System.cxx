@@ -94,7 +94,7 @@ cxxSystem::totalize(PHREEQC_PTR_ARG)
 	if (this->surface != NULL)
 	{
 		this->ssassemblage->totalize(P_INSTANCE);
-		this->totals.add_extensive(this->surface->get_totals(), 1.0);
+		this->totals.add_extensive(this->surface->Get_totals(), 1.0);
 	}
 	//Need to handle the following 3 reactions:
 	//

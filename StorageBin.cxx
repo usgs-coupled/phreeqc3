@@ -1101,7 +1101,8 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		std::map < int, cxxSurface >::iterator it = this->Surfaces.find(n);
 		if (it != this->Surfaces.end())
 		{
-			struct surface *surface_ptr = (it->second).cxxSurface2surface(P_INSTANCE);
+			//struct surface *surface_ptr = (it->second).cxxSurface2surface(P_INSTANCE);
+			struct surface *surface_ptr = P_INSTANCE_POINTER cxxSurface2surface(&(it->second));
 			P_INSTANCE_POINTER surface_copy(surface_ptr, &P_INSTANCE_POINTER surface[0], n);
 			P_INSTANCE_POINTER count_surface++;
 			P_INSTANCE_POINTER surface_free(surface_ptr);
@@ -1331,7 +1332,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// Surfaces
 	if (this->getSurface(n) != NULL)
 	{
-		system_ptr->surface = (this->getSurface(n))->cxxSurface2surface(P_INSTANCE);
+		//system_ptr->surface = (this->getSurface(n))->cxxSurface2surface(P_INSTANCE);
+		system_ptr->surface = P_INSTANCE_POINTER cxxSurface2surface((this->getSurface(n)));
 	}
 	else
 	{

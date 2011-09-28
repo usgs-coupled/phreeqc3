@@ -51,7 +51,7 @@ cxxSurfaceCharge::cxxSurfaceCharge(struct surface_charge *surf_charge_ptr, PHRQ_
 PHRQ_base(io),
 diffuse_layer_totals(surf_charge_ptr->diffuse_layer_totals)
 {
-	this->set_name(surf_charge_ptr->name);
+	this->Set_name(surf_charge_ptr->name);
 	specific_area = surf_charge_ptr->specific_area;
 	grams = surf_charge_ptr->grams;
 	charge_balance = surf_charge_ptr->charge_balance;
@@ -86,6 +86,7 @@ cxxSurfaceCharge::~cxxSurfaceCharge()
 //	return (master_ptr);
 //}
 
+#ifdef MOVE_TO_STRUCTURES
 struct surface_charge *
 cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map < std::string, cxxSurfaceCharge > &el)
 	//
@@ -125,6 +126,7 @@ cxxSurfaceCharge::cxxSurfaceCharge2surface_charge(PHREEQC_PTR_ARG_COMMA std::map
 	}
 	return (surf_charge_ptr);
 }
+#endif
 
 void
 cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
