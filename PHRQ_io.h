@@ -42,7 +42,7 @@ typedef enum
 	
 	int phreeqc_handler(const int action, const int type, const char *err_str, const bool stop, const char *, va_list args);
 	int open_handler(const int type, const char *file_name);
-	
+	bool isopen_handler(const int type);
 	int fileop_handler(const int type, int (*PFN) (FILE *));
 	int output_handler(const int type, const char *err_str,
 						  const bool stop, const char *format,
