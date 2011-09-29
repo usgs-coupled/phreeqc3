@@ -36,7 +36,7 @@ error_msg(const std::string & stdstr, int stop)
 	}
 	if (stop != 0)
 	{
-		throw "PHRQ_base error message";
+		throw PhreeqcStop();
 	}
 }
 
