@@ -49,6 +49,7 @@ PHRQ_base(io)
 	this->system.Set_io(io);
 }
 
+#ifdef MOVE_TO_STRUCTURES
 cxxStorageBin::cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io * io)
 :
 PHRQ_base(io)
@@ -160,7 +161,7 @@ PHRQ_base(io)
 		}
 	}
 }
-
+#endif
 cxxStorageBin::~cxxStorageBin()
 {
 }
@@ -434,6 +435,8 @@ cxxStorageBin::getSurfaces() const
 {
 	return this->Surfaces;
 }
+
+#ifdef MOVE_TO_STRUCTURES
 void
 cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 		//
@@ -504,7 +507,7 @@ cxxStorageBin::import_phreeqc(PHREEQC_PTR_ARG)
 		Temperatures[P_INSTANCE_POINTER temperature[i].n_user] = cxxTemperature(&P_INSTANCE_POINTER temperature[i], this->Get_io());
 	}
 }
-
+#endif
 
 #ifdef SKIP
 void
@@ -919,6 +922,7 @@ cxxStorageBin::add(struct system *system_ptr)
 	}
 }
 
+#ifdef MOVE_TO_STRUCTURES
 void
 cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 		//
@@ -1044,6 +1048,9 @@ cxxStorageBin::cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n)
 	//std::cerr << oss.str();
 
 }
+#endif
+
+#ifdef MOVE_TO_STRUCTURES
 void
 cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 		//
@@ -1106,6 +1113,7 @@ cxxStorageBin::phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n)
 		}
 	}
 }
+#endif
 
 void
 cxxStorageBin::remove(int n)

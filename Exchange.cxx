@@ -167,7 +167,7 @@ cxxExchange::~cxxExchange()
 }
 
 bool
-cxxExchange::get_related_phases()
+cxxExchange::Get_related_phases() const
 {
 	for (std::map < std::string, cxxExchComp >::const_iterator it =
 		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
@@ -180,7 +180,7 @@ cxxExchange::get_related_phases()
 }
 
 bool
-cxxExchange::get_related_rate()
+cxxExchange::Get_related_rate() const
 {
 	for (std::map < std::string, cxxExchComp >::const_iterator it =
 		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
@@ -456,23 +456,23 @@ cxxExchange::totalize()
 	return;
 }
 bool 
-cxxExchange::get_pitzer_exchange_gammas()
+cxxExchange::Get_pitzer_exchange_gammas() const
 {
 	return this->pitzer_exchange_gammas;
 }
 void 
-cxxExchange::set_pitzer_exchange_gammas(bool b)
+cxxExchange::Set_pitzer_exchange_gammas(bool b)
 {
 	this->pitzer_exchange_gammas = b;
 }
 
-std::map < std::string, cxxExchComp > &
-cxxExchange::get_exchComps(void)
+const std::map < std::string, cxxExchComp > &
+cxxExchange::get_exchComps(void) const
 {
 	return (this->exchComps);
 }
 const cxxNameDouble & 
-cxxExchange::get_totals() const
+cxxExchange::Get_totals() const
 {
 	return totals;
 }
