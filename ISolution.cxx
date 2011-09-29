@@ -58,9 +58,9 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 		struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(iter->first.c_str());
 		if (master_ptr != NULL && (master_ptr->minor_isotope == TRUE))
 			continue;
-		//if (iter->second.get_description() == "H(1)" || iter->second.get_description() == "E") continue;
-		if (strcmp(iter->second.get_description().c_str(), "H(1)") == 0
-			|| strcmp(iter->second.get_description().c_str(), "E"))
+		//if (iter->second.Get_description() == "H(1)" || iter->second.Get_description() == "E") continue;
+		if (strcmp(iter->second.Get_description().c_str(), "H(1)") == 0
+			|| strcmp(iter->second.Get_description().c_str(), "E"))
 			continue;
 		if (iter->second.get_input_conc() <= 0.0)
 			continue;
@@ -88,7 +88,7 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 			{
 				std::ostringstream oss;
 				oss << "Could not find gfw, " << iter->second.
-					get_description();
+					Get_description();
 				error_msg(oss.str().c_str(), CONTINUE);
 				//P_INSTANCE_POINTER input_error++;
 			}
@@ -259,7 +259,7 @@ cxxISolution & cxxISolution::read(CParser & parser)
 				{
 					break;
 				}
-				conc.set_description("H(1)");
+				conc.Set_description("H(1)");
 				sol.add(conc);
 			}
 			break;
@@ -278,7 +278,7 @@ cxxISolution & cxxISolution::read(CParser & parser)
 				{
 					break;
 				}
-				conc.set_description("E");
+				conc.Set_description("E");
 				sol.add(conc);
 			}
 			break;
@@ -340,7 +340,7 @@ cxxISolution & cxxISolution::read(CParser & parser)
 	std::vector < cxxISolutionComp >::iterator iter = sol.totals.begin();
 	for (; iter != sol.totals.end(); ++iter)
 	{
-		token = (*iter).get_description();
+		token = (*iter).Get_description();
 		Utilities::str_tolower(token);
 		if ((*iter).get_units().empty())
 		{

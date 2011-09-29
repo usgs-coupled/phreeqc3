@@ -15,8 +15,8 @@ public:
 	~dumper(void);
 	bool Read(CParser & parser);
 	void SetAll(bool tf);
-	std::string get_file_name(void) { return(this->file_name); };
-	bool get_append(void) { return(this->append); };
+	std::string Get_file_name(void) { return(this->file_name); };
+	bool Get_append(void) { return(this->append); };
 	bool Get_bool_solution(void) { return(this->binList.Get_solution().Get_defined()); };
 	bool Get_bool_pp_assemblage(void) { return(this->binList.Get_pp_assemblage().Get_defined()); };
 	bool Get_bool_exchange(void) { return(this->binList.Get_exchange().Get_defined()); };

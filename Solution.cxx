@@ -68,7 +68,7 @@ species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma, cx
 isotopes(solution_ptr, io)
 {
 
-	this->set_description(solution_ptr->description);
+	this->Set_description(solution_ptr->description);
 	this->n_user = solution_ptr->n_user;
 	this->n_user_end = solution_ptr->n_user_end;
 	this->tc = solution_ptr->tc;
@@ -148,7 +148,7 @@ cxxNumKeyword(io),
 isotopes(io)
 {
 
-	//this->set_description none;
+	//this->Set_description none;
 	this->n_user = l_n_user;
 	this->n_user_end = l_n_user;
 	this->tc = P_INSTANCE_POINTER tc_x;

@@ -41,7 +41,7 @@ class cxxGasPhase:public cxxNumKeyword
 
 	void totalize(PHREEQC_PTR_ARG);
 
-	const cxxNameDouble & get_totals() const
+	const cxxNameDouble & Get_totals() const
 	{
 		return this->totals;
 	};

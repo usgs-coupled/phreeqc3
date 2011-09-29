@@ -21,7 +21,7 @@ public:
 	~cxxSurfaceCharge();
 
 
-	struct master *get_psi_master();
+	struct master *Get_psi_master();
 	
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
