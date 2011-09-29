@@ -24,7 +24,6 @@ class cxxStorageBin: public PHRQ_base
 
   public:
 	cxxStorageBin(PHRQ_io *io=NULL);
-	//cxxStorageBin(struct Use *use_ptr);
 	//cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io *io=NULL);
 	 ~cxxStorageBin();
 
@@ -32,7 +31,7 @@ class cxxStorageBin: public PHRQ_base
 
 	//void cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n);
 
-	void phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n);
+	//void phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n);
 
 	void remove(int n);
 
@@ -92,7 +91,7 @@ class cxxStorageBin: public PHRQ_base
 
 	void add(struct system *sys_ptr);
 
-	struct system *cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int i);
+	//struct system *cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int i);
 
 	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix & mixmap);
