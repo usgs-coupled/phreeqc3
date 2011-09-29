@@ -25,17 +25,17 @@ public:
 
 	void read_raw(CParser & parser, bool check = true);
 
-	bool get_related_phases(void);
+	bool Get_related_phases(void) const;
 
-	bool get_related_rate(void);
+	bool Get_related_rate(void) const;
 
-	bool get_pitzer_exchange_gammas();
-	void set_pitzer_exchange_gammas(bool b);
+	bool Get_pitzer_exchange_gammas() const;
+	void Set_pitzer_exchange_gammas(bool b);
 
-	std::map < std::string, cxxExchComp > &get_exchComps(void);
+	const std::map < std::string, cxxExchComp > &get_exchComps(void) const;
 	void totalize();
 
-	const cxxNameDouble & get_totals() const;
+	const cxxNameDouble & Get_totals() const;
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);

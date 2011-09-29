@@ -35,12 +35,12 @@ public:
 			this->rate_name.clear();
 	}
 
-	cxxNameDouble &Get_namecoef(void) {return namecoef;};
-	double Get_tol(void) {return tol;};	
-	double Get_m(void) {return m;};	
-	double Get_m0(void) {return m0;};	
-	double Get_moles(void) {return moles;};	
-	std::vector < double > &Get_d_params(void) {return d_params;};
+	const cxxNameDouble &Get_namecoef(void) const {return namecoef;};
+	double Get_tol(void) const {return tol;};	
+	double Get_m(void) const {return m;};	
+	double Get_m0(void) const {return m0;};	
+	double Get_moles(void) const {return moles;};	
+	const std::vector < double > &Get_d_params(void) const {return d_params;};
 
 #ifdef USE_MPI
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);

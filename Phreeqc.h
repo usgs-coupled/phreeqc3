@@ -53,6 +53,7 @@ class cxxSSassemblageSS;
 class cxxSurface;
 class cxxSurfaceCharge;
 class cxxSurfaceComp;
+class cxxStorageBin;
 
 class Phreeqc
 {
@@ -1144,9 +1145,9 @@ CLASS_STATIC int isotope_compare(const void *ptr1, const void *ptr2);
 public:
 	struct solution *solution_alloc(void);
 	struct solution *solution_bsearch(int k, int *n, int print);
-private:
 	struct solution *solution_copy(struct solution *solution_old_ptr,
 							   int n_user_new);
+private:
 int solution_copy_to_last(int n, int n_user_new);
 int solution_duplicate(int n_user_old, int n_user_new);
 int solution_delete(int n_user_old);
@@ -1250,9 +1251,9 @@ extern void MergeFinalize(void);
 // convert class to struct
 
 struct mix * cxxMix2mix(cxxMix *mx);
-struct kinetics *cxxKinetics2kinetics(cxxKinetics * kin);
-struct kinetics_comp * cxxKineticsComp2kinetics_comp(std::list < cxxKineticsComp > * el);
-struct exchange * cxxExchange2exchange(cxxExchange * ex);
+struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
+struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
+struct exchange * cxxExchange2exchange(const cxxExchange * ex);
 struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
 struct master * Get_exch_master(const cxxExchComp * ec);
 struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
@@ -1265,7 +1266,7 @@ struct solution * cxxSolution2solution(const cxxSolution * sol);
 struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
 struct s_s_assemblage * cxxSSassemblage2s_s_assemblage(const cxxSSassemblage * ss);
 struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSSassemblageSS > * sscomp);
-struct surface * cxxSurface2surface(cxxSurface * surf);
+struct surface * cxxSurface2surface(const cxxSurface * surf);
 struct surface_comp * cxxSurfaceComp2surface_comp(const std::map < std::string, cxxSurfaceComp > * sc);
 struct surface_charge * cxxSurfaceCharge2surface_charge(const std::map < std::string, cxxSurfaceCharge > * s_ch);
 
@@ -1274,6 +1275,11 @@ struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
 struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
 struct master_activity * cxxNameDouble2master_activity(const cxxNameDouble * nd);
 struct master * cxxNameDouble2surface_master(const cxxNameDouble * totals);
+
+void Use2cxxStorageBin(cxxStorageBin & sb);
+void phreeqc2cxxStorageBin(cxxStorageBin & sb);
+void cxxStorageBin2phreeqc(cxxStorageBin & sb, int n);
+
 /* tally.c */
 
 void add_all_components_tally(void);

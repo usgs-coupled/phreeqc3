@@ -480,7 +480,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		cxxExchange entity(&exchange[i], &phrq_io);
 		entity.totalize();
-		accumulator.add_extensive(entity.get_totals(), 1.0);
+		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
 	// surfaces

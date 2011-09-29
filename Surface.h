@@ -28,9 +28,9 @@ class cxxSurface:public cxxNumKeyword
 
 	void read_raw(CParser & parser, bool check = true);
 
-	bool Get_related_phases(void);
+	bool Get_related_phases(void) const;
 
-	bool Get_related_rate(void);
+	bool Get_related_rate(void) const;
 
 	void totalize();
 
@@ -47,15 +47,15 @@ class cxxSurface:public cxxNumKeyword
 	void add(const cxxSurface & addee, double extensive);
 	const std::map < std::string, cxxSurfaceComp > & Get_surfaceComps() const {return this->surfaceComps;};
 	const std::map < std::string, cxxSurfaceCharge > & Get_surfaceCharges() const {return this->surfaceCharges;};
-	SURFACE_TYPE Get_type(void) {return this->type;};
-	DIFFUSE_LAYER_TYPE Get_dl_type(void) {return dl_type;};
-	SITES_UNITS Get_sites_units(void) {return sites_units;};
-	bool Get_only_counter_ions(void) {return only_counter_ions;};
-	double Get_thickness(void) {return thickness;};
-	double Get_debye_lengths(void) {return debye_lengths;};
-	double Get_DDL_viscosity(void) {return DDL_viscosity;};
+	SURFACE_TYPE Get_type(void) const {return this->type;};
+	DIFFUSE_LAYER_TYPE Get_dl_type(void) const {return dl_type;};
+	SITES_UNITS Get_sites_units(void) const {return sites_units;};
+	bool Get_only_counter_ions(void) const {return only_counter_ions;};
+	double Get_thickness(void) const {return thickness;};
+	double Get_debye_lengths(void) const {return debye_lengths;};
+	double Get_DDL_viscosity(void) const {return DDL_viscosity;};
 	double Get_DDL_limit(void) const {return DDL_limit;};
-	bool Get_transport(void) {return transport;};
+	bool Get_transport(void) const {return transport;};
 
 protected:
 	std::map < std::string, cxxSurfaceComp > surfaceComps;
