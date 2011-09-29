@@ -20,7 +20,7 @@ class cxxKinetics:public cxxNumKeyword
 	cxxKinetics(struct kinetics *, PHRQ_io *io=NULL);
 	cxxKinetics(const std::map < int, cxxKinetics > &entity_map, cxxMix & mx,
 				int n_user, PHRQ_io *io=NULL);
-	 ~cxxKinetics();
+	~cxxKinetics();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
@@ -28,19 +28,19 @@ class cxxKinetics:public cxxNumKeyword
 
 	void read_raw(CParser & parser, bool check = true);
 
-	bool Get_related_phases(void);
-	bool Get_related_rate(void);
+	//bool Get_related_phases(void) const;
+	//bool Get_related_rate(void) const;
 
-	std::vector < double > &Get_steps(void) {return steps;};
-	double Get_step_divide(void) {return step_divide;};
-	int Get_rk(void) {return rk;};
-	int Get_bad_step_max(void) {return bad_step_max;};
-	bool Get_use_cvode(void) {return use_cvode;};
-	int Get_cvode_steps(void) {return cvode_steps;};
-	int Get_cvode_order(void) {return cvode_order;};
-	std::list < cxxKineticsComp > &Get_kineticsComps(void) {return kineticsComps;};
-	cxxNameDouble & Get_totals(void) {return this->totals;};
-	int Get_equal_steps(void) {return equal_steps;};
+	const std::vector < double > &Get_steps(void) const {return steps;};
+	double Get_step_divide(void) const {return step_divide;};
+	int Get_rk(void) const {return rk;};
+	int Get_bad_step_max(void) const {return bad_step_max;};
+	bool Get_use_cvode(void) const {return use_cvode;};
+	int Get_cvode_steps(void) const {return cvode_steps;};
+	int Get_cvode_order(void) const {return cvode_order;};
+	const std::list < cxxKineticsComp > &Get_kineticsComps(void) const {return kineticsComps;};
+	const cxxNameDouble & Get_totals(void) const {return this->totals;};
+	int Get_equal_steps(void) const {return equal_steps;};
 
 
 #ifdef USE_MPI

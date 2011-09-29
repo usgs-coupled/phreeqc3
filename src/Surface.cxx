@@ -118,7 +118,7 @@ cxxSurface::~cxxSurface()
 }
 
 bool
-cxxSurface::Get_related_phases()
+cxxSurface::Get_related_phases() const
 {
 	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
@@ -131,7 +131,7 @@ cxxSurface::Get_related_phases()
 }
 
 bool
-cxxSurface::Get_related_rate()
+cxxSurface::Get_related_rate() const
 {
 	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
 		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)

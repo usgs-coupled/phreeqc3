@@ -72,7 +72,7 @@ cxxSystem::totalize(PHREEQC_PTR_ARG)
 	if (this->exchange != NULL)
 	{
 		this->exchange->totalize();
-		this->totals.add_extensive(this->exchange->get_totals(), 1.0);
+		this->totals.add_extensive(this->exchange->Get_totals(), 1.0);
 	}
 	if (this->ppassemblage != NULL)
 	{

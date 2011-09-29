@@ -25,12 +25,12 @@ class cxxStorageBin: public PHRQ_base
   public:
 	cxxStorageBin(PHRQ_io *io=NULL);
 	//cxxStorageBin(struct Use *use_ptr);
-	cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io *io=NULL);
+	//cxxStorageBin(PHREEQC_PTR_ARG_COMMA struct Use *use_ptr, PHRQ_io *io=NULL);
 	 ~cxxStorageBin();
 
-	void import_phreeqc(PHREEQC_PTR_ARG);
+	//void import_phreeqc(PHREEQC_PTR_ARG);
 
-	void cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n);
+	//void cxxStorageBin2phreeqc(PHREEQC_PTR_ARG_COMMA int n);
 
 	void phreeqc2cxxStorageBin(PHREEQC_PTR_ARG_COMMA int n);
 
@@ -105,6 +105,7 @@ class cxxStorageBin: public PHRQ_base
 	const std::map < int, cxxSSassemblage > &getSSassemblages() const;
 	const std::map < int, cxxSurface > &getSurfaces() const;
 
+	cxxSystem & Get_system(void) {return system;};
 #ifdef USE_MPI
 	void mpi_send(int n, int task_number);
 	void mpi_recv(int task_number);
