@@ -31,14 +31,14 @@ gfw(0.0)
 cxxISolutionComp::cxxISolutionComp(struct conc *conc_ptr, PHRQ_io *io)
 : PHRQ_base(io)
 {
-	this->set_description(conc_ptr->description);
+	this->Set_description(conc_ptr->description);
 	moles = conc_ptr->moles;
 	input_conc = conc_ptr->input_conc;
-	this->set_units(conc_ptr->units);
-	this->set_equation_name(conc_ptr->equation_name);
+	this->Set_units(conc_ptr->units);
+	this->Set_equation_name(conc_ptr->equation_name);
 	phase_si = conc_ptr->phase_si;
 	n_pe = conc_ptr->n_pe;
-	this->set_as(conc_ptr->as);
+	this->Set_as(conc_ptr->as);
 	gfw = conc_ptr->gfw;
 	//skip                = conc_ptr->skip;
 	//phase               = conc_ptr->phase;

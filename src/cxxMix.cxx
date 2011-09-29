@@ -41,7 +41,7 @@ cxxNumKeyword(io)
 {
 	int i;
 
-	this->set_description(mix_ptr->description);
+	this->Set_description(mix_ptr->description);
 	this->n_user = mix_ptr->n_user;
 	this->n_user_end = mix_ptr->n_user_end;
 	// comps

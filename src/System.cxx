@@ -82,12 +82,12 @@ cxxSystem::totalize(PHREEQC_PTR_ARG)
 	if (this->gasphase != NULL)
 	{
 		this->gasphase->totalize(P_INSTANCE);
-		this->totals.add_extensive(this->gasphase->get_totals(), 1.0);
+		this->totals.add_extensive(this->gasphase->Get_totals(), 1.0);
 	}
 	if (this->ssassemblage != NULL)
 	{
 		this->ssassemblage->totalize(P_INSTANCE);
-		this->totals.add_extensive(this->ssassemblage->get_totals(), 1.0);
+		this->totals.add_extensive(this->ssassemblage->Get_totals(), 1.0);
 	}
 	if (this->surface != NULL)
 	{

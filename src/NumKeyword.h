@@ -14,39 +14,39 @@ class cxxNumKeyword: public PHRQ_base
   public:
 	cxxNumKeyword(PHRQ_io *io=NULL);
 	virtual ~ cxxNumKeyword();
-	const std::string &get_description() const
+	const std::string &Get_description() const
 	{
 		return this->description;
 	}
 
-	//char *get_description() const
+	//char *Get_description() const
 	//{
 	//	return string_duplicate(this->description.c_str());
 	//}
-	void set_description(std::string str)
+	void Set_description(std::string str)
 	{
 		this->description = str;
 	}
-	void set_description(char *str)
+	void Set_description(char *str)
 	{
 		if (str != NULL)
 			this->description = str;
 	}
 
-	int get_n_user() const
+	int Get_n_user() const
 	{
 		return this->n_user;
 	}
-	void set_n_user(int user)
+	void Set_n_user(int user)
 	{
 		this->n_user = user;
 	}
 
-	int get_n_user_end() const
+	int Get_n_user_end() const
 	{
 		return this->n_user_end;
 	}
-	void set_n_user_end(int user_end)
+	void Set_n_user_end(int user_end)
 	{
 		this->n_user_end = user_end;
 	}

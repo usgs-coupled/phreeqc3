@@ -32,7 +32,7 @@ public:
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
 	void read_raw(CParser & parser, bool check = true);
-	const std::map <std::string, cxxSSassemblageSS > & get_ssAssemblageSSs() const
+	const std::map <std::string, cxxSSassemblageSS > & Get_ssAssemblageSSs() const
 	{
 		return this->ssAssemblageSSs;
 	};
@@ -43,7 +43,7 @@ public:
 #endif
 	void totalize(PHREEQC_PTR_ARG);
 
-	const cxxNameDouble & get_totals() const
+	const cxxNameDouble & Get_totals() const
 	{
 		return this->totals;
 	};

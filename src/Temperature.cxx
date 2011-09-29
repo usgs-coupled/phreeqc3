@@ -43,7 +43,7 @@ cxxNumKeyword(io)
 {
 	int i;
 
-	this->set_description(temperature_ptr->description);
+	this->Set_description(temperature_ptr->description);
 	this->n_user = temperature_ptr->n_user;
 	this->n_user_end = temperature_ptr->n_user_end;
 	// temps

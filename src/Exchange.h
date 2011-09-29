@@ -32,7 +32,7 @@ public:
 	bool Get_pitzer_exchange_gammas() const;
 	void Set_pitzer_exchange_gammas(bool b);
 
-	const std::map < std::string, cxxExchComp > &get_exchComps(void) const;
+	const std::map < std::string, cxxExchComp > &Get_exchComps(void) const;
 	void totalize();
 
 	const cxxNameDouble & Get_totals() const;
