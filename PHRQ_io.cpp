@@ -413,17 +413,23 @@ open_handler(const int type, const char *file_name)
 			//return ERROR;
 			return 0;
 		}
-		else
+		break;
+	case OUTPUT_MESSAGE:
+		if (output_file != NULL)
 		{
-			//free_check_null(selected_output_file_name);
-			//selected_output_file_name = string_duplicate(file_name);
+			safe_close(output_file);
+			output_file = NULL;
+		}
+		if ((output_file = fopen(file_name, "w")) == NULL)
+		{
+			//return ERROR;
+			return 0;
 		}
 		break;
-
 	case OUTPUT_DUMP:
 		if (dump_file != NULL)
 		{
-			fclose(dump_file);
+			safe_close(dump_file);
 			dump_file = NULL;
 		}
 		if ((dump_file = fopen(file_name, "w")) == NULL)
@@ -431,20 +437,14 @@ open_handler(const int type, const char *file_name)
 			//return ERROR;
 			return 0;
 		}
-		else
-		{
-			//free_check_null(dump_file_name);
-			//dump_file_name = string_duplicate(file_name);
-		}
 		break;
 	case OUTPUT_ERROR:
-		if (error_file != NULL && 
-			error_file != stderr &&
-			error_file != stdout)
+		if (error_file != NULL)
 		{
-			fclose(error_file);
+			safe_close(error_file);
 			error_file = NULL;
 		}
+
 		if (file_name != NULL)
 		{
 			if ((error_file = fopen(file_name, "w")) == NULL)
@@ -459,11 +459,9 @@ open_handler(const int type, const char *file_name)
 		}
 		break;
 	case OUTPUT_LOG:
-		if (log_file != NULL && 
-			log_file != stderr &&
-			log_file != stdout)
+		if (log_file != NULL)
 		{
-			fclose(log_file);
+			safe_close(log_file);
 			log_file = NULL;
 		}
 		if ((log_file = fopen(file_name, "w")) == NULL)
@@ -592,7 +590,8 @@ safe_close(FILE * file_ptr)
 {
 	if (file_ptr != stderr &&
 		file_ptr != stdout &&
-		file_ptr != stdin)
+		file_ptr != stdin &&
+		file_ptr != NULL)
 	{
 		fclose(file_ptr);
 	}

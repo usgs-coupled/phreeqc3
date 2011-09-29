@@ -2,7 +2,9 @@
 #define _PHRQIO_H
 
 #include <sstream>
-
+class PhreeqcStop : std::exception
+{
+};
 class PHRQ_io
 {
 public:
