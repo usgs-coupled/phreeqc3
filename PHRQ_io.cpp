@@ -476,6 +476,49 @@ open_handler(const int type, const char *file_name)
 }
 
 /* ---------------------------------------------------------------------- */
+bool PHRQ_io::
+isopen_handler(const int type)
+/* ---------------------------------------------------------------------- */
+{
+	switch (type)
+	{
+	case OUTPUT_ERROR:
+		return (error_file != NULL);
+		break;
+	case OUTPUT_WARNING:
+		return (error_file != NULL || output_file != NULL);
+		break;
+	case OUTPUT_MESSAGE:
+		return (output_file != NULL);
+		break;
+	case OUTPUT_PUNCH:
+		return (punch_file != NULL);
+		break;
+	case OUTPUT_SCREEN:
+		return (error_file != NULL);
+		break;
+	case OUTPUT_LOG:
+		return (log_file != NULL);
+		break;
+	case OUTPUT_DUMP:
+		return (dump_file != NULL);
+		break;
+	case OUTPUT_STDERR:
+		return (stderr != NULL);
+		break;
+	case OUTPUT_CHECKLINE:
+	case OUTPUT_GUI_ERROR:
+	case OUTPUT_BASIC:
+	case OUTPUT_CVODE:
+	case OUTPUT_SEND_MESSAGE:
+	case OUTPUT_ECHO:
+	case OUTPUT_PUNCH_END_ROW:
+		return (output_file != NULL);
+		break;
+	}
+	return false;
+}
+/* ---------------------------------------------------------------------- */
 int PHRQ_io::
 fileop_handler(const int type, int (*PFN) (FILE *))
 /* ---------------------------------------------------------------------- */
