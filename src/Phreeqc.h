@@ -1278,7 +1278,9 @@ struct master * cxxNameDouble2surface_master(const cxxNameDouble * totals);
 
 void Use2cxxStorageBin(cxxStorageBin & sb);
 void phreeqc2cxxStorageBin(cxxStorageBin & sb);
-void cxxStorageBin2phreeqc(cxxStorageBin & sb, int n);
+void phreeqc2cxxStorageBin(cxxStorageBin & sb, int n);
+void cxxStorageBin2phreeqc0(cxxStorageBin & sb, int n);
+
 
 /* tally.c */
 

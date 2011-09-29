@@ -1186,6 +1186,8 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
 	return (cxxsoln_ptr);
 }
 #endif
+
+#ifdef SKIP_OR_MOVE_TO_STRUCTURES
 struct system *
 cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 		//
@@ -1281,6 +1283,7 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	}
 	return system_ptr;
 }
+#endif
 
 #ifdef USE_MPI
 void
