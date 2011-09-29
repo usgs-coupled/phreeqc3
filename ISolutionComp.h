@@ -22,11 +22,11 @@ class cxxISolutionComp: public PHRQ_base
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
-	const std::string &get_description() const
+	const std::string &Get_description() const
 	{
 		return this->description;
 	}
-	void set_description(char *l_description)
+	void Set_description(char *l_description)
 	{
 		if (l_description != NULL)
 			this->description = std::string(l_description);
@@ -34,29 +34,29 @@ class cxxISolutionComp: public PHRQ_base
 			this->description.clear();
 	}
 
-	double get_moles() const
+	double Get_moles() const
 	{
 		return this->moles;
 	}
-	void set_moles(double l_moles)
+	void Set_moles(double l_moles)
 	{
 		this->moles = l_moles;
 	}
 
-	double get_input_conc() const
+	double Get_input_conc() const
 	{
 		return this->input_conc;
 	}
-	void set_input_conc(double l_input_conc)
+	void Set_input_conc(double l_input_conc)
 	{
 		this->input_conc = l_input_conc;
 	}
 
-	std::string get_units()const
+	std::string Get_units()const
 	{
 		return this->units;
 	}
-	void set_units(char *l_units)
+	void Set_units(char *l_units)
 	{
 		if (l_units != NULL)
 			this->units = std::string(l_units);
@@ -64,11 +64,11 @@ class cxxISolutionComp: public PHRQ_base
 			this->units.clear();
 	}
 
-	const std::string &get_equation_name() const
+	const std::string &Get_equation_name() const
 	{
 		return this->equation_name;
 	}
-	void set_equation_name(char *l_equation_name)
+	void Set_equation_name(char *l_equation_name)
 	{
 		if (l_equation_name != NULL)
 			this->equation_name = std::string(l_equation_name);
@@ -77,29 +77,29 @@ class cxxISolutionComp: public PHRQ_base
 
 	}
 
-	double get_phase_si() const
+	double Get_phase_si() const
 	{
 		return this->phase_si;
 	}
-	void set_phase_si(int l_phase_si)
+	void Set_phase_si(int l_phase_si)
 	{
 		this->phase_si = l_phase_si;
 	}
 
-	int get_n_pe() const
+	int Get_n_pe() const
 	{
 		return this->n_pe;
 	}
-	void set_n_pe(int l_n_pe)
+	void Set_n_pe(int l_n_pe)
 	{
 		this->n_pe = l_n_pe;
 	}
 
-	const std::string &get_as() const
+	const std::string &Get_as() const
 	{
 		return this->as;
 	}
-	void set_as(char *l_as)
+	void Set_as(char *l_as)
 	{
 		if (l_as != NULL)
 			this->as = std::string(l_as);
@@ -108,15 +108,15 @@ class cxxISolutionComp: public PHRQ_base
 	}
 
 	//double get_gfw()const {return this->gfw;}
-	double get_gfw() const
+	double Get_gfw() const
 	{
 		return this->gfw;
 	};
-	void set_gfw(double l_gfw)
+	void Set_gfw(double l_gfw)
 	{
 		this->gfw = l_gfw;
 	}
-	//void set_gfw(PHREEQC_PTR_ARG);
+	//void Set_gfw(PHREEQC_PTR_ARG);
 
 	bool operator<(const cxxISolutionComp & conc) const
 	{

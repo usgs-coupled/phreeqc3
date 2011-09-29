@@ -42,7 +42,7 @@ eltList(pp_assemblage_ptr->next_elt)
 {
 	int i;
 
-	this->set_description(pp_assemblage_ptr->description);
+	this->Set_description(pp_assemblage_ptr->description);
 	n_user = pp_assemblage_ptr->n_user;
 	n_user_end = pp_assemblage_ptr->n_user_end;
 	for (i = 0; i < pp_assemblage_ptr->count_comps; i++)

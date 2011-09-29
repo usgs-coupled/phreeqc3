@@ -52,7 +52,7 @@ cxxNumKeyword(io)
 {
 	int i;
 
-	this->set_description(surface_ptr->description);
+	this->Set_description(surface_ptr->description);
 	n_user = surface_ptr->n_user;
 	n_user_end = surface_ptr->n_user_end;
 	type = surface_ptr->type;

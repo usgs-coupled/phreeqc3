@@ -43,7 +43,7 @@ cxxNumKeyword(io)
 {
 	int i;
 
-	this->set_description(exchange_ptr->description);
+	this->Set_description(exchange_ptr->description);
 	n_user = exchange_ptr->n_user;
 	n_user_end = exchange_ptr->n_user_end;
 	pitzer_exchange_gammas = (exchange_ptr->pitzer_exchange_gammas == TRUE);
@@ -94,7 +94,7 @@ cxxNumKeyword(io)
 {
 	int i;
 
-	//this->set_description(exchange_ptr->description);
+	//this->Set_description(exchange_ptr->description);
 	this->n_user = l_n_user;
 	this->n_user_end = l_n_user;
 	this->pitzer_exchange_gammas =
@@ -467,7 +467,7 @@ cxxExchange::Set_pitzer_exchange_gammas(bool b)
 }
 
 const std::map < std::string, cxxExchComp > &
-cxxExchange::get_exchComps(void) const
+cxxExchange::Get_exchComps(void) const
 {
 	return (this->exchComps);
 }

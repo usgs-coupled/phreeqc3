@@ -1973,18 +1973,18 @@ dump_entities(void)
 	}
 
 	std::ofstream dump_stream;
-	if (dump_info.get_append())
+	if (dump_info.Get_append())
 	{
 		//dump_stream.open(dump_info.get_file_name(), std::ios_base::app);
-		dump_stream.open(dump_info.get_file_name().c_str(), std::ios_base::app);
+		dump_stream.open(dump_info.Get_file_name().c_str(), std::ios_base::app);
 	}
 	else
 	{
-		dump_stream.open(dump_info.get_file_name().c_str());
+		dump_stream.open(dump_info.Get_file_name().c_str());
 	}
 	if (!dump_stream.is_open())
 	{
-		sprintf(error_string, "Unable to open dump file \"%s\"", dump_info.get_file_name().c_str());
+		sprintf(error_string, "Unable to open dump file \"%s\"", dump_info.Get_file_name().c_str());
 		error_msg(error_string, STOP);
 	}
 

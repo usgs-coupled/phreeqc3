@@ -30,48 +30,48 @@ public:
 	cxxSystem(PHRQ_io *io=NULL);
 	~cxxSystem(void);
 	void Initialize(void);
-	void setSolution(cxxSolution * entity)
+	void Set_Solution(cxxSolution * entity)
 	{
 		this->solution = entity;
 	} 
-	void setExchange(cxxExchange * entity)
+	void Set_Exchange(cxxExchange * entity)
 	{
 		this->exchange = entity;
 	} 
-	void setPPassemblage(cxxPPassemblage * entity)
+	void Set_PPassemblage(cxxPPassemblage * entity)
 	{
 		this->ppassemblage = entity;
 	} 
-	void setGasPhase(cxxGasPhase * entity)
+	void Set_GasPhase(cxxGasPhase * entity)
 	{
 		this->gasphase = entity;
 	} 
-	void setSSassemblage(cxxSSassemblage * entity)
+	void Set_SSassemblage(cxxSSassemblage * entity)
 	{
 		this->ssassemblage = entity;
 	} 
-	void setKinetics(cxxKinetics * entity)
+	void Set_Kinetics(cxxKinetics * entity)
 	{
 		this->kinetics = entity;
 	} 
-	void setSurface(cxxSurface * entity)
+	void Set_Surface(cxxSurface * entity)
 	{
 		this->surface = entity;
 	} 
-	void setMix(cxxMix * entity)
+	void Set_Mix(cxxMix * entity)
 	{
 		this->mix = entity;
 	} 
-	void setReaction(cxxReaction * entity)
+	void Set_Reaction(cxxReaction * entity)
 	{
 		this->reaction = entity;
 	} 
-	void setTemperature(cxxTemperature * entity)
+	void Set_Temperature(cxxTemperature * entity)
 	{
 		this->temperature = entity;
 	} 
 	void totalize(PHREEQC_PTR_ARG);
-	cxxNameDouble &getTotals(void)
+	cxxNameDouble &Get_Totals(void)
 	{
 		return this->totals;
 	}

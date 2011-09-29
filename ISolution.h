@@ -24,24 +24,24 @@ class cxxISolution:public cxxSolution
 	//static cxxISolution& read(CParser& parser);
 	//void add(cxxISolutionComp conc)       { this->concs.push_back(conc); }
 
-	double get_density() const
+	double Get_density() const
 	{
 		return this->density;
 	}
-	void set_density(double l_density)
+	void Set_density(double l_density)
 	{
 		this->density = l_density;
 	}
 
-	std::string get_units() const
+	std::string Get_units() const
 	{
 		return units;
 	}
-	void set_units(std::string l_units)
+	void Set_units(std::string l_units)
 	{
 		units = l_units;
 	}
-	void set_units(char * l_units)
+	void Set_units(char * l_units)
 	{
 		if (l_units != NULL)
 			this->units = std::string(l_units);

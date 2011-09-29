@@ -496,7 +496,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		cxxGasPhase entity(&gas_phase[i], &phrq_io);
 		entity.totalize(this);
-		accumulator.add_extensive(entity.get_totals(), 1.0);
+		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
 	// solid-solutions
@@ -504,7 +504,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	{
 		cxxSSassemblage entity(&s_s_assemblage[i]);
 		entity.totalize(this);
-		accumulator.add_extensive(entity.get_totals(), 1.0);
+		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
 	// kinetics
