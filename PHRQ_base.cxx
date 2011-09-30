@@ -26,8 +26,8 @@ error_msg(const std::string & stdstr, int stop)
 	this->base_error_count++;
 	if (this->io)
 	{
-		this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_ERROR, stdstr.c_str(), stop!=0, "", NULL);
-		//this->io->output_string(PHRQ_io::OUTPUT_ERROR, stdstr);
+//		this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_ERROR, stdstr.c_str(), stop!=0, "", NULL);
+		this->io->error_msg(stdstr.c_str(), stop!=0);
 	}
 	else
 	{
@@ -45,8 +45,9 @@ warning_msg(const std::string & stdstr)
 {
 	if (this->io)
 	{
-		this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_WARNING, stdstr.c_str(), false, "", NULL);
+		//this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_WARNING, stdstr.c_str(), false, "", NULL);
 		//this->io->output_string(PHRQ_io::OUTPUT_WARNING, stdstr);
+		this->io->warning_msg(stdstr.c_str());
 	}
 	else
 	{

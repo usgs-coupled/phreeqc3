@@ -701,10 +701,6 @@ int switch_bases(void);
 int write_phase_sys_total(int n);
 
 // print.c -------------------------------
-
-int fpunchf(const char *name, const char *format, ...);
-int fpunchf_user(int user_index, const char *format, ...);
-int fpunchf_end_row(const char *format, ...);
 char *sformatf(const char *format, ...);
 int array_print(LDBLE * array_l, int row_count, int column_count,
 				int max_column_count);
