@@ -42,14 +42,6 @@ typedef enum
 
 	// methods
 	
-	//int phreeqc_handler(const int action, const int type, const char *err_str, const bool stop, const char *, va_list args);
-	//int open_handler(const int type, const char *file_name);
-	//bool isopen_handler(const int type);
-	//int fileop_handler(const int type, int (*PFN) (FILE *));
-	//int output_handler(const int type, const char *err_str,
-	//					  const bool stop, const char *format,
-	//					  va_list args);
-	//static int rewind_wrapper(FILE * file_ptr);	
 	static void safe_close(FILE * file_ptr);	
 	int close_input_files(void);
 	int close_output_files(void);
