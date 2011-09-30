@@ -42,19 +42,30 @@ typedef enum
 
 	// methods
 	
-	int phreeqc_handler(const int action, const int type, const char *err_str, const bool stop, const char *, va_list args);
-	int open_handler(const int type, const char *file_name);
-	bool isopen_handler(const int type);
-	int fileop_handler(const int type, int (*PFN) (FILE *));
-	int output_handler(const int type, const char *err_str,
-						  const bool stop, const char *format,
-						  va_list args);
-	static int rewind_wrapper(FILE * file_ptr);	
+	//int phreeqc_handler(const int action, const int type, const char *err_str, const bool stop, const char *, va_list args);
+	//int open_handler(const int type, const char *file_name);
+	//bool isopen_handler(const int type);
+	//int fileop_handler(const int type, int (*PFN) (FILE *));
+	//int output_handler(const int type, const char *err_str,
+	//					  const bool stop, const char *format,
+	//					  va_list args);
+	//static int rewind_wrapper(FILE * file_ptr);	
 	static void safe_close(FILE * file_ptr);	
 	int close_input_files(void);
 	int close_output_files(void);
 	static int istream_getc(void *cookie);
 	void output_string(const int type, std::string str);
+	
+	int output_open(int type, const char *file_name);
+	void error_msg(const char *err_str, bool stop);
+	void warning_msg(const char *err_str);
+	void output_msg(int type, const char *format, va_list args);
+	void output_fflush(int type);
+	void output_rewind(int type);
+	void output_close(int type);
+	bool output_isopen(int type);
+	void fpunchf(const char *name, const char *format, va_list args);
+
 	void Set_io_error_count(int i)
 	{
 		this->io_error_count = i;
