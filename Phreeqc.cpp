@@ -13,6 +13,8 @@
 
 Phreeqc::Phreeqc(void)
 {
+	phrq_io = new PHRQ_io;
+
 	phast = FALSE;
 	s_pTail = NULL;
 	user_database = NULL;
@@ -386,8 +388,8 @@ Phreeqc::~Phreeqc(void)
 {
 
 	clean_up();
-	this->phrq_io.close_input_files();
-	this->phrq_io.close_output_files();
+	this->phrq_io->close_input_files();
+	this->phrq_io->close_output_files();
 
 	int i;
 	for (i = 0; i < count_iso_defaults; i++)
@@ -409,6 +411,7 @@ Phreeqc::~Phreeqc(void)
 	free_check_null(default_data_base);
 
 	PHRQ_free_all();
+	delete phrq_io;
 }
 
 void Phreeqc::set_phast(int tf)
@@ -429,7 +432,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// solutions
 	for (i = 0; i < count_solution; i++)
 	{
-		cxxSolution entity(solution[i], &phrq_io);
+		cxxSolution entity(solution[i], phrq_io);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
@@ -444,7 +447,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// pure phases
 	for (i = 0; i < count_pp_assemblage; i++)
 	{
-		cxxPPassemblage entity(&pp_assemblage[i], &phrq_io);
+		cxxPPassemblage entity(&pp_assemblage[i], phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
@@ -452,7 +455,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// exchangers
 	for (i = 0; i < count_exchange; i++)
 	{
-		cxxExchange entity(&exchange[i], &phrq_io);
+		cxxExchange entity(&exchange[i], phrq_io);
 		entity.totalize();
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
@@ -460,7 +463,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// surfaces
 	for (i = 0; i < count_surface; i++)
 	{
-		cxxSurface entity(&surface[i], &phrq_io);
+		cxxSurface entity(&surface[i], phrq_io);
 		entity.totalize();
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
@@ -468,7 +471,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// gas phases
 	for (i = 0; i < count_gas_phase; i++)
 	{
-		cxxGasPhase entity(&gas_phase[i], &phrq_io);
+		cxxGasPhase entity(&gas_phase[i], phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
@@ -485,7 +488,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	for (i = 0; i < count_kinetics; i++)
 	{
 		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
-		cxxKinetics entity(&kinetics[i], &phrq_io);
+		cxxKinetics entity(&kinetics[i], phrq_io);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
 
@@ -1145,9 +1148,9 @@ void Phreeqc::init(void)
 
 	count_strings = 0;
 #ifdef MULTICHART
-	chart_handler.Set_io(&phrq_io);
+	chart_handler.Set_io(phrq_io);
 #endif
-	run_info.Set_io(&phrq_io);
+	run_info.Set_io(phrq_io);
 
 	this->clear_cookie();
 
