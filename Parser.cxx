@@ -19,8 +19,6 @@
 #include "output.h"
 #include "PHRQ_io.h"
 
-//extern char *string_hsave(const char *str);
-
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -132,7 +130,6 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				//PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
 				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
 			}
 			break;
@@ -141,7 +138,6 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				//PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
 				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
 			}
 			break;
@@ -151,7 +147,6 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				//PHREEQC_COOKIE output_msg(PHREEQC_NAME_SPACE OUTPUT_MESSAGE, "%s", msg.str().c_str());
 				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
 			}
 			break;
@@ -346,8 +341,6 @@ CParser::LINE_TYPE CParser::get_logical_line()
 	return (LT_OK);
 }
 
-
-//bool CParser::check_key(const std::string::iterator ptr)
 bool
 CParser::check_key(std::string::iterator begin, std::string::iterator end)
 {
@@ -644,7 +637,6 @@ CParser::TOKEN_TYPE CParser::copy_token(std::string & token,
 										std::istream::pos_type & pos)
 {
 	m_line_iss.seekg(pos);
-	// m_line_iss >> token;
 	if (!(m_line_iss >> token))
 	{
 		token.erase(token.begin(), token.end());	// token.clear();
@@ -683,8 +675,6 @@ CParser::FIND_TYPE CParser::find_option(const std::string & item, int *n,
 	return FT_ERROR;
 }
 
-// OPTION_TYPE get_option(const char **opt_list, int count_opt_list, char **next_char)
-// OPTION_TYPE CParser::get_option(const std::vector<std::string>& opt_list, std::string::iterator& next_char)
 int
 CParser::get_option(const std::vector < std::string > &opt_list,
 					std::string::iterator & next_char)
@@ -742,16 +732,11 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 			{
 				get_output() << "\t" << m_line_save << "\n";
 			}
-			//////std::istringstream err_msg;
-			//////err_msg << "Unknown option.";
-			//////err_msg << line_save;
-			//////error_msg(const std::string& msg, ONERROR_TYPE);
 
-			// error_msg("Unknown option.", CONTINUE);
-			// error_msg(line_save, CONTINUE);
-			// input_error++;
-			std::cerr << "Unknown option." << "\n";
-			std::cerr << m_line_save << "\n";
+			std::ostringstream err;
+			err << "Unknown option." << "\n";
+			err << m_line_save << "\n";
+			error_msg(err.str().c_str());
 
 			j = OPT_ERROR;
 			next_char = m_line.begin();
@@ -828,50 +813,15 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 			pos_ptr = 0;
 			copy_token(option, pos_ptr);
 			next_pos = pos_ptr;
-			//{{
-			////  m_line_iss.clear();
-			//}}
-/*
-                        if (true) // pr.echo_input == TRUE
-                        {
-                                if (true) // database_file == NULL
-                                {
-                                        get_output() << "\t" << m_line_save << "\n";
-                                }
-                        }
-*/
 		}
 		else
 		{
-/*
-                        if (true) // (database_file == NULL)
-                        {
-                                get_output() << "\t" << m_line_save << "\n";
-                        }
-*/
-			//error_msg("Unknown option.", OT_CONTINUE);
-			//error_msg(m_line_save.c_str(), OT_CONTINUE);
-			//incr_input_error();
 			j = OPT_ERROR;
 			next_pos = pos_ptr;
 		}
 	}
 	else
 	{
-		//pos_ptr = 0;
-		//copy_token(option, pos_ptr);
-		//if (find_option(option, &opt, opt_list, true) == FT_OK)
-		//{
-		//	j = opt;
-		//	next_pos = pos_ptr;
-		//}
-		//else
-		//{
-		//	j = OPT_DEFAULT;
-		//	next_pos = 0;
-		//}
-
-		//std::istringstream m_line_iss_copy = m_line_iss;
 		pos_ptr = m_line_iss.tellg();
 		m_line_iss >> option;
 		if (find_option(option, &opt, opt_list, true) == FT_OK)
@@ -885,52 +835,10 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 			m_line_iss.seekg(pos_ptr);
 			m_line_iss.clear();
 			next_pos = pos_ptr;
-			//m_line_iss >> option;
 		}
-/*
-                if (true) // pr.echo_input == TRUE
-                {
-                        if (true) // database_file == NULL
-                        {
-				  fprintf(stderr, "Yikes 3\n");
-                                get_output() << "\t" << m_line_save  << "\n";
-                        }
-                }
-*/
 	}
 	return (j);
 }
-#ifdef SKIP_093011
-int
-CParser::error_msg(const char *err_str, ONERROR_TYPE ot)
-{
-	PHRQ_base::error_msg(err_str, (int) ot);
-	m_error_stream << "ERROR: " << err_str << "\n";
-	m_error_stream.flush();
-
-	m_output_stream << "ERROR: " << err_str << "\n";
-	m_output_stream.flush();
-
-	if (ot == OT_STOP)
-	{
-		exit(1);
-	}
-	return 0;
-}
-#endif
-#ifdef SKIP_093011
-int
-CParser::warning_msg(const char *err_str)
-{
-	m_error_stream << "WARNING: " << err_str << "\n";
-	m_error_stream.flush();
-
-	m_output_stream << "WARNING: " << err_str << "\n";
-	m_output_stream.flush();
-
-	return 0;
-}
-#endif
 CParser::STATUS_TYPE CParser::get_elt(std::string::iterator & begin,
 									  const std::string::iterator end,
 									  std::string & element)
@@ -1113,34 +1021,6 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	return PARSER_OK;
 }
 
-//CParser::STATUS_TYPE CParser::addPair(std::map < char *, double,
-//									  CHARSTAR_LESS > &totals,
-//									  std::istream::pos_type & pos)
-//{
-//	std::string token;
-//	char *
-//		ctoken;
-//	double
-//		d;
-//
-//	CParser::TOKEN_TYPE j;
-//
-//	m_line_iss.seekg(pos);
-//
-//	j = copy_token(token, pos);
-//
-//	if (j == TT_EMPTY)
-//		return PARSER_OK;
-//
-//	if (!(m_line_iss >> d))
-//	{
-//		return PARSER_ERROR;
-//	}
-//	ctoken = string_hsave(token.c_str());
-//	totals[ctoken] = d;
-//	return PARSER_OK;
-//}
-
 CParser::STATUS_TYPE CParser::addPair(std::map < std::string, double >&totals,
 									  std::istream::pos_type & pos)
 {
@@ -1223,16 +1103,12 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			{
 				get_output() << "\t" << m_line_save << "\n";
 			}
-			//////std::istringstream err_msg;
-			//////err_msg << "Unknown option.";
-			//////err_msg << line_save;
-			//////error_msg(const std::string& msg, ONERROR_TYPE);
-
-			// error_msg("Unknown option.", CONTINUE);
-			// error_msg(line_save, CONTINUE);
-			// input_error++;
-			std::cerr << "Unknown option." << "\n";
-			std::cerr << m_line_save << "\n";
+			//std::cerr << "Unknown option." << "\n";
+			//std::cerr << m_line_save << "\n";
+			std::ostringstream err;
+			err << "Unknown option." << "\n";
+			err << m_line_save << "\n";
+			error_msg(err.str().c_str());
 
 			j = OPT_ERROR;
 			next_char = m_line.begin();
@@ -1279,7 +1155,6 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 	//
 	// Read line
 	//
-	//LINE_TYPE lt = check_line("get_option", false, true, true, false);
 	LINE_TYPE lt = m_line_type;
 	if (lt == LT_EOF)
 	{
@@ -1310,9 +1185,6 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			pos_ptr = 0;
 			copy_token(option, pos_ptr);
 			next_pos = pos_ptr;
-			//{{
-			////  m_line_iss.clear();
-			//}}
 			if (true)			// pr.echo_input == TRUE
 			{
 				if (true)		// database_file == NULL
