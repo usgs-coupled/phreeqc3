@@ -259,14 +259,14 @@ class CParser: public PHRQ_base
 								 const std::vector < std::string > &list,
 								 bool exact);
 
-
+#ifdef SKIP_093011
 	int error_msg(const std::ostringstream & err_str, ONERROR_TYPE stop)
 	{
 		return error_msg(err_str.str().c_str(), stop);
 	}
 	int error_msg(const char *err_str, ONERROR_TYPE stop);
 	int warning_msg(const char *err_str);
-
+#endif
 	void set_echo_file(ECHO_OPTION opt)
 	{
 		echo_file = opt;

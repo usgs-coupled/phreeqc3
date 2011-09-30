@@ -1,9 +1,4 @@
 #include "Phreeqc.h"
-//class Phreeqc
-//{
-//	Phreeqc(void);
-//	~Phreeqc(void);
-//};
 #include <algorithm>			// std::replace
 
 #include "NameDouble.h"
@@ -21,15 +16,6 @@ Phreeqc::Phreeqc(void)
 	phast = FALSE;
 	s_pTail = NULL;
 	user_database = NULL;
-#ifdef USE_OLD_IO
-	output_file = NULL;
-	log_file = NULL;
-	punch_file = NULL;
-	dump_file = NULL;
-	error_file = NULL;
-	database_file = NULL;
-	input_file = NULL;
-#endif
 	rates = NULL;
 	tally_table = NULL;
 	spec = NULL;
@@ -382,12 +368,9 @@ Phreeqc::Phreeqc(void)
 	back_eq_max = 0;
 
 	// output.c
-	output_callbacks = new Phreeqc::output_callback[MAX_CALLBACKS];
-	count_output_callback = 0;
 	forward_output_to_log = 0;
 
 	// phqalloc.c
-	//s_pTail = NULL;
 
 	// transport.c
 	J_ij = NULL;
@@ -396,13 +379,6 @@ Phreeqc::Phreeqc(void)
 
 	default_data_base = string_duplicate("phreeqc.dat");
 
-//FILE *input_file = NULL;
-//FILE *database_file = NULL;
-//FILE *output = NULL;		/* OUTPUT_MESSAGE */
-//FILE *log_file = NULL;	/* OUTPUT_LOG */
-//FILE *punch_file = NULL;	/* OUTPUT_PUNCH */
-//FILE *error_file = NULL;	/* OUTPUT_ERROR */
-//FILE *dump_file = NULL;	/* OUTPUT_DUMP */
 	init();
 }
 
@@ -429,8 +405,6 @@ Phreeqc::~Phreeqc(void)
 		command[i].name = (char *) free_check_null((void *) command[i].name);
 	}
 	delete[] command;
-
-	delete[] output_callbacks;
 
 	free_check_null(default_data_base);
 
@@ -836,14 +810,6 @@ void Phreeqc::init(void)
 	user_punch = 0;
 	user_punch_headings = 0;
 	user_punch_count_headings = 0;
-#ifdef PHREEQ98
-/*
- *	 user_graph
- */
-	user_graph								= 0;
-	user_graph_headings			 = 0
-	user_graph_count_headings = 0;
-#endif
 	/*
 		 Initialize llnl aqueous model parameters
 	 */
@@ -869,60 +835,54 @@ void Phreeqc::init(void)
 	change_surf			 = 0;
 	change_surf_count = 0;
 
-
-#if defined(WINDOWS) || defined(_WINDOWS)
-	/* SRC pr.status = FALSE; */
-#endif
 	/* Initialize print here, not in global.h */
-	pr.all								= TRUE;
+	pr.all					= TRUE;
 	pr.initial_solutions	= TRUE;
-	pr.initial_exchangers = TRUE;
-	pr.reactions					= TRUE;
-	pr.gas_phase					= TRUE;
-	pr.s_s_assemblage		 = TRUE;
-	pr.pp_assemblage			= TRUE;
-	pr.surface						= TRUE;
-	pr.exchange					 = TRUE;
-	pr.kinetics					 = TRUE;
-	pr.totals						 = TRUE;
-	pr.eh								 = TRUE;
-	pr.species						= TRUE;
-	pr.saturation_indices = TRUE;
-	pr.irrev							= TRUE;
-	pr.mix								= TRUE;
-	pr.reaction					 = TRUE;
-	pr.use								= TRUE;
-	pr.logfile						= FALSE;
-	pr.punch							= TRUE;
+	pr.initial_exchangers	= TRUE;
+	pr.reactions			= TRUE;
+	pr.gas_phase			= TRUE;
+	pr.s_s_assemblage		= TRUE;
+	pr.pp_assemblage		= TRUE;
+	pr.surface				= TRUE;
+	pr.exchange				= TRUE;
+	pr.kinetics				= TRUE;
+	pr.totals				= TRUE;
+	pr.eh					= TRUE;
+	pr.species				= TRUE;
+	pr.saturation_indices	= TRUE;
+	pr.irrev				= TRUE;
+	pr.mix					= TRUE;
+	pr.reaction				= TRUE;
+	pr.use					= TRUE;
+	pr.logfile				= FALSE;
+	pr.punch				= TRUE;
 	if (phast == TRUE)
 	{
-		pr.status = FALSE;
+		pr.status			= FALSE;
 	}
 	else
 	{
-		pr.status = TRUE;
+		pr.status			= TRUE;
 	}
-	pr.inverse						= TRUE;
-	pr.dump							 = TRUE;
-	pr.user_print				 = TRUE;
-	pr.headings					 = TRUE;
-	pr.user_graph				 = TRUE;
-	pr.echo_input				 = TRUE;
-	count_warnings = 0;
-	pr.warnings					 = 100;
-	pr.initial_isotopes	 = TRUE;
-	pr.isotope_ratios		 = TRUE;
-	pr.isotope_alphas		 = TRUE;
-	pr.hdf								= FALSE;
-	pr.alkalinity				 = FALSE;
-
-	species_list = NULL;
-
-	user_database						 = NULL;
-	first_read_input					= TRUE;
-	have_punch_name					 = FALSE;
+	pr.inverse				= TRUE;
+	pr.dump					= TRUE;
+	pr.user_print			= TRUE;
+	pr.headings				= TRUE;
+	pr.user_graph			= TRUE;
+	pr.echo_input			= TRUE;
+	count_warnings			= 0;
+	pr.warnings				= 100;
+	pr.initial_isotopes		= TRUE;
+	pr.isotope_ratios		= TRUE;
+	pr.isotope_alphas		= TRUE;
+	pr.hdf					= FALSE;
+	pr.alkalinity			= FALSE;
+	species_list			= NULL;
+	user_database			= NULL;
+	first_read_input		= TRUE;
+	have_punch_name			= FALSE;
 	selected_output_file_name = NULL;
-	dump_file_name						= NULL;
+	dump_file_name			= NULL;
 
 	/* calculate_value */
 	max_calculate_value = MAX_ELTS;
@@ -945,16 +905,16 @@ void Phreeqc::init(void)
 
 	phreeqc_mpi_myself = 0;
 
-	copy_solution.n_user			 = copy_solution.start			 = copy_solution.end			 = 0;
+	copy_solution.n_user		= copy_solution.start		= copy_solution.end			= 0;
 	copy_pp_assemblage.n_user	= copy_pp_assemblage.start	= copy_pp_assemblage.end	= 0;
-	copy_exchange.n_user			 = copy_exchange.start			 = copy_exchange.end			 = 0;
-	copy_surface.n_user				= copy_surface.start				= copy_surface.end				= 0;
-	copy_s_s_assemblage.n_user = copy_s_s_assemblage.start = copy_s_s_assemblage.end = 0;
-	copy_gas_phase.n_user			= copy_gas_phase.start			= copy_gas_phase.end			= 0;
-	copy_kinetics.n_user			 = copy_kinetics.start			 = copy_kinetics.end			 = 0;
-	copy_mix.n_user						= copy_mix.start						= copy_mix.end						= 0;
-	copy_irrev.n_user					= copy_irrev.start					= copy_irrev.end					= 0;
-	copy_temperature.n_user		= copy_temperature.start		= copy_temperature.end		= 0;
+	copy_exchange.n_user		= copy_exchange.start		= copy_exchange.end			= 0;
+	copy_surface.n_user			= copy_surface.start		= copy_surface.end			= 0;
+	copy_s_s_assemblage.n_user	= copy_s_s_assemblage.start = copy_s_s_assemblage.end	= 0;
+	copy_gas_phase.n_user		= copy_gas_phase.start		= copy_gas_phase.end		= 0;
+	copy_kinetics.n_user		= copy_kinetics.start		= copy_kinetics.end			= 0;
+	copy_mix.n_user				= copy_mix.start			= copy_mix.end				= 0;
+	copy_irrev.n_user			= copy_irrev.start			= copy_irrev.end			= 0;
+	copy_temperature.n_user		= copy_temperature.start	= copy_temperature.end		= 0;
 
 	set_forward_output_to_log(FALSE);
 	simulation = 0;
@@ -997,28 +957,28 @@ void Phreeqc::init(void)
 	/*
 	 * to facilitate debuging
 	 */
-	dbg_use					 = &use;
-	dbg_solution			= solution;
-	dbg_exchange			= exchange;
-	dbg_surface			 = surface;
-	dbg_pp_assemblage = pp_assemblage;
-	dbg_kinetics			= kinetics;
-	dbg_irrev				 = irrev;
-	dbg_mix					 = mix;
-	dbg_master				= master;
-	calculating_deriv = FALSE;
-	numerical_deriv	 = FALSE;
+	dbg_use				= &use;
+	dbg_solution		= solution;
+	dbg_exchange		= exchange;
+	dbg_surface			= surface;
+	dbg_pp_assemblage	= pp_assemblage;
+	dbg_kinetics		= kinetics;
+	dbg_irrev			= irrev;
+	dbg_mix				= mix;
+	dbg_master			= master;
+	calculating_deriv	= FALSE;
+	numerical_deriv		= FALSE;
 
-	zeros		 = 0;
-	zeros_max = 1;
+	zeros				= 0;
+	zeros_max			= 1;
 
-	cell_pore_volume = 0;
+	cell_pore_volume	= 0;
 	cell_volume			= 0;
 	cell_porosity		= 0;
-	cell_saturation	= 0;
+	cell_saturation		= 0;
 
-	charge_group = NULL;
-	print_density = 0;
+	charge_group		= NULL;
+	print_density		= 0;
 
 		//
 	//	Non-class statics
@@ -1193,34 +1153,5 @@ void Phreeqc::init(void)
 
 	return;
 }
-//void * Phreeqc::get_cookie()
-//{
-//	if (cookie_list.size() > 0)
-//	{
-//		return this->cookie_list.front();
-//	}
-//	else
-//	{
-//		return NULL;
-//	}
-//}
-//void Phreeqc::set_cookie(std::istream * cookie)
-//{
-//	this->cookie_list.push_front(cookie);
-//}
-//void Phreeqc::clear_cookie(void)
-//{
-//	while (this->cookie_list.size() > 0)
-//	{
-//		this->pop_cookie();
-//	}
-//}
-//void Phreeqc::pop_cookie()
-//{
-//	if (cookie_list.size() > 0)
-//	{
-//		delete this->cookie_list.front();
-//		this->cookie_list.pop_front();
-//	}
-//}
+
 

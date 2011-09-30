@@ -17,12 +17,6 @@
 #endif
 #ifdef PHREEQC_CLASS
 #include "Phreeqc.h"
-#else
-extern int error_msg(const char *err_str, const int stop, ...);
-extern int warning_msg(const char *err_str, ...);
-extern int rate_free(struct rate *rate_ptr);
-extern int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
-extern void * free_check_null(void *);
 #endif
 #include "phqalloc.h"
 #include "phrqproto.h"

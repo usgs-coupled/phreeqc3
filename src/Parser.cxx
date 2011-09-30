@@ -900,7 +900,7 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 	}
 	return (j);
 }
-
+#ifdef SKIP_093011
 int
 CParser::error_msg(const char *err_str, ONERROR_TYPE ot)
 {
@@ -917,7 +917,8 @@ CParser::error_msg(const char *err_str, ONERROR_TYPE ot)
 	}
 	return 0;
 }
-
+#endif
+#ifdef SKIP_093011
 int
 CParser::warning_msg(const char *err_str)
 {
@@ -929,7 +930,7 @@ CParser::warning_msg(const char *err_str)
 
 	return 0;
 }
-
+#endif
 CParser::STATUS_TYPE CParser::get_elt(std::string::iterator & begin,
 									  const std::string::iterator end,
 									  std::string & element)
