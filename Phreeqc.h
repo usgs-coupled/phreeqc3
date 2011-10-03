@@ -749,7 +749,7 @@ int *read_list_ints_range(char **ptr, int *count_ints, int positive,
 						  int *int_list);
 int read_log_k_only(char *ptr, LDBLE * log_k);
 int read_number_description(char *ptr, int *n_user, int *n_user_end,
-							char **description);
+							char **description, int allow_negative=FALSE);
 int check_key(char *str);
 int check_units(char *tot_units, int alkalinity, int check_compatibility,
 				const char *default_units, int print);
