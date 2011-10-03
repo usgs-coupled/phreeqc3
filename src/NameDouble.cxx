@@ -256,7 +256,7 @@ cxxNameDouble::add_extensive(const cxxNameDouble & addee, double factor)
 {
 	if (factor == 0)
 		return;
-	assert(factor > 0.0);
+	//assert(factor > 0.0);
 	for (cxxNameDouble::const_iterator it = addee.begin(); it != addee.end();
 		 it++)
 	{
