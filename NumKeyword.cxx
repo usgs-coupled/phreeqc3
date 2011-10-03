@@ -81,7 +81,7 @@ cxxNumKeyword::read_number_description(CParser & parser)
 		parser.get_iss().ignore();
 
 	// read number
-	if (::isdigit(parser.get_iss().peek()))
+	if (::isdigit(parser.get_iss().peek()) || parser.get_iss().peek() == '-')
 	{
 		parser.get_iss() >> this->n_user;
 		char ch = parser.get_iss().peek();
@@ -89,6 +89,10 @@ cxxNumKeyword::read_number_description(CParser & parser)
 		{
 			parser.get_iss() >> ch;			// eat '-'
 			parser.get_iss() >> this->n_user_end;
+			if (this->n_user_end < this->n_user)
+			{
+				this->n_user_end = this->n_user;
+			}
 		}
 		else
 		{
