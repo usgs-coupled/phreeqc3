@@ -115,7 +115,7 @@ class cxxSolution:public cxxNumKeyword
 	}
 
 	double Get_total(char *string) const;
-	double Get_total_element(char *string) const;
+	double Get_total_element(const char *string) const;
 	void Set_total(char *string, double value);
 
 	const cxxNameDouble & Get_totals(void) const
@@ -151,7 +151,8 @@ class cxxSolution:public cxxNumKeyword
 
 	void read_raw(CParser & parser, bool check = true);
 	void multiply(double extensive);
-	void modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original);
+	//void modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original);
+	void modify_activities(const cxxSolution & original);
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);

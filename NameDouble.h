@@ -56,11 +56,10 @@ class cxxNameDouble:public
 	sort_second(void);
 
 	void
-	insert(char *str, double d)
+	insert(const char *str, double d)
 	{
 		(*this)[str] = d;
 	}
-
 	void
 	mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void
