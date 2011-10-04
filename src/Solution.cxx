@@ -933,7 +933,7 @@ cxxSolution::Get_total(char *string) const
 	}
 }
 double
-cxxSolution::Get_total_element(char *string) const
+cxxSolution::Get_total_element(const char *string) const
 {
 	cxxNameDouble::const_iterator it;
 	double d = 0.0;
@@ -1258,6 +1258,7 @@ cxxSolution::Set_master_activity(char *string, double d)
 {
 	this->master_activity[string] = d;
 }
+#ifdef SKIP
 void
 cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original)
 //
@@ -1413,6 +1414,98 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 	{
 		this->master_activity[it->first] = it->second;
 	}
+}
+#endif
+void
+cxxSolution::modify_activities(const cxxSolution & original)
+//
+// Estimate activities after solution_modify
+//
+{
+	// Note: any master_activities in "this" have been read in SOLUTION_MODIFY
+	//cxxNameDouble orig_master_activity(original.Get_master_activity());
+	//cxxNameDouble orig_totals(original.Get_totals());
+	cxxNameDouble factor;
+	cxxNameDouble updated_orig_activities(original.Get_master_activity());
+	cxxNameDouble::const_iterator it;
+	cxxNameDouble::const_iterator orig_it;
+
+	// Calculate a factor of log10(new tot/old tot) for each element or element redox state in current totals
+	for (it = this->totals.begin(); it != this->totals.end(); it++)
+	{
+		orig_it = original.Get_totals().find(it->first);
+		if (orig_it != original.Get_totals().end())
+		{
+			// element or valence state in both
+			if (it->second > 0 && orig_it->second > 0)
+			{
+				factor[it->first] = log10(it->second / orig_it->second);
+			}
+		}
+		else
+		{
+			
+			std::string ename;
+			std::basic_string < char >::size_type indexCh;
+			indexCh = it->first.find("(");
+			if (indexCh != std::string::npos)
+			{
+				// valence in current and element in original
+				ename = it->first.substr(0, indexCh);
+				double orig_tot = original.Get_total_element(ename.c_str());
+				double tot = this->Get_total_element(ename.c_str());
+				if (tot > 0 && orig_tot > 0)
+				{
+					factor[ename] = log10(tot/orig_tot);
+				}
+			}
+			else
+			{
+				// element in current and valence in original
+				ename = it->first;
+				double orig_tot = original.Get_total_element(ename.c_str());
+				if (it->second > 0 && orig_tot > 0)
+				{
+					factor[ename] = log10(it->second/orig_tot);
+				}
+			}
+		}
+	}
+
+	// update original master_activities based using just computed factors
+	for (it = factor.begin(); it != factor.end(); it++)
+	{
+		orig_it = original.Get_master_activity().find(it->first);
+		if (orig_it != original.Get_master_activity().end())
+		{
+			// Found exact match
+			double d = orig_it->second + it->second;
+			updated_orig_activities[it->first.c_str()] = d;
+		}
+		else
+		{
+			// no exact match, current is element name, need to find all valences
+			orig_it = original.Get_master_activity().begin();
+			std::string v_name = it->first;
+			v_name.append("(");
+			for ( ; orig_it != original.Get_master_activity().end(); orig_it++)
+			{
+				if (strstr(orig_it->first.c_str(), v_name.c_str()) == orig_it->first.c_str())
+				{
+					double d = orig_it->second + it->second;
+					updated_orig_activities[orig_it->first.c_str()] = d;
+				}
+			}
+		}
+	}
+
+	// Merge any new master_activities, which overwrites updated originals
+	updated_orig_activities.merge_redox(this->Get_master_activity());
+
+	// Set activities to updated, merged activities
+	this->master_activity.clear();
+	this->master_activity = updated_orig_activities;
+
 }
 //#include "ISolution.h"
 //#include "Exchange.h"
