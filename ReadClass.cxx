@@ -1247,7 +1247,7 @@ read_solution_modify(void)
 
 	cxxSolution orig(solution[n], phrq_io );
 
-	sol.modify_activities(PHREEQC_THIS_COMMA orig);
+	sol.modify_activities(orig);
 
 	//struct solution *soln_ptr = sol.cxxSolution2solution(PHREEQC_THIS);
 	struct solution *soln_ptr = cxxSolution2solution(&sol);
