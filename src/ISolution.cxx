@@ -90,7 +90,6 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 				oss << "Could not find gfw, " << iter->second.
 					Get_description();
 				error_msg(oss.str().c_str(), CONTINUE);
-				//P_INSTANCE_POINTER input_error++;
 			}
 		}
 /*

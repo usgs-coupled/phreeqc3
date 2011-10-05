@@ -526,7 +526,6 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 			"Can not mix two Surface components with same formula and different related phases, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
-		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->phase_name.size() != 0)
@@ -543,7 +542,6 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 			"Can not mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
-		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	else if (this->rate_name.size() != 0)
@@ -560,7 +558,6 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 			"Can not mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
-		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	//double Dw;
