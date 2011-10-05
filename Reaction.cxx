@@ -111,7 +111,7 @@ cxxReaction::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 #endif
 
 void
-cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent) const
+cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
 	//const char    ERR_MESSAGE[] = "Packing irrev message: %s, element not found\n";
 	unsigned int i;
@@ -126,8 +126,8 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Reaction element and attributes
 	s_oss << indent0;
-	s_oss << "REACTION_RAW        " << this->n_user << " " << this->
-		description << std::endl;
+	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
+	s_oss << "REACTION_RAW        " << n_user_local << " " << this->description << std::endl;
 
 	s_oss << indent1;
 	s_oss << "-units              " << this->units << std::endl;
