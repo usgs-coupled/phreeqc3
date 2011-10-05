@@ -147,7 +147,7 @@ class cxxSolution:public cxxNumKeyword
 	double Get_master_activity(char *string) const;
 	void Set_master_activity(char *string, double value);
 	const cxxSolutionIsotopeList & Get_isotopes(void) const {return isotopes;};
-	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
+	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
 	void read_raw(CParser & parser, bool check = true);
 	void multiply(double extensive);
