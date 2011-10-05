@@ -21,7 +21,7 @@ public:
 		cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxExchange();
 
-	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
+	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
 	void read_raw(CParser & parser, bool check = true);
 

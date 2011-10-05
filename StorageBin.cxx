@@ -585,53 +585,53 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent)
+cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent, int *n_out)
 {
-	// Dump one user number
-
+	// Dump one user number, optionally change number from n to n_out
+	int n_user_local = (n_out != NULL) ? *n_out : n;
 	//const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
 	s_oss.precision(DBL_DIG - 1);
 
 	// Solutions
 	if (this->Get_Solution(n) != NULL)
 	{
-		this->Get_Solution(n)->dump_raw(s_oss, indent);
+		this->Get_Solution(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
 
 	// Exchange
 	if (this->Get_Exchange(n) != NULL)
 	{
-		this->Get_Exchange(n)->dump_raw(s_oss, indent);
+		this->Get_Exchange(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
 
 	// Gas Phases
 	if (this->Get_GasPhase(n) != NULL)
 	{
-		this->Get_GasPhase(n)->dump_raw(s_oss, indent);
+		this->Get_GasPhase(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
 
 	// Kinetics
 	if (this->Get_Kinetics(n) != NULL)
 	{
-		this->Get_Kinetics(n)->dump_raw(s_oss, indent);
+		this->Get_Kinetics(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
 
 	// PPassemblage
 	if (this->Get_PPassemblage(n) != NULL)
 	{
-		this->Get_PPassemblage(n)->dump_raw(s_oss, indent);
+		this->Get_PPassemblage(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
 
 	// SSassemblage
 	if (this->Get_SSassemblage(n) != NULL)
 	{
-		this->Get_SSassemblage(n)->dump_raw(s_oss, indent);
+		this->Get_SSassemblage(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
 
 	// Surface
 	if (this->Get_Surface(n) != NULL)
 	{
-		this->Get_Surface(n)->dump_raw(s_oss, indent);
+		this->Get_Surface(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
 }
 

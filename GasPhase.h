@@ -30,7 +30,7 @@ class cxxGasPhase:public cxxNumKeyword
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
-	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
+	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
 	void read_raw(CParser & parser, bool check = true);
 

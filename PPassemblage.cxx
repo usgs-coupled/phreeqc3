@@ -113,7 +113,7 @@ cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
+cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
 	//const char    ERR_MESSAGE[] = "Packing PPassemblage message: %s, element not found\n";
 	unsigned int i;
@@ -128,7 +128,8 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// PPassemblage element and attributes
 	s_oss << indent0;
-	s_oss << "EQUILIBRIUM_PHASES_RAW       " << this->n_user << " " << this->
+	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
+	s_oss << "EQUILIBRIUM_PHASES_RAW       " << n_user_local << " " << this->
 		description << std::endl;
 
 	// eltList

@@ -77,7 +77,7 @@ class cxxStorageBin: public PHRQ_base
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 
-	void dump_raw(std::ostream & s_oss, int i, unsigned int indent);
+	void dump_raw(std::ostream & s_oss, int i, unsigned int indent, int *n_out=NULL);
 
 	void read_raw(CParser & parser);
 	int read_raw_keyword(CParser & parser);

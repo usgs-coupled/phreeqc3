@@ -154,7 +154,7 @@ cxxKinetics::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 #endif
 
 void
-cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent) const
+cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent, int * n_out) const
 {
 	//const char    ERR_MESSAGE[] = "Packing kinetics message: %s, element not found\n";
 	unsigned int i;
@@ -169,8 +169,8 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Kinetics element and attributes
 	s_oss << indent0;
-	s_oss << "KINETICS_RAW       " << this->n_user << " " << this->
-		description << std::endl;
+	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
+	s_oss << "KINETICS_RAW       " << n_user_local << " " << this->description << std::endl;
 
 	s_oss << indent1;
 	s_oss << "-step_divide       " << this->step_divide << std::endl;

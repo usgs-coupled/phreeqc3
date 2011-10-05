@@ -217,7 +217,7 @@ cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const
+cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
 	//const char    ERR_MESSAGE[] = "Packing surface message: %s, element not found\n";
 	unsigned int i;
@@ -232,8 +232,8 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Surface element and attributes
 	s_oss << indent0;
-	s_oss << "SURFACE_RAW       " << this->n_user << " " << this->
-		description << std::endl;
+	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
+	s_oss << "SURFACE_RAW       " << n_user_local << " " << this->description << std::endl;
 
 	s_oss << indent1;
 	//s_oss << "-diffuse_layer " << this->diffuse_layer << std::endl;

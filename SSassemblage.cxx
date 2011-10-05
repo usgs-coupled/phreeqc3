@@ -111,7 +111,7 @@ cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 }
 #endif
 void
-cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
+cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
 	//const char    ERR_MESSAGE[] = "Packing SSassemblage message: %s, element not found\n";
 	unsigned int i;
@@ -126,8 +126,8 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// SSassemblage element and attributes
 	s_oss << indent0;
-	s_oss << "SOLID_SOLUTIONS_RAW       " << this->n_user << " " << this->
-		description << std::endl;
+	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
+	s_oss << "SOLID_SOLUTIONS_RAW       " << n_user_local << " " << this->description << std::endl;
 
 	// ssAssemblageSSs
 	for (std::map < std::string, cxxSSassemblageSS >::const_iterator it =
