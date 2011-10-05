@@ -242,8 +242,6 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 	{
 		return CParser::PARSER_ERROR;
 	}
-	//ctoken = P_INSTANCE_POINTER string_hsave(token.c_str());
-	//(*this)[ctoken] = d;
 	(*this)[token.c_str()] = d;
 	return CParser::PARSER_OK;
 }

@@ -84,8 +84,6 @@ class cxxStorageBin: public PHRQ_base
 
 	void add(struct system *sys_ptr);
 
-	//struct system *cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int i);
-
 	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix & mixmap);
 

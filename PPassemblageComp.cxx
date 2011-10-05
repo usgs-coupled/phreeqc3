@@ -457,7 +457,6 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 			"Can not mix two Equilibrium_phases with differing add_formulae., "
 			<< this->name;
 		error_msg(oss.str().c_str(), CONTINUE);
-		//P_INSTANCE_POINTER input_error++;
 		return;
 	}
 	//double si;
