@@ -153,6 +153,8 @@ class cxxSolution:public cxxNumKeyword
 	void multiply(double extensive);
 	//void modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original);
 	void modify_activities(const cxxSolution & original);
+	void Simplify_totals();
+	void Update(const cxxNameDouble &nd);
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
