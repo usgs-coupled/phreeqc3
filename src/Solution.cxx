@@ -10,6 +10,7 @@
 //MPICH seems to require mpi.h to be first
 #include <mpi.h>
 #endif
+#include <set>
 #include <cassert>				// assert
 #include <algorithm>			// std::sort
 #include "Utils.h"				// define first
@@ -1277,8 +1278,6 @@ cxxSolution::modify_activities(const cxxSolution & original)
 //
 {
 	// Note: any master_activities in "this" have been read in SOLUTION_MODIFY
-	//cxxNameDouble orig_master_activity(original.Get_master_activity());
-	//cxxNameDouble orig_totals(original.Get_totals());
 	cxxNameDouble factor;
 	cxxNameDouble updated_orig_activities(original.Get_master_activity());
 	cxxNameDouble::const_iterator it;
@@ -1326,7 +1325,7 @@ cxxSolution::modify_activities(const cxxSolution & original)
 		}
 	}
 
-	// update original master_activities based using just computed factors
+	// update original master_activities using just computed factors
 	for (it = factor.begin(); it != factor.end(); it++)
 	{
 		orig_it = original.Get_master_activity().find(it->first);
@@ -1361,6 +1360,104 @@ cxxSolution::modify_activities(const cxxSolution & original)
 	this->master_activity = updated_orig_activities;
 
 }
+void 
+cxxSolution::Simplify_totals()
+{
+	// remove individual redox states from totals
+	std::set<std::string> list_of_elements;
+	cxxNameDouble::iterator it;
+	for (it = this->totals.begin(); it != this->totals.end(); ++it)
+	{
+		std::string current_ename(it->first);
+		std::basic_string < char >::size_type indexCh;
+		indexCh = current_ename.find("(");
+		if (indexCh != std::string::npos)
+		{
+			current_ename = current_ename.substr(0, indexCh);
+		}
+		if (current_ename == "H" || current_ename == "O" || current_ename == "Charge")
+			continue;
+		list_of_elements.insert(current_ename);
+	}
+
+	cxxNameDouble new_totals;
+	new_totals.type = cxxNameDouble::ND_ELT_MOLES;
+	std::set<std::string>::iterator nt_it = list_of_elements.begin();
+	for( ; nt_it != list_of_elements.end(); nt_it++)
+	{
+		new_totals[(*nt_it).c_str()] = this->Get_total_element((*nt_it).c_str());
+	}
+	this->totals = new_totals;
+}
+void 
+cxxSolution::Update(const cxxNameDouble &nd)
+{
+	// assumes
+	// nd has H, O, Charge, and totals, without any valence states
+
+	// remove individual redox states from solution totals
+	this->Simplify_totals();
+
+	// process special cases and calculate factors
+	cxxNameDouble factor;	
+	cxxNameDouble::const_iterator it;
+	for (it = nd.begin(); it != nd.end(); ++it)
+	{
+		if (it->first == "H")
+		{
+			this->total_h = it->second;
+		}
+		else if (it->first == "O")
+		{
+			this->total_o = it->second;
+		}
+		else if (it->first == "Charge")
+		{
+			this->cb = it->second;
+		}
+		else
+		{
+			cxxNameDouble::iterator sol_it = this->totals.find(it->first.c_str());
+			if (sol_it != this->totals.end())
+			{
+				if (it->second != 0 && sol_it->second != 0)
+				{
+					factor[it->first.c_str()] = log10(it->second/sol_it->second);
+				}
+				this->totals[it->first.c_str()] = it->second;
+			}
+		}
+	}
+
+	// update original master_activities using just computed factors
+
+	cxxNameDouble updated_activities(this->master_activity);
+	for (it = factor.begin(); it != factor.end(); it++)
+	{
+		std::string v_name = it->first;
+		v_name.append("(");
+
+		cxxNameDouble::iterator sol_it = this->totals.begin();
+		for ( ; sol_it != this->totals.end(); sol_it++)
+		{
+			// Exact match
+			if ( it->first == sol_it->first) 
+			{
+				double d = sol_it->second + it->second;
+				updated_activities[it->first.c_str()] = d;
+			}
+			else if (strstr(v_name.c_str(), sol_it->first.c_str()) == sol_it->first.c_str())
+			{
+				double d = sol_it->second + it->second;
+				updated_activities[sol_it->first.c_str()] = d;
+			}
+		}
+	}
+	// Set activities to updated, merged activities
+	this->master_activity.clear();
+	this->master_activity = updated_activities;
+}
+
 //#include "ISolution.h"
 //#include "Exchange.h"
 //#include "Surface.h"
