@@ -35,7 +35,7 @@ public:
 		return this->base_error_count;
 	}
 	// data
-private:
+protected:
 	PHRQ_io * io;
 	int base_error_count;
 };

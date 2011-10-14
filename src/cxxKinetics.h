@@ -47,7 +47,7 @@ class cxxKinetics:public cxxNumKeyword
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 #endif
-  private:
+  protected:
 	void add(const cxxKinetics & addee, double extensive);
 
   protected:

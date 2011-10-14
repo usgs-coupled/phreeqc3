@@ -41,7 +41,7 @@ public:
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
-private:
+protected:
 	void add(const cxxExchange & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;

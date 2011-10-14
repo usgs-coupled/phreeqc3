@@ -51,7 +51,7 @@ class cxxGasPhase:public cxxNumKeyword
 	double Get_volume(void) const {return volume;};
 	cxxNameDouble & Get_totals(void) {return totals;};
 
-private:
+protected:
 	void add(const cxxGasPhase & addee, double extensive);
 
 protected:
@@ -60,9 +60,6 @@ protected:
 	double total_p;
 	double volume;
 	cxxNameDouble totals;
-
-public:
-	//static std::map<int, cxxGasPhase>& map;
 
 };
 
