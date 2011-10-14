@@ -76,7 +76,7 @@ public:
 		return this->totals;
 	}
 	
-private:
+protected:
 	cxxSolution * solution;
 	cxxExchange * exchange;
 	cxxPPassemblage * ppassemblage;

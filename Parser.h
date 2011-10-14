@@ -287,7 +287,7 @@ class CParser: public PHRQ_base
   protected:
 	LINE_TYPE get_logical_line();
 
-  private:
+  protected:
 	std::istream & m_input_stream;
 	std::ostream & m_output_stream;
 	std::ostream & m_error_stream;

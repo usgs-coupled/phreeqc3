@@ -143,7 +143,7 @@ typedef enum
 		return this->dump_file_on;
 	}
 	// data
-private:
+protected:
 	FILE *input_file;
 	FILE *database_file;
 	FILE *output_file;	/* OUTPUT_MESSAGE */
