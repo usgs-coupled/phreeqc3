@@ -49,7 +49,7 @@ public:
 	};
 
 
-private:
+protected:
 	void add(const cxxSSassemblage & addee, double extensive);
 
 protected:

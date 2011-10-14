@@ -44,7 +44,7 @@ class cxxPPassemblage:public cxxNumKeyword
 
 	void totalize(PHREEQC_PTR_ARG);
 
-private:
+protected:
 	void add(const cxxPPassemblage & addee, double extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;

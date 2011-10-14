@@ -123,7 +123,7 @@ class cxxISolutionComp: public PHRQ_base
 		return ::strcmp(this->description.c_str(), conc.description.c_str()) < 0;
 	}
 
-  private:
+  protected:
 	  std::string description;
 	  double moles;
 	  double input_conc;

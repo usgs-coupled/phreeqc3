@@ -163,13 +163,12 @@ class cxxSolution:public cxxNumKeyword
 	void mpi_recv(int task_number);
 #endif
 
-  private:
+  protected:
 	void zero();
 	void add(const cxxSolution & addee, double extensive);
 	// not checked
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
-  protected:
 	double tc;
 	double ph;
 	double pe;

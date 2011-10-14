@@ -65,7 +65,7 @@ class cxxNumKeyword: public PHRQ_base
 	int n_user_end;
 	std::string description;
 
-  private:
+  protected:
 	void read_number_description(std::istream & is);
 };
 #endif // !defined(NUMKEYWORD_H_INCLUDED)
