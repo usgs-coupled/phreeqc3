@@ -115,7 +115,7 @@ isotopes(io)
 //
 //   Mix solutions
 //
-	std::map < int, double >&mixcomps = mix.Get_mixComps();
+	const std::map < int, double >&mixcomps = mix.Get_mixComps();
 	std::map < int, double >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{

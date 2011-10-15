@@ -43,7 +43,7 @@ class cxxMix:public cxxNumKeyword
 		}
 	};
 
-	std::map < int, double > & Get_mixComps()
+	const std::map < int, double > & Get_mixComps() const
 	{
 		return mixComps;
 	}
