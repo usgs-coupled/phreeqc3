@@ -26,50 +26,51 @@ class cxxStorageBin: public PHRQ_base
 	cxxStorageBin(PHRQ_io *io=NULL);
 	~cxxStorageBin();
 
-	void remove(int n);
+	void Remove(int n);
+	void Clear(void);
 
 	cxxSolution *Get_Solution(int n_user);
 	void Set_Solution(int n_user, cxxSolution * entity);
 	void Set_Solution(int n_user, cxxSolution & entity);
-	void removeSolution(int n_user);
+	void Remove_Solution(int n_user);
 
 	cxxExchange *Get_Exchange(int n_user);
 	void Set_Exchange(int n_user, cxxExchange * entity);
-	void removeExchange(int n_user);
+	void Remove_Exchange(int n_user);
 
 	cxxPPassemblage *Get_PPassemblage(int n_user);
 	void Set_PPassemblage(int n_user, cxxPPassemblage * entity);
 	void Set_PPassemblage(int n_user, cxxPPassemblage & entity);
-	void removePPassemblage(int n_user);
+	void Remove_PPassemblage(int n_user);
 
 	cxxGasPhase *Get_GasPhase(int n_user);
 	void Set_GasPhase(int n_user, cxxGasPhase * entity);
-	void removeGasPhase(int n_user);
+	void Remove_GasPhase(int n_user);
 
 	cxxSSassemblage *Get_SSassemblage(int n_user);
 	void Set_SSassemblage(int n_user, cxxSSassemblage * entity);
 	void Set_SSassemblage(int n_user, cxxSSassemblage & entity);
-	void removeSSassemblage(int n_user);
+	void Remove_SSassemblage(int n_user);
 
 	cxxKinetics *Get_Kinetics(int n_user);
 	void Set_Kinetics(int n_user, cxxKinetics * entity);
-	void removeKinetics(int n_user);
+	void Remove_Kinetics(int n_user);
 
 	cxxSurface *Get_Surface(int n_user);
 	void Set_Surface(int n_user, cxxSurface * entity);
-	void removeSurface(int n_user);
+	void Remove_Surface(int n_user);
 
 	cxxMix *Get_Mix(int n_user);
 	void Set_Mix(int n_user, cxxMix * entity);
-	void removeMix(int n_user);
+	void Remove_Mix(int n_user);
 
 	cxxReaction *Get_Reaction(int n_user);
 	void Set_Reaction(int n_user, cxxReaction * entity);
-	void removeReaction(int n_user);
+	void Remove_Reaction(int n_user);
 
 	cxxTemperature *Get_Temperature(int n_user);
 	void Set_Temperature(int n_user, cxxTemperature * entity);
-	void removeTemperature(int n_user);
+	void Remove_Temperature(int n_user);
 
 	cxxSystem &Get_System(void);
 	void Set_System(struct Use *use_ptr);
@@ -82,7 +83,7 @@ class cxxStorageBin: public PHRQ_base
 	void read_raw(CParser & parser);
 	int read_raw_keyword(CParser & parser);
 
-	void add(struct system *sys_ptr);
+	//void add(struct system *sys_ptr);
 
 	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix & mixmap);

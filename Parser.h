@@ -56,9 +56,10 @@ class CParser: public PHRQ_base
 		KT_SSASSEMBLAGE_RAW = 10,
 		KT_SURFACE_RAW = 11,
 		KT_TEMPERATURE_RAW = 12,
-		KT_REACTION_RAW = 13
+		KT_REACTION_RAW = 13,
+		KT_MIX_RAW = 14
 #if defined MULTICHART
-		, KT_USER_GRAPH = 14
+		, KT_USER_GRAPH = 15
 #endif
 	};
 
