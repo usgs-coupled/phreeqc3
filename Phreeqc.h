@@ -1245,7 +1245,7 @@ extern void MergeFinalize(void);
 
 // convert class to struct
 
-struct mix * cxxMix2mix(cxxMix *mx);
+struct mix * cxxMix2mix(const cxxMix *mx);
 struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
 struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
 struct exchange * cxxExchange2exchange(const cxxExchange * ex);
@@ -1275,7 +1275,7 @@ void Use2cxxStorageBin(cxxStorageBin & sb);
 void phreeqc2cxxStorageBin(cxxStorageBin & sb);
 void phreeqc2cxxStorageBin(cxxStorageBin & sb, int n);
 void cxxStorageBin2phreeqc0(cxxStorageBin & sb, int n);
-
+void cxxStorageBin2phreeqc(cxxStorageBin & sb);
 
 /* tally.c */
 

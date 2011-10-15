@@ -94,6 +94,9 @@ class cxxStorageBin: public PHRQ_base
 	const std::map < int, cxxPPassemblage > &Get_PPassemblages() const;
 	const std::map < int, cxxSSassemblage > &Get_SSassemblages() const;
 	const std::map < int, cxxSurface > &Get_Surfaces() const;
+	const std::map < int, cxxMix > &Get_Mixes() const;
+	const std::map < int, cxxReaction > &Get_Reactions() const;
+	const std::map < int, cxxTemperature > &Get_Temperatures() const;
 
 	cxxSystem & Get_system(void) {return system;};
 #ifdef USE_MPI

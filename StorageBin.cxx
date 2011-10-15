@@ -322,6 +322,21 @@ cxxStorageBin::Get_Surfaces() const
 {
 	return this->Surfaces;
 }
+const std::map < int, cxxMix > &
+cxxStorageBin::Get_Mixes() const
+{
+	return this->Mixes;
+}
+const std::map < int, cxxReaction > &
+cxxStorageBin::Get_Reactions() const
+{
+	return this->Reactions;
+}
+const std::map < int, cxxTemperature > &
+cxxStorageBin::Get_Temperatures() const
+{
+	return this->Temperatures;
+}
 
 #ifdef SKIP
 void
