@@ -74,7 +74,7 @@ cxxStorageBin::Set_Solution(int n_user, cxxSolution & entity)
 	Solutions[n_user] = entity;
 }
 void 
-cxxStorageBin::removeSolution(int n_user)
+cxxStorageBin::Remove_Solution(int n_user)
 {
 	Solutions.erase(n_user);
 }
@@ -96,7 +96,7 @@ cxxStorageBin::Set_Exchange(int n_user, cxxExchange * entity)
 	Exchangers[n_user] = *entity;
 }
 void 
-cxxStorageBin::removeExchange(int n_user)
+cxxStorageBin::Remove_Exchange(int n_user)
 {
 	Exchangers.erase(n_user);
 }
@@ -123,7 +123,7 @@ cxxStorageBin::Set_PPassemblage(int n_user, cxxPPassemblage & entity)
 	PPassemblages[n_user] = entity;
 }
 void 
-cxxStorageBin::removePPassemblage(int n_user)
+cxxStorageBin::Remove_PPassemblage(int n_user)
 {
 	PPassemblages.erase(n_user);
 }
@@ -145,7 +145,7 @@ cxxStorageBin::Set_GasPhase(int n_user, cxxGasPhase * entity)
 	GasPhases[n_user] = *entity;
 }
 void 
-cxxStorageBin::removeGasPhase(int n_user)
+cxxStorageBin::Remove_GasPhase(int n_user)
 {
 	GasPhases.erase(n_user);
 }
@@ -172,7 +172,7 @@ cxxStorageBin::Set_SSassemblage(int n_user, cxxSSassemblage & entity)
 	SSassemblages[n_user] = entity;
 }
 void 
-cxxStorageBin::removeSSassemblage(int n_user)
+cxxStorageBin::Remove_SSassemblage(int n_user)
 {
 	SSassemblages.erase(n_user);
 }
@@ -194,7 +194,7 @@ cxxStorageBin::Set_Kinetics(int n_user, cxxKinetics * entity)
 	Kinetics[n_user] = *entity;
 }
 void 
-cxxStorageBin::removeKinetics(int n_user)
+cxxStorageBin::Remove_Kinetics(int n_user)
 {
 	Kinetics.erase(n_user);
 }
@@ -216,7 +216,7 @@ cxxStorageBin::Set_Surface(int n_user, cxxSurface * entity)
 	Surfaces[n_user] = *entity;
 }
 void 
-cxxStorageBin::removeSurface(int n_user)
+cxxStorageBin::Remove_Surface(int n_user)
 {
 	Surfaces.erase(n_user);
 }
@@ -238,7 +238,7 @@ cxxStorageBin::Set_Mix(int n_user, cxxMix * entity)
 	Mixes[n_user] = *entity;
 }
 void 
-cxxStorageBin::removeMix(int n_user)
+cxxStorageBin::Remove_Mix(int n_user)
 {
 	Mixes.erase(n_user);
 }
@@ -260,7 +260,7 @@ cxxStorageBin::Set_Reaction(int n_user, cxxReaction * entity)
 	Reactions[n_user] = *entity;
 }
 void 
-cxxStorageBin::removeReaction(int n_user)
+cxxStorageBin::Remove_Reaction(int n_user)
 {
 	Reactions.erase(n_user);
 }
@@ -282,7 +282,7 @@ cxxStorageBin::Set_Temperature(int n_user, cxxTemperature * entity)
 	Temperatures[n_user] = *entity;
 }
 void 
-cxxStorageBin::removeTemperature(int n_user)
+cxxStorageBin::Remove_Temperature(int n_user)
 {
 	Temperatures.erase(n_user);
 }
@@ -462,6 +462,24 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent, int *n
 	{
 		this->Get_Surface(n)->dump_raw(s_oss, indent, &n_user_local);
 	}
+
+	// Mix
+	if (this->Get_Mix(n) != NULL)
+	{
+		this->Get_Mix(n)->dump_raw(s_oss, indent, &n_user_local);
+	}
+
+	// Reaction
+	if (this->Get_Reaction(n) != NULL)
+	{
+		this->Get_Reaction(n)->dump_raw(s_oss, indent, &n_user_local);
+	}
+
+	// Temperature
+	if (this->Get_Temperature(n) != NULL)
+	{
+		this->Get_Temperature(n)->dump_raw(s_oss, indent, &n_user_local);
+	}
 }
 
 void
@@ -565,6 +583,13 @@ cxxStorageBin::read_raw(CParser & parser)
 				cxxReaction entity;
 				entity.read_raw(parser, true);
 				Reactions[entity.Get_n_user()] = entity;
+			}
+			break;
+		case CParser::KT_MIX_RAW:
+			{
+				cxxMix entity;
+				entity.read_raw(parser);
+				Mixes[entity.Get_n_user()] = entity;
 			}
 			break;
 		default:
@@ -694,65 +719,73 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	return (entity_number);		//CParser::LT_OK;
 }
 
+//void
+//cxxStorageBin::add(struct system *system_ptr)
+//		//
+//		// add data from a system structure
+//		//
+//{
+//
+//	// Solutions
+//	if (system_ptr->solution != NULL)
+//	{
+//		this->Solutions[system_ptr->solution->n_user] =
+//			cxxSolution(system_ptr->solution, this->Get_io());
+//	}
+//
+//	// Exchangers
+//	if (system_ptr->exchange != NULL)
+//	{
+//		this->Exchangers[system_ptr->exchange->n_user] =
+//			cxxExchange(system_ptr->exchange, this->Get_io());
+//	}
+//
+//	// GasPhases
+//	if (system_ptr->gas_phase != NULL)
+//	{
+//		this->GasPhases[system_ptr->gas_phase->n_user] =
+//			cxxGasPhase(system_ptr->gas_phase, this->Get_io());
+//	}
+//
+//	// Kinetics
+//	if (system_ptr->kinetics != NULL)
+//	{
+//		this->Kinetics[system_ptr->kinetics->n_user] =
+//			cxxKinetics(system_ptr->kinetics, this->Get_io());
+//	}
+//
+//	// PPassemblages
+//	if (system_ptr->pp_assemblage != NULL)
+//	{
+//		this->PPassemblages[system_ptr->pp_assemblage->n_user] =
+//			cxxPPassemblage(system_ptr->pp_assemblage, this->Get_io());
+//	}
+//
+//	// SSassemblages
+//	if (system_ptr->s_s_assemblage != NULL)
+//	{
+//		this->SSassemblages[system_ptr->s_s_assemblage->n_user] =
+//			cxxSSassemblage(system_ptr->s_s_assemblage);
+//	}
+//
+//	// Surfaces
+//	if (system_ptr->surface != NULL)
+//	{
+//		this->Surfaces[system_ptr->surface->n_user] =
+//			cxxSurface(system_ptr->surface, this->Get_io());
+//	}
+//
+//	// struct system not used
+//	//// Mixes
+//	//if (system_ptr->mix != NULL)
+//	//{
+//	//	this->Mixes[system_ptr->mix->n_user] =
+//	//		cxxMix(system_ptr->mix, this->Get_io());
+//	//}
+//}
+
 void
-cxxStorageBin::add(struct system *system_ptr)
-		//
-		// add data from a system structure
-		//
-{
-
-	// Solutions
-	if (system_ptr->solution != NULL)
-	{
-		this->Solutions[system_ptr->solution->n_user] =
-			cxxSolution(system_ptr->solution, this->Get_io());
-	}
-
-	// Exchangers
-	if (system_ptr->exchange != NULL)
-	{
-		this->Exchangers[system_ptr->exchange->n_user] =
-			cxxExchange(system_ptr->exchange, this->Get_io());
-	}
-
-	// GasPhases
-	if (system_ptr->gas_phase != NULL)
-	{
-		this->GasPhases[system_ptr->gas_phase->n_user] =
-			cxxGasPhase(system_ptr->gas_phase, this->Get_io());
-	}
-
-	// Kinetics
-	if (system_ptr->kinetics != NULL)
-	{
-		this->Kinetics[system_ptr->kinetics->n_user] =
-			cxxKinetics(system_ptr->kinetics, this->Get_io());
-	}
-
-	// PPassemblages
-	if (system_ptr->pp_assemblage != NULL)
-	{
-		this->PPassemblages[system_ptr->pp_assemblage->n_user] =
-			cxxPPassemblage(system_ptr->pp_assemblage, this->Get_io());
-	}
-
-	// SSassemblages
-	if (system_ptr->s_s_assemblage != NULL)
-	{
-		this->SSassemblages[system_ptr->s_s_assemblage->n_user] =
-			cxxSSassemblage(system_ptr->s_s_assemblage);
-	}
-
-	// Surfaces
-	if (system_ptr->surface != NULL)
-	{
-		this->Surfaces[system_ptr->surface->n_user] =
-			cxxSurface(system_ptr->surface, this->Get_io());
-	}
-}
-
-void
-cxxStorageBin::remove(int n)
+cxxStorageBin::Remove(int n)
 {
 	// Solution
 	this->Solutions.erase(n);
@@ -774,8 +807,51 @@ cxxStorageBin::remove(int n)
 
 	// Surface
 	this->Surfaces.erase(n);
-}
 
+	// Mixes
+	this->Mixes.erase(n);
+
+	// Reactions
+	this->Reactions.erase(n);
+
+	// Temperature
+	this->Temperatures.erase(n);
+}
+void
+cxxStorageBin::Clear(void) 
+{
+	// Delete all data
+
+	// Solutions
+	this->Solutions.clear();
+
+	// Exchange
+	this->Exchangers.clear();
+
+	// Gas Phases
+	this->GasPhases.clear();
+
+	// Kinetics
+	this->Kinetics.clear();
+
+	// PPassemblage
+	this->PPassemblages.clear();
+
+	this->SSassemblages.clear();
+
+	// Surface
+	this->Surfaces.clear();
+
+	// Mix
+	this->Mixes.clear();
+
+	// Reactions
+	this->Reactions.clear();
+
+	// Temperature
+	this->Temperatures.clear();
+
+}
 #ifdef SKIP
 cxxSolution *
 cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
