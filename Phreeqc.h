@@ -1008,6 +1008,7 @@ int irrev_delete(int n_user_old);
 int irrev_duplicate(int n_user_old, int n_user_new);
 int irrev_free(struct irrev *irrev_ptr);
 struct irrev *irrev_search(int n_user, int *n);
+int irrev_ptr_to_user(struct irrev *irrev_ptr_old, int n_user_new);
 int irrev_sort(void);
 public:
 	struct kinetics *kinetics_alloc(void);
@@ -1052,6 +1053,7 @@ int mix_delete(int n_user_old);
 int mix_duplicate(int n_user_old, int n_user_new);
 int mix_free(struct mix *mix_ptr);
 struct mix *mix_search(int n_user, int *n, int print);
+int mix_ptr_to_user(struct mix *mix_ptr_old, int n_user_new);
 int mix_sort(void);
 struct pe_data *pe_data_alloc(void);
 public:
@@ -1190,6 +1192,7 @@ int temperature_delete(int n_user_old);
 int temperature_duplicate(int n_user_old, int n_user_new);
 int temperature_free(struct temperature *temperature_ptr);
 struct temperature *temperature_search(int n_user, int *n);
+int temperature_ptr_to_user(struct temperature * temperature_ptr_old, int n_user_new);
 int temperature_sort(void);
 int trxn_add(struct reaction *r_ptr, LDBLE coef, int combine);
 int trxn_add_phase(struct reaction *r_ptr, LDBLE coef, int combine);
@@ -1274,7 +1277,7 @@ struct master * cxxNameDouble2surface_master(const cxxNameDouble * totals);
 void Use2cxxStorageBin(cxxStorageBin & sb);
 void phreeqc2cxxStorageBin(cxxStorageBin & sb);
 void phreeqc2cxxStorageBin(cxxStorageBin & sb, int n);
-void cxxStorageBin2phreeqc0(cxxStorageBin & sb, int n);
+void cxxStorageBin2phreeqc(cxxStorageBin & sb, int n);
 void cxxStorageBin2phreeqc(cxxStorageBin & sb);
 
 /* tally.c */
