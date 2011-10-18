@@ -18,11 +18,8 @@ typedef enum
 	OUTPUT_LOG,
 	OUTPUT_CHECKLINE,
 	OUTPUT_GUI_ERROR,
-	OUTPUT_BASIC,
-	OUTPUT_CVODE,
 	OUTPUT_DUMP,
-	OUTPUT_STDERR,
-	OUTPUT_SEND_MESSAGE,
+	//OUTPUT_SEND_MESSAGE,
 	OUTPUT_ECHO,
 	OUTPUT_PUNCH_END_ROW
 } output_type;
@@ -58,90 +55,30 @@ typedef enum
 	bool output_isopen(int type);
 	void fpunchf(const char *name, const char *format, va_list args);
 
-	void Set_io_error_count(int i)
-	{
-		this->io_error_count = i;
-	}
-	int Get_io_error_count(void)
-	{
-		return this->io_error_count;
-	}
-	void Set_input_file(FILE * in)
-	{
-		if (this->input_file != NULL &&
-			this->input_file != stderr &&
-			this->input_file != stdout)
-		{
-			fclose(this->input_file);
-		}
-		this->input_file = in;
-	}
-	void Set_output_file(FILE * out)
-	{
-		if (this->output_file != NULL &&
-			this->output_file != stderr &&
-			this->output_file != stdout)
-		{
-			fclose(this->output_file);
-		}
-		this->output_file = out;
-	}
-	void Set_database_file(FILE * in)
-	{
-		if (this->database_file != NULL &&
-			this->database_file != stdin)
-		{
-			fclose(this->database_file);
-		}
-		this->database_file = in;
-	}
-	void close_input(void)
-	{
-		if (input_file != stdin)
-		{
-			fclose(input_file);
-		}
-	}
-	void Set_output_file_on(bool tf)
-	{
-		this->output_file_on = tf;
-	}
-	void Set_log_file_on(bool tf)
-	{
-		this->log_file_on = tf;
-	}
-	void Set_punch_file_on(bool tf)
-	{
-		this->punch_file_on = tf;
-	}
-	void Set_error_file_on(bool tf)
-	{
-		this->error_file_on = tf;
-	}
-	void Set_dump_file_on(bool tf)
-	{
-		this->dump_file_on = tf;
-	}
-	bool Get_output_file_on(void)
-	{
-		return this->output_file_on;
-	}
-	bool Get_log_file_on(void)
-	{
-		return this->log_file_on;
-	}
-	bool Get_punch_file_on(void)
-	{
-		return this->punch_file_on;
-	}
-	bool Get_error_file_on(void)
-	{
-		return this->error_file_on;
-	}
-	bool Get_dump_file_on(void)
-	{
-		return this->dump_file_on;
-	}
+	void Set_io_error_count(int i)  {this->io_error_count = i;};
+	int Get_io_error_count(void)    {return this->io_error_count;};
+	void Set_database_file(FILE * in);
+	void Set_input_file(FILE * in);
+	void Set_output_file(FILE * out);
+	void Set_error_file(FILE * out);
+	void Set_log_file(FILE * out);
+	void Set_punch_file(FILE * out);
+	void Set_dump_file(FILE * out);
+
+	void PHRQ_io::close_input(void);
+
+	void Set_output_file_on(bool tf) {this->output_file_on = tf;};
+	void Set_log_file_on(bool tf)    {this->log_file_on = tf;};
+	void Set_punch_file_on(bool tf)  {this->punch_file_on = tf;};
+	void Set_error_file_on(bool tf)  {this->error_file_on = tf;};
+	void Set_dump_file_on(bool tf)   {this->dump_file_on = tf;};
+
+	bool Get_output_file_on(void)    {return this->output_file_on;};
+	bool Get_log_file_on(void)       {return this->log_file_on;};
+	bool Get_punch_file_on(void)     {return this->punch_file_on;};
+	bool Get_error_file_on(void)     {return this->error_file_on;};
+	bool Get_dump_file_on(void)      {return this->dump_file_on;};
+
 	// data
 protected:
 	FILE *input_file;
