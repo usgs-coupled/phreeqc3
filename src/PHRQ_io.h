@@ -43,12 +43,12 @@ typedef enum
 	int close_input_files(void);
 	int close_output_files(void);
 	static int istream_getc(void *cookie);
-	void output_string(const int type, std::string str);
 	
 	int output_open(int type, const char *file_name);
 	void error_msg(const char *err_str, bool stop);
 	void warning_msg(const char *err_str);
 	void output_msg(int type, const char *format, va_list args);
+	void output_string(const int type, std::string str);
 	void output_fflush(int type);
 	void output_rewind(int type);
 	void output_close(int type);
