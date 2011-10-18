@@ -130,7 +130,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
+				this->output_msg(msg.str());
 			}
 			break;
 		case EO_KEYWORDS:
@@ -138,7 +138,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
+				this->output_msg(msg.str());
 			}
 			break;
 
@@ -147,7 +147,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				this->Get_io()->output_string(PHRQ_io::OUTPUT_MESSAGE, msg.str());
+				this->output_msg(msg.str().c_str());
 			}
 			break;
 		}
