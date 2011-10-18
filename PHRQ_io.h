@@ -47,12 +47,12 @@ typedef enum
 	int output_open(int type, const char *file_name);
 	void error_msg(const char *err_str, bool stop);
 	void warning_msg(const char *err_str);
-	void output_msg(int type, const char *format, va_list args);
 	void output_string(const int type, std::string str);
 	void output_fflush(int type);
 	void output_rewind(int type);
 	void output_close(int type);
 	bool output_isopen(int type);
+	void output_msg(int type, const char *format, va_list args);
 	void fpunchf(const char *name, const char *format, va_list args);
 
 	void Set_io_error_count(int i)  {this->io_error_count = i;};
