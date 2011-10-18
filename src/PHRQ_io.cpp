@@ -30,7 +30,54 @@ PHRQ_io::
 ~PHRQ_io()
 {
 }
+void 
+PHRQ_io::Set_database_file(FILE * in)
+{
+	safe_close(this->database_file);
+	this->database_file = in;
+}
+void 
+PHRQ_io::Set_input_file(FILE * in)
+{
+	safe_close(this->input_file);
+	this->input_file = in;
+}
+void 
+PHRQ_io::Set_output_file(FILE * out)
+{
+	safe_close(this->output_file);
+	this->output_file = out;
+}
+void 
+PHRQ_io::Set_error_file(FILE * out)
+{
+	safe_close(this->error_file);
+	this->error_file = out;
+}
+void 
+PHRQ_io::Set_log_file(FILE * out)
+{
+	safe_close(this->log_file);
+	this->log_file = out;
+}
+void 
+PHRQ_io::Set_punch_file(FILE * out)
+{
+	safe_close(this->punch_file);
+	this->punch_file = out;
+}
+void 
+PHRQ_io::Set_dump_file(FILE * out)
+{
+	safe_close(this->dump_file);
+	this->dump_file = out;
+}
 
+void 
+PHRQ_io::close_input(void)
+{
+	safe_close(input_file);
+}
 /* ---------------------------------------------------------------------- */
 int PHRQ_io::
 close_input_files(void)
@@ -190,7 +237,6 @@ output_msg(int type, const char *format, va_list args)
 		}
 		break;
 	case OUTPUT_MESSAGE:
-	case OUTPUT_BASIC:
 		if (output_file != NULL && output_file_on)
 		{
 			vfprintf(output_file, format, args);
@@ -224,14 +270,7 @@ output_msg(int type, const char *format, va_list args)
 				fflush(error_file);
 		}
 		break;
-	case OUTPUT_STDERR:
-	case OUTPUT_CVODE:
-		if (stderr != NULL)
-		{
-			vfprintf(stderr, format, args);
-			fflush(stderr);
-		}
-		break;
+
 	case OUTPUT_DUMP:
 		if (dump_file != NULL && dump_file_on)
 		{
@@ -293,7 +332,6 @@ output_string(const int type, std::string str)
 		break;
 	case OUTPUT_CHECKLINE:
 	case OUTPUT_MESSAGE:
-	case OUTPUT_BASIC:
 		if (output_file != NULL && output_file_on)
 		{
 			fprintf(output_file, "%s", str.c_str());
@@ -318,14 +356,7 @@ output_string(const int type, std::string str)
 			fflush(error_file);
 		}
 		break;
-	case OUTPUT_STDERR:
-	case OUTPUT_CVODE:
-		if (stderr != NULL)
-		{
-			fprintf(stderr, "%s", str.c_str());
-			fflush(stderr);
-		}
-		break;
+
 	case OUTPUT_DUMP:
 		if (dump_file != NULL && dump_file_on)
 		{
@@ -464,9 +495,6 @@ output_isopen(const int type)
 	case OUTPUT_DUMP:
 		return (dump_file != NULL);
 		break;
-	case OUTPUT_STDERR:
-		return (stderr != NULL);
-		break;
 	default:
 		assert(false);
 		return (output_file != NULL);
@@ -496,7 +524,6 @@ output_fflush(const int type)
 
 	case OUTPUT_MESSAGE:
 	case OUTPUT_CHECKLINE:
-	case OUTPUT_BASIC:
 		if (output_file)
 			fflush(output_file);
 		break;
@@ -514,12 +541,6 @@ output_fflush(const int type)
 	case OUTPUT_LOG:
 		if (log_file)
 			fflush(log_file);
-		break;
-
-	case OUTPUT_CVODE:
-	case OUTPUT_STDERR:
-		if (stderr)
-			fflush(stderr);
 		break;
 
 	case OUTPUT_DUMP:
@@ -549,7 +570,6 @@ output_rewind(const int type)
 
 	case OUTPUT_MESSAGE:
 	case OUTPUT_CHECKLINE:
-	case OUTPUT_BASIC:
 		if (output_file)
 			rewind(output_file);
 		break;
@@ -569,12 +589,6 @@ output_rewind(const int type)
 			rewind(log_file);
 		break;
 
-	case OUTPUT_CVODE:
-	case OUTPUT_STDERR:
-		if (stderr)
-			rewind(stderr);
-		break;
-
 	case OUTPUT_DUMP:
 		if (dump_file)
 			rewind(dump_file);
@@ -589,48 +603,37 @@ output_close(const int type)
 	switch (type)
 	{
 	case OUTPUT_ERROR:
-		if (error_file)
-			safe_close(error_file);
+		safe_close(error_file);
 		break;
 
 	case OUTPUT_WARNING:
-		if (error_file)
-			safe_close(error_file);
-		if (output_file)
-			safe_close(output_file);
+		safe_close(error_file);
+		safe_close(output_file);
 		break;
 
 	case OUTPUT_MESSAGE:
 	case OUTPUT_CHECKLINE:
-	case OUTPUT_BASIC:
-		if (output_file)
-			safe_close(output_file);
+		safe_close(output_file);
 		break;
 
 	case OUTPUT_PUNCH:
-		if (punch_file)
-			safe_close(punch_file);
+		safe_close(punch_file);
 		break;
 
 	case OUTPUT_SCREEN:
-		if (error_file)
-			safe_close(error_file);
+		safe_close(error_file);
 		break;
 
 	case OUTPUT_LOG:
-		if (log_file)
-			safe_close(log_file);
-		break;
-
-	case OUTPUT_CVODE:
-	case OUTPUT_STDERR:
-		if (stderr)
-			safe_close(stderr);
+		safe_close(log_file);
 		break;
 
 	case OUTPUT_DUMP:
-		if (dump_file)
-			safe_close(dump_file);
+		safe_close(dump_file);
+		break;
+
+	default:
+		assert(false);
 		break;
 	}
 }
@@ -647,6 +650,7 @@ safe_close(FILE * file_ptr)
 		file_ptr != NULL)
 	{
 		fclose(file_ptr);
+		file_ptr = NULL;
 	}
 }
 
