@@ -16,7 +16,7 @@ PHRQ_io(void)
 	log_file = NULL;	/* OUTPUT_LOG */
 	punch_file = NULL;	/* OUTPUT_PUNCH */
 	error_file = NULL;	/* OUTPUT_ERROR */
-	dump_file = NULL;	/* OUTPUT_DUMP */
+	dump_file = NULL;	
 	io_error_count = 0;
 
 	output_file_on = true;
@@ -79,7 +79,7 @@ PHRQ_io::Set_dump_file(FILE * out)
 
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-open_output(const char *file_name)
+output_open_temp(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(output_file);
@@ -91,7 +91,7 @@ open_output(const char *file_name)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-fflush_output(void)
+output_fflush_temp(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (output_file && output_file_on)
@@ -101,14 +101,14 @@ fflush_output(void)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-close_output(void)
+output_close_temp(void)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(output_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-rewind_output(void)
+output_rewind_temp(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (output_file && output_file_on)
@@ -118,12 +118,22 @@ rewind_output(void)
 }
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-isopen_output(void)
+output_isopen_temp(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (output_file)
 		return true; // open
 	return false;
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+output_msg_temp(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	if (output_file != NULL && output_file_on)
+	{
+		fprintf(output_file, "%s", str);
+	}
 }
 // ---------------------------------------------------------------------- */
 // log file methods
@@ -131,7 +141,7 @@ isopen_output(void)
 
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-open_log(const char *file_name)
+log_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(log_file);
@@ -143,7 +153,7 @@ open_log(const char *file_name)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-fflush_log(void)
+log_fflush(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (log_file && log_file_on)
@@ -153,14 +163,14 @@ fflush_log(void)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-close_log(void)
+log_close(void)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(log_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-rewind_log(void)
+log_rewind(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (log_file && log_file_on)
@@ -170,21 +180,30 @@ rewind_log(void)
 }
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-isopen_log(void)
+log_isopen(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (log_file)
 		return true; // open
 	return false;
 }
-
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+log_msg(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	if (log_file != NULL && log_file_on)
+	{
+		fprintf(log_file, "%s", str);
+	}
+}
 // ---------------------------------------------------------------------- */
 // punch file methods
 // ---------------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-open_punch(const char *file_name)
+punch_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(punch_file);
@@ -196,7 +215,7 @@ open_punch(const char *file_name)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-fflush_punch(void)
+punch_fflush(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (punch_file && punch_file_on)
@@ -206,14 +225,14 @@ fflush_punch(void)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-close_punch(void)
+punch_close(void)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(punch_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-rewind_punch(void)
+punch_rewind(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (punch_file && punch_file_on)
@@ -223,12 +242,22 @@ rewind_punch(void)
 }
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-isopen_punch(void)
+punch_isopen(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (punch_file)
 		return true; // open
 	return false;
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+punch_msg(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	if (punch_file != NULL && punch_file_on)
+	{
+		fprintf(punch_file, "%s", str);
+	}
 }
 
 // ---------------------------------------------------------------------- */
@@ -237,7 +266,7 @@ isopen_punch(void)
 
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-open_error(const char *file_name)
+error_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(error_file);
@@ -249,7 +278,7 @@ open_error(const char *file_name)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-fflush_error(void)
+error_fflush(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (error_file && error_file_on)
@@ -259,14 +288,14 @@ fflush_error(void)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-close_error(void)
+error_close(void)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(error_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-rewind_error(void)
+error_rewind(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (error_file && error_file_on)
@@ -276,12 +305,53 @@ rewind_error(void)
 }
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-isopen_error(void)
+error_isopen(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (error_file)
 		return true; // open
 	return false;
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+error_msg(const char *err_str, bool stop)
+/* ---------------------------------------------------------------------- */
+{
+
+	io_error_count++;
+	if (error_file != NULL && error_file_on)
+	{
+		fprintf(error_file, "\nERROR: %s\n", err_str);
+		fflush(error_file);
+	}
+	if (output_file != NULL && output_file_on)
+	{
+		fprintf(output_file, "ERROR: %s\n", err_str);
+		fflush(output_file);
+	}
+	if (log_file != NULL && log_file_on)
+	{
+		fprintf(log_file, "ERROR: %s\n", err_str);
+		fflush(log_file);
+	}
+	if (stop)
+	{
+		if (error_file != NULL && error_file_on)
+		{
+			fprintf(error_file, "Stopping.\n");
+			fflush(error_file);
+		}
+		if (output_file != NULL && output_file_on)
+		{
+			fprintf(output_file, "Stopping.\n");
+			fflush(output_file);
+		}
+		if (log_file != NULL && log_file_on)
+		{
+			fprintf(log_file, "Stopping.\n");
+			fflush(log_file);
+		}
+	}
 }
 
 // ---------------------------------------------------------------------- */
@@ -290,7 +360,7 @@ isopen_error(void)
 
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-open_dump(const char *file_name)
+dump_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(dump_file);
@@ -302,7 +372,7 @@ open_dump(const char *file_name)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-fflush_dump(void)
+dump_fflush(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (dump_file && dump_file_on)
@@ -312,14 +382,14 @@ fflush_dump(void)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-close_dump(void)
+dump_close(void)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(dump_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-rewind_dump(void)
+dump_rewind(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (dump_file && dump_file_on)
@@ -329,12 +399,22 @@ rewind_dump(void)
 }
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-isopen_dump(void)
+dump_isopen(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (dump_file)
 		return true; // open
 	return false;
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+dump_msg(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	if (dump_file != NULL && dump_file_on)
+	{
+		fprintf(dump_file, "%s", str);
+	}
 }
 
 
@@ -379,47 +459,7 @@ istream_getc(void *cookie)
 	return EOF;
 }
 
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-error_msg(const char *err_str, bool stop)
-/* ---------------------------------------------------------------------- */
-{
 
-	io_error_count++;
-	if (error_file != NULL && error_file_on)
-	{
-		fprintf(error_file, "\nERROR: %s\n", err_str);
-		fflush(error_file);
-	}
-	if (output_file != NULL && output_file_on)
-	{
-		fprintf(output_file, "ERROR: %s\n", err_str);
-		fflush(output_file);
-	}
-	if (log_file != NULL && log_file_on)
-	{
-		fprintf(log_file, "ERROR: %s\n", err_str);
-		fflush(log_file);
-	}
-	if (stop)
-	{
-		if (error_file != NULL && error_file_on)
-		{
-			fprintf(error_file, "Stopping.\n");
-			fflush(error_file);
-		}
-		if (output_file != NULL && output_file_on)
-		{
-			fprintf(output_file, "Stopping.\n");
-			fflush(output_file);
-		}
-		if (log_file != NULL && log_file_on)
-		{
-			fprintf(log_file, "Stopping.\n");
-			fflush(log_file);
-		}
-	}
-}
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
 warning_msg(const char *err_str)
@@ -537,13 +577,16 @@ output_msg(int type, const char *format, va_list args)
 		}
 		break;
 
-	case OUTPUT_DUMP:
-		if (dump_file != NULL && dump_file_on)
-		{
-			vfprintf(dump_file, format, args);
-			if (flush)
-				fflush(dump_file);
-		}
+	//case OUTPUT_DUMP:
+	//	if (dump_file != NULL && dump_file_on)
+	//	{
+	//		vfprintf(dump_file, format, args);
+	//		if (flush)
+	//			fflush(dump_file);
+	//	}
+	//	break;
+	default:
+		assert(false);
 		break;
 	}
 }
@@ -623,12 +666,14 @@ output_string(const int type, std::string str)
 		}
 		break;
 
-	case OUTPUT_DUMP:
-		if (dump_file != NULL && dump_file_on)
-		{
-			fprintf(dump_file, "%s", str.c_str());
-		}
-		break;
+	//case OUTPUT_DUMP:
+	//	if (dump_file != NULL && dump_file_on)
+	//	{
+	//		fprintf(dump_file, "%s", str.c_str());
+	//	}
+	//	break;
+	default:
+		assert(false);
 	}
 	return;
 }
@@ -686,18 +731,18 @@ output_open(int type, const char *file_name)
 			return 0;
 		}
 		break;
-	case OUTPUT_DUMP:
-		if (dump_file != NULL)
-		{
-			safe_close(dump_file);
-			dump_file = NULL;
-		}
-		if ((dump_file = fopen(file_name, "w")) == NULL)
-		{
-			//return ERROR;
-			return 0;
-		}
-		break;
+	//case OUTPUT_DUMP:
+	//	if (dump_file != NULL)
+	//	{
+	//		safe_close(dump_file);
+	//		dump_file = NULL;
+	//	}
+	//	if ((dump_file = fopen(file_name, "w")) == NULL)
+	//	{
+	//		//return ERROR;
+	//		return 0;
+	//	}
+	//	break;
 	case OUTPUT_ERROR:
 		if (error_file != NULL)
 		{
@@ -729,6 +774,8 @@ output_open(int type, const char *file_name)
 			return 0;
 		}
 		break;
+	default:
+		assert(false);
 	}
 	return 1;
 }
@@ -758,9 +805,9 @@ output_isopen(const int type)
 	case OUTPUT_LOG:
 		return (log_file != NULL);
 		break;
-	case OUTPUT_DUMP:
-		return (dump_file != NULL);
-		break;
+	//case OUTPUT_DUMP:
+	//	return (dump_file != NULL);
+	//	break;
 	default:
 		assert(false);
 		return (output_file != NULL);
@@ -809,9 +856,12 @@ output_fflush(const int type)
 			fflush(log_file);
 		break;
 
-	case OUTPUT_DUMP:
-		if (dump_file)
-			fflush(dump_file);
+	//case OUTPUT_DUMP:
+	//	if (dump_file)
+	//		fflush(dump_file);
+	//	break;
+	default:
+		assert(false);
 		break;
 	}
 }
@@ -855,9 +905,12 @@ output_rewind(const int type)
 			rewind(log_file);
 		break;
 
-	case OUTPUT_DUMP:
-		if (dump_file)
-			rewind(dump_file);
+	//case OUTPUT_DUMP:
+	//	if (dump_file)
+	//		rewind(dump_file);
+	//	break;
+	default:
+		assert(false);
 		break;
 	}
 }
@@ -894,9 +947,9 @@ output_close(const int type)
 		safe_close(log_file);
 		break;
 
-	case OUTPUT_DUMP:
-		safe_close(dump_file);
-		break;
+	//case OUTPUT_DUMP:
+	//	safe_close(dump_file);
+	//	break;
 
 	default:
 		assert(false);
