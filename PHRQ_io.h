@@ -43,6 +43,37 @@ typedef enum
 	int close_input_files(void);
 	int close_output_files(void);
 	static int istream_getc(void *cookie);
+
+	// output_file
+	bool open_output(const char *file_name);
+	void fflush_output(void);
+	void close_output(void);
+	void rewind_output(void);
+	bool isopen_output(void);
+	// log_file
+	bool open_log(const char *file_name);
+	void fflush_log(void);
+	void close_log(void);
+	void rewind_log(void);
+	bool isopen_log(void);
+	// punch_file
+	bool open_punch(const char *file_name);
+	void fflush_punch(void);
+	void close_punch(void);
+	void rewind_punch(void);
+	bool isopen_punch(void);
+	// error_file
+	bool open_error(const char *file_name);
+	void fflush_error(void);
+	void close_error(void);
+	void rewind_error(void);
+	bool isopen_error(void);
+	// dump_file
+	bool open_dump(const char *file_name);
+	void fflush_dump(void);
+	void close_dump(void);
+	void rewind_dump(void);
+	bool isopen_dump(void);
 	
 	int output_open(int type, const char *file_name);
 	void error_msg(const char *err_str, bool stop);
