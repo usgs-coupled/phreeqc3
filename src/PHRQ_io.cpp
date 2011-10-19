@@ -541,16 +541,16 @@ output_msg(int type, const char *format, va_list args)
 	//		fflush(log_file);
 	//	}
 	//	break;
-	case OUTPUT_CHECKLINE:
-		{
-			if (output_file != NULL && output_file_on)
-			{
-				vfprintf(output_file, format, args);
-				if (flush)
-					fflush(output_file);
-			}
-		}
-		break;
+	//case OUTPUT_CHECKLINE:
+	//	{
+	//		if (output_file != NULL && output_file_on)
+	//		{
+	//			vfprintf(output_file, format, args);
+	//			if (flush)
+	//				fflush(output_file);
+	//		}
+	//	}
+	//	break;
 	case OUTPUT_MESSAGE:
 		if (output_file != NULL && output_file_on)
 		{
@@ -648,7 +648,7 @@ output_string(const int type, std::string str)
 	//		fprintf(output_file, "%s", str.c_str());
 	//	}
 	//	break;
-	case OUTPUT_CHECKLINE:
+	//case OUTPUT_CHECKLINE:
 	case OUTPUT_MESSAGE:
 		if (output_file != NULL && output_file_on)
 		{
@@ -845,7 +845,7 @@ output_fflush(const int type)
 	//	break;
 
 	case OUTPUT_MESSAGE:
-	case OUTPUT_CHECKLINE:
+	//case OUTPUT_CHECKLINE:
 		if (output_file)
 			fflush(output_file);
 		break;
@@ -894,7 +894,7 @@ output_rewind(const int type)
 	//	break;
 
 	case OUTPUT_MESSAGE:
-	case OUTPUT_CHECKLINE:
+	//case OUTPUT_CHECKLINE:
 		if (output_file)
 			rewind(output_file);
 		break;
@@ -940,7 +940,7 @@ output_close(const int type)
 	//	break;
 
 	case OUTPUT_MESSAGE:
-	case OUTPUT_CHECKLINE:
+	//case OUTPUT_CHECKLINE:
 		safe_close(output_file);
 		break;
 
