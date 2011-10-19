@@ -282,6 +282,7 @@ int process_file_names(int argc, char *argv[], void **db_cookie,
 
 /* PHRQ_io_output.cpp */
 void screen_msg(const char *err_str);
+void echo_msg(const char *err_str);
 
 // dump_file
 bool dump_open(const char *file_name);
