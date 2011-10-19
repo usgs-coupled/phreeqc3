@@ -18,20 +18,20 @@ typedef enum
 	OUTPUT_LOG,
 	OUTPUT_CHECKLINE,
 	OUTPUT_GUI_ERROR,
-	OUTPUT_DUMP,
+	//OUTPUT_DUMP,
 	//OUTPUT_SEND_MESSAGE,
 	OUTPUT_ECHO,
 	OUTPUT_PUNCH_END_ROW
 } output_type;
 
-typedef enum
-{
-	ACTION_OPEN,
-	ACTION_OUTPUT,
-	ACTION_CLOSE,
-	ACTION_REWIND,
-	ACTION_FLUSH
-} action_type;
+//typedef enum
+//{
+//	ACTION_OPEN,
+//	ACTION_OUTPUT,
+//	ACTION_CLOSE,
+//	ACTION_REWIND,
+//	ACTION_FLUSH
+//} action_type;
 
 	// constructors
 	PHRQ_io(void);
@@ -45,38 +45,46 @@ typedef enum
 	static int istream_getc(void *cookie);
 
 	// output_file
-	bool open_output(const char *file_name);
-	void fflush_output(void);
-	void close_output(void);
-	void rewind_output(void);
-	bool isopen_output(void);
+	bool output_open_temp(const char *file_name);
+	void output_fflush_temp(void);
+	void output_close_temp(void);
+	void output_rewind_temp(void);
+	bool output_isopen_temp(void);
+	void output_msg_temp(const char * str);
+
 	// log_file
-	bool open_log(const char *file_name);
-	void fflush_log(void);
-	void close_log(void);
-	void rewind_log(void);
-	bool isopen_log(void);
+	bool log_open(const char *file_name);
+	void log_fflush(void);
+	void log_close(void);
+	void log_rewind(void);
+	bool log_isopen(void);
+	void log_msg(const char * str);
+
 	// punch_file
-	bool open_punch(const char *file_name);
-	void fflush_punch(void);
-	void close_punch(void);
-	void rewind_punch(void);
-	bool isopen_punch(void);
+	bool punch_open(const char *file_name);
+	void punch_fflush(void);
+	void punch_close(void);
+	void punch_rewind(void);
+	bool punch_isopen(void);
+	void punch_msg(const char * str);
+
 	// error_file
-	bool open_error(const char *file_name);
-	void fflush_error(void);
-	void close_error(void);
-	void rewind_error(void);
-	bool isopen_error(void);
+	bool error_open(const char *file_name);
+	void error_fflush(void);
+	void error_close(void);
+	void error_rewind(void);
+	bool error_isopen(void);
+	void error_msg(const char * str, bool stop=false);
+
 	// dump_file
-	bool open_dump(const char *file_name);
-	void fflush_dump(void);
-	void close_dump(void);
-	void rewind_dump(void);
-	bool isopen_dump(void);
+	bool dump_open(const char *file_name);
+	void dump_fflush(void);
+	void dump_close(void);
+	void dump_rewind(void);
+	bool dump_isopen(void);
+	void dump_msg(const char * str);
 	
 	int output_open(int type, const char *file_name);
-	void error_msg(const char *err_str, bool stop);
 	void warning_msg(const char *err_str);
 	void output_string(const int type, std::string str);
 	void output_fflush(int type);
