@@ -45,8 +45,6 @@ warning_msg(const std::string & stdstr)
 {
 	if (this->io)
 	{
-		//this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_WARNING, stdstr.c_str(), false, "", NULL);
-		//this->io->output_string(PHRQ_io::OUTPUT_WARNING, stdstr);
 		this->io->warning_msg(stdstr.c_str());
 	}
 	else

@@ -281,6 +281,8 @@ int process_file_names(int argc, char *argv[], void **db_cookie,
 					   void **input_cookie, int log);
 
 /* PHRQ_io_output.cpp */
+void screen_msg(const char *err_str);
+
 // dump_file
 bool dump_open(const char *file_name);
 void dump_fflush(void);
@@ -288,6 +290,14 @@ void dump_close(void);
 void dump_rewind(void);
 bool dump_isopen(void);
 void dump_msg(const char * str);
+
+// log_file
+bool log_open(const char *file_name);
+void log_fflush(void);
+void log_close(void);
+void log_rewind(void);
+bool log_isopen(void);
+void log_msg(const char * str);
 
 // error_file
 bool error_open(const char *file_name);

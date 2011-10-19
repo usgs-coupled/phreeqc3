@@ -186,38 +186,38 @@ write_banner(void)
 {
 	char buffer[80];
 	int len, indent;
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              €ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ€\n");
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              ∫                                            ∫\n");
 
 	/* version */
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 	indent = (44 - len) / 2;
-	output_msg(OUTPUT_SCREEN, "%14c∫%*c%s%*c∫\n", ' ', indent, ' ', buffer,
-			   44 - indent - len, ' ');
+	screen_msg(sformatf("%14c∫%*c%s%*c∫\n", ' ', indent, ' ', buffer,
+			   44 - indent - len, ' ').c_str());
 
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              ∫                                            ∫\n");
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              ∫      A hydrogeochemical transport model    ∫\n");
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              ∫                                            ∫\n");
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              ∫                    by                      ∫\n");
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              ∫       D.L. Parkhurst and C.A.J. Appelo     ∫\n");
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              ∫                                            ∫\n");
 
 
 	/* date */
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 	indent = (44 - len) / 2;
-	output_msg(OUTPUT_SCREEN, "%14c∫%*c%s%*c∫\n", ' ', indent, ' ', buffer,
-			   44 - indent - len, ' ');
+	screen_msg(sformatf("%14c∫%*c%s%*c∫\n", ' ', indent, ' ', buffer,
+			   44 - indent - len, ' ').c_str());
 
-	output_msg(OUTPUT_SCREEN,
+	screen_msg(
 			   "              €‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹€\n\n");
 
 	return 0;
