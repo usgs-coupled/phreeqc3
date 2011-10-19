@@ -15,7 +15,7 @@ PHRQ_io(void)
 	output_file = NULL;	/* OUTPUT_MESSAGE */
 	log_file = NULL;	/* OUTPUT_LOG */
 	punch_file = NULL;	/* OUTPUT_PUNCH */
-	error_file = NULL;	/* OUTPUT_ERROR */
+	error_file = NULL;	
 	dump_file = NULL;	
 	io_error_count = 0;
 
@@ -270,11 +270,20 @@ error_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(error_file);
-	if ((error_file = fopen(file_name, "w")) == NULL)
+
+	if (file_name != NULL)
 	{
-		return true; // error
+		if ((error_file = fopen(file_name, "w")) == NULL)
+		{
+			error_file = stderr;
+			return false;
+		}
 	}
-	return false;
+	else
+	{
+		error_file = stderr;
+	}
+	return true;
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -491,27 +500,27 @@ output_msg(int type, const char *format, va_list args)
 	switch (type)
 	{
 
-	case OUTPUT_ERROR:
-		io_error_count++;
-		if (error_file != NULL && error_file_on)
-		{
-			fprintf(error_file, "\nERROR: ");
-			vfprintf(error_file, format, args);
-			fflush(error_file);
-		}
-		if (output_file != NULL && output_file_on)
-		{
-			fprintf(output_file, "\nERROR: ");
-			vfprintf(output_file, format, args);
-			fflush(output_file);
-		}
-		if (log_file != NULL && log_file_on)
-		{
-			fprintf(log_file, "\nERROR: ");
-			vfprintf(log_file, format, args);
-			fflush(log_file);
-		}
-		break;
+	//case OUTPUT_ERROR:
+	//	io_error_count++;
+	//	if (error_file != NULL && error_file_on)
+	//	{
+	//		fprintf(error_file, "\nERROR: ");
+	//		vfprintf(error_file, format, args);
+	//		fflush(error_file);
+	//	}
+	//	if (output_file != NULL && output_file_on)
+	//	{
+	//		fprintf(output_file, "\nERROR: ");
+	//		vfprintf(output_file, format, args);
+	//		fflush(output_file);
+	//	}
+	//	if (log_file != NULL && log_file_on)
+	//	{
+	//		fprintf(log_file, "\nERROR: ");
+	//		vfprintf(log_file, format, args);
+	//		fflush(log_file);
+	//	}
+	//	break;
 	case OUTPUT_WARNING:
 		if (error_file != NULL && error_file_on)
 		{
@@ -615,14 +624,14 @@ output_string(const int type, std::string str)
 	switch (type)
 	{
 
-	case OUTPUT_ERROR:
-		//this->io_error_count++;
-		if (error_file != NULL && error_file_on)
-		{
-			fprintf(error_file, "%s", str.c_str());
-		}
-		fflush(error_file);
-		break;
+	//case OUTPUT_ERROR:
+	//	//this->io_error_count++;
+	//	if (error_file != NULL && error_file_on)
+	//	{
+	//		fprintf(error_file, "%s", str.c_str());
+	//	}
+	//	fflush(error_file);
+	//	break;
 
 	case OUTPUT_WARNING:
 		if (log_file != NULL && log_file_on)
@@ -743,26 +752,26 @@ output_open(int type, const char *file_name)
 	//		return 0;
 	//	}
 	//	break;
-	case OUTPUT_ERROR:
-		if (error_file != NULL)
-		{
-			safe_close(error_file);
-			error_file = NULL;
-		}
+	//case OUTPUT_ERROR:
+	//	if (error_file != NULL)
+	//	{
+	//		safe_close(error_file);
+	//		error_file = NULL;
+	//	}
 
-		if (file_name != NULL)
-		{
-			if ((error_file = fopen(file_name, "w")) == NULL)
-			{
-				error_file = stderr;
-				return 0;
-			}
-		}
-		else
-		{
-			error_file = stderr;
-		}
-		break;
+	//	if (file_name != NULL)
+	//	{
+	//		if ((error_file = fopen(file_name, "w")) == NULL)
+	//		{
+	//			error_file = stderr;
+	//			return 0;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		error_file = stderr;
+	//	}
+	//	break;
 	case OUTPUT_LOG:
 		if (log_file != NULL)
 		{
@@ -787,9 +796,9 @@ output_isopen(const int type)
 {
 	switch (type)
 	{
-	case OUTPUT_ERROR:
-		return (error_file != NULL);
-		break;
+	//case OUTPUT_ERROR:
+	//	return (error_file != NULL);
+	//	break;
 	case OUTPUT_WARNING:
 		return (error_file != NULL || output_file != NULL);
 		break;
@@ -823,10 +832,10 @@ output_fflush(const int type)
 {
 	switch (type)
 	{
-	case OUTPUT_ERROR:
-		if (error_file)
-			fflush(error_file);
-		break;
+	//case OUTPUT_ERROR:
+	//	if (error_file)
+	//		fflush(error_file);
+	//	break;
 
 	case OUTPUT_WARNING:
 		if (error_file)
@@ -872,10 +881,10 @@ output_rewind(const int type)
 {
 	switch (type)
 	{
-	case OUTPUT_ERROR:
-		if (error_file)
-			rewind(error_file);
-		break;
+	//case OUTPUT_ERROR:
+	//	if (error_file)
+	//		rewind(error_file);
+	//	break;
 
 	case OUTPUT_WARNING:
 		if (error_file)
@@ -921,9 +930,9 @@ output_close(const int type)
 {
 	switch (type)
 	{
-	case OUTPUT_ERROR:
-		safe_close(error_file);
-		break;
+	//case OUTPUT_ERROR:
+	//	safe_close(error_file);
+	//	break;
 
 	case OUTPUT_WARNING:
 		safe_close(error_file);
