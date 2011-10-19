@@ -125,8 +125,8 @@ protected:
 	FILE *output_file;	/* OUTPUT_MESSAGE */
 	FILE *log_file;		/* OUTPUT_LOG */
 	FILE *punch_file;	/* OUTPUT_PUNCH */
-	FILE *error_file;	/* OUTPUT_ERROR */
-	FILE *dump_file;	/* OUTPUT_DUMP */
+	FILE *error_file;	
+	FILE *dump_file;	
 	int io_error_count;
 
 	bool output_file_on;
