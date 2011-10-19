@@ -14,8 +14,8 @@ typedef enum
 	//OUTPUT_WARNING,
 	OUTPUT_MESSAGE,
 	OUTPUT_PUNCH,
-	OUTPUT_SCREEN,
-	OUTPUT_LOG,
+	//OUTPUT_SCREEN,
+	//OUTPUT_LOG,
 	OUTPUT_CHECKLINE,
 	OUTPUT_GUI_ERROR,
 	//OUTPUT_DUMP,
@@ -123,7 +123,7 @@ protected:
 	FILE *input_file;
 	FILE *database_file;
 	FILE *output_file;	/* OUTPUT_MESSAGE */
-	FILE *log_file;		/* OUTPUT_LOG */
+	FILE *log_file;		
 	FILE *punch_file;	/* OUTPUT_PUNCH */
 	FILE *error_file;	
 	FILE *dump_file;	
