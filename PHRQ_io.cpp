@@ -521,26 +521,26 @@ output_msg(int type, const char *format, va_list args)
 	//		fflush(log_file);
 	//	}
 	//	break;
-	case OUTPUT_WARNING:
-		if (error_file != NULL && error_file_on)
-		{
-			fprintf(error_file, "\nWARNING: ");
-			vfprintf(error_file, format, args);
-			fflush(error_file);
-		}
-		if (output_file != NULL && output_file_on)
-		{
-			fprintf(output_file, "\nWARNING: ");
-			vfprintf(output_file, format, args);
-			fflush(output_file);
-		}
-		if (log_file != NULL && log_file_on)
-		{
-			fprintf(log_file, "\nWARNING: ");
-			vfprintf(log_file, format, args);
-			fflush(log_file);
-		}
-		break;
+	//case OUTPUT_WARNING:
+	//	if (error_file != NULL && error_file_on)
+	//	{
+	//		fprintf(error_file, "\nWARNING: ");
+	//		vfprintf(error_file, format, args);
+	//		fflush(error_file);
+	//	}
+	//	if (output_file != NULL && output_file_on)
+	//	{
+	//		fprintf(output_file, "\nWARNING: ");
+	//		vfprintf(output_file, format, args);
+	//		fflush(output_file);
+	//	}
+	//	if (log_file != NULL && log_file_on)
+	//	{
+	//		fprintf(log_file, "\nWARNING: ");
+	//		vfprintf(log_file, format, args);
+	//		fflush(log_file);
+	//	}
+	//	break;
 	case OUTPUT_CHECKLINE:
 		{
 			if (output_file != NULL && output_file_on)
@@ -633,21 +633,21 @@ output_string(const int type, std::string str)
 	//	fflush(error_file);
 	//	break;
 
-	case OUTPUT_WARNING:
-		if (log_file != NULL && log_file_on)
-		{
-			fprintf(log_file, "%s", str.c_str());
-		}
-		if (error_file != NULL && error_file_on)
-		{
-			fprintf(error_file, "%s", str.c_str());
-			fflush(error_file);
-		}
-		if (output_file != NULL && output_file_on)
-		{
-			fprintf(output_file, "%s", str.c_str());
-		}
-		break;
+	//case OUTPUT_WARNING:
+	//	if (log_file != NULL && log_file_on)
+	//	{
+	//		fprintf(log_file, "%s", str.c_str());
+	//	}
+	//	if (error_file != NULL && error_file_on)
+	//	{
+	//		fprintf(error_file, "%s", str.c_str());
+	//		fflush(error_file);
+	//	}
+	//	if (output_file != NULL && output_file_on)
+	//	{
+	//		fprintf(output_file, "%s", str.c_str());
+	//	}
+	//	break;
 	case OUTPUT_CHECKLINE:
 	case OUTPUT_MESSAGE:
 		if (output_file != NULL && output_file_on)
@@ -799,9 +799,9 @@ output_isopen(const int type)
 	//case OUTPUT_ERROR:
 	//	return (error_file != NULL);
 	//	break;
-	case OUTPUT_WARNING:
-		return (error_file != NULL || output_file != NULL);
-		break;
+	//case OUTPUT_WARNING:
+	//	return (error_file != NULL || output_file != NULL);
+	//	break;
 	case OUTPUT_MESSAGE:
 		return (output_file != NULL);
 		break;
@@ -837,12 +837,12 @@ output_fflush(const int type)
 	//		fflush(error_file);
 	//	break;
 
-	case OUTPUT_WARNING:
-		if (error_file)
-			fflush(error_file);
-		if (output_file)
-			fflush(output_file);
-		break;
+	//case OUTPUT_WARNING:
+	//	if (error_file)
+	//		fflush(error_file);
+	//	if (output_file)
+	//		fflush(output_file);
+	//	break;
 
 	case OUTPUT_MESSAGE:
 	case OUTPUT_CHECKLINE:
@@ -886,12 +886,12 @@ output_rewind(const int type)
 	//		rewind(error_file);
 	//	break;
 
-	case OUTPUT_WARNING:
-		if (error_file)
-			rewind(error_file);
-		if (output_file)
-			rewind(output_file);
-		break;
+	//case OUTPUT_WARNING:
+	//	if (error_file)
+	//		rewind(error_file);
+	//	if (output_file)
+	//		rewind(output_file);
+	//	break;
 
 	case OUTPUT_MESSAGE:
 	case OUTPUT_CHECKLINE:
@@ -934,10 +934,10 @@ output_close(const int type)
 	//	safe_close(error_file);
 	//	break;
 
-	case OUTPUT_WARNING:
-		safe_close(error_file);
-		safe_close(output_file);
-		break;
+	//case OUTPUT_WARNING:
+	//	safe_close(error_file);
+	//	safe_close(output_file);
+	//	break;
 
 	case OUTPUT_MESSAGE:
 	case OUTPUT_CHECKLINE:
