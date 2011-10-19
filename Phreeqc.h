@@ -280,6 +280,14 @@ CLASS_STATIC int istream_getc(void *cookie);
 int process_file_names(int argc, char *argv[], void **db_cookie,
 					   void **input_cookie, int log);
 
+/* PHRQ_io_output.cpp */
+// dump_file
+bool dump_open(const char *file_name);
+void dump_fflush(void);
+void dump_close(void);
+void dump_rewind(void);
+bool dump_isopen(void);
+void dump_msg(const char * str);
 // dw.c -------------------------------
 int BB(LDBLE T);
 LDBLE PS(LDBLE T);
@@ -701,7 +709,7 @@ int switch_bases(void);
 int write_phase_sys_total(int n);
 
 // print.c -------------------------------
-char *sformatf(const char *format, ...);
+std::string sformatf(const char *format, ...);
 int array_print(LDBLE * array_l, int row_count, int column_count,
 				int max_column_count);
 int print_all(void);
