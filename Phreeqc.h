@@ -288,6 +288,15 @@ void dump_close(void);
 void dump_rewind(void);
 bool dump_isopen(void);
 void dump_msg(const char * str);
+
+// error_file
+bool error_open(const char *file_name);
+void error_fflush(void);
+void error_close(void);
+void error_rewind(void);
+bool error_isopen(void);
+void error_msg(const char * str, bool stop=false);
+
 // dw.c -------------------------------
 int BB(LDBLE T);
 LDBLE PS(LDBLE T);
