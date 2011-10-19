@@ -10,7 +10,7 @@ class PHRQ_io
 public:
 typedef enum
 {
-	OUTPUT_ERROR,
+	//OUTPUT_ERROR,
 	OUTPUT_WARNING,
 	OUTPUT_MESSAGE,
 	OUTPUT_PUNCH,
