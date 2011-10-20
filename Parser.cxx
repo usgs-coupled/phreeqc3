@@ -16,7 +16,6 @@
 #include "Phreeqc.h"
 #endif
 #include "Parser.h"
-#include "output.h"
 #include "PHRQ_io.h"
 
 //////////////////////////////////////////////////////////////////////

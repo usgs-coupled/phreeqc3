@@ -13,7 +13,6 @@
 #include "ISolutionComp.h"
 #include "phrqproto.h"
 #include "phqalloc.h"
-#include "output.h"
 
 cxxISolutionComp::cxxISolutionComp(PHRQ_io *io):
 PHRQ_base(io),
