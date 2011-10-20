@@ -9,12 +9,7 @@
 
 #include "Utils.h"				// define first
 #include "Parser.h"
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "Temperature.h"
 #include "phqalloc.h"
 #include "phrqproto.h"

@@ -8,12 +8,7 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "SurfaceCharge.h"
 #include "Dictionary.h"
 #include "phqalloc.h"
