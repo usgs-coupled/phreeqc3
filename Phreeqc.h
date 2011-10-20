@@ -316,6 +316,15 @@ void output_temp_rewind(void);
 bool output_temp_isopen(void);
 void output_temp_msg(const char * str);
 
+// punch_file
+bool punch_open(const char *file_name);
+void punch_fflush(void);
+void punch_close(void);
+void punch_rewind(void);
+bool punch_isopen(void);
+void punch_msg(const char * str);
+
+void fpunchf_heading(const char *name);
 // dw.c -------------------------------
 int BB(LDBLE T);
 LDBLE PS(LDBLE T);

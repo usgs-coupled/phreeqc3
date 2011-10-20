@@ -10,6 +10,7 @@
 #include "GasPhase.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "phqalloc.h"
 
 Phreeqc::Phreeqc(void)
 {
