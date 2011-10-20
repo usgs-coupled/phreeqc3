@@ -1,7 +1,7 @@
 #if !defined(NAMEDOUBLE_H_INCLUDED)
 #define NAMEDOUBLE_H_INCLUDED
 
-//#define EXTERNAL extern
+//#define  extern
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
