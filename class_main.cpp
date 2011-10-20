@@ -195,7 +195,7 @@ write_banner(void)
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14c∫%*c%s%*c∫\n", ' ', indent, ' ', buffer,
-			   44 - indent - len, ' ').c_str());
+			   44 - indent - len, ' '));
 
 	screen_msg(
 			   "              ∫                                            ∫\n");
@@ -215,7 +215,7 @@ write_banner(void)
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14c∫%*c%s%*c∫\n", ' ', indent, ' ', buffer,
-			   44 - indent - len, ' ').c_str());
+			   44 - indent - len, ' '));
 
 	screen_msg(
 			   "              €‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹€\n\n");

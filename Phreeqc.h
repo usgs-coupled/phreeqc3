@@ -308,6 +308,14 @@ void error_rewind(void);
 bool error_isopen(void);
 void error_msg(const char * str, bool stop=false);
 
+// output_temp_file
+bool output_temp_open(const char *file_name);
+void output_temp_fflush(void);
+void output_temp_close(void);
+void output_temp_rewind(void);
+bool output_temp_isopen(void);
+void output_temp_msg(const char * str);
+
 // dw.c -------------------------------
 int BB(LDBLE T);
 LDBLE PS(LDBLE T);
@@ -729,7 +737,7 @@ int switch_bases(void);
 int write_phase_sys_total(int n);
 
 // print.c -------------------------------
-std::string sformatf(const char *format, ...);
+char *sformatf(const char *format, ...);
 int array_print(LDBLE * array_l, int row_count, int column_count,
 				int max_column_count);
 int print_all(void);
