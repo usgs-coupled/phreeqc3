@@ -8,41 +8,16 @@ class PhreeqcStop : std::exception
 class PHRQ_io
 {
 public:
-typedef enum
-{
-	//OUTPUT_ERROR,
-	//OUTPUT_WARNING,
-	//OUTPUT_MESSAGE,
-	//OUTPUT_PUNCH,
-	//OUTPUT_SCREEN,
-	//OUTPUT_LOG,
-	//OUTPUT_CHECKLINE,
-	OUTPUT_GUI_ERROR,
-	//OUTPUT_DUMP,
-	//OUTPUT_SEND_MESSAGE,
-	//OUTPUT_ECHO,
-	OUTPUT_PUNCH_END_ROW
-} output_type;
-
-//typedef enum
-//{
-//	ACTION_OPEN,
-//	ACTION_OUTPUT,
-//	ACTION_CLOSE,
-//	ACTION_REWIND,
-//	ACTION_FLUSH
-//} action_type;
-
-	// constructors
+	// constructor/destructor
 	PHRQ_io(void);
 	virtual ~ PHRQ_io();
 
 	// methods
-	
-	static void safe_close(FILE * file_ptr);	
+	static int istream_getc(void *cookie);
+	static void safe_close(FILE * file_ptr);
+
 	int close_input_files(void);
 	int close_output_files(void);
-	static int istream_getc(void *cookie);
 
 	// output_file
 	bool output_temp_open(const char *file_name);
@@ -75,6 +50,7 @@ typedef enum
 	void error_rewind(void);
 	bool error_isopen(void);
 	void error_msg(const char * str, bool stop=false);
+	void warning_msg(const char *err_str);
 
 	// dump_file
 	bool dump_open(const char *file_name);
@@ -83,16 +59,8 @@ typedef enum
 	void dump_rewind(void);
 	bool dump_isopen(void);
 	void dump_msg(const char * str);
+
 	
-	//int output_open(int type, const char *file_name);
-	void warning_msg(const char *err_str);
-	//void output_string(const int type, std::string str);
-	//void output_fflush(int type);
-	//void output_rewind(int type);
-	//void output_close(int type);
-	//bool output_isopen(int type);
-	//void output_msg(int type, const char *format, va_list args);
-	//void fpunchf(const char *name, const char *format, va_list args);
 	void fpunchf(const char *name, const char *format, double d);
 	void fpunchf(const char *name, const char *format, char * d);
 	void fpunchf(const char *name, const char *format, int d);
@@ -107,7 +75,8 @@ typedef enum
 	void Set_punch_file(FILE * out);
 	void Set_dump_file(FILE * out);
 
-	void PHRQ_io::close_input(void);
+	// close input file
+	void close_input(void);
 
 	void Set_output_file_on(bool tf) {this->output_file_on = tf;};
 	void Set_log_file_on(bool tf)    {this->log_file_on = tf;};
