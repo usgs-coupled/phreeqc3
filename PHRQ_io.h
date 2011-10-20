@@ -84,15 +84,18 @@ typedef enum
 	bool dump_isopen(void);
 	void dump_msg(const char * str);
 	
-	int output_open(int type, const char *file_name);
+	//int output_open(int type, const char *file_name);
 	void warning_msg(const char *err_str);
-	void output_string(const int type, std::string str);
-	void output_fflush(int type);
-	void output_rewind(int type);
-	void output_close(int type);
-	bool output_isopen(int type);
-	void output_msg(int type, const char *format, va_list args);
-	void fpunchf(const char *name, const char *format, va_list args);
+	//void output_string(const int type, std::string str);
+	//void output_fflush(int type);
+	//void output_rewind(int type);
+	//void output_close(int type);
+	//bool output_isopen(int type);
+	//void output_msg(int type, const char *format, va_list args);
+	//void fpunchf(const char *name, const char *format, va_list args);
+	void fpunchf(const char *name, const char *format, double d);
+	void fpunchf(const char *name, const char *format, char * d);
+	void fpunchf(const char *name, const char *format, int d);
 
 	void Set_io_error_count(int i)  {this->io_error_count = i;};
 	int Get_io_error_count(void)    {return this->io_error_count;};
