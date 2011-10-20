@@ -9,12 +9,7 @@
 #include <sstream>
 
 #include "Utils.h" // define first
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "ISolution.h"
 #include "phqalloc.h"
 #include "phrqproto.h"

@@ -1,11 +1,6 @@
 #include <algorithm>			// std::replace 
 
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "System.h"
 #include "SSassemblage.h"
 #include "Solution.h"

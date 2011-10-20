@@ -12,9 +12,7 @@
 #include <iostream>				// std::cout std::cerr
 #include "Utils.h"
 #include <stdio.h>
-#if defined (PHREEQC_CLASS)
 #include "Phreeqc.h"
-#endif
 #include "Parser.h"
 #include "PHRQ_io.h"
 

@@ -4,12 +4,7 @@
 #include <cassert>
 
 #include "Utils.h"
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "ISolutionComp.h"
 #include "phrqproto.h"
 #include "phqalloc.h"

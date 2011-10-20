@@ -7,12 +7,7 @@
 #endif
 #include "ChartHandler.h"
 #include "phreeqc_class.h"
-#if defined PHREEQC_CLASS
 #include "phreeqc.h"
-#else
-extern int punch_user_graph(void);
-extern int error_msg(const char *err_str, const int stop, ...);
-#endif
 #include <iostream>
 
 
@@ -82,9 +77,7 @@ ChartHandler::Read(PHREEQC_PTR_ARG_COMMA CParser &parser)
 	{
 		chart_map[n_user] = new ChartObject(this->Get_io());
 		it = this->chart_map.find(n_user);
-#ifdef PHREEQC_CLASS
 		it->second->Set_phreeqc(P_INSTANCE);
-#endif
 	}
 
 	// Read/update ChartObject

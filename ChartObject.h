@@ -6,11 +6,6 @@
 #include <string>
 #include <sstream>
 #include "CurveObject.h"
-#if defined PHREEQC_CLASS
-
-#else
-#include "global_structures.h"
-#endif
 #include "NumKeyword.h"
 
 #include <float.h>
@@ -274,7 +269,6 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->form_started;
 	}
-#if defined PHREEQC_CLASS
 	void Set_phreeqc(Phreeqc * ptr)
 	{
 		this->p_instance1 = ptr;
@@ -283,7 +277,6 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->p_instance1;
 	}
-#endif
 
 	bool Set_axis_scale(std::vector<std::string>, std::vector<int> types, std::ostringstream &);
 	bool Set_axis_scale(CParser & parser);
@@ -377,10 +370,7 @@ class ChartObject:public cxxNumKeyword
 	bool active;
 	bool detach;
 	bool form_started;
-#if defined PHREEQC_CLASS
 	class Phreeqc * p_instance1;
-#endif
-
 
   public:
 	int usingResource;
