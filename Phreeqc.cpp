@@ -374,6 +374,12 @@ Phreeqc::Phreeqc(void)
 
 	// phqalloc.c
 
+	// print.c
+	sformatf_buffer = (char *) PHRQ_malloc(256 * sizeof(char));
+	if (sformatf_buffer == NULL) 
+		malloc_error();
+	sformatf_buffer_size = 256;
+
 	// transport.c
 	J_ij = NULL;
 	J_ij_il = NULL;
@@ -409,6 +415,7 @@ Phreeqc::~Phreeqc(void)
 	delete[] command;
 
 	free_check_null(default_data_base);
+	free_check_null(sformatf_buffer);
 
 	PHRQ_free_all();
 	delete phrq_io;
@@ -546,39 +553,39 @@ void Phreeqc::init(void)
 #else
 	inv_tol_default = pow((double) 10, (double) -DBL_DIG + 5);
 #endif
-	step_size							 = 100.;
-	pe_step_size						= 10.;
-	pp_scale								= 1.0;
-	pp_column_scale				 = 1.0;
-	diagonal_scale					= FALSE;
-	censor									= 0.0;
-	mass_water_switch			 = FALSE;
-	delay_mass_water				= FALSE;
-	incremental_reactions	 = FALSE;
-	aqueous_only						= 0;
+	step_size				= 100.;
+	pe_step_size			= 10.;
+	pp_scale				= 1.0;
+	pp_column_scale			= 1.0;
+	diagonal_scale			= FALSE;
+	censor					= 0.0;
+	mass_water_switch		= FALSE;
+	delay_mass_water		= FALSE;
+	incremental_reactions	= FALSE;
+	aqueous_only			= 0;
 	negative_concentrations = FALSE;
 
 	LOG_10 = log(10.0);
 
-	max_solution			 = MAX_SOLUTION;
-	max_pp_assemblage	= MAX_PP_ASSEMBLAGE;
-	max_exchange			 = MAX_PP_ASSEMBLAGE;
+	max_solution			= MAX_SOLUTION;
+	max_pp_assemblage		= MAX_PP_ASSEMBLAGE;
+	max_exchange			= MAX_PP_ASSEMBLAGE;
 	max_surface				= MAX_PP_ASSEMBLAGE;
 	max_gas_phase			= MAX_PP_ASSEMBLAGE;
-	max_kinetics			 = MAX_PP_ASSEMBLAGE;
-	max_s_s_assemblage = MAX_PP_ASSEMBLAGE;
+	max_kinetics			= MAX_PP_ASSEMBLAGE;
+	max_s_s_assemblage		= MAX_PP_ASSEMBLAGE;
 
-	max_elements			 = MAX_ELEMENTS;
-	max_elts					 = MAX_ELTS;
-	max_line					 = MAX_LINE;
-	max_master				 = MAX_MASTER;
-	max_mb_unknowns		= MAX_TRXN;
-	max_phases				 = MAX_PHASES;
-	max_s							= MAX_S;
+	max_elements			= MAX_ELEMENTS;
+	max_elts				= MAX_ELTS;
+	max_line				= MAX_LINE;
+	max_master				= MAX_MASTER;
+	max_mb_unknowns			= MAX_TRXN;
+	max_phases				= MAX_PHASES;
+	max_s					= MAX_S;
 	max_strings				= MAX_STRINGS;
-	max_trxn					 = MAX_TRXN;
-	max_logk					 = MAX_S;
-	max_master_isotope = MAX_ELTS;
+	max_trxn				= MAX_TRXN;
+	max_logk				= MAX_S;
+	max_master_isotope		= MAX_ELTS;
 
 	count_solution			 = 0;
 	count_pp_assemblage	= 0;
@@ -983,7 +990,7 @@ void Phreeqc::init(void)
 	charge_group		= NULL;
 	print_density		= 0;
 
-		//
+	//
 	//	Non-class statics
 	//
 	/* basic.c */

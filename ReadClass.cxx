@@ -138,7 +138,7 @@ read_solution_raw(void)
 	}
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -233,7 +233,7 @@ read_exchange_raw(void)
 	free_check_null(exchange_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -328,7 +328,7 @@ read_surface_raw(void)
 	free_check_null(surface_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -426,7 +426,7 @@ read_equilibrium_phases_raw(void)
 	free_check_null(pp_assemblage_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -521,7 +521,7 @@ read_kinetics_raw(void)
 	free_check_null(kinetics_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -620,7 +620,7 @@ read_solid_solutions_raw(void)
 	free_check_null(s_s_assemblage_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -715,7 +715,7 @@ read_gas_phase_raw(void)
 	free_check_null(gas_phase_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -811,7 +811,7 @@ read_reaction_raw(void)
 	free_check_null(irrev_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -907,7 +907,7 @@ read_mix_raw(void)
 	free_check_null(mix_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -1006,7 +1006,7 @@ read_temperature_raw(void)
 	free_check_null(temperature_ptr);
 
 	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1058,7 +1058,7 @@ read_dump(void)
 
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1110,7 +1110,7 @@ read_delete(void)
 
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1162,7 +1162,7 @@ read_run_cells(void)
 
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1260,7 +1260,7 @@ read_solution_modify(void)
 	solution[n] = soln_ptr;
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 
@@ -1354,7 +1354,7 @@ read_equilibrium_phases_modify(void)
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1464,7 +1464,7 @@ read_exchange_modify(void)
 	
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1554,7 +1554,7 @@ read_surface_modify(void)
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1644,7 +1644,7 @@ read_solid_solutions_modify(void)
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1732,7 +1732,7 @@ read_gas_phase_modify(void)
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1822,7 +1822,7 @@ read_kinetics_modify(void)
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -1910,7 +1910,7 @@ read_reaction_modify(void)
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -2775,7 +2775,7 @@ read_user_graph_handler(void)
 	bool success = chart_handler.Read(PHREEQC_THIS_COMMA parser);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line);
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
 	return (return_value);
 }
 #endif

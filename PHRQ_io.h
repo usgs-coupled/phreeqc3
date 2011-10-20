@@ -12,7 +12,7 @@ typedef enum
 {
 	//OUTPUT_ERROR,
 	//OUTPUT_WARNING,
-	OUTPUT_MESSAGE,
+	//OUTPUT_MESSAGE,
 	OUTPUT_PUNCH,
 	//OUTPUT_SCREEN,
 	//OUTPUT_LOG,
@@ -45,12 +45,12 @@ typedef enum
 	static int istream_getc(void *cookie);
 
 	// output_file
-	bool output_open_temp(const char *file_name);
-	void output_fflush_temp(void);
-	void output_close_temp(void);
-	void output_rewind_temp(void);
-	bool output_isopen_temp(void);
-	void output_msg_temp(const char * str);
+	bool output_temp_open(const char *file_name);
+	void output_temp_fflush(void);
+	void output_temp_close(void);
+	void output_temp_rewind(void);
+	bool output_temp_isopen(void);
+	void output_temp_msg(const char * str);
 
 	// log_file
 	bool log_open(const char *file_name);
