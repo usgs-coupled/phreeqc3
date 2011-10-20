@@ -27,8 +27,7 @@
 #endif
 #include "PHRQ_io.h"
 class cxxNameDouble;
-#define STATIC
-#define CLASS_STATIC static
+#define static static
 #define extern
 #include "p2c.h"
 #undef extern 
@@ -200,7 +199,7 @@ LDBLE sum_match_s_s(const char *stemplate, const char *name);
 int match_elts_in_species(const char *name, const char *stemplate);
 int extract_bracket(char **string, char *bracket_string);
 LDBLE surf_total(const char *total_name, const char *surface_name);
-CLASS_STATIC int system_species_compare(const void *ptr1, const void *ptr2);
+static int system_species_compare(const void *ptr1, const void *ptr2);
 LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 				   char ***types, LDBLE ** moles);
 std::string phase_formula(std::string phase_name, cxxNameDouble &stoichiometry);
@@ -268,9 +267,9 @@ int write_banner(void);
 public:
 int close_input_files(void);
 int close_output_files(void);
-//CLASS_STATIC int getc_callback(void *cookie);
+//static int getc_callback(void *cookie);
 #if defined(MERGE_INCLUDE_FILES) 
-CLASS_STATIC int istream_getc(void *cookie);
+static int istream_getc(void *cookie);
 #endif /* #if defined(MERGE_INCLUDE_FILES) */
 int process_file_names(int argc, char *argv[], void **db_cookie,
 					   void **input_cookie, int log);
@@ -989,11 +988,11 @@ int reinitialize(void);
 int copier_add(struct copier *copier_ptr, int n_user, int start, int end);
 int copier_free(struct copier *copier_ptr);
 int copier_init(struct copier *copier_ptr);
-CLASS_STATIC int element_compare(const void *ptr1, const void *ptr2);
+static int element_compare(const void *ptr1, const void *ptr2);
 public:
 	struct element *element_store(const char *element);
 	int elt_list_combine(void);
-	CLASS_STATIC int elt_list_compare(const void *ptr1, const void *ptr2);
+	static int elt_list_compare(const void *ptr1, const void *ptr2);
 protected:
 struct elt_list *elt_list_dup(struct elt_list *elt_list_ptr_old);
 int elt_list_print(struct elt_list *elt_list_ptr);
@@ -1008,7 +1007,7 @@ public:
 	int exchange_copy(struct exchange *exchange_old_ptr,
 		struct exchange *exchange_new_ptr, int n_user_new);
 protected:
-CLASS_STATIC int exchange_compare(const void *ptr1, const void *ptr2);
+static int exchange_compare(const void *ptr1, const void *ptr2);
 int exchange_copy_to_last(int n, int n_user);
 int exchange_delete(int n_user_old);
 int exchange_duplicate(int n_user_old, int n_user_new);
@@ -1022,12 +1021,12 @@ struct exchange *exchange_replicate(struct exchange *exchange_old_ptr,
 									int n_user_new);
 struct exchange *exchange_search(int n_user, int *n, int print);
 int exchange_sort(void);
-CLASS_STATIC int gas_comp_compare(const void *ptr1, const void *ptr2);
+static int gas_comp_compare(const void *ptr1, const void *ptr2);
 public:
 	struct gas_phase *gas_phase_alloc(void);
 	struct gas_phase *gas_phase_bsearch(int k, int *n);
 protected:
-CLASS_STATIC int gas_phase_compare(const void *ptr1, const void *ptr2);
+static int gas_phase_compare(const void *ptr1, const void *ptr2);
 public:
 int gas_phase_copy(struct gas_phase *gas_phase_old_ptr,
 				   struct gas_phase *gas_phase_new_ptr, int n_user_new);
@@ -1048,7 +1047,7 @@ int gas_phase_sort(void);
 enum entity_type get_entity_enum(char *name);
 struct inverse *inverse_alloc(void);
 int inverse_delete(int i);
-CLASS_STATIC int inverse_isotope_compare(const void *ptr1, const void *ptr2);
+static int inverse_isotope_compare(const void *ptr1, const void *ptr2);
 struct inverse *inverse_search(int n_user, int *n);
 int inverse_sort(void);
 struct irrev *irrev_bsearch(int k, int *n);
@@ -1067,7 +1066,7 @@ protected:
 int kinetics_delete(int n_user_old);
 int kinetics_comp_duplicate(struct kinetics_comp *kinetics_comp_new_ptr,
 							struct kinetics_comp *kinetics_comp_old_ptr);
-CLASS_STATIC int kinetics_compare(const void *ptr1, const void *ptr2);
+static int kinetics_compare(const void *ptr1, const void *ptr2);
 public:
 int kinetics_copy(struct kinetics *kinetics_old_ptr,
 				  struct kinetics *kinetics_new_ptr, int n_user_new);
@@ -1089,7 +1088,7 @@ int logk_copy2orig(struct logk *logk_ptr);
 struct logk *logk_store(char *name, int replace_if_found);
 struct logk *logk_search(char *name);
 struct master *master_alloc(void);
-CLASS_STATIC int master_compare(const void *ptr1, const void *ptr2);
+static int master_compare(const void *ptr1, const void *ptr2);
 int master_delete(char *ptr);
 public:
 struct master *master_bsearch(const char *ptr);
@@ -1114,14 +1113,14 @@ int pe_data_store(struct pe_data **pe, const char *token);
 public:
 struct phase *phase_bsearch(const char *ptr, int *j, int print);
 protected:
-CLASS_STATIC int phase_compare(const void *ptr1, const void *ptr2);
+static int phase_compare(const void *ptr1, const void *ptr2);
 int phase_delete(int i);
 struct phase *phase_store(char *name);
 public:
 struct pp_assemblage *pp_assemblage_alloc(void);
 struct pp_assemblage *pp_assemblage_bsearch(int k, int *n);
 protected:
-CLASS_STATIC int pp_assemblage_compare(const void *ptr1, const void *ptr2);
+static int pp_assemblage_compare(const void *ptr1, const void *ptr2);
 public:
 int pp_assemblage_copy(struct pp_assemblage *pp_assemblage_old_ptr,
 					   struct pp_assemblage *pp_assemblage_new_ptr,
@@ -1142,7 +1141,7 @@ struct pp_assemblage *pp_assemblage_replicate(struct pp_assemblage
 											  int n_user_new);
 struct pp_assemblage *pp_assemblage_search(int n_user, int *n);
 int pp_assemblage_sort(void);
-CLASS_STATIC int pure_phase_compare(const void *ptr1, const void *ptr2);
+static int pure_phase_compare(const void *ptr1, const void *ptr2);
 struct rate *rate_bsearch(char *ptr, int *j);
 int rate_free(struct rate *rate_ptr);
 struct rate *rate_search(char *name, int *n);
@@ -1152,7 +1151,7 @@ struct reaction *rxn_dup(struct reaction *rxn_ptr_old);
 LDBLE rxn_find_coef(struct reaction *r_ptr, const char *str);
 int rxn_free(struct reaction *rxn_ptr);
 int rxn_print(struct reaction *rxn_ptr);
-CLASS_STATIC int s_compare(const void *ptr1, const void *ptr2);
+static int s_compare(const void *ptr1, const void *ptr2);
 int s_delete(int i);
 struct species *s_search(const char *name);
 struct species *s_store(char *name, LDBLE z, int replace_if_found);
@@ -1160,7 +1159,7 @@ public:
 	struct s_s_assemblage *s_s_assemblage_alloc(void);
 	struct s_s_assemblage *s_s_assemblage_bsearch(int k, int *n);
 protected:
-CLASS_STATIC int s_s_assemblage_compare(const void *ptr1, const void *ptr2);
+static int s_s_assemblage_compare(const void *ptr1, const void *ptr2);
 public:
 	int s_s_assemblage_copy(struct s_s_assemblage *s_s_assemblage_old_ptr,
 						struct s_s_assemblage *s_s_assemblage_new_ptr,
@@ -1181,14 +1180,14 @@ struct s_s_assemblage *s_s_assemblage_replicate(struct s_s_assemblage
 												int n_user_new);
 struct s_s_assemblage *s_s_assemblage_search(int n_user, int *n);
 int s_s_assemblage_sort(void);
-CLASS_STATIC int s_s_compare(const void *ptr1, const void *ptr2);
+static int s_s_compare(const void *ptr1, const void *ptr2);
 struct save_values *save_values_bsearch(struct save_values *k, int *n);
-CLASS_STATIC int save_values_compare(const void *ptr1, const void *ptr2);
+static int save_values_compare(const void *ptr1, const void *ptr2);
 int save_values_sort(void);
 int save_values_store(struct save_values *s_v);
-CLASS_STATIC int conc_compare(const void *ptr1, const void *ptr2);
+static int conc_compare(const void *ptr1, const void *ptr2);
 int conc_init(struct conc *conc_ptr);
-CLASS_STATIC int isotope_compare(const void *ptr1, const void *ptr2);
+static int isotope_compare(const void *ptr1, const void *ptr2);
 public:
 	struct solution *solution_alloc(void);
 	struct solution *solution_bsearch(int k, int *n, int print);
@@ -1204,8 +1203,8 @@ int solution_ptr_to_user(struct solution *solution_old_ptr, int n_user_new);
 struct solution *solution_replicate(struct solution *solution_old_ptr,
 									int n_user_new);
 int solution_sort(void);
-CLASS_STATIC int species_list_compare_alk(const void *ptr1, const void *ptr2);
-CLASS_STATIC int species_list_compare_master(const void *ptr1, const void *ptr2);
+static int species_list_compare_alk(const void *ptr1, const void *ptr2);
+static int species_list_compare_master(const void *ptr1, const void *ptr2);
 int species_list_sort(void);
 struct Change_Surf *change_surf_alloc(int count);
 public:
@@ -1213,11 +1212,11 @@ public:
 	struct surface *surface_bsearch(int k, int *n);
 protected:
 struct master *surface_get_psi_master(const char *name, int plane);
-CLASS_STATIC int surface_comp_compare(const void *ptr1, const void *ptr2);
-CLASS_STATIC int surface_charge_compare(const void *ptr1, const void *ptr2);
+static int surface_comp_compare(const void *ptr1, const void *ptr2);
+static int surface_charge_compare(const void *ptr1, const void *ptr2);
 struct surface_charge * surface_charge_duplicate(struct surface_charge *charge_old_ptr);
 int surface_charge_free(struct surface_charge *charge);
-CLASS_STATIC int surface_compare(const void *ptr1, const void *ptr2);
+static int surface_compare(const void *ptr1, const void *ptr2);
 public:
 	int surface_copy(struct surface *surface_old_ptr,
 				 struct surface *surface_new_ptr, int n_user_new);
@@ -1457,14 +1456,14 @@ protected:
 int parse_couple(char *token);
 int print_centered(const char *string);
 public:
-CLASS_STATIC int replace(const char *str1, const char *str2, char *str);
+static int replace(const char *str1, const char *str2, char *str);
 protected:
 void space(void **ptr, int i, int *max, int struct_size);
 void squeeze_white(char *s_l);
 int status(int count, const char *str);
 void str_tolower(char *str);
 void str_toupper(char *str);
-CLASS_STATIC int strcmp_nocase(const char *str1, const char *str2);
+static int strcmp_nocase(const char *str1, const char *str2);
 int strcmp_nocase_arg1(const char *str1, const char *str2);
 public:
 	char *string_duplicate(const char *token);
@@ -1474,7 +1473,7 @@ char *string_pad(char *str, int i);
 int string_trim(char *str);
 int string_trim_right(char *str);
 int string_trim_left(char *str);
-CLASS_STATIC LDBLE under(LDBLE xval);
+static LDBLE under(LDBLE xval);
 void zero_double(LDBLE * target, int n);
 int get_input_errors(void);
 
