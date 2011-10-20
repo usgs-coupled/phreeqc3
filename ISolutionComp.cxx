@@ -6,7 +6,7 @@
 #include "Utils.h"
 #include "Phreeqc.h"
 #include "ISolutionComp.h"
-#include "phrqproto.h"
+
 #include "phqalloc.h"
 
 cxxISolutionComp::cxxISolutionComp(PHRQ_io *io):
