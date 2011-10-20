@@ -1,5 +1,5 @@
 #include "Phreeqc.h"
-#include "phrqproto.h"
+
 //#include "input.h"
 #include "NameDouble.h"
 #include "Solution.h"

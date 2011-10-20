@@ -12,7 +12,7 @@
 #include "KineticsComp.h"
 #include "Dictionary.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 
 //////////////////////////////////////////////////////////////////////

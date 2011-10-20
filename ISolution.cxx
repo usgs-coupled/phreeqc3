@@ -12,7 +12,7 @@
 #include "Phreeqc.h"
 #include "ISolution.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

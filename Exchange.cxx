@@ -14,7 +14,7 @@
 #include "cxxMix.h"
 #include "Exchange.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

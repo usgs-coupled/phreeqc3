@@ -14,7 +14,7 @@
 #include "NameDouble.h"
 #include "Dictionary.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

@@ -5,7 +5,7 @@
 #include "Phreeqc.h"
 #include "SolutionIsotopeList.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 
 cxxSolutionIsotopeList::cxxSolutionIsotopeList(PHRQ_io * io)

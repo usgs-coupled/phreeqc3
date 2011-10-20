@@ -8,7 +8,7 @@
 #include "Phreeqc.h"
 #include "SolutionIsotope.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 cxxSolutionIsotope::cxxSolutionIsotope(PHRQ_io *io)
 :

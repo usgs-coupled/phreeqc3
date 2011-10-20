@@ -15,7 +15,7 @@
 #include "Phreeqc_class.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 #include "Form1.h"
 using namespace zdg_ui2;
 

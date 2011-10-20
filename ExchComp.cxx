@@ -14,7 +14,7 @@
 #include "ExchComp.h"
 #include "Dictionary.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 
 //////////////////////////////////////////////////////////////////////
