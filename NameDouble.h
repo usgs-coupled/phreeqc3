@@ -70,14 +70,6 @@ class cxxNameDouble:public
 	enum ND_TYPE
 		type;
 
-  protected:
-
-	//std::map <char *, double, CHARSTAR_LESS> totals; 
-
-
-  public:
-	//static std::map<int, cxxNameDouble>& map;
-
 };
 
 #endif // !defined(NAMEDOUBLE_H_INCLUDED)

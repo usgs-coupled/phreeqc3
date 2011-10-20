@@ -61,9 +61,6 @@ class cxxISolution:public cxxSolution
 	struct pe_data *pes;
 	int default_pe;
 
-  public:
-	//static std::map<int, cxxISolution>& map;
-
 };
 
 #endif // !defined(ISOLUTION_H_INCLUDED)

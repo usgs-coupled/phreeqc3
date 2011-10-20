@@ -50,13 +50,9 @@ protected:
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 protected:
-	//std::list < cxxPPassemblageComp > ppAssemblageComps;
 	std::map <std::string, cxxPPassemblageComp > ppAssemblageComps;
 	cxxNameDouble eltList;
 	cxxNameDouble totals;
-
-public:
-	//static std::map<int, cxxPPassemblage>& map;
 
 };
 

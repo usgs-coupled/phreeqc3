@@ -1,11 +1,9 @@
 #include <assert.h>
 #include "PHRQ_io.h"
 
-#if defined(MERGE_INCLUDE_FILES) 
 #include <algorithm>
 #include <cctype>
 #include <fstream>
-#endif /* if defined(MERGE_INCLUDE_FILES) */
 
 PHRQ_io::
 PHRQ_io(void)
