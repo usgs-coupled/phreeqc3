@@ -14,7 +14,7 @@ PHRQ_io(void)
 	database_file = NULL;
 	output_file = NULL;	
 	log_file = NULL;	
-	punch_file = NULL;	/* OUTPUT_PUNCH */
+	punch_file = NULL;	
 	error_file = NULL;	
 	dump_file = NULL;	
 	io_error_count = 0;
@@ -559,16 +559,16 @@ output_msg(int type, const char *format, va_list args)
 	//			fflush(output_file);
 	//	}
 	//	break;
-	case OUTPUT_PUNCH:
-		if (punch_file != NULL && punch_file_on)
-		{
-			{
-				vfprintf(punch_file, format, args);
-				if (flush)
-					fflush(punch_file);
-			}
-		}
-		break;
+	//case OUTPUT_PUNCH:
+	//	if (punch_file != NULL && punch_file_on)
+	//	{
+	//		{
+	//			vfprintf(punch_file, format, args);
+	//			if (flush)
+	//				fflush(punch_file);
+	//		}
+	//	}
+	//	break;
 	//case OUTPUT_LOG:
 	//	if (log_file != NULL && log_file_on)
 	//	{
@@ -655,12 +655,12 @@ output_string(const int type, std::string str)
 	//		fprintf(output_file, "%s", str.c_str());
 	//	}
 	//	break;
-	case OUTPUT_PUNCH:
-		if (punch_file != NULL && punch_file_on)
-		{
-			fprintf(punch_file, "%s", str.c_str());
-		}
-		break;
+	//case OUTPUT_PUNCH:
+	//	if (punch_file != NULL && punch_file_on)
+	//	{
+	//		fprintf(punch_file, "%s", str.c_str());
+	//	}
+	//	break;
 	//case OUTPUT_LOG:
 	//	if (log_file != NULL && log_file_on)
 	//	{
@@ -716,18 +716,18 @@ output_open(int type, const char *file_name)
 	switch (type)
 	{
 
-	case OUTPUT_PUNCH:
-		if (punch_file != NULL)
-		{
-			fclose(punch_file);
-			punch_file = NULL;
-		}
-		if ((punch_file = fopen(file_name, "w")) == NULL)
-		{
-			//return ERROR;
-			return 0;
-		}
-		break;
+	//case OUTPUT_PUNCH:
+	//	if (punch_file != NULL)
+	//	{
+	//		fclose(punch_file);
+	//		punch_file = NULL;
+	//	}
+	//	if ((punch_file = fopen(file_name, "w")) == NULL)
+	//	{
+	//		//return ERROR;
+	//		return 0;
+	//	}
+	//	break;
 	//case OUTPUT_MESSAGE:
 	//	if (output_file != NULL)
 	//	{
@@ -805,9 +805,9 @@ output_isopen(const int type)
 	//case OUTPUT_MESSAGE:
 	//	return (output_file != NULL);
 	//	break;
-	case OUTPUT_PUNCH:
-		return (punch_file != NULL);
-		break;
+	//case OUTPUT_PUNCH:
+	//	return (punch_file != NULL);
+	//	break;
 	//case OUTPUT_SCREEN:
 	//	return (error_file != NULL);
 	//	break;
@@ -850,10 +850,10 @@ output_fflush(const int type)
 	//		fflush(output_file);
 	//	break;
 
-	case OUTPUT_PUNCH:
-		if (punch_file)
-			fflush(punch_file);
-		break;
+	//case OUTPUT_PUNCH:
+	//	if (punch_file)
+	//		fflush(punch_file);
+	//	break;
 
 	//case OUTPUT_SCREEN:
 	//	if (error_file)
@@ -899,10 +899,10 @@ output_rewind(const int type)
 	//		rewind(output_file);
 	//	break;
 
-	case OUTPUT_PUNCH:
-		if (punch_file)
-			rewind(punch_file);
-		break;
+	//case OUTPUT_PUNCH:
+	//	if (punch_file)
+	//		rewind(punch_file);
+	//	break;
 
 	//case OUTPUT_SCREEN:
 	//	if (error_file)
@@ -944,9 +944,9 @@ output_close(const int type)
 	//	safe_close(output_file);
 	//	break;
 
-	case OUTPUT_PUNCH:
-		safe_close(punch_file);
-		break;
+	//case OUTPUT_PUNCH:
+	//	safe_close(punch_file);
+	//	break;
 
 	//case OUTPUT_SCREEN:
 	//	safe_close(error_file);
