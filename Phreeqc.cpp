@@ -131,7 +131,6 @@ Phreeqc::Phreeqc(void)
 	{"pitzer", 0},
 	{"sit", 0},
 	{"equilibrium_phase", 0}
-#ifdef PHREEQC_CPP
 	,
 	{"solution_raw", 0},
 	{"exchange_raw", 0},
@@ -156,7 +155,6 @@ Phreeqc::Phreeqc(void)
 	{"reaction_modify", 0},
 	{"reaction_temperature_modify", 0},
 	{"solid_solution_modify", 0}
-#endif
 	};
 	NKEYS = (sizeof(keyword_temp) / sizeof(struct const_key));	/* Number of valid keywords */
 
