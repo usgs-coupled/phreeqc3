@@ -28,8 +28,6 @@
 #include "cxxMix.h"
 #include "phqalloc.h"
 #include "phrqproto.h"
-#include "output.h"
-
 
 #if !defined(PHREEQC_CLASS)
 static int streamify_to_next_keyword(std::istringstream & lines);
@@ -2775,7 +2773,7 @@ read_user_graph_handler(void)
 	bool success = chart_handler.Read(PHREEQC_THIS_COMMA parser);
 
 	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line).c_str());
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
 #endif
