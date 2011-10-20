@@ -39,25 +39,8 @@ main(int argc, char *argv[])
 	//_crtBreakAlloc = 9482;
 #endif
 
-	/*if (svnid == NULL)
-		fprintf(stderr, " ");*/
-
-
 	Phreeqc phreeqc_instance;
 	phreeqc_instance.main_method(argc, argv);
-#ifdef CHARTxxx
-	if (phreeqc_instance.u_g)
-	{
-		System::Diagnostics::Process^ currentProcess = System::Diagnostics::Process::GetCurrentProcess();
-		//System::Console::WriteLine(currentProcess->Threads->Count);
-		while (currentProcess->Threads->Count > 8)
-		{
-			currentProcess->Refresh();
-			//System::Console::WriteLine(currentProcess->Threads->Count);
-			System::Threading::Thread::CurrentThread->Sleep(100);
-		}
-	}
-#endif
 }
 
 
@@ -87,22 +70,7 @@ main_method(int argc, char *argv[])
 	//_crtBreakAlloc = 9482;
 #endif
 
-	//if (svnid == NULL)
-	//	fprintf(stderr, " ");
 	phast = FALSE;
-/*
- *   Add callbacks for error_msg and warning_msg
- */
-#ifdef USE_OLD_IO
-	if (add_output_callback(phreeqc_handler, this) != OK)
-	{
-		fprintf(stderr, "ERROR: %s\n",
-				"NULL pointer returned from malloc or realloc.");
-		fprintf(stderr, "ERROR: %s\n", "Program terminating.");
-		return -1;
-	}
-#endif
-
 /*
  *   Open input/output files
  */
@@ -156,8 +124,6 @@ main_method(int argc, char *argv[])
 		//clean_up();
 		return errors;
 	}
-
-
 /*
  *   Display successful status
  */
@@ -175,7 +141,6 @@ main_method(int argc, char *argv[])
 
 	return 0;
 }
-
 
 #ifdef DOS
 /* ---------------------------------------------------------------------- */
