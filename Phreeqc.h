@@ -28,8 +28,6 @@
 #include "PHRQ_io.h"
 class cxxNameDouble;
 #define STATIC
-#define EXTERNAL
-//#define Phreeqc:: Phreeqc::
 #define CLASS_STATIC static
 #define extern
 #include "p2c.h"
@@ -61,7 +59,6 @@ public:
 	Phreeqc(void);
 	~Phreeqc(void);
 
-#define PITZER_EXTERNAL 
 #include "pitzer.h"
 #include "input.h"
 
