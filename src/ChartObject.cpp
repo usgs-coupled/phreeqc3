@@ -12,15 +12,10 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
-#ifdef PHREEQC_CPP
 #include "Phreeqc_class.h"
-#endif
-#ifdef PHREEQC_CLASS
 #include "Phreeqc.h"
-#endif
 #include "phqalloc.h"
 #include "phrqproto.h"
-#include "output.h"
 #include "Form1.h"
 using namespace zdg_ui2;
 
