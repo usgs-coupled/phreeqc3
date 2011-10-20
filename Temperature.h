@@ -32,9 +32,6 @@ protected:
 	int countTemps;
 	bool equalIncrements;
 
-public:
-	//static std::map<int, cxxTemperature>& map;
-
 };
 
 #endif // !defined(TEMPERATURE_H_INCLUDED)

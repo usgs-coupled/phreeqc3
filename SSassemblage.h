@@ -56,9 +56,6 @@ protected:
 	std::map < std::string, cxxSSassemblageSS > ssAssemblageSSs;
 	cxxNameDouble totals;
 
-public:
-	//static std::map<int, cxxSSassemblage>& map;
-
 };
 
 #endif // !defined(SSASSEMBLAGE_H_INCLUDED)

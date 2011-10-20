@@ -61,8 +61,6 @@ class cxxKinetics:public cxxNumKeyword
 	bool use_cvode;
 	int cvode_steps;
 	int cvode_order;
-  public:
-	//static std::map<int, cxxKinetics>& map;
 
 };
 

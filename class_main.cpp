@@ -1,6 +1,6 @@
 #include "Phreeqc.h"
 #include "phrqproto.h"
-#include "input.h"
+//#include "input.h"
 #include "NameDouble.h"
 #include "Solution.h"
 #include "Reaction.h"
@@ -96,13 +96,10 @@ main_method(int argc, char *argv[])
 /*
  *   Load database into memory
  */
-#if defined(MERGE_INCLUDE_FILES) 
 	this->set_cookie((std::ifstream *) db_cookie);
 	errors = read_database(PHRQ_io::istream_getc, db_cookie);
 	this->clear_cookie();
-#else
-	errors = read_database(getc_callback, db_cookie);
-#endif
+
 	if (errors != 0)
 	{
 		//clean_up();
@@ -112,13 +109,11 @@ main_method(int argc, char *argv[])
 /*
  *   Read input data for simulation
  */
-#if defined(MERGE_INCLUDE_FILES) 
+
 	this->set_cookie((std::ifstream *)input_cookie);
 	errors = run_simulations(PHRQ_io::istream_getc, input_cookie);
 	this->clear_cookie();
-#else
-	errors = run_simulations(getc_callback, input_cookie);
-#endif
+
 	if (errors != 0)
 	{
 		//clean_up();

@@ -46,9 +46,6 @@ protected:
 	bool equalIncrements;
 	std::string units;
 
-public:
-	//static std::map<int, cxxReaction>& map;
-
 };
 
 #endif // !defined(REACTION_H_INCLUDED)

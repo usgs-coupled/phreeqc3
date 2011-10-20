@@ -52,9 +52,6 @@ class cxxMix:public cxxNumKeyword
 	friend class cxxStorageBin;
 	std::map < int, double >mixComps;
 
-  public:
-	//static std::map<int, cxxMix>& map;
-
 };
 
 #endif // !defined(CXXMIX_H_INCLUDED)

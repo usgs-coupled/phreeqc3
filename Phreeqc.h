@@ -27,10 +27,7 @@
 #endif
 #include "PHRQ_io.h"
 class cxxNameDouble;
-#define static static
-#define extern
 #include "p2c.h"
-#undef extern 
 #include "global_structures.h"
 #include "pitzer_structures.h"
 class cxxKinetics;
@@ -267,10 +264,7 @@ int write_banner(void);
 public:
 int close_input_files(void);
 int close_output_files(void);
-//static int getc_callback(void *cookie);
-#if defined(MERGE_INCLUDE_FILES) 
 static int istream_getc(void *cookie);
-#endif /* #if defined(MERGE_INCLUDE_FILES) */
 int process_file_names(int argc, char *argv[], void **db_cookie,
 					   void **input_cookie, int log);
 
@@ -487,6 +481,8 @@ int rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 int set_reaction(int i, int use_mix, int use_kinetics);
 int set_transport(int i, int use_mix, int use_kinetics, int nsaver);
 int store_get_equi_reactants(int k, int kin_end);
+int count_pp, count_pg, count_s_s;
+LDBLE *x0_moles;
 
 // mainsubs  -------------------------------
 
@@ -597,12 +593,7 @@ char *prefix_database_dir(char *s);
 void show_progress(const int type, char *s);
 #endif
 public:
-//int fileop_handler(const int type, int (*PFN) (FILE *));
-//int open_handler(const int type, const char *file_name);
-//int output_handler(const int type, const char *err_str,
-//						  const int stop, void *cookie, const char *format,
-//						  va_list args);
-//static int rewind_wrapper(FILE * file_ptr);
+
 void PASCAL_MAIN(int argc, Char **argv);
 long my_labs(long x);
 Anyptr my_memmove(Anyptr d, Const Anyptr s, size_t n);
@@ -1487,10 +1478,8 @@ int isamong(char c, const char *s_l);
 Address Hash_multi(HashTable * Table, char *Key);
 void ExpandTable_multi(HashTable * Table);
 
-#if defined(MERGE_INCLUDE_FILES) 
 public:
 	bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
-#endif /* #if defined(MERGE_INCLUDE_FILES) */
 
 public:        // public methods for PHREEQC_CLASS
 	int main_method(int argc, char *argv[]);

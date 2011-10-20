@@ -151,7 +151,6 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 void
 cxxTemperature::read_raw(CParser & parser)
 {
-
 	double d;
 	CParser::TOKEN_TYPE k;
 	static std::vector < std::string > vopts;

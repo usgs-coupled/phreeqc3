@@ -7,8 +7,6 @@
 #include "PHRQ_base.h"
 class CParser;
 
-//extern char *string_duplicate(const char *);
-
 class cxxNumKeyword: public PHRQ_base
 {
   public:
