@@ -66,8 +66,6 @@ public:
 #include "input.h"
 
 public:
-#include "output.h"
-public:
 #include "global.h"
 /*
   All functions are included as methods here
@@ -284,6 +282,8 @@ int process_file_names(int argc, char *argv[], void **db_cookie,
 void screen_msg(const char *err_str);
 void echo_msg(const char *err_str);
 int warning_msg(const char *err_str);
+void set_forward_output_to_log(int value);
+int get_forward_output_to_log(void);
 
 // dump_file
 bool dump_open(const char *file_name);
