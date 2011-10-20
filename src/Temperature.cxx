@@ -12,7 +12,7 @@
 #include "Phreeqc.h"
 #include "Temperature.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 
 //////////////////////////////////////////////////////////////////////

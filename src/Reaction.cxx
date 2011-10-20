@@ -11,7 +11,7 @@
 #include "Phreeqc.h"
 #include "Reaction.h"
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

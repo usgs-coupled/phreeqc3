@@ -14,7 +14,7 @@
 #include "cxxMix.h"
 
 #include "phqalloc.h"
-#include "phrqproto.h"
+
 #include "PHRQ_io.h"
 
 
