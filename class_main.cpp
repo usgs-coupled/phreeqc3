@@ -44,7 +44,7 @@ main(int argc, char *argv[])
 }
 
 
-int CLASS_QUALIFIER
+int Phreeqc::
 main_method(int argc, char *argv[])
 /*
  *   Main program for PHREEQC
@@ -144,7 +144,7 @@ main_method(int argc, char *argv[])
 
 #ifdef DOS
 /* ---------------------------------------------------------------------- */
-int CLASS_QUALIFIER
+int Phreeqc::
 write_banner(void)
 /* ---------------------------------------------------------------------- */
 {

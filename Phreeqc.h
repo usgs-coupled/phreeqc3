@@ -29,7 +29,7 @@
 class cxxNameDouble;
 #define STATIC
 #define EXTERNAL
-#define CLASS_QUALIFIER Phreeqc::
+//#define Phreeqc:: Phreeqc::
 #define CLASS_STATIC static
 #define extern
 #include "p2c.h"
