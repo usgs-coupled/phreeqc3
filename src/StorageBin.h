@@ -123,8 +123,6 @@ class cxxStorageBin: public PHRQ_base
 	std::map < int, cxxReaction > Reactions;
 	std::map < int, cxxTemperature > Temperatures;
 	cxxSystem system;
-  public:
-	//static std::map<int, cxxStorageBin>& map;
 
 };
 

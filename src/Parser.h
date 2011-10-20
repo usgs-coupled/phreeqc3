@@ -280,8 +280,6 @@ class CParser: public PHRQ_base
 
 	STATUS_TYPE parse_couple(std::string & token);
 
-	//STATUS_TYPE addPair(std::map < char *, double, CHARSTAR_LESS > &totals,
-	//					std::istream::pos_type & pos);
 	STATUS_TYPE addPair(std::map < std::string, double >&totals,
 						std::istream::pos_type & pos);
 

@@ -42,35 +42,6 @@ cxxISolutionComp::~cxxISolutionComp(void)
 {
 }
 
-/*
-struct conc *cxxISolutionComp::concarray(std::map <char *, double, CHARSTAR_LESS> &totals)
-        // for Solutions, not ISolutions
-        // takes a map of (elt name, moles)
-        // returns list of conc structures
-{
-        struct conc *c;
-        c = (struct conc *) P_INSTANCE_POINTER PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
-        if (c == NULL) malloc_error();
-        int i = 0;
-        for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
-                c[i].description         = (char *)it->first;
-                c[i].moles               = it->second;
-                c[i].input_conc          = it->second;
-                c[i].units               = NULL;
-                c[i].equation_name       = NULL;
-                c[i].phase_si            = 0.0;
-                c[i].n_pe                = 0;
-                c[i].as                  = NULL;
-                c[i].gfw                 = 0.0;
-                //c[i].skip                = 0;
-                c[i].phase               = NULL;
-                i++;
-        }                       
-        c[i].description = NULL;
-        return(c);
-}
-*/
-
 #ifdef SKIP_OR_MOVE_TO_STRUCTURES
 struct conc *
 cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < std::string,

@@ -191,17 +191,7 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// soln_total conc structures
 	this->totals.dump_xml(s_oss, indent + 1);
-	/*
-	   {
-	   for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
-	   s_oss << indent1;
-	   s_oss << "<soln_total";
-	   s_oss << " conc_desc=\"" << it->first << "\"";
-	   s_oss << " conc_moles=\"" << it->second << "\"" ;
-	   s_oss << "\">" << std::endl;
-	   }
-	   }
-	 */
+
 	// master_activity map
 	this->master_activity.dump_xml(s_oss, indent + 1);
 	/*
@@ -295,14 +285,6 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 			it->dump_raw(s_oss, indent + 2);
 		}
 	}
-	/*
-	   for (std::map <char *, double, CHARSTAR_LESS>::const_iterator it = totals.begin(); it != totals.end(); ++it) {
-	   s_oss << indent2;
-	   s_oss << it->first << "   " <<  it->second << std::endl;
-	   }
-	 */
-
-	//s_oss << "# Non-critical values" << std::endl;
 
 	s_oss << indent1;
 	s_oss << "-pH                " << this->ph << std::endl;

@@ -71,8 +71,6 @@ protected:
 	bool transport;
 	cxxNameDouble totals;
 
-public:
-	//static std::map<int, cxxSurface>& map;
 };
 
 #endif // !defined(SURFACE_H_INCLUDED)
