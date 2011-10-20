@@ -5,12 +5,7 @@
 #include <sstream>				// std::ostrstream
 
 #include "Utils.h"
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "SolutionIsotope.h"
 #include "phqalloc.h"
 #include "phrqproto.h"

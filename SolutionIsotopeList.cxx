@@ -2,12 +2,7 @@
 #include <cassert>				// assert
 #include <algorithm>			// std::sort
 
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "SolutionIsotopeList.h"
 #include "phqalloc.h"
 #include "phrqproto.h"

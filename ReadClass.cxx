@@ -5,12 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-#if !defined(PHREEQC_CLASS)
-#define EXTERNAL extern
-#include "global.h"
-#else
 #include "Phreeqc.h"
-#endif
 #include "Phreeqc_class.h"
 #include "Parser.h"
 #include "Solution.h"
@@ -29,22 +24,6 @@
 #include "phqalloc.h"
 #include "phrqproto.h"
 
-#if !defined(PHREEQC_CLASS)
-static int streamify_to_next_keyword(std::istringstream & lines);
-extern int reading_database(void);
-extern int check_line(const char *string, int allow_empty, int allow_eof,
-					  int allow_keyword, int print);
-extern int set_use(void);
-extern int copy_use(int i);
-dumper dump_info;
-StorageBinList delete_info;
-runner run_info;
-
-int dump_entities(void);
-void dump_ostream(std::ostream& os);
-int delete_entities(void);
-int run_as_cells(void);
-#endif
 
 /* ---------------------------------------------------------------------- */
 int CLASS_QUALIFIER
