@@ -283,6 +283,7 @@ int process_file_names(int argc, char *argv[], void **db_cookie,
 /* PHRQ_io_output.cpp */
 void screen_msg(const char *err_str);
 void echo_msg(const char *err_str);
+int warning_msg(const char *err_str);
 
 // dump_file
 bool dump_open(const char *file_name);
@@ -325,6 +326,13 @@ bool punch_isopen(void);
 void punch_msg(const char * str);
 
 void fpunchf_heading(const char *name);
+void fpunchf(const char *name, const char *format, double d);
+void fpunchf(const char *name, const char *format, char * d);
+void fpunchf(const char *name, const char *format, int d);
+void fpunchf_user(int user_index, const char *format, double d);
+void fpunchf_user(int user_index, const char *format, char * d);
+int fpunchf_end_row(const char *format);
+
 // dw.c -------------------------------
 int BB(LDBLE T);
 LDBLE PS(LDBLE T);
