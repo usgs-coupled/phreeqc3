@@ -1,7 +1,6 @@
 #if !defined(NUMKEYWORD_H_INCLUDED)
 #define NUMKEYWORD_H_INCLUDED
 
-//#include "Parser.h"
 #include <ostream>				// std::ostream
 #include <string>				// std::string
 #include "PHRQ_base.h"

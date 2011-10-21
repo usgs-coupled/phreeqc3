@@ -17,7 +17,6 @@
 #include <math.h>
 #include <errno.h>
 #include <float.h>
-#include <setjmp.h>
 #include "phrqtype.h"
 #include "cvdense.h"	
 #include "runner.h"

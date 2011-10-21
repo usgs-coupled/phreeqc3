@@ -1,6 +1,5 @@
 #include "Phreeqc.h"
 
-//#include "input.h"
 #include "NameDouble.h"
 #include "Solution.h"
 #include "Reaction.h"
