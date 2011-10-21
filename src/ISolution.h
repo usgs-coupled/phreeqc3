@@ -12,7 +12,6 @@
 #include <fstream>
 
 #include "ISolutionComp.h"
-//#include "NumKeyword.h"
 #include "Solution.h"
 
 class cxxISolution:public cxxSolution
