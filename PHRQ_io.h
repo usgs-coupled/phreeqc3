@@ -20,12 +20,12 @@ public:
 	int close_output_files(void);
 
 	// output_file
-	bool output_temp_open(const char *file_name);
-	void output_temp_fflush(void);
-	void output_temp_close(void);
-	void output_temp_rewind(void);
-	bool output_temp_isopen(void);
-	void output_temp_msg(const char * str);
+	bool output_open(const char *file_name);
+	void output_fflush(void);
+	void output_close(void);
+	void output_rewind(void);
+	bool output_isopen(void);
+	void output_msg(const char * str);
 
 	// log_file
 	bool log_open(const char *file_name);
