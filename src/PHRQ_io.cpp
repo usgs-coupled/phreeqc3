@@ -77,7 +77,7 @@ PHRQ_io::Set_dump_file(FILE * out)
 
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-output_temp_open(const char *file_name)
+output_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(output_file);
@@ -89,7 +89,7 @@ output_temp_open(const char *file_name)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-output_temp_fflush(void)
+output_fflush(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (output_file && output_file_on)
@@ -99,14 +99,14 @@ output_temp_fflush(void)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-output_temp_close(void)
+output_close(void)
 /* ---------------------------------------------------------------------- */
 {
 	safe_close(output_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-output_temp_rewind(void)
+output_rewind(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (output_file && output_file_on)
@@ -116,7 +116,7 @@ output_temp_rewind(void)
 }
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
-output_temp_isopen(void)
+output_isopen(void)
 /* ---------------------------------------------------------------------- */
 {
 	if (output_file)
@@ -125,7 +125,7 @@ output_temp_isopen(void)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-output_temp_msg(const char * str)
+output_msg(const char * str)
 /* ---------------------------------------------------------------------- */
 {
 	if (output_file != NULL && output_file_on)
@@ -328,19 +328,20 @@ error_msg(const char *err_str, bool stop)
 	io_error_count++;
 	if (error_file != NULL && error_file_on)
 	{
-		fprintf(error_file, "\nERROR: %s\n", err_str);
+		//fprintf(error_file, "\nERROR: %s\n", err_str);
+		fprintf(error_file, "%s", err_str);
 		fflush(error_file);
 	}
-	if (output_file != NULL && output_file_on)
-	{
-		fprintf(output_file, "ERROR: %s\n", err_str);
-		fflush(output_file);
-	}
-	if (log_file != NULL && log_file_on)
-	{
-		fprintf(log_file, "ERROR: %s\n", err_str);
-		fflush(log_file);
-	}
+	//if (output_file != NULL && output_file_on)
+	//{
+	//	fprintf(output_file, "ERROR: %s\n", err_str);
+	//	fflush(output_file);
+	//}
+	//if (log_file != NULL && log_file_on)
+	//{
+	//	fprintf(log_file, "ERROR: %s\n", err_str);
+	//	fflush(log_file);
+	//}
 	if (stop)
 	{
 		if (error_file != NULL && error_file_on)

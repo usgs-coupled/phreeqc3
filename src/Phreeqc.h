@@ -298,13 +298,13 @@ void error_rewind(void);
 bool error_isopen(void);
 void error_msg(const char * str, bool stop=false);
 
-// output_temp_file
-bool output_temp_open(const char *file_name);
-void output_temp_fflush(void);
-void output_temp_close(void);
-void output_temp_rewind(void);
-bool output_temp_isopen(void);
-void output_temp_msg(const char * str);
+// output_file
+bool output_open(const char *file_name);
+void output_fflush(void);
+void output_close(void);
+void output_rewind(void);
+bool output_isopen(void);
+void output_msg(const char * str);
 
 // punch_file
 bool punch_open(const char *file_name);
