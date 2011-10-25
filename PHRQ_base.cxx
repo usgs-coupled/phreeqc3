@@ -25,18 +25,18 @@ error_msg(const std::string & stdstr, int stop)
 {
 	this->base_error_count++;
 	std::ostringstream msg;
-	msg << "\nERROR: " << stdstr << std::endl;
+	msg << "ERROR: " << stdstr << std::endl;
 	if (this->io)
 	{
-
 		this->io->output_msg(msg.str().c_str());
 		this->io->log_msg(msg.str().c_str());
+		this->io->error_msg("\n");
 		this->io->error_msg(msg.str().c_str(), stop!=0);
 	}
 	else
 	{
-		std::cerr << msg.str().c_str() << std::endl;
-		std::cout << msg.str().c_str() << std::endl;
+		std::cerr << msg.str().c_str();
+		std::cout << msg.str().c_str();
 	}
 	if (stop != 0)
 	{
