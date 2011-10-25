@@ -3,10 +3,13 @@
 #if defined(WIN32)
 #include <windows.h>
 #endif
+#if defined(WIN32_MEMORY_DEBUG)
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#endif
 /* ----------------------------------------------------------------------
  *   INCLUDE FILES
  * ---------------------------------------------------------------------- */
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -21,14 +24,14 @@
 #include "cvdense.h"	
 #include "runner.h"
 #include "dumper.h"
+#include "PHRQ_io.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
-#include "PHRQ_io.h"
-class cxxNameDouble;
+
 #include "p2c.h"
-#include "global_structures.h"
-#include "pitzer_structures.h"
+
+class cxxNameDouble;
 class cxxKinetics;
 class cxxMix;
 class cxxKineticsComp;
@@ -48,120 +51,27 @@ class cxxSurfaceCharge;
 class cxxSurfaceComp;
 class cxxStorageBin;
 
+#include "global_structures.h"
+#include "basic.h"
+
 class Phreeqc
 {
 public:
 	Phreeqc(void);
 	~Phreeqc(void);
 
-#include "pitzer.h"
-#include "input.h"
-
 public:
-#include "global.h"
-/*
-  All functions are included as methods here
-*/
-#define _INC_PHRQPROTO_H
+//
+// Phreeqc class methods
+//
 
-// advection.c -------------------------------
-
+// advection.cpp -------------------------------
 int advection(void);
 
-// basic.c -------------------------------
+// basic.cpp
+#include "basic_class.h"
 
-int basic_main(char *commands);
-void cmd_initialize(void);
-void cmd_free(void);
-int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
-int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
-int basic_init(void);
-#ifdef PHREEQ98
-void GridChar(char *s, char *a);
-#endif
-int sget_logical_line(char **ptr, int *l, char *return_line);
-int free_dim_stringvar(varrec *varbase);
-void exec(void);
-int basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase);
-void restoredata(void);
-void clearloops(void);
-void clearvar(varrec * v);
-void clearvars(void);
-Char * numtostr(Char * Result, LDBLE n);
-void parse(Char * inbuf, tokenrec ** buf);
-void listtokens(FILE * f, tokenrec * buf);
-void disposetokens(tokenrec ** tok);
-void parseinput(tokenrec ** buf);
-void errormsg(const Char * s);
-void snerr(const Char * s);
-void tmerr(const Char * s);
-void badsubscr(void);
-LDBLE realfactor(struct LOC_exec *LINK);
-Char * strfactor(struct LOC_exec * LINK);
-Char *stringfactor(Char * Result, struct LOC_exec *LINK);
-long intfactor(struct LOC_exec *LINK);
-LDBLE realexpr(struct LOC_exec *LINK);
-Char * strexpr(struct LOC_exec * LINK);
-Char * stringexpr(Char * Result, struct LOC_exec * LINK);
-long intexpr(struct LOC_exec *LINK);
-void require(int k, struct LOC_exec *LINK);
-void skipparen(struct LOC_exec *LINK);
-varrec * findvar(struct LOC_exec *LINK);
-valrec factor(struct LOC_exec *LINK);
-valrec upexpr(struct LOC_exec * LINK);
-valrec term(struct LOC_exec * LINK);
-valrec sexpr(struct LOC_exec * LINK);
-valrec relexpr(struct LOC_exec * LINK);
-valrec andexpr(struct LOC_exec * LINK);
-valrec expr(struct LOC_exec *LINK);
-void checkextra(struct LOC_exec *LINK);
-boolean iseos(struct LOC_exec *LINK);
-void skiptoeos(struct LOC_exec *LINK);
-linerec * findline(long n);
-linerec * mustfindline(long n);
-void cmdend(struct LOC_exec *LINK);
-void cmdnew(struct LOC_exec *LINK);
-void cmdlist(struct LOC_exec *LINK);
-void cmdload(boolean merging, Char * name, struct LOC_exec *LINK);
-void cmdrun(struct LOC_exec *LINK);
-void cmdsave(struct LOC_exec *LINK);
-void cmdput(struct LOC_exec *LINK);
-void cmdchange_por(struct LOC_exec *LINK);
-void cmdchange_surf(struct LOC_exec *LINK);
-void cmdbye(void);
-void cmddel(struct LOC_exec *LINK);
-void cmdrenum(struct LOC_exec *LINK);
-void cmdprint(struct LOC_exec *LINK);
-void cmdpunch(struct LOC_exec *LINK);
-#if defined PHREEQ98 || defined MULTICHART
-void cmdgraph_x(struct LOC_exec *LINK);
-void cmdgraph_y(struct LOC_exec *LINK);
-void cmdgraph_sy(struct LOC_exec *LINK);
-#endif
-#if defined MULTICHART
-void cmdplot_xy(struct LOC_exec *LINK);
-#endif
-void cmdlet(boolean implied, struct LOC_exec *LINK);
-void cmdgoto(struct LOC_exec *LINK);
-void cmdif(struct LOC_exec *LINK);
-void cmdelse(struct LOC_exec *LINK);
-boolean skiploop(int up, int dn, struct LOC_exec *LINK);
-void cmdfor(struct LOC_exec *LINK);
-void cmdnext(struct LOC_exec *LINK);
-void cmdwhile(struct LOC_exec *LINK);
-void cmdwend(struct LOC_exec *LINK);
-void cmdgosub(struct LOC_exec *LINK);
-void cmdreturn(struct LOC_exec *LINK);
-void cmdread(struct LOC_exec *LINK);
-void cmddata(struct LOC_exec *LINK);
-void cmdrestore(struct LOC_exec *LINK);
-void cmdgotoxy(struct LOC_exec *LINK);
-void cmdon(struct LOC_exec *LINK);
-void cmddim(struct LOC_exec *LINK);
-void cmdpoke(struct LOC_exec *LINK);
-
-// basicsubs.c -------------------------------
-
+// basicsubs.cpp -------------------------------
 LDBLE activity(const char *species_name);
 LDBLE activity_coefficient(const char *species_name);
 LDBLE log_activity_coefficient(const char *species_name);
@@ -235,7 +145,8 @@ void SetAxisTitles(char *s, int i);
 void SetChartTitle(char *s);
 void start_chart(bool end);
 #endif
-// cl1.c -------------------------------
+
+// cl1.cpp -------------------------------
 int cl1(int k, int l, int m, int n,
 		int nklmd, int n2d,
 		LDBLE * q,
@@ -244,7 +155,7 @@ int cl1(int k, int l, int m, int n,
 		LDBLE * cu, int *iu, int *s, int check);
 void cl1_space(int check, int n2d, int klm, int nklmd);
 
-// cl1mp.c -------------------------------
+// cl1mp.cpp -------------------------------
 int cl1mp(int k, int l, int m, int n,
 		  int nklmd, int n2d,
 		  LDBLE * q_arg,
@@ -252,14 +163,12 @@ int cl1mp(int k, int l, int m, int n,
 		  int *iter, LDBLE * x_arg, LDBLE * res_arg, LDBLE * error,
 		  LDBLE * cu_arg, int *iu, int *s, int check, LDBLE censor_arg);
 
-
-
-// class_main.c -------------------------------
+// class_main.cpp -------------------------------
 #ifdef DOS
 int write_banner(void);
 #endif
 
-/* default.c */
+/* default.cpp */
 public:
 int close_input_files(void);
 int close_output_files(void);
@@ -322,7 +231,7 @@ void fpunchf_user(int user_index, const char *format, double d);
 void fpunchf_user(int user_index, const char *format, char * d);
 int fpunchf_end_row(const char *format);
 
-// dw.c -------------------------------
+// dw.cpp -------------------------------
 int BB(LDBLE T);
 LDBLE PS(LDBLE T);
 LDBLE VLEST(LDBLE T);
@@ -330,15 +239,13 @@ int DFIND(LDBLE * DOUT, LDBLE P, LDBLE D, LDBLE T);
 int QQ(LDBLE T, LDBLE D);
 LDBLE BASE(LDBLE D);
 
-// input.c -------------------------------
-
+// input.cpp -------------------------------
 int reading_database(void);
 struct read_callback s_read_callback;
 int check_line(const char *string, int allow_empty, int allow_eof,
 		   int allow_keyword, int print);
 
-// integrate.c -------------------------------
-
+// integrate.cpp -------------------------------
 int calc_all_g(void);
 int calc_init_g(void);
 int initial_surface_water(void);
@@ -354,8 +261,7 @@ LDBLE calc_psi_avg(LDBLE surf_chrg_eq);
 int calc_all_donnan_music(void);
 int calc_init_donnan_music(void);
 
-// inverse.c -------------------------------
-
+// inverse.cpp -------------------------------
 int inverse_models(void);
 int add_to_file(const char *filename, char *string);
 int bit_print(unsigned long bits, int l);
@@ -412,8 +318,7 @@ int subset_minimal(unsigned long bits);
 int superset_minimal(unsigned long bits);
 int write_optimize_names(struct inverse *inv_ptr);
 
-// isotopes.c -------------------------------
-
+// isotopes.cpp -------------------------------
 int add_isotopes(struct solution *solution_ptr);
 int calculate_values(void);
 int calculate_isotope_moles(struct element *elt_ptr,
@@ -454,8 +359,7 @@ int isotope_alpha_init(struct isotope_alpha *isotope_alpha_ptr);
 int isotope_ratio_init(struct isotope_ratio *isotope_ratio_ptr);
 int master_isotope_init(struct master_isotope *master_isotope_ptr);
 
-// kinetics.c -------------------------------
-
+// kinetics.cpp -------------------------------
 void cvode_init(void);
 int run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction);
 int set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
@@ -483,8 +387,7 @@ int store_get_equi_reactants(int k, int kin_end);
 int count_pp, count_pg, count_s_s;
 LDBLE *x0_moles;
 
-// mainsubs  -------------------------------
-
+// mainsubs.cpp  -------------------------------
 FILE *file_open(char *query, char *default_name, const char *status,
 				int batch);
 int copy_entities(void);
@@ -507,12 +410,10 @@ int do_initialize(void);
 int do_status(void);
 void save_init(int i);
 void use_init(void);
-
 int copy_use(int i);
 int set_use(void);
 
-// model.c -------------------------------
-
+// model.cpp -------------------------------
 int check_residuals(void);
 int free_model_allocs(void);
 int ineq(int kode);
@@ -527,7 +428,6 @@ int residuals(void);
 int set(int initial);
 int sum_species(void);
 int surface_model(void);
-
 LDBLE s_s_root(LDBLE a0, LDBLE a1, LDBLE kc, LDBLE kb, LDBLE xcaq,
 					  LDBLE xbaq);
 LDBLE s_s_halve(LDBLE a0, LDBLE a1, LDBLE x0, LDBLE x1, LDBLE kc,
@@ -552,10 +452,7 @@ int s_s_ideal(struct s_s *s_s_ptr);
 int gas_in;
 void ineq_init(int max_row_count, int max_column_count);
 
-// output.c -------------------------------
-
-// parse.c -------------------------------
-
+// parse.cpp -------------------------------
 int check_eqn(int association);
 int get_charge(char *charge, LDBLE * z);
 int get_elt(char **t_ptr, char *element, int *i);
@@ -563,12 +460,11 @@ int get_elts_in_species(char **t_ptr, LDBLE coef);
 int get_num(char **t_ptr, LDBLE * num);
 int get_secondary_in_species(char **t_ptr, LDBLE coef);
 int parse_eq(char *eqn, struct elt_list **elt_ptr, int association);
-
 int get_coef(LDBLE * coef, char **eqnaddr);
 int get_secondary(char **t_ptr, char *element, int *i);
 int get_species(char **ptr);
 
-// phqalloc.c -------------------------------
+// phqalloc.cpp -------------------------------
 public:
 #if !defined(NDEBUG)
 void *PHRQ_malloc(size_t, const char *, int);
@@ -580,67 +476,17 @@ void *PHRQ_calloc(size_t, size_t);
 void *PHRQ_realloc(void *, size_t);
 #endif
 void PHRQ_free(void *ptr);
-
 void PHRQ_free_all(void);
-protected:
 
-// phreeqc_files.c -------------------------------
-
-#ifdef PHREEQ98
-void check_line_breaks(char *s);
-char *prefix_database_dir(char *s);
-void show_progress(const int type, char *s);
-#endif
 public:
 
-void PASCAL_MAIN(int argc, Char **argv);
-long my_labs(long x);
-Anyptr my_memmove(Anyptr d, Const Anyptr s, size_t n);
-Anyptr my_memcpy(Anyptr d, Const Anyptr s, size_t n);
-int my_memcmp(Const Anyptr s1, Const Anyptr s2, size_t n);
-Anyptr my_memset(Anyptr d, int c, size_t n);
-int my_toupper(int c);
-int my_tolower(int c);
-long ipow(long a, long b);
-char * strsub(register char *ret, register char *s, register int pos,
-	   register int len);
-int strpos2(char *s, register char *pat, register int pos);
-int strcicmp(register char *s1, register char *s2);
-char * strltrim(register char *s);
-char * strrtrim(register char *s);
-void strmove(register int len, register char *s, register int spos,
-		register char *d, register int dpos);
-void strinsert(register char *src, register char *dst, register int pos);
-int P_peek(FILE * f);
-int P_eof(void);
-int P_eoln(FILE * f);
-void P_readpaoc(FILE * f, char *s, int len);
-void P_readlnpaoc(FILE * f, char *s, int len);
-long P_maxpos(FILE * f);
-Char * P_trimname(register Char * fn, register int len);
-long memavail(void);
-long maxavail(void);
-long * P_setunion(register long *d, register long *s1, register long *s2);
-long * P_setint(register long *d, register long *s1, register long *s2);
-long * P_setdiff(register long *d, register long *s1, register long *s2);
-long * P_setxor(register long *d, register long *s1, register long *s2);
-long * P_addset(register long *s, register unsigned val);
-long * P_addsetr(register long *s, register unsigned v1, register unsigned v2);
-long * P_remset(register long *s, register unsigned val);
-int P_setequal(register long *s1, register long *s2);
-int P_subset(register long *s1, register long *s2);
-long * P_setcpy(register long *d, register long *s);
-long * P_expset(register long *d, register long s);
-long P_packset(register long *s);	
-int _OutMem(void);
-int _CaseCheck(void);
-int _NilCheck(void);
-static char * _ShowEscape(char *buf, int code, int ior, char *prefix);
-int _Escape(int code);
-int _EscIO(int code);
-
-// pitzer.c -------------------------------
-
+// pitzer.cpp -------------------------------
+struct pitz_param *pitz_param_read(char *string, int n);
+int pitz_param_search(struct pitz_param *pzp_ptr);
+int sit_param_search(struct pitz_param *pzp_ptr);
+struct theta_param *theta_param_search(LDBLE zj, LDBLE zk);
+struct theta_param *theta_param_alloc(void);
+int theta_param_init(struct theta_param *theta_param_ptr);
 int gammas_pz(void);
 int model_pz(void);
 int pitzer(void);
@@ -649,7 +495,6 @@ int pitzer_init(void);
 int pitzer_tidy(void);
 int read_pitzer(void);
 int set_pz(int initial);
-
 int calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 int check_gammas_pz(void);
 int ISPEC(char *name);
@@ -665,16 +510,14 @@ LDBLE JAY(LDBLE X);
 LDBLE JPRIME(LDBLE Y);
 int jacobian_pz(void);
 
-// pitzer_structures.c -------------------------------
-
+// pitzer_structures.cpp -------------------------------
 struct pitz_param *pitz_param_alloc(void);
 int pitz_param_init(struct pitz_param *pitz_param_ptr);
 struct pitz_param *pitz_param_duplicate(struct pitz_param *old_ptr);
 int pitz_param_copy(struct pitz_param *old_ptr,
 						   struct pitz_param *new_ptr);
 
-// pitzer_structures.c -------------------------------
-
+// pitzer_structures.cpp -------------------------------
 int add_potential_factor(void);
 int add_cd_music_factors(int n);
 int add_surface_charge_balance(void);
@@ -727,8 +570,7 @@ int write_mb_eqn_x(void);
 int write_mb_for_species_list(int n);
 int write_mass_action_eqn_x(int stop);
 
-/* prep.c */
-
+/* prep.cpp */
 int check_same_model(void);
 int k_temp(LDBLE tc);
 LDBLE k_calc(LDBLE * logk, LDBLE tempk);
@@ -739,7 +581,7 @@ int rewrite_master_to_secondary(struct master *master_ptr1,
 int switch_bases(void);
 int write_phase_sys_total(int n);
 
-// print.c -------------------------------
+// print.cpp -------------------------------
 char *sformatf(const char *format, ...);
 int array_print(LDBLE * array_l, int row_count, int column_count,
 				int max_column_count);
@@ -752,7 +594,6 @@ int print_species(void);
 int print_surface(void);
 int print_user_print(void);
 int punch_all(void);
-
 int print_alkalinity(void);
 int print_diffuse_layer(struct surface_charge *surface_charge_ptr);
 int print_eh(void);
@@ -776,12 +617,11 @@ int punch_s_s_assemblage(void);
 int punch_saturation_indices(void);
 int punch_totals(void);
 int punch_user_punch(void);
-#if defined PHREEQ98 || defined MULTICHART
+#if defined MULTICHART
 int punch_user_graph(void);
 #endif
 
-// read.c -------------------------------
-
+// read.cpp -------------------------------
 int read_input(void);
 int read_conc(int n, int count_mass_balance, char *str);
 int *read_list_ints_range(char **ptr, int *count_ints, int positive,
@@ -859,37 +699,36 @@ int read_user_graph_handler();
 int next_keyword_or_option(const char **opt_list, int count_opt_list);
 
 // ReadClass.cxx
- int read_solution_raw(void);
- int read_exchange_raw(void);
- int read_surface_raw(void);
- int read_equilibrium_phases_raw(void);
- int read_kinetics_raw(void);
- int read_solid_solutions_raw(void);
- int read_gas_phase_raw(void);
- int read_reaction_raw(void);
- int read_mix_raw(void);
- int read_temperature_raw(void);
- int read_dump(void);
- int read_solution_modify(void);
- int read_equilibrium_phases_modify(void);
- int read_exchange_modify(void);
- int read_surface_modify(void);
- int read_solid_solutions_modify(void);
- int read_gas_phase_modify(void);
- int read_kinetics_modify(void);
- int read_reaction_modify(void);
- //int read_reaction_temperature_modify(void);
- int read_delete(void);
- int read_run_cells(void);
- int streamify_to_next_keyword(std::istringstream & lines);
- int dump_entities(void);
- int delete_entities(void);
- int run_as_cells(void);
- void dump_ostream(std::ostream& os);
 
+int read_solution_raw(void);
+int read_exchange_raw(void);
+int read_surface_raw(void);
+int read_equilibrium_phases_raw(void);
+int read_kinetics_raw(void);
+int read_solid_solutions_raw(void);
+int read_gas_phase_raw(void);
+int read_reaction_raw(void);
+int read_mix_raw(void);
+int read_temperature_raw(void);
+int read_dump(void);
+int read_solution_modify(void);
+int read_equilibrium_phases_modify(void);
+int read_exchange_modify(void);
+int read_surface_modify(void);
+int read_solid_solutions_modify(void);
+int read_gas_phase_modify(void);
+int read_kinetics_modify(void);
+int read_reaction_modify(void);
+//int read_reaction_temperature_modify(void);
+int read_delete(void);
+int read_run_cells(void);
+int streamify_to_next_keyword(std::istringstream & lines);
+int dump_entities(void);
+int delete_entities(void);
+int run_as_cells(void);
+void dump_ostream(std::ostream& os);
 
-// readtr.c -------------------------------
-
+// readtr.cpp -------------------------------
 int read_transport(void);
 int dump(void);
 int dump_exchange(int k);
@@ -902,12 +741,10 @@ int dump_s_s_assemblage(int k);
 int dump_solution(int k);
 int dump_surface(int k);
 int dump_cpp(void);
-
 int read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d,
 							int *count_alloc);
 
-// sit.c -------------------------------
-
+// sit.cpp -------------------------------
 int gammas_sit(void);
 int model_sit(void);
 int sit(void);
@@ -916,7 +753,6 @@ int sit_init(void);
 int sit_tidy(void);
 int read_sit(void);
 int set_sit(int initial);
-
 int calc_sit_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 int check_gammas_sit(void);
 int sit_ISPEC(char *name);
@@ -926,10 +762,8 @@ int sit_revise_guesses(void);
 int PTEMP_SIT(LDBLE tk);
 int jacobian_sit(void);
 
-// spread.c -------------------------------
-
+// spread.cpp -------------------------------
 int read_solution_spread(void);
-
 int copy_token_tab(char *token_ptr, char **ptr, int *length);
 int get_option_string(const char **opt_list, int count_opt_list,
 							 char **next_char);
@@ -947,8 +781,7 @@ void free_spread(void);
 struct spread_row *copy_row(struct spread_row *spread_row_ptr);
 #endif
 
-// step.c -------------------------------
-
+// step.cpp -------------------------------
 int step(LDBLE step_fraction);
 int xsolution_zero(void);
 int add_exchange(struct exchange *exchange_ptr);
@@ -963,7 +796,6 @@ int add_solution(struct solution *solution_ptr, LDBLE extensive,
 				 LDBLE intensive);
 int add_surface(struct surface *surface_ptr);
 int add_temperature(struct temperature *temperature_ptr, int step_number);
-
 int check_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
 int gas_phase_check(struct gas_phase *gas_phase_ptr);
 int pp_assemblage_check(struct pp_assemblage *pp_assemblage_ptr);
@@ -971,8 +803,7 @@ int reaction_calc(struct irrev *irrev_ptr);
 int solution_check(void);
 int s_s_assemblage_check(struct s_s_assemblage *s_s_assemblage_ptr);
 
-// structures.c -------------------------------
-
+// structures.cpp -------------------------------
 int clean_up(void);
 int reinitialize(void);
 int copier_add(struct copier *copier_ptr, int n_user, int start, int end);
@@ -1285,8 +1116,7 @@ extern void free_spread(void);
 extern void MergeFinalize(void);
 #endif
 
-// convert class to struct
-
+// convert class to struct (structures.cpp)
 struct mix * cxxMix2mix(const cxxMix *mx);
 struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
 struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
@@ -1319,8 +1149,7 @@ void phreeqc2cxxStorageBin(cxxStorageBin & sb, int n);
 void cxxStorageBin2phreeqc(cxxStorageBin & sb, int n);
 void cxxStorageBin2phreeqc(cxxStorageBin & sb);
 
-/* tally.c */
-
+/* tally.cpp */
 void add_all_components_tally(void);
 int build_tally_table(void);
 int calc_dummy_kinetic_reaction_tally(struct kinetics *kinetics_ptr);
@@ -1334,7 +1163,6 @@ int get_tally_table_row_heading(int column, char *string);
 int store_tally_table(LDBLE * array, int row_dim, int col_dim,
 					  LDBLE fill_factor);
 int zero_tally_table(void);
-
 int elt_list_to_tally_table(struct tally_buffer *buffer_ptr);
 int get_all_components(void);
 int print_tally_table(void);
@@ -1342,8 +1170,7 @@ int set_reaction_moles(int n_user, LDBLE moles);
 int set_reaction_temperature(int n_user, LDBLE tc);
 int set_kinetics_time(int n_user, LDBLE step);
 
-// tidy.c -------------------------------
-
+// tidy.cpp -------------------------------
 int add_other_logk(LDBLE * source_k, int count_add_logk,
 				   struct name_coef *add_logk);
 int add_logks(struct logk *logk_ptr, int repeats);
@@ -1355,7 +1182,6 @@ int slnq(int n, LDBLE * a, LDBLE * delta, int ncols, int print);
 public:
 int tidy_punch(void);
 int tidy_model(void);
-
 int check_species_input(void);
 LDBLE coef_in_master(struct master *master_ptr);
 int phase_rxn_to_trxn(struct phase *phase_ptr,
@@ -1387,8 +1213,7 @@ static LDBLE f_spinodal(LDBLE x, void *);
 int solve_misc(LDBLE * xxc1, LDBLE * xxc2, LDBLE tol);
 int s_s_calc_a0_a1(struct s_s *s_s_ptr);
 
-// transport.c -------------------------------
-
+// transport.cpp -------------------------------
 int transport(void);
 int set_initial_moles(int i);
 int sum_surface_comp(struct surface *source1, LDBLE f1,
@@ -1397,7 +1222,6 @@ int sum_surface_comp(struct surface *source1, LDBLE f1,
 int reformat_surf(char *comp_name, LDBLE fraction, char *new_comp_name,
 				  LDBLE new_Dw, int cell);
 LDBLE viscosity(void);
-
 int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 int find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
 int fill_spec(int cell_no);
@@ -1416,8 +1240,7 @@ int heat_mix(int heat_nmix);
 int mix_stag(int i, LDBLE stagkin_time, int punch,
 					LDBLE step_fraction_kin);
 
-
-// utilities.c -------------------------------
+// utilities.cpp -------------------------------
 public:
 int add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef);
 protected:
@@ -1466,7 +1289,6 @@ int string_trim_left(char *str);
 static LDBLE under(LDBLE xval);
 void zero_double(LDBLE * target, int n);
 int get_input_errors(void);
-
 #ifdef PHREEQ98
 void AddToCEntry(char *a, int l, int i);
 void ApplicationProcessMessages(void);
@@ -1476,11 +1298,8 @@ extern int clean_up_null(void);
 int isamong(char c, const char *s_l);
 Address Hash_multi(HashTable * Table, char *Key);
 void ExpandTable_multi(HashTable * Table);
-
 public:
 	bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
-
-public:        // public methods for PHREEQC_CLASS
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
 	size_t list_components(std::list<std::string> &list_c);
@@ -1490,11 +1309,768 @@ public:        // public methods for PHREEQC_CLASS
 	void clear_cookie(void);
 protected:
 	void init(void);
-//Data
-	std::list <std::istream *> cookie_list;
-	std::ifstream * in_stream;
-	std::ifstream * db_stream;
-	
-};
+
+//
+//Data members
+//
+
+std::list <std::istream *> cookie_list;
+std::ifstream * in_stream;
+std::ifstream * db_stream;
+
+PHRQ_io *phrq_io;
+
+/* ----------------------------------------------------------------------
+ *   STRUCTURES
+ * ---------------------------------------------------------------------- */
+
+ struct model last_model;
+ int same_model;
+ int same_temperature;
+ struct punch punch;
+/* ----------------------------------------------------------------------
+ *   Temperatures
+ * ---------------------------------------------------------------------- */
+
+ struct temperature *temperature;
+ int count_temperature;
+/* ----------------------------------------------------------------------
+ *   Surface
+ * --------------------------------------------------------------------- */
+
+ int g_iterations;
+ LDBLE G_TOL;
+ struct surface *surface;
+ struct surface *dbg_surface;
+ int count_surface;
+ int max_surface;
+ struct Charge_Group *charge_group;
+ int change_surf_count;
+ struct Change_Surf *change_surf;
+
+/* ----------------------------------------------------------------------
+ *   Exchange
+ * ---------------------------------------------------------------------- */
+
+ struct exchange *exchange;
+ struct exchange *dbg_exchange;
+ int count_exchange;
+ int max_exchange;
+/* ----------------------------------------------------------------------
+ *   Kinetics
+ * ---------------------------------------------------------------------- */
+
+ struct kinetics *kinetics;
+ struct kinetics *dbg_kinetics;
+ int count_kinetics;
+ int max_kinetics;
+
+ int count_save_values;
+ struct save_values *save_values;
+
+/*----------------------------------------------------------------------
+ *   Save
+ *---------------------------------------------------------------------- */
+
+ struct save save;
+/*----------------------------------------------------------------------
+ *   Use
+ *---------------------------------------------------------------------- */
+
+ struct Use use;
+ struct Use *dbg_use;
+/*----------------------------------------------------------------------
+ *   Copy
+ *---------------------------------------------------------------------- */
+
+ struct copier copy_solution;
+ struct copier copy_pp_assemblage;
+ struct copier copy_exchange;
+ struct copier copy_surface;
+ struct copier copy_s_s_assemblage;
+ struct copier copy_gas_phase;
+ struct copier copy_kinetics;
+ struct copier copy_mix;
+ struct copier copy_irrev;
+ struct copier copy_temperature;
+
+/*----------------------------------------------------------------------
+ *   Inverse
+ *---------------------------------------------------------------------- */
+
+ struct inverse *inverse;
+ int count_inverse;
+
+/*----------------------------------------------------------------------
+ *   Mix
+ *---------------------------------------------------------------------- */
+
+ struct mix *mix;
+ struct mix *dbg_mix;
+ int count_mix;
+/*----------------------------------------------------------------------
+ *   Irreversible reaction
+ *---------------------------------------------------------------------- */
+
+ struct irrev *irrev;
+ struct irrev *dbg_irrev;
+ int count_irrev;
+/*----------------------------------------------------------------------
+ *   Gas phase
+ *---------------------------------------------------------------------- */
+
+ int count_gas_phase;
+ int max_gas_phase;
+ struct gas_phase *gas_phase;
+/*----------------------------------------------------------------------
+ *   Solid solution
+ *---------------------------------------------------------------------- */
+
+ int count_s_s_assemblage;
+ int max_s_s_assemblage;
+ struct s_s_assemblage *s_s_assemblage;
+/*----------------------------------------------------------------------
+ *   Pure-phase assemblage
+ *---------------------------------------------------------------------- */
+
+ int count_pp_assemblage;
+ int max_pp_assemblage;
+ struct pp_assemblage *pp_assemblage;
+ struct pp_assemblage *dbg_pp_assemblage;
+/*----------------------------------------------------------------------
+ *   Species_list
+ *---------------------------------------------------------------------- */
+
+ int count_species_list;
+ int max_species_list;
+ struct species_list *species_list;
+/*----------------------------------------------------------------------
+ *   Jacobian and Mass balance lists
+ *---------------------------------------------------------------------- */
+
+ int count_sum_jacob0;	/* number of elements in sum_jacob0 */
+ int max_sum_jacob0;	/* calculated maximum number of elements in sum_jacob0 */
+ struct list0 *sum_jacob0;	/* array of pointers to targets and coefficients for array */
+
+ int count_sum_mb1;		/* number of elements in sum_mb1 */
+ int max_sum_mb1;		/* calculated maximum number of elements in sum_mb1 */
+ struct list1 *sum_mb1;	/* array of pointers to sources and targets for mass
+								   balance summations with coef = 1.0 */
+ int count_sum_jacob1;	/* number of elements in sum_jacob1 */
+ int max_sum_jacob1;	/* calculated maximum number of elements in sum_jacob1 */
+ struct list1 *sum_jacob1;	/* array of pointers to sources and targets for array
+									   equations with coef = 1.0 */
+ int count_sum_mb2;		/* number of elements in sum_mb2 */
+ int max_sum_mb2;		/* calculated maximum number of elements in sum_mb2 */
+ struct list2 *sum_mb2;	/* array of coefficients and pointers to sources and
+								   targets for mass balance summations with coef != 1.0 */
+ int count_sum_jacob2;	/* number of elements in sum_jacob2 */
+ int max_sum_jacob2;	/* calculated maximum number of elements in sum_jacob2 */
+ struct list2 *sum_jacob2;	/* array of coefficients and pointers to sources and
+									   targets, coef != 1.0 */
+ int count_sum_delta;	/* number of elements in sum_delta */
+ int max_sum_delta;		/* calculated maximum number of elements in sum_delta */
+ struct list2 *sum_delta;	/* array of pointers to sources, targets and coefficients for
+									   summing deltas for mass balance equations */
+/*----------------------------------------------------------------------
+ *   Solution
+ *---------------------------------------------------------------------- */
+
+ struct solution **solution;
+ struct solution **dbg_solution;
+ int count_solution;
+ int max_solution;
+
+struct iso *iso_defaults;
+int count_iso_defaults;
+
+/*----------------------------------------------------------------------
+ *   Global solution
+ *---------------------------------------------------------------------- */
+ char *title_x;
+ int new_x;
+ char *description_x;
+ LDBLE tc_x;
+ LDBLE tk_x;
+ LDBLE ph_x;
+ LDBLE solution_pe_x;
+ LDBLE mu_x;
+ LDBLE ah2o_x;
+ LDBLE density_x;
+ LDBLE total_h_x;
+ LDBLE total_o_x;
+ LDBLE cb_x;
+ LDBLE total_ions_x;
+ LDBLE mass_water_aq_x;
+ LDBLE mass_water_surfaces_x;
+ LDBLE mass_water_bulk_x;
+ char *units_x;
+ struct pe_data *pe_x;
+ int count_isotopes_x;
+ struct isotope *isotopes_x;
+ int default_pe_x;
+/* int diffuse_layer_x;*/
+ enum DIFFUSE_LAYER_TYPE dl_type_x;
+ LDBLE total_carbon;
+ LDBLE total_co2;
+ LDBLE total_alkalinity;
+ LDBLE gfw_water;
+ LDBLE step_x;
+ LDBLE kin_time_x;
+/*----------------------------------------------------------------------
+ *   Transport data
+ *---------------------------------------------------------------------- */
+ int count_cells;
+ int count_shifts;
+ int ishift;
+ int bcon_first;
+ int bcon_last;
+ int correct_disp;
+ LDBLE tempr;
+ LDBLE timest;
+ int simul_tr;
+ LDBLE diffc;
+ LDBLE heat_diffc;
+ int cell;
+ LDBLE mcd_substeps;
+ struct stag_data *stag_data;
+ int print_modulus;
+ int punch_modulus;
+ int dump_in;
+ int dump_modulus;
+ int transport_warnings;
+ struct cell_data *cell_data;
+ int multi_Dflag;		/* signals calc'n of multicomponent diffusion */
+ int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
+ LDBLE default_Dw;		/* default species diffusion coefficient in water at 25oC, m2/s */
+ LDBLE multi_Dpor;		/* uniform porosity of free porewater in solid medium */
+ LDBLE interlayer_Dpor;	/* uniform porosity of interlayer space of montmorillonite in solid medium */
+ LDBLE multi_Dpor_lim;	/* limiting free porewater porosity where transport stops */
+ LDBLE interlayer_Dpor_lim;	/* limiting interlayer porosity where transport stops */
+ LDBLE multi_Dn;		/* exponent to calculate pore water diffusion coefficient,
+								   Dp = Dw * (multi_Dpor)^multi_Dn */
+ LDBLE interlayer_tortf;	/* tortuosity_factor in interlayer porosity,
+									   Dpil = Dw / interlayer_tortf */
+
+ int cell_no;
+/*----------------------------------------------------------------------
+ *   Advection data
+ *---------------------------------------------------------------------- */
+ int count_ad_cells;
+ int count_ad_shifts;
+ int print_ad_modulus;
+ int punch_ad_modulus;
+ int *advection_punch, *advection_print;
+ LDBLE advection_kin_time;
+ LDBLE advection_kin_time_defined;
+ int advection_warnings;
+
+/*----------------------------------------------------------------------
+ *   Keywords
+ *---------------------------------------------------------------------- */
+struct const_key *keyword;
+int NKEYS;
+
+ struct key *keyword_hash;
+ int new_model, new_exchange, new_pp_assemblage, new_surface,
+	new_reaction, new_temperature, new_mix, new_solution, new_gas_phase,
+	new_inverse, new_punch, new_s_s_assemblage, new_kinetics, new_copy,
+	new_pitzer;
+/*----------------------------------------------------------------------
+ *   Elements
+ *---------------------------------------------------------------------- */
+
+ struct element **elements;
+ int count_elements;
+ int max_elements;
+ struct element *element_h_one;
+
+/*----------------------------------------------------------------------
+ *   Element List
+ *---------------------------------------------------------------------- */
+
+ struct elt_list *elt_list;	/* structure array of working space while reading equations
+									   names are in "strings", initially in input order */
+ int count_elts;		/* number of elements in elt_list = position of next */
+ int max_elts;
+/*----------------------------------------------------------------------
+ *   Reaction
+ *---------------------------------------------------------------------- */
+
+/*----------------------------------------------------------------------
+ *   Species
+ *---------------------------------------------------------------------- */
+
+ struct logk **logk;
+ int count_logk;
+ int max_logk;
+
+ char *moles_per_kilogram_string;
+ char *pe_string;
+
+ struct species **s;
+ int count_s;
+ int max_s;
+
+ struct species **s_x;
+ int count_s_x;
+ int max_s_x;
+
+ struct species *s_h2o;
+ struct species *s_hplus;
+ struct species *s_h3oplus;
+ struct species *s_eminus;
+ struct species *s_co3;
+ struct species *s_h2;
+ struct species *s_o2;
+/*----------------------------------------------------------------------
+ *   Phases
+ *---------------------------------------------------------------------- */
+
+ struct phase **phases;
+ int count_phases;
+ int max_phases;
+/*----------------------------------------------------------------------
+ *   Master species
+ *---------------------------------------------------------------------- */
+
+ struct master **master;	/* structure array of master species */
+ struct master **dbg_master;
+ int count_master;
+ int max_master;
+/*----------------------------------------------------------------------
+ *   Unknowns
+ *---------------------------------------------------------------------- */
+
+ struct unknown **x;
+ int count_unknowns;
+ int max_unknowns;
+
+ struct unknown *ah2o_unknown;
+ struct unknown *alkalinity_unknown;
+ struct unknown *carbon_unknown;
+ struct unknown *charge_balance_unknown;
+ struct unknown *exchange_unknown;
+ struct unknown *mass_hydrogen_unknown;
+ struct unknown *mass_oxygen_unknown;
+ struct unknown *mb_unknown;
+ struct unknown *mu_unknown;
+ struct unknown *pe_unknown;
+ struct unknown *ph_unknown;
+ struct unknown *pure_phase_unknown;
+ struct unknown *solution_phase_boundary_unknown;
+ struct unknown *surface_unknown;
+ struct unknown *gas_unknown;
+ struct unknown *s_s_unknown;
+/*----------------------------------------------------------------------
+ *   Reaction work space
+ *---------------------------------------------------------------------- */
+
+ struct reaction_temp trxn;	/* structure array of working space while reading equations
+									   species names are in "temp_strings" */
+ int count_trxn;		/* number of reactants in trxn = position of next */
+ int max_trxn;
+
+ struct unknown_list *mb_unknowns;
+ int count_mb_unknowns;
+ int max_mb_unknowns;
+/* ----------------------------------------------------------------------
+ *   Print
+ * ---------------------------------------------------------------------- */
+
+ struct prints pr;
+ int status_on, status_interval;
+ float status_timer;
+ int count_warnings;
+
+/* ----------------------------------------------------------------------
+ *   RATES
+ * ---------------------------------------------------------------------- */
+
+ struct rate *rates;
+ int count_rates;
+ LDBLE rate_m, rate_m0, *rate_p, rate_time, rate_sim_time_start,
+	rate_sim_time_end, rate_sim_time, rate_moles, initial_total_time;
+ int count_rate_p;
+/* ----------------------------------------------------------------------
+ *   USER PRINT COMMANDS
+ * ---------------------------------------------------------------------- */
+ struct rate *user_print;
+ struct rate *user_punch;
+ char **user_punch_headings;
+ int user_punch_count_headings;
+ int n_user_punch_index;
+
+#if defined PHREEQ98 
+ struct rate *user_graph;
+ char **user_graph_headings;
+ int user_graph_count_headings;
+#endif
+#if defined MULTICHART
+ ChartHandler chart_handler;
+#endif
+
+/* ----------------------------------------------------------------------
+ *   GLOBAL DECLARATIONS
+ * ---------------------------------------------------------------------- */
+ char error_string[10 * MAX_LENGTH];
+ int simulation;
+ int state;
+ int reaction_step;
+ int transport_step;
+ int transport_start;
+ int advection_step;
+ int stop_program;
+ int incremental_reactions;
+
+ int count_strings;
+ int max_strings;
+
+ LDBLE *array;
+ LDBLE *delta;
+ LDBLE *residual;
+
+ int input_error;
+
+ int next_keyword;
+ int parse_error;
+ int paren_count;
+ int iterations;
+ int gamma_iterations;
+ int run_reactions_iterations;
+
+ int max_line;
+ char *line;
+ char *line_save;
+
+ LDBLE LOG_10;
+
+ int debug_model;
+ int debug_prep;
+ int debug_set;
+ int debug_diffuse_layer;
+ int debug_inverse;
+
+ LDBLE inv_tol_default;
+ int itmax;
+ LDBLE ineq_tol;
+ LDBLE convergence_tolerance;
+ LDBLE step_size;
+ LDBLE pe_step_size;
+ LDBLE step_size_now;
+ LDBLE pe_step_size_now;
+ LDBLE pp_scale;
+ LDBLE pp_column_scale;
+ int diagonal_scale;	/* 0 not used, 1 used */
+ int mass_water_switch;
+ int delay_mass_water;
+ LDBLE censor;
+ int aqueous_only;
+ int negative_concentrations;
+ int calculating_deriv;
+ int numerical_deriv;
+
+ int count_total_steps;
+ int phast;
+ LDBLE *llnl_temp, *llnl_adh, *llnl_bdh, *llnl_bdot, *llnl_co2_coefs;
+ int llnl_count_temp, llnl_count_adh, llnl_count_bdh, llnl_count_bdot,
+	llnl_count_co2_coefs;
+
+ char *selected_output_file_name;
+ char *dump_file_name;
+ int remove_unstable_phases;
+
+#ifdef PHREEQCI_GUI
+ struct spread_sheet g_spread_sheet;
+#endif
+
+/* ---------------------------------------------------------------------- */
+/*
+ *   Hash definitions
+ */
+
+ HashTable *strings_hash_table;
+ HashTable *elements_hash_table;
+ HashTable *species_hash_table;
+ HashTable *phases_hash_table;
+ HashTable *keyword_hash_table;
+ HashTable *logk_hash_table;
+ HashTable *master_isotope_hash_table;
+
+#if defined(PHREEQCI_GUI)
+#include "../../phreeqci_gui.h"
+#endif /* defined(PHREEQCI_GUI) */
+/* ----------------------------------------------------------------------
+ *   ISOTOPES
+ * ---------------------------------------------------------------------- */
+struct name_coef match_tokens[50];
+int count_match_tokens;
+int count_master_isotope;
+struct master_isotope **master_isotope;
+int max_master_isotope;
+int initial_solution_isotopes;
+int count_calculate_value;
+struct calculate_value **calculate_value;
+int max_calculate_value;
+HashTable *calculate_value_hash_table;
+int count_isotope_ratio;
+struct isotope_ratio **isotope_ratio;
+int max_isotope_ratio;
+HashTable *isotope_ratio_hash_table;
+int count_isotope_alpha;
+struct isotope_alpha **isotope_alpha;
+int max_isotope_alpha;
+HashTable *isotope_alpha_hash_table;
+int phreeqc_mpi_myself;
+int first_read_input;
+char *user_database;
+
+int have_punch_name;
+/* VP: Density Start */
+int print_density;
+/* VP: Density End */
+
+LDBLE *zeros;
+int zeros_max;
+
+LDBLE cell_pore_volume;
+LDBLE cell_porosity;
+LDBLE cell_volume;
+LDBLE cell_saturation;
+struct system_species *sys;
+int count_sys, max_sys;
+LDBLE sys_tot;
+LDBLE AA_basic, BB_basic, CC, I_m, rho_0;
+LDBLE solution_mass, solution_volume;
+LDBLE f_rho(LDBLE rho_old);
+
+/* phqalloc.cpp ------------------------------- */
+PHRQMemHeader *s_pTail;
+std::stringstream merged_database_stream;
+std::stringstream merged_input_stream;
+
+/* cl1.cpp ------------------------------- */
+LDBLE *x_arg, *res_arg, *scratch;
+int x_arg_max, res_arg_max, scratch_max;
+
+/* dw.cpp ------------------------------- */
+/* COMMON /QQQQ/ */
+LDBLE Q0, Q5;
+LDBLE GASCON, TZ, AA;
+LDBLE Z, DZ, Y;
+LDBLE G1, G2, GF;
+LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
+
+/* input.cpp ------------------------------- */
+int add_char_to_line(int *i, char c);
+int check_line_impl(PFN_READ_CALLBACK pfn, void *cookie, const char *string,
+					int allow_empty, int allow_eof, int allow_keyword,
+					int print);
+int get_line(PFN_READ_CALLBACK pfn, void *cookie);
+int get_logical_line(PFN_READ_CALLBACK pfn, void *cookie, int *l);
+int read_database(PFN_READ_CALLBACK pfn, void *cookie);
+int run_simulations(PFN_READ_CALLBACK pfn, void *cookie);
+int set_read_callback(PFN_READ_CALLBACK pfn, void *cookie, int database);
+int check_line_return;  
+
+/* integrate.cpp ------------------------------- */
+LDBLE midpoint_sv;
+LDBLE z, xd, alpha;
+struct surface_charge *surface_charge_ptr;
+int max_row_count, max_column_count;
+int carbon;
+char **col_name, **row_name;
+int count_rows, count_optimize;
+int col_phases, col_redox, col_epsilon, col_ph, col_water,
+	col_isotopes, col_phase_isotopes;
+int row_mb, row_fract, row_charge, row_carbon, row_isotopes,
+	row_epsilon, row_isotope_epsilon, row_water;
+LDBLE *inv_zero, *array1, *res, *inv_delta1, *delta2, *delta3, *inv_cu,
+	*delta_save;
+LDBLE *min_delta, *max_delta;
+int *iu, *is;
+int klmd, nklmd, n2d, kode, iter;
+LDBLE toler, error, max_pct, scaled_error;
+struct master *master_alk;
+int *row_back, *col_back;
+unsigned long *good, *bad, *minimal;
+int max_good, max_bad, max_minimal;
+int count_good, count_bad, count_minimal, count_calls;
+unsigned long soln_bits, phase_bits, current_bits, temp_bits;
+
+/* inverse.cpp ------------------------------- */
+FILE *netpath_file;
+int count_inverse_models, count_pat_solutions;
+int min_position[32], max_position[32], now[32];
+
+/* kinetics.cpp ------------------------------- */
+public:
+void *cvode_kinetics_ptr;
+int cvode_test;
+int cvode_error;
+int cvode_n_user;
+int cvode_n_reactions;
+realtype cvode_step_fraction;
+realtype cvode_rate_sim_time;
+realtype cvode_rate_sim_time_start;
+realtype cvode_last_good_time;
+realtype cvode_prev_good_time;
+N_Vector cvode_last_good_y;
+N_Vector cvode_prev_good_y;
+M_Env kinetics_machEnv;
+N_Vector kinetics_y, kinetics_abstol;
+void *kinetics_cvode_mem;
+struct pp_assemblage *cvode_pp_assemblage_save;
+struct s_s_assemblage *cvode_s_s_assemblage_save;
+LDBLE *m_original;
+LDBLE *m_temp;
+
+/* model.cpp ------------------------------- */
+LDBLE min_value;
+/* LDBLE model_min_value; */
+LDBLE *normal, *ineq_array, *inv_res, *cu, *zero, *delta1;
+int *inv_iu, *inv_is, *back_eq;
+int normal_max, ineq_array_max, res_max, cu_max, zero_max,
+	delta1_max, iu_max, is_max, back_eq_max;
+
+/* phrq_io_output.cpp ------------------------------- */
+int forward_output_to_log;
+
+/* phreeqc_files.cpp ------------------------------- */
+char *default_data_base;
+#ifdef PHREEQ98
+int outputlinenr;
+char *LogFileNameC;
+char progress_str[512];
+#endif
+
+/* Pitzer  */
+int pitzer_model, sit_model, pitzer_pe;
+int full_pitzer, always_full_pitzer, ICON, IC;
+LDBLE COSMOT;
+LDBLE AW;
+LDBLE VP, DW0;
+struct pitz_param **pitz_params;
+int count_pitz_param, max_pitz_param;
+struct pitz_param **sit_params;
+int count_sit_param, max_sit_param;
+int DW(LDBLE T);
+LDBLE DC(LDBLE T);
+struct theta_param **theta_params;
+int count_theta_param, max_theta_param;
+int use_etheta;
+LDBLE OTEMP;
+LDBLE A0;
+struct species **spec, **cations, **anions, **neutrals;
+int count_cations, count_anions, count_neutrals;
+int MAXCATIONS, FIRSTANION, MAXNEUTRAL;
+struct pitz_param *mcb0, *mcb1, *mcc0;
+int *IPRSNT;
+LDBLE *M, *LGAMMA;
+LDBLE BK[23], DK[23];
+
+#ifdef PHREEQ98
+int connect_simulations, graph_initial_solutions;
+int shifts_as_points;
+int chart_type;
+int ShowChart;
+int RowOffset, ColumnOffset;
+#endif
+LDBLE dummy;
+
+/* print.cpp ------------------------------- */
+#ifdef PHREEQ98
+int colnr, rownr;
+int graph_initial_solutions;
+int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
+/* int shifts_as_points; */
+int chart_type;
+int AddSeries;
+int FirstCallToUSER_GRAPH;
+#endif
+
+/* read.cpp */
+char *prev_next_char;
+#if defined PHREEQ98 
+int shifts_as_points;
+#endif
+
+/* read_class.cxx */
+dumper dump_info;
+StorageBinList delete_info;
+runner run_info;
+char * sformatf_buffer;
+size_t sformatf_buffer_size;
+
+/* readtr.cpp */
+std::string dump_file_name_cpp;
+
+/* sit.cpp ------------------------------- */
+LDBLE sit_A0;
+int sit_count_cations, sit_count_anions, sit_count_neutrals;
+int sit_MAXCATIONS, sit_FIRSTANION, sit_MAXNEUTRAL;
+int *sit_IPRSNT;
+LDBLE *sit_M, *sit_LGAMMA;
+
+/* tidy.cpp ------------------------------- */
+LDBLE a0, a1, kc, kb;
+
+/* tally.cpp ------------------------------- */
+struct tally_buffer *t_buffer;
+int tally_count_component;
+struct tally *tally_table;
+int count_tally_table_columns;
+int count_tally_table_rows;
+
+/* transport.cpp ------------------------------- */
+struct sol_D *sol_D;
+struct sol_D *sol_D_dbg;
+struct J_ij *J_ij, *J_ij_il;
+int J_ij_count_spec;
+
+struct M_S *m_s;
+int count_m_s;
+LDBLE tot1_h, tot1_o, tot2_h, tot2_o;
+LDBLE diffc_max, diffc_tr, J_ij_sum;
+int transp_surf;
+LDBLE *heat_mix_array;
+LDBLE *temp1, *temp2;
+int nmix, heat_nmix;
+LDBLE heat_mix_f_imm, heat_mix_f_m;
+int warn_MCD_X, warn_fixed_Surf;
+
+#ifdef PHREEQ98
+int AutoLoadOutputFile, CreateToC;
+int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
+int outputlinenr;
+int stop_calculations;
+char err_str98[80];
+#endif
+
 #endif /* _INC_PHREEQC_H */
 
+/*********************************
+    isfinite handling
+    (Note: Should NOT be guarded)
+**********************************/
+
+#if defined (PHREEQ98) || defined (_MSC_VER)
+#  define HAVE_FINITE
+#  define finite _finite
+#else  /*defined (PHREEQ98) || defined (_MSC_VER)*/
+#  if defined(DJGPP)
+#    define HAVE_FINITE
+#  endif
+#endif /*defined (PHREEQ98) || defined (_MSC_VER)*/
+
+#if defined(HAVE_ISFINITE)
+#  define PHR_ISFINITE(x) isfinite(x)
+#elif defined(HAVE_FINITE)
+#  define PHR_ISFINITE(x) finite(x)
+#elif defined(HAVE_ISNAN)
+#  define PHR_ISFINITE(x) ( ((x) == 0.0) || ((!isnan(x)) && ((x) != (2.0 * (x)))) )
+#else
+#  define PHR_ISFINITE(x) ( ((x) == 0.0) || (((x) == (x)) && ((x) != (2.0 * (x)))) )
+#endif
+
+};
