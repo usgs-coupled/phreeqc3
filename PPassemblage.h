@@ -9,7 +9,7 @@
 
 #include "NumKeyword.h"
 #include "PPassemblageComp.h"
-#include "phreeqc_class.h"
+#include "Phreeqc_class.h"
 class cxxMix;
 
 class cxxPPassemblage:public cxxNumKeyword
