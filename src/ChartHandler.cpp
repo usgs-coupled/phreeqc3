@@ -6,7 +6,6 @@
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
 #include "ChartHandler.h"
-#include "phreeqc_class.h"
 #include "phreeqc.h"
 #include <iostream>
 

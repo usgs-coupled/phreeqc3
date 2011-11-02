@@ -7,7 +7,7 @@
 #include "Parser.h"
 #include "ChartObject.h"
 #include "PHRQ_base.h"
-#include "phreeqc_class.h"
+#include "Phreeqc_class.h"
 
 class ChartHandler: public PHRQ_base
 {
