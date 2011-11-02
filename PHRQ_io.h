@@ -14,7 +14,7 @@ public:
 
 	// methods
 	static int istream_getc(void *cookie);
-	static void safe_close(FILE * file_ptr);
+	static void safe_close(FILE ** file_ptr);
 
 	int close_input_files(void);
 	int close_output_files(void);
