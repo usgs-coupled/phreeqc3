@@ -31,43 +31,43 @@ PHRQ_io::
 void 
 PHRQ_io::Set_database_file(FILE * in)
 {
-	safe_close(this->database_file);
+	safe_close(&this->database_file);
 	this->database_file = in;
 }
 void 
 PHRQ_io::Set_input_file(FILE * in)
 {
-	safe_close(this->input_file);
+	safe_close(&this->input_file);
 	this->input_file = in;
 }
 void 
 PHRQ_io::Set_output_file(FILE * out)
 {
-	safe_close(this->output_file);
+	safe_close(&this->output_file);
 	this->output_file = out;
 }
 void 
 PHRQ_io::Set_error_file(FILE * out)
 {
-	safe_close(this->error_file);
+	safe_close(&this->error_file);
 	this->error_file = out;
 }
 void 
 PHRQ_io::Set_log_file(FILE * out)
 {
-	safe_close(this->log_file);
+	safe_close(&this->log_file);
 	this->log_file = out;
 }
 void 
 PHRQ_io::Set_punch_file(FILE * out)
 {
-	safe_close(this->punch_file);
+	safe_close(&this->punch_file);
 	this->punch_file = out;
 }
 void 
 PHRQ_io::Set_dump_file(FILE * out)
 {
-	safe_close(this->dump_file);
+	safe_close(&this->dump_file);
 	this->dump_file = out;
 }
 
@@ -80,7 +80,7 @@ bool PHRQ_io::
 output_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(output_file);
+	safe_close(&output_file);
 	if ((output_file = fopen(file_name, "w")) == NULL)
 	{
 		return false; // error
@@ -102,7 +102,7 @@ void PHRQ_io::
 output_close(void)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(output_file);
+	safe_close(&output_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -142,7 +142,7 @@ bool PHRQ_io::
 log_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(log_file);
+	safe_close(&log_file);
 	if ((log_file = fopen(file_name, "w")) == NULL)
 	{
 		return false; // error
@@ -164,7 +164,7 @@ void PHRQ_io::
 log_close(void)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(log_file);
+	safe_close(&log_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -204,7 +204,7 @@ bool PHRQ_io::
 punch_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(punch_file);
+	safe_close(&punch_file);
 	if ((punch_file = fopen(file_name, "w")) == NULL)
 	{
 		return false; // error
@@ -226,7 +226,7 @@ void PHRQ_io::
 punch_close(void)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(punch_file);
+	safe_close(&punch_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -267,7 +267,7 @@ bool PHRQ_io::
 error_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(error_file);
+	safe_close(&error_file);
 
 	if (file_name != NULL)
 	{
@@ -298,7 +298,7 @@ void PHRQ_io::
 error_close(void)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(error_file);
+	safe_close(&error_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -371,7 +371,7 @@ bool PHRQ_io::
 dump_open(const char *file_name)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(dump_file);
+	safe_close(&dump_file);
 	if ((dump_file = fopen(file_name, "w")) == NULL)
 	{
 		return false; // error
@@ -393,7 +393,7 @@ void PHRQ_io::
 dump_close(void)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(dump_file);
+	safe_close(&dump_file);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -430,7 +430,7 @@ dump_msg(const char * str)
 void 
 PHRQ_io::close_input(void)
 {
-	safe_close(input_file);
+	safe_close(&input_file);
 }
 /* ---------------------------------------------------------------------- */
 int PHRQ_io::
@@ -549,16 +549,16 @@ close_output_files(void)
 //safe_close is static method
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-safe_close(FILE * file_ptr)
+safe_close(FILE ** file_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	if (file_ptr != stderr &&
-		file_ptr != stdout &&
-		file_ptr != stdin &&
-		file_ptr != NULL)
+	if (*file_ptr != stderr &&
+		*file_ptr != stdout &&
+		*file_ptr != stdin &&
+		*file_ptr != NULL)
 	{
-		fclose(file_ptr);
-		file_ptr = NULL;
+		fclose(*file_ptr);
+		*file_ptr = NULL;
 	}
 }
 
