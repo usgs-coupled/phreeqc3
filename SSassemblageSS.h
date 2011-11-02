@@ -7,7 +7,7 @@
 #include <list>					// std::list
 #include <vector>				// std::vector
 #include "NameDouble.h"
-#include "phreeqc_class.h"
+#include "Phreeqc_class.h"
 
 class cxxSSassemblageSS: public PHRQ_base
 {

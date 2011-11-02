@@ -11,7 +11,7 @@
 #include "NameDouble.h"
 #include "PHRQ_base.h"
 #include "PHRQ_io.h"
-#include "phreeqc_class.h"
+#include "Phreeqc_class.h"
 class cxxMix;
 
 class cxxSolution:public cxxNumKeyword

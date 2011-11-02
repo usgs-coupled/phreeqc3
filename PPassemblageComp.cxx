@@ -12,8 +12,6 @@
 #include "PPassemblageComp.h"
 #include "Dictionary.h"
 #include "phqalloc.h"
-#include "phreeqc_class.h"
-
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

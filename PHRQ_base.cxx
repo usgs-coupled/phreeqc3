@@ -61,7 +61,6 @@ warning_msg(const std::string & stdstr)
 void PHRQ_base::
 output_msg(const std::string & stdstr)
 {
-	bool stop = false;
 	if (this->io)
 	{
 		//this->io->phreeqc_handler(PHRQ_io::ACTION_OUTPUT, PHRQ_io::OUTPUT_MESSAGE, stdstr.c_str(), stop!=0, "", NULL);
