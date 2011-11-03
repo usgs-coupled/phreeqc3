@@ -521,7 +521,7 @@ struct pitz_param *pitz_param_duplicate(struct pitz_param *old_ptr);
 int pitz_param_copy(struct pitz_param *old_ptr,
 						   struct pitz_param *new_ptr);
 
-// pitzer_structures.cpp -------------------------------
+// prep.cpp -------------------------------
 int add_potential_factor(void);
 int add_cd_music_factors(int n);
 int add_surface_charge_balance(void);
@@ -575,7 +575,6 @@ int write_mb_eqn_x(void);
 int write_mb_for_species_list(int n);
 int write_mass_action_eqn_x(int stop);
 
-/* prep.cpp */
 int check_same_model(void);
 int k_temp(LDBLE tc);
 LDBLE k_calc(LDBLE * logk, LDBLE tempk);
