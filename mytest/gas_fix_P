@@ -1,0 +1,16 @@
+database ../database/Amm.dat
+# Peng-Robinson in fixed pressure gas_phase.
+SOLUTION 1
+#  C 1 CO2(g) 2
+# N 1 N2(g) 2
+  pH 3 charge
+INCLUDE$ gas.dat
+GAS_PHASE 1
+    -fixed_pressure
+    -pressure 950.9
+    N2(g) 11
+    CO2(g) 470
+    H2O(g) 0.0
+REACTION
+ CO2 1; 2*2
+END

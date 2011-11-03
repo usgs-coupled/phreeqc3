@@ -1,0 +1,69 @@
+database ../database/Amm.dat
+# Compare fugacity coefficient from Duan et al., 2006, Mar. Chem. 98, 131, and
+#   Peng-Robinson calc'd with initial solutions, 25, 50, 75 oC.
+SOLUTION 1
+INCLUDE$ gas.dat
+SELECTED_OUTPUT; -reset false
+ -file co2.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 500 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + EOL$ + 'C 1 CO2(g) ' + \
+            str$(log10(i)) + EOL$ + '  pH 2 charge' +  EOL$ + 'END' + EOL$
+ 30 next i
+END
+
+SELECTED_OUTPUT; -selected_out false
+PRINT; -reset false; -echo_input true
+USER_GRAPH
+ -chart_title "Compare phi's from Duan and Peng-Robinson"
+ -plot_csv_file f_CO2.dat
+ -initial_solutions true
+ -axis_titles "Pressure / atm" "CO2 fugacity coefficient"
+ -axis_scale x_axis 0 500
+ -axis_scale y_axis 0 1.2
+ 10 graph_x PR_P("CO2(g)")
+ 20 graph_y PR_PHI("CO2(g)")
+ -end
+INCLUDE$ co2.prn
+END
+
+SOLUTION
+SELECTED_OUTPUT; -selected_out true; file co2_50.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 500 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + EOL$ + 'C 1 CO2(g) ' + \
+             str$(log10(i)) + EOL$ + '  pH 2 charge' +  EOL$ + 'END' + EOL$
+ 30 next i
+ -end
+USER_GRAPH
+  -active false
+END
+
+SELECTED_OUTPUT; -selected_out false
+USER_GRAPH
+ -active true
+ -plot_csv_file f_CO2_50.dat
+INCLUDE$ co2_50.prn
+END
+
+SOLUTION
+SELECTED_OUTPUT; -selected_out true; file co2_75.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 500 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + EOL$ + 'C 1 CO2(g) ' + \
+             str$(log10(i)) + EOL$ + '  pH 2 charge' +  EOL$ + 'END' + EOL$
+ 30 next i
+ -end
+USER_GRAPH
+  -active false
+END
+
+SELECTED_OUTPUT; -selected_out false
+USER_GRAPH
+  -active true
+ -plot_csv_file f_CO2_75.dat
+INCLUDE$ co2_75.prn
+END

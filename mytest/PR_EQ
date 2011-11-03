@@ -1,0 +1,12 @@
+database ../database/Amm.dat
+# Peng-Robinson via equilibrium_phases.
+SOLUTION 0
+ N 1 N2(g) -0.1
+ C(-4) 1 CH4(g) 1.3
+INCLUDE$ gas.dat
+EQUILIBRIUM_PHASES
+ CO2(g) 2
+ Calcite
+REACTION_TEMPERATURE
+ 25 50 25
+END

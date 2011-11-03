@@ -1,0 +1,37 @@
+database ../database/Amm.dat
+# define gas_phase by equilibrating,
+#    better: use GAS_PHASE_MODIFY
+INCLUDE$ gas.dat
+GAS_PHASE 7
+    -fixed_volume
+    -equilibrate 7
+    N2(g)
+    CO2(g)
+SOLUTION 7
+pH 7 charge
+    C(4) 1 CO2(g) -0.1
+    N 1 N2(g) 0.4
+KNOBS; -iter 400
+END
+
+# Now use GAS_PHASE_MODIFY...
+USE solution 7
+GAS_PHASE 8
+    -fixed_volume
+    -volume 1e-6
+    N2(g) 0
+    CO2(g) 0
+SELECTED_OUTPUT; -reset false; -file gas_8; -high_precision true
+USER_PUNCH
+#  if step_no = 0 then goto 100
+  2 sc$ = CHR$(59)
+ 10 punch 'GAS_PHASE_MODIFY 8' + sc$ + ' -volume 1' + EOL$
+ 20 punch '-comp ' + EOL$
+ 30 punch ' CO2(g) ' + STR$(1e6 * GAS("CO2(g)")) + EOL$
+ 40 punch ' N2(g) ' + STR$(1e6 * GAS("N2(g)")) + EOL$
+ 100 end
+END
+SELECTED_OUTPUT; -selected_out false
+INCLUDE$ gas_8
+USE gas_phase 8; USE solution 7
+END

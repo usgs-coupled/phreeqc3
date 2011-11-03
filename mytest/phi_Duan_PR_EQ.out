@@ -1,0 +1,203 @@
+   Input file: phi_Duan_PR_EQ
+  Output file: phi_Duan_PR_EQ.out
+Database file: ../database/Amm.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/Amm.dat
+	SOLUTION 1
+	PHASES
+	Amm(g)
+		Amm = Amm
+		log_k	   1.7966
+		analytical_expression -1.8758e+001 3.3670e-004 2.5113e+003 4.8619e+000 3.9192e+001
+		t_c  405.6 # critical T, K
+		p_c   111.3 # critical P, atm
+		omega 0.25 #  acentric factor
+		delta_v 30e-3 # (estimated, not checked)
+	CH4(g)
+		CH4 = CH4
+		log_k	   -2.8502
+		analytical_expression -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+		T_c  190.6 # critical T, K
+		p_c   45.40 # critical P, atm
+		omega 0.008 #  acentric factor
+		delta_v 33e-3 # + temperature and pressure terms
+	CO2(g)
+		CO2 = CO2
+		log_k	-1.468
+		delta_h  -4.776 kcal
+		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+		t_c  304.2 # critical T, K
+		p_c   72.80 # critical P, atm
+		omega 0.225 #  acentric factor
+		delta_v   28E-03  0   0  0   0 -6.7E-08   1.56E-05
+	H2(g)
+		H2 = H2
+		log_k	   -3.1050
+		delta_h -4.184  kJ
+		analytical_expression   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
+		t_c  33.2 # critical T, K
+		p_c   12.80 # critical P, atm
+		omega 0.225 #  acentric factor
+		delta_v 30e-3 # (estimated, not checked)
+	H2O(g)
+		H2O = H2O
+		log_k  1.506
+	 delta_h -44.03 kJ
+		T_c  647.3 # critical T, K
+		p_c  217.60 # critical P, atm
+		omega 0.344 #  acentric factor
+		delta_v 0e-4 # + temperature and pressure terms
+	H2S(g)
+		H2S  =  H+ + HS-
+		log_k	   -7.9759
+		analytical_expression -9.7354e+001 -3.1576e-002 1.8285e+003 3.7440e+001 2.8560e+001
+		T_c  373.2 # critical T, K
+		p_c  88.20 # critical P, atm
+		omega 0.1 #  acentric factor
+		delta_v 30e-3 # + temperature and pressure terms
+	N2(g)
+		N2 = N2
+		log_k		 -3.1864
+		analytical_expression -58.453 1.81800E-03  3199  17.909 -27460
+		T_c  126.2 # critical T, K
+		p_c   33.50 # critical P, atm
+		omega 0.039 #  acentric factor
+		delta_v 30e-3 # + temperature and pressure terms
+	O2(g)
+		O2 = O2
+		log_k   -2.8983
+		analytical_expression -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+		T_c  154.6 # critical T, K
+		p_c   49.80 # critical P, atm
+		omega 0.021 #  acentric factor
+		delta_v 35e-3 # + temperature and pressure terms
+	SELECTED_OUTPUT
+	 reset false
+	 file co2.prn
+	USER_PUNCH
+	  1 sc$ = chr$(59)
+	 10 for i = 1.1 to 520 step 20
+	 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + EOL$ + 'EQUILIBRIUM_PHASES' +              sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+	 30 next i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+WARNING: USER_PUNCH: Headings count doesn't match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.082e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -1.082e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.002e-007  1.001e-007    -6.999    -6.999    -0.000
+   H+                    1.001e-007  1.000e-007    -7.000    -7.000    -0.000
+   H2O                   5.551e+001  1.000e+000     1.744     0.000     0.000
+H(0)            1.416e-025
+   H2                    7.079e-026  7.079e-026   -25.150   -25.150     0.000
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP  log KT
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.51      0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT
+	 selected_out false
+	PRINT
+	 reset false
+	USER_GRAPH
+	 -chart_title "Compare phi's from Duan and Peng-Robinson"
+	 -plot_csv_file f_CO2.dat
+	 -axis_titles "Pressure / atm" "CO2 fugacity coefficient"
+	 -axis_scale x_axis 0 500
+	 -axis_scale y_axis 0 1.2
+	 10 graph_x PR_P("CO2(g)")
+	 20 graph_y PR_PHI("CO2(g)")
+	 -end
+	END
+	SOLUTION
+	SELECTED_OUTPUT
+	 selected_out true
+	 file co2_50.prn
+	USER_PUNCH
+	  1 sc$ = chr$(59)
+	 10 for i = 1.1 to 520 step 20
+	 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + EOL$ + 'EQUILIBRIUM_PHASES' +             sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+	 30 next i
+	END
+	SELECTED_OUTPUT
+	 selected_out false
+	USER_GRAPH
+	 -plot_csv_file f_CO2_50.dat
+	END
+	SOLUTION
+	SELECTED_OUTPUT
+	 selected_out true
+	 file co2_75.prn
+	USER_PUNCH
+	  1 sc$ = chr$(59)
+	 10 for i = 1.1 to 520 step 20
+	 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + EOL$ + 'EQUILIBRIUM_PHASES' +             sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+	 30 next i
+	END
+	SELECTED_OUTPUT
+	 selected_out false
+	USER_GRAPH
+	 -plot_csv_file f_CO2_75.dat
+	END

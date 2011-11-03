@@ -1,0 +1,182 @@
+   Input file: PR_mx_new
+  Output file: PR_mx_new.out
+Database file: ../database/Amm.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/Amm.dat
+	SOLUTION 1
+	PHASES
+	Amm(g)
+		Amm = Amm
+		log_k	   1.7966
+		analytical_expression -1.8758e+001 3.3670e-004 2.5113e+003 4.8619e+000 3.9192e+001
+		t_c  405.6 # critical T, K
+		p_c   111.3 # critical P, atm
+		omega 0.25 #  acentric factor
+		delta_v 30e-3 # (estimated, not checked)
+	CH4(g)
+		CH4 = CH4
+		log_k	   -2.8502
+		analytical_expression -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+		T_c  190.6 # critical T, K
+		p_c   45.40 # critical P, atm
+		omega 0.008 #  acentric factor
+		delta_v 33e-3 # + temperature and pressure terms
+	CO2(g)
+		CO2 = CO2
+		log_k	-1.468
+		delta_h  -4.776 kcal
+		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+		t_c  304.2 # critical T, K
+		p_c   72.80 # critical P, atm
+		omega 0.225 #  acentric factor
+		delta_v   28E-03  0   0  0   0 -6.7E-08   1.56E-05
+	H2(g)
+		H2 = H2
+		log_k	   -3.1050
+		delta_h -4.184  kJ
+		analytical_expression   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
+		t_c  33.2 # critical T, K
+		p_c   12.80 # critical P, atm
+		omega 0.225 #  acentric factor
+		delta_v 30e-3 # (estimated, not checked)
+	H2O(g)
+		H2O = H2O
+		log_k  1.506
+	 delta_h -44.03 kJ
+		T_c  647.3 # critical T, K
+		p_c  217.60 # critical P, atm
+		omega 0.344 #  acentric factor
+		delta_v 0e-4 # + temperature and pressure terms
+	H2S(g)
+		H2S  =  H+ + HS-
+		log_k	   -7.9759
+		analytical_expression -9.7354e+001 -3.1576e-002 1.8285e+003 3.7440e+001 2.8560e+001
+		T_c  373.2 # critical T, K
+		p_c  88.20 # critical P, atm
+		omega 0.1 #  acentric factor
+		delta_v 30e-3 # + temperature and pressure terms
+	N2(g)
+		N2 = N2
+		log_k		 -3.1864
+		analytical_expression -58.453 1.81800E-03  3199  17.909 -27460
+		T_c  126.2 # critical T, K
+		p_c   33.50 # critical P, atm
+		omega 0.039 #  acentric factor
+		delta_v 30e-3 # + temperature and pressure terms
+	O2(g)
+		O2 = O2
+		log_k   -2.8983
+		analytical_expression -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+		T_c  154.6 # critical T, K
+		p_c   49.80 # critical P, atm
+		omega 0.021 #  acentric factor
+		delta_v 35e-3 # + temperature and pressure terms
+	GAS_PHASE 1
+	 fixed_volume
+	 CH4(g) 0
+	 CO2(g) 0
+	 N2(g) 0
+	 H2O(g) 0
+	REACTION 1
+	 CO2N2CH4 1
+	 0.01 2*0.5 11*0.5
+	INCREMENTAL_REACTIONS true
+	USER_GRAPH 1 fugacity coeff's
+	 -headings P f_H2O f_CO2 f_N2 f_CH4 sys_C sys_N
+	 -axis_titles "Total Pressure / atm" "PR fugacity coefficient" "mol"
+	 -axis_scale x_axis 0 500
+	 10 x = gas_p
+	 12 if x > 500 then goto 400
+	 20 graph_x x
+	 30 graph_y pr_phi("H2O(g)"), pr_phi("CO2(g)"), pr_phi("N2(g)"), pr_phi("CH4(g)")
+	 40 graph_sy sys("C"), sys("N")
+	400 end
+	USER_GRAPH 2 Gas pressures
+	 -headings P P_H2O P_CO2 P_N2 P_CH4 m_CO2 m_N2 m_CH4
+	 -axis_titles "Total Pressure / atm" "(individual) Gas Pressure / atm" "mol/L"
+	 -axis_scale x_axis 0 500
+	 10 x = gas_p
+	 12 if x > 500 then goto 400
+	 20 graph_x x
+	 30 graph_y pr_p("H2O(g)"), pr_p("CO2(g)"), pr_p("N2(g)"), pr_p("CH4(g)")
+	 40 graph_sy tot("C(4)"), tot("N(0)"), tot("C(-4)")
+	400 print 'temp (oC) = ', trim(str$(tc)), '. step ', trim(str$(step_no))
+	404 mol_gas = gas("H2O(g)") + gas("CO2(g)") + gas("N2(g)") + gas("CH4(g)")
+	410 print 'P = ', str$(x), 'V_m = ', 1 / mol_gas, ' z = P * V_m / (R * TK) = ', x / (mol_gas * 0.0820575 * TK)
+	430 print '  fugacities:     f_H2O = ', pr_phi("H2O(g)"), 'f_CO2 =', pr_phi("CO2(g)"), 'f_N2 =', pr_phi("N2(g)"), 'f_CH4 =', pr_phi("CH4(g)")
+	420 print '  moles in gas:   m_H2O = ', gas("H2O(g)"), 'm_CO2 =', gas("CO2(g)"), 'm_N2 =', gas("N2(g)"), 'm_CH4 =', gas("CH4(g)")
+	440 end
+	PRINT
+	 reset false
+temp (oC) =  25 . step  1 
+P =   6.4072e-001 V_m =   3.8126e+001  z = P * V_m / (R * TK) =   9.9849e-001 
+  moles in gas:   m_H2O =   1.2855e-003 m_CO2 =  5.4421e-003 m_N2 =  9.8396e-003 m_CH4 =  9.6615e-003 
+  fugacities:     f_H2O =   9.9314e-001 f_CO2 =  9.9679e-001 f_N2 =  9.9999e-001 f_CH4 =  9.9855e-001 
+temp (oC) =  25 . step  2 
+P =   3.0096e+001 V_m =   7.6510e-001  z = P * V_m / (R * TK) =   9.4119e-001 
+  moles in gas:   m_H2O =   1.8546e-003 m_CO2 =  3.0734e-001 m_N2 =  5.0256e-001 m_CH4 =  4.9527e-001 
+  fugacities:     f_H2O =   7.2753e-001 f_CO2 =  8.6273e-001 f_N2 =  9.9901e-001 f_CH4 =  9.3596e-001 
+temp (oC) =  25 . step  3 
+P =   5.7672e+001 V_m =   3.7825e-001  z = P * V_m / (R * TK) =   8.9163e-001 
+  moles in gas:   m_H2O =   2.6520e-003 m_CO2 =  6.5997e-001 m_N2 =  9.9641e-001 m_CH4 =  9.8475e-001 
+  fugacities:     f_H2O =   5.3555e-001 f_CO2 =  7.5237e-001 f_N2 =  1.0046e+000 f_CH4 =  8.8395e-001 
+temp (oC) =  25 . step  4 
+P =   8.3774e+001 V_m =   2.4844e-001  z = P * V_m / (R * TK) =   8.5071e-001 
+  moles in gas:   m_H2O =   3.7423e-003 m_CO2 =  1.0535e+000 m_N2 =  1.4910e+000 m_CH4 =  1.4768e+000 
+  fugacities:     f_H2O =   3.9696e-001 f_CO2 =  6.6126e-001 f_N2 =  1.0155e+000 f_CH4 =  8.4064e-001 
+temp (oC) =  25 . step  5 
+P =   1.0900e+002 V_m =   1.8383e-001  z = P * V_m / (R * TK) =   8.1903e-001 
+  moles in gas:   m_H2O =   5.1939e-003 m_CO2 =  1.4780e+000 m_N2 =  1.9860e+000 m_CH4 =  1.9706e+000 
+  fugacities:     f_H2O =   2.9664e-001 f_CO2 =  5.8557e-001 f_N2 =  1.0304e+000 f_CH4 =  8.0426e-001 
+temp (oC) =  25 . step  6 
+P =   1.3411e+002 V_m =   1.4538e-001  z = P * V_m / (R * TK) =   7.9695e-001 
+  moles in gas:   m_H2O =   7.0744e-003 m_CO2 =  1.9246e+000 m_N2 =  2.4813e+000 m_CH4 =  2.4654e+000 
+  fugacities:     f_H2O =   2.2358e-001 f_CO2 =  5.2214e-001 f_N2 =  1.0480e+000 f_CH4 =  7.7327e-001 
+temp (oC) =  25 . step  7 
+P =   1.5999e+002 V_m =   1.2000e-001  z = P * V_m / (R * TK) =   7.8475e-001 
+  moles in gas:   m_H2O =   9.4455e-003 m_CO2 =  2.3866e+000 m_N2 =  2.9765e+000 m_CH4 =  2.9609e+000 
+  fugacities:     f_H2O =   1.6992e-001 f_CO2 =  4.6848e-001 f_N2 =  1.0674e+000 f_CH4 =  7.4646e-001 
+temp (oC) =  25 . step  8 
+P =   1.8764e+002 V_m =   1.0205e-001  z = P * V_m / (R * TK) =   7.8269e-001 
+  moles in gas:   m_H2O =   1.2356e-002 m_CO2 =  2.8586e+000 m_N2 =  3.4716e+000 m_CH4 =  3.4566e+000 
+  fugacities:     f_H2O =   1.3016e-001 f_CO2 =  4.2271e-001 f_N2 =  1.0877e+000 f_CH4 =  7.2302e-001 
+temp (oC) =  25 . step  9 
+P =   2.1818e+002 V_m =   8.8717e-002  z = P * V_m / (R * TK) =   7.9118e-001 
+  moles in gas:   m_H2O =   1.5831e-002 m_CO2 =  3.3370e+000 m_N2 =  3.9665e+000 m_CH4 =  3.9525e+000 
+  fugacities:     f_H2O =   1.0044e-001 f_CO2 =  3.8346e-001 f_N2 =  1.1089e+000 f_CH4 =  7.0254e-001 
+temp (oC) =  25 . step  10 
+P =   2.5290e+002 V_m =   7.8441e-002  z = P * V_m / (R * TK) =   8.1086e-001 
+  moles in gas:   m_H2O =   1.9864e-002 m_CO2 =  3.8193e+000 m_N2 =  4.4610e+000 m_CH4 =  4.4482e+000 
+  fugacities:     f_H2O =   7.8066e-002 f_CO2 =  3.4980e-001 f_N2 =  1.1314e+000 f_CH4 =  6.8502e-001 
+temp (oC) =  25 . step  11 
+P =   2.9332e+002 V_m =   7.0288e-002  z = P * V_m / (R * TK) =   8.4269e-001 
+  moles in gas:   m_H2O =   2.4403e-002 m_CO2 =  4.3040e+000 m_N2 =  4.9550e+000 m_CH4 =  4.9439e+000 
+  fugacities:     f_H2O =   6.1120e-002 f_CO2 =  3.2112e-001 f_N2 =  1.1563e+000 f_CH4 =  6.7088e-001 
+temp (oC) =  25 . step  12 
+P =   3.4127e+002 V_m =   6.3665e-002  z = P * V_m / (R * TK) =   8.8806e-001 
+  moles in gas:   m_H2O =   2.9332e-002 m_CO2 =  4.7905e+000 m_N2 =  5.4483e+000 m_CH4 =  5.4392e+000 
+  fugacities:     f_H2O =   4.8231e-002 f_CO2 =  2.9708e-001 f_N2 =  1.1855e+000 f_CH4 =  6.6096e-001 
+temp (oC) =  25 . step  13 
+P =   3.9905e+002 V_m =   5.8179e-002  z = P * V_m / (R * TK) =   9.4893e-001 
+  moles in gas:   m_H2O =   3.4460e-002 m_CO2 =  5.2788e+000 m_N2 =  5.9410e+000 m_CH4 =  5.9341e+000 
+  fugacities:     f_H2O =   3.8404e-002 f_CO2 =  2.7757e-001 f_N2 =  1.2222e+000 f_CH4 =  6.5665e-001 
+temp (oC) =  25 . step  14 
+P =   4.6963e+002 V_m =   5.3558e-002  z = P * V_m / (R * TK) =   1.0281e+000 
+  moles in gas:   m_H2O =   3.9505e-002 m_CO2 =  5.7704e+000 m_N2 =  6.4328e+000 m_CH4 =  6.4286e+000 
+  fugacities:     f_H2O =   3.0908e-002 f_CO2 =  2.6272e-001 f_N2 =  1.2711e+000 f_CH4 =  6.6001e-001 
