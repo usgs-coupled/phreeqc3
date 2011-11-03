@@ -49,6 +49,7 @@ class cxxGasPhase:public cxxNumKeyword
 	GP_TYPE Get_type(void) const {return type;};
 	double Get_total_p(void) const {return total_p;};
 	double Get_volume(void) const {return volume;};
+	double Get_v_m(void) const {return v_m;};
 	cxxNameDouble & Get_totals(void) {return totals;};
 
 protected:
@@ -59,6 +60,7 @@ protected:
 	GP_TYPE type;
 	double total_p;
 	double volume;
+	double v_m;
 	cxxNameDouble totals;
 
 };

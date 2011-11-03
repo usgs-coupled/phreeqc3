@@ -86,6 +86,8 @@ LDBLE calc_surface_charge(const char *surface_name);
 LDBLE diff_layer_total(const char *total_name, const char *surface_name);
 LDBLE equi_phase(const char *phase_name);
 LDBLE find_gas_comp(const char *gas_comp_name);
+LDBLE find_gas_p(void);
+LDBLE find_gas_vm(void);
 LDBLE find_misc1(const char *s_s_name);
 LDBLE find_misc2(const char *s_s_name);
 LDBLE find_s_s_comp(const char *s_s_comp_name);
@@ -96,6 +98,8 @@ LDBLE kinetics_moles(const char *kinetics_name);
 LDBLE log_activity(const char *species_name);
 LDBLE log_molality(const char *species_name);
 LDBLE molality(const char *species_name);
+LDBLE pr_pressure(const char *phase_name);
+LDBLE pr_phi(const char *phase_name);
 LDBLE saturation_ratio(const char *phase_name);
 int saturation_index(const char *phase_name, LDBLE * iap, LDBLE * si);
 LDBLE solution_sum_secondary(const char *total_name);
@@ -550,6 +554,7 @@ int setup_exchange(void);
 int setup_gas_phase(void);
 int setup_master_rxn(struct master **master_ptr_list,
 							struct reaction **pe_rxn);
+LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
 int setup_pure_phases(void);
 int setup_related_surface(void);
 int setup_s_s_assemblage(void);
@@ -627,6 +632,10 @@ int read_conc(int n, int count_mass_balance, char *str);
 int *read_list_ints_range(char **ptr, int *count_ints, int positive,
 						  int *int_list);
 int read_log_k_only(char *ptr, LDBLE * log_k);
+int read_t_c_only(char *ptr, LDBLE *t_c);
+int read_p_c_only(char *ptr, LDBLE * p_c);
+int read_omega_only(char *ptr, LDBLE *omega);
+int read_delta_v_only(char *ptr, LDBLE * delta_v);
 int read_number_description(char *ptr, int *n_user, int *n_user_end,
 							char **description, int allow_negative=FALSE);
 int check_key(char *str);
