@@ -27,6 +27,7 @@ cxxGasPhase::cxxGasPhase(PHRQ_io * io)
 {
 	total_p = 0;
 	volume = 0;
+	v_m = 0;
 	gasPhaseComps.type = cxxNameDouble::ND_NAME_COEF;
 }
 
@@ -52,6 +53,7 @@ cxxNumKeyword(io)
 	}
 	total_p = gas_phase_ptr->total_p;
 	volume = gas_phase_ptr->volume;
+	v_m = gas_phase_ptr->v_m;
 
 	// gas_phase components
 	for (i = 0; i < gas_phase_ptr->count_comps; i++)
@@ -70,6 +72,7 @@ cxxNumKeyword(io)
 	gasPhaseComps.type = cxxNameDouble::ND_NAME_COEF;
 	total_p = 0;
 	volume = 0;
+	v_m = 0;
 	bool first = true;
 //
 //   Mix
@@ -93,6 +96,7 @@ cxxNumKeyword(io)
 				this->type = entity_ptr->type;
 				this->total_p = entity_ptr->total_p * it->second;
 				this->volume = entity_ptr->volume * it->second;
+				this->v_m = entity_ptr->v_m * it->second;
 				first = false;
 			}
 			else
@@ -108,6 +112,7 @@ cxxNumKeyword(io)
 
 				this->total_p += entity_ptr->total_p * it->second;
 				this->volume += entity_ptr->volume * it->second;
+				this->v_m += entity_ptr->v_m * it->second;
 			}
 		}
 	}
@@ -181,6 +186,9 @@ cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	s_oss << indent1;
 	s_oss << "-volume             " << this->volume << std::endl;
 
+	s_oss << indent1;
+	s_oss << "-v_m                " << this->v_m << std::endl;
+
 	// gasPhaseComps 
 	s_oss << indent1;
 	s_oss << "-component" << std::endl;
@@ -199,8 +207,9 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 		vopts.push_back("type");	//0
 		vopts.push_back("total_p");	//1
 		vopts.push_back("volume");	//2
-		vopts.push_back("component");	//3
-		vopts.push_back("pressure");	//4
+		vopts.push_back("v_m");     //3
+		vopts.push_back("component");	//4
+		vopts.push_back("pressure");	//5
 	}
 
 	std::istream::pos_type ptr;
@@ -216,6 +225,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 	bool type_defined(false);
 	bool total_p_defined(false);
 	bool volume_defined(false);
+	bool v_m_defined(false);
 
 	for (;;)
 	{
@@ -265,7 +275,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			break;
 
 		case 1:				// total_p
-		case 4:				// pressure
+		case 5:				// pressure
 			if (!(parser.get_iss() >> this->total_p))
 			{
 				this->total_p = 0;
@@ -289,7 +299,19 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			useLastLine = false;
 			break;
 
-		case 3:				// component
+		case 3:				// v_m
+			if (!(parser.get_iss() >> this->v_m))
+			{
+				this->v_m = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for v_m.",
+								 CParser::OT_CONTINUE);
+			}
+			v_m_defined = true;
+			useLastLine = false;
+			break;
+
+		case 4:				// component
 			if (this->gasPhaseComps.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
 			{
@@ -299,7 +321,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 					("Expected gas component name and moles for gasPhaseComps.",
 					 CParser::OT_CONTINUE);
 			}
-			opt_save = 3;
+			opt_save = 4;
 			useLastLine = false;
 			break;
 		}
@@ -327,6 +349,12 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			parser.error_msg("Volume not defined for GAS_PHASE_RAW input.",
 				CParser::OT_CONTINUE);
 		}
+		if (v_m_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("V_m not defined for GAS_PHASE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 
@@ -347,6 +375,7 @@ cxxGasPhase::mpi_pack(std::vector < int >&ints,
 	}
 	doubles.push_back(this->total_p);
 	doubles.push_back(this->volume);
+	doubles.push_back(this->v_m);
 }
 
 void
@@ -369,6 +398,7 @@ cxxGasPhase::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	}
 	this->total_p = doubles[d++];
 	this->volume = doubles[d++];
+	this->v_m = doubles[d++];
 	*ii = i;
 	*dd = d;
 }

@@ -25,6 +25,7 @@ PHRQ_base(io)
 	//
 {
 	si = 0;
+	si_org = 0;
 	moles = 0;
 	delta = 0;
 	initial_moles = 0;
@@ -43,6 +44,7 @@ PHRQ_base(io)
 	this->Set_name(pure_phase_ptr->name);
 	this->Set_add_formula(pure_phase_ptr->add_formula);
 	si = pure_phase_ptr->si;
+	si_org = pure_phase_ptr->si_org;
 	moles = pure_phase_ptr->moles;
 	delta = pure_phase_ptr->delta;
 	initial_moles = pure_phase_ptr->initial_moles;
@@ -75,6 +77,7 @@ cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent0 << "add_formula=\"" << this->
 		add_formula << "\"" << std::endl;
 	s_oss << indent0 << "si=\"" << this->si << "\"" << std::endl;
+	s_oss << indent0 << "si_org=\"" << this->si_org << "\"" << std::endl;
 	s_oss << indent0 << "moles=\"" << this->moles << "\"" << std::endl;
 	s_oss << indent0 << "delta=\"" << this->delta << "\"" << std::endl;
 	s_oss << indent0 << "initial_moles=\"" << this->
@@ -109,6 +112,7 @@ cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	if (this->add_formula.size() != 0)
 		s_oss << indent1 << "-add_formula           " << this->add_formula << std::endl;
 	s_oss << indent1 << "-si                    " << this->si << std::endl;
+	s_oss << indent1 << "-si_org                " << this->si_org << std::endl;
 	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
 	s_oss << indent1 << "-delta                 " << this->delta << std::endl;
 	s_oss << indent1 << "-initial_moles         " << this->initial_moles << std::endl;
@@ -135,6 +139,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		vopts.push_back("dissolve_only");	// 6
 		vopts.push_back("force_equality");	// 7
 		vopts.push_back("precipitate_only");	// 8
+		vopts.push_back("si_org");	// 9
 	}
 
 	std::istream::pos_type ptr;
@@ -145,6 +150,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 	opt_save = CParser::OPT_ERROR;
 	bool name_defined(false);
 	bool si_defined(false);
+	bool si_org_defined(false);
 	bool moles_defined(false);
 	bool delta_defined(false);
 	bool initial_moles_defined(false);
@@ -288,6 +294,16 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->dissolve_only = false;
 			}
 			break;
+		case 9:				// si_org
+			if (!(parser.get_iss() >> this->si_org))
+			{
+				this->si_org = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for si_org.",
+								 CParser::OT_CONTINUE);
+			}
+			si_org_defined = true;
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -347,6 +363,12 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				("Force_equality not defined for PPassemblageComp input.",
 				CParser::OT_CONTINUE);
 		}
+		if (si_org_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Si_org not defined for PPassemblageComp input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 
@@ -360,6 +382,7 @@ cxxPPassemblageComp::mpi_pack(std::vector < int >&ints,
 	ints.push_back(dictionary.string2int(this->name));
 	ints.push_back(dictionary.string2int(this->add_formula));
 	doubles.push_back(this->si);
+	doubles.push_back(this->si_org);
 	doubles.push_back(this->moles);
 	doubles.push_back(this->delta);
 	doubles.push_back(this->initial_moles);
@@ -377,6 +400,7 @@ cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->name = dictionary.int2stdstring(ints[i++]);
 	this->add_formula = dictionary.int2stdstring(ints[i++]);
 	this->si = doubles[d++];
+	this->si_org = doubles[d++];
 	this->moles = doubles[d++];
 	this->delta = doubles[d++];
 	this->initial_moles = doubles[d++];
@@ -453,6 +477,8 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 	}
 	//double si;
 	this->si = this->si * f1 + addee.si * f2;
+	//double si_org;
+	this->si_org = this->si_org * f1 + addee.si_org * f2;
 	//double moles;
 	this->moles += addee.moles * extensive;
 	//double delta;

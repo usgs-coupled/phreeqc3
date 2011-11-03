@@ -50,6 +50,7 @@ class cxxPPassemblageComp: public PHRQ_base
 		return (this->totals);
 	};
 	double Get_si() const {return this->si;};
+	double Get_si_org() const {return this->si_org;};
 	double Get_moles() const {return this->moles;};
 	double Get_delta() const {return this->delta;};
 	double Get_initial_moles() const {return this->initial_moles;};
@@ -69,6 +70,7 @@ protected:
 	std::string name;
 	std::string add_formula;
 	double si;
+	double si_org;
 	double moles;
 	double delta;
 	double initial_moles;

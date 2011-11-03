@@ -325,7 +325,11 @@ Phreeqc::Phreeqc(void)
 		{"iso", tokiso},
 		{"iso_unit", tokiso_unit},
 		{"phase_formula", tokphase_formula},
-		{"list_s_s", toklist_s_s}
+		{"list_s_s", toklist_s_s},
+		{"pr_p", tokpr_p},
+ 		{"pr_phi", tokpr_phi},
+ 		{"gas_p", tokgas_p},
+ 		{"gas_vm", tokgas_vm}
 		};
 	NCMDS = (sizeof(command_temp) / sizeof(struct const_key));
 	command = new const_key[NCMDS];
