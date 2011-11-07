@@ -4,11 +4,11 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 PHREEQC=../src/Class_release/phreeqcpp
 #PHREEQC=../src/Class_debug/phreeqcpp
 ifeq ($(CFG), CYGWIN)
-   PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/Class_release/phreeqcpp.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/ErrorHandling/Class_release/phreeqcpp.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
-	$(PHREEQC) $< 
+	time $(PHREEQC) $< 
 	mv phreeqc.log $<.log
 
 all: alkalinity.out \
@@ -173,7 +173,21 @@ all: alkalinity.out \
 	spread_redox.out \
 	raw.out \
 	ppdump.out \
-	errorinp.out
+	errorinp.out \
+	CO2_conc_PR_EQ.out \
+	CO2_conc_PR_GP.out \
+	CO2_conc_PR_IS.out \
+	gas_fix_P.out \
+	gas_fix_V.out \
+	P_Vm.out \
+	phi_Duan_PR.out \
+	phi_Duan_PR_EQ.out \
+	PR_EQ.out \
+	PR_EQ_GP.out \
+	PR_equil.out \
+	PR_equil2.out \
+	PR_mx_new.out
+
 
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt *.csv
