@@ -11,6 +11,9 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "phqalloc.h"
+#if defined(PBASIC)
+#include "PBasic.h"
+#endif
 
 Phreeqc::Phreeqc(void)
 {
@@ -168,6 +171,7 @@ Phreeqc::Phreeqc(void)
 	}
 
 	// basic.c
+#if !defined(PBASIC)
 	struct const_key command_temp[] = {
 		{"+", tokplus},
 		{"-", tokminus},
@@ -338,6 +342,7 @@ Phreeqc::Phreeqc(void)
 		command[i].name = string_duplicate(command_temp[i].name);
 		command[i].keycount = command_temp[i].keycount;
 	}
+#endif
 
 	//cl1.c
 	x_arg = NULL, res_arg = NULL, scratch = NULL;
@@ -411,11 +416,13 @@ Phreeqc::~Phreeqc(void)
 		keyword[i].name = (char *) free_check_null((void *) keyword[i].name);
 	}
 	delete[] keyword;
+#if !defined(PBASIC)
 	for (i = 0; i < NCMDS; i++)
 	{
 		command[i].name = (char *) free_check_null((void *) command[i].name);
 	}
 	delete[] command;
+#endif
 
 	free_check_null(default_data_base);
 	free_check_null(sformatf_buffer);
@@ -840,10 +847,7 @@ void Phreeqc::init(void)
 
 	llnl_co2_coefs = 0;
 	llnl_count_co2_coefs = 0;
-/*
- *
- */
-	command_hash_table = 0;
+
 
 	change_surf			 = 0;
 	change_surf_count = 0;
@@ -997,6 +1001,8 @@ void Phreeqc::init(void)
 	//	Non-class statics
 	//
 	/* basic.c */
+#if !defined(PBASIC)
+	command_hash_table = 0;
 	n_user_punch_index = 0;
 	inbuf = NULL;
 	linebase = NULL;
@@ -1010,6 +1016,12 @@ void Phreeqc::init(void)
 	buf = NULL;
 	exitflag = FALSE;
 	EXCP_LINE = 0;
+	/* p2clib.c */
+	P_argc = 0;
+	P_argv = NULL;
+	P_escapecode = 0;
+	P_ioresult = 0;
+#endif
 	/* dw.c */
 	Q0 = 0;
 	Q5 = 0;
@@ -1022,6 +1034,7 @@ void Phreeqc::init(void)
 	B2T = 0;
 	B1TT = 0;
 	B2TT = 0;
+
 	/* integrate.c */
 	z = 0;
 	xd = 0;
@@ -1094,11 +1107,7 @@ void Phreeqc::init(void)
 	/* kinetics.c */
 	m_original = NULL;
 	m_temp = NULL;
-	/* p2clib.c */
-	P_argc = 0;
-	P_argv = NULL;
-	P_escapecode = 0;
-	P_ioresult = 0;
+
 	/* pitzer.c */
 	A0 = 0;
 	count_cations = 0;
