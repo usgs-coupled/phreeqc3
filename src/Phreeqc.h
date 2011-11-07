@@ -52,7 +52,11 @@ class cxxSurfaceComp;
 class cxxStorageBin;
 
 #include "global_structures.h"
+#if defined(PBASIC)
+class PBasic;
+#else
 #include "basic.h"
+#endif
 
 class Phreeqc
 {
@@ -69,7 +73,13 @@ public:
 int advection(void);
 
 // basic.cpp
+#if !defined(PBASIC)
 #include "basic_class.h"
+#else
+int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
+int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
+void cmd_free(void);
+#endif
 
 // basicsubs.cpp -------------------------------
 LDBLE activity(const char *species_name);
@@ -1321,7 +1331,7 @@ protected:
 //
 //Data members
 //
-
+protected:
 std::list <std::istream *> cookie_list;
 std::ifstream * in_stream;
 std::ifstream * db_stream;
@@ -1856,6 +1866,10 @@ LDBLE f_rho(LDBLE rho_old);
 PHRQMemHeader *s_pTail;
 std::stringstream merged_database_stream;
 std::stringstream merged_input_stream;
+/* Basic */
+#if defined(PBASIC)
+PBasic * basic_instance;
+#endif
 
 /* cl1.cpp ------------------------------- */
 LDBLE *x_arg, *res_arg, *scratch;
@@ -2054,6 +2068,11 @@ int outputlinenr;
 int stop_calculations;
 char err_str98[80];
 #endif
+
+#if defined(PBASIC)
+friend class PBasic;
+#endif
+friend class ChartObject;
 
 #endif /* _INC_PHREEQC_H */
 
