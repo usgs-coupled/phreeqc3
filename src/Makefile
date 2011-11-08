@@ -105,7 +105,7 @@ EFENCE_LIB=-L$(HOME)/packages/efence
 # 2 Versions
 # -----------------------------------------------------------------------------
 ifeq ($(CFG), CLASS_DEBUG)
-  DEFINES      = -DPHREEQC_CPP -DUSE_PHRQ_ALLOC -DPHREEQC_CLASS -DMERGE_INCLUDE_FILES $(DEFINE_INVERSE_CL1MP)
+  DEFINES      = -DUSE_PHRQ_ALLOC -DPBASIC $(DEFINE_INVERSE_CL1MP)
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
@@ -115,7 +115,7 @@ ifeq ($(CFG), CLASS_DEBUG)
 endif
 
 ifeq ($(CFG), CLASS_RELEASE)
-  DEFINES      = -DPHREEQC_CPP -DNDEBUG -DPHREEQC_CLASS -DMERGE_INCLUDE_FILES $(DEFINE_INVERSE_CL1MP)
+  DEFINES      = -DNDEBUG -DPBASIC $(DEFINE_INVERSE_CL1MP)
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
@@ -187,6 +187,7 @@ COMMON_CXXOBJS = \
 	       NameDouble.o \
 	       NumKeyword.o \
 	       Parser.o \
+	       PBasic.o \
 	       PHRQ_base.o \
 	       PHRQ_io.o \
 	       PPassemblageComp.o \

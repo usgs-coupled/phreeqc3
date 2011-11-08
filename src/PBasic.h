@@ -9,6 +9,7 @@
 #define varnamelen      20
 #define maxdims	 4
 
+typedef unsigned char boolean;
 typedef char varnamestring[varnamelen + 1];
 typedef char string255[256];
 #define MAX_LINE 4096
@@ -198,52 +199,6 @@ typedef char string255[256];
 #include "phrqtype.h"
 #include "PHRQ_base.h"
 #include "global_structures.h"
-
-class Phreeqc;
-
-class PBasic: public PHRQ_base
-{
-public:
-	PBasic(Phreeqc *ptr, PHRQ_io *phrq_io=NULL);
-	~PBasic();
-typedef struct __p2c_jmp_buf
-{
-	struct __p2c_jmp_buf *next;
-	jmp_buf jbuf;
-} __p2c_jmp_buf;
-
-
-/* Warning: The following will not work if setjmp is used simultaneously.
-   This also violates the ANSI restriction about using vars after longjmp,
-   but a typical implementation of longjmp will get it right anyway. */
-
-
-# define TRY(x)         do { __p2c_jmp_buf __try_jb;  \
-			     __try_jb.next = __top_jb;  \
-			     if (!setjmp((__top_jb = &__try_jb)->jbuf)) {
-# define RECOVER(x)	__top_jb = __try_jb.next; } else {
-# define RECOVER2(x,L)  __top_jb = __try_jb.next; } else {  \
-			     { L: __top_jb = __try_jb.next; }
-# define ENDTRY(x)      } } while (0)
-
-#define SETBITS  32
-
-#define Const
-
-#define P2PP(x)      ()
-#define PV()       ()
-typedef char *Anyptr;
-
-
-
-
-#define Register    register	/* Register variables */
-#define char        char		/* Characters (not bytes) */
-
-
-
-
-
 typedef struct varrec
 {
 	varnamestring name;
@@ -320,6 +275,45 @@ struct LOC_exec
 	boolean gotoflag, elseflag;
 	tokenrec *t;
 };
+
+class Phreeqc;
+
+class PBasic: public PHRQ_base
+{
+public:
+	PBasic(Phreeqc *ptr, PHRQ_io *phrq_io=NULL);
+	~PBasic();
+typedef struct __p2c_jmp_buf
+{
+	struct __p2c_jmp_buf *next;
+	jmp_buf jbuf;
+} __p2c_jmp_buf;
+
+
+/* Warning: The following will not work if setjmp is used simultaneously.
+   This also violates the ANSI restriction about using vars after longjmp,
+   but a typical implementation of longjmp will get it right anyway. */
+
+
+# define TRY(x)         do { __p2c_jmp_buf __try_jb;  \
+			     __try_jb.next = __top_jb;  \
+			     if (!setjmp((__top_jb = &__try_jb)->jbuf)) {
+# define RECOVER(x)	__top_jb = __try_jb.next; } else {
+# define RECOVER2(x,L)  __top_jb = __try_jb.next; } else {  \
+			     { L: __top_jb = __try_jb.next; }
+# define ENDTRY(x)      } } while (0)
+
+#define SETBITS  32
+
+#define Const
+
+#define P2PP(x)      ()
+#define PV()       ()
+typedef char *Anyptr;
+
+#define Register    register	/* Register variables */
+#define char        char		/* Characters (not bytes) */
+
 	// Methods
 	int free_dim_stringvar(varrec *varbase);
 	void exec(void);
@@ -347,13 +341,13 @@ struct LOC_exec
 	long intexpr(struct LOC_exec *LINK);
 	void require(int k, struct LOC_exec *LINK);
 	void skipparen(struct LOC_exec *LINK);
-	PBasic::varrec * findvar(struct LOC_exec *LINK);
-	PBasic::valrec factor(struct LOC_exec *LINK);
-	PBasic::valrec upexpr(struct LOC_exec * LINK);
-	PBasic::valrec term(struct LOC_exec * LINK);
-	PBasic::valrec sexpr(struct LOC_exec * LINK);
-	PBasic::valrec relexpr(struct LOC_exec * LINK);
-	PBasic::valrec andexpr(struct LOC_exec * LINK);
+	varrec * findvar(struct LOC_exec *LINK);
+	valrec factor(struct LOC_exec *LINK);
+	valrec upexpr(struct LOC_exec * LINK);
+	valrec term(struct LOC_exec * LINK);
+	valrec sexpr(struct LOC_exec * LINK);
+	valrec relexpr(struct LOC_exec * LINK);
+	valrec andexpr(struct LOC_exec * LINK);
 	valrec expr(struct LOC_exec *LINK);
 	void checkextra(struct LOC_exec *LINK);
 	boolean iseos(struct LOC_exec *LINK);
