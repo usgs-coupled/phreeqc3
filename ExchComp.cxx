@@ -12,7 +12,7 @@
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "ExchComp.h"
-#include "Dictionary.h"
+//#include "Dictionary.h"
 #include "phqalloc.h"
 
 

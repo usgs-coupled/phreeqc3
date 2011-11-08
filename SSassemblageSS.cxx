@@ -10,7 +10,7 @@
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "SSassemblageSS.h"
-#include "Dictionary.h"
+//#include "Dictionary.h"
 #include "phqalloc.h"
 
 
