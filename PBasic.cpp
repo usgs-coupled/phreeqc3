@@ -26,7 +26,6 @@
 /* Output from p2c, the Pascal-to-C translator */
 /* From input file "basic.p" */
 
-typedef unsigned char boolean;
 #include "phqalloc.h"
 #include "NameDouble.h"
 
@@ -569,7 +568,7 @@ sget_logical_line(char **ptr, int *l, char *return_line)
 	*l = i;
 	return (1);
 }
- void PBasic::
+void PBasic::
 restoredata(void)
 {
 	dataline = NULL;
@@ -578,7 +577,7 @@ restoredata(void)
 
 
 
- void PBasic::
+void PBasic::
 clearloops(void)
 {
 	looprec *l;
@@ -593,7 +592,7 @@ clearloops(void)
 
 
 
- void PBasic::
+void PBasic::
 clearvar(varrec * v)
 {
 	if (v->numdims != 0)
@@ -626,7 +625,7 @@ clearvar(varrec * v)
 }
 
 
- void PBasic::
+void PBasic::
 clearvars(void)
 {
 	varrec *v;
@@ -705,7 +704,7 @@ typedef long chset[9];
 
 
 
- void PBasic::
+void PBasic::
 parse(char * l_inbuf, tokenrec ** l_buf)
 {
 	long i, j, begin, len, m, lp, q;
@@ -1239,7 +1238,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 
 
 
- void PBasic::
+void PBasic::
 listtokens(FILE * f, tokenrec * l_buf)
 {
 	boolean ltr;
@@ -1901,7 +1900,7 @@ listtokens(FILE * f, tokenrec * l_buf)
 
 
 
- void PBasic::
+void PBasic::
 disposetokens(tokenrec ** tok)
 {
 	tokenrec *tok1;
@@ -1920,7 +1919,7 @@ disposetokens(tokenrec ** tok)
 
 
 
- void PBasic::
+void PBasic::
 parseinput(tokenrec ** l_buf)
 {
 	linerec *l, *l0, *l1;
@@ -1974,7 +1973,7 @@ parseinput(tokenrec ** l_buf)
 	restoredata();
 }
 
- void PBasic::
+void PBasic::
 errormsg(const char * l_s)
 {
 	error_msg(l_s, CONTINUE);
@@ -1982,7 +1981,7 @@ errormsg(const char * l_s)
 }
 
 
- void PBasic::
+void PBasic::
 snerr(const char * l_s)
 {
   char str[MAX_LENGTH] = {0};
@@ -1991,7 +1990,7 @@ snerr(const char * l_s)
 }
 
 
- void PBasic::
+void PBasic::
 tmerr(const char * l_s)
 {
   char str[MAX_LENGTH] = {0};
@@ -2000,14 +1999,14 @@ tmerr(const char * l_s)
 }
 
 
- void PBasic::
+void PBasic::
 badsubscr(void)
 {
 	errormsg("Bad subscript");
 }
 
 
- LDBLE PBasic::
+LDBLE PBasic::
 realfactor(struct LOC_exec *LINK)
 {
 	valrec n;
@@ -2018,7 +2017,7 @@ realfactor(struct LOC_exec *LINK)
 	return (n.UU.val);
 }
 
- char * PBasic::
+char * PBasic::
 strfactor(struct LOC_exec * LINK)
 {
 	valrec n;
@@ -2029,7 +2028,7 @@ strfactor(struct LOC_exec * LINK)
 	return (n.UU.sval);
 }
 
- char * PBasic::
+char * PBasic::
 stringfactor(char * Result, struct LOC_exec * LINK)
 {
 	valrec n;
@@ -2042,13 +2041,13 @@ stringfactor(char * Result, struct LOC_exec * LINK)
 	return Result;
 }
 
- long PBasic::
+long PBasic::
 intfactor(struct LOC_exec *LINK)
 {
 	return ((long) floor(realfactor(LINK) + 0.5));
 }
 
- LDBLE PBasic::
+LDBLE PBasic::
 realexpr(struct LOC_exec *LINK)
 {
 	valrec n;
@@ -2059,7 +2058,7 @@ realexpr(struct LOC_exec *LINK)
 	return (n.UU.val);
 }
 
- char * PBasic::
+char * PBasic::
 strexpr(struct LOC_exec * LINK)
 {
 	valrec n;
@@ -2070,7 +2069,7 @@ strexpr(struct LOC_exec * LINK)
 	return (n.UU.sval);
 }
 
- char * PBasic::
+char * PBasic::
 stringexpr(char * Result, struct LOC_exec * LINK)
 {
 	valrec n;
@@ -2083,14 +2082,14 @@ stringexpr(char * Result, struct LOC_exec * LINK)
 	return Result;
 }
 
- long PBasic::
+long PBasic::
 intexpr(struct LOC_exec *LINK)
 {
 	return ((long) floor(realexpr(LINK) + 0.5));
 }
 
 
- void PBasic::
+void PBasic::
 require(int k, struct LOC_exec *LINK)
 {
   char str[MAX_LENGTH] = {0};
@@ -2113,7 +2112,7 @@ require(int k, struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 skipparen(struct LOC_exec *LINK)
 {
 	do
@@ -2134,10 +2133,10 @@ skipparen(struct LOC_exec *LINK)
 }
 
 
-PBasic::varrec * PBasic::
+varrec * PBasic::
 findvar(struct LOC_exec *LINK)
 {
-	PBasic::varrec *v;
+	varrec *v;
 	long i, j, k;
 	tokenrec *tok;
 	long FORLIM;
@@ -2208,7 +2207,7 @@ findvar(struct LOC_exec *LINK)
 }
 
 
-PBasic::valrec PBasic::
+valrec PBasic::
 factor(struct LOC_exec * LINK)
 {
 	char string[MAX_LENGTH] = {0};
@@ -3445,7 +3444,7 @@ factor(struct LOC_exec * LINK)
 	return n;
 }
 
-PBasic::valrec PBasic::
+valrec PBasic::
 upexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
@@ -3481,7 +3480,7 @@ upexpr(struct LOC_exec * LINK)
 	return n;
 }
 
-PBasic::valrec PBasic::
+valrec PBasic::
 term(struct LOC_exec * LINK)
 {
 	valrec n, n2;
@@ -3495,7 +3494,7 @@ term(struct LOC_exec * LINK)
 	{
 		k = LINK->t->kind;
 		LINK->t = LINK->t->next;
-		n2 = PBasic::upexpr(LINK);
+		n2 = upexpr(LINK);
 		if (n.stringval || n2.stringval)
 			tmerr(": found char, but need a number for * or /");
 		if (k == tokmod)
@@ -3530,7 +3529,7 @@ term(struct LOC_exec * LINK)
 	return n;
 }
 
-PBasic::valrec PBasic::
+valrec PBasic::
 sexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
@@ -3574,7 +3573,7 @@ sexpr(struct LOC_exec * LINK)
 	return n;
 }
 
-PBasic::valrec PBasic::
+valrec PBasic::
 relexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
@@ -3588,7 +3587,7 @@ relexpr(struct LOC_exec * LINK)
 	{
 		k = LINK->t->kind;
 		LINK->t = LINK->t->next;
-		n2 = PBasic::sexpr(LINK);
+		n2 = sexpr(LINK);
 		if (n.stringval != n2.stringval)
 			tmerr("");
 		if (n.stringval)
@@ -3647,7 +3646,7 @@ relexpr(struct LOC_exec * LINK)
 	return n;
 }
 
-PBasic::valrec PBasic::
+valrec PBasic::
 andexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
@@ -3664,7 +3663,7 @@ andexpr(struct LOC_exec * LINK)
 	return n;
 }
 
-PBasic::valrec PBasic::
+valrec PBasic::
 expr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
@@ -3689,7 +3688,7 @@ expr(struct LOC_exec * LINK)
 }
 
 
- void PBasic::
+void PBasic::
 checkextra(struct LOC_exec *LINK)
 {
 	if (LINK->t != NULL)
@@ -3697,7 +3696,7 @@ checkextra(struct LOC_exec *LINK)
 }
 
 
- boolean PBasic::
+boolean PBasic::
 iseos(struct LOC_exec *LINK)
 {
 	return ((boolean) (LINK->t == NULL || LINK->t->kind == (long) tokelse ||
@@ -3705,7 +3704,7 @@ iseos(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 skiptoeos(struct LOC_exec *LINK)
 {
 	while (!iseos(LINK))
@@ -3713,7 +3712,7 @@ skiptoeos(struct LOC_exec *LINK)
 }
 
 
-PBasic::linerec * PBasic::
+linerec * PBasic::
 findline(long n)
 {
 	linerec *l;
@@ -3724,7 +3723,7 @@ findline(long n)
 	return l;
 }
 
-PBasic::linerec * PBasic::
+linerec * PBasic::
 mustfindline(long n)
 {
 	linerec *l;
@@ -3738,7 +3737,7 @@ mustfindline(long n)
 }
 
 
- void PBasic::
+void PBasic::
 cmdend(struct LOC_exec *LINK)
 {
 	stmtline = NULL;
@@ -3746,7 +3745,7 @@ cmdend(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdnew(struct LOC_exec *LINK)
 {
 	void *p;
@@ -3798,7 +3797,7 @@ cmdnew(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdlist(struct LOC_exec *LINK)
 {
 	linerec *l;
@@ -3847,7 +3846,7 @@ cmdlist(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdload(boolean merging, char * name, struct LOC_exec *LINK)
 {
 	FILE *f;
@@ -3890,7 +3889,7 @@ cmdload(boolean merging, char * name, struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdrun(struct LOC_exec *LINK)
 {
 	linerec *l;
@@ -3935,7 +3934,7 @@ cmdrun(struct LOC_exec *LINK)
 }
 
 /* PhreeqcPtr->replace basic save command with transport of rate back to calc_kinetic_rate */
- void PBasic::
+void PBasic::
 cmdsave(struct LOC_exec *LINK)
 {
 	valrec n;
@@ -3959,7 +3958,7 @@ cmdsave(struct LOC_exec *LINK)
 		}
 	}
 }
- void PBasic::
+void PBasic::
 cmdput(struct LOC_exec *LINK)
 {
 	int j;
@@ -4001,7 +4000,7 @@ cmdput(struct LOC_exec *LINK)
 	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
 }
 
- void PBasic::
+void PBasic::
 cmdchange_por(struct LOC_exec *LINK)
 {
 	int j;
@@ -4018,7 +4017,7 @@ cmdchange_por(struct LOC_exec *LINK)
 		PhreeqcPtr->cell_data[j - 1].por = TEMP;
 }
 
- void PBasic::
+void PBasic::
 cmdchange_surf(struct LOC_exec *LINK)
 {
 /*
@@ -4058,13 +4057,13 @@ cmdchange_surf(struct LOC_exec *LINK)
 		PhreeqcPtr->change_surf[count - 1].cell_no = -99;
 }
 
- void PBasic::
+void PBasic::
 cmdbye(void)
 {
 	exitflag = true;
 }
 
- void PBasic::
+void PBasic::
 cmddel(struct LOC_exec *LINK)
 {
 	linerec *l, *l0, *l1;
@@ -4125,7 +4124,7 @@ cmddel(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdrenum(struct LOC_exec *LINK)
 {
 	linerec *l, *l1;
@@ -4195,7 +4194,7 @@ cmdrenum(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdprint(struct LOC_exec *LINK)
 {
 	boolean semiflag;
@@ -4230,7 +4229,7 @@ cmdprint(struct LOC_exec *LINK)
 		output_msg("\n");
 }
 
- void PBasic::
+void PBasic::
 cmdpunch(struct LOC_exec *LINK)
 {
 	valrec n;
@@ -4286,7 +4285,7 @@ cmdpunch(struct LOC_exec *LINK)
 }
 
 #if defined PHREEQ98 
- void PBasic::
+void PBasic::
 cmdgraph_x(struct LOC_exec *LINK)
 {
 	boolean semiflag;
@@ -4321,7 +4320,7 @@ cmdgraph_x(struct LOC_exec *LINK)
 	}
 }
 
- void PBasic::
+void PBasic::
 cmdgraph_y(struct LOC_exec *LINK)
 {
 	boolean semiflag;
@@ -4356,7 +4355,7 @@ cmdgraph_y(struct LOC_exec *LINK)
 	}
 }
 
- void PBasic::
+void PBasic::
 cmdgraph_sy(struct LOC_exec *LINK)
 {
 	boolean semiflag;
@@ -4392,7 +4391,7 @@ cmdgraph_sy(struct LOC_exec *LINK)
 }
 #endif
 
- void PBasic::
+void PBasic::
 cmdlet(boolean implied, struct LOC_exec *LINK)
 {
 	varrec *v;
@@ -4432,7 +4431,7 @@ cmdlet(boolean implied, struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdgoto(struct LOC_exec *LINK)
 {
 	stmtline = mustfindline(intexpr(LINK));
@@ -4441,7 +4440,7 @@ cmdgoto(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdif(struct LOC_exec *LINK)
 {
 	LDBLE n;
@@ -4472,14 +4471,14 @@ cmdif(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdelse(struct LOC_exec *LINK)
 {
 	LINK->t = NULL;
 }
 
 
- boolean PBasic::
+boolean PBasic::
 skiploop(int up, int dn, struct LOC_exec *LINK)
 {
 	boolean Result;
@@ -4514,7 +4513,7 @@ skiploop(int up, int dn, struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdfor(struct LOC_exec *LINK)
 {
 	looprec *l, lr;
@@ -4587,7 +4586,7 @@ cmdfor(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdnext(struct LOC_exec *LINK)
 {
 	varrec *v;
@@ -4629,7 +4628,7 @@ cmdnext(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdwhile(struct LOC_exec *LINK)
 {
 	looprec *l;
@@ -4655,7 +4654,7 @@ cmdwhile(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdwend(struct LOC_exec *LINK)
 {
 	tokenrec *tok;
@@ -4703,7 +4702,7 @@ cmdwend(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdgosub(struct LOC_exec *LINK)
 {
 	looprec *l;
@@ -4720,7 +4719,7 @@ cmdgosub(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdreturn(struct LOC_exec *LINK)
 {
 	looprec *l;
@@ -4748,7 +4747,7 @@ cmdreturn(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdread(struct LOC_exec *LINK)
 {
 	varrec *v;
@@ -4800,14 +4799,14 @@ cmdread(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmddata(struct LOC_exec *LINK)
 {
 	skiptoeos(LINK);
 }
 
 
- void PBasic::
+void PBasic::
 cmdrestore(struct LOC_exec *LINK)
 {
 	if (iseos(LINK))
@@ -4820,7 +4819,7 @@ cmdrestore(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdgotoxy(struct LOC_exec *LINK)
 {
 	intexpr(LINK);
@@ -4828,7 +4827,7 @@ cmdgotoxy(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmdon(struct LOC_exec *LINK)
 {
 	long i;
@@ -4866,7 +4865,7 @@ cmdon(struct LOC_exec *LINK)
 }
 
 
- void PBasic::
+void PBasic::
 cmddim(struct LOC_exec *LINK)
 {
 	long i, j, k;
@@ -4923,7 +4922,7 @@ cmddim(struct LOC_exec *LINK)
 	while (!iseos(LINK));
 }
 
- void PBasic::
+void PBasic::
 cmdpoke(struct LOC_exec *LINK)
 {
 	union
@@ -4939,7 +4938,7 @@ cmdpoke(struct LOC_exec *LINK)
 /* p2c: basic.p, line 2077: Note: Range checking is ON [216] */
 }
 
- void PBasic::
+void PBasic::
 exec(void)
 {
 	struct LOC_exec V;
@@ -5232,7 +5231,7 @@ free_dim_stringvar(varrec *l_varbase)
 	return (OK);
 }
 #if defined MULTICHART
- void PBasic::
+void PBasic::
 cmdplot_xy(struct LOC_exec *LINK)
 {
 	boolean semiflag;
@@ -5320,7 +5319,7 @@ cmdplot_xy(struct LOC_exec *LINK)
 	}
 	chart->Set_colnr(chart->Get_colnr() + 1);
 }
- void PBasic::
+void PBasic::
 cmdgraph_x(struct LOC_exec *LINK)
 {
 	boolean semiflag;
@@ -5367,7 +5366,7 @@ cmdgraph_x(struct LOC_exec *LINK)
 	}
 }
 
- void PBasic::
+void PBasic::
 cmdgraph_y(struct LOC_exec *LINK)
 {
 	boolean semiflag;
@@ -5431,7 +5430,7 @@ cmdgraph_y(struct LOC_exec *LINK)
 	}
 }
 
- void PBasic::
+void PBasic::
 cmdgraph_sy(struct LOC_exec *LINK)
 {
 	boolean semiflag;
