@@ -75,6 +75,7 @@ EQUILIBRIUM_PHASES_RAW       1
   -component
     -name                  Barite
       -si                    0
+      -si_org                0
       -moles                 10
       -delta                 0
       -initial_moles         0
@@ -89,6 +90,7 @@ EQUILIBRIUM_PHASES_RAW       2 Pp_Assemblage defined in simulation 2.
   -component
     -name                  Barite
       -si                    0
+      -si_org                0
       -moles                 10
       -delta                 0
       -initial_moles         0
@@ -103,6 +105,7 @@ EQUILIBRIUM_PHASES_RAW       3 Pp_Assemblage defined in simulation 2.
   -component
     -name                  Barite
       -si                    0
+      -si_org                0
       -moles                 10
       -delta                 0
       -initial_moles         0
@@ -302,18 +305,21 @@ GAS_PHASE_RAW       1
   -type               0
   -total_p            1
   -volume             1
+  -v_m                0
   -component
     CO2(g)   1.4305508698401e-05
 GAS_PHASE_RAW       2 Gas defined in simulation 5.
   -type               0
   -total_p            1
   -volume             1
+  -v_m                0
   -component
     CO2(g)   1.4305508698401e-05
 GAS_PHASE_RAW       3 Gas defined in simulation 5.
   -type               0
   -total_p            1
   -volume             1
+  -v_m                0
   -component
     CO2(g)   1.4305508698401e-05
 KINETICS_RAW       1 
@@ -385,41 +391,41 @@ USE reaction_temperature none
 SOLUTION_RAW       3 Solution after simulation 13.
   -temp              30
   -total_h           111.02092790236
-  -total_o           55.565736684277
-  -cb                0.00018835896688104
+  -total_o           55.565736684275
+  -cb                0.00018835896880199
   -totals
-    Ba   4.5211449474401e-07
-    C(-4)   5.4552108516028e-15
-    C(4)   0.016341767837873
-    Ca   8.2175790127351e-06
-    Cl   0.0025000000000958
-    Fe(2)   2.7955658274053e-09
-    Fe(3)   1.8081452769403e-11
-    H(0)   1.1370986215068e-11
-    Na   0.032075350386892
-    S(-2)   8.4437619883734e-13
-    S(6)   0.002629009734239
+    Ba   4.5211449475709e-07
+    C(-4)   5.4316976910244e-15
+    C(4)   0.016341767837372
+    Ca   8.2175790128176e-06
+    Cl   0.0024999999999928
+    Fe(2)   2.7955658273799e-09
+    Fe(3)   1.8091218341051e-11
+    H(0)   1.1358713496516e-11
+    Na   0.032075350387615
+    S(-2)   8.4073675137236e-13
+    S(6)   0.0026290097340891
   -Isotopes
-  -pH                9.8836271088605
-  -pe                -5.8485321369876
-  -mu                0.037753475108785
+  -pH                9.883627108852
+  -pe                -5.8482976431437
+  -mu                0.03775347510818
   -ah2o              0.99912674961539
   -mass_water        0.99999722440183
-  -total_alkalinity  0.024146316947665
+  -total_alkalinity  0.02414631694688
   -activities
-    Ba   -6.9801055753381
-    C(-4)   -14.259796649813
-    C(4)   -2.5456074034477
-    Ca   -5.9679977616074
-    Cl   -2.6830625895642
-    E   5.8485321369876
-    Fe(2)   -10.428146581482
-    Fe(3)   -29.179604620758
-    H(0)   -11.241551495707
-    Na   -1.6030318723027
-    O(0)   -68.310647809882
-    S(-2)   -12.156703998755
-    S(6)   -2.9163897022613
+    Ba   -6.9801055753142
+    C(-4)   -14.261289437131
+    C(4)   -2.5456074034661
+    Ca   -5.967997761589
+    Cl   -2.6830625895816
+    E   5.8482976431437
+    Fe(2)   -10.428146581469
+    Fe(3)   -29.179418022321
+    H(0)   -11.241924692536
+    Na   -1.6030318722911
+    O(0)   -68.309901416224
+    S(-2)   -12.158196786086
+    S(6)   -2.9163897022851
   -gammas
 EQUILIBRIUM_PHASES_RAW       3 Pure-phase assemblage after simulation 13.
   -eltList       
@@ -429,6 +435,7 @@ EQUILIBRIUM_PHASES_RAW       3 Pure-phase assemblage after simulation 13.
   -component
     -name                  Barite
       -si                    0
+      -si_org                0
       -moles                 9.9984556653764
       -delta                 0
       -initial_moles         10
@@ -440,14 +447,14 @@ EXCHANGE_RAW       3 Exchange assemblage after simulation 13.
   -component
     -formula               X
       -totals
-        Ba   0.000959450438861
-        Ca   0.0076860384739591
-        Fe   1.0889195133944e-07
-        Na   0.98270881026213
+        Ba   0.0009594504388608
+        Ca   0.0076860384738645
+        Fe   1.0889195133684e-07
+        Na   0.98270881026231
         X   1.0000000058717
       -charge_balance        0
       -moles                 0
-      -la                    1.5187949943999
+      -la                    1.5187949943888
       -phase_proportion      0
       -formula_z             0
       -formula_totals
@@ -466,26 +473,26 @@ SURFACE_RAW       3 Surface assemblage after simulation 13.
     -formula               Hfo_s
       -formula_z             0
       -moles                 0
-      -la                    -0.72075047355574
-      -charge_balance        -8.7708929677003e-05
+      -la                    -0.72075047355638
+      -charge_balance        -8.7708929674514e-05
       -phase_proportion      0
       -Dw                    0
       -formula_totals
         Hfo_s   0.01
       -totals
-        Ba   0.00058467844540232
-        Ca   0.0019454716086276
-        Fe   0.00019436435436563
-        H   0.0044632622536293
+        Ba   0.00058467844540861
+        Ca   0.0019454716086246
+        Fe   0.0001943643543634
+        H   0.0044632622536297
         Hfo_s   0.010000000000097
         O   0.010000000000097
   -charge_component 
     -name                  Hfo
       -specific_area         600
       -grams                 1
-      -charge_balance        -8.7708929677003e-05
+      -charge_balance        -8.7708929674514e-05
       -mass_water            0
-      -la_psi                -0.25194328310972
+      -la_psi                -0.25194328310509
       -la_psi1               0
       -la_psi2               0
       -capacitance0          1
@@ -502,14 +509,15 @@ SOLID_SOLUTIONS_RAW       3 Solid solution assemblage after simulation 13.
       -xb1                   0
       -xb2                   0
       -components            
-        calcite   0.090364343018525
-        siderite   0.00080552534911235
+        calcite   0.090364343018623
+        siderite   0.0008055253491038
 GAS_PHASE_RAW       3 Gas phase after simulation 13.
   -type               0
   -total_p            1
   -volume             1
+  -v_m                0
   -component
-    CO2(g)   6.729158063503e-30
+    CO2(g)   6.7291580634799e-30
 KINETICS_RAW       3 Kinetics defined in simulation 13.
   -step_divide       1
   -rk                1
@@ -528,9 +536,9 @@ KINETICS_RAW       3 Kinetics defined in simulation 13.
       -d_params
         1 1 1 1 
   -totals         
-    C   8.7267415911591e-09
-    Ca   8.7267415911591e-09
-    O   2.6180224773477e-08
+    C   8.7267415911074e-09
+    Ca   8.7267415911074e-09
+    O   2.6180224773322e-08
   -equal_steps    1
   -steps         
     1 
@@ -568,6 +576,7 @@ EQUILIBRIUM_PHASES_RAW       1
   -component
     -name                  Barite
       -si                    0
+      -si_org                0
       -moles                 10
       -delta                 0
       -initial_moles         0
@@ -641,6 +650,7 @@ GAS_PHASE_RAW       1
   -type               0
   -total_p            1
   -volume             1
+  -v_m                0
   -component
     CO2(g)   1.4305508698401e-05
 KINETICS_RAW       1 Kinetics defined in simulation 15.
@@ -661,9 +671,9 @@ KINETICS_RAW       1 Kinetics defined in simulation 15.
       -d_params
         1 1 1 1 
   -totals         
-    C   8.9762112864667e-13
-    Ca   8.9762112864667e-13
-    O   2.69286338594e-12
+    C   8.9762112864697e-13
+    Ca   8.9762112864697e-13
+    O   2.6928633859409e-12
   -equal_steps    1
   -steps         
     1 
@@ -737,6 +747,7 @@ EQUILIBRIUM_PHASES_RAW       1 New pp description
   -component
     -name                  Barite
       -si                    0
+      -si_org                0
       -moles                 20
       -delta                 0
       -initial_moles         0
@@ -746,6 +757,7 @@ EQUILIBRIUM_PHASES_RAW       1 New pp description
   -component
     -name                  Calcite
       -si                    0
+      -si_org                0
       -moles                 20
       -delta                 0
       -initial_moles         0
@@ -844,6 +856,7 @@ GAS_PHASE_RAW       1 New gas_phase def
   -type               0
   -total_p            1
   -volume             1
+  -v_m                0
   -component
     CO2(g)   2.4305508698401e-05
     N2(g)   1e-05
