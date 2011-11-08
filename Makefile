@@ -104,26 +104,6 @@ EFENCE_LIB=-L$(HOME)/packages/efence
 # -----------------------------------------------------------------------------
 # 2 Versions
 # -----------------------------------------------------------------------------
-ifeq ($(CFG), RELEASE)
-  DEFINES      = -DPHREEQC_CPP -DNDEBUG $(DEFINE_INVERSE_CL1MP)
-  VPATH        = ..:../phreeqc
-  INCLUDES     = -I../phreeqc
-  CXX          = g++
-  CXXFLAGS     = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
-  OBJECT_FILES = $(MAIN_FILE) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
-  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
-endif
-
-ifeq ($(CFG), DEBUG)
-  DEFINES      = -DPHREEQC_CPP -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP)
-  VPATH        = ..:../phreeqc
-  INCLUDES     = -I../phreeqc
-  CXX          = g++
-  CXXFLAGS     = -Wall -g $(DEFINES) $(INCLUDES)
-  OBJECT_FILES = $(MAIN_FILE) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
-  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
-endif
-
 ifeq ($(CFG), CLASS_DEBUG)
   DEFINES      = -DPHREEQC_CPP -DUSE_PHRQ_ALLOC -DPHREEQC_CLASS -DMERGE_INCLUDE_FILES $(DEFINE_INVERSE_CL1MP)
   VPATH        = ..:../phreeqc
@@ -140,6 +120,7 @@ ifeq ($(CFG), CLASS_RELEASE)
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
   CXXFLAGS     = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
+#  CXXFLAGS     = -Wall -pedantic -p $(DEFINES) $(INCLUDES)
   OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
   LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
 endif
@@ -233,6 +214,7 @@ COMMON_CXXOBJS = \
 #  the current target.) 
 
 ${PROGRAM} : ${OBJECT_FILES}
+#	${CXX} -p -o $@ ${OBJECT_FILES}  ${LD_FLAGS} 
 	${CXX} -o $@ ${OBJECT_FILES}  ${LD_FLAGS} 
 	@echo; echo Done making for phreeqcpp
 # -----------------------------------------------------------------------------
@@ -272,8 +254,7 @@ ExchComp.o: ../ExchComp.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../phreeqc/p2c.h ../phreeqc/global_structures.h \
  ../phreeqc/NA.h ../phreeqc/basic.h ../phreeqc/basic_class.h \
- ../ExchComp.h ../NameDouble.h ../Parser.h ../Dictionary.h \
- ../phreeqc/phqalloc.h
+ ../ExchComp.h ../NameDouble.h ../Parser.h ../phreeqc/phqalloc.h
 GasPhase.o: ../GasPhase.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
@@ -307,7 +288,7 @@ KineticsComp.o: ../KineticsComp.cxx ../Utils.h ../Phreeqc.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
  ../phreeqc/p2c.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/basic.h ../phreeqc/basic_class.h ../KineticsComp.h \
- ../NameDouble.h ../Parser.h ../Dictionary.h ../phreeqc/phqalloc.h
+ ../NameDouble.h ../Parser.h ../phreeqc/phqalloc.h
 NameDouble.o: ../NameDouble.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
@@ -315,7 +296,7 @@ NameDouble.o: ../NameDouble.cxx ../Utils.h ../Phreeqc.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
  ../phreeqc/p2c.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/basic.h ../phreeqc/basic_class.h ../NameDouble.h ../Parser.h \
- ../Dictionary.h ../phreeqc/phqalloc.h
+ ../phreeqc/phqalloc.h
 NumKeyword.o: ../NumKeyword.cxx ../NumKeyword.h ../PHRQ_base.h \
  ../Parser.h
 Parser.o: ../Parser.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
@@ -332,8 +313,7 @@ PPassemblageComp.o: ../PPassemblageComp.cxx ../Utils.h ../Phreeqc.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
  ../phreeqc/p2c.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/basic.h ../phreeqc/basic_class.h ../PPassemblageComp.h \
- ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../Dictionary.h \
- ../phreeqc/phqalloc.h
+ ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../phreeqc/phqalloc.h
 PPassemblage.o: ../PPassemblage.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
@@ -404,8 +384,7 @@ SSassemblageSS.o: ../SSassemblageSS.cxx ../Utils.h ../Phreeqc.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
  ../phreeqc/p2c.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/basic.h ../phreeqc/basic_class.h ../SSassemblageSS.h \
- ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../Dictionary.h \
- ../phreeqc/phqalloc.h
+ ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../phreeqc/phqalloc.h
 StorageBin.o: ../StorageBin.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
@@ -427,8 +406,7 @@ SurfaceCharge.o: ../SurfaceCharge.cxx ../Utils.h ../Phreeqc.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
  ../phreeqc/p2c.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/basic.h ../phreeqc/basic_class.h ../SurfaceCharge.h \
- ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../Dictionary.h \
- ../phreeqc/phqalloc.h
+ ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../phreeqc/phqalloc.h
 SurfaceComp.o: ../SurfaceComp.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
@@ -436,8 +414,7 @@ SurfaceComp.o: ../SurfaceComp.cxx ../Utils.h ../Phreeqc.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
  ../phreeqc/p2c.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/basic.h ../phreeqc/basic_class.h ../SurfaceComp.h \
- ../Phreeqc_class.h ../NameDouble.h ../Parser.h ../Dictionary.h \
- ../phreeqc/phqalloc.h
+ ../Phreeqc_class.h ../NameDouble.h ../Parser.h ../phreeqc/phqalloc.h
 Surface.o: ../Surface.cxx ../Phreeqc_class.h ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
@@ -484,6 +461,7 @@ class_main.o: ../class_main.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
 CurveObject.o: ../CurveObject.cpp ../CurveObject.h
 dumper.o: ../dumper.cpp ../dumper.h ../StorageBinList.h ../PHRQ_base.h \
  ../Parser.h
+PBasic.o: ../PBasic.cpp
 Phreeqc.o: ../Phreeqc.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
@@ -778,8 +756,8 @@ clean:
 	rm -rf Class_release Class_debug
 
 dependencies:
-	mkdir -p $(DEBUG_DIR) 
-	cd $(DEBUG_DIR); gcc -MM -I.. -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.cpp
+	mkdir -p $(CLASS_DEBUG_DIR) 
+	cd $(CLASS_DEBUG_DIR); gcc -MM -I.. -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.cpp
 
 tester:
 	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)

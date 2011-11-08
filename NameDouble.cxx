@@ -12,7 +12,7 @@
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "NameDouble.h"
-#include "Dictionary.h"
+//#include "Dictionary.h"
 #include "phqalloc.h"
 
 
