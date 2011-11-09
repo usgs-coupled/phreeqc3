@@ -14,13 +14,10 @@
 #include "PBasic.h"
 #include "Phreeqc.h"
 
-
 #define STOP 1
 #define CONTINUE 0
 
 #define Isspace(c)  isspace(c)	/* or "((c) == ' ')" if preferred */
-
-
 
 /* Output from p2c, the Pascal-to-C translator */
 /* From input file "basic.p" */
@@ -52,183 +49,166 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	P_argv = NULL;
 	P_escapecode = 0;
 	P_ioresult = 0;
-
-	struct const_key command_temp[] = {
-		{"+", tokplus},
-		{"-", tokminus},
-		{"*", toktimes},
-		{"/", tokdiv},
-		{"^", tokup},
-		{"( or [", toklp},
-		{") or ]", tokrp},
-		{",", tokcomma},
-		{";", toksemi},
-		{":", tokcolon},
-		{"=", tokeq},
-		{"<", toklt},
-		{"<=", tokle},
-		{">", tokgt},
-		{">=", tokge},
-		{"and", tokand},
-		{"or", tokor},
-		{"xor", tokxor},
-		{"not", toknot},
-		{"mod", tokmod},
-		{"sqr", toksqr},
-		{"sqrt", toksqrt},
-		{"ceil", tokceil},
-		{"floor", tokfloor},
-		{"sin", toksin},
-		{"cos", tokcos},
-		{"tan", toktan},
-		{"arctan", tokarctan},
-		{"log", toklog},
-		{"exp", tokexp},
-		{"abs", tokabs},
-		{"sgn", toksgn},
-		{"str$", tokstr_},
-		{"val", tokval},
-		{"chr$", tokchr_},
-		{"eol$", tokeol_},
-		{"asc", tokasc},
-		{"len", toklen},
-		{"mid$", tokmid_},
-		{"peek", tokpeek},
-		{"let", toklet},
-		{"print", tokprint},
-		{"punch", tokpunch},
-	#if defined PHREEQ98 || defined MULTICHART
-		{"graph_x", tokgraph_x},
-		{"graph_y", tokgraph_y},
-		{"graph_sy", tokgraph_sy},
-	#endif
-	#if defined MULTICHART
-		{"plot_xy", tokplot_xy},
-	#endif
-		{"input", tokinput},
-		{"goto", tokgoto},
-		{"go to", tokgoto},
-		{"if", tokif},
-		{"end", tokend},
-		{"stop", tokstop},
-		{"for", tokfor},
-		{"next", toknext},
-		{"while", tokwhile},
-		{"wend", tokwend},
-		{"gosub", tokgosub},
-		{"return", tokreturn},
-		{"read", tokread},
-		{"data", tokdata},
-		{"restore", tokrestore},
-		{"gotoxy", tokgotoxy},
-		{"on", tokon},
-		{"dim", tokdim},
-		{"poke", tokpoke},
-		{"list", toklist},
-		{"run", tokrun},
-		{"new", toknew},
-		{"load", tokload},
-		{"merge", tokmerge},
-		{"save", toksave},
-		{"bye", tokbye},
-		{"quit", tokbye},
-		{"del", tokdel},
-		{"renum", tokrenum},
-		{"then", tokthen},
-		{"else", tokelse},
-		{"to", tokto},
-		{"step", tokstep},
-		{"tc", toktc},
-		{"tk", toktk},
-		{"time", toktime},
-		{"sim_time", toksim_time},
-		{"total_time", toktotal_time},
-		{"m0", tokm0},
-		{"m", tokm},
-		{"parm", tokparm},
-		{"act", tokact},
-		{"edl", tokedl},
-		{"surf", toksurf},
-		{"equi", tokequi},
-		{"kin", tokkin},
-		{"gas", tokgas},
-		{"s_s", toks_s},
-		{"misc1", tokmisc1},
-		{"misc2", tokmisc2},
-		{"mu", tokmu},
-		{"osmotic", tokosmotic},
-		{"alk", tokalk},
-		{"lk_species", toklk_species},
-		{"lk_named", toklk_named},
-		{"lk_phase", toklk_phase},
-		{"sum_species", toksum_species},
-		{"sum_gas", toksum_gas},
-		{"sum_s_s", toksum_s_s},
-		{"calc_value", tokcalc_value},
-		{"description", tokdescription},
-		{"sys", toksys},
-		{"instr", tokinstr},
-		{"ltrim", tokltrim},
-		{"rtrim", tokrtrim},
-		{"trim", toktrim},
-		{"pad", tokpad},
-		{"rxn", tokrxn},
-		{"dist", tokdist},
-		{"mol", tokmol},
-		{"la", tokla},
-		{"lm", toklm},
-		{"sr", toksr},
-		{"si", toksi},
-		{"step_no", tokstep_no},
-		{"cell_no", tokcell_no},
-		{"sim_no", toksim_no},
-		{"tot", toktot},
-		{"log10", toklog10},
-		{"charge_balance", tokcharge_balance},
-		{"percent_error", tokpercent_error},
-		{"put", tokput},
-		{"get", tokget},
-		{"exists", tokexists},
-		{"rem", tokrem},
-		{"change_por", tokchange_por},
-		{"get_por", tokget_por},
-		{"change_surf", tokchange_surf},
-		{"porevolume", tokporevolume},
-		{"sc", toksc},
-		{"gamma", tokgamma},
-	/* VP: Density Start */
-		{"lg", toklg},
-		{"rho", tokrho},
-	/* VP: Density End */
-		{"cell_volume", tokcell_volume},
-		{"cell_pore_volume", tokcell_pore_volume},
-		{"cell_porosity", tokcell_porosity},
-		{"cell_saturation", tokcell_saturation},
-		{"totmole", toktotmole},
-		{"totmol", toktotmol},
-		{"totmoles", toktotmoles},
-		{"iso", tokiso},
-		{"iso_unit", tokiso_unit},
-		{"phase_formula", tokphase_formula},
-		{"list_s_s", toklist_s_s},
-		{"pr_p", tokpr_p},
- 		{"pr_phi", tokpr_phi},
- 		{"gas_p", tokgas_p},
- 		{"gas_vm", tokgas_vm}
-		};
-	NCMDS = (sizeof(command_temp) / sizeof(struct const_key));
-	command = new const_key[NCMDS];
-	int i;
-	for (i = 0; i < NCMDS; i++)
-	{
-		command[i].name = PhreeqcPtr->string_duplicate(command_temp[i].name);
-		command[i].keycount = command_temp[i].keycount;
-	}
-	this->cmd_initialize();
+	// initialize Basic commands
+	commands["+"] = tokplus;
+	commands["-"] = tokminus;
+	commands["*"] = toktimes;
+	commands["/"] = tokdiv;
+	commands["^"] = tokup;
+	commands["( or ["] = toklp;
+	commands[") or ]"] = tokrp;
+	commands["]"] = tokcomma;
+	commands[";"] = toksemi;
+	commands[":"] = tokcolon;
+	commands["="] = tokeq;
+	commands["<"] = toklt;
+	commands["<="] = tokle;
+	commands[">"] = tokgt;
+	commands[">="] = tokge;
+	commands["and"] = tokand;
+	commands["or"] = tokor;
+	commands["xor"] = tokxor;
+	commands["not"] = toknot;
+	commands["mod"] = tokmod;
+	commands["sqr"] = toksqr;
+	commands["sqrt"] = toksqrt;
+	commands["ceil"] = tokceil;
+	commands["floor"] = tokfloor;
+	commands["sin"] = toksin;
+	commands["cos"] = tokcos;
+	commands["tan"] = toktan;
+	commands["arctan"] = tokarctan;
+	commands["log"] = toklog;
+	commands["exp"] = tokexp;
+	commands["abs"] = tokabs;
+	commands["sgn"] = toksgn;
+	commands["str$"] = tokstr_;
+	commands["val"] = tokval;
+	commands["chr$"] = tokchr_;
+	commands["eol$"] = tokeol_;
+	commands["asc"] = tokasc;
+	commands["len"] = toklen;
+	commands["mid$"] = tokmid_;
+	commands["peek"] = tokpeek;
+	commands["let"] = toklet;
+	commands["print"] = tokprint;
+	commands["punch"] = tokpunch;
+	commands["graph_x"] = tokgraph_x;
+	commands["graph_y"] = tokgraph_y;
+	commands["graph_sy"] = tokgraph_sy;
+	commands["plot_xy"] = tokplot_xy;
+	commands["input"] = tokinput;
+	commands["goto"] = tokgoto;
+	commands["go to"] = tokgoto;
+	commands["if"] = tokif;
+	commands["end"] = tokend;
+	commands["stop"] = tokstop;
+	commands["for"] = tokfor;
+	commands["next"] = toknext;
+	commands["while"] = tokwhile;
+	commands["wend"] = tokwend;
+	commands["gosub"] = tokgosub;
+	commands["return"] = tokreturn;
+	commands["read"] = tokread;
+	commands["data"] = tokdata;
+	commands["restore"] = tokrestore;
+	commands["gotoxy"] = tokgotoxy;
+	commands["on"] = tokon;
+	commands["dim"] = tokdim;
+	commands["poke"] = tokpoke;
+	commands["list"] = toklist;
+	commands["run"] = tokrun;
+	commands["new"] = toknew;
+	commands["load"] = tokload;
+	commands["merge"] = tokmerge;
+	commands["save"] = toksave;
+	commands["bye"] = tokbye;
+	commands["quit"] = tokbye;
+	commands["del"] = tokdel;
+	commands["renum"] = tokrenum;
+	commands["then"] = tokthen;
+	commands["else"] = tokelse;
+	commands["to"] = tokto;
+	commands["step"] = tokstep;
+	commands["tc"] = toktc;
+	commands["tk"] = toktk;
+	commands["time"] = toktime;
+	commands["sim_time"] = toksim_time;
+	commands["total_time"] = toktotal_time;
+	commands["m0"] = tokm0;
+	commands["m"] = tokm;
+	commands["parm"] = tokparm;
+	commands["act"] = tokact;
+	commands["edl"] = tokedl;
+	commands["surf"] = toksurf;
+	commands["equi"] = tokequi;
+	commands["kin"] = tokkin;
+	commands["gas"] = tokgas;
+	commands["s_s"] = toks_s;
+	commands["misc1"] = tokmisc1;
+	commands["misc2"] = tokmisc2;
+	commands["mu"] = tokmu;
+	commands["osmotic"] = tokosmotic;
+	commands["alk"] = tokalk;
+	commands["lk_species"] = toklk_species;
+	commands["lk_named"] = toklk_named;
+	commands["lk_phase"] = toklk_phase;
+	commands["sum_species"] = toksum_species;
+	commands["sum_gas"] = toksum_gas;
+	commands["sum_s_s"] = toksum_s_s;
+	commands["calc_value"] = tokcalc_value;
+	commands["description"] = tokdescription;
+	commands["sys"] = toksys;
+	commands["instr"] = tokinstr;
+	commands["ltrim"] = tokltrim;
+	commands["rtrim"] = tokrtrim;
+	commands["trim"] = toktrim;
+	commands["pad"] = tokpad;
+	commands["rxn"] = tokrxn;
+	commands["dist"] = tokdist;
+	commands["mol"] = tokmol;
+	commands["la"] = tokla;
+	commands["lm"] = toklm;
+	commands["sr"] = toksr;
+	commands["si"] = toksi;
+	commands["step_no"] = tokstep_no;
+	commands["cell_no"] = tokcell_no;
+	commands["sim_no"] = toksim_no;
+	commands["tot"] = toktot;
+	commands["log10"] = toklog10;
+	commands["charge_balance"] = tokcharge_balance;
+	commands["percent_error"] = tokpercent_error;
+	commands["put"] = tokput;
+	commands["get"] = tokget;
+	commands["exists"] = tokexists;
+	commands["rem"] = tokrem;
+	commands["change_por"] = tokchange_por;
+	commands["get_por"] = tokget_por;
+	commands["change_surf"] = tokchange_surf;
+	commands["porevolume"] = tokporevolume;
+	commands["sc"] = toksc;
+	commands["gamma"] = tokgamma;
+	commands["lg"] = toklg;
+	commands["rho"] = tokrho;
+	commands["cell_volume"] = tokcell_volume;
+	commands["cell_pore_volume"] = tokcell_pore_volume;
+	commands["cell_porosity"] = tokcell_porosity;
+	commands["cell_saturation"] = tokcell_saturation;
+	commands["totmole"] = toktotmole;
+	commands["totmol"] = toktotmol;
+	commands["totmoles"] = toktotmoles;
+	commands["iso"] = tokiso;
+	commands["iso_unit"] = tokiso_unit;
+	commands["phase_formula"] = tokphase_formula;
+	commands["list_s_s"] = toklist_s_s;
+	commands["pr_p"] = tokpr_p;
+ 	commands["pr_phi"] = tokpr_phi;
+ 	commands["gas_p"] = tokgas_p;
+ 	commands["gas_vm"] = tokgas_vm;
 }
 PBasic::~PBasic(void)
 {
-	this->cmd_free();
+	
 }
 void PBasic::
 PASCAL_MAIN(int argc, char **argv)
@@ -238,50 +218,6 @@ PASCAL_MAIN(int argc, char **argv)
 	__top_jb = NULL;
 	P_escapecode = 0;
 	P_ioresult = 0;
-}
-/* ---------------------------------------------------------------------- */
-void PBasic::
-cmd_initialize(void)
-/* ---------------------------------------------------------------------- */
-{
-	ENTRY item, *found_item;
-	int i;
-	char *token;
-/*
- *   create hash table
- */
-	PhreeqcPtr->hcreate_multi((unsigned) 2 * NCMDS, &command_hash_table);
-/*
- *   fill with commands
- */
-	for (i = 0; i < NCMDS; i++)
-	{
-		token = PhreeqcPtr->string_hsave(command[i].name);
-		item.key = token;
-		item.data = (void *) &command[i];
-		found_item = PhreeqcPtr->hsearch_multi(command_hash_table, item, ENTER);
-		if (found_item == NULL)
-		{
-			sprintf(PhreeqcPtr->error_string,
-					"Hash table error in basic commands initialization.");
-			PhreeqcPtr->error_msg(PhreeqcPtr->error_string, STOP);
-		}
-	}
-	return;
-}
-
-/* ---------------------------------------------------------------------- */
-void PBasic::
-cmd_free(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   destroy hash table
- */
-
-	PhreeqcPtr->hdestroy_multi(command_hash_table);
-	command_hash_table = NULL;
-	return;
 }
 
 int PBasic::
@@ -574,8 +510,6 @@ restoredata(void)
 	datatok = NULL;
 }
 
-
-
 void PBasic::
 clearloops(void)
 {
@@ -588,8 +522,6 @@ clearloops(void)
 		loopbase = l;
 	}
 }
-
-
 
 void PBasic::
 clearvar(varrec * v)
@@ -622,7 +554,6 @@ clearvar(varrec * v)
 		v->UU.U0.val = &v->UU.U0.rv;
 	}
 }
-
 
 void PBasic::
 clearvars(void)
@@ -711,7 +642,6 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 	tokenrec *t, *tptr;
 	varrec *v;
 	char ch;
-	ENTRY item, *found_item;
 	char *ptr;
 
 	tptr = NULL;
@@ -869,14 +799,11 @@ parse(char * l_inbuf, tokenrec ** l_buf)
  *   Search hash list
  */
 					PhreeqcPtr->str_tolower(token);
-					item.key = token;
-					item.data = NULL;
-					found_item =
-						PhreeqcPtr->hsearch_multi(command_hash_table, item, FIND);
-					if (found_item != NULL)
+					std::map<const std::string, BASIC_TOKEN>::const_iterator item;
+					item = commands.find(token);
+					if (item != commands.end())
 					{
-						t->kind =
-							((struct key *) (found_item->data))->keycount;
+						t->kind = item->second;
 						if (t->kind == tokrem)
 						{
 							m = (int) strlen(l_inbuf) + 1;
@@ -1234,8 +1161,6 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 }
 
 #undef toklength
-
-
 
 void PBasic::
 listtokens(FILE * f, tokenrec * l_buf)
@@ -1897,8 +1822,6 @@ listtokens(FILE * f, tokenrec * l_buf)
 	}
 }
 
-
-
 void PBasic::
 disposetokens(tokenrec ** tok)
 {
@@ -1915,8 +1838,6 @@ disposetokens(tokenrec ** tok)
 		*tok = tok1;
 	}
 }
-
-
 
 void PBasic::
 parseinput(tokenrec ** l_buf)
@@ -1979,7 +1900,6 @@ errormsg(const char * l_s)
 	_Escape(42);
 }
 
-
 void PBasic::
 snerr(const char * l_s)
 {
@@ -1997,13 +1917,11 @@ tmerr(const char * l_s)
   errormsg(strcat(str, l_s));
 }
 
-
 void PBasic::
 badsubscr(void)
 {
 	errormsg("Bad subscript");
 }
-
 
 LDBLE PBasic::
 realfactor(struct LOC_exec *LINK)
@@ -2087,24 +2005,24 @@ intexpr(struct LOC_exec *LINK)
 	return ((long) floor(realexpr(LINK) + 0.5));
 }
 
-
 void PBasic::
 require(int k, struct LOC_exec *LINK)
 {
-  char str[MAX_LENGTH] = {0};
-	int i;
+	char str[MAX_LENGTH] = {0};
 	if (LINK->t == NULL || LINK->t->kind != k)
 	{
-		for (i = 0; i < NCMDS; i++)
+		std::map<const std::string, BASIC_TOKEN>::const_iterator item;
+		for (item = commands.begin(); item != commands.end(); item++)
 		{
-			if (command[i].keycount == k)
+			if (item->second == k)
 				break;
 		}
-		if (i == NCMDS)
+
+		if (item == commands.end())
 			snerr(": missing unknown command");
 		else {
 			strcpy(str, ": missing ");
-			snerr(strcat(str, command[i].name));
+			snerr(strcat(str, item->first.c_str()));
 		}
 	}
 	LINK->t = LINK->t->next;
@@ -2130,7 +2048,6 @@ skipparen(struct LOC_exec *LINK)
 	while (true);
   _L1:;
 }
-
 
 varrec * PBasic::
 findvar(struct LOC_exec *LINK)
@@ -2204,7 +2121,6 @@ findvar(struct LOC_exec *LINK)
 		v->UU.U0.val = &v->UU.U0.arr[k];
 	return v;
 }
-
 
 valrec PBasic::
 factor(struct LOC_exec * LINK)
@@ -3686,14 +3602,12 @@ expr(struct LOC_exec * LINK)
 	return n;
 }
 
-
 void PBasic::
 checkextra(struct LOC_exec *LINK)
 {
 	if (LINK->t != NULL)
 		errormsg("Extra information on line");
 }
-
 
 boolean PBasic::
 iseos(struct LOC_exec *LINK)
@@ -3702,14 +3616,12 @@ iseos(struct LOC_exec *LINK)
 					   LINK->t->kind == (long) tokcolon));
 }
 
-
 void PBasic::
 skiptoeos(struct LOC_exec *LINK)
 {
 	while (!iseos(LINK))
 		LINK->t = LINK->t->next;
 }
-
 
 linerec * PBasic::
 findline(long n)
@@ -3735,14 +3647,12 @@ mustfindline(long n)
 	return l;
 }
 
-
 void PBasic::
 cmdend(struct LOC_exec *LINK)
 {
 	stmtline = NULL;
 	LINK->t = NULL;
 }
-
 
 void PBasic::
 cmdnew(struct LOC_exec *LINK)
@@ -3795,7 +3705,6 @@ cmdnew(struct LOC_exec *LINK)
 	}
 }
 
-
 void PBasic::
 cmdlist(struct LOC_exec *LINK)
 {
@@ -3844,7 +3753,6 @@ cmdlist(struct LOC_exec *LINK)
 	while (!iseos(LINK));
 }
 
-
 void PBasic::
 cmdload(boolean merging, char * name, struct LOC_exec *LINK)
 {
@@ -3886,7 +3794,6 @@ cmdload(boolean merging, char * name, struct LOC_exec *LINK)
 	if (f != NULL)
 		fclose(f);
 }
-
 
 void PBasic::
 cmdrun(struct LOC_exec *LINK)
@@ -3957,6 +3864,7 @@ cmdsave(struct LOC_exec *LINK)
 		}
 	}
 }
+
 void PBasic::
 cmdput(struct LOC_exec *LINK)
 {
@@ -4122,7 +4030,6 @@ cmddel(struct LOC_exec *LINK)
 	while (!iseos(LINK));
 }
 
-
 void PBasic::
 cmdrenum(struct LOC_exec *LINK)
 {
@@ -4191,7 +4098,6 @@ cmdrenum(struct LOC_exec *LINK)
 		l = l->next;
 	}
 }
-
 
 void PBasic::
 cmdprint(struct LOC_exec *LINK)
@@ -4429,7 +4335,6 @@ cmdlet(boolean implied, struct LOC_exec *LINK)
 		PhreeqcPtr->PHRQ_free(old);
 }
 
-
 void PBasic::
 cmdgoto(struct LOC_exec *LINK)
 {
@@ -4437,7 +4342,6 @@ cmdgoto(struct LOC_exec *LINK)
 	LINK->t = NULL;
 	LINK->gotoflag = true;
 }
-
 
 void PBasic::
 cmdif(struct LOC_exec *LINK)
@@ -4469,13 +4373,11 @@ cmdif(struct LOC_exec *LINK)
 		LINK->elseflag = true;
 }
 
-
 void PBasic::
 cmdelse(struct LOC_exec *LINK)
 {
 	LINK->t = NULL;
 }
-
 
 boolean PBasic::
 skiploop(int up, int dn, struct LOC_exec *LINK)
@@ -4510,7 +4412,6 @@ skiploop(int up, int dn, struct LOC_exec *LINK)
   _L1:
 	return Result;
 }
-
 
 void PBasic::
 cmdfor(struct LOC_exec *LINK)
@@ -4584,7 +4485,6 @@ cmdfor(struct LOC_exec *LINK)
 	loopbase = l;
 }
 
-
 void PBasic::
 cmdnext(struct LOC_exec *LINK)
 {
@@ -4626,7 +4526,6 @@ cmdnext(struct LOC_exec *LINK)
 	loopbase = l;
 }
 
-
 void PBasic::
 cmdwhile(struct LOC_exec *LINK)
 {
@@ -4651,7 +4550,6 @@ cmdwhile(struct LOC_exec *LINK)
 	loopbase = l;
 	skiptoeos(LINK);
 }
-
 
 void PBasic::
 cmdwend(struct LOC_exec *LINK)
@@ -4700,7 +4598,6 @@ cmdwend(struct LOC_exec *LINK)
 	loopbase = l;
 }
 
-
 void PBasic::
 cmdgosub(struct LOC_exec *LINK)
 {
@@ -4716,7 +4613,6 @@ cmdgosub(struct LOC_exec *LINK)
 	l->hometok = LINK->t;
 	cmdgoto(LINK);
 }
-
 
 void PBasic::
 cmdreturn(struct LOC_exec *LINK)
@@ -4744,7 +4640,6 @@ cmdreturn(struct LOC_exec *LINK)
 	loopbase = l;
 	skiptoeos(LINK);
 }
-
 
 void PBasic::
 cmdread(struct LOC_exec *LINK)
@@ -4797,13 +4692,11 @@ cmdread(struct LOC_exec *LINK)
 	while (!iseos(LINK));
 }
 
-
 void PBasic::
 cmddata(struct LOC_exec *LINK)
 {
 	skiptoeos(LINK);
 }
-
 
 void PBasic::
 cmdrestore(struct LOC_exec *LINK)
@@ -4817,14 +4710,12 @@ cmdrestore(struct LOC_exec *LINK)
 	}
 }
 
-
 void PBasic::
 cmdgotoxy(struct LOC_exec *LINK)
 {
 	intexpr(LINK);
 	require(tokcomma, LINK);
 }
-
 
 void PBasic::
 cmdon(struct LOC_exec *LINK)
@@ -4862,7 +4753,6 @@ cmdon(struct LOC_exec *LINK)
 	if (!iseos(LINK))
 		cmdgoto(LINK);
 }
-
 
 void PBasic::
 cmddim(struct LOC_exec *LINK)
@@ -5210,6 +5100,7 @@ exec(void)
 	}
 	ENDTRY(try1);
 }								/*exec */
+
 int PBasic::
 free_dim_stringvar(varrec *l_varbase)
 {
@@ -5229,6 +5120,7 @@ free_dim_stringvar(varrec *l_varbase)
 	}
 	return (OK);
 }
+
 #if defined MULTICHART
 void PBasic::
 cmdplot_xy(struct LOC_exec *LINK)
@@ -5318,6 +5210,7 @@ cmdplot_xy(struct LOC_exec *LINK)
 	}
 	chart->Set_colnr(chart->Get_colnr() + 1);
 }
+
 void PBasic::
 cmdgraph_x(struct LOC_exec *LINK)
 {
@@ -5493,9 +5386,6 @@ cmdgraph_sy(struct LOC_exec *LINK)
 }
 #endif // MULTICHART
 
-
-
-
 /* In case your system lacks these... */
 
 long PBasic::
@@ -5524,7 +5414,6 @@ my_memmove(Anyptr d, Const Anyptr l_s, size_t n)
 	}
 	return d;
 }
-
 
 PBasic::Anyptr  PBasic::
 my_memcpy(Anyptr d, Const Anyptr l_s, size_t n)
@@ -5564,7 +5453,6 @@ my_toupper(int c)
 		return c;
 }
 
-
 int PBasic::
 my_tolower(int c)
 {
@@ -5573,9 +5461,6 @@ my_tolower(int c)
 	else
 		return c;
 }
-
-
-
 
 long PBasic::
 ipow(long a, long b)
@@ -5599,9 +5484,6 @@ ipow(long a, long b)
 	}
 	return v;
 }
-
-
-
 
 /* Common string functions: */
 
@@ -5637,7 +5519,6 @@ strsub(register char *ret, register char *l_s, register int pos,
 	return ret;
 }
 
-
 /* Return the index of the first occurrence of "pat" as a substring of "s",
    starting at index "pos" (1-based).  Result is 1-based, 0 if not found. */
 
@@ -5663,7 +5544,6 @@ strpos2(char *l_s, register char *pat, register int pos)
 	return 0;
 }
 
-
 /* Case-insensitive version of strcmp. */
 int PBasic::
 strcicmp(register char *s1, register char *s2)
@@ -5687,9 +5567,6 @@ strcicmp(register char *s1, register char *s2)
 	return 0;
 }
 
-
-
-
 /* HP and Turbo Pascal string functions: */
 
 /* Trim blanks at left end of string. */
@@ -5699,7 +5576,6 @@ strltrim(register char *l_s)
 	while (Isspace((int) *l_s++));
 	return l_s - 1;
 }
-
 
 /* Trim blanks at right end of string. */
 char * PBasic::
@@ -5714,7 +5590,6 @@ strrtrim(register char *l_s)
 		*s2 = 0;
 	return l_s;
 }
-
 
 /* Store in "ret" string "s" with enough pad chars added to reach "size". */
 
@@ -5765,9 +5640,6 @@ strinsert(register char *src, register char *dst, register int pos)
 		*dst++ = *src++;
 }
 
-
-
-
 /* File functions */
 
 /* Peek at next character of input stream; return EOF at end-of-file. */
@@ -5783,7 +5655,6 @@ P_peek(FILE * f)
 	return (ch == '\n') ? ' ' : ch;
 }
 
-
 /* Check if at end of file, using Pascal "eof" semantics.  End-of-file for
    stdin is broken; remove the special case for it to be broken in a
    different way. */
@@ -5793,7 +5664,6 @@ P_eof(void)
 {
 	return 0;
 }
-
 
 /* Check if at end of line (or end of entire file). */
 int PBasic::
@@ -5807,7 +5677,6 @@ P_eoln(FILE * f)
 	ungetc(ch, f);
 	return (ch == '\n');
 }
-
 
 /* Read a packed array of characters from a file. */
 void PBasic::
@@ -5851,7 +5720,6 @@ P_readlnpaoc(FILE * f, char *l_s, int len)
 		*l_s++ = ' ';
 }
 
-
 /* Compute maximum legal "seek" index in file (0-based). */
 long PBasic::
 P_maxpos(FILE * f)
@@ -5867,7 +5735,6 @@ P_maxpos(FILE * f)
 	return val;
 }
 
-
 /* Use packed array of char for a file name. */
 char * PBasic::
 P_trimname(register char * fn, register int len)
@@ -5880,9 +5747,6 @@ P_trimname(register char * fn, register int len)
 	*cp = 0;
 	return fnbuf;
 }
-
-
-
 
 /* Pascal's "memavail" doesn't make much sense in Unix with virtual memory.
    We fix memory size as 10Meg as a reasonable compromise. */
@@ -5898,9 +5762,6 @@ maxavail(void)
 {
 	return memavail();
 }
-
-
-
 
 /* Sets are stored as an array of longs.  S[0] is the size of the set;
    S[N] is the N'th 32-bit chunk of the set.  S[0] equals the maximum
@@ -6090,7 +5951,6 @@ P_setcpy(register long *d, register long *l_s)	/* d := s */
 	return save_d;
 }
 
-
 /* s is a "smallset", i.e., a 32-bit or less set stored
    directly in a long. */
 long * PBasic::
@@ -6132,10 +5992,6 @@ _NilCheck(void)
 {
 	return _Escape(-3);
 }
-
-
-
-
 
 /* The following is suitable for the HP Pascal operating system.
    It might want to be revised when emulating another system. */
