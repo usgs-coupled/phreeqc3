@@ -1,6 +1,5 @@
 #ifndef _INC_PBasic_H
 #define _INC_PBasic_H
-#if defined(PBASIC)
 #define forloop         0
 #define whileloop       1
 #define gosubloop       2
@@ -478,5 +477,4 @@ protected:
 
 /* Following defines are suitable for the HP Pascal operating system */
 
-#endif /* PBASIC */
 #endif /* _INC_PBasic_H */

@@ -1,4 +1,3 @@
-#if defined(PBASIC)
 #if defined(WIN32)
 #include <windows.h>
 #endif
@@ -6272,4 +6271,4 @@ _EscIO(int code)
 	return _Escape(-10);
 }
 /* End. */
-#endif /* PBASIC */
+
