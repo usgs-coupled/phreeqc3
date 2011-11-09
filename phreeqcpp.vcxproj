@@ -93,7 +93,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(DEV_GMP_INC_MT);.\src;.\src\phreeqc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BrowseInformation>true</BrowseInformation>
@@ -278,12 +278,6 @@
     <ClCompile Include="src\phreeqc\inverse.cpp" />
     <ClCompile Include="src\phreeqc\isotopes.cpp" />
     <ClCompile Include="src\phreeqc\kinetics.cpp" />
-    <ClCompile Include="src\phreeqc\main.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Class_release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ClrClass_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="src\phreeqc\mainsubs.cpp" />
     <ClCompile Include="src\phreeqc\model.cpp" />
     <ClCompile Include="src\phreeqc\nvector.cpp" />
@@ -594,7 +588,6 @@
     <ClInclude Include="src\phreeqc_class.h" />
     <ClInclude Include="src\PHRQ_base.h" />
     <ClInclude Include="src\PHRQ_io.h" />
-    <ClInclude Include="src\phreeqc\phrqproto.h" />
     <ClInclude Include="src\phreeqc\phrqtype.h" />
     <ClInclude Include="src\phreeqc\pitzer.h" />
     <ClInclude Include="src\phreeqc\pitzer_structures.h" />
