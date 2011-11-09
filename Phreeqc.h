@@ -66,12 +66,11 @@ public:
 // advection.cpp -------------------------------
 int advection(void);
 
-// basic.cpp
+// basicsubs.cpp -------------------------------
 int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
 int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
-void cmd_free(void);
+void basic_free(void);
 
-// basicsubs.cpp -------------------------------
 LDBLE activity(const char *species_name);
 LDBLE activity_coefficient(const char *species_name);
 LDBLE log_activity_coefficient(const char *species_name);
