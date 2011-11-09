@@ -1946,6 +1946,7 @@ struct pp_assemblage *cvode_pp_assemblage_save;
 struct s_s_assemblage *cvode_s_s_assemblage_save;
 LDBLE *m_original;
 LDBLE *m_temp;
+int set_and_run_attempt;
 
 /* model.cpp ------------------------------- */
 LDBLE min_value;
