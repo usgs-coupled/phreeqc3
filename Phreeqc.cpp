@@ -11,9 +11,7 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "phqalloc.h"
-#if defined(PBASIC)
 #include "PBasic.h"
-#endif
 
 Phreeqc::Phreeqc(void)
 {
@@ -171,178 +169,6 @@ Phreeqc::Phreeqc(void)
 	}
 
 	// basic.c
-#if !defined(PBASIC)
-	struct const_key command_temp[] = {
-		{"+", tokplus},
-		{"-", tokminus},
-		{"*", toktimes},
-		{"/", tokdiv},
-		{"^", tokup},
-		{"( or [", toklp},
-		{") or ]", tokrp},
-		{",", tokcomma},
-		{";", toksemi},
-		{":", tokcolon},
-		{"=", tokeq},
-		{"<", toklt},
-		{"<=", tokle},
-		{">", tokgt},
-		{">=", tokge},
-		{"and", tokand},
-		{"or", tokor},
-		{"xor", tokxor},
-		{"not", toknot},
-		{"mod", tokmod},
-		{"sqr", toksqr},
-		{"sqrt", toksqrt},
-		{"ceil", tokceil},
-		{"floor", tokfloor},
-		{"sin", toksin},
-		{"cos", tokcos},
-		{"tan", toktan},
-		{"arctan", tokarctan},
-		{"log", toklog},
-		{"exp", tokexp},
-		{"abs", tokabs},
-		{"sgn", toksgn},
-		{"str$", tokstr_},
-		{"val", tokval},
-		{"chr$", tokchr_},
-		{"eol$", tokeol_},
-		{"asc", tokasc},
-		{"len", toklen},
-		{"mid$", tokmid_},
-		{"peek", tokpeek},
-		{"let", toklet},
-		{"print", tokprint},
-		{"punch", tokpunch},
-	#if defined PHREEQ98 || defined MULTICHART
-		{"graph_x", tokgraph_x},
-		{"graph_y", tokgraph_y},
-		{"graph_sy", tokgraph_sy},
-	#endif
-	#if defined MULTICHART
-		{"plot_xy", tokplot_xy},
-	#endif
-		{"input", tokinput},
-		{"goto", tokgoto},
-		{"go to", tokgoto},
-		{"if", tokif},
-		{"end", tokend},
-		{"stop", tokstop},
-		{"for", tokfor},
-		{"next", toknext},
-		{"while", tokwhile},
-		{"wend", tokwend},
-		{"gosub", tokgosub},
-		{"return", tokreturn},
-		{"read", tokread},
-		{"data", tokdata},
-		{"restore", tokrestore},
-		{"gotoxy", tokgotoxy},
-		{"on", tokon},
-		{"dim", tokdim},
-		{"poke", tokpoke},
-		{"list", toklist},
-		{"run", tokrun},
-		{"new", toknew},
-		{"load", tokload},
-		{"merge", tokmerge},
-		{"save", toksave},
-		{"bye", tokbye},
-		{"quit", tokbye},
-		{"del", tokdel},
-		{"renum", tokrenum},
-		{"then", tokthen},
-		{"else", tokelse},
-		{"to", tokto},
-		{"step", tokstep},
-		{"tc", toktc},
-		{"tk", toktk},
-		{"time", toktime},
-		{"sim_time", toksim_time},
-		{"total_time", toktotal_time},
-		{"m0", tokm0},
-		{"m", tokm},
-		{"parm", tokparm},
-		{"act", tokact},
-		{"edl", tokedl},
-		{"surf", toksurf},
-		{"equi", tokequi},
-		{"kin", tokkin},
-		{"gas", tokgas},
-		{"s_s", toks_s},
-		{"misc1", tokmisc1},
-		{"misc2", tokmisc2},
-		{"mu", tokmu},
-		{"osmotic", tokosmotic},
-		{"alk", tokalk},
-		{"lk_species", toklk_species},
-		{"lk_named", toklk_named},
-		{"lk_phase", toklk_phase},
-		{"sum_species", toksum_species},
-		{"sum_gas", toksum_gas},
-		{"sum_s_s", toksum_s_s},
-		{"calc_value", tokcalc_value},
-		{"description", tokdescription},
-		{"sys", toksys},
-		{"instr", tokinstr},
-		{"ltrim", tokltrim},
-		{"rtrim", tokrtrim},
-		{"trim", toktrim},
-		{"pad", tokpad},
-		{"rxn", tokrxn},
-		{"dist", tokdist},
-		{"mol", tokmol},
-		{"la", tokla},
-		{"lm", toklm},
-		{"sr", toksr},
-		{"si", toksi},
-		{"step_no", tokstep_no},
-		{"cell_no", tokcell_no},
-		{"sim_no", toksim_no},
-		{"tot", toktot},
-		{"log10", toklog10},
-		{"charge_balance", tokcharge_balance},
-		{"percent_error", tokpercent_error},
-		{"put", tokput},
-		{"get", tokget},
-		{"exists", tokexists},
-		{"rem", tokrem},
-		{"change_por", tokchange_por},
-		{"get_por", tokget_por},
-		{"change_surf", tokchange_surf},
-		{"porevolume", tokporevolume},
-		{"sc", toksc},
-		{"gamma", tokgamma},
-	/* VP: Density Start */
-		{"lg", toklg},
-		{"rho", tokrho},
-	/* VP: Density End */
-		{"cell_volume", tokcell_volume},
-		{"cell_pore_volume", tokcell_pore_volume},
-		{"cell_porosity", tokcell_porosity},
-		{"cell_saturation", tokcell_saturation},
-		{"totmole", toktotmole},
-		{"totmol", toktotmol},
-		{"totmoles", toktotmoles},
-		{"iso", tokiso},
-		{"iso_unit", tokiso_unit},
-		{"phase_formula", tokphase_formula},
-		{"list_s_s", toklist_s_s},
-		{"pr_p", tokpr_p},
- 		{"pr_phi", tokpr_phi},
- 		{"gas_p", tokgas_p},
- 		{"gas_vm", tokgas_vm}
-		};
-	NCMDS = (sizeof(command_temp) / sizeof(struct const_key));
-	command = new const_key[NCMDS];
-	for (i = 0; i < NCMDS; i++)
-	{
-		command[i].name = string_duplicate(command_temp[i].name);
-		command[i].keycount = command_temp[i].keycount;
-	}
-#endif
 
 	//cl1.c
 	x_arg = NULL, res_arg = NULL, scratch = NULL;
@@ -416,13 +242,6 @@ Phreeqc::~Phreeqc(void)
 		keyword[i].name = (char *) free_check_null((void *) keyword[i].name);
 	}
 	delete[] keyword;
-#if !defined(PBASIC)
-	for (i = 0; i < NCMDS; i++)
-	{
-		command[i].name = (char *) free_check_null((void *) command[i].name);
-	}
-	delete[] command;
-#endif
 
 	free_check_null(default_data_base);
 	free_check_null(sformatf_buffer);
@@ -997,31 +816,8 @@ void Phreeqc::init(void)
 	charge_group		= NULL;
 	print_density		= 0;
 
-	//
-	//	Non-class statics
-	//
 	/* basic.c */
-#if !defined(PBASIC)
-	command_hash_table = 0;
-	n_user_punch_index = 0;
-	inbuf = NULL;
-	linebase = NULL;
-	varbase = NULL;
-	loopbase = NULL;
-	curline = 0;
-	stmtline = NULL;
-	dataline = NULL;
-	stmttok = NULL;
-	datatok = NULL;
-	buf = NULL;
-	exitflag = FALSE;
-	EXCP_LINE = 0;
-	/* p2clib.c */
-	P_argc = 0;
-	P_argv = NULL;
-	P_escapecode = 0;
-	P_ioresult = 0;
-#endif
+
 	/* dw.c */
 	Q0 = 0;
 	Q5 = 0;
