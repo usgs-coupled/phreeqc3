@@ -1,6 +1,11 @@
 #if defined(WIN32)
 #include <windows.h>
 #endif
+#include <stdlib.h>
+#include "PBasic.h"
+#include "Phreeqc.h"
+#include "phqalloc.h"
+#include "NameDouble.h"
 
 /* Run-time library for PhreeqcPtr->use with "p2c", the Pascal to C translator */
 
@@ -10,20 +15,14 @@
  * by the licence agreement accompanying p2c itself.
  */
 
-#include <stdlib.h>
-#include "PBasic.h"
-#include "Phreeqc.h"
-
 #define STOP 1
 #define CONTINUE 0
-
 #define Isspace(c)  isspace(c)	/* or "((c) == ' ')" if preferred */
+#define toklength       20
+typedef long chset[9];
 
 /* Output from p2c, the Pascal-to-C translator */
 /* From input file "basic.p" */
-
-#include "phqalloc.h"
-#include "NameDouble.h"
 
 PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	: PHRQ_base(phrq_io)
@@ -45,11 +44,8 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	buf = NULL;
 	exitflag = false;
 	EXCP_LINE = 0;
-	P_argc = 0;
-	P_argv = NULL;
 	P_escapecode = 0;
 	P_ioresult = 0;
-	//__top_jb = NULL;
 
 	// initialize Basic commands
 	commands["+"] = tokplus;
@@ -216,15 +212,6 @@ PBasic::~PBasic(void)
 {
 	
 }
-void PBasic::
-PASCAL_MAIN(int argc, char **argv)
-{
-	P_argc = argc;
-	P_argv = argv;
-	//__top_jb = NULL;
-	P_escapecode = 0;
-	P_ioresult = 0;
-}
 
 int PBasic::
 basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
@@ -232,7 +219,8 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 	int l;
 	char *ptr;
 
-	PASCAL_MAIN(0, NULL);
+	P_escapecode = 0;
+	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
 	if (inbuf == NULL)
 		PhreeqcPtr->malloc_error();
@@ -243,42 +231,39 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 	ptr = commands;
 	do
 	{
-		//TRY(try2);
 		try
 		{
-		ptr = commands;
-		do
-		{
-			if (sget_logical_line(&ptr, &l, inbuf) == EOF)
+			ptr = commands;
+			do
 			{
-				strcpy(inbuf, "bye");
+				if (sget_logical_line(&ptr, &l, inbuf) == EOF)
+				{
+					strcpy(inbuf, "bye");
+				}
+				parseinput(&buf);
+				if (curline == 0)
+				{
+					stmtline = NULL;
+					stmttok = buf;
+					if (stmttok != NULL)
+						exec();
+					disposetokens(&buf);
+				}
 			}
-			parseinput(&buf);
-			if (curline == 0)
-			{
-				stmtline = NULL;
-				stmttok = buf;
-				if (stmttok != NULL)
-					exec();
-				disposetokens(&buf);
-			}
-		}
-		while (!(exitflag || P_eof()));
+			while (!(exitflag || P_eof()));
 		}
 		catch (PBasicStop e)
 		{
-		//RECOVER(try2);
-		if (P_escapecode != -20)
-		{
-			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+			if (P_escapecode != -20)
+			{
+				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-			warning_msg(PhreeqcPtr->error_string);
-		}
-		else
-		{
-			putchar('\n');
-		}
-		//ENDTRY(try2);
+				warning_msg(PhreeqcPtr->error_string);
+			}
+			else
+			{
+				putchar('\n');
+			}
 		}
 	}
 	while (!(exitflag || P_eof()));
@@ -295,7 +280,9 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 {								/*main */
 	int l, i;
 	char *ptr;
-	PASCAL_MAIN(0, NULL);
+
+	P_escapecode = 0;
+	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
 	if (inbuf == NULL)
 		PhreeqcPtr->malloc_error();
@@ -306,59 +293,56 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 	ptr = commands;
 	do
 	{
-		//TRY(try2);
 		try
 		{
-		i = 0;
-		ptr = commands;
-		do
-		{
-			if (sget_logical_line(&ptr, &l, inbuf) == EOF)
+			i = 0;
+			ptr = commands;
+			do
 			{
-				i++;
-				if (i == 1)
+				if (sget_logical_line(&ptr, &l, inbuf) == EOF)
 				{
-					strcpy(inbuf, "renum");
+					i++;
+					if (i == 1)
+					{
+						strcpy(inbuf, "renum");
+					}
+					else if (i == 2)
+					{
+						strcpy(inbuf, "list");
+					}
+					else if (i == 3)
+					{
+						strcpy(inbuf, "new");
+					}
+					else if (i == 4)
+					{
+						strcpy(inbuf, "bye");
+					}
 				}
-				else if (i == 2)
+				parseinput(&buf);
+				if (curline == 0)
 				{
-					strcpy(inbuf, "list");
-				}
-				else if (i == 3)
-				{
-					strcpy(inbuf, "new");
-				}
-				else if (i == 4)
-				{
-					strcpy(inbuf, "bye");
+					stmtline = NULL;
+					stmttok = buf;
+					if (stmttok != NULL)
+						exec();
+					disposetokens(&buf);
 				}
 			}
-			parseinput(&buf);
-			if (curline == 0)
-			{
-				stmtline = NULL;
-				stmttok = buf;
-				if (stmttok != NULL)
-					exec();
-				disposetokens(&buf);
-			}
-		}
-		while (!(exitflag || P_eof()));
+			while (!(exitflag || P_eof()));
 		}
 		catch (PBasicStop e)
 		{
-		//RECOVER(try2);
-		if (P_escapecode != -20)
-		{
-			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+			if (P_escapecode != -20)
+			{
+				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-			warning_msg(PhreeqcPtr->error_string);
-		}
-		else
-		{
-			putchar('\n');
-		}
-		//ENDTRY(try2);
+				warning_msg(PhreeqcPtr->error_string);
+			}
+			else
+			{
+				putchar('\n');
+			}
 		}
 	}
 	while (!(exitflag || P_eof()));
@@ -376,7 +360,9 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 {								/*main */
 	int l;
 	char *ptr;
-	PASCAL_MAIN(0, NULL);
+
+	P_escapecode = 0;
+	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
 	if (inbuf == NULL)
 		PhreeqcPtr->malloc_error();
@@ -390,41 +376,38 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 	loopbase = (looprec *) lpbase;
 	do
 	{
-		//TRY(try2);
 		try
 		{
-		do
-		{
-			if (sget_logical_line(&ptr, &l, inbuf) == EOF)
+			do
 			{
-				strcpy(inbuf, "bye");
+				if (sget_logical_line(&ptr, &l, inbuf) == EOF)
+				{
+					strcpy(inbuf, "bye");
+				}
+				parseinput(&buf);
+				if (curline == 0)
+				{
+					stmtline = NULL;
+					stmttok = buf;
+					if (stmttok != NULL)
+						exec();
+					disposetokens(&buf);
+				}
 			}
-			parseinput(&buf);
-			if (curline == 0)
-			{
-				stmtline = NULL;
-				stmttok = buf;
-				if (stmttok != NULL)
-					exec();
-				disposetokens(&buf);
-			}
-		}
-		while (!(exitflag || P_eof()));
+			while (!(exitflag || P_eof()));
 		}
 		catch (PBasicStop e)
 		{
-		//RECOVER(try2);
-		if (P_escapecode != -20)
-		{
-			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+			if (P_escapecode != -20)
+			{
+				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-			warning_msg(PhreeqcPtr->error_string);
-		}
-		else
-		{
-			putchar('\n');
-		}
-		//ENDTRY(try2);
+				warning_msg(PhreeqcPtr->error_string);
+			}
+			else
+			{
+				putchar('\n');
+			}
 		}
 	}
 	while (!(exitflag || P_eof()));
@@ -439,7 +422,9 @@ basic_main(char *commands)
 {								/*main */
 	int l;
 	char *ptr;
-	PASCAL_MAIN(0, NULL);
+
+	P_escapecode = 0;
+	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
 	if (inbuf == NULL)
 		PhreeqcPtr->malloc_error();
@@ -453,44 +438,38 @@ basic_main(char *commands)
 	ptr = commands;
 	do
 	{
-		//TRY(try2);
 		try
 		{
-		do
-		{
-#ifdef SKIP
-			putchar('>');
-#endif
-			if (sget_logical_line(&ptr, &l, inbuf) == EOF)
+			do
 			{
-				strcpy(inbuf, "bye");
+				if (sget_logical_line(&ptr, &l, inbuf) == EOF)
+				{
+					strcpy(inbuf, "bye");
+				}
+				parseinput(&buf);
+				if (curline == 0)
+				{
+					stmtline = NULL;
+					stmttok = buf;
+					if (stmttok != NULL)
+						exec();
+					disposetokens(&buf);
+				}
 			}
-			parseinput(&buf);
-			if (curline == 0)
-			{
-				stmtline = NULL;
-				stmttok = buf;
-				if (stmttok != NULL)
-					exec();
-				disposetokens(&buf);
-			}
-		}
-		while (!(exitflag || P_eof()));
+			while (!(exitflag || P_eof()));
 		}
 		catch (PBasicStop e)
 		{
-		//RECOVER(try2);
-		if (P_escapecode != -20)
-		{
-			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+			if (P_escapecode != -20)
+			{
+				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-			warning_msg(PhreeqcPtr->error_string);
-		}
-		else
-		{
-			putchar('\n');
-		}
-		//ENDTRY(try2);
+				warning_msg(PhreeqcPtr->error_string);
+			}
+			else
+			{
+				putchar('\n');
+			}
 		}
 	}
 	while (!(exitflag || P_eof()));
@@ -498,7 +477,6 @@ basic_main(char *commands)
 /*  exit(EXIT_SUCCESS); */
 }
 
-/* End. */
 /* ---------------------------------------------------------------------- */
 int PBasic::
 sget_logical_line(char **ptr, int *l, char *return_line)
@@ -654,15 +632,6 @@ numtostr(char * Result, LDBLE n)
      return strcpy(Result, strltrim(l_s));
   } */
 }
-
-#define toklength       20
-
-
-typedef long chset[9];
-
-
-
-
 
 void PBasic::
 parse(char * l_inbuf, tokenrec ** l_buf)
@@ -1943,7 +1912,7 @@ void PBasic::
 tmerr(const char * l_s)
 {
   char str[MAX_LENGTH] = {0};
-  strcpy(str, "Character/number type mismatch error");
+  strcpy(str, "Type mismatch error");
   errormsg(strcat(str, l_s));
 }
 
@@ -5440,8 +5409,8 @@ my_labs(long l_x)
 
 /* #define __STDC__  */ /* PHREEQ98 */
 
-PBasic::Anyptr  PBasic::
-my_memmove(Anyptr d, Const Anyptr l_s, size_t n)
+void *  PBasic::
+my_memmove(void * d, Const void * l_s, size_t n)
 {
 	register char *dd = (char *) d, *ss = (char *) l_s;
 	if (dd < ss || (unsigned int) (dd - ss) >= n)
@@ -5458,8 +5427,8 @@ my_memmove(Anyptr d, Const Anyptr l_s, size_t n)
 	return d;
 }
 
-PBasic::Anyptr  PBasic::
-my_memcpy(Anyptr d, Const Anyptr l_s, size_t n)
+void *  PBasic::
+my_memcpy(void * d, Const void * l_s, size_t n)
 {
 	register char *ss = (char *) l_s, *dd = (char *) d;
 	while (n-- > 0)
@@ -5468,7 +5437,7 @@ my_memcpy(Anyptr d, Const Anyptr l_s, size_t n)
 }
 
 int PBasic::
-my_memcmp(Const Anyptr s1, Const Anyptr s2, size_t n)
+my_memcmp(Const void * s1, Const void * s2, size_t n)
 {
 	register char *a = (char *) s1, *b = (char *) s2;
 	register int i;
@@ -5478,8 +5447,8 @@ my_memcmp(Const Anyptr s1, Const Anyptr s2, size_t n)
 	return 0;
 }
 
-PBasic::Anyptr PBasic::
-my_memset(Anyptr d, int c, size_t n)
+void * PBasic::
+my_memset(void * d, int c, size_t n)
 {
 	register char *dd = (char *) d;
 	while (n-- > 0)
@@ -6134,17 +6103,13 @@ _ShowEscape(char *buf, int code, int ior, char *prefix)
 int PBasic::
 _Escape(int code)
 {
+	P_escapecode = code;
+	throw PBasicStop();
+
+	// following not used
+#ifdef SKIP
 	char l_buf[100];
 	char token[200], empty[2] = { "\0" };
-
-	P_escapecode = code;
-	//if (__top_jb)
-	//{
-	//	__p2c_jmp_buf *jb = __top_jb;
-	//	__top_jb = jb->next;
-		//longjmp(jb->jbuf, 1);
-		throw PBasicStop();
-	//}
 	if (code == 0)
 		/*        exit(EXIT_SUCCESS); */
 		error_msg("Exit success in Basic", STOP);
@@ -6162,6 +6127,7 @@ _Escape(int code)
 	sprintf(token, "%s", _ShowEscape(l_buf, P_escapecode, P_ioresult, empty));
 	error_msg(token, STOP);
 	return (1);
+#endif
 }
 
 int PBasic::
