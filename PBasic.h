@@ -1,6 +1,11 @@
 #ifndef _INC_PBasic_H
 #define _INC_PBasic_H
 #include <map>
+
+class PBasicStop : std::exception
+{
+};
+
 #define forloop         0
 #define whileloop       1
 #define gosubloop       2
@@ -9,7 +14,8 @@
 #define varnamelen      20
 #define maxdims	 4
 
-typedef unsigned char boolean;
+//typedef unsigned char boolean;
+//typedef bool boolean;
 typedef char varnamestring[varnamelen + 1];
 typedef char string255[256];
 #define MAX_LINE 4096
@@ -42,7 +48,7 @@ typedef struct varrec
 	struct varrec *next;
 	long dims[maxdims];
 	char numdims;
-	boolean stringvar;
+	bool stringvar;
 	union
 	{
 		struct
@@ -82,7 +88,7 @@ typedef struct linerec
 } linerec;
 typedef struct valrec
 {
-	boolean stringval;
+	bool stringval;
 	union
 	{
 		LDBLE val;
@@ -109,7 +115,7 @@ typedef struct looprec
 /*  variables for exec: */
 struct LOC_exec
 {
-	boolean gotoflag, elseflag;
+	bool gotoflag, elseflag;
 	tokenrec *t;
 };
 
@@ -120,11 +126,11 @@ class PBasic: public PHRQ_base
 public:
 	PBasic(Phreeqc *ptr, PHRQ_io *phrq_io=NULL);
 	~PBasic();
-typedef struct __p2c_jmp_buf
-{
-	struct __p2c_jmp_buf *next;
-	jmp_buf jbuf;
-} __p2c_jmp_buf;
+//typedef struct __p2c_jmp_buf
+//{
+//	struct __p2c_jmp_buf *next;
+//	jmp_buf jbuf;
+//} __p2c_jmp_buf;
 
 
 /* Warning: The following will not work if setjmp is used simultaneously.
@@ -132,24 +138,24 @@ typedef struct __p2c_jmp_buf
    but a typical implementation of longjmp will get it right anyway. */
 
 
-# define TRY(x)         do { __p2c_jmp_buf __try_jb;  \
-			     __try_jb.next = __top_jb;  \
-			     if (!setjmp((__top_jb = &__try_jb)->jbuf)) {
-# define RECOVER(x)	__top_jb = __try_jb.next; } else {
-# define RECOVER2(x,L)  __top_jb = __try_jb.next; } else {  \
-			     { L: __top_jb = __try_jb.next; }
-# define ENDTRY(x)      } } while (0)
+//# define TRY(x)         do { __p2c_jmp_buf __try_jb;  \
+//			     __try_jb.next = __top_jb;  \
+//			     if (!setjmp((__top_jb = &__try_jb)->jbuf)) {
+//# define RECOVER(x)	__top_jb = __try_jb.next; } else {
+//# define RECOVER2(x,L)  __top_jb = __try_jb.next; } else {  \
+//			     { L: __top_jb = __try_jb.next; }
+//# define ENDTRY(x)      } } while (0)
 
 #define SETBITS  32
 
 #define Const
 
-#define P2PP(x)      ()
-#define PV()       ()
+//#define P2PP(x)      ()
+//#define PV()       ()
 typedef char *Anyptr;
 
-#define Register    register	/* Register variables */
-#define char        char		/* Characters (not bytes) */
+//#define Register    register	/* Register variables */
+//#define char        char		/* Characters (not bytes) */
 	enum BASIC_TOKEN
 	{
 		tokvar,
@@ -262,9 +268,11 @@ typedef char *Anyptr;
 		tokget,
 		tokcharge_balance,
 		tokpercent_error,
+#if defined (PHREEQ98) || defined (MULTICHART)
 		tokgraph_x,
 		tokgraph_y,
 		tokgraph_sy,
+#endif
 		tokcell_no,
 		tokexists,
 		toksurf,
@@ -295,7 +303,9 @@ typedef char *Anyptr;
 		tokcell_pore_volume,
 		tokcell_porosity,
 		tokcell_saturation,
+#if defined MULTICHART
 		tokplot_xy,
+#endif
 		toktotmole,
 		tokiso,
 		tokiso_unit,
@@ -347,14 +357,14 @@ typedef char *Anyptr;
 	valrec andexpr(struct LOC_exec * LINK);
 	valrec expr(struct LOC_exec *LINK);
 	void checkextra(struct LOC_exec *LINK);
-	boolean iseos(struct LOC_exec *LINK);
+	bool iseos(struct LOC_exec *LINK);
 	void skiptoeos(struct LOC_exec *LINK);
 	linerec * findline(long n);
 	linerec * mustfindline(long n);
 	void cmdend(struct LOC_exec *LINK);
 	void cmdnew(struct LOC_exec *LINK);
 	void cmdlist(struct LOC_exec *LINK);
-	void cmdload(boolean merging, char * name, struct LOC_exec *LINK);
+	void cmdload(bool merging, char * name, struct LOC_exec *LINK);
 	void cmdrun(struct LOC_exec *LINK);
 	void cmdsave(struct LOC_exec *LINK);
 	void cmdput(struct LOC_exec *LINK);
@@ -373,11 +383,11 @@ typedef char *Anyptr;
 	#if defined MULTICHART
 	void cmdplot_xy(struct LOC_exec *LINK);
 	#endif
-	void cmdlet(boolean implied, struct LOC_exec *LINK);
+	void cmdlet(bool implied, struct LOC_exec *LINK);
 	void cmdgoto(struct LOC_exec *LINK);
 	void cmdif(struct LOC_exec *LINK);
 	void cmdelse(struct LOC_exec *LINK);
-	boolean skiploop(int up, int dn, struct LOC_exec *LINK);
+	bool skiploop(int up, int dn, struct LOC_exec *LINK);
 	void cmdfor(struct LOC_exec *LINK);
 	void cmdnext(struct LOC_exec *LINK);
 	void cmdwhile(struct LOC_exec *LINK);
@@ -454,7 +464,7 @@ protected:
 	long curline;
 	linerec *stmtline, *dataline;
 	tokenrec *stmttok, *datatok, *buf;
-	boolean exitflag;
+	bool exitflag;
 	long EXCP_LINE;
 	std::map<const std::string, BASIC_TOKEN> commands;
 	Anyptr __MallocTemp__;
@@ -462,7 +472,7 @@ protected:
 	char **P_argv;
 	int P_escapecode;
 	int P_ioresult;
-	__p2c_jmp_buf *__top_jb;
+	//__p2c_jmp_buf *__top_jb;
 };
 
 #endif /* _INC_PBasic_H */

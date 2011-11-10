@@ -463,7 +463,7 @@ ChartObject::OpenCSVFile(std::string file_name)
 	if (!f_csv.is_open())
 	{
 		std::ostringstream estream;
-		estream << "Could not open csv file for USER_GRAPH " << file_name;
+		estream << "Could not open csv file for USER_GRAPH " << file_name << "\n       Please, give the full path + filename.";
 		error_msg(estream.str().c_str(), CONTINUE);
 		return false;
 	}

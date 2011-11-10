@@ -43,12 +43,14 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	stmttok = NULL;
 	datatok = NULL;
 	buf = NULL;
-	exitflag = FALSE;
+	exitflag = false;
 	EXCP_LINE = 0;
 	P_argc = 0;
 	P_argv = NULL;
 	P_escapecode = 0;
 	P_ioresult = 0;
+	//__top_jb = NULL;
+
 	// initialize Basic commands
 	commands["+"] = tokplus;
 	commands["-"] = tokminus;
@@ -93,10 +95,14 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	commands["let"] = toklet;
 	commands["print"] = tokprint;
 	commands["punch"] = tokpunch;
+#if defined (PHREEQ98) || defined (MULTICHART)
 	commands["graph_x"] = tokgraph_x;
 	commands["graph_y"] = tokgraph_y;
 	commands["graph_sy"] = tokgraph_sy;
+#endif
+#if defined MULTICHART
 	commands["plot_xy"] = tokplot_xy;
+#endif
 	commands["input"] = tokinput;
 	commands["goto"] = tokgoto;
 	commands["go to"] = tokgoto;
@@ -215,7 +221,7 @@ PASCAL_MAIN(int argc, char **argv)
 {
 	P_argc = argc;
 	P_argv = argv;
-	__top_jb = NULL;
+	//__top_jb = NULL;
 	P_escapecode = 0;
 	P_ioresult = 0;
 }
@@ -237,7 +243,9 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 	ptr = commands;
 	do
 	{
-		TRY(try2);
+		//TRY(try2);
+		try
+		{
 		ptr = commands;
 		do
 		{
@@ -256,7 +264,10 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 		}
 		while (!(exitflag || P_eof()));
-		RECOVER(try2);
+		}
+		catch (PBasicStop e)
+		{
+		//RECOVER(try2);
 		if (P_escapecode != -20)
 		{
 			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
@@ -267,7 +278,8 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 		{
 			putchar('\n');
 		}
-		ENDTRY(try2);
+		//ENDTRY(try2);
+		}
 	}
 	while (!(exitflag || P_eof()));
 	/*  exit(EXIT_SUCCESS); */
@@ -294,7 +306,9 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 	ptr = commands;
 	do
 	{
-		TRY(try2);
+		//TRY(try2);
+		try
+		{
 		i = 0;
 		ptr = commands;
 		do
@@ -330,7 +344,10 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 		}
 		while (!(exitflag || P_eof()));
-		RECOVER(try2);
+		}
+		catch (PBasicStop e)
+		{
+		//RECOVER(try2);
 		if (P_escapecode != -20)
 		{
 			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
@@ -341,7 +358,8 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 		{
 			putchar('\n');
 		}
-		ENDTRY(try2);
+		//ENDTRY(try2);
+		}
 	}
 	while (!(exitflag || P_eof()));
 	/*  exit(EXIT_SUCCESS); */
@@ -372,7 +390,9 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 	loopbase = (looprec *) lpbase;
 	do
 	{
-		TRY(try2);
+		//TRY(try2);
+		try
+		{
 		do
 		{
 			if (sget_logical_line(&ptr, &l, inbuf) == EOF)
@@ -390,7 +410,10 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 			}
 		}
 		while (!(exitflag || P_eof()));
-		RECOVER(try2);
+		}
+		catch (PBasicStop e)
+		{
+		//RECOVER(try2);
 		if (P_escapecode != -20)
 		{
 			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
@@ -401,7 +424,8 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 		{
 			putchar('\n');
 		}
-		ENDTRY(try2);
+		//ENDTRY(try2);
+		}
 	}
 	while (!(exitflag || P_eof()));
 
@@ -429,7 +453,9 @@ basic_main(char *commands)
 	ptr = commands;
 	do
 	{
-		TRY(try2);
+		//TRY(try2);
+		try
+		{
 		do
 		{
 #ifdef SKIP
@@ -450,7 +476,10 @@ basic_main(char *commands)
 			}
 		}
 		while (!(exitflag || P_eof()));
-		RECOVER(try2);
+		}
+		catch (PBasicStop e)
+		{
+		//RECOVER(try2);
 		if (P_escapecode != -20)
 		{
 			sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
@@ -461,7 +490,8 @@ basic_main(char *commands)
 		{
 			putchar('\n');
 		}
-		ENDTRY(try2);
+		//ENDTRY(try2);
+		}
 	}
 	while (!(exitflag || P_eof()));
 	return 1;
@@ -1165,7 +1195,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 void PBasic::
 listtokens(FILE * f, tokenrec * l_buf)
 {
-	boolean ltr;
+	bool ltr;
 	char STR1[256] = {0};
 	char *string;
 	ltr = false;
@@ -1178,7 +1208,7 @@ listtokens(FILE * f, tokenrec * l_buf)
 			if (ltr)
 				/*putc(' ', f); */
 				output_msg(" ");
-			ltr = (boolean) (l_buf->kind != toknot);
+			ltr = (bool) (l_buf->kind != toknot);
 		}
 		else
 			ltr = false;
@@ -1913,7 +1943,7 @@ void PBasic::
 tmerr(const char * l_s)
 {
   char str[MAX_LENGTH] = {0};
-  strcpy(str, "Type mismatch error");
+  strcpy(str, "Character/number type mismatch error");
   errormsg(strcat(str, l_s));
 }
 
@@ -1941,7 +1971,8 @@ strfactor(struct LOC_exec * LINK)
 
 	n = factor(LINK);
 	if (!n.stringval)
-		tmerr(": chemical name is not enclosed in \"  \"" );
+		//tmerr(": chemical name is not enclosed in \"  \"" );
+		tmerr(": Expected quoted string or character variable." );
 	return (n.UU.sval);
 }
 
@@ -1952,7 +1983,8 @@ stringfactor(char * Result, struct LOC_exec * LINK)
 
 	n = factor(LINK);
 	if (!n.stringval)
-		tmerr(": chemical name is not enclosed in \"  \"" );
+		//tmerr(": chemical name is not enclosed in \"  \"" );
+		tmerr(": Expected quoted string or character variable." );
 	strcpy(Result, n.UU.sval);
 	PhreeqcPtr->PHRQ_free(n.UU.sval);
 	return Result;
@@ -1982,7 +2014,8 @@ strexpr(struct LOC_exec * LINK)
 
 	n = expr(LINK);
 	if (!n.stringval)
-		tmerr(": chemical name is not enclosed in \"  \"" );
+		//tmerr(": chemical name is not enclosed in \"  \"" );
+		tmerr(": Expected quoted string or character variable." );
 	return (n.UU.sval);
 }
 
@@ -1993,7 +2026,8 @@ stringexpr(char * Result, struct LOC_exec * LINK)
 
 	n = expr(LINK);
 	if (!n.stringval)
-		tmerr(": chemical name is not enclosed in \"  \"" );
+		//tmerr(": chemical name is not enclosed in \"  \"" );
+		tmerr(": Expected quoted string or character variable." );
 	strcpy(Result, n.UU.sval);
 	PhreeqcPtr->PHRQ_free(n.UU.sval);
 	return Result;
@@ -3492,7 +3526,7 @@ valrec PBasic::
 relexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
-	boolean f;
+	bool f;
 	int k;
 
 	n = sexpr(LINK);
@@ -3507,7 +3541,7 @@ relexpr(struct LOC_exec * LINK)
 			tmerr("");
 		if (n.stringval)
 		{
-			f = (boolean) ((!strcmp(n.UU.sval, n2.UU.sval)
+			f = (bool) ((!strcmp(n.UU.sval, n2.UU.sval)
 							&& (unsigned long) k < 32
 							&& ((1L << ((long) k)) &
 								((1L << ((long) tokeq)) |
@@ -3535,7 +3569,7 @@ relexpr(struct LOC_exec * LINK)
 			PhreeqcPtr->PHRQ_free(n2.UU.sval);
 		}
 		else
-			f = (boolean) ((n.UU.val == n2.UU.val && (unsigned long) k < 32 &&
+			f = (bool) ((n.UU.val == n2.UU.val && (unsigned long) k < 32 &&
 							((1L << ((long) k)) & ((1L << ((long) tokeq)) |
 												   (1L << ((long) tokge)) |
 												   (1L << ((long) tokle)))) !=
@@ -3609,10 +3643,10 @@ checkextra(struct LOC_exec *LINK)
 		errormsg("Extra information on line");
 }
 
-boolean PBasic::
+bool PBasic::
 iseos(struct LOC_exec *LINK)
 {
-	return ((boolean) (LINK->t == NULL || LINK->t->kind == (long) tokelse ||
+	return ((bool) (LINK->t == NULL || LINK->t->kind == (long) tokelse ||
 					   LINK->t->kind == (long) tokcolon));
 }
 
@@ -3754,7 +3788,7 @@ cmdlist(struct LOC_exec *LINK)
 }
 
 void PBasic::
-cmdload(boolean merging, char * name, struct LOC_exec *LINK)
+cmdload(bool merging, char * name, struct LOC_exec *LINK)
 {
 	FILE *f;
 	tokenrec *l_buf;
@@ -4102,7 +4136,7 @@ cmdrenum(struct LOC_exec *LINK)
 void PBasic::
 cmdprint(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n;
 	char STR1[256] = {0};
 
@@ -4193,7 +4227,7 @@ cmdpunch(struct LOC_exec *LINK)
 void PBasic::
 cmdgraph_x(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n;
 	char STR1[256];
 	semiflag = false;
@@ -4228,7 +4262,7 @@ cmdgraph_x(struct LOC_exec *LINK)
 void PBasic::
 cmdgraph_y(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n;
 	char STR1[256];
 	semiflag = false;
@@ -4263,7 +4297,7 @@ cmdgraph_y(struct LOC_exec *LINK)
 void PBasic::
 cmdgraph_sy(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n;
 	char STR1[256];
 	semiflag = false;
@@ -4297,7 +4331,7 @@ cmdgraph_sy(struct LOC_exec *LINK)
 #endif
 
 void PBasic::
-cmdlet(boolean implied, struct LOC_exec *LINK)
+cmdlet(bool implied, struct LOC_exec *LINK)
 {
 	varrec *v;
 	char *old, *mynew;
@@ -4379,10 +4413,10 @@ cmdelse(struct LOC_exec *LINK)
 	LINK->t = NULL;
 }
 
-boolean PBasic::
+bool PBasic::
 skiploop(int up, int dn, struct LOC_exec *LINK)
 {
-	boolean Result;
+	bool Result;
 	long i;
 	linerec *saveline;
 
@@ -4489,7 +4523,7 @@ void PBasic::
 cmdnext(struct LOC_exec *LINK)
 {
 	varrec *v;
-	boolean found;
+	bool found;
 	looprec *l, *WITH;
 
 	if (!iseos(LINK))
@@ -4500,7 +4534,7 @@ cmdnext(struct LOC_exec *LINK)
 	{
 		if (loopbase == NULL || loopbase->kind == gosubloop)
 			errormsg("NEXT without FOR");
-		found = (boolean) (loopbase->kind == forloop &&
+		found = (bool) (loopbase->kind == forloop &&
 						   (v == NULL || loopbase->UU.U0.vp == v));
 		if (!found)
 		{
@@ -4557,13 +4591,13 @@ cmdwend(struct LOC_exec *LINK)
 	tokenrec *tok;
 	linerec *tokline;
 	looprec *l;
-	boolean found;
+	bool found;
 
 	do
 	{
 		if (loopbase == NULL || loopbase->kind == gosubloop)
 			errormsg("WEND without WHILE");
-		found = (boolean) (loopbase->kind == whileloop);
+		found = (bool) (loopbase->kind == whileloop);
 		if (!found)
 		{
 			l = loopbase->next;
@@ -4618,13 +4652,13 @@ void PBasic::
 cmdreturn(struct LOC_exec *LINK)
 {
 	looprec *l;
-	boolean found;
+	bool found;
 
 	do
 	{
 		if (loopbase == NULL)
 			errormsg("RETURN without GOSUB");
-		found = (boolean) (loopbase->kind == gosubloop);
+		found = (bool) (loopbase->kind == gosubloop);
 		if (!found)
 		{
 			l = loopbase->next;
@@ -4646,7 +4680,7 @@ cmdread(struct LOC_exec *LINK)
 {
 	varrec *v;
 	tokenrec *tok;
-	boolean found;
+	bool found;
 
 	do
 	{
@@ -4669,7 +4703,7 @@ cmdread(struct LOC_exec *LINK)
 					dataline = dataline->next;
 					LINK->t = dataline->txt;
 				}
-				found = (boolean) (LINK->t->kind == tokdata);
+				found = (bool) (LINK->t->kind == tokdata);
 				LINK->t = LINK->t->next;
 			}
 			while (!found || iseos(LINK));
@@ -4759,7 +4793,7 @@ cmddim(struct LOC_exec *LINK)
 {
 	long i, j, k;
 	varrec *v;
-	boolean done;
+	bool done;
 
 	do
 	{
@@ -4782,7 +4816,7 @@ cmddim(struct LOC_exec *LINK)
 			i++;
 			v->dims[i - 1] = k;
 			j *= k;
-			done = (boolean) (LINK->t != NULL && LINK->t->kind == tokrp);
+			done = (bool) (LINK->t != NULL && LINK->t->kind == tokrp);
 			if (!done)
 				require(tokcomma, LINK);
 		}
@@ -4835,7 +4869,9 @@ exec(void)
 	char STR1[256] = {0};
 
 
-	TRY(try1);
+	//TRY(try1);
+	try
+	{
 	do
 	{
 		do
@@ -4962,7 +4998,9 @@ exec(void)
 
 				case tokstop:
 					P_escapecode = -20;
-					goto _Ltry1;
+					throw PBasicStop();
+					//goto _Ltry1;
+					break;
 
 				case tokfor:
 					cmdfor(&V);
@@ -5035,7 +5073,11 @@ exec(void)
 		}
 	}
 	while (stmtline != NULL);
-	RECOVER2(try1, _Ltry1);
+	//RECOVER2(try1, _Ltry1);
+	}
+	catch (PBasicStop e)
+	{
+		//_Ltry1:
 	if (P_escapecode == -20)
 		warning_msg("Break");
 	/* printf("Break"); */
@@ -5098,7 +5140,8 @@ exec(void)
 		sprintf(PhreeqcPtr->error_string, " in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
 		error_msg(PhreeqcPtr->error_string, CONTINUE);
 	}
-	ENDTRY(try1);
+	//ENDTRY(try1);
+	} // end catch
 }								/*exec */
 
 int PBasic::
@@ -5125,7 +5168,7 @@ free_dim_stringvar(varrec *l_varbase)
 void PBasic::
 cmdplot_xy(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n[2];
 	char STR[2][256];
 	int i = 0;
@@ -5214,7 +5257,7 @@ cmdplot_xy(struct LOC_exec *LINK)
 void PBasic::
 cmdgraph_x(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n;
 	semiflag = false;
 
@@ -5261,7 +5304,7 @@ cmdgraph_x(struct LOC_exec *LINK)
 void PBasic::
 cmdgraph_y(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n;
 	semiflag = false;
 
@@ -5325,7 +5368,7 @@ cmdgraph_y(struct LOC_exec *LINK)
 void PBasic::
 cmdgraph_sy(struct LOC_exec *LINK)
 {
-	boolean semiflag;
+	bool semiflag;
 	valrec n;
 	semiflag = false;
 
@@ -6095,12 +6138,13 @@ _Escape(int code)
 	char token[200], empty[2] = { "\0" };
 
 	P_escapecode = code;
-	if (__top_jb)
-	{
-		__p2c_jmp_buf *jb = __top_jb;
-		__top_jb = jb->next;
-		longjmp(jb->jbuf, 1);
-	}
+	//if (__top_jb)
+	//{
+	//	__p2c_jmp_buf *jb = __top_jb;
+	//	__top_jb = jb->next;
+		//longjmp(jb->jbuf, 1);
+		throw PBasicStop();
+	//}
 	if (code == 0)
 		/*        exit(EXIT_SUCCESS); */
 		error_msg("Exit success in Basic", STOP);
