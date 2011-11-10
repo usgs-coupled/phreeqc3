@@ -100,6 +100,7 @@ all: alkalinity.out \
 	phreeqc.test.out \
 	phrqpitz.tst.out \
 	pitzalphas.out \
+	pitzer_fail.out \
 	pitzgas.out \
 	precipitate_only.out \
 	prob8.out \
