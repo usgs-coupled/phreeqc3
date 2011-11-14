@@ -633,7 +633,7 @@ int read_log_k_only(char *ptr, LDBLE * log_k);
 int read_t_c_only(char *ptr, LDBLE *t_c);
 int read_p_c_only(char *ptr, LDBLE * p_c);
 int read_omega_only(char *ptr, LDBLE *omega);
-int read_delta_v_only(char *ptr, LDBLE * delta_v);
+//int read_delta_v_only(char *ptr, LDBLE * delta_v);
 int read_number_description(char *ptr, int *n_user, int *n_user_end,
 							char **description, int allow_negative=FALSE);
 int check_key(char *str);
