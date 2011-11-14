@@ -23,6 +23,7 @@ all: alkalinity.out \
 	basic_test.out \
 	brown.out \
 	calc_SC.out \
+	calc_values.out \
 	cdmus3.out \
 	cdmusic_related.out \
 	cd_ddl.out \

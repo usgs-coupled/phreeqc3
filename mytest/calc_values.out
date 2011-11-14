@@ -1,0 +1,139 @@
+   Input file: calc_values
+  Output file: calc_values.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SOLUTION
+	 Ca 1
+	 C(4) 45.14
+	 pH 7 charge
+	CALCULATE_VALUES
+	    calc1
+	    start 
+	    10  c2 = calc_value("calc2")
+	    20  c1 = get(1)
+	    30 save c1 + c2 
+	    40 print "calc1 ", c1
+	    end 
+	    calc2
+	    start 
+	    20  c2 = get(2)
+	    30 save c2 
+	    40 print "calc2 ", c2
+	    end     
+	USER_PRINT
+	10 put(2, 1)
+	20 put(3, 2)
+	30 print calc_value("calc1"), get(1), get(2)
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+calc2             0 
+calc1             0 
+calc2             0 
+calc2             0 
+calc1             0 
+calc2             0 
+calc2             0 
+calc1             0 
+calc2             0 
+----------------------------------User print-----------------------------------
+
+calc2             3 
+calc1             2 
+           5            2            3 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)             4.514e-002  4.514e-002
+	Ca               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.991      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 195
+                          Density (g/cm3)  =   0.99718
+                        Activity of water  =   0.999
+                           Ionic strength  =  2.971e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.000e-003
+                       Total CO2 (mol/kg)  =  4.514e-002
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  5.657e-018
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110145e+002
+                                  Total O  = 5.559851e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                    1.079e-005  1.021e-005    -4.967    -4.991    -0.024
+   OH-                   1.040e-009  9.796e-010    -8.983    -9.009    -0.026
+   H2O                   5.551e+001  9.992e-001     1.744    -0.000     0.000
+C(4)            4.514e-002
+   CO2                   4.313e-002  4.316e-002    -1.365    -1.365     0.000
+   HCO3-                 1.991e-003  1.878e-003    -2.701    -2.726    -0.025
+   CaHCO3+               1.971e-005  1.860e-005    -4.705    -4.731    -0.025
+   CaCO3                 1.124e-008  1.125e-008    -7.949    -7.949     0.000
+   CO3-2                 1.089e-008  8.626e-009    -7.963    -8.064    -0.101
+Ca              1.000e-003
+   Ca+2                  9.803e-004  7.761e-004    -3.009    -3.110    -0.101
+   CaHCO3+               1.971e-005  1.860e-005    -4.705    -4.731    -0.025
+   CaCO3                 1.124e-008  1.125e-008    -7.949    -7.949     0.000
+   CaOH+                 1.338e-011  1.260e-011   -10.874   -10.900    -0.026
+H(0)            1.475e-021
+   H2                    7.377e-022  7.383e-022   -21.132   -21.132     0.000
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -50.117   -50.117     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP  log KT
+
+	Aragonite        -2.84    -11.17   -8.34  CaCO3
+	Calcite          -2.69    -11.17   -8.48  CaCO3
+	CO2(g)            0.10     -1.36   -1.47  CO2
+	H2(g)           -17.98    -21.13   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	O2(g)           -47.22    -50.12   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
