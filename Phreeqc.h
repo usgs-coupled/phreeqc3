@@ -575,8 +575,8 @@ int write_mb_for_species_list(int n);
 int write_mass_action_eqn_x(int stop);
 
 int check_same_model(void);
-int k_temp(LDBLE tc);
-LDBLE k_calc(LDBLE * logk, LDBLE tempk);
+int k_temp(LDBLE tc, LDBLE pa);
+LDBLE k_calc(LDBLE * logk, LDBLE tempk, LDBLE presPa);
 int prep(void);
 int reprep(void);
 int rewrite_master_to_secondary(struct master *master_ptr1,
@@ -654,6 +654,8 @@ int read_copy(void);
 int read_debug(void);
 int read_delta_h_only(char *ptr, LDBLE * delta_h,
 							 DELTA_H_UNIT * units);
+int read_delta_v_only(char *ptr, LDBLE * delta_v,
+                         DELTA_V_UNIT * units);
 int read_llnl_aqueous_model_parameters(void);
 int read_exchange(void);
 int read_exchange_master_species(void);
@@ -1334,6 +1336,7 @@ PHRQ_io *phrq_io;
  struct model last_model;
  int same_model;
  int same_temperature;
+ int same_pressure;
  struct punch punch;
 /* ----------------------------------------------------------------------
  *   Temperatures
@@ -1499,6 +1502,7 @@ int count_iso_defaults;
  char *description_x;
  LDBLE tc_x;
  LDBLE tk_x;
+ LDBLE patm_x;
  LDBLE ph_x;
  LDBLE solution_pe_x;
  LDBLE mu_x;
