@@ -59,7 +59,7 @@ cxxNameDouble::cxxNameDouble(struct elt_list *elt_list_ptr, int count)
 	this->type = ND_ELT_MOLES;
 }
 
-cxxNameDouble::cxxNameDouble(const cxxNameDouble & old, double factor)
+cxxNameDouble::cxxNameDouble(const cxxNameDouble & old, LDBLE factor)
 		//
 		// constructor for cxxNameDouble from list of elt_list
 		//
@@ -220,7 +220,7 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 	std::string token;
 	//char *
 	//	ctoken;
-	double
+	LDBLE
 		d;
 
 	CParser::TOKEN_TYPE j;
@@ -241,7 +241,7 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 }
 
 void
-cxxNameDouble::add_extensive(const cxxNameDouble & addee, double factor)
+cxxNameDouble::add_extensive(const cxxNameDouble & addee, LDBLE factor)
 //
 // Sums two name doubles, this + factor*nd2
 //
@@ -264,8 +264,8 @@ cxxNameDouble::add_extensive(const cxxNameDouble & addee, double factor)
 	}
 }
 void
-cxxNameDouble::add_intensive(const cxxNameDouble & addee, double f1,
-							 double f2)
+cxxNameDouble::add_intensive(const cxxNameDouble & addee, LDBLE f1,
+							 LDBLE f2)
 //
 // Sums two name doubles, this*f1 + f2*nd2
 //
@@ -286,8 +286,8 @@ cxxNameDouble::add_intensive(const cxxNameDouble & addee, double f1,
 	}
 }
 void
-cxxNameDouble::add_log_activities(const cxxNameDouble & addee, double f1,
-								  double f2)
+cxxNameDouble::add_log_activities(const cxxNameDouble & addee, LDBLE f1,
+								  LDBLE f2)
 //
 // Sums two name doubles, this*f1 + f2*nd2, assuming log values
 //
@@ -299,13 +299,13 @@ cxxNameDouble::add_log_activities(const cxxNameDouble & addee, double f1,
 		cxxNameDouble::iterator current = (*this).find(it->first);
 		if (current != (*this).end())
 		{
-			double a1 = pow(10., current->second);
-			double a2 = pow(10., it->second);
+			LDBLE a1 = pow((LDBLE) 10., current->second);
+			LDBLE a2 = pow((LDBLE) 10., it->second);
 			(*this)[it->first] = log10(f1 * a1 + f2 * a2);
 		}
 		else
 		{
-			//double a2 = pow(10. it->second);
+			//LDBLE a2 = pow(10. it->second);
 			//(*this)[it->first] = log10(f2 * a2);
 			(*this)[it->first] = it->second + log10(f2);
 		}
@@ -313,7 +313,7 @@ cxxNameDouble::add_log_activities(const cxxNameDouble & addee, double f1,
 }
 
 void
-cxxNameDouble::add(const char *token, double total)
+cxxNameDouble::add(const char *token, LDBLE total)
 //
 // add to total for a specified element
 //
@@ -332,7 +332,7 @@ cxxNameDouble::add(const char *token, double total)
 	}
 }
 void
-cxxNameDouble::multiply(double extensive)
+cxxNameDouble::multiply(LDBLE extensive)
 {
 //
 // Multiplies by extensive
@@ -408,15 +408,15 @@ cxxNameDouble::merge_redox(const cxxNameDouble & source)
 	}
 }
 struct DblCmp {     
-	bool operator()(const std::pair<std::string, double> &lhs, const std::pair<std::string, double> &rhs) 
+	bool operator()(const std::pair<std::string, LDBLE> &lhs, const std::pair<std::string, LDBLE> &rhs) 
 	{         
 		return lhs.second > rhs.second;     
 	} 
 }; 
-std::vector< std::pair<std::string, double> > 
+std::vector< std::pair<std::string, LDBLE> > 
 cxxNameDouble::sort_second(void)
 {
-	std::vector< std::pair<std::string, double> > myvec(this->begin(), this->end()); 
+	std::vector< std::pair<std::string, LDBLE> > myvec(this->begin(), this->end()); 
 	std::sort(myvec.begin(), myvec.end(), DblCmp());
 
 	return myvec;
@@ -424,7 +424,7 @@ cxxNameDouble::sort_second(void)
 #ifdef USE_MPI
 void
 cxxNameDouble::mpi_pack(std::vector < int >&ints,
-						std::vector < double >&doubles)
+						std::vector < LDBLE >&doubles)
 {
 	extern cxxDictionary dictionary;
 	ints.push_back((int) (*this).size());
@@ -436,7 +436,7 @@ cxxNameDouble::mpi_pack(std::vector < int >&ints,
 	}
 }
 void
-cxxNameDouble::mpi_pack(int *ints, int *ii, double *doubles, int *dd)
+cxxNameDouble::mpi_pack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	int i = *ii;
 	int d = *dd;
@@ -462,7 +462,7 @@ cxxNameDouble::mpi_pack(int *ints, int *ii, double *doubles, int *dd)
 }
 
 //void
-//cxxNameDouble::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+//cxxNameDouble::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 //{
 //	int i = *ii;
 //	int d = *dd;
@@ -484,7 +484,7 @@ cxxNameDouble::mpi_pack(int *ints, int *ii, double *doubles, int *dd)
 //	*dd = d;
 //}
 void
-cxxNameDouble::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxNameDouble::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	int i = *ii;
 	int d = *dd;
