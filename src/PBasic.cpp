@@ -4841,275 +4841,275 @@ exec(void)
 	//TRY(try1);
 	try
 	{
-	do
-	{
 		do
 		{
-			V.gotoflag = false;
-			V.elseflag = false;
-			while (stmttok != NULL && stmttok->kind == tokcolon)
-				stmttok = stmttok->next;
-			V.t = stmttok;
-			if (V.t != NULL)
+			do
 			{
-				V.t = V.t->next;
-				switch (stmttok->kind)
+				V.gotoflag = false;
+				V.elseflag = false;
+				while (stmttok != NULL && stmttok->kind == tokcolon)
+					stmttok = stmttok->next;
+				V.t = stmttok;
+				if (V.t != NULL)
 				{
+					V.t = V.t->next;
+					switch (stmttok->kind)
+					{
 
-				case tokrem:
-					/* blank case */
-					break;
+					case tokrem:
+						/* blank case */
+						break;
 
-				case toklist:
-					cmdlist(&V);
-					break;
+					case toklist:
+						cmdlist(&V);
+						break;
 
-				case tokrun:
-					cmdrun(&V);
-					break;
+					case tokrun:
+						cmdrun(&V);
+						break;
 
-				case toknew:
-					cmdnew(&V);
-					break;
+					case toknew:
+						cmdnew(&V);
+						break;
 
-				case tokload:
-					cmdload(false, stringexpr(STR1, &V), &V);
-					break;
+					case tokload:
+						cmdload(false, stringexpr(STR1, &V), &V);
+						break;
 
-				case tokmerge:
-					cmdload(true, stringexpr(STR1, &V), &V);
-					break;
+					case tokmerge:
+						cmdload(true, stringexpr(STR1, &V), &V);
+						break;
 
-				case toksave:
-					cmdsave(&V);
-					break;
+					case toksave:
+						cmdsave(&V);
+						break;
 
-				case tokbye:
-					cmdbye();
-					break;
+					case tokbye:
+						cmdbye();
+						break;
 
-				case tokdel:
-					cmddel(&V);
-					break;
+					case tokdel:
+						cmddel(&V);
+						break;
 
-				case tokrenum:
-					cmdrenum(&V);
-					break;
+					case tokrenum:
+						cmdrenum(&V);
+						break;
 
-				case toklet:
-					cmdlet(false, &V);
-					break;
+					case toklet:
+						cmdlet(false, &V);
+						break;
 
-				case tokvar:
-					cmdlet(true, &V);
-					break;
+					case tokvar:
+						cmdlet(true, &V);
+						break;
 
-				case tokprint:
-					cmdprint(&V);
-					break;
+					case tokprint:
+						cmdprint(&V);
+						break;
 
-				case tokpunch:
-					cmdpunch(&V);
-					break;
+					case tokpunch:
+						cmdpunch(&V);
+						break;
 
-				case tokput:
-					cmdput(&V);
-					break;
+					case tokput:
+						cmdput(&V);
+						break;
 
-				case tokchange_por:
-					cmdchange_por(&V);
-					break;
+					case tokchange_por:
+						cmdchange_por(&V);
+						break;
 
-				case tokchange_surf:
-					cmdchange_surf(&V);
-					break;
+					case tokchange_surf:
+						cmdchange_surf(&V);
+						break;
 
 #if defined PHREEQ98 || defined MULTICHART
-				case tokgraph_x:
-					cmdgraph_x(&V);
-					break;
+					case tokgraph_x:
+						cmdgraph_x(&V);
+						break;
 
-				case tokgraph_y:
-					cmdgraph_y(&V);
-					break;
+					case tokgraph_y:
+						cmdgraph_y(&V);
+						break;
 
-				case tokgraph_sy:
-					cmdgraph_sy(&V);
-					break;
+					case tokgraph_sy:
+						cmdgraph_sy(&V);
+						break;
 #endif
 #if defined MULTICHART
-				case tokplot_xy:
-					cmdplot_xy(&V);
-					break;
+					case tokplot_xy:
+						cmdplot_xy(&V);
+						break;
 #endif
 
-				case tokinput:
-					error_msg
-						("Basic command INPUT is not a legal command in PHREEQC.",
-						 STOP);
-					break;
+					case tokinput:
+						error_msg
+							("Basic command INPUT is not a legal command in PHREEQC.",
+							STOP);
+						break;
 
-				case tokgoto:
-					cmdgoto(&V);
-					break;
+					case tokgoto:
+						cmdgoto(&V);
+						break;
 
-				case tokif:
-					cmdif(&V);
-					break;
+					case tokif:
+						cmdif(&V);
+						break;
 
-				case tokelse:
-					cmdelse(&V);
-					break;
+					case tokelse:
+						cmdelse(&V);
+						break;
 
-				case tokend:
-					cmdend(&V);
-					break;
+					case tokend:
+						cmdend(&V);
+						break;
 
-				case tokstop:
-					P_escapecode = -20;
-					throw PBasicStop();
-					//goto _Ltry1;
-					break;
+					case tokstop:
+						P_escapecode = -20;
+						throw PBasicStop();
+						//goto _Ltry1;
+						break;
 
-				case tokfor:
-					cmdfor(&V);
-					break;
+					case tokfor:
+						cmdfor(&V);
+						break;
 
-				case toknext:
-					cmdnext(&V);
-					break;
+					case toknext:
+						cmdnext(&V);
+						break;
 
-				case tokwhile:
-					cmdwhile(&V);
-					break;
+					case tokwhile:
+						cmdwhile(&V);
+						break;
 
-				case tokwend:
-					cmdwend(&V);
-					break;
+					case tokwend:
+						cmdwend(&V);
+						break;
 
-				case tokgosub:
-					cmdgosub(&V);
-					break;
+					case tokgosub:
+						cmdgosub(&V);
+						break;
 
-				case tokreturn:
-					cmdreturn(&V);
-					break;
+					case tokreturn:
+						cmdreturn(&V);
+						break;
 
-				case tokread:
-					cmdread(&V);
-					break;
+					case tokread:
+						cmdread(&V);
+						break;
 
-				case tokdata:
-					cmddata(&V);
-					break;
+					case tokdata:
+						cmddata(&V);
+						break;
 
-				case tokrestore:
-					cmdrestore(&V);
-					break;
+					case tokrestore:
+						cmdrestore(&V);
+						break;
 
-				case tokgotoxy:
-					cmdgotoxy(&V);
-					break;
+					case tokgotoxy:
+						cmdgotoxy(&V);
+						break;
 
-				case tokon:
-					cmdon(&V);
-					break;
+					case tokon:
+						cmdon(&V);
+						break;
 
-				case tokdim:
-					cmddim(&V);
-					break;
+					case tokdim:
+						cmddim(&V);
+						break;
 
-				case tokpoke:
-					cmdpoke(&V);
-					break;
+					case tokpoke:
+						cmdpoke(&V);
+						break;
 
-				default:
-					errormsg("Illegal command");
-					break;
+					default:
+						errormsg("Illegal command");
+						break;
+					}
 				}
+				if (!V.elseflag && !iseos(&V))
+					checkextra(&V);
+				stmttok = V.t;
 			}
-			if (!V.elseflag && !iseos(&V))
-				checkextra(&V);
-			stmttok = V.t;
-		}
-		while (V.t != NULL);
-		if (stmtline != NULL)
-		{
-			if (!V.gotoflag)
-				stmtline = stmtline->next;
+			while (V.t != NULL);
 			if (stmtline != NULL)
-				stmttok = stmtline->txt;
+			{
+				if (!V.gotoflag)
+					stmtline = stmtline->next;
+				if (stmtline != NULL)
+					stmttok = stmtline->txt;
+			}
 		}
-	}
-	while (stmtline != NULL);
-	//RECOVER2(try1, _Ltry1);
+		while (stmtline != NULL);
+		//RECOVER2(try1, _Ltry1);
 	}
 	catch (PBasicStop e)
 	{
 		//_Ltry1:
-	if (P_escapecode == -20)
-		warning_msg("Break");
-	/* printf("Break"); */
-	else if (P_escapecode != 42)
-	{
-		switch (P_escapecode)
+		if (P_escapecode == -20)
+			warning_msg("Break");
+		/* printf("Break"); */
+		else if (P_escapecode != 42)
 		{
-
-		case -4:
-			sprintf(PhreeqcPtr->error_string, "Integer overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-			warning_msg(PhreeqcPtr->error_string);
-			break;
-
-		case -5:
-			sprintf(PhreeqcPtr->error_string, "Divide by zero in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-			warning_msg(PhreeqcPtr->error_string);
-			break;
-
-		case -6:
-			sprintf(PhreeqcPtr->error_string, "Real math overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-			warning_msg(PhreeqcPtr->error_string);
-			break;
-
-		case -7:
-			sprintf(PhreeqcPtr->error_string, "Real math underflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-			warning_msg(PhreeqcPtr->error_string);
-			break;
-
-		case -8:
-		case -19:
-		case -18:
-		case -17:
-		case -16:
-		case -15:
-			sprintf(PhreeqcPtr->error_string, "Value range error in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-			warning_msg(PhreeqcPtr->error_string);
-			break;
-
-		case -10:
-			ioerrmsg = (char *) PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
-			if (ioerrmsg == NULL)
-				PhreeqcPtr->malloc_error();
-			sprintf(ioerrmsg, "I/O Error %d", (int) P_ioresult);
-			warning_msg(ioerrmsg);
-			PhreeqcPtr->PHRQ_free(ioerrmsg);
-			break;
-
-		default:
-			if (EXCP_LINE != -1)
+			switch (P_escapecode)
 			{
-				sprintf(PhreeqcPtr->error_string, "%12ld\n", EXCP_LINE);
+
+			case -4:
+				sprintf(PhreeqcPtr->error_string, "Integer overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
 				warning_msg(PhreeqcPtr->error_string);
+				break;
+
+			case -5:
+				sprintf(PhreeqcPtr->error_string, "Divide by zero in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+				warning_msg(PhreeqcPtr->error_string);
+				break;
+
+			case -6:
+				sprintf(PhreeqcPtr->error_string, "Real math overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+				warning_msg(PhreeqcPtr->error_string);
+				break;
+
+			case -7:
+				sprintf(PhreeqcPtr->error_string, "Real math underflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+				warning_msg(PhreeqcPtr->error_string);
+				break;
+
+			case -8:
+			case -19:
+			case -18:
+			case -17:
+			case -16:
+			case -15:
+				sprintf(PhreeqcPtr->error_string, "Value range error in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+				warning_msg(PhreeqcPtr->error_string);
+				break;
+
+			case -10:
+				ioerrmsg = (char *) PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
+				if (ioerrmsg == NULL)
+					PhreeqcPtr->malloc_error();
+				sprintf(ioerrmsg, "I/O Error %d", (int) P_ioresult);
+				warning_msg(ioerrmsg);
+				PhreeqcPtr->PHRQ_free(ioerrmsg);
+				break;
+
+			default:
+				if (EXCP_LINE != -1)
+				{
+					sprintf(PhreeqcPtr->error_string, "%12ld\n", EXCP_LINE);
+					warning_msg(PhreeqcPtr->error_string);
+				}
+				_Escape(P_escapecode);
+				break;
 			}
-			_Escape(P_escapecode);
-			break;
 		}
-	}
-	if (stmtline != NULL)
-	{
-		sprintf(PhreeqcPtr->error_string, " in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-		error_msg(PhreeqcPtr->error_string, CONTINUE);
-	}
-	//ENDTRY(try1);
+		if (stmtline != NULL)
+		{
+			sprintf(PhreeqcPtr->error_string, " in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+			error_msg(PhreeqcPtr->error_string, CONTINUE);
+		}
+		//ENDTRY(try1);
 	} // end catch
 }								/*exec */
 
