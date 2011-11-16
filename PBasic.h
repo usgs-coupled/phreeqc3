@@ -438,7 +438,7 @@ protected:
 	tokenrec *stmttok, *datatok, *buf;
 	bool exitflag;
 	long EXCP_LINE;
-	std::map<const std::string, BASIC_TOKEN> commands;
+	static std::map<const std::string, BASIC_TOKEN> commands;
 	int P_escapecode;
 	int P_ioresult;
 };
