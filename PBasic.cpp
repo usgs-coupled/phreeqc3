@@ -47,166 +47,7 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	P_escapecode = 0;
 	P_ioresult = 0;
 
-	// initialize Basic commands
-	commands["+"] = tokplus;
-	commands["-"] = tokminus;
-	commands["*"] = toktimes;
-	commands["/"] = tokdiv;
-	commands["^"] = tokup;
-	commands["( or ["] = toklp;
-	commands[") or ]"] = tokrp;
-	commands["]"] = tokcomma;
-	commands[";"] = toksemi;
-	commands[":"] = tokcolon;
-	commands["="] = tokeq;
-	commands["<"] = toklt;
-	commands["<="] = tokle;
-	commands[">"] = tokgt;
-	commands[">="] = tokge;
-	commands["and"] = tokand;
-	commands["or"] = tokor;
-	commands["xor"] = tokxor;
-	commands["not"] = toknot;
-	commands["mod"] = tokmod;
-	commands["sqr"] = toksqr;
-	commands["sqrt"] = toksqrt;
-	commands["ceil"] = tokceil;
-	commands["floor"] = tokfloor;
-	commands["sin"] = toksin;
-	commands["cos"] = tokcos;
-	commands["tan"] = toktan;
-	commands["arctan"] = tokarctan;
-	commands["log"] = toklog;
-	commands["exp"] = tokexp;
-	commands["abs"] = tokabs;
-	commands["sgn"] = toksgn;
-	commands["str$"] = tokstr_;
-	commands["val"] = tokval;
-	commands["chr$"] = tokchr_;
-	commands["eol$"] = tokeol_;
-	commands["asc"] = tokasc;
-	commands["len"] = toklen;
-	commands["mid$"] = tokmid_;
-	commands["peek"] = tokpeek;
-	commands["let"] = toklet;
-	commands["print"] = tokprint;
-	commands["punch"] = tokpunch;
-#if defined (PHREEQ98) || defined (MULTICHART)
-	commands["graph_x"] = tokgraph_x;
-	commands["graph_y"] = tokgraph_y;
-	commands["graph_sy"] = tokgraph_sy;
-#endif
-#if defined MULTICHART
-	commands["plot_xy"] = tokplot_xy;
-#endif
-	commands["input"] = tokinput;
-	commands["goto"] = tokgoto;
-	commands["go to"] = tokgoto;
-	commands["if"] = tokif;
-	commands["end"] = tokend;
-	commands["stop"] = tokstop;
-	commands["for"] = tokfor;
-	commands["next"] = toknext;
-	commands["while"] = tokwhile;
-	commands["wend"] = tokwend;
-	commands["gosub"] = tokgosub;
-	commands["return"] = tokreturn;
-	commands["read"] = tokread;
-	commands["data"] = tokdata;
-	commands["restore"] = tokrestore;
-	commands["gotoxy"] = tokgotoxy;
-	commands["on"] = tokon;
-	commands["dim"] = tokdim;
-	commands["poke"] = tokpoke;
-	commands["list"] = toklist;
-	commands["run"] = tokrun;
-	commands["new"] = toknew;
-	commands["load"] = tokload;
-	commands["merge"] = tokmerge;
-	commands["save"] = toksave;
-	commands["bye"] = tokbye;
-	commands["quit"] = tokbye;
-	commands["del"] = tokdel;
-	commands["renum"] = tokrenum;
-	commands["then"] = tokthen;
-	commands["else"] = tokelse;
-	commands["to"] = tokto;
-	commands["step"] = tokstep;
-	commands["tc"] = toktc;
-	commands["tk"] = toktk;
-	commands["time"] = toktime;
-	commands["sim_time"] = toksim_time;
-	commands["total_time"] = toktotal_time;
-	commands["m0"] = tokm0;
-	commands["m"] = tokm;
-	commands["parm"] = tokparm;
-	commands["act"] = tokact;
-	commands["edl"] = tokedl;
-	commands["surf"] = toksurf;
-	commands["equi"] = tokequi;
-	commands["kin"] = tokkin;
-	commands["gas"] = tokgas;
-	commands["s_s"] = toks_s;
-	commands["misc1"] = tokmisc1;
-	commands["misc2"] = tokmisc2;
-	commands["mu"] = tokmu;
-	commands["osmotic"] = tokosmotic;
-	commands["alk"] = tokalk;
-	commands["lk_species"] = toklk_species;
-	commands["lk_named"] = toklk_named;
-	commands["lk_phase"] = toklk_phase;
-	commands["sum_species"] = toksum_species;
-	commands["sum_gas"] = toksum_gas;
-	commands["sum_s_s"] = toksum_s_s;
-	commands["calc_value"] = tokcalc_value;
-	commands["description"] = tokdescription;
-	commands["sys"] = toksys;
-	commands["instr"] = tokinstr;
-	commands["ltrim"] = tokltrim;
-	commands["rtrim"] = tokrtrim;
-	commands["trim"] = toktrim;
-	commands["pad"] = tokpad;
-	commands["rxn"] = tokrxn;
-	commands["dist"] = tokdist;
-	commands["mol"] = tokmol;
-	commands["la"] = tokla;
-	commands["lm"] = toklm;
-	commands["sr"] = toksr;
-	commands["si"] = toksi;
-	commands["step_no"] = tokstep_no;
-	commands["cell_no"] = tokcell_no;
-	commands["sim_no"] = toksim_no;
-	commands["tot"] = toktot;
-	commands["log10"] = toklog10;
-	commands["charge_balance"] = tokcharge_balance;
-	commands["percent_error"] = tokpercent_error;
-	commands["put"] = tokput;
-	commands["get"] = tokget;
-	commands["exists"] = tokexists;
-	commands["rem"] = tokrem;
-	commands["change_por"] = tokchange_por;
-	commands["get_por"] = tokget_por;
-	commands["change_surf"] = tokchange_surf;
-	commands["porevolume"] = tokporevolume;
-	commands["sc"] = toksc;
-	commands["gamma"] = tokgamma;
-	commands["lg"] = toklg;
-	commands["rho"] = tokrho;
-	commands["cell_volume"] = tokcell_volume;
-	commands["cell_pore_volume"] = tokcell_pore_volume;
-	commands["cell_porosity"] = tokcell_porosity;
-	commands["cell_saturation"] = tokcell_saturation;
-	commands["totmole"] = toktotmole;
-	commands["totmol"] = toktotmol;
-	commands["totmoles"] = toktotmoles;
-	commands["iso"] = tokiso;
-	commands["iso_unit"] = tokiso_unit;
-	commands["phase_formula"] = tokphase_formula;
-	commands["list_s_s"] = toklist_s_s;
-	commands["pr_p"] = tokpr_p;
- 	commands["pr_phi"] = tokpr_phi;
- 	commands["gas_p"] = tokgas_p;
- 	commands["gas_vm"] = tokgas_vm;
+	// Basic commands initialized at bottom of file
 }
 PBasic::~PBasic(void)
 {
@@ -6136,5 +5977,169 @@ _EscIO(int code)
 	P_ioresult = code;
 	return _Escape(-10);
 }
+
+const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[] = {
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("+",                  PBasic::tokplus),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("-",                  PBasic::tokminus),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("*",                  PBasic::toktimes),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("/",                  PBasic::tokdiv),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("^",                  PBasic::tokup),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("( or [",             PBasic::toklp),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type(") or ]",             PBasic::tokrp),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("]",                  PBasic::tokcomma),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type(";",                  PBasic::toksemi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type(":",                  PBasic::tokcolon),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("=",                  PBasic::tokeq),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("<",                  PBasic::toklt),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("<=",                 PBasic::tokle),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type(">",                  PBasic::tokgt),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type(">=",                 PBasic::tokge),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("and",                PBasic::tokand),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("or",                 PBasic::tokor),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("xor",                PBasic::tokxor),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("not",                PBasic::toknot),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mod",                PBasic::tokmod),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sqr",                PBasic::toksqr),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sqrt",               PBasic::toksqrt),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("ceil",               PBasic::tokceil),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("floor",              PBasic::tokfloor),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sin",                PBasic::toksin),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cos",                PBasic::tokcos),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tan",                PBasic::toktan),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("arctan",             PBasic::tokarctan),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("log",                PBasic::toklog),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("exp",                PBasic::tokexp),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("abs",                PBasic::tokabs),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sgn",                PBasic::toksgn),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str$",               PBasic::tokstr_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("val",                PBasic::tokval),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("chr$",               PBasic::tokchr_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eol$",               PBasic::tokeol_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("asc",                PBasic::tokasc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("len",                PBasic::toklen),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mid$",               PBasic::tokmid_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("peek",               PBasic::tokpeek),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("let",                PBasic::toklet),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("print",              PBasic::tokprint),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("punch",              PBasic::tokpunch),
+#if defined (PHREEQ98) || defined (MULTICHART)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_x",            PBasic::tokgraph_x),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_y",            PBasic::tokgraph_y),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_sy",           PBasic::tokgraph_sy),
+#endif
+#if defined MULTICHART
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("plot_xy",            PBasic::tokplot_xy),
+#endif
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("input",              PBasic::tokinput),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("goto",               PBasic::tokgoto),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("go to",              PBasic::tokgoto),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("if",                 PBasic::tokif),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("end",                PBasic::tokend),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("stop",               PBasic::tokstop),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("for",                PBasic::tokfor),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("next",               PBasic::toknext),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("while",              PBasic::tokwhile),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("wend",               PBasic::tokwend),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gosub",              PBasic::tokgosub),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("return",             PBasic::tokreturn),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("read",               PBasic::tokread),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("data",               PBasic::tokdata),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("restore",            PBasic::tokrestore),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gotoxy",             PBasic::tokgotoxy),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("on",                 PBasic::tokon),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dim",                PBasic::tokdim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("poke",               PBasic::tokpoke),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("list",               PBasic::toklist),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("run",                PBasic::tokrun),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("new",                PBasic::toknew),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("load",               PBasic::tokload),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("merge",              PBasic::tokmerge),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("save",               PBasic::toksave),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("bye",                PBasic::tokbye),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("quit",               PBasic::tokbye),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("del",                PBasic::tokdel),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("renum",              PBasic::tokrenum),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("then",               PBasic::tokthen),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("else",               PBasic::tokelse),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("to",                 PBasic::tokto),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("step",               PBasic::tokstep),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tc",                 PBasic::toktc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tk",                 PBasic::toktk),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("time",               PBasic::toktime),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sim_time",           PBasic::toksim_time),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("total_time",         PBasic::toktotal_time),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m0",                 PBasic::tokm0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m",                  PBasic::tokm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("parm",               PBasic::tokparm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("act",                PBasic::tokact),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl",                PBasic::tokedl),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("surf",               PBasic::toksurf),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi",               PBasic::tokequi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin",                PBasic::tokkin),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas",                PBasic::tokgas),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("s_s",                PBasic::toks_s),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc1",              PBasic::tokmisc1),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc2",              PBasic::tokmisc2),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mu",                 PBasic::tokmu),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("osmotic",            PBasic::tokosmotic),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("alk",                PBasic::tokalk),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_species",         PBasic::toklk_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_named",           PBasic::toklk_named),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_phase",           PBasic::toklk_phase),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_species",        PBasic::toksum_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_gas",            PBasic::toksum_gas),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_s_s",            PBasic::toksum_s_s),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("calc_value",         PBasic::tokcalc_value),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("description",        PBasic::tokdescription),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sys",                PBasic::toksys),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("instr",              PBasic::tokinstr),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("ltrim",              PBasic::tokltrim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rtrim",              PBasic::tokrtrim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("trim",               PBasic::toktrim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad",                PBasic::tokpad),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rxn",                PBasic::tokrxn),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dist",               PBasic::tokdist),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mol",                PBasic::tokmol),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("la",                 PBasic::tokla),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lm",                 PBasic::toklm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sr",                 PBasic::toksr),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("si",                 PBasic::toksi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("step_no",            PBasic::tokstep_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_no",            PBasic::tokcell_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sim_no",             PBasic::toksim_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tot",                PBasic::toktot),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("log10",              PBasic::toklog10),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("charge_balance",     PBasic::tokcharge_balance),     
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("percent_error",      PBasic::tokpercent_error),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("put",                PBasic::tokput),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get",                PBasic::tokget),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("exists",             PBasic::tokexists),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rem",                PBasic::tokrem),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("change_por",         PBasic::tokchange_por),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get_por",            PBasic::tokget_por),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("change_surf",        PBasic::tokchange_surf),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("porevolume",         PBasic::tokporevolume),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sc",                 PBasic::toksc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gamma",              PBasic::tokgamma),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lg",                 PBasic::toklg),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho",                PBasic::tokrho),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_volume",        PBasic::tokcell_volume),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_pore_volume",   PBasic::tokcell_pore_volume),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_porosity",      PBasic::tokcell_porosity),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_saturation",    PBasic::tokcell_saturation),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmole",            PBasic::toktotmole),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmol",             PBasic::toktotmol),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmoles",           PBasic::toktotmoles),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso",                PBasic::tokiso),	     
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso_unit",           PBasic::tokiso_unit),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula",      PBasic::tokphase_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("list_s_s",           PBasic::toklist_s_s),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_p",               PBasic::tokpr_p),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_phi",             PBasic::tokpr_phi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
+};
+std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::commands(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
+
 /* End. */
 
