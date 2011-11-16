@@ -47,6 +47,8 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	P_escapecode = 0;
 	P_ioresult = 0;
 	pqi_parse = false;
+	PHREEQCI_GUI = false;
+	parse_whole_program = true;
 	// Basic commands initialized at bottom of file
 }
 PBasic::~PBasic(void)
@@ -61,6 +63,10 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 	char *ptr;
 
 	P_escapecode = 0;
+	if (PHREEQCI_GUI)
+	{
+		_ASSERTE(g_nIDErrPrompt == 0);
+	}
 	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
 	if (inbuf == NULL)
@@ -97,13 +103,27 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 		{
 			if (P_escapecode != -20)
 			{
-				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
-					(int) P_ioresult);
-				warning_msg(PhreeqcPtr->error_string);
+				if (PHREEQCI_GUI)
+				{
+					_ASSERTE(false);
+				}
+				else
+				{
+					sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+						(int) P_ioresult);
+					warning_msg(PhreeqcPtr->error_string);
+				}
 			}
 			else
 			{
-				putchar('\n');
+				if (PHREEQCI_GUI)
+				{
+					_ASSERTE(false);
+				}
+				else
+				{
+					putchar('\n');
+				}
 			}
 		}
 	}
@@ -201,7 +221,12 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 {								/*main */
 	int l;
 	char *ptr;
-
+	if (PHREEQCI_GUI)
+	{
+		_ASSERTE(s_hInfiniteLoop == 0);
+		//s_hInfiniteLoop = hInfiniteLoop;
+		//parse_whole_program = parse_whole_program_flag;
+	}
 	P_escapecode = 0;
 	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
@@ -241,9 +266,16 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 		{
 			if (P_escapecode != -20)
 			{
-				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
-					(int) P_ioresult);
-				warning_msg(PhreeqcPtr->error_string);
+				if (PHREEQCI_GUI)
+				{
+					_ASSERTE(FALSE);
+				}
+				else
+				{
+					sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+						(int) P_ioresult);
+					warning_msg(PhreeqcPtr->error_string);
+				}
 			}
 			else
 			{
@@ -255,6 +287,10 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 
 	/*  exit(EXIT_SUCCESS); */
 	PhreeqcPtr->PHRQ_free(inbuf);
+	if (PHREEQCI_GUI)
+	{
+		s_hInfiniteLoop = 0;
+	}
 	return (P_escapecode);
 }
 
@@ -505,6 +541,11 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 				*l_buf = t;
 			else
 				tptr->next = t;
+			if (PHREEQCI_GUI)
+			{
+				t->n_sz = 0;
+				t->sz_num = 0;
+			}
 			tptr = t;
 			t->next = NULL;
 			switch (ch)
@@ -633,15 +674,14 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 					token[j] = '\0';
 /* p2c: basic.p, line 309:
  * Note: Modification of string length may translate incorrectly [146] */
-#define INT
-#ifdef INT
+
 /*
  *   Search hash list
  */
 					PhreeqcPtr->str_tolower(token);
 					std::map<const std::string, BASIC_TOKEN>::const_iterator item;
-					item = commands.find(token);
-					if (item != commands.end())
+					item = command_tokens.find(token);
+					if (item != command_tokens.end())
 					{
 						t->kind = item->second;
 						if (t->kind == tokrem)
@@ -657,274 +697,6 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 									l_inbuf + i - 1);
 							i = (int) strlen(l_inbuf) + 1;
 						}
-#endif
-#ifdef LONG
-						if (!strcmp(token, "and"))
-							t->kind = tokand;
-						else if (!strcmp(token, "or"))
-							t->kind = tokor;
-						else if (!strcmp(token, "xor"))
-							t->kind = tokxor;
-						else if (!strcmp(token, "not"))
-							t->kind = toknot;
-						else if (!strcmp(token, "mod"))
-							t->kind = tokmod;
-						else if (!strcmp(token, "sqr"))
-							t->kind = toksqr;
-						else if (!strcmp(token, "sqrt"))
-							t->kind = toksqrt;
-						else if (!strcmp(token, "ceil"))
-							t->kind = tokceil;
-						else if (!strcmp(token, "floor"))
-							t->kind = tokfloor;
-						else if (!strcmp(token, "sin"))
-							t->kind = toksin;
-						else if (!strcmp(token, "cos"))
-							t->kind = tokcos;
-						else if (!strcmp(token, "tan"))
-							t->kind = toktan;
-						else if (!strcmp(token, "arctan"))
-							t->kind = tokarctan;
-						else if (!strcmp(token, "log"))
-							t->kind = toklog;
-						else if (!strcmp(token, "exp"))
-							t->kind = tokexp;
-						else if (!strcmp(token, "abs"))
-							t->kind = tokabs;
-						else if (!strcmp(token, "sgn"))
-							t->kind = toksgn;
-						else if (!strcmp(token, "str$"))
-							t->kind = tokstr_;
-						else if (!strcmp(token, "val"))
-							t->kind = tokval;
-						else if (!strcmp(token, "chr$"))
-							t->kind = tokchr_;
-						else if (!strcmp(token, "eol$"))
-							t->kind = tokeol_;
-						else if (!strcmp(token, "asc"))
-							t->kind = tokasc;
-						else if (!strcmp(token, "len"))
-							t->kind = toklen;
-						else if (!strcmp(token, "mid$"))
-							t->kind = tokmid_;
-						else if (!strcmp(token, "peek"))
-							t->kind = tokpeek;
-						else if (!strcmp(token, "let"))
-							t->kind = toklet;
-						else if (!strcmp(token, "print"))
-							t->kind = tokprint;
-						else if (!strcmp(token, "PhreeqcPtr->punch"))
-							t->kind = tokpunch;
-#if defined PHREEQ98 
-						else if (!strcmp(token, "graph_x"))
-							t->kind = tokgraph_x;
-						else if (!strcmp(token, "graph_y"))
-							t->kind = tokgraph_y;
-						else if (!strcmp(token, "graph_sy"))
-							t->kind = tokgraph_sy;
-#endif
-						else if (!strcmp(token, "input"))
-							t->kind = tokinput;
-						else if (!strcmp(token, "goto"))
-							t->kind = tokgoto;
-						else if (!strcmp(token, "go to"))
-							t->kind = tokgoto;
-						else if (!strcmp(token, "if"))
-							t->kind = tokif;
-						else if (!strcmp(token, "end"))
-							t->kind = tokend;
-						else if (!strcmp(token, "stop"))
-							t->kind = tokstop;
-						else if (!strcmp(token, "for"))
-							t->kind = tokfor;
-						else if (!strcmp(token, "next"))
-							t->kind = toknext;
-						else if (!strcmp(token, "while"))
-							t->kind = tokwhile;
-						else if (!strcmp(token, "wend"))
-							t->kind = tokwend;
-						else if (!strcmp(token, "gosub"))
-							t->kind = tokgosub;
-						else if (!strcmp(token, "return"))
-							t->kind = tokreturn;
-						else if (!strcmp(token, "read"))
-							t->kind = tokread;
-						else if (!strcmp(token, "data"))
-							t->kind = tokdata;
-						else if (!strcmp(token, "restore"))
-							t->kind = tokrestore;
-						else if (!strcmp(token, "gotoxy"))
-							t->kind = tokgotoxy;
-						else if (!strcmp(token, "on"))
-							t->kind = tokon;
-						else if (!strcmp(token, "dim"))
-							t->kind = tokdim;
-						else if (!strcmp(token, "poke"))
-							t->kind = tokpoke;
-						else if (!strcmp(token, "list"))
-							t->kind = toklist;
-						else if (!strcmp(token, "run"))
-							t->kind = tokrun;
-						else if (!strcmp(token, "new"))
-							t->kind = toknew;
-						else if (!strcmp(token, "load"))
-							t->kind = tokload;
-						else if (!strcmp(token, "merge"))
-							t->kind = tokmerge;
-						else if (!strcmp(token, "save"))
-							t->kind = toksave;
-						else if (!strcmp(token, "bye"))
-							t->kind = tokbye;
-						else if (!strcmp(token, "quit"))
-							t->kind = tokbye;
-						else if (!strcmp(token, "del"))
-							t->kind = tokdel;
-						else if (!strcmp(token, "renum"))
-							t->kind = tokrenum;
-						else if (!strcmp(token, "then"))
-							t->kind = tokthen;
-						else if (!strcmp(token, "else"))
-							t->kind = tokelse;
-						else if (!strcmp(token, "to"))
-							t->kind = tokto;
-						else if (!strcmp(token, "step"))
-							t->kind = tokstep;
-						/*
-						 *   dlp: added functions
-						 */
-						else if (!strcmp(token, "tc"))
-							t->kind = toktc;
-						else if (!strcmp(token, "tk"))
-							t->kind = toktk;
-						else if (!strcmp(token, "time"))
-							t->kind = toktime;
-						else if (!strcmp(token, "sim_time"))
-							t->kind = toksim_time;
-						else if (!strcmp(token, "total_time"))
-							t->kind = toktotal_time;
-						else if (!strcmp(token, "m0"))
-							t->kind = tokm0;
-						else if (!strcmp(token, "m"))
-							t->kind = tokm;
-						else if (!strcmp(token, "parm"))
-							t->kind = tokparm;
-						else if (!strcmp(token, "act"))
-							t->kind = tokact;
-						else if (!strcmp(token, "change_por"))
-							t->kind = tokchange_por;
-						else if (!strcmp(token, "get_por"))
-							t->kind = tokget_por;
-						else if (!strcmp(token, "change_surf"))
-							t->kind = tokchange_surf;
-						else if (!strcmp(token, "porevolume"))
-							t->kind = tokporevolume;
-						else if (!strcmp(token, "edl"))
-							t->kind = tokedl;
-						else if (!strcmp(token, "surf"))
-							t->kind = toksurf;
-						else if (!strcmp(token, "equi"))
-							t->kind = tokequi;
-						else if (!strcmp(token, "kin"))
-							t->kind = tokkin;
-						else if (!strcmp(token, "gas"))
-							t->kind = tokgas;
-						else if (!strcmp(token, "s_s"))
-							t->kind = toks_s;
-						else if (!strcmp(token, "misc1"))
-							t->kind = tokmisc1;
-						else if (!strcmp(token, "misc2"))
-							t->kind = tokmisc2;
-						else if (!strcmp(token, "mu"))
-							t->kind = tokmu;
-						else if (!strcmp(token, "osmotic"))
-							t->kind = tokosmotic;
-						else if (!strcmp(token, "alk"))
-							t->kind = tokalk;
-						else if (!strcmp(token, "lk_species"))
-							t->kind = toklk_species;
-						else if (!strcmp(token, "lk_named"))
-							t->kind = toklk_named;
-						else if (!strcmp(token, "lk_phase"))
-							t->kind = toklk_phase;
-						else if (!strcmp(token, "sum_species"))
-							t->kind = toksum_species;
-						else if (!strcmp(token, "sum_gas"))
-							t->kind = toksum_gas;
-						else if (!strcmp(token, "sum_s_s"))
-							t->kind = toksum_s_s;
-						else if (!strcmp(token, "calc_value"))
-							t->kind = tokcalc_value;
-						else if (!strcmp(token, "description"))
-							t->kind = tokdescription;
-						else if (!strcmp(token, "sys"))
-							t->kind = toksys;
-						else if (!strcmp(token, "instr"))
-							t->kind = tokinstr;
-						else if (!strcmp(token, "ltrim"))
-							t->kind = tokltrim;
-						else if (!strcmp(token, "rtrim"))
-							t->kind = tokrtrim;
-						else if (!strcmp(token, "trim"))
-							t->kind = toktrim;
-						else if (!strcmp(token, "pad"))
-							t->kind = tokpad;
-						else if (!strcmp(token, "rxn"))
-							t->kind = tokrxn;
-						else if (!strcmp(token, "dist"))
-							t->kind = tokdist;
-						else if (!strcmp(token, "mol"))
-							t->kind = tokmol;
-						else if (!strcmp(token, "la"))
-							t->kind = tokla;
-						else if (!strcmp(token, "lm"))
-							t->kind = toklm;
-						else if (!strcmp(token, "sr"))
-							t->kind = toksr;
-						else if (!strcmp(token, "step_no"))
-							t->kind = tokstep_no;
-						else if (!strcmp(token, "cell_no"))
-							t->kind = tokcell_no;
-						else if (!strcmp(token, "sim_no"))
-							t->kind = toksim_no;
-						else if (!strcmp(token, "si"))
-							t->kind = toksi;
-						else if (!strcmp(token, "tot"))
-							t->kind = toktot;
-						else if (!strcmp(token, "totmole"))
-							t->kind = toktotmole;
-						else if (!strcmp(token, "totmol"))
-							t->kind = toktotmole;
-						else if (!strcmp(token, "totmoles"))
-							t->kind = toktotmole;
-						else if (!strcmp(token, "log10"))
-							t->kind = toklog10;
-						else if (!strcmp(token, "put"))
-							t->kind = tokput;
-						else if (!strcmp(token, "get"))
-							t->kind = tokget;
-						else if (!strcmp(token, "exists"))
-							t->kind = tokexists;
-						else if (!strcmp(token, "charge_balance"))
-							t->kind = tokcharge_balance;
-						else if (!strcmp(token, "percent_error"))
-							t->kind = tokpercent_error;
-						else if (!strcmp(token, "SC"))
-							t->kind = tokspcond;
-						else if (!strcmp(token, "rem"))
-						{
-							t->kind = tokrem;
-							m = strlen(l_inbuf) + 1;
-							if (m < 256)
-								m = 256;
-							t->UU.sp = (char *) PhreeqcPtr->PhreeqcPtr->PHRQ_malloc(m);
-							if (t->UU.sp == NULL)
-								PhreeqcPtr->malloc_error();
-							sprintf(t->UU.sp, "%.*s",
-									(int) (strlen(l_inbuf) - i + 1),
-									l_inbuf + i - 1);
-							i = strlen(l_inbuf) + 1;
-						}
-#endif
 					}
 					else
 					{
@@ -974,6 +746,26 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 						i++;
 						break;
 					}
+					if (PHREEQCI_GUI)
+					{
+						_ASSERTE(t->n_sz == 0);
+						_ASSERTE(t->sz_num == NULL);
+						t->n_sz = max(23, ptr - &inbuf[i - 1]);
+						t->sz_num =
+							(char *) PhreeqcPtr->PHRQ_calloc((t->n_sz + 1), sizeof(char));
+						if (t->sz_num == NULL)
+							PhreeqcPtr->malloc_error();
+						if (ptr > &inbuf[i - 1])
+						{
+							strncpy(t->sz_num, &inbuf[i - 1],
+								(ptr - &inbuf[i - 1]));
+							t->sz_num[ptr - &inbuf[i - 1]] = '\0';
+						}
+						else
+						{
+							t->sz_num[0] = '\0';
+						}
+					}
 					i += (int) (ptr - &l_inbuf[i - 1]);
 				}
 				else
@@ -987,16 +779,49 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 	}
 	while (i <= (int) strlen(l_inbuf));
 	if (q) {
-		sprintf(PhreeqcPtr->error_string, " missing \" or \' in BASIC line\n %ld %s", curline, l_inbuf);
-		error_msg(PhreeqcPtr->error_string, STOP);
+		if (PHREEQCI_GUI)
+		{
+			_ASSERTE(g_nIDErrPrompt == 0);
+			_ASSERTE(P_escapecode == 0);
+			//g_nIDErrPrompt = IDS_ERR_MISSING_Q;
+			P_escapecode = -20;
+			return;
+		}
+		else
+		{
+			sprintf(PhreeqcPtr->error_string, " missing \" or \' in BASIC line\n %ld %s", curline, l_inbuf);
+			error_msg(PhreeqcPtr->error_string, STOP);
+		}
 	}
 	if (lp > 0) {
-		sprintf(PhreeqcPtr->error_string, " missing ) or ] in BASIC line\n %ld %s", curline, l_inbuf);
-		error_msg(PhreeqcPtr->error_string, STOP);
+		if (PHREEQCI_GUI)
+		{
+			_ASSERTE(g_nIDErrPrompt == 0);
+			_ASSERTE(P_escapecode == 0);
+			//g_nIDErrPrompt = IDS_ERR_MISSING_RP;
+			P_escapecode = -20;
+			return;
+		}
+		else
+		{
+			sprintf(PhreeqcPtr->error_string, " missing ) or ] in BASIC line\n %ld %s", curline, l_inbuf);
+			error_msg(PhreeqcPtr->error_string, STOP);
+		}
 	}
 	else if (lp < 0) {
-		sprintf(PhreeqcPtr->error_string, " missing ( or [ in BASIC line\n %ld %s", curline, l_inbuf);
-		error_msg(PhreeqcPtr->error_string, STOP);
+		if (PHREEQCI_GUI)
+		{
+			_ASSERTE(g_nIDErrPrompt == 0);
+			_ASSERTE(P_escapecode == 0);
+			//g_nIDErrPrompt = IDS_ERR_MISSING_RP;
+			P_escapecode = -20;
+			return;
+		}
+		else
+		{
+			sprintf(PhreeqcPtr->error_string, " missing ( or [ in BASIC line\n %ld %s", curline, l_inbuf);
+			error_msg(PhreeqcPtr->error_string, STOP);
+		}
 	}
 }
 
@@ -1670,6 +1495,19 @@ disposetokens(tokenrec ** tok)
 	while (*tok != NULL)
 	{
 		tok1 = (*tok)->next;
+		if (PHREEQCI_GUI)
+		{
+			if ((*tok)->kind == (long) toknum)
+			{
+				PhreeqcPtr->PHRQ_free((*tok)->sz_num);
+			}
+#ifdef _DEBUG
+			else
+			{
+				_ASSERTE((*tok)->sz_num == NULL);
+			}
+#endif /* _DEBUG */
+		}
 		if ((*tok)->kind == (long) tokrem || (*tok)->kind == (long) tokstr)
 		{
 			(*tok)->UU.sp = (char *) PhreeqcPtr->free_check_null((*tok)->UU.sp);
@@ -1736,30 +1574,52 @@ parseinput(tokenrec ** l_buf)
 void PBasic::
 errormsg(const char * l_s)
 {
-	error_msg(l_s, CONTINUE);
+	if (PHREEQCI_GUI)
+	{
+		/* set g_nIDErrPrompt before calling errormsg see snerr */
+		_ASSERTE(g_nIDErrPrompt != 0);
+	}
+	else
+	{
+		error_msg(l_s, CONTINUE);
+	}
 	_Escape(42);
 }
 
 void PBasic::
-snerr(const char * l_s)
+	snerr(const char * l_s)
 {
-  char str[MAX_LENGTH] = {0};
-  strcpy(str, "Syntax_error ");
-  errormsg(strcat(str, l_s));
-}
-
-
-void PBasic::
-tmerr(const char * l_s)
-{
-  char str[MAX_LENGTH] = {0};
-  strcpy(str, "Type mismatch error");
-  errormsg(strcat(str, l_s));
+	char str[MAX_LENGTH] = {0};
+	strcpy(str, "Syntax_error ");
+	if (PHREEQCI_GUI)
+	{
+		_ASSERTE(g_nIDErrPrompt == 0);
+		//g_nIDErrPrompt = IDS_ERR_SYNTAX;
+	}
+	errormsg(strcat(str, l_s));
 }
 
 void PBasic::
-badsubscr(void)
+	tmerr(const char * l_s)
 {
+	char str[MAX_LENGTH] = {0};
+	strcpy(str, "Type mismatch error");
+	if (PHREEQCI_GUI)
+	{
+		_ASSERTE(g_nIDErrPrompt == 0);
+		//g_nIDErrPrompt = IDS_ERR_MISMATCH;
+	}
+	errormsg(strcat(str, l_s));
+}
+
+void PBasic::
+	badsubscr(void)
+{
+	if (PHREEQCI_GUI)
+	{
+		_ASSERTE(g_nIDErrPrompt == 0);
+		//g_nIDErrPrompt = IDS_ERR_BAD_SUBSCRIPT;
+	}
 	errormsg("Bad subscript");
 }
 
@@ -1856,13 +1716,13 @@ require(int k, struct LOC_exec *LINK)
 	if (LINK->t == NULL || LINK->t->kind != k)
 	{
 		std::map<const std::string, BASIC_TOKEN>::const_iterator item;
-		for (item = commands.begin(); item != commands.end(); item++)
+		for (item = command_tokens.begin(); item != command_tokens.end(); item++)
 		{
 			if (item->second == k)
 				break;
 		}
 
-		if (item == commands.end())
+		if (item == command_tokens.end())
 			snerr(": missing unknown command");
 		else {
 			strcpy(str, ": missing ");
@@ -2579,7 +2439,7 @@ factor(struct LOC_exec * LINK)
 			names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
 			if (names_arg == NULL)
 				PhreeqcPtr->malloc_error();
-			types_arg = (char **)PhreeqcPtr-> PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
+			types_arg = (char **)PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
 			if (types_arg == NULL)
 				PhreeqcPtr->malloc_error();
 			moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
@@ -3566,7 +3426,14 @@ void PBasic::
 checkextra(struct LOC_exec *LINK)
 {
 	if (LINK->t != NULL)
+	{
+		if (PHREEQCI_GUI)
+		{
+			_ASSERTE(g_nIDErrPrompt == 0);
+			//g_nIDErrPrompt = IDS_ERR_EXTRA;
+		}
 		errormsg("Extra information on line");
+	}
 }
 
 bool PBasic::
@@ -3593,20 +3460,50 @@ findline(long n)
 		l = l->next;
 	return l;
 }
-
+#ifdef SKIP
 linerec * PBasic::
 mustfindline(long n)
 {
 	linerec *l;
 
 	l = findline(n);
-	if (l == NULL) {
+	if (l == NULL) 
+	{
 		sprintf(PhreeqcPtr->error_string, "Undefined line %ld", n);
 		errormsg(PhreeqcPtr->error_string);
 	}
 	return l;
 }
+#endif
+linerec * PBasic::
+mustfindline(long n)
+{
+	linerec *l;
 
+	l = findline(n);
+	if (PHREEQCI_GUI)
+	{
+		if (parse_whole_program)
+		{
+			if (l == NULL) 
+			{
+				_ASSERTE(g_nIDErrPrompt == 0);
+				//g_nIDErrPrompt = IDS_ERR_UNDEF_LINE;
+				sprintf(PhreeqcPtr->error_string, "Undefined line %ld", n);
+				errormsg(PhreeqcPtr->error_string);
+			}
+		}
+	}
+	else
+	{
+		if (l == NULL) 
+		{
+			sprintf(PhreeqcPtr->error_string, "Undefined line %ld", n);
+			errormsg(PhreeqcPtr->error_string);
+		}
+	}
+	return l;
+}
 void PBasic::
 cmdend(struct LOC_exec *LINK)
 {
@@ -4039,10 +3936,18 @@ cmdrenum(struct LOC_exec *LINK)
 					while (l1 != NULL && l1->num != lnum)
 						l1 = l1->next;
 					if (l1 == NULL)
+					{
 						printf("Undefined line %ld in line %ld\n", lnum,
 							   l->num2);
+					}
 					else
+					{
+						if (PHREEQCI_GUI)
+						{
+							_snprintf(tok->sz_num, tok->n_sz, "%ld", l1->num2);
+						}
 						tok->UU.num = l1->num2;
+					}
 					if (tok->next != NULL && tok->next->kind == tokcomma)
 						tok = tok->next;
 				}
@@ -4413,6 +4318,11 @@ cmdfor(struct LOC_exec *LINK)
 				if (stmtline == NULL || stmtline->next == NULL)
 				{
 					stmtline = saveline;
+					if (PHREEQCI_GUI)
+					{
+						_ASSERTE(g_nIDErrPrompt == 0);
+						//g_nIDErrPrompt = IDS_ERR_FOR_WO_NEXT;
+					}
 					errormsg("FOR without NEXT");
 				}
 				stmtline = stmtline->next;
@@ -4461,7 +4371,14 @@ cmdnext(struct LOC_exec *LINK)
 	do
 	{
 		if (loopbase == NULL || loopbase->kind == gosubloop)
+		{
+			if (PHREEQCI_GUI)
+			{
+				_ASSERTE(g_nIDErrPrompt == 0);
+				//g_nIDErrPrompt = IDS_ERR_NEXT_WO_FOR;
+			}
 			errormsg("NEXT without FOR");
+		}
 		found = (bool) (loopbase->kind == forloop &&
 						   (v == NULL || loopbase->UU.U0.vp == v));
 		if (!found)
@@ -4505,12 +4422,33 @@ cmdwhile(struct LOC_exec *LINK)
 		return;
 	if (realexpr(LINK) != 0)
 		return;
-	if (!skiploop(tokwhile, tokwend, LINK))
-		errormsg("WHILE without WEND");
-	l = loopbase->next;
-	PhreeqcPtr->PHRQ_free(loopbase);
-	loopbase = l;
-	skiptoeos(LINK);
+	if (PHREEQCI_GUI)
+	{
+		if (parse_whole_program == TRUE)
+		{
+			if (!skiploop(tokwhile, tokwend, LINK))
+			{
+				_ASSERTE(g_nIDErrPrompt == 0);
+				//g_nIDErrPrompt = IDS_ERR_WHILE_WO_WEND;
+				errormsg("WHILE without WEND");
+			}
+			l = loopbase->next;
+			PhreeqcPtr->PHRQ_free(loopbase);
+			loopbase = l;
+			skiptoeos(LINK);
+		}
+	}
+	else
+	{
+		if (!skiploop(tokwhile, tokwend, LINK))
+		{
+			errormsg("WHILE without WEND");
+		}
+		l = loopbase->next;
+		PhreeqcPtr->PHRQ_free(loopbase);
+		loopbase = l;
+		skiptoeos(LINK);
+	}
 }
 
 void PBasic::
@@ -4520,11 +4458,21 @@ cmdwend(struct LOC_exec *LINK)
 	linerec *tokline;
 	looprec *l;
 	bool found;
-
+	if (PHREEQCI_GUI && !parse_whole_program)
+	{
+		return;
+	}
 	do
 	{
 		if (loopbase == NULL || loopbase->kind == gosubloop)
+		{
+			if (PHREEQCI_GUI)
+			{
+				_ASSERTE(g_nIDErrPrompt == 0);
+				//g_nIDErrPrompt = IDS_ERR_WEND_WO_WHILE;
+			}
 			errormsg("WEND without WHILE");
+		}
 		found = (bool) (loopbase->kind == whileloop);
 		if (!found)
 		{
@@ -4582,10 +4530,22 @@ cmdreturn(struct LOC_exec *LINK)
 	looprec *l;
 	bool found;
 
+	if (PHREEQCI_GUI && !parse_whole_program)
+	{
+		return;
+	}
+
 	do
 	{
 		if (loopbase == NULL)
+		{
+			if (PHREEQCI_GUI)
+			{
+				_ASSERTE(g_nIDErrPrompt == 0);
+				//g_nIDErrPrompt = IDS_ERR_RETURN_WO_GOSUB;
+			}
 			errormsg("RETURN without GOSUB");
+		}
 		found = (bool) (loopbase->kind == gosubloop);
 		if (!found)
 		{
@@ -4615,41 +4575,86 @@ cmdread(struct LOC_exec *LINK)
 		v = findvar(LINK);
 		tok = LINK->t;
 		LINK->t = datatok;
-		if (dataline == NULL)
+		if (PHREEQCI_GUI) 
 		{
-			dataline = linebase;
-			LINK->t = dataline->txt;
-		}
-		if (LINK->t == NULL || LINK->t->kind != tokcomma)
-		{
-			do
+			if (parse_whole_program)
 			{
-				while (LINK->t == NULL)
+				if (dataline == NULL)
 				{
-					if (dataline == NULL || dataline->next == NULL)
-						errormsg("Out of Data");
-					dataline = dataline->next;
+					dataline = linebase;
 					LINK->t = dataline->txt;
 				}
-				found = (bool) (LINK->t->kind == tokdata);
-				LINK->t = LINK->t->next;
+				if (LINK->t == NULL || LINK->t->kind != tokcomma)
+				{
+					do
+					{
+						while (LINK->t == NULL)
+						{
+							if (dataline == NULL || dataline->next == NULL)
+							{
+								_ASSERTE(g_nIDErrPrompt == 0);
+								//g_nIDErrPrompt = IDS_ERR_OUT_OF_DATA;
+								errormsg("Out of Data");
+							}
+							dataline = dataline->next;
+							LINK->t = dataline->txt;
+						}
+						found = (bool) (LINK->t->kind == tokdata);
+						LINK->t = LINK->t->next;
+					}
+					while (!found || iseos(LINK));
+				}
+				else
+					LINK->t = LINK->t->next;
+				if (v->stringvar)
+				{
+					if (*v->UU.U1.sval != NULL)
+						*v->UU.U1.sval = (char *) PhreeqcPtr->free_check_null(*v->UU.U1.sval);
+					*v->UU.U1.sval = strexpr(LINK);
+				}
+				else
+					*v->UU.U0.val = realexpr(LINK);
 			}
-			while (!found || iseos(LINK));
 		}
 		else
-			LINK->t = LINK->t->next;
-		if (v->stringvar)
 		{
-			if (*v->UU.U1.sval != NULL)
-				*v->UU.U1.sval = (char *) PhreeqcPtr->free_check_null(*v->UU.U1.sval);
-			*v->UU.U1.sval = strexpr(LINK);
+			if (dataline == NULL)
+			{
+				dataline = linebase;
+				LINK->t = dataline->txt;
+			}
+			if (LINK->t == NULL || LINK->t->kind != tokcomma)
+			{
+				do
+				{
+					while (LINK->t == NULL)
+					{
+						if (dataline == NULL || dataline->next == NULL)
+							errormsg("Out of Data");
+						dataline = dataline->next;
+						LINK->t = dataline->txt;
+					}
+					found = (bool) (LINK->t->kind == tokdata);
+					LINK->t = LINK->t->next;
+				}
+				while (!found || iseos(LINK));
+			}
+			else
+				LINK->t = LINK->t->next;
+			if (v->stringvar)
+			{
+				if (*v->UU.U1.sval != NULL)
+					*v->UU.U1.sval = (char *) PhreeqcPtr->free_check_null(*v->UU.U1.sval);
+				*v->UU.U1.sval = strexpr(LINK);
+			}
+			else
+				*v->UU.U0.val = realexpr(LINK);
 		}
-		else
-			*v->UU.U0.val = realexpr(LINK);
 		datatok = LINK->t;
 		LINK->t = tok;
 		if (!iseos(LINK))
 			require(tokcomma, LINK);
+
 	}
 	while (!iseos(LINK));
 }
@@ -4668,7 +4673,17 @@ cmdrestore(struct LOC_exec *LINK)
 	else
 	{
 		dataline = mustfindline(intexpr(LINK));
-		datatok = dataline->txt;
+		if (PHREEQCI_GUI)
+		{
+			if (parse_whole_program)
+			{
+				datatok = dataline->txt;
+			}
+		}
+		else
+		{
+			datatok = dataline->txt;
+		}
 	}
 }
 
@@ -4730,7 +4745,14 @@ cmddim(struct LOC_exec *LINK)
 		v = LINK->t->UU.vp;
 		LINK->t = LINK->t->next;
 		if (v->numdims != 0)
+		{
+			if (PHREEQCI_GUI)
+			{
+				_ASSERTE(g_nIDErrPrompt == 0);
+				//g_nIDErrPrompt = IDS_ERR_ARRAY_ALREADY;
+			}
 			errormsg("Array already dimensioned before");
+		}
 		j = 1;
 		i = 0;
 		require(toklp, LINK);
@@ -4796,8 +4818,6 @@ exec(void)
 	char *ioerrmsg;
 	char STR1[256] = {0};
 
-
-	//TRY(try1);
 	try
 	{
 		do
@@ -4812,6 +4832,14 @@ exec(void)
 				if (V.t != NULL)
 				{
 					V.t = V.t->next;
+					if (PHREEQCI_GUI)
+					{
+						//if (WaitForSingleObject(s_hInfiniteLoop, 0) == WAIT_OBJECT_0)
+						{
+							//g_nIDErrPrompt = IDS_ERR_INFINITE_LOOP;
+							errormsg("Possible infinite loop");
+						}
+					}
 					switch (stmttok->kind)
 					{
 
@@ -4903,9 +4931,16 @@ exec(void)
 #endif
 
 					case tokinput:
-						error_msg
-							("Basic command INPUT is not a legal command in PHREEQC.",
-							STOP);
+						if (PHREEQCI_GUI)
+						{
+							_ASSERTE(g_nIDErrPrompt == 0);
+							//g_nIDErrPrompt = IDS_ERR_INPUT_NOTLEGAL;
+							errormsg ("Basic command INPUT is not a legal command in PHREEQC.");
+						}
+						else
+						{
+							error_msg ("Basic command INPUT is not a legal command in PHREEQC.", STOP);
+						}
 						break;
 
 					case tokgoto:
@@ -4983,6 +5018,11 @@ exec(void)
 						break;
 
 					default:
+						if (PHREEQCI_GUI)
+						{
+							_ASSERTE(g_nIDErrPrompt == 0);
+							//g_nIDErrPrompt = IDS_ERR_ILLEGAL;
+						}
 						errormsg("Illegal command");
 						break;
 					}
@@ -5001,7 +5041,6 @@ exec(void)
 			}
 		}
 		while (stmtline != NULL);
-		//RECOVER2(try1, _Ltry1);
 	}
 	catch (PBasicStop e)
 	{
@@ -5065,10 +5104,17 @@ exec(void)
 		}
 		if (stmtline != NULL)
 		{
-			sprintf(PhreeqcPtr->error_string, " in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-			error_msg(PhreeqcPtr->error_string, CONTINUE);
+			if (PHREEQCI_GUI)
+			{
+				_ASSERTE(g_nErrLineNumber == 0);
+				g_nErrLineNumber = stmtline->num;
+			}
+			else
+			{
+				sprintf(PhreeqcPtr->error_string, " in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+				error_msg(PhreeqcPtr->error_string, CONTINUE);
+			}
 		}
-		//ENDTRY(try1);
 	} // end catch
 }								/*exec */
 
@@ -6257,7 +6303,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
 };
-std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::commands(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
+std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
 /* End. */
 

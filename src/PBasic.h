@@ -74,10 +74,10 @@ typedef struct tokenrec
 		char *sp;
 		char snch;
 	} UU;
-#ifdef PHREEQCI_GUI
+//#ifdef PHREEQCI_GUI
 	size_t n_sz;
 	char *sz_num;
-#endif
+//#endif
 } tokenrec;
 
 typedef struct linerec
@@ -294,8 +294,12 @@ public:
 	};
 
 	// Methods
+	bool Get_PHREEQCI_GUI(void) const {return PHREEQCI_GUI;};
+	void Set_PHREEQCI_GUI(bool tf) {PHREEQCI_GUI = tf;};
 	bool Get_pqi_parse(void) const {return pqi_parse;};
 	void Set_pqi_parse(bool tf) {pqi_parse = tf;};
+	bool Get_parse_whole_program(void) const {return parse_whole_program;};
+	void Set_parse_whole_program(bool tf) {parse_whole_program = tf;};
 	int free_dim_stringvar(varrec *varbase);
 	void exec(void);
 	int basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase);
@@ -440,12 +444,13 @@ protected:
 	tokenrec *stmttok, *datatok, *buf;
 	bool exitflag;
 	long EXCP_LINE;
-	static std::map<const std::string, BASIC_TOKEN> commands;
+	static std::map<const std::string, BASIC_TOKEN> command_tokens;
 	int P_escapecode;
 	int P_ioresult;
 
+	bool PHREEQCI_GUI;
 	bool pqi_parse;    /* true, most function values set to 1 for testing compilation */
-	int parse_whole_program;
+	bool parse_whole_program;
 	int s_hInfiniteLoop;
 	unsigned int g_nIDErrPrompt;
 	int g_nErrLineNumber;
