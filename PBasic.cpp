@@ -46,7 +46,7 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	EXCP_LINE = 0;
 	P_escapecode = 0;
 	P_ioresult = 0;
-
+	pqi_parse = false;
 	// Basic commands initialized at bottom of file
 }
 PBasic::~PBasic(void)
@@ -2169,46 +2169,70 @@ factor(struct LOC_exec * LINK)
 
 	case tokparm:
 		i_rate = intfactor(LINK);
-		if (i_rate > PhreeqcPtr->count_rate_p || i_rate == 0)
+		if (pqi_parse)
 		{
-			errormsg("Parameter subscript out of range.");
+			n.UU.val = 1;
 		}
-		n.UU.val = PhreeqcPtr->rate_p[i_rate - 1];
+		else
+		{
+			if (i_rate > PhreeqcPtr->count_rate_p || i_rate == 0)
+			{
+				errormsg("Parameter subscript out of range.");
+			}
+			n.UU.val = PhreeqcPtr->rate_p[i_rate - 1];
+		}
+
 		break;
 
 	case tokact:
-		n.UU.val = PhreeqcPtr->activity(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->activity(str);
+		}
 		break;
 
 	case tokgamma:
-		n.UU.val = PhreeqcPtr->activity_coefficient(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->activity_coefficient(str);
+		}
 		break;
 
 	case toklg:
-		n.UU.val = PhreeqcPtr->log_activity_coefficient(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->log_activity_coefficient(str);
+		}
 		break;
 
 	case tokget_por:
 		i = intfactor(LINK);
-		if (PhreeqcPtr->phast != TRUE)
+		if (pqi_parse)
 		{
-			if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
-				|| i == PhreeqcPtr->count_cells + 1)
-			{
-				/*		warning_msg("Note... no porosity for boundary solutions."); */
-				n.UU.val = 0;
-				break;
-			}
-			else
-				n.UU.val = PhreeqcPtr->cell_data[i - 1].por;
-			break;
+			n.UU.val = 1;
 		}
 		else
 		{
-			n.UU.val = PhreeqcPtr->cell_porosity;
-			break;
+			if (PhreeqcPtr->phast != TRUE)
+			{
+				if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
+					|| i == PhreeqcPtr->count_cells + 1)
+				{
+					/*		warning_msg("Note... no porosity for boundary solutions."); */
+					n.UU.val = 0;
+					break;
+				}
+				else
+					n.UU.val = PhreeqcPtr->cell_data[i - 1].por;
+				break;
+			}
+			else
+			{
+				n.UU.val = PhreeqcPtr->cell_porosity;
+				break;
+			}
 		}
-
+		break;
 	case tokedl:
 		require(toklp, LINK);
 		elt_name = stringfactor(STR1, LINK);
@@ -2222,7 +2246,7 @@ factor(struct LOC_exec * LINK)
 			surface_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = PhreeqcPtr->diff_layer_total(elt_name, surface_name);
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->diff_layer_total(elt_name, surface_name);
 		break;
 
 	case toksurf:
@@ -2238,31 +2262,49 @@ factor(struct LOC_exec * LINK)
 			surface_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = PhreeqcPtr->surf_total(elt_name, surface_name);
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->surf_total(elt_name, surface_name);
 		break;
 
 	case tokequi:
-		n.UU.val = PhreeqcPtr->equi_phase(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->equi_phase(str);
+		}
 		break;
 
 	case tokkin:
-		n.UU.val = PhreeqcPtr->kinetics_moles(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->kinetics_moles(str);
+		}
 		break;
 
 	case tokgas:
-		n.UU.val = PhreeqcPtr->find_gas_comp(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_gas_comp(str);
+		}
 		break;
 
 	case toks_s:
-		n.UU.val = PhreeqcPtr->find_s_s_comp(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_s_s_comp(str);
+		}
 		break;
 
 	case tokmisc1:
-		n.UU.val = PhreeqcPtr->find_misc1(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_misc1(str);
+		}
 		break;
 
 	case tokmisc2:
-		n.UU.val = PhreeqcPtr->find_misc2(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_misc2(str);
+		}
 		break;
 
 	case tokmu:
@@ -2281,19 +2323,28 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case tokalk:
-		n.UU.val = PhreeqcPtr->total_alkalinity / PhreeqcPtr->mass_water_aq_x;
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->total_alkalinity / PhreeqcPtr->mass_water_aq_x;
 		break;
 
 	case toklk_species:
-		n.UU.val = PhreeqcPtr->calc_logk_s(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_logk_s(str);
+		}
 		break;
 
 	case toklk_named:
-		n.UU.val = PhreeqcPtr->calc_logk_n(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_logk_n(str);
+		}
 		break;
 
 	case toklk_phase:
-		n.UU.val = PhreeqcPtr->calc_logk_p(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_logk_p(str);
+		}
 		break;
 
 	case toksum_species:
@@ -2309,7 +2360,7 @@ factor(struct LOC_exec * LINK)
 			elt_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = PhreeqcPtr->sum_match_species(mytemplate, elt_name);
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->sum_match_species(mytemplate, elt_name);
 		break;
 
 	case toksum_gas:
@@ -2325,7 +2376,7 @@ factor(struct LOC_exec * LINK)
 			elt_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = PhreeqcPtr->sum_match_gases(mytemplate, elt_name);
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->sum_match_gases(mytemplate, elt_name);
 		break;
 
 	case toksum_s_s:
@@ -2341,14 +2392,14 @@ factor(struct LOC_exec * LINK)
 			elt_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = PhreeqcPtr->sum_match_s_s(mytemplate, elt_name);
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->sum_match_s_s(mytemplate, elt_name);
 		break;
 
 	case tokcalc_value:
 		require(toklp, LINK);
 		name = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		n.UU.val = PhreeqcPtr->get_calculate_value(name);
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->get_calculate_value(name);
 		break;
 
 	case tokdescription:
@@ -2437,7 +2488,10 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case tokiso:
-		n.UU.val = PhreeqcPtr->iso_value(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->iso_value(str);
+		}
 		break;
 
 	case tokiso_unit:
@@ -2446,7 +2500,7 @@ factor(struct LOC_exec * LINK)
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
 		PhreeqcPtr->string_trim(string1);
-		n.UU.sval = PhreeqcPtr->iso_unit(string1);
+		n.UU.sval = (pqi_parse) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(string1);
 		break;
 
 	case tokpad:
@@ -2517,9 +2571,31 @@ factor(struct LOC_exec * LINK)
 		/*
 		   n.UU.val = system_total(elt_name, count_varrec->UU.U0.val, &(names_varrec->UU.U1.sarr), &(types_varrec->UU.U1.sarr), &(moles_varrec->UU.U0.arr));
 		 */
-		n.UU.val =
-			PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
-						 &(types_arg), &(moles_arg));
+		if (pqi_parse)
+		{
+			PhreeqcPtr->sys_tot = 0;
+			PhreeqcPtr->count_sys = 1000;
+			int count_sys = PhreeqcPtr->count_sys;
+			names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
+			if (names_arg == NULL)
+				PhreeqcPtr->malloc_error();
+			types_arg = (char **)PhreeqcPtr-> PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
+			if (types_arg == NULL)
+				PhreeqcPtr->malloc_error();
+			moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
+			if (moles_arg == NULL)
+				PhreeqcPtr->malloc_error();
+			names_arg[0] = NULL;
+			types_arg[0] = NULL;
+			moles_arg[0] = 0;
+			count_species = (LDBLE) count_sys;
+			n.UU.val = 0;
+		}
+		else
+		{
+			n.UU.val = PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
+				&(types_arg), &(moles_arg));
+		}
 
 		/*
 		 *  fill in varrec structure
@@ -2606,7 +2682,8 @@ factor(struct LOC_exec * LINK)
 			*  Call subroutine
 			*/
 			// return total moles
-			n.UU.val = PhreeqcPtr->list_s_s(s_s_name, composition);
+
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->list_s_s(s_s_name, composition);
 
 			/*
 			*  fill in varrec structure
@@ -2644,14 +2721,6 @@ factor(struct LOC_exec * LINK)
 
 				// fill in arrays
 				i = 1;
-
-				//for (cxxNameDouble::iterator it = composition.begin(); it != composition.end(); it++)
-				//{
-				//	names_varrec->UU.U1.sarr[i] = string_duplicate((it->first).c_str());
-				//	moles_varrec->UU.U0.arr[i] = it->second;
-				//	i++;
-				//}
-
 				std::vector< std::pair<std::string, LDBLE> > sort_comp = composition.sort_second();
 				size_t j;
 				for (j = 0; j != sort_comp.size(); j++)
@@ -2804,19 +2873,31 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case tokmol:
-		n.UU.val = PhreeqcPtr->molality(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->molality(str);
+		}
 		break;
 
 	case tokla:
-		n.UU.val = PhreeqcPtr->log_activity(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->log_activity(str);
+		}
 		break;
 
 	case toklm:
-		n.UU.val = PhreeqcPtr->log_molality(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->log_molality(str);
+		}
 		break;
 
 	case toksr:
-		n.UU.val = PhreeqcPtr->saturation_ratio(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->saturation_ratio(str);
+		}
 		break;
 
 	case tokstep_no:
@@ -2870,10 +2951,11 @@ factor(struct LOC_exec * LINK)
 				n.UU.val = PhreeqcPtr->use.n_solution_user;
 			}
 		}
+		if (pqi_parse) n.UU.val = 1;
 		break;
 
 	case toksim_no:
-		n.UU.val = PhreeqcPtr->simulation;
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->simulation;
 		break;
 
 	case tokget:
@@ -2929,10 +3011,10 @@ factor(struct LOC_exec * LINK)
 				break;
 			}
 		}
-		s_v_ptr = PhreeqcPtr->save_values_bsearch(&s_v, &k);
+		s_v_ptr = (pqi_parse) ? NULL : PhreeqcPtr->save_values_bsearch(&s_v, &k);
 		if (s_v_ptr == NULL)
 		{
-			n.UU.val = 0;
+			n.UU.val = (pqi_parse) ? 1 : 0;
 		}
 		else
 		{
@@ -2993,72 +3075,95 @@ factor(struct LOC_exec * LINK)
 				break;
 			}
 		}
-		s_v_ptr = PhreeqcPtr->save_values_bsearch(&s_v, &k);
-		if (s_v_ptr == NULL)
+		if (pqi_parse)
 		{
-			n.UU.val = 0;
+			n.UU.val = 1;
 		}
 		else
 		{
-			n.UU.val = 1;
+			s_v_ptr = PhreeqcPtr->save_values_bsearch(&s_v, &k);
+			if (s_v_ptr == NULL)
+			{
+				n.UU.val = 0;
+			}
+			else
+			{
+				n.UU.val = 1;
+			}
 		}
 		break;
 
 	case tokcharge_balance:
-		n.UU.val = PhreeqcPtr->cb_x;
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cb_x;
 		break;
 
 	case tokpercent_error:
-		n.UU.val = 100 * PhreeqcPtr->cb_x / PhreeqcPtr->total_ions_x;
+		n.UU.val = (pqi_parse) ? 1 : 100 * PhreeqcPtr->cb_x / PhreeqcPtr->total_ions_x;
 		break;
 
 	case toksi:
-		PhreeqcPtr->saturation_index(stringfactor(STR1, LINK), &l_dummy, &n.UU.val);
+		{
+			char * str = stringfactor(STR1, LINK);
+			if (pqi_parse)
+			{
+				n.UU.val = 1;
+			}
+			else
+			{
+				PhreeqcPtr->saturation_index(str, &l_dummy, &n.UU.val);
+			}
+		}
 		break;
 
 	case toktot:
-		n.UU.val = PhreeqcPtr->total(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->total(str);
+		}
 		break;
 
 	case toktotmole:
 	case toktotmol:
 	case toktotmoles:
-		n.UU.val = PhreeqcPtr->total_mole(stringfactor(STR1, LINK));
+		{
+			char * str = stringfactor(STR1, LINK);
+			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->total_mole(str);
+		}
 		break;
 
 	case tokcell_pore_volume:
 	case tokporevolume:
-		n.UU.val = PhreeqcPtr->cell_pore_volume;
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_pore_volume;
 		break;
 
 /* VP : Density Start */
 	case tokrho:
-		n.UU.val = PhreeqcPtr->calc_dens();
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_dens();
 		break;
 /* VP: Density End */
 	case tokcell_volume:
-		n.UU.val = PhreeqcPtr->cell_volume;
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_volume;
 		break;
 	case tokcell_porosity:
-		n.UU.val = PhreeqcPtr->cell_porosity;
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_porosity;
 		break;
 	case tokcell_saturation:
-		n.UU.val = PhreeqcPtr->cell_saturation;
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_saturation;
 		break;
 	case toksc:
-		n.UU.val = PhreeqcPtr->calc_SC();
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_SC();
 		break;
 	case tokpr_p:
-		n.UU.val = PhreeqcPtr->pr_pressure(stringfactor(STR1, LINK));
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->pr_pressure(stringfactor(STR1, LINK));
 		break;
 	case tokpr_phi:
-		n.UU.val = PhreeqcPtr->pr_phi(stringfactor(STR1, LINK));
+		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->pr_phi(stringfactor(STR1, LINK));
 		break;
  	case tokgas_p:
- 		n.UU.val = PhreeqcPtr->find_gas_p();
+ 		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_gas_p();
  		break;
   	case tokgas_vm:
- 		n.UU.val = PhreeqcPtr->find_gas_vm();
+ 		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_gas_vm();
  		break;
 	case toklog10:
 		n.UU.val = log10(realfactor(LINK));
@@ -3190,8 +3295,16 @@ factor(struct LOC_exec * LINK)
 
 	case tokpeek:
 /* p2c: basic.p, line 1029: Note: Range checking is OFF [216] */
-		trick.i = intfactor(LINK);
-		n.UU.val = *trick.c;
+		if (pqi_parse)
+		{
+			intfactor(LINK);
+			n.UU.val = 1.0;
+		}
+		else
+		{
+			trick.i = intfactor(LINK);
+			n.UU.val = *trick.c;
+		}
 /* p2c: basic.p, line 1032: Note: Range checking is ON [216] */
 		break;
 
@@ -3280,8 +3393,11 @@ term(struct LOC_exec * LINK)
 		}
 		else
 		{
-			sprintf(PhreeqcPtr->error_string, "Zero divide in BASIC line\n %ld %s.\nValue set to zero.", stmtline->num, stmtline->inbuf);
-			warning_msg(PhreeqcPtr->error_string);
+			if (!pqi_parse)
+			{
+				sprintf(PhreeqcPtr->error_string, "Zero divide in BASIC line\n %ld %s.\nValue set to zero.", stmtline->num, stmtline->inbuf);
+				warning_msg(PhreeqcPtr->error_string);
+			}
 			n.UU.val = 0;
 		}
 	}
@@ -3746,8 +3862,10 @@ cmdput(struct LOC_exec *LINK)
 			break;
 		}
 	}
-
-	PhreeqcPtr->save_values_store(&s_v);
+	if (!pqi_parse)
+	{
+		PhreeqcPtr->save_values_store(&s_v);
+	}
 	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
 }
 
