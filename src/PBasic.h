@@ -294,6 +294,8 @@ public:
 	};
 
 	// Methods
+	bool Get_pqi_parse(void) const {return pqi_parse;};
+	void Set_pqi_parse(bool tf) {pqi_parse = tf;};
 	int free_dim_stringvar(varrec *varbase);
 	void exec(void);
 	int basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase);
@@ -441,6 +443,12 @@ protected:
 	static std::map<const std::string, BASIC_TOKEN> commands;
 	int P_escapecode;
 	int P_ioresult;
+
+	bool pqi_parse;    /* true, most function values set to 1 for testing compilation */
+	int parse_whole_program;
+	int s_hInfiniteLoop;
+	unsigned int g_nIDErrPrompt;
+	int g_nErrLineNumber;
 };
 
 #endif /* _INC_PBasic_H */
