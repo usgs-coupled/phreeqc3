@@ -1,5 +1,8 @@
 #ifndef _INC_PBasic_H
 #define _INC_PBasic_H
+#if defined(PHREEQCI_GUI)
+#include <windows.h>
+#endif
 #include <map>
 #include <stdio.h>
 #include <limits.h>
@@ -293,13 +296,42 @@ public:
 		tokgas_vm
 	};
 
+#if !defined(PHREEQCI_GUI)
+	enum IDErr
+	{
+		IDS_ERR_ARRAY_ALREADY,
+		IDS_ERR_BAD_SUBSCRIPT,
+		IDS_ERR_EXTRA,
+		IDS_ERR_FOR_WO_NEXT,
+		IDS_ERR_ILLEGAL,
+		IDS_ERR_INFINITE_LOOP,
+		IDS_ERR_INPUT_NOTLEGAL,
+		IDS_ERR_MISMATCH,
+		IDS_ERR_MISSING_Q,
+		IDS_ERR_MISSING_RP,
+		IDS_ERR_NEXT_WO_FOR,
+		IDS_ERR_OUT_OF_DATA,
+		IDS_ERR_RETURN_WO_GOSUB,
+		IDS_ERR_SYNTAX,
+		IDS_ERR_UNDEF_LINE,
+		IDS_ERR_WEND_WO_WHILE,
+		IDS_ERR_WHILE_WO_WEND
+	};
+#endif
+
 	// Methods
-	bool Get_PHREEQCI_GUI(void) const {return PHREEQCI_GUI;};
-	void Set_PHREEQCI_GUI(bool tf) {PHREEQCI_GUI = tf;};
-	bool Get_pqi_parse(void) const {return pqi_parse;};
-	void Set_pqi_parse(bool tf) {pqi_parse = tf;};
+	bool Get_phreeqci_gui(void) const {return phreeqci_gui;};
+	void Set_phreeqci_gui(bool tf) {phreeqci_gui = tf;};
+	bool Get_parse_all(void) const {return parse_all;};
+	void Set_parse_all(bool tf) {parse_all = tf;};
 	bool Get_parse_whole_program(void) const {return parse_whole_program;};
 	void Set_parse_whole_program(bool tf) {parse_whole_program = tf;};
+	int Get_nErrLineNumber(void) const {return nErrLineNumber;};
+	void Set_nErrLineNumber(int i) {nErrLineNumber = i;};
+#if defined(PHREEQCI_GUI)
+	HANDLE Get_hInfiniteLoop(void) const {return hInfiniteLoop;};
+	void Set_hInfiniteLoop(HANDLE h) {hInfiniteLoop = h;};
+#endif
 	int free_dim_stringvar(varrec *varbase);
 	void exec(void);
 	int basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase);
@@ -448,12 +480,16 @@ protected:
 	int P_escapecode;
 	int P_ioresult;
 
-	bool PHREEQCI_GUI;
-	bool pqi_parse;    /* true, most function values set to 1 for testing compilation */
+	bool phreeqci_gui;
+	bool parse_all;    /* true, most function values set to 1 for testing compilation */
 	bool parse_whole_program;
-	int s_hInfiniteLoop;
-	unsigned int g_nIDErrPrompt;
-	int g_nErrLineNumber;
+#if defined(PHREEQCI_GUI)
+	HANDLE hInfiniteLoop;
+	UINT nIDErrPrompt;
+#else
+	IDErr nIDErrPrompt;
+#endif
+	int nErrLineNumber;
 };
 
 #endif /* _INC_PBasic_H */
