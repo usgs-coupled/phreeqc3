@@ -1,6 +1,8 @@
-#if defined(PHREEQCI_GUI)
+#if defined(WIN32)
 #include <windows.h>
+#if defined(PHREEQCI_GUI)
 #include "resource.h"
+#endif
 #endif
 #include <stdlib.h>
 #include "PBasic.h"
