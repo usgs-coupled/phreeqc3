@@ -1,5 +1,6 @@
-#if defined(WIN32)
+#if defined(PHREEQCI_GUI)
 #include <windows.h>
+#include "resource.h"
 #endif
 #include <stdlib.h>
 #include "PBasic.h"
@@ -46,9 +47,14 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	EXCP_LINE = 0;
 	P_escapecode = 0;
 	P_ioresult = 0;
-	pqi_parse = false;
-	PHREEQCI_GUI = false;
+	parse_all = false;
+	phreeqci_gui = false;
 	parse_whole_program = true;
+#if defined(PHREEQCI_GUI)
+	hInfiniteLoop = 0;
+#endif
+	nIDErrPrompt = (PBasic::IDErr)0;
+	nErrLineNumber = 0;
 	// Basic commands initialized at bottom of file
 }
 PBasic::~PBasic(void)
@@ -63,10 +69,6 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 	char *ptr;
 
 	P_escapecode = 0;
-	if (PHREEQCI_GUI)
-	{
-		_ASSERTE(g_nIDErrPrompt == 0);
-	}
 	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
 	if (inbuf == NULL)
@@ -103,7 +105,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 		{
 			if (P_escapecode != -20)
 			{
-				if (PHREEQCI_GUI)
+				if (phreeqci_gui)
 				{
 					_ASSERTE(false);
 				}
@@ -116,7 +118,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			else
 			{
-				if (PHREEQCI_GUI)
+				if (phreeqci_gui)
 				{
 					_ASSERTE(false);
 				}
@@ -221,12 +223,6 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 {								/*main */
 	int l;
 	char *ptr;
-	if (PHREEQCI_GUI)
-	{
-		_ASSERTE(s_hInfiniteLoop == 0);
-		//s_hInfiniteLoop = hInfiniteLoop;
-		//parse_whole_program = parse_whole_program_flag;
-	}
 	P_escapecode = 0;
 	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
@@ -266,7 +262,7 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 		{
 			if (P_escapecode != -20)
 			{
-				if (PHREEQCI_GUI)
+				if (phreeqci_gui)
 				{
 					_ASSERTE(FALSE);
 				}
@@ -287,10 +283,6 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 
 	/*  exit(EXIT_SUCCESS); */
 	PhreeqcPtr->PHRQ_free(inbuf);
-	if (PHREEQCI_GUI)
-	{
-		s_hInfiniteLoop = 0;
-	}
 	return (P_escapecode);
 }
 
@@ -541,7 +533,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 				*l_buf = t;
 			else
 				tptr->next = t;
-			if (PHREEQCI_GUI)
+			if (phreeqci_gui)
 			{
 				t->n_sz = 0;
 				t->sz_num = 0;
@@ -746,7 +738,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 						i++;
 						break;
 					}
-					if (PHREEQCI_GUI)
+					if (phreeqci_gui)
 					{
 						_ASSERTE(t->n_sz == 0);
 						_ASSERTE(t->sz_num == NULL);
@@ -779,11 +771,11 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 	}
 	while (i <= (int) strlen(l_inbuf));
 	if (q) {
-		if (PHREEQCI_GUI)
+		if (phreeqci_gui)
 		{
-			_ASSERTE(g_nIDErrPrompt == 0);
+			_ASSERTE(nIDErrPrompt == 0);
 			_ASSERTE(P_escapecode == 0);
-			//g_nIDErrPrompt = IDS_ERR_MISSING_Q;
+			nIDErrPrompt = IDS_ERR_MISSING_Q;
 			P_escapecode = -20;
 			return;
 		}
@@ -794,11 +786,11 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 		}
 	}
 	if (lp > 0) {
-		if (PHREEQCI_GUI)
+		if (phreeqci_gui)
 		{
-			_ASSERTE(g_nIDErrPrompt == 0);
+			_ASSERTE(nIDErrPrompt == 0);
 			_ASSERTE(P_escapecode == 0);
-			//g_nIDErrPrompt = IDS_ERR_MISSING_RP;
+			nIDErrPrompt = IDS_ERR_MISSING_RP;
 			P_escapecode = -20;
 			return;
 		}
@@ -809,11 +801,11 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 		}
 	}
 	else if (lp < 0) {
-		if (PHREEQCI_GUI)
+		if (phreeqci_gui)
 		{
-			_ASSERTE(g_nIDErrPrompt == 0);
+			_ASSERTE(nIDErrPrompt == 0);
 			_ASSERTE(P_escapecode == 0);
-			//g_nIDErrPrompt = IDS_ERR_MISSING_RP;
+			nIDErrPrompt = IDS_ERR_MISSING_RP;
 			P_escapecode = -20;
 			return;
 		}
@@ -1495,7 +1487,7 @@ disposetokens(tokenrec ** tok)
 	while (*tok != NULL)
 	{
 		tok1 = (*tok)->next;
-		if (PHREEQCI_GUI)
+		if (phreeqci_gui)
 		{
 			if ((*tok)->kind == (long) toknum)
 			{
@@ -1574,10 +1566,10 @@ parseinput(tokenrec ** l_buf)
 void PBasic::
 errormsg(const char * l_s)
 {
-	if (PHREEQCI_GUI)
+	if (phreeqci_gui)
 	{
-		/* set g_nIDErrPrompt before calling errormsg see snerr */
-		_ASSERTE(g_nIDErrPrompt != 0);
+		/* set nIDErrPrompt before calling errormsg see snerr */
+		_ASSERTE(nIDErrPrompt != 0);
 	}
 	else
 	{
@@ -1591,10 +1583,10 @@ void PBasic::
 {
 	char str[MAX_LENGTH] = {0};
 	strcpy(str, "Syntax_error ");
-	if (PHREEQCI_GUI)
+	if (phreeqci_gui)
 	{
-		_ASSERTE(g_nIDErrPrompt == 0);
-		//g_nIDErrPrompt = IDS_ERR_SYNTAX;
+		_ASSERTE(nIDErrPrompt == 0);
+		nIDErrPrompt = IDS_ERR_SYNTAX;
 	}
 	errormsg(strcat(str, l_s));
 }
@@ -1604,10 +1596,10 @@ void PBasic::
 {
 	char str[MAX_LENGTH] = {0};
 	strcpy(str, "Type mismatch error");
-	if (PHREEQCI_GUI)
+	if (phreeqci_gui)
 	{
-		_ASSERTE(g_nIDErrPrompt == 0);
-		//g_nIDErrPrompt = IDS_ERR_MISMATCH;
+		_ASSERTE(nIDErrPrompt == 0);
+		nIDErrPrompt = IDS_ERR_MISMATCH;
 	}
 	errormsg(strcat(str, l_s));
 }
@@ -1615,10 +1607,10 @@ void PBasic::
 void PBasic::
 	badsubscr(void)
 {
-	if (PHREEQCI_GUI)
+	if (phreeqci_gui)
 	{
-		_ASSERTE(g_nIDErrPrompt == 0);
-		//g_nIDErrPrompt = IDS_ERR_BAD_SUBSCRIPT;
+		_ASSERTE(nIDErrPrompt == 0);
+		nIDErrPrompt = IDS_ERR_BAD_SUBSCRIPT;
 	}
 	errormsg("Bad subscript");
 }
@@ -2029,7 +2021,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokparm:
 		i_rate = intfactor(LINK);
-		if (pqi_parse)
+		if (parse_all)
 		{
 			n.UU.val = 1;
 		}
@@ -2047,27 +2039,27 @@ factor(struct LOC_exec * LINK)
 	case tokact:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->activity(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity(str);
 		}
 		break;
 
 	case tokgamma:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->activity_coefficient(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity_coefficient(str);
 		}
 		break;
 
 	case toklg:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->log_activity_coefficient(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity_coefficient(str);
 		}
 		break;
 
 	case tokget_por:
 		i = intfactor(LINK);
-		if (pqi_parse)
+		if (parse_all)
 		{
 			n.UU.val = 1;
 		}
@@ -2106,7 +2098,7 @@ factor(struct LOC_exec * LINK)
 			surface_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->diff_layer_total(elt_name, surface_name);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_layer_total(elt_name, surface_name);
 		break;
 
 	case toksurf:
@@ -2122,48 +2114,48 @@ factor(struct LOC_exec * LINK)
 			surface_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->surf_total(elt_name, surface_name);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->surf_total(elt_name, surface_name);
 		break;
 
 	case tokequi:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->equi_phase(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equi_phase(str);
 		}
 		break;
 
 	case tokkin:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->kinetics_moles(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles(str);
 		}
 		break;
 
 	case tokgas:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_gas_comp(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_comp(str);
 		}
 		break;
 
 	case toks_s:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_s_s_comp(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_s_s_comp(str);
 		}
 		break;
 
 	case tokmisc1:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_misc1(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc1(str);
 		}
 		break;
 
 	case tokmisc2:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_misc2(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc2(str);
 		}
 		break;
 
@@ -2183,27 +2175,27 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case tokalk:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->total_alkalinity / PhreeqcPtr->mass_water_aq_x;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total_alkalinity / PhreeqcPtr->mass_water_aq_x;
 		break;
 
 	case toklk_species:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_logk_s(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_s(str);
 		}
 		break;
 
 	case toklk_named:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_logk_n(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_n(str);
 		}
 		break;
 
 	case toklk_phase:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_logk_p(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_p(str);
 		}
 		break;
 
@@ -2220,7 +2212,7 @@ factor(struct LOC_exec * LINK)
 			elt_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->sum_match_species(mytemplate, elt_name);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_species(mytemplate, elt_name);
 		break;
 
 	case toksum_gas:
@@ -2236,7 +2228,7 @@ factor(struct LOC_exec * LINK)
 			elt_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->sum_match_gases(mytemplate, elt_name);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_gases(mytemplate, elt_name);
 		break;
 
 	case toksum_s_s:
@@ -2252,14 +2244,14 @@ factor(struct LOC_exec * LINK)
 			elt_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->sum_match_s_s(mytemplate, elt_name);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_s_s(mytemplate, elt_name);
 		break;
 
 	case tokcalc_value:
 		require(toklp, LINK);
 		name = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->get_calculate_value(name);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->get_calculate_value(name);
 		break;
 
 	case tokdescription:
@@ -2350,7 +2342,7 @@ factor(struct LOC_exec * LINK)
 	case tokiso:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->iso_value(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->iso_value(str);
 		}
 		break;
 
@@ -2360,7 +2352,7 @@ factor(struct LOC_exec * LINK)
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
 		PhreeqcPtr->string_trim(string1);
-		n.UU.sval = (pqi_parse) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(string1);
+		n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(string1);
 		break;
 
 	case tokpad:
@@ -2431,7 +2423,7 @@ factor(struct LOC_exec * LINK)
 		/*
 		   n.UU.val = system_total(elt_name, count_varrec->UU.U0.val, &(names_varrec->UU.U1.sarr), &(types_varrec->UU.U1.sarr), &(moles_varrec->UU.U0.arr));
 		 */
-		if (pqi_parse)
+		if (parse_all)
 		{
 			PhreeqcPtr->sys_tot = 0;
 			PhreeqcPtr->count_sys = 1000;
@@ -2543,7 +2535,7 @@ factor(struct LOC_exec * LINK)
 			*/
 			// return total moles
 
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->list_s_s(s_s_name, composition);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->list_s_s(s_s_name, composition);
 
 			/*
 			*  fill in varrec structure
@@ -2735,28 +2727,28 @@ factor(struct LOC_exec * LINK)
 	case tokmol:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->molality(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->molality(str);
 		}
 		break;
 
 	case tokla:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->log_activity(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity(str);
 		}
 		break;
 
 	case toklm:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->log_molality(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_molality(str);
 		}
 		break;
 
 	case toksr:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->saturation_ratio(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->saturation_ratio(str);
 		}
 		break;
 
@@ -2811,11 +2803,11 @@ factor(struct LOC_exec * LINK)
 				n.UU.val = PhreeqcPtr->use.n_solution_user;
 			}
 		}
-		if (pqi_parse) n.UU.val = 1;
+		if (parse_all) n.UU.val = 1;
 		break;
 
 	case toksim_no:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->simulation;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->simulation;
 		break;
 
 	case tokget:
@@ -2871,10 +2863,10 @@ factor(struct LOC_exec * LINK)
 				break;
 			}
 		}
-		s_v_ptr = (pqi_parse) ? NULL : PhreeqcPtr->save_values_bsearch(&s_v, &k);
+		s_v_ptr = (parse_all) ? NULL : PhreeqcPtr->save_values_bsearch(&s_v, &k);
 		if (s_v_ptr == NULL)
 		{
-			n.UU.val = (pqi_parse) ? 1 : 0;
+			n.UU.val = (parse_all) ? 1 : 0;
 		}
 		else
 		{
@@ -2935,7 +2927,7 @@ factor(struct LOC_exec * LINK)
 				break;
 			}
 		}
-		if (pqi_parse)
+		if (parse_all)
 		{
 			n.UU.val = 1;
 		}
@@ -2954,17 +2946,17 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case tokcharge_balance:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cb_x;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cb_x;
 		break;
 
 	case tokpercent_error:
-		n.UU.val = (pqi_parse) ? 1 : 100 * PhreeqcPtr->cb_x / PhreeqcPtr->total_ions_x;
+		n.UU.val = (parse_all) ? 1 : 100 * PhreeqcPtr->cb_x / PhreeqcPtr->total_ions_x;
 		break;
 
 	case toksi:
 		{
 			char * str = stringfactor(STR1, LINK);
-			if (pqi_parse)
+			if (parse_all)
 			{
 				n.UU.val = 1;
 			}
@@ -2978,7 +2970,7 @@ factor(struct LOC_exec * LINK)
 	case toktot:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->total(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total(str);
 		}
 		break;
 
@@ -2987,43 +2979,43 @@ factor(struct LOC_exec * LINK)
 	case toktotmoles:
 		{
 			char * str = stringfactor(STR1, LINK);
-			n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->total_mole(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total_mole(str);
 		}
 		break;
 
 	case tokcell_pore_volume:
 	case tokporevolume:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_pore_volume;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_pore_volume;
 		break;
 
 /* VP : Density Start */
 	case tokrho:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_dens();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_dens();
 		break;
 /* VP: Density End */
 	case tokcell_volume:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_volume;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_volume;
 		break;
 	case tokcell_porosity:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_porosity;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_porosity;
 		break;
 	case tokcell_saturation:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->cell_saturation;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_saturation;
 		break;
 	case toksc:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->calc_SC();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_SC();
 		break;
 	case tokpr_p:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->pr_pressure(stringfactor(STR1, LINK));
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_pressure(stringfactor(STR1, LINK));
 		break;
 	case tokpr_phi:
-		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->pr_phi(stringfactor(STR1, LINK));
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_phi(stringfactor(STR1, LINK));
 		break;
  	case tokgas_p:
- 		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_gas_p();
+ 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_p();
  		break;
   	case tokgas_vm:
- 		n.UU.val = (pqi_parse) ? 1 : PhreeqcPtr->find_gas_vm();
+ 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_vm();
  		break;
 	case toklog10:
 		n.UU.val = log10(realfactor(LINK));
@@ -3155,7 +3147,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokpeek:
 /* p2c: basic.p, line 1029: Note: Range checking is OFF [216] */
-		if (pqi_parse)
+		if (parse_all)
 		{
 			intfactor(LINK);
 			n.UU.val = 1.0;
@@ -3253,7 +3245,7 @@ term(struct LOC_exec * LINK)
 		}
 		else
 		{
-			if (!pqi_parse)
+			if (!parse_all)
 			{
 				sprintf(PhreeqcPtr->error_string, "Zero divide in BASIC line\n %ld %s.\nValue set to zero.", stmtline->num, stmtline->inbuf);
 				warning_msg(PhreeqcPtr->error_string);
@@ -3427,10 +3419,10 @@ checkextra(struct LOC_exec *LINK)
 {
 	if (LINK->t != NULL)
 	{
-		if (PHREEQCI_GUI)
+		if (phreeqci_gui)
 		{
-			_ASSERTE(g_nIDErrPrompt == 0);
-			//g_nIDErrPrompt = IDS_ERR_EXTRA;
+			_ASSERTE(nIDErrPrompt == 0);
+			nIDErrPrompt = IDS_ERR_EXTRA;
 		}
 		errormsg("Extra information on line");
 	}
@@ -3481,14 +3473,14 @@ mustfindline(long n)
 	linerec *l;
 
 	l = findline(n);
-	if (PHREEQCI_GUI)
+	if (phreeqci_gui)
 	{
 		if (parse_whole_program)
 		{
 			if (l == NULL) 
 			{
-				_ASSERTE(g_nIDErrPrompt == 0);
-				//g_nIDErrPrompt = IDS_ERR_UNDEF_LINE;
+				_ASSERTE(nIDErrPrompt == 0);
+				nIDErrPrompt = IDS_ERR_UNDEF_LINE;
 				sprintf(PhreeqcPtr->error_string, "Undefined line %ld", n);
 				errormsg(PhreeqcPtr->error_string);
 			}
@@ -3759,7 +3751,7 @@ cmdput(struct LOC_exec *LINK)
 			break;
 		}
 	}
-	if (!pqi_parse)
+	if (!parse_all)
 	{
 		PhreeqcPtr->save_values_store(&s_v);
 	}
@@ -3942,7 +3934,7 @@ cmdrenum(struct LOC_exec *LINK)
 					}
 					else
 					{
-						if (PHREEQCI_GUI)
+						if (phreeqci_gui)
 						{
 							_snprintf(tok->sz_num, tok->n_sz, "%ld", l1->num2);
 						}
@@ -4318,10 +4310,10 @@ cmdfor(struct LOC_exec *LINK)
 				if (stmtline == NULL || stmtline->next == NULL)
 				{
 					stmtline = saveline;
-					if (PHREEQCI_GUI)
+					if (phreeqci_gui)
 					{
-						_ASSERTE(g_nIDErrPrompt == 0);
-						//g_nIDErrPrompt = IDS_ERR_FOR_WO_NEXT;
+						_ASSERTE(nIDErrPrompt == 0);
+						nIDErrPrompt = IDS_ERR_FOR_WO_NEXT;
 					}
 					errormsg("FOR without NEXT");
 				}
@@ -4372,10 +4364,10 @@ cmdnext(struct LOC_exec *LINK)
 	{
 		if (loopbase == NULL || loopbase->kind == gosubloop)
 		{
-			if (PHREEQCI_GUI)
+			if (phreeqci_gui)
 			{
-				_ASSERTE(g_nIDErrPrompt == 0);
-				//g_nIDErrPrompt = IDS_ERR_NEXT_WO_FOR;
+				_ASSERTE(nIDErrPrompt == 0);
+				nIDErrPrompt = IDS_ERR_NEXT_WO_FOR;
 			}
 			errormsg("NEXT without FOR");
 		}
@@ -4422,14 +4414,14 @@ cmdwhile(struct LOC_exec *LINK)
 		return;
 	if (realexpr(LINK) != 0)
 		return;
-	if (PHREEQCI_GUI)
+	if (phreeqci_gui)
 	{
 		if (parse_whole_program == TRUE)
 		{
 			if (!skiploop(tokwhile, tokwend, LINK))
 			{
-				_ASSERTE(g_nIDErrPrompt == 0);
-				//g_nIDErrPrompt = IDS_ERR_WHILE_WO_WEND;
+				_ASSERTE(nIDErrPrompt == 0);
+				nIDErrPrompt = IDS_ERR_WHILE_WO_WEND;
 				errormsg("WHILE without WEND");
 			}
 			l = loopbase->next;
@@ -4458,7 +4450,7 @@ cmdwend(struct LOC_exec *LINK)
 	linerec *tokline;
 	looprec *l;
 	bool found;
-	if (PHREEQCI_GUI && !parse_whole_program)
+	if (phreeqci_gui && !parse_whole_program)
 	{
 		return;
 	}
@@ -4466,10 +4458,10 @@ cmdwend(struct LOC_exec *LINK)
 	{
 		if (loopbase == NULL || loopbase->kind == gosubloop)
 		{
-			if (PHREEQCI_GUI)
+			if (phreeqci_gui)
 			{
-				_ASSERTE(g_nIDErrPrompt == 0);
-				//g_nIDErrPrompt = IDS_ERR_WEND_WO_WHILE;
+				_ASSERTE(nIDErrPrompt == 0);
+				nIDErrPrompt = IDS_ERR_WEND_WO_WHILE;
 			}
 			errormsg("WEND without WHILE");
 		}
@@ -4530,7 +4522,7 @@ cmdreturn(struct LOC_exec *LINK)
 	looprec *l;
 	bool found;
 
-	if (PHREEQCI_GUI && !parse_whole_program)
+	if (phreeqci_gui && !parse_whole_program)
 	{
 		return;
 	}
@@ -4539,10 +4531,10 @@ cmdreturn(struct LOC_exec *LINK)
 	{
 		if (loopbase == NULL)
 		{
-			if (PHREEQCI_GUI)
+			if (phreeqci_gui)
 			{
-				_ASSERTE(g_nIDErrPrompt == 0);
-				//g_nIDErrPrompt = IDS_ERR_RETURN_WO_GOSUB;
+				_ASSERTE(nIDErrPrompt == 0);
+				nIDErrPrompt = IDS_ERR_RETURN_WO_GOSUB;
 			}
 			errormsg("RETURN without GOSUB");
 		}
@@ -4575,7 +4567,7 @@ cmdread(struct LOC_exec *LINK)
 		v = findvar(LINK);
 		tok = LINK->t;
 		LINK->t = datatok;
-		if (PHREEQCI_GUI) 
+		if (phreeqci_gui) 
 		{
 			if (parse_whole_program)
 			{
@@ -4592,8 +4584,8 @@ cmdread(struct LOC_exec *LINK)
 						{
 							if (dataline == NULL || dataline->next == NULL)
 							{
-								_ASSERTE(g_nIDErrPrompt == 0);
-								//g_nIDErrPrompt = IDS_ERR_OUT_OF_DATA;
+								_ASSERTE(nIDErrPrompt == 0);
+								nIDErrPrompt = IDS_ERR_OUT_OF_DATA;
 								errormsg("Out of Data");
 							}
 							dataline = dataline->next;
@@ -4673,7 +4665,7 @@ cmdrestore(struct LOC_exec *LINK)
 	else
 	{
 		dataline = mustfindline(intexpr(LINK));
-		if (PHREEQCI_GUI)
+		if (phreeqci_gui)
 		{
 			if (parse_whole_program)
 			{
@@ -4746,10 +4738,10 @@ cmddim(struct LOC_exec *LINK)
 		LINK->t = LINK->t->next;
 		if (v->numdims != 0)
 		{
-			if (PHREEQCI_GUI)
+			if (phreeqci_gui)
 			{
-				_ASSERTE(g_nIDErrPrompt == 0);
-				//g_nIDErrPrompt = IDS_ERR_ARRAY_ALREADY;
+				_ASSERTE(nIDErrPrompt == 0);
+				nIDErrPrompt = IDS_ERR_ARRAY_ALREADY;
 			}
 			errormsg("Array already dimensioned before");
 		}
@@ -4832,14 +4824,16 @@ exec(void)
 				if (V.t != NULL)
 				{
 					V.t = V.t->next;
-					if (PHREEQCI_GUI)
+#if defined(PHREEQCI_GUI)
+					if (phreeqci_gui)
 					{
-						//if (WaitForSingleObject(s_hInfiniteLoop, 0) == WAIT_OBJECT_0)
+						if (WaitForSingleObject(hInfiniteLoop, 0) == WAIT_OBJECT_0)
 						{
-							//g_nIDErrPrompt = IDS_ERR_INFINITE_LOOP;
+							nIDErrPrompt = IDS_ERR_INFINITE_LOOP;
 							errormsg("Possible infinite loop");
 						}
 					}
+#endif
 					switch (stmttok->kind)
 					{
 
@@ -4931,10 +4925,10 @@ exec(void)
 #endif
 
 					case tokinput:
-						if (PHREEQCI_GUI)
+						if (phreeqci_gui)
 						{
-							_ASSERTE(g_nIDErrPrompt == 0);
-							//g_nIDErrPrompt = IDS_ERR_INPUT_NOTLEGAL;
+							_ASSERTE(nIDErrPrompt == 0);
+							nIDErrPrompt = IDS_ERR_INPUT_NOTLEGAL;
 							errormsg ("Basic command INPUT is not a legal command in PHREEQC.");
 						}
 						else
@@ -5018,10 +5012,10 @@ exec(void)
 						break;
 
 					default:
-						if (PHREEQCI_GUI)
+						if (phreeqci_gui)
 						{
-							_ASSERTE(g_nIDErrPrompt == 0);
-							//g_nIDErrPrompt = IDS_ERR_ILLEGAL;
+							_ASSERTE(nIDErrPrompt == 0);
+							nIDErrPrompt = IDS_ERR_ILLEGAL;
 						}
 						errormsg("Illegal command");
 						break;
@@ -5104,10 +5098,10 @@ exec(void)
 		}
 		if (stmtline != NULL)
 		{
-			if (PHREEQCI_GUI)
+			if (phreeqci_gui)
 			{
-				_ASSERTE(g_nErrLineNumber == 0);
-				g_nErrLineNumber = stmtline->num;
+				_ASSERTE(nErrLineNumber == 0);
+				nErrLineNumber = stmtline->num;
 			}
 			else
 			{
