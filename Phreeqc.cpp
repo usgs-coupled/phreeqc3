@@ -169,6 +169,7 @@ Phreeqc::Phreeqc(void)
 	}
 
 	// basic.c
+	basic_interpreter = NULL;
 
 	//cl1.c
 	x_arg = NULL, res_arg = NULL, scratch = NULL;
