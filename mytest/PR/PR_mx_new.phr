@@ -1,0 +1,42 @@
+database ../database/phreeqc.dat
+# Add CO2, N2, CH4 to a fixed_volume gas_phase
+# Plot and calculate fugacity coeff's and pressures
+SOLUTION 1
+INCLUDE$ gas.dat
+GAS_PHASE 1
+ -fixed_volume
+ CH4(g) 0; CO2(g) 0; N2(g) 0; H2O(g) 0
+REACTION 1
+ CO2N2CH4 1; 0.01 2*0.5 11*0.5
+INCREMENTAL_REACTIONS true
+
+USER_GRAPH 1 fugacity coeff's
+ -headings P f_H2O f_CO2 f_N2 f_CH4 sys_C sys_N
+ -axis_titles "Total Pressure / atm" "PR fugacity coefficient" "mol"
+ -axis_scale x_axis 0 500
+# -axis_scale y_axis 0 2
+ 10 x = gas_p
+ 12 if x > 500 then goto 400
+ 20 graph_x x
+ 30 graph_y pr_phi("H2O(g)"), pr_phi("CO2(g)"), pr_phi("N2(g)"), pr_phi("CH4(g)")
+ 40 graph_sy sys("C"), sys("N")
+400 end
+USER_GRAPH 2 Gas pressures
+ -headings P P_H2O P_CO2 P_N2 P_CH4 m_CO2 m_N2 m_CH4
+ -axis_titles "Total Pressure / atm" "(individual) Gas Pressure / atm" "mol/L"
+ -axis_scale x_axis 0 500
+# -axis_scale y_axis 0 250
+ 10 x = gas_p
+ 12 if x > 500 then goto 400
+ 20 graph_x x
+ 30 graph_y pr_p("H2O(g)"), pr_p("CO2(g)"), pr_p("N2(g)"), pr_p("CH4(g)")
+ 40 graph_sy tot("C(4)"), tot("N(0)"), tot("C(-4)")
+400 print 'temp (oC) = ', trim(str$(tc)), '. step ', trim(str$(step_no))
+#402 if x < 500 then p$ = str$(x) else p$ = '  > 500 atm, cannot calculate '
+404 mol_gas = gas("H2O(g)") + gas("CO2(g)") + gas("N2(g)") + gas("CH4(g)")
+410 print 'P = ', str$(x), 'V_m = ', 1 / mol_gas, ' z = P * V_m / (R * TK) = ', x / (mol_gas * 0.0820575 * TK)
+430 print '  fugacities:     f_H2O = ', pr_phi("H2O(g)"), 'f_CO2 =', pr_phi("CO2(g)"), 'f_N2 =', pr_phi("N2(g)"), 'f_CH4 =', pr_phi("CH4(g)")
+420 print '  moles in gas:   m_H2O = ', gas("H2O(g)"), 'm_CO2 =', gas("CO2(g)"), 'm_N2 =', gas("N2(g)"), 'm_CH4 =', gas("CH4(g)")
+440 end
+PRINT; -reset false; -user_print true
+END
