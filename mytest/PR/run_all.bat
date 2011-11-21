@@ -1,3 +1,6 @@
+call p.bat cc_P.phr
+call p.bat fix_V.phr
+call p.bat fix_P.phr
 call p.bat gas_fix_V.phr
 call p.bat gas_fix_P.phr
 call p.bat PR_mx_new.phr

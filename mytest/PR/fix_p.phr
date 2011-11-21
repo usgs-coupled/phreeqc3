@@ -1,0 +1,38 @@
+PHASES
+Calcite
+	CaCO3 = CO3-2 + Ca+2
+	log_k	   -8.480
+	delta_h -2.297 kcal
+   delta_v -60 cm3/mol
+	-analytic       -171.9065     -0.077993      2839.319      71.595
+CO2(g)
+	CO2 = CO2
+	log_k	   -1.468
+	delta_h -4.776 kcal
+     -T_c 304.2       # critical T, K
+     -P_c 72.80       # critical P, atm
+     -Omega 0.225     # acentric factor
+   -delta_v 29.62e-3 dm3/mol
+# 	-analytic       108.3865      0.01985076   -6919.53      -40.45154      669365.0
+# Better fit to Duan model:
+   -analytic       108.2821475	0.02020076	 -6919.53	   -40.45154	   669365.0
+GAS_PHASE 1
+     -fixed_pressure
+     CO2(g) 10 # dissolves completely
+	 -pressure 1000
+SOLUTION 1
+ pH 7 charge
+ Ca 1 Calcite
+ C(4) 1 CO2(g) 0
+# -pressure 1000 
+EQUILIBRIUM_PHASES 1
+ Calcite
+END
+
+GAS_PHASE 1
+     -fixed_pressure
+     CO2(g) 100
+	 -pressure 1000
+USE solution 1; USE equilibrium_phases 1
+END
+
