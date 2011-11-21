@@ -1476,6 +1476,9 @@ listtokens(FILE * f, tokenrec * l_buf)
  		case tokgas_vm:
  			output_msg("GAS_VM");
  			break;
+  		case tokpressure:
+  			output_msg("PRESSURE");
+  			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3009,6 +3012,9 @@ factor(struct LOC_exec * LINK)
 		break;
 	case tokpr_p:
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_pressure(stringfactor(STR1, LINK));
+		break;
+	case tokpressure:
+		n.UU.val = PhreeqcPtr->pressure();
 		break;
 	case tokpr_phi:
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_phi(stringfactor(STR1, LINK));
@@ -6298,6 +6304,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_phi",             PBasic::tokpr_phi),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pressure",           PBasic::tokpressure)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
