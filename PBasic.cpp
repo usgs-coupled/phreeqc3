@@ -3,6 +3,8 @@
 #if defined(PHREEQCI_GUI)
 #include "resource.h"
 #endif
+#else
+#define _ASSERTE assert
 #endif
 #include <stdlib.h>
 #include "PBasic.h"
@@ -740,6 +742,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 						i++;
 						break;
 					}
+#if defined(PHREEQCI_GUI)
 					if (phreeqci_gui)
 					{
 						_ASSERTE(t->n_sz == 0);
@@ -760,6 +763,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 							t->sz_num[0] = '\0';
 						}
 					}
+#endif
 					i += (int) (ptr - &l_inbuf[i - 1]);
 				}
 				else
@@ -3942,10 +3946,12 @@ cmdrenum(struct LOC_exec *LINK)
 					}
 					else
 					{
+#if defined(PHREEQC_GUI)
 						if (phreeqci_gui)
 						{
 							_snprintf(tok->sz_num, tok->n_sz, "%ld", l1->num2);
 						}
+#endif
 						tok->UU.num = l1->num2;
 					}
 					if (tok->next != NULL && tok->next->kind == tokcomma)
