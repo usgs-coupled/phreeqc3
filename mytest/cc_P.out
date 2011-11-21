@@ -1,0 +1,123 @@
+   Input file: cc_P
+  Output file: cc_P.out
+Database file: ../database/Amm.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/Amm.dat
+	PHASES
+	Calcite
+		CaCO3 = CO3-2 + Ca+2
+		log_k	   -8.480
+	   delta_v -60 cm3/mol
+	SOLUTION 1
+	 pH 7
+	 Ca 1 Calcite
+	 C(4) 1 charge
+	SELECTED_OUTPUT
+	 reset false
+	 file calcite_P
+	USER_PUNCH
+	  3 x$  = CHR$(35) # cross '#'
+	  4 sc$ = CHR$(59) # semicolon ';'
+	 10 for i = 1 to 20 step 1
+	 20   punch 'SOLUTION 1' + sc$ + ' pH 7' + sc$ + '  Ca 1 Calcite' + sc$ + ' C(4) 1 charge ' +             sc$ + ' pressure ' + trim(str$(i * 50)) + EOL$
+	 30   punch 'END' + EOL$
+	 40 next i
+	USER_GRAPH
+	 -headings delta_v.=.-60
+	 -chart_title "Calcite solubility at pH 7 as a function of pressure"
+	 -axis_titles "Pressure / atm" "mol / kgw"
+	 -initial_solutions true
+	 10 plot_xy pressure, tot("Ca"), color = Red
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+WARNING: USER_PUNCH: Headings count doesn't match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)             5.777e-003  5.777e-003  Charge balance
+	Ca               2.408e-003  2.408e-003  Equilibrium with Calcite
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  7.015e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.817e-003
+                       Total CO2 (mol/kg)  =  5.777e-003
+                      Temperature (deg C)  = 25.00
+                  Electrical balance (eq)  =  1.032e-011
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   7
+                                  Total H  = 1.110172e+002
+                                  Total O  = 5.552258e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.095e-007  1.001e-007    -6.961    -7.000    -0.039
+   H+                    1.082e-007  1.000e-007    -6.966    -7.000    -0.034
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+C(4)            5.777e-003
+   HCO3-                 4.702e-003  4.316e-003    -2.328    -2.365    -0.037
+   CO2                   9.690e-004  9.706e-004    -3.014    -3.013     0.001
+   CaHCO3+               9.813e-005  9.008e-005    -4.008    -4.045    -0.037
+   CaCO3                 5.554e-006  5.563e-006    -5.255    -5.255     0.001
+   CO3-2                 2.850e-006  2.024e-006    -5.545    -5.694    -0.149
+Ca              2.408e-003
+   Ca+2                  2.305e-003  1.636e-003    -2.637    -2.786    -0.149
+   CaHCO3+               9.813e-005  9.008e-005    -4.008    -4.045    -0.037
+   CaCO3                 5.554e-006  5.563e-006    -5.255    -5.255     0.001
+   CaOH+                 2.965e-009  2.714e-009    -8.528    -8.566    -0.038
+H(0)            1.414e-025
+   H2                    7.068e-026  7.079e-026   -25.151   -25.150     0.001
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.081   -42.080     0.001
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Aragonite        -0.14     -8.48   -8.34  CaCO3
+	Calcite           0.00     -8.48   -8.48  CaCO3
+	CO2(g)           -1.55     -3.01   -1.47  CO2
+	H2(g)           -22.00    -25.15   -3.15  H2
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	PRINT
+	 reset false

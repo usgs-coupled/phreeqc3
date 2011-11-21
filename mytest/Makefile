@@ -177,9 +177,12 @@ all: alkalinity.out \
 	raw.out \
 	ppdump.out \
 	errorinp.out \
+	cc_P.out \
 	CO2_conc_PR_EQ.out \
 	CO2_conc_PR_GP.out \
 	CO2_conc_PR_IS.out \
+	fix_P.out \
+	fix_V.out \
 	gas_fix_P.out \
 	gas_fix_V.out \
 	P_Vm.out \
@@ -190,7 +193,7 @@ all: alkalinity.out \
 	PR_equil.out \
 	PR_equil2.out \
 	PR_mx_new.out
-
+# NaX.out
 
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt *.csv
