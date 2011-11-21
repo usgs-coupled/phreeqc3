@@ -293,7 +293,8 @@ public:
 		tokpr_p,
 		tokpr_phi,
 		tokgas_p,
-		tokgas_vm
+		tokgas_vm,
+		tokpressure
 	};
 
 #if !defined(PHREEQCI_GUI)

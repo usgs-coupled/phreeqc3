@@ -97,6 +97,7 @@ public:
 	LDBLE log_activity(const char *species_name);
 	LDBLE log_molality(const char *species_name);
 	LDBLE molality(const char *species_name);
+	LDBLE pressure(void);
 	LDBLE pr_pressure(const char *phase_name);
 	LDBLE pr_phi(const char *phase_name);
 	LDBLE saturation_ratio(const char *phase_name);
