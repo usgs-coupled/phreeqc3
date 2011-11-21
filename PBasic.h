@@ -14,7 +14,7 @@
 #include "global_structures.h"
 class Phreeqc;
 
-class PBasicStop : std::exception
+class PBasicStop : public std::exception
 {
 };
 
