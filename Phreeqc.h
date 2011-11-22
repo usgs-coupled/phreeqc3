@@ -556,9 +556,11 @@ public:
 	struct reaction **pe_rxn);
 	LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
 	int setup_pure_phases(void);
+	int adjust_setup_pure_phases(void);
 	int setup_related_surface(void);
 	int setup_s_s_assemblage(void);
 	int setup_solution(void);
+	int adjust_setup_solution(void);
 	int setup_surface(void);
 	int setup_unknowns(void);
 	int store_dn(int k, LDBLE * source, int row, LDBLE coef_in,
