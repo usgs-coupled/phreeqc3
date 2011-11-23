@@ -1,6 +1,6 @@
    Input file: cc_P
   Output file: cc_P.out
-Database file: ../database/Amm.dat
+Database file: ../database/pitzer.dat
 
 ------------------
 Reading data base.
@@ -9,6 +9,7 @@ Reading data base.
 	SOLUTION_MASTER_SPECIES
 	SOLUTION_SPECIES
 	PHASES
+	PITZER
 	EXCHANGE_MASTER_SPECIES
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
@@ -18,32 +19,57 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
-	database ../database/Amm.dat
+	DATABASE ../database/pitzer.dat
+	SOLUTION_SPECIES
+	H2O = OH- + H+
+		log_k	-14.0
+		delta_h 13.362	kcal
+		analytical_expression	-283.971	-0.05069842	13323.0	102.24447	-1119669.0
+		gamma	3.5	0.0
+		dw	 5.27e-9
+		delta_v -22
+	CO3-2 + H+ = HCO3-
+		log_k	10.329
+		delta_h -3.561	kcal
+		analytical_expression	107.8871	0.03252849	-5151.79	-38.92561	563713.9
+		gamma	5.4	0.0
+		dw	 1.18e-9
+		millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
+		delta_v 28
+	CO3-2 + 2 H+ = CO2 + H2O
+		log_k	16.681
+		delta_h -5.738	kcal
+		analytical_expression	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+		dw	 1.92e-9
+		delta_v 27
 	PHASES
 	Calcite
 		CaCO3 = CO3-2 + Ca+2
-		log_k	   -8.480
-	   delta_v -60 cm3/mol
+		log_k	-8.48
+		delta_h -2.297 kcal
+		analytical_expression	-171.9065	-0.077993	2839.319	71.595
+	   delta_v -50 cm3/mol
 	SOLUTION 1
-	 pH 7
-	 Ca 1 Calcite
-	 C(4) 1 charge
+	EQUILIBRIUM_PHASES 1
+	 Calcite
 	SELECTED_OUTPUT
 	 reset false
 	 file calcite_P
 	USER_PUNCH
 	  3 x$  = CHR$(35) # cross '#'
 	  4 sc$ = CHR$(59) # semicolon ';'
+	  6 if step_no > 0 then goto 50
 	 10 for i = 1 to 20 step 1
-	 20   punch 'SOLUTION 1' + sc$ + ' pH 7' + sc$ + '  Ca 1 Calcite' + sc$ + ' C(4) 1 charge ' +             sc$ + ' pressure ' + trim(str$(i * 50)) + EOL$
+	 20   punch 'SOLUTION 1' +              sc$ + ' -pressure ' + trim(str$(i * 50)) + sc$ + 'USE equilibrium_phases 1' + sc$ + EOL$
 	 30   punch 'END' + EOL$
 	 40 next i
+	 50 end
 	USER_GRAPH
-	 -headings delta_v.=.-60
-	 -chart_title "Calcite solubility at pH 7 as a function of pressure"
-	 -axis_titles "Pressure / atm" "mol / kgw"
-	 -initial_solutions true
-	 10 plot_xy pressure, tot("Ca"), color = Red
+	 -chart_title "Calcite solubility as a function of pressure"
+	 -axis_titles "Pressure / atm" "Ca / ppm"
+	 -plot_csv_file cc_P.dat
+	 10 graph_x  pressure
+	 20 graph_y tot("Ca") * 40e3
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -57,58 +83,118 @@ WARNING: USER_PUNCH: Headings count doesn't match number of calls to PUNCH.
 
 	Elements           Molality       Moles
 
-	C(4)             5.777e-003  5.777e-003  Charge balance
-	Ca               2.408e-003  2.408e-003  Equilibrium with Calcite
+	Pure water     
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000    
                                        pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99705
                         Activity of water  =   1.000
-                           Ionic strength  =  7.015e-003
-                       Mass of water (kg)  =  1.000e+000
-                 Total alkalinity (eq/kg)  =  4.817e-003
-                       Total CO2 (mol/kg)  =  5.777e-003
-                      Temperature (deg C)  = 25.00
-                  Electrical balance (eq)  =  1.032e-011
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                                  Total H  = 1.110172e+002
-                                  Total O  = 5.552258e+001
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   2
+                         Gamma iterations  =   2
+                      Osmotic coefficient  =   0.99988
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                   Log       Log         Log 
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                   1.095e-007  1.001e-007    -6.961    -7.000    -0.039
-   H+                    1.082e-007  1.000e-007    -6.966    -7.000    -0.034
-   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
-C(4)            5.777e-003
-   HCO3-                 4.702e-003  4.316e-003    -2.328    -2.365    -0.037
-   CO2                   9.690e-004  9.706e-004    -3.014    -3.013     0.001
-   CaHCO3+               9.813e-005  9.008e-005    -4.008    -4.045    -0.037
-   CaCO3                 5.554e-006  5.563e-006    -5.255    -5.255     0.001
-   CO3-2                 2.850e-006  2.024e-006    -5.545    -5.694    -0.149
-Ca              2.408e-003
-   Ca+2                  2.305e-003  1.636e-003    -2.637    -2.786    -0.149
-   CaHCO3+               9.813e-005  9.008e-005    -4.008    -4.045    -0.037
-   CaCO3                 5.554e-006  5.563e-006    -5.255    -5.255     0.001
-   CaOH+                 2.965e-009  2.714e-009    -8.528    -8.566    -0.038
-H(0)            1.414e-025
-   H2                    7.068e-026  7.079e-026   -25.151   -25.150     0.001
-O(0)            0.000e+000
-   O2                    0.000e+000  0.000e+000   -42.081   -42.080     0.001
+   OH-                    1.001e-07   1.001e-07    -6.999    -7.000    -0.000
+   H+                     1.000e-07   1.000e-07    -7.000    -7.000    -0.000
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Aragonite        -0.14     -8.48   -8.34  CaCO3
-	Calcite           0.00     -8.48   -8.48  CaCO3
-	CO2(g)           -1.55     -3.01   -1.47  CO2
-	H2(g)           -22.00    -25.15   -3.15  H2
-	O2(g)           -39.19    -42.08   -2.89  O2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite          -0.00    -8.48     -8.48    1.000e+01   1.000e+01  -1.219e-04
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.219e-04   1.219e-04
+	Ca                1.219e-04   1.219e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.909      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 37
+                          Density (g/cm3)  =   0.99706
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.854e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.437e-04
+                       Total CO2 (mol/kg)  =   1.219e-04
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.98184
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550658e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    8.324e-05   8.125e-05    -4.080    -4.090    -0.011
+   H+                     1.261e-10   1.232e-10    -9.899    -9.909    -0.010
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(4)             1.219e-04
+   HCO3-                  8.319e-05   8.136e-05    -4.080    -4.090    -0.010
+   CO3-2                  3.395e-05   3.097e-05    -4.469    -4.509    -0.040
+   CaCO3                  4.693e-06   4.693e-06    -5.329    -5.329     0.000
+   CO2                    2.254e-08   2.254e-08    -7.647    -7.647     0.000
+Ca               1.219e-04
+   Ca+2                   1.172e-04   1.070e-04    -3.931    -3.971    -0.040
+   CaCO3                  4.693e-06   4.693e-06    -5.329    -5.329     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Aragonite        -0.26     -8.48   -8.22  CaCO3
+	Calcite          -0.00     -8.48   -8.48  CaCO3
+	CO2(g)           -6.18     -7.65   -1.47  CO2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Portlandite      -6.96    -12.15   -5.19  Ca(OH)2
 
 
 ------------------
