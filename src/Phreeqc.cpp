@@ -832,6 +832,9 @@ void Phreeqc::init(void)
 	B1TT = 0;
 	B2TT = 0;
 
+	/* input.c */
+	reading_db = FALSE;
+
 	/* integrate.c */
 	z = 0;
 	xd = 0;
@@ -968,7 +971,7 @@ void Phreeqc::init(void)
 #endif
 	run_info.Set_io(phrq_io);
 
-	this->clear_cookie();
+	this->clear_istream();
 
 	return;
 }
