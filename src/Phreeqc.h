@@ -278,6 +278,7 @@ public:
 	struct conc *get_inv_total(struct solution *solution_ptr, const char *elt);
 	int isotope_balance_equation(struct inverse *inv_ptr, int row, int n);
 	int post_mortem(void);
+	bool test_cl1_solution(void);
 	unsigned long get_bits(unsigned long bits, int position, int number);
 	unsigned long minimal_solve(struct inverse *inv_ptr,
 		unsigned long minimal_bits);
