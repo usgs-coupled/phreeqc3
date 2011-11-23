@@ -51,8 +51,8 @@ main_method(int argc, char *argv[])
 {
 
 	int errors;
-	void *db_cookie = NULL;
-	void *input_cookie = NULL;
+	std::istream *db_cookie = NULL;
+	std::istream *input_cookie = NULL;
 #if defined(WIN32_MEMORY_DEBUG)
 	int tmpDbgFlag;
 
@@ -95,9 +95,9 @@ main_method(int argc, char *argv[])
 /*
  *   Load database into memory
  */
-	this->set_cookie((std::ifstream *) db_cookie);
-	errors = read_database(PHRQ_io::istream_getc, db_cookie);
-	this->clear_cookie();
+	this->push_istream(db_cookie);
+	errors = read_database();
+	this->clear_istream();
 
 	if (errors != 0)
 	{
@@ -109,9 +109,9 @@ main_method(int argc, char *argv[])
  *   Read input data for simulation
  */
 
-	this->set_cookie((std::ifstream *)input_cookie);
-	errors = run_simulations(PHRQ_io::istream_getc, input_cookie);
-	this->clear_cookie();
+	this->push_istream(input_cookie);
+	errors = run_simulations();
+	this->clear_istream();
 
 	if (errors != 0)
 	{
