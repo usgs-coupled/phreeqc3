@@ -177,8 +177,8 @@ public:
 	int close_input_files(void);
 	int close_output_files(void);
 	static int istream_getc(void *cookie);
-	int process_file_names(int argc, char *argv[], void **db_cookie,
-		void **input_cookie, int log);
+	int process_file_names(int argc, char *argv[], std::istream **db_cookie,
+		std::istream **input_cookie, int log);
 
 	/* PHRQ_io_output.cpp */
 	void screen_msg(const char *err_str);
@@ -245,7 +245,7 @@ public:
 
 	// input.cpp -------------------------------
 	int reading_database(void);
-	struct read_callback s_read_callback;
+	void set_reading_database(int reading_database);
 	int check_line(const char *string, int allow_empty, int allow_eof,
 		int allow_keyword, int print);
 
@@ -1315,10 +1315,10 @@ public:
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
 	size_t list_components(std::list<std::string> &list_c);
-	void *get_cookie();
-	void pop_cookie();
-	void set_cookie(std::istream * cookie);
-	void clear_cookie(void);
+	std::istream *get_istream();
+	void pop_istream();
+	void push_istream(std::istream * cookie);
+	void clear_istream(void);
 protected:
 	void init(void);
 
@@ -1326,7 +1326,7 @@ protected:
 	//Data members
 	//
 protected:
-	std::list <std::istream *> cookie_list;
+	std::list <std::istream *> istream_list;
 	std::ifstream * in_stream;
 	std::ifstream * db_stream;
 
@@ -1880,15 +1880,14 @@ protected:
 
 	/* input.cpp ------------------------------- */
 	int add_char_to_line(int *i, char c);
-	int check_line_impl(PFN_READ_CALLBACK pfn, void *cookie, const char *string,
-		int allow_empty, int allow_eof, int allow_keyword,
-		int print);
-	int get_line(PFN_READ_CALLBACK pfn, void *cookie);
-	int get_logical_line(PFN_READ_CALLBACK pfn, void *cookie, int *l);
-	int read_database(PFN_READ_CALLBACK pfn, void *cookie);
-	int run_simulations(PFN_READ_CALLBACK pfn, void *cookie);
-	int set_read_callback(PFN_READ_CALLBACK pfn, void *cookie, int database);
+	int check_line_impl(const char *string, int allow_empty,
+		int allow_eof, int allow_keyword, int print);
+	int get_line(void);
+	int get_logical_line(void *cookie, int *l);
+	int read_database(void);
+	int run_simulations(void);
 	int check_line_return;  
+	int reading_db;
 
 	/* integrate.cpp ------------------------------- */
 	LDBLE midpoint_sv;
