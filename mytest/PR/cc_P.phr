@@ -1,42 +1,56 @@
+#DATABASE c:\phreeqc3\database\pitzer.dat
+SOLUTION_SPECIES
+H2O = OH- + H+
+	log_k	-14.0
+	delta_h 13.362	kcal
+	-analytic	-283.971	-0.05069842	13323.0	102.24447	-1119669.0
+	-gamma	3.5	0.0
+	-dw	 5.27e-9
+	-delta_v -22
+CO3-2 + H+ = HCO3-
+	log_k	10.329
+	delta_h -3.561	kcal
+	-analytic	107.8871	0.03252849	-5151.79	-38.92561	563713.9
+	-gamma	5.4	0.0
+	-dw	 1.18e-9
+	-millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
+	-delta_v 28
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	16.681
+	delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9
+	-delta_v 27
+
 PHASES
 Calcite
 	CaCO3 = CO3-2 + Ca+2
-	log_k	   -8.480
-   delta_v -60 cm3/mol
+	log_k	-8.48
+	delta_h -2.297 kcal
+	-analytic	-171.9065	-0.077993	2839.319	71.595
+   delta_v -50 cm3/mol
 SOLUTION 1
- pH 7
- Ca 1 Calcite
- C(4) 1 charge
+EQUILIBRIUM_PHASES 1
+ Calcite
 SELECTED_OUTPUT; -reset false; -file calcite_P
 USER_PUNCH
   3 x$  = CHR$(35) # cross '#'
   4 sc$ = CHR$(59) # semicolon ';'
+  6 if step_no > 0 then goto 50
  10 for i = 1 to 20 step 1
- 20   punch 'SOLUTION 1' + sc$ + ' pH 7' + sc$ + '  Ca 1 Calcite' + sc$ + ' C(4) 1 charge ' +\
-             sc$ + ' pressure ' + trim(str$(i * 50)) + EOL$
+ 20   punch 'SOLUTION 1' + \
+             sc$ + ' -pressure ' + trim(str$(i * 50)) + sc$ + 'USE equilibrium_phases 1' + sc$ + EOL$
  30   punch 'END' + EOL$
  40 next i
+ 50 end
 USER_GRAPH
- -headings delta_v.=.-60
- -chart_title "Calcite solubility at pH 7 as a function of pressure"
- -axis_titles "Pressure / atm" "mol / kgw"
- -initial_solutions true
- 10 plot_xy pressure, tot("Ca"), color = Red
+ -chart_title "Calcite solubility as a function of pressure"
+ -axis_titles "Pressure / atm" "Ca / ppm"
+ -plot_csv_file cc_P.dat
+ 10 graph_x  pressure
+ 20 graph_y tot("Ca") * 40e3
 END
 
 PRINT; -reset false; -selected_out false # PRINT, SELECTED_OUTPUT
-INCLUDE$ calcite_P
-END
-
-PHASES
-Calcite
-	CaCO3 = CO3-2 + Ca+2
-	log_k	   -8.480
-   delta_v 0 cm3/mol
-END
-
-USER_GRAPH
- -headings  delta_v.=.0
- 10 plot_xy pressure, tot("Ca"), color = Blue
 INCLUDE$ calcite_P
 END
