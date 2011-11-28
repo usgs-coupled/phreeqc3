@@ -154,6 +154,7 @@ USER_PRINT
 760 PRINT  "ASC(A):                                              ",  ASC("A")
 770 PRINT  "LEN( string ), LEN():                                ",  LEN("string"), LEN("")
 780 PRINT  "MID$( abc , 1, 2):                                   ",  MID$("abc", 1, 2)
+782 PRINT  "INSTR( abcdef , cd ):                                ",  INSTR("abcdef", "cd")
 790 LET b = a
 800 GOTO 820
 810 GOTO 830
@@ -218,7 +219,24 @@ USER_PRINT
 1320 REM NEW not tested
 1330 REM LOAD not tested
 1340 PRINT "line 1" + EOL$ + "line 2" + EOL$
-1350 PRINT "ceil, floor: ", ceil(2.8), floor(2.8), ceil(-2.8), floor(-2.8)
-1360 RETURN
-1370 PRINT "***should never see this***"
+1360 PRINT "totmol( Ca ):                                        ",  TOTMOL("Ca")
+1370 PRINT "iso( [18O] ):                                        ",  ISO("[18O]")
+1380 PRINT "ceil, floor:                                         ", ceil(2.8), floor(2.8), ceil(-2.8), floor(-2.8)
+1390 PRINT "phase_formula( Calcite ):                            ",  PHASE_FORMULA("Dolomite")
+1400 a$ = PHASE_FORMULA("Dolomite", count, elt$, coef)
+1410 for i = 1 to count
+1420    print i, elt$[i], coef[i]
+1430 next i
+1440 a = LIST_S_S("FeZnCO3", count, comp$, moles)
+1445 PRINT "Solid solution FeZnCO3"
+1450 for i = 1 to count
+1460    print i, comp$[i], moles[i]
+1470 next i
+1480 PRINT "PR_P( CO2(g) ):                                      ",  PR_P("CO2(g)")
+1490 PRINT "PR_PHI:                                              ",  PR_PHI("CO2(g)")
+1500 PRINT "GAS_P:                                               ",  GAS_P
+1510 PRINT "GAS_VM:                                              ",  GAS_VM
+1520 PRINT "PRESSURE:                                            ",  PRESSURE
+1530 RETURN
+1600 PRINT "***should never see this***"
 -end

@@ -141,6 +141,7 @@ all: alkalinity.out \
 	test_sit.out \
 	transport.out \
 	transport.dl.out \
+	trim.out \
 	user_print.out \
 	using.out \
 	zn.test.out \
