@@ -452,7 +452,6 @@ clearvars(void)
 char * PBasic::
 numtostr(char * Result, LDBLE n)
 {
-	/*string255 s; */
 	char *l_s;
 	long i;
 
@@ -1661,6 +1660,20 @@ stringfactor(char * Result, struct LOC_exec * LINK)
 	return Result;
 }
 
+const char * PBasic::
+stringfactor(std::string & Result, struct LOC_exec * LINK)
+{
+	valrec n;
+
+	n = factor(LINK);
+	if (!n.stringval)
+		//tmerr(": chemical name is not enclosed in \"  \"" );
+		tmerr(": Expected quoted string or character variable." );
+	Result = n.UU.sval;
+	PhreeqcPtr->PHRQ_free(n.UU.sval);
+	return Result.c_str();
+}
+
 long PBasic::
 intfactor(struct LOC_exec *LINK)
 {
@@ -1849,15 +1862,17 @@ factor(struct LOC_exec * LINK)
 	struct save_values s_v, *s_v_ptr;
 	int k;
 	LDBLE TEMP;
-	char STR1[256] = {0}, STR2[256] = {0};
-	char *elt_name, *surface_name, *mytemplate, *name;
+	//char STR1[256] = {0}, STR2[256] = {0};
+	std::string STR1, STR2;
+	const char *elt_name, *surface_name, *mytemplate, *name;
 	varrec *count_varrec = NULL, *names_varrec = NULL, *types_varrec =
 		NULL, *moles_varrec = NULL;
 	char **names_arg, **types_arg;
 	LDBLE *moles_arg;
 	int arg_num;
 	LDBLE count_species;
-	char *ptr, *string1, *string2;
+	const char *string1, *string2;
+	//char *ptr;
 
 	if (LINK->t == NULL)
 		snerr(": missing variable or command");
@@ -2047,21 +2062,21 @@ factor(struct LOC_exec * LINK)
 
 	case tokact:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity(str);
 		}
 		break;
 
 	case tokgamma:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity_coefficient(str);
 		}
 		break;
 
 	case toklg:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity_coefficient(str);
 		}
 		break;
@@ -2128,42 +2143,42 @@ factor(struct LOC_exec * LINK)
 
 	case tokequi:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equi_phase(str);
 		}
 		break;
 
 	case tokkin:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles(str);
 		}
 		break;
 
 	case tokgas:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_comp(str);
 		}
 		break;
 
 	case toks_s:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_s_s_comp(str);
 		}
 		break;
 
 	case tokmisc1:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc1(str);
 		}
 		break;
 
 	case tokmisc2:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc2(str);
 		}
 		break;
@@ -2189,21 +2204,21 @@ factor(struct LOC_exec * LINK)
 
 	case toklk_species:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_s(str);
 		}
 		break;
 
 	case toklk_named:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_n(str);
 		}
 		break;
 
 	case toklk_phase:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_p(str);
 		}
 		break;
@@ -2310,14 +2325,16 @@ factor(struct LOC_exec * LINK)
 		require(tokcomma, LINK);
 		string2 = stringfactor(STR2, LINK);
 		require(tokrp, LINK);
-		ptr = strstr(string1, string2);
-		if (ptr == NULL)
 		{
-			n.UU.val = 0;
-		}
-		else
-		{
-			n.UU.val = ((LDBLE) (ptr - string1)) + 1;
+			const char * cptr = strstr(string1, string2);
+			if (cptr == NULL)
+			{
+				n.UU.val = 0;
+			}
+			else
+			{
+				n.UU.val = ((LDBLE) (cptr - string1)) + 1;
+			}
 		}
 		break;
 
@@ -2326,8 +2343,10 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		PhreeqcPtr->string_trim_left(string1);
-		n.UU.sval = PhreeqcPtr->string_duplicate(string1);
+		//PhreeqcPtr->string_trim_left(string1);
+		trim_left(STR1);
+		//n.UU.sval = PhreeqcPtr->string_duplicate(string1);
+		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
 		break;
 
 	case tokrtrim:
@@ -2335,8 +2354,10 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		PhreeqcPtr->string_trim_right(string1);
-		n.UU.sval = PhreeqcPtr->string_duplicate(string1);
+		//PhreeqcPtr->string_trim_right(string1);
+		//n.UU.sval = PhreeqcPtr->string_duplicate(string1);
+		trim_right(STR1);
+		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
 		break;
 
 	case toktrim:
@@ -2344,13 +2365,15 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		PhreeqcPtr->string_trim(string1);
-		n.UU.sval = PhreeqcPtr->string_duplicate(string1);
+		//PhreeqcPtr->string_trim(string1);
+		//n.UU.sval = PhreeqcPtr->string_duplicate(string1);
+		trim(STR1);
+		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
 		break;
 
 	case tokiso:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->iso_value(str);
 		}
 		break;
@@ -2360,8 +2383,10 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		PhreeqcPtr->string_trim(string1);
-		n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(string1);
+		//PhreeqcPtr->string_trim(string1);
+		//n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(string1);
+		trim(STR1);
+		n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(STR1.c_str());
 		break;
 
 	case tokpad:
@@ -2735,28 +2760,28 @@ factor(struct LOC_exec * LINK)
 
 	case tokmol:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->molality(str);
 		}
 		break;
 
 	case tokla:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity(str);
 		}
 		break;
 
 	case toklm:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_molality(str);
 		}
 		break;
 
 	case toksr:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->saturation_ratio(str);
 		}
 		break;
@@ -2964,7 +2989,7 @@ factor(struct LOC_exec * LINK)
 
 	case toksi:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			if (parse_all)
 			{
 				n.UU.val = 1;
@@ -2978,7 +3003,7 @@ factor(struct LOC_exec * LINK)
 
 	case toktot:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total(str);
 		}
 		break;
@@ -2987,7 +3012,7 @@ factor(struct LOC_exec * LINK)
 	case toktotmol:
 	case toktotmoles:
 		{
-			char * str = stringfactor(STR1, LINK);
+			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total_mole(str);
 		}
 		break;
@@ -3115,6 +3140,40 @@ factor(struct LOC_exec * LINK)
 		PhreeqcPtr->PHRQ_free(l_s);
 		break;
 
+//	case tokmid_:
+//		n.stringval = true;
+//		require(toklp, LINK);
+//		n.UU.sval = strexpr(LINK);
+//		require(tokcomma, LINK);
+//		i = intexpr(LINK);
+//		if (i < 1)
+//			i = 1;
+//		j = (int) strlen(n.UU.sval);
+//		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+//		{
+//			LINK->t = LINK->t->next;
+//			j = intexpr(LINK);
+//		}
+//		if (j > (int) strlen(n.UU.sval) - i + 1)
+//			j = (int) strlen(n.UU.sval) - i + 1;
+//		if (i > (int) strlen(n.UU.sval))
+//			*n.UU.sval = '\0';
+//		else
+//		{
+//			if (j + 1 > 256)
+//			{
+//				warning_msg("String too long in factor\n");
+///*
+//      STR1 = (char *) PhreeqcPtr->PHRQ_realloc (STR1, j + 1);
+//      if (STR1 == NULL)
+//	PhreeqcPtr->malloc_error ();
+//*/
+//			}
+//			sprintf(STR1, "%.*s", (int) j, n.UU.sval + i - 1);
+//			strcpy(n.UU.sval, STR1);
+//		}
+//		require(tokrp, LINK);
+//		break;
 	case tokmid_:
 		n.stringval = true;
 		require(toklp, LINK);
@@ -3123,34 +3182,19 @@ factor(struct LOC_exec * LINK)
 		i = intexpr(LINK);
 		if (i < 1)
 			i = 1;
-		/*j = 255; */
 		j = (int) strlen(n.UU.sval);
 		if (LINK->t != NULL && LINK->t->kind == tokcomma)
 		{
 			LINK->t = LINK->t->next;
 			j = intexpr(LINK);
 		}
-		if (j > (int) strlen(n.UU.sval) - i + 1)
-			j = (int) strlen(n.UU.sval) - i + 1;
-		if (i > (int) strlen(n.UU.sval))
-			*n.UU.sval = '\0';
-		else
 		{
-			if (j + 1 > 256)
-			{
-				warning_msg("String too long in factor\n");
-/*
-      STR1 = (char *) PhreeqcPtr->PHRQ_realloc (STR1, j + 1);
-      if (STR1 == NULL)
-	PhreeqcPtr->malloc_error ();
-*/
-			}
-			sprintf(STR1, "%.*s", (int) j, n.UU.sval + i - 1);
-			strcpy(n.UU.sval, STR1);
+			std::string str = n.UU.sval;
+			str = str.substr(i - 1, j);
+			strcpy(n.UU.sval, str.c_str());
 		}
 		require(tokrp, LINK);
 		break;
-
 	case toklen:
 		l_s = strfactor(LINK);
 		n.UU.val = (double) strlen(l_s);
@@ -3661,7 +3705,6 @@ cmdrun(struct LOC_exec *LINK)
 {
 	linerec *l;
 	long i;
-	/*string255 s; */
 	char *l_s;
 
 	l_s = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
