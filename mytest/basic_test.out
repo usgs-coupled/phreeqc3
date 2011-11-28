@@ -396,6 +396,7 @@ Reading input data for simulation 9.
 	760 PRINT  "ASC(A):                                              ",  ASC("A")
 	770 PRINT  "LEN( string ), LEN():                                ",  LEN("string"), LEN("")
 	780 PRINT  "MID$( abc , 1, 2):                                   ",  MID$("abc", 1, 2)
+	782 PRINT  "INSTR( abcdef , cd ):                                ",  INSTR("abcdef", "cd")
 	790 LET b = a
 	800 GOTO 820
 	810 GOTO 830
@@ -460,9 +461,26 @@ Reading input data for simulation 9.
 	1320 REM NEW not tested
 	1330 REM LOAD not tested
 	1340 PRINT "line 1" + EOL$ + "line 2" + EOL$
-	1350 PRINT "ceil, floor: ", ceil(2.8), floor(2.8), ceil(-2.8), floor(-2.8)
-	1360 RETURN
-	1370 PRINT "***should never see this***"
+	1360 PRINT "totmol( Ca ):                                        ",  TOTMOL("Ca")
+	1370 PRINT "iso( [18O] ):                                        ",  ISO("[18O]")
+	1380 PRINT "ceil, floor:                                         ", ceil(2.8), floor(2.8), ceil(-2.8), floor(-2.8)
+	1390 PRINT "phase_formula( Dolomite ):                            ",  PHASE_FORMULA("Dolomite")
+	1400 a$ = PHASE_FORMULA("Dolomite", count, elt$, coef)
+	1410 for i = 1 to count
+	1420    print i, elt$[i], coef[i]
+	1430 next i
+	1440 a = LIST_S_S("FeZnCO3", count, comp$, moles)
+	1445 PRINT "Solid solution FeZnCO3"
+	1450 for i = 1 to count
+	1460    print i, comp$[i], moles[i]
+	1470 next i
+	1480 PRINT "PR_P( CO2(g) ):                                      ",  PR_P("CO2(g)")
+	1490 PRINT "PR_PHI:                                              ",  PR_PHI("CO2(g)")
+	1500 PRINT "GAS_P:                                               ",  GAS_P
+	1510 PRINT "GAS_VM:                                              ",  GAS_VM
+	1520 PRINT "PRESSURE:                                            ",  PRESSURE
+	1530 RETURN
+	1600 PRINT "***should never see this***"
 	end
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -523,7 +541,7 @@ LK_NAMED(name):                                        -9.9999e+02
 LK_PHASE(Calcite):                                     -8.4798e+00 
 LK_SPECIES(CaOH+):                                     -1.2780e+01 
 LM(H+):                                                -6.7098e+00 
-LTRIM(a$):                                            abc   def    
+LTRIM(a$):                                               abc   def    
 M:                                                      9.9999e-02 
 M0:                                                     1.1000e-01 
 MISC1(FeZnCO3):                                         2.1248e-02 
@@ -534,7 +552,7 @@ OSMOTIC:                                                         0
 PAD(a$, 20):                                             abc   def         
 Print 
 RHO:                                                    1.0384e+00 
-RTRIM(a$):                                               abc   def 
+RTRIM(a$):                                               abc   def    
 RXN:                                                    1.0000e-04 
 S_S(Siderite):                                          6.6876e-02 
 SC:                                                     8.1334e+04 
@@ -568,7 +586,7 @@ TIME:                                                     8.64e+07
 TK:                                                     2.9815e+02 
 TOT(H):                                                 1.1112e+02 
 TOTAL_TIME:                                               8.64e+07 
-TRIM(a$):                                             abc   def 
+TRIM(a$):                                                abc   def    
 8 MOD 3:                                                2.0000e+00 
 SQR(2):                                                          4 
 SQRT(2):                                                1.4142e+00 
@@ -586,6 +604,7 @@ Q= + CHR$(81):                                        Q=Q
 ASC(A):                                                         65 
 LEN( string ), LEN():                                            6            0 
 MID$( abc , 1, 2):                                    ab 
+INSTR( abcdef , cd ):                                            3 
 String cat 
 cats and dogs 
 While 
@@ -629,7 +648,22 @@ Gosub
 line 1
 line 2
  
-ceil, floor:             3            2           -2           -3 
+totmol( Ca ):                                           3.1504e-03 
+iso( [18O] ):                                                -1000 
+ceil, floor:                                                     3            2           -2           -3 
+phase_formula( Dolomite ):                             CaMg(CO3)2 
+           1 C            2 
+           2 Ca            1 
+           3 Mg            1 
+           4 O            6 
+Solid solution FeZnCO3 
+           1 Smithsonite   9.9177e-02 
+           2 Siderite   6.6876e-02 
+PR_P( CO2(g) ):                                                  0 
+PR_PHI:                                                          1 
+GAS_P:                                                  9.2095e-01 
+GAS_VM:                                                 2.6566e+01 
+PRESSURE:                                               9.2869e-01 
 Returned from gosub 
 
 -----------------------------------Gas phase-----------------------------------
