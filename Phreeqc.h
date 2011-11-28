@@ -1295,7 +1295,7 @@ public:
 	char *string_duplicate(const char *token);
 	char *string_hsave(const char *str);
 protected:
-	char *string_pad(char *str, int i);
+	char *string_pad(const char *str, int i);
 	int string_trim(char *str);
 	int string_trim_right(char *str);
 	int string_trim_left(char *str);
