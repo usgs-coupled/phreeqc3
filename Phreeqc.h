@@ -58,10 +58,86 @@ public:
 	Phreeqc(void);
 	~Phreeqc(void);
 
+	enum KEYWORDS
+	{
+		KEY_NONE,
+		KEY_END,
+		KEY_SOLUTION_SPECIES,
+		KEY_SOLUTION_MASTER_SPECIES,
+		KEY_SOLUTION,
+		KEY_PHASES,
+		KEY_REACTION,
+		KEY_MIX,
+		KEY_USE,
+		KEY_SAVE,
+		KEY_EXCHANGE_SPECIES,
+		KEY_EXCHANGE_MASTER_SPECIES,
+		KEY_EXCHANGE,
+		KEY_SURFACE_SPECIES,
+		KEY_SURFACE_MASTER_SPECIES,
+		KEY_SURFACE,
+		KEY_REACTION_TEMPERATURE,
+		KEY_INVERSE_MODELING,
+		KEY_GAS_PHASE,
+		KEY_TRANSPORT,
+		KEY_SELECTED_OUTPUT,
+		KEY_KNOBS,
+		KEY_PRINT,
+		KEY_EQUILIBRIUM_PHASES,
+		KEY_TITLE,
+		KEY_ADVECTION,
+		KEY_KINETICS,
+		KEY_INCREMENTAL_REACTIONS,
+		KEY_RATES,
+		KEY_USER_PRINT,
+		KEY_USER_PUNCH,
+		KEY_SOLID_SOLUTIONS,
+		KEY_SOLUTION_SPREAD,
+		KEY_USER_GRAPH,
+		KEY_LLNL_AQUEOUS_MODEL_PARAMETERS,
+		KEY_DATABASE,
+		KEY_NAMED_EXPRESSIONS,
+		KEY_ISOTOPES,
+		KEY_CALCULATE_VALUES,
+		KEY_ISOTOPE_RATIOS,
+		KEY_ISOTOPE_ALPHAS,
+		KEY_COPY,
+		KEY_PITZER,
+		KEY_SIT,
+		KEY_SOLUTION_RAW,
+		KEY_EXCHANGE_RAW,
+		KEY_SURFACE_RAW,
+		KEY_EQUILIBRIUM_PHASES_RAW,
+		KEY_KINETICS_RAW,
+		KEY_SOLID_SOLUTIONS_RAW,
+		KEY_GAS_PHASE_RAW,
+		KEY_REACTION_RAW,
+		KEY_MIX_RAW,
+		KEY_REACTION_TEMPERATURE_RAW,
+		KEY_DUMP,
+		KEY_SOLUTION_MODIFY,
+		KEY_EQUILIBRIUM_PHASES_MODIFY,
+		KEY_EXCHANGE_MODIFY,
+		KEY_SURFACE_MODIFY,
+		KEY_SOLID_SOLUTIONS_MODIFY,
+		KEY_GAS_PHASE_MODIFY,
+		KEY_KINETICS_MODIFY,
+		KEY_DELETE,
+		KEY_RUN_CELLS,
+		KEY_REACTION_MODIFY,
+		KEY_REACTION_TEMPERATURE_MODIFY,
+		KEY_SOLID_SOLUTION_MODIFY,
+		KEY_REACTION_PRESSURE,
+		KEY_REACTION_PRESSURE_RAW,
+		KEY_REACTION_PRESSURE_MODIFY,
+		KEY_COUNT_KEYWORDS // must be last in list
+	};
 public:
 	//
 	// Phreeqc class methods
 	//
+	static Phreeqc::KEYWORDS Keyword_search(std::string key);
+	static const std::string & Phreeqc::Keyword_name_search(Phreeqc::KEYWORDS key);
 
 	// advection.cpp -------------------------------
 	int advection(void);
@@ -1581,16 +1657,13 @@ protected:
 	int advection_warnings;
 
 	/*----------------------------------------------------------------------
-	*   Keywords
+	*   Tidy data
 	*---------------------------------------------------------------------- */
-	struct const_key *keyword;
-	int NKEYS;
-
-	struct key *keyword_hash;
 	int new_model, new_exchange, new_pp_assemblage, new_surface,
 		new_reaction, new_temperature, new_mix, new_solution, new_gas_phase,
 		new_inverse, new_punch, new_s_s_assemblage, new_kinetics, new_copy,
 		new_pitzer;
+
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
@@ -1747,7 +1820,7 @@ protected:
 
 	int input_error;
 
-	int next_keyword;
+	KEYWORDS next_keyword;
 	int parse_error;
 	int paren_count;
 	int iterations;
@@ -1808,7 +1881,6 @@ protected:
 	HashTable *elements_hash_table;
 	HashTable *species_hash_table;
 	HashTable *phases_hash_table;
-	HashTable *keyword_hash_table;
 	HashTable *logk_hash_table;
 	HashTable *master_isotope_hash_table;
 
@@ -2067,6 +2139,10 @@ public:
 
 	friend class PBasic;
 	friend class ChartObject;
+
+	std::vector<int> keycount;  // used to mark keywords that have been read 
+	static std::map<const std::string, KEYWORDS> phreeqc_keywords;
+	static std::map<Phreeqc::KEYWORDS, const std::string> phreeqc_keyword_names;
 
 #endif /* _INC_PHREEQC_H */
 
