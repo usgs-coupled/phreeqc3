@@ -28,6 +28,7 @@
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
+#include "Keywords.h"
 
 class cxxNameDouble;
 class cxxKinetics;
