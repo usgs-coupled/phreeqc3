@@ -1120,6 +1120,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("DIM");
 			break;
 
+		case tokerase:
+			output_msg("ERASE");
+			break;
+
 		case tokpoke:
 			output_msg("POKE");
 			break;
@@ -4845,6 +4849,33 @@ cmddim(struct LOC_exec *LINK)
 }
 
 void PBasic::
+cmderase(struct LOC_exec *LINK)
+{
+	varrec *v = NULL;
+	do
+	{
+		if (LINK->t == NULL || LINK->t->kind != tokvar)
+			snerr(": error in DIM command");
+
+		v = LINK->t->UU.vp;
+		LINK->t = LINK->t->next;
+		if (v->stringvar)
+		{
+			free_dim_stringvar(v);
+		}
+		else
+		{
+			PhreeqcPtr->free_check_null(v->UU.U0.arr);
+			v->UU.U0.arr = NULL;
+		}
+		v->numdims = 0;
+		if (!iseos(LINK)) require(tokcomma, LINK);
+	}
+	while (!iseos(LINK));
+}
+
+
+void PBasic::
 cmdpoke(struct LOC_exec *LINK)
 {
 	union
@@ -5062,6 +5093,10 @@ exec(void)
 
 					case tokdim:
 						cmddim(&V);
+						break;
+
+					case tokerase:
+						cmderase(&V);
 						break;
 
 					case tokpoke:
@@ -6263,6 +6298,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gotoxy",             PBasic::tokgotoxy),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("on",                 PBasic::tokon),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dim",                PBasic::tokdim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("erase",              PBasic::tokerase),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("poke",               PBasic::tokpoke),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("list",               PBasic::toklist),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("run",                PBasic::tokrun),

@@ -293,7 +293,8 @@ public:
 		tokpr_phi,
 		tokgas_p,
 		tokgas_vm,
-		tokpressure
+		tokpressure,
+		tokerase
 	};
 
 #if !defined(PHREEQCI_GUI)
@@ -411,6 +412,7 @@ public:
 	void cmdgotoxy(struct LOC_exec *LINK);
 	void cmdon(struct LOC_exec *LINK);
 	void cmddim(struct LOC_exec *LINK);
+	void cmderase(struct LOC_exec *LINK);
 	void cmdpoke(struct LOC_exec *LINK);
 	int basic_main(char *commands);
 	int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
