@@ -70,3 +70,29 @@ output_msg(const std::string & stdstr)
 		std::cout << stdstr << std::endl;
 	}
 }
+
+void PHRQ_base::
+screen_msg(const std::string & stdstr)
+{
+	if (this->io)
+	{
+		this->io->screen_msg(stdstr.c_str());
+	}
+	else
+	{
+		std::cerr << stdstr << std::endl;
+	}
+}
+
+void PHRQ_base::
+echo_msg(const std::string & stdstr)
+{
+	if (this->io)
+	{
+		this->io->echo_msg(stdstr.c_str());
+	}
+	else
+	{
+		std::cout << stdstr << std::endl;
+	}
+}

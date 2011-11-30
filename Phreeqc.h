@@ -37,6 +37,7 @@ class cxxExchange;
 class cxxExchComp;
 class cxxGasPhase;
 class cxxTemperature;
+class cxxPressure;
 class cxxPPassemblage;
 class cxxPPassemblageComp;
 class cxxReaction;
@@ -767,6 +768,7 @@ public:
 	int read_reaction_steps(struct irrev *irrev_ptr);
 	int read_solid_solutions(void);
 	int read_temperature(void);
+	int read_reaction_pressure(void);
 	int read_reaction_temps(struct temperature *temperature_ptr);
 	int read_save(void);
 	int read_selected_output(void);
@@ -1388,7 +1390,7 @@ protected:
 	Address Hash_multi(HashTable * Table, char *Key);
 	void ExpandTable_multi(HashTable * Table);
 public:
-	bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
+	//bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
 	size_t list_components(std::list<std::string> &list_c);
@@ -1424,6 +1426,12 @@ protected:
 
 	struct temperature *temperature;
 	int count_temperature;
+
+	/* ----------------------------------------------------------------------
+	*   Pressures
+	* ---------------------------------------------------------------------- */
+	std::map<int, cxxPressure *> Reaction_pressure_map;
+
 	/* ----------------------------------------------------------------------
 	*   Surface
 	* --------------------------------------------------------------------- */
