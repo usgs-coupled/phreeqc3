@@ -1,5 +1,8 @@
 #if !defined(PARSER_H_INCLUDED)
 #define PARSER_H_INCLUDED
+#if defined(WIN32)
+#include <windows.h>
+#endif
 
 #include <string>				// std::string
 #include <map>					// std::map
@@ -8,6 +11,8 @@
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
 #include "PHRQ_base.h"
+#include "Keywords.h"
+
 
 class CParser: public PHRQ_base
 {
@@ -43,25 +48,25 @@ class CParser: public PHRQ_base
 		FT_ERROR = 1
 	};
 
-	enum KEY_TYPE
-	{
-		KT_NONE = -1,
-		KT_END = 0,
-		KT_EOF = 1,
-		KT_SOLUTION_RAW = 5,
-		KT_EXCHANGE_RAW = 6,
-		KT_GASPHASE_RAW = 7,
-		KT_KINETICS_RAW = 8,
-		KT_PPASSEMBLAGE_RAW = 9,
-		KT_SSASSEMBLAGE_RAW = 10,
-		KT_SURFACE_RAW = 11,
-		KT_TEMPERATURE_RAW = 12,
-		KT_REACTION_RAW = 13,
-		KT_MIX_RAW = 14
-#if defined MULTICHART
-		, KT_USER_GRAPH = 15
-#endif
-	};
+//	enum KEY_TYPE
+//	{
+//		KT_NONE = -1,
+//		KT_END = 0,
+//		KT_EOF = 1,
+//		KT_SOLUTION_RAW = 5,
+//		KT_EXCHANGE_RAW = 6,
+//		KT_GASPHASE_RAW = 7,
+//		KT_KINETICS_RAW = 8,
+//		KT_PPASSEMBLAGE_RAW = 9,
+//		KT_SSASSEMBLAGE_RAW = 10,
+//		KT_SURFACE_RAW = 11,
+//		KT_TEMPERATURE_RAW = 12,
+//		KT_REACTION_RAW = 13,
+//		KT_MIX_RAW = 14
+//#if defined MULTICHART
+//		, KT_USER_GRAPH = 15
+//#endif
+//	};
 
 	enum OPT_TYPE
 	{
@@ -138,7 +143,8 @@ class CParser: public PHRQ_base
 							const std::string & default_units, bool print);
 
 
-	KEY_TYPE next_keyword() const
+	//KEY_TYPE next_keyword() const
+	Keywords::KEYWORDS next_keyword() const
 	{
 		return m_next_keyword;
 	}
@@ -291,7 +297,8 @@ class CParser: public PHRQ_base
 	std::ostream & m_output_stream;
 	std::ostream & m_error_stream;
 	int m_input_error;
-	KEY_TYPE m_next_keyword;
+	//KEY_TYPE m_next_keyword;
+	Keywords::KEYWORDS m_next_keyword;
 	std::string m_line;
 	std::string m_line_save;
 	std::istringstream m_line_iss;

@@ -12,8 +12,8 @@
 #include <iostream>				// std::cout std::cerr
 #include "Utils.h"
 #include <stdio.h>
-#include "Phreeqc.h"
 #include "Parser.h"
+#include "Phreeqc.h"
 #include "PHRQ_io.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ m_input_stream(input),
 m_output_stream(std::cout), 
 m_error_stream(std::cerr),
 m_input_error(0),
-m_next_keyword(KT_NONE)
+m_next_keyword(Keywords::KEY_NONE)
 {
 	m_line_save.reserve(80);
 	m_line.reserve(80);
@@ -42,7 +42,7 @@ m_input_stream(input),
 m_output_stream(output), 
 m_error_stream(std::cerr),
 m_input_error(0),
-m_next_keyword(KT_NONE)
+m_next_keyword(Keywords::KEY_NONE)
 {
 	m_line_save.reserve(80);
 	m_line.reserve(80);
@@ -58,7 +58,7 @@ m_input_stream(input),
 m_output_stream(output), 
 m_error_stream(error),
 m_input_error(0),
-m_next_keyword(KT_NONE)
+m_next_keyword(Keywords::KEY_NONE)
 {
 	m_line_save.reserve(80);
 	m_line.reserve(80);
@@ -127,7 +127,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				this->output_msg(msg.str());
+				this->echo_msg(msg.str());
 			}
 			break;
 		case EO_KEYWORDS:
@@ -135,7 +135,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				this->output_msg(msg.str());
+				this->echo_msg(msg.str());
 			}
 			break;
 
@@ -144,7 +144,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				this->output_msg(msg.str().c_str());
+				this->echo_msg(msg.str().c_str());
 			}
 			break;
 		}
@@ -197,7 +197,7 @@ CParser::LINE_TYPE CParser::get_line()
 				//{{MOD
 				m_line.erase(m_line.begin(), m_line.end());	// m_line.clear();
 				//}}MOD
-				m_next_keyword = KT_EOF;
+				m_next_keyword = Keywords::KEY_END;
 				return LT_EOF;
 			}
 		}
@@ -341,54 +341,59 @@ CParser::LINE_TYPE CParser::get_logical_line()
 bool
 CParser::check_key(std::string::iterator begin, std::string::iterator end)
 {
-	static std::map < std::string, KEY_TYPE > s_keyword_map;
-	if (s_keyword_map.size() == 0)
-	{
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("solution_raw",
-													KT_SOLUTION_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("exchange_raw",
-													KT_EXCHANGE_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("gas_phase_raw",
-													KT_GASPHASE_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("kinetics_raw",
-													KT_KINETICS_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("equilibrium_phases_raw",
-													KT_PPASSEMBLAGE_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("solid_solutions_raw",
-													KT_SSASSEMBLAGE_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("surface_raw",
-													KT_SURFACE_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("reaction_temperature_raw",
-													KT_TEMPERATURE_RAW));
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("reaction_raw",
-													KT_REACTION_RAW));
-#if defined MULTICHART
-		s_keyword_map.insert(std::map < std::string,
-							 KEY_TYPE >::value_type("user_graph",
-													KT_USER_GRAPH));
-#endif
-	}
+//	static std::map < std::string, KEY_TYPE > s_keyword_map;
+//	if (s_keyword_map.size() == 0)
+//	{
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("solution_raw",
+//													KT_SOLUTION_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("exchange_raw",
+//													KT_EXCHANGE_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("gas_phase_raw",
+//													KT_GASPHASE_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("kinetics_raw",
+//													KT_KINETICS_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("equilibrium_phases_raw",
+//													KT_PPASSEMBLAGE_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("solid_solutions_raw",
+//													KT_SSASSEMBLAGE_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("surface_raw",
+//													KT_SURFACE_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("reaction_temperature_raw",
+//													KT_TEMPERATURE_RAW));
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("reaction_raw",
+//													KT_REACTION_RAW));
+//#if defined MULTICHART
+//		s_keyword_map.insert(std::map < std::string,
+//							 KEY_TYPE >::value_type("user_graph",
+//													KT_USER_GRAPH));
+//#endif
+//	}
 
 	std::string lowercase;
 	copy_token(lowercase, begin, end);
 	std::transform(lowercase.begin(), lowercase.end(), lowercase.begin(),
 				   tolower);
 
-	m_next_keyword = KT_NONE;
-	std::map < std::string, KEY_TYPE >::iterator map_iter =
-		s_keyword_map.find(lowercase);
-	if (map_iter == s_keyword_map.end())
+	//m_next_keyword = Keywords::KEY_NONE;
+	//std::map < std::string, KEY_TYPE >::iterator map_iter =
+	//	s_keyword_map.find(lowercase);
+	//if (map_iter == s_keyword_map.end())
+	//	return false;
+	//m_next_keyword = (*map_iter).second;
+	m_next_keyword = Keywords::Keyword_search(lowercase);
+	if (m_next_keyword == Keywords::KEY_NONE)
+	{
 		return false;
-	m_next_keyword = (*map_iter).second;
+	}
 	return true;
 }
 
