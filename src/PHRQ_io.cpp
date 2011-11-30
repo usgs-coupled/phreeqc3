@@ -22,6 +22,9 @@ PHRQ_io(void)
 	punch_file_on = true;
 	error_file_on = true;
 	dump_file_on = true;
+	screen_on = true;
+	echo_on = true;
+	echo_destination = ECHO_OUTPUT;
 }
 
 PHRQ_io::
@@ -562,3 +565,31 @@ safe_close(FILE ** file_ptr)
 	}
 }
 
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+screen_msg(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	if (screen_on)
+	{
+		fprintf(stderr, "%s", str);
+	}
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+echo_msg(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	if (echo_on)
+	{
+		switch (this->echo_destination)
+		{
+		case ECHO_LOG:
+			log_msg(str);
+			break;
+		case ECHO_OUTPUT:
+			output_msg(str);
+			break;
+		}
+	}
+}
