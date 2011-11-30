@@ -90,6 +90,22 @@ public:
 	bool Get_error_file_on(void)     {return this->error_file_on;};
 	bool Get_dump_file_on(void)      {return this->dump_file_on;};
 
+	void screen_msg(const char * str);
+	void Set_screen_on(bool tf)   {this->screen_on = tf;};
+	bool Get_screen_on(void)      {return this->screen_on;};
+
+	enum ECHO_OPTION
+	{
+		ECHO_LOG,
+		ECHO_OUTPUT
+	};
+	void echo_msg(const char * str);
+	void Set_echo_on(bool tf)   {this->echo_on = tf;};
+	bool Get_echo_on(void)      {return this->echo_on;};
+	void Set_echo_destination(ECHO_OPTION eo)   {this->echo_destination = eo;};
+	ECHO_OPTION Get_echo_destination(void)      {return this->echo_destination;};
+
+
 	// data
 protected:
 	FILE *input_file;
@@ -106,6 +122,10 @@ protected:
 	bool punch_file_on;
 	bool error_file_on;
 	bool dump_file_on;
+	bool echo_on;
+	bool screen_on;
+	ECHO_OPTION echo_destination;
+
 };
 
 #endif /* _PHRQIO_H */
