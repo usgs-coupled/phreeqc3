@@ -377,34 +377,34 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss.precision(DBL_DIG - 1);
 
 	// Solutions
-	Utilities::dump_raw(Solutions, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(Solutions, s_oss, indent);
 
 	// Exchange
-	Utilities::dump_raw(Exchangers, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(Exchangers, s_oss, indent);
 
 	// Gas Phases
-	Utilities::dump_raw(GasPhases, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(GasPhases, s_oss, indent);
 
 	// Kinetics
-	Utilities::dump_raw(Kinetics, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(Kinetics, s_oss, indent);
 
 	// PPassemblage
-	Utilities::dump_raw(PPassemblages, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(PPassemblages, s_oss, indent);
 
 	// SSassemblage
-	Utilities::dump_raw(SSassemblages, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(SSassemblages, s_oss, indent);
 
 	// Surface
-	Utilities::dump_raw(Surfaces, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(Surfaces, s_oss, indent);
 
 	// Mix
-	Utilities::dump_raw(Mixes, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(Mixes, s_oss, indent);
 
 	// Reactions
-	Utilities::dump_raw(Reactions, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(Reactions, s_oss, indent);
 
 	// Temperature
-	Utilities::dump_raw(Temperatures, s_oss, indent);
+	Utilities::Reactant_dump_map_raw(Temperatures, s_oss, indent);
 }
 
 void
