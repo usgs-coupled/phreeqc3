@@ -352,3 +352,58 @@ cxxPressure::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 	return;
 }
 #endif
+/* ---------------------------------------------------------------------- */
+LDBLE cxxPressure::
+Pressure_for_step(int step_number)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Determine pressure of reaction step
+ */
+	LDBLE p_temp;
+	if (this->pressures.size() == 0) 
+	{
+		p_temp = 1;
+	}
+	else if (this->equalIncrements)
+	{
+		if (this->pressures.size() != 2)
+		{
+			error_msg("Number of pressures not equal to 2 for equal increments.", 0);
+		}
+		if (step_number > this->count)
+		{
+			p_temp = this->pressures[1];
+		}
+		else
+		{
+			LDBLE denom;
+			denom = (this->count <= 1) ? 1 : (LDBLE) (this->count - 1);
+			p_temp =  this->pressures[0] + ( this->pressures[1] - this->pressures[0]) *
+				((LDBLE) (step_number - 1)) / (denom);
+		}
+	}
+	else 
+	{
+		if (step_number > (int) this->pressures.size())
+		{
+			p_temp = this->pressures[this->pressures.size() - 1];
+		}
+		else
+		{
+			p_temp = this->pressures[step_number - 1];
+		}
+
+	}
+
+	return (p_temp);
+}
+int cxxPressure::
+Get_count(void) const
+{
+	if (equalIncrements) 
+	{
+		return this->count;
+	}
+	return (int) this->pressures.size();
+}

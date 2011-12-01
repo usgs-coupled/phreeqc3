@@ -22,6 +22,7 @@ class cxxSSassemblage;
 class cxxSurface;
 class cxxReaction;
 class cxxTemperature;
+class cxxPressure;
 class cxxMix;
 
 class cxxSystem: public PHRQ_base 
@@ -70,6 +71,10 @@ public:
 	{
 		this->temperature = entity;
 	} 
+	void Set_Pressure(cxxPressure * entity)
+	{
+		this->pressure = entity;
+	} 
 	void totalize(PHREEQC_PTR_ARG);
 	cxxNameDouble &Get_Totals(void)
 	{
@@ -87,6 +92,7 @@ protected:
 	cxxMix * mix;
 	cxxReaction * reaction;
 	cxxTemperature * temperature;
+	cxxPressure * pressure;
 	cxxNameDouble totals;
 };
 

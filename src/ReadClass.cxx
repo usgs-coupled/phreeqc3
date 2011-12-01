@@ -2281,6 +2281,14 @@ run_as_cells(void)
 			if (abs(use.temperature_ptr->count_t) > count_steps)
 				count_steps = abs(use.temperature_ptr->count_t);
 		}
+		if (use.pressure_in == TRUE && use.pressure_ptr != NULL)
+		{
+			int count = ((cxxPressure *) use.pressure_ptr)->Get_count();
+			if (count > count_steps)
+			{
+				count_steps = count;
+			}
+		}
 		count_total_steps = count_steps;
 		/*
 		*  save data for saving solutions
