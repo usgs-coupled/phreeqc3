@@ -51,7 +51,8 @@ namespace Utilities
 	//	return (b.find(i) != b.end());
 	//}
 
-	template < typename T > T * Reactant_find(std::map < int, T > &b, int i)
+	template < typename T >
+	T * Reactant_find(std::map < int, T > &b, int i)
 	{
 		if (b.find(i) != b.end())
 		{
@@ -63,9 +64,10 @@ namespace Utilities
 		}
 	}
 
-	template < typename T > T * Reactant_copy(std::map < int, T > &b, int i, int j)
+	template < typename T >
+	T * Reactant_copy(std::map < int, T > &b, int i, int j)
 	{
-		std::map < int, T >::iterator it;
+		typename std::map < int, T >::iterator it;
 		it = b.find(i);
 		if (it != b.end())
 		{
@@ -82,7 +84,7 @@ namespace Utilities
 	}
 
 	/*
-	   template<class T> 
+	   template<class T>
 	   bool exists (std::map<int, T> b, int i){
 	   return (b.find(i) != b.end());}
 	 */
