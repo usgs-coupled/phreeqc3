@@ -25,7 +25,7 @@ public:
 	void output_close(void);
 	void output_rewind(void);
 	bool output_isopen(void);
-	void output_msg(const char * str);
+	virtual void output_msg(const char * str);
 
 	// log_file
 	bool log_open(const char *file_name);
@@ -36,12 +36,12 @@ public:
 	void log_msg(const char * str);
 
 	// punch_file
-	bool punch_open(const char *file_name);
+	virtual bool punch_open(const char *file_name);
 	void punch_fflush(void);
 	void punch_close(void);
 	void punch_rewind(void);
 	bool punch_isopen(void);
-	void punch_msg(const char * str);
+	virtual void punch_msg(const char * str);
 
 	// error_file
 	bool error_open(const char *file_name);
@@ -49,7 +49,7 @@ public:
 	void error_close(void);
 	void error_rewind(void);
 	bool error_isopen(void);
-	void error_msg(const char * str, bool stop=false);
+	virtual void error_msg(const char * str, bool stop=false);
 	void warning_msg(const char *err_str);
 
 	// dump_file
@@ -60,10 +60,10 @@ public:
 	bool dump_isopen(void);
 	void dump_msg(const char * str);
 
-	
-	void fpunchf(const char *name, const char *format, double d);
-	void fpunchf(const char *name, const char *format, char * d);
-	void fpunchf(const char *name, const char *format, int d);
+	virtual void fpunchf(const char *name, const char *format, double d);
+	virtual void fpunchf(const char *name, const char *format, char * d);
+	virtual void fpunchf(const char *name, const char *format, int d);
+	virtual void fpunchf_end_row(const char *format);
 
 	void Set_io_error_count(int i)  {this->io_error_count = i;};
 	int Get_io_error_count(void)    {return this->io_error_count;};
@@ -90,7 +90,7 @@ public:
 	bool Get_error_file_on(void)     {return this->error_file_on;};
 	bool Get_dump_file_on(void)      {return this->dump_file_on;};
 
-	void screen_msg(const char * str);
+	virtual void screen_msg(const char * str);
 	void Set_screen_on(bool tf)   {this->screen_on = tf;};
 	bool Get_screen_on(void)      {return this->screen_on;};
 
@@ -99,7 +99,7 @@ public:
 		ECHO_LOG,
 		ECHO_OUTPUT
 	};
-	void echo_msg(const char * str);
+	virtual void echo_msg(const char * str);
 	void Set_echo_on(bool tf)   {this->echo_on = tf;};
 	bool Get_echo_on(void)      {return this->echo_on;};
 	void Set_echo_destination(ECHO_OPTION eo)   {this->echo_destination = eo;};
