@@ -14,14 +14,13 @@ class cxxPressure:public cxxNumKeyword
 
   public:
 	cxxPressure(PHRQ_io *io=NULL);
-	cxxPressure(struct temperature *, PHRQ_io *io=NULL);
 	~cxxPressure();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
-	void read(CParser & parser);
+	int read(CParser & parser);
 	void read_raw(CParser & parser);
 
 	std::vector<double> & Get_pressures(void) {return pressures;};

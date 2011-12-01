@@ -162,6 +162,10 @@ class CParser: public PHRQ_base
 	{
 		return m_line;
 	}
+	std::string & line_save()
+	{
+		return m_line_save;
+	}
 	std::string & get_accumulated()
 	{
 		return accumulated;
