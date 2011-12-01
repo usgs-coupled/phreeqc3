@@ -642,7 +642,7 @@ public:
 	//int read_delta_v_only(char *ptr, LDBLE * delta_v);
 	int read_number_description(char *ptr, int *n_user, int *n_user_end,
 		char **description, int allow_negative=FALSE);
-	int check_key(char *str);
+	int check_key(const char *str);
 	int check_units(char *tot_units, int alkalinity, int check_compatibility,
 		const char *default_units, int print);
 	int find_option(char *item, int *n, const char **list, int count_list,
