@@ -29,6 +29,7 @@ PHRQ_base(io)
 	this->mix = NULL;
 	this->reaction = NULL;
 	this->temperature = NULL;
+	this->pressure = NULL;
 } 
 cxxSystem::~cxxSystem(void) 
 {
@@ -46,6 +47,7 @@ cxxSystem::Initialize(void)
 	this->mix = NULL;
 	this->reaction = NULL;
 	this->temperature = NULL;
+	this->pressure = NULL;
 } 
 void
 cxxSystem::totalize(PHREEQC_PTR_ARG) 

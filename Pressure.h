@@ -22,9 +22,9 @@ class cxxPressure:public cxxNumKeyword
 
 	int read(CParser & parser);
 	void read_raw(CParser & parser);
-
+	LDBLE Pressure_for_step(int step_number);
 	std::vector<double> & Get_pressures(void) {return pressures;};
-	int Get_count(void) const {return count;};
+	int Get_count(void) const;
 	void Set_count(int i) {count = i;};
 	bool Get_equalIncrements(void) const {return equalIncrements;};
 	void Set_equalIncrements(bool tf) {equalIncrements = tf;};
