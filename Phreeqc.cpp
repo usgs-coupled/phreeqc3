@@ -13,9 +13,18 @@
 #include "phqalloc.h"
 #include "PBasic.h"
 
-Phreeqc::Phreeqc(void)
+Phreeqc::Phreeqc(PHRQ_io *io)
 {
-	phrq_io = new PHRQ_io;
+	if (io)
+	{
+		delete_phrq_io = false;
+		phrq_io = io;
+	}
+	else
+	{
+		delete_phrq_io = true;
+		phrq_io = new PHRQ_io;
+	}
 
 	phast = FALSE;
 	s_pTail = NULL;
@@ -149,7 +158,10 @@ Phreeqc::~Phreeqc(void)
 	free_check_null(sformatf_buffer);
 
 	PHRQ_free_all();
-	delete phrq_io;
+	if (this->phrq_io && this->delete_phrq_io)
+	{
+		delete this->phrq_io;
+	}
 }
 
 void Phreeqc::set_phast(int tf)
@@ -872,3 +884,12 @@ void Phreeqc::init(void)
 	return;
 }
 
+void Phreeqc::set_io(PHRQ_io *io, bool auto_delete)
+{
+	if (this->phrq_io && this->delete_phrq_io)
+	{
+		delete this->phrq_io;
+	}
+	this->delete_phrq_io = auto_delete;
+	this->phrq_io = io;
+}

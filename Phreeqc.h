@@ -57,7 +57,7 @@ class PBasic;
 class Phreeqc
 {
 public:
-	Phreeqc(void);
+	Phreeqc(PHRQ_io *io = NULL);
 	~Phreeqc(void);
 
 public:
@@ -1318,10 +1318,11 @@ public:
 	//bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
+	void set_io(PHRQ_io *io, bool auto_delete = false);
 	size_t list_components(std::list<std::string> &list_c);
 	std::istream *get_istream();
 	void pop_istream();
-	void push_istream(std::istream * cookie);
+	void push_istream(std::istream * cookie, bool auto_delete = true);
 	void clear_istream(void);
 protected:
 	void init(void);
@@ -1331,10 +1332,10 @@ protected:
 	//
 protected:
 	std::list <std::istream *> istream_list;
-	std::ifstream * in_stream;
-	std::ifstream * db_stream;
+	std::list <bool> delete_istream_list;
 
 	PHRQ_io *phrq_io;
+	bool delete_phrq_io;
 
 	/* ----------------------------------------------------------------------
 	*   STRUCTURES
@@ -2072,6 +2073,9 @@ public:
 
 	friend class PBasic;
 	friend class ChartObject;
+	friend class IPhreeqc;
+	friend class TestIPhreeqc;
+	friend class TestSelectedOutput;
 
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
