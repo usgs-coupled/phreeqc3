@@ -35,8 +35,8 @@ namespace Utilities
 	//void error_msg(const std::string&, const int stopflag);
 
 	// operations on maps of entities (Solution, Exchange, ...)
-	  template < typename T >
-		void dump_raw(const T & b, std::ostream & s_oss, unsigned int indent)
+	template < typename T >
+	void Reactant_dump_map_raw(const T & b, std::ostream & s_oss, unsigned int indent)
 	{
 		//std :: map < int, T > :: const_iterator it;
 		typename T::const_iterator it;
@@ -46,12 +46,12 @@ namespace Utilities
 		}
 		return;
 	}
-	template < typename T > bool exists(const T & b, int i)
-	{
-		return (b.find(i) != b.end());
-	}
+	//template < typename T > bool exists(const T & b, int i)
+	//{
+	//	return (b.find(i) != b.end());
+	//}
 
-	template < typename T > T * get_entity(std::map < int, T > b, int i)
+	template < typename T > T * Reactant_find(std::map < int, T > &b, int i)
 	{
 		if (b.find(i) != b.end())
 		{
@@ -63,6 +63,23 @@ namespace Utilities
 		}
 	}
 
+	template < typename T > T * Reactant_copy(std::map < int, T > &b, int i, int j)
+	{
+		std::map < int, T >::iterator it;
+		it = b.find(i);
+		if (it != b.end())
+		{
+			b[j] = it->second;
+			it = b.find(j);
+			it->second.Set_n_user(j);
+			it->second.Set_n_user_end(j);
+			return &(it->second);
+		}
+		else
+		{
+			return (NULL);
+		}
+	}
 
 	/*
 	   template<class T> 

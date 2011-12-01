@@ -29,6 +29,7 @@
 #include "ChartHandler.h"
 #endif
 #include "Keywords.h"
+#include "Pressure.h"
 
 class cxxNameDouble;
 class cxxKinetics;
@@ -38,7 +39,6 @@ class cxxExchange;
 class cxxExchComp;
 class cxxGasPhase;
 class cxxTemperature;
-class cxxPressure;
 class cxxPPassemblage;
 class cxxPPassemblageComp;
 class cxxReaction;
@@ -693,8 +693,9 @@ public:
 	int read_reaction_steps(struct irrev *irrev_ptr);
 	int read_solid_solutions(void);
 	int read_temperature(void);
-	int read_reaction_pressure(void);
 	int read_reaction_temps(struct temperature *temperature_ptr);
+	int read_reaction_pressure(void);
+	int read_reaction_pressure_raw(void);
 	int read_save(void);
 	int read_selected_output(void);
 	int read_solution(void);
@@ -1356,7 +1357,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   Pressures
 	* ---------------------------------------------------------------------- */
-	std::map<int, cxxPressure *> Reaction_pressure_map;
+	std::map<int, cxxPressure> Reaction_pressure_map;
 
 	/* ----------------------------------------------------------------------
 	*   Surface

@@ -46,8 +46,8 @@ cxxPressure::read(CParser & parser)
  *	 ERROR   if error occurred reading data
  *
  */
-	// number and description
-	this->read_number_description(parser);
+	// Number and description set in read_reaction_pressure
+
 	CParser::LINE_TYPE lt;
 	bool done = false;
 	for (;;)
@@ -56,7 +56,7 @@ cxxPressure::read(CParser & parser)
 		//LINE_TYPE check_line(const std::string & str, bool allow_empty,
 		//				 bool allow_eof, bool allow_keyword, bool print);
 		std::istream::pos_type ptr;
-		std::istream::pos_type next_char;
+		std::istream::pos_type next_char = 0;
 		std::string token, str;
 		lt = parser.check_line(str, false, true, true, true);
 
@@ -197,6 +197,8 @@ cxxPressure::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 void
 cxxPressure::read_raw(CParser & parser)
 {
+	// clear steps for modify operation, if pressures are read
+	bool cleared_once = false;
 	double d;
 	CParser::TOKEN_TYPE k;
 	static std::vector < std::string > vopts;
@@ -209,13 +211,12 @@ cxxPressure::read_raw(CParser & parser)
 	}
 
 	std::istream::pos_type ptr;
-	std::istream::pos_type next_char;
+	std::istream::pos_type next_char = 0;
 	std::string token;
 	int opt_save;
 	bool useLastLine(false);
 
-	// Read reaction_pressure number and description
-	this->read_number_description(parser);
+	// Number and description set in read_reaction_pressure_raw
 
 	opt_save = CParser::OPT_ERROR;
 	bool equalIncrements_defined(false);
@@ -252,8 +253,12 @@ cxxPressure::read_raw(CParser & parser)
 			break;
 
 		case 0:				// pressures
-			while ((k =
-					parser.copy_token(token, next_char)) == CParser::TT_DIGIT)
+			if (!cleared_once) 
+			{
+				this->pressures.clear();
+				cleared_once = true;
+			}
+			while ((k =	parser.copy_token(token, next_char)) == CParser::TT_DIGIT)
 			{
 				std::istringstream iss(token);
 				if (!(iss >> d))

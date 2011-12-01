@@ -153,6 +153,9 @@ cxxTemperature::read_raw(CParser & parser)
 {
 	double d;
 	CParser::TOKEN_TYPE k;
+	// clear steps for modify operation, if pressures are read
+	bool cleared_once = false;
+
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
 	{
@@ -206,6 +209,11 @@ cxxTemperature::read_raw(CParser & parser)
 			break;
 
 		case 0:				// temps
+			if (!cleared_once) 
+			{
+				this->temps.clear();
+				cleared_once = true;
+			}
 			while ((k =
 					parser.copy_token(token, next_char)) == CParser::TT_DIGIT)
 			{
