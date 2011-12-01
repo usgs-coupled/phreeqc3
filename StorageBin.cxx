@@ -268,6 +268,7 @@ cxxStorageBin::Get_Temperature(int n_user)
 	}
 	return (NULL);
 }
+
 void 
 cxxStorageBin::Set_Temperature(int n_user, cxxTemperature * entity)
 {
@@ -275,10 +276,31 @@ cxxStorageBin::Set_Temperature(int n_user, cxxTemperature * entity)
 		return;
 	Temperatures[n_user] = *entity;
 }
+
 void 
 cxxStorageBin::Remove_Temperature(int n_user)
 {
 	Temperatures.erase(n_user);
+}
+
+cxxPressure *
+cxxStorageBin::Get_Pressure(int n_user)
+{
+	return Utilities::Reactant_find(this->Pressures, n_user);
+}
+
+void
+cxxStorageBin::Set_Pressure(int n_user, cxxPressure * entity)
+{
+	if (entity == NULL)
+		return;
+	Pressures[n_user] = *entity;
+}
+void 
+
+cxxStorageBin::Remove_Pressure(int n_user)
+{
+	Pressures.erase(n_user);
 }
 
 const std::map < int, cxxSolution > &
@@ -331,7 +353,11 @@ cxxStorageBin::Get_Temperatures() const
 {
 	return this->Temperatures;
 }
-
+const std::map < int, cxxPressure > &
+cxxStorageBin::Get_Pressures() const
+{
+	return this->Pressures;
+}
 #ifdef SKIP
 void
 cxxStorageBin::dump_xml(std::ostream & s_oss, unsigned int indent) const const
@@ -827,6 +853,9 @@ cxxStorageBin::Remove(int n)
 
 	// Temperature
 	this->Temperatures.erase(n);
+
+	// Pressure
+	this->Pressures.erase(n);
 }
 void
 cxxStorageBin::Clear(void) 
@@ -861,6 +890,9 @@ cxxStorageBin::Clear(void)
 
 	// Temperature
 	this->Temperatures.clear();
+
+	// Pressure
+	this->Pressures.clear();
 
 }
 #ifdef SKIP
@@ -1490,6 +1522,15 @@ cxxStorageBin::Set_System(struct Use *use_ptr)
 			this->system.Set_Temperature(&(it->second));
 		}
 	}
+	// reaction pressure
+	if (use_ptr->pressure_ptr != NULL)
+	{
+		cxxPressure * p = Utilities::Reactant_find(this->Pressures, use_ptr->n_pressure_user);
+		if (p != NULL)
+		{
+			this->system.Set_Pressure(p);
+		}
+	}
 }
 void
 cxxStorageBin::Set_System(int i)
@@ -1577,5 +1618,10 @@ cxxStorageBin::Set_System(int i)
 		{
 			this->system.Set_Temperature(&(it->second));
 		}
+	}
+
+	// reaction pressure
+	{
+		this->system.Set_Pressure(Utilities::Reactant_find(this->Pressures, i));
 	}
 }

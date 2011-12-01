@@ -72,6 +72,10 @@ class cxxStorageBin: public PHRQ_base
 	void Set_Temperature(int n_user, cxxTemperature * entity);
 	void Remove_Temperature(int n_user);
 
+	cxxPressure *Get_Pressure(int n_user);
+	void Set_Pressure(int n_user, cxxPressure * entity);
+	void Remove_Pressure(int n_user);
+
 	cxxSystem &Get_System(void);
 	void Set_System(struct Use *use_ptr);
 	void Set_System(int i);
@@ -98,6 +102,7 @@ class cxxStorageBin: public PHRQ_base
 	const std::map < int, cxxMix > &Get_Mixes() const;
 	const std::map < int, cxxReaction > &Get_Reactions() const;
 	const std::map < int, cxxTemperature > &Get_Temperatures() const;
+	const std::map < int, cxxPressure > &Get_Pressures() const;
 
 	cxxSystem & Get_system(void) {return system;};
 #ifdef USE_MPI
@@ -122,6 +127,7 @@ class cxxStorageBin: public PHRQ_base
 	std::map < int, cxxMix > Mixes;
 	std::map < int, cxxReaction > Reactions;
 	std::map < int, cxxTemperature > Temperatures;
+	std::map < int, cxxPressure > Pressures;
 	cxxSystem system;
 
 };
