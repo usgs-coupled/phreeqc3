@@ -237,6 +237,29 @@ USER_PRINT
 1500 PRINT "GAS_P:                                               ",  GAS_P
 1510 PRINT "GAS_VM:                                              ",  GAS_VM
 1520 PRINT "PRESSURE:                                            ",  PRESSURE
-1530 RETURN
-1600 PRINT "***should never see this***"
+1525 ae = 2
+1530 DIM ae(4), be(4)
+1540 for i = 1 to 3
+1550 ae(i) = i
+1560 be(i) = -i
+1570 next i
+1575 PRINT "Testing ERASE ae, be"
+1580 ERASE ae, be
+1582 PRINT "1. ae, be: ", ae, be
+1585 ae = 3
+1586 be = ae + 1
+1587 PRINT "2. ae, be: ", ae, be
+1590 DIM ae(3), be(3)
+1600 for i = 1 to 3
+1610 ae(i) = -i
+1620 be(i) = i
+1630 next i
+1640 for i = 1 to 3
+1650 print ae(i), be(i)
+1660 next i
+1670 a$ = "   abc    "
+1680 print TRIM(a$)
+
+2000 RETURN
+2010 PRINT "***should never see this***"
 -end
