@@ -714,6 +714,7 @@ public:
 	int read_user_graph_handler();
 #endif
 	int next_keyword_or_option(const char **opt_list, int count_opt_list);
+	int cleanup_after_parser(CParser &parser);
 
 	// ReadClass.cxx
 
