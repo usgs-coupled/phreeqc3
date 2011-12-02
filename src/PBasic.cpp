@@ -2371,7 +2371,7 @@ factor(struct LOC_exec * LINK)
 		require(tokrp, LINK);
 		//PhreeqcPtr->string_trim(string1);
 		//n.UU.sval = PhreeqcPtr->string_duplicate(string1);
-		trim(STR1);
+		STR1 = trim(STR1);
 		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
 		break;
 
@@ -4859,16 +4859,7 @@ cmderase(struct LOC_exec *LINK)
 
 		v = LINK->t->UU.vp;
 		LINK->t = LINK->t->next;
-		if (v->stringvar)
-		{
-			free_dim_stringvar(v);
-		}
-		else
-		{
-			PhreeqcPtr->free_check_null(v->UU.U0.arr);
-			v->UU.U0.arr = NULL;
-		}
-		v->numdims = 0;
+		clearvar(v);
 		if (!iseos(LINK)) require(tokcomma, LINK);
 	}
 	while (!iseos(LINK));
