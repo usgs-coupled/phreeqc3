@@ -4,16 +4,18 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 INPUT=../examples
 PHREEQCDAT=../database/phreeqc.dat
 WATEQ4FDAT=../database/wateq4f.dat
+PITZERDAT=../database/pitzer.dat
 
 PHREEQC=../src/Class_release/phreeqcpp
 
 ifeq ($(CFG), CYGWIN)
-   PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/ErrorHandling/Class_release/phreeqcpp.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/ErrorHandling/ClrClass_release/phreeqcpp.exe
 endif
 
 all: ex1.out ex2.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
-	ex10.out ex11.out ex12.out ex12a.out ex13a.out ex13b.out ex13c.out ex14.out \
-	ex15.out ex16.out ex17.out ex18.out 
+	ex10.out ex11.out ex12.out ex12a.out ex13a.out ex13b.out ex13c.out ex13ac.out \
+	ex14.out ex15.out ex16.out ex17.out ex17b.out ex18.out \
+	ex19.out ex19b.out ex20a.out ex20b.out ex21_radial.out
 
 ex1.out: $(INPUT)/ex1 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex1 ex1.out $(PHREEQCDAT)
@@ -78,9 +80,13 @@ ex13b.out: $(INPUT)/ex13b $(PHREEQC) $(PHREEQCDAT)
 ex13c.out: $(INPUT)/ex13c $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex13c ex13c.out $(PHREEQCDAT)
 	mv phreeqc.log ex13c.log
+	
+ex13ac.out: $(INPUT)/ex13ac $(PHREEQC) $(PHREEQCDAT)
+	$(PHREEQC) $(INPUT)/ex13ac ex13ac.out $(PHREEQCDAT)
+	mv phreeqc.log ex13ac.log	
 
-ex14.out: $(INPUT)/ex14 $(PHREEQC) $(PHREEQCDAT)
-	$(PHREEQC) $(INPUT)/ex14 ex14.out $(WATEQ4FDAT)
+ex14.out: $(INPUT)/ex14 $(PHREEQC) $(WATEQ4FDAT)
+	$(PHREEQC) $(INPUT)/ex14 ex14.out 
 	mv phreeqc.log ex14.log
 
 ex15.out: $(INPUT)/ex15 $(PHREEQC) $(INPUT)/ex15.dat
@@ -91,14 +97,38 @@ ex16.out: $(INPUT)/ex16 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex16 ex16.out $(PHREEQCDAT)
 	mv phreeqc.log ex16.log
 
-ex17.out: $(INPUT)/ex17 $(PHREEQC) $(PHREEQCDAT)
-	$(PHREEQC) $(INPUT)/ex17 ex17.out $(PHREEQCDAT)
+ex17.out: $(INPUT)/ex17 $(PHREEQC) 
+	$(PHREEQC) $(INPUT)/ex17 ex17.out 
 	mv phreeqc.log ex17.log
+	
+ex17b.out: $(INPUT)/ex17b $(PHREEQC) 
+	$(PHREEQC) $(INPUT)/ex17b ex17b.out 
+	mv phreeqc.log ex17b.log	
 
 ex18.out: $(INPUT)/ex18 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex18 ex18.out $(PHREEQCDAT)
 	mv phreeqc.log ex18.log
+	
+ex19.out: $(INPUT)/ex19 $(PHREEQC) $(PHREEQCDAT)
+	$(PHREEQC) $(INPUT)/ex19 ex19.out $(PHREEQCDAT)
+	mv phreeqc.log ex19.log	
+	
+ex19b.out: $(INPUT)/ex19b $(PHREEQC) $(PHREEQCDAT)
+	$(PHREEQC) $(INPUT)/ex19b ex19b.out $(PHREEQCDAT)
+	mv phreeqc.log ex19b.log	
+	
+ex20a.out: $(INPUT)/ex20a $(PHREEQC) ../database/iso.dat
+	$(PHREEQC) $(INPUT)/ex20a ex20a.out 
+	mv phreeqc.log ex20a.log
+	
+ex20b.out: $(INPUT)/ex20b $(PHREEQC) ../database/iso.dat
+	$(PHREEQC) $(INPUT)/ex20b ex20b.out 
+	mv phreeqc.log ex20b.log
 
+ex21_radial.out: $(INPUT)/ex21_radial $(PHREEQC) $(PHREEQCDAT)
+	$(PHREEQC) $(INPUT)/ex21_radial ex21_radial.out $(PHREEQCDAT)
+	mv phreeqc.log ex21_radial.log
+	
 diff:
 	svn diff --diff-cmd diff -x -bw	
 
@@ -110,15 +140,6 @@ clean:
 
 revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert
-
-zero:
-	for FILE in *.out *.sel; \
-		do \
-			if [ $$FILE != make.out ]; then \
-				echo $$FILE; \
-				./zero.sed $$FILE; \
-			fi \
-		done; 
 
 diff_phreeqc:
 	for FILE in ex*.out ex*.sel; \

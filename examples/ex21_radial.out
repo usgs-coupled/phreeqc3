@@ -1,0 +1,969 @@
+   Input file: ../examples/ex21_radial
+  Output file: ex21_radial.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 2010, GCA 74, 1201
+	SOLUTION_MASTER_SPECIES
+	  Hto       Hto       0.0   20        20
+	  Na_tr     Na_tr+    0.0   22        22
+	  Cl_tr     Cl_tr-    0.0   36        36
+	  Cs        Cs+       0.0  132.905   132.905
+	SOLUTION_SPECIES
+	  Hto = Hto
+	        log_k 0
+	 gamma 1e6 0
+	     dw 2.236e-9
+	  Na_tr+ = Na_tr+
+	  log_k 0
+	 gamma 4.0 0.075
+	 dw 1.33e-9
+	 erm_ddl 1.23
+	  Cl_tr- = Cl_tr-
+	  log_k 0
+	 gamma 3.5 0.015
+	 dw 1.31e-9 # dw = dw(water) / 1.55 = 2.03e-9 / 1.55
+	  Cs+ = Cs+
+	        log_k 0
+	 gamma 3.5 0.015
+	 dw 2.07e-9
+	 erm_ddl 1.23
+	SURFACE_MASTER_SPECIES
+	  Su_fes Su_fes-   # Frayed Edge Sites
+	  Su_ii Su_ii-     # Type II sites of intermediate strength
+	  Su_ Su_-         # Double layer, planar sites are modeled with EXCHANGE
+	SURFACE_SPECIES
+	  Su_fes- = Su_fes-
+	 log_k 0
+	  Na+ + Su_fes- = NaSu_fes
+	 log_k 10
+	  Na_tr+ + Su_fes- = Na_trSu_fes
+	 log_k 10
+	  K+ + Su_fes- = KSu_fes
+	 log_k 12.4
+	  Cs+ + Su_fes- = CsSu_fes
+	 log_k 17.14
+	  Su_ii- = Su_ii-
+	 log_k 0
+	  Na+ + Su_ii- = NaSu_ii
+	 log_k 10
+	  Na_tr+ + Su_ii- = Na_trSu_ii
+	 log_k 10
+	  K+ + Su_ii- = KSu_ii
+	 log_k 12.1
+	  Cs+ + Su_ii- = CsSu_ii
+	 log_k 14.6
+	  Su_- = Su_-
+	 log_k 0
+	EXCHANGE_SPECIES
+	  Na_tr+ + X- = Na_trX
+	 log_k 0.0
+	  gamma 4.0 0.075 
+	  Cs+ + X- = CsX
+	       log_k 2.04
+	 gamma 3.5 0.015
+	SOLUTION 0-2 column with only cell 1, two boundary solutions 0 and 2.
+	  Na 1
+	 Cl 1
+	END
+-----
+TITLE
+-----
+
+ Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 2010, GCA 74, 1201
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	column with only cell 1, two boundary solutions 0 and 2.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 123
+                          Density (g/cm3)  =   0.99709
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.658e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.658e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.038e-007  1.001e-007    -6.984    -7.000    -0.016
+   H+                    1.034e-007  1.000e-007    -6.985    -7.000    -0.015
+   H2O                   5.551e+001  1.000e+000     1.744    -0.000     0.000
+Cl              1.000e-003
+   Cl-                   1.000e-003  9.649e-004    -3.000    -3.016    -0.016
+H(0)            1.416e-025
+   H2                    7.078e-026  7.079e-026   -25.150   -25.150     0.000
+Na              1.000e-003
+   Na+                   1.000e-003  9.652e-004    -3.000    -3.015    -0.015
+   NaOH                  6.375e-011  6.377e-011   -10.196   -10.195     0.000
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.00    -25.15   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -7.61     -6.03    1.58  NaCl
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	KNOBS
+	 iterations 2000
+	 pe_step_size 5
+	 step_size 10
+	 diagonal_scale true
+	 convergence_tolerance 1e-7
+	SOLUTION 3 tracer solution
+	  pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	  Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	  Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476
+	  Hto 1.14e-3
+	   water 0.2 # 1.14e-6 mM in the xpt
+	SELECTED_OUTPUT
+	  file radial
+	 reset false
+	USER_PUNCH
+	1    nl$ = EOL$                # newline
+	2    x$  = CHR$(35)            # cross '#'
+	3    sc$ = CHR$(59)            # semicolon ';'
+	4    pi  = 2 * ARCTAN(1e10)    # 3.14159...
+	10   height = 0.052           # length of the clay cylinder / m
+	20   r_int = 6.58e-3          # inner radius of clay cylinder / m
+	30   r_ext = 25.4e-3          # outer radius
+	40   thickn_filter1 = 1.8e-3  # tracer-in filter thickness / m
+	50   thickn_filter2 = 1.6e-3  # tracer-out filter thickness / m
+	60   por_filter1 = 0.418      # porosity
+	70   por_filter2 = 0.367
+	80   G_filter1 = 4.18         # geometrical factor. (for filters, por / G = 10)
+	90   G_filter2 = 3.67
+	100  V_end = 0.2              # volume of the tracer-out solution / L
+	110  thickn_clay = r_ext - r_int # clay thickness / m
+	120  por_clay = 0.159
+	130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
+	140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
+	150  A_por = 37e3 * rho_b_eps # pore surface area / (m2/L porewater)
+	160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1(4), profile_y2(4)
+	170  DATA 'Hto', 'Cl_tr', 'Na_tr', 'Cs'
+	180  READ tracer$(1), tracer$(2), tracer$(3), tracer$(4)
+	200  DATA 86400 * 20, 86400 * 40, 86400 * 45, 86400 * 1000
+	210  READ exp_time(1), exp_time(2), exp_time(3), exp_time(4)
+	230  DATA '1e-15', '1e-11', '1e-15', '1e-9'
+	240  READ scale_y1$(1), scale_y1$(2), scale_y1$(3), scale_y1$(4)
+	260  DATA '1e-11', '1e-7', '1e-11', '1e-4'
+	270  READ scale_y2$(1), scale_y2$(2), scale_y2$(3), scale_y2$(4)
+	280  DATA 1.2e-6, 2.5e-5, 2e-7, 1.3e-4
+	290  READ profile_y1(1), profile_y1(2), profile_y1(3), profile_y1(4)
+	300  DATA 1.2e-6, 2.5e-5, 6e-7, 3e-2
+	310  READ profile_y2(1), profile_y2(2), profile_y2(3), profile_y2(4)
+	350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m2/s)
+	360  nfilt1 = 1               # number of cells in filter 1
+	370  nfilt2 = 1               # number of cells in filter 2
+	380  nclay = 11               # number of clay cells
+	390  f_free = 0.117           # fraction of free pore water (0.01 - 1)
+	400  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer
+	410  tort_n = -0.99           # exponent in Archie's law, -1.045 without filters
+	420  G_clay = por_clay^tort_n # geometrical factor
+	430  interlayer_D$ = 'false'  # 'true' or 'false' for interlayer diffusion
+	440  G_IL = 750               # geometrical factor for clay interlayers
+	450  punch_time = 60 * 60 * 6 # punch time / seconds
+	460  profile$ = 'true'        # 'true' or 'false' for c/x profile visualization
+	470  IF nfilt1 = 0 THEN thickn_filter1 = 0
+	480  IF nfilt2 = 0 THEN thickn_filter2 = 0
+	490  IF tot("Hto") > 1e-10 THEN tracer = 1 ELSE      IF tot("Cl_tr") > 1e-10 THEN tracer = 2 ELSE tracer = 3
+	520  sol$ = nl$ + ' pH 7.6' + sc$ +' pe 14 O2(g) -1.0' + sc$ +' temp 23'
+	530  sol$ = sol$ + nl$ + ' Na 240' + sc$ +' K 1.61' + sc$ +' Mg 16.9' + sc$ +' Ca 25.8' + sc$ +' Sr 0.505'
+	540  sol$ = sol$ + nl$ + ' Cl 300' + sc$ +' S(6) 14.1' + sc$ +' Fe(2) 0.0' + sc$ +' Alkalinity 0.476'
+	550  tracer_phases$ = nl$ + 'PHASES '
+	560  tracer_phases$ = tracer_phases$ + nl$ + ' A_Hto' + nl$ + ' Hto = Hto' + sc$ +' log_k -15'
+	570  tracer_phases$ = tracer_phases$ + nl$ + ' A_Na_tr' + nl$ + ' Na_trCl = Na_tr+ + Cl-' + sc$ + ' log_k -14'
+	580  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cl_tr' + nl$ + ' NaCl_tr = Na+ + Cl_tr-' + sc$ +' log_k -14'
+	590  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cs' + nl$ + ' CsCl = Cs+ + Cl-' + sc$ + ' log_k -13'
+	600  DIM tracer_equi$(4)
+	610  FOR i = 1 TO 4
+	620    tracer_equi$(i) = nl$ + 'A_' + tracer$(i) + ' 0 0'
+	630  NEXT i
+	650  punch nl$ + 'PRINT ' + sc$ + ' -reset false' + sc$ + ' -echo_input true' + sc$ + ' -user_print true'
+	660  IF nfilt1 = 0 THEN GOTO 800
+	670  punch nl$ + x$ + ' filter cells at tracer-in side...'
+	680  r1 = r_int - thickn_filter1
+	690  xf1 = thickn_filter1 / nfilt1
+	700  FOR i = 1 TO nfilt1
+	710    num$ = TRIM(STR$(i + 3)) + sc$
+	720    V_water = 1e3 * height * por_filter1 * pi * (SQR(r1 + xf1) - SQR(r1))
+	730    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)
+	740    punch sol$ + nl$
+	750    r1 = r1 + xf1
+	760  NEXT i
+	800  punch nl$ + nl$ + x$ + ' cells in Opalinus Clay...'
+	810  r1 = r_int
+	820  x = thickn_clay / nclay
+	830  FOR i = 1 TO nclay
+	840    num$ = TRIM(STR$(i + 3 + nfilt1)) + sc$
+	850    V_water = 1e3 * height * por_clay * pi * (SQR(r1 + x) - SQR(r1))
+	860    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water * f_free)
+	870    punch sol$
+	880    IF f_free = 1 and tracer = 1  THEN GOTO 960
+	890    punch nl$ + 'SURFACE ' + num$ + ' -equil ' + num$
+	900    punch nl$ + ' Su_ ' + TRIM(STR$(f_DL_charge * CEC * V_water)) + STR$(A_por) + ' ' + STR$(V_water)
+	910    punch nl$ + ' Su_ii ' + TRIM(STR$(7.88e-4 * rho_b_eps * V_water))
+	920    punch nl$ + ' Su_fes ' + TRIM(STR$(7.4e-5 * rho_b_eps * V_water))
+	930    IF f_free < 1 THEN punch nl$ + ' -Donnan ' + TRIM(STR$((1 - f_free) * 1e-3 / A_por))
+	940    punch nl$ + 'EXCHANGE ' + num$ + ' -equil ' + num$
+	950    punch nl$ + ' X ' + TRIM(STR$((1 - f_DL_charge) * CEC * V_water)) + nl$
+	960    r1 = r1 + x
+	970  NEXT i
+	1000 IF nfilt2 = 0 THEN GOTO 1200
+	1010 punch nl$ + nl$ + x$ + ' tracer-out filter cells...'
+	1020 r1 = r_ext
+	1030 xf2 = thickn_filter2 / nfilt2
+	1040 FOR i = 1 TO nfilt2
+	1050   num$ = TRIM(STR$(i + 3 + nfilt1 + nclay)) + sc$
+	1060   V_water = 1e3 * height * por_filter2 * pi * (SQR(r1 + xf2) - SQR(r1))
+	1070   punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)
+	1080   punch sol$ + nl$
+	1090   r1 = r1 + xf2
+	1100 NEXT i
+	1200 punch nl$ + x$ + ' outside solution...'
+	1210 num$ = TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + sc$
+	1220 punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_end)
+	1230 punch sol$
+	1240 punch nl$ + 'END'
+	1300 punch nl$ + tracer_phases$
+	1310 punch nl$ + 'EQUILIBRIUM_PHASES ' + num$ + tracer_equi$(tracer)
+	1312 If tracer = 3 THEN punch nl$ + tracer_equi$(tracer + 1)
+	1320 punch nl$ + 'END'
+	1400 IF nfilt1 > 0 THEN gf1 = por_filter1 / G_filter1
+	1410 IF nfilt2 > 0 THEN gf2 = por_filter2 / G_filter2
+	1420 g = por_clay / G_clay
+	1500 IF nfilt1 = 0 THEN GOTO 1530
+	1510   r1 = r_int - thickn_filter1
+	1520   ff = (SQR(r1 + xf1) - SQR(r1)) * xf1 * G_filter1 / (r1 * 2) / 2
+	1530 ff1 = (SQR(r_int + x) - SQR(r_int)) * x * G_clay / (r_int * 2) / 2
+	1540 IF nfilt1 = 0 THEN ff = ff1 ELSE IF ff1 * 2 < ff THEN ff = ff1 * 2
+	1550 IF nfilt1 > 0 THEN ff1 = (SQR(r_int + x) - SQR(r_int)) * (xf1 / gf1 + x / g) / (2 * r_int * 2)
+	1560 IF nfilt1 > 0 AND ff1 < ff THEN ff = ff1
+	1570 IF nfilt2 > 0 THEN ff1 = (SQR(r_ext + xf2) - SQR(r_ext)) * xf2 * G_filter2 / (r_ext * 2)
+	1580 IF nfilt2 > 0 AND ff1 < ff THEN ff = ff1
+	1590 dt_max = 0.5 * ff / Dw
+	1610 IF punch_time < dt_max THEN dt = punch_time ELSE dt = dt_max
+	1620 punch_fr = 1
+	1630 IF dt < punch_time THEN punch_fr = ceil(punch_time / dt)
+	1640 dt = punch_time / punch_fr
+	1650 shifts = ceil(exp_time(tracer) / dt)
+	1700 punch nl$ + nl$ + x$ + ' mixing factors...'
+	1710 r1 = r_int
+	1720 IF nfilt1 > 0 THEN r1 = r_int - thickn_filter1
+	1730 A = height * 2 * pi
+	1740 FOR i = 0 TO nfilt1 + nclay + nfilt2
+	1750   IF i = 0 OR i = nfilt1 + nclay + nfilt2 THEN fbc = 2 ELSE fbc = 1
+	1760   IF i > nfilt1 OR nfilt1 = 0 THEN GOTO 1810
+	1770     IF i < nfilt1 THEN mixf = Dw * fbc / (xf1 / gf1) * dt * A * r1 / 1e-3
+	1780     IF i = nfilt1 THEN mixf = 2 * Dw / (xf1 / gf1 + x / g) * dt * A * r1 / 1e-3
+	1790     IF i < nfilt1 THEN r1 = r1 + xf1 ELSE r1 = r1 + x
+	1800     GOTO 1880
+	1810   IF i > nfilt1 + nclay THEN GOTO 1860
+	1820     mixf = Dw * fbc / (x / g) * dt * A * r1 / 1e-3
+	1830     IF i = nfilt1 + nclay AND nfilt2 > 0 THEN mixf = 2 * Dw / (xf2 / gf2 + x / g) * dt * A * r1 / 1e-3
+	1840     IF i < nfilt1 + nclay THEN r1 = r1 + x ELSE r1 = r1 + xf2
+	1850     GOTO 1880
+	1860   mixf = Dw * fbc / (xf2 / gf2) * dt * A * r1 / 1e-3
+	1870   r1 = r1 + xf2
+	1880   punch nl$ + 'MIX ' + TRIM(STR$(i + 3)) + sc$ + STR$(i + 4) + STR$(mixf)
+	1890 NEXT i
+	1900 punch nl$ + 'END'
+	2000 punch nl$ + 'TRANSPORT'
+	2010 stag = 2 + nfilt1 + nclay + nfilt2
+	2020 punch nl$ + ' -warnings true'
+	2030 punch nl$ + ' -shifts ' + TRIM(STR$(shifts))
+	2040 punch nl$ + ' -flow diff' + sc$ + ' -cells 1' + sc$ + ' -bcon 1 2' + sc$ + ' -stag ' + TRIM(STR$(stag))
+	2050 punch nl$ + ' -time ' + STR$(dt)
+	2060 punch nl$ + ' -multi_D true ' + STR$(Dw) + STR$(por_clay) + ' 0.0 ' + TRIM(STR$(-tort_n))
+	2070 punch nl$ + ' -interlayer_D ' + interlayer_D$ + ' 0.04 0.0 ' + TRIM(STR$(G_IL))
+	2080 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c ' + TRIM(STR$(2 + stag))
+	2180 FOR i = 0 to 1
+	2190   punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + i)) + ' Example 21' + nl$
+	2200   punch nl$ + ' -chart_title " ' + tracer$(tracer + i) + ' Diffusion to Outer Cell"' 
+	2210   punch nl$ + ' -plot_csv_file ' + tracer$(tracer + i) + '_rad.csv'
+	2220   punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time(tracer + i) / (3600 * 24)))
+	2230   punch nl$ + ' -axis_titles "TIME, IN DAYS" "FLUX, IN ' + scale_y1$(tracer + i) + ' MOL/M2/S" "ACCUMULATED MASS, IN ' + scale_y2$(tracer + i) + ' MOL"'
+	2240   punch nl$ + ' -plot_concentration_vs time'
+	2250   punch nl$ + ' 10 days = total_time / (3600 * 24)'
+	2260   punch nl$ + ' 20 IF INSTR("' + tracer$(tracer + i) + '", "C") THEN mm = 1 ELSE mm = 1e-3'
+	2270   punch nl$ + ' 30 s1 = ' + STR$(1 / val(scale_y1$(tracer + i))) + ' * mm'
+	2280   punch nl$ + ' 40 s2 = ' + STR$(1 / val(scale_y2$(tracer + i))) + ' * mm'
+	2290   punch nl$ + ' 50 a = equi("A_' + tracer$(tracer + i) + '") * s2'
+	2300   punch nl$ + ' 60 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)'
+	2310   punch nl$ + ' 70 dt = get(1)'
+	2320   A = 2 * pi * r_ext * height
+	2330   i$ = TRIM(STR$(2 + i))
+	2340   punch nl$ + ' 80 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) * s1 / s2 / dt /' + STR$(A) +', color = Green, symbol = None'
+	2350   punch nl$ + ' 90 put(a, ' + i$ + ')'
+	2360   punch nl$ + ' 100 plot_xy days, equi("A_' + tracer$(tracer + i) + '") * s2, y_axis = 2, color = Red, symbol = None'
+	2370   IF tracer < 3 THEN GOTO 2390
+	2380 NEXT i
+	2390 punch nl$ + 'END'
+	2400 IF profile$ = 'true' THEN GOSUB 3000
+	2410 IF tracer < 3 THEN END # finished for Hto and Cl
+	2420 IF profile$ = 'false' THEN punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer)) + sc$ + ' -detach' ELSE                                 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + 4)) + sc$ + ' -detach'
+	2440 tracer = tracer + 1
+	2450 punch nl$ + 'TRANSPORT'
+	2460 shifts = ceil((exp_time(tracer) - exp_time(tracer - 1))/ dt)
+	2480 punch nl$ + ' -shifts ' + TRIM(STR$(shifts))
+	2490 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c ' + TRIM(STR$(2 + stag))
+	2500 punch nl$ + 'END'
+	2510 IF profile$ = 'true' THEN GOSUB 3000
+	2520 END # finished...
+	3000 punch nl$ + 'TRANSPORT'
+	3010 punch nl$ + ' -shifts 0'
+	3020 punch nl$ + ' -punch_fr 2' + sc$ + ' -punch_c 3-' + TRIM(STR$(2 + stag))
+	3030 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer)) + sc$ + ' -detach'
+	3040 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + 4)) + ' Example 21' + nl$
+	3050 punch nl$ + ' -chart_title "' + tracer$(tracer) + ' Concentration Profile: Filter1 | Clay | Filter2"' 
+	3060 REM punch nl$ + ' -plot_csv_file ' + tracer$(tracer) + '_prof.csv'
+	3070 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$((thickn_filter1 + thickn_clay + thickn_filter2) * 1e3))
+	3080 punch nl$ + ' -axis_scale y_axis 0 ' + TRIM(STR$(profile_y1(tracer)))
+	3090 punch nl$ + ' -axis_scale sy_axis 0 ' + TRIM(STR$(profile_y2(tracer)))
+	3100 punch nl$ + ' -axis_titles ' + '"DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"'
+	3110 punch nl$ + ' -headings ' + tracer$(tracer) + '_free ' + tracer$(tracer) + '_tot'
+	3120 punch nl$ + ' -plot_concentration_vs x'
+	3130 punch nl$ + ' -initial_solutions true'
+	3140 punch nl$ + ' 10 IF cell_no = 3 THEN xval = 0 ELSE xval = get(14)'
+	3150 punch nl$ + ' 20 IF (' + TRIM(STR$(nfilt1)) + ' = 0 OR cell_no > ' + TRIM(STR$(nfilt1 + 3)) + ') THEN GOTO 60'
+	3160 punch nl$ + ' 30 IF (cell_no = 4) THEN xval = xval + 0.5 * ' + TRIM(STR$(xf1))
+	3170 punch nl$ + ' 40 IF (cell_no > 4 AND cell_no < ' + TRIM(STR$(nfilt1 + 4)) + ') THEN xval = xval + ' + TRIM(STR$(xf1))
+	3180 punch nl$ + ' 50 GOTO 200'
+	3190 punch nl$ + ' 60 IF (cell_no = ' + TRIM(STR$(4 + nfilt1)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf1)) + ' + 0.5 * ' + TRIM(STR$(x))
+	3200 punch nl$ + ' 70 IF (cell_no > ' + TRIM(STR$(4 + nfilt1)) + ' AND cell_no < ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + ' + TRIM(STR$(x)) + ' ELSE GOTO 90'
+	3210 punch nl$ + ' 80 GOTO 200'
+	3220 punch nl$ + ' 90 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(x)) + ' + 0.5 * ' + TRIM(STR$(xf2))
+	3230 punch nl$ + ' 100 IF (cell_no > ' + TRIM(STR$(4 + nfilt1 + nclay)) + ' AND cell_no <= ' + TRIM(STR$(3 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + ' + TRIM(STR$(xf2))
+	3240 punch nl$ + ' 110 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf2))
+	3250 punch nl$ + ' 200 y1 = TOT("' + tracer$(tracer) + '")'
+	3260 punch nl$ + ' 210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus'
+	3270 punch nl$ + ' 220 IF cell_no = 3 THEN put(y1, 15)'
+	3280 punch nl$ + ' 230 IF (cell_no < ' + TRIM(STR$(4 + nfilt1)) + ' OR cell_no > ' + TRIM(STR$(3 + nfilt1 + nclay)) + ') THEN GOTO 400'
+	3290 punch nl$ + ' 240 y2 = SYS("' + tracer$(tracer) + '") / (tot("water") + edl("water"))'
+	3310 punch nl$ + ' 250 REM y2 = y2 / ' + TRIM(STR$(rho_b_eps)) + x$ + ' conc / kg solid'
+	3320 punch nl$ + ' 260 plot_xy xval * 1e3, y2, symbol = Circle, y_axis = 2'
+	3330 punch nl$ + ' 270 IF (cell_no > ' + TRIM(STR$(5 + nfilt1)) + ') THEN GOTO 400'
+	3340 punch nl$ + ' 280 IF ' + TRIM(STR$(nfilt1)) + ' THEN plot_xy ' + TRIM(STR$(thickn_filter1 * 1e3)) + ', get(15), color = Black, symbol = None'
+	3350 punch nl$ + ' 290 IF ' + TRIM(STR$(nfilt2)) + ' THEN plot_xy ' + TRIM(STR$((thickn_filter1 + thickn_clay) * 1e3)) + ', get(15), color = Black, symbol = None'
+	3360 punch nl$ + ' 300 put(0, 15)'
+	3370 punch nl$ + ' 400 put(xval, 14)'
+	3380 punch nl$ + 'END'
+	3390 RETURN
+	END  
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 3.	tracer solution
+
+WARNING: USER_PUNCH: Headings count doesn't match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Alkalinity       4.760e-004  9.520e-005
+	Ca               2.580e-002  5.160e-003
+	Cl               3.000e-001  6.000e-002
+	Hto              1.140e-006  2.280e-007
+	K                1.610e-003  3.220e-004
+	Mg               1.690e-002  3.380e-003
+	Na               2.400e-001  4.800e-002
+	S(6)             1.410e-002  2.820e-003
+	Sr               5.050e-004  1.010e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.600    
+                                       pe  =  13.120      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 23 oC) = 29744
+                          Density (g/cm3)  =   1.01172
+                        Activity of water  =   0.990
+                           Ionic strength  =  3.652e-001
+                       Mass of water (kg)  =  2.000e-001
+                    Total carbon (mol/kg)  =  4.788e-004
+                       Total CO2 (mol/kg)  =  4.788e-004
+                      Temperature (deg C)  =  23.00
+                  Electrical balance (eq)  = -1.312e-004
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.10
+                               Iterations  =   6
+                                  Total H  = 2.220258e+001
+                                  Total O  = 1.111286e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   5.138e-007  3.386e-007    -6.289    -6.470    -0.181
+   H+                    3.237e-008  2.512e-008    -7.490    -7.600    -0.110
+   H2O                   5.551e+001  9.899e-001     1.744    -0.004     0.000
+C(4)            4.788e-004
+   HCO3-                 3.789e-004  2.694e-004    -3.421    -3.570    -0.148
+   CaHCO3+               3.068e-005  2.182e-005    -4.513    -4.661    -0.148
+   NaHCO3                2.379e-005  2.588e-005    -4.624    -4.587     0.037
+   MgHCO3+               1.977e-005  1.447e-005    -4.704    -4.840    -0.136
+   CO2                   1.450e-005  1.577e-005    -4.839    -4.802     0.037
+   CaCO3                 4.698e-006  5.110e-006    -5.328    -5.292     0.037
+   MgCO3                 1.900e-006  2.067e-006    -5.721    -5.685     0.037
+   NaCO3-                1.895e-006  1.387e-006    -5.722    -5.858    -0.136
+   CO3-2                 1.889e-006  4.825e-007    -5.724    -6.316    -0.593
+   SrHCO3+               6.950e-007  4.941e-007    -6.158    -6.306    -0.148
+   SrCO3                 3.428e-008  3.729e-008    -7.465    -7.428     0.037
+Ca              2.580e-002
+   Ca+2                  2.357e-002  6.553e-003    -1.628    -2.184    -0.556
+   CaSO4                 2.192e-003  2.384e-003    -2.659    -2.623     0.037
+   CaHCO3+               3.068e-005  2.182e-005    -4.513    -4.661    -0.148
+   CaCO3                 4.698e-006  5.110e-006    -5.328    -5.292     0.037
+   CaOH+                 5.856e-008  4.286e-008    -7.232    -7.368    -0.136
+   CaHSO4+               4.678e-010  3.423e-010    -9.330    -9.466    -0.136
+Cl              3.000e-001
+   Cl-                   3.000e-001  2.002e-001    -0.523    -0.699    -0.176
+H(0)            0.000e+000
+   H2                    0.000e+000  0.000e+000   -44.617   -44.580     0.037
+Hto             1.140e-006
+   Hto                   1.140e-006  1.140e-006    -5.943    -5.943     0.000
+K               1.610e-003
+   K+                    1.592e-003  1.062e-003    -2.798    -2.974    -0.176
+   KSO4-                 1.830e-005  1.339e-005    -4.738    -4.873    -0.136
+   KOH                   1.334e-010  1.452e-010    -9.875    -9.838     0.037
+Mg              1.690e-002
+   Mg+2                  1.512e-002  4.629e-003    -1.821    -2.335    -0.514
+   MgSO4                 1.760e-003  1.914e-003    -2.754    -2.718     0.037
+   MgHCO3+               1.977e-005  1.447e-005    -4.704    -4.840    -0.136
+   MgCO3                 1.900e-006  2.067e-006    -5.721    -5.685     0.037
+   MgOH+                 7.546e-007  5.522e-007    -6.122    -6.258    -0.136
+Na              2.400e-001
+   Na+                   2.378e-001  1.708e-001    -0.624    -0.767    -0.144
+   NaSO4-                2.146e-003  1.571e-003    -2.668    -2.804    -0.136
+   NaHCO3                2.379e-005  2.588e-005    -4.624    -4.587     0.037
+   NaCO3-                1.895e-006  1.387e-006    -5.722    -5.858    -0.136
+   NaOH                  4.089e-008  4.448e-008    -7.388    -7.352     0.037
+O(0)            2.437e-004
+   O2                    1.219e-004  1.325e-004    -3.914    -3.878     0.037
+S(6)            1.410e-002
+   SO4-2                 7.942e-003  1.858e-003    -2.100    -2.731    -0.631
+   CaSO4                 2.192e-003  2.384e-003    -2.659    -2.623     0.037
+   NaSO4-                2.146e-003  1.571e-003    -2.668    -2.804    -0.136
+   MgSO4                 1.760e-003  1.914e-003    -2.754    -2.718     0.037
+   SrSO4                 4.177e-005  4.543e-005    -4.379    -4.343     0.037
+   KSO4-                 1.830e-005  1.339e-005    -4.738    -4.873    -0.136
+   HSO4-                 5.938e-009  4.346e-009    -8.226    -8.362    -0.136
+   CaHSO4+               4.678e-010  3.423e-010    -9.330    -9.466    -0.136
+Sr              5.050e-004
+   Sr+2                  4.625e-004  1.284e-004    -3.335    -3.891    -0.557
+   SrSO4                 4.177e-005  4.543e-005    -4.379    -4.343     0.037
+   SrHCO3+               6.950e-007  4.941e-007    -6.158    -6.306    -0.148
+   SrCO3                 3.428e-008  3.729e-008    -7.465    -7.428     0.037
+   SrOH+                 3.701e-010  2.595e-010    -9.432    -9.586    -0.154
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(296 K,   1 atm)
+
+	Anhydrite        -0.56     -4.91   -4.35  CaSO4
+	Aragonite        -0.18     -8.50   -8.32  CaCO3
+	Calcite          -0.03     -8.50   -8.47  CaCO3
+	Celestite         0.01     -6.62   -6.63  SrSO4
+	CO2(g)           -3.36     -4.80   -1.44  CO2
+	Dolomite         -0.11    -17.15  -17.04  CaMg(CO3)2
+	Gypsum           -0.34     -4.92   -4.58  CaSO4:2H2O
+	H2(g)           -41.44    -44.58   -3.14  H2
+	H2O(g)           -1.57     -0.00    1.56  H2O
+	Halite           -3.04     -1.47    1.58  NaCl
+	O2(g)            -1.00     -3.88   -2.88  O2
+	Strontianite     -0.94    -10.21   -9.27  SrCO3
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	PRINT
+	 selected_output false
+	PRINT 
+	 reset false
+	 user_print true	
+	SOLUTION 4
+	 water  1.3963e-003	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476
+	SOLUTION 5
+	 water  7.7322e-005	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 5
+	 equilibrate 5
+	 Su_ 5.0965e-004 5.2840e+005  6.6087e-004	
+	 Su_ii 7.4371e-006	
+	 Su_fes 6.9841e-007	
+	 donnan 1.6711e-009	
+	EXCHANGE 5
+	 equilibrate 5
+	 X 6.2290e-004
+	SOLUTION 6
+	 water  9.5113e-005	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 6
+	 equilibrate 6
+	 Su_ 6.2692e-004 5.2840e+005  8.1293e-004	
+	 Su_ii 9.1484e-006	
+	 Su_fes 8.5911e-007	
+	 donnan 1.6711e-009	
+	EXCHANGE 6
+	 equilibrate 6
+	 X 7.6624e-004
+	SOLUTION 7
+	 water  1.1291e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 7
+	 equilibrate 7
+	 Su_ 7.4419e-004 5.2840e+005  9.6500e-004	
+	 Su_ii 1.0860e-005	
+	 Su_fes 1.0198e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 7
+	 equilibrate 7
+	 X 9.0957e-004
+	SOLUTION 8
+	 water  1.3070e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 8
+	 equilibrate 8
+	 Su_ 8.6146e-004 5.2840e+005  1.1171e-003	
+	 Su_ii 1.2571e-005	
+	 Su_fes 1.1805e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 8
+	 equilibrate 8
+	 X 1.0529e-003
+	SOLUTION 9
+	 water  1.4849e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 9
+	 equilibrate 9
+	 Su_ 9.7873e-004 5.2840e+005  1.2691e-003	
+	 Su_ii 1.4282e-005	
+	 Su_fes 1.3412e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 9
+	 equilibrate 9
+	 X 1.1962e-003
+	SOLUTION 10
+	 water  1.6628e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 10
+	 equilibrate 10
+	 Su_ 1.0960e-003 5.2840e+005  1.4212e-003	
+	 Su_ii 1.5994e-005	
+	 Su_fes 1.5019e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 10
+	 equilibrate 10
+	 X 1.3396e-003
+	SOLUTION 11
+	 water  1.8407e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 11
+	 equilibrate 11
+	 Su_ 1.2133e-003 5.2840e+005  1.5733e-003	
+	 Su_ii 1.7705e-005	
+	 Su_fes 1.6626e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 11
+	 equilibrate 11
+	 X 1.4829e-003
+	SOLUTION 12
+	 water  2.0186e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 12
+	 equilibrate 12
+	 Su_ 1.3305e-003 5.2840e+005  1.7253e-003	
+	 Su_ii 1.9416e-005	
+	 Su_fes 1.8233e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 12
+	 equilibrate 12
+	 X 1.6262e-003
+	SOLUTION 13
+	 water  2.1966e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 13
+	 equilibrate 13
+	 Su_ 1.4478e-003 5.2840e+005  1.8774e-003	
+	 Su_ii 2.1127e-005	
+	 Su_fes 1.9840e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 13
+	 equilibrate 13
+	 X 1.7696e-003
+	SOLUTION 14
+	 water  2.3745e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 14
+	 equilibrate 14
+	 Su_ 1.5651e-003 5.2840e+005  2.0295e-003	
+	 Su_ii 2.2839e-005	
+	 Su_fes 2.1448e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 14
+	 equilibrate 14
+	 X 1.9129e-003
+	SOLUTION 15
+	 water  2.5524e-004	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	
+	SURFACE 15
+	 equilibrate 15
+	 Su_ 1.6824e-003 5.2840e+005  2.1815e-003	
+	 Su_ii 2.4550e-005	
+	 Su_fes 2.3055e-006	
+	 donnan 1.6711e-009	
+	EXCHANGE 15
+	 equilibrate 15
+	 X 2.0562e-003
+	SOLUTION 16
+	 water  5.0266e-003	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476
+	SOLUTION 17
+	 water  2.0000e-001	
+	 pH 7.6
+	 pe 14 O2(g) -1.0
+	 temp 23
+	 Na 240
+	 K 1.61
+	 Mg 16.9
+	 Ca 25.8
+	 Sr 0.505
+	 Cl 300
+	 S(6) 14.1
+	 Fe(2) 0.0
+	 Alkalinity 0.476	        
+	END	
+	PHASES 
+	 A_Hto
+	 Hto = Hto
+	 log_k -15
+	 A_Na_tr
+	 Na_trCl = Na_tr+ + Cl-
+	 log_k -14
+	 A_Cl_tr
+	 NaCl_tr = Na+ + Cl_tr-
+	 log_k -14
+	 A_Cs
+	 CsCl = Cs+ + Cl-
+	 log_k -13	
+	EQUILIBRIUM_PHASES 17
+	A_Hto 0 0	        
+	END	
+	MIX 3
+	           4 6.6932e-004	
+	MIX 4
+	           5 1.9640e-004	
+	MIX 5
+	           6 1.5725e-004	
+	MIX 6
+	           7 1.8971e-004	
+	MIX 7
+	           8 2.2216e-004	
+	MIX 8
+	           9 2.5461e-004	
+	MIX 9
+	          10 2.8706e-004	
+	MIX 10
+	          11 3.1951e-004	
+	MIX 11
+	          12 3.5196e-004	
+	MIX 12
+	          13 3.8441e-004	
+	MIX 13
+	          14 4.1686e-004	
+	MIX 14
+	          15 4.4931e-004	
+	MIX 15
+	          16 7.7653e-004	
+	MIX 16
+	          17 4.2533e-003	        
+	END	  
+	TRANSPORT	
+	 warnings true	
+	 shifts 1120	
+	 flow_direction diff
+	 cells 1
+	 bcond 1 2
+	 stagnant 15	
+	 timest  1.5429e+003	
+	 multi_d true  2.5000e-009 1.5900e-001 0.0 9.9000e-001	
+	 interlayer_d false 0.04 0.0 750	
+	 punch_frequency 14
+	 punch_cells 17	
+	USER_GRAPH 1 Example 21
+WARNING: No cell-lengths were read; length = 1 m assumed.
+WARNING: No dispersivities were read; disp = 0 assumed.
+	 -chart_title " Hto Diffusion to Outer Cell"	
+	 -plot_csv_file Hto_rad.csv	
+	 -axis_scale x_axis 0 20	
+	 -axis_titles "TIME, IN DAYS" "FLUX, IN 1e-15 MOL/M2/S" "ACCUMULATED MASS, IN 1e-11 MOL"	
+	 -plot_concentration_vs time	
+	 10 days = total_time / (3600 * 24)	
+	 20 IF INSTR("Hto", "C") THEN mm = 1 ELSE mm = 1e-3	
+	 30 s1 =  1.0000e+015 * mm	
+	 40 s2 =       1e+011 * mm	
+	 50 a = equi("A_Hto") * s2	
+	 60 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)	
+	 70 dt = get(1)	
+	 80 plot_xy days - dt / (2 * 3600 * 24), (a - get(2)) * s1 / s2 / dt / 8.2988e-003, color = Green, symbol = None	
+	 90 put(a, 2)	
+	 100 plot_xy days, equi("A_Hto") * s2, y_axis = 2, color = Red, symbol = None	        
+	END	  
+WARNING: Maximum iterations exceeded, 2000
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+	TRANSPORT	 
+	 shifts 0	
+	 punch_frequency 2
+	 punch_cells 3-17	
+	USER_GRAPH 1
+	 -detach	
+	USER_GRAPH 5 Example 21
+	 -chart_title "Hto Concentration Profile: Filter1 | Clay | Filter2"	
+	 -axis_scale x_axis 0 2.2220e+001	
+	 -axis_scale y_axis 0 1.2000e-006	
+	 -axis_scale sy_axis 0 1.2000e-006	
+	 -axis_titles "DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"	
+	 -headings Hto_free Hto_tot	
+	 -plot_concentration_vs x	
+	 -initial_solutions true	
+	 10 IF cell_no = 3 THEN xval = 0 ELSE xval = get(14)	
+	 20 IF (1 = 0 OR cell_no > 4) THEN GOTO 60	
+	 30 IF (cell_no = 4) THEN xval = xval + 0.5 * 1.8000e-003	
+	 40 IF (cell_no > 4 AND cell_no < 5) THEN xval = xval + 1.8000e-003	
+	 50 GOTO 200	
+	 60 IF (cell_no = 5) THEN xval = xval + 0.5 * 1.8000e-003 + 0.5 * 1.7109e-003	
+	 70 IF (cell_no > 5 AND cell_no < 16) THEN xval = xval + 1.7109e-003 ELSE GOTO 90	
+	 80 GOTO 200	
+	 90 IF (cell_no = 16) THEN xval = xval + 0.5 * 1.7109e-003 + 0.5 * 1.6000e-003	
+	 100 IF (cell_no > 16 AND cell_no <= 16) THEN xval = xval + 1.6000e-003	
+	 110 IF (cell_no = 17) THEN xval = xval + 0.5 * 1.6000e-003	
+	 200 y1 = TOT("Hto")	
+	 210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus	
+	 220 IF cell_no = 3 THEN put(y1, 15)	
+	 230 IF (cell_no < 5 OR cell_no > 15) THEN GOTO 400	
+	 240 y2 = SYS("Hto") / (tot("water") + edl("water"))	
+	 250 REM y2 = y2 / 1.4281e+001
+	 260 plot_xy xval * 1e3, y2, symbol = Circle, y_axis = 2	
+	 270 IF (cell_no > 6) THEN GOTO 400	
+	 280 IF 1 THEN plot_xy 1.8000e+000, get(15), color = Black, symbol = None	
+	 290 IF 1 THEN plot_xy 2.0620e+001, get(15), color = Black, symbol = None	
+	 300 put(0, 15)	
+	 400 put(xval, 14)	        
+	END	
+	END

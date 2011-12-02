@@ -22,12 +22,12 @@ Reading input data for simulation 1.
 	TITLE Example 13A.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
 	                    Implicit definition of first-order exchange model.
 	SOLUTION 0    # 1 mmol/l NaCl
-	        units   mmol/l
-	        pH       7.0
-	        pe      13.0    O2(g)   -0.7
-	        Na       1.0    # Na has Retardation = 2
-	        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
-	        N(5)     1.0    # NO3 is conservative
+	   units   mmol/l
+	   pH       7.0
+	   pe      13.0    O2(g)   -0.7
+	   Na       1.0    # Na has Retardation = 2
+	   Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+	   N(5)     1.0    # NO3 is conservative
 	END
 -----
 TITLE
@@ -46,9 +46,9 @@ Initial solution 0.
 
 	Elements           Molality       Moles
 
-	Cl                1.000e-03   1.000e-03
-	N(5)              1.000e-03   1.000e-03
-	Na                1.000e-03   1.000e-03
+	Cl               1.000e-003  1.000e-003
+	N(5)             1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
 
 ----------------------------Description of solution----------------------------
 
@@ -57,37 +57,37 @@ Initial solution 0.
        Specific Conductance (uS/cm, 25 oC) = 192
                           Density (g/cm3)  =   0.99708
                         Activity of water  =   1.000
-                           Ionic strength  =   1.500e-03
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.551e-10
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
+                           Ionic strength  =  1.500e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.551e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -1.000e-03
+                  Electrical balance (eq)  = -1.000e-003
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -33.33
                                Iterations  =   3
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550973e+01
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550973e+001
 
 ----------------------------Distribution of species----------------------------
 
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.046e-07   1.001e-07    -6.981    -7.000    -0.019
-   H+                     1.042e-07   1.000e-07    -6.982    -7.000    -0.018
-   H2O                    5.551e+01   9.999e-01     1.744    -0.000     0.000
-Cl               1.000e-03
-   Cl-                    1.000e-03   9.576e-04    -3.000    -3.019    -0.019
-H(0)             0.000e+00
-   H2                     0.000e+00   0.000e+00   -44.394   -44.394     0.000
-N(5)             1.000e-03
-   NO3-                   1.000e-03   9.573e-04    -3.000    -3.019    -0.019
-Na               1.000e-03
-   Na+                    1.000e-03   9.580e-04    -3.000    -3.019    -0.019
-   NaOH                   6.327e-11   6.329e-11   -10.199   -10.199     0.000
-O(0)             5.111e-04
-   O2                     2.556e-04   2.556e-04    -3.593    -3.592     0.000
+   OH-                   1.046e-007  1.001e-007    -6.981    -7.000    -0.019
+   H+                    1.042e-007  1.000e-007    -6.982    -7.000    -0.018
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              1.000e-003
+   Cl-                   1.000e-003  9.576e-004    -3.000    -3.019    -0.019
+H(0)            0.000e+000
+   H2                    0.000e+000  0.000e+000   -44.394   -44.394     0.000
+N(5)            1.000e-003
+   NO3-                  1.000e-003  9.573e-004    -3.000    -3.019    -0.019
+Na              1.000e-003
+   Na+                   1.000e-003  9.580e-004    -3.000    -3.019    -0.019
+   NaOH                  6.327e-011  6.329e-011   -10.199   -10.199     0.000
+O(0)            5.111e-004
+   O2                    2.556e-004  2.556e-004    -3.593    -3.592     0.000
 
 ------------------------------Saturation indices-------------------------------
 
@@ -108,18 +108,18 @@ Reading input data for simulation 2.
 ------------------------------------
 
 	SOLUTION 1-41  # Column with KNO3
-	        units   mmol/l
-	        pH       7.0
-	        pe      13.0   O2(g)    -0.7
-	        K        1.0
-	        N(5)     1.0
-	EXCHANGE 1-41
-	        equilibrate  1
-	        X       1.e-3
+	   units   mmol/l
+	   pH       7.0
+	   pe      13.0   O2(g)    -0.7
+	   K        1.0
+	   N(5)     1.0
 	EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
-	        K+ + X- = KX
-	        log_k   0.0
-	        gamma  3.5     0.015
+	   K+ + X- = KX
+	   log_k   0.0
+	   gamma  3.5     0.015
+	EXCHANGE 1-41
+	   equilibrate  1
+	   X       1.e-3
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -131,8 +131,8 @@ Initial solution 1.
 
 	Elements           Molality       Moles
 
-	K                 1.000e-03   1.000e-03
-	N(5)              1.000e-03   1.000e-03
+	K                1.000e-003  1.000e-003
+	N(5)             1.000e-003  1.000e-003
 
 ----------------------------Description of solution----------------------------
 
@@ -141,35 +141,35 @@ Initial solution 1.
        Specific Conductance (uS/cm, 25 oC) = 141
                           Density (g/cm3)  =   0.99707
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.350e-10
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.350e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -3.350e-10
+                  Electrical balance (eq)  = -3.350e-010
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550973e+01
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550973e+001
 
 ----------------------------Distribution of species----------------------------
 
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.038e-07   1.001e-07    -6.984    -7.000    -0.016
-   H+                     1.034e-07   1.000e-07    -6.985    -7.000    -0.015
-   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
-H(0)             0.000e+00
-   H2                     0.000e+00   0.000e+00   -44.394   -44.394     0.000
-K                1.000e-03
-   K+                     1.000e-03   9.649e-04    -3.000    -3.016    -0.016
-   KOH                    3.345e-11   3.346e-11   -10.476   -10.476     0.000
-N(5)             1.000e-03
-   NO3-                   1.000e-03   9.647e-04    -3.000    -3.016    -0.016
-O(0)             5.112e-04
-   O2                     2.556e-04   2.556e-04    -3.592    -3.592     0.000
+   OH-                   1.038e-007  1.001e-007    -6.984    -7.000    -0.016
+   H+                    1.034e-007  1.000e-007    -6.985    -7.000    -0.015
+   H2O                   5.551e+001  1.000e+000     1.744    -0.000     0.000
+H(0)            0.000e+000
+   H2                    0.000e+000  0.000e+000   -44.394   -44.394     0.000
+K               1.000e-003
+   K+                    1.000e-003  9.649e-004    -3.000    -3.016    -0.016
+   KOH                   3.345e-011  3.346e-011   -10.476   -10.476     0.000
+N(5)            1.000e-003
+   NO3-                  1.000e-003  9.647e-004    -3.000    -3.016    -0.016
+O(0)            5.112e-004
+   O2                    2.556e-004  2.556e-004    -3.592    -3.592     0.000
 
 ------------------------------Saturation indices-------------------------------
 
@@ -186,12 +186,12 @@ Beginning of initial exchange-composition calculations.
 
 Exchange 1.	
 
-X                1.000e-03 mol
+X               1.000e-003 mol
 
 	                               Equiv-    Equivalent      Log 
 	Species             Moles      alents      Fraction     Gamma
 
-	KX                1.000e-03   1.000e-03   1.000e+00    -0.016
+	KX               1.000e-003  1.000e-003  1.000e+000    -0.016
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -204,20 +204,20 @@ Using exchange 1.	Exchange assemblage after simulation 2.
 
 -----------------------------Exchange composition------------------------------
 
-X                1.000e-03 mol
+X               1.000e-003 mol
 
 	                               Equiv-    Equivalent      Log 
 	Species             Moles      alents      Fraction     Gamma
 
-	KX                1.000e-03   1.000e-03   1.000e+00    -0.016
-	NH4X              5.032e-63   5.032e-63   5.032e-60    -0.016
+	KX               1.000e-003  1.000e-003  1.000e+000    -0.016
+	NH4X             5.032e-063  5.032e-063  5.032e-060    -0.016
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	K                 1.000e-03   1.000e-03
-	N                 1.000e-03   1.000e-03
+	K                1.000e-003  1.000e-003
+	N                1.000e-003  1.000e-003
 
 ----------------------------Description of solution----------------------------
 
@@ -226,42 +226,42 @@ X                1.000e-03 mol
        Specific Conductance (uS/cm, 25 oC) = 141
                           Density (g/cm3)  =   0.99707
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.350e-10
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.350e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -3.350e-10
+                  Electrical balance (eq)  = -3.350e-010
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550973e+01
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550973e+001
 
 ----------------------------Distribution of species----------------------------
 
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.038e-07   1.001e-07    -6.984    -7.000    -0.016
-   H+                     1.034e-07   1.000e-07    -6.985    -7.000    -0.015
-   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
-H(0)             0.000e+00
-   H2                     0.000e+00   0.000e+00   -44.394   -44.394     0.000
-K                1.000e-03
-   K+                     1.000e-03   9.649e-04    -3.000    -3.016    -0.016
-   KOH                    3.345e-11   3.346e-11   -10.476   -10.476     0.000
-N(-3)            0.000e+00
-   NH4+                   0.000e+00   0.000e+00   -62.898   -62.914    -0.016
-   NH3                    0.000e+00   0.000e+00   -65.158   -65.158     0.000
-N(0)             1.351e-19
-   N2                     6.755e-20   6.756e-20   -19.170   -19.170     0.000
-N(3)             2.119e-16
-   NO2-                   2.119e-16   2.044e-16   -15.674   -15.689    -0.016
-N(5)             1.000e-03
-   NO3-                   1.000e-03   9.647e-04    -3.000    -3.016    -0.016
-O(0)             5.112e-04
-   O2                     2.556e-04   2.556e-04    -3.592    -3.592     0.000
+   OH-                   1.038e-007  1.001e-007    -6.984    -7.000    -0.016
+   H+                    1.034e-007  1.000e-007    -6.985    -7.000    -0.015
+   H2O                   5.551e+001  1.000e+000     1.744    -0.000     0.000
+H(0)            0.000e+000
+   H2                    0.000e+000  0.000e+000   -44.394   -44.394     0.000
+K               1.000e-003
+   K+                    1.000e-003  9.649e-004    -3.000    -3.016    -0.016
+   KOH                   3.345e-011  3.346e-011   -10.476   -10.476     0.000
+N(-3)           0.000e+000
+   NH4+                  0.000e+000  0.000e+000   -62.898   -62.914    -0.016
+   NH3                   0.000e+000  0.000e+000   -65.158   -65.158     0.000
+N(0)            1.351e-019
+   N2                    6.755e-020  6.756e-020   -19.170   -19.170     0.000
+N(3)            2.119e-016
+   NO2-                  2.119e-016  2.044e-016   -15.674   -15.689    -0.016
+N(5)            1.000e-003
+   NO3-                  1.000e-003  9.647e-004    -3.000    -3.016    -0.016
+O(0)            5.112e-004
+   O2                    2.556e-004  2.556e-004    -3.592    -3.592     0.000
 
 ------------------------------Saturation indices-------------------------------
 
@@ -282,37 +282,49 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
-	TRANSPORT
-	        cells  20
-	        shifts 5
-	        flow_direction   forward
-	        timest 3600
-	        bcond   flux  flux
-	        diffc  0.0
-	        length 0.1
-	        disp   0.015
-	        stagnant       1  6.8e-6  0.3        0.1
 	PRINT
+	   reset false
+	TRANSPORT
+	   cells  20
+	   shifts 5
+	   flow_direction  forward
+	   time_step       3600
+	   boundary_conditions   flux  flux
+	   diffusion_coefficient 0.0e-9
+	   lengths         0.1
+	   dispersivities  0.015
+	   stagnant   1  6.8e-6  0.3        0.1
+	END
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
 WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
-	        reset false
+	SOLUTION 0  # Original solution with KNO3 reenters
+	   units   mmol/l
+	   pH       7.0
+	   pe      13.0   O2(g)    -0.7
+	   K        1.0
+	   N(5)     1.0
 	END
-	SOLUTION 0  # Original solution reenters
-	        units   mmol/l
-	        pH       7.0
-	        pe      13.0   O2(g)    -0.7
-	        K        1.0
-	        N(5)     1.0
-	TRANSPORT
-	        shifts 10
-	        punch_frequency    10
-	        punch_cells        1-20
 	SELECTED_OUTPUT
-	        file   ex13a.sel
-	        reset  false
-	        solution
-	        distance       true
+	   file   ex13a.sel
+	   reset  false
+	   solution
+	   distance       true
 	USER_PUNCH
-	        heading Cl_mmol Na_mmol
-	10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+	   headings Cl_mmol Na_mmol
+	  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+	TRANSPORT
+	   shifts 10
+	   punch_cells        1-20
+	   punch_frequency    10
+	USER_GRAPH Example 13A
+	   -headings Distance Na Cl
+	   -chart_title "Dual Porosity, First-Order Exchange with Implicit Mixing Factors"
+	   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
+	   -axis_scale x_axis 0 2
+	   -axis_scale y_axis 0 0.8
+	   -plot_concentration_vs x
+	   -start
+	  10 GRAPH_X DIST
+	  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+	  -end      
 	END

@@ -33,7 +33,7 @@ REACTION 1
         .005 in 500 steps 
 PRINT
         -reset false
-	-echo true
+        -echo true
         -user_print true
 USER_PRINT
 -start
@@ -87,15 +87,31 @@ USER_PUNCH
   300 PUNCH S_S("Aragonite")                 # Moles aragonite
   310 PUNCH S_S("Strontianite")              # Moles Strontianite
 -end
+USER_GRAPH Example 10
+        -headings x_Aragonite  x_Srontianite
+        -chart_title "Aragonite-Strontianite Solid Solution"
+        -axis_titles "Log(SrCO3 ADDED, IN MOLES)" "Log(MOLE FRACTION OF COMPONENT)"
+        -axis_scale x_axis -5 1 1 1
+        -axis_scale y_axis -5 0.1 1 1
+        -connect_simulations true
+        -start
+  10 sum = (S_S("Strontianite") + S_S("Aragonite"))
+  20 IF sum = 0 THEN GOTO 70
+  30 xb = S_S("Strontianite")/ sum
+  40 xc = S_S("Aragonite")/ sum
+  50 PLOT_XY LOG10(RXN), LOG10(xc), line_w = 2, symbol_size = 0
+  60 PLOT_XY LOG10(RXN), LOG10(xb), line_w = 2, symbol_size = 0
+  70 rem
+  -end
 END     
 #
-#  Total of 0.001 to 0.1 moles of SrCO3 added
+#  Total of 0.005 to 0.1 moles of SrCO3 added
 #
 USE solution 1
 USE solid_solution 1
 REACTION 1
         SrCO3   1.0
-        .1 in 100 steps 
+        .1 in 20 steps 
 END     
 #
 #  Total of 0.1 to 10 moles of SrCO3 added

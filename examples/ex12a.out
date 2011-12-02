@@ -60,42 +60,44 @@ Reading input data for simulation 1.
 	EXCHANGE 20
 	    NaX    0.048
 	PRINT
-	   reset   false
+	   reset      false
+	COPY solution 20 58-60 # for 60-cell model   
+	COPY exchange 20 58-60 # for 60-cell model   
 	END
-	TRANSPORT                   # Diffuse 24C, NaCl solution from column end
+	TRANSPORT   # Diffuse 24C, NaCl solution from column ends
 	   cells   20
-	   shifts 1
+	   shifts  1
 	   flow_direction diffusion
-	   bcond   constant  closed
-	   length  1.0
-	   thermal_diffusion  3.0  # Heat is retarded equal to Na
-	   disp    0.0             # No dispersion
-	   diffc  0.3e-9           # m^2/s
-	   timest 1.0e+10          # 317 years, 19 substeps will be used
+	   boundary_conditions  constant  closed
+	   lengths           1.0
+	   thermal_diffusion 3.0        # Heat is retarded equal to Na
+	   dispersivities    0.0        # No dispersion
+	   diffusion_coefficient 0.3e-9 # m^2/s
+	   time_step         1.0e+10    # 317 years, 19 substeps will be used
 	SELECTED_OUTPUT
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
 WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
-	   file    ex12a.sel
-	   high_precision  true
-	   reset   false
-	   distance    true
+	   file           ex12a.sel
+	   high_precision true
+	   reset          false
+	   distance       true
 	   temperature    true
 	USER_PUNCH
-	  heading Na_mmol K_mmol Cl_mmol Cl-analytic  Na_analytic
+	  heading Na_mmol K_mmol Cl_mmol error_Cl  error_Na
 	  10  PUNCH TOT("Na")*1000, TOT("K")*1000, TOT("Cl")*1000
-	  20  DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429
-	  30  x = DIST
-	  40  if (x > 8.5 OR SIM_TIME <= 0) THEN END
-	  50  IF (ABS(x MOD 0.5) > 1e-3) OR (TC <= 0) THEN END
-	  60  READ a1, a2, a3, a4, a5
+	  20  x = DIST
+	  30  if (x > 8.5 OR SIM_TIME <= 0) THEN END
+	  40  IF (ABS(x MOD 0.5) > 1e-3) OR (TC <= 0) THEN END
+	  50  DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
+	  60  READ a1, a2, a3, a4, a5, a6
 	  70      REM  calculate error in Cl
-	  80  Arg = x / (2*SQRT(3e-10 * SIM_TIME / 1.0))
-	  90  e = 1/(1 + 0.3275911 * Arg)
-	  100 erfc_Cl = (e*(a1+e*(a2+e*(a3+e*(a4+e*a5)))))*EXP(-Arg*Arg)
-	  110     REM  calculate error in Na
-	  120 Arg = x / (2*SQRT(3e-10 * SIM_TIME / 3.0))
-	  130 e = 1/(1 + 0.3275911 * Arg)
-	  140 erfc_Na = (e*(a1+e*(a2+e*(a3+e*(a4+e*a5)))))*EXP(-Arg*Arg)
+	  80  z = x / (2*SQRT(3e-10 * SIM_TIME / 1.0))
+	  90  GOSUB 2000 # erfc(z)...
+	  100 erfc_Cl = erfc
+	  110     REM  calculate error in Na, 3 times retarded
+	  120 z = z * SQRT(3.0)
+	  130 GOSUB 2000 # erfc(z)...
+	  140 erfc_Na = erfc
 	  150     REM punch results
 	  160 error_Cl = 0.024 * erfc_Cl - TOT("Cl")
 	  170 error_Na = 0.024 * erfc_Na - TOT("Na")
@@ -105,58 +107,35 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	  210 PUT(error_Cl, SIM_NO, j, 1) 
 	  220 PUT(error_Na, SIM_NO, j, 2) 
 	  500 END
+	  2000 REM calculate erfc...
+	  2050 b = 1 / (1 + a6 * z)
+	  2060 erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(-(z * z))
+	  2080 RETURN
 	END
 	SELECTED_OUTPUT
 	   user_punch false
-	SOLUTION 0  Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet
-	    units  mol/kgw
-	    temp 24
-	    pH  7.0
-	    pe  12.0   O2(g) -0.67
-	    Na  24.e-3
-	    Cl  24.e-3
-	SOLUTION 1-59   24.0 mM KNO3
+	SOLUTION 1-57   24.0 mM KNO3
 	    units mol/kgw
 	    temp  0                 # Incoming solution 0C
 	    pH    7.0
 	    pe   12.0   O2(g) -0.67
 	    K    24.e-3
 	    N(5) 24.e-3
-	EXCHANGE 1-59
+	EXCHANGE 1-57
 	    KX    0.048
-	SOLUTION 60  Same as soln 0 in cell 60 at closed column end (second type boundary cond)
-	    units  mol/kgw
-	    temp 24
-	    pH  7.0
-	    pe  12.0   O2(g) -0.67
-	    Na  24.e-3
-	    Cl  24.e-3
-	EXCHANGE 60
-	    NaX    0.048
 	END
-	TRANSPORT                   # Diffuse 24C, NaCl solution from column end
-	   cells   60
-	   shifts 1
-	   flow_direction diffusion
-	   bcond   constant  closed
-	   thermal_diffusion  3.0  # Heat is retarded equal to Na
-	   disp    0.0             # No dispersion
-	   diffc  0.3e-9           # m^2/s
-	   length .33333333333333333
-	   timest 1.0e+10          # 317 years 
-	   punch_cells 1-60
+	TRANSPORT  # no need to redefine parameters that don't change from 20 cell model
+	   cells        60
+	   lengths      0.33333333333333333
+	   punch_cells  1-60
 	SELECTED_OUTPUT
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 60.
-WARNING: Dispersivities were read for 1 cells. Last value is used till cell 60.
-	   high_precision  true
-	   user_punch true
-	   reset   false
-	   distance    true
-	   temperature    true
+WARNING: No dispersivities were read; disp = 0 assumed.
+	   user_punch   true
 	END
 	SOLUTION                    # Initial solution calculation for pure water
 	PRINT
-	   reset false             # Initial solution calculation not printed
+	   reset      false        # Initial solution calculation not printed
 	   user_print true
 	SELECTED_OUTPUT
 	   high_precision false    # Controls precision for USER_PRINT too.
@@ -175,13 +154,13 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 60.
              ------------------------- ------------------------- 
     Distance      20-cell      60-cell      20-cell      60-cell 
   
-  5.0000e-01   4.3817e-06   9.0009e-08   5.0636e-04   3.9397e-05 
-  1.5000e+00   1.7304e-05   1.0407e-06   5.1077e-04   5.5286e-05 
-  2.5000e+00   3.5613e-05   3.2028e-06   9.0486e-05   1.4725e-05 
-  3.5000e+00   4.9599e-05   5.2170e-06  -3.7312e-05  -3.8884e-06 
-  4.5000e+00   5.0063e-05   5.6394e-06  -1.9794e-05  -2.5770e-06 
-  5.5000e+00   3.8208e-05   4.4562e-06  -4.0684e-06  -5.0254e-07 
-  6.5000e+00   2.2627e-05   2.7007e-06  -4.8926e-07  -4.8938e-08 
-  7.5000e+00   1.0547e-05   1.2850e-06  -3.9174e-08  -2.7009e-09 
-  8.5000e+00   3.8231e-06   4.5302e-07  -2.2318e-09  -9.0081e-11 
+ 5.0000e-001  4.3817e-006  9.0009e-008  5.0636e-004  3.9397e-005 
+ 1.5000e+000  1.7304e-005  1.0407e-006  5.1077e-004  5.5286e-005 
+ 2.5000e+000  3.5613e-005  3.2028e-006  9.0486e-005  1.4725e-005 
+ 3.5000e+000  4.9599e-005  5.2170e-006 -3.7312e-005 -3.8884e-006 
+ 4.5000e+000  5.0063e-005  5.6393e-006 -1.9794e-005 -2.5770e-006 
+ 5.5000e+000  3.8208e-005  4.4560e-006 -4.0684e-006 -5.0254e-007 
+ 6.5000e+000  2.2627e-005  2.6979e-006 -4.8926e-007 -4.8938e-008 
+ 7.5000e+000  1.0547e-005  1.2626e-006 -3.9174e-008 -2.7009e-009 
+ 8.5000e+000  3.8231e-006  2.9867e-007 -2.2318e-009 -9.0095e-011 
 

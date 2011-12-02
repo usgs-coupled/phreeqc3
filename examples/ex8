@@ -1,183 +1,104 @@
-TITLE Example 8.--Sorption of zinc on hydrous 
-                  iron oxides.
+TITLE Example 8.--Sorption of zinc on hydrous iron oxides.
 SURFACE_SPECIES
-        Hfo_sOH  + H+ = Hfo_sOH2+
-        log_k  7.18
-
-        Hfo_sOH = Hfo_sO- + H+
-        log_k  -8.82
-
-        Hfo_sOH + Zn+2 = Hfo_sOZn+ + H+
-        log_k  0.66
-
-        Hfo_wOH  + H+ = Hfo_wOH2+
-        log_k  7.18
-
-        Hfo_wOH = Hfo_wO- + H+
-        log_k  -8.82
-
-        Hfo_wOH + Zn+2 = Hfo_wOZn+ + H+
-        log_k  -2.32
+     Hfo_sOH  + H+ = Hfo_sOH2+
+     log_k  7.18
+     Hfo_sOH = Hfo_sO- + H+
+     log_k  -8.82
+     Hfo_sOH + Zn+2 = Hfo_sOZn+ + H+
+     log_k  0.66
+     Hfo_wOH  + H+ = Hfo_wOH2+
+     log_k  7.18
+     Hfo_wOH = Hfo_wO- + H+
+     log_k  -8.82
+     Hfo_wOH + Zn+2 = Hfo_wOZn+ + H+
+     log_k  -2.32
 SURFACE 1
-        Hfo_sOH        5e-6    600.    0.09
-        Hfo_wOH        2e-4    
+     Hfo_sOH        5e-6    600.    0.09
+     Hfo_wOH        2e-4
+#     -donnan
+END
 SOLUTION 1
-        -units  mmol/kgw
-        pH      8.0
-        Zn      0.0001 
-        Na      100.    charge 
-        N(5)    100.
+     -units  mmol/kgw
+     pH      8.0
+     Zn      0.0001 
+     Na      100.    charge 
+     N(5)    100.
+SELECTED_OUTPUT
+     -file Zn1e_7
+     -reset false
+USER_PUNCH
+  10 FOR i = 5.0 to 8 STEP 0.25
+  20 a$ = EOL$ + "USE solution 1" + CHR$(59) + " USE surface 1" + EOL$
+  30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
+  40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
+  50 a$ = a$ + "END" + EOL$
+  60 PUNCH a$
+  70 NEXT i
+END
 SOLUTION 2
-        -units  mmol/kgw
-        pH      8.0
-        Zn      0.1 
-        Na      100.    charge 
-        N(5)    100.
-USE solution none
+     -units  mmol/kgw
+     pH      8.0
+     Zn      0.1 
+     Na      100.    charge 
+     N(5)    100.
+SELECTED_OUTPUT
+     -file Zn1e_4
+     -reset false
+USER_PUNCH
+  10 FOR i = 5 to 8 STEP 0.25
+  20 a$ = EOL$ + "USE solution 2" + CHR$(59) + " USE surface 1" + EOL$
+  30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
+  40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
+  50 a$ = a$ + "END" + EOL$
+  60 PUNCH a$
+  70 NEXT i
+END
 #
 # Model definitions
 #
 PHASES
-        Fix_H+
-        H+ = H+
-        log_k  0.0
+     Fix_H+
+     H+ = H+
+     log_k  0.0
 END
 #
 #   Zn = 1e-7
-#
 SELECTED_OUTPUT
-        -file ex8.sel
-        -molalities     Zn+2    Hfo_wOZn+      Hfo_sOZn+
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.0   NaOH    10.0
+     -file ex8.sel
+     -reset true
+     -molalities     Zn+2    Hfo_wOZn+      Hfo_sOZn+
+USER_PUNCH
+ 10
+USER_GRAPH 1 Example 8
+     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_Balance
+     -chart_title "Total Zn = 1e-7 molal"
+     -axis_titles pH "MOLES PER KILOGRAM WATER" "CHARGE BALANCE, IN MILLIEQUIVALENTS"
+     -axis_scale x_axis 5.0 8.0 1 0.25
+     -axis_scale y_axis 1e-11 1e-6 1 1 log
+     -axis_scale sy_axis -0.15 0 0.03
+  -start
+  10 GRAPH_X -LA("H+")
+  20 GRAPH_Y MOL("Zn+2"), MOL("Hfo_wOZn+"), MOL("Hfo_sOZn+")
+  30 GRAPH_SY CHARGE_BALANCE * 1e3
+  -end
+INCLUDE$ Zn1e_7
 END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.25  NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.5   NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.75  NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.0   NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.25  NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.5   NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.75  NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.0   NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.25  NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.5   NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.75  NaOH    10.0
-END
-USE solution 1
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -8.0   NaOH    10.0
+USER_GRAPH 1
+     -detach
 END
 #
 #   Zn = 1e-4
-#
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.0   NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.25  NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.5   NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -5.75  NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.0   NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.25  NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.5   NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -6.75  NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.0   NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.25  NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.5   NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -7.75  NaOH    10.0
-END
-USE solution 2
-USE surface 1
-EQUILIBRIUM_PHASES 1
-        Fix_H+   -8.0   NaOH    10.0
+USER_GRAPH 2 Example 8
+     -chart_title "Total Zn = 1e-4 molal"
+     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_Balance
+     -axis_titles pH "MOLES PER KILOGRAM WATER" "CHARGE BALANCE, IN MILLIEQUIVALENTS"
+     -axis_scale x_axis 5.0 8.0 1 0.25
+     -axis_scale y_axis 1e-8 1e-3 1 1 log
+     -axis_scale sy_axis -0.15 0 0.03
+  -start
+  10 GRAPH_X -LA("H+")
+  20 GRAPH_Y MOL("Zn+2"), MOL("Hfo_wOZn+"), MOL("Hfo_sOZn+")
+  30 GRAPH_SY CHARGE_BALANCE * 1e3
+  -end        
+INCLUDE$ Zn1e_4
 END

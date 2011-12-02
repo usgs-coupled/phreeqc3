@@ -1,28 +1,32 @@
 TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
                     5 layer stagnant zone with finite differences.
 SOLUTION 0    # 1 mmol/l NaCl
-        units   mmol/l
-        pH       7.0
-        pe      13.0    O2(g)   -0.7
-        Na       1.0    # Na has Retardation = 2
-        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
-        N(5)     1.0    # NO3 is conservative
+   units   mmol/l
+   pH       7.0
+
+   pe      13.0    O2(g)   -0.7
+   Na       1.0    # Na has Retardation = 2
+   Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+   N(5)     1.0    # NO3 is conservative
 #       charge imbalance is no problem ...
 END
-SOLUTION 1-121  # Column with KNO3
-        units           mmol/l
-        pH       7.0
-        pe      13.0   O2(g)            -0.7
-        K        1.0
-        N(5)     1.0
-EXCHANGE 1-121
-        -equil  1
-        X       1.e-3
+SOLUTION 1-121
+   units   mmol/l
+   pH       7.0
+   pe      13.0   O2(g)    -0.7
+   K        1.0
+   N(5)     1.0
 EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
-        K+ + X- = KX
-        log_k           0.0
-        -gamma  3.5     0.015
+   K+ + X- = KX
+   log_k   0.0
+   -gamma  3.5     0.015
+EXCHANGE 1-121
+   -equilibrate  1
+   X             1.e-3
 END
+PRINT
+   -reset false
+   -echo_input true
 MIX    1;    1  0.90712;   22  0.09288
 MIX   22;    1  0.57098;   22  0.21656;   42  0.21246
 MIX   42;   22  0.35027;   42  0.45270;   62  0.19703
@@ -144,36 +148,44 @@ MIX   81;   61  0.38368;   81  0.44579;  101  0.17053
 MIX  101;   81  0.46286;  101  0.42143;  121  0.11571
 MIX  121;  101  0.81000;  121  0.19000
 TRANSPORT
-        -cells  20
-        -shifts 5
-        -flow_direction forward
-        -timest 3600 
-        -tempr  3.0
-        -bcond  flux flux
-        -diffc  0.0
-        -length 0.10
-        -disp   0.015
-        -stag   5
-PRINT
-        -reset false
-	-echo  true
+   -cells  20
+   -shifts 5
+   -flow_direction  forward
+   -time_step       3600
+   -boundary_conditions   flux  flux
+   -diffusion_coefficient 0.0e-9
+   -lengths         0.1
+   -dispersivities  0.015
+   -stagnant        5
 END
 SOLUTION 0  # Original solution reenters
-        units   mmol/l
-        pH       7.0
-        pe      13.0   O2(g)    -0.7
-        K        1.0
-        N(5)     1.0
-TRANSPORT
-        -shifts  10
-        -punch_frequency 10
-        -punch_cells  1-20
+   units   mmol/l
+   pH       7.0
+   pe      13.0   O2(g)    -0.7
+   K        1.0
+   N(5)     1.0
+END
 SELECTED_OUTPUT
-        -file      ex13c.sel
-        -reset     false
-        -solution
-        -distance  true
+   -file   ex13c.sel
+   -reset  false
+   -distance       true
+   -solution
 USER_PUNCH
-        -head Cl_mmol Na_mmol
-10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+   -headings Cl_mmol Na_mmol
+  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+TRANSPORT
+   -shifts  10
+   -punch_cells        1-20
+   -punch_frequency    10
+USER_GRAPH Example 13C
+        -headings Distance Na Cl
+   -chart_title "Dual Porosity, Finite-Difference Approximation"
+   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
+   -axis_scale x_axis 0 2
+   -axis_scale y_axis 0 0.8
+   -plot_concentration_vs x
+   -start
+  10 GRAPH_X DIST
+  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+    -end      
 END
