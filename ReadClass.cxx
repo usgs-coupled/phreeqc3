@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 
+#include "Utils.h"
 #include "Phreeqc.h"
 #include "Phreeqc_class.h"
 #include "Parser.h"
@@ -2703,10 +2704,32 @@ dump_ostream(std::ostream& os)
 		}
 	}
 
+	// pressure
+	if (dump_info.Get_bool_pressure())
+	{
+		if (dump_info.Get_pressure().size() == 0)
+		{
+			Utilities::Reactant_dump_map_raw(Reaction_pressure_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_pressure().begin(); it != dump_info.Get_pressure().end(); it++)
+			{
+				cxxPressure *p = Utilities::Reactant_find(Reaction_pressure_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
 	// Turn off any reaction calculation
 	os << "USE mix none" << std::endl;
 	os << "USE reaction none" << std::endl;
 	os << "USE reaction_temperature none" << std::endl;
+	os << "USE reaction_pressure none" << std::endl;
 
 	// Turn off dump until next read
 	dump_info.SetAll(false);
