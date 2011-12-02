@@ -660,6 +660,7 @@ void Phreeqc::init(void)
 	copy_mix.n_user				= copy_mix.start			= copy_mix.end				= 0;
 	copy_irrev.n_user			= copy_irrev.start			= copy_irrev.end			= 0;
 	copy_temperature.n_user		= copy_temperature.start	= copy_temperature.end		= 0;
+	copy_pressure.n_user		= copy_pressure.start		= copy_pressure.end			= 0;
 
 	set_forward_output_to_log(FALSE);
 	simulation = 0;

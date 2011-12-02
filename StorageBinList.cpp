@@ -127,6 +127,7 @@ void StorageBinList::SetAll(bool tf)
 	this->mix.Clear();
 	this->reaction.Clear();
 	this->temperature.Clear();
+	this->pressure.Clear();
 
 	this->solution.Set_defined(tf);
 	this->pp_assemblage.Set_defined(tf);
@@ -138,6 +139,7 @@ void StorageBinList::SetAll(bool tf)
 	this->mix.Set_defined(tf);
 	this->reaction.Set_defined(tf);
 	this->temperature.Set_defined(tf);
+	this->pressure.Set_defined(tf);
 }
 
 bool StorageBinList::Read(CParser & parser)
@@ -160,10 +162,12 @@ bool StorageBinList::Read(CParser & parser)
 		vopts.push_back("mix");
 		vopts.push_back("reaction");
 		vopts.push_back("temperature");	
-		vopts.push_back("all");
+		vopts.push_back("all");    // 13
 		vopts.push_back("cell");
 		vopts.push_back("cells");  // 15
 		vopts.push_back("reaction_temperature");
+		vopts.push_back("pressure");			//17	
+		vopts.push_back("reaction_pressure");	//18	
 	}
 
 	std::istream::pos_type next_char;
@@ -229,12 +233,16 @@ bool StorageBinList::Read(CParser & parser)
 		case 15:
 			item = &cell_list;
 			break;
+		case 17:
+		case 18:
+			item = &(this->Get_pressure());
+			break;
 		default:
 			break;
 		}
 
 		// Read dump entity list of numbers or number ranges for line, store in item
-		if ((opt >= 0 && opt <= 12) || (opt >= 14 && opt <= 15))
+		if ((opt >= 0 && opt <= 12) || (opt >= 14))
 		{
 			for (;;)
 			{ 
@@ -278,6 +286,9 @@ bool StorageBinList::Read(CParser & parser)
 		case 10:
 		case 11:
 		case 12:
+		case 16:
+		case 17:
+		case 18:
 			break;
 		case 13:			//all
 			this->SetAll(true);
@@ -318,5 +329,6 @@ void StorageBinList::TransferAll(StorageBinListItem &source)
 		this->mix.Augment(*it);
 		this->reaction.Augment(*it);
 		this->temperature.Augment(*it);
+		this->pressure.Augment(*it);
 	}
 }

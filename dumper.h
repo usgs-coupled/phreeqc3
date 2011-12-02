@@ -27,6 +27,7 @@ public:
 	bool Get_bool_mix(void) { return(this->binList.Get_mix().Get_defined()); };
 	bool Get_bool_reaction(void) { return(this->binList.Get_reaction().Get_defined()); };
 	bool Get_bool_temperature(void) { return(this->binList.Get_temperature().Get_defined()); };
+	bool Get_bool_pressure(void) { return(this->binList.Get_pressure().Get_defined()); };
 	bool Get_bool_any(void);
 
 	std::set < int > & Get_solution(void) { return(this->binList.Get_solution().Get_numbers()); };
@@ -39,6 +40,7 @@ public:
 	std::set < int > & Get_mix(void) { return(this->binList.Get_mix().Get_numbers()); };
 	std::set < int > & Get_reaction(void) { return(this->binList.Get_reaction().Get_numbers()); };
 	std::set < int > & Get_temperature(void) { return(this->binList.Get_temperature().Get_numbers()); };
+	std::set < int > & Get_pressure(void) { return(this->binList.Get_pressure().Get_numbers()); };
 protected:
 	std::string file_name;
 	bool append;

@@ -1418,6 +1418,7 @@ protected:
 	struct copier copy_mix;
 	struct copier copy_irrev;
 	struct copier copy_temperature;
+	struct copier copy_pressure;
 
 	/*----------------------------------------------------------------------
 	*   Inverse
