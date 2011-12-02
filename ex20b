@@ -1,0 +1,158 @@
+DATABASE ../database/iso.dat
+TITLE Example 20b.--Isotope evolution.
+PRINT
+	-censor_species        1e-006
+KNOBS
+	-diagonal_scale
+	-step 10
+	-pe   5
+#
+# Open system calculation 
+# 	
+SOLID_SOLUTION 1 With [14C]
+Calcite 
+	-comp	Calcite                 0
+	-comp	CaCO2[18O](s)           0
+	-comp	CaCO[18O]2(s)           0
+	-comp	CaC[18O]3(s)            0
+	-comp 	Ca[13C]O3(s)            0
+	-comp	Ca[13C]O2[18O](s)       0
+	-comp	Ca[13C]O[18O]2(s)       0
+	-comp	Ca[13C][18O]3(s)        0
+	-comp 	Ca[14C]O3(s)            0
+	-comp	Ca[14C]O2[18O](s)       0
+	-comp	Ca[14C]O[18O]2(s)       0
+	-comp	Ca[14C][18O]3(s)        0
+END
+REACTION 1
+	Calcite               9.8283e-001 
+	Ca[13C]O3(s)          1.1011e-002 
+	CaCO2[18O](s)         6.0825e-003 
+	Ca[13C]O2[18O](s)     6.8147e-005 
+	CaCO[18O]2(s)         1.2548e-005 
+	Ca[13C]O[18O]2(s)     1.4058e-007 
+	CaC[18O]3(s)          8.6284e-009 
+	Ca[13C][18O]3(s)      9.6671e-011 
+	0.0005 mole
+END
+USER_PRINT
+10 PRINT "Calcite added: ", GET(0) * RXN
+USER_GRAPH 1 Example 20
+        -headings OPEN-Dissolved OPEN--Calcite
+        -chart_title "OXYGEN-18"
+        -axis_titles "MARINE CALCITE REACTED, MOLES" "PERMIL"
+        -axis_scale x_axis 0 0.05 a a 
+        -axis_scale y_axis -10 30 a a
+   -start
+10 PUT(GET(0) + 1, 0)   
+20 PLOT_XY RXN*GET(0),ISO("R(18O)"), color=Red, line_w=2, symbol=None
+30 PLOT_XY RXN*GET(0),ISO("R(18O)_Calcite"), color=Green, line_w=2, symbol=None
+   -end
+END
+USER_GRAPH 2 Example 20
+        -headings OPEN-Dissolved OPEN-Calcite
+        -chart_title "CARBON-13"
+        -axis_titles "MARINE CALCITE REACTED, MOLES" "PERMIL"
+        -axis_scale x_axis 0 0.05 a a 
+        -axis_scale y_axis -25 5.0 a a
+        -plot_csv  ex20-c13.dat
+   -start
+10 PLOT_XY RXN*GET(0),ISO("R(13C)"), color=Red, line_w=2, symbol=None
+20 PLOT_XY RXN*GET(0),ISO("R(13C)_Calcite"), color=Green, line_w=2, symbol=None 
+   -end
+END
+USER_GRAPH 3 Example 20
+        -headings OPEN-Dissolved OPEN-Calcite
+        -chart_title "CARBON-14"
+        -axis_titles "MARINE CALCITE REACTED, MOLES" "PERCENT MODERN CARBON"
+        -axis_scale x_axis 0 0.05 a a 
+        -axis_scale y_axis 0 100 a a
+        -plot_csv  ex20-c14.dat
+   -start
+10 PLOT_XY RXN*GET(0),ISO("R(14C)"), color=Red, line_w=2, symbol=None
+20 PLOT_XY RXN*GET(0),ISO("R(14C)_Calcite"), color=Green, line_w=2, symbol=None 
+   -end                                                                            
+END
+SOLUTION 1
+	pH	5  	charge
+	pe      10
+	C	2	CO2(g)  -1.0	
+	[13C]	-25	# permil
+	[14C]	100	# pmc
+	[18O]	-5	# permil
+SELECTED_OUTPUT
+	-reset false
+	-file ex20_open
+USER_PUNCH
+-start
+10 FOR i = 1 to 100
+20 PUNCH EOL$ + "USE solution 1"      
+30 PUNCH EOL$ + "USE solid_solution 1"
+40 PUNCH EOL$ + "USE reaction 1"      
+50 PUNCH EOL$ + "SAVE solution 1"     
+60 PUNCH EOL$ + "END"                 
+70 NEXT i
+-end
+END
+PRINT
+	-selected_output false
+END
+INCLUDE$ ex20_open
+END
+#
+# Closed system calculation 
+# 
+USER_GRAPH 1 Oxygen-18
+        -headings Closed-Dissolved Closed--Calcite
+   -start
+10 PUT(GET(1) + 1, 1)   
+20 PLOT_XY RXN*GET(1),ISO("R(18O)"), color=Blue, line_w=0, symbol=Circle
+30 PLOT_XY RXN*GET(1),ISO("R(18O)_Calcite"), color=Black, line_w=0, symbol=Circle
+   -end
+END
+USER_GRAPH 2 Carbon-13
+        -headings Closed-Dissolved Closed-Calcite
+   -start
+10 PLOT_XY RXN*GET(1),ISO("R(13C)"), color=Blue, line_w=2, symbol=None
+20 PLOT_XY RXN*GET(1),ISO("R(13C)_Calcite"), color=Black, line_w=2, symbol=None 
+   -end
+END
+USER_GRAPH 3 Carbon-14
+        -headings Closed-Dissolved Closed-Calcite
+   -start
+10 PLOT_XY RXN*GET(1),ISO("R(14C)"), color=Blue, line_w=2, symbol=None
+20 PLOT_XY RXN*GET(1),ISO("R(14C)_Calcite"), color=Black, line_w=2, symbol=None 
+   -end
+END
+USER_PRINT
+10 PRINT "Calcite added: ", GET(1), GET(1)*0.0005, RXN
+SOLUTION 1
+	pH	5  	charge
+	pe      10
+	C	2	CO2(g)  -1.0	
+	[13C]	-25	# permil
+	[14C]	100	# pmc
+	[18O]	-5	# permil
+END	
+INCREMENTAL_REACTIONS true
+# Alternative to redefinition of REACTION 1
+#REACTION_MODIFY 1
+#	-steps
+#		0.05
+#	-equal_increments	1
+#	-count_steps		100
+REACTION 1
+	Calcite               9.8283e-001 
+	Ca[13C]O3(s)          1.1011e-002 
+	CaCO2[18O](s)         6.0825e-003 
+	Ca[13C]O2[18O](s)     6.8147e-005 
+	CaCO[18O]2(s)         1.2548e-005 
+	Ca[13C]O[18O]2(s)     1.4058e-007 
+	CaC[18O]3(s)          8.6284e-009 
+	Ca[13C][18O]3(s)      9.6671e-011 
+	0.05 mole in 100 steps
+RUN_CELLS
+	-cells 1
+END	
+	
+
