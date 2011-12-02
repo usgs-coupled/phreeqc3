@@ -43,6 +43,7 @@ public:
 	StorageBinListItem & Get_mix(void) { return(this->mix); };
 	StorageBinListItem & Get_reaction(void) { return(this->reaction); };
 	StorageBinListItem & Get_temperature(void) { return(this->temperature); };
+	StorageBinListItem & Get_pressure(void) { return(this->pressure); };
 protected:
 	StorageBinListItem solution;
 	StorageBinListItem pp_assemblage;
@@ -54,6 +55,7 @@ protected:
 	StorageBinListItem mix;
 	StorageBinListItem reaction;
 	StorageBinListItem temperature;
+	StorageBinListItem pressure;
 };
 
 
