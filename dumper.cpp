@@ -149,7 +149,7 @@ void dumper::SetAll(bool tf)
 		}
 
 		// Read dump entity list of numbers or number ranges for line, store in item
-		if ((opt >= 4))
+		if ((opt > 2))
 		{
 			for (;;)
 			{ 
