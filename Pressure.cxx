@@ -82,6 +82,7 @@ cxxPressure::read(CParser & parser)
 
 		for (;;)
 		{
+			if (done) break;
 			// new token
 			std::string token;
 			CParser::TOKEN_TYPE k =	parser.copy_token(token, next_char);
