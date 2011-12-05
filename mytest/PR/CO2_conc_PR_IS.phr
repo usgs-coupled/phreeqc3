@@ -6,7 +6,7 @@ SELECTED_OUTPUT; -reset false; -file co2.prn
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
- 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
  30 next i
 END
 
@@ -30,7 +30,7 @@ SELECTED_OUTPUT; -selected_out true; file co2_50.prn
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
- 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
  30 next i
 USER_GRAPH
  -active false; -connect_simulations false
@@ -47,7 +47,7 @@ SELECTED_OUTPUT; -selected_out true; file co2_75.prn
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
- 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
  30 next i
 USER_GRAPH
  -active false;  -connect_simulations false
