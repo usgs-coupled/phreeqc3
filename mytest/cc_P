@@ -32,17 +32,9 @@ Calcite
 SOLUTION 1
 EQUILIBRIUM_PHASES 1
  Calcite
-SELECTED_OUTPUT; -reset false; -file calcite_P
-USER_PUNCH
-  3 x$  = CHR$(35) # cross '#'
-  4 sc$ = CHR$(59) # semicolon ';'
-  6 if step_no > 0 then goto 50
- 10 for i = 1 to 20 step 1
- 20   punch 'SOLUTION 1' + \
-             sc$ + ' -pressure ' + trim(str$(i * 50)) + sc$ + 'USE equilibrium_phases 1' + sc$ + EOL$
- 30   punch 'END' + EOL$
- 40 next i
- 50 end
+INCREMENTAL_REACTIONS
+REACTION_PRESSURE
+	50 1000 in 20 steps
 USER_GRAPH
  -chart_title "Calcite solubility as a function of pressure"
  -axis_titles "Pressure / atm" "Ca / ppm"
@@ -51,6 +43,3 @@ USER_GRAPH
  20 graph_y tot("Ca") * 40e3
 END
 
-PRINT; -reset false; -selected_out false # PRINT, SELECTED_OUTPUT
-INCLUDE$ calcite_P
-END
