@@ -479,8 +479,30 @@ Reading input data for simulation 9.
 	1500 PRINT "GAS_P:                                               ",  GAS_P
 	1510 PRINT "GAS_VM:                                              ",  GAS_VM
 	1520 PRINT "PRESSURE:                                            ",  PRESSURE
-	1530 RETURN
-	1600 PRINT "***should never see this***"
+	1525 ae = 2
+	1530 DIM ae(4), be(4)
+	1540 for i = 1 to 3
+	1550 ae(i) = i
+	1560 be(i) = -i
+	1570 next i
+	1575 PRINT "Testing ERASE ae, be"
+	1580 ERASE ae, be
+	1582 PRINT "1. ae, be: ", ae, be
+	1585 ae = 3
+	1586 be = ae + 1
+	1587 PRINT "2. ae, be: ", ae, be
+	1590 DIM ae(3), be(3)
+	1600 for i = 1 to 3
+	1610 ae(i) = -i
+	1620 be(i) = i
+	1630 next i
+	1640 for i = 1 to 3
+	1650 print ae(i), be(i)
+	1660 next i
+	1670 a$ = "   abc    "
+	1680 print TRIM(a$)
+	2000 RETURN
+	2010 PRINT "***should never see this***"
 	end
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -586,7 +608,7 @@ TIME:                                                     8.64e+07
 TK:                                                     2.9815e+02 
 TOT(H):                                                 1.1112e+02 
 TOTAL_TIME:                                               8.64e+07 
-TRIM(a$):                                                abc   def    
+TRIM(a$):                                             abc   def 
 8 MOD 3:                                                2.0000e+00 
 SQR(2):                                                          4 
 SQRT(2):                                                1.4142e+00 
@@ -664,6 +686,13 @@ PR_PHI:                                                          1
 GAS_P:                                                  9.2095e-01 
 GAS_VM:                                                 2.6566e+01 
 PRESSURE:                                               9.2869e-01 
+Testing ERASE ae, be 
+1. ae, be:             0            0 
+2. ae, be:             3            4 
+          -1            1 
+          -2            2 
+          -3            3 
+abc 
 Returned from gosub 
 
 -----------------------------------Gas phase-----------------------------------

@@ -196,7 +196,8 @@ all: alkalinity.out \
 	PR_equil2.out \
 	PR_initial_gas.out \
 	PR_initial_gas_noredox.out \
-	PR_mx_new.out
+	PR_mx_new.out \
+	CO2_anal.out
 # NaX.out
 
 clean:
