@@ -144,8 +144,11 @@ Phreeqc::~Phreeqc(void)
 {
 
 	clean_up();
-	this->phrq_io->close_input_files();
-	this->phrq_io->close_output_files();
+	if (phrq_io)
+	{
+		this->phrq_io->close_input_files();
+		this->phrq_io->close_output_files();
+	}
 
 	int i;
 	for (i = 0; i < count_iso_defaults; i++)
