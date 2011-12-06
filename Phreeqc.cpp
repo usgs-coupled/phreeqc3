@@ -17,13 +17,11 @@ Phreeqc::Phreeqc(PHRQ_io *io)
 {
 	if (io)
 	{
-		delete_phrq_io = false;
 		phrq_io = io;
 	}
 	else
 	{
-		delete_phrq_io = true;
-		phrq_io = new PHRQ_io;
+		phrq_io = &this->ioInstance;
 	}
 
 	phast = FALSE;
@@ -161,10 +159,6 @@ Phreeqc::~Phreeqc(void)
 	free_check_null(sformatf_buffer);
 
 	PHRQ_free_all();
-	if (this->phrq_io && this->delete_phrq_io)
-	{
-		delete this->phrq_io;
-	}
 }
 
 void Phreeqc::set_phast(int tf)
@@ -888,12 +882,7 @@ void Phreeqc::init(void)
 	return;
 }
 
-void Phreeqc::set_io(PHRQ_io *io, bool auto_delete)
+void Phreeqc::set_io(PHRQ_io *io)
 {
-	if (this->phrq_io && this->delete_phrq_io)
-	{
-		delete this->phrq_io;
-	}
-	this->delete_phrq_io = auto_delete;
 	this->phrq_io = io;
 }

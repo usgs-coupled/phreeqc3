@@ -1320,7 +1320,7 @@ public:
 	//bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
-	void set_io(PHRQ_io *io, bool auto_delete = false);
+	void set_io(PHRQ_io *io);
 	size_t list_components(std::list<std::string> &list_c);
 	std::istream *get_istream();
 	void pop_istream();
@@ -1337,7 +1337,7 @@ protected:
 	std::list <bool> delete_istream_list;
 
 	PHRQ_io *phrq_io;
-	bool delete_phrq_io;
+	PHRQ_io ioInstance;
 
 	/* ----------------------------------------------------------------------
 	*   STRUCTURES
