@@ -142,10 +142,10 @@ Phreeqc::~Phreeqc(void)
 {
 
 	clean_up();
-	if (phrq_io)
+	if (phrq_io == &ioInstance)
 	{
-		this->phrq_io->close_input_files();
-		this->phrq_io->close_output_files();
+		//this->phrq_io->close_input_files();
+		this->phrq_io->close_output_ostreams();
 	}
 
 	int i;
