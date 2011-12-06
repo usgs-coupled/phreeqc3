@@ -1943,31 +1943,29 @@ int Phreeqc::
 dump_entities(void)
 /* ---------------------------------------------------------------------- */
 {
-	int return_value;
-	return_value = OK;
 	if (!dump_info.Get_bool_any())
 	{
 		return(OK);
 	}
 
-	std::ofstream dump_stream;
-	if (dump_info.Get_append())
+	if (this->phrq_io)
 	{
-		//dump_stream.open(dump_info.get_file_name(), std::ios_base::app);
-		dump_stream.open(dump_info.Get_file_name().c_str(), std::ios_base::app);
+		std::ios_base::openmode mode = std::ios_base::out;
+		if (dump_info.Get_append())
+		{
+			mode = std::ios_base::app;
+		}
+		if (this->phrq_io->dump_open(dump_info.Get_file_name().c_str(), mode))
+		{
+			dump_ostream(*this->phrq_io->Get_dump_ostream());
+			this->phrq_io->dump_close();
+		}
+		else
+		{
+			sprintf(error_string, "Unable to open dump file \"%s\"", dump_info.Get_file_name().c_str());
+			error_msg(error_string, STOP);
+		}
 	}
-	else
-	{
-		dump_stream.open(dump_info.Get_file_name().c_str());
-	}
-	if (!dump_stream.is_open())
-	{
-		sprintf(error_string, "Unable to open dump file \"%s\"", dump_info.Get_file_name().c_str());
-		error_msg(error_string, STOP);
-	}
-
-	dump_ostream(dump_stream);
-
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

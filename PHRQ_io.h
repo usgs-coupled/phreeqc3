@@ -7,7 +7,10 @@
 #define IPQ_DLL_EXPORT
 #endif
 
-#include <sstream>
+#include <ios>
+#include <iosfwd>
+#include <exception>
+
 class PhreeqcStop : std::exception
 {
 };
@@ -60,7 +63,7 @@ public:
 	void warning_msg(const char *err_str);
 
 	// dump_file
-	bool dump_open(const char *file_name);
+	bool dump_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void dump_fflush(void);
 	void dump_close(void);
 	void dump_rewind(void);
@@ -80,7 +83,8 @@ public:
 	void Set_error_file(FILE * out);
 	void Set_log_file(FILE * out);
 	void Set_punch_file(FILE * out);
-	void Set_dump_file(FILE * out);
+	void Set_dump_ostream(std::ostream *dump_ostream);
+	std::ostream *Get_dump_ostream(void);
 
 	// close input file
 	void close_input(void);
@@ -121,7 +125,7 @@ protected:
 	FILE *log_file;		
 	FILE *punch_file;	
 	FILE *error_file;	
-	FILE *dump_file;	
+	std::ostream *dump_ostream;
 	int io_error_count;
 
 	bool output_file_on;
