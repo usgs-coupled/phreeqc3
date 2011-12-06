@@ -1,11 +1,18 @@
 #ifndef _PHRQIO_H
 #define _PHRQIO_H
 
+#if defined(_WINDLL)
+#define IPQ_DLL_EXPORT __declspec(dllexport)
+#else
+#define IPQ_DLL_EXPORT
+#endif
+
 #include <sstream>
 class PhreeqcStop : std::exception
 {
 };
-class PHRQ_io
+
+class IPQ_DLL_EXPORT PHRQ_io
 {
 public:
 	// constructor/destructor
