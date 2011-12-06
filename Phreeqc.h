@@ -183,7 +183,11 @@ public:
 		std::istream **input_cookie, int log);
 
 	/* PHRQ_io_output.cpp */
-	void screen_msg(const char *err_str);
+	//bool screen_open(const char *file_name);
+	//void screen_flush(void);
+	//void screen_close(void);
+	void screen_msg(const char * str);
+
 	void echo_msg(const char *err_str);
 	int warning_msg(const char *err_str);
 	void set_forward_output_to_log(int value);
@@ -191,42 +195,42 @@ public:
 
 	// dump_file
 	bool dump_open(const char *file_name);
-	void dump_fflush(void);
+	void dump_flush(void);
 	void dump_close(void);
-	void dump_rewind(void);
-	bool dump_isopen(void);
+	//void dump_rewind(void);
+	//bool dump_isopen(void);
 	void dump_msg(const char * str);
 
 	// log_file
 	bool log_open(const char *file_name);
-	void log_fflush(void);
+	void log_flush(void);
 	void log_close(void);
-	void log_rewind(void);
-	bool log_isopen(void);
+	//void log_rewind(void);
+	//bool log_isopen(void);
 	void log_msg(const char * str);
 
 	// error_file
 	bool error_open(const char *file_name);
-	void error_fflush(void);
+	void error_flush(void);
 	void error_close(void);
-	void error_rewind(void);
-	bool error_isopen(void);
+	//void error_rewind(void);
+	//bool error_isopen(void);
 	void error_msg(const char * str, bool stop=false);
 
 	// output_file
 	bool output_open(const char *file_name);
-	void output_fflush(void);
+	void output_flush(void);
 	void output_close(void);
-	void output_rewind(void);
-	bool output_isopen(void);
+	//void output_rewind(void);
+	//bool output_isopen(void);
 	void output_msg(const char * str);
 
 	// punch_file
 	bool punch_open(const char *file_name);
-	void punch_fflush(void);
+	void punch_flush(void);
 	void punch_close(void);
-	void punch_rewind(void);
-	bool punch_isopen(void);
+	//void punch_rewind(void);
+	//bool punch_isopen(void);
 	void punch_msg(const char * str);
 
 	void fpunchf_heading(const char *name);
@@ -395,8 +399,8 @@ public:
 	LDBLE *x0_moles;
 
 	// mainsubs.cpp  -------------------------------
-	FILE *file_open(char *query, char *default_name, const char *status,
-		int batch);
+	std::ifstream * open_input_stream(char *query, char *default_name, std::ios_base::openmode mode, bool batch);
+	std::ofstream * open_output_stream(char *query, char *default_name, std::ios_base::openmode mode, bool batch);
 	int copy_entities(void);
 	void initialize(void);
 	int initial_exchangers(int print);
