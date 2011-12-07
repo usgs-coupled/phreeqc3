@@ -1031,9 +1031,7 @@ read_dump(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	dumper dmp(parser, phrq_io);
-	dump_info = dmp;
-
+	dump_info.Read(parser);
 
 	// Need to output the next keyword
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
@@ -1943,6 +1941,11 @@ int Phreeqc::
 dump_entities(void)
 /* ---------------------------------------------------------------------- */
 {
+	if (!dump_info.Get_on())
+	{
+		return(OK);
+	}
+	dump_info.Set_on(false);
 	if (!dump_info.Get_bool_any())
 	{
 		return(OK);
@@ -1984,7 +1987,8 @@ delete_entities(void)
 		!delete_info.Get_kinetics().Get_defined() &&
 		!delete_info.Get_mix().Get_defined() &&
 		!delete_info.Get_reaction().Get_defined() &&
-		!delete_info.Get_temperature().Get_defined() )
+		!delete_info.Get_temperature().Get_defined() &&
+		!delete_info.Get_pressure().Get_defined())
 	{
 		return(OK);
 	}
@@ -2213,6 +2217,22 @@ delete_entities(void)
 				{
 					temperature_delete(*it);
 				}
+			}
+		}
+	}
+	// pressures
+	if (delete_info.Get_pressure().Get_defined())
+	{
+		if (delete_info.Get_pressure().Get_numbers().size() == 0)
+		{
+			Reaction_pressure_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_pressure().Get_numbers().begin(); it != delete_info.Get_pressure().Get_numbers().end(); it++)
+			{
+				Reaction_pressure_map.erase(*it);
 			}
 		}
 	}
