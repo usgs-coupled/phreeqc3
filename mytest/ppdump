@@ -73,6 +73,9 @@ END
 REACTION_TEMPERATURE 1-3
 	30
 END
+REACTION_PRESSURE 1-3
+	100 200 300
+END
 DELETE 
 	-mix 2
 END
@@ -92,6 +95,11 @@ dump
 	-gas_phase	3
 	-gas_phase      3
 	-kinetics	3
+	-mix 		3
+	-reaction	3
+	-temperature 	3
+	-pressure 	3
+
 
 
 DELETE
@@ -113,6 +121,7 @@ DELETE
 	-temperature    
 		2
 		3
+	-pressure 2-3
 END
 
 
@@ -126,6 +135,7 @@ USE kinetics 1
 USE mix 1
 USE reaction 1
 USE reaction_temperature 1
+USE reaction_pressure 1
 END
 
 DELETE
@@ -141,12 +151,17 @@ DELETE
 	-gas_phase	
 		-2--1
 	-kinetics	
-		-1--2 -5
+			-1--2 -5
+	-mix 		-5--1			
+	-reaction	-5--1
+	-temperature	-5--1
+	-pressure	-5--1
 END
 DUMP
-	-file	ppdump.dmp
+	#-file	ppdump.dmp
+	#-append	
 	-all
-	-append
+
 END
 SOLUTION_MODIFY       1 New soln description
   -totals
@@ -272,8 +287,8 @@ KINETICS_MODIFY       1 New kinetics def
     Ca   8.9801193858101e-013
     O   2.694035815743e-012
 DUMP
-	-file	ppdump.dmp
-	-append    
+	#-file	ppdump.dmp
+	#-append    
 	-solution 1
 	-equilibrium 1
 	-exchange 1
