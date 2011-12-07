@@ -71,10 +71,9 @@ void dumper::SetAll(bool tf)
 	int opt_save;
 	bool useLastLine(false);
 
-	// Read mix number and description
-	//this->read_number_description(parser);
-
 	opt_save = CParser::OPT_DEFAULT;
+	bool cleared_once = false;
+	this->on = true;
 
 	for (;;)
 	{
@@ -89,7 +88,11 @@ void dumper::SetAll(bool tf)
 		{
 			opt_save = opt;
 		}
-
+		if (opt > 1 && !cleared_once)
+		{
+			binList.SetAll(false);
+			cleared_once = true;
+		}
 		// Select StorageBinListItem
 		StorageBinListItem *item = NULL;
 		switch (opt)
