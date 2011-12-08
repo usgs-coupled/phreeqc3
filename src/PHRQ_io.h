@@ -7,9 +7,9 @@
 #define IPQ_DLL_EXPORT
 #endif
 
-#include <ios>
-#include <iosfwd>
+#include <iostream>
 #include <exception>
+#include <list>
 
 class PhreeqcStop : std::exception
 {
@@ -25,12 +25,19 @@ public:
 	// methods
 	static int istream_getc(void *cookie);
 	static void safe_close(std::ostream **stream_ptr);
-	void close_output_ostreams(void);
+	void close_ostreams(void);
 	void Set_io_error_count(int i)				{this->io_error_count = i;};
 	int Get_io_error_count(void)				{return this->io_error_count;};
 
+
+	// istreams
+	std::istream *get_istream();
+	void pop_istream();
+	void push_istream(std::istream * cookie, bool auto_delete = true);
+	void clear_istream(void);
+
 	// output_ostream
-	bool output_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
+	virtual bool output_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void output_flush(void);
 	void output_close(void);
 	virtual void output_msg(const char * str);
@@ -68,7 +75,7 @@ public:
 	std::ostream *Get_error_ostream(void)			{return this->error_ostream;};
 	void Set_error_on(bool tf)						{this->error_on = tf;};
 	bool Get_error_on(void)							{return this->error_on;};
-	void warning_msg(const char *err_str);
+	virtual void warning_msg(const char *err_str);
 
 	// dump_ostream
 	bool dump_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
@@ -126,5 +133,8 @@ protected:
 	bool echo_on;
 	bool screen_on;
 	ECHO_OPTION echo_destination;
+
+	std::list <std::istream *> istream_list;
+	std::list <bool> delete_istream_list;
 };
 #endif /* _PHRQIO_H */

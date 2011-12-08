@@ -193,7 +193,7 @@ public:
 	void set_forward_output_to_log(int value);
 	int get_forward_output_to_log(void);
 
-	// dump_file
+	// dump_ostream
 	bool dump_open(const char *file_name);
 	void dump_flush(void);
 	void dump_close(void);
@@ -201,7 +201,7 @@ public:
 	//bool dump_isopen(void);
 	void dump_msg(const char * str);
 
-	// log_file
+	// log_ostream
 	bool log_open(const char *file_name);
 	void log_flush(void);
 	void log_close(void);
@@ -209,7 +209,7 @@ public:
 	//bool log_isopen(void);
 	void log_msg(const char * str);
 
-	// error_file
+	// error_ostream
 	bool error_open(const char *file_name);
 	void error_flush(void);
 	void error_close(void);
@@ -217,7 +217,7 @@ public:
 	//bool error_isopen(void);
 	void error_msg(const char * str, bool stop=false);
 
-	// output_file
+	// output_ostream
 	bool output_open(const char *file_name);
 	void output_flush(void);
 	void output_close(void);
@@ -225,7 +225,7 @@ public:
 	//bool output_isopen(void);
 	void output_msg(const char * str);
 
-	// punch_file
+	// punch_ostream
 	bool punch_open(const char *file_name);
 	void punch_flush(void);
 	void punch_close(void);
@@ -1324,12 +1324,7 @@ public:
 	//bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
-	void set_io(PHRQ_io *io);
 	size_t list_components(std::list<std::string> &list_c);
-	std::istream *get_istream();
-	void pop_istream();
-	void push_istream(std::istream * cookie, bool auto_delete = true);
-	void clear_istream(void);
 protected:
 	void init(void);
 
@@ -1337,9 +1332,6 @@ protected:
 	//Data members
 	//
 protected:
-	std::list <std::istream *> istream_list;
-	std::list <bool> delete_istream_list;
-
 	PHRQ_io *phrq_io;
 	PHRQ_io ioInstance;
 
