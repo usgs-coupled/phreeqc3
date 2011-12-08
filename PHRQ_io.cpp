@@ -420,7 +420,7 @@ void PHRQ_io::fpunchf_end_row(const char *format)
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
-close_output_ostreams(void)
+close_ostreams(void)
 /* ---------------------------------------------------------------------- */
 {
 	std::set<std::ostream *> streams;
@@ -477,5 +477,45 @@ echo_msg(const char * str)
 			output_msg(str);
 			break;
 		}
+	}
+}
+
+std::istream * PHRQ_io::
+get_istream()
+{
+	if (istream_list.size() > 0)
+	{
+		return istream_list.front();
+	}
+	else
+	{
+		return NULL;
+	}
+}
+void PHRQ_io::
+push_istream(std::istream * cookie, bool auto_delete)
+{
+	istream_list.push_front(cookie);
+	delete_istream_list.push_front(auto_delete);
+}
+void PHRQ_io::
+clear_istream(void)
+{
+	while (istream_list.size() > 0)
+	{
+		pop_istream();
+	}
+}
+void PHRQ_io::
+pop_istream()
+{
+	if (istream_list.size() > 0)
+	{
+		if (delete_istream_list.front())
+		{
+			delete istream_list.front();
+		}
+		istream_list.pop_front();
+		delete_istream_list.pop_front();
 	}
 }

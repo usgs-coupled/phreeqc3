@@ -144,8 +144,8 @@ Phreeqc::~Phreeqc(void)
 	clean_up();
 	if (phrq_io == &ioInstance)
 	{
-		//this->phrq_io->close_input_files();
-		this->phrq_io->close_output_ostreams();
+		this->phrq_io->clear_istream();
+		this->phrq_io->close_ostreams();
 	}
 
 	int i;
@@ -877,12 +877,7 @@ void Phreeqc::init(void)
 #endif
 	run_info.Set_io(phrq_io);
 
-	this->clear_istream();
+	phrq_io->clear_istream();
 
 	return;
-}
-
-void Phreeqc::set_io(PHRQ_io *io)
-{
-	this->phrq_io = io;
 }
