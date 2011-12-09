@@ -95,9 +95,9 @@ main_method(int argc, char *argv[])
 /*
  *   Load database into memory
  */
-	this->push_istream(db_cookie);
+	this->phrq_io->push_istream(db_cookie);
 	errors = read_database();
-	this->clear_istream();
+	this->phrq_io->clear_istream();
 
 	if (errors != 0)
 	{
@@ -109,9 +109,9 @@ main_method(int argc, char *argv[])
  *   Read input data for simulation
  */
 
-	this->push_istream(input_cookie);
+	this->phrq_io->push_istream(input_cookie);
 	errors = run_simulations();
-	this->clear_istream();
+	this->phrq_io->clear_istream();
 
 	if (errors != 0)
 	{
