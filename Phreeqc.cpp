@@ -123,6 +123,7 @@ Phreeqc::Phreeqc(PHRQ_io *io)
 	// phqalloc.c
 
 	// print.c
+	status_on = FALSE;
 	sformatf_buffer = (char *) PHRQ_malloc(256 * sizeof(char));
 	if (sformatf_buffer == NULL) 
 		malloc_error();
