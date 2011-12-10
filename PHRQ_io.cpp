@@ -202,8 +202,8 @@ error_msg(const char *err_str, bool stop)
 	io_error_count++;
 	if (error_ostream != NULL && error_on)
 	{
-			(*error_ostream) << err_str;
-			error_ostream->flush();
+		(*error_ostream) << err_str;
+		error_ostream->flush();
 	}
 	if (stop)
 	{
@@ -356,15 +356,13 @@ void PHRQ_io::
 warning_msg(const char *err_str)
 /* ---------------------------------------------------------------------- */
 {
-	std::ostringstream warn_str;
-	warn_str << "WARNING: " << err_str << std::endl;
-
-	//screen_msg("\n");
 	if (error_ostream != NULL && error_on)
 	{
-		(*error_ostream) << "\nWARNING: " << err_str << std::endl;
+		(*error_ostream) << err_str << std::endl;
 		error_ostream->flush();
 	}	
+	std::ostringstream warn_str;
+	warn_str << err_str << std::endl;
 	log_msg(warn_str.str().c_str());
 	log_flush();
 	output_msg(warn_str.str().c_str());
