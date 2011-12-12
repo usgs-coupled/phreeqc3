@@ -559,6 +559,7 @@ public:
 	int save_model(void);
 	int setup_exchange(void);
 	int setup_gas_phase(void);
+	int setup_slack(void);
 	int setup_master_rxn(struct master **master_ptr_list,
 	struct reaction **pe_rxn);
 	LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
@@ -1682,6 +1683,7 @@ protected:
 	struct unknown *solution_phase_boundary_unknown;
 	struct unknown *surface_unknown;
 	struct unknown *gas_unknown;
+	struct unknown *slack_unknown;
 	struct unknown *s_s_unknown;
 	/*----------------------------------------------------------------------
 	*   Reaction work space
@@ -1785,6 +1787,7 @@ protected:
 	int diagonal_scale;	/* 0 not used, 1 used */
 	int mass_water_switch;
 	int delay_mass_water;
+	bool dampen;
 	LDBLE censor;
 	int aqueous_only;
 	int negative_concentrations;
