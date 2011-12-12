@@ -1,164 +1,61 @@
-SOLUTION_RAW       1 
-  -temp              25
-  -total_h           111.01243359275
-  -total_o           55.506216796431
-  -cb                -1.0821249131272e-10
+SOLUTION_RAW       1 Khuff reservoir: Franco et al., 2009, SAJT.
+  -temp              132
+  -total_h           111.01567039854
+  -total_o           55.529827857905
+  -cb                0.21669501178546
   -totals
-    H(0)   1.4158915035641e-25
+    Ba   0.00019832973035712
+    C(4)   0.0062174447132701
+    Ca   0.44044523594133
+    Cl   3.9828311841461
+    K   0.18640893355302
+    Mg   0.077628269023955
+    Na   2.9583694014613
+    S(6)   0.0012887536088593
+    Sr   0.014793604146952
   -Isotopes
   -pH                7
   -pe                4
-  -mu                1.001064960852e-07
-  -ah2o              1
+  -mu                4.6286585897942
+  -ah2o              0.85940765069498
   -mass_water        1
-  -total_alkalinity  1.0821249131272e-10
+  -total_alkalinity  0.008805509550249
   -activities
+    Alkalinity   -5.7121639851409
+    Ba   -4.8616806666511
+    C(4)   -5.7121639851409
+    Ca   -1.2480654556912
+    Cl   0.43584155559307
     E   -4
-    H(0)   -29.99999998
-    O(0)   -29.99999998
+    K   -0.97183388438348
+    Mg   -1.9672865467585
+    Na   0.29371421683999
+    S(6)   -4.3104919440428
+    Sr   -2.5419716388152
   -gammas
-SOLUTION_RAW       2 
-  -temp              25
-  -total_h           111.01243359978
-  -total_o           55.506216800055
-  -cb                -3.3548764062089e-10
-  -totals
-    Br   0.0010000000000003
-    H(0)   1.4155655514552e-25
-    K   0.0010000000000003
-  -Isotopes
-  -pH                7
-  -pe                4
-  -mu                0.0010001035841784
-  -ah2o              0.99996599647757
-  -mass_water        1
-  -total_alkalinity  3.354876246022e-10
-  -activities
-    Br   -3.0156198855958
-    E   -4
-    H(0)   -25.15
-    K   -3.0155266551366
-    O(0)   -42.080029535586
-  -gammas
-EXCHANGE_RAW       1 
-  -exchange_gammas 1
-  -component
-    -formula               CaX2
-      -totals
-        Ca   1
-        X   2
-      -charge_balance        0
-      -moles                 1
-      -la                    0
-      -phase_proportion      0
-      -formula_z             0
-      -formula_totals
-        Ca   1
-        X   2
-GAS_PHASE_RAW       2 
-  -type               0
+    Ba+2   -1.159068488079
+    CO2   0.3299111058834
+    CO3-2   -2.0193313607881
+    Ca+2   -0.88949797871619
+    Cl-   -0.16435034324719
+    H+   0.11463120445453
+    HCO3-   -0.025503468818529
+    HSO4-   -0.34849444258744
+    K+   -0.24230060624162
+    Mg+2   -0.85476937840549
+    MgOH+   -0.41094237479747
+    Na+   -0.17733818507231
+    OH-   -0.61939874307374
+    SO4-2   -1.4206515235518
+    Sr+2   -0.71204563231485
+GAS_PHASE_RAW       1 
+  -type               1
   -total_p            1
   -volume             1
   -v_m                0
   -component
-    CO2(g)   1.226186459863e-05
-KINETICS_RAW       3 
-  -step_divide       1
-  -rk                3
-  -bad_step_max      500
-  -use_cvode         0
-  -cvode_steps       100
-  -cvode_order       5
-  -component
-    -rate_name             Calcite
-      -tol                   1e-08
-      -m                     0.003
-      -m0                    0.003
-      -moles                 0
-      -namecoef
-        Calcite   1
-      -d_params
-        5 0.6 
-  -totals         
-  -equal_steps    0
-  -steps         
-    1 
-EQUILIBRIUM_PHASES_RAW       1 
-  -eltList       
-    C   1
-    Ca   1
-    O   3
-  -component
-    -name                  calcite
-      -si                    0
-      -si_org                0
-      -moles                 10
-      -delta                 0
-      -initial_moles         0
-      -force_equality        0
-      -dissolve_only         0
-      -precipitate_only      0
-SOLID_SOLUTIONS_RAW       5 
-  -solid_solution
-    -name                  Carbonate
-      -a0                    0
-      -a1                    0
-      -ag0                   0
-      -ag1                   0
-      -miscibility           0
-      -xb1                   0
-      -xb2                   0
-      -components            
-        Calcite   0
-        Strontianite   0
-SURFACE_RAW       1 
-  -type 2
-  -dl_type 0
-  -sites_units 0
-  -only_counter_ions 0
-  -thickness 1e-08
-  -debye_lengths 0
-  -DDL_viscosity 1
-  -DDL_limit 0.8
-  -transport 0
-  -component
-    -formula               Hfo_w
-      -formula_z             0
-      -moles                 1
-      -la                    0
-      -charge_balance        0
-      -phase_proportion      0
-      -Dw                    0
-      -formula_totals
-        Hfo_w   1
-      -totals
-        Hfo_w   1
-  -charge_component 
-    -name                  Hfo
-      -specific_area         600
-      -grams                 1
-      -charge_balance        0
-      -mass_water            0
-      -la_psi                0
-      -la_psi1               0
-      -la_psi2               0
-      -capacitance0          1
-      -capacitance1          5
-      -diffuse_layer_totals
-MIX        1 
-  1     0.5
-  2     0.5
-REACTION_RAW        1 
-  -units              Mol
-  -reactant_list      
-    NaCl   1
-  -element_list       
-  -steps              
-    100 
-  -equal_increments   0
-  -count_steps        1
-REACTION_TEMPERATURE_RAW        1 
-  -count_temps        1
-  -equal_increments   0
-  -temps              
-    31 
+    CO2(g)   0.34563381035573
+    H2O(g)   0.33699296509684
+    H2Sg(g)   0.0057605635059289
+    Mth(g)   9.6201410549013
+    Ng(g)   1.1521127011858
