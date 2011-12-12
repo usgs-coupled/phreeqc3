@@ -1788,6 +1788,7 @@ protected:
 	int mass_water_switch;
 	int delay_mass_water;
 	bool dampen;
+	bool slack;
 	LDBLE censor;
 	int aqueous_only;
 	int negative_concentrations;
