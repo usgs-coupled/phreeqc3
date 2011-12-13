@@ -453,6 +453,9 @@ public:
 	//int slnq(int n, LDBLE * a, LDBLE * delta, int ncols, int print);
 #endif
 	int calc_gas_pressures(void);
+#if defined(REVISED_GASES)
+	int calc_fixed_volume_gas_pressures(void);
+#endif
 	int calc_s_s_fractions(void);
 	int gammas(LDBLE mu);
 	int initial_guesses(void);
@@ -534,6 +537,9 @@ public:
 	int add_surface_charge_balance(void);
 	int add_cd_music_charge_balances(int i);
 	int build_gas_phase(void);
+#if defined(REVISED_GASES)
+	int build_fixed_volume_gas(void);
+#endif
 	int build_jacobian_sums(int k);
 	int build_mb_sums(void);
 	int build_min_exch(void);
@@ -559,6 +565,9 @@ public:
 	int save_model(void);
 	int setup_exchange(void);
 	int setup_gas_phase(void);
+#if defined(REVISED_GASES)
+	int setup_fixed_volume_gas(void);
+#endif
 	int setup_slack(void);
 	int setup_master_rxn(struct master **master_ptr_list,
 	struct reaction **pe_rxn);
