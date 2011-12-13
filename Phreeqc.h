@@ -563,6 +563,9 @@ public:
 	int setup_master_rxn(struct master **master_ptr_list,
 	struct reaction **pe_rxn);
 	LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
+#if defined(REVISED_GASES)
+	LDBLE calc_PR();
+#endif
 	int setup_pure_phases(void);
 	int adjust_setup_pure_phases(void);
 	int setup_related_surface(void);
@@ -1685,6 +1688,10 @@ protected:
 	struct unknown *gas_unknown;
 	struct unknown *slack_unknown;
 	struct unknown *s_s_unknown;
+#if defined(REVISED_GASES)
+	std::vector<struct unknown *> gas_unknowns;
+	struct unknown *gas_pressure_unknown;
+#endif	
 	/*----------------------------------------------------------------------
 	*   Reaction work space
 	*---------------------------------------------------------------------- */
@@ -1776,6 +1783,7 @@ protected:
 
 	LDBLE inv_tol_default;
 	int itmax;
+	int max_tries;
 	LDBLE ineq_tol;
 	LDBLE convergence_tolerance;
 	LDBLE step_size;
