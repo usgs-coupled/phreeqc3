@@ -28,6 +28,7 @@ cxxGasPhase::cxxGasPhase(PHRQ_io * io)
 	total_p = 0;
 	volume = 0;
 	v_m = 0;
+	pr_in = false;
 	gasPhaseComps.type = cxxNameDouble::ND_NAME_COEF;
 }
 
@@ -54,6 +55,7 @@ cxxNumKeyword(io)
 	total_p = gas_phase_ptr->total_p;
 	volume = gas_phase_ptr->volume;
 	v_m = gas_phase_ptr->v_m;
+	pr_in = gas_phase_ptr->pr_in;
 
 	// gas_phase components
 	for (i = 0; i < gas_phase_ptr->count_comps; i++)
@@ -73,6 +75,7 @@ cxxNumKeyword(io)
 	total_p = 0;
 	volume = 0;
 	v_m = 0;
+	pr_in = false;
 	bool first = true;
 //
 //   Mix
@@ -97,6 +100,7 @@ cxxNumKeyword(io)
 				this->total_p = entity_ptr->total_p * it->second;
 				this->volume = entity_ptr->volume * it->second;
 				this->v_m = entity_ptr->v_m * it->second;
+				this->pr_in = entity_ptr->pr_in;
 				first = false;
 			}
 			else
@@ -189,6 +193,9 @@ cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	s_oss << indent1;
 	s_oss << "-v_m                " << this->v_m << std::endl;
 
+	s_oss << indent1;
+	s_oss << "-pr_in               " << (this->pr_in ? 1 : 0) << std::endl;
+
 	// gasPhaseComps 
 	s_oss << indent1;
 	s_oss << "-component" << std::endl;
@@ -210,6 +217,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 		vopts.push_back("v_m");     //3
 		vopts.push_back("component");	//4
 		vopts.push_back("pressure");	//5
+		vopts.push_back("pr_in");       //6
 	}
 
 	std::istream::pos_type ptr;
@@ -226,6 +234,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 	bool total_p_defined(false);
 	bool volume_defined(false);
 	bool v_m_defined(false);
+	bool pr_in_defined(false);
 
 	for (;;)
 	{
@@ -324,6 +333,19 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			opt_save = 4;
 			useLastLine = false;
 			break;
+		case 6:				// pr_in
+			if (!(parser.get_iss() >> i))
+			{
+				parser.incr_input_error();
+				parser.error_msg("Expected 0/1 for pr_in.", CParser::OT_CONTINUE);
+			}
+			else
+			{
+				this->pr_in = (i == 0) ? false : true;
+			}
+			pr_in_defined = true;
+			useLastLine = false;
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -355,6 +377,12 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			parser.error_msg("V_m not defined for GAS_PHASE_RAW input.",
 				CParser::OT_CONTINUE);
 		}
+		if (pr_in_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Pr_in not defined for GAS_PHASE_RAW input.",
+				CParser::OT_CONTINUE);
+		}
 	}
 }
 
@@ -376,6 +404,7 @@ cxxGasPhase::mpi_pack(std::vector < int >&ints,
 	doubles.push_back(this->total_p);
 	doubles.push_back(this->volume);
 	doubles.push_back(this->v_m);
+	ints.push_back((pr_in) ? 1 : 0);
 }
 
 void
@@ -399,6 +428,8 @@ cxxGasPhase::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->total_p = doubles[d++];
 	this->volume = doubles[d++];
 	this->v_m = doubles[d++];
+	n = ints[i++];
+	this->pr_in = (n == 1) ? true : false;
 	*ii = i;
 	*dd = d;
 }

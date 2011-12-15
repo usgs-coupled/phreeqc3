@@ -50,6 +50,7 @@ class cxxGasPhase:public cxxNumKeyword
 	double Get_total_p(void) const {return total_p;};
 	double Get_volume(void) const {return volume;};
 	double Get_v_m(void) const {return v_m;};
+	bool Get_pr_in(void) const {return pr_in;};
 	cxxNameDouble & Get_totals(void) {return totals;};
 
 protected:
@@ -61,6 +62,7 @@ protected:
 	double total_p;
 	double volume;
 	double v_m;
+	bool pr_in;
 	cxxNameDouble totals;
 
 };
