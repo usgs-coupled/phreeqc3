@@ -3,7 +3,7 @@
 #include <set>					// std::set
 #include <string>				// std::string
 #include <list>					// std::list
-#include <vector>					// std::vector
+#include <vector>				// std::vector
 #include "StorageBinList.h"
 class CParser;
 
@@ -16,6 +16,7 @@ public:
 	bool Read(CParser & parser);
 	void SetAll(bool tf);
 	std::string Get_file_name(void)		{ return(this->file_name); };
+	void Set_file_name(std::string fn)	{ this->file_name = fn; };
 	bool Get_append(void)				{ return(this->append); };
 	bool Get_bool_solution(void)		{ return(this->binList.Get_solution().Get_defined()); };
 	bool Get_bool_pp_assemblage(void)	{ return(this->binList.Get_pp_assemblage().Get_defined()); };
