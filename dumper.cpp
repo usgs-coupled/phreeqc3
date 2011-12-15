@@ -28,7 +28,8 @@ void dumper::SetAll(bool tf)
 {
 	this->binList.SetAll(tf);
 
-}bool dumper::Read(CParser & parser)
+}
+bool dumper::Read(CParser & parser)
 {
 	bool return_value(true);
 	static std::vector < std::string > vopts;
