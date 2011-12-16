@@ -1,0 +1,255 @@
+   Input file: high_mu
+  Output file: high_mu.out
+Database file: ../database/wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/wateq4f.dat
+	knobs
+	SOLUTION
+		Na	5
+		Cl	5
+		units mol/kgw
+		pe 10
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               5.000e+000  5.000e+000
+	Na               5.000e+000  5.000e+000
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  10.000    
+                        Activity of water  =   0.830
+                           Ionic strength  =  5.000e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.090e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  1.091e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                    1.412e-007  1.000e-007    -6.850    -7.000    -0.150
+   OH-                   3.217e-008  8.309e-008    -7.492    -7.080     0.412
+   H2O                   5.551e+001  8.300e-001     1.744    -0.081     0.000
+Cl              5.000e+000
+   Cl-                   5.000e+000  2.850e+000     0.699     0.455    -0.244
+H(0)            4.477e-038
+   H2                    2.239e-038  7.079e-038   -37.650   -37.150     0.500
+Na              5.000e+000
+   Na+                   5.000e+000  6.091e+000     0.699     0.785     0.086
+O(0)            3.624e-019
+   O2                    1.812e-019  5.730e-019   -18.742   -18.242     0.500
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -34.00    -37.15   -3.15  H2
+	H2O(g)           -1.59     -0.08    1.51  H2O
+	Halite           -0.34      1.24    1.58  NaCl
+	O2(g)           -15.35    -18.24   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE solution 1
+	REACTION
+		H2O 1
+		-50 mol
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-014 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling and reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns 1e-010 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns and diagonal scale 1e-010 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased scaling 1e-009 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Skipping optimize equations for first 5 iterations ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Adding inequality to make concentrations greater than zero.
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-017 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-018 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: The program has failed to converge to a numerical solution.
+
+The following equations were not satisfied:
+ERROR:               A(H2O) Activity of water has not converged. 	Residual: 7.080000e-002
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	Irreversible reaction defined in simulation 2.
+
+	-5.000e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                  1.00000
+
+	                 Relative
+	Element             moles
+	H                    2.00000
+	O                    1.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               5.040e+001  5.000e+000
+	Na               5.040e+001  5.000e+000
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.124      Charge balance
+                                       pe  =  -3.563      Adjusted to redox equilibrium
+                        Activity of water  =   0.000
+                           Ionic strength  =  5.040e+001
+                       Mass of water (kg)  =  9.920e-002
+                 Total alkalinity (eq/kg)  = -1.099e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  1.091e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 201
+                                  Total H  = 1.101243e+001
+                                  Total O  = 5.506217e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                    1.099e-006  7.522e-007    -5.959    -6.124    -0.165
+   H2O                   5.551e+001  9.057e-019     1.744   -18.043     0.000
+   OH-                   6.705e-034  1.205e-026   -33.174   -25.919     7.255
+Cl              5.040e+001
+   Cl-                   5.040e+001  1.158e+002     1.702     2.064     0.361
+H(0)            9.761e-014
+   H2                    4.881e-014  5.355e-009   -13.312    -8.271     5.040
+Na              5.040e+001
+   Na+                   5.040e+001  1.000e+003     1.702     5.132     3.430
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000  -116.964  -111.924     5.040
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)            -5.12     -8.27   -3.15  H2
+	H2O(g)          -19.55    -18.04    1.51  H2O
+	Halite            5.61      7.20    1.58  NaCl
+	O2(g)          -109.03   -111.92   -2.89  O2
+
+
+ERROR: Numerical method failed on all combinations of convergence parameters
+Stopping.

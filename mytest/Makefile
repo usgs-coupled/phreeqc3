@@ -58,6 +58,7 @@ all: alkalinity.out \
 	fluorite.out \
 	gas.out \
 	hard.tests.out \
+	high_mu \
 	homo.out \
 	i2.out \
 	i3.out \
