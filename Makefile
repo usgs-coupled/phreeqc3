@@ -105,7 +105,7 @@ EFENCE_LIB=-L$(HOME)/packages/efence
 # 2 Versions
 # -----------------------------------------------------------------------------
 ifeq ($(CFG), CLASS_DEBUG)
-  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP)
+  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) -DREVISED_GASES
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
@@ -115,7 +115,7 @@ ifeq ($(CFG), CLASS_DEBUG)
 endif
 
 ifeq ($(CFG), CLASS_RELEASE)
-  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP)
+  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP) -DREVISED_GASES
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
@@ -136,6 +136,7 @@ COMMON_COBJS =  \
 	       cvode.o \
 	       dense.o \
 	       dw.o \
+	       gases.o \
 	       input.o \
 	       integrate.o \
 	       inverse.o \
@@ -711,13 +712,19 @@ utilities.o: ../phreeqc/utilities.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../phreeqc/global_structures.h \
  ../phreeqc/NA.h ../phreeqc/phqalloc.h
+gases.o: ../phreeqc/gases.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
+ ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
+ ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
+ ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
+ ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
+ ../phreeqc/global_structures.h ../phreeqc/NA.h
 # -----------------------------------------------------------------------------
 clean:
 	rm -rf Class_release Class_debug
 
 dependencies:
 	mkdir -p $(CLASS_DEBUG_DIR) 
-	cd $(CLASS_DEBUG_DIR); gcc -MM -I.. -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.cpp
+	cd $(CLASS_DEBUG_DIR); gcc -DREVISED_GASES -MM -I.. -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.cpp
 
 tester:
 	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
