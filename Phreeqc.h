@@ -662,7 +662,7 @@ public:
 	int check_key(const char *str);
 	int check_units(char *tot_units, int alkalinity, int check_compatibility,
 		const char *default_units, int print);
-	int find_option(char *item, int *n, const char **list, int count_list,
+	int find_option(const char *item, int *n, const char **list, int count_list,
 		int exact);
 	int get_option(const char **opt_list, int count_opt_list, char **next_char);
 	int get_true_false(char *string, int default_value);
@@ -1287,6 +1287,7 @@ public:
 	int copy_title(char *token_ptr, char **ptr, int *length);
 #endif
 	int copy_token(char *token_ptr, char **ptr, int *length);
+	int copy_token(std::string &token, char **ptr);
 	int dup_print(const char *ptr, int emphasis);
 	int equal(LDBLE a, LDBLE b, LDBLE eps);
 public:
@@ -1305,6 +1306,7 @@ protected:
 	int print_centered(const char *string);
 public:
 	static int replace(const char *str1, const char *str2, char *str);
+	static bool replace(const char *str1, const char *str2, std::string & str);
 protected:
 	void space(void **ptr, int i, int *max, int struct_size);
 	void squeeze_white(char *s_l);
