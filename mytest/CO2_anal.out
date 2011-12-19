@@ -19,5 +19,1423 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/Amm.dat
-	PRINT
-	 reset false
+	SOLUTION 1
+	PHASES
+	CO2(g)
+		CO2 = CO2
+		log_k	-1.468
+		delta_h  -4.776 kcal
+		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+		t_c  304.2 # critical T, K
+		p_c   72.80 # critical P, atm
+		omega 0.225 #  acentric factor
+	delta_v   2.6050944E+01  9.3248418E-03  -7.4742551E-02   0.0000000E+00
+	EQUILIBRIUM_PHASES
+	 CO2(g) -1
+	REACTION_TEMPERATURE
+	 5 200 in 10
+	USER_GRAPH
+	 -axis_titles "temp / oC" "CO2 / (mol/kgw)"
+	 -chart_title "P_CO2 = 0.1 atm"
+	 -axis_scale x_axis 0 200
+	 -headings tc old
+	 10 x = tc
+	 20 graph_x x
+	 30 graph_y tot("C(4)")
+	 -end
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                    1.002e-07   1.001e-07    -6.999    -6.999    -0.000
+   H+                     1.001e-07   1.000e-07    -7.000    -7.000    -0.000
+   H2O                    5.551e+01   1.000e+00     1.744     0.000     0.000
+H(0)             1.416e-25
+   H2                     7.079e-26   7.079e-26   -25.150   -25.150     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.00    -25.15   -3.15  H2
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.19     -1.19    1.000e+01   9.994e+00  -6.466e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 6.466e-03   6.466e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.354      Charge balance
+                                       pe  =   1.437      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   4.455e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   6.466e-03
+                      Temperature (deg C)  =   5.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551915e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     4.455e-05   4.422e-05    -4.351    -4.354    -0.003
+   OH-                    4.220e-11   4.189e-11   -10.375   -10.378    -0.003
+   H2O                    5.551e+01   9.999e-01     1.744    -0.000     0.000
+C(-4)            4.975e-22
+   CH4                    4.975e-22   4.975e-22   -21.303   -21.303     0.000
+C(4)             6.466e-03
+   CO2                    6.421e-03   6.421e-03    -2.192    -2.192     0.000
+   HCO3-                  4.455e-05   4.422e-05    -4.351    -4.354    -0.003
+   CO3-2                  2.875e-11   2.790e-11   -10.541   -10.554    -0.013
+H(0)             3.900e-15
+   H2                     1.950e-15   1.950e-15   -14.710   -14.710     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -70.020   -70.020     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(278 K,   1 atm)
+
+	CH4(g)          -18.62    -21.30   -2.68  CH4
+	CO2(g)           -1.00**   -2.19   -1.19  CO2	 Delta_V -24.23 cm3/mol	 Pressure   0.1 atm, phi 0.999.
+	H2(g)           -11.65    -14.71   -3.06  H2
+	O2(g)           -67.31    -70.02   -2.71  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.49     -1.49    1.000e+01   9.997e+00  -3.293e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 3.293e-03   3.293e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.415      Charge balance
+                                       pe  =   1.363      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.870e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   3.293e-03
+                      Temperature (deg C)  =  26.67
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551280e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     3.870e-05   3.842e-05    -4.412    -4.415    -0.003
+   OH-                    2.973e-10   2.952e-10    -9.527    -9.530    -0.003
+   H2O                    5.551e+01   9.999e-01     1.744    -0.000     0.000
+C(-4)            2.794e-25
+   CH4                    2.794e-25   2.794e-25   -24.554   -24.554     0.000
+C(4)             3.293e-03
+   CO2                    3.255e-03   3.255e-03    -2.487    -2.487     0.000
+   HCO3-                  3.870e-05   3.842e-05    -4.412    -4.415    -0.003
+   CO3-2                  4.988e-11   4.846e-11   -10.302   -10.315    -0.013
+H(0)             3.905e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -62.415   -62.415     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(299 K,   1 atm)
+
+	CH4(g)          -21.68    -24.55   -2.87  CH4
+	CO2(g)           -1.00**   -2.49   -1.49  CO2	 Delta_V  26.85 cm3/mol	 Pressure   0.1 atm, phi 0.999.
+	H2(g)           -11.55    -14.71   -3.16  H2
+	O2(g)           -59.51    -62.42   -2.90  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.70     -1.70    1.000e+01   9.998e+00  -2.039e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 2.039e-03   2.039e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.492      Charge balance
+                                       pe  =   1.276      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.243e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   2.039e-03
+                      Temperature (deg C)  =  48.33
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551029e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     3.243e-05   3.221e-05    -4.489    -4.492    -0.003
+   OH-                    1.504e-09   1.493e-09    -8.823    -8.826    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            3.239e-28
+   CH4                    3.239e-28   3.239e-28   -27.490   -27.490     0.000
+C(4)             2.039e-03
+   CO2                    2.006e-03   2.006e-03    -2.698    -2.698     0.000
+   HCO3-                  3.243e-05   3.220e-05    -4.489    -4.492    -0.003
+   CO3-2                  6.775e-11   6.590e-11   -10.169   -10.181    -0.012
+H(0)             3.905e-15
+   H2                     1.953e-15   1.953e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -55.835   -55.835     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(321 K,   1 atm)
+
+	CH4(g)          -24.45    -27.49   -3.04  CH4
+	CO2(g)           -1.00**   -2.70   -1.70  CO2	 Delta_V 148.11 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.47    -14.71   -3.24  H2
+	O2(g)           -52.81    -55.84   -3.02  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.85     -1.85    1.000e+01   9.999e+00  -1.451e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.451e-03   1.451e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.577      Charge balance
+                                       pe  =   1.182      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.664e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   1.451e-03
+                      Temperature (deg C)  =  70.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550912e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     2.664e-05   2.647e-05    -4.574    -4.577    -0.003
+   OH-                    5.863e-09   5.824e-09    -8.232    -8.235    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            6.998e-31
+   CH4                    6.998e-31   6.998e-31   -30.155   -30.155     0.000
+C(4)             1.451e-03
+   CO2                    1.425e-03   1.425e-03    -2.846    -2.846     0.000
+   HCO3-                  2.663e-05   2.646e-05    -4.575    -4.577    -0.003
+   CO3-2                  7.643e-11   7.444e-11   -10.117   -10.128    -0.011
+H(0)             3.905e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -50.086   -50.086     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(343 K,   1 atm)
+
+	CH4(g)          -26.97    -30.16   -3.18  CH4
+	CO2(g)           -1.00**   -2.85   -1.85  CO2	 Delta_V 339.53 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.39    -14.71   -3.32  H2
+	O2(g)           -47.00    -50.09   -3.09  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.95     -1.95    1.000e+01   9.999e+00  -1.145e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.145e-03   1.145e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.667      Charge balance
+                                       pe  =   1.084      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.165e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   1.145e-03
+                      Temperature (deg C)  =  91.67
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550851e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     2.165e-05   2.151e-05    -4.665    -4.667    -0.003
+   OH-                    1.855e-08   1.843e-08    -7.732    -7.734    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            2.569e-33
+   CH4                    2.569e-33   2.569e-33   -32.590   -32.590     0.000
+C(4)             1.145e-03
+   CO2                    1.124e-03   1.124e-03    -2.949    -2.949     0.000
+   HCO3-                  2.163e-05   2.149e-05    -4.665    -4.668    -0.003
+   CO3-2                  7.461e-11   7.277e-11   -10.127   -10.138    -0.011
+H(0)             3.904e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -45.019   -45.019     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(364 K,   1 atm)
+
+	CH4(g)          -29.28    -32.59   -3.31  CH4
+	CO2(g)           -1.00**   -2.95   -1.95  CO2	 Delta_V 601.14 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.32    -14.71   -3.39  H2
+	O2(g)           -41.91    -45.02   -3.11  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.02     -2.02    1.000e+01   9.999e+00  -9.777e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.777e-04   9.777e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.760      Charge balance
+                                       pe  =   0.985      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.749e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   9.777e-04
+                      Temperature (deg C)  = 113.33
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550817e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.749e-05   1.739e-05    -4.757    -4.760    -0.003
+   OH-                    4.937e-08   4.908e-08    -7.307    -7.309    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            1.483e-35
+   CH4                    1.483e-35   1.483e-35   -34.829   -34.829     0.000
+C(4)             9.777e-04
+   CO2                    9.603e-04   9.603e-04    -3.018    -3.018     0.000
+   HCO3-                  1.744e-05   1.734e-05    -4.758    -4.761    -0.003
+   CO3-2                  6.485e-11   6.332e-11   -10.188   -10.198    -0.010
+H(0)             3.904e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -40.521   -40.521     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(386 K,   1 atm)
+
+	CH4(g)          -31.40    -34.83   -3.43  CH4
+	CO2(g)           -1.00**   -3.02   -2.02  CO2	 Delta_V 932.92 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.26    -14.71   -3.44  H2
+	O2(g)           -37.41    -40.52   -3.11  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.06     -2.06    1.000e+01   9.999e+00  -8.881e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.881e-04   8.881e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.853      Charge balance
+                                       pe  =   0.882      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.410e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.881e-04
+                      Temperature (deg C)  = 135.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550799e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.410e-05   1.402e-05    -4.851    -4.853    -0.002
+   OH-                    1.136e-07   1.129e-07    -6.945    -6.947    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            1.329e-37
+   CH4                    1.329e-37   1.329e-37   -36.876   -36.876     0.000
+C(4)             8.881e-04
+   CO2                    8.741e-04   8.741e-04    -3.058    -3.058     0.000
+   HCO3-                  1.398e-05   1.390e-05    -4.854    -4.857    -0.002
+   CO3-2                  5.115e-11   5.000e-11   -10.291   -10.301    -0.010
+H(0)             3.959e-15
+   H2                     1.979e-15   1.979e-15   -14.703   -14.703     0.000
+O(0)             6.153e-37
+   O2                     3.076e-37   3.076e-37   -36.512   -36.512     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(408 K,   1 atm)
+
+	CH4(g)          -33.35    -36.88   -3.53  CH4
+	CO2(g)           -1.00**   -3.06   -2.06  CO2	 Delta_V 1334.87 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.21    -14.70   -3.50  H2
+	O2(g)           -33.44    -36.51   -3.07  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.08     -2.08    1.000e+01   9.999e+00  -8.481e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.481e-04   8.481e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.947      Charge balance
+                                       pe  =   5.081      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.136e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.481e-04
+                      Temperature (deg C)  = 156.67
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550791e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.136e-05   1.130e-05    -4.944    -4.947    -0.002
+   OH-                    2.302e-07   2.289e-07    -6.638    -6.640    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            0.000e+00
+   CH4                    0.000e+00   0.000e+00   -73.191   -73.191     0.000
+C(4)             8.481e-04
+   CO2                    8.369e-04   8.369e-04    -3.077    -3.077     0.000
+   HCO3-                  1.113e-05   1.107e-05    -4.953    -4.956    -0.002
+   CO3-2                  3.707e-11   3.627e-11   -10.431   -10.440    -0.009
+H(0)             1.002e-23
+   H2                     5.012e-24   5.012e-24   -23.300   -23.300     0.000
+O(0)             3.958e-16
+   O2                     1.979e-16   1.979e-16   -15.704   -15.704     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(429 K,   1 atm)
+
+	CH4(g)          -69.57    -73.19   -3.62  CH4
+	CO2(g)           -1.00**   -3.08   -2.08  CO2	 Delta_V 1807.00 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -19.75    -23.30   -3.54  H2
+	O2(g)           -12.68    -15.70   -3.02  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.08     -2.08    1.000e+01   9.999e+00  -8.444e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.444e-04   8.444e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.039      Charge balance
+                                       pe  =   5.114      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   9.194e-06
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.444e-04
+                      Temperature (deg C)  = 178.33
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550791e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     9.194e-06   9.146e-06    -5.036    -5.039    -0.002
+   OH-                    4.163e-07   4.141e-07    -6.381    -6.383    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            0.000e+00
+   CH4                    0.000e+00   0.000e+00   -76.036   -76.036     0.000
+C(4)             8.444e-04
+   CO2                    8.356e-04   8.356e-04    -3.078    -3.078     0.000
+   HCO3-                  8.778e-06   8.732e-06    -5.057    -5.059    -0.002
+   CO3-2                  2.481e-11   2.430e-11   -10.605   -10.614    -0.009
+H(0)             5.511e-24
+   H2                     2.755e-24   2.755e-24   -23.560   -23.560     0.000
+O(0)             2.430e-12
+   O2                     1.215e-12   1.215e-12   -11.915   -11.915     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(451 K,   1 atm)
+
+	CH4(g)          -72.34    -76.04   -3.70  CH4
+	CO2(g)           -1.00**   -3.08   -2.08  CO2	 Delta_V 2349.31 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -19.97    -23.56   -3.59  H2
+	O2(g)            -8.96    -11.92   -2.95  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.06     -2.06    1.000e+01   9.999e+00  -8.710e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.710e-04   8.710e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.127      Charge balance
+                                       pe  =   5.024      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   7.497e-06
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.710e-04
+                      Temperature (deg C)  = 200.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550796e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     7.496e-06   7.458e-06    -5.125    -5.127    -0.002
+   OH-                    6.778e-07   6.744e-07    -6.169    -6.171    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            0.000e+00
+   CH4                    0.000e+00   0.000e+00   -77.764   -77.764     0.000
+C(4)             8.710e-04
+   CO2                    8.641e-04   8.641e-04    -3.063    -3.063     0.000
+   HCO3-                  6.819e-06   6.784e-06    -5.166    -5.169    -0.002
+   CO3-2                  1.534e-11   1.503e-11   -10.814   -10.823    -0.009
+H(0)             5.430e-24
+   H2                     2.715e-24   2.715e-24   -23.566   -23.566     0.000
+O(0)             2.331e-09
+   O2                     1.165e-09   1.165e-09    -8.934    -8.933     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(473 K,   1 atm)
+
+	CH4(g)          -73.99    -77.76   -3.77  CH4
+	CO2(g)           -1.00**   -3.06   -2.06  CO2	 Delta_V 2961.79 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -19.94    -23.57   -3.63  H2
+	O2(g)            -6.06     -8.93   -2.87  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	PHASES
+	CO2(g)
+		CO2 = CO2
+		log_k	-1.468
+		delta_h  -4.776 kcal
+		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+		t_c  304.2 # critical T, K
+		p_c   72.80 # critical P, atm
+		omega 0.225 #  acentric factor
+	delta_v   2.6050944E+01  9.3248418E-03  -7.4742551E-02   0.0000000E+00
+	USE solution 1
+	USE equilibrium_phases  1
+	USE reaction_temperature 1
+	USER_GRAPH
+	 -headings tc new
+	 -connect_simulations false
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.19     -1.19    1.000e+01   9.994e+00  -6.466e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 6.466e-03   6.466e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.354      Charge balance
+                                       pe  =   1.437      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   4.455e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   6.466e-03
+                      Temperature (deg C)  =   5.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551915e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     4.455e-05   4.422e-05    -4.351    -4.354    -0.003
+   OH-                    4.220e-11   4.189e-11   -10.375   -10.378    -0.003
+   H2O                    5.551e+01   9.999e-01     1.744    -0.000     0.000
+C(-4)            4.975e-22
+   CH4                    4.975e-22   4.975e-22   -21.303   -21.303     0.000
+C(4)             6.466e-03
+   CO2                    6.421e-03   6.421e-03    -2.192    -2.192     0.000
+   HCO3-                  4.455e-05   4.422e-05    -4.351    -4.354    -0.003
+   CO3-2                  2.875e-11   2.790e-11   -10.541   -10.554    -0.013
+H(0)             3.900e-15
+   H2                     1.950e-15   1.950e-15   -14.710   -14.710     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -70.020   -70.020     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(278 K,   1 atm)
+
+	CH4(g)          -18.62    -21.30   -2.68  CH4
+	CO2(g)           -1.00**   -2.19   -1.19  CO2	 Delta_V -24.23 cm3/mol	 Pressure   0.1 atm, phi 0.999.
+	H2(g)           -11.65    -14.71   -3.06  H2
+	O2(g)           -67.31    -70.02   -2.71  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.49     -1.49    1.000e+01   9.997e+00  -3.293e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 3.293e-03   3.293e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.415      Charge balance
+                                       pe  =   1.363      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.870e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   3.293e-03
+                      Temperature (deg C)  =  26.67
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551280e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     3.870e-05   3.842e-05    -4.412    -4.415    -0.003
+   OH-                    2.973e-10   2.952e-10    -9.527    -9.530    -0.003
+   H2O                    5.551e+01   9.999e-01     1.744    -0.000     0.000
+C(-4)            2.794e-25
+   CH4                    2.794e-25   2.794e-25   -24.554   -24.554     0.000
+C(4)             3.293e-03
+   CO2                    3.255e-03   3.255e-03    -2.487    -2.487     0.000
+   HCO3-                  3.870e-05   3.842e-05    -4.412    -4.415    -0.003
+   CO3-2                  4.988e-11   4.846e-11   -10.302   -10.315    -0.013
+H(0)             3.905e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -62.415   -62.415     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(299 K,   1 atm)
+
+	CH4(g)          -21.68    -24.55   -2.87  CH4
+	CO2(g)           -1.00**   -2.49   -1.49  CO2	 Delta_V  26.85 cm3/mol	 Pressure   0.1 atm, phi 0.999.
+	H2(g)           -11.55    -14.71   -3.16  H2
+	O2(g)           -59.51    -62.42   -2.90  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.70     -1.70    1.000e+01   9.998e+00  -2.039e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 2.039e-03   2.039e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.492      Charge balance
+                                       pe  =   1.276      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   3.243e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   2.039e-03
+                      Temperature (deg C)  =  48.33
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.551029e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     3.243e-05   3.221e-05    -4.489    -4.492    -0.003
+   OH-                    1.504e-09   1.493e-09    -8.823    -8.826    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            3.239e-28
+   CH4                    3.239e-28   3.239e-28   -27.490   -27.490     0.000
+C(4)             2.039e-03
+   CO2                    2.006e-03   2.006e-03    -2.698    -2.698     0.000
+   HCO3-                  3.243e-05   3.220e-05    -4.489    -4.492    -0.003
+   CO3-2                  6.775e-11   6.590e-11   -10.169   -10.181    -0.012
+H(0)             3.905e-15
+   H2                     1.953e-15   1.953e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -55.835   -55.835     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(321 K,   1 atm)
+
+	CH4(g)          -24.45    -27.49   -3.04  CH4
+	CO2(g)           -1.00**   -2.70   -1.70  CO2	 Delta_V 148.11 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.47    -14.71   -3.24  H2
+	O2(g)           -52.81    -55.84   -3.02  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.85     -1.85    1.000e+01   9.999e+00  -1.451e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.451e-03   1.451e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.577      Charge balance
+                                       pe  =   1.182      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.664e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   1.451e-03
+                      Temperature (deg C)  =  70.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550912e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     2.664e-05   2.647e-05    -4.574    -4.577    -0.003
+   OH-                    5.863e-09   5.824e-09    -8.232    -8.235    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            6.998e-31
+   CH4                    6.998e-31   6.998e-31   -30.155   -30.155     0.000
+C(4)             1.451e-03
+   CO2                    1.425e-03   1.425e-03    -2.846    -2.846     0.000
+   HCO3-                  2.663e-05   2.646e-05    -4.575    -4.577    -0.003
+   CO3-2                  7.643e-11   7.444e-11   -10.117   -10.128    -0.011
+H(0)             3.905e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -50.086   -50.086     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(343 K,   1 atm)
+
+	CH4(g)          -26.97    -30.16   -3.18  CH4
+	CO2(g)           -1.00**   -2.85   -1.85  CO2	 Delta_V 339.53 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.39    -14.71   -3.32  H2
+	O2(g)           -47.00    -50.09   -3.09  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -2.95     -1.95    1.000e+01   9.999e+00  -1.145e-03
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.145e-03   1.145e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.667      Charge balance
+                                       pe  =   1.084      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.165e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   1.145e-03
+                      Temperature (deg C)  =  91.67
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550851e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     2.165e-05   2.151e-05    -4.665    -4.667    -0.003
+   OH-                    1.855e-08   1.843e-08    -7.732    -7.734    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            2.569e-33
+   CH4                    2.569e-33   2.569e-33   -32.590   -32.590     0.000
+C(4)             1.145e-03
+   CO2                    1.124e-03   1.124e-03    -2.949    -2.949     0.000
+   HCO3-                  2.163e-05   2.149e-05    -4.665    -4.668    -0.003
+   CO3-2                  7.461e-11   7.277e-11   -10.127   -10.138    -0.011
+H(0)             3.904e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -45.019   -45.019     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(364 K,   1 atm)
+
+	CH4(g)          -29.28    -32.59   -3.31  CH4
+	CO2(g)           -1.00**   -2.95   -1.95  CO2	 Delta_V 601.14 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.32    -14.71   -3.39  H2
+	O2(g)           -41.91    -45.02   -3.11  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.02     -2.02    1.000e+01   9.999e+00  -9.777e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 9.777e-04   9.777e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.760      Charge balance
+                                       pe  =   0.985      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.749e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   9.777e-04
+                      Temperature (deg C)  = 113.33
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550817e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.749e-05   1.739e-05    -4.757    -4.760    -0.003
+   OH-                    4.937e-08   4.908e-08    -7.307    -7.309    -0.003
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            1.483e-35
+   CH4                    1.483e-35   1.483e-35   -34.829   -34.829     0.000
+C(4)             9.777e-04
+   CO2                    9.603e-04   9.603e-04    -3.018    -3.018     0.000
+   HCO3-                  1.744e-05   1.734e-05    -4.758    -4.761    -0.003
+   CO3-2                  6.485e-11   6.332e-11   -10.188   -10.198    -0.010
+H(0)             3.904e-15
+   H2                     1.952e-15   1.952e-15   -14.709   -14.709     0.000
+O(0)             0.000e+00
+   O2                     0.000e+00   0.000e+00   -40.521   -40.521     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(386 K,   1 atm)
+
+	CH4(g)          -31.40    -34.83   -3.43  CH4
+	CO2(g)           -1.00**   -3.02   -2.02  CO2	 Delta_V 932.92 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.26    -14.71   -3.44  H2
+	O2(g)           -37.41    -40.52   -3.11  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.06     -2.06    1.000e+01   9.999e+00  -8.881e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.881e-04   8.881e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.853      Charge balance
+                                       pe  =   0.882      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.410e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.881e-04
+                      Temperature (deg C)  = 135.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550799e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.410e-05   1.402e-05    -4.851    -4.853    -0.002
+   OH-                    1.136e-07   1.129e-07    -6.945    -6.947    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            1.329e-37
+   CH4                    1.329e-37   1.329e-37   -36.876   -36.876     0.000
+C(4)             8.881e-04
+   CO2                    8.741e-04   8.741e-04    -3.058    -3.058     0.000
+   HCO3-                  1.398e-05   1.390e-05    -4.854    -4.857    -0.002
+   CO3-2                  5.115e-11   5.000e-11   -10.291   -10.301    -0.010
+H(0)             3.959e-15
+   H2                     1.979e-15   1.979e-15   -14.703   -14.703     0.000
+O(0)             6.153e-37
+   O2                     3.076e-37   3.076e-37   -36.512   -36.512     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(408 K,   1 atm)
+
+	CH4(g)          -33.35    -36.88   -3.53  CH4
+	CO2(g)           -1.00**   -3.06   -2.06  CO2	 Delta_V 1334.87 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -11.21    -14.70   -3.50  H2
+	O2(g)           -33.44    -36.51   -3.07  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.08     -2.08    1.000e+01   9.999e+00  -8.481e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.481e-04   8.481e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.947      Charge balance
+                                       pe  =   5.081      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.136e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.481e-04
+                      Temperature (deg C)  = 156.67
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550791e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     1.136e-05   1.130e-05    -4.944    -4.947    -0.002
+   OH-                    2.302e-07   2.289e-07    -6.638    -6.640    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            0.000e+00
+   CH4                    0.000e+00   0.000e+00   -73.191   -73.191     0.000
+C(4)             8.481e-04
+   CO2                    8.369e-04   8.369e-04    -3.077    -3.077     0.000
+   HCO3-                  1.113e-05   1.107e-05    -4.953    -4.956    -0.002
+   CO3-2                  3.707e-11   3.627e-11   -10.431   -10.440    -0.009
+H(0)             1.002e-23
+   H2                     5.012e-24   5.012e-24   -23.300   -23.300     0.000
+O(0)             3.958e-16
+   O2                     1.979e-16   1.979e-16   -15.704   -15.704     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(429 K,   1 atm)
+
+	CH4(g)          -69.57    -73.19   -3.62  CH4
+	CO2(g)           -1.00**   -3.08   -2.08  CO2	 Delta_V 1807.00 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -19.75    -23.30   -3.54  H2
+	O2(g)           -12.68    -15.70   -3.02  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.08     -2.08    1.000e+01   9.999e+00  -8.444e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.444e-04   8.444e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.039      Charge balance
+                                       pe  =   5.114      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   9.194e-06
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.444e-04
+                      Temperature (deg C)  = 178.33
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550791e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     9.194e-06   9.146e-06    -5.036    -5.039    -0.002
+   OH-                    4.163e-07   4.141e-07    -6.381    -6.383    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            0.000e+00
+   CH4                    0.000e+00   0.000e+00   -76.036   -76.036     0.000
+C(4)             8.444e-04
+   CO2                    8.356e-04   8.356e-04    -3.078    -3.078     0.000
+   HCO3-                  8.778e-06   8.732e-06    -5.057    -5.059    -0.002
+   CO3-2                  2.481e-11   2.430e-11   -10.605   -10.614    -0.009
+H(0)             5.511e-24
+   H2                     2.755e-24   2.755e-24   -23.560   -23.560     0.000
+O(0)             2.430e-12
+   O2                     1.215e-12   1.215e-12   -11.915   -11.915     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(451 K,   1 atm)
+
+	CH4(g)          -72.34    -76.04   -3.70  CH4
+	CO2(g)           -1.00**   -3.08   -2.08  CO2	 Delta_V 2349.31 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -19.97    -23.56   -3.59  H2
+	O2(g)            -8.96    -11.92   -2.95  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.00**  -3.06     -2.06    1.000e+01   9.999e+00  -8.710e-04
+                       ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 8.710e-04   8.710e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.127      Charge balance
+                                       pe  =   5.024      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   7.497e-06
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                       Total CO2 (mol/kg)  =   8.710e-04
+                      Temperature (deg C)  = 200.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550796e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   H+                     7.496e-06   7.458e-06    -5.125    -5.127    -0.002
+   OH-                    6.778e-07   6.744e-07    -6.169    -6.171    -0.002
+   H2O                    5.551e+01   1.000e+00     1.744    -0.000     0.000
+C(-4)            0.000e+00
+   CH4                    0.000e+00   0.000e+00   -77.764   -77.764     0.000
+C(4)             8.710e-04
+   CO2                    8.641e-04   8.641e-04    -3.063    -3.063     0.000
+   HCO3-                  6.819e-06   6.784e-06    -5.166    -5.169    -0.002
+   CO3-2                  1.534e-11   1.503e-11   -10.814   -10.823    -0.009
+H(0)             5.430e-24
+   H2                     2.715e-24   2.715e-24   -23.566   -23.566     0.000
+O(0)             2.331e-09
+   O2                     1.165e-09   1.165e-09    -8.934    -8.933     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(473 K,   1 atm)
+
+	CH4(g)          -73.99    -77.76   -3.77  CH4
+	CO2(g)           -1.00**   -3.06   -2.06  CO2	 Delta_V 2961.79 cm3/mol	 Pressure   0.1 atm, phi 1.000.
+	H2(g)           -19.94    -23.57   -3.63  H2
+	O2(g)            -6.06     -8.93   -2.87  O2
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

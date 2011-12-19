@@ -104,11 +104,12 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	Aragonite        -0.14     -8.48   -8.34  CaCO3
-	Calcite          -0.00     -8.48   -8.48  CaCO3
-	CO2(g)           -0.00**   -1.47   -1.47  CO2	 Pressure   1.0 atm, phi 0.994.
+	Calcite          -0.00*    -8.48   -8.48  CaCO3	 Delta_V  60.00 cm3/mol
+	CO2(g)           -0.00**   -1.47   -1.47  CO2	 Delta_V -29.62 cm3/mol	 Pressure   1.0 atm, phi 0.994.
 	H2(g)           -20.01    -23.16   -3.15  H2
 	O2(g)           -43.17    -46.06   -2.89  O2
-	                      ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+	                      *  with Delta_V * (P - 1) / 2.3RT.
+	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -127,69 +128,69 @@ Using gas phase 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Calcite          -0.00    -7.42     -7.42    1.000e+01   9.933e+00  -6.712e-02
+Calcite           0.00    -9.54     -9.54    1.000e+01   9.999e+00  -6.496e-04
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 5.535e-01   5.529e-01
-	Ca                7.653e-02   7.644e-02
+	C                 4.864e-01   4.864e-01
+	Ca                9.970e-03   9.970e-03
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.715      Charge balance
-                                       pe  =  12.234      Adjusted to redox equilibrium
-                        Activity of water  =   0.990
-                           Ionic strength  =   1.760e-01
-                       Mass of water (kg)  =   9.988e-01
-                 Total alkalinity (eq/kg)  =   1.531e-01
-                       Total CO2 (mol/kg)  =   5.535e-01
+                                       pH  =   4.893      Charge balance
+                                       pe  =  13.047      Adjusted to redox equilibrium
+                        Activity of water  =   0.992
+                           Ionic strength  =   2.761e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.994e-02
+                       Total CO2 (mol/kg)  =   4.864e-01
                       Temperature (deg C)  =  25.00
                            Pressure (atm)  = 1000.00
-                  Electrical balance (eq)  =  -9.476e-14
+                  Electrical balance (eq)  =  -2.145e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
+                               Iterations  =  13
                                   Total H  = 1.110311e+02
-                                  Total O  = 5.669769e+01
+                                  Total O  = 5.649829e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   H+                     2.403e-06   1.929e-06    -5.619    -5.715    -0.095
-   OH-                    7.158e-09   5.136e-09    -8.145    -8.289    -0.144
-   H2O                    5.551e+01   9.897e-01     1.744    -0.004     0.000
+   H+                     1.459e-05   1.280e-05    -4.836    -4.893    -0.057
+   OH-                    9.131e-10   7.753e-10    -9.039    -9.111    -0.071
+   H2O                    5.551e+01   9.916e-01     1.744    -0.004     0.000
 C(-4)            0.000e+00
-   CH4                    0.000e+00   0.000e+00  -119.584  -119.567     0.018
-C(4)             5.535e-01
-   CO2                    4.005e-01   4.171e-01    -0.397    -0.380     0.018
-   HCO3-                  1.262e-01   9.518e-02    -0.899    -1.021    -0.123
-   CaHCO3+                2.671e-02   2.014e-02    -1.573    -1.696    -0.123
-   CaCO3                  6.192e-05   6.448e-05    -4.208    -4.191     0.018
-   CO3-2                  7.153e-06   2.314e-06    -5.146    -5.636    -0.490
-Ca               7.653e-02
-   Ca+2                   4.976e-02   1.659e-02    -1.303    -1.780    -0.477
-   CaHCO3+                2.671e-02   2.014e-02    -1.573    -1.696    -0.123
-   CaCO3                  6.192e-05   6.448e-05    -4.208    -4.191     0.018
-   CaOH+                  1.878e-09   1.412e-09    -8.726    -8.850    -0.124
-H(0)             1.725e-39
-   H2                     8.627e-40   8.984e-40   -39.064   -39.047     0.018
-O(0)             9.717e-15
-   O2                     4.858e-15   5.059e-15   -14.313   -14.296     0.018
+   CH4                    0.000e+00   0.000e+00  -119.448  -119.445     0.003
+C(4)             4.864e-01
+   CO2                    4.664e-01   4.694e-01    -0.331    -0.328     0.003
+   HCO3-                  1.880e-02   1.617e-02    -1.726    -1.791    -0.065
+   CaHCO3+                1.158e-03   9.958e-04    -2.936    -3.002    -0.065
+   CaCO3                  4.772e-07   4.802e-07    -6.321    -6.319     0.003
+   CO3-2                  1.081e-07   5.923e-08    -6.966    -7.227    -0.261
+Ca               9.970e-03
+   Ca+2                   8.812e-03   4.827e-03    -2.055    -2.316    -0.261
+   CaHCO3+                1.158e-03   9.958e-04    -2.936    -3.002    -0.065
+   CaCO3                  4.772e-07   4.802e-07    -6.321    -6.319     0.003
+   CaOH+                  7.261e-11   6.204e-11   -10.139   -10.207    -0.068
+H(0)             1.861e-39
+   H2                     9.304e-40   9.363e-40   -39.031   -39.029     0.003
+O(0)             9.292e-15
+   O2                     4.646e-15   4.676e-15   -14.333   -14.330     0.003
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(298 K, 1000 atm)
 
-	Aragonite         0.92     -7.42   -8.34  CaCO3
-	Calcite          -0.00     -7.42   -7.42  CaCO3
-	CH4(g)         -116.71   -119.57   -2.86  CH4
-	CO2(g)            1.61     -0.38   -1.99  CO2
-	H2(g)           -35.90    -39.05   -3.15  H2
-	O2(g)           -11.40    -14.30   -2.89  O2
-
+	Aragonite        -1.21     -9.54   -8.34  CaCO3
+	Calcite           0.00*    -9.54   -9.54  CaCO3	 Delta_V  60.00 cm3/mol
+	CH4(g)         -116.59   -119.45   -2.86  CH4
+	CO2(g)            0.61*    -0.33   -0.94  CO2	 Delta_V -29.62 cm3/mol
+	H2(g)           -35.88    -39.03   -3.15  H2
+	O2(g)           -11.44    -14.33   -2.89  O2
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
 End of simulation.
@@ -216,87 +217,76 @@ Using solution 1.
 Using pure phase assemblage 1.	
 Using gas phase 1.	
 
------------------------------------Gas phase-----------------------------------
-
-Total pressure: 1000.00      atmospheres          (Peng-Robinson calculation)
-    Gas volume:   5.69e-01 liters
-  Molar volume:   3.62e-02 liters/mole
-   P * Vm / RT:  1.47960  (Compressibility Factor Z) 
-
-                                                        Moles in gas
-                                            ----------------------------------
-Component         log P           P    phi     Initial       Final       Delta
-
-CO2(g)             3.00   1.000e+03  0.211   1.781e+01   1.571e+01  -2.094e+00
+----------------Fixed-pressure gas phase 1 dissolved completely----------------
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Calcite          -0.00    -7.42     -7.42    1.000e+01   9.849e+00  -1.511e-01
+Calcite          -0.00    -9.54     -9.54    1.000e+01   9.970e+00  -3.023e-02
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 2.304e+00   2.298e+00
-	Ca                1.608e-01   1.604e-01
+	C                 1.790e+01   1.789e+01
+	Ca                3.958e-02   3.955e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.285      Charge balance
-                                       pe  =  12.556      Adjusted to redox equilibrium
-                        Activity of water  =   0.959
-                           Ionic strength  =   3.311e-01
-                       Mass of water (kg)  =   9.973e-01
-                 Total alkalinity (eq/kg)  =   3.216e-01
-                       Total CO2 (mol/kg)  =   2.304e+00
+                                       pH  =   3.986      Charge balance
+                                       pe  =  14.189      Adjusted to redox equilibrium
+                        Activity of water  =   0.695
+                           Ionic strength  =   9.849e-02
+                       Mass of water (kg)  =   9.995e-01
+                 Total alkalinity (eq/kg)  =   7.915e-02
+                       Total CO2 (mol/kg)  =   1.790e+01
                       Temperature (deg C)  =  25.00
                            Pressure (atm)  = 1000.00
-                  Electrical balance (eq)  =  -1.706e-13
+                  Electrical balance (eq)  =  -7.800e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  24
+                               Iterations  =  18
                                   Total H  = 1.110311e+02
-                                  Total O  = 6.027104e+01
+                                  Total O  = 9.133676e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   H+                     6.656e-06   5.184e-06    -5.177    -5.285    -0.109
-   OH-                    2.781e-09   1.853e-09    -8.556    -8.732    -0.176
-   H2O                    5.551e+01   9.594e-01     1.744    -0.018     0.000
+   H+                     1.251e-04   1.033e-04    -3.903    -3.986    -0.083
+   OH-                    8.826e-11   6.734e-11   -10.054   -10.172    -0.117
+   H2O                    5.551e+01   6.952e-01     1.744    -0.158     0.000
 C(-4)            0.000e+00
-   CH4                    0.000e+00   0.000e+00  -118.008  -117.975     0.033
-C(4)             2.304e+00
-   CO2                    1.982e+00   2.139e+00     0.297     0.330     0.033
-   HCO3-                  2.459e-01   1.761e-01    -0.609    -0.754    -0.145
-   CaHCO3+                7.561e-02   5.414e-02    -1.121    -1.266    -0.145
-   CaCO3                  5.975e-05   6.448e-05    -4.224    -4.191     0.033
-   CO3-2                  6.059e-06   1.593e-06    -5.218    -5.798    -0.580
-Ca               1.608e-01
-   Ca+2                   8.515e-02   2.410e-02    -1.070    -1.618    -0.548
-   CaHCO3+                7.561e-02   5.414e-02    -1.121    -1.266    -0.145
-   CaCO3                  5.975e-05   6.448e-05    -4.224    -4.191     0.033
-   CaOH+                  1.011e-09   7.401e-10    -8.995    -9.131    -0.135
-H(0)             2.723e-39
-   H2                     1.362e-39   1.469e-39   -38.866   -38.833     0.033
-O(0)             3.293e-15
-   O2                     1.647e-15   1.777e-15   -14.783   -14.750     0.033
+   CH4                    0.000e+00   0.000e+00  -119.440  -119.431     0.010
+C(4)             1.790e+01
+   CO2                    1.782e+01   1.823e+01     1.251     1.261     0.010
+   HCO3-                  6.910e-02   5.454e-02    -1.161    -1.263    -0.103
+   CaHCO3+                1.018e-02   8.037e-03    -1.992    -2.095    -0.103
+   CaCO3                  4.695e-07   4.802e-07    -6.328    -6.319     0.010
+   CO3-2                  6.374e-08   2.475e-08    -7.196    -7.606    -0.411
+Ca               3.958e-02
+   Ca+2                   2.939e-02   1.155e-02    -1.532    -1.937    -0.406
+   CaHCO3+                1.018e-02   8.037e-03    -1.992    -2.095    -0.103
+   CaCO3                  4.695e-07   4.802e-07    -6.328    -6.319     0.010
+   CaOH+                  1.648e-11   1.289e-11   -10.783   -10.890    -0.107
+H(0)             6.192e-40
+   H2                     3.096e-40   3.167e-40   -39.509   -39.499     0.010
+O(0)             3.928e-14
+   O2                     1.964e-14   2.009e-14   -13.707   -13.697     0.010
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(298 K, 1000 atm)
 
-	Aragonite         0.92     -7.42   -8.34  CaCO3
-	Calcite          -0.00     -7.42   -7.42  CaCO3
-	CH4(g)         -115.11   -117.97   -2.86  CH4
-	CO2(g)            2.32**    0.33   -1.99  CO2	 Pressure 1000.0 atm, phi 0.211.
-	H2(g)           -35.68    -38.83   -3.15  H2
-	O2(g)           -11.86    -14.75   -2.89  O2
-	                      ** SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT.
+	Aragonite        -1.21     -9.54   -8.34  CaCO3
+	Calcite          -0.00*    -9.54   -9.54  CaCO3	 Delta_V  60.00 cm3/mol
+	CH4(g)         -116.57   -119.43   -2.86  CH4
+	CO2(g)            2.20*     1.26   -0.94  CO2	 Delta_V -29.62 cm3/mol
+	H2(g)           -36.35    -39.50   -3.15  H2
+	O2(g)           -10.80    -13.70   -2.89  O2
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
 End of simulation.
