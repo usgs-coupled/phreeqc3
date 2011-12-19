@@ -549,6 +549,8 @@ public:
 	int build_solution_phase_boundaries(void);
 	int build_species_list(int n);
 	int build_min_surface(void);
+	LDBLE calc_delta_v(reaction * r_ptr, bool phase);
+	int calc_vm();
 	int change_hydrogen_in_elt_list(LDBLE charge);
 	int clear(void);
 	int convert_units(struct solution *solution_ptr);
@@ -1282,6 +1284,7 @@ protected:
 	int backspace_screen(int spaces);
 	LDBLE calc_alk(struct reaction *rxn_ptr);
 public:
+	LDBLE calc_dens0(void);
 	int compute_gfw(const char *string, LDBLE * gfw);
 #if defined PHREEQ98 
 	int copy_title(char *token_ptr, char **ptr, int *length);
