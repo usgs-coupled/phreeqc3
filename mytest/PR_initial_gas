@@ -1,23 +1,32 @@
 database ../database/phreeqc.dat
 PHASES
-    CO2(g); CO2 = CO2
-    log_k -1.468
-    -T_c 304.2       # critical T, K
-    -P_c 72.80       # critical P, atm
-    -Omega 0.225     # acentric factor
-    -delta_v 29      # cm3/mole (default units)
-CH4(g); CH4 = CH4
-    log_k -2.8502
-    -T_c  190.6    # critical T, K
-    -P_c   45.40   # critical P, atm
-    -Omega 0.008   # acentric factor
-    -delta_v 33
-N2(g); N2 = N2
-     log_k -3.1864
-     T_c  126.2  # critical T, K
-    -P_c   33.50 # critical P, atm
-    -Omega 0.039 # acentric factor
-    -delta_v 30
+CO2(g)
+	CO2 = CO2
+	log_k	-1.468
+	delta_h  -4.776 kcal
+	-analytic	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+	-T_c  304.2 # critical T, K
+	-P_c   72.80 # critical P, atm
+	-Omega 0.225 #  acentric factor
+	-vm  -28   
+CH4(g)
+	CH4 = CH4
+	log_k	   -2.8502
+	-analytic -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+	T_c  190.6 # critical T, K
+	-P_c   45.40 # critical P, atm
+	-Omega 0.008 #  acentric factor
+	#-delta_v 33
+	-vm -33
+
+N2(g)
+	N2 = N2
+	log_k		 -3.1864
+	-analytic -58.453 1.81800E-03  3199  17.909 -27460
+	T_c  126.2 # critical T, K
+	-P_c   33.50 # critical P, atm
+	-Omega 0.039 #  acentric factor
+	-vm -30
 
 GAS_PHASE 1
      -fixed_volume          # or fixed_pressure, see the manual

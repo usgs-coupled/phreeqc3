@@ -1,9 +1,10 @@
 database ../database/Amm.dat
 # Compare expt data of CO2 solubility at high CO2 pressure and
 #   Peng-Robinson calc's with fixed-volume gas_phase, 25, 50, 75 oC.
-PRINT; -reset false
-SOLUTION 1
 INCLUDE$ gas.dat
+END
+#PRINT; -reset false
+SOLUTION 1 pH 7 charge
 GAS_PHASE 6
     -fixed_volume
     CO2(g) 0
@@ -19,19 +20,23 @@ USER_GRAPH
  -end
 
 REACTION
- CO2 1; 26 in 26
+ CO2 1; 27 in 26
 END
 USER_GRAPH; -connect_simulations false
 END
-SOLUTION 1
+SOLUTION 1; pH 7 charge
  -temp 50
 USER_GRAPH; -connect_simulations true
-USE reaction 1; use gas_phase 6
+REACTION
+ CO2 1; 25 in 25
+use gas_phase 6
 END
 USER_GRAPH; -connect_simulations false
 END
-SOLUTION 1
+SOLUTION 1 pH 7 charge
  -temp 75
 USER_GRAPH; -connect_simulations true
-USE reaction 1; use gas_phase 6
+REACTION
+ CO2 1; 25 in 25
+use gas_phase 6
 END

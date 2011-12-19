@@ -1,7 +1,18 @@
 # Compare expt data of CO2 solubility at high CO2 pressure and
 #   Peng-Robinson calc's with initial solution equilibria, 25, 50, 75 oC.
 SOLUTION 1
-INCLUDE$ gas.dat
+#INCLUDE$ gas.dat
+PHASES
+CO2(g)
+	CO2 = CO2
+	log_k	-1.468
+	delta_h  -4.776 kcal
+	-analytic	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+	-T_c  304.2 # critical T, K
+	-P_c   72.80 # critical P, atm
+	-Omega 0.225 #  acentric factor
+-vm  -29 1e-2 1e-4
+
 SELECTED_OUTPUT; -reset false; -file co2.prn
 USER_PUNCH
   1 sc$ = chr$(59)

@@ -1,45 +1,22 @@
-DATABASE ../database/pitzer.dat
-SOLUTION_SPECIES
-H2O = OH- + H+
-	log_k	-14.0
-	delta_h 13.362	kcal
-	-analytic	-283.971	-0.05069842	13323.0	102.24447	-1119669.0
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-delta_v -22
-CO3-2 + H+ = HCO3-
-	log_k	10.329
-	delta_h -3.561	kcal
-	-analytic	107.8871	0.03252849	-5151.79	-38.92561	563713.9
-	-gamma	5.4	0.0
-	-dw	 1.18e-9
-	-millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
-	-delta_v 28
-CO3-2 + 2 H+ = CO2 + H2O
-	log_k	16.681
-	delta_h -5.738	kcal
-	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
-	-dw	 1.92e-9
-	-delta_v 27
-
+#DATABASE c:\phreeqc\database\phreeqc.dat
+database ../database/phreeqc.dat
 PHASES
 Calcite
 	CaCO3 = CO3-2 + Ca+2
 	log_k	-8.48
 	delta_h -2.297 kcal
 	-analytic	-171.9065	-0.077993	2839.319	71.595
-   delta_v -50 cm3/mol
+   vm 36.9 cm3/mol
 SOLUTION 1
+ -pressure 1
 EQUILIBRIUM_PHASES 1
  Calcite
-INCREMENTAL_REACTIONS
 REACTION_PRESSURE
-	50 1000 in 20 steps
+	1 1000 in 20 steps
 USER_GRAPH
- -chart_title "Calcite solubility as a function of pressure"
- -axis_titles "Pressure / atm" "Ca / ppm"
+-axis_titles "Pressure / atm" "Ca / ppm"
  -plot_csv_file cc_P.dat
  10 graph_x  pressure
  20 graph_y tot("Ca") * 40e3
+ -end
 END
-

@@ -188,6 +188,7 @@ all: alkalinity.out \
 	fix_V.out \
 	gas_fix_P.out \
 	gas_fix_V.out \
+	NaCl.out \
 	P_Vm.out \
 	phi_Duan_PR.out \
 	phi_Duan_PR_EQ.out \

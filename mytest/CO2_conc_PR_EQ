@@ -3,16 +3,17 @@ database ../database/Amm.dat
 #   Peng-Robinson calc's with equilibrium_phases, 25, 50, 75 oC.
 SOLUTION 1
 INCLUDE$ gas.dat
+
 SELECTED_OUTPUT; -reset false; -file co2.prn
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
- 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + '-pressure ' + str$(i) + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
  30 next i
 END
 
 SELECTED_OUTPUT; -selected_out false
-PRINT; -reset false; -echo_input true
+#PRINT; -reset false; -echo_input true
 USER_GRAPH
  -plot_csv_file co2_25_50_75.dat
  -axis_titles "Pressure / atm" "CO2 / (mol/kgw)"
@@ -30,7 +31,7 @@ SELECTED_OUTPUT; -selected_out true; file co2_50.prn
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
- 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + sc$ + '-pressure ' + str$(i) + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
  30 next i
 USER_GRAPH
  -connect_simulations false
@@ -47,7 +48,7 @@ SELECTED_OUTPUT; -selected_out true; file co2_75.prn
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
- 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + sc$ + '-pressure ' + str$(i) + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
  30 next i
 USER_GRAPH
  -connect_simulations false
