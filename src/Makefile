@@ -105,7 +105,7 @@ EFENCE_LIB=-L$(HOME)/packages/efence
 # 2 Versions
 # -----------------------------------------------------------------------------
 ifeq ($(CFG), CLASS_DEBUG)
-  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) -DREVISED_GASES
+  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) 
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
@@ -115,7 +115,7 @@ ifeq ($(CFG), CLASS_DEBUG)
 endif
 
 ifeq ($(CFG), CLASS_RELEASE)
-  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP) -DREVISED_GASES
+  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP) 
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
@@ -724,7 +724,7 @@ clean:
 
 dependencies:
 	mkdir -p $(CLASS_DEBUG_DIR) 
-	cd $(CLASS_DEBUG_DIR); gcc -DREVISED_GASES -MM -I.. -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.cpp
+	cd $(CLASS_DEBUG_DIR); gcc -MM -I.. -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.cpp
 
 tester:
 	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
