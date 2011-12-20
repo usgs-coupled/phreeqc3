@@ -1809,7 +1809,7 @@ protected:
 	int diagonal_scale;	/* 0 not used, 1 used */
 	int mass_water_switch;
 	int delay_mass_water;
-	bool dampen;
+	bool dampen_ah2o;
 	bool slack;
 	LDBLE censor;
 	int aqueous_only;
