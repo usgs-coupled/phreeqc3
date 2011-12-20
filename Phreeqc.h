@@ -1527,6 +1527,7 @@ protected:
 	LDBLE tk_x;
 	LDBLE patm_x;
 	bool numerical_fixed_volume;
+	bool force_numerical_fixed_volume;
 	LDBLE ph_x;
 	LDBLE solution_pe_x;
 	LDBLE mu_x;
