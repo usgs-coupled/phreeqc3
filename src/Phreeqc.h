@@ -1526,6 +1526,7 @@ protected:
 	LDBLE tc_x;
 	LDBLE tk_x;
 	LDBLE patm_x;
+	bool numerical_fixed_volume;
 	LDBLE ph_x;
 	LDBLE solution_pe_x;
 	LDBLE mu_x;
@@ -1695,9 +1696,6 @@ protected:
 	struct unknown *slack_unknown;
 	struct unknown *s_s_unknown;
 	std::vector<struct unknown *> gas_unknowns;
-#if defined(REVISED_GASES)
-	struct unknown *gas_pressure_unknown;
-#endif	
 	/*----------------------------------------------------------------------
 	*   Reaction work space
 	*---------------------------------------------------------------------- */
