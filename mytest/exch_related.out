@@ -45,7 +45,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -77,9 +77,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51      0.00    1.51  H2O
-	O2(g)           -39.19    -42.08   -2.89  O2
-
+	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -110,7 +110,7 @@ Ca-Montmorillonite   -0.00   -45.03    -45.03    1.000e-02   9.997e-03  -2.610e-
                                        pH  =   6.400      Charge balance
                                        pe  =  11.380      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   3.926e-06
                        Mass of water (kg)  =   1.000e+00
@@ -154,17 +154,17 @@ Si               9.580e-06
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Al(OH)3(a)       -0.01     10.79   10.80  Al(OH)3
+	Al(OH)3(a)       -0.01*    10.79   10.80  Al(OH)3	 Delta_V  54.21 cm3/mol
 	Anorthite        -7.64*   -27.36  -19.71  CaAl2Si2O8	 Delta_V  94.17 cm3/mol
-	Ca-Montmorillonite  -0.00*   -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 202.58 cm3/mol
-	Chalcedony       -1.47*    -5.02   -3.55  SiO2	 Delta_V  56.00 cm3/mol
-	Gibbsite          2.68     10.79    8.11  Al(OH)3
+	Ca-Montmorillonite  -0.00*   -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 154.15 cm3/mol
+	Chalcedony       -1.47*    -5.02   -3.55  SiO2	 Delta_V  19.86 cm3/mol
+	Gibbsite          2.68*    10.79    8.11  Al(OH)3	 Delta_V  54.21 cm3/mol
 	H2(g)           -35.56    -38.71   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	Kaolinite         4.11*    11.54    7.43  Al2Si2O5(OH)4	 Delta_V 112.00 cm3/mol
-	O2(g)           -12.07    -14.96   -2.89  O2
-	Quartz           -1.04*    -5.02   -3.98  SiO2	 Delta_V  56.00 cm3/mol
-	SiO2(a)          -2.31*    -5.02   -2.71  SiO2	 Delta_V  56.00 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	Kaolinite         4.11*    11.54    7.43  Al2Si2O5(OH)4	 Delta_V 130.07 cm3/mol
+	O2(g)           -12.07*   -14.96   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Quartz           -1.04*    -5.02   -3.98  SiO2	 Delta_V  19.86 cm3/mol
+	SiO2(a)          -2.31*    -5.02   -2.71  SiO2	 Delta_V  19.86 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -256,7 +256,7 @@ X                8.977e-17 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
                                        pH  =   0.861      Charge balance
                                        pe  =  17.125      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 70432
-                          Density (g/cm3)  =   1.00211
+                          Density (g/cm3)  =   1.00215
                         Activity of water  =   0.992
                            Ionic strength  =   3.229e-01
                        Mass of water (kg)  =   9.995e-01
@@ -302,17 +302,17 @@ Si               3.672e-02
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Al(OH)3(a)      -10.82     -0.02   10.80  Al(OH)3
+	Al(OH)3(a)      -10.82*    -0.02   10.80  Al(OH)3	 Delta_V  54.21 cm3/mol
 	Anorthite       -30.47*   -50.19  -19.71  CaAl2Si2O8	 Delta_V  94.17 cm3/mol
-	Ca-Montmorillonite -13.28*   -58.30  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 202.58 cm3/mol
-	Chalcedony        2.16*    -1.40   -3.55  SiO2	 Delta_V  56.00 cm3/mol
-	Gibbsite         -8.13     -0.02    8.11  Al(OH)3
+	Ca-Montmorillonite -13.28*   -58.30  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 154.15 cm3/mol
+	Chalcedony        2.16*    -1.40   -3.55  SiO2	 Delta_V  19.86 cm3/mol
+	Gibbsite         -8.13*    -0.02    8.11  Al(OH)3	 Delta_V  54.21 cm3/mol
 	H2(g)           -35.97    -39.12   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	Kaolinite       -10.26*    -2.83    7.43  Al2Si2O5(OH)4	 Delta_V 112.00 cm3/mol
-	O2(g)           -11.25    -14.15   -2.89  O2
-	Quartz            2.58*    -1.40   -3.98  SiO2	 Delta_V  56.00 cm3/mol
-	SiO2(a)           1.32*    -1.40   -2.71  SiO2	 Delta_V  56.00 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	Kaolinite       -10.26*    -2.83    7.43  Al2Si2O5(OH)4	 Delta_V 130.07 cm3/mol
+	O2(g)           -11.25*   -14.15   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Quartz            2.58*    -1.40   -3.98  SiO2	 Delta_V  19.86 cm3/mol
+	SiO2(a)           1.32*    -1.40   -2.71  SiO2	 Delta_V  19.86 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -366,7 +366,7 @@ X                8.977e-17 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
                                        pH  =   0.861      Charge balance
                                        pe  =  17.173      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 70432
-                          Density (g/cm3)  =   1.00211
+                          Density (g/cm3)  =   1.00215
                         Activity of water  =   0.992
                            Ionic strength  =   3.229e-01
                        Mass of water (kg)  =   9.995e-01
@@ -412,17 +412,17 @@ Si               3.672e-02
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Al(OH)3(a)      -10.82     -0.02   10.80  Al(OH)3
+	Al(OH)3(a)      -10.82*    -0.02   10.80  Al(OH)3	 Delta_V  54.21 cm3/mol
 	Anorthite       -30.47*   -50.19  -19.71  CaAl2Si2O8	 Delta_V  94.17 cm3/mol
-	Ca-Montmorillonite -13.28*   -58.30  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 202.58 cm3/mol
-	Chalcedony        2.16*    -1.40   -3.55  SiO2	 Delta_V  56.00 cm3/mol
-	Gibbsite         -8.13     -0.02    8.11  Al(OH)3
+	Ca-Montmorillonite -13.28*   -58.30  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 154.15 cm3/mol
+	Chalcedony        2.16*    -1.40   -3.55  SiO2	 Delta_V  19.86 cm3/mol
+	Gibbsite         -8.13*    -0.02    8.11  Al(OH)3	 Delta_V  54.21 cm3/mol
 	H2(g)           -36.07    -39.22   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	Kaolinite       -10.26*    -2.83    7.43  Al2Si2O5(OH)4	 Delta_V 112.00 cm3/mol
-	O2(g)           -11.06    -13.95   -2.89  O2
-	Quartz            2.58*    -1.40   -3.98  SiO2	 Delta_V  56.00 cm3/mol
-	SiO2(a)           1.32*    -1.40   -2.71  SiO2	 Delta_V  56.00 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	Kaolinite       -10.26*    -2.83    7.43  Al2Si2O5(OH)4	 Delta_V 130.07 cm3/mol
+	O2(g)           -11.06*   -13.95   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Quartz            2.58*    -1.40   -3.98  SiO2	 Delta_V  19.86 cm3/mol
+	SiO2(a)           1.32*    -1.40   -2.71  SiO2	 Delta_V  19.86 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -455,7 +455,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -487,9 +487,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51      0.00    1.51  H2O
-	O2(g)           -39.19    -42.08   -2.89  O2
-
+	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -527,7 +527,7 @@ Ca-Montmorillonite   Element not present.    0.000e+00           0   0.000e+00
                                        pH  =   7.000      Charge balance
                                        pe  =  11.425      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -559,9 +559,9 @@ O(0)             8.341e-13
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -36.85    -40.00   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	O2(g)            -9.49    -12.38   -2.89  O2
-
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	O2(g)            -9.49*   -12.38   -2.89  O2	 Delta_V  36.14 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
 End of simulation.
@@ -646,7 +646,7 @@ X                3.300e-02 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
                                        pH  =   7.305      Charge balance
                                        pe  =  11.119      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.143e-05
                        Mass of water (kg)  =   1.000e+00
@@ -690,17 +690,17 @@ Si               1.644e-05
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Al(OH)3(a)       -0.57     10.23   10.80  Al(OH)3
+	Al(OH)3(a)       -0.57*    10.23   10.80  Al(OH)3	 Delta_V  54.21 cm3/mol
 	Anorthite        -5.55*   -25.27  -19.71  CaAl2Si2O8	 Delta_V  94.17 cm3/mol
-	Ca-Montmorillonite   0.00*   -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 202.58 cm3/mol
-	Chalcedony       -1.23*    -4.79   -3.55  SiO2	 Delta_V  56.00 cm3/mol
-	Gibbsite          2.12     10.23    8.11  Al(OH)3
+	Ca-Montmorillonite   0.00*   -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2	 Delta_V 154.15 cm3/mol
+	Chalcedony       -1.23*    -4.79   -3.55  SiO2	 Delta_V  19.86 cm3/mol
+	Gibbsite          2.12*    10.23    8.11  Al(OH)3	 Delta_V  54.21 cm3/mol
 	H2(g)           -36.85    -40.00   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	Kaolinite         3.45*    10.88    7.43  Al2Si2O5(OH)4	 Delta_V 112.00 cm3/mol
-	O2(g)            -9.49    -12.38   -2.89  O2
-	Quartz           -0.81*    -4.79   -3.98  SiO2	 Delta_V  56.00 cm3/mol
-	SiO2(a)          -2.07*    -4.79   -2.71  SiO2	 Delta_V  56.00 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	Kaolinite         3.45*    10.88    7.43  Al2Si2O5(OH)4	 Delta_V 130.07 cm3/mol
+	O2(g)            -9.49*   -12.38   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Quartz           -0.81*    -4.79   -3.98  SiO2	 Delta_V  19.86 cm3/mol
+	SiO2(a)          -2.07*    -4.79   -2.71  SiO2	 Delta_V  19.86 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------

@@ -52,7 +52,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -90,9 +90,9 @@ O(0)             5.113e-04
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
 	O2(g)            -0.70     -3.59   -2.89  O2
-
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -125,7 +125,7 @@ Kinetics 1.	Kinetics defined in simulation 1.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.425      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -188,18 +188,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.38    -37.53   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.42    -17.32   -2.89  O2
-	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.42*   -17.32   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 2.
@@ -229,7 +229,7 @@ Kinetics 1.	Kinetics defined in simulation 1.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.275      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.289e-04
                        Mass of water (kg)  =   1.000e+00
@@ -292,18 +292,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.05    4.89  Fe(OH)3
-	FeS(ppt)       -109.18*  -113.09   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.05      5.05   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.05    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -109.18*  -113.09   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.05*     5.05   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.08    -37.23   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -106.19*  -107.18   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -108.44*  -113.09   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.20*   -10.41   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -15.02    -17.92   -2.89  O2
-	Pyrite         -174.65*  -193.13  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -77.98*   -73.10    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -106.19*  -107.18   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -108.44*  -113.09   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.20*   -10.41   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -15.02*   -17.92   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -174.65*  -193.13  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -77.98*   -73.10    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 3.
@@ -333,7 +333,7 @@ Kinetics 1.	Kinetics defined in simulation 1.
                                        pH  =   3.767      Charge balance
                                        pe  =  12.652      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.300e-04
                        Mass of water (kg)  =   1.000e+00
@@ -396,18 +396,18 @@ S(6)             1.365e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.05    4.89  Fe(OH)3
-	FeS(ppt)       -103.59*  -107.50   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.05      5.05   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.05    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -103.59*  -107.50   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.05*     5.05   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -32.84    -35.99   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -101.21*  -102.21   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.11     10.10   -4.01  Fe2O3
-	Mackinawite    -102.85*  -107.50   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -7.59*    -9.80   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -17.51    -20.40   -2.89  O2
-	Pyrite         -165.34*  -183.82  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -74.25*   -69.37    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -101.21*  -102.21   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.11*    10.10   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -102.85*  -107.50   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -7.59*    -9.80   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -17.51*   -20.40   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -165.34*  -183.82  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -74.25*   -69.37    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -453,7 +453,7 @@ Kinetics 1.	Kinetics defined in simulation 2.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.425      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -516,18 +516,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.38    -37.53   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.42    -17.32   -2.89  O2
-	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.42*   -17.32   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 2.
@@ -555,7 +555,7 @@ Kinetics 1.	Kinetics defined in simulation 2.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.416      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -618,18 +618,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.44*  -114.35   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.44*  -114.35   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.36    -37.51   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.31*  -108.31   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.70*  -114.35   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.34*   -10.55   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.46    -17.35   -2.89  O2
-	Pyrite         -176.76*  -195.24  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.82*   -73.94    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.31*  -108.31   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.70*  -114.35   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.34*   -10.55   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.46*   -17.35   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.76*  -195.24  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.82*   -73.94    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 3.
@@ -657,7 +657,7 @@ Kinetics 1.	Kinetics defined in simulation 2.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.406      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -720,18 +720,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.35*  -114.27   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.35*  -114.27   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.34    -37.49   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.23*  -108.23   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.62*  -114.27   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.33*   -10.54   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.50    -17.39   -2.89  O2
-	Pyrite         -176.62*  -195.10  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.77*   -73.89    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.23*  -108.23   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.62*  -114.27   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.33*   -10.54   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.50*   -17.39   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.62*  -195.10  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.77*   -73.89    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -781,7 +781,7 @@ Kinetics 1.	Kinetics defined in simulation 3.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.425      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -844,18 +844,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.38    -37.53   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.42    -17.32   -2.89  O2
-	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.42*   -17.32   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 2.
@@ -885,7 +885,7 @@ Kinetics 1.	Kinetics defined in simulation 3.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.275      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.289e-04
                        Mass of water (kg)  =   1.000e+00
@@ -948,18 +948,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.05    4.89  Fe(OH)3
-	FeS(ppt)       -109.17*  -113.09   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.05      5.05   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.05    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -109.17*  -113.09   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.05*     5.05   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.08    -37.23   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -106.18*  -107.18   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -108.44*  -113.09   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.20*   -10.41   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -15.02    -17.92   -2.89  O2
-	Pyrite         -174.65*  -193.13  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -77.98*   -73.10    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -106.18*  -107.18   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -108.44*  -113.09   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.20*   -10.41   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -15.02*   -17.92   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -174.65*  -193.13  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -77.98*   -73.10    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 3.
@@ -989,7 +989,7 @@ Kinetics 1.	Kinetics defined in simulation 3.
                                        pH  =   3.767      Charge balance
                                        pe  =  12.652      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.300e-04
                        Mass of water (kg)  =   1.000e+00
@@ -1052,18 +1052,18 @@ S(6)             1.365e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.05    4.89  Fe(OH)3
-	FeS(ppt)       -103.59*  -107.50   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.05      5.05   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.05    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -103.59*  -107.50   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.05*     5.05   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -32.84    -35.99   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -101.21*  -102.21   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.11     10.10   -4.01  Fe2O3
-	Mackinawite    -102.85*  -107.50   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -7.59*    -9.80   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -17.51    -20.40   -2.89  O2
-	Pyrite         -165.34*  -183.82  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -74.25*   -69.37    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -101.21*  -102.21   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.11*    10.10   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -102.85*  -107.50   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -7.59*    -9.80   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -17.51*   -20.40   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -165.34*  -183.82  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -74.25*   -69.37    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1110,7 +1110,7 @@ Kinetics 1.	Kinetics defined in simulation 4.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.425      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -1173,18 +1173,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.53*  -114.44   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.38    -37.53   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.42    -17.32   -2.89  O2
-	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.39*  -108.38   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.79*  -114.44   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.35*   -10.56   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.42*   -17.32   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.90*  -195.38  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.88*   -74.00    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 2.
@@ -1212,7 +1212,7 @@ Kinetics 1.	Kinetics defined in simulation 4.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.416      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -1275,18 +1275,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.44*  -114.35   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.44*  -114.35   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.36    -37.51   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.31*  -108.31   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.70*  -114.35   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.34*   -10.55   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.46    -17.35   -2.89  O2
-	Pyrite         -176.76*  -195.24  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.82*   -73.94    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.31*  -108.31   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.70*  -114.35   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.34*   -10.55   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.46*   -17.35   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.76*  -195.24  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.82*   -73.94    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 3.
@@ -1314,7 +1314,7 @@ Kinetics 1.	Kinetics defined in simulation 4.
                                        pH  =   3.766      Charge balance
                                        pe  =  13.406      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 81
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   4.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -1377,18 +1377,18 @@ S(6)             1.364e-04
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	Fe(OH)3(a)        0.16      5.06    4.89  Fe(OH)3
-	FeS(ppt)       -110.35*  -114.27   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          6.06      5.06   -1.00  FeOOH
+	Fe(OH)3(a)        0.16*     5.06    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)       -110.35*  -114.27   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          6.06*     5.06   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
 	H2(g)           -34.34    -37.49   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -107.23*  -108.23   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite         14.12     10.11   -4.01  Fe2O3
-	Mackinawite    -109.62*  -114.27   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -8.33*   -10.54   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -14.50    -17.39   -2.89  O2
-	Pyrite         -176.62*  -195.10  -18.48  FeS2	 Delta_V  27.96 cm3/mol
-	Sulfur          -78.77*   -73.89    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -107.23*  -108.23   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite         14.12*    10.11   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite    -109.62*  -114.27   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -8.33*   -10.54   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -14.50*   -17.39   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite         -176.62*  -195.10  -18.48  FeS2	 Delta_V -116.59 cm3/mol
+	Sulfur          -78.77*   -73.89    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------

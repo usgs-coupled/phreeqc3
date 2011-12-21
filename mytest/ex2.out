@@ -61,7 +61,7 @@ Initial solution 1.	Pure water
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -93,9 +93,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51      0.00    1.51  H2O
-	O2(g)           -39.19    -42.08   -2.89  O2
-
+	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -127,7 +127,7 @@ Gypsum           -0.00    -4.58     -4.58    1.000e+00   1.985e+00   9.849e-01
                                        pH  =   7.067      Charge balance
                                        pe  =  10.686      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 2160
-                          Density (g/cm3)  =   0.99920
+                          Density (g/cm3)  =   0.99924
                         Activity of water  =   1.000
                            Ionic strength  =   4.178e-02
                        Mass of water (kg)  =   9.645e-01
@@ -173,12 +173,12 @@ S(6)             1.564e-02
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	Anhydrite        -0.22*    -4.58   -4.36  CaSO4	 Delta_V  -3.85 cm3/mol
-	Gypsum           -0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.85 cm3/mol
+	Gypsum           -0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.29 cm3/mol
 	H2(g)           -35.51    -38.66   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)         -116.86*  -117.86   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	O2(g)           -12.18    -15.07   -2.89  O2
-	Sulfur          -87.23*   -82.35    4.88  S	 Delta_V  13.98 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -116.86*  -117.86   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	O2(g)           -12.18*   -15.07   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Sulfur          -87.23*   -82.35    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 2.
@@ -207,7 +207,7 @@ Gypsum           -0.00    -4.58     -4.58    1.000e+00   1.985e+00   9.849e-01
                                        pH  =   7.053      Charge balance
                                        pe  =  10.617      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 26 oC) = 2210
-                          Density (g/cm3)  =   0.99894
+                          Density (g/cm3)  =   0.99899
                         Activity of water  =   1.000
                            Ionic strength  =   4.182e-02
                        Mass of water (kg)  =   9.645e-01
@@ -253,12 +253,12 @@ S(6)             1.569e-02
 	Phase               SI   log IAP   log K(299 K,   1 atm)
 
 	Anhydrite        -0.22*    -4.58   -4.37  CaSO4	 Delta_V  -3.72 cm3/mol
-	Gypsum           -0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.72 cm3/mol
+	Gypsum           -0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.43 cm3/mol
 	H2(g)           -35.34    -38.49   -3.15  H2
-	H2O(g)           -1.48     -0.00    1.48  H2O
-	H2S(g)         -116.32*  -117.33   -1.01  H2S	 Delta_V  14.07 cm3/mol
-	O2(g)           -12.17    -15.07   -2.90  O2
-	Sulfur          -86.85*   -81.99    4.86  S	 Delta_V  14.07 cm3/mol
+	H2O(g)           -1.48*    -0.00    1.48  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)         -116.32*  -117.33   -1.01  H2S	 Delta_V -58.22 cm3/mol
+	O2(g)           -12.17*   -15.07   -2.90  O2	 Delta_V  36.15 cm3/mol
+	Sulfur          -86.85*   -81.99    4.86  S	 Delta_V -58.22 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 3.
@@ -287,7 +287,7 @@ Gypsum            0.00    -4.58     -4.58    1.000e+00   1.985e+00   9.848e-01
                                        pH  =   7.040      Charge balance
                                        pe  =  10.547      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 27 oC) = 2261
-                          Density (g/cm3)  =   0.99868
+                          Density (g/cm3)  =   0.99872
                         Activity of water  =   1.000
                            Ionic strength  =   4.186e-02
                        Mass of water (kg)  =   9.645e-01
@@ -333,12 +333,12 @@ S(6)             1.574e-02
 	Phase               SI   log IAP   log K(300 K,   1 atm)
 
 	Anhydrite        -0.21*    -4.58   -4.37  CaSO4	 Delta_V  -3.60 cm3/mol
-	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.60 cm3/mol
+	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.56 cm3/mol
 	H2(g)           -35.17    -38.33   -3.16  H2
-	H2O(g)           -1.46     -0.00    1.46  H2O
-	H2S(g)         -115.78*  -116.80   -1.02  H2S	 Delta_V  14.15 cm3/mol
-	O2(g)           -12.17    -15.07   -2.91  O2
-	Sulfur          -86.46*   -81.62    4.84  S	 Delta_V  14.15 cm3/mol
+	H2O(g)           -1.46*    -0.00    1.46  H2O	 Delta_V  18.08 cm3/mol
+	H2S(g)         -115.78*  -116.80   -1.02  H2S	 Delta_V -58.16 cm3/mol
+	O2(g)           -12.17*   -15.07   -2.91  O2	 Delta_V  36.16 cm3/mol
+	Sulfur          -86.46*   -81.62    4.84  S	 Delta_V -58.16 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 4.
@@ -367,7 +367,7 @@ Gypsum            0.00    -4.58     -4.58    1.000e+00   1.985e+00   9.848e-01
                                        pH  =   7.027      Charge balance
                                        pe  =  10.479      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 28 oC) = 2311
-                          Density (g/cm3)  =   0.99840
+                          Density (g/cm3)  =   0.99844
                         Activity of water  =   1.000
                            Ionic strength  =   4.189e-02
                        Mass of water (kg)  =   9.645e-01
@@ -413,12 +413,12 @@ S(6)             1.579e-02
 	Phase               SI   log IAP   log K(301 K,   1 atm)
 
 	Anhydrite        -0.21*    -4.58   -4.37  CaSO4	 Delta_V  -3.49 cm3/mol
-	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.49 cm3/mol
+	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.68 cm3/mol
 	H2(g)           -35.01    -38.18   -3.16  H2
-	H2O(g)           -1.43     -0.00    1.43  H2O
-	H2S(g)         -115.25*  -116.28   -1.03  H2S	 Delta_V  14.23 cm3/mol
-	O2(g)           -12.16    -15.07   -2.91  O2
-	Sulfur          -86.08*   -81.27    4.81  S	 Delta_V  14.23 cm3/mol
+	H2O(g)           -1.43*    -0.00    1.43  H2O	 Delta_V  18.08 cm3/mol
+	H2S(g)         -115.25*  -116.28   -1.03  H2S	 Delta_V -58.11 cm3/mol
+	O2(g)           -12.16*   -15.07   -2.91  O2	 Delta_V  36.17 cm3/mol
+	Sulfur          -86.08*   -81.27    4.81  S	 Delta_V -58.11 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 5.
@@ -447,7 +447,7 @@ Gypsum            0.00    -4.58     -4.58    1.000e+00   1.985e+00   9.847e-01
                                        pH  =   7.014      Charge balance
                                        pe  =  10.412      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 29 oC) = 2362
-                          Density (g/cm3)  =   0.99812
+                          Density (g/cm3)  =   0.99816
                         Activity of water  =   1.000
                            Ionic strength  =   4.191e-02
                        Mass of water (kg)  =   9.645e-01
@@ -493,12 +493,12 @@ S(6)             1.584e-02
 	Phase               SI   log IAP   log K(302 K,   1 atm)
 
 	Anhydrite        -0.20*    -4.58   -4.38  CaSO4	 Delta_V  -3.38 cm3/mol
-	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.38 cm3/mol
+	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.79 cm3/mol
 	H2(g)           -34.85    -38.02   -3.17  H2
-	H2O(g)           -1.41     -0.00    1.41  H2O
-	H2S(g)         -114.72*  -115.77   -1.04  H2S	 Delta_V  14.29 cm3/mol
-	O2(g)           -12.15    -15.07   -2.92  O2
-	Sulfur          -85.71*   -80.92    4.79  S	 Delta_V  14.29 cm3/mol
+	H2O(g)           -1.41*    -0.00    1.41  H2O	 Delta_V  18.09 cm3/mol
+	H2S(g)         -114.72*  -115.77   -1.04  H2S	 Delta_V -58.06 cm3/mol
+	O2(g)           -12.15*   -15.07   -2.92  O2	 Delta_V  36.18 cm3/mol
+	Sulfur          -85.71*   -80.92    4.79  S	 Delta_V -58.06 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 6.
@@ -527,7 +527,7 @@ Gypsum            0.00    -4.58     -4.58    1.000e+00   1.985e+00   9.847e-01
                                        pH  =   7.001      Charge balance
                                        pe  =  10.353      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 30 oC) = 2413
-                          Density (g/cm3)  =   0.99782
+                          Density (g/cm3)  =   0.99786
                         Activity of water  =   1.000
                            Ionic strength  =   4.193e-02
                        Mass of water (kg)  =   9.645e-01
@@ -573,12 +573,12 @@ S(6)             1.588e-02
 	Phase               SI   log IAP   log K(303 K,   1 atm)
 
 	Anhydrite        -0.20*    -4.58   -4.39  CaSO4	 Delta_V  -3.29 cm3/mol
-	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.29 cm3/mol
+	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.89 cm3/mol
 	H2(g)           -34.71    -37.88   -3.17  H2
-	H2O(g)           -1.38     -0.00    1.38  H2O
-	H2S(g)         -114.27*  -115.32   -1.05  H2S	 Delta_V  14.35 cm3/mol
-	O2(g)           -12.11    -15.04   -2.93  O2
-	Sulfur          -85.38*   -80.62    4.77  S	 Delta_V  14.35 cm3/mol
+	H2O(g)           -1.38*    -0.00    1.38  H2O	 Delta_V  18.09 cm3/mol
+	H2S(g)         -114.27*  -115.32   -1.05  H2S	 Delta_V -58.02 cm3/mol
+	O2(g)           -12.11*   -15.04   -2.93  O2	 Delta_V  36.19 cm3/mol
+	Sulfur          -85.38*   -80.62    4.77  S	 Delta_V -58.02 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 7.
@@ -607,7 +607,7 @@ Gypsum            0.00    -4.58     -4.58    1.000e+00   1.985e+00   9.846e-01
                                        pH  =   6.988      Charge balance
                                        pe  =  10.277      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 31 oC) = 2464
-                          Density (g/cm3)  =   0.99752
+                          Density (g/cm3)  =   0.99756
                         Activity of water  =   1.000
                            Ionic strength  =   4.194e-02
                        Mass of water (kg)  =   9.645e-01
@@ -653,12 +653,12 @@ S(6)             1.592e-02
 	Phase               SI   log IAP   log K(304 K,   1 atm)
 
 	Anhydrite        -0.19*    -4.58   -4.39  CaSO4	 Delta_V  -3.21 cm3/mol
-	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.21 cm3/mol
+	Gypsum            0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.99 cm3/mol
 	H2(g)           -34.53    -37.70   -3.18  H2
-	H2O(g)           -1.36     -0.00    1.36  H2O
-	H2S(g)         -113.67*  -114.74   -1.06  H2S	 Delta_V  14.40 cm3/mol
-	O2(g)           -12.14    -15.07   -2.93  O2
-	Sulfur          -84.95*   -80.21    4.74  S	 Delta_V  14.40 cm3/mol
+	H2O(g)           -1.36*    -0.00    1.36  H2O	 Delta_V  18.10 cm3/mol
+	H2S(g)         -113.67*  -114.74   -1.06  H2S	 Delta_V -57.99 cm3/mol
+	O2(g)           -12.14*   -15.07   -2.93  O2	 Delta_V  36.20 cm3/mol
+	Sulfur          -84.95*   -80.21    4.74  S	 Delta_V -57.99 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 8.
@@ -687,7 +687,7 @@ Gypsum            0.00    -4.59     -4.59    1.000e+00   1.985e+00   9.846e-01
                                        pH  =   6.975      Charge balance
                                        pe  =  10.211      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 32 oC) = 2515
-                          Density (g/cm3)  =   0.99721
+                          Density (g/cm3)  =   0.99725
                         Activity of water  =   1.000
                            Ionic strength  =   4.194e-02
                        Mass of water (kg)  =   9.645e-01
@@ -733,12 +733,12 @@ S(6)             1.596e-02
 	Phase               SI   log IAP   log K(305 K,   1 atm)
 
 	Anhydrite        -0.19*    -4.59   -4.40  CaSO4	 Delta_V  -3.14 cm3/mol
-	Gypsum            0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  -3.14 cm3/mol
+	Gypsum            0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  33.07 cm3/mol
 	H2(g)           -34.37    -37.55   -3.18  H2
-	H2O(g)           -1.33     -0.00    1.33  H2O
-	H2S(g)         -113.16*  -114.23   -1.07  H2S	 Delta_V  14.45 cm3/mol
-	O2(g)           -12.13    -15.07   -2.94  O2
-	Sulfur          -84.59*   -79.86    4.72  S	 Delta_V  14.45 cm3/mol
+	H2O(g)           -1.33*    -0.00    1.33  H2O	 Delta_V  18.11 cm3/mol
+	H2S(g)         -113.16*  -114.23   -1.07  H2S	 Delta_V -57.97 cm3/mol
+	O2(g)           -12.13*   -15.07   -2.94  O2	 Delta_V  36.21 cm3/mol
+	Sulfur          -84.59*   -79.86    4.72  S	 Delta_V -57.97 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 9.
@@ -767,7 +767,7 @@ Gypsum           -0.00    -4.59     -4.59    1.000e+00   1.985e+00   9.846e-01
                                        pH  =   6.962      Charge balance
                                        pe  =  10.151      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 33 oC) = 2566
-                          Density (g/cm3)  =   0.99689
+                          Density (g/cm3)  =   0.99693
                         Activity of water  =   1.000
                            Ionic strength  =   4.194e-02
                        Mass of water (kg)  =   9.645e-01
@@ -813,12 +813,12 @@ S(6)             1.599e-02
 	Phase               SI   log IAP   log K(306 K,   1 atm)
 
 	Anhydrite        -0.18*    -4.59   -4.40  CaSO4	 Delta_V  -3.08 cm3/mol
-	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  -3.08 cm3/mol
+	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  33.14 cm3/mol
 	H2(g)           -34.23    -37.41   -3.18  H2
-	H2O(g)           -1.31     -0.00    1.31  H2O
-	H2S(g)         -112.70*  -113.78   -1.08  H2S	 Delta_V  14.49 cm3/mol
-	O2(g)           -12.10    -15.05   -2.95  O2
-	Sulfur          -84.25*   -79.55    4.70  S	 Delta_V  14.49 cm3/mol
+	H2O(g)           -1.31*    -0.00    1.31  H2O	 Delta_V  18.11 cm3/mol
+	H2S(g)         -112.70*  -113.78   -1.08  H2S	 Delta_V -57.96 cm3/mol
+	O2(g)           -12.10*   -15.05   -2.95  O2	 Delta_V  36.22 cm3/mol
+	Sulfur          -84.25*   -79.55    4.70  S	 Delta_V -57.96 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 10.
@@ -847,7 +847,7 @@ Gypsum           -0.00    -4.59     -4.59    1.000e+00   1.985e+00   9.845e-01
                                        pH  =   6.950      Charge balance
                                        pe  =  10.079      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 34 oC) = 2617
-                          Density (g/cm3)  =   0.99656
+                          Density (g/cm3)  =   0.99660
                         Activity of water  =   1.000
                            Ionic strength  =   4.193e-02
                        Mass of water (kg)  =   9.645e-01
@@ -893,12 +893,12 @@ S(6)             1.602e-02
 	Phase               SI   log IAP   log K(307 K,   1 atm)
 
 	Anhydrite        -0.18*    -4.59   -4.41  CaSO4	 Delta_V  -3.03 cm3/mol
-	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  -3.03 cm3/mol
+	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  33.20 cm3/mol
 	H2(g)           -34.06    -37.25   -3.19  H2
-	H2O(g)           -1.28     -0.00    1.28  H2O
-	H2S(g)         -112.14*  -113.24   -1.10  H2S	 Delta_V  14.51 cm3/mol
-	O2(g)           -12.12    -15.07   -2.95  O2
-	Sulfur          -83.86*   -79.18    4.68  S	 Delta_V  14.51 cm3/mol
+	H2O(g)           -1.28*    -0.00    1.28  H2O	 Delta_V  18.12 cm3/mol
+	H2S(g)         -112.14*  -113.24   -1.10  H2S	 Delta_V -57.95 cm3/mol
+	O2(g)           -12.12*   -15.07   -2.95  O2	 Delta_V  36.23 cm3/mol
+	Sulfur          -83.86*   -79.18    4.68  S	 Delta_V -57.95 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 11.
@@ -927,7 +927,7 @@ Gypsum            0.00    -4.59     -4.59    1.000e+00   1.985e+00   9.845e-01
                                        pH  =   6.937      Charge balance
                                        pe  =  10.013      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 35 oC) = 2668
-                          Density (g/cm3)  =   0.99622
+                          Density (g/cm3)  =   0.99626
                         Activity of water  =   1.000
                            Ionic strength  =   4.191e-02
                        Mass of water (kg)  =   9.645e-01
@@ -973,12 +973,12 @@ S(6)             1.605e-02
 	Phase               SI   log IAP   log K(308 K,   1 atm)
 
 	Anhydrite        -0.17*    -4.59   -4.42  CaSO4	 Delta_V  -2.99 cm3/mol
-	Gypsum            0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  -2.99 cm3/mol
+	Gypsum            0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  33.26 cm3/mol
 	H2(g)           -33.90    -37.09   -3.19  H2
-	H2O(g)           -1.26     -0.00    1.26  H2O
-	H2S(g)         -111.62*  -112.73   -1.11  H2S	 Delta_V  14.54 cm3/mol
-	O2(g)           -12.12    -15.07   -2.96  O2
-	Sulfur          -83.48*   -78.83    4.66  S	 Delta_V  14.54 cm3/mol
+	H2O(g)           -1.26*    -0.00    1.26  H2O	 Delta_V  18.12 cm3/mol
+	H2S(g)         -111.62*  -112.73   -1.11  H2S	 Delta_V -57.96 cm3/mol
+	O2(g)           -12.12*   -15.07   -2.96  O2	 Delta_V  36.25 cm3/mol
+	Sulfur          -83.48*   -78.83    4.66  S	 Delta_V -57.96 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 12.
@@ -1007,7 +1007,7 @@ Gypsum           -0.00    -4.59     -4.59    1.000e+00   1.984e+00   9.845e-01
                                        pH  =   6.925      Charge balance
                                        pe  =   9.949      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 36 oC) = 2719
-                          Density (g/cm3)  =   0.99588
+                          Density (g/cm3)  =   0.99592
                         Activity of water  =   1.000
                            Ionic strength  =   4.189e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1053,12 +1053,12 @@ S(6)             1.608e-02
 	Phase               SI   log IAP   log K(309 K,   1 atm)
 
 	Anhydrite        -0.17*    -4.59   -4.42  CaSO4	 Delta_V  -2.96 cm3/mol
-	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  -2.96 cm3/mol
+	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  33.30 cm3/mol
 	H2(g)           -33.75    -36.94   -3.20  H2
-	H2O(g)           -1.24     -0.00    1.24  H2O
-	H2S(g)         -111.13*  -112.25   -1.12  H2S	 Delta_V  14.55 cm3/mol
-	O2(g)           -12.11    -15.07   -2.96  O2
-	Sulfur          -83.13*   -78.50    4.63  S	 Delta_V  14.55 cm3/mol
+	H2O(g)           -1.24*    -0.00    1.24  H2O	 Delta_V  18.13 cm3/mol
+	H2S(g)         -111.13*  -112.25   -1.12  H2S	 Delta_V -57.97 cm3/mol
+	O2(g)           -12.11*   -15.07   -2.96  O2	 Delta_V  36.26 cm3/mol
+	Sulfur          -83.13*   -78.50    4.63  S	 Delta_V -57.97 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 13.
@@ -1087,7 +1087,7 @@ Gypsum           -0.00    -4.59     -4.59    1.000e+00   1.984e+00   9.845e-01
                                        pH  =   6.913      Charge balance
                                        pe  =   9.883      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 37 oC) = 2769
-                          Density (g/cm3)  =   0.99552
+                          Density (g/cm3)  =   0.99556
                         Activity of water  =   1.000
                            Ionic strength  =   4.186e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1133,12 +1133,12 @@ S(6)             1.610e-02
 	Phase               SI   log IAP   log K(310 K,   1 atm)
 
 	Anhydrite        -0.16*    -4.59   -4.43  CaSO4	 Delta_V  -2.94 cm3/mol
-	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  -2.94 cm3/mol
+	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  33.33 cm3/mol
 	H2(g)           -33.59    -36.79   -3.20  H2
-	H2O(g)           -1.21     -0.00    1.21  H2O
-	H2S(g)         -110.62*  -111.75   -1.13  H2S	 Delta_V  14.55 cm3/mol
-	O2(g)           -12.11    -15.07   -2.97  O2
-	Sulfur          -82.77*   -78.15    4.61  S	 Delta_V  14.55 cm3/mol
+	H2O(g)           -1.21*    -0.00    1.21  H2O	 Delta_V  18.14 cm3/mol
+	H2S(g)         -110.62*  -111.75   -1.13  H2S	 Delta_V -57.99 cm3/mol
+	O2(g)           -12.11*   -15.07   -2.97  O2	 Delta_V  36.27 cm3/mol
+	Sulfur          -82.77*   -78.15    4.61  S	 Delta_V -57.99 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 14.
@@ -1167,7 +1167,7 @@ Gypsum           -0.00    -4.59     -4.59    1.000e+00   1.984e+00   9.845e-01
                                        pH  =   6.901      Charge balance
                                        pe  =   9.820      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 38 oC) = 2820
-                          Density (g/cm3)  =   0.99516
+                          Density (g/cm3)  =   0.99520
                         Activity of water  =   1.000
                            Ionic strength  =   4.183e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1213,12 +1213,12 @@ S(6)             1.612e-02
 	Phase               SI   log IAP   log K(311 K,   1 atm)
 
 	Anhydrite        -0.15*    -4.59   -4.44  CaSO4	 Delta_V  -2.93 cm3/mol
-	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  -2.93 cm3/mol
+	Gypsum           -0.00*    -4.59   -4.59  CaSO4:2H2O	 Delta_V  33.36 cm3/mol
 	H2(g)           -33.44    -36.65   -3.20  H2
-	H2O(g)           -1.19     -0.00    1.19  H2O
-	H2S(g)         -110.13*  -111.27   -1.14  H2S	 Delta_V  14.55 cm3/mol
-	O2(g)           -12.10    -15.07   -2.97  O2
-	Sulfur          -82.42*   -77.83    4.59  S	 Delta_V  14.55 cm3/mol
+	H2O(g)           -1.19*    -0.00    1.19  H2O	 Delta_V  18.14 cm3/mol
+	H2S(g)         -110.13*  -111.27   -1.14  H2S	 Delta_V -58.02 cm3/mol
+	O2(g)           -12.10*   -15.07   -2.97  O2	 Delta_V  36.29 cm3/mol
+	Sulfur          -82.42*   -77.83    4.59  S	 Delta_V -58.02 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 15.
@@ -1247,7 +1247,7 @@ Gypsum            0.00    -4.60     -4.60    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.889      Charge balance
                                        pe  =   9.769      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 39 oC) = 2871
-                          Density (g/cm3)  =   0.99479
+                          Density (g/cm3)  =   0.99483
                         Activity of water  =   1.000
                            Ionic strength  =   4.179e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1293,12 +1293,12 @@ S(6)             1.613e-02
 	Phase               SI   log IAP   log K(312 K,   1 atm)
 
 	Anhydrite        -0.15*    -4.60   -4.45  CaSO4	 Delta_V  -2.93 cm3/mol
-	Gypsum            0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  -2.93 cm3/mol
+	Gypsum            0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  33.37 cm3/mol
 	H2(g)           -33.32    -36.52   -3.21  H2
-	H2O(g)           -1.16     -0.00    1.16  H2O
-	H2S(g)         -109.74*  -110.89   -1.15  H2S	 Delta_V  14.54 cm3/mol
-	O2(g)           -12.04    -15.02   -2.98  O2
-	Sulfur          -82.14*   -77.57    4.57  S	 Delta_V  14.54 cm3/mol
+	H2O(g)           -1.16*    -0.00    1.16  H2O	 Delta_V  18.15 cm3/mol
+	H2S(g)         -109.74*  -110.89   -1.15  H2S	 Delta_V -58.05 cm3/mol
+	O2(g)           -12.04*   -15.02   -2.98  O2	 Delta_V  36.30 cm3/mol
+	Sulfur          -82.14*   -77.57    4.57  S	 Delta_V -58.05 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 16.
@@ -1327,7 +1327,7 @@ Gypsum            0.00    -4.60     -4.60    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.877      Charge balance
                                        pe  =   9.692      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 40 oC) = 2921
-                          Density (g/cm3)  =   0.99441
+                          Density (g/cm3)  =   0.99445
                         Activity of water  =   1.000
                            Ionic strength  =   4.174e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1373,12 +1373,12 @@ S(6)             1.614e-02
 	Phase               SI   log IAP   log K(313 K,   1 atm)
 
 	Anhydrite        -0.14*    -4.60   -4.46  CaSO4	 Delta_V  -2.94 cm3/mol
-	Gypsum            0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  -2.94 cm3/mol
+	Gypsum            0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  33.37 cm3/mol
 	H2(g)           -33.14    -36.35   -3.21  H2
-	H2O(g)           -1.14     -0.00    1.14  H2O
-	H2S(g)         -109.14*  -110.30   -1.16  H2S	 Delta_V  14.53 cm3/mol
-	O2(g)           -12.09    -15.07   -2.98  O2
-	Sulfur          -81.71*   -77.16    4.55  S	 Delta_V  14.53 cm3/mol
+	H2O(g)           -1.14*    -0.00    1.14  H2O	 Delta_V  18.16 cm3/mol
+	H2S(g)         -109.14*  -110.30   -1.16  H2S	 Delta_V -58.10 cm3/mol
+	O2(g)           -12.09*   -15.07   -2.98  O2	 Delta_V  36.31 cm3/mol
+	Sulfur          -81.71*   -77.16    4.55  S	 Delta_V -58.10 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 17.
@@ -1407,7 +1407,7 @@ Gypsum           -0.00    -4.60     -4.60    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.866      Charge balance
                                        pe  =   9.628      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 41 oC) = 2971
-                          Density (g/cm3)  =   0.99403
+                          Density (g/cm3)  =   0.99407
                         Activity of water  =   1.000
                            Ionic strength  =   4.169e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1453,12 +1453,12 @@ S(6)             1.615e-02
 	Phase               SI   log IAP   log K(314 K,   1 atm)
 
 	Anhydrite        -0.13*    -4.60   -4.47  CaSO4	 Delta_V  -2.96 cm3/mol
-	Gypsum           -0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  -2.96 cm3/mol
+	Gypsum           -0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  33.37 cm3/mol
 	H2(g)           -32.99    -36.20   -3.22  H2
-	H2O(g)           -1.12     -0.00    1.12  H2O
-	H2S(g)         -108.65*  -109.82   -1.17  H2S	 Delta_V  14.50 cm3/mol
-	O2(g)           -12.08    -15.07   -2.99  O2
-	Sulfur          -81.36*   -76.83    4.53  S	 Delta_V  14.50 cm3/mol
+	H2O(g)           -1.12*    -0.00    1.12  H2O	 Delta_V  18.16 cm3/mol
+	H2S(g)         -108.65*  -109.82   -1.17  H2S	 Delta_V -58.15 cm3/mol
+	O2(g)           -12.08*   -15.07   -2.99  O2	 Delta_V  36.33 cm3/mol
+	Sulfur          -81.36*   -76.83    4.53  S	 Delta_V -58.15 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 18.
@@ -1487,7 +1487,7 @@ Gypsum            0.00    -4.60     -4.60    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.854      Charge balance
                                        pe  =   9.566      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 42 oC) = 3021
-                          Density (g/cm3)  =   0.99364
+                          Density (g/cm3)  =   0.99367
                         Activity of water  =   1.000
                            Ionic strength  =   4.164e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1533,12 +1533,12 @@ S(6)             1.616e-02
 	Phase               SI   log IAP   log K(315 K,   1 atm)
 
 	Anhydrite        -0.13*    -4.60   -4.47  CaSO4	 Delta_V  -2.99 cm3/mol
-	Gypsum            0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  -2.99 cm3/mol
+	Gypsum            0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  33.35 cm3/mol
 	H2(g)           -32.84    -36.06   -3.22  H2
-	H2O(g)           -1.09     -0.00    1.09  H2O
-	H2S(g)         -108.17*  -109.35   -1.18  H2S	 Delta_V  14.47 cm3/mol
-	O2(g)           -12.07    -15.07   -2.99  O2
-	Sulfur          -81.02*   -76.51    4.51  S	 Delta_V  14.47 cm3/mol
+	H2O(g)           -1.09*    -0.00    1.09  H2O	 Delta_V  18.17 cm3/mol
+	H2S(g)         -108.17*  -109.35   -1.18  H2S	 Delta_V -58.21 cm3/mol
+	O2(g)           -12.07*   -15.07   -2.99  O2	 Delta_V  36.34 cm3/mol
+	Sulfur          -81.02*   -76.51    4.51  S	 Delta_V -58.21 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 19.
@@ -1567,7 +1567,7 @@ Gypsum           -0.00    -4.60     -4.60    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.843      Charge balance
                                        pe  =   9.504      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 43 oC) = 3071
-                          Density (g/cm3)  =   0.99324
+                          Density (g/cm3)  =   0.99327
                         Activity of water  =   1.000
                            Ionic strength  =   4.157e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1613,12 +1613,12 @@ S(6)             1.616e-02
 	Phase               SI   log IAP   log K(316 K,   1 atm)
 
 	Anhydrite        -0.12*    -4.60   -4.48  CaSO4	 Delta_V  -3.03 cm3/mol
-	Gypsum           -0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  -3.03 cm3/mol
+	Gypsum           -0.00*    -4.60   -4.60  CaSO4:2H2O	 Delta_V  33.32 cm3/mol
 	H2(g)           -32.69    -35.92   -3.22  H2
-	H2O(g)           -1.07     -0.00    1.07  H2O
-	H2S(g)         -107.70*  -108.88   -1.19  H2S	 Delta_V  14.43 cm3/mol
-	O2(g)           -12.07    -15.07   -3.00  O2
-	Sulfur          -80.67*   -76.19    4.49  S	 Delta_V  14.43 cm3/mol
+	H2O(g)           -1.07*    -0.00    1.07  H2O	 Delta_V  18.18 cm3/mol
+	H2S(g)         -107.70*  -108.88   -1.19  H2S	 Delta_V -58.28 cm3/mol
+	O2(g)           -12.07*   -15.07   -3.00  O2	 Delta_V  36.36 cm3/mol
+	Sulfur          -80.67*   -76.19    4.49  S	 Delta_V -58.28 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 20.
@@ -1647,7 +1647,7 @@ Gypsum           -0.00    -4.61     -4.61    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.832      Charge balance
                                        pe  =   9.442      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 44 oC) = 3120
-                          Density (g/cm3)  =   0.99283
+                          Density (g/cm3)  =   0.99286
                         Activity of water  =   1.000
                            Ionic strength  =   4.150e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1693,12 +1693,12 @@ S(6)             1.617e-02
 	Phase               SI   log IAP   log K(317 K,   1 atm)
 
 	Anhydrite        -0.11*    -4.61   -4.49  CaSO4	 Delta_V  -3.08 cm3/mol
-	Gypsum           -0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  -3.08 cm3/mol
+	Gypsum           -0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  33.29 cm3/mol
 	H2(g)           -32.55    -35.78   -3.23  H2
-	H2O(g)           -1.05     -0.00    1.05  H2O
-	H2S(g)         -107.22*  -108.42   -1.20  H2S	 Delta_V  14.38 cm3/mol
-	O2(g)           -12.06    -15.07   -3.00  O2
-	Sulfur          -80.33*   -75.87    4.46  S	 Delta_V  14.38 cm3/mol
+	H2O(g)           -1.05*    -0.00    1.05  H2O	 Delta_V  18.19 cm3/mol
+	H2S(g)         -107.22*  -108.42   -1.20  H2S	 Delta_V -58.36 cm3/mol
+	O2(g)           -12.06*   -15.07   -3.00  O2	 Delta_V  36.37 cm3/mol
+	Sulfur          -80.33*   -75.87    4.46  S	 Delta_V -58.36 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 21.
@@ -1727,7 +1727,7 @@ Gypsum            0.00    -4.61     -4.61    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.821      Charge balance
                                        pe  =   9.378      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 45 oC) = 3170
-                          Density (g/cm3)  =   0.99242
+                          Density (g/cm3)  =   0.99245
                         Activity of water  =   1.000
                            Ionic strength  =   4.143e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1773,12 +1773,12 @@ S(6)             1.616e-02
 	Phase               SI   log IAP   log K(318 K,   1 atm)
 
 	Anhydrite        -0.11*    -4.61   -4.50  CaSO4	 Delta_V  -3.14 cm3/mol
-	Gypsum            0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  -3.14 cm3/mol
+	Gypsum            0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  33.24 cm3/mol
 	H2(g)           -32.40    -35.63   -3.23  H2
-	H2O(g)           -1.03     -0.00    1.03  H2O
-	H2S(g)         -106.73*  -107.94   -1.21  H2S	 Delta_V  14.33 cm3/mol
-	O2(g)           -12.06    -15.07   -3.01  O2
-	Sulfur          -79.98*   -75.54    4.44  S	 Delta_V  14.33 cm3/mol
+	H2O(g)           -1.03*    -0.00    1.03  H2O	 Delta_V  18.19 cm3/mol
+	H2S(g)         -106.73*  -107.94   -1.21  H2S	 Delta_V -58.44 cm3/mol
+	O2(g)           -12.06*   -15.07   -3.01  O2	 Delta_V  36.39 cm3/mol
+	Sulfur          -79.98*   -75.54    4.44  S	 Delta_V -58.44 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 22.
@@ -1807,7 +1807,7 @@ Gypsum            0.00    -4.61     -4.61    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.810      Charge balance
                                        pe  =   9.316      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 46 oC) = 3219
-                          Density (g/cm3)  =   0.99200
+                          Density (g/cm3)  =   0.99203
                         Activity of water  =   1.000
                            Ionic strength  =   4.135e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1853,12 +1853,12 @@ S(6)             1.616e-02
 	Phase               SI   log IAP   log K(319 K,   1 atm)
 
 	Anhydrite        -0.10*    -4.61   -4.51  CaSO4	 Delta_V  -3.21 cm3/mol
-	Gypsum            0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  -3.21 cm3/mol
+	Gypsum            0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  33.19 cm3/mol
 	H2(g)           -32.25    -35.49   -3.23  H2
-	H2O(g)           -1.00     -0.00    1.00  H2O
-	H2S(g)         -106.25*  -107.47   -1.22  H2S	 Delta_V  14.27 cm3/mol
-	O2(g)           -12.06    -15.08   -3.01  O2
-	Sulfur          -79.64*   -75.22    4.42  S	 Delta_V  14.27 cm3/mol
+	H2O(g)           -1.00*    -0.00    1.00  H2O	 Delta_V  18.20 cm3/mol
+	H2S(g)         -106.25*  -107.47   -1.22  H2S	 Delta_V -58.54 cm3/mol
+	O2(g)           -12.06*   -15.08   -3.01  O2	 Delta_V  36.40 cm3/mol
+	Sulfur          -79.64*   -75.22    4.42  S	 Delta_V -58.54 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 23.
@@ -1887,7 +1887,7 @@ Gypsum           -0.00    -4.61     -4.61    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.799      Charge balance
                                        pe  =   9.255      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 47 oC) = 3268
-                          Density (g/cm3)  =   0.99157
+                          Density (g/cm3)  =   0.99160
                         Activity of water  =   1.000
                            Ionic strength  =   4.127e-02
                        Mass of water (kg)  =   9.645e-01
@@ -1933,12 +1933,12 @@ S(6)             1.615e-02
 	Phase               SI   log IAP   log K(320 K,   1 atm)
 
 	Anhydrite        -0.09*    -4.61   -4.52  CaSO4	 Delta_V  -3.30 cm3/mol
-	Gypsum           -0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  -3.30 cm3/mol
+	Gypsum           -0.00*    -4.61   -4.61  CaSO4:2H2O	 Delta_V  33.12 cm3/mol
 	H2(g)           -32.11    -35.35   -3.24  H2
-	H2O(g)           -0.98     -0.00    0.98  H2O
-	H2S(g)         -105.79*  -107.01   -1.23  H2S	 Delta_V  14.20 cm3/mol
-	O2(g)           -12.06    -15.07   -3.02  O2
-	Sulfur          -79.31*   -74.90    4.40  S	 Delta_V  14.20 cm3/mol
+	H2O(g)           -0.98*    -0.00    0.98  H2O	 Delta_V  18.21 cm3/mol
+	H2S(g)         -105.79*  -107.01   -1.23  H2S	 Delta_V -58.64 cm3/mol
+	O2(g)           -12.06*   -15.07   -3.02  O2	 Delta_V  36.42 cm3/mol
+	Sulfur          -79.31*   -74.90    4.40  S	 Delta_V -58.64 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 24.
@@ -1967,7 +1967,7 @@ Gypsum           -0.00    -4.62     -4.62    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.789      Charge balance
                                        pe  =   9.194      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 48 oC) = 3316
-                          Density (g/cm3)  =   0.99114
+                          Density (g/cm3)  =   0.99116
                         Activity of water  =   1.000
                            Ionic strength  =   4.118e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2013,12 +2013,12 @@ S(6)             1.614e-02
 	Phase               SI   log IAP   log K(321 K,   1 atm)
 
 	Anhydrite        -0.08*    -4.62   -4.53  CaSO4	 Delta_V  -3.39 cm3/mol
-	Gypsum           -0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  -3.39 cm3/mol
+	Gypsum           -0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  33.05 cm3/mol
 	H2(g)           -31.97    -35.21   -3.24  H2
-	H2O(g)           -0.96     -0.00    0.96  H2O
-	H2S(g)         -105.32*  -106.55   -1.24  H2S	 Delta_V  14.12 cm3/mol
-	O2(g)           -12.05    -15.07   -3.02  O2
-	Sulfur          -78.97*   -74.59    4.38  S	 Delta_V  14.12 cm3/mol
+	H2O(g)           -0.96*    -0.00    0.96  H2O	 Delta_V  18.22 cm3/mol
+	H2S(g)         -105.32*  -106.55   -1.24  H2S	 Delta_V -58.75 cm3/mol
+	O2(g)           -12.05*   -15.07   -3.02  O2	 Delta_V  36.43 cm3/mol
+	Sulfur          -78.97*   -74.59    4.38  S	 Delta_V -58.75 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 25.
@@ -2047,7 +2047,7 @@ Gypsum            0.00    -4.62     -4.62    1.000e+00   1.984e+00   9.844e-01
                                        pH  =   6.778      Charge balance
                                        pe  =   9.134      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 49 oC) = 3364
-                          Density (g/cm3)  =   0.99070
+                          Density (g/cm3)  =   0.99071
                         Activity of water  =   1.000
                            Ionic strength  =   4.108e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2093,12 +2093,12 @@ S(6)             1.613e-02
 	Phase               SI   log IAP   log K(322 K,   1 atm)
 
 	Anhydrite        -0.08*    -4.62   -4.54  CaSO4	 Delta_V  -3.49 cm3/mol
-	Gypsum            0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  -3.49 cm3/mol
+	Gypsum            0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  32.96 cm3/mol
 	H2(g)           -31.82    -35.07   -3.25  H2
-	H2O(g)           -0.94     -0.00    0.94  H2O
-	H2S(g)         -104.86*  -106.10   -1.25  H2S	 Delta_V  14.03 cm3/mol
-	O2(g)           -12.05    -15.07   -3.03  O2
-	Sulfur          -78.64*   -74.28    4.36  S	 Delta_V  14.03 cm3/mol
+	H2O(g)           -0.94*    -0.00    0.94  H2O	 Delta_V  18.23 cm3/mol
+	H2S(g)         -104.86*  -106.10   -1.25  H2S	 Delta_V -58.87 cm3/mol
+	O2(g)           -12.05*   -15.07   -3.03  O2	 Delta_V  36.45 cm3/mol
+	Sulfur          -78.64*   -74.28    4.36  S	 Delta_V -58.87 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 26.
@@ -2127,7 +2127,7 @@ Gypsum           -0.00    -4.62     -4.62    1.000e+00   1.984e+00   9.845e-01
                                        pH  =   6.768      Charge balance
                                        pe  =   9.071      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 50 oC) = 3412
-                          Density (g/cm3)  =   0.99025
+                          Density (g/cm3)  =   0.99026
                         Activity of water  =   1.000
                            Ionic strength  =   4.098e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2173,12 +2173,12 @@ S(6)             1.611e-02
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
 	Anhydrite        -0.07*    -4.62   -4.55  CaSO4	 Delta_V  -3.60 cm3/mol
-	Gypsum           -0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  -3.60 cm3/mol
+	Gypsum           -0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  32.87 cm3/mol
 	H2(g)           -31.68    -34.93   -3.25  H2
-	H2O(g)           -0.91     -0.00    0.91  H2O
-	H2S(g)         -104.38*  -105.64   -1.26  H2S	 Delta_V  13.94 cm3/mol
-	O2(g)           -12.05    -15.08   -3.03  O2
-	Sulfur          -78.30*   -73.96    4.34  S	 Delta_V  13.94 cm3/mol
+	H2O(g)           -0.91*    -0.00    0.91  H2O	 Delta_V  18.23 cm3/mol
+	H2S(g)         -104.38*  -105.64   -1.26  H2S	 Delta_V -58.99 cm3/mol
+	O2(g)           -12.05*   -15.08   -3.03  O2	 Delta_V  36.47 cm3/mol
+	Sulfur          -78.30*   -73.96    4.34  S	 Delta_V -58.99 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 27.
@@ -2207,7 +2207,7 @@ Gypsum           -0.00    -4.62     -4.62    1.000e+00   1.984e+00   9.845e-01
                                        pH  =   6.758      Charge balance
                                        pe  =   9.011      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 51 oC) = 3459
-                          Density (g/cm3)  =   0.98980
+                          Density (g/cm3)  =   0.98981
                         Activity of water  =   1.000
                            Ionic strength  =   4.088e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2253,12 +2253,12 @@ S(6)             1.609e-02
 	Phase               SI   log IAP   log K(324 K,   1 atm)
 
 	Anhydrite        -0.06*    -4.62   -4.56  CaSO4	 Delta_V  -3.72 cm3/mol
-	Gypsum           -0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  -3.72 cm3/mol
+	Gypsum           -0.00*    -4.62   -4.62  CaSO4:2H2O	 Delta_V  32.76 cm3/mol
 	H2(g)           -31.54    -34.79   -3.25  H2
-	H2O(g)           -0.89     -0.00    0.89  H2O
-	H2S(g)         -103.92*  -105.19   -1.27  H2S	 Delta_V  13.84 cm3/mol
-	O2(g)           -12.05    -15.08   -3.03  O2
-	Sulfur          -77.97*   -73.65    4.32  S	 Delta_V  13.84 cm3/mol
+	H2O(g)           -0.89*    -0.00    0.89  H2O	 Delta_V  18.24 cm3/mol
+	H2S(g)         -103.92*  -105.19   -1.27  H2S	 Delta_V -59.13 cm3/mol
+	O2(g)           -12.05*   -15.08   -3.03  O2	 Delta_V  36.48 cm3/mol
+	Sulfur          -77.97*   -73.65    4.32  S	 Delta_V -59.13 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 28.
@@ -2287,7 +2287,7 @@ Gypsum            0.00    -4.63     -4.63    1.000e+00   1.984e+00   9.845e-01
                                        pH  =   6.748      Charge balance
                                        pe  =   8.953      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 52 oC) = 3506
-                          Density (g/cm3)  =   0.98935
+                          Density (g/cm3)  =   0.98934
                         Activity of water  =   1.000
                            Ionic strength  =   4.077e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2333,12 +2333,12 @@ S(6)             1.607e-02
 	Phase               SI   log IAP   log K(325 K,   1 atm)
 
 	Anhydrite        -0.05*    -4.63   -4.58  CaSO4	 Delta_V  -3.85 cm3/mol
-	Gypsum            0.00*    -4.63   -4.63  CaSO4:2H2O	 Delta_V  -3.85 cm3/mol
+	Gypsum            0.00*    -4.63   -4.63  CaSO4:2H2O	 Delta_V  32.65 cm3/mol
 	H2(g)           -31.40    -34.66   -3.26  H2
-	H2O(g)           -0.87     -0.00    0.87  H2O
-	H2S(g)         -103.48*  -104.76   -1.28  H2S	 Delta_V  13.73 cm3/mol
-	O2(g)           -12.03    -15.07   -3.04  O2
-	Sulfur          -77.66*   -73.36    4.30  S	 Delta_V  13.73 cm3/mol
+	H2O(g)           -0.87*    -0.00    0.87  H2O	 Delta_V  18.25 cm3/mol
+	H2S(g)         -103.48*  -104.76   -1.28  H2S	 Delta_V -59.27 cm3/mol
+	O2(g)           -12.03*   -15.07   -3.04  O2	 Delta_V  36.50 cm3/mol
+	Sulfur          -77.66*   -73.36    4.30  S	 Delta_V -59.27 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 29.
@@ -2367,7 +2367,7 @@ Gypsum           -0.00    -4.63     -4.63    1.000e+00   1.985e+00   9.845e-01
                                        pH  =   6.738      Charge balance
                                        pe  =   8.893      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 53 oC) = 3553
-                          Density (g/cm3)  =   0.98888
+                          Density (g/cm3)  =   0.98887
                         Activity of water  =   1.000
                            Ionic strength  =   4.066e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2413,12 +2413,12 @@ S(6)             1.605e-02
 	Phase               SI   log IAP   log K(326 K,   1 atm)
 
 	Anhydrite        -0.04*    -4.63   -4.59  CaSO4	 Delta_V  -4.00 cm3/mol
-	Gypsum           -0.00*    -4.63   -4.63  CaSO4:2H2O	 Delta_V  -4.00 cm3/mol
+	Gypsum           -0.00*    -4.63   -4.63  CaSO4:2H2O	 Delta_V  32.52 cm3/mol
 	H2(g)           -31.26    -34.52   -3.26  H2
-	H2O(g)           -0.85     -0.00    0.85  H2O
-	H2S(g)         -103.03*  -104.31   -1.28  H2S	 Delta_V  13.62 cm3/mol
-	O2(g)           -12.03    -15.08   -3.04  O2
-	Sulfur          -77.33*   -73.05    4.28  S	 Delta_V  13.62 cm3/mol
+	H2O(g)           -0.85*    -0.00    0.85  H2O	 Delta_V  18.26 cm3/mol
+	H2S(g)         -103.03*  -104.31   -1.28  H2S	 Delta_V -59.42 cm3/mol
+	O2(g)           -12.03*   -15.08   -3.04  O2	 Delta_V  36.52 cm3/mol
+	Sulfur          -77.33*   -73.05    4.28  S	 Delta_V -59.42 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 30.
@@ -2447,7 +2447,7 @@ Gypsum            0.00    -4.63     -4.63    1.000e+00   1.985e+00   9.845e-01
                                        pH  =   6.728      Charge balance
                                        pe  =   8.832      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 54 oC) = 3599
-                          Density (g/cm3)  =   0.98842
+                          Density (g/cm3)  =   0.98839
                         Activity of water  =   1.000
                            Ionic strength  =   4.054e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2493,12 +2493,12 @@ S(6)             1.602e-02
 	Phase               SI   log IAP   log K(327 K,   1 atm)
 
 	Anhydrite        -0.03*    -4.63   -4.60  CaSO4	 Delta_V  -4.15 cm3/mol
-	Gypsum            0.00*    -4.63   -4.63  CaSO4:2H2O	 Delta_V  -4.15 cm3/mol
+	Gypsum            0.00*    -4.63   -4.63  CaSO4:2H2O	 Delta_V  32.39 cm3/mol
 	H2(g)           -31.12    -34.38   -3.26  H2
-	H2O(g)           -0.83     -0.00    0.83  H2O
-	H2S(g)         -102.56*  -103.86   -1.29  H2S	 Delta_V  13.49 cm3/mol
-	O2(g)           -12.04    -15.08   -3.05  O2
-	Sulfur          -77.00*   -72.74    4.26  S	 Delta_V  13.49 cm3/mol
+	H2O(g)           -0.83*    -0.00    0.83  H2O	 Delta_V  18.27 cm3/mol
+	H2S(g)         -102.56*  -103.86   -1.29  H2S	 Delta_V -59.58 cm3/mol
+	O2(g)           -12.04*   -15.08   -3.05  O2	 Delta_V  36.54 cm3/mol
+	Sulfur          -77.00*   -72.74    4.26  S	 Delta_V -59.58 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 31.
@@ -2527,7 +2527,7 @@ Gypsum            0.00    -4.64     -4.64    1.000e+00   1.985e+00   9.846e-01
                                        pH  =   6.719      Charge balance
                                        pe  =   8.958      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 55 oC) = 3645
-                          Density (g/cm3)  =   0.98795
+                          Density (g/cm3)  =   0.98791
                         Activity of water  =   1.000
                            Ionic strength  =   4.042e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2573,12 +2573,12 @@ S(6)             1.600e-02
 	Phase               SI   log IAP   log K(328 K,   1 atm)
 
 	Anhydrite        -0.03*    -4.64   -4.61  CaSO4	 Delta_V  -4.31 cm3/mol
-	Gypsum            0.00*    -4.64   -4.64  CaSO4:2H2O	 Delta_V  -4.31 cm3/mol
+	Gypsum            0.00*    -4.64   -4.64  CaSO4:2H2O	 Delta_V  32.24 cm3/mol
 	H2(g)           -31.35    -34.62   -3.27  H2
-	H2O(g)           -0.81     -0.00    0.80  H2O
-	H2S(g)         -103.60*  -104.90   -1.30  H2S	 Delta_V  13.36 cm3/mol
-	O2(g)           -11.29    -14.34   -3.05  O2
-	Sulfur          -77.79*   -73.55    4.25  S	 Delta_V  13.36 cm3/mol
+	H2O(g)           -0.81*    -0.00    0.80  H2O	 Delta_V  18.28 cm3/mol
+	H2S(g)         -103.60*  -104.90   -1.30  H2S	 Delta_V -59.75 cm3/mol
+	O2(g)           -11.29*   -14.34   -3.05  O2	 Delta_V  36.55 cm3/mol
+	Sulfur          -77.79*   -73.55    4.25  S	 Delta_V -59.75 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 32.
@@ -2607,7 +2607,7 @@ Gypsum            0.00    -4.64     -4.64    1.000e+00   1.985e+00   9.846e-01
                                        pH  =   6.709      Charge balance
                                        pe  =   8.718      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 56 oC) = 3690
-                          Density (g/cm3)  =   0.98747
+                          Density (g/cm3)  =   0.98742
                         Activity of water  =   1.000
                            Ionic strength  =   4.029e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2653,12 +2653,12 @@ S(6)             1.597e-02
 	Phase               SI   log IAP   log K(329 K,   1 atm)
 
 	Anhydrite        -0.02*    -4.64   -4.62  CaSO4	 Delta_V  -4.48 cm3/mol
-	Gypsum            0.00*    -4.64   -4.64  CaSO4:2H2O	 Delta_V  -4.48 cm3/mol
+	Gypsum            0.00*    -4.64   -4.64  CaSO4:2H2O	 Delta_V  32.09 cm3/mol
 	H2(g)           -30.85    -34.13   -3.27  H2
-	H2O(g)           -0.78     -0.00    0.78  H2O
-	H2S(g)         -101.70*  -103.01   -1.31  H2S	 Delta_V  13.22 cm3/mol
-	O2(g)           -12.02    -15.07   -3.05  O2
-	Sulfur          -76.39*   -72.16    4.23  S	 Delta_V  13.22 cm3/mol
+	H2O(g)           -0.78*    -0.00    0.78  H2O	 Delta_V  18.29 cm3/mol
+	H2S(g)         -101.70*  -103.01   -1.31  H2S	 Delta_V -59.92 cm3/mol
+	O2(g)           -12.02*   -15.07   -3.05  O2	 Delta_V  36.57 cm3/mol
+	Sulfur          -76.39*   -72.16    4.23  S	 Delta_V -59.92 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 33.
@@ -2687,7 +2687,7 @@ Gypsum           -0.00    -4.64     -4.64    1.000e+00   1.985e+00   9.846e-01
                                        pH  =   6.700      Charge balance
                                        pe  =   8.704      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 57 oC) = 3735
-                          Density (g/cm3)  =   0.98699
+                          Density (g/cm3)  =   0.98692
                         Activity of water  =   1.000
                            Ionic strength  =   4.016e-02
                        Mass of water (kg)  =   9.645e-01
@@ -2733,12 +2733,12 @@ S(6)             1.593e-02
 	Phase               SI   log IAP   log K(330 K,   1 atm)
 
 	Anhydrite        -0.01*    -4.64   -4.63  CaSO4	 Delta_V  -4.66 cm3/mol
-	Gypsum           -0.00*    -4.64   -4.64  CaSO4:2H2O	 Delta_V  -4.66 cm3/mol
+	Gypsum           -0.00*    -4.64   -4.64  CaSO4:2H2O	 Delta_V  31.93 cm3/mol
 	H2(g)           -30.81    -34.08   -3.27  H2
-	H2O(g)           -0.76     -0.00    0.76  H2O
-	H2S(g)         -101.62*  -102.94   -1.32  H2S	 Delta_V  13.08 cm3/mol
-	O2(g)           -11.83    -14.89   -3.06  O2
-	Sulfur          -76.34*   -72.13    4.21  S	 Delta_V  13.08 cm3/mol
+	H2O(g)           -0.76*    -0.00    0.76  H2O	 Delta_V  18.29 cm3/mol
+	H2S(g)         -101.62*  -102.94   -1.32  H2S	 Delta_V -60.10 cm3/mol
+	O2(g)           -11.83*   -14.89   -3.06  O2	 Delta_V  36.59 cm3/mol
+	Sulfur          -76.34*   -72.13    4.21  S	 Delta_V -60.10 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 34.
@@ -2767,7 +2767,7 @@ Gypsum           -0.00    -4.65     -4.65    1.000e+00           0  -1.000e+00
                                        pH  =   6.691      Charge balance
                                        pe  =   8.590      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 58 oC) = 3778
-                          Density (g/cm3)  =   0.98651
+                          Density (g/cm3)  =   0.98642
                         Activity of water  =   1.000
                            Ionic strength  =   4.000e-02
                        Mass of water (kg)  =   1.036e+00
@@ -2813,12 +2813,12 @@ S(6)             1.588e-02
 	Phase               SI   log IAP   log K(331 K,   1 atm)
 
 	Anhydrite         0.00*    -4.65   -4.65  CaSO4	 Delta_V  -4.86 cm3/mol
-	Gypsum           -0.00*    -4.65   -4.65  CaSO4:2H2O	 Delta_V  -4.86 cm3/mol
+	Gypsum           -0.00*    -4.65   -4.65  CaSO4:2H2O	 Delta_V  31.75 cm3/mol
 	H2(g)           -30.56    -33.84   -3.28  H2
-	H2O(g)           -0.74     -0.00    0.74  H2O
-	H2S(g)         -100.73*  -102.06   -1.33  H2S	 Delta_V  12.92 cm3/mol
-	O2(g)           -12.05    -15.11   -3.06  O2
-	Sulfur          -75.69*   -71.50    4.19  S	 Delta_V  12.92 cm3/mol
+	H2O(g)           -0.74*    -0.00    0.74  H2O	 Delta_V  18.30 cm3/mol
+	H2S(g)         -100.73*  -102.06   -1.33  H2S	 Delta_V -60.29 cm3/mol
+	O2(g)           -12.05*   -15.11   -3.06  O2	 Delta_V  36.61 cm3/mol
+	Sulfur          -75.69*   -71.50    4.19  S	 Delta_V -60.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 35.
@@ -2847,7 +2847,7 @@ Gypsum           -0.01    -4.66     -4.65    1.000e+00           0  -1.000e+00
                                        pH  =   6.681      Charge balance
                                        pe  =   8.532      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 59 oC) = 3773
-                          Density (g/cm3)  =   0.98599
+                          Density (g/cm3)  =   0.98587
                         Activity of water  =   1.000
                            Ionic strength  =   3.929e-02
                        Mass of water (kg)  =   1.036e+00
@@ -2893,12 +2893,12 @@ S(6)             1.558e-02
 	Phase               SI   log IAP   log K(332 K,   1 atm)
 
 	Anhydrite         0.00*    -4.66   -4.66  CaSO4	 Delta_V  -5.06 cm3/mol
-	Gypsum           -0.01*    -4.66   -4.65  CaSO4:2H2O	 Delta_V  -5.06 cm3/mol
+	Gypsum           -0.01*    -4.66   -4.65  CaSO4:2H2O	 Delta_V  31.57 cm3/mol
 	H2(g)           -30.43    -33.71   -3.28  H2
-	H2O(g)           -0.72     -0.00    0.72  H2O
-	H2S(g)         -100.29*  -101.63   -1.34  H2S	 Delta_V  12.76 cm3/mol
-	O2(g)           -12.05    -15.12   -3.06  O2
-	Sulfur          -75.37*   -71.21    4.17  S	 Delta_V  12.76 cm3/mol
+	H2O(g)           -0.72*    -0.00    0.72  H2O	 Delta_V  18.31 cm3/mol
+	H2S(g)         -100.29*  -101.63   -1.34  H2S	 Delta_V -60.49 cm3/mol
+	O2(g)           -12.05*   -15.12   -3.06  O2	 Delta_V  36.63 cm3/mol
+	Sulfur          -75.37*   -71.21    4.17  S	 Delta_V -60.49 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 36.
@@ -2927,7 +2927,7 @@ Gypsum           -0.02    -4.67     -4.65    1.000e+00           0  -1.000e+00
                                        pH  =   6.670      Charge balance
                                        pe  =   8.477      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 60 oC) = 3767
-                          Density (g/cm3)  =   0.98547
+                          Density (g/cm3)  =   0.98532
                         Activity of water  =   1.000
                            Ionic strength  =   3.858e-02
                        Mass of water (kg)  =   1.036e+00
@@ -2973,12 +2973,12 @@ S(6)             1.528e-02
 	Phase               SI   log IAP   log K(333 K,   1 atm)
 
 	Anhydrite         0.00*    -4.67   -4.67  CaSO4	 Delta_V  -5.27 cm3/mol
-	Gypsum           -0.02*    -4.67   -4.65  CaSO4:2H2O	 Delta_V  -5.27 cm3/mol
+	Gypsum           -0.02*    -4.67   -4.65  CaSO4:2H2O	 Delta_V  31.37 cm3/mol
 	H2(g)           -30.29    -33.58   -3.29  H2
-	H2O(g)           -0.70     -0.00    0.70  H2O
-	H2S(g)          -99.87*  -101.22   -1.35  H2S	 Delta_V  12.59 cm3/mol
-	O2(g)           -12.05    -15.11   -3.06  O2
-	Sulfur          -75.07*   -70.92    4.15  S	 Delta_V  12.59 cm3/mol
+	H2O(g)           -0.70*    -0.00    0.70  H2O	 Delta_V  18.32 cm3/mol
+	H2S(g)          -99.87*  -101.22   -1.35  H2S	 Delta_V -60.70 cm3/mol
+	O2(g)           -12.05*   -15.11   -3.06  O2	 Delta_V  36.65 cm3/mol
+	Sulfur          -75.07*   -70.92    4.15  S	 Delta_V -60.70 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 37.
@@ -3007,7 +3007,7 @@ Gypsum           -0.03    -4.69     -4.66    1.000e+00           0  -1.000e+00
                                        pH  =   6.660      Charge balance
                                        pe  =   8.422      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 61 oC) = 3759
-                          Density (g/cm3)  =   0.98494
+                          Density (g/cm3)  =   0.98477
                         Activity of water  =   1.000
                            Ionic strength  =   3.787e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3053,12 +3053,12 @@ S(6)             1.498e-02
 	Phase               SI   log IAP   log K(334 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.69   -4.69  CaSO4	 Delta_V  -5.50 cm3/mol
-	Gypsum           -0.03*    -4.69   -4.66  CaSO4:2H2O	 Delta_V  -5.50 cm3/mol
+	Gypsum           -0.03*    -4.69   -4.66  CaSO4:2H2O	 Delta_V  31.17 cm3/mol
 	H2(g)           -30.17    -33.45   -3.29  H2
-	H2O(g)           -0.68     -0.00    0.68  H2O
-	H2S(g)          -99.45*  -100.81   -1.36  H2S	 Delta_V  12.41 cm3/mol
-	O2(g)           -12.04    -15.11   -3.07  O2
-	Sulfur          -74.78*   -70.65    4.13  S	 Delta_V  12.41 cm3/mol
+	H2O(g)           -0.68*    -0.00    0.68  H2O	 Delta_V  18.33 cm3/mol
+	H2S(g)          -99.45*  -100.81   -1.36  H2S	 Delta_V -60.92 cm3/mol
+	O2(g)           -12.04*   -15.11   -3.07  O2	 Delta_V  36.67 cm3/mol
+	Sulfur          -74.78*   -70.65    4.13  S	 Delta_V -60.92 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 38.
@@ -3087,7 +3087,7 @@ Gypsum           -0.04    -4.70     -4.66    1.000e+00           0  -1.000e+00
                                        pH  =   6.650      Charge balance
                                        pe  =   8.364      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 62 oC) = 3750
-                          Density (g/cm3)  =   0.98441
+                          Density (g/cm3)  =   0.98421
                         Activity of water  =   1.000
                            Ionic strength  =   3.717e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3133,12 +3133,12 @@ S(6)             1.468e-02
 	Phase               SI   log IAP   log K(335 K,   1 atm)
 
 	Anhydrite         0.00*    -4.70   -4.70  CaSO4	 Delta_V  -5.73 cm3/mol
-	Gypsum           -0.04*    -4.70   -4.66  CaSO4:2H2O	 Delta_V  -5.73 cm3/mol
+	Gypsum           -0.04*    -4.70   -4.66  CaSO4:2H2O	 Delta_V  30.96 cm3/mol
 	H2(g)           -30.03    -33.32   -3.29  H2
-	H2O(g)           -0.66     -0.00    0.66  H2O
-	H2S(g)          -99.01*  -100.38   -1.37  H2S	 Delta_V  12.23 cm3/mol
-	O2(g)           -12.04    -15.11   -3.07  O2
-	Sulfur          -74.46*   -70.35    4.11  S	 Delta_V  12.23 cm3/mol
+	H2O(g)           -0.66*    -0.00    0.66  H2O	 Delta_V  18.34 cm3/mol
+	H2S(g)          -99.01*  -100.38   -1.37  H2S	 Delta_V -61.14 cm3/mol
+	O2(g)           -12.04*   -15.11   -3.07  O2	 Delta_V  36.69 cm3/mol
+	Sulfur          -74.46*   -70.35    4.11  S	 Delta_V -61.14 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 39.
@@ -3167,7 +3167,7 @@ Gypsum           -0.05    -4.71     -4.67    1.000e+00           0  -1.000e+00
                                        pH  =   6.641      Charge balance
                                        pe  =   8.357      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 63 oC) = 3740
-                          Density (g/cm3)  =   0.98388
+                          Density (g/cm3)  =   0.98364
                         Activity of water  =   1.000
                            Ionic strength  =   3.646e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3213,12 +3213,12 @@ S(6)             1.438e-02
 	Phase               SI   log IAP   log K(336 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.71   -4.71  CaSO4	 Delta_V  -5.97 cm3/mol
-	Gypsum           -0.05*    -4.71   -4.67  CaSO4:2H2O	 Delta_V  -5.97 cm3/mol
+	Gypsum           -0.05*    -4.71   -4.67  CaSO4:2H2O	 Delta_V  30.73 cm3/mol
 	H2(g)           -30.00    -33.29   -3.30  H2
-	H2O(g)           -0.64     -0.00    0.64  H2O
-	H2S(g)          -98.98*  -100.35   -1.38  H2S	 Delta_V  12.04 cm3/mol
-	O2(g)           -11.85    -14.92   -3.07  O2
-	Sulfur          -74.45*   -70.36    4.09  S	 Delta_V  12.04 cm3/mol
+	H2O(g)           -0.64*    -0.00    0.64  H2O	 Delta_V  18.35 cm3/mol
+	H2S(g)          -98.98*  -100.35   -1.38  H2S	 Delta_V -61.37 cm3/mol
+	O2(g)           -11.85*   -14.92   -3.07  O2	 Delta_V  36.70 cm3/mol
+	Sulfur          -74.45*   -70.36    4.09  S	 Delta_V -61.37 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 40.
@@ -3247,7 +3247,7 @@ Gypsum           -0.06    -4.73     -4.67    1.000e+00           0  -1.000e+00
                                        pH  =   6.631      Charge balance
                                        pe  =   8.254      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 64 oC) = 3727
-                          Density (g/cm3)  =   0.98335
+                          Density (g/cm3)  =   0.98306
                         Activity of water  =   1.000
                            Ionic strength  =   3.576e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3293,12 +3293,12 @@ S(6)             1.408e-02
 	Phase               SI   log IAP   log K(337 K,   1 atm)
 
 	Anhydrite         0.00*    -4.73   -4.73  CaSO4	 Delta_V  -6.22 cm3/mol
-	Gypsum           -0.06*    -4.73   -4.67  CaSO4:2H2O	 Delta_V  -6.22 cm3/mol
+	Gypsum           -0.06*    -4.73   -4.67  CaSO4:2H2O	 Delta_V  30.50 cm3/mol
 	H2(g)           -29.77    -33.07   -3.30  H2
-	H2O(g)           -0.62     -0.00    0.62  H2O
-	H2S(g)          -98.17*   -99.56   -1.38  H2S	 Delta_V  11.84 cm3/mol
-	O2(g)           -12.04    -15.11   -3.08  O2
-	Sulfur          -73.86*   -69.79    4.08  S	 Delta_V  11.84 cm3/mol
+	H2O(g)           -0.62*    -0.00    0.62  H2O	 Delta_V  18.36 cm3/mol
+	H2S(g)          -98.17*   -99.56   -1.38  H2S	 Delta_V -61.61 cm3/mol
+	O2(g)           -12.04*   -15.11   -3.08  O2	 Delta_V  36.72 cm3/mol
+	Sulfur          -73.86*   -69.79    4.08  S	 Delta_V -61.61 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 41.
@@ -3327,7 +3327,7 @@ Gypsum           -0.07    -4.74     -4.67    1.000e+00           0  -1.000e+00
                                        pH  =   6.621      Charge balance
                                        pe  =   8.209      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 65 oC) = 3714
-                          Density (g/cm3)  =   0.98282
+                          Density (g/cm3)  =   0.98249
                         Activity of water  =   1.000
                            Ionic strength  =   3.507e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3373,12 +3373,12 @@ S(6)             1.378e-02
 	Phase               SI   log IAP   log K(338 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.74   -4.74  CaSO4	 Delta_V  -6.49 cm3/mol
-	Gypsum           -0.07*    -4.74   -4.67  CaSO4:2H2O	 Delta_V  -6.49 cm3/mol
+	Gypsum           -0.07*    -4.74   -4.67  CaSO4:2H2O	 Delta_V  30.26 cm3/mol
 	H2(g)           -29.66    -32.96   -3.30  H2
-	H2O(g)           -0.60     -0.00    0.60  H2O
-	H2S(g)          -97.83*   -99.23   -1.39  H2S	 Delta_V  11.63 cm3/mol
-	O2(g)           -12.00    -15.07   -3.08  O2
-	Sulfur          -73.62*   -69.56    4.06  S	 Delta_V  11.63 cm3/mol
+	H2O(g)           -0.60*    -0.00    0.60  H2O	 Delta_V  18.37 cm3/mol
+	H2S(g)          -97.83*   -99.23   -1.39  H2S	 Delta_V -61.86 cm3/mol
+	O2(g)           -12.00*   -15.07   -3.08  O2	 Delta_V  36.75 cm3/mol
+	Sulfur          -73.62*   -69.56    4.06  S	 Delta_V -61.86 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 42.
@@ -3407,7 +3407,7 @@ Gypsum           -0.08    -4.75     -4.68    1.000e+00           0  -1.000e+00
                                        pH  =   6.612      Charge balance
                                        pe  =   8.193      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 66 oC) = 3699
-                          Density (g/cm3)  =   0.98229
+                          Density (g/cm3)  =   0.98190
                         Activity of water  =   1.000
                            Ionic strength  =   3.438e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3453,12 +3453,12 @@ S(6)             1.349e-02
 	Phase               SI   log IAP   log K(339 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.75   -4.75  CaSO4	 Delta_V  -6.76 cm3/mol
-	Gypsum           -0.08*    -4.75   -4.68  CaSO4:2H2O	 Delta_V  -6.76 cm3/mol
+	Gypsum           -0.08*    -4.75   -4.68  CaSO4:2H2O	 Delta_V  30.00 cm3/mol
 	H2(g)           -29.61    -32.91   -3.31  H2
-	H2O(g)           -0.58     -0.00    0.58  H2O
-	H2S(g)          -97.72*   -99.13   -1.40  H2S	 Delta_V  11.42 cm3/mol
-	O2(g)           -11.84    -14.92   -3.08  O2
-	Sulfur          -73.56*   -69.52    4.04  S	 Delta_V  11.42 cm3/mol
+	H2O(g)           -0.58*    -0.00    0.58  H2O	 Delta_V  18.38 cm3/mol
+	H2S(g)          -97.72*   -99.13   -1.40  H2S	 Delta_V -62.11 cm3/mol
+	O2(g)           -11.84*   -14.92   -3.08  O2	 Delta_V  36.77 cm3/mol
+	Sulfur          -73.56*   -69.52    4.04  S	 Delta_V -62.11 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 43.
@@ -3487,7 +3487,7 @@ Gypsum           -0.09    -4.77     -4.68    1.000e+00           0  -1.000e+00
                                        pH  =   6.602      Charge balance
                                        pe  =   8.093      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 67 oC) = 3683
-                          Density (g/cm3)  =   0.98177
+                          Density (g/cm3)  =   0.98131
                         Activity of water  =   1.000
                            Ionic strength  =   3.369e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3533,12 +3533,12 @@ S(6)             1.319e-02
 	Phase               SI   log IAP   log K(340 K,   1 atm)
 
 	Anhydrite         0.00*    -4.77   -4.77  CaSO4	 Delta_V  -7.05 cm3/mol
-	Gypsum           -0.09*    -4.77   -4.68  CaSO4:2H2O	 Delta_V  -7.05 cm3/mol
+	Gypsum           -0.09*    -4.77   -4.68  CaSO4:2H2O	 Delta_V  29.74 cm3/mol
 	H2(g)           -29.39    -32.70   -3.31  H2
-	H2O(g)           -0.56     -0.00    0.56  H2O
-	H2S(g)          -96.95*   -98.36   -1.41  H2S	 Delta_V  11.19 cm3/mol
-	O2(g)           -12.02    -15.10   -3.08  O2
-	Sulfur          -72.99*   -68.97    4.02  S	 Delta_V  11.19 cm3/mol
+	H2O(g)           -0.56*    -0.00    0.56  H2O	 Delta_V  18.39 cm3/mol
+	H2S(g)          -96.95*   -98.36   -1.41  H2S	 Delta_V -62.38 cm3/mol
+	O2(g)           -12.02*   -15.10   -3.08  O2	 Delta_V  36.79 cm3/mol
+	Sulfur          -72.99*   -68.97    4.02  S	 Delta_V -62.38 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 44.
@@ -3567,7 +3567,7 @@ Gypsum           -0.10    -4.78     -4.69    1.000e+00           0  -1.000e+00
                                        pH  =   6.593      Charge balance
                                        pe  =   8.038      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 68 oC) = 3665
-                          Density (g/cm3)  =   0.98124
+                          Density (g/cm3)  =   0.98072
                         Activity of water  =   1.000
                            Ionic strength  =   3.301e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3613,12 +3613,12 @@ S(6)             1.290e-02
 	Phase               SI   log IAP   log K(341 K,   1 atm)
 
 	Anhydrite         0.00*    -4.78   -4.78  CaSO4	 Delta_V  -7.34 cm3/mol
-	Gypsum           -0.10*    -4.78   -4.69  CaSO4:2H2O	 Delta_V  -7.34 cm3/mol
+	Gypsum           -0.10*    -4.78   -4.69  CaSO4:2H2O	 Delta_V  29.47 cm3/mol
 	H2(g)           -29.26    -32.57   -3.31  H2
-	H2O(g)           -0.54     -0.00    0.54  H2O
-	H2S(g)          -96.53*   -97.95   -1.42  H2S	 Delta_V  10.96 cm3/mol
-	O2(g)           -12.02    -15.11   -3.08  O2
-	Sulfur          -72.69*   -68.69    4.00  S	 Delta_V  10.96 cm3/mol
+	H2O(g)           -0.54*    -0.00    0.54  H2O	 Delta_V  18.40 cm3/mol
+	H2S(g)          -96.53*   -97.95   -1.42  H2S	 Delta_V -62.65 cm3/mol
+	O2(g)           -12.02*   -15.11   -3.08  O2	 Delta_V  36.81 cm3/mol
+	Sulfur          -72.69*   -68.69    4.00  S	 Delta_V -62.65 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 45.
@@ -3647,7 +3647,7 @@ Gypsum           -0.11    -4.80     -4.69    1.000e+00           0  -1.000e+00
                                        pH  =   6.584      Charge balance
                                        pe  =   7.983      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 69 oC) = 3646
-                          Density (g/cm3)  =   0.98071
+                          Density (g/cm3)  =   0.98012
                         Activity of water  =   1.000
                            Ionic strength  =   3.233e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3693,12 +3693,12 @@ S(6)             1.261e-02
 	Phase               SI   log IAP   log K(342 K,   1 atm)
 
 	Anhydrite         0.00*    -4.80   -4.80  CaSO4	 Delta_V  -7.64 cm3/mol
-	Gypsum           -0.11*    -4.80   -4.69  CaSO4:2H2O	 Delta_V  -7.64 cm3/mol
+	Gypsum           -0.11*    -4.80   -4.69  CaSO4:2H2O	 Delta_V  29.18 cm3/mol
 	H2(g)           -29.13    -32.45   -3.32  H2
-	H2O(g)           -0.52     -0.00    0.52  H2O
-	H2S(g)          -96.12*   -97.55   -1.43  H2S	 Delta_V  10.73 cm3/mol
-	O2(g)           -12.02    -15.11   -3.09  O2
-	Sulfur          -72.40*   -68.41    3.99  S	 Delta_V  10.73 cm3/mol
+	H2O(g)           -0.52*    -0.00    0.52  H2O	 Delta_V  18.41 cm3/mol
+	H2S(g)          -96.12*   -97.55   -1.43  H2S	 Delta_V -62.93 cm3/mol
+	O2(g)           -12.02*   -15.11   -3.09  O2	 Delta_V  36.83 cm3/mol
+	Sulfur          -72.40*   -68.41    3.99  S	 Delta_V -62.93 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 46.
@@ -3727,7 +3727,7 @@ Gypsum           -0.12    -4.81     -4.69    1.000e+00           0  -1.000e+00
                                        pH  =   6.574      Charge balance
                                        pe  =   7.931      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 70 oC) = 3626
-                          Density (g/cm3)  =   0.98019
+                          Density (g/cm3)  =   0.97951
                         Activity of water  =   1.000
                            Ionic strength  =   3.166e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3773,12 +3773,12 @@ S(6)             1.233e-02
 	Phase               SI   log IAP   log K(343 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.81   -4.81  CaSO4	 Delta_V  -7.96 cm3/mol
-	Gypsum           -0.12*    -4.81   -4.69  CaSO4:2H2O	 Delta_V  -7.96 cm3/mol
+	Gypsum           -0.12*    -4.81   -4.69  CaSO4:2H2O	 Delta_V  28.89 cm3/mol
 	H2(g)           -29.01    -32.33   -3.32  H2
-	H2O(g)           -0.50     -0.00    0.50  H2O
-	H2S(g)          -95.72*   -97.16   -1.44  H2S	 Delta_V  10.48 cm3/mol
-	O2(g)           -12.01    -15.10   -3.09  O2
-	Sulfur          -72.11*   -68.15    3.97  S	 Delta_V  10.48 cm3/mol
+	H2O(g)           -0.50*    -0.00    0.50  H2O	 Delta_V  18.42 cm3/mol
+	H2S(g)          -95.72*   -97.16   -1.44  H2S	 Delta_V -63.22 cm3/mol
+	O2(g)           -12.01*   -15.10   -3.09  O2	 Delta_V  36.85 cm3/mol
+	Sulfur          -72.11*   -68.15    3.97  S	 Delta_V -63.22 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 47.
@@ -3807,7 +3807,7 @@ Gypsum           -0.13    -4.83     -4.70    1.000e+00           0  -1.000e+00
                                        pH  =   6.565      Charge balance
                                        pe  =   7.877      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 71 oC) = 3605
-                          Density (g/cm3)  =   0.97967
+                          Density (g/cm3)  =   0.97890
                         Activity of water  =   1.000
                            Ionic strength  =   3.100e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3853,12 +3853,12 @@ S(6)             1.204e-02
 	Phase               SI   log IAP   log K(344 K,   1 atm)
 
 	Anhydrite         0.00*    -4.83   -4.83  CaSO4	 Delta_V  -8.28 cm3/mol
-	Gypsum           -0.13*    -4.83   -4.70  CaSO4:2H2O	 Delta_V  -8.28 cm3/mol
+	Gypsum           -0.13*    -4.83   -4.70  CaSO4:2H2O	 Delta_V  28.59 cm3/mol
 	H2(g)           -28.88    -32.21   -3.32  H2
-	H2O(g)           -0.48     -0.00    0.48  H2O
-	H2S(g)          -95.31*   -96.76   -1.44  H2S	 Delta_V  10.23 cm3/mol
-	O2(g)           -12.01    -15.11   -3.09  O2
-	Sulfur          -71.82*   -67.87    3.95  S	 Delta_V  10.23 cm3/mol
+	H2O(g)           -0.48*    -0.00    0.48  H2O	 Delta_V  18.44 cm3/mol
+	H2S(g)          -95.31*   -96.76   -1.44  H2S	 Delta_V -63.52 cm3/mol
+	O2(g)           -12.01*   -15.11   -3.09  O2	 Delta_V  36.87 cm3/mol
+	Sulfur          -71.82*   -67.87    3.95  S	 Delta_V -63.52 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 48.
@@ -3887,7 +3887,7 @@ Gypsum           -0.14    -4.84     -4.70    1.000e+00           0  -1.000e+00
                                        pH  =   6.556      Charge balance
                                        pe  =   7.824      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 72 oC) = 3583
-                          Density (g/cm3)  =   0.97915
+                          Density (g/cm3)  =   0.97829
                         Activity of water  =   1.000
                            Ionic strength  =   3.034e-02
                        Mass of water (kg)  =   1.036e+00
@@ -3933,12 +3933,12 @@ S(6)             1.176e-02
 	Phase               SI   log IAP   log K(345 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.84   -4.84  CaSO4	 Delta_V  -8.62 cm3/mol
-	Gypsum           -0.14*    -4.84   -4.70  CaSO4:2H2O	 Delta_V  -8.62 cm3/mol
+	Gypsum           -0.14*    -4.84   -4.70  CaSO4:2H2O	 Delta_V  28.28 cm3/mol
 	H2(g)           -28.76    -32.09   -3.33  H2
-	H2O(g)           -0.46     -0.00    0.46  H2O
-	H2S(g)          -94.91*   -96.37   -1.45  H2S	 Delta_V   9.97 cm3/mol
-	O2(g)           -12.01    -15.10   -3.09  O2
-	Sulfur          -71.54*   -67.61    3.93  S	 Delta_V   9.97 cm3/mol
+	H2O(g)           -0.46*    -0.00    0.46  H2O	 Delta_V  18.45 cm3/mol
+	H2S(g)          -94.91*   -96.37   -1.45  H2S	 Delta_V -63.82 cm3/mol
+	O2(g)           -12.01*   -15.10   -3.09  O2	 Delta_V  36.89 cm3/mol
+	Sulfur          -71.54*   -67.61    3.93  S	 Delta_V -63.82 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 49.
@@ -3967,7 +3967,7 @@ Gypsum           -0.15    -4.86     -4.71    1.000e+00           0  -1.000e+00
                                        pH  =   6.547      Charge balance
                                        pe  =   7.769      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 73 oC) = 3559
-                          Density (g/cm3)  =   0.97864
+                          Density (g/cm3)  =   0.97767
                         Activity of water  =   1.000
                            Ionic strength  =   2.969e-02
                        Mass of water (kg)  =   1.036e+00
@@ -4013,12 +4013,12 @@ S(6)             1.149e-02
 	Phase               SI   log IAP   log K(346 K,   1 atm)
 
 	Anhydrite         0.00*    -4.86   -4.86  CaSO4	 Delta_V  -8.96 cm3/mol
-	Gypsum           -0.15*    -4.86   -4.71  CaSO4:2H2O	 Delta_V  -8.96 cm3/mol
+	Gypsum           -0.15*    -4.86   -4.71  CaSO4:2H2O	 Delta_V  27.95 cm3/mol
 	H2(g)           -28.63    -31.96   -3.33  H2
-	H2O(g)           -0.44     -0.00    0.44  H2O
-	H2S(g)          -94.49*   -95.96   -1.46  H2S	 Delta_V   9.70 cm3/mol
-	O2(g)           -12.02    -15.12   -3.09  O2
-	Sulfur          -71.24*   -67.32    3.92  S	 Delta_V   9.70 cm3/mol
+	H2O(g)           -0.44*    -0.00    0.44  H2O	 Delta_V  18.46 cm3/mol
+	H2S(g)          -94.49*   -95.96   -1.46  H2S	 Delta_V -64.13 cm3/mol
+	O2(g)           -12.02*   -15.12   -3.09  O2	 Delta_V  36.92 cm3/mol
+	Sulfur          -71.24*   -67.32    3.92  S	 Delta_V -64.13 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 50.
@@ -4047,7 +4047,7 @@ Gypsum           -0.16    -4.87     -4.71    1.000e+00           0  -1.000e+00
                                        pH  =   6.539      Charge balance
                                        pe  =   7.717      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 74 oC) = 3535
-                          Density (g/cm3)  =   0.97814
+                          Density (g/cm3)  =   0.97704
                         Activity of water  =   1.000
                            Ionic strength  =   2.905e-02
                        Mass of water (kg)  =   1.036e+00
@@ -4093,12 +4093,12 @@ S(6)             1.121e-02
 	Phase               SI   log IAP   log K(347 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.87   -4.87  CaSO4	 Delta_V  -9.32 cm3/mol
-	Gypsum           -0.16*    -4.87   -4.71  CaSO4:2H2O	 Delta_V  -9.32 cm3/mol
+	Gypsum           -0.16*    -4.87   -4.71  CaSO4:2H2O	 Delta_V  27.62 cm3/mol
 	H2(g)           -28.51    -31.84   -3.33  H2
-	H2O(g)           -0.42     -0.00    0.42  H2O
-	H2S(g)          -94.11*   -95.58   -1.47  H2S	 Delta_V   9.42 cm3/mol
-	O2(g)           -12.01    -15.11   -3.10  O2
-	Sulfur          -70.96*   -67.06    3.90  S	 Delta_V   9.42 cm3/mol
+	H2O(g)           -0.42*    -0.00    0.42  H2O	 Delta_V  18.47 cm3/mol
+	H2S(g)          -94.11*   -95.58   -1.47  H2S	 Delta_V -64.45 cm3/mol
+	O2(g)           -12.01*   -15.11   -3.10  O2	 Delta_V  36.94 cm3/mol
+	Sulfur          -70.96*   -67.06    3.90  S	 Delta_V -64.45 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 51.
@@ -4127,7 +4127,7 @@ Gypsum           -0.17    -4.89     -4.72    1.000e+00           0  -1.000e+00
                                        pH  =   6.530      Charge balance
                                        pe  =   7.666      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 75 oC) = 3509
-                          Density (g/cm3)  =   0.97764
+                          Density (g/cm3)  =   0.97641
                         Activity of water  =   1.000
                            Ionic strength  =   2.841e-02
                        Mass of water (kg)  =   1.036e+00
@@ -4173,12 +4173,12 @@ S(6)             1.094e-02
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
 	Anhydrite        -0.00*    -4.89   -4.89  CaSO4	 Delta_V  -9.68 cm3/mol
-	Gypsum           -0.17*    -4.89   -4.72  CaSO4:2H2O	 Delta_V  -9.68 cm3/mol
+	Gypsum           -0.17*    -4.89   -4.72  CaSO4:2H2O	 Delta_V  27.28 cm3/mol
 	H2(g)           -28.39    -31.73   -3.34  H2
-	H2O(g)           -0.40     -0.00    0.40  H2O
-	H2S(g)          -93.72*   -95.20   -1.48  H2S	 Delta_V   9.14 cm3/mol
-	O2(g)           -12.01    -15.11   -3.10  O2
-	Sulfur          -70.69*   -66.81    3.88  S	 Delta_V   9.14 cm3/mol
+	H2O(g)           -0.40*    -0.00    0.40  H2O	 Delta_V  18.48 cm3/mol
+	H2S(g)          -93.72*   -95.20   -1.48  H2S	 Delta_V -64.78 cm3/mol
+	O2(g)           -12.01*   -15.11   -3.10  O2	 Delta_V  36.96 cm3/mol
+	Sulfur          -70.69*   -66.81    3.88  S	 Delta_V -64.78 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------

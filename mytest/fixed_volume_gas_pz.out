@@ -42,7 +42,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.003e-07
                        Mass of water (kg)  =   1.000e+00
@@ -73,8 +73,8 @@ Initial solution 1.
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	H2O(g)           -1.51     -0.00    1.51  H2O
-
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -103,7 +103,7 @@ CO2(g)           -1.50    -2.97     -1.47    1.000e+01   9.999e+00  -1.099e-03
                                        pH  =   4.653      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 8
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   2.237e-05
                        Mass of water (kg)  =   1.000e+00
@@ -137,8 +137,8 @@ C(4)             1.099e-03
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CO2(g)           -1.50*    -2.97   -1.47  CO2	 Delta_V  -3.78 cm3/mol
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	CO2(g)           -1.50*    -2.97   -1.47  CO2	 Delta_V -21.85 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -288,14 +288,14 @@ Mg               6.494e-04
 	Phase               SI   log IAP   log K(298 K,   0 atm)
 
 	Aragonite        -0.19*    -8.41   -8.22  CaCO3	 Delta_V -21.61 cm3/mol
-	Brucite          -5.52*   -16.40  -10.88  Mg(OH)2	 Delta_V -21.15 cm3/mol
+	Brucite          -5.52*   -16.40  -10.88  Mg(OH)2	 Delta_V  14.99 cm3/mol
 	Calcite           0.00*    -8.41   -8.41  CaCO3	 Delta_V -21.61 cm3/mol
-	CO2(g)           -2.12*    -3.59   -1.47  CO2	 Delta_V  -3.78 cm3/mol
+	CO2(g)           -2.12*    -3.59   -1.47  CO2	 Delta_V -21.85 cm3/mol
 	Dolomite         -0.00*   -17.08  -17.08  CaMg(CO3)2	 Delta_V -46.54 cm3/mol
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
 	Magnesite        -0.84*    -8.68   -7.83  MgCO3	 Delta_V -24.93 cm3/mol
-	Nesquehonite     -3.51*    -8.68   -5.17  MgCO3:3H2O	 Delta_V -24.93 cm3/mol
-	Portlandite     -10.94*   -16.13   -5.19  Ca(OH)2	 Delta_V -17.83 cm3/mol
+	Nesquehonite     -3.51*    -8.68   -5.17  MgCO3:3H2O	 Delta_V  29.28 cm3/mol
+	Portlandite     -10.94*   -16.13   -5.19  Ca(OH)2	 Delta_V  18.31 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -355,7 +355,7 @@ Dolomite          0.00   -17.08    -17.08    1.000e+01   1.000e+01  -3.556e-04
                                        pH  =   7.944      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 191
-                          Density (g/cm3)  =   0.99718
+                          Density (g/cm3)  =   0.99717
                         Activity of water  =   1.000
                            Ionic strength  =   3.032e-03
                        Mass of water (kg)  =   1.000e+00
@@ -400,14 +400,14 @@ Mg               3.556e-04
 	Phase               SI   log IAP   log K(298 K,   0 atm)
 
 	Aragonite        -0.19*    -8.41   -8.22  CaCO3	 Delta_V -21.61 cm3/mol
-	Brucite          -4.78*   -15.66  -10.88  Mg(OH)2	 Delta_V -21.15 cm3/mol
+	Brucite          -4.78*   -15.66  -10.88  Mg(OH)2	 Delta_V  14.99 cm3/mol
 	Calcite           0.00*    -8.41   -8.41  CaCO3	 Delta_V -21.61 cm3/mol
-	CO2(g)           -2.86*    -4.33   -1.47  CO2	 Delta_V  -3.78 cm3/mol
+	CO2(g)           -2.86*    -4.33   -1.47  CO2	 Delta_V -21.85 cm3/mol
 	Dolomite          0.00*   -17.08  -17.08  CaMg(CO3)2	 Delta_V -46.54 cm3/mol
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
 	Magnesite        -0.84*    -8.68   -7.83  MgCO3	 Delta_V -24.93 cm3/mol
-	Nesquehonite     -3.51*    -8.68   -5.17  MgCO3:3H2O	 Delta_V -24.93 cm3/mol
-	Portlandite     -10.20*   -15.39   -5.19  Ca(OH)2	 Delta_V -17.83 cm3/mol
+	Nesquehonite     -3.51*    -8.68   -5.17  MgCO3:3H2O	 Delta_V  29.28 cm3/mol
+	Portlandite     -10.20*   -15.39   -5.19  Ca(OH)2	 Delta_V  18.31 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------

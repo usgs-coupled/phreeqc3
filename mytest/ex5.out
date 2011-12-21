@@ -62,7 +62,7 @@ Initial solution 1.	PURE WATER
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -94,9 +94,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51      0.00    1.51  H2O
-	O2(g)           -39.19    -42.08   -2.89  O2
-
+	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -145,7 +145,7 @@ Pyrite            0.00   -18.48    -18.48    1.000e+01   1.000e+01  -1.477e-07
                                        pH  =   9.909      Charge balance
                                        pe  =  -6.952      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 37
-                          Density (g/cm3)  =   0.99706
+                          Density (g/cm3)  =   0.99710
                         Activity of water  =   1.000
                            Ionic strength  =   3.853e-04
                        Mass of water (kg)  =   1.000e+00
@@ -231,22 +231,22 @@ S(6)             1.401e-07
 	Anhydrite        -6.51*   -10.87   -4.36  CaSO4	 Delta_V  -3.85 cm3/mol
 	Aragonite        -0.14*    -8.48   -8.34  CaCO3	 Delta_V -21.61 cm3/mol
 	Calcite          -0.00*    -8.48   -8.48  CaCO3	 Delta_V -21.61 cm3/mol
-	CH4(g)           -4.06*    -6.92   -2.86  CH4	 Delta_V  -3.78 cm3/mol
-	CO2(g)           -6.18*    -7.65   -1.47  CO2	 Delta_V  -3.78 cm3/mol
-	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
-	FeS(ppt)         -3.75*    -7.67   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          0.00     -1.00   -1.00  FeOOH
-	Gypsum           -6.29*   -10.87   -4.58  CaSO4:2H2O	 Delta_V  -3.85 cm3/mol
+	CH4(g)           -4.06*    -6.92   -2.86  CH4	 Delta_V -57.99 cm3/mol
+	CO2(g)           -6.18*    -7.65   -1.47  CO2	 Delta_V -21.85 cm3/mol
+	Fe(OH)3(a)       -5.89*    -1.00    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)         -3.75*    -7.67   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          0.00*    -1.00   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
+	Gypsum           -6.29*   -10.87   -4.58  CaSO4:2H2O	 Delta_V  32.29 cm3/mol
 	H2(g)            -5.91     -9.06   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)           -8.79*    -9.79   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite          2.01     -2.00   -4.01  Fe2O3
-	Mackinawite      -3.02*    -7.67   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite     -15.45*   -17.66   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -71.36    -74.25   -2.89  O2
-	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V  27.96 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)           -8.79*    -9.79   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite          2.01*    -2.00   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite      -3.02*    -7.67   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite     -15.45*   -17.66   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -71.36*   -74.25   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V -116.59 cm3/mol
 	Siderite         -4.37*   -15.26  -10.89  FeCO3	 Delta_V  -3.78 cm3/mol
-	Sulfur           -8.75*    -3.87    4.88  S	 Delta_V  13.98 cm3/mol
+	Sulfur           -8.75*    -3.87    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 2.
@@ -292,7 +292,7 @@ Pyrite            0.00   -18.48    -18.48    1.000e+01   1.000e+01  -2.667e-04
                                        pH  =   7.986      Charge balance
                                        pe  =  -4.053      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 218
-                          Density (g/cm3)  =   0.99719
+                          Density (g/cm3)  =   0.99723
                         Activity of water  =   1.000
                            Ionic strength  =   3.446e-03
                        Mass of water (kg)  =   1.000e+00
@@ -378,22 +378,22 @@ S(6)             5.333e-04
 	Anhydrite        -2.19*    -6.55   -4.36  CaSO4	 Delta_V  -3.85 cm3/mol
 	Aragonite        -0.14*    -8.48   -8.34  CaCO3	 Delta_V -21.61 cm3/mol
 	Calcite          -0.00*    -8.48   -8.48  CaCO3	 Delta_V -21.61 cm3/mol
-	CH4(g)           -8.87*   -11.73   -2.86  CH4	 Delta_V  -3.78 cm3/mol
-	CO2(g)           -3.19*    -4.65   -1.47  CO2	 Delta_V  -3.78 cm3/mol
-	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
-	FeS(ppt)         -5.21*    -9.13   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite         -0.00     -1.00   -1.00  FeOOH
-	Gypsum           -1.97*    -6.55   -4.58  CaSO4:2H2O	 Delta_V  -3.85 cm3/mol
+	CH4(g)           -8.87*   -11.73   -2.86  CH4	 Delta_V -57.99 cm3/mol
+	CO2(g)           -3.19*    -4.65   -1.47  CO2	 Delta_V -21.85 cm3/mol
+	Fe(OH)3(a)       -5.89*    -1.00    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)         -5.21*    -9.13   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite         -0.00*    -1.00   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
+	Gypsum           -1.97*    -6.55   -4.58  CaSO4:2H2O	 Delta_V  32.29 cm3/mol
 	H2(g)            -7.87    -11.02   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)           -9.28*   -10.27   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite          2.01     -2.00   -4.01  Fe2O3
-	Mackinawite      -4.48*    -9.13   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -9.11*   -11.32   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -67.46    -70.35   -2.89  O2
-	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V  27.96 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)           -9.28*   -10.27   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite          2.01*    -2.00   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite      -4.48*    -9.13   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -9.11*   -11.32   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -67.46*   -70.35   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V -116.59 cm3/mol
 	Siderite         -2.36*   -13.25  -10.89  FeCO3	 Delta_V  -3.78 cm3/mol
-	Sulfur           -7.29*    -2.41    4.88  S	 Delta_V  13.98 cm3/mol
+	Sulfur           -7.29*    -2.41    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 3.
@@ -439,7 +439,7 @@ Pyrite            0.00   -18.48    -18.48    1.000e+01   9.999e+00  -1.333e-03
                                        pH  =   6.957      Charge balance
                                        pe  =  -2.677      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 798
-                          Density (g/cm3)  =   0.99766
+                          Density (g/cm3)  =   0.99770
                         Activity of water  =   1.000
                            Ionic strength  =   1.357e-02
                        Mass of water (kg)  =   1.000e+00
@@ -525,22 +525,22 @@ S(6)             2.667e-03
 	Anhydrite        -1.15*    -5.51   -4.36  CaSO4	 Delta_V  -3.85 cm3/mol
 	Aragonite        -0.14*    -8.48   -8.34  CaCO3	 Delta_V -21.61 cm3/mol
 	Calcite          -0.00*    -8.48   -8.48  CaCO3	 Delta_V -21.61 cm3/mol
-	CH4(g)          -10.08*   -12.94   -2.86  CH4	 Delta_V  -3.78 cm3/mol
-	CO2(g)           -1.63*    -3.10   -1.47  CO2	 Delta_V  -3.78 cm3/mol
-	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
-	FeS(ppt)         -5.73*    -9.65   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          0.00     -1.00   -1.00  FeOOH
-	Gypsum           -0.93*    -5.51   -4.58  CaSO4:2H2O	 Delta_V  -3.85 cm3/mol
+	CH4(g)          -10.08*   -12.94   -2.86  CH4	 Delta_V -57.99 cm3/mol
+	CO2(g)           -1.63*    -3.10   -1.47  CO2	 Delta_V -21.85 cm3/mol
+	Fe(OH)3(a)       -5.89*    -1.00    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)         -5.73*    -9.65   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          0.00*    -1.00   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
+	Gypsum           -0.93*    -5.51   -4.58  CaSO4:2H2O	 Delta_V  32.29 cm3/mol
 	H2(g)            -8.56    -11.71   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)           -9.45*   -10.45   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite          2.01     -2.00   -4.01  Fe2O3
-	Mackinawite      -5.00*    -9.65   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -6.85*    -9.06   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -66.07    -68.96   -2.89  O2
-	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V  27.96 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)           -9.45*   -10.45   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite          2.01*    -2.00   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite      -5.00*    -9.65   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -6.85*    -9.06   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -66.07*   -68.96   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V -116.59 cm3/mol
 	Siderite         -1.15*   -12.04  -10.89  FeCO3	 Delta_V  -3.78 cm3/mol
-	Sulfur           -6.77*    -1.89    4.88  S	 Delta_V  13.98 cm3/mol
+	Sulfur           -6.77*    -1.89    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 4.
@@ -586,7 +586,7 @@ Pyrite           -0.00   -18.48    -18.48    1.000e+01   9.997e+00  -2.667e-03
                                        pH  =   6.620      Charge balance
                                        pe  =  -2.221      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 1303
-                          Density (g/cm3)  =   0.99815
+                          Density (g/cm3)  =   0.99819
                         Activity of water  =   1.000
                            Ionic strength  =   2.313e-02
                        Mass of water (kg)  =   9.999e-01
@@ -672,22 +672,22 @@ S(6)             5.335e-03
 	Anhydrite        -0.75*    -5.11   -4.36  CaSO4	 Delta_V  -3.85 cm3/mol
 	Aragonite        -0.14*    -8.48   -8.34  CaCO3	 Delta_V -21.61 cm3/mol
 	Calcite           0.00*    -8.48   -8.48  CaCO3	 Delta_V -21.61 cm3/mol
-	CH4(g)          -10.54*   -13.40   -2.86  CH4	 Delta_V  -3.78 cm3/mol
-	CO2(g)           -1.13*    -2.60   -1.47  CO2	 Delta_V  -3.78 cm3/mol
-	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
-	FeS(ppt)         -5.91*    -9.83   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          0.00     -1.00   -1.00  FeOOH
-	Gypsum           -0.53*    -5.11   -4.58  CaSO4:2H2O	 Delta_V  -3.85 cm3/mol
+	CH4(g)          -10.54*   -13.40   -2.86  CH4	 Delta_V -57.99 cm3/mol
+	CO2(g)           -1.13*    -2.60   -1.47  CO2	 Delta_V -21.85 cm3/mol
+	Fe(OH)3(a)       -5.89*    -1.00    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)         -5.91*    -9.83   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          0.00*    -1.00   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
+	Gypsum           -0.53*    -5.11   -4.58  CaSO4:2H2O	 Delta_V  32.29 cm3/mol
 	H2(g)            -8.80    -11.95   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)           -9.51*   -10.51   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite          2.01     -2.00   -4.01  Fe2O3
-	Mackinawite      -5.18*    -9.83   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -6.08*    -8.29   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -65.59    -68.49   -2.89  O2
-	Pyrite           -0.00*   -18.48  -18.48  FeS2	 Delta_V  27.96 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)           -9.51*   -10.51   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite          2.01*    -2.00   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite      -5.18*    -9.83   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -6.08*    -8.29   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -65.59*   -68.49   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite           -0.00*   -18.48  -18.48  FeS2	 Delta_V -116.59 cm3/mol
 	Siderite         -0.77*   -11.66  -10.89  FeCO3	 Delta_V  -3.78 cm3/mol
-	Sulfur           -6.59*    -1.71    4.88  S	 Delta_V  13.98 cm3/mol
+	Sulfur           -6.59*    -1.71    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Reaction step 5.
@@ -733,7 +733,7 @@ Pyrite            0.00   -18.48    -18.48    1.000e+01   9.987e+00  -1.334e-02
                                        pH  =   6.036      Charge balance
                                        pe  =  -1.446      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 2733
-                          Density (g/cm3)  =   0.99980
+                          Density (g/cm3)  =   0.99984
                         Activity of water  =   0.999
                            Ionic strength  =   5.227e-02
                        Mass of water (kg)  =   9.993e-01
@@ -819,22 +819,22 @@ S(6)             1.393e-02
 	Anhydrite        -0.22*    -4.58   -4.36  CaSO4	 Delta_V  -3.85 cm3/mol
 	Aragonite        -0.14*    -8.48   -8.34  CaCO3	 Delta_V -21.61 cm3/mol
 	Calcite           0.00*    -8.48   -8.48  CaCO3	 Delta_V -21.61 cm3/mol
-	CH4(g)          -11.16*   -14.02   -2.86  CH4	 Delta_V  -3.78 cm3/mol
-	CO2(g)           -0.22*    -1.69   -1.47  CO2	 Delta_V  -3.78 cm3/mol
-	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
-	FeS(ppt)         -6.20*   -10.11   -3.92  FeS	 Delta_V  13.98 cm3/mol
-	Goethite          0.00     -1.00   -1.00  FeOOH
-	Gypsum           -0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  -3.85 cm3/mol
+	CH4(g)          -11.16*   -14.02   -2.86  CH4	 Delta_V -57.99 cm3/mol
+	CO2(g)           -0.22*    -1.69   -1.47  CO2	 Delta_V -21.85 cm3/mol
+	Fe(OH)3(a)       -5.89*    -1.00    4.89  Fe(OH)3	 Delta_V  54.21 cm3/mol
+	FeS(ppt)         -6.20*   -10.11   -3.92  FeS	 Delta_V -58.29 cm3/mol
+	Goethite          0.00*    -1.00   -1.00  FeOOH	 Delta_V  36.14 cm3/mol
+	Gypsum           -0.00*    -4.58   -4.58  CaSO4:2H2O	 Delta_V  32.29 cm3/mol
 	H2(g)            -9.18    -12.33   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	H2S(g)           -9.61*   -10.60   -1.00  H2S	 Delta_V  13.98 cm3/mol
-	Hematite          2.01     -2.00   -4.01  Fe2O3
-	Mackinawite      -5.47*   -10.11   -4.65  FeS	 Delta_V  13.98 cm3/mol
-	Melanterite      -4.84*    -7.05   -2.21  FeSO4:7H2O	 Delta_V  13.98 cm3/mol
-	O2(g)           -64.83    -67.72   -2.89  O2
-	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V  27.96 cm3/mol
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	H2S(g)           -9.61*   -10.60   -1.00  H2S	 Delta_V -58.29 cm3/mol
+	Hematite          2.01*    -2.00   -4.01  Fe2O3	 Delta_V  54.21 cm3/mol
+	Mackinawite      -5.47*   -10.11   -4.65  FeS	 Delta_V -58.29 cm3/mol
+	Melanterite      -4.84*    -7.05   -2.21  FeSO4:7H2O	 Delta_V 140.46 cm3/mol
+	O2(g)           -64.83*   -67.72   -2.89  O2	 Delta_V  36.14 cm3/mol
+	Pyrite            0.00*   -18.48  -18.48  FeS2	 Delta_V -116.59 cm3/mol
 	Siderite         -0.05*   -10.94  -10.89  FeCO3	 Delta_V  -3.78 cm3/mol
-	Sulfur           -6.30*    -1.42    4.88  S	 Delta_V  13.98 cm3/mol
+	Sulfur           -6.30*    -1.42    4.88  S	 Delta_V -58.29 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ------------------

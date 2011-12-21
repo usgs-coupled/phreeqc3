@@ -69,7 +69,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -101,9 +101,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51      0.00    1.51  H2O
-	O2(g)           -39.19    -42.08   -2.89  O2
-
+	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 Initial solution 2.	
 
@@ -119,7 +119,7 @@ Initial solution 2.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 145
-                          Density (g/cm3)  =   0.99713
+                          Density (g/cm3)  =   0.99717
                         Activity of water  =   1.000
                            Ionic strength  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
@@ -156,9 +156,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51     -0.00    1.51  H2O
-	O2(g)           -39.19    -42.08   -2.89  O2
-
+	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
+	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
+	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -395,7 +395,7 @@ X                2.000e+00 mol
                                        pH  =  20.128      Charge balance
                                        pe  =  -4.492      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 31 oC) = 14346619
-                          Density (g/cm3)  =   1.89920
+                          Density (g/cm3)  =   1.89922
                         Activity of water  =   0.000
                            Ionic strength  =   1.000e+02
                        Mass of water (kg)  =   1.000e+00
@@ -452,14 +452,14 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(304 K,   1 atm)
 
-	Aragonite        -1.80*   -10.18   -8.38  CaCO3	 Delta_V -17.62 cm3/mol
-	Calcite          -1.66*   -10.18   -8.52  CaCO3	 Delta_V -17.62 cm3/mol
+	Aragonite        -1.80*   -10.18   -8.38  CaCO3	 Delta_V  36.68 cm3/mol
+	Calcite          -1.66*   -10.18   -8.52  CaCO3	 Delta_V  36.68 cm3/mol
 	CH4(g)           -9.35    -12.26   -2.91  CH4
-	CO2(g)           -1.28     -2.82   -1.54  CO2
+	CO2(g)           -1.28*    -2.82   -1.54  CO2	 Delta_V  36.20 cm3/mol
 	H2(g)           -31.27    -34.45   -3.18  H2
-	H2O(g)          -47.39    -46.03    1.36  H2O
+	H2O(g)          -47.39*   -46.03    1.36  H2O	 Delta_V  18.10 cm3/mol
 	Halite           10.62*    12.22    1.60  NaCl	 Delta_V  17.12 cm3/mol
-	O2(g)          -110.72   -113.65   -2.93  O2
+	O2(g)          -110.72*  -113.65   -2.93  O2	 Delta_V  36.20 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 
 ERROR: Numerical method failed on all combinations of convergence parameters
