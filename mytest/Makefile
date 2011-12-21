@@ -189,6 +189,7 @@ all: alkalinity.out \
 	gas_fix_P.out \
 	gas_fix_V.out \
 	NaCl.out \
+	gypsum_P.out \
 	P_Vm.out \
 	phi_Duan_PR.out \
 	phi_Duan_PR_EQ.out \
