@@ -4889,7 +4889,6 @@ void PBasic::
 exec(void)
 {
 	struct LOC_exec V;
-	char *ioerrmsg;
 	char STR1[256] = {0};
 
 	try
@@ -5174,17 +5173,10 @@ exec(void)
 				break;
 
 			case -10:
-				//ioerrmsg = (char *) PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
-				//if (ioerrmsg == NULL)
-				//	PhreeqcPtr->malloc_error();
-				//sprintf(ioerrmsg, "I/O Error %d", (int) P_ioresult);
-				//warning_msg(ioerrmsg);
-				//
 				{
 					char * error_string = PhreeqcPtr->sformatf("I/O Error %d", (int) P_ioresult);
 					warning_msg(error_string);
 				}
-				PhreeqcPtr->PHRQ_free(ioerrmsg);
 				break;
 
 			default:
