@@ -6,7 +6,7 @@ GAS_PHASE 1
  -fixed_volume
  CH4(g) 0; CO2(g) 0; N2(g) 0; H2O(g) 0
 REACTION 1
- CO2N2CH4 1; 0.01 2*0.5 11*0.5
+ CO2N2CH4 1; 0.01 13*0.5
 INCREMENTAL_REACTIONS true
 
 USER_GRAPH 1 fugacity coeff's
@@ -14,7 +14,7 @@ USER_GRAPH 1 fugacity coeff's
  -axis_titles "Total Pressure / atm" "PR fugacity coefficient" "mol"
  -axis_scale x_axis 0 500
 # -axis_scale y_axis 0 2
- 10 x = gas_p
+ 10 x = pressure
  12 if x > 500 then goto 400
  20 graph_x x
  30 graph_y pr_phi("H2O(g)"), pr_phi("CO2(g)"), pr_phi("N2(g)"), pr_phi("CH4(g)")
@@ -37,5 +37,5 @@ USER_GRAPH 2 Gas pressures
 430 print '  fugacities:     f_H2O = ', pr_phi("H2O(g)"), 'f_CO2 =', pr_phi("CO2(g)"), 'f_N2 =', pr_phi("N2(g)"), 'f_CH4 =', pr_phi("CH4(g)")
 420 print '  moles in gas:   m_H2O = ', gas("H2O(g)"), 'm_CO2 =', gas("CO2(g)"), 'm_N2 =', gas("N2(g)"), 'm_CH4 =', gas("CH4(g)")
 440 end
-PRINT; -reset false; -user_print true
+#PRINT; -reset false; -user_print true
 END

@@ -1,0 +1,41 @@
+# Crystal water has smaller volume than liquid water.
+# Gypsum is more stable than anhydrite at high P.
+SOLUTION 1
+pH 7 charge
+-temp 65
+PHASES
+Gypsum
+	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
+	-analytic	68.2401	0.0	-3221.51	-25.0627
+	-Vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
+Anhydrite
+	CaSO4 = Ca+2 + SO4-2
+	-analytic	197.52	0.0	-8669.8	-69.835
+	-Vm 46.1 # 136.14 / 2.95
+SOLUTION_SPECIES
+Ca+2 + SO4-2 = CaSO4
+	log_k	2.3
+	delta_h 1.650	kcal
+	-dw 4.71e-10
+#	-Vm -6.49 # V_CaSO4 for delta_v = 0
+EQUILIBRIUM_PHASES
+Gypsum 
+Anhydrite 
+REACTION_PRESSURE
+1 1000 in 10
+PRINT; -reset false
+USER_GRAPH
+ -headings p Ca SI_Anhydrite SI_Gypsum
+ -axis_titles "Pressure / atm" "mol/kgw" SI
+ -axis_scale sy_axis -0.1 0.04
+ 10 graph_x pressure
+ 20 graph_y tot("Ca")
+ 30 graph_sy SI("Anhydrite"), SI("Gypsum")
+ -end
+USER_GRAPH 2 apparent log_k of CaSO4 complex 
+ -headings p 
+ -axis_titles "Pressure / atm" "log10 (K)"
+ -axis_scale y_axis 2.3 2.45
+ 10 graph_x pressure
+ 20 graph_y log10(act("CaSO4") / (act("Ca+2") * act("SO4-2")))
+END

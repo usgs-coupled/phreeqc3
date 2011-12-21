@@ -1,0 +1,46 @@
+   Input file: gypsum_P
+  Output file: gypsum_P.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SOLUTION 1
+	pH 7 charge
+	temp 65
+	PHASES
+	Gypsum
+		CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
+		analytical_expression	68.2401	0.0	-3221.51	-25.0627
+		vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
+	Anhydrite
+		CaSO4 = Ca+2 + SO4-2
+		analytical_expression	197.52	0.0	-8669.8	-69.835
+		vm 46.1 # 136.14 / 2.95
+	SOLUTION_SPECIES
+	Ca+2 + SO4-2 = CaSO4
+		log_k	2.3
+		delta_h 1.650	kcal
+		dw 4.71e-10
+	EQUILIBRIUM_PHASES
+	Gypsum 
+	Anhydrite 
+	REACTION_PRESSURE
+	1 1000 in 10
+	PRINT
+	 reset false

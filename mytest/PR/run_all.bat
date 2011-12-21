@@ -1,4 +1,4 @@
-call p.bat NaCl.phr
+call p.bat gypsum_P.phr
 call p.bat cc_P.phr
 call p.bat fix_V.phr
 call p.bat fix_P.phr
