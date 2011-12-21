@@ -273,7 +273,7 @@ public:
 
 	// inverse.cpp -------------------------------
 	int inverse_models(void);
-	int add_to_file(const char *filename, char *string);
+	int add_to_file(const char *filename, const char *string);
 	int bit_print(unsigned long bits, int l);
 	int carbon_derivs(struct inverse *inv_ptr);
 	int check_isotopes(struct inverse *inv_ptr);
@@ -509,7 +509,7 @@ public:
 	int set_pz(int initial);
 	int calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_pz(void);
-	int ISPEC(char *name);
+	int ISPEC(const char *name);
 	LDBLE G(LDBLE Y);
 	LDBLE GP(LDBLE Y);
 	int ETHETAS(LDBLE ZJ, LDBLE ZK, LDBLE I, LDBLE * etheta,
@@ -785,7 +785,7 @@ public:
 	int set_sit(int initial);
 	int calc_sit_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_sit(void);
-	int sit_ISPEC(char *name);
+	int sit_ISPEC(const char *name);
 	/*int DH_AB (LDBLE TK, LDBLE *A, LDBLE *B);*/
 	int sit_initial_guesses(void);
 	int sit_revise_guesses(void);
@@ -937,13 +937,13 @@ protected:
 	struct logk *logk_alloc(void);
 	int logk_copy2orig(struct logk *logk_ptr);
 	struct logk *logk_store(char *name, int replace_if_found);
-	struct logk *logk_search(char *name);
+	struct logk *logk_search(const char *name);
 	struct master *master_alloc(void);
 	static int master_compare(const void *ptr1, const void *ptr2);
 	int master_delete(char *ptr);
 public:
 	struct master *master_bsearch(const char *ptr);
-	struct master *master_bsearch_primary(char *ptr);
+	struct master *master_bsearch_primary(const char *ptr);
 	struct master *master_bsearch_secondary(char *ptr);
 	struct master *master_search(char *ptr, int *n);
 	struct mix *mix_bsearch(int k, int *n);
@@ -966,7 +966,7 @@ public:
 protected:
 	static int phase_compare(const void *ptr1, const void *ptr2);
 	int phase_delete(int i);
-	struct phase *phase_store(char *name);
+	struct phase *phase_store(const char *name);
 public:
 	struct pp_assemblage *pp_assemblage_alloc(void);
 	struct pp_assemblage *pp_assemblage_bsearch(int k, int *n);
@@ -995,7 +995,7 @@ protected:
 	static int pure_phase_compare(const void *ptr1, const void *ptr2);
 	struct rate *rate_bsearch(char *ptr, int *j);
 	int rate_free(struct rate *rate_ptr);
-	struct rate *rate_search(char *name, int *n);
+	struct rate *rate_search(const char *name, int *n);
 	int rate_sort(void);
 	struct reaction *rxn_alloc(int ntokens);
 	struct reaction *rxn_dup(struct reaction *rxn_ptr_old);
@@ -1005,7 +1005,7 @@ protected:
 	static int s_compare(const void *ptr1, const void *ptr2);
 	int s_delete(int i);
 	struct species *s_search(const char *name);
-	struct species *s_store(char *name, LDBLE z, int replace_if_found);
+	struct species *s_store(const char *name, LDBLE z, int replace_if_found);
 public:
 	struct s_s_assemblage *s_s_assemblage_alloc(void);
 	struct s_s_assemblage *s_s_assemblage_bsearch(int k, int *n);
@@ -1249,7 +1249,7 @@ public:
 	int sum_surface_comp(struct surface *source1, LDBLE f1,
 	struct surface *source2, int k, LDBLE f2,
 	struct surface *target, LDBLE new_Dw);
-	int reformat_surf(char *comp_name, LDBLE fraction, char *new_comp_name,
+	int reformat_surf(const char *comp_name, LDBLE fraction, const char *new_comp_name,
 		LDBLE new_Dw, int cell);
 	LDBLE viscosity(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
@@ -1313,7 +1313,7 @@ protected:
 	int strcmp_nocase_arg1(const char *str1, const char *str2);
 public:
 	char *string_duplicate(const char *token);
-	char *string_hsave(const char *str);
+	const char *string_hsave(const char *str);
 protected:
 	char *string_pad(const char *str, int i);
 	int string_trim(char *str);
@@ -1329,7 +1329,7 @@ protected:
 	extern int clean_up_null(void);
 #endif
 	int isamong(char c, const char *s_l);
-	Address Hash_multi(HashTable * Table, char *Key);
+	Address Hash_multi(HashTable * Table, const char *Key);
 	void ExpandTable_multi(HashTable * Table);
 public:
 	//bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
@@ -1733,7 +1733,7 @@ protected:
 	* ---------------------------------------------------------------------- */
 	struct rate *user_print;
 	struct rate *user_punch;
-	char **user_punch_headings;
+	const char **user_punch_headings;
 	int user_punch_count_headings;
 	int n_user_punch_index;
 
@@ -1919,7 +1919,7 @@ protected:
 	struct surface_charge *surface_charge_ptr;
 	int max_row_count, max_column_count;
 	int carbon;
-	char **col_name, **row_name;
+	const char **col_name, **row_name;
 	int count_rows, count_optimize;
 	int col_phases, col_redox, col_epsilon, col_ph, col_water,
 		col_isotopes, col_phase_isotopes;

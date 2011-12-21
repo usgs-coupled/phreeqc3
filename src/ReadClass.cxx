@@ -1427,10 +1427,12 @@ read_exchange_modify(void)
 	{
 			count_elts = 0;
 			paren_count = 0;
-			char *ptr = exchange[n].comps[i].formula;
+			char * temp_formula = string_duplicate(exchange[n].comps[i].formula);
+			char *ptr = temp_formula;
 			get_elts_in_species(&ptr, 1.0);
 			free_check_null(exchange[n].comps[i].formula_totals);
 			exchange[n].comps[i].formula_totals = elt_list_save();
+			free_check_null(temp_formula);
 	}
 	
 
