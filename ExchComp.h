@@ -27,7 +27,7 @@ class cxxExchComp: public PHRQ_base
 	{
 		return this->formula;
 	}
-	void Set_formula(char *cstring)
+	void Set_formula(const char *cstring)
 	{
 		if (cstring != NULL)
 			this->formula = std::string(cstring);
@@ -62,7 +62,7 @@ class cxxExchComp: public PHRQ_base
 	{
 		return this->phase_name;
 	}
-	void Set_phase_name(char *cstring)
+	void Set_phase_name(const char *cstring)
 	{
 		if (cstring != NULL)
 			this->phase_name = std::string(cstring);
@@ -81,7 +81,7 @@ class cxxExchComp: public PHRQ_base
 	{
 		return this->rate_name;
 	}
-	void Set_rate_name(char *cstring)
+	void Set_rate_name(const char *cstring)
 	{
 		if (cstring != NULL)
 			this->rate_name = std::string(cstring);
