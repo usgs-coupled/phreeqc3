@@ -26,7 +26,7 @@ class cxxISolutionComp: public PHRQ_base
 	{
 		return this->description;
 	}
-	void Set_description(char *l_description)
+	void Set_description(const char *l_description)
 	{
 		if (l_description != NULL)
 			this->description = std::string(l_description);
@@ -56,7 +56,7 @@ class cxxISolutionComp: public PHRQ_base
 	{
 		return this->units;
 	}
-	void Set_units(char *l_units)
+	void Set_units(const char *l_units)
 	{
 		if (l_units != NULL)
 			this->units = std::string(l_units);
@@ -68,7 +68,7 @@ class cxxISolutionComp: public PHRQ_base
 	{
 		return this->equation_name;
 	}
-	void Set_equation_name(char *l_equation_name)
+	void Set_equation_name(const char *l_equation_name)
 	{
 		if (l_equation_name != NULL)
 			this->equation_name = std::string(l_equation_name);
@@ -99,7 +99,7 @@ class cxxISolutionComp: public PHRQ_base
 	{
 		return this->as;
 	}
-	void Set_as(char *l_as)
+	void Set_as(const char *l_as)
 	{
 		if (l_as != NULL)
 			this->as = std::string(l_as);

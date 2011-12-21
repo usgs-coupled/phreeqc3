@@ -27,7 +27,7 @@ public:
 	{
 		return this->rate_name;
 	}
-	void Set_rate_name(char * s)
+	void Set_rate_name(const char * s)
 	{
 		if (s != NULL)
 			this->rate_name = std::string(s);

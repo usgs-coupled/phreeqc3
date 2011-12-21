@@ -582,7 +582,7 @@ cxxSurfaceComp::Get_phase_name() const
 	return this->phase_name;
 }
 void 
-cxxSurfaceComp::Set_phase_name(char * f) 
+cxxSurfaceComp::Set_phase_name(const char * f) 
 {
 	if (f != NULL)
 		this->phase_name = std::string(f);
@@ -595,7 +595,7 @@ cxxSurfaceComp::Get_rate_name() const
 	return this->rate_name;
 }
 void 
-cxxSurfaceComp::Set_rate_name(char * f) 
+cxxSurfaceComp::Set_rate_name(const char * f) 
 {
 	if (f != NULL)
 		this->rate_name = std::string(f);
@@ -608,7 +608,7 @@ cxxSurfaceComp::Get_formula() const
 	return this->formula;
 }
 void 
-cxxSurfaceComp::Set_formula(char * f) 
+cxxSurfaceComp::Set_formula(const char * f) 
 {
 	if (f != NULL)
 		this->formula = std::string(f);

@@ -40,7 +40,7 @@ class cxxISolution:public cxxSolution
 	{
 		units = l_units;
 	}
-	void Set_units(char * l_units)
+	void Set_units(const char * l_units)
 	{
 		if (l_units != NULL)
 			this->units = std::string(l_units);

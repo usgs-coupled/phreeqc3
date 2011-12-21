@@ -19,11 +19,11 @@ public:
 	~cxxSurfaceComp();
 
 	const std::string &Get_phase_name() const;
-	void Set_phase_name(char * f);
+	void Set_phase_name(const char * f);
 	const std::string &Get_rate_name() const;
-	void Set_rate_name(char * f);
+	void Set_rate_name(const char * f);
 	const std::string &Get_formula() const;
-	void Set_formula(char * f);
+	void Set_formula(const char * f);
 	double Get_charge_balance() const;
 	void Set_charge_balance(double d);
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
