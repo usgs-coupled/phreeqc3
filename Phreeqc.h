@@ -1749,7 +1749,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   GLOBAL DECLARATIONS
 	* ---------------------------------------------------------------------- */
-	char error_string[10 * MAX_LENGTH];
+	const char * error_string;
 	int simulation;
 	int state;
 	int reaction_step;
