@@ -929,7 +929,7 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
 		cxxsoln_ptr1 = &((this->Solutions.find(it->first))->second);
 		if (cxxsoln_ptr1 == NULL)
 		{
-			sprintf(error_string,
+			error_string = sformatf(
 					"Solution %d not found in mix_cxxSolutions.", it->first);
 			error_msg(error_string, CONTINUE);
 			P_INSTANCE_POINTER input_error++;
@@ -1325,7 +1325,7 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 	old_exch_ptr = &((this->Exchangers.find(it_mix->first))->second);
 	if (old_exch_ptr == NULL)
 	{
-		sprintf(error_string, "Exchange %d not found in mix_cxxExchange.",
+		error_string = sformatf( "Exchange %d not found in mix_cxxExchange.",
 				it_mix->first);
 		error_msg(error_string, CONTINUE);
 		P_INSTANCE_POINTER input_error++;
@@ -1346,7 +1346,7 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 		old_exch_ptr = &((this->Exchangers.find(it_mix->first))->second);
 		if (old_exch_ptr == NULL)
 		{
-			sprintf(error_string, "Exchange %d not found in mix_cxxExchange.",
+			error_string = sformatf( "Exchange %d not found in mix_cxxExchange.",
 					it_mix->first);
 			error_msg(error_string, CONTINUE);
 			P_INSTANCE_POINTER input_error++;

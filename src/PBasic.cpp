@@ -115,9 +115,12 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 				else
 				{
-					sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+					//char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
+					//	(int) P_ioresult);
+					//warning_msg(error_string);
+					char * error_string = PhreeqcPtr->sformatf("%d/%d", (int) P_escapecode,
 						(int) P_ioresult);
-					warning_msg(PhreeqcPtr->error_string);
+					warning_msg(error_string);
 				}
 			}
 			else
@@ -202,9 +205,9 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 		{
 			if (P_escapecode != -20)
 			{
-				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+				char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-				warning_msg(PhreeqcPtr->error_string);
+				warning_msg(error_string);
 			}
 			else
 			{
@@ -272,9 +275,9 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 				}
 				else
 				{
-					sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+					char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
 						(int) P_ioresult);
-					warning_msg(PhreeqcPtr->error_string);
+					warning_msg(error_string);
 				}
 			}
 			else
@@ -335,9 +338,9 @@ basic_main(char *commands)
 		{
 			if (P_escapecode != -20)
 			{
-				sprintf(PhreeqcPtr->error_string, "%d/%d", (int) P_escapecode,
+				char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-				warning_msg(PhreeqcPtr->error_string);
+				warning_msg(error_string);
 			}
 			else
 			{
@@ -786,8 +789,8 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 		}
 		else
 		{
-			sprintf(PhreeqcPtr->error_string, " missing \" or \' in BASIC line\n %ld %s", curline, l_inbuf);
-			error_msg(PhreeqcPtr->error_string, STOP);
+			char * error_string = PhreeqcPtr->sformatf( " missing \" or \' in BASIC line\n %ld %s", curline, l_inbuf);
+			error_msg(error_string, STOP);
 		}
 	}
 	if (lp > 0) {
@@ -801,8 +804,8 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 		}
 		else
 		{
-			sprintf(PhreeqcPtr->error_string, " missing ) or ] in BASIC line\n %ld %s", curline, l_inbuf);
-			error_msg(PhreeqcPtr->error_string, STOP);
+			char * error_string = PhreeqcPtr->sformatf( " missing ) or ] in BASIC line\n %ld %s", curline, l_inbuf);
+			error_msg(error_string, STOP);
 		}
 	}
 	else if (lp < 0) {
@@ -816,8 +819,8 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 		}
 		else
 		{
-			sprintf(PhreeqcPtr->error_string, " missing ( or [ in BASIC line\n %ld %s", curline, l_inbuf);
-			error_msg(PhreeqcPtr->error_string, STOP);
+			char * error_string = PhreeqcPtr->sformatf( " missing ( or [ in BASIC line\n %ld %s", curline, l_inbuf);
+			error_msg(error_string, STOP);
 		}
 	}
 }
@@ -3307,8 +3310,8 @@ term(struct LOC_exec * LINK)
 		{
 			if (!parse_all)
 			{
-				sprintf(PhreeqcPtr->error_string, "Zero divide in BASIC line\n %ld %s.\nValue set to zero.", stmtline->num, stmtline->inbuf);
-				warning_msg(PhreeqcPtr->error_string);
+				char * error_string = PhreeqcPtr->sformatf( "Zero divide in BASIC line\n %ld %s.\nValue set to zero.", stmtline->num, stmtline->inbuf);
+				warning_msg(error_string);
 			}
 			n.UU.val = 0;
 		}
@@ -3521,8 +3524,8 @@ mustfindline(long n)
 	l = findline(n);
 	if (l == NULL) 
 	{
-		sprintf(PhreeqcPtr->error_string, "Undefined line %ld", n);
-		errormsg(PhreeqcPtr->error_string);
+		char * error_string = PhreeqcPtr->sformatf( "Undefined line %ld", n);
+		errormsg(error_string);
 	}
 	return l;
 }
@@ -3541,8 +3544,8 @@ mustfindline(long n)
 			{
 				_ASSERTE(nIDErrPrompt == 0);
 				nIDErrPrompt = IDS_ERR_UNDEF_LINE;
-				sprintf(PhreeqcPtr->error_string, "Undefined line %ld", n);
-				errormsg(PhreeqcPtr->error_string);
+				char * error_string = PhreeqcPtr->sformatf( "Undefined line %ld", n);
+				errormsg(error_string);
 			}
 		}
 	}
@@ -3550,8 +3553,8 @@ mustfindline(long n)
 	{
 		if (l == NULL) 
 		{
-			sprintf(PhreeqcPtr->error_string, "Undefined line %ld", n);
-			errormsg(PhreeqcPtr->error_string);
+			char * error_string = PhreeqcPtr->sformatf( "Undefined line %ld", n);
+			errormsg(error_string);
 		}
 	}
 	return l;
@@ -5131,23 +5134,31 @@ exec(void)
 			{
 
 			case -4:
-				sprintf(PhreeqcPtr->error_string, "Integer overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-				warning_msg(PhreeqcPtr->error_string);
+				{
+					char * error_string = PhreeqcPtr->sformatf( "Integer overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+					warning_msg(error_string);
+				}
 				break;
 
 			case -5:
-				sprintf(PhreeqcPtr->error_string, "Divide by zero in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-				warning_msg(PhreeqcPtr->error_string);
+				{
+					char * error_string = PhreeqcPtr->sformatf( "Divide by zero in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+					warning_msg(error_string);
+				}
 				break;
 
 			case -6:
-				sprintf(PhreeqcPtr->error_string, "Real math overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-				warning_msg(PhreeqcPtr->error_string);
+				{
+					char * error_string = PhreeqcPtr->sformatf( "Real math overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+					warning_msg(error_string);
+				}
 				break;
 
 			case -7:
-				sprintf(PhreeqcPtr->error_string, "Real math underflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-				warning_msg(PhreeqcPtr->error_string);
+				{
+					char * error_string = PhreeqcPtr->sformatf( "Real math underflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+					warning_msg(error_string);
+				}
 				break;
 
 			case -8:
@@ -5156,24 +5167,31 @@ exec(void)
 			case -17:
 			case -16:
 			case -15:
-				sprintf(PhreeqcPtr->error_string, "Value range error in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-				warning_msg(PhreeqcPtr->error_string);
+				{
+				char * error_string = PhreeqcPtr->sformatf( "Value range error in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+				warning_msg(error_string);
+				}
 				break;
 
 			case -10:
-				ioerrmsg = (char *) PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
-				if (ioerrmsg == NULL)
-					PhreeqcPtr->malloc_error();
-				sprintf(ioerrmsg, "I/O Error %d", (int) P_ioresult);
-				warning_msg(ioerrmsg);
+				//ioerrmsg = (char *) PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
+				//if (ioerrmsg == NULL)
+				//	PhreeqcPtr->malloc_error();
+				//sprintf(ioerrmsg, "I/O Error %d", (int) P_ioresult);
+				//warning_msg(ioerrmsg);
+				//
+				{
+					char * error_string = PhreeqcPtr->sformatf("I/O Error %d", (int) P_ioresult);
+					warning_msg(error_string);
+				}
 				PhreeqcPtr->PHRQ_free(ioerrmsg);
 				break;
 
 			default:
 				if (EXCP_LINE != -1)
 				{
-					sprintf(PhreeqcPtr->error_string, "%12ld\n", EXCP_LINE);
-					warning_msg(PhreeqcPtr->error_string);
+					char * error_string = PhreeqcPtr->sformatf( "%12ld\n", EXCP_LINE);
+					warning_msg(error_string);
 				}
 				_Escape(P_escapecode);
 				break;
@@ -5188,8 +5206,8 @@ exec(void)
 			}
 			else
 			{
-				sprintf(PhreeqcPtr->error_string, " in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-				error_msg(PhreeqcPtr->error_string, CONTINUE);
+				char * error_string = PhreeqcPtr->sformatf( " in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
+				error_msg(error_string, CONTINUE);
 			}
 		}
 	} // end catch
