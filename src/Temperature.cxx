@@ -28,40 +28,6 @@ cxxTemperature::cxxTemperature(PHRQ_io *io)
 	countTemps = 0;
 	equalIncrements = false;
 }
-
-cxxTemperature::cxxTemperature(struct temperature *temperature_ptr, PHRQ_io *io)
-		//
-		// constructor for cxxTemperature from struct temperature
-		//
-	:
-cxxNumKeyword(io)
-{
-	int i;
-
-	this->Set_description(temperature_ptr->description);
-	this->n_user = temperature_ptr->n_user;
-	this->n_user_end = temperature_ptr->n_user_end;
-	// temps
-	if (temperature_ptr->count_t < 0)
-	{
-		for (i = 0; i < 2; i++)
-		{
-			this->temps.push_back(temperature_ptr->t[i]);
-		}
-		this->countTemps = -temperature_ptr->count_t;
-		this->equalIncrements = true;
-	}
-	else
-	{
-		for (i = 0; i < temperature_ptr->count_t; i++)
-		{
-			this->temps.push_back(temperature_ptr->t[i]);
-		}
-		this->countTemps = temperature_ptr->count_t;
-		this->equalIncrements = false;
-	}
-}
-
 cxxTemperature::~cxxTemperature()
 {
 }
@@ -101,6 +67,122 @@ cxxTemperature::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 	return;
 }
 #endif
+
+int
+cxxTemperature::read(CParser & parser)
+{
+/*
+ *      Reads temperature data for reaction steps
+ *
+ *      Arguments:
+ *	 none
+ *
+ *      Returns:
+ *	 KEYWORD if keyword encountered, input_error may be incremented if
+ *		    a keyword is encountered in an unexpected position
+ *	 EOF     if eof encountered while reading mass balance concentrations
+ *	 ERROR   if error occurred reading data
+ *
+ */
+	// Number and description set in read_reaction_temperature
+
+	CParser::LINE_TYPE lt;
+	bool done = false;
+	for (;;)
+	{
+		std::istream::pos_type ptr;
+		std::istream::pos_type next_char = 0;
+		std::string token, str;
+		lt = parser.check_line(str, false, true, true, true);
+
+		if (lt == CParser::LT_EMPTY || 
+			lt == CParser::LT_KEYWORD ||
+			lt == CParser::LT_EOF)
+		{
+			break;
+		}
+		if (lt == CParser::LT_OPTION)
+		{
+			this->error_msg("Expected numeric value for temperatures.", CParser::OT_CONTINUE);
+			break;
+		}
+
+		if (done)
+		{
+			this->error_msg("Unknown input following equal increment definition.", CParser::OT_CONTINUE);
+			continue;
+		}
+
+		// LT_OK
+
+		for (;;)
+		{
+			if (done) break;
+			// new token
+			std::string token;
+			CParser::TOKEN_TYPE k =	parser.copy_token(token, next_char);
+
+			// need new line
+			if (k == CParser::TT_EMPTY)
+			{
+				break;
+			}
+
+			// read a pressure
+			if (k == CParser::TT_DIGIT)
+			{
+				std::istringstream iss(token);
+				LDBLE d;
+				if (!(iss >> d))
+				{
+					this->error_msg("Expected numeric value for temperatures.",
+									 CParser::OT_CONTINUE);
+				}
+				else
+				{
+					this->temps.push_back(d);
+				}
+				continue;
+			}
+
+			// non digit, must be "in"
+			if (k == CParser::TT_UPPER || k == CParser::TT_LOWER)
+			{
+				if (this->temps.size() != 2)
+				{
+					this->error_msg("To define equal increments, exactly two temperatures should be defined.", CONTINUE);
+				}
+				else
+				{
+					int i = parser.copy_token(token, next_char);
+					if (i == EMPTY)
+					{
+						error_msg("To define equal increments, define 'in n steps'.", CONTINUE);
+					}
+					else
+					{
+						std::istringstream iss(token);
+						if ((iss >> i) && i > 0)
+						{
+							this->equalIncrements = true;
+							this->countTemps = i;
+						}
+						else
+						{
+							error_msg("Unknown input for temperature steps.", CONTINUE);
+						}
+					}
+					done = true;
+				}
+				if (k == CParser::TT_UNKNOWN)
+				{
+					error_msg("Unknown input for temperature steps.", CONTINUE);
+				}
+			}
+		} // tokens
+	} // lines
+	return lt;
+}
 
 void
 cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
@@ -280,4 +362,59 @@ cxxTemperature::read_raw(CParser & parser)
 			("Count_temps not defined for REACTION_TEMPERATURE_RAW input.",
 			 CParser::OT_CONTINUE);
 	}
+}
+/* ---------------------------------------------------------------------- */
+LDBLE cxxTemperature::
+Temperature_for_step(int step_number)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Determine pressure of reaction step
+ */
+	LDBLE t_temp;
+	if (this->temps.size() == 0) 
+	{
+		t_temp = 1;
+	}
+	else if (this->equalIncrements)
+	{
+		if (this->temps.size() != 2)
+		{
+			error_msg("Number of temperatures not equal to 2 for equal increments.", 0);
+		}
+		if (step_number > this->countTemps)
+		{
+			t_temp = this->temps[1];
+		}
+		else
+		{
+			LDBLE denom;
+			denom = (this->countTemps <= 1) ? 1 : (LDBLE) (this->countTemps - 1);
+			t_temp =  this->temps[0] + ( this->temps[1] - this->temps[0]) *
+				((LDBLE) (step_number - 1)) / (denom);
+		}
+	}
+	else 
+	{
+		if (step_number > (int) this->temps.size())
+		{
+			t_temp = this->temps[this->temps.size() - 1];
+		}
+		else
+		{
+			t_temp = this->temps[step_number - 1];
+		}
+
+	}
+
+	return (t_temp);
+}
+int cxxTemperature::
+Get_countTemps(void) const
+{
+	if (equalIncrements) 
+	{
+		return this->countTemps;
+	}
+	return (int) this->temps.size();
 }
