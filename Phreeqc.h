@@ -1314,6 +1314,7 @@ protected:
 public:
 	char *string_duplicate(const char *token);
 	const char *string_hsave(const char *str);
+	void strings_map_clear();
 protected:
 	char *string_pad(const char *str, int i);
 	int string_trim(char *str);
@@ -1828,7 +1829,7 @@ protected:
 	*   Hash definitions
 	*/
 
-	HashTable *strings_hash_table;
+	std::map<std::string, std::string *> strings_map;
 	HashTable *elements_hash_table;
 	HashTable *species_hash_table;
 	HashTable *phases_hash_table;
