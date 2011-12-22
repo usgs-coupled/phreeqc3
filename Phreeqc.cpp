@@ -455,7 +455,6 @@ void Phreeqc::init(void)
 
 	logk_hash_table					 = 0;
 	master_isotope_hash_table = 0;
-	strings_hash_table				= 0;
 	elements_hash_table			 = 0;
 	species_hash_table				= 0;
 	phases_hash_table				 = 0;
