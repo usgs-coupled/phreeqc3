@@ -203,7 +203,7 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 	s_oss << "REACTION_TEMPERATURE_RAW        " << n_user_local << " " << this->description << std::endl;
 
 	s_oss << indent1;
-	s_oss << "-count_temps        " << this->countTemps << std::endl;
+	s_oss << "-count_temps        " << this->Get_countTemps() << std::endl;
 
 	s_oss << indent1;
 	s_oss << "-equal_increments   " << this->equalIncrements << std::endl;
