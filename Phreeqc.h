@@ -825,7 +825,6 @@ public:
 	int add_solution(struct solution *solution_ptr, LDBLE extensive,
 		LDBLE intensive);
 	int add_surface(struct surface *surface_ptr);
-	int add_temperature(struct temperature *temperature_ptr, int step_number);
 	int check_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
 	int gas_phase_check(struct gas_phase *gas_phase_ptr);
 	int pp_assemblage_check(struct pp_assemblage *pp_assemblage_ptr);
@@ -1085,15 +1084,6 @@ public:
 	struct surface *surface_search(int n_user, int *n, int print);
 	int surface_sort(void);
 	int system_duplicate(int i, int save_old);
-	struct temperature *temperature_bsearch(int k, int *n);
-	int temperature_copy(struct temperature *temperature_old_ptr,
-	struct temperature *temperature_new_ptr, int n_user_new);
-	int temperature_delete(int n_user_old);
-	int temperature_duplicate(int n_user_old, int n_user_new);
-	int temperature_free(struct temperature *temperature_ptr);
-	struct temperature *temperature_search(int n_user, int *n);
-	int temperature_ptr_to_user(struct temperature * temperature_ptr_old, int n_user_new);
-	int temperature_sort(void);
 	int trxn_add(struct reaction *r_ptr, LDBLE coef, int combine);
 	int trxn_add_phase(struct reaction *r_ptr, LDBLE coef, int combine);
 	int trxn_combine(void);
@@ -1360,8 +1350,7 @@ protected:
 	*   Temperatures
 	* ---------------------------------------------------------------------- */
 
-	struct temperature *temperature;
-	int count_temperature;
+	std::map<int, cxxTemperature> Reaction_temperature_map;
 
 	/* ----------------------------------------------------------------------
 	*   Pressures
