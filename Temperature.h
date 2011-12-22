@@ -14,7 +14,6 @@ class cxxTemperature:public cxxNumKeyword
 
   public:
 	cxxTemperature(PHRQ_io *io=NULL);
-	cxxTemperature(struct temperature *, PHRQ_io *io=NULL);
 	~cxxTemperature();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
@@ -22,10 +21,13 @@ class cxxTemperature:public cxxNumKeyword
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
 	void read_raw(CParser & parser);
-
-	const std::vector<double> & Get_temps(void) const {return temps;};
-	int Get_countTemps(void) const {return countTemps;};
+	int read(CParser & parser);
+	LDBLE Temperature_for_step(int step_number);
+	std::vector<double> & Get_temps(void) {return temps;};
+	int Get_countTemps(void) const;
+	void Set_countTemps(int i) {countTemps = i;};
 	bool Get_equalIncrements(void) const {return equalIncrements;};
+	void Set_equalIncrements(bool tf) {equalIncrements = tf;};
 
 protected:
 	std::vector < double >temps;

@@ -888,105 +888,6 @@ read_mix_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_temperature_raw(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Reads TEMPERATURE (_RAW) data block
- *
- *      Arguments:
- *         none
- *
- *      Returns:
- *         KEYWORD if keyword encountered, input_error may be incremented if
- *                    a keyword is encountered in an unexpected position
- *         EOF     if eof encountered while reading mass balance concentrations
- *         ERROR   if error occurred reading data
- *
- */
-	int return_value;
-	/*
-	 *  Accumulate lines in std string
-	 */
-	std::string keywordLines("");
-
-	keywordLines.append(line);
-	keywordLines.append("\n");
-/*
- *   Read additonal lines
- */
-	int save_echo_input = pr.echo_input;
-	pr.echo_input = FALSE;
-	for (;;)
-	{
-		return_value = check_line("temperature_raw", TRUE, TRUE, TRUE, FALSE);
-		/* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD)
-			break;
-		keywordLines.append(line);
-		keywordLines.append("\n");
-	}
-	pr.echo_input = save_echo_input;
-
-	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
-	assert(!reading_database());
-
-	if (pr.echo_input == FALSE)
-	{
-		parser.set_echo_file(CParser::EO_NONE);
-	}
-	else
-	{
-		parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	}
-	//For testing, need to read line to get started
-	std::vector < std::string > vopts;
-	std::istream::pos_type next_char;
-	parser.get_option(vopts, next_char);
-
-	cxxTemperature ex(phrq_io);
-	ex.read_raw(parser);
-	//struct temperature *temperature_ptr = ex.cxxTemperature2temperature(PHREEQC_THIS);
-	struct temperature *temperature_ptr = cxxTemperature2temperature(&ex);
-	int n;
-
-	/*
-	 *  This is not quite right, may not produce sort order, forced sort
-	 */
-
-	if (temperature_bsearch(temperature_ptr->n_user, &n) != NULL)
-	{
-		temperature_free(&temperature[n]);
-		temperature_copy(temperature_ptr, &temperature[n],
-						 temperature_ptr->n_user);
-	}
-	else
-	{
-		n = count_temperature++;
-		temperature =
-			(struct temperature *) PHRQ_realloc(temperature,
-												(size_t) count_temperature *
-												sizeof(struct temperature));
-		if (temperature == NULL)
-			malloc_error();
-		temperature_copy(temperature_ptr, &temperature[n],
-						 temperature_ptr->n_user);
-		temperature_sort();
-	}
-	temperature_free(temperature_ptr);
-	free_check_null(temperature_ptr);
-
-	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
-	return (return_value);
-}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_dump(void)
@@ -2205,20 +2106,14 @@ delete_entities(void)
 	{
 		if (delete_info.Get_temperature().Get_numbers().size() == 0)
 		{
-			for (i = 0; i < count_temperature; i++)
-			{
-				temperature_delete(temperature[i].n_user);
-			}
+			Reaction_temperature_map.clear();
 		}
 		else
 		{
 			std::set < int >::iterator it;
 			for (it = delete_info.Get_temperature().Get_numbers().begin(); it != delete_info.Get_temperature().Get_numbers().end(); it++)
 			{
-				if (temperature_bsearch(*it, &n) != NULL)
-				{
-					temperature_delete(*it);
-				}
+				Reaction_temperature_map.erase(*it);
 			}
 		}
 	}
@@ -2299,8 +2194,11 @@ run_as_cells(void)
 		}
 		if (use.temperature_in == TRUE && use.temperature_ptr != NULL)
 		{
-			if (abs(use.temperature_ptr->count_t) > count_steps)
-				count_steps = abs(use.temperature_ptr->count_t);
+			int count = ((cxxTemperature *) use.temperature_ptr)->Get_countTemps();
+			if (count > count_steps)
+			{
+				count_steps = count;
+			}
 		}
 		if (use.pressure_in == TRUE && use.pressure_ptr != NULL)
 		{
@@ -2703,27 +2601,22 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_temperature().size() == 0)
 		{
-			for (i = 0; i < count_temperature; i++)
-			{
-					cxxTemperature cxxentity(&temperature[i], phrq_io);
-					cxxentity.dump_raw(os,0);
-			}
+			Utilities::Reactant_dump_map_raw(Reaction_temperature_map, os, 0);
 		}
 		else
 		{
 			std::set < int >::iterator it;
 			for (it = dump_info.Get_temperature().begin(); it != dump_info.Get_temperature().end(); it++)
 			{
+				cxxTemperature *p = Utilities::Reactant_find(Reaction_temperature_map, *it);
 
-				if (temperature_bsearch(*it, &n) != NULL)
+				if (p != NULL)
 				{
-					cxxTemperature cxxentity(&temperature[n], phrq_io);
-					cxxentity.dump_raw(os,0);
+					p->dump_raw(os, 0);
 				}
 			}
 		}
 	}
-
 	// pressure
 	if (dump_info.Get_bool_pressure())
 	{

@@ -12,6 +12,7 @@
 #include "cxxKinetics.h"
 #include "phqalloc.h"
 #include "PBasic.h"
+#include "Temperature.h"
 
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
@@ -342,7 +343,6 @@ void Phreeqc::init(void)
 	count_mix						= 0;
 	count_phases				 = 0;
 	count_s							= 0;
-	count_temperature		= 0;
 	count_logk					 = 0;
 	count_master_isotope = 0;
 /*
@@ -422,7 +422,6 @@ void Phreeqc::init(void)
 
 	solution = 0;
 
-	temperature = 0;
 
 	title_x			 = NULL;
 	pe_x					= NULL;
