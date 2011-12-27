@@ -26,7 +26,7 @@ cxxMix::cxxMix(PHRQ_io *io)
 :	cxxNumKeyword(io)
 {
 }
-
+#ifdef SKIP
 cxxMix::cxxMix(struct mix *mix_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxMix from struct mix
@@ -49,7 +49,7 @@ cxxNumKeyword(io)
 		}
 	}
 }
-
+#endif
 cxxMix::~cxxMix()
 {
 }
@@ -199,4 +199,15 @@ cxxMix::read_raw(CParser & parser)
 			break;
 	}
 	// members that must be defined
+}
+void cxxMix::Vectorize(std::vector<int> &n, std::vector<LDBLE> &f)
+{
+	n.clear();
+	f.clear();
+	for (std::map < int, double >::const_iterator it = this->mixComps.begin();
+		 it != this->mixComps.end(); it++)
+	{
+		n.push_back(it->first);
+		f.push_back(it->second);
+	}
 }

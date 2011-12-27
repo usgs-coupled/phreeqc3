@@ -8,13 +8,14 @@
 #include <vector>				// std::vector
 #include "NumKeyword.h"
 #include "PHRQ_base.h"
+#include "phrqtype.h"
 
 class cxxMix:public cxxNumKeyword
 {
 
   public:
 	cxxMix(PHRQ_io *io=NULL);
-	cxxMix(struct mix *, PHRQ_io *io=NULL);
+	//cxxMix(struct mix *, PHRQ_io *io=NULL);
 	 ~cxxMix();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
@@ -23,7 +24,7 @@ class cxxMix:public cxxNumKeyword
 
 	void read_raw(CParser & parser);
 
-	void add(int n, double f)
+	void Add(int n, LDBLE f)
 	{
 		if (this->mixComps.find(n) != this->mixComps.end())
 		{
@@ -34,23 +35,23 @@ class cxxMix:public cxxNumKeyword
 			mixComps[n] = f;
 		}
 	};
-	void multiply(double f)
+	void Multiply(LDBLE f)
 	{
-		for (std::map < int, double >::iterator it = this->mixComps.begin();
+		for (std::map < int, LDBLE >::iterator it = this->mixComps.begin();
 			it != this->mixComps.end(); it++)
 		{
 			it->second *= f;
 		}
 	};
 
-	const std::map < int, double > & Get_mixComps() const
+	const std::map < int, LDBLE > & Get_mixComps() const
 	{
 		return mixComps;
 	}
-
+	void Vectorize(std::vector<int> &n, std::vector<LDBLE> &f);
   protected:
 	friend class cxxStorageBin;
-	std::map < int, double >mixComps;
+	std::map < int, LDBLE >mixComps;
 
 };
 
