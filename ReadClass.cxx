@@ -792,7 +792,7 @@ read_reaction_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_mix_raw(void)
@@ -888,6 +888,7 @@ read_mix_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_dump(void)
@@ -2062,6 +2063,22 @@ delete_entities(void)
 	{
 		if (delete_info.Get_mix().Get_numbers().size() == 0)
 		{
+			Rxn_mix_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_mix().Get_numbers().begin(); it != delete_info.Get_mix().Get_numbers().end(); it++)
+			{
+				Rxn_mix_map.erase(*it);
+			}
+		}
+	}
+#ifdef SKIP
+	if (delete_info.Get_mix().Get_defined())
+	{
+		if (delete_info.Get_mix().Get_numbers().size() == 0)
+		{
 			for (i = 0; i < count_mix; i++)
 			{
 				mix_delete(mix[i].n_user);
@@ -2079,6 +2096,7 @@ delete_entities(void)
 			}
 		}
 	}
+#endif
 	// reactions
 	if (delete_info.Get_reaction().Get_defined())
 	{
@@ -2106,14 +2124,14 @@ delete_entities(void)
 	{
 		if (delete_info.Get_temperature().Get_numbers().size() == 0)
 		{
-			Reaction_temperature_map.clear();
+			Rxn_temperature_map.clear();
 		}
 		else
 		{
 			std::set < int >::iterator it;
 			for (it = delete_info.Get_temperature().Get_numbers().begin(); it != delete_info.Get_temperature().Get_numbers().end(); it++)
 			{
-				Reaction_temperature_map.erase(*it);
+				Rxn_temperature_map.erase(*it);
 			}
 		}
 	}
@@ -2122,14 +2140,14 @@ delete_entities(void)
 	{
 		if (delete_info.Get_pressure().Get_numbers().size() == 0)
 		{
-			Reaction_pressure_map.clear();
+			Rxn_pressure_map.clear();
 		}
 		else
 		{
 			std::set < int >::iterator it;
 			for (it = delete_info.Get_pressure().Get_numbers().begin(); it != delete_info.Get_pressure().Get_numbers().end(); it++)
 			{
-				Reaction_pressure_map.erase(*it);
+				Rxn_pressure_map.erase(*it);
 			}
 		}
 	}
@@ -2549,6 +2567,27 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_mix().size() == 0)
 		{
+			Utilities::Rxn_dump_raw(Rxn_mix_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_mix().begin(); it != dump_info.Get_mix().end(); it++)
+			{
+				cxxMix *p = Utilities::Rxn_find(Rxn_mix_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
+#ifdef SKIP
+	if (dump_info.Get_bool_mix())
+	{
+		if (dump_info.Get_mix().size() == 0)
+		{
 			for (i = 0; i < count_mix; i++)
 			{
 					cxxMix cxxentity(&mix[i], phrq_io);
@@ -2569,7 +2608,7 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-
+#endif
 	// reaction
 	if (dump_info.Get_bool_reaction())
 	{
@@ -2601,14 +2640,14 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_temperature().size() == 0)
 		{
-			Utilities::Reactant_dump_map_raw(Reaction_temperature_map, os, 0);
+			Utilities::Rxn_dump_raw(Rxn_temperature_map, os, 0);
 		}
 		else
 		{
 			std::set < int >::iterator it;
 			for (it = dump_info.Get_temperature().begin(); it != dump_info.Get_temperature().end(); it++)
 			{
-				cxxTemperature *p = Utilities::Reactant_find(Reaction_temperature_map, *it);
+				cxxTemperature *p = Utilities::Rxn_find(Rxn_temperature_map, *it);
 
 				if (p != NULL)
 				{
@@ -2622,14 +2661,14 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_pressure().size() == 0)
 		{
-			Utilities::Reactant_dump_map_raw(Reaction_pressure_map, os, 0);
+			Utilities::Rxn_dump_raw(Rxn_pressure_map, os, 0);
 		}
 		else
 		{
 			std::set < int >::iterator it;
 			for (it = dump_info.Get_pressure().begin(); it != dump_info.Get_pressure().end(); it++)
 			{
-				cxxPressure *p = Utilities::Reactant_find(Reaction_pressure_map, *it);
+				cxxPressure *p = Utilities::Rxn_find(Rxn_pressure_map, *it);
 
 				if (p != NULL)
 				{

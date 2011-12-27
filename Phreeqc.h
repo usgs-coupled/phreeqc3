@@ -30,10 +30,11 @@
 #endif
 #include "Keywords.h"
 #include "Pressure.h"
+#include "cxxMix.h"
 
 class cxxNameDouble;
 class cxxKinetics;
-class cxxMix;
+//class cxxMix;
 class cxxKineticsComp;
 class cxxExchange;
 class cxxExchComp;
@@ -817,7 +818,8 @@ public:
 	int add_exchange(struct exchange *exchange_ptr);
 	int add_gas_phase(struct gas_phase *gas_phase_ptr);
 	int add_kinetics(struct kinetics *kinetics_ptr);
-	int add_mix(struct mix *mix_ptr);
+	//int add_mix(struct mix *mix_ptr);
+	int add_mix(cxxMix * mix_ptr);
 	int add_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
 	int add_reaction(struct irrev *irrev_ptr, int step_number,
 		LDBLE step_fraction);
@@ -945,15 +947,15 @@ public:
 	struct master *master_bsearch_primary(const char *ptr);
 	struct master *master_bsearch_secondary(char *ptr);
 	struct master *master_search(char *ptr, int *n);
-	struct mix *mix_bsearch(int k, int *n);
-	int mix_copy(struct mix *mix_old_ptr,
-	struct mix *mix_new_ptr, int n_user_new);
-	int mix_delete(int n_user_old);
-	int mix_duplicate(int n_user_old, int n_user_new);
-	int mix_free(struct mix *mix_ptr);
-	struct mix *mix_search(int n_user, int *n, int print);
-	int mix_ptr_to_user(struct mix *mix_ptr_old, int n_user_new);
-	int mix_sort(void);
+	//struct mix *mix_bsearch(int k, int *n);
+	//int mix_copy(struct mix *mix_old_ptr,
+	//struct mix *mix_new_ptr, int n_user_new);
+	//int mix_delete(int n_user_old);
+	//int mix_duplicate(int n_user_old, int n_user_new);
+	//int mix_free(struct mix *mix_ptr);
+	//struct mix *mix_search(int n_user, int *n, int print);
+	//int mix_ptr_to_user(struct mix *mix_ptr_old, int n_user_new);
+	//int mix_sort(void);
 	struct pe_data *pe_data_alloc(void);
 public:
 	struct pe_data *pe_data_dup(struct pe_data *pe_ptr_old);
@@ -1350,12 +1352,12 @@ protected:
 	*   Temperatures
 	* ---------------------------------------------------------------------- */
 
-	std::map<int, cxxTemperature> Reaction_temperature_map;
+	std::map<int, cxxTemperature> Rxn_temperature_map;
 
 	/* ----------------------------------------------------------------------
 	*   Pressures
 	* ---------------------------------------------------------------------- */
-	std::map<int, cxxPressure> Reaction_pressure_map;
+	std::map<int, cxxPressure> Rxn_pressure_map;
 
 	/* ----------------------------------------------------------------------
 	*   Surface
@@ -1428,10 +1430,13 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Mix
 	*---------------------------------------------------------------------- */
+	std::map<int, cxxMix> Rxn_mix_map;
+	std::map<int, cxxMix> Dispersion_mix_map;
+	//std::map<int, cxxMix> Stagnant_mix_map;
 
-	struct mix *mix;
-	struct mix *dbg_mix;
-	int count_mix;
+	//struct mix *mix;
+	//struct mix *dbg_mix;
+	//int count_mix;
 	/*----------------------------------------------------------------------
 	*   Irreversible reaction
 	*---------------------------------------------------------------------- */
