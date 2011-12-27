@@ -340,7 +340,7 @@ void Phreeqc::init(void)
 	count_elements			 = 0;
 	count_irrev					= 0;
 	count_master				 = 0;
-	count_mix						= 0;
+	//count_mix						= 0;
 	count_phases				 = 0;
 	count_s							= 0;
 	count_logk					 = 0;
@@ -405,8 +405,8 @@ void Phreeqc::init(void)
 
 	mb_unknowns = 0;
 
-	mix			 = 0;
-	count_mix = 0;
+	//mix			 = 0;
+	//count_mix = 0;
 /* !!!! */
 	stag_data = 0;
 
@@ -706,7 +706,7 @@ void Phreeqc::init(void)
 	dbg_pp_assemblage	= pp_assemblage;
 	dbg_kinetics		= kinetics;
 	dbg_irrev			= irrev;
-	dbg_mix				= mix;
+	//dbg_mix				= mix;
 	dbg_master			= master;
 	calculating_deriv	= FALSE;
 	numerical_deriv		= FALSE;

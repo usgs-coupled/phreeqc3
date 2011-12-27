@@ -36,7 +36,7 @@ namespace Utilities
 
 	// operations on maps of entities (Solution, Exchange, ...)
 	template < typename T >
-	void Reactant_dump_map_raw(const T & b, std::ostream & s_oss, unsigned int indent)
+	void Rxn_dump_raw(const T & b, std::ostream & s_oss, unsigned int indent)
 	{
 		//std :: map < int, T > :: const_iterator it;
 		typename T::const_iterator it;
@@ -52,7 +52,7 @@ namespace Utilities
 	//}
 
 	template < typename T >
-	T * Reactant_find(std::map < int, T > &b, int i)
+	T * Rxn_find(std::map < int, T > &b, int i)
 	{
 		if (b.find(i) != b.end())
 		{
@@ -65,7 +65,7 @@ namespace Utilities
 	}
 
 	template < typename T >
-	T * Reactant_copy(std::map < int, T > &b, int i, int j)
+	T * Rxn_copy(std::map < int, T > &b, int i, int j)
 	{
 		typename std::map < int, T >::iterator it;
 		it = b.find(i);

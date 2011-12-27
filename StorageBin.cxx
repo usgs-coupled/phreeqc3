@@ -286,7 +286,7 @@ cxxStorageBin::Remove_Temperature(int n_user)
 cxxPressure *
 cxxStorageBin::Get_Pressure(int n_user)
 {
-	return Utilities::Reactant_find(this->Pressures, n_user);
+	return Utilities::Rxn_find(this->Pressures, n_user);
 }
 
 void
@@ -403,34 +403,34 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss.precision(DBL_DIG - 1);
 
 	// Solutions
-	Utilities::Reactant_dump_map_raw(Solutions, s_oss, indent);
+	Utilities::Rxn_dump_raw(Solutions, s_oss, indent);
 
 	// Exchange
-	Utilities::Reactant_dump_map_raw(Exchangers, s_oss, indent);
+	Utilities::Rxn_dump_raw(Exchangers, s_oss, indent);
 
 	// Gas Phases
-	Utilities::Reactant_dump_map_raw(GasPhases, s_oss, indent);
+	Utilities::Rxn_dump_raw(GasPhases, s_oss, indent);
 
 	// Kinetics
-	Utilities::Reactant_dump_map_raw(Kinetics, s_oss, indent);
+	Utilities::Rxn_dump_raw(Kinetics, s_oss, indent);
 
 	// PPassemblage
-	Utilities::Reactant_dump_map_raw(PPassemblages, s_oss, indent);
+	Utilities::Rxn_dump_raw(PPassemblages, s_oss, indent);
 
 	// SSassemblage
-	Utilities::Reactant_dump_map_raw(SSassemblages, s_oss, indent);
+	Utilities::Rxn_dump_raw(SSassemblages, s_oss, indent);
 
 	// Surface
-	Utilities::Reactant_dump_map_raw(Surfaces, s_oss, indent);
+	Utilities::Rxn_dump_raw(Surfaces, s_oss, indent);
 
 	// Mix
-	Utilities::Reactant_dump_map_raw(Mixes, s_oss, indent);
+	Utilities::Rxn_dump_raw(Mixes, s_oss, indent);
 
 	// Reactions
-	Utilities::Reactant_dump_map_raw(Reactions, s_oss, indent);
+	Utilities::Rxn_dump_raw(Reactions, s_oss, indent);
 
 	// Temperature
-	Utilities::Reactant_dump_map_raw(Temperatures, s_oss, indent);
+	Utilities::Rxn_dump_raw(Temperatures, s_oss, indent);
 }
 
 void
@@ -1525,7 +1525,7 @@ cxxStorageBin::Set_System(struct Use *use_ptr)
 	// reaction pressure
 	if (use_ptr->pressure_ptr != NULL)
 	{
-		cxxPressure * p = Utilities::Reactant_find(this->Pressures, use_ptr->n_pressure_user);
+		cxxPressure * p = Utilities::Rxn_find(this->Pressures, use_ptr->n_pressure_user);
 		if (p != NULL)
 		{
 			this->system.Set_Pressure(p);
@@ -1622,6 +1622,6 @@ cxxStorageBin::Set_System(int i)
 
 	// reaction pressure
 	{
-		this->system.Set_Pressure(Utilities::Reactant_find(this->Pressures, i));
+		this->system.Set_Pressure(Utilities::Rxn_find(this->Pressures, i));
 	}
 }
