@@ -14,7 +14,7 @@ class cxxExchComp: public PHRQ_base
 
   public:
 	cxxExchComp(PHRQ_io *io=NULL);
-	cxxExchComp(struct exch_comp *, PHRQ_io *io=NULL);
+	//cxxExchComp(struct exch_comp *, PHRQ_io *io=NULL);
 	 ~cxxExchComp();
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
@@ -121,8 +121,8 @@ class cxxExchComp: public PHRQ_base
 		this->formula_totals = nd;
 	}
 
-	const cxxNameDouble & Get_totals() const {return (this->totals);};
-	const cxxNameDouble & Get_formula_totals(void) const {return this->formula_totals;};
+	cxxNameDouble & Get_totals() {return (this->totals);};
+	cxxNameDouble & Get_formula_totals(void) {return this->formula_totals;};
 
 
 	void add(const cxxExchComp & comp, double extensive);
