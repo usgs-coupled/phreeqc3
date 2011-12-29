@@ -24,7 +24,7 @@ class cxxNumKeyword: public PHRQ_base
 	{
 		this->description = str;
 	}
-	void Set_description(char *str)
+	void Set_description(const char *str)
 	{
 		if (str != NULL)
 			this->description = str;
