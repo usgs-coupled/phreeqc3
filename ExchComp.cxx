@@ -37,7 +37,7 @@ cxxExchComp::cxxExchComp(PHRQ_io *io)
 	//rate_name = NULL;
 	formula_z = 0.0;
 }
-
+#ifdef SKIP
 cxxExchComp::cxxExchComp(struct exch_comp * exch_comp_ptr, PHRQ_io *io)
 	//
 	// constructor for cxxExchComp from struct exch_comp
@@ -57,7 +57,7 @@ formula_totals(exch_comp_ptr->formula_totals), totals(exch_comp_ptr->totals)
 	this->Set_rate_name(exch_comp_ptr->rate_name);
 	formula_z = exch_comp_ptr->formula_z;
 }
-
+#endif
 #ifdef SKIP
 cxxExchComp::cxxExchComp(std::vector < cxxExchComp > &ec_vector,
 						 std::vector < double >&f_vector)

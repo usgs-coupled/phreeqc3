@@ -26,9 +26,12 @@ cxxExchange::cxxExchange(PHRQ_io *io)
 	//
 :	cxxNumKeyword(io)
 {
+	new_def = false;
+	solution_equilibria = false;
+	n_solution = -999;
 	pitzer_exchange_gammas = true;
 }
-
+#ifdef SKIP
 cxxExchange::cxxExchange(struct exchange * exchange_ptr, PHRQ_io *io)
 	//
 	// constructor for cxxExchange from struct exchange
@@ -53,6 +56,7 @@ cxxNumKeyword(io)
 
 
 }
+#endif
 cxxExchange::cxxExchange(const std::map < int, cxxExchange > &entities,
 						 cxxMix & mix, int l_n_user, PHRQ_io *io):
 cxxNumKeyword(io)
@@ -362,7 +366,7 @@ cxxExchange::totalize()
 {
 	this->totals.clear();
 	// component structures
-	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
+	for (std::map < std::string, cxxExchComp >::iterator it = exchComps.begin();
 		it != exchComps.end(); ++it)
 	{
 		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
@@ -381,8 +385,8 @@ cxxExchange::Set_pitzer_exchange_gammas(bool b)
 	this->pitzer_exchange_gammas = b;
 }
 
-const std::map < std::string, cxxExchComp > &
-cxxExchange::Get_exchComps(void) const
+std::map < std::string, cxxExchComp > &
+cxxExchange::Get_exchComps(void)
 {
 	return (this->exchComps);
 }
@@ -390,4 +394,31 @@ const cxxNameDouble &
 cxxExchange::Get_totals() const
 {
 	return totals;
+}
+cxxExchComp *cxxExchange::ExchComp_find(std::string s)
+{
+	std::map<std::string, cxxExchComp>::iterator it = this->exchComps.begin();
+	for ( ; it != this->exchComps.end(); it++)
+	{
+		cxxNameDouble nd(it->second.Get_totals());
+		cxxNameDouble::iterator nd_it;
+		for (nd_it = nd.begin(); nd_it != nd.end(); nd_it++)
+		{
+			if(nd_it->first == s)
+			{
+				return (&it->second);
+			}
+		}
+	}
+	return NULL;
+}
+std::vector<cxxExchComp *> cxxExchange::Vectorize(void) 
+{
+	std::vector<cxxExchComp *> vlist;
+	std::map<std::string, cxxExchComp>::iterator it = exchComps.begin();
+	for ( ; it != this->exchComps.end(); it++)
+	{
+		vlist.push_back(&it->second);
+	}
+	return vlist;
 }

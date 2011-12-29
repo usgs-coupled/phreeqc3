@@ -183,6 +183,18 @@ read_exchange_raw(void)
 
 	cxxExchange ex(phrq_io);
 	ex.read_raw(parser);
+	int n_user = ex.Get_n_user();
+	int n_user_end = ex.Get_n_user_end();
+	ex.Set_n_user_end(n_user);
+	Rxn_exchange_map[n_user] = ex;
+	if (n_user_end > n_user)
+	{
+		for (int i = n_user + 1; i <= n_user_end; i++)
+		{
+			Utilities::Rxn_copy(Rxn_exchange_map, n_user, i);
+		}
+	}
+#ifdef SKIP
 	//struct exchange *exchange_ptr = ex.cxxExchange2exchange(PHREEQC_THIS);
 	struct exchange *exchange_ptr = cxxExchange2exchange(&ex);
 	int n;
@@ -209,6 +221,7 @@ read_exchange_raw(void)
 	}
 	exchange_free(exchange_ptr);
 	free_check_null(exchange_ptr);
+#endif
 
 	// Need to output the next keyword
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
@@ -1258,7 +1271,7 @@ read_exchange_modify(void)
 	// find exchange number
 	char token[MAX_LENGTH];
 	char *next;
-	int l, n_user, n;
+	int l, n_user;
 	next = line;
 	copy_token(token, &next, &l);
 	if (copy_token(token, &next, &l) != DIGIT)
@@ -1300,6 +1313,38 @@ read_exchange_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
+	cxxExchange * entity = Utilities::Rxn_find(Rxn_exchange_map, n_user);
+	if (entity == NULL)
+	{
+		input_error++;
+		error_string = sformatf( "Exchange %d not found for EXCHANGE_MODIFY.\n", n_user);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	entity->read_raw(parser, false);
+
+	/* recalculate formula_totals */
+	std::map<std::string, cxxExchComp>::iterator cit = entity->Get_exchComps().begin();
+	for ( ; cit != entity->Get_exchComps().end(); cit++)
+	{
+		char * temp_formula = string_duplicate(cit->second.Get_formula().c_str());
+		char *ptr = temp_formula;
+		
+			count_elts = 0;
+			paren_count = 0;
+			get_elts_in_species(&ptr, 1.0);
+
+			cxxNameDouble nd(elt_list_save());
+			//exchange[n].comps[i].formula_totals = elt_list_save();
+			//free_check_null(temp_formula);
+			cit->second.Set_formula_totals(elt_list_save());
+	}
+	
+
+
+#ifdef SKIP
 	if (exchange_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
@@ -1341,7 +1386,7 @@ read_exchange_modify(void)
 	//exchange[n].new_def = TRUE;
 	exchange_free(entity_ptr);
 	free_check_null(entity_ptr);
-	
+#endif
 
 	// Need to output the next keyword
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
@@ -1949,6 +1994,22 @@ delete_entities(void)
 	{
 		if (delete_info.Get_exchange().Get_numbers().size() == 0)
 		{
+			Rxn_exchange_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_exchange().Get_numbers().begin(); it != delete_info.Get_exchange().Get_numbers().end(); it++)
+			{
+				Rxn_exchange_map.erase(*it);
+			}
+		}
+	}
+#ifdef SKIP
+	if (delete_info.Get_exchange().Get_defined())
+	{
+		if (delete_info.Get_exchange().Get_numbers().size() == 0)
+		{
 			for (i = 0; i < count_exchange; i++)
 			{
 				exchange_delete(exchange[i].n_user);
@@ -1966,7 +2027,7 @@ delete_entities(void)
 			}
 		}
 	}
-
+#endif
 	// surfaces
 	if (delete_info.Get_surface().Get_defined())
 	{
@@ -2437,6 +2498,27 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_exchange().size() == 0)
 		{
+			Utilities::Rxn_dump_raw(Rxn_exchange_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_exchange().begin(); it != dump_info.Get_exchange().end(); it++)
+			{
+				cxxExchange *p = Utilities::Rxn_find(Rxn_exchange_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
+#ifdef SKIP
+	if (dump_info.Get_bool_exchange())
+	{
+		if (dump_info.Get_exchange().size() == 0)
+		{
 			for (i = 0; i < count_exchange; i++)
 			{
 					cxxExchange cxxentity(&exchange[i], phrq_io);
@@ -2457,7 +2539,7 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-
+#endif
 	// surfaces
 	if (dump_info.Get_bool_surface())
 	{
