@@ -128,11 +128,12 @@ public:
 	int system_total_elt_secondary(const char *total_name);
 	LDBLE total(const char *total_name);
 	LDBLE total_mole(const char *total_name);
-	int system_total_solids(struct exchange *exchange_ptr,
-	struct pp_assemblage *pp_assemblage_ptr,
-	struct gas_phase *gas_phase_ptr,
-	struct s_s_assemblage *s_s_assemblage_ptr,
-	struct surface *surface_ptr);
+	//int system_total_solids(struct exchange *exchange_ptr,
+	int system_total_solids(cxxExchange *exchange_ptr,
+		struct pp_assemblage *pp_assemblage_ptr,
+		struct gas_phase *gas_phase_ptr,
+		struct s_s_assemblage *s_s_assemblage_ptr,
+		struct surface *surface_ptr);
 
 	static LDBLE f_rho(LDBLE rho_old, void *cookie);
 
@@ -815,7 +816,8 @@ public:
 	// step.cpp -------------------------------
 	int step(LDBLE step_fraction);
 	int xsolution_zero(void);
-	int add_exchange(struct exchange *exchange_ptr);
+	//int add_exchange(struct exchange *exchange_ptr);
+	int add_exchange(cxxExchange *exchange_ptr);
 	int add_gas_phase(struct gas_phase *gas_phase_ptr);
 	int add_kinetics(struct kinetics *kinetics_ptr);
 	//int add_mix(struct mix *mix_ptr);
@@ -849,6 +851,8 @@ protected:
 	struct elt_list *elt_list_dup(struct elt_list *elt_list_ptr_old);
 	int elt_list_print(struct elt_list *elt_list_ptr);
 	struct elt_list *elt_list_save(void);
+	cxxNameDouble elt_list_NameDouble(void);
+#ifdef SKIP
 public:
 	struct exchange *exchange_alloc(void);
 	struct exchange *exchange_bsearch(int k, int *n);
@@ -873,6 +877,7 @@ protected:
 		int n_user_new);
 	struct exchange *exchange_search(int n_user, int *n, int print);
 	int exchange_sort(void);
+#endif
 	static int gas_comp_compare(const void *ptr1, const void *ptr2);
 public:
 	struct gas_phase *gas_phase_alloc(void);
@@ -1142,8 +1147,8 @@ public:
 	struct mix * cxxMix2mix(const cxxMix *mx);
 	struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
 	struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
-	struct exchange * cxxExchange2exchange(const cxxExchange * ex);
-	struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
+	//struct exchange * cxxExchange2exchange(const cxxExchange * ex);
+	//struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
 	struct master * Get_exch_master(const cxxExchComp * ec);
 	struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
 	struct gas_comp * cxxGasPhaseComp2gas_comp(const cxxGasPhase * gp);
@@ -1265,6 +1270,7 @@ public:
 	// utilities.cpp -------------------------------
 public:
 	int add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef);
+	int add_elt_list(const cxxNameDouble & nd, LDBLE coef);
 protected:
 	int backspace_screen(int spaces);
 	LDBLE calc_alk(struct reaction *rxn_ptr);
@@ -1376,11 +1382,15 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   Exchange
 	* ---------------------------------------------------------------------- */
-
+#ifdef SKIP
 	struct exchange *exchange;
 	struct exchange *dbg_exchange;
 	int count_exchange;
 	int max_exchange;
+#endif
+
+	std::map<int, cxxExchange> Rxn_exchange_map;
+
 	/* ----------------------------------------------------------------------
 	*   Kinetics
 	* ---------------------------------------------------------------------- */
