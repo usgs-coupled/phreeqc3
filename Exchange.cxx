@@ -165,8 +165,16 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	s_oss << "EXCHANGE_RAW       " << n_user_local << " " << this->description << std::endl;
 
 	s_oss << indent1;
-	s_oss << "-exchange_gammas " << this->
-		pitzer_exchange_gammas << std::endl;
+	s_oss << "-new_def " << this->new_def << std::endl;
+
+	s_oss << indent1;
+	s_oss << "-exchange_gammas " << this->pitzer_exchange_gammas << std::endl;
+
+	s_oss << indent1;
+	s_oss << "-solution_equilibria " << this->solution_equilibria << std::endl;
+
+	s_oss << indent1;
+	s_oss << "-n_solution " << this->n_solution << std::endl;
 
 	// exchComps structures
 	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
@@ -190,6 +198,9 @@ cxxExchange::read_raw(CParser & parser, bool check)
 		vopts.push_back("pitzer_exchange_gammas");	// 0
 		vopts.push_back("component");	// 1
 		vopts.push_back("exchange_gammas"); // 2
+		vopts.push_back("new_def"); // 3
+		vopts.push_back("solution_equilibria"); // 4
+		vopts.push_back("n_solution"); // 4
 	}
 
 	std::istream::pos_type ptr;
@@ -270,6 +281,42 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				}
 			}
 			useLastLine = true;
+			break;
+		case 3:				// new_def
+			if (!(parser.get_iss() >> this->new_def))
+			{
+				this->new_def = false;
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected boolean value for new_def.",
+					 CParser::OT_CONTINUE);
+			}
+			useLastLine = false;
+			break;
+		case 4:				// solution_equilibria
+			if (!(parser.get_iss() >> this->solution_equilibria))
+			{
+				this->solution_equilibria = false;
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected boolean value for solution_equilibria.",
+					 CParser::OT_CONTINUE);
+			}
+			useLastLine = false;
+			break;
+		case 5:				// n_solution
+			if (!(parser.get_iss() >> this->n_solution))
+			{
+				this->n_solution = -999;
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected integer value for n_solution.",
+					 CParser::OT_CONTINUE);
+			}
+			useLastLine = false;
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
