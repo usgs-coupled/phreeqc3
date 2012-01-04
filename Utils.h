@@ -6,6 +6,7 @@
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
 #include <map>					// std::map
+#include "Parser.h"
 
 namespace Utilities
 {
