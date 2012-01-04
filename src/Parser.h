@@ -26,16 +26,6 @@ class CParser: public PHRQ_base
 	//		std::ostream & error, PHRQ_io *io=NULL);
 
 	virtual ~ CParser();
-#ifdef SKIP
-	enum LINE_TYPE
-	{
-		LT_EOF = -1,
-		LT_OK = 1,
-		LT_EMPTY = 2,
-		LT_KEYWORD = 3,
-		LT_OPTION = 8
-	};
-#endif
 	enum TOKEN_TYPE
 	{
 		TT_EMPTY = 2,
@@ -58,13 +48,6 @@ class CParser: public PHRQ_base
 		OPT_KEYWORD = -2,
 		OPT_EOF = -1
 	};
-#ifdef SKIP
-	enum ONERROR_TYPE
-	{
-		OT_CONTINUE = 0,
-		OT_STOP = 1
-	};
-#endif
 	enum ECHO_OPTION
 	{
 		EO_NONE = 0,
@@ -167,27 +150,10 @@ class CParser: public PHRQ_base
 		return m_line_iss;
 	}
 	int incr_input_error();
-	//std::ostream & get_output()
-	//{
-	//	return m_output_stream;
-	//}
 	int get_input_error()
 	{
 		return m_input_error;
 	}
-#ifdef SKIP
-	std::istream::pos_type tellg()
-	{
-		return m_input_stream.tellg();
-	} 
-	std::istream& seekg(std::istream::pos_type p)
-	{
-		return m_input_stream.seekg(p);
-	} 
-#endif
-
-
-
 
 		/**
                 Copies from begin to token until first space is encountered.

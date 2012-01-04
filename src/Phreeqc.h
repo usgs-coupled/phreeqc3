@@ -857,74 +857,13 @@ protected:
 	int elt_list_print(struct elt_list *elt_list_ptr);
 	struct elt_list *elt_list_save(void);
 	cxxNameDouble elt_list_NameDouble(void);
-#ifdef SKIP
 public:
-	struct exchange *exchange_alloc(void);
-	struct exchange *exchange_bsearch(int k, int *n);
-protected:
-	int exchange_comp_compare(const void *ptr1, const void *ptr2);
-	void exchange_comp_init(struct exch_comp *exch_comp_ptr);
-public:
-	int exchange_copy(struct exchange *exchange_old_ptr,
-	struct exchange *exchange_new_ptr, int n_user_new);
-protected:
-	static int exchange_compare(const void *ptr1, const void *ptr2);
-	int exchange_copy_to_last(int n, int n_user);
-	int exchange_delete(int n_user_old);
-	int exchange_duplicate(int n_user_old, int n_user_new);
-	int exchange_init(struct exchange *exchange_ptr, int n_user, int n_user_end,
-		const char *description);
-public:
-	int exchange_free(struct exchange *exchange_ptr);
-protected:
-	int exchange_ptr_to_user(struct exchange *exchange_old_ptr, int n_user_new);
-	struct exchange *exchange_replicate(struct exchange *exchange_old_ptr,
-		int n_user_new);
-	struct exchange *exchange_search(int n_user, int *n, int print);
-	int exchange_sort(void);
-#endif
-	//static int gas_comp_compare(const void *ptr1, const void *ptr2);
-public:
-#ifdef SKIP
-	struct gas_phase *gas_phase_alloc(void);
-	struct gas_phase *gas_phase_bsearch(int k, int *n);
-protected:
-	static int gas_phase_compare(const void *ptr1, const void *ptr2);
-public:
-	int gas_phase_copy(struct gas_phase *gas_phase_old_ptr,
-	struct gas_phase *gas_phase_new_ptr, int n_user_new);
-protected:
-	int gas_phase_copy_to_last(int n, int n_user);
-	int gas_phase_delete(int n_user_old);
-	int gas_phase_duplicate(int n_user_old, int n_user_new);
-	int gas_phase_init(struct gas_phase *gas_phase_ptr, int n_user,
-		int n_user_end, char *description);
-public:
-	int gas_phase_free(struct gas_phase *gas_phase_ptr);
-	int gas_phase_ptr_to_user(struct gas_phase *gas_phase_ptr_old,
-		int n_user_new);
-	struct gas_phase *gas_phase_replicate(struct gas_phase *gas_phase_old_ptr,
-		int n_user_new);
-	struct gas_phase *gas_phase_search(int n_user, int *n);
-	int gas_phase_sort(void);
-#endif
 	enum entity_type get_entity_enum(char *name);
 	struct inverse *inverse_alloc(void);
 	int inverse_delete(int i);
 	static int inverse_isotope_compare(const void *ptr1, const void *ptr2);
 	struct inverse *inverse_search(int n_user, int *n);
 	int inverse_sort(void);
-#ifdef SKIP
-	struct irrev *irrev_bsearch(int k, int *n);
-	int irrev_copy(struct irrev *irrev_old_ptr, struct irrev *irrev_new_ptr,
-		int n_user_new);
-	int irrev_delete(int n_user_old);
-	int irrev_duplicate(int n_user_old, int n_user_new);
-	int irrev_free(struct irrev *irrev_ptr);
-	struct irrev *irrev_search(int n_user, int *n);
-	int irrev_ptr_to_user(struct irrev *irrev_ptr_old, int n_user_new);
-	int irrev_sort(void);
-#endif
 public:
 	struct kinetics *kinetics_alloc(void);
 	struct kinetics *kinetics_bsearch(int k, int *n);
@@ -1391,13 +1330,6 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   Exchange
 	* ---------------------------------------------------------------------- */
-#ifdef SKIP
-	struct exchange *exchange;
-	struct exchange *dbg_exchange;
-	int count_exchange;
-	int max_exchange;
-#endif
-
 	std::map<int, cxxExchange> Rxn_exchange_map;
 
 	/* ----------------------------------------------------------------------
@@ -1451,29 +1383,17 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxMix> Rxn_mix_map;
 	std::map<int, cxxMix> Dispersion_mix_map;
-	//std::map<int, cxxMix> Stagnant_mix_map;
 
-	//struct mix *mix;
-	//struct mix *dbg_mix;
-	//int count_mix;
 	/*----------------------------------------------------------------------
 	*   Irreversible reaction
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxReaction> Rxn_reaction_map;
-#ifdef SKIP
-	struct irrev *irrev;
-	struct irrev *dbg_irrev;
-	int count_irrev;
-#endif
+
 	/*----------------------------------------------------------------------
 	*   Gas phase
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxGasPhase> Rxn_gas_phase_map;
-#ifdef SKIP
-	int count_gas_phase;
-	int max_gas_phase;
-	struct gas_phase *gas_phase;
-#endif
+
 	/*----------------------------------------------------------------------
 	*   Solid solution
 	*---------------------------------------------------------------------- */
