@@ -77,36 +77,36 @@ cxxSurfaceComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// Surf_Comp element and attributes
 
-	s_oss << indent0 << "formula=\"" << this->formula << "\"" << std::endl;
+	s_oss << indent0 << "formula=\"" << this->formula << "\"" << "\n";
 	s_oss << indent0 << "formula_z=\"" << this->
-		formula_z << "\"" << std::endl;
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << std::endl;
-	s_oss << indent0 << "la=\"" << this->la << "\"" << std::endl;
-	//s_oss << indent0 << "charge_number=\"" << this->charge_number   << "\"" << std::endl;
+		formula_z << "\"" << "\n";
+	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
+	s_oss << indent0 << "la=\"" << this->la << "\"" << "\n";
+	//s_oss << indent0 << "charge_number=\"" << this->charge_number   << "\"" << "\n";
 	s_oss << indent0 << "charge_balance=\"" << this->
-		charge_balance << "\"" << std::endl;
+		charge_balance << "\"" << "\n";
 	if (this->phase_name.size() != 0)
 	{
 		s_oss << indent0 << "phase_name=\"" << this->
-			phase_name << "\"" << std::endl;
+			phase_name << "\"" << "\n";
 	}
 	if (this->rate_name.size() != 0)
 	{
 		s_oss << indent0 << "rate_name=\"" << this->
-			rate_name << "\"" << std::endl;
+			rate_name << "\"" << "\n";
 	}
 	s_oss << indent0 << "phase_proportion=\"" << this->
-		phase_proportion << "\"" << std::endl;
-	s_oss << indent0 << "Dw=\"" << this->Dw << "\"" << std::endl;
+		phase_proportion << "\"" << "\n";
+	s_oss << indent0 << "Dw=\"" << this->Dw << "\"" << "\n";
 
 	// formula_totals
 	s_oss << indent0;
-	s_oss << "<formula_totals " << std::endl;
+	s_oss << "<formula_totals " << "\n";
 	this->formula_totals.dump_xml(s_oss, indent + 1);
 
 	// totals
 	s_oss << indent0;
-	s_oss << "<totals " << std::endl;
+	s_oss << "<totals " << "\n";
 	this->totals.dump_xml(s_oss, indent + 1);
 
 }
@@ -128,36 +128,36 @@ cxxSurfaceComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	// Surf_Comp element and attributes
 
 	s_oss << indent0 << "-formula               " << this->
-		formula << std::endl;
+		formula << "\n";
 	s_oss << indent1 << "-formula_z             " << this->
-		formula_z << std::endl;
-	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
-	s_oss << indent1 << "-la                    " << this->la << std::endl;
-	//s_oss << indent1 << "-charge_number         " << this->charge_number  << std::endl;
+		formula_z << "\n";
+	s_oss << indent1 << "-moles                 " << this->moles << "\n";
+	s_oss << indent1 << "-la                    " << this->la << "\n";
+	//s_oss << indent1 << "-charge_number         " << this->charge_number  << "\n";
 	s_oss << indent1 << "-charge_balance        " << this->
-		charge_balance << std::endl;
+		charge_balance << "\n";
 	if (this->phase_name.size() != 0)
 	{
 		s_oss << indent1 << "-phase_name            " << this->
-			phase_name << std::endl;
+			phase_name << "\n";
 	}
 	if (this->rate_name.size() != 0)
 	{
 		s_oss << indent1 << "-rate_name             " << this->
-			rate_name << std::endl;
+			rate_name << "\n";
 	}
 	s_oss << indent1 << "-phase_proportion      " << this->
-		phase_proportion << std::endl;
-	s_oss << indent1 << "-Dw                    " << this->Dw << std::endl;
+		phase_proportion << "\n";
+	s_oss << indent1 << "-Dw                    " << this->Dw << "\n";
 
 	// formula_totals
 	s_oss << indent1;
-	s_oss << "-formula_totals" << std::endl;
+	s_oss << "-formula_totals" << "\n";
 	this->formula_totals.dump_raw(s_oss, indent + 2);
 
 	// totals
 	s_oss << indent1;
-	s_oss << "-totals" << std::endl;
+	s_oss << "-totals" << "\n";
 	this->totals.dump_raw(s_oss, indent + 2);
 
 }
@@ -217,8 +217,8 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Surface for more processing
-			//parser.error_msg("Unknown input in SURF_COMP read.", CParser::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+			//parser.error_msg("Unknown input in SURF_COMP read.", PHRQ_io::OT_CONTINUE);
+			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// formula
@@ -227,7 +227,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->formula.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for formula.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -242,7 +242,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->moles = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for moles.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			moles_defined = true;
 			break;
@@ -253,7 +253,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->la = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			la_defined = true;
 			break;
@@ -264,7 +264,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->charge_number = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for charge_number.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			charge_number_defined = true;
 			break;
@@ -275,7 +275,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->charge_balance = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for charge_balance.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			charge_balance_defined = true;
 			break;
@@ -286,7 +286,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->phase_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for phase_name.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -300,7 +300,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->rate_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for rate_name.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -315,7 +315,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected numeric value for phase_proportion.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			break;
 
@@ -327,7 +327,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for SurfaceComp totals.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 8;
 			break;
@@ -338,7 +338,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->formula_z = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for formula_z.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			formula_z_defined = true;
 			break;
@@ -351,7 +351,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for SurfaceComp formula totals.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 10;
 			break;
@@ -362,7 +362,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 				this->Dw = 0.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for Dw.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			Dw_defined = true;
 			break;
@@ -377,45 +377,45 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Formula not defined for SurfaceComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (formula_z_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Formula_z not defined for ExchComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (moles_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Moles not defined for SurfaceComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (la_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("La not defined for SurfaceComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 #ifdef SKIP
 		if (charge_number_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Charge_number not defined for SurfaceComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 #endif
 		if (charge_balance_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Charge_balance not defined for SurfaceComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (Dw_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Dw not defined for SurfaceComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 }

@@ -71,15 +71,15 @@ cxxMix::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// Mix element and attributes
 	s_oss << indent0;
-	s_oss << "<mix " << std::endl;
+	s_oss << "<mix " << "\n";
 
 	s_oss << indent1;
 	s_oss << "pitzer_mix_gammas=\"" << this->
-		pitzer_mix_gammas << "\"" << std::endl;
+		pitzer_mix_gammas << "\"" << "\n";
 
 	// components
 	s_oss << indent1;
-	s_oss << "<component " << std::endl;
+	s_oss << "<component " << "\n";
 	for (std::list < cxxMixComp >::const_iterator it = mixComps.begin();
 		 it != mixComps.end(); ++it)
 	{
@@ -107,12 +107,12 @@ cxxMix::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 	// Mix element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "MIX        " << n_user_local << " " << this->description << std::endl;
+	s_oss << "MIX        " << n_user_local << " " << this->description << "\n";
 
 	for (std::map < int, double >::const_iterator it = this->mixComps.begin();
 		 it != this->mixComps.end(); it++)
 	{
-		s_oss << indent1 << it->first << "     " << it->second << std::endl;
+		s_oss << indent1 << it->first << "     " << it->second << "\n";
 	}
 }
 
@@ -163,8 +163,8 @@ cxxMix::read_raw(CParser & parser)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input in MIX_COMP_RAW keyword.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 
@@ -178,7 +178,7 @@ cxxMix::read_raw(CParser & parser)
 					parser.
 						error_msg
 						("Expected integer value for solution number.",
-						 CParser::OT_CONTINUE);
+						 PHRQ_io::OT_CONTINUE);
 					break;
 				}
 				if (!(parser.get_iss() >> d))
@@ -187,7 +187,7 @@ cxxMix::read_raw(CParser & parser)
 					parser.
 						error_msg
 						("Expected numeric value for solution fraction.",
-						 CParser::OT_CONTINUE);
+						 PHRQ_io::OT_CONTINUE);
 					break;
 				}
 				this->mixComps[i] = d;

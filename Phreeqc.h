@@ -131,7 +131,7 @@ public:
 	//int system_total_solids(struct exchange *exchange_ptr,
 	int system_total_solids(cxxExchange *exchange_ptr,
 		struct pp_assemblage *pp_assemblage_ptr,
-		struct gas_phase *gas_phase_ptr,
+		cxxGasPhase *gas_phase_ptr,
 		struct s_s_assemblage *s_s_assemblage_ptr,
 		struct surface *surface_ptr);
 
@@ -570,7 +570,8 @@ public:
 	int setup_slack(void);
 	int setup_master_rxn(struct master **master_ptr_list,
 	struct reaction **pe_rxn);
-	LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
+	//LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
+	LDBLE calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int setup_pure_phases(void);
 	int adjust_setup_pure_phases(void);
@@ -620,7 +621,7 @@ public:
 	int print_alkalinity(void);
 	int print_diffuse_layer(struct surface_charge *surface_charge_ptr);
 	int print_eh(void);
-	int print_irrev(void);
+	int print_reaction(void);
 	int print_kinetics(void);
 	int print_mix(void);
 	int print_pp_assemblage(void);
@@ -653,11 +654,10 @@ public:
 	int read_t_c_only(char *ptr, LDBLE *t_c);
 	int read_p_c_only(char *ptr, LDBLE * p_c);
 	int read_omega_only(char *ptr, LDBLE *omega);
-	//int read_delta_v_only(char *ptr, LDBLE * delta_v);
 	int read_number_description(char *ptr, int *n_user, int *n_user_end,
 		char **description, int allow_negative=FALSE);
 	int check_key(const char *str);
-	int check_units(char *tot_units, int alkalinity, int check_compatibility,
+	int check_units(char * tot_units, int alkalinity, int check_compatibility,
 		const char *default_units, int print);
 	int find_option(const char *item, int *n, const char **list, int count_list,
 		int exact);
@@ -703,8 +703,10 @@ public:
 	int read_pure_phases(void);
 	int read_rates(void);
 	int read_reaction(void);
-	int read_reaction_reactants(struct irrev *irrev_ptr);
-	int read_reaction_steps(struct irrev *irrev_ptr);
+	//int read_reaction_reactants(struct irrev *irrev_ptr);
+	int read_reaction_reactants(cxxReaction *reaction_ptr);
+	//int read_reaction_steps(struct irrev *irrev_ptr);
+	int read_reaction_steps(cxxReaction *reaction_ptr);
 	int read_solid_solutions(void);
 	int read_temperature(void);
 	int read_reaction_temps(struct temperature *temperature_ptr);
@@ -731,26 +733,26 @@ public:
 	int cleanup_after_parser(CParser &parser);
 
 	// ReadClass.cxx
-
+	int read_generic(Keywords::KEYWORDS key);
 	int read_solution_raw(void);
-	int read_exchange_raw(void);
+	//int read_exchange_raw(void);
 	int read_surface_raw(void);
 	int read_equilibrium_phases_raw(void);
 	int read_kinetics_raw(void);
 	int read_solid_solutions_raw(void);
-	int read_gas_phase_raw(void);
-	int read_reaction_raw(void);
-	int read_mix_raw(void);
-	int read_temperature_raw(void);
+	//int read_gas_phase_raw(void);
+	//int read_reaction_raw(void);
+	//int read_mix_raw(void);
+	//int read_temperature_raw(void);
 	int read_dump(void);
 	int read_solution_modify(void);
 	int read_equilibrium_phases_modify(void);
-	int read_exchange_modify(void);
+	//int read_exchange_modify(void);
 	int read_surface_modify(void);
 	int read_solid_solutions_modify(void);
-	int read_gas_phase_modify(void);
+	//int read_gas_phase_modify(void);
 	int read_kinetics_modify(void);
-	int read_reaction_modify(void);
+	//int read_reaction_modify(void);
 	//int read_reaction_temperature_modify(void);
 	int read_delete(void);
 	int read_run_cells(void);
@@ -818,21 +820,24 @@ public:
 	int xsolution_zero(void);
 	//int add_exchange(struct exchange *exchange_ptr);
 	int add_exchange(cxxExchange *exchange_ptr);
-	int add_gas_phase(struct gas_phase *gas_phase_ptr);
+	int add_gas_phase(cxxGasPhase *gas_phase_ptr);
 	int add_kinetics(struct kinetics *kinetics_ptr);
 	//int add_mix(struct mix *mix_ptr);
 	int add_mix(cxxMix * mix_ptr);
 	int add_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
-	int add_reaction(struct irrev *irrev_ptr, int step_number,
+	//int add_reaction(struct irrev *irrev_ptr, int step_number,
+	//	LDBLE step_fraction);
+	int add_reaction(cxxReaction *reaction_ptr, int step_number,
 		LDBLE step_fraction);
 	int add_s_s_assemblage(struct s_s_assemblage *s_s_assemblage_ptr);
 	int add_solution(struct solution *solution_ptr, LDBLE extensive,
 		LDBLE intensive);
 	int add_surface(struct surface *surface_ptr);
 	int check_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
-	int gas_phase_check(struct gas_phase *gas_phase_ptr);
+	int gas_phase_check(cxxGasPhase *gas_phase_ptr);
 	int pp_assemblage_check(struct pp_assemblage *pp_assemblage_ptr);
-	int reaction_calc(struct irrev *irrev_ptr);
+	//int reaction_calc(struct irrev *irrev_ptr);
+	int reaction_calc(cxxReaction *reaction_ptr);
 	int solution_check(void);
 	int s_s_assemblage_check(struct s_s_assemblage *s_s_assemblage_ptr);
 
@@ -878,8 +883,9 @@ protected:
 	struct exchange *exchange_search(int n_user, int *n, int print);
 	int exchange_sort(void);
 #endif
-	static int gas_comp_compare(const void *ptr1, const void *ptr2);
+	//static int gas_comp_compare(const void *ptr1, const void *ptr2);
 public:
+#ifdef SKIP
 	struct gas_phase *gas_phase_alloc(void);
 	struct gas_phase *gas_phase_bsearch(int k, int *n);
 protected:
@@ -901,12 +907,14 @@ public:
 		int n_user_new);
 	struct gas_phase *gas_phase_search(int n_user, int *n);
 	int gas_phase_sort(void);
+#endif
 	enum entity_type get_entity_enum(char *name);
 	struct inverse *inverse_alloc(void);
 	int inverse_delete(int i);
 	static int inverse_isotope_compare(const void *ptr1, const void *ptr2);
 	struct inverse *inverse_search(int n_user, int *n);
 	int inverse_sort(void);
+#ifdef SKIP
 	struct irrev *irrev_bsearch(int k, int *n);
 	int irrev_copy(struct irrev *irrev_old_ptr, struct irrev *irrev_new_ptr,
 		int n_user_new);
@@ -916,6 +924,7 @@ public:
 	struct irrev *irrev_search(int n_user, int *n);
 	int irrev_ptr_to_user(struct irrev *irrev_ptr_old, int n_user_new);
 	int irrev_sort(void);
+#endif
 public:
 	struct kinetics *kinetics_alloc(void);
 	struct kinetics *kinetics_bsearch(int k, int *n);
@@ -1105,18 +1114,18 @@ public:
 	int unknown_free(struct unknown *unknown_ptr);
 	int entity_exists(char *name, int n_user);
 
-	static int exchange_compare_int(const void *ptr1, const void *ptr2);
-	static int gas_phase_compare_int(const void *ptr1, const void *ptr2);
+	//static int exchange_compare_int(const void *ptr1, const void *ptr2);
+	//static int gas_phase_compare_int(const void *ptr1, const void *ptr2);
 	static int inverse_compare(const void *ptr1, const void *ptr2);
 	int inverse_free(struct inverse *inverse_ptr);
-	static int irrev_compare(const void *ptr1, const void *ptr2);
-	static int irrev_compare_int(const void *ptr1, const void *ptr2);
+	//static int irrev_compare(const void *ptr1, const void *ptr2);
+	//static int irrev_compare_int(const void *ptr1, const void *ptr2);
 	static int kinetics_compare_int(const void *ptr1, const void *ptr2);
 	int logk_init(struct logk *logk_ptr);
 	static int master_compare_string(const void *ptr1, const void *ptr2);
 	int master_free(struct master *master_ptr);
-	static int mix_compare(const void *ptr1, const void *ptr2);
-	static int mix_compare_int(const void *ptr1, const void *ptr2);
+	//static int mix_compare(const void *ptr1, const void *ptr2);
+	//static int mix_compare_int(const void *ptr1, const void *ptr2);
 	struct phase *phase_alloc(void);
 	static int phase_compare_string(const void *ptr1, const void *ptr2);
 	int phase_free(struct phase *phase_ptr);
@@ -1132,8 +1141,8 @@ public:
 	static int solution_compare_int(const void *ptr1, const void *ptr2);
 	static int species_list_compare(const void *ptr1, const void *ptr2);
 	static int surface_compare_int(const void *ptr1, const void *ptr2);
-	static int temperature_compare(const void *ptr1, const void *ptr2);
-	static int temperature_compare_int(const void *ptr1, const void *ptr2);
+	//static int temperature_compare(const void *ptr1, const void *ptr2);
+	//static int temperature_compare_int(const void *ptr1, const void *ptr2);
 	static int rxn_token_temp_compare(const void *ptr1, const void *ptr2);
 	int trxn_multiply(LDBLE coef);
 #ifdef PHREEQCI_GUI
@@ -1144,18 +1153,18 @@ public:
 #endif
 
 	// convert class to struct (structures.cpp)
-	struct mix * cxxMix2mix(const cxxMix *mx);
+	//struct mix * cxxMix2mix(const cxxMix *mx);
 	struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
 	struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
 	//struct exchange * cxxExchange2exchange(const cxxExchange * ex);
 	//struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
-	struct master * Get_exch_master(const cxxExchComp * ec);
-	struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
-	struct gas_comp * cxxGasPhaseComp2gas_comp(const cxxGasPhase * gp);
-	struct temperature * cxxTemperature2temperature(const cxxTemperature *temp);
+	//struct master * Get_exch_master(const cxxExchComp * ec);
+	//struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
+	//struct gas_comp * cxxGasPhaseComp2gas_comp(const cxxGasPhase * gp);
+	//struct temperature * cxxTemperature2temperature(const cxxTemperature *temp);
 	struct pp_assemblage * cxxPPassemblage2pp_assemblage(const cxxPPassemblage * pp);
 	struct pure_phase * cxxPPassemblageComp2pure_phase(const std::map < std::string, cxxPPassemblageComp > * ppc);
-	struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
+	//struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
 	struct solution * cxxSolution2solution(const cxxSolution * sol);
 	struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
 	struct s_s_assemblage * cxxSSassemblage2s_s_assemblage(const cxxSSassemblage * ss);
@@ -1331,10 +1340,10 @@ protected:
 	Address Hash_multi(HashTable * Table, const char *Key);
 	void ExpandTable_multi(HashTable * Table);
 public:
-	//bool recursive_include(std::ifstream & input_stream, std::iostream & accumulated_stream);
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
 	size_t list_components(std::list<std::string> &list_c);
+	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
 protected:
 	void init(void);
 
@@ -1426,7 +1435,7 @@ protected:
 	struct copier copy_gas_phase;
 	struct copier copy_kinetics;
 	struct copier copy_mix;
-	struct copier copy_irrev;
+	struct copier copy_reaction;
 	struct copier copy_temperature;
 	struct copier copy_pressure;
 
@@ -1450,17 +1459,21 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Irreversible reaction
 	*---------------------------------------------------------------------- */
-
+	std::map<int, cxxReaction> Rxn_reaction_map;
+#ifdef SKIP
 	struct irrev *irrev;
 	struct irrev *dbg_irrev;
 	int count_irrev;
+#endif
 	/*----------------------------------------------------------------------
 	*   Gas phase
 	*---------------------------------------------------------------------- */
-
+	std::map<int, cxxGasPhase> Rxn_gas_phase_map;
+#ifdef SKIP
 	int count_gas_phase;
 	int max_gas_phase;
 	struct gas_phase *gas_phase;
+#endif
 	/*----------------------------------------------------------------------
 	*   Solid solution
 	*---------------------------------------------------------------------- */
@@ -2102,7 +2115,8 @@ public:
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
 #endif /* _INC_PHREEQC_H */
-
+#ifndef _INC_ISFINITE_H
+#define _INC_ISFINITE_H
 	/*********************************
 	isfinite handling
 	(Note: Should NOT be guarded)
@@ -2128,3 +2142,4 @@ public:
 #endif
 
 };
+#endif

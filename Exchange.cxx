@@ -127,15 +127,15 @@ cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// Exchange element and attributes
 	s_oss << indent0;
-	s_oss << "<exchange " << std::endl;
+	s_oss << "<exchange " << "\n";
 
 	s_oss << indent1;
 	s_oss << "pitzer_exchange_gammas=\"" << this->
-		pitzer_exchange_gammas << "\"" << std::endl;
+		pitzer_exchange_gammas << "\"" << "\n";
 
 	// components
 	s_oss << indent1;
-	s_oss << "<component " << std::endl;
+	s_oss << "<component " << "\n";
 	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
 		 it != exchComps.end(); ++it)
 	{
@@ -162,26 +162,26 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// Exchange element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "EXCHANGE_RAW       " << n_user_local << " " << this->description << std::endl;
+	s_oss << "EXCHANGE_RAW       " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-new_def " << this->new_def << std::endl;
+	s_oss << "-new_def " << this->new_def << "\n";
 
 	s_oss << indent1;
-	s_oss << "-exchange_gammas " << this->pitzer_exchange_gammas << std::endl;
+	s_oss << "-exchange_gammas " << this->pitzer_exchange_gammas << "\n";
 
 	s_oss << indent1;
-	s_oss << "-solution_equilibria " << this->solution_equilibria << std::endl;
+	s_oss << "-solution_equilibria " << this->solution_equilibria << "\n";
 
 	s_oss << indent1;
-	s_oss << "-n_solution " << this->n_solution << std::endl;
+	s_oss << "-n_solution " << this->n_solution << "\n";
 
 	// exchComps structures
 	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
 		 it != exchComps.end(); ++it)
 	{
 		s_oss << indent1;
-		s_oss << "-component" << std::endl;
+		s_oss << "-component" << "\n";
 		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 
@@ -236,8 +236,8 @@ cxxExchange::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input in EXCH_COMP_RAW keyword.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 
@@ -250,7 +250,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected boolean value for pitzer_exchange_gammas.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			pitzer_exchange_gammas_defined = true;
 			useLastLine = false;
@@ -290,7 +290,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected boolean value for new_def.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			useLastLine = false;
 			break;
@@ -302,7 +302,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected boolean value for solution_equilibria.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			useLastLine = false;
 			break;
@@ -314,7 +314,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected integer value for n_solution.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			useLastLine = false;
 			break;
@@ -331,7 +331,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 			parser.
 				error_msg
 				("Pitzer_exchange_gammsa not defined for EXCHANGE_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 }

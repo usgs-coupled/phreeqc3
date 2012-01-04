@@ -10,6 +10,7 @@
 #include <iostream>
 #include <exception>
 #include <list>
+#include "Keywords.h"
 
 class PhreeqcStop : std::exception
 {
@@ -18,6 +19,20 @@ class PhreeqcStop : std::exception
 class IPQ_DLL_EXPORT PHRQ_io
 {
 public:
+	enum LINE_TYPE
+	{
+		LT_EOF = -1,
+		LT_OK = 1,
+		LT_EMPTY = 2,
+		LT_KEYWORD = 3,
+		LT_OPTION = 8
+	};
+
+	enum ONERROR_TYPE
+	{
+		OT_CONTINUE = 0,
+		OT_STOP = 1
+	};
 	// constructor/destructor
 	PHRQ_io(void);
 	virtual ~ PHRQ_io();
@@ -103,6 +118,24 @@ public:
 	void Set_screen_on(bool tf)						{this->screen_on = tf;};
 	bool Get_screen_on(void)						{return this->screen_on;};
 
+	// input methods
+	LINE_TYPE get_line(void);
+	LINE_TYPE get_logical_line(void * cookie);
+	bool check_key(std::string::iterator begin, std::string::iterator end);
+	std::string & Get_m_line()       {return m_line;}
+	std::string & Get_m_line_save()  {return m_line_save;}
+	std::string & Get_accumulated()	 {return accumulated;}
+	LINE_TYPE Get_m_line_type()      {return m_line_type;};
+	void Set_accumulate(bool tf) 
+	{ 
+		if (tf)
+		{
+			accumulated.clear();
+		}
+		this->accumulate = tf; 
+	}
+	Keywords::KEYWORDS Get_m_next_keyword() const {return m_next_keyword;}
+
 	// echo 
 	enum ECHO_OPTION
 	{
@@ -136,5 +169,14 @@ protected:
 
 	std::list <std::istream *> istream_list;
 	std::list <bool> delete_istream_list;
+
+	// input data members
+	Keywords::KEYWORDS m_next_keyword;
+	std::string m_line;
+	std::string m_line_save;
+	std::string accumulated;
+	bool accumulate;
+	LINE_TYPE m_line_type;
 };
+
 #endif /* _PHRQIO_H */

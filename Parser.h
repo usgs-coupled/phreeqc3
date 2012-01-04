@@ -12,18 +12,21 @@
 #include <istream>				// std::istream
 #include "PHRQ_base.h"
 #include "Keywords.h"
+#include "PHRQ_io.h"
+
 
 
 class CParser: public PHRQ_base
 {
   public:
+	CParser(PHRQ_io *io=NULL);
 	CParser(std::istream & input, PHRQ_io *io=NULL);
-	CParser(std::istream & input, std::ostream & output, PHRQ_io *io=NULL);
-	CParser(std::istream & input, std::ostream & output,
-			std::ostream & error, PHRQ_io *io=NULL);
+	//CParser(std::istream & input, std::ostream & output, PHRQ_io *io=NULL);
+	//CParser(std::istream & input, std::ostream & output,
+	//		std::ostream & error, PHRQ_io *io=NULL);
 
 	virtual ~ CParser();
-
+#ifdef SKIP
 	enum LINE_TYPE
 	{
 		LT_EOF = -1,
@@ -32,7 +35,7 @@ class CParser: public PHRQ_base
 		LT_KEYWORD = 3,
 		LT_OPTION = 8
 	};
-
+#endif
 	enum TOKEN_TYPE
 	{
 		TT_EMPTY = 2,
@@ -48,26 +51,6 @@ class CParser: public PHRQ_base
 		FT_ERROR = 1
 	};
 
-//	enum KEY_TYPE
-//	{
-//		KT_NONE = -1,
-//		KT_END = 0,
-//		KT_EOF = 1,
-//		KT_SOLUTION_RAW = 5,
-//		KT_EXCHANGE_RAW = 6,
-//		KT_GASPHASE_RAW = 7,
-//		KT_KINETICS_RAW = 8,
-//		KT_PPASSEMBLAGE_RAW = 9,
-//		KT_SSASSEMBLAGE_RAW = 10,
-//		KT_SURFACE_RAW = 11,
-//		KT_TEMPERATURE_RAW = 12,
-//		KT_REACTION_RAW = 13,
-//		KT_MIX_RAW = 14
-//#if defined MULTICHART
-//		, KT_USER_GRAPH = 15
-//#endif
-//	};
-
 	enum OPT_TYPE
 	{
 		OPT_DEFAULT = -4,
@@ -75,13 +58,13 @@ class CParser: public PHRQ_base
 		OPT_KEYWORD = -2,
 		OPT_EOF = -1
 	};
-
+#ifdef SKIP
 	enum ONERROR_TYPE
 	{
 		OT_CONTINUE = 0,
 		OT_STOP = 1
 	};
-
+#endif
 	enum ECHO_OPTION
 	{
 		EO_NONE = 0,
@@ -116,7 +99,7 @@ class CParser: public PHRQ_base
 
            Terminates       if EOF and allow_eof == false.
         */
-	LINE_TYPE check_line(const std::string & str, bool allow_empty,
+	PHRQ_io::LINE_TYPE check_line(const std::string & str, bool allow_empty,
 						 bool allow_eof, bool allow_keyword, bool print);
 
 		/**
@@ -133,14 +116,15 @@ class CParser: public PHRQ_base
                         LT_OK,
                         LT_OPTION
         */
-	LINE_TYPE get_line();
+	PHRQ_io::LINE_TYPE get_line();
+	PHRQ_io::LINE_TYPE get_line_phrq_io();
 
 	// bool check_key(const std::string::iterator ptr);
 	bool check_key(std::string::iterator begin, std::string::iterator end);
 
-	STATUS_TYPE check_units(std::string & tot_units, bool alkalinity,
-							bool check_compatibility,
-							const std::string & default_units, bool print);
+	//STATUS_TYPE check_units(std::string & tot_units, bool alkalinity,
+	//						bool check_compatibility,
+	//						const std::string & default_units, bool print);
 
 
 	//KEY_TYPE next_keyword() const
@@ -183,15 +167,15 @@ class CParser: public PHRQ_base
 		return m_line_iss;
 	}
 	int incr_input_error();
-	std::ostream & get_output()
-	{
-		return m_output_stream;
-	}
+	//std::ostream & get_output()
+	//{
+	//	return m_output_stream;
+	//}
 	int get_input_error()
 	{
 		return m_input_error;
 	}
-
+#ifdef SKIP
 	std::istream::pos_type tellg()
 	{
 		return m_input_stream.tellg();
@@ -200,6 +184,7 @@ class CParser: public PHRQ_base
 	{
 		return m_input_stream.seekg(p);
 	} 
+#endif
 
 
 
@@ -219,18 +204,18 @@ class CParser: public PHRQ_base
                         TT_DIGIT
                         TT_UNKNOWN
         */
-	static TOKEN_TYPE copy_token(std::string & token,
+	static CParser::TOKEN_TYPE copy_token(std::string & token,
 								 std::string::iterator & begin,
 								 std::string::iterator & end);
 	static CParser::TOKEN_TYPE copy_title(std::string & token,
 										std::string::iterator & begin,
 										std::string::iterator & end);
-	static TOKEN_TYPE token_type(const std::string & token);
-	static TOKEN_TYPE copy_token(std::string & token, std::istream & is);
-	TOKEN_TYPE copy_token(std::string & token, std::istream::pos_type & pos);
+	static CParser::TOKEN_TYPE token_type(const std::string & token);
+	static CParser::TOKEN_TYPE copy_token(std::string & token, std::istream & is);
+	CParser::TOKEN_TYPE copy_token(std::string & token, std::istream::pos_type & pos);
 	bool get_true_false(std::istream::pos_type & pos, bool def);
-	TOKEN_TYPE get_rest_of_line(std::string &token);
-	static TOKEN_TYPE parse_delimited(std::string & source, std::string & result, const std::string& t);
+	CParser::TOKEN_TYPE get_rest_of_line(std::string &token);
+	static CParser::TOKEN_TYPE parse_delimited(std::string & source, std::string & result, const std::string& t);
 	CParser::TOKEN_TYPE peek_token();
 
 		/**
@@ -294,23 +279,24 @@ class CParser: public PHRQ_base
 						std::istream::pos_type & pos);
 
   protected:
-	LINE_TYPE get_logical_line();
+	PHRQ_io::LINE_TYPE get_logical_line();
 
   protected:
 	std::istream & m_input_stream;
-	std::ostream & m_output_stream;
-	std::ostream & m_error_stream;
+	//std::ostream & m_output_stream;
+	//std::ostream & m_error_stream;
 	int m_input_error;
 	//KEY_TYPE m_next_keyword;
 	Keywords::KEYWORDS m_next_keyword;
 	std::string m_line;
 	std::string m_line_save;
 	std::istringstream m_line_iss;
-	LINE_TYPE m_line_type;
+	PHRQ_io::LINE_TYPE m_line_type;
 	ECHO_OPTION echo_stream;
 	ECHO_OPTION echo_file;
 	std::string accumulated;
 	bool accumulate;
+	bool phrq_io_only;
 
 };
 

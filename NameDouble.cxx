@@ -193,7 +193,7 @@ cxxNameDouble::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	{
 		s_oss << indent0;
 		s_oss << xmlElement << xmlAtt1 << it->first << xmlAtt2 << it->
-			second << "/>" << std::endl;
+			second << "/>" << "\n";
 	}
 }
 
@@ -210,7 +210,7 @@ cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	for (const_iterator it = (*this).begin(); it != (*this).end(); it++)
 	{
 		s_oss << indent0;
-		s_oss << it->first << "   " << it->second << std::endl;
+		s_oss << it->first << "   " << it->second << "\n";
 	}
 }
 
@@ -448,7 +448,7 @@ cxxNameDouble::mpi_pack(int *ints, int *ii, LDBLE *doubles, int *dd)
 		int n = dictionary.string2int(it->first);
 		if (n < 0)
 		{
-			std::cerr << it->first << std::endl;
+			std::cerr << it->first << "\n";
 			error_msg("Name in NameDouble was not defined in dictionary?\n",
 					  STOP);
 		}

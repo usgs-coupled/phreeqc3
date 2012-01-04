@@ -375,15 +375,15 @@ cxxStorageBin::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// StorageBin element and attributes
 	s_oss << indent0;
-	s_oss << "<mix " << std::endl;
+	s_oss << "<mix " << "\n";
 
 	s_oss << indent1;
 	s_oss << "pitzer_mix_gammas=\"" << this->
-		pitzer_mix_gammas << "\"" << std::endl;
+		pitzer_mix_gammas << "\"" << "\n";
 
 	// components
 	s_oss << indent1;
-	s_oss << "<component " << std::endl;
+	s_oss << "<component " << "\n";
 	for (std::list < cxxStorageBinComp >::const_iterator it =
 		 mixComps.begin(); it != mixComps.end(); ++it)
 	{
@@ -505,13 +505,13 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent, int *n
 void
 cxxStorageBin::read_raw(CParser & parser)
 {
-	CParser::LINE_TYPE i;
+	PHRQ_io::LINE_TYPE i;
 	while ((i =
 			parser.check_line("StorageBin read_raw", false, true, true,
-							  true)) != CParser::LT_KEYWORD)
+							  true)) != PHRQ_io::LT_KEYWORD)
 	{
-		if (i == CParser::LT_EOF)
-			return;				// CParser::LT_EOF;
+		if (i == PHRQ_io::LT_EOF)
+			return;				// PHRQ_io::LT_EOF;
 	}
 
 	for (;;)
@@ -624,13 +624,13 @@ cxxStorageBin::read_raw(CParser & parser)
 	}
 
   END_OF_SIMULATION_INPUT:
-	return;						//CParser::LT_OK;
+	return;						//PHRQ_io::LT_OK;
 }
 
 int
 cxxStorageBin::read_raw_keyword(CParser & parser)
 {
-	CParser::LINE_TYPE i;
+	PHRQ_io::LINE_TYPE i;
 	int entity_number = -999;
 
 	switch (parser.next_keyword())
@@ -641,10 +641,10 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	case Keywords::KEY_END:
 		while ((i =
 				parser.check_line("StorageBin read_raw_keyword", false, true,
-								  true, true)) != CParser::LT_KEYWORD)
+								  true, true)) != PHRQ_io::LT_KEYWORD)
 		{
-			if (i == CParser::LT_EOF)
-				break;			// CParser::LT_EOF;
+			if (i == PHRQ_io::LT_EOF)
+				break;			// PHRQ_io::LT_EOF;
 		}
 		break;
 	/*case CParser::KT_EOF:
@@ -753,7 +753,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	default:
 		break;
 	}
-	return (entity_number);		//CParser::LT_OK;
+	return (entity_number);		//PHRQ_io::LT_OK;
 }
 
 //void
@@ -1060,7 +1060,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	{
 		ints.push_back(0);
 	}
-	//std::cerr << "Packed Solution" << std::endl;
+	//std::cerr << "Packed Solution" << "\n";
 
 	// Exchanger
 	if (this->getExchange(n) != NULL)
@@ -1072,7 +1072,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	{
 		ints.push_back(0);
 	}
-	//std::cerr << "Packed Exchange" << std::endl;
+	//std::cerr << "Packed Exchange" << "\n";
 
 	// GasPhase
 	if (this->getGasPhase(n) != NULL)
@@ -1084,7 +1084,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	{
 		ints.push_back(0);
 	}
-	//std::cerr << "Packed GasPhase" << std::endl;
+	//std::cerr << "Packed GasPhase" << "\n";
 
 	// Kinetics
 	if (this->getKinetics(n) != NULL)
@@ -1096,7 +1096,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	{
 		ints.push_back(0);
 	}
-	//std::cerr << "Packed Kinetics" << std::endl;
+	//std::cerr << "Packed Kinetics" << "\n";
 
 	// PPassemblages
 	if (this->getPPassemblage(n) != NULL)
@@ -1108,7 +1108,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	{
 		ints.push_back(0);
 	}
-	//std::cerr << "Packed PPassemblage" << std::endl;
+	//std::cerr << "Packed PPassemblage" << "\n";
 
 	// SSassemblages
 	if (this->getSSassemblage(n) != NULL)
@@ -1120,7 +1120,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	{
 		ints.push_back(0);
 	}
-	//std::cerr << "Packed SSassemblage" << std::endl;
+	//std::cerr << "Packed SSassemblage" << "\n";
 
 	// Surfaces
 	if (this->getSurface(n) != NULL)
@@ -1132,7 +1132,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	{
 		ints.push_back(0);
 	}
-	//std::cerr << "Packed Surface" << std::endl;
+	//std::cerr << "Packed Surface" << "\n";
 
 	// Pack data
 	int max_size = 0;
@@ -1155,11 +1155,11 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	/*
 	   for (int j = 0; j < i; j++) {
 	   int_array[j] = ints[j];
-	   //std::cerr << "Sending ints " << j << " value " << ints[j] << std::endl;
+	   //std::cerr << "Sending ints " << j << " value " << ints[j] << "\n";
 	   }
 	   for (int j = 0; j < d; j++) {
 	   double_array[j] = doubles[j];
-	   //std::cerr << "Sending doubles " << j << " value " << doubles[j] << std::endl;
+	   //std::cerr << "Sending doubles " << j << " value " << doubles[j] << "\n";
 	   }
 	 */
 	/*
@@ -1243,7 +1243,7 @@ cxxStorageBin::mpi_recv(int task_number)
 		entity.mpi_unpack(ints, &i, doubles, &d);
 		this->setSolution(entity.Get_n_user(), &entity);
 	}
-	//std::cerr << "Unpacked Solution" << std::endl;
+	//std::cerr << "Unpacked Solution" << "\n";
 
 	// Exchanger
 	if (ints[i++] != 0)
@@ -1252,7 +1252,7 @@ cxxStorageBin::mpi_recv(int task_number)
 		entity.mpi_unpack(ints, &i, doubles, &d);
 		this->setExchange(entity.Get_n_user(), &entity);
 	}
-	//std::cerr << "Unpacked Exchange" << std::endl;
+	//std::cerr << "Unpacked Exchange" << "\n";
 
 	// GasPhase
 	if (ints[i++] != 0)
@@ -1261,7 +1261,7 @@ cxxStorageBin::mpi_recv(int task_number)
 		entity.mpi_unpack(ints, &i, doubles, &d);
 		this->setGasPhase(entity.Get_n_user(), &entity);
 	}
-	//std::cerr << "Unpacked GasPhase" << std::endl;
+	//std::cerr << "Unpacked GasPhase" << "\n";
 
 	// Kinetics
 	if (ints[i++] != 0)
@@ -1270,7 +1270,7 @@ cxxStorageBin::mpi_recv(int task_number)
 		entity.mpi_unpack(ints, &i, doubles, &d);
 		this->setKinetics(entity.Get_n_user(), &entity);
 	}
-	//std::cerr << "Unpacked Kinetics" << std::endl;
+	//std::cerr << "Unpacked Kinetics" << "\n";
 
 	// PPassemblage
 	if (ints[i++] != 0)
@@ -1279,7 +1279,7 @@ cxxStorageBin::mpi_recv(int task_number)
 		entity.mpi_unpack(ints, &i, doubles, &d);
 		this->setPPassemblage(entity.Get_n_user(), &entity);
 	}
-	//std::cerr << "Unpacked PPassemblage" << std::endl;
+	//std::cerr << "Unpacked PPassemblage" << "\n";
 
 	// SSassemblage
 	if (ints[i++] != 0)
@@ -1288,7 +1288,7 @@ cxxStorageBin::mpi_recv(int task_number)
 		entity.mpi_unpack(ints, &i, doubles, &d);
 		this->setSSassemblage(entity.Get_n_user(), &entity);
 	}
-	//std::cerr << "Unpacked SSassemblage" << std::endl;
+	//std::cerr << "Unpacked SSassemblage" << "\n";
 
 	// Surfaces
 	if (ints[i++] != 0)
@@ -1297,7 +1297,7 @@ cxxStorageBin::mpi_recv(int task_number)
 		entity.mpi_unpack(ints, &i, doubles, &d);
 		this->setSurface(entity.Get_n_user(), &entity);
 	}
-	//std::cerr << "Unpacked Surface" << std::endl;
+	//std::cerr << "Unpacked Surface" << "\n";
 
 	delete[]ints;
 	delete[]doubles;
@@ -1503,10 +1503,10 @@ cxxStorageBin::Set_System(struct Use *use_ptr)
 		}
 	}
 	// reaction
-	if (use_ptr->irrev_ptr != NULL)
+	if (use_ptr->reaction_ptr != NULL)
 	{
 		std::map < int, cxxReaction >::iterator it =
-			this->Reactions.find(use_ptr->n_irrev_user);
+			this->Reactions.find(use_ptr->n_reaction_user);
 		if (it != this->Reactions.end())
 		{
 			this->system.Set_Reaction(&(it->second));

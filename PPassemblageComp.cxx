@@ -73,21 +73,21 @@ cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// Pure_Phase element and attributes
 
-	s_oss << indent0 << "name=\"" << this->name << "\"" << std::endl;
+	s_oss << indent0 << "name=\"" << this->name << "\"" << "\n";
 	s_oss << indent0 << "add_formula=\"" << this->
-		add_formula << "\"" << std::endl;
-	s_oss << indent0 << "si=\"" << this->si << "\"" << std::endl;
-	s_oss << indent0 << "si_org=\"" << this->si_org << "\"" << std::endl;
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << std::endl;
-	s_oss << indent0 << "delta=\"" << this->delta << "\"" << std::endl;
+		add_formula << "\"" << "\n";
+	s_oss << indent0 << "si=\"" << this->si << "\"" << "\n";
+	s_oss << indent0 << "si_org=\"" << this->si_org << "\"" << "\n";
+	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
+	s_oss << indent0 << "delta=\"" << this->delta << "\"" << "\n";
 	s_oss << indent0 << "initial_moles=\"" << this->
-		initial_moles << "\"" << std::endl;
+		initial_moles << "\"" << "\n";
 	s_oss << indent0 << "force_equality=\"" << this->
-		force_equality << "\"" << std::endl;
+		force_equality << "\"" << "\n";
 	s_oss << indent0 << "dissolve_only=\"" << this->
-		dissolve_only << "\"" << std::endl;
+		dissolve_only << "\"" << "\n";
 	s_oss << indent0 << "precipitate_only=\"" << this->
-		precipitate_only << "\"" << std::endl;
+		precipitate_only << "\"" << "\n";
 
 }
 
@@ -108,17 +108,17 @@ cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	// Pure_Phase element and attributes
 
 	if (this->name.size() != 0)
-		s_oss << indent0 << "-name                  " << this->name << std::endl;
+		s_oss << indent0 << "-name                  " << this->name << "\n";
 	if (this->add_formula.size() != 0)
-		s_oss << indent1 << "-add_formula           " << this->add_formula << std::endl;
-	s_oss << indent1 << "-si                    " << this->si << std::endl;
-	s_oss << indent1 << "-si_org                " << this->si_org << std::endl;
-	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
-	s_oss << indent1 << "-delta                 " << this->delta << std::endl;
-	s_oss << indent1 << "-initial_moles         " << this->initial_moles << std::endl;
-	s_oss << indent1 << "-force_equality        " << this->force_equality << std::endl;
-	s_oss << indent1 << "-dissolve_only         " << this->dissolve_only << std::endl;
-	s_oss << indent1 << "-precipitate_only      " << this->precipitate_only << std::endl;
+		s_oss << indent1 << "-add_formula           " << this->add_formula << "\n";
+	s_oss << indent1 << "-si                    " << this->si << "\n";
+	s_oss << indent1 << "-si_org                " << this->si_org << "\n";
+	s_oss << indent1 << "-moles                 " << this->moles << "\n";
+	s_oss << indent1 << "-delta                 " << this->delta << "\n";
+	s_oss << indent1 << "-initial_moles         " << this->initial_moles << "\n";
+	s_oss << indent1 << "-force_equality        " << this->force_equality << "\n";
+	s_oss << indent1 << "-dissolve_only         " << this->dissolve_only << "\n";
+	s_oss << indent1 << "-precipitate_only      " << this->precipitate_only << "\n";
 }
 
 void
@@ -176,8 +176,8 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in PURE_PHASE read.", CParser::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+			//parser.error_msg("Unknown input in PURE_PHASE read.", PHRQ_io::OT_CONTINUE);
+			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// name
@@ -186,7 +186,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for name.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -201,7 +201,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->add_formula.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for add_formula.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -215,7 +215,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->si = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for si.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			si_defined = true;
 			break;
@@ -226,7 +226,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->moles = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for moles.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			moles_defined = true;
 			break;
@@ -237,7 +237,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->delta = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for delta.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			delta_defined = true;
 			break;
@@ -248,7 +248,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->initial_moles = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for initial_moles.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			initial_moles_defined = true;
 			break;
@@ -260,7 +260,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->dissolve_only = false;
 				parser.incr_input_error();
 				parser.error_msg("Expected boolean value for dissolve_only.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			dissolve_only_defined = true;
 			if (this->dissolve_only)
@@ -275,7 +275,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->force_equality = false;
 				parser.incr_input_error();
 				parser.error_msg("Expected boolean value for force_equality.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			force_equality_defined = true;
 			break;
@@ -286,7 +286,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->precipitate_only = false;
 				parser.incr_input_error();
 				parser.error_msg("Expected boolean value for precipitate_only.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			precipitate_only_defined = true;
 			if (this->precipitate_only)
@@ -300,7 +300,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				this->si_org = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for si_org.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			si_org_defined = true;
 			break;
@@ -315,37 +315,37 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Name not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (si_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Si not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (moles_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Moles not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (delta_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Delta not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (initial_moles_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Initial_moles not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (dissolve_only_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Dissolve_only not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		/* don't check to maintain backward compatibility
 		if (precipitate_only_defined == false)
@@ -353,7 +353,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		parser.incr_input_error();
 		parser.
 		error_msg("Precipitate_only not defined for PPassemblageComp input.",
-		CParser::OT_CONTINUE);
+		PHRQ_io::OT_CONTINUE);
 		}
 		*/
 		if (force_equality_defined == false)
@@ -361,13 +361,13 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 			parser.incr_input_error();
 			parser.error_msg
 				("Force_equality not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (si_org_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Si_org not defined for PPassemblageComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 }

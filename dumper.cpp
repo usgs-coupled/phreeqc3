@@ -2,6 +2,7 @@
 
 #include "dumper.h"
 #include "Parser.h"
+#include "PHRQ_io.h"
 
 dumper::dumper(PHRQ_io *io)
 :
@@ -170,7 +171,7 @@ bool dumper::Read(CParser & parser)
 				else
 				{
 					parser.error_msg("Expected single number or range of numbers.",
-						CParser::OT_CONTINUE);
+						PHRQ_io::OT_CONTINUE);
 				}
 			}
 		}
@@ -241,8 +242,8 @@ bool dumper::Read(CParser & parser)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input reading DUMP definition.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			return_value = false;
 			break;
@@ -393,7 +394,7 @@ bool dumper::Read(CParser & parser)
 				else
 				{
 					parser.error_msg("Expected single number or range of numbers.",
-						CParser::OT_CONTINUE);
+						PHRQ_io::OT_CONTINUE);
 				}
 			}
 		}
@@ -465,8 +466,8 @@ bool dumper::Read(CParser & parser)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input reading DUMP definition.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			return_value = false;
 			break;

@@ -32,15 +32,16 @@ public:
 	bool Get_pitzer_exchange_gammas() const;
 	void Set_pitzer_exchange_gammas(bool b);
 
-	bool Get_new_def(void) const {return this->new_def;};
-	void Set_new_def(bool tf) {this->new_def = tf;};
-	bool Get_solution_equilibria(void) const {return this->solution_equilibria;};
-	void Set_solution_equilibria(bool tf) {this->solution_equilibria = tf;};
-	int Get_n_solution(void) const {return this->n_solution;};
-	void Set_n_solution(int i) {this->n_solution = i;};
+	bool Get_new_def(void) const {return this->new_def;}
+	void Set_new_def(bool tf) {this->new_def = tf;}
+	bool Get_solution_equilibria(void) const {return this->solution_equilibria;}
+	void Set_solution_equilibria(bool tf) {this->solution_equilibria = tf;}
+	int Get_n_solution(void) const {return this->n_solution;}
+	void Set_n_solution(int i) {this->n_solution = i;}
 	cxxExchComp *ExchComp_find(std::string s);
 
-	std::map < std::string, cxxExchComp > &Get_exchComps(void) ;
+	std::map < std::string, cxxExchComp > &Get_exchComps(void);
+
 	void totalize();
 
 	const cxxNameDouble & Get_totals() const;

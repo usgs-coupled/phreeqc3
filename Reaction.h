@@ -15,20 +15,25 @@ class cxxReaction:public cxxNumKeyword
 
   public:
 	cxxReaction(PHRQ_io *io = NULL);
-	cxxReaction(struct irrev *, PHRQ_io *io = NULL);
+	//cxxReaction(struct irrev *, PHRQ_io *io = NULL);
 	 ~cxxReaction();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
-	void read_raw(CParser & parser, bool check);
-	const cxxNameDouble &Get_elementList(void) const {return this->elementList;};
-	const cxxNameDouble &Get_reactantList(void) const {return this->reactantList;};
-	const std::vector < double > &Get_steps(void) const {return this->steps;};
-	int Get_countSteps(void) const {return this->countSteps;};
-	bool Get_equalIncrements(void) const {return this->equalIncrements;};
-	const std::string &Get_units(void) const {return this->units;};
+	void read_raw(CParser & parser, bool check=true);
+	const cxxNameDouble &Get_elementList(void) const {return this->elementList;}
+	void Set_elementList(cxxNameDouble nd) {this->elementList = nd;}
+	cxxNameDouble &Get_reactantList(void) {return this->reactantList;}
+	std::vector < double > &Get_steps(void) {return this->steps;}
+	void Set_steps(std::vector<LDBLE> &v) {steps = v;}
+	int Get_actualSteps(void) const;
+	int Get_countSteps(void) const {return this->countSteps;}
+	void Set_countSteps(int i) {countSteps = i;}
+	bool Get_equalIncrements(void) const {return this->equalIncrements;}
+	void Set_equalIncrements(bool tf) {equalIncrements = tf;}
+	const std::string &Get_units(void) const {return this->units;}
 
 	void Set_units(const char * s)
 	{

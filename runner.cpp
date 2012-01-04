@@ -95,7 +95,7 @@ bool runner::Read(CParser & parser)
 				else
 				{
 					parser.error_msg("Expected single number or range of numbers.",
-						CParser::OT_CONTINUE);
+						PHRQ_io::OT_CONTINUE);
 				}
 			}			
 			break;
@@ -103,8 +103,8 @@ bool runner::Read(CParser & parser)
 			if (!(parser.get_iss() >> this->start_time))
 			{
 				parser.error_msg("Expected start_time for RUN_CELLS.",
-					CParser::OT_CONTINUE);
-				parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
+				parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			}
 			break;
 		case 3:				//time_step
@@ -114,8 +114,8 @@ bool runner::Read(CParser & parser)
 			if (!(parser.get_iss() >> this->time_step))
 			{
 				parser.error_msg("Expected time_step for RUN_CELLS.",
-					CParser::OT_CONTINUE);
-				parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
+				parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			}
 			break;
 		default:
@@ -123,8 +123,8 @@ bool runner::Read(CParser & parser)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input reading RUN_CELLS definition.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			return_value = false;
 			break;

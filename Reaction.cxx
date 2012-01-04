@@ -29,6 +29,7 @@ cxxReaction::cxxReaction(PHRQ_io *io)
 	reactantList.type = cxxNameDouble::ND_NAME_COEF;
 	elementList.type = cxxNameDouble::ND_ELT_MOLES;
 }
+#ifdef SKIP
 cxxReaction::cxxReaction(struct irrev *irrev_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxReaction from struct irrev
@@ -64,7 +65,7 @@ elementList(irrev_ptr->elts)
 		this->equalIncrements = false;
 	}
 }
-
+#endif
 cxxReaction::~cxxReaction()
 {
 }
@@ -86,15 +87,15 @@ cxxReaction::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// Reaction element and attributes
 	s_oss << indent0;
-	s_oss << "<irrev " << std::endl;
+	s_oss << "<irrev " << "\n";
 
 	s_oss << indent1;
 	s_oss << "pitzer_irrev_gammas=\"" << this->
-		pitzer_irrev_gammas << "\"" << std::endl;
+		pitzer_irrev_gammas << "\"" << "\n";
 
 	// components
 	s_oss << indent1;
-	s_oss << "<component " << std::endl;
+	s_oss << "<component " << "\n";
 	for (std::list < cxxReactionComp >::const_iterator it =
 		 irrevComps.begin(); it != irrevComps.end(); ++it)
 	{
@@ -122,21 +123,21 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// Reaction element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "REACTION_RAW        " << n_user_local << " " << this->description << std::endl;
+	s_oss << "REACTION_RAW        " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-units              " << this->units << std::endl;
+	s_oss << "-units              " << this->units << "\n";
 
 	s_oss << indent1;
-	s_oss << "-reactant_list      " << std::endl;
+	s_oss << "-reactant_list      " << "\n";
 	this->reactantList.dump_raw(s_oss, indent + 2);
 
 	s_oss << indent1;
-	s_oss << "-element_list       " << std::endl;
+	s_oss << "-element_list       " << "\n";
 	this->elementList.dump_raw(s_oss, indent + 2);
 
 	s_oss << indent1;
-	s_oss << "-steps              " << std::endl;
+	s_oss << "-steps              " << "\n";
 	{
 		int i = 0;
 		s_oss << indent2;
@@ -145,20 +146,20 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 		{
 			if (i++ == 5)
 			{
-				s_oss << std::endl;
+				s_oss << "\n";
 				s_oss << indent2;
 				i = 0;
 			}
 			s_oss << *it << " ";
 		}
-		s_oss << std::endl;
+		s_oss << "\n";
 	}
 
 	s_oss << indent1;
-	s_oss << "-equal_increments   " << this->equalIncrements << std::endl;
+	s_oss << "-equal_increments   " << this->equalIncrements << "\n";
 
 	s_oss << indent1;
-	s_oss << "-count_steps        " << this->countSteps << std::endl;
+	s_oss << "-count_steps        " << this->countSteps << "\n";
 
 
 }
@@ -224,8 +225,8 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input in IRREV_COMP_RAW keyword.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 
@@ -245,7 +246,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 			{
 				parser.incr_input_error();
 				parser.error_msg("Expected reactant formula and coefficient.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 1;
 			useLastLine = false;
@@ -257,7 +258,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 			{
 				parser.incr_input_error();
 				parser.error_msg("Expected element formula and coefficient.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 2;
 			useLastLine = false;
@@ -277,7 +278,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 				{
 					parser.incr_input_error();
 					parser.error_msg("Expected numeric value for steps.",
-									 CParser::OT_CONTINUE);
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -295,7 +296,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected boolean value for equalIncrements.",
-							  CParser::OT_CONTINUE);
+							  PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
@@ -308,7 +309,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 				this->countSteps = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for countSteps.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
@@ -325,20 +326,29 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Units not defined for REACTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (equalIncrements_defined == false)
 		{
 			parser.incr_input_error();
 			parser.
 				error_msg("Equal_increments not defined for REACTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (countSteps_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Count_steps not defined for REACTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
+}
+int cxxReaction::
+Get_actualSteps(void) const
+{
+	if (equalIncrements) 
+	{
+		return this->countSteps;
+	}
+	return (int) this->steps.size();
 }

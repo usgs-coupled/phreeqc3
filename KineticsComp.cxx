@@ -73,32 +73,32 @@ cxxKineticsComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// Kinetics_Comp element and attributes
 
-	s_oss << indent0 << "formula=\"" << this->formula << "\"" << std::endl;
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << std::endl;
-	s_oss << indent0 << "la=\"" << this->la << "\"" << std::endl;
+	s_oss << indent0 << "formula=\"" << this->formula << "\"" << "\n";
+	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
+	s_oss << indent0 << "la=\"" << this->la << "\"" << "\n";
 	s_oss << indent0 << "charge_balance=\"" << this->
-		charge_balance << "\"" << std::endl;
+		charge_balance << "\"" << "\n";
 	if (this->phase_name != NULL)
 	{
 		s_oss << indent0 << "phase_name=\"" << this->
-			phase_name << "\"" << std::endl;
+			phase_name << "\"" << "\n";
 	}
 	if (this->rate_name != NULL)
 	{
 		s_oss << indent0 << "rate_name=\"" << this->
-			rate_name << "\"" << std::endl;
+			rate_name << "\"" << "\n";
 	}
 	s_oss << indent0 << "phase_proportion=\"" << this->
-		phase_proportion << "\"" << std::endl;
+		phase_proportion << "\"" << "\n";
 
 	// totals
 	s_oss << indent0;
-	s_oss << "<totals " << std::endl;
+	s_oss << "<totals " << "\n";
 	this->totals.dump_xml(s_oss, indent + 1);
 
 	// formula_totals
 	s_oss << indent0;
-	s_oss << "<formula_totals " << std::endl;
+	s_oss << "<formula_totals " << "\n";
 	this->formula_totals.dump_xml(s_oss, indent + 1);
 }
 #endif
@@ -119,20 +119,20 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	// Kinetics_Comp element and attributes
 
 	s_oss << indent0 << "-rate_name             " << this->
-		rate_name << std::endl;
-	s_oss << indent1 << "-tol                   " << this->tol << std::endl;
-	s_oss << indent1 << "-m                     " << this->m << std::endl;
-	s_oss << indent1 << "-m0                    " << this->m0 << std::endl;
-	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
+		rate_name << "\n";
+	s_oss << indent1 << "-tol                   " << this->tol << "\n";
+	s_oss << indent1 << "-m                     " << this->m << "\n";
+	s_oss << indent1 << "-m0                    " << this->m0 << "\n";
+	s_oss << indent1 << "-moles                 " << this->moles << "\n";
 
 	// namecoef
 	s_oss << indent1;
-	s_oss << "-namecoef" << std::endl;
+	s_oss << "-namecoef" << "\n";
 	this->namecoef.dump_raw(s_oss, indent + 2);
 
 	// d_params
 	s_oss << indent1;
-	s_oss << "-d_params" << std::endl;
+	s_oss << "-d_params" << "\n";
 	{
 		int i = 0;
 		s_oss << indent2;
@@ -141,13 +141,13 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		{
 			if (i++ == 5)
 			{
-				s_oss << std::endl;
+				s_oss << "\n";
 				s_oss << indent2;
 				i = 0;
 			}
 			s_oss << *it << " ";
 		}
-		s_oss << std::endl;
+		s_oss << "\n";
 	}
 }
 
@@ -202,8 +202,8 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Kinetics for more processing
-			//parser.error_msg("Unknown input in KINETICS_COMP read.", CParser::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+			//parser.error_msg("Unknown input in KINETICS_COMP read.", PHRQ_io::OT_CONTINUE);
+			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// rate_name
@@ -212,7 +212,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				this->rate_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for rate_name.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -227,7 +227,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				this->tol = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for tol.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			tol_defined = true;
 			break;
@@ -238,7 +238,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				this->m = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for m.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			m_defined = true;
 			break;
@@ -249,7 +249,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				this->m0 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for m0.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			m0_defined = true;
 			break;
@@ -261,7 +261,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				this->moles = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for moles.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			moles_defined = true;
 			break;
@@ -275,7 +275,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for namecoef.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 5;
 			break;
@@ -304,31 +304,31 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Rate_name not defined for KineticsComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (tol_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Tol not defined for KineticsComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (m_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("M not defined for KineticsComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (m0_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("M0 not defined for KineticsComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (moles_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Moles not defined for KineticsComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 }
