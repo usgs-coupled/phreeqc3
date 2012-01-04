@@ -217,6 +217,7 @@ class CParser: public PHRQ_base
 	CParser::TOKEN_TYPE get_rest_of_line(std::string &token);
 	static CParser::TOKEN_TYPE parse_delimited(std::string & source, std::string & result, const std::string& t);
 	CParser::TOKEN_TYPE peek_token();
+	PHRQ_io::LINE_TYPE get_m_line_type(void) const {return this->m_line_type;}
 
 		/**
                 Function reads an element name out of the equation string.
