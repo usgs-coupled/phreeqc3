@@ -169,7 +169,7 @@ cxxISolutionComp::STATUS_TYPE cxxISolutionComp::read(CParser & parser,
 		parser.
 			error_msg
 			("No element or master species given for concentration input.",
-			 CParser::OT_CONTINUE);
+			 PHRQ_io::OT_CONTINUE);
 		return cxxISolutionComp::ERROR;
 	}
 	description = token1;
@@ -189,7 +189,7 @@ cxxISolutionComp::STATUS_TYPE cxxISolutionComp::read(CParser & parser,
 		std::ostringstream err;
 		err << "Concentration data error for " << token1 <<
 			" in solution input.";
-		parser.error_msg(err, CParser::OT_CONTINUE);
+		parser.error_msg(err, PHRQ_io::OT_CONTINUE);
 		return cxxISolutionComp::ERROR;
 	}
 	if ((j = parser.copy_token(token, ptr)) == CParser::TT_EMPTY)
@@ -232,7 +232,7 @@ cxxISolutionComp::STATUS_TYPE cxxISolutionComp::read(CParser & parser,
 		if (parser.copy_token(token, ptr) != CParser::TT_DIGIT)
 		{
 			parser.error_msg("Expecting gram formula weight.",
-							 CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
 			return cxxISolutionComp::ERROR;
 		}
 		else
@@ -272,7 +272,7 @@ cxxISolutionComp::STATUS_TYPE cxxISolutionComp::read(CParser & parser,
 	// Check for saturation index
 	if (!(std::istringstream(token) >> this->phase_si))
 	{
-		parser.error_msg("Expected saturation index.", CParser::OT_CONTINUE);
+		parser.error_msg("Expected saturation index.", PHRQ_io::OT_CONTINUE);
 		return cxxISolutionComp::ERROR;
 	}
 	return cxxISolutionComp::OK;
@@ -295,6 +295,6 @@ cxxISolutionComp::dump_xml(std::ostream & s_oss, unsigned int indent) const cons
 
 	s_oss << " conc_moles=\"" << this->moles << "\"";
 
-	s_oss << "\">" << std::endl;
+	s_oss << "\">" << "\n";
 }
 #endif

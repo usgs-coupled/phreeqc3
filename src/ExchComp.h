@@ -121,8 +121,8 @@ class cxxExchComp: public PHRQ_base
 		this->formula_totals = nd;
 	}
 
-	cxxNameDouble & Get_totals() {return (this->totals);};
-	cxxNameDouble & Get_formula_totals(void) {return this->formula_totals;};
+	cxxNameDouble & Get_totals() {return (this->totals);}
+	cxxNameDouble & Get_formula_totals(void) {return this->formula_totals;}
 
 
 	void add(const cxxExchComp & comp, double extensive);

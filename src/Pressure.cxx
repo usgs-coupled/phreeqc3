@@ -48,7 +48,7 @@ cxxPressure::read(CParser & parser)
  */
 	// Number and description set in read_reaction_pressure
 
-	CParser::LINE_TYPE lt;
+	PHRQ_io::LINE_TYPE lt;
 	bool done = false;
 	for (;;)
 	{
@@ -60,21 +60,21 @@ cxxPressure::read(CParser & parser)
 		std::string token, str;
 		lt = parser.check_line(str, false, true, true, true);
 
-		if (lt == CParser::LT_EMPTY || 
-			lt == CParser::LT_KEYWORD ||
-			lt == CParser::LT_EOF)
+		if (lt == PHRQ_io::LT_EMPTY || 
+			lt == PHRQ_io::LT_KEYWORD ||
+			lt == PHRQ_io::LT_EOF)
 		{
 			break;
 		}
-		if (lt == CParser::LT_OPTION)
+		if (lt == PHRQ_io::LT_OPTION)
 		{
-			this->error_msg("Expected numeric value for pressures.", CParser::OT_CONTINUE);
+			this->error_msg("Expected numeric value for pressures.", PHRQ_io::OT_CONTINUE);
 			break;
 		}
 
 		if (done)
 		{
-			this->error_msg("Unknown input following equal increment definition.", CParser::OT_CONTINUE);
+			this->error_msg("Unknown input following equal increment definition.", PHRQ_io::OT_CONTINUE);
 			continue;
 		}
 
@@ -101,7 +101,7 @@ cxxPressure::read(CParser & parser)
 				if (!(iss >> d))
 				{
 					this->error_msg("Expected numeric value for pressures.",
-									 CParser::OT_CONTINUE);
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -165,18 +165,18 @@ cxxPressure::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "REACTION_PRESSURE_RAW        " << n_user_local << " " << this->description << std::endl;
+	s_oss << "REACTION_PRESSURE_RAW        " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-count              " << this->count << std::endl;
+	s_oss << "-count              " << this->count << "\n";
 
 	s_oss << indent1;
-	s_oss << "-equal_increments   " << this->equalIncrements << std::endl;
+	s_oss << "-equal_increments   " << this->equalIncrements << "\n";
 
 	// Temperature element and attributes
 
 	s_oss << indent1;
-	s_oss << "-pressures          " << std::endl;
+	s_oss << "-pressures          " << "\n";
 	{
 		int i = 0;
 		s_oss << indent2;
@@ -185,13 +185,13 @@ cxxPressure::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 		{
 			if (i++ == 5)
 			{
-				s_oss << std::endl;
+				s_oss << "\n";
 				s_oss << indent2;
 				i = 0;
 			}
 			s_oss << *it << " ";
 		}
-		s_oss << std::endl;
+		s_oss << "\n";
 	}
 }
 
@@ -218,6 +218,7 @@ cxxPressure::read_raw(CParser & parser)
 	bool useLastLine(false);
 
 	// Number and description set in read_reaction_pressure_raw
+	this->read_number_description(parser);
 
 	opt_save = CParser::OPT_ERROR;
 	bool equalIncrements_defined(false);
@@ -248,8 +249,8 @@ cxxPressure::read_raw(CParser & parser)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input in REACTION_PRESSURE_RAW keyword.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 
@@ -266,7 +267,7 @@ cxxPressure::read_raw(CParser & parser)
 				{
 					parser.incr_input_error();
 					parser.error_msg("Expected numeric value for pressures.",
-									 CParser::OT_CONTINUE);
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -282,7 +283,7 @@ cxxPressure::read_raw(CParser & parser)
 			{
 				this->equalIncrements = 0;
 				parser.incr_input_error();
-				parser.error_msg("Expected boolean value for equalIncrements.", CParser::OT_CONTINUE);
+				parser.error_msg("Expected boolean value for equalIncrements.", PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
@@ -294,7 +295,7 @@ cxxPressure::read_raw(CParser & parser)
 			{
 				this->count = 0;
 				parser.incr_input_error();
-				parser.error_msg("Expected integer value for count.", CParser::OT_CONTINUE);
+				parser.error_msg("Expected integer value for count.", PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
@@ -309,13 +310,13 @@ cxxPressure::read_raw(CParser & parser)
 	{
 		parser.incr_input_error();
 		parser.error_msg("Equal_increments not defined for REACTION_PRESSURE_RAW input.", 
-			CParser::OT_CONTINUE);
+			PHRQ_io::OT_CONTINUE);
 	}
 	if (count_defined == false)
 	{
 		parser.incr_input_error();
 		parser.error_msg("Count_temps not defined for REACTION_PRESSURE_RAW input.",
-			 CParser::OT_CONTINUE);
+			 PHRQ_io::OT_CONTINUE);
 	}
 }
 #ifdef SKIP
@@ -335,15 +336,15 @@ cxxPressure::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// Temperature element and attributes
 	s_oss << indent0;
-	s_oss << "<temperature " << std::endl;
+	s_oss << "<temperature " << "\n";
 
 	s_oss << indent1;
 	s_oss << "pitzer_temperature_gammas=\"" << this->
-		pitzer_temperature_gammas << "\"" << std::endl;
+		pitzer_temperature_gammas << "\"" << "\n";
 
 	// components
 	s_oss << indent1;
-	s_oss << "<component " << std::endl;
+	s_oss << "<component " << "\n";
 	for (std::list < cxxPressureComp >::const_iterator it =
 		 temperatureComps.begin(); it != temperatureComps.end(); ++it)
 	{

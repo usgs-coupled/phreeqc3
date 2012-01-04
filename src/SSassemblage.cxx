@@ -90,14 +90,14 @@ cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// SSassemblage element and attributes
 	s_oss << indent0;
-	s_oss << "<EQUILIBRIUM_PHASES " << std::endl;
+	s_oss << "<EQUILIBRIUM_PHASES " << "\n";
 
 	// eltList
 	this->eltList.dump_xml(s_oss, indent + 1);
 
 	// ssAssemblageSSs
 	s_oss << indent1;
-	s_oss << "<pure_phases " << std::endl;
+	s_oss << "<pure_phases " << "\n";
 	for (std::list < cxxSSassemblageSS >::const_iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
@@ -122,14 +122,14 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 	// SSassemblage element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "SOLID_SOLUTIONS_RAW       " << n_user_local << " " << this->description << std::endl;
+	s_oss << "SOLID_SOLUTIONS_RAW       " << n_user_local << " " << this->description << "\n";
 
 	// ssAssemblageSSs
 	for (std::map < std::string, cxxSSassemblageSS >::const_iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
 		s_oss << indent1;
-		s_oss << "-solid_solution" << std::endl;
+		s_oss << "-solid_solution" << "\n";
 		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 }
@@ -181,8 +181,8 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 			opt = CParser::OPT_EOF;
 			parser.
 				error_msg("Unknown input in SOLID_SOLUTIONS_RAW or SOLID_SOLUTIONS_MODIFY keyword.",
-						  CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+						  PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 

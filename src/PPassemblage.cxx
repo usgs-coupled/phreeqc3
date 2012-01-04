@@ -92,14 +92,14 @@ cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// PPassemblage element and attributes
 	s_oss << indent0;
-	s_oss << "<EQUILIBRIUM_PHASES " << std::endl;
+	s_oss << "<EQUILIBRIUM_PHASES " << "\n";
 
 	// eltList
 	this->eltList.dump_xml(s_oss, indent + 1);
 
 	// ppAssemblageComps
 	s_oss << indent1;
-	s_oss << "<pure_phases " << std::endl;
+	s_oss << "<pure_phases " << "\n";
 	for (std::map < std::string, cxxPPassemblageComp >::const_iterator it =
 		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
 	{
@@ -125,12 +125,12 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
 	s_oss << "EQUILIBRIUM_PHASES_RAW       " << n_user_local << " " << this->
-		description << std::endl;
+		description << "\n";
 
 	// eltList
 
 	s_oss << indent1;
-	s_oss << "-eltList       " << std::endl;
+	s_oss << "-eltList       " << "\n";
 	this->eltList.dump_raw(s_oss, indent + 2);
 
 	// ppAssemblagComps
@@ -138,7 +138,7 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
 	{
 		s_oss << indent1;
-		s_oss << "-component" << std::endl;
+		s_oss << "-component" << "\n";
 		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 }
@@ -191,8 +191,8 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 			opt = CParser::OPT_EOF;
 			parser.
 				error_msg("Unknown input in EQUILIBRIUM_PHASES_RAW keyword.",
-						  CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+						  PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 
@@ -203,7 +203,7 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected element name and moles for totals.",
-							  CParser::OT_CONTINUE);
+							  PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 0;
 			break;

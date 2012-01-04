@@ -144,50 +144,50 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// Solution element and attributes
 	s_oss << indent0;
-	s_oss << "<solution " << std::endl;
+	s_oss << "<solution " << "\n";
 
 	//s_oss << indent1;
-	//s_oss << "soln_new_def=\"" << this->new_def << "\"" << std::endl;
+	//s_oss << "soln_new_def=\"" << this->new_def << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_n_user=\"" << this->n_user << "\" " << std::endl;
+	s_oss << "soln_n_user=\"" << this->n_user << "\" " << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_description=\"" << this->description << "\"" << std::endl;
+	s_oss << "soln_description=\"" << this->description << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_tc=\"" << this->tc << "\"" << std::endl;
+	s_oss << "soln_tc=\"" << this->tc << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_ph=\"" << this->ph << "\"" << std::endl;
+	s_oss << "soln_ph=\"" << this->ph << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_solution_pe=\"" << this->pe << "\"" << std::endl;
+	s_oss << "soln_solution_pe=\"" << this->pe << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_mu=\"" << this->mu << "\"" << std::endl;
+	s_oss << "soln_mu=\"" << this->mu << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_ah2o=\"" << this->ah2o << "\"" << std::endl;
+	s_oss << "soln_ah2o=\"" << this->ah2o << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_total_h=\"" << this->total_h << "\"" << std::endl;
+	s_oss << "soln_total_h=\"" << this->total_h << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_total_o=\"" << this->total_o << "\"" << std::endl;
+	s_oss << "soln_total_o=\"" << this->total_o << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_cb=\"" << this->cb << "\"" << std::endl;
+	s_oss << "soln_cb=\"" << this->cb << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "soln_mass_water=\"" << this->mass_water << "\"" << std::endl;
+	s_oss << "soln_mass_water=\"" << this->mass_water << "\"" << "\n";
 
 	s_oss << indent1;
 	s_oss << "soln_total_alkalinity=\"" << this->
-		total_alkalinity << "\"" << std::endl;
+		total_alkalinity << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "\">" << std::endl;
+	s_oss << "\">" << "\n";
 
 	// soln_total conc structures
 	this->totals.dump_xml(s_oss, indent + 1);
@@ -201,7 +201,7 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	   s_oss << "<soln_m_a";
 	   s_oss << " m_a_desc=\"" << it->first << "\"" ;
 	   s_oss << " m_a_la=\"" << it->second << "\"" ;
-	   s_oss << "\">" << std::endl;
+	   s_oss << "\">" << "\n";
 	   }
 	   }
 	 */
@@ -214,7 +214,7 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	   s_oss << "<soln_s_g";
 	   s_oss << " m_a_desc=\"" << it->first << "\"" ;
 	   s_oss << " m_a_la=\"" << it->second << "\"" ;
-	   s_oss << "\">" << std::endl;
+	   s_oss << "\">" << "\n";
 	   }
 	   }
 	 */
@@ -227,7 +227,7 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// End of solution
 	s_oss << indent0;
-	s_oss << "</solution>" << std::endl;
+	s_oss << "</solution>" << "\n";
 
 	return;
 }
@@ -249,35 +249,35 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// Solution element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "SOLUTION_RAW       " << n_user_local << " " << this->description << std::endl;
+	s_oss << "SOLUTION_RAW       " << n_user_local << " " << this->description << "\n";
 
-	//s_oss << "# Critical values" << std::endl;
+	//s_oss << "# Critical values" << "\n";
 
 	s_oss << indent1;
-	s_oss << "-temp              " << this->tc << std::endl;
+	s_oss << "-temp              " << this->tc << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-total_h           " << this->total_h << std::endl;
+	s_oss << "-total_h           " << this->total_h << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-total_o           " << this->total_o << std::endl;
+	s_oss << "-total_o           " << this->total_o << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-cb                " << this->cb << std::endl;
+	s_oss << "-cb                " << this->cb << "\n";
 
 	// soln_total conc structures
 	s_oss << indent1;
-	s_oss << "-totals" << std::endl;
+	s_oss << "-totals" << "\n";
 	this->totals.dump_raw(s_oss, indent + 2);
 
-	//s_oss << "# Optional critical values" << std::endl;
+	//s_oss << "# Optional critical values" << "\n";
 
 	// Isotopes
 	s_oss << indent1;
-	s_oss << "-Isotopes" << std::endl;
+	s_oss << "-Isotopes" << "\n";
 	{
 		for (std::list < cxxSolutionIsotope >::const_iterator it =
 			 this->isotopes.begin(); it != isotopes.end(); ++it)
@@ -287,49 +287,49 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	}
 
 	s_oss << indent1;
-	s_oss << "-pH                " << this->ph << std::endl;
+	s_oss << "-pH                " << this->ph << "\n";
 
 	s_oss << indent1;
-	s_oss << "-pe                " << this->pe << std::endl;
-
-	// new identifier
-	s_oss << indent1;
-	s_oss << "-mu                " << this->mu << std::endl;
+	s_oss << "-pe                " << this->pe << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-ah2o              " << this->ah2o << std::endl;
+	s_oss << "-mu                " << this->mu << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-mass_water        " << this->mass_water << std::endl;
+	s_oss << "-ah2o              " << this->ah2o << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-total_alkalinity  " << this->total_alkalinity << std::endl;
+	s_oss << "-mass_water        " << this->mass_water << "\n";
+
+	// new identifier
+	s_oss << indent1;
+	s_oss << "-total_alkalinity  " << this->total_alkalinity << "\n";
 
 	// master_activity map
 	s_oss << indent1;
-	s_oss << "-activities" << std::endl;
+	s_oss << "-activities" << "\n";
 	this->master_activity.dump_raw(s_oss, indent + 2);
 	/*
 	   {
 	   for (std::map <char *, double>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
 	   s_oss << indent2;
-	   s_oss << it->first << "   " << it->second << std::endl;
+	   s_oss << it->first << "   " << it->second << "\n";
 	   }
 	   }
 	 */
 	// species_gamma map
 	s_oss << indent1;
-	s_oss << "-gammas" << std::endl;
+	s_oss << "-gammas" << "\n";
 	this->species_gamma.dump_raw(s_oss, indent + 2);
 	/*
 	   {
 	   {
 	   for (std::map <char *, double>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
 	   s_oss << indent2;
-	   s_oss << it->first << "   " << it->second << std::endl;
+	   s_oss << it->first << "   " << it->second << "\n";
 	   }
 	   }
 	   }
@@ -406,8 +406,8 @@ cxxSolution::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input in SOLUTION_RAW keyword.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			continue;
 
 		case 0:				// totals
@@ -417,7 +417,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			//	parser.incr_input_error();
 			//	parser.
 			//		error_msg("Expected element name and moles for totals.",
-			//				  CParser::OT_CONTINUE);
+			//				  PHRQ_io::OT_CONTINUE);
 			//}
 			{
 				cxxNameDouble temp_totals;
@@ -426,7 +426,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 					parser.incr_input_error();
 					parser.
 						error_msg("Expected element name and moles for totals.",
-						CParser::OT_CONTINUE);
+						PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -444,7 +444,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected species name and log activity for activities.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 1;
 			break;
@@ -457,7 +457,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected species name and activity coefficient for gammas.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 2;
 			break;
@@ -469,7 +469,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				{
 					parser.incr_input_error();
 					parser.error_msg("Expected data for isotopes.",
-									 CParser::OT_CONTINUE);
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -490,7 +490,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->tc = 25.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for temperature.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			tc_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -502,7 +502,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->ph = 7.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for pH.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			ph_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -514,7 +514,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->pe = 4.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for pe.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			pe_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -527,7 +527,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->mu = 1e-7;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for ionic strength.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			mu_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -541,7 +541,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected numeric value for activity of water.",
-							  CParser::OT_CONTINUE);
+							  PHRQ_io::OT_CONTINUE);
 			}
 			ah2o_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -553,7 +553,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->total_h = 111.1;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for total hydrogen.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			total_h_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -565,7 +565,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->total_o = 55.55;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for total oxygen.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			total_o_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -578,7 +578,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->mass_water = 1.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for mass of water.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			mass_water_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -592,7 +592,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected numeric value for total_alkalinity.",
-							  CParser::OT_CONTINUE);
+							  PHRQ_io::OT_CONTINUE);
 			}
 			total_alkalinity_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -605,7 +605,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->cb = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for charge balance.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			cb_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -623,63 +623,63 @@ cxxSolution::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Temp not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (ph_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("pH not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (pe_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("pe not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (mu_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Ionic strength not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (ah2o_defined == false)
 		{
 			parser.incr_input_error();
 			parser.
 				error_msg("Activity of water not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (total_h_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Total hydrogen not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (total_o_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Total oxygen not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (cb_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Charge balance not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (mass_water_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Temp not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (total_alkalinity_defined == false)
 		{
 			parser.incr_input_error();
 			parser.
 				error_msg("Total alkalinity not defined for SOLUTION_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 	return;
@@ -1469,13 +1469,13 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	 */
 //	std::ostringstream msg;
 //	status_on = FALSE;
-//	std::cout << std::endl << "TEST CLASSES" << std::endl;
+//	std::cout << "\n" << "TEST CLASSES" << "\n";
 //	for (i = 0; i < count_solution; i++)
 //	{
 //		if (solution[i]->new_def == TRUE)
 //		{
 //			std::cout << "Solution new_def " << solution[i]->
-//				n_user << std::endl;
+//				n_user << "\n";
 //			cxxISolution sol(solution[i]);
 //			solution_free(solution[i]);
 //			solution[i] = NULL;
@@ -1486,7 +1486,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //		}
 //		else
 //		{
-//			std::cout << "Solution " << solution[i]->n_user << std::endl;
+//			std::cout << "Solution " << solution[i]->n_user << "\n";
 //			std::ostringstream oss;
 //			cxxSolution sol(solution[i]);
 //			solution_free(solution[i]);
@@ -1515,7 +1515,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	{
 //		if (exchange[i].new_def != TRUE)
 //		{
-//			std::cout << "Exchange " << exchange[i].n_user << std::endl;
+//			std::cout << "Exchange " << exchange[i].n_user << "\n";
 //			std::ostringstream oss;
 //			cxxExchange ex(&(exchange[i]));
 //			ex.dump_raw(oss, 0);
@@ -1544,7 +1544,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	{
 //		if (surface[i].new_def != TRUE)
 //		{
-//			std::cout << "Surface " << surface[i].n_user << std::endl;
+//			std::cout << "Surface " << surface[i].n_user << "\n";
 //			std::ostringstream oss;
 //			cxxSurface ex(&(surface[i]));
 //			ex.dump_raw(oss, 0);
@@ -1577,7 +1577,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //		if (pp_assemblage[i].new_def != TRUE)
 //		{
 //			std::cout << "PPassemblage " << pp_assemblage[i].
-//				n_user << std::endl;
+//				n_user << "\n";
 //			std::ostringstream oss;
 //			cxxPPassemblage ex(&(pp_assemblage[i]));
 //			ex.dump_raw(oss, 0);
@@ -1609,7 +1609,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	}
 //	for (i = 0; i < count_kinetics; i++)
 //	{
-//		std::cout << "Kinetics " << kinetics[i].n_user << std::endl;
+//		std::cout << "Kinetics " << kinetics[i].n_user << "\n";
 //		std::ostringstream oss;
 //		cxxKinetics ex(&(kinetics[i]));
 //		ex.dump_raw(oss, 0);
@@ -1640,7 +1640,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //		if (s_s_assemblage[i].new_def != TRUE)
 //		{
 //			std::cout << "Solid solution " << s_s_assemblage[i].
-//				n_user << std::endl;
+//				n_user << "\n";
 //			std::ostringstream oss;
 //			cxxSSassemblage ex(&(s_s_assemblage[i]));
 //			ex.dump_raw(oss, 0);
@@ -1674,7 +1674,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	{
 //		if (gas_phase[i].new_def != TRUE)
 //		{
-//			std::cout << "Gas phase " << gas_phase[i].n_user << std::endl;
+//			std::cout << "Gas phase " << gas_phase[i].n_user << "\n";
 //			std::ostringstream oss;
 //			cxxGasPhase ex(&(gas_phase[i]));
 //			ex.dump_raw(oss, 0);
@@ -1705,7 +1705,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	}
 //	for (i = 0; i < count_irrev; i++)
 //	{
-//		std::cout << "Reaction " << irrev[i].n_user << std::endl;
+//		std::cout << "Reaction " << irrev[i].n_user << "\n";
 //		std::ostringstream oss;
 //		cxxReaction ex(&(irrev[i]));
 //		ex.dump_raw(oss, 0);
@@ -1734,7 +1734,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	}
 //	for (i = 0; i < count_mix; i++)
 //	{
-//		std::cout << "Mix " << mix[i].n_user << std::endl;
+//		std::cout << "Mix " << mix[i].n_user << "\n";
 //		std::ostringstream oss;
 //		cxxMix ex(&(mix[i]));
 //		ex.dump_raw(oss, 0);
@@ -1763,7 +1763,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	}
 //	for (i = 0; i < count_temperature; i++)
 //	{
-//		std::cout << "Temperature " << temperature[i].n_user << std::endl;
+//		std::cout << "Temperature " << temperature[i].n_user << "\n";
 //		std::ostringstream oss;
 //		cxxTemperature ex(&(temperature[i]));
 //		ex.dump_raw(oss, 0);

@@ -193,8 +193,8 @@ cxxISolution & cxxISolution::read(CParser & parser)
 		case CParser::OPTION_ERROR:
 			opt = CParser::OPTION_EOF;
 			CParser::error_msg("Unknown input in SOLUTION keyword.",
-							   CParser::OT_CONTINUE);
-			CParser::error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							   PHRQ_io::OT_CONTINUE);
+			CParser::error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// temp
@@ -299,7 +299,7 @@ cxxISolution & cxxISolution::read(CParser & parser)
 				parser.
 					error_msg
 					("Expected numeric value for mass of water in solution.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{

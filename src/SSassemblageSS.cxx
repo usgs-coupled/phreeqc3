@@ -8,7 +8,6 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "Phreeqc.h"
 #include "SSassemblageSS.h"
 //#include "Dictionary.h"
 #include "phqalloc.h"
@@ -91,16 +90,16 @@ cxxSSassemblageSS::dump_xml(std::ostream & s_oss, unsigned int indent) const con
 
 	// S_S element and attributes
 
-	s_oss << indent0 << "name=\"" << this->name << "\"" << std::endl;
+	s_oss << indent0 << "name=\"" << this->name << "\"" << "\n";
 	s_oss << indent0 << "add_formula=\"" << this->
-		add_formula << "\"" << std::endl;
-	s_oss << indent0 << "si=\"" << this->si << "\"" << std::endl;
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << std::endl;
-	s_oss << indent0 << "delta=\"" << this->delta << "\"" << std::endl;
+		add_formula << "\"" << "\n";
+	s_oss << indent0 << "si=\"" << this->si << "\"" << "\n";
+	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
+	s_oss << indent0 << "delta=\"" << this->delta << "\"" << "\n";
 	s_oss << indent0 << "initial_moles=\"" << this->
-		initial_moles << "\"" << std::endl;
+		initial_moles << "\"" << "\n";
 	s_oss << indent0 << "dissolve_only=\"" << this->
-		dissolve_only << "\"" << std::endl;
+		dissolve_only << "\"" << "\n";
 
 }
 #endif
@@ -117,18 +116,18 @@ cxxSSassemblageSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent1.append(Utilities::INDENT);
 	// S_S element and attributes
 
-	s_oss << indent0 << "-name                  " << this->name << std::endl;
-	//s_oss << indent0 << "-total_moles           " << this->total_moles    << std::endl;
-	s_oss << indent1 << "-a0                    " << this->a0 << std::endl;
-	s_oss << indent1 << "-a1                    " << this->a1 << std::endl;
-	s_oss << indent1 << "-ag0                   " << this->ag0 << std::endl;
-	s_oss << indent1 << "-ag1                   " << this->ag1 << std::endl;
-	s_oss << indent1 << "-miscibility           " << this->miscibility << std::endl;
-	//s_oss << indent0 << "-spinodal              " << this->spinodal << std::endl;
-	//s_oss << indent0 << "-tk                    " << this->tk << std::endl;
-	s_oss << indent1 << "-xb1                   " << this->xb1 << std::endl;
-	s_oss << indent1 << "-xb2                   " << this->xb2 << std::endl;
-	s_oss << indent1 << "-components            " << std::endl;
+	s_oss << indent0 << "-name                  " << this->name << "\n";
+	//s_oss << indent0 << "-total_moles           " << this->total_moles    << "\n";
+	s_oss << indent1 << "-a0                    " << this->a0 << "\n";
+	s_oss << indent1 << "-a1                    " << this->a1 << "\n";
+	s_oss << indent1 << "-ag0                   " << this->ag0 << "\n";
+	s_oss << indent1 << "-ag1                   " << this->ag1 << "\n";
+	s_oss << indent1 << "-miscibility           " << this->miscibility << "\n";
+	//s_oss << indent0 << "-spinodal              " << this->spinodal << "\n";
+	//s_oss << indent0 << "-tk                    " << this->tk << "\n";
+	s_oss << indent1 << "-xb1                   " << this->xb1 << "\n";
+	s_oss << indent1 << "-xb2                   " << this->xb2 << "\n";
+	s_oss << indent1 << "-components            " << "\n";
 	this->comps.dump_raw(s_oss, indent + 2);
 }
 
@@ -191,8 +190,8 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in S_S read.", CParser::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+			//parser.error_msg("Unknown input in S_S read.", PHRQ_io::OT_CONTINUE);
+			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// name
@@ -201,7 +200,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for name.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -217,7 +216,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 			   {
 			   this->total_moles = 0;
 			   parser.incr_input_error();
-			   parser.error_msg("Expected numeric value for total_moles.", CParser::OT_CONTINUE);
+			   parser.error_msg("Expected numeric value for total_moles.", PHRQ_io::OT_CONTINUE);
 			   }
 			   total_moles_defined = true;
 			 */
@@ -230,7 +229,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->a0 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for a0.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			a0_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -242,7 +241,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->a1 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for a1.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			a1_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -253,7 +252,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 			{
 				parser.incr_input_error();
 				parser.error_msg("Expected phase name and moles for comps.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 4;
 			break;
@@ -264,7 +263,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->miscibility = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected boolean value for miscibility.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			miscibility_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -276,7 +275,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 			   {
 			   this->spinodal = 0;
 			   parser.incr_input_error();
-			   parser.error_msg("Expected boolean value for spinodal.", CParser::OT_CONTINUE);
+			   parser.error_msg("Expected boolean value for spinodal.", PHRQ_io::OT_CONTINUE);
 			   }
 			   spinodal_defined = true;
 			 */
@@ -289,7 +288,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 			   {
 			   this->tk = 0;
 			   parser.incr_input_error();
-			   parser.error_msg("Expected numeric value for tk.", CParser::OT_CONTINUE);
+			   parser.error_msg("Expected numeric value for tk.", PHRQ_io::OT_CONTINUE);
 			   }
 			   tk_defined = true;
 			 */
@@ -302,7 +301,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->xb1 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for xb1.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			xb1_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -314,7 +313,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->xb2 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for xb2.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			xb2_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -326,7 +325,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->ag0 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for ag0.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			ag0_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -338,7 +337,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 				this->ag1 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for ag1.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			ag1_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
@@ -356,65 +355,65 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Name not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		/*
 		if (total_moles_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("Total_moles not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
+		parser.error_msg("Total_moles not defined for SSassemblageSS input.", PHRQ_io::OT_CONTINUE);
 		}
 		*/
 		if (a0_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("A0 not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (a1_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("A1 not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (ag0_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Ag0 not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (ag1_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Ag1 not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (miscibility_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Miscibility not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		/*
 		if (spinodal_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("Spinodal not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
+		parser.error_msg("Spinodal not defined for SSassemblageSS input.", PHRQ_io::OT_CONTINUE);
 		}
 		if (tk_defined == false) {
 		parser.incr_input_error();
-		parser.error_msg("Tk not defined for SSassemblageSS input.", CParser::OT_CONTINUE);
+		parser.error_msg("Tk not defined for SSassemblageSS input.", PHRQ_io::OT_CONTINUE);
 		}
 		*/
 		if (xb1_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Xb1 not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (xb2_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Xb2 not defined for SSassemblageSS input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 }

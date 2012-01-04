@@ -186,13 +186,25 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 
 	// irreversible reactions
-	for (i = 0; i < count_irrev; i++)
 	{
-		reaction_calc(&irrev[i]);
-		cxxReaction entity(&irrev[i]);
-		accumulator.add_extensive(entity.Get_elementList(), 1.0);
+		std::map<int, cxxReaction>::const_iterator cit = Rxn_reaction_map.begin();
+		for (; cit !=  Rxn_reaction_map.end(); cit++)
+		{
+			cxxReaction r_ptr(cit->second);
+			reaction_calc(&r_ptr);
+			accumulator.add_extensive(r_ptr.Get_elementList(), 1.0);
+		}
 	}
-
+#ifdef SKIP
+	{
+		for (i = 0; i < count_irrev; i++)
+		{
+			reaction_calc(&irrev[i]);
+			cxxReaction entity(&irrev[i]);
+			accumulator.add_extensive(entity.Get_elementList(), 1.0);
+		}
+	}
+#endif
 	// pure phases
 	for (i = 0; i < count_pp_assemblage; i++)
 	{
@@ -202,18 +214,22 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 
 	// exchangers
-	//for (i = 0; i < count_exchange; i++)
-	//{
-	//	cxxExchange entity(&exchange[i], phrq_io);
-	//	entity.totalize();
-	//	accumulator.add_extensive(entity.Get_totals(), 1.0);
-	//}
-	std::map<int, cxxExchange>::const_iterator cit = Rxn_exchange_map.begin();
-	for (; cit !=  Rxn_exchange_map.end(); cit++)
+#ifdef SKIP
+	for (i = 0; i < count_exchange; i++)
 	{
-		cxxExchange entity = cit->second;
+		cxxExchange entity(&exchange[i], phrq_io);
 		entity.totalize();
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
+	}
+#endif
+	{
+		std::map<int, cxxExchange>::const_iterator cit = Rxn_exchange_map.begin();
+		for (; cit !=  Rxn_exchange_map.end(); cit++)
+		{
+			cxxExchange entity = cit->second;
+			entity.totalize();
+			accumulator.add_extensive(entity.Get_totals(), 1.0);
+		}
 	}
 
 	// surfaces
@@ -225,13 +241,23 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 
 	// gas phases
+	{
+		std::map<int, cxxGasPhase>::const_iterator cit = Rxn_gas_phase_map.begin();
+		for (; cit !=  Rxn_gas_phase_map.end(); cit++)
+		{
+			cxxGasPhase entity = cit->second;
+			entity.totalize(this);
+			accumulator.add_extensive(entity.Get_totals(), 1.0);
+		}
+	}
+#ifdef SKIP
 	for (i = 0; i < count_gas_phase; i++)
 	{
 		cxxGasPhase entity(&gas_phase[i], phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
-
+#endif
 	// solid-solutions
 	for (i = 0; i < count_s_s_assemblage; i++)
 	{
@@ -320,7 +346,7 @@ void Phreeqc::init(void)
 	max_pp_assemblage		= MAX_PP_ASSEMBLAGE;
 	//max_exchange			= MAX_PP_ASSEMBLAGE;
 	max_surface				= MAX_PP_ASSEMBLAGE;
-	max_gas_phase			= MAX_PP_ASSEMBLAGE;
+	//max_gas_phase			= MAX_PP_ASSEMBLAGE;
 	max_kinetics			= MAX_PP_ASSEMBLAGE;
 	max_s_s_assemblage		= MAX_PP_ASSEMBLAGE;
 
@@ -340,12 +366,12 @@ void Phreeqc::init(void)
 	count_pp_assemblage	= 0;
 	//count_exchange			 = 0;
 	count_surface				= 0;
-	count_gas_phase			= 0;
+	//count_gas_phase			= 0;
 	count_kinetics			 = 0;
 	count_s_s_assemblage = 0;
 
 	count_elements			 = 0;
-	count_irrev					= 0;
+	//count_irrev					= 0;
 	count_master				 = 0;
 	//count_mix						= 0;
 	count_phases				 = 0;
@@ -392,7 +418,7 @@ void Phreeqc::init(void)
 	pp_assemblage	= 0;
 	//exchange			 = 0;
 	surface				= 0;
-	gas_phase			= 0;
+	//gas_phase			= 0;
 	kinetics			 = 0;
 	s_s_assemblage = 0;
 	cell_data			= 0;
@@ -403,7 +429,7 @@ void Phreeqc::init(void)
 	inverse			 = 0;
 	count_inverse = 0;
 
-	irrev = 0;
+	//irrev = 0;
 
 	line = 0;
 	line_save = 0;
@@ -470,7 +496,7 @@ void Phreeqc::init(void)
 	use.solution_in			= FALSE;
 	use.pp_assemblage_in = FALSE;
 	use.mix_in					 = FALSE;
-	use.irrev_in				 = FALSE;
+	use.reaction_in				 = FALSE;
 /*
  *	 Initialize punch
  */
@@ -661,7 +687,7 @@ void Phreeqc::init(void)
 	copy_gas_phase.n_user		= copy_gas_phase.start		= copy_gas_phase.end		= 0;
 	copy_kinetics.n_user		= copy_kinetics.start		= copy_kinetics.end			= 0;
 	copy_mix.n_user				= copy_mix.start			= copy_mix.end				= 0;
-	copy_irrev.n_user			= copy_irrev.start			= copy_irrev.end			= 0;
+	copy_reaction.n_user		= copy_reaction.start		= copy_reaction.end			= 0;
 	copy_temperature.n_user		= copy_temperature.start	= copy_temperature.end		= 0;
 	copy_pressure.n_user		= copy_pressure.start		= copy_pressure.end			= 0;
 
@@ -712,7 +738,7 @@ void Phreeqc::init(void)
 	dbg_surface			= surface;
 	dbg_pp_assemblage	= pp_assemblage;
 	dbg_kinetics		= kinetics;
-	dbg_irrev			= irrev;
+	//dbg_irrev			= irrev;
 	//dbg_mix				= mix;
 	dbg_master			= master;
 	calculating_deriv	= FALSE;

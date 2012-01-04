@@ -17,9 +17,9 @@ StorageBinListItem::StorageBinListItem(CParser & parser)
 	for (;;)
 	{
 		//read lines
-		CParser::LINE_TYPE l = parser.check_line("read StorageBinListLtem", false, true, true, true);
+		PHRQ_io::LINE_TYPE l = parser.check_line("read StorageBinListLtem", false, true, true, true);
 		std::istream::pos_type next_char = 0;
-		if (l == CParser::LT_EOF) break;
+		if (l == PHRQ_io::LT_EOF) break;
 		for (;;)
 		{ 
 			std::string token;
@@ -36,7 +36,7 @@ StorageBinListItem::StorageBinListItem(CParser & parser)
 			{
 				// ignore characters like RUN
 				//parser.error_msg("Expected single number or range of numbers.",
-				//	CParser::OT_CONTINUE);
+				//	PHRQ_io::OT_CONTINUE);
 				//break;
 			}
 		}
@@ -259,7 +259,7 @@ bool StorageBinList::Read(CParser & parser)
 				else
 				{
 					parser.error_msg("Expected single number or range of numbers.",
-						CParser::OT_CONTINUE);
+						PHRQ_io::OT_CONTINUE);
 					break;
 				}
 			}
@@ -302,8 +302,8 @@ bool StorageBinList::Read(CParser & parser)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input reading DELETE definition.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			return_value = false;
 			break;

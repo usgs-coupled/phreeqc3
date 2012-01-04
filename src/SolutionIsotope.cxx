@@ -91,32 +91,32 @@ cxxSolutionIsotope::dump_xml(std::ostream & s_oss, unsigned int indent) const
 		indent1.append(Utilities::INDENT);
 
 	s_oss << indent0;
-	s_oss << "<soln_isotope=\"" << std::endl;
+	s_oss << "<soln_isotope=\"" << "\n";
 
 	s_oss << indent1;
 	s_oss << "iso_isotope_number=\"" << this->
-		isotope_number << "\"" << std::endl;
+		isotope_number << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "iso_elt_name=\"" << this->elt_name << "\"" << std::endl;
+	s_oss << "iso_elt_name=\"" << this->elt_name << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "iso_isotope_name=\"" << this->isotope_name << "\"" << std::endl;
+	s_oss << "iso_isotope_name=\"" << this->isotope_name << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "iso_total=\"" << this->total << "\"" << std::endl;
+	s_oss << "iso_total=\"" << this->total << "\"" << "\n";
 
 	s_oss << indent1;
-	s_oss << "iso_ratio=\"" << this->ratio << "\"" << std::endl;
+	s_oss << "iso_ratio=\"" << this->ratio << "\"" << "\n";
 
 	if (this->ratio_uncertainty != NAN)
 	{
 		s_oss << indent1;
 		s_oss << "iso_ratio_uncertainty=\"" << this->
-			ratio_uncertainty << "\"" << std::endl;
+			ratio_uncertainty << "\"" << "\n";
 	}
 	s_oss << indent0;
-	s_oss << "\">" << std::endl;
+	s_oss << "\">" << "\n";
 }
 
 void
@@ -138,7 +138,7 @@ cxxSolutionIsotope::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	{
 		s_oss << this->ratio_uncertainty << " ";
 	}
-	s_oss << std::endl;
+	s_oss << "\n";
 }
 
 CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser, std::istream::pos_type next_char )
@@ -192,7 +192,7 @@ CParser::STATUS_TYPE cxxSolutionIsotope::read_raw(CParser & parser, std::istream
 		parser.incr_input_error();
 		parser.
 			error_msg("Expected numeric value for mass of water in solution.",
-					  CParser::OT_CONTINUE);
+					  PHRQ_io::OT_CONTINUE);
 	}
 	else
 	{
@@ -243,7 +243,7 @@ cxxSolutionIsotope::STATUS cxxSolutionIsotope::read(CParser & parser)
 		parser.incr_input_error();
 		parser.error_msg("Expected isotope name to"
 						 " begin with an isotopic number.",
-						 CParser::OT_CONTINUE);
+						 PHRQ_io::OT_CONTINUE);
 		return ERROR;
 	}
 	assert(parser.get_iss().good() || parser.get_iss().eof());
@@ -252,8 +252,8 @@ cxxSolutionIsotope::STATUS cxxSolutionIsotope::read(CParser & parser)
 	std::istringstream::int_type c = parser.get_iss().peek();
 	if (c == std::char_traits < char >::eof() || !(::isupper(c)))
 	{
-		parser.error_msg("Expecting element name.", CParser::OT_CONTINUE);
-		parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+		parser.error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
+		parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 		parser.incr_input_error();
 		return ERROR;
 	}
@@ -272,7 +272,7 @@ cxxSolutionIsotope::STATUS cxxSolutionIsotope::read(CParser & parser)
 		assert(parser.get_iss().fail());
 		parser.incr_input_error();
 		parser.error_msg("Expected numeric value for isotope ratio.",
-						 CParser::OT_CONTINUE);
+						 PHRQ_io::OT_CONTINUE);
 		return ERROR;
 	}
 	assert(parser.get_iss().good() || parser.get_iss().eof());
@@ -287,7 +287,7 @@ cxxSolutionIsotope::STATUS cxxSolutionIsotope::read(CParser & parser)
 			parser.
 				error_msg
 				("Expected numeric value for uncertainty in isotope ratio.",
-				 CParser::OT_CONTINUE);
+				 PHRQ_io::OT_CONTINUE);
 			return ERROR;
 		}
 	}

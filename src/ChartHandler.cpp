@@ -125,7 +125,7 @@ ChartHandler::End_timer()
 		//	size_t i;
 		//	for (i = 0; i <  it->second->Get_Curves().size(); i ++)
 		//	{
-		//		std::cerr << "Curve " << i << ", number of points " << it->second->Get_Curves()[i]->Get_x().size() << std::endl;
+		//		std::cerr << "Curve " << i << ", number of points " << it->second->Get_Curves()[i]->Get_x().size() << "\n";
 		//	}
 		//}
 		size_t i = 0;

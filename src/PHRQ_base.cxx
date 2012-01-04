@@ -25,7 +25,7 @@ error_msg(const std::string & stdstr, int stop)
 {
 	this->base_error_count++;
 	std::ostringstream msg;
-	msg << "ERROR: " << stdstr << std::endl;
+	msg << "ERROR: " << stdstr << "\n";
 	if (this->io)
 	{
 		this->io->output_msg(msg.str().c_str());
@@ -53,8 +53,8 @@ warning_msg(const std::string & stdstr)
 	}
 	else
 	{
-		std::cerr << stdstr << std::endl;
-		std::cout << stdstr << std::endl;
+		std::cerr << stdstr << "\n";
+		std::cout << stdstr << "\n";
 	}
 }
 
@@ -67,7 +67,7 @@ output_msg(const std::string & stdstr)
 	}
 	else
 	{
-		std::cout << stdstr << std::endl;
+		std::cout << stdstr << "\n";
 	}
 }
 
@@ -80,7 +80,7 @@ screen_msg(const std::string & stdstr)
 	}
 	else
 	{
-		std::cerr << stdstr << std::endl;
+		std::cerr << stdstr << "\n";
 	}
 }
 
@@ -93,6 +93,6 @@ echo_msg(const std::string & stdstr)
 	}
 	else
 	{
-		std::cout << stdstr << std::endl;
+		std::cout << stdstr << "\n";
 	}
 }
