@@ -140,33 +140,33 @@ cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// Exch_Comp element and attributes
 
-	s_oss << indent0 << "formula=\"" << this->formula << "\"" << std::endl;
+	s_oss << indent0 << "formula=\"" << this->formula << "\"" << "\n";
 	s_oss << indent0 << "formula_z=\"" << this->
-		formula_z << "\"" << std::endl;
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << std::endl;
-	s_oss << indent0 << "la=\"" << this->la << "\"" << std::endl;
+		formula_z << "\"" << "\n";
+	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
+	s_oss << indent0 << "la=\"" << this->la << "\"" << "\n";
 	s_oss << indent0 << "charge_balance=\"" << this->
-		charge_balance << "\"" << std::endl;
+		charge_balance << "\"" << "\n";
 	if (this->phase_name.size() != 0)
 	{
-		s_oss << indent0 << "phase_name=\"" << this->phase_name << "\"" << std::endl;
+		s_oss << indent0 << "phase_name=\"" << this->phase_name << "\"" << "\n";
 	}
 	if (this->rate_name.size() != 0)
 	{
 		s_oss << indent0 << "rate_name=\"" << this->
-			rate_name << "\"" << std::endl;
+			rate_name << "\"" << "\n";
 	}
 	s_oss << indent0 << "phase_proportion=\"" << this->
-		phase_proportion << "\"" << std::endl;
+		phase_proportion << "\"" << "\n";
 
 	// totals
 	s_oss << indent0;
-	s_oss << "<totals " << std::endl;
+	s_oss << "<totals " << "\n";
 	this->totals.dump_xml(s_oss, indent + 1);
 
 	// formula_totals
 	s_oss << indent0;
-	s_oss << "<formula_totals " << std::endl;
+	s_oss << "<formula_totals " << "\n";
 	this->formula_totals.dump_xml(s_oss, indent + 1);
 }
 
@@ -186,35 +186,35 @@ cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Exch_Comp element and attributes
 
-	s_oss << indent0 << "-formula               " << this->formula << std::endl;
+	s_oss << indent0 << "-formula               " << this->formula << "\n";
 
-	//s_oss << indent1 << "# critical values" << std::endl;
+	//s_oss << indent1 << "# critical values" << "\n";
 
 	// totals
 	s_oss << indent1;
-	s_oss << "-totals" << std::endl;
+	s_oss << "-totals" << "\n";
 	this->totals.dump_raw(s_oss, indent + 2);
 
-	s_oss << indent1 << "-charge_balance        " << this->charge_balance << std::endl;
+	s_oss << indent1 << "-charge_balance        " << this->charge_balance << "\n";
 
-	//s_oss << indent1 << "# Noncritical values" << std::endl;
-	s_oss << indent1 << "-moles                 " << this->moles << std::endl;
-	s_oss << indent1 << "-la                    " << this->la << std::endl;
+	//s_oss << indent1 << "# Noncritical values" << "\n";
+	s_oss << indent1 << "-moles                 " << this->moles << "\n";
+	s_oss << indent1 << "-la                    " << this->la << "\n";
 
 	if (this->phase_name.size() != 0)
 	{
-		s_oss << indent1 << "-phase_name            " << this->phase_name << std::endl;
+		s_oss << indent1 << "-phase_name            " << this->phase_name << "\n";
 	}
 	if (this->rate_name.size() != 0)
 	{
-		s_oss << indent1 << "-rate_name             " << this->rate_name << std::endl;
+		s_oss << indent1 << "-rate_name             " << this->rate_name << "\n";
 	}
-	s_oss << indent1 << "-phase_proportion      " << this->phase_proportion << std::endl;
-	s_oss << indent1 << "-formula_z             " << this->formula_z << std::endl;
+	s_oss << indent1 << "-phase_proportion      " << this->phase_proportion << "\n";
+	s_oss << indent1 << "-formula_z             " << this->formula_z << "\n";
 
 	// formula_totals
 	s_oss << indent1;
-	s_oss << "-formula_totals" << std::endl;
+	s_oss << "-formula_totals" << "\n";
 	this->formula_totals.dump_raw(s_oss, indent + 2);
 
 }
@@ -270,8 +270,8 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in EXCH_COMP read.", CParser::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+			//parser.error_msg("Unknown input in EXCH_COMP read.", PHRQ_io::OT_CONTINUE);
+			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// formula
@@ -280,7 +280,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				this->formula.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for formula.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -295,7 +295,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				this->moles = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for moles.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			moles_defined = true;
 			break;
@@ -306,7 +306,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				this->la = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			la_defined = true;
 			break;
@@ -317,7 +317,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				this->charge_balance = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for charge_balance.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			charge_balance_defined = true;
 			break;
@@ -328,7 +328,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				this->phase_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for phase_name.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -342,7 +342,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				this->rate_name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for rate_name.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -356,7 +356,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				this->formula_z = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for formula_z.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			formula_z_defined = true;
 			break;
@@ -368,7 +368,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected numeric value for phase_proportion.",
-							  CParser::OT_CONTINUE);
+							  PHRQ_io::OT_CONTINUE);
 			}
 			break;
 
@@ -380,7 +380,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for ExchComp totals.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 8;
 			break;
@@ -393,7 +393,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for ExchComp formula totals.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 9;
 			break;
@@ -408,31 +408,31 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Formula not defined for ExchComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (moles_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Moles not defined for ExchComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (la_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("La not defined for ExchComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (charge_balance_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Charge_balance not defined for ExchComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (formula_z_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Formula_z not defined for ExchComp input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 }

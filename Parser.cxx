@@ -19,12 +19,36 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
+CParser::CParser(PHRQ_io *io):
+PHRQ_base(io),
+m_input_stream(std::cin), 
+//m_output_stream(std::cout), 
+//m_error_stream(std::cerr),
+m_input_error(0),
+m_next_keyword(Keywords::KEY_NONE)
+{
+	if (!io)
+	{
+		error_msg("This parser constructor requires non-null phrq_io", PHRQ_io::OT_STOP);
+	}
+	m_line_save = io->Get_m_line();
+	m_line = io->Get_m_line();
+	m_line_type = io->Get_m_line_type();
+	m_line_iss.str(m_line);
+	m_line_iss.seekg(0, std::ios_base::beg);
+	m_line_iss.clear();
+	echo_file = EO_ALL;
+	echo_stream = EO_NONE;
+	accumulate = false;
+	phrq_io_only = true;
+	
+}
 
 CParser::CParser(std::istream & input, PHRQ_io *io):
 PHRQ_base(io),
 m_input_stream(input), 
-m_output_stream(std::cout), 
-m_error_stream(std::cerr),
+//m_output_stream(std::cout), 
+//m_error_stream(std::cerr),
 m_input_error(0),
 m_next_keyword(Keywords::KEY_NONE)
 {
@@ -33,8 +57,10 @@ m_next_keyword(Keywords::KEY_NONE)
 	echo_file = EO_ALL;
 	echo_stream = EO_NONE;
 	accumulate = false;
+	phrq_io_only = false;
 }
 
+#ifdef SKIP
 CParser::CParser(std::istream & input, std::ostream & output, PHRQ_io *io)
 :
 PHRQ_base(io),
@@ -66,16 +92,16 @@ m_next_keyword(Keywords::KEY_NONE)
 	echo_stream = EO_NONE;
 	accumulate = false;
 }
-
+#endif
 CParser::~CParser()
 {
 }
 
-CParser::LINE_TYPE CParser::check_line(const std::string & str,
+PHRQ_io::LINE_TYPE CParser::check_line(const std::string & str,
 									   bool allow_empty, bool allow_eof,
 									   bool allow_keyword, bool print)
 {
-	LINE_TYPE
+	PHRQ_io::LINE_TYPE
 		i;
 
 	// Get line
@@ -93,27 +119,30 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 		case EO_NONE:
 			break;
 		case EO_ALL:
-			if (i != LT_EOF)
+			if (i != PHRQ_io::LT_EOF)
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				get_output() << msg;
+				//get_output() << msg;
+				io->output_msg(msg.str().c_str());
 			}
 			break;
 		case EO_KEYWORDS:
-			if (i == LT_KEYWORD)
+			if (i == PHRQ_io::LT_KEYWORD)
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				get_output() << msg;
+				//get_output() << msg;
+				io->output_msg(msg.str().c_str());
 			}
 			break;
 		case EO_NOKEYWORDS:
-			if (i != LT_KEYWORD && i != LT_EOF)
+			if (i != PHRQ_io::LT_KEYWORD && i != PHRQ_io::LT_EOF)
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
-				get_output() << msg;
+				//get_output() << msg;
+				io->output_msg(msg.str().c_str());
 			}
 			break;
 		}
@@ -123,7 +152,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 		case EO_NONE:
 			break;
 		case EO_ALL:
-			if (i != LT_EOF)
+			if (i != PHRQ_io::LT_EOF)
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
@@ -131,7 +160,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			}
 			break;
 		case EO_KEYWORDS:
-			if (i == LT_KEYWORD)
+			if (i == PHRQ_io::LT_KEYWORD)
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
@@ -140,7 +169,7 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			break;
 
 		case EO_NOKEYWORDS:
-			if (i != LT_KEYWORD && i != LT_EOF)
+			if (i != PHRQ_io::LT_KEYWORD && i != PHRQ_io::LT_EOF)
 			{
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
@@ -149,34 +178,51 @@ CParser::LINE_TYPE CParser::check_line(const std::string & str,
 			break;
 		}
 	}
-	while (i == LT_EMPTY && allow_empty == false);
+	while (i == PHRQ_io::LT_EMPTY && allow_empty == false);
 
 	// Check eof
-	if (i == LT_EOF && allow_eof == false)
+	if (i == PHRQ_io::LT_EOF && allow_eof == false)
 	{
 		std::ostringstream msg;
 		msg << "Unexpected eof while reading " << str <<
 			"\nExecution terminated.\n";
-		error_msg(msg.str().c_str(), OT_STOP);
+		error_msg(msg.str().c_str(), PHRQ_io::OT_STOP);
 	}
 
 	// Check keyword
-	if (i == LT_KEYWORD && allow_keyword == false)
+	if (i == PHRQ_io::LT_KEYWORD && allow_keyword == false)
 	{
 		std::ostringstream msg;
 		msg << "Expected data for " << str <<
 			", but got a keyword ending data block.";
-		error_msg(msg.str().c_str(), OT_CONTINUE);
+		error_msg(msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		incr_input_error();
 	}
 	m_line_type = i;
 	return i;
 }
-
-CParser::LINE_TYPE CParser::get_line()
+PHRQ_io::LINE_TYPE CParser::get_line_phrq_io()
 {
-	CParser::LINE_TYPE return_value = LT_EMPTY;
-	while (return_value == LT_EMPTY)
+	m_line_type = io->get_line();
+	m_line_save = io->Get_m_line_save();
+	m_line = io->Get_m_line();
+	m_next_keyword = io->Get_m_next_keyword();
+	if (accumulate)
+	{
+		this->accumulated.append(m_line_save);
+		this->accumulated.append("\n");
+	}
+	return m_line_type;
+}
+
+PHRQ_io::LINE_TYPE CParser::get_line()
+{
+	if (this->phrq_io_only)
+	{
+		return get_line_phrq_io();
+	}
+	PHRQ_io::LINE_TYPE return_value = PHRQ_io::LT_EMPTY;
+	while (return_value == PHRQ_io::LT_EMPTY)
 	{
 		//
 		// Eliminate all characters after # sign as a comment
@@ -185,12 +231,12 @@ CParser::LINE_TYPE CParser::get_line()
 		//
 		// Get line, check for eof
 		//
-		if (get_logical_line() == LT_EOF)
+		if (get_logical_line() == PHRQ_io::LT_EOF)
 		{
 			if (!m_input_stream.eof())
 			{
-				error_msg("Reading input file.", OT_CONTINUE);
-				error_msg("istream::get() returned an error.", OT_STOP);
+				error_msg("Reading input file.", PHRQ_io::OT_CONTINUE);
+				error_msg("istream::get() returned an error.", PHRQ_io::OT_STOP);
 			}
 			else
 			{
@@ -198,7 +244,7 @@ CParser::LINE_TYPE CParser::get_line()
 				m_line.erase(m_line.begin(), m_line.end());	// m_line.clear();
 				//}}MOD
 				m_next_keyword = Keywords::KEY_END;
-				return LT_EOF;
+				return PHRQ_io::LT_EOF;
 			}
 		}
 
@@ -225,17 +271,17 @@ CParser::LINE_TYPE CParser::get_line()
 		//
 		// New line character encountered 
 		//
-		return_value = (empty ? LT_EMPTY : LT_OK);
+		return_value = (empty ? PHRQ_io::LT_EMPTY : PHRQ_io::LT_OK);
 	}
 
 	//
 	// Determine return_value
 	// 
-	if (return_value == LT_OK)
+	if (return_value == PHRQ_io::LT_OK)
 	{
 		if (check_key(m_line.begin(), m_line.end()))
 		{
-			return_value = LT_KEYWORD;
+			return_value = PHRQ_io::LT_KEYWORD;
 		}
 		else
 		{
@@ -246,7 +292,7 @@ CParser::LINE_TYPE CParser::get_line()
 
 			if (token.size() > 1 && token[0] == '-' &&::isalpha(token[1]))
 			{
-				return_value = LT_OPTION;
+				return_value = PHRQ_io::LT_OPTION;
 			}
 		}
 	}
@@ -261,7 +307,7 @@ CParser::LINE_TYPE CParser::get_line()
                 EOF on empty line on end of file or
                 OK otherwise
 */
-CParser::LINE_TYPE CParser::get_logical_line()
+PHRQ_io::LINE_TYPE CParser::get_logical_line()
 {
 	int
 		j;
@@ -333,9 +379,9 @@ CParser::LINE_TYPE CParser::get_logical_line()
 	}
 	if (j == std::char_traits < char >::eof() && m_line_save.size() == 0)
 	{
-		return (LT_EOF);
+		return (PHRQ_io::LT_EOF);
 	}
-	return (LT_OK);
+	return (PHRQ_io::LT_OK);
 }
 
 bool
@@ -396,7 +442,7 @@ CParser::check_key(std::string::iterator begin, std::string::iterator end)
 	}
 	return true;
 }
-
+#ifdef SKIP
 CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 										  bool alkalinity,
 										  bool check_compatibility,
@@ -503,7 +549,7 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 		{
 			std::ostringstream err;
 			err << "Unknown unit, " << tot_units;
-			error_msg(err.str().c_str(), OT_CONTINUE);
+			error_msg(err.str().c_str(), PHRQ_io::OT_CONTINUE);
 		}
 		return PARSER_ERROR;
 	}
@@ -531,7 +577,7 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 		if (print)
 		{
 			error_msg("Only alkalinity can be entered in equivalents.",
-					  OT_CONTINUE);
+					  PHRQ_io::OT_CONTINUE);
 		}
 		return PARSER_ERROR;
 	}
@@ -564,11 +610,11 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 		std::ostringstream err;
 		err << "Units for master species, " << tot_units <<
 			", are not compatible with default units, " << str << ".";
-		error_msg(err.str().c_str(), OT_CONTINUE);
+		error_msg(err.str().c_str(), PHRQ_io::OT_CONTINUE);
 	}
 	return PARSER_ERROR;
 }
-
+#endif
 CParser::TOKEN_TYPE CParser::token_type(const std::string & token)
 {
 	if (!token.empty())
@@ -696,16 +742,16 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 	//
 	// Read line
 	//
-	LINE_TYPE lt = check_line("get_option", false, true, true, true);
-	if (lt == LT_EOF)
+	PHRQ_io::LINE_TYPE lt = check_line("get_option", false, true, true, true);
+	if (lt == PHRQ_io::LT_EOF)
 	{
 		j = OPT_EOF;
 	}
-	else if (lt == LT_KEYWORD)
+	else if (lt == PHRQ_io::LT_KEYWORD)
 	{
 		j = OPT_KEYWORD;
 	}
-	else if (lt == LT_OPTION)
+	else if (lt == PHRQ_io::LT_OPTION)
 	{
 		opt_ptr = m_line.begin();
 		std::string::iterator end = m_line.end();
@@ -724,7 +770,10 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 			{
 				if (true)		// database_file == NULL
 				{
-					get_output() << "\t" << m_line_save << "\n";
+					//get_output() << "\t" << m_line_save << "\n";
+					std::ostringstream msg;
+					msg << "\t" << m_line_save << "\n";
+					io->output_msg(msg.str().c_str());
 				}
 			}
 		}
@@ -732,7 +781,10 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 		{
 			if (true)			// (database_file == NULL)
 			{
-				get_output() << "\t" << m_line_save << "\n";
+				//get_output() << "\t" << m_line_save << "\n";
+				std::ostringstream msg;
+				msg << "\t" << m_line_save << "\n";
+				io->output_msg(msg.str().c_str());
 			}
 
 			std::ostringstream err;
@@ -785,16 +837,16 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 	//
 	// Read line
 	//
-	LINE_TYPE lt = check_line("get_option", false, true, true, true);
-	if (lt == LT_EOF)
+	PHRQ_io::LINE_TYPE lt = check_line("get_option", false, true, true, true);
+	if (lt == PHRQ_io::LT_EOF)
 	{
 		j = OPT_EOF;
 	}
-	else if (lt == LT_KEYWORD)
+	else if (lt == PHRQ_io::LT_KEYWORD)
 	{
 		j = OPT_KEYWORD;
 	}
-	else if (lt == LT_OPTION)
+	else if (lt == PHRQ_io::LT_OPTION)
 	{
 		std::string::iterator opt_ptr = m_line.begin();
 		std::string::iterator end = m_line.end();
@@ -850,7 +902,7 @@ CParser::STATUS_TYPE CParser::get_elt(std::string::iterator & begin,
 	if (begin == end)
 	{
 		error_msg("Empty string in get_elt.  Expected an element name.",
-				  OT_CONTINUE);
+				  PHRQ_io::OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 
@@ -876,7 +928,7 @@ CParser::STATUS_TYPE CParser::get_elt(std::string::iterator & begin,
 			else if (begin == end)
 			{
 				error_msg("No ending bracket (]) for element name",
-						  OT_CONTINUE);
+						  PHRQ_io::OT_CONTINUE);
 				incr_input_error();
 				return PARSER_ERROR;
 			}
@@ -925,7 +977,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Element name must be followed by " <<
 			"parentheses in redox couple, " << token << ".";
-		error_msg(err_msg.str().c_str(), OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		incr_input_error();
 		return PARSER_ERROR;
 	}
@@ -941,7 +993,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 			std::ostringstream err_msg;
 			err_msg << "End of line or  " "/"
 				" encountered before end of parentheses, " << token << ".";
-			error_msg(err_msg.str().c_str(), OT_CONTINUE);
+			error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 			return PARSER_ERROR;
 		}
 		paren1.insert(paren1.end(), *ptr);	// element.push_back(c);
@@ -959,7 +1011,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << " " "/" " must follow parentheses " <<
 			"ending first half of redox couple, " << token << ".";
-		error_msg(err_msg.str().c_str(), OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 	++ptr;
@@ -970,7 +1022,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Redox couple must be two redox states " <<
 			"of the same element, " << token << ".";
-		error_msg(err_msg.str().c_str(), OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 	if (*ptr != '(')
@@ -978,7 +1030,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Element name must be followed by "
 			"parentheses in redox couple, " << token << ".";
-		error_msg(err_msg.str().c_str(), OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		incr_input_error();
 		return PARSER_ERROR;
 	}
@@ -993,7 +1045,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 			std::ostringstream err_msg;
 			err_msg << "End of line or  " "/"
 				" encountered before end of parentheses, " << token << ".";
-			error_msg(err_msg.str().c_str(), OT_CONTINUE);
+			error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 			return PARSER_ERROR;
 		}
 		paren2.insert(paren2.end(), *ptr);	// element.push_back(c);
@@ -1017,7 +1069,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		std::ostringstream err_msg;
 		err_msg << "Both parts of redox couple are the same, " <<
 			token << ".";
-		error_msg(err_msg.str().c_str(), OT_CONTINUE);
+		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 	return PARSER_OK;
@@ -1036,7 +1088,7 @@ CParser::STATUS_TYPE CParser::addPair(std::map < std::string, double >&totals,
 
 	j = copy_token(token, pos);
 
-	if (j == TT_EMPTY)
+	if (j == CParser::TT_EMPTY)
 		return PARSER_OK;
 
 	if (!(m_line_iss >> d))
@@ -1067,16 +1119,16 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 	//
 	// Read line
 	//
-	LINE_TYPE lt = m_line_type;
-	if (lt == LT_EOF)
+	PHRQ_io::LINE_TYPE lt = m_line_type;
+	if (lt == PHRQ_io::LT_EOF)
 	{
 		j = OPT_EOF;
 	}
-	else if (lt == LT_KEYWORD)
+	else if (lt == PHRQ_io::LT_KEYWORD)
 	{
 		j = OPT_KEYWORD;
 	}
-	else if (lt == LT_OPTION)
+	else if (lt == PHRQ_io::LT_OPTION)
 	{
 		opt_ptr = m_line.begin();
 		std::string::iterator end = m_line.end();
@@ -1095,7 +1147,10 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			{
 				if (true)		// database_file == NULL
 				{
-					get_output() << "\t" << m_line_save << "\n";
+					//get_output() << "\t" << m_line_save << "\n";
+					std::ostringstream msg;
+					msg << "\t" << m_line_save << "\n";
+					io->output_msg(msg.str().c_str());
 				}
 			}
 		}
@@ -1103,7 +1158,10 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		{
 			if (true)			// (database_file == NULL)
 			{
-				get_output() << "\t" << m_line_save << "\n";
+				//get_output() << "\t" << m_line_save << "\n";
+				std::ostringstream msg;
+				msg << "\t" << m_line_save << "\n";
+				io->output_msg(msg.str().c_str());
 			}
 			//std::cerr << "Unknown option." << "\n";
 			//std::cerr << m_line_save << "\n";
@@ -1157,16 +1215,16 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 	//
 	// Read line
 	//
-	LINE_TYPE lt = m_line_type;
-	if (lt == LT_EOF)
+	PHRQ_io::LINE_TYPE lt = m_line_type;
+	if (lt == PHRQ_io::LT_EOF)
 	{
 		j = OPT_EOF;
 	}
-	else if (lt == LT_KEYWORD)
+	else if (lt == PHRQ_io::LT_KEYWORD)
 	{
 		j = OPT_KEYWORD;
 	}
-	else if (lt == LT_OPTION)
+	else if (lt == PHRQ_io::LT_OPTION)
 	{
 		std::string::iterator opt_ptr = m_line.begin();
 		std::string::iterator end = m_line.end();
@@ -1191,7 +1249,10 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			{
 				if (true)		// database_file == NULL
 				{
-					get_output() << "\t" << m_line_save << "\n";
+					//get_output() << "\t" << m_line_save << "\n";
+					std::ostringstream msg;
+					msg << "\t" << m_line_save << "\n";
+					io->output_msg(msg.str().c_str());
 				}
 			}
 		}
@@ -1199,10 +1260,13 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		{
 			if (true)			// (database_file == NULL)
 			{
-				get_output() << "\t" << m_line_save << "\n";
+				//get_output() << "\t" << m_line_save << "\n";
+				std::ostringstream msg;
+				msg << "\t" << m_line_save << "\n";
+				io->output_msg(msg.str().c_str());
 			}
-			error_msg("Unknown option.", OT_CONTINUE);
-			error_msg(m_line_save.c_str(), OT_CONTINUE);
+			error_msg("Unknown option.", PHRQ_io::OT_CONTINUE);
+			error_msg(m_line_save.c_str(), PHRQ_io::OT_CONTINUE);
 			incr_input_error();
 			j = OPT_ERROR;
 			next_pos = pos_ptr;
@@ -1226,7 +1290,10 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		{
 			if (true)			// database_file == NULL
 			{
-				get_output() << "\t" << m_line_save << "\n";
+				//get_output() << "\t" << m_line_save << "\n";
+				std::ostringstream msg;
+				msg << "\t" << m_line_save << "\n";
+				io->output_msg(msg.str().c_str());
 			}
 		}
 	}
@@ -1304,7 +1371,7 @@ bool CParser::get_true_false(std::istream::pos_type & pos, bool def)
 CParser::TOKEN_TYPE CParser::get_rest_of_line(std::string &token)
 {
 	token.clear();
-	std::istringstream::pos_type pos = m_line_iss.tellg();
+	//std::istringstream::pos_type pos = m_line_iss.tellg();
 	int j;
 	while ((j = m_line_iss.get()) != std::char_traits < char >::eof())
 	{

@@ -69,10 +69,7 @@ read_solution_raw(void)
 	pr.echo_input = save_echo_input;
 
 	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -119,7 +116,7 @@ read_solution_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_exchange_raw(void)
@@ -163,10 +160,7 @@ read_exchange_raw(void)
 	pr.echo_input = save_echo_input;
 
 	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -194,6 +188,7 @@ read_exchange_raw(void)
 			Utilities::Rxn_copy(Rxn_exchange_map, n_user, i);
 		}
 	}
+
 #ifdef SKIP
 	//struct exchange *exchange_ptr = ex.cxxExchange2exchange(PHREEQC_THIS);
 	struct exchange *exchange_ptr = cxxExchange2exchange(&ex);
@@ -227,7 +222,7 @@ read_exchange_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_surface_raw(void)
@@ -271,10 +266,7 @@ read_surface_raw(void)
 	pr.echo_input = save_echo_input;
 
 	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -367,10 +359,7 @@ read_equilibrium_phases_raw(void)
 	pr.echo_input = save_echo_input;
 
 	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -464,10 +453,7 @@ read_kinetics_raw(void)
 	pr.echo_input = save_echo_input;
 
 	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -560,10 +546,7 @@ read_solid_solutions_raw(void)
 	pr.echo_input = save_echo_input;
 
 	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -614,7 +597,76 @@ read_solid_solutions_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_gas_phase_raw(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads GAS_PHASE_RAW data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	/*
+	 *  Accumulate lines in std string
+	 */
+	std::string keywordLines("");
 
+	keywordLines.append(line);
+	keywordLines.append("\n");
+/*
+ *   Read additonal lines
+ */
+	int save_echo_input = pr.echo_input;
+	pr.echo_input = FALSE;
+	for (;;)
+	{
+		return_value = check_line("gas_phase_raw", TRUE, TRUE, TRUE, FALSE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+		keywordLines.append(line);
+		keywordLines.append("\n");
+	}
+	pr.echo_input = save_echo_input;
+
+	std::istringstream iss_in(keywordLines);
+	CParser parser(iss_in, phrq_io);
+	assert(!reading_database());
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+	//For testing, need to read line to get started
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	cxxGasPhase entity(phrq_io);
+	entity.read_raw(parser);
+
+	Rxn_gas_phase_map[entity.Get_n_user()] = entity;
+
+	// Need to output the next keyword
+	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
+	return (return_value);
+}
+#endif
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_gas_phase_raw(void)
@@ -709,7 +761,8 @@ read_gas_phase_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#endif
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_reaction_raw(void)
@@ -753,10 +806,8 @@ read_reaction_raw(void)
 	pr.echo_input = save_echo_input;
 
 	std::istringstream iss_in(keywordLines);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
 
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 	if (pr.echo_input == FALSE)
 	{
@@ -805,6 +856,7 @@ read_reaction_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 #ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -926,9 +978,7 @@ read_dump(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -976,9 +1026,7 @@ read_delete(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1028,9 +1076,7 @@ read_run_cells(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1100,9 +1146,7 @@ read_solution_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1199,9 +1243,7 @@ read_equilibrium_phases_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1248,6 +1290,7 @@ read_equilibrium_phases_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_exchange_modify(void)
@@ -1293,9 +1336,7 @@ read_exchange_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1392,6 +1433,7 @@ read_exchange_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_surface_modify(void)
@@ -1436,9 +1478,7 @@ read_surface_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1526,9 +1566,7 @@ read_solid_solutions_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1572,6 +1610,86 @@ read_solid_solutions_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_gas_phase_modify(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads GAS_PHASE_MODIFY data block
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+	// find gas_phase number
+	char token[MAX_LENGTH];
+	char *next;
+	int l, n_user;
+	next = line;
+	copy_token(token, &next, &l);
+	if (copy_token(token, &next, &l) != DIGIT)
+	{
+		input_error++;
+		error_string = sformatf( "Expected gas_phase number following GAS_PHASE_MODIFY.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token,"%d", &n_user);
+	}
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	CParser parser(iss_in, phrq_io);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+
+	cxxGasPhase *gas_phase_ptr = Utilities::Rxn_find(Rxn_gas_phase_map, n_user);
+	if (gas_phase_ptr == NULL)
+	{
+		input_error++;
+		error_string = sformatf( "Gas_phase %d not found for GAS_PHASE_MODIFY.\n", n_user);
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+
+	// read entity
+	gas_phase_ptr->read_raw(parser, false);
+
+	// Need to output the next keyword
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
+	return (return_value);
+}
+#endif
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_gas_phase_modify(void)
@@ -1660,6 +1778,7 @@ read_gas_phase_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics_modify(void)
@@ -1704,9 +1823,7 @@ read_kinetics_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;  // ??
-	std::ostringstream oss_err;  // ??
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1750,6 +1867,7 @@ read_kinetics_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_reaction_modify(void)
@@ -1793,9 +1911,7 @@ read_reaction_modify(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 	assert(!reading_database());
 
 	//For testing, need to read line to get started
@@ -1838,6 +1954,7 @@ read_reaction_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 streamify_to_next_keyword(std::istringstream & lines)
@@ -2079,6 +2196,22 @@ delete_entities(void)
 	{
 		if (delete_info.Get_gas_phase().Get_numbers().size() == 0)
 		{
+			Rxn_gas_phase_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_gas_phase().Get_numbers().begin(); it != delete_info.Get_gas_phase().Get_numbers().end(); it++)
+			{
+				Rxn_gas_phase_map.erase(*it);
+			}
+		}
+	}
+#ifdef SKIP
+	if (delete_info.Get_gas_phase().Get_defined())
+	{
+		if (delete_info.Get_gas_phase().Get_numbers().size() == 0)
+		{
 			for (i = 0; i < count_gas_phase; i++)
 			{
 				gas_phase_delete(gas_phase[i].n_user);
@@ -2096,7 +2229,7 @@ delete_entities(void)
 			}
 		}
 	}
-
+#endif
 	// kineticss
 	if (delete_info.Get_kinetics().Get_defined())
 	{
@@ -2163,6 +2296,22 @@ delete_entities(void)
 	{
 		if (delete_info.Get_reaction().Get_numbers().size() == 0)
 		{
+			Rxn_reaction_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_reaction().Get_numbers().begin(); it != delete_info.Get_reaction().Get_numbers().end(); it++)
+			{
+				Rxn_reaction_map.erase(*it);
+			}
+		}
+	}
+#ifdef SKIP
+	if (delete_info.Get_reaction().Get_defined())
+	{
+		if (delete_info.Get_reaction().Get_numbers().size() == 0)
+		{
 			for (i = 0; i < count_irrev; i++)
 			{
 				irrev_delete(irrev[i].n_user);
@@ -2180,6 +2329,7 @@ delete_entities(void)
 			}
 		}
 	}
+#endif
 	// temperatures
 	if (delete_info.Get_temperature().Get_defined())
 	{
@@ -2261,10 +2411,11 @@ run_as_cells(void)
 		*/
 		dup_print("Beginning of batch-reaction calculations.", TRUE);
 		count_steps = 1;
-		if (use.irrev_in == TRUE && use.irrev_ptr != NULL)
+		if (use.reaction_in == TRUE && use.reaction_ptr != NULL)
 		{
-			if (abs(use.irrev_ptr->count_steps) > count_steps)
-				count_steps = abs(use.irrev_ptr->count_steps);
+			int count = ((cxxReaction *) use.reaction_ptr)->Get_actualSteps();
+			if (count > count_steps)
+				count_steps = count;
 		}
 		if (use.kinetics_in == TRUE && use.kinetics_ptr != NULL)
 		{
@@ -2597,6 +2748,27 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_gas_phase().size() == 0)
 		{
+			Utilities::Rxn_dump_raw(Rxn_gas_phase_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_gas_phase().begin(); it != dump_info.Get_gas_phase().end(); it++)
+			{
+				cxxGasPhase *p = Utilities::Rxn_find(Rxn_gas_phase_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
+#ifdef SKIP
+	if (dump_info.Get_bool_gas_phase())
+	{
+		if (dump_info.Get_gas_phase().size() == 0)
+		{
 			for (i = 0; i < count_gas_phase; i++)
 			{
 					cxxGasPhase cxxentity(&gas_phase[i], phrq_io);
@@ -2617,7 +2789,7 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-
+#endif
 	// kinetics
 	if (dump_info.Get_bool_kinetics())
 	{
@@ -2696,6 +2868,27 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_reaction().size() == 0)
 		{
+			Utilities::Rxn_dump_raw(Rxn_reaction_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_reaction().begin(); it != dump_info.Get_reaction().end(); it++)
+			{
+				cxxReaction *p = Utilities::Rxn_find(Rxn_reaction_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
+#ifdef SKIP
+	if (dump_info.Get_bool_reaction())
+	{
+		if (dump_info.Get_reaction().size() == 0)
+		{
 			for (i = 0; i < count_irrev; i++)
 			{
 					cxxReaction cxxentity(&irrev[i]);
@@ -2716,7 +2909,7 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-
+#endif
 	// temperature
 	if (dump_info.Get_bool_temperature())
 	{
@@ -2760,10 +2953,10 @@ dump_ostream(std::ostream& os)
 		}
 	}
 	// Turn off any reaction calculation
-	os << "USE mix none" << std::endl;
-	os << "USE reaction none" << std::endl;
-	os << "USE reaction_temperature none" << std::endl;
-	os << "USE reaction_pressure none" << std::endl;
+	os << "USE mix none" << "\n";
+	os << "USE reaction none" << "\n";
+	os << "USE reaction_temperature none" << "\n";
+	os << "USE reaction_pressure none" << "\n";
 
 	// Turn off dump until next read
 	dump_info.SetAll(false);
@@ -2794,9 +2987,10 @@ read_user_graph_handler(void)
 	 */
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	//std::ostringstream oss_out;
+	//std::ostringstream oss_err;
+	//CParser parser(iss_in, oss_out, oss_err, phrq_io);
+	CParser parser(iss_in, phrq_io);
 
 	//For testing, need to read line to get started
 	std::vector < std::string > vopts;
@@ -2815,6 +3009,88 @@ read_user_graph_handler(void)
 	assert(!reading_database());
 
 	bool success = chart_handler.Read(PHREEQC_THIS_COMMA parser);
+
+	// Need to output the next keyword
+	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
+	return (return_value);
+}
+#endif
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_generic(Keywords::KEYWORDS key)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads _raw and _modify data blocks
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
+	int return_value;
+
+	std::string token;
+	char *next;
+	int n_user;
+	next = line;
+	copy_token(token, &next);
+	if (copy_token(token, &next) != DIGIT)
+	{
+		input_error++;
+		error_string = sformatf( "Expected reactant number following keyword.\n%s\n", line_save);
+		error_msg(error_string, CONTINUE);
+		std::istringstream iss_in;
+		return_value = streamify_to_next_keyword(iss_in);
+		return (ERROR);
+	} 
+	else
+	{
+		sscanf(token.c_str(),"%d", &n_user);
+	}
+	/*
+	 *  Make parser
+	 */
+	std::istringstream iss_in;
+	return_value = streamify_to_next_keyword(iss_in);
+	CParser parser(iss_in, phrq_io);
+	assert(!reading_database());
+
+	//For testing, need to read line to get started
+	parser.set_echo_file(CParser::EO_NONE);
+	std::vector < std::string > vopts;
+	std::istream::pos_type next_char;
+	parser.get_option(vopts, next_char);
+
+	if (pr.echo_input == FALSE)
+	{
+		parser.set_echo_file(CParser::EO_NONE);
+	}
+	else
+	{
+		parser.set_echo_file(CParser::EO_NOKEYWORDS);
+	}
+	switch (key)
+	{
+	case Keywords::KEY_REACTION_PRESSURE_RAW:
+		{
+			cxxPressure entity(this->phrq_io);
+			entity.read_raw(parser);
+			if (entity.Get_base_error_count() == 0)
+			{
+				Rxn_pressure_map[n_user] = entity;
+			}
+			// Make copies if necessary
+			Utilities::Rxn_copies(Rxn_pressure_map, entity.Get_n_user(), entity.Get_n_user_end());
+		}
+		break;
+	}
 
 	// Need to output the next keyword
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));

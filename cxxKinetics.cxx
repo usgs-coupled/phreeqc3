@@ -129,15 +129,15 @@ cxxKinetics::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// Kinetics element and attributes
 	s_oss << indent0;
-	s_oss << "<kinetics " << std::endl;
+	s_oss << "<kinetics " << "\n";
 
 	s_oss << indent1;
 	s_oss << "pitzer_kinetics_gammas=\"" << this->
-		pitzer_kinetics_gammas << "\"" << std::endl;
+		pitzer_kinetics_gammas << "\"" << "\n";
 
 	// components
 	s_oss << indent1;
-	s_oss << "<component " << std::endl;
+	s_oss << "<component " << "\n";
 	for (std::list < cxxKineticsComp >::const_iterator it =
 		 kineticsComps.begin(); it != kineticsComps.end(); ++it)
 	{
@@ -165,47 +165,47 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent, int * n_out) co
 	// Kinetics element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "KINETICS_RAW       " << n_user_local << " " << this->description << std::endl;
+	s_oss << "KINETICS_RAW       " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-step_divide       " << this->step_divide << std::endl;
+	s_oss << "-step_divide       " << this->step_divide << "\n";
 
 	s_oss << indent1;
-	s_oss << "-rk                " << this->rk << std::endl;
+	s_oss << "-rk                " << this->rk << "\n";
 
 	s_oss << indent1;
-	s_oss << "-bad_step_max      " << this->bad_step_max << std::endl;
+	s_oss << "-bad_step_max      " << this->bad_step_max << "\n";
 
 	s_oss << indent1;
-	s_oss << "-use_cvode         " << this->use_cvode << std::endl;
+	s_oss << "-use_cvode         " << this->use_cvode << "\n";
 
 	s_oss << indent1;
-	s_oss << "-cvode_steps       " << this->cvode_steps << std::endl;
+	s_oss << "-cvode_steps       " << this->cvode_steps << "\n";
 
 	s_oss << indent1;
-	s_oss << "-cvode_order       " << this->cvode_order << std::endl;
+	s_oss << "-cvode_order       " << this->cvode_order << "\n";
 
 	// kineticsComps structures
 	for (std::list < cxxKineticsComp >::const_iterator it =
 		 kineticsComps.begin(); it != kineticsComps.end(); ++it)
 	{
 		s_oss << indent1;
-		s_oss << "-component" << std::endl;
+		s_oss << "-component" << "\n";
 		(*it).dump_raw(s_oss, indent + 2);
 	}
 
 	// totals
 	s_oss << indent1;
-	s_oss << "-totals         " << std::endl;
+	s_oss << "-totals         " << "\n";
 	this->totals.dump_raw(s_oss, indent + 2);
 
 	// equal_steps
 	s_oss << indent1;
-	s_oss << "-equal_steps    " << this->equal_steps << std::endl;
+	s_oss << "-equal_steps    " << this->equal_steps << "\n";
 
 	// steps
 	s_oss << indent1;
-	s_oss << "-steps         " << std::endl;
+	s_oss << "-steps         " << "\n";
 	{
 		int i = 0;
 		s_oss << indent2;
@@ -214,13 +214,13 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent, int * n_out) co
 		{
 			if (i++ == 5)
 			{
-				s_oss << std::endl;
+				s_oss << "\n";
 				s_oss << indent2;
 				i = 0;
 			}
 			s_oss << *it << " ";
 		}
-		s_oss << std::endl;
+		s_oss << "\n";
 	}
 	return;
 }
@@ -291,8 +291,8 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input in KINETICS_COMP_RAW keyword.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 
@@ -302,7 +302,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				this->step_divide = 1.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for step_divide.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			step_divide_defined = true;
 			useLastLine = false;
@@ -314,7 +314,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				this->rk = 3;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for rk.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			rk_defined = true;
 			useLastLine = false;
@@ -326,7 +326,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				this->bad_step_max = 500;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for bad_step_max.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			bad_step_max_defined = true;
 			useLastLine = false;
@@ -338,7 +338,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				this->use_cvode = false;
 				parser.incr_input_error();
 				parser.error_msg("Expected boolean value for use_cvode.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			use_cvode_defined = true;
 			useLastLine = false;
@@ -404,7 +404,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for KineticsComp totals.",
-					 CParser::OT_CONTINUE);
+					 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 5;
 			useLastLine = false;
@@ -420,7 +420,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				{
 					parser.incr_input_error();
 					parser.error_msg("Expected numeric value for steps.",
-									 CParser::OT_CONTINUE);
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -438,7 +438,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				this->cvode_steps = 100;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for cvode_steps.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			cvode_steps_defined = true;
 			useLastLine = false;
@@ -450,7 +450,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				this->cvode_order = 5;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for cvode_order.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			cvode_order_defined = true;
 			useLastLine = false;
@@ -461,7 +461,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				this->equal_steps = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for equal_steps.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			equal_steps_defined = true;
 			useLastLine = false;
@@ -482,44 +482,44 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Step_divide not defined for KINETICS_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (rk_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Rk not defined for KINETICS_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (bad_step_max_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Bad_step_max not defined for KINETICS_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (use_cvode_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Use_cvode not defined for KINETICS_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (cvode_steps_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Cvode_steps not defined for KINETICS_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (cvode_order_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Cvode_order not defined for KINETICS_RAW input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		// disable to remain backward compatible with PHAST restart files?
 		//if (equal_steps_defined == false)
 		//{
 		//	parser.incr_input_error();
 		//	parser.error_msg("Equal_steps not defined for KINETICS_RAW input.",
-		//		CParser::OT_CONTINUE);
+		//		PHRQ_io::OT_CONTINUE);
 		//}
 	}
 }

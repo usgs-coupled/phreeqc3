@@ -73,7 +73,7 @@ cxxSurfaceCharge::~cxxSurfaceCharge()
 //	{
 //		std::ostringstream error_oss;
 //		error_oss << "Surface charge psi_master not found." << this->
-//			name << std::endl;
+//			name << "\n";
 //		//Utilities::error_msg(error_oss.str(), CONTINUE);
 //		error_msg(error_oss.str().c_str(), CONTINUE);
 //	}
@@ -96,23 +96,23 @@ cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// Surf_Charge element and attributes
 
-	s_oss << indent0 << "name=\"" << this->name << "\"" << std::endl;
+	s_oss << indent0 << "name=\"" << this->name << "\"" << "\n";
 	s_oss << indent0 << "specific_area=\"" << this->
-		specific_area << "\"" << std::endl;
-	s_oss << indent0 << "grams=\"" << this->grams << "\"" << std::endl;
+		specific_area << "\"" << "\n";
+	s_oss << indent0 << "grams=\"" << this->grams << "\"" << "\n";
 	s_oss << indent0 << "charge_balance=\"" << this->
-		charge_balance << "\"" << std::endl;
+		charge_balance << "\"" << "\n";
 	s_oss << indent0 << "mass_water=\"" << this->
-		mass_water << "\"" << std::endl;
-	s_oss << indent0 << "la_psi=\"" << this->la_psi << "\"" << std::endl;
-	s_oss << indent0 << "la_psi1=\"" << this->la_psi1 << "\"" << std::endl;
-	s_oss << indent0 << "la_psi2=\"" << this->la_psi2 << "\"" << std::endl;
+		mass_water << "\"" << "\n";
+	s_oss << indent0 << "la_psi=\"" << this->la_psi << "\"" << "\n";
+	s_oss << indent0 << "la_psi1=\"" << this->la_psi1 << "\"" << "\n";
+	s_oss << indent0 << "la_psi2=\"" << this->la_psi2 << "\"" << "\n";
 	s_oss << indent0 << "capacitance=\"" << this->
-		capacitance[0] << " " << this->capacitance[0] << "\"" << std::endl;
+		capacitance[0] << " " << this->capacitance[0] << "\"" << "\n";
 
 	// totals
 	s_oss << indent0;
-	s_oss << "<diffuse_layer_totals " << std::endl;
+	s_oss << "<diffuse_layer_totals " << "\n";
 	this->diffuse_layer_totals.dump_xml(s_oss, indent + 1);
 
 }
@@ -133,28 +133,28 @@ cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Surf_Charge element and attributes
 
-	s_oss << indent0 << "-name                  " << this->name << std::endl;
+	s_oss << indent0 << "-name                  " << this->name << "\n";
 	s_oss << indent1 << "-specific_area         " << this->
-		specific_area << std::endl;
-	s_oss << indent1 << "-grams                 " << this->grams << std::endl;
+		specific_area << "\n";
+	s_oss << indent1 << "-grams                 " << this->grams << "\n";
 	s_oss << indent1 << "-charge_balance        " << this->
-		charge_balance << std::endl;
+		charge_balance << "\n";
 	s_oss << indent1 << "-mass_water            " << this->
-		mass_water << std::endl;
+		mass_water << "\n";
 	s_oss << indent1 << "-la_psi                " << this->
-		la_psi << std::endl;
+		la_psi << "\n";
 	s_oss << indent1 << "-la_psi1               " << this->
-		la_psi1 << std::endl;
+		la_psi1 << "\n";
 	s_oss << indent1 << "-la_psi2               " << this->
-		la_psi2 << std::endl;
+		la_psi2 << "\n";
 	s_oss << indent1 << "-capacitance0          " << this->
-		capacitance[0] << std::endl;
+		capacitance[0] << "\n";
 	s_oss << indent1 << "-capacitance1          " << this->
-		capacitance[1] << std::endl;
+		capacitance[1] << "\n";
 
 	// totals
 	s_oss << indent1;
-	s_oss << "-diffuse_layer_totals" << std::endl;
+	s_oss << "-diffuse_layer_totals" << "\n";
 	this->diffuse_layer_totals.dump_raw(s_oss, indent + 2);
 
 }
@@ -216,8 +216,8 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Surface for more processing
-			//parser.error_msg("Unknown input in SURF_CHARGE read.", CParser::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+			//parser.error_msg("Unknown input in SURF_CHARGE read.", PHRQ_io::OT_CONTINUE);
+			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// name
@@ -226,7 +226,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->name.clear();
 				parser.incr_input_error();
 				parser.error_msg("Expected string value for name.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			else
 			{
@@ -241,7 +241,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->specific_area = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for specific_area.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			specific_area_defined = true;
 			break;
@@ -252,7 +252,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->grams = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for grams.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			grams_defined = true;
 			break;
@@ -264,7 +264,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->charge_balance = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for charge_balance.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			charge_balance_defined = true;
 			break;
@@ -275,7 +275,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->mass_water = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for mass_water.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			mass_water_defined = true;
 			break;
@@ -287,7 +287,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->la_psi = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la_psi.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			la_psi_defined = true;
 			break;
@@ -301,7 +301,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				parser.
 					error_msg
 					("Expected element name and molality for SurfaceCharge diffuse_layer_totals.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = 6;
 			break;
@@ -312,7 +312,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->la_psi1 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la_psi1.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			la_psi1_defined = true;
 			break;
@@ -323,7 +323,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->la_psi2 = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for la_psi.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			la_psi2_defined = true;
 			break;
@@ -334,7 +334,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->capacitance[0] = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for capacitance0.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			capacitance0_defined = true;
 			break;
@@ -345,7 +345,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 				this->capacitance[1] = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for capacitance1.",
-					CParser::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
 			}
 			capacitance1_defined = true;
 			break;
@@ -361,62 +361,62 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Name not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (specific_area_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Specific_area not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (grams_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Grams not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (charge_balance_defined == false)
 		{
 			parser.incr_input_error();
 			parser.
 				error_msg("Charge_balance not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (mass_water_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Mass_water not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (la_psi_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("La_psi not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (la_psi1_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("La_psi1 not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (la_psi2_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("La_psi2 not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (capacitance0_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Capacitance0 not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 		if (capacitance1_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Capacitance1 not defined for SurfaceCharge input.",
-				CParser::OT_CONTINUE);
+				PHRQ_io::OT_CONTINUE);
 		}
 	}
 }

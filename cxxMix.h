@@ -34,7 +34,7 @@ class cxxMix:public cxxNumKeyword
 		{
 			mixComps[n] = f;
 		}
-	};
+	}
 	void Multiply(LDBLE f)
 	{
 		for (std::map < int, LDBLE >::iterator it = this->mixComps.begin();
@@ -42,7 +42,7 @@ class cxxMix:public cxxNumKeyword
 		{
 			it->second *= f;
 		}
-	};
+	}
 
 	const std::map < int, LDBLE > & Get_mixComps() const
 	{

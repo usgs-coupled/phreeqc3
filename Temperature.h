@@ -23,11 +23,11 @@ class cxxTemperature:public cxxNumKeyword
 	void read_raw(CParser & parser);
 	int read(CParser & parser);
 	LDBLE Temperature_for_step(int step_number);
-	std::vector<double> & Get_temps(void) {return temps;};
+	std::vector<double> & Get_temps(void) {return temps;}
 	int Get_countTemps(void) const;
-	void Set_countTemps(int i) {countTemps = i;};
-	bool Get_equalIncrements(void) const {return equalIncrements;};
-	void Set_equalIncrements(bool tf) {equalIncrements = tf;};
+	void Set_countTemps(int i) {countTemps = i;}
+	bool Get_equalIncrements(void) const {return equalIncrements;}
+	void Set_equalIncrements(bool tf) {equalIncrements = tf;}
 
 protected:
 	std::vector < double >temps;

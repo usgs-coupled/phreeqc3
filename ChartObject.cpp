@@ -142,7 +142,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 	}
 	if (string_vector.size() == 0)
 	{
-		error_msg("No axis defined for scales", CParser::OT_CONTINUE);
+		error_msg("No axis defined for scales", PHRQ_io::OT_CONTINUE);
 		return false;
 	}
 	std::string str = string_vector[0];
@@ -168,8 +168,8 @@ ChartObject::Set_axis_scale(CParser & parser)
 		std::ostringstream estream;
 		estream << "Found " << str;
 		estream << ", but expect axis type \'x\', \'y\', \'y2\'or \'sy\'.";
-		estream << std::endl;
-		error_msg(estream.str().c_str(), CParser::OT_CONTINUE);
+		estream << "\n";
+		error_msg(estream.str().c_str(), PHRQ_io::OT_CONTINUE);
 		return false;
 	}
 
@@ -189,7 +189,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 			std::ostringstream estream;
 			estream << "Found " << s;
 			estream << ", but expect number or 'a(uto)'.";
-			estream << std::endl;
+			estream << "\n";
 			error_msg(estream.str().c_str(), CONTINUE);
 			return false;
 		}
@@ -205,7 +205,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 			{
 				std::ostringstream estream;
 				estream << "MIN and MAX must be > 0 for log " << type << "-scale.";
-				estream << std::endl;
+				estream << "\n";
 				error_msg(estream.str().c_str(), CONTINUE);
 				return false;
 			}
@@ -217,8 +217,8 @@ ChartObject::Set_axis_scale(CParser & parser)
 		if (scale_ptr[0] > scale_ptr[1])
 		{
 			std::ostringstream estream;
-			estream << "Maximum must be larger than minimum of axis_scale " << type << "-scale." << std::endl;
-			estream << "Switching values for MIN and MAX. " << std::endl;
+			estream << "Maximum must be larger than minimum of axis_scale " << type << "-scale." << "\n";
+			estream << "Switching values for MIN and MAX. " << "\n";
 			warning_msg(estream.str().c_str());
 			double t;
 			t = scale_ptr[0];
@@ -468,9 +468,10 @@ ChartObject::OpenCSVFile(std::string file_name)
 		return false;
 	}
 
-	std::ostringstream oss_out;
-	std::ostringstream oss_err;
-	CParser parser(f_csv, oss_out, oss_err, this->Get_io());
+	//std::ostringstream oss_out;
+	//std::ostringstream oss_err;
+	//CParser parser(f_csv, oss_out, oss_err, this->Get_io());
+	CParser parser(f_csv, this->Get_io());
 	parser.set_echo_file(CParser::EO_NONE);	
 
 	/* Get lines */
@@ -481,7 +482,7 @@ ChartObject::OpenCSVFile(std::string file_name)
 	std::vector<CurveObject *> csv_curves;
 
 	// Read file line by line into temporary curves
-	while (parser.check_line("cvs file", false, true, true, false) != CParser::LT_EOF)
+	while (parser.check_line("cvs file", false, true, true, false) != PHRQ_io::LT_EOF)
 	{
 		// Headings line
 		if (linenr == 0)
@@ -743,7 +744,7 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 	
 	// Add to list of new plotxy curves
 	this->new_plotxy_curves.push_back(new_curve);
-	//std::cerr << revised_line << std::endl;
+	//std::cerr << revised_line << "\n";
 	cmd_line = revised_line;
 }
 void 
@@ -755,7 +756,7 @@ ChartObject::Set_rate_struct(void)
 	std::ostringstream oss;
 	for (; it != rate_command_list.end(); it++)
 	{
-		oss << *it << std::endl;
+		oss << *it << "\n";
 	}
 	this->Rate_free();
 	this->user_graph->commands = (char *) P_INSTANCE_POINTER PHRQ_malloc((oss.str().size()) + 100 * sizeof(char));
@@ -930,7 +931,7 @@ ChartObject::SaveCurvesToFile(std::string &file_name)
 		if ((*it)->Get_x().size() > max_points)
 			max_points = (*it)->Get_x().size();
 	}
-	f_out << std::endl;
+	f_out << "\n";
 
 	// write data
 	size_t i2 = 0;
@@ -955,7 +956,7 @@ ChartObject::SaveCurvesToFile(std::string &file_name)
 				f_out << "\t";
 			}
 		}
-		f_out << std::endl;
+		f_out << "\n";
 		i2++;
 	}
 	f_out.close();
@@ -1101,10 +1102,10 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 		indent0.append(Utilities::INDENT);
 	for (i = 0; i < indent + 1; ++i)
 		indent1.append(Utilities::INDENT);
-	oss << indent0 << "USER_GRAPH " << this->n_user << " " << this->description << std::endl;
+	oss << indent0 << "USER_GRAPH " << this->n_user << " " << this->description << "\n";
 
 	// chart title
-	oss << indent1 << "-chart_title \"" << this->chart_title << "\"" << std::endl;
+	oss << indent1 << "-chart_title \"" << this->chart_title << "\"" << "\n";
 
 	// axis titles
 	if (this->axis_titles.size() > 0)
@@ -1115,7 +1116,7 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 		{
 			oss <<  "\"" << axis_titles[i] << "\" ";
 		}
-		oss << std::endl;
+		oss << "\n";
 	}
 
 	// axis_scale_x
@@ -1137,7 +1138,7 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 		{
 			oss << " log";
 		}
-		oss << std::endl;
+		oss << "\n";
 	}
 	// axis_scale_y
 	scale_ptr = this->axis_scale_y;
@@ -1158,7 +1159,7 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 		{
 			oss << " log";
 		}
-		oss << std::endl;
+		oss << "\n";
 	}
 	// axis_scale_sy
 	scale_ptr = this->axis_scale_y2;
@@ -1179,39 +1180,39 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 		{
 			oss << " log";
 		}
-		oss << std::endl;
+		oss << "\n";
 	}
 	// chart type
 	if (this->chart_type == 0)
 	{
-		oss << indent1 << "-plot_concentration_vs x" << std::endl;
+		oss << indent1 << "-plot_concentration_vs x" << "\n";
 	}
 	else
 	{
-		oss << indent1 << "-plot_concentration_vs t" << std::endl;
+		oss << indent1 << "-plot_concentration_vs t" << "\n";
 	}
 	// graph_initial_solutions
 	if (this->graph_initial_solutions)
 	{
-		oss << indent1 << "-initial_solutions true" << std::endl;
+		oss << indent1 << "-initial_solutions true" << "\n";
 	}
 	else
 	{
-		oss << indent1 << "-initial_solutions false" << std::endl;
+		oss << indent1 << "-initial_solutions false" << "\n";
 	}
 	// connect_simulations
 	if (this->connect_simulations)
 	{
-		oss << indent1 << "-connect_simulations true" << std::endl;
+		oss << indent1 << "-connect_simulations true" << "\n";
 	}
 	else
 	{
-		oss << indent1 << "-connect_simulations false" << std::endl;
+		oss << indent1 << "-connect_simulations false" << "\n";
 	}
 	// csv files
 	for (i = 0; i < this->csv_file_names.size(); i++)
 	{
-		oss << indent1 << "-plot_csv_file " << this->csv_file_names[i] << std::endl;
+		oss << indent1 << "-plot_csv_file " << this->csv_file_names[i] << "\n";
 	}
 
 	// headings
@@ -1222,17 +1223,17 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 		{
 			oss << this->headings_original[i] << " ";
 		}
-		oss << std::endl;
+		oss << "\n";
 	}
 
 	// commands
-	oss << indent1 << "-start" << std::endl;
+	oss << indent1 << "-start" << "\n";
 	std::list<std::string>::iterator it = rate_command_list_original.begin();
 	for (; it != rate_command_list_original.end(); it++)
 	{
-		oss << *it << std::endl;
+		oss << *it << "\n";
 	}
-	oss << indent1 << "-end" << std::endl;
+	oss << indent1 << "-end" << "\n";
 
 	/*
 	struct rate *user_graph;

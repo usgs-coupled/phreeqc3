@@ -49,15 +49,15 @@ cxxTemperature::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 
 	// Temperature element and attributes
 	s_oss << indent0;
-	s_oss << "<temperature " << std::endl;
+	s_oss << "<temperature " << "\n";
 
 	s_oss << indent1;
 	s_oss << "pitzer_temperature_gammas=\"" << this->
-		pitzer_temperature_gammas << "\"" << std::endl;
+		pitzer_temperature_gammas << "\"" << "\n";
 
 	// components
 	s_oss << indent1;
-	s_oss << "<component " << std::endl;
+	s_oss << "<component " << "\n";
 	for (std::list < cxxTemperatureComp >::const_iterator it =
 		 temperatureComps.begin(); it != temperatureComps.end(); ++it)
 	{
@@ -86,7 +86,7 @@ cxxTemperature::read(CParser & parser)
  */
 	// Number and description set in read_reaction_temperature
 
-	CParser::LINE_TYPE lt;
+	PHRQ_io::LINE_TYPE lt;
 	bool done = false;
 	for (;;)
 	{
@@ -95,21 +95,21 @@ cxxTemperature::read(CParser & parser)
 		std::string token, str;
 		lt = parser.check_line(str, false, true, true, true);
 
-		if (lt == CParser::LT_EMPTY || 
-			lt == CParser::LT_KEYWORD ||
-			lt == CParser::LT_EOF)
+		if (lt == PHRQ_io::LT_EMPTY || 
+			lt == PHRQ_io::LT_KEYWORD ||
+			lt == PHRQ_io::LT_EOF)
 		{
 			break;
 		}
-		if (lt == CParser::LT_OPTION)
+		if (lt == PHRQ_io::LT_OPTION)
 		{
-			this->error_msg("Expected numeric value for temperatures.", CParser::OT_CONTINUE);
+			this->error_msg("Expected numeric value for temperatures.", PHRQ_io::OT_CONTINUE);
 			break;
 		}
 
 		if (done)
 		{
-			this->error_msg("Unknown input following equal increment definition.", CParser::OT_CONTINUE);
+			this->error_msg("Unknown input following equal increment definition.", PHRQ_io::OT_CONTINUE);
 			continue;
 		}
 
@@ -136,7 +136,7 @@ cxxTemperature::read(CParser & parser)
 				if (!(iss >> d))
 				{
 					this->error_msg("Expected numeric value for temperatures.",
-									 CParser::OT_CONTINUE);
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -200,18 +200,18 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "REACTION_TEMPERATURE_RAW        " << n_user_local << " " << this->description << std::endl;
+	s_oss << "REACTION_TEMPERATURE_RAW        " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-count_temps        " << this->Get_countTemps() << std::endl;
+	s_oss << "-count_temps        " << this->Get_countTemps() << "\n";
 
 	s_oss << indent1;
-	s_oss << "-equal_increments   " << this->equalIncrements << std::endl;
+	s_oss << "-equal_increments   " << this->equalIncrements << "\n";
 
 	// Temperature element and attributes
 
 	s_oss << indent1;
-	s_oss << "-temps              " << std::endl;
+	s_oss << "-temps              " << "\n";
 	{
 		int i = 0;
 		s_oss << indent2;
@@ -220,13 +220,13 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 		{
 			if (i++ == 5)
 			{
-				s_oss << std::endl;
+				s_oss << "\n";
 				s_oss << indent2;
 				i = 0;
 			}
 			s_oss << *it << " ";
 		}
-		s_oss << std::endl;
+		s_oss << "\n";
 	}
 }
 
@@ -285,8 +285,8 @@ cxxTemperature::read_raw(CParser & parser)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_EOF;
 			parser.error_msg("Unknown input in TEMPERATURE_COMP_RAW keyword.",
-							 CParser::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), CParser::OT_CONTINUE);
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			useLastLine = false;
 			break;
 
@@ -304,7 +304,7 @@ cxxTemperature::read_raw(CParser & parser)
 				{
 					parser.incr_input_error();
 					parser.error_msg("Expected numeric value for temps.",
-									 CParser::OT_CONTINUE);
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
@@ -322,7 +322,7 @@ cxxTemperature::read_raw(CParser & parser)
 				parser.incr_input_error();
 				parser.
 					error_msg("Expected boolean value for equalIncrements.",
-							  CParser::OT_CONTINUE);
+							  PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
@@ -335,7 +335,7 @@ cxxTemperature::read_raw(CParser & parser)
 				this->countTemps = 0;
 				parser.incr_input_error();
 				parser.error_msg("Expected integer value for countTemps.",
-								 CParser::OT_CONTINUE);
+								 PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
@@ -352,7 +352,7 @@ cxxTemperature::read_raw(CParser & parser)
 		parser.
 			error_msg
 			("Equal_increments not defined for REACTION_TEMPERATURE_RAW input.",
-			 CParser::OT_CONTINUE);
+			 PHRQ_io::OT_CONTINUE);
 	}
 	if (countTemps_defined == false)
 	{
@@ -360,7 +360,7 @@ cxxTemperature::read_raw(CParser & parser)
 		parser.
 			error_msg
 			("Count_temps not defined for REACTION_TEMPERATURE_RAW input.",
-			 CParser::OT_CONTINUE);
+			 PHRQ_io::OT_CONTINUE);
 	}
 }
 /* ---------------------------------------------------------------------- */
