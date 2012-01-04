@@ -26,9 +26,15 @@ USER_PUNCH
 #  if step_no = 0 then goto 100
   2 sc$ = CHR$(59)
  10 punch 'GAS_PHASE_MODIFY 8' + sc$ + ' -volume 1' + EOL$
+ #20 punch '-comp ' + EOL$
+ #30 punch ' CO2(g) ' + STR$(1e6 * GAS("CO2(g)")) + EOL$
+ #40 punch ' N2(g) ' + STR$(1e6 * GAS("N2(g)")) + EOL$
  20 punch '-comp ' + EOL$
- 30 punch ' CO2(g) ' + STR$(1e6 * GAS("CO2(g)")) + EOL$
- 40 punch ' N2(g) ' + STR$(1e6 * GAS("N2(g)")) + EOL$
+ 30 punch '     -phase_name ' + ' CO2(g) ' + EOL$
+ 40 punch '     -moles      ' + STR$(1e6 * GAS("CO2(g)")) + EOL$
+ 50 punch '-comp ' + EOL$
+ 60 punch '     -phase_name ' + ' N2(g) ' + EOL$
+ 70 punch '     -moles      ' + STR$(1e6 * GAS("N2(g)")) + EOL$
  100 end
 END
 SELECTED_OUTPUT; -selected_out false
