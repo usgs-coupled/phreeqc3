@@ -38,27 +38,6 @@ cxxExchComp::cxxExchComp(PHRQ_io *io)
 	formula_z = 0.0;
 }
 #ifdef SKIP
-cxxExchComp::cxxExchComp(struct exch_comp * exch_comp_ptr, PHRQ_io *io)
-	//
-	// constructor for cxxExchComp from struct exch_comp
-	//
-:
-PHRQ_base(io),
-formula_totals(exch_comp_ptr->formula_totals), totals(exch_comp_ptr->totals)
-{
-	this->Set_formula(exch_comp_ptr->formula);
-	moles = exch_comp_ptr->moles;
-	// totals in constructor
-	//formula_totals in constructor
-	la = exch_comp_ptr->la;
-	charge_balance = exch_comp_ptr->charge_balance;
-	this->Set_phase_name(exch_comp_ptr->phase_name);
-	phase_proportion = exch_comp_ptr->phase_proportion;
-	this->Set_rate_name(exch_comp_ptr->rate_name);
-	formula_z = exch_comp_ptr->formula_z;
-}
-#endif
-#ifdef SKIP
 cxxExchComp::cxxExchComp(std::vector < cxxExchComp > &ec_vector,
 						 std::vector < double >&f_vector)
 		//

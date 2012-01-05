@@ -16,7 +16,6 @@ class cxxExchange:public cxxNumKeyword
 
 public:
 	cxxExchange(PHRQ_io *io=NULL);
-	//cxxExchange(struct exchange *, PHRQ_io *io=NULL);
 	cxxExchange(const std::map < int, cxxExchange > &exchange_map,
 		cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxExchange();

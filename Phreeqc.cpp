@@ -195,16 +195,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 			accumulator.add_extensive(r_ptr.Get_elementList(), 1.0);
 		}
 	}
-#ifdef SKIP
-	{
-		for (i = 0; i < count_irrev; i++)
-		{
-			reaction_calc(&irrev[i]);
-			cxxReaction entity(&irrev[i]);
-			accumulator.add_extensive(entity.Get_elementList(), 1.0);
-		}
-	}
-#endif
+
 	// pure phases
 	for (i = 0; i < count_pp_assemblage; i++)
 	{
@@ -214,14 +205,6 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 
 	// exchangers
-#ifdef SKIP
-	for (i = 0; i < count_exchange; i++)
-	{
-		cxxExchange entity(&exchange[i], phrq_io);
-		entity.totalize();
-		accumulator.add_extensive(entity.Get_totals(), 1.0);
-	}
-#endif
 	{
 		std::map<int, cxxExchange>::const_iterator cit = Rxn_exchange_map.begin();
 		for (; cit !=  Rxn_exchange_map.end(); cit++)
@@ -250,14 +233,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 			accumulator.add_extensive(entity.Get_totals(), 1.0);
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_gas_phase; i++)
-	{
-		cxxGasPhase entity(&gas_phase[i], phrq_io);
-		entity.totalize(this);
-		accumulator.add_extensive(entity.Get_totals(), 1.0);
-	}
-#endif
+
 	// solid-solutions
 	for (i = 0; i < count_s_s_assemblage; i++)
 	{

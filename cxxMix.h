@@ -15,7 +15,6 @@ class cxxMix:public cxxNumKeyword
 
   public:
 	cxxMix(PHRQ_io *io=NULL);
-	//cxxMix(struct mix *, PHRQ_io *io=NULL);
 	 ~cxxMix();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
