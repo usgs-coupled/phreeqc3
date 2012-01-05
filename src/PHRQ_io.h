@@ -65,7 +65,7 @@ public:
 	bool log_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void log_flush(void);
 	void log_close(void);
-	void log_msg(const char * str);
+	virtual void log_msg(const char * str);
 	void Set_log_ostream(std::ostream * out)		{this->log_ostream = out;};
 	std::ostream *Get_log_ostream(void)				{return this->log_ostream;};
 	void Set_log_on(bool tf)						{this->log_on = tf;};
