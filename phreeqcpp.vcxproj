@@ -213,7 +213,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(DEV_GMP_INC_MT);.\src;.\src\phreeqc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;REVISED_GASESxxx;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;REVISED_GASES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -264,6 +264,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GasComp.cxx" />
     <ClCompile Include="src\Keywords.cpp" />
     <ClCompile Include="src\PBasic.cpp" />
     <ClCompile Include="src\phreeqc\advection.cpp" />
@@ -559,6 +560,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GasComp.h" />
     <ClInclude Include="src\Keywords.h" />
     <ClInclude Include="src\PBasic.h" />
     <ClInclude Include="src\ChartHandler.h" />
@@ -588,7 +590,7 @@
     <ClInclude Include="src\Parser.h" />
     <ClInclude Include="src\phreeqc\phqalloc.h" />
     <CustomBuildStep Include="src\Phreeqc.h" />
-    <ClInclude Include="src\phreeqc_class.h" />
+    <ClInclude Include="src\Phreeqc_class.h" />
     <ClInclude Include="src\PHRQ_base.h" />
     <ClInclude Include="src\PHRQ_io.h" />
     <ClInclude Include="src\phreeqc\phrqtype.h" />
