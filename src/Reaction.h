@@ -15,7 +15,6 @@ class cxxReaction:public cxxNumKeyword
 
   public:
 	cxxReaction(PHRQ_io *io = NULL);
-	//cxxReaction(struct irrev *, PHRQ_io *io = NULL);
 	 ~cxxReaction();
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;

@@ -26,30 +26,7 @@ cxxMix::cxxMix(PHRQ_io *io)
 :	cxxNumKeyword(io)
 {
 }
-#ifdef SKIP
-cxxMix::cxxMix(struct mix *mix_ptr, PHRQ_io *io)
-		//
-		// constructor for cxxMix from struct mix
-		//
-	:
-cxxNumKeyword(io)
-{
-	int i;
 
-	this->Set_description(mix_ptr->description);
-	this->n_user = mix_ptr->n_user;
-	this->n_user_end = mix_ptr->n_user_end;
-	// comps
-	if (mix_ptr->count_comps > 0)
-	{
-		for (i = 0; i < mix_ptr->count_comps; i++)
-		{
-			this->mixComps[mix_ptr->comps[i].n_solution] =
-				mix_ptr->comps[i].fraction;
-		}
-	}
-}
-#endif
 cxxMix::~cxxMix()
 {
 }

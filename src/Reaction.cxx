@@ -29,43 +29,6 @@ cxxReaction::cxxReaction(PHRQ_io *io)
 	reactantList.type = cxxNameDouble::ND_NAME_COEF;
 	elementList.type = cxxNameDouble::ND_ELT_MOLES;
 }
-#ifdef SKIP
-cxxReaction::cxxReaction(struct irrev *irrev_ptr, PHRQ_io *io)
-		//
-		// constructor for cxxReaction from struct irrev
-		//
-	:
-cxxNumKeyword(io),
-reactantList(irrev_ptr->list, irrev_ptr->count_list),
-elementList(irrev_ptr->elts)
-{
-	int i;
-
-	this->Set_description(irrev_ptr->description);
-	this->n_user = irrev_ptr->n_user;
-	this->n_user_end = irrev_ptr->n_user_end;
-	this->Set_units(irrev_ptr->units);
-	// steps
-	if (irrev_ptr->count_steps < 0)
-	{
-		for (i = 0; i < 1; i++)
-		{
-			this->steps.push_back(irrev_ptr->steps[i]);
-		}
-		this->countSteps = -irrev_ptr->count_steps;
-		this->equalIncrements = true;
-	}
-	else
-	{
-		for (i = 0; i < irrev_ptr->count_steps; i++)
-		{
-			this->steps.push_back(irrev_ptr->steps[i]);
-		}
-		this->countSteps = irrev_ptr->count_steps;
-		this->equalIncrements = false;
-	}
-}
-#endif
 cxxReaction::~cxxReaction()
 {
 }

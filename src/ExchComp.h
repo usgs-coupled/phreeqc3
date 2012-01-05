@@ -14,7 +14,6 @@ class cxxExchComp: public PHRQ_base
 
   public:
 	cxxExchComp(PHRQ_io *io=NULL);
-	//cxxExchComp(struct exch_comp *, PHRQ_io *io=NULL);
 	 ~cxxExchComp();
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
