@@ -31,32 +31,6 @@ cxxExchange::cxxExchange(PHRQ_io *io)
 	n_solution = -999;
 	pitzer_exchange_gammas = true;
 }
-#ifdef SKIP
-cxxExchange::cxxExchange(struct exchange * exchange_ptr, PHRQ_io *io)
-	//
-	// constructor for cxxExchange from struct exchange
-	//
-:
-cxxNumKeyword(io)
-{
-	int i;
-
-	this->Set_description(exchange_ptr->description);
-	n_user = exchange_ptr->n_user;
-	n_user_end = exchange_ptr->n_user_end;
-	pitzer_exchange_gammas = (exchange_ptr->pitzer_exchange_gammas == TRUE);
-	for (i = 0; i < exchange_ptr->count_comps; i++)
-	{
-		cxxExchComp ec(&(exchange_ptr->comps[i]), this->Get_io());
-		std::string str(ec.Get_formula());
-		exchComps[str] = ec;
-	}
-
-
-
-
-}
-#endif
 cxxExchange::cxxExchange(const std::map < int, cxxExchange > &entities,
 						 cxxMix & mix, int l_n_user, PHRQ_io *io):
 cxxNumKeyword(io)
