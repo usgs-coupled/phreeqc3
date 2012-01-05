@@ -1245,7 +1245,7 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			pos_ptr = 0;
 			copy_token(option, pos_ptr);
 			next_pos = pos_ptr;
-			if (true)			// pr.echo_input == TRUE
+			if (this->echo_file)			// pr.echo_input == TRUE
 			{
 				if (true)		// database_file == NULL
 				{
