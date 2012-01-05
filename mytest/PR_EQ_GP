@@ -1,17 +1,17 @@
-database ../database/Amm.dat
 # conc's in equilibrium with pure gas
+DATABASE ../database/vreeqc.dat
 SOLUTION 1
 pH 7 charge
 N 1 N2(g) 2
 C(4) 1 CO2(g) 2
-INCLUDE$ gas.dat
+-pressure 200
 END
 # fugacity coefficients are different in a mixture of gases...
 GAS_PHASE 1
  -pressure 200
  -fixed_pressure
- -volume 1e9
-    N2(g) 2
-    CO2(g) 2
-SOLUTION 2
+ -volume 1e5
+    N2(g) 100
+    CO2(g) 100
+USE SOLUTION 1
 END

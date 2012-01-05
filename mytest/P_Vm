@@ -1,9 +1,9 @@
-database ../database/Amm.dat
 #[ Plot P vs Vm
 #]
-#PRINT; -reset false
+DATABASE ../database/vreeqc.dat
+PRINT; -reset false
 SOLUTION 1
-INCLUDE$ gas.dat
+INCREMENTAL_REACTIONS
 GAS_PHASE 1
  -fixed_volume
 # CH4(g) 0
@@ -11,7 +11,7 @@ GAS_PHASE 1
 # N2(g) 0
 # H2O(g) 0
 REACTION 1
- CO2 1; 27 in 27
+ CO2 1; 27 in 20
  USER_GRAPH
  -headings Vm CO2
  -axis_titles "Gas Molar Volume / (L/mole)" "Gas Pressure / atm"
@@ -42,7 +42,7 @@ GAS_PHASE 1
  N2(g) 0
 # H2O(g) 0
 REACTION 1
- N2 1; 30 in 30
+ N2 1; 20 in 20
  USER_GRAPH
  -headings Vm N2
 END
@@ -57,7 +57,7 @@ GAS_PHASE 1
 # H2O(g) 0
  H2S(g) 0
 REACTION 1
- H2S 1; 30 in 30
+ H2S 1; 30 in 20
  USER_GRAPH
  -headings Vm H2S
 END

@@ -1,8 +1,8 @@
-database ../database/Amm.dat
 # Compare fugacity coefficient from Duan et al., 2006, Mar. Chem. 98, 131, and
 #   Peng-Robinson calc'd with initial solutions, 25, 50, 75 oC.
+DATABASE ../database/vreeqc.dat
 SOLUTION 1
-INCLUDE$ gas.dat
+#INCLUDE$ gas.dat
 SELECTED_OUTPUT; -reset false
  -file co2.prn
 USER_PUNCH
@@ -14,7 +14,7 @@ USER_PUNCH
 END
 
 SELECTED_OUTPUT; -selected_out false
-#PRINT; -reset false; -echo_input true
+PRINT; -reset false; -echo_input true
 USER_GRAPH
  #-chart_title "Compare phi's from Duan and Peng-Robinson"
  -plot_csv_file f_CO2.dat
