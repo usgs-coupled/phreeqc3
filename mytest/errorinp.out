@@ -101,9 +101,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51      0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
 
 Initial solution 2.	
 
@@ -156,9 +156,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.00    -25.15   -3.15  H2
-	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -271,15 +271,35 @@ WARNING: Numerical method failed with this set of convergence parameters.
 WARNING: The program has failed to converge to a numerical solution.
 
 The following equations were not satisfied:
-ERROR:                    C has not converged. Total: 5.000123e-01	Calculated: 3.257337e+00	Residual: -2.757325e+00
+ERROR:                   Br has not converged. Total: 5.000000e-04	Calculated: 4.726109e-04	Residual: 2.738915e-05
 
-ERROR:               A(H2O) Activity of water has not converged. 	Residual: 2.374523e+00
+ERROR:                    C has not converged. Total: 1.000001e+01	Calculated: 4.587357e-02	Residual: 9.954139e+00
 
-ERROR:             Hydrogen Mass of hydrogen has not converged. 	Residual: 1.202930e+01
+ERROR:                   Ca has not converged. Total: 1.100000e+01	Calculated: 1.931114e-01	Residual: 1.080689e+01
 
-ERROR:               Oxygen Mass of oxygen has not converged. 	Residual: -6.014650e+00
+ERROR:                   Cl has not converged. Total: 1.000000e+02	Calculated: 5.122559e+01	Residual: 4.877441e+01
 
-ERROR:            gas moles Total moles in gas phase has not converged. 	Residual: 9.475082e-01
+ERROR:                    K has not converged. Total: 5.000000e-04	Calculated: 4.283855e-04	Residual: 7.161447e-05
+
+ERROR:                   Na has not converged. Total: 1.000000e+02	Calculated: 9.783829e-01	Residual: 9.902162e+01
+
+ERROR:                   Mu Ionic strength has not converged. 	Residual: 3.383209e+01
+
+ERROR:               A(H2O) Activity of water has not converged. 	Residual: -1.051728e-01
+
+ERROR:                   pH Charge balance has not converged. 	Residual: 5.005306e+01
+
+ERROR:             Hydrogen Mass of hydrogen has not converged. 	Residual: -5.916128e+01
+
+ERROR:               Oxygen Mass of oxygen has not converged. 	Residual: 2.953351e+01
+
+ERROR:                    X Exchanger mass balance has not converged. 	Residual: 1.979166e+00
+
+ERROR:                Hfo_w Surface mass balance has not converged. 	Residual: 1.496459e-01
+
+ERROR:               Hfo_CB Surface charge/potential has not converged. 	Residual: -6.369782e+00
+
+ERROR:            gas moles Total moles in gas phase has not converged. 	Residual: 9.999995e-01
 
 Using mix 1.	
 Using exchange 1.	
@@ -296,7 +316,7 @@ Mixture 1.
 	  5.000e-01 Solution 1	                                                       
 	  5.000e-01 Solution 2	                                                       
 
-Reaction 1.	Irreversible reaction defined in simulation 1.
+Reaction 1.	
 
 	  1.000e+02 moles of the following reaction have been added:
 
@@ -321,21 +341,21 @@ Kinetics 3.	Kinetics defined in simulation 1.
 -----------------------------------Gas phase-----------------------------------
 
 Total pressure:  1.00      atmospheres 
-    Gas volume:   1.55e+03 liters
+    Gas volume:   4.39e+03 liters
   Molar volume:   2.50e+01 liters/mole
 
                                                         Moles in gas
                                             ----------------------------------
 Component                log P           P     Initial       Final       Delta
 
-CO2(g)                   -1.28   5.249e-02   1.226e-05   3.257e+00   3.257e+00
+CO2(g)                   -6.30   5.063e-07   1.226e-05   8.913e-05   7.687e-05
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Calcite          -1.66   -10.18     -8.52    1.000e+01   9.500e+00  -5.000e-01
+Calcite         -24.85   -33.37     -8.52    1.000e+01           0  -1.000e+01
 
 --------------------------------Solid solutions--------------------------------
 
@@ -343,17 +363,17 @@ Calcite          -1.66   -10.18     -8.52    1.000e+01   9.500e+00  -5.000e-01
 Solid solution                Component        Moles  Delta moles   Mole fract
 
 Carbonate                                   0.00e+00
-                                Calcite     0.00e+00     4.23e-14     0.00e+00
+                                Calcite     0.00e+00     0.00e+00     0.00e+00
                            Strontianite     0.00e+00     0.00e+00     0.00e+00
 
 ------------------------------Surface composition------------------------------
 
 Hfo           
-	  1.000e+00  Surface charge, eq
-	  1.608e+02  sigma, C/m**2
-	  2.937e-01  psi, V
-	 -1.121e+01  -F*psi/RT
-	  1.359e-05  exp(-F*psi/RT)
+	  2.149e-01  Surface charge, eq
+	  3.456e+01  sigma, C/m**2
+	  2.157e-01  psi, V
+	 -8.229e+00  -F*psi/RT
+	  2.669e-04  exp(-F*psi/RT)
 	  6.000e+02  specific area, m**2/g
 	  6.000e+02  m**2 for   1.000e+00 g
 
@@ -363,10 +383,10 @@ Hfo_w
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Hfo_wOCa+         1.000e+00       1.000   1.000e+00      -0.000
-	Hfo_wO-           4.302e-09       0.000   4.302e-09      -8.366
-	Hfo_wOH           3.702e-25       0.000   3.702e-25     -24.432
-	Hfo_wOH2+         7.299e-43       0.000   7.299e-43     -42.137
+	Hfo_wOH           5.034e-01       0.503   5.069e-01      -0.295
+	Hfo_wOCa+         1.931e-01       0.193   1.944e-01      -0.711
+	Hfo_wOH2+         8.787e-02       0.088   8.848e-02      -1.053
+	Hfo_wO-           6.606e-02       0.066   6.652e-02      -1.177
 
 -----------------------------Exchange composition------------------------------
 
@@ -375,92 +395,92 @@ X                2.000e+00 mol
 	                               Equiv-    Equivalent      Log 
 	Species             Moles      alents      Fraction     Gamma
 
-	NaX               1.999e+00   1.999e+00   9.996e-01     7.137
-	CaX2              3.474e-04   6.947e-04   3.474e-04    15.321
-	KX                4.496e-05   4.496e-05   2.248e-05     1.089
+	NaX               2.079e-02   2.079e-02   9.980e-01     2.187
+	KX                4.077e-05   4.077e-05   1.957e-03    -1.479
+	CaX2              4.235e-08   8.471e-08   4.066e-06     6.814
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Br                5.000e-04   5.000e-04
-	C                 1.531e-13   1.531e-13
-	Ca                4.997e-01   4.997e-01
-	Cl                1.000e+02   1.000e+02
-	K                 4.550e-04   4.550e-04
-	Na                9.800e+01   9.800e+01
+	Br                4.759e-04   4.726e-04
+	C                 4.610e-02   4.578e-02
+	Ca                5.453e-05   5.415e-05
+	Cl                5.158e+01   5.123e+01
+	K                 3.903e-04   3.876e-04
+	Na                9.643e-01   9.576e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =  20.128      Charge balance
-                                       pe  =  -4.492      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 31 oC) = 14346619
-                          Density (g/cm3)  =   1.89922
+                                       pH  =   4.474      Charge balance
+                                       pe  =   2.512      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 31 oC) = 4540340
+                          Density (g/cm3)  =   1.99999 (Program's limit)
                         Activity of water  =   0.000
-                           Ionic strength  =   1.000e+02
-                       Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.579e-17
-                       Total CO2 (mol/kg)  =   1.531e-13
+                           Ionic strength  =   6.034e+01
+                       Mass of water (kg)  =   9.931e-01
+                 Total alkalinity (eq/kg)  =  -4.922e-05
+                       Total CO2 (mol/kg)  =   1.365e-14
                       Temperature (deg C)  =  31.00
-                  Electrical balance (eq)  =  -1.000e+00
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.50
+                  Electrical balance (eq)  =  -5.027e+01
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -96.33
                                Iterations  = 201
-                                  Total H  = 1.110124e+02
-                                  Total O  = 5.550622e+01
+                                  Total H  = 1.104276e+02
+                                  Total O  = 5.512220e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   H+                     1.095e-20   7.440e-21   -19.960   -20.128    -0.168
-   H2O                    5.551e+01   0.000e+00     1.744   -46.033     0.000
-   OH-                    4.983e-40   1.934e-40   -39.303   -39.713    -0.411
-Br               5.000e-04
-   Br-                    5.000e-04   1.682e-04    -3.301    -3.774    -0.473
-C(-4)            5.506e-23
-   CH4                    5.506e-23   5.506e-13   -22.259   -12.259    10.000
-C(4)             1.531e-13
-   CO2                    1.531e-13   1.531e-03   -12.815    -2.815    10.000
-   CaCO3                  1.278e-17   1.278e-07   -16.894    -6.894    10.000
-   CaHCO3+                2.457e-19   1.307e-19   -18.610   -18.884    -0.274
-   CO3-2                  7.945e-25   6.366e-26   -24.100   -25.196    -1.096
-   NaCO3-                 2.279e-30   2.142e-15   -29.642   -14.669    14.973
-   HCO3-                  1.698e-35   9.032e-36   -34.770   -35.044    -0.274
-   NaHCO3                 6.820e-37   6.820e-27   -36.166   -26.166    10.000
-Ca               4.997e-01
-   Ca+2                   4.997e-01   1.000e+03    -0.301    15.020    15.321
-   CaCO3                  1.278e-17   1.278e-07   -16.894    -6.894    10.000
-   CaHCO3+                2.457e-19   1.307e-19   -18.610   -18.884    -0.274
-   CaOH+                  2.300e-39   2.162e-24   -38.638   -23.665    14.973
-Cl               1.000e+02
-   Cl-                    1.000e+02   1.000e+03     2.000     3.089     1.089
-H(0)             0.000e+00
-   H2                     0.000e+00   3.555e-35   -44.449   -34.449    10.000
-K                4.550e-04
-   K+                     4.550e-04   5.586e-03    -3.342    -2.253     1.089
-   KOH                    0.000e+00   0.000e+00   -52.618   -42.618    10.000
-Na               9.800e+01
-   Na+                    9.800e+01   1.000e+03     1.991     9.128     7.137
-   NaCO3-                 2.279e-30   2.142e-15   -29.642   -14.669    14.973
-   NaHCO3                 6.820e-37   6.820e-27   -36.166   -26.166    10.000
-   NaOH                   0.000e+00   1.104e-31   -40.957   -30.957    10.000
+   H+                     4.922e-05   3.355e-05    -4.308    -4.474    -0.166
+   H2O                    5.551e+01   3.834e-23     1.744   -22.416     0.000
+   OH-                    4.480e-32   1.776e-32   -31.349   -31.750    -0.402
+Br               4.759e-04
+   Br-                    4.759e-04   1.646e-04    -3.322    -3.783    -0.461
+C(-4)            4.610e-02
+   CH4                    4.610e-02   1.000e+03    -1.336     4.698     6.034
+C(4)             1.365e-14
+   CO2                    1.365e-14   1.476e-08   -13.865    -7.831     6.034
+   CaHCO3+                7.030e-27   3.776e-27   -26.153   -26.423    -0.270
+   HCO3-                  1.489e-32   8.000e-33   -31.827   -32.097    -0.270
+   NaHCO3                 5.926e-35   6.411e-29   -34.227   -28.193     6.034
+   CaCO3                  7.565e-37   8.184e-31   -36.121   -30.087     6.034
+   CO3-2                  1.502e-37   1.250e-38   -36.823   -37.903    -1.080
+   NaCO3-                 0.000e+00   4.464e-33   -41.212   -32.350     8.861
+Ca               5.453e-05
+   Ca+2                   5.453e-05   1.000e+03    -4.263     4.533     8.797
+   CaHCO3+                7.030e-27   3.776e-27   -26.153   -26.423    -0.270
+   CaOH+                  8.910e-36   6.474e-27   -35.050   -26.189     8.861
+   CaCO3                  7.565e-37   8.184e-31   -36.121   -30.087     6.034
+Cl               5.158e+01
+   Cl-                    5.158e+01   1.644e+02     1.713     2.216     0.503
+H(0)             1.317e-23
+   H2                     6.583e-24   7.122e-18   -23.182   -17.147     6.034
+K                3.903e-04
+   K+                     3.903e-04   1.244e-03    -3.409    -2.905     0.503
+   KOH                    0.000e+00   4.930e-36   -41.341   -35.307     6.034
+Na               9.643e-01
+   Na+                    9.643e-01   1.000e+03    -0.016     4.154     4.170
+   NaOH                   9.947e-35   1.076e-28   -34.002   -27.968     6.034
+   NaHCO3                 5.926e-35   6.411e-29   -34.227   -28.193     6.034
+   NaCO3-                 0.000e+00   4.464e-33   -41.212   -32.350     8.861
 O(0)             0.000e+00
-   O2                     0.000e+00   0.000e+00  -123.650  -113.650    10.000
+   O2                     0.000e+00   0.000e+00  -107.054  -101.020     6.034
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(304 K,   1 atm)
 
-	Aragonite        -1.80*   -10.18   -8.38  CaCO3	 Delta_V  36.68 cm3/mol
-	Calcite          -1.66*   -10.18   -8.52  CaCO3	 Delta_V  36.68 cm3/mol
-	CH4(g)           -9.35    -12.26   -2.91  CH4
-	CO2(g)           -1.28*    -2.82   -1.54  CO2	 Delta_V  36.20 cm3/mol
-	H2(g)           -31.27    -34.45   -3.18  H2
-	H2O(g)          -47.39*   -46.03    1.36  H2O	 Delta_V  18.10 cm3/mol
-	Halite           10.62*    12.22    1.60  NaCl	 Delta_V  17.12 cm3/mol
-	O2(g)          -110.72*  -113.65   -2.93  O2	 Delta_V  36.20 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	Aragonite       -24.99    -33.37   -8.38  CaCO3
+	Calcite         -24.85    -33.37   -8.52  CaCO3
+	CH4(g)            7.61      4.70   -2.91  CH4
+	CO2(g)           -6.30     -7.83   -1.54  CO2
+	H2(g)           -13.97    -17.15   -3.18  H2
+	H2O(g)          -23.77    -22.42    1.36  H2O
+	Halite            4.77      6.37    1.60  NaCl
+	O2(g)           -98.09   -101.02   -2.93  O2
+
 
 ERROR: Numerical method failed on all combinations of convergence parameters
 Stopping.

@@ -36,8 +36,11 @@ EQUILIBRIUM_PHASES_RAW       100 Pp_Assemblage defined in simulation 11.
       -force_equality        0
       -dissolve_only         0
       -precipitate_only      0
-EXCHANGE_RAW       100 Exchanger defined in simulation 11.
+EXCHANGE_RAW       100 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -99,14 +102,22 @@ SOLID_SOLUTIONS_RAW       100 S_S_Assemblage defined in simulation 11.
       -components            
         calcite   0.1
         siderite   0.001
-GAS_PHASE_RAW       100 Gas defined in simulation 11.
+GAS_PHASE_RAW       100 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.4305508698401e-05
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    1.4305508698401e-05
+    -initial_moles            0
 KINETICS_RAW       100 Kinetics defined in simulation 11.
   -step_divide       1
   -rk                3
@@ -128,9 +139,9 @@ KINETICS_RAW       100 Kinetics defined in simulation 11.
   -equal_steps    1
   -steps         
     1 
-MIX        100 Mix defined in simulation 11.
+MIX        100 
   1     0.5
-REACTION_RAW        100 Irreversible reaction defined in simulation 11.
+REACTION_RAW        100 
   -units              Mol
   -reactant_list      
     NaCl   1
@@ -138,8 +149,8 @@ REACTION_RAW        100 Irreversible reaction defined in simulation 11.
   -steps              
     0.001 
   -equal_increments   0
-  -count_steps        1
-REACTION_TEMPERATURE_RAW        100 Temperature defined in simulation 11.
+  -count_steps        0
+REACTION_TEMPERATURE_RAW        100 
   -count_temps        1
   -equal_increments   0
   -temps              
@@ -225,7 +236,10 @@ EQUILIBRIUM_PHASES_RAW       2 Pp_Assemblage defined in simulation 2.
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -238,8 +252,11 @@ EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
       -formula_z             0
       -formula_totals
         X   1
-EXCHANGE_RAW       2 Exchanger defined in simulation 3.
+EXCHANGE_RAW       2 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -351,21 +368,37 @@ SOLID_SOLUTIONS_RAW       2 S_S_Assemblage defined in simulation 6.
         calcite   0.1
         siderite   0.001
 GAS_PHASE_RAW       1 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.4305508698401e-05
-GAS_PHASE_RAW       2 Gas defined in simulation 5.
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    1.4305508698401e-05
+    -initial_moles            0
+GAS_PHASE_RAW       2 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.4305508698401e-05
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    1.4305508698401e-05
+    -initial_moles            0
 KINETICS_RAW       1 
   -step_divide       1
   -rk                3
@@ -421,8 +454,8 @@ REACTION_RAW        1
   -steps              
     0.001 
   -equal_increments   0
-  -count_steps        1
-REACTION_RAW        2 Irreversible reaction defined in simulation 8.
+  -count_steps        0
+REACTION_RAW        2 
   -units              Mol
   -reactant_list      
     NaCl   1
@@ -430,13 +463,13 @@ REACTION_RAW        2 Irreversible reaction defined in simulation 8.
   -steps              
     0.001 
   -equal_increments   0
-  -count_steps        1
+  -count_steps        0
 REACTION_TEMPERATURE_RAW        1 
   -count_temps        1
   -equal_increments   0
   -temps              
     30 
-REACTION_TEMPERATURE_RAW        2 Temperature defined in simulation 10.
+REACTION_TEMPERATURE_RAW        2 
   -count_temps        1
   -equal_increments   0
   -temps              

@@ -189,7 +189,7 @@ Initial solution 1.	Khuff reservoir: Franco et al., 2009, SAJT.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 132 oC) = 881657
-                          Density (g/cm3)  =   1.02967
+                          Density (g/cm3)  =   1.02968
                         Activity of water  =   0.859
                            Ionic strength  =   4.628e+00
                        Mass of water (kg)  =   1.000e+00
@@ -263,7 +263,7 @@ Sr               1.479e-02
 	Glaserite        -7.56*   -11.24   -3.68  NaK3(SO4)2	 Delta_V -23.00 cm3/mol
 	Glauberite       -4.41*    -9.28   -4.87  Na2Ca(SO4)2	 Delta_V -71.67 cm3/mol
 	Gypsum           -0.54*    -5.69   -5.15  CaSO4:2H2O	 Delta_V  -9.34 cm3/mol
-	H2O(g)            0.56*    -0.07   -0.63  H2O	 Delta_V  18.94 cm3/mol
+	H2O(g)            0.47     -0.07   -0.53  H2O
 	Halite           -0.75*     0.73    1.48  NaCl	 Delta_V   3.75 cm3/mol
 	Hexahydrite      -6.09*    -6.67   -0.59  MgSO4:6H2O	 Delta_V  55.27 cm3/mol
 	Kainite          -6.76*    -7.01   -0.25  KMgClSO4:3H2O	 Delta_V  10.85 cm3/mol
@@ -316,64 +316,71 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
+WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	Khuff reservoir: Franco et al., 2009, SAJT.
 Using gas phase 1.	
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure: 377.11      atmospheres          (Peng-Robinson calculation)
+Total pressure: 376.33      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
-  Molar volume:   9.04e-02 liters/mole
-   P * Vm / RT:  1.02545  (Compressibility Factor Z) 
+  Molar volume:   9.11e-02 liters/mole
+   P * Vm / RT:  1.03166  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)             1.03   1.073e+01  0.654   3.456e-01   3.148e-01  -3.080e-02
-H2O(g)             1.14   1.383e+01  0.259   3.370e-01   4.057e-01   6.870e-02
-H2Sg(g)           -1.10   7.996e-02  0.499   5.761e-03   2.345e-03  -3.415e-03
-Mth(g)             2.50   3.143e+02  0.912   9.620e+00   9.220e+00  -3.998e-01
-Ng(g)              1.58   3.812e+01  1.229   1.152e+00   1.118e+00  -3.385e-02
+CO2(g)             1.03   1.079e+01  0.657   3.456e-01   3.145e-01  -3.117e-02
+H2O(g)             1.04   1.094e+01  0.264   3.370e-01   3.191e-01  -1.792e-02
+H2Sg(g)           -1.10   7.931e-02  0.504   5.761e-03   2.312e-03  -3.448e-03
+Mth(g)             2.50   3.162e+02  0.912   9.620e+00   9.218e+00  -4.023e-01
+Ng(g)              1.58   3.835e+01  1.222   1.152e+00   1.118e+00  -3.390e-02
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Ba                1.986e-04   1.983e-04
-	C                 3.638e-02   3.633e-02
-	Ca                4.410e-01   4.404e-01
-	Cl                3.988e+00   3.983e+00
-	K                 1.866e-01   1.864e-01
-	Mg                7.773e-02   7.763e-02
-	Mth               4.003e-01   3.998e-01
-	Na                2.962e+00   2.958e+00
-	Ng                3.389e-02   3.385e-02
-	S                 1.290e-03   1.289e-03
-	Sg                3.419e-03   3.415e-03
-	Sr                1.481e-02   1.479e-02
+	Ba                1.983e-04   1.983e-04
+	C                 3.669e-02   3.670e-02
+	Ca                4.403e-01   4.404e-01
+	Cl                3.982e+00   3.983e+00
+	K                 1.864e-01   1.864e-01
+	Mg                7.761e-02   7.763e-02
+	Mth               4.022e-01   4.023e-01
+	Na                2.957e+00   2.958e+00
+	Ng                3.389e-02   3.390e-02
+	S                 1.288e-03   1.289e-03
+	Sg                3.447e-03   3.448e-03
+	Sr                1.479e-02   1.479e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.614      Charge balance
+                                       pH  =   5.623      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 132 oC) = 887908
-                          Density (g/cm3)  =   1.03506
+       Specific Conductance (uS/cm, 132 oC) = 886235
+                          Density (g/cm3)  =   1.03510
                         Activity of water  =   0.852
-                           Ionic strength  =   4.642e+00
-                       Mass of water (kg)  =   9.987e-01
-                 Total alkalinity (eq/kg)  =   8.817e-03
-                       Total CO2 (mol/kg)  =   3.638e-02
+                           Ionic strength  =   4.634e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   8.803e-03
+                       Total CO2 (mol/kg)  =   3.669e-02
                       Temperature (deg C)  = 132.00
-                           Pressure (atm)  = 377.11
+                           Pressure (atm)  = 376.33
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  45
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   1.09508
+                               Iterations  =  20
+                         Gamma iterations  =  20
+                      Osmotic coefficient  =   1.09468
                          Density of water  =   0.93318
-                                  Total H  = 1.108843e+02
-                                  Total O  = 5.552095e+01
+                                  Total H  = 1.110576e+02
+                                  Total O  = 5.560832e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -381,92 +388,92 @@ Ng(g)              1.58   3.812e+01  1.229   1.152e+00   1.118e+00  -3.385e-02
 	                               MacInnes    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    3.407e-06   8.155e-07    -5.468    -6.089    -0.621
-   H+                     1.865e-06   2.431e-06    -5.729    -5.614     0.115
-   H2O                    5.551e+01   8.516e-01     1.744    -0.070     0.000
-Ba               1.986e-04
-   Ba+2                   1.986e-04   1.373e-05    -3.702    -4.862    -1.160
-C(4)             3.638e-02
-   CO2                    2.927e-02   6.268e-02    -1.534    -1.203     0.331
-   HCO3-                  6.680e-03   6.312e-03    -2.175    -2.200    -0.025
-   CaCO3                  3.834e-04   3.834e-04    -3.416    -3.416     0.000
-   CO3-2                  3.081e-05   2.929e-07    -4.511    -6.533    -2.022
-   MgCO3                  1.449e-05   1.449e-05    -4.839    -4.839     0.000
-Ca               4.410e-01
-   Ca+2                   4.406e-01   5.767e-02    -0.356    -1.239    -0.883
-   CaCO3                  3.834e-04   3.834e-04    -3.416    -3.416     0.000
-Cl               3.988e+00
-   Cl-                    3.988e+00   2.733e+00     0.601     0.437    -0.164
-K                1.866e-01
-   K+                     1.866e-01   1.072e-01    -0.729    -0.970    -0.241
-Mg               7.773e-02
-   Mg+2                   7.770e-02   1.097e-02    -1.110    -1.960    -0.850
-   MgOH+                  1.488e-05   5.759e-06    -4.827    -5.240    -0.412
-   MgCO3                  1.449e-05   1.449e-05    -4.839    -4.839     0.000
-Mth              4.003e-01
-   Mth                    4.003e-01   4.003e-01    -0.398    -0.398     0.000
-Na               2.962e+00
-   Na+                    2.962e+00   1.982e+00     0.472     0.297    -0.175
+   OH-                    3.373e-06   8.084e-07    -5.472    -6.092    -0.620
+   H+                     1.829e-06   2.381e-06    -5.738    -5.623     0.114
+   H2O                    5.551e+01   8.518e-01     1.744    -0.070     0.000
+Ba               1.983e-04
+   Ba+2                   1.983e-04   1.370e-05    -3.703    -4.863    -1.160
+C(4)             3.669e-02
+   CO2                    2.959e-02   6.330e-02    -1.529    -1.199     0.330
+   HCO3-                  6.696e-03   6.323e-03    -2.174    -2.199    -0.025
+   CaCO3                  3.578e-04   3.578e-04    -3.446    -3.446     0.000
+   CO3-2                  2.882e-05   2.742e-07    -4.540    -6.562    -2.022
+   MgCO3                  1.352e-05   1.352e-05    -4.869    -4.869     0.000
+Ca               4.403e-01
+   Ca+2                   4.400e-01   5.749e-02    -0.357    -1.240    -0.884
+   CaCO3                  3.578e-04   3.578e-04    -3.446    -3.446     0.000
+Cl               3.982e+00
+   Cl-                    3.982e+00   2.728e+00     0.600     0.436    -0.164
+K                1.864e-01
+   K+                     1.864e-01   1.070e-01    -0.730    -0.971    -0.241
+Mg               7.761e-02
+   Mg+2                   7.758e-02   1.093e-02    -1.110    -1.961    -0.851
+   MgOH+                  1.513e-05   5.865e-06    -4.820    -5.232    -0.412
+   MgCO3                  1.352e-05   1.352e-05    -4.869    -4.869     0.000
+Mth              4.022e-01
+   Mth                    4.022e-01   4.022e-01    -0.396    -0.396     0.000
+Na               2.957e+00
+   Na+                    2.957e+00   1.978e+00     0.471     0.296    -0.175
 Ng               3.389e-02
    Ng                     3.389e-02   3.389e-02    -1.470    -1.470     0.000
-S(6)             1.290e-03
-   SO4-2                  1.290e-03   4.917e-05    -2.890    -4.308    -1.419
-   HSO4-                  7.476e-07   3.352e-07    -6.126    -6.475    -0.348
-Sg               3.419e-03
-   H2Sg                   2.159e-03   2.159e-03    -2.666    -2.666     0.000
-   HSg-                   1.258e-03   2.281e-04    -2.900    -3.642    -0.741
-   Sg-2                   3.178e-06   2.493e-09    -5.498    -8.603    -3.105
-Sr               1.481e-02
-   Sr+2                   1.481e-02   2.876e-03    -1.829    -2.541    -0.712
+S(6)             1.288e-03
+   SO4-2                  1.288e-03   4.915e-05    -2.890    -4.309    -1.418
+   HSO4-                  7.316e-07   3.281e-07    -6.136    -6.484    -0.348
+Sg               3.447e-03
+   H2Sg                   2.160e-03   2.160e-03    -2.666    -2.666     0.000
+   HSg-                   1.284e-03   2.331e-04    -2.891    -3.632    -0.741
+   Sg-2                   3.304e-06   2.601e-09    -5.481    -8.585    -3.104
+Sr               1.479e-02
+   Sr+2                   1.479e-02   2.864e-03    -1.830    -2.543    -0.713
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(405 K, 377 atm)
+	Phase               SI   log IAP   log K(405 K, 376 atm)
 
-	Anhydrite         1.93*    -5.55   -7.48  CaSO4	 Delta_V -47.21 cm3/mol
-	Aragonite         1.50*    -7.77   -9.27  CaCO3	 Delta_V -67.56 cm3/mol
-	Arcanite         -5.72*    -6.25   -0.53  K2SO4	 Delta_V  -7.18 cm3/mol
-	Bischofite       -5.29*    -1.51    3.78  MgCl2:6H2O	 Delta_V  87.35 cm3/mol
-	Bloedite         -7.95*   -10.26   -2.31  Na2Mg(SO4)2:4H2O	 Delta_V  -6.97 cm3/mol
-	Brucite          -4.20*   -14.14   -9.94  Mg(OH)2	 Delta_V  -0.83 cm3/mol
-	Burkeite        -13.06*   -13.37   -0.31  Na6CO3(SO4)2	 Delta_V -93.72 cm3/mol
-	Calcite           1.95*    -7.77   -9.72  CaCO3	 Delta_V -17.56 cm3/mol
-	Carnallite       -5.88*    -2.04    3.84  KMgCl3:6H2O	 Delta_V  99.73 cm3/mol
-	Celestite         0.36*    -6.85   -7.21  SrSO4	 Delta_V -47.41 cm3/mol
-	CO2(g)            0.42**   -1.20   -1.63  CO2	 Delta_V -86.91 cm3/mol	 Pressure  10.7 atm, phi 0.654.
-	Dolomite          1.93*   -16.27  -18.19  CaMg(CO3)2	 Delta_V -146.25 cm3/mol
-	Epsomite         -5.46*    -6.76   -1.30  MgSO4:7H2O	 Delta_V  74.35 cm3/mol
-	Gaylussite       -4.73*   -14.06   -9.33  CaNa2(CO3)2:5H2O	 Delta_V -17.58 cm3/mol
-	Glaserite        -7.54*   -11.23   -3.69  NaK3(SO4)2	 Delta_V -23.00 cm3/mol
-	Glauberite       -4.37*    -9.26   -4.89  Na2Ca(SO4)2	 Delta_V -71.67 cm3/mol
-	Gypsum           -0.54*    -5.69   -5.15  CaSO4:2H2O	 Delta_V  -9.30 cm3/mol
-	H2O(g)            0.55**   -0.07   -0.62  H2O	 Delta_V  18.96 cm3/mol	 Pressure  13.8 atm, phi 0.259.
-	H2Sg(g)          -1.40**   -9.26   -7.86  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.1 atm, phi 0.499.
-	Halite           -0.74*     0.73    1.48  NaCl	 Delta_V   3.75 cm3/mol
-	Hexahydrite      -6.12*    -6.69   -0.57  MgSO4:6H2O	 Delta_V  55.40 cm3/mol
-	Kainite          -6.76*    -7.01   -0.25  KMgClSO4:3H2O	 Delta_V  10.91 cm3/mol
-	Kalicinite       -3.23*   -13.12   -9.89  KHCO3	 Delta_V -33.74 cm3/mol
-	Kieserite        -6.41*    -6.34    0.07  MgSO4:H2O	 Delta_V -39.39 cm3/mol
-	Labile_S         -7.73*   -13.12   -5.39  Na4Ca(SO4)3:2H2O	 Delta_V -58.21 cm3/mol
-	Leonhardite      -5.57*    -6.55   -0.97  MgSO4:4H2O	 Delta_V  17.48 cm3/mol
-	Leonite          -8.77*   -12.80   -4.03  K2Mg(SO4)2:4H2O	 Delta_V  10.30 cm3/mol
-	Magnesite        -0.76*    -8.49   -7.73  MgCO3	 Delta_V -78.69 cm3/mol
-	Mirabilite       -1.26*    -4.41   -3.15  Na2SO4:10H2O	 Delta_V 165.11 cm3/mol
-	Misenite        -61.23*   -71.60  -10.38  K8H6(SO4)7	 Delta_V -87.54 cm3/mol
-	Mth(g)            2.46**   -0.40   -2.86  Mth	 Delta_V -33.00 cm3/mol	 Pressure 314.3 atm, phi 0.912.
-	Nahcolite        -1.32*   -11.85  -10.53  NaHCO3	 Delta_V -42.38 cm3/mol
-	Natron           -5.10*    -6.64   -1.54  Na2CO3:10H2O	 Delta_V 144.76 cm3/mol
-	Nesquehonite     -3.64*    -8.70   -5.06  MgCO3:3H2O	 Delta_V -21.82 cm3/mol
-	Ng(g)             1.67**   -1.47   -3.14  Ng	 Delta_V -30.00 cm3/mol	 Pressure  38.1 atm, phi 1.229.
-	Pentahydrite     -5.15*    -6.62   -1.46  MgSO4:5H2O	 Delta_V  36.44 cm3/mol
-	Pirssonite       -4.98*   -13.85   -8.87  Na2Ca(CO3)2:2H2O	 Delta_V -74.45 cm3/mol
-	Polyhalite      -10.61*   -23.75  -13.14  K2MgCa2(SO4)4:2H2O	 Delta_V -122.04 cm3/mol
-	Portlandite      -8.18*   -13.42   -5.24  Ca(OH)2	 Delta_V  10.30 cm3/mol
-	Schoenite        -8.37*   -12.94   -4.56  K2Mg(SO4)2:6H2O	 Delta_V  48.21 cm3/mol
-	Strontianite      0.99*    -9.07  -10.06  SrCO3	 Delta_V -67.76 cm3/mol
-	Sylvite          -2.19*    -0.53    1.65  KCl	 Delta_V  12.38 cm3/mol
-	Syngenite        -4.59*   -11.87   -7.27  K2Ca(SO4)2:H2O	 Delta_V -35.44 cm3/mol
-	Trona            -6.79*   -17.93  -11.14  Na3H(CO3)2:2H2O	 Delta_V -49.27 cm3/mol
+	Anhydrite         2.03*    -5.55   -7.58  CaSO4	 Delta_V -26.62 cm3/mol
+	Aragonite         1.57*    -7.80   -9.37  CaCO3	 Delta_V -46.96 cm3/mol
+	Arcanite         -5.65*    -6.25   -0.60  K2SO4	 Delta_V   8.26 cm3/mol
+	Bischofite       -5.21*    -1.51    3.71  MgCl2:6H2O	 Delta_V 102.80 cm3/mol
+	Bloedite         -7.78*   -10.26   -2.49  Na2Mg(SO4)2:4H2O	 Delta_V  29.07 cm3/mol
+	Brucite          -4.16*   -14.15   -9.99  Mg(OH)2	 Delta_V   9.47 cm3/mol
+	Burkeite        -12.86*   -13.40   -0.54  Na6CO3(SO4)2	 Delta_V -47.38 cm3/mol
+	Calcite           2.02*    -7.80   -9.82  CaCO3	 Delta_V   3.04 cm3/mol
+	Carnallite       -5.78*    -2.04    3.74  KMgCl3:6H2O	 Delta_V 120.33 cm3/mol
+	Celestite         0.46*    -6.85   -7.31  SrSO4	 Delta_V -26.82 cm3/mol
+	CO2(g)            0.48**   -1.20   -1.68  CO2	 Delta_V -76.61 cm3/mol	 Pressure  10.8 atm, phi 0.657.
+	Dolomite          2.07*   -16.33  -18.39  CaMg(CO3)2	 Delta_V -105.06 cm3/mol
+	Epsomite         -5.36*    -6.76   -1.40  MgSO4:7H2O	 Delta_V  94.95 cm3/mol
+	Gaylussite       -4.61*   -14.12   -9.51  CaNa2(CO3)2:5H2O	 Delta_V  18.46 cm3/mol
+	Glaserite        -7.39*   -11.23   -3.84  NaK3(SO4)2	 Delta_V   7.89 cm3/mol
+	Glauberite       -4.19*    -9.27   -5.07  Na2Ca(SO4)2	 Delta_V -35.63 cm3/mol
+	Gypsum           -0.44*    -5.69   -5.25  CaSO4:2H2O	 Delta_V  11.30 cm3/mol
+	H2O(g)            0.46**   -0.07   -0.53  H2O	 Pressure  10.9 atm, phi 0.264.
+	H2Sg(g)          -1.40**   -9.26   -7.86  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.1 atm, phi 0.504.
+	Halite           -0.72*     0.73    1.45  NaCl	 Delta_V   8.89 cm3/mol
+	Hexahydrite      -6.02*    -6.69   -0.67  MgSO4:6H2O	 Delta_V  76.00 cm3/mol
+	Kainite          -6.64*    -7.01   -0.37  KMgClSO4:3H2O	 Delta_V  36.66 cm3/mol
+	Kalicinite       -3.20*   -13.16   -9.96  KHCO3	 Delta_V -20.87 cm3/mol
+	Kieserite        -6.31*    -6.34   -0.03  MgSO4:H2O	 Delta_V -18.79 cm3/mol
+	Labile_S         -7.48*   -13.12   -5.64  Na4Ca(SO4)3:2H2O	 Delta_V  -6.72 cm3/mol
+	Leonhardite      -5.47*    -6.55   -1.07  MgSO4:4H2O	 Delta_V  38.08 cm3/mol
+	Leonite          -8.59*   -12.80   -4.21  K2Mg(SO4)2:4H2O	 Delta_V  46.35 cm3/mol
+	Magnesite        -0.69*    -8.52   -7.83  MgCO3	 Delta_V -58.10 cm3/mol
+	Mirabilite       -1.18*    -4.41   -3.23  Na2SO4:10H2O	 Delta_V 180.56 cm3/mol
+	Misenite        -60.83*   -71.67  -10.83  K8H6(SO4)7	 Delta_V   5.14 cm3/mol
+	Mth(g)            2.46**   -0.40   -2.86  Mth	 Delta_V -33.00 cm3/mol	 Pressure 316.2 atm, phi 0.912.
+	Nahcolite        -1.29*   -11.89  -10.60  NaHCO3	 Delta_V -29.51 cm3/mol
+	Natron           -5.06*    -6.67   -1.61  Na2CO3:10H2O	 Delta_V 160.21 cm3/mol
+	Nesquehonite     -3.57*    -8.73   -5.16  MgCO3:3H2O	 Delta_V  -1.22 cm3/mol
+	Ng(g)             1.67**   -1.47   -3.14  Ng	 Delta_V -30.00 cm3/mol	 Pressure  38.4 atm, phi 1.222.
+	Pentahydrite     -5.05*    -6.62   -1.56  MgSO4:5H2O	 Delta_V  57.04 cm3/mol
+	Pirssonite       -4.87*   -13.91   -9.05  Na2Ca(CO3)2:2H2O	 Delta_V -38.41 cm3/mol
+	Polyhalite      -10.23*   -23.76  -13.52  K2MgCa2(SO4)4:2H2O	 Delta_V -44.80 cm3/mol
+	Portlandite      -8.13*   -13.43   -5.29  Ca(OH)2	 Delta_V  20.60 cm3/mol
+	Schoenite        -8.20*   -12.94   -4.74  K2Mg(SO4)2:6H2O	 Delta_V  84.26 cm3/mol
+	Strontianite      1.06*    -9.10  -10.16  SrCO3	 Delta_V -47.17 cm3/mol
+	Sylvite          -2.16*    -0.53    1.63  KCl	 Delta_V  17.53 cm3/mol
+	Syngenite        -4.42*   -11.87   -7.45  K2Ca(SO4)2:H2O	 Delta_V   0.61 cm3/mol
+	Trona            -6.72*   -18.00  -11.28  Na3H(CO3)2:2H2O	 Delta_V -20.95 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -503,7 +510,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -526,19 +533,19 @@ Reaction 1.	Irreversible reaction defined in simulation 3.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure:  5.87      atmospheres          (Peng-Robinson calculation)
+Total pressure:  5.86      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
-  Molar volume:   5.54e+00 liters/mole
-   P * Vm / RT:  0.97954  (Compressibility Factor Z) 
+  Molar volume:   5.55e+00 liters/mole
+   P * Vm / RT:  0.97960  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.32   4.800e-01  0.989   3.148e-01   1.474e-02  -3.001e-01
-H2O(g)             0.48   3.044e+00  0.963   4.057e-01   9.347e-02  -3.122e-01
-H2Sg(g)           -2.62   2.397e-03  0.980   2.345e-03   7.360e-05  -2.272e-03
-Mth(g)             0.33   2.151e+00  1.000   9.220e+00   6.605e-02  -9.154e+00
+CO2(g)            -0.32   4.800e-01  0.989   3.145e-01   1.474e-02  -2.997e-01
+H2O(g)             0.48   3.035e+00  0.963   3.191e-01   9.319e-02  -2.259e-01
+H2Sg(g)           -2.62   2.396e-03  0.980   2.312e-03   7.356e-05  -2.239e-03
+Mth(g)             0.33   2.151e+00  1.000   9.218e+00   6.605e-02  -9.152e+00
 Ng(g)             -0.71   1.957e-01  1.011   1.118e+00   6.010e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -551,34 +558,34 @@ Ng(g)             -0.71   1.957e-01  1.011   1.118e+00   6.010e-03  -1.112e+00
 	Cl                3.965e+00   3.983e+00
 	K                 1.856e-01   1.864e-01
 	Mg                7.729e-02   7.763e-02
-	Mth               2.077e-03   2.087e-03
+	Mth               2.078e-03   2.087e-03
 	Na                2.945e+00   2.958e+00
 	Ng                1.024e-04   1.028e-04
 	S                 1.283e-03   1.289e-03
-	Sg                7.616e-04   7.650e-04
+	Sg                7.617e-04   7.650e-04
 	Sr                1.473e-02   1.479e-02
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.705      Charge balance
+                                       pH  =   6.706      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 132 oC) = 877843
-                          Density (g/cm3)  =   1.01424
+       Specific Conductance (uS/cm, 132 oC) = 877837
+                          Density (g/cm3)  =   1.01425
                         Activity of water  =   0.860
                            Ionic strength  =   4.612e+00
                        Mass of water (kg)  =   1.004e+00
                  Total alkalinity (eq/kg)  =   8.767e-03
                        Total CO2 (mol/kg)  =   8.188e-03
                       Temperature (deg C)  = 132.00
-                           Pressure (atm)  =  5.87
+                           Pressure (atm)  =  5.86
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  52
+                               Iterations  =  51
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.09626
                          Density of water  =   0.93318
-                                  Total H  = 1.115035e+02
-                                  Total O  = 5.577697e+01
+                                  Total H  = 1.115040e+02
+                                  Total O  = 5.577724e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -586,17 +593,17 @@ Ng(g)             -0.71   1.957e-01  1.011   1.118e+00   6.010e-03  -1.112e+00
 	                               MacInnes    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    2.673e-05   6.432e-06    -4.573    -5.192    -0.619
-   H+                     1.521e-07   1.971e-07    -6.818    -6.705     0.112
+   OH-                    2.673e-05   6.433e-06    -4.573    -5.192    -0.619
+   H+                     1.521e-07   1.969e-07    -6.818    -6.706     0.112
    H2O                    5.551e+01   8.600e-01     1.744    -0.066     0.000
 Ba               1.975e-04
    Ba+2                   1.975e-04   1.365e-05    -3.705    -4.865    -1.160
 C(4)             8.188e-03
-   HCO3-                  4.573e-03   4.305e-03    -2.340    -2.366    -0.026
+   HCO3-                  4.574e-03   4.306e-03    -2.340    -2.366    -0.026
    CO2                    1.967e-03   4.192e-03    -2.706    -2.378     0.329
    CaCO3                  1.472e-03   1.472e-03    -2.832    -2.832     0.000
    CO3-2                  1.207e-04   1.154e-06    -3.918    -5.938    -2.019
-   MgCO3                  5.579e-05   5.579e-05    -4.253    -4.253     0.000
+   MgCO3                  5.577e-05   5.577e-05    -4.254    -4.254     0.000
 Ca               4.385e-01
    Ca+2                   4.371e-01   5.620e-02    -0.359    -1.250    -0.891
    CaCO3                  1.472e-03   1.472e-03    -2.832    -2.832     0.000
@@ -606,21 +613,21 @@ K                1.856e-01
    K+                     1.856e-01   1.062e-01    -0.731    -0.974    -0.243
 Mg               7.729e-02
    Mg+2                   7.705e-02   1.072e-02    -1.113    -1.970    -0.857
-   MgOH+                  1.801e-04   7.013e-05    -3.745    -4.154    -0.410
-   MgCO3                  5.579e-05   5.579e-05    -4.253    -4.253     0.000
-Mth              2.077e-03
-   Mth                    2.077e-03   2.077e-03    -2.682    -2.682     0.000
+   MgOH+                  1.802e-04   7.017e-05    -3.744    -4.154    -0.410
+   MgCO3                  5.577e-05   5.577e-05    -4.254    -4.254     0.000
+Mth              2.078e-03
+   Mth                    2.078e-03   2.078e-03    -2.682    -2.682     0.000
 Na               2.945e+00
    Na+                    2.945e+00   1.956e+00     0.469     0.291    -0.178
 Ng               1.024e-04
    Ng                     1.024e-04   1.024e-04    -3.990    -3.990     0.000
 S(6)             1.283e-03
    SO4-2                  1.283e-03   4.885e-05    -2.892    -4.311    -1.419
-   HSO4-                  6.016e-08   2.699e-08    -7.221    -7.569    -0.348
-Sg               7.616e-04
-   HSg-                   6.507e-04   1.185e-04    -3.187    -3.926    -0.740
-   H2Sg                   9.088e-05   9.088e-05    -4.042    -4.042     0.000
-   Sg-2                   2.007e-05   1.597e-08    -4.698    -7.797    -3.099
+   HSO4-                  6.012e-08   2.698e-08    -7.221    -7.569    -0.348
+Sg               7.617e-04
+   HSg-                   6.508e-04   1.185e-04    -3.187    -3.926    -0.740
+   H2Sg                   9.084e-05   9.084e-05    -4.042    -4.042     0.000
+   Sg-2                   2.008e-05   1.599e-08    -4.697    -7.796    -3.099
 Sr               1.473e-02
    Sr+2                   1.473e-02   2.836e-03    -1.832    -2.547    -0.715
 
@@ -628,50 +635,50 @@ Sr               1.473e-02
 
 	Phase               SI   log IAP   log K(405 K,   6 atm)
 
-	Anhydrite         2.14*    -5.56   -7.70  CaSO4	 Delta_V -47.21 cm3/mol
-	Aragonite         2.41*    -7.19   -9.60  CaCO3	 Delta_V -67.56 cm3/mol
-	Arcanite         -5.70*    -6.26   -0.56  K2SO4	 Delta_V  -7.18 cm3/mol
-	Bischofite       -5.70*    -1.50    4.20  MgCl2:6H2O	 Delta_V  89.43 cm3/mol
-	Bloedite         -7.92*   -10.27   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  -5.59 cm3/mol
-	Brucite          -2.41*   -12.35   -9.94  Mg(OH)2	 Delta_V  -0.13 cm3/mol
-	Burkeite        -12.05*   -12.81   -0.77  Na6CO3(SO4)2	 Delta_V -93.72 cm3/mol
-	Calcite           2.62*    -7.19   -9.80  CaCO3	 Delta_V -17.56 cm3/mol
-	Carnallite       -6.36*    -2.04    4.32  KMgCl3:6H2O	 Delta_V 101.81 cm3/mol
-	Celestite         0.58*    -6.86   -7.44  SrSO4	 Delta_V -47.41 cm3/mol
-	CO2(g)           -0.33**   -2.38   -2.05  CO2	 Delta_V -87.25 cm3/mol	 Pressure   0.5 atm, phi 0.989.
-	Dolomite          3.80*   -15.10  -18.90  CaMg(CO3)2	 Delta_V -146.25 cm3/mol
-	Epsomite         -5.80*    -6.74   -0.94  MgSO4:7H2O	 Delta_V  76.78 cm3/mol
-	Gaylussite       -3.45*   -12.87   -9.42  CaNa2(CO3)2:5H2O	 Delta_V -15.85 cm3/mol
-	Glaserite        -7.45*   -11.25   -3.80  NaK3(SO4)2	 Delta_V -23.00 cm3/mol
-	Glauberite       -4.05*    -9.29   -5.24  Na2Ca(SO4)2	 Delta_V -71.67 cm3/mol
-	Gypsum           -0.50*    -5.69   -5.20  CaSO4:2H2O	 Delta_V  -8.60 cm3/mol
-	H2O(g)            0.47**   -0.07   -0.53  H2O	 Delta_V  19.30 cm3/mol	 Pressure   3.0 atm, phi 0.963.
+	Anhydrite         2.14*    -5.56   -7.71  CaSO4	 Delta_V -26.67 cm3/mol
+	Aragonite         2.41*    -7.19   -9.60  CaCO3	 Delta_V -47.01 cm3/mol
+	Arcanite         -5.70*    -6.26   -0.56  K2SO4	 Delta_V   8.23 cm3/mol
+	Bischofite       -5.70*    -1.50    4.20  MgCl2:6H2O	 Delta_V 104.84 cm3/mol
+	Bloedite         -7.92*   -10.27   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  30.37 cm3/mol
+	Brucite          -2.41*   -12.35   -9.94  Mg(OH)2	 Delta_V  10.14 cm3/mol
+	Burkeite        -12.04*   -12.81   -0.77  Na6CO3(SO4)2	 Delta_V -47.49 cm3/mol
+	Calcite           2.62*    -7.19   -9.81  CaCO3	 Delta_V   2.99 cm3/mol
+	Carnallite       -6.36*    -2.04    4.32  KMgCl3:6H2O	 Delta_V 122.36 cm3/mol
+	Celestite         0.59*    -6.86   -7.44  SrSO4	 Delta_V -26.87 cm3/mol
+	CO2(g)           -0.33**   -2.38   -2.05  CO2	 Delta_V -76.98 cm3/mol	 Pressure   0.5 atm, phi 0.989.
+	Dolomite          3.81*   -15.10  -18.90  CaMg(CO3)2	 Delta_V -105.16 cm3/mol
+	Epsomite         -5.80*    -6.74   -0.94  MgSO4:7H2O	 Delta_V  97.33 cm3/mol
+	Gaylussite       -3.45*   -12.87   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  20.11 cm3/mol
+	Glaserite        -7.45*   -11.25   -3.80  NaK3(SO4)2	 Delta_V   7.82 cm3/mol
+	Glauberite       -4.05*    -9.29   -5.24  Na2Ca(SO4)2	 Delta_V -35.71 cm3/mol
+	Gypsum           -0.50*    -5.69   -5.20  CaSO4:2H2O	 Delta_V  11.94 cm3/mol
+	H2O(g)            0.47**   -0.07   -0.53  H2O	 Pressure   3.0 atm, phi 0.963.
 	H2Sg(g)          -2.63**  -10.63   -8.00  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.980.
-	Halite           -0.77*     0.72    1.49  NaCl	 Delta_V   3.75 cm3/mol
-	Hexahydrite      -6.37*    -6.67   -0.30  MgSO4:6H2O	 Delta_V  57.48 cm3/mol
-	Kainite          -6.82*    -7.02   -0.19  KMgClSO4:3H2O	 Delta_V  11.95 cm3/mol
-	Kalicinite       -3.56*   -13.62  -10.06  KHCO3	 Delta_V -33.74 cm3/mol
-	Kieserite        -6.23*    -6.35   -0.12  MgSO4:H2O	 Delta_V -39.04 cm3/mol
-	Labile_S         -7.48*   -13.15   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V -57.52 cm3/mol
-	Leonhardite      -5.65*    -6.54   -0.89  MgSO4:4H2O	 Delta_V  18.87 cm3/mol
-	Leonite          -8.82*   -12.80   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  11.69 cm3/mol
-	Magnesite         0.21*    -7.91   -8.11  MgCO3	 Delta_V -78.69 cm3/mol
-	Mirabilite       -2.03*    -4.38   -2.35  Na2SO4:10H2O	 Delta_V 168.58 cm3/mol
-	Misenite        -67.40*   -78.20  -10.80  K8H6(SO4)7	 Delta_V -87.54 cm3/mol
+	Halite           -0.77*     0.72    1.49  NaCl	 Delta_V   8.88 cm3/mol
+	Hexahydrite      -6.37*    -6.67   -0.30  MgSO4:6H2O	 Delta_V  78.02 cm3/mol
+	Kainite          -6.82*    -7.02   -0.20  KMgClSO4:3H2O	 Delta_V  37.63 cm3/mol
+	Kalicinite       -3.56*   -13.62  -10.06  KHCO3	 Delta_V -20.90 cm3/mol
+	Kieserite        -6.22*    -6.35   -0.12  MgSO4:H2O	 Delta_V -18.49 cm3/mol
+	Labile_S         -7.48*   -13.15   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  -6.15 cm3/mol
+	Leonhardite      -5.65*    -6.54   -0.89  MgSO4:4H2O	 Delta_V  39.42 cm3/mol
+	Leonite          -8.82*   -12.80   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  47.64 cm3/mol
+	Magnesite         0.21*    -7.91   -8.12  MgCO3	 Delta_V -58.15 cm3/mol
+	Mirabilite       -2.03*    -4.38   -2.35  Na2SO4:10H2O	 Delta_V 183.99 cm3/mol
+	Misenite        -67.40*   -78.20  -10.81  K8H6(SO4)7	 Delta_V   4.92 cm3/mol
 	Mth(g)            0.33**   -2.68   -3.02  Mth	 Delta_V -33.00 cm3/mol	 Pressure   2.2 atm, phi 1.000.
-	Nahcolite        -1.61*   -12.35  -10.74  NaHCO3	 Delta_V -42.38 cm3/mol
-	Natron           -5.18*    -6.01   -0.83  Na2CO3:10H2O	 Delta_V 148.23 cm3/mol
-	Nesquehonite     -2.94*    -8.10   -5.17  MgCO3:3H2O	 Delta_V -20.78 cm3/mol
+	Nahcolite        -1.61*   -12.35  -10.74  NaHCO3	 Delta_V -29.54 cm3/mol
+	Natron           -5.18*    -6.01   -0.84  Na2CO3:10H2O	 Delta_V 163.64 cm3/mol
+	Nesquehonite     -2.94*    -8.10   -5.17  MgCO3:3H2O	 Delta_V  -0.24 cm3/mol
 	Ng(g)            -0.70**   -3.99   -3.29  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.011.
-	Pentahydrite     -5.32*    -6.61   -1.29  MgSO4:5H2O	 Delta_V  38.17 cm3/mol
-	Pirssonite       -3.44*   -12.67   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V -73.76 cm3/mol
-	Polyhalite      -10.06*   -23.79  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V -121.34 cm3/mol
-	Portlandite      -6.44*   -11.63   -5.19  Ca(OH)2	 Delta_V  11.00 cm3/mol
-	Schoenite        -8.60*   -12.93   -4.33  K2Mg(SO4)2:6H2O	 Delta_V  50.30 cm3/mol
-	Strontianite      1.90*    -8.48  -10.39  SrCO3	 Delta_V -67.76 cm3/mol
-	Sylvite          -2.25*    -0.54    1.71  KCl	 Delta_V  12.38 cm3/mol
-	Syngenite        -4.44*   -11.89   -7.45  K2Ca(SO4)2:H2O	 Delta_V -35.09 cm3/mol
-	Trona            -6.46*   -17.84  -11.38  Na3H(CO3)2:2H2O	 Delta_V -48.58 cm3/mol
+	Pentahydrite     -5.32*    -6.61   -1.29  MgSO4:5H2O	 Delta_V  58.72 cm3/mol
+	Pirssonite       -3.44*   -12.67   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V -37.80 cm3/mol
+	Polyhalite      -10.05*   -23.79  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V -44.30 cm3/mol
+	Portlandite      -6.44*   -11.63   -5.19  Ca(OH)2	 Delta_V  21.27 cm3/mol
+	Schoenite        -8.60*   -12.93   -4.33  K2Mg(SO4)2:6H2O	 Delta_V  86.25 cm3/mol
+	Strontianite      1.91*    -8.49  -10.39  SrCO3	 Delta_V -47.22 cm3/mol
+	Sylvite          -2.25*    -0.54    1.71  KCl	 Delta_V  17.52 cm3/mol
+	Syngenite        -4.44*   -11.89   -7.45  K2Ca(SO4)2:H2O	 Delta_V   0.86 cm3/mol
+	Trona            -6.46*   -17.84  -11.38  Na3H(CO3)2:2H2O	 Delta_V -20.33 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -682,7 +689,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -705,19 +712,19 @@ Reaction 1.	Irreversible reaction defined in simulation 3.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure:  4.84      atmospheres          (Peng-Robinson calculation)
+Total pressure:  4.83      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   6.58e+00 liters/mole
-   P * Vm / RT:  0.98457  (Compressibility Factor Z) 
+   P * Vm / RT:  0.98461  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.33   4.630e-01  0.990   3.148e-01   1.455e-02  -3.003e-01
-H2O(g)             0.32   2.073e+00  0.968   4.057e-01   6.516e-02  -3.405e-01
-H2Sg(g)           -2.56   2.764e-03  0.982   2.345e-03   8.687e-05  -2.259e-03
-Mth(g)             0.32   2.107e+00  0.999   9.220e+00   6.621e-02  -9.154e+00
+CO2(g)            -0.33   4.630e-01  0.990   3.145e-01   1.455e-02  -2.999e-01
+H2O(g)             0.32   2.068e+00  0.968   3.191e-01   6.500e-02  -2.541e-01
+H2Sg(g)           -2.56   2.763e-03  0.982   2.312e-03   8.684e-05  -2.225e-03
+Mth(g)             0.32   2.107e+00  0.999   9.218e+00   6.621e-02  -9.152e+00
 Ng(g)             -0.72   1.915e-01  1.008   1.118e+00   6.018e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -734,30 +741,30 @@ Ng(g)             -0.72   1.915e-01  1.008   1.118e+00   6.018e-03  -1.112e+00
 	Na                2.944e+00   2.958e+00
 	Ng                9.442e-05   9.488e-05
 	S                 1.282e-03   1.289e-03
-	Sg                7.480e-04   7.517e-04
+	Sg                7.481e-04   7.517e-04
 	Sr                1.472e-02   1.479e-02
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.608      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 853481
-                          Density (g/cm3)  =   1.03323
+       Specific Conductance (uS/cm, 120 oC) = 853478
+                          Density (g/cm3)  =   1.03324
                         Activity of water  =   0.858
                            Ionic strength  =   4.610e+00
                        Mass of water (kg)  =   1.005e+00
                  Total alkalinity (eq/kg)  =   8.763e-03
                        Total CO2 (mol/kg)  =   8.371e-03
                       Temperature (deg C)  = 120.67
-                           Pressure (atm)  =  4.84
+                           Pressure (atm)  =  4.83
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  50
+                               Iterations  =  51
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.11147
                          Density of water  =   0.94262
-                                  Total H  = 1.115600e+02
-                                  Total O  = 5.580565e+01
+                                  Total H  = 1.115604e+02
+                                  Total O  = 5.580581e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -765,17 +772,17 @@ Ng(g)             -0.72   1.915e-01  1.008   1.118e+00   6.018e-03  -1.112e+00
 	                               MacInnes    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    1.583e-05   3.732e-06    -4.801    -5.428    -0.628
-   H+                     1.703e-07   2.469e-07    -6.769    -6.608     0.161
+   OH-                    1.583e-05   3.732e-06    -4.800    -5.428    -0.628
+   H+                     1.702e-07   2.468e-07    -6.769    -6.608     0.161
    H2O                    5.551e+01   8.582e-01     1.744    -0.066     0.000
 Ba               1.974e-04
    Ba+2                   1.974e-04   1.725e-05    -3.705    -4.763    -1.059
 C(4)             8.371e-03
-   HCO3-                  4.774e-03   4.157e-03    -2.321    -2.381    -0.060
-   CO2                    1.988e-03   4.236e-03    -2.702    -2.373     0.329
+   HCO3-                  4.775e-03   4.158e-03    -2.321    -2.381    -0.060
+   CO2                    1.988e-03   4.237e-03    -2.702    -2.373     0.329
    CaCO3                  1.445e-03   1.445e-03    -2.840    -2.840     0.000
-   CO3-2                  1.078e-04   1.006e-06    -3.967    -5.998    -2.030
-   MgCO3                  5.508e-05   5.508e-05    -4.259    -4.259     0.000
+   CO3-2                  1.078e-04   1.005e-06    -3.968    -5.998    -2.030
+   MgCO3                  5.506e-05   5.506e-05    -4.259    -4.259     0.000
 Ca               4.383e-01
    Ca+2                   4.369e-01   7.439e-02    -0.360    -1.128    -0.769
    CaCO3                  1.445e-03   1.445e-03    -2.840    -2.840     0.000
@@ -785,8 +792,8 @@ K                1.855e-01
    K+                     1.855e-01   1.111e-01    -0.732    -0.954    -0.223
 Mg               7.725e-02
    Mg+2                   7.709e-02   1.457e-02    -1.113    -1.836    -0.723
-   MgOH+                  1.018e-04   4.377e-05    -3.992    -4.359    -0.367
-   MgCO3                  5.508e-05   5.508e-05    -4.259    -4.259     0.000
+   MgOH+                  1.018e-04   4.379e-05    -3.992    -4.359    -0.367
+   MgCO3                  5.506e-05   5.506e-05    -4.259    -4.259     0.000
 Mth              1.925e-03
    Mth                    1.925e-03   1.925e-03    -2.716    -2.716     0.000
 Na               2.944e+00
@@ -795,11 +802,11 @@ Ng               9.442e-05
    Ng                     9.442e-05   9.442e-05    -4.025    -4.025     0.000
 S(6)             1.282e-03
    SO4-2                  1.282e-03   4.311e-05    -2.892    -4.365    -1.473
-   HSO4-                  4.509e-08   2.026e-08    -7.346    -7.693    -0.348
-Sg               7.480e-04
+   HSO4-                  4.507e-08   2.025e-08    -7.346    -7.694    -0.348
+Sg               7.481e-04
    HSg-                   6.367e-04   1.161e-04    -3.196    -3.935    -0.739
    H2Sg                   1.023e-04   1.023e-04    -3.990    -3.990     0.000
-   Sg-2                   9.050e-06   8.106e-09    -5.043    -8.091    -3.048
+   Sg-2                   9.055e-06   8.111e-09    -5.043    -8.091    -3.048
 Sr               1.472e-02
    Sr+2                   1.472e-02   3.498e-03    -1.832    -2.456    -0.624
 
@@ -807,50 +814,50 @@ Sr               1.472e-02
 
 	Phase               SI   log IAP   log K(393 K,   5 atm)
 
-	Anhydrite         1.70*    -5.49   -7.19  CaSO4	 Delta_V -37.13 cm3/mol
-	Aragonite         2.26*    -7.13   -9.39  CaCO3	 Delta_V -56.93 cm3/mol
-	Arcanite         -5.62*    -6.27   -0.66  K2SO4	 Delta_V   2.70 cm3/mol
-	Bischofite       -5.60*    -1.37    4.22  MgCl2:6H2O	 Delta_V  97.07 cm3/mol
-	Bloedite         -7.82*   -10.17   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  14.53 cm3/mol
-	Brucite          -2.68*   -12.69  -10.02  Mg(OH)2	 Delta_V   3.08 cm3/mol
-	Burkeite        -11.96*   -12.73   -0.77  Na6CO3(SO4)2	 Delta_V -64.34 cm3/mol
-	Calcite           2.48*    -7.13   -9.60  CaCO3	 Delta_V  -6.93 cm3/mol
-	Carnallite       -6.22*    -1.90    4.32  KMgCl3:6H2O	 Delta_V 113.16 cm3/mol
-	Celestite         0.50*    -6.82   -7.32  SrSO4	 Delta_V -38.10 cm3/mol
-	CO2(g)           -0.34**   -2.37   -2.03  CO2	 Delta_V -78.82 cm3/mol	 Pressure   0.5 atm, phi 0.990.
-	Dolomite          3.80*   -14.96  -18.76  CaMg(CO3)2	 Delta_V -123.78 cm3/mol
-	Epsomite         -5.66*    -6.67   -1.01  MgSO4:7H2O	 Delta_V  86.71 cm3/mol
-	Gaylussite       -3.37*   -12.79   -9.42  CaNa2(CO3)2:5H2O	 Delta_V   3.98 cm3/mol
-	Glaserite        -7.46*   -11.26   -3.80  NaK3(SO4)2	 Delta_V  -3.38 cm3/mol
-	Glauberite       -3.95*    -9.19   -5.24  Na2Ca(SO4)2	 Delta_V -51.98 cm3/mol
-	Gypsum           -0.53*    -5.63   -5.09  CaSO4:2H2O	 Delta_V   1.09 cm3/mol
-	H2O(g)            0.30**   -0.07   -0.37  H2O	 Delta_V  19.11 cm3/mol	 Pressure   2.1 atm, phi 0.968.
+	Anhydrite         1.70*    -5.49   -7.20  CaSO4	 Delta_V -18.59 cm3/mol
+	Aragonite         2.27*    -7.13   -9.39  CaCO3	 Delta_V -38.38 cm3/mol
+	Arcanite         -5.61*    -6.27   -0.66  K2SO4	 Delta_V  16.60 cm3/mol
+	Bischofite       -5.60*    -1.37    4.22  MgCl2:6H2O	 Delta_V 110.98 cm3/mol
+	Bloedite         -7.82*   -10.17   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  46.98 cm3/mol
+	Brucite          -2.68*   -12.69  -10.02  Mg(OH)2	 Delta_V  12.35 cm3/mol
+	Burkeite        -11.96*   -12.73   -0.77  Na6CO3(SO4)2	 Delta_V -22.62 cm3/mol
+	Calcite           2.48*    -7.13   -9.60  CaCO3	 Delta_V  11.62 cm3/mol
+	Carnallite       -6.22*    -1.90    4.32  KMgCl3:6H2O	 Delta_V 131.70 cm3/mol
+	Celestite         0.50*    -6.82   -7.32  SrSO4	 Delta_V -19.56 cm3/mol
+	CO2(g)           -0.34**   -2.37   -2.03  CO2	 Delta_V -69.55 cm3/mol	 Pressure   0.5 atm, phi 0.990.
+	Dolomite          3.80*   -14.96  -18.76  CaMg(CO3)2	 Delta_V -86.70 cm3/mol
+	Epsomite         -5.65*    -6.67   -1.01  MgSO4:7H2O	 Delta_V 105.25 cm3/mol
+	Gaylussite       -3.37*   -12.79   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  36.43 cm3/mol
+	Glaserite        -7.46*   -11.26   -3.80  NaK3(SO4)2	 Delta_V  24.43 cm3/mol
+	Glauberite       -3.95*    -9.19   -5.24  Na2Ca(SO4)2	 Delta_V -19.53 cm3/mol
+	Gypsum           -0.53*    -5.63   -5.09  CaSO4:2H2O	 Delta_V  19.63 cm3/mol
+	H2O(g)            0.30**   -0.07   -0.37  H2O	 Pressure   2.1 atm, phi 0.968.
 	H2Sg(g)          -2.57**  -10.54   -7.98  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.982.
-	Halite           -0.76*     0.76    1.52  NaCl	 Delta_V   7.31 cm3/mol
-	Hexahydrite      -6.15*    -6.60   -0.45  MgSO4:6H2O	 Delta_V  67.60 cm3/mol
-	Kainite          -6.73*    -6.92   -0.19  KMgClSO4:3H2O	 Delta_V  26.36 cm3/mol
-	Kalicinite       -3.50*   -13.56  -10.06  KHCO3	 Delta_V -24.41 cm3/mol
-	Kieserite        -6.15*    -6.27   -0.12  MgSO4:H2O	 Delta_V -27.95 cm3/mol
-	Labile_S         -7.36*   -13.03   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V -28.60 cm3/mol
-	Leonhardite      -5.58*    -6.47   -0.89  MgSO4:4H2O	 Delta_V  29.38 cm3/mol
-	Leonite          -8.76*   -12.74   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  32.08 cm3/mol
-	Magnesite         0.26*    -7.83   -8.09  MgCO3	 Delta_V -66.86 cm3/mol
-	Mirabilite       -2.81*    -4.36   -1.55  Na2SO4:10H2O	 Delta_V 176.25 cm3/mol
-	Misenite        -67.03*   -77.84  -10.80  K8H6(SO4)7	 Delta_V -24.96 cm3/mol
+	Halite           -0.76*     0.76    1.52  NaCl	 Delta_V  11.95 cm3/mol
+	Hexahydrite      -6.15*    -6.60   -0.45  MgSO4:6H2O	 Delta_V  86.14 cm3/mol
+	Kainite          -6.73*    -6.92   -0.20  KMgClSO4:3H2O	 Delta_V  49.53 cm3/mol
+	Kalicinite       -3.50*   -13.56  -10.06  KHCO3	 Delta_V -12.82 cm3/mol
+	Kieserite        -6.15*    -6.27   -0.12  MgSO4:H2O	 Delta_V  -9.41 cm3/mol
+	Labile_S         -7.35*   -13.03   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  17.75 cm3/mol
+	Leonhardite      -5.58*    -6.47   -0.89  MgSO4:4H2O	 Delta_V  47.92 cm3/mol
+	Leonite          -8.76*   -12.74   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  64.52 cm3/mol
+	Magnesite         0.26*    -7.83   -8.09  MgCO3	 Delta_V -48.32 cm3/mol
+	Mirabilite       -2.81*    -4.36   -1.55  Na2SO4:10H2O	 Delta_V 190.16 cm3/mol
+	Misenite        -67.03*   -77.84  -10.81  K8H6(SO4)7	 Delta_V  58.47 cm3/mol
 	Mth(g)            0.32**   -2.72   -3.04  Mth	 Delta_V -33.00 cm3/mol	 Pressure   2.1 atm, phi 0.999.
-	Nahcolite        -1.53*   -12.27  -10.74  NaHCO3	 Delta_V -33.18 cm3/mol
-	Natron           -5.16*    -6.00   -0.83  Na2CO3:10H2O	 Delta_V 156.46 cm3/mol
-	Nesquehonite     -2.87*    -8.03   -5.17  MgCO3:3H2O	 Delta_V  -9.53 cm3/mol
+	Nahcolite        -1.53*   -12.27  -10.74  NaHCO3	 Delta_V -21.59 cm3/mol
+	Natron           -5.16*    -6.00   -0.83  Na2CO3:10H2O	 Delta_V 170.36 cm3/mol
+	Nesquehonite     -2.87*    -8.03   -5.17  MgCO3:3H2O	 Delta_V   9.01 cm3/mol
 	Ng(g)            -0.71**   -4.02   -3.31  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.008.
-	Pentahydrite     -5.25*    -6.53   -1.29  MgSO4:5H2O	 Delta_V  48.49 cm3/mol
-	Pirssonite       -3.36*   -12.59   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V -53.35 cm3/mol
-	Polyhalite       -9.86*   -23.60  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V -80.40 cm3/mol
-	Portlandite      -6.79*   -11.98   -5.19  Ca(OH)2	 Delta_V  13.01 cm3/mol
-	Schoenite        -8.54*   -12.87   -4.33  K2Mg(SO4)2:6H2O	 Delta_V  70.30 cm3/mol
-	Strontianite      1.75*    -8.45  -10.21  SrCO3	 Delta_V -57.90 cm3/mol
-	Sylvite          -2.17*    -0.52    1.65  KCl	 Delta_V  16.08 cm3/mol
-	Syngenite        -4.39*   -11.83   -7.45  K2Ca(SO4)2:H2O	 Delta_V -15.32 cm3/mol
-	Trona            -6.36*   -17.74  -11.38  Na3H(CO3)2:2H2O	 Delta_V -29.60 cm3/mol
+	Pentahydrite     -5.25*    -6.53   -1.29  MgSO4:5H2O	 Delta_V  67.03 cm3/mol
+	Pirssonite       -3.36*   -12.59   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V -20.90 cm3/mol
+	Polyhalite       -9.85*   -23.60  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V -10.87 cm3/mol
+	Portlandite      -6.79*   -11.98   -5.19  Ca(OH)2	 Delta_V  22.28 cm3/mol
+	Schoenite        -8.54*   -12.87   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 102.75 cm3/mol
+	Strontianite      1.76*    -8.45  -10.21  SrCO3	 Delta_V -39.36 cm3/mol
+	Sylvite          -2.17*    -0.52    1.65  KCl	 Delta_V  20.72 cm3/mol
+	Syngenite        -4.39*   -11.83   -7.45  K2Ca(SO4)2:H2O	 Delta_V  17.13 cm3/mol
+	Trona            -6.35*   -17.74  -11.38  Na3H(CO3)2:2H2O	 Delta_V  -4.11 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -861,7 +868,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -886,18 +893,18 @@ Reaction 1.	Irreversible reaction defined in simulation 3.
 
 Total pressure:  4.07      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
-  Molar volume:   7.61e+00 liters/mole
-   P * Vm / RT:  0.98823  (Compressibility Factor Z) 
+  Molar volume:   7.62e+00 liters/mole
+   P * Vm / RT:  0.98825  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.35   4.440e-01  0.990   3.148e-01   1.432e-02  -3.005e-01
-H2O(g)             0.14   1.383e+00  0.972   4.057e-01   4.459e-02  -3.611e-01
-H2Sg(g)           -2.51   3.113e-03  0.984   2.345e-03   1.003e-04  -2.245e-03
-Mth(g)             0.31   2.057e+00  0.998   9.220e+00   6.632e-02  -9.154e+00
-Ng(g)             -0.73   1.868e-01  1.005   1.118e+00   6.024e-03  -1.112e+00
+CO2(g)            -0.35   4.440e-01  0.990   3.145e-01   1.432e-02  -3.001e-01
+H2O(g)             0.14   1.380e+00  0.972   3.191e-01   4.450e-02  -2.746e-01
+H2Sg(g)           -2.51   3.112e-03  0.984   2.312e-03   1.003e-04  -2.212e-03
+Mth(g)             0.31   2.057e+00  0.998   9.218e+00   6.632e-02  -9.152e+00
+Ng(g)             -0.73   1.869e-01  1.005   1.118e+00   6.024e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
 
@@ -920,8 +927,8 @@ Ng(g)             -0.73   1.868e-01  1.005   1.118e+00   6.024e-03  -1.112e+00
 
                                        pH  =   6.520      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 109 oC) = 826115
-                          Density (g/cm3)  =   1.05170
+       Specific Conductance (uS/cm, 109 oC) = 826114
+                          Density (g/cm3)  =   1.05172
                         Activity of water  =   0.857
                            Ionic strength  =   4.608e+00
                        Mass of water (kg)  =   1.005e+00
@@ -931,12 +938,12 @@ Ng(g)             -0.73   1.868e-01  1.005   1.118e+00   6.024e-03  -1.112e+00
                            Pressure (atm)  =  4.07
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  56
+                               Iterations  =  53
                          Gamma iterations  =   3
                       Osmotic coefficient  =   1.12544
                          Density of water  =   0.95150
-                                  Total H  = 1.116012e+02
-                                  Total O  = 5.582669e+01
+                                  Total H  = 1.116013e+02
+                                  Total O  = 5.582678e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -944,17 +951,17 @@ Ng(g)             -0.73   1.868e-01  1.005   1.118e+00   6.024e-03  -1.112e+00
 	                               MacInnes    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    9.263e-06   2.136e-06    -5.033    -5.670    -0.637
-   H+                     1.867e-07   3.018e-07    -6.729    -6.520     0.209
+   OH-                    9.264e-06   2.136e-06    -5.033    -5.670    -0.637
+   H+                     1.866e-07   3.017e-07    -6.729    -6.520     0.209
    H2O                    5.551e+01   8.566e-01     1.744    -0.067     0.000
 Ba               1.973e-04
    Ba+2                   1.973e-04   2.148e-05    -3.705    -4.668    -0.963
 C(4)             8.603e-03
-   HCO3-                  5.075e-03   4.082e-03    -2.295    -2.389    -0.094
+   HCO3-                  5.075e-03   4.083e-03    -2.295    -2.389    -0.094
    CO2                    2.030e-03   4.325e-03    -2.692    -2.364     0.328
    CaCO3                  1.344e-03   1.344e-03    -2.872    -2.872     0.000
-   CO3-2                  9.899e-05   8.922e-07    -4.004    -6.050    -2.045
-   MgCO3                  5.457e-05   5.457e-05    -4.263    -4.263     0.000
+   CO3-2                  9.897e-05   8.920e-07    -4.004    -6.050    -2.045
+   MgCO3                  5.456e-05   5.456e-05    -4.263    -4.263     0.000
 Ca               4.381e-01
    Ca+2                   4.368e-01   9.713e-02    -0.360    -1.013    -0.653
    CaCO3                  1.344e-03   1.344e-03    -2.872    -2.872     0.000
@@ -964,8 +971,8 @@ K                1.854e-01
    K+                     1.854e-01   1.158e-01    -0.732    -0.936    -0.205
 Mg               7.722e-02
    Mg+2                   7.711e-02   1.952e-02    -1.113    -1.709    -0.597
-   MgOH+                  5.650e-05   2.670e-05    -4.248    -4.573    -0.325
-   MgCO3                  5.457e-05   5.457e-05    -4.263    -4.263     0.000
+   MgOH+                  5.651e-05   2.671e-05    -4.248    -4.573    -0.325
+   MgCO3                  5.456e-05   5.456e-05    -4.263    -4.263     0.000
 Mth              1.808e-03
    Mth                    1.808e-03   1.808e-03    -2.743    -2.743     0.000
 Na               2.943e+00
@@ -974,11 +981,11 @@ Ng               8.820e-05
    Ng                     8.820e-05   8.820e-05    -4.055    -4.055     0.000
 S(6)             1.282e-03
    SO4-2                  1.282e-03   3.768e-05    -2.892    -4.424    -1.532
-   HSO4-                  3.289e-08   1.477e-08    -7.483    -7.831    -0.348
+   HSO4-                  3.288e-08   1.477e-08    -7.483    -7.831    -0.348
 Sg               7.344e-04
    HSg-                   6.158e-04   1.123e-04    -3.211    -3.950    -0.739
    H2Sg                   1.145e-04   1.145e-04    -3.941    -3.941     0.000
-   Sg-2                   4.064e-06   4.055e-09    -5.391    -8.392    -3.001
+   Sg-2                   4.066e-06   4.057e-09    -5.391    -8.392    -3.001
 Sr               1.472e-02
    Sr+2                   1.472e-02   4.255e-03    -1.832    -2.371    -0.539
 
@@ -986,50 +993,50 @@ Sr               1.472e-02
 
 	Phase               SI   log IAP   log K(382 K,   4 atm)
 
-	Anhydrite         1.27*    -5.44   -6.71  CaSO4	 Delta_V -28.35 cm3/mol
-	Aragonite         2.13*    -7.06   -9.20  CaCO3	 Delta_V -47.66 cm3/mol
-	Arcanite         -5.53*    -6.30   -0.76  K2SO4	 Delta_V  11.22 cm3/mol
-	Bischofite       -5.50*    -1.26    4.25  MgCl2:6H2O	 Delta_V 103.75 cm3/mol
-	Bloedite         -7.74*   -10.08   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  31.95 cm3/mol
-	Brucite          -2.95*   -13.05  -10.10  Mg(OH)2	 Delta_V   5.91 cm3/mol
-	Burkeite        -11.90*   -12.67   -0.77  Na6CO3(SO4)2	 Delta_V -39.15 cm3/mol
-	Calcite           2.35*    -7.06   -9.41  CaCO3	 Delta_V   2.34 cm3/mol
-	Carnallite       -6.09*    -1.77    4.32  KMgCl3:6H2O	 Delta_V 123.02 cm3/mol
-	Celestite         0.41*    -6.80   -7.21  SrSO4	 Delta_V -29.93 cm3/mol
-	CO2(g)           -0.36**   -2.36   -2.00  CO2	 Delta_V -71.45 cm3/mol	 Pressure   0.4 atm, phi 0.990.
-	Dolomite          3.78*   -14.82  -18.60  CaMg(CO3)2	 Delta_V -104.13 cm3/mol
-	Epsomite         -5.51*    -6.60   -1.09  MgSO4:7H2O	 Delta_V  95.36 cm3/mol
-	Gaylussite       -3.28*   -12.71   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  21.08 cm3/mol
-	Glaserite        -7.48*   -11.29   -3.80  NaK3(SO4)2	 Delta_V  13.52 cm3/mol
-	Glauberite       -3.87*    -9.12   -5.24  Na2Ca(SO4)2	 Delta_V -34.96 cm3/mol
-	Gypsum           -0.57*    -5.57   -5.00  CaSO4:2H2O	 Delta_V   9.52 cm3/mol
-	H2O(g)            0.13**   -0.07   -0.20  H2O	 Delta_V  18.93 cm3/mol	 Pressure   1.4 atm, phi 0.972.
+	Anhydrite         1.27*    -5.44   -6.71  CaSO4	 Delta_V -11.60 cm3/mol
+	Aragonite         2.14*    -7.06   -9.20  CaCO3	 Delta_V -30.91 cm3/mol
+	Arcanite         -5.53*    -6.30   -0.76  K2SO4	 Delta_V  23.78 cm3/mol
+	Bischofite       -5.50*    -1.26    4.24  MgCl2:6H2O	 Delta_V 116.31 cm3/mol
+	Bloedite         -7.73*   -10.08   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  61.26 cm3/mol
+	Brucite          -2.95*   -13.05  -10.10  Mg(OH)2	 Delta_V  14.28 cm3/mol
+	Burkeite        -11.90*   -12.67   -0.77  Na6CO3(SO4)2	 Delta_V  -1.46 cm3/mol
+	Calcite           2.35*    -7.06   -9.41  CaCO3	 Delta_V  19.09 cm3/mol
+	Carnallite       -6.09*    -1.77    4.32  KMgCl3:6H2O	 Delta_V 139.77 cm3/mol
+	Celestite         0.42*    -6.80   -7.21  SrSO4	 Delta_V -13.18 cm3/mol
+	CO2(g)           -0.36**   -2.36   -2.00  CO2	 Delta_V -63.08 cm3/mol	 Pressure   0.4 atm, phi 0.990.
+	Dolomite          3.78*   -14.82  -18.60  CaMg(CO3)2	 Delta_V -70.63 cm3/mol
+	Epsomite         -5.51*    -6.60   -1.09  MgSO4:7H2O	 Delta_V 112.11 cm3/mol
+	Gaylussite       -3.28*   -12.71   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  50.39 cm3/mol
+	Glaserite        -7.48*   -11.29   -3.80  NaK3(SO4)2	 Delta_V  38.65 cm3/mol
+	Glauberite       -3.87*    -9.12   -5.24  Na2Ca(SO4)2	 Delta_V  -5.65 cm3/mol
+	Gypsum           -0.57*    -5.57   -5.00  CaSO4:2H2O	 Delta_V  26.27 cm3/mol
+	H2O(g)            0.13**   -0.07   -0.19  H2O	 Pressure   1.4 atm, phi 0.972.
 	H2Sg(g)          -2.51**  -10.47   -7.96  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.984.
-	Halite           -0.75*     0.80    1.54  NaCl	 Delta_V  10.36 cm3/mol
-	Hexahydrite      -5.95*    -6.54   -0.59  MgSO4:6H2O	 Delta_V  76.43 cm3/mol
-	Kainite          -6.65*    -6.84   -0.19  KMgClSO4:3H2O	 Delta_V  38.90 cm3/mol
-	Kalicinite       -3.45*   -13.51  -10.06  KHCO3	 Delta_V -16.31 cm3/mol
-	Kieserite        -6.08*    -6.20   -0.12  MgSO4:H2O	 Delta_V -18.23 cm3/mol
-	Labile_S         -7.26*   -12.93   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  -3.71 cm3/mol
-	Leonhardite      -5.51*    -6.40   -0.89  MgSO4:4H2O	 Delta_V  38.56 cm3/mol
-	Leonite          -8.72*   -12.70   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  49.78 cm3/mol
-	Magnesite         0.31*    -7.76   -8.07  MgCO3	 Delta_V -56.48 cm3/mol
-	Mirabilite       -3.43*    -4.35   -0.93  Na2SO4:10H2O	 Delta_V 182.71 cm3/mol
-	Misenite        -66.77*   -77.58  -10.81  K8H6(SO4)7	 Delta_V  29.25 cm3/mol
+	Halite           -0.75*     0.80    1.54  NaCl	 Delta_V  14.54 cm3/mol
+	Hexahydrite      -5.95*    -6.54   -0.59  MgSO4:6H2O	 Delta_V  93.18 cm3/mol
+	Kainite          -6.65*    -6.84   -0.20  KMgClSO4:3H2O	 Delta_V  59.84 cm3/mol
+	Kalicinite       -3.45*   -13.51  -10.06  KHCO3	 Delta_V  -5.84 cm3/mol
+	Kieserite        -6.08*    -6.20   -0.12  MgSO4:H2O	 Delta_V  -1.48 cm3/mol
+	Labile_S         -7.26*   -12.93   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  38.17 cm3/mol
+	Leonhardite      -5.51*    -6.40   -0.89  MgSO4:4H2O	 Delta_V  55.31 cm3/mol
+	Leonite          -8.72*   -12.70   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  79.09 cm3/mol
+	Magnesite         0.31*    -7.76   -8.07  MgCO3	 Delta_V -39.73 cm3/mol
+	Mirabilite       -3.43*    -4.35   -0.93  Na2SO4:10H2O	 Delta_V 195.27 cm3/mol
+	Misenite        -66.77*   -77.58  -10.81  K8H6(SO4)7	 Delta_V 104.62 cm3/mol
 	Mth(g)            0.31**   -2.74   -3.06  Mth	 Delta_V -33.00 cm3/mol	 Pressure   2.1 atm, phi 0.998.
-	Nahcolite        -1.46*   -12.20  -10.74  NaHCO3	 Delta_V -25.22 cm3/mol
-	Natron           -5.15*    -5.98   -0.83  Na2CO3:10H2O	 Delta_V 163.40 cm3/mol
-	Nesquehonite     -2.79*    -7.96   -5.17  MgCO3:3H2O	 Delta_V   0.32 cm3/mol
+	Nahcolite        -1.46*   -12.20  -10.74  NaHCO3	 Delta_V -14.75 cm3/mol
+	Natron           -5.15*    -5.98   -0.83  Na2CO3:10H2O	 Delta_V 175.96 cm3/mol
+	Nesquehonite     -2.79*    -7.96   -5.17  MgCO3:3H2O	 Delta_V  17.07 cm3/mol
 	Ng(g)            -0.73**   -4.05   -3.33  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.005.
-	Pentahydrite     -5.18*    -6.47   -1.29  MgSO4:5H2O	 Delta_V  57.49 cm3/mol
-	Pirssonite       -3.27*   -12.50   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V -35.72 cm3/mol
-	Polyhalite       -9.70*   -23.44  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V -44.77 cm3/mol
-	Portlandite      -7.16*   -12.35   -5.19  Ca(OH)2	 Delta_V  14.73 cm3/mol
-	Schoenite        -8.50*   -12.83   -4.33  K2Mg(SO4)2:6H2O	 Delta_V  87.65 cm3/mol
-	Strontianite      1.62*    -8.42  -10.04  SrCO3	 Delta_V -49.24 cm3/mol
-	Sylvite          -2.09*    -0.51    1.58  KCl	 Delta_V  19.27 cm3/mol
-	Syngenite        -4.35*   -11.80   -7.45  K2Ca(SO4)2:H2O	 Delta_V   1.81 cm3/mol
-	Trona            -6.26*   -17.64  -11.38  Na3H(CO3)2:2H2O	 Delta_V -13.28 cm3/mol
+	Pentahydrite     -5.18*    -6.47   -1.29  MgSO4:5H2O	 Delta_V  74.24 cm3/mol
+	Pirssonite       -3.27*   -12.50   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  -6.40 cm3/mol
+	Polyhalite       -9.69*   -23.44  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V  18.04 cm3/mol
+	Portlandite      -7.16*   -12.35   -5.19  Ca(OH)2	 Delta_V  23.10 cm3/mol
+	Schoenite        -8.50*   -12.83   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 116.96 cm3/mol
+	Strontianite      1.62*    -8.42  -10.04  SrCO3	 Delta_V -32.49 cm3/mol
+	Sylvite          -2.09*    -0.51    1.58  KCl	 Delta_V  23.46 cm3/mol
+	Syngenite        -4.35*   -11.80   -7.45  K2Ca(SO4)2:H2O	 Delta_V  31.12 cm3/mol
+	Trona            -6.26*   -17.64  -11.38  Na3H(CO3)2:2H2O	 Delta_V   9.75 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -1040,7 +1047,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -1066,16 +1073,16 @@ Reaction 1.	Irreversible reaction defined in simulation 3.
 Total pressure:  3.51      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   8.59e+00 liters/mole
-   P * Vm / RT:  0.99082  (Compressibility Factor Z) 
+   P * Vm / RT:  0.99083  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.37   4.231e-01  0.990   3.148e-01   1.402e-02  -3.008e-01
-H2O(g)            -0.04   9.017e-01  0.975   4.057e-01   2.988e-02  -3.758e-01
-H2Sg(g)           -2.46   3.442e-03  0.985   2.345e-03   1.141e-04  -2.231e-03
-Mth(g)             0.30   2.004e+00  0.997   9.220e+00   6.641e-02  -9.154e+00
+CO2(g)            -0.37   4.231e-01  0.990   3.145e-01   1.402e-02  -3.004e-01
+H2O(g)            -0.05   9.003e-01  0.975   3.191e-01   2.983e-02  -2.892e-01
+H2Sg(g)           -2.46   3.442e-03  0.985   2.312e-03   1.140e-04  -2.198e-03
+Mth(g)             0.30   2.004e+00  0.997   9.218e+00   6.641e-02  -9.151e+00
 Ng(g)             -0.74   1.819e-01  1.004   1.118e+00   6.029e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -1097,10 +1104,10 @@ Ng(g)             -0.74   1.819e-01  1.004   1.118e+00   6.029e-03  -1.112e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.442      Charge balance
+                                       pH  =   6.443      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 98 oC) = 794294
-                          Density (g/cm3)  =   1.06946
+       Specific Conductance (uS/cm, 98 oC) = 794293
+                          Density (g/cm3)  =   1.06947
                         Activity of water  =   0.855
                            Ionic strength  =   4.608e+00
                        Mass of water (kg)  =   1.006e+00
@@ -1110,12 +1117,12 @@ Ng(g)             -0.74   1.819e-01  1.004   1.118e+00   6.029e-03  -1.112e+00
                            Pressure (atm)  =  3.51
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  55
+                               Iterations  =  51
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.13807
                          Density of water  =   0.95982
-                                  Total H  = 1.116305e+02
-                                  Total O  = 5.584199e+01
+                                  Total H  = 1.116306e+02
+                                  Total O  = 5.584204e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1124,16 +1131,16 @@ Ng(g)             -0.74   1.819e-01  1.004   1.118e+00   6.029e-03  -1.112e+00
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    OH-                    5.321e-06   1.199e-06    -5.274    -5.921    -0.647
-   H+                     2.010e-07   3.610e-07    -6.697    -6.442     0.254
+   H+                     2.009e-07   3.609e-07    -6.697    -6.443     0.254
    H2O                    5.551e+01   8.552e-01     1.744    -0.068     0.000
 Ba               1.972e-04
    Ba+2                   1.972e-04   2.638e-05    -3.705    -4.579    -0.874
 C(4)             8.895e-03
-   HCO3-                  5.469e-03   4.062e-03    -2.262    -2.391    -0.129
+   HCO3-                  5.470e-03   4.063e-03    -2.262    -2.391    -0.129
    CO2                    2.096e-03   4.465e-03    -2.679    -2.350     0.328
    CaCO3                  1.183e-03   1.183e-03    -2.927    -2.927     0.000
-   CO3-2                  9.253e-05   7.990e-07    -4.034    -6.097    -2.064
-   MgCO3                  5.382e-05   5.382e-05    -4.269    -4.269     0.000
+   CO3-2                  9.252e-05   7.989e-07    -4.034    -6.098    -2.064
+   MgCO3                  5.381e-05   5.381e-05    -4.269    -4.269     0.000
 Ca               4.380e-01
    Ca+2                   4.368e-01   1.251e-01    -0.360    -0.903    -0.543
    CaCO3                  1.183e-03   1.183e-03    -2.927    -2.927     0.000
@@ -1143,8 +1150,8 @@ K                1.854e-01
    K+                     1.854e-01   1.202e-01    -0.732    -0.920    -0.188
 Mg               7.720e-02
    Mg+2                   7.712e-02   2.579e-02    -1.113    -1.589    -0.476
-   MgCO3                  5.382e-05   5.382e-05    -4.269    -4.269     0.000
-   MgOH+                  3.062e-05   1.584e-05    -4.514    -4.800    -0.286
+   MgCO3                  5.381e-05   5.381e-05    -4.269    -4.269     0.000
+   MgOH+                  3.063e-05   1.585e-05    -4.514    -4.800    -0.286
 Mth              1.724e-03
    Mth                    1.724e-03   1.724e-03    -2.763    -2.763     0.000
 Na               2.942e+00
@@ -1153,11 +1160,11 @@ Ng               8.359e-05
    Ng                     8.359e-05   8.359e-05    -4.078    -4.078     0.000
 S(6)             1.282e-03
    SO4-2                  1.282e-03   3.267e-05    -2.892    -4.486    -1.594
-   HSO4-                  2.344e-08   1.052e-08    -7.630    -7.978    -0.348
+   HSO4-                  2.343e-08   1.051e-08    -7.630    -7.978    -0.348
 Sg               7.205e-04
-   HSg-                   5.901e-04   1.075e-04    -3.229    -3.969    -0.740
+   HSg-                   5.902e-04   1.075e-04    -3.229    -3.969    -0.740
    H2Sg                   1.286e-04   1.286e-04    -3.891    -3.891     0.000
-   Sg-2                   1.812e-06   1.996e-09    -5.742    -8.700    -2.958
+   Sg-2                   1.813e-06   1.997e-09    -5.742    -8.700    -2.958
 Sr               1.471e-02
    Sr+2                   1.471e-02   5.103e-03    -1.832    -2.292    -0.460
 
@@ -1165,50 +1172,50 @@ Sr               1.471e-02
 
 	Phase               SI   log IAP   log K(371 K,   4 atm)
 
-	Anhydrite         0.86*    -5.39   -6.25  CaSO4	 Delta_V -20.86 cm3/mol
-	Aragonite         2.02*    -7.00   -9.02  CaCO3	 Delta_V -39.75 cm3/mol
-	Arcanite         -5.45*    -6.33   -0.87  K2SO4	 Delta_V  18.39 cm3/mol
-	Bischofite       -5.42*    -1.15    4.27  MgCl2:6H2O	 Delta_V 109.45 cm3/mol
-	Bloedite         -7.67*   -10.02   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  46.66 cm3/mol
-	Brucite          -3.25*   -13.43  -10.18  Mg(OH)2	 Delta_V   8.36 cm3/mol
-	Burkeite        -11.85*   -12.63   -0.77  Na6CO3(SO4)2	 Delta_V -18.14 cm3/mol
-	Calcite           2.24*    -7.00   -9.24  CaCO3	 Delta_V  10.25 cm3/mol
-	Carnallite       -5.98*    -1.65    4.33  KMgCl3:6H2O	 Delta_V 131.39 cm3/mol
-	Celestite         0.32*    -6.78   -7.10  SrSO4	 Delta_V -22.88 cm3/mol
-	CO2(g)           -0.38**   -2.35   -1.97  CO2	 Delta_V -65.14 cm3/mol	 Pressure   0.4 atm, phi 0.990.
-	Dolomite          3.75*   -14.69  -18.44  CaMg(CO3)2	 Delta_V -87.31 cm3/mol
-	Epsomite         -5.37*    -6.55   -1.18  MgSO4:7H2O	 Delta_V 102.72 cm3/mol
-	Gaylussite       -3.20*   -12.62   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  35.45 cm3/mol
-	Glaserite        -7.52*   -11.32   -3.80  NaK3(SO4)2	 Delta_V  27.70 cm3/mol
-	Glauberite       -3.82*    -9.06   -5.24  Na2Ca(SO4)2	 Delta_V -20.61 cm3/mol
-	Gypsum           -0.62*    -5.52   -4.91  CaSO4:2H2O	 Delta_V  16.67 cm3/mol
-	H2O(g)           -0.06**   -0.07   -0.01  H2O	 Delta_V  18.77 cm3/mol	 Pressure   0.9 atm, phi 0.975.
+	Anhydrite         0.86*    -5.39   -6.25  CaSO4	 Delta_V  -5.72 cm3/mol
+	Aragonite         2.02*    -7.00   -9.02  CaCO3	 Delta_V -24.61 cm3/mol
+	Arcanite         -5.45*    -6.33   -0.87  K2SO4	 Delta_V  29.75 cm3/mol
+	Bischofite       -5.42*    -1.15    4.27  MgCl2:6H2O	 Delta_V 120.81 cm3/mol
+	Bloedite         -7.67*   -10.02   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  73.17 cm3/mol
+	Brucite          -3.25*   -13.43  -10.18  Mg(OH)2	 Delta_V  15.93 cm3/mol
+	Burkeite        -11.85*   -12.63   -0.77  Na6CO3(SO4)2	 Delta_V  15.95 cm3/mol
+	Calcite           2.24*    -7.00   -9.24  CaCO3	 Delta_V  25.39 cm3/mol
+	Carnallite       -5.98*    -1.65    4.32  KMgCl3:6H2O	 Delta_V 146.54 cm3/mol
+	Celestite         0.32*    -6.78   -7.10  SrSO4	 Delta_V  -7.73 cm3/mol
+	CO2(g)           -0.38**   -2.35   -1.97  CO2	 Delta_V -57.56 cm3/mol	 Pressure   0.4 atm, phi 0.990.
+	Dolomite          3.75*   -14.69  -18.44  CaMg(CO3)2	 Delta_V -57.01 cm3/mol
+	Epsomite         -5.37*    -6.55   -1.18  MgSO4:7H2O	 Delta_V 117.86 cm3/mol
+	Gaylussite       -3.20*   -12.62   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  61.96 cm3/mol
+	Glaserite        -7.52*   -11.32   -3.80  NaK3(SO4)2	 Delta_V  50.43 cm3/mol
+	Glauberite       -3.81*    -9.06   -5.25  Na2Ca(SO4)2	 Delta_V   5.90 cm3/mol
+	Gypsum           -0.62*    -5.52   -4.91  CaSO4:2H2O	 Delta_V  31.82 cm3/mol
+	H2O(g)           -0.06**   -0.07   -0.01  H2O	 Pressure   0.9 atm, phi 0.975.
 	H2Sg(g)          -2.47**  -10.41   -7.94  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.985.
-	Halite           -0.73*     0.83    1.56  NaCl	 Delta_V  12.88 cm3/mol
-	Hexahydrite      -5.75*    -6.48   -0.73  MgSO4:6H2O	 Delta_V  83.95 cm3/mol
-	Kainite          -6.58*    -6.78   -0.19  KMgClSO4:3H2O	 Delta_V  49.59 cm3/mol
-	Kalicinite       -3.40*   -13.46  -10.06  KHCO3	 Delta_V  -9.44 cm3/mol
-	Kieserite        -6.02*    -6.14   -0.12  MgSO4:H2O	 Delta_V  -9.89 cm3/mol
-	Labile_S         -7.19*   -12.87   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  17.17 cm3/mol
-	Leonhardite      -5.46*    -6.35   -0.89  MgSO4:4H2O	 Delta_V  46.41 cm3/mol
-	Leonite          -8.69*   -12.67   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  64.80 cm3/mol
-	Magnesite         0.36*    -7.69   -8.04  MgCO3	 Delta_V -47.55 cm3/mol
-	Mirabilite       -3.88*    -4.35   -0.47  Na2SO4:10H2O	 Delta_V 187.93 cm3/mol
-	Misenite        -66.61*   -77.42  -10.81  K8H6(SO4)7	 Delta_V  75.10 cm3/mol
+	Halite           -0.73*     0.83    1.56  NaCl	 Delta_V  16.66 cm3/mol
+	Hexahydrite      -5.75*    -6.48   -0.73  MgSO4:6H2O	 Delta_V  99.10 cm3/mol
+	Kainite          -6.58*    -6.78   -0.20  KMgClSO4:3H2O	 Delta_V  68.52 cm3/mol
+	Kalicinite       -3.40*   -13.46  -10.06  KHCO3	 Delta_V   0.03 cm3/mol
+	Kieserite        -6.02*    -6.14   -0.12  MgSO4:H2O	 Delta_V   5.26 cm3/mol
+	Labile_S         -7.19*   -12.87   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  55.05 cm3/mol
+	Leonhardite      -5.46*    -6.35   -0.89  MgSO4:4H2O	 Delta_V  61.56 cm3/mol
+	Leonite          -8.69*   -12.67   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  91.31 cm3/mol
+	Magnesite         0.36*    -7.69   -8.05  MgCO3	 Delta_V -32.40 cm3/mol
+	Mirabilite       -3.88*    -4.35   -0.47  Na2SO4:10H2O	 Delta_V 199.29 cm3/mol
+	Misenite        -66.61*   -77.42  -10.81  K8H6(SO4)7	 Delta_V 143.28 cm3/mol
 	Mth(g)            0.30**   -2.76   -3.06  Mth	 Delta_V -33.00 cm3/mol	 Pressure   2.0 atm, phi 0.997.
-	Nahcolite        -1.39*   -12.13  -10.74  NaHCO3	 Delta_V -18.50 cm3/mol
-	Natron           -5.13*    -5.96   -0.83  Na2CO3:10H2O	 Delta_V 169.04 cm3/mol
-	Nesquehonite     -2.72*    -7.89   -5.17  MgCO3:3H2O	 Delta_V   8.75 cm3/mol
+	Nahcolite        -1.39*   -12.13  -10.74  NaHCO3	 Delta_V  -9.04 cm3/mol
+	Natron           -5.13*    -5.96   -0.83  Na2CO3:10H2O	 Delta_V 180.40 cm3/mol
+	Nesquehonite     -2.72*    -7.89   -5.17  MgCO3:3H2O	 Delta_V  23.90 cm3/mol
 	Ng(g)            -0.74**   -4.08   -3.34  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.004.
-	Pentahydrite     -5.13*    -6.41   -1.29  MgSO4:5H2O	 Delta_V  65.18 cm3/mol
-	Pirssonite       -3.19*   -12.42   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V -20.86 cm3/mol
-	Polyhalite       -9.57*   -23.31  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V -14.47 cm3/mol
-	Portlandite      -7.55*   -12.74   -5.19  Ca(OH)2	 Delta_V  16.15 cm3/mol
-	Schoenite        -8.48*   -12.81   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 102.33 cm3/mol
-	Strontianite      1.49*    -8.39   -9.88  SrCO3	 Delta_V -41.77 cm3/mol
-	Sylvite          -2.00*    -0.50    1.51  KCl	 Delta_V  21.94 cm3/mol
-	Syngenite        -4.33*   -11.78   -7.45  K2Ca(SO4)2:H2O	 Delta_V  16.29 cm3/mol
-	Trona            -6.17*   -17.55  -11.38  Na3H(CO3)2:2H2O	 Delta_V   0.39 cm3/mol
+	Pentahydrite     -5.13*    -6.41   -1.29  MgSO4:5H2O	 Delta_V  80.33 cm3/mol
+	Pirssonite       -3.19*   -12.42   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V   5.65 cm3/mol
+	Polyhalite       -9.57*   -23.31  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  42.34 cm3/mol
+	Portlandite      -7.55*   -12.74   -5.19  Ca(OH)2	 Delta_V  23.73 cm3/mol
+	Schoenite        -8.48*   -12.81   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 128.84 cm3/mol
+	Strontianite      1.49*    -8.39   -9.88  SrCO3	 Delta_V -26.62 cm3/mol
+	Sylvite          -2.00*    -0.50    1.51  KCl	 Delta_V  25.73 cm3/mol
+	Syngenite        -4.33*   -11.78   -7.45  K2Ca(SO4)2:H2O	 Delta_V  42.80 cm3/mol
+	Trona            -6.17*   -17.55  -11.38  Na3H(CO3)2:2H2O	 Delta_V  21.22 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -1219,7 +1226,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -1251,11 +1258,11 @@ Total pressure:  3.10      atmospheres          (Peng-Robinson calculation)
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.40   4.003e-01  0.991   3.148e-01   1.366e-02  -3.012e-01
-H2O(g)            -0.24   5.731e-01  0.977   4.057e-01   1.955e-02  -3.861e-01
-H2Sg(g)           -2.43   3.755e-03  0.986   2.345e-03   1.281e-04  -2.217e-03
-Mth(g)             0.29   1.948e+00  0.997   9.220e+00   6.646e-02  -9.154e+00
-Ng(g)             -0.75   1.768e-01  1.003   1.118e+00   6.032e-03  -1.112e+00
+CO2(g)            -0.40   4.003e-01  0.991   3.145e-01   1.366e-02  -3.008e-01
+H2O(g)            -0.24   5.723e-01  0.977   3.191e-01   1.953e-02  -2.995e-01
+H2Sg(g)           -2.43   3.755e-03  0.986   2.312e-03   1.281e-04  -2.184e-03
+Mth(g)             0.29   1.948e+00  0.997   9.218e+00   6.646e-02  -9.151e+00
+Ng(g)             -0.75   1.768e-01  1.002   1.118e+00   6.032e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
 
@@ -1278,8 +1285,8 @@ Ng(g)             -0.75   1.768e-01  1.003   1.118e+00   6.032e-03  -1.112e+00
 
                                        pH  =   6.372      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 86 oC) = 756100
-                          Density (g/cm3)  =   1.08624
+       Specific Conductance (uS/cm, 86 oC) = 756099
+                          Density (g/cm3)  =   1.08625
                         Activity of water  =   0.854
                            Ionic strength  =   4.608e+00
                        Mass of water (kg)  =   1.006e+00
@@ -1289,12 +1296,12 @@ Ng(g)             -0.75   1.768e-01  1.003   1.118e+00   6.032e-03  -1.112e+00
                            Pressure (atm)  =  3.10
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  52
+                               Iterations  =  56
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.14921
                          Density of water  =   0.96756
                                   Total H  = 1.116512e+02
-                                  Total O  = 5.585304e+01
+                                  Total O  = 5.585306e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1303,19 +1310,19 @@ Ng(g)             -0.75   1.768e-01  1.003   1.118e+00   6.032e-03  -1.112e+00
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    OH-                    2.971e-06   6.543e-07    -5.527    -6.184    -0.657
-   H+                     2.137e-07   4.245e-07    -6.670    -6.372     0.298
+   H+                     2.136e-07   4.244e-07    -6.670    -6.372     0.298
    H2O                    5.551e+01   8.539e-01     1.744    -0.069     0.000
 Ba               1.972e-04
    Ba+2                   1.972e-04   3.193e-05    -3.705    -4.496    -0.791
 C(4)             9.251e-03
-   HCO3-                  5.938e-03   4.072e-03    -2.226    -2.390    -0.164
+   HCO3-                  5.939e-03   4.072e-03    -2.226    -2.390    -0.164
    CO2                    2.194e-03   4.672e-03    -2.659    -2.330     0.328
-   CaCO3                  9.798e-04   9.798e-04    -3.009    -3.009     0.000
-   CO3-2                  8.669e-05   7.122e-07    -4.062    -6.147    -2.085
+   CaCO3                  9.797e-04   9.797e-04    -3.009    -3.009     0.000
+   CO3-2                  8.667e-05   7.121e-07    -4.062    -6.147    -2.085
    MgCO3                  5.212e-05   5.212e-05    -4.283    -4.283     0.000
 Ca               4.380e-01
    Ca+2                   4.370e-01   1.588e-01    -0.360    -0.799    -0.439
-   CaCO3                  9.798e-04   9.798e-04    -3.009    -3.009     0.000
+   CaCO3                  9.797e-04   9.797e-04    -3.009    -3.009     0.000
 Cl               3.960e+00
    Cl-                    3.960e+00   2.605e+00     0.598     0.416    -0.182
 K                1.854e-01
@@ -1323,7 +1330,7 @@ K                1.854e-01
 Mg               7.719e-02
    Mg+2                   7.712e-02   3.358e-02    -1.113    -1.474    -0.361
    MgCO3                  5.212e-05   5.212e-05    -4.283    -4.283     0.000
-   MgOH+                  1.608e-05   9.068e-06    -4.794    -5.043    -0.249
+   MgOH+                  1.608e-05   9.069e-06    -4.794    -5.042    -0.249
 Mth              1.675e-03
    Mth                    1.675e-03   1.675e-03    -2.776    -2.776     0.000
 Na               2.942e+00
@@ -1332,11 +1339,11 @@ Ng               8.053e-05
    Ng                     8.053e-05   8.053e-05    -4.094    -4.094     0.000
 S(6)             1.281e-03
    SO4-2                  1.281e-03   2.813e-05    -2.892    -4.551    -1.659
-   HSO4-                  1.641e-08   7.357e-09    -7.785    -8.133    -0.349
+   HSO4-                  1.641e-08   7.355e-09    -7.785    -8.133    -0.349
 Sg               7.064e-04
    HSg-                   5.598e-04   1.018e-04    -3.252    -3.992    -0.740
    H2Sg                   1.458e-04   1.458e-04    -3.836    -3.836     0.000
-   Sg-2                   7.941e-07   9.592e-10    -6.100    -9.018    -2.918
+   Sg-2                   7.943e-07   9.595e-10    -6.100    -9.018    -2.918
 Sr               1.471e-02
    Sr+2                   1.471e-02   6.036e-03    -1.832    -2.219    -0.387
 
@@ -1344,50 +1351,50 @@ Sr               1.471e-02
 
 	Phase               SI   log IAP   log K(359 K,   3 atm)
 
-	Anhydrite         0.48*    -5.35   -5.83  CaSO4	 Delta_V -14.68 cm3/mol
-	Aragonite         1.90*    -6.95   -8.85  CaCO3	 Delta_V -33.22 cm3/mol
-	Arcanite         -5.37*    -6.36   -0.99  K2SO4	 Delta_V  24.20 cm3/mol
-	Bischofite       -5.35*    -1.05    4.29  MgCl2:6H2O	 Delta_V 114.18 cm3/mol
-	Bloedite         -7.62*    -9.97   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  58.67 cm3/mol
-	Brucite          -3.57*   -13.84  -10.27  Mg(OH)2	 Delta_V  10.42 cm3/mol
-	Burkeite        -11.84*   -12.61   -0.77  Na6CO3(SO4)2	 Delta_V  -1.31 cm3/mol
-	Calcite           2.13*    -6.95   -9.08  CaCO3	 Delta_V  16.78 cm3/mol
-	Carnallite       -5.87*    -1.54    4.33  KMgCl3:6H2O	 Delta_V 138.28 cm3/mol
-	Celestite         0.23*    -6.77   -7.00  SrSO4	 Delta_V -16.96 cm3/mol
-	CO2(g)           -0.40**   -2.33   -1.93  CO2	 Delta_V -59.88 cm3/mol	 Pressure   0.4 atm, phi 0.991.
-	Dolomite          3.70*   -14.57  -18.27  CaMg(CO3)2	 Delta_V -73.30 cm3/mol
-	Epsomite         -5.24*    -6.51   -1.27  MgSO4:7H2O	 Delta_V 108.78 cm3/mol
-	Gaylussite       -3.13*   -12.56   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  47.08 cm3/mol
-	Glaserite        -7.57*   -11.38   -3.80  NaK3(SO4)2	 Delta_V  39.16 cm3/mol
-	Glauberite       -3.78*    -9.02   -5.24  Na2Ca(SO4)2	 Delta_V  -8.94 cm3/mol
-	Gypsum           -0.66*    -5.49   -4.82  CaSO4:2H2O	 Delta_V  22.55 cm3/mol
-	H2O(g)           -0.25**   -0.07    0.18  H2O	 Delta_V  18.62 cm3/mol	 Pressure   0.6 atm, phi 0.977.
+	Anhydrite         0.48*    -5.35   -5.83  CaSO4	 Delta_V  -0.96 cm3/mol
+	Aragonite         1.91*    -6.95   -8.85  CaCO3	 Delta_V -19.50 cm3/mol
+	Arcanite         -5.37*    -6.36   -0.99  K2SO4	 Delta_V  34.49 cm3/mol
+	Bischofite       -5.35*    -1.05    4.29  MgCl2:6H2O	 Delta_V 124.47 cm3/mol
+	Bloedite         -7.62*    -9.97   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  82.68 cm3/mol
+	Brucite          -3.57*   -13.84  -10.27  Mg(OH)2	 Delta_V  17.28 cm3/mol
+	Burkeite        -11.84*   -12.61   -0.77  Na6CO3(SO4)2	 Delta_V  29.56 cm3/mol
+	Calcite           2.13*    -6.95   -9.08  CaCO3	 Delta_V  30.50 cm3/mol
+	Carnallite       -5.87*    -1.54    4.33  KMgCl3:6H2O	 Delta_V 152.00 cm3/mol
+	Celestite         0.23*    -6.77   -7.00  SrSO4	 Delta_V  -3.25 cm3/mol
+	CO2(g)           -0.40**   -2.33   -1.93  CO2	 Delta_V -53.02 cm3/mol	 Pressure   0.4 atm, phi 0.991.
+	Dolomite          3.70*   -14.57  -18.27  CaMg(CO3)2	 Delta_V -45.86 cm3/mol
+	Epsomite         -5.24*    -6.51   -1.27  MgSO4:7H2O	 Delta_V 122.50 cm3/mol
+	Gaylussite       -3.13*   -12.56   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  71.09 cm3/mol
+	Glaserite        -7.57*   -11.38   -3.80  NaK3(SO4)2	 Delta_V  59.74 cm3/mol
+	Glauberite       -3.78*    -9.02   -5.25  Na2Ca(SO4)2	 Delta_V  15.07 cm3/mol
+	Gypsum           -0.66*    -5.49   -4.82  CaSO4:2H2O	 Delta_V  36.27 cm3/mol
+	H2O(g)           -0.25**   -0.07    0.18  H2O	 Pressure   0.6 atm, phi 0.977.
 	H2Sg(g)          -2.43**  -10.36   -7.93  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.986.
-	Halite           -0.72*     0.86    1.58  NaCl	 Delta_V  14.88 cm3/mol
-	Hexahydrite      -5.56*    -6.44   -0.88  MgSO4:6H2O	 Delta_V  90.16 cm3/mol
-	Kainite          -6.53*    -6.72   -0.19  KMgClSO4:3H2O	 Delta_V  58.41 cm3/mol
-	Kalicinite       -3.37*   -13.42  -10.06  KHCO3	 Delta_V  -3.80 cm3/mol
-	Kieserite        -5.97*    -6.09   -0.12  MgSO4:H2O	 Delta_V  -2.93 cm3/mol
-	Labile_S         -7.16*   -12.83   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  34.04 cm3/mol
-	Leonhardite      -5.41*    -6.30   -0.89  MgSO4:4H2O	 Delta_V  52.93 cm3/mol
-	Leonite          -8.68*   -12.66   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  77.12 cm3/mol
-	Magnesite         0.40*    -7.62   -8.02  MgCO3	 Delta_V -40.08 cm3/mol
-	Mirabilite       -4.18*    -4.36   -0.18  Na2SO4:10H2O	 Delta_V 191.92 cm3/mol
-	Misenite        -66.52*   -77.33  -10.81  K8H6(SO4)7	 Delta_V 112.60 cm3/mol
+	Halite           -0.72*     0.86    1.58  NaCl	 Delta_V  18.31 cm3/mol
+	Hexahydrite      -5.56*    -6.44   -0.88  MgSO4:6H2O	 Delta_V 103.88 cm3/mol
+	Kainite          -6.52*    -6.72   -0.20  KMgClSO4:3H2O	 Delta_V  75.56 cm3/mol
+	Kalicinite       -3.37*   -13.43  -10.06  KHCO3	 Delta_V   4.77 cm3/mol
+	Kieserite        -5.97*    -6.09   -0.12  MgSO4:H2O	 Delta_V  10.79 cm3/mol
+	Labile_S         -7.15*   -12.83   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  68.34 cm3/mol
+	Leonhardite      -5.41*    -6.30   -0.89  MgSO4:4H2O	 Delta_V  66.65 cm3/mol
+	Leonite          -8.68*   -12.66   -3.98  K2Mg(SO4)2:4H2O	 Delta_V 101.13 cm3/mol
+	Magnesite         0.40*    -7.62   -8.02  MgCO3	 Delta_V -26.36 cm3/mol
+	Mirabilite       -4.18*    -4.36   -0.18  Na2SO4:10H2O	 Delta_V 202.21 cm3/mol
+	Misenite        -66.52*   -77.33  -10.81  K8H6(SO4)7	 Delta_V 174.34 cm3/mol
 	Mth(g)            0.29**   -2.78   -3.06  Mth	 Delta_V -33.00 cm3/mol	 Pressure   1.9 atm, phi 0.997.
-	Nahcolite        -1.34*   -12.08  -10.74  NaHCO3	 Delta_V -13.03 cm3/mol
-	Natron           -5.12*    -5.95   -0.83  Na2CO3:10H2O	 Delta_V 173.39 cm3/mol
-	Nesquehonite     -2.66*    -7.83   -5.17  MgCO3:3H2O	 Delta_V  15.77 cm3/mol
-	Ng(g)            -0.75**   -4.09   -3.34  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.003.
-	Pentahydrite     -5.08*    -6.37   -1.29  MgSO4:5H2O	 Delta_V  71.55 cm3/mol
-	Pirssonite       -3.12*   -12.35   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  -8.78 cm3/mol
-	Polyhalite       -9.48*   -23.22  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V  10.52 cm3/mol
-	Portlandite      -7.98*   -13.17   -5.19  Ca(OH)2	 Delta_V  17.28 cm3/mol
-	Schoenite        -8.47*   -12.80   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 114.36 cm3/mol
-	Strontianite      1.36*    -8.37   -9.73  SrCO3	 Delta_V -35.50 cm3/mol
-	Sylvite          -1.92*    -0.49    1.43  KCl	 Delta_V  24.10 cm3/mol
-	Syngenite        -4.33*   -11.78   -7.45  K2Ca(SO4)2:H2O	 Delta_V  28.13 cm3/mol
-	Trona            -6.10*   -17.48  -11.38  Na3H(CO3)2:2H2O	 Delta_V  11.41 cm3/mol
+	Nahcolite        -1.34*   -12.08  -10.74  NaHCO3	 Delta_V  -4.45 cm3/mol
+	Natron           -5.12*    -5.95   -0.83  Na2CO3:10H2O	 Delta_V 183.68 cm3/mol
+	Nesquehonite     -2.66*    -7.83   -5.17  MgCO3:3H2O	 Delta_V  29.49 cm3/mol
+	Ng(g)            -0.75**   -4.09   -3.34  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.002.
+	Pentahydrite     -5.08*    -6.37   -1.29  MgSO4:5H2O	 Delta_V  85.27 cm3/mol
+	Pirssonite       -3.12*   -12.35   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  15.23 cm3/mol
+	Polyhalite       -9.48*   -23.22  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  61.97 cm3/mol
+	Portlandite      -7.98*   -13.17   -5.19  Ca(OH)2	 Delta_V  24.14 cm3/mol
+	Schoenite        -8.47*   -12.80   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 138.37 cm3/mol
+	Strontianite      1.36*    -8.37   -9.73  SrCO3	 Delta_V -21.78 cm3/mol
+	Sylvite          -1.92*    -0.49    1.43  KCl	 Delta_V  27.53 cm3/mol
+	Syngenite        -4.33*   -11.78   -7.45  K2Ca(SO4)2:H2O	 Delta_V  52.14 cm3/mol
+	Trona            -6.10*   -17.48  -11.38  Na3H(CO3)2:2H2O	 Delta_V  30.28 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -1398,7 +1405,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -1424,16 +1431,16 @@ Reaction 1.	Irreversible reaction defined in simulation 3.
 Total pressure:  2.79      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   1.02e+01 liters/mole
-   P * Vm / RT:  0.99370  (Compressibility Factor Z) 
+   P * Vm / RT:  0.99371  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.42   3.763e-01  0.991   3.148e-01   1.324e-02  -3.016e-01
-H2O(g)            -0.45   3.541e-01  0.978   4.057e-01   1.246e-02  -3.932e-01
-H2Sg(g)           -2.39   4.054e-03  0.987   2.345e-03   1.426e-04  -2.203e-03
-Mth(g)             0.28   1.889e+00  0.997   9.220e+00   6.647e-02  -9.154e+00
+CO2(g)            -0.42   3.763e-01  0.991   3.145e-01   1.324e-02  -3.012e-01
+H2O(g)            -0.45   3.537e-01  0.978   3.191e-01   1.245e-02  -3.066e-01
+H2Sg(g)           -2.39   4.053e-03  0.987   2.312e-03   1.426e-04  -2.170e-03
+Mth(g)             0.28   1.889e+00  0.997   9.218e+00   6.647e-02  -9.151e+00
 Ng(g)             -0.77   1.714e-01  1.002   1.118e+00   6.033e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -1441,7 +1448,7 @@ Ng(g)             -0.77   1.714e-01  1.002   1.118e+00   6.033e-03  -1.112e+00
 	Elements           Molality       Moles
 
 	Ba                1.972e-04   1.983e-04
-	C                 9.666e-03   9.723e-03
+	C                 9.667e-03   9.723e-03
 	Ca                4.379e-01   4.404e-01
 	Cl                3.960e+00   3.983e+00
 	K                 1.853e-01   1.864e-01
@@ -1457,23 +1464,23 @@ Ng(g)             -0.77   1.714e-01  1.002   1.118e+00   6.033e-03  -1.112e+00
 
                                        pH  =   6.306      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 75 oC) = 708125
-                          Density (g/cm3)  =   1.10179
+       Specific Conductance (uS/cm, 75 oC) = 708124
+                          Density (g/cm3)  =   1.10180
                         Activity of water  =   0.853
                            Ionic strength  =   4.608e+00
                        Mass of water (kg)  =   1.006e+00
                  Total alkalinity (eq/kg)  =   8.755e-03
-                       Total CO2 (mol/kg)  =   9.666e-03
+                       Total CO2 (mol/kg)  =   9.667e-03
                       Temperature (deg C)  =  75.33
                            Pressure (atm)  =  2.79
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  53
+                               Iterations  =  56
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.15867
                          Density of water  =   0.97467
-                                  Total H  = 1.116653e+02
-                                  Total O  = 5.586097e+01
+                                  Total H  = 1.116654e+02
+                                  Total O  = 5.586098e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1482,19 +1489,19 @@ Ng(g)             -0.77   1.714e-01  1.002   1.118e+00   6.033e-03  -1.112e+00
    Species                 Molality    Activity  Molality  Activity     Gamma
 
    OH-                    1.594e-06   3.430e-07    -5.798    -6.465    -0.667
-   H+                     2.257e-07   4.939e-07    -6.647    -6.306     0.340
+   H+                     2.256e-07   4.938e-07    -6.647    -6.306     0.340
    H2O                    5.551e+01   8.528e-01     1.744    -0.069     0.000
 Ba               1.972e-04
    Ba+2                   1.972e-04   3.810e-05    -3.705    -4.419    -0.714
-C(4)             9.666e-03
+C(4)             9.667e-03
    HCO3-                  6.446e-03   4.083e-03    -2.191    -2.389    -0.198
    CO2                    2.333e-03   4.969e-03    -2.632    -2.304     0.328
-   CaCO3                  7.589e-04   7.589e-04    -3.120    -3.120     0.000
-   CO3-2                  7.991e-05   6.212e-07    -4.097    -6.207    -2.109
+   CaCO3                  7.588e-04   7.588e-04    -3.120    -3.120     0.000
+   CO3-2                  7.990e-05   6.211e-07    -4.097    -6.207    -2.109
    MgCO3                  4.874e-05   4.874e-05    -4.312    -4.312     0.000
 Ca               4.379e-01
    Ca+2                   4.371e-01   1.988e-01    -0.359    -0.702    -0.342
-   CaCO3                  7.589e-04   7.589e-04    -3.120    -3.120     0.000
+   CaCO3                  7.588e-04   7.588e-04    -3.120    -3.120     0.000
 Cl               3.960e+00
    Cl-                    3.960e+00   2.563e+00     0.598     0.409    -0.189
 K                1.853e-01
@@ -1502,7 +1509,7 @@ K                1.853e-01
 Mg               7.718e-02
    Mg+2                   7.712e-02   4.308e-02    -1.113    -1.366    -0.253
    MgCO3                  4.874e-05   4.874e-05    -4.312    -4.312     0.000
-   MgOH+                  8.095e-06   4.954e-06    -5.092    -5.305    -0.213
+   MgOH+                  8.096e-06   4.954e-06    -5.092    -5.305    -0.213
 Mth              1.662e-03
    Mth                    1.662e-03   1.662e-03    -2.779    -2.779     0.000
 Na               2.941e+00
@@ -1511,11 +1518,11 @@ Ng               7.904e-05
    Ng                     7.904e-05   7.904e-05    -4.102    -4.102     0.000
 S(6)             1.281e-03
    SO4-2                  1.281e-03   2.408e-05    -2.892    -4.618    -1.726
-   HSO4-                  1.139e-08   5.099e-09    -7.944    -8.292    -0.349
+   HSO4-                  1.139e-08   5.099e-09    -7.944    -8.293    -0.349
 Sg               6.919e-04
    HSg-                   5.233e-04   9.510e-05    -3.281    -4.022    -0.741
    H2Sg                   1.682e-04   1.682e-04    -3.774    -3.774     0.000
-   Sg-2                   3.373e-07   4.442e-10    -6.472    -9.352    -2.880
+   Sg-2                   3.373e-07   4.443e-10    -6.472    -9.352    -2.880
 Sr               1.471e-02
    Sr+2                   1.471e-02   7.036e-03    -1.832    -2.153    -0.320
 
@@ -1523,50 +1530,50 @@ Sr               1.471e-02
 
 	Phase               SI   log IAP   log K(348 K,   3 atm)
 
-	Anhydrite         0.12*    -5.32   -5.44  CaSO4	 Delta_V  -9.80 cm3/mol
-	Aragonite         1.79*    -6.91   -8.70  CaCO3	 Delta_V -28.05 cm3/mol
-	Arcanite         -5.29*    -6.40   -1.11  K2SO4	 Delta_V  28.65 cm3/mol
-	Bischofite       -5.28*    -0.96    4.32  MgCl2:6H2O	 Delta_V 117.93 cm3/mol
-	Bloedite         -7.59*    -9.94   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  67.97 cm3/mol
-	Brucite          -3.93*   -14.30  -10.37  Mg(OH)2	 Delta_V  12.10 cm3/mol
-	Burkeite        -11.86*   -12.63   -0.77  Na6CO3(SO4)2	 Delta_V  11.33 cm3/mol
-	Calcite           2.02*    -6.91   -8.93  CaCO3	 Delta_V  21.95 cm3/mol
-	Carnallite       -5.77*    -1.45    4.33  KMgCl3:6H2O	 Delta_V 143.68 cm3/mol
-	Celestite         0.13*    -6.77   -6.91  SrSO4	 Delta_V -12.18 cm3/mol
-	CO2(g)           -0.43**   -2.30   -1.87  CO2	 Delta_V -55.69 cm3/mol	 Pressure   0.4 atm, phi 0.991.
-	Dolomite          3.60*   -14.48  -18.08  CaMg(CO3)2	 Delta_V -62.12 cm3/mol
-	Epsomite         -5.10*    -6.47   -1.36  MgSO4:7H2O	 Delta_V 113.56 cm3/mol
-	Gaylussite       -3.10*   -12.52   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  55.97 cm3/mol
-	Glaserite        -7.64*   -11.45   -3.80  NaK3(SO4)2	 Delta_V  47.90 cm3/mol
-	Glauberite       -3.75*    -9.00   -5.25  Na2Ca(SO4)2	 Delta_V   0.06 cm3/mol
-	Gypsum           -0.71*    -5.46   -4.75  CaSO4:2H2O	 Delta_V  27.16 cm3/mol
-	H2O(g)           -0.46**   -0.07    0.39  H2O	 Delta_V  18.48 cm3/mol	 Pressure   0.4 atm, phi 0.978.
+	Anhydrite         0.12*    -5.32   -5.44  CaSO4	 Delta_V   2.64 cm3/mol
+	Aragonite         1.79*    -6.91   -8.70  CaCO3	 Delta_V -15.61 cm3/mol
+	Arcanite         -5.29*    -6.40   -1.11  K2SO4	 Delta_V  37.98 cm3/mol
+	Bischofite       -5.28*    -0.96    4.32  MgCl2:6H2O	 Delta_V 127.26 cm3/mol
+	Bloedite         -7.59*    -9.94   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  89.74 cm3/mol
+	Brucite          -3.93*   -14.29  -10.37  Mg(OH)2	 Delta_V  18.32 cm3/mol
+	Burkeite        -11.85*   -12.63   -0.77  Na6CO3(SO4)2	 Delta_V  39.32 cm3/mol
+	Calcite           2.02*    -6.91   -8.93  CaCO3	 Delta_V  34.39 cm3/mol
+	Carnallite       -5.77*    -1.45    4.33  KMgCl3:6H2O	 Delta_V 156.12 cm3/mol
+	Celestite         0.14*    -6.77   -6.91  SrSO4	 Delta_V   0.26 cm3/mol
+	CO2(g)           -0.43**   -2.30   -1.87  CO2	 Delta_V -49.47 cm3/mol	 Pressure   0.4 atm, phi 0.991.
+	Dolomite          3.60*   -14.48  -18.08  CaMg(CO3)2	 Delta_V -37.24 cm3/mol
+	Epsomite         -5.10*    -6.47   -1.36  MgSO4:7H2O	 Delta_V 126.00 cm3/mol
+	Gaylussite       -3.10*   -12.52   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  77.74 cm3/mol
+	Glaserite        -7.64*   -11.45   -3.80  NaK3(SO4)2	 Delta_V  66.56 cm3/mol
+	Glauberite       -3.75*    -9.00   -5.25  Na2Ca(SO4)2	 Delta_V  21.83 cm3/mol
+	Gypsum           -0.71*    -5.46   -4.75  CaSO4:2H2O	 Delta_V  39.60 cm3/mol
+	H2O(g)           -0.46**   -0.07    0.39  H2O	 Pressure   0.4 atm, phi 0.978.
 	H2Sg(g)          -2.40**  -10.33   -7.93  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.987.
-	Halite           -0.71*     0.88    1.59  NaCl	 Delta_V  16.35 cm3/mol
-	Hexahydrite      -5.38*    -6.40   -1.02  MgSO4:6H2O	 Delta_V  95.08 cm3/mol
-	Kainite          -6.48*    -6.68   -0.19  KMgClSO4:3H2O	 Delta_V  65.38 cm3/mol
-	Kalicinite       -3.35*   -13.41  -10.06  KHCO3	 Delta_V   0.60 cm3/mol
-	Kieserite        -5.93*    -6.05   -0.12  MgSO4:H2O	 Delta_V   2.66 cm3/mol
-	Labile_S         -7.14*   -12.82   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  46.88 cm3/mol
-	Leonhardite      -5.37*    -6.26   -0.89  MgSO4:4H2O	 Delta_V  58.11 cm3/mol
-	Leonite          -8.68*   -12.66   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  86.76 cm3/mol
-	Magnesite         0.42*    -7.57   -7.99  MgCO3	 Delta_V -34.06 cm3/mol
-	Mirabilite       -4.32*    -4.37   -0.06  Na2SO4:10H2O	 Delta_V 194.68 cm3/mol
-	Misenite        -66.50*   -77.31  -10.81  K8H6(SO4)7	 Delta_V 141.73 cm3/mol
+	Halite           -0.71*     0.88    1.59  NaCl	 Delta_V  19.46 cm3/mol
+	Hexahydrite      -5.38*    -6.40   -1.02  MgSO4:6H2O	 Delta_V 107.52 cm3/mol
+	Kainite          -6.48*    -6.68   -0.20  KMgClSO4:3H2O	 Delta_V  80.93 cm3/mol
+	Kalicinite       -3.35*   -13.41  -10.06  KHCO3	 Delta_V   8.37 cm3/mol
+	Kieserite        -5.93*    -6.05   -0.12  MgSO4:H2O	 Delta_V  15.10 cm3/mol
+	Labile_S         -7.14*   -12.82   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  77.98 cm3/mol
+	Leonhardite      -5.37*    -6.26   -0.89  MgSO4:4H2O	 Delta_V  70.55 cm3/mol
+	Leonite          -8.68*   -12.66   -3.98  K2Mg(SO4)2:4H2O	 Delta_V 108.53 cm3/mol
+	Magnesite         0.42*    -7.57   -7.99  MgCO3	 Delta_V -21.63 cm3/mol
+	Mirabilite       -4.31*    -4.37   -0.06  Na2SO4:10H2O	 Delta_V 204.01 cm3/mol
+	Misenite        -66.50*   -77.31  -10.81  K8H6(SO4)7	 Delta_V 197.71 cm3/mol
 	Mth(g)            0.27**   -2.78   -3.05  Mth	 Delta_V -33.00 cm3/mol	 Pressure   1.9 atm, phi 0.997.
-	Nahcolite        -1.30*   -12.04  -10.74  NaHCO3	 Delta_V  -8.80 cm3/mol
-	Natron           -5.13*    -5.96   -0.83  Na2CO3:10H2O	 Delta_V 176.44 cm3/mol
-	Nesquehonite     -2.61*    -7.78   -5.17  MgCO3:3H2O	 Delta_V  21.38 cm3/mol
+	Nahcolite        -1.30*   -12.04  -10.74  NaHCO3	 Delta_V  -1.02 cm3/mol
+	Natron           -5.13*    -5.96   -0.83  Na2CO3:10H2O	 Delta_V 185.77 cm3/mol
+	Nesquehonite     -2.61*    -7.78   -5.17  MgCO3:3H2O	 Delta_V  33.82 cm3/mol
 	Ng(g)            -0.77**   -4.10   -3.34  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.002.
-	Pentahydrite     -5.04*    -6.33   -1.29  MgSO4:5H2O	 Delta_V  76.59 cm3/mol
-	Pirssonite       -3.08*   -12.31   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V   0.53 cm3/mol
-	Polyhalite       -9.42*   -23.17  -13.74  K2MgCa2(SO4)4:2H2O	 Delta_V  30.19 cm3/mol
-	Portlandite      -8.44*   -13.63   -5.19  Ca(OH)2	 Delta_V  18.12 cm3/mol
-	Schoenite        -8.47*   -12.80   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 123.73 cm3/mol
-	Strontianite      1.24*    -8.36   -9.60  SrCO3	 Delta_V -30.43 cm3/mol
-	Sylvite          -1.83*    -0.48    1.34  KCl	 Delta_V  25.75 cm3/mol
-	Syngenite        -4.34*   -11.79   -7.45  K2Ca(SO4)2:H2O	 Delta_V  37.33 cm3/mol
-	Trona            -6.07*   -17.45  -11.38  Na3H(CO3)2:2H2O	 Delta_V  19.78 cm3/mol
+	Pentahydrite     -5.04*    -6.33   -1.29  MgSO4:5H2O	 Delta_V  89.03 cm3/mol
+	Pirssonite       -3.08*   -12.32   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  22.30 cm3/mol
+	Polyhalite       -9.42*   -23.17  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  76.84 cm3/mol
+	Portlandite      -8.44*   -13.63   -5.19  Ca(OH)2	 Delta_V  24.34 cm3/mol
+	Schoenite        -8.47*   -12.80   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 145.50 cm3/mol
+	Strontianite      1.24*    -8.36   -9.60  SrCO3	 Delta_V -17.99 cm3/mol
+	Sylvite          -1.83*    -0.48    1.34  KCl	 Delta_V  28.86 cm3/mol
+	Syngenite        -4.34*   -11.79   -7.45  K2Ca(SO4)2:H2O	 Delta_V  59.10 cm3/mol
+	Trona            -6.07*   -17.45  -11.39  Na3H(CO3)2:2H2O	 Delta_V  36.89 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -1577,7 +1584,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -1609,10 +1616,10 @@ Total pressure:  2.56      atmospheres          (Peng-Robinson calculation)
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.45   3.512e-01  0.991   3.148e-01   1.277e-02  -3.021e-01
-H2O(g)            -0.67   2.121e-01  0.979   4.057e-01   7.709e-03  -3.980e-01
-H2Sg(g)           -2.36   4.327e-03  0.987   2.345e-03   1.573e-04  -2.188e-03
-Mth(g)             0.26   1.828e+00  0.996   9.220e+00   6.644e-02  -9.154e+00
+CO2(g)            -0.45   3.512e-01  0.991   3.145e-01   1.277e-02  -3.017e-01
+H2O(g)            -0.67   2.119e-01  0.979   3.191e-01   7.701e-03  -3.114e-01
+H2Sg(g)           -2.36   4.327e-03  0.987   2.312e-03   1.573e-04  -2.155e-03
+Mth(g)             0.26   1.828e+00  0.996   9.218e+00   6.644e-02  -9.151e+00
 Ng(g)             -0.78   1.660e-01  1.001   1.118e+00   6.033e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -1637,7 +1644,7 @@ Ng(g)             -0.78   1.660e-01  1.001   1.118e+00   6.033e-03  -1.112e+00
                                        pH  =   6.243      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 64 oC) = 611748
-                          Density (g/cm3)  =   1.11580
+                          Density (g/cm3)  =   1.11582
                         Activity of water  =   0.852
                            Ionic strength  =   4.608e+00
                        Mass of water (kg)  =   1.006e+00
@@ -1647,12 +1654,12 @@ Ng(g)             -0.78   1.660e-01  1.001   1.118e+00   6.033e-03  -1.112e+00
                            Pressure (atm)  =  2.56
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  53
+                               Iterations  =  58
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.16617
                          Density of water  =   0.98110
                                   Total H  = 1.116748e+02
-                                  Total O  = 5.586667e+01
+                                  Total O  = 5.586668e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1668,20 +1675,20 @@ Ba               1.972e-04
 C(4)             1.014e-02
    HCO3-                  6.945e-03   4.068e-03    -2.158    -2.391    -0.232
    CO2                    2.530e-03   5.389e-03    -2.597    -2.269     0.328
-   CaCO3                  5.480e-04   5.480e-04    -3.261    -3.261     0.000
-   CO3-2                  7.121e-05   5.218e-07    -4.147    -6.283    -2.135
-   MgCO3                  4.331e-05   4.331e-05    -4.363    -4.363     0.000
+   CaCO3                  5.479e-04   5.479e-04    -3.261    -3.261     0.000
+   CO3-2                  7.121e-05   5.217e-07    -4.147    -6.283    -2.135
+   MgCO3                  4.330e-05   4.330e-05    -4.363    -4.363     0.000
 Ca               4.379e-01
    Ca+2                   4.373e-01   2.451e-01    -0.359    -0.611    -0.252
-   CaCO3                  5.480e-04   5.480e-04    -3.261    -3.261     0.000
+   CaCO3                  5.479e-04   5.479e-04    -3.261    -3.261     0.000
 Cl               3.959e+00
    Cl-                    3.959e+00   2.515e+00     0.598     0.401    -0.197
 K                1.853e-01
    K+                     1.853e-01   1.311e-01    -0.732    -0.882    -0.150
 Mg               7.717e-02
    Mg+2                   7.713e-02   5.444e-02    -1.113    -1.264    -0.151
-   MgCO3                  4.331e-05   4.331e-05    -4.363    -4.363     0.000
-   MgOH+                  3.870e-06   2.557e-06    -5.412    -5.592    -0.180
+   MgCO3                  4.330e-05   4.330e-05    -4.363    -4.363     0.000
+   MgOH+                  3.871e-06   2.557e-06    -5.412    -5.592    -0.180
 Mth              1.690e-03
    Mth                    1.690e-03   1.690e-03    -2.772    -2.772     0.000
 Na               2.941e+00
@@ -1690,7 +1697,7 @@ Ng               7.921e-05
    Ng                     7.921e-05   7.921e-05    -4.101    -4.101     0.000
 S(6)             1.281e-03
    SO4-2                  1.281e-03   2.055e-05    -2.892    -4.687    -1.795
-   HSO4-                  7.878e-09   3.529e-09    -8.104    -8.452    -0.349
+   HSO4-                  7.877e-09   3.529e-09    -8.104    -8.452    -0.349
 Sg               6.773e-04
    HSg-                   4.791e-04   8.708e-05    -3.320    -4.060    -0.740
    H2Sg                   1.981e-04   1.981e-04    -3.703    -3.703     0.000
@@ -1702,50 +1709,50 @@ Sr               1.471e-02
 
 	Phase               SI   log IAP   log K(337 K,   3 atm)
 
-	Anhydrite        -0.20*    -5.30   -5.10  CaSO4	 Delta_V  -6.22 cm3/mol
-	Aragonite         1.67*    -6.89   -8.56  CaCO3	 Delta_V -24.25 cm3/mol
-	Arcanite         -5.21*    -6.45   -1.24  K2SO4	 Delta_V  31.75 cm3/mol
-	Bischofite       -5.23*    -0.88    4.34  MgCl2:6H2O	 Delta_V 120.70 cm3/mol
-	Bloedite         -7.58*    -9.93   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  74.57 cm3/mol
-	Brucite          -4.33*   -14.80  -10.47  Mg(OH)2	 Delta_V  13.40 cm3/mol
-	Burkeite        -11.92*   -12.69   -0.77  Na6CO3(SO4)2	 Delta_V  19.79 cm3/mol
-	Calcite           1.91*    -6.89   -8.80  CaCO3	 Delta_V  25.75 cm3/mol
-	Carnallite       -5.69*    -1.36    4.33  KMgCl3:6H2O	 Delta_V 147.58 cm3/mol
-	Celestite         0.04*    -6.78   -6.82  SrSO4	 Delta_V  -8.53 cm3/mol
-	CO2(g)           -0.46**   -2.27   -1.81  CO2	 Delta_V -52.55 cm3/mol	 Pressure   0.4 atm, phi 0.991.
-	Dolomite          3.44*   -14.44  -17.88  CaMg(CO3)2	 Delta_V -53.75 cm3/mol
-	Epsomite         -4.97*    -6.44   -1.47  MgSO4:7H2O	 Delta_V 117.05 cm3/mol
-	Gaylussite       -3.11*   -12.54   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  62.14 cm3/mol
-	Glaserite        -7.72*   -11.53   -3.80  NaK3(SO4)2	 Delta_V  53.92 cm3/mol
-	Glauberite       -3.75*    -9.00   -5.25  Na2Ca(SO4)2	 Delta_V   6.38 cm3/mol
-	Gypsum           -0.75*    -5.44   -4.69  CaSO4:2H2O	 Delta_V  30.50 cm3/mol
-	H2O(g)           -0.68**   -0.07    0.61  H2O	 Delta_V  18.36 cm3/mol	 Pressure   0.2 atm, phi 0.979.
+	Anhydrite        -0.20*    -5.30   -5.10  CaSO4	 Delta_V   5.06 cm3/mol
+	Aragonite         1.67*    -6.89   -8.56  CaCO3	 Delta_V -12.96 cm3/mol
+	Arcanite         -5.21*    -6.45   -1.25  K2SO4	 Delta_V  40.21 cm3/mol
+	Bischofite       -5.22*    -0.88    4.34  MgCl2:6H2O	 Delta_V 129.17 cm3/mol
+	Bloedite         -7.58*    -9.93   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  94.32 cm3/mol
+	Brucite          -4.33*   -14.80  -10.47  Mg(OH)2	 Delta_V  19.05 cm3/mol
+	Burkeite        -11.92*   -12.69   -0.77  Na6CO3(SO4)2	 Delta_V  45.19 cm3/mol
+	Calcite           1.91*    -6.89   -8.80  CaCO3	 Delta_V  37.04 cm3/mol
+	Carnallite       -5.69*    -1.36    4.33  KMgCl3:6H2O	 Delta_V 158.87 cm3/mol
+	Celestite         0.04*    -6.78   -6.82  SrSO4	 Delta_V   2.75 cm3/mol
+	CO2(g)           -0.46**   -2.27   -1.81  CO2	 Delta_V -46.90 cm3/mol	 Pressure   0.4 atm, phi 0.991.
+	Dolomite          3.44*   -14.44  -17.88  CaMg(CO3)2	 Delta_V -31.18 cm3/mol
+	Epsomite         -4.97*    -6.44   -1.47  MgSO4:7H2O	 Delta_V 128.34 cm3/mol
+	Gaylussite       -3.11*   -12.54   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  81.89 cm3/mol
+	Glaserite        -7.72*   -11.53   -3.80  NaK3(SO4)2	 Delta_V  70.85 cm3/mol
+	Glauberite       -3.75*    -9.00   -5.25  Na2Ca(SO4)2	 Delta_V  26.13 cm3/mol
+	Gypsum           -0.75*    -5.44   -4.69  CaSO4:2H2O	 Delta_V  41.79 cm3/mol
+	H2O(g)           -0.68**   -0.07    0.61  H2O	 Pressure   0.2 atm, phi 0.979.
 	H2Sg(g)          -2.37**  -10.30   -7.93  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.987.
-	Halite           -0.70*     0.89    1.59  NaCl	 Delta_V  17.31 cm3/mol
-	Hexahydrite      -5.21*    -6.37   -1.16  MgSO4:6H2O	 Delta_V  98.69 cm3/mol
-	Kainite          -6.45*    -6.64   -0.19  KMgClSO4:3H2O	 Delta_V  70.48 cm3/mol
-	Kalicinite       -3.35*   -13.41  -10.06  KHCO3	 Delta_V   3.77 cm3/mol
-	Kieserite        -5.90*    -6.02   -0.12  MgSO4:H2O	 Delta_V   6.88 cm3/mol
-	Labile_S         -7.16*   -12.84   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  55.71 cm3/mol
-	Leonhardite      -5.34*    -6.23   -0.89  MgSO4:4H2O	 Delta_V  61.96 cm3/mol
-	Leonite          -8.70*   -12.68   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  93.71 cm3/mol
-	Magnesite         0.41*    -7.55   -7.96  MgCO3	 Delta_V -29.50 cm3/mol
-	Mirabilite       -4.31*    -4.40   -0.09  Na2SO4:10H2O	 Delta_V 196.22 cm3/mol
-	Misenite        -66.52*   -77.33  -10.81  K8H6(SO4)7	 Delta_V 162.50 cm3/mol
+	Halite           -0.70*     0.89    1.59  NaCl	 Delta_V  20.13 cm3/mol
+	Hexahydrite      -5.21*    -6.37   -1.16  MgSO4:6H2O	 Delta_V 109.97 cm3/mol
+	Kainite          -6.45*    -6.64   -0.20  KMgClSO4:3H2O	 Delta_V  84.59 cm3/mol
+	Kalicinite       -3.35*   -13.41  -10.06  KHCO3	 Delta_V  10.82 cm3/mol
+	Kieserite        -5.90*    -6.02   -0.12  MgSO4:H2O	 Delta_V  18.17 cm3/mol
+	Labile_S         -7.16*   -12.84   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  83.93 cm3/mol
+	Leonhardite      -5.34*    -6.23   -0.89  MgSO4:4H2O	 Delta_V  73.25 cm3/mol
+	Leonite          -8.70*   -12.68   -3.98  K2Mg(SO4)2:4H2O	 Delta_V 113.47 cm3/mol
+	Magnesite         0.41*    -7.55   -7.96  MgCO3	 Delta_V -18.22 cm3/mol
+	Mirabilite       -4.31*    -4.40   -0.09  Na2SO4:10H2O	 Delta_V 204.68 cm3/mol
+	Misenite        -66.52*   -77.33  -10.81  K8H6(SO4)7	 Delta_V 213.30 cm3/mol
 	Mth(g)            0.26**   -2.77   -3.03  Mth	 Delta_V -33.00 cm3/mol	 Pressure   1.8 atm, phi 0.996.
-	Nahcolite        -1.29*   -12.03  -10.74  NaHCO3	 Delta_V  -5.80 cm3/mol
-	Natron           -5.16*    -5.99   -0.83  Na2CO3:10H2O	 Delta_V 178.19 cm3/mol
-	Nesquehonite     -2.59*    -7.76   -5.17  MgCO3:3H2O	 Delta_V  25.58 cm3/mol
+	Nahcolite        -1.29*   -12.03  -10.74  NaHCO3	 Delta_V   1.25 cm3/mol
+	Natron           -5.16*    -5.99   -0.83  Na2CO3:10H2O	 Delta_V 186.66 cm3/mol
+	Nesquehonite     -2.59*    -7.76   -5.17  MgCO3:3H2O	 Delta_V  36.87 cm3/mol
 	Ng(g)            -0.78**   -4.10   -3.32  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.001.
-	Pentahydrite     -5.01*    -6.30   -1.29  MgSO4:5H2O	 Delta_V  80.33 cm3/mol
-	Pirssonite       -3.09*   -12.33   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V   7.05 cm3/mol
-	Polyhalite       -9.39*   -23.14  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  44.54 cm3/mol
-	Portlandite      -8.95*   -14.15   -5.19  Ca(OH)2	 Delta_V  18.66 cm3/mol
-	Schoenite        -8.49*   -12.82   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 130.43 cm3/mol
-	Strontianite      1.11*    -8.38   -9.48  SrCO3	 Delta_V -26.56 cm3/mol
-	Sylvite          -1.74*    -0.48    1.26  KCl	 Delta_V  26.88 cm3/mol
-	Syngenite        -4.37*   -11.82   -7.45  K2Ca(SO4)2:H2O	 Delta_V  43.88 cm3/mol
-	Trona            -6.08*   -17.46  -11.38  Na3H(CO3)2:2H2O	 Delta_V  25.50 cm3/mol
+	Pentahydrite     -5.01*    -6.30   -1.29  MgSO4:5H2O	 Delta_V  91.61 cm3/mol
+	Pirssonite       -3.09*   -12.33   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  26.81 cm3/mol
+	Polyhalite       -9.39*   -23.14  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  86.87 cm3/mol
+	Portlandite      -8.95*   -14.15   -5.19  Ca(OH)2	 Delta_V  24.30 cm3/mol
+	Schoenite        -8.49*   -12.82   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 150.19 cm3/mol
+	Strontianite      1.11*    -8.38   -9.48  SrCO3	 Delta_V -15.27 cm3/mol
+	Sylvite          -1.74*    -0.48    1.26  KCl	 Delta_V  29.70 cm3/mol
+	Syngenite        -4.37*   -11.82   -7.45  K2Ca(SO4)2:H2O	 Delta_V  63.64 cm3/mol
+	Trona            -6.08*   -17.47  -11.39  Na3H(CO3)2:2H2O	 Delta_V  41.02 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -1756,7 +1763,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -1782,16 +1789,16 @@ Reaction 1.	Irreversible reaction defined in simulation 3.
 Total pressure:  2.38      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   1.12e+01 liters/mole
-   P * Vm / RT:  0.99473  (Compressibility Factor Z) 
+   P * Vm / RT:  0.99474  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.49   3.254e-01  0.991   3.148e-01   1.223e-02  -3.026e-01
-H2O(g)            -0.91   1.227e-01  0.979   4.057e-01   4.613e-03  -4.011e-01
-H2Sg(g)           -2.34   4.542e-03  0.987   2.345e-03   1.708e-04  -2.175e-03
-Mth(g)             0.25   1.765e+00  0.996   9.220e+00   6.636e-02  -9.154e+00
+CO2(g)            -0.49   3.254e-01  0.991   3.145e-01   1.223e-02  -3.022e-01
+H2O(g)            -0.91   1.226e-01  0.979   3.191e-01   4.609e-03  -3.145e-01
+H2Sg(g)           -2.34   4.542e-03  0.987   2.312e-03   1.708e-04  -2.141e-03
+Mth(g)             0.25   1.765e+00  0.996   9.218e+00   6.636e-02  -9.151e+00
 Ng(g)             -0.79   1.604e-01  1.001   1.118e+00   6.031e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -1816,7 +1823,7 @@ Ng(g)             -0.79   1.604e-01  1.001   1.118e+00   6.031e-03  -1.112e+00
                                        pH  =   6.182      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 52 oC) = 519692
-                          Density (g/cm3)  =   1.12798
+                          Density (g/cm3)  =   1.12799
                         Activity of water  =   0.851
                            Ionic strength  =   4.608e+00
                        Mass of water (kg)  =   1.006e+00
@@ -1826,12 +1833,12 @@ Ng(g)             -0.79   1.604e-01  1.001   1.118e+00   6.031e-03  -1.112e+00
                            Pressure (atm)  =  2.38
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  59
+                               Iterations  =  55
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.17140
                          Density of water  =   0.98680
                                   Total H  = 1.116810e+02
-                                  Total O  = 5.587083e+01
+                                  Total O  = 5.587084e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -1839,8 +1846,8 @@ Ng(g)             -0.79   1.604e-01  1.001   1.118e+00   6.031e-03  -1.112e+00
 	                               MacInnes    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   OH-                    3.886e-07   8.026e-08    -6.411    -7.096    -0.685
-   H+                     2.519e-07   6.584e-07    -6.599    -6.182     0.417
+   OH-                    3.886e-07   8.026e-08    -6.410    -7.096    -0.685
+   H+                     2.519e-07   6.583e-07    -6.599    -6.182     0.417
    H2O                    5.551e+01   8.513e-01     1.744    -0.070     0.000
 Ba               1.972e-04
    Ba+2                   1.972e-04   5.172e-05    -3.705    -4.286    -0.581
@@ -1848,8 +1855,8 @@ C(4)             1.067e-02
    HCO3-                  7.391e-03   4.011e-03    -2.131    -2.397    -0.265
    CO2                    2.808e-03   5.982e-03    -2.552    -2.223     0.328
    CaCO3                  3.706e-04   3.706e-04    -3.431    -3.431     0.000
-   CO3-2                  6.059e-05   4.176e-07    -4.218    -6.379    -2.162
-   MgCO3                  3.616e-05   3.616e-05    -4.442    -4.442     0.000
+   CO3-2                  6.058e-05   4.176e-07    -4.218    -6.379    -2.162
+   MgCO3                  3.615e-05   3.615e-05    -4.442    -4.442     0.000
 Ca               4.378e-01
    Ca+2                   4.375e-01   2.971e-01    -0.359    -0.527    -0.168
    CaCO3                  3.706e-04   3.706e-04    -3.431    -3.431     0.000
@@ -1859,7 +1866,7 @@ K                1.853e-01
    K+                     1.853e-01   1.335e-01    -0.732    -0.874    -0.142
 Mg               7.717e-02
    Mg+2                   7.713e-02   6.766e-02    -1.113    -1.170    -0.057
-   MgCO3                  3.616e-05   3.616e-05    -4.442    -4.442     0.000
+   MgCO3                  3.615e-05   3.615e-05    -4.442    -4.442     0.000
    MgOH+                  1.745e-06   1.238e-06    -5.758    -5.907    -0.149
 Mth              1.768e-03
    Mth                    1.768e-03   1.768e-03    -2.752    -2.752     0.000
@@ -1873,7 +1880,7 @@ S(6)             1.281e-03
 Sg               6.638e-04
    HSg-                   4.260e-04   7.760e-05    -3.371    -4.110    -0.740
    H2Sg                   2.378e-04   2.378e-04    -3.624    -3.624     0.000
-   Sg-2                   5.200e-08   8.063e-11    -7.284   -10.093    -2.810
+   Sg-2                   5.201e-08   8.064e-11    -7.284   -10.093    -2.810
 Sr               1.471e-02
    Sr+2                   1.471e-02   9.118e-03    -1.833    -2.040    -0.208
 
@@ -1881,50 +1888,50 @@ Sr               1.471e-02
 
 	Phase               SI   log IAP   log K(325 K,   2 atm)
 
-	Anhydrite        -0.48*    -5.28   -4.80  CaSO4	 Delta_V  -3.95 cm3/mol
-	Aragonite         1.54*    -6.91   -8.44  CaCO3	 Delta_V -21.81 cm3/mol
-	Arcanite         -5.12*    -6.51   -1.39  K2SO4	 Delta_V  33.49 cm3/mol
-	Bischofite       -5.18*    -0.81    4.37  MgCl2:6H2O	 Delta_V 122.51 cm3/mol
-	Bloedite         -7.59*    -9.94   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  78.46 cm3/mol
-	Brucite          -4.78*   -15.36  -10.58  Mg(OH)2	 Delta_V  14.32 cm3/mol
-	Burkeite        -12.04*   -12.81   -0.77  Na6CO3(SO4)2	 Delta_V  24.06 cm3/mol
-	Calcite           1.78*    -6.91   -8.69  CaCO3	 Delta_V  28.19 cm3/mol
-	Carnallite       -5.62*    -1.29    4.33  KMgCl3:6H2O	 Delta_V 150.01 cm3/mol
-	Celestite        -0.05*    -6.80   -6.75  SrSO4	 Delta_V  -6.02 cm3/mol
-	CO2(g)           -0.49**   -2.22   -1.73  CO2	 Delta_V -50.47 cm3/mol	 Pressure   0.3 atm, phi 0.991.
-	Dolomite          3.21*   -14.46  -17.67  CaMg(CO3)2	 Delta_V -48.21 cm3/mol
-	Epsomite         -4.84*    -6.42   -1.58  MgSO4:7H2O	 Delta_V 119.25 cm3/mol
-	Gaylussite       -3.18*   -12.61   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  65.57 cm3/mol
-	Glaserite        -7.82*   -11.62   -3.80  NaK3(SO4)2	 Delta_V  57.22 cm3/mol
-	Glauberite       -3.77*    -9.01   -5.25  Na2Ca(SO4)2	 Delta_V  10.03 cm3/mol
-	Gypsum           -0.78*    -5.42   -4.64  CaSO4:2H2O	 Delta_V  32.56 cm3/mol
-	H2O(g)           -0.92**   -0.07    0.85  H2O	 Delta_V  18.25 cm3/mol	 Pressure   0.1 atm, phi 0.979.
+	Anhydrite        -0.48*    -5.28   -4.81  CaSO4	 Delta_V   6.30 cm3/mol
+	Aragonite         1.54*    -6.91   -8.44  CaCO3	 Delta_V -11.57 cm3/mol
+	Arcanite         -5.12*    -6.51   -1.39  K2SO4	 Delta_V  41.17 cm3/mol
+	Bischofite       -5.18*    -0.81    4.37  MgCl2:6H2O	 Delta_V 130.19 cm3/mol
+	Bloedite         -7.59*    -9.94   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  96.39 cm3/mol
+	Brucite          -4.78*   -15.36  -10.58  Mg(OH)2	 Delta_V  19.45 cm3/mol
+	Burkeite        -12.04*   -12.81   -0.77  Na6CO3(SO4)2	 Delta_V  47.11 cm3/mol
+	Calcite           1.78*    -6.91   -8.69  CaCO3	 Delta_V  38.43 cm3/mol
+	Carnallite       -5.62*    -1.29    4.33  KMgCl3:6H2O	 Delta_V 160.25 cm3/mol
+	Celestite        -0.05*    -6.80   -6.75  SrSO4	 Delta_V   4.23 cm3/mol
+	CO2(g)           -0.49**   -2.22   -1.73  CO2	 Delta_V -45.35 cm3/mol	 Pressure   0.3 atm, phi 0.991.
+	Dolomite          3.21*   -14.46  -17.67  CaMg(CO3)2	 Delta_V -27.73 cm3/mol
+	Epsomite         -4.84*    -6.42   -1.58  MgSO4:7H2O	 Delta_V 129.50 cm3/mol
+	Gaylussite       -3.18*   -12.61   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  83.50 cm3/mol
+	Glaserite        -7.82*   -11.62   -3.80  NaK3(SO4)2	 Delta_V  72.59 cm3/mol
+	Glauberite       -3.77*    -9.01   -5.25  Na2Ca(SO4)2	 Delta_V  27.96 cm3/mol
+	Gypsum           -0.78*    -5.42   -4.64  CaSO4:2H2O	 Delta_V  42.81 cm3/mol
+	H2O(g)           -0.92**   -0.07    0.85  H2O	 Pressure   0.1 atm, phi 0.979.
 	H2Sg(g)          -2.35**  -10.29   -7.94  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.987.
-	Halite           -0.69*     0.91    1.59  NaCl	 Delta_V  17.74 cm3/mol
-	Hexahydrite      -5.04*    -6.35   -1.30  MgSO4:6H2O	 Delta_V 101.00 cm3/mol
-	Kainite          -6.42*    -6.62   -0.19  KMgClSO4:3H2O	 Delta_V  73.73 cm3/mol
-	Kalicinite       -3.38*   -13.44  -10.06  KHCO3	 Delta_V   5.70 cm3/mol
-	Kieserite        -5.87*    -6.00   -0.12  MgSO4:H2O	 Delta_V   9.72 cm3/mol
-	Labile_S         -7.21*   -12.88   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  60.52 cm3/mol
-	Leonhardite      -5.32*    -6.21   -0.89  MgSO4:4H2O	 Delta_V  64.49 cm3/mol
-	Leonite          -8.73*   -12.71   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  97.98 cm3/mol
-	Magnesite         0.38*    -7.55   -7.93  MgCO3	 Delta_V -26.40 cm3/mol
-	Mirabilite       -4.16*    -4.43   -0.26  Na2SO4:10H2O	 Delta_V 196.53 cm3/mol
-	Misenite        -66.57*   -77.38  -10.81  K8H6(SO4)7	 Delta_V 174.91 cm3/mol
+	Halite           -0.69*     0.91    1.59  NaCl	 Delta_V  20.30 cm3/mol
+	Hexahydrite      -5.04*    -6.35   -1.30  MgSO4:6H2O	 Delta_V 111.24 cm3/mol
+	Kainite          -6.42*    -6.62   -0.19  KMgClSO4:3H2O	 Delta_V  86.54 cm3/mol
+	Kalicinite       -3.38*   -13.44  -10.06  KHCO3	 Delta_V  12.11 cm3/mol
+	Kieserite        -5.87*    -6.00   -0.12  MgSO4:H2O	 Delta_V  19.97 cm3/mol
+	Labile_S         -7.21*   -12.88   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  86.13 cm3/mol
+	Leonhardite      -5.32*    -6.21   -0.89  MgSO4:4H2O	 Delta_V  74.73 cm3/mol
+	Leonite          -8.73*   -12.71   -3.98  K2Mg(SO4)2:4H2O	 Delta_V 115.90 cm3/mol
+	Magnesite         0.38*    -7.55   -7.93  MgCO3	 Delta_V -16.16 cm3/mol
+	Mirabilite       -4.16*    -4.43   -0.26  Na2SO4:10H2O	 Delta_V 204.21 cm3/mol
+	Misenite        -66.57*   -77.38  -10.81  K8H6(SO4)7	 Delta_V 221.01 cm3/mol
 	Mth(g)            0.25**   -2.75   -3.00  Mth	 Delta_V -33.00 cm3/mol	 Pressure   1.8 atm, phi 0.996.
-	Nahcolite        -1.30*   -12.05  -10.74  NaHCO3	 Delta_V  -4.05 cm3/mol
-	Natron           -5.22*    -6.05   -0.83  Na2CO3:10H2O	 Delta_V 178.66 cm3/mol
-	Nesquehonite     -2.59*    -7.76   -5.17  MgCO3:3H2O	 Delta_V  28.37 cm3/mol
+	Nahcolite        -1.30*   -12.05  -10.74  NaHCO3	 Delta_V   2.35 cm3/mol
+	Natron           -5.22*    -6.05   -0.83  Na2CO3:10H2O	 Delta_V 186.34 cm3/mol
+	Nesquehonite     -2.59*    -7.76   -5.17  MgCO3:3H2O	 Delta_V  38.61 cm3/mol
 	Ng(g)            -0.79**   -4.09   -3.30  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.001.
-	Pentahydrite     -4.99*    -6.28   -1.29  MgSO4:5H2O	 Delta_V  82.74 cm3/mol
-	Pirssonite       -3.16*   -12.40   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  10.80 cm3/mol
-	Polyhalite       -9.40*   -23.14  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  53.57 cm3/mol
-	Portlandite      -9.53*   -14.72   -5.19  Ca(OH)2	 Delta_V  18.91 cm3/mol
-	Schoenite        -8.52*   -12.85   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 134.49 cm3/mol
-	Strontianite      0.97*    -8.42   -9.39  SrCO3	 Delta_V -23.89 cm3/mol
-	Sylvite          -1.64*    -0.48    1.16  KCl	 Delta_V  27.50 cm3/mol
-	Syngenite        -4.41*   -11.86   -7.45  K2Ca(SO4)2:H2O	 Delta_V  47.80 cm3/mol
-	Trona            -6.15*   -17.54  -11.38  Na3H(CO3)2:2H2O	 Delta_V  28.57 cm3/mol
+	Pentahydrite     -4.99*    -6.28   -1.29  MgSO4:5H2O	 Delta_V  92.99 cm3/mol
+	Pirssonite       -3.16*   -12.40   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  28.73 cm3/mol
+	Polyhalite       -9.40*   -23.14  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  91.99 cm3/mol
+	Portlandite      -9.53*   -14.72   -5.19  Ca(OH)2	 Delta_V  24.03 cm3/mol
+	Schoenite        -8.52*   -12.85   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 152.41 cm3/mol
+	Strontianite      0.97*    -8.42   -9.39  SrCO3	 Delta_V -13.64 cm3/mol
+	Sylvite          -1.64*    -0.48    1.16  KCl	 Delta_V  30.06 cm3/mol
+	Syngenite        -4.41*   -11.86   -7.45  K2Ca(SO4)2:H2O	 Delta_V  65.72 cm3/mol
+	Trona            -6.15*   -17.54  -11.38  Na3H(CO3)2:2H2O	 Delta_V  42.65 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -1935,7 +1942,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -1967,10 +1974,10 @@ Total pressure:  2.23      atmospheres          (Peng-Robinson calculation)
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.53   2.984e-01  0.990   3.148e-01   1.162e-02  -3.032e-01
-H2O(g)            -1.17   6.828e-02  0.979   4.057e-01   2.660e-03  -4.030e-01
-H2Sg(g)           -2.33   4.634e-03  0.987   2.345e-03   1.805e-04  -2.165e-03
-Mth(g)             0.23   1.700e+00  0.996   9.220e+00   6.622e-02  -9.154e+00
+CO2(g)            -0.53   2.984e-01  0.990   3.145e-01   1.162e-02  -3.028e-01
+H2O(g)            -1.17   6.823e-02  0.979   3.191e-01   2.657e-03  -3.164e-01
+H2Sg(g)           -2.33   4.633e-03  0.987   2.312e-03   1.805e-04  -2.132e-03
+Mth(g)             0.23   1.700e+00  0.996   9.218e+00   6.622e-02  -9.152e+00
 Ng(g)             -0.81   1.547e-01  1.000   1.118e+00   6.026e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -1992,10 +1999,10 @@ Ng(g)             -0.81   1.547e-01  1.000   1.118e+00   6.026e-03  -1.112e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.123      Charge balance
+                                       pH  =   6.124      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 41 oC) = 431262
-                          Density (g/cm3)  =   1.13802
+                          Density (g/cm3)  =   1.13803
                         Activity of water  =   0.851
                            Ionic strength  =   4.609e+00
                        Mass of water (kg)  =   1.006e+00
@@ -2010,7 +2017,7 @@ Ng(g)             -0.81   1.547e-01  1.000   1.118e+00   6.026e-03  -1.112e+00
                       Osmotic coefficient  =   1.17394
                          Density of water  =   0.99169
                                   Total H  = 1.116849e+02
-                                  Total O  = 5.587400e+01
+                                  Total O  = 5.587401e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -2018,7 +2025,7 @@ Ng(g)             -0.81   1.547e-01  1.000   1.118e+00   6.026e-03  -1.112e+00
 	                               MacInnes    Log       Log         Log 
    Species                 Molality    Activity  Molality  Activity     Gamma
 
-   H+                     2.659e-07   7.525e-07    -6.575    -6.123     0.452
+   H+                     2.659e-07   7.525e-07    -6.575    -6.124     0.452
    OH-                    1.740e-07   3.535e-08    -6.759    -7.452    -0.692
    H2O                    5.551e+01   8.510e-01     1.744    -0.070     0.000
 Ba               1.972e-04
@@ -2027,7 +2034,7 @@ C(4)             1.127e-02
    HCO3-                  7.756e-03   3.912e-03    -2.110    -2.408    -0.297
    CO2                    3.200e-03   6.815e-03    -2.495    -2.167     0.328
    CaCO3                  2.387e-04   2.387e-04    -3.622    -3.622     0.000
-   CO3-2                  4.899e-05   3.178e-07    -4.310    -6.498    -2.188
+   CO3-2                  4.898e-05   3.178e-07    -4.310    -6.498    -2.188
    MgCO3                  2.828e-05   2.828e-05    -4.549    -4.549     0.000
 Ca               4.378e-01
    Ca+2                   4.376e-01   3.537e-01    -0.359    -0.451    -0.092
@@ -2039,7 +2046,7 @@ K                1.853e-01
 Mg               7.717e-02
    Mg+2                   7.714e-02   8.260e-02    -1.113    -1.083     0.030
    MgCO3                  2.828e-05   2.828e-05    -4.549    -4.549     0.000
-   MgOH+                  7.403e-07   5.602e-07    -6.131    -6.252    -0.121
+   MgOH+                  7.404e-07   5.602e-07    -6.131    -6.252    -0.121
 Mth              1.912e-03
    Mth                    1.912e-03   1.912e-03    -2.719    -2.719     0.000
 Na               2.941e+00
@@ -2048,9 +2055,9 @@ Ng               8.574e-05
    Ng                     8.574e-05   8.574e-05    -4.067    -4.067     0.000
 S(6)             1.281e-03
    SO4-2                  1.281e-03   1.490e-05    -2.892    -4.827    -1.934
-   HSO4-                  3.771e-09   1.703e-09    -8.424    -8.769    -0.345
+   HSO4-                  3.771e-09   1.702e-09    -8.424    -8.769    -0.345
 Sg               6.542e-04
-   HSg-                   3.647e-04   6.680e-05    -3.438    -4.175    -0.737
+   HSg-                   3.648e-04   6.681e-05    -3.438    -4.175    -0.737
    H2Sg                   2.894e-04   2.894e-04    -3.538    -3.538     0.000
    Sg-2                   1.842e-08   3.097e-11    -7.735   -10.509    -2.774
 Sr               1.471e-02
@@ -2060,50 +2067,50 @@ Sr               1.471e-02
 
 	Phase               SI   log IAP   log K(314 K,   2 atm)
 
-	Anhydrite        -0.71*    -5.28   -4.57  CaSO4	 Delta_V  -2.97 cm3/mol
-	Aragonite         1.39*    -6.95   -8.34  CaCO3	 Delta_V -20.75 cm3/mol
-	Arcanite         -5.03*    -6.57   -1.54  K2SO4	 Delta_V  33.87 cm3/mol
-	Bischofite       -5.15*    -0.74    4.40  MgCl2:6H2O	 Delta_V 123.35 cm3/mol
-	Bloedite         -7.61*    -9.96   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  79.66 cm3/mol
-	Brucite          -5.29*   -15.99  -10.70  Mg(OH)2	 Delta_V  14.86 cm3/mol
-	Burkeite        -12.21*   -12.98   -0.77  Na6CO3(SO4)2	 Delta_V  24.15 cm3/mol
-	Calcite           1.64*    -6.95   -8.59  CaCO3	 Delta_V  29.25 cm3/mol
-	Carnallite       -5.56*    -1.23    4.33  KMgCl3:6H2O	 Delta_V 150.96 cm3/mol
-	Celestite        -0.13*    -6.82   -6.69  SrSO4	 Delta_V  -4.63 cm3/mol
-	CO2(g)           -0.53**   -2.17   -1.64  CO2	 Delta_V -49.45 cm3/mol	 Pressure   0.3 atm, phi 0.990.
-	Dolomite          2.91*   -14.53  -17.44  CaMg(CO3)2	 Delta_V -45.49 cm3/mol
-	Epsomite         -4.70*    -6.40   -1.70  MgSO4:7H2O	 Delta_V 120.18 cm3/mol
-	Gaylussite       -3.32*   -12.74   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  66.28 cm3/mol
-	Glaserite        -7.93*   -11.73   -3.80  NaK3(SO4)2	 Delta_V  57.80 cm3/mol
-	Glauberite       -3.80*    -9.05   -5.25  Na2Ca(SO4)2	 Delta_V  11.01 cm3/mol
-	Gypsum           -0.82*    -5.42   -4.60  CaSO4:2H2O	 Delta_V  33.36 cm3/mol
-	H2O(g)           -1.18**   -0.07    1.11  H2O	 Delta_V  18.16 cm3/mol	 Pressure   0.1 atm, phi 0.979.
+	Anhydrite        -0.71*    -5.28   -4.57  CaSO4	 Delta_V   6.32 cm3/mol
+	Aragonite         1.39*    -6.95   -8.34  CaCO3	 Delta_V -11.46 cm3/mol
+	Arcanite         -5.03*    -6.57   -1.54  K2SO4	 Delta_V  40.84 cm3/mol
+	Bischofite       -5.14*    -0.74    4.40  MgCl2:6H2O	 Delta_V 130.32 cm3/mol
+	Bloedite         -7.61*    -9.96   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  95.91 cm3/mol
+	Brucite          -5.29*   -15.99  -10.70  Mg(OH)2	 Delta_V  19.51 cm3/mol
+	Burkeite        -12.21*   -12.98   -0.77  Na6CO3(SO4)2	 Delta_V  45.05 cm3/mol
+	Calcite           1.64*    -6.95   -8.59  CaCO3	 Delta_V  38.54 cm3/mol
+	Carnallite       -5.56*    -1.23    4.33  KMgCl3:6H2O	 Delta_V 160.24 cm3/mol
+	Celestite        -0.13*    -6.82   -6.69  SrSO4	 Delta_V   4.65 cm3/mol
+	CO2(g)           -0.53**   -2.17   -1.64  CO2	 Delta_V -44.80 cm3/mol	 Pressure   0.3 atm, phi 0.990.
+	Dolomite          2.91*   -14.53  -17.44  CaMg(CO3)2	 Delta_V -26.92 cm3/mol
+	Epsomite         -4.70*    -6.40   -1.70  MgSO4:7H2O	 Delta_V 129.47 cm3/mol
+	Gaylussite       -3.32*   -12.74   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  82.53 cm3/mol
+	Glaserite        -7.93*   -11.73   -3.80  NaK3(SO4)2	 Delta_V  71.73 cm3/mol
+	Glauberite       -3.80*    -9.05   -5.25  Na2Ca(SO4)2	 Delta_V  27.26 cm3/mol
+	Gypsum           -0.81*    -5.42   -4.60  CaSO4:2H2O	 Delta_V  42.65 cm3/mol
+	H2O(g)           -1.18**   -0.07    1.11  H2O	 Pressure   0.1 atm, phi 0.979.
 	H2Sg(g)          -2.34**  -10.30   -7.96  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.987.
-	Halite           -0.68*     0.91    1.59  NaCl	 Delta_V  17.66 cm3/mol
-	Hexahydrite      -4.89*    -6.33   -1.44  MgSO4:6H2O	 Delta_V 102.02 cm3/mol
-	Kainite          -6.41*    -6.61   -0.19  KMgClSO4:3H2O	 Delta_V  75.13 cm3/mol
-	Kalicinite       -3.43*   -13.49  -10.06  KHCO3	 Delta_V   6.41 cm3/mol
-	Kieserite        -5.86*    -5.98   -0.12  MgSO4:H2O	 Delta_V  11.19 cm3/mol
-	Labile_S         -7.29*   -12.96   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  61.31 cm3/mol
-	Leonhardite      -5.30*    -6.19   -0.89  MgSO4:4H2O	 Delta_V  65.69 cm3/mol
-	Leonite          -8.77*   -12.76   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  99.56 cm3/mol
-	Magnesite         0.31*    -7.58   -7.89  MgCO3	 Delta_V -24.75 cm3/mol
-	Mirabilite       -3.90*    -4.47   -0.57  Na2SO4:10H2O	 Delta_V 195.63 cm3/mol
-	Misenite        -66.67*   -77.48  -10.81  K8H6(SO4)7	 Delta_V 178.97 cm3/mol
+	Halite           -0.68*     0.91    1.59  NaCl	 Delta_V  19.98 cm3/mol
+	Hexahydrite      -4.89*    -6.33   -1.44  MgSO4:6H2O	 Delta_V 111.30 cm3/mol
+	Kainite          -6.41*    -6.61   -0.19  KMgClSO4:3H2O	 Delta_V  86.73 cm3/mol
+	Kalicinite       -3.43*   -13.49  -10.06  KHCO3	 Delta_V  12.21 cm3/mol
+	Kieserite        -5.86*    -5.98   -0.12  MgSO4:H2O	 Delta_V  20.48 cm3/mol
+	Labile_S         -7.29*   -12.96   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  84.53 cm3/mol
+	Leonhardite      -5.30*    -6.19   -0.89  MgSO4:4H2O	 Delta_V  74.97 cm3/mol
+	Leonite          -8.77*   -12.76   -3.98  K2Mg(SO4)2:4H2O	 Delta_V 115.81 cm3/mol
+	Magnesite         0.31*    -7.58   -7.89  MgCO3	 Delta_V -15.46 cm3/mol
+	Mirabilite       -3.90*    -4.47   -0.57  Na2SO4:10H2O	 Delta_V 202.59 cm3/mol
+	Misenite        -66.67*   -77.48  -10.81  K8H6(SO4)7	 Delta_V 220.76 cm3/mol
 	Mth(g)            0.23**   -2.72   -2.95  Mth	 Delta_V -33.00 cm3/mol	 Pressure   1.7 atm, phi 0.996.
-	Nahcolite        -1.35*   -12.09  -10.74  NaHCO3	 Delta_V  -3.54 cm3/mol
-	Natron           -5.31*    -6.14   -0.83  Na2CO3:10H2O	 Delta_V 177.85 cm3/mol
-	Nesquehonite     -2.62*    -7.79   -5.17  MgCO3:3H2O	 Delta_V  29.75 cm3/mol
+	Nahcolite        -1.35*   -12.09  -10.74  NaHCO3	 Delta_V   2.26 cm3/mol
+	Natron           -5.31*    -6.14   -0.83  Na2CO3:10H2O	 Delta_V 184.81 cm3/mol
+	Nesquehonite     -2.62*    -7.79   -5.17  MgCO3:3H2O	 Delta_V  39.03 cm3/mol
 	Ng(g)            -0.81**   -4.07   -3.26  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.2 atm, phi 1.000.
-	Pentahydrite     -4.97*    -6.26   -1.29  MgSO4:5H2O	 Delta_V  83.85 cm3/mol
-	Pirssonite       -3.30*   -12.53   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  11.78 cm3/mol
-	Polyhalite       -9.43*   -23.17  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  57.29 cm3/mol
-	Portlandite     -10.16*   -15.35   -5.19  Ca(OH)2	 Delta_V  18.87 cm3/mol
-	Schoenite        -8.56*   -12.90   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 135.89 cm3/mol
-	Strontianite      0.83*    -8.49   -9.32  SrCO3	 Delta_V -22.41 cm3/mol
-	Sylvite          -1.55*    -0.49    1.06  KCl	 Delta_V  27.60 cm3/mol
-	Syngenite        -4.46*   -11.91   -7.45  K2Ca(SO4)2:H2O	 Delta_V  49.07 cm3/mol
-	Trona            -6.29*   -17.67  -11.38  Na3H(CO3)2:2H2O	 Delta_V  28.99 cm3/mol
+	Pentahydrite     -4.97*    -6.26   -1.29  MgSO4:5H2O	 Delta_V  93.14 cm3/mol
+	Pirssonite       -3.30*   -12.53   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  28.04 cm3/mol
+	Polyhalite       -9.43*   -23.17  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  92.11 cm3/mol
+	Portlandite     -10.16*   -15.35   -5.19  Ca(OH)2	 Delta_V  23.51 cm3/mol
+	Schoenite        -8.56*   -12.90   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 152.14 cm3/mol
+	Strontianite      0.83*    -8.49   -9.32  SrCO3	 Delta_V -13.12 cm3/mol
+	Sylvite          -1.55*    -0.49    1.06  KCl	 Delta_V  29.93 cm3/mol
+	Syngenite        -4.46*   -11.91   -7.45  K2Ca(SO4)2:H2O	 Delta_V  65.32 cm3/mol
+	Trona            -6.29*   -17.67  -11.38  Na3H(CO3)2:2H2O	 Delta_V  41.76 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
@@ -2114,7 +2121,7 @@ Using gas phase 1.	Gas phase after simulation 2.
 Using temperature 1.	
 Using reaction 1.	
 
-Reaction 1.	Irreversible reaction defined in simulation 3.
+Reaction 1.	
 
 	 -1.000e+00 moles of the following reaction have been added:
 
@@ -2146,10 +2153,10 @@ Total pressure:  2.09      atmospheres          (Peng-Robinson calculation)
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.57   2.697e-01  0.990   3.148e-01   1.090e-02  -3.039e-01
-H2O(g)            -1.44   3.640e-02  0.978   4.057e-01   1.471e-03  -4.042e-01
-H2Sg(g)           -2.35   4.518e-03  0.987   2.345e-03   1.826e-04  -2.163e-03
-Mth(g)             0.21   1.633e+00  0.996   9.220e+00   6.598e-02  -9.154e+00
+CO2(g)            -0.57   2.697e-01  0.990   3.145e-01   1.090e-02  -3.036e-01
+H2O(g)            -1.44   3.637e-02  0.978   3.191e-01   1.470e-03  -3.176e-01
+H2Sg(g)           -2.35   4.518e-03  0.987   2.312e-03   1.826e-04  -2.130e-03
+Mth(g)             0.21   1.633e+00  0.996   9.218e+00   6.598e-02  -9.152e+00
 Ng(g)             -0.83   1.490e-01  1.000   1.118e+00   6.019e-03  -1.112e+00
 
 -----------------------------Solution composition------------------------------
@@ -2174,7 +2181,7 @@ Ng(g)             -0.83   1.490e-01  1.000   1.118e+00   6.019e-03  -1.112e+00
                                        pH  =   6.074      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 30 oC) = 346635
-                          Density (g/cm3)  =   1.14561
+                          Density (g/cm3)  =   1.14562
                         Activity of water  =   0.851
                            Ionic strength  =   4.609e+00
                        Mass of water (kg)  =   1.006e+00
@@ -2184,7 +2191,7 @@ Ng(g)             -0.83   1.490e-01  1.000   1.118e+00   6.019e-03  -1.112e+00
                            Pressure (atm)  =  2.09
                   Electrical balance (eq)  =   2.167e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   2.64
-                               Iterations  =  57
+                               Iterations  =  56
                          Gamma iterations  =   4
                       Osmotic coefficient  =   1.17327
                          Density of water  =   0.99565
@@ -2239,50 +2246,50 @@ Sr               1.471e-02
 
 	Phase               SI   log IAP   log K(303 K,   2 atm)
 
-	Anhydrite        -0.87*    -5.28   -4.41  CaSO4	 Delta_V  -3.29 cm3/mol
-	Aragonite         1.23*    -7.02   -8.25  CaCO3	 Delta_V -21.04 cm3/mol
-	Arcanite         -4.93*    -6.63   -1.70  K2SO4	 Delta_V  32.90 cm3/mol
-	Bischofite       -5.12*    -0.69    4.44  MgCl2:6H2O	 Delta_V 123.24 cm3/mol
-	Bloedite         -7.66*   -10.01   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  78.17 cm3/mol
-	Brucite          -5.85*   -16.68  -10.82  Mg(OH)2	 Delta_V  15.03 cm3/mol
-	Burkeite        -12.44*   -13.22   -0.77  Na6CO3(SO4)2	 Delta_V  20.06 cm3/mol
-	Calcite           1.49*    -7.02   -8.51  CaCO3	 Delta_V  28.96 cm3/mol
-	Carnallite       -5.51*    -1.18    4.33  KMgCl3:6H2O	 Delta_V 150.44 cm3/mol
-	Celestite        -0.20*    -6.85   -6.65  SrSO4	 Delta_V  -4.38 cm3/mol
-	CO2(g)           -0.57**   -2.10   -1.52  CO2	 Delta_V -49.49 cm3/mol	 Pressure   0.3 atm, phi 0.990.
-	Dolomite          2.54*   -14.66  -17.20  CaMg(CO3)2	 Delta_V -45.60 cm3/mol
-	Epsomite         -4.57*    -6.39   -1.82  MgSO4:7H2O	 Delta_V 119.85 cm3/mol
-	Gaylussite       -3.51*   -12.94   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  64.27 cm3/mol
-	Glaserite        -8.05*   -11.86   -3.80  NaK3(SO4)2	 Delta_V  55.65 cm3/mol
-	Glauberite       -3.86*    -9.10   -5.25  Na2Ca(SO4)2	 Delta_V   9.31 cm3/mol
-	Gypsum           -0.84*    -5.42   -4.58  CaSO4:2H2O	 Delta_V  32.89 cm3/mol
-	H2O(g)           -1.45**   -0.07    1.38  H2O	 Delta_V  18.09 cm3/mol	 Pressure   0.0 atm, phi 0.978.
+	Anhydrite        -0.87*    -5.28   -4.41  CaSO4	 Delta_V   5.10 cm3/mol
+	Aragonite         1.23*    -7.02   -8.25  CaCO3	 Delta_V -12.65 cm3/mol
+	Arcanite         -4.93*    -6.63   -1.70  K2SO4	 Delta_V  39.20 cm3/mol
+	Bischofite       -5.12*    -0.69    4.44  MgCl2:6H2O	 Delta_V 129.54 cm3/mol
+	Bloedite         -7.66*   -10.01   -2.35  Na2Mg(SO4)2:4H2O	 Delta_V  92.86 cm3/mol
+	Brucite          -5.85*   -16.68  -10.82  Mg(OH)2	 Delta_V  19.23 cm3/mol
+	Burkeite        -12.44*   -13.22   -0.77  Na6CO3(SO4)2	 Delta_V  38.95 cm3/mol
+	Calcite           1.49*    -7.02   -8.51  CaCO3	 Delta_V  37.35 cm3/mol
+	Carnallite       -5.51*    -1.18    4.33  KMgCl3:6H2O	 Delta_V 158.83 cm3/mol
+	Celestite        -0.20*    -6.85   -6.65  SrSO4	 Delta_V   4.01 cm3/mol
+	CO2(g)           -0.57**   -2.10   -1.52  CO2	 Delta_V -45.29 cm3/mol	 Pressure   0.3 atm, phi 0.990.
+	Dolomite          2.54*   -14.66  -17.20  CaMg(CO3)2	 Delta_V -28.81 cm3/mol
+	Epsomite         -4.57*    -6.39   -1.82  MgSO4:7H2O	 Delta_V 128.24 cm3/mol
+	Gaylussite       -3.51*   -12.94   -9.42  CaNa2(CO3)2:5H2O	 Delta_V  78.97 cm3/mol
+	Glaserite        -8.05*   -11.86   -3.80  NaK3(SO4)2	 Delta_V  68.24 cm3/mol
+	Glauberite       -3.86*    -9.10   -5.25  Na2Ca(SO4)2	 Delta_V  24.00 cm3/mol
+	Gypsum           -0.84*    -5.42   -4.58  CaSO4:2H2O	 Delta_V  41.29 cm3/mol
+	H2O(g)           -1.45**   -0.07    1.38  H2O	 Pressure   0.0 atm, phi 0.978.
 	H2Sg(g)          -2.35**  -10.33   -7.98  H2Sg	 Delta_V -30.00 cm3/mol	 Pressure   0.0 atm, phi 0.987.
-	Halite           -0.67*     0.91    1.58  NaCl	 Delta_V  17.05 cm3/mol
-	Hexahydrite      -4.74*    -6.32   -1.58  MgSO4:6H2O	 Delta_V 101.76 cm3/mol
-	Kainite          -6.41*    -6.61   -0.19  KMgClSO4:3H2O	 Delta_V  74.67 cm3/mol
-	Kalicinite       -3.52*   -13.58  -10.06  KHCO3	 Delta_V   5.88 cm3/mol
-	Kieserite        -5.85*    -5.97   -0.12  MgSO4:H2O	 Delta_V  11.29 cm3/mol
-	Labile_S         -7.40*   -13.07   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  58.10 cm3/mol
-	Leonhardite      -5.29*    -6.18   -0.89  MgSO4:4H2O	 Delta_V  65.57 cm3/mol
-	Leonite          -8.83*   -12.81   -3.98  K2Mg(SO4)2:4H2O	 Delta_V  98.47 cm3/mol
-	Magnesite         0.21*    -7.64   -7.85  MgCO3	 Delta_V -24.55 cm3/mol
-	Mirabilite       -3.53*    -4.53   -1.00  Na2SO4:10H2O	 Delta_V 193.53 cm3/mol
-	Misenite        -66.84*   -77.65  -10.81  K8H6(SO4)7	 Delta_V 174.66 cm3/mol
+	Halite           -0.67*     0.91    1.58  NaCl	 Delta_V  19.14 cm3/mol
+	Hexahydrite      -4.74*    -6.32   -1.58  MgSO4:6H2O	 Delta_V 110.15 cm3/mol
+	Kainite          -6.41*    -6.61   -0.19  KMgClSO4:3H2O	 Delta_V  85.16 cm3/mol
+	Kalicinite       -3.52*   -13.58  -10.06  KHCO3	 Delta_V  11.12 cm3/mol
+	Kieserite        -5.85*    -5.97   -0.12  MgSO4:H2O	 Delta_V  19.69 cm3/mol
+	Labile_S         -7.40*   -13.07   -5.67  Na4Ca(SO4)3:2H2O	 Delta_V  79.09 cm3/mol
+	Leonhardite      -5.29*    -6.18   -0.89  MgSO4:4H2O	 Delta_V  73.96 cm3/mol
+	Leonite          -8.83*   -12.81   -3.98  K2Mg(SO4)2:4H2O	 Delta_V 113.16 cm3/mol
+	Magnesite         0.21*    -7.64   -7.85  MgCO3	 Delta_V -16.16 cm3/mol
+	Mirabilite       -3.53*    -4.53   -1.00  Na2SO4:10H2O	 Delta_V 199.83 cm3/mol
+	Misenite        -66.84*   -77.65  -10.81  K8H6(SO4)7	 Delta_V 212.44 cm3/mol
 	Mth(g)            0.21**   -2.67   -2.88  Mth	 Delta_V -33.00 cm3/mol	 Pressure   1.6 atm, phi 0.996.
-	Nahcolite        -1.43*   -12.17  -10.74  NaHCO3	 Delta_V  -4.27 cm3/mol
-	Natron           -5.44*    -6.27   -0.83  Na2CO3:10H2O	 Delta_V 175.78 cm3/mol
-	Nesquehonite     -2.68*    -7.85   -5.17  MgCO3:3H2O	 Delta_V  29.73 cm3/mol
+	Nahcolite        -1.43*   -12.17  -10.74  NaHCO3	 Delta_V   0.97 cm3/mol
+	Natron           -5.44*    -6.27   -0.83  Na2CO3:10H2O	 Delta_V 182.08 cm3/mol
+	Nesquehonite     -2.68*    -7.85   -5.17  MgCO3:3H2O	 Delta_V  38.12 cm3/mol
 	Ng(g)            -0.83**   -4.03   -3.20  Ng	 Delta_V -30.00 cm3/mol	 Pressure   0.1 atm, phi 1.000.
-	Pentahydrite     -4.96*    -6.25   -1.29  MgSO4:5H2O	 Delta_V  83.66 cm3/mol
-	Pirssonite       -3.49*   -12.73   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V   9.99 cm3/mol
-	Polyhalite       -9.48*   -23.23  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  55.70 cm3/mol
-	Portlandite     -10.86*   -16.05   -5.19  Ca(OH)2	 Delta_V  18.54 cm3/mol
-	Schoenite        -8.62*   -12.95   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 134.66 cm3/mol
-	Strontianite      0.68*    -8.59   -9.28  SrCO3	 Delta_V -22.13 cm3/mol
-	Sylvite          -1.45*    -0.50    0.95  KCl	 Delta_V  27.19 cm3/mol
-	Syngenite        -4.53*   -11.98   -7.45  K2Ca(SO4)2:H2O	 Delta_V  47.70 cm3/mol
-	Trona            -6.50*   -17.88  -11.38  Na3H(CO3)2:2H2O	 Delta_V  26.77 cm3/mol
+	Pentahydrite     -4.96*    -6.25   -1.29  MgSO4:5H2O	 Delta_V  92.06 cm3/mol
+	Pirssonite       -3.49*   -12.73   -9.23  Na2Ca(CO3)2:2H2O	 Delta_V  24.69 cm3/mol
+	Polyhalite       -9.48*   -23.23  -13.75  K2MgCa2(SO4)4:2H2O	 Delta_V  87.18 cm3/mol
+	Portlandite     -10.86*   -16.05   -5.19  Ca(OH)2	 Delta_V  22.74 cm3/mol
+	Schoenite        -8.62*   -12.95   -4.33  K2Mg(SO4)2:6H2O	 Delta_V 149.35 cm3/mol
+	Strontianite      0.68*    -8.59   -9.28  SrCO3	 Delta_V -13.74 cm3/mol
+	Sylvite          -1.45*    -0.50    0.95  KCl	 Delta_V  29.29 cm3/mol
+	Syngenite        -4.53*   -11.98   -7.45  K2Ca(SO4)2:H2O	 Delta_V  62.39 cm3/mol
+	Trona            -6.50*   -17.88  -11.38  Na3H(CO3)2:2H2O	 Delta_V  38.31 cm3/mol
 	                      *  with Delta_V * (P - 1) / 2.3RT.
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 

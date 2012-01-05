@@ -1,11 +1,12 @@
    Input file: phi_Duan_PR
   Output file: phi_Duan_PR.out
-Database file: ../database/Amm.dat
+Database file: ../database/vreeqc.dat
 
 ------------------
 Reading data base.
 ------------------
 
+	KNOBS
 	SOLUTION_MASTER_SPECIES
 	SOLUTION_SPECIES
 	PHASES
@@ -13,175 +14,14 @@ Reading data base.
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	RATES
 	END
 ------------------------------------
 Reading input data for simulation 1.
 ------------------------------------
 
-	database ../database/Amm.dat
+	DATABASE ../database/vreeqc.dat
 	SOLUTION 1
-	SOLUTION_MASTER_SPECIES
-	Amm		AmmH+	0.0	AmmH	17.0
-	Mth		Mth	0.0	Mth	16
-	Sg		HSg-	1.0	Sg	32
-	SOLUTION_SPECIES
-	AmmH+ = AmmH+
-		gamma	2.5	0.0
-		dw	 1.98e-9
-		millero 17.47 -3.400e-3 7.600e-4 # From Millero, 1971, d, e and f not reported
-	AmmH+ = Amm + H+
-		log_k	-9.252
-		delta_h 12.48	kcal
-		analytical_expression    0.6322    -0.001225     -2835.76
-		dw	 2.28e-9
-		vm 30 # estimated
-	CO3-2 + H+ = HCO3-
-		log_k	10.329
-		delta_h -3.561	kcal
-		analytical_expression	107.8871	0.03252849	-5151.79	-38.92561	563713.9
-		gamma	5.4	0.0
-		dw	 1.18e-9
-		millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
-	CO3-2 + 2 H+ = CO2 + H2O
-		log_k	16.681
-		delta_h -5.738	kcal
-		analytical_expression	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
-		dw	 1.92e-9
-		vm  28.48  6.95E-03
-	CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
-		log_k	41.071
-		delta_h -61.039 kcal
-		dw	 1.85e-9
-		vm 33
-	2 H+ + 2 e- = H2
-		log_k	-3.15
-		delta_h -1.759 kcal
-		dw	 5.13e-9
-		vm 20 # estimated, may be smaller
-	H2O = OH- + H+
-		log_k	-14.0
-		delta_h 13.362	kcal
-		analytical_expression	-283.971	-0.05069842	13323.0	102.24447	-1119669.0
-		gamma	3.5	0.0
-		dw	 5.27e-9
-		vm -0.948 -0.124  4.936E-04 # 0 - 200oC, 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
-	2 H2O = O2 + 4 H+ + 4 e-
-		log_k	-86.08
-		delta_h 134.79 kcal
-		dw	 2.35e-9
-		vm 35
-	HS- + H+ = H2S
-		log_k	6.994
-		delta_h -5.30	kcal
-		analytical_expression  -11.17   0.02386  3279.0
-		dw	 2.1e-9
-		vm 30
-	HSg- = HSg-
-		gamma	3.5	0.0
-		dw	 1.73e-9
-	HSg- = Sg-2 + H+
-		log_k	-12.918
-		delta_h 12.1	kcal
-		gamma	5.0	0.0
-		dw	 0.731e-9
-	HSg- + H+ = H2Sg
-		log_k	6.994
-		delta_h -5.30	kcal
-		analytical_expression  -11.17   0.02386  3279.0
-		dw	 2.1e-9
-		vm 30
-	Mth = Mth
-		vm 33
-	2 NO3- + 12 H+ + 10 e- = N2 + 6 H2O
-		log_k	207.08
-		delta_h -312.130	kcal
-		dw	 1.96e-9
-		vm 30
-	PHASES
-	Amm(g)
-		Amm = Amm
-		log_k	   1.7966
-		analytical_expression -1.8758e+001 3.3670e-004 2.5113e+003 4.8619e+000 3.9192e+001
-		t_c  405.6 # critical T, K
-		p_c   111.3 # critical P, atm
-		omega 0.25 #  acentric factor
-	CH4(g)
-		CH4 = CH4
-		log_k	   -2.8502
-		analytical_expression -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
-		T_c  190.6 # critical T, K
-		p_c   45.40 # critical P, atm
-		omega 0.008 #  acentric factor
-	Mth(g)
-		Mth = Mth
-		log_k	   -2.8502
-		analytical_expression -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
-		T_c  190.6 # critical T, K
-		p_c   45.40 # critical P, atm
-		omega 0.008 #  acentric factor
-	CO2(g)
-		CO2 = CO2
-		log_k	-1.468
-		delta_h  -4.776 kcal
-		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
-		t_c  304.2 # critical T, K
-		p_c   72.80 # critical P, atm
-		omega 0.225 #  acentric factor
-	H2(g)
-		H2 = H2
-		log_k	   -3.1050
-		delta_h -4.184  kJ
-		analytical_expression   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
-		t_c  33.2 # critical T, K
-		p_c   12.80 # critical P, atm
-		omega 0.225 #  acentric factor
-	H2O(g)
-		H2O = H2O
-		log_k  1.506
-	 delta_h -44.03 kJ
-		T_c  647.3 # critical T, K
-		p_c  217.60 # critical P, atm
-		omega 0.344 #  acentric factor
-	H2S(g)
-		H2S  =  H+ + HS-
-		log_k	   -7.9759
-		analytical_expression -9.7354e+001 -3.1576e-002 1.8285e+003 3.7440e+001 2.8560e+001
-		T_c  373.2 # critical T, K
-		p_c  88.20 # critical P, atm
-		omega 0.1 #  acentric factor
-	H2Sg(g)
-		H2Sg  =  H+ + HSg-
-		log_k	   -7.9759
-		analytical_expression -9.7354e+001 -3.1576e-002 1.8285e+003 3.7440e+001 2.8560e+001
-		T_c  373.2 # critical T, K
-		p_c  88.20 # critical P, atm
-		omega 0.1 #  acentric factor
-	N2(g)
-		N2 = N2
-		log_k		 -3.1864
-		analytical_expression -58.453 1.81800E-03  3199  17.909 -27460
-		T_c  126.2 # critical T, K
-		p_c   33.50 # critical P, atm
-		omega 0.039 #  acentric factor
-	O2(g)
-		O2 = O2
-		log_k   -2.8983
-		analytical_expression -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
-		T_c  154.6 # critical T, K
-		p_c   49.80 # critical P, atm
-		omega 0.021 #  acentric factor
-	Calcite
-		CaCO3 = CO3-2 + Ca+2
-		log_k	-8.48
-		delta_h -2.297 kcal
-		analytical_expression	-171.9065	-0.077993	2839.319	71.595
-		vm 36.9 cm3/mol
-	Strontianite
-		SrCO3 = Sr+2 + CO3-2
-		log_k	-9.271
-		delta_h -0.400 kcal
-		analytical_expression	155.0305	0.0	-7239.594	-56.58638
-		vm 39.69
 	SELECTED_OUTPUT
 	 reset false
 	 file co2.prn
@@ -242,9 +82,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.05    -25.15   -3.10  H2
-	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51      0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
 
 ------------------
 End of simulation.
@@ -286,7 +126,7 @@ Initial solution 1.
 
                                        pH  =   3.891      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 5
+       Specific Conductance (uS/cm, 25 oC) = 50
                           Density (g/cm3)  =   0.99709
                         Activity of water  =   0.999
                            Ionic strength  =   1.303e-04
@@ -323,12 +163,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -37.32*   -40.16   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            0.04**   -1.43   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure   1.1 atm, phi 0.994.
+	CH4(g)          -37.32    -40.16   -2.84  CH4
+	CO2(g)            0.04**   -1.43   -1.47  CO2	 Pressure   1.1 atm, phi 0.994.
 	H2(g)           -15.83    -18.93   -3.10  H2
-	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -51.63*   -54.52   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	O2(g)           -51.63    -54.52   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -360,8 +199,8 @@ Initial solution 1.
 
                                        pH  =   3.276      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 23
-                          Density (g/cm3)  =   0.99711
+       Specific Conductance (uS/cm, 25 oC) = 210
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.989
                            Ionic strength  =   5.432e-04
                        Mass of water (kg)  =   1.000e+00
@@ -397,12 +236,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -31.16*   -34.01   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.27**   -0.20   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure  21.1 atm, phi 0.886.
+	CH4(g)          -31.16    -34.01   -2.84  CH4
+	CO2(g)            1.27**   -0.20   -1.47  CO2	 Pressure  21.1 atm, phi 0.886.
 	H2(g)           -14.60    -17.70   -3.10  H2
-	H2O(g)           -1.51*    -0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -54.09*   -56.98   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	O2(g)           -54.09    -56.98   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -434,8 +272,8 @@ Initial solution 1.
 
                                        pH  =   3.160      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 31
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 275
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.981
                            Ionic strength  =   7.122e-04
                        Mass of water (kg)  =   1.000e+00
@@ -471,12 +309,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -29.99*   -32.83   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.51**    0.04   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure  41.1 atm, phi 0.783.
+	CH4(g)          -29.99    -32.83   -2.84  CH4
+	CO2(g)            1.51**    0.04   -1.47  CO2	 Pressure  41.1 atm, phi 0.783.
 	H2(g)           -14.37    -17.47   -3.10  H2
-	H2O(g)           -1.51*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -54.56*   -57.46   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51     -0.01    1.51  H2O
+	O2(g)           -54.56    -57.46   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -508,8 +345,8 @@ Initial solution 1.
 
                                        pH  =   3.106      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 35
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 312
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.976
                            Ionic strength  =   8.084e-04
                        Mass of water (kg)  =   1.000e+00
@@ -545,12 +382,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -29.44*   -32.28   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.62**    0.15   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure  61.1 atm, phi 0.680.
+	CH4(g)          -29.44    -32.28   -2.84  CH4
+	CO2(g)            1.62**    0.15   -1.47  CO2	 Pressure  61.1 atm, phi 0.680.
 	H2(g)           -14.26    -17.36   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -54.79*   -57.68   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -54.79    -57.68   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -582,8 +418,8 @@ Initial solution 1.
 
                                        pH  =   3.092      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 36
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 322
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.974
                            Ionic strength  =   8.350e-04
                        Mass of water (kg)  =   1.000e+00
@@ -619,12 +455,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -29.30*   -32.14   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.65**    0.18   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure  81.1 atm, phi 0.547.
+	CH4(g)          -29.30    -32.14   -2.84  CH4
+	CO2(g)            1.65**    0.18   -1.47  CO2	 Pressure  81.1 atm, phi 0.547.
 	H2(g)           -14.23    -17.33   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -54.84*   -57.74   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -54.84    -57.74   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -656,8 +491,8 @@ Initial solution 1.
 
                                        pH  =   3.082      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 37
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 330
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.973
                            Ionic strength  =   8.548e-04
                        Mass of water (kg)  =   1.000e+00
@@ -693,12 +528,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -29.20*   -32.04   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.67**    0.20   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 101.1 atm, phi 0.460.
+	CH4(g)          -29.20    -32.04   -2.84  CH4
+	CO2(g)            1.67**    0.20   -1.47  CO2	 Pressure 101.1 atm, phi 0.460.
 	H2(g)           -14.21    -17.31   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -54.88*   -57.78   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -54.88    -57.78   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -730,8 +564,8 @@ Initial solution 1.
 
                                        pH  =   3.072      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 37
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 337
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.972
                            Ionic strength  =   8.737e-04
                        Mass of water (kg)  =   1.000e+00
@@ -767,12 +601,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -29.10*   -31.95   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.69**    0.22   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 121.1 atm, phi 0.402.
+	CH4(g)          -29.10    -31.95   -2.84  CH4
+	CO2(g)            1.69**    0.22   -1.47  CO2	 Pressure 121.1 atm, phi 0.402.
 	H2(g)           -14.19    -17.29   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -54.92*   -57.81   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -54.92    -57.81   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -804,8 +637,8 @@ Initial solution 1.
 
                                        pH  =   3.063      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 38
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 344
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.971
                            Ionic strength  =   8.923e-04
                        Mass of water (kg)  =   1.000e+00
@@ -841,12 +674,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -29.01*   -31.85   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.71**    0.24   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 141.1 atm, phi 0.360.
+	CH4(g)          -29.01    -31.85   -2.84  CH4
+	CO2(g)            1.71**    0.24   -1.47  CO2	 Pressure 141.1 atm, phi 0.360.
 	H2(g)           -14.18    -17.28   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -54.96*   -57.85   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -54.96    -57.85   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -878,8 +710,8 @@ Initial solution 1.
 
                                        pH  =   3.055      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 39
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 351
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.969
                            Ionic strength  =   9.106e-04
                        Mass of water (kg)  =   1.000e+00
@@ -915,12 +747,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.92*   -31.77   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.72**    0.26   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 161.1 atm, phi 0.328.
+	CH4(g)          -28.92    -31.77   -2.84  CH4
+	CO2(g)            1.72**    0.26   -1.47  CO2	 Pressure 161.1 atm, phi 0.328.
 	H2(g)           -14.16    -17.26   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.00*   -57.89   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -55.00    -57.89   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -952,8 +783,8 @@ Initial solution 1.
 
                                        pH  =   3.046      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 40
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 358
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.968
                            Ionic strength  =   9.288e-04
                        Mass of water (kg)  =   1.000e+00
@@ -989,12 +820,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.84*   -31.68   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.74**    0.27   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 181.1 atm, phi 0.304.
+	CH4(g)          -28.84    -31.68   -2.84  CH4
+	CO2(g)            1.74**    0.27   -1.47  CO2	 Pressure 181.1 atm, phi 0.304.
 	H2(g)           -14.14    -17.24   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.03*   -57.92   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -55.03    -57.92   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1026,8 +856,8 @@ Initial solution 1.
 
                                        pH  =   3.038      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 41
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 365
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.967
                            Ionic strength  =   9.469e-04
                        Mass of water (kg)  =   1.000e+00
@@ -1063,12 +893,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.75*   -31.60   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.76**    0.29   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 201.1 atm, phi 0.285.
+	CH4(g)          -28.75    -31.60   -2.84  CH4
+	CO2(g)            1.76**    0.29   -1.47  CO2	 Pressure 201.1 atm, phi 0.285.
 	H2(g)           -14.13    -17.23   -3.10  H2
-	H2O(g)           -1.52*    -0.01    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.06*   -57.96   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	O2(g)           -55.06    -57.96   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1100,8 +929,8 @@ Initial solution 1.
 
                                        pH  =   3.030      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 41
-                          Density (g/cm3)  =   0.99712
+       Specific Conductance (uS/cm, 25 oC) = 372
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.966
                            Ionic strength  =   9.649e-04
                        Mass of water (kg)  =   1.000e+00
@@ -1137,12 +966,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.67*   -31.51   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.77**    0.31   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 221.1 atm, phi 0.269.
+	CH4(g)          -28.67    -31.51   -2.84  CH4
+	CO2(g)            1.77**    0.31   -1.47  CO2	 Pressure 221.1 atm, phi 0.269.
 	H2(g)           -14.11    -17.21   -3.10  H2
-	H2O(g)           -1.52*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.10*   -57.99   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.02    1.51  H2O
+	O2(g)           -55.10    -57.99   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1174,8 +1002,8 @@ Initial solution 1.
 
                                        pH  =   3.022      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 42
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 379
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.964
                            Ionic strength  =   9.829e-04
                        Mass of water (kg)  =   1.000e+00
@@ -1211,12 +1039,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.59*   -31.43   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.79**    0.32   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 241.1 atm, phi 0.256.
+	CH4(g)          -28.59    -31.43   -2.84  CH4
+	CO2(g)            1.79**    0.32   -1.47  CO2	 Pressure 241.1 atm, phi 0.256.
 	H2(g)           -14.09    -17.19   -3.10  H2
-	H2O(g)           -1.52*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.13*   -58.02   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.02    1.51  H2O
+	O2(g)           -55.13    -58.02   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1248,8 +1075,8 @@ Initial solution 1.
 
                                        pH  =   3.014      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 43
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 386
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.963
                            Ionic strength  =   1.001e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1285,12 +1112,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.51*   -31.35   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.81**    0.34   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 261.1 atm, phi 0.246.
+	CH4(g)          -28.51    -31.35   -2.84  CH4
+	CO2(g)            1.81**    0.34   -1.47  CO2	 Pressure 261.1 atm, phi 0.246.
 	H2(g)           -14.08    -17.18   -3.10  H2
-	H2O(g)           -1.52*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.16*   -58.06   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.02    1.51  H2O
+	O2(g)           -55.16    -58.06   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1322,8 +1148,8 @@ Initial solution 1.
 
                                        pH  =   3.007      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 44
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 393
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.961
                            Ionic strength  =   1.019e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1359,12 +1185,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.43*   -31.27   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.82**    0.36   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 281.1 atm, phi 0.237.
+	CH4(g)          -28.43    -31.27   -2.84  CH4
+	CO2(g)            1.82**    0.36   -1.47  CO2	 Pressure 281.1 atm, phi 0.237.
 	H2(g)           -14.06    -17.16   -3.10  H2
-	H2O(g)           -1.52*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.20*   -58.09   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.02    1.51  H2O
+	O2(g)           -55.20    -58.09   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1396,8 +1221,8 @@ Initial solution 1.
 
                                        pH  =   2.999      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 44
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 400
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.960
                            Ionic strength  =   1.037e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1433,12 +1258,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.35*   -31.20   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.84**    0.37   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 301.1 atm, phi 0.229.
+	CH4(g)          -28.35    -31.20   -2.84  CH4
+	CO2(g)            1.84**    0.37   -1.47  CO2	 Pressure 301.1 atm, phi 0.229.
 	H2(g)           -14.05    -17.15   -3.10  H2
-	H2O(g)           -1.52*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.23*   -58.12   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.02    1.51  H2O
+	O2(g)           -55.23    -58.12   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1470,8 +1294,8 @@ Initial solution 1.
 
                                        pH  =   2.992      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 45
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 407
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.959
                            Ionic strength  =   1.055e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1507,12 +1331,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.28*   -31.12   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.85**    0.39   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 321.1 atm, phi 0.223.
+	CH4(g)          -28.28    -31.12   -2.84  CH4
+	CO2(g)            1.85**    0.39   -1.47  CO2	 Pressure 321.1 atm, phi 0.223.
 	H2(g)           -14.03    -17.13   -3.10  H2
-	H2O(g)           -1.52*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.26*   -58.15   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.52     -0.02    1.51  H2O
+	O2(g)           -55.26    -58.15   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1544,8 +1367,8 @@ Initial solution 1.
 
                                        pH  =   2.984      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 46
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 414
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.957
                            Ionic strength  =   1.074e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1581,12 +1404,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.20*   -31.04   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.87**    0.40   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 341.1 atm, phi 0.217.
+	CH4(g)          -28.20    -31.04   -2.84  CH4
+	CO2(g)            1.87**    0.40   -1.47  CO2	 Pressure 341.1 atm, phi 0.217.
 	H2(g)           -14.02    -17.12   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.29*   -58.18   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.29    -58.18   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1618,8 +1440,8 @@ Initial solution 1.
 
                                        pH  =   2.977      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 47
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 421
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.956
                            Ionic strength  =   1.092e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1655,12 +1477,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.13*   -30.97   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.88**    0.42   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 361.1 atm, phi 0.212.
+	CH4(g)          -28.13    -30.97   -2.84  CH4
+	CO2(g)            1.88**    0.42   -1.47  CO2	 Pressure 361.1 atm, phi 0.212.
 	H2(g)           -14.00    -17.10   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.32*   -58.21   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.32    -58.21   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1692,8 +1513,8 @@ Initial solution 1.
 
                                        pH  =   2.970      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 48
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 428
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.954
                            Ionic strength  =   1.111e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1729,12 +1550,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -28.05*   -30.90   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.90**    0.43   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 381.1 atm, phi 0.208.
+	CH4(g)          -28.05    -30.90   -2.84  CH4
+	CO2(g)            1.90**    0.43   -1.47  CO2	 Pressure 381.1 atm, phi 0.208.
 	H2(g)           -13.99    -17.09   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.35*   -58.24   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.35    -58.24   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1766,8 +1586,8 @@ Initial solution 1.
 
                                        pH  =   2.963      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 48
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 435
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.952
                            Ionic strength  =   1.129e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1803,12 +1623,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -27.98*   -30.82   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.91**    0.45   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 401.1 atm, phi 0.205.
+	CH4(g)          -27.98    -30.82   -2.84  CH4
+	CO2(g)            1.91**    0.45   -1.47  CO2	 Pressure 401.1 atm, phi 0.205.
 	H2(g)           -13.97    -17.08   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.38*   -58.27   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.38    -58.27   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1840,8 +1659,8 @@ Initial solution 1.
 
                                        pH  =   2.956      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 49
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 442
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.951
                            Ionic strength  =   1.148e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1877,12 +1696,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -27.91*   -30.75   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.93**    0.46   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 421.1 atm, phi 0.202.
+	CH4(g)          -27.91    -30.75   -2.84  CH4
+	CO2(g)            1.93**    0.46   -1.47  CO2	 Pressure 421.1 atm, phi 0.202.
 	H2(g)           -13.96    -17.06   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.41*   -58.30   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.41    -58.30   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1914,8 +1732,8 @@ Initial solution 1.
 
                                        pH  =   2.949      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 50
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 449
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.949
                            Ionic strength  =   1.167e-03
                        Mass of water (kg)  =   1.000e+00
@@ -1951,12 +1769,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -27.84*   -30.68   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.94**    0.48   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 441.1 atm, phi 0.199.
+	CH4(g)          -27.84    -30.68   -2.84  CH4
+	CO2(g)            1.94**    0.48   -1.47  CO2	 Pressure 441.1 atm, phi 0.199.
 	H2(g)           -13.95    -17.05   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.44*   -58.33   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.44    -58.33   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -1988,8 +1805,8 @@ Initial solution 1.
 
                                        pH  =   2.942      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 51
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 456
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.947
                            Ionic strength  =   1.186e-03
                        Mass of water (kg)  =   1.000e+00
@@ -2025,12 +1842,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -27.76*   -30.61   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.96**    0.49   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 461.1 atm, phi 0.197.
+	CH4(g)          -27.76    -30.61   -2.84  CH4
+	CO2(g)            1.96**    0.49   -1.47  CO2	 Pressure 461.1 atm, phi 0.197.
 	H2(g)           -13.93    -17.03   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.47*   -58.36   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.47    -58.36   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2062,8 +1878,8 @@ Initial solution 1.
 
                                        pH  =   2.935      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 25 oC) = 52
-                          Density (g/cm3)  =   0.99713
+       Specific Conductance (uS/cm, 25 oC) = 464
+                          Density (g/cm3)  =   0.99709
                         Activity of water  =   0.946
                            Ionic strength  =   1.205e-03
                        Mass of water (kg)  =   1.000e+00
@@ -2099,12 +1915,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CH4(g)          -27.69*   -30.54   -2.84  CH4	 Delta_V -54.21 cm3/mol
-	CO2(g)            1.97**    0.51   -1.47  CO2	 Delta_V -18.07 cm3/mol	 Pressure 481.1 atm, phi 0.195.
+	CH4(g)          -27.69    -30.54   -2.84  CH4
+	CO2(g)            1.97**    0.51   -1.47  CO2	 Pressure 481.1 atm, phi 0.195.
 	H2(g)           -13.92    -17.02   -3.10  H2
-	H2O(g)           -1.53*    -0.02    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -55.50*   -58.39   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.53     -0.02    1.51  H2O
+	O2(g)           -55.50    -58.39   -2.89  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2186,9 +2001,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.05    -25.15   -3.10  H2
-	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51      0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
 
 ------------------
 End of simulation.
@@ -2224,7 +2039,7 @@ Initial solution 1.
 
                                        pH  =   3.979      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 7
+       Specific Conductance (uS/cm, 50 oC) = 67
                           Density (g/cm3)  =   0.98808
                         Activity of water  =   1.000
                            Ionic strength  =   1.063e-04
@@ -2261,12 +2076,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -41.36*   -44.35   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            0.04**   -1.67   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure   1.1 atm, phi 0.995.
+	CH4(g)          -41.36    -44.35   -2.99  CH4
+	CO2(g)            0.04**   -1.67   -1.71  CO2	 Pressure   1.1 atm, phi 0.995.
 	H2(g)           -16.07    -19.21   -3.14  H2
-	H2O(g)           -0.91*    -0.00    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -43.49*   -46.52   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.91     -0.00    0.91  H2O
+	O2(g)           -43.49    -46.52   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2298,8 +2112,8 @@ Initial solution 1.
 
                                        pH  =   3.358      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 31
-                          Density (g/cm3)  =   0.98809
+       Specific Conductance (uS/cm, 50 oC) = 284
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.994
                            Ionic strength  =   4.499e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2335,12 +2149,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -35.14*   -38.13   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.28**   -0.43   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure  21.1 atm, phi 0.911.
+	CH4(g)          -35.14    -38.13   -2.99  CH4
+	CO2(g)            1.28**   -0.43   -1.71  CO2	 Pressure  21.1 atm, phi 0.911.
 	H2(g)           -14.83    -17.96   -3.14  H2
-	H2O(g)           -0.91*    -0.00    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -45.98*   -49.01   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.91     -0.00    0.91  H2O
+	O2(g)           -45.98    -49.01   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2372,8 +2185,8 @@ Initial solution 1.
 
                                        pH  =   3.234      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 42
-                          Density (g/cm3)  =   0.98810
+       Specific Conductance (uS/cm, 50 oC) = 378
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.989
                            Ionic strength  =   6.004e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2409,12 +2222,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -33.90*   -36.89   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.53**   -0.18   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure  41.1 atm, phi 0.832.
+	CH4(g)          -33.90    -36.89   -2.99  CH4
+	CO2(g)            1.53**   -0.18   -1.71  CO2	 Pressure  41.1 atm, phi 0.832.
 	H2(g)           -14.58    -17.72   -3.14  H2
-	H2O(g)           -0.91*    -0.00    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -46.48*   -49.51   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.91     -0.00    0.91  H2O
+	O2(g)           -46.48    -49.51   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2446,8 +2258,8 @@ Initial solution 1.
 
                                        pH  =   3.169      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 49
-                          Density (g/cm3)  =   0.98810
+       Specific Conductance (uS/cm, 50 oC) = 439
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.985
                            Ionic strength  =   6.977e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2483,12 +2295,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -33.25*   -36.24   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.66**   -0.05   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure  61.1 atm, phi 0.755.
+	CH4(g)          -33.25    -36.24   -2.99  CH4
+	CO2(g)            1.66**   -0.05   -1.71  CO2	 Pressure  61.1 atm, phi 0.755.
 	H2(g)           -14.45    -17.59   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -46.74*   -49.77   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -46.74    -49.77   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2520,8 +2331,8 @@ Initial solution 1.
 
                                        pH  =   3.131      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 54
-                          Density (g/cm3)  =   0.98810
+       Specific Conductance (uS/cm, 50 oC) = 480
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.982
                            Ionic strength  =   7.634e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2557,12 +2368,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -32.86*   -35.85   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.74**    0.03   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure  81.1 atm, phi 0.682.
+	CH4(g)          -32.86    -35.85   -2.99  CH4
+	CO2(g)            1.74**    0.03   -1.71  CO2	 Pressure  81.1 atm, phi 0.682.
 	H2(g)           -14.38    -17.51   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -46.90*   -49.93   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -46.90    -49.93   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2594,8 +2404,8 @@ Initial solution 1.
 
                                        pH  =   3.108      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 57
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 507
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.980
                            Ionic strength  =   8.060e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2631,12 +2441,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -32.63*   -35.61   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.79**    0.08   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 101.1 atm, phi 0.610.
+	CH4(g)          -32.63    -35.61   -2.99  CH4
+	CO2(g)            1.79**    0.08   -1.71  CO2	 Pressure 101.1 atm, phi 0.610.
 	H2(g)           -14.33    -17.46   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -46.99*   -50.02   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -46.99    -50.02   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2668,8 +2477,8 @@ Initial solution 1.
 
                                        pH  =   3.093      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 59
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 525
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.978
                            Ionic strength  =   8.343e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2705,12 +2514,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -32.48*   -35.47   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.82**    0.11   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 121.1 atm, phi 0.546.
+	CH4(g)          -32.48    -35.47   -2.99  CH4
+	CO2(g)            1.82**    0.11   -1.71  CO2	 Pressure 121.1 atm, phi 0.546.
 	H2(g)           -14.30    -17.44   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.05*   -50.08   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.05    -50.08   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2742,8 +2550,8 @@ Initial solution 1.
 
                                        pH  =   3.081      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 60
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 539
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.977
                            Ionic strength  =   8.577e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2779,12 +2587,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -32.36*   -35.34   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.84**    0.13   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 141.1 atm, phi 0.495.
+	CH4(g)          -32.36    -35.34   -2.99  CH4
+	CO2(g)            1.84**    0.13   -1.71  CO2	 Pressure 141.1 atm, phi 0.495.
 	H2(g)           -14.28    -17.41   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.10*   -50.13   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.10    -50.13   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2816,8 +2623,8 @@ Initial solution 1.
 
                                        pH  =   3.070      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 62
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 553
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.976
                            Ionic strength  =   8.793e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2853,12 +2660,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -32.25*   -35.24   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.87**    0.16   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 161.1 atm, phi 0.456.
+	CH4(g)          -32.25    -35.24   -2.99  CH4
+	CO2(g)            1.87**    0.16   -1.71  CO2	 Pressure 161.1 atm, phi 0.456.
 	H2(g)           -14.25    -17.39   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.15*   -50.18   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.15    -50.18   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2890,8 +2696,8 @@ Initial solution 1.
 
                                        pH  =   3.061      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 63
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 565
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.975
                            Ionic strength  =   8.997e-04
                        Mass of water (kg)  =   1.000e+00
@@ -2927,12 +2733,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -32.15*   -35.14   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.89**    0.18   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 181.1 atm, phi 0.425.
+	CH4(g)          -32.15    -35.14   -2.99  CH4
+	CO2(g)            1.89**    0.18   -1.71  CO2	 Pressure 181.1 atm, phi 0.425.
 	H2(g)           -14.23    -17.37   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.19*   -50.22   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.19    -50.22   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -2964,8 +2769,8 @@ Initial solution 1.
 
                                        pH  =   3.051      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 65
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 578
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.973
                            Ionic strength  =   9.196e-04
                        Mass of water (kg)  =   1.000e+00
@@ -3001,12 +2806,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -32.05*   -35.04   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.91**    0.19   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 201.1 atm, phi 0.400.
+	CH4(g)          -32.05    -35.04   -2.99  CH4
+	CO2(g)            1.91**    0.19   -1.71  CO2	 Pressure 201.1 atm, phi 0.400.
 	H2(g)           -14.22    -17.35   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.22*   -50.26   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.22    -50.26   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3038,8 +2842,8 @@ Initial solution 1.
 
                                        pH  =   3.042      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 66
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 590
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.972
                            Ionic strength  =   9.390e-04
                        Mass of water (kg)  =   1.000e+00
@@ -3075,12 +2879,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.96*   -34.95   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.92**    0.21   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 221.1 atm, phi 0.379.
+	CH4(g)          -31.96    -34.95   -2.99  CH4
+	CO2(g)            1.92**    0.21   -1.71  CO2	 Pressure 221.1 atm, phi 0.379.
 	H2(g)           -14.20    -17.33   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.26*   -50.29   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.26    -50.29   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3112,8 +2915,8 @@ Initial solution 1.
 
                                        pH  =   3.034      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 67
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 602
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.971
                            Ionic strength  =   9.582e-04
                        Mass of water (kg)  =   1.000e+00
@@ -3149,12 +2952,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.88*   -34.86   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.94**    0.23   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 241.1 atm, phi 0.362.
+	CH4(g)          -31.88    -34.86   -2.99  CH4
+	CO2(g)            1.94**    0.23   -1.71  CO2	 Pressure 241.1 atm, phi 0.362.
 	H2(g)           -14.18    -17.32   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.30*   -50.33   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.30    -50.33   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3186,8 +2988,8 @@ Initial solution 1.
 
                                        pH  =   3.025      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 69
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 614
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.970
                            Ionic strength  =   9.772e-04
                        Mass of water (kg)  =   1.000e+00
@@ -3223,12 +3025,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.79*   -34.78   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.96**    0.25   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 261.1 atm, phi 0.348.
+	CH4(g)          -31.79    -34.78   -2.99  CH4
+	CO2(g)            1.96**    0.25   -1.71  CO2	 Pressure 261.1 atm, phi 0.348.
 	H2(g)           -14.16    -17.30   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.33*   -50.36   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.33    -50.36   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3260,8 +3061,8 @@ Initial solution 1.
 
                                        pH  =   3.017      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 70
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 625
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.969
                            Ionic strength  =   9.960e-04
                        Mass of water (kg)  =   1.000e+00
@@ -3297,12 +3098,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.71*   -34.70   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.98**    0.26   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 281.1 atm, phi 0.336.
+	CH4(g)          -31.71    -34.70   -2.99  CH4
+	CO2(g)            1.98**    0.26   -1.71  CO2	 Pressure 281.1 atm, phi 0.336.
 	H2(g)           -14.15    -17.28   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.37*   -50.40   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.37    -50.40   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3334,8 +3134,8 @@ Initial solution 1.
 
                                        pH  =   3.009      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 71
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 637
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.967
                            Ionic strength  =   1.015e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3371,12 +3171,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.63*   -34.61   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            1.99**    0.28   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 301.1 atm, phi 0.326.
+	CH4(g)          -31.63    -34.61   -2.99  CH4
+	CO2(g)            1.99**    0.28   -1.71  CO2	 Pressure 301.1 atm, phi 0.326.
 	H2(g)           -14.13    -17.27   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.40*   -50.43   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.40    -50.43   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3408,8 +3207,8 @@ Initial solution 1.
 
                                        pH  =   3.001      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 72
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 649
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.966
                            Ionic strength  =   1.033e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3445,12 +3244,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.55*   -34.53   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.01**    0.30   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 321.1 atm, phi 0.317.
+	CH4(g)          -31.55    -34.53   -2.99  CH4
+	CO2(g)            2.01**    0.30   -1.71  CO2	 Pressure 321.1 atm, phi 0.317.
 	H2(g)           -14.12    -17.25   -3.14  H2
-	H2O(g)           -0.92*    -0.01    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.43*   -50.46   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	O2(g)           -47.43    -50.46   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3482,8 +3280,8 @@ Initial solution 1.
 
                                        pH  =   2.994      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 74
-                          Density (g/cm3)  =   0.98811
+       Specific Conductance (uS/cm, 50 oC) = 660
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.965
                            Ionic strength  =   1.052e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3519,12 +3317,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.47*   -34.46   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.02**    0.31   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 341.1 atm, phi 0.310.
+	CH4(g)          -31.47    -34.46   -2.99  CH4
+	CO2(g)            2.02**    0.31   -1.71  CO2	 Pressure 341.1 atm, phi 0.310.
 	H2(g)           -14.10    -17.24   -3.14  H2
-	H2O(g)           -0.92*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.46*   -50.49   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.92     -0.02    0.91  H2O
+	O2(g)           -47.46    -50.49   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3556,8 +3353,8 @@ Initial solution 1.
 
                                        pH  =   2.986      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 75
-                          Density (g/cm3)  =   0.98812
+       Specific Conductance (uS/cm, 50 oC) = 672
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.964
                            Ionic strength  =   1.071e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3593,12 +3390,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.39*   -34.38   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.04**    0.33   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 361.1 atm, phi 0.303.
+	CH4(g)          -31.39    -34.38   -2.99  CH4
+	CO2(g)            2.04**    0.33   -1.71  CO2	 Pressure 361.1 atm, phi 0.303.
 	H2(g)           -14.09    -17.22   -3.14  H2
-	H2O(g)           -0.93*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.49*   -50.52   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.93     -0.02    0.91  H2O
+	O2(g)           -47.49    -50.52   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3630,8 +3426,8 @@ Initial solution 1.
 
                                        pH  =   2.979      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 76
-                          Density (g/cm3)  =   0.98812
+       Specific Conductance (uS/cm, 50 oC) = 683
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.962
                            Ionic strength  =   1.090e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3667,12 +3463,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.32*   -34.30   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.05**    0.34   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 381.1 atm, phi 0.298.
+	CH4(g)          -31.32    -34.30   -2.99  CH4
+	CO2(g)            2.05**    0.34   -1.71  CO2	 Pressure 381.1 atm, phi 0.298.
 	H2(g)           -14.07    -17.21   -3.14  H2
-	H2O(g)           -0.93*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.52*   -50.55   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.93     -0.02    0.91  H2O
+	O2(g)           -47.52    -50.55   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3704,8 +3499,8 @@ Initial solution 1.
 
                                        pH  =   2.972      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 78
-                          Density (g/cm3)  =   0.98812
+       Specific Conductance (uS/cm, 50 oC) = 695
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.961
                            Ionic strength  =   1.108e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3741,12 +3536,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.24*   -34.23   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.07**    0.36   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 401.1 atm, phi 0.293.
+	CH4(g)          -31.24    -34.23   -2.99  CH4
+	CO2(g)            2.07**    0.36   -1.71  CO2	 Pressure 401.1 atm, phi 0.293.
 	H2(g)           -14.06    -17.19   -3.14  H2
-	H2O(g)           -0.93*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.56*   -50.59   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.93     -0.02    0.91  H2O
+	O2(g)           -47.56    -50.59   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3778,8 +3572,8 @@ Initial solution 1.
 
                                        pH  =   2.964      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 79
-                          Density (g/cm3)  =   0.98812
+       Specific Conductance (uS/cm, 50 oC) = 707
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.960
                            Ionic strength  =   1.127e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3815,12 +3609,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.17*   -34.16   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.09**    0.37   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 421.1 atm, phi 0.289.
+	CH4(g)          -31.17    -34.16   -2.99  CH4
+	CO2(g)            2.09**    0.37   -1.71  CO2	 Pressure 421.1 atm, phi 0.289.
 	H2(g)           -14.04    -17.18   -3.14  H2
-	H2O(g)           -0.93*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.58*   -50.61   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.93     -0.02    0.91  H2O
+	O2(g)           -47.58    -50.61   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3852,8 +3645,8 @@ Initial solution 1.
 
                                        pH  =   2.957      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 80
-                          Density (g/cm3)  =   0.98812
+       Specific Conductance (uS/cm, 50 oC) = 718
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.958
                            Ionic strength  =   1.146e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3889,12 +3682,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.09*   -34.08   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.10**    0.39   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 441.1 atm, phi 0.285.
+	CH4(g)          -31.09    -34.08   -2.99  CH4
+	CO2(g)            2.10**    0.39   -1.71  CO2	 Pressure 441.1 atm, phi 0.285.
 	H2(g)           -14.03    -17.16   -3.14  H2
-	H2O(g)           -0.93*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.61*   -50.64   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.93     -0.02    0.91  H2O
+	O2(g)           -47.61    -50.64   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -3926,8 +3718,8 @@ Initial solution 1.
 
                                        pH  =   2.950      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 82
-                          Density (g/cm3)  =   0.98812
+       Specific Conductance (uS/cm, 50 oC) = 730
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.957
                            Ionic strength  =   1.165e-03
                        Mass of water (kg)  =   1.000e+00
@@ -3963,12 +3755,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -31.02*   -34.01   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.11**    0.40   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 461.1 atm, phi 0.282.
+	CH4(g)          -31.02    -34.01   -2.99  CH4
+	CO2(g)            2.11**    0.40   -1.71  CO2	 Pressure 461.1 atm, phi 0.282.
 	H2(g)           -14.01    -17.15   -3.14  H2
-	H2O(g)           -0.93*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.64*   -50.67   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.93     -0.02    0.91  H2O
+	O2(g)           -47.64    -50.67   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4000,8 +3791,8 @@ Initial solution 1.
 
                                        pH  =   2.943      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 50 oC) = 83
-                          Density (g/cm3)  =   0.98812
+       Specific Conductance (uS/cm, 50 oC) = 742
+                          Density (g/cm3)  =   0.98808
                         Activity of water  =   0.955
                            Ionic strength  =   1.184e-03
                        Mass of water (kg)  =   1.000e+00
@@ -4037,12 +3828,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(323 K,   1 atm)
 
-	CH4(g)          -30.95*   -33.94   -2.99  CH4	 Delta_V -54.70 cm3/mol
-	CO2(g)            2.13**    0.42   -1.71  CO2	 Delta_V -18.23 cm3/mol	 Pressure 481.1 atm, phi 0.280.
+	CH4(g)          -30.95    -33.94   -2.99  CH4
+	CO2(g)            2.13**    0.42   -1.71  CO2	 Pressure 481.1 atm, phi 0.280.
 	H2(g)           -14.00    -17.14   -3.14  H2
-	H2O(g)           -0.93*    -0.02    0.91  H2O	 Delta_V  18.23 cm3/mol
-	O2(g)           -47.67*   -50.70   -3.03  O2	 Delta_V  36.47 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.93     -0.02    0.91  H2O
+	O2(g)           -47.67    -50.70   -3.03  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4124,9 +3914,9 @@ O(0)             0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.05    -25.15   -3.10  H2
-	H2O(g)           -1.51*     0.00    1.51  H2O	 Delta_V  18.07 cm3/mol
-	O2(g)           -39.19*   -42.08   -2.89  O2	 Delta_V  36.14 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -1.51      0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
 
 ------------------
 End of simulation.
@@ -4162,8 +3952,8 @@ Initial solution 1.
 
                                        pH  =   4.078      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 8
-                          Density (g/cm3)  =   0.97489
+       Specific Conductance (uS/cm, 75 oC) = 77
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   1.000
                            Ionic strength  =   8.456e-05
                        Mass of water (kg)  =   1.000e+00
@@ -4199,12 +3989,11 @@ O(0)             5.267e-40
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -45.20*   -48.26   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            0.04**   -1.83   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure   1.1 atm, phi 0.996.
+	CH4(g)          -45.20    -48.26   -3.05  CH4
+	CO2(g)            0.04**   -1.83   -1.87  CO2	 Pressure   1.1 atm, phi 0.996.
 	H2(g)           -16.36    -19.49   -3.13  H2
-	H2O(g)           -0.40*    -0.00    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -36.48*   -39.58   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.40     -0.00    0.40  H2O
+	O2(g)           -36.48    -39.58   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4236,8 +4025,8 @@ Initial solution 1.
 
                                        pH  =   3.452      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 37
-                          Density (g/cm3)  =   0.97490
+       Specific Conductance (uS/cm, 75 oC) = 330
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.996
                            Ionic strength  =   3.614e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4273,12 +4062,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -38.94*   -42.00   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.29**   -0.58   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure  21.1 atm, phi 0.930.
+	CH4(g)          -38.94    -42.00   -3.05  CH4
+	CO2(g)            1.29**   -0.58   -1.87  CO2	 Pressure  21.1 atm, phi 0.930.
 	H2(g)           -15.11    -18.24   -3.13  H2
-	H2O(g)           -0.40*    -0.00    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -38.99*   -42.09   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.40     -0.00    0.40  H2O
+	O2(g)           -38.99    -42.09   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4310,8 +4098,8 @@ Initial solution 1.
 
                                        pH  =   3.323      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 50
-                          Density (g/cm3)  =   0.97490
+       Specific Conductance (uS/cm, 75 oC) = 445
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.992
                            Ionic strength  =   4.880e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4347,12 +4135,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -37.65*   -40.70   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.55**   -0.32   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure  41.1 atm, phi 0.868.
+	CH4(g)          -37.65    -40.70   -3.05  CH4
+	CO2(g)            1.55**   -0.32   -1.87  CO2	 Pressure  41.1 atm, phi 0.868.
 	H2(g)           -14.85    -17.98   -3.13  H2
-	H2O(g)           -0.40*    -0.00    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -39.51*   -42.60   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.40     -0.00    0.40  H2O
+	O2(g)           -39.51    -42.60   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4384,8 +4171,8 @@ Initial solution 1.
 
                                        pH  =   3.253      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 58
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 523
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.989
                            Ionic strength  =   5.746e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4421,12 +4208,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -36.94*   -40.00   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.69**   -0.18   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure  61.1 atm, phi 0.808.
+	CH4(g)          -36.94    -40.00   -3.05  CH4
+	CO2(g)            1.69**   -0.18   -1.87  CO2	 Pressure  61.1 atm, phi 0.808.
 	H2(g)           -14.71    -17.84   -3.13  H2
-	H2O(g)           -0.40*    -0.00    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -39.79*   -42.89   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.40     -0.00    0.40  H2O
+	O2(g)           -39.79    -42.89   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4458,8 +4244,8 @@ Initial solution 1.
 
                                        pH  =   3.208      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 65
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 581
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.986
                            Ionic strength  =   6.387e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4495,12 +4281,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -36.49*   -39.54   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.79**   -0.09   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure  81.1 atm, phi 0.752.
+	CH4(g)          -36.49    -39.54   -3.05  CH4
+	CO2(g)            1.79**   -0.09   -1.87  CO2	 Pressure  81.1 atm, phi 0.752.
 	H2(g)           -14.62    -17.75   -3.13  H2
-	H2O(g)           -0.40*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -39.97*   -43.07   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.40     -0.01    0.40  H2O
+	O2(g)           -39.97    -43.07   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4532,8 +4317,8 @@ Initial solution 1.
 
                                        pH  =   3.176      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 70
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 626
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.984
                            Ionic strength  =   6.878e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4569,12 +4354,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -36.17*   -39.22   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.85**   -0.02   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 101.1 atm, phi 0.700.
+	CH4(g)          -36.17    -39.22   -3.05  CH4
+	CO2(g)            1.85**   -0.02   -1.87  CO2	 Pressure 101.1 atm, phi 0.700.
 	H2(g)           -14.56    -17.69   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.10*   -43.20   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.10    -43.20   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4606,8 +4390,8 @@ Initial solution 1.
 
                                        pH  =   3.153      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 74
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 660
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.982
                            Ionic strength  =   7.259e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4643,12 +4427,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.93*   -38.99   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.90**    0.02   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 121.1 atm, phi 0.651.
+	CH4(g)          -35.93    -38.99   -3.05  CH4
+	CO2(g)            1.90**    0.02   -1.87  CO2	 Pressure 121.1 atm, phi 0.651.
 	H2(g)           -14.51    -17.64   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.20*   -43.29   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.20    -43.29   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4680,8 +4463,8 @@ Initial solution 1.
 
                                        pH  =   3.135      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 77
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 688
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.980
                            Ionic strength  =   7.568e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4717,12 +4500,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.75*   -38.81   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.93**    0.06   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 141.1 atm, phi 0.607.
+	CH4(g)          -35.75    -38.81   -3.05  CH4
+	CO2(g)            1.93**    0.06   -1.87  CO2	 Pressure 141.1 atm, phi 0.607.
 	H2(g)           -14.47    -17.61   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.27*   -43.37   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.27    -43.37   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4754,8 +4536,8 @@ Initial solution 1.
 
                                        pH  =   3.121      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 80
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 711
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.979
                            Ionic strength  =   7.829e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4791,12 +4573,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.61*   -38.66   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.96**    0.09   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 161.1 atm, phi 0.569.
+	CH4(g)          -35.61    -38.66   -3.05  CH4
+	CO2(g)            1.96**    0.09   -1.87  CO2	 Pressure 161.1 atm, phi 0.569.
 	H2(g)           -14.44    -17.58   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.33*   -43.43   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.33    -43.43   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4828,8 +4609,8 @@ Initial solution 1.
 
                                        pH  =   3.108      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 82
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 733
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.978
                            Ionic strength  =   8.063e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4865,12 +4646,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.48*   -38.53   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            1.99**    0.11   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 181.1 atm, phi 0.537.
+	CH4(g)          -35.48    -38.53   -3.05  CH4
+	CO2(g)            1.99**    0.11   -1.87  CO2	 Pressure 181.1 atm, phi 0.537.
 	H2(g)           -14.42    -17.55   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.38*   -43.48   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.38    -43.48   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4902,8 +4682,8 @@ Initial solution 1.
 
                                        pH  =   3.097      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 84
-                          Density (g/cm3)  =   0.97491
+       Specific Conductance (uS/cm, 75 oC) = 752
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.977
                            Ionic strength  =   8.279e-04
                        Mass of water (kg)  =   1.000e+00
@@ -4939,12 +4719,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.36*   -38.42   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.01**    0.14   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 201.1 atm, phi 0.510.
+	CH4(g)          -35.36    -38.42   -3.05  CH4
+	CO2(g)            2.01**    0.14   -1.87  CO2	 Pressure 201.1 atm, phi 0.510.
 	H2(g)           -14.40    -17.53   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.43*   -43.52   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.43    -43.52   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -4976,8 +4755,8 @@ Initial solution 1.
 
                                        pH  =   3.086      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 86
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 770
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.975
                            Ionic strength  =   8.485e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5013,12 +4792,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.26*   -38.31   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.03**    0.16   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 221.1 atm, phi 0.488.
+	CH4(g)          -35.26    -38.31   -3.05  CH4
+	CO2(g)            2.03**    0.16   -1.87  CO2	 Pressure 221.1 atm, phi 0.488.
 	H2(g)           -14.38    -17.51   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.47*   -43.57   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.47    -43.57   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5050,8 +4828,8 @@ Initial solution 1.
 
                                        pH  =   3.077      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 88
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 788
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.974
                            Ionic strength  =   8.682e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5087,12 +4865,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.16*   -38.21   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.05**    0.18   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 241.1 atm, phi 0.469.
+	CH4(g)          -35.16    -38.21   -3.05  CH4
+	CO2(g)            2.05**    0.18   -1.87  CO2	 Pressure 241.1 atm, phi 0.469.
 	H2(g)           -14.36    -17.49   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.51*   -43.61   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.51    -43.61   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5124,8 +4901,8 @@ Initial solution 1.
 
                                        pH  =   3.067      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 90
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 806
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.973
                            Ionic strength  =   8.874e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5161,12 +4938,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -35.06*   -38.12   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.07**    0.20   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 261.1 atm, phi 0.452.
+	CH4(g)          -35.06    -38.12   -3.05  CH4
+	CO2(g)            2.07**    0.20   -1.87  CO2	 Pressure 261.1 atm, phi 0.452.
 	H2(g)           -14.34    -17.47   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.55*   -43.65   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.55    -43.65   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5198,8 +4974,8 @@ Initial solution 1.
 
                                        pH  =   3.058      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 92
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 822
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.972
                            Ionic strength  =   9.063e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5235,12 +5011,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.97*   -38.03   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.09**    0.22   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 281.1 atm, phi 0.438.
+	CH4(g)          -34.97    -38.03   -3.05  CH4
+	CO2(g)            2.09**    0.22   -1.87  CO2	 Pressure 281.1 atm, phi 0.438.
 	H2(g)           -14.32    -17.45   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.58*   -43.68   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.58    -43.68   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5272,8 +5047,8 @@ Initial solution 1.
 
                                        pH  =   3.050      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 94
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 839
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.971
                            Ionic strength  =   9.247e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5309,12 +5084,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.88*   -37.94   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.11**    0.23   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 301.1 atm, phi 0.426.
+	CH4(g)          -34.88    -37.94   -3.05  CH4
+	CO2(g)            2.11**    0.23   -1.87  CO2	 Pressure 301.1 atm, phi 0.426.
 	H2(g)           -14.30    -17.43   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.62*   -43.72   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.62    -43.72   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5346,8 +5120,8 @@ Initial solution 1.
 
                                        pH  =   3.041      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 96
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 856
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.970
                            Ionic strength  =   9.430e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5383,12 +5157,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.80*   -37.85   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.13**    0.25   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 321.1 atm, phi 0.416.
+	CH4(g)          -34.80    -37.85   -3.05  CH4
+	CO2(g)            2.13**    0.25   -1.87  CO2	 Pressure 321.1 atm, phi 0.416.
 	H2(g)           -14.29    -17.42   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.65*   -43.75   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.65    -43.75   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5420,8 +5193,8 @@ Initial solution 1.
 
                                        pH  =   3.033      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 98
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 872
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.968
                            Ionic strength  =   9.612e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5457,12 +5230,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.72*   -37.77   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.14**    0.27   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 341.1 atm, phi 0.407.
+	CH4(g)          -34.72    -37.77   -3.05  CH4
+	CO2(g)            2.14**    0.27   -1.87  CO2	 Pressure 341.1 atm, phi 0.407.
 	H2(g)           -14.27    -17.40   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.69*   -43.79   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.69    -43.79   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5494,8 +5266,8 @@ Initial solution 1.
 
                                        pH  =   3.025      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 99
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 888
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.967
                            Ionic strength  =   9.792e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5531,12 +5303,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.64*   -37.69   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.16**    0.29   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 361.1 atm, phi 0.399.
+	CH4(g)          -34.64    -37.69   -3.05  CH4
+	CO2(g)            2.16**    0.29   -1.87  CO2	 Pressure 361.1 atm, phi 0.399.
 	H2(g)           -14.25    -17.39   -3.13  H2
-	H2O(g)           -0.41*    -0.01    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.72*   -43.82   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.01    0.40  H2O
+	O2(g)           -40.72    -43.82   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5568,8 +5339,8 @@ Initial solution 1.
 
                                        pH  =   3.018      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 101
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 904
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.966
                            Ionic strength  =   9.971e-04
                        Mass of water (kg)  =   1.000e+00
@@ -5605,12 +5376,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.56*   -37.61   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.17**    0.30   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 381.1 atm, phi 0.393.
+	CH4(g)          -34.56    -37.61   -3.05  CH4
+	CO2(g)            2.17**    0.30   -1.87  CO2	 Pressure 381.1 atm, phi 0.393.
 	H2(g)           -14.24    -17.37   -3.13  H2
-	H2O(g)           -0.41*    -0.02    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.75*   -43.85   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.02    0.40  H2O
+	O2(g)           -40.75    -43.85   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5642,8 +5412,8 @@ Initial solution 1.
 
                                        pH  =   3.010      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 103
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 920
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.965
                            Ionic strength  =   1.015e-03
                        Mass of water (kg)  =   1.000e+00
@@ -5679,12 +5449,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.48*   -37.53   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.19**    0.32   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 401.1 atm, phi 0.387.
+	CH4(g)          -34.48    -37.53   -3.05  CH4
+	CO2(g)            2.19**    0.32   -1.87  CO2	 Pressure 401.1 atm, phi 0.387.
 	H2(g)           -14.22    -17.35   -3.13  H2
-	H2O(g)           -0.41*    -0.02    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.78*   -43.88   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.02    0.40  H2O
+	O2(g)           -40.78    -43.88   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5716,8 +5485,8 @@ Initial solution 1.
 
                                        pH  =   3.002      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 105
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 936
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.963
                            Ionic strength  =   1.033e-03
                        Mass of water (kg)  =   1.000e+00
@@ -5753,12 +5522,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.40*   -37.46   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.21**    0.33   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 421.1 atm, phi 0.382.
+	CH4(g)          -34.40    -37.46   -3.05  CH4
+	CO2(g)            2.21**    0.33   -1.87  CO2	 Pressure 421.1 atm, phi 0.382.
 	H2(g)           -14.21    -17.34   -3.13  H2
-	H2O(g)           -0.41*    -0.02    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.82*   -43.91   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.02    0.40  H2O
+	O2(g)           -40.82    -43.91   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5790,8 +5558,8 @@ Initial solution 1.
 
                                        pH  =   2.995      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 107
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 952
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.962
                            Ionic strength  =   1.051e-03
                        Mass of water (kg)  =   1.000e+00
@@ -5827,12 +5595,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.33*   -37.38   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.22**    0.35   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 441.1 atm, phi 0.377.
+	CH4(g)          -34.33    -37.38   -3.05  CH4
+	CO2(g)            2.22**    0.35   -1.87  CO2	 Pressure 441.1 atm, phi 0.377.
 	H2(g)           -14.19    -17.33   -3.13  H2
-	H2O(g)           -0.41*    -0.02    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.85*   -43.94   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.41     -0.02    0.40  H2O
+	O2(g)           -40.85    -43.94   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5864,8 +5631,8 @@ Initial solution 1.
 
                                        pH  =   2.988      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 108
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 968
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.961
                            Ionic strength  =   1.069e-03
                        Mass of water (kg)  =   1.000e+00
@@ -5901,12 +5668,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.25*   -37.31   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.24**    0.36   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 461.1 atm, phi 0.374.
+	CH4(g)          -34.25    -37.31   -3.05  CH4
+	CO2(g)            2.24**    0.36   -1.87  CO2	 Pressure 461.1 atm, phi 0.374.
 	H2(g)           -14.18    -17.31   -3.13  H2
-	H2O(g)           -0.42*    -0.02    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.88*   -43.97   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.42     -0.02    0.40  H2O
+	O2(g)           -40.88    -43.97   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------
@@ -5938,8 +5704,8 @@ Initial solution 1.
 
                                        pH  =   2.981      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (uS/cm, 75 oC) = 110
-                          Density (g/cm3)  =   0.97492
+       Specific Conductance (uS/cm, 75 oC) = 984
+                          Density (g/cm3)  =   0.97488
                         Activity of water  =   0.959
                            Ionic strength  =   1.086e-03
                        Mass of water (kg)  =   1.000e+00
@@ -5975,12 +5741,11 @@ O(0)             0.000e+00
 
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
-	CH4(g)          -34.18*   -37.24   -3.05  CH4	 Delta_V -55.44 cm3/mol
-	CO2(g)            2.25**    0.38   -1.87  CO2	 Delta_V -18.48 cm3/mol	 Pressure 481.1 atm, phi 0.371.
+	CH4(g)          -34.18    -37.24   -3.05  CH4
+	CO2(g)            2.25**    0.38   -1.87  CO2	 Pressure 481.1 atm, phi 0.371.
 	H2(g)           -14.16    -17.30   -3.13  H2
-	H2O(g)           -0.42*    -0.02    0.40  H2O	 Delta_V  18.48 cm3/mol
-	O2(g)           -40.91*   -44.00   -3.10  O2	 Delta_V  36.96 cm3/mol
-	                      *  with Delta_V * (P - 1) / 2.3RT.
+	H2O(g)           -0.42     -0.02    0.40  H2O
+	O2(g)           -40.91    -44.00   -3.10  O2
 	                      ** SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT.
 
 ------------------

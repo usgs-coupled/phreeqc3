@@ -1,47 +1,8 @@
-SOLUTION_RAW       1 
-  -temp              25
-  -total_h           111.01243359275
-  -total_o           55.506216796431
-  -cb                -1.0821249131272e-10
-  -totals
-    H(0)   1.4158915035641e-25
-  -Isotopes
-  -pH                7
-  -pe                4
-  -mu                1.001064960852e-07
-  -ah2o              1
-  -mass_water        1
-  -total_alkalinity  1.0821249131272e-10
-  -activities
-    E   -4
-    H(0)   -29.99999998
-    O(0)   -29.99999998
-  -gammas
-SOLUTION_RAW       2 
-  -temp              25
-  -total_h           111.01243359978
-  -total_o           55.506216800055
-  -cb                -3.3548764062089e-10
-  -totals
-    Br   0.0010000000000003
-    H(0)   1.4155655514552e-25
-    K   0.0010000000000003
-  -Isotopes
-  -pH                7
-  -pe                4
-  -mu                0.0010001035841784
-  -ah2o              0.99996599647757
-  -mass_water        1
-  -total_alkalinity  3.354876246022e-10
-  -activities
-    Br   -3.0156198855958
-    E   -4
-    H(0)   -25.15
-    K   -3.0155266551366
-    O(0)   -42.080029535586
-  -gammas
 EXCHANGE_RAW       1 
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               CaX2
       -totals
@@ -56,13 +17,21 @@ EXCHANGE_RAW       1
         Ca   1
         X   2
 GAS_PHASE_RAW       2 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.226186459863e-05
+    -phase_name               CO2(g)
+    -p_read                   0.0003
+    -moles                    1.226186459863e-05
+    -initial_moles            0
 KINETICS_RAW       3 
   -step_divide       1
   -rk                3
@@ -157,7 +126,7 @@ REACTION_RAW        1
   -steps              
     100 
   -equal_increments   0
-  -count_steps        1
+  -count_steps        0
 REACTION_TEMPERATURE_RAW        1 
   -count_temps        1
   -equal_increments   0

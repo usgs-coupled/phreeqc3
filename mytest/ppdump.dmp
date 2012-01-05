@@ -113,7 +113,10 @@ EQUILIBRIUM_PHASES_RAW       3 Pp_Assemblage defined in simulation 2.
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -126,8 +129,11 @@ EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
       -formula_z             0
       -formula_totals
         X   1
-EXCHANGE_RAW       2 Exchanger defined in simulation 3.
+EXCHANGE_RAW       2 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -140,8 +146,11 @@ EXCHANGE_RAW       2 Exchanger defined in simulation 3.
       -formula_z             0
       -formula_totals
         X   1
-EXCHANGE_RAW       3 Exchanger defined in simulation 3.
+EXCHANGE_RAW       3 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -302,29 +311,53 @@ SOLID_SOLUTIONS_RAW       3 S_S_Assemblage defined in simulation 6.
         calcite   0.1
         siderite   0.001
 GAS_PHASE_RAW       1 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.4305508698401e-05
-GAS_PHASE_RAW       2 Gas defined in simulation 5.
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    1.4305508698401e-05
+    -initial_moles            0
+GAS_PHASE_RAW       2 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.4305508698401e-05
-GAS_PHASE_RAW       3 Gas defined in simulation 5.
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    1.4305508698401e-05
+    -initial_moles            0
+GAS_PHASE_RAW       3 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.4305508698401e-05
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    1.4305508698401e-05
+    -initial_moles            0
 KINETICS_RAW       1 
   -step_divide       1
   -rk                3
@@ -394,42 +427,42 @@ USE reaction_temperature none
 USE reaction_pressure none
 SOLUTION_RAW       3 Solution after simulation 14.
   -temp              30
-  -total_h           111.02092790236
-  -total_o           55.565736684277
-  -cb                0.00018835896647198
+  -total_h           111.02073299815
+  -total_o           55.567271965359
+  -cb                0.00018013483220892
   -totals
-    Ba   4.521144947255e-07
-    C(-4)   5.418474627333e-15
-    C(4)   0.016341767837911
-    Ca   8.2175790127e-06
-    Cl   0.0025000000001153
-    Fe(2)   2.79556582953e-09
-    Fe(3)   1.8096731121852e-11
-    H(0)   1.1351794190909e-11
-    Na   0.032075350386721
-    S(-2)   8.3869004039206e-13
-    S(6)   0.0026290097343521
+    Ba   4.5063744751065e-07
+    C(-4)   4.3347319181201e-15
+    C(4)   0.017247463783364
+    Ca   1.0149418786e-05
+    Cl   0.0025000000000239
+    Fe(2)   3.0065341145642e-09
+    Fe(3)   1.1385102662666e-11
+    H(0)   9.519902427909e-12
+    Na   0.033478657835238
+    S(-2)   4.3724015706733e-13
+    S(6)   0.0023335580461771
   -Isotopes
-  -pH                9.883627108854
-  -pe                -5.8481653248207
-  -mu                0.037753475108528
-  -ah2o              0.99912674961539
-  -mass_water        0.99999722440183
-  -total_alkalinity  0.024146316947673
+  -pH                9.8054964735741
+  -pe                -5.7318962879828
+  -mu                0.039307360799726
+  -ah2o              0.99909900802787
+  -mass_water        0.99999763925313
+  -total_alkalinity  0.026152613047571
   -activities
-    Ba   -6.9801055753576
-    C(-4)   -14.262341396262
-    C(4)   -2.5456074034494
-    Ca   -5.9679977616086
-    Cl   -2.6830625895606
-    E   5.8481653248207
-    Fe(2)   -10.42814658115
-    Fe(3)   -29.179287133672
-    H(0)   -11.242187482564
-    Na   -1.6030318723048
-    O(0)   -68.309375832951
-    S(-2)   -12.159248525517
-    S(6)   -2.9163897022417
+    Ba   -6.9998237524678
+    C(-4)   -14.35510417876
+    C(4)   -2.4935572297011
+    Ca   -5.9144544520977
+    Cl   -2.6843922508265
+    E   5.7318962879828
+    Fe(2)   -10.44171150915
+    Fe(3)   -29.077081757053
+    H(0)   -11.317465374348
+    Na   -1.5892376120141
+    O(0)   -68.158844170053
+    S(-2)   -12.439407009998
+    S(6)   -2.9736162549851
   -gammas
 EQUILIBRIUM_PHASES_RAW       3 Pure-phase assemblage after simulation 14.
   -eltList       
@@ -440,25 +473,28 @@ EQUILIBRIUM_PHASES_RAW       3 Pure-phase assemblage after simulation 14.
     -name                  Barite
       -si                    0
       -si_org                0
-      -moles                 9.9984556653765
+      -moles                 9.9986288887838
       -delta                 0
       -initial_moles         10
       -force_equality        0
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       3 Exchange assemblage after simulation 14.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
-        Ba   0.0009594504388386
-        Ca   0.0076860384741066
-        Fe   1.0889195142506e-07
-        Na   0.98270881026843
-        X   1.0000000058782
+        Ba   0.0008636061348694
+        Ca   0.0081846633829293
+        Fe   9.9316076024114e-08
+        Na   0.98190326820414
+        X   1.0000000058719
       -charge_balance        0
       -moles                 0
-      -la                    1.518794994405
+      -la                    1.5034768945795
       -phase_proportion      0
       -formula_z             0
       -formula_totals
@@ -477,26 +513,26 @@ SURFACE_RAW       3 Surface assemblage after simulation 14.
     -formula               Hfo_s
       -formula_z             0
       -moles                 0
-      -la                    -0.72075047355724
-      -charge_balance        -8.7708929675584e-05
+      -la                    -0.68757901772441
+      -charge_balance        -8.2175300223914e-05
       -phase_proportion      0
       -Dw                    0
       -formula_totals
         Hfo_s   0.01
       -totals
-        Ba   0.00058467844536186
-        Ca   0.0019454716085755
-        Fe   0.0001943643545086
-        H   0.0044632622535303
-        Hfo_s   0.010000000000098
-        O   0.010000000000098
+        Ba   0.00050729941855773
+        Ca   0.0019981756620338
+        Fe   0.00015578997731397
+        H   0.0045952945840624
+        Hfo_s   0.010000000000097
+        O   0.010000000000097
   -charge_component 
     -name                  Hfo
       -specific_area         600
       -grams                 1
-      -charge_balance        -8.7708929675584e-05
+      -charge_balance        -8.2175300223915e-05
       -mass_water            0
-      -la_psi                -0.25194328310748
+      -la_psi                -0.23316678368454
       -la_psi1               0
       -la_psi2               0
       -capacitance0          1
@@ -513,16 +549,24 @@ SOLID_SOLUTIONS_RAW       3 Solid solution assemblage after simulation 14.
       -xb1                   0
       -xb2                   0
       -components            
-        calcite   0.090364342931456
-        siderite   0.00080552534895405
+        calcite   0.089812053505253
+        siderite   0.00084410920809526
 GAS_PHASE_RAW       3 Gas phase after simulation 14.
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -99
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   6.7291580636768e-30
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    8.4607595692173e-30
+    -initial_moles            1.4305508698401e-05
 KINETICS_RAW       3 Kinetics defined in simulation 14.
   -step_divide       1
   -rk                1
@@ -533,24 +577,24 @@ KINETICS_RAW       3 Kinetics defined in simulation 14.
   -component
     -rate_name             Calcite
       -tol                   1e-08
-      -m                     0.99999999136045
+      -m                     0.99999999141102
       -m0                    1
-      -moles                 8.6395459675259e-09
+      -moles                 8.5889753087542e-09
       -namecoef
         CaCO3   1
       -d_params
         1 1 1 1 
   -totals         
-    C   8.6395460150195e-09
-    Ca   8.6395460150195e-09
-    O   2.5918638045059e-08
+    C   8.5889752533987e-09
+    Ca   8.5889752533987e-09
+    O   2.5766925760196e-08
   -equal_steps    1
   -steps         
     1 
 MIX        3 
   2     0.5
   3     0.5
-REACTION_RAW        3 Irreversible reaction defined in simulation 9.
+REACTION_RAW        3 
   -units              Mol
   -reactant_list      
     NaCl   1
@@ -558,8 +602,8 @@ REACTION_RAW        3 Irreversible reaction defined in simulation 9.
   -steps              
     0.001 
   -equal_increments   0
-  -count_steps        1
-REACTION_TEMPERATURE_RAW        3 Temperature defined in simulation 11.
+  -count_steps        0
+REACTION_TEMPERATURE_RAW        3 
   -count_temps        1
   -equal_increments   0
   -temps              
@@ -612,7 +656,10 @@ EQUILIBRIUM_PHASES_RAW       1
       -dissolve_only         0
       -precipitate_only      0
 EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -675,13 +722,21 @@ SOLID_SOLUTIONS_RAW       1
         calcite   0.1
         siderite   0.001
 GAS_PHASE_RAW       1 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   1.4305508698401e-05
+    -phase_name               CO2(g)
+    -p_read                   0.00035
+    -moles                    1.4305508698401e-05
+    -initial_moles            0
 KINETICS_RAW       1 Kinetics defined in simulation 16.
   -step_divide       1
   -rk                1
@@ -692,17 +747,17 @@ KINETICS_RAW       1 Kinetics defined in simulation 16.
   -component
     -rate_name             Calcite
       -tol                   1e-08
-      -m                     0.9999999999991
+      -m                     0.99999999999907
       -m0                    1
-      -moles                 8.9761531540944e-13
+      -moles                 9.2592600253738e-13
       -namecoef
         CaCO3   1
       -d_params
         1 1 1 1 
   -totals         
-    C   8.9762112864667e-13
-    Ca   8.9762112864667e-13
-    O   2.69286338594e-12
+    C   9.2590689211213e-13
+    Ca   9.2590689211213e-13
+    O   2.7777206763364e-12
   -equal_steps    1
   -steps         
     1 
@@ -716,7 +771,7 @@ REACTION_RAW        1
   -steps              
     0.001 
   -equal_increments   0
-  -count_steps        1
+  -count_steps        0
 REACTION_TEMPERATURE_RAW        1 
   -count_temps        1
   -equal_increments   0
@@ -781,8 +836,11 @@ EQUILIBRIUM_PHASES_RAW       1 New pp description
       -force_equality        0
       -dissolve_only         1
       -precipitate_only      0
-EXCHANGE_RAW       1 New ex description
+EXCHANGE_RAW       1 Exchange assemblage after simulation 3.
+  -new_def 0
   -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
   -component
     -formula               X
       -totals
@@ -806,7 +864,7 @@ EXCHANGE_RAW       1 New ex description
       -phase_proportion      0
       -formula_z             0
       -formula_totals
-        Y   1
+        X   1
 SURFACE_RAW       1 New surface def
   -type 2
   -dl_type 0
@@ -869,15 +927,27 @@ SOLID_SOLUTIONS_RAW       1 New ss def
         calcite   0.2
         rhodochrosite   0.2
         siderite   0.001
-GAS_PHASE_RAW       1 New gas_phase def
+GAS_PHASE_RAW       1 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
   -type               0
   -total_p            1
+  -total_moles        0
   -volume             1
   -v_m                0
   -pr_in               0
+  -temperature         298.15
   -component
-    CO2(g)   2.4305508698401e-05
-    N2(g)   1e-05
+    -phase_name               CO2(g)
+    -p_read                   0
+    -moles                    2.4305508698401e-05
+    -initial_moles            0
+  -component
+    -phase_name               N2(g)
+    -p_read                   0
+    -moles                    1e-05
+    -initial_moles            0
 KINETICS_RAW       1 New kinetics def
   -step_divide       1
   -rk                1
