@@ -403,7 +403,19 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 				}
 				else
 				{
-					this->gas_comps.push_back(gc);
+					size_t i;
+					for (i = 0; i < this->gas_comps.size(); i++)
+					{
+						if (this->gas_comps[i].Get_phase_name() == gc.Get_phase_name())
+						{
+							this->gas_comps[i] = gc;
+							break;
+						}
+					}
+					if (i >= this->gas_comps.size())
+					{
+						this->gas_comps.push_back(gc);
+					}
 				}
 				//opt_save = 4;
 				useLastLine = true;
