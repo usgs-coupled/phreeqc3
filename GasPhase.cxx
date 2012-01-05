@@ -394,7 +394,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 				cxxGasComp gc;
 				//bool tf = gc.read_raw(parser, next_char);
 				//if (!tf
-				if (!gc.read_raw(parser, next_char))
+				if (!gc.read_raw(parser, false))
 				{
 					parser.incr_input_error();
 					parser.error_msg
