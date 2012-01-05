@@ -547,9 +547,9 @@ public:
 	int build_solution_phase_boundaries(void);
 	int build_species_list(int n);
 	int build_min_surface(void);
-	LDBLE calc_lk_phase(phase * p_ptr, LDBLE TK, LDBLE P);
+	LDBLE calc_lk_phase(phase * p_ptr, LDBLE TK, LDBLE pa);
 	LDBLE calc_delta_v(reaction * r_ptr, bool phase);
-	int calc_vm(LDBLE tc);
+	int calc_vm(LDBLE tc,LDBLE pa);
 	int change_hydrogen_in_elt_list(LDBLE charge);
 	int clear(void);
 	int convert_units(struct solution *solution_ptr);
@@ -1467,6 +1467,7 @@ protected:
 	LDBLE patm_x;
 	bool numerical_fixed_volume;
 	bool force_numerical_fixed_volume;
+	bool switch_numerical;
 	LDBLE ph_x;
 	LDBLE solution_pe_x;
 	LDBLE mu_x;
