@@ -200,7 +200,9 @@ all: alkalinity.out \
 	PR_initial_gas.out \
 	PR_initial_gas_noredox.out \
 	PR_mx_new.out \
-	CO2_anal.out
+	CO2_anal.out \
+	gypsum_P \
+	gypsum_P2 
 # NaX.out
 
 clean:
