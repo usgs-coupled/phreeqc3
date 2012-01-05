@@ -30,6 +30,7 @@ cxxGasPhase::cxxGasPhase(PHRQ_io * io)
 	n_solution = -999;
 	type = cxxGasPhase::GP_PRESSURE;
 	total_p = 1.0;
+	total_moles = 0.0;
 	volume = 1.0;
 	v_m = 0;
 	pr_in = false;
@@ -310,7 +311,10 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 		}
 		else
 		{
+			CParser::ECHO_OPTION eo = parser.get_echo_file();
+			parser.set_echo_file(CParser::EO_NONE);
 			opt = parser.getOptionFromLastLine(vopts, next_char);
+			parser.set_echo_file(eo);
 		}
 		if (opt == CParser::OPT_DEFAULT)
 		{

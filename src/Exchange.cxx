@@ -437,6 +437,7 @@ cxxExchange::Get_exchComps(void)
 {
 	return (this->exchComps);
 }
+
 const cxxNameDouble & 
 cxxExchange::Get_totals() const
 {
