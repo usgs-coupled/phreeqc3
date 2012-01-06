@@ -32,7 +32,7 @@ class cxxGasComp: public PHRQ_base
 	void Set_initial_moles(LDBLE t) {this->initial_moles = t;}
 
 	void add(const cxxGasComp & addee, LDBLE extensive);
-	void cxxGasComp::multiply(LDBLE extensive);
+	void multiply(LDBLE extensive);
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
