@@ -26,7 +26,7 @@ PHRQ_base(io)
 {
 	si = 0;
 	si_org = 0;
-	moles = 0;
+	moles = 10;
 	delta = 0;
 	initial_moles = 0;
 	force_equality = false;
