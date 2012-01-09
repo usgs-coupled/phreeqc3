@@ -33,7 +33,7 @@ PHRQ_base(io)
 	dissolve_only = false;
 	precipitate_only = false;
 }
-
+#ifdef SKIP
 cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase * pure_phase_ptr, PHRQ_io *io)
 :
 PHRQ_base(io)
@@ -52,7 +52,7 @@ PHRQ_base(io)
 	dissolve_only = (pure_phase_ptr->dissolve_only == TRUE);
 	precipitate_only = (pure_phase_ptr->precipitate_only == TRUE);
 }
-
+#endif
 cxxPPassemblageComp::~cxxPPassemblageComp()
 {
 }

@@ -197,13 +197,23 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 
 	// pure phases
+	{
+		std::map<int, cxxPPassemblage>::const_iterator cit = Rxn_pp_assemblage_map.begin();
+		for (; cit !=  Rxn_pp_assemblage_map.end(); cit++)
+		{
+			cxxPPassemblage entity = cit->second;
+			entity.totalize(this);
+			accumulator.add_extensive(entity.Get_totals(), 1.0);
+		}
+	}
+#ifdef SKIP
 	for (i = 0; i < count_pp_assemblage; i++)
 	{
 		cxxPPassemblage entity(&pp_assemblage[i], phrq_io);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
-
+#endif
 	// exchangers
 	{
 		std::map<int, cxxExchange>::const_iterator cit = Rxn_exchange_map.begin();
@@ -319,7 +329,7 @@ void Phreeqc::init(void)
 	LOG_10 = log(10.0);
 
 	max_solution			= MAX_SOLUTION;
-	max_pp_assemblage		= MAX_PP_ASSEMBLAGE;
+	//max_pp_assemblage		= MAX_PP_ASSEMBLAGE;
 	//max_exchange			= MAX_PP_ASSEMBLAGE;
 	max_surface				= MAX_PP_ASSEMBLAGE;
 	//max_gas_phase			= MAX_PP_ASSEMBLAGE;
@@ -339,7 +349,7 @@ void Phreeqc::init(void)
 	max_master_isotope		= MAX_ELTS;
 
 	count_solution			 = 0;
-	count_pp_assemblage	= 0;
+	//count_pp_assemblage	= 0;
 	//count_exchange			 = 0;
 	count_surface				= 0;
 	//count_gas_phase			= 0;
@@ -391,7 +401,7 @@ void Phreeqc::init(void)
 	dump_in						= FALSE;
 	transport_warnings = TRUE;
 
-	pp_assemblage	= 0;
+	//pp_assemblage	= 0;
 	//exchange			 = 0;
 	surface				= 0;
 	//gas_phase			= 0;
@@ -712,7 +722,7 @@ void Phreeqc::init(void)
 	dbg_solution		= solution;
 	//dbg_exchange		= exchange;
 	dbg_surface			= surface;
-	dbg_pp_assemblage	= pp_assemblage;
+	//dbg_pp_assemblage	= pp_assemblage;
 	dbg_kinetics		= kinetics;
 	//dbg_irrev			= irrev;
 	//dbg_mix				= mix;

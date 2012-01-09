@@ -207,7 +207,7 @@ read_surface_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_equilibrium_phases_raw(void)
@@ -302,7 +302,7 @@ read_equilibrium_phases_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics_raw(void)
@@ -734,7 +734,7 @@ read_solution_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_equilibrium_phases_modify(void)
@@ -826,6 +826,7 @@ read_equilibrium_phases_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_surface_modify(void)
@@ -1222,6 +1223,22 @@ delete_entities(void)
 	{
 		if (delete_info.Get_pp_assemblage().Get_numbers().size() == 0)
 		{
+			Rxn_pp_assemblage_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_pp_assemblage().Get_numbers().begin(); it != delete_info.Get_pp_assemblage().Get_numbers().end(); it++)
+			{
+				Rxn_pp_assemblage_map.erase(*it);
+			}
+		}
+	}
+#ifdef SKIP
+	if (delete_info.Get_pp_assemblage().Get_defined())
+	{
+		if (delete_info.Get_pp_assemblage().Get_numbers().size() == 0)
+		{
 			for (i = 0; i < count_pp_assemblage; i++)
 			{
 				pp_assemblage_delete(pp_assemblage[i].n_user);
@@ -1240,7 +1257,7 @@ delete_entities(void)
 			}
 		}
 	}
-
+#endif
 	// exchangers
 	if (delete_info.Get_exchange().Get_defined())
 	{
@@ -1666,6 +1683,27 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_pp_assemblage().size() == 0)
 		{
+			Utilities::Rxn_dump_raw(Rxn_pp_assemblage_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_pp_assemblage().begin(); it != dump_info.Get_pp_assemblage().end(); it++)
+			{
+				cxxPPassemblage *p = Utilities::Rxn_find(Rxn_pp_assemblage_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
+#ifdef SKIP
+	if (dump_info.Get_bool_pp_assemblage())
+	{
+		if (dump_info.Get_pp_assemblage().size() == 0)
+		{
 			for (i = 0; i < count_pp_assemblage; i++)
 			{
 					cxxPPassemblage cxxentity(&pp_assemblage[i], phrq_io);
@@ -1686,7 +1724,7 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-
+#endif
 	// exchanges
 	if (dump_info.Get_bool_exchange())
 	{
