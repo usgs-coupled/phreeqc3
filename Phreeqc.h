@@ -130,7 +130,7 @@ public:
 	LDBLE total_mole(const char *total_name);
 	//int system_total_solids(struct exchange *exchange_ptr,
 	int system_total_solids(cxxExchange *exchange_ptr,
-		struct pp_assemblage *pp_assemblage_ptr,
+		cxxPPassemblage *pp_assemblage_ptr,
 		cxxGasPhase *gas_phase_ptr,
 		struct s_s_assemblage *s_s_assemblage_ptr,
 		struct surface *surface_ptr);
@@ -700,7 +700,8 @@ public:
 	int read_named_logk(void);
 	int read_phases(void);
 	int read_print(void);
-	int read_pure_phases(void);
+	//int read_pure_phases(void);
+	int read_pp_assemblage(void);
 	int read_rates(void);
 	int read_reaction(void);
 	//int read_reaction_reactants(struct irrev *irrev_ptr);
@@ -737,7 +738,7 @@ public:
 	int read_solution_raw(void);
 	//int read_exchange_raw(void);
 	int read_surface_raw(void);
-	int read_equilibrium_phases_raw(void);
+	//int read_equilibrium_phases_raw(void);
 	int read_kinetics_raw(void);
 	int read_solid_solutions_raw(void);
 	//int read_gas_phase_raw(void);
@@ -746,7 +747,7 @@ public:
 	//int read_temperature_raw(void);
 	int read_dump(void);
 	int read_solution_modify(void);
-	int read_equilibrium_phases_modify(void);
+	//int read_equilibrium_phases_modify(void);
 	//int read_exchange_modify(void);
 	int read_surface_modify(void);
 	int read_solid_solutions_modify(void);
@@ -824,7 +825,8 @@ public:
 	int add_kinetics(struct kinetics *kinetics_ptr);
 	//int add_mix(struct mix *mix_ptr);
 	int add_mix(cxxMix * mix_ptr);
-	int add_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
+	//int add_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
+	int add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr);
 	//int add_reaction(struct irrev *irrev_ptr, int step_number,
 	//	LDBLE step_fraction);
 	int add_reaction(cxxReaction *reaction_ptr, int step_number,
@@ -833,9 +835,11 @@ public:
 	int add_solution(struct solution *solution_ptr, LDBLE extensive,
 		LDBLE intensive);
 	int add_surface(struct surface *surface_ptr);
-	int check_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
+	//int check_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
+	int check_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr);
 	int gas_phase_check(cxxGasPhase *gas_phase_ptr);
-	int pp_assemblage_check(struct pp_assemblage *pp_assemblage_ptr);
+	//int pp_assemblage_check(struct pp_assemblage *pp_assemblage_ptr);
+	int pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr);
 	//int reaction_calc(struct irrev *irrev_ptr);
 	int reaction_calc(cxxReaction *reaction_ptr);
 	int solution_check(void);
@@ -922,6 +926,7 @@ protected:
 	int phase_delete(int i);
 	struct phase *phase_store(const char *name);
 public:
+#ifdef SKIP
 	struct pp_assemblage *pp_assemblage_alloc(void);
 	struct pp_assemblage *pp_assemblage_bsearch(int k, int *n);
 protected:
@@ -947,6 +952,7 @@ protected:
 	struct pp_assemblage *pp_assemblage_search(int n_user, int *n);
 	int pp_assemblage_sort(void);
 	static int pure_phase_compare(const void *ptr1, const void *ptr2);
+#endif
 	struct rate *rate_bsearch(char *ptr, int *j);
 	int rate_free(struct rate *rate_ptr);
 	struct rate *rate_search(const char *name, int *n);
@@ -1069,7 +1075,7 @@ public:
 	static int phase_compare_string(const void *ptr1, const void *ptr2);
 	int phase_free(struct phase *phase_ptr);
 	int phase_init(struct phase *phase_ptr);
-	static int pp_assemblage_compare_int(const void *ptr1, const void *ptr2);
+	//static int pp_assemblage_compare_int(const void *ptr1, const void *ptr2);
 	static int rate_compare(const void *ptr1, const void *ptr2);
 	static int rate_compare_string(const void *ptr1, const void *ptr2);
 	struct species *s_alloc(void);
@@ -1101,8 +1107,8 @@ public:
 	//struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
 	//struct gas_comp * cxxGasPhaseComp2gas_comp(const cxxGasPhase * gp);
 	//struct temperature * cxxTemperature2temperature(const cxxTemperature *temp);
-	struct pp_assemblage * cxxPPassemblage2pp_assemblage(const cxxPPassemblage * pp);
-	struct pure_phase * cxxPPassemblageComp2pure_phase(const std::map < std::string, cxxPPassemblageComp > * ppc);
+	//struct pp_assemblage * cxxPPassemblage2pp_assemblage(const cxxPPassemblage * pp);
+	//struct pure_phase * cxxPPassemblageComp2pure_phase(const std::map < std::string, cxxPPassemblageComp > * ppc);
 	//struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
 	struct solution * cxxSolution2solution(const cxxSolution * sol);
 	struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
@@ -1404,11 +1410,11 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Pure-phase assemblage
 	*---------------------------------------------------------------------- */
-
-	int count_pp_assemblage;
-	int max_pp_assemblage;
-	struct pp_assemblage *pp_assemblage;
-	struct pp_assemblage *dbg_pp_assemblage;
+	std::map<int, cxxPPassemblage> Rxn_pp_assemblage_map;
+	//int count_pp_assemblage;
+	//int max_pp_assemblage;
+	//struct pp_assemblage *pp_assemblage;
+	//struct pp_assemblage *dbg_pp_assemblage;
 	/*----------------------------------------------------------------------
 	*   Species_list
 	*---------------------------------------------------------------------- */
@@ -1899,8 +1905,9 @@ public:
 	M_Env kinetics_machEnv;
 	N_Vector kinetics_y, kinetics_abstol;
 	void *kinetics_cvode_mem;
-	struct pp_assemblage *cvode_pp_assemblage_save;
+	//struct pp_assemblage *cvode_pp_assemblage_save;
 	struct s_s_assemblage *cvode_s_s_assemblage_save;
+	cxxPPassemblage *cvode_pp_assemblage_save;
 	LDBLE *m_original;
 	LDBLE *m_temp;
 	int set_and_run_attempt;

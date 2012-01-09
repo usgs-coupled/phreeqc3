@@ -17,7 +17,7 @@ class cxxPPassemblage:public cxxNumKeyword
 
   public:
 	cxxPPassemblage(PHRQ_io * io=NULL);
-	cxxPPassemblage(struct pp_assemblage *, PHRQ_io * io=NULL);
+	//cxxPPassemblage(struct pp_assemblage *, PHRQ_io * io=NULL);
 	cxxPPassemblage(const std::map < int, cxxPPassemblage > &entity_map,
 					  cxxMix & mx, int n_user, PHRQ_io * io=NULL);
 	~cxxPPassemblage();
@@ -34,10 +34,19 @@ class cxxPPassemblage:public cxxNumKeyword
 	{
 		return this->eltList;
 	};
-	const std::map <std::string, cxxPPassemblageComp > & Get_ppAssemblageComps() const
+	void Set_eltList(cxxNameDouble & nd) {this->eltList = nd;}
+	std::map <std::string, cxxPPassemblageComp > & Get_pp_assemblage_comps() 
 	{
-		return this->ppAssemblageComps;
+		return this->pp_assemblage_comps;
 	};
+	void  Set_pp_assemblage_comps(std::map <std::string, cxxPPassemblageComp > & c) 
+	{
+		this->pp_assemblage_comps = c;
+	};
+	bool Get_new_def(void) const {return this->new_def;}
+	void Set_new_def(bool tf) {this->new_def = tf;}
+
+	cxxPPassemblageComp *Find(const std::string name);
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
@@ -51,7 +60,8 @@ protected:
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 protected:
-	std::map <std::string, cxxPPassemblageComp > ppAssemblageComps;
+	bool new_def;
+	std::map <std::string, cxxPPassemblageComp > pp_assemblage_comps;
 	cxxNameDouble eltList;
 	cxxNameDouble totals;
 

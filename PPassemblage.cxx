@@ -26,7 +26,7 @@ cxxPPassemblage::cxxPPassemblage(PHRQ_io * io)
 {
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
 }
-
+#ifdef SKIP
 cxxPPassemblage::cxxPPassemblage(struct pp_assemblage *pp_assemblage_ptr, PHRQ_io * io)
 		//
 		// constructor for cxxPPassemblage from struct PPassemblage
@@ -48,7 +48,7 @@ eltList(pp_assemblage_ptr->next_elt)
 		this->ppAssemblageComps[str] = ppComp;
 	}
 }
-
+#endif
 cxxPPassemblage::cxxPPassemblage(const std::map < int,
 								 cxxPPassemblage > &entities, cxxMix & mix,
 								 int l_n_user, PHRQ_io * io):
@@ -101,7 +101,7 @@ cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent1;
 	s_oss << "<pure_phases " << "\n";
 	for (std::map < std::string, cxxPPassemblageComp >::const_iterator it =
-		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
+		 pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
 		(*it).second.dump_xml(s_oss, indent + 2);
 	}
@@ -135,7 +135,7 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 
 	// ppAssemblagComps
 	for (std::map < std::string, cxxPPassemblageComp >::const_iterator it =
-		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
+		 pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
 		s_oss << indent1;
 		s_oss << "-component" << "\n";
@@ -220,9 +220,9 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->ppAssemblageComps.find(ec.Get_name()) != this->ppAssemblageComps.end())
+				if (this->pp_assemblage_comps.find(ec.Get_name()) != this->pp_assemblage_comps.end())
 				{
-					cxxPPassemblageComp & comp = this->ppAssemblageComps.find(ec.Get_name())->second;
+					cxxPPassemblageComp & comp = this->pp_assemblage_comps.find(ec.Get_name())->second;
 					comp.read_raw(reread, false);
 				}
 				else
@@ -230,7 +230,7 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 					cxxPPassemblageComp ppComp1(this->Get_io());
 					ppComp1.read_raw(reread, false);
 					std::string str(ppComp1.Get_name());
-					this->ppAssemblageComps[str] = ppComp1;
+					this->pp_assemblage_comps[str] = ppComp1;
 				}
 			}
 			useLastLine = true;
@@ -294,7 +294,7 @@ cxxPPassemblage::totalize(PHREEQC_PTR_ARG)
 	this->totals.clear();
 	// component structures
 	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
-		 ppAssemblageComps.begin(); it != ppAssemblageComps.end(); ++it)
+		 pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
 		(*it).second.totalize(P_INSTANCE);
 		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
@@ -311,13 +311,13 @@ cxxPPassemblage::add(const cxxPPassemblage & addee, double extensive)
 	if (extensive == 0.0)
 		return;
 	//std::list<cxxPPassemblageComp> ppAssemblageComps;
-	for (std::map < std::string, cxxPPassemblageComp >::const_iterator itadd = addee.ppAssemblageComps.begin();
-		 itadd != addee.ppAssemblageComps.end(); ++itadd)
+	for (std::map < std::string, cxxPPassemblageComp >::const_iterator itadd = addee.pp_assemblage_comps.begin();
+		 itadd != addee.pp_assemblage_comps.end(); ++itadd)
 	{
 		bool found = false;
 		for (std::map < std::string, cxxPPassemblageComp >::iterator it =
-			 this->ppAssemblageComps.begin();
-			 it != this->ppAssemblageComps.end(); ++it)
+			 this->pp_assemblage_comps.begin();
+			 it != this->pp_assemblage_comps.end(); ++it)
 		{
 			if ((*it).second.Get_name() == itadd->second.Get_name())
 			{
@@ -331,10 +331,31 @@ cxxPPassemblage::add(const cxxPPassemblage & addee, double extensive)
 			cxxPPassemblageComp entity = (*itadd).second;
 			entity.multiply(extensive);
 			std::string str(entity.Get_name());
-			this->ppAssemblageComps[str] = entity;
+			this->pp_assemblage_comps[str] = entity;
 		}
 	}
 	//cxxNameDouble eltList;
 	this->eltList.add_extensive(addee.eltList, extensive);
 }
 
+cxxPPassemblageComp * cxxPPassemblage::
+Find(const std::string name_in)
+{
+	std::string name(name_in);
+	Utilities::str_tolower(name);
+
+	cxxPPassemblageComp * comp = NULL;
+	std::map<std::string, cxxPPassemblageComp>::iterator it;
+	it = this->pp_assemblage_comps.begin();
+	for ( ; it != this->pp_assemblage_comps.end(); it++)
+	{
+		std::string pname(it->first);
+		Utilities::str_tolower(pname);
+		if (name == pname)
+		{
+			comp = &it->second;
+			break;
+		}
+	}
+	return comp;
+}

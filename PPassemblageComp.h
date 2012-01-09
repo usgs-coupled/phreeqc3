@@ -15,16 +15,14 @@ class cxxPPassemblageComp: public PHRQ_base
 
   public:
 	cxxPPassemblageComp(PHRQ_io *io=NULL);
-	cxxPPassemblageComp(struct pure_phase *, PHRQ_io *io=NULL);
+	//cxxPPassemblageComp(struct pure_phase *, PHRQ_io *io=NULL);
 	 ~cxxPPassemblageComp();
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 	void read_raw(CParser & parser, bool check = true);
-	const std::string &Get_name() const
-	{
-		return this->name;
-	}
+
+	const std::string &Get_name() const	{return this->name;}
 	void Set_name(const char * s)
 	{
 		if(s != NULL)
@@ -32,10 +30,7 @@ class cxxPPassemblageComp: public PHRQ_base
 		else
 			this->name.clear();
 	}
-	const std::string &Get_add_formula() const
-	{
-		return this->add_formula;
-	}
+	const std::string &Get_add_formula() const {return this->add_formula;}
 	void Set_add_formula(const char * s)
 	{
 		if(s != NULL)
@@ -45,18 +40,25 @@ class cxxPPassemblageComp: public PHRQ_base
 	}
 
 	void totalize(PHREEQC_PTR_ARG);
-	const cxxNameDouble & Get_totals() const
-	{
-		return (this->totals);
-	};
-	double Get_si() const {return this->si;};
-	double Get_si_org() const {return this->si_org;};
-	double Get_moles() const {return this->moles;};
-	double Get_delta() const {return this->delta;};
-	double Get_initial_moles() const {return this->initial_moles;};
-	bool Get_force_equality() const {return this->force_equality;};
-	bool Get_dissolve_only() const {return this->dissolve_only;};
-	bool Get_precipitate_only() const {return this->precipitate_only;};
+	const cxxNameDouble & Get_totals() const {return (this->totals);}
+	void Get_totals(cxxNameDouble & nd) {this->totals = nd;}
+	double Get_si() const {return this->si;}
+	void Set_si(LDBLE t) {this->si = t;}
+	double Get_si_org() const {return this->si_org;}
+	void Set_si_org(LDBLE t) {this->si_org = t;}
+	double Get_moles() const {return this->moles;}
+	void Set_moles(LDBLE t) {this->moles = t;}
+	double Get_delta() const {return this->delta;}
+	void Set_delta(LDBLE t) {this->delta = t;}
+	double Get_initial_moles() const {return this->initial_moles;}
+	void Set_initial_moles(LDBLE t) {this->initial_moles = t;}
+
+	bool Get_force_equality() const {return this->force_equality;}
+	void Set_force_equality(bool tf) {this->force_equality = tf;}
+	bool Get_dissolve_only() const {return this->dissolve_only;}
+	void Set_dissolve_only(bool tf) {this->dissolve_only = tf;}
+	bool Get_precipitate_only() const {return this->precipitate_only;}
+	void Set_precipitate_only(bool tf) {this->precipitate_only = tf;}
 
 
 	void add(const cxxPPassemblageComp & comp, double extensive);
