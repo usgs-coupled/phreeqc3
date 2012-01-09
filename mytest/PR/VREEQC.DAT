@@ -100,7 +100,7 @@ Mg+2 = Mg+2
 	-gamma	5.5	0.20
 	-dw	 0.705e-9
 	-millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
-	-Vm  20.0 0.0332 0 #-8.1e-3
+	-Vm  -20.0 0.0332 0 #-8.1e-3
 Na+ = Na+
 	log_k	0.0
 	-gamma	4.0	0.075
@@ -134,12 +134,10 @@ Ba+2 = Ba+2
 	-dw	 0.848e-9
 	-Vm  -13.9 0.0552 0 #-9.1e-3
 Sr+2 = Sr+2
-	log_k	0.0
-	-gamma	5.260	0.121
 	-dw	 0.794e-9
-	-Vm  -19.2 0.0532
+	-gamma	5.260	0.121
 	-millero -18.44 0.0082 -0.0006 1.727 -0.067 0.00084
-	-Vm  -19.2 0.0532 0 #-9.3e-3
+	-Vm  -12 # Howell et al., 1992
 H4SiO4 = H4SiO4
 	log_k	0.0
 	-dw	 1.10e-9
@@ -150,7 +148,7 @@ Cl- = Cl-
 	-gamma	3.5	0.015
 	-dw	 2.03e-9
 	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm   17.9 -0.0052 0 #-0.8e-3
+	-Vm  23.3 -0.0052 0 #-0.8e-3 # halite solubility, Adams and Hall, 1931.
 CO3-2 = CO3-2
 	log_k	0.0
 	-gamma	5.4	0.0
@@ -250,7 +248,7 @@ CO3-2 + 2 H+ = CO2 + H2O
 	delta_h -5.738	kcal
 	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
 	-dw	 1.92e-9
-	-Vm  28.48  6.95E-03 # Data in Duan et al., 2006, MC 98, 131.
+	-Vm  28.48  -6.95E-03 # Data in Duan et al., 2006, MC 98, 131.
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	log_k	41.071
 	delta_h -61.039 kcal
@@ -355,12 +353,13 @@ Ca+2 + CO3-2 = CaCO3
 	-analytic	-1228.732	-0.299440	35512.75	485.818
 	-dw 4.46e-10	# complexes: calc'd with the Pikal formula
 	-Vm 40 0 0 #3.3e-2 # 25oC, 1 - 1000 atm, calcite dissolution, McDonald and North, 1974, Can. J. Chem. 52, 3181
-Ca+2 + CO3-2 + H+ = CaHCO3+
+Ca+2 + CO3-2 + H+ = CaHCO3+ # remove this complex, otherwise calcite solubility with P_CO2 > 10 can't be modeled.
 	log_k	11.435
 	delta_h -0.871	kcal
 	-analytic	1317.0071	0.34546894	-39916.84	-517.70761	563713.9
 	-gamma	5.4	0.0
 	-dw 5.06e-10
+	-Vm 30
 Ca+2 + SO4-2 = CaSO4
 #log_k and delta_h at p = 1 atm, gypsum dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
 	log_k	2.25
@@ -405,7 +404,7 @@ Mg+2 + SO4-2 = MgSO4
 	log_k	2.37
 	delta_h 4.550	kcal
 	-dw 4.45e-10
-	-Vm 13.0 -0.46 0 24.3e-3 # by analogy with CaSO4, Vm is 2* smaller
+	-Vm 20.0 -0.23 0 24.3e-3 # by analogy with CaSO4, Vm is 2* smaller
 Mg+2 + PO4-3 = MgPO4-
 	log_k	6.589
 	delta_h 3.10	kcal
@@ -436,7 +435,7 @@ Na+ + SO4-2 = NaSO4-
 	log_k	0.7
 	delta_h 1.120	kcal
 	-dw 6.18e-10
-	-Vm 20.0 -0.46 0 24.3e-3 # by analogy with CaSO4, Vm is 3* smaller at 25oC
+	-Vm 13 -0.15 0 24.3e-3 # by analogy with CaSO4, Vm is 3* smaller at 25oC
 Na+ + HPO4-2 = NaHPO4-
 	log_k	0.29
 
@@ -696,6 +695,7 @@ Sr+2 + CO3-2 = SrCO3
 Sr+2 + SO4-2 = SrSO4
 	log_k	2.29
 	delta_h 2.08	kcal
+	-Vm 40.0 
 
 Li+ + H2O = LiOH + H+
 	log_k	-13.64
@@ -915,11 +915,12 @@ Anhydrite
 # 50 - 160oC, 1 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
 	-analytic   87.46  0  -3137  -32.8
 	-Vm 46.1 # 136.14 / 2.95
-Celestine
+Celestite
 	SrSO4 = Sr+2 + SO4-2
 	log_k	-6.63
-	delta_h -1.037 kcal
-	-analytic	-14805.9622	-2.4660924	756968.533	5436.3588	-40553604.0
+	delta_h -4.037 kcal
+#	-analytic	-14805.9622	-2.4660924	756968.533	5436.3588	-40553604.0
+	-anal  -6.61 2.98E-03  75 0 0 -1.32E-05 # Howell et al., 1992
 	-Vm 46.4
 Barite
 	BaSO4 = Ba+2 + SO4-2
@@ -954,7 +955,7 @@ Quartz
 	SiO2 + 2 H2O = H4SiO4
 	log_k	-3.98
 	delta_h  5.990 kcal
-#	-analytic	0.41	0.0	-1309.0
+	-analytic	0.41	0.0	-1309.0
 # Better for St.Paul:
 	-analytic	1.8810  -0.00203 -1560.0
 	-Vm 22.67

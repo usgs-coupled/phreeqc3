@@ -1,0 +1,13 @@
+# Barite solubility, in agreement with Blount 1977, Lyashchenko and Churagulov, 1981
+DATABASE ../vreeqc.dat
+SOLUTION 1
+ pH 7 charge
+ -temp 50
+EQUILIBRIUM_PHASES
+ Barite
+REACTION_TEMPERATURE
+ 25 250 in 10
+USER_GRAPH
+ axis_titles "Temperature / oC" "Barite solubility / M"
+ 10 plot_xy tc, tot("Ba"), color = Red, symbol = None
+END

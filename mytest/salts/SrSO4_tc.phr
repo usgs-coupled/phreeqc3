@@ -1,0 +1,42 @@
+# SrSO4 solubility, Howell et al., 1992
+DATABASE ../vreeqc.dat
+SOLUTION_SPECIES
+Sr+2 = Sr+2
+	-dw	 0.794e-9
+	-millero -18.44 0.0082 -0.0006 1.727 -0.067 0.00084
+	-Vm  -12 # Howell et al., 1992
+Sr+2 + SO4-2 = SrSO4
+	log_k	2.29
+	delta_h 2.08	kcal
+	-Vm 40.0
+
+PHASES
+Celestite
+	SrSO4 = Sr+2 + SO4-2
+	log_k	-6.63
+	delta_h -4.037 kcal
+#	-analytic	-14805.9622	-2.4660924	756968.533	5436.3588	-40553604.0
+	-anal  -6.61 2.98E-03  75 0 0 -1.32E-05 # Howell et al., 1992
+	-Vm 46.4
+
+SOLUTION 1
+ pH 7 charge
+ -temp 25
+ -pressure 200
+EQUILIBRIUM_PHASES
+ Celestite
+REACTION_TEMPERATURE
+ 25 250 in 10
+USER_GRAPH
+ axis_titles "Temperature / oC" "Celestitte solubility / M"
+  1 DATA 7.556e-04, 6.469e-04, 3.901e-04, 2.568e-04, 1.580e-04,  5.926e-05
+  2 DIM d(6)
+  3 read d(1), d(2), d(3), d(4), d(5), d(6)
+  4 DATA 25, 50, 100, 150, 200, 250
+  5 DIM t(6)
+  6 read t(1), t(2), t(3), t(4), t(5), t(6)
+ 10 plot_xy tc, tot("Sr"), color = Red, symbol = None
+ 20 if step_no > 6 then goto 30
+ 22 plot_xy t(step_no), d(step_no), line_width = 0, color = Red
+ 30 end
+END

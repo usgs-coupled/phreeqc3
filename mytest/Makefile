@@ -201,8 +201,25 @@ all: alkalinity.out \
 	PR_initial_gas_noredox.out \
 	PR_mx_new.out \
 	CO2_anal.out \
-	gypsum_P \
-	gypsum_P2 
+	gypsum_P.out \
+	gypsum_P2.out \
+	Barite_MCl2.out \
+	Barite_NaCl.out \
+	Barite_tc.out \
+	cc_P0.out \	
+	cc_P2.out \	
+	cc_P3.out \
+	CO2_4M_NaCl.out \
+	CO2_Na2SO4.out \
+	co2_t30.out \
+	co2_tc.out \
+	halite.out \
+	P_CO2_Na2SO4.out \
+	SrSO4_P.out \
+	SrSO4_tc
+
+
+
 # NaX.out
 
 clean:

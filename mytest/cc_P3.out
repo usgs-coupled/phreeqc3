@@ -1,0 +1,66 @@
+   Input file: cc_P3
+  Output file: cc_P3.out
+Database file: ../database/vreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	KNOBS
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/vreeqc.dat
+	solution 1
+	 pH 7 charge
+	 pressure 9.87
+	EQUILIBRIUM_PHASES
+	 Calcite
+	 CO2(g) 0.994
+	SOLUTION_SPECIES
+	Ca+2 + CO3-2 = CaCO3
+		log_k	-3.224
+		delta_h 3.545	kcal
+		analytical_expression	-1228.732	-0.299440	35512.75	485.818
+		dw 4.46e-10	# complexes: calc'd with the Pikal formula
+		vm 40 0 0 #3.3e-2 # 25oC, 1 - 1000 atm, calcite dissolution, McDonald and North, 1974, Can. J. Chem. 52, 3181
+	Ca+2 + CO3-2 + H+ = CaHCO3+
+		log_k	-100 # remove this complex, data from Ellis, 1963 and Segnit et al. 1962.
+	GAS_PHASE
+	 fixed_volume
+	 volume 0.1
+	 CO2(g) 0
+	 H2O(g) 0
+	REACTION_TEMPERATURE
+	 0 110 in 20
+	PRINT
+	 reset false
+WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+

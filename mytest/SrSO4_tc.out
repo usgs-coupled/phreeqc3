@@ -1,0 +1,900 @@
+   Input file: SrSO4_tc
+  Output file: SrSO4_tc.out
+Database file: ../database/vreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	KNOBS
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/vreeqc.dat
+	SOLUTION_SPECIES
+	Sr+2 = Sr+2
+		dw	 0.794e-9
+		millero -18.44 0.0082 -0.0006 1.727 -0.067 0.00084
+		vm  -12 # Howell et al., 1992
+	Sr+2 + SO4-2 = SrSO4
+		log_k	2.29
+		delta_h 2.08	kcal
+		vm 40.0
+	PHASES
+	Celestite
+		SrSO4 = Sr+2 + SO4-2
+		log_k	-6.63
+		delta_h -4.037 kcal
+		analytical_expression  -6.61 2.98E-03  75 0 0 -1.32E-05 # Howell et al., 1992
+		vm 46.4
+	SOLUTION 1
+	 pH 7 charge
+	 temp 25
+	 pressure 200
+	EQUILIBRIUM_PHASES
+	 Celestite
+	REACTION_TEMPERATURE
+	 25 250 in 10
+	USER_GRAPH
+	 axis_titles "Temperature / oC" "Celestitte solubility / M"
+	  1 DATA 7.556e-04, 6.469e-04, 3.901e-04, 2.568e-04, 1.580e-04,  5.926e-05
+	  2 DIM d(6)
+	  3 read d(1), d(2), d(3), d(4), d(5), d(6)
+	  4 DATA 25, 50, 100, 150, 200, 250
+	  5 DIM t(6)
+	  6 read t(1), t(2), t(3), t(4), t(5), t(6)
+	 10 plot_xy tc, tot("Sr"), color = Red, symbol = None
+	 20 if step_no > 6 then goto 30
+	 22 plot_xy t(step_no), d(step_no), line_width = 0, color = Red
+	 30 end
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.963      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00624
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.090e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.250e-022
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  = -2.250e-022
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.090e-007  1.090e-007    -6.962    -6.963    -0.000     -3.14
+   H+             1.090e-007  1.090e-007    -6.962    -6.963    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     17.90
+H(0)         1.430e-025
+   H2             7.148e-026  7.148e-026   -25.146   -25.146     0.000     20.00
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.227   -42.227     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 200 atm)
+
+	H2(g)           -22.04    -25.15   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	O2(g)           -39.21    -42.23   -3.02  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite         0.16    -6.49     -6.64   1.000e+001  9.999e+000 -7.673e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                7.673e-004  7.673e-004
+	Sr               7.673e-004  7.673e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.973      Charge balance
+                                       pe  =  10.351      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 182
+                          Density (g/cm3)  =   1.00624
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.883e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.580e-019
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  3.760e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  14
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550929e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.184e-007  1.116e-007    -6.927    -6.952    -0.026     -3.12
+   H+             1.124e-007  1.065e-007    -6.949    -6.973    -0.024      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     17.90
+H(0)         2.706e-038
+   H2             1.353e-038  1.354e-038   -37.869   -37.868     0.000     20.00
+O(0)         3.304e-017
+   O2             1.652e-017  1.653e-017   -16.782   -16.782     0.000     35.00
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -115.387  -115.413    -0.026     15.03
+   H2S            0.000e+000  0.000e+000  -115.497  -115.497     0.000     30.00
+   S-2            0.000e+000  0.000e+000  -121.001  -121.102    -0.101     (0)  
+S(6)         7.673e-004
+   SO4-2          7.207e-004  5.716e-004    -3.142    -3.243    -0.101     14.10
+   SrSO4          4.666e-005  4.669e-005    -4.331    -4.331     0.000     40.00
+   HSO4-          6.274e-009  5.916e-009    -8.202    -8.228    -0.026     (0)  
+Sr           7.673e-004
+   Sr+2           7.207e-004  5.698e-004    -3.142    -3.244    -0.102    -11.90
+   SrSO4          4.666e-005  4.669e-005    -4.331    -4.331     0.000     40.00
+   SrOH+          2.908e-010  2.745e-010    -9.536    -9.561    -0.025     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 200 atm)
+
+	Celestite         0.00     -6.49   -6.49  SrSO4
+	H2(g)           -34.77    -37.87   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	H2S(g)         -114.60   -122.39   -7.79  H2S
+	O2(g)           -13.76    -16.78   -3.02  O2
+	Sulfur          -85.93    -80.85    5.09  S
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -6.65     -6.65   1.000e+001  9.999e+000 -6.351e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                6.351e-004  6.351e-004
+	Sr               6.351e-004  6.351e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.616      Charge balance
+                                       pe  =   8.911      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 245
+                          Density (g/cm3)  =   0.99723
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.368e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.932e-017
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  50.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  = -1.861e-012
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550876e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.765e-007  2.613e-007    -6.558    -6.583    -0.025     -5.41
+   H+             2.552e-007  2.422e-007    -6.593    -6.616    -0.023      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         8.556e-035
+   H2             4.278e-035  4.280e-035   -34.369   -34.369     0.000     20.00
+O(0)         9.443e-017
+   O2             4.721e-017  4.724e-017   -16.326   -16.326     0.000     35.00
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -104.128  -104.153    -0.025     15.03
+   H2S            0.000e+000  0.000e+000  -104.130  -104.130     0.000     30.00
+   S-2            0.000e+000  0.000e+000  -109.434  -109.531    -0.096     (0)  
+S(6)         6.351e-004
+   SO4-2          5.919e-004  4.742e-004    -3.228    -3.324    -0.096     14.11
+   SrSO4          4.317e-005  4.320e-005    -4.365    -4.365     0.000     40.00
+   HSO4-          2.142e-008  2.025e-008    -7.669    -7.694    -0.024     (0)  
+Sr           6.351e-004
+   Sr+2           5.919e-004  4.728e-004    -3.228    -3.325    -0.098    -11.89
+   SrSO4          4.317e-005  4.320e-005    -4.365    -4.365     0.000     40.00
+   SrOH+          1.058e-010  1.001e-010    -9.976   -10.000    -0.024     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K, 200 atm)
+
+	Celestite         0.00     -6.65   -6.65  SrSO4
+	H2(g)           -31.23    -34.37   -3.14  H2
+	H2O(g)           -0.91     -0.00    0.91  H2O
+	H2S(g)         -103.01   -110.77   -7.76  H2S
+	O2(g)           -13.18    -16.33   -3.15  O2
+	Sulfur          -77.61    -73.08    4.53  S
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -6.82     -6.82   1.000e+001  9.999e+000 -5.172e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                5.172e-004  5.172e-004
+	Sr               5.172e-004  5.172e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.343      Charge balance
+                                       pe  =   7.433      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 75 oC) = 289
+                          Density (g/cm3)  =   0.98404
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.920e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -3.285e-018
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  75.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  7.102e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  11
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550829e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            5.416e-007  5.130e-007    -6.266    -6.290    -0.024     -7.09
+   H+             4.774e-007  4.540e-007    -6.321    -6.343    -0.022      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.31
+H(0)         2.254e-031
+   H2             1.127e-031  1.127e-031   -30.948   -30.948     0.000     20.00
+O(0)         3.307e-017
+   O2             1.653e-017  1.654e-017   -16.782   -16.781     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -92.701   -92.701     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -92.845   -92.868    -0.024     15.03
+   S-2            0.000e+000  0.000e+000   -97.853   -97.945    -0.092     (0)  
+S(6)         5.172e-004
+   SO4-2          4.799e-004  3.880e-004    -3.319    -3.411    -0.092     14.13
+   SrSO4          3.725e-005  3.726e-005    -4.429    -4.429     0.000     40.00
+   HSO4-          6.426e-008  6.089e-008    -7.192    -7.215    -0.023     (0)  
+Sr           5.172e-004
+   Sr+2           4.800e-004  3.869e-004    -3.319    -3.412    -0.094    -11.87
+   SrSO4          3.725e-005  3.726e-005    -4.429    -4.429     0.000     40.00
+   SrOH+          4.610e-011  4.371e-011   -10.336   -10.359    -0.023     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(348 K, 200 atm)
+
+	Celestite         0.00     -6.82   -6.82  SrSO4
+	H2(g)           -27.82    -30.95   -3.13  H2
+	H2O(g)           -0.40     -0.00    0.40  H2O
+	H2S(g)          -91.46    -99.21   -7.75  H2S
+	O2(g)           -13.57    -16.78   -3.21  O2
+	Sulfur          -69.21    -65.15    4.06  S
+
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -7.01     -7.01   1.000e+001  1.000e+001 -4.138e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                4.138e-004  4.138e-004
+	Sr               4.138e-004  4.138e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.138      Charge balance
+                                       pe  =   6.220      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 100 oC) = 311
+                          Density (g/cm3)  =   0.96754
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.535e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -4.586e-018
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 100.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  8.603e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550787e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            9.353e-007  8.880e-007    -6.029    -6.052    -0.023     -8.15
+   H+             7.636e-007  7.275e-007    -6.117    -6.138    -0.021      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.62
+H(0)         1.314e-028
+   H2             6.570e-029  6.572e-029   -28.182   -28.182     0.000     20.00
+O(0)         3.299e-017
+   O2             1.649e-017  1.650e-017   -16.783   -16.783     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -83.592   -83.592     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -83.910   -83.933    -0.023     15.04
+   S-2            0.000e+000  0.000e+000   -88.629   -88.717    -0.088     (0)  
+S(6)         4.138e-004
+   SO4-2          3.835e-004  3.128e-004    -3.416    -3.505    -0.089     14.14
+   SrSO4          3.015e-005  3.016e-005    -4.521    -4.521     0.000     40.00
+   HSO4-          1.717e-007  1.631e-007    -6.765    -6.788    -0.022     (0)  
+Sr           4.138e-004
+   Sr+2           3.837e-004  3.121e-004    -3.416    -3.506    -0.090    -11.86
+   SrSO4          3.015e-005  3.016e-005    -4.521    -4.521     0.000     40.00
+   SrOH+          2.315e-011  2.200e-011   -10.635   -10.658    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(373 K, 200 atm)
+
+	Celestite         0.00     -7.01   -7.01  SrSO4
+	H2(g)           -25.08    -28.18   -3.10  H2
+	H2O(g)            0.04     -0.00   -0.04  H2O
+	H2S(g)          -82.30    -90.07   -7.77  H2S
+	O2(g)           -13.56    -16.78   -3.22  O2
+	Sulfur          -62.53    -58.88    3.65  S
+
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -7.21     -7.21   1.000e+001  1.000e+001 -3.249e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                3.249e-004  3.249e-004
+	Sr               3.249e-004  3.249e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.992      Charge balance
+                                       pe  =   5.128      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 125 oC) = 314
+                          Density (g/cm3)  =   0.94816
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.208e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -3.394e-018
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 125.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  1.249e-014
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550752e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.477e-006  1.406e-006    -5.831    -5.852    -0.021     -8.60
+   H+             1.067e-006  1.019e-006    -5.972    -5.992    -0.020      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     19.00
+H(0)         3.426e-026
+   H2             1.713e-026  1.714e-026   -25.766   -25.766     0.000     20.00
+O(0)         3.327e-017
+   O2             1.664e-017  1.664e-017   -16.779   -16.779     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -75.646   -75.646     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -76.158   -76.180    -0.021     15.04
+   S-2            0.000e+000  0.000e+000   -80.590   -80.675    -0.084     (0)  
+S(6)         3.249e-004
+   SO4-2          3.014e-004  2.482e-004    -3.521    -3.605    -0.084     14.16
+   SrSO4          2.302e-005  2.303e-005    -4.638    -4.638     0.000     40.00
+   HSO4-          4.102e-007  3.904e-007    -6.387    -6.408    -0.021     (0)  
+Sr           3.249e-004
+   Sr+2           3.019e-004  2.479e-004    -3.520    -3.606    -0.086    -11.84
+   SrSO4          2.302e-005  2.303e-005    -4.638    -4.638     0.000     40.00
+   SrOH+          1.310e-011  1.248e-011   -10.883   -10.904    -0.021     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(398 K, 200 atm)
+
+	Celestite         0.00     -7.21   -7.21  SrSO4
+	H2(g)           -22.72    -25.77   -3.05  H2
+	H2O(g)            0.43     -0.00   -0.43  H2O
+	H2S(g)          -74.35    -82.17   -7.82  H2S
+	O2(g)           -13.59    -16.78   -3.19  O2
+	Sulfur          -56.70    -53.41    3.30  S
+
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -7.43     -7.43   1.000e+001  1.000e+001 -2.504e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                2.504e-004  2.504e-004
+	Sr               2.504e-004  2.504e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.899      Charge balance
+                                       pe  =   4.357      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 150 oC) = 300
+                          Density (g/cm3)  =   0.92600
+                        Activity of water  =   1.000
+                           Ionic strength  =  9.356e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.229e-019
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 150.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  2.469e-014
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550722e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.195e-006  2.094e-006    -5.659    -5.679    -0.020     -8.43
+   H+             1.319e-006  1.262e-006    -5.880    -5.899    -0.019      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     19.46
+H(0)         1.619e-024
+   H2             8.093e-025  8.095e-025   -24.092   -24.092     0.000     20.00
+O(0)         2.745e-016
+   O2             1.372e-016  1.373e-016   -15.863   -15.862     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -70.485   -70.485     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -71.204   -71.224    -0.020     15.04
+   S-2            0.000e+000  0.000e+000   -75.347   -75.428    -0.080     (0)  
+S(6)         2.504e-004
+   SO4-2          2.329e-004  1.936e-004    -3.633    -3.713    -0.080     14.17
+   SrSO4          1.663e-005  1.663e-005    -4.779    -4.779     0.000     40.00
+   HSO4-          8.756e-007  8.355e-007    -6.058    -6.078    -0.020     (0)  
+Sr           2.504e-004
+   Sr+2           2.338e-004  1.939e-004    -3.631    -3.713    -0.081    -11.83
+   SrSO4          1.663e-005  1.663e-005    -4.779    -4.779     0.000     40.00
+   SrOH+          8.252e-012  7.879e-012   -11.083   -11.104    -0.020     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(423 K, 200 atm)
+
+	Celestite         0.00     -7.43   -7.43  SrSO4
+	H2(g)           -21.11    -24.09   -2.98  H2
+	H2O(g)            0.77     -0.00   -0.77  H2O
+	H2S(g)          -69.22    -77.12   -7.90  H2S
+	O2(g)           -12.73    -15.86   -3.14  O2
+	Sulfur          -52.96    -49.97    2.98  S
+
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -7.65     -7.65   1.000e+001  1.000e+001 -1.898e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                1.898e-004  1.898e-004
+	Sr               1.898e-004  1.898e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.855      Charge balance
+                                       pe  =   4.392      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 175 oC) = 276
+                          Density (g/cm3)  =   0.90096
+                        Activity of water  =   1.000
+                           Ionic strength  =  7.133e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.471e-017
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 175.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  1.718e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550698e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            3.127e-006  2.991e-006    -5.505    -5.524    -0.019     -7.64
+   H+             1.457e-006  1.396e-006    -5.837    -5.855    -0.018      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     20.00
+H(0)         1.508e-024
+   H2             7.538e-025  7.539e-025   -24.123   -24.123     0.000     20.00
+O(0)         1.949e-012
+   O2             9.746e-013  9.747e-013   -12.011   -12.011     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -72.006   -72.006     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -72.936   -72.955    -0.019     15.05
+   S-2            0.000e+000  0.000e+000   -76.783   -76.859    -0.076     (0)  
+S(6)         1.898e-004
+   SO4-2          1.767e-004  1.483e-004    -3.753    -3.829    -0.076     14.19
+   SrSO4          1.140e-005  1.141e-005    -4.943    -4.943     0.000     40.00
+   HSO4-          1.670e-006  1.597e-006    -5.777    -5.797    -0.019     (0)  
+Sr           1.898e-004
+   Sr+2           1.784e-004  1.493e-004    -3.749    -3.826    -0.077    -11.81
+   SrSO4          1.140e-005  1.141e-005    -4.943    -4.943     0.000     40.00
+   SrOH+          5.731e-012  5.485e-012   -11.242   -11.261    -0.019     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(448 K, 200 atm)
+
+	Celestite         0.00     -7.65   -7.65  SrSO4
+	H2(g)           -21.22    -24.12   -2.90  H2
+	H2O(g)            1.08     -0.00   -1.08  H2O
+	H2S(g)          -70.81    -78.81   -8.00  H2S
+	O2(g)            -8.95    -12.01   -3.06  O2
+	Sulfur          -54.22    -51.51    2.71  S
+
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -7.90     -7.90   1.000e+001  1.000e+001 -1.417e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                1.417e-004  1.417e-004
+	Sr               1.417e-004  1.417e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.855      Charge balance
+                                       pe  =   4.285      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 200 oC) = 246
+                          Density (g/cm3)  =   0.87277
+                        Activity of water  =   1.000
+                           Ionic strength  =  5.357e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -4.477e-020
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 200.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  3.550e-019
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550678e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            4.310e-006  4.133e-006    -5.365    -5.384    -0.018     -6.23
+   H+             1.454e-006  1.397e-006    -5.837    -5.855    -0.017      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     20.64
+H(0)         2.243e-024
+   H2             1.121e-024  1.121e-024   -23.950   -23.950     0.000     20.00
+O(0)         2.160e-009
+   O2             1.080e-009  1.080e-009    -8.967    -8.966     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -72.602   -72.602     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -73.745   -73.763    -0.018     15.05
+   S-2            0.000e+000  0.000e+000   -77.288   -77.361    -0.072     (0)  
+S(6)         1.417e-004
+   SO4-2          1.314e-004  1.113e-004    -3.881    -3.954    -0.072     14.21
+   SrSO4          7.439e-006  7.439e-006    -5.129    -5.128     0.000     40.00
+   HSO4-          2.856e-006  2.738e-006    -5.544    -5.563    -0.018     (0)  
+Sr           1.417e-004
+   Sr+2           1.343e-004  1.135e-004    -3.872    -3.945    -0.073    -11.79
+   SrSO4          7.439e-006  7.439e-006    -5.129    -5.128     0.000     40.00
+   SrOH+          4.343e-012  4.166e-012   -11.362   -11.380    -0.018     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(473 K, 200 atm)
+
+	Celestite         0.00     -7.90   -7.90  SrSO4
+	H2(g)           -21.14    -23.95   -2.81  H2
+	H2O(g)            1.35     -0.00   -1.35  H2O
+	H2S(g)          -71.49    -79.62   -8.13  H2S
+	O2(g)            -6.01     -8.97   -2.96  O2
+	Sulfur          -54.78    -52.32    2.46  S
+
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -8.16     -8.16   1.000e+001  1.000e+001 -1.046e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                1.046e-004  1.046e-004
+	Sr               1.046e-004  1.046e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.892      Charge balance
+                                       pe  =   3.492      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 225 oC) = 214
+                          Density (g/cm3)  =   0.84096
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.968e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.538e-020
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 225.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  3.805e-019
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550664e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            5.751e-006  5.526e-006    -5.240    -5.258    -0.017     -4.21
+   H+             1.334e-006  1.284e-006    -5.875    -5.892    -0.017      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     21.42
+H(0)         6.666e-023
+   H2             3.333e-023  3.333e-023   -22.477   -22.477     0.000     20.00
+O(0)         2.744e-009
+   O2             1.372e-009  1.372e-009    -8.863    -8.863     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -67.905   -67.905     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -69.262   -69.280    -0.017     15.06
+   S-2            0.000e+000  0.000e+000   -72.494   -72.562    -0.069     (0)  
+S(6)         1.046e-004
+   SO4-2          9.557e-005  8.161e-005    -4.020    -4.088    -0.069     14.22
+   SrSO4          4.624e-006  4.624e-006    -5.335    -5.335     0.000     40.00
+   HSO4-          4.417e-006  4.244e-006    -5.355    -5.372    -0.017     (0)  
+Sr           1.046e-004
+   Sr+2           9.998e-005  8.524e-005    -4.000    -4.069    -0.069    -11.78
+   SrSO4          4.624e-006  4.624e-006    -5.335    -5.335     0.000     40.00
+   SrOH+          3.542e-012  3.405e-012   -11.451   -11.468    -0.017     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(498 K, 200 atm)
+
+	Celestite         0.00     -8.16   -8.16  SrSO4
+	H2(g)           -19.77    -22.48   -2.71  H2
+	H2O(g)            1.59     -0.00   -1.59  H2O
+	H2S(g)          -66.90    -75.17   -8.27  H2S
+	O2(g)            -6.01     -8.86   -2.85  O2
+	Sulfur          -51.37    -49.14    2.24  S
+
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Celestite        -0.00    -8.43     -8.43   1.000e+001  1.000e+001 -7.671e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                7.671e-005  7.671e-005
+	Sr               7.671e-005  7.671e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.957      Charge balance
+                                       pe  =   2.779      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 250 oC) = 183
+                          Density (g/cm3)  =   0.80491
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.908e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.930e-020
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 250.00
+                           Pressure (atm)  = 200.00
+                  Electrical balance (eq)  =  1.794e-019
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  23
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550652e+001
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            7.388e-006  7.112e-006    -5.132    -5.148    -0.017     -1.57
+   H+             1.145e-006  1.103e-006    -5.941    -5.957    -0.016      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     22.38
+H(0)         1.211e-021
+   H2             6.056e-022  6.057e-022   -21.218   -21.218     0.000     20.00
+O(0)         4.773e-009
+   O2             2.386e-009  2.387e-009    -8.622    -8.622     0.000     35.00
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000   -63.982   -63.982     0.000     30.00
+   HS-            0.000e+000  0.000e+000   -65.558   -65.575    -0.017     15.06
+   S-2            0.000e+000  0.000e+000   -68.474   -68.539    -0.065     (0)  
+S(6)         7.671e-005
+   SO4-2          6.772e-005  5.824e-005    -4.169    -4.235    -0.065     14.23
+   HSO4-          6.243e-006  6.010e-006    -5.205    -5.221    -0.017     (0)  
+   SrSO4          2.743e-006  2.743e-006    -5.562    -5.562     0.000     40.00
+Sr           7.671e-005
+   Sr+2           7.396e-005  6.352e-005    -4.131    -4.197    -0.066    -11.77
+   SrSO4          2.743e-006  2.743e-006    -5.562    -5.562     0.000     40.00
+   SrOH+          3.066e-012  2.953e-012   -11.513   -11.530    -0.016     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(523 K, 200 atm)
+
+	Celestite         0.00     -8.43   -8.43  SrSO4
+	H2(g)           -18.61    -21.22   -2.61  H2
+	H2O(g)            1.81     -0.00   -1.81  H2O
+	H2S(g)          -63.09    -71.53   -8.44  H2S
+	O2(g)            -5.90     -8.62   -2.73  O2
+	Sulfur          -48.55    -46.51    2.04  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
