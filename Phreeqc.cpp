@@ -706,7 +706,7 @@ void Phreeqc::init(void)
 	}
 	pitzer_pe = FALSE;
 
-
+	count_pp = count_pg = count_s_s = 0; // used in store_get_equi_reactants
 	/*
 	 *	SIT
 	 */
