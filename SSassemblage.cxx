@@ -28,7 +28,7 @@ cxxSSassemblage::cxxSSassemblage(PHRQ_io * io)
 {
 }
 
-cxxSSassemblage::cxxSSassemblage(struct s_s_assemblage * s_s_assemblage_ptr, PHRQ_io * io)
+cxxSSassemblage::cxxSSassemblage(struct ss_assemblage * s_s_assemblage_ptr, PHRQ_io * io)
 	//
 	// constructor for cxxSSassemblage from struct SSassemblage
 	//

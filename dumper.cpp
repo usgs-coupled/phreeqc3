@@ -50,7 +50,7 @@ bool dumper::Read(CParser & parser)
 		vopts.push_back("equilibrium_phases");	// 10
 		vopts.push_back("exchange");
 		vopts.push_back("surface");
-		vopts.push_back("s_s_assemblage");
+		vopts.push_back("ss_assemblage");
 		vopts.push_back("solid_solution");
 		vopts.push_back("solid_solutions");		// 15
 		vopts.push_back("gas_phase");

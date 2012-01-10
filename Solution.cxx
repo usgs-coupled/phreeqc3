@@ -1637,12 +1637,12 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //	}
 //	for (i = 0; i < count_s_s_assemblage; i++)
 //	{
-//		if (s_s_assemblage[i].new_def != TRUE)
+//		if (ss_assemblage[i].new_def != TRUE)
 //		{
-//			std::cout << "Solid solution " << s_s_assemblage[i].
+//			std::cout << "Solid solution " << ss_assemblage[i].
 //				n_user << "\n";
 //			std::ostringstream oss;
-//			cxxSSassemblage ex(&(s_s_assemblage[i]));
+//			cxxSSassemblage ex(&(ss_assemblage[i]));
 //			ex.dump_raw(oss, 0);
 //			//std::cerr << oss.str();
 //
@@ -1659,10 +1659,10 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //
 //			ex1.read_raw(cparser);
 //
-//			struct s_s_assemblage *s_s_assemblage_ptr =
+//			struct ss_assemblage *s_s_assemblage_ptr =
 //				ex1.cxxSSassemblage2s_s_assemblage();
-//			s_s_assemblage_free(&s_s_assemblage[i]);
-//			s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[i],
+//			s_s_assemblage_free(&ss_assemblage[i]);
+//			s_s_assemblage_copy(s_s_assemblage_ptr, &ss_assemblage[i],
 //								s_s_assemblage_ptr->n_user);
 //			s_s_assemblage_free(s_s_assemblage_ptr);
 //			free_check_null(s_s_assemblage_ptr);

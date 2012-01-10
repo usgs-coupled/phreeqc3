@@ -456,8 +456,8 @@ read_solid_solutions_raw(void)
 
 	cxxSSassemblage ex;
 	ex.read_raw(parser);
-	//struct s_s_assemblage *s_s_assemblage_ptr =	ex.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
-	struct s_s_assemblage *s_s_assemblage_ptr =	cxxSSassemblage2s_s_assemblage(&ex);
+	//struct ss_assemblage *s_s_assemblage_ptr =	ex.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
+	struct ss_assemblage *s_s_assemblage_ptr =	cxxSSassemblage2s_s_assemblage(&ex);
 	int n;
 
 	/*
@@ -466,8 +466,8 @@ read_solid_solutions_raw(void)
 
 	if (s_s_assemblage_bsearch(s_s_assemblage_ptr->n_user, &n) != NULL)
 	{
-		s_s_assemblage_free(&s_s_assemblage[n]);
-		s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[n],
+		s_s_assemblage_free(&ss_assemblage[n]);
+		s_s_assemblage_copy(s_s_assemblage_ptr, &ss_assemblage[n],
 							s_s_assemblage_ptr->n_user);
 	}
 	else
@@ -475,11 +475,11 @@ read_solid_solutions_raw(void)
 		n = count_s_s_assemblage++;
 		if (count_s_s_assemblage >= max_s_s_assemblage)
 		{
-			space((void **) ((void *) &(s_s_assemblage)),
+			space((void **) ((void *) &(ss_assemblage)),
 				  count_s_s_assemblage, &max_s_s_assemblage,
-				  sizeof(struct s_s_assemblage));
+				  sizeof(struct ss_assemblage));
 		}
-		s_s_assemblage_copy(s_s_assemblage_ptr, &s_s_assemblage[n],
+		s_s_assemblage_copy(s_s_assemblage_ptr, &ss_assemblage[n],
 							s_s_assemblage_ptr->n_user);
 		s_s_assemblage_sort();
 	}
@@ -986,16 +986,16 @@ read_solid_solutions_modify(void)
 	}
 
 	// read entity
-	cxxSSassemblage entity(&(s_s_assemblage[n]));
+	cxxSSassemblage entity(&(ss_assemblage[n]));
 	entity.read_raw(parser, false);
 
 	// save entity
-	//struct s_s_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
-	struct s_s_assemblage *entity_ptr = cxxSSassemblage2s_s_assemblage(&entity);
-	s_s_assemblage_free(&(s_s_assemblage[n]));
-	s_s_assemblage_copy(entity_ptr, &(s_s_assemblage[n]), entity_ptr->n_user);
-	free_check_null(s_s_assemblage[n].description);
-	s_s_assemblage[n].description = string_duplicate(entity_ptr->description);
+	//struct ss_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
+	struct ss_assemblage *entity_ptr = cxxSSassemblage2s_s_assemblage(&entity);
+	s_s_assemblage_free(&(ss_assemblage[n]));
+	s_s_assemblage_copy(entity_ptr, &(ss_assemblage[n]), entity_ptr->n_user);
+	free_check_null(ss_assemblage[n].description);
+	ss_assemblage[n].description = string_duplicate(entity_ptr->description);
 	s_s_assemblage_free(entity_ptr);
 	free_check_null(entity_ptr);
 
@@ -1304,7 +1304,7 @@ delete_entities(void)
 		{
 			for (i = 0; i < count_s_s_assemblage; i++)
 			{
-				s_s_assemblage_delete(s_s_assemblage[i].n_user);
+				s_s_assemblage_delete(ss_assemblage[i].n_user);
 			}
 		}
 		else
@@ -1780,7 +1780,7 @@ dump_ostream(std::ostream& os)
 		{
 			for (i = 0; i < count_s_s_assemblage; i++)
 			{
-					cxxSSassemblage cxxentity(&s_s_assemblage[i]);
+					cxxSSassemblage cxxentity(&ss_assemblage[i]);
 					cxxentity.dump_raw(os,0);
 			}
 		}
@@ -1792,7 +1792,7 @@ dump_ostream(std::ostream& os)
 
 				if (s_s_assemblage_bsearch(*it, &n) != NULL)
 				{
-					cxxSSassemblage cxxentity(&s_s_assemblage[n]);
+					cxxSSassemblage cxxentity(&ss_assemblage[n]);
 					cxxentity.dump_raw(os,0);
 				}
 			}

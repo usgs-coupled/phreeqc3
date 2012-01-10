@@ -132,7 +132,7 @@ public:
 	int system_total_solids(cxxExchange *exchange_ptr,
 		cxxPPassemblage *pp_assemblage_ptr,
 		cxxGasPhase *gas_phase_ptr,
-		struct s_s_assemblage *s_s_assemblage_ptr,
+		struct ss_assemblage *s_s_assemblage_ptr,
 		struct surface *surface_ptr);
 
 	static LDBLE f_rho(LDBLE rho_old, void *cookie);
@@ -833,7 +833,7 @@ public:
 	//	LDBLE step_fraction);
 	int add_reaction(cxxReaction *reaction_ptr, int step_number,
 		LDBLE step_fraction);
-	int add_s_s_assemblage(struct s_s_assemblage *s_s_assemblage_ptr);
+	int add_s_s_assemblage(struct ss_assemblage *s_s_assemblage_ptr);
 	int add_solution(struct solution *solution_ptr, LDBLE extensive,
 		LDBLE intensive);
 	int add_surface(struct surface *surface_ptr);
@@ -845,7 +845,7 @@ public:
 	//int reaction_calc(struct irrev *irrev_ptr);
 	int reaction_calc(cxxReaction *reaction_ptr);
 	int solution_check(void);
-	int s_s_assemblage_check(struct s_s_assemblage *s_s_assemblage_ptr);
+	int s_s_assemblage_check(struct ss_assemblage *s_s_assemblage_ptr);
 
 	// structures.cpp -------------------------------
 	int clean_up(void);
@@ -969,29 +969,29 @@ protected:
 	struct species *s_search(const char *name);
 	struct species *s_store(const char *name, LDBLE z, int replace_if_found);
 public:
-	struct s_s_assemblage *s_s_assemblage_alloc(void);
-	struct s_s_assemblage *s_s_assemblage_bsearch(int k, int *n);
+	struct ss_assemblage *s_s_assemblage_alloc(void);
+	struct ss_assemblage *s_s_assemblage_bsearch(int k, int *n);
 protected:
 	static int s_s_assemblage_compare(const void *ptr1, const void *ptr2);
 public:
-	int s_s_assemblage_copy(struct s_s_assemblage *s_s_assemblage_old_ptr,
-	struct s_s_assemblage *s_s_assemblage_new_ptr,
+	int s_s_assemblage_copy(struct ss_assemblage *s_s_assemblage_old_ptr,
+	struct ss_assemblage *s_s_assemblage_new_ptr,
 		int n_user_new);
 protected:
 	int s_s_assemblage_copy_to_last(int n, int n_user);
 	int s_s_assemblage_duplicate(int n_user_old, int n_user_new);
 	int s_s_assemblage_delete(int n_user_old);
 public:
-	int s_s_assemblage_free(struct s_s_assemblage *s_s_assemblage_ptr);
+	int s_s_assemblage_free(struct ss_assemblage *s_s_assemblage_ptr);
 protected:
-	int s_s_assemblage_init(struct s_s_assemblage *s_s_assemblage_ptr,
+	int s_s_assemblage_init(struct ss_assemblage *s_s_assemblage_ptr,
 		int n_user, int n_user_end, char *description);
-	int s_s_assemblage_ptr_to_user(struct s_s_assemblage *s_s_assemblage_ptr_old,
+	int s_s_assemblage_ptr_to_user(struct ss_assemblage *s_s_assemblage_ptr_old,
 		int n_user_new);
-	struct s_s_assemblage *s_s_assemblage_replicate(struct s_s_assemblage
+	struct ss_assemblage *s_s_assemblage_replicate(struct ss_assemblage
 		*s_s_assemblage_old_ptr,
 		int n_user_new);
-	struct s_s_assemblage *s_s_assemblage_search(int n_user, int *n);
+	struct ss_assemblage *s_s_assemblage_search(int n_user, int *n);
 	int s_s_assemblage_sort(void);
 	static int s_s_compare(const void *ptr1, const void *ptr2);
 	struct save_values *save_values_bsearch(struct save_values *k, int *n);
@@ -1114,7 +1114,7 @@ public:
 	//struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
 	struct solution * cxxSolution2solution(const cxxSolution * sol);
 	struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
-	struct s_s_assemblage * cxxSSassemblage2s_s_assemblage(const cxxSSassemblage * ss);
+	struct ss_assemblage * cxxSSassemblage2s_s_assemblage(const cxxSSassemblage * ss);
 	struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSSassemblageSS > * sscomp);
 	struct surface * cxxSurface2surface(const cxxSurface * surf);
 	struct surface_comp * cxxSurfaceComp2surface_comp(const std::map < std::string, cxxSurfaceComp > * sc);
@@ -1408,7 +1408,7 @@ protected:
 
 	int count_s_s_assemblage;
 	int max_s_s_assemblage;
-	struct s_s_assemblage *s_s_assemblage;
+	struct ss_assemblage *ss_assemblage;
 	/*----------------------------------------------------------------------
 	*   Pure-phase assemblage
 	*---------------------------------------------------------------------- */
@@ -1908,7 +1908,7 @@ public:
 	N_Vector kinetics_y, kinetics_abstol;
 	void *kinetics_cvode_mem;
 	//struct pp_assemblage *cvode_pp_assemblage_save;
-	struct s_s_assemblage *cvode_s_s_assemblage_save;
+	struct ss_assemblage *cvode_s_s_assemblage_save;
 	cxxPPassemblage *cvode_pp_assemblage_save;
 	LDBLE *m_original;
 	LDBLE *m_temp;

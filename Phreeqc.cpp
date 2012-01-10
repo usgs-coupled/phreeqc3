@@ -247,7 +247,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// solid-solutions
 	for (i = 0; i < count_s_s_assemblage; i++)
 	{
-		cxxSSassemblage entity(&s_s_assemblage[i]);
+		cxxSSassemblage entity(&ss_assemblage[i]);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
@@ -406,7 +406,7 @@ void Phreeqc::init(void)
 	surface				= 0;
 	//gas_phase			= 0;
 	kinetics			 = 0;
-	s_s_assemblage = 0;
+	ss_assemblage = 0;
 	cell_data			= 0;
 	elements			 = 0;
 	elt_list			 = 0;
@@ -544,7 +544,7 @@ void Phreeqc::init(void)
  */
 	last_model.exchange			 = NULL;
 	last_model.gas_phase			= NULL;
-	last_model.s_s_assemblage = NULL;
+	last_model.ss_assemblage = NULL;
 	last_model.kinetics			 = NULL;
 	last_model.pp_assemblage	= NULL;
 	last_model.add_formula		= NULL;
@@ -601,7 +601,7 @@ void Phreeqc::init(void)
 	pr.initial_exchangers	= TRUE;
 	pr.reactions			= TRUE;
 	pr.gas_phase			= TRUE;
-	pr.s_s_assemblage		= TRUE;
+	pr.ss_assemblage		= TRUE;
 	pr.pp_assemblage		= TRUE;
 	pr.surface				= TRUE;
 	pr.exchange				= TRUE;
