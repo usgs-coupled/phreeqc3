@@ -206,8 +206,8 @@ all: alkalinity.out \
 	Barite_MCl2.out \
 	Barite_NaCl.out \
 	Barite_tc.out \
-	cc_P0.out \	
-	cc_P2.out \	
+	cc_P0.out \
+	cc_P2.out \
 	cc_P3.out \
 	CO2_4M_NaCl.out \
 	CO2_Na2SO4.out \
