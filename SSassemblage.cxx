@@ -11,7 +11,7 @@
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "SSassemblage.h"
-#include "SSassemblageSS.h"
+#include "SS.h"
 #include "cxxMix.h"
 #include "phqalloc.h"
 
@@ -41,7 +41,7 @@ cxxNumKeyword(io)
 	n_user_end = s_s_assemblage_ptr->n_user_end;
 	for (i = 0; i < s_s_assemblage_ptr->count_s_s; i++)
 	{
-		cxxSSassemblageSS ssSS(&(s_s_assemblage_ptr->s_s[i]), this->Get_io());
+		cxxSS ssSS(&(s_s_assemblage_ptr->s_s[i]), this->Get_io());
 		std::string str(ssSS.Get_name());
 		ssAssemblageSSs[str] = ssSS;
 	}
@@ -52,7 +52,7 @@ cxxSSassemblage::cxxSSassemblage(const std::map < int,
 cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
-	//std::list<cxxSSassemblageSS> ssAssemblageSSs;
+	//std::list<cxxSS> ssAssemblageSSs;
 //
 //   Mix
 //
@@ -98,7 +98,7 @@ cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 	// ssAssemblageSSs
 	s_oss << indent1;
 	s_oss << "<pure_phases " << "\n";
-	for (std::list < cxxSSassemblageSS >::const_iterator it =
+	for (std::list < cxxSS >::const_iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
 		it->dump_xml(s_oss, indent + 2);
@@ -125,7 +125,7 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 	s_oss << "SOLID_SOLUTIONS_RAW       " << n_user_local << " " << this->description << "\n";
 
 	// ssAssemblageSSs
-	for (std::map < std::string, cxxSSassemblageSS >::const_iterator it =
+	for (std::map < std::string, cxxSS >::const_iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
 		s_oss << indent1;
@@ -188,7 +188,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 
 		case 0:				// solid_solution
 			{
-				cxxSSassemblageSS ec(this->Get_io());
+				cxxSS ec(this->Get_io());
 
 				// preliminary read
 				parser.set_accumulate(true);
@@ -200,12 +200,12 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				reread.set_echo_stream(CParser::EO_NONE);
 				if (this->ssAssemblageSSs.find(ec.Get_name()) != this->ssAssemblageSSs.end())
 				{
-					cxxSSassemblageSS & ec1 = this->ssAssemblageSSs.find(ec.Get_name())->second;
+					cxxSS & ec1 = this->ssAssemblageSSs.find(ec.Get_name())->second;
 					ec1.read_raw(reread, false);
 				}
 				else
 				{
-					cxxSSassemblageSS ec1(this->Get_io());
+					cxxSS ec1(this->Get_io());
 					ec1.read_raw(reread, false);
 					std::string str(ec1.Get_name());
 					this->ssAssemblageSSs[str] = ec1;
@@ -229,7 +229,7 @@ cxxSSassemblage::mpi_pack(std::vector < int >&ints,
 	/* int n_user; */
 	ints.push_back(this->n_user);
 	ints.push_back((int) this->ssAssemblageSSs.size());
-	for (std::map < std::string, cxxSSassemblageSS >::iterator it =
+	for (std::map < std::string, cxxSS >::iterator it =
 		 this->ssAssemblageSSs.begin(); it != this->ssAssemblageSSs.end();
 		 it++)
 	{
@@ -253,7 +253,7 @@ cxxSSassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 	this->ssAssemblageSSs.clear();
 	for (int n = 0; n < count; n++)
 	{
-		cxxSSassemblageSS ssc;
+		cxxSS ssc;
 		ssc.mpi_unpack(ints, &i, doubles, &d);
 		std::string str(ssc.get_name());
 		this->ssAssemblageSSs[str] = ssc;
@@ -268,7 +268,7 @@ cxxSSassemblage::totalize(PHREEQC_PTR_ARG)
 {
 	this->totals.clear();
 	// component structures
-	for (std::map < std::string, cxxSSassemblageSS >::iterator it =
+	for (std::map < std::string, cxxSS >::iterator it =
 		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
 	{
 		(*it).second.totalize(P_INSTANCE);
@@ -285,11 +285,11 @@ cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
 	if (extensive == 0.0)
 		return;
 
-	for (std::map < std::string, cxxSSassemblageSS >::const_iterator itadd =
+	for (std::map < std::string, cxxSS >::const_iterator itadd =
 		 addee.ssAssemblageSSs.begin(); itadd != addee.ssAssemblageSSs.end();
 		 ++itadd)
 	{
-		std::map < std::string, cxxSSassemblageSS >::iterator it =
+		std::map < std::string, cxxSS >::iterator it =
 			this->ssAssemblageSSs.find((*itadd).first);
 		if (it != this->ssAssemblageSSs.end())
 		{
@@ -297,7 +297,7 @@ cxxSSassemblage::add(const cxxSSassemblage & addee, double extensive)
 		}
 		else
 		{
-			cxxSSassemblageSS entity = (*itadd).second;
+			cxxSS entity = (*itadd).second;
 			entity.multiply(extensive);
 			std::string str(entity.Get_name());
 			this->ssAssemblageSSs[str] = entity;
