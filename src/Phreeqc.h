@@ -46,7 +46,7 @@ class cxxReaction;
 class cxxSolution;
 class cxxSolutionIsotopeList;
 class cxxSSassemblage;
-class cxxSSassemblageSS;
+class cxxSS;
 class cxxSurface;
 class cxxSurfaceCharge;
 class cxxSurfaceComp;
@@ -1115,7 +1115,7 @@ public:
 	struct solution * cxxSolution2solution(const cxxSolution * sol);
 	struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
 	struct ss_assemblage * cxxSSassemblage2s_s_assemblage(const cxxSSassemblage * ss);
-	struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSSassemblageSS > * sscomp);
+	struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSS > * sscomp);
 	struct surface * cxxSurface2surface(const cxxSurface * surf);
 	struct surface_comp * cxxSurfaceComp2surface_comp(const std::map < std::string, cxxSurfaceComp > * sc);
 	struct surface_charge * cxxSurfaceCharge2surface_charge(const std::map < std::string, cxxSurfaceCharge > * s_ch);

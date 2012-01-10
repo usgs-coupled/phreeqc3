@@ -23,7 +23,7 @@
 #include "GasPhase.h"
 #include "cxxKinetics.h"
 #include "PPassemblage.h"
-#include "SSassemblageSS.h"
+#include "SS.h"
 #include "SSassemblage.h"
 #include "Surface.h"
 #include "cxxMix.h"

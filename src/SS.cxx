@@ -1,4 +1,4 @@
-// SSassemblageSS.cxx: implementation of the cxxSSassemblageSS class.
+// SSassemblageSS.cxx: implementation of the cxxSS class.
 //
 //////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
@@ -8,7 +8,7 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "SSassemblageSS.h"
+#include "SS.h"
 //#include "Dictionary.h"
 #include "phqalloc.h"
 
@@ -18,11 +18,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cxxSSassemblageSS::cxxSSassemblageSS(PHRQ_io *io)
+cxxSS::cxxSS(PHRQ_io *io)
 :
 PHRQ_base(io)
 	//
-	// default constructor for cxxSSassemblageSS 
+	// default constructor for cxxSS 
 	//
 {
 	//total_moles                    = 0;
@@ -39,10 +39,10 @@ PHRQ_base(io)
 	//double p[4];
 }
 
-cxxSSassemblageSS::cxxSSassemblageSS(struct s_s *s_s_ptr, PHRQ_io *io)
+cxxSS::cxxSS(struct s_s *s_s_ptr, PHRQ_io *io)
 :
 PHRQ_base(io)		//
-		// constructor for cxxSSassemblageSS from struct s_s
+		// constructor for cxxSS from struct s_s
 		//
 {
 	this->Set_name(s_s_ptr->name);
@@ -69,13 +69,13 @@ PHRQ_base(io)		//
 	}
 }
 
-cxxSSassemblageSS::~cxxSSassemblageSS()
+cxxSS::~cxxSS()
 {
 }
 
 #ifdef SKIP
 void
-cxxSSassemblageSS::dump_xml(std::ostream & s_oss, unsigned int indent) const const
+cxxSS::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
 	//const char    ERR_MESSAGE[] = "Packing s_s message: %s, element not found\n";
 	unsigned int i;
@@ -104,7 +104,7 @@ cxxSSassemblageSS::dump_xml(std::ostream & s_oss, unsigned int indent) const con
 }
 #endif
 void
-cxxSSassemblageSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
+cxxSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	//const char    ERR_MESSAGE[] = "Packing s_s message: %s, element not found\n";
 	unsigned int i;
@@ -132,7 +132,7 @@ cxxSSassemblageSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 
 void
-cxxSSassemblageSS::read_raw(CParser & parser, bool check)
+cxxSS::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
@@ -420,7 +420,7 @@ cxxSSassemblageSS::read_raw(CParser & parser, bool check)
 
 #ifdef USE_MPI
 void
-cxxSSassemblageSS::mpi_pack(std::vector < int >&ints,
+cxxSS::mpi_pack(std::vector < int >&ints,
 							std::vector < double >&doubles)
 {
 	extern cxxDictionary dictionary;
@@ -436,7 +436,7 @@ cxxSSassemblageSS::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxSSassemblageSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 {
 	extern cxxDictionary dictionary;
 	int i = *ii;
@@ -456,7 +456,7 @@ cxxSSassemblageSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 #endif
 
 void
-cxxSSassemblageSS::totalize(PHREEQC_PTR_ARG)
+cxxSS::totalize(PHREEQC_PTR_ARG)
 {
 	this->totals.clear();
 	// component structures
@@ -480,7 +480,7 @@ cxxSSassemblageSS::totalize(PHREEQC_PTR_ARG)
 }
 
 void
-cxxSSassemblageSS::add(const cxxSSassemblageSS & addee, double extensive)
+cxxSS::add(const cxxSS & addee, double extensive)
 {
 	if (extensive == 0.0)
 		return;
@@ -499,7 +499,7 @@ cxxSSassemblageSS::add(const cxxSSassemblageSS & addee, double extensive)
 }
 
 void
-cxxSSassemblageSS::multiply(double extensive)
+cxxSS::multiply(double extensive)
 {
 	//char *name;
 	//cxxNameDouble comps;
