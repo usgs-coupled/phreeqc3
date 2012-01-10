@@ -28,7 +28,7 @@ cxxSSassemblage::cxxSSassemblage(PHRQ_io * io)
 {
 }
 
-cxxSSassemblage::cxxSSassemblage(struct ss_assemblage * s_s_assemblage_ptr, PHRQ_io * io)
+cxxSSassemblage::cxxSSassemblage(struct ss_assemblage * ss_assemblage_ptr, PHRQ_io * io)
 	//
 	// constructor for cxxSSassemblage from struct SSassemblage
 	//
@@ -36,12 +36,12 @@ cxxSSassemblage::cxxSSassemblage(struct ss_assemblage * s_s_assemblage_ptr, PHRQ
 cxxNumKeyword(io)
 {
 	int i;
-	this->Set_description(s_s_assemblage_ptr->description);
-	n_user = s_s_assemblage_ptr->n_user;
-	n_user_end = s_s_assemblage_ptr->n_user_end;
-	for (i = 0; i < s_s_assemblage_ptr->count_s_s; i++)
+	this->Set_description(ss_assemblage_ptr->description);
+	n_user = ss_assemblage_ptr->n_user;
+	n_user_end = ss_assemblage_ptr->n_user_end;
+	for (i = 0; i < ss_assemblage_ptr->count_s_s; i++)
 	{
-		cxxSS ssSS(&(s_s_assemblage_ptr->s_s[i]), this->Get_io());
+		cxxSS ssSS(&(ss_assemblage_ptr->s_s[i]), this->Get_io());
 		std::string str(ssSS.Get_name());
 		ssAssemblageSSs[str] = ssSS;
 	}

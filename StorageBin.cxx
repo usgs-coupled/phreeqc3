@@ -1017,9 +1017,9 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	if (this->getSSassemblage(n) != NULL)
 	{
 		//system_ptr->ss_assemblage =
-		//	(this->getSSassemblage(n))->cxxSSassemblage2s_s_assemblage(P_INSTANCE);
+		//	(this->getSSassemblage(n))->cxxSSassemblage2ss_assemblage(P_INSTANCE);
 		system_ptr->ss_assemblage =
-			P_INSTANCE_POINTER cxxSSassemblage2s_s_assemblage((this->getSSassemblage(n)));
+			P_INSTANCE_POINTER cxxSSassemblage2ss_assemblage((this->getSSassemblage(n)));
 	}
 	else
 	{
@@ -1473,10 +1473,10 @@ cxxStorageBin::Set_System(struct Use *use_ptr)
 		}
 	}
 	// ss_assemblage
-	if (use_ptr->s_s_assemblage_ptr != NULL)
+	if (use_ptr->ss_assemblage_ptr != NULL)
 	{
 		std::map < int, cxxSSassemblage >::iterator it =
-			this->SSassemblages.find(use_ptr->n_s_s_assemblage_user);
+			this->SSassemblages.find(use_ptr->n_ss_assemblage_user);
 		if (it != this->SSassemblages.end())
 		{
 			this->system.Set_SSassemblage(&(it->second));

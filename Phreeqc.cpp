@@ -245,7 +245,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 
 	// solid-solutions
-	for (i = 0; i < count_s_s_assemblage; i++)
+	for (i = 0; i < count_ss_assemblage; i++)
 	{
 		cxxSSassemblage entity(&ss_assemblage[i]);
 		entity.totalize(this);
@@ -334,7 +334,7 @@ void Phreeqc::init(void)
 	max_surface				= MAX_PP_ASSEMBLAGE;
 	//max_gas_phase			= MAX_PP_ASSEMBLAGE;
 	max_kinetics			= MAX_PP_ASSEMBLAGE;
-	max_s_s_assemblage		= MAX_PP_ASSEMBLAGE;
+	max_ss_assemblage		= MAX_PP_ASSEMBLAGE;
 
 	max_elements			= MAX_ELEMENTS;
 	max_elts				= MAX_ELTS;
@@ -354,7 +354,7 @@ void Phreeqc::init(void)
 	count_surface				= 0;
 	//count_gas_phase			= 0;
 	count_kinetics			 = 0;
-	count_s_s_assemblage = 0;
+	count_ss_assemblage = 0;
 
 	count_elements			 = 0;
 	//count_irrev					= 0;
@@ -669,7 +669,7 @@ void Phreeqc::init(void)
 	copy_pp_assemblage.n_user	= copy_pp_assemblage.start	= copy_pp_assemblage.end	= 0;
 	copy_exchange.n_user		= copy_exchange.start		= copy_exchange.end			= 0;
 	copy_surface.n_user			= copy_surface.start		= copy_surface.end			= 0;
-	copy_s_s_assemblage.n_user	= copy_s_s_assemblage.start = copy_s_s_assemblage.end	= 0;
+	copy_ss_assemblage.n_user	= copy_ss_assemblage.start = copy_ss_assemblage.end	= 0;
 	copy_gas_phase.n_user		= copy_gas_phase.start		= copy_gas_phase.end		= 0;
 	copy_kinetics.n_user		= copy_kinetics.start		= copy_kinetics.end			= 0;
 	copy_mix.n_user				= copy_mix.start			= copy_mix.end				= 0;

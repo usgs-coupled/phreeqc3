@@ -37,7 +37,7 @@ public:
 	StorageBinListItem & Get_pp_assemblage(void) { return(this->pp_assemblage); };
 	StorageBinListItem & Get_exchange(void) { return(this->exchange); };
 	StorageBinListItem & Get_surface(void) { return(this->surface); };
-	StorageBinListItem & Get_s_s_assemblage(void) { return(this->ss_assemblage); };
+	StorageBinListItem & Get_ss_assemblage(void) { return(this->ss_assemblage); };
 	StorageBinListItem & Get_gas_phase(void) { return(this->gas_phase); };
 	StorageBinListItem & Get_kinetics(void) { return(this->kinetics); };
 	StorageBinListItem & Get_mix(void) { return(this->mix); };

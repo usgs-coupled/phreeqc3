@@ -132,7 +132,7 @@ public:
 	int system_total_solids(cxxExchange *exchange_ptr,
 		cxxPPassemblage *pp_assemblage_ptr,
 		cxxGasPhase *gas_phase_ptr,
-		struct ss_assemblage *s_s_assemblage_ptr,
+		struct ss_assemblage *ss_assemblage_ptr,
 		struct surface *surface_ptr);
 
 	static LDBLE f_rho(LDBLE rho_old, void *cookie);
@@ -417,7 +417,7 @@ public:
 	int xexchange_save(int n_user);
 	int xgas_save(int n_user);
 	int xpp_assemblage_save(int n_user);
-	int xs_s_assemblage_save(int n_user);
+	int xss_assemblage_save(int n_user);
 	int xsurface_save(int n_user);
 	int do_initialize(void);
 	int do_status(void);
@@ -543,7 +543,7 @@ public:
 	int build_min_exch(void);
 	int build_model(void);
 	int build_pure_phases(void);
-	int build_s_s_assemblage(void);
+	int build_ss_assemblage(void);
 	int build_solution_phase_boundaries(void);
 	int build_species_list(int n);
 	int build_min_surface(void);
@@ -578,7 +578,7 @@ public:
 	int setup_pure_phases(void);
 	int adjust_setup_pure_phases(void);
 	int setup_related_surface(void);
-	int setup_s_s_assemblage(void);
+	int setup_ss_assemblage(void);
 	int setup_solution(void);
 	int adjust_setup_solution(void);
 	int setup_surface(void);
@@ -627,7 +627,7 @@ public:
 	int print_kinetics(void);
 	int print_mix(void);
 	int print_pp_assemblage(void);
-	int print_s_s_assemblage(void);
+	int print_ss_assemblage(void);
 	int print_saturation_indices(void);
 	int print_surface_cd_music(void);
 	int print_totals(void);
@@ -639,7 +639,7 @@ public:
 	int punch_molalities(void);
 	int punch_activities(void);
 	int punch_pp_assemblage(void);
-	int punch_s_s_assemblage(void);
+	int punch_ss_assemblage(void);
 	int punch_saturation_indices(void);
 	int punch_totals(void);
 	int punch_user_punch(void);
@@ -774,7 +774,7 @@ public:
 	int dump_mix(int k);
 	int dump_pp_assemblage(int k);
 	int dump_reaction(int k);
-	int dump_s_s_assemblage(int k);
+	int dump_ss_assemblage(int k);
 	int dump_solution(int k);
 	int dump_surface(int k);
 	int dump_cpp(void);
@@ -833,7 +833,7 @@ public:
 	//	LDBLE step_fraction);
 	int add_reaction(cxxReaction *reaction_ptr, int step_number,
 		LDBLE step_fraction);
-	int add_s_s_assemblage(struct ss_assemblage *s_s_assemblage_ptr);
+	int add_ss_assemblage(struct ss_assemblage *ss_assemblage_ptr);
 	int add_solution(struct solution *solution_ptr, LDBLE extensive,
 		LDBLE intensive);
 	int add_surface(struct surface *surface_ptr);
@@ -845,7 +845,7 @@ public:
 	//int reaction_calc(struct irrev *irrev_ptr);
 	int reaction_calc(cxxReaction *reaction_ptr);
 	int solution_check(void);
-	int s_s_assemblage_check(struct ss_assemblage *s_s_assemblage_ptr);
+	int ss_assemblage_check(struct ss_assemblage *ss_assemblage_ptr);
 
 	// structures.cpp -------------------------------
 	int clean_up(void);
@@ -969,30 +969,30 @@ protected:
 	struct species *s_search(const char *name);
 	struct species *s_store(const char *name, LDBLE z, int replace_if_found);
 public:
-	struct ss_assemblage *s_s_assemblage_alloc(void);
-	struct ss_assemblage *s_s_assemblage_bsearch(int k, int *n);
+	struct ss_assemblage *ss_assemblage_alloc(void);
+	struct ss_assemblage *ss_assemblage_bsearch(int k, int *n);
 protected:
-	static int s_s_assemblage_compare(const void *ptr1, const void *ptr2);
+	static int ss_assemblage_compare(const void *ptr1, const void *ptr2);
 public:
-	int s_s_assemblage_copy(struct ss_assemblage *s_s_assemblage_old_ptr,
-	struct ss_assemblage *s_s_assemblage_new_ptr,
+	int ss_assemblage_copy(struct ss_assemblage *ss_assemblage_old_ptr,
+	struct ss_assemblage *ss_assemblage_new_ptr,
 		int n_user_new);
 protected:
-	int s_s_assemblage_copy_to_last(int n, int n_user);
-	int s_s_assemblage_duplicate(int n_user_old, int n_user_new);
-	int s_s_assemblage_delete(int n_user_old);
+	int ss_assemblage_copy_to_last(int n, int n_user);
+	int ss_assemblage_duplicate(int n_user_old, int n_user_new);
+	int ss_assemblage_delete(int n_user_old);
 public:
-	int s_s_assemblage_free(struct ss_assemblage *s_s_assemblage_ptr);
+	int ss_assemblage_free(struct ss_assemblage *ss_assemblage_ptr);
 protected:
-	int s_s_assemblage_init(struct ss_assemblage *s_s_assemblage_ptr,
+	int ss_assemblage_init(struct ss_assemblage *ss_assemblage_ptr,
 		int n_user, int n_user_end, char *description);
-	int s_s_assemblage_ptr_to_user(struct ss_assemblage *s_s_assemblage_ptr_old,
+	int ss_assemblage_ptr_to_user(struct ss_assemblage *ss_assemblage_ptr_old,
 		int n_user_new);
-	struct ss_assemblage *s_s_assemblage_replicate(struct ss_assemblage
-		*s_s_assemblage_old_ptr,
+	struct ss_assemblage *ss_assemblage_replicate(struct ss_assemblage
+		*ss_assemblage_old_ptr,
 		int n_user_new);
-	struct ss_assemblage *s_s_assemblage_search(int n_user, int *n);
-	int s_s_assemblage_sort(void);
+	struct ss_assemblage *ss_assemblage_search(int n_user, int *n);
+	int ss_assemblage_sort(void);
 	static int s_s_compare(const void *ptr1, const void *ptr2);
 	struct save_values *save_values_bsearch(struct save_values *k, int *n);
 	static int save_values_compare(const void *ptr1, const void *ptr2);
@@ -1083,7 +1083,7 @@ public:
 	struct species *s_alloc(void);
 	int s_free(struct species *s_ptr);
 	int s_init(struct species *s_ptr);
-	static int s_s_assemblage_compare_int(const void *ptr1, const void *ptr2);
+	static int ss_assemblage_compare_int(const void *ptr1, const void *ptr2);
 	static int solution_compare(const void *ptr1, const void *ptr2);
 	static int solution_compare_int(const void *ptr1, const void *ptr2);
 	static int species_list_compare(const void *ptr1, const void *ptr2);
@@ -1114,7 +1114,7 @@ public:
 	//struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
 	struct solution * cxxSolution2solution(const cxxSolution * sol);
 	struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
-	struct ss_assemblage * cxxSSassemblage2s_s_assemblage(const cxxSSassemblage * ss);
+	struct ss_assemblage * cxxSSassemblage2ss_assemblage(const cxxSSassemblage * ss);
 	struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSS > * sscomp);
 	struct surface * cxxSurface2surface(const cxxSurface * surf);
 	struct surface_comp * cxxSurfaceComp2surface_comp(const std::map < std::string, cxxSurfaceComp > * sc);
@@ -1188,7 +1188,7 @@ public:
 	int tidy_phases(void);
 	int tidy_pp_assemblage(void);
 	int tidy_solutions(void);
-	int tidy_s_s_assemblage(void);
+	int tidy_ss_assemblage(void);
 	int tidy_species(void);
 	int tidy_surface(void);
 	int scan(LDBLE f(LDBLE x, void *), LDBLE * xx0, LDBLE * xx1);
@@ -1371,7 +1371,7 @@ protected:
 	struct copier copy_pp_assemblage;
 	struct copier copy_exchange;
 	struct copier copy_surface;
-	struct copier copy_s_s_assemblage;
+	struct copier copy_ss_assemblage;
 	struct copier copy_gas_phase;
 	struct copier copy_kinetics;
 	struct copier copy_mix;
@@ -1406,8 +1406,8 @@ protected:
 	*   Solid solution
 	*---------------------------------------------------------------------- */
 
-	int count_s_s_assemblage;
-	int max_s_s_assemblage;
+	int count_ss_assemblage;
+	int max_ss_assemblage;
 	struct ss_assemblage *ss_assemblage;
 	/*----------------------------------------------------------------------
 	*   Pure-phase assemblage
@@ -1554,7 +1554,7 @@ protected:
 	*---------------------------------------------------------------------- */
 	int new_model, new_exchange, new_pp_assemblage, new_surface,
 		new_reaction, new_temperature, new_mix, new_solution, new_gas_phase,
-		new_inverse, new_punch, new_s_s_assemblage, new_kinetics, new_copy,
+		new_inverse, new_punch, new_ss_assemblage, new_kinetics, new_copy,
 		new_pitzer;
 
 	/*----------------------------------------------------------------------
@@ -1908,7 +1908,7 @@ public:
 	N_Vector kinetics_y, kinetics_abstol;
 	void *kinetics_cvode_mem;
 	//struct pp_assemblage *cvode_pp_assemblage_save;
-	struct ss_assemblage *cvode_s_s_assemblage_save;
+	struct ss_assemblage *cvode_ss_assemblage_save;
 	cxxPPassemblage *cvode_pp_assemblage_save;
 	LDBLE *m_original;
 	LDBLE *m_temp;

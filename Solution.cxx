@@ -1635,7 +1635,7 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //		kinetics_free(kinetics_ptr);
 //		free_check_null(kinetics_ptr);
 //	}
-//	for (i = 0; i < count_s_s_assemblage; i++)
+//	for (i = 0; i < count_ss_assemblage; i++)
 //	{
 //		if (ss_assemblage[i].new_def != TRUE)
 //		{
@@ -1659,13 +1659,13 @@ cxxSolution::Update(const cxxNameDouble &nd)
 //
 //			ex1.read_raw(cparser);
 //
-//			struct ss_assemblage *s_s_assemblage_ptr =
-//				ex1.cxxSSassemblage2s_s_assemblage();
-//			s_s_assemblage_free(&ss_assemblage[i]);
-//			s_s_assemblage_copy(s_s_assemblage_ptr, &ss_assemblage[i],
-//								s_s_assemblage_ptr->n_user);
-//			s_s_assemblage_free(s_s_assemblage_ptr);
-//			free_check_null(s_s_assemblage_ptr);
+//			struct ss_assemblage *ss_assemblage_ptr =
+//				ex1.cxxSSassemblage2ss_assemblage();
+//			ss_assemblage_free(&ss_assemblage[i]);
+//			ss_assemblage_copy(ss_assemblage_ptr, &ss_assemblage[i],
+//								ss_assemblage_ptr->n_user);
+//			ss_assemblage_free(ss_assemblage_ptr);
+//			free_check_null(ss_assemblage_ptr);
 //
 //		}
 //
