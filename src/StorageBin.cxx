@@ -799,10 +799,10 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 //	}
 //
 //	// SSassemblages
-//	if (system_ptr->s_s_assemblage != NULL)
+//	if (system_ptr->ss_assemblage != NULL)
 //	{
-//		this->SSassemblages[system_ptr->s_s_assemblage->n_user] =
-//			cxxSSassemblage(system_ptr->s_s_assemblage);
+//		this->SSassemblages[system_ptr->ss_assemblage->n_user] =
+//			cxxSSassemblage(system_ptr->ss_assemblage);
 //	}
 //
 //	// Surfaces
@@ -1016,14 +1016,14 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// SSassemblages
 	if (this->getSSassemblage(n) != NULL)
 	{
-		//system_ptr->s_s_assemblage =
+		//system_ptr->ss_assemblage =
 		//	(this->getSSassemblage(n))->cxxSSassemblage2s_s_assemblage(P_INSTANCE);
-		system_ptr->s_s_assemblage =
+		system_ptr->ss_assemblage =
 			P_INSTANCE_POINTER cxxSSassemblage2s_s_assemblage((this->getSSassemblage(n)));
 	}
 	else
 	{
-		system_ptr->s_s_assemblage = NULL;
+		system_ptr->ss_assemblage = NULL;
 	}
 
 	// Surfaces
@@ -1472,7 +1472,7 @@ cxxStorageBin::Set_System(struct Use *use_ptr)
 			this->system.Set_PPassemblage(&(it->second));
 		}
 	}
-	// s_s_assemblage
+	// ss_assemblage
 	if (use_ptr->s_s_assemblage_ptr != NULL)
 	{
 		std::map < int, cxxSSassemblage >::iterator it =
@@ -1579,7 +1579,7 @@ cxxStorageBin::Set_System(int i)
 			this->system.Set_PPassemblage(&(it->second));
 		}
 	}
-	// s_s_assemblage
+	// ss_assemblage
 	{
 		std::map < int, cxxSSassemblage >::iterator it = this->SSassemblages.find(i);
 		if (it != this->SSassemblages.end())
