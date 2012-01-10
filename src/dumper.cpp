@@ -122,7 +122,7 @@ bool dumper::Read(CParser & parser)
 		case 13:
 		case 14:
 		case 15:
-			item = &(this->binList.Get_s_s_assemblage());
+			item = &(this->binList.Get_ss_assemblage());
 			break;
 		case 16:
 		case 17:
@@ -262,7 +262,7 @@ bool dumper::Get_bool_any(void)
 		Get_bool_pp_assemblage()	||
 		Get_bool_exchange()			||
 		Get_bool_surface()			||
-		Get_bool_s_s_assemblage()	||
+		Get_bool_ss_assemblage()	||
 		Get_bool_gas_phase()		||
 		Get_bool_kinetics()			||
 		Get_bool_mix()				||
