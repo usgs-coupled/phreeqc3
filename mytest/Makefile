@@ -216,7 +216,8 @@ all: alkalinity.out \
 	halite.out \
 	P_CO2_Na2SO4.out \
 	SrSO4_P.out \
-	SrSO4_tc
+	SrSO4_tc.out \
+	water_vp.out
 
 
 
