@@ -167,8 +167,18 @@ protected:
 	bool screen_on;
 	ECHO_OPTION echo_destination;
 
+#if defined(_MSC_VER)
+/* disable warning C4251: 'identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2' */
+#pragma warning(disable:4251)
+#endif
+
 	std::list <std::istream *> istream_list;
 	std::list <bool> delete_istream_list;
+
+#if defined(_MSC_VER)
+/* reset warning C4251 */
+#pragma warning(default:4251)
+#endif
 
 	// input data members
 	Keywords::KEYWORDS m_next_keyword;
