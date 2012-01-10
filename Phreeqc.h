@@ -136,7 +136,7 @@ public:
 		struct surface *surface_ptr);
 
 	static LDBLE f_rho(LDBLE rho_old, void *cookie);
-
+	static LDBLE f_Vm(LDBLE v1, void *cookie);
 	// chart.cpp
 #if defined PHREEQ98 
 	void DeleteCurves(void);
@@ -549,10 +549,15 @@ public:
 	int build_min_surface(void);
 	LDBLE calc_lk_phase(phase * p_ptr, LDBLE TK, LDBLE pa);
 	LDBLE calc_delta_v(reaction * r_ptr, bool phase);
-	int calc_vm(LDBLE tc,LDBLE pa);
+	//LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
+	LDBLE calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
+	LDBLE calc_PR();
+	int calc_vm(LDBLE tc, LDBLE pa);
 	int change_hydrogen_in_elt_list(LDBLE charge);
 	int clear(void);
 	int convert_units(struct solution *solution_ptr);
+	LDBLE a_aa_sum, b2, b_sum, R_TK;
+	LDBLE f_Vm(LDBLE v1);
 	struct unknown *find_surface_charge_unknown(char *str_ptr, int plane);
 	struct master **get_list_master_ptrs(char *ptr,
 	struct master *master_ptr);
@@ -570,9 +575,6 @@ public:
 	int setup_slack(void);
 	int setup_master_rxn(struct master **master_ptr_list,
 	struct reaction **pe_rxn);
-	//LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
-	LDBLE calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
-	LDBLE calc_PR();
 	int setup_pure_phases(void);
 	int adjust_setup_pure_phases(void);
 	int setup_related_surface(void);
