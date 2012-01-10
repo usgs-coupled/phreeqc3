@@ -456,35 +456,35 @@ read_solid_solutions_raw(void)
 
 	cxxSSassemblage ex;
 	ex.read_raw(parser);
-	//struct ss_assemblage *s_s_assemblage_ptr =	ex.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
-	struct ss_assemblage *s_s_assemblage_ptr =	cxxSSassemblage2s_s_assemblage(&ex);
+	//struct ss_assemblage *ss_assemblage_ptr =	ex.cxxSSassemblage2ss_assemblage(PHREEQC_THIS);
+	struct ss_assemblage *ss_assemblage_ptr =	cxxSSassemblage2ss_assemblage(&ex);
 	int n;
 
 	/*
 	 *  This is not quite right, may not produce sort order, forced sort
 	 */
 
-	if (s_s_assemblage_bsearch(s_s_assemblage_ptr->n_user, &n) != NULL)
+	if (ss_assemblage_bsearch(ss_assemblage_ptr->n_user, &n) != NULL)
 	{
-		s_s_assemblage_free(&ss_assemblage[n]);
-		s_s_assemblage_copy(s_s_assemblage_ptr, &ss_assemblage[n],
-							s_s_assemblage_ptr->n_user);
+		ss_assemblage_free(&ss_assemblage[n]);
+		ss_assemblage_copy(ss_assemblage_ptr, &ss_assemblage[n],
+							ss_assemblage_ptr->n_user);
 	}
 	else
 	{
-		n = count_s_s_assemblage++;
-		if (count_s_s_assemblage >= max_s_s_assemblage)
+		n = count_ss_assemblage++;
+		if (count_ss_assemblage >= max_ss_assemblage)
 		{
 			space((void **) ((void *) &(ss_assemblage)),
-				  count_s_s_assemblage, &max_s_s_assemblage,
+				  count_ss_assemblage, &max_ss_assemblage,
 				  sizeof(struct ss_assemblage));
 		}
-		s_s_assemblage_copy(s_s_assemblage_ptr, &ss_assemblage[n],
-							s_s_assemblage_ptr->n_user);
-		s_s_assemblage_sort();
+		ss_assemblage_copy(ss_assemblage_ptr, &ss_assemblage[n],
+							ss_assemblage_ptr->n_user);
+		ss_assemblage_sort();
 	}
-	s_s_assemblage_free(s_s_assemblage_ptr);
-	free_check_null(s_s_assemblage_ptr);
+	ss_assemblage_free(ss_assemblage_ptr);
+	free_check_null(ss_assemblage_ptr);
 
 	// Need to output the next keyword
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
@@ -977,7 +977,7 @@ read_solid_solutions_modify(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	if (s_s_assemblage_bsearch(n_user, &n) == NULL)
+	if (ss_assemblage_bsearch(n_user, &n) == NULL)
 	{
 		input_error++;
 		error_string = sformatf( "Solid_solutions %d not found for SOLID_SOLUTIONS_MODIFY.\n", n_user);
@@ -990,13 +990,13 @@ read_solid_solutions_modify(void)
 	entity.read_raw(parser, false);
 
 	// save entity
-	//struct ss_assemblage *entity_ptr = entity.cxxSSassemblage2s_s_assemblage(PHREEQC_THIS);
-	struct ss_assemblage *entity_ptr = cxxSSassemblage2s_s_assemblage(&entity);
-	s_s_assemblage_free(&(ss_assemblage[n]));
-	s_s_assemblage_copy(entity_ptr, &(ss_assemblage[n]), entity_ptr->n_user);
+	//struct ss_assemblage *entity_ptr = entity.cxxSSassemblage2ss_assemblage(PHREEQC_THIS);
+	struct ss_assemblage *entity_ptr = cxxSSassemblage2ss_assemblage(&entity);
+	ss_assemblage_free(&(ss_assemblage[n]));
+	ss_assemblage_copy(entity_ptr, &(ss_assemblage[n]), entity_ptr->n_user);
 	free_check_null(ss_assemblage[n].description);
 	ss_assemblage[n].description = string_duplicate(entity_ptr->description);
-	s_s_assemblage_free(entity_ptr);
+	ss_assemblage_free(entity_ptr);
 	free_check_null(entity_ptr);
 
 	// Need to output the next keyword
@@ -1184,7 +1184,7 @@ delete_entities(void)
 		!delete_info.Get_pp_assemblage().Get_defined() &&
 		!delete_info.Get_exchange().Get_defined() &&
 		!delete_info.Get_surface().Get_defined() &&
-		!delete_info.Get_s_s_assemblage().Get_defined() &&
+		!delete_info.Get_ss_assemblage().Get_defined() &&
 		!delete_info.Get_gas_phase().Get_defined() &&
 		!delete_info.Get_kinetics().Get_defined() &&
 		!delete_info.Get_mix().Get_defined() &&
@@ -1297,24 +1297,24 @@ delete_entities(void)
 		}
 	}
 
-	// s_s_assemblages
-	if (delete_info.Get_s_s_assemblage().Get_defined())
+	// ss_assemblages
+	if (delete_info.Get_ss_assemblage().Get_defined())
 	{
-		if (delete_info.Get_s_s_assemblage().Get_numbers().size() == 0)
+		if (delete_info.Get_ss_assemblage().Get_numbers().size() == 0)
 		{
-			for (i = 0; i < count_s_s_assemblage; i++)
+			for (i = 0; i < count_ss_assemblage; i++)
 			{
-				s_s_assemblage_delete(ss_assemblage[i].n_user);
+				ss_assemblage_delete(ss_assemblage[i].n_user);
 			}
 		}
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = delete_info.Get_s_s_assemblage().Get_numbers().begin(); it != delete_info.Get_s_s_assemblage().Get_numbers().end(); it++)
+			for (it = delete_info.Get_ss_assemblage().Get_numbers().begin(); it != delete_info.Get_ss_assemblage().Get_numbers().end(); it++)
 			{
-				if (s_s_assemblage_bsearch(*it, &n) != NULL)
+				if (ss_assemblage_bsearch(*it, &n) != NULL)
 				{
-					s_s_assemblage_delete(*it);
+					ss_assemblage_delete(*it);
 				}
 			}
 		}
@@ -1773,12 +1773,12 @@ dump_ostream(std::ostream& os)
 		}
 	}
 
-	// s_s_assemblages
-	if (dump_info.Get_bool_s_s_assemblage())
+	// ss_assemblages
+	if (dump_info.Get_bool_ss_assemblage())
 	{
-		if (dump_info.Get_s_s_assemblage().size() == 0)
+		if (dump_info.Get_ss_assemblage().size() == 0)
 		{
-			for (i = 0; i < count_s_s_assemblage; i++)
+			for (i = 0; i < count_ss_assemblage; i++)
 			{
 					cxxSSassemblage cxxentity(&ss_assemblage[i]);
 					cxxentity.dump_raw(os,0);
@@ -1787,10 +1787,10 @@ dump_ostream(std::ostream& os)
 		else
 		{
 			std::set < int >::iterator it;
-			for (it = dump_info.Get_s_s_assemblage().begin(); it != dump_info.Get_s_s_assemblage().end(); it++)
+			for (it = dump_info.Get_ss_assemblage().begin(); it != dump_info.Get_ss_assemblage().end(); it++)
 			{
 
-				if (s_s_assemblage_bsearch(*it, &n) != NULL)
+				if (ss_assemblage_bsearch(*it, &n) != NULL)
 				{
 					cxxSSassemblage cxxentity(&ss_assemblage[n]);
 					cxxentity.dump_raw(os,0);

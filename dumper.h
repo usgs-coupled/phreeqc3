@@ -22,7 +22,7 @@ public:
 	bool Get_bool_pp_assemblage(void)	{ return(this->binList.Get_pp_assemblage().Get_defined()); };
 	bool Get_bool_exchange(void)		{ return(this->binList.Get_exchange().Get_defined()); };
 	bool Get_bool_surface(void)			{ return(this->binList.Get_surface().Get_defined()); };
-	bool Get_bool_s_s_assemblage(void)	{ return(this->binList.Get_s_s_assemblage().Get_defined()); };
+	bool Get_bool_ss_assemblage(void)	{ return(this->binList.Get_ss_assemblage().Get_defined()); };
 	bool Get_bool_gas_phase(void)		{ return(this->binList.Get_gas_phase().Get_defined()); };
 	bool Get_bool_kinetics(void)		{ return(this->binList.Get_kinetics().Get_defined()); };
 	bool Get_bool_mix(void)				{ return(this->binList.Get_mix().Get_defined()); };
@@ -35,7 +35,7 @@ public:
 	std::set < int > & Get_pp_assemblage(void)	{ return(this->binList.Get_pp_assemblage().Get_numbers()); };
 	std::set < int > & Get_exchange(void)		{ return(this->binList.Get_exchange().Get_numbers()); };
 	std::set < int > & Get_surface(void)		{ return(this->binList.Get_surface().Get_numbers()); };
-	std::set < int > & Get_s_s_assemblage(void) { return(this->binList.Get_s_s_assemblage().Get_numbers()); };
+	std::set < int > & Get_ss_assemblage(void) { return(this->binList.Get_ss_assemblage().Get_numbers()); };
 	std::set < int > & Get_gas_phase(void)		{ return(this->binList.Get_gas_phase().Get_numbers()); };
 	std::set < int > & Get_kinetics(void)		{ return(this->binList.Get_kinetics().Get_numbers()); };
 	std::set < int > & Get_mix(void)			{ return(this->binList.Get_mix().Get_numbers()); };

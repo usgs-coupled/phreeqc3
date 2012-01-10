@@ -211,7 +211,7 @@ bool StorageBinList::Read(CParser & parser)
 		case 5:
 		case 6:
 		case 7:
-			item = &(this->Get_s_s_assemblage());
+			item = &(this->Get_ss_assemblage());
 			break;
 		case 8:
 			item = &(this->Get_gas_phase());
