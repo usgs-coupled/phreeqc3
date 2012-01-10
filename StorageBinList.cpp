@@ -121,7 +121,7 @@ void StorageBinList::SetAll(bool tf)
 	this->pp_assemblage.Clear();
 	this->exchange.Clear();
 	this->surface.Clear();
-	this->s_s_assemblage.Clear();
+	this->ss_assemblage.Clear();
 	this->gas_phase.Clear();
 	this->kinetics.Clear();
 	this->mix.Clear();
@@ -133,7 +133,7 @@ void StorageBinList::SetAll(bool tf)
 	this->pp_assemblage.Set_defined(tf);
 	this->exchange.Set_defined(tf);
 	this->surface.Set_defined(tf);
-	this->s_s_assemblage.Set_defined(tf);
+	this->ss_assemblage.Set_defined(tf);
 	this->gas_phase.Set_defined(tf);
 	this->kinetics.Set_defined(tf);
 	this->mix.Set_defined(tf);
@@ -154,7 +154,7 @@ bool StorageBinList::Read(CParser & parser)
 		vopts.push_back("equilibrium_phases");
 		vopts.push_back("exchange");
 		vopts.push_back("surface");
-		vopts.push_back("s_s_assemblage");
+		vopts.push_back("ss_assemblage");
 		vopts.push_back("solid_solution");
 		vopts.push_back("solid_solutions");
 		vopts.push_back("gas_phase");
@@ -323,7 +323,7 @@ void StorageBinList::TransferAll(StorageBinListItem &source)
 		this->pp_assemblage.Augment(*it);
 		this->exchange.Augment(*it);
 		this->surface.Augment(*it);
-		this->s_s_assemblage.Augment(*it);
+		this->ss_assemblage.Augment(*it);
 		this->gas_phase.Augment(*it);
 		this->kinetics.Augment(*it);
 		this->mix.Augment(*it);

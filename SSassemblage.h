@@ -22,7 +22,7 @@ class cxxSSassemblage:public cxxNumKeyword
 
 public:
 	cxxSSassemblage(PHRQ_io * io = NULL);
-	cxxSSassemblage(struct s_s_assemblage *, PHRQ_io * io = NULL);
+	cxxSSassemblage(struct ss_assemblage *, PHRQ_io * io = NULL);
 	cxxSSassemblage(const std::map < int, cxxSSassemblage > &entity_map,
 		cxxMix & mx, int n_user, PHRQ_io * io = NULL);
 	~cxxSSassemblage();
