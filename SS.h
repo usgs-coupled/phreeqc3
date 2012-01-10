@@ -9,13 +9,13 @@
 #include "NameDouble.h"
 #include "Phreeqc_class.h"
 
-class cxxSSassemblageSS: public PHRQ_base
+class cxxSS: public PHRQ_base
 {
 
   public:
-	cxxSSassemblageSS(PHRQ_io *io=NULL);
-	cxxSSassemblageSS(struct s_s *, PHRQ_io *io=NULL);
-	 ~cxxSSassemblageSS();
+	cxxSS(PHRQ_io *io=NULL);
+	cxxSS(struct s_s *, PHRQ_io *io=NULL);
+	 ~cxxSS();
 
 	enum SS_PARAMETER_TYPE
 	{
@@ -65,7 +65,7 @@ class cxxSSassemblageSS: public PHRQ_base
 	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
 #endif
 
-	void add(const cxxSSassemblageSS & comp, double extensive);
+	void add(const cxxSS & comp, double extensive);
 	void multiply(double extensive);
 	double Get_a0() const {return (this->a0);};
 	double Get_a1() const {return (this->a1);};
