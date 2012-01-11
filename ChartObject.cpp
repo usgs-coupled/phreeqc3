@@ -127,7 +127,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
-	double *scale_ptr = NULL;
+	LDBLE *scale_ptr = NULL;
 	std::vector<std::string> string_vector;
 	size_t j = 0;
 
@@ -220,7 +220,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 			estream << "Maximum must be larger than minimum of axis_scale " << type << "-scale." << "\n";
 			estream << "Switching values for MIN and MAX. " << "\n";
 			warning_msg(estream.str().c_str());
-			double t;
+			LDBLE t;
 			t = scale_ptr[0];
 			scale_ptr[0] = scale_ptr[1];
 			scale_ptr[1] = scale_ptr[0];
@@ -568,7 +568,7 @@ ChartObject::OpenCSVFile(std::string file_name)
 		} 
 
 		// x value for all curves
-		double x_value = atof(tok1.c_str());
+		LDBLE x_value = atof(tok1.c_str());
 
 		// y values for curves
 		std::string tok2;
@@ -1014,7 +1014,7 @@ ChartObject::Finalize_graph_pts(void)
 {
 	if (graph_x != NA)
 	{
-		std::map<int, double>::iterator it;
+		std::map<int, LDBLE>::iterator it;
 		for (it = graph_y.begin(); it != graph_y.end(); it++)
 		{
 			Curves[it->first]->Get_x().push_back(graph_x);
@@ -1054,9 +1054,9 @@ ChartObject::Add_new_series(void)
 }
 void 
 ChartObject::Add_curve(bool plotxy, std::string id, 
-					   double line_width, 
+					   LDBLE line_width, 
 					   std::string symbol,
-					   double symbol_size, 
+					   LDBLE symbol_size, 
 					   int y_axis,
 					   std::string color)				
 {
@@ -1120,7 +1120,7 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 	}
 
 	// axis_scale_x
-	double *scale_ptr = this->axis_scale_x;
+	LDBLE *scale_ptr = this->axis_scale_x;
 	{
 		oss << indent1 << "-axis_scale x_axis ";
 		for (i = 0; i < 4; i++)
@@ -1249,8 +1249,8 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 
 	// temporary storage before stored graph_x/y/sy data are stored in curves
 	// Initialize_graph_pts and Finalize_graph_pts use this storage.
-	double graph_x;
-	std::map<int, double> graph_y;
+	LDBLE graph_x;
+	std::map<int, LDBLE> graph_y;
 	std::map<int, bool> secondary_y;
 
 	// temporary plotxy curve definitions before stored in curves

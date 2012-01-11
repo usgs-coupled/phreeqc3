@@ -38,8 +38,8 @@ public:
 	};
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 	void totalize(PHREEQC_PTR_ARG);
 
@@ -50,7 +50,7 @@ public:
 
 
 protected:
-	void add(const cxxSSassemblage & addee, double extensive);
+	void add(const cxxSSassemblage & addee, LDBLE extensive);
 
 protected:
 	std::map < std::string, cxxSS > ssAssemblageSSs;

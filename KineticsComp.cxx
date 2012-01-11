@@ -136,7 +136,7 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	{
 		int i = 0;
 		s_oss << indent2;
-		for (std::vector < double >::const_iterator it = d_params.begin();
+		for (std::vector < LDBLE >::const_iterator it = d_params.begin();
 			 it != d_params.end(); it++)
 		{
 			if (i++ == 5)
@@ -155,7 +155,7 @@ void
 cxxKineticsComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
-	double d;
+	LDBLE d;
 
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -175,7 +175,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 	std::string token;
 	int opt_save;
 
-	std::vector < double > temp_d_params;
+	std::vector < LDBLE > temp_d_params;
 	opt_save = CParser::OPT_ERROR;
 	bool rate_name_defined(false);
 	bool tol_defined(false);
@@ -336,7 +336,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 void
 cxxKineticsComp::mpi_pack(std::vector < int >&ints,
-						  std::vector < double >&doubles)
+						  std::vector < LDBLE >&doubles)
 {
 	extern cxxDictionary dictionary;
 	ints.push_back(dictionary.string2int(this->rate_name));
@@ -346,14 +346,14 @@ cxxKineticsComp::mpi_pack(std::vector < int >&ints,
 	doubles.push_back(this->m0);
 	doubles.push_back(this->moles);
 	ints.push_back((int) this->d_params.size());
-	for (std::vector < double >::iterator it = this->d_params.begin();
+	for (std::vector < LDBLE >::iterator it = this->d_params.begin();
 		 it != this->d_params.end(); it++)
 	{
 		doubles.push_back(*it);
 	}
 }
 void
-cxxKineticsComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxKineticsComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	extern cxxDictionary dictionary;
 	int i = *ii;
@@ -375,7 +375,7 @@ cxxKineticsComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 }
 #endif
 void
-cxxKineticsComp::add(const cxxKineticsComp & addee, double extensive)
+cxxKineticsComp::add(const cxxKineticsComp & addee, LDBLE extensive)
 {
 	if (extensive == 0.0)
 		return;
@@ -390,27 +390,27 @@ cxxKineticsComp::add(const cxxKineticsComp & addee, double extensive)
 	//char * rate_name;
 	assert(this->rate_name == addee.rate_name);
 	//cxxNameDouble namecoef;
-	//double tol;
-	//double m;
+	//LDBLE tol;
+	//LDBLE m;
 	this->m += addee.m * extensive;
-	//double m0;
+	//LDBLE m0;
 	this->m0 += addee.m0 * extensive;
-	//double moles;  
+	//LDBLE moles;  
 	this->moles += addee.moles * extensive;
-	//std::vector<double> d_params;
+	//std::vector<LDBLE> d_params;
 }
 
 void
-cxxKineticsComp::multiply(double extensive)
+cxxKineticsComp::multiply(LDBLE extensive)
 {
 	//char * rate_name;
 	//cxxNameDouble namecoef;
-	//double tol;
-	//double m;
+	//LDBLE tol;
+	//LDBLE m;
 	this->m *= extensive;
-	//double m0;
+	//LDBLE m0;
 	this->m0 *= extensive;
-	//double moles;  
+	//LDBLE moles;  
 	this->moles *= extensive;
-	//std::vector<double> d_params;
+	//std::vector<LDBLE> d_params;
 }

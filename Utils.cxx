@@ -92,13 +92,13 @@ Utilities::squeeze_white(std::string & s_l)
 	s_l = str;
 }
 
-//+NAN double: 7ff8000000000000
-//-NAN double: fff8000000000000
+//+NAN LDBLE: 7ff8000000000000
+//-NAN LDBLE: fff8000000000000
 /*
-double Utilities::get_nan(void)
+LDBLE Utilities::get_nan(void)
 {
 	unsigned long long raw = 0x7ff0000000000000;
-	double d = *( double* )&raw;
+	LDBLE d = *( LDBLE* )&raw;
 	return(d);
 
 }

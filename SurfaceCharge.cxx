@@ -424,7 +424,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 void
 cxxSurfaceCharge::mpi_pack(std::vector < int >&ints,
-						   std::vector < double >&doubles)
+						   std::vector < LDBLE >&doubles)
 {
 	extern cxxDictionary dictionary;
 
@@ -442,7 +442,7 @@ cxxSurfaceCharge::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxSurfaceCharge::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxSurfaceCharge::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	extern cxxDictionary dictionary;
 	int i = *ii;
@@ -463,17 +463,17 @@ cxxSurfaceCharge::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 }
 #endif
 void
-cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, double extensive)
+cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, LDBLE extensive)
 {
 	if (extensive == 0.0)
 		return;
 	//char * name;
-	//double specific_area;
-	//double grams;
-	//double charge_balance;
-	//double mass_water;
-	//double la_psi, la_psi1, la_psi2;
-	//double capacitance[2];
+	//LDBLE specific_area;
+	//LDBLE grams;
+	//LDBLE charge_balance;
+	//LDBLE mass_water;
+	//LDBLE la_psi, la_psi1, la_psi2;
+	//LDBLE capacitance[2];
 
 	//char * name;
 	if (this->name.size() == 0 && addee.name.size() == 0)
@@ -482,7 +482,7 @@ cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, double extensive)
 	}
 	assert(this->name == addee.name);
 
-	double ext1, ext2, f1, f2;
+	LDBLE ext1, ext2, f1, f2;
 	ext1 = this->specific_area * this->grams;
 	ext2 = addee.specific_area * addee.grams * extensive;
 	if (ext1 + ext2 != 0)
@@ -496,19 +496,19 @@ cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, double extensive)
 		f2 = 0.5;
 	}
 
-	//double specific_area;
+	//LDBLE specific_area;
 	this->specific_area = f1 * this->specific_area + f2 * addee.specific_area;
-	//double grams;
+	//LDBLE grams;
 	this->grams += addee.grams * extensive;
-	//double charge_balance;
+	//LDBLE charge_balance;
 	this->charge_balance += addee.charge_balance * extensive;
-	//double mass_water;
+	//LDBLE mass_water;
 	this->mass_water += addee.mass_water * extensive;
-	//double la_psi, la_psi1, la_psi2;
+	//LDBLE la_psi, la_psi1, la_psi2;
 	this->la_psi = this->la_psi * f1 + addee.la_psi * f2;
 	this->la_psi1 = this->la_psi1 * f1 + addee.la_psi1 * f2;
 	this->la_psi2 = this->la_psi2 * f1 + addee.la_psi2 * f2;
-	//double capacitance[2];  
+	//LDBLE capacitance[2];  
 	this->capacitance[0] =
 		this->capacitance[0] * f1 + this->capacitance[0] * f2;
 	this->capacitance[1] =
@@ -516,18 +516,18 @@ cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, double extensive)
 }
 
 void
-cxxSurfaceCharge::multiply(double extensive)
+cxxSurfaceCharge::multiply(LDBLE extensive)
 {
 	//char * name;
-	//double specific_area;
-	//double grams;
+	//LDBLE specific_area;
+	//LDBLE grams;
 	this->grams *= extensive;
-	//double charge_balance;
+	//LDBLE charge_balance;
 	this->charge_balance *= extensive;
-	//double mass_water;
+	//LDBLE mass_water;
 	this->mass_water *= extensive;
-	//double la_psi, la_psi1, la_psi2;
-	//double capacitance[2];
+	//LDBLE la_psi, la_psi1, la_psi2;
+	//LDBLE capacitance[2];
 	//cxxNameDouble diffuse_layer_totals; 
 	this->diffuse_layer_totals.multiply(extensive);
 }

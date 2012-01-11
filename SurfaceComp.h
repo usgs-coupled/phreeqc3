@@ -24,39 +24,39 @@ public:
 	void Set_rate_name(const char * f);
 	const std::string &Get_formula() const;
 	void Set_formula(const char * f);
-	double Get_charge_balance() const;
-	void Set_charge_balance(double d);
+	LDBLE Get_charge_balance() const;
+	void Set_charge_balance(LDBLE d);
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 	void read_raw(CParser & parser, bool check = true);
 	const cxxNameDouble & Get_totals() const;
 	const cxxNameDouble & Get_formula_totals() const;
-	double Get_formula_z(void) const {return formula_z;};
-	double Get_moles(void) const {return moles;};
-	double Get_la(void) const {return la;};
-	double Get_phase_proportion(void) const {return phase_proportion;};
-	double Get_Dw(void) const {return Dw;};
-	void add(const cxxSurfaceComp & comp, double extensive);
-	void multiply(double extensive);
+	LDBLE Get_formula_z(void) const {return formula_z;};
+	LDBLE Get_moles(void) const {return moles;};
+	LDBLE Get_la(void) const {return la;};
+	LDBLE Get_phase_proportion(void) const {return phase_proportion;};
+	LDBLE Get_Dw(void) const {return Dw;};
+	void add(const cxxSurfaceComp & comp, LDBLE extensive);
+	void multiply(LDBLE extensive);
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 
 protected:
 	std::string formula;
 	cxxNameDouble formula_totals;
-	double formula_z;
-	double moles;
+	LDBLE formula_z;
+	LDBLE moles;
 	cxxNameDouble totals;
-	double la;
+	LDBLE la;
 	//int charge_number;
-	double charge_balance;
+	LDBLE charge_balance;
 	std::string phase_name;
-	double phase_proportion;
+	LDBLE phase_proportion;
 	std::string rate_name;
-	double Dw;
+	LDBLE Dw;
 public:
 
 };

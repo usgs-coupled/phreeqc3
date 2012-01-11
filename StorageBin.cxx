@@ -904,7 +904,7 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
  *   mixes solutions based on cxxMix structure, returns new solution
  *   return solution must be freed by calling method
  */
-	double intensive, extensive;
+	LDBLE intensive, extensive;
 	cxxSolution *cxxsoln_ptr, *cxxsoln_ptr1;
 /*
  *   Zero out global solution data
@@ -915,9 +915,9 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
  */
 	extensive = 0.0;
 
-	std::map < int, double >*mixcomps = mixmap.comps();
+	std::map < int, LDBLE >*mixcomps = mixmap.comps();
 
-	std::map < int, double >::const_iterator it;
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
 	{
 		extensive += it->second;
@@ -1049,7 +1049,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	// Send data for system n to task_number
 	//
 	std::vector < int >ints;
-	std::vector < double >doubles;
+	std::vector < LDBLE >doubles;
 
 	// Solution
 	if (this->getSolution(n) != NULL)
@@ -1152,7 +1152,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	int i = (int) ints.size();
 	//int int_array[i];
 	int d = (int) doubles.size();
-	//double double_array[d];
+	//LDBLE double_array[d];
 	/*
 	   for (int j = 0; j < i; j++) {
 	   int_array[j] = ints[j];
@@ -1222,7 +1222,7 @@ cxxStorageBin::mpi_recv(int task_number)
 	int count_doubles;
 	MPI_Unpack(buffer, msg_size, &position, &count_doubles, 1, MPI_INT,
 			   MPI_COMM_WORLD);
-	double *doubles = new double[count_doubles];
+	LDBLE *doubles = new LDBLE[count_doubles];
 	if (count_doubles > 0)
 	{
 		MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles,
@@ -1318,8 +1318,8 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
  */
 	new_exch_ptr = new cxxExchange();
 
-	std::map < int, double >::const_iterator it_mix;
-	std::map < int, double >*mixcomps = mixmap.comps();
+	std::map < int, LDBLE >::const_iterator it_mix;
+	std::map < int, LDBLE >*mixcomps = mixmap.comps();
 
 	// Pitzer_exchange_gammas
 	it_mix = mixcomps->begin();
@@ -1338,7 +1338,7 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
  *   Make list of ExchComps
  */
 	std::vector < cxxExchComp > ec_vector;
-	std::vector < double >f_vector;
+	std::vector < LDBLE >f_vector;
 	//
 	// make list of all exchange components and their mix fractions
 	//
@@ -1372,9 +1372,9 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 	{
 
 		std::vector < cxxExchComp > ec_subvector;
-		std::vector < double >f_subvector;
+		std::vector < LDBLE >f_subvector;
 		std::vector < cxxExchComp >::iterator it_ec = ec_vector.begin();
-		std::vector < double >::iterator it_f = f_vector.begin();
+		std::vector < LDBLE >::iterator it_f = f_vector.begin();
 		current_formula = NULL;
 		for (; it_ec != ec_vector.end(); it_ec++)
 		{

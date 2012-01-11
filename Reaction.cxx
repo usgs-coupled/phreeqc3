@@ -104,7 +104,7 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	{
 		int i = 0;
 		s_oss << indent2;
-		for (std::vector < double >::const_iterator it = this->steps.begin();
+		for (std::vector < LDBLE >::const_iterator it = this->steps.begin();
 			 it != this->steps.end(); it++)
 		{
 			if (i++ == 5)
@@ -132,7 +132,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 {
 
 	int j;
-	double d;
+	LDBLE d;
 	CParser::TOKEN_TYPE k;
 	static std::vector < std::string > vopts;
 	if (vopts.empty())

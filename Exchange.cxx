@@ -40,8 +40,8 @@ cxxNumKeyword(io)
 //
 //   Mix exchangers
 //
-	const std::map < int, double >&mixcomps = mix.Get_mixComps();
-	std::map < int, double >::const_iterator it;
+	const std::map < int, LDBLE >&mixcomps = mix.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
@@ -310,7 +310,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 	}
 }
 void
-cxxExchange::add(const cxxExchange & addee, double extensive)
+cxxExchange::add(const cxxExchange & addee, LDBLE extensive)
 		//
 		// Add existing exchange to "this" exchange
 		//
@@ -340,7 +340,7 @@ cxxExchange::add(const cxxExchange & addee, double extensive)
 /* ---------------------------------------------------------------------- */
 void
 cxxExchange::mpi_pack(std::vector < int >&ints,
-					  std::vector < double >&doubles)
+					  std::vector < LDBLE >&doubles)
 /* ---------------------------------------------------------------------- */
 {
 	/* int n_user; */
@@ -357,7 +357,7 @@ cxxExchange::mpi_pack(std::vector < int >&ints,
 
 /* ---------------------------------------------------------------------- */
 void
-cxxExchange::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxExchange::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 /* ---------------------------------------------------------------------- */
 {
 	int i = *ii;

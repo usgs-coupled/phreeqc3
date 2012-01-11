@@ -37,8 +37,8 @@ cxxSolutionIsotopeList::~cxxSolutionIsotopeList()
 {
 }
 void
-cxxSolutionIsotopeList::add(cxxSolutionIsotopeList old, double intensive,
-							double extensive)
+cxxSolutionIsotopeList::add(cxxSolutionIsotopeList old, LDBLE intensive,
+							LDBLE extensive)
 {
 	for (cxxSolutionIsotopeList::const_iterator itold = old.begin();
 		 itold != old.end(); ++itold)
@@ -75,7 +75,7 @@ cxxSolutionIsotopeList::add(cxxSolutionIsotopeList old, double intensive,
 	}
 }
 void
-cxxSolutionIsotopeList::multiply(double extensive)
+cxxSolutionIsotopeList::multiply(LDBLE extensive)
 {
 	for (cxxSolutionIsotopeList::iterator it = this->begin();
 		 it != this->end(); ++it)

@@ -375,7 +375,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 void
 cxxPPassemblageComp::mpi_pack(std::vector < int >&ints,
-							  std::vector < double >&doubles)
+							  std::vector < LDBLE >&doubles)
 {
 	extern cxxDictionary dictionary;
 
@@ -392,7 +392,7 @@ cxxPPassemblageComp::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	extern cxxDictionary dictionary;
 	int i = *ii;
@@ -436,9 +436,9 @@ cxxPPassemblageComp::totalize(PHREEQC_PTR_ARG)
 
 
 void
-cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
+cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, LDBLE extensive)
 {
-	double ext1, ext2, f1, f2;
+	LDBLE ext1, ext2, f1, f2;
 	if (extensive == 0.0)
 		return;
 	if (addee.name.size() == 0)
@@ -475,15 +475,15 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;
 	}
-	//double si;
+	//LDBLE si;
 	this->si = this->si * f1 + addee.si * f2;
-	//double si_org;
+	//LDBLE si_org;
 	this->si_org = this->si_org * f1 + addee.si_org * f2;
-	//double moles;
+	//LDBLE moles;
 	this->moles += addee.moles * extensive;
-	//double delta;
+	//LDBLE delta;
 	this->delta += addee.delta * extensive;
-	//double initial_moles;
+	//LDBLE initial_moles;
 	this->initial_moles += addee.initial_moles * extensive;
 	//bool force_equality;
 	//bool dissolve_only;
@@ -491,16 +491,16 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, double extensive)
 }
 
 void
-cxxPPassemblageComp::multiply(double extensive)
+cxxPPassemblageComp::multiply(LDBLE extensive)
 {
 	//char * name;
 	//char *add_formula;
-	//double si;
-	//double moles;
+	//LDBLE si;
+	//LDBLE moles;
 	this->moles *= extensive;
-	//double delta;
+	//LDBLE delta;
 	this->delta *= extensive;
-	//double initial_moles;
+	//LDBLE initial_moles;
 	this->initial_moles *= extensive;
 	//bool force_equality;
 	//bool dissolve_only;

@@ -423,7 +423,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 void
 cxxSurfaceComp::mpi_pack(std::vector < int >&ints,
-						 std::vector < double >&doubles)
+						 std::vector < LDBLE >&doubles)
 {
 	extern cxxDictionary dictionary;
 
@@ -442,7 +442,7 @@ cxxSurfaceComp::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxSurfaceComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	extern cxxDictionary dictionary;
 	int i = *ii;
@@ -464,7 +464,7 @@ cxxSurfaceComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 }
 #endif
 void
-cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
+cxxSurfaceComp::add(const cxxSurfaceComp & addee, LDBLE extensive)
 {
 	if (extensive == 0.0)
 		return;
@@ -487,7 +487,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 
 	// this and addee must have same formula
 	// otherwise generate a new exchcomp with multiply
-	double ext1, ext2, f1, f2;
+	LDBLE ext1, ext2, f1, f2;
 	ext1 = this->moles;
 	ext2 = addee.moles * extensive;
 	if (ext1 + ext2 != 0)
@@ -500,16 +500,16 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 		f1 = 0.5;
 		f2 = 0.5;
 	}
-	//double formula_z;
+	//LDBLE formula_z;
 
-	//double moles;
+	//LDBLE moles;
 	this->moles += addee.moles * extensive;
 	//cxxNameDouble totals; 
 	this->totals.add_extensive(addee.totals, extensive);
-	//double la;
+	//LDBLE la;
 	this->la = f1 * this->la + f2 * addee.la;
 	//int charge_number;
-	//double charge_balance;
+	//LDBLE charge_balance;
 	this->charge_balance += addee.charge_balance * extensive;
 	//char   *phase_name;
 
@@ -540,7 +540,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 	}
 	else if (this->rate_name.size() != 0)
 	{
-		//double phase_proportion;
+		//LDBLE phase_proportion;
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
 	}
@@ -554,27 +554,27 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, double extensive)
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;
 	}
-	//double Dw;
+	//LDBLE Dw;
 
 }
 void
-cxxSurfaceComp::multiply(double extensive)
+cxxSurfaceComp::multiply(LDBLE extensive)
 {
 	//char * formula;
 	//cxxNameDouble formula_totals; 
-	//double formula_z;
-	//double moles;
+	//LDBLE formula_z;
+	//LDBLE moles;
 	this->moles *= extensive;
 	//cxxNameDouble totals; 
 	this->totals.multiply(extensive);
-	//double la;
+	//LDBLE la;
 	//int charge_number;
-	//double charge_balance;
+	//LDBLE charge_balance;
 	this->charge_balance *= extensive;
 	//char   *phase_name;
-	//double phase_proportion;
+	//LDBLE phase_proportion;
 	//char   *rate_name;
-	//double Dw;
+	//LDBLE Dw;
 }
 const std::string &
 cxxSurfaceComp::Get_phase_name() const
@@ -615,13 +615,13 @@ cxxSurfaceComp::Set_formula(const char * f)
 	else
 		this->formula.clear();
 }
-double 
+LDBLE 
 cxxSurfaceComp::Get_charge_balance() const
 {
 	return this->charge_balance;
 }
 void 
-cxxSurfaceComp::Set_charge_balance(double d)
+cxxSurfaceComp::Set_charge_balance(LDBLE d)
 {
 	this->charge_balance = d;
 }

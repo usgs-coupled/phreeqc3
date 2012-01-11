@@ -86,7 +86,7 @@ cxxMix::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
 	s_oss << "MIX        " << n_user_local << " " << this->description << "\n";
 
-	for (std::map < int, double >::const_iterator it = this->mixComps.begin();
+	for (std::map < int, LDBLE >::const_iterator it = this->mixComps.begin();
 		 it != this->mixComps.end(); it++)
 	{
 		s_oss << indent1 << it->first << "     " << it->second << "\n";
@@ -98,7 +98,7 @@ cxxMix::read_raw(CParser & parser)
 {
 
 	int i;
-	double d;
+	LDBLE d;
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
 	{
@@ -181,7 +181,7 @@ void cxxMix::Vectorize(std::vector<int> &n, std::vector<LDBLE> &f)
 {
 	n.clear();
 	f.clear();
-	for (std::map < int, double >::const_iterator it = this->mixComps.begin();
+	for (std::map < int, LDBLE >::const_iterator it = this->mixComps.begin();
 		 it != this->mixComps.end(); it++)
 	{
 		n.push_back(it->first);

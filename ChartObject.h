@@ -65,18 +65,18 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->axis_titles;
 	}
-	// double axis_scale_x[5];
-	double *Get_axis_scale_x()
+	// LDBLE axis_scale_x[5];
+	LDBLE *Get_axis_scale_x()
 	{
 		return this->axis_scale_x;
 	}
-	// double axis_scale_y[5];
-	double *Get_axis_scale_y()
+	// LDBLE axis_scale_y[5];
+	LDBLE *Get_axis_scale_y()
 	{
 		return this->axis_scale_y;
 	}
-	// double axis_scale_y2[5];
-	double *Get_axis_scale_y2()
+	// LDBLE axis_scale_y2[5];
+	LDBLE *Get_axis_scale_y2()
 	{
 		return this->axis_scale_y2;
 	}
@@ -217,17 +217,17 @@ class ChartObject:public cxxNumKeyword
 		return this->rate_new_def;
 	}
 	// int default_symbol;
-	//double graph_x;
-	void Set_graph_x(double d)
+	//LDBLE graph_x;
+	void Set_graph_x(LDBLE d)
 	{
 		this->graph_x = d;
 	}
-	double Get_graph_x()
+	LDBLE Get_graph_x()
 	{
 		return this->graph_x;
 	}
-	//std::map<int, double> graph_y;
-	std::map<int, double> &Get_graph_y()
+	//std::map<int, LDBLE> graph_y;
+	std::map<int, LDBLE> &Get_graph_y()
 	{
 		return this->graph_y;
 	}
@@ -297,9 +297,9 @@ class ChartObject:public cxxNumKeyword
 	void Get_color_string_csv(std::string &color);
 	void Add_new_series(void);
 	void Add_curve(bool plotxy, std::string id = "", 
-					   double line_width = 1.0, 
+					   LDBLE line_width = 1.0, 
 					   std::string symbol = "",
-					   double symbol_size = 6.0, 
+					   LDBLE symbol_size = 6.0, 
 					   int y_axis = 1,
 					   std::string color = "");
 	void dump(std::ostream & s_oss, unsigned int indent);
@@ -315,9 +315,9 @@ class ChartObject:public cxxNumKeyword
 	std::vector<std::string> Color_vector; 
 	std::string chart_title;
 	std::vector<std::string> axis_titles;
-	double axis_scale_x[5];
-	double axis_scale_y[5];
-	double axis_scale_y2[5];
+	LDBLE axis_scale_x[5];
+	LDBLE axis_scale_y[5];
+	LDBLE axis_scale_y2[5];
 
 	int chart_type;
 	bool graph_initial_solutions;
@@ -355,8 +355,8 @@ class ChartObject:public cxxNumKeyword
 
 	// temporary storage before stored graph_x/y/sy data are stored in curves
 	// Initialize_graph_pts and Finalize_graph_pts use this storage.
-	double graph_x;
-	std::map<int, double> graph_y;
+	LDBLE graph_x;
+	std::map<int, LDBLE> graph_y;
 	std::map<int, bool> secondary_y;
 
 	// temporary plotxy curve definitions before stored in curves

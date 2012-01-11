@@ -23,11 +23,11 @@ class cxxISolution:public cxxSolution
 	//static cxxISolution& read(CParser& parser);
 	//void add(cxxISolutionComp conc)       { this->concs.push_back(conc); }
 
-	double Get_density() const
+	LDBLE Get_density() const
 	{
 		return this->density;
 	}
-	void Set_density(double l_density)
+	void Set_density(LDBLE l_density)
 	{
 		this->density = l_density;
 	}
@@ -54,7 +54,7 @@ class cxxISolution:public cxxSolution
 
   protected:
 	friend class cxxISolutionComp;	// for this->pe access
-	double density;
+	LDBLE density;
 	std::string units;
 	std::map < std::string, cxxISolutionComp > comps;
 	struct pe_data *pes;

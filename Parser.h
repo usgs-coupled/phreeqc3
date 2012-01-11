@@ -3,7 +3,7 @@
 #if defined(WIN32)
 #include <windows.h>
 #endif
-
+#include "phrqtype.h"
 #include <string>				// std::string
 #include <map>					// std::map
 #include <vector>				// std::vector
@@ -13,6 +13,7 @@
 #include "PHRQ_base.h"
 #include "Keywords.h"
 #include "PHRQ_io.h"
+
 
 
 
@@ -242,7 +243,7 @@ class CParser: public PHRQ_base
 
 	STATUS_TYPE parse_couple(std::string & token);
 
-	STATUS_TYPE addPair(std::map < std::string, double >&totals,
+	STATUS_TYPE addPair(std::map < std::string, LDBLE >&totals,
 						std::istream::pos_type & pos);
 
   protected:

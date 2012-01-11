@@ -24,99 +24,99 @@ class cxxSolution:public cxxNumKeyword
 				  cxxMix & mx, int n_user, PHRQ_io *io=NULL);
 	~cxxSolution();
 
-	double Get_tc() const
+	LDBLE Get_tc() const
 	{
 		return this->tc;
 	}
-	void Set_tc(double l_tc)
+	void Set_tc(LDBLE l_tc)
 	{
 		this->tc = l_tc;
 	}
 
-	double Get_ph() const
+	LDBLE Get_ph() const
 	{
 		return this->ph;
 	}
-	void Set_ph(double pH)
+	void Set_ph(LDBLE pH)
 	{
 		this->ph = pH;
 	}
 
-	double Get_pe() const
+	LDBLE Get_pe() const
 	{
 		return this->pe;
 	}
-	void Set_pe(double l_pe)
+	void Set_pe(LDBLE l_pe)
 	{
 		this->pe = l_pe;
 	}
 
-	double Get_mu() const
+	LDBLE Get_mu() const
 	{
 		return this->mu;
 	}
-	void Set_mu(double l_mu)
+	void Set_mu(LDBLE l_mu)
 	{
 		this->mu = l_mu;
 	}
 
-	double Get_ah2o() const
+	LDBLE Get_ah2o() const
 	{
 		return this->ah2o;
 	}
-	void Set_ah2o(double l_ah2o)
+	void Set_ah2o(LDBLE l_ah2o)
 	{
 		this->ah2o = l_ah2o;
 	}
 
-	double Get_total_h() const
+	LDBLE Get_total_h() const
 	{
 		return this->total_h;
 	}
-	void Set_total_h(double l_total_h)
+	void Set_total_h(LDBLE l_total_h)
 	{
 		this->total_h = l_total_h;
 	}
 
-	double Get_total_o() const
+	LDBLE Get_total_o() const
 	{
 		return this->total_o;
 	}
-	void Set_total_o(double l_total_o)
+	void Set_total_o(LDBLE l_total_o)
 	{
 		this->total_o = l_total_o;
 	}
 
-	double Get_cb() const
+	LDBLE Get_cb() const
 	{
 		return this->cb;
 	}
-	void Set_cb(double l_cb)
+	void Set_cb(LDBLE l_cb)
 	{
 		this->cb = l_cb;
 	}
 
-	double Get_mass_water() const
+	LDBLE Get_mass_water() const
 	{
 		return this->mass_water;
 	}
-	void Set_mass_water(long double l_mass_water)
+	void Set_mass_water(LDBLE l_mass_water)
 	{
 		this->mass_water = l_mass_water;
 	}
 
-	double Get_total_alkalinity() const
+	LDBLE Get_total_alkalinity() const
 	{
 		return this->total_alkalinity;
 	}
-	void Set_total_alkalinity(double l_total_alkalinity)
+	void Set_total_alkalinity(LDBLE l_total_alkalinity)
 	{
 		this->total_alkalinity = l_total_alkalinity;
 	}
 
-	double Get_total(char *string) const;
-	double Get_total_element(const char *string) const;
-	void Set_total(char *string, double value);
+	LDBLE Get_total(char *string) const;
+	LDBLE Get_total_element(const char *string) const;
+	void Set_total(char *string, LDBLE value);
 
 	const cxxNameDouble & Get_totals(void) const
 	{
@@ -144,41 +144,41 @@ class cxxSolution:public cxxNumKeyword
 	{
 		return this->species_gamma;
 	}
-	double Get_master_activity(char *string) const;
-	void Set_master_activity(char *string, double value);
+	LDBLE Get_master_activity(char *string) const;
+	void Set_master_activity(char *string, LDBLE value);
 	const cxxSolutionIsotopeList & Get_isotopes(void) const {return isotopes;};
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
 	void read_raw(CParser & parser, bool check = true);
-	void multiply(double extensive);
+	void multiply(LDBLE extensive);
 	//void modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original);
 	void modify_activities(const cxxSolution & original);
 	void Simplify_totals();
 	void Update(const cxxNameDouble &nd);
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 	void mpi_send(int task_number);
 	void mpi_recv(int task_number);
 #endif
 
   protected:
 	void zero();
-	void add(const cxxSolution & addee, double extensive);
+	void add(const cxxSolution & addee, LDBLE extensive);
 	// not checked
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
-	double tc;
-	double ph;
-	double pe;
-	double mu;
-	double ah2o;
-	double total_h;
-	double total_o;
-	double cb;
-	double mass_water;
-	double total_alkalinity;
+	LDBLE tc;
+	LDBLE ph;
+	LDBLE pe;
+	LDBLE mu;
+	LDBLE ah2o;
+	LDBLE total_h;
+	LDBLE total_o;
+	LDBLE cb;
+	LDBLE mass_water;
+	LDBLE total_alkalinity;
 	cxxNameDouble totals;
 	//std::list<cxxSolutionIsotope> isotopes;
 	cxxNameDouble master_activity;

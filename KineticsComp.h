@@ -36,27 +36,27 @@ public:
 	}
 
 	const cxxNameDouble &Get_namecoef(void) const {return namecoef;};
-	double Get_tol(void) const {return tol;};	
-	double Get_m(void) const {return m;};	
-	double Get_m0(void) const {return m0;};	
-	double Get_moles(void) const {return moles;};	
-	const std::vector < double > &Get_d_params(void) const {return d_params;};
+	LDBLE Get_tol(void) const {return tol;};	
+	LDBLE Get_m(void) const {return m;};	
+	LDBLE Get_m0(void) const {return m0;};	
+	LDBLE Get_moles(void) const {return moles;};	
+	const std::vector < LDBLE > &Get_d_params(void) const {return d_params;};
 
 #ifdef USE_MPI
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
 #endif
-	void add(const cxxKineticsComp & comp, double extensive);
-	void multiply(double extensive);
+	void add(const cxxKineticsComp & comp, LDBLE extensive);
+	void multiply(LDBLE extensive);
 
   protected:
 	  std::string rate_name;
 	  cxxNameDouble namecoef;		//stoichiometry of reaction
-	  double tol;
-	  double m;
-	  double m0;
-	  double moles;
-	  std::vector < double >d_params;
+	  LDBLE tol;
+	  LDBLE m;
+	  LDBLE m0;
+	  LDBLE moles;
+	  std::vector < LDBLE >d_params;
 
   public:
 

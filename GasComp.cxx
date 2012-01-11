@@ -218,7 +218,7 @@ cxxGasComp::add(const cxxGasComp & addee, LDBLE extensive)
 
 	assert(this->phase_name == addee.phase_name);
 
-	//double moles;
+	//LDBLE moles;
 	this->p_read += addee.p_read * extensive;
 	this->moles += addee.moles * extensive;
 	this->initial_moles += addee.initial_moles * extensive;

@@ -214,7 +214,7 @@ cxxSolutionIsotope::operator<(const cxxSolutionIsotope & isotope) const
 
 void
 cxxSolutionIsotope::add(const cxxSolutionIsotope & isotope_ptr,
-						double intensive, double extensive)
+						LDBLE intensive, LDBLE extensive)
 {
 	if ((this->isotope_number == isotope_ptr.isotope_number) &&
 		(this->elt_name == isotope_ptr.elt_name) &&
@@ -229,7 +229,7 @@ cxxSolutionIsotope::add(const cxxSolutionIsotope & isotope_ptr,
 	}
 }
 void
-cxxSolutionIsotope::multiply(double extensive)
+cxxSolutionIsotope::multiply(LDBLE extensive)
 {
 	this->total *= extensive;
 }

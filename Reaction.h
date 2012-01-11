@@ -25,7 +25,7 @@ class cxxReaction:public cxxNumKeyword
 	const cxxNameDouble &Get_elementList(void) const {return this->elementList;}
 	void Set_elementList(cxxNameDouble nd) {this->elementList = nd;}
 	cxxNameDouble &Get_reactantList(void) {return this->reactantList;}
-	std::vector < double > &Get_steps(void) {return this->steps;}
+	std::vector < LDBLE > &Get_steps(void) {return this->steps;}
 	void Set_steps(std::vector<LDBLE> &v) {steps = v;}
 	int Get_actualSteps(void) const;
 	int Get_countSteps(void) const {return this->countSteps;}
@@ -45,7 +45,7 @@ class cxxReaction:public cxxNumKeyword
 protected:
 	cxxNameDouble reactantList;
 	cxxNameDouble elementList;
-	std::vector < double >steps;
+	std::vector < LDBLE >steps;
 	int countSteps;
 	bool equalIncrements;
 	std::string units;

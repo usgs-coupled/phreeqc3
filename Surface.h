@@ -40,21 +40,21 @@ class cxxSurface:public cxxNumKeyword
 	};
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 
-	void add(const cxxSurface & addee, double extensive);
+	void add(const cxxSurface & addee, LDBLE extensive);
 	const std::map < std::string, cxxSurfaceComp > & Get_surfaceComps() const {return this->surfaceComps;};
 	const std::map < std::string, cxxSurfaceCharge > & Get_surfaceCharges() const {return this->surfaceCharges;};
 	SURFACE_TYPE Get_type(void) const {return this->type;};
 	DIFFUSE_LAYER_TYPE Get_dl_type(void) const {return dl_type;};
 	SITES_UNITS Get_sites_units(void) const {return sites_units;};
 	bool Get_only_counter_ions(void) const {return only_counter_ions;};
-	double Get_thickness(void) const {return thickness;};
-	double Get_debye_lengths(void) const {return debye_lengths;};
-	double Get_DDL_viscosity(void) const {return DDL_viscosity;};
-	double Get_DDL_limit(void) const {return DDL_limit;};
+	LDBLE Get_thickness(void) const {return thickness;};
+	LDBLE Get_debye_lengths(void) const {return debye_lengths;};
+	LDBLE Get_DDL_viscosity(void) const {return DDL_viscosity;};
+	LDBLE Get_DDL_limit(void) const {return DDL_limit;};
 	bool Get_transport(void) const {return transport;};
 
 protected:
@@ -64,10 +64,10 @@ protected:
 	enum DIFFUSE_LAYER_TYPE dl_type;
 	enum SITES_UNITS sites_units;
 	bool only_counter_ions;
-	double thickness;
-	double debye_lengths;
-	double DDL_viscosity;
-	double DDL_limit;
+	LDBLE thickness;
+	LDBLE debye_lengths;
+	LDBLE DDL_viscosity;
+	LDBLE DDL_limit;
 	bool transport;
 	cxxNameDouble totals;
 

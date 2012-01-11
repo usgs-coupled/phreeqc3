@@ -2,7 +2,7 @@
 #define CURVEOBJECT_H_INCLUDED
 #include <vector>
 #include <string>
-
+#include "phrqtype.h"
 class CurveObject
 {
 
@@ -33,19 +33,19 @@ public:
 	{
 		return this->symbol;
 	}
-	void Set_symbol_size(double f)
+	void Set_symbol_size(LDBLE f)
 	{
 		this->symbol_size = f;
 	}
-	double Get_symbol_size(void)
+	LDBLE Get_symbol_size(void)
 	{
 		return this->symbol_size;
 	}
-	void Set_line_w(double f)
+	void Set_line_w(LDBLE f)
 	{
 		this->line_w = f;
 	}
-	double Get_line_w(void)
+	LDBLE Get_line_w(void)
 	{
 		return this->line_w;
 	}
@@ -53,11 +53,11 @@ public:
 	{
 		this->y_axis = f;
 	}
-	std::vector<double> & Get_x()
+	std::vector<LDBLE> & Get_x()
 	{
 		return this->x;
 	}
-	std::vector<double> & Get_y()
+	std::vector<LDBLE> & Get_y()
 	{
 		return this->y;
 	}
@@ -76,12 +76,12 @@ public:
 
 protected:
 	//float *x, *y;
-	std::vector<double> x, y;
+	std::vector<LDBLE> x, y;
 	//int nxy, npoints, npoints_plot, prev_npoints;
 
 	std::string id, color, symbol;
 	int y_axis; 
-	double line_w, symbol_size;
+	LDBLE line_w, symbol_size;
 
 public:
 

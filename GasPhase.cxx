@@ -54,8 +54,8 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 	std::map<std::string, cxxGasComp> comp_map;
 	std::map<std::string, cxxGasComp>::iterator comp_it;
 
-	const std::map < int, double > & mixcomps = mx.Get_mixComps();
-	std::map < int, double >::const_iterator it;
+	const std::map < int, LDBLE > & mixcomps = mx.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		const cxxGasPhase *entity_ptr =	&(entity_map.find(it->first)->second);
@@ -133,8 +133,8 @@ cxxNumKeyword(io)
 //   Mix
 //
 	//cxxNameDouble gasPhaseComps;
-	const std::map < int, double > & mixcomps = mix.Get_mixComps();
-	std::map < int, double >::const_iterator it;
+	const std::map < int, LDBLE > & mixcomps = mix.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
@@ -144,8 +144,8 @@ cxxNumKeyword(io)
 			this->gasPhaseComps.add_extensive(entity_ptr->gasPhaseComps,
 											  it->second);
 			//GP_TYPE type;
-			//double total_p;
-			//double volume;
+			//LDBLE total_p;
+			//LDBLE volume;
 			if (first)
 			{
 				this->type = entity_ptr->type;
@@ -529,7 +529,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 void
 cxxGasPhase::mpi_pack(std::vector < int >&ints,
-					  std::vector < double >&doubles)
+					  std::vector < LDBLE >&doubles)
 {
 	ints.push_back(this->n_user);
 	this->gasPhaseComps.mpi_pack(ints, doubles);
@@ -548,7 +548,7 @@ cxxGasPhase::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxGasPhase::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxGasPhase::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	int i = *ii;
 	int d = *dd;

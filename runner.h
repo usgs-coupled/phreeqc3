@@ -3,6 +3,7 @@
 #include <set>					// std::set
 #include <string>				// std::string
 
+#include "phrqtype.h"
 #include "StorageBinList.h"
 #include "PHRQ_base.h"
 class CParser;
@@ -15,14 +16,14 @@ public:
 	virtual ~runner(void);
 	bool Read(CParser & parser);
 	StorageBinListItem & Get_cells(void) { return(this->cells); };
-	double Get_time_step() { return(this->time_step); };
-	double Get_start_time() { return(this->start_time); };
+	LDBLE Get_time_step() { return(this->time_step); };
+	LDBLE Get_start_time() { return(this->start_time); };
 	bool Get_run_cells() { return(this->run_cells); };
 	void Set_run_cells(bool tf) { this->run_cells = tf; };
 
 protected:
-	double time_step;
-	double start_time;
+	LDBLE time_step;
+	LDBLE start_time;
 	StorageBinListItem cells;
 	bool run_cells;
 };

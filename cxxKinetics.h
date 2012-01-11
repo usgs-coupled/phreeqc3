@@ -6,7 +6,7 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-
+#include "phrqtype.h"
 #include "NumKeyword.h"
 #include "KineticsComp.h"
 #include "PHRQ_base.h"
@@ -31,8 +31,8 @@ class cxxKinetics:public cxxNumKeyword
 	//bool Get_related_phases(void) const;
 	//bool Get_related_rate(void) const;
 
-	const std::vector < double > &Get_steps(void) const {return steps;};
-	double Get_step_divide(void) const {return step_divide;};
+	const std::vector < LDBLE > &Get_steps(void) const {return steps;};
+	LDBLE Get_step_divide(void) const {return step_divide;};
 	int Get_rk(void) const {return rk;};
 	int Get_bad_step_max(void) const {return bad_step_max;};
 	bool Get_use_cvode(void) const {return use_cvode;};
@@ -44,18 +44,18 @@ class cxxKinetics:public cxxNumKeyword
 
 
 #ifdef USE_MPI
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
 #endif
   protected:
-	void add(const cxxKinetics & addee, double extensive);
+	void add(const cxxKinetics & addee, LDBLE extensive);
 
   protected:
 	std::list < cxxKineticsComp > kineticsComps;
-	std::vector < double >steps;
+	std::vector < LDBLE >steps;
 	int equal_steps;
 	cxxNameDouble totals;
-	double step_divide;
+	LDBLE step_divide;
 	int rk;
 	int bad_step_max;
 	bool use_cvode;

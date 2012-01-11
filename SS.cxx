@@ -36,7 +36,7 @@ PHRQ_base(io)
 	xb1 = 0;
 	xb2 = 0;
 	//SS_PARAMETER_TYPE type         = SS_PARM_NONE;
-	//double p[4];
+	//LDBLE p[4];
 }
 
 cxxSS::cxxSS(struct s_s *s_s_ptr, PHRQ_io *io)
@@ -421,7 +421,7 @@ cxxSS::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 void
 cxxSS::mpi_pack(std::vector < int >&ints,
-							std::vector < double >&doubles)
+							std::vector < LDBLE >&doubles)
 {
 	extern cxxDictionary dictionary;
 	ints.push_back(dictionary.string2int(this->name));
@@ -436,7 +436,7 @@ cxxSS::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxSS::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxSS::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	extern cxxDictionary dictionary;
 	int i = *ii;
@@ -480,7 +480,7 @@ cxxSS::totalize(PHREEQC_PTR_ARG)
 }
 
 void
-cxxSS::add(const cxxSS & addee, double extensive)
+cxxSS::add(const cxxSS & addee, LDBLE extensive)
 {
 	if (extensive == 0.0)
 		return;
@@ -492,20 +492,20 @@ cxxSS::add(const cxxSS & addee, double extensive)
 	//char *name;
 	//cxxNameDouble comps;
 	this->comps.add_extensive(addee.comps, extensive);
-	//double a0, a1;
-	//double ag0, ag1;
+	//LDBLE a0, a1;
+	//LDBLE ag0, ag1;
 	//bool miscibility;
-	//double xb1, xb2;
+	//LDBLE xb1, xb2;
 }
 
 void
-cxxSS::multiply(double extensive)
+cxxSS::multiply(LDBLE extensive)
 {
 	//char *name;
 	//cxxNameDouble comps;
 	this->comps.multiply(extensive);
-	//double a0, a1;
-	//double ag0, ag1;
+	//LDBLE a0, a1;
+	//LDBLE ag0, ag1;
 	//bool miscibility;
-	//double xb1, xb2;
+	//LDBLE xb1, xb2;
 }

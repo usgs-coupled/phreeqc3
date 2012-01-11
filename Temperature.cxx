@@ -215,7 +215,7 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 	{
 		int i = 0;
 		s_oss << indent2;
-		for (std::vector < double >::const_iterator it = this->temps.begin();
+		for (std::vector < LDBLE >::const_iterator it = this->temps.begin();
 			 it != this->temps.end(); it++)
 		{
 			if (i++ == 5)
@@ -233,7 +233,7 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 void
 cxxTemperature::read_raw(CParser & parser)
 {
-	double d;
+	LDBLE d;
 	CParser::TOKEN_TYPE k;
 	// clear steps for modify operation, if pressures are read
 	bool cleared_once = false;
