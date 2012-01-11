@@ -18,6 +18,7 @@ class cxxSSassemblage;
 class cxxSurface;
 class cxxReaction;
 class cxxTemperature;
+class cxxUse;
 
 class cxxStorageBin: public PHRQ_base
 {
@@ -77,7 +78,7 @@ class cxxStorageBin: public PHRQ_base
 	void Remove_Pressure(int n_user);
 
 	cxxSystem &Get_System(void);
-	void Set_System(struct Use *use_ptr);
+	void Set_System(cxxUse *use_ptr);
 	void Set_System(int i);
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

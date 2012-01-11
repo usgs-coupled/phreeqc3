@@ -1471,28 +1471,28 @@ run_as_cells(void)
 		*/
 		dup_print("Beginning of batch-reaction calculations.", TRUE);
 		count_steps = 1;
-		if (use.reaction_in == TRUE && use.reaction_ptr != NULL)
+		if (use.Get_reaction_in() == TRUE && use.Get_reaction_ptr() != NULL)
 		{
-			int count = ((cxxReaction *) use.reaction_ptr)->Get_actualSteps();
+			int count = ((cxxReaction *) use.Get_reaction_ptr())->Get_actualSteps();
 			if (count > count_steps)
 				count_steps = count;
 		}
-		if (use.kinetics_in == TRUE && use.kinetics_ptr != NULL)
+		if (use.Get_kinetics_in() == TRUE && use.Get_kinetics_ptr() != NULL)
 		{
-			if (abs(use.kinetics_ptr->count_steps) > count_steps)
-				count_steps = abs(use.kinetics_ptr->count_steps);
+			if (abs(use.Get_kinetics_ptr()->count_steps) > count_steps)
+				count_steps = abs(use.Get_kinetics_ptr()->count_steps);
 		}
-		if (use.temperature_in == TRUE && use.temperature_ptr != NULL)
+		if (use.Get_temperature_in() == TRUE && use.Get_temperature_ptr() != NULL)
 		{
-			int count = ((cxxTemperature *) use.temperature_ptr)->Get_countTemps();
+			int count = ((cxxTemperature *) use.Get_temperature_ptr())->Get_countTemps();
 			if (count > count_steps)
 			{
 				count_steps = count;
 			}
 		}
-		if (use.pressure_in == TRUE && use.pressure_ptr != NULL)
+		if (use.Get_pressure_in() == TRUE && use.Get_pressure_ptr() != NULL)
 		{
-			int count = ((cxxPressure *) use.pressure_ptr)->Get_count();
+			int count = ((cxxPressure *) use.Get_pressure_ptr())->Get_count();
 			if (count > count_steps)
 			{
 				count_steps = count;
@@ -1522,7 +1522,7 @@ run_as_cells(void)
 			*  Determine time step for kinetics
 			*/
 			kin_time = 0.0;
-			if (use.kinetics_in == TRUE)
+			if (use.Get_kinetics_in() == TRUE)
 			{
 				// runner kin_time
 				// equivalent to kin_time in count_steps
@@ -1634,9 +1634,9 @@ run_as_cells(void)
 		*   save end of reaction
 		*/
 		memcpy(&save, &save_data, sizeof(struct save));
-		if (use.kinetics_in == TRUE)
+		if (use.Get_kinetics_in() == TRUE)
 		{
-			kinetics_duplicate(-2, use.n_kinetics_user);
+			kinetics_duplicate(-2, use.Get_n_kinetics_user());
 		}
 		saver();
 	}

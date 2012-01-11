@@ -479,10 +479,10 @@ void Phreeqc::init(void)
 /*
  *	Initialize use pointers
  */
-	use.solution_in			= FALSE;
-	use.pp_assemblage_in = FALSE;
-	use.mix_in					 = FALSE;
-	use.reaction_in				 = FALSE;
+	//use.Get_solution_in()			= FALSE;
+	//use.Get_pp_assemblage_in() = FALSE;
+	//use.Get_mix_in()					 = FALSE;
+	//use.Get_reaction_in()				 = FALSE;
 /*
  *	 Initialize punch
  */
@@ -718,7 +718,7 @@ void Phreeqc::init(void)
 	/*
 	 * to facilitate debuging
 	 */
-	dbg_use				= &use;
+	//dbg_use				= &use;
 	dbg_solution		= solution;
 	//dbg_exchange		= exchange;
 	dbg_surface			= surface;

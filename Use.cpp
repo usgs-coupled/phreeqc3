@@ -1,7 +1,18 @@
 #include <stdio.h>
 #include "Use.h"
 
-Use::Use()
+cxxUse::cxxUse()
+{
+	this->init();
+
+}
+
+
+cxxUse::~cxxUse(void)
+{
+}
+void cxxUse::
+init(void)
 {
 	solution_in = false;
 	n_solution_user = -999;
@@ -59,11 +70,6 @@ Use::Use()
 
 	trans_in = false;
 	advect_in = false;
-
 }
 
-
-Use::~Use(void)
-{
-}
 
