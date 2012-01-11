@@ -30,6 +30,7 @@
 #include "Reaction.h"
 #include "Temperature.h"
 #include "phqalloc.h"
+#include "Use.h"
 
 
 //////////////////////////////////////////////////////////////////////
@@ -1418,114 +1419,114 @@ cxxStorageBin::Get_System(void)
 }
 
 void
-cxxStorageBin::Set_System(struct Use *use_ptr)
+cxxStorageBin::Set_System(cxxUse *use_ptr)
 {
 	// Initialize
 	this->system.Initialize();
 	// Solution
-	if (use_ptr->solution_ptr != NULL)
+	if (use_ptr->Get_solution_ptr() != NULL)
 	{
 		std::map < int, cxxSolution >::iterator it =
-			this->Solutions.find(use_ptr->n_solution_user);
+			this->Solutions.find(use_ptr->Get_n_solution_user());
 		if (it != this->Solutions.end())
 		{
 			this->system.Set_Solution(&(it->second));
 		}
 	}
 	// Exchange
-	if (use_ptr->exchange_ptr != NULL)
+	if (use_ptr->Get_exchange_ptr() != NULL)
 	{
 		std::map < int, cxxExchange >::iterator it =
-			this->Exchangers.find(use_ptr->n_exchange_user);
+			this->Exchangers.find(use_ptr->Get_n_exchange_user());
 		if (it != this->Exchangers.end())
 		{
 			this->system.Set_Exchange(&(it->second));
 		}
 	}
 	// gas_phase
-	if (use_ptr->gas_phase_ptr != NULL)
+	if (use_ptr->Get_gas_phase_ptr() != NULL)
 	{
 		std::map < int, cxxGasPhase >::iterator it =
-			this->GasPhases.find(use_ptr->n_gas_phase_user);
+			this->GasPhases.find(use_ptr->Get_n_gas_phase_user());
 		if (it != this->GasPhases.end())
 		{
 			this->system.Set_GasPhase(&(it->second));
 		}
 	}
 	// kinetics
-	if (use_ptr->kinetics_ptr != NULL)
+	if (use_ptr->Get_kinetics_ptr() != NULL)
 	{
 		std::map < int, cxxKinetics >::iterator it =
-			this->Kinetics.find(use_ptr->n_kinetics_user);
+			this->Kinetics.find(use_ptr->Get_n_kinetics_user());
 		if (it != this->Kinetics.end())
 		{
 			this->system.Set_Kinetics(&(it->second));
 		}
 	}
 	// pp_assemblage
-	if (use_ptr->pp_assemblage_ptr != NULL)
+	if (use_ptr->Get_pp_assemblage_ptr() != NULL)
 	{
 		std::map < int, cxxPPassemblage >::iterator it =
-			this->PPassemblages.find(use_ptr->n_pp_assemblage_user);
+			this->PPassemblages.find(use_ptr->Get_n_pp_assemblage_user());
 		if (it != this->PPassemblages.end())
 		{
 			this->system.Set_PPassemblage(&(it->second));
 		}
 	}
 	// ss_assemblage
-	if (use_ptr->ss_assemblage_ptr != NULL)
+	if (use_ptr->Get_ss_assemblage_ptr() != NULL)
 	{
 		std::map < int, cxxSSassemblage >::iterator it =
-			this->SSassemblages.find(use_ptr->n_ss_assemblage_user);
+			this->SSassemblages.find(use_ptr->Get_n_ss_assemblage_user());
 		if (it != this->SSassemblages.end())
 		{
 			this->system.Set_SSassemblage(&(it->second));
 		}
 	}
 	// surface
-	if (use_ptr->surface_ptr != NULL)
+	if (use_ptr->Get_surface_ptr() != NULL)
 	{
 		std::map < int, cxxSurface >::iterator it =
-			this->Surfaces.find(use_ptr->n_surface_user);
+			this->Surfaces.find(use_ptr->Get_n_surface_user());
 		if (it != this->Surfaces.end())
 		{
 			this->system.Set_Surface(&(it->second));
 		}
 	}
 	// mix
-	if (use_ptr->mix_ptr != NULL)
+	if (use_ptr->Get_mix_ptr() != NULL)
 	{
 		std::map < int, cxxMix >::iterator it =
-			this->Mixes.find(use_ptr->n_mix_user);
+			this->Mixes.find(use_ptr->Get_n_mix_user());
 		if (it != this->Mixes.end())
 		{
 			this->system.Set_Mix(&(it->second));
 		}
 	}
 	// reaction
-	if (use_ptr->reaction_ptr != NULL)
+	if (use_ptr->Get_reaction_ptr() != NULL)
 	{
 		std::map < int, cxxReaction >::iterator it =
-			this->Reactions.find(use_ptr->n_reaction_user);
+			this->Reactions.find(use_ptr->Get_n_reaction_user());
 		if (it != this->Reactions.end())
 		{
 			this->system.Set_Reaction(&(it->second));
 		}
 	}
 	// reaction temperature
-	if (use_ptr->temperature_ptr != NULL)
+	if (use_ptr->Get_temperature_ptr() != NULL)
 	{
 		std::map < int, cxxTemperature >::iterator it =
-			this->Temperatures.find(use_ptr->n_temperature_user);
+			this->Temperatures.find(use_ptr->Get_n_temperature_user());
 		if (it != this->Temperatures.end())
 		{
 			this->system.Set_Temperature(&(it->second));
 		}
 	}
 	// reaction pressure
-	if (use_ptr->pressure_ptr != NULL)
+	if (use_ptr->Get_pressure_ptr() != NULL)
 	{
-		cxxPressure * p = Utilities::Rxn_find(this->Pressures, use_ptr->n_pressure_user);
+		cxxPressure * p = Utilities::Rxn_find(this->Pressures, use_ptr->Get_n_pressure_user());
 		if (p != NULL)
 		{
 			this->system.Set_Pressure(p);
