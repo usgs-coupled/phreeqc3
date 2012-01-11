@@ -31,6 +31,7 @@
 #include "Keywords.h"
 #include "Pressure.h"
 #include "cxxMix.h"
+#include "Use.h"
 
 class cxxNameDouble;
 class cxxKinetics;
@@ -422,7 +423,7 @@ public:
 	int do_initialize(void);
 	int do_status(void);
 	void save_init(int i);
-	void use_init(void);
+	//void use_init(void);
 	int copy_use(int i);
 	int set_use(void);
 
@@ -1360,9 +1361,9 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Use
 	*---------------------------------------------------------------------- */
-
-	struct Use use;
-	struct Use *dbg_use;
+	cxxUse use;
+	//struct Use use;
+	//struct Use *dbg_use;
 	/*----------------------------------------------------------------------
 	*   Copy
 	*---------------------------------------------------------------------- */

@@ -1983,7 +1983,7 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case toksim_time:
-		if (PhreeqcPtr->use.kinetics_in == FALSE)
+		if (!PhreeqcPtr->use.Get_kinetics_in())
 		{
 			if (PhreeqcPtr->state == PHAST)
 			{
@@ -2016,7 +2016,7 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case toktotal_time:
-		if (PhreeqcPtr->use.kinetics_in == FALSE)
+		if (!PhreeqcPtr->use.Get_kinetics_in())
 		{
 			if (PhreeqcPtr->state == PHAST)
 			{
@@ -2289,14 +2289,14 @@ factor(struct LOC_exec * LINK)
 		n.stringval = true;
 		if (PhreeqcPtr->state == REACTION)
 		{
-			if (PhreeqcPtr->use.mix_in == TRUE)
+			if (PhreeqcPtr->use.Get_mix_in())
 			{
-				sprintf(string, "Mix %d", PhreeqcPtr->use.n_mix_user);
+				sprintf(string, "Mix %d", PhreeqcPtr->use.Get_n_mix_user());
 				n.UU.sval = PhreeqcPtr->string_duplicate(string);
 			}
 			else
 			{
-				soln_ptr = PhreeqcPtr->solution_bsearch(PhreeqcPtr->use.n_solution_user, &nn, TRUE);
+				soln_ptr = PhreeqcPtr->solution_bsearch(PhreeqcPtr->use.Get_n_solution_user(), &nn, TRUE);
 				if (soln_ptr != NULL)
 				{
 					n.UU.sval = PhreeqcPtr->string_duplicate(soln_ptr->description);
@@ -2314,9 +2314,9 @@ factor(struct LOC_exec * LINK)
 		}
 		else
 		{
-			if (PhreeqcPtr->use.solution_ptr != NULL)
+			if (PhreeqcPtr->use.Get_solution_ptr() != NULL)
 			{
-				n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->use.solution_ptr->description);
+				n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->use.Get_solution_ptr()->description);
 			}
 			else
 			{
@@ -2757,7 +2757,7 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state == ADVECTION)
 		{
-			n.UU.val = (LDBLE) PhreeqcPtr->use.n_solution_user;
+			n.UU.val = (LDBLE) PhreeqcPtr->use.Get_n_solution_user();
 		}
 		else
 		{
@@ -2831,17 +2831,17 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state < REACTION)
 		{
-			n.UU.val = PhreeqcPtr->use.solution_ptr->n_user;
+			n.UU.val = PhreeqcPtr->use.Get_solution_ptr()->n_user;
 		}
 		else
 		{
-			if (PhreeqcPtr->use.mix_in == TRUE)
+			if (PhreeqcPtr->use.Get_mix_in())
 			{
-				n.UU.val = PhreeqcPtr->use.n_mix_user;
+				n.UU.val = PhreeqcPtr->use.Get_n_mix_user();
 			}
 			else
 			{
-				n.UU.val = PhreeqcPtr->use.n_solution_user;
+				n.UU.val = PhreeqcPtr->use.Get_n_solution_user();
 			}
 		}
 		if (parse_all) n.UU.val = 1;
