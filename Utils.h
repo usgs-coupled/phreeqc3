@@ -31,7 +31,7 @@ namespace Utilities
 
 	void squeeze_white(std::string & s_l);
 
-	double get_nan(void);
+	LDBLE get_nan(void);
 
 	//void error_msg(const std::string&, const int stopflag);
 

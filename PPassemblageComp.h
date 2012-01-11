@@ -42,15 +42,15 @@ class cxxPPassemblageComp: public PHRQ_base
 	void totalize(PHREEQC_PTR_ARG);
 	const cxxNameDouble & Get_totals() const {return (this->totals);}
 	void Get_totals(cxxNameDouble & nd) {this->totals = nd;}
-	double Get_si() const {return this->si;}
+	LDBLE Get_si() const {return this->si;}
 	void Set_si(LDBLE t) {this->si = t;}
-	double Get_si_org() const {return this->si_org;}
+	LDBLE Get_si_org() const {return this->si_org;}
 	void Set_si_org(LDBLE t) {this->si_org = t;}
-	double Get_moles() const {return this->moles;}
+	LDBLE Get_moles() const {return this->moles;}
 	void Set_moles(LDBLE t) {this->moles = t;}
-	double Get_delta() const {return this->delta;}
+	LDBLE Get_delta() const {return this->delta;}
 	void Set_delta(LDBLE t) {this->delta = t;}
-	double Get_initial_moles() const {return this->initial_moles;}
+	LDBLE Get_initial_moles() const {return this->initial_moles;}
 	void Set_initial_moles(LDBLE t) {this->initial_moles = t;}
 
 	bool Get_force_equality() const {return this->force_equality;}
@@ -61,21 +61,21 @@ class cxxPPassemblageComp: public PHRQ_base
 	void Set_precipitate_only(bool tf) {this->precipitate_only = tf;}
 
 
-	void add(const cxxPPassemblageComp & comp, double extensive);
-	void multiply(double extensive);
+	void add(const cxxPPassemblageComp & comp, LDBLE extensive);
+	void multiply(LDBLE extensive);
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 protected:
 	std::string name;
 	std::string add_formula;
-	double si;
-	double si_org;
-	double moles;
-	double delta;
-	double initial_moles;
+	LDBLE si;
+	LDBLE si_org;
+	LDBLE moles;
+	LDBLE delta;
+	LDBLE initial_moles;
 	bool force_equality;
 	bool dissolve_only;
 	bool precipitate_only;

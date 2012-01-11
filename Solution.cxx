@@ -107,8 +107,8 @@ isotopes(io)
 //
 //   Mix solutions
 //
-	const std::map < int, double >&mixcomps = mix.Get_mixComps();
-	std::map < int, double >::const_iterator it;
+	const std::map < int, LDBLE >&mixcomps = mix.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		std::map < int, cxxSolution >::const_iterator sol =
@@ -196,7 +196,7 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	this->master_activity.dump_xml(s_oss, indent + 1);
 	/*
 	   {
-	   for (std::map <char *, double>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
+	   for (std::map <char *, LDBLE>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
 	   s_oss << indent1;
 	   s_oss << "<soln_m_a";
 	   s_oss << " m_a_desc=\"" << it->first << "\"" ;
@@ -209,7 +209,7 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	this->species_gamma.dump_xml(s_oss, indent + 1);
 	/*
 	   {
-	   for (std::map <char *, double>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
+	   for (std::map <char *, LDBLE>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
 	   s_oss << indent1;
 	   s_oss << "<soln_s_g";
 	   s_oss << " m_a_desc=\"" << it->first << "\"" ;
@@ -314,7 +314,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	this->master_activity.dump_raw(s_oss, indent + 2);
 	/*
 	   {
-	   for (std::map <char *, double>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
+	   for (std::map <char *, LDBLE>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
 	   s_oss << indent2;
 	   s_oss << it->first << "   " << it->second << "\n";
 	   }
@@ -327,7 +327,7 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	/*
 	   {
 	   {
-	   for (std::map <char *, double>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
+	   for (std::map <char *, LDBLE>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
 	   s_oss << indent2;
 	   s_oss << it->first << "   " << it->second << "\n";
 	   }
@@ -704,17 +704,17 @@ cxxSolution::zero()
 }
 
 void
-cxxSolution::add(const cxxSolution & addee, double extensive)
+cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 		//
 		// Add existing solution to "this" solution
 		//
 {
 	if (extensive == 0.0)
 		return;
-	double ext1 = this->mass_water;
-	double ext2 = addee.mass_water * extensive;
-	double f1 = ext1 / (ext1 + ext2);
-	double f2 = ext2 / (ext1 + ext2);
+	LDBLE ext1 = this->mass_water;
+	LDBLE ext2 = addee.mass_water * extensive;
+	LDBLE f1 = ext1 / (ext1 + ext2);
+	LDBLE f2 = ext2 / (ext1 + ext2);
 	this->tc = f1 * this->tc + f2 * addee.tc;
 	this->ph = f1 * this->ph + f2 * addee.ph;
 	this->pe = f1 * this->pe + f2 * addee.pe;
@@ -732,7 +732,7 @@ cxxSolution::add(const cxxSolution & addee, double extensive)
 }
 
 void
-cxxSolution::multiply(double extensive)
+cxxSolution::multiply(LDBLE extensive)
 		//
 		// Multiply existing solution by extensive
 		//
@@ -748,7 +748,7 @@ cxxSolution::multiply(double extensive)
 	this->isotopes.multiply(extensive);
 }
 
-double
+LDBLE
 cxxSolution::Get_total(char *string) const
 {
 	cxxNameDouble::const_iterator it = this->totals.find(string);
@@ -761,11 +761,11 @@ cxxSolution::Get_total(char *string) const
 		return (it->second);
 	}
 }
-double
+LDBLE
 cxxSolution::Get_total_element(const char *string) const
 {
 	cxxNameDouble::const_iterator it;
-	double d = 0.0;
+	LDBLE d = 0.0;
 	for (it = this->totals.begin(); it != this->totals.end(); ++it)
 	{
 		// C++ way to do it
@@ -786,12 +786,12 @@ cxxSolution::Get_total_element(const char *string) const
 }
 
 void
-cxxSolution::Set_total(char *string, double d)
+cxxSolution::Set_total(char *string, LDBLE d)
 {
 	this->totals[string] = d;
 }
 
-double
+LDBLE
 cxxSolution::Get_master_activity(char *string) const
 {
 	cxxNameDouble::const_iterator it = this->master_activity.find(string);
@@ -809,7 +809,7 @@ cxxSolution::Get_master_activity(char *string) const
 /* ---------------------------------------------------------------------- */
 void
 cxxSolution::mpi_pack(std::vector < int >&ints,
-					  std::vector < double >&doubles)
+					  std::vector < LDBLE >&doubles)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -846,7 +846,7 @@ cxxSolution::mpi_pack(std::vector < int >&ints,
 	   int i = ints.size();
 	   int int_array[i];
 	   int d = doubles.size();
-	   double double_array[d];
+	   LDBLE double_array[d];
 	   for (int j = 0; j < i; j++) {
 	   int_array[j] = ints[j];
 	   }
@@ -866,7 +866,7 @@ cxxSolution::mpi_pack(std::vector < int >&ints,
 
 /* ---------------------------------------------------------------------- */
 void
-cxxSolution::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxSolution::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 /* ---------------------------------------------------------------------- */
 {
 	int i = *ii;
@@ -909,10 +909,10 @@ cxxSolution::mpi_send(int task_number)
 	//int count_totals, count_totals_position, count_activity, count_activity_position;
 	int max_size, member_size, position;
 	//int ints[MESSAGE_MAX_NUMBERS];
-	//double doubles[MESSAGE_MAX_NUMBERS];
+	//LDBLE doubles[MESSAGE_MAX_NUMBERS];
 	void *buffer;
 	std::vector < int >ints;
-	std::vector < double >doubles;
+	std::vector < LDBLE >doubles;
 /*
  *   Make list of list of ints and doubles from solution structure
  *   This list is not the complete structure, but only enough
@@ -972,7 +972,7 @@ cxxSolution::mpi_send(int task_number)
 	int i = (int) ints.size();
 	int *int_array = new int[i];
 	int d = (int) doubles.size();
-	double *double_array = new double[d];
+	LDBLE *double_array = new LDBLE[d];
 	for (int j = 0; j < i; j++)
 	{
 		int_array[j] = ints[j];
@@ -1034,7 +1034,7 @@ cxxSolution::mpi_recv(int task_number)
 	int count_doubles;
 	MPI_Unpack(buffer, msg_size, &position, &count_doubles, 1, MPI_INT,
 			   MPI_COMM_WORLD);
-	double *doubles = new double[count_doubles];
+	LDBLE *doubles = new LDBLE[count_doubles];
 	MPI_Unpack(buffer, msg_size, &position, doubles, count_doubles,
 			   MPI_DOUBLE, MPI_COMM_WORLD);
 	buffer = free_check_null(buffer);
@@ -1083,7 +1083,7 @@ cxxSolution::mpi_recv(int task_number)
 }
 #endif
 void
-cxxSolution::Set_master_activity(char *string, double d)
+cxxSolution::Set_master_activity(char *string, LDBLE d)
 {
 	this->master_activity[string] = d;
 }
@@ -1116,7 +1116,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 					// redox element erase and replace
 					if (master_ptr_secondary != master_ptr) 
 					{
-						double d = it->second;
+						LDBLE d = it->second;
 						orig_master_activity.erase(orig_master_activity.find(master_ptr->elt->name));
 						orig_master_activity[master_ptr_secondary->elt->name] = d;
 						redo = true;
@@ -1149,7 +1149,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 					// redox element erase and replace
 					if (master_ptr_secondary != master_ptr) 
 					{
-						double d = it->second;
+						LDBLE d = it->second;
 						mod_master_activity.erase(mod_master_activity.find(master_ptr->elt->name));
 						mod_master_activity[master_ptr_secondary->elt->name] = d;
 						redo = true;
@@ -1183,7 +1183,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 		}
 		if (strcmp(ename, "H") == 0 || strcmp(ename, "O") == 0) continue;
 
-		double d_mod, d_orig;
+		LDBLE d_mod, d_orig;
 		d_mod = this->Get_total_element(ename);
 		if (d_mod <= 0) continue;
 
@@ -1199,7 +1199,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 		}
 
 		// case where total for both orig and modified are greater than 0
-		double lratio = log10(d_mod / d_orig);
+		LDBLE lratio = log10(d_mod / d_orig);
 
 		int j;
 		j = master_primary_ptr->number;
@@ -1224,7 +1224,7 @@ cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & origina
 				it1 = orig_master_activity.find(P_INSTANCE_POINTER master[j]->elt->name);
 				if (it1 != orig_master_activity.end())
 				{
-					double d = it1->second;
+					LDBLE d = it1->second;
 					mod_master_activity[P_INSTANCE_POINTER master[j]->elt->name] = d + lratio;
 				}
 				else
@@ -1279,8 +1279,8 @@ cxxSolution::modify_activities(const cxxSolution & original)
 			{
 				// valence in current and element in original
 				ename = it->first.substr(0, indexCh);
-				double orig_tot = original.Get_total_element(ename.c_str());
-				double tot = this->Get_total_element(ename.c_str());
+				LDBLE orig_tot = original.Get_total_element(ename.c_str());
+				LDBLE tot = this->Get_total_element(ename.c_str());
 				if (tot > 0 && orig_tot > 0)
 				{
 					factor[ename] = log10(tot/orig_tot);
@@ -1290,7 +1290,7 @@ cxxSolution::modify_activities(const cxxSolution & original)
 			{
 				// element in current and valence in original
 				ename = it->first;
-				double orig_tot = original.Get_total_element(ename.c_str());
+				LDBLE orig_tot = original.Get_total_element(ename.c_str());
 				if (it->second > 0 && orig_tot > 0)
 				{
 					factor[ename] = log10(it->second/orig_tot);
@@ -1306,7 +1306,7 @@ cxxSolution::modify_activities(const cxxSolution & original)
 		if (orig_it != original.Get_master_activity().end())
 		{
 			// Found exact match
-			double d = orig_it->second + it->second;
+			LDBLE d = orig_it->second + it->second;
 			updated_orig_activities[it->first.c_str()] = d;
 		}
 		else
@@ -1319,7 +1319,7 @@ cxxSolution::modify_activities(const cxxSolution & original)
 			{
 				if (strstr(orig_it->first.c_str(), v_name.c_str()) == orig_it->first.c_str())
 				{
-					double d = orig_it->second + it->second;
+					LDBLE d = orig_it->second + it->second;
 					updated_orig_activities[orig_it->first.c_str()] = d;
 				}
 			}
@@ -1417,12 +1417,12 @@ cxxSolution::Update(const cxxNameDouble &nd)
 			// Exact match
 			if ( it->first == sol_it->first) 
 			{
-				double d = sol_it->second + it->second;
+				LDBLE d = sol_it->second + it->second;
 				updated_activities[it->first.c_str()] = d;
 			}
 			else if (strstr(v_name.c_str(), sol_it->first.c_str()) == sol_it->first.c_str())
 			{
-				double d = sol_it->second + it->second;
+				LDBLE d = sol_it->second + it->second;
 				updated_activities[sol_it->first.c_str()] = d;
 			}
 		}

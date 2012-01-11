@@ -43,7 +43,7 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
   // Converts from input units to moles per kilogram water
   //
 {
-	double sum_solutes = 0;
+	LDBLE sum_solutes = 0;
 	// foreach conc
 	std::map < std::string, cxxISolutionComp >::iterator iter =
 		this->comps.begin();
@@ -61,7 +61,7 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 /*
 *   Convert liters to kg solution
 */
-		double moles = iter->second.get_input_conc();
+		LDBLE moles = iter->second.get_input_conc();
 		if (this->units.find("/l") != std::string::npos)
 		{
 			moles /= this->density;
@@ -107,7 +107,7 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 /*
  *   Convert /kgs to /kgw
  */
-	double l_mass_water;
+	LDBLE l_mass_water;
 	if ((this->units.find("kgs") != std::string::npos) ||
 		(this->units.find("/l") != std::string::npos))
 	{

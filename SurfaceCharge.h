@@ -37,32 +37,32 @@ public:
 		else
 			this->name.clear();
 	}
-	void add(const cxxSurfaceCharge & comp, double extensive);
-	void multiply(double extensive);
+	void add(const cxxSurfaceCharge & comp, LDBLE extensive);
+	void multiply(LDBLE extensive);
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
-	double Get_specific_area() const {return this->specific_area;};
-	double Get_grams() const {return this->grams;};
-	double Get_charge_balance() const {return this->charge_balance;};
-	double Get_mass_water() const {return this->mass_water;};
-	double Get_la_psi() const {return this->la_psi;};
-	double Get_la_psi1() const {return this->la_psi1;};
-	double Get_la_psi2() const {return this->la_psi2;};
-	double Get_capacitance0() const {return this->capacitance[0];};
-	double Get_capacitance1() const {return this->capacitance[1];};
+	LDBLE Get_specific_area() const {return this->specific_area;};
+	LDBLE Get_grams() const {return this->grams;};
+	LDBLE Get_charge_balance() const {return this->charge_balance;};
+	LDBLE Get_mass_water() const {return this->mass_water;};
+	LDBLE Get_la_psi() const {return this->la_psi;};
+	LDBLE Get_la_psi1() const {return this->la_psi1;};
+	LDBLE Get_la_psi2() const {return this->la_psi2;};
+	LDBLE Get_capacitance0() const {return this->capacitance[0];};
+	LDBLE Get_capacitance1() const {return this->capacitance[1];};
 	const cxxNameDouble & Get_diffuse_layer_totals(void) const {return this->diffuse_layer_totals;};
 protected:
 	std::string name;
-	double specific_area;
-	double grams;
-	double charge_balance;
-	double mass_water;
-	double la_psi, la_psi1, la_psi2;
-	double capacitance[2];
-	//std::map<double, cxxSurfDL> g;
+	LDBLE specific_area;
+	LDBLE grams;
+	LDBLE charge_balance;
+	LDBLE mass_water;
+	LDBLE la_psi, la_psi1, la_psi2;
+	LDBLE capacitance[2];
+	//std::map<LDBLE, cxxSurfDL> g;
 	//char * psi_master_name;
 	cxxNameDouble diffuse_layer_totals;
 
