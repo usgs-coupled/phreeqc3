@@ -95,8 +95,8 @@ cxxNumKeyword(io)
 //
 //   Mix
 //
-	const std::map < int, double >&mixcomps = mix.Get_mixComps();
-	std::map < int, double >::const_iterator it;
+	const std::map < int, LDBLE >&mixcomps = mix.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
@@ -209,7 +209,7 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent, int * n_out) co
 	{
 		int i = 0;
 		s_oss << indent2;
-		for (std::vector < double >::const_iterator it = this->steps.begin();
+		for (std::vector < LDBLE >::const_iterator it = this->steps.begin();
 			 it != this->steps.end(); it++)
 		{
 			if (i++ == 5)
@@ -229,7 +229,7 @@ void
 cxxKinetics::read_raw(CParser & parser, bool check)
 {
 
-	double d;
+	LDBLE d;
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
 	{
@@ -251,7 +251,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 	std::string token;
 	int opt_save;
 	bool useLastLine(false);
-	std::vector < double > temp_steps;
+	std::vector < LDBLE > temp_steps;
 
 	// Read kinetics number and description
 	this->read_number_description(parser);
@@ -527,7 +527,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 void
 cxxKinetics::mpi_pack(std::vector < int >&ints,
-					  std::vector < double >&doubles)
+					  std::vector < LDBLE >&doubles)
 {
 	ints.push_back(this->n_user);
 	ints.push_back((int) this->kineticsComps.size());
@@ -544,7 +544,7 @@ cxxKinetics::mpi_pack(std::vector < int >&ints,
 	}
 	*/
 	ints.push_back((int) this->steps.size());
-	for (std::vector < double >::iterator it = this->steps.begin();
+	for (std::vector < LDBLE >::iterator it = this->steps.begin();
 		 it != this->steps.end(); it++)
 	{
 		doubles.push_back(*it);
@@ -559,7 +559,7 @@ cxxKinetics::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxKinetics::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	int i = *ii;
 	int d = *dd;
@@ -595,7 +595,7 @@ cxxKinetics::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
 }
 #endif
 void
-cxxKinetics::add(const cxxKinetics & addee, double extensive)
+cxxKinetics::add(const cxxKinetics & addee, LDBLE extensive)
 		//
 		// Add to existing ppassemblage to "this" ppassemblage
 		//
@@ -630,10 +630,10 @@ cxxKinetics::add(const cxxKinetics & addee, double extensive)
 			this->kineticsComps.push_back(entity);
 		}
 	}
-	//std::vector<double> steps;
+	//std::vector<LDBLE> steps;
 	this->steps = addee.steps;
 	//cxxNameDouble totals;
-	//double step_divide;
+	//LDBLE step_divide;
 	this->step_divide = addee.step_divide;
 	//int rk;
 	this->rk = addee.rk;

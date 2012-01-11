@@ -34,20 +34,20 @@ class cxxISolutionComp: public PHRQ_base
 			this->description.clear();
 	}
 
-	double Get_moles() const
+	LDBLE Get_moles() const
 	{
 		return this->moles;
 	}
-	void Set_moles(double l_moles)
+	void Set_moles(LDBLE l_moles)
 	{
 		this->moles = l_moles;
 	}
 
-	double Get_input_conc() const
+	LDBLE Get_input_conc() const
 	{
 		return this->input_conc;
 	}
-	void Set_input_conc(double l_input_conc)
+	void Set_input_conc(LDBLE l_input_conc)
 	{
 		this->input_conc = l_input_conc;
 	}
@@ -77,7 +77,7 @@ class cxxISolutionComp: public PHRQ_base
 
 	}
 
-	double Get_phase_si() const
+	LDBLE Get_phase_si() const
 	{
 		return this->phase_si;
 	}
@@ -107,12 +107,12 @@ class cxxISolutionComp: public PHRQ_base
 			this->as.clear();
 	}
 
-	//double get_gfw()const {return this->gfw;}
-	double Get_gfw() const
+	//LDBLE get_gfw()const {return this->gfw;}
+	LDBLE Get_gfw() const
 	{
 		return this->gfw;
 	};
-	void Set_gfw(double l_gfw)
+	void Set_gfw(LDBLE l_gfw)
 	{
 		this->gfw = l_gfw;
 	}
@@ -125,14 +125,14 @@ class cxxISolutionComp: public PHRQ_base
 
   protected:
 	  std::string description;
-	  double moles;
-	  double input_conc;
+	  LDBLE moles;
+	  LDBLE input_conc;
 	  std::string units;
 	  std::string equation_name;
-	  double phase_si;
+	  LDBLE phase_si;
 	  int n_pe;
 	  std::string as;
-	  double gfw;
+	  LDBLE gfw;
 };
 
 #endif // ISOLUTIONCOMP_H_INCLUDED

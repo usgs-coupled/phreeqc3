@@ -59,8 +59,8 @@ cxxNumKeyword(io)
 //
 //   Mix
 //
-	const std::map < int, double >&mixcomps = mix.Get_mixComps();
-	std::map < int, double >::const_iterator it;
+	const std::map < int, LDBLE >&mixcomps = mix.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
@@ -246,7 +246,7 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 /* ---------------------------------------------------------------------- */
 void
 cxxPPassemblage::mpi_pack(std::vector < int >&ints,
-						  std::vector < double >&doubles)
+						  std::vector < LDBLE >&doubles)
 /* ---------------------------------------------------------------------- */
 {
 	/* int n_user; */
@@ -263,7 +263,7 @@ cxxPPassemblage::mpi_pack(std::vector < int >&ints,
 
 /* ---------------------------------------------------------------------- */
 void
-cxxPPassemblage::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxPPassemblage::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 /* ---------------------------------------------------------------------- */
 {
 	int i = *ii;
@@ -303,7 +303,7 @@ cxxPPassemblage::totalize(PHREEQC_PTR_ARG)
 }
 
 void
-cxxPPassemblage::add(const cxxPPassemblage & addee, double extensive)
+cxxPPassemblage::add(const cxxPPassemblage & addee, LDBLE extensive)
 		//
 		// Add to existing ppassemblage to "this" ppassemblage
 		//

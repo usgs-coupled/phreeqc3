@@ -18,8 +18,8 @@ public:
 
 	~cxxSolutionIsotopeList();
 
-	void add(cxxSolutionIsotopeList oldlist, double intensive, double extensive);
-	void multiply(double extensive);
+	void add(cxxSolutionIsotopeList oldlist, LDBLE intensive, LDBLE extensive);
+	void multiply(LDBLE extensive);
 
 protected:
 

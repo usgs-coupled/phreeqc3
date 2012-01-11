@@ -39,7 +39,7 @@ cxxExchComp::cxxExchComp(PHRQ_io *io)
 }
 #ifdef SKIP
 cxxExchComp::cxxExchComp(std::vector < cxxExchComp > &ec_vector,
-						 std::vector < double >&f_vector)
+						 std::vector < LDBLE >&f_vector)
 		//
 		// constructor for cxxExchComp from mixing 
 		//
@@ -49,7 +49,7 @@ cxxExchComp::cxxExchComp(std::vector < cxxExchComp > &ec_vector,
 	//
 	//  check consistency
 	//
-	std::vector < double >::iterator it_f;
+	std::vector < LDBLE >::iterator it_f;
 	std::vector < cxxExchComp >::iterator it_ec;
 	// set fixed variables
 	it_ec = ec_vector.begin();
@@ -72,7 +72,7 @@ cxxExchComp::cxxExchComp(std::vector < cxxExchComp > &ec_vector,
 		}
 	}
 	// calculate sum of extensive factors
-	double sum_extensive = 0;
+	LDBLE sum_extensive = 0;
 	for (it_f = f_vector.begin(); it_f != f_vector.end(); it_f++)
 	{
 		sum_extensive += *it_f;
@@ -87,8 +87,8 @@ cxxExchComp::cxxExchComp(std::vector < cxxExchComp > &ec_vector,
 	it_f = f_vector.begin();
 	for (; it_ec != ec_vector.end();)
 	{
-		double extensive = *it_f;
-		double intensive = extensive / sum_extensive;
+		LDBLE extensive = *it_f;
+		LDBLE intensive = extensive / sum_extensive;
 		this->moles += it_ec->moles * extensive;
 		this->la += it_ec->la * intensive;
 		this->charge_balance += it_ec->charge_balance * extensive;
@@ -416,9 +416,9 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 	}
 }
 void
-cxxExchComp::add(const cxxExchComp & addee, double extensive)
+cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 {
-	double ext1, ext2, f1, f2;
+	LDBLE ext1, ext2, f1, f2;
 	if (extensive == 0.0)
 		return;
 	if (addee.formula.size() == 0)
@@ -452,13 +452,13 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 		this->formula = addee.formula;
 		this->formula_totals = addee.formula_totals;
 	}
-	//double moles;
+	//LDBLE moles;
 	this->moles += addee.moles * extensive;
 	//cxxNameDouble totals; 
 	this->totals.add_extensive(addee.totals, extensive);
-	//double la;
+	//LDBLE la;
 	this->la = f1 * this->la + f2 * addee.la;
-	//double charge_balance;
+	//LDBLE charge_balance;
 	this->charge_balance += addee.charge_balance * extensive;
 	//char   *phase_name;
 
@@ -490,7 +490,7 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 	}
 	else if (this->rate_name.size() != 0)
 	{
-		//double phase_proportion;
+		//LDBLE phase_proportion;
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
 	}
@@ -507,27 +507,27 @@ cxxExchComp::add(const cxxExchComp & addee, double extensive)
 	}
 }
 void
-cxxExchComp::multiply(double extensive)
+cxxExchComp::multiply(LDBLE extensive)
 {
 	//char * formula;
-	//double moles;
+	//LDBLE moles;
 	this->moles *= extensive;
 	//cxxNameDouble formula_totals;
 	//cxxNameDouble totals; 
 	this->totals.multiply(extensive);
-	//double la;
-	//double charge_balance;
+	//LDBLE la;
+	//LDBLE charge_balance;
 	this->charge_balance *= extensive;
 	//char   *phase_name;
-	//double phase_proportion;  
+	//LDBLE phase_proportion;  
 	this->phase_proportion *= extensive;
-	//double formula_z;
+	//LDBLE formula_z;
 }
 
 #ifdef USE_MPI
 void
 cxxExchComp::mpi_pack(std::vector < int >&ints,
-					  std::vector < double >&doubles)
+					  std::vector < LDBLE >&doubles)
 {
 	extern cxxDictionary dictionary;
 	ints.push_back(dictionary.string2int(this->formula));
@@ -543,7 +543,7 @@ cxxExchComp::mpi_pack(std::vector < int >&ints,
 }
 
 void
-cxxExchComp::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxExchComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	extern cxxDictionary dictionary;
 	int i = *ii;

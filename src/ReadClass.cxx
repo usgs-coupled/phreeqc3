@@ -1445,7 +1445,7 @@ run_as_cells(void)
 	run_info.Set_run_cells(true);
 
 	dup_print("Beginning of run as cells.", TRUE);
-	double initial_total_time_save;
+	LDBLE initial_total_time_save;
 	if (run_info.Get_start_time() != NA)
 	{
 		initial_total_time_save = run_info.Get_start_time();

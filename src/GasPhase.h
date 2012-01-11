@@ -35,8 +35,8 @@ class cxxGasPhase:public cxxNumKeyword
 	void read_raw(CParser & parser, bool check = true);
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 
 	void totalize(PHREEQC_PTR_ARG);
@@ -50,10 +50,10 @@ class cxxGasPhase:public cxxNumKeyword
 
 	GP_TYPE Get_type(void) const {return type;};
 	void Set_type(GP_TYPE t) {type = t;};
-	double Get_total_p(void) const {return total_p;};
-	double Get_volume(void) const {return volume;};
+	LDBLE Get_total_p(void) const {return total_p;};
+	LDBLE Get_volume(void) const {return volume;};
 	void Set_volume(LDBLE v) {volume = v;};
-	double Get_v_m(void) const {return v_m;};
+	LDBLE Get_v_m(void) const {return v_m;};
 	void Set_v_m(LDBLE v) {v_m = v;};
 	bool Get_pr_in(void) const {return pr_in;};
 	void Set_pr_in(bool tf) {pr_in = tf;};
@@ -74,7 +74,7 @@ class cxxGasPhase:public cxxNumKeyword
 	LDBLE Calc_total_moles(void);
 
 protected:
-	void add(const cxxGasPhase & addee, double extensive);
+	void add(const cxxGasPhase & addee, LDBLE extensive);
 
 protected:
 	bool new_def;

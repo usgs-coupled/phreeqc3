@@ -47,11 +47,11 @@ public:
 	std::vector<cxxExchComp *> Vectorize(void);
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 protected:
-	void add(const cxxExchange & addee, double extensive);
+	void add(const cxxExchange & addee, LDBLE extensive);
 	// not written
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 

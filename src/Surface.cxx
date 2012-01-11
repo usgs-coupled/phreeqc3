@@ -95,8 +95,8 @@ cxxNumKeyword(io)
 //
 //   Mix exchangers
 //
-	const std::map < int, double >&mixcomps = mix.Get_mixComps();
-	std::map < int, double >::const_iterator it;
+	const std::map < int, LDBLE >&mixcomps = mix.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entities.find(it->first) != entities.end())
@@ -657,7 +657,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 #ifdef USE_MPI
 /* ---------------------------------------------------------------------- */
 void
-cxxSurface::mpi_pack(std::vector < int >&ints, std::vector < double >&doubles)
+cxxSurface::mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles)
 /* ---------------------------------------------------------------------- */
 {
 	/* int n_user; */
@@ -691,7 +691,7 @@ cxxSurface::mpi_pack(std::vector < int >&ints, std::vector < double >&doubles)
 
 /* ---------------------------------------------------------------------- */
 void
-cxxSurface::mpi_unpack(int *ints, int *ii, double *doubles, int *dd)
+cxxSurface::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 /* ---------------------------------------------------------------------- */
 {
 	int i = *ii;
@@ -751,7 +751,7 @@ cxxSurface::totalize()
 }
 
 void
-cxxSurface::add(const cxxSurface & addee, double extensive)
+cxxSurface::add(const cxxSurface & addee, LDBLE extensive)
 		//
 		// Add surface to "this" exchange
 		//
@@ -768,13 +768,13 @@ cxxSurface::add(const cxxSurface & addee, double extensive)
 		this->sites_units = addee.sites_units;
 		//bool only_counter_ions;
 		this->only_counter_ions = addee.only_counter_ions;
-		//double thickness;
+		//LDBLE thickness;
 		this->thickness = addee.thickness;
-		//double debye_lengths;
+		//LDBLE debye_lengths;
 		this->debye_lengths = addee.debye_lengths;
-		//double DDL_viscosity;
+		//LDBLE DDL_viscosity;
 		this->DDL_viscosity = addee.DDL_viscosity;
-		//double DDL_limit;
+		//LDBLE DDL_limit;
 		this->DDL_limit = addee.DDL_limit;
 		//bool transport;
 		this->transport = addee.transport;

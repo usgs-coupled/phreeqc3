@@ -33,27 +33,27 @@ class cxxExchComp: public PHRQ_base
 		else
 			this->formula.clear();
 	}
-	double Get_moles() const
+	LDBLE Get_moles() const
 	{
 		return this->moles;
 	}
-	void Set_moles(double d)
+	void Set_moles(LDBLE d)
 	{
 		this->moles = d;
 	}
-	double Get_la() const
+	LDBLE Get_la() const
 	{
 		return this->la;
 	}
-	void Set_la(double d)
+	void Set_la(LDBLE d)
 	{
 		this->la = d;
 	}
-	double Get_charge_balance() const
+	LDBLE Get_charge_balance() const
 	{
 		return this->charge_balance;
 	}
-	void Set_charge_balance(double d)
+	void Set_charge_balance(LDBLE d)
 	{
 		this->charge_balance = d;
 	}
@@ -68,11 +68,11 @@ class cxxExchComp: public PHRQ_base
 		else
 			this->phase_name.clear();
 	}
-	double Get_phase_proportion() const
+	LDBLE Get_phase_proportion() const
 	{
 		return this->phase_proportion;
 	}
-	void Set_phase_proportion(double d)
+	void Set_phase_proportion(LDBLE d)
 	{
 		this->phase_proportion = d;
 	}
@@ -87,11 +87,11 @@ class cxxExchComp: public PHRQ_base
 		else
 			this->rate_name.clear();
 	}
-	double Get_formula_z() const
+	LDBLE Get_formula_z() const
 	{
 		return this->formula_z;
 	}
-	void Set_formula_z(double d)
+	void Set_formula_z(LDBLE d)
 	{
 		this->formula_z = d;
 	}
@@ -124,25 +124,25 @@ class cxxExchComp: public PHRQ_base
 	cxxNameDouble & Get_formula_totals(void) {return this->formula_totals;}
 
 
-	void add(const cxxExchComp & comp, double extensive);
-	void multiply(double extensive);
+	void add(const cxxExchComp & comp, LDBLE extensive);
+	void multiply(LDBLE extensive);
 
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
   protected:
 	std::string formula;
-	double moles;
+	LDBLE moles;
 	cxxNameDouble formula_totals;
 	cxxNameDouble totals;
-	double la;
-	double charge_balance;
+	LDBLE la;
+	LDBLE charge_balance;
 	std::string phase_name;
-	double phase_proportion;
+	LDBLE phase_proportion;
 	std::string rate_name;
-	double formula_z;			// charge on formula
+	LDBLE formula_z;			// charge on formula
 
   public:
 

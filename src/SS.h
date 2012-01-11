@@ -6,6 +6,7 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
+#include "phrqtype.h"
 #include "NameDouble.h"
 #include "Phreeqc_class.h"
 
@@ -61,26 +62,26 @@ class cxxSS: public PHRQ_base
 	};
 
 #ifdef USE_MPI
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
+	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
+	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 
-	void add(const cxxSS & comp, double extensive);
-	void multiply(double extensive);
-	double Get_a0() const {return (this->a0);};
-	double Get_a1() const {return (this->a1);};
-	double Get_ag0() const {return (this->ag0);};
-	double Get_ag1() const {return (this->ag1);};
+	void add(const cxxSS & comp, LDBLE extensive);
+	void multiply(LDBLE extensive);
+	LDBLE Get_a0() const {return (this->a0);};
+	LDBLE Get_a1() const {return (this->a1);};
+	LDBLE Get_ag0() const {return (this->ag0);};
+	LDBLE Get_ag1() const {return (this->ag1);};
 	bool Get_miscibility() const {return (this->miscibility);};
-	double Get_xb1() const {return (this->xb1);};
-	double Get_xb2() const {return (this->xb2);};
+	LDBLE Get_xb1() const {return (this->xb1);};
+	LDBLE Get_xb2() const {return (this->xb2);};
 protected:
 	std::string name;
 	cxxNameDouble comps;
-	double a0, a1;
-	double ag0, ag1;
+	LDBLE a0, a1;
+	LDBLE ag0, ag1;
 	bool miscibility;
-	double xb1, xb2;
+	LDBLE xb1, xb2;
 	cxxNameDouble totals;
 
 public:

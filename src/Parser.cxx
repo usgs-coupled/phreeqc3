@@ -1075,12 +1075,12 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	return PARSER_OK;
 }
 
-CParser::STATUS_TYPE CParser::addPair(std::map < std::string, double >&totals,
+CParser::STATUS_TYPE CParser::addPair(std::map < std::string, LDBLE >&totals,
 									  std::istream::pos_type & pos)
 {
 	std::string token;
 	//char * ctoken;
-	double
+	LDBLE
 		d;
 	CParser::TOKEN_TYPE j;
 
