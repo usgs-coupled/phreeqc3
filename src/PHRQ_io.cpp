@@ -742,11 +742,12 @@ get_logical_line(void * cookie)
 				if (c == '\n')
 				{
 					// remove '\\'
-					for (; pos < m_line_save.size(); pos++)
-					{
-						m_line_save[pos] = m_line_save[pos + 1];
-					}
-					m_line_save.erase(m_line_save.size() - 1, 1);
+					m_line_save = m_line_save.substr(0,pos);
+					//for (; pos < m_line_save.size(); pos++)
+					//{
+					//	m_line_save[pos] = m_line_save[pos + 1];
+					//}
+					//m_line_save.erase(m_line_save.size() - 1, 1);
 					break;
 				}
 				m_line_save += c;
