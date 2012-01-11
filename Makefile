@@ -201,7 +201,7 @@ COMMON_CXXOBJS = \
 	       SolutionIsotope.o \
 	       SolutionIsotopeList.o \
 	       SSassemblage.o \
-	       SSassemblageSS.o \
+	       SS.o \
                StorageBin.o \
                StorageBinList.o \
 	       Surface.o \
@@ -209,6 +209,7 @@ COMMON_CXXOBJS = \
 	       SurfaceComp.o \
 	       System.o \
 	       Temperature.o \
+	       Use.o \
 	       Utils.o 
 
 # -----------------------------------------------------------------------------
@@ -231,7 +232,7 @@ cxxKinetics.o: ../cxxKinetics.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../cxxKinetics.h ../KineticsComp.h ../NameDouble.h ../phreeqc/phqalloc.h
 cxxMix.o: ../cxxMix.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
@@ -239,43 +240,44 @@ cxxMix.o: ../cxxMix.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../phreeqc/phqalloc.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../phreeqc/phqalloc.h
 Exchange.o: ../Exchange.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../Exchange.h ../ExchComp.h ../NameDouble.h ../phreeqc/phqalloc.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../Exchange.h ../ExchComp.h ../NameDouble.h \
+ ../phreeqc/phqalloc.h
 ExchComp.o: ../ExchComp.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../ExchComp.h ../NameDouble.h ../phreeqc/phqalloc.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../ExchComp.h ../NameDouble.h ../phreeqc/phqalloc.h
 GasComp.o: ../GasComp.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../GasComp.h ../NameDouble.h ../phreeqc/phqalloc.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../GasComp.h ../NameDouble.h ../phreeqc/phqalloc.h
 GasPhase.o: ../GasPhase.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../GasPhase.h ../NameDouble.h ../Phreeqc_class.h ../GasComp.h \
- ../phreeqc/phqalloc.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../GasPhase.h ../NameDouble.h ../Phreeqc_class.h \
+ ../GasComp.h ../phreeqc/phqalloc.h
 ISolutionComp.o: ../ISolutionComp.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../ISolutionComp.h ../phreeqc/phqalloc.h
 ISolution.o: ../ISolution.cxx ../Utils.h ../Phreeqc.h \
@@ -283,7 +285,7 @@ ISolution.o: ../ISolution.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../ISolution.h ../ISolutionComp.h ../Solution.h ../SolutionIsotopeList.h \
  ../SolutionIsotope.h ../NameDouble.h ../Phreeqc_class.h \
@@ -293,7 +295,7 @@ KineticsComp.o: ../KineticsComp.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../KineticsComp.h ../NameDouble.h ../phreeqc/phqalloc.h
 NameDouble.o: ../NameDouble.cxx ../Utils.h ../Phreeqc.h \
@@ -301,7 +303,7 @@ NameDouble.o: ../NameDouble.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../NameDouble.h ../phreeqc/phqalloc.h
 NumKeyword.o: ../NumKeyword.cxx ../NumKeyword.h ../PHRQ_base.h \
@@ -311,14 +313,15 @@ Parser.o: ../Parser.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h
 PHRQ_base.o: ../PHRQ_base.cxx ../PHRQ_base.h ../PHRQ_io.h ../Keywords.h
 PPassemblageComp.o: ../PPassemblageComp.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../PPassemblageComp.h ../NameDouble.h ../Phreeqc_class.h \
  ../phreeqc/phqalloc.h
@@ -327,7 +330,7 @@ PPassemblage.o: ../PPassemblage.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../PPassemblage.h ../PPassemblageComp.h ../NameDouble.h \
  ../Phreeqc_class.h ../phreeqc/phqalloc.h
@@ -336,21 +339,21 @@ Pressure.o: ../Pressure.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../phreeqc/phqalloc.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../phreeqc/phqalloc.h
 Reaction.o: ../Reaction.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../Reaction.h ../NameDouble.h ../phreeqc/phqalloc.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../Reaction.h ../NameDouble.h ../phreeqc/phqalloc.h
 ReadClass.o: ../ReadClass.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../Phreeqc_class.h ../Solution.h ../SolutionIsotopeList.h \
  ../SolutionIsotope.h ../NameDouble.h ../Exchange.h ../ExchComp.h \
@@ -363,15 +366,15 @@ Solution.o: ../Solution.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../Solution.h ../SolutionIsotopeList.h ../SolutionIsotope.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../Solution.h ../SolutionIsotopeList.h ../SolutionIsotope.h \
  ../NameDouble.h ../Phreeqc_class.h ../phreeqc/phqalloc.h
 SolutionIsotope.o: ../SolutionIsotope.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../SolutionIsotope.h ../phreeqc/phqalloc.h
 SolutionIsotopeList.o: ../SolutionIsotopeList.cxx ../Utils.h ../Phreeqc.h \
@@ -379,7 +382,7 @@ SolutionIsotopeList.o: ../SolutionIsotopeList.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../SolutionIsotopeList.h ../SolutionIsotope.h ../phreeqc/phqalloc.h
 SSassemblage.o: ../SSassemblage.cxx ../Utils.h ../Phreeqc.h \
@@ -387,38 +390,37 @@ SSassemblage.o: ../SSassemblage.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../SSassemblage.h ../NameDouble.h ../Phreeqc_class.h ../SSassemblageSS.h \
+ ../SSassemblage.h ../NameDouble.h ../Phreeqc_class.h ../SS.h \
  ../phreeqc/phqalloc.h
-SSassemblageSS.o: ../SSassemblageSS.cxx ../Utils.h ../Phreeqc.h \
- ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
- ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
- ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
- ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
- ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../SSassemblageSS.h ../NameDouble.h ../Phreeqc_class.h \
+SS.o: ../SS.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
+ ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
+ ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
+ ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
+ ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../SS.h ../NameDouble.h ../Phreeqc_class.h \
  ../phreeqc/phqalloc.h
 StorageBin.o: ../StorageBin.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../NameDouble.h ../StorageBin.h ../System.h ../Phreeqc_class.h \
  ../SSassemblage.h ../Solution.h ../SolutionIsotopeList.h \
  ../SolutionIsotope.h ../Exchange.h ../ExchComp.h ../GasPhase.h \
  ../GasComp.h ../cxxKinetics.h ../KineticsComp.h ../PPassemblage.h \
- ../PPassemblageComp.h ../SSassemblageSS.h ../Surface.h ../SurfaceComp.h \
+ ../PPassemblageComp.h ../SS.h ../Surface.h ../SurfaceComp.h \
  ../SurfaceCharge.h ../Reaction.h ../Temperature.h ../phreeqc/phqalloc.h
 SurfaceCharge.o: ../SurfaceCharge.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../SurfaceCharge.h ../NameDouble.h ../Phreeqc_class.h \
  ../phreeqc/phqalloc.h
@@ -427,7 +429,7 @@ SurfaceComp.o: ../SurfaceComp.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../SurfaceComp.h ../Phreeqc_class.h ../NameDouble.h \
  ../phreeqc/phqalloc.h
@@ -436,7 +438,7 @@ Surface.o: ../Surface.cxx ../Phreeqc_class.h ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Surface.h \
  ../SurfaceComp.h ../NameDouble.h ../SurfaceCharge.h \
  ../phreeqc/phqalloc.h
@@ -445,19 +447,19 @@ System.o: ../System.cxx ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../System.h \
- ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../SSassemblage.h \
- ../Solution.h ../SolutionIsotopeList.h ../SolutionIsotope.h \
- ../Exchange.h ../ExchComp.h ../GasPhase.h ../GasComp.h ../cxxKinetics.h \
- ../KineticsComp.h ../PPassemblage.h ../PPassemblageComp.h \
- ../SSassemblageSS.h ../Surface.h ../SurfaceComp.h ../SurfaceCharge.h \
- ../Reaction.h ../Temperature.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../System.h ../NameDouble.h ../Parser.h ../Phreeqc_class.h \
+ ../SSassemblage.h ../Solution.h ../SolutionIsotopeList.h \
+ ../SolutionIsotope.h ../Exchange.h ../ExchComp.h ../GasPhase.h \
+ ../GasComp.h ../cxxKinetics.h ../KineticsComp.h ../PPassemblage.h \
+ ../PPassemblageComp.h ../SS.h ../Surface.h ../SurfaceComp.h \
+ ../SurfaceCharge.h ../Reaction.h ../Temperature.h
 Temperature.o: ../Temperature.cxx ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
  ../Temperature.h ../phreeqc/phqalloc.h
 Utils.o: ../Utils.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
@@ -465,7 +467,8 @@ Utils.o: ../Utils.cxx ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h
 Calculate_value.o: ../Calculate_value.cpp ../Calculate_value.h \
  ../PHRQ_base.h ../PHRQ_io.h ../Keywords.h ../phreeqc/phrqtype.h
 Calculate_values\ .o: ../Calculate_values\ .cpp ../Calculate_values.h \
@@ -477,7 +480,7 @@ Calculate_values.o: ../Calculate_values.cpp ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Calculate_values.h \
  ../Calculate_value.h ../Parser.h ../PBasic.h
 ChartHandler.o: ../ChartHandler.cpp
@@ -487,7 +490,7 @@ class_main.o: ../class_main.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../NameDouble.h ../Parser.h ../Solution.h ../SolutionIsotopeList.h \
  ../SolutionIsotope.h ../Phreeqc_class.h ../Reaction.h ../PPassemblage.h \
  ../PPassemblageComp.h ../Exchange.h ../ExchComp.h ../Surface.h \
@@ -504,13 +507,13 @@ PBasic.o: ../PBasic.cpp ../PBasic.h ../phreeqc/phrqtype.h ../PHRQ_base.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../dumper.h \
  ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
- ../phreeqc/phqalloc.h ../NameDouble.h ../Parser.h
+ ../Use.h ../phreeqc/phqalloc.h ../NameDouble.h ../Parser.h
 Phreeqc.o: ../Phreeqc.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../NameDouble.h ../Parser.h ../Solution.h ../SolutionIsotopeList.h \
  ../SolutionIsotope.h ../Phreeqc_class.h ../Reaction.h ../PPassemblage.h \
  ../PPassemblageComp.h ../Exchange.h ../ExchComp.h ../Surface.h \
@@ -522,58 +525,61 @@ PHRQ_io.o: ../PHRQ_io.cpp ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h
 runner.o: ../runner.cpp ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../Parser.h ../Keywords.h ../PHRQ_io.h ../phreeqc/NA.h
 StorageBinList.o: ../StorageBinList.cpp ../StorageBinList.h \
  ../PHRQ_base.h ../Parser.h ../Keywords.h ../PHRQ_io.h
+Use.o: ../Use.cpp ../Use.h
 advection.o: ../phreeqc/advection.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 basicsubs.o: ../phreeqc/basicsubs.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h ../phreeqc/../NameDouble.h ../phreeqc/../Parser.h \
  ../phreeqc/../PHRQ_base.h ../phreeqc/../Keywords.h \
  ../phreeqc/../PHRQ_io.h ../phreeqc/../PBasic.h ../phreeqc/../Exchange.h \
  ../phreeqc/../NumKeyword.h ../phreeqc/../ExchComp.h \
  ../phreeqc/../NameDouble.h ../phreeqc/../GasPhase.h \
- ../phreeqc/../Phreeqc_class.h ../phreeqc/../GasComp.h
+ ../phreeqc/../Phreeqc_class.h ../phreeqc/../GasComp.h ../PPassemblage.h \
+ ../PPassemblageComp.h ../NameDouble.h ../Phreeqc_class.h
 ChartObject.o: ../phreeqc/ChartObject.cpp
 cl1.o: ../phreeqc/cl1.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 cl1mp.o: ../phreeqc/cl1mp.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 cvdense.o: ../phreeqc/cvdense.cpp ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../phreeqc/sundialsmath.h \
  ../Phreeqc.h ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../phreeqc/phqalloc.h
 cvode.o: ../phreeqc/cvode.cpp ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/sundialsmath.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/dense.h ../phreeqc/smalldense.h \
  ../runner.h ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../phreeqc/phqalloc.h
 dense.o: ../phreeqc/dense.cpp ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/sundialsmath.h ../phreeqc/dense.h \
@@ -583,20 +589,21 @@ dw.o: ../phreeqc/dw.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h
 gases.o: ../phreeqc/gases.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../GasPhase.h \
- ../NameDouble.h ../Parser.h ../Phreeqc_class.h ../GasComp.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../GasPhase.h ../NameDouble.h ../Parser.h ../Phreeqc_class.h \
+ ../GasComp.h
 input.o: ../phreeqc/input.cpp ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Phreeqc.h \
  ../phreeqc/phqalloc.h
 integrate.o: ../phreeqc/integrate.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
@@ -604,28 +611,28 @@ integrate.o: ../phreeqc/integrate.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 inverse.o: ../phreeqc/inverse.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 isotopes.o: ../phreeqc/isotopes.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 kinetics.o: ../phreeqc/kinetics.cpp ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Phreeqc.h \
  ../phreeqc/phqalloc.h ../StorageBin.h ../System.h ../NameDouble.h \
  ../Phreeqc_class.h ../Reaction.h ../cxxKinetics.h ../KineticsComp.h \
@@ -639,33 +646,34 @@ mainsubs.o: ../phreeqc/mainsubs.cpp ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Phreeqc.h \
  ../phreeqc/phqalloc.h ../PBasic.h ../Temperature.h ../Exchange.h \
  ../ExchComp.h ../NameDouble.h ../ExchComp.h ../GasPhase.h \
- ../Phreeqc_class.h ../GasComp.h ../Reaction.h
+ ../Phreeqc_class.h ../GasComp.h ../Reaction.h ../PPassemblage.h \
+ ../PPassemblageComp.h
 model_aw_fraction.o: ../phreeqc/model_aw_fraction.cpp ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../phreeqc/phqalloc.h
 model.o: ../phreeqc/model.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h ../cxxMix.h ../Exchange.h ../ExchComp.h \
  ../NameDouble.h ../Parser.h ../GasPhase.h ../Phreeqc_class.h \
- ../GasComp.h
+ ../GasComp.h ../PPassemblage.h ../PPassemblageComp.h
 model\ with\ ah2o.o: ../phreeqc/model\ with\ ah2o.cpp ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../phreeqc/phqalloc.h
 nvector.o: ../phreeqc/nvector.cpp ../phreeqc/nvector.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h
@@ -678,27 +686,27 @@ parse.o: ../phreeqc/parse.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 phqalloc.o: ../phreeqc/phqalloc.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h
 PHRQ_io_output.o: ../phreeqc/PHRQ_io_output.cpp ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../phreeqc/phqalloc.h
 pitzer.o: ../phreeqc/pitzer.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h ../Exchange.h ../ExchComp.h ../NameDouble.h \
  ../Parser.h
 pitzer_structures.o: ../phreeqc/pitzer_structures.cpp ../Phreeqc.h \
@@ -706,52 +714,54 @@ pitzer_structures.o: ../phreeqc/pitzer_structures.cpp ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../phreeqc/phqalloc.h
 prep.o: ../phreeqc/prep.cpp ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../Phreeqc.h ../phreeqc/phqalloc.h ../Exchange.h ../ExchComp.h \
- ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h ../GasComp.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../Phreeqc.h ../phreeqc/phqalloc.h ../Exchange.h \
+ ../ExchComp.h ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h \
+ ../GasComp.h ../PPassemblage.h ../PPassemblageComp.h
 print.o: ../phreeqc/print.cpp ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Phreeqc.h \
  ../phreeqc/phqalloc.h ../Temperature.h ../cxxMix.h ../Exchange.h \
  ../ExchComp.h ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h \
- ../GasComp.h ../Reaction.h
+ ../GasComp.h ../Reaction.h ../PPassemblage.h ../PPassemblageComp.h
 read.o: ../phreeqc/read.cpp ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../Phreeqc.h ../phreeqc/phqalloc.h ../Pressure.h ../Temperature.h \
- ../Parser.h ../cxxMix.h ../Exchange.h ../ExchComp.h ../NameDouble.h \
- ../GasPhase.h ../Phreeqc_class.h ../GasComp.h ../Reaction.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../Phreeqc.h ../phreeqc/phqalloc.h ../Pressure.h \
+ ../Temperature.h ../Parser.h ../cxxMix.h ../Exchange.h ../ExchComp.h \
+ ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h ../GasComp.h \
+ ../Reaction.h ../PPassemblage.h ../PPassemblageComp.h
 readtr.o: ../phreeqc/readtr.cpp ../phreeqc/../StorageBin.h \
  ../phreeqc/../System.h ../phreeqc/../NameDouble.h ../phreeqc/../Parser.h \
  ../phreeqc/../PHRQ_base.h ../phreeqc/../Keywords.h \
  ../phreeqc/../PHRQ_io.h ../phreeqc/phrqtype.h \
- ../phreeqc/../Phreeqc_class.h ../phreeqc/../SSassemblageSS.h \
- ../Phreeqc.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
- ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
- ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
- ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
- ../phreeqc/global_structures.h ../phreeqc/NA.h ../phreeqc/phqalloc.h
+ ../phreeqc/../Phreeqc_class.h ../phreeqc/../SS.h ../Phreeqc.h \
+ ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
+ ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
+ ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
+ ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../phreeqc/phqalloc.h
 sit.o: ../phreeqc/sit.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h ../Exchange.h ../ExchComp.h ../NameDouble.h \
  ../Parser.h
 smalldense.o: ../phreeqc/smalldense.cpp ../phreeqc/smalldense.h \
@@ -762,42 +772,40 @@ spread.o: ../phreeqc/spread.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h
 step.o: ../phreeqc/step.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
- ../phreeqc/phqalloc.h ../StorageBin.h ../System.h ../NameDouble.h \
- ../Parser.h ../Phreeqc_class.h ../Solution.h ../SolutionIsotopeList.h \
- ../SolutionIsotope.h ../PPassemblage.h ../PPassemblageComp.h \
- ../SSassemblage.h ../SSassemblageSS.h ../NameDouble.h ../Temperature.h \
- ../cxxMix.h ../Exchange.h ../ExchComp.h ../GasPhase.h ../GasComp.h \
- ../Reaction.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../phreeqc/phqalloc.h ../Utils.h ../Phreeqc.h ../Parser.h \
+ ../StorageBin.h ../System.h ../NameDouble.h ../Phreeqc_class.h \
+ ../Solution.h ../SolutionIsotopeList.h ../SolutionIsotope.h \
+ ../PPassemblage.h ../PPassemblageComp.h ../SSassemblage.h ../SS.h \
+ ../NameDouble.h ../Temperature.h ../cxxMix.h ../Exchange.h ../ExchComp.h \
+ ../GasPhase.h ../GasComp.h ../Reaction.h
 structures.o: ../phreeqc/structures.cpp ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Phreeqc.h \
  ../phreeqc/phqalloc.h ../Temperature.h ../cxxMix.h ../Exchange.h \
  ../ExchComp.h ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h \
- ../GasComp.h ../Reaction.h ../phreeqc/../cxxKinetics.h \
- ../phreeqc/../NumKeyword.h ../phreeqc/../KineticsComp.h \
- ../phreeqc/../NameDouble.h ../phreeqc/../PHRQ_base.h \
- ../phreeqc/../PPassemblage.h ../phreeqc/../PPassemblageComp.h \
- ../phreeqc/../Phreeqc_class.h ../phreeqc/../PPassemblageComp.h \
- ../phreeqc/../Solution.h ../phreeqc/../SolutionIsotopeList.h \
- ../phreeqc/../SolutionIsotope.h ../phreeqc/../Parser.h \
- ../phreeqc/../PHRQ_io.h ../phreeqc/../SolutionIsotopeList.h \
- ../phreeqc/../SSassemblage.h ../phreeqc/../SSassemblageSS.h \
- ../phreeqc/../Surface.h ../phreeqc/../SurfaceComp.h \
- ../phreeqc/../SurfaceCharge.h ../phreeqc/../SurfaceComp.h \
- ../phreeqc/../SurfaceCharge.h ../phreeqc/../StorageBin.h \
- ../phreeqc/../System.h
+ ../GasComp.h ../Reaction.h ../PPassemblage.h ../PPassemblageComp.h \
+ ../Use.h ../phreeqc/../cxxKinetics.h ../phreeqc/../NumKeyword.h \
+ ../phreeqc/../KineticsComp.h ../phreeqc/../NameDouble.h \
+ ../phreeqc/../PHRQ_base.h ../phreeqc/../Solution.h \
+ ../phreeqc/../SolutionIsotopeList.h ../phreeqc/../SolutionIsotope.h \
+ ../phreeqc/../Parser.h ../phreeqc/../PHRQ_io.h \
+ ../phreeqc/../Phreeqc_class.h ../phreeqc/../SolutionIsotopeList.h \
+ ../phreeqc/../SSassemblage.h ../phreeqc/../SS.h ../phreeqc/../Surface.h \
+ ../phreeqc/../SurfaceComp.h ../phreeqc/../SurfaceCharge.h \
+ ../phreeqc/../SurfaceComp.h ../phreeqc/../SurfaceCharge.h \
+ ../phreeqc/../StorageBin.h ../phreeqc/../System.h
 sundialsmath.o: ../phreeqc/sundialsmath.cpp ../phreeqc/sundialsmath.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h
 tally.o: ../phreeqc/tally.cpp ../Utils.h ../Phreeqc.h \
@@ -805,34 +813,36 @@ tally.o: ../phreeqc/tally.cpp ../Utils.h ../Phreeqc.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Phreeqc.h \
  ../phreeqc/phqalloc.h ../Temperature.h ../Exchange.h ../ExchComp.h \
  ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h ../GasComp.h \
- ../Reaction.h
+ ../Reaction.h ../PPassemblage.h ../PPassemblageComp.h
 tidy.o: ../phreeqc/tidy.cpp ../Utils.h ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h \
- ../Phreeqc.h ../phreeqc/phqalloc.h ../Exchange.h ../ExchComp.h \
- ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h ../GasComp.h
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../Parser.h ../Phreeqc.h ../phreeqc/phqalloc.h ../Exchange.h \
+ ../ExchComp.h ../NameDouble.h ../GasPhase.h ../Phreeqc_class.h \
+ ../GasComp.h ../PPassemblage.h ../PPassemblageComp.h
 transport.o: ../phreeqc/transport.cpp ../Utils.h ../Phreeqc.h \
  ../phreeqc/phrqtype.h ../phreeqc/cvdense.h ../phreeqc/cvode.h \
  ../phreeqc/sundialstypes.h ../phreeqc/phrqtype.h ../phreeqc/nvector.h \
  ../phreeqc/dense.h ../phreeqc/smalldense.h ../runner.h \
  ../StorageBinList.h ../PHRQ_base.h ../dumper.h ../PHRQ_io.h \
- ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h \
+ ../Keywords.h ../Pressure.h ../NumKeyword.h ../cxxMix.h ../Use.h \
  ../phreeqc/global_structures.h ../phreeqc/NA.h ../Parser.h ../Phreeqc.h \
  ../phreeqc/phqalloc.h ../Exchange.h ../ExchComp.h ../NameDouble.h \
- ../GasPhase.h ../Phreeqc_class.h ../GasComp.h
+ ../GasPhase.h ../Phreeqc_class.h ../GasComp.h ../PPassemblage.h \
+ ../PPassemblageComp.h
 utilities.o: ../phreeqc/utilities.cpp ../Phreeqc.h ../phreeqc/phrqtype.h \
  ../phreeqc/cvdense.h ../phreeqc/cvode.h ../phreeqc/sundialstypes.h \
  ../phreeqc/phrqtype.h ../phreeqc/nvector.h ../phreeqc/dense.h \
  ../phreeqc/smalldense.h ../runner.h ../StorageBinList.h ../PHRQ_base.h \
  ../dumper.h ../PHRQ_io.h ../Keywords.h ../Pressure.h ../NumKeyword.h \
- ../cxxMix.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
+ ../cxxMix.h ../Use.h ../phreeqc/global_structures.h ../phreeqc/NA.h \
  ../phreeqc/phqalloc.h ../NameDouble.h ../Parser.h ../Exchange.h \
  ../ExchComp.h ../NameDouble.h
 # -----------------------------------------------------------------------------

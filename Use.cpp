@@ -37,7 +37,7 @@ init(void)
 
 	kinetics_in = false;
 	n_kinetics_user = -999;
-	kinetics *kinetics_ptr = NULL;
+	kinetics_ptr = NULL;
 
 	surface_in = false;
 	n_surface_user = -999;
@@ -53,7 +53,7 @@ init(void)
 
 	inverse_in = false;
 	n_inverse_user = -999;
-	inverse *inverse_ptr = NULL;
+	inverse_ptr = NULL;
 
 	gas_phase_in = false;
 	n_gas_phase_user = -999;
