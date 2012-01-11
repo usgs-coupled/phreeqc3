@@ -62,7 +62,7 @@ public:
 	void Set_n_solution_user(int i)       {n_solution_user = i;}
 	void Set_n_pp_assemblage_user(int i)  {n_pp_assemblage_user = i;}
 	void Set_n_mix_user(int i)            {n_mix_user = i;}
-	void Set_n_mix_user_orig(int i)       {n_mix_user = i;}
+	void Set_n_mix_user_orig(int i)       {n_mix_user_orig = i;}
 	void Set_n_reaction_user(int i)       {n_reaction_user = i;}
 	void Set_n_exchange_user(int i)       {n_exchange_user = i;}
 	void Set_n_kinetics_user(int i)       {n_kinetics_user = i;}
@@ -72,21 +72,7 @@ public:
 	void Set_n_gas_phase_user(int i)      {n_gas_phase_user = i;}
 	void Set_n_inverse_user(int i)        {n_inverse_user = i;}
 	void Set_n_ss_assemblage_user(int i)  {n_ss_assemblage_user = i;}
-#ifdef SKIP
-	int Get_n_solution(void) const        {return n_solution;}
-	//int Get_n_mix(void) const           {return n_mix;}
-	int Get_n_kinetics(void) const        {return n_kinetics;}
-	int Get_n_surface(void) const         {return n_surface;}
-	int Get_n_inverse(void) const         {return n_inverse;}
-	int Get_n_ss_assemblage(void) const   {return n_ss_assemblage;}
 
-	void Set_n_solution(int i)            {n_solution = i;}
-	//void Set_n_mix(int i)               {n_mix = i;}
-	void Set_n_kinetics(int i)            {n_kinetics = i;}
-	void Set_n_surface(int i)             {n_surface = i;}
-	void Set_n_inverse(int i)             {n_inverse = i;}
-	void Set_n_ss_assemblage(int i)       {n_ss_assemblage = i;}
-#endif
 	struct solution * Get_solution_ptr(void) const           {return this->solution_ptr;}
 	cxxPPassemblage * Get_pp_assemblage_ptr(void) const      {return this->pp_assemblage_ptr;}
 	cxxMix * Get_mix_ptr(void) const                         {return this->mix_ptr;}
@@ -116,7 +102,6 @@ public:
 protected:
 	bool solution_in;
 	int n_solution_user;
-	//int n_solution;
 	struct solution *solution_ptr;
 
 	bool pp_assemblage_in;
@@ -125,7 +110,6 @@ protected:
 
 	bool mix_in;
 	int n_mix_user;
-	//int n_mix;
 	cxxMix * mix_ptr;
 	int n_mix_user_orig;
 
@@ -139,12 +123,10 @@ protected:
 
 	bool kinetics_in;
 	int n_kinetics_user;
-	//int n_kinetics;
 	struct kinetics *kinetics_ptr;
 
 	bool surface_in;
 	int n_surface_user;
-	//int n_surface;
 	struct surface *surface_ptr;
 
 	bool pressure_in;
@@ -157,7 +139,6 @@ protected:
 
 	bool inverse_in;
 	int n_inverse_user;
-	//int n_inverse;
 	struct inverse *inverse_ptr;
 
 	bool gas_phase_in;
@@ -166,7 +147,6 @@ protected:
 
 	bool ss_assemblage_in;
 	int n_ss_assemblage_user;
-	//int n_ss_assemblage;
 	struct ss_assemblage *ss_assemblage_ptr;
 
 	bool trans_in;
