@@ -16,7 +16,6 @@ init(void)
 {
 	solution_in = false;
 	n_solution_user = -999;
-	n_solution = -999;
 	solution_ptr = NULL;
 
 	pp_assemblage_in = false;
@@ -38,12 +37,10 @@ init(void)
 
 	kinetics_in = false;
 	n_kinetics_user = -999;
-	n_kinetics = -999;
 	kinetics *kinetics_ptr = NULL;
 
 	surface_in = false;
 	n_surface_user = -999;
-	n_surface = -999;
 	surface_ptr = NULL;
 
 	pressure_in = false;
@@ -56,7 +53,6 @@ init(void)
 
 	inverse_in = false;
 	n_inverse_user = -999;
-	n_inverse = -999;
 	inverse *inverse_ptr = NULL;
 
 	gas_phase_in = false;
@@ -65,8 +61,7 @@ init(void)
 
 	ss_assemblage_in = false;
 	n_ss_assemblage_user = -999;
-	n_ss_assemblage = -999;
-	ss_assemblage *ss_assemblage_ptr = NULL;
+	ss_assemblage_ptr = NULL;
 
 	trans_in = false;
 	advect_in = false;
