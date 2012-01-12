@@ -9,8 +9,8 @@
 #include "GasPhase.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
-#include <sys/signal.h>
-#include <fenv.h>
+//#include <sys/signal.h>
+//#include <fenv.h>
 /* ----------------------------------------------------------------------
  *   MAIN
  * ---------------------------------------------------------------------- */
@@ -38,7 +38,28 @@ main(int argc, char *argv[])
 	_CrtSetDbgFlag(tmpDbgFlag);
 	//_crtBreakAlloc = 9482;
 #endif
-
+#ifdef SKIP
+//Set the x86 floating-point control word according to what
+//exceptions you want to trap. 
+_clearfp(); //Always call _clearfp before setting the control
+            //word
+//Because the second parameter in the following call is 0, it
+//only returns the floating-point control word
+unsigned int cw = _controlfp(0, 0); //Get the default control
+                                    //word
+//Set the exception masks off for exceptions that you want to
+//trap.  When a mask bit is set, the corresponding floating-point
+//exception is //blocked from being generating.
+cw &=~(EM_OVERFLOW|EM_UNDERFLOW|EM_ZERODIVIDE|
+       EM_DENORMAL|EM_INVALID);
+//For any bit in the second parameter (mask) that is 1, the 
+//corresponding bit in the first parameter is used to update
+//the control word.  
+unsigned int cwOriginal = _controlfp(cw, MCW_EM); //Set it.
+                            //MCW_EM is defined in float.h.
+                            //Restore the original value when done:
+                            //_controlfp(cwOriginal, MCW_EM);
+#endif
 	Phreeqc phreeqc_instance;
 	phreeqc_instance.main_method(argc, argv);
 }
