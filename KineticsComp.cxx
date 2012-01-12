@@ -155,7 +155,6 @@ void
 cxxKineticsComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
-	LDBLE d;
 
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
@@ -283,8 +282,9 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		case 6:				// d_params
 			while (parser.copy_token(token, next_char) == CParser::TT_DIGIT)
 			{
-				sscanf(token.c_str(), "%lf", &d);
-				temp_d_params.push_back(d);
+				double dd;
+				sscanf(token.c_str(), "%lf", &dd);
+				temp_d_params.push_back((LDBLE) dd);
 				d_params_defined = true;
 			}
 			opt_save = 6;
