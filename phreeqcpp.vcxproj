@@ -100,6 +100,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -141,6 +142,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>
       </DebugInformationFormat>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -485,17 +487,8 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="src\SolutionIsotopeList.cxx" />
+    <ClCompile Include="src\SS.cxx" />
     <ClCompile Include="src\SSassemblage.cxx">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Class_release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Class_release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='ClrClass_debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='ClrClass_debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="src\SSassemblageSS.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Class_release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -548,6 +541,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="src\Use.cpp" />
     <ClCompile Include="src\Utils.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -584,6 +578,7 @@
     <ClInclude Include="src\KineticsComp.h" />
     <ClInclude Include="src\NameDouble.h" />
     <ClInclude Include="src\NumKeyword.h" />
+    <ClInclude Include="src\phreeqc\NA.h" />
     <ClInclude Include="src\phreeqc\nvector.h" />
     <ClInclude Include="src\phreeqc\nvector_serial.h" />
     <ClInclude Include="src\phreeqc\output.h" />
@@ -604,8 +599,8 @@
     <ClInclude Include="src\Solution.h" />
     <ClInclude Include="src\SolutionIsotope.h" />
     <ClInclude Include="src\solutionisotopelist.h" />
+    <ClInclude Include="src\SS.h" />
     <ClInclude Include="src\SSassemblage.h" />
-    <ClInclude Include="src\SSassemblageSS.h" />
     <ClInclude Include="src\StorageBin.h" />
     <ClInclude Include="src\StorageBinList.h" />
     <ClInclude Include="src\phreeqc\sundialsmath.h" />
@@ -615,6 +610,7 @@
     <ClInclude Include="src\SurfaceComp.h" />
     <ClInclude Include="src\System.h" />
     <ClInclude Include="src\Temperature.h" />
+    <ClInclude Include="src\Use.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
