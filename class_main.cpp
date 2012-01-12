@@ -9,8 +9,8 @@
 #include "GasPhase.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
-
-
+#include <sys/signal.h>
+#include <fenv.h>
 /* ----------------------------------------------------------------------
  *   MAIN
  * ---------------------------------------------------------------------- */
@@ -21,7 +21,8 @@ main(int argc, char *argv[])
  */
 {
 
-	//int errors;
+  // check for floating point exceptions on Linux
+  // feenableexcept(FE_DIVBYZERO|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
 #if defined(WIN32_MEMORY_DEBUG)
 	int tmpDbgFlag;
 
