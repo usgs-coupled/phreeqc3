@@ -13,6 +13,9 @@
 #include "GasPhase.h"
 #include "Reaction.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
+#include "SS.h"
+#include "SScomp.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -9204,7 +9207,566 @@ read_user_graph(void)
 	return (return_value);
 }
 #endif
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_solid_solutions(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads solid solution data
+ *
+ *      Arguments:
+ *	 none
+ *
+ *      Returns:
+ *	 KEYWORD if keyword encountered, input_error may be incremented if
+ *		    a keyword is encountered in an unexpected position
+ *	 EOF     if eof encountered while reading mass balance concentrations
+ *	 ERROR   if error occurred reading data
+ *
+ */
+	//int i, j, n, l;
+	//int count_s_s, number_s_s, count_comps;
+	int n_user, n_user_end;
+	char *ptr;
+	char *description;
+	//char token[MAX_LENGTH];
+	std::string token;
 
+	int return_value, opt;
+	char *next_char;
+	const char *opt_list[] = {
+		"component",			/* 0 */
+		"comp",					/* 1 */
+		"parms",				/* 2 */
+		"gugg_nondimensional",	/* 3 */
+		"gugg_kj",				/* 4 */
+		"activity_coefficients",	/* 5 */
+		"distribution_coefficients",	/* 6 */
+		"miscibility_gap",		/* 7 */
+		"spinodal_gap",			/* 8 */
+		"critical_point",		/* 9 */
+		"alyotropic_point",		/* 10 */
+		"temp",					/* 11 */
+		"tempk",				/* 12 */
+		"tempc",				/* 13 */
+		"thompson",				/* 14 */
+		"margules",				/* 15 */
+		"comp1",				/* 16 */
+		"comp2"					/* 17 */
+	};
+	int count_opt_list = 18;
+/*
+ *   Read ss_assemblage number
+ */
+	ptr = line;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cxxSSassemblage temp_ss_assemblage;
+	temp_ss_assemblage.Set_n_user(n_user);
+	temp_ss_assemblage.Set_n_user_end(n_user_end);
+	temp_ss_assemblage.Set_description(description);
+	free_check_null(description);
+	temp_ss_assemblage.Set_new_def(true);
+
+	std::vector<cxxSScomp> comps;
+	cxxSScomp * comp0_ptr = NULL;
+	cxxSScomp * comp1_ptr = NULL;
+	cxxSS * ss_ptr = NULL;
+/*
+ *   Set use data to first read
+ */
+	if (!use.Get_ss_assemblage_in())
+	{
+		use.Set_ss_assemblage_in(true);
+		use.Set_n_ss_assemblage_user(n_user);
+	}
+/*
+ *   Read solid solutions
+ */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in SOLID_SOLUTIONS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+/*
+ * New component
+ */
+		case 0:				/* component */
+		case 1:				/* comp */
+			{
+				cxxSScomp comp;
+				/*
+				*   Read phase name of component
+				*/
+				ptr = next_char;
+				copy_token(token, &ptr);
+				comp.Set_name(token);
+				/*
+				*   Read moles of component
+				*/
+				
+				if (copy_token(token, &ptr) == EMPTY)
+				{
+					comp.Set_moles(NAN);
+				}
+				else
+				{
+					int j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+					comp.Set_moles(dummy);
+						(LDBLE) dummy;
+					if (j != 1)
+					{
+						error_msg("Expected moles of solid solution.", CONTINUE);
+						error_msg(line_save, CONTINUE);
+						input_error++;
+					}
+				}
+				comps.push_back(comp);
+			}
+			break;
+		case 2:				/* parms */
+		case 3:				/* gugg_nondimensional */
+			/*
+			 *   Read parameters
+			 */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			if (copy_token(token, &ptr) != EMPTY)
+			{
+				sscanf(token.c_str(), SCANFORMAT, &dummy);
+				ss_ptr->Get_p()[0] = dummy;
+			}
+			if (copy_token(token, &ptr) != EMPTY)
+			{
+				sscanf(token.c_str(), SCANFORMAT, &dummy);
+				ss_ptr->Get_p()[1] = dummy;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_A0_A1);
+			break;
+		case 4:				/* gugg_kj */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			if (copy_token(token, &ptr) != EMPTY)
+			{
+				sscanf(token.c_str(), SCANFORMAT, &dummy);
+				ss_ptr->Get_p()[0] = dummy;
+			}
+			if (copy_token(token, &ptr) != EMPTY)
+			{
+				sscanf(token.c_str(), SCANFORMAT, &dummy);
+				ss_ptr->Get_p()[1] = dummy;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_DIM_GUGG);
+			break;
+		case 5:				/* activity coefficients */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 4; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 4)
+			{
+				error_string = sformatf(
+					"Expected 4 parameters to calculate a0 and a1 from two activity coefficients, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_GAMMAS);
+			break;
+		case 6:				/* distribution coefficients */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 4; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 4)
+			{
+				error_string = sformatf(
+					"Expected 4 parameters to calculate a0 and a1 from two distribution coefficients, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_DIST_COEF);
+			break;
+		case 7:				/* miscibility_gap */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 2; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 2)
+			{
+				error_string = sformatf(
+						"Expected 2 miscibility gap fractions of component 2 to calculate a0 and a1, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_MISCIBILITY);
+			break;
+		case 8:				/* spinodal_gap */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 2; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 2)
+			{
+				error_string = sformatf(
+						"Expected 2 spinodal gap fractions of component 2 to calculate a0 and a1, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_SPINODAL);
+			break;
+		case 9:				/* critical point */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 2; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 2)
+			{
+				error_string = sformatf(
+						"Expected fraction of component 2 and critical temperature to calculate a0 and a1, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_CRITICAL);
+			break;
+		case 10:				/* alyotropic point */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 2; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 2)
+			{
+				error_string = sformatf(
+						"Expected fraction of component 2 and sigma pi at alyotropic point to calculate a0 and a1, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_ALYOTROPIC);
+			break;
+		case 12:				/* tempk */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			{
+				ptr = next_char;
+				int j = 0;
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Set_tk(dummy);
+				}
+				if (j != 1)
+				{
+					error_string = sformatf(
+						"Expected temperature (Kelvin) for parameters, assemblage %d, solid solution %s, using 298.15 K",
+					n_user,
+					ss_ptr->Get_name().c_str());
+					warning_msg(error_string);
+					ss_ptr->Set_tk(298.15);
+				}
+			}
+			break;
+		case 11:				/* temp */
+		case 13:				/* tempc */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			{
+				ptr = next_char;
+				int j = 0;
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Set_tk(dummy + 298.15);
+				}
+				if (j != 1)
+				{
+					error_string = sformatf(
+						"Expected temperature (Celcius) for parameters, assemblage %d, solid solution %s, using 25 C",
+					n_user,
+					ss_ptr->Get_name().c_str());
+					warning_msg(error_string);
+					ss_ptr->Set_tk(298.15);
+				}
+			}
+			break;
+		case 14:				/* Thompson and Waldbaum */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 2; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 2)
+			{
+				error_string = sformatf(
+						"Expected Wg2 and Wg1 Thompson-Waldbaum parameters to calculate a0 and a1, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_WALDBAUM);
+			break;
+		case 15:				/* Margules */
+			if (!ss_ptr)
+			{
+				error_msg("Solid solution name has not been defined", CONTINUE);
+				break;
+			}
+			ptr = next_char;
+			ss_ptr->Get_p().clear();
+			for (int i = 0; i < 2; i++)
+			{
+				if (copy_token(token, &ptr) != EMPTY)
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					ss_ptr->Get_p().push_back(dummy);
+				}
+			}
+			if (ss_ptr->Get_p().size() != 2)
+			{
+				error_string = sformatf(
+						"Expected alpha2 and alpha3 Margules parameters to calculate a0 and a1, assemblage %d, solid solution %s",
+					n_user,
+					ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			ss_ptr->Set_input_case(cxxSS::SS_PARM_MARGULES);
+			break;
+		case 16:				/* comp1 */
+
+			/*
+			 *   Read phase name of component
+			 */
+			delete comp0_ptr;
+			comp0_ptr = new cxxSScomp;
+			ptr = next_char;
+			copy_token(token, &ptr);
+			comp0_ptr->Set_name(token);
+			/*
+			 *   Read moles of component
+			 */
+			if (copy_token(token, &ptr) == EMPTY)
+			{
+				comp0_ptr->Set_moles(NAN);
+			}
+			else
+			{
+				int j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+				comp0_ptr->Set_moles(dummy);
+				if (j != 1)
+				{
+					error_msg("Expected moles of solid solution.", CONTINUE);
+					error_msg(line_save, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		case 17:				/* comp2 */
+			delete comp1_ptr;
+			comp1_ptr = new cxxSScomp;
+			/*
+			 *   Read phase name of component
+			 */
+			ptr = next_char;
+			copy_token(token, &ptr);
+			comp1_ptr->Set_name(token);
+			/*
+			 *   Read moles of component
+			 */
+			if (copy_token(token, &ptr) == EMPTY)
+			{
+				comp1_ptr->Set_moles(NAN);
+			}
+			else
+			{
+				int j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+				comp1_ptr->Set_moles(dummy);
+				if (j != 1)
+				{
+					error_msg("Expected moles of solid solution.", CONTINUE);
+					error_msg(line_save, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+/*
+ * New solid solution
+ */
+		case OPTION_DEFAULT:
+			if(ss_ptr)
+			{
+				comps.insert(comps.begin(), *comp1_ptr);
+				comps.insert(comps.begin(), *comp0_ptr);
+				ss_ptr->Set_ss_comps(comps);
+				temp_ss_assemblage.Get_SSs()[ss_ptr->Get_name()] = *ss_ptr;
+				delete ss_ptr;
+				ss_ptr = NULL;
+				comps.clear();
+				delete comp0_ptr, comp1_ptr;
+				comp0_ptr = comp1_ptr = NULL;
+			}
+			ss_ptr = new cxxSS;
+			/*
+			 *   Read solid solution name
+			 */
+			ptr = line;
+			copy_token(token, &ptr);
+			ss_ptr->Set_name(token);
+			ss_ptr->Set_total_moles(NAN);
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+
+	// add last ss and clean up 
+	comps.insert(comps.begin(), *comp1_ptr);
+	comps.insert(comps.begin(), *comp0_ptr);
+	ss_ptr->Set_ss_comps(comps);
+	temp_ss_assemblage.Get_SSs()[ss_ptr->Get_name()] = *ss_ptr;
+	delete ss_ptr;
+	ss_ptr = NULL;
+	comps.clear();
+	delete comp0_ptr, comp1_ptr;
+	comp0_ptr = comp1_ptr = NULL;
+
+	// check non ideal ss
+	std::vector<cxxSS *> ss_v;
+	for (size_t i = 0; i < ss_v.size(); i++)
+	{
+		if (ss_v[i]->Get_p()[0] != 0.0 ||
+			ss_v[i]->Get_p()[1] != 0.0)
+		{
+			if (ss_v[i]->Get_ss_comps().size() != 2)
+			{
+				error_string = sformatf(
+						"Solid solution, %s, is nonideal. Must define exactly two components (-comp1 and -comp2).",
+						ss_v[i]->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+		}
+	}
+
+	// Add to map
+	Rxn_ss_assemblage_map[n_user] = temp_ss_assemblage;
+
+	return (return_value);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_solid_solutions(void)
@@ -9763,7 +10325,7 @@ read_solid_solutions(void)
 		  (size_t) count_s_s, (size_t) sizeof(struct s_s), s_s_compare);
 	return (return_value);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_llnl_aqueous_model_parameters(void)

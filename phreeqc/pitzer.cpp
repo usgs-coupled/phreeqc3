@@ -1733,7 +1733,7 @@ Restart:
 			break;
 		case MU:
 		case PP:
-		case S_S_MOLES:
+		case SS_MOLES:
 			continue;
 			break;
 		}

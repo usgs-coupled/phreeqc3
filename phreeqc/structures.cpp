@@ -10,6 +10,7 @@
 #include "Reaction.h"
 #include "PPassemblage.h"
 #include "Use.h"
+#include "SSassemblage.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -104,14 +105,15 @@ clean_up(void)
 #endif
 
 /* s_s assemblages */
-
+	Rxn_ss_assemblage_map.clear();
+#ifdef SKIP
 	for (j = 0; j < count_ss_assemblage; j++)
 	{
 		ss_assemblage_free(&ss_assemblage[j]);
 	}
 	ss_assemblage =
 		(struct ss_assemblage *) free_check_null(ss_assemblage);
-
+#endif
 /* irreversible reactions */
 	Rxn_reaction_map.clear();
 
@@ -375,7 +377,7 @@ clean_up(void)
 	count_surface = 0;
 	//count_gas_phase = 0;
 	count_kinetics = 0;
-	count_ss_assemblage = 0;
+	//count_ss_assemblage = 0;
 
 	count_elements = 0;
 	//count_irrev = 0;
@@ -436,13 +438,14 @@ reinitialize(void)
 	count_pp_assemblage = 0;
 #endif
 /* s_s assemblages */
-
+	Rxn_ss_assemblage_map.clear();
+#ifdef SKIP
 	for (j = 0; j < count_ss_assemblage; j++)
 	{
 		ss_assemblage_free(&ss_assemblage[j]);
 	}
 	count_ss_assemblage = 0;
-
+#endif
 /* gases */
 	Rxn_gas_phase_map.clear();
 
@@ -3233,7 +3236,7 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
 
 	return (s_ptr);
 }
-
+#ifdef SKIP
 /* **********************************************************************
  *
  *   Routines related to structure "ss_assemblage"
@@ -3656,7 +3659,7 @@ s_s_compare(const void *ptr1, const void *ptr2)
 	return (strcmp_nocase(s_s_ptr1->name, s_s_ptr2->name));
 
 }
-
+#endif
 /* **********************************************************************
  *
  *   Routines related to structure "save_values"
@@ -6451,7 +6454,7 @@ cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il)
 	}
 	return (iso);
 }
-
+#ifdef SKIP
 #include "../SSassemblage.h"
 #include "../SS.h"
 struct ss_assemblage * Phreeqc::
@@ -6554,7 +6557,7 @@ cxxSSassemblageSS2s_s(const std::map < std::string, cxxSS > * sscomp)
 	}
 	return (s_s_ptr);
 }
-
+#endif
 #include "../Surface.h"
 struct surface * Phreeqc::
 cxxSurface2surface(const cxxSurface * surf)
@@ -6960,6 +6963,15 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 	}
 	if (use.Get_ss_assemblage_in())
 	{
+		cxxSSassemblage *entity_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, use.Get_n_ss_assemblage_user());
+		if (entity_ptr != NULL)
+		{
+			sb.Set_SSassemblage(use.Get_n_ss_assemblage_user(), entity_ptr);
+		}
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_in())
+	{
 		struct ss_assemblage *struct_entity = ss_assemblage_bsearch(use.Get_n_ss_assemblage_user(), &n);
 		if (struct_entity != NULL)
 		{
@@ -6967,6 +6979,7 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 			sb.Set_SSassemblage(use.Get_n_ss_assemblage_user(), &entity);
 		}
 	}
+#endif
 	if (use.Get_kinetics_in())
 	{
 		struct kinetics *struct_entity = kinetics_bsearch(use.Get_n_kinetics_user(), &n);
@@ -7059,12 +7072,20 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb)
 	}
 #endif
 	// SSassemblages
+	{
+		std::map<int, cxxSSassemblage>::iterator it;
+		for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
+		{
+			sb.Set_SSassemblage(it->second.Get_n_user(), &(it->second));	
+		}
+	}
+#ifdef SKIP
 	for (i = 0; i < count_ss_assemblage; i++)
 	{
 		cxxSSassemblage entity(&ss_assemblage[i], sb.Get_io());
 		sb.Set_SSassemblage(ss_assemblage[i].n_user, &entity );
 	}
-
+#endif
 	// Surfaces
 	for (i = 0; i < count_surface; i++)
 	{
@@ -7173,6 +7194,14 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb, int n)
 #endif
 	// SSassemblages
 	{
+		cxxSSassemblage *entity_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, n);
+		if (entity_ptr != NULL)
+		{
+			sb.Set_SSassemblage(n, entity_ptr);
+		}
+	}
+#ifdef SKIP
+	{
 		if (ss_assemblage_bsearch(n, &pos) != NULL)
 		{
 			//this->SSassemblages[n] = cxxSSassemblage(&(ss_assemblage[pos]), sb.Get_io());
@@ -7180,7 +7209,7 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb, int n)
 			sb.Set_SSassemblage(n, &ent);
 		}
 	}
-
+#endif
 	// Surfaces
 	{
 		if (surface_bsearch(n, &pos) != NULL)

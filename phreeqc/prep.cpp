@@ -6,6 +6,8 @@
 #include "Exchange.h"
 #include "GasPhase.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
+#include "SS.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 prep(void)
@@ -260,7 +262,40 @@ quick_setup(void)
 	{
 		for (i = 0; i < count_unknowns; i++)
 		{
-			if (x[i]->type == S_S_MOLES)
+			if (x[i]->type == SS_MOLES)
+				break;
+		}
+
+		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+		for (size_t j = 0; j < ss_ptrs.size(); j++)
+		{
+			for (size_t k = 0; k < ss_ptrs[j]->Get_ss_comps().size(); k++)
+			{
+				cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[k]);
+				x[i]->moles = comp_ptr->Get_moles();
+				if (x[i]->moles <= 0)
+				{
+					x[i]->moles = MIN_TOTAL_SS;
+					comp_ptr->Set_moles(MIN_TOTAL_SS);
+				}
+				comp_ptr->Set_initial_moles(x[i]->moles);
+				x[i]->ln_moles = log(x[i]->moles);
+
+				x[i]->phase->dn = comp_ptr->Get_dn();
+				x[i]->phase->dnb = comp_ptr->Get_dnb();
+				x[i]->phase->dnc = comp_ptr->Get_dnc();
+				x[i]->phase->log10_fraction_x =	comp_ptr->Get_log10_fraction_x();
+				x[i]->phase->log10_lambda = comp_ptr->Get_log10_lambda();
+				i++;
+			}
+		}
+	}
+#ifdef SKIP
+	if (s_s_unknown != NULL)
+	{
+		for (i = 0; i < count_unknowns; i++)
+		{
+			if (x[i]->type == SS_MOLES)
 				break;
 		}
 		for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
@@ -289,6 +324,7 @@ quick_setup(void)
 			}
 		}
 	}
+#endif
 /*
  *   exchange
  */
@@ -672,6 +708,223 @@ build_ss_assemblage(void)
  *      mass action equation for component
  *      mass balance equations for elements contained in solid solutions
  */
+	//int i, j, k, l, stop;
+	bool stop;
+	int row, col;
+	struct master *master_ptr;
+	struct rxn_token *rxn_ptr;
+	//struct s_s *s_s_ptr, *s_s_ptr_old;
+	//char token[MAX_LENGTH];
+	char *ptr;
+
+	if (s_s_unknown == NULL)
+		return (OK);
+	cxxSS * ss_ptr_old = NULL;
+	col = 0;
+	for (int i = 0; i < count_unknowns; i++)
+	{
+		if (x[i]->type != SS_MOLES)
+			continue;
+		cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		assert(ss_ptr);
+		if (ss_ptr != ss_ptr_old)
+		{
+			col = x[i]->number;
+			ss_ptr_old = ss_ptr;
+		}
+/*
+ *   Calculate function value (inverse saturation index)
+ */
+		if (x[i]->phase->rxn_x == NULL)
+			continue;
+		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
+		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+			 rxn_ptr++)
+		{
+			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
+		}
+		/* include mole fraction */
+		store_mb(&(x[i]->phase->log10_fraction_x), &(x[i]->f), 1.0);
+
+		/* include activity coeficient */
+		store_mb(&(x[i]->phase->log10_lambda), &(x[i]->f), 1.0);
+/*
+ *   Put coefficients into mass action equations
+ */
+		/* first IAP terms */
+		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+			 rxn_ptr++)
+		{
+			if (rxn_ptr->s->secondary != NULL
+				&& rxn_ptr->s->secondary->in == TRUE)
+			{
+				master_ptr = rxn_ptr->s->secondary;
+			}
+			else
+			{
+				master_ptr = rxn_ptr->s->primary;
+			}
+			if (master_ptr == NULL || master_ptr->unknown == NULL)
+				continue;
+			store_jacob0(x[i]->number, master_ptr->unknown->number,
+						 rxn_ptr->coef);
+		}
+
+		if (ss_ptr->Get_a0() != 0.0 || ss_ptr->Get_a1() != 0.0)
+		{
+/*
+ *   For binary solid solution
+ */
+			/* next dnc terms */
+			row = x[i]->number * (count_unknowns + 1);
+			if (x[i]->ss_comp_number == 0)
+			{
+				col = x[i]->number;
+			}
+			else
+			{
+				col = x[i]->number - 1;
+			}
+			store_jacob(&(x[i]->phase->dnc), &(array[row + col]), -1);
+
+			/* next dnb terms */
+			col++;
+			store_jacob(&(x[i]->phase->dnb), &(array[row + col]), -1);
+		}
+		else
+		{
+/*
+ *   For ideal solid solution
+ */
+			row = x[i]->number * (count_unknowns + 1);
+			for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
+			{
+				if (j != x[i]->ss_comp_number)
+				{
+/*					store_jacob (&(s_s_ptr->dn), &(array[row + col + j]), -1.0); */
+					store_jacob(&(x[i]->phase->dn), &(array[row + col + j]),
+								-1.0);
+				}
+				else
+				{
+					store_jacob(&(x[i]->phase->dnb), &(array[row + col + j]),
+								-1.0);
+				}
+			}
+		}
+/*
+ *   Put coefficients into mass balance equations
+ */
+		count_elts = 0;
+		paren_count = 0;
+		char * token = string_duplicate(x[i]->phase->formula);
+		ptr = token;
+		get_elts_in_species(&ptr, 1.0);
+		free_check_null(token);
+/*
+ *   Go through elements in phase
+ */
+#ifdef COMBINE
+		change_hydrogen_in_elt_list(0);
+#endif
+		for (int j = 0; j < count_elts; j++)
+		{
+
+			if (strcmp(elt_list[j].elt->name, "H") == 0
+				&& mass_hydrogen_unknown != NULL)
+			{
+				store_jacob0(mass_hydrogen_unknown->number, x[i]->number,
+							 -elt_list[j].coef);
+				store_sum_deltas(&(delta[i]), &mass_hydrogen_unknown->delta,
+								 elt_list[j].coef);
+
+			}
+			else if (strcmp(elt_list[j].elt->name, "O") == 0
+					 && mass_oxygen_unknown != NULL)
+			{
+				store_jacob0(mass_oxygen_unknown->number, x[i]->number,
+							 -elt_list[j].coef);
+				store_sum_deltas(&(delta[i]), &mass_oxygen_unknown->delta,
+								 elt_list[j].coef);
+
+			}
+			else
+			{
+				master_ptr = elt_list[j].elt->primary;
+				if (master_ptr->in == FALSE)
+				{
+					master_ptr = master_ptr->s->secondary;
+				}
+				if (master_ptr == NULL || master_ptr->in == FALSE)
+				{
+					if (state != ADVECTION && state != TRANSPORT
+						&& state != PHAST)
+					{
+						error_string = sformatf(
+								"Element in phase, %s, is not in model.",
+								x[i]->phase->name);
+						warning_msg(error_string);
+					}
+					if (master_ptr != NULL)
+					{
+						master_ptr->s->la = -999.9;
+					}
+/*
+ *   Master species is in model
+ */
+				}
+				else if (master_ptr->in == TRUE)
+				{
+					store_jacob0(master_ptr->unknown->number, x[i]->number,
+								 -elt_list[j].coef);
+					store_sum_deltas(&delta[i], &master_ptr->unknown->delta,
+									 elt_list[j].coef);
+/*
+ *   Master species in equation needs to be rewritten
+ */
+				}
+				else if (master_ptr->in == REWRITE)
+				{
+					stop = FALSE;
+					for (int k = 0; k < count_unknowns; k++)
+					{
+						if (x[k]->type != MB)
+							continue;
+						for (int l = 0; x[k]->master[l] != NULL; l++)
+						{
+							if (x[k]->master[l] == master_ptr)
+							{
+								store_jacob0(x[k]->master[0]->unknown->
+											 number, x[i]->number,
+											 -elt_list[j].coef);
+								store_sum_deltas(&delta[i],
+												 &x[k]->master[0]->unknown->
+												 delta, elt_list[j].coef);
+								stop = TRUE;
+								break;
+							}
+						}
+						if (stop == TRUE)
+							break;
+					}
+				}
+			}
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+build_ss_assemblage(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Put coefficients into lists to sum iaps to test for equilibrium
+ *   Put coefficients into lists to build jacobian for 
+ *      mass action equation for component
+ *      mass balance equations for elements contained in solid solutions
+ */
 	int i, j, k, l, stop;
 	int row, col;
 	struct master *master_ptr;
@@ -686,7 +939,7 @@ build_ss_assemblage(void)
 	col = 0;
 	for (i = 0; i < count_unknowns; i++)
 	{
-		if (x[i]->type != S_S_MOLES)
+		if (x[i]->type != SS_MOLES)
 			continue;
 		s_s_ptr = x[i]->s_s;
 		if (s_s_ptr != s_s_ptr_old)
@@ -874,7 +1127,7 @@ build_ss_assemblage(void)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 build_jacobian_sums(int k)
@@ -3492,6 +3745,58 @@ setup_ss_assemblage(void)
  *   Fill in data for solid solution unknowns (sum of partial pressures)
  *   in unknown structure
  */
+	//int i, j;
+	if (use.Get_ss_assemblage_ptr() == NULL)
+		return (OK);
+/*
+ *   One for each component in each solid solution
+ */
+	s_s_unknown = NULL;
+	std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+	for (size_t j = 0; j < ss_ptrs.size(); j++)
+	{
+		for (size_t i = 0; i < ss_ptrs[j]->Get_ss_comps().size(); i++)
+		{
+			cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[i]);
+			int l;
+			struct phase* phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			x[count_unknowns]->type = SS_MOLES;
+			x[count_unknowns]->description = string_hsave(comp_ptr->Get_name().c_str());
+			x[count_unknowns]->moles = 0.0;
+			if (comp_ptr->Get_moles() <= 0)
+			{
+				comp_ptr->Set_moles(MIN_TOTAL_SS);
+			}
+			x[count_unknowns]->moles = comp_ptr->Get_moles();
+			comp_ptr->Set_initial_moles(x[count_unknowns]->moles);
+			x[count_unknowns]->ln_moles = log(x[count_unknowns]->moles);
+			x[count_unknowns]->ss_name = string_hsave(ss_ptrs[j]->Get_name().c_str());
+			x[count_unknowns]->ss_comp_name = string_hsave(comp_ptr->Get_name().c_str());
+			x[count_unknowns]->ss_comp_number = (int) i;
+			x[count_unknowns]->phase = phase_ptr;
+			x[count_unknowns]->number = count_unknowns;
+			x[count_unknowns]->phase->dn = comp_ptr->Get_dn();
+			x[count_unknowns]->phase->dnb =	comp_ptr->Get_dnb();
+			x[count_unknowns]->phase->dnc = comp_ptr->Get_dnc();
+			x[count_unknowns]->phase->log10_fraction_x = comp_ptr->Get_log10_fraction_x();
+			x[count_unknowns]->phase->log10_lambda =comp_ptr->Get_log10_lambda();
+			if (s_s_unknown == NULL)
+				s_s_unknown = x[count_unknowns];
+			count_unknowns++;
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+setup_ss_assemblage(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Fill in data for solid solution unknowns (sum of partial pressures)
+ *   in unknown structure
+ */
 	int i, j;
 	if (use.Get_ss_assemblage_ptr() == NULL)
 		return (OK);
@@ -3503,7 +3808,7 @@ setup_ss_assemblage(void)
 	{
 		for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps; i++)
 		{
-			x[count_unknowns]->type = S_S_MOLES;
+			x[count_unknowns]->type = SS_MOLES;
 			x[count_unknowns]->description =
 				string_hsave(use.Get_ss_assemblage_ptr()->s_s[j].comps[i].name);
 			x[count_unknowns]->moles = 0.0;
@@ -3540,7 +3845,7 @@ setup_ss_assemblage(void)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 setup_surface(void)
@@ -4928,12 +5233,22 @@ setup_unknowns(void)
  */
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
+		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+		for (size_t i = 0; i < ss_ptrs.size(); i++)
+		{
+			max_unknowns += ss_ptrs[i]->Get_ss_comps().size();
+		}
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
 		/*              max_unknowns += 2 * use.Get_ss_assemblage_ptr()->count_s_s; */
 		for (i = 0; i < use.Get_ss_assemblage_ptr()->count_s_s; i++)
 		{
 			max_unknowns += use.Get_ss_assemblage_ptr()->s_s[i].count_comps;
 		}
 	}
+#endif
 
 /*
  *   Pitzer/Sit
@@ -5753,6 +6068,18 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
  */
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
+		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+		for (size_t i = 0; i < ss_ptrs.size(); i++)
+		{
+			if (fabs(tempk - ss_ptrs[i]->Get_tk()) > 0.01)
+			{
+				ss_prep(tempk, ss_ptrs[i], FALSE);
+			}
+		}
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
 		for (i = 0; i < use.Get_ss_assemblage_ptr()->count_s_s; i++)
 		{
 			if (fabs(tempk - use.Get_ss_assemblage_ptr()->s_s[i].tk) > 0.01)
@@ -5761,6 +6088,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 			}
 		}
 	}
+#endif
 	return (OK);
 }
 
@@ -5866,6 +6194,26 @@ save_model(void)
 		(const char **) free_check_null(last_model.ss_assemblage);
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
+		size_t count_ss = use.Get_ss_assemblage_ptr()->Get_SSs().size();
+		last_model.count_ss_assemblage = count_ss;
+		last_model.ss_assemblage =
+			(const char **) PHRQ_malloc(count_ss * sizeof(char *));
+		if (last_model.ss_assemblage == NULL)
+			malloc_error();
+		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+		for (size_t j = 0; j < ss_ptrs.size(); j++)
+		{
+			last_model.ss_assemblage[i] = string_hsave(ss_ptrs[j]->Get_name().c_str());
+		}
+	}
+	else
+	{
+		last_model.count_ss_assemblage = 0;
+		last_model.ss_assemblage = NULL;
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
 		last_model.count_ss_assemblage = use.Get_ss_assemblage_ptr()->count_s_s;
 		last_model.ss_assemblage =
 			(const char **) PHRQ_malloc((size_t) use.Get_ss_assemblage_ptr()->
@@ -5883,6 +6231,7 @@ save_model(void)
 		last_model.count_ss_assemblage = 0;
 		last_model.ss_assemblage = NULL;
 	}
+#endif
 /*
  *   save list of phase pointers for pp_assemblage
  */
@@ -6112,6 +6461,25 @@ check_same_model(void)
  */
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
+		if (last_model.count_ss_assemblage != (int) use.Get_ss_assemblage_ptr()->Get_SSs().size())
+			return (FALSE);
+		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+		for (size_t i = 0; i < ss_ptrs.size(); i++)
+		{
+			if (last_model.ss_assemblage[i] != string_hsave(ss_ptrs[i]->Get_name().c_str()))
+			{
+				return (FALSE);
+			}
+		}
+	}
+	else
+	{
+		if (last_model.ss_assemblage != NULL)
+			return (FALSE);
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
 		if (last_model.count_ss_assemblage !=
 			use.Get_ss_assemblage_ptr()->count_s_s)
 			return (FALSE);
@@ -6129,6 +6497,7 @@ check_same_model(void)
 		if (last_model.ss_assemblage != NULL)
 			return (FALSE);
 	}
+#endif
 /*
  *   Check pure_phases
  */
