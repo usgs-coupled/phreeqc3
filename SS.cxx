@@ -122,23 +122,23 @@ cxxSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent1.append(Utilities::INDENT);
 	// S_S element and attributes
 
-	s_oss << indent0 << "-name                  " << this->name << "\n";
-	//s_oss << indent0 << "-total_moles           " << this->total_moles    << "\n";
-	s_oss << indent1 << "-a0                    " << this->a0 << "\n";
-	s_oss << indent1 << "-a1                    " << this->a1 << "\n";
-	s_oss << indent1 << "-ag0                   " << this->ag0 << "\n";
-	s_oss << indent1 << "-ag1                   " << this->ag1 << "\n";
-	s_oss << indent1 << "-miscibility           " << this->miscibility << "\n";
-	//s_oss << indent0 << "-spinodal              " << this->spinodal << "\n";
-	//s_oss << indent0 << "-tk                    " << this->tk << "\n";
-	s_oss << indent1 << "-xb1                   " << this->xb1 << "\n";
-	s_oss << indent1 << "-xb2                   " << this->xb2 << "\n";
-	//s_oss << indent1 << "-components            " << "\n";
-	//this->comps.dump_raw(s_oss, indent + 2);
+	//s_oss << indent0 << "-ss_name               " << this->name << "\n";
+	s_oss << indent0 << "-total_moles           " << this->total_moles    << "\n";
+	//s_oss << indent0 << "-dn                    " << this->dn             << "\n";
+	s_oss << indent0 << "-a0                    " << this->a0 << "\n";
+	s_oss << indent0 << "-a1                    " << this->a1 << "\n";
+	s_oss << indent0 << "-ag0                   " << this->ag0 << "\n";
+	s_oss << indent0 << "-ag1                   " << this->ag1 << "\n";
+	s_oss << indent0 << "-miscibility           " << this->miscibility << "\n";
+	s_oss << indent0 << "-spinodal              " << this->spinodal << "\n";
+	s_oss << indent0 << "-tk                    " << this->tk << "\n";
+	s_oss << indent0 << "-xb1                   " << this->xb1 << "\n";
+	s_oss << indent0 << "-xb2                   " << this->xb2 << "\n";
+	s_oss << indent0 << "-input_case            " << this->input_case << "\n";
 	for (size_t i = 0; i < this->ss_comps.size(); i++)
 	{
-		s_oss << indent1 << "-components            " << "\n";
-		this->ss_comps[i].dump_raw(s_oss, indent + 2);
+		s_oss << indent0 << "-component             " << this->ss_comps[i].Get_name() << "\n";
+		this->ss_comps[i].dump_raw(s_oss, indent + 1);
 	}
 }
 
@@ -151,7 +151,7 @@ cxxSS::read_raw(CParser & parser, bool check)
 	if (vopts.empty())
 	{
 		vopts.reserve(10);
-		vopts.push_back("name");	// 0                                   
+		vopts.push_back("ss_name_not_used");	// 0                                   
 		vopts.push_back("total_moles");	// 1   
 		vopts.push_back("a0");	// 2   
 		vopts.push_back("a1");	// 3
@@ -163,6 +163,12 @@ cxxSS::read_raw(CParser & parser, bool check)
 		vopts.push_back("xb2");	// 9
 		vopts.push_back("ag0");	// 10
 		vopts.push_back("ag1");	// 11
+		vopts.push_back("component");	// 12
+		vopts.push_back("input_case"); //13
+		//vopts.push_back("initial_moles");	// 13
+		//vopts.push_back("fraction_x");	// 13
+		//vopts.push_back("log10_lambda");	// 13
+		//vopts.push_back("log10_fraction_x");	// 13
 	}
 
 	std::istream::pos_type ptr;
@@ -182,15 +188,24 @@ cxxSS::read_raw(CParser & parser, bool check)
 	//bool tk_defined(false); 
 	bool xb1_defined(false);
 	bool xb2_defined(false);
+	bool useLastLine = false;
 
 	for (;;)
 	{
-		int opt = parser.get_option(vopts, next_char);
+		int opt;
+		if (useLastLine == false)
+		{
+			opt = parser.get_option(vopts, next_char);
+		}
+		else
+		{
+			opt = parser.getOptionFromLastLine(vopts, next_char);
+		}
 		if (opt == CParser::OPT_DEFAULT)
 		{
 			opt = opt_save;
 		}
-
+		useLastLine = false;
 		switch (opt)
 		{
 		case CParser::OPT_EOF:
@@ -205,7 +220,7 @@ cxxSS::read_raw(CParser & parser, bool check)
 			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
-		case 0:				// name
+		case 0:				// name not used
 			if (!(parser.get_iss() >> str))
 			{
 				this->name.clear();
@@ -222,15 +237,13 @@ cxxSS::read_raw(CParser & parser, bool check)
 			break;
 
 		case 1:				// total_moles
-			/*
-			   if (!(parser.get_iss() >> this->total_moles))
-			   {
-			   this->total_moles = 0;
-			   parser.incr_input_error();
-			   parser.error_msg("Expected numeric value for total_moles.", PHRQ_io::OT_CONTINUE);
-			   }
-			   total_moles_defined = true;
-			 */
+			if (!(parser.get_iss() >> this->total_moles))
+			{
+				this->total_moles = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for total_moles.", PHRQ_io::OT_CONTINUE);
+			}
+			//total_moles_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
@@ -259,11 +272,43 @@ cxxSS::read_raw(CParser & parser, bool check)
 			break;
 
 		case 4:				// components
+		case 12:			// component
 			{
-				cxxSScomp comp(io);
-				comp.read_raw(parser, false);
-				this->ss_comps.push_back(comp);
+				if (!(parser.get_iss() >> str))
+				{
+					this->name.clear();
+					parser.incr_input_error();
+					parser.error_msg("Expected string value for component name.",
+									 PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					cxxSScomp temp_comp(io);
+					temp_comp.Set_name(str);
+					cxxSScomp * comp_ptr = this->Find(str.c_str());
+					if (comp_ptr)
+					{
+						temp_comp = *comp_ptr;	
+					}
+					temp_comp.read_raw(parser, false);
+					if (comp_ptr)
+					{
+						for (size_t j = 0; j < this->ss_comps.size(); j++)
+						{
+							if (Utilities::strcmp_nocase(this->ss_comps[j].Get_name().c_str(), str.c_str()) == 0)
+							{
+								this->ss_comps[j] = temp_comp;
+							}
+						}
+					}
+					else
+					{
+						this->ss_comps.push_back(temp_comp);
+					}
+					useLastLine = true;
+				}
 			}
+			
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
@@ -280,28 +325,24 @@ cxxSS::read_raw(CParser & parser, bool check)
 			break;
 
 		case 6:				// spinodal
-			/*
-			   if (!(parser.get_iss() >> this->spinodal))
-			   {
-			   this->spinodal = 0;
-			   parser.incr_input_error();
-			   parser.error_msg("Expected boolean value for spinodal.", PHRQ_io::OT_CONTINUE);
-			   }
-			   spinodal_defined = true;
-			 */
+			if (!(parser.get_iss() >> this->spinodal))
+			{
+				this->spinodal = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected boolean value for spinodal.", PHRQ_io::OT_CONTINUE);
+			}
+			//spinodal_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
 		case 7:				// tk
-			/*
-			   if (!(parser.get_iss() >> this->tk))
-			   {
-			   this->tk = 0;
-			   parser.incr_input_error();
-			   parser.error_msg("Expected numeric value for tk.", PHRQ_io::OT_CONTINUE);
-			   }
-			   tk_defined = true;
-			 */
+			if (!(parser.get_iss() >> this->tk))
+			{
+				this->tk = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for tk.", PHRQ_io::OT_CONTINUE);
+			}
+			//tk_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
@@ -352,7 +393,23 @@ cxxSS::read_raw(CParser & parser, bool check)
 			ag1_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
-
+		case 13:				// input_case
+			{
+				int i;
+				if (!(parser.get_iss() >> i))
+				{
+					this->input_case = cxxSS::SS_PARM_NONE;
+					parser.incr_input_error();
+					parser.error_msg("Expected integer value for parameter type.", PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					this->input_case = (cxxSS::SS_PARAMETER_TYPE) i;
+				}
+			}
+			//spinodal_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
 
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)

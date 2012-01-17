@@ -105,7 +105,7 @@ class cxxSS: public PHRQ_base
 	void Set_tk(LDBLE t) {this->tk = t;}
 	SS_PARAMETER_TYPE Get_input_case(void) {return this->input_case;}
 	void Set_input_case(SS_PARAMETER_TYPE t) {this->input_case = t;}
-	std::vector<LDBLE> Get_p(void) {return this->p;}
+	std::vector<LDBLE> & Get_p(void) {return this->p;}
 	void Set_p(const std::vector<LDBLE> & t) {this->p = t;}
 protected:
 	std::string name;

@@ -130,11 +130,90 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 		 SSs.begin(); it != SSs.end(); ++it)
 	{
 		s_oss << indent1;
-		s_oss << "-solid_solution" << "\n";
+		s_oss << "-solid_solution       " << it->first << "\n";
 		(*it).second.dump_raw(s_oss, indent + 2);
 	}
 }
+void
+cxxSSassemblage::read_raw(CParser & parser, bool check)
+{
+	static std::vector < std::string > vopts;
+	if (vopts.empty())
+	{
+		vopts.reserve(10);
+		vopts.push_back("solid_solution");	// 0
+	}
 
+	std::istream::pos_type ptr;
+	std::istream::pos_type next_char;
+	std::string token;
+	int opt_save;
+	bool useLastLine(false);
+	cxxSS *ss_ptr = NULL;
+
+	// Read SSassemblage number and description
+	this->read_number_description(parser);
+
+	opt_save = CParser::OPT_ERROR;
+
+	for (;;)
+	{
+		int opt;
+		if (useLastLine == false)
+		{
+			opt = parser.get_option(vopts, next_char);
+		}
+		else
+		{
+			opt = parser.getOptionFromLastLine(vopts, next_char);
+		}
+		if (opt == CParser::OPT_DEFAULT)
+		{
+			opt = opt_save;
+		}
+		switch (opt)
+		{
+		case CParser::OPT_EOF:
+			break;
+		case CParser::OPT_KEYWORD:
+			break;
+		case CParser::OPT_DEFAULT:
+		case CParser::OPT_ERROR:
+			opt = CParser::OPT_EOF;
+			parser.
+				error_msg("Unknown input in SOLID_SOLUTIONS_RAW or SOLID_SOLUTIONS_MODIFY keyword.",
+						  PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
+			useLastLine = false;
+			break;
+
+		case 0:				// solid_solution
+			{
+				std::string str;
+				if (!(parser.get_iss() >> str))
+				{
+						parser.incr_input_error();
+					parser.error_msg("Expected string value for solid solution name.",
+									 PHRQ_io::OT_CONTINUE);
+				}
+				cxxSS temp_ss(this->Get_io());
+				temp_ss.Set_name(str);
+				ss_ptr = this->Find(str);
+				if (ss_ptr)
+				{ 
+					temp_ss = *ss_ptr;
+				}
+				temp_ss.read_raw(parser, false);
+				this->SSs[str] = temp_ss;
+			}
+			useLastLine = true;
+			break;
+		}
+		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
+			break;
+	}
+}
+#ifdef SKIP
 void
 cxxSSassemblage::read_raw(CParser & parser, bool check)
 {
@@ -219,7 +298,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 			break;
 	}
 }
-
+#endif
 #ifdef USE_MPI
 /* ---------------------------------------------------------------------- */
 void
