@@ -76,20 +76,20 @@ cxxSScomp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Pure_Phase element and attributes
 
-	if (this->name.size() != 0)
-		s_oss << indent0 << "-name                  " << this->name << "\n";
+	//if (this->name.size() != 0)
+	//	s_oss << indent0 << "-name                  " << this->name << "\n";
 	//if (this->add_formula.size() != 0)
 	//	s_oss << indent1 << "-add_formula           " << this->add_formula << "\n";
-	s_oss << indent1 << "-initial_moles         " << this->initial_moles << "\n";
-	s_oss << indent1 << "-moles                 " << this->moles << "\n";
-	s_oss << indent1 << "-initial_moles         " << this->init_moles << "\n";
-	s_oss << indent1 << "-delta                 " << this->delta << "\n";
-	s_oss << indent1 << "-fraction_x            " << this->fraction_x << "\n";
-	s_oss << indent1 << "-log10_lambda          " << this->log10_lambda << "\n";
-	s_oss << indent1 << "-log10_fraction_x      " << this->log10_fraction_x << "\n";
-	s_oss << indent1 << "-dn                    " << this->dn << "\n";
-	s_oss << indent1 << "-dnc                   " << this->dnc << "\n";
-	s_oss << indent1 << "-dnb                   " << this->dnb << "\n";
+	s_oss << indent0 << "-initial_moles         " << this->initial_moles << "\n";
+	s_oss << indent0 << "-moles                 " << this->moles << "\n";
+	s_oss << indent0 << "-init_moles            " << this->init_moles << "\n";
+	s_oss << indent0 << "-delta                 " << this->delta << "\n";
+	s_oss << indent0 << "-fraction_x            " << this->fraction_x << "\n";
+	s_oss << indent0 << "-log10_lambda          " << this->log10_lambda << "\n";
+	s_oss << indent0 << "-log10_fraction_x      " << this->log10_fraction_x << "\n";
+	//s_oss << indent0 << "-dn                    " << this->dn << "\n";
+	//s_oss << indent0 << "-dnc                   " << this->dnc << "\n";
+	//s_oss << indent0 << "-dnb                   " << this->dnb << "\n";
 }
 
 void
@@ -101,7 +101,7 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 	if (vopts.empty())
 	{
 		vopts.reserve(10);
-		vopts.push_back("name");	// 0                 
+		vopts.push_back("name_not_used");	// 0                 
 		vopts.push_back("initial_moles");	// 1
 		vopts.push_back("moles");	// 2
 		vopts.push_back("init_moles");	// 3
@@ -109,9 +109,9 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 		vopts.push_back("fraction_x");	// 5     
 		vopts.push_back("log10_lambda");	// 6
 		vopts.push_back("log10_fraction_x");	// 7
-		vopts.push_back("dn");	// 8
-		vopts.push_back("dnc");	// 9
-		vopts.push_back("dnb");	// 9
+		vopts.push_back("dn_not_used");	// 8
+		vopts.push_back("dnc_not_used");	// 9
+		vopts.push_back("dnb_not_used");	// 10
 	}
 
 	std::istream::pos_type ptr;

@@ -9706,8 +9706,14 @@ read_solid_solutions(void)
 		case OPTION_DEFAULT:
 			if(ss_ptr)
 			{
-				comps.insert(comps.begin(), *comp1_ptr);
-				comps.insert(comps.begin(), *comp0_ptr);
+				if (comp1_ptr)
+				{
+					comps.insert(comps.begin(), *comp1_ptr);
+				}
+				if (comp0_ptr)
+				{
+					comps.insert(comps.begin(), *comp0_ptr);
+				}
 				ss_ptr->Set_ss_comps(comps);
 				temp_ss_assemblage.Get_SSs()[ss_ptr->Get_name()] = *ss_ptr;
 				delete ss_ptr;
