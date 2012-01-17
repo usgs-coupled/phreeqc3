@@ -25,20 +25,26 @@ PHRQ_base(io)
 	// default constructor for cxxSS 
 	//
 {
-	//total_moles                    = 0;
+
+	total_moles = 0;
+	dn = 0;
 	a0 = 0;
 	a1 = 0;
-	ag0 = 0;
+	LDBLE ag0 = 0;
 	ag1 = 0;
+	ss_in = false;
 	miscibility = false;
-	//spinodal                       = false;
-	//tk                             = 25.;
+	spinodal = false;
+	tk = 298.15;
 	xb1 = 0;
 	xb2 = 0;
-	//SS_PARAMETER_TYPE type         = SS_PARM_NONE;
-	//LDBLE p[4];
+	input_case = SS_PARM_NONE;
+	for (int i = 0; i < 4; i++)
+	{
+		p.push_back(0);
+	}
 }
-
+#ifdef SKIP
 cxxSS::cxxSS(struct s_s *s_s_ptr, PHRQ_io *io)
 :
 PHRQ_base(io)		//
@@ -68,7 +74,7 @@ PHRQ_base(io)		//
 		comps[s_s_ptr->comps[i].name] = s_s_ptr->comps[i].moles;
 	}
 }
-
+#endif
 cxxSS::~cxxSS()
 {
 }
@@ -127,8 +133,13 @@ cxxSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	//s_oss << indent0 << "-tk                    " << this->tk << "\n";
 	s_oss << indent1 << "-xb1                   " << this->xb1 << "\n";
 	s_oss << indent1 << "-xb2                   " << this->xb2 << "\n";
-	s_oss << indent1 << "-components            " << "\n";
-	this->comps.dump_raw(s_oss, indent + 2);
+	//s_oss << indent1 << "-components            " << "\n";
+	//this->comps.dump_raw(s_oss, indent + 2);
+	for (size_t i = 0; i < this->ss_comps.size(); i++)
+	{
+		s_oss << indent1 << "-components            " << "\n";
+		this->ss_comps[i].dump_raw(s_oss, indent + 2);
+	}
 }
 
 void
@@ -248,13 +259,12 @@ cxxSS::read_raw(CParser & parser, bool check)
 			break;
 
 		case 4:				// components
-			if (this->comps.read_raw(parser, next_char) != CParser::PARSER_OK)
 			{
-				parser.incr_input_error();
-				parser.error_msg("Expected phase name and moles for comps.",
-								 PHRQ_io::OT_CONTINUE);
+				cxxSScomp comp(io);
+				comp.read_raw(parser, false);
+				this->ss_comps.push_back(comp);
 			}
-			opt_save = 4;
+			opt_save = CParser::OPT_DEFAULT;
 			break;
 
 		case 5:				// miscibility
@@ -454,7 +464,29 @@ cxxSS::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 	*dd = d;
 }
 #endif
-
+void
+cxxSS::totalize(PHREEQC_PTR_ARG)
+{
+	this->totals.clear();
+	// component structures
+	for (size_t i = 0; i < this->ss_comps.size(); i++)
+	{
+		struct phase *phase_ptr;
+		int l;
+		phase_ptr = P_INSTANCE_POINTER phase_bsearch(ss_comps[i].Get_name().c_str(), &l, FALSE);
+		if (phase_ptr != NULL)
+		{
+			cxxNameDouble phase_formula(phase_ptr->next_elt);
+			this->totals.add_extensive(phase_formula, ss_comps[i].Get_moles());
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+	return;
+}
+#ifdef SKIP
 void
 cxxSS::totalize(PHREEQC_PTR_ARG)
 {
@@ -478,7 +510,48 @@ cxxSS::totalize(PHREEQC_PTR_ARG)
 	}
 	return;
 }
-
+#endif
+void
+cxxSS::add(const cxxSS & addee_in, LDBLE extensive)
+{
+	if (extensive == 0.0)
+		return;
+	if (addee_in.name.size() == 0)
+		return;
+	cxxSS addee = addee_in;
+	for (size_t j = 0; j < addee.Get_ss_comps().size(); j++)
+	{
+		size_t i; 
+		for (i = 0; i < this->ss_comps.size(); i++)
+		{
+			//look for component in this
+			if (Utilities::strcmp_nocase(this->ss_comps[i].Get_name().c_str(), 
+				addee.Get_ss_comps()[j].Get_name().c_str()) == 0)
+			{
+				double d = this->ss_comps[i].Get_initial_moles() + 
+					addee.Get_ss_comps()[j].Get_initial_moles() * extensive;
+				this->ss_comps[i].Set_initial_moles(d);
+				d = this->ss_comps[i].Get_moles() + 
+					addee.Get_ss_comps()[j].Get_moles() * extensive;
+				this->ss_comps[i].Set_moles(d);
+				d = this->ss_comps[i].Get_init_moles() + 
+					addee.Get_ss_comps()[j].Get_init_moles() * extensive;
+				this->ss_comps[i].Set_init_moles(d);
+				d = this->ss_comps[i].Get_delta() + 
+					addee.Get_ss_comps()[j].Get_delta() * extensive;
+				this->ss_comps[i].Set_delta(d);
+				break;
+			}
+		}
+		if (i == this->ss_comps.size())
+		{
+			cxxSScomp comp = addee.Get_ss_comps()[j];
+			comp.multiply(extensive);
+			this->Get_ss_comps().push_back(comp);
+		}
+	}
+}
+#ifdef SKIP
 void
 cxxSS::add(const cxxSS & addee, LDBLE extensive)
 {
@@ -497,7 +570,24 @@ cxxSS::add(const cxxSS & addee, LDBLE extensive)
 	//bool miscibility;
 	//LDBLE xb1, xb2;
 }
-
+#endif
+void
+cxxSS::multiply(LDBLE extensive)
+{
+	size_t i; 
+	for (i = 0; i < this->ss_comps.size(); i++)
+	{
+		double d = this->ss_comps[i].Get_initial_moles() * extensive;
+		this->ss_comps[i].Set_initial_moles(d);
+		d = this->ss_comps[i].Get_moles() * extensive;
+		this->ss_comps[i].Set_moles(d);
+		d = this->ss_comps[i].Get_init_moles() * extensive;
+		this->ss_comps[i].Set_init_moles(d);
+		d = this->ss_comps[i].Get_delta() * extensive;
+		this->ss_comps[i].Set_delta(d);
+	}
+}
+#ifdef SKIP
 void
 cxxSS::multiply(LDBLE extensive)
 {
@@ -508,4 +598,16 @@ cxxSS::multiply(LDBLE extensive)
 	//LDBLE ag0, ag1;
 	//bool miscibility;
 	//LDBLE xb1, xb2;
+}
+#endif
+cxxSScomp *
+cxxSS::Find(const char * comp_name)
+{
+
+	for (size_t i = 0; i < this->ss_comps.size(); i++)
+	{
+		if (ss_comps[i].Get_name() == comp_name)
+			return &(ss_comps[i]);
+	}
+	return NULL;
 }

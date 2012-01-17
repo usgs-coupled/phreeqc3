@@ -258,7 +258,7 @@ quick_setup(void)
 /*
  *   ss_assemblage
  */
-	if (s_s_unknown != NULL)
+	if (ss_unknown != NULL)
 	{
 		for (i = 0; i < count_unknowns; i++)
 		{
@@ -291,7 +291,7 @@ quick_setup(void)
 		}
 	}
 #ifdef SKIP
-	if (s_s_unknown != NULL)
+	if (ss_unknown != NULL)
 	{
 		for (i = 0; i < count_unknowns; i++)
 		{
@@ -717,7 +717,7 @@ build_ss_assemblage(void)
 	//char token[MAX_LENGTH];
 	char *ptr;
 
-	if (s_s_unknown == NULL)
+	if (ss_unknown == NULL)
 		return (OK);
 	cxxSS * ss_ptr_old = NULL;
 	col = 0;
@@ -933,7 +933,7 @@ build_ss_assemblage(void)
 	char token[MAX_LENGTH];
 	char *ptr;
 
-	if (s_s_unknown == NULL)
+	if (ss_unknown == NULL)
 		return (OK);
 	s_s_ptr_old = NULL;
 	col = 0;
@@ -2281,7 +2281,7 @@ clear(void)
 	exchange_unknown = NULL;
 	surface_unknown = NULL;
 	gas_unknown = NULL;
-	s_s_unknown = NULL;
+	ss_unknown = NULL;
 /*
  *   Free arrays used in model   
  */
@@ -3751,7 +3751,7 @@ setup_ss_assemblage(void)
 /*
  *   One for each component in each solid solution
  */
-	s_s_unknown = NULL;
+	ss_unknown = NULL;
 	std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
 	for (size_t j = 0; j < ss_ptrs.size(); j++)
 	{
@@ -3780,8 +3780,8 @@ setup_ss_assemblage(void)
 			x[count_unknowns]->phase->dnc = comp_ptr->Get_dnc();
 			x[count_unknowns]->phase->log10_fraction_x = comp_ptr->Get_log10_fraction_x();
 			x[count_unknowns]->phase->log10_lambda =comp_ptr->Get_log10_lambda();
-			if (s_s_unknown == NULL)
-				s_s_unknown = x[count_unknowns];
+			if (ss_unknown == NULL)
+				ss_unknown = x[count_unknowns];
 			count_unknowns++;
 		}
 	}
@@ -3803,7 +3803,7 @@ setup_ss_assemblage(void)
 /*
  *   One for each component in each solid solution
  */
-	s_s_unknown = NULL;
+	ss_unknown = NULL;
 	for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
 	{
 		for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps; i++)
@@ -3838,8 +3838,8 @@ setup_ss_assemblage(void)
 				use.Get_ss_assemblage_ptr()->s_s[j].comps[i].log10_fraction_x;
 			x[count_unknowns]->phase->log10_lambda =
 				use.Get_ss_assemblage_ptr()->s_s[j].comps[i].log10_lambda;
-			if (s_s_unknown == NULL)
-				s_s_unknown = x[count_unknowns];
+			if (ss_unknown == NULL)
+				ss_unknown = x[count_unknowns];
 			count_unknowns++;
 		}
 	}
@@ -6203,7 +6203,7 @@ save_model(void)
 		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
 		for (size_t j = 0; j < ss_ptrs.size(); j++)
 		{
-			last_model.ss_assemblage[i] = string_hsave(ss_ptrs[j]->Get_name().c_str());
+			last_model.ss_assemblage[j] = string_hsave(ss_ptrs[j]->Get_name().c_str());
 		}
 	}
 	else
