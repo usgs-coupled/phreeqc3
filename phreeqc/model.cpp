@@ -579,7 +579,7 @@ check_residuals(void)
 						x[i]->description, (double) residual[i]);
 			}
 		}
-		else if (x[i]->type == S_S_MOLES)
+		else if (x[i]->type == SS_MOLES)
 		{
 			if (x[i]->s_s_in == FALSE)
 				continue;
@@ -1388,7 +1388,7 @@ ineq(int in_kode)
  *   Solid solution
  */
 		}
-		else if (x[i]->type == S_S_MOLES && x[i]->s_s_in == TRUE)
+		else if (x[i]->type == SS_MOLES && x[i]->s_s_in == TRUE)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 				   (void *) &(array[i * (count_unknowns + 1)]),
@@ -1426,7 +1426,7 @@ ineq(int in_kode)
 		}
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY &&
 			x[i]->type != ALK &&
-			x[i]->type != GAS_MOLES && x[i]->type != S_S_MOLES
+			x[i]->type != GAS_MOLES && x[i]->type != SS_MOLES
 			/* && x[i]->type != PP */
 			&& x[i]->type != SLACK
 			)
@@ -1773,7 +1773,7 @@ ineq(int in_kode)
 	{
 		for (i = s_s_unknown->number; i < count_unknowns; i++)
 		{
-			if (x[i]->type != S_S_MOLES)
+			if (x[i]->type != SS_MOLES)
 				break;
 			if (x[i]->phase->in == TRUE && x[i]->s_s_in == TRUE)
 			{
@@ -1835,7 +1835,7 @@ ineq(int in_kode)
  */
 	for (i = 0; i < count_unknowns; i++)
 	{
-		if ((x[i]->type == PP || x[i]->type == S_S_MOLES)
+		if ((x[i]->type == PP || x[i]->type == SS_MOLES)
 			&& pp_column_scale != 1.0)
 		{
 			for (j = 0; j < l_count_rows; j++)
@@ -2415,7 +2415,7 @@ mb_s_s(void)
 	}
 	for (i = s_s_unknown->number; i < count_unknowns; i++)
 	{
-		if (x[i]->type != S_S_MOLES)
+		if (x[i]->type != SS_MOLES)
 			break;
 		x[i]->s_s_in = x[i]->s_s->s_s_in;
 	}
@@ -3108,7 +3108,7 @@ reset(void)
  */
 		for (i = 0; i < count_unknowns; i++)
 		{
-			if (x[i]->type == PP || x[i]->type == S_S_MOLES)
+			if (x[i]->type == PP || x[i]->type == SS_MOLES)
 			{
 
 				if (delta[i] < -1e8)
@@ -3249,7 +3249,7 @@ reset(void)
 		for (i = 0; i < count_unknowns; i++)
 		{
 			x[i]->delta /= factor;
-			if (x[i]->type == PP || x[i]->type == S_S_MOLES)
+			if (x[i]->type == PP || x[i]->type == SS_MOLES)
 				delta[i] /= factor;
 		}
 
@@ -3322,7 +3322,7 @@ reset(void)
 					up = 1.;
 				down = x[i]->moles;
 			}
-			else if (x[i]->type == S_S_MOLES)
+			else if (x[i]->type == SS_MOLES)
 			{
 				continue;
 			}
@@ -3397,7 +3397,7 @@ reset(void)
 
 	for (i = 0; i < count_unknowns; i++)
 	{
-		if (x[i]->type != PP && x[i]->type != S_S_MOLES)
+		if (x[i]->type != PP && x[i]->type != SS_MOLES)
 			delta[i] *= factor;
 	}
 
@@ -3774,7 +3774,7 @@ reset(void)
 			}
 
 		}
-		else if (x[i]->type == S_S_MOLES)
+		else if (x[i]->type == SS_MOLES)
 		{
 
 			/*if (fabs(delta[i]) > epsilon) converge=FALSE; */
@@ -4115,7 +4115,7 @@ residuals(void)
 				converge = FALSE;
 			}
 		}
-		else if (x[i]->type == S_S_MOLES)
+		else if (x[i]->type == SS_MOLES)
 		{
 			residual[i] = x[i]->f * LOG_10;
 			//if (x[i]->moles <= MIN_TOTAL_SS && iterations > 2)
@@ -5361,7 +5361,7 @@ numerical_jacobian(void)
 			reset();
 			d2 = delta[i];
 			break;
-		case S_S_MOLES:
+		case SS_MOLES:
 			if (x[i]->s_s_in == FALSE)
 				continue;
 			for (j = 0; j < count_unknowns; j++)
@@ -5442,7 +5442,7 @@ numerical_jacobian(void)
 			delta[i] = -d2;
 			reset();
 			break;
-		case S_S_MOLES:
+		case SS_MOLES:
 			delta[i] = -d2;
 			reset();
 			break;

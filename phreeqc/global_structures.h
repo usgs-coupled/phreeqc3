@@ -84,7 +84,7 @@
 #define SURFACE_CB1 22
 #define SURFACE_CB2 23
 #define GAS_MOLES 24
-#define S_S_MOLES 25
+#define SS_MOLES 25
 #define PITZER_GAMMA 26
 #define SLACK 28
 /* state */
@@ -648,6 +648,7 @@ struct name_coef
 	const char *name;
 	LDBLE coef;
 };
+#ifdef SKIP
 /*----------------------------------------------------------------------
  *   Solid solution
  *---------------------------------------------------------------------- */
@@ -692,6 +693,7 @@ struct s_s_comp
 	LDBLE log10_fraction_x;
 	LDBLE dn, dnc, dnb;
 };
+#endif
 #ifdef SKIP
 /*----------------------------------------------------------------------
  *   Pure-phase assemblage
@@ -1073,10 +1075,12 @@ struct unknown
 	const char * exch_comp;
 	//struct pure_phase *pure_phase;
 	const char *pp_assemblage_comp_name;
-	struct s_s *s_s;
-	struct s_s_comp *s_s_comp;
-	int s_s_comp_number;
-	int s_s_in;
+	//struct s_s *s_s;
+	//struct s_s_comp *s_s_comp;
+	const char * ss_name;
+	const char * ss_comp_name;
+	int ss_comp_number;
+	int ss_in;
 	struct surface_comp *surface_comp;
 	LDBLE related_moles;
 	struct unknown *potential_unknown, *potential_unknown1,

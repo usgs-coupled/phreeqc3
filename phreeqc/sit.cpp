@@ -845,7 +845,7 @@ jacobian_sit(void)
 			break;
 		case MU:
 		case PP:
-		case S_S_MOLES:
+		case SS_MOLES:
 			continue;
 			break;
 		}
