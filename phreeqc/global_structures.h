@@ -673,7 +673,7 @@ struct s_s
 	LDBLE dn;
 	LDBLE a0, a1;
 	LDBLE ag0, ag1;
-	int s_s_in;
+	int ss_in;
 	int miscibility;
 	int spinodal;
 	LDBLE tk, xb1, xb2;
@@ -1075,8 +1075,8 @@ struct unknown
 	const char * exch_comp;
 	//struct pure_phase *pure_phase;
 	const char *pp_assemblage_comp_name;
-	//struct s_s *s_s;
-	//struct s_s_comp *s_s_comp;
+	//struct ss *s_s;
+	//struct ss_comp *s_s_comp;
 	const char * ss_name;
 	const char * ss_comp_name;
 	int ss_comp_number;

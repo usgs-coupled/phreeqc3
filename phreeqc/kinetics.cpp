@@ -270,7 +270,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	int equal_rate, zero_rate;
 
 	cxxPPassemblage *pp_assemblage_save = NULL;
-	struct ss_assemblage *ss_assemblage_save = NULL;
+	//struct ss_assemblage *ss_assemblage_save = NULL;
+	cxxSSassemblage *ss_assemblage_save = NULL;
 
 	LDBLE b31 = 3. / 40., b32 = 9. / 40.,
 		b51 = -11. / 54., b53 = -70. / 27., b54 = 35. / 27.,
@@ -328,6 +329,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			malloc_error();
 	}
 #endif
+#ifdef SKIP
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
 		ss_assemblage_save =
@@ -336,7 +338,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		if (ss_assemblage_save == NULL)
 			malloc_error();
 	}
-
+#endif
 	kinetics_ptr = kinetics_bsearch(i, &m);
 
 	step_bad = step_ok = 0;
@@ -427,16 +429,15 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			 */
 			if (use.Get_pp_assemblage_ptr() != NULL)
 			{
-				cxxPPassemblage *pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
-				cxxPPassemblage * pp_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, pp_assemblage_ptr->Get_n_user());
-				assert(pp_ptr);
-				pp_assemblage_save = new cxxPPassemblage(*pp_ptr);
+				cxxPPassemblage * pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, use.Get_pp_assemblage_ptr()->Get_n_user());
+				assert(pp_assemblage_ptr);
+				pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
 			}
-			if (ss_assemblage_save != NULL)
+			if (use.Get_ss_assemblage_ptr() != NULL)
 			{
-				ss_assemblage_copy(use.Get_ss_assemblage_ptr(),
-									ss_assemblage_save,
-									use.Get_ss_assemblage_ptr()->n_user);
+				cxxSSassemblage * ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, use.Get_ss_assemblage_ptr()->Get_n_user());
+				assert(ss_assemblage_ptr);
+				ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
 			}
 			for (j = 0; j < n_reactions; j++)
 			{
@@ -521,7 +522,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 				}
 				if (ss_assemblage_save != NULL)
 				{
-					ss_assemblage_free(ss_assemblage_save);
+					delete ss_assemblage_save;
+					ss_assemblage_save = NULL;
 				}
 				goto EQUAL_RATE_OUT;
 			}
@@ -566,9 +568,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		}
 		if (ss_assemblage_save != NULL)
 		{
-			ss_assemblage_free(use.Get_ss_assemblage_ptr());
-			ss_assemblage_copy(ss_assemblage_save, use.Get_ss_assemblage_ptr(),
-								ss_assemblage_save->n_user);
+			Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+			use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 		}
 
 		/* store k2 in rk_moles */
@@ -651,7 +652,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			}
 			if (ss_assemblage_save != NULL)
 			{
-				ss_assemblage_free(ss_assemblage_save);
+				Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 			}
 			goto EQUAL_RATE_OUT;
 		}
@@ -686,9 +688,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		}
 		if (ss_assemblage_save != NULL)
 		{
-			ss_assemblage_free(use.Get_ss_assemblage_ptr());
-			ss_assemblage_copy(ss_assemblage_save, use.Get_ss_assemblage_ptr(),
-								ss_assemblage_save->n_user);
+			Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+			use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 		}
 
 		/* store k3 in rk_moles */
@@ -770,8 +771,9 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			}
 			if (ss_assemblage_save != NULL)
 			{
-				ss_assemblage_free(ss_assemblage_save);
-			}
+				delete ss_assemblage_save;
+				ss_assemblage_save = NULL;
+				}
 			goto EQUAL_RATE_OUT;
 		}
 /*
@@ -806,9 +808,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		}
 		if (ss_assemblage_save != NULL)
 		{
-			ss_assemblage_free(use.Get_ss_assemblage_ptr());
-			ss_assemblage_copy(ss_assemblage_save, use.Get_ss_assemblage_ptr(),
-								ss_assemblage_save->n_user);
+			Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+			use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 		}
 
 		/* store k4 in rk_moles */
@@ -858,9 +859,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		}
 		if (ss_assemblage_save != NULL)
 		{
-			ss_assemblage_free(use.Get_ss_assemblage_ptr());
-			ss_assemblage_copy(ss_assemblage_save, use.Get_ss_assemblage_ptr(),
-								ss_assemblage_save->n_user);
+			Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+			use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 		}
 
 		/* store k5 in rk_moles */
@@ -911,9 +911,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		}
 		if (ss_assemblage_save != NULL)
 		{
-			ss_assemblage_free(use.Get_ss_assemblage_ptr());
-			ss_assemblage_copy(ss_assemblage_save, use.Get_ss_assemblage_ptr(),
-								ss_assemblage_save->n_user);
+			Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+			use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 		}
 
 		/* store k6 in rk_moles */
@@ -1013,7 +1012,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			}
 			if (ss_assemblage_save != NULL)
 			{
-				ss_assemblage_free(ss_assemblage_save);
+				delete ss_assemblage_save;
+				ss_assemblage_save = NULL;
 			}
 /*
  *   and increase step size ...
@@ -1096,8 +1096,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	}
 	if (ss_assemblage_save != NULL)
 	{
-		ss_assemblage_save =
-			(struct ss_assemblage *) free_check_null(ss_assemblage_save);
+		delete ss_assemblage_save;
+		ss_assemblage_save = NULL;	
 	}
 	return (OK);
 }
@@ -1113,7 +1113,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	LDBLE old_tol, old_min_value, old_step, old_pe, old_pp_column_scale;
 	LDBLE small_pe_step, small_step;
 	cxxPPassemblage *pp_assemblage_save = NULL;
-	struct ss_assemblage *ss_assemblage_save = NULL;
+	cxxSSassemblage *ss_assemblage_save = NULL;
 	struct kinetics *kinetics_save = NULL;
 
 	
@@ -1153,6 +1153,17 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	}
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
+		cxxSSassemblage * ss_assemblage_ptr = (cxxSSassemblage *) use.Get_ss_assemblage_ptr();
+		if (ss_assemblage_save)
+		{
+			delete ss_assemblage_save;
+			ss_assemblage_save = NULL;
+		}
+		ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
 		ss_assemblage_save =
 			(struct ss_assemblage *)
 			PHRQ_malloc(sizeof(struct ss_assemblage));
@@ -1161,6 +1172,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		ss_assemblage_copy(use.Get_ss_assemblage_ptr(), ss_assemblage_save,
 							use.Get_ss_assemblage_ptr()->n_user);
 	}
+#endif
 	if (use.Get_kinetics_ptr() != NULL)
 	{
 		kinetics_save =
@@ -1324,10 +1336,8 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 			}
 			if (ss_assemblage_save != NULL)
 			{
-				ss_assemblage_free(use.Get_ss_assemblage_ptr());
-				ss_assemblage_copy(ss_assemblage_save,
-									use.Get_ss_assemblage_ptr(),
-									ss_assemblage_save->n_user);
+				Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 			}
 			if (kinetics_save != NULL)
 			{
@@ -1409,9 +1419,8 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	}
 	if (ss_assemblage_save != NULL)
 	{
-		ss_assemblage_free(ss_assemblage_save);
-		ss_assemblage_save =
-			(struct ss_assemblage *) free_check_null(ss_assemblage_save);
+		delete ss_assemblage_save;
+		ss_assemblage_save = NULL;
 	}
 	if (kinetics_save != NULL)
 	{
@@ -1710,8 +1719,9 @@ set_transport(int i, int use_mix, int use_kinetics, int nsaver)
 /*
  *   Find ss_assemblage
  */
-	int n_ss_assemblage;
-	use.Set_ss_assemblage_ptr(ss_assemblage_bsearch(i, &n_ss_assemblage));
+	//int n_ss_assemblage;
+	use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, i));
+	//use.Set_ss_assemblage_ptr(ss_assemblage_bsearch(i, &n_ss_assemblage));
 	//use.Set_n_ss_assemblage(n_ss_assemblage);
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
@@ -1887,9 +1897,7 @@ set_reaction(int i, int use_mix, int use_kinetics)
  */
 	if (use.Get_ss_assemblage_in() == TRUE)
 	{
-		int n_ss_assemblage;
-		use.Set_ss_assemblage_ptr(ss_assemblage_bsearch(i, &n_ss_assemblage));
-		//use.Set_n_ss_assemblage(n_ss_assemblage);
+		use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, i));
 		if (use.Get_ss_assemblage_ptr() == NULL)
 		{
 			error_string = sformatf( "Solid-solution Assemblage %d not found.",
@@ -1940,7 +1948,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 	int nsaver;
 	struct kinetics *kinetics_ptr;
 	cxxPPassemblage *pp_assemblage_ptr;
-	struct ss_assemblage *ss_assemblage_ptr;
+	cxxSSassemblage *ss_assemblage_ptr;
 	cxxUse use_save;
 	int save_old, m, n_reactions /*, nok, nbad */ ;
 
@@ -2064,13 +2072,16 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			saver();
 			//pp_assemblage_ptr = pp_assemblage_bsearch(i, &n);
 			pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, i);
-			ss_assemblage_ptr = ss_assemblage_bsearch(i, &n);
+			//ss_assemblage_ptr = ss_assemblage_bsearch(i, &n);
+			ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, i);
 			if (pp_assemblage_ptr != NULL)
 			{
 				cvode_pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
 			}
 			if (ss_assemblage_ptr != NULL)
 			{
+				cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
+#ifdef SKIP
 				cvode_ss_assemblage_save =
 					(struct ss_assemblage *)
 					PHRQ_malloc(sizeof(struct ss_assemblage));
@@ -2079,6 +2090,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				ss_assemblage_copy(ss_assemblage_ptr,
 									cvode_ss_assemblage_save,
 									ss_assemblage_ptr->n_user);
+#endif
 			}
 
 			/* allocate space for CVODE */
@@ -2235,9 +2247,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			}
 			if (use.Get_ss_assemblage_ptr() != NULL)
 			{
-				ss_assemblage_free(use.Get_ss_assemblage_ptr());
-				ss_assemblage_copy(cvode_ss_assemblage_save,
-									use.Get_ss_assemblage_ptr(), i);
+				Rxn_ss_assemblage_map[cvode_ss_assemblage_save->Get_n_user()] = *cvode_ss_assemblage_save;
+				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
 			}
 			calc_final_kinetic_reaction(kinetics_ptr);
 			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 1.0) ==
@@ -2287,10 +2298,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 	}
 	if (cvode_ss_assemblage_save != NULL)
 	{
-		ss_assemblage_free(cvode_ss_assemblage_save);
-		cvode_ss_assemblage_save =
-			(struct ss_assemblage *)
-			free_check_null(cvode_ss_assemblage_save);
+		delete cvode_ss_assemblage_save;
+		cvode_ss_assemblage_save = NULL;
 	}
 	return (OK);
 }
@@ -2325,10 +2334,8 @@ free_cvode(void)
 	}
 	if (cvode_ss_assemblage_save != NULL)
 	{
-		ss_assemblage_free(cvode_ss_assemblage_save);
-		cvode_ss_assemblage_save =
-			(struct ss_assemblage *)
-			free_check_null(cvode_ss_assemblage_save);
+		delete cvode_ss_assemblage_save;
+		cvode_ss_assemblage_save = NULL;
 	}
 	return (OK);
 }
@@ -2501,9 +2508,10 @@ set_advection(int i, int use_mix, int use_kinetics, int nsaver)
 /*
  *   Find ss_assemblage
  */
-	int n_ss_assemblage;
-	use.Set_ss_assemblage_ptr(ss_assemblage_bsearch(i, &n_ss_assemblage));
+	//int n_ss_assemblage;
+	//use.Set_ss_assemblage_ptr(ss_assemblage_bsearch(i, &n_ss_assemblage));
 	//use.Set_n_ss_assemblage(n_ss_assemblage);
+	use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, i));
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
 		use.Set_ss_assemblage_in(true);
@@ -2550,7 +2558,7 @@ int Phreeqc::
 store_get_equi_reactants(int l, int kin_end)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, k;
+	int i, k;
 
 	if (use.Get_pp_assemblage_in() == TRUE)
 	{
@@ -2561,24 +2569,20 @@ store_get_equi_reactants(int l, int kin_end)
 	cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
 	if (use.Get_gas_phase_in() == TRUE)
 	{
-		//use.Get_gas_phase_ptr() = gas_phase_bsearch(l, &use.n_gas_phase);
 		use.Set_gas_phase_ptr(Utilities::Rxn_find(Rxn_gas_phase_map, l));
 	}
 	else
 		use.Set_gas_phase_ptr(NULL);
 	if (use.Get_ss_assemblage_in() == TRUE)
 	{
-		int n_ss_assemblage;
-		use.Set_ss_assemblage_ptr(
-			ss_assemblage_bsearch(l, &n_ss_assemblage));
-		//use.Set_n_ss_assemblage(n_ss_assemblage);
+		use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, l));
 	}
 	else
 		use.Set_ss_assemblage_ptr(NULL);
 
 	if (kin_end == FALSE)
 	{
-		count_pp = count_s_s = count_pg = 0;
+		count_pp = count_ss = count_pg = 0;
 		if (use.Get_pp_assemblage_ptr() != NULL)
 			//count_pp = use.Get_pp_assemblage_ptr()->count_comps;
 			count_pp = (int) pp_assemblage_ptr->Get_pp_assemblage_comps().size();
@@ -2587,6 +2591,16 @@ store_get_equi_reactants(int l, int kin_end)
 			cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
 			count_pg = (int) gas_phase_ptr->Get_gas_comps().size();
 		}
+		if (use.Get_ss_assemblage_ptr() != NULL)
+		{
+			std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+			for (size_t i = 0; i < ss_ptrs.size(); i++)
+			{
+				cxxSS *ss_ptr = ss_ptrs[i];
+				count_ss += (int) ss_ptr->Get_ss_comps().size();
+			}
+		}
+#ifdef SKIP
 		if (use.Get_ss_assemblage_ptr() != NULL)
 		{
 			for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
@@ -2598,7 +2612,8 @@ store_get_equi_reactants(int l, int kin_end)
 				}
 			}
 		}
-		k = count_pp + count_s_s + count_pg;
+#endif
+		k = count_pp + count_ss + count_pg;
 		x0_moles = NULL;
 		if (k == 0)
 			return (OK);
@@ -2635,15 +2650,16 @@ store_get_equi_reactants(int l, int kin_end)
 				}
 			}
 		}
-		if (count_s_s != 0)
+		if (count_ss != 0)
 		{
-			for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
+			std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+			for (size_t i = 0; i < ss_ptrs.size(); i++)
 			{
-				for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps;
-					 i++)
+				cxxSS *ss_ptr = ss_ptrs[i];
+				for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 				{
-					x0_moles[++k] =
-						use.Get_ss_assemblage_ptr()->s_s[j].comps[i].moles;
+					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
+					x0_moles[++k] = comp_ptr->Get_moles();
 				}
 /*!!!! also miscibility gap comps ??
  */
@@ -2682,15 +2698,16 @@ store_get_equi_reactants(int l, int kin_end)
 				gas_phase_ptr->Set_gas_comps(temp_comps);
 			}
 		}
-		if (count_s_s != 0)
+		if (count_ss != 0)
 		{
-			for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
+			std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+			for (size_t i = 0; i < ss_ptrs.size(); i++)
 			{
-				for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps;
-					 i++)
+				cxxSS *ss_ptr = ss_ptrs[i];
+				for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 				{
-					use.Get_ss_assemblage_ptr()->s_s[j].comps[i].initial_moles =
-						x0_moles[++k];
+					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
+					comp_ptr->Set_initial_moles(x0_moles[++k]);
 				}
 /*!!!! also miscibility gap comps ??
  */
@@ -2756,9 +2773,8 @@ f(integertype N, realtype t, N_Vector y, N_Vector ydot,
 	}
 	if (pThis->use.Get_ss_assemblage_ptr() != NULL)
 	{
-		pThis->ss_assemblage_free(pThis->use.Get_ss_assemblage_ptr());
-		pThis->ss_assemblage_copy(pThis->cvode_ss_assemblage_save,
-							pThis->use.Get_ss_assemblage_ptr(), n_user);
+		pThis->Rxn_ss_assemblage_map[pThis->cvode_ss_assemblage_save->Get_n_user()] = *pThis->cvode_ss_assemblage_save;
+		pThis->use.Set_ss_assemblage_ptr(Utilities::Rxn_find(pThis->Rxn_ss_assemblage_map, pThis->cvode_ss_assemblage_save->Get_n_user()));
 	}
 
 	if (pThis->set_and_run_wrapper(n_user, FALSE, TRUE, n_user, 0.0) == MASS_BALANCE)

@@ -4,6 +4,7 @@
 #include "Exchange.h"
 #include "GasPhase.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -1585,7 +1586,7 @@ set_initial_moles(int i)
 	//struct pp_assemblage *pp_assemblage_ptr;
 	//struct gas_phase *gas_phase_ptr;
 	struct kinetics *kinetics_ptr;
-	struct ss_assemblage *ss_assemblage_ptr;
+	//struct ss_assemblage *ss_assemblage_ptr;
 	//struct exchange *exchange_ptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH], *ptr;
 	int j, k, l, n;
@@ -1649,6 +1650,25 @@ set_initial_moles(int i)
 	/*
 	 *   Solid solutions
 	 */
+	{
+		cxxSSassemblage *ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, i);
+		if (ss_assemblage_ptr != NULL)
+		{
+			std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
+			for (k = 0; k < (int) ss_ptrs.size(); k++)
+			//for (k = 0; k < ss_assemblage_ptr->count_s_s; k++)
+			{
+				cxxSS * ss_ptr = ss_ptrs[k];
+				for (j = 0; j < (int) ss_ptr->Get_ss_comps().size(); j++)
+				//for (j = 0; j < ss_assemblage_ptr->s_s[k].count_comps; j++)
+				{
+					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
+					comp_ptr->Set_init_moles(comp_ptr->Get_moles());
+				}
+			}
+		}
+	}
+#ifdef SKIP
 	ss_assemblage_ptr = ss_assemblage_bsearch(i, &n);
 	if (ss_assemblage_ptr != NULL)
 	{
@@ -1659,6 +1679,7 @@ set_initial_moles(int i)
 					ss_assemblage_ptr->s_s[k].comps[j].moles;
 		}
 	}
+#endif
 	/*
 	 *   For interlayer diffusion: add tiny bit of exchanger if absent
 	 */

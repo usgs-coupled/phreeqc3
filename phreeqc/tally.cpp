@@ -6,6 +6,7 @@
 #include "GasPhase.h"
 #include "Reaction.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
 
 /*   
      Calling sequence 
@@ -383,7 +384,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 	//struct pp_assemblage *pp_assemblage_ptr;
 	//struct exchange *exchange_ptr;
 	struct surface *surface_ptr;
-	struct ss_assemblage *ss_assemblage_ptr;
+	//struct ss_assemblage *ss_assemblage_ptr;
 	//struct gas_phase *gas_phase_ptr;
 	struct kinetics *kinetics_ptr;
 	struct kinetics_comp *kinetics_comp_ptr;
@@ -565,6 +566,50 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			break;
 		case Ss_phase:
+			if (n_user[Ss_phase] < 0)
+				break;
+			{
+				/*
+				*   fill an solid solution phase
+			    */
+
+				cxxSSassemblage * ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, n_user[Ss_phase]);
+				if (ss_assemblage_ptr == NULL)
+					break;
+				found = FALSE;
+				moles = 0.0;
+				std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
+				for (j = 0; j < (int) ss_ptrs.size(); j++)
+				//for (j = 0; j < ss_assemblage_ptr->count_s_s; j++)
+				{
+					cxxSS * ss_ptr = ss_ptrs[j];
+					cxxSScomp * comp_ptr;
+					for (k = 0; k < (int) ss_ptr->Get_ss_comps().size(); k++)
+					{
+						comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+						int l;
+						struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+						if (phase_ptr->name == tally_table[i].name)
+							break;
+						if (strcmp_nocase(phase_ptr->name, tally_table[i].name) == 0)
+							break;
+					}
+					if (k < (int) ss_ptr->Get_ss_comps().size())
+					{
+						moles = comp_ptr->Get_moles();
+						found = TRUE;
+						break;
+					}
+				}
+				if (found == FALSE)
+					break;
+				count_elts = 0;
+				paren_count = 0;
+				add_elt_list(tally_table[i].formula, moles);
+				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
+			}
+			break;
+#ifdef SKIP
 			/*
 			 *   fill an solid solution phase
 			 */
@@ -601,6 +646,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 			add_elt_list(tally_table[i].formula, moles);
 			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			break;
+#endif
 		case Gas_phase:
 			/*
 			 *   fill in gas phase
@@ -761,9 +807,9 @@ build_tally_table(void)
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
 	//struct pp_assemblage *pp_assemblage_ptr;
 	//struct pure_phase *pure_phase_ptr;
-	struct ss_assemblage *ss_assemblage_ptr;
-	struct s_s *s_s_ptr;
-	struct s_s_comp *s_s_comp_ptr;
+	//struct ss_assemblage *ss_assemblage_ptr;
+	//struct s_s *s_s_ptr;
+	//struct s_s_comp *s_s_comp_ptr;
 	struct kinetics *kinetics_ptr;
 	struct kinetics_comp *kinetics_comp_ptr;
 	struct phase *phase_ptr;
@@ -998,6 +1044,59 @@ build_tally_table(void)
  *   Add solid-solution pure phases
  */
 	count_tt_ss_phase = 0;
+	if (Rxn_ss_assemblage_map.size() > 0)
+	{
+		/* 
+		 * Go through all components of all solid solutions in solid-solution assemblages
+		 */
+		std::map<int, cxxSSassemblage>::iterator it;
+		for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
+		//for (i = 0; i < count_ss_assemblage; i++)
+		{
+			cxxSSassemblage *ss_assemblage_ptr = &(it->second);
+			//for (j = 0; j < ss_assemblage_ptr->count_s_s; j++)
+			std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
+			for (j = 0; j < (int) ss_ptrs.size(); j++)
+			{
+				cxxSS * ss_ptr = ss_ptrs[j];
+				//for (k = 0; k < s_s_ptr->count_comps; k++)
+				for (k = 0; k < (int) ss_ptr->Get_ss_comps().size(); k++)
+				{
+					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+					int l;
+					struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+					/* 
+					 * check if already in tally_table
+					 */
+					for (l = 1; l < count_tally_table_columns; l++)
+					{
+						if (tally_table[l].type == Ss_phase &&
+							tally_table[l].name == phase_ptr->name)
+							break;
+					}
+					if (l < count_tally_table_columns)
+						continue;
+					/*
+					 * Add to table
+					 */
+					count_tt_ss_phase++;
+					n = count_tally_table_columns;
+					extend_tally_table();
+					tally_table[n].name = phase_ptr->name;
+					tally_table[n].type = Ss_phase;
+					count_elts = 0;
+					paren_count = 0;
+					strcpy(token, phase_ptr->formula);
+					add_elt_list(phase_ptr->next_elt, 1.0);
+					qsort(elt_list, (size_t) count_elts,
+						  (size_t) sizeof(struct elt_list), elt_list_compare);
+					elt_list_combine();
+					tally_table[n].formula = elt_list_save();
+				}
+			}
+		}
+	}
+#ifdef SKIP
 	if (count_ss_assemblage > 0)
 	{
 		/* 
@@ -1043,6 +1142,7 @@ build_tally_table(void)
 			}
 		}
 	}
+#endif
 /*
  *   Add kinetic reactants
  */
@@ -1244,10 +1344,17 @@ add_all_components_tally(void)
 /*
  *   Add solid-solution pure phases
  */
+	std::map<int, cxxSSassemblage>::iterator it;
+	for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
+	{
+		add_ss_assemblage(&(it->second));
+	}
+#ifdef SKIP
 	for (i = 0; i < count_ss_assemblage; i++)
 	{
 		add_ss_assemblage(&ss_assemblage[i]);
 	}
+#endif
 /*
  *   Add elements in kinetic reactions
  */

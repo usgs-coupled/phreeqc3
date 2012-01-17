@@ -9,6 +9,7 @@
 #include "GasPhase.h"
 #include "Reaction.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -652,6 +653,130 @@ print_ss_assemblage(void)
 	int i, j;
 	LDBLE delta_moles;
 	LDBLE nb, nc, xb, xb1, xb2, xb1moles, xb2moles;
+
+	if (pr.ss_assemblage == FALSE || pr.all == FALSE)
+		return (OK);
+	if (use.Get_ss_assemblage_ptr() == NULL)
+		return (OK);
+	/*
+	 *   Print heading
+	 */
+	print_centered("Solid solutions");
+	output_msg(sformatf("\n"));
+	output_msg(sformatf("%-15s  %22s  %11s  %11s  %11s\n\n",
+			   "Solid solution", "Component", "Moles", "Delta moles",
+			   "Mole fract"));
+	/*
+	 *   Print solid solutions
+	 */
+	std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+	for (j = 0; j < (int) ss_ptrs.size(); j++)
+	{
+		cxxSS * ss_ptr = ss_ptrs[j];
+		if (ss_ptr->Get_ss_in())
+		{
+			/* solid solution name, moles */
+			output_msg(sformatf("%-15s  %22s  %11.2e\n",
+					   ss_ptr->Get_name().c_str(), "  ",
+					   (double)  ss_ptr->Get_total_moles()));
+			/* component name, moles, delta moles, mole fraction */
+
+			for (i = 0; i < (int) ss_ptr->Get_ss_comps().size(); i++)
+			{
+				cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[i]);
+				if (state != TRANSPORT && state != PHAST)
+				{
+					delta_moles =
+						comp_ptr->Get_moles() -
+						comp_ptr->Get_initial_moles() -
+						comp_ptr->Get_delta();
+				}
+				else
+				{
+					delta_moles =
+						comp_ptr->Get_moles() -
+						comp_ptr->Get_init_moles();
+				}
+				output_msg(sformatf(
+						   "%15s  %22s  %11.2e  %11.2e  %11.2e\n", " ",
+						   comp_ptr->Get_name().c_str(),
+						   (double) comp_ptr->Get_moles(), (double) delta_moles,
+						   (double) (comp_ptr->Get_moles() /
+									 ss_ptr->Get_total_moles())));
+			}
+			if (ss_ptr->Get_miscibility())
+			{
+				cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
+				cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
+				nc = comp0_ptr->Get_moles();
+				nb = comp1_ptr->Get_moles();
+				xb = nb / (nb + nc);
+				xb1 = ss_ptr->Get_xb1();
+				xb2 = ss_ptr->Get_xb2();
+
+				if (xb > xb1 && xb < xb2)
+				{
+					xb2moles = (xb1 - 1) / xb1 * nb + nc;
+					xb2moles = xb2moles / ((xb1 - 1) / xb1 * xb2 + (1 - xb2));
+					xb1moles = (nb - xb2moles * xb2) / xb1;
+					output_msg(sformatf(
+							   "\n%14s  Solid solution is in miscibility gap\n",
+							   " "));
+					output_msg(sformatf(
+							   "%14s  End members in pct of %s\n\n", " ",
+							   comp1_ptr->Get_name().c_str()));
+					output_msg(sformatf("%22s  %11g pct  %11.2e\n",
+							   " ", (double) xb1, (double) xb1moles));
+					output_msg(sformatf("%22s  %11g pct  %11.2e\n",
+							   " ", (double) xb2, (double) xb2moles));
+				}
+			}
+		}
+		else
+		{
+			/* solid solution name, moles */
+			output_msg(sformatf("%-15s  %22s  %11.2e\n",
+					   ss_ptr->Get_name().c_str(), "  ",
+					   (double) 0.0));
+			/* component name, moles, delta moles, mole fraction */
+			for (i = 0; i < (int) ss_ptr->Get_ss_comps().size(); i++)
+			{
+				cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[i]);
+				if (state != TRANSPORT && state != PHAST)
+				{
+					delta_moles =
+						comp_ptr->Get_moles() -
+						comp_ptr->Get_initial_moles() -
+						comp_ptr->Get_delta();
+				}
+				else
+				{
+					delta_moles =
+						comp_ptr->Get_moles() -
+						comp_ptr->Get_init_moles();
+				}
+				output_msg(sformatf(
+						   "%15s  %22s  %11.2e  %11.2e  %11.2e\n", " ",
+						   comp_ptr->Get_name().c_str(),
+						   (double) 0, (double) delta_moles, (double) 0));
+			}
+		}
+	}
+	output_msg(sformatf("\n"));
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+print_ss_assemblage(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Prints solid solution composition if present
+	 */
+	int i, j;
+	LDBLE delta_moles;
+	LDBLE nb, nc, xb, xb1, xb2, xb1moles, xb2moles;
 	struct s_s *s_s_ptr;
 
 	if (pr.ss_assemblage == FALSE || pr.all == FALSE)
@@ -669,9 +794,11 @@ print_ss_assemblage(void)
 	/*
 	 *   Print solid solutions
 	 */
-	for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
+	std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+	for (j = 0; j < ss_ptrs.size(); j++)
 	{
-		if (use.Get_ss_assemblage_ptr()->s_s[j].s_s_in == TRUE)
+		cxxSS * ss_ptr = ss_ptrs[j];
+		if (use.Get_ss_assemblage_ptr()->s_s[j].ss_in == TRUE)
 		{
 			/* solid solution name, moles */
 			output_msg(sformatf("%-15s  %22s  %11.2e\n",
@@ -764,6 +891,7 @@ print_ss_assemblage(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
 print_reaction(void)
@@ -2270,7 +2398,7 @@ print_using(void)
 	//struct exchange *exchange_ptr;
 	struct surface *surface_ptr;
 	//struct pp_assemblage *pp_assemblage_ptr;
-	struct ss_assemblage *ss_assemblage_ptr;
+	//struct ss_assemblage *ss_assemblage_ptr;
 	//struct gas_phase *gas_phase_ptr;
 	//struct irrev *irrev_ptr;
 	struct kinetics *kinetics_ptr;
@@ -2342,13 +2470,23 @@ print_using(void)
 	}
 	if (use.Get_ss_assemblage_in() == TRUE)
 	{
-		ss_assemblage_ptr =
+		cxxSSassemblage * ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, use.Get_n_ss_assemblage_user());
+		output_msg(sformatf(
+				   "Using solid solution assemblage %d.\t%s\n",
+				   use.Get_n_ss_assemblage_user(),
+				   ss_assemblage_ptr->Get_description().c_str()));
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_in() == TRUE)
+	{
+		ss_assemblage_ptr = 
 			ss_assemblage_bsearch(use.Get_n_ss_assemblage_user(), &n);
 		output_msg(sformatf(
 				   "Using solid solution assemblage %d.\t%s\n",
 				   use.Get_n_ss_assemblage_user(),
 				   ss_assemblage_ptr->description));
 	}
+#endif
 	if (use.Get_gas_phase_in() == TRUE)
 	{
 		//gas_phase_ptr = gas_phase_bsearch(use.Get_n_gas_phase_user(), &n);
@@ -2480,13 +2618,68 @@ punch_ss_assemblage(void)
 /*
  *   Prints solid solution composition if present
  */
-	int i, j, k;
+	int j, k;
 	int found;
 	LDBLE moles;
 
 /*
  *   Print solid solutions
  */
+	for (k = 0; k < punch.count_s_s; k++)
+	{
+		found = FALSE;
+		if (use.Get_ss_assemblage_ptr() != NULL)
+		{
+			std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+			for (j = 0; j < (int) ss_ptrs.size(); j++)
+			{
+				cxxSS * ss_ptr = ss_ptrs[j];
+				for (k = 0; k < (int) ss_ptr->Get_ss_comps().size(); k++)
+				{
+					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+
+					if (strcmp_nocase(punch.s_s[k].name, comp_ptr->Get_name().c_str()) == 0)
+					{
+						if (ss_ptr->Get_ss_in())
+						{
+							moles =	comp_ptr->Get_moles();
+						}
+						else
+						{
+							moles = 0;
+						}
+						if (punch.high_precision == FALSE)
+						{
+							fpunchf(sformatf("s_%s", punch.s_s[k].name),
+									"%12.4e\t", (double) moles);
+						}
+						else
+						{
+							fpunchf(sformatf("s_%s", punch.s_s[k].name),
+									"%20.12e\t", (double) moles);
+						}
+						found = TRUE;
+						break;
+					}
+				}
+				if (found == TRUE)
+					break;
+			}
+		}
+		if (found == FALSE)
+		{
+			if (punch.high_precision == FALSE)
+			{
+				fpunchf(sformatf("s_%s", punch.s_s[k].name), "%12.4e\t", (double) 0.0);
+			}
+			else
+			{
+				fpunchf(sformatf("s_%s", punch.s_s[k].name), "%20.12e\t",
+						(double) 0.0);
+			}
+		}
+	}
+#ifdef SKIP
 	for (k = 0; k < punch.count_s_s; k++)
 	{
 		found = FALSE;
@@ -2501,7 +2694,7 @@ punch_ss_assemblage(void)
 						(punch.s_s[k].name,
 						 use.Get_ss_assemblage_ptr()->s_s[j].comps[i].name) == 0)
 					{
-						if (use.Get_ss_assemblage_ptr()->s_s[j].s_s_in == TRUE)
+						if (use.Get_ss_assemblage_ptr()->s_s[j].ss_in == TRUE)
 						{
 							moles =
 								use.Get_ss_assemblage_ptr()->s_s[j].comps[i].moles;
@@ -2541,6 +2734,7 @@ punch_ss_assemblage(void)
 			}
 		}
 	}
+#endif
 	return (OK);
 }
 

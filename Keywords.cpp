@@ -118,7 +118,7 @@ std::map<const std::string, Keywords::KEYWORDS>::value_type("delete", 						Keyw
 std::map<const std::string, Keywords::KEYWORDS>::value_type("run_cells", 					Keywords::KEY_RUN_CELLS),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_modify", 				Keywords::KEY_REACTION_MODIFY),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_temperature_modify", 	Keywords::KEY_REACTION_TEMPERATURE_MODIFY),
-std::map<const std::string, Keywords::KEYWORDS>::value_type("solid_solution_modify", 		Keywords::KEY_SOLID_SOLUTION_MODIFY),
+std::map<const std::string, Keywords::KEYWORDS>::value_type("solid_solution_modify", 		Keywords::KEY_SOLID_SOLUTIONS_MODIFY),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressure", 			Keywords::KEY_REACTION_PRESSURE),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressures", 			Keywords::KEY_REACTION_PRESSURE),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressure_raw", 		Keywords::KEY_REACTION_PRESSURE_RAW),
@@ -194,7 +194,6 @@ std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_DELETE
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_RUN_CELLS,					"RUN_CELLS"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_MODIFY,				"REACTION_MODIFY"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_TEMPERATURE_MODIFY,	"REACTION_TEMPERATURE_MODIFY"),
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLID_SOLUTION_MODIFY,		"SOLID_SOLUTION_MODIFY"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE,			"REACTION_PRESSURE"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_RAW,		"REACTION_PRESSURE_RAW"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_MODIFY,		"REACTION_PRESSURE_MODIFY")	

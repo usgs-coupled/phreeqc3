@@ -394,7 +394,7 @@ read_kinetics_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_solid_solutions_raw(void)
@@ -490,6 +490,7 @@ read_solid_solutions_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_dump(void)
@@ -915,6 +916,7 @@ read_surface_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_solid_solutions_modify(void)
@@ -1003,6 +1005,7 @@ read_solid_solutions_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics_modify(void)
@@ -1302,6 +1305,22 @@ delete_entities(void)
 	{
 		if (delete_info.Get_ss_assemblage().Get_numbers().size() == 0)
 		{
+			Rxn_ss_assemblage_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_ss_assemblage().Get_numbers().begin(); it != delete_info.Get_ss_assemblage().Get_numbers().end(); it++)
+			{
+				Rxn_ss_assemblage_map.erase(*it);
+			}
+		}
+	}
+#ifdef SKIP
+	if (delete_info.Get_ss_assemblage().Get_defined())
+	{
+		if (delete_info.Get_ss_assemblage().Get_numbers().size() == 0)
+		{
 			for (i = 0; i < count_ss_assemblage; i++)
 			{
 				ss_assemblage_delete(ss_assemblage[i].n_user);
@@ -1319,7 +1338,7 @@ delete_entities(void)
 			}
 		}
 	}
-
+#endif
 	// gas_phases
 	if (delete_info.Get_gas_phase().Get_defined())
 	{
@@ -1778,6 +1797,27 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_ss_assemblage().size() == 0)
 		{
+			Utilities::Rxn_dump_raw(Rxn_ss_assemblage_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_ss_assemblage().begin(); it != dump_info.Get_ss_assemblage().end(); it++)
+			{
+				cxxSSassemblage *p = Utilities::Rxn_find(Rxn_ss_assemblage_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
+#ifdef SKIP
+	if (dump_info.Get_bool_ss_assemblage())
+	{
+		if (dump_info.Get_ss_assemblage().size() == 0)
+		{
 			for (i = 0; i < count_ss_assemblage; i++)
 			{
 					cxxSSassemblage cxxentity(&ss_assemblage[i]);
@@ -1798,7 +1838,7 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-
+#endif
 	// gas_phases
 	if (dump_info.Get_bool_gas_phase())
 	{

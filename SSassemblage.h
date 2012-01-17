@@ -11,6 +11,7 @@
 #include "NumKeyword.h"
 #include "NameDouble.h"
 #include "Phreeqc_class.h"
+#include "SS.h"
 
 class cxxSS;
 
@@ -22,7 +23,7 @@ class cxxSSassemblage:public cxxNumKeyword
 
 public:
 	cxxSSassemblage(PHRQ_io * io = NULL);
-	cxxSSassemblage(struct ss_assemblage *, PHRQ_io * io = NULL);
+	//cxxSSassemblage(struct ss_assemblage *, PHRQ_io * io = NULL);
 	cxxSSassemblage(const std::map < int, cxxSSassemblage > &entity_map,
 		cxxMix & mx, int n_user, PHRQ_io * io = NULL);
 	~cxxSSassemblage();
@@ -32,10 +33,6 @@ public:
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
 	void read_raw(CParser & parser, bool check = true);
-	const std::map <std::string, cxxSS > & Get_ssAssemblageSSs() const
-	{
-		return this->ssAssemblageSSs;
-	};
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
@@ -43,17 +40,18 @@ public:
 #endif
 	void totalize(PHREEQC_PTR_ARG);
 
-	const cxxNameDouble & Get_totals() const
-	{
-		return this->totals;
-	};
-
-
-protected:
+	const cxxNameDouble & Get_totals() const {return this->totals;}
+	std::map < std::string, cxxSS > & Get_SSs(void) {return SSs;}
+	void Set_SSs(std::map < std::string, cxxSS > & ss) {SSs = ss;}
+	bool Get_new_def(void) const {return new_def;}
+	void Set_new_def(bool tf) {new_def = tf;}
+	std::vector<cxxSS *> Vectorize(void);
 	void add(const cxxSSassemblage & addee, LDBLE extensive);
+	cxxSS *Find(const std::string &s);
 
 protected:
-	std::map < std::string, cxxSS > ssAssemblageSSs;
+	bool new_def;
+	std::map < std::string, cxxSS > SSs;
 	cxxNameDouble totals;
 
 };

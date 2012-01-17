@@ -91,9 +91,9 @@ public:
 	LDBLE find_gas_comp(const char *gas_comp_name);
 	LDBLE find_gas_p(void);
 	LDBLE find_gas_vm(void);
-	LDBLE find_misc1(const char *s_s_name);
-	LDBLE find_misc2(const char *s_s_name);
-	LDBLE find_s_s_comp(const char *s_s_comp_name);
+	LDBLE find_misc1(const char *ss_name);
+	LDBLE find_misc2(const char *ss_name);
+	LDBLE find_ss_comp(const char *ss_comp_name);
 	LDBLE get_calculate_value(const char *name);
 	char * iso_unit(const char *total_name);
 	LDBLE iso_value(const char *total_name);
@@ -109,7 +109,7 @@ public:
 	LDBLE solution_sum_secondary(const char *total_name);
 	LDBLE sum_match_gases(const char *stemplate, const char *name);
 	LDBLE sum_match_species(const char *stemplate, const char *name);
-	LDBLE sum_match_s_s(const char *stemplate, const char *name);
+	LDBLE sum_match_ss(const char *stemplate, const char *name);
 	int match_elts_in_species(const char *name, const char *stemplate);
 	int extract_bracket(char **string, char *bracket_string);
 	LDBLE surf_total(const char *total_name, const char *surface_name);
@@ -117,14 +117,14 @@ public:
 	LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 		char ***types, LDBLE ** moles);
 	std::string phase_formula(std::string phase_name, cxxNameDouble &stoichiometry);
-	LDBLE list_s_s(std::string s_s_name, cxxNameDouble &composition);
+	LDBLE list_ss(std::string ss_name, cxxNameDouble &composition);
 	int system_total_elements(void);
 	int system_total_si(void);
 	int system_total_aq(void);
 	int system_total_ex(void);
 	int system_total_surf(void);
 	int system_total_gas(void);
-	int system_total_s_s(void);
+	int system_total_ss(void);
 	int system_total_elt(const char *total_name);
 	int system_total_elt_secondary(const char *total_name);
 	LDBLE total(const char *total_name);
@@ -133,7 +133,7 @@ public:
 	int system_total_solids(cxxExchange *exchange_ptr,
 		cxxPPassemblage *pp_assemblage_ptr,
 		cxxGasPhase *gas_phase_ptr,
-		struct ss_assemblage *ss_assemblage_ptr,
+		cxxSSassemblage *ss_assemblage_ptr,
 		struct surface *surface_ptr);
 
 	static LDBLE f_rho(LDBLE rho_old, void *cookie);
@@ -398,7 +398,7 @@ public:
 	int set_reaction(int i, int use_mix, int use_kinetics);
 	int set_transport(int i, int use_mix, int use_kinetics, int nsaver);
 	int store_get_equi_reactants(int k, int kin_end);
-	int count_pp, count_pg, count_s_s;
+	int count_pp, count_pg, count_ss;
 	LDBLE *x0_moles;
 
 	// mainsubs.cpp  -------------------------------
@@ -434,7 +434,7 @@ public:
 	int model(void);
 	int jacobian_sums(void);
 	int mb_gases(void);
-	int mb_s_s(void);
+	int mb_ss(void);
 	int mb_sums(void);
 	int molalities(int allow_overflow);
 	int reset(void);
@@ -442,11 +442,11 @@ public:
 	int set(int initial);
 	int sum_species(void);
 	int surface_model(void);
-	LDBLE s_s_root(LDBLE a0, LDBLE a1, LDBLE kc, LDBLE kb, LDBLE xcaq,
+	LDBLE ss_root(LDBLE a0, LDBLE a1, LDBLE kc, LDBLE kb, LDBLE xcaq,
 		LDBLE xbaq);
-	LDBLE s_s_halve(LDBLE a0, LDBLE a1, LDBLE x0, LDBLE x1, LDBLE kc,
+	LDBLE ss_halve(LDBLE a0, LDBLE a1, LDBLE x0, LDBLE x1, LDBLE kc,
 		LDBLE kb, LDBLE xcaq, LDBLE xbaq);
-	LDBLE s_s_f(LDBLE xb, LDBLE a0, LDBLE a1, LDBLE kc, LDBLE kb,
+	LDBLE ss_f(LDBLE xb, LDBLE a0, LDBLE a1, LDBLE kc, LDBLE kb,
 		LDBLE xcaq, LDBLE xbaq);
 	int numerical_jacobian(void);
 	void set_inert_moles(void);
@@ -457,12 +457,12 @@ public:
 #endif
 	int calc_gas_pressures(void);
 	int calc_fixed_volume_gas_pressures(void);
-	int calc_s_s_fractions(void);
+	int calc_ss_fractions(void);
 	int gammas(LDBLE mu);
 	int initial_guesses(void);
 	int revise_guesses(void);
-	int s_s_binary(struct s_s *s_s_ptr);
-	int s_s_ideal(struct s_s *s_s_ptr);
+	int ss_binary(cxxSS *ss_ptr);
+	int ss_ideal(cxxSS *ss_ptr);
 	//int remove_unstable_phases;
 	int gas_in;
 	void ineq_init(int max_row_count, int max_column_count);
@@ -832,9 +832,9 @@ public:
 	int add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr);
 	//int add_reaction(struct irrev *irrev_ptr, int step_number,
 	//	LDBLE step_fraction);
-	int add_reaction(cxxReaction *reaction_ptr, int step_number,
-		LDBLE step_fraction);
-	int add_ss_assemblage(struct ss_assemblage *ss_assemblage_ptr);
+	int add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction);
+	//int add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr);
+	int add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr);
 	int add_solution(struct solution *solution_ptr, LDBLE extensive,
 		LDBLE intensive);
 	int add_surface(struct surface *surface_ptr);
@@ -846,7 +846,7 @@ public:
 	//int reaction_calc(struct irrev *irrev_ptr);
 	int reaction_calc(cxxReaction *reaction_ptr);
 	int solution_check(void);
-	int ss_assemblage_check(struct ss_assemblage *ss_assemblage_ptr);
+	int ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr);
 
 	// structures.cpp -------------------------------
 	int clean_up(void);
@@ -970,6 +970,7 @@ protected:
 	struct species *s_search(const char *name);
 	struct species *s_store(const char *name, LDBLE z, int replace_if_found);
 public:
+#ifdef SKIP
 	struct ss_assemblage *ss_assemblage_alloc(void);
 	struct ss_assemblage *ss_assemblage_bsearch(int k, int *n);
 protected:
@@ -984,7 +985,7 @@ protected:
 	int ss_assemblage_delete(int n_user_old);
 public:
 	int ss_assemblage_free(struct ss_assemblage *ss_assemblage_ptr);
-protected:
+
 	int ss_assemblage_init(struct ss_assemblage *ss_assemblage_ptr,
 		int n_user, int n_user_end, char *description);
 	int ss_assemblage_ptr_to_user(struct ss_assemblage *ss_assemblage_ptr_old,
@@ -995,6 +996,8 @@ protected:
 	struct ss_assemblage *ss_assemblage_search(int n_user, int *n);
 	int ss_assemblage_sort(void);
 	static int s_s_compare(const void *ptr1, const void *ptr2);
+#endif
+protected:
 	struct save_values *save_values_bsearch(struct save_values *k, int *n);
 	static int save_values_compare(const void *ptr1, const void *ptr2);
 	int save_values_sort(void);
@@ -1115,8 +1118,8 @@ public:
 	//struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
 	struct solution * cxxSolution2solution(const cxxSolution * sol);
 	struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
-	struct ss_assemblage * cxxSSassemblage2ss_assemblage(const cxxSSassemblage * ss);
-	struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSS > * sscomp);
+	//struct ss_assemblage * cxxSSassemblage2ss_assemblage(const cxxSSassemblage * ss);
+	//struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSS > * sscomp);
 	struct surface * cxxSurface2surface(const cxxSurface * surf);
 	struct surface_comp * cxxSurfaceComp2surface_comp(const std::map < std::string, cxxSurfaceComp > * sc);
 	struct surface_charge * cxxSurfaceCharge2surface_charge(const std::map < std::string, cxxSurfaceCharge > * s_ch);
@@ -1160,7 +1163,8 @@ public:
 	int add_logks(struct logk *logk_ptr, int repeats);
 	LDBLE halve(LDBLE f(LDBLE x, void *), LDBLE x0, LDBLE x1, LDBLE tol);
 	int replace_solids_gases(void);
-	int s_s_prep(LDBLE t, struct s_s *s_s_ptr, int print);
+	//int s_s_prep(LDBLE t, struct s_s *s_s_ptr, int print);
+	int ss_prep(LDBLE t, cxxSS *ss_ptr, int print);
 	int select_log_k_expression(LDBLE * source_k, LDBLE * target_k);
 	int slnq(int n, LDBLE * a, LDBLE * delta, int ncols, int print);
 public:
@@ -1195,7 +1199,7 @@ public:
 	int scan(LDBLE f(LDBLE x, void *), LDBLE * xx0, LDBLE * xx1);
 	static LDBLE f_spinodal(LDBLE x, void *);
 	int solve_misc(LDBLE * xxc1, LDBLE * xxc2, LDBLE tol);
-	int s_s_calc_a0_a1(struct s_s *s_s_ptr);
+	int ss_calc_a0_a1(cxxSS *ss_ptr);
 
 	// transport.cpp -------------------------------
 	int transport(void);
@@ -1406,10 +1410,10 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Solid solution
 	*---------------------------------------------------------------------- */
-
-	int count_ss_assemblage;
-	int max_ss_assemblage;
-	struct ss_assemblage *ss_assemblage;
+	std::map<int, cxxSSassemblage> Rxn_ss_assemblage_map;
+	//int count_ss_assemblage;
+	//int max_ss_assemblage;
+	//struct ss_assemblage *ss_assemblage;
 	/*----------------------------------------------------------------------
 	*   Pure-phase assemblage
 	*---------------------------------------------------------------------- */
@@ -1644,7 +1648,7 @@ protected:
 	struct unknown *surface_unknown;
 	struct unknown *gas_unknown;
 	struct unknown *slack_unknown;
-	struct unknown *s_s_unknown;
+	struct unknown *ss_unknown;
 	std::vector<struct unknown *> gas_unknowns;
 	/*----------------------------------------------------------------------
 	*   Reaction work space
@@ -1909,7 +1913,7 @@ public:
 	N_Vector kinetics_y, kinetics_abstol;
 	void *kinetics_cvode_mem;
 	//struct pp_assemblage *cvode_pp_assemblage_save;
-	struct ss_assemblage *cvode_ss_assemblage_save;
+	cxxSSassemblage *cvode_ss_assemblage_save;
 	cxxPPassemblage *cvode_pp_assemblage_save;
 	LDBLE *m_original;
 	LDBLE *m_temp;
