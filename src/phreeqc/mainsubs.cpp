@@ -10,6 +10,7 @@
 #include "GasPhase.h"
 #include "Reaction.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
 
 #if defined(WINDOWS) || defined(_WINDOWS)
 #include <windows.h>
@@ -71,7 +72,7 @@ initialize(void)
 	max_surface = MAX_PP_ASSEMBLAGE;
 	//max_gas_phase = MAX_PP_ASSEMBLAGE;
 	max_kinetics = MAX_PP_ASSEMBLAGE;
-	max_ss_assemblage = MAX_PP_ASSEMBLAGE;
+	//max_ss_assemblage = MAX_PP_ASSEMBLAGE;
 
 	max_elements = MAX_ELEMENTS;
 	max_elts = MAX_ELTS;
@@ -91,7 +92,7 @@ initialize(void)
 	count_surface = 0;
 	//count_gas_phase = 0;
 	count_kinetics = 0;
-	count_ss_assemblage = 0;
+	//count_ss_assemblage = 0;
 
 	count_elements = 0;
 	//count_irrev = 0;
@@ -160,8 +161,8 @@ initialize(void)
 	space((void **) ((void *) &kinetics), INIT, &max_kinetics,
 		  sizeof(struct kinetics));
 
-	space((void **) ((void *) &ss_assemblage), INIT, &max_ss_assemblage,
-		  sizeof(struct ss_assemblage));
+	//space((void **) ((void *) &ss_assemblage), INIT, &max_ss_assemblage,
+	//	  sizeof(struct ss_assemblage));
 
 	space((void **) ((void *) &cell_data), INIT, &count_cells,
 		  sizeof(struct cell_data));
@@ -705,7 +706,7 @@ initialize(void)
 	solution_phase_boundary_unknown = NULL;
 	surface_unknown = NULL;
 	gas_unknown = NULL;
-	s_s_unknown = NULL;
+	ss_unknown = NULL;
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
 	{
 		trxn.logk[i] = 0;
@@ -1006,10 +1007,11 @@ set_use(void)
  */
 	if (use.Get_ss_assemblage_in() == TRUE)
 	{
-		int n_ss_assemblage_user;
-		use.Set_ss_assemblage_ptr(
-			ss_assemblage_bsearch(use.Get_n_ss_assemblage_user(),
-								   &n_ss_assemblage_user));
+		//int n_ss_assemblage_user;
+		//use.Set_ss_assemblage_ptr(
+		//	ss_assemblage_bsearch(use.Get_n_ss_assemblage_user(),
+		//						   &n_ss_assemblage_user));
+		use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, use.Get_n_ss_assemblage_user()));
 		if (use.Get_ss_assemblage_ptr() == NULL)
 		{
 			error_string = sformatf( "ss_assemblage %d not found.",
@@ -1648,11 +1650,12 @@ saver(void)
 	{
 		n = save.n_ss_assemblage_user;
 		xss_assemblage_save(n);
-		for (i = save.n_ss_assemblage_user + 1;
-			 i <= save.n_ss_assemblage_user_end; i++)
-		{
-			ss_assemblage_duplicate(n, i);
-		}
+		Utilities::Rxn_copies(Rxn_ss_assemblage_map, save.n_ss_assemblage_user, save.n_ss_assemblage_user_end);
+		//for (i = save.n_ss_assemblage_user + 1;
+		//	 i <= save.n_ss_assemblage_user_end; i++)
+		//{
+		//	ss_assemblage_duplicate(n, i);
+		//}
 	}
 	if (save.kinetics == TRUE && use.Get_kinetics_in() == TRUE
 	    /*&& use.Get_kinetics_ptr() != NULL */)
@@ -1824,6 +1827,53 @@ xss_assemblage_save(int n_user)
  *   Save ss_assemblage composition into structure ss_assemblage with user 
  *   number n_user.
  */
+	//int i, j, n;
+	//int count_comps, count_s_s;
+	cxxSSassemblage temp_ss_assemblage;
+	//char token[MAX_LENGTH];
+
+	if (use.Get_ss_assemblage_ptr() == NULL)
+		return (OK);
+/*
+ *   Set ss_assemblage
+ */
+	temp_ss_assemblage.Set_n_user(n_user);
+	temp_ss_assemblage.Set_n_user_end(n_user);
+	std::ostringstream msg;
+	msg << "Solid solution assemblage after simulation " << simulation;
+	temp_ss_assemblage.Set_description(msg.str().c_str());
+	temp_ss_assemblage.Set_new_def(false);
+	temp_ss_assemblage.Set_SSs(use.Get_ss_assemblage_ptr()->Get_SSs());
+
+	std::vector<cxxSS *> ss_ptrs = temp_ss_assemblage.Vectorize();
+	for (size_t i = 0; i < ss_ptrs.size(); i++)
+	{
+		cxxSS *ss_ptr = ss_ptrs[i];
+		/* set initial moles for quick setup */
+		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
+		{
+			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
+			comp_ptr->Set_initial_moles(comp_ptr->Get_moles());
+		}
+	}
+/*
+ *   Finish up
+ */
+	Rxn_ss_assemblage_map[n_user] = temp_ss_assemblage;
+
+	use.Set_ss_assemblage_ptr(NULL);
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+xss_assemblage_save(int n_user)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Save ss_assemblage composition into structure ss_assemblage with user 
+ *   number n_user.
+ */
 	int i, j, n;
 	int count_comps, count_s_s;
 	struct ss_assemblage temp_ss_assemblage, *ss_assemblage_ptr;
@@ -1904,6 +1954,7 @@ xss_assemblage_save(int n_user)
 	use.Set_ss_assemblage_ptr(NULL);
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 xpp_assemblage_save(int n_user)
@@ -2727,7 +2778,8 @@ copy_use(int i)
  */
 	if (use.Get_ss_assemblage_in() == TRUE)
 	{
-		ss_assemblage_duplicate(use.Get_n_ss_assemblage_user(), i);
+		//ss_assemblage_duplicate(use.Get_n_ss_assemblage_user(), i);
+		Utilities::Rxn_copy(Rxn_ss_assemblage_map, use.Get_n_ss_assemblage_user(), i);
 		save.ss_assemblage = TRUE;
 		save.n_ss_assemblage_user = i;
 		save.n_ss_assemblage_user_end = i;
@@ -3185,16 +3237,16 @@ copy_entities(void)
 	{
 		for (j = 0; j < copy_ss_assemblage.count; j++)
 		{
-			if (ss_assemblage_bsearch(copy_ss_assemblage.n_user[j], &n) !=
-				NULL)
+			//if (ss_assemblage_bsearch(copy_ss_assemblage.n_user[j], &n) != NULL)
+			if (Utilities::Rxn_find(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j]) != NULL)
 			{
 				for (i = copy_ss_assemblage.start[j];
 					i <= copy_ss_assemblage.end[j]; i++)
 				{
 					if (i == copy_ss_assemblage.n_user[j])
 						continue;
-					ss_assemblage_duplicate(copy_ss_assemblage.n_user[j],
-						i);
+					//ss_assemblage_duplicate(copy_ss_assemblage.n_user[j], i);
+					Utilities::Rxn_copy(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j], i);
 				}
 			}
 			else

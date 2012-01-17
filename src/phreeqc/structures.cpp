@@ -5679,10 +5679,10 @@ unknown_alloc(void)
 	unknown_ptr->s = NULL;
 	unknown_ptr->exch_comp = NULL;
 	//unknown_ptr->pure_phase = NULL;
-	unknown_ptr->s_s = NULL;
-	unknown_ptr->s_s_comp = NULL;
-	unknown_ptr->s_s_comp_number = 0;
-	unknown_ptr->s_s_in = FALSE;
+	unknown_ptr->ss_name = NULL;
+	unknown_ptr->ss_comp_name = NULL;
+	unknown_ptr->ss_comp_number = 0;
+	unknown_ptr->ss_in = FALSE;
 	unknown_ptr->surface_comp = NULL;
 	unknown_ptr->related_moles = 0.0;
 	unknown_ptr->potential_unknown = NULL;
@@ -5764,8 +5764,10 @@ system_duplicate(int i, int save_old)
 
 	if (kinetics_bsearch(i, &n) != NULL)
 		kinetics_duplicate(i, save_old);
-	if (ss_assemblage_bsearch(i, &n) != NULL)
-		ss_assemblage_duplicate(i, save_old);
+
+	Utilities::Rxn_copy(Rxn_ss_assemblage_map, i, save_old);
+	//if (ss_assemblage_bsearch(i, &n) != NULL)
+	//	ss_assemblage_duplicate(i, save_old);
 	return (OK);
 }
 
@@ -6045,10 +6047,16 @@ entity_exists(char *name, int n_user)
 		}
 		break;
 	case Ss_phase:				/* solid_solutions */
+		if (Utilities::Rxn_find(Rxn_ss_assemblage_map, n_user) == NULL)
+		{
+			return_value = FALSE;
+		}
+#ifdef SKIP
 		if (ss_assemblage_bsearch(n_user, &i) == NULL)
 		{
 			return_value = FALSE;
 		}
+#endif
 		break;
 	}
 	return (return_value);
@@ -6507,7 +6515,7 @@ cxxSSassemblageSS2s_s(const std::map < std::string, cxxSS > * sscomp)
 		s_s_ptr[j].ag1 = (*it).second.Get_ag1();
 		//s_s_ptr[j].ag0                                         = 0;
 		//s_s_ptr[j].ag1                                         = 0;
-		s_s_ptr[j].s_s_in = TRUE;
+		s_s_ptr[j].ss_in = TRUE;
 		s_s_ptr[j].miscibility = (*it).second.Get_miscibility();
 		//s_s_ptr[j].spinodal                                    = it->spinodal;
 		s_s_ptr[j].spinodal = FALSE;
@@ -7292,6 +7300,14 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb, int n)
 #endif
 	// SSassemblages
 	{
+		std::map < int, cxxSSassemblage >::const_iterator it = sb.Get_SSassemblages().find(n);
+		if (it != sb.Get_SSassemblages().end())
+		{
+			Rxn_ss_assemblage_map[n] = it->second;
+		}
+	}
+#ifdef SKIP
+	{
 		std::map < int, cxxSSassemblage >::const_iterator it =
 			sb.Get_SSassemblages().find(n);
 		if (it != sb.Get_SSassemblages().end())
@@ -7302,7 +7318,7 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb, int n)
 			ss_assemblage_ptr = (struct ss_assemblage *) free_check_null(ss_assemblage_ptr);
 		}
 	}
-
+#endif
 	// Surfaces
 	{
 		std::map < int, cxxSurface >::const_iterator it = sb.Get_Surfaces().find(n);
@@ -7424,13 +7440,21 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb)
 		std::map < int, cxxSSassemblage >::const_iterator it = sb.Get_SSassemblages().begin();
 		for ( ; it != sb.Get_SSassemblages().end(); it++)
 		{
+			Rxn_ss_assemblage_map[it->first] = it->second;
+		}
+	}
+#ifdef SKIP
+	{
+		std::map < int, cxxSSassemblage >::const_iterator it = sb.Get_SSassemblages().begin();
+		for ( ; it != sb.Get_SSassemblages().end(); it++)
+		{
 			struct ss_assemblage *ss_assemblage_ptr = cxxSSassemblage2ss_assemblage(&(it->second));
 			ss_assemblage_ptr_to_user(ss_assemblage_ptr, it->first);
 			ss_assemblage_free(ss_assemblage_ptr);
 			ss_assemblage_ptr = (struct ss_assemblage *) free_check_null(ss_assemblage_ptr);
 		}
 	}
-
+#endif
 	// Surfaces
 	{
 		std::map < int, cxxSurface >::const_iterator it = sb.Get_Surfaces().begin();

@@ -13,6 +13,7 @@
 #include "phqalloc.h"
 #include "PBasic.h"
 #include "Temperature.h"
+#include "SSassemblage.h"
 
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
@@ -245,13 +246,23 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 
 	// solid-solutions
+	{
+		std::map<int, cxxSSassemblage>::const_iterator cit = Rxn_ss_assemblage_map.begin();
+		for (; cit !=  Rxn_ss_assemblage_map.end(); cit++)
+		{
+			cxxSSassemblage entity = cit->second;
+			entity.totalize(this);
+			accumulator.add_extensive(entity.Get_totals(), 1.0);
+		}
+	}
+#ifdef SKIP
 	for (i = 0; i < count_ss_assemblage; i++)
 	{
 		cxxSSassemblage entity(&ss_assemblage[i]);
 		entity.totalize(this);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
-
+#endif
 	// kinetics
 	for (i = 0; i < count_kinetics; i++)
 	{
@@ -334,7 +345,7 @@ void Phreeqc::init(void)
 	max_surface				= MAX_PP_ASSEMBLAGE;
 	//max_gas_phase			= MAX_PP_ASSEMBLAGE;
 	max_kinetics			= MAX_PP_ASSEMBLAGE;
-	max_ss_assemblage		= MAX_PP_ASSEMBLAGE;
+	//max_ss_assemblage		= MAX_PP_ASSEMBLAGE;
 
 	max_elements			= MAX_ELEMENTS;
 	max_elts				= MAX_ELTS;
@@ -354,7 +365,7 @@ void Phreeqc::init(void)
 	count_surface				= 0;
 	//count_gas_phase			= 0;
 	count_kinetics			 = 0;
-	count_ss_assemblage = 0;
+	//count_ss_assemblage = 0;
 
 	count_elements			 = 0;
 	//count_irrev					= 0;
@@ -406,7 +417,7 @@ void Phreeqc::init(void)
 	surface				= 0;
 	//gas_phase			= 0;
 	kinetics			 = 0;
-	ss_assemblage = 0;
+	//ss_assemblage = 0;
 	cell_data			= 0;
 	elements			 = 0;
 	elt_list			 = 0;
@@ -706,7 +717,7 @@ void Phreeqc::init(void)
 	}
 	pitzer_pe = FALSE;
 
-	count_pp = count_pg = count_s_s = 0; // used in store_get_equi_reactants
+	count_pp = count_pg = count_ss = 0; // used in store_get_equi_reactants
 	/*
 	 *	SIT
 	 */

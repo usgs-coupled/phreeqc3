@@ -773,7 +773,8 @@ jacobian_sit(void)
 	LDBLE *base;
 	LDBLE d, d1, d2;
 	int i, j;
-
+Restart:
+	int pz_max_unknowns = max_unknowns;
 	if (full_pitzer == TRUE)
 	{
 		molalities(TRUE);
@@ -850,6 +851,11 @@ jacobian_sit(void)
 			break;
 		}
 		molalities(TRUE);
+		if (max_unknowns > pz_max_unknowns) 
+		{
+		  base = (LDBLE *) free_check_null(base);
+		  goto Restart;
+		}
 		if (full_pitzer == TRUE)
 			sit();
 		mb_sums();
@@ -923,7 +929,7 @@ model_sit(void)
  *      molalities--calculate molalities
  *      mb_sums--calculate mass-balance sums
  *      mb_gases--decide if gas_phase exists
- *      mb_s_s--decide if solid_solutions exists
+ *      mb_ss--decide if solid_solutions exists
  *      switch_bases--check to see if new basis species is needed
  *         reprep--rewrite equations with new basis species if needed
  *         sit_revise_guesses--revise unknowns to get initial mole balance
@@ -968,7 +974,7 @@ model_sit(void)
 	for (;;)
 	{
 		mb_gases();
-		mb_s_s();
+		mb_ss();
 		l_kode = 1;
 		while ((r = residuals()) != CONVERGED
 			   || remove_unstable_phases == TRUE)
@@ -1057,7 +1063,7 @@ model_sit(void)
 				initial_surface_water();
 			mb_sums();
 			mb_gases();
-			mb_s_s();
+			mb_ss();
 			/* debug
 			   species_list_sort();
 			   sum_species();

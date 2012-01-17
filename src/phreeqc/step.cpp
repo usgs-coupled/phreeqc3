@@ -14,6 +14,7 @@
 #include "GasPhase.h"
 #include "Reaction.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -31,7 +32,7 @@ step(LDBLE step_fraction)
 	LDBLE difftemp;
 	int step_number;
 	cxxPPassemblage *pp_assemblage_save = NULL;
-	struct ss_assemblage *ss_assemblage_save = NULL;
+	cxxSSassemblage *ss_assemblage_save = NULL;
 /*
  *   Zero out global solution data
  */
@@ -65,7 +66,7 @@ step(LDBLE step_fraction)
 	if (use.Get_reaction_ptr() != NULL)
 	{
 		//add_reaction(use.irrev_ptr, step_number, step_fraction);
-		add_reaction( (cxxReaction *)use.Get_reaction_ptr(), step_number, step_fraction);
+		add_reaction( use.Get_reaction_ptr(), step_number, step_fraction);
 	}
 /*
  *   Kinetics
@@ -150,6 +151,12 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
+		ss_assemblage_save = new cxxSSassemblage(*use.Get_ss_assemblage_ptr());
+		add_ss_assemblage(use.Get_ss_assemblage_ptr());
+	}
+#ifdef SKIP
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
 		ss_assemblage_save =
 			(struct ss_assemblage *)
 			PHRQ_malloc(sizeof(struct ss_assemblage));
@@ -159,6 +166,7 @@ step(LDBLE step_fraction)
 							use.Get_ss_assemblage_ptr()->n_user);
 		add_ss_assemblage(use.Get_ss_assemblage_ptr());
 	}
+#endif
 /*
  *   Check that elements are available for gas components,
  *   pure phases, and solid solutions
@@ -190,6 +198,12 @@ step(LDBLE step_fraction)
 		}
 		if (use.Get_ss_assemblage_ptr() != NULL)
 		{
+			Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
+			use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
+		}
+#ifdef SKIP
+		if (use.Get_ss_assemblage_ptr() != NULL)
+		{
 			ss_assemblage_free(use.Get_ss_assemblage_ptr());
 			ss_assemblage_copy(ss_assemblage_save, use.Get_ss_assemblage_ptr(),
 								use.Get_ss_assemblage_ptr()->n_user);
@@ -198,6 +212,7 @@ step(LDBLE step_fraction)
 				(struct ss_assemblage *)
 				free_check_null(ss_assemblage_save);
 		}
+#endif
 		return (MASS_BALANCE);
 	}
 /*
@@ -217,12 +232,12 @@ step(LDBLE step_fraction)
 		delete pp_assemblage_save;
 		pp_assemblage_save = NULL;
 	}
-	if (ss_assemblage_save != NULL)
-	{
-		ss_assemblage_free(ss_assemblage_save);
-		ss_assemblage_save =
-			(struct ss_assemblage *) free_check_null(ss_assemblage_save);
-	}
+	//if (ss_assemblage_save != NULL)
+	//{
+	//	ss_assemblage_free(ss_assemblage_save);
+	//	ss_assemblage_save =
+	//		(struct ss_assemblage *) free_check_null(ss_assemblage_save);
+	//}
 
 	//
 	// Solution -1 has sum of solution/mix, exchange, surface, gas_phase
@@ -239,14 +254,11 @@ step(LDBLE step_fraction)
 		sys_bin.Set_Solution(-1, soln);
 		if (use.Get_pp_assemblage_in())
 		{
-			//cxxPPassemblage pp(use.Get_pp_assemblage_ptr(), phrq_io);
-			cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
-			sys_bin.Set_PPassemblage(-1, *pp_assemblage_ptr);
+			sys_bin.Set_PPassemblage(-1, use.Get_pp_assemblage_ptr());
 		}
 		if (use.Get_ss_assemblage_in())
 		{
-			cxxSSassemblage ss(use.Get_ss_assemblage_ptr());
-			sys_bin.Set_SSassemblage(-1, ss);
+			sys_bin.Set_SSassemblage(-1, *use.Get_ss_assemblage_ptr());
 		}
 		sys_bin.Set_System(-1);
 		sys_bin.Get_System().totalize(PHREEQC_THIS);
@@ -277,15 +289,18 @@ step(LDBLE step_fraction)
 		}
 		if (use.Get_ss_assemblage_in())
 		{
-			cxxSSassemblage *ss = sys_bin.Get_SSassemblage(-1);
-			std::map <std::string, cxxSS>::const_iterator it; 
-			for (it = ss->Get_ssAssemblageSSs().begin(); it != ss->Get_ssAssemblageSSs().end(); it++)
+			cxxSSassemblage *ss_assemblage_ptr = sys_bin.Get_SSassemblage(-1);
+			std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
+			for (size_t j = 0; j < ss_ptrs.size(); j++)
+			//for (it = ss->Get_ssAssemblageSSs().begin(); it != ss->Get_ssAssemblageSSs().end(); it++)
 			{
-				cxxNameDouble::const_iterator comp_it;
-				for (comp_it = (it->second).Get_comps().begin(); comp_it != (it->second).Get_comps().end(); comp_it++)
+				cxxSS * ss_ptr = ss_ptrs[j];
+				for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
 				{
+					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 					int n;
-					struct phase *p_ptr = phase_bsearch((comp_it->first).c_str(), &n, FALSE);
+					struct phase *p_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &n, FALSE);
+
 					struct elt_list *e_ptr;
 					LDBLE min = 1e10;
 					for (e_ptr = p_ptr->next_elt; e_ptr->elt != NULL; e_ptr++)
@@ -1261,7 +1276,109 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_ss_assemblage(struct ss_assemblage *ss_assemblage_ptr)
+add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Accumulate solid_solution data in master->totals and _x variables.
+ */
+	int i, j, k;
+	LDBLE amount_to_add, total;
+	//struct s_s *s_s_ptr;
+	struct master *master_ptr;
+	//char token[MAX_LENGTH];
+	char *ptr;
+
+	if (ss_assemblage_ptr == NULL)
+		return (OK);
+	count_elts = 0;
+	paren_count = 0;
+/*
+ *   Check that all elements are in solution for phases with greater than zero mass
+ */
+	std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
+	for (i = 0; i < (int) ss_ptrs.size(); i++)
+	{
+		cxxSS * ss_ptr = ss_ptrs[i];
+		count_elts = 0;
+		paren_count = 0;
+		for (j = 0; j < (int) ss_ptr->Get_ss_comps().size(); j++)
+		{
+			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
+			int l;
+			struct phase * phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+
+			amount_to_add = 0.0;
+			comp_ptr->Set_delta(0.0);
+			if (comp_ptr->Get_moles() > 0.0)
+			{
+				//strcpy(token, s_s_ptr->comps[j].phase->formula);
+				char * token = string_duplicate(phase_ptr->formula);
+				ptr = &(token[0]);
+				get_elts_in_species(&ptr, 1.0);
+				free_check_null(token);
+				for (k = 0; k < count_elts; k++)
+				{
+					master_ptr = elt_list[k].elt->primary;
+					if (master_ptr->s == s_hplus)
+					{
+						continue;
+					}
+					else if (master_ptr->s == s_h2o)
+					{
+						continue;
+					}
+					else if (master_ptr->total > MIN_TOTAL_SS)
+					{
+						continue;
+					}
+					else
+					{
+						total =
+							(-master_ptr->total + 1e-10) / elt_list[k].coef;
+						if (amount_to_add < total)
+						{
+							amount_to_add = total;
+						}
+					}
+				}
+			}
+			if (comp_ptr->Get_moles() < amount_to_add)
+			{
+				amount_to_add = comp_ptr->Get_moles();
+			}
+			if (amount_to_add > 0.0)
+			{
+				comp_ptr->Set_moles(comp_ptr->Get_moles() - amount_to_add);
+				comp_ptr->Set_delta(amount_to_add);
+/*
+ *   Add reaction to totals
+ */
+				for (k = 0; k < count_elts; k++)
+				{
+					master_ptr = elt_list[k].elt->primary;
+					if (master_ptr->s == s_hplus)
+					{
+						total_h_x += elt_list[k].coef * amount_to_add;
+					}
+					else if (master_ptr->s == s_h2o)
+					{
+						total_o_x += elt_list[k].coef * amount_to_add;
+					}
+					else
+					{
+						master_ptr->total += elt_list[k].coef * amount_to_add;
+					}
+				}
+			}
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1353,7 +1470,7 @@ add_ss_assemblage(struct ss_assemblage *ss_assemblage_ptr)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 add_kinetics(struct kinetics *kinetics_ptr)
@@ -1629,6 +1746,83 @@ pp_assemblage_check(struct pp_assemblage *pp_assemblage_ptr)
 	return (OK);
 }
 #endif
+
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Check for missing elements
+ */
+	int j, k;
+	struct master *master_ptr;
+
+	if (ss_assemblage_ptr == NULL)
+		return (OK);
+/*
+ *   Check that all elements are in solution for phases with zero mass
+ */
+	std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
+	for (j = 0; j < (int) ss_ptrs.size(); j++)
+	{
+		cxxSS * ss_ptr = ss_ptrs[j];
+		for (k = 0; k < (int) ss_ptr->Get_ss_comps().size(); k++)
+		{
+			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+			int l;
+			struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			count_elts = 0;
+			paren_count = 0;
+			if (comp_ptr->Get_moles() <= 0.0)
+			{
+				add_elt_list(phase_ptr->next_elt, 1.0);
+				for (l = 0; l < count_elts; l++)
+				{
+					master_ptr = elt_list[l].elt->primary;
+					if (master_ptr->s == s_hplus)
+					{
+						continue;
+					}
+					else if (master_ptr->s == s_h2o)
+					{
+						continue;
+					}
+					else if (master_ptr->total > MIN_TOTAL_SS)
+					{
+						continue;
+					}
+					else
+					{
+						if (state != ADVECTION && state != TRANSPORT
+							&& state != PHAST)
+						{
+							error_string = sformatf(
+									"Element %s is contained in solid solution %s (which has 0.0 mass),\nbut is not in solution or other phases.",
+									elt_list[l].elt->name,
+									phase_ptr->name);
+							warning_msg(error_string);
+						}
+					}
+					/*
+					 *   Make la's of all master species for the element small, 
+					 *   so SI will be small
+					 *   and no mass transfer will be calculated
+					 */
+					for (k = 0; k < count_master; k++)
+					{
+						if (master[k]->elt->primary == master_ptr)
+						{
+							master[k]->s->la = -9999.999;
+						}
+					}
+				}
+			}
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 ss_assemblage_check(struct ss_assemblage *ss_assemblage_ptr)
@@ -1701,7 +1895,7 @@ ss_assemblage_check(struct ss_assemblage *ss_assemblage_ptr)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 solution_check(void)

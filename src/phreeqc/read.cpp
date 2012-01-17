@@ -276,7 +276,8 @@ read_input(void)
 			read_kinetics_raw();
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_RAW:
-			read_solid_solutions_raw();
+			//read_solid_solutions_raw();
+			Utilities::Rxn_read_raw(Rxn_ss_assemblage_map, this);
 			break;
 		case Keywords::KEY_GAS_PHASE_RAW:		
 			//read_gas_phase_raw();
@@ -312,7 +313,7 @@ read_input(void)
 			read_surface_modify();
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_MODIFY:
-			read_solid_solutions_modify();
+			Utilities::Rxn_read_modify(Rxn_ss_assemblage_map, this);
 			break;
 		case Keywords::KEY_GAS_PHASE_MODIFY:
 			//read_gas_phase_modify();
@@ -335,9 +336,6 @@ read_input(void)
 		//	keyword[LAST_C_KEYWORD + 22].keycount++;
 		//	read_reaction_temperature_modify();
 		//	break;
-		case Keywords::KEY_SOLID_SOLUTION_MODIFY:
-			read_solid_solutions_modify();
-			break;
 		case Keywords::KEY_REACTION_PRESSURE:
 			read_reaction_pressure();
 			break;
@@ -9733,8 +9731,10 @@ read_solid_solutions(void)
 	}
 
 	// add last ss and clean up 
-	comps.insert(comps.begin(), *comp1_ptr);
-	comps.insert(comps.begin(), *comp0_ptr);
+	if (comp1_ptr)
+		comps.insert(comps.begin(), *comp1_ptr);
+	if (comp0_ptr)
+		comps.insert(comps.begin(), *comp0_ptr);
 	ss_ptr->Set_ss_comps(comps);
 	temp_ss_assemblage.Get_SSs()[ss_ptr->Get_name()] = *ss_ptr;
 	delete ss_ptr;
@@ -10275,7 +10275,7 @@ read_solid_solutions(void)
 			ss_assemblage[n].s_s[number_s_s].a1 = 0.0;
 			ss_assemblage[n].s_s[number_s_s].ag0 = 0.0;
 			ss_assemblage[n].s_s[number_s_s].ag1 = 0.0;
-			ss_assemblage[n].s_s[number_s_s].s_s_in = FALSE;
+			ss_assemblage[n].s_s[number_s_s].ss_in = FALSE;
 			ss_assemblage[n].s_s[number_s_s].miscibility = FALSE;
 			ss_assemblage[n].s_s[number_s_s].spinodal = FALSE;
 			ss_assemblage[n].s_s[number_s_s].tk = 298.15;

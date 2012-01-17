@@ -27,7 +27,7 @@ cxxSSassemblage::cxxSSassemblage(PHRQ_io * io)
 :	cxxNumKeyword(io)
 {
 }
-
+#ifdef SKIP
 cxxSSassemblage::cxxSSassemblage(struct ss_assemblage * ss_assemblage_ptr, PHRQ_io * io)
 	//
 	// constructor for cxxSSassemblage from struct SSassemblage
@@ -43,16 +43,17 @@ cxxNumKeyword(io)
 	{
 		cxxSS ssSS(&(ss_assemblage_ptr->s_s[i]), this->Get_io());
 		std::string str(ssSS.Get_name());
-		ssAssemblageSSs[str] = ssSS;
+		SSs[str] = ssSS;
 	}
 }
+#endif
 cxxSSassemblage::cxxSSassemblage(const std::map < int,
 								 cxxSSassemblage > &entities, cxxMix & mix,
 								 int l_n_user, PHRQ_io * io):
 cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
-	//std::list<cxxSS> ssAssemblageSSs;
+	//std::list<cxxSS> SSs;
 //
 //   Mix
 //
@@ -95,11 +96,11 @@ cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 	// eltList
 	this->eltList.dump_xml(s_oss, indent + 1);
 
-	// ssAssemblageSSs
+	// SSs
 	s_oss << indent1;
 	s_oss << "<pure_phases " << "\n";
 	for (std::list < cxxSS >::const_iterator it =
-		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
+		 SSs.begin(); it != SSs.end(); ++it)
 	{
 		it->dump_xml(s_oss, indent + 2);
 	}
@@ -124,9 +125,9 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
 	s_oss << "SOLID_SOLUTIONS_RAW       " << n_user_local << " " << this->description << "\n";
 
-	// ssAssemblageSSs
+	// SSs
 	for (std::map < std::string, cxxSS >::const_iterator it =
-		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
+		 SSs.begin(); it != SSs.end(); ++it)
 	{
 		s_oss << indent1;
 		s_oss << "-solid_solution" << "\n";
@@ -198,9 +199,9 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				CParser reread(is, this->Get_io());
 				reread.set_echo_file(CParser::EO_NONE);
 				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->ssAssemblageSSs.find(ec.Get_name()) != this->ssAssemblageSSs.end())
+				if (this->SSs.find(ec.Get_name()) != this->SSs.end())
 				{
-					cxxSS & ec1 = this->ssAssemblageSSs.find(ec.Get_name())->second;
+					cxxSS & ec1 = this->SSs.find(ec.Get_name())->second;
 					ec1.read_raw(reread, false);
 				}
 				else
@@ -208,7 +209,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 					cxxSS ec1(this->Get_io());
 					ec1.read_raw(reread, false);
 					std::string str(ec1.Get_name());
-					this->ssAssemblageSSs[str] = ec1;
+					this->SSs[str] = ec1;
 				}
 			}
 			useLastLine = true;
@@ -228,9 +229,9 @@ cxxSSassemblage::mpi_pack(std::vector < int >&ints,
 {
 	/* int n_user; */
 	ints.push_back(this->n_user);
-	ints.push_back((int) this->ssAssemblageSSs.size());
+	ints.push_back((int) this->SSs.size());
 	for (std::map < std::string, cxxSS >::iterator it =
-		 this->ssAssemblageSSs.begin(); it != this->ssAssemblageSSs.end();
+		 this->SSs.begin(); it != this->SSs.end();
 		 it++)
 	{
 		(*it).second.mpi_pack(ints, doubles);
@@ -250,13 +251,13 @@ cxxSSassemblage::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 	this->description = " ";
 
 	int count = ints[i++];
-	this->ssAssemblageSSs.clear();
+	this->SSs.clear();
 	for (int n = 0; n < count; n++)
 	{
 		cxxSS ssc;
 		ssc.mpi_unpack(ints, &i, doubles, &d);
 		std::string str(ssc.get_name());
-		this->ssAssemblageSSs[str] = ssc;
+		this->SSs[str] = ssc;
 	}
 	*ii = i;
 	*dd = d;
@@ -269,7 +270,7 @@ cxxSSassemblage::totalize(PHREEQC_PTR_ARG)
 	this->totals.clear();
 	// component structures
 	for (std::map < std::string, cxxSS >::iterator it =
-		 ssAssemblageSSs.begin(); it != ssAssemblageSSs.end(); ++it)
+		 SSs.begin(); it != SSs.end(); ++it)
 	{
 		(*it).second.totalize(P_INSTANCE);
 		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
@@ -286,12 +287,12 @@ cxxSSassemblage::add(const cxxSSassemblage & addee, LDBLE extensive)
 		return;
 
 	for (std::map < std::string, cxxSS >::const_iterator itadd =
-		 addee.ssAssemblageSSs.begin(); itadd != addee.ssAssemblageSSs.end();
+		 addee.SSs.begin(); itadd != addee.SSs.end();
 		 ++itadd)
 	{
 		std::map < std::string, cxxSS >::iterator it =
-			this->ssAssemblageSSs.find((*itadd).first);
-		if (it != this->ssAssemblageSSs.end())
+			this->SSs.find((*itadd).first);
+		if (it != this->SSs.end())
 		{
 			(*it).second.add((*itadd).second, extensive);
 		}
@@ -300,8 +301,28 @@ cxxSSassemblage::add(const cxxSSassemblage & addee, LDBLE extensive)
 			cxxSS entity = (*itadd).second;
 			entity.multiply(extensive);
 			std::string str(entity.Get_name());
-			this->ssAssemblageSSs[str] = entity;
+			this->SSs[str] = entity;
 		}
 	}
 }
 
+std::vector<cxxSS *> cxxSSassemblage::
+Vectorize(void)
+{
+	std::vector<cxxSS *> ss_v;
+	std::map<std::string, cxxSS>::iterator it;
+	for (it = this->SSs.begin(); it != this->SSs.end(); it++)
+	{
+		ss_v.push_back(&(it->second));
+	}
+	return ss_v;
+}
+cxxSS * cxxSSassemblage::
+Find(const std::string &s)
+{
+	std::map<std::string, cxxSS>::iterator it;
+	it = this->SSs.find(s);
+	if (it != this->SSs.end())
+		return &(it->second);
+	return NULL;
+}

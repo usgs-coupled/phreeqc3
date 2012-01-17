@@ -4,6 +4,8 @@
 #include "Exchange.h"
 #include "GasPhase.h"
 #include "PPassemblage.h"
+#include "SSassemblage.h"
+
 #define ZERO_TOL 1.0e-30
 
 /* ---------------------------------------------------------------------- */
@@ -165,11 +167,12 @@ tidy_model(void)
 	}
 #endif
 /* solid solutions */
+#ifdef SKIP
 	if (new_ss_assemblage)
 	{
 		ss_assemblage_sort();
 	}
-
+#endif
 /* surfaces */
 	if (new_surface)
 	{
@@ -1726,6 +1729,204 @@ int Phreeqc::
 tidy_ss_assemblage(void)
 /* ---------------------------------------------------------------------- */
 {
+	struct phase *phase_ptr;
+	LDBLE nb, nc, n_tot, xb, xc, dnb, dnc, l_a0, l_a1;
+	LDBLE xb2, xb3, xb4, xc2, xc3;
+	LDBLE moles;
+/*
+ *   Find pointers for pure phases
+ */
+	std::map<int, cxxSSassemblage>::iterator it;
+	for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
+	{
+		count_elts = 0;
+		paren_count = 0;
+		cxxSSassemblage *ss_assemblage_ptr = &(it->second);
+		std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
+		for (size_t j = 0; j < ss_ptrs.size(); j++)
+		{
+			cxxSS *ss_ptr = ss_ptrs[j];
+			for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
+			{
+				cxxSScomp * comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+				int k1;
+				phase_ptr =	phase_bsearch(comp_ptr->Get_name().c_str(), &k1, FALSE);
+				if (phase_ptr == NULL)
+				{
+					input_error++;
+					error_string = sformatf(
+							"Phase not found in data base, %s, assemblage %d.",
+							comp_ptr->Get_name().c_str(),
+							ss_assemblage_ptr->Get_n_user());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				else
+				{
+					//ss_assemblage[i].s_s[j].comps[k].phase = phase_ptr;
+					phase_ptr->moles_x = 0;
+					phase_ptr->fraction_x = 0;
+				}
+				if (comp_ptr->Get_moles() == NAN)
+				{
+					input_error++;
+					error_string = sformatf(
+							"Moles of solid solution component not defined, %s, assemblage %d.",
+							comp_ptr->Get_name().c_str(),
+							ss_assemblage_ptr->Get_n_user());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+			}
+
+			if (ss_assemblage_ptr->Get_new_def())
+			{
+				/*
+				 *  Calculate a0 and a1 first
+				 */
+				ss_calc_a0_a1(ss_ptr);
+				
+				n_tot = 0;
+				for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
+				{
+					cxxSScomp * comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+					moles = comp_ptr->Get_moles();
+					if (moles <= 0.0)
+					{
+						moles = MIN_TOTAL_SS;
+						comp_ptr->Set_initial_moles(moles);
+					}
+					n_tot += moles;
+				}
+
+				for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
+				{
+					cxxSScomp * comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+					moles = comp_ptr->Get_moles();
+					if (moles <= 0.0)
+					{
+						moles = MIN_TOTAL_SS;
+					}
+					comp_ptr->Set_fraction_x(moles / n_tot);
+					comp_ptr->Set_log10_fraction_x(log10(moles / n_tot));
+				}
+				l_a0 = ss_ptr->Get_a0();
+				l_a1 = ss_ptr->Get_a1();
+
+/*
+ *   Binary solid solution
+ */
+				if (l_a0 != 0.0 || l_a1 != 0)
+				{
+					ss_ptr->Set_dn(1.0 / n_tot);
+					nc = ss_ptr->Get_ss_comps()[0].Get_moles();
+					//nc = ss_assemblage[i].s_s[j].comps[0].moles;
+					if (nc == 0)
+						nc = MIN_TOTAL_SS;
+					nb = ss_ptr->Get_ss_comps()[1].Get_moles();
+					if (nb == 0)
+						nb = MIN_TOTAL_SS;
+					xc = nc / n_tot;
+					xb = nb / n_tot;
+
+					/* lambdas */
+					ss_ptr->Get_ss_comps()[0].Set_log10_lambda(xb * xb * (l_a0 - l_a1 * (3 - 4 * xb)) / LOG_10);
+					//ss_assemblage[i].s_s[j].comps[0].log10_lambda =
+					//	xb * xb * (l_a0 - l_a1 * (3 - 4 * xb)) / LOG_10;
+					ss_ptr->Get_ss_comps()[1].Set_log10_lambda(xc * xc * (l_a0 + l_a1 * (4 * xb - 1)) / LOG_10);
+					//ss_assemblage[i].s_s[j].comps[1].log10_lambda =
+					//	xc * xc * (l_a0 + l_a1 * (4 * xb - 1)) / LOG_10;
+
+					/* derivatives wrt nc and nb */
+					xc2 = xc * xc;
+					xc3 = xc2 * xc;
+					xb2 = xb * xb;
+					xb3 = xb2 * xb;
+					xb4 = xb3 * xb;
+
+					/* component 1 */
+					dnb =
+						-2 * l_a0 * xb * xc2 - 8 * l_a1 * xb2 * xc2 +
+						6 * l_a1 * xb * xc2 - 4 * l_a1 * xc * xb4 -
+						8 * l_a1 * xb3 * xc2 - 4 * l_a1 * xb2 * xc3 -
+						2 * l_a0 * xc * xb2 - 8 * l_a1 * xc * xb3 +
+						6 * l_a1 * xc * xb2 + 1;
+					ss_ptr->Get_ss_comps()[0].Set_dnb(dnb / n_tot);
+					//ss_assemblage[i].s_s[j].comps[0].dnb = dnb / n_tot;
+					dnc =
+						2 * l_a0 * xb3 + 2 * l_a0 * xc * xb2 + 8 * l_a1 * xb4 +
+						8 * l_a1 * xc * xb3 - 2 * l_a1 * xb3 - 6 * l_a1 * xc * xb2;
+					ss_ptr->Get_ss_comps()[0].Set_dnc(-xb / nc + dnc / n_tot);
+					//ss_assemblage[i].s_s[j].comps[0].dnc =
+					//	-xb / nc + dnc / n_tot;
+					ss_ptr->Get_ss_comps()[0].Set_dn(1.0 / n_tot);
+					//ss_assemblage[i].s_s[j].comps[0].dn = 1.0 / n_tot;
+
+					/* component 2 */
+					dnb =
+						2 * l_a0 * xb * xc2 + 2 * l_a0 * xc3 +
+						8 * l_a1 * xb2 * xc2 + 8 * l_a1 * xb * xc3 -
+						2 * l_a1 * xb * xc2 - 6 * l_a1 * xc3;
+					ss_ptr->Get_ss_comps()[1].Set_dnb(-xc / nb + dnb / n_tot);
+					//ss_assemblage[i].s_s[j].comps[1].dnb =
+					//	-xc / nb + dnb / n_tot;
+					dnc =
+						-2 * l_a0 * xc * xb2 - 8 * l_a1 * xc * xb3 +
+						2 * l_a1 * xc * xb2 - 2 * l_a0 * xb * xc2 -
+						8 * l_a1 * xb2 * xc2 + 6 * l_a1 * xb * xc2 + 1;
+					ss_ptr->Get_ss_comps()[1].Set_dnc(dnc / n_tot);
+					//ss_assemblage[i].s_s[j].comps[1].dnc = dnc / n_tot;
+					ss_prep(ss_ptr->Get_tk(), ss_ptr, TRUE);
+					//s_s_prep(ss_assemblage[i].s_s[j].tk,
+					//		 &(ss_assemblage[i].s_s[j]), TRUE);
+					ss_ptr->Get_ss_comps()[1].Set_dn(1.0 / n_tot);
+					//ss_assemblage[i].s_s[j].comps[1].dn = 1.0 / n_tot;
+/*
+ *   Ideal solid solution
+ */
+				}
+				else
+				{
+					ss_ptr->Set_dn(1.0 / n_tot);
+					//ss_assemblage[i].s_s[j].dn = 1.0 / n_tot;
+					for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
+					//for (k = 0; k < s_s_ptr->count_comps; k++)
+					{
+						cxxSScomp * comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+						comp_ptr->Set_log10_lambda(0);
+						//ss_assemblage[i].s_s[j].comps[k].log10_lambda = 0;
+						moles = comp_ptr->Get_moles();
+						//moles = ss_assemblage[i].s_s[j].comps[k].moles;
+						if (moles <= 0.0)
+							moles = MIN_TOTAL_SS;
+						comp_ptr->Set_dnb((n_tot - moles) / (moles * n_tot));
+						//ss_assemblage[i].s_s[j].comps[k].dnb =
+						//	(n_tot - moles) / (moles * n_tot);
+						comp_ptr->Set_dn(1.0 / n_tot);
+						//ss_assemblage[i].s_s[j].comps[k].dn = 1.0 / n_tot;
+					}
+				}
+			}
+		}
+		ss_assemblage_ptr->Set_new_def(false);
+		//ss_assemblage[i].new_def = FALSE;
+
+/*
+ *   Duplicate ss_assemblage if necessary
+ */
+		int n_user = ss_assemblage_ptr->Get_n_user();
+		int n_user_end = ss_assemblage_ptr->Get_n_user_end();
+		Utilities::Rxn_copies(Rxn_ss_assemblage_map, n_user, n_user_end);
+		ss_assemblage_ptr->Set_n_user_end(n_user);
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+tidy_ss_assemblage(void)
+/* ---------------------------------------------------------------------- */
+{
 	int i, j, k, k1, n_user, last;
 	struct phase *phase_ptr;
 	struct s_s *s_s_ptr;
@@ -1905,7 +2106,7 @@ tidy_ss_assemblage(void)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_punch(void)
@@ -3851,7 +4052,300 @@ tidy_kin_surface(void)
 	}
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
+/* ---------------------------------------------------------------------- */
+{
+	int i, j, k, converged, divisions;
+	LDBLE r, rt, ag0, ag1, crit_pt;
+	LDBLE xc, tc;
+	LDBLE l_x, x0, x1, xsm1, xsm2, xb1, xb2;
+	LDBLE xc1, xc2;
+	LDBLE facb1, faca1, spim1, xblm1, acrae, acrael, xliapt, xliapm;
+	LDBLE xaly, xaly1, xaly2;
+	LDBLE faca, facb, spialy, facal, facbl;
+	LDBLE tol;
 
+	if (pr.ss_assemblage == FALSE)
+		print = FALSE;
+	tol = 1e-6;
+	r = R_KJ_DEG_MOL;
+	rt = r * t;
+	a0 = ss_ptr->Get_ag0() / rt;
+	a1 = ss_ptr->Get_ag1() / rt;
+	ss_ptr->Set_a0(a0);
+	ss_ptr->Set_a1(a1);
+	ag0 = a0 * rt;
+	ag1 = a1 * rt;
+	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
+	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
+	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
+	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
+	kc = exp(k_calc(phase0_ptr->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
+	kb = exp(k_calc(phase1_ptr->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
+	//kc = exp(k_calc(ss_ptr->comps[0].phase->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
+	//kb = exp(k_calc(ss_ptr->comps[1].phase->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
+	crit_pt = fabs(a0) + fabs(a1);
+/*
+ *   Default, no miscibility or spinodal gaps
+ */
+	ss_ptr->Set_miscibility(false);
+	ss_ptr->Set_spinodal(false);
+	xsm1 = 0.5;
+	xsm2 = 0.5;
+	xb1 = 0.5;
+	xb2 = 0.5;
+	xc1 = 0;
+	xc2 = 0;
+
+	if (crit_pt >= tol)
+	{
+/*
+ *   Miscibility gap information
+ */
+		if (fabs(a1) < tol)
+		{
+			xc = 0.5;
+			tc = ag0 / (2 * r);
+		}
+		else
+		{
+			xc = 0.5 + (pow((ag0 * ag0 + 27 * ag1 * ag1), (LDBLE) 0.5) -
+						ag0) / (18 * ag1);
+			tc = (12 * ag1 * xc - 6 * ag1 + 2 * ag0) * (xc - xc * xc) / r;
+		}
+		if (print == TRUE)
+		{
+			error_string = sformatf( "Description of Solid Solution %s",
+					ss_ptr->Get_name().c_str());
+			dup_print(error_string, TRUE);
+		}
+		if (print == TRUE)
+		{
+			output_msg(sformatf(
+					   "\t                              Temperature: %g kelvin\n",
+					   (double) t));
+			output_msg(sformatf(
+					   "\t                       A0 (dimensionless): %g\n",
+					   (double) a0));
+			output_msg(sformatf(
+					   "\t                       A1 (dimensionless): %g\n",
+					   (double) a1));
+			output_msg(sformatf(
+					   "\t                              A0 (kJ/mol): %g\n",
+					   (double) ag0));
+			output_msg(sformatf(
+					   "\t                              A1 (kJ/mol): %g\n\n",
+					   (double) ag1));
+		}
+		if (xc < 0 || xc > 1)
+		{
+			if (print == TRUE)
+				output_msg(sformatf(
+						   "No miscibility gap above 0 degrees kelvin.\n"));
+		}
+		else
+		{
+			if (print == TRUE)
+			{
+				output_msg(sformatf(
+						   "\t    Critical mole-fraction of component 2: %g\n",
+						   (double) xc));
+				output_msg(sformatf(
+						   "\t                     Critical temperature: %g kelvin\n",
+						   (double) tc));
+				output_msg(sformatf(
+						   "\n(The critical temperature calculation assumes that the Guggenheim model\ndefined at %g kelvin is valid at the critical temperature.)\n\n\n",
+						   (double) t));
+			}
+		}
+/*
+ *   Calculate miscibility and spinodal gaps
+ */
+		if (tc >= t)
+		{
+
+			/* search for sign changes */
+			x0 = 0;
+			x1 = 1;
+			if (scan(f_spinodal, &x0, &x1) == TRUE)
+			{
+
+				/* find first spinodal pt */
+				xsm1 = halve(f_spinodal, x0, x1, tol);
+				xsm1 = halve(f_spinodal, x0, x1, tol);
+				ss_ptr->Set_spinodal(true);
+
+				/* find second spinodal pt */
+				x0 = x1;
+				x1 = 1;
+				if (scan(f_spinodal, &x0, &x1) == TRUE)
+				{
+					xsm2 = halve(f_spinodal, x0, x1, tol);
+				}
+				else
+				{
+					error_msg("Failed to find second spinodal point.", STOP);
+				}
+			}
+		}
+	}
+/*
+ *   Now find Miscibility gap
+ */
+	if (ss_ptr->Get_spinodal())
+	{
+		if (print == TRUE)
+			output_msg(sformatf(
+					   "\t Spinodal-gap mole fractions, component 2: %g\t%g\n",
+					   (double) xsm1, (double) xsm2));
+		converged = FALSE;
+		if (converged == FALSE)
+		{
+			for (i = 1; i < 3; i++)
+			{
+				divisions = (int) pow(10., i);
+				for (j = 0; j < divisions; j++)
+				{
+					for (k = divisions; k > 0; k--)
+					{
+						xc1 = (LDBLE) j / divisions + 0.001;
+						xc2 = (LDBLE) k / divisions;
+						converged = solve_misc(&xc1, &xc2, tol);
+						if (converged == TRUE)
+							break;
+					}
+					if (converged == TRUE)
+						break;
+				}
+				if (converged == TRUE)
+					break;
+			}
+		}
+		if (converged == FALSE)
+		{
+			error_msg("Failed to find miscibility gap.", STOP);
+		}
+		ss_ptr->Set_miscibility(true);
+		if (xc1 < xc2)
+		{
+			xb1 = 1 - xc2;
+			xb2 = 1 - xc1;
+			xc1 = 1 - xb1;
+			xc2 = 1 - xb2;
+		}
+		else
+		{
+			xb1 = 1 - xc1;
+			xb2 = 1 - xc2;
+		}
+		facb1 = kb * xb1 * exp(xc1 * xc1 * (a0 + a1 * (4 * xb1 - 1)));
+		faca1 = kc * xc1 * exp(xb1 * xb1 * (a0 - a1 * (3 - 4 * xb1)));
+		spim1 = log10(faca1 + facb1);
+		xblm1 = 1. / (1. + faca1 / facb1);
+		acrae = facb1 / faca1;
+		acrael = log10(acrae);
+		xliapt = log10(facb1);
+		xliapm = log10(faca1);
+
+		if (print == TRUE)
+		{
+			output_msg(sformatf(
+					   "\t   Miscibility-gap fractions, component 2: %g\t%g\n",
+					   (double) xb1, (double) xb2));
+			output_msg(sformatf(
+					   "\n\t\t\tEutectic Point Calculations\n\n"));
+			output_msg(sformatf(
+					   "\t     Aqueous activity ratio (comp2/comp1): %g\n",
+					   (double) acrae));
+			output_msg(sformatf(
+					   "\t Log aqueous activity ratio (comp2/comp1): %g\n",
+					   (double) acrael));
+			output_msg(sformatf(
+					   "\t Aqueous activity fraction of component 2: %g\n",
+					   (double) xblm1));
+			output_msg(sformatf(
+					   "\t                    Log IAP (component 2): %g\n",
+					   (double) xliapt));
+			output_msg(sformatf(
+					   "\t                    Log IAP (component 1): %g\n",
+					   (double) xliapm));
+			output_msg(sformatf(
+					   "\t                               Log Sum Pi: %g\n",
+					   (double) spim1));
+		}
+		ss_ptr->Set_tk(t);
+		ss_ptr->Set_xb1(xb1);
+		ss_ptr->Set_xb2(xb2);
+	}
+/*
+ *   Alyotropic point calculation
+ */
+	xaly = -1.0;
+	l_x = a0 * a0 + 3 * a1 * a1 + 6 * a1 * log(kb / kc);
+	if (l_x > 0)
+	{
+		if (fabs(l_x - a0 * a0) >= tol)
+		{
+			xaly1 = (-(a0 - 3 * a1) + pow(l_x, (LDBLE) 0.5)) / (6 * a1);
+			xaly2 = (-(a0 - 3 * a1) - pow(l_x, (LDBLE) 0.5)) / (6 * a1);
+			if (xaly1 >= 0 && xaly1 <= 1)
+			{
+				xaly = xaly1;
+			}
+			if (xaly2 >= 0 && xaly2 <= 1)
+			{
+				xaly = xaly2;
+			}
+		}
+		else
+		{
+			xaly = 0.5 + log(kb / kc) / (2 * a0);
+		}
+		if (xaly > 0 && xaly < 1)
+		{
+			faca =
+				kc * (1 -
+					  xaly) * exp(xaly * xaly * (a0 - a1 * (3 - 4 * xaly)));
+			facb =
+				kb * xaly * exp((1 - xaly) * (1 - xaly) *
+								(a0 + a1 * (4 * xaly - 1.0)));
+			spialy = log10(faca + facb);
+			facal = log10(faca);
+			facbl = log10(facb);
+			if (xaly > xb1 && xaly < xb2)
+			{
+				if (print == TRUE)
+					output_msg(sformatf(
+							   "\nLocal minimum in the solidus curve coresponding to a maximum\nin the minimum stoichiometric saturation curve.\n\n"));
+			}
+			else
+			{
+				if (print == TRUE)
+					output_msg(sformatf(
+							   "\n\t\t\tAlyotropic Point\n\n"));
+			}
+			if (print == TRUE)
+			{
+				output_msg(sformatf(
+						   "\t       Solid mole fraction of component 2: %g\n",
+						   (double) xaly));
+				output_msg(sformatf(
+						   "\t                    Log IAP (component 2): %g\n",
+						   (double) facbl));
+				output_msg(sformatf(
+						   "\t                    Log IAP (component 1): %g\n",
+						   (double) facal));
+				output_msg(sformatf(
+						   "\t                               Log Sum Pi: %g\n",
+						   (double) spialy));
+			}
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 s_s_prep(LDBLE t, struct s_s *s_s_ptr, int print)
@@ -4139,7 +4633,7 @@ s_s_prep(LDBLE t, struct s_s *s_s_ptr, int print)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 halve(LDBLE f(LDBLE x, void *), LDBLE x0, LDBLE x1, LDBLE tol)
@@ -4454,10 +4948,378 @@ solve_misc(LDBLE * xxc1, LDBLE * xxc2, LDBLE tol)
 	*xxc2 = xc2;
 	return (converged);
 }
-
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-s_s_calc_a0_a1(struct s_s *s_s_ptr)
+ss_calc_a0_a1(cxxSS *ss_ptr)
+/* ---------------------------------------------------------------------- */
+{
+	int i, done;
+	LDBLE r, rt;
+	std::vector<LDBLE> p;
+	LDBLE q1, q2, xbq1, xbq2, xb1, xb2, xc1, xc2;
+	LDBLE r1, r2, pa1, pb1, pa2, pb2, xsm1, xsm2;
+	LDBLE pn9, pn10, c5, c6, pl9, pl10, pj9, pj10;
+	LDBLE xc, tc;
+	LDBLE spialy, azero, phi1, phi2, test;
+	LDBLE dq1, dq2, denom, ratio, dr1, dr2, x21, x22, x61, x62;
+	LDBLE l_a0, l_a1, ag0, ag1;
+	LDBLE wg2, wg1, alpha2, alpha3;
+	LDBLE l_kc, l_kb;
+	LDBLE xaly, xcaly, alpha0, alpha1, fx, fx1;
+	LDBLE tol;
+
+	tol = 1e-6;
+	rt = ss_ptr->Get_tk() * R_KJ_DEG_MOL;
+	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
+	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
+	int k;
+	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
+	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
+	if (phase0_ptr == NULL || phase1_ptr == NULL)
+	{
+		input_error++;
+		error_string = sformatf(
+				"Two components were not defined for %s solid solution",
+				ss_ptr->Get_name().c_str());
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
+	l_kc = exp(k_calc(phase0_ptr->rxn->logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+			 LOG_10);
+	l_kb = exp(k_calc(phase1_ptr->rxn->logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+			 LOG_10);
+
+	p = ss_ptr->Get_p();
+
+	l_a0 = 0;
+	l_a1 = 0;
+	ag0 = 0;
+	ag1 = 0;
+	dq2 = 0;
+	switch (ss_ptr->Get_input_case())
+	{
+		/*
+		 *  dimensionless a0 and a1
+		 */
+	case cxxSS::SS_PARM_A0_A1:
+		l_a0 = p[0];
+		l_a1 = p[1];
+		ag0 = l_a0 * rt;
+		ag1 = l_a1 * rt;
+		break;
+		/*
+		 *  two activity coefficients
+		 *  q1, q2, xbq1, xbq2
+		 */
+	case cxxSS::SS_PARM_GAMMAS:
+		q1 = p[0];
+		q2 = p[1];
+		xbq1 = p[2];
+		xbq2 = p[3];
+		done = FALSE;
+		if (fabs(1 - xbq1) > 0 && q1 > 0)
+		{
+			dq1 = log(q1) / ((1 - xbq1) * (1 - xbq1));
+			if (xbq2 <= 0 || xbq2 > 1)
+			{
+				l_a0 = dq1;
+				l_a1 = 0;
+				done = TRUE;
+			}
+		}
+		if (done == FALSE)
+		{
+			if (fabs(xbq2) < 0 || q2 <= 0)
+			{
+				input_error++;
+				error_string = sformatf(
+						"No solution possible for A0 and A1 calculation from two activity coefficients, %s.\n",
+						ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+				done = TRUE;
+			}
+		}
+		if (done == FALSE)
+		{
+			dq2 = log(q2) / (xbq2 * xbq2);
+			if (xbq1 < 0. || xbq2 > 1.)
+			{
+				l_a0 = dq2;
+				l_a1 = 0;
+				done = TRUE;
+			}
+		}
+		if (done == FALSE)
+		{
+			denom = 4 * (xbq1 - xbq2) + 2;
+			if (fabs(denom) >= tol)
+			{
+				if (fabs(1 - xbq1) > 0 && q1 > 0)
+				{
+					dq1 = log(q1) / ((1 - xbq1) * (1 - xbq1));
+					l_a0 = (dq1 * (3 - 4 * xbq2) +
+						  dq2 * (4 * xbq1 - 1)) / denom;
+					l_a1 = (dq1 - dq2) / denom;
+					done = TRUE;
+				}
+			}
+		}
+		if (done == FALSE)
+		{
+			input_error++;
+			error_string = sformatf(
+					"No solution possible for A0 and A1 calculation from two activity coefficients, %s.\n",
+					ss_ptr->Get_name().c_str());
+			error_msg(error_string, CONTINUE);
+		}
+		/* io = 1 */
+		ag0 = l_a0 * rt;
+		ag1 = l_a1 * rt;
+		break;
+		/*
+		 *  two distribution coefficients
+		 *  q1, q2, xbq1, xbq2
+		 */
+	case cxxSS::SS_PARM_DIST_COEF:
+		q1 = p[0];
+		q2 = p[1];
+		xbq1 = p[2];
+		xbq2 = p[3];
+		ratio = l_kc / l_kb;
+		dr1 = log(q1 / ratio);
+		x21 = 2 * xbq1 - 1;
+		if (fabs(xbq1 - xbq2) < tol || xbq2 < 0)
+		{
+			l_a0 = dr1 / x21;
+			l_a1 = 0;
+		}
+		else
+		{
+			dr2 = log(q2 / ratio);
+			x22 = 2 * xbq2 - 1;
+			if (xbq1 < 0.)
+			{
+				l_a0 = dr2 / x22;
+				l_a1 = 0;
+			}
+			else
+			{
+				x61 = 6 * xbq1 * xbq1 - 6 * xbq1 + 1;
+				x62 = 6 * xbq2 * xbq2 - 6 * xbq2 + 1;
+				if (fabs(x22 * x61 - x21 * x62) < tol)
+				{
+					input_error++;
+					error_string = sformatf(
+							"No solution possible for A0 and A1 calculation from two distribution coefficients, %s.\n",
+							ss_ptr->Get_name().c_str());
+					error_msg(error_string, CONTINUE);
+				}
+				l_a0 = (x61 * dr2 - x62 * dr1) / (x22 * x61 - x21 * x62);
+				l_a1 = (x21 * dr2 - x22 * dr1) / (x21 * x62 - x22 * x61);
+			}
+		}
+
+		/* io = 1 */
+		ag0 = l_a0 * rt;
+		ag1 = l_a1 * rt;
+		break;
+		/*
+		 *  from miscibility gap fractions
+		 *  q1, q2
+		 */
+	case cxxSS::SS_PARM_MISCIBILITY:
+		q1 = p[0];
+		q2 = p[1];
+		xb1 = q1;
+		xb2 = q2;
+		xc1 = 1 - xb1;
+		xc2 = 1 - xb2;
+		r1 = log(xb1 / xb2);
+		r2 = log(xc1 / xc2);
+		pa1 = xc2 * xc2 - xc1 * xc1;
+		pb1 =
+			3 * (xc2 * xc2 - xc1 * xc1) - 4 * (xc2 * xc2 * xc2 -
+											   xc1 * xc1 * xc1);
+		pa2 = xb2 * xb2 - xb1 * xb1;
+		pb2 =
+			-(3 * (xb2 * xb2 - xb1 * xb1) -
+			  4 * (xb2 * xb2 * xb2 - xb1 * xb1 * xb1));
+		l_a0 = (r1 - pb1 / pb2 * r2) / (pa1 - pa2 * pb1 / pb2);
+		l_a1 = (r1 - pa1 / pa2 * r2) / (pb1 - pb2 * pa1 / pa2);
+
+		/* io = 1 */
+		ag0 = l_a0 * rt;
+		ag1 = l_a1 * rt;
+		break;
+		/*
+		 *  from spinodal gap fractions
+		 *  q1, q2
+		 */
+	case cxxSS::SS_PARM_SPINODAL:
+		q1 = p[0];
+		q2 = p[1];
+		xsm1 = q1;
+		xsm2 = q2;
+		pn9 = 1 / xsm1;
+		pn10 = 1 / xsm2;
+		c5 = 1 - xsm1;
+		c6 = 1 - xsm2;
+		pl9 = 6 * c5 - 12 * c5 * c5;
+		pl10 = 6 * c6 - 12 * c6 * c6;
+		pj9 = 2 * c5;
+		pj10 = 2 * c6;
+		l_a0 = (pn9 - pl9 / pl10 * pn10) / (pj9 - pl9 / pl10 * pj10);
+		l_a1 = (pn9 - pj9 / pj10 * pn10) / (pl9 - pj9 / pj10 * pl10);
+
+		/* io = 1 */
+		ag0 = l_a0 * rt;
+		ag1 = l_a1 * rt;
+		break;
+		/*
+		 *  from critical point
+		 *  q1, q2
+		 */
+	case cxxSS::SS_PARM_CRITICAL:
+		xc = p[0];
+		tc = p[1];
+		r = R_KJ_DEG_MOL;
+		ag1 = r * tc * (2 * xc - 1) / (12 * xc * xc * (1 - xc) * (1 - xc));
+		ag0 = (r * tc / (xc * (1 - xc)) - (12 * xc - 6) * ag1) / 2;
+
+		/* io = 0 */
+		l_a0 = ag0 / rt;
+		l_a1 = ag1 / rt;
+		break;
+		/*
+		 *  from alyotropic point
+		 *  q1, q2
+		 */
+	case cxxSS::SS_PARM_ALYOTROPIC:
+		q1 = p[0];
+		q2 = p[1];
+		xaly = q1;
+		r = log(l_kb / l_kc);
+		alpha0 = 2 * xaly - 1;
+		alpha1 = 6 * xaly * (xaly - 1) + 1;
+		spialy = pow((LDBLE) 10., q2);
+		l_a0 = -999.;
+		l_a1 = -999.;
+		if (fabs(alpha0) < tol)
+		{
+			input_error++;
+			error_string = sformatf(
+					"No solution possible for A0 and A1 calculation from alyotropic point, %s.\n",
+					ss_ptr->Get_name().c_str());
+			error_msg(error_string, CONTINUE);
+		}
+		else
+		{
+			azero = 1;
+			if (fabs(alpha0) > tol)
+				azero = r / alpha0;
+			xcaly = 1 - xaly;
+/*
+ *  Solve for a0 by Newton's method
+ */
+			for (i = 0; i < 50; i++)
+			{
+				phi1 =
+					xcaly * xcaly * (azero +
+									 (r - azero * alpha0) * (4 * xaly -
+															 1) / alpha1);
+				phi2 =
+					xaly * xaly * (azero +
+								   (3 - 4 * xaly) * (azero * alpha0 -
+													 r) / alpha1);
+				phi1 = xaly * l_kb * exp(phi1);
+				phi2 = xcaly * l_kc * exp(phi2);
+				fx = phi1 + phi2 - spialy;
+				fx1 =
+					xcaly * xcaly * (1 -
+									 alpha0 * (4 * xaly -
+											   1) / alpha1) * phi1 +
+					xaly * xaly * (1 +
+								   alpha0 * (3 - 4 * xaly) / alpha1) * phi2;
+				if (fabs(fx1) < 1e-10)
+				{
+					input_error++;
+					error_string = sformatf(
+							"Could not find A0 and A1 calculation from alyotropic point, %s.\n",
+							ss_ptr->Get_name().c_str());
+					error_msg(error_string, CONTINUE);
+					break;
+				}
+				l_a0 = azero - fx / fx1;
+				test = fabs(l_a0 - azero) + fabs(fx);
+				azero = l_a0;
+				if (test < tol)
+					break;
+			}
+			if (i == 50)
+			{
+				input_error++;
+				error_string = sformatf(
+						"Too many iterations, could not find A0 and A1 calculation from alyotropic point, %s.\n",
+						ss_ptr->Get_name().c_str());
+				error_msg(error_string, CONTINUE);
+			}
+			else
+			{
+				l_a1 = (r - l_a0 * alpha0) / alpha1;
+
+				/* io = 0 */
+				ag0 = l_a0 * rt;
+				ag1 = l_a1 * rt;
+			}
+
+		}
+		break;
+		/*
+		 *  dimensional (kJ/mol) Guggenheim parameters
+		 *  ag0, ag1
+		 */
+	case cxxSS::SS_PARM_DIM_GUGG:
+		ag0 = p[0];
+		ag1 = p[1];
+		l_a0 = ag0 / rt;
+		l_a1 = ag1 / rt;
+		break;
+		/*
+		 *  Waldbaum-Thompson
+		 *  wg2, wg1
+		 */
+	case cxxSS::SS_PARM_WALDBAUM:
+		wg2 = p[0];
+		wg1 = p[1];
+		ag0 = (wg2 + wg1) / 2;
+		ag1 = (wg2 - wg1) / 2;
+		l_a0 = ag0 / rt;
+		l_a1 = ag1 / rt;
+		break;
+		/*
+		 *  Margules
+		 *  alpha2, alpha3
+		 */
+	case cxxSS::SS_PARM_MARGULES:
+		alpha2 = p[0];
+		alpha3 = p[1];
+		l_a0 = alpha2 + 3 * alpha3 / 4;
+		l_a1 = alpha3 / 4;
+		ag0 = l_a0 * rt;
+		ag1 = l_a1 * rt;
+		break;
+	}
+
+	ss_ptr->Set_ag0(ag0);
+	ss_ptr->Set_ag1(ag1);
+	ss_ptr->Set_a0(l_a0);
+	ss_ptr->Set_a1(l_a1);
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+ int Phreeqc::
+ss_calc_a0_a1(cxxSS *ss_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, done;
@@ -4475,29 +5337,33 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 	LDBLE tol;
 
 	tol = 1e-6;
-	rt = s_s_ptr->tk * R_KJ_DEG_MOL;
-	if (s_s_ptr->comps[0].phase == NULL || s_s_ptr->comps[1].phase == NULL)
+	rt = ss_ptr->Get_tk() * R_KJ_DEG_MOL;
+	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
+	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
+	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
+	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
+	if (ss_ptr->comps[0].phase == NULL || ss_ptr->comps[1].phase == NULL)
 	{
 		input_error++;
 		error_string = sformatf(
 				"Two components were not defined for %s solid solution",
-				s_s_ptr->name);
+				ss_ptr->name);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	l_kc = exp(k_calc(s_s_ptr->comps[0].phase->rxn->logk, s_s_ptr->tk, REF_PRES_PASCAL) *
+	l_kc = exp(k_calc(ss_ptr->comps[0].phase->rxn->logk, ss_ptr->tk, REF_PRES_PASCAL) *
 			 LOG_10);
-	l_kb = exp(k_calc(s_s_ptr->comps[1].phase->rxn->logk, s_s_ptr->tk, REF_PRES_PASCAL) *
+	l_kb = exp(k_calc(ss_ptr->comps[1].phase->rxn->logk, ss_ptr->tk, REF_PRES_PASCAL) *
 			 LOG_10);
 
-	p = s_s_ptr->p;
+	p = ss_ptr->p;
 
 	l_a0 = 0;
 	l_a1 = 0;
 	ag0 = 0;
 	ag1 = 0;
 	dq2 = 0;
-	switch (s_s_ptr->input_case)
+	switch (ss_ptr->input_case)
 	{
 		/*
 		 *  dimensionless a0 and a1
@@ -4535,7 +5401,7 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 				input_error++;
 				error_string = sformatf(
 						"No solution possible for A0 and A1 calculation from two activity coefficients, %s.\n",
-						s_s_ptr->name);
+						ss_ptr->name);
 				error_msg(error_string, CONTINUE);
 				done = TRUE;
 			}
@@ -4570,7 +5436,7 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 			input_error++;
 			error_string = sformatf(
 					"No solution possible for A0 and A1 calculation from two activity coefficients, %s.\n",
-					s_s_ptr->name);
+					ss_ptr->name);
 			error_msg(error_string, CONTINUE);
 		}
 		/* io = 1 */
@@ -4612,7 +5478,7 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 					input_error++;
 					error_string = sformatf(
 							"No solution possible for A0 and A1 calculation from two distribution coefficients, %s.\n",
-							s_s_ptr->name);
+							ss_ptr->name);
 					error_msg(error_string, CONTINUE);
 				}
 				l_a0 = (x61 * dr2 - x62 * dr1) / (x22 * x61 - x21 * x62);
@@ -4710,7 +5576,7 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 			input_error++;
 			error_string = sformatf(
 					"No solution possible for A0 and A1 calculation from alyotropic point, %s.\n",
-					s_s_ptr->name);
+					ss_ptr->name);
 			error_msg(error_string, CONTINUE);
 		}
 		else
@@ -4746,7 +5612,7 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 					input_error++;
 					error_string = sformatf(
 							"Could not find A0 and A1 calculation from alyotropic point, %s.\n",
-							s_s_ptr->name);
+							ss_ptr->name);
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -4761,7 +5627,7 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 				input_error++;
 				error_string = sformatf(
 						"Too many iterations, could not find A0 and A1 calculation from alyotropic point, %s.\n",
-						s_s_ptr->name);
+						ss_ptr->name);
 				error_msg(error_string, CONTINUE);
 			}
 			else
@@ -4811,13 +5677,13 @@ s_s_calc_a0_a1(struct s_s *s_s_ptr)
 		break;
 	}
 
-	s_s_ptr->ag0 = ag0;
-	s_s_ptr->ag1 = ag1;
-	s_s_ptr->a0 = l_a0;
-	s_s_ptr->a1 = l_a1;
+	ss_ptr->ag0 = ag0;
+	ss_ptr->ag1 = ag1;
+	ss_ptr->a0 = l_a0;
+	ss_ptr->a1 = l_a1;
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_master_isotope(void)

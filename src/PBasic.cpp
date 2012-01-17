@@ -2172,7 +2172,7 @@ factor(struct LOC_exec * LINK)
 	case toks_s:
 		{
 			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_s_s_comp(str);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_ss_comp(str);
 		}
 		break;
 
@@ -2275,7 +2275,7 @@ factor(struct LOC_exec * LINK)
 			elt_name = NULL;
 		}
 		require(tokrp, LINK);
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_s_s(mytemplate, elt_name);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_ss(mytemplate, elt_name);
 		break;
 
 	case tokcalc_value:
@@ -2576,7 +2576,7 @@ factor(struct LOC_exec * LINK)
 			*/
 			// return total moles
 
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->list_s_s(s_s_name, composition);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->list_ss(s_s_name, composition);
 
 			/*
 			*  fill in varrec structure

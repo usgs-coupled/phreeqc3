@@ -7,6 +7,7 @@ class cxxExchange;
 class cxxGasPhase;
 class cxxPressure;
 class cxxTemperature;
+class cxxSSassemblage;
 
 class cxxUse
 {
@@ -84,7 +85,7 @@ public:
 	cxxTemperature * Get_temperature_ptr(void) const         {return this->temperature_ptr;}
 	cxxGasPhase * Get_gas_phase_ptr(void) const              {return this->gas_phase_ptr;}
 	struct inverse * Get_inverse_ptr(void) const             {return this->inverse_ptr;}
-	struct ss_assemblage * Get_ss_assemblage_ptr(void) const {return this->ss_assemblage_ptr;}
+	cxxSSassemblage * Get_ss_assemblage_ptr(void)            {return this->ss_assemblage_ptr;}
 
 	void Set_solution_ptr(struct solution * p)               {this->solution_ptr = p;}
 	void Set_pp_assemblage_ptr(cxxPPassemblage * p)          {this->pp_assemblage_ptr = p;}
@@ -97,7 +98,7 @@ public:
 	void Set_temperature_ptr(cxxTemperature * p)             {this->temperature_ptr = p;}
 	void Set_gas_phase_ptr(cxxGasPhase * p)                  {this->gas_phase_ptr = p;}
 	void Set_inverse_ptr(struct inverse * p)                 {this->inverse_ptr = p;}
-	void Set_ss_assemblage_ptr(struct ss_assemblage * p)     {this->ss_assemblage_ptr = p;}
+	void Set_ss_assemblage_ptr(cxxSSassemblage * p)     {this->ss_assemblage_ptr = p;}
 
 protected:
 	bool solution_in;
@@ -147,7 +148,7 @@ protected:
 
 	bool ss_assemblage_in;
 	int n_ss_assemblage_user;
-	struct ss_assemblage *ss_assemblage_ptr;
+	cxxSSassemblage *ss_assemblage_ptr;
 
 	bool trans_in;
 	bool advect_in;
