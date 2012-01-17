@@ -235,8 +235,7 @@ SURFACE_MODIFY      1 New surface def
       -capacitance1          5
       -diffuse_layer_totals 
 SOLID_SOLUTIONS_MODIFY       1 New ss def
-  -solid_solution
-    -name                  Calcite
+  -solid_solution            Calcite
       -a0                    0
       -a1                    0
       -ag0                   0
@@ -244,11 +243,11 @@ SOLID_SOLUTIONS_MODIFY       1 New ss def
       -miscibility           0
       -xb1                   -6.2774385622042e+066
       -xb2                   -6.2774385622042e+066
-      -component             
-        calcite   0.2
-	rhodochrosite 0.2  
-  -solid_solution
-    -name                  Barite
+      -component	calcite      
+        -moles   	0.2
+      -component	rhodochrosite 
+        -moles          0.2  
+  -solid_solution	Barite
       -a0                    0
       -a1                    0
       -ag0                   0
@@ -256,9 +255,10 @@ SOLID_SOLUTIONS_MODIFY       1 New ss def
       -miscibility           0
       -xb1                   -6.2774385622042e+066
       -xb2                   -6.2774385622042e+066
-      -component             
-        Barite   0.2
-        Gypsum   0.2         
+      -component 	Barite
+        -moles          0.2
+      -component	Gypsum
+        -moles          0.2      
 GAS_PHASE_MODIFY      1 New gas_phase def
   -type               0
   -total_p            1
