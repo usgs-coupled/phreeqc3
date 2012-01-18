@@ -313,7 +313,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 		{
 			CParser::ECHO_OPTION eo = parser.get_echo_file();
 			parser.set_echo_file(CParser::EO_NONE);
-			opt = parser.getOptionFromLastLine(vopts, next_char);
+			opt = parser.getOptionFromLastLine(vopts, next_char, true);
 			parser.set_echo_file(eo);
 		}
 		if (opt == CParser::OPT_DEFAULT)

@@ -340,7 +340,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 		}
 		else
 		{
-			opt = parser.getOptionFromLastLine(vopts, next_char);
+			opt = parser.getOptionFromLastLine(vopts, next_char, true);
 		}
 		switch (opt)
 		{

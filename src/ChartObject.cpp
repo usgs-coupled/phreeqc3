@@ -291,7 +291,7 @@ ChartObject::Read(CParser & parser)
 		}
 		else
 		{
-			opt = parser.getOptionFromLastLine(vopts, next_char);
+			opt = parser.getOptionFromLastLine(vopts, next_char, true);
 		}
 		if (opt == CParser::OPT_DEFAULT)
 		{
