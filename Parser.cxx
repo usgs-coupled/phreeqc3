@@ -1103,7 +1103,7 @@ CParser::STATUS_TYPE CParser::addPair(std::map < std::string, LDBLE >&totals,
 
 int
 CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
-							   std::string::iterator & next_char)
+							   std::string::iterator & next_char, bool flag_error)
 {
 	//
 	// Read a line and check for options
@@ -1156,20 +1156,22 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		}
 		else
 		{
-			if (true)			// (database_file == NULL)
+			if (flag_error)
 			{
-				//get_output() << "\t" << m_line_save << "\n";
-				std::ostringstream msg;
-				msg << "\t" << m_line_save << "\n";
-				io->output_msg(msg.str().c_str());
+				if (true)			// (database_file == NULL)
+				{
+					//get_output() << "\t" << m_line_save << "\n";
+					std::ostringstream msg;
+					msg << "\t" << m_line_save << "\n";
+					io->output_msg(msg.str().c_str());
+				}
+				//std::cerr << "Unknown option." << "\n";
+				//std::cerr << m_line_save << "\n";
+				std::ostringstream err;
+				err << "Unknown option." << "\n";
+				err << m_line_save << "\n";
+				error_msg(err.str().c_str());
 			}
-			//std::cerr << "Unknown option." << "\n";
-			//std::cerr << m_line_save << "\n";
-			std::ostringstream err;
-			err << "Unknown option." << "\n";
-			err << m_line_save << "\n";
-			error_msg(err.str().c_str());
-
 			j = OPT_ERROR;
 			next_char = m_line.begin();
 		}
@@ -1202,7 +1204,7 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 
 int
 CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
-							   std::istream::pos_type & next_pos)
+							   std::istream::pos_type & next_pos, bool flag_error)
 {
 	//
 	// Read a line and check for options
@@ -1259,7 +1261,7 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		}
 		else
 		{
-			if (false) // don't throw error
+			if (flag_error) // don't throw error
 			{
 				if (true)			// (database_file == NULL)
 				{

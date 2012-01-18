@@ -121,9 +121,9 @@ class CParser: public PHRQ_base
 	int get_option(const std::vector < std::string > &opt_list,
 				   std::istream::pos_type & next_pos);
 	int getOptionFromLastLine(const std::vector < std::string > &opt_list,
-							  std::string::iterator & next_char);
+							  std::string::iterator & next_char, bool flag_error);
 	int getOptionFromLastLine(const std::vector < std::string > &opt_list,
-							  std::istream::pos_type & next_pos);
+							  std::istream::pos_type & next_pos, bool flag_error);
 
 
 	std::string & line()
