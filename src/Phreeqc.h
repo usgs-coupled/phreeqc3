@@ -929,33 +929,6 @@ protected:
 	int phase_delete(int i);
 	struct phase *phase_store(const char *name);
 public:
-#ifdef SKIP
-	struct pp_assemblage *pp_assemblage_alloc(void);
-	struct pp_assemblage *pp_assemblage_bsearch(int k, int *n);
-protected:
-	static int pp_assemblage_compare(const void *ptr1, const void *ptr2);
-public:
-	int pp_assemblage_copy(struct pp_assemblage *pp_assemblage_old_ptr,
-	struct pp_assemblage *pp_assemblage_new_ptr,
-		int n_user_new);
-protected:
-	int pp_assemblage_copy_to_last(int n, int n_user);
-	int pp_assemblage_delete(int n_user_old);
-	int pp_assemblage_duplicate(int n_user_old, int n_user_new);
-public:
-	int pp_assemblage_free(struct pp_assemblage *pp_assemblage_ptr);
-protected:
-	int pp_assemblage_init(struct pp_assemblage *pp_assemblage_ptr, int n_user,
-		int n_user_end, char *description);
-	int pp_assemblage_ptr_to_user(struct pp_assemblage *pp_assemblage_ptr_old,
-		int n_user_new);
-	struct pp_assemblage *pp_assemblage_replicate(struct pp_assemblage
-		*pp_assemblage_old_ptr,
-		int n_user_new);
-	struct pp_assemblage *pp_assemblage_search(int n_user, int *n);
-	int pp_assemblage_sort(void);
-	static int pure_phase_compare(const void *ptr1, const void *ptr2);
-#endif
 	struct rate *rate_bsearch(char *ptr, int *j);
 	int rate_free(struct rate *rate_ptr);
 	struct rate *rate_search(const char *name, int *n);
@@ -969,34 +942,6 @@ protected:
 	int s_delete(int i);
 	struct species *s_search(const char *name);
 	struct species *s_store(const char *name, LDBLE z, int replace_if_found);
-public:
-#ifdef SKIP
-	struct ss_assemblage *ss_assemblage_alloc(void);
-	struct ss_assemblage *ss_assemblage_bsearch(int k, int *n);
-protected:
-	static int ss_assemblage_compare(const void *ptr1, const void *ptr2);
-public:
-	int ss_assemblage_copy(struct ss_assemblage *ss_assemblage_old_ptr,
-	struct ss_assemblage *ss_assemblage_new_ptr,
-		int n_user_new);
-protected:
-	int ss_assemblage_copy_to_last(int n, int n_user);
-	int ss_assemblage_duplicate(int n_user_old, int n_user_new);
-	int ss_assemblage_delete(int n_user_old);
-public:
-	int ss_assemblage_free(struct ss_assemblage *ss_assemblage_ptr);
-
-	int ss_assemblage_init(struct ss_assemblage *ss_assemblage_ptr,
-		int n_user, int n_user_end, char *description);
-	int ss_assemblage_ptr_to_user(struct ss_assemblage *ss_assemblage_ptr_old,
-		int n_user_new);
-	struct ss_assemblage *ss_assemblage_replicate(struct ss_assemblage
-		*ss_assemblage_old_ptr,
-		int n_user_new);
-	struct ss_assemblage *ss_assemblage_search(int n_user, int *n);
-	int ss_assemblage_sort(void);
-	static int s_s_compare(const void *ptr1, const void *ptr2);
-#endif
 protected:
 	struct save_values *save_values_bsearch(struct save_values *k, int *n);
 	static int save_values_compare(const void *ptr1, const void *ptr2);

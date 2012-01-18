@@ -22,8 +22,6 @@
 CParser::CParser(PHRQ_io *io):
 PHRQ_base(io),
 m_input_stream(std::cin), 
-//m_output_stream(std::cout), 
-//m_error_stream(std::cerr),
 m_input_error(0),
 m_next_keyword(Keywords::KEY_NONE)
 {
@@ -47,8 +45,6 @@ m_next_keyword(Keywords::KEY_NONE)
 CParser::CParser(std::istream & input, PHRQ_io *io):
 PHRQ_base(io),
 m_input_stream(input), 
-//m_output_stream(std::cout), 
-//m_error_stream(std::cerr),
 m_input_error(0),
 m_next_keyword(Keywords::KEY_NONE)
 {
@@ -60,39 +56,6 @@ m_next_keyword(Keywords::KEY_NONE)
 	phrq_io_only = false;
 }
 
-#ifdef SKIP
-CParser::CParser(std::istream & input, std::ostream & output, PHRQ_io *io)
-:
-PHRQ_base(io),
-m_input_stream(input), 
-m_output_stream(output), 
-m_error_stream(std::cerr),
-m_input_error(0),
-m_next_keyword(Keywords::KEY_NONE)
-{
-	m_line_save.reserve(80);
-	m_line.reserve(80);
-	echo_file = EO_ALL;
-	echo_stream = EO_NONE;
-	accumulate = false;
-}
-
-CParser::CParser(std::istream & input, std::ostream & output, std::ostream & error, PHRQ_io *io)
-:
-PHRQ_base(io),
-m_input_stream(input), 
-m_output_stream(output), 
-m_error_stream(error),
-m_input_error(0),
-m_next_keyword(Keywords::KEY_NONE)
-{
-	m_line_save.reserve(80);
-	m_line.reserve(80);
-	echo_file = EO_ALL;
-	echo_stream = EO_NONE;
-	accumulate = false;
-}
-#endif
 CParser::~CParser()
 {
 }
