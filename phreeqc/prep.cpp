@@ -799,7 +799,7 @@ build_ss_assemblage(void)
 			row = x[i]->number * (count_unknowns + 1);
 			for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 			{
-				if (j != x[i]->ss_comp_number)
+				if ((int) j != x[i]->ss_comp_number)
 				{
 /*					store_jacob (&(s_s_ptr->dn), &(array[row + col + j]), -1.0); */
 					store_jacob(&(x[i]->phase->dn), &(array[row + col + j]),

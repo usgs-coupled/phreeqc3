@@ -5308,8 +5308,9 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 		ag0 = l_a0 * rt;
 		ag1 = l_a1 * rt;
 		break;
+	case cxxSS::SS_PARM_NONE:
+		break;
 	}
-
 	ss_ptr->Set_ag0(ag0);
 	ss_ptr->Set_ag1(ag1);
 	ss_ptr->Set_a0(l_a0);
