@@ -727,20 +727,6 @@ equi_phase(const char *phase_name)
 /*
  *   Print pure phase assemblage data
  */
-#ifdef SKIP
-	if (j == count_unknowns)
-	{
-		/* if not an unknown */
-		for (i = 0; i < use.Get_pp_assemblage_ptr()->count_comps; i++)
-		{
-			if (strcmp_nocase
-				(use.Get_pp_assemblage_ptr()->pure_phases[i].name, phase_name) == 0)
-			{
-				return (use.Get_pp_assemblage_ptr()->pure_phases[i].moles);
-			}
-		}
-	}
-#endif
 	cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
 	if (j == count_unknowns)
 	{
@@ -911,90 +897,6 @@ find_ss_comp(const char *ss_comp_name)
 	}
 	return (0);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-find_misc1(const char *s_s_name)
-/* ---------------------------------------------------------------------- */
-{
-	int j;
-
-	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
-		return (0.0);
-	for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
-	{
-		if (strcmp_nocase(use.Get_ss_assemblage_ptr()->s_s[j].name, s_s_name) == 0)
-		{
-			if (use.Get_ss_assemblage_ptr()->s_s[j].miscibility == TRUE)
-			{
-				return (use.Get_ss_assemblage_ptr()->s_s[j].xb1);
-			}
-			else
-			{
-				return (1.0);
-			}
-		}
-	}
-	return (0);
-}
-
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-find_misc2(const char *s_s_name)
-/* ---------------------------------------------------------------------- */
-{
-	int j;
-
-	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
-		return (0.0);
-	for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
-	{
-		if (strcmp_nocase(use.Get_ss_assemblage_ptr()->s_s[j].name, s_s_name) == 0)
-		{
-			if (use.Get_ss_assemblage_ptr()->s_s[j].miscibility == TRUE)
-			{
-				return (use.Get_ss_assemblage_ptr()->s_s[j].xb2);
-			}
-			else
-			{
-				return (1.0);
-			}
-		}
-	}
-	return (0);
-}
-
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-find_s_s_comp(const char *s_s_comp_name)
-/* ---------------------------------------------------------------------- */
-{
-	int i, j;
-
-	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
-		return (0);
-	for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
-	{
-		for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps; i++)
-		{
-			if (strcmp_nocase
-				(use.Get_ss_assemblage_ptr()->s_s[j].comps[i].name,
-				 s_s_comp_name) == 0)
-			{
-				if (use.Get_ss_assemblage_ptr()->s_s[j].ss_in == TRUE)
-				{
-					return (use.Get_ss_assemblage_ptr()->s_s[j].comps[i].moles);
-				}
-				else
-				{
-					return (0.0);
-				}
-			}
-		}
-	}
-	return (0);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 get_calculate_value(const char *name)
@@ -1444,84 +1346,6 @@ list_ss(std::string ss_name, cxxNameDouble &composition)
 	}
 	return (tot);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-sum_match_s_s(const char *mytemplate, const char *name)
-/* ---------------------------------------------------------------------- */
-{
-	int i, j;
-	LDBLE tot;
-	struct elt_list *next_elt;
-
-	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
-		return (0);
-	tot = 0;
-	for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
-	{
-		if (strcmp_nocase(use.Get_ss_assemblage_ptr()->s_s[j].name, mytemplate) ==
-			0)
-		{
-			if (use.Get_ss_assemblage_ptr()->s_s[j].ss_in == FALSE)
-			{
-				tot = 0;
-				break;
-			}
-			for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps; i++)
-			{
-				if (name == NULL)
-				{
-					tot += use.Get_ss_assemblage_ptr()->s_s[j].comps[i].moles;
-				}
-				else
-				{
-					for (next_elt =
-						 use.Get_ss_assemblage_ptr()->s_s[j].comps[i].phase->
-						 next_elt; next_elt->elt != NULL; next_elt++)
-					{
-						if (strcmp(next_elt->elt->name, name) == 0)
-						{
-							tot +=
-								next_elt->coef *
-								use.Get_ss_assemblage_ptr()->s_s[j].comps[i].moles;
-							break;
-						}
-					}
-				}
-			}
-			break;
-		}
-	}
-	return (tot);
-}
-
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-list_s_s(std::string s_s_name, cxxNameDouble &composition)
-/* ---------------------------------------------------------------------- */
-{
-	int i, j;
-
-	LDBLE tot = 0;
-	composition.clear();
-	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
-		return (0);
-
-	for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
-	{
-		if (strcmp_nocase(use.Get_ss_assemblage_ptr()->s_s[j].name, s_s_name.c_str()) == 0)
-		{
-			for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps; i++)
-			{
-				composition.add(use.Get_ss_assemblage_ptr()->s_s[j].comps[i].name, use.Get_ss_assemblage_ptr()->s_s[j].comps[i].moles);
-				tot += use.Get_ss_assemblage_ptr()->s_s[j].comps[i].moles;
-			}
-			break;
-		}
-	}
-	return (tot);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 match_elts_in_species(const char *name, const char *mytemplate)
@@ -2440,41 +2264,6 @@ system_total_ss(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-system_total_s_s(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Provides total moles in system and lists of species/phases in sort order
- */
-	int i, k;
-
-/*
- *  Solid solutions
- */
-	if (use.Get_ss_assemblage_ptr() == NULL)
-		return (OK);
-	for (k = 0; k < use.Get_ss_assemblage_ptr()->count_s_s; k++)
-	{
-		for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[k].count_comps; i++)
-		{
-			sys[count_sys].name =
-				string_duplicate(use.Get_ss_assemblage_ptr()->s_s[k].comps[i].
-								 phase->name);
-			sys[count_sys].moles =
-				use.Get_ss_assemblage_ptr()->s_s[k].comps[i].moles;
-			sys_tot += sys[count_sys].moles;
-			sys[count_sys].type = string_duplicate("s_s");
-			count_sys++;
-			space((void **) ((void *) &sys), count_sys, &max_sys,
-				  sizeof(struct system_species));
-		}
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 system_total_elt(const char *total_name)
@@ -2700,50 +2489,6 @@ system_total_elt(const char *total_name)
 			}
 		}
 	}
-#ifdef SKIP
-	if (use.Get_ss_assemblage_ptr() != NULL)
-	{
-		for (k = 0; k < use.Get_ss_assemblage_ptr()->count_s_s; k++)
-		{
-			if (use.Get_ss_assemblage_ptr()->s_s[k].ss_in == TRUE)
-			{
-				for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[k].count_comps;
-					 i++)
-				{
-					count_elts = 0;
-					paren_count = 0;
-					add_elt_list(use.Get_ss_assemblage_ptr()->s_s[k].comps[i].
-								 phase->next_elt,
-								 use.Get_ss_assemblage_ptr()->s_s[k].comps[i].
-								 moles);
-					if (count_elts > 0)
-					{
-						qsort(elt_list, (size_t) count_elts,
-							  (size_t) sizeof(struct elt_list),
-							  elt_list_compare);
-						elt_list_combine();
-					}
-					for (j = 0; j < count_elts; j++)
-					{
-						if (strcmp(elt_list[j].elt->name, total_name) == 0)
-						{
-							sys[count_sys].name =
-								string_duplicate(use.Get_ss_assemblage_ptr()->
-												 s_s[k].comps[i].phase->name);
-							sys[count_sys].moles = elt_list[j].coef;
-							sys_tot += sys[count_sys].moles;
-							sys[count_sys].type = string_duplicate("s_s");
-							count_sys++;
-							space((void **) ((void *) &sys), count_sys,
-								  &max_sys, sizeof(struct system_species));
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
-#endif
 /*
  *   find total in gas phase
  */
@@ -3017,50 +2762,6 @@ system_total_elt_secondary(const char *total_name)
 			}
 		}
 	}
-#ifdef SKIP
-	if (use.Get_ss_assemblage_ptr() != NULL)
-	{
-		for (k = 0; k < use.Get_ss_assemblage_ptr()->count_s_s; k++)
-		{
-			if (use.Get_ss_assemblage_ptr()->s_s[k].ss_in == TRUE)
-			{
-				for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[k].count_comps;
-					 i++)
-				{
-					count_elts = 0;
-					paren_count = 0;
-					add_elt_list(use.Get_ss_assemblage_ptr()->s_s[k].comps[i].
-								 phase->next_sys_total,
-								 use.Get_ss_assemblage_ptr()->s_s[k].comps[i].
-								 moles);
-					if (count_elts > 0)
-					{
-						qsort(elt_list, (size_t) count_elts,
-							  (size_t) sizeof(struct elt_list),
-							  elt_list_compare);
-						elt_list_combine();
-					}
-					for (j = 0; j < count_elts; j++)
-					{
-						if (strcmp(elt_list[j].elt->name, total_name) == 0)
-						{
-							sys[count_sys].name =
-								string_duplicate(use.Get_ss_assemblage_ptr()->
-												 s_s[k].comps[i].phase->name);
-							sys[count_sys].moles = elt_list[j].coef;
-							sys_tot += sys[count_sys].moles;
-							sys[count_sys].type = string_duplicate("s_s");
-							count_sys++;
-							space((void **) ((void *) &sys), count_sys,
-								  &max_sys, sizeof(struct system_species));
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
-#endif
 /*
  *   find total in gas phase
  */
@@ -3224,20 +2925,6 @@ system_total_solids(cxxExchange *exchange_ptr,
 			}
 		}
 	}
-#ifdef SKIP
-	if (ss_assemblage_ptr != NULL)
-	{
-		for (i = 0; i < ss_assemblage_ptr->count_s_s; i++)
-		{
-			for (j = 0; j < ss_assemblage_ptr->s_s[i].count_comps; j++)
-			{
-				add_elt_list(ss_assemblage_ptr->s_s[i].comps[j].phase->
-							 next_elt,
-							 ss_assemblage_ptr->s_s[i].comps[j].moles);
-			}
-		}
-	}
-#endif
 	if (gas_phase_ptr != NULL)
 	{
 		for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)

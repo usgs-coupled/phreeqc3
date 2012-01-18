@@ -207,102 +207,6 @@ read_surface_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_equilibrium_phases_raw(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Reads EQUILIBRIUM_PHASES_RAW data block
- *
- *      Arguments:
- *         none
- *
- *      Returns:
- *         KEYWORD if keyword encountered, input_error may be incremented if
- *                    a keyword is encountered in an unexpected position
- *         EOF     if eof encountered while reading mass balance concentrations
- *         ERROR   if error occurred reading data
- *
- */
-	int return_value;
-	/*
-	 *  Accumulate lines in std string
-	 */
-	std::string keywordLines("");
-
-	keywordLines.append(line);
-	keywordLines.append("\n");
-/*
- *   Read additonal lines
- */
-	int save_echo_input = pr.echo_input;
-	pr.echo_input = FALSE;
-	for (;;)
-	{
-		return_value =
-			check_line("equilibrium_phases_raw", TRUE, TRUE, TRUE, FALSE);
-		/* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD)
-			break;
-		keywordLines.append(line);
-		keywordLines.append("\n");
-	}
-	pr.echo_input = save_echo_input;
-
-	std::istringstream iss_in(keywordLines);
-	CParser parser(iss_in, phrq_io);
-	assert(!reading_database());
-	if (pr.echo_input == FALSE)
-	{
-		parser.set_echo_file(CParser::EO_NONE);
-	}
-	else
-	{
-		parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	}
-	//For testing, need to read line to get started
-	std::vector < std::string > vopts;
-	std::istream::pos_type next_char;
-	parser.get_option(vopts, next_char);
-
-	cxxPPassemblage ex(phrq_io);
-	ex.read_raw(parser);
-	//struct pp_assemblage *pp_assemblage_ptr = ex.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
-	struct pp_assemblage *pp_assemblage_ptr = cxxPPassemblage2pp_assemblage(&ex);
-	int n;
-
-	/*
-	 *  This is not quite right, may not produce sort order, forced sort
-	 */
-
-	if (pp_assemblage_bsearch(pp_assemblage_ptr->n_user, &n) != NULL)
-	{
-		pp_assemblage_free(&pp_assemblage[n]);
-		pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[n],
-						   pp_assemblage_ptr->n_user);
-	}
-	else
-	{
-		n = count_pp_assemblage++;
-		if (count_pp_assemblage >= max_pp_assemblage)
-		{
-			space((void **) ((void *) &(pp_assemblage)), count_pp_assemblage,
-				  &max_pp_assemblage, sizeof(struct pp_assemblage));
-		}
-		pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[n],
-						   pp_assemblage_ptr->n_user);
-		pp_assemblage_sort();
-	}
-	pp_assemblage_free(pp_assemblage_ptr);
-	free_check_null(pp_assemblage_ptr);
-
-	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
-	return (return_value);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics_raw(void)
@@ -394,103 +298,6 @@ read_kinetics_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_solid_solutions_raw(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Reads SOLID_SOLUTION_RAW data block
- *
- *      Arguments:
- *         none
- *
- *      Returns:
- *         KEYWORD if keyword encountered, input_error may be incremented if
- *                    a keyword is encountered in an unexpected position
- *         EOF     if eof encountered while reading mass balance concentrations
- *         ERROR   if error occurred reading data
- *
- */
-	int return_value;
-	/*
-	 *  Accumulate lines in std string
-	 */
-	std::string keywordLines("");
-
-	keywordLines.append(line);
-	keywordLines.append("\n");
-/*
- *   Read additonal lines
- */
-	int save_echo_input = pr.echo_input;
-	pr.echo_input = FALSE;
-	for (;;)
-	{
-		return_value =
-			check_line("solid_solution_raw", TRUE, TRUE, TRUE, FALSE);
-		/* empty, eof, keyword, print */
-		if (return_value == EOF || return_value == KEYWORD)
-			break;
-		keywordLines.append(line);
-		keywordLines.append("\n");
-	}
-	pr.echo_input = save_echo_input;
-
-	std::istringstream iss_in(keywordLines);
-	CParser parser(iss_in, phrq_io);
-	assert(!reading_database());
-	if (pr.echo_input == FALSE)
-	{
-		parser.set_echo_file(CParser::EO_NONE);
-	}
-	else
-	{
-		parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	}
-	//For testing, need to read line to get started
-	std::vector < std::string > vopts;
-	std::istream::pos_type next_char;
-	parser.get_option(vopts, next_char);
-
-	cxxSSassemblage ex;
-	ex.read_raw(parser);
-	//struct ss_assemblage *ss_assemblage_ptr =	ex.cxxSSassemblage2ss_assemblage(PHREEQC_THIS);
-	struct ss_assemblage *ss_assemblage_ptr =	cxxSSassemblage2ss_assemblage(&ex);
-	int n;
-
-	/*
-	 *  This is not quite right, may not produce sort order, forced sort
-	 */
-
-	if (ss_assemblage_bsearch(ss_assemblage_ptr->n_user, &n) != NULL)
-	{
-		ss_assemblage_free(&ss_assemblage[n]);
-		ss_assemblage_copy(ss_assemblage_ptr, &ss_assemblage[n],
-							ss_assemblage_ptr->n_user);
-	}
-	else
-	{
-		n = count_ss_assemblage++;
-		if (count_ss_assemblage >= max_ss_assemblage)
-		{
-			space((void **) ((void *) &(ss_assemblage)),
-				  count_ss_assemblage, &max_ss_assemblage,
-				  sizeof(struct ss_assemblage));
-		}
-		ss_assemblage_copy(ss_assemblage_ptr, &ss_assemblage[n],
-							ss_assemblage_ptr->n_user);
-		ss_assemblage_sort();
-	}
-	ss_assemblage_free(ss_assemblage_ptr);
-	free_check_null(ss_assemblage_ptr);
-
-	// Need to output the next keyword
-	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
-	return (return_value);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_dump(void)
@@ -735,99 +542,6 @@ read_solution_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_equilibrium_phases_modify(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Reads equilibrium_phases_modify data block
- *
- *      Arguments:
- *         none
- *
- *      Returns:
- *         KEYWORD if keyword encountered, input_error may be incremented if
- *                    a keyword is encountered in an unexpected position
- *         EOF     if eof encountered while reading mass balance concentrations
- *         ERROR   if error occurred reading data
- *
- */
-	int return_value;
-
-	// find equilibrium_phases number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		error_string = sformatf( "Expected equilibrium_phases number following EQUILIBRIUM_PHASES_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		std::istringstream iss_in;
-		return_value = streamify_to_next_keyword(iss_in);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
-	/*
-	 *  Make parser
-	 */
-	std::istringstream iss_in;
-	return_value = streamify_to_next_keyword(iss_in);
-	CParser parser(iss_in, phrq_io);
-	assert(!reading_database());
-
-	//For testing, need to read line to get started
-	parser.set_echo_file(CParser::EO_NONE);
-	std::vector < std::string > vopts;
-	std::istream::pos_type next_char;
-	parser.get_option(vopts, next_char);
-
-	if (pr.echo_input == FALSE)
-	{
-		parser.set_echo_file(CParser::EO_NONE);
-	}
-	else
-	{
-		parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	}
-
-	if (pp_assemblage_bsearch(n_user, &n) == NULL)
-	{
-		input_error++;
-		error_string = sformatf( "Equlibrium_phases %d not found for EQUILIBRIUM_PHASES_MODIFY.\n", n_user);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	}
-
-	// read entity
-	cxxPPassemblage entity(&(pp_assemblage[n]), phrq_io);
-	entity.read_raw(parser, false);
-
-	// save entity
-	//struct pp_assemblage *entity_ptr = entity.cxxPPassemblage2pp_assemblage(PHREEQC_THIS);
-	struct pp_assemblage *entity_ptr = cxxPPassemblage2pp_assemblage(&entity);
-	pp_assemblage_free(&(pp_assemblage[n]));
-	pp_assemblage_copy(entity_ptr, &(pp_assemblage[n]), entity_ptr->n_user);
-	free_check_null(pp_assemblage[n].description);
-	pp_assemblage[n].description = string_duplicate(entity_ptr->description);
-	pp_assemblage[n].new_def = TRUE;
-	pp_assemblage[n].n_user_end = pp_assemblage[n].n_user;
-
-	pp_assemblage_free(entity_ptr);
-	free_check_null(entity_ptr);
-
-	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
-	return (return_value);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_surface_modify(void)
@@ -916,96 +630,6 @@ read_surface_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_solid_solutions_modify(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Reads SOLID_SOLUTIONS_MODIFY data block
- *
- *      Arguments:
- *         none
- *
- *      Returns:
- *         KEYWORD if keyword encountered, input_error may be incremented if
- *                    a keyword is encountered in an unexpected position
- *         EOF     if eof encountered while reading mass balance concentrations
- *         ERROR   if error occurred reading data
- *
- */
-	int return_value;
-
-	// find solid_solutions number
-	char token[MAX_LENGTH];
-	char *next;
-	int l, n_user, n;
-	next = line;
-	copy_token(token, &next, &l);
-	if (copy_token(token, &next, &l) != DIGIT)
-	{
-		input_error++;
-		error_string = sformatf( "Expected solid_solutions number following SOLID_SOLUTIONS_MODIFY.\n%s\n", line_save);
-		error_msg(error_string, CONTINUE);
-		std::istringstream iss_in;
-		return_value = streamify_to_next_keyword(iss_in);
-		return (ERROR);
-	} 
-	else
-	{
-		sscanf(token,"%d", &n_user);
-	}
-	/*
-	 *  Make parser
-	 */
-	std::istringstream iss_in;
-	return_value = streamify_to_next_keyword(iss_in);
-	CParser parser(iss_in, phrq_io);
-	assert(!reading_database());
-
-	//For testing, need to read line to get started
-	parser.set_echo_file(CParser::EO_NONE);
-	std::vector < std::string > vopts;
-	std::istream::pos_type next_char;
-	parser.get_option(vopts, next_char);
-
-	if (pr.echo_input == FALSE)
-	{
-		parser.set_echo_file(CParser::EO_NONE);
-	}
-	else
-	{
-		parser.set_echo_file(CParser::EO_NOKEYWORDS);
-	}
-
-	if (ss_assemblage_bsearch(n_user, &n) == NULL)
-	{
-		input_error++;
-		error_string = sformatf( "Solid_solutions %d not found for SOLID_SOLUTIONS_MODIFY.\n", n_user);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	}
-
-	// read entity
-	cxxSSassemblage entity(&(ss_assemblage[n]));
-	entity.read_raw(parser, false);
-
-	// save entity
-	//struct ss_assemblage *entity_ptr = entity.cxxSSassemblage2ss_assemblage(PHREEQC_THIS);
-	struct ss_assemblage *entity_ptr = cxxSSassemblage2ss_assemblage(&entity);
-	ss_assemblage_free(&(ss_assemblage[n]));
-	ss_assemblage_copy(entity_ptr, &(ss_assemblage[n]), entity_ptr->n_user);
-	free_check_null(ss_assemblage[n].description);
-	ss_assemblage[n].description = string_duplicate(entity_ptr->description);
-	ss_assemblage_free(entity_ptr);
-	free_check_null(entity_ptr);
-
-	// Need to output the next keyword
-	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
-	return (return_value);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics_modify(void)
@@ -1237,30 +861,6 @@ delete_entities(void)
 			}
 		}
 	}
-#ifdef SKIP
-	if (delete_info.Get_pp_assemblage().Get_defined())
-	{
-		if (delete_info.Get_pp_assemblage().Get_numbers().size() == 0)
-		{
-			for (i = 0; i < count_pp_assemblage; i++)
-			{
-				pp_assemblage_delete(pp_assemblage[i].n_user);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = delete_info.Get_pp_assemblage().Get_numbers().begin(); it != delete_info.Get_pp_assemblage().Get_numbers().end(); it++)
-			{
-
-				if (pp_assemblage_bsearch(*it, &n) != NULL)
-				{
-					pp_assemblage_delete(*it);
-				}
-			}
-		}
-	}
-#endif
 	// exchangers
 	if (delete_info.Get_exchange().Get_defined())
 	{
@@ -1316,29 +916,6 @@ delete_entities(void)
 			}
 		}
 	}
-#ifdef SKIP
-	if (delete_info.Get_ss_assemblage().Get_defined())
-	{
-		if (delete_info.Get_ss_assemblage().Get_numbers().size() == 0)
-		{
-			for (i = 0; i < count_ss_assemblage; i++)
-			{
-				ss_assemblage_delete(ss_assemblage[i].n_user);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = delete_info.Get_ss_assemblage().Get_numbers().begin(); it != delete_info.Get_ss_assemblage().Get_numbers().end(); it++)
-			{
-				if (ss_assemblage_bsearch(*it, &n) != NULL)
-				{
-					ss_assemblage_delete(*it);
-				}
-			}
-		}
-	}
-#endif
 	// gas_phases
 	if (delete_info.Get_gas_phase().Get_defined())
 	{
@@ -1718,32 +1295,6 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-#ifdef SKIP
-	if (dump_info.Get_bool_pp_assemblage())
-	{
-		if (dump_info.Get_pp_assemblage().size() == 0)
-		{
-			for (i = 0; i < count_pp_assemblage; i++)
-			{
-					cxxPPassemblage cxxentity(&pp_assemblage[i], phrq_io);
-					cxxentity.dump_raw(os,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_pp_assemblage().begin(); it != dump_info.Get_pp_assemblage().end(); it++)
-			{
-
-				if (pp_assemblage_bsearch(*it, &n) != NULL)
-				{
-					cxxPPassemblage cxxentity(&pp_assemblage[n], phrq_io);
-					cxxentity.dump_raw(os,0);
-				}
-			}
-		}
-	}
-#endif
 	// exchanges
 	if (dump_info.Get_bool_exchange())
 	{
@@ -1813,32 +1364,6 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-#ifdef SKIP
-	if (dump_info.Get_bool_ss_assemblage())
-	{
-		if (dump_info.Get_ss_assemblage().size() == 0)
-		{
-			for (i = 0; i < count_ss_assemblage; i++)
-			{
-					cxxSSassemblage cxxentity(&ss_assemblage[i]);
-					cxxentity.dump_raw(os,0);
-			}
-		}
-		else
-		{
-			std::set < int >::iterator it;
-			for (it = dump_info.Get_ss_assemblage().begin(); it != dump_info.Get_ss_assemblage().end(); it++)
-			{
-
-				if (ss_assemblage_bsearch(*it, &n) != NULL)
-				{
-					cxxSSassemblage cxxentity(&ss_assemblage[n]);
-					cxxentity.dump_raw(os,0);
-				}
-			}
-		}
-	}
-#endif
 	// gas_phases
 	if (dump_info.Get_bool_gas_phase())
 	{

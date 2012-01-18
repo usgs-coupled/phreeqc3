@@ -27,26 +27,7 @@ cxxSSassemblage::cxxSSassemblage(PHRQ_io * io)
 :	cxxNumKeyword(io)
 {
 }
-#ifdef SKIP
-cxxSSassemblage::cxxSSassemblage(struct ss_assemblage * ss_assemblage_ptr, PHRQ_io * io)
-	//
-	// constructor for cxxSSassemblage from struct SSassemblage
-	//
-:
-cxxNumKeyword(io)
-{
-	int i;
-	this->Set_description(ss_assemblage_ptr->description);
-	n_user = ss_assemblage_ptr->n_user;
-	n_user_end = ss_assemblage_ptr->n_user_end;
-	for (i = 0; i < ss_assemblage_ptr->count_s_s; i++)
-	{
-		cxxSS ssSS(&(ss_assemblage_ptr->s_s[i]), this->Get_io());
-		std::string str(ssSS.Get_name());
-		SSs[str] = ssSS;
-	}
-}
-#endif
+
 cxxSSassemblage::cxxSSassemblage(const std::map < int,
 								 cxxSSassemblage > &entities, cxxMix & mix,
 								 int l_n_user, PHRQ_io * io):
@@ -213,92 +194,6 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 			break;
 	}
 }
-#ifdef SKIP
-void
-cxxSSassemblage::read_raw(CParser & parser, bool check)
-{
-	static std::vector < std::string > vopts;
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("solid_solution");	// 0
-	}
-
-	std::istream::pos_type ptr;
-	std::istream::pos_type next_char;
-	std::string token;
-	int opt_save;
-	bool useLastLine(false);
-
-	// Read SSassemblage number and description
-	this->read_number_description(parser);
-
-	opt_save = CParser::OPT_ERROR;
-
-	for (;;)
-	{
-		int opt;
-		if (useLastLine == false)
-		{
-			opt = parser.get_option(vopts, next_char);
-		}
-		else
-		{
-			opt = parser.getOptionFromLastLine(vopts, next_char);
-		}
-		if (opt == CParser::OPT_DEFAULT)
-		{
-			opt = opt_save;
-		}
-		switch (opt)
-		{
-		case CParser::OPT_EOF:
-			break;
-		case CParser::OPT_KEYWORD:
-			break;
-		case CParser::OPT_DEFAULT:
-		case CParser::OPT_ERROR:
-			opt = CParser::OPT_EOF;
-			parser.
-				error_msg("Unknown input in SOLID_SOLUTIONS_RAW or SOLID_SOLUTIONS_MODIFY keyword.",
-						  PHRQ_io::OT_CONTINUE);
-			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
-			useLastLine = false;
-			break;
-
-		case 0:				// solid_solution
-			{
-				cxxSS ec(this->Get_io());
-
-				// preliminary read
-				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
-				parser.set_accumulate(false);
-				std::istringstream is(parser.get_accumulated());
-				CParser reread(is, this->Get_io());
-				reread.set_echo_file(CParser::EO_NONE);
-				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->SSs.find(ec.Get_name()) != this->SSs.end())
-				{
-					cxxSS & ec1 = this->SSs.find(ec.Get_name())->second;
-					ec1.read_raw(reread, false);
-				}
-				else
-				{
-					cxxSS ec1(this->Get_io());
-					ec1.read_raw(reread, false);
-					std::string str(ec1.Get_name());
-					this->SSs[str] = ec1;
-				}
-			}
-			useLastLine = true;
-			break;
-		}
-		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
-			break;
-	}
-}
-#endif
 #ifdef USE_MPI
 /* ---------------------------------------------------------------------- */
 void
