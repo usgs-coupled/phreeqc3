@@ -1259,16 +1259,19 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		}
 		else
 		{
-			if (true)			// (database_file == NULL)
+			if (false) // don't throw error
 			{
-				//get_output() << "\t" << m_line_save << "\n";
-				std::ostringstream msg;
-				msg << "\t" << m_line_save << "\n";
-				io->output_msg(msg.str().c_str());
+				if (true)			// (database_file == NULL)
+				{
+					//get_output() << "\t" << m_line_save << "\n";
+					std::ostringstream msg;
+					msg << "\t" << m_line_save << "\n";
+					io->output_msg(msg.str().c_str());
+				}
+				error_msg("Unknown option.", PHRQ_io::OT_CONTINUE);
+				error_msg(m_line_save.c_str(), PHRQ_io::OT_CONTINUE);
+				incr_input_error();
 			}
-			error_msg("Unknown option.", PHRQ_io::OT_CONTINUE);
-			error_msg(m_line_save.c_str(), PHRQ_io::OT_CONTINUE);
-			incr_input_error();
 			j = OPT_ERROR;
 			next_pos = pos_ptr;
 		}
