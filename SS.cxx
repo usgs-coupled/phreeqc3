@@ -44,37 +44,6 @@ PHRQ_base(io)
 		p.push_back(0);
 	}
 }
-#ifdef SKIP
-cxxSS::cxxSS(struct s_s *s_s_ptr, PHRQ_io *io)
-:
-PHRQ_base(io)		//
-		// constructor for cxxSS from struct s_s
-		//
-{
-	this->Set_name(s_s_ptr->name);
-	//total_moles                              = s_s_ptr->total_moles;                            
-	a0 = s_s_ptr->a0;
-	a1 = s_s_ptr->a1;
-	ag0 = s_s_ptr->ag0;
-	ag1 = s_s_ptr->ag1;
-	miscibility = (s_s_ptr->miscibility == TRUE);
-	//spinodal                                   = (s_s_ptr->spinodal == TRUE);                     
-	//tk                                         = s_s_ptr->tk;
-	xb1 = s_s_ptr->xb1;
-	xb2 = s_s_ptr->xb2;
-	//type                                     = s_s_ptr->input_case;                            
-	/*
-	   for (i = 0; i < 4; i++) {
-	   p[i]                               = s_s_ptr->p[i];
-	   }
-	 */
-	int i;
-	for (i = 0; i < s_s_ptr->count_comps; i++)
-	{
-		comps[s_s_ptr->comps[i].name] = s_s_ptr->comps[i].moles;
-	}
-}
-#endif
 cxxSS::~cxxSS()
 {
 }
@@ -543,31 +512,6 @@ cxxSS::totalize(PHREEQC_PTR_ARG)
 	}
 	return;
 }
-#ifdef SKIP
-void
-cxxSS::totalize(PHREEQC_PTR_ARG)
-{
-	this->totals.clear();
-	// component structures
-	for (cxxNameDouble::const_iterator it = this->comps.begin();
-		 it != this->comps.end(); it++)
-	{
-		struct phase *phase_ptr;
-		int l;
-		phase_ptr = P_INSTANCE_POINTER phase_bsearch(it->first.c_str(), &l, FALSE);
-		if (phase_ptr != NULL)
-		{
-			cxxNameDouble phase_formula(phase_ptr->next_elt);
-			this->totals.add_extensive(phase_formula, it->second);
-		}
-		else
-		{
-			assert(false);
-		}
-	}
-	return;
-}
-#endif
 void
 cxxSS::add(const cxxSS & addee_in, LDBLE extensive)
 {
@@ -608,26 +552,6 @@ cxxSS::add(const cxxSS & addee_in, LDBLE extensive)
 		}
 	}
 }
-#ifdef SKIP
-void
-cxxSS::add(const cxxSS & addee, LDBLE extensive)
-{
-	if (extensive == 0.0)
-		return;
-	if (addee.name.size() == 0)
-		return;
-	// this and addee must have same name
-	// otherwise generate a new PPassemblagComp with multiply
-
-	//char *name;
-	//cxxNameDouble comps;
-	this->comps.add_extensive(addee.comps, extensive);
-	//LDBLE a0, a1;
-	//LDBLE ag0, ag1;
-	//bool miscibility;
-	//LDBLE xb1, xb2;
-}
-#endif
 void
 cxxSS::multiply(LDBLE extensive)
 {
@@ -644,19 +568,6 @@ cxxSS::multiply(LDBLE extensive)
 		this->ss_comps[i].Set_delta(d);
 	}
 }
-#ifdef SKIP
-void
-cxxSS::multiply(LDBLE extensive)
-{
-	//char *name;
-	//cxxNameDouble comps;
-	this->comps.multiply(extensive);
-	//LDBLE a0, a1;
-	//LDBLE ag0, ag1;
-	//bool miscibility;
-	//LDBLE xb1, xb2;
-}
-#endif
 cxxSScomp *
 cxxSS::Find(const char * comp_name)
 {

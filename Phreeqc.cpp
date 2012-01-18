@@ -207,14 +207,6 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 			accumulator.add_extensive(entity.Get_totals(), 1.0);
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_pp_assemblage; i++)
-	{
-		cxxPPassemblage entity(&pp_assemblage[i], phrq_io);
-		entity.totalize(this);
-		accumulator.add_extensive(entity.Get_totals(), 1.0);
-	}
-#endif
 	// exchangers
 	{
 		std::map<int, cxxExchange>::const_iterator cit = Rxn_exchange_map.begin();
@@ -255,14 +247,6 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 			accumulator.add_extensive(entity.Get_totals(), 1.0);
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_ss_assemblage; i++)
-	{
-		cxxSSassemblage entity(&ss_assemblage[i]);
-		entity.totalize(this);
-		accumulator.add_extensive(entity.Get_totals(), 1.0);
-	}
-#endif
 	// kinetics
 	for (i = 0; i < count_kinetics; i++)
 	{

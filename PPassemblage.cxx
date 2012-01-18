@@ -26,29 +26,7 @@ cxxPPassemblage::cxxPPassemblage(PHRQ_io * io)
 {
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
 }
-#ifdef SKIP
-cxxPPassemblage::cxxPPassemblage(struct pp_assemblage *pp_assemblage_ptr, PHRQ_io * io)
-		//
-		// constructor for cxxPPassemblage from struct PPassemblage
-		//
-	:
-cxxNumKeyword(io),
-eltList(pp_assemblage_ptr->next_elt)
-{
-	int i;
 
-	this->Set_description(pp_assemblage_ptr->description);
-	n_user = pp_assemblage_ptr->n_user;
-	n_user_end = pp_assemblage_ptr->n_user_end;
-	for (i = 0; i < pp_assemblage_ptr->count_comps; i++)
-	{
-		cxxPPassemblageComp ppComp(&(pp_assemblage_ptr->pure_phases[i]), this->Get_io());
-		//ppAssemblageComps.push_back(ppComp);
-		std::string str(ppComp.Get_name());
-		this->ppAssemblageComps[str] = ppComp;
-	}
-}
-#endif
 cxxPPassemblage::cxxPPassemblage(const std::map < int,
 								 cxxPPassemblage > &entities, cxxMix & mix,
 								 int l_n_user, PHRQ_io * io):

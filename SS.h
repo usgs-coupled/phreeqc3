@@ -59,12 +59,7 @@ class cxxSS: public PHRQ_base
 	{
 		return (this->totals);
 	};
-#ifdef SKIP
-	const cxxNameDouble & Get_comps() const
-	{
-		return (this->comps);
-	};
-#endif
+
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);

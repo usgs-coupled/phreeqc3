@@ -33,26 +33,7 @@ PHRQ_base(io)
 	dissolve_only = false;
 	precipitate_only = false;
 }
-#ifdef SKIP
-cxxPPassemblageComp::cxxPPassemblageComp(struct pure_phase * pure_phase_ptr, PHRQ_io *io)
-:
-PHRQ_base(io)
-	//
-	// constructor for cxxPPassemblageComp from struct pure_phase
-	//
-{
-	this->Set_name(pure_phase_ptr->name);
-	this->Set_add_formula(pure_phase_ptr->add_formula);
-	si = pure_phase_ptr->si;
-	si_org = pure_phase_ptr->si_org;
-	moles = pure_phase_ptr->moles;
-	delta = pure_phase_ptr->delta;
-	initial_moles = pure_phase_ptr->initial_moles;
-	force_equality = (pure_phase_ptr->force_equality == TRUE);
-	dissolve_only = (pure_phase_ptr->dissolve_only == TRUE);
-	precipitate_only = (pure_phase_ptr->precipitate_only == TRUE);
-}
-#endif
+
 cxxPPassemblageComp::~cxxPPassemblageComp()
 {
 }

@@ -45,20 +45,6 @@ add_elt_list(const cxxNameDouble & nd, LDBLE coef)
 		elt_list[count_elts].coef = cit->second * coef;
 		count_elts++;
 	}
-#ifdef SKIP
-	for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
-		 elt_list_ptr1++)
-	{
-		if (count_elts >= max_elts)
-		{
-			space((void **) ((void *) &elt_list), count_elts, &max_elts,
-				  sizeof(struct elt_list));
-		}
-		elt_list[count_elts].elt = elt_list_ptr1->elt;
-		elt_list[count_elts].coef = elt_list_ptr1->coef * coef;
-		count_elts++;
-	}
-#endif
 	return (OK);
 }
 

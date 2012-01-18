@@ -464,23 +464,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				add_elt_list(reaction_ptr->Get_elementList(), moles);
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
-#ifdef SKIP
-			irrev_ptr = irrev_bsearch(n_user[Reaction], &n);
-			if (irrev_ptr == NULL)
-				break;
-			count_elts = 0;
-			paren_count = 0;
-			if (n_buffer == 1)
-			{
-				moles = irrev_ptr->steps[0];
-			}
-			else
-			{
-				moles = 0.0;
-			}
-			add_elt_list(irrev_ptr->elts, moles);
-			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
-#endif
 			break;
 		case Pure_phase:
 			/*
@@ -533,12 +516,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				{
 					add_elt_list(comps[j]->Get_totals(), 1.0);
 				}
-#ifdef SKIP
-				for (j = 0; j < exchange_ptr->count_comps; j++)
-				{
-					add_elt_list(exchange_ptr->comps[j].totals, 1.0);
-				}
-#endif
 				qsort(elt_list, (size_t) count_elts,
 					(size_t) sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
@@ -609,44 +586,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
 			break;
-#ifdef SKIP
-			/*
-			 *   fill an solid solution phase
-			 */
-			if (n_user[Ss_phase] < 0)
-				break;
-			ss_assemblage_ptr = ss_assemblage_bsearch(n_user[Ss_phase], &n);
-			if (ss_assemblage_ptr == NULL)
-				break;
-			found = FALSE;
-			moles = 0.0;
-			for (j = 0; j < ss_assemblage_ptr->count_s_s; j++)
-			{
-				for (k = 0; k < ss_assemblage_ptr->s_s[j].count_comps; k++)
-				{
-					if (ss_assemblage_ptr->s_s[j].comps[k].phase->name ==
-						tally_table[i].name)
-						break;
-					if (strcmp_nocase
-						(ss_assemblage_ptr->s_s[j].comps[k].phase->name,
-						 tally_table[i].name) == 0)
-						break;
-				}
-				if (k < ss_assemblage_ptr->s_s[j].count_comps)
-				{
-					moles = ss_assemblage_ptr->s_s[j].comps[k].moles;
-					found = TRUE;
-					break;
-				}
-			}
-			if (found == FALSE)
-				break;
-			count_elts = 0;
-			paren_count = 0;
-			add_elt_list(tally_table[i].formula, moles);
-			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
-			break;
-#endif
 		case Gas_phase:
 			/*
 			 *   fill in gas phase
@@ -674,29 +613,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 				break;
 			}
-#ifdef SKIP
-			/*
-			 *   fill in gas phase
-			 */
-			if (n_user[Gas_phase] < 0)
-				break;
-			//gas_phase_ptr = gas_phase_bsearch(n_user[Gas_phase], &n);
-
-			if (gas_phase_ptr == NULL)
-				break;
-			count_elts = 0;
-			paren_count = 0;
-			for (j = 0; j < gas_phase_ptr->count_comps; j++)
-			{
-				add_elt_list(gas_phase_ptr->comps[j].phase->next_elt,
-							 gas_phase_ptr->comps[j].moles);
-			}
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
-			break;
-#endif
 		case Kinetics:
 			/*
 			 *   fill in kinetics
@@ -732,16 +648,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 		case UnKnown:
 			break;
 		}
-#ifdef SKIP
-		output_msg(sformatf( "Column %d\t%s\tType: %d\n", i,
-				   tally_table[i].name, tally_table[i].type));
-		for (j = 0; j < count_tally_table_rows; j++)
-		{
-			output_msg(sformatf( "\t%d\t%s\t%e\n", j,
-					   tally_table[i].total[n_buffer][j].name,
-					   (double) tally_table[i].total[n_buffer][j].moles));
-		}
-#endif
 	}
 
 	return (OK);
@@ -874,20 +780,6 @@ build_tally_table(void)
 	{
 		count_tt_exchange = 0;
 	}
-#ifdef SKIP
-	if (count_exchange > 0)
-	{
-		count_tt_exchange = 1;
-		n = count_tally_table_columns;
-		extend_tally_table();
-		tally_table[n].name = string_hsave("Exchange");
-		tally_table[n].type = Exchange;
-	}
-	else
-	{
-		count_tt_exchange = 0;
-	}
-#endif
 /*
  *   add one for surface
  */
@@ -984,62 +876,6 @@ build_tally_table(void)
 			}
 		}
 	}
-#ifdef SKIP
-	count_tt_pure_phase = 0;
-	if (count_pp_assemblage > 0)
-	{
-		/* 
-		 * Go through all pure phases in pure phase assemblages
-		 */
-		for (i = 0; i < count_pp_assemblage; i++)
-		{
-			pp_assemblage_ptr = &pp_assemblage[i];
-			for (j = 0; j < pp_assemblage_ptr->count_comps; j++)
-			{
-				pure_phase_ptr = &pp_assemblage_ptr->pure_phases[j];
-				/* 
-				 * check if already in tally_table
-				 */
-				for (k = 1; k < count_tally_table_columns; k++)
-				{
-					if (tally_table[k].type == Pure_phase &&
-						tally_table[k].name == pure_phase_ptr->phase->name &&
-						tally_table[k].add_formula ==
-						pure_phase_ptr->add_formula)
-						break;
-				}
-				if (k < count_tally_table_columns)
-					continue;
-				/*
-				 * Add to table
-				 */
-				count_tt_pure_phase++;
-				n = count_tally_table_columns;
-				extend_tally_table();
-				tally_table[n].name = pure_phase_ptr->phase->name;
-				tally_table[n].type = Pure_phase;
-				tally_table[n].add_formula = pure_phase_ptr->add_formula;
-				count_elts = 0;
-				paren_count = 0;
-				if (pure_phase_ptr->add_formula != NULL)
-				{
-					strcpy(token, pure_phase_ptr->add_formula);
-					ptr = &(token[0]);
-					get_elts_in_species(&ptr, 1.0);
-				}
-				else
-				{
-					strcpy(token, pure_phase_ptr->phase->formula);
-					add_elt_list(pure_phase_ptr->phase->next_elt, 1.0);
-				}
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
-			}
-		}
-	}
-#endif
 /*
  *   Add solid-solution pure phases
  */
@@ -1096,53 +932,6 @@ build_tally_table(void)
 			}
 		}
 	}
-#ifdef SKIP
-	if (count_ss_assemblage > 0)
-	{
-		/* 
-		 * Go through all components of all solid solutions in solid-solution assemblages
-		 */
-		for (i = 0; i < count_ss_assemblage; i++)
-		{
-			ss_assemblage_ptr = &ss_assemblage[i];
-			for (j = 0; j < ss_assemblage_ptr->count_s_s; j++)
-			{
-				s_s_ptr = &ss_assemblage_ptr->s_s[j];
-				for (k = 0; k < s_s_ptr->count_comps; k++)
-				{
-					s_s_comp_ptr = &s_s_ptr->comps[k];
-					/* 
-					 * check if already in tally_table
-					 */
-					for (l = 1; l < count_tally_table_columns; l++)
-					{
-						if (tally_table[l].type == Ss_phase &&
-							tally_table[l].name == s_s_comp_ptr->phase->name)
-							break;
-					}
-					if (l < count_tally_table_columns)
-						continue;
-					/*
-					 * Add to table
-					 */
-					count_tt_ss_phase++;
-					n = count_tally_table_columns;
-					extend_tally_table();
-					tally_table[n].name = s_s_comp_ptr->phase->name;
-					tally_table[n].type = Ss_phase;
-					count_elts = 0;
-					paren_count = 0;
-					strcpy(token, s_s_comp_ptr->phase->formula);
-					add_elt_list(s_s_comp_ptr->phase->next_elt, 1.0);
-					qsort(elt_list, (size_t) count_elts,
-						  (size_t) sizeof(struct elt_list), elt_list_compare);
-					elt_list_combine();
-					tally_table[n].formula = elt_list_save();
-				}
-			}
-		}
-	}
-#endif
 /*
  *   Add kinetic reactants
  */
@@ -1280,12 +1069,6 @@ add_all_components_tally(void)
 			add_reaction(&it->second, 1, 1.0);
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_irrev; i++)
-	{
-		add_reaction(&irrev[i], 1, 1.0);
-	}
-#endif
 /*
  *   Add pure phases
  */
@@ -1296,12 +1079,6 @@ add_all_components_tally(void)
 			add_pp_assemblage(&(it->second));
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_pp_assemblage; i++)
-	{
-		add_pp_assemblage(&pp_assemblage[i]);
-	}
-#endif
 /*
  *   Exchangers
  */
@@ -1312,12 +1089,6 @@ add_all_components_tally(void)
 			add_exchange(&it->second);
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_exchange; i++)
-	{
-		add_exchange(&exchange[i]);
-	}
-#endif
 /*
  *   Surfaces
  */
@@ -1335,12 +1106,6 @@ add_all_components_tally(void)
 			add_gas_phase(&it->second);
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_gas_phase; i++)
-	{
-		add_gas_phase(&gas_phase[i]);
-	}
-#endif
 /*
  *   Add solid-solution pure phases
  */
@@ -1349,12 +1114,6 @@ add_all_components_tally(void)
 	{
 		add_ss_assemblage(&(it->second));
 	}
-#ifdef SKIP
-	for (i = 0; i < count_ss_assemblage; i++)
-	{
-		add_ss_assemblage(&ss_assemblage[i]);
-	}
-#endif
 /*
  *   Add elements in kinetic reactions
  */

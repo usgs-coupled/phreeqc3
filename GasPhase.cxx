@@ -596,31 +596,6 @@ cxxGasPhase::totalize(PHREEQC_PTR_ARG)
 	}
 	return;
 }
-#ifdef SKIP
-void
-cxxGasPhase::totalize(PHREEQC_PTR_ARG)
-{
-	this->totals.clear();
-	// component structures
-	for (cxxNameDouble::const_iterator it = this->gasPhaseComps.begin();
-		 it != this->gasPhaseComps.end(); it++)
-	{
-		struct phase *phase_ptr;
-		int l;
-		phase_ptr = P_INSTANCE_POINTER phase_bsearch(it->first.c_str(), &l, FALSE);
-		if (phase_ptr != NULL)
-		{
-			cxxNameDouble phase_formula(phase_ptr->next_elt);
-			this->totals.add_extensive(phase_formula, it->second);
-		}
-		else
-		{
-			assert(false);
-		}
-	}
-	return;
-}
-#endif
 LDBLE cxxGasPhase::Calc_total_moles(void)
 {
 	LDBLE tot = 0.0;

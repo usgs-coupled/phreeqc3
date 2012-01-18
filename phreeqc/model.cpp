@@ -457,61 +457,6 @@ check_residuals(void)
 				}
 			}
 		}
-#ifdef SKIP
-		else if (x[i]->type == PP)
-		{
-			if (x[i]->pure_phase->add_formula == NULL)
-			{
-				if (x[i]->dissolve_only == TRUE)
-				{
-					if ((residual[i] > epsilon && x[i]->moles > 0.0)
-						||
-						((residual[i] < -epsilon
-						  && (x[i]->pure_phase->initial_moles - x[i]->moles) >
-						  0)))
-					{
-						log_msg(sformatf(
-								   "%20s Dissolve_only pure phase has not converged. \tResidual: %e\n",
-								   x[i]->description, (double) residual[i]));
-					}
-				}
-				else
-				{
-					if ((residual[i] >= epsilon
-						 && x[i]->moles > 0.0) /* || stop_program == TRUE */ )
-					{
-						remove_unstable_phases = TRUE;
-						log_msg(sformatf(
-								   "%20s Pure phase has not converged. \tResidual: %e\n",
-								   x[i]->description, (double) residual[i]));
-					}
-					else if (residual[i] <= -epsilon)
-					{
-						error_string = sformatf(
-								"%20s Pure phase has not converged. "
-								"\tResidual: %e\n", x[i]->description,
-								(double) residual[i]);
-						error_msg(error_string, CONTINUE);
-					}
-				}
-			}
-			else
-			{
-				if ((fabs(residual[i]) >= epsilon
-					 && x[i]->moles > 0.0) /* || stop_program == TRUE */ )
-				{
-					log_msg(sformatf(
-							   "%s, Pure phase has not converged. \tResidual: %e\n",
-							   x[i]->description, (double) residual[i]));
-					error_string = sformatf(
-							"%s, Pure phase with add formula has not converged.\n\t SI may be a local minimum."
-							"\tResidual: %e\n", x[i]->description,
-							(double) residual[i]);
-					warning_msg(error_string);
-				}
-			}
-		}
-#endif
 		else if (x[i]->type == EXCH)
 		{
 			if (				/* stop_program == TRUE || */
@@ -1028,30 +973,6 @@ ineq(int in_kode)
 				}
 			}
 		}
-#ifdef SKIP
-		for (i = 0; i < count_unknowns; i++)
-		{
-
-			if (x[i]->type == PP && residual[i] > 0e-8 && x[i]->moles > 0 &&
-				x[i]->pure_phase->add_formula == NULL
-				&& x[i]->dissolve_only == FALSE)
-			{
-/*
- *   Set mass transfer to all of phase
- */
-				delta[i] = x[i]->moles;
-			}
-			else
-			{
-				delta[i] = 0.0;
-			}
-			if (debug_model == TRUE)
-			{
-				output_msg(sformatf( "%6d  %-12.12s %10.2e\n", i,
-						   x[i]->description, (double) delta[i]));
-			}
-		}
-#endif
 		remove_unstable_phases = FALSE;
 		return (OK);
 	}
@@ -1307,57 +1228,6 @@ ineq(int in_kode)
 				l_count_rows++;
 			}
 		}
-#ifdef SKIP
-		if (x[i]->type == PP)
-		{
-			/* not in model, ignore */
-			if (x[i]->pure_phase->phase->in == FALSE)
-				continue;
-			if (x[i]->pure_phase->force_equality == TRUE)
-				continue;
-			/*   Undersaturated and no mass, ignore */
-			if (x[i]->f > 0e-8 && x[i]->moles <= 0
-				&& x[i]->pure_phase->add_formula == NULL)
-			{
-				continue;
-			}
-			else if (x[i]->f < 0e-8 && x[i]->dissolve_only == TRUE
-					 && (x[i]->moles - x[i]->pure_phase->initial_moles >= 0))
-			{
-				continue;
-			}
-			else
-			{
-				/*   Copy in saturation index equation (has mass or supersaturated) */
-				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-					   (void *) &(array[i * (count_unknowns + 1)]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
-				back_eq[l_count_rows] = i;
-				if (x[i]->pure_phase->add_formula == NULL
-					&& x[i]->dissolve_only == FALSE)
-				{
-					res[l_count_rows] = 1.0;
-				}
-/*
- *   If infeasible solution on first attempt, remove constraints on IAP
- */
-				if (pp_scale != 1)
-				{
-					for (j = 0; j < count_unknowns + 1; j++)
-					{
-						ineq_array[l_count_rows * max_column_count + j] *=
-							pp_scale;
-					}
-				}
-
-				if (in_kode != 1)
-				{
-					res[l_count_rows] = 0.0;
-				}
-				l_count_rows++;
-			}
-		}
-#endif
 		else if (x[i]->type == ALK || x[i]->type == SOLUTION_PHASE_BOUNDARY)
 		{
 /*
@@ -1680,35 +1550,6 @@ ineq(int in_kode)
 			}
 		}
 	}
-#ifdef SKIP
-/*
- *   No moles of surface
- */
-	if (use.Get_surface_ptr() != NULL
-		&& (use.Get_surface_ptr()->related_phases == TRUE
-			|| use.Get_surface_ptr()->related_rate == TRUE))
-	{
-		for (i = 0; i < count_unknowns; i++)
-		{
-			if ((x[i]->type == SURFACE && x[i]->phase_unknown != NULL &&
-/*			     x[i]->phase_unknown->f > 0e-8 && */
-				 x[i]->phase_unknown->moles <= MIN_RELATED_SURFACE &&
-				 x[i]->phase_unknown->pure_phase->add_formula == NULL) ||
-				((x[i]->type == SURFACE_CB || x[i]->type == SURFACE_CB1
-				  || x[i]->type == SURFACE_CB2)
-				 && x[i - 1]->phase_unknown != NULL &&
-/*			     x[i-1]->phase_unknown->f > 0e-8 && */
-				 x[i]->surface_charge->grams <= MIN_RELATED_SURFACE &&
-				 x[i - 1]->phase_unknown->pure_phase->add_formula == NULL))
-			{
-				for (j = 0; j < l_count_rows; j++)
-				{
-					ineq_array[j * max_column_count + i] = 0.0;
-				}
-			}
-		}
-	}
-#endif
 /*
  *   No moles of surface
  */
@@ -2431,129 +2272,6 @@ mb_ss(void)
 		//x[i]->ss_in = x[i]->s_s->ss_in;
 		x[i]->ss_in = ss_ptr->Get_ss_in() ? TRUE : FALSE;
 	}
-#ifdef SKIP
-	for (i = 0; i < use.Get_ss_assemblage_ptr()->count_s_s; i++)
-	{
-		s_s_ptr = &(use.Get_ss_assemblage_ptr()->s_s[i]);
-		total_moles = 0;
-		for (j = 0; j < s_s_ptr->count_comps; j++)
-		{
-			total_moles += s_s_ptr->comps[j].moles;
-		}
-		if (total_moles > 1e-13)
-		{
-			s_s_ptr->ss_in = TRUE;
-		}
-		else if (s_s_ptr->a0 != 0.0 || s_s_ptr->a1 != 0.0)
-		{
-			/*
-			 *  Calculate IAPc and IAPb
-			 */
-			if (s_s_ptr->comps[0].phase->rxn_x != NULL)
-			{
-				log10_iap = 0;
-				for (rxn_ptr = s_s_ptr->comps[0].phase->rxn_x->token + 1;
-					 rxn_ptr->s != NULL; rxn_ptr++)
-				{
-					log10_iap += rxn_ptr->s->la * rxn_ptr->coef;
-				}
-				iapc = exp(log10_iap * LOG_10);
-			}
-			else
-			{
-				iapc = 1e-99;
-			}
-			if (s_s_ptr->comps[1].phase->rxn_x != NULL)
-			{
-				log10_iap = 0;
-				for (rxn_ptr = s_s_ptr->comps[1].phase->rxn_x->token + 1;
-					 rxn_ptr->s != NULL; rxn_ptr++)
-				{
-					log10_iap += rxn_ptr->s->la * rxn_ptr->coef;
-				}
-				iapb = exp(log10_iap * LOG_10);
-			}
-			else
-			{
-				iapb = 1e-99;
-			}
-			/*
-			 *  Calculate sigma pi, aq
-			 */
-			sigmapi_aq = iapc + iapb;
-			/*
-			 *  Calculate xc,aq and xb, aq
-			 */
-			xcaq = iapc / (iapb + iapc);
-			xbaq = iapb / (iapb + iapc);
-			/*
-			 *  Get Kc and Kb
-			 */
-			l_kc = exp(s_s_ptr->comps[0].phase->lk * LOG_10);
-			l_kb = exp(s_s_ptr->comps[1].phase->lk * LOG_10);
-			/*
-			 *  Solve for xb
-			 */
-			xb = s_s_root(s_s_ptr->a0, s_s_ptr->a1, l_kc, l_kb, xcaq, xbaq);
-			/*
-			 *  Calculate lambdac and lambdab
-			 */
-			xc = 1 - xb;
-			lc = exp((s_s_ptr->a0 - s_s_ptr->a1 * (-4 * xb + 3)) * xb * xb);
-			lb = exp((s_s_ptr->a0 + s_s_ptr->a1 * (4 * xb - 1)) * xc * xc);
-			/*
-			 *  Calculate sigma pi, solid
-			 */
-			sigmapi_solid = xb * lb * l_kb + xc * lc * l_kc;
-			/*
-			 * If Sigma pi, solid < sigma pi, aq, then use eqns
-			 */
-			if (sigmapi_solid < sigmapi_aq)
-			{
-				s_s_ptr->ss_in = TRUE;
-			}
-			else
-			{
-				s_s_ptr->ss_in = FALSE;
-			}
-		}
-		else
-		{
-			/*
-			 *  Calculate total mole fraction from solution activities
-			 */
-			total_p = 0;
-			for (j = 0; j < s_s_ptr->count_comps; j++)
-			{
-				phase_ptr = s_s_ptr->comps[j].phase;
-				if (phase_ptr->in == TRUE)
-				{
-					lp = -phase_ptr->lk;
-					for (rxn_ptr = s_s_ptr->comps[j].phase->rxn_x->token + 1;
-						 rxn_ptr->s != NULL; rxn_ptr++)
-					{
-						lp += rxn_ptr->s->la * rxn_ptr->coef;
-					}
-					total_p += exp(lp * LOG_10);
-				}
-			}
-			if (total_p > 1.0)
-			{
-				s_s_ptr->ss_in = TRUE;
-			}
-			else
-			{
-				s_s_ptr->ss_in = FALSE;
-			}
-		}
-	}
-	for (i = ss_unknown->number; i < count_unknowns; i++)
-	{
-		if (x[i]->type != SS_MOLES)
-			break;
-		x[i]->ss_in = x[i]->s_s->ss_in;
-	}
-#endif
 	return (OK);
 }
 
@@ -3043,67 +2761,6 @@ calc_ss_fractions(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calc_s_s_fractions(void)
-/* ---------------------------------------------------------------------- */
-{
-	int i, k;
-	LDBLE moles, n_tot;
-	struct s_s *s_s_ptr;
-
-/*
- *   moles and lambdas for solid solutions
- */
-	if (ss_unknown == NULL)
-		return (OK);
-/*
- *  Calculate mole fractions and log lambda and derivative factors
- */
-	if (use.Get_ss_assemblage_ptr() == NULL)
-		return (OK);
-	for (i = 0; i < use.Get_ss_assemblage_ptr()->count_s_s; i++)
-	{
-		s_s_ptr = &(use.Get_ss_assemblage_ptr()->s_s[i]);
-		n_tot = 0;
-		for (k = 0; k < s_s_ptr->count_comps; k++)
-		{
-			moles = s_s_ptr->comps[k].moles;
-			if (s_s_ptr->comps[k].moles < 0)
-			{
-				moles = MIN_TOTAL_SS;
-				s_s_ptr->comps[k].initial_moles = moles;
-			}
-			n_tot += moles;
-		}
-		s_s_ptr->total_moles = n_tot;
-		for (k = 0; k < s_s_ptr->count_comps; k++)
-		{
-			moles = s_s_ptr->comps[k].moles;
-			if (s_s_ptr->comps[k].moles < 0)
-			{
-				moles = MIN_TOTAL_SS;
-			}
-			s_s_ptr->comps[k].fraction_x = moles / n_tot;
-			s_s_ptr->comps[k].log10_fraction_x = log10(moles / n_tot);
-
-			/* all mb and jacobian items must be in x or phase to be static between models */
-			s_s_ptr->comps[k].phase->log10_fraction_x =
-				s_s_ptr->comps[k].log10_fraction_x;
-		}
-		if (s_s_ptr->a0 != 0.0 || s_s_ptr->a1 != 0)
-		{
-			s_s_binary(s_s_ptr);
-		}
-		else
-		{
-			s_s_ideal(s_s_ptr);
-		}
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 ss_binary(cxxSS *ss_ptr)
@@ -3228,127 +2885,6 @@ ss_binary(cxxSS *ss_ptr)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_s_binary(struct s_s *s_s_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	LDBLE nb, nc, n_tot, xb, xc, dnb, dnc, l_a0, l_a1;
-	LDBLE xb2, xb3, xb4, xc2, xc3;
-	LDBLE xb1, xc1;
-/*
- * component 0 is major component
- * component 1 is minor component
- * xb is the mole fraction of second component (formerly trace)
- * xc is the mole fraction of first component (formerly major)
-*/
-/*
- *  Calculate mole fractions and log lambda and derivative factors
- */
-	n_tot = s_s_ptr->total_moles;
-
-	nc = s_s_ptr->comps[0].moles;
-	xc = nc / n_tot;
-	nb = s_s_ptr->comps[1].moles;
-	xb = nb / n_tot;
-/*
- *   In miscibility gap
- */
-	l_a0 = s_s_ptr->a0;
-	l_a1 = s_s_ptr->a1;
-	if (s_s_ptr->miscibility == TRUE && xb > s_s_ptr->xb1
-		&& xb < s_s_ptr->xb2)
-	{
-		xb1 = s_s_ptr->xb1;
-		xc1 = 1.0 - xb1;
-		s_s_ptr->comps[0].fraction_x = xc1;
-		s_s_ptr->comps[0].log10_fraction_x = log10(xc1);
-		s_s_ptr->comps[0].phase->log10_fraction_x =
-			s_s_ptr->comps[0].log10_fraction_x;
-
-		s_s_ptr->comps[1].fraction_x = xb1;
-		s_s_ptr->comps[1].log10_fraction_x = log10(xb1);
-		s_s_ptr->comps[1].phase->log10_fraction_x =
-			s_s_ptr->comps[1].log10_fraction_x;
-
-		s_s_ptr->comps[0].log10_lambda =
-			xb1 * xb1 * (l_a0 - l_a1 * (3 - 4 * xb1)) / LOG_10;
-		s_s_ptr->comps[0].phase->log10_lambda =
-			s_s_ptr->comps[0].log10_lambda;
-
-		s_s_ptr->comps[1].log10_lambda =
-			xc1 * xc1 * (l_a0 + l_a1 * (4 * xb1 - 1)) / LOG_10;
-		s_s_ptr->comps[1].phase->log10_lambda =
-			s_s_ptr->comps[1].log10_lambda;
-
-		s_s_ptr->comps[0].dnb = 0;
-		s_s_ptr->comps[0].dnc = 0;
-		s_s_ptr->comps[1].dnb = 0;
-		s_s_ptr->comps[1].dnc = 0;
-		s_s_ptr->comps[0].phase->dnb = 0;
-		s_s_ptr->comps[0].phase->dnc = 0;
-		s_s_ptr->comps[1].phase->dnb = 0;
-		s_s_ptr->comps[1].phase->dnc = 0;
-	}
-	else
-	{
-/*
- *   Not in miscibility gap
- */
-		s_s_ptr->comps[0].fraction_x = xc;
-		s_s_ptr->comps[0].log10_fraction_x = log10(xc);
-		s_s_ptr->comps[0].phase->log10_fraction_x =
-			s_s_ptr->comps[0].log10_fraction_x;
-
-		s_s_ptr->comps[1].fraction_x = xb;
-		s_s_ptr->comps[1].log10_fraction_x = log10(xb);
-		s_s_ptr->comps[1].phase->log10_fraction_x =
-			s_s_ptr->comps[1].log10_fraction_x;
-
-		s_s_ptr->comps[0].log10_lambda =
-			xb * xb * (l_a0 - l_a1 * (3 - 4 * xb)) / LOG_10;
-		s_s_ptr->comps[0].phase->log10_lambda =
-			s_s_ptr->comps[0].log10_lambda;
-
-		s_s_ptr->comps[1].log10_lambda =
-			xc * xc * (l_a0 + l_a1 * (4 * xb - 1)) / LOG_10;
-		s_s_ptr->comps[1].phase->log10_lambda =
-			s_s_ptr->comps[1].log10_lambda;
-
-		xc2 = xc * xc;
-		xc3 = xc2 * xc;
-		xb2 = xb * xb;
-		xb3 = xb2 * xb;
-		xb4 = xb3 * xb;
-
-		/* used derivation that did not substitute x2 = 1-x1 */
-
-		/* first component, df1/dn1 */
-		dnc = 2 * l_a0 * xb2 + 12 * l_a1 * xc * xb2 + 6 * l_a1 * xb2;
-		s_s_ptr->comps[0].phase->dnc = -xb / nc + dnc / n_tot;
-
-
-		/* first component, df1/dn2 */
-		dnb =
-			1 - 2 * l_a0 * xb + 2 * l_a0 * xb2 + 8 * l_a1 * xc * xb -
-			12 * l_a1 * xc * xb2 - 2 * l_a1 * xb + 2 * l_a1 * xb2;
-		s_s_ptr->comps[0].phase->dnb = dnb / n_tot;
-
-		/* second component, df2/dn1 */
-		dnc =
-			1 - 2 * l_a0 * xc + 2 * l_a0 * xc2 - 8 * l_a1 * xb * xc +
-			12 * l_a1 * xb * xc2 + 2 * l_a1 * xc - 2 * l_a1 * xc2;
-		s_s_ptr->comps[1].phase->dnc = dnc / n_tot;
-
-		/* second component, df2/dn2 */
-		dnb = 2 * l_a0 * xc2 + 12 * l_a1 * xb * xc2 - 6 * l_a1 * xc2;
-		s_s_ptr->comps[1].phase->dnb = -xc / nb + dnb / n_tot;
-
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 ss_ideal(cxxSS *ss_ptr)
@@ -3397,52 +2933,6 @@ ss_ideal(cxxSS *ss_ptr)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_s_ideal(struct s_s *s_s_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	int k, j;
-	LDBLE n_tot, n_tot1;
-
-/*
- * component 0 is major component
- * component 1 is minor component
- * xb is the mole fraction of second component (formerly trace)
- * xc is the mole fraction of first component (formerly major)
-*/
-/*
- *  Calculate mole fractions and log lambda and derivative factors
- */
-	n_tot = s_s_ptr->total_moles;
-
-/*
- *   Ideal solid solution
- */
-	s_s_ptr->dn = 1.0 / n_tot;
-	for (k = 0; k < s_s_ptr->count_comps; k++)
-	{
-		n_tot1 = 0;
-		for (j = 0; j < s_s_ptr->count_comps; j++)
-		{
-			if (j != k)
-			{
-				n_tot1 += s_s_ptr->comps[j].moles;
-			}
-		}
-		s_s_ptr->comps[k].log10_lambda = 0;
-		s_s_ptr->comps[k].phase->log10_lambda = 0;
-
-		s_s_ptr->comps[k].dnb = -(n_tot1) / (s_s_ptr->comps[k].moles * n_tot);
-		s_s_ptr->comps[k].phase->dnb = s_s_ptr->comps[k].dnb;
-
-		s_s_ptr->comps[k].dn = s_s_ptr->dn;
-		s_s_ptr->comps[k].phase->dn = s_s_ptr->dn;
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 reset(void)
@@ -3578,25 +3068,6 @@ reset(void)
 						factor = f0;
 					}
 				}
-#ifdef SKIP
-				else if (x[i]->s_s_comp != NULL && delta[i] < -x[i]->s_s_comp->phase->delta_max)
-				// Uses delta_max computed in step
-				// delta_max is the maximum amount of the mineral that could form based
-				// on the limiting element in the system
-				{
-					f0 = -delta[i] / x[i]->s_s_comp->phase->delta_max;
-					if (f0 > factor)
-					{
-						if (debug_model == TRUE)
-						{
-							output_msg(sformatf(
-									   "%-10.10s, Precipitating too much mineral.\t%f\n",
-									   x[i]->description, (double) f0));
-						}
-						factor = f0;
-					}
-				}
-#endif
 			}
 		}
 	}

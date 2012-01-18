@@ -174,7 +174,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 		vopts.push_back("formula");	// 0 
 		vopts.push_back("moles");	// 1
 		vopts.push_back("la");	// 2 
-		vopts.push_back("charge_number");	// 3 
+		vopts.push_back("charge_number_not_used");	// 3 
 		vopts.push_back("charge_balance");	// 4
 		vopts.push_back("phase_name");	// 5 
 		vopts.push_back("rate_name");	// 6 
@@ -257,18 +257,17 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 			}
 			la_defined = true;
 			break;
-#ifdef SKIP
-		case 3:				// charge_number
-			if (!(parser.get_iss() >> this->charge_number))
-			{
-				this->charge_number = 0;
-				parser.incr_input_error();
-				parser.error_msg("Expected integer value for charge_number.",
-					PHRQ_io::OT_CONTINUE);
-			}
-			charge_number_defined = true;
+		case 3:				// charge_number not used
+			//if (!(parser.get_iss() >> this->charge_number))
+			//{
+			//	this->charge_number = 0;
+			//	parser.incr_input_error();
+			//	parser.error_msg("Expected integer value for charge_number.",
+			//		PHRQ_io::OT_CONTINUE);
+			//}
+			//charge_number_defined = true;
 			break;
-#endif
+
 		case 4:				// charge_balance
 			if (!(parser.get_iss() >> this->charge_balance))
 			{
@@ -397,14 +396,7 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 			parser.error_msg("La not defined for SurfaceComp input.",
 				PHRQ_io::OT_CONTINUE);
 		}
-#ifdef SKIP
-		if (charge_number_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Charge_number not defined for SurfaceComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-#endif
+
 		if (charge_balance_defined == false)
 		{
 			parser.incr_input_error();

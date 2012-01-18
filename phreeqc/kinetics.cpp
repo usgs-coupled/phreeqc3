@@ -319,26 +319,6 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	{
 		set_reaction(i, NOMIX, TRUE);
 	}
-#ifdef SKIP
-	if (use.Get_pp_assemblage_ptr() != NULL)
-	{
-		pp_assemblage_save =
-			(struct pp_assemblage *)
-			PHRQ_malloc(sizeof(struct pp_assemblage));
-		if (pp_assemblage_save == NULL)
-			malloc_error();
-	}
-#endif
-#ifdef SKIP
-	if (use.Get_ss_assemblage_ptr() != NULL)
-	{
-		ss_assemblage_save =
-			(struct ss_assemblage *)
-			PHRQ_malloc(sizeof(struct ss_assemblage));
-		if (ss_assemblage_save == NULL)
-			malloc_error();
-	}
-#endif
 	kinetics_ptr = kinetics_bsearch(i, &m);
 
 	step_bad = step_ok = 0;
@@ -1161,18 +1141,6 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		}
 		ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
 	}
-#ifdef SKIP
-	if (use.Get_ss_assemblage_ptr() != NULL)
-	{
-		ss_assemblage_save =
-			(struct ss_assemblage *)
-			PHRQ_malloc(sizeof(struct ss_assemblage));
-		if (ss_assemblage_save == NULL)
-			malloc_error();
-		ss_assemblage_copy(use.Get_ss_assemblage_ptr(), ss_assemblage_save,
-							use.Get_ss_assemblage_ptr()->n_user);
-	}
-#endif
 	if (use.Get_kinetics_ptr() != NULL)
 	{
 		kinetics_save =
@@ -2081,16 +2049,6 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			if (ss_assemblage_ptr != NULL)
 			{
 				cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
-#ifdef SKIP
-				cvode_ss_assemblage_save =
-					(struct ss_assemblage *)
-					PHRQ_malloc(sizeof(struct ss_assemblage));
-				if (cvode_ss_assemblage_save == NULL)
-					malloc_error();
-				ss_assemblage_copy(ss_assemblage_ptr,
-									cvode_ss_assemblage_save,
-									ss_assemblage_ptr->n_user);
-#endif
 			}
 
 			/* allocate space for CVODE */
@@ -2600,19 +2558,6 @@ store_get_equi_reactants(int l, int kin_end)
 				count_ss += (int) ss_ptr->Get_ss_comps().size();
 			}
 		}
-#ifdef SKIP
-		if (use.Get_ss_assemblage_ptr() != NULL)
-		{
-			for (j = 0; j < use.Get_ss_assemblage_ptr()->count_s_s; j++)
-			{
-				for (i = 0; i < use.Get_ss_assemblage_ptr()->s_s[j].count_comps;
-					 i++)
-				{
-					count_s_s++;
-				}
-			}
-		}
-#endif
 		k = count_pp + count_ss + count_pg;
 		x0_moles = NULL;
 		if (k == 0)
@@ -2634,12 +2579,7 @@ store_get_equi_reactants(int l, int kin_end)
 				x0_moles[++k] = it->second.Get_moles();
 			}
 		}
-#ifdef SKIP
-		for (j = 0; j < count_pp; j++)
-		{
-			x0_moles[++k] = use.Get_pp_assemblage_ptr()->pure_phases[j].moles;
-		}
-#endif
+
 		{
 			cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
 			if (gas_phase_ptr)
@@ -2679,13 +2619,7 @@ store_get_equi_reactants(int l, int kin_end)
 				it->second.Set_delta(0.0);
 			}
 		}
-#ifdef SKIP
-		for (j = 0; j < count_pp; j++)
-		{
-			use.Get_pp_assemblage_ptr()->pure_phases[j].moles = x0_moles[++k];
-			use.Get_pp_assemblage_ptr()->pure_phases[j].delta = 0.0;
-		}
-#endif
+
 		{
 			cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
 			if (gas_phase_ptr && count_pg)

@@ -12,14 +12,6 @@ namespace Utilities
 {
 
 	const char INDENT[] = "  ";
-#ifdef SKIP
-	enum STATUS_TYPE
-	{
-		ST_OK = 0,
-		ST_ERROR = 1
-	};
-#endif
-	//STATUS_TYPE parse_couple(std::string & token);
 
 	int strcmp_nocase(const char *str1, const char *str2);
 
