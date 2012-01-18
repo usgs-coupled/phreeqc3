@@ -171,6 +171,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 		{
 			opt = opt_save;
 		}
+		useLastLine = false;
 		switch (opt)
 		{
 		case CParser::OPT_EOF:
@@ -184,7 +185,6 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				error_msg("Unknown input in SOLID_SOLUTIONS_RAW or SOLID_SOLUTIONS_MODIFY keyword.",
 						  PHRQ_io::OT_CONTINUE);
 			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
-			useLastLine = false;
 			break;
 
 		case 0:				// solid_solution

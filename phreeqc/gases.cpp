@@ -469,7 +469,7 @@ calc_PR(void)
 	{
 		V_m = gas_phase_ptr->Get_volume() / m_sum;
 		P = R_TK / (V_m - b_sum) - a_aa_sum / (V_m * (V_m + 2 * b_sum) - b2);
-		if (iterations > 0 && P < 150)
+		if (iterations > 0 && P < 150 && V_m < 1.01)
 		{
 			// check for 3-roots...
 			r3[1] = b_sum - R_TK / P;
