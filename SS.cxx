@@ -30,7 +30,7 @@ PHRQ_base(io)
 	dn = 0;
 	a0 = 0;
 	a1 = 0;
-	LDBLE ag0 = 0;
+	ag0 = 0;
 	ag1 = 0;
 	ss_in = false;
 	miscibility = false;
