@@ -321,7 +321,7 @@ Using solution 2.
 Using exchange 2.	Exchange assemblage after simulation 3.
 Using surface 2.	Surface defined in simulation 4.
 Using pure phase assemblage 2.	
-Using solid solution assemblage 2.	ss_assemblage defined in simulation 6.
+Using solid solution assemblage 2.	
 Using gas phase 2.	
 Using temperature 2.	
 Using pressure 2.	
@@ -563,7 +563,7 @@ Using solution 2.
 Using exchange 2.	Exchange assemblage after simulation 3.
 Using surface 2.	Surface defined in simulation 4.
 Using pure phase assemblage 2.	
-Using solid solution assemblage 2.	ss_assemblage defined in simulation 6.
+Using solid solution assemblage 2.	
 Using gas phase 2.	
 Using temperature 2.	
 Using pressure 2.	
@@ -805,7 +805,7 @@ Using solution 2.
 Using exchange 2.	Exchange assemblage after simulation 3.
 Using surface 2.	Surface defined in simulation 4.
 Using pure phase assemblage 2.	
-Using solid solution assemblage 2.	ss_assemblage defined in simulation 6.
+Using solid solution assemblage 2.	
 Using gas phase 2.	
 Using temperature 2.	
 Using pressure 2.	
@@ -1051,7 +1051,7 @@ Using mix 3.
 Using exchange 3.	Exchange assemblage after simulation 3.
 Using surface 3.	Surface defined in simulation 4.
 Using pure phase assemblage 3.	
-Using solid solution assemblage 3.	ss_assemblage defined in simulation 6.
+Using solid solution assemblage 3.	
 Using gas phase 3.	
 Using temperature 3.	
 Using pressure 3.	
@@ -1298,7 +1298,7 @@ Using mix 3.
 Using exchange 3.	Exchange assemblage after simulation 3.
 Using surface 3.	Surface defined in simulation 4.
 Using pure phase assemblage 3.	
-Using solid solution assemblage 3.	ss_assemblage defined in simulation 6.
+Using solid solution assemblage 3.	
 Using gas phase 3.	
 Using temperature 3.	
 Using pressure 3.	
@@ -1545,7 +1545,7 @@ Using mix 3.
 Using exchange 3.	Exchange assemblage after simulation 3.
 Using surface 3.	Surface defined in simulation 4.
 Using pure phase assemblage 3.	
-Using solid solution assemblage 3.	ss_assemblage defined in simulation 6.
+Using solid solution assemblage 3.	
 Using gas phase 3.	
 Using temperature 3.	
 Using pressure 3.	
@@ -2708,8 +2708,7 @@ Reading input data for simulation 19.
 	      -capacitance1          5
 	      -diffuse_layer_totals 
 	SOLID_SOLUTIONS_MODIFY       1 New ss def
-	  -solid_solution
-	    -name                  Calcite
+	  -solid_solution            Calcite
 	      -a0                    0
 	      -a1                    0
 	      -ag0                   0
@@ -2717,11 +2716,11 @@ Reading input data for simulation 19.
 	      -miscibility           0
 	      -xb1                   -6.2774385622042e+066
 	      -xb2                   -6.2774385622042e+066
-	      -component             
-	        calcite   0.2
-		rhodochrosite 0.2  
-	  -solid_solution
-	    -name                  Barite
+	      -component	calcite      
+	        -moles   	0.2
+	      -component	rhodochrosite 
+	        -moles          0.2  
+	  -solid_solution	Barite
 	      -a0                    0
 	      -a1                    0
 	      -ag0                   0
@@ -2729,9 +2728,10 @@ Reading input data for simulation 19.
 	      -miscibility           0
 	      -xb1                   -6.2774385622042e+066
 	      -xb2                   -6.2774385622042e+066
-	      -component             
-	        Barite   0.2
-	        Gypsum   0.2         
+	      -component 	Barite
+	        -moles          0.2
+	      -component	Gypsum
+	        -moles          0.2      
 	GAS_PHASE_MODIFY      1 New gas_phase def
 	  -type               0
 	  -total_p            1
