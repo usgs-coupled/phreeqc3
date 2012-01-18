@@ -5518,7 +5518,7 @@ read_species(void)
 	struct species *s_ptr;
 	struct elt_list *next_elt;
 	char *ptr, token[MAX_LENGTH];
-	bool vm_read;
+	bool vm_read = false;
 	int return_value, opt, opt_save;
 	char *next_char;
 	const char *opt_list[] = {
@@ -9321,7 +9321,6 @@ read_solid_solutions(void)
 				{
 					int j = sscanf(token.c_str(), SCANFORMAT, &dummy);
 					comp.Set_moles(dummy);
-						(LDBLE) dummy;
 					if (j != 1)
 					{
 						error_msg("Expected moles of solid solution.", CONTINUE);
@@ -9717,7 +9716,8 @@ read_solid_solutions(void)
 				delete ss_ptr;
 				ss_ptr = NULL;
 				comps.clear();
-				delete comp0_ptr, comp1_ptr;
+				delete comp0_ptr;
+				delete comp1_ptr;
 				comp0_ptr = comp1_ptr = NULL;
 			}
 			ss_ptr = new cxxSS;
@@ -9728,6 +9728,7 @@ read_solid_solutions(void)
 			copy_token(token, &ptr);
 			ss_ptr->Set_name(token);
 			ss_ptr->Set_total_moles(NAN);
+			std::cerr << "Read: " << ss_ptr->Get_total_moles() << "\n";
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -9744,7 +9745,8 @@ read_solid_solutions(void)
 	delete ss_ptr;
 	ss_ptr = NULL;
 	comps.clear();
-	delete comp0_ptr, comp1_ptr;
+	delete comp0_ptr;
+	delete comp1_ptr;
 	comp0_ptr = comp1_ptr = NULL;
 
 	// check non ideal ss
