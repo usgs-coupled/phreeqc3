@@ -4260,7 +4260,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 					 N_Vector vtemp3)
 {
 	int count_cvode_errors;
-	int j, n_reactions, n_user;
+	int n_reactions, n_user;
 	LDBLE *initial_rates, del;
 	cxxKinetics *kinetics_ptr;
 	LDBLE step_fraction;
@@ -4336,7 +4336,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 	}
 	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
 	{
-		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
+		cxxKineticsComp * kinetics_comp_i_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
 		/* calculate reaction up to current time */
 		del = 1e-12;
 		pThis->cvode_error = TRUE;
@@ -4344,15 +4344,16 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 		while (pThis->cvode_error == TRUE)
 		{
 			del /= 10.;
-			for (j = 0; j < n_reactions; j++)
+			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
 			{
+				cxxKineticsComp * kinetics_comp_j_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 				/*
 				   kinetics_ptr->comps[j].moles = y[j + 1];
 				   kinetics_ptr->comps[j].m = m_original[j] - y[j + 1];
 				 */
-				kinetics_comp_ptr->Set_moles(Ith(y, j + 1));
-				kinetics_comp_ptr->Set_m(pThis->m_original[j] - Ith(y, j + 1));
-				if (kinetics_comp_ptr->Get_m() < 0)
+				kinetics_comp_j_ptr->Set_moles(Ith(y, j + 1));
+				kinetics_comp_j_ptr->Set_m(pThis->m_original[j] - Ith(y, j + 1));
+				if (kinetics_comp_i_ptr->Get_m() < 0)
 				{
 					/*
 					   NOTE: y is not correct if it is greater than m_original
@@ -4365,19 +4366,19 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 					/*
 					   Ith(y,i + 1) = m_original[i];
 					 */
-					kinetics_comp_ptr->Set_moles(pThis->m_original[i]);
-					kinetics_comp_ptr->Set_m(0.0);
+					kinetics_comp_i_ptr->Set_moles(pThis->m_original[i]);
+					kinetics_comp_i_ptr->Set_m(0.0);
 				}
 			}
 
 			/* Add small amount of ith reaction */
 			//kinetics_ptr->comps[i].m -= del;
-			kinetics_comp_ptr->Set_m(kinetics_comp_ptr->Get_m() - del);
-			if (kinetics_comp_ptr->Get_m() < 0)
+			kinetics_comp_i_ptr->Set_m(kinetics_comp_i_ptr->Get_m() - del);
+			if (kinetics_comp_i_ptr->Get_m() < 0)
 			{
-				kinetics_comp_ptr->Set_m(0);
+				kinetics_comp_i_ptr->Set_m(0);
 			}
-			kinetics_comp_ptr->Set_moles(kinetics_comp_ptr->Get_moles() + del);
+			kinetics_comp_i_ptr->Set_moles(kinetics_comp_i_ptr->Get_moles() + del);
 			pThis->calc_final_kinetic_reaction(kinetics_ptr);
 			if (pThis->use.Get_pp_assemblage_ptr() != NULL)
 			{

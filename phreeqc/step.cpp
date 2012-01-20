@@ -1226,10 +1226,6 @@ add_kinetics(cxxKinetics *kinetics_ptr)
 		else
 		{
 			master_ptr->total += coef;
-			if(master_ptr->total < 0.0)
-			{
-				fprintf(stderr, "Negative total\n");
-			}
 		}
 	}
 	return (OK);
