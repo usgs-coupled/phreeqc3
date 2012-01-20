@@ -27,7 +27,7 @@ class cxxReaction:public cxxNumKeyword
 	cxxNameDouble &Get_reactantList(void) {return this->reactantList;}
 	std::vector < LDBLE > &Get_steps(void) {return this->steps;}
 	void Set_steps(std::vector<LDBLE> &v) {steps = v;}
-	int Get_actualSteps(void) const;
+	int Get_reaction_steps(void) const;
 	int Get_countSteps(void) const {return this->countSteps;}
 	void Set_countSteps(int i) {countSteps = i;}
 	bool Get_equalIncrements(void) const {return this->equalIncrements;}

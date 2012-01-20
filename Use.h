@@ -8,6 +8,7 @@ class cxxGasPhase;
 class cxxPressure;
 class cxxTemperature;
 class cxxSSassemblage;
+class cxxKinetics;
 
 class cxxUse
 {
@@ -79,7 +80,7 @@ public:
 	cxxMix * Get_mix_ptr(void) const                         {return this->mix_ptr;}
 	cxxReaction * Get_reaction_ptr(void) const               {return this->reaction_ptr;}
 	cxxExchange * Get_exchange_ptr(void) const               {return this->exchange_ptr;}
-	struct kinetics * Get_kinetics_ptr(void) const           {return this->kinetics_ptr;}
+	cxxKinetics * Get_kinetics_ptr(void) const               {return this->kinetics_ptr;}
 	struct surface * Get_surface_ptr(void) const             {return this->surface_ptr;}
 	cxxPressure * Get_pressure_ptr(void) const               {return this->pressure_ptr;}
 	cxxTemperature * Get_temperature_ptr(void) const         {return this->temperature_ptr;}
@@ -92,7 +93,7 @@ public:
 	void Set_mix_ptr(cxxMix * p)                             {this->mix_ptr = p;}
 	void Set_reaction_ptr(cxxReaction * p)                   {this->reaction_ptr = p;}
 	void Set_exchange_ptr(cxxExchange * p)                   {this->exchange_ptr = p;}
-	void Set_kinetics_ptr(struct kinetics * p)               {this->kinetics_ptr = p;}
+	void Set_kinetics_ptr(cxxKinetics * p)                   {this->kinetics_ptr = p;}
 	void Set_surface_ptr(struct surface * p)                 {this->surface_ptr = p;}
 	void Set_pressure_ptr(cxxPressure * p)                   {this->pressure_ptr = p;}
 	void Set_temperature_ptr(cxxTemperature * p)             {this->temperature_ptr = p;}
@@ -124,7 +125,7 @@ protected:
 
 	bool kinetics_in;
 	int n_kinetics_user;
-	struct kinetics *kinetics_ptr;
+	cxxKinetics *kinetics_ptr;
 
 	bool surface_in;
 	int n_surface_user;

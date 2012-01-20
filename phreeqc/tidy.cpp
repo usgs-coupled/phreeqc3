@@ -5,7 +5,7 @@
 #include "GasPhase.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
-
+#include "cxxKinetics.h"
 #define ZERO_TOL 1.0e-30
 
 /* ---------------------------------------------------------------------- */
@@ -13,7 +13,7 @@ int Phreeqc::
 tidy_model(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j;
+	int i;
 	int n_user, last;
 	int new_named_logk;
 	/*
@@ -173,13 +173,13 @@ tidy_model(void)
 		phases[i]->pr_p = 0.0;
 		phases[i]->pr_phi = 1.0;
 	}
-
+#ifdef SKIP
 /* kinetics */
 	if (new_kinetics)
 	{
 		kinetics_sort();
 	}
-
+#endif
 	/* named_log_k */
 	if (new_named_logk)
 	{
@@ -289,18 +289,13 @@ tidy_model(void)
  */
 	if (new_kinetics)
 	{
-		for (i = 0; i < count_kinetics; i++)
+		std::map<int, cxxKinetics>::iterator it;
+		for (it = Rxn_kinetics_map.begin(); it != Rxn_kinetics_map.end(); it++)
 		{
-			if (kinetics[i].n_user_end > kinetics[i].n_user)
-			{
-				n_user = kinetics[i].n_user;
-				last = kinetics[i].n_user_end;
-				kinetics[i].n_user_end = kinetics[i].n_user;
-				for (j = n_user + 1; j <= last; j++)
-				{
-					kinetics_duplicate(n_user, j);
-				}
-			}
+			n_user = it->second.Get_n_user();
+			last = it->second.Get_n_user_end();
+			it->second.Set_n_user_end(n_user);
+			Utilities::Rxn_copies(Rxn_kinetics_map, n_user, last);
 		}
 	}
 
@@ -2911,6 +2906,117 @@ tidy_kin_exchange(void)
  *  set in proportion
  */
 {
+	//int k;
+	cxxKinetics *kinetics_ptr;
+	char *ptr;
+	LDBLE conc;
+
+	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
+	for ( ; it != Rxn_exchange_map.end(); it++)
+	{
+		cxxExchange * exchange_ptr = &(it->second);
+		if (!exchange_ptr->Get_new_def())
+			continue;
+		if (exchange_ptr->Get_n_user() < 0)
+			continue;
+		std::vector<cxxExchComp *> comps = exchange_ptr->Vectorize();
+		// check elements
+		for (size_t j = 0; j < comps.size(); j++)
+		{
+			if (comps[j]->Get_rate_name().size() == 0)
+				continue;
+			/* First find exchange master species */
+			cxxNameDouble nd = comps[j]->Get_totals();
+			cxxNameDouble::iterator kit = nd.begin();
+			bool found_exchange = false;
+			for (; kit != nd.end(); kit++)
+			{
+				/* Find master species */
+				struct element *elt_ptr = element_store(kit->first.c_str());
+				if (elt_ptr == NULL || elt_ptr->master == NULL)
+				{
+					input_error++;
+					error_string = sformatf( "Master species not in data "
+							"base for %s, skipping element.",
+							elt_ptr->name);
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (elt_ptr->master->type == EX)
+					found_exchange = true;;
+			}
+			if (!found_exchange)
+			{
+				input_error++;
+				error_string = sformatf(
+						"Exchange formula does not contain an exchange master species, %s",
+						comps[j]->Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+
+			/* Now find associated kinetic reaction ...  */
+			if ((kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, exchange_ptr->Get_n_user())) == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+						"Kinetics %d must be defined to use exchange related to kinetic reaction, %s",
+						exchange_ptr->Get_n_user(), comps[j]->Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			size_t k;
+			for (k = 0; k < kinetics_ptr->Get_kinetics_comps().size(); k++)
+			{
+				if (strcmp_nocase
+					(comps[j]->Get_rate_name().c_str(),
+					 kinetics_ptr->Get_kinetics_comps()[k].Get_rate_name().c_str()) == 0)
+				{
+					break;
+				}
+			}
+			if (k == kinetics_ptr->Get_kinetics_comps().size())
+			{
+				input_error++;
+				error_string = sformatf(
+						"Kinetic reaction, %s, related to exchanger, %s, not found in KINETICS %d",
+						comps[j]->Get_rate_name().c_str(), comps[j]->Get_formula().c_str(), exchange_ptr->Get_n_user());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+
+			/* use database name for phase */
+			comps[j]->Set_rate_name(kinetics_ptr->Get_kinetics_comps()[k].Get_rate_name().c_str());
+
+			/* make exchanger concentration proportional to mineral ... */
+			conc = kinetics_ptr->Get_kinetics_comps()[k].Get_m() * comps[j]->Get_phase_proportion();
+
+			count_elts = 0;
+			paren_count = 0;
+			{
+				char * temp_formula = string_duplicate(comps[j]->Get_formula().c_str());
+				ptr = temp_formula;
+				get_elts_in_species(&ptr, conc);
+				free_check_null(temp_formula);
+			}
+			comps[j]->Set_totals(elt_list_NameDouble());
+/*
+ *   No check on availability of exchange elements 
+ */
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+tidy_kin_exchange(void)
+/* ---------------------------------------------------------------------- */
+/*
+ *  If exchanger is related to mineral, exchanger amount is 
+ *  set in proportion
+ */
+{
 	int k;
 	struct kinetics *kinetics_ptr;
 	//struct exch_comp *comp_ptr;
@@ -3014,6 +3120,7 @@ tidy_kin_exchange(void)
 	}
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_min_exchange(void)
@@ -3374,7 +3481,239 @@ tidy_min_surface(void)
 	}
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+tidy_kin_surface(void)
+/* ---------------------------------------------------------------------- */
+/*
+ *  If surface is related to mineral, surface amount is 
+ *  set in proportion
+ */
+{
+	int i, j, n, jj, l;
+	cxxKinetics *kinetics_ptr;
+	struct surface_comp *comp_ptr;
+	struct master *master_ptr;
+	struct phase *phase_ptr;
+	//char token[MAX_LENGTH];
+	char *ptr;
+	LDBLE conc;
+	struct elt_list *elt_list_kinetics;
+	int count_elts_kinetics;
 
+	n = -999;
+	comp_ptr = NULL;
+	for (i = 0; i < count_surface; i++)
+	{
+		if (surface[i].new_def == FALSE)
+			continue;
+		if (surface[i].n_user < 0)
+			continue;
+		for (j = 0; j < surface[i].count_comps; j++)
+		{
+			if (surface[i].comps[j].rate_name == NULL)
+				continue;
+			comp_ptr = &surface[i].comps[j];
+			comp_ptr->master = NULL;
+			n = surface[i].n_user;
+
+			/* First find surface master species */
+			int k;
+			for (k = 0; comp_ptr->totals[k].elt != NULL; k++)
+			{
+				/* Find master species */
+				master_ptr = comp_ptr->totals[k].elt->master;
+				if (master_ptr == NULL)
+				{
+					input_error++;
+					error_string = sformatf( "Master species not in data "
+							"base for %s, skipping element.",
+							comp_ptr->totals[k].elt->name);
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (master_ptr->type != SURF)
+					continue;
+				comp_ptr->master = master_ptr;
+				break;
+			}
+			if (comp_ptr->master == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+						"Surface formula does not contain a surface master species, %s",
+						comp_ptr->formula);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+
+			/* Now find the kinetic reaction on which surface depends...  */
+			//if ((kinetics_ptr = kinetics_bsearch(n, &k)) == NULL)
+			if ((kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n)) == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+						"Kinetics %d must be defined to use surface related to kinetic reaction, %s",
+						n, comp_ptr->formula);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			for (k = 0; k < (int) kinetics_ptr->Get_kinetics_comps().size(); k++)
+			{
+				cxxKineticsComp *kin_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[k]);
+				if (strcmp_nocase
+					(comp_ptr->rate_name,
+					 kin_comp_ptr->Get_rate_name().c_str()) == 0)
+				{
+					break;
+				}
+			}
+			if (k == (int) kinetics_ptr->Get_kinetics_comps().size())
+			{
+				input_error++;
+				error_string = sformatf(
+						"Kinetic reaction, %s, related to surface, %s, not found in Kinetics %d",
+						comp_ptr->rate_name, comp_ptr->formula, n);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			cxxKineticsComp *kin_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[k]);
+			/* use database name for phase */
+			comp_ptr->rate_name = string_hsave(kin_comp_ptr->Get_rate_name().c_str());
+
+			/* make surface concentration proportional to mineral ... */
+			conc = kin_comp_ptr->Get_m() * comp_ptr->phase_proportion;
+
+/*			if (conc < MIN_RELATED_SURFACE) conc = 0.0; */
+			{
+				char * temp_formula = string_duplicate(comp_ptr->formula);
+				ptr = temp_formula;
+				count_elts = 0;
+				paren_count = 0;
+				get_elts_in_species(&ptr, conc);
+				free_check_null(temp_formula);
+			}
+			comp_ptr->totals =
+				(struct elt_list *) free_check_null(comp_ptr->totals);
+			comp_ptr->totals = elt_list_save();
+
+			/* area */
+			surface[i].charge[comp_ptr->charge].grams =
+				kin_comp_ptr->Get_m();
+		}
+/*
+ *   check on elements
+ */
+		/* Go through each kinetic reaction, add all related surface compositions
+		 * check for negative values
+		 */
+		if (surface[i].related_rate == FALSE)
+			continue;
+		//kinetics_ptr = kinetics_bsearch(n, &k);
+		kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n);
+		for (size_t k = 0; k < kinetics_ptr->Get_kinetics_comps().size(); k++)
+		{
+			cxxKineticsComp *kin_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[k]);
+			count_elts = 0;
+			paren_count = 0;
+
+			/* added in kinetics formula */
+			cxxNameDouble::iterator jit = kin_comp_ptr->Get_namecoef().begin();
+			//for (j = 0; j < kinetics_ptr->comps[k].count_list; j++)
+			for (; jit != kin_comp_ptr->Get_namecoef().end(); jit++)
+			{
+				std::string name = jit->first;
+				LDBLE coef = jit->second;
+				phase_ptr = NULL;
+				phase_ptr = phase_bsearch(name.c_str(), &jj, FALSE);
+				if (phase_ptr != NULL)
+				{
+					add_elt_list(phase_ptr->next_elt, 1.0);
+				}
+				else
+				{
+					char * temp_name = string_duplicate(name.c_str());
+					ptr = temp_name;
+					get_elts_in_species(&ptr, coef);
+					free_check_null(temp_name);
+				}
+			}
+			/* save kinetics formula */
+			if (count_elts > 0)
+			{
+				qsort(elt_list, (size_t) count_elts,
+					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				elt_list_combine();
+			}
+			elt_list_kinetics = elt_list_save();
+			count_elts_kinetics = count_elts;
+
+			/* get surface formulas */
+			count_elts = 0;
+			paren_count = 0;
+			for (j = 0; j < surface[i].count_comps; j++)
+			{
+				comp_ptr = &surface[i].comps[j];
+				if (comp_ptr->rate_name == NULL)
+					continue;
+				if (strcmp_nocase
+					(comp_ptr->rate_name,
+					 kin_comp_ptr->Get_rate_name().c_str()) == 0)
+				{
+					char * temp_formula = string_duplicate( comp_ptr->formula);
+					ptr = temp_formula;
+					get_elts_in_species(&ptr,
+										-1 * comp_ptr->phase_proportion);
+					free_check_null(temp_formula);
+				}
+			}
+			if (count_elts > 0)
+			{
+				qsort(elt_list, (size_t) count_elts,
+					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				elt_list_combine();
+			}
+			for (j = 0; j < count_elts; j++)
+			{
+				if (elt_list[j].elt->primary->s->type <= H2O)
+				{
+					for (l = 0; l < count_elts_kinetics; l++)
+					{
+						if (elt_list[j].elt == elt_list_kinetics[l].elt)
+						{
+							break;
+						}
+					}
+					if (l == count_elts_kinetics)
+					{
+						input_error++;
+						error_string = sformatf(
+								"Stoichiometry of surface, %s * %g mol sites/mol reactant,\n\tmust be a subset of the formula defined for the related reactant %s.\n\tElement %s is not present in reactant formula.",
+								comp_ptr->formula,
+								(double) comp_ptr->phase_proportion,
+								comp_ptr->rate_name, elt_list[j].elt->name);
+						error_msg(error_string, CONTINUE);
+					}
+					else if (fabs(elt_list[j].coef) >
+							 fabs(elt_list_kinetics[l].coef))
+					{
+						input_error++;
+						error_string = sformatf(
+								"Stoichiometry of surface, %s * %g mol sites/mol reactant,\n\tmust be a subset of the formula defined for the related reactant %s.\n\tCoefficient of element %s in surface exceeds amount present in reactant formula.",
+								comp_ptr->formula,
+								(double) comp_ptr->phase_proportion,
+								comp_ptr->rate_name, elt_list[j].elt->name);
+						error_msg(error_string, CONTINUE);
+					}
+				}
+			}
+			elt_list_kinetics =
+				(struct elt_list *) free_check_null(elt_list_kinetics);
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_kin_surface(void)
@@ -3601,6 +3940,7 @@ tidy_kin_surface(void)
 	}
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 ss_prep(LDBLE t, cxxSS *ss_ptr, int print)

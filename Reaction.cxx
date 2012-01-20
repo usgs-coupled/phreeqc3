@@ -307,7 +307,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 	}
 }
 int cxxReaction::
-Get_actualSteps(void) const
+Get_reaction_steps(void) const
 {
 	if (equalIncrements) 
 	{

@@ -11,6 +11,7 @@
 #include "PPassemblage.h"
 #include "Use.h"
 #include "SSassemblage.h"
+#include "cxxKinetics.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -140,11 +141,14 @@ clean_up(void)
 	Rxn_gas_phase_map.clear();
 
 /* kinetics */
+	Rxn_kinetics_map.clear();
+#ifdef SKIP
 	for (j = 0; j < count_kinetics; j++)
 	{
 		kinetics_free(&kinetics[j]);
 	}
 	kinetics = (struct kinetics *) free_check_null(kinetics);
+#endif
 
 /* rates */
 	for (j = 0; j < count_rates; j++)
@@ -362,7 +366,7 @@ clean_up(void)
 	//count_exchange = 0;
 	count_surface = 0;
 	//count_gas_phase = 0;
-	count_kinetics = 0;
+	//count_kinetics = 0;
 	//count_ss_assemblage = 0;
 
 	count_elements = 0;
@@ -424,12 +428,14 @@ reinitialize(void)
 	Rxn_gas_phase_map.clear();
 
 /* kinetics */
+	Rxn_kinetics_map.clear();
+#ifdef SKIP
 	for (j = 0; j < count_kinetics; j++)
 	{
 		kinetics_free(&kinetics[j]);
 	}
 	count_kinetics = 0;
-
+#endif
 /* irreversible reactions */
 	Rxn_reaction_map.clear();
 
@@ -970,6 +976,7 @@ inverse_sort(void)
 	}
 	return (OK);
 }
+#ifdef SKIP
 /* **********************************************************************
  *
  *   Routines related to structure "kinetics"
@@ -1491,7 +1498,7 @@ kinetics_sort(void)
 	}
 	return (OK);
 }
-
+#endif
 /* **********************************************************************
  *
  *   Routines related to structure "master"
@@ -4884,8 +4891,6 @@ system_duplicate(int i, int save_old)
 	if (solution_bsearch(i, &n, TRUE) != NULL)
 		solution_duplicate(i, save_old);
 
-	//if (pp_assemblage_bsearch(i, &n) != NULL)
-	//	pp_assemblage_duplicate(i, save_old);
 	Utilities::Rxn_copy(Rxn_pp_assemblage_map, i, save_old);
 
 	Utilities::Rxn_copy(Rxn_exchange_map, i, save_old);
@@ -4895,12 +4900,13 @@ system_duplicate(int i, int save_old)
 
 	Utilities::Rxn_copy(Rxn_gas_phase_map, i, save_old);
 
+	Utilities::Rxn_copy(Rxn_kinetics_map, i, save_old);
+#ifdef SKIP
 	if (kinetics_bsearch(i, &n) != NULL)
 		kinetics_duplicate(i, save_old);
-
+#endif
 	Utilities::Rxn_copy(Rxn_ss_assemblage_map, i, save_old);
-	//if (ss_assemblage_bsearch(i, &n) != NULL)
-	//	ss_assemblage_duplicate(i, save_old);
+
 	return (OK);
 }
 
@@ -5174,7 +5180,7 @@ entity_exists(char *name, int n_user)
 		}
 		break;
 	case Kinetics:				/* Kinetics */
-		if (kinetics_bsearch(n_user, &i) == NULL)
+		if (Utilities::Rxn_find(Rxn_kinetics_map, n_user) == NULL)
 		{
 			return_value = FALSE;
 		}
@@ -5334,6 +5340,7 @@ copier_init(struct copier *copier_ptr)
 		(int *) PHRQ_malloc((size_t) (copier_ptr->max * sizeof(int)));
 	return (OK);
 }
+#ifdef SKIP
 #include "../cxxKinetics.h"
 struct kinetics * Phreeqc::
 cxxKinetics2kinetics(const cxxKinetics * kin)
@@ -5440,6 +5447,7 @@ cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > *el)
 	}
 	return (kinetics_comp_ptr);
 }
+#endif
 #include "../Solution.h"
 struct solution * Phreeqc::
 cxxSolution2solution(const cxxSolution * sol)
@@ -5930,6 +5938,15 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 	}
 	if (use.Get_kinetics_in())
 	{
+		cxxKinetics *entity_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
+		if (entity_ptr != NULL)
+		{
+			sb.Set_Kinetics(use.Get_n_kinetics_user(), entity_ptr);
+		}
+	}
+#ifdef SKIP
+	if (use.Get_kinetics_in())
+	{
 		struct kinetics *struct_entity = kinetics_bsearch(use.Get_n_kinetics_user(), &n);
 		if (struct_entity != NULL)
 		{
@@ -5937,6 +5954,7 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 			sb.Set_Kinetics(use.Get_n_kinetics_user(), &entity);
 		}
 	}
+#endif
 	if (use.Get_reaction_in())
 	{
 		cxxReaction *entity = Utilities::Rxn_find(Rxn_reaction_map, use.Get_n_reaction_user());
@@ -5998,12 +6016,20 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb)
 	}
 
 	// Kinetics
+	{
+		std::map<int, cxxKinetics>::iterator it;
+		for (it = Rxn_kinetics_map.begin(); it != Rxn_kinetics_map.end(); it++)
+		{
+			sb.Set_Kinetics(it->second.Get_n_user(), &(it->second));	
+		}
+	}
+#ifdef SKIP
 	for (i = 0; i < count_kinetics; i++)
 	{
 		cxxKinetics entity(&kinetics[i], sb.Get_io());
 		sb.Set_Kinetics(kinetics[i].n_user, &entity );
 	}
-
+#endif
 	// PPassemblages
 	{
 		std::map<int, cxxPPassemblage>::iterator it;
@@ -6100,6 +6126,14 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb, int n)
 
 	// Kinetics
 	{
+		cxxKinetics *entity_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n);
+		if (entity_ptr != NULL)
+		{
+			sb.Set_Kinetics(n, entity_ptr);
+		}
+	}
+#ifdef SKIP
+	{
 		if (kinetics_bsearch(n, &pos) != NULL)
 		{
 			//this->Kinetics[n] = cxxKinetics(&(kinetics[pos]), sb.Get_io());
@@ -6107,7 +6141,7 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb, int n)
 			sb.Set_Kinetics(n, &ent );
 		}
 	}
-
+#endif
 	// PPassemblages
 	{
 		cxxPPassemblage *entity_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, n);
@@ -6176,13 +6210,21 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb, int n)
 		std::map < int, cxxKinetics >::const_iterator it = sb.Get_Kinetics().find(n);
 		if (it != sb.Get_Kinetics().end())
 		{
+			Rxn_kinetics_map[n] = it->second;
+		}
+	}
+#ifdef SKIP
+	{
+		std::map < int, cxxKinetics >::const_iterator it = sb.Get_Kinetics().find(n);
+		if (it != sb.Get_Kinetics().end())
+		{
 			struct kinetics *kinetics_ptr =  cxxKinetics2kinetics(&(it->second));
 			kinetics_ptr_to_user(kinetics_ptr, it->first);
 			kinetics_free(kinetics_ptr);
 			kinetics_ptr = (struct kinetics *) free_check_null(kinetics_ptr);
 		}
 	}
-
+#endif
 	// PPassemblages
 	{
 		std::map < int, cxxPPassemblage >::const_iterator it = sb.Get_PPassemblages().find(n);
@@ -6288,13 +6330,21 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb)
 		std::map < int, cxxKinetics >::const_iterator it = sb.Get_Kinetics().begin();
 		for ( ; it != sb.Get_Kinetics().end(); it++)
 		{
+			Rxn_kinetics_map[it->first] = it->second;
+		}
+	}
+#ifdef SKIP
+	{
+		std::map < int, cxxKinetics >::const_iterator it = sb.Get_Kinetics().begin();
+		for ( ; it != sb.Get_Kinetics().end(); it++)
+		{
 			struct kinetics *kinetics_ptr =  cxxKinetics2kinetics(&(it->second));
 			kinetics_ptr_to_user(kinetics_ptr, it->first);
 			kinetics_free(kinetics_ptr);
 			kinetics_ptr = (struct kinetics *) free_check_null(kinetics_ptr);
 		}
 	}
-
+#endif
 	// PPassemblages
 	{
 		std::map < int, cxxPPassemblage >::const_iterator it = sb.Get_PPassemblages().begin();
