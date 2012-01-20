@@ -390,8 +390,8 @@ public:
 		realtype uround, void *jac_data, long int *nfePtr,
 		N_Vector vtemp1, N_Vector vtemp2, N_Vector vtemp3);
 
-	int calc_final_kinetic_reaction(struct kinetics *kinetics_ptr);
-	int calc_kinetic_reaction(struct kinetics *kinetics_ptr,
+	int calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr);
+	int calc_kinetic_reaction(cxxKinetics *kinetics_ptr,
 		LDBLE time_step);
 	int rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		LDBLE step_fraction);
@@ -825,7 +825,7 @@ public:
 	//int add_exchange(struct exchange *exchange_ptr);
 	int add_exchange(cxxExchange *exchange_ptr);
 	int add_gas_phase(cxxGasPhase *gas_phase_ptr);
-	int add_kinetics(struct kinetics *kinetics_ptr);
+	int add_kinetics(cxxKinetics *kinetics_ptr);
 	//int add_mix(struct mix *mix_ptr);
 	int add_mix(cxxMix * mix_ptr);
 	//int add_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
@@ -872,6 +872,7 @@ public:
 	struct inverse *inverse_search(int n_user, int *n);
 	int inverse_sort(void);
 public:
+#ifdef SKIP
 	struct kinetics *kinetics_alloc(void);
 	struct kinetics *kinetics_bsearch(int k, int *n);
 protected:
@@ -895,6 +896,8 @@ protected:
 		int n_user_new);
 	struct kinetics *kinetics_search(int n_user, int *n, int print);
 	int kinetics_sort(void);
+#endif
+protected:
 	struct logk *logk_alloc(void);
 	int logk_copy2orig(struct logk *logk_ptr);
 	struct logk *logk_store(char *name, int replace_if_found);
@@ -1050,8 +1053,8 @@ public:
 
 	// convert class to struct (structures.cpp)
 	//struct mix * cxxMix2mix(const cxxMix *mx);
-	struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
-	struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
+	//struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
+	//struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
 	//struct exchange * cxxExchange2exchange(const cxxExchange * ex);
 	//struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
 	//struct master * Get_exch_master(const cxxExchComp * ec);
@@ -1084,7 +1087,7 @@ public:
 	/* tally.cpp */
 	void add_all_components_tally(void);
 	int build_tally_table(void);
-	int calc_dummy_kinetic_reaction_tally(struct kinetics *kinetics_ptr);
+	int calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr);
 	int diff_tally_table(void);
 	int extend_tally_table(void);
 	int free_tally_table(void);
@@ -1293,11 +1296,13 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   Kinetics
 	* ---------------------------------------------------------------------- */
-
+	std::map<int, cxxKinetics> Rxn_kinetics_map;
+#ifdef SKIP
 	struct kinetics *kinetics;
 	struct kinetics *dbg_kinetics;
 	int count_kinetics;
 	int max_kinetics;
+#endif
 
 	int count_save_values;
 	struct save_values *save_values;
@@ -1622,8 +1627,9 @@ protected:
 
 	struct rate *rates;
 	int count_rates;
-	LDBLE rate_m, rate_m0, *rate_p, rate_time, rate_sim_time_start,
+	LDBLE rate_m, rate_m0, /* *rate_p, */ rate_time, rate_sim_time_start,
 		rate_sim_time_end, rate_sim_time, rate_moles, initial_total_time;
+	std::vector<LDBLE> rate_p;
 	int count_rate_p;
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS

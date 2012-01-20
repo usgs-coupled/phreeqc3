@@ -1,5 +1,7 @@
+#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
+#include "cxxKinetics.h"
 
 
 /* ---------------------------------------------------------------------- */
@@ -36,7 +38,8 @@ advection(void)
 	{
 		for (i = 1; i <= count_ad_cells; i++)
 		{
-			if (kinetics_bsearch(i, &n) != NULL)
+			//if (kinetics_bsearch(i, &n) != NULL)
+			if (Utilities::Rxn_find(Rxn_kinetics_map, i) == NULL)
 			{
 				input_error++;
 				error_string = sformatf(

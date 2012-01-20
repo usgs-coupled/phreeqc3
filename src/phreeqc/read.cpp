@@ -14,8 +14,7 @@
 #include "Reaction.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
-#include "SS.h"
-#include "SScomp.h"
+#include "cxxKinetics.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -271,7 +270,8 @@ read_input(void)
 			Utilities::Rxn_read_raw(Rxn_pp_assemblage_map, this);
 			break;
 		case Keywords::KEY_KINETICS_RAW:
-			read_kinetics_raw();
+			//read_kinetics_raw();
+			Utilities::Rxn_read_raw(Rxn_kinetics_map, this);
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_RAW:
 			Utilities::Rxn_read_raw(Rxn_ss_assemblage_map, this);
@@ -310,7 +310,8 @@ read_input(void)
 			Utilities::Rxn_read_modify(Rxn_gas_phase_map, this);
 			break;
 		case Keywords::KEY_KINETICS_MODIFY:
-			read_kinetics_modify();
+			//read_kinetics_modify();
+			Utilities::Rxn_read_modify(Rxn_kinetics_map, this);
 			break;
 		case Keywords::KEY_DELETE:
 			read_delete();
@@ -2115,7 +2116,490 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 	inverse_ptr->count_phases++;
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_kinetics(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads kinetics data
+ *
+ *      Arguments:
+ *	 none
+ *
+ *      Returns:
+ *	 KEYWORD if keyword encountered, input_error may be incremented if
+ *		    a keyword is encountered in an unexpected position
+ *	 EOF     if eof encountered while reading mass balance concentrations
+ *	 ERROR   if error occurred reading data
+ *
+ */
+/*
+ *   Read kinetics
+ */
+	char *ptr;
+	char *description;
+	std::string token;
+	int n_user, n_user_end;
+	LDBLE step;
 
+	int return_value, opt;
+	char *next_char;
+	const char *opt_list[] = {
+		"tol",					/* 0 */
+		"m",					/* 1 */
+		"m0",					/* 2 */
+		"parms",				/* 3 */
+		"formula",				/* 4 */
+		"steps",				/* 5 */
+		"step_divide",			/* 6 */
+		"parameters",			/* 7 */
+		"runge-kutta",			/* 8 */
+		"runge_kutta",			/* 9 */
+		"rk",					/* 10 */
+		"bad_step_max",			/* 11 */
+		"cvode",				/* 12 */
+		"cvode_steps",			/* 13 */
+		"cvode_order",			/* 14 */
+		"time_steps"			/* 15 */
+	};
+	int count_opt_list = 16;
+
+/*
+ *   Read kinetics number
+ */
+	ptr = line;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cxxKinetics temp_kinetics;
+	temp_kinetics.Set_n_user(n_user);
+	temp_kinetics.Set_n_user_end(n_user_end);
+	temp_kinetics.Set_description(description);
+	description = (char *) free_check_null(description);
+	cxxKineticsComp *kinetics_comp_ptr = NULL;
+/*
+ *   Set use data to first read
+ */
+	if (use.Get_kinetics_in() == FALSE)
+	{
+		use.Set_kinetics_in(true);
+		use.Set_n_kinetics_user(n_user);
+	}
+/*
+ *   Read kinetics data
+ */
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:	/* allocate space, read new name */
+			if (kinetics_comp_ptr)
+			{
+				temp_kinetics.Get_kinetics_comps().push_back(*kinetics_comp_ptr);
+				delete kinetics_comp_ptr;
+			}
+			kinetics_comp_ptr = new cxxKineticsComp;
+			ptr = line;
+			copy_token(token, &ptr);
+			kinetics_comp_ptr->Set_rate_name(token.c_str());
+			break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		case 0:				/* tolerance */
+			if (kinetics_comp_ptr == NULL)
+			{
+				error_string = sformatf( "No rate name has been defined.");
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			else
+			{
+				prev_next_char = next_char;
+				if (copy_token(token, &next_char) == DIGIT)
+				{
+					kinetics_comp_ptr->Set_tol(strtod(token.c_str(), &ptr));
+				}
+				else
+				{
+					error_string = sformatf(
+						"Expecting numerical value for tolerance, but found:\n %s",
+						prev_next_char);
+					error_msg(error_string, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		case 1:				/* m */
+			if (kinetics_comp_ptr == NULL)
+			{
+				error_string = sformatf( "No rate name has been defined.");
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			else
+			{
+				prev_next_char = next_char;
+				if (copy_token(token, &next_char) == DIGIT)
+				{
+					kinetics_comp_ptr->Set_m(strtod(token.c_str(), &ptr));
+				}
+				else
+				{
+					error_string = sformatf(
+						"Expecting numerical value for moles of reactant (m), but found:\n %s",
+						prev_next_char);
+					error_msg(error_string, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		case 2:				/* m0 */
+			if (kinetics_comp_ptr == NULL)
+			{
+				error_string = sformatf( "No rate name has been defined.");
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			else
+			{
+				prev_next_char = next_char;
+				if (copy_token(token, &next_char) == DIGIT)
+				{
+					kinetics_comp_ptr->Set_m0(strtod(token.c_str(), &ptr));
+				}
+				else
+				{
+					error_string = sformatf(
+					"Expecting numerical value for initial moles of reactant (m0), but found:\n %s",
+					prev_next_char);
+				error_msg(error_string, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		case 3:				/* parms */
+		case 7:				/* parameters */
+			if (kinetics_comp_ptr == NULL)
+			{
+				error_string = sformatf( "No rate name has been defined.");
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			else
+			{
+				int j;
+				while ((j = copy_token(token, &next_char)) != EMPTY)
+				{
+					/*
+					 *   Store a LDBLE parameter
+					 */
+					if (j == DIGIT)
+					{
+						kinetics_comp_ptr->Get_d_params().push_back(strtod(token.c_str(), &ptr));
+					}
+					else
+					{
+						/*
+						 *   Store a character parameter
+						 */
+						kinetics_comp_ptr->Get_c_params().push_back(token);
+					}
+				}
+			}
+			break;
+		case 4:				/* formula */
+			if (kinetics_comp_ptr == NULL)
+			{
+				error_string = sformatf( "No rate name has been defined.");
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			else
+			{
+				/*
+				 *   Store reactant name, default coefficient
+				 */
+				ptr = next_char;
+				bool have_name = false;
+				std::string name;
+				LDBLE coef;
+				while (copy_token(token, &ptr) != EMPTY)
+				{
+					coef = 1;
+					if (isalpha((int) token[0]) || (token[0] == '(')
+						|| (token[0] == '['))
+					{
+						if (have_name)
+						{
+							kinetics_comp_ptr->Get_namecoef().add(name.c_str(), coef);
+						}
+						name = token;
+						have_name = true;
+					}
+					else
+					{
+						if (!have_name)
+						{
+							error_string = sformatf( "No phase or chemical formula has been defined.");
+							error_msg(error_string, CONTINUE);
+							input_error++;
+						}
+						/*
+						 *   Store relative coefficient
+						 */
+						int j = sscanf(token.c_str(), SCANFORMAT, &coef);
+
+						if (j == 1)
+						{
+							kinetics_comp_ptr->Get_namecoef().add(name.c_str(), coef);
+							have_name = false;
+						}
+						else
+						{
+							error_msg
+								("Reading relative coefficient of reactant.",
+								 CONTINUE);
+							error_msg(line_save, CONTINUE);
+							input_error++;
+						}
+					}
+				}
+				if (have_name)
+				{
+					kinetics_comp_ptr->Get_namecoef().add(name.c_str(), coef);
+				}
+			}
+			break;
+		case 5:				/* steps */
+		case 15:			/* time_steps */
+			/*
+			 *   Read one or more kinetics time increments
+			 */
+			{
+				int j;
+				while ((j = copy_token(token, &next_char)) == DIGIT)
+				{
+					/*  Read next step increment(s) */
+	/* multiple, equal timesteps 15 aug. 2005 */
+					if (Utilities::replace("*", " ", token))
+					{
+						int k;
+						if (sscanf(token.c_str(), "%d" SCANFORMAT, &k, &step) == 2)
+						{
+							for (int i = 0; i < k; i++)
+							{
+								temp_kinetics.Get_steps().push_back(step);
+							}
+						}
+						else
+						{
+							input_error++;
+							error_msg
+								("Format error in multiple, equal KINETICS timesteps.\nCorrect is (for example): 20 4*10 2*5 3\n",
+								 CONTINUE);
+						}
+					}
+					else
+					{
+						step = strtod(token.c_str(), &ptr);
+						temp_kinetics.Get_steps().push_back(step);
+					}
+				}
+				if (j == EMPTY)
+					break;
+				/*
+				 *   Read number of increments
+				 */
+				if (temp_kinetics.Get_steps().size() != 1)
+				{
+					error_msg
+						("To define equal time increments, only one total time should be defined.",
+						 CONTINUE);
+					input_error++;
+					break;
+				}
+				temp_kinetics.Set_equalIncrements(true);
+				do
+				{
+					int i = 1;
+					j = sscanf(token.c_str(), "%d", &i);
+					if (j == 1)
+					{
+						temp_kinetics.Set_count(abs(i));
+						break;
+					}
+					else if (j == 1 && i < 0)
+					{
+						error_msg
+							("Expecting positive number for number of equal "
+							 "time increments for kinetics.", CONTINUE);
+						error_msg(line_save, CONTINUE);
+						input_error++;
+						break;
+					}
+				}
+				while (copy_token(token, &next_char) != EMPTY);
+			}
+			break;
+		case 6:				/* step_divide */
+			if (copy_token(token, &next_char) == DIGIT)
+			{
+				sscanf(token.c_str(), SCANFORMAT, &dummy);
+				temp_kinetics.Set_step_divide(dummy);
+			}
+			else
+			{
+				error_string = sformatf(
+						"Expecting numerical value for step_divide.");
+				error_msg(error_string, CONTINUE);
+				input_error++;
+			}
+			break;
+		case 8:				/* runge-kutta */
+		case 9:				/* runge_kutta */
+		case 10:				/* rk */
+			{
+				int j = copy_token(token, &next_char);
+				if (j == DIGIT)
+				{
+					temp_kinetics.Set_rk((int) strtod(token.c_str(), &ptr));
+				}
+				else if (j == EMPTY)
+				{
+				}
+				else
+				{
+					error_string = sformatf(
+						"Expecting order for Runge-Kutta method.");
+					error_msg(error_string, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		case 11:				/* bad_step_max */
+			{
+				int j = copy_token(token, &next_char);
+				if (j == DIGIT)
+				{
+					temp_kinetics.Set_bad_step_max((int) strtod(token.c_str(), &ptr));
+				}
+				else if (j == EMPTY)
+				{
+				}
+				else
+				{
+					error_string = sformatf( "Expecting maximal bad steps number.");
+					error_msg(error_string, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		case 12:				/* cvode */
+			temp_kinetics.Set_use_cvode(get_true_false(next_char, TRUE) == TRUE);
+			break;
+		case 13:				/* cvode_steps */
+			{
+				int j = copy_token(token, &next_char);
+				if (j == DIGIT)
+				{
+					temp_kinetics.Set_cvode_steps((int) strtod(token.c_str(), &ptr));
+				}
+				else if (j == EMPTY)
+				{
+				}
+				else
+				{
+					error_string = sformatf(
+						"Expecting maximum number of steps for one call to cvode.");
+					error_msg(error_string, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		case 14:				/* cvode_order */
+			{
+				int j = copy_token(token, &next_char);
+				if (j == DIGIT)
+				{
+					temp_kinetics.Set_cvode_order((int) strtod(token.c_str(), &ptr));
+				}
+				else if (j == EMPTY)
+				{
+				}
+				else
+				{
+					error_string = sformatf(
+						"Expecting number of terms (order) used in cvode (1-5).");
+					error_msg(error_string, CONTINUE);
+					input_error++;
+				}
+			}
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+
+	// save last comp
+	if (kinetics_comp_ptr)
+	{
+		temp_kinetics.Get_kinetics_comps().push_back(*kinetics_comp_ptr);
+		delete kinetics_comp_ptr;
+	}
+/*
+ *   Default reactant
+ */
+	for (size_t i = 0; i < temp_kinetics.Get_kinetics_comps().size(); i++)
+	{
+		cxxKineticsComp *kinetics_comp_ptr = &(temp_kinetics.Get_kinetics_comps()[i]);
+		if (kinetics_comp_ptr->Get_namecoef().size() == 0)
+		{
+			kinetics_comp_ptr->Get_namecoef().add(kinetics_comp_ptr->Get_rate_name().c_str(), 1.0); 
+		}
+	}
+/*
+ *   Default 1 sec
+ */
+	if (temp_kinetics.Get_steps().size() == 0)
+	{
+		temp_kinetics.Get_steps().push_back(1.0);
+	}
+/*
+ *   set defaults for moles
+ */
+	for (size_t i = 0; i < temp_kinetics.Get_kinetics_comps().size(); i++)
+	{
+		cxxKineticsComp *kinetics_comp_ptr = &(temp_kinetics.Get_kinetics_comps()[i]);
+		if (kinetics_comp_ptr->Get_m0() < 0)
+		{
+			if (kinetics_comp_ptr->Get_m() < 0)
+			{
+				kinetics_comp_ptr->Set_m0(1);
+			}
+			else
+			{
+				kinetics_comp_ptr->Set_m0(kinetics_comp_ptr->Get_m());
+			}
+		}
+		if (kinetics_comp_ptr->Get_m() < 0)
+		{
+			kinetics_comp_ptr->Set_m(kinetics_comp_ptr->Get_m0());
+		}
+	}
+	Rxn_kinetics_map[n_user] = temp_kinetics;
+	return (return_value);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics(void)
@@ -2659,7 +3143,7 @@ read_kinetics(void)
 	}
 	return (return_value);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 LDBLE * Phreeqc::
 read_list_doubles(char **ptr, int *count_doubles)
@@ -4354,7 +4838,7 @@ read_reaction_steps(cxxReaction *reaction_ptr)
 /*
  *  Read number of equal increments, store as negative integer
  */
-	if (reaction_ptr->Get_actualSteps() != 1)
+	if (reaction_ptr->Get_reaction_steps() != 1)
 	{
 		error_msg
 			("To define equal increments, only one reaction increment should be defined.",
@@ -9489,7 +9973,6 @@ read_solid_solutions(void)
 			copy_token(token, &ptr);
 			ss_ptr->Set_name(token);
 			ss_ptr->Set_total_moles(NAN);
-			std::cerr << "Read: " << ss_ptr->Get_total_moles() << "\n";
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)

@@ -17,7 +17,7 @@ class cxxKinetics:public cxxNumKeyword
 
   public:
 	cxxKinetics(PHRQ_io *io=NULL);
-	cxxKinetics(struct kinetics *, PHRQ_io *io=NULL);
+	//cxxKinetics(struct kinetics *, PHRQ_io *io=NULL);
 	cxxKinetics(const std::map < int, cxxKinetics > &entity_map, cxxMix & mx,
 				int n_user, PHRQ_io *io=NULL);
 	~cxxKinetics();
@@ -31,17 +31,29 @@ class cxxKinetics:public cxxNumKeyword
 	//bool Get_related_phases(void) const;
 	//bool Get_related_rate(void) const;
 
-	const std::vector < LDBLE > &Get_steps(void) const {return steps;};
-	LDBLE Get_step_divide(void) const {return step_divide;};
+	std::vector < LDBLE > &Get_steps(void) {return steps;}
+	LDBLE Get_step_divide(void) const {return step_divide;}
+	void Set_step_divide(LDBLE t) {step_divide = t;}
 	int Get_rk(void) const {return rk;};
-	int Get_bad_step_max(void) const {return bad_step_max;};
-	bool Get_use_cvode(void) const {return use_cvode;};
-	int Get_cvode_steps(void) const {return cvode_steps;};
-	int Get_cvode_order(void) const {return cvode_order;};
-	const std::list < cxxKineticsComp > &Get_kineticsComps(void) const {return kineticsComps;};
-	const cxxNameDouble & Get_totals(void) const {return this->totals;};
-	int Get_equal_steps(void) const {return equal_steps;};
-
+	void Set_rk(int t) {rk = t;}
+	int Get_bad_step_max(void) const {return bad_step_max;}
+	void Set_bad_step_max(int t) {bad_step_max = t;}
+	bool Get_use_cvode(void) const {return use_cvode;}
+	void Set_use_cvode(bool tf) {use_cvode = tf;}
+	int Get_cvode_steps(void) const {return cvode_steps;}
+	void Set_cvode_steps(int t) {cvode_steps = t;}
+	int Get_cvode_order(void) const {return cvode_order;}
+	void Set_cvode_order(int t) {cvode_order = t;}
+	std::vector < cxxKineticsComp > &Get_kinetics_comps(void) {return kinetics_comps;}
+	cxxNameDouble & Get_totals(void) {return this->totals;}
+	void Set_totals(const cxxNameDouble &nd) {totals = nd;}
+	bool Get_equalIncrements(void) const {return equalIncrements;}
+	void Set_equalIncrements(bool tf) {equalIncrements = tf;}
+	int Get_count(void) const {return count;}
+	void Set_count(int i) {count = i;}
+	int Get_reaction_steps(void) const;
+	cxxKineticsComp * Find(const std::string &str);
+	LDBLE Current_step(const bool incremental_reactions, const int reaction_step) const;
 
 #ifdef USE_MPI
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
@@ -51,9 +63,10 @@ class cxxKinetics:public cxxNumKeyword
 	void add(const cxxKinetics & addee, LDBLE extensive);
 
   protected:
-	std::list < cxxKineticsComp > kineticsComps;
+	std::vector < cxxKineticsComp > kinetics_comps;
 	std::vector < LDBLE >steps;
-	int equal_steps;
+	int count;
+	bool equalIncrements;
 	cxxNameDouble totals;
 	LDBLE step_divide;
 	int rk;
@@ -61,7 +74,6 @@ class cxxKinetics:public cxxNumKeyword
 	bool use_cvode;
 	int cvode_steps;
 	int cvode_order;
-
 };
 
 #endif // !defined(CXXKINETICS_H_INCLUDED)
