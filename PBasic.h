@@ -90,6 +90,24 @@ typedef struct linerec
 	struct linerec *next;
 } linerec;
 
+class valrec
+{
+public:
+	valrec()
+	{
+		stringval = false;
+		UU.val = 0;
+	}
+	~valrec() {}
+	bool stringval;
+	union
+	{
+		LDBLE val;
+		char *sval;
+	} UU;
+};
+
+#ifdef SKIP
 typedef struct valrec
 {
 	bool stringval;
@@ -99,7 +117,7 @@ typedef struct valrec
 		char *sval;
 	} UU;
 } valrec;
-
+#endif
 typedef struct looprec
 {
 	struct looprec *next;
@@ -334,8 +352,6 @@ public:
 	void Set_hInfiniteLoop(HANDLE h) {hInfiniteLoop = h;};
 #endif
 	int free_dim_stringvar(varrec *varbase);
-
-	void valrec_init(valrec *v);
 
 	void exec(void);
 	int basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase);
