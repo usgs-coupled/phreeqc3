@@ -3126,7 +3126,12 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			kinetics_abstol = N_VNew(n_reactions, kinetics_machEnv);
 			if (kinetics_abstol == NULL)
 				malloc_error();
-
+			for (int j = 0; j < n_reactions; j++)
+			{
+				Ith(cvode_last_good_y, j + 1) = 0.0;
+				Ith(cvode_prev_good_y, j + 1) = 0.0;
+				Ith(kinetics_abstol, j + 1) = 0.0;
+			}
 /*
  *	Set y to 0.0
  */

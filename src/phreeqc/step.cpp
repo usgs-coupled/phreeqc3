@@ -1196,7 +1196,7 @@ add_kinetics(cxxKinetics *kinetics_ptr)
  *   Add kinetic reaction
  */
 	//int i;
-	struct master *master_ptr;
+	struct master *master_ptr = NULL;
 /*
  *   Add reaction to totals
  */
