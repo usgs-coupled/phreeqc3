@@ -334,6 +334,9 @@ public:
 	void Set_hInfiniteLoop(HANDLE h) {hInfiniteLoop = h;};
 #endif
 	int free_dim_stringvar(varrec *varbase);
+
+	void valrec_init(valrec *v);
+
 	void exec(void);
 	int basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase);
 	void restoredata(void);
