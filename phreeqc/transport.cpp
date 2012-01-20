@@ -5,7 +5,7 @@
 #include "GasPhase.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
-
+#include "cxxKinetics.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 transport(void)
@@ -513,7 +513,8 @@ transport(void)
 			rate_sim_time = rate_sim_time_start + kin_time;
 
 			/* halftime kinetics for resident water in first cell ... */
-			if (kinetics_bsearch(first_c, &i) != NULL && count_cells > 1)
+			//if (kinetics_bsearch(first_c, &i) != NULL && count_cells > 1)
+			if (Utilities::Rxn_find(Rxn_kinetics_map, first_c) != NULL && count_cells > 1)
 			{
 				cell_no = first_c;
 				kin_time = kin_time_save / 2;
@@ -1024,7 +1025,7 @@ int Phreeqc::
 mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 /* ---------------------------------------------------------------------- */
 {
-	int j, n, k, l;
+	int j, n, k;
 	LDBLE t_imm;
 	struct solution *ptr_imm, *ptr_m;
 /*
@@ -1078,7 +1079,8 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 				set_and_run_wrapper(i, STAG, FALSE, -2, 0.0);
 				if (multi_Dflag == TRUE)
 					fill_spec(cell_no);
-				use.Set_kinetics_ptr(kinetics_bsearch(i, &l));
+				//use.Set_kinetics_ptr(kinetics_bsearch(i, &l));
+				use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, i));
 				if (use.Get_kinetics_ptr() != NULL)
 				{
 					use.Set_n_kinetics_user(i);
@@ -1325,9 +1327,9 @@ int Phreeqc::
 set_initial_moles(int i)
 /* ---------------------------------------------------------------------- */
 {
-	struct kinetics *kinetics_ptr;
+	cxxKinetics *kinetics_ptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH], *ptr;
-	int j, k, l, n;
+	int j, k, l;
 	/*
 	 *   Pure phase assemblage
 	 */
@@ -1363,11 +1365,17 @@ set_initial_moles(int i)
 	/*
 	 *   Kinetics
 	 */
-	kinetics_ptr = kinetics_bsearch(i, &n);
+	//kinetics_ptr = kinetics_bsearch(i, &n);
+	kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
 	if (kinetics_ptr != NULL)
 	{
-		for (j = 0; j < kinetics_ptr->count_comps; j++)
-			kinetics_ptr->comps[j].initial_moles = kinetics_ptr->comps[j].m;
+		//for (j = 0; j < kinetics_ptr->count_comps; j++)
+		//	kinetics_ptr->comps[j].initial_moles = kinetics_ptr->comps[j].m;
+		for (j = 0; j < (int) kinetics_ptr->Get_kinetics_comps().size(); j++)
+		{
+			cxxKineticsComp *kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+			kinetics_comp_ptr->Set_initial_moles(kinetics_comp_ptr->Get_m());
+		}
 	}
 	/*
 	 *   Solid solutions

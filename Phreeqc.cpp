@@ -248,13 +248,23 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 		}
 	}
 	// kinetics
+	{
+		std::map<int, cxxKinetics>::iterator it = Rxn_kinetics_map.begin();
+		for (; it !=  Rxn_kinetics_map.end(); it++)
+		{
+			calc_dummy_kinetic_reaction_tally(&(it->second));
+			cxxKinetics entity = it->second;
+			accumulator.add_extensive(entity.Get_totals(), 1.0);
+		}
+	}
+#ifdef SKIP
 	for (i = 0; i < count_kinetics; i++)
 	{
 		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
 		cxxKinetics entity(&kinetics[i], phrq_io);
 		accumulator.add_extensive(entity.Get_totals(), 1.0);
 	}
-
+#endif
 	// Put in all primaries
 	cxxNameDouble::iterator it;
 	for (it = accumulator.begin(); it != accumulator.end(); it++)
@@ -328,7 +338,7 @@ void Phreeqc::init(void)
 	//max_exchange			= MAX_PP_ASSEMBLAGE;
 	max_surface				= MAX_PP_ASSEMBLAGE;
 	//max_gas_phase			= MAX_PP_ASSEMBLAGE;
-	max_kinetics			= MAX_PP_ASSEMBLAGE;
+	//max_kinetics			= MAX_PP_ASSEMBLAGE;
 	//max_ss_assemblage		= MAX_PP_ASSEMBLAGE;
 
 	max_elements			= MAX_ELEMENTS;
@@ -348,7 +358,7 @@ void Phreeqc::init(void)
 	//count_exchange			 = 0;
 	count_surface				= 0;
 	//count_gas_phase			= 0;
-	count_kinetics			 = 0;
+	//count_kinetics			 = 0;
 	//count_ss_assemblage = 0;
 
 	count_elements			 = 0;
@@ -400,7 +410,7 @@ void Phreeqc::init(void)
 	//exchange			 = 0;
 	surface				= 0;
 	//gas_phase			= 0;
-	kinetics			 = 0;
+	//kinetics			 = 0;
 	//ss_assemblage = 0;
 	cell_data			= 0;
 	elements			 = 0;
@@ -554,7 +564,7 @@ void Phreeqc::init(void)
 	initial_total_time = 0;
 	rate_m = 0;
 	rate_m0 = 0;
-	rate_p = NULL;
+	//rate_p = NULL;
 	rate_time = 0;
 	rate_sim_time_start = 0;
 	rate_sim_time_end = 0;
@@ -718,7 +728,7 @@ void Phreeqc::init(void)
 	//dbg_exchange		= exchange;
 	dbg_surface			= surface;
 	//dbg_pp_assemblage	= pp_assemblage;
-	dbg_kinetics		= kinetics;
+	//dbg_kinetics		= kinetics;
 	//dbg_irrev			= irrev;
 	//dbg_mix				= mix;
 	dbg_master			= master;

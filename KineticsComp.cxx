@@ -27,12 +27,13 @@ PHRQ_base(io)
 	//
 {
 	tol = 1e-8;
-	m = 0.0;
-	m0 = 0.0;
+	m = -1;
+	m0 = -1;
 	moles = 0.0;
+	initial_moles = 0;
 	namecoef.type = cxxNameDouble::ND_NAME_COEF;
 }
-
+#ifdef SKIP
 cxxKineticsComp::cxxKineticsComp(struct kinetics_comp *kinetics_comp_ptr, PHRQ_io *io)
 		//
 		// constructor for cxxKineticsComp from struct kinetics_comp
@@ -51,7 +52,7 @@ namecoef(kinetics_comp_ptr->list, kinetics_comp_ptr->count_list)
 		this->d_params.push_back(kinetics_comp_ptr->d_params[i]);
 	}
 }
-
+#endif
 cxxKineticsComp::~cxxKineticsComp()
 {
 }
@@ -118,8 +119,8 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	// Kinetics_Comp element and attributes
 
-	s_oss << indent0 << "-rate_name             " << this->
-		rate_name << "\n";
+	//s_oss << indent0 << "-rate_name             " << this->
+	//	rate_name << "\n";
 	s_oss << indent1 << "-tol                   " << this->tol << "\n";
 	s_oss << indent1 << "-m                     " << this->m << "\n";
 	s_oss << indent1 << "-m0                    " << this->m0 << "\n";
@@ -160,7 +161,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 	if (vopts.empty())
 	{
 		vopts.reserve(10);
-		vopts.push_back("rate_name");	// 0
+		vopts.push_back("rate_name_not_used");	// 0
 		vopts.push_back("tol");	// 1
 		vopts.push_back("m");	// 2
 		vopts.push_back("m0");	// 3
@@ -205,7 +206,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
-		case 0:				// rate_name
+		case 0:				// rate_name not used
 			if (!(parser.get_iss() >> str))
 			{
 				this->rate_name.clear();

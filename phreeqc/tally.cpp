@@ -7,7 +7,7 @@
 #include "Reaction.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
-
+#include "cxxKinetics.h"
 /*   
      Calling sequence 
 
@@ -386,8 +386,8 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 	struct surface *surface_ptr;
 	//struct ss_assemblage *ss_assemblage_ptr;
 	//struct gas_phase *gas_phase_ptr;
-	struct kinetics *kinetics_ptr;
-	struct kinetics_comp *kinetics_comp_ptr;
+	//struct kinetics *kinetics_ptr;
+	//struct kinetics_comp *kinetics_comp_ptr;
 	int found;
 	LDBLE moles;
 	char *ptr;
@@ -614,31 +614,34 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				break;
 			}
 		case Kinetics:
-			/*
-			 *   fill in kinetics
-			 */
-			if (n_user[Kinetics] < 0)
-				break;
-			kinetics_ptr = kinetics_bsearch(n_user[Kinetics], &n);
-			if (kinetics_ptr == NULL)
-				break;
-			kinetics_comp_ptr = NULL;
-			for (j = 0; j < kinetics_ptr->count_comps; j++)
 			{
-				kinetics_comp_ptr = &kinetics_ptr->comps[j];
-				if (kinetics_comp_ptr->rate_name == tally_table[i].name)
+				/*
+				*   fill in kinetics
+				*/
+				if (n_user[Kinetics] < 0)
 					break;
-				if (strcmp_nocase
-					(kinetics_comp_ptr->rate_name, tally_table[i].name) == 0)
+				//kinetics_ptr = kinetics_bsearch(n_user[Kinetics], &n);
+				cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n_user[Kinetics]);
+				if (kinetics_ptr == NULL)
 					break;
+				cxxKineticsComp * kinetics_comp_ptr = NULL;
+				for (j = 0; j < (int) kinetics_ptr->Get_kinetics_comps().size(); j++)
+				{
+					kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+					if (string_hsave(kinetics_comp_ptr->Get_rate_name().c_str()) == tally_table[i].name)
+						break;
+					if (strcmp_nocase
+						(kinetics_comp_ptr->Get_rate_name().c_str(), tally_table[i].name) == 0)
+						break;
+				}
+				if (j >= (int) kinetics_ptr->Get_kinetics_comps().size())
+					break;
+				moles = kinetics_comp_ptr->Get_m();
+				count_elts = 0;
+				paren_count = 0;
+				add_elt_list(tally_table[i].formula, moles);
+				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
-			if (j >= kinetics_ptr->count_comps)
-				break;
-			moles = kinetics_comp_ptr->m;
-			count_elts = 0;
-			paren_count = 0;
-			add_elt_list(tally_table[i].formula, moles);
-			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			break;
 		case Mix:
 			break;
@@ -707,7 +710,7 @@ build_tally_table(void)
  *   Also calculates a number greater than all user numbers and
  *   stores in global variable first_user_number.
  */
-	int i, j, k, l, n, p, save_print_use;
+	int j, k, l, n, p, save_print_use;
 	int count_tt_reaction, count_tt_exchange, count_tt_surface,
 		count_tt_gas_phase;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
@@ -716,8 +719,8 @@ build_tally_table(void)
 	//struct ss_assemblage *ss_assemblage_ptr;
 	//struct s_s *s_s_ptr;
 	//struct s_s_comp *s_s_comp_ptr;
-	struct kinetics *kinetics_ptr;
-	struct kinetics_comp *kinetics_comp_ptr;
+	//struct kinetics *kinetics_ptr;
+	//struct kinetics_comp *kinetics_comp_ptr;
 	struct phase *phase_ptr;
 
 
@@ -936,6 +939,73 @@ build_tally_table(void)
  *   Add kinetic reactants
  */
 	count_tt_kinetics = 0;
+	if (Rxn_kinetics_map.size() > 0)
+	{
+		std::map<int, cxxKinetics>::iterator it;
+		for (it = Rxn_kinetics_map.begin(); it != Rxn_kinetics_map.end(); it++)
+		{
+			cxxKinetics *kinetics_ptr = &(it->second);
+			for (j = 0; j < (int) kinetics_ptr->Get_kinetics_comps().size(); j++)
+			{
+				cxxKineticsComp *kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+				/* 
+				 * check if already in tally_table
+				 */
+				for (l = 1; l < count_tally_table_columns; l++)
+				{
+					if (tally_table[l].type == Kinetics &&
+						tally_table[l].name == string_hsave(kinetics_comp_ptr->Get_rate_name().c_str()))
+						break;
+				}
+				if (l < count_tally_table_columns)
+					continue;
+				/*
+				 * Add to table
+				 */
+				count_tt_kinetics++;
+				n = count_tally_table_columns;
+				extend_tally_table();
+				tally_table[n].name = string_hsave(kinetics_comp_ptr->Get_rate_name().c_str());
+				tally_table[n].type = Kinetics;
+				/*
+				 * get formula for kinetic component
+				 */
+				count_elts = 0;
+				paren_count = 0;
+				phase_ptr = NULL;
+				//if (kinetics_ptr->comps[j].count_list == 1)
+				if (kinetics_comp_ptr->Get_namecoef().size() == 1)
+				{
+					//strcpy(token, kinetics_ptr->comps[j].list[0].name);
+					strcpy(token, kinetics_comp_ptr->Get_namecoef().begin()->first.c_str());
+					phase_ptr = phase_bsearch(token, &p, FALSE);
+				}
+				if (phase_ptr != NULL)
+				{
+					add_elt_list(phase_ptr->next_elt, 1.0);
+				}
+				else
+				{
+					cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
+					//for (k = 0; k < kinetics_ptr->comps[j].count_list; k++)
+					for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
+					{
+						std::string name = it->first;
+						LDBLE coef = it->second;
+						char * temp_name = string_duplicate(name.c_str());
+						ptr = temp_name;
+						get_elts_in_species(&ptr, 1.0 * coef);
+						free_check_null(temp_name);
+					}
+				}
+				qsort(elt_list, (size_t) count_elts,
+					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				elt_list_combine();
+				tally_table[n].formula = elt_list_save();
+			}
+		}
+	}
+#ifdef SKIP
 	if (count_kinetics > 0)
 	{
 		for (i = 0; i < count_kinetics; i++)
@@ -998,6 +1068,7 @@ build_tally_table(void)
 			}
 		}
 	}
+#endif
 #ifdef SKIP
 	/*
 	 *  Debug print for table definition
@@ -1117,21 +1188,88 @@ add_all_components_tally(void)
 /*
  *   Add elements in kinetic reactions
  */
+	{
+		std::map<int, cxxKinetics>::iterator it = Rxn_kinetics_map.begin();
+		for ( ; it != Rxn_kinetics_map.end(); it++)
+		{
+			calc_dummy_kinetic_reaction_tally(&(it->second));
+			add_kinetics(&(it->second));
+		}
+	}
+#ifdef SKIP
 	for (i = 0; i < count_kinetics; i++)
 	{
 		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
 		add_kinetics(&kinetics[i]);
 	}
+#endif
 /*
  *   reset pr.use
  */
 	pr.use = save_print_use;
 	return;
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calc_dummy_kinetic_reaction_tally(struct kinetics *kinetics_ptr)
+calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *    Go through kinetic components and add positive amount of each reactant
+ */
+	LDBLE coef;
+	//char token[MAX_LENGTH];
+	char *ptr;
+	struct phase *phase_ptr;
+/*
+ *   Go through list and generate list of elements and
+ *   coefficient of elements in reaction
+ */
+	//free_check_null(kinetics_ptr->totals);
+	kinetics_ptr->Get_totals().clear();
+	count_elts = 0;
+	paren_count = 0;
+	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
+	{
+		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
+		coef = 1.0;
+/*
+ *   Reactant is a pure phase, copy formula into token
+ */
+		phase_ptr = NULL;
+		if (kinetics_comp_ptr->Get_namecoef().size() == 1)
+		{
+			std::string name = kinetics_comp_ptr->Get_namecoef().begin()->first;
+			int j;
+			phase_ptr = phase_bsearch(name.c_str(), &j, FALSE);
+		}
+		if (phase_ptr != NULL)
+		{
+			add_elt_list(phase_ptr->next_elt, coef);
+		}
+		else
+		{
+			cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
+			for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
+			{
+				std::string name = it->first;
+				char * temp_name = string_duplicate(name.c_str());
+				ptr = temp_name;
+				get_elts_in_species(&ptr, coef);
+				free_check_null(temp_name);
+			}
+		}
+
+	}
+	//kinetics_ptr->totals = elt_list_save();
+	kinetics_ptr->Set_totals(elt_list_NameDouble());
+
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1146,7 +1284,8 @@ calc_dummy_kinetic_reaction_tally(struct kinetics *kinetics_ptr)
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
  */
-	free_check_null(kinetics_ptr->totals);
+	//free_check_null(kinetics_ptr->totals);
+	kinetics_ptr->Get_totals().clear();
 	count_elts = 0;
 	paren_count = 0;
 	for (i = 0; i < kinetics_ptr->count_comps; i++)
@@ -1181,7 +1320,7 @@ calc_dummy_kinetic_reaction_tally(struct kinetics *kinetics_ptr)
 
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 extend_tally_table(void)
@@ -1257,6 +1396,21 @@ int Phreeqc::
 set_kinetics_time(int n_user, LDBLE step)
 /* ---------------------------------------------------------------------- */
 {
+	cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n_user);
+
+	if (kinetics_ptr == NULL)
+		return (ERROR);
+	kinetics_ptr->Get_steps().clear();
+	kinetics_ptr->Get_steps().push_back(step);
+	kinetics_ptr->Set_equalIncrements(false);
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+set_kinetics_time(int n_user, LDBLE step)
+/* ---------------------------------------------------------------------- */
+{
 	int n;
 	struct kinetics *kinetics_ptr;
 
@@ -1267,3 +1421,4 @@ set_kinetics_time(int n_user, LDBLE step)
 	kinetics_ptr->count_steps = 1;
 	return (OK);
 }
+#endif

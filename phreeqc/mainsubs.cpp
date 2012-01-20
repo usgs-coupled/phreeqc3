@@ -6,11 +6,12 @@
 #include "PBasic.h"
 #include "Temperature.h"
 #include "Exchange.h"
-#include "ExchComp.h"
+//#include "ExchComp.h"
 #include "GasPhase.h"
 #include "Reaction.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
+#include "cxxKinetics.h"
 
 #if defined(WINDOWS) || defined(_WINDOWS)
 #include <windows.h>
@@ -71,7 +72,7 @@ initialize(void)
 	//max_exchange = MAX_PP_ASSEMBLAGE;
 	max_surface = MAX_PP_ASSEMBLAGE;
 	//max_gas_phase = MAX_PP_ASSEMBLAGE;
-	max_kinetics = MAX_PP_ASSEMBLAGE;
+	//max_kinetics = MAX_PP_ASSEMBLAGE;
 	//max_ss_assemblage = MAX_PP_ASSEMBLAGE;
 
 	max_elements = MAX_ELEMENTS;
@@ -91,7 +92,7 @@ initialize(void)
 	//count_exchange = 0;
 	count_surface = 0;
 	//count_gas_phase = 0;
-	count_kinetics = 0;
+	//count_kinetics = 0;
 	//count_ss_assemblage = 0;
 
 	count_elements = 0;
@@ -158,8 +159,8 @@ initialize(void)
 	//space((void **) ((void *) &gas_phase), INIT, &max_gas_phase,
 	//	  sizeof(struct gas_phase));
 
-	space((void **) ((void *) &kinetics), INIT, &max_kinetics,
-		  sizeof(struct kinetics));
+	//space((void **) ((void *) &kinetics), INIT, &max_kinetics,
+	//	  sizeof(struct kinetics));
 
 	//space((void **) ((void *) &ss_assemblage), INIT, &max_ss_assemblage,
 	//	  sizeof(struct ss_assemblage));
@@ -382,7 +383,7 @@ initialize(void)
 	initial_total_time = 0;
 	rate_m = 0;
 	rate_m0 = 0;
-	rate_p = NULL;
+	//rate_p = NULL;
 	rate_time = 0;
 	rate_sim_time_start = 0;
 	rate_sim_time_end = 0;
@@ -594,7 +595,7 @@ initialize(void)
 	//dbg_exchange = exchange;
 	dbg_surface = surface;
 	//dbg_pp_assemblage = pp_assemblage;
-	dbg_kinetics = kinetics;
+	//dbg_kinetics = kinetics;
 	//dbg_irrev = irrev;
 	//dbg_mix = mix;
 	dbg_master = master;
@@ -916,10 +917,7 @@ set_use(void)
  */
 	if (use.Get_kinetics_in() == TRUE)
 	{
-		int n_kinetics;
-		use.Set_kinetics_ptr(
-			kinetics_bsearch(use.Get_n_kinetics_user(), &n_kinetics));
-		//use.Set_n_kinetics(n_kinetics);
+		use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user()));
 		if (use.Get_kinetics_ptr() == NULL)
 		{
 			error_string = sformatf( "Kinetics %d not found.",
@@ -1400,11 +1398,11 @@ reactions(void)
  *      mixture,
  *      or irreversible reaction.
  */
-	int count_steps, use_mix, m;
+	int count_steps, use_mix;
 	char token[2 * MAX_LENGTH];
 	struct save save_data;
 	LDBLE kin_time;
-	struct kinetics *kinetics_ptr;
+	cxxKinetics *kinetics_ptr;
 
 	state = REACTION;
 	/* last_model.force_prep = TRUE; */
@@ -1418,13 +1416,15 @@ reactions(void)
 	if (use.Get_reaction_in() == TRUE && use.Get_reaction_ptr() != NULL)
 	{
 		cxxReaction *reaction_ptr = (cxxReaction *) use.Get_reaction_ptr();
-		if (reaction_ptr->Get_actualSteps() > count_steps)
-			count_steps = reaction_ptr->Get_actualSteps();
+		if (reaction_ptr->Get_reaction_steps() > count_steps)
+			count_steps = reaction_ptr->Get_reaction_steps();
 	}
 	if (use.Get_kinetics_in() == TRUE && use.Get_kinetics_ptr() != NULL)
 	{
-		if (abs(use.Get_kinetics_ptr()->count_steps) > count_steps)
-			count_steps = abs(use.Get_kinetics_ptr()->count_steps);
+		//if (abs(use.Get_kinetics_ptr()->count_steps) > count_steps)
+		//	count_steps = abs(use.Get_kinetics_ptr()->count_steps);
+		if (use.Get_kinetics_ptr()->Get_reaction_steps() > count_steps)
+			count_steps = use.Get_kinetics_ptr()->Get_reaction_steps();
 	}
 	if (use.Get_temperature_in() == TRUE && use.Get_temperature_ptr() != NULL)
 	{
@@ -1466,9 +1466,13 @@ reactions(void)
  *  Determine time step for kinetics
  */
 		kin_time = 0.0;
+
 		if (use.Get_kinetics_in() == TRUE)
 		{
-			kinetics_ptr = kinetics_bsearch(-2, &m);
+			//kinetics_ptr = kinetics_bsearch(-2, &m);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
+			kin_time = kinetics_ptr->Current_step((incremental_reactions==TRUE), reaction_step);
+#ifdef SKIP
 			if (incremental_reactions == FALSE)
 			{
 				if (kinetics_ptr->count_steps > 0)
@@ -1528,6 +1532,7 @@ reactions(void)
 					}
 				}
 			}
+#endif
 		}
 		if (incremental_reactions == FALSE ||
 			(incremental_reactions == TRUE && reaction_step == 1))
@@ -1568,8 +1573,14 @@ reactions(void)
 	memcpy(&save, &save_data, sizeof(struct save));
 	if (use.Get_kinetics_in() == TRUE)
 	{
+		Utilities::Rxn_copy(Rxn_kinetics_map, -2, use.Get_n_kinetics_user());
+	}
+#ifdef SKIP
+	if (use.Get_kinetics_in() == TRUE)
+	{
 		kinetics_duplicate(-2, use.Get_n_kinetics_user());
 	}
+#endif
 	saver();
 
 	/* free_model_allocs(); */
@@ -1651,12 +1662,31 @@ saver(void)
 		n = save.n_ss_assemblage_user;
 		xss_assemblage_save(n);
 		Utilities::Rxn_copies(Rxn_ss_assemblage_map, save.n_ss_assemblage_user, save.n_ss_assemblage_user_end);
-		//for (i = save.n_ss_assemblage_user + 1;
-		//	 i <= save.n_ss_assemblage_user_end; i++)
-		//{
-		//	ss_assemblage_duplicate(n, i);
-		//}
 	}
+	if (save.kinetics == TRUE && use.Get_kinetics_in() == TRUE
+	    /*&& use.Get_kinetics_ptr() != NULL */)
+	{
+		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
+		{
+			//use.Set_kinetics_ptr(kinetics_bsearch(use.Get_n_kinetics_user(), &i));
+			use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user()));
+		}
+		else if (use.Get_kinetics_in() != FALSE)
+		{
+			//use.Set_kinetics_ptr(kinetics_bsearch(-2, &i));
+			use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, -2));
+		}
+		if (use.Get_kinetics_ptr() != NULL)
+		{
+			n = use.Get_kinetics_ptr()->Get_n_user();
+			for (i = save.n_kinetics_user; i <= save.n_kinetics_user_end; i++)
+			{
+				//kinetics_duplicate(n, i);
+				Utilities::Rxn_copy(Rxn_kinetics_map, n, i);
+			}
+		}
+	}
+#ifdef SKIP
 	if (save.kinetics == TRUE && use.Get_kinetics_in() == TRUE
 	    /*&& use.Get_kinetics_ptr() != NULL */)
 	{
@@ -1677,6 +1707,7 @@ saver(void)
 			}
 		}
 	}
+#endif
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -2540,6 +2571,19 @@ copy_use(int i)
  */
 	if (use.Get_kinetics_in() == TRUE)
 	{
+		//kinetics_duplicate(use.Get_n_kinetics_user(), i);
+		Utilities::Rxn_copy(Rxn_kinetics_map, use.Get_n_kinetics_user(), i);
+		save.kinetics = TRUE;
+		save.n_kinetics_user = i;
+		save.n_kinetics_user_end = i;
+	}
+	else
+	{
+		save.kinetics = FALSE;
+	}
+#ifdef SKIP
+	if (use.Get_kinetics_in() == TRUE)
+	{
 		kinetics_duplicate(use.Get_n_kinetics_user(), i);
 		save.kinetics = TRUE;
 		save.n_kinetics_user = i;
@@ -2549,6 +2593,7 @@ copy_use(int i)
 	{
 		save.kinetics = FALSE;
 	}
+#endif
 /*
  *   Find surface
  */
@@ -2683,7 +2728,7 @@ step_save_surf(int n_user)
 	 *
 	 *   input:  n_user is user solution number of target
 	 */
-	int i, j, k, n, m;
+	int i, j, k, n;
 	struct surface *surface_ptr;
 	/*
 	 *   Malloc space for solution data
@@ -2719,7 +2764,29 @@ step_save_surf(int n_user)
 	/*
 	 *   Update grams
 	 */
-	/*if (surface_ptr->edl == TRUE && surface_ptr->related_rate == TRUE && use.Get_kinetics_ptr() != NULL) { */
+	if ((surface_ptr->type == DDL || surface_ptr->type == CD_MUSIC)
+		&& surface_ptr->related_rate == TRUE && use.Get_kinetics_ptr() != NULL)
+	{
+		for (j = 0; j < surface_ptr->count_comps; j++)
+		{
+			if (surface_ptr->comps[j].rate_name != NULL)
+			{
+				cxxKinetics *kinetics_ptr = use.Get_kinetics_ptr();
+				for (size_t m = 0; m < kinetics_ptr->Get_kinetics_comps().size(); m++)
+				{
+					cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[m]);
+					if (strcmp_nocase
+						(kinetics_comp_ptr->Get_rate_name().c_str(),
+						 surface_ptr->comps[j].rate_name) != 0)
+						continue;
+					surface_ptr->charge[surface_ptr->comps[j].charge].grams =
+						kinetics_comp_ptr->Get_m();
+					break;
+				}
+			}
+		}
+	}
+#ifdef SKIP
 	if ((surface_ptr->type == DDL || surface_ptr->type == CD_MUSIC)
 		&& surface_ptr->related_rate == TRUE && use.Get_kinetics_ptr() != NULL)
 	{
@@ -2740,6 +2807,7 @@ step_save_surf(int n_user)
 			}
 		}
 	}
+#endif
 	return (OK);
 }
 
@@ -2977,14 +3045,14 @@ copy_entities(void)
 	{
 		for (j = 0; j < copy_kinetics.count; j++)
 		{
-			if (kinetics_bsearch(copy_kinetics.n_user[j], &n) != NULL)
+			if (Utilities::Rxn_find(Rxn_kinetics_map, copy_kinetics.n_user[j]) != NULL)
 			{
 				for (i = copy_kinetics.start[j]; i <= copy_kinetics.end[j];
 					i++)
 				{
 					if (i == copy_kinetics.n_user[j])
 						continue;
-					kinetics_duplicate(copy_kinetics.n_user[j], i);
+					Utilities::Rxn_copy(Rxn_kinetics_map, copy_kinetics.n_user[j], i);
 				}
 			}
 			else
@@ -3001,7 +3069,6 @@ copy_entities(void)
 	{
 		for (j = 0; j < copy_ss_assemblage.count; j++)
 		{
-			//if (ss_assemblage_bsearch(copy_ss_assemblage.n_user[j], &n) != NULL)
 			if (Utilities::Rxn_find(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j]) != NULL)
 			{
 				for (i = copy_ss_assemblage.start[j];
@@ -3009,7 +3076,6 @@ copy_entities(void)
 				{
 					if (i == copy_ss_assemblage.n_user[j])
 						continue;
-					//ss_assemblage_duplicate(copy_ss_assemblage.n_user[j], i);
 					Utilities::Rxn_copy(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j], i);
 				}
 			}

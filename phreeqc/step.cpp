@@ -15,6 +15,7 @@
 #include "Reaction.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
+#include "cxxKinetics.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -855,7 +856,7 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 		}
 		else if (reaction_ptr->Get_equalIncrements() && reaction_ptr->Get_steps().size()> 0)
 		{
-			if (step_number > (int) reaction_ptr->Get_actualSteps())
+			if (step_number > (int) reaction_ptr->Get_reaction_steps())
 			{
 				step_x = reaction_ptr->Get_steps()[0];
 			}
@@ -863,7 +864,7 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 			{
 				step_x = reaction_ptr->Get_steps()[0] *
 					((LDBLE) step_number) /
-					((LDBLE) (reaction_ptr->Get_actualSteps()));
+					((LDBLE) (reaction_ptr->Get_reaction_steps()));
 			}
 		}
 		else
@@ -876,9 +877,9 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 		/* Incremental reactions */
 		if (!reaction_ptr->Get_equalIncrements() && reaction_ptr->Get_steps().size()> 0)
 		{
-			if (step_number > (int) reaction_ptr->Get_actualSteps())
+			if (step_number > (int) reaction_ptr->Get_reaction_steps())
 			{
-				step_x = reaction_ptr->Get_steps()[reaction_ptr->Get_actualSteps() - 1];
+				step_x = reaction_ptr->Get_steps()[reaction_ptr->Get_reaction_steps() - 1];
 			}
 			else
 			{
@@ -887,13 +888,13 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 		}
 		else if (reaction_ptr->Get_equalIncrements() && reaction_ptr->Get_steps().size()> 0)
 		{
-			if (step_number > (int) reaction_ptr->Get_actualSteps())
+			if (step_number > (int) reaction_ptr->Get_reaction_steps())
 			{
 				step_x = 0;
 			}
 			else
 			{
-				step_x = reaction_ptr->Get_steps()[0] / ((LDBLE) (reaction_ptr->Get_actualSteps()));
+				step_x = reaction_ptr->Get_steps()[0] / ((LDBLE) (reaction_ptr->Get_reaction_steps()));
 			}
 		}
 		else
@@ -1188,6 +1189,54 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
+add_kinetics(cxxKinetics *kinetics_ptr)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Add kinetic reaction
+ */
+	//int i;
+	struct master *master_ptr;
+/*
+ *   Add reaction to totals
+ */
+	if (kinetics_ptr->Get_totals().size() == 0)
+		return (OK);
+	cxxNameDouble::iterator it = kinetics_ptr->Get_totals().begin();
+	for (; it != kinetics_ptr->Get_totals().end(); it++)
+	{
+		LDBLE coef = it->second;
+		struct element *elt_ptr = element_store(it->first.c_str());
+		if (elt_ptr == NULL || (master_ptr = elt_ptr->primary) == NULL)
+		{
+			input_error++;
+			error_string = sformatf(
+					"Element %s in kinetic reaction not found in database.",
+					it->first.c_str());
+			error_msg(error_string, STOP);
+		}
+		if (master_ptr->s == s_hplus)
+		{
+			total_h_x += coef;
+		}
+		else if (master_ptr->s == s_h2o)
+		{
+			total_o_x += coef;
+		}
+		else
+		{
+			master_ptr->total += coef;
+			if(master_ptr->total < 0.0)
+			{
+				fprintf(stderr, "Negative total\n");
+			}
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
 add_kinetics(struct kinetics *kinetics_ptr)
 /* ---------------------------------------------------------------------- */
 {
@@ -1227,6 +1276,7 @@ add_kinetics(struct kinetics *kinetics_ptr)
 	}
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 gas_phase_check(cxxGasPhase *gas_phase_ptr)

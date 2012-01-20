@@ -7,6 +7,7 @@
 #include "../GasPhase.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
+#include "cxxKinetics.h"
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 activity(const char *species_name)
@@ -974,7 +975,30 @@ get_calculate_value(const char *name)
 	}
 	return (calculate_value_ptr->value);
 }
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+kinetics_moles(const char *kinetics_name)
+/* ---------------------------------------------------------------------- */
+{
 
+	if (use.Get_kinetics_in() == FALSE || use.Get_kinetics_ptr() == NULL)
+		return (0);
+	for (size_t i = 0; i < use.Get_kinetics_ptr()->Get_kinetics_comps().size(); i++)
+	{
+		cxxKineticsComp *kinetics_comp_ptr = &(use.Get_kinetics_ptr()->Get_kinetics_comps()[i]);
+		if (strcmp_nocase
+			(kinetics_comp_ptr->Get_rate_name().c_str(), kinetics_name) == 0)
+		{
+			return (kinetics_comp_ptr->Get_m());
+		}
+	}
+
+	error_string = sformatf( "No data for rate %s in KINETICS keyword.",
+			kinetics_name);
+	warning_msg(error_string);
+	return (0);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 kinetics_moles(const char *kinetics_name)
@@ -998,7 +1022,7 @@ kinetics_moles(const char *kinetics_name)
 	warning_msg(error_string);
 	return (0);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 log_activity(const char *species_name)

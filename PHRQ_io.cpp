@@ -75,6 +75,7 @@ output_msg(const char * str)
 	{
 		(*output_ostream) << str;
 	}
+	output_flush();
 }
 // ---------------------------------------------------------------------- */
 // log ostream methods

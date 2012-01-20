@@ -207,6 +207,7 @@ read_surface_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics_raw(void)
@@ -298,6 +299,7 @@ read_kinetics_raw(void)
 	if (return_value == KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_dump(void)
@@ -630,6 +632,7 @@ read_surface_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_kinetics_modify(void)
@@ -718,6 +721,7 @@ read_kinetics_modify(void)
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 streamify_to_next_keyword(std::istringstream & lines)
@@ -932,7 +936,23 @@ delete_entities(void)
 			}
 		}
 	}
-	// kineticss
+	// kinetics
+	if (delete_info.Get_kinetics().Get_defined())
+	{
+		if (delete_info.Get_kinetics().Get_numbers().size() == 0)
+		{
+			Rxn_kinetics_map.clear();
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = delete_info.Get_kinetics().Get_numbers().begin(); it != delete_info.Get_kinetics().Get_numbers().end(); it++)
+			{
+				Rxn_kinetics_map.erase(*it);
+			}
+		}
+	}
+#ifdef SKIP
 	if (delete_info.Get_kinetics().Get_defined())
 	{
 		if (delete_info.Get_kinetics().Get_numbers().size() == 0)
@@ -954,6 +974,7 @@ delete_entities(void)
 			}
 		}
 	}
+#endif
 	// mixes
 	if (delete_info.Get_mix().Get_defined())
 	{
@@ -1029,9 +1050,9 @@ run_as_cells(void)
 {
 	struct save save_data;
 	LDBLE kin_time;
-	int count_steps, use_mix, m;
+	int count_steps, use_mix;
 	char token[2 * MAX_LENGTH];
-	struct kinetics *kinetics_ptr;
+	//struct kinetics *kinetics_ptr;
 
 	state = REACTION;
 	if (run_info.Get_cells().Get_numbers().size() == 0 ||
@@ -1069,14 +1090,14 @@ run_as_cells(void)
 		count_steps = 1;
 		if (use.Get_reaction_in() == TRUE && use.Get_reaction_ptr() != NULL)
 		{
-			int count = ((cxxReaction *) use.Get_reaction_ptr())->Get_actualSteps();
+			int count = ((cxxReaction *) use.Get_reaction_ptr())->Get_reaction_steps();
 			if (count > count_steps)
 				count_steps = count;
 		}
 		if (use.Get_kinetics_in() == TRUE && use.Get_kinetics_ptr() != NULL)
 		{
-			if (abs(use.Get_kinetics_ptr()->count_steps) > count_steps)
-				count_steps = abs(use.Get_kinetics_ptr()->count_steps);
+			if (use.Get_kinetics_ptr()->Get_reaction_steps() > count_steps)
+				count_steps = use.Get_kinetics_ptr()->Get_reaction_steps();
 		}
 		if (use.Get_temperature_in() == TRUE && use.Get_temperature_ptr() != NULL)
 		{
@@ -1138,6 +1159,10 @@ run_as_cells(void)
 				// runner kin_time not defined
 				else
 				{
+					cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
+					kin_time = kinetics_ptr->Current_step((incremental_reactions==TRUE), reaction_step);
+
+#ifdef SKIP
 					kinetics_ptr = kinetics_bsearch(-2, &m);
 					if (incremental_reactions == FALSE)
 					{
@@ -1191,6 +1216,7 @@ run_as_cells(void)
 							}
 						}
 					}
+#endif
 				}
 			}
 			if (incremental_reactions == FALSE ||
@@ -1232,7 +1258,8 @@ run_as_cells(void)
 		memcpy(&save, &save_data, sizeof(struct save));
 		if (use.Get_kinetics_in() == TRUE)
 		{
-			kinetics_duplicate(-2, use.Get_n_kinetics_user());
+			//kinetics_duplicate(-2, use.Get_n_kinetics_user());
+			Utilities::Rxn_copy(Rxn_kinetics_map, -2, use.Get_n_kinetics_user());
 		}
 		saver();
 	}
@@ -1391,6 +1418,27 @@ dump_ostream(std::ostream& os)
 	{
 		if (dump_info.Get_kinetics().size() == 0)
 		{
+			Utilities::Rxn_dump_raw(Rxn_kinetics_map, os, 0);
+		}
+		else
+		{
+			std::set < int >::iterator it;
+			for (it = dump_info.Get_kinetics().begin(); it != dump_info.Get_kinetics().end(); it++)
+			{
+				cxxKinetics *p = Utilities::Rxn_find(Rxn_kinetics_map, *it);
+
+				if (p != NULL)
+				{
+					p->dump_raw(os, 0);
+				}
+			}
+		}
+	}
+#ifdef SKIP
+	if (dump_info.Get_bool_kinetics())
+	{
+		if (dump_info.Get_kinetics().size() == 0)
+		{
 			for (i = 0; i < count_kinetics; i++)
 			{
 					cxxKinetics cxxentity(&kinetics[i], phrq_io);
@@ -1411,7 +1459,7 @@ dump_ostream(std::ostream& os)
 			}
 		}
 	}
-
+#endif
 	// mix
 	if (dump_info.Get_bool_mix())
 	{

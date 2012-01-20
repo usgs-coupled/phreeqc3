@@ -10,7 +10,7 @@
 #include "Reaction.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
-
+#include "cxxKinetics.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 array_print(LDBLE * array_l, int row_count, int column_count,
@@ -94,7 +94,7 @@ int Phreeqc::
 punch_all(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
+	//int i;
 
 //#ifndef PHREEQ98		/* if not PHREEQ98 use the standard declaration */
 //	if (pr.hdf == FALSE && (punch.in == FALSE || pr.punch == FALSE) && user_graph->commands == NULL)
@@ -113,11 +113,13 @@ punch_all(void)
 //#else /* if PHREEQ98 execute punch_user_graph first, that is, before punch.in and pr.punch is checked */
 	if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 	{
-		use.Set_kinetics_ptr(kinetics_bsearch(use.Get_n_kinetics_user(), &i));
+		//use.Set_kinetics_ptr(kinetics_bsearch(use.Get_n_kinetics_user(), &i));
+		use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user()));
 	}
 	else if (use.Get_kinetics_in() != FALSE)
 	{
-		use.Set_kinetics_ptr(kinetics_bsearch(-2, &i));
+		//use.Set_kinetics_ptr(kinetics_bsearch(-2, &i));
+		use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, -2));
 	}
 #if defined PHREEQ98 
 	if (pr.user_graph == TRUE)
@@ -834,6 +836,218 @@ print_kinetics(void)
  *   prints kinetic reaction,
  *   should be called only on final kinetic step
  */
+	//int i, j;
+	LDBLE sim_time;
+	cxxKinetics *kinetics_ptr;
+	if (pr.kinetics == FALSE || pr.all == FALSE)
+		return (OK);
+	if (state < REACTION)
+		return (OK);
+	kinetics_ptr = NULL;
+	if (use.Get_kinetics_in() == TRUE)
+	{
+		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
+		{
+			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
+		}
+		else
+		{
+			//kinetics_ptr = kinetics_bsearch(-2, &i);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
+		}
+	}
+	if (kinetics_ptr == NULL)
+		return (OK);
+/*
+ *   determine time step
+ */
+	if (state == TRANSPORT || state == PHAST)
+	{
+		kin_time_x = timest;
+	}
+	else if (state == ADVECTION)
+	{
+		kin_time_x = advection_kin_time;
+	}
+	sim_time = 0.;
+	if (run_info.Get_run_cells())
+	{
+		sim_time = rate_sim_time;
+	}
+	else
+	{
+		if (incremental_reactions == TRUE)
+		{
+			if (!kinetics_ptr->Get_equalIncrements())
+			{
+				for (int i = 0; i < reaction_step; i++)
+				{
+					if (i < (int) kinetics_ptr->Get_steps().size())
+					{
+						sim_time += kinetics_ptr->Get_steps()[i];
+					}
+					else
+					{
+						sim_time +=	kinetics_ptr->Get_steps().back();
+					}
+				}
+			}
+			else 
+			{
+				if (reaction_step > kinetics_ptr->Get_count())
+				{
+					sim_time = kinetics_ptr->Get_steps().front();
+				}
+				else
+				{
+					sim_time =
+						reaction_step * kinetics_ptr->Get_steps().front() /
+						((LDBLE) (kinetics_ptr->Get_count()));
+				}
+			}
+		}
+#ifdef SKIP
+		if (incremental_reactions == TRUE)
+		{
+			//if (kinetics_ptr->count_steps > 0)
+			if (!kinetics_ptr->Get_equalIncrements())
+			{
+				for (i = 0; i < reaction_step; i++)
+				{
+					if (i < kinetics_ptr->count_steps)
+					{
+						sim_time += kinetics_ptr->steps[i];
+					}
+					else
+					{
+						sim_time +=
+							kinetics_ptr->steps[kinetics_ptr->count_steps - 1];
+					}
+				}
+			}
+			else if (kinetics_ptr->count_steps < 0)
+			{
+				if (reaction_step > -kinetics_ptr->count_steps)
+				{
+					sim_time = kinetics_ptr->steps[0];
+				}
+				else
+				{
+					sim_time =
+						reaction_step * kinetics_ptr->steps[0] /
+						((LDBLE) (-kinetics_ptr->count_steps));
+				}
+			}
+		}
+#endif
+	}
+/*
+ *  Print amount of reaction
+ */
+	if (phast == FALSE)
+	{
+		output_msg(sformatf("Kinetics %d.\t%s\n\n",
+				   use.Get_n_kinetics_user(), kinetics_ptr->Get_description().c_str()));
+	}
+	else
+	{
+		output_msg(sformatf("Kinetics.\n\n"));
+	}
+/*
+ *  Print reaction
+ */
+	if (state == TRANSPORT)
+	{
+		output_msg(sformatf("\tTime:      %g seconds\n",
+				   (double) (initial_total_time + transport_step * timest)));
+		output_msg(sformatf("\tTime step: %g seconds\n\n",
+				   (double) kin_time_x));
+	}
+	else if (state == ADVECTION)
+	{
+		output_msg(sformatf("\tTime:      %g seconds\n",
+				   (double) (initial_total_time +
+							 advection_step * advection_kin_time)));
+		output_msg(sformatf("\tTime step: %g seconds\n\n",
+				   (double) kin_time_x));
+	}
+	else if (state == PHAST)
+	{
+		output_msg(sformatf("\tTime:      %g seconds\n",
+				   (double) rate_sim_time_end));
+		output_msg(sformatf("\tTime step: %g seconds\n\n",
+				   (double) kin_time_x));
+	}
+	else if (state == REACTION)
+	{
+		if (incremental_reactions == FALSE)
+		{
+			output_msg(sformatf("\tTime step: %g seconds\n\n",
+					   (double) kin_time_x));
+		}
+		else
+		{
+			output_msg(sformatf(
+					   "\tTime step: %g seconds  (Incremented time: %g seconds)\n\n",
+					   (double) kin_time_x, (double) sim_time));
+		}
+	}
+	output_msg(sformatf("\t%-15s%12s%12s   %-15s%12s\n\n",
+			   "Rate name", "Delta Moles", "Total Moles", "Reactant",
+			   "Coefficient"));
+	//for (i = 0; i < kinetics_ptr->count_comps; i++)
+	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
+	{
+		cxxKineticsComp *kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
+		if (state != TRANSPORT && state != PHAST)
+		{
+			output_msg(sformatf("\t%-15s%12.3e%12.3e",
+					   kinetics_comp_ptr->Get_rate_name().c_str(),
+					   (double) -kinetics_comp_ptr->Get_moles(),
+					   (double) kinetics_comp_ptr->Get_m()));
+		}
+		else
+		{
+			output_msg(sformatf("\t%-15s%12.3e%12.3e",
+					   kinetics_comp_ptr->Get_rate_name().c_str(),
+					   (double) (kinetics_comp_ptr->Get_m() -
+								 kinetics_comp_ptr->Get_initial_moles()),
+					   (double) kinetics_comp_ptr->Get_m()));
+		}
+		//for (j = 0; j < kinetics_ptr->comps[i].count_list; j++)
+		cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
+		for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
+		{
+			std::string name = it->first;
+			LDBLE coef = it->second;
+			if (it == kinetics_comp_ptr->Get_namecoef().begin())
+			{
+				output_msg(sformatf("   %-15s%12g\n",
+						   name.c_str(),
+						   (double) coef));
+			}
+			else
+			{
+				output_msg(sformatf("\t%39s   %-15s%12g\n", " ",
+						    name.c_str(),
+						   (double) coef));
+			}
+		}
+	}
+	output_msg(sformatf("\n"));
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+ int Phreeqc::
+print_kinetics(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   prints kinetic reaction,
+ *   should be called only on final kinetic step
+ */
 	int i, j;
 	LDBLE sim_time;
 	struct kinetics *kinetics_ptr;
@@ -995,7 +1209,7 @@ print_kinetics(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_master_reactions(void)
@@ -2200,7 +2414,63 @@ print_totals(void)
 
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+print_user_print(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Print with user defined BASIC print routine
+ */
+	cxxKinetics *kinetics_ptr;
 
+	char l_command[] = "run";
+
+	if (pr.user_print == FALSE || pr.all == FALSE)
+		return (OK);
+	if (user_print->commands == NULL)
+		return (OK);
+	kinetics_ptr = NULL;
+	if (use.Get_kinetics_in() == TRUE)
+	{
+		kinetics_ptr = use.Get_kinetics_ptr();
+		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
+		{
+			//use.Set_kinetics_ptr(kinetics_bsearch(use.Get_n_kinetics_user(), &i));
+			use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user()));
+		}
+		else
+		{
+			//use.Set_kinetics_ptr(kinetics_bsearch(-2, &i));
+			use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, -2));
+		}
+	}
+	print_centered("User print");
+	if (user_print->new_def == TRUE)
+	{
+		/*      basic_renumber(user_print->commands, &user_print->linebase, &user_print->varbase, &user_print->loopbase); */
+		if (basic_compile
+			(user_print->commands, &user_print->linebase,
+			 &user_print->varbase, &user_print->loopbase) != 0)
+		{
+			error_msg("Fatal Basic error in USER_PRINT.", STOP);
+		}
+		user_print->new_def = FALSE;
+	}
+	if (basic_run
+		(l_command, user_print->linebase, user_print->varbase,
+		 user_print->loopbase) != 0)
+	{
+		error_msg("Fatal Basic error in USER_PRINT.", STOP);
+	}
+	output_msg(sformatf("\n"));
+	if (use.Get_kinetics_in() == TRUE)
+	{
+		use.Set_kinetics_ptr(kinetics_ptr);
+	}
+	return (OK);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_user_print(void)
@@ -2256,7 +2526,7 @@ print_user_print(void)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_using(void)
@@ -2274,7 +2544,7 @@ print_using(void)
 	//struct ss_assemblage *ss_assemblage_ptr;
 	//struct gas_phase *gas_phase_ptr;
 	//struct irrev *irrev_ptr;
-	struct kinetics *kinetics_ptr;
+	//struct kinetics *kinetics_ptr;
 	int n;
 
 	if (pr.use == FALSE || pr.all == FALSE)
@@ -2380,16 +2650,19 @@ print_using(void)
 	}
 	if (use.Get_kinetics_in() == TRUE)
 	{
+		cxxKinetics * kinetics_ptr;
 		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 		{
-			kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &n);
+			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &n);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
 		}
 		else
 		{
-			kinetics_ptr = kinetics_bsearch(-2, &n);
+			//kinetics_ptr = kinetics_bsearch(-2, &n);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
 		}
 		output_msg(sformatf("Using kinetics %d.\t%s\n",
-				   use.Get_n_kinetics_user(), kinetics_ptr->description));
+				   use.Get_n_kinetics_user(), kinetics_ptr->Get_description().c_str()));
 	}
 	output_msg(sformatf("\n"));
 	return (OK);
@@ -2897,6 +3170,37 @@ punch_identifiers(void)
 		if (state == REACTION && incremental_reactions == TRUE
 			&& use.Get_kinetics_ptr() != NULL)
 		{
+			if (!use.Get_kinetics_ptr()->Get_equalIncrements())
+			{
+				reaction_time = 0.0;
+				for (i = 0; i < reaction_step; i++)
+				{
+					//if (i < use.Get_kinetics_ptr()->count_steps)
+					if (i < (int) use.Get_kinetics_ptr()->Get_steps().size())
+					{
+						reaction_time += use.Get_kinetics_ptr()->Get_steps()[i];
+					}
+					else
+					{
+						reaction_time +=
+							use.Get_kinetics_ptr()->Get_steps().back();
+					}
+				}
+			}
+			else 
+			{
+				if (reaction_step > use.Get_kinetics_ptr()->Get_count())
+				{
+					reaction_time = use.Get_kinetics_ptr()->Get_steps().front();
+				}
+				else
+				{
+					reaction_time =
+						reaction_step * use.Get_kinetics_ptr()->Get_steps().front() /
+						((LDBLE) (use.Get_kinetics_ptr()->Get_count()));
+				}
+			}
+#ifdef SKIP
 			if (use.Get_kinetics_ptr()->count_steps > 0)
 			{
 				reaction_time = 0.0;
@@ -2926,6 +3230,7 @@ punch_identifiers(void)
 						((LDBLE) (-use.Get_kinetics_ptr()->count_steps));
 				}
 			}
+#endif
 		}
 		if (state == REACTION)
 		{
@@ -3140,7 +3445,80 @@ punch_saturation_indices(void)
 	}
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+punch_kinetics(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   prints kinetic reaction,
+ *   should be called only on final kinetic step
+ */
+	//int i, j;
+	cxxKinetics *kinetics_ptr;
+	LDBLE moles, delta_moles;
 
+	kinetics_ptr = NULL;
+	if (use.Get_kinetics_in() == TRUE)
+	{
+		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
+		{
+			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
+		}
+		else
+		{
+			//kinetics_ptr = kinetics_bsearch(-2, &i);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
+		}
+	}
+	for (int i = 0; i < punch.count_kinetics; i++)
+	{
+		moles = 0.0;
+		delta_moles = 0.0;
+		if (kinetics_ptr != NULL)
+		{
+			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
+			{
+				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+				if (strcmp_nocase
+					(punch.kinetics[i].name,
+					 kinetics_comp_ptr->Get_rate_name().c_str()) == 0)
+				{
+					if (state != TRANSPORT && state != PHAST)
+					{
+						moles = kinetics_comp_ptr->Get_m();
+						delta_moles = - kinetics_comp_ptr->Get_moles();
+					}
+					else
+					{
+						moles =  kinetics_comp_ptr->Get_m();
+						delta_moles =
+							 kinetics_comp_ptr->Get_m() -
+							 kinetics_comp_ptr->Get_initial_moles();
+					}
+					break;
+				}
+			}
+		}
+		if (punch.high_precision == FALSE)
+		{
+			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%12.4e\t",
+					(double) moles);
+			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%12.4e\t",
+					(double) -delta_moles);
+		}
+		else
+		{
+			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%20.12e\t",
+					(double) moles);
+			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%20.12e\t",
+					(double) -delta_moles);
+		}
+	}
+	return (OK);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_kinetics(void)
@@ -3159,7 +3537,8 @@ punch_kinetics(void)
 	{
 		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 		{
-			kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
+			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
+			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
 		}
 		else
 		{
@@ -3211,7 +3590,7 @@ punch_kinetics(void)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_user_punch(void)
