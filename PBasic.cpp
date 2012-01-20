@@ -1634,8 +1634,6 @@ LDBLE PBasic::
 realfactor(struct LOC_exec *LINK)
 {
 	valrec n;
-	valrec_init(&n);
-
 	n = factor(LINK);
 	if (n.stringval)
 		tmerr(": found characters, not a number");
@@ -1646,8 +1644,6 @@ char * PBasic::
 strfactor(struct LOC_exec * LINK)
 {
 	valrec n;
-	valrec_init(&n);
-
 	n = factor(LINK);
 	if (!n.stringval)
 		//tmerr(": chemical name is not enclosed in \"  \"" );
@@ -1659,7 +1655,6 @@ char * PBasic::
 stringfactor(char * Result, struct LOC_exec * LINK)
 {
 	valrec n;
-	valrec_init(&n);
 
 	n = factor(LINK);
 	if (!n.stringval)
@@ -1674,7 +1669,6 @@ const char * PBasic::
 stringfactor(std::string & Result, struct LOC_exec * LINK)
 {
 	valrec n;
-	valrec_init(&n);
 
 	n = factor(LINK);
 	if (!n.stringval)
@@ -1695,7 +1689,6 @@ LDBLE PBasic::
 realexpr(struct LOC_exec *LINK)
 {
 	valrec n;
-	valrec_init(&n);
 
 	n = expr(LINK);
 	if (n.stringval)
@@ -1707,7 +1700,6 @@ char * PBasic::
 strexpr(struct LOC_exec * LINK)
 {
 	valrec n;
-	valrec_init(&n);
 
 	n = expr(LINK);
 	if (!n.stringval)
@@ -1720,7 +1712,6 @@ char * PBasic::
 stringexpr(char * Result, struct LOC_exec * LINK)
 {
 	valrec n;
-	valrec_init(&n);
 
 	n = expr(LINK);
 	if (!n.stringval)
@@ -1863,7 +1854,7 @@ factor(struct LOC_exec * LINK)
 	varrec *v;
 	tokenrec *facttok;
 	valrec n;
-	valrec_init(&n);
+
 	long i, j, m;
 	tokenrec *tok, *tok1;
 	char *l_s;
@@ -3243,8 +3234,6 @@ valrec PBasic::
 upexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
-	valrec_init(&n);
-	valrec_init(&n2);
 
 	n = factor(LINK);
 	while (LINK->t != NULL && LINK->t->kind == tokup)
@@ -3281,8 +3270,7 @@ valrec PBasic::
 term(struct LOC_exec * LINK)
 {
 	valrec n, n2;
-	valrec_init(&n);
-	valrec_init(&n2);
+
 	int k;
 
 	n = upexpr(LINK);
@@ -3335,8 +3323,7 @@ valrec PBasic::
 sexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
-	valrec_init(&n);
-	valrec_init(&n2);
+
 	int k, m;
 
 	n = term(LINK);
@@ -3381,8 +3368,7 @@ valrec PBasic::
 relexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
-	valrec_init(&n);
-	valrec_init(&n2);
+
 	bool f;
 	int k;
 
@@ -3456,8 +3442,6 @@ valrec PBasic::
 andexpr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
-	valrec_init(&n);
-	valrec_init(&n2);
 
 	n = relexpr(LINK);
 	while (LINK->t != NULL && LINK->t->kind == tokand)
@@ -3475,8 +3459,7 @@ valrec PBasic::
 expr(struct LOC_exec * LINK)
 {
 	valrec n, n2;
-	valrec_init(&n);
-	valrec_init(&n2);
+
 	int k;
 
 	n = andexpr(LINK);
@@ -3775,7 +3758,7 @@ void PBasic::
 cmdsave(struct LOC_exec *LINK)
 {
 	valrec n;
-	valrec_init(&n);
+
 	while (!iseos(LINK))
 	{
 		if ((unsigned long) LINK->t->kind < 32 &&
@@ -4048,7 +4031,7 @@ cmdprint(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n;
-	valrec_init(&n);
+
 	char STR1[256] = {0};
 
 	semiflag = false;
@@ -4083,7 +4066,7 @@ void PBasic::
 cmdpunch(struct LOC_exec *LINK)
 {
 	valrec n;
-	valrec_init(&n);
+
 	/*  char STR1[256]; */
 
 	while (!iseos(LINK))
@@ -4141,7 +4124,7 @@ cmdgraph_x(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n;
-	valrec_init(&n);
+
 	char STR1[256];
 	semiflag = false;
 	while (!iseos(LINK))
@@ -4177,7 +4160,7 @@ cmdgraph_y(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n;
-	valrec_init(&n);
+
 	char STR1[256];
 	semiflag = false;
 	while (!iseos(LINK))
@@ -4213,7 +4196,7 @@ cmdgraph_sy(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n;
-	valrec_init(&n);
+
 	char STR1[256];
 	semiflag = false;
 	while (!iseos(LINK))
@@ -5260,8 +5243,7 @@ cmdplot_xy(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n[2];
-	valrec_init(&n[0]);
-	valrec_init(&n[1]);
+
 	char STR[2][256];
 	int i = 0;
 	semiflag = false;
@@ -5351,7 +5333,7 @@ cmdgraph_x(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n;
-	valrec_init(&n);
+
 	semiflag = false;
 
 	ChartObject *chart = PhreeqcPtr->chart_handler.Get_current_chart();
@@ -5399,7 +5381,7 @@ cmdgraph_y(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n;
-	valrec_init(&n);
+
 	semiflag = false;
 
 	ChartObject *chart = PhreeqcPtr->chart_handler.Get_current_chart();
@@ -5464,7 +5446,7 @@ cmdgraph_sy(struct LOC_exec *LINK)
 {
 	bool semiflag;
 	valrec n;
-	valrec_init(&n);
+
 	semiflag = false;
 
 	ChartObject *chart = PhreeqcPtr->chart_handler.Get_current_chart();
@@ -6262,12 +6244,6 @@ _EscIO(int code)
 	P_ioresult = code;
 	return _Escape(-10);
 }
-void PBasic::
-valrec_init(valrec *v)
-{
-	v->stringval = false;
-	v->UU.val = 0.0;
-};
 
 const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[] = {
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("+",                  PBasic::tokplus),
