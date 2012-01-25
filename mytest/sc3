@@ -1,0 +1,43 @@
+DATABASE ../database/phreeqc.dat
+#DATABASE phreeqd.dat
+SOLUTION_SPECIES
+ Na+ = Na+; -log_k 0; -gamma 1e10 0
+ Cl- = Cl-; -log_k 0; -gamma 1e10 0
+SURFACE_MASTER_SPECIES; Su_a Su_a; Su_b Su_b
+SURFACE_SPECIES; Su_a = Su_a; log_k 0; Su_b = Su_b; log_k 0
+SOLUTION 1-9
+END
+SOLUTION 0
+ Na 1; Cl 0.1 charge
+ water 1
+SURFACE 0
+ Su_a 1e-3 1e4 1 Dw 1e-9
+ Su_b 1e-3
+# Hfo_w 1e-7 600 1 #Dw 1e-9
+# Hfo_s 1e-7
+ -equil 0
+ -donnan 1e-17 #d 1 l 0.99 v 1# 1e-9
+#SURFACE 3
+# Su_a 1e-3 1e4 1 Dw 1e-9
+# Su_b 1e-3
+# Hfo_w 1e-7 600 1 #Dw 0e-9
+# Hfo_s 1e-7
+# -equil 3
+# -donnan 1e-17 #d 1 l 0.99 v 1# 1e-9
+
+USE solution none
+END
+PRINT; -reset false
+SELECTED_OUTPUT
+ -file sc3.prn; -reset false; #-high_pr
+USER_PUNCH
+ -head dist Cl Su_a Su_b Hfo_w Hfo_s
+ -start
+ 10 punch dist, tot("Cl")*1e3 , tot("Su_a")*1e3, tot("Su_b")*1e3, tot("Hfo_w")*1e3, tot("Hfo_s")*1e3
+ -end
+TRANSPORT; -diffc 1e-9; -cells 4; -length 1; -disp 0.; -shifts 3 1
+ -stag 1 1e-6 0.15 0.15
+ -bcon 3 3; -time 1e8
+ -punch_fr 1
+ -multi_d true 1e-9 1 0 1 #0.547723 0 1
+END

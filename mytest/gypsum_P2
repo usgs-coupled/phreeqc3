@@ -1,0 +1,97 @@
+# Calculate gypsum/anhydrite transitions, 30 - 170 oC, 1 - 1000 atm
+# Data in gp_anh.dat from Blount and Dickson, 1973, Am. Mineral. 58, 323, fig. 2.
+DATABASE ../database/vreeqc.dat
+PHASES
+Anhydrite
+	CaSO4 = Ca+2 + SO4-2
+	log_k	-4.36
+	delta_h -1.710 kcal
+#	-analytic	197.52	0.0	-8669.8	-69.835
+# 50 - 160oC, 1 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
+	-analytic   87.46  0  -3137  -32.8
+	-Vm 46.1 # 136.14 / 2.95
+
+SOLUTION 1
+pH 7 charge
+-temp 30
+EQUILIBRIUM_PHASES
+Gypsum
+#Anhydrite
+REACTION_TEMPERATURE
+ 30 90 in 14
+#PRINT; -reset false
+USER_GRAPH
+ -headings 1.atm
+ -plot_csv_file gp_anh.dat
+ -axis_titles "temperature / oC" "Solubility / (mol/kgw)"
+ -axis_scale x_axis 30 170
+ -axis_scale y_axis 1e-3 0.05 auto auto log
+ 10 plot_xy tc, tot("Ca"), color = Red, symbol_size = 0
+ -end
+END
+SOLUTION 2
+pH 7 charge
+-temp 30
+-pressure 507
+USE equilibrium_phases 1
+USE reaction_temperature 1
+USER_GRAPH
+ -headings 507.atm
+ 10 plot_xy tc, tot("Ca"), color = Red, symbol_size = 0, line_width = 2
+END
+SOLUTION 3
+pH 7 charge
+-temp 30
+-pressure 1013
+USE equilibrium_phases 1
+USE reaction_temperature 1
+USER_GRAPH
+ -headings 1013.atm
+ 10 plot_xy tc, tot("Ca"), color = Red, symbol_size = 0, line_width = 3
+END
+SOLUTION 1
+pH 7 charge
+-temp 30
+EQUILIBRIUM_PHASES 1
+#Gypsum
+Anhydrite
+REACTION_TEMPERATURE 1
+ 50 170 in 12
+USER_GRAPH
+ -headings
+ 10 plot_xy tc, tot("Ca"), color = Green, symbol_size = 0
+END
+SOLUTION 2
+pH 7 charge
+-temp 30
+-pressure 507
+USE equilibrium_phases 1
+USE reaction_temperature 1
+USER_GRAPH
+ 10 plot_xy tc, tot("Ca"), color = Green, symbol_size = 0, line_width = 2
+END
+SOLUTION 3
+pH 7 charge
+-temp 30
+-pressure 1013
+USE equilibrium_phases 1
+USE reaction_temperature 1
+USER_GRAPH
+ 10 plot_xy tc, tot("Ca"), color = Green, symbol_size = 0, line_width = 3
+END
+PHASES
+Anhydrite
+	CaSO4 = Ca+2 + SO4-2
+	-analytic	197.52	0.0	-8669.8	-69.835
+# 50 - 160oC, 1 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
+#	-analytic   87.46  0  -3137  -32.8
+	-Vm 46.1 # 136.14 / 2.95
+SOLUTION 1
+pH 7 charge
+-temp 30
+USE equilibrium_phases 1
+USE reaction_temperature 1
+USER_GRAPH
+ -headings Anhydrite[old_K]
+ 10 plot_xy tc, tot("Ca"), color = Magenta , symbol = None, line_width = 1
+END

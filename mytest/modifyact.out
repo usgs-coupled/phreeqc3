@@ -1,0 +1,197 @@
+   Input file: modifyact
+  Output file: modifyact.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION 1-6
+		units mol/kgw
+		pe  -1
+		Na  1
+		S 0.5
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Na                1.000e+00   1.000e+00
+	S                 5.000e-01   5.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  -1.000    
+       Specific Conductance (uS/cm, 25 oC) = 54280
+                          Density (g/cm3)  =   1.05644
+                        Activity of water  =   0.977
+                           Ionic strength  =   1.152e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -4.974e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   4.974e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   6
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.750622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.719e-07   9.785e-08    -6.765    -7.009    -0.245     (0)  
+   H+              1.352e-07   1.000e-07    -6.869    -7.000    -0.131      0.00
+   H2O             5.551e+01   9.775e-01     1.744    -0.010     0.000     18.07
+H(0)          1.086e-15
+   H2              5.429e-16   7.079e-16   -15.265   -15.150     0.115     (0)  
+Na            1.000e+00
+   Na+             8.262e-01   5.979e-01    -0.083    -0.223    -0.140     -1.21
+   NaSO4-          1.738e-01   1.420e-01    -0.760    -0.848    -0.088     (0)  
+   NaOH            2.961e-08   3.861e-08    -7.528    -7.413     0.115     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -62.215   -62.100     0.115     (0)  
+S(-2)         5.630e-23
+   HS-             4.075e-23   2.319e-23   -22.390   -22.635    -0.245     (0)  
+   H2S             1.555e-23   2.028e-23   -22.808   -22.693     0.115     (0)  
+   S-2             1.734e-28   2.801e-29   -27.761   -28.553    -0.792     (0)  
+S(6)          5.000e-01
+   SO4-2           3.262e-01   4.739e-02    -0.486    -1.324    -0.838     13.98
+   NaSO4-          1.738e-01   1.420e-01    -0.760    -0.848    -0.088     (0)  
+   HSO4-           5.637e-07   4.607e-07    -6.249    -6.337    -0.088     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -12.00    -15.15   -3.15  H2
+	H2O(g)           -1.52     -0.01    1.51  H2O
+	H2S(g)          -21.70    -22.69   -1.00  H2S
+	O2(g)           -59.21    -62.10   -2.89  O2
+	Sulfur          -15.58    -10.69    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION_MODIFY 2
+	    -totals
+		Na	2
+		S       1
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SOLUTION_MODIFY 3
+	    -totals
+		Na	2
+		S       1
+	    -activities
+	    	S    -7
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	SOLUTION_MODIFY 4
+	    -totals
+		Na	2
+		S       1
+	    -activities
+	    	S(6) -2    
+	    	S    -7
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	SOLUTION_MODIFY 5
+	    -totals
+		Na	2
+		S       1
+	    -activities
+	    	S    -7
+	    	S(6) -2
+	    	S(-2) 1
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	SOLUTION_MODIFY 6
+	    -totals
+		Na	2
+		S       1
+	    -activities
+	    	S(6) -2
+	    	S(-2) 1
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	DUMP 
+		-file modifyact.dmp
+		-solution 1-6
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

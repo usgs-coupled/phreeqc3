@@ -1,0 +1,22 @@
+DATABASE ../database/vreeqc.dat
+GAS_PHASE 1
+     -fixed_volume
+     CO2(g) 10
+	 -pressure 1000
+SOLUTION 1
+ pH 7 charge
+ Ca 1 Calcite
+ C(4) 1 CO2(g) 0
+# -pressure 1000
+EQUILIBRIUM_PHASES 1
+ Calcite
+SAVE solution 1
+END
+
+GAS_PHASE 1
+     -fixed_volume
+     CO2(g) 100
+	 -pressure 1000
+	 -equilibrate 1
+USE solution 1; USE equilibrium_phases 1
+END

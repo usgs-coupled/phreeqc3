@@ -1,0 +1,24 @@
+database ../database/phreeqc.dat
+SOLUTION
+ Ca 1
+ C(4) 45.14
+ pH 7 charge
+CALCULATE_VALUES
+    calc1
+    -start 
+    10  c2 = calc_value("calc2")
+    20  c1 = get(1)
+    30 save c1 + c2 
+    40 print "calc1 ", c1
+    -end 
+    calc2
+    -start 
+    20  c2 = get(2)
+    30 save c2 
+    40 print "calc2 ", c2
+    -end     
+USER_PRINT
+10 put(2, 1)
+20 put(3, 2)
+30 print calc_value("calc1"), get(1), get(2)
+END

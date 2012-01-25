@@ -1,0 +1,146 @@
+   Input file: pitzer_fail
+  Output file: pitzer_fail.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SOLUTION 1
+	    units   mol/kgw
+	    pH     -3       charge
+	    S       8
+	SOLUTION 2
+	    units   mol/kgw
+	    pH     -3.263
+	    S       8
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                 8.000e+00   8.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -3.263      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 3058830
+                          Density (g/cm3)  =   1.43069
+                        Activity of water  =   0.481
+                           Ionic strength  =   8.950e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.600e+01
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   7.093e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  23
+                         Gamma iterations  =   9
+                      Osmotic coefficient  =   2.46407
+                         Density of water  =   0.99706
+                                  Total H  = 1.270124e+02
+                                  Total O  = 8.750622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              8.475e+00   1.000e+03     0.928     3.263     2.335      0.00
+   OH-             2.347e-16   2.640e-18   -15.629   -17.578    -1.949     (0)  
+   H2O             5.551e+01   4.813e-01     1.744    -0.318     0.000     18.07
+S(6)          8.000e+00
+   HSO4-           7.525e+00   4.758e+00     0.877     0.677    -0.199     (0)  
+   SO4-2           4.751e-01   2.727e-05    -0.323    -4.564    -4.241     19.57
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2O(g)           -1.83     -0.32    1.51  H2O
+
+
+Initial solution 2.	
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: The program has failed to converge to a numerical solution.
+
+The following equations were not satisfied:
+ERROR:                    S has not converged. Total: 8.000000e+00	Calculated: 9.157652e+00	Residual: -1.157652e+00
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	S                 9.158e+00   9.158e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -3.263    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 255228731
+                          Density (g/cm3)  =   0.68216
+                        Activity of water  =   0.768
+                           Ionic strength  =   4.785e+02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -5.260e+02
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   5.077e+02
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  53.33
+                               Iterations  = 201
+                         Gamma iterations  = 201
+                      Osmotic coefficient  =   3.57955
+                         Density of water  =   0.99706
+                                  Total H  = 1.063136e+03
+                                  Total O  = 3.051767e+02
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              7.299e+02   1.000e+03     2.863     3.263     0.400      0.00
+   OH-             2.130e+02   4.211e-18     2.328   -17.376   -19.704     (0)  
+   H2O             5.551e+01   7.681e-01     1.744    -0.115     0.000     18.07
+S(6)          9.158e+00
+   HSO4-           9.156e+00   1.515e-16     0.962   -15.820   -16.781     (0)  
+   SO4-2           1.681e-03   8.678e-22    -2.774   -21.062   -18.287     52.97
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2O(g)           -1.62     -0.11    1.51  H2O
+
+
+ERROR: Model failed to converge for initial solution.
+Stopping.

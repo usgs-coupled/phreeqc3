@@ -1,0 +1,48 @@
+   Input file: cc_P2
+  Output file: cc_P2.out
+Database file: ../database/vreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	KNOBS
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/vreeqc.dat
+	solution 1
+	 pH 7 charge
+	 temp 100
+	EQUILIBRIUM_PHASES
+	 Calcite
+	SOLUTION_SPECIES
+	Ca+2 + CO3-2 = CaCO3
+		log_k	-3.224
+		delta_h 3.545	kcal
+		analytical_expression	-1228.732	-0.299440	35512.75	485.818
+		dw 4.46e-10	# complexes: calc'd with the Pikal formula
+		vm 40 0 0 #3.3e-2 # 25oC, 1 - 1000 atm, calcite dissolution, McDonald and North, 1974, Can. J. Chem. 52, 3181
+	Ca+2 + CO3-2 + H+ = CaHCO3+
+		log_k	-100 # remove this complex, data from Ellis, 1963 and Segnit et al. 1962.
+	REACTION
+	 CO2 1
+	 0 4*0.05 5*0.1 8*0.3
+	INCREMENTAL_REACTIONS true
+	GAS_PHASE
+	 fixed_volume
+	 volume 1
+	 CO2(g) 0
+	 H2O(g) 0
+	PRINT
+	 reset false

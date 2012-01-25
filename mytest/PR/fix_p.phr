@@ -1,0 +1,21 @@
+DATABASE vreeqc.dat
+GAS_PHASE 1
+     -fixed_pressure
+     -volume 0.1
+     CO2(g) 1 # dissolves completely, solution pressure must be reset to initial
+	 -pressure 1000
+SOLUTION 1
+ pH 7 charge
+ Ca 1 Calcite
+ C(4) 1 CO2(g) -1
+ -pressure 1000
+EQUILIBRIUM_PHASES 1
+ Calcite
+END
+
+GAS_PHASE 1
+     -fixed_pressure
+     CO2(g) 100
+	 -pressure 1000
+USE solution 1; USE equilibrium_phases 1
+END

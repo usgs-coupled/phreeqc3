@@ -1,0 +1,52 @@
+   Input file: ex9
+  Output file: ex9.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	TITLE Example 9.--Transport and ion exchange
+	SOLUTION 0  CaCl2
+	        units   mmol/kgw
+	        pH      7.0     charge
+	        pe      8
+	        temp    25.0
+	        Ca      0.6
+	        Cl      1.2
+	SOLUTION 1-40  Initial solution for column
+	        units   mmol/kgw
+	        pH      7.0     charge
+	        pe      8
+	        temp    25.0
+	        Na      1.0
+	        K       0.2
+	        N(5)    1.2
+	EXCHANGE 1-40
+	        equilibrate 1
+	        X       0.0011
+	USE exchange none
+	ADVECTION
+	        cells  40
+	        shifts 120
+	PRINT
+		status false
+	        reset  false
+	SELECTED_OUTPUT
+	        file ex9.pun
+	        totals Na Cl K Ca
+	END

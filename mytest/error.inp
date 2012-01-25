@@ -1,0 +1,150 @@
+EXCHANGE_RAW       1 
+  -new_def 0
+  -exchange_gammas 1
+  -solution_equilibria 0
+  -n_solution -999
+  -component
+    -formula               CaX2
+      -totals
+        Ca   1
+        X   2
+      -charge_balance        0
+      -moles                 1
+      -la                    0
+      -phase_proportion      0
+      -formula_z             0
+      -formula_totals
+        Ca   1
+        X   2
+GAS_PHASE_RAW       2 
+  -new_def             0
+  -solution_equilibria 0
+  -n_solution         -999
+  -type               0
+  -total_p            1
+  -total_moles        0
+  -volume             1
+  -v_m                0
+  -pr_in               0
+  -temperature         298.15
+  -component
+    -phase_name               CO2(g)
+    -p_read                   0.0003
+    -moles                    1.226186459863e-05
+    -initial_moles            0
+KINETICS_RAW       3 
+  -step_divide       1
+  -rk                3
+  -bad_step_max      500
+  -use_cvode         0
+  -cvode_steps       100
+  -cvode_order       5
+  -component         Calcite
+      -tol                   1e-08
+      -m                     0.003
+      -m0                    0.003
+      -moles                 0
+      -namecoef
+        Calcite   1
+      -d_params
+        5 0.6 
+  -totals            
+  -equalIncrements   0
+  -count             0
+  -steps             
+    1 
+EQUILIBRIUM_PHASES_RAW       1 
+  -eltList       
+    C   1
+    Ca   1
+    O   3
+  -component
+    -name                  calcite
+      -si                    0
+      -si_org                0
+      -moles                 10
+      -delta                 0
+      -initial_moles         0
+      -force_equality        0
+      -dissolve_only         0
+      -precipitate_only      0
+SOLID_SOLUTIONS_RAW       5 
+  -solid_solution       Carbonate
+    -total_moles           nan
+    -a0                    0
+    -a1                    0
+    -ag0                   0
+    -ag1                   0
+    -miscibility           0
+    -spinodal              0
+    -tk                    298.15
+    -xb1                   0
+    -xb2                   0
+    -input_case            -1
+    -component             Calcite
+      -initial_moles         1e-27
+      -moles                 0
+      -init_moles            0
+      -delta                 0
+      -fraction_x            0.5
+      -log10_lambda          0
+      -log10_fraction_x      -0.30102999566398
+    -component             Strontianite
+      -initial_moles         1e-27
+      -moles                 0
+      -init_moles            0
+      -delta                 0
+      -fraction_x            0.5
+      -log10_lambda          0
+      -log10_fraction_x      -0.30102999566398
+SURFACE_RAW       1 
+  -type 2
+  -dl_type 0
+  -sites_units 0
+  -only_counter_ions 0
+  -thickness 1e-08
+  -debye_lengths 0
+  -DDL_viscosity 1
+  -DDL_limit 0.8
+  -transport 0
+  -component
+    -formula               Hfo_w
+      -formula_z             0
+      -moles                 1
+      -la                    0
+      -charge_balance        0
+      -phase_proportion      0
+      -Dw                    0
+      -formula_totals
+        Hfo_w   1
+      -totals
+        Hfo_w   1
+  -charge_component 
+    -name                  Hfo
+      -specific_area         600
+      -grams                 1
+      -charge_balance        0
+      -mass_water            0
+      -la_psi                0
+      -la_psi1               0
+      -la_psi2               0
+      -capacitance0          1
+      -capacitance1          5
+      -diffuse_layer_totals
+MIX        1 
+  1     0.5
+  2     0.5
+REACTION_RAW        1 
+  -units              Mol
+  -reactant_list      
+    NaCl   1
+  -element_list       
+  -steps              
+    100 
+  -equal_increments   0
+  -count_steps        0
+REACTION_TEMPERATURE_RAW        1 
+  -count_temps        1
+  -equal_increments   0
+  -temps              
+    31 

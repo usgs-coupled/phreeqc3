@@ -1,0 +1,1 @@
+c:\dos\phrqc\prog\WORKING\3.c\ClrClass_release\phreeqcpp.exe %1 %1.out \dos\p\phreeqc.dat

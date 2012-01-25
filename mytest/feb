@@ -1,0 +1,143 @@
+DATABASE ../database/llnl.dat
+SOLUTION 1 EKATI LLCF
+    temp      8
+    pH        6.5
+    pe        12
+    redox     pe
+    units     mg/l
+    density   1
+    As        0.0007
+    Cu        0.006
+    Ni        0.0052
+    Alkalinity 19.23
+    N(5)      3.4
+    Cl(-1)    24
+    S(6)      63.7
+    Ba        0.097
+    B         0.02
+    Ca        14.6
+    Cd        0.0002
+    Fe        0.013
+    Mg        17.8
+    Mn        0.001
+    Mo        0.0803
+    K         15.1
+    Na        7
+    Sr        0.247
+    V         0.0002
+    U         0.0003
+    Zn        0.01
+    -water    1 # kg
+SOLUTION 2 EKATI Discharge
+    temp      15
+    pH        7.6
+    pe        12
+    redox     pe
+    units     mg/l
+    density   1
+    Cl        33
+    As        0.0014
+    Ba        0.0695
+    Ca        53.5
+    Cd        0.0003
+    Cu        0.009
+    K         10.6
+    Mg        52.6
+    Mn        0.021
+    Mo        0.176
+    Na        26.3
+    Ni        0.0156
+    Sr        0.825
+    U         0.0002
+    V         0.0006
+    Zn        0.003
+    N(5)      9.07
+    S(6)      315
+    Alkalinity 30.12
+    B         0.015
+    Fe        0.005
+    -water    1 # kg
+INVERSE_MODELING 1
+    -solutions      1        2
+    -uncertainty    0.1      0.1
+    -phases
+        Chrysotile        dis
+        Fe(OH)3
+        Gypsum
+        Halite
+        Pyrite            dis
+        Saponite-Ca
+        Saponite-K
+        Saponite-Mg
+        Saponite-Na
+        Fayalite          dis
+        Forsterite        dis
+        SiO2(am)          pre
+        CO2(g)
+        Calcite
+    -tolerance         1e-010
+    -mineral_water     true
+END
+INVERSE_MODELING 1
+    -solutions      1        2
+    -uncertainty    0.1      0.1
+    -phases
+        Chrysotile        dis
+        Fe(OH)3
+        Gypsum
+        Halite
+        Pyrite            dis
+        Saponite-Ca
+        Saponite-K
+        Saponite-Mg
+        Saponite-Na
+        Fayalite          dis
+        Forsterite        dis
+        SiO2(am)          pre
+        CO2(g)
+        Calcite
+    -tolerance         1e-012
+    -mineral_water     true
+END
+INVERSE_MODELING 1
+    -solutions      1        2
+    -uncertainty    0.1      0.1
+    -phases
+        Chrysotile        dis
+        Fe(OH)3
+        Gypsum
+        Halite
+        Pyrite            dis
+        Saponite-Ca
+        Saponite-K
+        Saponite-Mg
+        Saponite-Na
+        Fayalite          dis
+        Forsterite        dis
+        SiO2(am)          pre
+        CO2(g)
+        Calcite
+    -tolerance         1e-010
+    -mineral_water     false
+END
+INVERSE_MODELING 1
+    -solutions      1        2
+    -uncertainty    0.1      0.1
+    -phases
+        Chrysotile        dis
+        Fe(OH)3
+        Gypsum
+        Halite
+        Pyrite            dis
+        Saponite-Ca
+        Saponite-K
+        Saponite-Mg
+        Saponite-Na
+        Fayalite          dis
+        Forsterite        dis
+        SiO2(am)          pre
+        CO2(g)
+        Calcite
+    -tolerance         1e-012
+    -mineral_water     false
+END

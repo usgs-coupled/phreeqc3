@@ -1,0 +1,67 @@
+DATABASE ../database/phreeqc.dat
+KNOBS; -iter 400
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES; Su- = Su-; log_k 0
+SOLUTION 1-2
+ pH 7.0
+ Na 1; Cl 1 charge
+ water 1
+SURFACE 1
+ Su 0.1 1e4 1
+ Hfo_w 1e-3 600 1
+ -equil 1
+ -donnan debye_lengths 1 limit_ddl 0.8 viscosity 1# 1e-9
+SELECTED_OUTPUT
+ -file d2.prn; -reset false#; -high_pr
+USER_PUNCH
+ -head H2O_aq H2O_Su H2O_Hfo H2O_tot newH2O_tot Na Cl pH
+ -start
+  2 if sim_no = 1 then put(edl("water"), 1)
+ 10 punch tot("water"), edl("water", "Su"), edl("water", "Hfo"), tot("water") + edl("water", "Su") + edl("water", "Hfo"), 0.5*tot("water") + edl("water", "Su") + edl("water", "Hfo"), tot("Na")*1e3, tot("Cl")*1e3 , -la("H+")
+ -end
+END
+USE surface 1
+MIX 1; 1 0.5
+SAVE solution 1; SAVE surface 1
+#KNOBS; -debug_diff
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
+END
+USE surface 1; USE mix 1
+SAVE solution 1; SAVE surface 1
+END
