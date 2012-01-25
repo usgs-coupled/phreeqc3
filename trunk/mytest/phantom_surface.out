@@ -1,0 +1,372 @@
+   Input file: phantom_surface
+  Output file: phantom_surface.out
+Database file: ../database/wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/wateq4f.dat
+	PHASES
+	   Fix_H+
+	   H+=H+
+	   log_k 0.0
+	KNOBS
+	    convergence_tolerance 1e-8 # 1e-10 OK
+	SOLUTION 1
+	   pH    1.95
+	   units    mol/kgw
+	   Na    1e-2
+	   Cl     1e-2 charge  # can't balance the charge like this?
+	   Ca    1e-3
+	   Fe    0
+	EXCHANGE
+	   equilibrate 1
+	   X 0.02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e-03   1.000e-03
+	Cl                2.475e-02   2.475e-02  Charge balance
+	Na                1.000e-02   1.000e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   1.950    
+                                       pe  =   4.000    
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.575e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.275e-02
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -3.771e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                                  Total H  = 1.110252e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.275e-02   1.122e-02    -1.895    -1.950    -0.055      0.00
+   OH-             1.039e-12   8.915e-13   -11.983   -12.050    -0.066     (0)  
+   H2O             5.551e+01   9.992e-01     1.744    -0.000     0.000     18.07
+Ca            1.000e-03
+   Ca+2            1.000e-03   5.566e-04    -3.000    -3.254    -0.254     (0)  
+   CaOH+           9.586e-15   8.225e-15   -14.018   -14.085    -0.066     (0)  
+Cl            2.475e-02
+   Cl-             2.475e-02   2.113e-02    -1.606    -1.675    -0.069     (0)  
+H(0)          1.772e-15
+   H2              8.860e-16   8.913e-16   -15.053   -15.050     0.003     (0)  
+Na            1.000e-02
+   Na+             1.000e-02   8.599e-03    -2.000    -2.066    -0.066     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -62.283   -62.281     0.003     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -1.95     -1.95    0.00  H+
+	H2(g)           -11.90    -15.05   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.32     -3.74    1.58  NaCl
+	O2(g)           -59.39    -62.28   -2.89  O2
+	Portlandite     -22.16      0.64   22.80  Ca(OH)2
+
+
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X                2.000e-02 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	HX                1.547e-02   1.547e-02   7.737e-01     0.000
+	CaX2              1.670e-03   3.340e-03   1.670e-01     0.000
+	NaX               1.186e-03   1.186e-03   5.929e-02     0.000
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using exchange 1.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-02 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	HX                1.547e-02   1.547e-02   7.737e-01     0.000
+	CaX2              1.670e-03   3.340e-03   1.670e-01     0.000
+	NaX               1.186e-03   1.186e-03   5.929e-02     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e-03   1.000e-03
+	Cl                2.475e-02   2.475e-02
+	Na                1.000e-02   1.000e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   1.950      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.575e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.275e-02
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -3.771e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110252e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.275e-02   1.122e-02    -1.895    -1.950    -0.055      0.00
+   OH-             1.039e-12   8.915e-13   -11.983   -12.050    -0.066     (0)  
+   H2O             5.551e+01   9.992e-01     1.744    -0.000     0.000     18.07
+Ca            1.000e-03
+   Ca+2            1.000e-03   5.566e-04    -3.000    -3.254    -0.254     (0)  
+   CaOH+           9.586e-15   8.225e-15   -14.018   -14.085    -0.066     (0)  
+Cl            2.475e-02
+   Cl-             2.475e-02   2.113e-02    -1.606    -1.675    -0.069     (0)  
+H(0)          1.772e-15
+   H2              8.860e-16   8.913e-16   -15.053   -15.050     0.003     (0)  
+Na            1.000e-02
+   Na+             1.000e-02   8.599e-03    -2.000    -2.066    -0.066     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -62.283   -62.281     0.003     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -1.95     -1.95    0.00  H+
+	H2(g)           -11.90    -15.05   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.32     -3.74    1.58  NaCl
+	O2(g)           -59.39    -62.28   -2.89  O2
+	Portlandite     -22.16      0.64   22.80  Ca(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	KNOBS 
+	USE solution 1
+	USE exchange 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -8.0800 NaOH 10   # -8.0801 OK
+	   O2(g) -48.0 10
+	   CO2(g) -2     0.3
+	   Fe(OH)3(a)    0 0
+	SURFACE 1
+	   Hfo_sOH Fe(OH)3(a)   equilibrium_phase 0.005  53300
+	   Hfo_wOH Fe(OH)3(a)   equilibrium_phase 0.2
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Fe is contained in Fe(OH)3(a) (which has 0.0 mass),	
+but is not in solution or other phases.
+Using solution 1.	
+Using exchange 1.	Exchange assemblage after simulation 1.
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -2.00    -3.47     -1.47    3.000e-01   2.771e-01  -2.294e-02
+Fe(OH)3(a)           Element not present.    0.000e+00           0   0.000e+00
+Fix_H+           -8.08    -8.08      0.00
+	 NaOH               is reactant       1.000e+01   9.949e+00  -5.115e-02
+O2(g)           -48.00   -50.89     -2.89    1.000e+01   1.000e+01  -5.329e-15
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.857e-29  Surface charge, eq
+	undefined  sigma, C/m**2
+	  0.000e+00  psi, V
+	 -0.000e+00  -F*psi/RT
+	  1.000e+00  exp(-F*psi/RT)
+	  5.330e+04  specific area, m**2/mol Fe(OH)3(a)
+	  0.000e+00  m**2 for   0.000e+00 moles of Fe(OH)3(a)
+
+
+Hfo_s         
+	  0.000e+00  moles	[0.005 mol/(mol Fe(OH)3(a))]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOHCa+2       9.257e-30       0.000   9.252e-30     -29.034
+	Hfo_sOH           1.000e-30       0.000   9.995e-31     -30.000
+	Hfo_sOH2+         1.622e-31       0.000   1.621e-31     -30.790
+	Hfo_sO-           1.413e-31       0.000   1.412e-31     -30.850
+
+Hfo_w         
+	  0.000e+00  moles	[0.2 mol/(mol Fe(OH)3(a))]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           1.000e-30       0.000   9.995e-31     -30.000
+	Hfo_wOH2+         1.622e-31       0.000   1.621e-31     -30.790
+	Hfo_wO-           1.413e-31       0.000   1.412e-31     -30.850
+	Hfo_wOCa+         1.684e-32       0.000   1.684e-32     -31.774
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-02 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.516e-02   1.516e-02   7.582e-01     0.000
+	CaX2              2.418e-03   4.836e-03   2.418e-01     0.000
+	HX                3.270e-08   3.270e-08   1.635e-06     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 2.293e-02   2.294e-02
+	Ca                2.516e-04   2.517e-04
+	Cl                2.474e-02   2.475e-02
+	Na                4.715e-02   4.717e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.080      Charge balance
+                                       pe  =   0.717      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =   4.753e-02
+                       Mass of water (kg)  =   1.001e+00
+                 Total alkalinity (eq/kg)  =   2.292e-02
+                       Total CO2 (mol/kg)  =   2.293e-02
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -7.238e-16
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                                  Total H  = 1.110918e+02
+                                  Total O  = 5.560325e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.458e-06   1.202e-06    -5.836    -5.920    -0.084     (0)  
+   H+              9.717e-09   8.318e-09    -8.012    -8.080    -0.068      0.00
+   H2O             5.551e+01   9.984e-01     1.744    -0.001     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -49.459   -49.454     0.005     (0)  
+C(4)          2.293e-02
+   HCO3-           2.186e-02   1.818e-02    -1.660    -1.741    -0.080     (0)  
+   NaHCO3          3.900e-04   3.942e-04    -3.409    -3.404     0.005     (0)  
+   CO2             3.367e-04   3.405e-04    -3.473    -3.468     0.005     (0)  
+   CO3-2           2.143e-04   1.025e-04    -3.669    -3.989    -0.320     (0)  
+   NaCO3-          8.929e-05   7.361e-05    -4.049    -4.133    -0.084     (0)  
+   CaHCO3+         2.790e-05   2.299e-05    -4.554    -4.638    -0.084     (0)  
+   CaCO3           1.684e-05   1.703e-05    -4.774    -4.769     0.005     (0)  
+Ca            2.516e-04
+   Ca+2            2.069e-04   9.919e-05    -3.684    -4.004    -0.319     (0)  
+   CaHCO3+         2.790e-05   2.299e-05    -4.554    -4.638    -0.084     (0)  
+   CaCO3           1.684e-05   1.703e-05    -4.774    -4.769     0.005     (0)  
+   CaOH+           2.397e-09   1.976e-09    -8.620    -8.704    -0.084     (0)  
+Cl            2.474e-02
+   Cl-             2.474e-02   2.019e-02    -1.607    -1.695    -0.088     (0)  
+H(0)          3.563e-21
+   H2              1.781e-21   1.801e-21   -20.749   -20.745     0.005     (0)  
+Na            4.715e-02
+   Na+             4.667e-02   3.857e-02    -1.331    -1.414    -0.083     (0)  
+   NaHCO3          3.900e-04   3.942e-04    -3.409    -3.404     0.005     (0)  
+   NaCO3-          8.929e-05   7.361e-05    -4.049    -4.133    -0.084     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -50.897   -50.892     0.005     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Aragonite         0.34     -7.99   -8.34  CaCO3
+	Calcite           0.49     -7.99   -8.48  CaCO3
+	CH4(g)          -46.59    -49.45   -2.86  CH4
+	CO2(g)           -2.00     -3.47   -1.47  CO2
+	Fix_H+           -8.08     -8.08    0.00  H+
+	H2(g)           -17.59    -20.74   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.69     -3.11    1.58  NaCl
+	Nahcolite        -2.61     -3.15   -0.55  NaHCO3
+	Natron           -5.51     -6.82   -1.31  Na2CO3:10H2O
+	O2(g)           -48.00    -50.89   -2.89  O2
+	Portlandite     -10.64     12.16   22.80  Ca(OH)2
+	Thermonatrite    -6.94     -6.82    0.12  Na2CO3:H2O
+	Trona            -9.18     -9.97   -0.80  NaHCO3:Na2CO3:2H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

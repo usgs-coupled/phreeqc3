@@ -1,0 +1,833 @@
+   Input file: cdmus3
+  Output file: cdmus3.out
+Database file: ../database/wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/wateq4f.dat
+	SOLUTION_MASTER_SPECIES
+	        [N5]     [N5]O3-         0       14              14
+	        Perchlorate Perchlorate- 0       35              35
+	SOLUTION_SPECIES
+	        [N5]O3- = [N5]O3-
+	        log_k 0
+	        Perchlorate- = Perchlorate-
+	        log_k 0
+	SURFACE_MASTER_SPECIES
+	        Goe_uni    Goe_uniOH1.5 # PHREEQC needs a neutral species for coupling
+	        Goe_tri    Goe_triOH0.5 # surface sites and changing goethite concentrations
+	SURFACE_SPECIES
+		Goe_triOH0.5 = Goe_triOH0.5
+	 log_k 0
+	            cd_music  0.5 0 0 0 0
+	        Goe_triOH0.5 = Goe_triO-0.5 + 0.5H+
+	            cd_music  0 0 0 0 0
+	            log_k 20 # make Goe_triOH0.5 a negligible species
+	        Goe_triO-0.5 + H+ = Goe_triOH+0.5
+	            cd_music  1 0 0 0 0
+	            log_k     9.20  # SHR2008
+	        Goe_triO-0.5 + Li+ = Goe_triOLi+0.5
+	            cd_music  0 1 0 0 0
+	            log_k     0.10  # HR2006, SHR2008
+	        Goe_triO-0.5 + Na+ = Goe_triONa+0.5
+	            cd_music  0 1 0 0 0
+	            log_k    -0.60  # HR2006, SHR2008
+	        Goe_triO-0.5 + K+ = Goe_triOK+0.5
+	            cd_music  0 1 0 0 0
+	            log_k    -1.61  # HR2006
+	        Goe_triO-0.5 + H+ + NO3- = Goe_triOHNO3-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    8.52   # HR2006a = 9.20 + (-0.68), SHR2008
+	        Goe_triO-0.5 + H+ + [N5]O3- = Goe_triOH[N5]O3-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    8.52   # HR2006a = 9.20 + (-0.68), SHR2008
+	        Goe_triO-0.5 + H+ + Cl- = Goe_triOHCl-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    8.75   # HR2006a = 9.20 + (-0.45)
+	        Goe_uniOH1.5 = Goe_uniOH1.5
+	 log_k 0
+	            cd_music  0.5 0 0 0 0
+	        Goe_uniOH1.5 = Goe_uniOH-0.5 + 0.5H+
+	            cd_music  0 0 0 0 0
+	            log_k 20 # make Goe_uniOH1.5 a negligible species
+	        Goe_uniOH-0.5 + H+ = Goe_uniOH2+0.5
+	            cd_music  1 0 0 0 0
+	            log_k    9.20    # SHR2008
+	        Goe_uniOH-0.5 + Li+ = Goe_uniOHLi+0.5
+	            cd_music  0 1 0 0 0
+	            log_k     0.10   # HR2006, SHR2008
+	        Goe_uniOH-0.5 + Na+ = Goe_uniOHNa+0.5
+	            cd_music  0 1 0 0 0
+	            log_k    -0.60   # HR2006, SHR2008
+	        Goe_uniOH-0.5 + K+ = Goe_uniOHK+0.5
+	            cd_music  0 1 0 0 0
+	            log_k    -1.61   # HR2006
+	        Goe_uniOH-0.5 + H+ + NO3- = Goe_uniOH2NO3-0.5
+	            cd_music  1 -1 0 0 0
+	           log_k    8.52   # HR2006a = 9.20 + (-0.68), SHR2008
+	        Goe_uniOH-0.5 + H+ + [N5]O3- = Goe_uniOH2[N5]O3-0.5
+	            cd_music  1 -1 0 0 0
+	           log_k    8.52   # HR2006a = 9.20 + (-0.68), SHR2008
+	        Goe_uniOH-0.5 + H+ + Cl- = Goe_uniOH2Cl-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    8.75   # HR2006a = 9.20 + (-0.45)
+	        Goe_uniOH-0.5 + Ca+2 = Goe_uniOHCa+1.5
+	            log_k      2.85   # SHR2008   2.93 WRH2008a
+	            cd_music  0.0  2.0  0 0 0
+	        Goe_triO-0.5 + Ca+2 = Goe_triOCa+1.5
+	            log_k      2.85   # SHR2008   2.93 WRH2008a
+	            cd_music  0.0  2.0  0 0 0
+	        Goe_uniOH-0.5 + Ca+2 = Goe_uniOHCa+1.5
+	            log_k      3.69   # SHR2008   3.66  WRH2008a
+	            cd_music  0.32  1.68  0 0 0
+	        Goe_uniOH-0.5 + Ca+2 + H2O = Goe_uniOHCaOH+0.5 + H+
+	            log_k      -9.17  # SHR2008   -9.21 WRH2008a
+	            cd_music  0.32  0.68  0 0 0
+	        2Goe_uniOH-0.5 + Mg+2 = (Goe_uniOH)2Mg+1
+	             log_k      4.89   # SHR2008
+	             cd_music  0.71  1.29  0 0 0
+	        2Goe_uniOH-0.5 + Mg+2 + H2O = (Goe_uniOH)2MgOH + H+
+	             log_k      -6.44  # SHR2008
+	             cd_music  0.71  0.29  0 0 0
+	        2Goe_uniOH-0.5 + Cu+2 = (Goe_uniOH)2Cu+1
+	            log_k      9.18   # WRH2008
+	            cd_music  0.84  1.16  0 0 0
+	        2Goe_uniOH-0.5 + Cu+2 + H2O = (Goe_uniOH)2CuOH + H+
+	            log_k      3.60   # WRH2008a
+	            cd_music  0.84  0.16  0 0 0
+	        2Goe_uniOH-0.5 + 2Cu+2 + 2H2O = (Goe_uniOH)2Cu2(OH)2+1 + 2H+
+	            log_k      3.65   # WRH2008a
+	            cd_music  0.84  1.16  0 0 0
+	        2Goe_uniOH-0.5 + 2Cu+2 + 3H2O = (Goe_uniOH)2Cu2(OH)3 + 3H+
+	            log_k      -3.10  # WRH2008a
+	            cd_music  0.84  0.16  0 0 0
+	        Goe_uniOH-0.5 + 2H+ + AsO4-3 = Goe_uniOAsO2OH-1.5 + H2O
+	            log_k     26.60   # SHR2008
+	            cd_music  0.30 -1.30 0 0 0
+	        2Goe_uniOH-0.5 + 2H+ + AsO4-3 = (Goe_uniO)2AsO2-2 + 2H2O
+	             log_k     29.77  # SHR2008
+	             cd_music  0.47  -1.47  0 0 0
+	        2Goe_uniOH-0.5 + 3H+ + AsO4-3 = (Goe_uniO)2AsOOH- + 2H2O
+	             log_k     33.00  # SHR2008
+	             cd_music  0.58 -0.58 0 0 0
+	        Goe_uniOH-0.5 + H3AsO3 = Goe_uniOAs(OH)2-0.5 + H2O
+	            log_k     4.91	# SHR2008
+	            cd_music  0.16  -0.16 0 0 0
+	        2Goe_uniOH-0.5 + H3AsO3 = (Goe_uniO)2AsOH-1 + 2H2O
+	             log_k     7.26	# SHR2008
+	             cd_music  0.34 -0.34 0 0 0
+	        Goe_uniOH-0.5 + 2H+ + PO4-3 = Goe_uniOPO2OH-1.5 + H2O
+	            log_k       27.65  # SHR2008
+	            cd_music  0.28 -1.28 0 0 0
+	        2Goe_uniOH-0.5 + 2H+ + PO4-3 = (Goe_uniO)2PO2-2 + 2H2O
+	             log_k      29.77  # SHR2008
+	             cd_music  0.46  -1.46  0 0 0
+	        2Goe_uniOH-0.5 + 2H+ + CO3-2 = (Goe_uniO)2CO- + 2H2O
+	             log_k     22.33   # SHR2008
+	             cd_music  0.68  -0.68  0 0 0
+	         Goe_uniOH-0.5 + H+ + SO4-2 = Goe_uniOSO3-1.5 + H2O
+	             log_k     9.37   # HR2006
+	             cd_music  0.5  -1.5  0 0 0
+	         Goe_uniOH-0.5 + H+ + SO4-2 = Goe_uniOSO3-1.5 + H2O
+	             log_k     11.06  # HR2006
+	             cd_music  1  -1.84  -0.16 0 0
+	        2Goe_uniOH-0.5 + H4SiO4 = (Goe_uniO)2Si(OH)2-1 + 2H2O
+	             log_k      5.85   # HBR2007
+	             cd_music  0.29  -0.29  0 0 0
+	        2Goe_uniOH-0.5 + 4H4SiO4 = (Goe_uniO)2SiOHOSi3O2(OH)7-1 + 5H2O
+	             log_k      13.98  # HBR2007
+	             cd_music  0.29  -0.29  0 0 0
+	        2Goe_uniOH-0.5 + 4H4SiO4 = (Goe_uniO)2SiOHOSi3O3(OH)6-2 + 5H2O + H+
+	             log_k      7.47   # HBR2007
+	             cd_music  0.29  -1.29  0 0 0
+	SURFACE_MASTER_SPECIES
+	        Fhy_unie   Fhy_unieOH1.5
+	        Fhy_unic   Fhy_unicOH1.5
+	        Fhy_tri    Fhy_triOH0.5
+	SURFACE_SPECIES
+	        Fhy_triOH0.5  = Fhy_triOH0.5
+	             cd_music  0.5 0 0 0 0
+	             log_k 0
+	        Fhy_triOH0.5  = Fhy_triO-0.5 + 0.5H+
+	             cd_music  0 0 0 0 0
+	             log_k 20
+	        Fhy_triO-0.5 + H+ = Fhy_triOH+0.5
+	             cd_music  1 0 0 0 0
+	             log_k    8.06 #HvR2009
+	        Fhy_triO-0.5 + Na+ = Fhy_triONa+0.5
+	             cd_music  0 1 0 0 0
+	             log_k    -0.60 #HvR2009
+	        Fhy_triO-0.5 + H+ + NO3- = Fhy_triOHNO3-0.5
+	             cd_music  1 -1 0 0 0
+	             log_k    7.38 #HvR2009
+	        Fhy_triO-0.5 + H+ + [N5]O3- = Fhy_triOH[N5]O3-0.5
+	             cd_music  1 -1 0 0 0
+	             log_k    7.38 #HvR2009
+	        Fhy_triO-0.5 + H+ + Cl- = Fhy_triOHCl-0.5
+	             cd_music  1 -1 0 0 0
+	             log_k    7.61 #HvR2009
+	        Fhy_triO-0.5 + H+ + Perchlorate- = Fhy_triOHPerchlorate-0.5
+	             cd_music  1 -1 0 0 0
+	             log_k    6.36 #HvR2009
+	        Fhy_unieOH1.5 = Fhy_unieOH1.5
+	             cd_music  0.5 0 0 0 0
+	             log_k 0
+	         Fhy_unieOH1.5 = Fhy_unieOH-0.5 + 0.5H+
+	             cd_music  0 0 0 0 0
+	             log_k 20
+	        Fhy_unieOH-0.5 + H+ = Fhy_unieOH2+0.5
+	             cd_music  1 0 0 0 0
+	             log_k    8.06 #HvR2009
+	        Fhy_unieOH-0.5 + Na+ = Fhy_unieOHNa+0.5
+	             cd_music  0 1 0 0 0
+	             log_k    -0.60 #HvR2009
+	        Fhy_unieOH-0.5 + H+ + NO3- = Fhy_unieOH2NO3-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    7.38 #HvR2009
+	        Fhy_unieOH-0.5 + H+ + [N5]O3- = Fhy_unieOH2[N5]O3-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    7.38 #HvR2009
+	        Fhy_unieOH-0.5 + H+ + Cl- = Fhy_unieOH2Cl-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    7.61 #HvR2009
+	        Fhy_unieOH-0.5 + H+ + Perchlorate- = Fhy_unieOH2Perchlorate-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    6.36 #HvR2009
+	        Fhy_unicOH1.5 = Fhy_unicOH1.5
+	             cd_music  0.5 0 0 0 0
+	             log_k 0
+	        Fhy_unicOH1.5 = Fhy_unicOH-0.5 + 0.5H+
+	             cd_music  0 0 0 0 0
+	             log_k 20
+	        Fhy_unicOH-0.5 + H+ = Fhy_unicOH2+0.5
+	             cd_music  1 0 0 0 0
+	             log_k    8.06 #HvR2009
+	        Fhy_unicOH-0.5 + Na+ = Fhy_unicOHNa+0.5
+	             cd_music  0 1 0 0 0
+	             log_k    -0.60 #HvR2009
+	        Fhy_unicOH-0.5 + H+ + NO3- = Fhy_unicOH2NO3-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    7.38 #HvR2009
+	        Fhy_unicOH-0.5 + H+ + [N5]O3- = Fhy_unicOH2[N5]O3-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    7.38 #HvR2009
+	        Fhy_unicOH-0.5 + H+ + Cl- = Fhy_unicOH2Cl-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    7.61 #HvR2009
+	        Fhy_unicOH-0.5 + H+ + Perchlorate- = Fhy_unicOH2Perchlorate-0.5
+	            cd_music  1 -1 0 0 0
+	            log_k    6.36 #HvR2009
+	        2Fhy_unicOH-0.5 + 2H+ + CO3-2 = Fhy_unic2O2CO- + 2H2O
+	            cd_music  0.62  -0.62 0 0 0
+	            log_k     21.50 #HvRRU2009
+	        2Fhy_unieOH-0.5 + UO2+2 = Fhy_unie2(OH)2UO2+
+	            cd_music  0.9 1.1 0 0 0
+	            log_k     9.0 #HvRRU2009
+	        2Fhy_unieOH-0.5 + UO2+2 + H2O = Fhy_unie2(OH)2UO2OH + H+
+	            cd_music  0.9 0.1 0 0 0
+	            log_k     3.30 #HvRRU2009
+	        2Fhy_unieOH-0.5 + UO2+2 + 2H2O = Fhy_unie2(OH)2UO2(OH)2- + 2H+
+	            cd_music  0.9 -0.9 0 0 0
+	            log_k     -5.3 #HvRRU2009
+	        2Fhy_unieOH-0.5 + UO2+2 + CO3-2 + H2O = Fhy_unie2(OH)2UO2CO3(OH)-2 + H+
+	            cd_music  0.9 -1.9 0 0 0
+	            log_k     10.49 #HvRRU2009
+	        Fhy_unicOH-0.5 + UO2+2 + 3CO3-2 + H+ = Fhy_unic(OCO2)UO2(CO3)2-3.5 + H2O
+	            cd_music  0.33 -3.33 0 0 0
+	            log_k     36.63 #HvRRU2009
+	        Fhy_unieOH-0.5 + UO2+2 + 3CO3-2 + H+ = Fhy_unie(OCO2)UO2(CO3)2-3.5 + H2O
+	            cd_music  0.33 -3.33 0 0 0
+	            log_k     36.63 #HvRRU2009
+	        2Fhy_unieOH-0.5 + 3UO2+2 + 6H2O = Fhy_unie2(OH)2(UO2)3(OH)6- + 6H+
+	            cd_music  0.9 -0.9 0 0 0
+	            log_k     -15.8 #HvRRU2009
+	        2Fhy_unieOH-0.5 + 3UO2+2 + CO3-2 + 3H2O = Fhy_unie2(OH)2(UO2)3(OH)3CO3 + 3H+
+	            cd_music  0.9 0.1 0 0 0
+	            log_k     14.6 #HvRRU2009
+	SOLUTION 1
+	 pH 7
+	 Fe 1 Goethite
+	 Na 1 charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe                1.544e-13   1.544e-13  Equilibrium with Goethite
+	Na                1.079e-10   1.079e-10  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   9.538e-20
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  20
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.001e-07   1.001e-07    -6.999    -7.000    -0.000     (0)  
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Fe(2)         1.052e-13
+   Fe+2            1.049e-13   1.047e-13   -12.979   -12.980    -0.001     (0)  
+   FeOH+           3.313e-16   3.311e-16   -15.480   -15.480    -0.000     (0)  
+   Fe(OH)2         2.818e-20   2.818e-20   -19.550   -19.550     0.000     (0)  
+   Fe(OH)3-        1.048e-23   1.047e-23   -22.980   -22.980    -0.000     (0)  
+Fe(3)         4.919e-14
+   Fe(OH)3         2.754e-14   2.754e-14   -13.560   -13.560     0.000     (0)  
+   Fe(OH)2+        2.139e-14   2.138e-14   -13.670   -13.670    -0.000     (0)  
+   Fe(OH)4-        2.513e-16   2.512e-16   -15.600   -15.600    -0.000     (0)  
+   FeOH+2          6.466e-18   6.457e-18   -17.189   -17.190    -0.001     (0)  
+   Fe+3            1.003e-22   1.000e-22   -21.999   -22.000    -0.001     (0)  
+   Fe2(OH)2+4      1.129e-33   1.122e-33   -32.947   -32.950    -0.003     (0)  
+   Fe3(OH)4+5      0.000e+00   0.000e+00   -44.296   -44.300    -0.004     (0)  
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+Na            1.079e-10
+   Na+             1.079e-10   1.079e-10    -9.967    -9.967    -0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
+	Fe3(OH)8        -21.20     -0.98   20.22  Fe3(OH)8
+	Goethite         -0.00     -1.00   -1.00  FeOOH
+	H2(g)           -22.00    -25.15   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Hematite          2.01     -2.00   -4.01  Fe2O3
+	Maghemite        -8.39     -2.00    6.39  Fe2O3
+	Magnetite        -4.72     -0.98    3.74  Fe3O4
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	EQUILIBRIUM_PHASES 1-2
+		Goethite  0   1e-6
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SURFACE 1
+	Goe_uni Goethite 0.1 1000
+	Goe_tri Goethite 0.01
+	equilibrate 1
+	 donnan 1e-12
+	SURFACE 2
+	Fhy_unie Goethite 0.1 1000
+	Fhy_unic Goethite 0.01
+	Fhy_tri Goethite 0.01
+	equilibrate 1
+	 donnan 1e-12
+	END
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Goe           
+	 -1.735e-16  Surface + diffuse layer charge, eq
+	  2.408e-12  Surface charge, eq
+	  2.324e-04  sigma, C/m**2
+	  1.301e-01  psi, V
+	 -5.066e+00  -F*psi/RT
+	  6.310e-03  exp(-F*psi/RT)
+	  1.000e+03  specific area, m**2/mol Goethite
+	  1.000e-03  m**2 for   1.000e-06 moles of Goethite
+
+	Water in diffuse layer: 1.000e-12 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Fe            	  6.0429e-21
+	H             	  2.4083e-12
+	Na            	  4.4886e-30
+	O             	  2.4083e-12
+
+Goe_tri       
+	  1.000e-08  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Goe_triOH+0.5     5.000e-09       0.500   5.000e-09      -8.301
+	Goe_triO-0.5      5.000e-09       0.500   5.000e-09      -8.301
+	Goe_triONa+0.5    8.551e-22       0.000   8.551e-22     -21.068
+	Goe_triOH0.5      1.256e-33       0.000   1.256e-33     -32.901
+
+Goe_uni       
+	  1.000e-07  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Goe_uniOH2+0.5    5.000e-08       0.500   5.000e-08      -7.301
+	Goe_uniOH-0.5     5.000e-08       0.500   5.000e-08      -7.301
+	Goe_uniOHNa+0.5   8.551e-21       0.000   8.551e-21     -20.068
+	Goe_uniOH1.5      1.256e-32       0.000   1.256e-32     -31.901
+
+Surface 2.	
+
+Fhy           
+	 -8.270e-22  Surface + diffuse layer charge, eq
+	  5.955e-13  Surface charge, eq
+	  5.746e-05  sigma, C/m**2
+	  6.270e-02  psi, V
+	 -2.441e+00  -F*psi/RT
+	  8.710e-02  exp(-F*psi/RT)
+	  1.000e+03  specific area, m**2/mol Goethite
+	  1.000e-03  m**2 for   1.000e-06 moles of Goethite
+
+	Water in diffuse layer: 1.000e-12 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Fe            	  1.4943e-21
+	H             	  5.9552e-13
+	Na            	  1.8152e-29
+	O             	  5.9552e-13
+
+Fhy_tri       
+	  1.000e-08  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Fhy_triOH+0.5     5.000e-09       0.500   5.000e-09      -8.301
+	Fhy_triO-0.5      5.000e-09       0.500   5.000e-09      -8.301
+	Fhy_triONa+0.5    1.180e-20       0.000   1.180e-20     -19.928
+	Fhy_triOH0.5      4.666e-33       0.000   4.666e-33     -32.331
+
+Fhy_unic      
+	  1.000e-08  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Fhy_unicOH2+0.5   5.000e-09       0.500   5.000e-09      -8.301
+	Fhy_unicOH-0.5    5.000e-09       0.500   5.000e-09      -8.301
+	Fhy_unicOHNa+0.5   1.180e-20       0.000   1.180e-20     -19.928
+	Fhy_unicOH1.5     4.666e-33       0.000   4.666e-33     -32.331
+
+Fhy_unie      
+	  1.000e-07  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Fhy_unieOH2+0.5   5.000e-08       0.500   5.000e-08      -7.301
+	Fhy_unieOH-0.5    5.000e-08       0.500   5.000e-08      -7.301
+	Fhy_unieOHNa+0.5   1.180e-19       0.000   1.180e-19     -18.928
+	Fhy_unieOH1.5     4.666e-32       0.000   4.666e-32     -31.331
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	USE solution 1
+	USE equilibrium_phases 1
+	USE surface 1
+	REACTION 1
+		FeCl3  1
+		0.0001 moles
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 3.
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-04 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	FeCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   3.00000
+	Fe                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite          0.00    -1.00     -1.00    1.000e-06   1.010e-04   1.000e-04
+
+------------------------------Surface composition------------------------------
+
+Goe           
+	  1.062e-19  Surface + diffuse layer charge, eq
+	  1.012e-07  Surface charge, eq
+	  9.670e-02  sigma, C/m**2
+	  2.345e-01  psi, V
+	 -9.128e+00  -F*psi/RT
+	  1.085e-04  exp(-F*psi/RT)
+	  1.000e+03  specific area, m**2/mol Goethite
+	  1.010e-01  m**2 for   1.010e-04 moles of Goethite
+
+	Water in diffuse layer: 1.010e-10 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  1.0121e-07
+	Fe            	  3.6125e-23
+	H             	  1.2140e-14
+	Na            	  3.2046e-27
+	O             	  1.2140e-14
+
+Goe_tri       
+	  1.010e-06  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Goe_triOH+0.5     5.142e-07       0.509   5.142e-07      -6.289
+	Goe_triOHCl-0.5   4.855e-07       0.481   4.855e-07      -6.314
+	Goe_triO-0.5      1.034e-08       0.010   1.034e-08      -7.985
+	Goe_triONa+0.5    2.985e-23       0.000   2.985e-23     -22.525
+	Goe_triOH0.5      1.832e-32       0.000   1.832e-32     -31.737
+
+Goe_uni       
+	  1.010e-05  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Goe_uniOH2+0.5    5.142e-06       0.509   5.142e-06      -5.289
+	Goe_uniOH2Cl-0.5   4.855e-06       0.481   4.855e-06      -5.314
+	Goe_uniOH-0.5     1.034e-07       0.010   1.034e-07      -6.985
+	Goe_uniOHNa+0.5   2.985e-22       0.000   2.985e-22     -21.525
+	Goe_uniOH1.5      1.832e-31       0.000   1.832e-31     -30.737
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.946e-04   2.946e-04
+	Fe                1.244e-10   1.244e-10
+	Na                1.079e-10   1.079e-10
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.539      Charge balance
+                                       pe  =  14.388      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.946e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.946e-04
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.735e-16
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110123e+02
+                                  Total O  = 5.550602e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              2.946e-04   2.890e-04    -3.531    -3.539    -0.008      0.00
+   OH-             3.533e-11   3.464e-11   -10.452   -10.460    -0.009     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            2.946e-04
+   Cl-             2.946e-04   2.888e-04    -3.531    -3.539    -0.009     (0)  
+   FeCl+2          2.277e-14   2.105e-14   -13.643   -13.677    -0.034     (0)  
+   FeCl+           4.206e-17   4.124e-17   -16.376   -16.385    -0.009     (0)  
+   FeCl2+          2.769e-17   2.715e-17   -16.558   -16.566    -0.009     (0)  
+   FeCl3           7.841e-22   7.841e-22   -21.106   -21.106     0.000     (0)  
+Fe(2)         1.119e-13
+   Fe+2            1.119e-13   1.034e-13   -12.951   -12.985    -0.034     (0)  
+   FeCl+           4.206e-17   4.124e-17   -16.376   -16.385    -0.009     (0)  
+   FeOH+           1.154e-19   1.132e-19   -18.938   -18.946    -0.009     (0)  
+   Fe(OH)2         3.334e-27   3.334e-27   -26.477   -26.477     0.000     (0)  
+   Fe(OH)3-        4.372e-34   4.286e-34   -33.359   -33.368    -0.009     (0)  
+Fe(3)         1.243e-10
+   Fe(OH)2+        6.301e-11   6.178e-11   -10.201   -10.209    -0.009     (0)  
+   FeOH+2          5.833e-11   5.392e-11   -10.234   -10.268    -0.034     (0)  
+   Fe+3            2.881e-12   2.413e-12   -11.540   -11.617    -0.077     (0)  
+   Fe(OH)3         2.754e-14   2.754e-14   -13.560   -13.560     0.000     (0)  
+   FeCl+2          2.277e-14   2.105e-14   -13.643   -13.677    -0.034     (0)  
+   FeCl2+          2.769e-17   2.715e-17   -16.558   -16.566    -0.009     (0)  
+   Fe2(OH)2+4      1.072e-19   7.824e-20   -18.970   -19.107    -0.137     (0)  
+   Fe(OH)4-        8.865e-20   8.692e-20   -19.052   -19.061    -0.009     (0)  
+   FeCl3           7.841e-22   7.841e-22   -21.106   -21.106     0.000     (0)  
+   Fe3(OH)4+5      1.652e-27   1.010e-27   -26.782   -26.996    -0.214     (0)  
+H(0)          1.981e-39
+   H2              9.905e-40   9.906e-40   -39.004   -39.004     0.000     (0)  
+Na            1.079e-10
+   Na+             1.079e-10   1.058e-10    -9.967    -9.975    -0.009     (0)  
+O(0)          8.496e-15
+   O2              4.248e-15   4.248e-15   -14.372   -14.372     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)2.7Cl.3    -0.08     -3.12   -3.04  Fe(OH)2.7Cl0.3
+	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
+	Fe3(OH)8        -28.13     -7.91   20.22  Fe3(OH)8
+	Goethite          0.00     -1.00   -1.00  FeOOH
+	H2(g)           -35.85    -39.00   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite          -15.10    -13.51    1.58  NaCl
+	Hematite          2.01     -2.00   -4.01  Fe2O3
+	Maghemite        -8.39     -2.00    6.39  Fe2O3
+	Magnetite       -11.64     -7.91    3.74  Fe3O4
+	O2(g)           -11.48    -14.37   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	USE solution 1
+	USE equilibrium_phases 2
+	USE surface 2
+	USE reaction 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 2.	Surface assemblage after simulation 3.
+Using pure phase assemblage 2.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-04 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	FeCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   3.00000
+	Fe                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.00    -1.00     -1.00    1.000e-06   1.010e-04   1.000e-04
+
+------------------------------Surface composition------------------------------
+
+Fhy           
+	  4.793e-20  Surface + diffuse layer charge, eq
+	  9.026e-08  Surface charge, eq
+	  8.623e-02  sigma, C/m**2
+	  2.286e-01  psi, V
+	 -8.897e+00  -F*psi/RT
+	  1.368e-04  exp(-F*psi/RT)
+	  1.000e+03  specific area, m**2/mol Goethite
+	  1.010e-01  m**2 for   1.010e-04 moles of Goethite
+
+	Water in diffuse layer: 1.010e-10 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  9.0260e-08
+	Fe            	  2.9815e-23
+	H             	  1.0773e-14
+	Na            	  3.6024e-27
+	O             	  1.0773e-14
+
+Fhy_tri       
+	  1.010e-06  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Fhy_triOH+0.5     5.125e-07       0.507   5.125e-07      -6.290
+	Fhy_triOHCl-0.5   3.848e-07       0.381   3.848e-07      -6.415
+	Fhy_triO-0.5      1.126e-07       0.112   1.126e-07      -6.948
+	Fhy_triONa+0.5    4.097e-22       0.000   4.097e-22     -21.388
+	Fhy_triOH0.5      2.242e-31       0.000   2.242e-31     -30.649
+
+Fhy_unic      
+	  1.010e-06  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Fhy_unicOH2+0.5   5.125e-07       0.507   5.125e-07      -6.290
+	Fhy_unicOH2Cl-0.5   3.848e-07       0.381   3.848e-07      -6.415
+	Fhy_unicOH-0.5    1.126e-07       0.112   1.126e-07      -6.948
+	Fhy_unicOHNa+0.5   4.097e-22       0.000   4.097e-22     -21.388
+	Fhy_unicOH1.5     2.242e-31       0.000   2.242e-31     -30.649
+
+Fhy_unie      
+	  1.010e-05  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Fhy_unieOH2+0.5   5.125e-06       0.507   5.125e-06      -5.290
+	Fhy_unieOH2Cl-0.5   3.848e-06       0.381   3.848e-06      -5.415
+	Fhy_unieOH-0.5    1.126e-06       0.112   1.126e-06      -5.948
+	Fhy_unieOHNa+0.5   4.097e-21       0.000   4.097e-21     -20.388
+	Fhy_unieOH1.5     2.242e-30       0.000   2.242e-30     -29.649
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.953e-04   2.953e-04
+	Fe                1.249e-10   1.249e-10
+	Na                1.079e-10   1.079e-10
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.538      Charge balance
+                                       pe  =  14.366      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.953e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.953e-04
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   6.362e-20
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   1
+                                  Total H  = 1.110123e+02
+                                  Total O  = 5.550602e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              2.953e-04   2.897e-04    -3.530    -3.538    -0.008      0.00
+   OH-             3.525e-11   3.456e-11   -10.453   -10.461    -0.009     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            2.953e-04
+   Cl-             2.953e-04   2.895e-04    -3.530    -3.538    -0.009     (0)  
+   FeCl+2          2.300e-14   2.125e-14   -13.638   -13.673    -0.034     (0)  
+   FeCl+           4.471e-17   4.384e-17   -16.350   -16.358    -0.009     (0)  
+   FeCl2+          2.803e-17   2.749e-17   -16.552   -16.561    -0.009     (0)  
+   FeCl3           7.957e-22   7.958e-22   -21.099   -21.099     0.000     (0)  
+Fe(2)         1.187e-13
+   Fe+2            1.187e-13   1.097e-13   -12.926   -12.960    -0.034     (0)  
+   FeCl+           4.471e-17   4.384e-17   -16.350   -16.358    -0.009     (0)  
+   FeOH+           1.221e-19   1.197e-19   -18.913   -18.922    -0.009     (0)  
+   Fe(OH)2         3.518e-27   3.518e-27   -26.454   -26.454     0.000     (0)  
+   Fe(OH)3-        4.602e-34   4.512e-34   -33.337   -33.346    -0.009     (0)  
+Fe(3)         1.247e-10
+   Fe(OH)2+        6.317e-11   6.193e-11   -10.200   -10.208    -0.009     (0)  
+   FeOH+2          5.863e-11   5.418e-11   -10.232   -10.266    -0.034     (0)  
+   Fe+3            2.903e-12   2.431e-12   -11.537   -11.614    -0.077     (0)  
+   Fe(OH)3         2.754e-14   2.754e-14   -13.560   -13.560     0.000     (0)  
+   FeCl+2          2.300e-14   2.125e-14   -13.638   -13.673    -0.034     (0)  
+   FeCl2+          2.803e-17   2.749e-17   -16.552   -16.561    -0.009     (0)  
+   Fe2(OH)2+4      1.083e-19   7.901e-20   -18.965   -19.102    -0.137     (0)  
+   Fe(OH)4-        8.844e-20   8.671e-20   -19.053   -19.062    -0.009     (0)  
+   FeCl3           7.957e-22   7.958e-22   -21.099   -21.099     0.000     (0)  
+   Fe3(OH)4+5      1.673e-27   1.022e-27   -26.776   -26.990    -0.214     (0)  
+H(0)          2.206e-39
+   H2              1.103e-39   1.103e-39   -38.957   -38.957     0.000     (0)  
+Na            1.079e-10
+   Na+             1.079e-10   1.058e-10    -9.967    -9.975    -0.009     (0)  
+O(0)          6.851e-15
+   O2              3.426e-15   3.426e-15   -14.465   -14.465     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)2.7Cl.3    -0.08     -3.12   -3.04  Fe(OH)2.7Cl0.3
+	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
+	Fe3(OH)8        -28.11     -7.88   20.22  Fe3(OH)8
+	Goethite         -0.00     -1.00   -1.00  FeOOH
+	H2(g)           -35.81    -38.96   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite          -15.10    -13.51    1.58  NaCl
+	Hematite          2.01     -2.00   -4.01  Fe2O3
+	Maghemite        -8.39     -2.00    6.39  Fe2O3
+	Magnetite       -11.62     -7.88    3.74  Fe3O4
+	O2(g)           -11.57    -14.47   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

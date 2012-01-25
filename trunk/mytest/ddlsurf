@@ -1,0 +1,65 @@
+DATABASE ../database/phreeqc.dat
+#Database minteq.DAT
+SOLUTION 1
+                units   mol/kgw; pH 7.5;  pe 5.3  O2(g) -10.0; density 1.003; temp    25.00
+                Ca              4.80e-3
+                Na              2.60e-2
+                Cl              3.56e-2 charge
+            #    water           1.e10
+
+EXCHANGE_MASTER_SPECIES
+        X   X-
+EXCHANGE  1-3
+         CaX2           10
+         NaX            40
+ -equil 1
+EXCHANGE_SPECIES
+        X-        = X-;                             log_k       0.0
+        X- +Na+   = NaX;                            log_k       0.0
+       2X- +Ca+2  = CaX2;                           log_k       0.5
+       
+SURFACE_MASTER_SPECIES
+Bfa     BfaOH
+Hfw     HfwOH
+SURFACE_SPECIES
+BfaOH = BfaOH ;           log_k 0.0
+BfaOH + H+ = BfaOH2+;     log_k 7.29
+HfwOH = HfwOH ;           log_k 2.0
+HfwOH + Na+ = HfwONa +H+; log_k 5.29
+KNOBS
+-iterations 5000 # allowed iteration number is 5000
+SURFACE 1-3
+Bfa  23   30 1E4
+Hfw  10   30 1e6
+Hfo_w  1 600 1e5
+
+-equilibrate  1
+
+-donnan debye_lengths 1 limit_ddl 0.99 viscosity 1
+
+CALCULATE_VALUES
+eNaH; -start; 10 save EDL("Na","Hfw"); -end
+eNaB; -start; 10 save EDL("Na","Bfa"); -end
+eCa; -start; 10 save EDL("Ca"); -end
+eCl; -start; 10 save EDL("Cl"); -end
+wHfw; -start;10 save EDL("Water", "Hfw"); -end
+wBfa; -start;10 save edl("water", "Bfa"); -end
+wHfo; -start;10 save edl("water", "Hfo"); -end
+H2O; -start;10 save edl("water", "Bfa") + edl("water", "Hfw")  + edl("water", "Hfo")+ tot("water"); -end
+SELECTED_OUTPUT
+        -file            ddlsurf.sel
+        -reset           false
+        -step
+        -time
+        -distance
+        -pH
+        -water
+        -ionic_strength
+        -totals           Na Ca Cl X Hfo_s
+        -molalities       NaX Na+ CaX2 HfwONa
+        -calculate_values eNaH eNaB eCa eCl wHfw wBfa wHfo H2O
+        -equilibrium_phases
+        -saturation_indices
+End
+USE surface 1; USE solution 1;# USE exchange 1
+END

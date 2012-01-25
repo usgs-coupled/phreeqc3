@@ -1,0 +1,182 @@
+   Input file: i3
+  Output file: i3.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION_MASTER_SPECIES
+	 A A 0 A 1
+	SOLUTION_SPECIES
+	 A = A
+	 log_k 0
+	 dw 0.9e-9
+	 H2O + 0.01e- = H2O-0.01
+	 log_k -12
+	SOLUTION 0
+	 pH 7.0 charge
+	 Cl 1
+	 Fe 1
+	 A 1
+	SOLUTION 1-11
+	 pH 7 charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	A                 1.000e-03   1.000e-03
+	Cl                1.000e-03   1.000e-03
+	Fe                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.213      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 115
+                          Density (g/cm3)  =   0.99716
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.410e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.066e-04
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   1.565e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   5
+                                  Total H  = 1.110140e+02
+                                  Total O  = 5.550781e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.705e-07   1.634e-07    -6.768    -6.787    -0.018     (0)  
+   H+              6.373e-08   6.125e-08    -7.196    -7.213    -0.017      0.00
+   H2O-0.01        9.120e-13   9.120e-13   -12.040   -12.040    -0.000     (0)  
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+A             1.000e-03
+   A               1.000e-03   1.000e-03    -3.000    -3.000     0.000     (0)  
+Cl            1.000e-03
+   Cl-             9.995e-04   9.583e-04    -3.000    -3.019    -0.018     17.82
+   FeCl+           4.733e-07   4.539e-07    -6.325    -6.343    -0.018     (0)  
+   FeCl+2          1.122e-14   9.483e-15   -13.950   -14.023    -0.073     (0)  
+   FeCl2+          4.233e-17   4.059e-17   -16.373   -16.392    -0.018     (0)  
+   FeCl3           3.889e-21   3.890e-21   -20.410   -20.410     0.000     (0)  
+Fe(2)         4.066e-04
+   Fe+2            4.043e-04   3.431e-04    -3.393    -3.465    -0.071     (0)  
+   FeOH+           1.847e-06   1.771e-06    -5.733    -5.752    -0.018     (0)  
+   FeCl+           4.733e-07   4.539e-07    -6.325    -6.343    -0.018     (0)  
+Fe(3)         5.934e-04
+   Fe(OH)3         3.925e-04   3.927e-04    -3.406    -3.406     0.000     (0)  
+   Fe(OH)2+        1.947e-04   1.867e-04    -3.711    -3.729    -0.018     (0)  
+   Fe(OH)4-        6.096e-06   5.846e-06    -5.215    -5.233    -0.018     (0)  
+   FeOH+2          4.085e-08   3.454e-08    -7.389    -7.462    -0.073     (0)  
+   Fe+3            4.682e-13   3.277e-13   -12.330   -12.485    -0.155     (0)  
+   Fe2(OH)2+4      6.282e-14   3.211e-14   -13.202   -13.493    -0.291     (0)  
+   FeCl+2          1.122e-14   9.483e-15   -13.950   -14.023    -0.073     (0)  
+   Fe3(OH)4+5      3.575e-15   1.253e-15   -14.447   -14.902    -0.455     (0)  
+   FeCl2+          4.233e-17   4.059e-17   -16.373   -16.392    -0.018     (0)  
+   FeCl3           3.889e-21   3.890e-21   -20.410   -20.410     0.000     (0)  
+H(0)          5.311e-26
+   H2              2.655e-26   2.656e-26   -25.576   -25.576     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -41.229   -41.229     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        4.26      9.15    4.89  Fe(OH)3
+	Goethite         10.15      9.15   -1.00  FeOOH
+	H2(g)           -22.43    -25.58   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Hematite         22.32     18.31   -4.01  Fe2O3
+	O2(g)           -38.34    -41.23   -2.89  O2
+
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99709
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -9.117e-15
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -3.122e-18
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.001e-07   1.001e-07    -7.000    -7.000    -0.000      0.00
+   OH-             1.001e-07   1.001e-07    -7.000    -7.000    -0.000     (0)  
+   H2O-0.01        9.120e-13   9.120e-13   -12.040   -12.040    -0.000     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          1.417e-25
+   H2              7.087e-26   7.087e-26   -25.150   -25.150     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.081     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.00    -25.15   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	PRINT
+	 reset false
+WARNING: No cell-lengths were read; length = 1 m assumed.
+WARNING: No dispersivities were read; disp = 0 assumed.

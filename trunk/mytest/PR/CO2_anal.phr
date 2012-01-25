@@ -1,0 +1,45 @@
+# Compare expt data of CO2 solubility at high CO2 pressure and
+#   Peng-Robinson calc's with initial solution equilibria, 25, 50, 75 oC.
+PRINT; -reset false
+SOLUTION 1
+PHASES
+CO2(g)
+	CO2 = CO2
+	log_k	-1.468
+	delta_h  -4.776 kcal
+	-analytic	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+	-T_c  304.2 # critical T, K
+	-P_c   72.80 # critical P, atm
+	-Omega 0.225 #  acentric factor
+-delta_v   2.6050944E+01  9.3248418E-03  -7.4742551E-02   0.0000000E+00
+EQUILIBRIUM_PHASES
+ CO2(g) -1
+REACTION_TEMPERATURE
+ 5 200 in 10
+USER_GRAPH
+ -axis_titles "temp / oC" "CO2 / (mol/kgw)"
+ -chart_title "P_CO2 = 0.1 atm"
+ -axis_scale x_axis 0 200
+ -headings tc old
+ 10 x = tc
+ 20 graph_x x
+ 30 graph_y tot("C(4)")
+ -end
+END
+PHASES
+CO2(g)
+	CO2 = CO2
+	log_k	-1.468
+	delta_h  -4.776 kcal
+	-analytic	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+	-T_c  304.2 # critical T, K
+	-P_c   72.80 # critical P, atm
+	-Omega 0.225 #  acentric factor
+-delta_v   2.6050944E+01  9.3248418E-03  -7.4742551E-02   0.0000000E+00
+USE solution 1
+USE equilibrium_phases  1
+USE reaction_temperature 1
+USER_GRAPH
+ -headings tc new
+ -connect_simulations false
+END

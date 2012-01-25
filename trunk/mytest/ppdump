@@ -1,0 +1,305 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 1-3
+	Na	1
+	Cl	1
+END
+EQUILIBRIUM_PHASES 1-3
+	Barite	0	10
+END
+EXCHANGE 1-3
+	X	1
+	-eq	solution 1
+END
+SURFACE 1-3
+    -equilibrate with solution 1
+    Hfo_s   0.01   600    1
+END
+GAS_PHASE 1-3
+    -fixed_pressure
+    -pressure 1
+    -volume 1
+    -temperature 25
+    CO2(g)    0.00035
+END
+SOLID_SOLUTIONS 1-3
+    Calcite
+        -comp calcite 0.1
+        -comp siderite 0.001
+END
+KINETICS 1-3
+Calcite
+    -formula  CaCO3  1
+    -m        1
+    -m0       1
+    -parms    1 1 1 1
+    -tol      1e-008
+-steps       1 in 1 steps # seconds
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+END
+DUMP
+	-file	ppdump.dmp
+	-solution 1	 	
+		2
+		3
+	-equilibrium_phases	1-3
+	-exchange		1
+		2-3
+	-surface
+		1-3
+	-solid_solution 1
+		2 3
+	-gas_phase	1
+	-gas_phase      2-3
+	-kinetics	1
+	-kinetics	2
+	-kinetics       3
+END
+REACTION 1-3
+	NaCl  1
+	0.001
+END	
+MIX 1
+	1 0.5
+MIX 2   
+	2 0.5
+	3 0.5
+MIX 3
+	3 0.5
+	2 0.5
+USE mix none
+END
+REACTION_TEMPERATURE 1-3
+	30
+END
+REACTION_PRESSURE 1-3
+	100 200 300
+END
+DELETE 
+	-mix 2
+END
+RUN_CELLS 
+	-cells 2-3
+	-time_step   10000
+	-start_time  100
+END
+dump	
+	-file	ppdump.dmp
+	-append
+	-solution 3	 	
+	-equilibrium_phases	3
+	-exchange		3
+	-surface                3
+	-solid_solution 3
+	-gas_phase	3
+	-gas_phase      3
+	-kinetics	3
+	-mix 		3
+	-reaction	3
+	-temperature 	3
+	-pressure 	3
+
+
+
+DELETE
+	-solution 	 	
+		2
+		3
+	-equilibrium_phases	2-3
+	-exchange		2
+		3
+	-surface
+		2-3		
+	-solid_solution
+		2 3
+	-gas_phase	2-3
+	-kinetics	3 2
+	-mix		2 
+	-mix		3
+	-reaction       2-3
+	-temperature    
+		2
+		3
+	-pressure 2-3
+END
+
+
+USE solution 1
+USE equilibrium_phases 1
+USE exchange 1
+USE surface 1
+USE solid_solution 1
+USE gas_phase 1
+USE kinetics 1
+USE mix 1
+USE reaction 1
+USE reaction_temperature 1
+USE reaction_pressure 1
+END
+
+DELETE
+	-solution  -1--2	 	
+	-equilibrium_phases	-1
+		-2
+	-exchange	-2--1
+	-surface	-1
+		-2
+	-solid_solution
+		-2
+		-1
+	-gas_phase	
+		-2--1
+	-kinetics	
+			-1--2 -5
+	-mix 		-5--1			
+	-reaction	-5--1
+	-temperature	-5--1
+	-pressure	-5--1
+END
+DUMP
+	#-file	ppdump.dmp
+	#-append	
+	-all
+
+END
+SOLUTION_MODIFY       1 New soln description
+  -totals
+    Cl   0.0020000000000003
+    H(0)   1.4155655514601e-025
+    Na   0.0020000000000003
+EQUILIBRIUM_PHASES_MODIFY       1 New pp description
+  -component
+    -name                  Barite
+    -moles                 20
+    -dissolve_only         1
+
+  -component
+    -name                  Calcite
+    -moles                 20
+    -dissolve_only         1
+
+EXCHANGE_MODIFY       1 New ex description
+  -pitzer_exchange_gammas 1
+  -component
+    -formula              X
+    -totals
+      Na   3.0000000058717
+      X   3.0000000058717
+  -component
+    -formula               Y
+    -moles                 0
+    -la                    2.0000000302372
+    -charge_balance        0
+    -phase_proportion              0
+    -formula_z                     0
+    -totals
+      Na   2.0000000058717
+      X   2.0000000058717
+    -formula_totals
+      X   1
+SURFACE_MODIFY      1 New surface def
+  -type 2
+  -dl_type 0
+  -sites_units 0
+  -only_counter_ions 0
+  -thickness 1e-008
+  -debye_lengths 0
+  -DDL_viscosity 1
+  -DDL_limit 0.8
+  -transport 0
+  -component
+    -formula               Hfo_s
+      -formula_z             0
+      -moles                 0
+      -la                    -0.11486188676541
+      -charge_balance        3.7853465372651e-005
+      -phase_proportion      0
+      -Dw                    0
+      -formula_totals
+        Hfo_s   0.02
+      -totals
+        H   0.02003785346547
+        Hfo_s   0.020000000000097
+        O   0.020000000000097
+  -charge_component 
+    -name                  Hfo
+      -specific_area         700
+      -grams                 1
+      -charge_balance        5.7853465372651e-005
+      -mass_water            0
+      -la_psi                0.55146269389617
+      -la_psi1               1
+      -la_psi2               2
+      -capacitance0          3
+      -capacitance1          5
+      -diffuse_layer_totals 
+SOLID_SOLUTIONS_MODIFY       1 New ss def
+  -solid_solution            Calcite
+      -a0                    0
+      -a1                    0
+      -ag0                   0
+      -ag1                   0
+      -miscibility           0
+      -xb1                   -6.2774385622042e+066
+      -xb2                   -6.2774385622042e+066
+      -component	calcite      
+        -moles   	0.2
+      -component	rhodochrosite 
+        -moles          0.2  
+  -solid_solution	Barite
+      -a0                    0
+      -a1                    0
+      -ag0                   0
+      -ag1                   0
+      -miscibility           0
+      -xb1                   -6.2774385622042e+066
+      -xb2                   -6.2774385622042e+066
+      -component 	Barite
+        -moles          0.2
+      -component	Gypsum
+        -moles          0.2      
+GAS_PHASE_MODIFY      1 New gas_phase def
+  -type               0
+  -total_p            1
+  -volume             1
+  -component
+  	-phase_name 	CO2(g)
+  	-moles		2.4305508698401e-005
+  -component	
+       -phase_name	N2(g)
+       -moles		1e-5
+       
+KINETICS_MODIFY       1 New kinetics def
+  -bad_step_max      200
+  -use_cvode         1
+  -cvode_steps       200
+  -cvode_order       5
+  -component           Calcite
+#    -rate_name             Calcite
+    -tol                   1e-009
+    -m                     0.9999999999991
+    -m0                    1
+    -moles                 8.9805940461929e-010
+    -namecoef
+      CaCO3   1
+      MgCO3   2
+    -d_params
+      1 1 1 1 
+  -totals         
+    C   8.9801193858101e-013
+    Ca   8.9801193858101e-013
+    O   2.694035815743e-012
+DUMP
+	#-file	ppdump.dmp
+	#-append    
+	-solution 1
+	-equilibrium 1
+	-exchange 1
+	-surface 1
+	-solid_solution 1
+	-gas_phase 1
+	-kinetics  1
+END
+	
+	

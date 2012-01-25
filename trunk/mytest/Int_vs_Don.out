@@ -1,0 +1,2992 @@
+   Input file: Int_vs_Don
+  Output file: Int_vs_Don.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION_SPECIES
+	Al+3 + H2O = AlOH+2 + H+
+	        log_k   -50.0
+	        delta_h 11.49   kcal
+	Al+3 + 2 H2O = Al(OH)2+ + 2 H+
+	        log_k   -100.1
+	        delta_h 26.90   kcal
+	Al+3 + 3 H2O = Al(OH)3 + 3 H+
+	        log_k   -160.9
+	        delta_h 39.89   kcal
+	Al+3 + 4 H2O = Al(OH)4- + 4 H+
+	        log_k   -220.7
+	        delta_h 42.30   kcal
+	SURFACE_MASTER_SPECIES
+	 Su Su-
+	SURFACE_SPECIES
+	 Su- = Su-
+	 log_k 0
+	SOLUTION 1-2
+	 pH 6.0
+	 Na 1e2
+	 Cl 1 charge
+	SURFACE 1
+	 Su 1e-2 1e5 1
+	 equilibrate 1
+	 donnan 1e-8
+	SELECTED_OUTPUT
+	 file Int_vs_Don.sel
+	 reset false
+	USER_PUNCH
+	 heading reaction_step DL_type Na/mM dl_Na dl_Ca dl_Al edl_Cl edl_S K_Na\Ca K_Na_Al
+	 start
+	 10 dl_Ca = (edl("Ca", "Su") - tot("Ca") * edl("water", "Su")) * 2
+	 12 dl_Al = (edl("Al", "Su") - tot("Al") * edl("water", "Su")) * 3
+	 20 dl_Na = (edl("Na", "Su") - tot("Na") * edl("water", "Su"))
+	 21 if (dl_Ca = 0 or tot("Na") = 0) then goto 60
+	 22 bb_Ca = dl_Ca / (dl_Ca + dl_Na + dl_Al)
+	 24 bb_Na = dl_Na / (dl_Ca + dl_Na + dl_Al)
+	 25 bb_Al = dl_Al / (dl_Ca + dl_Na + dl_Al)
+	 26 bb_Cl = 1 - (dl_Ca + dl_Na + dl_Al) / (mol("Su-") * tot("water"))
+	 30 K_Na_Ca = bb_Na / bb_Ca^0.5 * tot("Ca")^0.5 / tot("Na")
+	 40 print 'solution', cell_no, ' ( 1 is Donnan, 2 is integration)'
+	 41 punch step_no
+	 42 if cell_no = 1 then punch 'Donnan' else punch 'Integrated'
+	 44 punch tot("Na")*1e3, dl_Na*1e3, dl_Ca*1e3, dl_Al*1e3, (edl("Cl", "Su")- tot("Cl")*edl("water", "Su"))*1e3, edl("S")
+	 46 print '. CB =', dl_Ca + dl_Na + tot("Cl") * edl("water") - edl("Cl", "Su") - mol("Su-") * tot("water")
+	 50 print 'K_Na\Ca (Su) =', K_Na_Ca, '. Na_DDl / Na0 =', edl("Na", "Su") / tot("Na"), 'f_Cl in DL charge =', bb_Cl
+	 51 punch K_Na_Ca
+	 52 if dl_Al = 0 then goto 60
+	 54 K_Na_Al = bb_Na / bb_Al^(1/3) * tot("Al")^(1/3) / tot("Na")
+	 56 print 'K_Na\Al (Su) =', K_Na_Al
+	 58 punch K_Na_Al
+	 60 end
+	 end
+	REACTION 1-2
+	 Na -10 Ca 2 Al 2
+	 1e-8 10*0.0020411
+	INCREMENTAL_REACTIONS
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   1.000e-01  Charge balance
+	Na                1.000e-01   1.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 10802
+                          Density (g/cm3)  =   1.00120
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.000e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.198e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.289e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.211e-06   1.000e-06    -5.917    -6.000    -0.083      0.00
+   OH-             1.310e-08   9.977e-09    -7.883    -8.001    -0.118     (0)  
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.645e-02    -1.000    -1.117    -0.117     17.82
+H(0)          1.384e-23
+   H2              6.918e-24   7.079e-24   -23.160   -23.150     0.010     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.829e-02    -1.000    -1.106    -0.106     -1.21
+   NaOH            5.038e-10   5.155e-10    -9.298    -9.288     0.010     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -46.093   -46.083     0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -20.00    -23.15   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.80     -2.22    1.58  NaCl
+	O2(g)           -43.19    -46.08   -2.89  O2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Su            
+	 -4.592e-11  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.321e-02  psi, V
+	  5.141e-01  -F*psi/RT
+	  1.672e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	  9.5126e-02
+	H             	  1.2864e-06
+	Na            	  1.0512e-01
+	O             	  1.2961e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -6.7039e-08 
+K_Na\Ca (Su) =   1.5613e+00 . Na_DDl / Na0 =   1.0512e+00 f_Cl in DL charge =   4.8751e-01 
+K_Na\Al (Su) =   2.1940e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-08 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  1.220e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.321e-02  psi, V
+	  5.141e-01  -F*psi/RT
+	  1.672e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  1.0748e-08
+	Ca            	  1.0499e-08
+	Cl            	  9.5126e-02
+	H             	  1.2864e-06
+	Na            	  1.0512e-01
+	O             	  1.2961e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                9.252e-09   9.252e-09
+	Ca                9.501e-09   9.501e-09
+	Cl                1.000e-01   1.000e-01
+	Na                1.000e-01   1.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  11.940      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10802
+                          Density (g/cm3)  =   1.00120
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.000e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.198e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -4.593e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.211e-06   1.000e-06    -5.917    -6.000    -0.083      0.00
+   OH-             1.310e-08   9.977e-09    -7.883    -8.001    -0.118     (0)  
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Al            9.252e-09
+   Al+3            9.252e-09   1.648e-09    -8.034    -8.783    -0.749     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -52.356   -52.785    -0.428     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -96.779   -96.886    -0.107     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -151.698  -151.688     0.010     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -205.382  -205.489    -0.107     (0)  
+Ca            9.501e-09
+   Ca+2            9.501e-09   3.717e-09    -8.022    -8.430    -0.408    -17.24
+   CaOH+           7.866e-16   6.147e-16   -15.104   -15.211    -0.107     (0)  
+Cl            1.000e-01
+   Cl-             1.000e-01   7.645e-02    -1.000    -1.117    -0.117     17.97
+H(0)          1.827e-39
+   H2              9.136e-40   9.348e-40   -39.039   -39.029     0.010     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.829e-02    -1.000    -1.106    -0.106     -1.06
+   NaOH            5.038e-10   5.155e-10    -9.298    -9.288     0.010     (0)  
+O(0)          9.260e-15
+   O2              4.630e-15   4.738e-15   -14.334   -14.324     0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -1.59      9.21   10.80  Al(OH)3
+	Gibbsite          1.10      9.21    8.11  Al(OH)3
+	H2(g)           -35.88    -39.03   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.80     -2.22    1.58  NaCl
+	O2(g)           -11.43    -14.32   -2.89  O2
+
+
+Reaction step 2.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -8.4764e-04 
+K_Na\Ca (Su) =   1.4503e+00 . Na_DDl / Na0 =   1.0473e+00 f_Cl in DL charge =   4.5080e-01 
+K_Na\Al (Su) =   1.9885e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  1.764e-12  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.275e-02  psi, V
+	  4.963e-01  -F*psi/RT
+	  1.643e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  2.1824e-03
+	Ca            	  2.1354e-03
+	Cl            	  9.5310e-02
+	H             	  1.2846e-06
+	Na            	  9.4491e-02
+	O             	  1.3233e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.900e-03   1.900e-03
+	Ca                1.947e-03   1.947e-03
+	Cl                9.982e-02   9.982e-02
+	Na                9.022e-02   9.022e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.001      Charge balance
+                                       pe  =  -0.868      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10679
+                          Density (g/cm3)  =   1.00112
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.075e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.200e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   7.609e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.214e-06   9.986e-07    -5.916    -6.001    -0.085      0.00
+   OH-             1.321e-08   9.992e-09    -7.879    -8.000    -0.121     (0)  
+   H2O             5.551e+01   9.967e-01     1.744    -0.001     0.000     18.07
+Al            1.900e-03
+   Al+3            1.900e-03   3.277e-04    -2.721    -3.485    -0.763     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -47.048   -47.485    -0.437     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -91.477   -91.586    -0.109     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -146.398  -146.387     0.011     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -200.078  -200.188    -0.109     (0)  
+Ca            1.947e-03
+   Ca+2            1.947e-03   7.462e-04    -2.711    -3.127    -0.416    -17.24
+   CaOH+           1.590e-10   1.236e-10    -9.799    -9.908    -0.109     (0)  
+Cl            9.982e-02
+   Cl-             9.982e-02   7.578e-02    -1.001    -1.120    -0.120     17.97
+H(0)          7.488e-14
+   H2              3.744e-14   3.838e-14   -13.427   -13.416     0.011     (0)  
+Na            9.022e-02
+   Na+             9.022e-02   7.025e-02    -1.045    -1.153    -0.109     -1.06
+   NaOH            4.520e-10   4.633e-10    -9.345    -9.334     0.011     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -65.562   -65.551     0.011     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        3.71     14.51   10.80  Al(OH)3
+	Gibbsite          6.40     14.51    8.11  Al(OH)3
+	H2(g)           -10.27    -13.42   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.86     -2.27    1.58  NaCl
+	O2(g)           -62.66    -65.55   -2.89  O2
+
+
+Reaction step 3.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -1.5767e-03 
+K_Na\Ca (Su) =   1.3600e+00 . Na_DDl / Na0 =   1.0439e+00 f_Cl in DL charge =   4.1922e-01 
+K_Na\Al (Su) =   1.8252e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  1.928e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.233e-02  psi, V
+	  4.800e-01  -F*psi/RT
+	  1.616e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  4.3450e-03
+	Ca            	  4.2575e-03
+	Cl            	  9.5468e-02
+	H             	  1.2830e-06
+	Na            	  8.3916e-02
+	O             	  1.3494e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                3.819e-03   3.819e-03
+	Ca                3.907e-03   3.907e-03
+	Cl                9.966e-02   9.966e-02
+	Na                8.039e-02   8.039e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.001      Charge balance
+                                       pe  =  -0.894      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10556
+                          Density (g/cm3)  =   1.00104
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.150e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.202e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   7.785e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.216e-06   9.970e-07    -5.915    -6.001    -0.086      0.00
+   OH-             1.332e-08   1.001e-08    -7.875    -8.000    -0.124     (0)  
+   H2O             5.551e+01   9.968e-01     1.744    -0.001     0.000     18.07
+Al            3.819e-03
+   Al+3            3.819e-03   6.390e-04    -2.418    -3.194    -0.776     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.749   -47.195    -0.446     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -91.183   -91.295    -0.111     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -146.106  -146.095     0.012     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.783  -199.895    -0.111     (0)  
+Ca            3.907e-03
+   Ca+2            3.907e-03   1.469e-03    -2.408    -2.833    -0.425    -17.24
+   CaOH+           3.150e-10   2.437e-10    -9.502    -9.613    -0.111     (0)  
+Cl            9.966e-02
+   Cl-             9.966e-02   7.515e-02    -1.001    -1.124    -0.123     17.97
+H(0)          8.419e-14
+   H2              4.210e-14   4.323e-14   -13.376   -13.364     0.012     (0)  
+Na            8.039e-02
+   Na+             8.039e-02   6.227e-02    -1.095    -1.206    -0.111     -1.06
+   NaOH            4.006e-10   4.113e-10    -9.397    -9.386     0.012     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -65.666   -65.654     0.012     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.01     14.81   10.80  Al(OH)3
+	Gibbsite          6.70     14.81    8.11  Al(OH)3
+	H2(g)           -10.21    -13.36   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.91     -2.33    1.58  NaCl
+	O2(g)           -62.76    -65.65   -2.89  O2
+
+
+Reaction step 4.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -2.2105e-03 
+K_Na\Ca (Su) =   1.2847e+00 . Na_DDl / Na0 =   1.0410e+00 f_Cl in DL charge =   3.9176e-01 
+K_Na\Al (Su) =   1.6917e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  9.659e-13  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.195e-02  psi, V
+	  4.651e-01  -F*psi/RT
+	  1.592e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  6.4917e-03
+	Ca            	  6.3691e-03
+	Cl            	  9.5605e-02
+	H             	  1.2818e-06
+	Na            	  7.3390e-02
+	O             	  1.3744e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                5.755e-03   5.755e-03
+	Ca                5.878e-03   5.878e-03
+	Cl                9.952e-02   9.952e-02
+	Na                7.050e-02   7.050e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.002      Charge balance
+                                       pe  =  -1.500      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10432
+                          Density (g/cm3)  =   1.00096
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.227e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.204e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   2.707e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.218e-06   9.955e-07    -5.914    -6.002    -0.088      0.00
+   OH-             1.344e-08   1.003e-08    -7.872    -7.999    -0.127     (0)  
+   H2O             5.551e+01   9.969e-01     1.744    -0.001     0.000     18.07
+Al            5.755e-03
+   Al+3            5.755e-03   9.356e-04    -2.240    -3.029    -0.789     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.575   -47.028    -0.453     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -91.014   -91.128    -0.113     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.939  -145.927     0.012     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.613  -199.726    -0.113     (0)  
+Ca            5.878e-03
+   Ca+2            5.878e-03   2.170e-03    -2.231    -2.664    -0.433    -17.24
+   CaOH+           4.682e-10   3.606e-10    -9.330    -9.443    -0.113     (0)  
+Cl            9.952e-02
+   Cl-             9.952e-02   7.457e-02    -1.002    -1.127    -0.125     17.97
+H(0)          1.362e-12
+   H2              6.810e-13   7.005e-13   -12.167   -12.155     0.012     (0)  
+Na            7.050e-02
+   Na+             7.050e-02   5.435e-02    -1.152    -1.265    -0.113     -1.06
+   NaOH            3.496e-10   3.596e-10    -9.456    -9.444     0.012     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.086   -68.074     0.012     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.17     14.97   10.80  Al(OH)3
+	Gibbsite          6.86     14.97    8.11  Al(OH)3
+	H2(g)            -9.00    -12.15   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.97     -2.39    1.58  NaCl
+	O2(g)           -65.18    -68.07   -2.89  O2
+
+
+Reaction step 5.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -2.7665e-03 
+K_Na\Ca (Su) =   1.2206e+00 . Na_DDl / Na0 =   1.0384e+00 f_Cl in DL charge =   3.6767e-01 
+K_Na\Al (Su) =   1.5802e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  6.613e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.160e-02  psi, V
+	  4.514e-01  -F*psi/RT
+	  1.571e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  8.6255e-03
+	Ca            	  8.4720e-03
+	Cl            	  9.5725e-02
+	H             	  1.2807e-06
+	Na            	  6.2904e-02
+	O             	  1.3986e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                7.703e-03   7.703e-03
+	Ca                7.857e-03   7.857e-03
+	Cl                9.940e-02   9.940e-02
+	Na                6.058e-02   6.058e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.003      Charge balance
+                                       pe  =  -1.513      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10309
+                          Density (g/cm3)  =   1.00088
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.304e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.205e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   2.716e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.220e-06   9.939e-07    -5.914    -6.003    -0.089      0.00
+   OH-             1.355e-08   1.004e-08    -7.868    -7.998    -0.130     (0)  
+   H2O             5.551e+01   9.970e-01     1.744    -0.001     0.000     18.07
+Al            7.703e-03
+   Al+3            7.703e-03   1.219e-03    -2.113    -2.914    -0.801     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.452   -46.913    -0.461     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.896   -91.011    -0.115     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.823  -145.810     0.013     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.493  -199.609    -0.115     (0)  
+Ca            7.857e-03
+   Ca+2            7.857e-03   2.851e-03    -2.105    -2.545    -0.440    -17.24
+   CaOH+           6.187e-10   4.745e-10    -9.209    -9.324    -0.115     (0)  
+Cl            9.940e-02
+   Cl-             9.940e-02   7.403e-02    -1.003    -1.131    -0.128     17.97
+H(0)          1.442e-12
+   H2              7.210e-13   7.429e-13   -12.142   -12.129     0.013     (0)  
+Na            6.058e-02
+   Na+             6.058e-02   4.649e-02    -1.218    -1.333    -0.115     -1.06
+   NaOH            2.990e-10   3.081e-10    -9.524    -9.511     0.013     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.138   -68.124     0.013     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.29     15.09   10.80  Al(OH)3
+	Gibbsite          6.98     15.09    8.11  Al(OH)3
+	H2(g)            -8.98    -12.13   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.05     -2.46    1.58  NaCl
+	O2(g)           -65.23    -68.12   -2.89  O2
+
+
+Reaction step 6.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -3.2581e-03 
+K_Na\Ca (Su) =   1.1653e+00 . Na_DDl / Na0 =   1.0361e+00 f_Cl in DL charge =   3.4637e-01 
+K_Na\Al (Su) =   1.4854e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  2.185e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.127e-02  psi, V
+	  4.388e-01  -F*psi/RT
+	  1.551e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  1.0749e-02
+	Ca            	  1.0568e-02
+	Cl            	  9.5832e-02
+	H             	  1.2798e-06
+	Na            	  5.2450e-02
+	O             	  1.4219e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                9.663e-03   9.663e-03
+	Ca                9.843e-03   9.843e-03
+	Cl                9.930e-02   9.930e-02
+	Na                5.062e-02   5.062e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.003      Charge balance
+                                       pe  =  -1.516      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10185
+                          Density (g/cm3)  =   1.00079
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.381e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.207e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   9.330e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.221e-06   9.923e-07    -5.913    -6.003    -0.090      0.00
+   OH-             1.365e-08   1.006e-08    -7.865    -7.997    -0.133     (0)  
+   H2O             5.551e+01   9.971e-01     1.744    -0.001     0.000     18.07
+Al            9.663e-03
+   Al+3            9.663e-03   1.490e-03    -2.015    -2.827    -0.812     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.357   -46.825    -0.468     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.806   -90.923    -0.117     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.734  -145.721     0.014     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.402  -199.518    -0.117     (0)  
+Ca            9.843e-03
+   Ca+2            9.843e-03   3.513e-03    -2.007    -2.454    -0.447    -17.24
+   CaOH+           7.668e-10   5.858e-10    -9.115    -9.232    -0.117     (0)  
+Cl            9.930e-02
+   Cl-             9.930e-02   7.351e-02    -1.003    -1.134    -0.131     17.97
+H(0)          1.455e-12
+   H2              7.274e-13   7.509e-13   -12.138   -12.124     0.014     (0)  
+Na            5.062e-02
+   Na+             5.062e-02   3.868e-02    -1.296    -1.413    -0.117     -1.06
+   NaOH            2.487e-10   2.568e-10    -9.604    -9.590     0.014     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.147   -68.134     0.014     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.38     15.18   10.80  Al(OH)3
+	Gibbsite          7.07     15.18    8.11  Al(OH)3
+	H2(g)            -8.97    -12.12   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.13     -2.55    1.58  NaCl
+	O2(g)           -65.24    -68.13   -2.89  O2
+
+
+Reaction step 7.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -3.6959e-03 
+K_Na\Ca (Su) =   1.1168e+00 . Na_DDl / Na0 =   1.0341e+00 f_Cl in DL charge =   3.2739e-01 
+K_Na\Al (Su) =   1.4036e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  1.260e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.097e-02  psi, V
+	  4.270e-01  -F*psi/RT
+	  1.533e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  1.2863e-02
+	Ca            	  1.2657e-02
+	Cl            	  9.5927e-02
+	H             	  1.2791e-06
+	Na            	  4.2023e-02
+	O             	  1.4444e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.163e-02   1.163e-02
+	Ca                1.184e-02   1.184e-02
+	Cl                9.920e-02   9.920e-02
+	Na                4.064e-02   4.064e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.004      Charge balance
+                                       pe  =  -1.518      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10062
+                          Density (g/cm3)  =   1.00071
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.459e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.208e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   1.151e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.223e-06   9.908e-07    -5.913    -6.004    -0.091      0.00
+   OH-             1.376e-08   1.008e-08    -7.862    -7.997    -0.135     (0)  
+   H2O             5.551e+01   9.972e-01     1.744    -0.001     0.000     18.07
+Al            1.163e-02
+   Al+3            1.163e-02   1.750e-03    -1.934    -2.757    -0.823     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.280   -46.754    -0.474     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.733   -90.851    -0.118     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.663  -145.649     0.015     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.327  -199.446    -0.118     (0)  
+Ca            1.184e-02
+   Ca+2            1.184e-02   4.159e-03    -1.927    -2.381    -0.454    -17.24
+   CaOH+           9.126e-10   6.947e-10    -9.040    -9.158    -0.118     (0)  
+Cl            9.920e-02
+   Cl-             9.920e-02   7.303e-02    -1.003    -1.137    -0.133     17.97
+H(0)          1.462e-12
+   H2              7.310e-13   7.559e-13   -12.136   -12.122     0.015     (0)  
+Na            4.064e-02
+   Na+             4.064e-02   3.092e-02    -1.391    -1.510    -0.119     -1.06
+   NaOH            1.988e-10   2.056e-10    -9.701    -9.687     0.015     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.154   -68.139     0.015     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.45     15.25   10.80  Al(OH)3
+	Gibbsite          7.14     15.25    8.11  Al(OH)3
+	H2(g)            -8.97    -12.12   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.23     -2.65    1.58  NaCl
+	O2(g)           -65.25    -68.14   -2.89  O2
+
+
+Reaction step 8.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -4.0882e-03 
+K_Na\Ca (Su) =   1.0739e+00 . Na_DDl / Na0 =   1.0323e+00 f_Cl in DL charge =   3.1039e-01 
+K_Na\Al (Su) =   1.3322e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  1.284e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.069e-02  psi, V
+	  4.162e-01  -F*psi/RT
+	  1.516e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  1.4969e-02
+	Ca            	  1.4742e-02
+	Cl            	  9.6012e-02
+	H             	  1.2784e-06
+	Na            	  3.1619e-02
+	O             	  1.4663e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.361e-02   1.361e-02
+	Ca                1.383e-02   1.383e-02
+	Cl                9.912e-02   9.912e-02
+	Na                3.063e-02   3.063e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.005      Charge balance
+                                       pe  =  -1.520      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9937
+                          Density (g/cm3)  =   1.00063
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.538e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.209e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   1.277e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.224e-06   9.893e-07    -5.912    -6.005    -0.093      0.00
+   OH-             1.386e-08   1.009e-08    -7.858    -7.996    -0.138     (0)  
+   H2O             5.551e+01   9.973e-01     1.744    -0.001     0.000     18.07
+Al            1.361e-02
+   Al+3            1.361e-02   2.000e-03    -1.866    -2.699    -0.833     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.216   -46.695    -0.480     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.672   -90.792    -0.120     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.604  -145.588     0.015     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.265  -199.385    -0.120     (0)  
+Ca            1.383e-02
+   Ca+2            1.383e-02   4.789e-03    -1.859    -2.320    -0.461    -17.24
+   CaOH+           1.056e-09   8.013e-10    -8.976    -9.096    -0.120     (0)  
+Cl            9.912e-02
+   Cl-             9.912e-02   7.257e-02    -1.004    -1.139    -0.135     17.97
+H(0)          1.467e-12
+   H2              7.333e-13   7.597e-13   -12.135   -12.119     0.015     (0)  
+Na            3.063e-02
+   Na+             3.063e-02   2.322e-02    -1.514    -1.634    -0.120     -1.06
+   NaOH            1.493e-10   1.547e-10    -9.826    -9.811     0.015     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.159   -68.144     0.015     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.51     15.31   10.80  Al(OH)3
+	Gibbsite          7.20     15.31    8.11  Al(OH)3
+	H2(g)            -8.97    -12.12   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.36     -2.77    1.58  NaCl
+	O2(g)           -65.25    -68.14   -2.89  O2
+
+
+Reaction step 9.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -4.4418e-03 
+K_Na\Ca (Su) =   1.0356e+00 . Na_DDl / Na0 =   1.0307e+00 f_Cl in DL charge =   2.9507e-01 
+K_Na\Al (Su) =   1.2693e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  2.843e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.043e-02  psi, V
+	  4.061e-01  -F*psi/RT
+	  1.501e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  1.7069e-02
+	Ca            	  1.6823e-02
+	Cl            	  9.6088e-02
+	H             	  1.2778e-06
+	Na            	  2.1235e-02
+	O             	  1.4874e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.559e-02   1.559e-02
+	Ca                1.584e-02   1.584e-02
+	Cl                9.904e-02   9.904e-02
+	Na                2.060e-02   2.060e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.005      Charge balance
+                                       pe  =  -1.522      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9813
+                          Density (g/cm3)  =   1.00055
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.616e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.210e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   1.406e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.225e-06   9.878e-07    -5.912    -6.005    -0.094      0.00
+   OH-             1.396e-08   1.011e-08    -7.855    -7.995    -0.140     (0)  
+   H2O             5.551e+01   9.974e-01     1.744    -0.001     0.000     18.07
+Al            1.559e-02
+   Al+3            1.559e-02   2.241e-03    -1.807    -2.649    -0.842     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.160   -46.645    -0.485     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.620   -90.741    -0.121     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.553  -145.537     0.016     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.211  -199.333    -0.121     (0)  
+Ca            1.584e-02
+   Ca+2            1.584e-02   5.406e-03    -1.800    -2.267    -0.467    -17.24
+   CaOH+           1.198e-09   9.059e-10    -8.922    -9.043    -0.121     (0)  
+Cl            9.904e-02
+   Cl-             9.904e-02   7.214e-02    -1.004    -1.142    -0.138     17.97
+H(0)          1.472e-12
+   H2              7.360e-13   7.639e-13   -12.133   -12.117     0.016     (0)  
+Na            2.060e-02
+   Na+             2.060e-02   1.556e-02    -1.686    -1.808    -0.122     -1.06
+   NaOH            1.000e-10   1.038e-10   -10.000    -9.984     0.016     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.164   -68.148     0.016     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.56     15.36   10.80  Al(OH)3
+	Gibbsite          7.25     15.36    8.11  Al(OH)3
+	H2(g)            -8.97    -12.12   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.53     -2.95    1.58  NaCl
+	O2(g)           -65.26    -68.15   -2.89  O2
+
+
+Reaction step 10.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -4.7622e-03 
+K_Na\Ca (Su) =   1.0012e+00 . Na_DDl / Na0 =   1.0292e+00 f_Cl in DL charge =   2.8118e-01 
+K_Na\Al (Su) =   1.2133e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  1.104e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.019e-02  psi, V
+	  3.966e-01  -F*psi/RT
+	  1.487e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  1.9164e-02
+	Ca            	  1.8899e-02
+	Cl            	  9.6158e-02
+	H             	  1.2774e-06
+	Na            	  1.0867e-02
+	O             	  1.5080e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.758e-02   1.758e-02
+	Ca                1.784e-02   1.784e-02
+	Cl                9.897e-02   9.897e-02
+	Na                1.056e-02   1.056e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.006      Charge balance
+                                       pe  =  -1.527      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9688
+                          Density (g/cm3)  =   1.00047
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.695e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.211e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   1.690e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.226e-06   9.863e-07    -5.911    -6.006    -0.095      0.00
+   OH-             1.405e-08   1.012e-08    -7.852    -7.995    -0.142     (0)  
+   H2O             5.551e+01   9.975e-01     1.744    -0.001     0.000     18.07
+Al            1.758e-02
+   Al+3            1.758e-02   2.474e-03    -1.755    -2.607    -0.851     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.111   -46.602    -0.491     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.574   -90.697    -0.123     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.509  -145.492     0.017     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.164  -199.287    -0.123     (0)  
+Ca            1.784e-02
+   Ca+2            1.784e-02   6.010e-03    -1.749    -2.221    -0.473    -17.24
+   CaOH+           1.338e-09   1.009e-09    -8.874    -8.996    -0.123     (0)  
+Cl            9.897e-02
+   Cl-             9.897e-02   7.173e-02    -1.004    -1.144    -0.140     17.97
+H(0)          1.498e-12
+   H2              7.491e-13   7.789e-13   -12.125   -12.109     0.017     (0)  
+Na            1.056e-02
+   Na+             1.056e-02   7.947e-03    -1.976    -2.100    -0.123     -1.06
+   NaOH            5.107e-11   5.310e-11   -10.292   -10.275     0.017     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.182   -68.165     0.017     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.61     15.41   10.80  Al(OH)3
+	Gibbsite          7.30     15.41    8.11  Al(OH)3
+	H2(g)            -8.96    -12.11   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.83     -3.24    1.58  NaCl
+	O2(g)           -65.27    -68.17   -2.89  O2
+
+
+Reaction step 11.
+
+solution            1  ( 1 is Donnan, 2 is integration) 
+. CB =  -5.0538e-03 
+K_Na\Ca (Su) =   9.6993e-01 . Na_DDl / Na0 =   1.0279e+00 f_Cl in DL charge =   2.6855e-01 
+K_Na\Al (Su) =   1.1631e+00 
+Using solution 1.	
+Using surface 1.	Surface assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  7.160e-11  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -9.962e-03  psi, V
+	  3.878e-01  -F*psi/RT
+	  1.474e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Al            	  2.1253e-02
+	Ca            	  2.0973e-02
+	Cl            	  9.6221e-02
+	H             	  1.2769e-06
+	Na            	  5.1436e-04
+	O             	  1.5281e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.957e-02   1.957e-02
+	Ca                1.985e-02   1.985e-02
+	Cl                9.891e-02   9.891e-02
+	Na                5.004e-04   5.004e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.007      Charge balance
+                                       pe  =  -1.723      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9563
+                          Density (g/cm3)  =   1.00039
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.775e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.212e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =   1.801e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.227e-06   9.849e-07    -5.911    -6.007    -0.096      0.00
+   OH-             1.415e-08   1.014e-08    -7.849    -7.994    -0.145     (0)  
+   H2O             5.551e+01   9.976e-01     1.744    -0.001     0.000     18.07
+Al            1.957e-02
+   Al+3            1.957e-02   2.700e-03    -1.708    -2.569    -0.860     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.068   -46.563    -0.495     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.534   -90.658    -0.124     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.470  -145.452     0.018     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.123  -199.246    -0.124     (0)  
+Ca            1.985e-02
+   Ca+2            1.985e-02   6.602e-03    -1.702    -2.180    -0.478    -17.24
+   CaOH+           1.476e-09   1.110e-09    -8.831    -8.955    -0.124     (0)  
+Cl            9.891e-02
+   Cl-             9.891e-02   7.134e-02    -1.005    -1.147    -0.142     17.97
+H(0)          3.687e-12
+   H2              1.843e-12   1.920e-12   -11.734   -11.717     0.018     (0)  
+Na            5.004e-04
+   Na+             5.004e-04   3.754e-04    -3.301    -3.426    -0.125     -1.06
+   NaOH            2.412e-12   2.512e-12   -11.618   -11.600     0.018     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -68.967   -68.949     0.018     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.65     15.45   10.80  Al(OH)3
+	Gibbsite          7.34     15.45    8.11  Al(OH)3
+	H2(g)            -8.57    -11.72   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -6.15     -4.57    1.58  NaCl
+	O2(g)           -66.06    -68.95   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SURFACE 2
+	 Su 1e-2 1e5 1
+	 equilibrate 2
+	 diff 1e-8
+	USE solution 2
+	USE reaction 2
+	END
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 2.	
+
+Su            
+	 -1.388e-17  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.321e-02  psi, V
+	  5.141e-01  -F*psi/RT
+	  1.672e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Cl            	  9.5640e-02
+	H             	  1.2927e-06
+	Na            	  1.0564e-01
+	O             	  1.3028e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -7.5693e-08 
+K_Na\Ca (Su) =   1.4675e+00 . Na_DDl / Na0 =   1.0564e+00 f_Cl in DL charge =   4.3609e-01 
+K_Na\Al (Su) =   2.0097e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  1.000e-08 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -5.887e-10  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.321e-02  psi, V
+	  5.141e-01  -F*psi/RT
+	  1.672e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  1.1038e-08
+	Ca            	  1.0614e-08
+	Cl            	  9.5640e-02
+	H             	  1.2927e-06
+	Na            	  1.0564e-01
+	O             	  1.3028e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                8.962e-09   8.962e-09
+	Ca                9.386e-09   9.386e-09
+	Cl                1.000e-01   1.000e-01
+	Na                1.000e-01   1.000e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  11.938      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10802
+                          Density (g/cm3)  =   1.00120
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.000e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.198e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.365e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.211e-06   1.000e-06    -5.917    -6.000    -0.083      0.00
+   OH-             1.310e-08   9.977e-09    -7.883    -8.001    -0.118     (0)  
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Al            8.962e-09
+   Al+3            8.962e-09   1.596e-09    -8.048    -8.797    -0.749     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -52.370   -52.798    -0.428     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -96.793   -96.900    -0.107     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -151.711  -151.701     0.010     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -205.396  -205.503    -0.107     (0)  
+Ca            9.386e-09
+   Ca+2            9.386e-09   3.672e-09    -8.028    -8.435    -0.408    -17.24
+   CaOH+           7.771e-16   6.073e-16   -15.110   -15.217    -0.107     (0)  
+Cl            1.000e-01
+   Cl-             1.000e-01   7.645e-02    -1.000    -1.117    -0.117     17.97
+H(0)          1.839e-39
+   H2              9.196e-40   9.411e-40   -39.036   -39.026     0.010     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.829e-02    -1.000    -1.106    -0.106     -1.06
+   NaOH            5.038e-10   5.155e-10    -9.298    -9.288     0.010     (0)  
+O(0)          9.138e-15
+   O2              4.569e-15   4.675e-15   -14.340   -14.330     0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -1.60      9.20   10.80  Al(OH)3
+	Gibbsite          1.09      9.20    8.11  Al(OH)3
+	H2(g)           -35.88    -39.03   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.80     -2.22    1.58  NaCl
+	O2(g)           -11.44    -14.33   -2.89  O2
+
+
+Reaction step 2.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -1.1154e-03 
+K_Na\Ca (Su) =   1.3386e+00 . Na_DDl / Na0 =   1.0500e+00 f_Cl in DL charge =   3.9239e-01 
+K_Na\Al (Su) =   1.7790e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	  8.674e-17  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.240e-02  psi, V
+	  4.826e-01  -F*psi/RT
+	  1.620e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  2.2270e-03
+	Ca            	  2.1519e-03
+	Cl            	  9.5859e-02
+	H             	  1.2894e-06
+	Na            	  9.4873e-02
+	O             	  1.3291e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.855e-03   1.855e-03
+	Ca                1.930e-03   1.930e-03
+	Cl                9.978e-02   9.978e-02
+	Na                9.036e-02   9.036e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  11.926      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10677
+                          Density (g/cm3)  =   1.00112
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.073e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.202e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -5.887e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.215e-06   9.998e-07    -5.915    -6.000    -0.085      0.00
+   OH-             1.319e-08   9.980e-09    -7.880    -8.001    -0.121     (0)  
+   H2O             5.551e+01   9.967e-01     1.744    -0.001     0.000     18.07
+Al            1.855e-03
+   Al+3            1.855e-03   3.202e-04    -2.732    -3.495    -0.763     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -47.059   -47.496    -0.437     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -91.488   -91.597    -0.109     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -146.409  -146.399     0.011     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -200.091  -200.200    -0.109     (0)  
+Ca            1.930e-03
+   Ca+2            1.930e-03   7.403e-04    -2.714    -3.131    -0.416    -17.24
+   CaOH+           1.575e-10   1.225e-10    -9.803    -9.912    -0.109     (0)  
+Cl            9.978e-02
+   Cl-             9.978e-02   7.576e-02    -1.001    -1.121    -0.120     17.97
+H(0)          1.945e-39
+   H2              9.724e-40   9.968e-40   -39.012   -39.001     0.011     (0)  
+Na            9.036e-02
+   Na+             9.036e-02   7.036e-02    -1.044    -1.153    -0.109     -1.06
+   NaOH            4.521e-10   4.634e-10    -9.345    -9.334     0.011     (0)  
+O(0)          8.133e-15
+   O2              4.067e-15   4.168e-15   -14.391   -14.380     0.011     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        3.70     14.50   10.80  Al(OH)3
+	Gibbsite          6.39     14.50    8.11  Al(OH)3
+	H2(g)           -35.85    -39.00   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.86     -2.27    1.58  NaCl
+	O2(g)           -11.49    -14.38   -2.89  O2
+
+
+Reaction step 3.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -1.9942e-03 
+K_Na\Ca (Su) =   1.2414e+00 . Na_DDl / Na0 =   1.0451e+00 f_Cl in DL charge =   3.5778e-01 
+K_Na\Al (Su) =   1.6097e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -1.735e-18  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.175e-02  psi, V
+	  4.573e-01  -F*psi/RT
+	  1.580e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  4.4146e-03
+	Ca            	  4.2814e-03
+	Cl            	  9.6032e-02
+	H             	  1.2869e-06
+	Na            	  8.4224e-02
+	O             	  1.3544e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                3.750e-03   3.750e-03
+	Ca                3.883e-03   3.883e-03
+	Cl                9.961e-02   9.961e-02
+	Na                8.059e-02   8.059e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  -1.822      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10554
+                          Density (g/cm3)  =   1.00104
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.147e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.204e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -5.887e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.218e-06   9.991e-07    -5.914    -6.000    -0.086      0.00
+   OH-             1.329e-08   9.988e-09    -7.876    -8.001    -0.124     (0)  
+   H2O             5.551e+01   9.968e-01     1.744    -0.001     0.000     18.07
+Al            3.750e-03
+   Al+3            3.750e-03   6.281e-04    -2.426    -3.202    -0.776     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.758   -47.203    -0.445     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -91.193   -91.304    -0.111     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -146.116  -146.105     0.011     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.795  -199.906    -0.111     (0)  
+Ca            3.883e-03
+   Ca+2            3.883e-03   1.461e-03    -2.411    -2.835    -0.425    -17.24
+   CaOH+           3.126e-10   2.419e-10    -9.505    -9.616    -0.111     (0)  
+Cl            9.961e-02
+   Cl-             9.961e-02   7.513e-02    -1.002    -1.124    -0.122     17.97
+H(0)          6.073e-12
+   H2              3.036e-12   3.118e-12   -11.518   -11.506     0.011     (0)  
+Na            8.059e-02
+   Na+             8.059e-02   6.244e-02    -1.094    -1.205    -0.111     -1.06
+   NaOH            4.009e-10   4.116e-10    -9.397    -9.385     0.011     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -69.382   -69.370     0.011     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.00     14.80   10.80  Al(OH)3
+	Gibbsite          6.69     14.80    8.11  Al(OH)3
+	H2(g)            -8.36    -11.51   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.91     -2.33    1.58  NaCl
+	O2(g)           -66.48    -69.37   -2.89  O2
+
+
+Reaction step 4.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -2.7099e-03 
+K_Na\Ca (Su) =   1.1644e+00 . Na_DDl / Na0 =   1.0411e+00 f_Cl in DL charge =   3.2948e-01 
+K_Na\Al (Su) =   1.4786e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -6.592e-17  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.121e-02  psi, V
+	  4.364e-01  -F*psi/RT
+	  1.547e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  6.5749e-03
+	Ca            	  6.3952e-03
+	Cl            	  9.6173e-02
+	H             	  1.2850e-06
+	Na            	  7.3657e-02
+	O             	  1.3789e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                5.672e-03   5.672e-03
+	Ca                5.851e-03   5.851e-03
+	Cl                9.947e-02   9.947e-02
+	Na                7.075e-02   7.075e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.001      Charge balance
+                                       pe  =  -1.974      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10431
+                          Density (g/cm3)  =   1.00096
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.223e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.207e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -5.887e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.221e-06   9.980e-07    -5.913    -6.001    -0.088      0.00
+   OH-             1.340e-08   1.000e-08    -7.873    -8.000    -0.127     (0)  
+   H2O             5.551e+01   9.969e-01     1.744    -0.001     0.000     18.07
+Al            5.672e-03
+   Al+3            5.672e-03   9.232e-04    -2.246    -3.035    -0.788     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.582   -47.035    -0.453     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -91.022   -91.136    -0.113     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.948  -145.936     0.012     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.623  -199.737    -0.113     (0)  
+Ca            5.851e-03
+   Ca+2            5.851e-03   2.162e-03    -2.233    -2.665    -0.432    -17.24
+   CaOH+           4.652e-10   3.584e-10    -9.332    -9.446    -0.113     (0)  
+Cl            9.947e-02
+   Cl-             9.947e-02   7.455e-02    -1.002    -1.128    -0.125     17.97
+H(0)          1.219e-11
+   H2              6.093e-12   6.268e-12   -11.215   -11.203     0.012     (0)  
+Na            7.075e-02
+   Na+             7.075e-02   5.455e-02    -1.150    -1.263    -0.113     -1.06
+   NaOH            3.500e-10   3.600e-10    -9.456    -9.444     0.012     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -69.989   -69.977     0.012     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.16     14.96   10.80  Al(OH)3
+	Gibbsite          6.85     14.96    8.11  Al(OH)3
+	H2(g)            -8.05    -11.20   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -3.97     -2.39    1.58  NaCl
+	O2(g)           -67.08    -69.98   -2.89  O2
+
+
+Reaction step 5.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -3.3072e-03 
+K_Na\Ca (Su) =   1.1013e+00 . Na_DDl / Na0 =   1.0378e+00 f_Cl in DL charge =   3.0581e-01 
+K_Na\Al (Su) =   1.3731e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -4.684e-17  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.075e-02  psi, V
+	  4.186e-01  -F*psi/RT
+	  1.520e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  8.7156e-03
+	Ca            	  8.4975e-03
+	Cl            	  9.6292e-02
+	H             	  1.2836e-06
+	Na            	  6.3149e-02
+	O             	  1.4025e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                7.613e-03   7.613e-03
+	Ca                7.831e-03   7.831e-03
+	Cl                9.935e-02   9.935e-02
+	Na                6.085e-02   6.085e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.001      Charge balance
+                                       pe  =  -2.041      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10308
+                          Density (g/cm3)  =   1.00088
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.300e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.209e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -5.887e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.223e-06   9.968e-07    -5.912    -6.001    -0.089      0.00
+   OH-             1.350e-08   1.001e-08    -7.870    -7.999    -0.130     (0)  
+   H2O             5.551e+01   9.970e-01     1.744    -0.001     0.000     18.07
+Al            7.613e-03
+   Al+3            7.613e-03   1.206e-03    -2.118    -2.919    -0.800     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.458   -46.919    -0.460     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.903   -91.018    -0.115     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.831  -145.818     0.013     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.503  -199.618    -0.115     (0)  
+Ca            7.831e-03
+   Ca+2            7.831e-03   2.843e-03    -2.106    -2.546    -0.440    -17.24
+   CaOH+           6.153e-10   4.720e-10    -9.211    -9.326    -0.115     (0)  
+Cl            9.935e-02
+   Cl-             9.935e-02   7.401e-02    -1.003    -1.131    -0.128     17.97
+H(0)          1.651e-11
+   H2              8.253e-12   8.504e-12   -11.083   -11.070     0.013     (0)  
+Na            6.085e-02
+   Na+             6.085e-02   4.670e-02    -1.216    -1.331    -0.115     -1.06
+   NaOH            2.995e-10   3.086e-10    -9.524    -9.511     0.013     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -70.255   -70.242     0.013     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.28     15.08   10.80  Al(OH)3
+	Gibbsite          6.97     15.08    8.11  Al(OH)3
+	H2(g)            -7.92    -11.07   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.04     -2.46    1.58  NaCl
+	O2(g)           -67.35    -70.24   -2.89  O2
+
+
+Reaction step 6.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -3.8150e-03 
+K_Na\Ca (Su) =   1.0482e+00 . Na_DDl / Na0 =   1.0351e+00 f_Cl in DL charge =   2.8564e-01 
+K_Na\Al (Su) =   1.2859e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -1.152e-09  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.036e-02  psi, V
+	  4.031e-01  -F*psi/RT
+	  1.497e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  1.0841e-02
+	Ca            	  1.0591e-02
+	Cl            	  9.6393e-02
+	H             	  1.2824e-06
+	Na            	  5.2685e-02
+	O             	  1.4254e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                9.570e-03   9.570e-03
+	Ca                9.820e-03   9.820e-03
+	Cl                9.925e-02   9.925e-02
+	Na                5.090e-02   5.090e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.002      Charge balance
+                                       pe  =  -2.076      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10185
+                          Density (g/cm3)  =   1.00080
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.378e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.210e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -5.887e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.225e-06   9.954e-07    -5.912    -6.002    -0.090      0.00
+   OH-             1.361e-08   1.003e-08    -7.866    -7.999    -0.133     (0)  
+   H2O             5.551e+01   9.971e-01     1.744    -0.001     0.000     18.07
+Al            9.570e-03
+   Al+3            9.570e-03   1.477e-03    -2.019    -2.831    -0.811     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.363   -46.830    -0.467     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.812   -90.929    -0.117     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.742  -145.728     0.014     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.411  -199.528    -0.117     (0)  
+Ca            9.820e-03
+   Ca+2            9.820e-03   3.507e-03    -2.008    -2.455    -0.447    -17.24
+   CaOH+           7.630e-10   5.831e-10    -9.117    -9.234    -0.117     (0)  
+Cl            9.925e-02
+   Cl-             9.925e-02   7.350e-02    -1.003    -1.134    -0.130     17.97
+H(0)          1.927e-11
+   H2              9.633e-12   9.943e-12   -11.016   -11.002     0.014     (0)  
+Na            5.090e-02
+   Na+             5.090e-02   3.890e-02    -1.293    -1.410    -0.117     -1.06
+   NaOH            2.494e-10   2.574e-10    -9.603    -9.589     0.014     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -70.391   -70.378     0.014     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.37     15.17   10.80  Al(OH)3
+	Gibbsite          7.06     15.17    8.11  Al(OH)3
+	H2(g)            -7.85    -11.00   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.13     -2.54    1.58  NaCl
+	O2(g)           -67.49    -70.38   -2.89  O2
+
+
+Reaction step 7.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -4.2533e-03 
+K_Na\Ca (Su) =   1.0027e+00 . Na_DDl / Na0 =   1.0328e+00 f_Cl in DL charge =   2.6822e-01 
+K_Na\Al (Su) =   1.2123e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -1.567e-13  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -1.001e-02  psi, V
+	  3.895e-01  -F*psi/RT
+	  1.476e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  1.2955e-02
+	Ca            	  1.2678e-02
+	Cl            	  9.6480e-02
+	H             	  1.2814e-06
+	Na            	  4.2257e-02
+	O             	  1.4475e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.154e-02   1.154e-02
+	Ca                1.182e-02   1.182e-02
+	Cl                9.916e-02   9.916e-02
+	Na                4.092e-02   4.092e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.003      Charge balance
+                                       pe  =  -2.077      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10062
+                          Density (g/cm3)  =   1.00072
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.456e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.212e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.741e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.227e-06   9.940e-07    -5.911    -6.003    -0.091      0.00
+   OH-             1.371e-08   1.004e-08    -7.863    -7.998    -0.135     (0)  
+   H2O             5.551e+01   9.972e-01     1.744    -0.001     0.000     18.07
+Al            1.154e-02
+   Al+3            1.154e-02   1.738e-03    -1.938    -2.760    -0.822     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.285   -46.759    -0.474     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.739   -90.857    -0.118     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.670  -145.656     0.015     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.336  -199.454    -0.118     (0)  
+Ca            1.182e-02
+   Ca+2            1.182e-02   4.155e-03    -1.928    -2.381    -0.454    -17.24
+   CaOH+           9.085e-10   6.917e-10    -9.042    -9.160    -0.118     (0)  
+Cl            9.916e-02
+   Cl-             9.916e-02   7.302e-02    -1.004    -1.137    -0.133     17.97
+H(0)          1.927e-11
+   H2              9.634e-12   9.963e-12   -11.016   -11.002     0.015     (0)  
+Na            4.092e-02
+   Na+             4.092e-02   3.114e-02    -1.388    -1.507    -0.119     -1.06
+   NaOH            1.996e-10   2.064e-10    -9.700    -9.685     0.015     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -70.394   -70.379     0.015     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.44     15.24   10.80  Al(OH)3
+	Gibbsite          7.13     15.24    8.11  Al(OH)3
+	H2(g)            -7.85    -11.00   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.23     -2.64    1.58  NaCl
+	O2(g)           -67.49    -70.38   -2.89  O2
+
+
+Reaction step 8.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -4.6361e-03 
+K_Na\Ca (Su) =   9.6305e-01 . Na_DDl / Na0 =   1.0307e+00 f_Cl in DL charge =   2.5298e-01 
+K_Na\Al (Su) =   1.1491e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -8.533e-14  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -9.697e-03  psi, V
+	  3.775e-01  -F*psi/RT
+	  1.459e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  1.5060e-02
+	Ca            	  1.4759e-02
+	Cl            	  9.6556e-02
+	H             	  1.2809e-06
+	Na            	  3.1856e-02
+	O             	  1.4869e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.352e-02   1.352e-02
+	Ca                1.382e-02   1.382e-02
+	Cl                9.909e-02   9.909e-02
+	Na                3.091e-02   3.091e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.003      Charge balance
+                                       pe  =  13.012      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9939
+                          Density (g/cm3)  =   1.00064
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.534e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.213e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.741e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.228e-06   9.929e-07    -5.911    -6.003    -0.092      0.00
+   OH-             1.380e-08   1.006e-08    -7.860    -7.998    -0.138     (0)  
+   H2O             5.551e+01   9.973e-01     1.744    -0.001     0.000     18.07
+Al            1.352e-02
+   Al+3            1.352e-02   1.989e-03    -1.869    -2.701    -0.832     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.220   -46.700    -0.480     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.678   -90.798    -0.120     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.611  -145.596     0.015     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.274  -199.394    -0.120     (0)  
+Ca            1.382e-02
+   Ca+2            1.382e-02   4.787e-03    -1.860    -2.320    -0.460    -17.24
+   CaOH+           1.052e-09   7.979e-10    -8.978    -9.098    -0.120     (0)  
+Cl            9.909e-02
+   Cl-             9.909e-02   7.257e-02    -1.004    -1.139    -0.135     17.97
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.196   -41.181     0.015     (0)  
+Na            3.091e-02
+   Na+             3.091e-02   2.343e-02    -1.510    -1.630    -0.120     -1.06
+   NaOH            1.501e-10   1.555e-10    -9.824    -9.808     0.015     (0)  
+O(0)          1.840e-10
+   O2              9.201e-11   9.532e-11   -10.036   -10.021     0.015     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.50     15.30   10.80  Al(OH)3
+	Gibbsite          7.19     15.30    8.11  Al(OH)3
+	H2(g)           -38.03    -41.18   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.35     -2.77    1.58  NaCl
+	O2(g)            -7.13    -10.02   -2.89  O2
+
+
+Reaction step 9.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -4.9739e-03 
+K_Na\Ca (Su) =   9.2810e-01 . Na_DDl / Na0 =   1.0290e+00 f_Cl in DL charge =   2.3953e-01 
+K_Na\Al (Su) =   1.0940e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -4.727e-14  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -9.418e-03  psi, V
+	  3.666e-01  -F*psi/RT
+	  1.443e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  1.7158e-02
+	Ca            	  1.6835e-02
+	Cl            	  9.6623e-02
+	H             	  1.2805e-06
+	Na            	  2.1478e-02
+	O             	  1.5206e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.550e-02   1.550e-02
+	Ca                1.582e-02   1.582e-02
+	Cl                9.902e-02   9.902e-02
+	Na                2.087e-02   2.087e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.004      Charge balance
+                                       pe  =  13.070      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9815
+                          Density (g/cm3)  =   1.00056
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.613e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.215e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.741e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.230e-06   9.917e-07    -5.910    -6.004    -0.094      0.00
+   OH-             1.390e-08   1.007e-08    -7.857    -7.997    -0.140     (0)  
+   H2O             5.551e+01   9.974e-01     1.744    -0.001     0.000     18.07
+Al            1.550e-02
+   Al+3            1.550e-02   2.231e-03    -1.810    -2.652    -0.842     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.164   -46.649    -0.485     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.625   -90.747    -0.121     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.560  -145.544     0.016     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.220  -199.342    -0.121     (0)  
+Ca            1.582e-02
+   Ca+2            1.582e-02   5.404e-03    -1.801    -2.267    -0.467    -17.24
+   CaOH+           1.193e-09   9.021e-10    -8.923    -9.045    -0.121     (0)  
+Cl            9.902e-02
+   Cl-             9.902e-02   7.214e-02    -1.004    -1.142    -0.138     17.97
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.314   -41.298     0.016     (0)  
+Na            2.087e-02
+   Na+             2.087e-02   1.577e-02    -1.680    -1.802    -0.122     -1.06
+   NaOH            1.010e-10   1.048e-10    -9.996    -9.980     0.016     (0)  
+O(0)          3.155e-10
+   O2              1.578e-10   1.637e-10    -9.802    -9.786     0.016     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.56     15.36   10.80  Al(OH)3
+	Gibbsite          7.25     15.36    8.11  Al(OH)3
+	H2(g)           -38.15    -41.30   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.53     -2.94    1.58  NaCl
+	O2(g)            -6.89     -9.79   -2.89  O2
+
+
+Reaction step 10.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -5.2746e-03 
+K_Na\Ca (Su) =   8.9697e-01 . Na_DDl / Na0 =   1.0274e+00 f_Cl in DL charge =   2.2755e-01 
+K_Na\Al (Su) =   1.0455e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -2.669e-14  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -9.164e-03  psi, V
+	  3.567e-01  -F*psi/RT
+	  1.429e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  1.9249e-02
+	Ca            	  1.8908e-02
+	Cl            	  9.6683e-02
+	H             	  1.2802e-06
+	Na            	  1.1118e-02
+	O             	  1.5496e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.749e-02   1.749e-02
+	Ca                1.783e-02   1.783e-02
+	Cl                9.896e-02   9.896e-02
+	Na                1.082e-02   1.082e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.004      Charge balance
+                                       pe  =  13.097      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9691
+                          Density (g/cm3)  =   1.00047
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.693e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.216e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.741e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.231e-06   9.904e-07    -5.910    -6.004    -0.095      0.00
+   OH-             1.399e-08   1.008e-08    -7.854    -7.996    -0.142     (0)  
+   H2O             5.551e+01   9.975e-01     1.744    -0.001     0.000     18.07
+Al            1.749e-02
+   Al+3            1.749e-02   2.464e-03    -1.757    -2.608    -0.851     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.115   -46.605    -0.490     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.579   -90.702    -0.123     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.516  -145.499     0.017     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.173  -199.296    -0.123     (0)  
+Ca            1.783e-02
+   Ca+2            1.783e-02   6.010e-03    -1.749    -2.221    -0.472    -17.24
+   CaOH+           1.332e-09   1.005e-09    -8.875    -8.998    -0.123     (0)  
+Cl            9.896e-02
+   Cl-             9.896e-02   7.173e-02    -1.005    -1.144    -0.140     17.97
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.370   -41.353     0.017     (0)  
+Na            1.082e-02
+   Na+             1.082e-02   8.146e-03    -1.966    -2.089    -0.123     -1.06
+   NaOH            5.214e-11   5.421e-11   -10.283   -10.266     0.017     (0)  
+O(0)          4.058e-10
+   O2              2.029e-10   2.110e-10    -9.693    -9.676     0.017     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.60     15.40   10.80  Al(OH)3
+	Gibbsite          7.29     15.40    8.11  Al(OH)3
+	H2(g)           -38.20    -41.35   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.82     -3.23    1.58  NaCl
+	O2(g)            -6.78     -9.68   -2.89  O2
+
+
+Reaction step 11.
+
+solution            2  ( 1 is Donnan, 2 is integration) 
+. CB =  -5.5443e-03 
+K_Na\Ca (Su) =   8.6897e-01 . Na_DDl / Na0 =   1.0260e+00 f_Cl in DL charge =   2.1680e-01 
+K_Na\Al (Su) =   1.0023e+00 
+Using solution 2.	
+Using surface 2.	Surface assemblage after simulation 2.
+Using reaction 2.	
+
+Reaction 2.	
+
+	  2.041e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.00000
+	Ca                   2.00000
+	Na                 -10.00000
+
+------------------------------Surface composition------------------------------
+
+Su            
+	 -1.533e-14  Surface + diffuse layer charge, eq
+	 -1.000e-02  Surface charge, eq
+	 -9.649e-03  sigma, C/m**2
+	 -8.933e-03  psi, V
+	  3.477e-01  -F*psi/RT
+	  1.416e+00  exp(-F*psi/RT)
+	  1.000e+05  specific area, m**2/g
+	  1.000e+05  m**2 for   1.000e+00 g
+
+	Water in diffuse layer: 1.000e+00 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Al            	  2.1335e-02
+	Ca            	  2.0978e-02
+	Cl            	  9.6737e-02
+	H             	  1.2798e-06
+	Na            	  7.7429e-04
+	O             	  1.5755e-08
+
+Su            
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-               1.000e-02       1.000   1.000e-02      -2.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.949e-02   1.949e-02
+	Ca                1.984e-02   1.984e-02
+	Cl                9.890e-02   9.890e-02
+	Na                7.547e-04   7.547e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.005      Charge balance
+                                       pe  =  13.113      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 9567
+                          Density (g/cm3)  =   1.00039
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.772e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.217e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.741e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.233e-06   9.891e-07    -5.909    -6.005    -0.096      0.00
+   OH-             1.408e-08   1.010e-08    -7.851    -7.996    -0.145     (0)  
+   H2O             5.551e+01   9.976e-01     1.744    -0.001     0.000     18.07
+Al            1.949e-02
+   Al+3            1.949e-02   2.690e-03    -1.710    -2.570    -0.860     (0)  
+   AlOH+2          0.000e+00   0.000e+00   -46.071   -46.566    -0.495     (0)  
+   Al(OH)2+        0.000e+00   0.000e+00   -90.539   -90.663    -0.124     (0)  
+   Al(OH)3         0.000e+00   0.000e+00  -145.477  -145.459     0.018     (0)  
+   Al(OH)4-        0.000e+00   0.000e+00  -199.131  -199.255    -0.124     (0)  
+Ca            1.984e-02
+   Ca+2            1.984e-02   6.603e-03    -1.702    -2.180    -0.478    -17.24
+   CaOH+           1.470e-09   1.105e-09    -8.833    -8.957    -0.124     (0)  
+Cl            9.890e-02
+   Cl-             9.890e-02   7.135e-02    -1.005    -1.147    -0.142     17.97
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.403   -41.385     0.018     (0)  
+Na            7.547e-04
+   Na+             7.547e-04   5.662e-04    -3.122    -3.247    -0.125     -1.06
+   NaOH            3.622e-12   3.773e-12   -11.441   -11.423     0.018     (0)  
+O(0)          4.688e-10
+   O2              2.344e-10   2.442e-10    -9.630    -9.612     0.018     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        4.64     15.44   10.80  Al(OH)3
+	Gibbsite          7.33     15.44    8.11  Al(OH)3
+	H2(g)           -38.23    -41.38   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.98     -4.39    1.58  NaCl
+	O2(g)            -6.72     -9.61   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

@@ -1,0 +1,270 @@
+   Input file: phase_formula
+  Output file: phase_formula.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SOLUTION 1
+	    temp      25
+	    pH        7
+	    pe        4
+	    redox     pe
+	    units     mmol/kgw
+	    density   1
+	    water    1 # kg
+	SOLID_SOLUTIONS 1
+	    Calcite_s_s
+	        component Calcite 0.01
+	        component Smithsonite 0.001
+	        component Strontianite 0.02
+	    Barite
+	        component Barite 0
+	        component Anhydrite 0
+	USER_PRINT
+	5 min$ = "Calcite"
+	10 form$ = PHASE_FORMULA(min$)
+	20 print min$, form$
+	30 form$ = PHASE_FORMULA(min$, count, elts$, coefs)
+	40 for i = 1 to count
+	50 print "   ", PAD(elts$[i], 20), coefs[i]
+	60 next i
+	105 min$ = "CalciteX"
+	110 form$ = PHASE_FORMULA(min$)
+	120 print min$, form$
+	130 form$ = PHASE_FORMULA(min$, count, elts$, coefs)
+	140 for i = 1 to count
+	150 print "   ", PAD(elts$[i], 20), coefs[i]
+	160 next i
+	200 name$ = "Calcite_s_s"
+	210 total = LIST_S_S(name$, count, comp$, moles)
+	220 print PAD(name$, 20), total
+	230 for i = 1 to count
+	240 print "   ", PAD(comp$[i], 20), moles[i], moles[i]/total
+	250 next i
+	300 name$ = "Barite"
+	310 total = LIST_S_S(name$, count, comp$, moles)
+	320 print PAD(name$, 20), total
+	330 for i = 1 to count
+	340 print "   ", PAD(comp$[i], 20), moles[i], moles[i]/total
+	350 next i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+Calcite CaCO3 
+    C                               1 
+    Ca                              1 
+    O                               3 
+CalciteX  
+Calcite_s_s                     0 
+Barite                          0 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99709
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.002e-07   1.001e-07    -6.999    -6.999    -0.000     (0)  
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.00    -25.15   -3.15  H2
+	H2O(g)           -1.51      0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Ba is contained in solid solution Barite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Element S is contained in solid solution Barite (which has 0.0 mass),
+but is not in solution or other phases.
+Using solution 1.	
+Using solid solution assemblage 1.	
+
+----------------------------------User print-----------------------------------
+
+Calcite CaCO3 
+    C                               1 
+    Ca                              1 
+    O                               3 
+CalciteX  
+Calcite_s_s            3.0876e-02 
+    Strontianite           1.9978e-02   6.4704e-01 
+    Calcite                9.9316e-03   3.2166e-01 
+    Smithsonite            9.6666e-04   3.1308e-02 
+Barite                 2.0000e-27 
+    Anhydrite              1.0000e-27   5.0000e-01 
+    Barite                 1.0000e-27   5.0000e-01 
+
+--------------------------------Solid solutions--------------------------------
+
+
+Solid solution                Component        Moles  Delta moles   Mole fract
+
+Barite                                      0.00e+00
+                                 Barite     0.00e+00     0.00e+00     0.00e+00
+                              Anhydrite     0.00e+00     0.00e+00     0.00e+00
+Calcite_s_s                                 3.09e-02
+                                Calcite     9.93e-03    -6.84e-05     3.22e-01
+                            Smithsonite     9.67e-04    -3.33e-05     3.13e-02
+                           Strontianite     2.00e-02    -2.19e-05     6.47e-01
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.237e-04   1.237e-04
+	Ca                6.843e-05   6.843e-05
+	Sr                2.192e-05   2.192e-05
+	Zn                3.334e-05   3.334e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.568      Charge balance
+                                       pe  =  -4.118      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 24
+                          Density (g/cm3)  =   0.99710
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.850e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.474e-04
+                       Total CO2 (mol/kg)  =   1.237e-04
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.077e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550659e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.774e-05   3.701e-05    -4.423    -4.432    -0.008     (0)  
+   H+              2.756e-10   2.705e-10    -9.560    -9.568    -0.008      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         3.766e-27
+   CH4             3.766e-27   3.766e-27   -26.424   -26.424     0.000     (0)  
+C(4)          1.237e-04
+   HCO3-           1.017e-04   9.976e-05    -3.993    -4.001    -0.008     24.29
+   CO3-2           1.868e-05   1.730e-05    -4.729    -4.762    -0.033     -3.78
+   CaCO3           1.790e-06   1.790e-06    -5.747    -5.747     0.000     (0)  
+   ZnCO3           6.246e-07   6.247e-07    -6.204    -6.204     0.000     (0)  
+   Zn(CO3)2-2      2.496e-07   2.310e-07    -6.603    -6.636    -0.034     (0)  
+   SrCO3           2.215e-07   2.216e-07    -6.655    -6.655     0.000     (0)  
+   CaHCO3+         7.992e-08   7.840e-08    -7.097    -7.106    -0.008     (0)  
+   CO2             6.066e-08   6.067e-08    -7.217    -7.217     0.000     (0)  
+   SrHCO3+         3.121e-08   3.062e-08    -7.506    -7.514    -0.008     (0)  
+   ZnHCO3+         2.318e-09   2.273e-09    -8.635    -8.643    -0.008     (0)  
+Ca            6.843e-05
+   Ca+2            6.652e-05   6.160e-05    -4.177    -4.210    -0.033    -17.83
+   CaCO3           1.790e-06   1.790e-06    -5.747    -5.747     0.000     (0)  
+   CaHCO3+         7.992e-08   7.840e-08    -7.097    -7.106    -0.008     (0)  
+   CaOH+           3.853e-08   3.780e-08    -7.414    -7.423    -0.008     (0)  
+H(0)          1.785e-14
+   H2              8.926e-15   8.926e-15   -14.049   -14.049     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -64.281   -64.281     0.000     (0)  
+Sr            2.192e-05
+   Sr+2            2.167e-05   2.006e-05    -4.664    -4.698    -0.033    -18.61
+   SrCO3           2.215e-07   2.216e-07    -6.655    -6.655     0.000     (0)  
+   SrHCO3+         3.121e-08   3.062e-08    -7.506    -7.514    -0.008     (0)  
+   SrOH+           3.878e-09   3.804e-09    -8.411    -8.420    -0.008     (0)  
+Zn            3.334e-05
+   Zn(OH)2         3.115e-05   3.115e-05    -4.507    -4.507     0.000     (0)  
+   ZnOH+           7.481e-07   7.337e-07    -6.126    -6.134    -0.008     (0)  
+   ZnCO3           6.246e-07   6.247e-07    -6.204    -6.204     0.000     (0)  
+   Zn(OH)3-        3.713e-07   3.642e-07    -6.430    -6.439    -0.008     (0)  
+   Zn(CO3)2-2      2.496e-07   2.310e-07    -6.603    -6.636    -0.034     (0)  
+   Zn+2            1.955e-07   1.810e-07    -6.709    -6.742    -0.033     (0)  
+   ZnHCO3+         2.318e-09   2.273e-09    -8.635    -8.643    -0.008     (0)  
+   Zn(OH)4-2       2.306e-10   2.134e-10    -9.637    -9.671    -0.034     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Aragonite        -0.64     -8.97   -8.34  CaCO3
+	Calcite          -0.49     -8.97   -8.48  CaCO3
+	CH4(g)          -23.56    -26.42   -2.86  CH4
+	CO2(g)           -5.75     -7.22   -1.47  CO2
+	H2(g)           -10.90    -14.05   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	O2(g)           -61.39    -64.28   -2.89  O2
+	Smithsonite      -1.50    -11.50  -10.00  ZnCO3
+	Strontianite     -0.19     -9.46   -9.27  SrCO3
+	Zn(OH)2(e)        0.89     12.39   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

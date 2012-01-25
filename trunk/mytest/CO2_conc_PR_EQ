@@ -1,0 +1,60 @@
+database ../database/vreeqc.dat
+# Compare expt data of CO2 solubility at high CO2 pressure and
+#   Peng-Robinson calc's with equilibrium_phases, 25, 50, 75 oC.
+SOLUTION 1
+
+SELECTED_OUTPUT; -reset false; -file co2.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 520 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + '-pressure ' + str$(i) + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 30 next i
+END
+
+SELECTED_OUTPUT; -selected_out false
+#PRINT; -reset false; -echo_input true
+USER_GRAPH
+ -plot_csv_file co2_25_50_75.dat
+ -axis_titles "Pressure / atm" "CO2 / (mol/kgw)"
+ -axis_scale x_axis 0 500
+ -axis_scale y_axis 0 2
+ 10 x = PR_P("CO2(g)")
+ 20 graph_x x # tot("Na")
+ 30 graph_y tot("C(4)")
+ -end
+INCLUDE$ co2.prn
+END
+
+SOLUTION
+SELECTED_OUTPUT; -selected_out true; file co2_50.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 520 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + sc$ + '-pressure ' + str$(i) + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 30 next i
+USER_GRAPH
+ -connect_simulations false
+END
+
+SELECTED_OUTPUT; -selected_out false
+USER_GRAPH
+ -connect_simulations true
+INCLUDE$ co2_50.prn
+END
+
+SOLUTION
+SELECTED_OUTPUT; -selected_out true; file co2_75.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 520 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + sc$ + '-pressure ' + str$(i) + EOL$ + 'EQUILIBRIUM_PHASES' + sc$ + ' CO2(g) ' + str$(log10(i)) + EOL$ + 'END' + EOL$
+ 30 next i
+USER_GRAPH
+ -connect_simulations false
+END
+
+SELECTED_OUTPUT; -selected_out false
+USER_GRAPH
+ -connect_simulations true
+INCLUDE$ co2_75.prn
+END

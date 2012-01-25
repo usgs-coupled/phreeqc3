@@ -1,0 +1,40 @@
+   Input file: cc_P0
+  Output file: cc_P0.out
+Database file: ../database/vreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	KNOBS
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/vreeqc.dat
+	SOLUTION_SPECIES
+	Ca+2 + CO3-2 + H+ = CaHCO3+ # remove this complex, otherwise calcite solubility with P_CO2 > 10 can't be modeled.
+		log_k	11.435
+		delta_h -0.871	kcal
+		analytical_expression	1317.0071	0.34546894	-39916.84	-517.70761	563713.9
+		gamma	5.4	0.0
+		dw 5.06e-10
+		vm 30
+	solution 1
+	 pH 7 charge
+	EQUILIBRIUM_PHASES
+	 Calcite
+	 CO2(g) 0
+	REACTION_TEMPERATURE
+	 0 225 in 20
+	PRINT
+	 reset false

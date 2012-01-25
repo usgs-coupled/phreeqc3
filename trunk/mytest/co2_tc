@@ -1,0 +1,20 @@
+# data from Villafafila Garcia, 2005, PhD thesis Lyngby DK, fig. 5-3
+DATABASE ../database/vreeqc.dat
+SOLUTION 1
+ pH 7 charge
+ -temp 25
+EQUILIBRIUM_PHASES
+ CO2(g) 1.99
+GAS_PHASE 1
+     -fixed_volume
+     CO2(g) 0
+#	 H2O(g) 0
+REACTION_TEMPERATURE
+ 25 200 in 10
+USER_GRAPH
+ -plot_csv_file CO2_tc.dat
+ -axis_titles "Temp / oC" "CO2 solubility at 100 bar / (mol/kgw)"
+ -connect_simulations false
+ 10 graph_x tc
+ 20 graph_y tot("C")
+END
