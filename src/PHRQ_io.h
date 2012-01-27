@@ -175,6 +175,10 @@ protected:
 	std::list <std::istream *> istream_list;
 	std::list <bool> delete_istream_list;
 
+	std::string m_line;
+	std::string m_line_save;
+	std::string accumulated;
+
 #if defined(_MSC_VER)
 /* reset warning C4251 */
 #pragma warning(default:4251)
@@ -182,9 +186,6 @@ protected:
 
 	// input data members
 	Keywords::KEYWORDS m_next_keyword;
-	std::string m_line;
-	std::string m_line_save;
-	std::string accumulated;
 	bool accumulate;
 	LINE_TYPE m_line_type;
 };
