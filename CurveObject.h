@@ -65,20 +65,9 @@ public:
 	{
 		return this->y_axis;
 	}
-	//void Set_npoints_plot(int f)
-	//{
-	//	this->npoints_plot = f;
-	//}
-	//int Get_npoints_plot(void)
-	//{
-	//	return this->npoints_plot;
-	//}
 
 protected:
-	//float *x, *y;
 	std::vector<LDBLE> x, y;
-	//int nxy, npoints, npoints_plot, prev_npoints;
-
 	std::string id, color, symbol;
 	int y_axis; 
 	LDBLE line_w, symbol_size;

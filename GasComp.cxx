@@ -1,4 +1,4 @@
-// ExchComp.cxx: implementation of the cxxExchComp class.
+// GasComp.cxx: implementation of the cxxGasComp class.
 //
 //////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
@@ -38,7 +38,6 @@ cxxGasComp::~cxxGasComp()
 void
 cxxGasComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -48,21 +47,14 @@ cxxGasComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent1.append(Utilities::INDENT);
 	for (i = 0; i < indent + 2; ++i)
 		indent2.append(Utilities::INDENT);
-	/*
-	std::string phase_name;
-	std::string name;
-	LDBLE p_read;
-	LDBLE moles;
-	LDBLE initial_moles;	// Exch_Comp element and attributes
-	*/
-	s_oss << indent0 << "-phase_name               " << this->phase_name << "\n";
-	//s_oss << indent0 << "-name                     " << this->name << "\n";
-	s_oss << indent0 << "-p_read                   " << this->p_read << "\n";
-	s_oss << indent0 << "-moles                    " << this->moles << "\n";
-	s_oss << indent0 << "-initial_moles            " << this->initial_moles << "\n";
+	s_oss << indent0 << "# GAS_PHASE_MODIFY candidate identifiers #\n";
+	s_oss << indent0 << "-moles                   " << this->moles << "\n";
 
-	//s_oss << indent1 << "# critical values" << "\n";
+	s_oss << indent0 << "# GAS_PHASE_MODIFY candidate identifiers with new_def=true #\n";
+	s_oss << indent0 << "-p_read                  " << this->p_read << "\n";
 
+	s_oss << indent0 << "# GasComp workspace variables #\n";
+	s_oss << indent0 << "-initial_moles           " << this->initial_moles << "\n";
 }
 
 bool
@@ -88,16 +80,11 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 	int opt_save;
 
 	opt_save = CParser::OPT_ERROR;
-	bool phase_name_defined(false);
 	bool moles_defined(false);
 	int opt;
 	for (;;)
 	{
 		opt = parser.get_option(vopts, next_char);
-		//if (opt == CParser::OPT_DEFAULT)
-		//{
-		//	opt = opt_save;
-		//}
 
 		switch (opt)
 		{
@@ -109,37 +96,14 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in EXCH_COMP read.", PHRQ_io::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// phase_name
-			if (!(parser.get_iss() >> str))
-			{
-				this->phase_name.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for phase_name.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->phase_name = str;
-			}
-			phase_name_defined = true;
+			output_msg("-phase_name is obsolete. Define with -component\n");
 			break;
 
 		case 1:				// name
-			if (!(parser.get_iss() >> str))
-			{
-				this->phase_name.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for name.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->phase_name = str;
-			}
+			output_msg("-name is obsolete. Define with -component\n");
 			break;
 
 		case 2:				// p_read
@@ -179,12 +143,6 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 	if (check)
 	{
 		// members that must be defined
-		if (phase_name_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Phase_name not defined for GasComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
 		if (moles_defined == false)
 		{
 			parser.incr_input_error();
@@ -218,7 +176,6 @@ cxxGasComp::add(const cxxGasComp & addee, LDBLE extensive)
 
 	assert(this->phase_name == addee.phase_name);
 
-	//LDBLE moles;
 	this->p_read += addee.p_read * extensive;
 	this->moles += addee.moles * extensive;
 	this->initial_moles += addee.initial_moles * extensive;

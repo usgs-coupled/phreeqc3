@@ -15,10 +15,13 @@ PHRQ_io(void)
 {
 	output_ostream = NULL;	
 	log_ostream = NULL;	
-	punch_ostream = NULL;	
+	punch_ostream = NULL;
+#ifdef ERROR_OSTREAM
 	error_ostream = NULL;	
+#else
+	error_file = NULL;
+#endif
 	dump_ostream = NULL;
-	//screen_ostream = NULL;
 	io_error_count = 0;
 
 	output_on = true;
@@ -160,6 +163,7 @@ punch_msg(const char * str)
 // ---------------------------------------------------------------------- */
 // error file methods
 // ---------------------------------------------------------------------- */
+#ifdef ERROR_OSTREAM
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
 error_open(const char *file_name, std::ios_base::openmode mode)
@@ -205,20 +209,204 @@ error_msg(const char *err_str, bool stop)
 	io_error_count++;
 	if (error_ostream != NULL && error_on)
 	{
-		(*error_ostream) << err_str;
-		error_ostream->flush();
+		//(*error_ostream) << err_str;
+		screen_msg(err_str);
+		error_flush();
 	}
 	if (stop)
 	{
 		if (error_ostream != NULL && error_on)
 		{
-			(*error_ostream) << "Stopping.\n";
+			//(*error_ostream) << "Stopping.\n";
+			screen_msg("Stopping.\n");
 			error_ostream->flush();
 		}
 		output_msg("Stopping.\n");
 		log_msg("Stopping.\n");
 	}
 }
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+warning_msg(const char *err_str)
+/* ---------------------------------------------------------------------- */
+{
+	if (error_ostream != NULL && error_on)
+	{
+		//(*error_ostream) << err_str << "\n";
+		std::string err_stdstr(err_str);
+		err_stdstr.append("\n");
+		screen_msg(err_stdstr.c_str());
+		error_ostream->flush();
+	}	
+	std::ostringstream warn_str;
+	warn_str << err_str << "\n";
+	log_msg(warn_str.str().c_str());
+	log_flush();
+	output_msg(warn_str.str().c_str());
+	output_flush();
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+screen_msg(const char * str, bool force_print)
+/* ---------------------------------------------------------------------- */
+{
+	clock_t t2 = 0;
+	if (!force_print)
+	{
+		t2 = clock();
+		if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
+		{
+			return;
+		}
+		else
+		{
+			status_timer = t2;
+		}
+	}
+
+	if (error_ostream != NULL && (screen_on || force_print))
+	{
+		(*error_ostream) << str;
+	}
+	if (force_print)
+		error_ostream->flush();
+}
+#endif
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+screen_msg(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	std::string stdstr(str);
+	if (error_ostream != NULL && screen_on)
+	{
+		//(*error_ostream) << stdstr;
+		fprintf(error_file, "%s", str);
+	}
+}
+#else
+/* ---------------------------------------------------------------------- */
+bool PHRQ_io::
+error_open(const char *file_name, const char * mode)
+/* ---------------------------------------------------------------------- */
+{
+	if (file_name != NULL)
+	{
+		if ((error_file = fopen(file_name, mode)) == NULL)
+		{
+			error_file = stderr;
+			return false;
+		}
+	}
+	else
+	{
+		error_file = stderr;
+	}
+	return true;
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+error_flush(void)
+/* ---------------------------------------------------------------------- */
+{
+	if (error_file)
+	{
+		fflush(error_file);
+	}
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+error_close(void)
+/* ---------------------------------------------------------------------- */
+{
+	safe_close(&error_file);
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+error_msg(const char *err_str, bool stop)
+/* ---------------------------------------------------------------------- */
+{
+
+	io_error_count++;
+	if (error_file != NULL && error_on)
+	{
+		//(*error_file) << err_str;
+		screen_msg(err_str);
+		error_flush();
+	}
+	if (stop)
+	{
+		if (error_file != NULL && error_on)
+		{
+			//(*error_file) << "Stopping.\n";
+			screen_msg("Stopping.\n");
+			fflush(error_file);
+		}
+		output_msg("Stopping.\n");
+		log_msg("Stopping.\n");
+	}
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+warning_msg(const char *err_str)
+/* ---------------------------------------------------------------------- */
+{
+	if (error_file != NULL && error_on)
+	{
+		//(*error_file) << err_str << "\n";
+		std::string err_stdstr(err_str);
+		err_stdstr.append("\n");
+		screen_msg(err_stdstr.c_str());
+		error_flush();
+	}	
+	std::ostringstream warn_str;
+	warn_str << err_str << "\n";
+	log_msg(warn_str.str().c_str());
+	log_flush();
+	output_msg(warn_str.str().c_str());
+	output_flush();
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+screen_msg(const char * str, bool force_print)
+/* ---------------------------------------------------------------------- */
+{
+	clock_t t2 = 0;
+	if (!force_print)
+	{
+		t2 = clock();
+		if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
+		{
+			return;
+		}
+		else
+		{
+			status_timer = t2;
+		}
+	}
+
+	if (error_ostream != NULL && (screen_on || force_print))
+	{
+		(*error_ostream) << str;
+	}
+	if (force_print)
+		error_ostream->flush();
+}
+#endif
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+screen_msg(const char * str)
+/* ---------------------------------------------------------------------- */
+{
+	std::string stdstr(str);
+	if (error_file != NULL && screen_on)
+	{
+		fprintf(error_file, "%s", str);
+	}
+}
+#endif
 // ---------------------------------------------------------------------- */
 // dump ostream methods
 // ---------------------------------------------------------------------- */
@@ -260,85 +448,6 @@ dump_msg(const char * str)
 		(*dump_ostream) << str;
 	}
 }
-///* ---------------------------------------------------------------------- */
-//void PHRQ_io::
-//dump_rewind(void)
-///* ---------------------------------------------------------------------- */
-//{
-//	if (dump_ostream && dump_on)
-//	{
-//		dump_ostream->seekp(0, std::ios_base::beg);
-//	}
-//}
-///* ---------------------------------------------------------------------- */
-//bool PHRQ_io::
-//dump_isopen(void)
-///* ---------------------------------------------------------------------- */
-//{
-//	if (dump_ostream)
-//	{
-//		if (std::ofstream *ofs = dynamic_cast<std::ofstream*>(dump_ostream))
-//		{
-//			return ofs->is_open();
-//		}
-//		return true;
-//	}
-//	return false;
-//}
-#ifdef SKIP
-// ---------------------------------------------------------------------- */
-// screen ostream methods
-// ---------------------------------------------------------------------- */
-/* ---------------------------------------------------------------------- */
-bool PHRQ_io::
-screen_open(const char *file_name, std::ios_base::openmode mode)
-/* ---------------------------------------------------------------------- */
-{
-	if ((screen_ostream = new std::ofstream(file_name, mode)) == NULL)
-	{
-		return false; // error
-	}
-	return true;
-}
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-screen_flush(void)
-/* ---------------------------------------------------------------------- */
-{
-	if (screen_ostream)
-	{
-		screen_ostream->flush();
-	}
-}
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-screen_close(void)
-/* ---------------------------------------------------------------------- */
-{
-	safe_close(&screen_ostream);
-}
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-screen_msg(const char * str)
-/* ---------------------------------------------------------------------- */
-{
-	if (screen_ostream != NULL && screen_on)
-	{
-		(*screen_ostream) << str;
-	}
-}
-#endif
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-screen_msg(const char * str)
-/* ---------------------------------------------------------------------- */
-{
-	if (error_ostream != NULL && screen_on)
-	{
-		(*error_ostream) << str;
-	}
-}
-
 int PHRQ_io::
 istream_getc(void *cookie)     //istream_getc is *** static ***
 {
@@ -354,23 +463,7 @@ istream_getc(void *cookie)     //istream_getc is *** static ***
 	}
 	return EOF;
 }
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-warning_msg(const char *err_str)
-/* ---------------------------------------------------------------------- */
-{
-	if (error_ostream != NULL && error_on)
-	{
-		(*error_ostream) << err_str << "\n";
-		error_ostream->flush();
-	}	
-	std::ostringstream warn_str;
-	warn_str << err_str << "\n";
-	log_msg(warn_str.str().c_str());
-	log_flush();
-	output_msg(warn_str.str().c_str());
-	output_flush();
-}
+
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
 fpunchf(const char *name, const char *format, double d)
@@ -429,9 +522,12 @@ close_ostreams(void)
 	streams.insert(output_ostream);
 	streams.insert(log_ostream);
 	streams.insert(punch_ostream);
+#ifdef ERROR_OSTREAM
 	streams.insert(error_ostream);
+#else
+	safe_close(&error_file);
+#endif
 	streams.insert(dump_ostream);
-	//streams.insert(screen_ostream);
 
 	std::set<std::ostream *>::iterator it = streams.begin();
 	for (; it != streams.end(); it++)
@@ -443,9 +539,12 @@ close_ostreams(void)
 	output_ostream = NULL;
 	log_ostream = NULL;
 	punch_ostream = NULL;
+#ifdef ERROR_OSTREAM
 	error_ostream = NULL;
+#else
+	error_file = NULL;
+#endif
 	dump_ostream = NULL;
-	//screen_ostream = NULL;
 }
 //safe_close is static method
 /* ---------------------------------------------------------------------- */
@@ -455,13 +554,26 @@ safe_close(std::ostream **stream_ptr)
 {
 	if (*stream_ptr != &std::cerr &&
 		*stream_ptr != &std::cout &&
+		*stream_ptr != &std::clog &&
 		*stream_ptr != NULL)
 	{
 		delete *stream_ptr;
 		*stream_ptr = NULL;
 	}
 }
-
+void PHRQ_io::
+safe_close(FILE **file_ptr)
+/* ---------------------------------------------------------------------- */
+{
+	if (*file_ptr != NULL &&
+		*file_ptr != stderr &&
+		*file_ptr != stdout &&
+		*file_ptr != stdin )
+	{
+		fclose(*file_ptr);
+		*file_ptr = NULL;
+	}
+}
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
 echo_msg(const char * str)
@@ -567,27 +679,8 @@ get_line(void)
 			*/
 			continue_loop = false;
 
-
-			//if (!m_input_stream.eof())
-			////{
-			////	error_msg("Reading input file.", OT_CONTINUE);
-			////	error_msg("istream::get() returned an error.", OT_STOP);
-			////}
-			////else
-			//{
-			//	//{{MOD
-			//	m_line.erase(m_line.begin(), m_line.end());	// m_line.clear();
-			//	//}}MOD
-			//	m_next_keyword = Keywords::KEY_END;
-			//	return LT_EOF;
-			//}
 			if (get_logical_line(cookie) == LT_EOF)
 			{
-				//if (!m_input_stream.eof())
-				//{
-				//	error_msg("Reading input file.", OT_CONTINUE);
-				//	error_msg("istream::get() returned an error.", OT_STOP);
-				//}
 				//pop next file
 				this->pop_istream();
 				continue_loop = true;
@@ -643,9 +736,6 @@ get_line(void)
 		}
 
 		// add new include file to stack
-		//ptr = line;
-		//copy_token(stdtoken, &ptr);
-
 		std::string::iterator beg = m_line.begin();
 		std::string::iterator end = m_line.end();
 		CParser::copy_token(stdtoken, beg, end);
@@ -662,8 +752,6 @@ get_line(void)
 				std::ifstream *next_stream = new std::ifstream(file_name.c_str(), std::ios_base::in);
 				if (!next_stream->is_open())
 				{
-					// error opening file
-					// error_string = sformatf( "Could not open include file %s", file_name);
 					std::ostringstream errstr;
 					errstr << "Could not open include file " << file_name;
 					error_msg(errstr.str().c_str(), OT_STOP);
@@ -698,8 +786,6 @@ get_logical_line(void * cookie)
 	if (!cookie)
 		return LT_EOF;
 	m_line_save.erase(m_line_save.begin(), m_line_save.end());	// m_line_save.clear();
-
-	//while ((j = m_input_stream.get()) != std::char_traits < char >::eof())
 	while ((j = istream_getc(cookie)) != EOF)
 	{
 		c = (char) j;
@@ -716,9 +802,6 @@ get_logical_line(void * cookie)
 				m_line_save += c;
 			}
 			while ((j = istream_getc(cookie)) != EOF);
-			//while ((j =
-			//		m_input_stream.get()) != std::char_traits <
-			//	   char >::eof());
 		}
 		if (c == ';')
 			break;
@@ -730,7 +813,6 @@ get_logical_line(void * cookie)
 		{
 			pos = (int) m_line_save.size();
 			m_line_save += c;
-			//while ((j =	m_input_stream.get()) != std::char_traits < char >::eof())
 			while ((j = PHRQ_io::istream_getc(cookie)) != EOF)
 			{
 				c = (char) j;
@@ -744,11 +826,6 @@ get_logical_line(void * cookie)
 				{
 					// remove '\\'
 					m_line_save = m_line_save.substr(0,pos);
-					//for (; pos < m_line_save.size(); pos++)
-					//{
-					//	m_line_save[pos] = m_line_save[pos + 1];
-					//}
-					//m_line_save.erase(m_line_save.size() - 1, 1);
 					break;
 				}
 				m_line_save += c;

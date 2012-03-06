@@ -15,7 +15,7 @@ class cxxKineticsComp: public PHRQ_base
 public:
 	cxxKineticsComp(PHRQ_io *io=NULL);
 	cxxKineticsComp(struct kinetics_comp *, PHRQ_io *io=NULL);
-	~cxxKineticsComp();
+	virtual ~cxxKineticsComp();
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -59,14 +59,16 @@ public:
 
   protected:
 	  std::string rate_name;
+	  // KINETICS_MODIFY candidates
 	  cxxNameDouble namecoef;		//stoichiometry of reaction
 	  LDBLE tol;
 	  LDBLE m;
 	  LDBLE m0;
+	  std::vector< LDBLE > d_params;
+	  std::vector< std::string > c_params;  // Not used
+	  // kinetics workspace variables
 	  LDBLE moles;
 	  LDBLE initial_moles;
-	  std::vector< LDBLE > d_params;
-	  std::vector< std::string > c_params;
 
   public:
 

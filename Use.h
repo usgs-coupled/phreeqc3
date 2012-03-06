@@ -9,6 +9,8 @@ class cxxPressure;
 class cxxTemperature;
 class cxxSSassemblage;
 class cxxKinetics;
+class cxxSurface;
+class cxxSolution;
 
 class cxxUse
 {
@@ -75,26 +77,26 @@ public:
 	void Set_n_inverse_user(int i)        {n_inverse_user = i;}
 	void Set_n_ss_assemblage_user(int i)  {n_ss_assemblage_user = i;}
 
-	struct solution * Get_solution_ptr(void) const           {return this->solution_ptr;}
+	cxxSolution * Get_solution_ptr(void) const               {return this->solution_ptr;}
 	cxxPPassemblage * Get_pp_assemblage_ptr(void) const      {return this->pp_assemblage_ptr;}
 	cxxMix * Get_mix_ptr(void) const                         {return this->mix_ptr;}
 	cxxReaction * Get_reaction_ptr(void) const               {return this->reaction_ptr;}
 	cxxExchange * Get_exchange_ptr(void) const               {return this->exchange_ptr;}
 	cxxKinetics * Get_kinetics_ptr(void) const               {return this->kinetics_ptr;}
-	struct surface * Get_surface_ptr(void) const             {return this->surface_ptr;}
+	cxxSurface * Get_surface_ptr(void) const                 {return this->surface_ptr;}
 	cxxPressure * Get_pressure_ptr(void) const               {return this->pressure_ptr;}
 	cxxTemperature * Get_temperature_ptr(void) const         {return this->temperature_ptr;}
 	cxxGasPhase * Get_gas_phase_ptr(void) const              {return this->gas_phase_ptr;}
 	struct inverse * Get_inverse_ptr(void) const             {return this->inverse_ptr;}
 	cxxSSassemblage * Get_ss_assemblage_ptr(void)            {return this->ss_assemblage_ptr;}
 
-	void Set_solution_ptr(struct solution * p)               {this->solution_ptr = p;}
+	void Set_solution_ptr(cxxSolution * p)                   {this->solution_ptr = p;}
 	void Set_pp_assemblage_ptr(cxxPPassemblage * p)          {this->pp_assemblage_ptr = p;}
 	void Set_mix_ptr(cxxMix * p)                             {this->mix_ptr = p;}
 	void Set_reaction_ptr(cxxReaction * p)                   {this->reaction_ptr = p;}
 	void Set_exchange_ptr(cxxExchange * p)                   {this->exchange_ptr = p;}
 	void Set_kinetics_ptr(cxxKinetics * p)                   {this->kinetics_ptr = p;}
-	void Set_surface_ptr(struct surface * p)                 {this->surface_ptr = p;}
+	void Set_surface_ptr(cxxSurface * p)                     {this->surface_ptr = p;}
 	void Set_pressure_ptr(cxxPressure * p)                   {this->pressure_ptr = p;}
 	void Set_temperature_ptr(cxxTemperature * p)             {this->temperature_ptr = p;}
 	void Set_gas_phase_ptr(cxxGasPhase * p)                  {this->gas_phase_ptr = p;}
@@ -104,7 +106,7 @@ public:
 protected:
 	bool solution_in;
 	int n_solution_user;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 
 	bool pp_assemblage_in;
 	int n_pp_assemblage_user;
@@ -129,7 +131,7 @@ protected:
 
 	bool surface_in;
 	int n_surface_user;
-	struct surface *surface_ptr;
+	cxxSurface *surface_ptr;
 
 	bool pressure_in;
 	int n_pressure_user;

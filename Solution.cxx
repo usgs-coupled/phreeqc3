@@ -29,9 +29,11 @@ cxxSolution::cxxSolution(PHRQ_io * io)
 	//
 	// default constructor for cxxSolution 
 	//
-:	cxxNumKeyword(io),
-isotopes(io)
+:	cxxNumKeyword(io)
 {
+	this->io = io;
+	this->new_def = false;
+	this->patm = 1.0;
 	this->tc = 25.0;
 	this->ph = 7.0;
 	this->pe = 4.0;
@@ -40,63 +42,58 @@ isotopes(io)
 	this->total_h = 111.1;
 	this->total_o = 55.55;
 	this->cb = 0.0;
+	this->density = 1.0;
 	this->mass_water = 1.0;
 	this->total_alkalinity = 0.0;
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
 	this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
 	this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
+	this->initial_data = NULL;
 }
-
-cxxSolution::cxxSolution(struct solution * solution_ptr, PHRQ_io * io)
-	//
-	// constructor for cxxSolution from struct solution
-	//
-:
-cxxNumKeyword(io),
-totals(solution_ptr->totals),
-master_activity(solution_ptr->master_activity,
-solution_ptr->count_master_activity,
-cxxNameDouble::ND_SPECIES_LA),
-species_gamma(solution_ptr->species_gamma, solution_ptr->count_species_gamma, cxxNameDouble::ND_SPECIES_GAMMA), 
-isotopes(solution_ptr, io)
+cxxSolution::cxxSolution(const cxxSolution &old_sol)
 {
-
-	this->Set_description(solution_ptr->description);
-	this->n_user = solution_ptr->n_user;
-	this->n_user_end = solution_ptr->n_user_end;
-	this->tc = solution_ptr->tc;
-	this->ph = solution_ptr->ph;
-	this->pe = solution_ptr->solution_pe;
-	this->mu = solution_ptr->mu;
-	this->ah2o = solution_ptr->ah2o;
-	this->total_h = solution_ptr->total_h;
-	this->total_o = solution_ptr->total_o;
-	this->cb = solution_ptr->cb;
-	this->mass_water = solution_ptr->mass_water;
-	this->total_alkalinity = solution_ptr->total_alkalinity;
-
-	// Totals filled in constructor, just save description and moles 
-
-	// Isotopes
-	/*
-	   for (i = 0; i < solution_ptr->count_isotopes; i++) {
-	   cxxSolutionIsotope iso(&solution_ptr->isotopes[i]);
-	   isotopes.push_back(iso);
-	   }
-	 */
-	// Master_activity in constructor
-	// Species_gamma in constructor
+	*this = old_sol;
 }
-
-
-cxxSolution::cxxSolution(const std::map < int, cxxSolution > &solutions,
+const cxxSolution &
+cxxSolution::operator =(const cxxSolution &rhs)
+{
+	if (this != &rhs)
+	{
+		this->io                         = rhs.io;
+		this->n_user                     = rhs.n_user;
+		this->n_user_end                 = rhs.n_user_end;
+		this->description                = rhs.description;
+		this->new_def                    = rhs.new_def;
+		this->patm                       = rhs.patm;
+		this->tc                         = rhs.tc;
+		this->ph                         = rhs.ph;
+		this->pe                         = rhs.pe;
+		this->mu                         = rhs.mu;
+		this->ah2o                       = rhs.ah2o;
+		this->total_h                    = rhs.total_h;
+		this->total_o                    = rhs.total_o;
+		this->density                    = rhs.density;
+		this->cb                         = rhs.cb;
+		this->mass_water                 = rhs.mass_water;
+		this->total_alkalinity           = rhs.total_alkalinity;
+		this->totals		             = rhs.totals;
+		this->master_activity            = rhs.master_activity;
+		this->species_gamma              = rhs.species_gamma;
+		this->isotopes                   = rhs.isotopes;
+		if (rhs.initial_data != NULL)
+			this->initial_data           = new cxxISolution(*rhs.initial_data);
+		else
+			this->initial_data           = NULL;
+	}
+	return *this;
+}
+cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 						 cxxMix & mix, int l_n_user, PHRQ_io * io)
 //
 // constructor for cxxSolution from mixture of solutions
 //
 	:
-cxxNumKeyword(io),
-isotopes(io)
+cxxNumKeyword(io)
 {
 
 //
@@ -128,12 +125,12 @@ isotopes(io)
 }
 cxxSolution::~cxxSolution()
 {
+	delete this->initial_data;
 }
 
 void
 cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing solution message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1("");
@@ -145,9 +142,6 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	// Solution element and attributes
 	s_oss << indent0;
 	s_oss << "<solution " << "\n";
-
-	//s_oss << indent1;
-	//s_oss << "soln_new_def=\"" << this->new_def << "\"" << "\n";
 
 	s_oss << indent1;
 	s_oss << "soln_n_user=\"" << this->n_user << "\" " << "\n";
@@ -194,36 +188,9 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	// master_activity map
 	this->master_activity.dump_xml(s_oss, indent + 1);
-	/*
-	   {
-	   for (std::map <char *, LDBLE>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
-	   s_oss << indent1;
-	   s_oss << "<soln_m_a";
-	   s_oss << " m_a_desc=\"" << it->first << "\"" ;
-	   s_oss << " m_a_la=\"" << it->second << "\"" ;
-	   s_oss << "\">" << "\n";
-	   }
-	   }
-	 */
+
 	// species_gamma map
 	this->species_gamma.dump_xml(s_oss, indent + 1);
-	/*
-	   {
-	   for (std::map <char *, LDBLE>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
-	   s_oss << indent1;
-	   s_oss << "<soln_s_g";
-	   s_oss << " m_a_desc=\"" << it->first << "\"" ;
-	   s_oss << " m_a_la=\"" << it->second << "\"" ;
-	   s_oss << "\">" << "\n";
-	   }
-	   }
-	 */
-
-	for (std::list < cxxSolutionIsotope >::const_iterator it =
-		 this->isotopes.begin(); it != isotopes.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 1);
-	}
 
 	// End of solution
 	s_oss << indent0;
@@ -235,7 +202,6 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 void
 cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing solution message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -249,95 +215,77 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// Solution element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "SOLUTION_RAW       " << n_user_local << " " << this->description << "\n";
-
-	//s_oss << "# Critical values" << "\n";
+	s_oss << "SOLUTION_RAW                 " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-temp              " << this->tc << "\n";
+	s_oss << "-temp                      " << this->tc << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-total_h           " << this->total_h << "\n";
+	s_oss << "-total_h                   " << this->total_h << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-total_o           " << this->total_o << "\n";
+	s_oss << "-total_o                   " << this->total_o << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-cb                " << this->cb << "\n";
+	s_oss << "-cb                        " << this->cb << "\n";
+
+	// new identifier
+	s_oss << indent1;
+	s_oss << "-density                   " << this->density << "\n";
 
 	// soln_total conc structures
 	s_oss << indent1;
 	s_oss << "-totals" << "\n";
 	this->totals.dump_raw(s_oss, indent + 2);
 
-	//s_oss << "# Optional critical values" << "\n";
-
 	// Isotopes
 	s_oss << indent1;
-	s_oss << "-Isotopes" << "\n";
 	{
-		for (std::list < cxxSolutionIsotope >::const_iterator it =
-			 this->isotopes.begin(); it != isotopes.end(); ++it)
+		for (std::map < std::string, cxxSolutionIsotope >::const_iterator it =
+			this->isotopes.begin(); it != isotopes.end(); ++it)
 		{
-			it->dump_raw(s_oss, indent + 2);
+			s_oss << indent1 << "-Isotope" << "\n";
+			it->second.dump_raw(s_oss, indent + 2);
 		}
 	}
 
 	s_oss << indent1;
-	s_oss << "-pH                " << this->ph << "\n";
+	s_oss << "-pH                        " << this->ph << "\n";
 
 	s_oss << indent1;
-	s_oss << "-pe                " << this->pe << "\n";
-
-	// new identifier
-	s_oss << indent1;
-	s_oss << "-mu                " << this->mu << "\n";
+	s_oss << "-pe                        " << this->pe << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-ah2o              " << this->ah2o << "\n";
+	s_oss << "-mu                        " << this->mu << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-mass_water        " << this->mass_water << "\n";
+	s_oss << "-ah2o                      " << this->ah2o << "\n";
 
 	// new identifier
 	s_oss << indent1;
-	s_oss << "-total_alkalinity  " << this->total_alkalinity << "\n";
+	s_oss << "-mass_water                " << this->mass_water << "\n";
+
+	// new identifier
+	s_oss << indent1;
+	s_oss << "-total_alkalinity          " << this->total_alkalinity << "\n";
 
 	// master_activity map
 	s_oss << indent1;
 	s_oss << "-activities" << "\n";
 	this->master_activity.dump_raw(s_oss, indent + 2);
-	/*
-	   {
-	   for (std::map <char *, LDBLE>::const_iterator it = master_activity.begin(); it != master_activity.end(); ++it) {
-	   s_oss << indent2;
-	   s_oss << it->first << "   " << it->second << "\n";
-	   }
-	   }
-	 */
+
 	// species_gamma map
 	s_oss << indent1;
 	s_oss << "-gammas" << "\n";
 	this->species_gamma.dump_raw(s_oss, indent + 2);
-	/*
-	   {
-	   {
-	   for (std::map <char *, LDBLE>::const_iterator it = species_gamma.begin(); it != species_gamma.end(); ++it) {
-	   s_oss << indent2;
-	   s_oss << it->first << "   " << it->second << "\n";
-	   }
-	   }
-	   }
-	 */
 
 	return;
 }
-
 void
 cxxSolution::read_raw(CParser & parser, bool check)
 {
@@ -366,7 +314,14 @@ cxxSolution::read_raw(CParser & parser, bool check)
 		vopts.push_back("total_alk");	// 18
 		vopts.push_back("cb");	// 19
 		vopts.push_back("charge_balance");	// 20
+		vopts.push_back("density");	// 21
 	}
+
+	// Used if it is modify
+	cxxNameDouble simple_original_totals = this->totals.Simplify_redox();
+	cxxNameDouble original_activities(this->master_activity);
+
+	this->master_activity.clear();
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -374,7 +329,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 	int opt_save;
 
 	// Read solution number and description
-	this->read_number_description(parser);
+	this->read_number_description(parser.line());
 
 	opt_save = CParser::OPT_ERROR;
 	bool tc_defined(false);
@@ -411,14 +366,6 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			continue;
 
 		case 0:				// totals
-			//if (this->totals.read_raw(parser, next_char) !=
-			//	CParser::PARSER_OK)
-			//{
-			//	parser.incr_input_error();
-			//	parser.
-			//		error_msg("Expected element name and moles for totals.",
-			//				  PHRQ_io::OT_CONTINUE);
-			//}
 			{
 				cxxNameDouble temp_totals;
 				if (temp_totals.read_raw(parser, next_char) !=	CParser::PARSER_OK)
@@ -462,24 +409,24 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			opt_save = 2;
 			break;
 
-		case 3:				// isotopes
+		case 3:				// isotope
 			{
-				cxxSolutionIsotope iso(this->Get_io());
-				if (iso.read_raw(parser, next_char) != CParser::PARSER_OK)
+				std::string name;
+				if (!(parser.get_iss() >> name))
 				{
 					parser.incr_input_error();
-					parser.error_msg("Expected data for isotopes.",
+					parser.error_msg("Expected character value for isotope name.",
 									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
-					if (iso.Get_isotope_name().size() != 0)
-					{
-						this->isotopes.push_back(iso);
-					}
+					cxxSolutionIsotope iso(this->Get_io());
+					iso.Set_isotope_name(name.c_str());
+					iso.read_raw(parser, check);
+					this->isotopes[name] = iso;
 				}
 			}
-			opt_save = 3;
+			opt_save = CParser::OPT_DEFAULT;
 			break;
 
 		case 4:				// temp
@@ -610,7 +557,16 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			cb_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
-
+		case 21:				// density
+			if (!(parser.get_iss() >> this->density))
+			{
+				this->density = 1.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for density.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
 		}
 
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
@@ -682,9 +638,34 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				PHRQ_io::OT_CONTINUE);
 		}
 	}
+
+	// Update activities
+	if (original_activities.size() > 0)
+	{
+		
+		cxxNameDouble simple_this_totals = this->totals.Simplify_redox();
+		cxxNameDouble::iterator it = simple_original_totals.begin();
+		for ( ; it != simple_original_totals.end(); it++)
+		{
+			cxxNameDouble::iterator jit = simple_this_totals.find(it->first);
+			if (jit != simple_this_totals.end())
+			{
+				if (it->second != 0)
+				{
+					LDBLE f = jit->second / it->second;
+					if (f != 1)
+					{
+						original_activities.Multiply_activities_redox(it->first, f);
+					}
+				}
+			}
+		}
+		original_activities.merge_redox(this->master_activity);
+		this->master_activity = original_activities;
+	}
+
 	return;
 }
-
 void
 cxxSolution::zero()
 {
@@ -696,6 +677,7 @@ cxxSolution::zero()
 	this->total_h = 0.0;
 	this->total_o = 0.0;
 	this->cb = 0.0;
+	this->density = 1.0;
 	this->mass_water = 0.0;
 	this->total_alkalinity = 0.0;
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
@@ -723,12 +705,13 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->total_h += addee.total_h * extensive;
 	this->total_o += addee.total_o * extensive;
 	this->cb += addee.cb * extensive;
+	this->density = f1 * this->density + f2 * addee.density;
 	this->mass_water += addee.mass_water * extensive;
 	this->total_alkalinity += addee.total_alkalinity * extensive;
 	this->totals.add_extensive(addee.totals, extensive);
 	this->master_activity.add_log_activities(addee.master_activity, f1, f2);
 	this->species_gamma.add_intensive(addee.species_gamma, f1, f2);
-	this->isotopes.add(addee.isotopes, f2, extensive);
+	this->Add_isotopes(addee.isotopes, f2, extensive);
 }
 
 void
@@ -745,7 +728,7 @@ cxxSolution::multiply(LDBLE extensive)
 	this->mass_water *= extensive;
 	this->total_alkalinity *= extensive;
 	this->totals.multiply(extensive);
-	this->isotopes.multiply(extensive);
+	this->Multiply_isotopes(extensive);
 }
 
 LDBLE
@@ -761,6 +744,7 @@ cxxSolution::Get_total(char *string) const
 		return (it->second);
 	}
 }
+#ifdef SKIP
 LDBLE
 cxxSolution::Get_total_element(const char *string) const
 {
@@ -784,6 +768,7 @@ cxxSolution::Get_total_element(const char *string) const
 	}
 	return (d);
 }
+#endif
 
 void
 cxxSolution::Set_total(char *string, LDBLE d)
@@ -1087,738 +1072,45 @@ cxxSolution::Set_master_activity(char *string, LDBLE d)
 {
 	this->master_activity[string] = d;
 }
-#ifdef SKIP
 void
-cxxSolution::modify_activities(PHREEQC_PTR_ARG_COMMA const cxxSolution & original)
-//
-// Estimate activities after solution_modify
-//
+cxxSolution::Add_isotopes(const std::map < std::string, cxxSolutionIsotope > & old, LDBLE intensive, LDBLE extensive)
 {
-	// Note: any master_activities in "this" have been read in SOLUTION_MODIFY
-
-	// to standardize, convert element to valence state if needed
-	// for original activity list (probably not needed)
-	cxxNameDouble orig_master_activity(original.Get_master_activity());
-	cxxNameDouble::const_iterator it;
-	bool redo=true;
-	while (redo)
+	for (std::map < std::string, cxxSolutionIsotope >::const_iterator itold = old.begin(); itold != old.end(); ++itold)
 	{
-		redo = false;
-		for (it = orig_master_activity.begin(); it != orig_master_activity.end(); it++)
+		std::map < std::string, cxxSolutionIsotope >::iterator it_this;
+		it_this = this->isotopes.find(itold->first);
+		if (it_this != this->isotopes.end())
 		{
-			struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(it->first.c_str());
-			if (master_ptr != NULL)
-			{
-				if (master_ptr->primary == TRUE)
-				{
-					struct master *master_ptr_secondary = P_INSTANCE_POINTER master_bsearch_secondary(master_ptr->elt->name);
+			LDBLE t = it_this->second.Get_total();
+			t += itold->second.Get_total() * extensive;
+			it_this->second.Set_total(t);
 
-					// redox element erase and replace
-					if (master_ptr_secondary != master_ptr) 
-					{
-						LDBLE d = it->second;
-						orig_master_activity.erase(orig_master_activity.find(master_ptr->elt->name));
-						orig_master_activity[master_ptr_secondary->elt->name] = d;
-						redo = true;
-						break;
-					}
-				}
-			}
-			else
-			{
-				error_msg("Could not find master species in modify_activities.", STOP);
-			}
-		}
-	}
+			t = it_this->second.Get_ratio();
+			t += itold->second.Get_ratio() * intensive;
+			it_this->second.Set_ratio(t);
 
-	// also for modified activity list
-	cxxNameDouble mod_master_activity(this->master_activity);
-	redo=true;
-	while (redo)
-	{
-		redo = false;
-		for (it = mod_master_activity.begin(); it != mod_master_activity.end(); it++)
-		{
-			struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(it->first.c_str());
-			if (master_ptr != NULL)
-			{
-				if (master_ptr->primary == TRUE)
-				{
-					struct master *master_ptr_secondary = P_INSTANCE_POINTER master_bsearch_secondary(master_ptr->elt->name);
-
-					// redox element erase and replace
-					if (master_ptr_secondary != master_ptr) 
-					{
-						LDBLE d = it->second;
-						mod_master_activity.erase(mod_master_activity.find(master_ptr->elt->name));
-						mod_master_activity[master_ptr_secondary->elt->name] = d;
-						redo = true;
-						break;
-					}
-				}
-			}
-			else
-			{
-				error_msg("Could not find master species in modify_activities.", STOP);
-			}
-		}
-	}
-
-	// go through totals
-	for (it = this->totals.begin(); it != this->totals.end(); ++it)
-	{
-		// find element name 
-		struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(it->first.c_str());
-		struct master *master_primary_ptr = master_ptr->elt->primary;
-		char * ename = master_ptr->elt->primary->elt->name;
-		char * secondary_name;
-		if (master_ptr->primary == TRUE)
-		{
-			struct master *m_ptr = P_INSTANCE_POINTER master_bsearch_secondary(ename);
-			secondary_name = m_ptr->elt->name;
+			t = it_this->second.Get_ratio_uncertainty();
+			t += itold->second.Get_ratio_uncertainty() * intensive;
+			it_this->second.Set_ratio_uncertainty(t);
+			it_this->second.Set_ratio_uncertainty_defined(it_this->second.Get_ratio_uncertainty_defined()
+												 || itold->second.Get_ratio_uncertainty_defined());
 		}
 		else
 		{
-			secondary_name = master_ptr->elt->name;
+			cxxSolutionIsotope iso(itold->second);
+			iso.Set_total(itold->second.Get_total() * extensive);
+			this->Get_isotopes()[iso.Get_isotope_name()] = iso;
 		}
-		if (strcmp(ename, "H") == 0 || strcmp(ename, "O") == 0) continue;
-
-		LDBLE d_mod, d_orig;
-		d_mod = this->Get_total_element(ename);
-		if (d_mod <= 0) continue;
-
-		d_orig = original.Get_total_element(ename);
-		if (d_orig <= 0) 
-		{
-			// add estimate for la based on concentration if not in list
-			if (mod_master_activity.find(secondary_name) == mod_master_activity.end())
-			{
-				mod_master_activity[secondary_name] = log10(d_mod) - 2.0;
-			}
-			continue;
-		}
-
-		// case where total for both orig and modified are greater than 0
-		LDBLE lratio = log10(d_mod / d_orig);
-
-		int j;
-		j = master_primary_ptr->number;
-		int j_first = j + 1;
-		int j_last = P_INSTANCE_POINTER count_master;
-
-		// non redox element
-		if ( (j+1 >= P_INSTANCE_POINTER count_master) || (P_INSTANCE_POINTER master[j+1]->elt->primary != master_primary_ptr) )
-		{
-			j_first = j;
-			j_last = j+1;
-		}
-
-		for (j = j_first ; j < j_last; j++)
-		{
-			if (P_INSTANCE_POINTER master[j]->elt->primary != master_primary_ptr) break;
-
-			if (mod_master_activity.find(P_INSTANCE_POINTER master[j]->elt->name) == mod_master_activity.end())
-			{
-				// has not been defined in SOLUTION_MODIFY
-				cxxNameDouble::const_iterator it1;
-				it1 = orig_master_activity.find(P_INSTANCE_POINTER master[j]->elt->name);
-				if (it1 != orig_master_activity.end())
-				{
-					LDBLE d = it1->second;
-					mod_master_activity[P_INSTANCE_POINTER master[j]->elt->name] = d + lratio;
-				}
-				else
-					// Has total, but no activity, should not happen
-				{
-					mod_master_activity[P_INSTANCE_POINTER master[j]->elt->name] = log10(d_mod) - 2.0;
-				}
-			}
-		}
-	}
-
-	// merge activities
-	this->master_activity = orig_master_activity;
-
-	for (it = mod_master_activity.begin(); it != mod_master_activity.end(); it++)
-	{
-		this->master_activity[it->first] = it->second;
 	}
 }
-#endif
 void
-cxxSolution::modify_activities(const cxxSolution & original)
-//
-// Estimate activities after solution_modify
-//
+cxxSolution::Multiply_isotopes(LDBLE extensive)
 {
-	// Note: any master_activities in "this" have been read in SOLUTION_MODIFY
-	cxxNameDouble factor;
-	cxxNameDouble updated_orig_activities(original.Get_master_activity());
-	cxxNameDouble::const_iterator it;
-	cxxNameDouble::const_iterator orig_it;
-
-	// Calculate a factor of log10(new tot/old tot) for each element or element redox state in current totals
-	for (it = this->totals.begin(); it != this->totals.end(); it++)
+	std::map < std::string, cxxSolutionIsotope>::iterator it;
+	for (it = this->isotopes.begin(); it != this->isotopes.end(); it++)
 	{
-		orig_it = original.Get_totals().find(it->first);
-		if (orig_it != original.Get_totals().end())
-		{
-			// element or valence state in both
-			if (it->second > 0 && orig_it->second > 0)
-			{
-				factor[it->first] = log10(it->second / orig_it->second);
-			}
-		}
-		else
-		{
-			
-			std::string ename;
-			std::basic_string < char >::size_type indexCh;
-			indexCh = it->first.find("(");
-			if (indexCh != std::string::npos)
-			{
-				// valence in current and element in original
-				ename = it->first.substr(0, indexCh);
-				LDBLE orig_tot = original.Get_total_element(ename.c_str());
-				LDBLE tot = this->Get_total_element(ename.c_str());
-				if (tot > 0 && orig_tot > 0)
-				{
-					factor[ename] = log10(tot/orig_tot);
-				}
-			}
-			else
-			{
-				// element in current and valence in original
-				ename = it->first;
-				LDBLE orig_tot = original.Get_total_element(ename.c_str());
-				if (it->second > 0 && orig_tot > 0)
-				{
-					factor[ename] = log10(it->second/orig_tot);
-				}
-			}
-		}
+		LDBLE total = it->second.Get_total();
+		total *= extensive;
+		it->second.Set_total(total);
 	}
-
-	// update original master_activities using just computed factors
-	for (it = factor.begin(); it != factor.end(); it++)
-	{
-		orig_it = original.Get_master_activity().find(it->first);
-		if (orig_it != original.Get_master_activity().end())
-		{
-			// Found exact match
-			LDBLE d = orig_it->second + it->second;
-			updated_orig_activities[it->first.c_str()] = d;
-		}
-		else
-		{
-			// no exact match, current is element name, need to find all valences
-			orig_it = original.Get_master_activity().begin();
-			std::string v_name = it->first;
-			v_name.append("(");
-			for ( ; orig_it != original.Get_master_activity().end(); orig_it++)
-			{
-				if (strstr(orig_it->first.c_str(), v_name.c_str()) == orig_it->first.c_str())
-				{
-					LDBLE d = orig_it->second + it->second;
-					updated_orig_activities[orig_it->first.c_str()] = d;
-				}
-			}
-		}
-	}
-
-	// Merge any new master_activities, which overwrites updated originals
-	updated_orig_activities.merge_redox(this->Get_master_activity());
-
-	// Set activities to updated, merged activities
-	this->master_activity.clear();
-	this->master_activity = updated_orig_activities;
-
 }
-void 
-cxxSolution::Simplify_totals()
-{
-	// remove individual redox states from totals
-	std::set<std::string> list_of_elements;
-	cxxNameDouble::iterator it;
-	for (it = this->totals.begin(); it != this->totals.end(); ++it)
-	{
-		std::string current_ename(it->first);
-		std::basic_string < char >::size_type indexCh;
-		indexCh = current_ename.find("(");
-		if (indexCh != std::string::npos)
-		{
-			current_ename = current_ename.substr(0, indexCh);
-		}
-		if (current_ename == "H" || current_ename == "O" || current_ename == "Charge")
-			continue;
-		list_of_elements.insert(current_ename);
-	}
-
-	cxxNameDouble new_totals;
-	new_totals.type = cxxNameDouble::ND_ELT_MOLES;
-	std::set<std::string>::iterator nt_it = list_of_elements.begin();
-	for( ; nt_it != list_of_elements.end(); nt_it++)
-	{
-		new_totals[(*nt_it).c_str()] = this->Get_total_element((*nt_it).c_str());
-	}
-	this->totals = new_totals;
-}
-void 
-cxxSolution::Update(const cxxNameDouble &nd)
-{
-	// assumes
-	// nd has H, O, Charge, and totals, without any valence states
-
-	// remove individual redox states from solution totals
-	this->Simplify_totals();
-
-	// process special cases and calculate factors
-	cxxNameDouble factor;	
-	cxxNameDouble::const_iterator it;
-	for (it = nd.begin(); it != nd.end(); ++it)
-	{
-		if (it->first == "H")
-		{
-			this->total_h = it->second;
-		}
-		else if (it->first == "O")
-		{
-			this->total_o = it->second;
-		}
-		else if (it->first == "Charge")
-		{
-			this->cb = it->second;
-		}
-		else
-		{
-			cxxNameDouble::iterator sol_it = this->totals.find(it->first.c_str());
-			if (sol_it != this->totals.end())
-			{
-				if (it->second != 0 && sol_it->second != 0)
-				{
-					factor[it->first.c_str()] = log10(it->second/sol_it->second);
-				}
-				this->totals[it->first.c_str()] = it->second;
-			}
-		}
-	}
-
-	// update original master_activities using just computed factors
-
-	cxxNameDouble updated_activities(this->master_activity);
-	for (it = factor.begin(); it != factor.end(); it++)
-	{
-		std::string v_name = it->first;
-		v_name.append("(");
-
-		cxxNameDouble::iterator sol_it = this->totals.begin();
-		for ( ; sol_it != this->totals.end(); sol_it++)
-		{
-			// Exact match
-			if ( it->first == sol_it->first) 
-			{
-				LDBLE d = sol_it->second + it->second;
-				updated_activities[it->first.c_str()] = d;
-			}
-			else if (strstr(v_name.c_str(), sol_it->first.c_str()) == sol_it->first.c_str())
-			{
-				LDBLE d = sol_it->second + it->second;
-				updated_activities[sol_it->first.c_str()] = d;
-			}
-		}
-	}
-	// Set activities to updated, merged activities
-	this->master_activity.clear();
-	this->master_activity = updated_activities;
-}
-
-//#include "ISolution.h"
-//#include "Exchange.h"
-//#include "Surface.h"
-//#include "PPassemblage.h"
-//#include "cxxKinetics.h"
-//#include "SSassemblage.h"
-//#include "GasPhase.h"
-//#include "Reaction.h"
-//#include "Temperature.h"
-//#include "StorageBin.h"
-//#include "NumKeyword.h"
-//#include <iostream>				// std::cout std::cerr
-////#include <strstream>
-//#include <sstream>
-//#include <fstream>
-//void
-//test_classes(void)
-//{
-//
-//
-//
-//
-//	int i;
-//	/*
-//	   std::map<int, cxxSolution>      Solutions;
-//	   cxxSolution soln(solution[0]);
-//	   Solutions[solution[0]->n_user] = soln;
-//	   bool b = Utilities::exists(Solutions, 1);
-//	 */
-//	/*
-//	   cxxEntityMap x;
-//	   cxxSolution soln(solution[0]);
-//	   cxxNumKeyword nk;
-//	   x[solution[0]->n_user] = soln;
-//	 */
-//	std::ostringstream msg;
-//	status_on = FALSE;
-//	std::cout << "\n" << "TEST CLASSES" << "\n";
-//	for (i = 0; i < count_solution; i++)
-//	{
-//		if (solution[i]->new_def == TRUE)
-//		{
-//			std::cout << "Solution new_def " << solution[i]->
-//				n_user << "\n";
-//			cxxISolution sol(solution[i]);
-//			solution_free(solution[i]);
-//			solution[i] = NULL;
-//			solution[i] = sol.cxxISolution2solution();
-//			struct solution *soln_ptr;
-//			soln_ptr = solution[i];
-//			soln_ptr = solution[i];
-//		}
-//		else
-//		{
-//			std::cout << "Solution " << solution[i]->n_user << "\n";
-//			std::ostringstream oss;
-//			cxxSolution sol(solution[i]);
-//			solution_free(solution[i]);
-//			solution[i] = NULL;
-//			sol.dump_raw(oss, 0);
-//
-//			//std::fstream myfile("t");
-//			//CParser cparser(myfile, std::cout, std::cerr);
-//			cxxSolution sol1;
-//			std::string keyInput = oss.str();
-//			std::istringstream iss(keyInput);
-//
-//			CParser cparser(iss, oss, std::cerr);
-//			//For testing, need to read line to get started
-//			std::vector < std::string > vopts;
-//			std::istream::pos_type next_char;
-//			cparser.get_option(vopts, next_char);
-//
-//
-//			sol1.read_raw(cparser);
-//
-//			solution[i] = sol1.cxxSolution2solution();
-//		}
-//	}
-//	for (i = 0; i < count_exchange; i++)
-//	{
-//		if (exchange[i].new_def != TRUE)
-//		{
-//			std::cout << "Exchange " << exchange[i].n_user << "\n";
-//			std::ostringstream oss;
-//			cxxExchange ex(&(exchange[i]));
-//			ex.dump_raw(oss, 0);
-//			//std::cerr << oss.str();
-//
-//			cxxExchange ex1;
-//			std::string keyInput = oss.str();
-//			std::istringstream iss(keyInput);
-//
-//			CParser cparser(iss, oss, std::cerr);
-//			//For testing, need to read line to get started
-//			std::vector < std::string > vopts;
-//			std::istream::pos_type next_char;
-//			cparser.get_option(vopts, next_char);
-//
-//			ex1.read_raw(cparser);
-//
-//			struct exchange *exchange_ptr = ex1.cxxExchange2exchange();
-//			exchange_free(&exchange[i]);
-//			exchange_copy(exchange_ptr, &exchange[i], exchange_ptr->n_user);
-//			exchange_free(exchange_ptr);
-//			free_check_null(exchange_ptr);
-//		}
-//	}
-//	for (i = 0; i < count_surface; i++)
-//	{
-//		if (surface[i].new_def != TRUE)
-//		{
-//			std::cout << "Surface " << surface[i].n_user << "\n";
-//			std::ostringstream oss;
-//			cxxSurface ex(&(surface[i]));
-//			ex.dump_raw(oss, 0);
-//			//std::cerr << oss.str();
-//
-//
-//			cxxSurface ex1;
-//			std::string keyInput = oss.str();
-//			std::istringstream iss(keyInput);
-//
-//			CParser cparser(iss, oss, std::cerr);
-//			//For testing, need to read line to get started
-//			std::vector < std::string > vopts;
-//			std::istream::pos_type next_char;
-//			cparser.get_option(vopts, next_char);
-//
-//			ex1.read_raw(cparser);
-//
-//			struct surface *surface_ptr = ex1.cxxSurface2surface();
-//			surface_free(&surface[i]);
-//			surface_copy(surface_ptr, &surface[i], surface_ptr->n_user);
-//			surface_free(surface_ptr);
-//			free_check_null(surface_ptr);
-//
-//		}
-//
-//	}
-//	for (i = 0; i < count_pp_assemblage; i++)
-//	{
-//		if (pp_assemblage[i].new_def != TRUE)
-//		{
-//			std::cout << "PPassemblage " << pp_assemblage[i].
-//				n_user << "\n";
-//			std::ostringstream oss;
-//			cxxPPassemblage ex(&(pp_assemblage[i]));
-//			ex.dump_raw(oss, 0);
-//			//std::cerr << oss.str();
-//
-//
-//			cxxPPassemblage ex1;
-//			std::string keyInput = oss.str();
-//			std::istringstream iss(keyInput);
-//
-//			CParser cparser(iss, oss, std::cerr);
-//			//For testing, need to read line to get started
-//			std::vector < std::string > vopts;
-//			std::istream::pos_type next_char;
-//			cparser.get_option(vopts, next_char);
-//
-//			ex1.read_raw(cparser);
-//
-//			struct pp_assemblage *pp_assemblage_ptr =
-//				ex1.cxxPPassemblage2pp_assemblage();
-//			pp_assemblage_free(&pp_assemblage[i]);
-//			pp_assemblage_copy(pp_assemblage_ptr, &pp_assemblage[i],
-//							   pp_assemblage_ptr->n_user);
-//			pp_assemblage_free(pp_assemblage_ptr);
-//			free_check_null(pp_assemblage_ptr);
-//
-//		}
-//
-//	}
-//	for (i = 0; i < count_kinetics; i++)
-//	{
-//		std::cout << "Kinetics " << kinetics[i].n_user << "\n";
-//		std::ostringstream oss;
-//		cxxKinetics ex(&(kinetics[i]));
-//		ex.dump_raw(oss, 0);
-//		//std::cerr << oss.str();
-//
-//
-//		cxxKinetics ex1;
-//		std::string keyInput = oss.str();
-//		std::istringstream iss(keyInput);
-//
-//		CParser cparser(iss, oss, std::cerr);
-//		//For testing, need to read line to get started
-//		std::vector < std::string > vopts;
-//		std::istream::pos_type next_char;
-//		cparser.get_option(vopts, next_char);
-//
-//
-//		ex1.read_raw(cparser);
-//
-//		struct kinetics *kinetics_ptr = ex1.cxxKinetics2kinetics();
-//		kinetics_free(&kinetics[i]);
-//		kinetics_copy(kinetics_ptr, &kinetics[i], kinetics_ptr->n_user);
-//		kinetics_free(kinetics_ptr);
-//		free_check_null(kinetics_ptr);
-//	}
-//	for (i = 0; i < count_ss_assemblage; i++)
-//	{
-//		if (ss_assemblage[i].new_def != TRUE)
-//		{
-//			std::cout << "Solid solution " << ss_assemblage[i].
-//				n_user << "\n";
-//			std::ostringstream oss;
-//			cxxSSassemblage ex(&(ss_assemblage[i]));
-//			ex.dump_raw(oss, 0);
-//			//std::cerr << oss.str();
-//
-//
-//			cxxSSassemblage ex1;
-//			std::string keyInput = oss.str();
-//			std::istringstream iss(keyInput);
-//
-//			CParser cparser(iss, oss, std::cerr);
-//			//For testing, need to read line to get started
-//			std::vector < std::string > vopts;
-//			std::istream::pos_type next_char;
-//			cparser.get_option(vopts, next_char);
-//
-//			ex1.read_raw(cparser);
-//
-//			struct ss_assemblage *ss_assemblage_ptr =
-//				ex1.cxxSSassemblage2ss_assemblage();
-//			ss_assemblage_free(&ss_assemblage[i]);
-//			ss_assemblage_copy(ss_assemblage_ptr, &ss_assemblage[i],
-//								ss_assemblage_ptr->n_user);
-//			ss_assemblage_free(ss_assemblage_ptr);
-//			free_check_null(ss_assemblage_ptr);
-//
-//		}
-//
-//	}
-//	for (i = 0; i < count_gas_phase; i++)
-//	{
-//		if (gas_phase[i].new_def != TRUE)
-//		{
-//			std::cout << "Gas phase " << gas_phase[i].n_user << "\n";
-//			std::ostringstream oss;
-//			cxxGasPhase ex(&(gas_phase[i]));
-//			ex.dump_raw(oss, 0);
-//			//std::cerr << oss.str();
-//
-//
-//			cxxGasPhase ex1;
-//			std::string keyInput = oss.str();
-//			std::istringstream iss(keyInput);
-//
-//			CParser cparser(iss, oss, std::cerr);
-//			//For testing, need to read line to get started
-//			std::vector < std::string > vopts;
-//			std::istream::pos_type next_char;
-//			cparser.get_option(vopts, next_char);
-//
-//			ex1.read_raw(cparser);
-//
-//			struct gas_phase *gas_phase_ptr = ex1.cxxGasPhase2gas_phase();
-//			gas_phase_free(&gas_phase[i]);
-//			gas_phase_copy(gas_phase_ptr, &gas_phase[i],
-//						   gas_phase_ptr->n_user);
-//			gas_phase_free(gas_phase_ptr);
-//			free_check_null(gas_phase_ptr);
-//
-//		}
-//
-//	}
-//	for (i = 0; i < count_irrev; i++)
-//	{
-//		std::cout << "Reaction " << irrev[i].n_user << "\n";
-//		std::ostringstream oss;
-//		cxxReaction ex(&(irrev[i]));
-//		ex.dump_raw(oss, 0);
-//		//std::cerr << oss.str();
-//
-//
-//		cxxReaction ex1;
-//		std::string keyInput = oss.str();
-//		std::istringstream iss(keyInput);
-//
-//		CParser cparser(iss, oss, std::cerr);
-//		//For testing, need to read line to get started
-//		std::vector < std::string > vopts;
-//		std::istream::pos_type next_char;
-//		cparser.get_option(vopts, next_char);
-//
-//		ex1.read_raw(cparser);
-//		struct irrev *irrev_ptr = ex1.cxxReaction2irrev();
-//
-//		irrev_free(&irrev[i]);
-//		irrev_copy(irrev_ptr, &irrev[i], irrev_ptr->n_user);
-//
-//		irrev_free(irrev_ptr);
-//		free_check_null(irrev_ptr);
-//
-//	}
-//	for (i = 0; i < count_mix; i++)
-//	{
-//		std::cout << "Mix " << mix[i].n_user << "\n";
-//		std::ostringstream oss;
-//		cxxMix ex(&(mix[i]));
-//		ex.dump_raw(oss, 0);
-//		//std::cerr << oss.str();
-//
-//
-//		cxxMix ex1;
-//		std::string keyInput = oss.str();
-//		std::istringstream iss(keyInput);
-//
-//		CParser cparser(iss, oss, std::cerr);
-//		//For testing, need to read line to get started
-//		std::vector < std::string > vopts;
-//		std::istream::pos_type next_char;
-//		cparser.get_option(vopts, next_char);
-//
-//		ex1.read_raw(cparser);
-//		struct mix *mix_ptr = ex1.cxxMix2mix();
-//
-//		mix_free(&mix[i]);
-//		mix_copy(mix_ptr, &mix[i], mix_ptr->n_user);
-//
-//		mix_free(mix_ptr);
-//		free_check_null(mix_ptr);
-//
-//	}
-//	for (i = 0; i < count_temperature; i++)
-//	{
-//		std::cout << "Temperature " << temperature[i].n_user << "\n";
-//		std::ostringstream oss;
-//		cxxTemperature ex(&(temperature[i]));
-//		ex.dump_raw(oss, 0);
-//		//std::cerr << oss.str();
-//
-//
-//		cxxTemperature ex1;
-//		std::string keyInput = oss.str();
-//		std::istringstream iss(keyInput);
-//
-//		CParser cparser(iss, oss, std::cerr);
-//		//For testing, need to read line to get started
-//		std::vector < std::string > vopts;
-//		std::istream::pos_type next_char;
-//		cparser.get_option(vopts, next_char);
-//
-//		ex1.read_raw(cparser);
-//		struct temperature *temperature_ptr =
-//			ex1.cxxTemperature2temperature();
-//
-//		temperature_free(&temperature[i]);
-//		temperature_copy(temperature_ptr, &temperature[i],
-//						 temperature_ptr->n_user);
-//
-//		temperature_free(temperature_ptr);
-//		free_check_null(temperature_ptr);
-//
-//	}
-//	/*
-//	   {
-//	   // get all c storage
-//	   cxxStorageBin cstorage;
-//	   cstorage.import_phreeqc();
-//	   //std::ostringstream oss;
-//	   //cstorage.dump_raw(oss, 0);
-//	   //write it out
-//	   std::fstream myfile;
-//	   myfile.open("tfile", std::ios_base::out);
-//	   cstorage.dump_raw(myfile, 0);
-//	   myfile.close();
-//	   }
-//	   {
-//	   // empty storage bin
-//	   cxxStorageBin cstorage;
-//	   // fstream
-//	   std::fstream myfile;
-//	   myfile.open("tfile", std::ios_base::in);
-//	   // ostream
-//	   std::ostringstream oss;
-//	   // parser
-//	   CParser cparser(myfile, oss, std::cerr);
-//	   cstorage.read_raw(cparser);
-//	   //std::cerr << oss.str();
-//
-//	   // read it back
-//	   }
-//	 */
-//}

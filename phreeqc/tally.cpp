@@ -8,6 +8,7 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "Solution.h"
 /*   
      Calling sequence 
 
@@ -111,18 +112,6 @@ get_all_components(void)
 			j++;
 		}
 	}
-#ifdef SKIP
-	output_msg( "List of Components:\n" );
-	for (i = 0; i < tally_count_component; i++)
-	{
-		output_msg(sformatf( "\t%d\t%s\n", i + 1, buffer[i].name));
-		/*
-		   for (j=0; buffer[i].name[j] != '\0'; j++) {
-		   names[i * length + j] = buffer[i].name[j];
-		   }
-		 */
-	}
-#endif
 	/*
 	 *  Return value
 	 */
@@ -378,23 +367,13 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
  *   Routine accumulates elements from all solutions, phases, gas phases,
  *   exchangers, and surfaces. 
  */
-	int i, j, k, n;
-	struct solution *solution_ptr;
-	//struct irrev *irrev_ptr;
-	//struct pp_assemblage *pp_assemblage_ptr;
-	//struct exchange *exchange_ptr;
-	struct surface *surface_ptr;
-	//struct ss_assemblage *ss_assemblage_ptr;
-	//struct gas_phase *gas_phase_ptr;
-	//struct kinetics *kinetics_ptr;
-	//struct kinetics_comp *kinetics_comp_ptr;
 	int found;
 	LDBLE moles;
 	char *ptr;
 	/*
 	 *  Cycle through tally table columns
 	 */
-	for (i = 0; i < count_tally_table_columns; i++)
+	for (int i = 0; i < count_tally_table_columns; i++)
 	{
 		switch (tally_table[i].type)
 		{
@@ -404,41 +383,44 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
  */
 			if (n_user[Solution] < 0 || n_buffer == 0)
 				break;
-			if (i == 0)
 			{
-				solution_ptr = solution_bsearch(index_conservative, &n, TRUE);
-			}
-			else if (i == 1)
-			{
-				solution_ptr = solution_bsearch(n_user[Solution], &n, TRUE);
-			}
-			else
-			{
-				solution_ptr = NULL;
-				error_msg
-					("Solution is not in first two columns of tally_table",
-					 STOP);
-			}
-			if (solution_ptr == NULL)
-				break;
-			xsolution_zero();
-			add_solution(solution_ptr, 1.0, 1.0);
-			count_elts = 0;
-			paren_count = 0;
-			for (j = 0; j < count_master; j++)
-			{
-				if (master[j]->total > 0.0)
+				cxxSolution *solution_ptr;
+				if (i == 0)
 				{
-					char * temp_name = string_duplicate(master[j]->elt->primary->elt->name);
-					ptr = temp_name;
-					get_elts_in_species(&ptr, master[j]->total);
-					free_check_null(temp_name);
+					solution_ptr = Utilities::Rxn_find(Rxn_solution_map, index_conservative);
 				}
+				else if (i == 1)
+				{
+					solution_ptr = Utilities::Rxn_find(Rxn_solution_map, n_user[Solution]);
+				}
+				else
+				{
+					solution_ptr = NULL;
+					error_msg
+						("Solution is not in first two columns of tally_table",
+						STOP);
+				}
+				if (solution_ptr == NULL)
+					break;
+				xsolution_zero();
+				add_solution(solution_ptr, 1.0, 1.0);
+				count_elts = 0;
+				paren_count = 0;
+				for (int j = 0; j < count_master; j++)
+				{
+					if (master[j]->total > 0.0)
+					{
+						char * temp_name = string_duplicate(master[j]->elt->primary->elt->name);
+						ptr = temp_name;
+						get_elts_in_species(&ptr, master[j]->total);
+						free_check_null(temp_name);
+					}
+				}
+				qsort(elt_list, (size_t) count_elts,
+					(size_t) sizeof(struct elt_list), elt_list_compare);
+				elt_list_combine();
+				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			break;
 		case Reaction:
 			/*
@@ -473,10 +455,8 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				break;
 			{
 				cxxPPassemblage * pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, n_user[Pure_phase]);
-				//pp_assemblage_ptr = pp_assemblage_bsearch(n_user[Pure_phase], &n);
 				if (pp_assemblage_ptr == NULL)
 					break;
-				//for (j = 0; j < pp_assemblage_ptr->count_comps; j++)
 				std::map<std::string, cxxPPassemblageComp>::iterator it;
 				it =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
 				for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
@@ -504,17 +484,14 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				*/
 				if (n_user[Exchange] < 0)
 					break;
-				//exchange_ptr = exchange_bsearch(n_user[Exchange], &n);
 				cxxExchange * exchange_ptr = Utilities::Rxn_find(Rxn_exchange_map, n_user[Exchange]);
 				if (exchange_ptr == NULL)
 					break;
 				count_elts = 0;
 				paren_count = 0;
-				std::vector<cxxExchComp *> comps = exchange_ptr->Vectorize();
-				//for (j = 0; j < exchange_ptr->count_comps; j++)
-				for (j = 0; j < (int) comps.size(); j++)
+				for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
 				{
-					add_elt_list(comps[j]->Get_totals(), 1.0);
+					add_elt_list(exchange_ptr->Get_exchange_comps()[j].Get_totals(), 1.0);
 				}
 				qsort(elt_list, (size_t) count_elts,
 					(size_t) sizeof(struct elt_list), elt_list_compare);
@@ -528,19 +505,21 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 			 */
 			if (n_user[Surface] < 0)
 				break;
-			surface_ptr = surface_bsearch(n_user[Surface], &n);
-			if (surface_ptr == NULL)
-				break;
-			count_elts = 0;
-			paren_count = 0;
-			for (j = 0; j < surface_ptr->count_comps; j++)
 			{
-				add_elt_list(surface_ptr->comps[j].totals, 1.0);
+				cxxSurface * surface_ptr = Utilities::Rxn_find(Rxn_surface_map, n_user[Surface]);
+				if (surface_ptr == NULL)
+					break;
+				count_elts = 0;
+				paren_count = 0;
+				for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
+				{
+					add_elt_list(surface_ptr->Get_surface_comps()[j].Get_totals(), 1.0);
+				}
+				qsort(elt_list, (size_t) count_elts,
+					(size_t) sizeof(struct elt_list), elt_list_compare);
+				elt_list_combine();
+				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-			elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			break;
 		case Ss_phase:
 			if (n_user[Ss_phase] < 0)
@@ -556,12 +535,12 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				found = FALSE;
 				moles = 0.0;
 				std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
-				for (j = 0; j < (int) ss_ptrs.size(); j++)
-				//for (j = 0; j < ss_assemblage_ptr->count_s_s; j++)
+				for (size_t j = 0; j < ss_ptrs.size(); j++)
 				{
 					cxxSS * ss_ptr = ss_ptrs[j];
 					cxxSScomp * comp_ptr;
-					for (k = 0; k < (int) ss_ptr->Get_ss_comps().size(); k++)
+					size_t k;
+					for (k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
 					{
 						comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 						int l;
@@ -571,7 +550,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 						if (strcmp_nocase(phase_ptr->name, tally_table[i].name) == 0)
 							break;
 					}
-					if (k < (int) ss_ptr->Get_ss_comps().size())
+					if (k < ss_ptr->Get_ss_comps().size())
 					{
 						moles = comp_ptr->Get_moles();
 						found = TRUE;
@@ -593,7 +572,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 			if (n_user[Gas_phase] < 0)
 				break;
 			{
-				//gas_phase_ptr = gas_phase_bsearch(n_user[Gas_phase], &n);
 				cxxGasPhase * gas_phase_ptr = Utilities::Rxn_find(Rxn_gas_phase_map, n_user[Gas_phase]);
 				if (gas_phase_ptr == NULL)
 					break;
@@ -602,6 +580,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				const std::vector<cxxGasComp> *gc = &(gas_phase_ptr->Get_gas_comps());
 				for (size_t l = 0; l < gc->size(); l++)
 				{
+					int k;
 					struct phase *phase_ptr = phase_bsearch((*gc)[l].Get_phase_name().c_str(), &k, FALSE);
 
 					add_elt_list(phase_ptr->next_elt,
@@ -620,12 +599,12 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				*/
 				if (n_user[Kinetics] < 0)
 					break;
-				//kinetics_ptr = kinetics_bsearch(n_user[Kinetics], &n);
 				cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n_user[Kinetics]);
 				if (kinetics_ptr == NULL)
 					break;
 				cxxKineticsComp * kinetics_comp_ptr = NULL;
-				for (j = 0; j < (int) kinetics_ptr->Get_kinetics_comps().size(); j++)
+				size_t j;
+				for (j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
 				{
 					kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 					if (string_hsave(kinetics_comp_ptr->Get_rate_name().c_str()) == tally_table[i].name)
@@ -634,7 +613,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 						(kinetics_comp_ptr->Get_rate_name().c_str(), tally_table[i].name) == 0)
 						break;
 				}
-				if (j >= (int) kinetics_ptr->Get_kinetics_comps().size())
+				if (j >= kinetics_ptr->Get_kinetics_comps().size())
 					break;
 				moles = kinetics_comp_ptr->Get_m();
 				count_elts = 0;
@@ -714,16 +693,7 @@ build_tally_table(void)
 	int count_tt_reaction, count_tt_exchange, count_tt_surface,
 		count_tt_gas_phase;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
-	//struct pp_assemblage *pp_assemblage_ptr;
-	//struct pure_phase *pure_phase_ptr;
-	//struct ss_assemblage *ss_assemblage_ptr;
-	//struct s_s *s_s_ptr;
-	//struct s_s_comp *s_s_comp_ptr;
-	//struct kinetics *kinetics_ptr;
-	//struct kinetics_comp *kinetics_comp_ptr;
 	struct phase *phase_ptr;
-
-
 	char token[MAX_LENGTH];
 	char *ptr;
 /*
@@ -755,7 +725,6 @@ build_tally_table(void)
 /*
  *   add one for reactions
  */
-	//if (count_irrev > 0)
 	if (Rxn_reaction_map.size() > 0)
 	{
 		count_tt_reaction = 1;
@@ -786,7 +755,7 @@ build_tally_table(void)
 /*
  *   add one for surface
  */
-	if (count_surface > 0)
+	if (Rxn_surface_map.size() > 0)
 	{
 		count_tt_surface = 1;
 		n = count_tally_table_columns;
@@ -801,7 +770,6 @@ build_tally_table(void)
 /*
  *   add one for gases
  */
-	//if (count_gas_phase > 0)
 	if (Rxn_gas_phase_map.size() > 0)
 	{
 		count_tt_gas_phase = 1;
@@ -818,17 +786,14 @@ build_tally_table(void)
  *   Count pure phases
  */
 	count_tt_pure_phase = 0;
-	//if (count_pp_assemblage > 0)
 	if (Rxn_pp_assemblage_map.size() > 0)
 	{
 		/* 
 		 * Go through all pure phases in pure phase assemblages
 		 */
-		//for (i = 0; i < count_pp_assemblage; i++)
 		std::map<int, cxxPPassemblage>::iterator it;
 		for (it = Rxn_pp_assemblage_map.begin(); it != Rxn_pp_assemblage_map.end(); it++)
 		{
-			//pp_assemblage_ptr = &pp_assemblage[i];
 			cxxPPassemblage * pp_assemblage_ptr = &(it->second);
 			std::map<std::string, cxxPPassemblageComp>::iterator jit;
 			jit =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
@@ -890,15 +855,12 @@ build_tally_table(void)
 		 */
 		std::map<int, cxxSSassemblage>::iterator it;
 		for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
-		//for (i = 0; i < count_ss_assemblage; i++)
 		{
 			cxxSSassemblage *ss_assemblage_ptr = &(it->second);
-			//for (j = 0; j < ss_assemblage_ptr->count_s_s; j++)
 			std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
 			for (j = 0; j < (int) ss_ptrs.size(); j++)
 			{
 				cxxSS * ss_ptr = ss_ptrs[j];
-				//for (k = 0; k < s_s_ptr->count_comps; k++)
 				for (k = 0; k < (int) ss_ptr->Get_ss_comps().size(); k++)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
@@ -973,10 +935,8 @@ build_tally_table(void)
 				count_elts = 0;
 				paren_count = 0;
 				phase_ptr = NULL;
-				//if (kinetics_ptr->comps[j].count_list == 1)
 				if (kinetics_comp_ptr->Get_namecoef().size() == 1)
 				{
-					//strcpy(token, kinetics_ptr->comps[j].list[0].name);
 					strcpy(token, kinetics_comp_ptr->Get_namecoef().begin()->first.c_str());
 					phase_ptr = phase_bsearch(token, &p, FALSE);
 				}
@@ -987,7 +947,6 @@ build_tally_table(void)
 				else
 				{
 					cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
-					//for (k = 0; k < kinetics_ptr->comps[j].count_list; k++)
 					for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
 					{
 						std::string name = it->first;
@@ -1005,70 +964,7 @@ build_tally_table(void)
 			}
 		}
 	}
-#ifdef SKIP
-	if (count_kinetics > 0)
-	{
-		for (i = 0; i < count_kinetics; i++)
-		{
-			kinetics_ptr = &kinetics[i];
-			for (j = 0; j < kinetics_ptr->count_comps; j++)
-			{
-				kinetics_comp_ptr = &kinetics_ptr->comps[j];
-				/* 
-				 * check if already in tally_table
-				 */
-				for (l = 1; l < count_tally_table_columns; l++)
-				{
-					if (tally_table[l].type == Kinetics &&
-						tally_table[l].name == kinetics_comp_ptr->rate_name)
-						break;
-				}
-				if (l < count_tally_table_columns)
-					continue;
-				/*
-				 * Add to table
-				 */
-				count_tt_kinetics++;
-				n = count_tally_table_columns;
-				extend_tally_table();
-				tally_table[n].name = kinetics_comp_ptr->rate_name;
-				tally_table[n].type = Kinetics;
-				/*
-				 * get formula for kinetic component
-				 */
-				count_elts = 0;
-				paren_count = 0;
-				phase_ptr = NULL;
-				if (kinetics_ptr->comps[j].count_list == 1)
-				{
-					strcpy(token, kinetics_ptr->comps[j].list[0].name);
-					phase_ptr = phase_bsearch(token, &p, FALSE);
-				}
-				if (phase_ptr != NULL)
-				{
-					add_elt_list(phase_ptr->next_elt, 1.0);
-				}
-				else
-				{
-					for (k = 0; k < kinetics_ptr->comps[j].count_list; k++)
-					{
-						char * temp_name = string_duplicate(kinetics_ptr->comps[j].list[k].name);
-						ptr = temp_name;
-						get_elts_in_species(&ptr,
-											1.0 *
-											kinetics_ptr->comps[j].list[k].
-											coef);
-						free_check_null(temp_name);
-					}
-				}
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
-			}
-		}
-	}
-#endif
+
 #ifdef SKIP
 	/*
 	 *  Debug print for table definition
@@ -1110,25 +1006,24 @@ add_all_components_tally(void)
  *   Also calculates a number greater than all user numbers and
  *   stores in global variable first_user_number.
  */
-	int i, save_print_use;
+	int save_print_use;
 
 	save_print_use = pr.use;
 	pr.use = FALSE;
 /*
  *   Delete solutions less than -1
  */
-	while (count_solution > 0 && solution[0]->n_user < -1)
-	{
-		i = solution[0]->n_user;
-		solution_delete(i);
-	}
+
 /*
  *   add all solutions
  */
 	xsolution_zero();
-	for (i = 0; i < count_solution; i++)
 	{
-		add_solution(solution[i], 1.0 / solution[i]->mass_water, 1.0);
+		std::map<int, cxxSolution>::iterator it = Rxn_solution_map.begin();
+		for (; it != Rxn_solution_map.end(); it++)
+		{
+			add_solution(&it->second, 1.0 / it->second.Get_mass_water(), 1.0);
+		}
 	}
 /*
  *   add all irrev reactions
@@ -1163,9 +1058,12 @@ add_all_components_tally(void)
 /*
  *   Surfaces
  */
-	for (i = 0; i < count_surface; i++)
 	{
-		add_surface(&surface[i]);
+		std::map<int, cxxSurface>::iterator it = Rxn_surface_map.begin();
+		for (; it != Rxn_surface_map.end(); it++)
+		{
+			add_surface(&it->second);
+		}
 	}
 /*
  *   Gases
@@ -1180,10 +1078,12 @@ add_all_components_tally(void)
 /*
  *   Add solid-solution pure phases
  */
-	std::map<int, cxxSSassemblage>::iterator it;
-	for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
 	{
-		add_ss_assemblage(&(it->second));
+		std::map<int, cxxSSassemblage>::iterator it;
+		for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
+		{
+			add_ss_assemblage(&(it->second));
+		}
 	}
 /*
  *   Add elements in kinetic reactions
@@ -1196,13 +1096,6 @@ add_all_components_tally(void)
 			add_kinetics(&(it->second));
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_kinetics; i++)
-	{
-		calc_dummy_kinetic_reaction_tally(&kinetics[i]);
-		add_kinetics(&kinetics[i]);
-	}
-#endif
 /*
  *   reset pr.use
  */
@@ -1218,14 +1111,12 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
  *    Go through kinetic components and add positive amount of each reactant
  */
 	LDBLE coef;
-	//char token[MAX_LENGTH];
 	char *ptr;
 	struct phase *phase_ptr;
 /*
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
  */
-	//free_check_null(kinetics_ptr->totals);
 	kinetics_ptr->Get_totals().clear();
 	count_elts = 0;
 	paren_count = 0;
@@ -1259,68 +1150,11 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
 				free_check_null(temp_name);
 			}
 		}
-
 	}
-	//kinetics_ptr->totals = elt_list_save();
 	kinetics_ptr->Set_totals(elt_list_NameDouble());
 
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *    Go through kinetic components and add positive amount of each reactant
- */
-	int i, j;
-	LDBLE coef;
-	char token[MAX_LENGTH];
-	char *ptr;
-	struct phase *phase_ptr;
-/*
- *   Go through list and generate list of elements and
- *   coefficient of elements in reaction
- */
-	//free_check_null(kinetics_ptr->totals);
-	kinetics_ptr->Get_totals().clear();
-	count_elts = 0;
-	paren_count = 0;
-	for (i = 0; i < kinetics_ptr->count_comps; i++)
-	{
-		coef = 1.0;
-/*
- *   Reactant is a pure phase, copy formula into token
- */
-		phase_ptr = NULL;
-		if (kinetics_ptr->comps[i].count_list == 1)
-		{
-			strcpy(token, kinetics_ptr->comps[i].list[0].name);
-			phase_ptr = phase_bsearch(token, &j, FALSE);
-		}
-		if (phase_ptr != NULL)
-		{
-			add_elt_list(phase_ptr->next_elt, coef);
-		}
-		else
-		{
-			for (j = 0; j < kinetics_ptr->comps[i].count_list; j++)
-			{
-				char * temp_name = string_duplicate(kinetics_ptr->comps[i].list[j].name);
-				ptr = temp_name;
-				get_elts_in_species(&ptr, coef);
-				free_check_null(temp_name);
-			}
-		}
-
-	}
-	kinetics_ptr->totals = elt_list_save();
-
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 extend_tally_table(void)
@@ -1405,20 +1239,4 @@ set_kinetics_time(int n_user, LDBLE step)
 	kinetics_ptr->Set_equalIncrements(false);
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-set_kinetics_time(int n_user, LDBLE step)
-/* ---------------------------------------------------------------------- */
-{
-	int n;
-	struct kinetics *kinetics_ptr;
 
-	kinetics_ptr = kinetics_bsearch(n_user, &n);
-	if (kinetics_ptr == NULL)
-		return (ERROR);
-	kinetics_ptr->steps[0] = step;
-	kinetics_ptr->count_steps = 1;
-	return (OK);
-}
-#endif

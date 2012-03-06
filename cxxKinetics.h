@@ -17,7 +17,6 @@ class cxxKinetics:public cxxNumKeyword
 
   public:
 	cxxKinetics(PHRQ_io *io=NULL);
-	//cxxKinetics(struct kinetics *, PHRQ_io *io=NULL);
 	cxxKinetics(const std::map < int, cxxKinetics > &entity_map, cxxMix & mx,
 				int n_user, PHRQ_io *io=NULL);
 	~cxxKinetics();
@@ -27,9 +26,6 @@ class cxxKinetics:public cxxNumKeyword
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int * n_out=NULL) const;
 
 	void read_raw(CParser & parser, bool check = true);
-
-	//bool Get_related_phases(void) const;
-	//bool Get_related_rate(void) const;
 
 	std::vector < LDBLE > &Get_steps(void) {return steps;}
 	LDBLE Get_step_divide(void) const {return step_divide;}
@@ -63,17 +59,19 @@ class cxxKinetics:public cxxNumKeyword
 	void add(const cxxKinetics & addee, LDBLE extensive);
 
   protected:
+	// KINETICS_MODIFY candidates
 	std::vector < cxxKineticsComp > kinetics_comps;
 	std::vector < LDBLE >steps;
 	int count;
 	bool equalIncrements;
-	cxxNameDouble totals;
 	LDBLE step_divide;
 	int rk;
 	int bad_step_max;
 	bool use_cvode;
 	int cvode_steps;
 	int cvode_order;
+	// internal variables
+	cxxNameDouble totals;
 };
 
 #endif // !defined(CXXKINETICS_H_INCLUDED)

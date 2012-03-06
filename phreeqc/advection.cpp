@@ -2,6 +2,7 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "cxxKinetics.h"
+#include "Solution.h"
 
 
 /* ---------------------------------------------------------------------- */
@@ -9,7 +10,7 @@ int Phreeqc::
 advection(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i, n;
+	int i;
 	LDBLE kin_time;
 /*
  *   Calculate advection
@@ -21,7 +22,8 @@ advection(void)
  */
 	for (i = 0; i <= count_ad_cells; i++)
 	{
-		if (solution_bsearch(i, &n, TRUE) == NULL)
+		if (Utilities::Rxn_find(Rxn_solution_map, i) == NULL)
+		//if (solution_bsearch(i, &n, TRUE) == NULL)
 		{
 			input_error++;
 			error_string = sformatf(
@@ -38,7 +40,6 @@ advection(void)
 	{
 		for (i = 1; i <= count_ad_cells; i++)
 		{
-			//if (kinetics_bsearch(i, &n) != NULL)
 			if (Utilities::Rxn_find(Rxn_kinetics_map, i) != NULL)
 			{
 				input_error++;
@@ -82,7 +83,8 @@ advection(void)
  */
 		for (i = count_ad_cells; i > 0; i--)
 		{
-			solution_duplicate(i - 1, i);
+			//solution_duplicate(i - 1, i);
+			Utilities::Rxn_copy(Rxn_solution_map, i -1, i);
 		}
 /*
  *  Equilibrate and (or) mix
@@ -115,10 +117,12 @@ advection(void)
 				print_all();
 			}
 			if (i > 1)
-				solution_duplicate(-2, i - 1);
+				Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
+				//solution_duplicate(-2, i - 1);
 			saver();
 		}
-		solution_duplicate(-2, count_ad_cells);
+		Utilities::Rxn_copy(Rxn_solution_map, -2, count_ad_cells);
+		//solution_duplicate(-2, count_ad_cells);
 		rate_sim_time_start += kin_time;
 	}
 	initial_total_time += rate_sim_time_start;

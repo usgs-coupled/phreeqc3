@@ -24,65 +24,25 @@ cxxSurface::cxxSurface(PHRQ_io *io)
 	//
 :	cxxNumKeyword(io)
 {
+	new_def = false;
 	type = DDL;
 	dl_type = NO_DL;
 	sites_units = SITES_ABSOLUTE;
-	//diffuse_layer           = false;
-	//edl                     = false;
 	only_counter_ions = false;
-	//donnan                  = false;
 	thickness = 1e-8;
 	debye_lengths = 0.0;
 	DDL_viscosity = 1.0;
 	DDL_limit = 0.8;
 	transport = false;
+	solution_equilibria = false;
+	n_solution = -999;
 }
-
-cxxSurface::cxxSurface(struct surface *surface_ptr, PHRQ_io *io)
-		//
-		// constructor for cxxSurface from struct surface
-		//
-	:
-cxxNumKeyword(io)
-{
-	int i;
-
-	this->Set_description(surface_ptr->description);
-	n_user = surface_ptr->n_user;
-	n_user_end = surface_ptr->n_user_end;
-	type = surface_ptr->type;
-	dl_type = surface_ptr->dl_type;
-	sites_units = surface_ptr->sites_units;
-	//diffuse_layer                = (surface_ptr->diffuse_layer == TRUE); 
-	//edl                          = (surface_ptr->edl == TRUE); 
-	only_counter_ions = (surface_ptr->only_counter_ions == TRUE);
-	//donnan                       = (surface_ptr->donnan == TRUE); 
-	thickness = surface_ptr->thickness;
-	debye_lengths = surface_ptr->debye_lengths;
-	DDL_viscosity = surface_ptr->DDL_viscosity;
-	DDL_limit = surface_ptr->DDL_limit;
-	transport = (surface_ptr->transport == TRUE);
-	// Surface components
-	for (i = 0; i < surface_ptr->count_comps; i++)
-	{
-		cxxSurfaceComp ec(&(surface_ptr->comps[i]), this->Get_io());
-		std::string str(ec.Get_formula());
-		surfaceComps[str] = ec;
-	}
-	// Surface charge
-	for (i = 0; i < surface_ptr->count_charge; i++)
-	{
-		cxxSurfaceCharge ec(&(surface_ptr->charge[i]), this->Get_io());
-		std::string str(ec.Get_name());
-		surfaceCharges[str] = ec;
-	}
-}
-
-cxxSurface::cxxSurface(const std::map < int, cxxSurface > &entities,
+cxxSurface::cxxSurface(std::map < int, cxxSurface > &entities,
 					   cxxMix & mix, int l_n_user, PHRQ_io *io):
 cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
+	this->new_def = false;
 	type = DDL;
 	dl_type = NO_DL;
 	sites_units = SITES_ABSOLUTE;
@@ -92,8 +52,10 @@ cxxNumKeyword(io)
 	DDL_viscosity = 1.0;
 	DDL_limit = 0.8;
 	transport = false;
+	solution_equilibria = false;
+	n_solution = -999;
 //
-//   Mix exchangers
+//   Mix surfaces
 //
 	const std::map < int, LDBLE >&mixcomps = mix.Get_mixComps();
 	std::map < int, LDBLE >::const_iterator it;
@@ -101,9 +63,7 @@ cxxNumKeyword(io)
 	{
 		if (entities.find(it->first) != entities.end())
 		{
-			const cxxSurface *entity_ptr =
-				&(entities.find(it->first)->second);
-			this->add(*entity_ptr, it->second);
+			this->add(entities.find(it->first)->second, it->second);
 		}
 	}
 }
@@ -115,10 +75,9 @@ cxxSurface::~cxxSurface()
 bool
 cxxSurface::Get_related_phases() const
 {
-	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
-		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
+	for (size_t i = 0; i != this->surface_comps.size(); i++)
 	{
-		if ((*it).second.Get_phase_name().size() == 0)
+		if (this->surface_comps[i].Get_phase_name().size() == 0)
 			continue;
 		return (true);
 	}
@@ -128,20 +87,18 @@ cxxSurface::Get_related_phases() const
 bool
 cxxSurface::Get_related_rate() const
 {
-	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
-		 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
+	for (size_t i = 0; i != this->surface_comps.size(); i++)
 	{
-		if ((*it).second.Get_rate_name().size() == 0)
+		if (this->surface_comps[i].Get_rate_name().size() == 0)
 			continue;
 		return (true);
 	}
 	return (false);
 }
-
+#ifdef SKIP
 void
 cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing surface message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -157,11 +114,9 @@ cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "<surface " << "\n";
 
 	s_oss << indent1;
-	//s_oss << "diffuse_layer=\"" << this->diffuse_layer << "\"" << "\n";
 	s_oss << "surface_type=\"" << this->type << "\"" << "\n";
 
 	s_oss << indent1;
-	//s_oss << "edl=\"" << this->edl << "\"" << "\n";
 	s_oss << "dl_type=\"" << this->dl_type << "\"" << "\n";
 
 	s_oss << indent1;
@@ -170,9 +125,6 @@ cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent1;
 	s_oss << "only_counter_ions=\"" << this->
 		only_counter_ions << "\"" << "\n";
-
-	//s_oss << indent1;
-	//s_oss << "donnan=\"" << this->donnan << "\"" << "\n";
 
 	s_oss << indent1;
 	s_oss << "thickness=\"" << this->thickness << "\"" << "\n";
@@ -203,18 +155,17 @@ cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent1;
 	s_oss << "<charge_component " << "\n";
 	for (std::map < std::string, cxxSurfaceCharge >::const_iterator it =
-		 surfaceCharges.begin(); it != surfaceCharges.end(); ++it)
+		 surface_charges.begin(); it != surface_charges.end(); ++it)
 	{
 		(*it).second.dump_xml(s_oss, indent + 2);
 	}
 
 	return;
 }
-
+#endif
 void
 cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing surface message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -228,58 +179,55 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) cons
 	// Surface element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "SURFACE_RAW       " << n_user_local << " " << this->description << "\n";
-
+	s_oss << "SURFACE_RAW                  " << n_user_local << " " << this->description << "\n";
+	s_oss << indent1 << "# SURFACE_MODIFY candidate identifiers #\n";
 	s_oss << indent1;
-	//s_oss << "-diffuse_layer " << this->diffuse_layer << "\n";
-	s_oss << "-type " << this->type << "\n";
-
+	s_oss << "-type                      " << this->type << "\n";
 	s_oss << indent1;
-	//s_oss << "-edl " << this->edl << "\n";
-	s_oss << "-dl_type " << this->dl_type << "\n";
-
+	s_oss << "-dl_type                   " << this->dl_type << "\n";
 	s_oss << indent1;
-	s_oss << "-sites_units " << this->sites_units << "\n";
-
+	s_oss << "-only_counter_ions         " << this->only_counter_ions << "\n";
 	s_oss << indent1;
-	s_oss << "-only_counter_ions " << this->only_counter_ions << "\n";
-
-	//s_oss << indent1;
-	//s_oss << "-donnan " << this->donnan << "\n";
-
+	s_oss << "-thickness                 " << this->thickness << "\n";
 	s_oss << indent1;
-	s_oss << "-thickness " << this->thickness << "\n";
-
+	s_oss << "-debye_lengths             " << this->debye_lengths << "\n";
 	s_oss << indent1;
-	s_oss << "-debye_lengths " << this->debye_lengths << "\n";
-
+	s_oss << "-DDL_viscosity             " << this->DDL_viscosity << "\n";
 	s_oss << indent1;
-	s_oss << "-DDL_viscosity " << this->DDL_viscosity << "\n";
-
-	s_oss << indent1;
-	s_oss << "-DDL_limit " << this->DDL_limit << "\n";
-
-	s_oss << indent1;
-	s_oss << "-transport " << this->transport << "\n";
-
-	// surfaceComps structures
-	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
-		 surfaceComps.begin(); it != surfaceComps.end(); ++it)
+	s_oss << "-DDL_limit                 " << this->DDL_limit << "\n";
+	// surfaceComps 
+	for (size_t i = 0; i != this->surface_comps.size(); i++)
 	{
+		const cxxSurfaceComp * comp_ptr = &(this->surface_comps[i]);
 		s_oss << indent1;
-		s_oss << "-component" << "\n";
-		(*it).second.dump_raw(s_oss, indent + 2);
+		s_oss << "-component                 " << comp_ptr->Get_formula() << "\n";
+		comp_ptr->dump_raw(s_oss, indent + 2);
 	}
-	// surface charge structures
+	// surface charge 
+	for (size_t i = 0; i != this->surface_charges.size(); i++)
 	{
-		for (std::map < std::string, cxxSurfaceCharge >::const_iterator it =
-			 surfaceCharges.begin(); it != surfaceCharges.end(); ++it)
-		{
-			s_oss << indent1;
-			s_oss << "-charge_component " << "\n";
-			(*it).second.dump_raw(s_oss, indent + 2);
-		}
+		const cxxSurfaceCharge * charge_ptr = &(this->surface_charges[i]);
+		s_oss << indent1;
+		s_oss << "-charge_component          " << charge_ptr->Get_name() << "\n";
+		charge_ptr->dump_raw(s_oss, indent + 2);
 	}
+
+	s_oss << indent1 << "# SURFACE_MODIFY candidates with new_def=true #\n";
+	s_oss << indent1;
+	s_oss << "-new_def                   " << this->new_def << "\n";
+	s_oss << indent1;
+	s_oss << "-sites_units               " << this->sites_units << "\n";
+	s_oss << indent1;
+	s_oss << "-solution_equilibria       " << this->solution_equilibria << "\n";
+	s_oss << indent1;
+	s_oss << "-n_solution                " << this->n_solution << "\n";
+
+	s_oss << indent1 << "# Surface workspace variables #\n";
+	s_oss << indent1;
+	s_oss << "-transport                 " << this->transport << "\n";
+	s_oss << indent1;
+	s_oss << "-totals                    " << "\n";
+	this->totals.dump_raw(s_oss, indent + 2);
 
 	return;
 }
@@ -306,6 +254,10 @@ cxxSurface::read_raw(CParser & parser, bool check)
 		vopts.push_back("ddl_viscosity");	// 11
 		vopts.push_back("ddl_limit");	// 12
 		vopts.push_back("transport");	// 13
+		vopts.push_back("new_def");	// 14
+		vopts.push_back("solution_equilibria");	// 15
+		vopts.push_back("n_solution");	// 16
+		vopts.push_back("totals");	// 17
 	}
 
 	std::istream::pos_type ptr;
@@ -318,10 +270,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 	this->read_number_description(parser);
 
 	opt_save = CParser::OPT_ERROR;
-	//bool diffuse_layer_defined(false); 
-	//bool edl_defined(false); 
 	bool only_counter_ions_defined(false);
-	//bool donnan_defined(false); 
 	bool thickness_defined(false);
 	bool type_defined(false);
 	bool dl_type_defined(false);
@@ -342,6 +291,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 		{
 			opt = parser.getOptionFromLastLine(vopts, next_char, true);
 		}
+		useLastLine = false;
 		switch (opt)
 		{
 		case CParser::OPT_EOF:
@@ -354,39 +304,18 @@ cxxSurface::read_raw(CParser & parser, bool check)
 			parser.error_msg("Unknown input in SURFACE keyword.",
 							 PHRQ_io::OT_CONTINUE);
 			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
-			useLastLine = false;
 			break;
 
 		case 0:				// diffuse_layer
 			parser.incr_input_error();
 			parser.error_msg("Diffuse layer is obsolete, use -type.",
 							 PHRQ_io::OT_CONTINUE);
-			/*
-			   if (!(parser.get_iss() >> this->diffuse_layer))
-			   {
-			   this->diffuse_layer = false;
-			   parser.incr_input_error();
-			   parser.error_msg("Expected boolean value for diffuse_layer.", PHRQ_io::OT_CONTINUE);
-			   }
-			   diffuse_layer_defined = true;
-			 */
-			useLastLine = false;
 			break;
 
 		case 1:				// edl
 			parser.incr_input_error();
 			parser.error_msg("-edl is obsolete, use -type.",
 							 PHRQ_io::OT_CONTINUE);
-			/*
-			   if (!(parser.get_iss() >> this->edl))
-			   {
-			   this->edl = false;
-			   parser.incr_input_error();
-			   parser.error_msg("Expected boolean value for edl.", PHRQ_io::OT_CONTINUE);
-			   }
-			   edl_defined = true;
-			 */
-			useLastLine = false;
 			break;
 
 		case 2:				// only_counter_ions
@@ -399,23 +328,12 @@ cxxSurface::read_raw(CParser & parser, bool check)
 							  PHRQ_io::OT_CONTINUE);
 			}
 			only_counter_ions_defined = true;
-			useLastLine = false;
 			break;
 
 		case 3:				// donnan
 			parser.incr_input_error();
 			parser.error_msg("-Donnan is obsolete, use -dl_type.",
 							 PHRQ_io::OT_CONTINUE);
-			/*
-			   if (!(parser.get_iss() >> this->donnan))
-			   {
-			   this->donnan = false;
-			   parser.incr_input_error();
-			   parser.error_msg("Expected boolean value for donnan.", PHRQ_io::OT_CONTINUE);
-			   }
-			   donnan_defined = true;
-			 */
-			useLastLine = false;
 			break;
 
 		case 4:				// thickness
@@ -427,62 +345,80 @@ cxxSurface::read_raw(CParser & parser, bool check)
 								 PHRQ_io::OT_CONTINUE);
 			}
 			thickness_defined = true;
-			useLastLine = false;
 			break;
-
 		case 5:				// component
 			{
-				cxxSurfaceComp ec(this->Get_io());
-
-				// preliminary read
-				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
-				parser.set_accumulate(false);
-				std::istringstream is(parser.get_accumulated());
-				CParser reread(is, this->Get_io());
-				reread.set_echo_file(CParser::EO_NONE);
-				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->surfaceComps.find(ec.Get_formula()) != this->surfaceComps.end())
+				std::string str;
+				if (!(parser.get_iss() >> str))
 				{
-					cxxSurfaceComp & comp = this->surfaceComps.find(ec.Get_formula())->second;
-					comp.read_raw(reread, false);
+					parser.incr_input_error();
+					parser.error_msg("Expected string value for component name.",
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
-					cxxSurfaceComp ec1(this->Get_io());
-					ec1.read_raw(reread, false);
-					std::string str(ec1.Get_formula());
-					this->surfaceComps[str] = ec1;
+					cxxSurfaceComp temp_comp(this->io);
+					temp_comp.Set_formula(str.c_str());
+					cxxSurfaceComp *comp_ptr = this->Find_comp(str);
+					if (comp_ptr)
+					{
+						temp_comp = *comp_ptr;
+					}
+					temp_comp.read_raw(parser, check);
+					if (comp_ptr)
+					{
+						for (size_t j = 0; j < this->surface_comps.size(); j++)
+						{
+							if (Utilities::strcmp_nocase(this->surface_comps[j].Get_formula().c_str(), str.c_str()) == 0)
+							{
+								this->surface_comps[j] = temp_comp;
+							}
+						}
+					}
+					else
+					{
+						this->surface_comps.push_back(temp_comp);
+					}
+					useLastLine = true;
 				}
 			}
-			useLastLine = true;
 			break;
-
 		case 6:				// charge_component
 			{
-				cxxSurfaceCharge ec(this->Get_io());
-
-				// preliminary read
-				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
-				parser.set_accumulate(false);
-				std::istringstream is(parser.get_accumulated());
-				CParser reread(is, this->Get_io());
-				reread.set_echo_file(CParser::EO_NONE);
-				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->surfaceCharges.find(ec.Get_name()) != this->surfaceCharges.end())
+				std::string str;
+				if (!(parser.get_iss() >> str))
 				{
-					cxxSurfaceCharge & comp = this->surfaceCharges.find(ec.Get_name())->second;
-					comp.read_raw(reread, false);
+					parser.incr_input_error();
+					parser.error_msg("Expected string value for charge name.",
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
-					cxxSurfaceCharge ec1(this->Get_io());
-					ec1.read_raw(reread, false);
-					std::string str(ec1.Get_name());
-					this->surfaceCharges[str] = ec1;
+					cxxSurfaceCharge temp_charge(this->io);
+					temp_charge.Set_name(str.c_str());
+					cxxSurfaceCharge *charge_ptr = this->Find_charge(str);
+					if (charge_ptr)
+					{
+						temp_charge = *charge_ptr;
+					}
+					temp_charge.read_raw(parser, check);
+					if (charge_ptr)
+					{
+						for (size_t j = 0; j < this->surface_charges.size(); j++)
+						{
+							if (Utilities::strcmp_nocase(this->surface_charges[j].Get_name().c_str(), str.c_str()) == 0)
+							{
+								this->surface_charges[j] = temp_charge;
+							}
+						}
+					}
+					else
+					{
+						this->surface_charges.push_back(temp_charge);
+					}
+					useLastLine = true;
 				}
-			}
+			}	
 			useLastLine = true;
 			break;
 		case 7:				// type
@@ -496,7 +432,6 @@ cxxSurface::read_raw(CParser & parser, bool check)
 			}
 			this->type = (SURFACE_TYPE) i;
 			type_defined = true;
-			useLastLine = false;
 			break;
 		case 8:				// dl_type
 			i = 0;
@@ -509,7 +444,6 @@ cxxSurface::read_raw(CParser & parser, bool check)
 			}
 			this->dl_type = (DIFFUSE_LAYER_TYPE) i;
 			dl_type_defined = true;
-			useLastLine = false;
 			break;
 		case 9:				// sites_units
 			i = 0;
@@ -522,7 +456,6 @@ cxxSurface::read_raw(CParser & parser, bool check)
 			}
 			this->sites_units = (SITES_UNITS) i;
 			sites_units_defined = true;
-			useLastLine = false;
 			break;
 
 		case 10:				// debye_lengths
@@ -534,7 +467,6 @@ cxxSurface::read_raw(CParser & parser, bool check)
 								 PHRQ_io::OT_CONTINUE);
 			}
 			debye_lengths_defined = true;
-			useLastLine = false;
 			break;
 
 		case 11:				// DDL_viscosity
@@ -546,7 +478,6 @@ cxxSurface::read_raw(CParser & parser, bool check)
 								 PHRQ_io::OT_CONTINUE);
 			}
 			DDL_viscosity_defined = true;
-			useLastLine = false;
 			break;
 
 		case 12:				// DDL_limit
@@ -558,7 +489,6 @@ cxxSurface::read_raw(CParser & parser, bool check)
 								 PHRQ_io::OT_CONTINUE);
 			}
 			DDL_limit_defined = true;
-			useLastLine = false;
 			break;
 
 		case 13:				// transport
@@ -570,26 +500,55 @@ cxxSurface::read_raw(CParser & parser, bool check)
 								 PHRQ_io::OT_CONTINUE);
 			}
 			transport_defined = true;
-			useLastLine = false;
+			break;
+
+		case 14:				// new_def
+			if (!(parser.get_iss() >> this->new_def))
+			{
+				this->new_def = false;
+				parser.incr_input_error();
+				parser.error_msg("Expected boolean value for new_def.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			break;
+
+		case 15:				// new_def
+			if (!(parser.get_iss() >> this->solution_equilibria))
+			{
+				this->solution_equilibria = false;
+				parser.incr_input_error();
+				parser.error_msg("Expected boolean value for solution_equilibria.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			break;
+
+		case 16:				// n_solution
+			if (!(parser.get_iss() >> this->n_solution))
+			{
+				this->n_solution = -999;
+				parser.incr_input_error();
+				parser.error_msg("Expected integer value for n_solution.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			break;
+		case 17:				// totals
+			if (this->totals.read_raw(parser, next_char) !=	CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected element name and molality for Surface totals.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 17;
 			break;
 		}
-
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
 	if (check)
 	{
 		// members that must be defined
-		/*
-		if (diffuse_layer_defined == false) {
-		parser.incr_input_error();
-		parser.error_msg("Diffuse_layer not defined for SURFACE_RAW input.", PHRQ_io::OT_CONTINUE);
-		}
-		if (edl_defined == false) {
-		parser.incr_input_error();
-		parser.error_msg("Edl not defined for SURFACE_RAW input.", PHRQ_io::OT_CONTINUE);
-		}
-		*/
 		if (only_counter_ions_defined == false)
 		{
 			parser.incr_input_error();
@@ -597,12 +556,6 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				error_msg("Only_counter_ions not defined for SURFACE_RAW input.",
 				PHRQ_io::OT_CONTINUE);
 		}
-		/*
-		if (donnan_defined == false) {
-		parser.incr_input_error();
-		parser.error_msg("Donnan not defined for SURFACE_RAW input.", PHRQ_io::OT_CONTINUE);
-		}
-		*/
 		if (thickness_defined == false)
 		{
 			parser.incr_input_error();
@@ -652,6 +605,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				PHRQ_io::OT_CONTINUE);
 		}
 	}
+	this->Sort_comps();
 }
 
 #ifdef USE_MPI
@@ -668,20 +622,17 @@ cxxSurface::mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles)
 	{
 		(*it).second.mpi_pack(ints, doubles);
 	}
-	ints.push_back((int) this->surfaceCharges.size());
+	ints.push_back((int) this->surface_charges.size());
 	for (std::map < std::string, cxxSurfaceCharge >::iterator it =
-		 this->surfaceCharges.begin(); it != this->surfaceCharges.end(); it++)
+		 this->surface_charges.begin(); it != this->surface_charges.end(); it++)
 	{
 		(*it).second.mpi_pack(ints, doubles);
 	}
-	//ints.push_back((int) this->diffuse_layer);
-	//ints.push_back((int) this->edl);
 	ints.push_back((int) this->type);
 	ints.push_back((int) this->dl_type);
 	ints.push_back((int) this->sites_units);
 
 	ints.push_back((int) this->only_counter_ions);
-	//ints.push_back((int) this->donnan);
 	doubles.push_back(this->thickness);
 	doubles.push_back(this->debye_lengths);
 	doubles.push_back(this->DDL_viscosity);
@@ -696,7 +647,6 @@ cxxSurface::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {
 	int i = *ii;
 	int d = *dd;
-	/* int n_user; */
 	this->n_user = ints[i++];
 	this->n_user_end = this->n_user;
 	this->description = " ";
@@ -711,21 +661,18 @@ cxxSurface::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 		this->surfaceComps[str] = sc;
 	}
 	count = ints[i++];
-	this->surfaceCharges.clear();
+	this->surface_charges.clear();
 	for (int n = 0; n < count; n++)
 	{
 		cxxSurfaceCharge sc;
 		sc.mpi_unpack(ints, &i, doubles, &d);
 		std::string str(sc.get_name());
-		this->surfaceCharges[str] = sc;
+		this->surface_charges[str] = sc;
 	}
-	//this->diffuse_layer = (bool) ints[i++];
-	//this->edl = (bool) ints[i++];
 	this->type = (SURFACE_TYPE) ints[i++];
 	this->dl_type = (DIFFUSE_LAYER_TYPE) ints[i++];
 	this->sites_units = (SITES_UNITS) ints[i++];
 	this->only_counter_ions = (ints[i++] == TRUE);
-	//this->donnan = (bool) ints[i++];
 	this->thickness = doubles[d++];
 	this->debye_lengths = doubles[d++];
 	this->DDL_viscosity = doubles[d++];
@@ -741,80 +688,152 @@ cxxSurface::totalize()
 {
 	this->totals.clear();
 	// component structures
-	for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
-		 surfaceComps.begin(); it != surfaceComps.end(); ++it)
+	for (size_t i = 0; i != this->surface_comps.size(); i++)
 	{
-		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
-		this->totals.add("Charge", (*it).second.Get_charge_balance());
+		cxxSurfaceComp * comp_ptr = &(this->surface_comps[i]);
+		this->totals.add_extensive(comp_ptr->Get_totals(), 1.0);
+		this->totals.add("Charge", comp_ptr->Get_charge_balance());
 	}
 	return;
 }
-
 void
-cxxSurface::add(const cxxSurface & addee, LDBLE extensive)
+cxxSurface::add(const cxxSurface & addee_in, LDBLE extensive)
 		//
-		// Add surface to "this" exchange
+		// Add surface to "this" surface
 		//
 {
+	cxxSurface addee = addee_in;
 	if (extensive == 0.0)
 		return;
-	if (this->surfaceComps.size() == 0)
+	if (this->surface_comps.size() == 0)
 	{
-		//enum SURFACE_TYPE type;
-		this->type = addee.type;
-		//enum DIFFUSE_LAYER_TYPE dl_type;
-		this->dl_type = addee.dl_type;
-		//enum SITES_UNITS sites_units;
-		this->sites_units = addee.sites_units;
-		//bool only_counter_ions;
 		this->only_counter_ions = addee.only_counter_ions;
-		//LDBLE thickness;
+		this->dl_type = addee.dl_type;
+		this->type = addee.type;
+		this->sites_units = addee.sites_units;
 		this->thickness = addee.thickness;
-		//LDBLE debye_lengths;
 		this->debye_lengths = addee.debye_lengths;
-		//LDBLE DDL_viscosity;
 		this->DDL_viscosity = addee.DDL_viscosity;
-		//LDBLE DDL_limit;
 		this->DDL_limit = addee.DDL_limit;
-		//bool transport;
+		this->solution_equilibria = addee.solution_equilibria;
+		this->n_solution = addee.n_solution;
 		this->transport = addee.transport;
 	}
 
-	//std::map <std::string, cxxSurfaceComp> surfaceComps;
-	for (std::map < std::string, cxxSurfaceComp >::const_iterator itadd =
-		 addee.surfaceComps.begin(); itadd != addee.surfaceComps.end();
-		 ++itadd)
+	for (size_t i_add = 0; i_add < addee.Get_surface_comps().size(); i_add++)
 	{
-		std::map < std::string, cxxSurfaceComp >::iterator it = this->surfaceComps.find((*itadd).first);
-		if (it != this->surfaceComps.end())
+		const cxxSurfaceComp & comp_add_ptr = addee.Get_surface_comps()[i_add];
+		size_t i_this;
+		for (i_this = 0; i_this < this->surface_comps.size(); i_this++)
 		{
-			(*it).second.add((*itadd).second, extensive);
+			cxxSurfaceComp & comp_this_ptr = this->surface_comps[i_this];
+			if(comp_add_ptr.Get_formula() == comp_this_ptr.Get_formula())
+			{
+				comp_this_ptr.add(addee.surface_comps[i_add], extensive);
+				break;
+			}
 		}
-		else
+		if (i_this == this->surface_comps.size())
 		{
-			cxxSurfaceComp entity = (*itadd).second;
+			
+			cxxSurfaceComp entity = comp_add_ptr;
 			entity.multiply(extensive);
-			std::string str(entity.Get_formula());
-			this->surfaceComps[str] = entity;
+			this->surface_comps.push_back(entity);
+		}
+	}
+	for (size_t i_add = 0; i_add < addee.Get_surface_charges().size(); i_add++)
+	{
+		const cxxSurfaceCharge & charge_add_ptr = addee.Get_surface_charges()[i_add];
+
+		size_t i_this;
+		for (i_this = 0; i_this < this->surface_charges.size(); i_this++)
+		{
+			cxxSurfaceCharge & charge_this_ptr = this->Get_surface_charges()[i_this];
+			if(charge_add_ptr.Get_name() == charge_this_ptr.Get_name())
+			{
+				charge_this_ptr.add(addee.surface_charges[i_add], extensive);
+				break;
+			}
+		}
+		if (i_this == this->surface_charges.size())
+		{
+			
+			cxxSurfaceCharge entity = charge_add_ptr;
+			entity.multiply(extensive);
+			this->surface_charges.push_back(entity);
+		}
+	}
+}
+
+void
+cxxSurface::multiply(LDBLE extensive)
+		//
+		// Add surface to "this" surface
+		//
+{
+
+	for (size_t i = 0; i < this->surface_comps.size(); i++)
+	{
+		cxxSurfaceComp *comp_ptr = &(this->surface_comps[i]);
+		comp_ptr->multiply(extensive);
+	}
+	for (size_t i = 0; i < this->surface_charges.size(); i++)
+	{
+		cxxSurfaceCharge *charge_ptr = &(this->surface_charges[i]);
+		charge_ptr->multiply(extensive);
+	}
+}
+cxxSurfaceComp * cxxSurface::
+Find_comp(std::string str)
+{
+		for (size_t i = 0; i < this->surface_comps.size(); i++)
+		{
+			if (Utilities::strcmp_nocase(str.c_str(), this->surface_comps[i].Get_formula().c_str()) == 0)
+				return &(this->surface_comps[i]);
+		}
+		return NULL;
+}
+
+cxxSurfaceCharge * cxxSurface::
+Find_charge(std::string str)
+{
+	for (size_t i = 0; i < this->surface_charges.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(str.c_str(), this->surface_charges[i].Get_name().c_str()) == 0)
+			return &(this->surface_charges[i]);
+	}
+	return NULL;
+}
+void cxxSurface::
+Sort_comps(void)
+{
+	// sort comps
+	{
+		std::map<std::string, cxxSurfaceComp> comp_map;
+		for (size_t i = 0; i < this->surface_comps.size(); i++)
+		{
+			comp_map[this->surface_comps[i].Get_formula()] = this->surface_comps[i];
+		}
+		this->surface_comps.clear();
+		std::map<std::string, cxxSurfaceComp>::iterator it;
+		for (it = comp_map.begin(); it != comp_map.end(); it++)
+		{
+			this->surface_comps.push_back(it->second);
 		}
 	}
 
-	//std::map < std::string, cxxSurfaceCharge > surfaceCharges;
-	for (std::map < std::string, cxxSurfaceCharge >::const_iterator itadd =
-		 addee.surfaceCharges.begin(); itadd != addee.surfaceCharges.end();
-		 ++itadd)
+	// sort charge too
 	{
-		std::map < std::string, cxxSurfaceCharge >::iterator it = this->surfaceCharges.find((*itadd).first);
-		if (it != this->surfaceCharges.end())
+		std::map<std::string, cxxSurfaceCharge> charge_map;
+		for (size_t i = 0; i < this->surface_charges.size(); i++)
 		{
-			(*it).second.add( (*itadd).second, extensive);
+			charge_map[this->surface_charges[i].Get_name()] = this->surface_charges[i];
 		}
-		else
+		this->surface_charges.clear();
+		std::map<std::string, cxxSurfaceCharge>::iterator it;
+		for (it = charge_map.begin(); it != charge_map.end(); it++)
 		{
-			cxxSurfaceCharge entity = (*itadd).second;
-			entity.multiply(extensive);
-			std::string str(entity.Get_name());
-			this->surfaceCharges[str] = entity;
+			this->surface_charges.push_back(it->second);
 		}
 	}
 }

@@ -27,7 +27,6 @@ check_line(const char *string, int allow_empty, int allow_eof,
 		   int allow_keyword, int print)
 /* ---------------------------------------------------------------------- */
 {
-	//assert(get_istream() != NULL);
 	if (phrq_io->get_istream() == NULL)
 		return EOF;
 	if (reading_database())
@@ -101,9 +100,7 @@ get_line(void)
 {
 	PHRQ_io::LINE_TYPE j = phrq_io->get_line();
 	// check_key sets next_keyword
-	//int return_value = check_key(parser.line().c_str());
 	next_keyword = phrq_io->Get_m_next_keyword();
-
 
 	// copy parser line to line and line_save
 	// make sure there is enough space

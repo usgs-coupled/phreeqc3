@@ -12,6 +12,9 @@
 #include "Use.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "Surface.h"
+#include "Solution.h"
+
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -27,7 +30,7 @@ clean_up(void)
 #endif
 
 	description_x = (char *) free_check_null(description_x);
-	isotopes_x = (struct isotope *) free_check_null(isotopes_x);
+	isotopes_x.clear();
 	moles_per_kilogram_string =
 		(char *) free_check_null(moles_per_kilogram_string);
 	pe_string = (char *) free_check_null(pe_string);
@@ -77,20 +80,10 @@ clean_up(void)
 	elements = (struct element **) free_check_null(elements);
 
 /* solutions */
-
-	for (j = 0; j < count_solution; j++)
-	{
-		solution_free(solution[j]);
-	}
-	solution = (struct solution **) free_check_null(solution);
+	Rxn_solution_map.clear();
 
 /* surfaces */
-
-	for (j = 0; j < count_surface; j++)
-	{
-		surface_free(&surface[j]);
-	}
-	surface = (struct surface *) free_check_null(surface);
+	Rxn_surface_map.clear();
 
 /* exchange */
 	Rxn_exchange_map.clear();
@@ -142,13 +135,6 @@ clean_up(void)
 
 /* kinetics */
 	Rxn_kinetics_map.clear();
-#ifdef SKIP
-	for (j = 0; j < count_kinetics; j++)
-	{
-		kinetics_free(&kinetics[j]);
-	}
-	kinetics = (struct kinetics *) free_check_null(kinetics);
-#endif
 
 /* rates */
 	for (j = 0; j < count_rates; j++)
@@ -177,8 +163,7 @@ clean_up(void)
 
 /* global solution */
 
-	pe_data_free(pe_x);
-	pe_x = NULL;
+	pe_x.clear();
 
 /* species_list */
 
@@ -243,10 +228,6 @@ clean_up(void)
 	rate_free(user_graph);
 	user_graph = (struct rate *) free_check_null(user_graph);
 	user_graph_headings = (char **) free_check_null(user_graph_headings);
-#ifndef PHREEQ98
-	//if (u_g)
-	//	DeleteCurves();
-#endif
 #endif
 	/* master_isotope */
 	for (i = 0; i < count_master_isotope; i++)
@@ -314,7 +295,11 @@ clean_up(void)
 	phases_hash_table = NULL;
 
 /* strings */
+#ifdef HASH
+	strings_hash_clear();
+#else
 	strings_map_clear();
+#endif
 
 /* delete basic interpreter */
 	basic_free();
@@ -361,23 +346,12 @@ clean_up(void)
 	MergeFinalize();
 #endif
 
-	count_solution = 0;
-	//count_pp_assemblage = 0;
-	//count_exchange = 0;
-	count_surface = 0;
-	//count_gas_phase = 0;
-	//count_kinetics = 0;
-	//count_ss_assemblage = 0;
-
 	count_elements = 0;
-	//count_irrev = 0;
 	count_master = 0;
-	//count_mix = 0;
 	count_phases = 0;
 	count_s = 0;
 	count_logk = 0;
 	count_master_isotope = 0;
-
 	count_rates = 0;
 	count_inverse = 0;
 	count_save_values = 0;
@@ -399,21 +373,11 @@ int Phreeqc::
 reinitialize(void)
 /* ---------------------------------------------------------------------- */
 {
-	int j;
 /* solutions */
-	for (j = 0; j < count_solution; j++)
-	{
-		solution_free(solution[j]);
-	}
-	count_solution = 0;
+	Rxn_solution_map.clear();
 
 /* surfaces */
-
-	for (j = 0; j < count_surface; j++)
-	{
-		surface_free(&surface[j]);
-	}
-	count_surface = 0;
+	Rxn_surface_map.clear();
 
 /* exchange */
 	Rxn_exchange_map.clear();
@@ -429,13 +393,7 @@ reinitialize(void)
 
 /* kinetics */
 	Rxn_kinetics_map.clear();
-#ifdef SKIP
-	for (j = 0; j < count_kinetics; j++)
-	{
-		kinetics_free(&kinetics[j]);
-	}
-	count_kinetics = 0;
-#endif
+
 /* irreversible reactions */
 	Rxn_reaction_map.clear();
 
@@ -976,529 +934,7 @@ inverse_sort(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* **********************************************************************
- *
- *   Routines related to structure "kinetics"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-struct kinetics * Phreeqc::
-kinetics_alloc(void)
-/* ---------------------------------------------------------------------- */
-{
-	struct kinetics *kinetics_ptr;
-	kinetics_ptr = (struct kinetics *) PHRQ_malloc(sizeof(struct kinetics));
-	if (kinetics_ptr == NULL)
-		malloc_error();
-	kinetics_ptr->n_user = -1;
-	kinetics_ptr->n_user_end = -1;
-	kinetics_ptr->description = NULL;
-	kinetics_ptr->count_comps = 0;
-	kinetics_ptr->comps = NULL;
-	kinetics_ptr->count_steps = 0;
-	kinetics_ptr->steps = NULL;
-	kinetics_ptr->totals = NULL;
-	kinetics_ptr->rk = 0;
-	kinetics_ptr->bad_step_max = 0;
-	kinetics_ptr->use_cvode = FALSE;
 
-	return (kinetics_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-struct kinetics * Phreeqc::
-kinetics_bsearch(int k, int *n)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Binary search kinetics to find if user kinetics number k exists.
- *   Kinetics is assumed to be in sort order by user number.
- */
-	void *void_ptr;
-	if (count_kinetics == 0)
-	{
-		*n = -999;
-		return (NULL);
-	}
-	void_ptr = (void *)
-		bsearch((char *) &k,
-				(char *) kinetics,
-				(size_t) count_kinetics,
-				(size_t) sizeof(struct kinetics), kinetics_compare_int);
-	if (void_ptr == NULL)
-	{
-		*n = -999;
-		return (NULL);
-	}
-	*n = (int) ((struct kinetics *) void_ptr - kinetics);
-	return ((struct kinetics *) void_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const struct kinetics *kinetics_ptr1, *kinetics_ptr2;
-	kinetics_ptr1 = (const struct kinetics *) ptr1;
-	kinetics_ptr2 = (const struct kinetics *) ptr2;
-	if (kinetics_ptr1->n_user > kinetics_ptr2->n_user)
-		return (1);
-	if (kinetics_ptr1->n_user < kinetics_ptr2->n_user)
-		return (-1);
-	return (0);
-
-}
-
-/* ---------------------------------------------------------------------- */
- int Phreeqc::
-kinetics_compare_int(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Compare kinetics user numbers
- */
-	const int *nptr1;
-	const struct kinetics *nptr2;
-
-	nptr1 = (const int *) ptr1;
-	nptr2 = (const struct kinetics *) ptr2;
-	if (*nptr1 > nptr2->n_user)
-		return (1);
-	if (*nptr1 < nptr2->n_user)
-		return (-1);
-	return (0);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_copy(struct kinetics *kinetics_old_ptr,
-			  struct kinetics *kinetics_new_ptr, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies kinetics data from kinetics_old_ptr to new location, kinetics_new_ptr.
- *   Space for the kinetics_new_ptr structure must already be malloced.
- *   Space for kinetics components is malloced here.
- */
-	char token[MAX_LENGTH];
-	int count_steps, i;
-/*
- *   copy old to new
- */
-	memcpy(kinetics_new_ptr, kinetics_old_ptr, sizeof(struct kinetics));
-/*
- *   Store data for structure kinetics
- */
-	kinetics_new_ptr->n_user = n_user_new;
-	kinetics_new_ptr->n_user_end = n_user_new;
-	sprintf(token, "Kinetics defined in simulation %d.", simulation);
-	kinetics_new_ptr->description = string_duplicate(token);
-	kinetics_new_ptr->totals = NULL;
-	kinetics_new_ptr->totals = elt_list_dup(kinetics_old_ptr->totals);
-/*
- *   Copy time steps
- */
-	if (kinetics_new_ptr->count_steps > 0)
-	{
-		count_steps = kinetics_new_ptr->count_steps;
-	}
-	else if (kinetics_new_ptr->count_steps < 0)
-	{
-		count_steps = 1;
-	}
-	else
-	{
-		count_steps = 0;
-	}
-	if (count_steps > 0)
-	{
-		kinetics_new_ptr->steps =
-			(LDBLE *) PHRQ_malloc((size_t) (count_steps * sizeof(LDBLE)));
-		if (kinetics_new_ptr->steps == NULL)
-			malloc_error();
-		memcpy(kinetics_new_ptr->steps, kinetics_old_ptr->steps,
-			   (size_t) count_steps * sizeof(LDBLE));
-	}
-/*
- *   Copy kinetic components
- */
-	if (kinetics_new_ptr->count_comps > 0)
-	{
-		kinetics_new_ptr->comps =
-			(struct kinetics_comp *) PHRQ_malloc((size_t) kinetics_old_ptr->
-												 count_comps *
-												 sizeof(struct
-														kinetics_comp));
-		if (kinetics_new_ptr->comps == NULL)
-			malloc_error();
-	}
-	else
-	{
-		kinetics_new_ptr->comps = NULL;
-	}
-	for (i = 0; i < kinetics_old_ptr->count_comps; i++)
-	{
-		kinetics_comp_duplicate(&kinetics_new_ptr->comps[i],
-								&kinetics_old_ptr->comps[i]);
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_comp_duplicate(struct kinetics_comp *kinetics_comp_new_ptr,
-						struct kinetics_comp *kinetics_comp_old_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies kinetics comp data from kinetics_comp_old_ptr to new location
- *   Space for the new structure must already be allocated
- */
-	memcpy(kinetics_comp_new_ptr, kinetics_comp_old_ptr,
-		   sizeof(struct kinetics_comp));
-/*
- *   Kinetics character parameters
- */
-	if (kinetics_comp_new_ptr->count_c_params > 0)
-	{
-		kinetics_comp_new_ptr->c_params =
-			(const char **)
-			PHRQ_malloc((size_t) (kinetics_comp_old_ptr->count_c_params) *
-						sizeof(char *));
-		if (kinetics_comp_new_ptr->c_params == NULL)
-			malloc_error();
-		memcpy(kinetics_comp_new_ptr->c_params,
-			   kinetics_comp_old_ptr->c_params,
-			   (size_t) (kinetics_comp_old_ptr->count_c_params) *
-			   sizeof(char *));
-	}
-	else
-	{
-		kinetics_comp_new_ptr->c_params = NULL;
-	}
-/*
- *   Kinetics LDBLE parameters
- */
-	if (kinetics_comp_new_ptr->count_d_params > 0)
-	{
-		kinetics_comp_new_ptr->d_params =
-			(LDBLE *)
-			PHRQ_malloc((size_t) (kinetics_comp_old_ptr->count_d_params) *
-						sizeof(LDBLE));
-		if (kinetics_comp_new_ptr->d_params == NULL)
-			malloc_error();
-		memcpy(kinetics_comp_new_ptr->d_params,
-			   kinetics_comp_old_ptr->d_params,
-			   (size_t) (kinetics_comp_old_ptr->count_d_params) *
-			   sizeof(LDBLE));
-	}
-	else
-	{
-		kinetics_comp_new_ptr->d_params =
-			(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
-	}
-/*
- *   Kinetics list of formulae
- */
-	if (kinetics_comp_new_ptr->count_list > 0)
-	{
-		kinetics_comp_new_ptr->list =
-			(struct name_coef *)
-			PHRQ_malloc((size_t) (kinetics_comp_old_ptr->count_list) *
-						sizeof(struct name_coef));
-		if (kinetics_comp_new_ptr->list == NULL)
-			malloc_error();
-		memcpy(kinetics_comp_new_ptr->list, kinetics_comp_old_ptr->list,
-			   (size_t) (kinetics_comp_old_ptr->count_list) *
-			   sizeof(struct name_coef));
-	}
-	else
-	{
-		kinetics_comp_new_ptr->d_params = NULL;
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_copy_to_last(int n, int n_user)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies an kinetics definition from position n to position count_kinetics.
- *   New kinetics structure is given user number n_user.
- */
-	space((void **) ((void *) &kinetics), count_kinetics, &max_kinetics,
-		  sizeof(struct kinetics));
-	kinetics_copy(&kinetics[n], &kinetics[count_kinetics], n_user);
-	count_kinetics++;
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_delete(int n_user_old)
-/* ---------------------------------------------------------------------- */
-/*
- *   Frees space for user number n_user_old, removes structure from
- *   array kinetics.
- */
-{
-	int i;
-	int n_old;
-	struct kinetics *kinetics_ptr_old;
-/*
- *   Find n_user_old in structure array
- */
-	kinetics_ptr_old = kinetics_bsearch(n_user_old, &n_old);
-	if (kinetics_ptr_old != NULL)
-	{
-		/*
-		 *   Delete kinetics
-		 */
-		kinetics_free(&kinetics[n_old]);
-
-		for (i = n_old + 1; i < count_kinetics; i++)
-		{
-			memcpy((void *) &kinetics[i - 1], (void *) &kinetics[i],
-				   (size_t) sizeof(struct kinetics));
-		}
-		count_kinetics--;
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_duplicate(int n_user_old, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Checks if n_user_new exists, and frees space if it does
- *   Copies kinetics[n_user_old] to old n_user_new space if
- *   found or to kinetics[count_kinetics] if not found.
- *   Kinetics array may not be in sort order after the copy.
- */
-	int n_old, n_new, sort;
-	struct kinetics *kinetics_ptr_old, *kinetics_ptr_new;
-/*
- *   Find n_user_old in structure array kinetics
- */
-	if (n_user_old == n_user_new)
-		return (OK);
-	kinetics_ptr_old = kinetics_bsearch(n_user_old, &n_old);
-	if (kinetics_ptr_old == NULL)
-	{
-		error_string = sformatf( "Kinetics %d not found.", n_user_old);
-		error_msg(error_string, CONTINUE);
-		input_error++;
-		return (ERROR);
-	}
-/*
- *   Find n_user_new in structure array kinetics or make new space
- */
-	sort = FALSE;
-	kinetics_ptr_new = kinetics_bsearch(n_user_new, &n_new);
-	if (kinetics_ptr_new != NULL)
-	{
-		kinetics_free(kinetics_ptr_new);
-	}
-	else
-	{
-		space((void **) ((void *) &kinetics), count_kinetics, &max_kinetics,
-			  sizeof(struct kinetics));
-		if (n_user_new < kinetics[count_kinetics - 1].n_user)
-			sort = TRUE;
-		n_new = count_kinetics++;
-	}
-/*
- *   Copy data
- */
-	kinetics_copy(&kinetics[n_old], &kinetics[n_new], n_user_new);
-	if (sort == TRUE)
-		kinetics_sort();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_free(struct kinetics *kinetics_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-/*
- *   Frees all data associated with kinetics structure.
- */
-	if (kinetics_ptr == NULL)
-		return (ERROR);
-/*
- *   Free space allocated for kinetics structure
- */
-	for (i = 0; i < kinetics_ptr->count_comps; i++)
-	{
-		kinetics_ptr->comps[i].c_params =
-			(const char **) free_check_null(kinetics_ptr->comps[i].c_params);
-		kinetics_ptr->comps[i].d_params =
-			(LDBLE *) free_check_null(kinetics_ptr->comps[i].d_params);
-		kinetics_ptr->comps[i].list =
-			(struct name_coef *) free_check_null(kinetics_ptr->comps[i].list);
-	}
-	kinetics_ptr->description =
-		(char *) free_check_null(kinetics_ptr->description);
-	kinetics_ptr->steps = (LDBLE *) free_check_null(kinetics_ptr->steps);
-	kinetics_ptr->comps =
-		(struct kinetics_comp *) free_check_null(kinetics_ptr->comps);
-	kinetics_ptr->totals =
-		(struct elt_list *) free_check_null(kinetics_ptr->totals);
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_init(struct kinetics *kinetics_ptr, int n_user, int n_user_end,
-			  char *description)
-/* ---------------------------------------------------------------------- */
-{
-	if (kinetics_ptr == NULL)
-		return (ERROR);
-	kinetics_ptr->n_user = n_user;
-	kinetics_ptr->n_user_end = n_user_end;
-	kinetics_ptr->description = string_duplicate(description);
-	kinetics_ptr->count_comps = 0;
-	kinetics_ptr->comps =
-		(struct kinetics_comp *) PHRQ_malloc((size_t)
-											 sizeof(struct kinetics_comp));
-	if (kinetics_ptr->comps == NULL)
-		malloc_error();
-	kinetics_ptr->count_steps = 0;
-	kinetics_ptr->steps = (LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
-	if (kinetics_ptr->steps == NULL)
-		malloc_error();
-	kinetics_ptr->step_divide = 1.0;
-	/*kinetics_ptr->units = string_hsave("sec"); */
-	kinetics_ptr->totals = NULL;
-	kinetics_ptr->rk = 3;
-	kinetics_ptr->bad_step_max = 500;
-	kinetics_ptr->use_cvode = FALSE;
-	kinetics_ptr->cvode_order = 5;
-	kinetics_ptr->cvode_steps = 100;
-
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_ptr_to_user(struct kinetics *kinetics_ptr_old, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Checks if n_user_new exists, and frees space if it does
- *   Copies kinetics_ptr_old to old n_user_new space if
- *   found or to kinetics[count_kinetics] if not found.
- *   Kinetics array may not be in sort order after the copy.
- */
-	int n_new, sort;
-	struct kinetics *kinetics_ptr_new;
-/*
- *   Find n_user_old in structure array kinetics
- */
-	if (kinetics_ptr_old == NULL)
-	{
-		error_string = sformatf( "Kinetics pointer is NULL.");
-		error_msg(error_string, CONTINUE);
-		input_error++;
-		return (ERROR);
-	}
-/*
- *   Find n_user_new in structure array kinetics or make new space
- */
-	sort = FALSE;
-	kinetics_ptr_new = kinetics_bsearch(n_user_new, &n_new);
-	if (kinetics_ptr_new == kinetics_ptr_old)
-		return (OK);
-	if (kinetics_ptr_new != NULL)
-	{
-		kinetics_free(kinetics_ptr_new);
-	}
-	else
-	{
-		space((void **) ((void *) &kinetics), count_kinetics, &max_kinetics,
-			  sizeof(struct kinetics));
-		if (n_user_new < kinetics[count_kinetics - 1].n_user)
-			sort = TRUE;
-		n_new = count_kinetics++;
-	}
-/*
- *   Copy data
- */
-	kinetics_copy(kinetics_ptr_old, &kinetics[n_new], n_user_new);
-	if (sort == TRUE)
-		kinetics_sort();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-struct kinetics * Phreeqc::
-kinetics_replicate(struct kinetics *kinetics_old_ptr, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-	struct kinetics *kinetics_ptr;
-	kinetics_ptr = kinetics_alloc();
-	kinetics_copy(kinetics_old_ptr, kinetics_ptr, n_user_new);
-	return (kinetics_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-struct kinetics * Phreeqc::
-kinetics_search(int n_user, int *n, int print)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *  Does linear search for user number n_user.
- *  Returns pointer to kinetics structure and position number, n,
- *     in kinetics array if found.
- *  Returns NULL if not found.
- */
-	int i;
-	for (i = 0; i < count_kinetics; i++)
-	{
-		if (n_user == kinetics[i].n_user)
-		{
-			break;
-		}
-	}
-	if (i >= count_kinetics)
-	{
-		if (print == TRUE)
-		{
-			error_string = sformatf( "Kinetics %d not found.", n_user);
-			error_msg(error_string, CONTINUE);
-		}
-		*n = -999;
-		return (NULL);
-	}
-	*n = i;
-	return (&kinetics[i]);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-kinetics_sort(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Sort array of kinetics structures
- */
-	if (count_kinetics > 0)
-	{
-		qsort(kinetics, (size_t) count_kinetics,
-			  (size_t) sizeof(struct kinetics), kinetics_compare);
-	}
-	return (OK);
-}
-#endif
 /* **********************************************************************
  *
  *   Routines related to structure "master"
@@ -1783,145 +1219,6 @@ master_search(char *ptr, int *n)
 	}
 	return (NULL);
 }
-/* **********************************************************************
- *
- *   Routines related to structure "pe_data"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-struct pe_data * Phreeqc::
-pe_data_alloc(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Allocate and initialize an array of struct pe_data
- */
-	struct pe_data *pe_data_ptr;
-	char token[MAX_LENGTH];
-
-	pe_data_ptr =
-		(struct pe_data *) PHRQ_malloc((size_t) (2 * sizeof(struct pe_data)));
-	if (pe_data_ptr == NULL)
-		malloc_error();
-	pe_data_ptr[0].name = pe_string;
-	if (s_eminus != NULL && s_eminus->rxn != NULL)
-	{
-		pe_data_ptr[0].rxn = rxn_dup(s_eminus->rxn);
-	}
-	else
-	{
-		pe_data_ptr[0].rxn = rxn_alloc(3);
-		if (pe_data_ptr[0].rxn == NULL)
-			malloc_error();
-		strcpy(token, "e-");
-		s_eminus = s_store(token, -1.0, FALSE);
-		pe_data_ptr[0].rxn->token[0].s = s_eminus;
-		pe_data_ptr[0].rxn->token[0].coef = -1.0;
-		pe_data_ptr[0].rxn->token[1].s = s_eminus;
-		pe_data_ptr[0].rxn->token[1].coef = -1.0;
-		pe_data_ptr[0].rxn->token[2].s = NULL;
-		pe_data_ptr[0].rxn->dz[0] = 0.0;
-		pe_data_ptr[0].rxn->dz[1] = 0.0;
-		pe_data_ptr[0].rxn->dz[2] = 0.0;
-	}
-	pe_data_ptr[1].name = NULL;
-	pe_data_ptr[1].rxn = NULL;
-
-	return (pe_data_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-struct pe_data * Phreeqc::
-pe_data_dup(struct pe_data *pe_ptr_old)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Allocate space and copy data from pe_ptr_old into the new space.
- *   Returns pointer to new space.
- */
-	int i, count_pe;
-	struct pe_data *pe_ptr_new;
-/*
- *   Count pe data and copy into new structure
- */
-	if (pe_ptr_old == NULL)
-		return (ERROR);
-	for (i = 0; pe_ptr_old[i].name != NULL; i++);
-	count_pe = i + 1;
-	pe_ptr_new =
-		(struct pe_data *) PHRQ_malloc((size_t) count_pe *
-									   sizeof(struct pe_data));
-	if (pe_ptr_new == NULL)
-		malloc_error();
-	memcpy((void *) pe_ptr_new, (void *) pe_ptr_old,
-		   (size_t) count_pe * sizeof(struct pe_data));
-	for (i = 0; i < count_pe - 1; i++)
-	{
-		pe_ptr_new[i].rxn = rxn_dup(pe_ptr_old[i].rxn);
-	}
-	pe_ptr_new[count_pe - 1].rxn = NULL;
-	return (pe_ptr_new);
-}
-
-/* ---------------------------------------------------------------------- */
-struct pe_data * Phreeqc::
-pe_data_free(struct pe_data *pe_data_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Frees all data for pe_data_ptr, including pe_data_ptr.
- */
-	int i;
-
-	if (pe_data_ptr == NULL)
-		return (ERROR);
-	for (i = 0; pe_data_ptr[i].name != NULL; i++)
-	{
-		rxn_free(pe_data_ptr[i].rxn);
-	}
-	pe_data_ptr = (struct pe_data *) free_check_null(pe_data_ptr);
-	return (NULL);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-pe_data_store(struct pe_data **pe, const char *token)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Find pe name in current list of pe_data structures
- *   or allocate new pe_data structure
- */
-	int i;
-	struct pe_data *pe_data_ptr;
-/*
- *   Search for pe in list
- */
-	pe_data_ptr = *pe;
-	for (i = 0; pe_data_ptr[i].name != NULL; i++)
-	{
-		if (strcmp(token, pe_data_ptr[i].name) == 0)
-		{
-			return (i);
-		}
-	}
-/*
- *   Save new struct pe_data in array
- */
-	*pe =
-		(struct pe_data *) PHRQ_realloc((void *) *pe,
-										(size_t) (i +
-												  2) *
-										sizeof(struct pe_data));
-	if (*pe == NULL)
-		malloc_error();
-	pe_data_ptr = *pe;
-	pe_data_ptr[i].name = string_hsave(token);
-	pe_data_ptr[i].rxn = NULL;
-	pe_data_ptr[i + 1].name = NULL;
-	return (i);
-}
-
 /* **********************************************************************
  *
  *   Routines related to structure "phases"
@@ -2606,8 +1903,6 @@ s_free(struct species *s_ptr)
 	rxn_free(s_ptr->rxn);
 	rxn_free(s_ptr->rxn_s);
 	rxn_free(s_ptr->rxn_x);
-	s_ptr->diff_layer =
-		(struct species_diff_layer *) free_check_null(s_ptr->diff_layer);
 	return (OK);
 }
 
@@ -2677,7 +1972,6 @@ s_init(struct species *s_ptr)
 	s_ptr->rxn_x = NULL;
 	s_ptr->tot_g_moles = 0;
 	s_ptr->tot_dh2o_moles = 0;
-	s_ptr->diff_layer = NULL;
 	for (i = 0; i < 5; i++)
 	{
 		s_ptr->cd_music[i] = 0.0;
@@ -2938,44 +2232,6 @@ save_values_store(struct save_values *s_v)
 	}
 	return (OK);
 }
-
-/* **********************************************************************
- *
- *   Routines related to structure "solution"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-conc_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const struct conc *conc_ptr1, *conc_ptr2;
-	conc_ptr1 = (const struct conc *) ptr1;
-	conc_ptr2 = (const struct conc *) ptr2;
-	return (strcmp_nocase(conc_ptr1->description, conc_ptr2->description));
-
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-conc_init(struct conc *conc_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	if (conc_ptr == NULL)
-		return (ERROR);
-	conc_ptr->description = NULL;
-	conc_ptr->equation_name = NULL;
-	conc_ptr->moles = 0;
-	conc_ptr->input_conc = 0;
-	conc_ptr->phase = NULL;
-	conc_ptr->phase_si = 0.0;
-	conc_ptr->units = NULL;
-	conc_ptr->n_pe = -1;
-	conc_ptr->as = NULL;
-	conc_ptr->gfw = 0.0;
-	return OK;
-}
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 isotope_compare(const void *ptr1, const void *ptr2)
@@ -2999,533 +2255,6 @@ isotope_compare(const void *ptr1, const void *ptr2)
 	}
 	return (0);
 }
-
-/* ---------------------------------------------------------------------- */
-struct solution * Phreeqc::
-solution_alloc(void)
-/* ---------------------------------------------------------------------- */
-/*
- *   Allocates space to a solution structure
- *      arguments
- *      input:  none
- *      return: pointer to a solution structure
- */
-{
-	int max_mass_balance;
-	struct solution *solution_ptr;
-	solution_ptr = (struct solution *) PHRQ_malloc(sizeof(struct solution));
-	if (solution_ptr == NULL)
-		malloc_error();
-/*
- *   set pointers in structure to NULL
- */
-	solution_ptr->new_def = TRUE;
-	solution_ptr->n_user = -1;
-	solution_ptr->n_user_end = -1;
-	solution_ptr->description = NULL;
-	solution_ptr->tc = 0;
-	solution_ptr->patm = 0;
-	solution_ptr->ph = 0;
-	solution_ptr->solution_pe = 0;
-	solution_ptr->mu = 0;
-	solution_ptr->ah2o = 0;
-	solution_ptr->density = 0;
-	solution_ptr->total_h = 0;
-	solution_ptr->total_o = 0;
-	solution_ptr->cb = 0;
-	solution_ptr->mass_water = 0;
-	solution_ptr->total_alkalinity = 0;
-	solution_ptr->units = NULL;
-/*
- *   Initial allocation of space for pe's
- */
-	solution_ptr->pe = pe_data_alloc();
-	solution_ptr->default_pe = 0;
-/*
- *   Initial allocation of space for totals
- */
-	max_mass_balance = MAX_MASS_BALANCE;
-	space((void **) ((void *) &(solution_ptr->totals)), INIT,
-		  &max_mass_balance, sizeof(struct conc));
-	solution_ptr->totals[0].description = NULL;
-/*
- *   Master activities
- */
-	space((void **) ((void *) &(solution_ptr->master_activity)), INIT,
-		  &max_mass_balance, sizeof(struct master_activity));
-	solution_ptr->master_activity[0].description = NULL;
-/*
- *   Initial allocation of space for isotopes
- */
-	solution_ptr->isotopes =
-		(struct isotope *) PHRQ_malloc(sizeof(struct isotope));
-	if (solution_ptr->isotopes == NULL)
-		malloc_error();
-	solution_ptr->count_isotopes = 0;
-/*
- *   Initial allocation of space for species_gamma
- */
-	solution_ptr->species_gamma = NULL;
-	solution_ptr->count_species_gamma = 0;
-
-	return (solution_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-struct solution * Phreeqc::
-solution_bsearch(int k, int *n, int print)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Binary search of solution solution array to find user number k.
- *   Assumes array solution is in sort order.
- *
- *   Input: k user number to find.
- *	  print, TRUE print warning if solution not found.
- *   Output: n, position of solution ptr in solution array.
- *   Return: pointer to solution structure if found
- *	   NULL if not found.
- */
-	void *void_ptr;
-	void_ptr = NULL;
-	if (count_solution > 0)
-	{
-		void_ptr = (void *)
-			bsearch((char *) &k,
-					(char *) solution,
-					(size_t) count_solution,
-					(size_t) sizeof(struct solution *), solution_compare_int);
-	}
-	if (void_ptr == NULL && print == TRUE)
-	{
-		error_string = sformatf( "Solution %d not found.", k);
-		error_msg(error_string, CONTINUE);
-	}
-	if (void_ptr == NULL)
-	{
-		*n = -999;
-		return (NULL);
-	}
-
-	*n = (int) ((struct solution **) void_ptr - solution);
-	return (*(struct solution **) void_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Compare solution user numbers
- */
-	const struct solution *nptr1;
-	const struct solution *nptr2;
-
-	nptr1 = *(const struct solution **) ptr1;
-	nptr2 = *(const struct solution **) ptr2;
-	if (nptr1->n_user > nptr2->n_user)
-		return (1);
-	if (nptr1->n_user < nptr2->n_user)
-		return (-1);
-	return (0);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_compare_int(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Compare solution user number to an integer
- */
-	const int *nptr1;
-	const struct solution *nptr2;
-
-	nptr1 = (const int *) ptr1;
-	nptr2 = *(const struct solution **) ptr2;
-	if (*nptr1 > nptr2->n_user)
-		return (1);
-	if (*nptr1 < nptr2->n_user)
-		return (-1);
-	return (0);
-}
-
-/* ---------------------------------------------------------------------- */
-struct solution * Phreeqc::
-solution_copy(struct solution *solution_old_ptr, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies solution data to new structure.
- *   Space for new structure is malloced here.
- *
- *   Input: solution_old_ptr, pointer to structure to be copied.
- *	  n_user_new, user number to give to the new solution.
- *
- *   Return: pointer to new solution structure.
- */
-	int i;
-	int count_totals, count_master_activity;
-	struct solution *solution_new_ptr;
-/*
- *   malloc space for new solution structure
- */
-	solution_new_ptr =
-		(struct solution *) PHRQ_malloc(sizeof(struct solution));
-	if (solution_new_ptr == NULL)
-		malloc_error();
-/*
- *   Copy solution data, but set pointers pe and totals to NULL
- */
-	memcpy((void *) solution_new_ptr, (void *) solution_old_ptr,
-		   (size_t) sizeof(struct solution));
-	solution_new_ptr->n_user = n_user_new;
-	solution_new_ptr->n_user_end = n_user_new;
-	solution_new_ptr->description =
-		string_duplicate(solution_old_ptr->description);
-/*
- *   Count totals data and malloc space
- */
-	for (i = 0; solution_old_ptr->totals[i].description != NULL; i++);
-	count_totals = i + 1;
-	solution_new_ptr->totals =
-		(struct conc *) PHRQ_malloc((size_t) count_totals *
-									sizeof(struct conc));
-	if (solution_new_ptr->totals == NULL)
-		malloc_error();
-/*
- *   Copy totals data
- */
-	memcpy((void *) solution_new_ptr->totals,
-		   (void *) solution_old_ptr->totals,
-		   (size_t) count_totals * sizeof(struct conc));
-/*
- *   Count master activity guesses and malloc space
- */
-	count_master_activity = solution_old_ptr->count_master_activity;
-	solution_new_ptr->master_activity =
-		(struct master_activity *) PHRQ_malloc((size_t) count_master_activity
-											   *
-											   sizeof(struct
-													  master_activity));
-	if (solution_new_ptr->master_activity == NULL)
-		malloc_error();
-/*
- *   Copy master activity guesses
- */
-	memcpy((void *) solution_new_ptr->master_activity,
-		   (void *) solution_old_ptr->master_activity,
-		   (size_t) count_master_activity * sizeof(struct master_activity));
-/*
- *   malloc space for species gammas
- */
-	if (solution_old_ptr->count_species_gamma > 0)
-	{
-		solution_new_ptr->species_gamma =
-			(struct master_activity *) PHRQ_malloc((size_t)
-												   solution_old_ptr->
-												   count_species_gamma *
-												   sizeof(struct
-														  master_activity));
-		if (solution_new_ptr->species_gamma == NULL)
-			malloc_error();
-		/*
-		 *   Copy species gammas
-		 */
-		memcpy((void *) solution_new_ptr->species_gamma,
-			   (void *) solution_old_ptr->species_gamma,
-			   (size_t) solution_old_ptr->count_species_gamma *
-			   sizeof(struct master_activity));
-		solution_new_ptr->count_species_gamma =
-			solution_old_ptr->count_species_gamma;
-	}
-	else
-	{
-		solution_new_ptr->species_gamma = NULL;
-		solution_new_ptr->count_species_gamma = 0;
-	}
-/*
- *   Copy pe data
- */
-	solution_new_ptr->pe = pe_data_dup(solution_old_ptr->pe);
-/*
- *  Malloc and copy isotope data
- */
-	if (solution_old_ptr->count_isotopes > 0)
-	{
-		solution_new_ptr->count_isotopes = solution_old_ptr->count_isotopes;
-		solution_new_ptr->isotopes =
-			(struct isotope *) PHRQ_malloc((size_t) solution_old_ptr->
-										   count_isotopes *
-										   sizeof(struct isotope));
-		if (solution_new_ptr->isotopes == NULL)
-			malloc_error();
-		memcpy(solution_new_ptr->isotopes, solution_old_ptr->isotopes,
-			   (size_t) solution_old_ptr->count_isotopes *
-			   sizeof(struct isotope));
-	}
-	else
-	{
-		solution_new_ptr->count_isotopes = 0;
-		solution_new_ptr->isotopes = NULL;
-	}
-/*
- *   Return pointer to new structure
- */
-	return (solution_new_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_copy_to_last(int n, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies solution from pointer solution[n]. Makes new structure
- *   and saves pointer in solution[count_solution].
- */
-	/* Make sure solution array is large enough */
-	if (count_solution + 1 >= max_solution)
-	{
-		space((void **) ((void *) &(solution)), count_solution,
-			  &max_solution, sizeof(struct solution *));
-	}
-	/* malloc space and copy solution */
-	solution[count_solution] = solution_copy(solution[n], n_user_new);
-	count_solution++;
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_duplicate(int n_user_old, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Checks if n_user_new exists, and frees structure if it does
- *   Copies structure for solution[n_user_old] to new space
- *   Saves pointer in old position if it existed, no sort necessary
- *   Otherwise saves in count_solution position, sort may be necessary
- *   Solution array is in sort order on exit
- */
-	int n, n_old, n_new, sort;
-	struct solution *solution_old_ptr, *solution_new_ptr;
-/*
- *   Find solution n_user_old
- */
-	if (n_user_old == n_user_new)
-		return (OK);
-	solution_old_ptr = solution_bsearch(n_user_old, &n_old, TRUE);
-	if (solution_old_ptr == NULL)
-	{
-		error_string = sformatf( "Solution %d not found.", n_user_old);
-		error_msg(error_string, STOP);
-	}
-/*
- *   Check if solution n_user_new already exists
- */
-	solution_new_ptr = solution_bsearch(n_user_new, &n_new, FALSE);
-	if (solution_new_ptr != NULL)
-	{
-		n = n_new;
-		solution_free(solution_new_ptr);
-		sort = FALSE;
-	}
-	else
-	{
-		n = count_solution;
-		count_solution++;
-		if (n_user_new > solution[n - 1]->n_user)
-		{
-			sort = FALSE;
-		}
-		else
-		{
-			sort = TRUE;
-		}
-	}
-	solution[n] = solution_copy(solution_old_ptr, n_user_new);
-/*
- *   Make sure surface array is large enough
- */
-	if (count_solution >= max_solution)
-	{
-		space((void **) ((void *) &(solution)), count_solution,
-			  &max_solution, sizeof(struct solution *));
-	}
-/*
- *   Sort solution if necessary
- */
-	if (sort == TRUE)
-		solution_sort();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_delete(int n_user)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Delete a solution structure: free memory and renumber solution.
- */
-	struct solution *solution_ptr;
-	int j, n;
-	solution_ptr = solution_bsearch(n_user, &n, FALSE);
-	if (solution_ptr != NULL)
-	{
-		solution_free(solution[n]);
-		for (j = n; j < (count_solution - 1); j++)
-		{
-			solution[j] = solution[j + 1];
-		}
-		count_solution--;
-	}
-	return (OK);
-}
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_delete_n(int n)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Delete a solution structure: free memory and renumber solution.
- */
-	int j;
-	if (n >= 0 && n < count_solution)
-	{
-		solution_free(solution[n]);
-		for (j = n; j < (count_solution - 1); j++)
-		{
-			solution[j] = solution[j + 1];
-		}
-		count_solution--;
-	}
-	return (OK);
-}
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_free(struct solution *solution_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	if (solution_ptr == NULL)
-		return (OK);
-/*
- *   Free all memory unique to a solution structure, free solution_ptr too.
- */
-	solution_ptr->description =
-		(char *) free_check_null(solution_ptr->description);
-/*   Free struct conc array */
-	solution_ptr->totals =
-		(struct conc *) free_check_null(solution_ptr->totals);
-	solution_ptr->master_activity =
-		(struct master_activity *) free_check_null(solution_ptr->
-												   master_activity);
-	solution_ptr->species_gamma =
-		(struct master_activity *) free_check_null(solution_ptr->
-												   species_gamma);
-	solution_ptr->count_species_gamma = 0;
-/*   Free struct pe_data array */
-	pe_data_free(solution_ptr->pe);
-/*   Free isotope data */
-	solution_ptr->isotopes =
-		(struct isotope *) free_check_null(solution_ptr->isotopes);
-/*   Free struct solution */
-	solution_ptr = (struct solution *) free_check_null(solution_ptr);
-
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_ptr_to_user(struct solution *solution_old_ptr, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Checks if n_user_new exists, and frees structure if it does
- *   Copies structure for solution[n_user_old] to new space
- *   Saves pointer in old position if it existed, no sort necessary
- *   Otherwise saves in count_solution position, sort may be necessary
- *   Solution array is in sort order on exit
- */
-	int n, n_new, sort;
-	struct solution *solution_new_ptr;
-/*
- *   Find solution n_user_old
- */
-	if (solution_old_ptr == NULL)
-	{
-		error_string = sformatf( "Solution pointer is NULL.");
-		error_msg(error_string, STOP);
-	}
-/*
- *   Check if solution n_user_new already exists
- */
-	solution_new_ptr = solution_bsearch(n_user_new, &n_new, FALSE);
-	if (solution_new_ptr == solution_old_ptr)
-		return (OK);
-	if (solution_new_ptr != NULL)
-	{
-		n = n_new;
-		solution_free(solution_new_ptr);
-		sort = FALSE;
-	}
-	else
-	{
-		n = count_solution;
-		count_solution++;
-		/*
-		 *   Make sure surface array is large enough
-		 */
-		if (count_solution >= max_solution)
-		{
-			space((void **) ((void *) &(solution)), count_solution,
-				  &max_solution, sizeof(struct solution *));
-		}
-		if (n_user_new > solution[n - 1]->n_user)
-		{
-			sort = FALSE;
-		}
-		else
-		{
-			sort = TRUE;
-		}
-	}
-	solution[n] = solution_copy(solution_old_ptr, n_user_new);
-/*
- *   Sort solution if necessary
- */
-	if (sort == TRUE)
-		solution_sort();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-struct solution * Phreeqc::
-solution_replicate(struct solution *solution_old_ptr, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-	return (solution_copy(solution_old_ptr, n_user_new));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_sort(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Sort array of pointers to solution structures, solution.
- */
-	if (count_solution > 0)
-	{
-		qsort(solution,
-			  (size_t) count_solution,
-			  (size_t) sizeof(struct solution *), solution_compare);
-	}
-	return (OK);
-}
-
 /* **********************************************************************
  *
  *   Routines related to structure "species_list"
@@ -3730,601 +2459,34 @@ change_surf_alloc(int count)
 
 	return (change_surf);
 }
-
-/* ---------------------------------------------------------------------- */
-struct surface * Phreeqc::
-surface_alloc(void)
-/* ---------------------------------------------------------------------- */
-{
-	struct surface *surface_ptr;
-	surface_ptr = (struct surface *) PHRQ_malloc(sizeof(struct surface));
-	if (surface_ptr == NULL)
-		malloc_error();
-	surface_ptr->n_user = -1;
-	surface_ptr->n_user_end = -1;
-	surface_ptr->new_def = 0;
-	surface_ptr->only_counter_ions = 0;
-	surface_ptr->dl_type = BORKOVEK_DL;
-	surface_ptr->type = UNKNOWN_DL;
-	surface_ptr->sites_units = SITES_ABSOLUTE;
-	surface_ptr->thickness = 0;
-	surface_ptr->debye_lengths = 0;
-	surface_ptr->DDL_viscosity = 0;	/* viscosity relative to pure water */
-	surface_ptr->DDL_limit = 0;	/* limits DDL water to this fraction of bulk water */
-	surface_ptr->description = NULL;
-	surface_ptr->solution_equilibria = 0;
-	surface_ptr->n_solution = 0;
-	surface_ptr->count_comps = 0;
-	surface_ptr->comps = NULL;
-	surface_ptr->count_charge = 0;
-	surface_ptr->charge = NULL;
-	surface_ptr->related_phases = 0;
-	surface_ptr->related_rate = 0;
-	surface_ptr->transport = 0;	/* transports comp's and charges if true */
-	return (surface_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-struct surface * Phreeqc::
-surface_bsearch(int k, int *n)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Binary search of array surface to find user number k.
- *   Assumes array surface is in sort order.
- *
- *   Input: k, user number to find.
- *   Output: n, position in array surface of user number k.
- *   Return: pointer to surface structure if found,
- *	   NULL if not found.
- */
-	void *void_ptr;
-	if (count_surface == 0)
-	{
-		*n = -999;
-		return (NULL);
-	}
-	void_ptr = (void *)
-		bsearch((char *) &k,
-				(char *) surface,
-				(size_t) count_surface,
-				(size_t) sizeof(struct surface), surface_compare_int);
-	if (void_ptr == NULL)
-	{
-		*n = -999;
-		return (NULL);
-	}
-	*n = (int) ((struct surface *) void_ptr - surface);
-	return ((struct surface *) void_ptr);
-}
-
 /* ---------------------------------------------------------------------- */
 struct master * Phreeqc::
 surface_get_psi_master(const char *name, int plane)
 /* ---------------------------------------------------------------------- */
 {
 	struct master *master_ptr;
-	char token[MAX_LENGTH];
+	std::string token;
 
 	if (name == NULL)
 		return (NULL);
-	strcpy(token, name);
-	strcat(token, "_psi");
+	token = name;
+	token.append("_psi");
 	switch (plane)
 	{
 	case SURF_PSI:
 		break;
 	case SURF_PSI1:
-		strcat(token, "b");
+		token.append("b");
 		break;
 	case SURF_PSI2:
-		strcat(token, "d");
+		token.append("d");
 		break;
 	default:
 		error_msg("Unknown plane for surface_get_psi_master", STOP);
 	}
-	master_ptr = master_bsearch(token);
+	master_ptr = master_bsearch(token.c_str());
 	return (master_ptr);
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_comp_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const struct surface_comp *surface_comp_ptr1, *surface_comp_ptr2;
-	surface_comp_ptr1 = (const struct surface_comp *) ptr1;
-	surface_comp_ptr2 = (const struct surface_comp *) ptr2;
-	return (strcmp_nocase
-			(surface_comp_ptr1->master->elt->name,
-			 surface_comp_ptr2->master->elt->name));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_charge_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const struct surface_charge *surface_charge_ptr1, *surface_charge_ptr2;
-	surface_charge_ptr1 = (const struct surface_charge *) ptr1;
-	surface_charge_ptr2 = (const struct surface_charge *) ptr2;
-	return (strcmp_nocase
-			(surface_charge_ptr1->name, surface_charge_ptr2->name));
-}
-
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const struct surface *surface_ptr1, *surface_ptr2;
-	surface_ptr1 = (const struct surface *) ptr1;
-	surface_ptr2 = (const struct surface *) ptr2;
-	if (surface_ptr1->n_user > surface_ptr2->n_user)
-		return (1);
-	if (surface_ptr1->n_user < surface_ptr2->n_user)
-		return (-1);
-	return (0);
-
-}
-
-/* ---------------------------------------------------------------------- */
- int Phreeqc::
-surface_compare_int(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Compare surface user numbers to integer
- */
-	const int *nptr1;
-	const struct surface *nptr2;
-
-	nptr1 = (const int *) ptr1;
-	nptr2 = (const struct surface *) ptr2;
-	if (*nptr1 > nptr2->n_user)
-		return (1);
-	if (*nptr1 < nptr2->n_user)
-		return (-1);
-	return (0);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_copy(struct surface *surface_old_ptr,
-			 struct surface *surface_new_ptr, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies data from surface_old_ptr to surface_new_ptr.
- *   Space for a surface structure must already be malloced.
- *   User number of new surface structure is n_user.
- */
-	int count_comps, count_charge, i;
-	char token[MAX_LENGTH];
-/*
- *   Store data for structure surface
- */
-	memcpy(surface_new_ptr, surface_old_ptr, sizeof(struct surface));
-	count_comps = surface_old_ptr->count_comps;
-	count_charge = surface_old_ptr->count_charge;
-	surface_new_ptr->n_user = n_user_new;
-	surface_new_ptr->n_user_end = n_user_new;
-	surface_new_ptr->new_def = surface_old_ptr->new_def;
-	sprintf(token, "Surface defined in simulation %d.", simulation);
-	surface_new_ptr->description = string_duplicate(token);
-	surface_new_ptr->solution_equilibria = FALSE;
-	surface_new_ptr->n_solution = -10;
-/*
- *   Write surface_comp structure for each surface component
- */
-	surface_new_ptr->comps =
-		(struct surface_comp *) PHRQ_malloc((size_t) (count_comps) *
-											sizeof(struct surface_comp));
-	if (surface_new_ptr->comps == NULL)
-		malloc_error();
-	memcpy(surface_new_ptr->comps, surface_old_ptr->comps,
-		   (size_t) (count_comps) * sizeof(struct surface_comp));
-	for (i = 0; i < count_comps; i++)
-	{
-		surface_new_ptr->comps[i].formula_totals =
-			elt_list_dup(surface_old_ptr->comps[i].formula_totals);
-		surface_new_ptr->comps[i].totals =
-			elt_list_dup(surface_old_ptr->comps[i].totals);
-	}
-/*
- *   Write surface_charge structure for each surface
- */
-	/*if (surface_old_ptr->edl == TRUE) { */
-	if (surface_old_ptr->type == DDL || surface_old_ptr->type == CD_MUSIC)
-	{
-		surface_new_ptr->charge =
-			(struct surface_charge *) PHRQ_malloc((size_t) (count_charge) *
-												  sizeof(struct
-														 surface_charge));
-		if (surface_new_ptr->charge == NULL)
-			malloc_error();
-		memcpy(surface_new_ptr->charge, surface_old_ptr->charge,
-			   (size_t) (count_charge) * sizeof(struct surface_charge));
-		for (i = 0; i < count_charge; i++)
-		{
-			surface_new_ptr->charge[i].diffuse_layer_totals =
-				elt_list_dup(surface_old_ptr->charge[i].diffuse_layer_totals);
-			surface_new_ptr->charge[i].g = NULL;
-		}
-	}
-	else
-	{
-		surface_new_ptr->count_charge = 0;
-		surface_new_ptr->charge = NULL;
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-struct surface_charge * Phreeqc::
-surface_charge_duplicate(struct surface_charge *charge_old_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Duplicates data from surface_old_ptr
- *   Space is malloced.
- */
-	struct surface_charge *charge;
-/*
- *   Write surface_charge structure for each surface
- */
-	charge =
-		(struct surface_charge *) PHRQ_malloc(sizeof(struct surface_charge));
-	if (charge == NULL)
-		malloc_error();
-	memcpy(charge, charge_old_ptr, sizeof(struct surface_charge));
-	charge->diffuse_layer_totals =
-		elt_list_dup(charge_old_ptr->diffuse_layer_totals);
-	charge->count_g = 0;
-	charge->g = NULL;
-	return (charge);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_charge_free(struct surface_charge *charge)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *    Frees all space related to surface_charge
- */
-	if (charge == NULL)
-		return (ERROR);
-	charge->diffuse_layer_totals =
-		(struct elt_list *) free_check_null(charge->diffuse_layer_totals);
-	charge->g = (struct surface_diff_layer *) free_check_null(charge->g);
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_copy_to_last(int n, int n_user)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies an surface definition to position count_surface.
- */
-	space((void **) ((void *) &surface), count_surface, &max_surface,
-		  sizeof(struct surface));
-	surface_copy(&surface[n], &surface[count_surface], n_user);
-	count_surface++;
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_duplicate(int n_user_old, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Checks if n_user_new exists, and frees space if it does
- *   Copies surface[n_user_old] to old n_user_new space if
- *   found or to surface[count_surface] if not found.
- *   Surface array may not be in sort order after the copy.
- */
-	int n_old, n_new, sort;
-	struct surface *surface_ptr_old, *surface_ptr_new;
-/*
- *   Find n_user_old in structure array surface
- */
-	if (n_user_old == n_user_new)
-		return (OK);
-	surface_ptr_old = surface_bsearch(n_user_old, &n_old);
-	if (surface_ptr_old == NULL)
-	{
-		error_string = sformatf( "Surface %d not found.", n_user_old);
-		error_msg(error_string, CONTINUE);
-		input_error++;
-		return (ERROR);
-	}
-/*
- *   Find n_user_new in structure array surface or make new space
- */
-	sort = FALSE;
-	surface_ptr_new = surface_bsearch(n_user_new, &n_new);
-	if (surface_ptr_new != NULL)
-	{
-		surface_free(surface_ptr_new);
-	}
-	else
-	{
-		space((void **) ((void *) &surface), count_surface, &max_surface,
-			  sizeof(struct surface));
-		if (n_user_new < surface[count_surface - 1].n_user)
-			sort = TRUE;
-		n_new = count_surface++;
-	}
-/*
- *   Copy data
- */
-	surface_copy(&surface[n_old], &surface[n_new], n_user_new);
-	if (sort == TRUE)
-		surface_sort();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_delete(int n_user_old)
-/* ---------------------------------------------------------------------- */
-/*
- *   Frees space for user number n_user_old, removes structure from
- *   array surface.
- */
-{
-	int i;
-	int n_old;
-	struct surface *surface_ptr_old;
-/*
- *   Find n_user_old in structure array
- */
-	surface_ptr_old = surface_bsearch(n_user_old, &n_old);
-	if (surface_ptr_old != NULL)
-	{
-		/*
-		 *   Delete surface
-		 */
-		surface_free(&surface[n_old]);
-
-		for (i = n_old + 1; i < count_surface; i++)
-		{
-			memcpy((void *) &surface[i - 1], (void *) &surface[i],
-				   (size_t) sizeof(struct surface));
-		}
-		count_surface--;
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_free(struct surface *surface_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *    Frees all space related to surface_ptr, but not surface_ptr.
- */
-	int k;
-
-	if (surface_ptr == NULL)
-		return (ERROR);
-	surface_ptr->description =
-		(char *) free_check_null(surface_ptr->description);
-/*
- *   totals, then comps
- */
-	for (k = 0; k < surface_ptr->count_comps; k++)
-	{
-		surface_ptr->comps[k].formula_totals =
-			(struct elt_list *) free_check_null(surface_ptr->comps[k].
-												formula_totals);
-		surface_ptr->comps[k].totals =
-			(struct elt_list *) free_check_null(surface_ptr->comps[k].totals);
-	}
-	surface_ptr->comps =
-		(struct surface_comp *) free_check_null(surface_ptr->comps);
-/*
- *   diffuse_layer_totals and g, then charge
- */
-	/*if (surface_ptr->edl == TRUE) { */
-	if (surface_ptr->type == DDL || surface_ptr->type == CD_MUSIC)
-	{
-		for (k = 0; k < surface_ptr->count_charge; k++)
-		{
-			surface_ptr->charge[k].diffuse_layer_totals =
-				(struct elt_list *) free_check_null(surface_ptr->charge[k].
-													diffuse_layer_totals);
-			surface_ptr->charge[k].g =
-				(struct surface_diff_layer *) free_check_null(surface_ptr->
-															  charge[k].g);
-		}
-	}
-	surface_ptr->charge =
-		(struct surface_charge *) free_check_null(surface_ptr->charge);
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_init(struct surface *surface_ptr, int n_user, int n_user_end,
-			 char *description)
-/* ---------------------------------------------------------------------- */
-{
-
-	if (surface_ptr == NULL)
-		return (ERROR);
-
-	surface_ptr->n_user = n_user;
-	surface_ptr->n_user_end = n_user_end;
-	surface_ptr->new_def = TRUE;
-	surface_ptr->dl_type = NO_DL;
-	surface_ptr->sites_units = SITES_ABSOLUTE;
-	/*surface_ptr->edl = TRUE; */
-	surface_ptr->type = DDL;
-	surface_ptr->only_counter_ions = FALSE;
-	/*surface_ptr->donnan = FALSE; */
-	surface_ptr->thickness = 1e-8;
-	surface_ptr->debye_lengths = 0.0;
-	surface_ptr->DDL_viscosity = 1.0;
-	surface_ptr->DDL_limit = 0.8;
-	surface_ptr->description = string_duplicate(description);
-	surface_ptr->solution_equilibria = FALSE;
-	surface_ptr->n_solution = -999;
-	surface_ptr->transport = FALSE;
-/*
- *   Malloc one surface_comp structure
- */
-	surface_ptr->count_comps = 0;
-	surface_ptr->comps =
-		(struct surface_comp *) PHRQ_malloc((size_t)
-											sizeof(struct surface_comp));
-	if (surface_ptr->comps == NULL)
-		malloc_error();
-	surface_ptr->comps[0].master = NULL;
-	surface_ptr->comps[0].totals = NULL;
-	surface_ptr->comps[0].phase_name = NULL;
-	surface_ptr->comps[0].rate_name = NULL;
-	surface_ptr->comps[0].charge = -1;
-	surface_ptr->comps[0].moles = 0;
-	surface_ptr->comps[0].cb = 0;
-	surface_ptr->comps[0].Dw = 0;
-/*
- *   Malloc one charge structure
- */
-	surface_ptr->count_charge = 0;
-	surface_ptr->charge =
-		(struct surface_charge *) PHRQ_malloc((size_t)
-											  sizeof(struct surface_charge));
-	if (surface_ptr->charge == NULL)
-		malloc_error();
-
-	surface_ptr->related_phases = FALSE;
-	surface_ptr->related_rate = FALSE;
-
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_ptr_to_user(struct surface *surface_ptr_old, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Checks if n_user_new exists, and frees space if it does
- *   Copies surface_ptr_old to old n_user_new space if
- *   found or to surface[count_surface] if not found.
- *   Surface array may not be in sort order after the copy.
- */
-	int n_new, sort;
-	struct surface *surface_ptr_new;
-/*
- *   Find n_user_old in structure array surface
- */
-	if (surface_ptr_old == NULL)
-	{
-		error_string = sformatf( "Surface pointer is NULL.");
-		error_msg(error_string, CONTINUE);
-		input_error++;
-		return (ERROR);
-	}
-/*
- *   Find n_user_new in structure array surface or make new space
- */
-	sort = FALSE;
-	surface_ptr_new = surface_bsearch(n_user_new, &n_new);
-	if (surface_ptr_new == surface_ptr_old)
-		return (OK);
-	if (surface_ptr_new != NULL)
-	{
-		surface_free(surface_ptr_new);
-	}
-	else
-	{
-		space((void **) ((void *) &surface), count_surface, &max_surface,
-			  sizeof(struct surface));
-		if (n_user_new < surface[count_surface - 1].n_user)
-			sort = TRUE;
-		n_new = count_surface++;
-	}
-/*
- *   Copy data
- */
-	surface_copy(surface_ptr_old, &surface[n_new], n_user_new);
-	if (sort == TRUE)
-		surface_sort();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-struct surface * Phreeqc::
-surface_replicate(struct surface *surface_old_ptr, int n_user_new)
-/* ---------------------------------------------------------------------- */
-{
-	struct surface *surface_ptr;
-	surface_ptr = surface_alloc();
-	surface_copy(surface_old_ptr, surface_ptr, n_user_new);
-	return (surface_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-struct surface * Phreeqc::
-surface_search(int n_user, int *n, int print)
-/* ---------------------------------------------------------------------- */
-{
-/*   Linear search of the structure array "surface" for user number n_user.
- *
- *   Arguments:
- *      n_user  input, user number.
- *      n       output, position in surface.
- *
- *   Returns:
- *      if found, pointer to surface structure
- *      if not found, NULL
- */
-	int i;
-	for (i = 0; i < count_surface; i++)
-	{
-		if (n_user == surface[i].n_user)
-		{
-			break;
-		}
-	}
-	if (i >= count_surface)
-	{
-		if (print == TRUE)
-		{
-			error_string = sformatf( "Surface %d not found.", n_user);
-			error_msg(error_string, CONTINUE);
-		}
-		*n = -999;
-		return (NULL);
-	}
-	*n = i;
-	return (&surface[i]);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-surface_sort(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Sort array of surface structures
- */
-	if (count_surface > 0)
-	{
-		qsort(surface, (size_t) count_surface,
-			  (size_t) sizeof(struct surface), surface_compare);
-	}
-	return (OK);
-}
-
 /* **********************************************************************
  *
  *   Routines related to structure "trxn"
@@ -4339,6 +2501,69 @@ rxn_token_temp_compare(const void *ptr1, const void *ptr2)
 	rxn_token_temp_ptr1 = (const struct rxn_token_temp *) ptr1;
 	rxn_token_temp_ptr2 = (const struct rxn_token_temp *) ptr2;
 	return (strcmp(rxn_token_temp_ptr1->name, rxn_token_temp_ptr2->name));
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+trxn_add(cxxChemRxn &r_ptr, LDBLE coef, int combine)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Adds reactions together.
+ *
+ *   Global variable count_trxn determines which position in trxn is used.
+ *      If count_trxn=0, then the equation effectively is copied into trxn.
+ *      If count_trxn>0, then new equation is added to existing equation.
+ *
+ *   Arguments:
+ *      *r_ptr	 points to rxn structure to add.
+ *
+ *       coef	  added equation is multiplied by coef.
+ *       combine       if TRUE, reaction is reaction is sorted and
+ *		     like terms combined.
+ */
+/*
+ *   Accumulate log k for reaction
+ */
+	if (count_trxn == 0)
+	{
+		for (int i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			trxn.logk[i] = r_ptr.Get_logk()[i];
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			trxn.dz[i] = r_ptr.Get_dz()[i];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			trxn.logk[i] += coef * (r_ptr.Get_logk()[i]);
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			trxn.dz[i] += coef * r_ptr.Get_dz()[i];
+		}
+	}
+/*
+ *   Copy  equation into work space
+ */
+	for (size_t j = 0; j < r_ptr.Get_tokens().size(); j++)
+	{
+		if (count_trxn + 1 >= max_trxn)
+		{
+			space((void **) ((void *) &(trxn.token)), count_trxn + 1,
+				  &max_trxn, sizeof(struct rxn_token_temp));
+		}
+		trxn.token[count_trxn].name = r_ptr.Get_tokens()[j].name;
+		trxn.token[count_trxn].s = r_ptr.Get_tokens()[j].s;
+		trxn.token[count_trxn].coef = coef * r_ptr.Get_tokens()[j].coef;
+		count_trxn++;
+	}
+	if (combine == TRUE)
+		trxn_combine();
+	return (OK);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -4814,11 +3039,8 @@ unknown_alloc(void)
 	unknown_ptr->master = NULL;
 	unknown_ptr->phase = NULL;
 	unknown_ptr->si = 0.0;
-	//unknown_ptr->gas_phase = NULL;
-	unknown_ptr->total = NULL;
 	unknown_ptr->s = NULL;
 	unknown_ptr->exch_comp = NULL;
-	//unknown_ptr->pure_phase = NULL;
 	unknown_ptr->ss_name = NULL;
 	unknown_ptr->ss_comp_name = NULL;
 	unknown_ptr->ss_comp_number = 0;
@@ -4886,25 +3108,18 @@ int Phreeqc::
 system_duplicate(int i, int save_old)
 /* ---------------------------------------------------------------------- */
 {
-	int n;
-
-	if (solution_bsearch(i, &n, TRUE) != NULL)
-		solution_duplicate(i, save_old);
+	Utilities::Rxn_copy(Rxn_solution_map, i, save_old);
 
 	Utilities::Rxn_copy(Rxn_pp_assemblage_map, i, save_old);
 
 	Utilities::Rxn_copy(Rxn_exchange_map, i, save_old);
 
-	if (surface_bsearch(i, &n) != NULL)
-		surface_duplicate(i, save_old);
+	Utilities::Rxn_copy(Rxn_surface_map, i, save_old);
 
 	Utilities::Rxn_copy(Rxn_gas_phase_map, i, save_old);
 
 	Utilities::Rxn_copy(Rxn_kinetics_map, i, save_old);
-#ifdef SKIP
-	if (kinetics_bsearch(i, &n) != NULL)
-		kinetics_duplicate(i, save_old);
-#endif
+
 	Utilities::Rxn_copy(Rxn_ss_assemblage_map, i, save_old);
 
 	return (OK);
@@ -5122,20 +3337,18 @@ entity_exists(char *name, int n_user)
 		return_value = 2;
 		break;
 	case Solution:				/* Solution */
-		if (solution_bsearch(n_user, &i, FALSE) == NULL)
+		if (Utilities::Rxn_find(Rxn_solution_map, n_user) == NULL)
 		{
 			return_value = FALSE;
 		}
 		break;
 	case Pure_phase:			/* Pure phases */
-		//if (pp_assemblage_bsearch(n_user, &i) == NULL)
 		if (Utilities::Rxn_find(Rxn_pp_assemblage_map, n_user) == NULL)
 		{
 			return_value = FALSE;
 		}
 		break;
 	case Reaction:				/* Reaction */
-		//if (irrev_bsearch(n_user, &i) == NULL)
 		if (Utilities::Rxn_find(Rxn_reaction_map, n_user) == NULL)
 		{
 			return_value = FALSE;
@@ -5146,10 +3359,6 @@ entity_exists(char *name, int n_user)
 		{
 			return_value = FALSE;
 		}
-		//if (mix_bsearch(n_user, &i) == NULL)
-		//{
-		//	return_value = FALSE;
-		//}
 		break;
 	case Exchange:				/* Ex */
 		if (Utilities::Rxn_find(Rxn_exchange_map, n_user) == NULL)
@@ -5158,7 +3367,7 @@ entity_exists(char *name, int n_user)
 		}
 		break;
 	case Surface:				/* Surface */
-		if (surface_bsearch(n_user, &i) == NULL)
+		if (Utilities::Rxn_find(Rxn_surface_map, n_user) == NULL)
 		{
 			return_value = FALSE;
 		}
@@ -5340,531 +3549,6 @@ copier_init(struct copier *copier_ptr)
 		(int *) PHRQ_malloc((size_t) (copier_ptr->max * sizeof(int)));
 	return (OK);
 }
-#ifdef SKIP
-#include "../cxxKinetics.h"
-struct kinetics * Phreeqc::
-cxxKinetics2kinetics(const cxxKinetics * kin)
-		//
-		// Builds a kinetics structure from instance of cxxKinetics 
-		//
-{
-	if (kin == NULL) return NULL;
-	struct kinetics *kinetics_ptr = kinetics_alloc();
-
-	kinetics_ptr->description = string_duplicate (kin->Get_description().c_str());
-	kinetics_ptr->n_user = kin->Get_n_user();
-	kinetics_ptr->n_user_end = kin->Get_n_user_end();
-	kinetics_ptr->step_divide = kin->Get_step_divide();
-	kinetics_ptr->rk = kin->Get_rk();
-	kinetics_ptr->bad_step_max = kin->Get_bad_step_max();
-	kinetics_ptr->use_cvode = (int) kin->Get_use_cvode();
-	kinetics_ptr->cvode_steps = kin->Get_cvode_steps();
-	kinetics_ptr->cvode_order = kin->Get_cvode_order();
-
-	// totals
-	kinetics_ptr->totals = cxxNameDouble2elt_list(&(kin->Get_totals()));
-
-	// comps
-	kinetics_ptr->count_comps = (int) kin->Get_kineticsComps().size();
-	kinetics_ptr->comps =
-		(struct kinetics_comp *) free_check_null(kinetics_ptr->comps);
-	kinetics_ptr->comps = cxxKineticsComp2kinetics_comp(&(kin->Get_kineticsComps()));
-
-	// steps
-	if (kin->Get_equal_steps() == 0) 
-	{
-		kinetics_ptr->count_steps = (int) kin->Get_steps().size();
-	}
-	else
-	{
-		kinetics_ptr->count_steps = -kin->Get_equal_steps();
-	}
-	kinetics_ptr->steps = (LDBLE *) free_check_null(kinetics_ptr->steps);
-	if (kin->Get_steps().size() > 0)
-	{
-		kinetics_ptr->steps = (LDBLE *) PHRQ_malloc((size_t) (kin->Get_steps().size() * sizeof(LDBLE)));
-		if (kinetics_ptr->steps == NULL)
-			malloc_error();
-		std::copy(kin->Get_steps().begin(), kin->Get_steps().end(),
-				  kinetics_ptr->steps);
-		/*
-		   int i = 0;
-		   for (std::vector<LDBLE>::iterator it = this->steps.begin(); it != this->steps.end(); it++) {
-		   kinetics_ptr->steps[i] = *it;
-		   }
-		 */
-	}
-	return (kinetics_ptr);
-}
-
-struct kinetics_comp * Phreeqc::
-cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > *el)
-		//
-		// Builds kinetics_comp structure from of cxxKineticsComp 
-		//
-{
-	if (el == NULL) return NULL;
-	struct kinetics_comp *kinetics_comp_ptr =
-		(struct kinetics_comp *)
-		PHRQ_malloc((size_t) (el->size() * sizeof(struct kinetics_comp)));
-	if (kinetics_comp_ptr == NULL)
-		malloc_error();
-
-	int i = 0;
-	for (std::list < cxxKineticsComp >::const_iterator it = el->begin();
-		 it != el->end(); ++it)
-	{
-		if ((*it).Get_rate_name().size() == 0)
-			kinetics_comp_ptr[i].rate_name = NULL;
-		else
-			kinetics_comp_ptr[i].rate_name = string_hsave((*it).Get_rate_name().c_str());
-		kinetics_comp_ptr[i].list = cxxNameDouble2name_coef(&((*it).Get_namecoef()));
-		kinetics_comp_ptr[i].count_list = (int) (*it).Get_namecoef().size();
-		kinetics_comp_ptr[i].tol = (*it).Get_tol();
-		kinetics_comp_ptr[i].m = (*it).Get_m();
-		kinetics_comp_ptr[i].initial_moles = 0.;
-		kinetics_comp_ptr[i].m0 = (*it).Get_m0();
-		kinetics_comp_ptr[i].moles = (*it).Get_moles();
-		kinetics_comp_ptr[i].count_c_params = 0;
-		kinetics_comp_ptr[i].c_params = NULL;
-/*
-                kinetics_comp_ptr[i].count_d_params         =  0;
-                kinetics_comp_ptr[i].d_params               =  NULL;
-*/
-
-		kinetics_comp_ptr[i].count_d_params = (int) (*it).Get_d_params().size();
-		kinetics_comp_ptr[i].d_params = NULL;
-		if ((*it).Get_d_params().size() > 0)
-		{
-			kinetics_comp_ptr[i].d_params =	(LDBLE *)
-				PHRQ_malloc((size_t) ((*it).Get_d_params().size() * sizeof(LDBLE)));
-			if (kinetics_comp_ptr[i].d_params == NULL)
-				malloc_error();
-			std::copy((*it).Get_d_params().begin(), (*it).Get_d_params().end(),
-					  kinetics_comp_ptr[i].d_params);
-		}
-		i++;
-	}
-	return (kinetics_comp_ptr);
-}
-#endif
-#include "../Solution.h"
-struct solution * Phreeqc::
-cxxSolution2solution(const cxxSolution * sol)
-		//
-		// Builds a solution structure from instance of cxxSolution 
-		//
-{
-
-	struct solution *solution_ptr = solution_alloc();
-
-	solution_ptr->description = string_duplicate (sol->Get_description().c_str());
-	solution_ptr->n_user = sol->Get_n_user();
-	solution_ptr->n_user_end = sol->Get_n_user_end();
-	solution_ptr->new_def = FALSE;
-	solution_ptr->tc = sol->Get_tc();
-	solution_ptr->ph = sol->Get_ph();
-	solution_ptr->solution_pe = sol->Get_pe();
-	solution_ptr->mu = sol->Get_mu();
-	solution_ptr->ah2o = sol->Get_ah2o();
-	solution_ptr->total_h = sol->Get_total_h();
-	solution_ptr->total_o = sol->Get_total_o();
-	solution_ptr->cb = sol->Get_cb();
-	solution_ptr->mass_water = sol->Get_mass_water();
-	solution_ptr->total_alkalinity = sol->Get_total_alkalinity();
-	solution_ptr->density = 1.0;
-	solution_ptr->units = moles_per_kilogram_string;
-	solution_ptr->default_pe = 0;
-	// pe_data
-
-	// totals
-	solution_ptr->totals =
-		(struct conc *) free_check_null(solution_ptr->totals);
-	solution_ptr->totals = cxxNameDouble2conc(&sol->Get_totals());
-
-
-	// master_activity
-	solution_ptr->master_activity =
-		(struct master_activity *) free_check_null(solution_ptr->master_activity);
-	solution_ptr->master_activity = cxxNameDouble2master_activity(&sol->Get_master_activity());
-	solution_ptr->count_master_activity =
-		(int) sol->Get_master_activity().size() + 1;
-
-	// species_gamma
-	solution_ptr->species_gamma = cxxNameDouble2master_activity(&sol->Get_species_gamma());
-	solution_ptr->count_species_gamma = (int) sol->Get_species_gamma().size();
-
-	// isotopes
-	solution_ptr->isotopes =
-		(struct isotope *) free_check_null(solution_ptr->isotopes);
-	//solution_ptr->isotopes = cxxSolutionIsotope::list2isotope(this->isotopes);
-	solution_ptr->isotopes = cxxSolutionIsotopeList2isotope(&sol->Get_isotopes());
-	solution_ptr->count_isotopes = (int) sol->Get_isotopes().size();
-
-	return (solution_ptr);
-}
-
-#include "../SolutionIsotopeList.h"
-struct isotope * Phreeqc::
-cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il)
-{
-	struct isotope *iso;
-	if (il->size() <= 0)
-	{
-		return NULL;
-	}
-	else
-	{
-		iso =
-			(struct isotope *) PHRQ_malloc((size_t) ((il->size()) * sizeof(struct isotope)));
-		if (iso == NULL)
-			malloc_error();
-		int i = 0;
-		for (cxxSolutionIsotopeList::const_iterator it = il->begin();
-			 it != il->end(); ++it)
-		{
-			iso[i].isotope_number = it->Get_isotope_number();
-			iso[i].elt_name = string_hsave(it->Get_elt_name().c_str());
-			iso[i].total = it->Get_total();
-			iso[i].ratio = it->Get_ratio();
-			iso[i].ratio_uncertainty = it->Get_ratio_uncertainty();
-			iso[i].master = master_bsearch(it->Get_elt_name().c_str());
-			const char * str = string_hsave(it->Get_elt_name().c_str());
-			iso[i].primary = master_bsearch_primary(str);
-			i++;
-		}
-	}
-	return (iso);
-}
-#include "../Surface.h"
-struct surface * Phreeqc::
-cxxSurface2surface(const cxxSurface * surf)
-		//
-		// Builds a surface structure from instance of cxxSurface 
-		//
-{
-	struct surface *surface_ptr = surface_alloc();
-
-	surface_ptr->description = string_duplicate (surf->Get_description().c_str());
-	surface_ptr->n_user = surf->Get_n_user();
-	surface_ptr->n_user_end = surf->Get_n_user_end();
-	surface_ptr->new_def = FALSE;
-	surface_ptr->type = surf->Get_type();
-	surface_ptr->dl_type = surf->Get_dl_type();
-	surface_ptr->sites_units = surf->Get_sites_units();
-	surface_ptr->only_counter_ions = surf->Get_only_counter_ions();
-	surface_ptr->thickness = surf->Get_thickness();
-	surface_ptr->debye_lengths = 1.0;
-	surface_ptr->solution_equilibria = FALSE;
-	surface_ptr->n_solution = -2;
-	surface_ptr->related_phases = (int) surf->Get_related_phases();
-	surface_ptr->related_rate = (int) surf->Get_related_rate();
-	surface_ptr->transport = surf->Get_transport();
-	surface_ptr->debye_lengths = surf->Get_debye_lengths();
-	surface_ptr->DDL_viscosity = surf->Get_DDL_viscosity();
-	surface_ptr->DDL_limit = surf->Get_DDL_limit();
-
-	// Surface comps
-	surface_ptr->count_comps = (int) surf->Get_surfaceComps().size();
-	surface_ptr->comps =
-		(struct surface_comp *) free_check_null(surface_ptr->comps);
-	surface_ptr->comps =
-		cxxSurfaceComp2surface_comp(&surf->Get_surfaceComps());
-
-	// Surface charge
-	surface_ptr->charge =
-		(struct surface_charge *) free_check_null(surface_ptr->charge);
-
-	//if (surface_ptr->edl == TRUE) {
-	if (surface_ptr->type == DDL || surface_ptr->type == CD_MUSIC)
-	{
-		surface_ptr->count_charge = (int) surf->Get_surfaceCharges().size();
-		surface_ptr->charge =
-			cxxSurfaceCharge2surface_charge(&surf->Get_surfaceCharges());
-	}
-	else
-	{
-		surface_ptr->count_charge = 0;
-	}
-	// Need to fill in charge (number) in comps list
-	if (surface_ptr->type != NO_EDL)
-	{
-		int i, j;
-		for (i = 0; i < surface_ptr->count_comps; i++)
-		{
-			char token[MAX_LENGTH], name[MAX_LENGTH];
-			int l;
-			strcpy(token, surface_ptr->comps[i].formula);
-			char *ptr1 = token;
-			get_elt(&ptr1, name, &l);
-			ptr1 = strchr(name, '_');
-			if (ptr1 != NULL)
-			{
-				ptr1[0] = '\0';
-			}
-			const char *charge_name = string_hsave(name);	
-
-			for (j = 0; j < surface_ptr->count_charge; j++)
-			{
-				if (charge_name == surface_ptr->charge[j].name)
-				{
-					surface_ptr->comps[i].charge = j;
-					break;
-				}
-			}
-			assert(j < surface_ptr->count_charge);
-		}
-	}
-
-	return (surface_ptr);
-}
-
-#include "../SurfaceComp.h"
-struct surface_comp * Phreeqc::
-cxxSurfaceComp2surface_comp(const std::map < std::string, cxxSurfaceComp > * sc)
-	//
-	// Builds surface_comp structure from of cxxSurfaceComp 
-	//
-{
-	struct surface_comp *surf_comp_ptr =
-		(struct surface_comp *) PHRQ_malloc((size_t) (sc->size() * sizeof(struct surface_comp)));
-	if (surf_comp_ptr == NULL)
-		malloc_error();
-
-	int i = 0;
-	for (std::map < std::string, cxxSurfaceComp >::const_iterator it = sc->begin();
-		it != sc->end(); ++it)
-	{
-		surf_comp_ptr[i].formula = string_hsave((*it).second.Get_formula().c_str());
-		assert((*it).second.Get_formula().size() > 0);
-		surf_comp_ptr[i].formula_totals = cxxNameDouble2elt_list(&(*it).second.Get_formula_totals());
-		surf_comp_ptr[i].formula_z = (*it).second.Get_formula_z();
-		surf_comp_ptr[i].moles = (*it).second.Get_moles();
-		surf_comp_ptr[i].master = cxxNameDouble2surface_master(&(*it).second.Get_totals());
-		surf_comp_ptr[i].totals = cxxNameDouble2elt_list(&(*it).second.Get_totals());
-		surf_comp_ptr[i].la = (*it).second.Get_la();
-		//surf_comp_ptr[i].charge                 =  it->charge_number;
-		surf_comp_ptr[i].cb = (*it).second.Get_charge_balance();
-		if ((*it).second.Get_phase_name().size() == 0)
-			surf_comp_ptr[i].phase_name = NULL;
-		else
-			surf_comp_ptr[i].phase_name = string_hsave((*it).second.Get_phase_name().c_str());
-		surf_comp_ptr[i].phase_proportion = (*it).second.Get_phase_proportion();
-		if ((*it).second.Get_rate_name().size() == 0)
-			surf_comp_ptr[i].rate_name = NULL;
-		else
-			surf_comp_ptr[i].rate_name = string_hsave((*it).second.Get_rate_name().c_str());
-		surf_comp_ptr[i].Dw = (*it).second.Get_Dw();
-		i++;
-	}
-	return (surf_comp_ptr);
-}
-
-#include "../SurfaceCharge.h"
-struct surface_charge * Phreeqc::
-cxxSurfaceCharge2surface_charge(const std::map < std::string, cxxSurfaceCharge > * s_ch)
-	//
-	// Builds surface_charge structure from of cxxSurfaceCharge 
-	//
-{
-	struct surface_charge *surf_charge_ptr =
-		(struct surface_charge *) PHRQ_malloc((size_t) (s_ch->size() * sizeof(struct surface_charge)));
-	if (surf_charge_ptr == NULL)
-		malloc_error();
-
-	int i = 0;
-	for (std::map < std::string, cxxSurfaceCharge >::const_iterator it = s_ch->begin();
-		it != s_ch->end(); ++it)
-	{
-		surf_charge_ptr[i].name = string_hsave((*it).second.Get_name().c_str());
-		assert((*it).second.Get_name().size() > 0);
-		surf_charge_ptr[i].specific_area = (*it).second.Get_specific_area();
-		surf_charge_ptr[i].grams = (*it).second.Get_grams();
-		surf_charge_ptr[i].charge_balance = (*it).second.Get_charge_balance();
-		surf_charge_ptr[i].mass_water = (*it).second.Get_mass_water();
-		surf_charge_ptr[i].la_psi = (*it).second.Get_la_psi();
-		surf_charge_ptr[i].la_psi1 = (*it).second.Get_la_psi1();
-		surf_charge_ptr[i].la_psi2 = (*it).second.Get_la_psi2();
-		surf_charge_ptr[i].capacitance[0] = (*it).second.Get_capacitance0();
-		surf_charge_ptr[i].capacitance[1] = (*it).second.Get_capacitance1();
-		surf_charge_ptr[i].sigma0 = 0;
-		surf_charge_ptr[i].sigma1 = 0;
-		surf_charge_ptr[i].sigma2 = 0;
-		surf_charge_ptr[i].sigmaddl = 0;
-		surf_charge_ptr[i].diffuse_layer_totals = cxxNameDouble2elt_list(&(*it).second.Get_diffuse_layer_totals());
-		surf_charge_ptr[i].count_g = 0;
-		surf_charge_ptr[i].g = NULL;
-		i++;
-	}
-	return (surf_charge_ptr);
-}
-
-struct master * Phreeqc::
-cxxNameDouble2surface_master(const cxxNameDouble * totals)
-{
-	struct master *master_ptr = NULL;
-	for (cxxNameDouble::const_iterator it = totals->begin();
-		it != totals->end(); it++)
-	{
-		/* Find master species */
-		const char *eltName = string_hsave(it->first.c_str());
-		assert(it->first.size() > 0);
-		struct element *elt_ptr = element_store(eltName);
-		if (elt_ptr->master == NULL)
-		{
-			std::ostringstream error_oss;
-			error_oss << "Master species not in data base for " << elt_ptr->
-				name << "\n";
-			error_msg(error_oss.str().c_str(), CONTINUE);
-			return (NULL);
-		}
-		if (elt_ptr->master->type != SURF)
-			continue;
-		master_ptr = elt_ptr->master;
-		break;
-	}
-	if (master_ptr == NULL)
-	{
-		std::ostringstream error_oss;
-		error_oss <<
-			"Surface formula does not contain a surface master species, " << "\n";
-			//this->formula << "\n";
-		error_msg(error_oss.str().c_str(), CONTINUE);
-	}
-	return (master_ptr);
-}
-struct conc * Phreeqc::
-cxxNameDouble2conc(const cxxNameDouble * nd) 
-		// for Solutions, not ISolutions
-		// takes a map of (elt name, moles)
-		// returns list of conc structures
-{
-	struct conc *c;
-	assert(nd->type == cxxNameDouble::ND_ELT_MOLES);
-	c = (struct conc *)
-		PHRQ_malloc((size_t) ((nd->size() + 1) * sizeof(struct conc)));
-	if (c == NULL)
-		malloc_error();
-	int i = 0;
-	for (cxxNameDouble::const_iterator it = nd->begin(); it != nd->end(); ++it)
-	{
-		c[i].description = string_hsave(it->first.c_str());
-		c[i].moles = it->second;
-		c[i].input_conc = it->second;
-		c[i].units = NULL;
-		c[i].equation_name = NULL;
-		c[i].phase_si = 0.0;
-		c[i].n_pe = 0;
-		c[i].as = NULL;
-		c[i].gfw = 0.0;
-		//c[i].skip                = 0;
-		c[i].phase = NULL;
-		i++;
-	}
-	c[i].description = NULL;
-	return (c);
-}
-
-struct name_coef * Phreeqc::
-cxxNameDouble2name_coef(const cxxNameDouble * nd)
-		//
-		// Builds a name_coef structure from instance of cxxNameDouble 
-		//
-{
-	if (nd == NULL) return NULL;
-	assert(nd->type == cxxNameDouble::ND_NAME_COEF);
-	struct name_coef *name_coef_ptr =
-		(struct name_coef *) PHRQ_malloc((size_t) ((nd->size()) * sizeof(struct name_coef)));
-	if (name_coef_ptr == NULL)
-		malloc_error();
-	int i = 0;
-	for (cxxNameDouble::const_iterator it = nd->begin(); it != nd->end(); ++it)
-	{
-		name_coef_ptr[i].name = string_hsave(it->first.c_str());
-		name_coef_ptr[i].coef = it->second;
-		i++;
-	}
-	return (name_coef_ptr);
-}
-
-struct elt_list * Phreeqc::
-cxxNameDouble2elt_list(const cxxNameDouble * nd)
-		//
-		// Builds a exch_comp structure from instance of cxxNameDouble 
-		//
-{
-	if (nd == NULL) return NULL;
-	assert(nd->type == cxxNameDouble::ND_ELT_MOLES);
-	struct elt_list *elt_list_ptr =
-		(struct elt_list *)
-		PHRQ_malloc((size_t) ((nd->size() + 1) * sizeof(struct elt_list)));
-	if (elt_list_ptr == NULL)
-		malloc_error();
-	int i = 0;
-	for (cxxNameDouble::const_iterator it = nd->begin(); it != nd->end(); ++it)
-	{
-		elt_list_ptr[i].elt = element_store(it->first.c_str());
-		elt_list_ptr[i].coef = it->second;
-		i++;
-	}
-	elt_list_ptr[i].elt = NULL;
-	elt_list_ptr[i].coef = 0;
-	return (elt_list_ptr);
-}
-
-struct master_activity * Phreeqc::
-cxxNameDouble2master_activity(const cxxNameDouble * nd) 
-		//
-		// Builds a list of master_activity structures from instance of cxxNameDouble 
-		//
-{
-	int i = 0;
-	assert(nd->type == cxxNameDouble::ND_SPECIES_LA
-		   || nd->type == cxxNameDouble::ND_SPECIES_GAMMA);
-	struct master_activity *master_activity_ptr = NULL;
-	switch (nd->type)
-	{
-	case cxxNameDouble::ND_SPECIES_LA:
-		{
-			master_activity_ptr =
-				(struct master_activity *) PHRQ_malloc((size_t) ((nd->size() + 1) * sizeof(struct master_activity)));
-			if (master_activity_ptr == NULL)
-				malloc_error();
-			for (cxxNameDouble::const_iterator it = nd->begin(); it != nd->end();
-				 it++)
-			{
-				master_activity_ptr[i].description = string_hsave(it->first.c_str());
-				master_activity_ptr[i].la = it->second;
-				i++;
-			}
-		}
-		master_activity_ptr[i].description = NULL;
-		break;
-	case cxxNameDouble::ND_SPECIES_GAMMA:
-		{
-			if (nd->size() > 0)
-			{
-				master_activity_ptr =
-					(struct master_activity *) PHRQ_malloc((size_t) ((nd->size()) * sizeof(struct master_activity)));
-				if (master_activity_ptr == NULL)
-					malloc_error();
-				for (cxxNameDouble::const_iterator it = nd->begin(); it != nd->end();
-					 it++)
-				{
-					master_activity_ptr[i].description = string_hsave(it->first.c_str());
-					master_activity_ptr[i].la = it->second;
-					i++;
-				}
-			}
-		}
-		break;
-	case cxxNameDouble::ND_ELT_MOLES:
-	case cxxNameDouble::ND_NAME_COEF:
-		break;
-	}
-	return (master_activity_ptr);
-}
-
 #include "../StorageBin.h"
 
 void Phreeqc::
@@ -5872,11 +3556,7 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 {
 	//Add everything from use structure to storagebin sb
 
-	int n;
 	sb.Get_system().Set_io(sb.Get_io());
-
-	//struct Use *use_ptr = &use;
-	//cxxUse *use_ptr = &use;
 	if (use.Get_mix_in())
 	{
 		cxxMix *entity = Utilities::Rxn_find(Rxn_mix_map, use.Get_n_mix_user());
@@ -5887,11 +3567,10 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 	}
 	else if (use.Get_solution_in())
 	{
-		struct solution *struct_entity = solution_bsearch(use.Get_n_solution_user(), &n, FALSE);
-		if (struct_entity != NULL)
+		cxxSolution *entity = Utilities::Rxn_find(Rxn_solution_map, use.Get_n_solution_user());
+		if (entity != NULL)
 		{
-			cxxSolution entity(struct_entity, sb.Get_io());
-			sb.Set_Solution(use.Get_n_solution_user(), &entity);
+			sb.Set_Solution(use.Get_n_solution_user(), entity);
 		}
 	}
 	if (use.Get_pp_assemblage_in())
@@ -5907,17 +3586,15 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 		cxxExchange *entity_ptr = Utilities::Rxn_find(Rxn_exchange_map, use.Get_n_exchange_user());
 		if (entity_ptr != NULL)
 		{
-			//cxxExchange entity(struct_entity, sb.Get_io());
 			sb.Set_Exchange(use.Get_n_exchange_user(), entity_ptr);
 		}
 	}
 	if (use.Get_surface_in())
 	{
-		struct surface *struct_entity = surface_bsearch(use.Get_n_surface_user(), &n);
-		if (struct_entity != NULL)
+		cxxSurface *entity_ptr = Utilities::Rxn_find(Rxn_surface_map, use.Get_n_surface_user());
+		if (entity_ptr != NULL)
 		{
-			cxxSurface entity(struct_entity, sb.Get_io());
-			sb.Set_Surface(use.Get_n_surface_user(), &entity);
+			sb.Set_Surface(use.Get_n_surface_user(), entity_ptr);
 		}
 	}
 	if (use.Get_gas_phase_in())
@@ -5944,17 +3621,6 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 			sb.Set_Kinetics(use.Get_n_kinetics_user(), entity_ptr);
 		}
 	}
-#ifdef SKIP
-	if (use.Get_kinetics_in())
-	{
-		struct kinetics *struct_entity = kinetics_bsearch(use.Get_n_kinetics_user(), &n);
-		if (struct_entity != NULL)
-		{
-			cxxKinetics entity(struct_entity, sb.Get_io());
-			sb.Set_Kinetics(use.Get_n_kinetics_user(), &entity);
-		}
-	}
-#endif
 	if (use.Get_reaction_in())
 	{
 		cxxReaction *entity = Utilities::Rxn_find(Rxn_reaction_map, use.Get_n_reaction_user());
@@ -5988,16 +3654,14 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb)
 	// equivalent to old import_phreeqc.
 	//
 {
-	int i;
-
 	// Solutions
-	for (i = 0; i < count_solution; i++)
 	{
-		//sb.getSolutions()[solution[i]->n_user] = cxxSolution(solution[i], sb.Get_io());
-	  cxxSolution ent(solution[i], sb.Get_io());
-	  sb.Set_Solution(solution[i]->n_user, ent);
+		std::map<int, cxxSolution>::iterator it;
+		for (it = Rxn_solution_map.begin(); it != Rxn_solution_map.end(); it++)
+		{
+			sb.Set_Solution(it->second.Get_n_user(), &(it->second));	
+		}
 	}
-
 	// Exchangers
 	{
 		std::map<int, cxxExchange>::iterator it;
@@ -6023,13 +3687,6 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb)
 			sb.Set_Kinetics(it->second.Get_n_user(), &(it->second));	
 		}
 	}
-#ifdef SKIP
-	for (i = 0; i < count_kinetics; i++)
-	{
-		cxxKinetics entity(&kinetics[i], sb.Get_io());
-		sb.Set_Kinetics(kinetics[i].n_user, &entity );
-	}
-#endif
 	// PPassemblages
 	{
 		std::map<int, cxxPPassemblage>::iterator it;
@@ -6047,12 +3704,13 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb)
 		}
 	}
 	// Surfaces
-	for (i = 0; i < count_surface; i++)
 	{
-		cxxSurface entity(&surface[i], sb.Get_io());
-		sb.Set_Surface(surface[i].n_user, &entity );
+		std::map<int, cxxSurface>::iterator it;
+		for (it = Rxn_surface_map.begin(); it != Rxn_surface_map.end(); it++)
+		{
+			sb.Set_Surface(it->second.Get_n_user(), &(it->second));	
+		}
 	}
-
 	// Mixes
 	{
 		std::map<int, cxxMix>::iterator it;
@@ -6096,16 +3754,14 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb, int n)
 		// copy phreeqc reactants numbered n to StorageBin sb
 		//
 {
-	int pos;
-
 	// Solutions
 	{
-		solution_bsearch(n, &pos, TRUE);
-		//sb.getSolutions()[n] = cxxSolution(solution[pos], sb.Get_io());
-		cxxSolution ent(solution[pos], sb.Get_io());
-		sb.Set_Solution(n, ent);
+		cxxSolution *entity_ptr = Utilities::Rxn_find(Rxn_solution_map, n);
+		if (entity_ptr != NULL)
+		{
+			sb.Set_Solution(n, entity_ptr);
+		}
 	}
-
 	// Exchangers
 	{
 		cxxExchange *entity_ptr = Utilities::Rxn_find(Rxn_exchange_map, n);
@@ -6132,16 +3788,6 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb, int n)
 			sb.Set_Kinetics(n, entity_ptr);
 		}
 	}
-#ifdef SKIP
-	{
-		if (kinetics_bsearch(n, &pos) != NULL)
-		{
-			//this->Kinetics[n] = cxxKinetics(&(kinetics[pos]), sb.Get_io());
-			cxxKinetics ent(&(kinetics[pos]), sb.Get_io());
-			sb.Set_Kinetics(n, &ent );
-		}
-	}
-#endif
 	// PPassemblages
 	{
 		cxxPPassemblage *entity_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, n);
@@ -6160,11 +3806,10 @@ phreeqc2cxxStorageBin(cxxStorageBin & sb, int n)
 	}
 	// Surfaces
 	{
-		if (surface_bsearch(n, &pos) != NULL)
+		cxxSurface *entity_ptr = Utilities::Rxn_find(Rxn_surface_map, n);
+		if (entity_ptr != NULL)
 		{
-			//this->Surfaces[n] = cxxSurface(&(surface[pos]), sb.Get_io());
-			cxxSurface ent(&(surface[pos]), sb.Get_io());
-			sb.Set_Surface(n, &ent);
+			sb.Set_Surface(n, entity_ptr);
 		}
 	}
 }
@@ -6180,13 +3825,9 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb, int n)
 		std::map < int, cxxSolution >::const_iterator it = sb.Get_Solutions().find(n);
 		if (it != sb.Get_Solutions().end())
 		{
-			struct solution *solution_old_ptr = cxxSolution2solution(&(it->second));
-			solution_ptr_to_user(solution_old_ptr, it->first);
-			solution_free(solution_old_ptr);
-			solution_old_ptr = (struct solution *) free_check_null(solution_old_ptr);
+			Rxn_solution_map[n] = it->second;
 		}
 	}
-
 	// Exchangers
 	{
 		std::map < int, cxxExchange >::const_iterator it = sb.Get_Exchangers().find(n);
@@ -6213,18 +3854,6 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb, int n)
 			Rxn_kinetics_map[n] = it->second;
 		}
 	}
-#ifdef SKIP
-	{
-		std::map < int, cxxKinetics >::const_iterator it = sb.Get_Kinetics().find(n);
-		if (it != sb.Get_Kinetics().end())
-		{
-			struct kinetics *kinetics_ptr =  cxxKinetics2kinetics(&(it->second));
-			kinetics_ptr_to_user(kinetics_ptr, it->first);
-			kinetics_free(kinetics_ptr);
-			kinetics_ptr = (struct kinetics *) free_check_null(kinetics_ptr);
-		}
-	}
-#endif
 	// PPassemblages
 	{
 		std::map < int, cxxPPassemblage >::const_iterator it = sb.Get_PPassemblages().find(n);
@@ -6246,13 +3875,9 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb, int n)
 		std::map < int, cxxSurface >::const_iterator it = sb.Get_Surfaces().find(n);
 		if (it != sb.Get_Surfaces().end())
 		{
-			struct surface *surface_ptr = cxxSurface2surface(&(it->second));
-			surface_ptr_to_user(surface_ptr, it->first);
-			surface_free(surface_ptr);
-			surface_ptr = (struct surface *) free_check_null(surface_ptr);
+			Rxn_surface_map[n] = it->second;
 		}
 	}
-
 	// Mixes
 	{
 		std::map < int, cxxMix >::const_iterator it = sb.Get_Mixes().find(n);
@@ -6296,17 +3921,12 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb)
 {
 	// Solutions
 	{
-
 		std::map < int, cxxSolution >::const_iterator it = sb.Get_Solutions().begin();
-		for ( ; it != sb.Get_Solutions().end(); it ++)
+		for ( ; it != sb.Get_Solutions().end(); it++)
 		{
-			struct solution *solution_old_ptr = cxxSolution2solution(&(it->second));
-			solution_ptr_to_user(solution_old_ptr, it->first);
-			solution_free(solution_old_ptr);
-			solution_old_ptr = (struct solution *) free_check_null(solution_old_ptr);
+			Rxn_solution_map[it->first] = it->second;
 		}
 	}
-
 	// Exchangers
 	{
 		std::map < int, cxxExchange >::const_iterator it = sb.Get_Exchangers().begin();
@@ -6333,18 +3953,6 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb)
 			Rxn_kinetics_map[it->first] = it->second;
 		}
 	}
-#ifdef SKIP
-	{
-		std::map < int, cxxKinetics >::const_iterator it = sb.Get_Kinetics().begin();
-		for ( ; it != sb.Get_Kinetics().end(); it++)
-		{
-			struct kinetics *kinetics_ptr =  cxxKinetics2kinetics(&(it->second));
-			kinetics_ptr_to_user(kinetics_ptr, it->first);
-			kinetics_free(kinetics_ptr);
-			kinetics_ptr = (struct kinetics *) free_check_null(kinetics_ptr);
-		}
-	}
-#endif
 	// PPassemblages
 	{
 		std::map < int, cxxPPassemblage >::const_iterator it = sb.Get_PPassemblages().begin();
@@ -6366,10 +3974,7 @@ cxxStorageBin2phreeqc(cxxStorageBin & sb)
 		std::map < int, cxxSurface >::const_iterator it = sb.Get_Surfaces().begin();
 		for ( ; it != sb.Get_Surfaces().end(); it++)
 		{
-			struct surface *surface_ptr = cxxSurface2surface(&(it->second));
-			surface_ptr_to_user(surface_ptr, it->first);
-			surface_free(surface_ptr);
-			surface_ptr = (struct surface *) free_check_null(surface_ptr);
+			Rxn_surface_map[it->first] = it->second;
 		}
 	}
 	// Mixes

@@ -57,7 +57,6 @@ cxxPPassemblage::~cxxPPassemblage()
 void
 cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing PPassemblage message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -88,7 +87,6 @@ cxxPPassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const
 void
 cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing PPassemblage message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -105,20 +103,23 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 	s_oss << "EQUILIBRIUM_PHASES_RAW       " << n_user_local << " " << this->
 		description << "\n";
 
-	// eltList
 
-	s_oss << indent1;
-	s_oss << "-eltList       " << "\n";
-	this->eltList.dump_raw(s_oss, indent + 2);
-
-	// ppAssemblagComps
+	s_oss << indent1 << "# EXCHANGE_MODIFY candidates; use new_def=true #\n";
+	s_oss << indent1 << "-new_def                   " << this->new_def << "\n";
 	for (std::map < std::string, cxxPPassemblageComp >::const_iterator it =
 		 pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
 		s_oss << indent1;
-		s_oss << "-component" << "\n";
+		s_oss << "-component                 " << (*it).second.Get_name() << "\n";
 		(*it).second.dump_raw(s_oss, indent + 2);
 	}
+	s_oss << indent1;
+	s_oss << "-eltList                   # List of all elements in phases and alternate reactions\n";
+	this->eltList.dump_raw(s_oss, indent + 2);
+
+	s_oss << indent1 << "# PPassemblage workspace variables #\n";
+	s_oss << indent1 << "-assemblage_totals" << "\n";
+	this->assemblage_totals.dump_raw(s_oss, indent + 1);
 }
 
 void
@@ -130,6 +131,8 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 		vopts.reserve(15);
 		vopts.push_back("eltlist");	// 0
 		vopts.push_back("component");	// 1
+		vopts.push_back("new_def"); // 2
+		vopts.push_back("assemblage_totals"); // 3
 	}
 
 	std::istream::pos_type ptr;
@@ -158,6 +161,7 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 		{
 			opt = opt_save;
 		}
+		useLastLine = false;
 		switch (opt)
 		{
 		case CParser::OPT_EOF:
@@ -185,39 +189,57 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 			}
 			opt_save = 0;
 			break;
-
 		case 1:				// component
 			{
-				cxxPPassemblageComp ec(this->Get_io());
-
-				// preliminary read
-				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
-				parser.set_accumulate(false);
-				std::istringstream is(parser.get_accumulated());
-				CParser reread(is, this->Get_io());
-				reread.set_echo_file(CParser::EO_NONE);
-				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->pp_assemblage_comps.find(ec.Get_name()) != this->pp_assemblage_comps.end())
+				std::string str;
+				if (!(parser.get_iss() >> str))
 				{
-					cxxPPassemblageComp & comp = this->pp_assemblage_comps.find(ec.Get_name())->second;
-					comp.read_raw(reread, false);
+					parser.incr_input_error();
+					parser.error_msg("Expected string value for component name.",
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
-					cxxPPassemblageComp ppComp1(this->Get_io());
-					ppComp1.read_raw(reread, false);
-					std::string str(ppComp1.Get_name());
-					this->pp_assemblage_comps[str] = ppComp1;
+					cxxPPassemblageComp temp_comp(this->io);
+					temp_comp.Set_name(str.c_str());
+					cxxPPassemblageComp *comp_ptr = this->Find(str);
+					if (comp_ptr)
+					{
+						temp_comp = *comp_ptr;
+					}
+					temp_comp.read_raw(parser, check);
+					this->pp_assemblage_comps[str] = temp_comp;
+					useLastLine = true;
 				}
 			}
-			useLastLine = true;
+			break;
+		case 2:				// new_def
+			if (!(parser.get_iss() >> this->new_def))
+			{
+				this->new_def = false;
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected boolean value for new_def.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			break;
+		case 3:				// assemblage_totals
+			if (this->assemblage_totals.read_raw(parser, next_char) !=
+				CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected element name and molality for PPassemblage totals.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 3;
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
 }
 
 #ifdef USE_MPI
@@ -265,21 +287,19 @@ cxxPPassemblage::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 	*dd = d;
 }
 #endif
-
 void
 cxxPPassemblage::totalize(PHREEQC_PTR_ARG)
 {
-	this->totals.clear();
+	this->assemblage_totals.clear();
 	// component structures
 	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
 		 pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
 		(*it).second.totalize(P_INSTANCE);
-		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
+		this->assemblage_totals.add_extensive((*it).second.Get_totals(), 1.0);
 	}
 	return;
 }
-
 void
 cxxPPassemblage::add(const cxxPPassemblage & addee, LDBLE extensive)
 		//
@@ -288,7 +308,6 @@ cxxPPassemblage::add(const cxxPPassemblage & addee, LDBLE extensive)
 {
 	if (extensive == 0.0)
 		return;
-	//std::list<cxxPPassemblageComp> ppAssemblageComps;
 	for (std::map < std::string, cxxPPassemblageComp >::const_iterator itadd = addee.pp_assemblage_comps.begin();
 		 itadd != addee.pp_assemblage_comps.end(); ++itadd)
 	{

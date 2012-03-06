@@ -11,6 +11,8 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "NameDouble.h"
+#include "Utils.h"
+#include "Solution.h"
 
 /* Run-time library for PhreeqcPtr->use with "p2c", the Pascal to C translator */
 
@@ -115,9 +117,6 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 				else
 				{
-					//char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
-					//	(int) P_ioresult);
-					//warning_msg(error_string);
 					char * error_string = PhreeqcPtr->sformatf("%d/%d", (int) P_escapecode,
 						(int) P_ioresult);
 					warning_msg(error_string);
@@ -1489,6 +1488,9 @@ listtokens(FILE * f, tokenrec * l_buf)
   		case tokpressure:
   			output_msg("PRESSURE");
   			break;
+		case tokeps_r:
+			output_msg("EPS_R"); // dielectric constant
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -1849,8 +1851,7 @@ valrec PBasic::
 factor(struct LOC_exec * LINK)
 {
 	char string[MAX_LENGTH] = {0};
-	struct solution *soln_ptr;
-	int nn;
+	cxxSolution *soln_ptr;
 	varrec *v;
 	tokenrec *facttok;
 	valrec n;
@@ -1868,7 +1869,6 @@ factor(struct LOC_exec * LINK)
 	struct save_values s_v, *s_v_ptr;
 	int k;
 	LDBLE TEMP;
-	//char STR1[256] = {0}, STR2[256] = {0};
 	std::string STR1, STR2;
 	const char *elt_name, *surface_name, *mytemplate, *name;
 	varrec *count_varrec = NULL, *names_varrec = NULL, *types_varrec =
@@ -1878,7 +1878,6 @@ factor(struct LOC_exec * LINK)
 	int arg_num;
 	LDBLE count_species;
 	const char *string1, *string2;
-	//char *ptr;
 
 	if (LINK->t == NULL)
 		snerr(": missing variable or command");
@@ -2295,10 +2294,11 @@ factor(struct LOC_exec * LINK)
 			}
 			else
 			{
-				soln_ptr = PhreeqcPtr->solution_bsearch(PhreeqcPtr->use.Get_n_solution_user(), &nn, TRUE);
+				soln_ptr = Utilities::Rxn_find(PhreeqcPtr->Rxn_solution_map, 
+					PhreeqcPtr->use.Get_n_solution_user());
 				if (soln_ptr != NULL)
 				{
-					n.UU.sval = PhreeqcPtr->string_duplicate(soln_ptr->description);
+					n.UU.sval = PhreeqcPtr->string_duplicate(soln_ptr->Get_description().c_str());
 				}
 				else
 				{
@@ -2315,7 +2315,7 @@ factor(struct LOC_exec * LINK)
 		{
 			if (PhreeqcPtr->use.Get_solution_ptr() != NULL)
 			{
-				n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->use.Get_solution_ptr()->description);
+				n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->use.Get_solution_ptr()->Get_description().c_str());
 			}
 			else
 			{
@@ -2349,9 +2349,7 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		//PhreeqcPtr->string_trim_left(string1);
 		trim_left(STR1);
-		//n.UU.sval = PhreeqcPtr->string_duplicate(string1);
 		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
 		break;
 
@@ -2360,8 +2358,6 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		//PhreeqcPtr->string_trim_right(string1);
-		//n.UU.sval = PhreeqcPtr->string_duplicate(string1);
 		trim_right(STR1);
 		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
 		break;
@@ -2371,8 +2367,6 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		//PhreeqcPtr->string_trim(string1);
-		//n.UU.sval = PhreeqcPtr->string_duplicate(string1);
 		STR1 = trim(STR1);
 		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
 		break;
@@ -2389,8 +2383,6 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		//PhreeqcPtr->string_trim(string1);
-		//n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(string1);
 		trim(STR1);
 		n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(STR1.c_str());
 		break;
@@ -2413,8 +2405,6 @@ factor(struct LOC_exec * LINK)
 		 */
 		if (LINK->t != NULL && LINK->t->kind == tokcomma)
 		{
-			/*int c; */
-			/*  struct varrec *count_varrec, *names_varrec, *types_varrec, *moles_varrec; */
 			/* return number of species */
 			LINK->t = LINK->t->next;
 			count_varrec = LINK->t->UU.vp;
@@ -2573,8 +2563,6 @@ factor(struct LOC_exec * LINK)
 			/*
 			*  Call subroutine
 			*/
-			// return total moles
-
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->list_ss(s_s_name, composition);
 
 			/*
@@ -2830,7 +2818,7 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state < REACTION)
 		{
-			n.UU.val = PhreeqcPtr->use.Get_solution_ptr()->n_user;
+			n.UU.val = PhreeqcPtr->use.Get_solution_ptr()->Get_n_user();
 		}
 		else
 		{
@@ -3060,6 +3048,9 @@ factor(struct LOC_exec * LINK)
   	case tokgas_vm:
  		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_vm();
  		break;
+	case tokeps_r:
+		n.UU.val = PhreeqcPtr->eps_r;
+		break;
 	case toklog10:
 		n.UU.val = log10(realfactor(LINK));
 		break;
@@ -3146,40 +3137,6 @@ factor(struct LOC_exec * LINK)
 		PhreeqcPtr->PHRQ_free(l_s);
 		break;
 
-//	case tokmid_:
-//		n.stringval = true;
-//		require(toklp, LINK);
-//		n.UU.sval = strexpr(LINK);
-//		require(tokcomma, LINK);
-//		i = intexpr(LINK);
-//		if (i < 1)
-//			i = 1;
-//		j = (int) strlen(n.UU.sval);
-//		if (LINK->t != NULL && LINK->t->kind == tokcomma)
-//		{
-//			LINK->t = LINK->t->next;
-//			j = intexpr(LINK);
-//		}
-//		if (j > (int) strlen(n.UU.sval) - i + 1)
-//			j = (int) strlen(n.UU.sval) - i + 1;
-//		if (i > (int) strlen(n.UU.sval))
-//			*n.UU.sval = '\0';
-//		else
-//		{
-//			if (j + 1 > 256)
-//			{
-//				warning_msg("String too long in factor\n");
-///*
-//      STR1 = (char *) PhreeqcPtr->PHRQ_realloc (STR1, j + 1);
-//      if (STR1 == NULL)
-//	PhreeqcPtr->malloc_error ();
-//*/
-//			}
-//			sprintf(STR1, "%.*s", (int) j, n.UU.sval + i - 1);
-//			strcpy(n.UU.sval, STR1);
-//		}
-//		require(tokrp, LINK);
-//		break;
 	case tokmid_:
 		n.stringval = true;
 		require(toklp, LINK);
@@ -5418,14 +5375,6 @@ cmdgraph_y(struct LOC_exec *LINK)
 		// Add a new curve if necessary
 		if ((int) chart->Get_Curves().size() == chart->Get_colnr())
 		{
-			//if (chart->Get_new_headings().size() > 0)
-			//{
-			//	// remove x heading
-			//	if (chart->Get_colnr() == chart->Get_ColumnOffset())
-			//	{
-			//		chart->Get_new_headings().erase(chart->Get_new_headings().begin());
-			//	}
-			//}
 			if (chart->Get_new_headings().size() > 0)
 			{
 				chart->Add_curve(false, chart->Get_new_headings()[0]);
@@ -5482,14 +5431,6 @@ cmdgraph_sy(struct LOC_exec *LINK)
 		// Add a new curve if necessary
 		if ((int) chart->Get_Curves().size() == chart->Get_colnr())
 		{
-			//if (chart->Get_new_headings().size() > 0)
-			//{
-			//	// remove x heading
-			//	if (chart->Get_colnr() == chart->Get_ColumnOffset())
-			//	{
-			//		chart->Get_new_headings().erase(chart->Get_new_headings().begin());
-			//	}
-			//}
 			if (chart->Get_new_headings().size() > 0)
 			{
 				chart->Add_curve(false, chart->Get_new_headings()[0]);
@@ -6406,7 +6347,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_phi",             PBasic::tokpr_phi),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pressure",           PBasic::tokpressure)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pressure",           PBasic::tokpressure),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eps_r",              PBasic::tokeps_r)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

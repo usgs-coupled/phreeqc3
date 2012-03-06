@@ -11,12 +11,13 @@ class cxxSolutionIsotope: public PHRQ_base
   public:
 	cxxSolutionIsotope(PHRQ_io *io=NULL);
 	cxxSolutionIsotope(struct isotope *isotope_ptr, PHRQ_io *io=NULL);
-	~cxxSolutionIsotope(void);
+	virtual ~cxxSolutionIsotope(void);
 
 	void dump_xml(std::ostream & os, unsigned int indent) const;
 	void dump_raw(std::ostream & os, unsigned int indent) const;
 
-	CParser::STATUS_TYPE read_raw(CParser & parser, std::istream::pos_type next_char);
+	//CParser::STATUS_TYPE read_raw(CParser & parser, std::istream::pos_type next_char);
+	void read_raw(CParser & parser, bool check);
 
 	LDBLE Get_isotope_number() const
 	{
@@ -26,10 +27,7 @@ class cxxSolutionIsotope: public PHRQ_base
 	{
 		this->isotope_number = d;
 	}
-	const std::string &Get_elt_name() const
-	{
-		return this->elt_name;
-	}
+	const std::string &Get_elt_name() const	{return this->elt_name;}
 	void Set_elt_name(const char *cstring)
 	{
 		if (cstring != NULL)
@@ -37,10 +35,8 @@ class cxxSolutionIsotope: public PHRQ_base
 		else
 			this->elt_name.clear();
 	}
-	const std::string &Get_isotope_name() const
-	{
-		return this->isotope_name;
-	}
+
+	const std::string &Get_isotope_name() const	{return this->isotope_name;}
 	void Set_isotope_name(const char *cstring)
 	{
 		if (cstring != NULL)
@@ -48,29 +44,23 @@ class cxxSolutionIsotope: public PHRQ_base
 		else
 			this->isotope_name.clear();
 	}
-	LDBLE Get_total() const
-	{
-		return this->total;
-	}
-	void Set_total(LDBLE d)
-	{
-		this->total = d;
-	}
 
-	LDBLE Get_ratio() const
-	{
-		return this->ratio;
-	}
+	LDBLE Get_total() const	{return this->total;}
+	void Set_total(LDBLE d)	{this->total = d;}
 
-	LDBLE Get_ratio_uncertainty() const
-	{
-		return this->ratio_uncertainty;
-	}
+	LDBLE Get_ratio() const	            {return this->ratio;}
+	void Set_ratio(LDBLE t)             {this->ratio = t;}
 
-	bool Get_ratio_uncertainty_defined() const
-	{
-		return this->ratio_uncertainty_defined;
-	}
+	LDBLE Get_ratio_uncertainty() const	{return this->ratio_uncertainty;}
+	void Set_ratio_uncertainty(LDBLE t) {this->ratio_uncertainty = t;}
+
+	LDBLE Get_x_ratio_uncertainty() const	{return this->x_ratio_uncertainty;}
+	void Set_x_ratio_uncertainty(LDBLE t)   {this->x_ratio_uncertainty = t;}
+
+	bool Get_ratio_uncertainty_defined() const  {return this->ratio_uncertainty_defined;}
+	void Set_ratio_uncertainty_defined(bool tf) {this->ratio_uncertainty_defined = tf;}
+	LDBLE Get_coef() const	{return this->coef;}
+	void Set_coef(LDBLE t)   {this->coef = t;}
 
 	bool operator<(const cxxSolutionIsotope & conc) const;
 	void add(const cxxSolutionIsotope & isotope_ptr, LDBLE intensive,
@@ -78,7 +68,6 @@ class cxxSolutionIsotope: public PHRQ_base
 	void multiply(LDBLE extensive);
 
   protected:
-	friend class cxxSolutionIsotopeList;
 	LDBLE isotope_number;
 	std::string elt_name;
 	std::string isotope_name;
@@ -86,5 +75,7 @@ class cxxSolutionIsotope: public PHRQ_base
 	LDBLE ratio;
 	LDBLE ratio_uncertainty;
 	bool ratio_uncertainty_defined;
+ 	LDBLE x_ratio_uncertainty;
+ 	LDBLE coef;					/* coefficient of element in phase */
 };
 #endif // SOLUTIONISOTOPE_H_INCLUDED

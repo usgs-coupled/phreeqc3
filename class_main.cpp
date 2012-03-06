@@ -98,7 +98,6 @@ main_method(int argc, char *argv[])
 	errors = process_file_names(argc, argv, &db_cookie, &input_cookie, TRUE);
 	if (errors != 0)
 	{
-		//clean_up();
 		return errors;
 	}
 #ifdef DOS
@@ -111,7 +110,6 @@ main_method(int argc, char *argv[])
 	errors = do_initialize();
 	if (errors != 0)
 	{
-		//clean_up();
 		return errors;
 	}
 /*
@@ -123,7 +121,6 @@ main_method(int argc, char *argv[])
 
 	if (errors != 0)
 	{
-		//clean_up();
 		return errors;
 	}
 
@@ -137,7 +134,6 @@ main_method(int argc, char *argv[])
 
 	if (errors != 0)
 	{
-		//clean_up();
 		return errors;
 	}
 /*
@@ -146,19 +142,11 @@ main_method(int argc, char *argv[])
 	errors = do_status();
 	if (errors != 0)
 	{
-		//clean_up();
 		return errors;
 	}
-
-
-	//clean_up();
-	//close_input_files();
-	//close_output_files();
-
 	return 0;
 }
 
-#ifdef DOS
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 write_banner(void)
@@ -202,4 +190,3 @@ write_banner(void)
 
 	return 0;
 }
-#endif
