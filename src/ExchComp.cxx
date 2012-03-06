@@ -12,10 +12,7 @@
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "ExchComp.h"
-//#include "Dictionary.h"
 #include "phqalloc.h"
-
-
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -27,14 +24,10 @@ cxxExchComp::cxxExchComp(PHRQ_io *io)
 	//
 	: PHRQ_base(io)
 {
-	moles = 0.0;
-	formula_totals.type = cxxNameDouble::ND_ELT_MOLES;
 	totals.type = cxxNameDouble::ND_ELT_MOLES;
 	la = 0.0;
 	charge_balance = 0.0;
-	//phase_name = NULL;
 	phase_proportion = 0.0;
-	//rate_name = NULL;
 	formula_z = 0.0;
 }
 #ifdef SKIP
@@ -106,7 +99,6 @@ cxxExchComp::~cxxExchComp()
 void
 cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -122,7 +114,6 @@ cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent0 << "formula=\"" << this->formula << "\"" << "\n";
 	s_oss << indent0 << "formula_z=\"" << this->
 		formula_z << "\"" << "\n";
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
 	s_oss << indent0 << "la=\"" << this->la << "\"" << "\n";
 	s_oss << indent0 << "charge_balance=\"" << this->
 		charge_balance << "\"" << "\n";
@@ -142,17 +133,11 @@ cxxExchComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent0;
 	s_oss << "<totals " << "\n";
 	this->totals.dump_xml(s_oss, indent + 1);
-
-	// formula_totals
-	s_oss << indent0;
-	s_oss << "<formula_totals " << "\n";
-	this->formula_totals.dump_xml(s_oss, indent + 1);
 }
 
 void
 cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -164,38 +149,29 @@ cxxExchComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent2.append(Utilities::INDENT);
 
 	// Exch_Comp element and attributes
-
-	s_oss << indent0 << "-formula               " << this->formula << "\n";
-
 	//s_oss << indent1 << "# critical values" << "\n";
 
 	// totals
-	s_oss << indent1;
+	s_oss << indent0 << "# EXCHANGE_MODIFY candidate identifiers #\n";
+	s_oss << indent0;
 	s_oss << "-totals" << "\n";
-	this->totals.dump_raw(s_oss, indent + 2);
+	this->totals.dump_raw(s_oss, indent + 1);
 
-	s_oss << indent1 << "-charge_balance        " << this->charge_balance << "\n";
+	s_oss << indent0 << "-charge_balance          " << this->charge_balance << "\n";
 
 	//s_oss << indent1 << "# Noncritical values" << "\n";
-	s_oss << indent1 << "-moles                 " << this->moles << "\n";
-	s_oss << indent1 << "-la                    " << this->la << "\n";
+	s_oss << indent0 << "-la                      " << this->la << "\n";
 
 	if (this->phase_name.size() != 0)
 	{
-		s_oss << indent1 << "-phase_name            " << this->phase_name << "\n";
+		s_oss << indent0 << "-phase_name              " << this->phase_name << "\n";
 	}
 	if (this->rate_name.size() != 0)
 	{
-		s_oss << indent1 << "-rate_name             " << this->rate_name << "\n";
+		s_oss << indent0 << "-rate_name               " << this->rate_name << "\n";
 	}
-	s_oss << indent1 << "-phase_proportion      " << this->phase_proportion << "\n";
-	s_oss << indent1 << "-formula_z             " << this->formula_z << "\n";
-
-	// formula_totals
-	s_oss << indent1;
-	s_oss << "-formula_totals" << "\n";
-	this->formula_totals.dump_raw(s_oss, indent + 2);
-
+	s_oss << indent0 << "-phase_proportion        " << this->phase_proportion << "\n";
+	s_oss << indent0 << "-formula_z               " << this->formula_z << "\n";
 }
 
 void
@@ -225,8 +201,6 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 	int opt_save;
 
 	opt_save = CParser::OPT_ERROR;
-	bool formula_defined(false);
-	bool moles_defined(false);
 	bool la_defined(false);
 	bool charge_balance_defined(false);
 	bool formula_z_defined(false);
@@ -249,34 +223,14 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in EXCH_COMP read.", PHRQ_io::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// formula
-			if (!(parser.get_iss() >> str))
-			{
-				this->formula.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for formula.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->formula = str;
-			}
-			formula_defined = true;
+			warning_msg("-formula ignored. Defined with -component.");
 			break;
 
 		case 1:				// moles
-			if (!(parser.get_iss() >> this->moles))
-			{
-				this->moles = 0;
-				parser.incr_input_error();
-				parser.error_msg("Expected numeric value for moles.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			moles_defined = true;
+			parser.warning_msg("-moles is an obsolete identifier");
 			break;
 
 		case 2:				// la
@@ -365,16 +319,7 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 			break;
 
 		case 9:				// formula_totals
-			if (this->formula_totals.read_raw(parser, next_char) !=
-				CParser::PARSER_OK)
-			{
-				parser.incr_input_error();
-				parser.
-					error_msg
-					("Expected element name and molality for ExchComp formula totals.",
-					 PHRQ_io::OT_CONTINUE);
-			}
-			opt_save = 9;
+			parser.warning_msg("-formula_totals is an obsolete identifier");
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
@@ -383,18 +328,6 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 	if (check)
 	{
 		// members that must be defined
-		if (formula_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Formula not defined for ExchComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		if (moles_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Moles not defined for ExchComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
 		if (la_defined == false)
 		{
 			parser.incr_input_error();
@@ -418,29 +351,16 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 void
 cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 {
-	LDBLE ext1, ext2, f1, f2;
+	LDBLE f1, f2;
 	if (extensive == 0.0)
 		return;
 	if (addee.formula.size() == 0)
 		return;
 	// this and addee must have same formula
 	// otherwise generate a new exchcomp with multiply
+	f1 = 0.5;
+	f2 = 0.5;
 
-	ext1 = this->moles;
-	ext2 = addee.moles * extensive;
-	if (ext1 + ext2 != 0)
-	{
-		f1 = ext1 / (ext1 + ext2);
-		f2 = ext2 / (ext1 + ext2);
-	}
-	else
-	{
-		f1 = 0.5;
-		f2 = 0.5;
-	}
-
-	//char * formula;
-	//cxxNameDouble formula_totals;
 	if (this->formula.size() == 0 && addee.formula.size() == 0)
 	{
 		return;
@@ -450,17 +370,10 @@ cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 	if (this->formula.size() == 0 && addee.formula.size() != 0)
 	{
 		this->formula = addee.formula;
-		this->formula_totals = addee.formula_totals;
 	}
-	//LDBLE moles;
-	this->moles += addee.moles * extensive;
-	//cxxNameDouble totals; 
 	this->totals.add_extensive(addee.totals, extensive);
-	//LDBLE la;
 	this->la = f1 * this->la + f2 * addee.la;
-	//LDBLE charge_balance;
 	this->charge_balance += addee.charge_balance * extensive;
-	//char   *phase_name;
 
 	if (this->phase_name != addee.phase_name)
 	{
@@ -469,7 +382,6 @@ cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 			"Can not mix two exchange components with same formula and different related phases, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
-		//input_error++;
 		return;
 	}
 	else if (this->phase_name.size() != 0)
@@ -477,7 +389,6 @@ cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
 	}
-	//char   *rate_name;
 	if (this->rate_name != addee.rate_name)
 	{
 		std::ostringstream oss;
@@ -485,12 +396,10 @@ cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 			"Can not mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
-		//input_error++;
 		return;
 	}
 	else if (this->rate_name.size() != 0)
 	{
-		//LDBLE phase_proportion;
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
 	}
@@ -502,26 +411,15 @@ cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 			"Can not mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
-		//input_error++;
 		return;
 	}
 }
 void
 cxxExchComp::multiply(LDBLE extensive)
-{
-	//char * formula;
-	//LDBLE moles;
-	this->moles *= extensive;
-	//cxxNameDouble formula_totals;
-	//cxxNameDouble totals; 
+{ 
 	this->totals.multiply(extensive);
-	//LDBLE la;
-	//LDBLE charge_balance;
-	this->charge_balance *= extensive;
-	//char   *phase_name;
-	//LDBLE phase_proportion;  
+	this->charge_balance *= extensive;  
 	this->phase_proportion *= extensive;
-	//LDBLE formula_z;
 }
 
 #ifdef USE_MPI

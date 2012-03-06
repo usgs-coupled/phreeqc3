@@ -99,8 +99,9 @@ dump
 	-reaction	3
 	-temperature 	3
 	-pressure 	3
-
-
+END
+INCLUDE$ ppdump.dmp
+END
 
 DELETE
 	-solution 	 	
@@ -169,26 +170,23 @@ SOLUTION_MODIFY       1 New soln description
     H(0)   1.4155655514601e-025
     Na   0.0020000000000003
 EQUILIBRIUM_PHASES_MODIFY       1 New pp description
-  -component
-    -name                  Barite
+  -component               Barite
+#    -name                  Barite
     -moles                 20
     -dissolve_only         1
 
-  -component
-    -name                  Calcite
+  -component               Calcite
+#    -name                  Calcite
     -moles                 20
     -dissolve_only         1
 
 EXCHANGE_MODIFY       1 New ex description
   -pitzer_exchange_gammas 1
-  -component
-    -formula              X
+  -component              X
     -totals
       Na   3.0000000058717
       X   3.0000000058717
-  -component
-    -formula               Y
-    -moles                 0
+  -component               Y
     -la                    2.0000000302372
     -charge_balance        0
     -phase_proportion              0
@@ -196,8 +194,6 @@ EXCHANGE_MODIFY       1 New ex description
     -totals
       Na   2.0000000058717
       X   2.0000000058717
-    -formula_totals
-      X   1
 SURFACE_MODIFY      1 New surface def
   -type 2
   -dl_type 0
@@ -208,29 +204,25 @@ SURFACE_MODIFY      1 New surface def
   -DDL_viscosity 1
   -DDL_limit 0.8
   -transport 0
-  -component
-    -formula               Hfo_s
+  -component	Hfo_s
       -formula_z             0
       -moles                 0
       -la                    -0.11486188676541
       -charge_balance        3.7853465372651e-005
       -phase_proportion      0
       -Dw                    0
-      -formula_totals
-        Hfo_s   0.02
       -totals
         H   0.02003785346547
         Hfo_s   0.020000000000097
         O   0.020000000000097
-  -charge_component 
-    -name                  Hfo
+  -charge_component 	Hfo
       -specific_area         700
       -grams                 1
       -charge_balance        5.7853465372651e-005
       -mass_water            0
       -la_psi                0.55146269389617
-      -la_psi1               1
-      -la_psi2               2
+      #-la_psi1               1
+      #-la_psi2               2
       -capacitance0          3
       -capacitance1          5
       -diffuse_layer_totals 
@@ -263,11 +255,9 @@ GAS_PHASE_MODIFY      1 New gas_phase def
   -type               0
   -total_p            1
   -volume             1
-  -component
-  	-phase_name 	CO2(g)
+  -component 	CO2(g)
   	-moles		2.4305508698401e-005
-  -component	
-       -phase_name	N2(g)
+  -component	N2(g)	
        -moles		1e-5
        
 KINETICS_MODIFY       1 New kinetics def

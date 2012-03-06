@@ -1,0 +1,45 @@
+# calculate the vapor pressure of water from 0 - 300 oC
+# DATABASE ../vreeqc.dat
+DATABASE ../database/vreeqc.dat
+PHASES
+H2O(g)
+	H2O = H2O
+	log_k  1.506; delta_h -44.03 kJ
+	T_c  647.3 # critical T, K
+	-P_c  217.60 # critical P, atm
+	-Omega 0.344 #  acentric factor
+#	-analytic   -16.5066 -2.0013E-3  2710.7  3.7646  0 2.24E-6
+SOLUTION
+ pH 7 charge
+GAS_PHASE 1
+ -fixed_volume
+ H2O(g) 0
+REACTION_TEMPERATURE
+ 0 300 in 13
+USER_GRAPH
+ -headings tc P(delta_H)
+ -connect_simulations false
+ -axis_titles "Temperature / oC" "H2O Vapor Pressure / MPa"
+ axis_scale y_axis auto auto auto auto log
+ axis_scale sy_axis auto auto auto auto log
+ 10 graph_x tc
+ 20 graph_y pr_p("H2O(g)") * 1.01325e-1
+END
+
+PHASES
+H2O(g)
+	H2O = H2O
+	log_k  1.506; delta_h -44.03 kJ
+	T_c  647.3 # critical T, K
+	-P_c  217.60 # critical P, atm
+	-Omega 0.344 #  acentric factor
+	-analytic   -16.5066 -2.0013E-3  2710.7  3.7646  0 2.24E-6
+
+USE solution 1; USE GAS_PHASE 1; USE REACTION_TEMPERATURE 1
+USER_GRAPH
+ -headings tc P(polynom) Antoine.eqn Ant<100 Ant>100
+ 10 graph_x tc
+ 20 graph_y pr_p("H2O(g)") * 1.01325e-1, exp(11.6702 - 3816.44 / (tk - 46.13)) * 1.01325e-1
+ # 30 graph_sy (10^(8.07131 -1730.63 / (233.426 + tc))) / 760
+ # 40 graph_sy (10^(8.14019  -1810.94 / (244.485 + tc))) / 760
+END

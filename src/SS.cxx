@@ -52,7 +52,6 @@ cxxSS::~cxxSS()
 void
 cxxSS::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing s_s message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -81,7 +80,6 @@ cxxSS::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 void
 cxxSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing s_s message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1("");
@@ -89,26 +87,37 @@ cxxSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent0.append(Utilities::INDENT);
 	for (i = 0; i < indent + 1; ++i)
 		indent1.append(Utilities::INDENT);
-	// S_S element and attributes
 
-	//s_oss << indent0 << "-ss_name               " << this->name << "\n";
-	s_oss << indent0 << "-total_moles           " << this->total_moles    << "\n";
-	//s_oss << indent0 << "-dn                    " << this->dn             << "\n";
-	s_oss << indent0 << "-a0                    " << this->a0 << "\n";
-	s_oss << indent0 << "-a1                    " << this->a1 << "\n";
-	s_oss << indent0 << "-ag0                   " << this->ag0 << "\n";
-	s_oss << indent0 << "-ag1                   " << this->ag1 << "\n";
-	s_oss << indent0 << "-miscibility           " << this->miscibility << "\n";
-	s_oss << indent0 << "-spinodal              " << this->spinodal << "\n";
-	s_oss << indent0 << "-tk                    " << this->tk << "\n";
-	s_oss << indent0 << "-xb1                   " << this->xb1 << "\n";
-	s_oss << indent0 << "-xb2                   " << this->xb2 << "\n";
-	s_oss << indent0 << "-input_case            " << this->input_case << "\n";
+	s_oss << indent0 << "# SOLID_SOLUTION_MODIFY candidate identifiers #\n";
 	for (size_t i = 0; i < this->ss_comps.size(); i++)
 	{
-		s_oss << indent0 << "-component             " << this->ss_comps[i].Get_name() << "\n";
+		s_oss << indent0 << "-component               " << this->ss_comps[i].Get_name() << "\n";
 		this->ss_comps[i].dump_raw(s_oss, indent + 1);
 	}
+
+	s_oss << indent0 << "# SOLID_SOLUTION_MODIFY candidate identifiers with new_def=true #\n";
+	s_oss << indent0 << "-tk                      " << this->tk << "\n";
+	s_oss << indent0 << "-input_case              " << this->input_case << "\n";
+	s_oss << indent0 << "-p			              " << 
+		p[0] << "\t"  << 
+		p[1] << "\t"  << 
+		p[2] << "\t"  << 
+		p[3] << "\n";
+
+	s_oss << indent0 << "# solid solution workspace variables #\n";
+	s_oss << indent0 << "-ag0                     " << this->ag0 << "\n";
+	s_oss << indent0 << "-ag1                     " << this->ag1 << "\n";
+	s_oss << indent0 << "-a0                      " << this->a0 << "\n";
+	s_oss << indent0 << "-a1                      " << this->a1 << "\n";
+	s_oss << indent0 << "-xb1                     " << this->xb1 << "\n";
+	s_oss << indent0 << "-xb2                     " << this->xb2 << "\n";
+	s_oss << indent0 << "-miscibility             " << this->miscibility << "\n";
+	s_oss << indent0 << "-spinodal                " << this->spinodal << "\n";
+	s_oss << indent0 << "-ss_in                   " << this->ss_in << "\n";
+	s_oss << indent0 << "-total_moles             " << this->total_moles    << "\n";
+	s_oss << indent0 << "-dn                      " << this->dn             << "\n";
+	s_oss << indent0 << "-totals                  " << "\n";
+	this->totals.dump_raw(s_oss, indent + 1);
 }
 
 void
@@ -120,7 +129,7 @@ cxxSS::read_raw(CParser & parser, bool check)
 	if (vopts.empty())
 	{
 		vopts.reserve(10);
-		vopts.push_back("ss_name_not_used");	// 0                                   
+		vopts.push_back("ss_name");	// 0                                   
 		vopts.push_back("total_moles");	// 1   
 		vopts.push_back("a0");	// 2   
 		vopts.push_back("a1");	// 3
@@ -134,10 +143,10 @@ cxxSS::read_raw(CParser & parser, bool check)
 		vopts.push_back("ag1");	// 11
 		vopts.push_back("component");	// 12
 		vopts.push_back("input_case"); //13
-		//vopts.push_back("initial_moles");	// 13
-		//vopts.push_back("fraction_x");	// 13
-		//vopts.push_back("log10_lambda");	// 13
-		//vopts.push_back("log10_fraction_x");	// 13
+		vopts.push_back("p"); //14
+		vopts.push_back("ss_in"); //15
+		vopts.push_back("totals"); //16
+		vopts.push_back("dn"); //17
 	}
 
 	std::istream::pos_type ptr;
@@ -146,18 +155,19 @@ cxxSS::read_raw(CParser & parser, bool check)
 	int opt_save;
 
 	opt_save = CParser::OPT_ERROR;
-	bool name_defined(false);
-	//bool total_moles_defined(false);
 	bool a0_defined(false);
 	bool a1_defined(false);
 	bool ag0_defined(false);
 	bool ag1_defined(false);
 	bool miscibility_defined(false);
-	//bool spinodal_defined(false); 
-	//bool tk_defined(false); 
 	bool xb1_defined(false);
 	bool xb2_defined(false);
 	bool useLastLine = false;
+
+	for (size_t i = this->Get_p().size(); i < 4; i++)
+	{
+		this->p.push_back(0.0);
+	}
 
 	for (;;)
 	{
@@ -185,23 +195,10 @@ cxxSS::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in S_S read.", PHRQ_io::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// name not used
-			if (!(parser.get_iss() >> str))
-			{
-				this->name.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for name.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->name = str;
-			}
-			name_defined = true;
+			parser.warning_msg("-ss_name not used, defined in -solid_solution");
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
@@ -212,7 +209,6 @@ cxxSS::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for total_moles.", PHRQ_io::OT_CONTINUE);
 			}
-			//total_moles_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
@@ -300,7 +296,6 @@ cxxSS::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.error_msg("Expected boolean value for spinodal.", PHRQ_io::OT_CONTINUE);
 			}
-			//spinodal_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
@@ -311,7 +306,6 @@ cxxSS::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for tk.", PHRQ_io::OT_CONTINUE);
 			}
-			//tk_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 
@@ -376,10 +370,50 @@ cxxSS::read_raw(CParser & parser, bool check)
 					this->input_case = (cxxSS::SS_PARAMETER_TYPE) i;
 				}
 			}
-			//spinodal_defined = true;
 			opt_save = CParser::OPT_DEFAULT;
 			break;
+		case 14:				// p
+			{
+				this->p.clear();
+				this->p.assign(4, 0.0);
+				for (int i = 0; i < 4; i++)
+				{
+					if (!(parser.get_iss() >> this->p[i]))
+					parser.error_msg("Expected 4 parameters.");
+				}
+			}
+			break;
 
+		case 15:				// ss_in
+			{
+				if (!(parser.get_iss() >> this->ss_in))
+				{
+					this->ss_in = false;
+					parser.incr_input_error();
+					parser.error_msg("Expected boolean value for ss_in.",
+						PHRQ_io::OT_CONTINUE);
+				}
+			}
+			break;
+		case 16:				// totals
+			if (this->totals.read_raw(parser, next_char) !=	CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.error_msg
+					("Expected element name and molality for cxxSS totals.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 16;
+			break;
+		case 17:				// dn
+			if (!(parser.get_iss() >> this->dn))
+			{
+				this->dn = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for dn.", PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -387,18 +421,6 @@ cxxSS::read_raw(CParser & parser, bool check)
 	if (check)
 	{
 		// members that must be defined
-		if (name_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Name not defined for SSassemblageSS input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		/*
-		if (total_moles_defined == false) {
-		parser.incr_input_error();
-		parser.error_msg("Total_moles not defined for SSassemblageSS input.", PHRQ_io::OT_CONTINUE);
-		}
-		*/
 		if (a0_defined == false)
 		{
 			parser.incr_input_error();
@@ -429,16 +451,6 @@ cxxSS::read_raw(CParser & parser, bool check)
 			parser.error_msg("Miscibility not defined for SSassemblageSS input.",
 				PHRQ_io::OT_CONTINUE);
 		}
-		/*
-		if (spinodal_defined == false) {
-		parser.incr_input_error();
-		parser.error_msg("Spinodal not defined for SSassemblageSS input.", PHRQ_io::OT_CONTINUE);
-		}
-		if (tk_defined == false) {
-		parser.incr_input_error();
-		parser.error_msg("Tk not defined for SSassemblageSS input.", PHRQ_io::OT_CONTINUE);
-		}
-		*/
 		if (xb1_defined == false)
 		{
 			parser.incr_input_error();

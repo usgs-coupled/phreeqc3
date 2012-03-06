@@ -6,21 +6,21 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "Solution.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 transport(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, k, n;
-	int j_imm, n_m, n_imm;
+	int j_imm;
 	LDBLE b, f, mix_f_m, mix_f_imm;
 	LDBLE water_m, water_imm;
 	int first_c, last_c, b_c;
 	int max_iter;
 	char token[MAX_LENGTH];
 	LDBLE kin_time, stagkin_time, kin_time_save;
-	//struct mix *mix_ptr;
-	struct surface *surf_ptr, *surf_ptr1;
+
 	int punch_boolean;
 	LDBLE step_fraction;
 	LDBLE cb_tol;
@@ -38,7 +38,7 @@ transport(void)
 	/* check column solutions */
 	for (i = 1; i <= count_cells; i++)
 	{
-		use.Set_solution_ptr(solution_bsearch(i, &n, TRUE));
+		use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, i));
 		if (use.Get_solution_ptr() == NULL)
 		{
 			input_error++;
@@ -48,7 +48,7 @@ transport(void)
 			error_msg(error_string, CONTINUE);
 		}
 		else
-			cell_data[i - 1].temp = use.Get_solution_ptr()->tc;
+			cell_data[i - 1].temp = use.Get_solution_ptr()->Get_tc();
 	}
 
 	if (multi_Dflag)
@@ -70,7 +70,7 @@ transport(void)
 		}
 	}
 	/* check solution 0 */
-	if (solution_bsearch(0, &n, FALSE) == NULL)
+	if (Utilities::Rxn_find(Rxn_solution_map, 0) == NULL)
 	{
 		if (ishift == 1)
 		{
@@ -80,11 +80,11 @@ transport(void)
 			error_msg(error_string, CONTINUE);
 		}
 		else
-			solution_duplicate(1, 0);
+			Utilities::Rxn_copy(Rxn_solution_map, 1, 0);
 	}
 
 	/* check solution count_cells */
-	if (solution_bsearch(count_cells + 1, &n, FALSE) == NULL)
+	if (Utilities::Rxn_find(Rxn_solution_map, count_cells + 1) == NULL)
 	{
 		if (ishift == -1)
 		{
@@ -95,7 +95,7 @@ transport(void)
 			error_msg(error_string, CONTINUE);
 		}
 		else
-			solution_duplicate(count_cells, count_cells + 1);
+			Utilities::Rxn_copy(Rxn_solution_map, count_cells, count_cells + 1);
 	}
 /*
  *   Initialize temperature in stagnant cells ...
@@ -105,11 +105,9 @@ transport(void)
 		for (i = 1; i <= count_cells; i++)
 		{
 			k = i + 1 + n * count_cells;
-			int n_solution;
-			use.Set_solution_ptr(solution_bsearch(k, &n_solution, FALSE));
-			//use.Set_n_solution(n_solution);
+			use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, k));
 			if (use.Get_solution_ptr() != NULL)
-				cell_data[k - 1].temp = use.Get_solution_ptr()->tc;
+				cell_data[k - 1].temp = use.Get_solution_ptr()->Get_tc();
 		}
 	}
 /*
@@ -125,7 +123,7 @@ transport(void)
 		set_initial_moles(i);
 		cell_no = i;
 		set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
-		if (use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->transport == TRUE)
+		if (use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_transport())
 			transp_surf = TRUE;
 		if (transp_surf && !multi_Dflag)
 		{
@@ -158,11 +156,8 @@ transport(void)
 		{
 			k = i + 1 + n * count_cells;
 			cell_no = k;
-			int n_solution;
-
-			if (solution_bsearch(k, &n_solution, FALSE) != 0)
+			if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
 			{
-				//use.Set_n_solution(n_solution);
 				set_initial_moles(k);
 				set_and_run_wrapper(k, NOMIX, FALSE, k, 0.0);
 				if (multi_Dflag == TRUE)
@@ -259,38 +254,24 @@ transport(void)
 		{
 			j = i;
 			j_imm = j + (1 + count_cells);
-			if (solution_bsearch(j, &n_m, TRUE) == NULL)
+			if (Utilities::Rxn_find(Rxn_solution_map, j) == NULL)
 				error_msg
 					("Could not find mobile cell solution in TRANSPORT.",
 					 STOP);
-			if (solution_bsearch(j_imm, &n_imm, TRUE) == NULL)
+			if (Utilities::Rxn_find(Rxn_solution_map, j_imm) == NULL)
 				error_msg
 					("Could not find immobile cell solution in TRANSPORT.",
 					 STOP);
-			water_m = solution[n_m]->mass_water;
-			water_imm = solution[n_imm]->mass_water;
+			water_m = Utilities::Rxn_find(Rxn_solution_map, j)->Get_mass_water();
+			water_imm = Utilities::Rxn_find(Rxn_solution_map, j_imm)->Get_mass_water();
 /*
  * Define C_m = (1 - mix_f_m) * C_m0  +  mix_f_m) * C_im0
  */
 			{
 				cxxMix temp_mix;
-				//mix[n].comps =
-				//	(struct mix_comp *) PHRQ_malloc((size_t) 2 *
-				//									sizeof(struct mix_comp));
-				//if (mix[n].comps == NULL)
-				//	malloc_error();
-				//mix[n].count_comps = 2;
-				//mix[n].description = string_duplicate(" ");
-				//mix[n].n_user = j;
-				//mix[n].n_user_end = j;
 				temp_mix.Set_n_user(j);
 				temp_mix.Set_n_user_end(j);
-
-				//mix[n].comps[0].n_solution = j;
-				//mix[n].comps[0].fraction = 1 - mix_f_m;
 				temp_mix.Add(j, 1 - mix_f_m);
-				//mix[n].comps[1].n_solution = j_imm;
-				//mix[n].comps[1].fraction = mix_f_m * water_m / water_imm;
 				temp_mix.Add(j_imm, mix_f_m * water_m / water_imm);
 				Rxn_mix_map[j] = temp_mix;
 				n++;
@@ -300,23 +281,9 @@ transport(void)
  */
 			{
 				cxxMix temp_mix;
-				//mix[n].comps =
-				//	(struct mix_comp *) PHRQ_malloc((size_t) 2 *
-				//									sizeof(struct mix_comp));
-				//if (mix[n].comps == NULL)
-				//	malloc_error();
-				//mix[n].count_comps = 2;
-				//mix[n].description = string_duplicate(" ");
-				//mix[n].n_user = j_imm;
-				//mix[n].n_user_end = j_imm;
 				temp_mix.Set_n_user(j_imm);
 				temp_mix.Set_n_user_end(j_imm);
-
-				//mix[n].comps[0].n_solution = j_imm;
-				//mix[n].comps[0].fraction = 1 - mix_f_imm;
 				temp_mix.Add(j_imm, 1 - mix_f_imm);
-				//mix[n].comps[1].n_solution = j;
-				//mix[n].comps[1].fraction = mix_f_imm * water_imm / water_m;
 				temp_mix.Add(j, mix_f_imm * water_imm / water_m);
 				Rxn_mix_map[j_imm] = temp_mix;
 				n++;
@@ -353,7 +320,7 @@ transport(void)
 		 *  Set initial moles of phases
 		 */
 		for (i = 1; i <= count_cells; i++)
-			set_initial_moles(i);
+				set_initial_moles(i);
 		/*
 		 * Also stagnant cells
 		 */
@@ -363,10 +330,8 @@ transport(void)
 			{
 				k = i + 1 + n * count_cells;
 				cell_no = k;
-				int n_solution;
-				if (solution_bsearch(k, &n_solution, FALSE) != 0)
+				if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
 				{
-					//use.Set_n_solution(n_solution);
 					set_initial_moles(k);
 				}
 			}
@@ -436,13 +401,10 @@ transport(void)
 						fill_spec(i);
 
 					/* punch and output file */
-					int n_solution;
 					if ((ishift == 0) && (j == nmix)
 						&& ((stag_data->count_stag == 0)
-							|| solution_bsearch(i + 1 + count_cells,
-												&n_solution, FALSE) == 0))
+							|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0))
 					{
-						//use.Set_n_solution(n_solution);
 						if ((cell_data[i - 1].punch == TRUE)
 							&& (transport_step % punch_modulus == 0))
 							punch_all();
@@ -451,16 +413,14 @@ transport(void)
 							print_all();
 					}
 					if (i > 1)
-						solution_duplicate(-2, i - 1);
+						Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 					saver();
 
 					/* maybe sorb a surface component... */
 					if ((ishift == 0) && (j == nmix)
 						&& ((stag_data->count_stag == 0)
-							|| solution_bsearch(i + 1 + count_cells,
-												&n_solution, FALSE) == 0))
+							|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0))
 					{
-						//use.Set_n_solution(n_solution);
 						if (change_surf_count > 0)
 						{
 							for (k = 0; k < change_surf_count; k++)
@@ -478,7 +438,7 @@ transport(void)
 						}
 					}
 				}
-				solution_duplicate(-2, count_cells);
+				Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
 
 				/* Stagnant zone mixing after completion of each
 				   diffusive/dispersive step ...  */
@@ -513,7 +473,6 @@ transport(void)
 			rate_sim_time = rate_sim_time_start + kin_time;
 
 			/* halftime kinetics for resident water in first cell ... */
-			//if (kinetics_bsearch(first_c, &i) != NULL && count_cells > 1)
 			if (Utilities::Rxn_find(Rxn_kinetics_map, first_c) != NULL && count_cells > 1)
 			{
 				cell_no = first_c;
@@ -525,7 +484,7 @@ transport(void)
 
 			/* for each cell in column */
 			for (i = last_c; i != (first_c - ishift); i -= ishift)
-				solution_duplicate(i - ishift, i);
+				Utilities::Rxn_copy(Rxn_solution_map, i - ishift, i);
 
 /* if boundary_solutions must be flushed by the flux from the column...
       if (ishift == 1 && bcon_last == 3)
@@ -541,35 +500,35 @@ transport(void)
 					if ((ishift == 1 && i == last_c + 1 && bcon_last != 3) ||
 						(ishift == -1 && i == last_c - 1 && bcon_first != 3))
 						continue;
-					int n_surface;
-					if ((surf_ptr =
-						 surface_bsearch(i - ishift, &n_surface)) == NULL)
+					cxxSurface * surface_ptr = Utilities::Rxn_find(Rxn_surface_map, i - ishift);
+					if (surface_ptr == NULL)
 					{
-						if ((surface_bsearch(i, &n_surface) != NULL) &&
+						if ((Utilities::Rxn_find(Rxn_surface_map,i) != NULL) &&
 							((i == 0 && bcon_first == 3)
-							 || (i == count_cells + 1 && bcon_last == 3)))
-							surface_delete(i);
+							|| (i == count_cells + 1 && bcon_last == 3)))
+						{
+							Rxn_surface_map.erase(i);
+						}
 						continue;
 					}
-					if (surf_ptr->transport)
+					if (surface_ptr->Get_transport())
 					{
-						if ((surf_ptr1 =
-							 surface_bsearch(i, &n_surface)) == NULL)
+						cxxSurface * surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
+						if (surface_ptr1 == NULL)
 						{
-							n = count_surface++;
-							space((void **) ((void *) &surface),
-								  count_surface, &max_surface,
-								  sizeof(struct surface));
-							surf_ptr1 = &surface[n];
-							surf_ptr1->count_comps = 0;
+							cxxSurface surf;
+							surf.Set_n_user(i);
+							surf.Set_n_user_end(i);
+							Rxn_surface_map[i] = surf;
 						}
 						if (i == first_c)
-							mobile_surface_copy(surf_ptr, surf_ptr1, i,
-												FALSE);
+						{
+							Rxn_surface_map[i] = mobile_surface_copy(surface_ptr, i, false);
+						}
 						else
-							mobile_surface_copy(surf_ptr, surf_ptr1, i, TRUE);
-						if (surface[n].n_user < surface[n - 1].n_user)
-							surface_sort();
+						{
+							Rxn_surface_map[i] = mobile_surface_copy(surface_ptr, i, true);
+						}
 					}
 				}
 			}
@@ -610,11 +569,8 @@ transport(void)
 					fill_spec(i);
 				if (iterations > max_iter)
 					max_iter = iterations;
-				int n_solution;
 				if ((nmix == 0) && ((stag_data->count_stag == 0) ||
-									(solution_bsearch
-									 (i + 1 + count_cells, &n_solution,
-									  FALSE) == 0)))
+									(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 				{
 					if ((cell_data[i - 1].punch == TRUE)
 						&& (transport_step % punch_modulus == 0))
@@ -629,9 +585,7 @@ transport(void)
 
 				/* maybe sorb a surface component... */
 				if ((nmix == 0) && ((stag_data->count_stag == 0) ||
-									(solution_bsearch
-									 (i + 1 + count_cells, &n_solution,
-									  FALSE) == 0)))
+									(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 				{
 					if (change_surf_count > 0)
 					{
@@ -719,11 +673,8 @@ transport(void)
 				run_reactions(i, kin_time, DISP, step_fraction);
 				if (multi_Dflag == TRUE)
 					fill_spec(i);
-				int n_solution;
 				if ((j == nmix) && ((stag_data->count_stag == 0) ||
-									(solution_bsearch
-									 (i + 1 + count_cells, &n_solution,
-									  FALSE) == 0)))
+									(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 				{
 					if ((cell_data[i - 1].punch == TRUE)
 						&& (transport_step % punch_modulus == 0))
@@ -733,14 +684,12 @@ transport(void)
 						print_all();
 				}
 				if (i > 1)
-					solution_duplicate(-2, i - 1);
+					Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 				saver();
 
 				/* maybe sorb a surface component... */
 				if ((j == nmix) && ((stag_data->count_stag == 0) ||
-									(solution_bsearch
-									 (i + 1 + count_cells, &n_solution,
-									  FALSE) == 0)))
+									(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 				{
 					if (change_surf_count > 0)
 					{
@@ -759,7 +708,7 @@ transport(void)
 					}
 				}
 			}
-			solution_duplicate(-2, count_cells);
+			Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
 
 			/* Stagnant zone mixing after completion of each
 			   diffusive/dispersive step ... */
@@ -780,11 +729,8 @@ transport(void)
 		if (dump_modulus != 0 && (transport_step % dump_modulus) == 0)
 			dump();
 	}
-#ifdef DOS
 	screen_msg("\n");
-#else
-	screen_msg(sformatf("%s%-80s", "\n", " "));;
-#endif
+
 	/* free_model_allocs(); */
 /*
  * free mix structures
@@ -827,11 +773,6 @@ init_mix(void)
 	{
 		m.push_back(0);
 	}
-	//LDBLE *m;
-
-	//m = (LDBLE *) PHRQ_malloc((count_cells + 1) * sizeof(LDBLE));
-	//if (m == NULL)
-	//	malloc_error();
 	if (multi_Dflag == TRUE)
 		diffc_here = 0.0;
 	else
@@ -949,75 +890,31 @@ init_mix(void)
 	
 	if (l_nmix != 0)
 	{
-		//mix = (struct mix *) PHRQ_realloc(mix,
-		//								(size_t) (count_mix +
-		//										  count_cells) *
-		//								sizeof(struct mix));
-		//if (mix == NULL)
-		//	malloc_error();
-		//count_mix += count_cells;
-		//for (n = count_mix - count_cells; n < count_mix; n++)
-		//{
-			//mix[n].description = NULL;
-			//mix[n].count_comps = 3;
-			//mix[n].comps =
-			//	(struct mix_comp *) PHRQ_malloc((size_t) 3 *
-			//									sizeof(struct mix_comp));
-			//if (mix[n].comps == NULL)
-			//	malloc_error();
-		//}
-
-		//n = count_mix - count_cells;
 /*
  * max_mix brings n_user outside range of active cells
  * mix[n].n_user = mix[n].n_user_end = -999 has same effect
  * but max_mix keeps mix in sort order in case mix_bsearch
  * is used
  */
-		//if (n - 1 <= 0)
-		//{
-		//	max_mix = 1;
-		//else
-		//	max_mix = mix[n - 1].n_user + 1;
-
-		//if (max_mix < count_cells * (stag_data->count_stag + 1) + 1)
-		//	max_mix = count_cells * (stag_data->count_stag + 1) + 1;
-
 		for (i = 1; i <= count_cells; i++)
 		{
 			cxxMix temp_mix;
 			dav = 0;
-			//count_comps = 0;
-			//mix[n].description = (char *) free_check_null(mix[n].description);
-			//mix[n].description = string_duplicate(" ");
 /*
  * again, max_mix brings n_user outside range of active cells, etc...
  */
-			//mix[n].n_user = max_mix + i;
-			//mix[n].n_user_end = max_mix + i;
 			temp_mix.Set_n_user(i);
 			temp_mix.Set_n_user_end(i);
-
-			//mix[n].comps[count_comps].n_solution = i - 1;
-			//mix[n].comps[count_comps].fraction = m[i - 1];
 			temp_mix.Add(i - 1, m[i - 1]);
 
 			dav += m[i - 1];
-			//count_comps++;
-			//mix[n].comps[count_comps].n_solution = i + 1;
-			//mix[n].comps[count_comps].fraction = m[i];
 			temp_mix.Add(i + 1, m[i]);
 
 			dav += m[i];
-			//count_comps++;
-			//mix[n].comps[count_comps].n_solution = i;
-			//mix[n].comps[count_comps].fraction = 1.0 - dav;
 			temp_mix.Add(i, 1.0 - dav);
 			Dispersion_mix_map[i] = temp_mix;
-			//n++;
 		}
 	}
-	//m = (LDBLE *) free_check_null(m);
 	return (l_nmix);
 }
 /* ---------------------------------------------------------------------- */
@@ -1027,31 +924,30 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 {
 	int j, n, k;
 	LDBLE t_imm;
-	struct solution *ptr_imm, *ptr_m;
+	cxxSolution *ptr_imm, *ptr_m;
 /*
  * Kinetics in transport cell is done while transporting
  */
 	for (n = 1; n <= stag_data->count_stag; n++)
 	{
 		k = i + 1 + n * count_cells;
-		int n_solution;
-		if ((ptr_imm = solution_bsearch(k, &n_solution, FALSE)) != NULL)
+		if ((ptr_imm = Utilities::Rxn_find(Rxn_solution_map, k)) != NULL)
 		{
 			if (n == 1)
 			{
 				if (heat_nmix > 0)
 				{
-					ptr_m = solution_bsearch(i, &n_solution, FALSE);
+					ptr_m = Utilities::Rxn_find(Rxn_solution_map, i);
 					t_imm =
-						heat_mix_f_imm * ptr_m->tc + (1 -
+						heat_mix_f_imm * ptr_m->Get_tc() + (1 -
 													  heat_mix_f_imm) *
-						ptr_imm->tc;
-					ptr_m->tc =
-						heat_mix_f_m * ptr_imm->tc + (1 -
+						ptr_imm->Get_tc();
+					ptr_m->Set_tc(
+						heat_mix_f_m * ptr_imm->Get_tc() + (1 -
 													  heat_mix_f_m) *
-						ptr_m->tc;
-					cell_data[i - 1].temp = ptr_m->tc;
-					cell_data[k - 1].temp = ptr_imm->tc = t_imm;
+						ptr_m->Get_tc());
+					cell_data[i - 1].temp = ptr_m->Get_tc();
+					cell_data[k - 1].temp= t_imm = ptr_imm->Get_tc();
 					/* equilibrate again ... */
 					cell_no = i;
 					set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
@@ -1079,7 +975,6 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 				set_and_run_wrapper(i, STAG, FALSE, -2, 0.0);
 				if (multi_Dflag == TRUE)
 					fill_spec(cell_no);
-				//use.Set_kinetics_ptr(kinetics_bsearch(i, &l));
 				use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, i));
 				if (use.Get_kinetics_ptr() != NULL)
 				{
@@ -1147,12 +1042,11 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 	for (n = 1; n <= stag_data->count_stag; n++)
 	{
 		k = i + 1 + n * count_cells;
-		int n_solution;
-		if (solution_bsearch(k, &n_solution, FALSE) != 0)
+		if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
 		{
-			solution_duplicate(-2 - k, k);
+			Utilities::Rxn_copy(Rxn_solution_map, -2 - k, k);
 			if (n == 1)
-				solution_duplicate(-2, i);
+				Utilities::Rxn_copy(Rxn_solution_map, -2, i);
 		}
 	}
 	return (OK);
@@ -1164,7 +1058,7 @@ init_heat_mix(int l_nmix)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE lav, mixf, maxmix, corr_disp;
-	int i, j, k, n;
+	int i, k, n;
 	int l_heat_nmix;
 	LDBLE t0;
 /*
@@ -1176,7 +1070,7 @@ init_heat_mix(int l_nmix)
 		return (0);
 
 	l_heat_nmix = 0;
-	t0 = solution_bsearch(0, &n, FALSE)->tc;
+	t0 = Utilities::Rxn_find(Rxn_solution_map, 0)->Get_tc();
 	for (i = 0; i < count_cells; i++)
 	{
 		if (fabs(cell_data[i].temp - t0) > 1.0)
@@ -1187,14 +1081,14 @@ init_heat_mix(int l_nmix)
 	}
 	if (l_heat_nmix == 0)
 	{
-		if (fabs(solution_bsearch(count_cells + 1, &n, FALSE)->tc - t0) > 1.0)
+		if (fabs(Utilities::Rxn_find(Rxn_solution_map, count_cells + 1)->Get_tc() - t0) > 1.0)
 			l_heat_nmix = 1;
 		for (n = 1; n <= stag_data->count_stag; n++)
 		{
 			for (i = 1; i < count_cells; i++)
 			{
 				k = i + 1 + n * count_cells;
-				if (solution_bsearch(k, &j, FALSE) != 0)
+				if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
 				{
 					if (fabs(cell_data[k - 1].temp - t0) > 1.0)
 					{
@@ -1296,10 +1190,10 @@ heat_mix(int l_heat_nmix)
 	int i, j;
 
 	for (i = 1; i <= count_cells; i++)
-		temp1[i] = solution_bsearch(i, &j, FALSE)->tc;
-	temp1[0] = solution_bsearch(0, &j, FALSE)->tc;
+		temp1[i] = Utilities::Rxn_find(Rxn_solution_map, i)->Get_tc();
+	temp1[0] = Utilities::Rxn_find(Rxn_solution_map, 0)->Get_tc();
 	temp1[count_cells + 1] =
-		solution_bsearch((count_cells + 1), &j, FALSE)->tc;
+		Utilities::Rxn_find(Rxn_solution_map, (count_cells + 1))->Get_tc();
 
 	for (i = 1; i <= l_heat_nmix; i++)
 	{
@@ -1316,7 +1210,7 @@ heat_mix(int l_heat_nmix)
 	for (i = 1; i <= count_cells; i++)
 	{
 		cell_data[i - 1].temp = temp1[i];
-		solution_bsearch(i, &j, FALSE)->tc = temp1[i];
+		Utilities::Rxn_find(Rxn_solution_map, i)->Set_tc(temp1[i]);
 	}
 
 	return (OK);
@@ -1365,12 +1259,9 @@ set_initial_moles(int i)
 	/*
 	 *   Kinetics
 	 */
-	//kinetics_ptr = kinetics_bsearch(i, &n);
 	kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
 	if (kinetics_ptr != NULL)
 	{
-		//for (j = 0; j < kinetics_ptr->count_comps; j++)
-		//	kinetics_ptr->comps[j].initial_moles = kinetics_ptr->comps[j].m;
 		for (j = 0; j < (int) kinetics_ptr->Get_kinetics_comps().size(); j++)
 		{
 			cxxKineticsComp *kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
@@ -1403,8 +1294,7 @@ set_initial_moles(int i)
 	if (interlayer_Dflag && exchange_ptr == NULL)
 	{
 		cxxExchange temp_exchange;
-		temp_exchange.Set_n_user(i);
-		temp_exchange.Set_n_user_end(i);
+		temp_exchange.Set_n_user_both(i);
 		temp_exchange.Set_description("Interlayer diffusion: added 2e-10 moles X-");
 		use.Set_exchange_in(true);
 		use.Set_n_exchange_user(i);
@@ -1424,11 +1314,9 @@ set_initial_moles(int i)
 		get_token(&ptr, token1, &z, &l);
 		comp.Set_formula(token1);
 		comp.Set_formula_z(z);
-		comp.Set_formula_totals(elt_list_NameDouble());
-		comp.Set_moles(2e-10);
 		comp.Set_totals(elt_list_NameDouble());
 		comp.Set_charge_balance(0.0);
-		temp_exchange.Get_exchComps()[token1] = comp;
+		temp_exchange.Get_exchange_comps().push_back(comp);
 		Rxn_exchange_map[i] = temp_exchange;
 
 		state = INITIAL_EXCHANGE;
@@ -1566,7 +1454,7 @@ fill_spec(int l_cell_no)
 				if (transport_step == 0 && !x_max_done)
 				{
 					x_max_done = true;
-					dum = master_ptr->total / solution_bsearch(l_cell_no, &i2, TRUE)->mass_water;
+					dum = master_ptr->total / Utilities::Rxn_find(Rxn_solution_map, l_cell_no)->Get_mass_water();
 					if (dum > sol_D[1].x_max)
 						sol_D[1].x_max = dum;
 				}
@@ -1643,7 +1531,6 @@ sort_species_name(const void *ptr1, const void *ptr2)
 
 	return (strcmp(nptr1->s->name, nptr2->s->name));
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 multi_D(LDBLE DDt, int mobile_cell, int stagnant)
@@ -1657,7 +1544,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	 *      mobile cell (with, for example, 1 kg water)
 	 *      Define properties of each interface only 1 time with MIX.
 	 */
-	int icell, jcell, i, j, k, l, n, length, length2, il_calcs;
+	int icell, jcell, i, l, n, length, length2, il_calcs;
 	int i1;
 	int first_c, last_c;
 	char token[MAX_LENGTH];
@@ -1673,13 +1560,11 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 			/*
 			 *    find the mix ptr for icell and go along the cells that mix with it
 			 */
-			//use.Get_mix_ptr() = mix_search(icell, &use.n_mix, FALSE);
 			use.Set_mix_ptr(Utilities::Rxn_find(Rxn_mix_map, icell));
 			if (use.Get_mix_ptr() == NULL)
 				continue;
 			first_c = 0;
-			//last_c = use.Get_mix_ptr()->count_comps - 1;
-			last_c = (int) (((cxxMix *) use.Get_mix_ptr())->Get_mixComps().size() - 1);
+			last_c = (int) (use.Get_mix_ptr()->Get_mixComps().size() - 1);
 		}
 		else
 		{						/* regular column... */
@@ -1697,19 +1582,12 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		{
 			if (stagnant)
 			{
-			std::vector<int> n_solution;
-			std::vector<LDBLE> fraction;
-			((cxxMix *) use.Get_mix_ptr())->Vectorize(n_solution, fraction);
-			//std::map<int, LDBLE>::const_iterator cit;
-			//for (cit = ((cxxMix *) use.Get_mix_ptr())->Get_mixComps().begin(); cit != ((cxxMix *) use.Get_mix_ptr())->Get_mixComps().end(); cit++)
-			//{
-			//	n_solution.push_back(cit->first);
-			//	fraction.push_back(cit->second);
-			//}
-				//if ((jcell = use.Get_mix_ptr()->comps[i].n_solution) <= icell)
+				std::vector<int> n_solution;
+				std::vector<LDBLE> fraction;
+				(use.Get_mix_ptr())->Vectorize(n_solution, fraction);
+
 				if ((jcell = n_solution[i]) <= icell)
 					continue;
-				//mixf = use.Get_mix_ptr()->comps[i].fraction;
 
 				mixf = fraction[i];
 				if (mcd_substeps > 1)
@@ -1751,65 +1629,49 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 			 */
 			if (i > 0 || stagnant)
 			{
-				int n_solution;
-				use.Set_solution_ptr(solution_bsearch(icell, &n_solution, FALSE));
-				//use.Set_n_solution(n_solution);
-				use.Get_solution_ptr()->total_h -= tot1_h;
-				use.Get_solution_ptr()->total_o -= tot1_o;
-				use.Get_solution_ptr()->cb -= J_ij_sum;
+				use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, icell));
+				use.Get_solution_ptr()->Set_total_h(use.Get_solution_ptr()->Get_total_h() - tot1_h);
+				use.Get_solution_ptr()->Set_total_o(use.Get_solution_ptr()->Get_total_o() - tot1_o);
+				use.Get_solution_ptr()->Set_cb(use.Get_solution_ptr()->Get_cb() - J_ij_sum);
 				for (l = 0; l < count_m_s; l++)
 				{
 					temp = 0.0;
 					length = (int) strlen(m_s[l].name);
-					for (j = 0;
-						 use.Get_solution_ptr()->totals[j].description != NULL; j++)
+					cxxNameDouble::iterator it;
+					for (it = use.Get_solution_ptr()->Get_totals().begin(); 
+						it != use.Get_solution_ptr()->Get_totals().end(); it++)
 					{
+						LDBLE moles = it->second;
 						length2 =
-							(int) (size_t) strcspn(use.Get_solution_ptr()->
-												   totals[j].description,
-												   "(");
+							(int) (size_t) strcspn(it->first.c_str(), "(");
 						if (strncmp
 							(m_s[l].name,
-							 use.Get_solution_ptr()->totals[j].description,
+							 it->first.c_str(),
 							 length) == 0 && length == length2)
 						{
-							if (use.Get_solution_ptr()->totals[j].moles <
-								m_s[l].tot1)
+							if (moles <	m_s[l].tot1)
 							{
-								temp = use.Get_solution_ptr()->totals[j].moles;
-								use.Get_solution_ptr()->totals[j].moles = 0;
+								temp = moles;
+								it->second = 0.0;
 								/* see if other redox states have more moles... */
-								for (k = 1;
-									 use.Get_solution_ptr()->totals[j +
-															  k].
-									 description != NULL; k++)
+								cxxNameDouble::iterator kit = it;
+								kit++;
+								for ( ; kit != use.Get_solution_ptr()->Get_totals().end(); kit++)
 								{
-									length2 =
-										(int) (size_t) strcspn(use.Get_solution_ptr()->
-															   totals[j + k].
-															   description,
-															   "(");
-									if (strncmp
-										(m_s[l].name,
-										 use.Get_solution_ptr()->totals[j +
-																  k].
-										 description, length) == 0
+									length2 = (int) (size_t) strcspn(
+											kit->first.c_str(), "(");
+									if (strncmp(m_s[l].name,
+										kit->first.c_str(), length) == 0
 										&& length == length2)
 									{
-										temp +=
-											use.Get_solution_ptr()->totals[j +
-																	 k].moles;
+										temp += kit->second;
 										if (temp < m_s[l].tot1)
 										{
-											use.Get_solution_ptr()->totals[j +
-																	 k].
-												moles = 0;
+											kit->second = 0;
 										}
 										else
 										{
-											use.Get_solution_ptr()->totals[j +
-																	 k].
-												moles = temp - m_s[l].tot1;
+											kit->second = temp - m_s[l].tot1;
 											temp = 0.0;
 											break;
 										}
@@ -1825,100 +1687,74 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 								}
 							}
 							else
-								use.Get_solution_ptr()->totals[j].moles -=
-									m_s[l].tot1;
+								it->second -= m_s[l].tot1;
 							break;
 						}
 					}
-					if (use.Get_solution_ptr()->totals[j].description == NULL)
+					if (it == use.Get_solution_ptr()->Get_totals().end())
 					{
-						use.Get_solution_ptr()->totals =
-							(struct conc *) PHRQ_realloc(use.Get_solution_ptr()->
-														 totals,
-														 (size_t) (j +
-																   2) *
-														 sizeof(struct conc));
-						use.Get_solution_ptr()->totals[j].description =
-							string_hsave(m_s[l].name);
-						use.Get_solution_ptr()->totals[j].moles = -m_s[l].tot1;
-						if (use.Get_solution_ptr()->totals[j].moles < 0)
+						use.Get_solution_ptr()->Get_totals()[m_s[l].name] = -m_s[l].tot1;
+						if (-m_s[l].tot1 < 0)
 						{
-							if (use.Get_solution_ptr()->totals[j].moles < -1e-12)
+							if (-m_s[l].tot1 < -1e-12)
 							{
 								sprintf(token,
 										"Negative concentration in MCD: added %.2e moles %s in cell %d",
-										(double) -use.Get_solution_ptr()->
-										totals[j].moles, m_s[l].name, icell);
+										(double) m_s[l].tot1, m_s[l].name, icell);
 								warning_msg(token);
 							}
-							use.Get_solution_ptr()->totals[j].moles = 0;
+							use.Get_solution_ptr()->Get_totals()[m_s[l].name] = 0;
 						}
-						use.Get_solution_ptr()->totals[j + 1].description = NULL;
 					}
 				}
 			}
 			if (i < count_cells || stagnant)
 			{
-				int n_solution;
-				use.Set_solution_ptr(
-					solution_bsearch(jcell, &n_solution, FALSE));
-				//use.Set_n_solution(n_solution);
-				use.Get_solution_ptr()->total_h += tot2_h;
-				use.Get_solution_ptr()->total_o += tot2_o;
-				use.Get_solution_ptr()->cb += J_ij_sum;
+				use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, jcell));
+				dummy = use.Get_solution_ptr()->Get_total_h();
+				use.Get_solution_ptr()->Set_total_h(dummy + tot2_h);
+				dummy = use.Get_solution_ptr()->Get_total_o();
+				use.Get_solution_ptr()->Set_total_o(dummy + tot2_o);
+				dummy = use.Get_solution_ptr()->Get_cb();
+				use.Get_solution_ptr()->Set_cb(dummy + J_ij_sum);
 				for (l = 0; l < count_m_s; l++)
 				{
 					temp = 0.0;
 					length = (int) strlen(m_s[l].name);
-					for (j = 0;
-						 use.Get_solution_ptr()->totals[j].description != NULL; j++)
+					cxxNameDouble::iterator it;
+					for (it = use.Get_solution_ptr()->Get_totals().begin(); 
+						it != use.Get_solution_ptr()->Get_totals().end(); it++)
 					{
-						length2 =
-							(int) (size_t) strcspn(use.Get_solution_ptr()->
-												   totals[j].description,
-												   "(");
-						if (strncmp
-							(m_s[l].name,
-							 use.Get_solution_ptr()->totals[j].description,
-							 length) == 0 && length == length2)
+						length2 = (int) (size_t) strcspn(
+							it->first.c_str(), "(");
+						if (strncmp(m_s[l].name,
+							it->first.c_str(), length) == 0 
+							&& length == length2)
 						{
-							if (use.Get_solution_ptr()->totals[j].moles <
-								-m_s[l].tot2)
+							if (it->second < -m_s[l].tot2)
 							{
-								temp = use.Get_solution_ptr()->totals[j].moles;
-								use.Get_solution_ptr()->totals[j].moles = 0;
+								temp = it->second;
+								it->second = 0;
 								/* see if other redox states have more moles... */
-								for (k = 1;
-									 use.Get_solution_ptr()->totals[j +
-															  k].
-									 description != NULL; k++)
+								cxxNameDouble::iterator kit = it;
+								kit++;
+								for ( ; kit != use.Get_solution_ptr()->Get_totals().end(); kit++)
 								{
-									length2 =
-										(int) (size_t) strcspn(use.Get_solution_ptr()->
-															   totals[j + k].
-															   description,
-															   "(");
+									length2 = (int) (size_t) strcspn(
+										kit->first.c_str(), "(");
 									if (strncmp
 										(m_s[l].name,
-										 use.Get_solution_ptr()->totals[j +
-																  k].
-										 description, length) == 0
+										kit->first.c_str(), length) == 0
 										&& length == length2)
 									{
-										temp +=
-											use.Get_solution_ptr()->totals[j +
-																	 k].moles;
+										temp += kit->second;
 										if (temp < -m_s[l].tot2)
 										{
-											use.Get_solution_ptr()->totals[j +
-																	 k].
-												moles = 0;
+											kit->second = 0;
 										}
 										else
 										{
-											use.Get_solution_ptr()->totals[j +
-																	 k].
-												moles = temp + m_s[l].tot2;
+											kit->second = temp + m_s[l].tot2;
 											temp = 0.0;
 											break;
 										}
@@ -1935,35 +1771,24 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 								}
 							}
 							else
-								use.Get_solution_ptr()->totals[j].moles +=
-									m_s[l].tot2;
+								it->second += m_s[l].tot2;
 							break;
 						}
 					}
-					if (use.Get_solution_ptr()->totals[j].description == NULL)
+					if (it == use.Get_solution_ptr()->Get_totals().end())
 					{
-						use.Get_solution_ptr()->totals =
-							(struct conc *) PHRQ_realloc(use.Get_solution_ptr()->
-														 totals,
-														 (size_t) (j +
-																   2) *
-														 sizeof(struct conc));
-						use.Get_solution_ptr()->totals[j].description =
-							string_hsave(m_s[l].name);
-						use.Get_solution_ptr()->totals[j].moles = m_s[l].tot2;
-						if (use.Get_solution_ptr()->totals[j].moles < 0)
+						use.Get_solution_ptr()->Get_totals()[m_s[l].name] = m_s[l].tot2;
+						if (m_s[l].tot2 < 0)
 						{
-							if (use.Get_solution_ptr()->totals[j].moles < -1e-12)
+							if (m_s[l].tot2 < -1e-12)
 							{
 								sprintf(token,
 										"Negative concentration in MCD: added %.4e moles %s in cell %d",
-										(double) -use.Get_solution_ptr()->
-										totals[j].moles, m_s[l].name, jcell);
+										(double) -m_s[l].tot2, m_s[l].name, jcell);
 								warning_msg(token);
 							}
-							use.Get_solution_ptr()->totals[j].moles = 0;
+							use.Get_solution_ptr()->Get_totals()[m_s[l].name] = 0;
 						}
-						use.Get_solution_ptr()->totals[j + 1].description = NULL;
 					}
 				}
 			}
@@ -2069,7 +1894,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 		IL-water = (free + DL porewater) * por_il / (por - por_il).
 	 */
-	int i, i_max, j, j_max, k, k_il, l, only_counter, il_calcs;
+	int i, i_max, j, j_max, k, k_il, only_counter, il_calcs;
 	int i1;
 	LDBLE lav, A1, A2, A_ij, A_ij_il, ddlm, aq1, aq2, mixf_il;
 	LDBLE dl_s, dl_aq1, dl_aq2, c_dl, visc1, visc2, dum, dum2, tort1, tort2;
@@ -2081,9 +1906,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		LDBLE grad, D, z, Dz, Dzc, Dzc_dl, g_dl;
 		int o_c;
 	} *V_M, *V_M_il;
-	struct surface *s_ptr1, *s_ptr2;
-	struct surface_charge *s_charge_ptr, *s_charge_ptr1, *s_charge_ptr2;
-	//struct exchange *ex_ptr1, *ex_ptr2;
+	cxxSurface *s_ptr1, *s_ptr2;
+	cxxSurfaceCharge *s_charge_ptr, *s_charge_ptr1, *s_charge_ptr2;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 
 	V_M = V_M_il = NULL;
@@ -2131,8 +1955,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	}
 
 	/* do the calcs */
-	aq1 = solution_bsearch(icell, &i, TRUE)->mass_water;
-	aq2 = solution_bsearch(jcell, &i, TRUE)->mass_water;
+	aq1 = Utilities::Rxn_find(Rxn_solution_map, icell)->Get_mass_water();
+	aq2 = Utilities::Rxn_find(Rxn_solution_map, jcell)->Get_mass_water();
 	/*
 	 * check if DL calculations must be made, find amounts of water...
 	 */
@@ -2142,36 +1966,38 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	visc1 = visc2 = 1.0;
 	only_counter = FALSE;
 
-	s_ptr1 = surface_bsearch(icell, &i);
+	s_ptr1 = Utilities::Rxn_find(Rxn_surface_map, icell);
 	if (s_ptr1 != NULL)
 	{
-		if (s_ptr1->dl_type != NO_DL)
+		if (s_ptr1->Get_dl_type() != cxxSurface::NO_DL)
 		{
-			if (s_ptr1->only_counter_ions)
+			if (s_ptr1->Get_only_counter_ions())
 				only_counter = TRUE;
 			/* find the one (and only one...) immobile surface comp with DL... */
-			for (i = 0; i < s_ptr1->count_comps; i++)
+			for (i = 0; i < (int) s_ptr1->Get_surface_comps().size(); i++)
 			{
-				if (s_ptr1->comps[i].Dw == 0)
+				cxxSurfaceComp * comp_i_ptr = &(s_ptr1->Get_surface_comps()[i]); 
+				if (comp_i_ptr->Get_Dw() == 0)
 				{
-					s_charge_ptr1 = &s_ptr1->charge[s_ptr1->comps[i].charge];
-					dl_aq1 = s_charge_ptr1->mass_water;
-					visc1 = s_ptr1->DDL_viscosity;
+					s_charge_ptr1 = s_ptr1->Find_charge(comp_i_ptr->Get_charge_name());
+					dl_aq1 = s_charge_ptr1->Get_mass_water();
+					visc1 = s_ptr1->Get_DDL_viscosity();
 					/* check for more comps with Dw = 0 */
-					for (j = i + 1; j < s_ptr1->count_comps; j++)
+					for (j = i + 1; j < (int) s_ptr1->Get_surface_comps().size(); j++)
 					{
-						if (s_ptr1->comps[j].Dw == 0
-							&& s_ptr1->comps[j].charge !=
-							s_ptr1->comps[i].charge)
+						cxxSurfaceComp * comp_j_ptr = &(s_ptr1->Get_surface_comps()[j]);
+						if (comp_j_ptr->Get_Dw() == 0
+							&& (comp_j_ptr->Get_charge_name() != 
+							comp_i_ptr->Get_charge_name()))
 						{
 							if (!warn_fixed_Surf)
 							{
-								k = (int) strcspn(s_ptr1->comps[i].formula, "_");
-								strncpy(token1, s_ptr1->comps[i].formula, k);
+								k = (int) strcspn(comp_i_ptr->Get_formula().c_str(), "_");
+								strncpy(token1, comp_i_ptr->Get_formula().c_str(), k);
 								token1[k] = '\0';
 								sprintf(token,
 									"MCD found more than 1 fixed surface with a DDL,\n\t uses the 1st in alphabetical order: %s.",
-									token1);
+								token1);
 								warning_msg(token);
 								warn_fixed_Surf = 1;
 							}
@@ -2183,31 +2009,33 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			}
 		}
 	}
-	s_ptr2 = surface_bsearch(jcell, &i);
+	s_ptr2 = Utilities::Rxn_find(Rxn_surface_map, jcell);
 	if (s_ptr2 != NULL)
 	{
-		if (s_ptr2->dl_type != NO_DL)
+		if (s_ptr2->Get_dl_type() != cxxSurface::NO_DL)
 		{
-			if (s_ptr2->only_counter_ions)
+			if (s_ptr2->Get_only_counter_ions())
 				only_counter = TRUE;
-			for (i = 0; i < s_ptr2->count_comps; i++)
+			for (i = 0; i < (int) s_ptr2->Get_surface_comps().size(); i++)
 			{
-				if (s_ptr2->comps[i].Dw == 0)
+				cxxSurfaceComp * comp_i_ptr = &(s_ptr2->Get_surface_comps()[i]);
+				if (comp_i_ptr->Get_Dw() == 0)
 				{
-					s_charge_ptr2 = &s_ptr2->charge[s_ptr2->comps[i].charge];
-					dl_aq2 = s_charge_ptr2->mass_water;
-					visc2 = s_ptr2->DDL_viscosity;
+					s_charge_ptr2 = s_ptr2->Find_charge(comp_i_ptr->Get_charge_name());
+					dl_aq2 = s_charge_ptr2->Get_mass_water();
+					visc2 = s_ptr2->Get_DDL_viscosity();
 					/* check for more comps with Dw = 0 */
-					for (j = i + 1; j < s_ptr2->count_comps; j++)
+					for (j = i + 1; j < (int) s_ptr2->Get_surface_comps().size(); j++)
 					{
-						if (s_ptr2->comps[j].Dw == 0
-							&& s_ptr2->comps[j].charge !=
-							s_ptr2->comps[i].charge)
+						cxxSurfaceComp * comp_j_ptr = &(s_ptr2->Get_surface_comps()[j]);
+						if (comp_j_ptr->Get_Dw() == 0
+							&& (comp_j_ptr->Get_charge_name() != 
+							comp_i_ptr->Get_charge_name()))
 						{
 							if (!warn_fixed_Surf)
 							{
-								k = (int) strcspn(s_ptr2->comps[i].formula, "_");
-								strncpy(token1, s_ptr2->comps[i].formula, k);
+								k = (int) strcspn(comp_i_ptr->Get_formula().c_str(), "_");
+								strncpy(token1, comp_i_ptr->Get_formula().c_str(), k);
 								token1[k] = '\0';
 								sprintf(token,
 									"MCD found more than 1 fixed surface with a DDL,\n\t uses the 1st in alphabetical order: %s.",
@@ -2315,12 +2143,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
                 (cell_data[icell - 1].por - por_il1);
 			aq_il2 = (aq2 + dl_aq2) * por_il2 / 
                 (cell_data[jcell - 1].por - por_il2);
-/* former code... */
-			//aq_il1 = (aq1 + dl_aq1) * cell_data[icell - 1].por_il /
-			//	cell_data[icell - 1].por;
-			//aq_il2 = (aq2 + dl_aq2) * cell_data[jcell - 1].por_il /
-			//	cell_data[jcell - 1].por;
-/* end */
 		}
 		if (por_il12 == 0)
 			il_calcs = 0;
@@ -2358,15 +2180,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			dum -= por_il12;
 		}
 		mixf *= (dum * pow(dum, multi_Dn));
-/* former code... */
-		//mixf /= (default_Dw * pow(multi_Dpor, multi_Dn) * multi_Dpor);
-		//dum = (cell_data[icell - 1].por_il <= cell_data[jcell - 1].por_il ?
-		//		cell_data[icell - 1].por_il : cell_data[jcell - 1].por_il);
-		//mixf_il = mixf * dum / interlayer_tortf;
-		//dum = (cell_data[icell - 1].por <= cell_data[jcell - 1].por ?
-		//		cell_data[icell - 1].por : cell_data[jcell - 1].por);
-		//mixf *= dum * pow(dum, multi_Dn);
-/* end */
 	}
 	else
 	{							/* regular column... */
@@ -2410,36 +2223,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			A1 /= tort1;
 			A2 /= tort2;
 			A_ij = A1 * A2 / (A1 + A2);
-/* former code... */
-			//A1 = aq1 / (cell_data[icell - 1].length *
-			//			0.5 * cell_data[icell - 1].length);
-			//A2 = aq2 / (cell_data[jcell - 1].length *
-			//			0.5 * cell_data[jcell - 1].length);
-			//dum = A1 * cell_data[icell - 1].por_il /
-			//	(cell_data[icell - 1].por * interlayer_tortf);
-			//dum2 = A2 * cell_data[jcell - 1].por_il /
-			//	(cell_data[jcell - 1].por * interlayer_tortf);
-			//A_ij_il = dum * dum2 / (dum + dum2);
-			//A1 /= tort1;
-			//A2 /= tort2;
-			//A_ij = A1 * A2 / (A1 + A2);
-
-			//A1 = dl_aq1 / (cell_data[icell - 1].length *
-			//			   0.5 * cell_data[icell - 1].length);
-			//A2 = dl_aq2 / (cell_data[jcell - 1].length *
-			//			   0.5 * cell_data[jcell - 1].length);
-			//dum = A1 * cell_data[icell - 1].por_il /
-			//	(cell_data[icell - 1].por * interlayer_tortf);
-			//dum2 = A2 * cell_data[jcell - 1].por_il /
-			//	(cell_data[jcell - 1].por * interlayer_tortf);
-			//if (dum + dum2 > 0)
-			//{
-			//	A_ij_il += dum * dum2 / (dum + dum2);
-			//	A1 /= tort1;
-			//	A2 /= tort2;
-			//	A_ij += (A1 * A2 / (A1 + A2));
-			//}
-/* end */
 		}
 	}
 	/* diffuse... */
@@ -2536,17 +2319,14 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				V_M[k].Dzc = V_M[k].Dz * sol_D[icell].spec[i].c / 2;
 				if (dl_s > 0)
 				{
-					s_charge_ptr =
-						(dl_aq1 > 0) ? s_charge_ptr1 : s_charge_ptr2;
-					for (l = 0; l < s_charge_ptr->count_g; l++)
+					s_charge_ptr = (dl_aq1 > 0) ? s_charge_ptr1 : s_charge_ptr2;
+					LDBLE g = s_charge_ptr->Get_g_map()[V_M[k].z].Get_g();
 					{
-						if (equal(s_charge_ptr->g[l].charge, V_M[k].z, G_TOL)
-							== TRUE)
 						{
 							if (only_counter)
 							{
-								if ((s_charge_ptr->la_psi < 0 && V_M[k].z < 0)
-									|| (s_charge_ptr->la_psi > 0
+								if ((s_charge_ptr->Get_la_psi() < 0 && V_M[k].z < 0)
+									|| (s_charge_ptr->Get_la_psi() > 0
 										&& V_M[k].z > 0))
 								{
 									V_M[k].o_c = 0;
@@ -2566,8 +2346,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 								{
 									V_M[k].g_dl =
 										(1 +
-										 s_charge_ptr->g[l].g * aq1 /
-										 dl_aq1) *
+										g * aq1 / dl_aq1) *
 										sol_D[icell].spec[i].erm_ddl;
 									V_M[k].Dzc_dl =
 										V_M[k].Dz * sol_D[icell].spec[i].c /
@@ -2575,10 +2354,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 								}
 								else
 									V_M[k].Dzc_dl =
-										V_M[k].Dz * sol_D[icell].spec[i].c /
-										2;
+										V_M[k].Dz * sol_D[icell].spec[i].c / 2;
 							}
-							break;
+							//break;
 						}
 					}
 					Dz2c_dl += V_M[k].Dzc_dl * V_M[k].z;
@@ -2620,17 +2398,14 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				V_M[k].Dzc = V_M[k].Dz * sol_D[jcell].spec[j].c / 2;
 				if (dl_s > 0)
 				{
-					s_charge_ptr =
-						(dl_aq2 > 0) ? s_charge_ptr2 : s_charge_ptr1;
-					for (l = 0; l < s_charge_ptr->count_g; l++)
+					s_charge_ptr = (dl_aq2 > 0) ? s_charge_ptr2 : s_charge_ptr1;
+					LDBLE g = s_charge_ptr->Get_g_map()[V_M[k].z].Get_g();
 					{
-						if (equal(s_charge_ptr->g[l].charge, V_M[k].z, G_TOL)
-							== TRUE)
 						{
 							if (only_counter)
 							{
-								if ((s_charge_ptr->la_psi < 0 && V_M[k].z < 0)
-									|| (s_charge_ptr->la_psi > 0
+								if ((s_charge_ptr->Get_la_psi() < 0 && V_M[k].z < 0)
+									|| (s_charge_ptr->Get_la_psi() > 0
 										&& V_M[k].z > 0))
 								{
 									V_M[k].o_c = 0;
@@ -2650,7 +2425,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 								{
 									V_M[k].g_dl =
 										(1 +
-										 s_charge_ptr->g[l].g * aq2 /
+										 g * aq2 /
 										 dl_aq2) *
 										sol_D[jcell].spec[j].erm_ddl;
 									V_M[k].Dzc_dl =
@@ -2662,7 +2437,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 										V_M[k].Dz * sol_D[jcell].spec[j].c /
 										2;
 							}
-							break;
+							//break;
 						}
 					}
 					Dz2c_dl += V_M[k].Dzc_dl * V_M[k].z;
@@ -2724,17 +2499,14 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					c_dl = 0.0;
 					if (dl_aq1 > 0)
 					{
-						for (l = 0; l < s_charge_ptr1->count_g; l++)
+						LDBLE g = s_charge_ptr1->Get_g_map()[V_M[k].z].Get_g();
 						{
-							if (equal
-								(s_charge_ptr1->g[l].charge, V_M[k].z,
-								 G_TOL) == TRUE)
 							{
 								if (only_counter)
 								{
-									if ((s_charge_ptr1->la_psi < 0
+									if ((s_charge_ptr1->Get_la_psi() < 0
 										 && V_M[k].z < 0)
-										|| (s_charge_ptr1->la_psi > 0
+										|| (s_charge_ptr1->Get_la_psi() > 0
 											&& V_M[k].z > 0))
 									{
 										V_M[k].o_c = 0;
@@ -2750,14 +2522,14 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 								{
 									V_M[k].g_dl =
 										(1 +
-										 s_charge_ptr1->g[l].g * aq1 /
+										 g * aq1 /
 										 dl_aq1) *
 										sol_D[icell].spec[i].erm_ddl;
 									c_dl =
 										sol_D[icell].spec[i].c / 2 *
 										V_M[k].g_dl;
 								}
-								break;
+								//break;
 							}
 						}
 					}
@@ -2766,17 +2538,14 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 					if (dl_aq2 > 0)
 					{
-						for (l = 0; l < s_charge_ptr2->count_g; l++)
+						LDBLE g = s_charge_ptr2->Get_g_map()[V_M[k].z].Get_g();
 						{
-							if (equal
-								(s_charge_ptr2->g[l].charge, V_M[k].z,
-								 G_TOL) == TRUE)
 							{
 								if (only_counter)
 								{
-									if ((s_charge_ptr2->la_psi < 0
+									if ((s_charge_ptr2->Get_la_psi() < 0
 										 && V_M[k].z < 0)
-										|| (s_charge_ptr2->la_psi > 0
+										|| (s_charge_ptr2->Get_la_psi() > 0
 											&& V_M[k].z > 0))
 									{
 										V_M[k].o_c = 0;
@@ -2795,13 +2564,13 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 								{
 									dum =
 										(1 +
-										 s_charge_ptr2->g[l].g * aq2 /
+										 g * aq2 /
 										 dl_aq2) *
 										sol_D[jcell].spec[j].erm_ddl;
 									c_dl += sol_D[jcell].spec[j].c / 2 * dum;
 									V_M[k].g_dl = (V_M[k].g_dl + dum) / 2;
 								}
-								break;
+								//break;
 							}
 						}
 					}
@@ -2914,12 +2683,10 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		/* do the mass transfer... */
 		if (icell > 0 || stagnant)
 		{
-			std::vector<cxxExchComp *> comps = ex_ptr1->Vectorize();
 			size_t k;
-			//for (k = 0; k < ex_ptr1->count_comps; k++)
-			for (k = 0; k < comps.size(); k++)
+			for (k = 0; k < ex_ptr1->Get_exchange_comps().size(); k++)
 			{
-				cxxNameDouble nd(comps[k]->Get_totals());
+				cxxNameDouble nd(ex_ptr1->Get_exchange_comps()[k].Get_totals());
 				cxxNameDouble::iterator it = nd.begin();
 				i_max = 0;
 				for (; it != nd.end(); it++)
@@ -2931,10 +2698,10 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					break;
 			}
 
-			if (k < comps.size())
+			if (k < ex_ptr1->Get_exchange_comps().size())
 			{
-				cxxExchComp *comp_ptr = comps[k];
-				cxxNameDouble nd(comps[k]->Get_totals());
+				cxxExchComp &comp_ref = ex_ptr1->Get_exchange_comps()[k];
+				cxxNameDouble nd(comp_ref.Get_totals());
 				cxxNameDouble::iterator it = nd.begin();
 				/* transfer O and H... */
 				for (; it != nd.end(); it++)
@@ -2946,13 +2713,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						if (coef < rc1 * tot1_h)
 						{
 							tot1_h -= coef;
-							//ex_ptr1->comps[k].totals[i].coef = 0;
-							comp_ptr->Get_totals().insert("H", 0);
+							comp_ref.Get_totals().insert("H", 0);
 						}
 						else
 						{
-							comp_ptr->Get_totals().insert("H", coef - rc1 * tot1_h);
-							//ex_ptr1->comps[k].totals[i].coef -= rc1 * tot1_h;
+							comp_ref.Get_totals().insert("H", coef - rc1 * tot1_h);
 							tot1_h *= (1 - rc1);
 						}
 					}
@@ -2961,13 +2726,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						if (coef < rc1 * tot1_o)
 						{
 							tot1_o -= coef;
-							//ex_ptr1->comps[k].totals[i].coef = 0;
-							comp_ptr->Get_totals().insert("O", 0);
+							comp_ref.Get_totals().insert("O", 0);
 						}
 						else
 						{
-							comp_ptr->Get_totals().insert("O", coef - rc1 * tot1_o);
-							//ex_ptr1->comps[k].totals[i].coef -= rc1 * tot1_o;
+							comp_ref.Get_totals().insert("O", coef - rc1 * tot1_o);
 							tot1_o *= (1 - rc1);
 						}
 					}
@@ -2977,9 +2740,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				for (j = 0; j < count_m_s; j++)
 				{
 					// Make sure list includes each element
-					comps[k]->Get_totals().add(m_s[j].name, 0);
+					comp_ref.Get_totals().add(m_s[j].name, 0);
 
-					cxxNameDouble nd(comps[k]->Get_totals());
+					cxxNameDouble nd(comp_ref.Get_totals());
 					cxxNameDouble::iterator it = nd.begin();
 					for (; it != nd.end(); it++)
 					{
@@ -2992,13 +2755,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						if (coef < rc1 * m_s[j].tot1)
 						{
 							m_s[j].tot1 -= coef;
-							//ex_ptr1->comps[k].totals[i].coef = 0;
-							comp_ptr->Get_totals().insert(m_s[j].name, 0);
+							comp_ref.Get_totals().insert(m_s[j].name, 0);
 						}
 						else
 						{
-							comp_ptr->Get_totals().insert(m_s[j].name, coef - rc1 * m_s[j].tot1);
-							//ex_ptr1->comps[k].totals[i].coef -= rc1 * m_s[j].tot1;
+							comp_ref.Get_totals().insert(m_s[j].name, coef - rc1 * m_s[j].tot1);
 							m_s[j].tot1 *= (1 - rc1);
 						}
 					}
@@ -3007,12 +2768,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		}
 		if (icell < count_cells || stagnant)
 		{
-			std::vector<cxxExchComp *> comps = ex_ptr2->Vectorize();
 			size_t k;
-			//for (k = 0; k < ex_ptr1->count_comps; k++)
-			for (k = 0; k < comps.size(); k++)
+			for (k = 0; k < ex_ptr2->Get_exchange_comps().size(); k++)
 			{
-				cxxNameDouble nd(comps[k]->Get_totals());
+				cxxExchComp &comp_ref = ex_ptr2->Get_exchange_comps()[k];
+				cxxNameDouble nd(comp_ref.Get_totals());
 				cxxNameDouble::iterator it = nd.begin();
 				i_max = 0;
 				for (; it != nd.end(); it++)
@@ -3023,14 +2783,13 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				if (i_max)
 					break;
 			}
-			if (k < comps.size())
+			if (k < ex_ptr2->Get_exchange_comps().size())
 			{
-				cxxExchComp *comp_ptr = comps[k];
-				cxxNameDouble nd(comps[k]->Get_totals());
+				cxxExchComp &comp_ref = ex_ptr2->Get_exchange_comps()[k];
+				cxxNameDouble nd(comp_ref.Get_totals());
 				cxxNameDouble::iterator it = nd.begin();
 				/* transfer O and H... */
 				for (; it != nd.end(); it++)
-				//for (i = 0;; i++)
 				{
 					struct element *elt_ptr = element_store(it->first.c_str());
 					LDBLE coef = it->second;
@@ -3040,13 +2799,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						if (coef < -rc2 * tot2_h)
 						{
 							tot2_h += coef;
-							//ex_ptr2->comps[k].totals[i].coef = 0;
-							comp_ptr->Get_totals().insert("H", 0);
+							comp_ref.Get_totals().insert("H", 0);
 						}
 						else
 						{
-							comp_ptr->Get_totals().insert("H", coef + rc2 * tot2_h);
-							//ex_ptr2->comps[k].totals[i].coef += rc2 * tot2_h;
+							comp_ref.Get_totals().insert("H", coef + rc2 * tot2_h);
 							tot2_h *= (1 - rc2);
 						}
 					}
@@ -3055,25 +2812,22 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						if (coef < -rc2 * tot2_o)
 						{
 							tot2_o += coef;
-							//ex_ptr2->comps[k].totals[i].coef = 0;
-							comp_ptr->Get_totals().insert("O", 0);
+							comp_ref.Get_totals().insert("O", 0);
 						}
 						else
 						{
-							comp_ptr->Get_totals().insert("O", coef + rc2 * tot2_o);
-							//ex_ptr2->comps[k].totals[i].coef += rc2 * tot2_o;
+							comp_ref.Get_totals().insert("O", coef + rc2 * tot2_o);
 							tot2_o *= (1 - rc2);
 						}
 					}
 				}
 				/* transfer other elements... */
-				//j_max = 0;		/* if j_max turns true, reallocate the exchange structure */
 				for (j = 0; j < count_m_s; j++)
 				{
 					// Make sure list includes each element
-					comps[k]->Get_totals().add(m_s[j].name, 0);
+					comp_ref.Get_totals().add(m_s[j].name, 0);
 
-					cxxNameDouble nd(comps[k]->Get_totals());
+					cxxNameDouble nd(comp_ref.Get_totals());
 					cxxNameDouble::iterator it = nd.begin();
 					for (; it != nd.end(); it++)
 					{
@@ -3086,13 +2840,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						if (coef < -rc2 * m_s[j].tot2)
 						{
 							m_s[j].tot2 += coef;
-							//ex_ptr2->comps[k].totals[i].coef = 0;
-							comp_ptr->Get_totals().insert(m_s[j].name, 0);
+							comp_ref.Get_totals().insert(m_s[j].name, 0);
 						}
 						else
 						{
-							comp_ptr->Get_totals().insert(m_s[j].name, coef + rc2 * m_s[j].tot2);
-							//ex_ptr2->comps[k].totals[i].coef += rc2 * m_s[j].tot2;
+							comp_ref.Get_totals().insert(m_s[j].name, coef + rc2 * m_s[j].tot2);
 							m_s[j].tot2 *= (1 - rc2);
 						}
 					}
@@ -3128,13 +2880,12 @@ disp_surf(LDBLE DDt)
  *		       but only mobile surface_comp's (Dw > 0) and their surface_charge's are transported.
  */
 {
-	int i, i1, i2, j, k, k1, n, n1, n2, temp_count_surface;
+	int i, i1, i2, k, k1, n1, n2; 
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store, mcd_mixf;
 	LDBLE lav, A_ij, por, Dp1, Dp2;
-	//struct mix *mix_ptr;
 	cxxMix * mix_ptr;
-	struct surface *surface_ptr1, *surface_ptr2;
+	cxxSurface *surface_ptr1, *surface_ptr2;
 	LDBLE viscos_f;
 /*
  * temperature and viscosity correction for MCD coefficient, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
@@ -3142,16 +2893,16 @@ disp_surf(LDBLE DDt)
 	viscos_f = viscosity();
 	viscos_f = tk_x * 0.88862 / (298.15 * viscos_f);
 
-	n1 = count_surface;
+	n1 = 0;
 	n2 = n1 + 1;
-	temp_count_surface = count_surface + 2;
-	space((void **) ((void *) &surface), temp_count_surface, &max_surface,
-		  sizeof(struct surface));
-	surface[n1].count_comps = surface[n1 + 1].count_comps = 0;
+
+	cxxSurface surface_n1, surface_n2;
+	cxxSurface *surface_n2_ptr;
+
+	std::map<int, cxxSurface> Rxn_temp_surface_map;
 
 	for (i1 = 1; i1 <= count_cells + 1; i1++)
 	{
-
 		if (i1 <= count_cells && cell_data[i1 - 1].por < multi_Dpor_lim)
 			continue;
 
@@ -3166,21 +2917,25 @@ disp_surf(LDBLE DDt)
 /*
  * step 1. define surface n1 from cell i1, if it exists...
  */
-		surface[n1].n_user = surface[n1 + 1].n_user = -99;
-		if ((surface_ptr1 = surface_bsearch(i1, &n)) != NULL)
-			surface_copy(surface_ptr1, &surface[n1], i1);
+		surface_n1.Set_n_user(-99);
+		surface_n2.Set_n_user(-99);
 
-		surface_ptr2 = surface_bsearch(i2, &n);
+		surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i1);
+		if (surface_ptr1 != NULL)
+		{
+			surface_n1 = *surface_ptr1;
+		}
 
+		surface_ptr2 = Utilities::Rxn_find(Rxn_surface_map, i2);
 		surf1 = surf2 = 0;
 		if (surface_ptr2 != NULL)
 		{
-			if (surface_ptr2->transport == TRUE)
+			if (surface_ptr2->Get_transport())
 				surf2 = 1;
 		}
 		if (surface_ptr1 != NULL)
 		{
-			if (surface_ptr1->transport == TRUE)
+			if (surface_ptr1->Get_transport())
 				surf1 = 1;
 		}
 
@@ -3216,16 +2971,15 @@ disp_surf(LDBLE DDt)
 			}
 
 			/* step 1b. If cell i1 has no surface, get the mobile comps from surface i2... */
-			if (surface[n1].n_user == -99)
+			if (surface_n1.Get_n_user() == -99)
 			{
-				mobile_surface_copy(surface_ptr2, &surface[n1], i1, FALSE);
+				surface_n1 = mobile_surface_copy(surface_ptr2, i1, false);
 				/* limit charges to 1... */
-				if (surface[n1].count_charge > 1)
+				if (surface_n1.Get_surface_charges().size() > 1)
 				{
-					if (sum_surface_comp
-						(&surface[n1], 0, &surface[n1], 0, 1, &surface[n1],
-						 surface[n1].comps[0].Dw) == ERROR)
-						return (ERROR);
+					std::string charge_name = surface_n1.Get_surface_charges()[0].Get_name();
+					surface_n1 = sum_surface_comp(&surface_n1, 0, 
+						&surface_n1, charge_name, 1, surface_n1.Get_surface_comps()[0].Get_Dw());
 				}
 				f1 = 0;
 			}
@@ -3235,34 +2989,31 @@ disp_surf(LDBLE DDt)
 			f2 = 1;
 			if (i2 > 0 || bcon_first == 1)
 			{
-				for (k = count_surface + 2; k < temp_count_surface; k++)
+				surface_n2_ptr = Utilities::Rxn_find(Rxn_temp_surface_map, i2);
+				if (surface_n2_ptr != NULL)
 				{
-					if (surface[k].n_user == i2)
-					{
-						n2 = k;
-						break;
-					}
+					surface_n2 = *surface_n2_ptr;
 				}
+
 				/* if not found... */
-				if (k == temp_count_surface)
+				else
 				{
-					n2 = n1 + 1;
 					/* copy it from surface_ptr2... */
 					if (surface_ptr2 != NULL)
-						surface_copy(surface_ptr2, &surface[n2], i2);
+					{
+						surface_n2 = *surface_ptr2;
+						surface_n2.Set_n_user_both(i2);
+					}
 					else
 					{
 						/* or make it a mobile copy of the surface in cell i1... */
-						mobile_surface_copy(surface_ptr1, &surface[n2], i2,
-											FALSE);
+						surface_n2 = mobile_surface_copy(surface_ptr1, i2, false);
 						/* limit charges to 1... */
-						if (surface[n2].count_charge > 1)
+						if (surface_n2.Get_surface_charges().size() > 1)
 						{
-							if (sum_surface_comp
-								(&surface[n2], 0, &surface[n2], 0, 1,
-								 &surface[n2],
-								 surface[n2].comps[0].Dw) == ERROR)
-								return (ERROR);
+							std::string charge_name = surface_n2.Get_surface_charges()[0].Get_name();
+							surface_n2 = sum_surface_comp(&surface_n2, 0, &surface_n2, charge_name, 1,
+								surface_n2.Get_surface_comps()[0].Get_Dw());
 						}
 						f2 = 0;
 					}
@@ -3276,17 +3027,14 @@ disp_surf(LDBLE DDt)
 			{
 				por = cell_data[0].por;
 				lav = cell_data[0].length / 2;
-				A_ij =
-					solution_bsearch(1, &n,
-									 TRUE)->mass_water / cell_data[0].length;
+				A_ij = Utilities::Rxn_find(Rxn_solution_map, 1)->Get_mass_water() / cell_data[0].length;
 			}
 			else if (i1 == count_cells + 1)
 			{
 				por = cell_data[count_cells - 1].por;
 				lav = cell_data[count_cells - 1].length / 2;
 				A_ij =
-					solution_bsearch(count_cells, &n,
-									 TRUE)->mass_water /
+					Utilities::Rxn_find(Rxn_solution_map, count_cells)->Get_mass_water() /
 					cell_data[count_cells - 1].length;
 			}
 			else
@@ -3295,19 +3043,11 @@ disp_surf(LDBLE DDt)
 				lav =
 					(cell_data[i1 - 1].length + cell_data[i2 - 1].length) / 2;
 				A_ij =
-					solution_bsearch(i1, &n,
-									 TRUE)->mass_water / (cell_data[i1 -
-																	1].
-														  length *
-														  cell_data[i1 -
-																	1].por);
+					Utilities::Rxn_find(Rxn_solution_map, i1)->Get_mass_water() / 
+					(cell_data[i1 - 1].length * cell_data[i1 - 1].por);
 				A_ij +=
-					solution_bsearch(i2, &n,
-									 TRUE)->mass_water / (cell_data[i2 -
-																	1].
-														  length *
-														  cell_data[i2 -
-																	1].por);
+					Utilities::Rxn_find(Rxn_solution_map, i2)->Get_mass_water() / 
+					(cell_data[i2 - 1].length * cell_data[i2 - 1].por);
 				A_ij /= 2;
 				A_ij *=
 					(cell_data[i1 - 1].por <
@@ -3320,15 +3060,19 @@ disp_surf(LDBLE DDt)
 			/* mix in comps with the same charge structure... */
 			if (surf2)
 			{
-				for (k = 0; k < surface_ptr2->count_comps; k++)
+				for (k = 0; k < (int) surface_ptr2->Get_surface_comps().size(); k++)
 				{
-					if (surface_ptr2->comps[k].Dw == 0)
+					cxxSurfaceComp *comp_k_ptr = &(surface_ptr2->Get_surface_comps()[k]);
+					std::string charge_name = comp_k_ptr->Get_charge_name();
+					if (comp_k_ptr->Get_Dw() == 0)
 						continue;
+					
 					charge_done = FALSE;
 					for (k1 = 0; k1 < k; k1++)
 					{
-						if (surface_ptr2->comps[k1].charge ==
-							surface_ptr2->comps[k].charge)
+						cxxSurfaceComp *comp_k1_ptr = &(surface_ptr2->Get_surface_comps()[k1]);
+						if (comp_k_ptr->Get_charge_name() ==
+							comp_k1_ptr->Get_charge_name())
 						{
 							charge_done = TRUE;
 							break;
@@ -3341,18 +3085,18 @@ disp_surf(LDBLE DDt)
 					mcd_mixf = 0;
 					if (multi_Dflag)
 					{
-						Dp2 = surface_ptr2->comps[k].Dw * pow(por, multi_Dn);
+						Dp2 = comp_k_ptr->Get_Dw() * pow(por, multi_Dn);
 						Dp1 = 0;
-						if (surface_ptr1 != NULL && surface_ptr1->transport)
+						if (surface_ptr1 != NULL && surface_ptr1->Get_transport())
 						{
-							for (k1 = 0; k1 < surface_ptr1->count_comps; k1++)
+							for (k1 = 0; k1 < (int) surface_ptr1->Get_surface_comps().size(); k1++)
 							{
-								if (elt_list_compare
-									(surface_ptr1->comps[k1].totals,
-									 surface_ptr2->comps[k].totals) != 0)
+								cxxSurfaceComp *comp_k1_ptr = &(surface_ptr1->Get_surface_comps()[k1]);
+								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
+									comp_k_ptr->Get_formula().c_str()) != 0)
 									continue;
 								Dp1 =
-									surface_ptr1->comps[k].Dw *
+									comp_k1_ptr->Get_Dw() *
 									pow(cell_data[i1 - 1].por, multi_Dn);
 								break;
 							}
@@ -3371,36 +3115,33 @@ disp_surf(LDBLE DDt)
 						mixf = 0.99999999;
 					if (i1 <= count_cells)
 					{
-						if (sum_surface_comp
-							(&surface[n1], f1, surface_ptr2, k, mixf,
-							 &surface[n1],
-							 surface_ptr2->comps[k].Dw) == ERROR)
-							return (ERROR);
+						surface_n1 = sum_surface_comp(&surface_n1, f1, surface_ptr2, charge_name, mixf,
+							surface_ptr2->Get_surface_comps()[k].Get_Dw());
 						f1 = 1;
 					}
 					if (i2 > 0)
 					{
-						if (sum_surface_comp
-							(&surface[n2], f2, surface_ptr2, k, -mixf,
-							 &surface[n2],
-							 surface_ptr2->comps[k].Dw) == ERROR)
-							return (ERROR);
+						surface_n2 = sum_surface_comp(&surface_n2, f2, surface_ptr2, charge_name, -mixf,
+							surface_ptr2->Get_surface_comps()[k].Get_Dw());
 						f2 = 1;
 					}
-					surface[n1].n_user = i1;
+					surface_n1.Set_n_user_both(i1);
 				}
 			}
 			if (surf1)
 			{
-				for (k = 0; k < surface_ptr1->count_comps; k++)
+				for (k = 0; k < (int) surface_ptr1->Get_surface_comps().size(); k++)
 				{
-					if (surface_ptr1->comps[k].Dw == 0)
+					cxxSurfaceComp * comp_k_ptr = &(surface_ptr1->Get_surface_comps()[k]);
+					std::string charge_name = comp_k_ptr->Get_charge_name();
+					if (comp_k_ptr->Get_Dw() == 0)
 						continue;
 					charge_done = FALSE;
 					for (k1 = 0; k1 < k; k1++)
 					{
-						if (surface_ptr1->comps[k1].charge ==
-							surface_ptr1->comps[k].charge)
+						cxxSurfaceComp * comp_k1_ptr = &(surface_ptr1->Get_surface_comps()[k1]);
+						if (comp_k_ptr->Get_charge_name() ==
+							comp_k1_ptr->Get_charge_name())
 						{
 							charge_done = TRUE;
 							break;
@@ -3414,25 +3155,25 @@ disp_surf(LDBLE DDt)
 					if (multi_Dflag)
 					{
 						if (i1 <= count_cells)
-							Dp1 =
-								surface_ptr1->comps[k].Dw *
-								pow(cell_data[i1 - 1].por, multi_Dn);
-						else
-							Dp1 =
-								surface_ptr1->comps[k].Dw * pow(por,
-																multi_Dn);
-						Dp2 = 0;
-						if (surface_ptr2 != NULL && surface_ptr2->transport)
 						{
-							for (k1 = 0; k1 < surface_ptr2->count_comps; k1++)
+							Dp1 =
+								comp_k_ptr->Get_Dw() *
+								pow(cell_data[i1 - 1].por, multi_Dn);
+						}
+						else
+						{
+							Dp1 = comp_k_ptr->Get_Dw() * pow(por, multi_Dn);
+						}
+						Dp2 = 0;
+						if (surface_ptr2 != NULL && surface_ptr2->Get_transport())
+						{
+							for (k1 = 0; k1 < (int) surface_ptr2->Get_surface_comps().size(); k1++)
 							{
-								if (elt_list_compare
-									(surface_ptr2->comps[k1].totals,
-									 surface_ptr1->comps[k].totals) != 0)
+								cxxSurfaceComp * comp_k1_ptr = &(surface_ptr2->Get_surface_comps()[k1]);
+								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
+									comp_k_ptr->Get_formula().c_str()) != 0)
 									continue;
-								Dp2 =
-									surface_ptr2->comps[k].Dw * pow(por,
-																	multi_Dn);
+								Dp2 = comp_k1_ptr->Get_Dw() * pow(por, multi_Dn);
 								break;
 							}
 						}
@@ -3450,23 +3191,19 @@ disp_surf(LDBLE DDt)
 						mixf = 0.99999999;
 					if (i2 > 0)
 					{
-						if (sum_surface_comp
-							(&surface[n2], f2, surface_ptr1, k, mixf,
-							 &surface[n2],
-							 surface_ptr1->comps[k].Dw) == ERROR)
-							return (ERROR);
+						surface_n2 = sum_surface_comp
+							(&surface_n2, f2, surface_ptr1, charge_name, mixf,
+							 surface_ptr1->Get_surface_comps()[k].Get_Dw());
 						f2 = 1;
 					}
 					if (i1 <= count_cells)
 					{
-						if (sum_surface_comp
-							(&surface[n1], f1, surface_ptr1, k, -mixf,
-							 &surface[n1],
-							 surface_ptr1->comps[k].Dw) == ERROR)
-							return (ERROR);
+						surface_n1 = sum_surface_comp
+							(&surface_n1, f1, surface_ptr1, charge_name, -mixf,
+							 surface_ptr1->Get_surface_comps()[k].Get_Dw());
 						f1 = 1;
 					}
-					surface[n2].n_user = i2;
+					surface_n2.Set_n_user_both(i2);
 				}
 			}
 		}
@@ -3474,92 +3211,71 @@ disp_surf(LDBLE DDt)
 /*
  *  Step 3. copy surface[n1] and [n2] in a new temporary surface...
  */
-		if (surface[n1].n_user == -99)
+		if (surface_n1.Get_n_user() == -99)
 			continue;
 
-		n = temp_count_surface++;
-
-		space((void **) ((void *) &surface), temp_count_surface,
-			  &max_surface, sizeof(struct surface));
-		surface_copy(&surface[n1], &surface[n], i1);
-
-		surface[n1].n_user = -99;
-		surface[n].n_user = surface[n].n_user_end = i1;
-		surface_free(&surface[n1]);
-		surface[n1].count_comps = 0;
-		if (n2 == n1 + 1 && surface[n2].n_user == i2)
+		Rxn_temp_surface_map[i1] = surface_n1;
 		{
-			n = temp_count_surface++;
+			cxxSurface t;
+			surface_n1 = t;
+		}
+		surface_n1.Set_n_user_both(-99);
 
-			space((void **) ((void *) &surface), temp_count_surface,
-				  &max_surface, sizeof(struct surface));
-			surface_copy(&surface[n2], &surface[n], i2);
-
-			surface[n2].n_user = -99;
-			surface[n].n_user = surface[n].n_user_end = i2;
-			surface_free(&surface[n1 + 1]);
-			surface[n1 + 1].count_comps = 0;
+		if (surface_n2.Get_n_user() == i2)
+		{
+			surface_n2.Set_n_user_both(i2);
+			Rxn_temp_surface_map[i2] = surface_n2;
+			{
+				cxxSurface t;
+				surface_n2 = t;
+			}
+			surface_n2.Set_n_user_both(-99);
 		}
 	}
 /*
  * Step 4. Dispersion/diffusion is done. New surfaces can be copied in the cell's surface...
  */
 	n2 = 0;
-
-	for (j = count_surface + 2; j < temp_count_surface; j++)
+	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
+	for ( ; jit != Rxn_temp_surface_map.end(); jit++)
 	{
-		i = surface[j].n_user;
-		if ((i == 0 && bcon_first == 1)
-			|| (i == count_cells + 1 && bcon_last == 1))
+		i = jit->first;
+		assert (i == jit->second.Get_n_user());
+		if ((i == 0 && bcon_first == 1)	|| (i == count_cells + 1 && bcon_last == 1))
 		{
-			surface_free(&surface[j]);
-			surface[j].count_comps = 0;
 			continue;
 		}
 		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data->count_stag))
 		{
-			surface_ptr1 = surface_bsearch(i, &n);
+			surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
 			if (surface_ptr1 != NULL)
 			{
-				surface_free(surface_ptr1);
-				surface_copy(&surface[j], surface_ptr1, i);
+				Rxn_surface_map[i] = jit->second;
 			}
 			else
 			{
-				surface_copy(&surface[j], &surface[count_surface + n2], i);
-				n2++;
+				//Add to map
+				Rxn_surface_map[i] = jit->second;
 			}
 		}
-		surface_free(&surface[j]);
-		surface[j].count_comps = 0;
 	}
-	count_surface += n2;
-	if (n2 > 0)
-		qsort(surface, (size_t) count_surface,
-			  (size_t) sizeof(struct surface), surface_compare);
 
 	return (OK);
 }
 
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-sum_surface_comp(struct surface *source1, LDBLE f1, struct surface *source2,
-				 int k, LDBLE f2, struct surface *target, LDBLE new_Dw)
+cxxSurface Phreeqc::
+sum_surface_comp(cxxSurface *source1, LDBLE f1,  cxxSurface *source2,
+				 std::string charge_name, LDBLE f2, LDBLE new_Dw)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Takes fraction f1 of the 1st surface, adds fraction f2 of the 2nd surface's comps[k] and its charge.
  *   The result goes in target
  */
-	int i, i1, i2;
-	int new_n_user, found, charge_in;
-	struct surface temp_surface, *surface_ptr;
-
-	struct surface *surface_ptr1, *surface_ptr2;
-	char token[MAX_LENGTH];
-	int count_comps, count_comps1;
-	int count_charge, count_charge1, charge1, charge2;
-
+	int new_n_user;
+	cxxSurface *surface_ptr1, *surface_ptr2;
+	std::string token;
 /*
  *   Find surfaces
  */
@@ -3567,283 +3283,74 @@ sum_surface_comp(struct surface *source1, LDBLE f1, struct surface *source2,
 	if (surface_ptr1 == NULL)
 	{
 		error_string = sformatf( "Null pointer for surface 1 in sum_surface.");
-		error_msg(error_string, CONTINUE);
+		error_msg(error_string, STOP);
 		input_error++;
 		return (ERROR);
 	}
 	surface_ptr2 = source2;
-
-	if (check_surfaces(source1, source2) == ERROR)
-		return (ERROR);
 /*
  *   Store data for structure surface
  */
-	new_n_user = surface_ptr1->n_user;
-	surface_copy(surface_ptr1, &temp_surface, new_n_user);
-	sprintf(token, "Copy");
-	temp_surface.description =
-		(char *) free_check_null(temp_surface.description);
-	temp_surface.description = string_duplicate(token);
-	temp_surface.solution_equilibria = FALSE;
-	temp_surface.n_solution = -99;
+	new_n_user = surface_ptr1->Get_n_user();
+	cxxSurface temp_surface(*surface_ptr1);
+	temp_surface.Set_n_user_both(new_n_user);
+	temp_surface.Set_description("Copy");
+	temp_surface.Set_solution_equilibria(false);
+	temp_surface.Set_n_solution(-99);
 /*
  *   Multiply component compositions by f1
  */
-	for (i = 0; i < surface_ptr1->count_comps; i++)
-	{
-		temp_surface.comps[i].moles *= f1;
-		temp_surface.comps[i].cb *= f1;
-		count_elts = 0;
-		add_elt_list(surface_ptr1->comps[i].totals, f1);
-		temp_surface.comps[i].totals =
-			(struct elt_list *) free_check_null(temp_surface.comps[i].totals);
-		temp_surface.comps[i].totals = elt_list_save();
-	}
-	if (temp_surface.type != NO_EDL)
-	{
-		for (i = 0; i < surface_ptr1->count_charge; i++)
-		{
-			temp_surface.charge[i].grams *= f1;
-			temp_surface.charge[i].charge_balance *= f1;
-			temp_surface.charge[i].mass_water *= f1;
-			temp_surface.charge[i].g = NULL;
-			temp_surface.charge[i].count_g = 0;
-			count_elts = 0;
-			if (surface_ptr1->charge[i].diffuse_layer_totals != NULL)
-			{
-				add_elt_list(surface_ptr1->charge[i].diffuse_layer_totals,
-							 f1);
-				temp_surface.charge[i].diffuse_layer_totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														charge[i].
-														diffuse_layer_totals);
-				temp_surface.charge[i].g =
-					(struct surface_diff_layer *)
-					free_check_null(temp_surface.charge[i].g);
-				temp_surface.charge[i].diffuse_layer_totals = elt_list_save();
-			}
-			else
-			{
-				temp_surface.charge[i].diffuse_layer_totals = NULL;
-			}
-		}
-	}
+	temp_surface.multiply(f1);
 /*
  *   Add in surface_ptr2
  */
+	// Only components with same charge as component k
+	cxxSurface addee(*surface_ptr2);
+	addee.Get_surface_comps().clear();
+	addee.Get_surface_charges().clear();
 
-	count_comps = count_comps1 = surface_ptr1->count_comps;
-	count_charge = count_charge1 = surface_ptr1->count_charge;
-
-	charge2 = surface_ptr2->comps[k].charge;
-	charge_in = FALSE;
-	for (i2 = 0; i2 < surface_ptr2->count_comps; i2++)
+	for (std::vector<cxxSurfaceComp>::iterator it = surface_ptr2->Get_surface_comps().begin();
+		it != surface_ptr2->Get_surface_comps().end(); it++)
 	{
-
-		if (surface_ptr2->comps[i2].charge != charge2)
-			continue;
-		/*
-		 *  handle comps...
-		 */
-		found = FALSE;
-		for (i1 = 0; i1 < count_comps1; i1++)
+		if (it->Get_charge_name() == charge_name)
 		{
-
-			/* see if first surface contains the 2nd surface's component */
-			if (surface_ptr2->comps[i2].formula ==
-				surface_ptr1->comps[i1].formula)
-			{
-				found = TRUE;
-				if ((surface_ptr1->comps[i1].phase_name != NULL
-					 && surface_ptr2->comps[i2].phase_name == NULL)
-					|| (surface_ptr1->comps[i1].phase_name == NULL
-						&& surface_ptr2->comps[i2].phase_name != NULL))
-				{
-					error_string = sformatf(
-							"Surfaces differ in use of related phases (sites proportional to moles of an equilibrium phase). Can not mix.");
-					error_msg(error_string, CONTINUE);
-					input_error++;
-					return (ERROR);
-				}
-				else if (surface_ptr1->comps[i1].phase_name != NULL
-						 && surface_ptr2->comps[i2].phase_name != NULL
-						 && strcmp_nocase(surface_ptr1->comps[i1].phase_name,
-										  surface_ptr2->comps[i2].
-										  phase_name) != 0)
-				{
-					error_string = sformatf(
-							"Surfaces differ in use of related phases (sites proportional to moles of an equilibrium phase). Can not mix.");
-					error_msg(error_string, CONTINUE);
-					input_error++;
-					return (ERROR);
-				}
-				if ((surface_ptr1->comps[i1].rate_name != NULL
-					 && surface_ptr2->comps[i2].rate_name == NULL)
-					|| (surface_ptr1->comps[i1].rate_name == NULL
-						&& surface_ptr2->comps[i2].rate_name != NULL))
-				{
-					error_string = sformatf(
-							"Surfaces differ in use of related rate (sites proportional to moles of a kinetic reactant). Can not mix.");
-					error_msg(error_string, CONTINUE);
-					input_error++;
-					return (ERROR);
-				}
-				else if (surface_ptr1->comps[i1].rate_name != NULL
-						 && surface_ptr2->comps[i2].rate_name != NULL
-						 && strcmp_nocase(surface_ptr1->comps[i1].rate_name,
-										  surface_ptr2->comps[i2].
-										  rate_name) != 0)
-				{
-					error_string = sformatf(
-							"Surfaces differ in use of related rates (sites proportional to moles of a kinetic reactant). Can not mix.");
-					error_msg(error_string, CONTINUE);
-					input_error++;
-					return (ERROR);
-				}
-				temp_surface.comps[i1].moles +=
-					surface_ptr2->comps[i2].moles * f2;
-				count_elts = 0;
-				add_elt_list(temp_surface.comps[i1].totals, 1.0);
-				add_elt_list(surface_ptr2->comps[i2].totals, f2);
-				if (count_elts > 0)
-				{
-					qsort(elt_list, (size_t) count_elts,
-						  (size_t) sizeof(struct elt_list), elt_list_compare);
-					elt_list_combine();
-				}
-				temp_surface.comps[i1].totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i1].totals);
-				temp_surface.comps[i1].totals = elt_list_save();
-				temp_surface.comps[i1].formula_totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i1].
-														formula_totals);
-				temp_surface.comps[i1].formula_totals = elt_list_save();
-				temp_surface.comps[i1].Dw = new_Dw;
-				charge1 = temp_surface.comps[i1].charge;
-				break;
-			}
+			addee.Get_surface_comps().push_back(*it);
 		}
-		/* sum charge structures if not yet done... */
-		if (found && temp_surface.type != NO_EDL && !charge_in)
+	}
+	for (std::vector<cxxSurfaceCharge>::iterator it = surface_ptr2->Get_surface_charges().begin();
+		it != surface_ptr2->Get_surface_charges().end(); it++)
+	{
+		if (it->Get_name() == charge_name)
 		{
-			temp_surface.charge[charge1].grams +=
-				surface_ptr2->charge[charge2].grams * f2;
-			temp_surface.charge[charge1].charge_balance +=
-				surface_ptr2->charge[charge2].charge_balance * f2;
-			temp_surface.charge[charge1].mass_water +=
-				surface_ptr2->charge[charge2].mass_water * f2;
-			count_elts = 0;
-			add_elt_list(temp_surface.charge[charge1].diffuse_layer_totals,
-						 1.0);
-			add_elt_list(surface_ptr2->charge[charge2].diffuse_layer_totals,
-						 f2);
-			if (count_elts > 0)
-			{
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
-			}
-			temp_surface.charge[charge1].diffuse_layer_totals =
-				(struct elt_list *) free_check_null(temp_surface.
-													charge[charge1].
-													diffuse_layer_totals);
-			temp_surface.charge[charge1].diffuse_layer_totals =
-				elt_list_save();
-			charge_in = TRUE;
-		}
-
-		if (found == FALSE)
-		{
-
-			/* 2nd surface's component not in 1st surface */
-			temp_surface.comps =
-				(struct surface_comp *) PHRQ_realloc(temp_surface.comps,
-													 (size_t) (count_comps +
-															   1) *
-													 sizeof(struct
-															surface_comp));
-			if (temp_surface.comps == NULL)
-				malloc_error();
-			memcpy(&temp_surface.comps[count_comps],
-				   &surface_ptr2->comps[i2], sizeof(struct surface_comp));
-			temp_surface.comps[count_comps].moles *= f2;
-			temp_surface.comps[count_comps].cb *= f2;
-			count_elts = 0;
-			add_elt_list(surface_ptr2->comps[i2].totals, f2);
-			temp_surface.comps[count_comps].totals = elt_list_save();
-			temp_surface.comps[count_comps].formula_totals = elt_list_save();
-			temp_surface.comps[i1].Dw = new_Dw;
-			count_comps++;
-
-			/* sum charge structures if not yet done... */
-			if (temp_surface.type != NO_EDL && !charge_in)
-			{
-
-				temp_surface.charge =
-					(struct surface_charge *) PHRQ_realloc(temp_surface.
-														   charge,
-														   (size_t)
-														   (count_charge +
-															1) *
-														   sizeof(struct
-																  surface_charge));
-				if (temp_surface.charge == NULL)
-					malloc_error();
-				memcpy(&temp_surface.charge[count_charge],
-					   &surface_ptr2->charge[charge2],
-					   sizeof(struct surface_charge));
-				temp_surface.charge[count_charge].grams *= f2;
-				temp_surface.charge[count_charge].charge_balance *= f2;
-				temp_surface.charge[count_charge].mass_water *= f2;
-				temp_surface.charge[count_charge].g = NULL;
-				temp_surface.charge[count_charge].count_g = 0;
-				count_elts = 0;
-				add_elt_list(surface_ptr2->
-							 charge[surface_ptr2->comps[k].charge].
-							 diffuse_layer_totals, f2);
-				temp_surface.charge[count_charge].diffuse_layer_totals =
-					elt_list_save();
-				count_charge++;
-				charge_in = TRUE;
-			}
-			temp_surface.comps[count_comps - 1].charge = count_charge - 1;
+			addee.Get_surface_charges().push_back(*it);
 		}
 	}
 
-	temp_surface.count_comps = count_comps;
-	temp_surface.count_charge = count_charge;
-	temp_surface.transport = FALSE;
-	for (i = 0; i < count_comps; i++)
+	if (f2 == 0)
+		f2 = 1e-30;
+	temp_surface.add(addee, f2);
+	temp_surface.Set_transport(false);
+	for (size_t i = 0; i < temp_surface.Get_surface_comps().size(); i++)
 	{
-		if (temp_surface.comps[i].Dw > 0)
+		if (temp_surface.Get_surface_comps()[i].Get_charge_name() == charge_name)
 		{
-			temp_surface.transport = TRUE;
-			break;
+			temp_surface.Get_surface_comps()[i].Set_Dw(new_Dw);
+		}
+		if (temp_surface.Get_surface_comps()[i].Get_Dw() > 0)
+		{
+			temp_surface.Set_transport(true);
 		}
 	}
-
 /*
  *   Finish up
  */
-	surface_ptr = target;
-	if (surface_ptr == NULL)
-	{
-		error_string = sformatf( "Target surface is NULL in sum_surface_comp");
-		error_msg(error_string, CONTINUE);
-		input_error++;
-		return (ERROR);
-	}
-	surface_free(surface_ptr);
-	surface_copy(&temp_surface, surface_ptr, new_n_user);
-	surface_free(&temp_surface);
-	return (OK);
+	temp_surface.Sort_comps();
+	return (temp_surface);
 }
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-check_surfaces(struct surface *surface_ptr1, struct surface *surface_ptr2)
+check_surfaces(cxxSurface *surface_ptr1, cxxSurface *surface_ptr2)
 /* ---------------------------------------------------------------------- */
 {
 /*  checks if surfaces can be mixed...
@@ -3851,64 +3358,62 @@ check_surfaces(struct surface *surface_ptr1, struct surface *surface_ptr2)
 	int n_user1, n_user2, return_code;
 
 	return_code = OK;
-	n_user1 = surface_ptr1->n_user;
-	n_user2 = surface_ptr2->n_user;
+	n_user1 = surface_ptr1->Get_n_user();
+	n_user2 = surface_ptr2->Get_n_user();
 
-	/*if (surface_ptr1->diffuse_layer != surface_ptr2->diffuse_layer) { */
-	if (surface_ptr1->dl_type != surface_ptr2->dl_type)
+	if (surface_ptr1->Get_dl_type() != surface_ptr2->Get_dl_type())
 	{
 		error_string = sformatf(
-				"Surfaces %d and %d differ in definition of diffuse layer. Can not mix.",
+				"Surfaces %d and %d differ in definition of diffuse layer. Cannot mix.",
 				n_user1, n_user2);
-		error_msg(error_string, CONTINUE);
+		error_msg(error_string, STOP);
 		return_code = ERROR;
 		input_error++;
 	}
-	/*if (surface_ptr1->edl != surface_ptr2->edl) { */
-	if (surface_ptr1->type != surface_ptr2->type)
+
+	if (surface_ptr1->Get_type() != surface_ptr2->Get_type())
 	{
 		error_string = sformatf(
 				"Surfaces %d and %d differ in use of electrical double layer. Can not mix.",
 				n_user1, n_user2);
-		error_msg(error_string, CONTINUE);
+		error_msg(error_string, STOP);
 		return_code = ERROR;
 		input_error++;
 	}
-	if (surface_ptr1->only_counter_ions != surface_ptr2->only_counter_ions)
+	if (surface_ptr1->Get_only_counter_ions() != surface_ptr2->Get_only_counter_ions())
 	{
 		error_string = sformatf(
 				"Surfaces %d and %d differ in use of only counter ions in the diffuse layer. Can not mix.",
 				n_user1, n_user2);
-		error_msg(error_string, CONTINUE);
+		error_msg(error_string, STOP);
 		return_code = ERROR;
 		input_error++;
 	}
-	if (surface_ptr1->related_phases != surface_ptr2->related_phases)
+	if (surface_ptr1->Get_related_phases() != surface_ptr2->Get_related_phases())
 	{
 		error_string = sformatf(
 				"Surfaces %d and %d differ in use of related phases (sites proportional to moles of an equilibrium phase). Can not mix.",
 				n_user1, n_user2);
-		error_msg(error_string, CONTINUE);
+		error_msg(error_string, STOP);
 		return_code = ERROR;
 		input_error++;
 	}
-	if (surface_ptr1->related_rate != surface_ptr2->related_rate)
+	if (surface_ptr1->Get_related_rate() != surface_ptr2->Get_related_rate())
 	{
 		error_string = sformatf(
 				"Surfaces %d and %d differ in use of related rate (sites proportional to moles of a kinetic reactant). Can not mix.",
 				n_user1, n_user2);
-		error_msg(error_string, CONTINUE);
+		error_msg(error_string, STOP);
 		return_code = ERROR;
 		input_error++;
 	}
 
 	return (return_code);
 }
-
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-mobile_surface_copy(struct surface *surface_old_ptr,
-					struct surface *surf_ptr1, int n_user_new, int move_old)
+cxxSurface Phreeqc::
+mobile_surface_copy(cxxSurface *surface_old_ptr,
+					 int n_user_new, bool move_old)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -3918,275 +3423,123 @@ mobile_surface_copy(struct surface *surface_old_ptr,
  *		 which will modify pointers and surface numbers.
  *   User number of new surface structure is n_user_new, structure is freed when n_user_new is already defined
  */
-	int count_comps, count_charge, new_charge, n_user_old, charge_done;
-	int i, i1, i2, j, k, k1, n;
-	char token[MAX_LENGTH];
-	struct surface temp_surface, *surf_ptr;
+	cxxSurface temp_surface(*surface_old_ptr);
 /*
  *   Store moving surface's properties in temp_surface
  */
-	temp_surface.n_user = temp_surface.n_user_end = n_user_new;
-	temp_surface.new_def = surface_old_ptr->new_def;
-	sprintf(token, "Surface defined in simulation %d.", simulation);
-	temp_surface.description = string_duplicate(token);
-	temp_surface.dl_type = surface_old_ptr->dl_type;
-	temp_surface.type = surface_old_ptr->type;
-	temp_surface.only_counter_ions = surface_old_ptr->only_counter_ions;
-	temp_surface.thickness = surface_old_ptr->thickness;
-	temp_surface.debye_lengths = surface_old_ptr->debye_lengths;
-	temp_surface.DDL_viscosity = surface_old_ptr->DDL_viscosity;
-	temp_surface.DDL_limit = surface_old_ptr->DDL_limit;
-	temp_surface.solution_equilibria = FALSE;
-	temp_surface.n_solution = -99;
-	temp_surface.related_phases = surface_old_ptr->related_phases;
-	temp_surface.related_rate = surface_old_ptr->related_rate;
-	temp_surface.transport = TRUE;
+	temp_surface.Set_n_user_both(n_user_new);
+	std::ostringstream desc;
+	desc << "Surface defined in simulation " << simulation << ".";
+	temp_surface.Set_description(desc.str().c_str());
+	temp_surface.Set_solution_equilibria(false);
+	temp_surface.Set_transport(true);
 
-	temp_surface.comps =
-		(struct surface_comp *) PHRQ_malloc(sizeof(struct surface_comp));
-	if (temp_surface.comps == NULL)
-		malloc_error();
-	temp_surface.charge =
-		(struct surface_charge *) PHRQ_malloc(sizeof(struct surface_charge));
-	if (temp_surface.charge == NULL)
-		malloc_error();
 
-	count_comps = surface_old_ptr->count_comps;
-	count_charge = surface_old_ptr->count_charge;
+	size_t count_comps = surface_old_ptr->Get_surface_comps().size();
+	int i1, i2;
 	i1 = i2 = 0;
+	temp_surface.Get_surface_comps().clear();
+	temp_surface.Get_surface_charges().clear();
 	/* see if comps must be moved, Dw > 0 */
-	for (i = 0; i < count_comps; i++)
+	for (size_t i = 0; i < count_comps; i++)
 	{
-		if (surface_old_ptr->comps[i].Dw > 0)
+		cxxSurfaceComp &comp_ref = surface_old_ptr->Get_surface_comps()[i];
+		if (comp_ref.Get_Dw() > 0)
 		{
 			i1++;
-			if (i1 > 1)
-			{
-				temp_surface.comps =
-					(struct surface_comp *) PHRQ_realloc(temp_surface.comps,
-														 (size_t) i1 *
-														 sizeof(struct
-																surface_comp));
-				if (temp_surface.comps == NULL)
-					malloc_error();
-			}
-			memcpy(&temp_surface.comps[i1 - 1], &surface_old_ptr->comps[i],
-				   sizeof(struct surface_comp));
-			temp_surface.comps[i1 - 1].totals =
-				elt_list_dup(surface_old_ptr->comps[i].totals);
-			temp_surface.comps[i1 - 1].formula_totals =
-				elt_list_dup(surface_old_ptr->comps[i].formula_totals);
 
-			/* charge structure */
-			new_charge = TRUE;
-			for (j = 0; j < i; j++)
-			{
-				if (surface_old_ptr->comps[j].charge ==
-					surface_old_ptr->comps[i].charge)
-				{
-					temp_surface.comps[i1 - 1].charge = i2 - 1;
-					new_charge = FALSE;
-					break;
-				}
-			}
-			if (new_charge)
+			// copy comp
+			temp_surface.Get_surface_comps().push_back(comp_ref);
+
+			// copy charge, if needed
+			cxxSurfaceCharge *charge_ptr = temp_surface.Find_charge(comp_ref.Get_charge_name());
+			if (charge_ptr == NULL)
 			{
 				i2++;
-				if (i2 > 1)
-				{
-					temp_surface.charge =
-						(struct surface_charge *) PHRQ_realloc(temp_surface.
-															   charge,
-															   (size_t) i2 *
-															   sizeof(struct
-																	  surface_charge));
-					if (temp_surface.charge == NULL)
-						malloc_error();
-				}
-				memcpy(&temp_surface.charge[i2 - 1],
-					   &surface_old_ptr->charge[surface_old_ptr->comps[i].
-												charge],
-					   (size_t) sizeof(struct surface_charge));
-				temp_surface.charge[i2 - 1].diffuse_layer_totals =
-					elt_list_dup(surface_old_ptr->
-								 charge[surface_old_ptr->comps[i].charge].
-								 diffuse_layer_totals);
-				temp_surface.charge[i2 - 1].g = NULL;
-
-				temp_surface.comps[i1 - 1].charge = i2 - 1;
+				cxxSurfaceCharge *old_charge_ptr = surface_old_ptr->Find_charge(comp_ref.Get_charge_name());
+				temp_surface.Get_surface_charges().push_back(*old_charge_ptr);
 			}
 		}
 	}
-	temp_surface.count_comps = i1;
-	temp_surface.count_charge = i2;
+
 	if (i1 > 0)
 	{
 		/* OK, store moved parts from old surface, but first:
 		   get immobile surface comps from new surface... */
-		if ((surf_ptr = surface_bsearch(n_user_new, &n)) != NULL)
+		cxxSurface *surf_ptr = Utilities::Rxn_find(Rxn_surface_map, n_user_new);
+		if (surf_ptr != NULL)
 		{
-			for (k = 0; k < surf_ptr->count_comps; k++)
+			for (size_t k = 0; k < surf_ptr->Get_surface_comps().size(); k++)
 			{
-				if (surf_ptr->comps[k].Dw > 0)
+				cxxSurfaceComp &comp_ref = surf_ptr->Get_surface_comps()[k];
+				if (comp_ref.Get_Dw() > 0)
 					continue;
-				charge_done = FALSE;
-				for (k1 = 0; k1 < k; k1++)
+				bool charge_done(false);
+				for (size_t k1 = 0; k1 < k; k1++)
 				{
-					if (surf_ptr->comps[k1].charge ==
-						surf_ptr->comps[k].charge)
+					if (surf_ptr->Get_surface_comps()[k1].Get_charge_name() ==
+						comp_ref.Get_charge_name())
 					{
-						charge_done = TRUE;
+						charge_done = true;
 						break;
 					}
 				}
 				if (charge_done)
 					continue;
-
-				if (sum_surface_comp
-					(&temp_surface, 1, surf_ptr, k, 1, &temp_surface,
-					 0) == ERROR)
-					return (ERROR);
+				temp_surface = sum_surface_comp(&temp_surface, 1, surf_ptr, comp_ref.Get_charge_name(), 1, 0);
 			}
 		}
-		if (surf_ptr1->count_comps > 0)
-			surface_free(surf_ptr1);
-		surface_copy(&temp_surface, surf_ptr1, n_user_new);
+		// Return value is temp_surface
+		temp_surface.Set_n_user_both(n_user_new);
 	}
-
+	
 	/* delete moved parts from old surface */
 	if (move_old && i1 > 0)
 	{
-		n_user_old = surface_old_ptr->n_user;
-		if (i1 != count_comps)
+		cxxSurface replace_old(temp_surface);
+		int n_user_old = surface_old_ptr->Get_n_user();
+		if ((size_t) i1 != count_comps)
 		{
 			/* redefine old surface with only unmovable comps (Dw = 0) */
 			/* other temp_surface members were set above */
-			temp_surface.n_user = temp_surface.n_user_end = n_user_old;
-			temp_surface.transport = FALSE;
-
-			for (i = 0; i < temp_surface.count_comps; i++)
-			{
-				temp_surface.comps[i].totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i].totals);
-				temp_surface.comps[i].formula_totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i].
-														formula_totals);
-			}
-			for (i = 0; i < temp_surface.count_charge; i++)
-			{
-				temp_surface.charge[i].diffuse_layer_totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														charge[i].
-														diffuse_layer_totals);
-				temp_surface.charge[i].g =
-					(struct surface_diff_layer *)
-					free_check_null(temp_surface.charge[i].g);
-			}
-			temp_surface.comps =
-				(struct surface_comp *) PHRQ_realloc(temp_surface.comps,
-													 sizeof(struct
-															surface_comp));
-			if (temp_surface.comps == NULL)
-				malloc_error();
-			temp_surface.charge =
-				(struct surface_charge *) PHRQ_realloc(temp_surface.charge,
-													   sizeof(struct
-															  surface_charge));
-			if (temp_surface.charge == NULL)
-				malloc_error();
+			replace_old.Set_n_user_both(n_user_old);
+			replace_old.Set_transport(false);
+			replace_old.Get_surface_comps().clear();
+			replace_old.Get_surface_charges().clear();
 
 			i1 = i2 = 0;
-			for (i = 0; i < count_comps; i++)
+			for (size_t i = 0; i < count_comps; i++)
 			{
-				if (surface_old_ptr->comps[i].Dw == 0)
+				if (surface_old_ptr->Get_surface_comps()[i].Get_Dw() == 0)
 				{
 					i1++;
-					if (i1 > 1)
-					{
-						temp_surface.comps =
-							(struct surface_comp *)
-							PHRQ_realloc(temp_surface.comps,
-										 (size_t) i1 *
-										 sizeof(struct surface_comp));
-						if (temp_surface.comps == NULL)
-							malloc_error();
-					}
-					memcpy(&temp_surface.comps[i1 - 1],
-						   &surface_old_ptr->comps[i],
-						   (size_t) sizeof(struct surface_comp));
-					temp_surface.comps[i1 - 1].totals =
-						elt_list_dup(surface_old_ptr->comps[i].totals);
-					temp_surface.comps[i1 - 1].formula_totals =
-						elt_list_dup(surface_old_ptr->comps[i].
-									 formula_totals);
+					// copy surface comp
+					cxxSurfaceComp & comp_ref = surface_old_ptr->Get_surface_comps()[i];
+					replace_old.Get_surface_comps().push_back(comp_ref);
+					cxxSurfaceCharge *charge_ptr = replace_old.Find_charge(comp_ref.Get_charge_name());
 
-					/* charge structure */
-					new_charge = TRUE;
-					for (j = 0; j < i; j++)
-					{
-						if (surface_old_ptr->comps[j].charge ==
-							surface_old_ptr->comps[i].charge)
-						{
-							temp_surface.comps[i1 - 1].charge = i2 - 1;
-							new_charge = FALSE;
-							break;
-						}
-					}
-					if (new_charge)
+					// copy surface charge if necessary
+					if (charge_ptr == NULL)
 					{
 						i2++;
-						if (i2 > 1)
-						{
-							temp_surface.charge =
-								(struct surface_charge *)
-								PHRQ_realloc(temp_surface.charge,
-											 (size_t) i2 *
-											 sizeof(struct surface_charge));
-							if (temp_surface.charge == NULL)
-								malloc_error();
-						}
-						memcpy(&temp_surface.charge[i2 - 1],
-							   &surface_old_ptr->charge[surface_old_ptr->
-														comps[i].charge],
-							   (size_t) sizeof(struct surface_charge));
-						temp_surface.charge[i2 - 1].diffuse_layer_totals =
-							elt_list_dup(surface_old_ptr->
-										 charge[surface_old_ptr->comps[i].
-												charge].diffuse_layer_totals);
-						temp_surface.charge[i2 - 1].g = NULL;
-
-						temp_surface.comps[i1 - 1].charge = i2 - 1;
+						cxxSurfaceCharge *old_charge_ptr = surface_old_ptr->Find_charge(comp_ref.Get_charge_name());
+						replace_old.Get_surface_charges().push_back(*old_charge_ptr);
 					}
 				}
 			}
-			temp_surface.count_comps = i1;
-			temp_surface.count_charge = i2;
-			if (i1 > 0)
+			if (replace_old.Get_surface_comps().size() == 0)
 			{
-				temp_surface.related_phases = temp_surface.related_rate =
-					FALSE;
-				for (i = 0; i < i1; i++)
-				{
-					if (surface_old_ptr->comps[i].phase_name != NULL)
-						temp_surface.related_phases = TRUE;
-					if (surface_old_ptr->comps[i].rate_name != NULL)
-						temp_surface.related_rate = TRUE;
-				}
+				Rxn_surface_map.erase(surface_old_ptr->Get_n_user());
 			}
-			surface_free(surface_old_ptr);
-			surface_copy(&temp_surface, surface_old_ptr, n_user_old);
-		}
-		else
-		{
-			surface_sort();
-			surface_delete(n_user_old);
+			else
+			{
+				replace_old.Sort_comps();
+				Rxn_surface_map[surface_old_ptr->Get_n_user()] = replace_old;
+			}
 		}
 	}
-
-	surface_free(&temp_surface);
-	return (OK);
+	temp_surface.Sort_comps();
+	return (temp_surface);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -4202,13 +3555,12 @@ diff_stag_surf(int mobile_cell)
  *  for any cell in MCD, need only include the mixing factors for higher numbered cells.
  */
 {
-	int i, i1, i2, j, k, k1, n, n1, n2, ns, temp_count_surface;
+	int i, i1, i2, k, k1, n1, n2, ns;
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store;
 	LDBLE Dp1, Dp2;
-	//struct mix *mix_ptr;
 	cxxMix *mix_ptr;
-	struct surface *surface_ptr1, *surface_ptr2;
+	cxxSurface *surface_ptr1, *surface_ptr2;
 	LDBLE viscos_f;
 /*
  * temperature and viscosity correction for MCD coefficient, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
@@ -4216,12 +3568,10 @@ diff_stag_surf(int mobile_cell)
 	viscos_f = viscosity();
 	viscos_f = tk_x * 0.88862 / (298.15 * viscos_f);
 
-	n1 = count_surface;
-	n2 = n1 + 1;
-	temp_count_surface = count_surface + 2;
-	space((void **) ((void *) &surface), temp_count_surface, &max_surface,
-		  sizeof(struct surface));
-	surface[n1].count_comps = surface[n1 + 1].count_comps = 0;
+	cxxSurface surface_n1, surface_n2;
+	cxxSurface *surface_n1_ptr = &surface_n1;
+	cxxSurface *surface_n2_ptr;
+	std::map<int, cxxSurface> Rxn_temp_surface_map;
 
 	for (ns = 0; ns < stag_data->count_stag; ns++)
 	{
@@ -4232,114 +3582,99 @@ diff_stag_surf(int mobile_cell)
 
 		if (cell_data[i1 - 1].por < multi_Dpor_lim)
 			continue;
-		surface[n1].n_user = surface[n1 + 1].n_user = -99;
-		surface_ptr1 = surface_bsearch(i1, &n);
-
+		surface_n1.Set_n_user_both(-99);
+		surface_n2.Set_n_user_both(-99);
+		surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i1);
 /*
  * step 2a. mix surfaces...
  */
-		//mix_ptr = mix_search(i1, &n, FALSE);
 		mix_ptr = Utilities::Rxn_find(Rxn_mix_map, i1);
 		if (mix_ptr == NULL)
 			continue;
 
-		//for (j = 0; j < mix_ptr->count_comps; j++)
-		//std::map<int, LDBLE>::const_iterator cit;
-		//for (cit = mix_ptr->Get_mixComps().begin(); cit != mix_ptr->Get_mixComps().end(); cit++)
 		std::vector<int> num;
 		std::vector<LDBLE> frac;
 		mix_ptr->Vectorize(num, frac);
 		for (size_t i3 = 0; i3 < num.size(); i3++)
 		{
-
-			//if ((i2 = mix_ptr->comps[j].n_solution) <= i1)
-			//if ((i2 = cit->first) <= i1)
 			if ((i2 = num[i3]) <= i1)
 				continue;
 			if (cell_data[i2 - 1].por < multi_Dpor_lim)
 				continue;
-			surface_ptr2 = surface_bsearch(i2, &n);
-
+			surface_ptr2 = Utilities::Rxn_find(Rxn_surface_map, i2);
 			surf1 = surf2 = 0;
 			if (surface_ptr2 != NULL)
 			{
-				if (surface_ptr2->transport == TRUE)
+				if (surface_ptr2->Get_transport())
 					surf2 = 1;
 			}
 			if (surface_ptr1 != NULL)
 			{
-				if (surface_ptr1->transport == TRUE)
+				if (surface_ptr1->Get_transport())
 					surf1 = 1;
 			}
 			if (!surf1 && !surf2)
 				continue;
-
-			//mixf = mixf_store = mix_ptr->comps[j].fraction;
-			//mixf = mixf_store = cit->second;
 			mixf = mixf_store = frac[i3];;
 
 			/* find the (possibly modified) surface in cell i1... */
 			f1 = 1;
-			for (k = count_surface + 2; k < temp_count_surface; k++)
+			surface_n1_ptr = Utilities::Rxn_find(Rxn_temp_surface_map, i1);
+			if (surface_n1_ptr != NULL)
 			{
-				if (surface[k].n_user == i1)
-				{
-					n1 = k;
-					break;
-				}
+				surface_n1 = *surface_n1_ptr;
+				n1 = 0;
 			}
 			/* if not found... */
-			if (k == temp_count_surface)
+			else
 			{
-				n1 = count_surface;
 				/* copy it from surface_ptr1... */
 				if (surface_ptr1 != NULL)
-					surface_copy(surface_ptr1, &surface[n1], i1);
+				{
+					surface_n1 = *surface_ptr1;
+				}
 				else
 				{
 					/* or make it a mobile copy of the surface in cell i2... */
-					mobile_surface_copy(surface_ptr2, &surface[n1], i1,
-										FALSE);
+					surface_n1 = mobile_surface_copy(surface_ptr2, i1, false);
+
 					/* limit comps to 1... */
-					if (surface[n1].count_comps > 1)
+					if (surface_n1.Get_surface_charges().size() > 1)
 					{
-						if (sum_surface_comp
-							(&surface[n1], 0, &surface[n1], 0, 1,
-							 &surface[n1], surface[n1].comps[0].Dw) == ERROR)
-							return (ERROR);
+						std::string charge_name = surface_n1.Get_surface_charges()[0].Get_name();
+						surface_n1 = sum_surface_comp(&surface_n1, 0, &surface_n1, charge_name, 1,
+							surface_n1.Get_surface_comps()[0].Get_Dw());
 					}
 					f1 = 0;
 				}
 			}
 			/* find the (possibly modified) surface in cell i2... */
 			f2 = 1;
-			for (k = count_surface + 2; k < temp_count_surface; k++)
+			surface_n2_ptr = Utilities::Rxn_find(Rxn_temp_surface_map, i2);
+
+			if (surface_n2_ptr != NULL)
 			{
-				if (surface[k].n_user == i2)
-				{
-					n2 = k;
-					break;
-				}
+				surface_n2 = *surface_n2_ptr;
 			}
 			/* if not found... */
-			if (k == temp_count_surface)
+			else
 			{
-				n2 = count_surface + 1;
+				n2 = 1;
 				/* copy it from surface_ptr2... */
 				if (surface_ptr2 != NULL)
-					surface_copy(surface_ptr2, &surface[n2], i2);
+				{
+					surface_n2 = *surface_ptr2;
+				}
 				else
 				{
 					/* or make it a mobile copy of the surface in cell i1... */
-					mobile_surface_copy(surface_ptr1, &surface[n2], i2,
-										FALSE);
+					surface_n2 = mobile_surface_copy(surface_ptr1, i2, false);
 					/* limit comps to 1... */
-					if (surface[n2].count_comps > 1)
+					if (surface_n2.Get_surface_charges().size() > 1)
 					{
-						if (sum_surface_comp
-							(&surface[n2], 0, &surface[n2], 0, 1,
-							 &surface[n2], surface[n2].comps[0].Dw) == ERROR)
-							return (ERROR);
+						std::string charge_name = surface_n2.Get_surface_charges()[0].Get_name();
+						surface_n2 = sum_surface_comp(&surface_n2, 0, &surface_n2, charge_name, 1,
+							surface_n2.Get_surface_comps()[0].Get_Dw());
 					}
 					f2 = 0;
 				}
@@ -4361,15 +3696,18 @@ diff_stag_surf(int mobile_cell)
 			/* mix in comps with the same charge structure... */
 			if (surf2)
 			{
-				for (k = 0; k < surface_ptr2->count_comps; k++)
+				for (k = 0; k < (int) surface_ptr2->Get_surface_comps().size(); k++)
 				{
-					if (surface_ptr2->comps[k].Dw == 0)
+					cxxSurfaceComp *comp_k_ptr = &(surface_ptr2->Get_surface_comps()[k]);
+					std::string charge_name = comp_k_ptr->Get_charge_name();
+					if (comp_k_ptr->Get_Dw() == 0)
 						continue;
 					charge_done = FALSE;
 					for (k1 = 0; k1 < k; k1++)
 					{
-						if (surface_ptr2->comps[k1].charge ==
-							surface_ptr2->comps[k].charge)
+						cxxSurfaceComp *comp_k1_ptr = &(surface_ptr2->Get_surface_comps()[k1]);
+						if (comp_k_ptr->Get_charge_name() ==
+							comp_k1_ptr->Get_charge_name())
 						{
 							charge_done = TRUE;
 							break;
@@ -4381,20 +3719,19 @@ diff_stag_surf(int mobile_cell)
 					/* find diffusion coefficients of surfaces... */
 					if (multi_Dflag)
 					{
-						Dp2 =
-							surface_ptr2->comps[k].Dw *
+						Dp2 = comp_k_ptr->Get_Dw() *
 							pow(cell_data[i2 - 1].por, multi_Dn) * viscos_f;
 						Dp1 = 0;
 						if (surf1)
 						{
-							for (k1 = 0; k1 < surface_ptr1->count_comps; k1++)
+							for (k1 = 0; k1 < (int) surface_ptr1->Get_surface_comps().size(); k1++)
 							{
-								if (elt_list_compare
-									(surface_ptr1->comps[k1].totals,
-									 surface_ptr2->comps[k].totals) != 0)
+								cxxSurfaceComp *comp_k1_ptr = &(surface_ptr1->Get_surface_comps()[k1]);
+								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
+									comp_k_ptr->Get_formula().c_str()) != 0)
 									continue;
 								Dp1 =
-									surface_ptr1->comps[k1].Dw *
+									comp_k1_ptr->Get_Dw() *
 									pow(cell_data[i1 - 1].por,
 										multi_Dn) * viscos_f;
 								break;
@@ -4405,37 +3742,36 @@ diff_stag_surf(int mobile_cell)
 
 						/* and adapt the mixing factor... */
 						mixf = mixf_store * Dp2;
-						mixf /= solution_bsearch(i2, &n, FALSE)->mass_water;
+						mixf /= Utilities::Rxn_find(Rxn_solution_map, i2)->Get_mass_water();
 					}
 
 					if (mixf < 1e-8)
 						mixf = 0;
 					if (mixf > 0.99999999)
 						mixf = 0.99999999;
-					if (sum_surface_comp
-						(&surface[n1], f1, surface_ptr2, k, mixf,
-						 &surface[n1], surface_ptr2->comps[k].Dw) == ERROR)
-						return (ERROR);
+					surface_n1 = sum_surface_comp(&surface_n1, f1, surface_ptr2, charge_name, mixf,
+						surface_ptr2->Get_surface_comps()[k].Get_Dw());
 					f1 = 1;
 
-					if (sum_surface_comp
-						(&surface[n2], f2, surface_ptr2, k, -mixf,
-						 &surface[n2], surface_ptr2->comps[k].Dw) == ERROR)
-						return (ERROR);
+					surface_n2 = sum_surface_comp(&surface_n2, f2, surface_ptr2, charge_name, -mixf,
+						surface_ptr2->Get_surface_comps()[k].Get_Dw());
 				}
 			}
 
 			if (surf1)
 			{
-				for (k = 0; k < surface_ptr1->count_comps; k++)
+				for (k = 0; k < (int) surface_ptr1->Get_surface_comps().size(); k++)
 				{
-					if (surface_ptr1->comps[k].Dw == 0)
+					cxxSurfaceComp *comp_k_ptr = &(surface_ptr1->Get_surface_comps()[k]);
+					std::string charge_name = comp_k_ptr->Get_charge_name();
+					if (comp_k_ptr->Get_Dw() == 0)
 						continue;
 					charge_done = FALSE;
 					for (k1 = 0; k1 < k; k1++)
 					{
-						if (surface_ptr1->comps[k1].charge ==
-							surface_ptr1->comps[k].charge)
+						cxxSurfaceComp *comp_k1_ptr = &(surface_ptr1->Get_surface_comps()[k1]);
+						if (comp_k_ptr->Get_charge_name() ==
+							comp_k1_ptr->Get_charge_name())
 						{
 							charge_done = TRUE;
 							break;
@@ -4448,20 +3784,20 @@ diff_stag_surf(int mobile_cell)
 					if (multi_Dflag)
 					{
 						Dp1 =
-							surface_ptr1->comps[k].Dw *
+							comp_k_ptr->Get_Dw() *
 							pow(cell_data[i1 - 1].por, multi_Dn) * viscos_f;
 
 						Dp2 = 0;
 						if (surf2)
 						{
-							for (k1 = 0; k1 < surface_ptr2->count_comps; k1++)
+							for (k1 = 0; k1 < (int) surface_ptr2->Get_surface_comps().size(); k1++)
 							{
-								if (elt_list_compare
-									(surface_ptr2->comps[k1].totals,
-									 surface_ptr1->comps[k].totals) != 0)
+								cxxSurfaceComp *comp_k1_ptr = &(surface_ptr2->Get_surface_comps()[k1]);
+								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
+									comp_k_ptr->Get_formula().c_str()) != 0)
 									continue;
 								Dp2 =
-									surface_ptr2->comps[k1].Dw *
+									comp_k1_ptr->Get_Dw() *
 									pow(cell_data[i2 - 1].por,
 										multi_Dn) * viscos_f;
 								break;
@@ -4472,377 +3808,153 @@ diff_stag_surf(int mobile_cell)
 
 						/* and adapt the mixing factor... */
 						mixf = mixf_store * Dp1;
-						mixf /= solution_bsearch(i1, &n, FALSE)->mass_water;
+						mixf /= Utilities::Rxn_find(Rxn_solution_map, i1)->Get_mass_water();
 					}
 
 					if (mixf < 1e-8)
 						mixf = 0;
 					if (mixf > 0.99999999)
 						mixf = 0.99999999;
-					if (sum_surface_comp
-						(&surface[n2], f2, surface_ptr1, k, mixf,
-						 &surface[n2], surface_ptr1->comps[k].Dw) == ERROR)
-						return (ERROR);
+					surface_n2 = sum_surface_comp(&surface_n2, f2, surface_ptr1, charge_name, mixf,
+						surface_ptr1->Get_surface_comps()[k].Get_Dw());
 					f2 = 1;
 
-					if (sum_surface_comp
-						(&surface[n1], f1, surface_ptr1, k, -mixf,
-						 &surface[n1], surface_ptr1->comps[k].Dw) == ERROR)
-						return (ERROR);
+					surface_n1 = sum_surface_comp(&surface_n1, f1, surface_ptr1, charge_name, -mixf,
+						surface_ptr1->Get_surface_comps()[k].Get_Dw());
 				}
 			}
 
 /*
  *  Step 3. copy surface[n1] and [n2] in a new temporary surface...
  */
-			if (surface[n1].n_user == -99)
+			if (surface_n1.Get_n_user() == -99)
 				continue;
 
-			if (n1 == count_surface)
-			{
-				n = temp_count_surface++;
+			surface_n1.Set_n_user_both(i1);
+			Rxn_temp_surface_map[i1] = surface_n1;
 
-				space((void **) ((void *) &surface), temp_count_surface,
-					  &max_surface, sizeof(struct surface));
-				surface_copy(&surface[n1], &surface[n], i1);
-
-				surface_free(&surface[n1]);
-				surface[n1].count_comps = 0;
-			}
-			else
-				n1 = count_surface;
-
-			if (n2 == count_surface + 1)
-			{
-				n = temp_count_surface++;
-
-				space((void **) ((void *) &surface), temp_count_surface,
-					  &max_surface, sizeof(struct surface));
-				surface_copy(&surface[n2], &surface[n], i2);
-
-				surface_free(&surface[n2]);
-				surface[n2].count_comps = 0;
-			}
-			else
-				n2 = count_surface + 1;
+			assert(surface_n2.Get_n_user() != -99);
+			assert(surface_n2.Get_n_user() == i2);
+			surface_n2.Set_n_user_both(i2);
+			Rxn_temp_surface_map[i2] = surface_n2;
 		}
 	}
 /*
  * Step 4. Diffusion is done. New surfaces can be copied in the cells...
  */
-
 	n2 = 0;
-
-	for (j = count_surface + 2; j < temp_count_surface; j++)
+	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
+	for ( ; jit != Rxn_temp_surface_map.end(); jit++)
 	{
-		i = surface[j].n_user;
-		if ((i == 0 && bcon_first == 1)
-			|| (i == count_cells + 1 && bcon_last == 1))
+		i = jit->first;
+		assert (i = jit->second.Get_n_user());
+		if ((i == 0 && bcon_first == 1)	|| (i == count_cells + 1 && bcon_last == 1))
 		{
-			surface_free(&surface[j]);
-			surface[j].count_comps = 0;
 			continue;
 		}
 		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data->count_stag))
 		{
-			surface_ptr1 = surface_bsearch(i, &n);
+			surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
 			if (surface_ptr1 != NULL)
 			{
-				surface_free(surface_ptr1);
-				surface_copy(&surface[j], surface_ptr1, i);
+				Rxn_surface_map[i] = jit->second;
 			}
 			else
 			{
-				surface_copy(&surface[j], &surface[count_surface + n2], i);
-				n2++;
+				//Add to map
+				Rxn_surface_map[i] = jit->second;
 			}
 		}
-		surface_free(&surface[j]);
-		surface[j].count_comps = 0;
 	}
-	count_surface += n2;
-	if (n2 > 0)
-		qsort(surface, (size_t) count_surface,
-			  (size_t) sizeof(struct surface), surface_compare);
-
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 reformat_surf(const char *comp_name, LDBLE fraction, const char *new_comp_name,
 			  LDBLE new_Dw, int l_cell)
 /* ---------------------------------------------------------------------- */
 {
-	int i, i1, j, k, k1, n, length, length1, cn, cn1, charge_in;
-	char string[MAX_LENGTH];
-	struct surface temp_surface, *surf_ptr;
+	cxxSurface *surface_ptr;
 
-	if ((surf_ptr = surface_bsearch(l_cell, &n)) == ERROR)
+	if ((surface_ptr = Utilities::Rxn_find(Rxn_surface_map, l_cell)) == NULL)
 		return (OK);
-
+	if (surface_ptr->Find_charge(comp_name) == NULL)
+		return (OK);
+	// Assume comp_name is charge name
+	std::string old_charge_name = comp_name;
+	std::string new_charge_name = new_comp_name;
 	if (fraction > 0.99999999)
 		fraction = 0.99999999;
-	length = (int) strlen(comp_name);
-	length1 = (int) strlen(new_comp_name);
-	for (k = 0; k < surf_ptr->count_comps; k++)
-	{
-		if (strncmp(comp_name, surf_ptr->comps[k].formula, length) == 0)
-			break;
-	}
-	if (k == surf_ptr->count_comps)
-		return (OK);
 
-	surface_copy(surf_ptr, &temp_surface, l_cell);
+	cxxSurface temp_surface(*surface_ptr);
 
-	for (k1 = 0; k1 < temp_surface.count_comps; k1++)
-	{
-		if (strncmp(new_comp_name, temp_surface.comps[k1].formula, length1)
-			== 0)
-			break;
-	}
+	cxxSurface change;
 
-	charge_in = FALSE;
-	if (k1 == temp_surface.count_comps)
+	for (size_t i = 0; i < temp_surface.Get_surface_comps().size(); i++)
 	{
-		/* new_comp_name absent */
-		/* rename the comps... */
-		for (i = 0; i < temp_surface.count_comps; i++)
+		cxxSurfaceComp *comp_ptr = &(temp_surface.Get_surface_comps()[i]);
+		std::string charge_name = comp_ptr->Get_charge_name();
+		if (charge_name == old_charge_name)
 		{
-			if (temp_surface.comps[i].charge != temp_surface.comps[k].charge)
-				continue;
-
-			strcpy(string, temp_surface.comps[i].formula);
-			replace(comp_name, new_comp_name, string);
-			temp_surface.comps[i].formula = string_hsave(string);
-
-			temp_surface.comps[i].moles *= fraction;
-
-			count_elts = 0;
-			add_elt_list(temp_surface.comps[i].totals, fraction);
-			temp_surface.comps[i].totals =
-				(struct elt_list *) free_check_null(temp_surface.comps[i].
-													totals);
-			temp_surface.comps[i].totals = elt_list_save();
-/* appt, is this correct ? */
-			temp_surface.comps[i].formula_totals =
-				(struct elt_list *) free_check_null(temp_surface.comps[i].
-													formula_totals);
-			temp_surface.comps[i].formula_totals = elt_list_save();
-
-			/* rename surface comp in element list */
-			for (j = 0; temp_surface.comps[i].totals[j].elt != NULL; j++)
+			cxxSurfaceComp comp(*comp_ptr);
+			comp.multiply(fraction);
+			std::string std_comp_name = comp_ptr->Get_formula();
+			Utilities::replace(comp_name, new_comp_name, std_comp_name);
+			comp.Set_formula(std_comp_name.c_str());
+			comp.Set_charge_name(new_comp_name);
+			cxxNameDouble nd;
+			cxxNameDouble::iterator it;
+			for (it = comp.Get_totals().begin(); it != comp.Get_totals().end(); it++)
 			{
-				if (strncmp
-					(comp_name, temp_surface.comps[i].totals[j].elt->name,
-					 length) == 0)
-				{
-					strcpy(string, temp_surface.comps[i].totals[j].elt->name);
-					replace(comp_name, new_comp_name, string);
-					temp_surface.comps[i].totals[j].elt =
-						element_store(string);
-				}
+				std::string tot_name(it->first);
+				Utilities::replace(comp_name, new_comp_name, tot_name);
+				nd[tot_name] = it->second;
 			}
-			for (j = 0; temp_surface.comps[i].formula_totals[j].elt != NULL;
-				 j++)
-			{
-				if (strncmp
-					(comp_name,
-					 temp_surface.comps[i].formula_totals[j].elt->name,
-					 length) == 0)
-				{
-					strcpy(string,
-						   temp_surface.comps[i].formula_totals[j].elt->name);
-					replace(comp_name, new_comp_name, string);
-					temp_surface.comps[i].formula_totals[j].elt =
-						element_store(string);
-				}
-			}
-			/* add charge */
-			if (!charge_in)
-			{
-				cn = temp_surface.comps[i].charge;
-
-				temp_surface.charge[cn].grams *= fraction;
-				temp_surface.charge[cn].charge_balance *= fraction;
-				temp_surface.charge[cn].mass_water *= fraction;
-
-				count_elts = 0;
-				add_elt_list(temp_surface.charge[cn].diffuse_layer_totals,
-							 fraction);
-				temp_surface.charge[cn].diffuse_layer_totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														charge[cn].
-														diffuse_layer_totals);
-				temp_surface.charge[cn].diffuse_layer_totals =
-					elt_list_save();
-
-				strcpy(string, temp_surface.charge[cn].name);
-				replace(comp_name, new_comp_name, string);
-				temp_surface.charge[cn].name = string_hsave(string);
-				/*  renaming charge psi_master seems unnecessary... */
-				charge_in = TRUE;
-			}
-			temp_surface.comps[i].Dw = new_Dw;
-		}
-
-		/* add remainder of old comp and charge */
-		if (fraction < 1)
-			sum_surface_comp(&temp_surface, 1, surf_ptr, k, 1 - fraction,
-							 &temp_surface, surf_ptr->comps[k].Dw);
-	}
-	else
-	{
-		/* new_comp_name is already in surface */
-		cn = surf_ptr->comps[k].charge;
-		for (i = 0; i < surf_ptr->count_comps; i++)
-		{
-
-			if (surf_ptr->comps[i].charge != cn)
-				continue;
-
-			strcpy(string, surf_ptr->comps[i].formula);
-			replace(comp_name, new_comp_name, string);
-
-			/* add comps to new_comps */
-			for (i1 = 0; i1 < temp_surface.count_comps; i1++)
-			{
-
-				if (strcmp(string, temp_surface.comps[i1].formula) != 0)
-					continue;
-
-				temp_surface.comps[i1].moles +=
-					surf_ptr->comps[i].moles * fraction;
-				temp_surface.comps[i].moles -=
-					surf_ptr->comps[i].moles * fraction;
-
-				/* rename surface comp in element list */
-				for (j = 0; temp_surface.comps[i].totals[j].elt != NULL; j++)
-				{
-					if (strncmp
-						(comp_name, temp_surface.comps[i].totals[j].elt->name,
-						 length) == 0)
-					{
-						strcpy(string,
-							   temp_surface.comps[i].totals[j].elt->name);
-						replace(comp_name, new_comp_name, string);
-						temp_surface.comps[i].totals[j].elt =
-							element_store(string);
-					}
-				}
-				for (j = 0;
-					 temp_surface.comps[i].formula_totals[j].elt != NULL; j++)
-				{
-					if (strncmp
-						(comp_name,
-						 temp_surface.comps[i].formula_totals[j].elt->name,
-						 length) == 0)
-					{
-						strcpy(string,
-							   temp_surface.comps[i].formula_totals[j].elt->
-							   name);
-						replace(comp_name, new_comp_name, string);
-						temp_surface.comps[i].formula_totals[j].elt =
-							element_store(string);
-					}
-				}
-				count_elts = 0;
-				add_elt_list(temp_surface.comps[i1].totals, 1.0);
-				add_elt_list(temp_surface.comps[i].totals, fraction);
-				if (count_elts > 0)
-				{
-					qsort(elt_list, (size_t) count_elts,
-						  (size_t) sizeof(struct elt_list), elt_list_compare);
-					elt_list_combine();
-				}
-				temp_surface.comps[i1].totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i1].totals);
-				temp_surface.comps[i1].totals = elt_list_save();
-				temp_surface.comps[i1].formula_totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i1].
-														formula_totals);
-				temp_surface.comps[i1].formula_totals = elt_list_save();
-				temp_surface.comps[i1].Dw = new_Dw;
-
-				count_elts = 0;
-				add_elt_list(surf_ptr->comps[i].totals, 1.0 - fraction);
-				temp_surface.comps[i].totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i].totals);
-				temp_surface.comps[i].totals = elt_list_save();
-				temp_surface.comps[i].formula_totals =
-					(struct elt_list *) free_check_null(temp_surface.
-														comps[i].
-														formula_totals);
-				temp_surface.comps[i].formula_totals = elt_list_save();
-
-				/* add charge */
-				if (!charge_in)
-				{
-					cn1 = temp_surface.comps[i1].charge;
-					temp_surface.charge[cn1].grams +=
-						surf_ptr->charge[cn].grams * fraction;
-					temp_surface.charge[cn1].charge_balance +=
-						surf_ptr->charge[cn].charge_balance * fraction;
-					temp_surface.charge[cn1].mass_water +=
-						surf_ptr->charge[cn].mass_water * fraction;
-
-					temp_surface.charge[cn].grams -=
-						surf_ptr->charge[cn].grams * fraction;
-					temp_surface.charge[cn].charge_balance -=
-						surf_ptr->charge[cn].charge_balance * fraction;
-					temp_surface.charge[cn].mass_water -=
-						surf_ptr->charge[cn].mass_water * fraction;
-
-					count_elts = 0;
-					add_elt_list(temp_surface.charge[cn1].
-								 diffuse_layer_totals, 1.0);
-					add_elt_list(surf_ptr->charge[cn].diffuse_layer_totals,
-								 fraction);
-					if (count_elts > 0)
-					{
-						qsort(elt_list, (size_t) count_elts,
-							  (size_t) sizeof(struct elt_list),
-							  elt_list_compare);
-						elt_list_combine();
-					}
-					temp_surface.charge[cn1].diffuse_layer_totals =
-						(struct elt_list *) free_check_null(temp_surface.
-															charge[cn1].
-															diffuse_layer_totals);
-					temp_surface.charge[cn1].diffuse_layer_totals =
-						elt_list_save();
-
-					count_elts = 0;
-					add_elt_list(surf_ptr->charge[cn].diffuse_layer_totals,
-								 1.0 - fraction);
-					temp_surface.charge[cn].diffuse_layer_totals =
-						(struct elt_list *) free_check_null(temp_surface.
-															charge[cn].
-															diffuse_layer_totals);
-					temp_surface.charge[cn].diffuse_layer_totals =
-						elt_list_save();
-
-					charge_in = TRUE;
-				}
-			}
+			comp.Set_totals(nd);
+			change.Get_surface_comps().push_back(comp);
+			comp_ptr->multiply(1 - fraction);
 		}
 	}
-
-	temp_surface.transport = FALSE;
-	for (i = 0; i < temp_surface.count_comps; i++)
+	for (size_t i = 0; i < temp_surface.Get_surface_charges().size(); i++)
 	{
-		if (temp_surface.comps[i].Dw > 0)
-			temp_surface.transport = TRUE;
+		cxxSurfaceCharge *charge_ptr = &(temp_surface.Get_surface_charges()[i]);
+		std::string charge_name = charge_ptr->Get_name();
+		if (charge_name == old_charge_name)
+		{
+			cxxSurfaceCharge charge(*charge_ptr);
+			charge.multiply(fraction);
+			std::string std_charge_name = charge_ptr->Get_name();
+			Utilities::replace(comp_name, new_comp_name, std_charge_name);
+			charge.Set_name(std_charge_name.c_str());
+			change.Get_surface_charges().push_back(charge);
+			charge_ptr->multiply(1 - fraction);
+		}
 	}
-	surface_free(surf_ptr);
-	surface_copy(&temp_surface, surf_ptr, l_cell);
-	surface_free(&temp_surface);
-
-	return (OK);
+	temp_surface.add(change, 1.0);
+	// change Dw
+	for (size_t i = 0; i < temp_surface.Get_surface_comps().size(); i++)
+	{
+		cxxSurfaceComp *comp_ptr = &(temp_surface.Get_surface_comps()[i]);
+		std::string charge_name = comp_ptr->Get_charge_name();
+		if (charge_name == new_charge_name)
+		{
+			comp_ptr->Set_Dw(new_Dw);
+		}
+	}
+	temp_surface.Set_transport(false);
+	for (size_t i = 0; i < temp_surface.Get_surface_comps().size(); i++)
+	{
+		if (temp_surface.Get_surface_comps()[i].Get_Dw() > 0)
+		{
+			temp_surface.Set_transport(true);
+			break;
+		}
+	}
+	temp_surface.Sort_comps();
+	Rxn_surface_map[l_cell] = temp_surface;
+	return OK;
 }
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 viscosity(void)

@@ -1,24 +1,5 @@
 # SrSO4 solubility, Howell et al., 1992
-DATABASE ../vreeqc.dat
-SOLUTION_SPECIES
-Sr+2 = Sr+2
-	-dw	 0.794e-9
-	-millero -18.44 0.0082 -0.0006 1.727 -0.067 0.00084
-	-Vm  -12 # Howell et al., 1992
-Sr+2 + SO4-2 = SrSO4
-	log_k	2.29
-	delta_h 2.08	kcal
-	-Vm 40.0
-
-PHASES
-Celestite
-	SrSO4 = Sr+2 + SO4-2
-	log_k	-6.63
-	delta_h -4.037 kcal
-#	-analytic	-14805.9622	-2.4660924	756968.533	5436.3588	-40553604.0
-	-anal  -6.61 2.98E-03  75 0 0 -1.32E-05 # Howell et al., 1992
-	-Vm 46.4
-
+INCLUDE$ SrSO4.db
 SOLUTION 1
  pH 7 charge
  -temp 25

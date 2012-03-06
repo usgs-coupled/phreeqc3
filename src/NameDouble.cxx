@@ -14,6 +14,7 @@
 #include "NameDouble.h"
 //#include "Dictionary.h"
 #include "phqalloc.h"
+#include "ISolutionComp.h"
 
 
 //////////////////////////////////////////////////////////////////////
@@ -81,18 +82,19 @@ cxxNameDouble::cxxNameDouble(const cxxNameDouble & old, LDBLE factor)
 	}
 	this->type = old.type;
 }
-cxxNameDouble::cxxNameDouble(struct conc *tots)
+cxxNameDouble::cxxNameDouble(std::map < std::string, cxxISolutionComp > &comps)
 		//
-		// constructor for cxxNameDouble from list of elt_list
+		// constructor for cxxNameDouble from map of cxxISolutionComp
 		//
 {
-	int i;
-	for (i = 0; tots[i].description != NULL; i++)
+	std::map < std::string, cxxISolutionComp >::iterator it;
+	for (it = comps.begin(); it != comps.end(); it++)
 	{
-		(*this)[tots[i].description] = tots[i].moles;
+		(*this)[it->first] = it->second.Get_moles();
 	}
 	this->type = ND_ELT_MOLES;
 }
+#ifdef SKIP
 cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count,
 							 cxxNameDouble::ND_TYPE l_type)
 		//
@@ -108,22 +110,7 @@ cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count,
 	}
 	this->type = l_type;
 }
-/*
-cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
-		//
-		// constructor for cxxNameDouble from list of elt_list
-		//
-{
-	int i;
-	for (i = 0; i < count; i++)
-	{
-		if (nc[i].name == NULL)
-			continue;
-		(*this)[nc[i].name] = nc[i].coef;
-	}
-	this->type = ND_NAME_COEF;
-}
-*/
+#endif
 cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
 		//
 		// constructor for cxxNameDouble from list of elt_list
@@ -155,7 +142,6 @@ cxxNameDouble::~cxxNameDouble()
 void
 cxxNameDouble::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1("");
@@ -200,7 +186,6 @@ cxxNameDouble::dump_xml(std::ostream & s_oss, unsigned int indent) const
 void
 cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing exch_comp message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0("");
@@ -210,7 +195,7 @@ cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	for (const_iterator it = (*this).begin(); it != (*this).end(); it++)
 	{
 		s_oss << indent0;
-		s_oss << it->first << "   " << it->second << "\n";
+		s_oss << Utilities::pad_right(it->first, 29 - indent0.size())  << it->second << "\n";
 	}
 }
 
@@ -218,15 +203,10 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 											 std::istream::pos_type & pos)
 {
 	std::string token;
-	//char *
-	//	ctoken;
 	LDBLE
 		d;
 
 	CParser::TOKEN_TYPE j;
-
-	//m_line_iss.seekg(pos);        
-
 	j = parser.copy_token(token, pos);
 
 	if (j == CParser::TT_EMPTY)
@@ -248,7 +228,6 @@ cxxNameDouble::add_extensive(const cxxNameDouble & addee, LDBLE factor)
 {
 	if (factor == 0)
 		return;
-	//assert(factor > 0.0);
 	for (cxxNameDouble::const_iterator it = addee.begin(); it != addee.end();
 		 it++)
 	{
@@ -305,13 +284,89 @@ cxxNameDouble::add_log_activities(const cxxNameDouble & addee, LDBLE f1,
 		}
 		else
 		{
-			//LDBLE a2 = pow(10. it->second);
-			//(*this)[it->first] = log10(f2 * a2);
 			(*this)[it->first] = it->second + log10(f2);
 		}
 	}
 }
+cxxNameDouble 
+cxxNameDouble::Simplify_redox(void)
+{
+	// remove individual redox states from totals
+	cxxNameDouble &nd = *this;
+	std::set<std::string> list_of_elements;
+	cxxNameDouble::const_iterator it;
+	for (it = nd.begin(); it != nd.end(); ++it)
+	{
+		std::string current_ename(it->first);
+		std::basic_string < char >::size_type indexCh;
+		indexCh = current_ename.find("(");
+		if (indexCh != std::string::npos)
+		{
+			current_ename = current_ename.substr(0, indexCh);
+		}
+		if (current_ename == "H" || current_ename == "O" || current_ename == "Charge")
+			continue;
+		list_of_elements.insert(current_ename);
+	}
 
+	cxxNameDouble new_totals;
+	new_totals.type = cxxNameDouble::ND_ELT_MOLES;
+	std::set<std::string>::iterator nt_it = list_of_elements.begin();
+	for( ; nt_it != list_of_elements.end(); nt_it++)
+	{
+		new_totals[(*nt_it).c_str()] = nd.Get_total_element((*nt_it).c_str());
+	}
+	return new_totals;
+}
+void 
+cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
+{
+	// update original master_activities using just computed factors
+	cxxNameDouble::iterator it;
+	LDBLE lg_f = log10(f);
+	std::string redox_name = str;
+	redox_name.append("(");
+
+	for (it = this->begin(); it != this->end(); it++)
+	{
+		if (it->first == str)
+		{
+			// Found exact match
+			it->second += lg_f;
+		}
+		else 
+		{
+			// no exact match, current is element name, need to find all valences
+			if (strstr(it->first.c_str(), redox_name.c_str()) == it->first.c_str())
+			{
+				it->second += lg_f;
+			}
+		}
+	}
+}
+LDBLE
+cxxNameDouble::Get_total_element(const char *string) const
+{
+	cxxNameDouble::const_iterator it;
+	LDBLE d = 0.0;
+	for (it = this->begin(); it != this->end(); ++it)
+	{
+		// C++ way to do it
+		std::string ename(string);
+		std::string current_ename(it->first);
+		std::basic_string < char >::size_type indexCh;
+		indexCh = current_ename.find("(");
+		if (indexCh != std::string::npos)
+		{
+			current_ename = current_ename.substr(0, indexCh);
+		}
+		if (current_ename == ename)
+		{
+			d += it->second;
+		}
+	}
+	return (d);
+}
 void
 cxxNameDouble::add(const char *token, LDBLE total)
 //
@@ -452,37 +507,12 @@ cxxNameDouble::mpi_pack(int *ints, int *ii, LDBLE *doubles, int *dd)
 			error_msg("Name in NameDouble was not defined in dictionary?\n",
 					  STOP);
 		}
-		//ints.push_back(n);
 		ints[i++] = n;
-		//doubles.push_back(it->second);
 		doubles[d++] = it->second;
 	}
 	*ii = i;
 	*dd = d;
 }
-
-//void
-//cxxNameDouble::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-//{
-//	int i = *ii;
-//	int d = *dd;
-//	extern cxxDictionary dictionary;
-//	this->clear();
-//	int count = ints[i++];
-//	for (int j = 0; j < count; j++)
-//	{
-//		int n = ints[i++];
-//		assert(n >= 0);
-//		std::string * str = dictionary.int2string(n);
-//		if (str != NULL)
-//		{
-//			char *cstr = string_hsave(str->c_str());
-//			(*this)[cstr] = doubles[d++];
-//		}
-//	}
-//	*ii = i;
-//	*dd = d;
-//}
 void
 cxxNameDouble::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 {

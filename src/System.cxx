@@ -74,7 +74,7 @@ cxxSystem::totalize(PHREEQC_PTR_ARG)
 	if (this->ppassemblage != NULL)
 	{
 		this->ppassemblage->totalize(P_INSTANCE);
-		this->totals.add_extensive(this->ppassemblage->Get_totals(), 1.0);
+		this->totals.add_extensive(this->ppassemblage->Get_assemblage_totals(), 1.0);
 	}
 	if (this->gasphase != NULL)
 	{

@@ -1,14 +1,7 @@
 # Calcite dissolution with/-out CaHCO3+ complex
-DATABASE ../database/vreeqc.dat
-SOLUTION_SPECIES
-Ca+2 + CO3-2 + H+ = CaHCO3+ # remove this complex, otherwise calcite solubility with P_CO2 > 10 can't be modeled.
-	log_k	11.435
-	delta_h -0.871	kcal
-	-analytic	1317.0071	0.34546894	-39916.84	-517.70761	563713.9
-	-gamma	5.4	0.0
-	-dw 5.06e-10
-	-Vm 30
-solution 1
+DATABASE ../database/phreeqc.dat
+INCLUDE$ cc.db
+SOLUTION 1
  pH 7 charge
 EQUILIBRIUM_PHASES
  Calcite
@@ -26,7 +19,7 @@ END
 
 SOLUTION_SPECIES
 Ca+2 + CO3-2 + H+ = CaHCO3+
-	log_k	-100 # remove this complex, data from Ellis, 1963 and Segnit et al. 1962.
+	log_k	-100 # remove this complex
 USE solution 1
 USE reaction_temperature 1
 USE EQUILIBRIUM_PHASES 1

@@ -120,14 +120,6 @@ ChartHandler::End_timer()
 	
 	for  ( ; it != chart_map.end(); it++)
 	{
-		//{
-		//	std::vector<CurveObject *>::iterator cit = it->second->Get_Curves().begin();
-		//	size_t i;
-		//	for (i = 0; i <  it->second->Get_Curves().size(); i ++)
-		//	{
-		//		std::cerr << "Curve " << i << ", number of points " << it->second->Get_Curves()[i]->Get_x().size() << "\n";
-		//	}
-		//}
 		size_t i = 0;
 		it->second->Rate_free();
 		if (it->second->Get_form_started())

@@ -91,7 +91,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(DEV_GMP_INC_MT);.\src;.\src\phreeqc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;REVISED_GASES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -171,7 +171,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>$(DEV_GMP_INC_MT);.\src;.\src\phreeqc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;WIN32;_CONSOLE;DOS;NDEBUG;REVISED_GASES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;WIN32;_CONSOLE;DOS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -214,7 +214,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(DEV_GMP_INC_MT);.\src;.\src\phreeqc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;REVISED_GASES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -486,7 +486,6 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='ClrClass_release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="src\SolutionIsotopeList.cxx" />
     <ClCompile Include="src\SS.cxx" />
     <ClCompile Include="src\SSassemblage.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Class_debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -572,17 +571,14 @@
     <ClInclude Include="src\phreeqc\Form2.h" />
     <ClInclude Include="src\GasPhase.h" />
     <ClInclude Include="src\phreeqc\global_structures.h" />
-    <ClInclude Include="src\phreeqc\input.h" />
     <ClInclude Include="src\ISolution.h" />
     <ClInclude Include="src\ISolutionComp.h" />
-    <ClInclude Include="src\phreeqc\kinetics.h" />
     <ClInclude Include="src\KineticsComp.h" />
     <ClInclude Include="src\NameDouble.h" />
     <ClInclude Include="src\NumKeyword.h" />
     <ClInclude Include="src\phreeqc\NA.h" />
     <ClInclude Include="src\phreeqc\nvector.h" />
     <ClInclude Include="src\phreeqc\nvector_serial.h" />
-    <ClInclude Include="src\phreeqc\output.h" />
     <ClInclude Include="src\Parser.h" />
     <ClInclude Include="src\phreeqc\phqalloc.h" />
     <CustomBuildStep Include="src\Phreeqc.h" />
@@ -599,7 +595,6 @@
     <ClInclude Include="src\phreeqc\smalldense.h" />
     <ClInclude Include="src\Solution.h" />
     <ClInclude Include="src\SolutionIsotope.h" />
-    <ClInclude Include="src\solutionisotopelist.h" />
     <ClInclude Include="src\SS.h" />
     <ClInclude Include="src\SSassemblage.h" />
     <ClInclude Include="src\SScomp.h" />

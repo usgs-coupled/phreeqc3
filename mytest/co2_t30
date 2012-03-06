@@ -1,4 +1,5 @@
-DATABASE ../database/vreeqc.dat
+DATABASE ../database/phreeqc.dat
+INCLUDE$ CO2_V.db
 SOLUTION 1
  pH 7 charge
  -temp 30
@@ -13,6 +14,6 @@ USER_GRAPH
  -plot_csv_file CO2_t30.dat
  -axis_titles "CO2 pressure / bar" "CO2 solubility at 30 oC / (mol/kgw)"
  -connect_simulations false
- 10 graph_x pr_p("CO2(g)") * 1.015
+ 10 graph_x pr_p("CO2(g)") * 1.013
  20 graph_y tot("C")
 END

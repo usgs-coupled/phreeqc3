@@ -14,7 +14,7 @@ class cxxExchComp: public PHRQ_base
 
   public:
 	cxxExchComp(PHRQ_io *io=NULL);
-	 ~cxxExchComp();
+	virtual ~cxxExchComp();
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -32,14 +32,6 @@ class cxxExchComp: public PHRQ_base
 			this->formula = std::string(cstring);
 		else
 			this->formula.clear();
-	}
-	LDBLE Get_moles() const
-	{
-		return this->moles;
-	}
-	void Set_moles(LDBLE d)
-	{
-		this->moles = d;
 	}
 	LDBLE Get_la() const
 	{
@@ -107,22 +99,7 @@ class cxxExchComp: public PHRQ_base
 	{
 		this->totals = nd;
 	}
-	void Set_formula_totals(struct elt_list *e_l, int count)
-	{
-		this->formula_totals = cxxNameDouble(e_l, count);
-	}
-	void Set_formula_totals(struct elt_list *e_l)
-	{
-		this->formula_totals = cxxNameDouble(e_l);
-	}
-	void Set_formula_totals(cxxNameDouble nd)
-	{
-		this->formula_totals = nd;
-	}
-
 	cxxNameDouble & Get_totals() {return (this->totals);}
-	cxxNameDouble & Get_formula_totals(void) {return this->formula_totals;}
-
 
 	void add(const cxxExchComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
@@ -134,8 +111,7 @@ class cxxExchComp: public PHRQ_base
 #endif
   protected:
 	std::string formula;
-	LDBLE moles;
-	cxxNameDouble formula_totals;
+	// EXCHANGE_MODIFY candidates
 	cxxNameDouble totals;
 	LDBLE la;
 	LDBLE charge_balance;

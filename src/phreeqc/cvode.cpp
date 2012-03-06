@@ -3291,16 +3291,12 @@ CVHandleFailure(CVodeMem cv_mem, int kflag)
 	{
 	case REP_ERR_FAIL:
 		{
-			//sprintf(error_string_long, MSG_ERR_FAILS, (double) tn, (double) h);
-			//CVMEM warning_msg(error_string_long);
 			char * error_string = CVMEM sformatf(MSG_ERR_FAILS, (double) tn, (double) h);
 			CVMEM warning_msg(error_string);
 		}
 		return (ERR_FAILURE);
 	case REP_CONV_FAIL:
 		{
-			//sprintf(error_string_long, MSG_CONV_FAILS, (double) tn, (double) h);
-			//CVMEM warning_msg(error_string_long);
 			char * error_string = CVMEM sformatf(MSG_CONV_FAILS, (double) tn, (double) h);
 			CVMEM warning_msg(error_string);
 		}
@@ -3308,16 +3304,12 @@ CVHandleFailure(CVodeMem cv_mem, int kflag)
 		return (CONV_FAILURE);
 	case SETUP_FAILED:
 		{
-			//sprintf(error_string_long, MSG_SETUP_FAILED, (double) tn);
-			//CVMEM warning_msg(error_string_long);
 			char * error_string = CVMEM sformatf(MSG_SETUP_FAILED, (double) tn);
 			CVMEM warning_msg(error_string);
 		}
 		return (SETUP_FAILURE);
 	case SOLVE_FAILED:
-		{
-			//sprintf(error_string_long, MSG_SOLVE_FAILED, (double) tn);
-			//CVMEM warning_msg(error_string_long);	
+		{	
 			char * error_string = CVMEM sformatf(MSG_SOLVE_FAILED, (double) tn);
 			CVMEM warning_msg(error_string);
 		}

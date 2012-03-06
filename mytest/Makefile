@@ -42,7 +42,7 @@ all: alkalinity.out \
 	desc.out \
 	dissolve_only.out \
 	donly.out \
-	dump.out \
+	dump_test.out \
 	eco.out \
 	eq_EC.out \
 	evap.out \
@@ -66,6 +66,7 @@ all: alkalinity.out \
 	i5.out \
 	i6.out \
 	i7.out \
+	is.out \
 	include.out \
 	initial_gas.out \
 	Int_vs_Don.out \
@@ -182,15 +183,30 @@ all: alkalinity.out \
 	ppdump.out \
 	errorinp.out \
 	cc_P.out \
+	CH4_conc_PR_IS.out \
+	CO2_4M_NaCl.out \
+	CO2_anal.out \
 	CO2_conc_PR_EQ.out \
 	CO2_conc_PR_GP.out \
 	CO2_conc_PR_IS.out \
+	CO2_Na2SO4.out \
+	co2_t30.out \
+	co2_tc.out \
+	diel.out \
 	fix_P.out \
 	fix_V.out \
 	gas_fix_P.out \
 	gas_fix_V.out \
 	NaCl.out \
 	gypsum_P.out \
+	gypsum_P2.out \
+	mV_SO4_rho.out \
+	mV1_rho.out \
+	mV2_rho.out \
+	N2_conc_PR_IS.out \
+	NaCl.out \
+	O2_conc_PR_IS.out \
+	P_CO2_Na2SO4.out \
 	P_Vm.out \
 	phi_Duan_PR.out \
 	phi_Duan_PR_EQ.out \
@@ -201,12 +217,13 @@ all: alkalinity.out \
 	PR_initial_gas.out \
 	PR_initial_gas_noredox.out \
 	PR_mx_new.out \
-	CO2_anal.out \
-	gypsum_P.out \
-	gypsum_P2.out \
+	Sat_P_rho.out \
+	ternary.out \
+	water_vp1.out \
 	Barite_MCl2.out \
 	Barite_NaCl.out \
 	Barite_tc.out \
+	cc_P.out \
 	cc_P0.out \
 	cc_P2.out \
 	cc_P3.out \
@@ -214,12 +231,14 @@ all: alkalinity.out \
 	CO2_Na2SO4.out \
 	co2_t30.out \
 	co2_tc.out \
+	gypsum_P.out \
+	gypsum_P2.out \
 	halite.out \
 	P_CO2_Na2SO4.out \
+	seaw_anhyd.out \
 	SrSO4_P.out \
 	SrSO4_tc.out \
-	water_vp.out
-
+	water_vp.out \
 
 
 # NaX.out

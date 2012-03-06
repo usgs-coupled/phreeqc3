@@ -19,37 +19,17 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
-	database ../database/pitzer.dat
+	DATABASE ../database/pitzer.dat
 	SOLUTION_SPECIES
 	Ba+2 = Ba+2
-		log_k	0.0
 		gamma	5.0	0.0
-		dw	 0.848e-9
-		vm  -13.9 0.0552 0 #-9.1e-3
-	Ca+2 = Ca+2
-		log_k	0.0
-		gamma	5.0	0.1650
-		dw	 0.793e-9
-		millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
-		vm -18.0 0.0116 0 #-7.7e-3
-	Mg+2 = Mg+2
-		log_k	0.0
-		gamma	5.5	0.20
-		dw	 0.705e-9
-		millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
-		vm  -20.0 0.0332 0 #-8.1e-3
-	Cl- = Cl-
-		log_k	0.0
-		gamma	3.5	0.015
-		dw	 2.03e-9
-		millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-		vm   23.3 -0.0052 0 #-0.8e-3
+		dw 0.848e-9
+		vm  -14 7.8e-3 5.2e-4 -5e-3 0.034 -5.7e-4 -10e-3 1.6 # 0-250 oC. BaCl2.xls, Laliberte, 2009. Barite solubility, Blount 1977, Lyashchenko and Churagulov, 1981. 0-250 oC, 1-500 atm.
 	SO4-2 = SO4-2
-		log_k	0.0
 		gamma	5.0	-0.04
 		dw	 1.07e-9
 		millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-		vm 14 0 0 #-6.8e-3
+		vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -7e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
 	PHASES
 	Barite
 		BaSO4 = Ba+2 + SO4-2
@@ -92,13 +72,13 @@ Initial solution 1.
                         Activity of water  =   1.000
                            Ionic strength  =   1.003e-07
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   5.293e-19
+                 Total alkalinity (eq/kg)  =  -2.118e-22
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -5.293e-19
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   2
+                  Electrical balance (eq)  =   2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   4
                          Gamma iterations  =   2
                       Osmotic coefficient  =   0.99988
                          Density of water  =   0.99706
@@ -111,8 +91,8 @@ Initial solution 1.
 	                               MacInnes    Log       Log         Log 
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             1.003e-07   1.002e-07    -6.999    -6.999    -0.000     (0)  
    H+              1.003e-07   1.002e-07    -6.999    -6.999    -0.000      0.00
+   OH-             1.003e-07   1.002e-07    -6.999    -6.999    -0.000     (0)  
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 
 ------------------------------Saturation indices-------------------------------
@@ -169,14 +149,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.067e-05
                         Activity of water  =   1.000
                            Ionic strength  =   4.277e-05
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -1.105e-19
+                 Total alkalinity (eq/kg)  =   1.802e-15
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   4.172e-16
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                  Electrical balance (eq)  =  -1.802e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.98990
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -192,9 +172,9 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.067e-05
    H+              1.010e-07   1.002e-07    -6.996    -6.999    -0.003      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 Ba            1.067e-05
-   Ba+2            1.067e-05   1.035e-05    -4.972    -4.985    -0.013    -12.51
+   Ba+2            1.067e-05   1.035e-05    -4.972    -4.985    -0.013    -13.49
 S(6)          1.067e-05
-   SO4-2           1.067e-05   1.035e-05    -4.972    -4.985    -0.013     14.01
+   SO4-2           1.067e-05   1.035e-05    -4.972    -4.985    -0.013     15.09
    HSO4-           9.952e-11   9.876e-11   -10.002   -10.005    -0.003     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -250,14 +230,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -5.119e-05
                         Activity of water  =   0.995
                            Ionic strength  =   3.002e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -2.695e-17
+                 Total alkalinity (eq/kg)  =   8.343e-15
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -8.595e-11
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   7
-                         Gamma iterations  =   4
+                  Electrical balance (eq)  =   6.394e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.85483
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -273,13 +253,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -5.119e-05
    H+              1.639e-07   1.269e-07    -6.786    -6.897    -0.111      0.00
    H2O             5.551e+01   9.954e-01     1.744    -0.002     0.000     18.07
 Ba            6.186e-05
-   Ba+2            6.186e-05   1.760e-05    -4.209    -4.755    -0.546    -11.50
+   Ba+2            6.186e-05   1.760e-05    -4.209    -4.755    -0.546    -13.47
 Ca            1.000e-01
-   Ca+2            1.000e-01   2.976e-02    -1.000    -1.526    -0.526    -16.69
+   Ca+2            1.000e-01   2.976e-02    -1.000    -1.526    -0.526    -17.81
 Cl            2.000e-01
-   Cl-             2.000e-01   1.371e-01    -0.699    -0.863    -0.164     23.43
+   Cl-             2.000e-01   1.371e-01    -0.699    -0.863    -0.164     17.83
 S(6)          6.186e-05
-   SO4-2           6.186e-05   6.084e-06    -4.209    -5.216    -1.007     15.02
+   SO4-2           6.186e-05   6.084e-06    -4.209    -5.216    -1.007     15.12
    HSO4-           1.002e-10   7.355e-11    -9.999   -10.133    -0.134     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -338,14 +318,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -2.406e-05
                         Activity of water  =   0.991
                            Ionic strength  =   6.003e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.403e-16
+                 Total alkalinity (eq/kg)  =   1.196e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -7.359e-11
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   8
-                         Gamma iterations  =   3
+                  Electrical balance (eq)  =   1.690e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.86081
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -361,13 +341,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -2.406e-05
    H+              1.866e-07   1.488e-07    -6.729    -6.827    -0.098      0.00
    H2O             5.551e+01   9.907e-01     1.744    -0.004     0.000     18.07
 Ba            8.592e-05
-   Ba+2            8.592e-05   2.073e-05    -4.066    -4.683    -0.617    -11.07
+   Ba+2            8.592e-05   2.073e-05    -4.066    -4.683    -0.617    -11.44
 Ca            2.000e-01
-   Ca+2            2.000e-01   5.232e-02    -0.699    -1.281    -0.582    -16.26
+   Ca+2            2.000e-01   5.232e-02    -0.699    -1.281    -0.582    -15.78
 Cl            4.000e-01
-   Cl-             4.000e-01   2.541e-01    -0.398    -0.595    -0.197     23.53
+   Cl-             4.000e-01   2.541e-01    -0.398    -0.595    -0.197     18.33
 S(6)          8.592e-05
-   SO4-2           8.592e-05   5.163e-06    -4.066    -5.287    -1.221     15.45
+   SO4-2           8.592e-05   5.163e-06    -4.066    -5.287    -1.221     17.14
    HSO4-           1.048e-10   7.321e-11    -9.979   -10.135    -0.156     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -426,14 +406,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.853e-05
                         Activity of water  =   0.986
                            Ionic strength  =   9.004e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.706e-16
+                 Total alkalinity (eq/kg)  =   1.603e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -1.546e-10
+                  Electrical balance (eq)  =  -3.865e-15
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                               Iterations  =   9
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.87522
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -449,13 +429,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.853e-05
    H+              2.031e-07   1.710e-07    -6.692    -6.767    -0.075      0.00
    H2O             5.551e+01   9.859e-01     1.744    -0.006     0.000     18.07
 Ba            1.045e-04
-   Ba+2            1.045e-04   2.359e-05    -3.981    -4.627    -0.646    -10.75
+   Ba+2            1.045e-04   2.359e-05    -3.981    -4.627    -0.646    -10.60
 Ca            3.000e-01
-   Ca+2            3.000e-01   7.588e-02    -0.523    -1.120    -0.597    -15.94
+   Ca+2            3.000e-01   7.588e-02    -0.523    -1.120    -0.597    -14.94
 Cl            6.000e-01
-   Cl-             6.000e-01   3.654e-01    -0.222    -0.437    -0.215     23.61
+   Cl-             6.000e-01   3.654e-01    -0.222    -0.437    -0.215     18.54
 S(6)          1.045e-04
-   SO4-2           1.045e-04   4.538e-06    -3.981    -5.343    -1.362     15.77
+   SO4-2           1.045e-04   4.538e-06    -3.981    -5.343    -1.362     17.99
    HSO4-           1.094e-10   7.394e-11    -9.961   -10.131    -0.170     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -514,14 +494,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.526e-05
                         Activity of water  =   0.981
                            Ionic strength  =   1.200e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   8.718e-16
+                 Total alkalinity (eq/kg)  =   2.051e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   1.196e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                  Electrical balance (eq)  =  -1.011e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.89350
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -537,13 +517,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.526e-05
    H+              2.163e-07   1.944e-07    -6.665    -6.711    -0.046      0.00
    H2O             5.551e+01   9.809e-01     1.744    -0.008     0.000     18.07
 Ba            1.197e-04
-   Ba+2            1.197e-04   2.644e-05    -3.922    -4.578    -0.656    -10.47
+   Ba+2            1.197e-04   2.644e-05    -3.922    -4.578    -0.656     -9.95
 Ca            4.000e-01
-   Ca+2            4.000e-01   1.020e-01    -0.398    -0.991    -0.593    -15.66
+   Ca+2            4.000e-01   1.020e-01    -0.398    -0.991    -0.593    -14.29
 Cl            8.000e-01
-   Cl-             8.000e-01   4.742e-01    -0.097    -0.324    -0.227     23.68
+   Cl-             8.000e-01   4.742e-01    -0.097    -0.324    -0.227     18.71
 S(6)          1.197e-04
-   SO4-2           1.197e-04   4.049e-06    -3.922    -5.393    -1.471     16.05
+   SO4-2           1.197e-04   4.049e-06    -3.922    -5.393    -1.471     18.64
    HSO4-           1.138e-10   7.500e-11    -9.944   -10.125    -0.181     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -602,14 +582,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.287e-05
                         Activity of water  =   0.976
                            Ionic strength  =   1.501e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.182e-15
+                 Total alkalinity (eq/kg)  =   2.535e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   1.045e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                  Electrical balance (eq)  =  -1.671e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.91448
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -625,13 +605,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.287e-05
    H+              2.274e-07   2.195e-07    -6.643    -6.659    -0.015      0.00
    H2O             5.551e+01   9.756e-01     1.744    -0.011     0.000     18.07
 Ba            1.326e-04
-   Ba+2            1.326e-04   2.939e-05    -3.877    -4.532    -0.654    -10.23
+   Ba+2            1.326e-04   2.939e-05    -3.877    -4.532    -0.654     -9.40
 Ca            5.000e-01
-   Ca+2            5.000e-01   1.320e-01    -0.301    -0.879    -0.578    -15.42
+   Ca+2            5.000e-01   1.320e-01    -0.301    -0.879    -0.578    -13.74
 Cl            1.000e+00
-   Cl-             1.000e+00   5.822e-01     0.000    -0.235    -0.235     23.74
+   Cl-             1.000e+00   5.822e-01     0.000    -0.235    -0.235     18.84
 S(6)          1.326e-04
-   SO4-2           1.326e-04   3.643e-06    -3.877    -5.439    -1.561     16.29
+   SO4-2           1.326e-04   3.643e-06    -3.877    -5.439    -1.561     19.18
    HSO4-           1.183e-10   7.619e-11    -9.927   -10.118    -0.191     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -690,14 +670,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -4.045e-05
                         Activity of water  =   0.945
                            Ionic strength  =   3.001e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   8.146e-16
+                 Total alkalinity (eq/kg)  =   3.244e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   1.039e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                  Electrical balance (eq)  =  -2.769e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  11
-                         Gamma iterations  =   4
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   1.04677
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -713,13 +693,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -4.045e-05
    H+              2.652e-07   3.857e-07    -6.576    -6.414     0.163      0.00
    H2O             5.551e+01   9.450e-01     1.744    -0.025     0.000     18.07
 Ba            1.730e-04
-   Ba+2            1.730e-04   4.798e-05    -3.762    -4.319    -0.557     -9.29
+   Ba+2            1.730e-04   4.798e-05    -3.762    -4.319    -0.557     -8.92
 Ca            1.000e+00
-   Ca+2            1.000e+00   3.872e-01     0.000    -0.412    -0.412    -14.48
+   Ca+2            1.000e+00   3.872e-01     0.000    -0.412    -0.412    -13.26
 Cl            2.000e+00
-   Cl-             2.000e+00   1.136e+00     0.301     0.056    -0.245     23.98
+   Cl-             2.000e+00   1.136e+00     0.301     0.056    -0.245     18.96
 S(6)          1.730e-04
-   SO4-2           1.730e-04   2.231e-06    -3.762    -5.651    -1.890     17.23
+   SO4-2           1.730e-04   2.231e-06    -3.762    -5.651    -1.890     19.67
    HSO4-           1.392e-10   8.198e-11    -9.857   -10.086    -0.230     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -778,14 +758,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.558e-05
                         Activity of water  =   0.907
                            Ionic strength  =   4.501e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   6.226e-16
+                 Total alkalinity (eq/kg)  =   4.248e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   1.021e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                  Electrical balance (eq)  =  -4.320e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  10
-                         Gamma iterations  =   4
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   1.20765
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -801,13 +781,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.558e-05
    H+              2.888e-07   6.620e-07    -6.539    -6.179     0.360      0.00
    H2O             5.551e+01   9.067e-01     1.744    -0.043     0.000     18.07
 Ba            1.886e-04
-   Ba+2            1.886e-04   7.800e-05    -3.724    -4.108    -0.383     -8.56
+   Ba+2            1.886e-04   7.800e-05    -3.724    -4.108    -0.383     -7.02
 Ca            1.500e+00
-   Ca+2            1.500e+00   1.036e+00     0.176     0.015    -0.161    -13.75
+   Ca+2            1.500e+00   1.036e+00     0.176     0.015    -0.161    -11.36
 Cl            3.000e+00
-   Cl-             3.000e+00   1.748e+00     0.477     0.243    -0.235     24.16
+   Cl-             3.000e+00   1.748e+00     0.477     0.243    -0.235     19.44
 S(6)          1.886e-04
-   SO4-2           1.886e-04   1.373e-06    -3.724    -5.862    -2.138     17.96
+   SO4-2           1.886e-04   1.373e-06    -3.724    -5.862    -2.138     21.56
    HSO4-           1.572e-10   8.656e-11    -9.803   -10.063    -0.259     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -866,14 +846,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -2.292e-06
                         Activity of water  =   0.861
                            Ionic strength  =   6.001e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   7.018e-16
+                 Total alkalinity (eq/kg)  =   4.171e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   9.847e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  10
-                         Gamma iterations  =   4
+                  Electrical balance (eq)  =  -4.333e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   1.38441
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -889,13 +869,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -2.292e-06
    H+              3.069e-07   1.133e-06    -6.513    -5.946     0.567      0.00
    H2O             5.551e+01   8.610e-01     1.744    -0.065     0.000     18.07
 Ba            1.909e-04
-   Ba+2            1.909e-04   1.283e-04    -3.719    -3.892    -0.172     -7.95
+   Ba+2            1.909e-04   1.283e-04    -3.719    -3.892    -0.172     -5.57
 Ca            2.000e+00
-   Ca+2            2.000e+00   2.750e+00     0.301     0.439     0.138    -13.14
+   Ca+2            2.000e+00   2.750e+00     0.301     0.439     0.138     -9.91
 Cl            4.000e+00
-   Cl-             4.000e+00   2.441e+00     0.602     0.388    -0.214     24.31
+   Cl-             4.000e+00   2.441e+00     0.602     0.388    -0.214     19.80
 S(6)          1.909e-04
-   SO4-2           1.909e-04   8.342e-07    -3.719    -6.079    -2.360     18.57
+   SO4-2           1.909e-04   8.342e-07    -3.719    -6.079    -2.360     23.02
    HSO4-           1.732e-10   9.008e-11    -9.762   -10.045    -0.284     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -954,14 +934,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01   4.370e-06
                         Activity of water  =   0.809
                            Ionic strength  =   7.501e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.074e-15
+                 Total alkalinity (eq/kg)  =   4.116e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   9.238e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  10
-                         Gamma iterations  =   4
+                  Electrical balance (eq)  =  -4.210e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   1.57056
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -977,13 +957,13 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01   4.370e-06
    H+              3.234e-07   1.946e-06    -6.490    -5.711     0.779      0.00
    H2O             5.551e+01   8.088e-01     1.744    -0.092     0.000     18.07
 Ba            1.865e-04
-   Ba+2            1.865e-04   2.138e-04    -3.729    -3.670     0.059     -7.41
+   Ba+2            1.865e-04   2.138e-04    -3.729    -3.670     0.059     -4.34
 Ca            2.500e+00
-   Ca+2            2.500e+00   7.365e+00     0.398     0.867     0.469    -12.60
+   Ca+2            2.500e+00   7.365e+00     0.398     0.867     0.469     -8.68
 Cl            5.000e+00
-   Cl-             5.000e+00   3.230e+00     0.699     0.509    -0.190     24.45
+   Cl-             5.000e+00   3.230e+00     0.699     0.509    -0.190     20.11
 S(6)          1.865e-04
-   SO4-2           1.865e-04   5.008e-07    -3.729    -6.300    -2.571     19.11
+   SO4-2           1.865e-04   5.008e-07    -3.729    -6.300    -2.571     24.24
    HSO4-           1.878e-10   9.286e-11    -9.726   -10.032    -0.306     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1062,14 +1042,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.067e-05
                         Activity of water  =   1.000
                            Ionic strength  =   4.277e-05
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -1.105e-19
+                 Total alkalinity (eq/kg)  =   1.802e-15
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   4.172e-16
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                  Electrical balance (eq)  =  -1.802e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.98990
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1085,9 +1065,9 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.067e-05
    H+              1.010e-07   1.002e-07    -6.996    -6.999    -0.003      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 Ba            1.067e-05
-   Ba+2            1.067e-05   1.035e-05    -4.972    -4.985    -0.013    -12.51
+   Ba+2            1.067e-05   1.035e-05    -4.972    -4.985    -0.013    -13.49
 S(6)          1.067e-05
-   SO4-2           1.067e-05   1.035e-05    -4.972    -4.985    -0.013     14.01
+   SO4-2           1.067e-05   1.035e-05    -4.972    -4.985    -0.013     15.09
    HSO4-           9.952e-11   9.876e-11   -10.002   -10.005    -0.003     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1143,14 +1123,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -4.609e-05
                         Activity of water  =   0.995
                            Ionic strength  =   3.002e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -2.312e-17
+                 Total alkalinity (eq/kg)  =   8.777e-15
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -4.664e-11
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  10
-                         Gamma iterations  =   4
+                  Electrical balance (eq)  =   7.565e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  12
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.86282
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1166,14 +1146,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -4.609e-05
    OH-             7.923e-08   4.194e-08    -7.101    -7.377    -0.276     (0)  
    H2O             5.551e+01   9.953e-01     1.744    -0.002     0.000     18.07
 Ba            5.675e-05
-   Ba+2            5.675e-05   1.653e-05    -4.246    -4.782    -0.536    -11.50
+   Ba+2            5.675e-05   1.653e-05    -4.246    -4.782    -0.536    -13.47
 Cl            2.000e-01
-   Cl-             2.000e-01   1.371e-01    -0.699    -0.863    -0.164     23.43
+   Cl-             2.000e-01   1.371e-01    -0.699    -0.863    -0.164     17.83
 Mg            1.000e-01
-   Mg+2            1.000e-01   3.135e-02    -1.000    -1.504    -0.504    -18.15
+   Mg+2            1.000e-01   3.135e-02    -1.000    -1.504    -0.504    -21.13
    MgOH+           2.245e-07   2.032e-07    -6.649    -6.692    -0.043     (0)  
 S(6)          5.675e-05
-   SO4-2           5.675e-05   6.476e-06    -4.246    -5.189    -0.943     15.02
+   SO4-2           5.675e-05   6.476e-06    -4.246    -5.189    -0.943     15.12
    HSO4-           2.090e-10   1.471e-10    -9.680    -9.832    -0.153     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1236,14 +1216,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -2.156e-05
                         Activity of water  =   0.991
                            Ionic strength  =   6.003e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   5.981e-16
+                 Total alkalinity (eq/kg)  =   1.612e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   5.985e-11
+                  Electrical balance (eq)  =   1.724e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   8
-                         Gamma iterations  =   3
+                               Iterations  =  11
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.87478
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1259,14 +1239,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -2.156e-05
    OH-             7.869e-08   3.226e-08    -7.104    -7.491    -0.387     (0)  
    H2O             5.551e+01   9.906e-01     1.744    -0.004     0.000     18.07
 Ba            7.832e-05
-   Ba+2            7.832e-05   1.971e-05    -4.106    -4.705    -0.599    -11.07
+   Ba+2            7.832e-05   1.971e-05    -4.106    -4.705    -0.599    -11.44
 Cl            4.000e-01
-   Cl-             4.000e-01   2.541e-01    -0.398    -0.595    -0.197     23.53
+   Cl-             4.000e-01   2.541e-01    -0.398    -0.595    -0.197     18.33
 Mg            2.000e-01
-   Mg+2            2.000e-01   5.738e-02    -0.699    -1.241    -0.542    -17.72
+   Mg+2            2.000e-01   5.738e-02    -0.699    -1.241    -0.542    -19.10
    MgOH+           2.984e-07   2.860e-07    -6.525    -6.544    -0.018     (0)  
 S(6)          7.832e-05
-   SO4-2           7.832e-05   5.433e-06    -4.106    -5.265    -1.159     15.45
+   SO4-2           7.832e-05   5.433e-06    -4.106    -5.265    -1.159     17.14
    HSO4-           2.388e-10   1.597e-10    -9.622    -9.797    -0.175     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1329,14 +1309,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.637e-05
                         Activity of water  =   0.986
                            Ionic strength  =   9.004e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.567e-15
+                 Total alkalinity (eq/kg)  =   2.477e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   3.195e-10
+                  Electrical balance (eq)  =   2.883e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                               Iterations  =  10
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.89480
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1352,14 +1332,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.637e-05
    OH-             7.780e-08   2.629e-08    -7.109    -7.580    -0.471     (0)  
    H2O             5.551e+01   9.856e-01     1.744    -0.006     0.000     18.07
 Ba            9.468e-05
-   Ba+2            9.468e-05   2.268e-05    -4.024    -4.644    -0.621    -10.75
+   Ba+2            9.468e-05   2.268e-05    -4.024    -4.644    -0.621    -10.60
 Cl            6.000e-01
-   Cl-             6.000e-01   3.654e-01    -0.222    -0.437    -0.215     23.61
+   Cl-             6.000e-01   3.654e-01    -0.222    -0.437    -0.215     18.54
 Mg            3.000e-01
-   Mg+2            3.000e-01   8.636e-02    -0.523    -1.064    -0.541    -17.40
+   Mg+2            3.000e-01   8.636e-02    -0.523    -1.064    -0.541    -18.26
    MgOH+           3.533e-07   3.509e-07    -6.452    -6.455    -0.003     (0)  
 S(6)          9.468e-05
-   SO4-2           9.468e-05   4.720e-06    -4.024    -5.326    -1.302     15.77
+   SO4-2           9.468e-05   4.720e-06    -4.024    -5.326    -1.302     17.99
    HSO4-           2.582e-10   1.694e-10    -9.588    -9.771    -0.183     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1422,14 +1402,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.323e-05
                         Activity of water  =   0.980
                            Ionic strength  =   1.200e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.764e-15
+                 Total alkalinity (eq/kg)  =   3.439e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   1.202e-09
+                  Electrical balance (eq)  =   4.284e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                               Iterations  =  10
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.91864
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1445,14 +1425,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.323e-05
    OH-             7.610e-08   2.188e-08    -7.119    -7.660    -0.541     (0)  
    H2O             5.551e+01   9.803e-01     1.744    -0.009     0.000     18.07
 Ba            1.079e-04
-   Ba+2            1.079e-04   2.570e-05    -3.967    -4.590    -0.623    -10.47
+   Ba+2            1.079e-04   2.570e-05    -3.967    -4.590    -0.623     -9.95
 Cl            8.000e-01
-   Cl-             8.000e-01   4.742e-01    -0.097    -0.324    -0.227     23.68
+   Cl-             8.000e-01   4.742e-01    -0.097    -0.324    -0.227     18.71
 Mg            4.000e-01
-   Mg+2            4.000e-01   1.204e-01    -0.398    -0.919    -0.522    -17.12
+   Mg+2            4.000e-01   1.204e-01    -0.398    -0.919    -0.522    -17.61
    MgOH+           4.014e-07   4.070e-07    -6.396    -6.390     0.006     (0)  
 S(6)          1.079e-04
-   SO4-2           1.079e-04   4.166e-06    -3.967    -5.380    -1.413     16.05
+   SO4-2           1.079e-04   4.166e-06    -3.967    -5.380    -1.413     18.64
    HSO4-           2.735e-10   1.786e-10    -9.563    -9.748    -0.185     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1515,14 +1495,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.088e-05
                         Activity of water  =   0.975
                            Ionic strength  =   1.500e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.430e-15
+                 Total alkalinity (eq/kg)  =   4.515e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   3.051e-09
+                  Electrical balance (eq)  =   5.846e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
+                               Iterations  =  10
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.94528
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1538,14 +1518,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -1.088e-05
    OH-             7.370e-08   1.838e-08    -7.133    -7.736    -0.603     (0)  
    H2O             5.551e+01   9.748e-01     1.744    -0.011     0.000     18.07
 Ba            1.188e-04
-   Ba+2            1.188e-04   2.888e-05    -3.925    -4.539    -0.614    -10.23
+   Ba+2            1.188e-04   2.888e-05    -3.925    -4.539    -0.614     -9.40
 Cl            1.000e+00
-   Cl-             1.000e+00   5.822e-01     0.000    -0.235    -0.235     23.74
+   Cl-             1.000e+00   5.822e-01     0.000    -0.235    -0.235     18.84
 Mg            5.000e-01
-   Mg+2            5.000e-01   1.614e-01    -0.301    -0.792    -0.491    -16.88
+   Mg+2            5.000e-01   1.614e-01    -0.301    -0.792    -0.491    -17.06
    MgOH+           4.465e-07   4.584e-07    -6.350    -6.339     0.011     (0)  
 S(6)          1.188e-04
-   SO4-2           1.188e-04   3.707e-06    -3.925    -5.431    -1.506     16.29
+   SO4-2           1.188e-04   3.707e-06    -3.925    -5.431    -1.506     19.18
    HSO4-           2.868e-10   1.882e-10    -9.542    -9.725    -0.183     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1608,14 +1588,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -3.037e-05
                         Activity of water  =   0.942
                            Ionic strength  =   3.001e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.104e-15
+                 Total alkalinity (eq/kg)  =   6.567e-14
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   3.042e-09
+                  Electrical balance (eq)  =   8.931e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  11
-                         Gamma iterations  =   4
+                               Iterations  =  12
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   1.10863
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1631,14 +1611,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -3.037e-05
    OH-             5.634e-08   7.941e-09    -7.249    -8.100    -0.851     (0)  
    H2O             5.551e+01   9.418e-01     1.744    -0.026     0.000     18.07
 Ba            1.492e-04
-   Ba+2            1.492e-04   4.979e-05    -3.826    -4.303    -0.476     -9.29
+   Ba+2            1.492e-04   4.979e-05    -3.826    -4.303    -0.476     -8.92
 Cl            2.000e+00
-   Cl-             2.000e+00   1.136e+00     0.301     0.056    -0.245     23.98
+   Cl-             2.000e+00   1.136e+00     0.301     0.056    -0.245     18.96
 Mg            1.000e+00
-   Mg+2            1.000e+00   5.695e-01    -0.000    -0.244    -0.244    -15.94
+   Mg+2            1.000e+00   5.695e-01    -0.000    -0.244    -0.244    -16.58
    MgOH+           6.695e-07   6.988e-07    -6.174    -6.156     0.019     (0)  
 S(6)          1.492e-04
-   SO4-2           1.492e-04   2.150e-06    -3.826    -5.668    -1.841     17.23
+   SO4-2           1.492e-04   2.150e-06    -3.826    -5.668    -1.841     19.67
    HSO4-           3.424e-10   2.441e-10    -9.465    -9.612    -0.147     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1701,14 +1681,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -4.780e-06
                         Activity of water  =   0.900
                            Ionic strength  =   4.501e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.430e-15
+                 Total alkalinity (eq/kg)  =   1.006e-13
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   3.014e-09
+                  Electrical balance (eq)  =   1.408e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  10
-                         Gamma iterations  =   4
+                               Iterations  =  11
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   1.30596
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1724,14 +1704,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01  -4.780e-06
    OH-             3.866e-08   3.397e-09    -7.413    -8.469    -1.056     (0)  
    H2O             5.551e+01   8.995e-01     1.744    -0.046     0.000     18.07
 Ba            1.539e-04
-   Ba+2            1.539e-04   8.550e-05    -3.813    -4.068    -0.255     -8.56
+   Ba+2            1.539e-04   8.550e-05    -3.813    -4.068    -0.255     -7.02
 Cl            3.000e+00
-   Cl-             3.000e+00   1.748e+00     0.477     0.243    -0.235     24.16
+   Cl-             3.000e+00   1.748e+00     0.477     0.243    -0.235     19.44
 Mg            1.500e+00
-   Mg+2            1.500e+00   1.869e+00     0.176     0.272     0.096    -15.21
+   Mg+2            1.500e+00   1.869e+00     0.176     0.272     0.096    -14.68
    MgOH+           9.163e-07   9.813e-07    -6.038    -6.008     0.030     (0)  
 S(6)          1.539e-04
-   SO4-2           1.539e-04   1.252e-06    -3.813    -5.902    -2.090     17.96
+   SO4-2           1.539e-04   1.252e-06    -3.813    -5.902    -2.090     21.56
    HSO4-           3.919e-10   3.173e-10    -9.407    -9.499    -0.092     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1794,14 +1774,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01   8.869e-06
                         Activity of water  =   0.848
                            Ionic strength  =   6.001e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.679e-15
+                 Total alkalinity (eq/kg)  =   1.008e-13
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   2.959e-09
+                  Electrical balance (eq)  =   1.393e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  10
-                         Gamma iterations  =   4
+                               Iterations  =  12
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   1.52467
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1817,14 +1797,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01   8.869e-06
    OH-             2.509e-08   1.425e-09    -7.601    -8.846    -1.246     (0)  
    H2O             5.551e+01   8.481e-01     1.744    -0.072     0.000     18.07
 Ba            1.451e-04
-   Ba+2            1.451e-04   1.486e-04    -3.838    -3.828     0.010     -7.95
+   Ba+2            1.451e-04   1.486e-04    -3.838    -3.828     0.010     -5.57
 Cl            4.000e+00
-   Cl-             4.000e+00   2.441e+00     0.602     0.388    -0.214     24.31
+   Cl-             4.000e+00   2.441e+00     0.602     0.388    -0.214     19.80
 Mg            2.000e+00
-   Mg+2            2.000e+00   6.230e+00     0.301     0.795     0.493    -14.60
+   Mg+2            2.000e+00   6.230e+00     0.301     0.795     0.493    -13.23
    MgOH+           1.198e-06   1.372e-06    -5.922    -5.863     0.059     (0)  
 S(6)          1.451e-04
-   SO4-2           1.451e-04   7.207e-07    -3.838    -6.142    -2.304     18.57
+   SO4-2           1.451e-04   7.207e-07    -3.838    -6.142    -2.304     23.02
    HSO4-           4.390e-10   4.105e-10    -9.358    -9.387    -0.029     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -1887,14 +1867,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01   1.531e-05
                         Activity of water  =   0.789
                            Ionic strength  =   7.501e+00
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.925e-15
+                 Total alkalinity (eq/kg)  =   1.014e-13
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   2.864e-09
+                  Electrical balance (eq)  =   1.386e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  10
-                         Gamma iterations  =   4
+                               Iterations  =  12
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   1.75818
                          Density of water  =   0.99706
                                   Total H  = 1.110124e+02
@@ -1910,14 +1890,14 @@ Barite            0.00    -9.97     -9.97    1.000e+01   1.000e+01   1.531e-05
    OH-             1.579e-08   5.881e-10    -7.802    -9.231    -1.429     (0)  
    H2O             5.551e+01   7.885e-01     1.744    -0.103     0.000     18.07
 Ba            1.298e-04
-   Ba+2            1.298e-04   2.611e-04    -3.887    -3.583     0.304     -7.41
+   Ba+2            1.298e-04   2.611e-04    -3.887    -3.583     0.304     -4.34
 Cl            5.000e+00
-   Cl-             5.000e+00   3.230e+00     0.699     0.509    -0.190     24.45
+   Cl-             5.000e+00   3.230e+00     0.699     0.509    -0.190     20.11
 Mg            2.500e+00
-   Mg+2            2.500e+00   2.145e+01     0.398     1.331     0.933    -14.06
+   Mg+2            2.500e+00   2.145e+01     0.398     1.331     0.933    -12.00
    MgOH+           1.518e-06   1.949e-06    -5.819    -5.710     0.108     (0)  
 S(6)          1.298e-04
-   SO4-2           1.298e-04   4.100e-07    -3.887    -6.387    -2.500     19.11
+   SO4-2           1.298e-04   4.100e-07    -3.887    -6.387    -2.500     24.24
    HSO4-           4.840e-10   5.262e-10    -9.315    -9.279     0.036     (0)  
 
 ------------------------------Saturation indices-------------------------------

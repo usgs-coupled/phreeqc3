@@ -1,7 +1,7 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
-
+#include "Solution.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -353,6 +353,7 @@ sit(void)
 		}
 	}
 	I = XI / 2.0e0;
+	I = mu_x;   // Added equation for MU
 	DI = sqrt(I);
 	/*
 	   C
@@ -494,7 +495,7 @@ set_sit(int initial)
  *   Revises guesses whether initial is true or not
  */
 	int i;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 /*
  *   Set initial log concentrations to zero
  */
@@ -515,23 +516,27 @@ set_sit(int initial)
 /*
  *   Set master species activities
  */
-	tc_x = solution_ptr->tc;
+	tc_x = solution_ptr->Get_tc();
 	tk_x = tc_x + 273.15;
-	patm_x = solution_ptr->patm;
+#ifdef PHREEQC2
+	patm_x = solution_ptr->Get_patm(); 
+#else
+	//patm_x = solution_ptr->Get_patm(); // done in calc_rho_0(tc, pa)
+#endif
 /*
  *   H+, e-, H2O
  */
-	mass_water_aq_x = solution_ptr->mass_water;
-	mu_x = solution_ptr->mu;
+	mass_water_aq_x = solution_ptr->Get_mass_water();
+	mu_x = solution_ptr->Get_mu();
 	s_h2o->moles = mass_water_aq_x / gfw_water;
-	s_h2o->la = log10(solution_ptr->ah2o);
+	s_h2o->la = log10(solution_ptr->Get_ah2o());
 	AW = pow((LDBLE) 10.0E0, s_h2o->la);
-	s_hplus->la = -solution_ptr->ph;
+	s_hplus->la = -solution_ptr->Get_ph();
 	s_hplus->lm = s_hplus->la;
 	s_hplus->moles = exp(s_hplus->lm * LOG_10) * mass_water_aq_x;
-	s_eminus->la = -solution_ptr->solution_pe;
+	s_eminus->la = -solution_ptr->Get_pe();
 	if (initial == TRUE) sit_initial_guesses();
-	if (dl_type_x != NO_DL)	initial_surface_water();
+	if (dl_type_x != cxxSurface::NO_DL)	initial_surface_water();
 	sit_revise_guesses();
 	return (OK);
 }
@@ -546,12 +551,12 @@ sit_initial_guesses(void)
  *   ionic strength
  */
 	int i;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 
 	solution_ptr = use.Get_solution_ptr();
 	mu_x =
 		s_hplus->moles +
-		exp((solution_ptr->ph - 14.) * LOG_10) * mass_water_aq_x;
+		exp((solution_ptr->Get_ph() - 14.) * LOG_10) * mass_water_aq_x;
 	mu_x /= mass_water_aq_x;
 	s_h2o->la = 0.0;
 	for (i = 0; i < count_unknowns; i++)
@@ -845,6 +850,10 @@ Restart:
 			x[i]->moles += d2;
 			break;
 		case MU:
+			d2 = d * mu_x;
+			mu_x += d2;
+			gammas(mu_x);
+			break;
 		case PP:
 		case SS_MOLES:
 			continue;
@@ -893,6 +902,10 @@ Restart:
 		case MH2O:
 			mass_water_aq_x /= (1 + d);
 			x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
+			break;
+		case MU:
+			mu_x -= d2;
+			gammas(mu_x);
 			break;
 		case GAS_MOLES:
 			if (gas_in == FALSE)
@@ -1058,8 +1071,8 @@ model_sit(void)
 			}
 			molalities(TRUE);
 			if (use.Get_surface_ptr() != NULL &&
-				use.Get_surface_ptr()->dl_type != NO_DL &&
-				use.Get_surface_ptr()->related_phases == TRUE)
+				use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
+				use.Get_surface_ptr()->Get_related_phases() == TRUE)
 				initial_surface_water();
 			mb_sums();
 			mb_gases();
@@ -1305,7 +1318,7 @@ gammas_sit()
 				{
 					s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
 				}
-				if (((cxxExchange *) use.Get_exchange_ptr())->Get_pitzer_exchange_gammas())
+				if (use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
 				{
 					/* Assume equal gamma's of solute and exchangeable species...  */
 					for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)

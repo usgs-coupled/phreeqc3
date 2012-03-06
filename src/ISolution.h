@@ -12,34 +12,18 @@
 #include <fstream>
 
 #include "ISolutionComp.h"
-#include "Solution.h"
-
-class cxxISolution:public cxxSolution
+#include "PHRQ_base.h"
+#include "NameDouble.h"
+#include "global_structures.h"
+class cxxISolution: public PHRQ_base
 {
 
   public:
 	cxxISolution(PHRQ_io *io=NULL);
-	 ~cxxISolution();
-	//static cxxISolution& read(CParser& parser);
-	//void add(cxxISolutionComp conc)       { this->concs.push_back(conc); }
-
-	LDBLE Get_density() const
-	{
-		return this->density;
-	}
-	void Set_density(LDBLE l_density)
-	{
-		this->density = l_density;
-	}
-
-	std::string Get_units() const
-	{
-		return units;
-	}
-	void Set_units(std::string l_units)
-	{
-		units = l_units;
-	}
+	cxxISolution(const cxxISolution *is);
+	virtual ~cxxISolution();
+	std::string Get_units() const                     {return units;}
+	void Set_units(std::string l_units)               {units = l_units;}
 	void Set_units(const char * l_units)
 	{
 		if (l_units != NULL)
@@ -47,19 +31,21 @@ class cxxISolution:public cxxSolution
 		else
 			this->units.clear();
 	}
-
-	//char * get_redox()const {return this->pe[this->default_pe].get_name();}
+	std::string Get_default_pe() const                {return default_pe;}
+	void Set_default_pe(std::string pe)               {default_pe = pe;}
+	std::map < std::string, cxxISolutionComp > &Get_comps(void) {return this->comps;}
+	void Set_comps(std::map < std::string, cxxISolutionComp > &c) {this->comps = c;}
+	std::map < std::string, cxxChemRxn >  &Get_pe_reactions(void) {return this->pe_reactions;}
+	void Set_pe_reactions(std::map < std::string, cxxChemRxn >  &pe) {this->pe_reactions = pe;}
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
 	//void ConvertUnits(PHREEQC_PTR_ARG);
 
   protected:
 	friend class cxxISolutionComp;	// for this->pe access
-	LDBLE density;
 	std::string units;
 	std::map < std::string, cxxISolutionComp > comps;
-	struct pe_data *pes;
-	int default_pe;
-
+	std::map <std::string, cxxChemRxn > pe_reactions;
+	std::string default_pe;
 };
 
 #endif // !defined(ISOLUTION_H_INCLUDED)

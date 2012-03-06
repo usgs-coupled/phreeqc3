@@ -10,7 +10,6 @@
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "SScomp.h"
-//#include "Dictionary.h"
 #include "phqalloc.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -36,6 +35,26 @@ PHRQ_base(io)
 	dnc = 0; 
 	dnb = 0;
 }
+#ifdef SKIP
+cxxSScomp::cxxSScomp(struct pure_phase * pure_phase_ptr, PHRQ_io *io)
+:
+PHRQ_base(io)
+	//
+	// constructor for cxxSScomp from struct pure_phase
+	//
+{
+	this->Set_name(pure_phase_ptr->name);
+	this->Set_add_formula(pure_phase_ptr->add_formula);
+	si = pure_phase_ptr->si;
+	si_org = pure_phase_ptr->si_org;
+	moles = pure_phase_ptr->moles;
+	delta = pure_phase_ptr->delta;
+	initial_moles = pure_phase_ptr->initial_moles;
+	force_equality = (pure_phase_ptr->force_equality == TRUE);
+	dissolve_only = (pure_phase_ptr->dissolve_only == TRUE);
+	precipitate_only = (pure_phase_ptr->precipitate_only == TRUE);
+}
+#endif
 cxxSScomp::~cxxSScomp()
 {
 }
@@ -43,7 +62,6 @@ cxxSScomp::~cxxSScomp()
 void
 cxxSScomp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing pure_phase message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -54,22 +72,19 @@ cxxSScomp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	for (i = 0; i < indent + 2; ++i)
 		indent2.append(Utilities::INDENT);
 
-	// Pure_Phase element and attributes
+	s_oss << indent1 << "# SOLID_SOLUTION_MODIFY candidate identifiers #\n";
+	s_oss << indent1 << "-moles               " << this->moles << "\n";
 
-	//if (this->name.size() != 0)
-	//	s_oss << indent0 << "-name                  " << this->name << "\n";
-	//if (this->add_formula.size() != 0)
-	//	s_oss << indent1 << "-add_formula           " << this->add_formula << "\n";
-	s_oss << indent0 << "-initial_moles         " << this->initial_moles << "\n";
-	s_oss << indent0 << "-moles                 " << this->moles << "\n";
-	s_oss << indent0 << "-init_moles            " << this->init_moles << "\n";
-	s_oss << indent0 << "-delta                 " << this->delta << "\n";
-	s_oss << indent0 << "-fraction_x            " << this->fraction_x << "\n";
-	s_oss << indent0 << "-log10_lambda          " << this->log10_lambda << "\n";
-	s_oss << indent0 << "-log10_fraction_x      " << this->log10_fraction_x << "\n";
-	//s_oss << indent0 << "-dn                    " << this->dn << "\n";
-	//s_oss << indent0 << "-dnc                   " << this->dnc << "\n";
-	//s_oss << indent0 << "-dnb                   " << this->dnb << "\n";
+	s_oss << indent1 << "# Solid solution workspace variables #\n";
+	s_oss << indent1 << "-initial_moles       " << this->initial_moles << "\n";
+	s_oss << indent1 << "-init_moles          " << this->init_moles << "\n";
+	s_oss << indent1 << "-delta               " << this->delta << "\n";
+	s_oss << indent1 << "-fraction_x          " << this->fraction_x << "\n";
+	s_oss << indent1 << "-log10_lambda        " << this->log10_lambda << "\n";
+	s_oss << indent1 << "-log10_fraction_x    " << this->log10_fraction_x << "\n";
+	s_oss << indent1 << "-dn                  " << this->dn << "\n";
+	s_oss << indent1 << "-dnc                 " << this->dnc << "\n";
+	s_oss << indent1 << "-dnb                 " << this->dnb << "\n";
 }
 
 void
@@ -81,7 +96,7 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 	if (vopts.empty())
 	{
 		vopts.reserve(10);
-		vopts.push_back("name_not_used");	// 0                 
+		vopts.push_back("name");	// 0                 
 		vopts.push_back("initial_moles");	// 1
 		vopts.push_back("moles");	// 2
 		vopts.push_back("init_moles");	// 3
@@ -89,9 +104,9 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 		vopts.push_back("fraction_x");	// 5     
 		vopts.push_back("log10_lambda");	// 6
 		vopts.push_back("log10_fraction_x");	// 7
-		vopts.push_back("dn_not_used");	// 8
-		vopts.push_back("dnc_not_used");	// 9
-		vopts.push_back("dnb_not_used");	// 10
+		vopts.push_back("dn");	// 8
+		vopts.push_back("dnc");	// 9
+		vopts.push_back("dnb");	// 10
 	}
 
 	std::istream::pos_type ptr;
@@ -100,11 +115,8 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 	int opt_save;
 
 	opt_save = CParser::OPT_ERROR;
-	bool name_defined(false);
 	bool initial_moles_defined(false);
 	bool moles_defined(false);
-	//bool init_moles_defined(false);
-	//bool delta_defined(false);
 
 	for (;;)
 	{
@@ -124,23 +136,10 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in PURE_PHASE read.", PHRQ_io::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// name
-			if (!(parser.get_iss() >> str))
-			{
-				this->name.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for name.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->name = str;
-			}
-			name_defined = true;
+			parser.error_msg("-Name ignored. Define with -component.");
 			break;
 
 		case 1:				// initial_moles
@@ -173,7 +172,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for init_moles.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			//init_moles_defined = true;
 			break;
 
 		case 4:				// delta
@@ -184,7 +182,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for delta.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			//delta_defined = true;
 			break;
 
 		case 5:				// fraction_x
@@ -195,7 +192,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for fraction_x.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			//initial_moles_defined = true;
 			break;
 
 
@@ -236,7 +232,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for dnc.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			//dnc_defined = true;
 			break;
 		case 10:				// dnb
 			if (!(parser.get_iss() >> this->dnb))
@@ -246,7 +241,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for dnb.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			//dnc_defined = true;
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
@@ -255,12 +249,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 	// members that must be defined
 	if (check)
 	{
-		if (name_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Name not defined for PPassemblageComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
 		if (moles_defined == false)
 		{
 			parser.incr_input_error();
@@ -338,74 +326,10 @@ cxxSScomp::totalize(PHREEQC_PTR_ARG)
 	return;
 }
 #endif
-#ifdef SKIP
-void
-cxxSScomp::add(const cxxSScomp & addee, double extensive)
-{
-	double ext1, ext2, f1, f2;
-	if (extensive == 0.0)
-		return;
-	if (addee.name.size() == 0)
-		return;
-	// this and addee must have same name
-	// otherwise generate a new PPassemblagComp with multiply
-
-	ext1 = this->moles;
-	ext2 = addee.moles * extensive;
-	if (ext1 + ext2 != 0)
-	{
-		f1 = ext1 / (ext1 + ext2);
-		f2 = ext2 / (ext1 + ext2);
-	}
-	else
-	{
-		f1 = 0.5;
-		f2 = 0.5;
-	}
-	//char * name;
-	//char *add_formula;
-
-	if (this->name.size() == 0 && addee.name.size() == 0)
-	{
-		return;
-	}
-	assert(this->name == addee.name);
-	if (this->add_formula != addee.add_formula)
-	{
-		std::ostringstream oss;
-		oss <<
-			"Can not mix two Equilibrium_phases with differing add_formulae., "
-			<< this->name;
-		error_msg(oss.str().c_str(), CONTINUE);
-		return;
-	}
-	//double si;
-	this->si = this->si * f1 + addee.si * f2;
-	//double si_org;
-	this->si_org = this->si_org * f1 + addee.si_org * f2;
-	//double moles;
-	this->moles += addee.moles * extensive;
-	//double delta;
-	this->delta += addee.delta * extensive;
-	//double initial_moles;
-	this->initial_moles += addee.initial_moles * extensive;
-	//bool force_equality;
-	//bool dissolve_only;
-
-}
-#endif
 void
 cxxSScomp::multiply(double extensive)
 {
-	//char * name;
-	//char *add_formula;
-	//double si;
-	//double moles;
 	this->moles *= extensive;
-	//double delta;
 	this->delta *= extensive;
-	//double initial_moles;
 	this->initial_moles *= extensive;
-	//bool force_equality;
-	//bool dissolve_only;
 }

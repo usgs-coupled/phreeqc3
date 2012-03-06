@@ -13,8 +13,6 @@
 //#include "Dictionary.h"
 #include "phqalloc.h"
 
-
-
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -33,26 +31,6 @@ PHRQ_base(io)
 	initial_moles = 0;
 	namecoef.type = cxxNameDouble::ND_NAME_COEF;
 }
-#ifdef SKIP
-cxxKineticsComp::cxxKineticsComp(struct kinetics_comp *kinetics_comp_ptr, PHRQ_io *io)
-		//
-		// constructor for cxxKineticsComp from struct kinetics_comp
-		//
-	:
-PHRQ_base(io),
-namecoef(kinetics_comp_ptr->list, kinetics_comp_ptr->count_list)
-{
-	this->Set_rate_name(kinetics_comp_ptr->rate_name);
-	tol = kinetics_comp_ptr->tol;
-	m = kinetics_comp_ptr->m;
-	m0 = kinetics_comp_ptr->m0;
-	moles = kinetics_comp_ptr->moles;
-	for (int i = 0; i < kinetics_comp_ptr->count_d_params; i++)
-	{
-		this->d_params.push_back(kinetics_comp_ptr->d_params[i]);
-	}
-}
-#endif
 cxxKineticsComp::~cxxKineticsComp()
 {
 }
@@ -61,7 +39,6 @@ cxxKineticsComp::~cxxKineticsComp()
 void
 cxxKineticsComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing kinetics_comp message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -106,7 +83,6 @@ cxxKineticsComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 void
 cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing kinetics_comp message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -118,13 +94,10 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent2.append(Utilities::INDENT);
 
 	// Kinetics_Comp element and attributes
-
-	//s_oss << indent0 << "-rate_name             " << this->
-	//	rate_name << "\n";
+	s_oss << indent1 << "# KINETICS_MODIFY candidate identifiers #\n";
 	s_oss << indent1 << "-tol                   " << this->tol << "\n";
 	s_oss << indent1 << "-m                     " << this->m << "\n";
 	s_oss << indent1 << "-m0                    " << this->m0 << "\n";
-	s_oss << indent1 << "-moles                 " << this->moles << "\n";
 
 	// namecoef
 	s_oss << indent1;
@@ -150,6 +123,10 @@ cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		}
 		s_oss << "\n";
 	}
+
+	s_oss << indent1 << "# KineticsComp workspace variables #\n";
+	s_oss << indent1 << "-moles                 " << this->moles << "\n";
+	s_oss << indent1 << "-initial_moles         " << this->initial_moles << "\n";
 }
 
 void
@@ -168,6 +145,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		vopts.push_back("moles");	// 4
 		vopts.push_back("namecoef");	// 5
 		vopts.push_back("d_params");	// 6
+		vopts.push_back("initial_moles");	// 7
 	}
 
 	std::istream::pos_type ptr;
@@ -177,7 +155,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 
 	std::vector < LDBLE > temp_d_params;
 	opt_save = CParser::OPT_ERROR;
-	bool rate_name_defined(false);
 	bool tol_defined(false);
 	bool m_defined(false);
 	bool m0_defined(false);
@@ -202,23 +179,10 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Kinetics for more processing
-			//parser.error_msg("Unknown input in KINETICS_COMP read.", PHRQ_io::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// rate_name not used
-			if (!(parser.get_iss() >> str))
-			{
-				this->rate_name.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for rate_name.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->rate_name = str;
-			}
-			rate_name_defined = true;
+			parser.warning_msg("Rate_name ignored. Define in -comp.");
 			break;
 
 		case 1:				// tol
@@ -266,7 +230,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 			moles_defined = true;
 			break;
 
-
 		case 5:				// namecoef
 			if (this->namecoef.read_raw(parser, next_char) !=
 				CParser::PARSER_OK)
@@ -289,6 +252,16 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				d_params_defined = true;
 			}
 			opt_save = 6;
+			break;
+		case 7:				// initial_moles
+			if (!(parser.get_iss() >> this->initial_moles))
+			{
+				this->moles = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for initial_moles.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -301,12 +274,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 	if (check)
 	{
 		// members that must be defined
-		if (rate_name_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Rate_name not defined for KineticsComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
 		if (tol_defined == false)
 		{
 			parser.incr_input_error();
@@ -323,12 +290,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("M0 not defined for KineticsComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		if (moles_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Moles not defined for KineticsComp input.",
 				PHRQ_io::OT_CONTINUE);
 		}
 	}
@@ -388,30 +349,16 @@ cxxKineticsComp::add(const cxxKineticsComp & addee, LDBLE extensive)
 	{
 		return;
 	}
-	//char * rate_name;
 	assert(this->rate_name == addee.rate_name);
-	//cxxNameDouble namecoef;
-	//LDBLE tol;
-	//LDBLE m;
 	this->m += addee.m * extensive;
-	//LDBLE m0;
 	this->m0 += addee.m0 * extensive;
-	//LDBLE moles;  
 	this->moles += addee.moles * extensive;
-	//std::vector<LDBLE> d_params;
 }
 
 void
 cxxKineticsComp::multiply(LDBLE extensive)
 {
-	//char * rate_name;
-	//cxxNameDouble namecoef;
-	//LDBLE tol;
-	//LDBLE m;
 	this->m *= extensive;
-	//LDBLE m0;
 	this->m0 *= extensive;
-	//LDBLE moles;  
 	this->moles *= extensive;
-	//std::vector<LDBLE> d_params;
 }

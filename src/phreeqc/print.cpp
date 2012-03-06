@@ -11,6 +11,7 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "Solution.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 array_print(LDBLE * array_l, int row_count, int column_count,
@@ -94,8 +95,6 @@ int Phreeqc::
 punch_all(void)
 /* ---------------------------------------------------------------------- */
 {
-	//int i;
-
 //#ifndef PHREEQ98		/* if not PHREEQ98 use the standard declaration */
 //	if (pr.hdf == FALSE && (punch.in == FALSE || pr.punch == FALSE) && user_graph->commands == NULL)
 //		return (OK);
@@ -113,12 +112,10 @@ punch_all(void)
 //#else /* if PHREEQ98 execute punch_user_graph first, that is, before punch.in and pr.punch is checked */
 	if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 	{
-		//use.Set_kinetics_ptr(kinetics_bsearch(use.Get_n_kinetics_user(), &i));
 		use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user()));
 	}
 	else if (use.Get_kinetics_in() != FALSE)
 	{
-		//use.Set_kinetics_ptr(kinetics_bsearch(-2, &i));
 		use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, -2));
 	}
 #if defined PHREEQ98 
@@ -134,7 +131,6 @@ punch_all(void)
 #endif
 	if (pr.hdf == FALSE && (punch.in == FALSE || pr.punch == FALSE))
 		return (OK);
-//#endif
 	punch_identifiers();
 	punch_totals();
 	punch_molalities();
@@ -160,17 +156,15 @@ punch_all(void)
 
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-print_diffuse_layer(struct surface_charge *surface_charge_ptr1)
+print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Prints total moles of each element in diffuse layer
  *   Remove comment to print total moles of each species
  */
-	int i, j, count_g;
 	LDBLE mass_water_surface, r, sum_surfs;
 	LDBLE molality, moles_excess, moles_surface, d;
 
@@ -179,22 +173,22 @@ print_diffuse_layer(struct surface_charge *surface_charge_ptr1)
 /*
  *   Find position of component in surface charge data
  */
-	i = 0;
+	int j;
 	for (j = 0; j < count_unknowns; j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;
-		if (x[j]->surface_charge == surface_charge_ptr1)
+		cxxSurfaceCharge * charge_ptr_search = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+		if (charge_ptr->Get_name() == charge_ptr_search->Get_name())
 		{
 			break;
 		}
-		i++;
 	}
 	if (j >= count_unknowns)
 	{
 		error_string = sformatf(
 				"In print_diffuse_layer: component not found, %s.",
-				surface_charge_ptr1->name);
+				charge_ptr->Get_name().c_str());
 		error_msg(error_string, STOP);
 	}
 /*
@@ -204,7 +198,7 @@ print_diffuse_layer(struct surface_charge *surface_charge_ptr1)
 
 	if (mass_water_surfaces_x != 0)
 	{
-		d = 100 * surface_charge_ptr1->mass_water / mass_water_surfaces_x;
+		d = 100 * charge_ptr->Get_mass_water() / mass_water_surfaces_x;
 	}
 	else
 	{
@@ -212,22 +206,23 @@ print_diffuse_layer(struct surface_charge *surface_charge_ptr1)
 	}
 	output_msg(sformatf(
 			   "\tWater in diffuse layer: %8.3e kg, %4.1f%% of total DDL-water.\n",
-			   (double) surface_charge_ptr1->mass_water, (double) d));
-	if (use.Get_surface_ptr()->debye_lengths > 0)
+			   (double) charge_ptr->Get_mass_water(), (double) d));
+	if (use.Get_surface_ptr()->Get_debye_lengths() > 0)
 	{
 		sum_surfs = 0.0;
 		for (j = 0; j < count_unknowns; j++)
 		{
 			if (x[j]->type != SURFACE_CB)
 				continue;
+			cxxSurfaceCharge * charge_ptr_search = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 			sum_surfs +=
-				x[j]->surface_charge->specific_area *
-				x[j]->surface_charge->grams;
+				charge_ptr_search->Get_specific_area() *
+				charge_ptr_search->Get_grams();
 		}
 		r = 0.002 * mass_water_bulk_x / sum_surfs;
 		output_msg(sformatf(
 				   "\tRadius of total pore:   %8.3e m; of free pore: %8.3e m.\n",
-				   (double) r, (double) (r - use.Get_surface_ptr()->thickness)));
+				   (double) r, (double) (r - use.Get_surface_ptr()->Get_thickness())));
 	}
 
 	if (debug_diffuse_layer == TRUE)
@@ -237,7 +232,7 @@ print_diffuse_layer(struct surface_charge *surface_charge_ptr1)
 		output_msg(sformatf(
 				   "\n\tSpecies     \t    Moles   \tMoles excess\t      g\n"));
 	}
-	mass_water_surface = surface_charge_ptr1->mass_water;
+	mass_water_surface = charge_ptr->Get_mass_water();
 	count_elts = 0;
 	paren_count = 0;
 	for (j = 0; j < count_s_x; j++)
@@ -245,19 +240,16 @@ print_diffuse_layer(struct surface_charge *surface_charge_ptr1)
 		if (s_x[j]->type > HPLUS)
 			continue;
 		molality = under(s_x[j]->lm);
-		count_g = s_x[j]->diff_layer[i].count_g;
-		moles_excess =
-			mass_water_aq_x * molality * (surface_charge_ptr1->g[count_g].g *
-										  s_x[j]->erm_ddl +
-										  mass_water_surface /
-										  mass_water_aq_x * (s_x[j]->erm_ddl -
-															 1));
+		moles_excess = mass_water_aq_x * molality * (charge_ptr->Get_g_map()[s_x[j]->z].Get_g() *
+			s_x[j]->erm_ddl +
+			mass_water_surface /
+			mass_water_aq_x * (s_x[j]->erm_ddl - 1));
 		moles_surface = mass_water_surface * molality + moles_excess;
 		if (debug_diffuse_layer == TRUE)
 		{
 			output_msg(sformatf("\t%-12s\t%12.3e\t%12.3e\t%12.3e\n",
 					   s_x[j]->name, moles_surface, moles_excess,
-					   s_x[j]->diff_layer[i].charge->g[count_g].g));
+					   charge_ptr->Get_g_map()[s_x[j]->z].Get_g()));
 		}
 /*
  *   Accumulate elements in diffuse layer
@@ -278,7 +270,7 @@ print_diffuse_layer(struct surface_charge *surface_charge_ptr1)
 /*
  *   Print totals
  */
-	if (use.Get_surface_ptr()->dl_type != DONNAN_DL)
+	if (use.Get_surface_ptr()->Get_dl_type() != cxxSurface::DONNAN_DL)
 	{
 		output_msg(sformatf(
 				   "\n\tTotal moles in diffuse layer (excluding water)\n\n"));
@@ -386,7 +378,6 @@ print_exchange(void)
  *   Print moles of each exchange species
  */
 	int i;
-	//struct exchange *exchange_ptr;
 	cxxExchange * exchange_ptr;
 	const char *name, *name1;
 	struct master *master_ptr;
@@ -394,7 +385,7 @@ print_exchange(void)
 /*
  *  Print exchange data
  */
-	exchange_ptr = (cxxExchange *) use.Get_exchange_ptr();
+	exchange_ptr = use.Get_exchange_ptr();
 	if (exchange_ptr == NULL || pr.exchange == FALSE || pr.all == FALSE)
 		return (OK);
 
@@ -434,22 +425,22 @@ print_exchange(void)
 			output_msg(sformatf("%-14s%12.3e mol", name,
 					   (double) master_ptr->unknown->moles));
 			cxxExchange *exchange_ptr = (cxxExchange *) (use.Get_exchange_ptr());
-			const cxxExchComp *exch_comp = exchange_ptr->ExchComp_find(master_ptr->unknown->exch_comp);
-			assert(exch_comp);
-			if (exch_comp->Get_phase_name().size() > 0)
+			const cxxExchComp *exchange_comp_ptr = exchange_ptr->Find_comp(master_ptr->unknown->exch_comp);
+			assert(exchange_comp_ptr);
+			if (exchange_comp_ptr->Get_phase_name().size() > 0)
 			{
 				output_msg(sformatf("\t[%g (mol %s)/(mol %s)]",
-					(double) exch_comp->Get_phase_proportion(),
-					exch_comp->Get_formula().c_str(),
-					exch_comp->Get_phase_name().c_str()));
+					(double) exchange_comp_ptr->Get_phase_proportion(),
+					exchange_comp_ptr->Get_formula().c_str(),
+					exchange_comp_ptr->Get_phase_name().c_str()));
 			}
-			else if (exch_comp->Get_rate_name().size() > 0)
+			else if (exchange_comp_ptr->Get_rate_name().size() > 0)
 			{
 				output_msg(sformatf(
 						   "\t[%g (mol %s)/(mol kinetic reactant %s)]",
-						   (double) exch_comp->Get_phase_proportion(),
-						   exch_comp->Get_formula().c_str(),
-						   exch_comp->Get_rate_name().c_str()));
+						   (double) exchange_comp_ptr->Get_phase_proportion(),
+						   exchange_comp_ptr->Get_formula().c_str(),
+						   exchange_comp_ptr->Get_rate_name().c_str()));
 			}
 			output_msg(sformatf("\n\n"));
 			/* Heading for species */
@@ -508,7 +499,6 @@ print_gas_phase(void)
 /*
  *   Prints gas phase composition if present
  */
-	//int j;
 	LDBLE lp, moles, initial_moles, delta_moles;
 	struct rxn_token *rxn_ptr;
 	char info[MAX_LENGTH];
@@ -519,7 +509,7 @@ print_gas_phase(void)
 	if (use.Get_gas_phase_ptr() == NULL)
 		return (OK);
 
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (gas_phase_ptr->Get_v_m() >= 0.01)
 		PR = true;
 	if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
@@ -543,7 +533,6 @@ print_gas_phase(void)
  *   Print heading
  */
 	print_centered("Gas phase");
-	//output_msg(OUTPUT_MESSAGE, "\n");
 	output_msg(sformatf("Total pressure: %5.2f      atmospheres",
 			   (double) gas_phase_ptr->Get_total_p()));
 	if (PR)
@@ -576,7 +565,6 @@ print_gas_phase(void)
 			   "log P", "P", "Initial", "Final", "Delta"));
 
 	for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
-	//for (j = 0; j < use.Get_gas_phase_ptr()->count_comps; j++)
 	{
 /*
  *   Calculate partial pressure
@@ -784,7 +772,7 @@ print_reaction(void)
 		return (OK);
 	if (state == TRANSPORT && transport_step == 0)
 		return (OK);
-	reaction_ptr = (cxxReaction *) use.Get_reaction_ptr();
+	reaction_ptr = use.Get_reaction_ptr();
 /*
  *  Print amount of reaction
  */
@@ -798,12 +786,9 @@ print_reaction(void)
  */
 	output_msg(sformatf("\t%-15s%10s\n", " ", "Relative"));
 	output_msg(sformatf("\t%-15s%10s\n\n", "Reactant", "moles"));
-	//for (i = 0; i < irrev_ptr->count_list; i++)
 	cxxNameDouble::const_iterator cit = reaction_ptr->Get_reactantList().begin();
 	for ( ; cit != reaction_ptr->Get_reactantList().end(); cit++)
 	{
-		//output_msg(sformatf("\t%-15s%13.5f\n",
-		//		   irrev_ptr->list[i].name, (double) irrev_ptr->list[i].coef));
 		output_msg(sformatf("\t%-15s%13.5f\n",
 				   cit->first.c_str(), (double) cit->second));
 	}
@@ -814,7 +799,6 @@ print_reaction(void)
 
 	output_msg(sformatf("\t%-15s%10s\n", " ", "Relative"));
 	output_msg(sformatf("\t%-15s%10s\n", "Element", "moles"));
-	//for (i = 0; irrev_ptr->elts[i].elt != NULL; i++)
 	cit = reaction_ptr->Get_elementList().begin();
 	for ( ; cit != reaction_ptr->Get_elementList().end(); cit++)
 	{
@@ -836,7 +820,6 @@ print_kinetics(void)
  *   prints kinetic reaction,
  *   should be called only on final kinetic step
  */
-	//int i, j;
 	LDBLE sim_time;
 	cxxKinetics *kinetics_ptr;
 	if (pr.kinetics == FALSE || pr.all == FALSE)
@@ -848,12 +831,10 @@ print_kinetics(void)
 	{
 		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 		{
-			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
 			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
 		}
 		else
 		{
-			//kinetics_ptr = kinetics_bsearch(-2, &i);
 			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
 		}
 	}
@@ -907,40 +888,6 @@ print_kinetics(void)
 				}
 			}
 		}
-#ifdef SKIP
-		if (incremental_reactions == TRUE)
-		{
-			//if (kinetics_ptr->count_steps > 0)
-			if (!kinetics_ptr->Get_equalIncrements())
-			{
-				for (i = 0; i < reaction_step; i++)
-				{
-					if (i < kinetics_ptr->count_steps)
-					{
-						sim_time += kinetics_ptr->steps[i];
-					}
-					else
-					{
-						sim_time +=
-							kinetics_ptr->steps[kinetics_ptr->count_steps - 1];
-					}
-				}
-			}
-			else if (kinetics_ptr->count_steps < 0)
-			{
-				if (reaction_step > -kinetics_ptr->count_steps)
-				{
-					sim_time = kinetics_ptr->steps[0];
-				}
-				else
-				{
-					sim_time =
-						reaction_step * kinetics_ptr->steps[0] /
-						((LDBLE) (-kinetics_ptr->count_steps));
-				}
-			}
-		}
-#endif
 	}
 /*
  *  Print amount of reaction
@@ -996,7 +943,6 @@ print_kinetics(void)
 	output_msg(sformatf("\t%-15s%12s%12s   %-15s%12s\n\n",
 			   "Rate name", "Delta Moles", "Total Moles", "Reactant",
 			   "Coefficient"));
-	//for (i = 0; i < kinetics_ptr->count_comps; i++)
 	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
 	{
 		cxxKineticsComp *kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
@@ -1015,7 +961,6 @@ print_kinetics(void)
 								 kinetics_comp_ptr->Get_initial_moles()),
 					   (double) kinetics_comp_ptr->Get_m()));
 		}
-		//for (j = 0; j < kinetics_ptr->comps[i].count_list; j++)
 		cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
 		for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
 		{
@@ -1039,177 +984,6 @@ print_kinetics(void)
 	return (OK);
 }
 #ifdef SKIP
-/* ---------------------------------------------------------------------- */
- int Phreeqc::
-print_kinetics(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   prints kinetic reaction,
- *   should be called only on final kinetic step
- */
-	int i, j;
-	LDBLE sim_time;
-	struct kinetics *kinetics_ptr;
-	if (pr.kinetics == FALSE || pr.all == FALSE)
-		return (OK);
-	if (state < REACTION)
-		return (OK);
-	kinetics_ptr = NULL;
-	if (use.Get_kinetics_in() == TRUE)
-	{
-		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
-		{
-			kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
-		}
-		else
-		{
-			kinetics_ptr = kinetics_bsearch(-2, &i);
-		}
-	}
-	if (kinetics_ptr == NULL)
-		return (OK);
-/*
- *   determine time step
- */
-	if (state == TRANSPORT || state == PHAST)
-	{
-		kin_time_x = timest;
-	}
-	else if (state == ADVECTION)
-	{
-		kin_time_x = advection_kin_time;
-	}
-	sim_time = 0.;
-	if (run_info.Get_run_cells())
-	{
-		sim_time = rate_sim_time;
-	}
-	else
-	{
-		if (incremental_reactions == TRUE)
-		{
-			if (kinetics_ptr->count_steps > 0)
-			{
-				for (i = 0; i < reaction_step; i++)
-				{
-					if (i < kinetics_ptr->count_steps)
-					{
-						sim_time += kinetics_ptr->steps[i];
-					}
-					else
-					{
-						sim_time +=
-							kinetics_ptr->steps[kinetics_ptr->count_steps - 1];
-					}
-				}
-			}
-			else if (kinetics_ptr->count_steps < 0)
-			{
-				if (reaction_step > -kinetics_ptr->count_steps)
-				{
-					sim_time = kinetics_ptr->steps[0];
-				}
-				else
-				{
-					sim_time =
-						reaction_step * kinetics_ptr->steps[0] /
-						((LDBLE) (-kinetics_ptr->count_steps));
-				}
-			}
-		}
-	}
-/*
- *  Print amount of reaction
- */
-	if (phast == FALSE)
-	{
-		output_msg(sformatf("Kinetics %d.\t%s\n\n",
-				   use.Get_n_kinetics_user(), kinetics_ptr->description));
-	}
-	else
-	{
-		output_msg(sformatf("Kinetics.\n\n"));
-	}
-/*
- *  Print reaction
- */
-	if (state == TRANSPORT)
-	{
-		output_msg(sformatf("\tTime:      %g seconds\n",
-				   (double) (initial_total_time + transport_step * timest)));
-		output_msg(sformatf("\tTime step: %g seconds\n\n",
-				   (double) kin_time_x));
-	}
-	else if (state == ADVECTION)
-	{
-		output_msg(sformatf("\tTime:      %g seconds\n",
-				   (double) (initial_total_time +
-							 advection_step * advection_kin_time)));
-		output_msg(sformatf("\tTime step: %g seconds\n\n",
-				   (double) kin_time_x));
-	}
-	else if (state == PHAST)
-	{
-		output_msg(sformatf("\tTime:      %g seconds\n",
-				   (double) rate_sim_time_end));
-		output_msg(sformatf("\tTime step: %g seconds\n\n",
-				   (double) kin_time_x));
-	}
-	else if (state == REACTION)
-	{
-		if (incremental_reactions == FALSE)
-		{
-			output_msg(sformatf("\tTime step: %g seconds\n\n",
-					   (double) kin_time_x));
-		}
-		else
-		{
-			output_msg(sformatf(
-					   "\tTime step: %g seconds  (Incremented time: %g seconds)\n\n",
-					   (double) kin_time_x, (double) sim_time));
-		}
-	}
-	output_msg(sformatf("\t%-15s%12s%12s   %-15s%12s\n\n",
-			   "Rate name", "Delta Moles", "Total Moles", "Reactant",
-			   "Coefficient"));
-	for (i = 0; i < kinetics_ptr->count_comps; i++)
-	{
-		if (state != TRANSPORT && state != PHAST)
-		{
-			output_msg(sformatf("\t%-15s%12.3e%12.3e",
-					   kinetics_ptr->comps[i].rate_name,
-					   (double) -kinetics_ptr->comps[i].moles,
-					   (double) kinetics_ptr->comps[i].m));
-		}
-		else
-		{
-			output_msg(sformatf("\t%-15s%12.3e%12.3e",
-					   kinetics_ptr->comps[i].rate_name,
-					   (double) (kinetics_ptr->comps[i].m -
-								 kinetics_ptr->comps[i].initial_moles),
-					   (double) kinetics_ptr->comps[i].m));
-		}
-		for (j = 0; j < kinetics_ptr->comps[i].count_list; j++)
-		{
-			if (j == 0)
-			{
-				output_msg(sformatf("   %-15s%12g\n",
-						   kinetics_ptr->comps[i].list[j].name,
-						   (double) kinetics_ptr->comps[i].list[j].coef));
-			}
-			else
-			{
-				output_msg(sformatf("\t%39s   %-15s%12g\n", " ",
-						   kinetics_ptr->comps[i].list[j].name,
-						   (double) kinetics_ptr->comps[i].list[j].coef));
-			}
-		}
-	}
-	output_msg(sformatf("\n"));
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_master_reactions(void)
@@ -1255,7 +1029,7 @@ print_master_reactions(void)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
 print_mix(void)
@@ -1264,10 +1038,8 @@ print_mix(void)
 /*
  *   prints definition of mixing, solution number and multiplier
  */
-	int n;
-	//struct mix *mix_ptr;
 	cxxMix * mix_ptr;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 
 	if (pr.use == FALSE || pr.all == FALSE)
 		return (OK);
@@ -1275,17 +1047,15 @@ print_mix(void)
 		return (OK);
 	if (state == TRANSPORT)
 	{
-		//mix_ptr = mix_bsearch(use.Get_n_mix_user(), &i);
 		mix_ptr = Utilities::Rxn_find(Rxn_mix_map, use.Get_n_mix_user());
 	}
 	else
 	{
-		//mix_ptr = mix_bsearch(use.Get_n_mix_user_orig(), &i);
 		mix_ptr = Utilities::Rxn_find(Rxn_mix_map, use.Get_n_mix_user_orig());
 	}
 	if (mix_ptr == NULL)
 	{
-		mix_ptr = (cxxMix *) use.Get_mix_ptr();
+		mix_ptr = use.Get_mix_ptr();
 	}
 /*
  *  Print mixture data
@@ -1308,7 +1078,7 @@ print_mix(void)
 	std::map<int, LDBLE>::const_iterator cit;
 	for (cit = mix_ptr->Get_mixComps().begin(); cit != mix_ptr->Get_mixComps().end(); cit++)
 	{
-		solution_ptr = solution_bsearch(cit->first, &n, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, cit->first);
 		if (solution_ptr == NULL)
 		{
 			input_error++;
@@ -1316,7 +1086,7 @@ print_mix(void)
 		}
 		output_msg(sformatf("\t%11.3e Solution %d\t%-55s\n",
 				   (double) cit->second,
-				   cit->first, solution[n]->description));
+				   cit->first, solution_ptr->Get_description().c_str()));
 	}
 	output_msg(sformatf("\n"));
 	return (OK);
@@ -1367,7 +1137,6 @@ print_saturation_indices(void)
 	struct rxn_token *rxn_ptr;
 	struct reaction *reaction_ptr;
 	const char *pr_in;
-	//bool PR = false, DV = false, PR_inprint, gas = true;
 	bool PR_inprint, gas = true;
  
 	if (pr.saturation_indices == FALSE || pr.all == FALSE)
@@ -1375,13 +1144,12 @@ print_saturation_indices(void)
 	if (state == INITIAL_SOLUTION)
 	{
 		iap = 0;
-		for (rxn_ptr = pe_x[default_pe_x].rxn->token + 1; rxn_ptr->s != NULL;
-			 rxn_ptr++)
+		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size(); tok++)
 		{
-			iap += rxn_ptr->coef * rxn_ptr->s->la;
+			iap += pe_x[default_pe_x].Get_tokens()[tok].coef * pe_x[default_pe_x].Get_tokens()[tok].s->la;
 			/* fprintf(output,"\t%s\t%f\t%f\n", rxn_ptr->s->name, rxn_ptr->coef, rxn_ptr->s->la ); */
 		}
-		lk = k_calc(pe_x[default_pe_x].rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
+		lk = k_calc(pe_x[default_pe_x].Get_logk(), tk_x, patm_x * PASCAL_PER_ATM);
 		la_eminus = lk + iap;
 		/* fprintf(output,"\t%s\t%f\n", "pe", si ); */
 	}
@@ -1392,7 +1160,7 @@ print_saturation_indices(void)
 /* If a fixed pressure gas-phase disappeared, no PR for the SI's of gases... */
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
-		cxxGasPhase * gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 		{
 			if (gas_unknown == NULL || gas_unknown->moles < 1e-12)
@@ -1425,7 +1193,6 @@ print_saturation_indices(void)
 			PR_inprint = true;
 			phases[i]->pr_in = false;
 		}
-		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		reaction_ptr->logk[delta_v] = calc_delta_v(phases[i]->rxn_x, true) -
 			 (phases[i]->logk[vm0] + phases[i]->logk[vm1] * tc_x + phases[i]->logk[vm2] * tc_x * tc_x);
 		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
@@ -1445,41 +1212,18 @@ print_saturation_indices(void)
 			}
 		}
 		si = -lk + iap;
-		//if (gas && phases[i]->pr_in && phases[i]->pr_p)
-		//{
-		//	pr_in = "**";
-		//	PR = true;
-		//}
-		//else if (fabs(reaction_ptr->logk[delta_v]) > 0.01 && patm_x > 1)
-		//{
-		//	pr_in = "* ";
-		//	DV = true;
-		//}
-		//else
-			pr_in = "  ";
+		pr_in = "  ";
 
 		output_msg(sformatf("\t%-15s%7.2f%2s%8.2f%8.2f  %s",
 				   phases[i]->name, (double) si, pr_in, (double) iap, (double) lk,
 				   phases[i]->formula));
-		//if (fabs(reaction_ptr->logk[delta_v]) > 0.01 && patm_x > 1)
-		//	output_msg(sformatf("\t%s%6.2f%s",
-		//		   " Delta_V ", reaction_ptr->logk[delta_v], " cm3/mol"));
 		if (gas && phases[i]->pr_in && phases[i]->pr_p)
 			output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
 					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
 		output_msg("\n");
 
 	}
-	//if (DV)
-	//	output_msg(sformatf("\t%24s %s\n",
-	//			   "* ", "with Delta_V * (P - 1) / 2.3RT."));
-	//if (PR)
-	//	output_msg(sformatf("\t%24s %s\n",
-	//			   "**", "SI from Peng-Robinson fugacity - Delta_V * (P - 1) / 2.3RT."));
-	//if (PR || DV)
-	//	output_msg("\n");
-	//else
-		output_msg("\n\n");
+	output_msg("\n\n");
 
 	return (OK);
 }
@@ -1496,7 +1240,6 @@ print_pp_assemblage(void)
 	char token[MAX_LENGTH];
 	struct rxn_token *rxn_ptr;
 	struct phase *phase_ptr;
-	//bool PR = false, PR_inprint;
 	bool PR_inprint;
 	const char *pr_in;
 
@@ -1504,7 +1247,7 @@ print_pp_assemblage(void)
 		return (OK);
 	if (pure_phase_unknown == NULL)
 		return (OK);
-	cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
+	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 /*
  *   Print heading
  */
@@ -1563,13 +1306,7 @@ print_pp_assemblage(void)
 			   si = -x[j]->phase->lk + iap;
 			   output_msg(OUTPUT_MESSAGE,"\t%-15s%7.2f%8.2f%8.2f", x[j]->phase->name, (double) si, (double) iap, (double) x[j]->phase->lk);
 			 */
-			//if (phase_ptr->pr_in && phase_ptr->pr_p)
-			//{
-			//	pr_in = "**";
-			//	PR = true;
-			//}
-			//else
-				pr_in = "  ";
+			pr_in = "  ";
 			output_msg(sformatf("%-14s%8.2f%2s%7.2f  %8.2f",
 					   x[j]->phase->name, (double) si, pr_in, (double) iap,
 					   (double) lk));
@@ -1611,9 +1348,6 @@ print_pp_assemblage(void)
 					   comp_ptr->Get_add_formula().c_str(), " is reactant", token));
 		}
 	}
-	//if (PR)
-	//	output_msg(sformatf("%25s %s\n",
-	//			   "**", "SI from Peng-Robinson fugacity - Delta(V) * (P - 1) / 2.3RT."));
 	output_msg("\n");
 	return (OK);
 }
@@ -1737,7 +1471,6 @@ print_species(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_surface(void)
@@ -1748,19 +1481,17 @@ print_surface(void)
  *   grams and specific area, moles of each species on surface sites,
  *   and description of diffuse layer if applicable.
  */
-	int i, j, k;
-	struct surface *surface_ptr;
-	char name[MAX_LENGTH], token[MAX_LENGTH];
+	cxxSurface *surface_ptr;
+	std::string name, token;
 	struct master *master_ptr;
 	LDBLE molfrac, charge;
-	char *ptr;
 /*
  *  Print surface speciation
  */
 	surface_ptr = use.Get_surface_ptr();
 	if (surface_ptr == NULL || pr.surface == FALSE || pr.all == FALSE)
 		return (OK);
-	if (surface_ptr->type == CD_MUSIC)
+	if (surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
 		return (print_surface_cd_music());
 
 	if (state >= REACTION)
@@ -1772,55 +1503,57 @@ print_surface(void)
  */
 
 	s_h2o->lm = s_h2o->la;
-	for (j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < count_unknowns; j++)
 	{
 		/*if (use.Get_surface_ptr()->edl == TRUE) { */
-		if (use.Get_surface_ptr()->type == DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
 		{
 			if (x[j]->type != SURFACE_CB)
 				continue;
-			strcpy(name, x[j]->master[0]->elt->name);
-			replace("_psi", "", name);
+			name = x[j]->master[0]->elt->name;
+			Utilities::replace("_psi", "", name);
 		}
 		else
 		{
 			if (x[j]->type != SURFACE)
 				continue;
-			strcpy(token, x[j]->master[0]->elt->name);
-			replace("_", " ", token);
-			ptr = token;
-			copy_token(name, &ptr, &k);
+			token = x[j]->master[0]->elt->name;
+			Utilities::replace("_", " ", token);
+			std::string::iterator b = token.begin();
+			std::string::iterator e = token.end();
+			CParser::copy_token(name, b, e);
 		}
-		output_msg(sformatf("%-14s\n", name));
+		output_msg(sformatf("%-14s\n", name.c_str()));
 /*
  *   Description of surface
  */
-		if (dl_type_x != NO_DL)
+		if (dl_type_x != cxxSurface::NO_DL)
 		{
 			output_msg(sformatf(
 					   "\t%11.3e  Surface + diffuse layer charge, eq\n",
 					   (double) x[j]->f));
 		}
 		/*if (use.Get_surface_ptr()->edl == TRUE && diffuse_layer_x == FALSE) { */
-		if (use.Get_surface_ptr()->type == DDL && dl_type_x == NO_DL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL && dl_type_x == cxxSurface::NO_DL)
 		{
 			charge = x[j]->f;
 		}
 		else
 		{
-			charge = calc_surface_charge(name);
+			charge = calc_surface_charge(name.c_str());
 		}
 		output_msg(sformatf("\t%11.3e  Surface charge, eq\n",
 				   (double) charge));
 		if (x[j]->type == SURFACE_CB)
 		{
-			if ((x[j]->surface_charge->specific_area *
-				 x[j]->surface_charge->grams) > 0)
+			cxxSurfaceCharge * charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			if ((charge_ptr->Get_specific_area() *
+				 charge_ptr->Get_grams()) > 0)
 			{
 				output_msg(sformatf("\t%11.3e  sigma, C/m**2\n",
 						   (double) (charge * F_C_MOL /
-									 (x[j]->surface_charge->specific_area *
-									  x[j]->surface_charge->grams))));
+									 (charge_ptr->Get_specific_area() *
+									  charge_ptr->Get_grams()))));
 			}
 			else
 			{
@@ -1833,49 +1566,50 @@ print_surface(void)
 					   (double) (x[j]->master[0]->s->la * (-2) * LOG_10)));
 			output_msg(sformatf("\t%11.3e  exp(-F*psi/RT)\n",
 					   exp(x[j]->master[0]->s->la * (-2) * LOG_10)));
-			if (x[j]->surface_comp->phase_name != NULL)
+			cxxSurfaceComp * comp_ptr = surface_ptr->Find_comp(x[j]->surface_comp);
+			if (comp_ptr->Get_phase_name().size() > 0)
 			{
 				output_msg(sformatf(
 						   "\t%11.3e  specific area, m**2/mol %s\n",
-						   (double) x[j]->surface_charge->specific_area,
-						   x[j]->surface_comp->phase_name));
+						   (double) charge_ptr->Get_specific_area(),
+						   comp_ptr->Get_phase_name().c_str()));
 				output_msg(sformatf(
 						   "\t%11.3e  m**2 for %11.3e moles of %s\n\n",
-						   (double) (x[j]->surface_charge->grams *
-									 x[j]->surface_charge->specific_area),
-						   (double) x[j]->surface_charge->grams,
-						   x[j]->surface_comp->phase_name));
+						   (double) (charge_ptr->Get_grams() *
+									 charge_ptr->Get_specific_area()),
+						   (double) charge_ptr->Get_grams(),
+						   comp_ptr->Get_phase_name().c_str()));
 			}
-			else if (x[j]->surface_comp->rate_name != NULL)
+			else if (comp_ptr->Get_rate_name().size() > 0)
 			{
 				output_msg(sformatf(
 						   "\t%11.3e  specific area, m**2/mol %s\n",
-						   (double) x[j]->surface_charge->specific_area,
-						   x[j]->surface_comp->rate_name));
+						   (double) charge_ptr->Get_specific_area(),
+						   comp_ptr->Get_rate_name().c_str()));
 				output_msg(sformatf(
 						   "\t%11.3e  m**2 for %11.3e moles of %s\n\n",
-						   (double) (x[j]->surface_charge->grams *
-									 x[j]->surface_charge->specific_area),
-						   (double) x[j]->surface_charge->grams,
-						   x[j]->surface_comp->rate_name));
+						   (double) (charge_ptr->Get_grams() *
+									 charge_ptr->Get_specific_area()),
+						   (double) charge_ptr->Get_grams(),
+						   comp_ptr->Get_rate_name().c_str()));
 			}
 			else
 			{
 				output_msg(sformatf(
 						   "\t%11.3e  specific area, m**2/g\n",
-						   (double) x[j]->surface_charge->specific_area));
+						   (double) charge_ptr->Get_specific_area()));
 				output_msg(sformatf("\t%11.3e  m**2 for %11.3e g\n\n",
-						   (double) (x[j]->surface_charge->specific_area *
-									 x[j]->surface_charge->grams),
-						   (double) x[j]->surface_charge->grams));
+						   (double) (charge_ptr->Get_specific_area() *
+									 charge_ptr->Get_grams()),
+						   (double) charge_ptr->Get_grams()));
 			}
-			if (dl_type_x != NO_DL)
-				print_diffuse_layer(x[j]->surface_charge);
+			if (dl_type_x != cxxSurface::NO_DL)
+				print_diffuse_layer(charge_ptr);
 			output_msg(sformatf("\n"));
 /*
  *   Heading for species
  */
-			for (k = j - 1; k < count_unknowns; k++)
+			for (int k = j - 1; k < count_unknowns; k++)
 			{
 				if (x[k]->type != SURFACE)
 					continue;
@@ -1886,18 +1620,19 @@ print_surface(void)
 						   x[k]->master[0]->elt->name));
 				output_msg(sformatf("\t%11.3e  moles",
 						   (double) x[k]->moles));
-				if (x[k]->surface_comp->phase_name != NULL)
+				cxxSurfaceComp * comp_k_ptr = surface_ptr->Find_comp(x[k]->surface_comp);
+				if (comp_k_ptr->Get_phase_name().size() > 0)
 				{
 					output_msg(sformatf("\t[%g mol/(mol %s)]\n",
-							   (double) x[k]->surface_comp->phase_proportion,
-							   x[k]->surface_comp->phase_name));
+							   (double) comp_k_ptr->Get_phase_proportion(),
+							   comp_k_ptr->Get_phase_name().c_str()));
 				}
-				else if (x[k]->surface_comp->rate_name != NULL)
+				else if (comp_k_ptr->Get_rate_name().size() > 0)
 				{
 					output_msg(sformatf(
 							   "\t[%g mol/(mol kinetic reactant %s)]\n",
-							   (double) x[k]->surface_comp->phase_proportion,
-							   x[k]->surface_comp->rate_name));
+							   (double) comp_k_ptr->Get_phase_proportion(),
+							   comp_k_ptr->Get_rate_name().c_str()));
 				}
 				else
 				{
@@ -1908,7 +1643,7 @@ print_surface(void)
 				output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (i = 0; i < count_species_list; i++)
+				for (int i = 0; i < count_species_list; i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
@@ -1940,7 +1675,7 @@ print_surface(void)
 		}
 		else
 		{
-			k = j;
+			int k = j;
 			master_ptr = x[k]->master[0];
 			output_msg(sformatf("%-14s\n", x[k]->master[0]->elt->name));
 			output_msg(sformatf("\t%11.3e  moles\n",
@@ -1950,7 +1685,7 @@ print_surface(void)
 			output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 					   "Species", "Moles", "Fraction", "Molality",
 					   "Molality"));
-			for (i = 0; i < count_species_list; i++)
+			for (int i = 0; i < count_species_list; i++)
 			{
 				if (species_list[i].master_s != master_ptr->s)
 					continue;
@@ -1992,14 +1727,11 @@ print_surface_cd_music(void)
  *   grams and specific area, moles of each species on surface sites,
  *   and description of diffuse layer if applicable.
  */
-	int i, j, k;
-	struct surface *surface_ptr;
-	char name[MAX_LENGTH];
+	cxxSurface *surface_ptr;
+	std::string name;
 	struct master *master_ptr, *master_ptr0, *master_ptr1, *master_ptr2;
 	struct unknown *unknown_ptr0, *unknown_ptr1, *unknown_ptr2;
 	LDBLE molfrac, charge0, charge1, charge2, sum;
-
-
 /*
  *  Print surface speciation
  */
@@ -2016,47 +1748,48 @@ print_surface_cd_music(void)
  */
 
 	s_h2o->lm = s_h2o->la;
-	for (j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < count_unknowns; j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;
-		strcpy(name, x[j]->master[0]->elt->name);
-		replace("_psi", "", name);
-		output_msg(sformatf("%-14s\n", name));
+		name = x[j]->master[0]->elt->name;
+		Utilities::replace("_psi", "", name);
+		output_msg(sformatf("%-14s\n", name.c_str()));
+		cxxSurfaceCharge * charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 /*
  *   Description of surface
  */
-		if (dl_type_x != NO_DL)
+		if (dl_type_x != cxxSurface::NO_DL)
 		{
 			output_msg(sformatf(
 					   "\t%11.3e  Surface + diffuse layer charge, eq\n\n",
-					   (double) (x[j + 2]->f + (x[j]->surface_charge->sigma0 + x[j]->surface_charge->sigma1) * (x[j]->surface_charge->specific_area * x[j]->surface_charge->grams) / F_C_MOL)));
+					   (double) (x[j + 2]->f + (charge_ptr->Get_sigma0() + charge_ptr->Get_sigma1()) * (charge_ptr->Get_specific_area() * charge_ptr->Get_grams()) / F_C_MOL)));
 		}
 		master_ptr0 =
-			surface_get_psi_master(x[j]->surface_charge->name, SURF_PSI);
+			surface_get_psi_master(charge_ptr->Get_name().c_str(), SURF_PSI);
 		master_ptr1 =
-			surface_get_psi_master(x[j]->surface_charge->name, SURF_PSI1);
+			surface_get_psi_master(charge_ptr->Get_name().c_str(), SURF_PSI1);
 		master_ptr2 =
-			surface_get_psi_master(x[j]->surface_charge->name, SURF_PSI2);
+			surface_get_psi_master(charge_ptr->Get_name().c_str(), SURF_PSI2);
 		unknown_ptr0 = x[master_ptr0->unknown->number];
 		unknown_ptr1 = x[master_ptr1->unknown->number];
 		unknown_ptr2 = x[master_ptr2->unknown->number];
 
 		charge0 = unknown_ptr0->f;
 		charge1 = unknown_ptr1->f;
-		if (dl_type_x != NO_DL)
+		if (dl_type_x != cxxSurface::NO_DL)
 		{
 			charge2 =
-				x[j]->surface_charge->sigma2 *
-				(x[j]->surface_charge->specific_area *
-				 x[j]->surface_charge->grams) / F_C_MOL;
+				charge_ptr->Get_sigma2() *
+				(charge_ptr->Get_specific_area() *
+				 charge_ptr->Get_grams()) / F_C_MOL;
 		}
 		else
 		{
 			charge2 = unknown_ptr2->f;
 		}
 		sum = 0;
-		for (k = 0; k < x[j]->count_comp_unknowns; k++)
+		for (int k = 0; k < x[j]->count_comp_unknowns; k++)
 		{
 			sum +=
 				x[j]->comp_unknowns[k]->moles *
@@ -2073,21 +1806,21 @@ print_surface_cd_music(void)
 				   (double) (charge0 + sum + charge1 + charge2)));
 		if (x[j]->type == SURFACE_CB)
 		{
-			if ((x[j]->surface_charge->specific_area *
-				 x[j]->surface_charge->grams) > 0)
+			if ((charge_ptr->Get_specific_area() *
+				 charge_ptr->Get_grams()) > 0)
 			{
 				output_msg(sformatf(
 						   "\t%11.3e  sigma, plane 0, C/m**2\n",
-						   (double) x[j]->surface_charge->sigma0));
+						   (double) charge_ptr->Get_sigma0()));
 				output_msg(sformatf(
 						   "\t%11.3e  sigma, plane 1, C/m**2\n",
-						   (double) x[j]->surface_charge->sigma1));
+						   (double) charge_ptr->Get_sigma1()));
 				output_msg(sformatf(
 						   "\t%11.3e  sigma, plane 2, C/m**2\n",
-						   (double) x[j]->surface_charge->sigma2));
+						   (double) charge_ptr->Get_sigma2()));
 				output_msg(sformatf(
 						   "\t%11.3e  sigma, diffuse layer, C/m**2\n\n",
-						   (double) x[j]->surface_charge->sigmaddl));
+						   (double) charge_ptr->Get_sigmaddl()));
 			}
 			else
 			{
@@ -2108,53 +1841,53 @@ print_surface_cd_music(void)
 					   (double) (exp(master_ptr2->s->la * LOG_10))));
 
 			output_msg(sformatf("\t%11.3e  capacitance 0-1, F/m^2\n",
-					   (double) (x[j]->surface_charge->capacitance[0])));
+					   (double) (charge_ptr->Get_capacitance0())));
 			output_msg(sformatf("\t%11.3e  capacitance 1-2, F/m^2\n",
-					   (double) (x[j]->surface_charge->capacitance[1])));
-
-			if (x[j]->surface_comp->phase_name != NULL)
+					   (double) (charge_ptr->Get_capacitance1())));
+			cxxSurfaceComp * comp_ptr = surface_ptr->Find_comp(x[j]->surface_comp);
+			if (comp_ptr->Get_phase_name().size() > 0)
 			{
 				output_msg(sformatf(
 						   "\t%11.3e  specific area, m^2/mol %s\n",
-						   (double) x[j]->surface_charge->specific_area,
-						   x[j]->surface_comp->phase_name));
+						   (double) charge_ptr->Get_specific_area(),
+						   comp_ptr->Get_phase_name().c_str()));
 				output_msg(sformatf(
 						   "\t%11.3e  m^2 for %11.3e moles of %s\n\n",
-						   (double) (x[j]->surface_charge->grams *
-									 x[j]->surface_charge->specific_area),
-						   (double) x[j]->surface_charge->grams,
-						   x[j]->surface_comp->phase_name));
+						   (double) (charge_ptr->Get_grams() *
+									 charge_ptr->Get_specific_area()),
+						   (double) charge_ptr->Get_grams(),
+						   comp_ptr->Get_phase_name().c_str()));
 			}
-			else if (x[j]->surface_comp->rate_name != NULL)
+			else if (comp_ptr->Get_rate_name().size() > 0)
 			{
 				output_msg(sformatf(
 						   "\t%11.3e  specific area, m^2/mol %s\n",
-						   (double) x[j]->surface_charge->specific_area,
-						   x[j]->surface_comp->rate_name));
+						   (double) charge_ptr->Get_specific_area(),
+						   comp_ptr->Get_rate_name().c_str()));
 				output_msg(sformatf(
 						   "\t%11.3e  m^2 for %11.3e moles of %s\n\n",
-						   (double) (x[j]->surface_charge->grams *
-									 x[j]->surface_charge->specific_area),
-						   (double) x[j]->surface_charge->grams,
-						   x[j]->surface_comp->rate_name));
+						   (double) (charge_ptr->Get_grams() *
+									 charge_ptr->Get_specific_area()),
+						   (double) charge_ptr->Get_grams(),
+						   comp_ptr->Get_rate_name().c_str()));
 			}
 			else
 			{
 				output_msg(sformatf(
 						   "\t%11.3e  specific area, m^2/g\n",
-						   (double) x[j]->surface_charge->specific_area));
+						   (double) charge_ptr->Get_specific_area()));
 				output_msg(sformatf("\t%11.3e  m^2 for %11.3e g\n\n",
-						   (double) (x[j]->surface_charge->specific_area *
-									 x[j]->surface_charge->grams),
-						   (double) x[j]->surface_charge->grams));
+						   (double) (charge_ptr->Get_specific_area() *
+									 charge_ptr->Get_grams()),
+						   (double) charge_ptr->Get_grams()));
 			}
-			if (dl_type_x != NO_DL)
-				print_diffuse_layer(x[j]->surface_charge);
+			if (dl_type_x != cxxSurface::NO_DL)
+				print_diffuse_layer(charge_ptr);
 			output_msg(sformatf("\n"));
 /*
  *   Heading for species
  */
-			for (k = j - 1; k < count_unknowns; k++)
+			for (int k = j - 1; k < count_unknowns; k++)
 			{
 				if (x[k]->type != SURFACE)
 					continue;
@@ -2165,18 +1898,19 @@ print_surface_cd_music(void)
 						   x[k]->master[0]->elt->name));
 				output_msg(sformatf("\t%11.3e  moles",
 						   (double) x[k]->moles));
-				if (x[k]->surface_comp->phase_name != NULL)
+				cxxSurfaceComp * comp_k_ptr = surface_ptr->Find_comp(x[k]->surface_comp);
+				if (comp_k_ptr->Get_phase_name().size() > 0)
 				{
 					output_msg(sformatf("\t[%g mol/(mol %s)]\n",
-							   (double) x[k]->surface_comp->phase_proportion,
-							   x[k]->surface_comp->phase_name));
+							   (double) comp_k_ptr->Get_phase_proportion(),
+							   comp_k_ptr->Get_phase_name().c_str()));
 				}
-				else if (x[k]->surface_comp->rate_name != NULL)
+				else if (comp_k_ptr->Get_rate_name().size() > 0)
 				{
 					output_msg(sformatf(
 							   "\t[%g mol/(mol kinetic reactant %s)]\n",
-							   (double) x[k]->surface_comp->phase_proportion,
-							   x[k]->surface_comp->rate_name));
+							   (double) comp_k_ptr->Get_phase_proportion(),
+							   comp_k_ptr->Get_rate_name().c_str()));
 				}
 				else
 				{
@@ -2187,7 +1921,7 @@ print_surface_cd_music(void)
 				output_msg(sformatf("\t%-20s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (i = 0; i < count_species_list; i++)
+				for (int i = 0; i < count_species_list; i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
@@ -2243,7 +1977,7 @@ print_totals(void)
 		if (x[i] == alkalinity_unknown)
 		{
 			output_msg(sformatf("\t%-15s%12.3e%12.3e\n",
-					   x[i]->total->description,
+					   "Alkalinity",
 					   (double) (x[i]->f / mass_water_aq_x),
 					   (double) x[i]->f));
 			pure_water = FALSE;
@@ -2436,12 +2170,10 @@ print_user_print(void)
 		kinetics_ptr = use.Get_kinetics_ptr();
 		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 		{
-			//use.Set_kinetics_ptr(kinetics_bsearch(use.Get_n_kinetics_user(), &i));
 			use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user()));
 		}
 		else
 		{
-			//use.Set_kinetics_ptr(kinetics_bsearch(-2, &i));
 			use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, -2));
 		}
 	}
@@ -2470,63 +2202,7 @@ print_user_print(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-print_user_print(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Print with user defined BASIC print routine
- */
-	int i;
-	struct kinetics *kinetics_ptr;
 
-	char l_command[] = "run";
-
-	if (pr.user_print == FALSE || pr.all == FALSE)
-		return (OK);
-	if (user_print->commands == NULL)
-		return (OK);
-	kinetics_ptr = NULL;
-	if (use.Get_kinetics_in() == TRUE)
-	{
-		kinetics_ptr = use.Get_kinetics_ptr();
-		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
-		{
-			use.Set_kinetics_ptr(kinetics_bsearch(use.Get_n_kinetics_user(), &i));
-		}
-		else
-		{
-			use.Set_kinetics_ptr(kinetics_bsearch(-2, &i));
-		}
-	}
-	print_centered("User print");
-	if (user_print->new_def == TRUE)
-	{
-		/*      basic_renumber(user_print->commands, &user_print->linebase, &user_print->varbase, &user_print->loopbase); */
-		if (basic_compile
-			(user_print->commands, &user_print->linebase,
-			 &user_print->varbase, &user_print->loopbase) != 0)
-		{
-			error_msg("Fatal Basic error in USER_PRINT.", STOP);
-		}
-		user_print->new_def = FALSE;
-	}
-	if (basic_run
-		(l_command, user_print->linebase, user_print->varbase,
-		 user_print->loopbase) != 0)
-	{
-		error_msg("Fatal Basic error in USER_PRINT.", STOP);
-	}
-	output_msg(sformatf("\n"));
-	if (use.Get_kinetics_in() == TRUE)
-	{
-		use.Set_kinetics_ptr(kinetics_ptr);
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_using(void)
@@ -2535,17 +2211,8 @@ print_using(void)
 /*
  *   Print entities used in calculation
  */
-	//struct mix *mix_ptr;
 	cxxMix * mix_ptr;
-	struct solution *solution_ptr;
-	//struct exchange *exchange_ptr;
-	struct surface *surface_ptr;
-	//struct pp_assemblage *pp_assemblage_ptr;
-	//struct ss_assemblage *ss_assemblage_ptr;
-	//struct gas_phase *gas_phase_ptr;
-	//struct irrev *irrev_ptr;
-	//struct kinetics *kinetics_ptr;
-	int n;
+	cxxSolution *solution_ptr;
 
 	if (pr.use == FALSE || pr.all == FALSE)
 		return (OK);
@@ -2566,7 +2233,7 @@ print_using(void)
 		}
 		if (mix_ptr == NULL)
 		{
-			mix_ptr = (cxxMix *) use.Get_mix_ptr();
+			mix_ptr = use.Get_mix_ptr();
 		}
 		if (mix_ptr != NULL)
 		{
@@ -2585,28 +2252,27 @@ print_using(void)
 	}
 	else
 	{
-		solution_ptr = solution_bsearch(use.Get_n_solution_user(), &n, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, use.Get_n_solution_user());
 		output_msg(sformatf("Using solution %d.\t%s\n",
-				   use.Get_n_solution_user(), solution_ptr->description));
+				   use.Get_n_solution_user(), solution_ptr->Get_description().c_str()));
 	}
 /*
  *   Exchange and surface
  */
-	if (use.Get_exchange_in() == TRUE)
+	if (use.Get_exchange_in())
 	{
 		cxxExchange *exchange_ptr = Utilities::Rxn_find(Rxn_exchange_map, use.Get_n_exchange_user());
 		output_msg(sformatf("Using exchange %d.\t%s\n",
 				   use.Get_n_exchange_user(), exchange_ptr->Get_description().c_str()));
 	}
-	if (use.Get_surface_in() == TRUE)
+	if (use.Get_surface_in())
 	{
-		surface_ptr = surface_bsearch(use.Get_n_surface_user(), &n);
+		cxxSurface *surface_ptr = Utilities::Rxn_find(Rxn_surface_map, use.Get_n_surface_user());
 		output_msg(sformatf("Using surface %d.\t%s\n",
-				   use.Get_n_surface_user(), surface_ptr->description));
+				   use.Get_n_surface_user(), surface_ptr->Get_description().c_str()));
 	}
 	if (use.Get_pp_assemblage_in() == TRUE)
 	{
-		//pp_assemblage_ptr = pp_assemblage_bsearch(use.Get_n_pp_assemblage_user(), &n);
 		cxxPPassemblage * pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, use.Get_n_pp_assemblage_user());
 		output_msg(sformatf("Using pure phase assemblage %d.\t%s\n",
 				   use.Get_n_pp_assemblage_user(), pp_assemblage_ptr->Get_description().c_str()));
@@ -2619,46 +2285,42 @@ print_using(void)
 				   use.Get_n_ss_assemblage_user(),
 				   ss_assemblage_ptr->Get_description().c_str()));
 	}
-	if (use.Get_gas_phase_in() == TRUE)
+	if (use.Get_gas_phase_in())
 	{
-		//gas_phase_ptr = gas_phase_bsearch(use.Get_n_gas_phase_user(), &n);
 		cxxGasPhase * gas_phase_ptr = Utilities::Rxn_find(Rxn_gas_phase_map, use.Get_n_gas_phase_user());
 		output_msg(sformatf("Using gas phase %d.\t%s\n",
 				   use.Get_n_gas_phase_user(), gas_phase_ptr->Get_description().c_str()));
 	}
-	if (use.Get_temperature_in() == TRUE)
+	if (use.Get_temperature_in())
 	{
 		cxxTemperature *temperature_ptr = Utilities::Rxn_find(Rxn_temperature_map, use.Get_n_temperature_user());
 		output_msg(sformatf("Using temperature %d.\t%s\n",
 				   use.Get_n_temperature_user(), temperature_ptr->Get_description().c_str()));
 	}
-	if (use.Get_pressure_in() == TRUE)
+	if (use.Get_pressure_in())
 	{
 		cxxPressure *pressure_ptr = Utilities::Rxn_find(Rxn_pressure_map, use.Get_n_pressure_user());
 		output_msg(sformatf("Using pressure %d.\t%s\n",
 				   use.Get_n_pressure_user(), pressure_ptr->Get_description().c_str()));
 	}
-	if (use.Get_reaction_in() == TRUE)
+	if (use.Get_reaction_in())
 	{
 		if (state != TRANSPORT || transport_step > 0)
 		{
-			//irrev_ptr = irrev_bsearch(use.n_irrev_user, &n);
 			cxxReaction *reaction_ptr = Utilities::Rxn_find(Rxn_reaction_map, use.Get_n_reaction_user()); 
 			output_msg(sformatf("Using reaction %d.\t%s\n",
 					   use.Get_n_reaction_user(), reaction_ptr->Get_description().c_str()));
 		}
 	}
-	if (use.Get_kinetics_in() == TRUE)
+	if (use.Get_kinetics_in())
 	{
 		cxxKinetics * kinetics_ptr;
 		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 		{
-			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &n);
 			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
 		}
 		else
 		{
-			//kinetics_ptr = kinetics_bsearch(-2, &n);
 			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
 		}
 		output_msg(sformatf("Using kinetics %d.\t%s\n",
@@ -2685,7 +2347,7 @@ punch_gas_phase(void)
 	p = 0.0;
 	total_moles = 0.0;
 	volume = 0.0;
-	cxxGasPhase * gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (gas_unknown != NULL && use.Get_gas_phase_ptr() != NULL)
 	{
 		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
@@ -2719,7 +2381,6 @@ punch_gas_phase(void)
 		if (gas_phase_ptr != NULL && punch.gases[i].phase != NULL)
 		{
 			for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
-			//for (j = 0; j < use.Get_gas_phase_ptr()->count_comps; j++)
 			{
 				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[j]);
 				int k;
@@ -2939,7 +2600,7 @@ punch_pp_assemblage(void)
  */
 	int i, j;
 	LDBLE moles, delta_moles;
-	cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
+	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	for (i = 0; i < punch.count_pure_phases; i++)
 	{
 		delta_moles = 0;
@@ -3088,7 +2749,7 @@ punch_identifiers(void)
 		}
 		else if (state < REACTION)
 		{
-			fpunchf(PHAST_NULL("soln"), dformat, use.Get_solution_ptr()->n_user);
+			fpunchf(PHAST_NULL("soln"), dformat, use.Get_solution_ptr()->Get_n_user());
 		}
 		else
 		{
@@ -3126,44 +2787,6 @@ punch_identifiers(void)
 			fpunchf(PHAST_NULL("dist_x"), dformat, -99);
 		}
 	}
-   /*
-	//if (punch.time == TRUE)
-	//{
-	//	if (state == REACTION && incremental_reactions == TRUE
-	//		&& use.Get_kinetics_ptr() != NULL)
-	//	{
-	//		if (use.Get_kinetics_ptr()->count_steps > 0)
-	//		{
-	//			kin_time_x = 0.;
-	//			for (i = 0; i < reaction_step; i++)
-	//			{
-	//				if (i < use.Get_kinetics_ptr()->count_steps)
-	//				{
-	//					kin_time_x += use.Get_kinetics_ptr()->steps[i];
-	//				}
-	//				else
-	//				{
-	//					kin_time_x +=
-	//						use.Get_kinetics_ptr()->steps[use.Get_kinetics_ptr()->
-	//												count_steps - 1];
-	//				}
-	//			}
-	//		}
-	//		else if (use.Get_kinetics_ptr()->count_steps < 0)
-	//		{
-	//			if (reaction_step > -use.Get_kinetics_ptr()->count_steps)
-	//			{
-	//				kin_time_x = use.Get_kinetics_ptr()->steps[0];
-	//			}
-	//			else
-	//			{
-	//				kin_time_x =
-	//					reaction_step * use.Get_kinetics_ptr()->steps[0] /
-	//					((LDBLE) (-use.Get_kinetics_ptr()->count_steps));
-	//			}
-	//		}
-	//	}
-   */
 	if (punch.time == TRUE)
 	{
 		LDBLE reaction_time = kin_time_x;
@@ -3175,7 +2798,6 @@ punch_identifiers(void)
 				reaction_time = 0.0;
 				for (i = 0; i < reaction_step; i++)
 				{
-					//if (i < use.Get_kinetics_ptr()->count_steps)
 					if (i < (int) use.Get_kinetics_ptr()->Get_steps().size())
 					{
 						reaction_time += use.Get_kinetics_ptr()->Get_steps()[i];
@@ -3200,37 +2822,6 @@ punch_identifiers(void)
 						((LDBLE) (use.Get_kinetics_ptr()->Get_count()));
 				}
 			}
-#ifdef SKIP
-			if (use.Get_kinetics_ptr()->count_steps > 0)
-			{
-				reaction_time = 0.0;
-				for (i = 0; i < reaction_step; i++)
-				{
-					if (i < use.Get_kinetics_ptr()->count_steps)
-					{
-						reaction_time += use.Get_kinetics_ptr()->steps[i];
-					}
-					else
-					{
-						reaction_time +=
-							use.Get_kinetics_ptr()->steps[use.Get_kinetics_ptr()->count_steps - 1];
-					}
-				}
-			}
-			else if (use.Get_kinetics_ptr()->count_steps < 0)
-			{
-				if (reaction_step > -use.Get_kinetics_ptr()->count_steps)
-				{
-					reaction_time = use.Get_kinetics_ptr()->steps[0];
-				}
-				else
-				{
-					reaction_time =
-						reaction_step * use.Get_kinetics_ptr()->steps[0] /
-						((LDBLE) (-use.Get_kinetics_ptr()->count_steps));
-				}
-			}
-#endif
 		}
 		if (state == REACTION)
 		{
@@ -3454,7 +3045,6 @@ punch_kinetics(void)
  *   prints kinetic reaction,
  *   should be called only on final kinetic step
  */
-	//int i, j;
 	cxxKinetics *kinetics_ptr;
 	LDBLE moles, delta_moles;
 
@@ -3463,12 +3053,10 @@ punch_kinetics(void)
 	{
 		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
 		{
-			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
 			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
 		}
 		else
 		{
-			//kinetics_ptr = kinetics_bsearch(-2, &i);
 			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
 		}
 	}
@@ -3518,79 +3106,6 @@ punch_kinetics(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-punch_kinetics(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   prints kinetic reaction,
- *   should be called only on final kinetic step
- */
-	int i, j;
-	struct kinetics *kinetics_ptr;
-	LDBLE moles, delta_moles;
-
-	kinetics_ptr = NULL;
-	if (use.Get_kinetics_in() == TRUE)
-	{
-		if (state == TRANSPORT || state == PHAST || state == ADVECTION)
-		{
-			//kinetics_ptr = kinetics_bsearch(use.Get_n_kinetics_user(), &i);
-			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
-		}
-		else
-		{
-			kinetics_ptr = kinetics_bsearch(-2, &i);
-		}
-	}
-	for (i = 0; i < punch.count_kinetics; i++)
-	{
-		moles = 0.0;
-		delta_moles = 0.0;
-		if (kinetics_ptr != NULL)
-		{
-			for (j = 0; j < kinetics_ptr->count_comps; j++)
-			{
-				if (strcmp_nocase
-					(punch.kinetics[i].name,
-					 kinetics_ptr->comps[j].rate_name) == 0)
-				{
-					if (state != TRANSPORT && state != PHAST)
-					{
-						moles = kinetics_ptr->comps[j].m;
-						delta_moles = -kinetics_ptr->comps[j].moles;
-					}
-					else
-					{
-						moles = kinetics_ptr->comps[j].m;
-						delta_moles =
-							kinetics_ptr->comps[j].m -
-							kinetics_ptr->comps[j].initial_moles;
-					}
-					break;
-				}
-			}
-		}
-		if (punch.high_precision == FALSE)
-		{
-			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%12.4e\t",
-					(double) moles);
-			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%12.4e\t",
-					(double) -delta_moles);
-		}
-		else
-		{
-			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%20.12e\t",
-					(double) moles);
-			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%20.12e\t",
-					(double) -delta_moles);
-		}
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_user_punch(void)
@@ -3833,54 +3348,9 @@ punch_user_graph(void)
 }
 #endif // MULTICHART
 
-//char * Phreeqc::
-//sformatf(const char *format, ...)
-//{
-//#if defined(HDF5_CREATE) || defined SWIG_SHARED_OBJ
-//	static char l_scratch[240];
-//	va_list args;
-//
-//	va_start(args, format);
-//	if (vsprintf(l_scratch, format, args) > 239)
-//	{
-//		error_msg("buffer overwrite in sformatf", STOP);
-//	}
-//	va_end(args);
-//	return l_scratch;
-//#else
-//	return NULL;
-//#endif
-//}
-
-//std::string Phreeqc::
-//sformatf(const char *format, ...)
-//{
-//
-//
-//	size_t max = 240;
-//	char * l_scratch = NULL;
-//	bool success = false;
-//	do 
-//	{
-//		va_list args;
-//		va_start(args, format);
-//		l_scratch = (char *) PHRQ_realloc(l_scratch, max * sizeof(char));
-//		success = (vsnprintf(l_scratch, max, format, args) > 0);
-//		va_end(args);
-//		max *= 2;
-//	}
-//	while (!success);
-//	
-//	std::string str(l_scratch);
-//	l_scratch = (char *) free_check_null(l_scratch);
-//	return str;
-//
-//}
 char * Phreeqc::
 sformatf(const char *format, ...)
 {
-
-
 	bool success = false;
 	do 
 	{

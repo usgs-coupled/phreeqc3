@@ -26,6 +26,7 @@ cxxSSassemblage::cxxSSassemblage(PHRQ_io * io)
 	//
 :	cxxNumKeyword(io)
 {
+	new_def = false;
 }
 
 cxxSSassemblage::cxxSSassemblage(const std::map < int,
@@ -34,7 +35,6 @@ cxxSSassemblage::cxxSSassemblage(const std::map < int,
 cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
-	//std::list<cxxSS> SSs;
 //
 //   Mix
 //
@@ -59,7 +59,6 @@ cxxSSassemblage::~cxxSSassemblage()
 void
 cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing SSassemblage message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -90,7 +89,6 @@ cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 void
 cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing SSassemblage message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -104,16 +102,26 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 	// SSassemblage element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "SOLID_SOLUTIONS_RAW       " << n_user_local << " " << this->description << "\n";
+	s_oss << "SOLID_SOLUTIONS_RAW          " << n_user_local << " " << this->description << "\n";
 
+	s_oss << indent1 << "# SOLID_SOLUTION_MODIFY candidate identifiers #\n";
 	// SSs
 	for (std::map < std::string, cxxSS >::const_iterator it =
 		 SSs.begin(); it != SSs.end(); ++it)
 	{
 		s_oss << indent1;
-		s_oss << "-solid_solution       " << it->first << "\n";
+		s_oss << "-solid_solution            " << it->first << "\n";
 		(*it).second.dump_raw(s_oss, indent + 2);
 	}
+
+	s_oss << indent1 << "# SOLID_SOLUTION candidate identifiers with new_def=true #\n";
+	s_oss << indent1;
+	s_oss << "-new_def                   " << this->new_def << "\n";
+
+	s_oss << indent1 << "# solid solution workspace variables #\n";
+	s_oss << indent1;
+	s_oss << "-SSassemblage_totals       " << "\n";
+	this->totals.dump_raw(s_oss, indent + 2);
 }
 void
 cxxSSassemblage::read_raw(CParser & parser, bool check)
@@ -123,6 +131,8 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 	{
 		vopts.reserve(10);
 		vopts.push_back("solid_solution");	// 0
+		vopts.push_back("ssassemblage_totals");	// 1
+		vopts.push_back("new_def");	// 2
 	}
 
 	std::istream::pos_type ptr;
@@ -188,6 +198,32 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 				this->SSs[str] = temp_ss;
 			}
 			useLastLine = true;
+			break;
+		case 1:				// totals
+			if (this->totals.read_raw(parser, next_char) !=
+				CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected element name and molality for SSassemblage totals.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 1;
+			break;
+		case 2:				// new_def
+			{
+				int i;
+				if (!(parser.get_iss() >> i))
+				{
+					parser.incr_input_error();
+					parser.error_msg("Expected 0/1 for new_def.", PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					this->new_def = (i == 0) ? false : true;
+				}
+			}
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)

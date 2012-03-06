@@ -1,34 +1,13 @@
 # CO2 solubility in 4M NaCl solutions, Rumpf et al. 1994, J. Sol. Chem. 23, 431
 DATABASE ../database/pitzer.dat
-SOLUTION_SPECIES
-Na+ = Na+
-	-dw	 1.33e-9
-	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	-Vm  -2.3 0.0452 0
-Cl- = Cl-
-	-dw	 2.03e-9
-	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm  23.3 -0.0052 0
-SO4-2 = SO4-2
-	-dw	 1.07e-9
-	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-	-Vm 14 0 0 #-6.8e-3
-CO3-2 + 2 H+ = CO2 + H2O
-	-analytic       464.1925       0.09344813  -26986.16	-165.75951      2248628.9
-	-dw	 1.92e-9
-	-Vm  28.48  -6.95E-03 # Data in Duan et al., 2006, MC 98, 131.
+
 PITZER
  -LAMDA # in Pitzer.dat
  Na+  CO2 0.08
-PHASES
-CO2(g)
-	CO2 = CO2
-	log_k	-1.468
-	delta_h -4.776 kcal
-	-analytic	108.3865	0.01985076	-6919.53	-40.45154	669365.0
-	-T_c  304.2 # critical T, K
-	-P_c   72.80 # critical P, atm
-	-Omega 0.225 #  acentric factor
+-ZETA
+  Na+       SO4-2     CO2     -0.02
+INCLUDE$ CO2_V.db
+
 SOLUTION 1
  pH 7 charge
  Na 4e3; Cl 4e3
@@ -36,6 +15,7 @@ SOLUTION 1
 GAS_PHASE 1
      -fixed_volume
      CO2(g) 0
+     H2O(g) 0
 REACTION
  CO2 1; 5*0.2 5*1
 INCREMENTAL_REACTIONS true
@@ -44,7 +24,7 @@ USER_GRAPH
  -axis_titles "CO2 Pressure / bar" "CO2 solubility in 4 M NaCl / (mol/kgw)"
  -connect_simulations false
  -axis_scale x_axis 0 100
- 10 graph_x pr_p("CO2(g)") * 1.015
+ 10 graph_x pr_p("CO2(g)") * 1.013
  20 graph_y tot("C")
 END
 

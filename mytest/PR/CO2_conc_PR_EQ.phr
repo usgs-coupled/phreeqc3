@@ -1,6 +1,6 @@
 # Compare expt data of CO2 solubility at high CO2 pressure and
 #   Peng-Robinson calc's with equilibrium_phases, 25, 50, 75 oC.
-DATABASE vreeqc.dat
+INCLUDE$ CO2_V.db
 SOLUTION 1
 SELECTED_OUTPUT; -reset false; -file co2.prn
 USER_PUNCH
@@ -13,6 +13,7 @@ END
 SELECTED_OUTPUT; -selected_out false
 PRINT; -reset false; -echo_input true
 USER_GRAPH
+ -chart_title "Using: EQUILIBRIUM_PHASES"
  -plot_csv_file co2_25_50_75.dat
  -axis_titles "Pressure / atm" "CO2 / (mol/kgw)"
  -axis_scale x_axis 0 500

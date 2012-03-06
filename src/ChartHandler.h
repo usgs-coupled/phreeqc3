@@ -14,7 +14,7 @@ class ChartHandler: public PHRQ_base
 
 public:
 	ChartHandler(PHRQ_io *io = NULL);
-	~ChartHandler();
+	virtual ~ChartHandler();
 
 	size_t Get_chart_count()
 	{

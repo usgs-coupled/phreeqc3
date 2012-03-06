@@ -1,6 +1,3 @@
-call p.bat gypsum_P.phr
-call p.bat gypsum_P2.phr
-call p.bat cc_P.phr
 call p.bat fix_V.phr
 call p.bat fix_P.phr
 call p.bat gas_fix_V.phr
@@ -14,7 +11,10 @@ call p.bat CO2_conc_PR_IS.phr
 call p.bat CO2_conc_PR_EQ.phr
 call p.bat phi_Duan_PR.phr
 call p.bat P_Vm.phr
-del *.prn
-del gas_8
-del phreeqc.log
-rem del *.out
+call p.bat CO2_4M_NaCl.phr
+call p.bat CO2_Na2SO4.phr
+call p.bat CO2_t30.phr
+call p.bat CO2_tc.phr
+call p.bat P_CO2_Na2SO4.phr
+call p.bat water_vp.phr
+@call clean.bat

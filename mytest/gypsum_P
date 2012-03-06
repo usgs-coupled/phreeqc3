@@ -1,6 +1,8 @@
 # Crystal water has smaller volume than liquid water.
 # Gypsum is more stable than anhydrite at high P.
-DATABASE ../database/vreeqc.dat
+
+DATABASE ../database/phreeqc.dat
+INCLUDE$ gypsum.db
 SOLUTION 1
 pH 7 charge
 -temp 62
@@ -21,7 +23,7 @@ USER_GRAPH
 USER_GRAPH 2 apparent log_k of CaSO4 complex
  -headings p
  -axis_titles "Pressure / atm" "log10 (K)"
- -axis_scale y_axis 1.5 2.5
+ -axis_scale y_axis 2 2.5
  10 graph_x pressure
  20 graph_y log10(act("CaSO4") / (act("Ca+2") * act("SO4-2")))
 END

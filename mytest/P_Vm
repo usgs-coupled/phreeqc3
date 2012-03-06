@@ -1,6 +1,7 @@
 #[ Plot P vs Vm
 #]
-DATABASE ../database/vreeqc.dat
+DATABASE ../database/phreeqc.dat
+INCLUDE$ CO2_V.db
 #PRINT; -reset false
 SOLUTION 1
 INCREMENTAL_REACTIONS
@@ -9,7 +10,7 @@ GAS_PHASE 1
 # CH4(g) 0
  CO2(g) 0
 # N2(g) 0
-# H2O(g) 0
+ H2O(g) 0
 REACTION 1
  CO2 1; 27 in 20
  USER_GRAPH
@@ -27,7 +28,7 @@ GAS_PHASE 1
  CH4(g) 0
 # CO2(g) 0
 # N2(g) 0
-# H2O(g) 0
+ H2O(g) 0
 REACTION 1
  CH4 1; 20 in 20
  USER_GRAPH
@@ -40,7 +41,7 @@ GAS_PHASE 1
 # CH4(g) 0
 # CO2(g) 0
  N2(g) 0
-# H2O(g) 0
+ H2O(g) 0
 REACTION 1
  N2 1; 20 in 20
  USER_GRAPH
@@ -54,8 +55,9 @@ GAS_PHASE 1
 # CH4(g) 0
 # CO2(g) 0
 # N2(g) 0
-# H2O(g) 0
+ H2O(g) 0
  H2S(g) 0
+KNOBS; -iter 500
 REACTION 1
  H2S 1; 30 in 20
  USER_GRAPH

@@ -1,20 +1,11 @@
 # data from Duan and Li, 2008, GCA 72, 5128
-DATABASE /dos/p/vreeqc.dat
-solution 1
+INCLUDE$ cc.db
+SOLUTION 1
  pH 7 charge
  -pressure 9.87
 EQUILIBRIUM_PHASES
  Calcite
  CO2(g) 0.994
-SOLUTION_SPECIES
-Ca+2 + CO3-2 = CaCO3
-	log_k	-3.224
-	delta_h 3.545	kcal
-	-analytic	-1228.732	-0.299440	35512.75	485.818
-	-dw 4.46e-10	# complexes: calc'd with the Pikal formula
-	-Vm 40 0 0 #3.3e-2 # 25oC, 1 - 1000 atm, calcite dissolution, McDonald and North, 1974, Can. J. Chem. 52, 3181
-Ca+2 + CO3-2 + H+ = CaHCO3+
-	log_k	-100 # remove this complex, data from Ellis, 1963 and Segnit et al. 1962.
 GAS_PHASE
  -fixed_volume
  -volume 0.1
@@ -28,14 +19,14 @@ USER_GRAPH
  -plot_csv_file cc_p_CO2.dat
  -connect_simulations false
  -axis_scale x_axis 270 500
- -axis_titles "CO2 Pressure / bar" "Calcite solubility / (mol/kgw)"
+ -axis_titles "Temperature / K" "Calcite solubility / (mol/kgw)"
  10 graph_x tk
  20 graph_y  tot("Ca"), # mol("Ca+2"), mol("CaCO3"), mol("CaHCO3+")
 END
 
 USE solution 1
 USE reaction_temperature 1
-USE gas_phase 1
+#USE gas_phase 1
 EQUILIBRIUM_PHASES
  Calcite
  CO2(g) 1.3
@@ -43,7 +34,7 @@ END
 
 USE solution 1
 USE reaction_temperature 1
-USE gas_phase 1
+#USE gas_phase 1
 EQUILIBRIUM_PHASES
  Calcite
  CO2(g) 1.6
@@ -52,7 +43,7 @@ END
 USE solution 1
 REACTION_TEMPERATURE 2
  115 225 in 20
-USE gas_phase 1
+#USE gas_phase 1
 EQUILIBRIUM_PHASES
  Calcite
  CO2(g) 1.07
@@ -60,8 +51,8 @@ END
 
 USE solution 1
 USE reaction_temperature 2
-USE gas_phase 1
-EQUILIBRIUM_PHASES
+#USE gas_phase 1
+EQUILIBRIUM_PHASES 1
  Calcite
  CO2(g) 1.79
 END

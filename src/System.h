@@ -1,15 +1,5 @@
 #if !defined(SYSTEM_H_INCLUDED)
 #define SYSTEM_H_INCLUDED
-//#include "Solution.h"
-//#include "Exchange.h"
-//#include "GasPhase.h"
-//#include "cxxKinetics.h"
-//#include "PPassemblage.h"
-//#include "SSassemblage.h"
-//#include "Surface.h"
-//#include "cxxMix.h"
-//#include "Reaction.h"
-//#include "Temperature.h"
 #include "NameDouble.h"
 #include "PHRQ_base.h"
 #include "Phreeqc_class.h"
@@ -29,7 +19,7 @@ class cxxSystem: public PHRQ_base
 {
 public:
 	cxxSystem(PHRQ_io *io=NULL);
-	~cxxSystem(void);
+	virtual ~cxxSystem(void);
 	void Initialize(void);
 	void Set_Solution(cxxSolution * entity)
 	{

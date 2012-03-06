@@ -97,12 +97,12 @@ SOLUTION_RAW       20
     S(-2)   -5.6249114062687
     S(6)   -5.6249114062687
   -gammas
-  -Isotopes
+#  -Isotopes
 EXCHANGE_RAW       20 Exchanger defined in simulation 1.
   -pitzer_exchange_gammas 1
-  -component
-    -formula               X
-    -moles                 0
+  -component               X
+#    -formula               X
+#    -moles                 0
     -la                    0.60688497237009
     -charge_balance        0
     -phase_proportion              0
@@ -112,24 +112,24 @@ EXCHANGE_RAW       20 Exchanger defined in simulation 1.
       Mg   0.029709189613889
       Na   0.30638006319249
       X   0.50000000335874
-    -formula_totals
-      X   0.5
+#    -formula_totals
+#      X   0.5
 EQUILIBRIUM_PHASES_RAW       20 Pp_Assemblage defined in simulation 1.
   -eltList       
     C   3
     Ca   2
     Mg   1
     O   9
-  -component
-    -name                  Calcite
+  -component               Calcite
+#    -name                  Calcite
     -si                    0
     -moles                 0.11781770315801
     -delta                 0
     -initial_moles         0.1180709871316
     -force_equality        0
     -dissolve_only         0
-  -component
-    -name                  Dolomite
+  -component               Dolomite
+#    -name                  Dolomite
     -si                    0
     -moles                 1.568403984096
     -delta                 0
@@ -146,33 +146,36 @@ SURFACE_RAW       20 Surface defined in simulation 1.
   -DDL_viscosity 1
   -DDL_limit 0.8
   -transport 0
-  -component
-    -formula               SurfOH
+  -component               SurfOH
+#    -formula               SurfOH
+    -charge_name           Surf
     -formula_z             0
     -moles                 0
     -la                    -0.20250616397962
-    -charge_number         0
+#    -charge_number         0
+    -master_element        Surf
+    -charge_name           Surf       
     -charge_balance        0.084703340238721
     -phase_proportion      0
     -Dw                    0
-    -formula_totals
-      H   0.14
-      O   0.14
-      Surf   0.14
+#    -formula_totals
+#      H   0.14
+#      O   0.14
+#      Surf   0.14
     -totals
       As   0.0080729678646393
       H   0.17518734394924
       O   0.17225449222186
       Surf   0.14000000006222
-  -charge_component 
-    -name                  Surf
+  -charge_component                    Surf
+#    -name                  Surf
     -specific_area         600
     -grams                 30
     -charge_balance        0.011043198890933
     -mass_water            0
     -la_psi                0.46673410986017
-    -la_psi1               0
-    -la_psi2               0
+    #-la_psi1               0
+    #-la_psi2               0
     -capacitance0          1
     -capacitance1          5
     -diffuse_layer_totals
@@ -213,4 +216,4 @@ SOLUTION_RAW       20
     S(-2)   -5.6249114062687
     S(6)   -5.6249114062687
   -gammas
-  -Isotopes
+#  -Isotopes

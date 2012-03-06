@@ -25,7 +25,7 @@ class cxxStorageBin: public PHRQ_base
 
   public:
 	cxxStorageBin(PHRQ_io *io=NULL);
-	~cxxStorageBin();
+	virtual ~cxxStorageBin();
 
 	void Remove(int n);
 	void Clear(void);
@@ -119,10 +119,6 @@ class cxxStorageBin: public PHRQ_base
 	std::map < int, cxxPPassemblage > PPassemblages;
 	std::map < int, cxxSSassemblage > SSassemblages;
 	std::map < int, cxxSurface > Surfaces;
-
-	//bool b = exists (Solutions, 5);
-	// Initial classes
-	//std::map<int, cxxISolution>     ISolutions;
 
 	// Reaction classes
 	std::map < int, cxxMix > Mixes;

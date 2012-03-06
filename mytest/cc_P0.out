@@ -1,12 +1,11 @@
    Input file: cc_P0
   Output file: cc_P0.out
-Database file: ../database/vreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
 ------------------
 
-	KNOBS
 	SOLUTION_MASTER_SPECIES
 	SOLUTION_SPECIES
 	PHASES
@@ -20,16 +19,53 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
-	DATABASE ../database/vreeqc.dat
+	DATABASE ../database/phreeqc.dat
 	SOLUTION_SPECIES
-	Ca+2 + CO3-2 + H+ = CaHCO3+ # remove this complex, otherwise calcite solubility with P_CO2 > 10 can't be modeled.
+	Ca+2 = Ca+2
+		gamma	5.0	0.1650
+		dw	 0.793e-9
+		millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
+		vm  -17.95 -0.033 6.23e-4  -0.473 4.72e-2 -5.77e-4  -1e-3  4.2 # CaCl2.xls, Laliberte, 2009, 0-127 oC. Gypsum/Anhydrite solubility 0-170 oC, 1-1000 atm.
+	CO3-2 = CO3-2
+		gamma	5.4	0.0
+		dw	 0.955e-9
+		millero -8.74 0.300 -0.004064 5.65
+		vm  -11.5 0.3 -3e-3  3.7 -0.091 6e-4 0  0.1 # K2CO3.xls Laliberte 2009, + PHREEQC speciation
+	CO3-2 + H+ = HCO3-
+		log_k	10.329
+		delta_h -3.561	kcal
+		analytical_expression	107.8871	0.03252849	-5151.79	-38.92561	563713.9
+		gamma	5.4	0.0
+		dw	 1.18e-9
+		millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
+		vm  22.4 0.107 -1e-4 -0.02 0.103 -1.02e-3 -5e-3  0.14# 0-125 oC. KHCO3.xls, Laliberte, 2009; 1-1400 atm, Read, 1975
+	CO3-2 + 2 H+ = CO2 + H2O
+		log_k	16.681
+		delta_h -5.738	kcal
+		analytical_expression	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+		dw	 1.92e-9
+		vm   26.5 -0.066   0  0 0 0 -9.7E-03 # Data in Duan et al., 2006, MC 98, 131. 1-100 oC, 1-700 atm.
+	Ca+2 + CO3-2 = CaCO3
+		log_k	3.224
+		delta_h 3.545	kcal
+		analytical_expression	-1228.732	-0.299440	35512.75	485.818
+		dw 4.46e-10	# complexes: calc'd with the Pikal formula
+		vm 25 0 0 # 1 - 1000 atm, calcite dissolution, McDonald and North, 1974, Can. J. Chem. 52, 3181
+	Ca+2 + CO3-2 + H+ = CaHCO3+
 		log_k	11.435
 		delta_h -0.871	kcal
 		analytical_expression	1317.0071	0.34546894	-39916.84	-517.70761	563713.9
 		gamma	5.4	0.0
 		dw 5.06e-10
-		vm 30
-	solution 1
+		vm 20
+	PHASES
+	Calcite
+		CaCO3 = CO3-2 + Ca+2
+		log_k	-8.48
+		delta_h -2.297 kcal
+		analytical_expression	-171.9065	-0.077993	2839.319	71.595
+		vm 36.9 cm3/mol # MW (100.09 g/mol) / rho (2.71 g/cm3)
+	SOLUTION 1
 	 pH 7 charge
 	EQUILIBRIUM_PHASES
 	 Calcite

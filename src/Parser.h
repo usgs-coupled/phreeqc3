@@ -106,9 +106,9 @@ class CParser: public PHRQ_base
 	// bool check_key(const std::string::iterator ptr);
 	bool check_key(std::string::iterator begin, std::string::iterator end);
 
-	//STATUS_TYPE check_units(std::string & tot_units, bool alkalinity,
-	//						bool check_compatibility,
-	//						const std::string & default_units, bool print);
+	STATUS_TYPE check_units(std::string & tot_units, bool alkalinity,
+							bool check_compatibility,
+							const std::string & default_units, bool print);
 
 
 	//KEY_TYPE next_keyword() const

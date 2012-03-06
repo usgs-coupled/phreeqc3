@@ -1,7 +1,6 @@
-# define gas_phase by equilibrating,
-#    better: use GAS_PHASE_MODIFY
-DATABASE ../database/vreeqc.dat
-#KNOBS; -numerical_fixed_volume true # does not use PR in reaction calc's
+# define gas_phase by equilibrating, note how the gas-pressures change...
+DATABASE ../database/phreeqc.dat
+INCLUDE$ CO2_V2.db
 GAS_PHASE 7
     -fixed_volume
     -equilibrate 7
@@ -14,27 +13,29 @@ pH 7 charge
 	-pressure 110
 END
 
-# Now use GAS_PHASE_MODIFY, 
-# pH changes because pressure changes, maybe set it with REACTION_PRESSURE
+# Now use GAS_PHASE_MODIFY, comes closer, but the multicomponent mixing effects
+# give (unavoidable) different pressures than the (pure gas) initial equilibrations...
 USE solution 7
 GAS_PHASE 8
     -fixed_volume
     -volume 1e-8
     N2(g) 0
     CO2(g) 0
+SAVE gas_phase 8
+DUMP; file dump; -gas_phase 8
+
 SELECTED_OUTPUT; -reset false; -file gas_8; -high_precision true
 USER_PUNCH
-#  if step_no = 0 then goto 100
+  1 if step_no = 0 then goto 100
   2 sc$ = CHR$(59)
- 10 punch 'GAS_PHASE_MODIFY 8' + sc$ + ' -volume 1' + EOL$
- 20 punch '-comp ' + EOL$
- 30 punch '     -phase_name ' + ' CO2(g) ' + EOL$
- 40 punch '     -moles      ' + STR$(1e8 * GAS("CO2(g)")) + EOL$
- 50 punch '-comp ' + EOL$
- 60 punch '     -phase_name ' + ' N2(g) ' + EOL$
- 70 punch '     -moles      ' + STR$(1e8 * GAS("N2(g)")) + EOL$
+ 10 punch 'GAS_PHASE_MODIFY 8' + EOL$
+ 30 punch  '  -volume             1' + EOL$
+ 40 punch '-comp  CO2(g)' + EOL$
+ 60 punch '-moles ' + STR$(1e8 * GAS("CO2(g)")) + EOL$
+ #70 punch '-comp N2(g) ' + sc$ + '-moles ' + STR$(1e8 * GAS("N2(g)")) + EOL$
  100 end
 END
+
 SELECTED_OUTPUT; -selected_out false
 INCLUDE$ gas_8
 USE gas_phase 8; USE solution 7
