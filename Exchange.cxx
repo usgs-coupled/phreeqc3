@@ -58,16 +58,15 @@ cxxNumKeyword(io)
 cxxExchange::~cxxExchange()
 {
 }
-
 bool
 cxxExchange::Get_related_phases() const
 {
-	for (std::map < std::string, cxxExchComp >::const_iterator it =
-		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
+	for (size_t i = 0; i < this->exchange_comps.size(); i++)
 	{
-		if ((*it).second.Get_phase_name().size() == 0)
-			continue;
-		return (true);
+		if (this->exchange_comps[i].Get_phase_name().size() > 0)
+		{
+			return (true);
+		}
 	}
 	return (false);
 }
@@ -75,12 +74,12 @@ cxxExchange::Get_related_phases() const
 bool
 cxxExchange::Get_related_rate() const
 {
-	for (std::map < std::string, cxxExchComp >::const_iterator it =
-		 this->exchComps.begin(); it != this->exchComps.end(); ++it)
+	for (size_t i = 0; i < this->exchange_comps.size(); i++)
 	{
-		if ((*it).second.Get_rate_name().size() == 0)
-			continue;
-		return (true);
+		if (this->exchange_comps[i].Get_rate_name().size() > 0)
+		{
+			return (true);
+		}
 	}
 	return (false);
 }
@@ -88,7 +87,38 @@ cxxExchange::Get_related_rate() const
 void
 cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing exchange message: %s, element not found\n";
+	unsigned int i;
+	s_oss.precision(DBL_DIG - 1);
+	std::string indent0(""), indent1(""), indent2("");
+	for (i = 0; i < indent; ++i)
+		indent0.append(Utilities::INDENT);
+	for (i = 0; i < indent + 1; ++i)
+		indent1.append(Utilities::INDENT);
+	for (i = 0; i < indent + 2; ++i)
+		indent2.append(Utilities::INDENT);
+
+	// Exchange element and attributes
+	s_oss << indent0;
+	s_oss << "<exchange " << "\n";
+
+	s_oss << indent1;
+	s_oss << "pitzer_exchange_gammas=\"" << this->
+		pitzer_exchange_gammas << "\"" << "\n";
+
+	// components
+	s_oss << indent1;
+	s_oss << "<component " << "\n";
+	for (size_t j = 0; j < this->exchange_comps.size(); j++)
+	{
+		this->exchange_comps[j].dump_xml(s_oss, indent + 2);
+	}
+
+	return;
+}
+#ifdef SKIP
+void
+cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
+{
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -118,11 +148,10 @@ cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	return;
 }
-
+#endif
 void
 cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing exchange message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -136,32 +165,34 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// Exchange element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "EXCHANGE_RAW       " << n_user_local << " " << this->description << "\n";
+	s_oss << "EXCHANGE_RAW                 " << n_user_local << " " << this->description << "\n";
 
+	s_oss << indent1 << "# EXCHANGE_MODIFY candidate identifiers #\n";
 	s_oss << indent1;
-	s_oss << "-new_def " << this->new_def << "\n";
-
-	s_oss << indent1;
-	s_oss << "-exchange_gammas " << this->pitzer_exchange_gammas << "\n";
-
-	s_oss << indent1;
-	s_oss << "-solution_equilibria " << this->solution_equilibria << "\n";
-
-	s_oss << indent1;
-	s_oss << "-n_solution " << this->n_solution << "\n";
-
-	// exchComps structures
-	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
-		 it != exchComps.end(); ++it)
+	s_oss << "-exchange_gammas           " << this->pitzer_exchange_gammas << "\n";
+	// exchComps 
+	for (size_t i = 0; i < this->exchange_comps.size(); i++)
 	{
 		s_oss << indent1;
-		s_oss << "-component" << "\n";
-		(*it).second.dump_raw(s_oss, indent + 2);
+		s_oss << "-component                 " << this->exchange_comps[i].Get_formula() << "\n";
+		this->exchange_comps[i].dump_raw(s_oss, indent + 2);
 	}
+
+	s_oss << indent1 << "# EXCHANGE_MODIFY candidates with new_def=true #\n";
+	s_oss << indent1;
+	s_oss << "-new_def                   " << this->new_def << "\n";
+	s_oss << indent1;
+	s_oss << "-solution_equilibria       " << this->solution_equilibria << "\n";
+	s_oss << indent1;
+	s_oss << "-n_solution                " << this->n_solution << "\n";
+
+	s_oss << indent1 << "# Exchange workspace variables #\n";
+	s_oss << indent1;
+	s_oss << "-totals" << "\n";
+	this->totals.dump_raw(s_oss, indent + 1);
 
 	return;
 }
-
 void
 cxxExchange::read_raw(CParser & parser, bool check)
 {
@@ -174,7 +205,8 @@ cxxExchange::read_raw(CParser & parser, bool check)
 		vopts.push_back("exchange_gammas"); // 2
 		vopts.push_back("new_def"); // 3
 		vopts.push_back("solution_equilibria"); // 4
-		vopts.push_back("n_solution"); // 4
+		vopts.push_back("n_solution"); // 5
+		vopts.push_back("totals"); // 6
 	}
 
 	std::istream::pos_type ptr;
@@ -200,6 +232,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 		{
 			opt = parser.getOptionFromLastLine(vopts, next_char, true);
 		}
+		useLastLine = false;
 		switch (opt)
 		{
 		case CParser::OPT_EOF:
@@ -212,7 +245,6 @@ cxxExchange::read_raw(CParser & parser, bool check)
 			parser.error_msg("Unknown input in EXCH_COMP_RAW keyword.",
 							 PHRQ_io::OT_CONTINUE);
 			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
-			useLastLine = false;
 			break;
 
 		case 0:				// pitzer_exchange_gammas
@@ -227,34 +259,43 @@ cxxExchange::read_raw(CParser & parser, bool check)
 					 PHRQ_io::OT_CONTINUE);
 			}
 			pitzer_exchange_gammas_defined = true;
-			useLastLine = false;
 			break;
 		case 1:				// component
 			{
-				cxxExchComp ec(this->Get_io());
-
-				// preliminary read
-				parser.set_accumulate(true);
-				ec.read_raw(parser, false);
-				parser.set_accumulate(false);
-				std::istringstream is(parser.get_accumulated());
-				CParser reread(is, this->Get_io());
-				reread.set_echo_file(CParser::EO_NONE);
-				reread.set_echo_stream(CParser::EO_NONE);
-				if (this->exchComps.find(ec.Get_formula()) != this->exchComps.end())
+				std::string str;
+				if (!(parser.get_iss() >> str))
 				{
-					cxxExchComp & comp = this->exchComps.find(ec.Get_formula())->second;
-					comp.read_raw(reread, false);
+					parser.incr_input_error();
+					parser.error_msg("Expected string value for component name.",
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
-					cxxExchComp ec1(this->Get_io());
-					ec1.read_raw(reread, false);
-					std::string str(ec1.Get_formula());
-					this->exchComps[str] = ec1;
+					cxxExchComp temp_comp(this->io);
+					temp_comp.Set_formula(str.c_str());
+					cxxExchComp *comp_ptr = this->Find_comp(str);
+					if (comp_ptr)
+					{
+						temp_comp = *comp_ptr;
+					}
+					temp_comp.read_raw(parser, check);
+					if (comp_ptr)
+					{
+						for (size_t j = 0; j < this->exchange_comps.size(); j++)
+						{
+							if (Utilities::strcmp_nocase(this->exchange_comps[j].Get_formula().c_str(), str.c_str()) == 0)
+							{
+								this->exchange_comps[j] = temp_comp;
+							}
+						}
+					}
+					else
+					{
+						this->exchange_comps.push_back(temp_comp);
+					}
+					useLastLine = true;
 				}
 			}
-			useLastLine = true;
 			break;
 		case 3:				// new_def
 			if (!(parser.get_iss() >> this->new_def))
@@ -266,7 +307,6 @@ cxxExchange::read_raw(CParser & parser, bool check)
 					("Expected boolean value for new_def.",
 					 PHRQ_io::OT_CONTINUE);
 			}
-			useLastLine = false;
 			break;
 		case 4:				// solution_equilibria
 			if (!(parser.get_iss() >> this->solution_equilibria))
@@ -278,7 +318,6 @@ cxxExchange::read_raw(CParser & parser, bool check)
 					("Expected boolean value for solution_equilibria.",
 					 PHRQ_io::OT_CONTINUE);
 			}
-			useLastLine = false;
 			break;
 		case 5:				// n_solution
 			if (!(parser.get_iss() >> this->n_solution))
@@ -290,7 +329,18 @@ cxxExchange::read_raw(CParser & parser, bool check)
 					("Expected integer value for n_solution.",
 					 PHRQ_io::OT_CONTINUE);
 			}
-			useLastLine = false;
+			break;
+		case 6:				// totals
+			if (this->totals.read_raw(parser, next_char) !=
+				CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected element name and molality for Exchange totals.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 6;
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
@@ -308,6 +358,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 				PHRQ_io::OT_CONTINUE);
 		}
 	}
+	this->Sort_comps();
 }
 void
 cxxExchange::add(const cxxExchange & addee, LDBLE extensive)
@@ -318,20 +369,20 @@ cxxExchange::add(const cxxExchange & addee, LDBLE extensive)
 	// exchComps
 	if (extensive == 0.0)
 		return;
-	for (std::map < std::string, cxxExchComp >::const_iterator itadd =
-		 addee.exchComps.begin(); itadd != addee.exchComps.end(); ++itadd)
+	for (size_t i = 0; i < addee.exchange_comps.size(); i++)
 	{
-		std::map < std::string, cxxExchComp >::iterator it = this->exchComps.find((*itadd).first);
-		if (it != this->exchComps.end())
+		size_t j;
+		for (j = 0; j < this->Get_exchange_comps().size(); j++)
+		if (addee.exchange_comps[i].Get_formula() == this->exchange_comps[j].Get_formula())
 		{
-			(*it).second.add((*itadd).second, extensive);
+			this->exchange_comps[j].add(addee.exchange_comps[i], extensive);
+			break;
 		}
-		else
+		if (j == this->exchange_comps.size())
 		{
-			cxxExchComp exc = (*itadd).second;
+			cxxExchComp exc = addee.exchange_comps[i];
 			exc.multiply(extensive);
-			//exc.add(*itadd, extensive);
-			this->exchComps[(*itadd).first] = exc;
+			this->exchange_comps.push_back(exc);
 		}
 	}
 	this->pitzer_exchange_gammas = addee.pitzer_exchange_gammas;
@@ -387,11 +438,10 @@ cxxExchange::totalize()
 {
 	this->totals.clear();
 	// component structures
-	for (std::map < std::string, cxxExchComp >::iterator it = exchComps.begin();
-		it != exchComps.end(); ++it)
+	for (size_t i = 0; i < this->exchange_comps.size(); i++)
 	{
-		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
-		this->totals.add("Charge", (*it).second.Get_charge_balance());
+		this->totals.add_extensive(this->exchange_comps[i].Get_totals(), 1.0);
+		this->totals.add("Charge", this->exchange_comps[i].Get_charge_balance());
 	}
 	return;
 }
@@ -405,42 +455,42 @@ cxxExchange::Set_pitzer_exchange_gammas(bool b)
 {
 	this->pitzer_exchange_gammas = b;
 }
-
-std::map < std::string, cxxExchComp > &
-cxxExchange::Get_exchComps(void)
-{
-	return (this->exchComps);
-}
-
 const cxxNameDouble & 
 cxxExchange::Get_totals() const
 {
 	return totals;
 }
-cxxExchComp *cxxExchange::ExchComp_find(std::string s)
+cxxExchComp *cxxExchange::Find_comp(std::string s)
 {
-	std::map<std::string, cxxExchComp>::iterator it = this->exchComps.begin();
-	for ( ; it != this->exchComps.end(); it++)
+	for (size_t i = 0; i < this->exchange_comps.size(); i++)
 	{
-		cxxNameDouble nd(it->second.Get_totals());
+		cxxNameDouble nd(this->exchange_comps[i].Get_totals());
 		cxxNameDouble::iterator nd_it;
 		for (nd_it = nd.begin(); nd_it != nd.end(); nd_it++)
 		{
 			if(nd_it->first == s)
 			{
-				return (&it->second);
+				return (&(this->exchange_comps[i]));
 			}
 		}
 	}
 	return NULL;
 }
-std::vector<cxxExchComp *> cxxExchange::Vectorize(void) 
+void cxxExchange::
+Sort_comps(void)
 {
-	std::vector<cxxExchComp *> vlist;
-	std::map<std::string, cxxExchComp>::iterator it = exchComps.begin();
-	for ( ; it != this->exchComps.end(); it++)
+	// sort comps
 	{
-		vlist.push_back(&it->second);
+		std::map<std::string, cxxExchComp> comp_map;
+		for (size_t i = 0; i < this->exchange_comps.size(); i++)
+		{
+			comp_map[this->exchange_comps[i].Get_formula()] = this->exchange_comps[i];
+		}
+		this->exchange_comps.clear();
+		std::map<std::string, cxxExchComp>::iterator it;
+		for (it = comp_map.begin(); it != comp_map.end(); it++)
+		{
+			this->exchange_comps.push_back(it->second);
+		}
 	}
-	return vlist;
 }

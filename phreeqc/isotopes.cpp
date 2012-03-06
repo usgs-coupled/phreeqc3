@@ -1,5 +1,6 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
+#include "Solution.h"
 
 
 /* ---------------------------------------------------------------------- */
@@ -456,11 +457,10 @@ read_isotope_alphas(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_isotopes(struct solution *solution_ptr)
+add_isotopes(cxxSolution &solution_ref)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	const char *ptr;
 	struct master_isotope *master_isotope_ptr;
 	LDBLE total_moles;
 	/*
@@ -474,26 +474,26 @@ add_isotopes(struct solution *solution_ptr)
 	if (master_isotope_ptr != NULL)
 	{
 		total_moles = total_h_x;
-		calculate_isotope_moles(master_isotope_ptr->elt, solution_ptr,
+		calculate_isotope_moles(master_isotope_ptr->elt, &solution_ref,
 								total_moles);
 	}
 	master_isotope_ptr = master_isotope_search("O");
 	if (master_isotope_ptr != NULL)
 	{
 		total_moles = total_o_x;
-		calculate_isotope_moles(master_isotope_ptr->elt, solution_ptr,
+		calculate_isotope_moles(master_isotope_ptr->elt, &solution_ref,
 								total_moles);
 	}
-	for (i = 0; solution_ptr->totals[i].description != NULL; i++)
+	cxxNameDouble::iterator it = solution_ref.Get_totals().begin();
+	for ( ; it != solution_ref.Get_totals().end(); it++)
 	{
-		ptr = solution_ptr->totals[i].description;
-		master_isotope_ptr = master_isotope_search(ptr);
+		master_isotope_ptr = master_isotope_search(it->first.c_str());
 		if (master_isotope_ptr == NULL)
 			continue;
 		if (master_isotope_ptr->minor_isotope == FALSE)
 		{
 			total_moles = total(master_isotope_ptr->name);
-			calculate_isotope_moles(master_isotope_ptr->elt, solution_ptr,
+			calculate_isotope_moles(master_isotope_ptr->elt, &solution_ref,
 									total_moles);
 		}
 	}
@@ -515,12 +515,11 @@ add_isotopes(struct solution *solution_ptr)
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 calculate_isotope_moles(struct element *elt_ptr,
-						struct solution *solution_ptr, LDBLE total_moles)
+						cxxSolution *solution_ptr, LDBLE total_moles)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l_iter;
 	int count_isotopes, total_is_major;
-	const char *ptr;
 	struct master_isotope *master_isotope_ptr, *master_isotope_ptr1;
 	struct master_isotope list[MAX_ELTS];
 	LDBLE m_major, tot;
@@ -565,10 +564,10 @@ calculate_isotope_moles(struct element *elt_ptr,
 		}
 		count_isotopes++;
 	}
-	for (i = 0; solution_ptr->totals[i].description != NULL; i++)
+	std::map<std::string, cxxISolutionComp>::iterator it = solution_ptr->Get_initial_data()->Get_comps().begin();
+	for ( ; it != solution_ptr->Get_initial_data()->Get_comps().end(); it++)
 	{
-		ptr = solution_ptr->totals[i].description;
-		master_isotope_ptr = master_isotope_search(ptr);
+		master_isotope_ptr = master_isotope_search(it->first.c_str());
 		if (master_isotope_ptr == NULL)
 			continue;
 		if (master_isotope_ptr->elt != elt_ptr)
@@ -672,16 +671,16 @@ calculate_isotope_moles(struct element *elt_ptr,
 	{
 		total_o_x = m_major;
 	}
-	for (i = 0; solution_ptr->totals[i].description != NULL; i++)
+	cxxNameDouble nd(solution_ptr->Get_totals());
+	cxxNameDouble::iterator iit = solution_ptr->Get_totals().begin();
+	for ( ; iit != solution_ptr->Get_totals().end(); iit++)
 	{
-		ptr = solution_ptr->totals[i].description;
-		master_isotope_ptr = master_isotope_search(ptr);
+		master_isotope_ptr = master_isotope_search(iit->first.c_str());
 		if (master_isotope_ptr == NULL)
 			continue;
 		if (master_isotope_ptr->elt != elt_ptr)
 			continue;
-		solution_ptr->totals[i].moles = master_isotope_ptr->moles;
-		solution_ptr->totals[i].input_conc = master_isotope_ptr->moles;
+		nd[iit->first] = master_isotope_ptr->moles;
 	}
 
 	return (OK);

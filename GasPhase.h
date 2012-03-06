@@ -72,22 +72,28 @@ class cxxGasPhase:public cxxNumKeyword
 	LDBLE Get_temperature(void) {return (LDBLE) temperature;};
 	void Set_temperature(LDBLE t) {temperature = t;};
 	LDBLE Calc_total_moles(void);
+	cxxGasComp *Find_comp(const char * comp_name);
 
 protected:
 	void add(const cxxGasPhase & addee, LDBLE extensive);
 
 protected:
+	// candidate variables for GAS_PHASE_MODIFY
+	GP_TYPE type;
+	LDBLE total_p;
+	LDBLE volume;
+	std::vector<cxxGasComp> gas_comps;
+
+	// GAS_PHASE_MODIFY with new_def=true variables
 	bool new_def;
 	bool solution_equilibria;
 	int n_solution;
-	GP_TYPE type;
-	LDBLE total_p;
+	LDBLE temperature;
+
+	// internal variables
 	LDBLE total_moles;
-	LDBLE volume;
 	LDBLE v_m;
 	bool pr_in;
-	LDBLE temperature;
-	std::vector<cxxGasComp> gas_comps;
 	cxxNameDouble totals;
 };
 

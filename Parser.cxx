@@ -350,54 +350,10 @@ PHRQ_io::LINE_TYPE CParser::get_logical_line()
 bool
 CParser::check_key(std::string::iterator begin, std::string::iterator end)
 {
-//	static std::map < std::string, KEY_TYPE > s_keyword_map;
-//	if (s_keyword_map.size() == 0)
-//	{
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("solution_raw",
-//													KT_SOLUTION_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("exchange_raw",
-//													KT_EXCHANGE_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("gas_phase_raw",
-//													KT_GASPHASE_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("kinetics_raw",
-//													KT_KINETICS_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("equilibrium_phases_raw",
-//													KT_PPASSEMBLAGE_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("solid_solutions_raw",
-//													KT_SSASSEMBLAGE_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("surface_raw",
-//													KT_SURFACE_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("reaction_temperature_raw",
-//													KT_TEMPERATURE_RAW));
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("reaction_raw",
-//													KT_REACTION_RAW));
-//#if defined MULTICHART
-//		s_keyword_map.insert(std::map < std::string,
-//							 KEY_TYPE >::value_type("user_graph",
-//													KT_USER_GRAPH));
-//#endif
-//	}
-
 	std::string lowercase;
 	copy_token(lowercase, begin, end);
 	std::transform(lowercase.begin(), lowercase.end(), lowercase.begin(),
 				   tolower);
-
-	//m_next_keyword = Keywords::KEY_NONE;
-	//std::map < std::string, KEY_TYPE >::iterator map_iter =
-	//	s_keyword_map.find(lowercase);
-	//if (map_iter == s_keyword_map.end())
-	//	return false;
-	//m_next_keyword = (*map_iter).second;
 	m_next_keyword = Keywords::Keyword_search(lowercase);
 	if (m_next_keyword == Keywords::KEY_NONE)
 	{
@@ -405,7 +361,6 @@ CParser::check_key(std::string::iterator begin, std::string::iterator end)
 	}
 	return true;
 }
-#ifdef SKIP
 CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 										  bool alkalinity,
 										  bool check_compatibility,
@@ -512,7 +467,7 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 		{
 			std::ostringstream err;
 			err << "Unknown unit, " << tot_units;
-			error_msg(err.str().c_str(), PHRQ_io::OT_CONTINUE);
+			this->error_msg(err.str().c_str(), PHRQ_io::OT_CONTINUE);
 		}
 		return PARSER_ERROR;
 	}
@@ -530,7 +485,7 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 	{
 		if (print)
 		{
-			warning_msg
+			this->warning_msg
 				("Alkalinity given in moles, assumed to be equivalents.");
 		}
 		replace("Mol", "eq", tot_units);
@@ -539,7 +494,7 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 	{
 		if (print)
 		{
-			error_msg("Only alkalinity can be entered in equivalents.",
+			this->error_msg("Only alkalinity can be entered in equivalents.",
 					  PHRQ_io::OT_CONTINUE);
 		}
 		return PARSER_ERROR;
@@ -573,11 +528,10 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 		std::ostringstream err;
 		err << "Units for master species, " << tot_units <<
 			", are not compatible with default units, " << str << ".";
-		error_msg(err.str().c_str(), PHRQ_io::OT_CONTINUE);
+		this->error_msg(err.str().c_str(), PHRQ_io::OT_CONTINUE);
 	}
 	return PARSER_ERROR;
 }
-#endif
 CParser::TOKEN_TYPE CParser::token_type(const std::string & token)
 {
 	if (!token.empty())
@@ -695,10 +649,7 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 	//
 	int j;
 	int /*  opt_l,  */ opt;
-	//char *opt_ptr;
 	std::string::iterator opt_ptr;
-
-	// char option[MAX_LENGTH];
 	std::string option;
 
 	fprintf(stderr, "Did not think this get_option was called\n");
@@ -1042,7 +993,6 @@ CParser::STATUS_TYPE CParser::addPair(std::map < std::string, LDBLE >&totals,
 									  std::istream::pos_type & pos)
 {
 	std::string token;
-	//char * ctoken;
 	LDBLE
 		d;
 	CParser::TOKEN_TYPE j;
@@ -1058,8 +1008,6 @@ CParser::STATUS_TYPE CParser::addPair(std::map < std::string, LDBLE >&totals,
 	{
 		return PARSER_ERROR;
 	}
-	//ctoken = string_hsave(token.c_str());
-	//totals[ctoken] = d;
 	totals[token] = d;
 	return PARSER_OK;
 }
@@ -1073,10 +1021,7 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 	//
 	int j;
 	int /*  opt_l,  */ opt;
-	//char *opt_ptr;
 	std::string::iterator opt_ptr;
-
-	// char option[MAX_LENGTH];
 	std::string option;
 
 	//
@@ -1110,7 +1055,6 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			{
 				if (true)		// database_file == NULL
 				{
-					//get_output() << "\t" << m_line_save << "\n";
 					std::ostringstream msg;
 					msg << "\t" << m_line_save << "\n";
 					io->output_msg(msg.str().c_str());
@@ -1123,13 +1067,10 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			{
 				if (true)			// (database_file == NULL)
 				{
-					//get_output() << "\t" << m_line_save << "\n";
 					std::ostringstream msg;
 					msg << "\t" << m_line_save << "\n";
 					io->output_msg(msg.str().c_str());
 				}
-				//std::cerr << "Unknown option." << "\n";
-				//std::cerr << m_line_save << "\n";
 				std::ostringstream err;
 				err << "Unknown option." << "\n";
 				err << m_line_save << "\n";
@@ -1215,7 +1156,6 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			{
 				if (true)		// database_file == NULL
 				{
-					//get_output() << "\t" << m_line_save << "\n";
 					std::ostringstream msg;
 					msg << "\t" << m_line_save << "\n";
 					io->output_msg(msg.str().c_str());
@@ -1228,7 +1168,6 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 			{
 				if (true)			// (database_file == NULL)
 				{
-					//get_output() << "\t" << m_line_save << "\n";
 					std::ostringstream msg;
 					msg << "\t" << m_line_save << "\n";
 					io->output_msg(msg.str().c_str());
@@ -1259,7 +1198,6 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		{
 			if (true)			// database_file == NULL
 			{
-				//get_output() << "\t" << m_line_save << "\n";
 				std::ostringstream msg;
 				msg << "\t" << m_line_save << "\n";
 				io->output_msg(msg.str().c_str());
@@ -1340,7 +1278,6 @@ bool CParser::get_true_false(std::istream::pos_type & pos, bool def)
 CParser::TOKEN_TYPE CParser::get_rest_of_line(std::string &token)
 {
 	token.clear();
-	//std::istringstream::pos_type pos = m_line_iss.tellg();
 	int j;
 	while ((j = m_line_iss.get()) != std::char_traits < char >::eof())
 	{

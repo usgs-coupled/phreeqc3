@@ -107,17 +107,6 @@ public:
 	} UU;
 };
 
-#ifdef SKIP
-typedef struct valrec
-{
-	bool stringval;
-	union
-	{
-		LDBLE val;
-		char *sval;
-	} UU;
-} valrec;
-#endif
 typedef struct looprec
 {
 	struct looprec *next;
@@ -145,7 +134,7 @@ class PBasic: public PHRQ_base
 {
 public:
 	PBasic(Phreeqc *ptr, PHRQ_io *phrq_io=NULL);
-	~PBasic();
+	virtual ~PBasic();
 
 	enum BASIC_TOKEN
 	{
@@ -312,7 +301,8 @@ public:
 		tokgas_p,
 		tokgas_vm,
 		tokpressure,
-		tokerase
+		tokerase,
+		tokeps_r
 	};
 
 #if !defined(PHREEQCI_GUI)

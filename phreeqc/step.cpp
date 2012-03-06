@@ -49,7 +49,7 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_mix_ptr() != NULL)
 	{
-		add_mix((cxxMix *) use.Get_mix_ptr());
+		add_mix(use.Get_mix_ptr());
 	}
 	else if (use.Get_solution_ptr() != NULL)
 	{
@@ -66,7 +66,6 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_reaction_ptr() != NULL)
 	{
-		//add_reaction(use.irrev_ptr, step_number, step_fraction);
 		add_reaction( use.Get_reaction_ptr(), step_number, step_fraction);
 	}
 /*
@@ -81,7 +80,7 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_exchange_ptr() != NULL)
 	{
-		add_exchange((cxxExchange *) use.Get_exchange_ptr());
+		add_exchange(use.Get_exchange_ptr());
 	}
 /*
  *   Surface
@@ -95,7 +94,7 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
-		cxxGasPhase * gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 		add_gas_phase(gas_phase_ptr);
 	}
 /*
@@ -103,7 +102,7 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_temperature_ptr() != NULL)
 	{
-		cxxTemperature *t_ptr = (cxxTemperature *) use.Get_temperature_ptr();
+		cxxTemperature *t_ptr = use.Get_temperature_ptr();
 		tc_x = t_ptr->Temperature_for_step(step_number);
 	}
 	if ((state == TRANSPORT) && (transport_step != 0) &&
@@ -118,7 +117,7 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_pressure_ptr() != NULL)
 	{
-		cxxPressure *p_ptr = (cxxPressure *) use.Get_pressure_ptr();
+		cxxPressure *p_ptr = use.Get_pressure_ptr();
 		patm_x = p_ptr->Pressure_for_step(step_number);
 	}
 /*
@@ -130,7 +129,7 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_pp_assemblage_ptr() != NULL)
 	{
-		cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
+		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 		pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
 		add_pp_assemblage(pp_assemblage_ptr);
 	}
@@ -148,12 +147,12 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
-		cxxGasPhase * gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 		gas_phase_check(gas_phase_ptr);
 	}
 	if (use.Get_pp_assemblage_ptr() != NULL)
 	{
-		cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
+		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 		pp_assemblage_check(pp_assemblage_ptr);
 	}
 	if (use.Get_ss_assemblage_ptr() != NULL)
@@ -189,19 +188,9 @@ step(LDBLE step_fraction)
  */
 	if (pp_assemblage_save != NULL)
 	{
-		//pp_assemblage_free(pp_assemblage_save);
-		//pp_assemblage_save =
-		//	(struct pp_assemblage *) free_check_null(pp_assemblage_save);
 		delete pp_assemblage_save;
 		pp_assemblage_save = NULL;
 	}
-	//if (ss_assemblage_save != NULL)
-	//{
-	//	ss_assemblage_free(ss_assemblage_save);
-	//	ss_assemblage_save =
-	//		(struct ss_assemblage *) free_check_null(ss_assemblage_save);
-	//}
-
 	//
 	// Solution -1 has sum of solution/mix, exchange, surface, gas_phase
 	// reaction, kinetics
@@ -210,10 +199,8 @@ step(LDBLE step_fraction)
 	if (use.Get_pp_assemblage_in() || use.Get_ss_assemblage_in())
 	{
 		cxxStorageBin sys_bin(phrq_io);
-		//cxxSolution soln(PHREEQC_THIS_COMMA -1, phrq_io);
-		int n;
-		struct solution *sol = solution_bsearch(-1, &n, false);
-		cxxSolution soln(sol, phrq_io);
+		cxxSolution *sol = Utilities::Rxn_find(Rxn_solution_map, -1);
+		cxxSolution soln(*sol);
 		sys_bin.Set_Solution(-1, soln);
 		if (use.Get_pp_assemblage_in())
 		{
@@ -255,7 +242,6 @@ step(LDBLE step_fraction)
 			cxxSSassemblage *ss_assemblage_ptr = sys_bin.Get_SSassemblage(-1);
 			std::vector<cxxSS *> ss_ptrs = ss_assemblage_ptr->Vectorize();
 			for (size_t j = 0; j < ss_ptrs.size(); j++)
-			//for (it = ss->Get_ssAssemblageSSs().begin(); it != ss->Get_ssAssemblageSSs().end(); it++)
 			{
 				cxxSS * ss_ptr = ss_ptrs[j];
 				for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
@@ -307,7 +293,7 @@ xsolution_zero(void)
 	ph_x = 0.0;
 	solution_pe_x = 0.0;
 	mu_x = 0.0;
-	ah2o_x = 0.0;
+	ah2o_x = 1.0;
 	density_x = 0.0;
 	total_h_x = 0.0;
 	total_o_x = 0.0;
@@ -337,10 +323,9 @@ xsolution_zero(void)
  */
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_solution(struct solution *solution_ptr, LDBLE extensive, LDBLE intensive)
+add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -349,49 +334,43 @@ add_solution(struct solution *solution_ptr, LDBLE extensive, LDBLE intensive)
  *   extensive is multiplication factor for solution
  *   intensive is fraction of all multiplication factors for all solutions
  */
-	int i;
 	struct master *master_ptr;
 	struct species *species_ptr;
 /*
  *   Add solution to global variables
  */
-	tc_x += solution_ptr->tc * intensive;
-	ph_x += solution_ptr->ph * intensive;
-	patm_x += solution_ptr->patm * intensive;
-	//
-	//k_temp(tc_x, patm_x);
-	solution_pe_x += solution_ptr->solution_pe * intensive;
-	mu_x += solution_ptr->mu * intensive;
-	ah2o_x += solution_ptr->ah2o * intensive;
-	density_x += solution_ptr->density * intensive;
+	tc_x += solution_ptr->Get_tc() * intensive;
+	ph_x += solution_ptr->Get_ph() * intensive;
+	patm_x += solution_ptr->Get_patm() * intensive;
+	solution_pe_x += solution_ptr->Get_pe() * intensive;
+	mu_x += solution_ptr->Get_mu() * intensive;
+	ah2o_x += solution_ptr->Get_ah2o() * intensive;
+	density_x += solution_ptr->Get_density() * intensive;
 
-	total_h_x += solution_ptr->total_h * extensive;
-	total_o_x += solution_ptr->total_o * extensive;
-	cb_x += solution_ptr->cb * extensive;
-	mass_water_aq_x += solution_ptr->mass_water * extensive;
+	total_h_x += solution_ptr->Get_total_h() * extensive;
+	total_o_x += solution_ptr->Get_total_o() * extensive;
+	cb_x += solution_ptr->Get_cb() * extensive;
+	mass_water_aq_x += solution_ptr->Get_mass_water() * extensive;
 /*
  *   Copy totals data into primary master species
  */
-	for (i = 0; solution_ptr->totals[i].description != NULL; i++)
+	cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
+	for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 	{
-		master_ptr =
-			master_bsearch_primary(solution_ptr->totals[i].description);
-		master_ptr->total += solution_ptr->totals[i].moles * extensive;
+		master_ptr = master_bsearch_primary(jit->first.c_str());
+		master_ptr->total += jit->second * extensive;
 	}
 /*
  *   Accumulate initial guesses for activities
  */
-	/*for (i=0; solution_ptr->master_activity[i].description != NULL; i++) { */
-	for (i = 0; i < solution_ptr->count_master_activity; i++)
+	jit = solution_ptr->Get_master_activity().begin();
+	for ( ; jit != solution_ptr->Get_master_activity().end(); jit++)
 	{
-		if (solution_ptr->master_activity[i].description != NULL)
 		{
-			master_ptr =
-				master_bsearch(solution_ptr->master_activity[i].description);
+			master_ptr = master_bsearch(jit->first.c_str());
 			if (master_ptr != NULL)
 			{
-				master_ptr->s->la +=
-					solution_ptr->master_activity[i].la * intensive;
+				master_ptr->s->la += jit->second * intensive;
 			}
 		}
 	}
@@ -400,14 +379,13 @@ add_solution(struct solution *solution_ptr, LDBLE extensive, LDBLE intensive)
  */
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		for (i = 0; i < solution_ptr->count_species_gamma; i++)
+		jit = solution_ptr->Get_species_gamma().begin();
+		for ( ; jit != solution_ptr->Get_species_gamma().end(); jit++)
 		{
-			species_ptr =
-				s_search(solution_ptr->species_gamma[i].description);
+			species_ptr = s_search(jit->first.c_str());
 			if (species_ptr != NULL)
 			{
-				species_ptr->lg +=
-					solution_ptr->species_gamma[i].la * intensive;
+				species_ptr->lg += jit->second * intensive;
 			}
 		}
 	}
@@ -428,13 +406,11 @@ add_exchange(cxxExchange *exchange_ptr)
 /*
  *   Add element concentrations on exchanger to master species totals
  */
-	std::vector<cxxExchComp *> comps = exchange_ptr->Vectorize();
-	for (size_t i = 0; i < comps.size(); i++)
+	for (size_t i = 0; i < exchange_ptr->Get_exchange_comps().size(); i++)
 	{
-		cxxExchComp *comp_ptr = comps[i];
-		cxxNameDouble nd(comp_ptr->Get_totals());
+		cxxExchComp comp_ref = exchange_ptr->Get_exchange_comps()[i];
+		cxxNameDouble nd(comp_ref.Get_totals());
 		cxxNameDouble::iterator it = nd.begin();
-		//for (j = 0; exchange_ptr->comps[i].totals[j].elt != NULL; j++)
 		for ( ; it != nd.end(); it++)
 		{
 			struct element *elt_ptr = element_store(it->first.c_str());
@@ -467,51 +443,48 @@ add_exchange(cxxExchange *exchange_ptr)
 	}
 	else
 	{
-		for (size_t i = 0; i < comps.size(); i++)
+		for (size_t i = 0; i < exchange_ptr->Get_exchange_comps().size(); i++)
 		{
-			cxxExchComp *comp_ptr = comps[i];
-			cxxNameDouble nd(comp_ptr->Get_totals());
+			cxxExchComp &comp_ref = exchange_ptr->Get_exchange_comps()[i];
+			cxxNameDouble nd(comp_ref.Get_totals());
 			cxxNameDouble::iterator it = nd.begin();
-			//for (j = 0; exchange_ptr->comps[i].totals[j].elt != NULL; j++)
 			for ( ; it != nd.end(); it++)
 			{	
 				struct element *elt_ptr = element_store(it->first.c_str());
 				assert(elt_ptr->master);
 				if (elt_ptr->master->type == EX)
 				{
-					elt_ptr->master->s->la = comps[i]->Get_la();
+					elt_ptr->master->s->la = comp_ref.Get_la();
 				}
 			}
-
-			//exchange_ptr->comps[i].master->s->la = exchange_ptr->comps[i].la;
-			cb_x += comps[i]->Get_charge_balance();
+			cb_x += comp_ref.Get_charge_balance();
 		}
 	}
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_surface(struct surface *surface_ptr)
+add_surface(cxxSurface *surface_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Accumulate surface data in master->totals and _x variables.
  */
-	int i, j;
-	struct master *master_ptr;
-
 	if (surface_ptr == NULL)
 		return (OK);
 /*
  *   Add element concentrations on surface to master species totals
  */
-	dl_type_x = surface_ptr->dl_type;
-	for (i = 0; i < surface_ptr->count_comps; i++)
+	dl_type_x = surface_ptr->Get_dl_type();
+	for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 	{
-		/*if(surface_ptr->edl == FALSE) { */
-		if (surface_ptr->type == NO_EDL)
+		cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[i]);
+		struct element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
+		struct master *master_i_ptr = elt_ptr->master;
+
+		if (surface_ptr->Get_type() == cxxSurface::NO_EDL)
 		{
-			cb_x += surface_ptr->comps[i].cb;
+			cb_x += comp_ptr->Get_charge_balance();
 		}
 #ifdef SKIP_MUSIC
 		if (surface_ptr->type == CD_MUSIC)
@@ -519,81 +492,76 @@ add_surface(struct surface *surface_ptr)
 			cb_x += surface_ptr->comps[i].cb;
 		}
 #endif
-		if (surface_ptr->new_def == FALSE)
+		if (!surface_ptr->Get_new_def())
 		{
-			surface_ptr->comps[i].master->s->la = surface_ptr->comps[i].la;
+			master_i_ptr->s->la = comp_ptr->Get_la();
 		}
 /*
  *   Add surface and specifically sorbed elements
  */
-		for (j = 0; surface_ptr->comps[i].totals[j].elt != NULL; j++)
+		cxxNameDouble::iterator jit;
+		for (jit = comp_ptr->Get_totals().begin(); jit != comp_ptr->Get_totals().end(); jit++)
 		{
-			master_ptr = surface_ptr->comps[i].totals[j].elt->primary;
-			if (master_ptr == NULL)
+			LDBLE coef = jit->second;
+			struct element *elt_j_ptr = element_store(jit->first.c_str());
+			struct master *master_j_ptr = elt_j_ptr->primary; 
+			if (master_j_ptr == NULL)
 			{
 				input_error++;
 				error_string = sformatf( "Element not defined in database, %s.",
-						surface_ptr->comps[i].totals[j].elt->name);
+						elt_j_ptr->name);
 				error_msg(error_string, STOP);
 			}
-			if (master_ptr->s == s_hplus)
+			if (master_j_ptr->s == s_hplus)
 			{
-				total_h_x += surface_ptr->comps[i].totals[j].coef;
+				total_h_x += coef;
 			}
-			else if (master_ptr->s == s_h2o)
+			else if (master_j_ptr->s == s_h2o)
 			{
-				total_o_x += surface_ptr->comps[i].totals[j].coef;
+				total_o_x += coef;
 			}
 			else
 			{
-				master_ptr->total += surface_ptr->comps[i].totals[j].coef;
+				master_j_ptr->total += coef;
 			}
 		}
 	}
-	/*if (surface_ptr->edl == FALSE) return(OK); */
-	if (surface_ptr->type != DDL && surface_ptr->type != CD_MUSIC)
+	if (surface_ptr->Get_type() != cxxSurface::DDL && surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
 		return (OK);
-	for (i = 0; i < surface_ptr->count_charge; i++)
+	for (size_t i = 0; i < surface_ptr->Get_surface_charges().size(); i++)
 	{
-		/*if (surface_ptr->edl == TRUE) { */
-		/*cb_x += surface_ptr->charge[i].charge_balance; */
-		if (surface_ptr->type == DDL || surface_ptr->type == CD_MUSIC)
+		cxxSurfaceCharge *charge_ptr = &(surface_ptr->Get_surface_charges()[i]);
+		if (surface_ptr->Get_type() == cxxSurface::DDL || surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			cb_x += surface_ptr->charge[i].charge_balance;
+			cb_x += charge_ptr->Get_charge_balance();
 		}
-		if (surface_ptr->new_def == FALSE)
+		if (!surface_ptr->Get_new_def())
 		{
-			master_ptr =
-				surface_get_psi_master(surface_ptr->charge[i].name, SURF_PSI);
-			master_ptr->s->la = surface_ptr->charge[i].la_psi;
-			/*surface_ptr->charge[i].psi_master->s->la = surface_ptr->charge[i].la_psi; */
+			struct master *master_ptr = surface_get_psi_master(charge_ptr->Get_name().c_str(), SURF_PSI);
+			master_ptr->s->la = charge_ptr->Get_la_psi();
 		}
 /*
  *   Add diffuse layer elements (including water in Debye layer)
  */
-		if (surface_ptr->dl_type != NO_DL && surface_ptr->new_def == FALSE)
+		if (surface_ptr->Get_dl_type() != cxxSurface::NO_DL && !surface_ptr->Get_new_def())
 		{
-			for (j = 0;
-				 surface_ptr->charge[i].diffuse_layer_totals[j].elt != NULL;
-				 j++)
+			cxxNameDouble::const_iterator jit;
+			for (jit = charge_ptr->Get_diffuse_layer_totals().begin(); jit != charge_ptr->Get_diffuse_layer_totals().end(); jit++)
 			{
-				master_ptr =
-					surface_ptr->charge[i].diffuse_layer_totals[j].elt->
-					primary;
-				if (master_ptr->s == s_hplus)
+				LDBLE coef = jit->second;
+				struct element *elt_j_ptr = element_store(jit->first.c_str());
+				struct master * master_j_ptr = elt_j_ptr->master;
+				if (master_j_ptr->s == s_hplus)
 				{
-					total_h_x +=
-						surface_ptr->charge[i].diffuse_layer_totals[j].coef;
+					total_h_x += coef;
 				}
-				else if (master_ptr->s == s_h2o)
+				else if (master_j_ptr->s == s_h2o)
 				{
-					total_o_x +=
-						surface_ptr->charge[i].diffuse_layer_totals[j].coef;
+					total_o_x += coef;
 				}
 				else
 				{
-					master_ptr->total +=
-						surface_ptr->charge[i].diffuse_layer_totals[j].coef;
+					master_j_ptr->total += coef;
 				}
 			}
 		}
@@ -609,9 +577,8 @@ add_mix(cxxMix *mix_ptr)
  *   calls add_solution to accumulate all data in master->totals
  *   and other variables.
  */
-	int n;
 	LDBLE sum_fractions, intensive, extensive;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 	int count_positive;
 	LDBLE sum_positive;
 
@@ -634,7 +601,7 @@ add_mix(cxxMix *mix_ptr)
 	}
 	for (it = mix_ptr->Get_mixComps().begin(); it != mix_ptr->Get_mixComps().end(); it++)
 	{
-		solution_ptr =	solution_bsearch(it->first, &n, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, it->first);
 		if (solution_ptr == NULL)
 		{
 			input_error++;
@@ -670,28 +637,7 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 	LDBLE amount_to_add, total;
 	char token[MAX_LENGTH];
 	char *ptr;
-	//struct pure_phase *pure_phase_ptr;
 	struct master *master_ptr;
-	//struct phase *phase_ptr;
-	//LDBLE p, t;
-
-	//pure_phase_ptr = pp_assemblage_ptr->pure_phases;
-
-	// Should be be done when it gets to prep (modified quick_setup in case same_model).
-	//for (j = 0; j < pp_assemblage_ptr->count_comps; j++)
-	//{
-	//	phase_ptr = pure_phase_ptr[j].phase;
-	//	if (/*pure_phase_ptr[j].si_org > 0 && */phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
-	//	{
-	//		p = exp(pure_phase_ptr[j].si_org * LOG_10);
-	//		t = tc_x + 273.15;
-	//		if (!phase_ptr->pr_in || p != phase_ptr->pr_p || t != phase_ptr->pr_tk)
-	//		{
-	//			calc_PR(&phase_ptr, 1, p, t, 0);
-	//		}
-	//		pure_phase_ptr[j].si = pure_phase_ptr[j].si_org + phase_ptr->pr_si_f;
-	//	}
-	//}
 
 	if (check_pp_assemblage(pp_assemblage_ptr) == OK)
 		return (OK);
@@ -842,7 +788,6 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
  */
 	if (incremental_reactions == FALSE)
 	{
-		//if (irrev_ptr->count_steps > 0)
 		if (!reaction_ptr->Get_equalIncrements() && reaction_ptr->Get_steps().size()> 0 )
 		{
 			if (step_number > (int) reaction_ptr->Get_steps().size())
@@ -905,7 +850,6 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 /*
  *   Convert units
  */
-	//c = irrev_ptr->units[0];
 	c = reaction_ptr->Get_units().c_str()[0];
 	if (c == 'm')
 	{
@@ -922,7 +866,6 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 /*
  *   Add reaction to totals
  */
-	//for (i = 0; irrev_ptr->elts[i].elt != NULL; i++)
 	cxxNameDouble::const_iterator it = reaction_ptr->Get_elementList().begin();
 	for ( ; it != reaction_ptr->Get_elementList().end(); it++)
 	{
@@ -962,10 +905,8 @@ reaction_calc(cxxReaction *reaction_ptr)
  *    determine a list of elements and amounts in 
  *    the reaction.
  */
-	//int i, j, 
 	int return_value;
 	LDBLE coef;
-	//char token[MAX_LENGTH];
 	char *ptr;
 	struct phase *phase_ptr;
 /*
@@ -992,7 +933,6 @@ reaction_calc(cxxReaction *reaction_ptr)
 		}
 		else
 		{
-			//ptr = &(token[0]);
 			char * token = string_duplicate(it->first.c_str());
 			ptr = token;
 			get_elts_in_species(&ptr, coef);
@@ -1014,7 +954,6 @@ reaction_calc(cxxReaction *reaction_ptr)
 			return_value = ERROR;
 		}
 	}
-	//irrev_ptr->elts = elt_list_save();
 	reaction_ptr->Set_elementList(elt_list_NameDouble());
 
 	return (return_value);
@@ -1028,19 +967,15 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
  *   Accumulate gas data in master->totals and _x variables.
  */
 	int i;
-
-	//struct gas_comp *gas_comp_ptr;
 	struct master *master_ptr;
 
 	if (gas_phase_ptr == NULL)
 		return (OK);
-	//gas_comp_ptr = gas_phase_ptr->comps;
 /*
  *   calculate reaction
  */
 	count_elts = 0;
 	paren_count = 0;
-	//for (i = 0; i < gas_phase_ptr->count_comps; i++)
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
@@ -1096,9 +1031,7 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
  */
 	int i, j, k;
 	LDBLE amount_to_add, total;
-	//struct s_s *s_s_ptr;
 	struct master *master_ptr;
-	//char token[MAX_LENGTH];
 	char *ptr;
 
 	if (ss_assemblage_ptr == NULL)
@@ -1124,7 +1057,6 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 			comp_ptr->Set_delta(0.0);
 			if (comp_ptr->Get_moles() > 0.0)
 			{
-				//strcpy(token, s_s_ptr->comps[j].phase->formula);
 				char * token = string_duplicate(phase_ptr->formula);
 				ptr = &(token[0]);
 				get_elts_in_species(&ptr, 1.0);
@@ -1195,7 +1127,6 @@ add_kinetics(cxxKinetics *kinetics_ptr)
 /*
  *   Add kinetic reaction
  */
-	//int i;
 	struct master *master_ptr = NULL;
 /*
  *   Add reaction to totals
@@ -1230,49 +1161,6 @@ add_kinetics(cxxKinetics *kinetics_ptr)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-add_kinetics(struct kinetics *kinetics_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Add kinetic reaction
- */
-	int i;
-	struct master *master_ptr;
-/*
- *   Add reaction to totals
- */
-	if (kinetics_ptr->totals == NULL)
-		return (OK);
-	for (i = 0; kinetics_ptr->totals[i].elt != NULL; i++)
-	{
-		master_ptr = kinetics_ptr->totals[i].elt->primary;
-		if (master_ptr == NULL)
-		{
-			input_error++;
-			error_string = sformatf(
-					"Element %s in kinetic reaction not found in database.",
-					kinetics_ptr->totals[i].elt->name);
-			error_msg(error_string, STOP);
-		}
-		if (master_ptr->s == s_hplus)
-		{
-			total_h_x += kinetics_ptr->totals[i].coef;
-		}
-		else if (master_ptr->s == s_h2o)
-		{
-			total_o_x += kinetics_ptr->totals[i].coef;
-		}
-		else
-		{
-			master_ptr->total += kinetics_ptr->totals[i].coef;
-		}
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 gas_phase_check(cxxGasPhase *gas_phase_ptr)
@@ -1281,19 +1169,14 @@ gas_phase_check(cxxGasPhase *gas_phase_ptr)
 /*
  *   Check for missing elements
  */
-	//int i, j;
-
-	//struct gas_comp *gas_comp_ptr;
 	struct master *master_ptr;
 
 	if (gas_phase_ptr == NULL)
 		return (OK);
-	//gas_comp_ptr = gas_phase_ptr->comps;
 /*
  *   Check that all elements are in solution for phases with zero mass
  */
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
-	//for (i = 0; i < gas_phase_ptr->count_comps; i++)
 	{
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int k;
@@ -1343,11 +1226,8 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 /*
  *   Check for missing elements
  */
-	//int i, j, k;
-	//char token[MAX_LENGTH];
 	std::string token;
 	char *ptr;
-	//struct pure_phase *pure_phase_ptr;
 	struct master *master_ptr;
 
 	if (check_pp_assemblage(pp_assemblage_ptr) == OK)
@@ -1376,7 +1256,6 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 			else
 			{
 				token = phase_ptr->formula;
-				//strcpy(token, pure_phase_ptr[j].phase->formula);
 				add_elt_list(phase_ptr->next_elt, 1.0);
 			}
 			for (int i = 0; i < count_elts; i++)

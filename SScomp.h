@@ -15,7 +15,7 @@ class cxxSScomp: public PHRQ_base
 
   public:
 	cxxSScomp(PHRQ_io *io=NULL);
-	 ~cxxSScomp();
+	virtual ~cxxSScomp();
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 	void read_raw(CParser & parser, bool check = true);
@@ -44,7 +44,6 @@ class cxxSScomp: public PHRQ_base
 	LDBLE Get_dnb() const {return this->dnb;}
 	void Set_dnb(LDBLE t) {this->dnb = t;}
 
-	//void add(const cxxSScomp & comp, double extensive);
 	void multiply(double extensive);
 
 #ifdef USE_MPI
@@ -53,9 +52,11 @@ class cxxSScomp: public PHRQ_base
 #endif
 protected:
 	std::string name;
-	//struct phase *phase;
-	LDBLE initial_moles;
+	// SOLID_SOLUTION_MODIFY candidate identifier
 	LDBLE moles;
+
+	// Solid solution workspace variables
+	LDBLE initial_moles;
 	LDBLE init_moles;
 	LDBLE delta;
 	LDBLE fraction_x;

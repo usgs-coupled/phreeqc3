@@ -15,6 +15,7 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "Solution.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -98,13 +99,11 @@ read_input(void)
 			break;
 		case Keywords::KEY_SOLUTION:				/* Read solution data */
 			read_solution();
-			solution_sort();
 			break;
 		case Keywords::KEY_PHASES:
 			read_phases();
 			break;
 		case Keywords::KEY_EQUILIBRIUM_PHASES:
-			//read_pure_phases();
 			read_pp_assemblage();
 			break;
 		case Keywords::KEY_REACTION:
@@ -135,7 +134,7 @@ read_input(void)
 			read_surface_master_species();
 			break;
 		case Keywords::KEY_SURFACE:
-			read_surf();
+			read_surface();
 			break;
 		case Keywords::KEY_REACTION_TEMPERATURE:
 			read_temperature();
@@ -257,20 +256,19 @@ read_input(void)
 		case Keywords::KEY_SIT:
 			read_sit();
 			break;
-		case Keywords::KEY_SOLUTION_RAW:		
-			read_solution_raw();
+		case Keywords::KEY_SOLUTION_RAW:
+			Utilities::Rxn_read_raw(Rxn_solution_map, this);
 			break;
 		case Keywords::KEY_EXCHANGE_RAW:		
 			Utilities::Rxn_read_raw(Rxn_exchange_map, this);
 			break;
-		case Keywords::KEY_SURFACE_RAW:		
-			read_surface_raw();
+		case Keywords::KEY_SURFACE_RAW:
+			Utilities::Rxn_read_raw(Rxn_surface_map, this);
 			break;
 		case Keywords::KEY_EQUILIBRIUM_PHASES_RAW:		
 			Utilities::Rxn_read_raw(Rxn_pp_assemblage_map, this);
 			break;
 		case Keywords::KEY_KINETICS_RAW:
-			//read_kinetics_raw();
 			Utilities::Rxn_read_raw(Rxn_kinetics_map, this);
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_RAW:
@@ -292,7 +290,7 @@ read_input(void)
 			read_dump();
 			break;
 		case Keywords::KEY_SOLUTION_MODIFY:
-			read_solution_modify();
+			Utilities::Rxn_read_modify(Rxn_solution_map, this);
 			break;
 		case Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY:
 			Utilities::Rxn_read_modify(Rxn_pp_assemblage_map, this);
@@ -301,7 +299,7 @@ read_input(void)
 			Utilities::Rxn_read_modify(Rxn_exchange_map, this);
 			break;
 		case Keywords::KEY_SURFACE_MODIFY:
-			read_surface_modify();
+			Utilities::Rxn_read_modify(Rxn_surface_map, this);
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_MODIFY:
 			Utilities::Rxn_read_modify(Rxn_ss_assemblage_map, this);
@@ -310,7 +308,6 @@ read_input(void)
 			Utilities::Rxn_read_modify(Rxn_gas_phase_map, this);
 			break;
 		case Keywords::KEY_KINETICS_MODIFY:
-			//read_kinetics_modify();
 			Utilities::Rxn_read_modify(Rxn_kinetics_map, this);
 			break;
 		case Keywords::KEY_DELETE:
@@ -340,186 +337,6 @@ read_input(void)
   END_OF_SIMULATION_INPUT:
 	return (OK);
 }
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_conc(int n, int count_mass_balance, char *str)
-/* ---------------------------------------------------------------------- */
-{
-	int j, l;
-	int alk;
-	int count_redox_states;
-
-	char *ptr;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
-/*
- *   Set defaults
- */
-	/*
-	   solution[n]->totals[count_mass_balance].equation_name = NULL;
-	   solution[n]->totals[count_mass_balance].phase = NULL;
-	   solution[n]->totals[count_mass_balance].phase_si = 0.0;
-	   solution[n]->totals[count_mass_balance].units=NULL;
-	   solution[n]->totals[count_mass_balance].n_pe=-1;
-	   solution[n]->totals[count_mass_balance].as=NULL;
-	   solution[n]->totals[count_mass_balance].gfw= 0.0;
-	 */
-	conc_init(&(solution[n]->totals[count_mass_balance]));
-
-/*
- *   Remove space between "kg" and "solution" or "water" in units
- */
-	replace("Kg", "kg", str);
-	replace("KG", "kg", str);
-	while (replace("kg ", "kg", str) == TRUE);
-	ptr = str;
-/*
- *   Read master species list for mass balance equation
- */
-	token1[0] = '\0';
-	count_redox_states = 0;
-	while (((j = copy_token(token, &ptr, &l)) == UPPER) ||
-		   (token[0] == '[') ||
-		   (strcmp_nocase_arg1(token, "ph") == 0) ||
-		   (strcmp_nocase_arg1(token, "pe") == 0))
-	{
-		count_redox_states++;
-		replace("(+", "(", token);
-		if (count_redox_states > 1)
-			strcat(token1, " ");
-		strcat(token1, token);
-	}
-	if (count_redox_states == 0)
-	{
-		input_error++;
-		error_msg
-			("No element or master species given for concentration input.",
-			 CONTINUE);
-		return (ERROR);
-	}
-	solution[n]->totals[count_mass_balance].description =
-		string_hsave(token1);
-/*
- *   Determine if reading alkalinity, allow equivalents for units
- */
-	str_tolower(token1);
-	if (strstr(token1, "alk") == token1)
-	{
-		alk = TRUE;
-	}
-	else
-	{
-		alk = FALSE;
-	}
-/*
- *   Read concentration
- */
-
-	j = sscanf(token, SCANFORMAT,
-			   &(solution[n]->totals[count_mass_balance].input_conc));
-	if (j == 0)
-	{
-		error_string = sformatf(
-				"Concentration data error for %s in solution input.", token1);
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	}
-	if ((j = copy_token(token, &ptr, &l)) == EMPTY)
-		return (OK);
-/*
- *   Read optional data
- */
-	strcpy(token1, token);
-/*
- *   Check for units info
- */
-	if (check_units(token1, alk, FALSE, solution[n]->units, FALSE) == OK)
-	{
-		if (check_units(token1, alk, FALSE, solution[n]->units, TRUE) == OK)
-		{
-			solution[n]->totals[count_mass_balance].units =
-				string_hsave(token1);
-			if ((j = copy_token(token, &ptr, &l)) == EMPTY)
-				return (OK);
-		}
-		else
-		{
-			return (ERROR);
-		}
-	}
-/*
- *   Check for "as" followed by formula to be used for gfw
- */
-	strcpy(token1, token);
-	str_tolower(token1);
-	if (strcmp(token1, "as") == 0)
-	{
-		copy_token(token, &ptr, &l);
-		solution[n]->totals[count_mass_balance].as = string_hsave(token);
-		if ((j = copy_token(token, &ptr, &l)) == EMPTY)
-			return (OK);
-/*
- *   Check for "gfw" followed by gram formula weight
- */
-	}
-	else if (strcmp(token1, "gfw") == 0 || strcmp(token1, "gfm") == 0)
-	{
-		if (copy_token(token, &ptr, &l) != DIGIT)
-		{
-			error_msg("Expecting gram formula weight.", CONTINUE);
-			return (ERROR);
-		}
-		else
-		{
-			sscanf(token, SCANFORMAT,
-				   &(solution[n]->totals[count_mass_balance].gfw));
-			if ((j = copy_token(token, &ptr, &l)) == EMPTY)
-				return (OK);
-		}
-	}
-/*
- *   Check for redox couple for pe
- */
-	if (strcmp_nocase_arg1(token, "pe") == 0)
-	{
-		solution[n]->totals[count_mass_balance].n_pe =
-			pe_data_store(&(solution[n]->pe), token);
-		if ((j = copy_token(token, &ptr, &l)) == EMPTY)
-			return (OK);
-	}
-	else if (strstr(token, "/") != NULL)
-	{
-		if (parse_couple(token) == OK)
-		{
-			solution[n]->totals[count_mass_balance].n_pe =
-				pe_data_store(&(solution[n]->pe), token);
-			if ((j = copy_token(token, &ptr, &l)) == EMPTY)
-				return (OK);
-		}
-		else
-		{
-			return (ERROR);
-		}
-	}
-/*
- *   Must have phase
- */
-	solution[n]->totals[count_mass_balance].equation_name =
-		string_hsave(token);
-	if ((j = copy_token(token, &ptr, &l)) == EMPTY)
-		return (OK);
-/*
- *   Check for saturation index
- */
-	j = sscanf(token, SCANFORMAT,
-			   &(solution[n]->totals[count_mass_balance].phase_si));
-	if (j != 1)
-	{
-		error_msg("Expected saturation index.", CONTINUE);
-		return (ERROR);
-	}
-	return (OK);
-}
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_exchange_species(void)
@@ -562,8 +379,6 @@ read_exchange_species(void)
 		"add_logk",				/* 16 */
 		"add_log_k",			/* 17 */
 		"add_constant",			/* 18 */
-		//"delta_v",				/* 19 */   
-		//"deltav",				/* 20 */
 		"vm"	/* 19, molar volume, must replace delta_v */
 	};
 	int count_opt_list = 18;
@@ -873,8 +688,6 @@ read_exchange_species(void)
 			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
 			break;
-		//case 19:            /* delta_v */
-		//case 20:            /* deltav */
 		case 19:            /* vm, molar volume */
 			if (s_ptr == NULL)
 			{
@@ -885,7 +698,7 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			read_delta_v_only(next_char, &s_ptr->logk[vm0],
+			read_vm_only(next_char, &s_ptr->logk[vm0],
 				&s_ptr->original_deltav_units);
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -1011,13 +824,10 @@ read_exchange(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	int i, j, l;
 	int n_user, n_user_end;
 	LDBLE conc;
 	char *ptr;
 	char *description;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
-	//struct exchange *exchange_ptr;
 
 	int return_value, opt;
 	char *next_char;
@@ -1046,7 +856,7 @@ read_exchange(void)
  *   Default values + n_user, description
  */
 	cxxExchange temp_exchange;
-	cxxExchComp *comp = NULL;
+	cxxExchComp *comp_ptr = NULL;
 	temp_exchange.Set_new_def(true);
 	temp_exchange.Set_n_user(n_user);
 	temp_exchange.Set_n_user_end(n_user_end);
@@ -1088,11 +898,12 @@ read_exchange(void)
 			 */
 			for (;;)
 			{
-				i = copy_token(token, &next_char, &l);
+				std::string token;
+				int i = copy_token(token, &next_char);
 				if (i == DIGIT)
 				{
 					int n_solution;
-					sscanf(token, "%d", &n_solution);
+					sscanf(token.c_str(), "%d", &n_solution);
 					temp_exchange.Set_n_solution(n_solution);
 					temp_exchange.Set_new_def(true);
 					temp_exchange.Set_solution_equilibria(true);
@@ -1116,154 +927,154 @@ read_exchange(void)
 				get_true_false(next_char, TRUE) == TRUE);
 			break;
 		case OPTION_DEFAULT:
-			ptr = line;
-			i = copy_token(token, &ptr, &l);
-			/*
-			 *   Species formula is stored in token
-			 */
-			if (i != UPPER && token[0] != '[')
-			{ /* maybe a bit more clear? */
-				error_string = sformatf(
-					"Expected exchanger name to begin with a capital letter, but found:\n %s",
-					line_save);
-				error_msg(error_string, CONTINUE);
-				input_error++;
-				break;
-			}
-			delete comp;
-			comp = new cxxExchComp;
-			comp->Set_formula(token);
-			//exchange[n].comps[count_comps].formula = string_hsave(token);
-			prev_next_char = ptr;
-			i = copy_token(token1, &ptr, &l);
-			if (i == DIGIT)
 			{
+				std::string token;
+				ptr = line;
+				int i = copy_token(token, &ptr);
 				/*
-				 *   Read exchange concentration
-				 */
-
-				/* exchanger conc. is read directly .. */
-				if (sscanf(token1, SCANFORMAT, &conc) < 1)
-				{
-				error_string = sformatf(
-					"Expected concentration of exchanger, but found:\n %s",
-					line_save);
+				*   Species formula is stored in token
+			    */
+				if (i != UPPER && token[0] != '[')
+				{ /* maybe a bit more clear? */
+					error_string = sformatf(
+						"Expected exchanger name to begin with a capital letter, but found:\n %s",
+						line_save);
 					error_msg(error_string, CONTINUE);
 					input_error++;
 					break;
 				}
+				cxxExchComp temp_comp;
+				temp_exchange.Get_exchange_comps().push_back(temp_comp);
+				comp_ptr = &(temp_exchange.Get_exchange_comps().back());
+				comp_ptr->Set_formula(token.c_str());
 				prev_next_char = ptr;
-				j = copy_token(token1, &ptr, &l);
-				if (j == UPPER || j == LOWER)
+				std::string token1;
+				i = copy_token(token1, &ptr);
+				if (i == DIGIT)
 				{
-					comp->Set_rate_name(token1);
-					if (copy_token(token1, &ptr, &l) != DIGIT)
+					/*
+					*   Read exchange concentration
+				 */
+
+					/* exchanger conc. is read directly .. */
+					if (sscanf(token1.c_str(), SCANFORMAT, &conc) < 1)
 					{
 						error_string = sformatf(
-							"Expected a coefficient to relate exchange to kinetic reaction, but found:\n %s",
+							"Expected concentration of exchanger, but found:\n %s",
+							line_save);
+						error_msg(error_string, CONTINUE);
+						input_error++;
+						break;
+					}
+					prev_next_char = ptr;
+					int j = copy_token(token1, &ptr);
+					if (j == UPPER || j == LOWER)
+					{
+						comp_ptr->Set_rate_name(token1.c_str());
+						if (copy_token(token1, &ptr) != DIGIT)
+						{
+							error_string = sformatf(
+								"Expected a coefficient to relate exchange to kinetic reaction, but found:\n %s",
+								prev_next_char);
+							error_msg(error_string, CONTINUE);
+							input_error++;
+							break;
+						}
+						LDBLE p;
+						sscanf(token1.c_str(), SCANFORMAT, &p);
+						comp_ptr->Set_phase_proportion(p);
+					}
+					/*
+					*   Read equilibrium phase name or kinetics rate name
+				 */
+				}
+				else if (i != EMPTY)
+				{
+
+					/* exchanger conc. is related to mineral or kinetics */
+					comp_ptr->Set_phase_name(token1.c_str());
+					prev_next_char = ptr;
+					int j = copy_token(token1, &ptr);
+					if (j != DIGIT)
+					{
+						if (token1[0] == 'K' || token1[0] == 'k')
+						{
+							comp_ptr->Set_rate_name(comp_ptr->Get_phase_name().c_str());
+							comp_ptr->Set_phase_name("");
+						}
+						else if (token1[0] != 'E' && token1[0] != 'e')
+						{
+							error_string = sformatf(
+								"Character string expected to be 'equilibrium_phase' or 'kinetics'\n to relate exchange to mineral or kinetic reaction, but found:\n %s",
+								prev_next_char);
+							error_msg(error_string, CONTINUE);
+							input_error++;
+							break;
+						}
+						prev_next_char = ptr;
+						j = copy_token(token1, &ptr);
+					}
+
+
+					if (j != DIGIT)
+					{
+						error_string = sformatf(
+							"Expected a coefficient to relate exchanger to mineral or kinetic reaction, but found:\n %s",
 							prev_next_char);
 						error_msg(error_string, CONTINUE);
 						input_error++;
 						break;
 					}
 					LDBLE p;
-					sscanf(token1, SCANFORMAT, &p);
-					comp->Set_phase_proportion(p);
+					sscanf(token1.c_str(), SCANFORMAT, &p);
+					comp_ptr->Set_phase_proportion(p);
+					/* real conc must be defined in tidy_model */
+					conc = 1.0;
 				}
-				/*
-				 *   Read equilibrium phase name or kinetics rate name
-				 */
-			}
-			else if (i != EMPTY)
-			{
-
-				/* exchanger conc. is related to mineral or kinetics */
-				comp->Set_phase_name(token1);
-				prev_next_char = ptr;
-				j = copy_token(token1, &ptr, &l);
-				if (j != DIGIT)
+				else
 				{
-					if (token1[0] == 'K' || token1[0] == 'k')
-					{
-						comp->Set_rate_name(comp->Get_phase_name().c_str());
-						comp->Set_phase_name("");
-					}
-					else if (token1[0] != 'E' && token1[0] != 'e')
-					{
-						error_string = sformatf(
-							"Character string expected to be 'equilibrium_phase' or 'kinetics'\n to relate exchange to mineral or kinetic reaction, but found:\n %s",
-							prev_next_char);
-						error_msg(error_string, CONTINUE);
-						input_error++;
-						break;
-					}
-					prev_next_char = ptr;
-					j = copy_token(token1, &ptr, &l);
-				}
-
-
-				if (j != DIGIT)
-				{
-					error_string = sformatf(
-						"Expected a coefficient to relate exchanger to mineral or kinetic reaction, but found:\n %s",
-						prev_next_char);
-					error_msg(error_string, CONTINUE);
+					error_msg
+						("Expected concentration of exchanger, mineral name, or kinetic reaction name.",
+						CONTINUE);
+					error_msg(line_save, CONTINUE);
 					input_error++;
 					break;
 				}
-				LDBLE p;
-				sscanf(token1, SCANFORMAT, &p);
-				comp->Set_phase_proportion(p);
-				/* real conc must be defined in tidy_model */
-				conc = 1.0;
+				/*
+				*   Accumulate elements in elt_list
+			    */
+				count_elts = 0;
+				paren_count = 0;
+				char * formula = string_duplicate(token.c_str());
+				ptr = formula;
+				get_elts_in_species(&ptr, conc);
+				
+				/*
+				*   save formula for adjusting number of exchange sites
+			    */
+				ptr = formula;
+				char *name = string_duplicate(token.c_str());
+				name[0] = '\0';
+				LDBLE z;
+				int l;
+				get_token(&ptr, name, &z, &l);
+				comp_ptr->Set_formula_z(z);
+				free_check_null(formula);
+				free_check_null(name);
+				/*
+				*   Save elt_list
+			    */
+				comp_ptr->Set_totals(elt_list_NameDouble());
+				comp_ptr->Set_charge_balance(0.0);
 			}
-			else
-			{
-				error_msg
-					("Expected concentration of exchanger, mineral name, or kinetic reaction name.",
-					 CONTINUE);
-				error_msg(line_save, CONTINUE);
-				input_error++;
-				break;
-			}
-			/*
-			 *   Accumulate elements in elt_list
-			 */
-			count_elts = 0;
-			paren_count = 0;
-			ptr = token;
-			get_elts_in_species(&ptr, conc);
-			/*
-			 *   save formula for adjusting number of exchange sites
-			 */
-			ptr = token;
-			LDBLE z;
-			get_token(&ptr, token1, &z, &l);
-			comp->Set_formula_z(z);
-			comp->Set_formula_totals(elt_list_NameDouble()); 
-			/*
-			 *   Save elt_list
-			 */
-			comp->Set_moles(conc);
-			comp->Set_totals(elt_list_NameDouble());
-			comp->Set_charge_balance(0.0);
-			temp_exchange.Get_exchComps()[comp->Get_formula()] = *comp;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
 	}
 	Rxn_exchange_map[n_user] = temp_exchange;
-
-	//if (n_user_end > n_user)
-	//{
-	//	for (int i = n_user + 1; i <= n_user_end; i++)
-	//	{
-	//		Utilities::Rxn_copy(Rxn_exchange_map, n_user, i);
-	//	}
-	//}
-	delete comp;
 	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_exchange_master_species(void)
@@ -1392,7 +1203,6 @@ read_gas_phase(void)
 	char *ptr;
 	char *description;
 	char token[MAX_LENGTH];
-	//struct gas_phase *gas_phase_ptr;
 	cxxGasPhase temp_gas_phase;
 	int return_value, opt;
 	char *next_char;
@@ -1982,7 +1792,6 @@ read_inv_isotopes(struct inverse *inverse_ptr, char *ptr)
 	inverse_ptr->count_i_u++;
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_inv_phases(struct inverse *inverse_ptr, char *ptr)
@@ -1992,7 +1801,7 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 	int count_isotopes;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	char *ptr1;
-	struct isotope *isotopes;
+	std::vector <cxxSolutionIsotope> isotopes;
 /*
  *   Read phase name
  */
@@ -2014,12 +1823,9 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 	inverse_ptr->phases[inverse_ptr->count_phases].constraint = EITHER;
 	inverse_ptr->phases[inverse_ptr->count_phases].force = FALSE;
 	count_isotopes = 0;
-	isotopes = (struct isotope *) PHRQ_malloc(sizeof(struct isotope));
-	if (isotopes == NULL)
-		malloc_error();
-
 	for (;;)
 	{
+		cxxSolutionIsotope temp_isotope;
 		j = copy_token(token, &ptr, &l);
 		if (j == EMPTY)
 			break;
@@ -2044,17 +1850,11 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 /*
  *   read isotope data
  */
-			isotopes =
-				(struct isotope *) PHRQ_realloc(isotopes,
-												(size_t) (count_isotopes +
-														  1) *
-												sizeof(struct isotope));
-			if (isotopes == NULL)
-				malloc_error();
 			ptr1 = token;
 
 			/* isotope number */
-			get_num(&ptr1, &(isotopes[count_isotopes].isotope_number));
+			get_num(&ptr1, &dummy);
+			temp_isotope.Set_isotope_number(dummy);
 			if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
 			{
 				error_string = sformatf( "Expecting element name: %s.", ptr1);
@@ -2065,7 +1865,7 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 			}
 
 			/* element name */
-			isotopes[count_isotopes].elt_name = string_hsave(ptr1);
+			temp_isotope.Set_elt_name(ptr1);
 
 			/* ratio */
 			j = copy_token(token, &ptr, &l);
@@ -2076,7 +1876,8 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 				input_error++;
 				break;
 			}
-			sscanf(token, SCANFORMAT, &(isotopes[count_isotopes].ratio));
+			sscanf(token, SCANFORMAT, &dummy);
+			temp_isotope.Set_ratio(dummy);
 
 			/* read and store isotope ratio uncertainty */
 			prev_next_char = ptr;
@@ -2089,10 +1890,10 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
-			sscanf(token, SCANFORMAT,
-				   &(isotopes[count_isotopes].ratio_uncertainty));
-
-			count_isotopes++;
+			sscanf(token, SCANFORMAT, &dummy);
+			temp_isotope.Set_ratio_uncertainty(dummy);
+			temp_isotope.Set_ratio_uncertainty_defined(true);
+			isotopes.push_back(temp_isotope);
 		}
 		else
 		{
@@ -2101,17 +1902,33 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 			warning_msg(error_string);
 		}
 	}
-	if (count_isotopes > 0)
+	if (isotopes.size() > 0)
 	{
-		inverse_ptr->phases[inverse_ptr->count_phases].isotopes = isotopes;
-		inverse_ptr->phases[inverse_ptr->count_phases].count_isotopes =
-			count_isotopes;
+		inverse_ptr->phases[inverse_ptr->count_phases].isotopes = 
+			(struct isotope *) PHRQ_malloc(isotopes.size() * sizeof(struct isotope));
+		for (size_t i = 0; i < isotopes.size(); i++)
+		{
+			struct isotope *iso_ptr = &(inverse_ptr->phases[inverse_ptr->count_phases].isotopes[i]);
+			iso_ptr->isotope_number = isotopes[i].Get_isotope_number();
+			iso_ptr->elt_name = string_hsave(isotopes[i].Get_elt_name().c_str());
+			iso_ptr->isotope_name = string_hsave(isotopes[i].Get_isotope_name().c_str());
+			iso_ptr->total = isotopes[i].Get_total();
+			iso_ptr->ratio = isotopes[i].Get_ratio();
+			if (isotopes[i].Get_ratio_uncertainty_defined())
+				iso_ptr->ratio_uncertainty = isotopes[i].Get_ratio_uncertainty();
+			else
+				iso_ptr->ratio_uncertainty = NAN;
+			iso_ptr->x_ratio_uncertainty = isotopes[i].Get_x_ratio_uncertainty();
+			iso_ptr->coef = isotopes[i].Get_coef();
+			iso_ptr->master = NULL;
+			iso_ptr->primary = NULL;
+		}
+		inverse_ptr->phases[inverse_ptr->count_phases].count_isotopes =	isotopes.size();
 	}
 	else
 	{
 		inverse_ptr->phases[inverse_ptr->count_phases].isotopes = NULL;
 		inverse_ptr->phases[inverse_ptr->count_phases].count_isotopes = 0;
-		isotopes = (struct isotope *) free_check_null(isotopes);
 	}
 	inverse_ptr->count_phases++;
 	return (OK);
@@ -2599,551 +2416,6 @@ read_kinetics(void)
 	Rxn_kinetics_map[n_user] = temp_kinetics;
 	return (return_value);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_kinetics(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Reads kinetics data
- *
- *      Arguments:
- *	 none
- *
- *      Returns:
- *	 KEYWORD if keyword encountered, input_error may be incremented if
- *		    a keyword is encountered in an unexpected position
- *	 EOF     if eof encountered while reading mass balance concentrations
- *	 ERROR   if error occurred reading data
- *
- */
-/*
- *   Read kinetics
- */
-	int i, j, k, l, count_comps, count_steps, count_list;
-	char *ptr;
-	char *description;
-	char token[MAX_LENGTH];
-	int n;
-	int n_user, n_user_end;
-	struct kinetics *kinetics_ptr;
-	struct kinetics_comp *kinetics_comp_ptr;
-	LDBLE step, coef;
-
-	int return_value, opt;
-	char *next_char;
-	const char *opt_list[] = {
-		"tol",					/* 0 */
-		"m",					/* 1 */
-		"m0",					/* 2 */
-		"parms",				/* 3 */
-		"formula",				/* 4 */
-		"steps",				/* 5 */
-		"step_divide",			/* 6 */
-		"parameters",			/* 7 */
-		"runge-kutta",			/* 8 */
-		"runge_kutta",			/* 9 */
-		"rk",					/* 10 */
-		"bad_step_max",			/* 11 */
-		"cvode",				/* 12 */
-		"cvode_steps",			/* 13 */
-		"cvode_order",			/* 14 */
-		"time_steps"			/* 15 */
-	};
-	int count_opt_list = 16;
-
-/*
- *   Read kinetics number
- */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-
-/*
- *   Find space for kinetics data
- */
-	kinetics_ptr = kinetics_search(n_user, &n, FALSE);
-	if (kinetics_ptr != NULL)
-	{
-		kinetics_free(kinetics_ptr);
-	}
-	else
-	{
-		space((void **) ((void *) &kinetics), count_kinetics, &max_kinetics,
-			  sizeof(struct kinetics));
-		n = count_kinetics++;
-	}
-/*
- *   Set use data to first read
- */
-	if (use.Get_kinetics_in() == FALSE)
-	{
-		use.Set_kinetics_in(true);
-		use.Set_n_kinetics_user(n_user);
-	}
-/*
- *   Initialize
- */
-	kinetics_init(&(kinetics[n]), n_user, n_user_end, description);
-	free_check_null(description);
-	kinetics_ptr = &kinetics[n];
-
-	count_steps = 0;
-/*
- *   Read kinetics data
- */
-	return_value = UNKNOWN;
-	kinetics_comp_ptr = NULL;
-	for (;;)
-	{
-		opt = get_option(opt_list, count_opt_list, &next_char);
-		switch (opt)
-		{
-		case OPTION_EOF:		/* end of file */
-			return_value = EOF;
-			break;
-		case OPTION_KEYWORD:	/* keyword */
-			return_value = KEYWORD;
-			break;
-		case OPTION_DEFAULT:	/* allocate space, read new name */
-			count_comps = kinetics_ptr->count_comps++;
-			kinetics_ptr->comps =
-				(struct kinetics_comp *) PHRQ_realloc(kinetics_ptr->comps,
-													  (size_t) (count_comps +
-																1) *
-													  sizeof(struct
-															 kinetics_comp));
-			if (kinetics_ptr->comps == NULL)
-				malloc_error();
-			kinetics_ptr->comps[count_comps].moles = 0;
-			ptr = line;
-			copy_token(token, &ptr, &l);
-			kinetics_ptr->comps[count_comps].rate_name = string_hsave(token);
-			kinetics_ptr->comps[count_comps].tol = 1e-8;
-			kinetics_ptr->comps[count_comps].m0 = -1.0;
-			kinetics_ptr->comps[count_comps].m = -1.0;
-			kinetics_ptr->comps[count_comps].count_c_params = 0;
-
-			kinetics_comp_ptr = &kinetics_ptr->comps[count_comps];
-			kinetics_comp_ptr->d_params =
-				(LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-			if (kinetics_comp_ptr->d_params == NULL)
-				malloc_error();
-			kinetics_comp_ptr->count_d_params = 0;
-
-			kinetics_comp_ptr->c_params =
-				(const char **) PHRQ_malloc(sizeof(char *));
-			if (kinetics_comp_ptr->c_params == NULL)
-				malloc_error();
-			kinetics_comp_ptr->count_c_params = 0;
-
-			kinetics_comp_ptr->count_list = 0;
-			kinetics_comp_ptr->list =
-				(struct name_coef *) PHRQ_malloc(sizeof(struct name_coef));
-			if (kinetics_comp_ptr->list == NULL)
-				malloc_error();
-			break;
-		case OPTION_ERROR:
-			input_error++;
-			error_msg("Unknown input in KINETICS keyword.", CONTINUE);
-			error_msg(line_save, CONTINUE);
-			break;
-		case 0:				/* tolerance */
-			if (kinetics_comp_ptr == NULL)
-			{
-				error_string = sformatf( "No rate name has been defined.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			else
-			{
-				prev_next_char = next_char;
-				if (copy_token(token, &next_char, &l) == DIGIT)
-				{
-					kinetics_comp_ptr->tol = strtod(token, &ptr);
-				}
-				else
-				{
-					error_string = sformatf(
-						"Expecting numerical value for tolerance, but found:\n %s",
-						prev_next_char);
-					error_msg(error_string, CONTINUE);
-					input_error++;
-				}
-			}
-			break;
-		case 1:				/* m */
-			if (kinetics_comp_ptr == NULL)
-			{
-				error_string = sformatf( "No rate name has been defined.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			else
-			{
-				prev_next_char = next_char;
-				if (copy_token(token, &next_char, &l) == DIGIT)
-				{
-					kinetics_comp_ptr->m = strtod(token, &ptr);
-				}
-				else
-				{
-					error_string = sformatf(
-						"Expecting numerical value for moles of reactant (m), but found:\n %s",
-						prev_next_char);
-					error_msg(error_string, CONTINUE);
-					input_error++;
-				}
-			}
-			break;
-		case 2:				/* m0 */
-			if (kinetics_comp_ptr == NULL)
-			{
-				error_string = sformatf( "No rate name has been defined.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			else
-			{
-				prev_next_char = next_char;
-				if (copy_token(token, &next_char, &l) == DIGIT)
-				{
-					kinetics_comp_ptr->m0 = strtod(token, &ptr);
-				}
-				else
-				{
-					error_string = sformatf(
-					"Expecting numerical value for initial moles of reactant (m0), but found:\n %s",
-					prev_next_char);
-				error_msg(error_string, CONTINUE);
-					input_error++;
-				}
-			}
-			break;
-		case 3:				/* parms */
-		case 7:				/* parameters */
-			if (kinetics_comp_ptr == NULL)
-			{
-				error_string = sformatf( "No rate name has been defined.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			else
-			{
-				while ((j = copy_token(token, &next_char, &l)) != EMPTY)
-				{
-					/*
-					 *   Store a LDBLE parameter
-					 */
-					if (j == DIGIT)
-					{
-						kinetics_comp_ptr->d_params =
-							(LDBLE *) PHRQ_realloc(kinetics_comp_ptr->
-												   d_params,
-												   (size_t)
-												   (kinetics_comp_ptr->
-													count_d_params +
-													1) * sizeof(LDBLE));
-						if (kinetics_comp_ptr->d_params == NULL)
-							malloc_error();
-						kinetics_comp_ptr->d_params[kinetics_comp_ptr->
-													count_d_params] =
-							strtod(token, &ptr);
-						kinetics_comp_ptr->count_d_params++;
-					}
-					else
-					{
-						/*
-						 *   Store a character parameter
-						 */
-						kinetics_comp_ptr->c_params =
-							(const char **) PHRQ_realloc(kinetics_comp_ptr->
-												   c_params,
-												   (size_t)
-												   (kinetics_comp_ptr->
-													count_c_params +
-													1) * sizeof(char *));
-						if (kinetics_comp_ptr->c_params == NULL)
-							malloc_error();
-						kinetics_comp_ptr->c_params[kinetics_comp_ptr->
-													count_c_params] =
-							string_hsave(token);
-						kinetics_comp_ptr->count_c_params++;
-					}
-				}
-			}
-			break;
-		case 4:				/* formula */
-			if (kinetics_comp_ptr == NULL)
-			{
-				error_string = sformatf( "No rate name has been defined.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			else
-			{
-				/*
-				 *   Store reactant name, default coefficient
-				 */
-				ptr = next_char;
-				while (copy_token(token, &ptr, &l) != EMPTY)
-				{
-					if (isalpha((int) token[0]) || (token[0] == '(')
-						|| (token[0] == '['))
-					{
-						count_list = kinetics_comp_ptr->count_list++;
-						kinetics_comp_ptr->list =
-							(struct name_coef *)
-							PHRQ_realloc(kinetics_comp_ptr->list,
-										 (size_t) (count_list +
-												   1) *
-										 sizeof(struct name_coef));
-						if (kinetics_comp_ptr->list == NULL)
-							malloc_error();
-						kinetics_comp_ptr->list[count_list].name =
-							string_hsave(token);
-						kinetics_comp_ptr->list[count_list].coef = 1.0;
-					}
-					else
-					{
-						/*
-						 *   Store relative coefficient
-						 */
-						j = sscanf(token, SCANFORMAT, &coef);
-						if (j == 1)
-						{
-							count_list = kinetics_comp_ptr->count_list - 1;
-							kinetics_comp_ptr->list[count_list].coef = coef;
-						}
-						else
-						{
-							error_msg
-								("Reading relative coefficient of reactant.",
-								 CONTINUE);
-							error_msg(line_save, CONTINUE);
-							input_error++;
-						}
-					}
-				}
-			}
-			break;
-		case 5:				/* steps */
-		case 15:			/* time_steps */
-			/*
-			 *   Read one or more kinetics time increments
-			 */
-			while ((j = copy_token(token, &next_char, &l)) == DIGIT)
-			{
-				/*  Read next step increment(s) */
-/* multiple, equal timesteps 15 aug. 2005 */
-				if (replace("*", " ", token) == TRUE)
-				{
-					if (sscanf(token, "%d" SCANFORMAT, &k, &step) == 2)
-					{
-						for (i = 0; i < k; i++)
-						{
-							count_steps++;
-							kinetics_ptr->steps =
-								(LDBLE *) PHRQ_realloc(kinetics_ptr->steps,
-													   (size_t) count_steps *
-													   sizeof(LDBLE));
-							if (kinetics_ptr->steps == NULL)
-								malloc_error();
-							kinetics_ptr->steps[kinetics_ptr->count_steps] =
-								step;
-							kinetics_ptr->count_steps = count_steps;
-						}
-					}
-					else
-					{
-						input_error++;
-						error_msg
-							("Format error in multiple, equal KINETICS timesteps.\nCorrect is (for example): 20 4*10 2*5 3\n",
-							 CONTINUE);
-					}
-				}
-				else
-				{
-					step = strtod(token, &ptr);
-					count_steps++;
-					kinetics_ptr->steps =
-						(LDBLE *) PHRQ_realloc(kinetics_ptr->steps,
-											   (size_t) count_steps *
-											   sizeof(LDBLE));
-					if (kinetics_ptr->steps == NULL)
-						malloc_error();
-					kinetics_ptr->steps[kinetics_ptr->count_steps] = step;
-					kinetics_ptr->count_steps = count_steps;
-				}
-			}
-			if (j == EMPTY)
-				break;
-			/*
-			 *   Read number of increments
-			 */
-			if (kinetics_ptr->count_steps != 1)
-			{
-				error_msg
-					("To define equal time increments, only one total time should be defined.",
-					 CONTINUE);
-				input_error++;
-				break;
-			}
-			do
-			{
-				j = sscanf(token, "%d", &i);
-				if (j == 1 && i > 0)
-				{
-					kinetics_ptr->count_steps = -i;
-					break;
-				}
-				else if (j == 1 && i <= 0)
-				{
-					error_msg
-						("Expecting positive number for number of equal "
-						 "time increments for kinetics.", CONTINUE);
-					error_msg(line_save, CONTINUE);
-					input_error++;
-					break;
-				}
-			}
-			while (copy_token(token, &next_char, &l) != EMPTY);
-			break;
-		case 6:				/* step_divide */
-			if (copy_token(token, &next_char, &l) == DIGIT)
-			{
-				sscanf(token, SCANFORMAT, &kinetics_ptr->step_divide);
-			}
-			else
-			{
-				error_string = sformatf(
-						"Expecting numerical value for step_divide.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			break;
-		case 8:				/* runge-kutta */
-		case 9:				/* runge_kutta */
-		case 10:				/* rk */
-			j = copy_token(token, &next_char, &l);
-			if (j == DIGIT)
-			{
-				kinetics_ptr->rk = (int) strtod(token, &ptr);
-			}
-			else if (j == EMPTY)
-			{
-			}
-			else
-			{
-				error_string = sformatf(
-						"Expecting order for Runge-Kutta method.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			break;
-		case 11:				/* bad_step_max */
-			j = copy_token(token, &next_char, &l);
-			if (j == DIGIT)
-			{
-				kinetics_ptr->bad_step_max = (int) strtod(token, &ptr);
-			}
-			else if (j == EMPTY)
-			{
-			}
-			else
-			{
-				error_string = sformatf( "Expecting maximal bad steps number.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			break;
-		case 12:				/* cvode */
-			kinetics[n].use_cvode = get_true_false(next_char, TRUE);
-			break;
-		case 13:				/* cvode_steps */
-			j = copy_token(token, &next_char, &l);
-			if (j == DIGIT)
-			{
-				kinetics_ptr->cvode_steps = (int) strtod(token, &ptr);
-			}
-			else if (j == EMPTY)
-			{
-			}
-			else
-			{
-				error_string = sformatf(
-						"Expecting maximum number of steps for one call to cvode.");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			break;
-		case 14:				/* cvode_order */
-			j = copy_token(token, &next_char, &l);
-			if (j == DIGIT)
-			{
-				kinetics_ptr->cvode_order = (int) strtod(token, &ptr);
-			}
-			else if (j == EMPTY)
-			{
-			}
-			else
-			{
-				error_string = sformatf(
-						"Expecting number of terms (order) used in cvode (1-5).");
-				error_msg(error_string, CONTINUE);
-				input_error++;
-			}
-			break;
-		}
-		if (return_value == EOF || return_value == KEYWORD)
-			break;
-	}
-
-/*
- *   Default reactant
- */
-	for (i = 0; i < kinetics[n].count_comps; i++)
-	{
-		if (kinetics[n].comps[i].count_list == 0)
-		{
-			kinetics[n].comps[i].list[0].name =
-				kinetics_ptr->comps[i].rate_name;
-			kinetics[n].comps[i].list[0].coef = 1;
-			kinetics[n].comps[i].count_list = 1;
-		}
-	}
-/*
- *   Default 1 sec
- */
-	if (kinetics[n].count_steps == 0)
-	{
-		kinetics[n].count_steps = 1;
-		kinetics[n].steps[0] = 1.0;
-	}
-/*
- *   set defaults for moles
- */
-	for (i = 0; i < kinetics[n].count_comps; i++)
-	{
-		if (kinetics[n].comps[i].m0 < 0)
-		{
-			if (kinetics[n].comps[i].m < 0)
-			{
-				kinetics[n].comps[i].m0 = 1;
-			}
-			else
-			{
-				kinetics[n].comps[i].m0 = kinetics[n].comps[i].m;
-			}
-		}
-		if (kinetics[n].comps[i].m < 0)
-		{
-			kinetics[n].comps[i].m = kinetics[n].comps[i].m0;
-		}
-	}
-	return (return_value);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE * Phreeqc::
 read_list_doubles(char **ptr, int *count_doubles)
@@ -3483,7 +2755,7 @@ read_omega_only(char *ptr, LDBLE *omega)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_delta_v_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
+read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
@@ -3491,13 +2763,13 @@ read_delta_v_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	/*
 	*   Read analytical expression
 	*/
-	for (j = 0; j < 4; j++)
+	for (j = 0; j < 8; j++)
 	{
 		delta_v[j] = 0.0;
 	}
-	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT /*SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT*/,
-		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3])/*,
-		&(delta_v[4]), &(delta_v[5]), &(delta_v[6]), &(delta_v[7])*/);
+	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
+		&(delta_v[4]), &(delta_v[5]), &(delta_v[6]), &(delta_v[7]));
 	if (j < 1)
 	{
 		input_error++;
@@ -3652,15 +2924,15 @@ read_millero_abcdef (char *ptr, LDBLE * abcdef)
 {
   int j;
 /*
- *   Read a, b, c, d, e and f parameters for Millero density model.
+ *   Read a, b, c, d, e, f, and kappa parameters for Millero density model.
  */
-  for (j = 0; j < 6; j++)
+  for (j = 0; j < 7; j++)
   {
     abcdef[j] = 0.0;
   }
   j =
-    sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
-	    &(abcdef[0]), &(abcdef[1]), &(abcdef[2]), &(abcdef[3]), &(abcdef[4]), &(abcdef[5]));
+    sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+	    &(abcdef[0]), &(abcdef[1]), &(abcdef[2]), &(abcdef[3]), &(abcdef[4]), &(abcdef[5]), &(abcdef[6]));
   if (j < 1)
   {
     input_error++;
@@ -3923,7 +3195,6 @@ read_mix(void)
 	char *ptr;
 	char token[MAX_LENGTH];
 	char *description;
-	//struct mix *mix_ptr;
 	cxxMix temp_mix;
 
 /*
@@ -4009,6 +3280,7 @@ read_mix(void)
 
 	return (return_value);
 }
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_number_description(char *ptr, int *n_user,
@@ -4119,8 +3391,6 @@ read_phases(void)
 		"t_c",					/* 12 */
 		"p_c",					/* 13 */
 		"omega",				/* 14 */
-		//"delta_v",				/* 15 */
-		//"deltav",				/* 16 */
 		"vm"	/* 15, molar volume, must replace delta_v */
 	};
 	int count_opt_list = 16;
@@ -4292,13 +3562,10 @@ read_phases(void)
 			read_omega_only(next_char, &phase_ptr->omega);
 			opt_save = OPTION_DEFAULT;
 			break;
-		//case 15:				/* delta_v */
-		//case 16:				/* delta_v */
 		case 15:            /* vm, molar volume */
 			if (phase_ptr == NULL)
 				break;
-			//read_delta_v_only(next_char, &phase_ptr->delta_v[1],
-			read_delta_v_only(next_char, &(phase_ptr->logk[vm0]),
+			read_vm_only(next_char, &(phase_ptr->logk[vm0]),
 				&phase_ptr->original_deltav_units);
 			phase_ptr->delta_v[1] = phase_ptr->logk[vm0];
 			opt_save = OPTION_DEFAULT;
@@ -4418,14 +3685,11 @@ read_pp_assemblage(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	//int j, n, l, return_value;
 	int j;
 	int return_value;
-	//int count_pure_phases;
 	int n_user, n_user_end;
 	char *ptr;
 	char *description;
-	//char token[MAX_LENGTH];
 	std::string token;
 	int opt, opt_save;
 	char *next_char;
@@ -4815,11 +4079,11 @@ read_reaction_steps(cxxReaction *reaction_ptr)
  */
 	token1 = token;
 	token1.append("/l");
-	char * t1 = string_duplicate(token1.c_str());
-	if (check_units(t1, FALSE, FALSE, NULL, FALSE) == OK)
+	std::string t1 = token1;
+	if (check_units(t1, false, false, NULL, false) == OK)
 	{
 		replace("/l", "", t1);
-		if (strstr(t1, "Mol") == NULL)
+		if (strstr(t1.c_str(), "Mol") == NULL)
 		{
 			error_string = sformatf( "Units of steps not in moles, %s.", token.c_str());
 			error_msg(error_string, CONTINUE);
@@ -4828,7 +4092,7 @@ read_reaction_steps(cxxReaction *reaction_ptr)
 		}
 		else
 		{
-			reaction_ptr->Set_units(t1);
+			reaction_ptr->Set_units(t1.c_str());
 		}
 		if (copy_token(token, &ptr) == EMPTY)
 		{
@@ -5405,7 +4669,331 @@ read_selected_output(void)
 
 	return (return_value);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_solution(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads solution data
+ *
+ *      Arguments:
+ *	 none
+ *
+ *      Returns:
+ *	 KEYWORD if keyword encountered, input_error may be incremented if
+ *		    a keyword is encountered in an unexpected position
+ *	 EOF     if eof encountered while reading mass balance concentrations
+ *	 ERROR   if error occurred reading data
+ *
+ */
+	int n_user, n_user_end;
+	char *description;
 
+	int return_value, opt;
+	char *next_char;
+	const char *opt_list[] = {
+		"temp",					/* 0 */
+		"temperature",			/* 1 */
+		"dens",					/* 2 */
+		"density",				/* 3 */
+		"units",				/* 4 */
+		"redox",				/* 5 */
+		"ph",					/* 6 */
+		"pe",					/* 7 */
+		"unit",					/* 8 */
+		"isotope",				/* 9 */
+		"water",				/* 10 */
+		"press",				/* 11 */
+		"pressure"				/* 12 */
+	};
+	int count_opt_list = 13;
+/*
+ *   Read solution number and description
+ */
+	char *ptr;
+	ptr = line;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+
+	cxxSolution temp_solution;
+	temp_solution.Set_new_def(true);
+	temp_solution.Create_initial_data();
+	cxxISolution *isoln_ptr = temp_solution.Get_initial_data();
+	CParser parser(this->phrq_io);
+
+	temp_solution.Set_n_user(n_user);
+	temp_solution.Set_n_user_end(n_user_end);
+	temp_solution.Set_description(description);
+	free_check_null(description);
+
+	if (!use.Get_solution_in())
+	{
+		use.Set_solution_in(true);
+		use.Set_n_solution_user(n_user);
+	}
+
+/*
+ *   Read concentration data
+ */
+	std::string token;
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		if (opt == OPTION_DEFAULT)
+		{
+			ptr = next_char;
+			if (copy_token(token, &ptr) == CParser::TT_DIGIT)
+			{
+				opt = 9;
+			}
+		}
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in SOLUTION keyword.", PHRQ_io::OT_CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		case 0:				/* temperature */
+		case 1:
+			if (sscanf(next_char, SCANFORMAT, &dummy) == 1)
+			{
+				temp_solution.Set_tc(dummy);
+			}
+			break;
+		case 2:				/* density */
+		case 3:
+			{
+				sscanf(next_char, SCANFORMAT, &dummy);
+				temp_solution.Set_density(dummy);
+			}
+			break;
+		case 4:				/* units */
+		case 8:				/* unit */
+			if (copy_token(token, &next_char) == CParser::TT_EMPTY)
+				break;
+			{
+				if (check_units(token, false, false, "mMol/kgw", false) == CParser::PARSER_OK)
+				{
+					isoln_ptr->Set_units(token);
+				}
+				else
+				{
+					input_error++;
+				}
+			}
+			break;
+		case 5:				/* redox */
+			if (copy_token(token, &next_char) == CParser::TT_EMPTY)
+				break;
+			if (parser.parse_couple(token) == CParser::PARSER_OK)
+			{
+				isoln_ptr->Set_default_pe(token);
+				cxxChemRxn temp_chem_reaction;
+				isoln_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
+			}
+			else
+			{
+				input_error++;
+			}
+			break;
+		case 6:				/* ph */
+			{
+				cxxISolutionComp temp_comp(this->phrq_io);
+				if (temp_comp.read(line, &temp_solution) == CParser::PARSER_ERROR)
+				{
+					input_error++;
+					break;
+				}
+				
+				temp_solution.Set_ph(temp_comp.Get_input_conc());
+				
+				if (temp_comp.Get_equation_name().size() == 0)
+				{
+					break;
+					
+				}
+				temp_comp.Set_description("H(1)");
+				isoln_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
+			}
+			break;
+		case 7:				/* pe */
+			{
+				cxxISolutionComp temp_comp(this->phrq_io);
+				if (temp_comp.read(line, &temp_solution) == CParser::PARSER_ERROR)
+				{
+					input_error++;
+					break;
+				}
+				temp_solution.Set_pe(temp_comp.Get_input_conc());
+				if (temp_comp.Get_equation_name().size() == 0)
+				{
+					break;
+				}
+				temp_comp.Set_description("E");
+				isoln_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
+			}
+			break;
+		case 9:				/* isotope */
+			{
+				cxxSolutionIsotope temp_isotope;
+				if (copy_token(token, &next_char) !=  CParser::TT_DIGIT)
+				{
+					input_error++;
+					error_string = sformatf( "Expected isotope name to"
+						" begin with an isotopic number.");
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					continue;
+				}
+				temp_isotope.Set_isotope_name(token.c_str());
+				/* read and save element name */
+				{
+					char *temp_iso_name = string_duplicate(token.c_str());
+					char *ptr1 = temp_iso_name;
+					get_num(&ptr1, &dummy);
+					temp_isotope.Set_isotope_number(dummy);
+					if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
+					{
+						error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
+						error_msg(line_save, PHRQ_io::OT_CONTINUE);
+						input_error++;
+						return (CParser::PARSER_ERROR);
+					}
+					temp_isotope.Set_elt_name(ptr1);
+				}
+				/* read and store isotope ratio */
+				if (copy_token(token, &next_char) != CParser::TT_DIGIT)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Expected numeric value for isotope ratio.");
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				sscanf(token.c_str(), SCANFORMAT, &dummy);
+				temp_isotope.Set_ratio(dummy);
+				temp_isotope.Set_ratio_uncertainty(NAN);
+
+				/* read and store isotope ratio uncertainty */
+				int j;
+				if ((j = copy_token(token, &next_char)) != CParser::TT_EMPTY)
+				{
+					if (j != DIGIT)
+					{
+						input_error++;
+						error_string = sformatf(
+							"Expected numeric value for uncertainty in isotope ratio.");
+						error_msg(error_string, PHRQ_io::OT_CONTINUE);
+						continue;
+					}
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					temp_isotope.Set_ratio_uncertainty(dummy);
+					temp_isotope.Set_ratio_uncertainty_defined(true);
+				}
+				temp_solution.Get_isotopes()[temp_isotope.Get_isotope_name()] = temp_isotope;
+			}
+			break;
+		case 10:				/* water */
+			{
+				int j = copy_token(token, &next_char);
+				if (j == EMPTY)
+				{
+					temp_solution.Set_mass_water(1.0);
+				}
+				else if (j != DIGIT)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Expected numeric value for mass of water in solution.");
+					error_msg(error_string, CONTINUE);
+				}
+				else
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					temp_solution.Set_mass_water(dummy);
+				}
+			}
+			break;
+		case 11: /* pressure */
+		case 12:
+			{
+				if (sscanf(next_char, SCANFORMAT, &dummy) != 1)
+				{
+					temp_solution.Set_patm(1);
+				}
+				else
+				{
+					temp_solution.Set_patm(dummy);
+				}
+			}
+			break;
+		case OPTION_DEFAULT:
+/*
+ *   Read concentration
+ */
+			{
+				cxxISolutionComp temp_comp(this->phrq_io);
+				if (temp_comp.read(line, &temp_solution) == CParser::PARSER_ERROR)
+				{
+					input_error++;
+					break;
+				}
+				isoln_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
+				if (temp_comp.Get_pe_reaction().size() > 0)
+				{
+					cxxChemRxn temp_chem_reaction;
+					isoln_ptr->Get_pe_reactions()[temp_comp.Get_pe_reaction()] = temp_chem_reaction;
+				}
+			}
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+/*
+ *   fix up default units and default pe
+ */
+	std::map < std::string, cxxISolutionComp >::iterator it;
+	for (it = isoln_ptr->Get_comps().begin(); it != isoln_ptr->Get_comps().end(); it++)
+	{
+		token = it->first;
+		Utilities::str_tolower(token);
+		if (it->second.Get_units().size() == 0)
+		{
+			it->second.Set_units(isoln_ptr->Get_units().c_str());
+		}
+		else
+		{
+			bool alk = false;
+			if (strstr(token.c_str(), "alk") == token.c_str())
+				alk = true;
+			std::string token1 = it->second.Get_units();
+			if (check_units(token1, alk, true, isoln_ptr->Get_units().c_str(), true) ==	CParser::PARSER_ERROR)
+			{
+				input_error++;
+			}
+			else
+			{
+				it->second.Set_units(token1.c_str());
+			}
+		}
+		if (it->second.Get_pe_reaction().size() == 0)
+		{
+			it->second.Set_pe_reaction(isoln_ptr->Get_default_pe());
+		}
+	}
+	Rxn_solution_map[n_user] = temp_solution;
+
+	return (return_value);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_solution(void)
@@ -5683,9 +5271,22 @@ read_solution(void)
 			break;
 		case 11: /* pressure */
 		case 12:
-			if (sscanf(next_char, SCANFORMAT, &(solution[n]->patm)) != 1)
+			j = copy_token(token, &next_char, &l);
+			if (j == EMPTY)
 			{
-				solution[n]->patm = 1;
+				solution[n]->patm = 1.0;
+			}
+			else if (j != DIGIT)
+			{
+				input_error++;
+				error_string = sformatf(
+						"Expected numeric value for pressure (atm) of solution.");
+				error_msg(error_string, CONTINUE);
+			}
+			else
+			{
+				sscanf(token, SCANFORMAT, &dummy);
+				solution[n]->patm = (LDBLE) dummy;
 			}
 			break;
 		case OPTION_DEFAULT:
@@ -5749,7 +5350,7 @@ read_solution(void)
 	solution[n]->count_isotopes = count_isotopes;
 	return (return_value);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_species(void)
@@ -5791,8 +5392,6 @@ read_species(void)
 /* VP: Density Start */
 		"millero",				/* 21 */
 /* VP: Density End */
-		//"delta_v",				/* 22 */
-		//"deltav",				/* 23 */
 		"vm"	/* 22, molar volume, must replace delta_v */
 	};
 	int count_opt_list = 23;
@@ -6139,15 +5738,13 @@ read_species(void)
 			if (!vm_read)
 			{
 			/* copy millero parms into logk, for calculating pressure dependency... */
-				for (i = 0; i < 3; i++)
+				for (i = 0; i < 7; i++)
 					s_ptr->logk[vm0 + i] = s_ptr->millero[i];
+				s_ptr->logk[vm0 + i] = 0;
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
 /* VP: Density End */
-
-		//case 22:            /* delta_v */
-		//case 23:            /* deltav */
 		case 22:            /* vm, molar volume */
 			if (s_ptr == NULL)
 			{
@@ -6158,9 +5755,10 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_delta_v_only(next_char, &s_ptr->logk[vm0],
+			read_vm_only(next_char, &s_ptr->logk[vm0],
 				&s_ptr->original_deltav_units);
 			vm_read = true;
+			print_density = OK;
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
@@ -6539,8 +6137,6 @@ read_surface_species(void)
 		"add_constant",			/* 15 */
 		"cd_music",				/* 16 */
 		"music",				/* 17 */
-		//"delta_v",				/* 18 */
-		//"deltav",				/* 19 */
 		"vm"					/* 18 */
 	};
 	int count_opt_list = 19;
@@ -6815,19 +6411,17 @@ read_surface_species(void)
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
-		//case 18:            /* delta_v */
-		//case 19:            /* deltav */
 		case 18:            /* vm, molar volume */
-		if (s_ptr == NULL)
+			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
 					"No reaction defined before option, %s.",
-				opt_list[opt]);
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			read_delta_v_only(next_char, &s_ptr->logk[vm0],
+			read_vm_only(next_char, &s_ptr->logk[vm0],
 				&s_ptr->original_deltav_units);
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -6918,10 +6512,9 @@ read_surface_species(void)
 	}
 	return (return_value);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_surf(void)
+read_surface(void)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -6937,16 +6530,11 @@ read_surf(void)
 	 *   ERROR   if error occurred reading data
 	 *
 	 */
-	int i, j, n, l;
-	int count_comps, count_charge;
 	int n_user, n_user_end;
-	LDBLE conc, area, grams, thickness;
+	LDBLE conc;
 	char *ptr, *ptr1;
 	char *description;
-	char token[MAX_LENGTH], token1[MAX_LENGTH], name[MAX_LENGTH];
-	struct surface *surface_ptr;
-	struct surface_charge *charge_ptr;
-	struct surface_comp *comp_ptr;
+	std::string token, token1, name;
 
 	int return_value, opt;
 	char *next_char;
@@ -6980,24 +6568,13 @@ read_surf(void)
 	 */
 	ptr = line;
 	read_number_description(ptr, &n_user, &n_user_end, &description);
-	/*
-	 *   Find space for surface data
-	 */
-	surface_ptr = surface_search(n_user, &n, FALSE);
-	if (surface_ptr != NULL)
-	{
-		surface_free(&surface[n]);
-	}
-	else
-	{
-		n = count_surface++;
-		space((void **) ((void *) &surface), count_surface, &max_surface,
-			  sizeof(struct surface));
-	}
-	/*
-	 *   Initialize
-	 */
-	surface_init(&(surface[n]), n_user, n_user_end, description);
+	cxxSurface temp_surface;
+	cxxSurfaceComp *comp_ptr = NULL;
+	cxxSurfaceCharge *charge_ptr = NULL;
+	temp_surface.Set_new_def(true);
+	temp_surface.Set_n_user(n_user);
+	temp_surface.Set_n_user_end(n_user_end);
+	temp_surface.Set_description(description);
 	free_check_null(description);
 
 	if (use.Get_surface_in() == FALSE)
@@ -7008,11 +6585,7 @@ read_surf(void)
 	/*
 	 *   Read surface data
 	 */
-	count_charge = 0;
-	count_comps = 0;
 	return_value = UNKNOWN;
-	comp_ptr = NULL;
-	charge_ptr = NULL;
 	for (;;)
 	{
 		opt = get_option(opt_list, count_opt_list, &next_char);
@@ -7034,11 +6607,13 @@ read_surf(void)
 		case 14:			/* equilibrium */
 			for (;;)
 			{
-				i = copy_token(token, &next_char, &l);
+				int i = copy_token(token, &next_char);
 				if (i == DIGIT)
 				{
-					sscanf(token, "%d", &surface[n].n_solution);
-					surface[n].solution_equilibria = TRUE;
+					int j;
+					sscanf(token.c_str(), "%d", &j);
+					temp_surface.Set_solution_equilibria(true);
+					temp_surface.Set_n_solution(j);
 					break;
 				}
 				if (i == EMPTY)
@@ -7054,117 +6629,122 @@ read_surf(void)
 			break;
 		case 2:				/* diffuse_layer */
 		case 3:
-			surface[n].thickness = 1e-8;
-			surface[n].dl_type = BORKOVEK_DL;
-			sscanf(next_char, SCANFORMAT, &surface[n].thickness);
-			/*		surface[n].thickness = thickness;
-			   }
-			 */ break;
+			{
+				temp_surface.Set_thickness(1e-8);
+				temp_surface.Set_dl_type(cxxSurface::BORKOVEK_DL);
+				int j = sscanf(next_char, SCANFORMAT, &dummy);
+				if (j == 1)
+				{
+					temp_surface.Set_thickness(dummy);
+				}
+			}
+			 break;
 		case 4:				/* no electrostatic */
 		case 5:
-			/*surface[n].edl = FALSE; */
-			surface[n].type = NO_EDL;
+			temp_surface.Set_type(cxxSurface::NO_EDL);
 			break;
 		case 6:
-			surface[n].only_counter_ions = TRUE;
+			temp_surface.Set_only_counter_ions(get_true_false(next_char, TRUE) == TRUE);
 			break;
 		case 7:				/* donnan for DL conc's */
-			surface[n].dl_type = DONNAN_DL;
-			/*surface[n].diffuse_layer = TRUE; */
-			thickness = 0.0;
-			for (;;)
 			{
-				i = copy_token(token, &next_char, &l);
-				if (i == DIGIT)
+				temp_surface.Set_dl_type(cxxSurface::DONNAN_DL);
+				LDBLE thickness = 0.0;
+				for (;;)
 				{
-					sscanf(token, SCANFORMAT, &surface[n].thickness);
-					thickness = 1;
-					continue;
-				}
-				else if (i != EMPTY)
-				{
-					if (token[0] == 'D' || token[0] == 'd')
+					int i = copy_token(token, &next_char);
+					if (i == DIGIT)
 					{
-						if (thickness != 0)
-						{
-							error_msg
-								("You must enter EITHER thickness OR Debye lengths (1/k),\n	   and relative DDL viscosity, DDL limit.\nCorrect is (for example): -donnan 1e-8 viscosity 0.5\n or (default values):     -donnan debye_lengths 1 viscosity 1 limit 0.8",
-								 CONTINUE);
-							error_msg(line_save, CONTINUE);
-							input_error++;
-							break;
-						}
-						j = copy_token(token1, &next_char, &l);
-						if (j == DIGIT)
-						{
-							sscanf(token1, SCANFORMAT,
-								   &surface[n].debye_lengths);
-							continue;
-						}
-						else if (j != EMPTY)
-						{
-							error_msg
-								("Expected number of Debye lengths (1/k).",
-								 CONTINUE);
-							error_msg(line_save, CONTINUE);
-							input_error++;
-							break;
-						}
+						sscanf(token.c_str(), SCANFORMAT, &dummy);
+						temp_surface.Set_thickness(dummy);
+						thickness = 1;
+						continue;
 					}
-					else if (token[0] == 'V' || token[0] == 'v')
+					else if (i != EMPTY)
 					{
-						j = copy_token(token1, &next_char, &l);
-						if (j == DIGIT)
+						if (token[0] == 'D' || token[0] == 'd')
 						{
-							sscanf(token1, SCANFORMAT,
-								   &surface[n].DDL_viscosity);
-							continue;
+							if (thickness != 0)
+							{
+								error_msg
+									("You must enter EITHER thickness OR Debye lengths (1/k),\n	   and relative DDL viscosity, DDL limit.\nCorrect is (for example): -donnan 1e-8 viscosity 0.5\n or (default values):     -donnan debye_lengths 1 viscosity 1 limit 0.8",
+									CONTINUE);
+								error_msg(line_save, CONTINUE);
+								input_error++;
+								break;
+							}
+							int j = copy_token(token1, &next_char);
+							if (j == DIGIT)
+							{
+								sscanf(token1.c_str(), SCANFORMAT, &dummy);
+								temp_surface.Set_debye_lengths(dummy);
+								continue;
+							}
+							else if (j != EMPTY)
+							{
+								error_msg
+									("Expected number of Debye lengths (1/k).",
+									CONTINUE);
+								error_msg(line_save, CONTINUE);
+								input_error++;
+								break;
+							}
 						}
-						else if (j != EMPTY)
+						else if (token[0] == 'V' || token[0] == 'v')
+						{
+							int j = copy_token(token1, &next_char);
+							if (j == DIGIT)
+							{
+								sscanf(token1.c_str(), SCANFORMAT, &dummy);
+								temp_surface.Set_DDL_viscosity(dummy);
+								continue;
+							}
+							else if (j != EMPTY)
+							{
+								error_msg
+									("Expected number for relative DDL viscosity.",
+									CONTINUE);
+								error_msg(line_save, CONTINUE);
+								input_error++;
+								break;
+							}
+						}
+						else if (token[0] == 'L' || token[0] == 'l')
+						{
+							int j = copy_token(token1, &next_char);
+							if (j == DIGIT)
+							{
+								sscanf(token1.c_str(), SCANFORMAT, &dummy);
+								temp_surface.Set_DDL_limit(dummy);
+								continue;
+							}
+							else if (j != EMPTY)
+							{
+								error_msg
+									("Expected number for maximum of DDL water as fraction of bulk water.",
+									CONTINUE);
+								error_msg(line_save, CONTINUE);
+								input_error++;
+								break;
+							}
+						}
+						else
 						{
 							error_msg
-								("Expected number for relative DDL viscosity.",
-								 CONTINUE);
-							error_msg(line_save, CONTINUE);
-							input_error++;
-							break;
-						}
-					}
-					else if (token[0] == 'L' || token[0] == 'l')
-					{
-						j = copy_token(token1, &next_char, &l);
-						if (j == DIGIT)
-						{
-							sscanf(token1, SCANFORMAT, &surface[n].DDL_limit);
-							continue;
-						}
-						else if (j != EMPTY)
-						{
-							error_msg
-								("Expected number for maximum of DDL water as fraction of bulk water.",
-								 CONTINUE);
+								("Expected diffuse layer thickness (m) or Debye lengths (1/k) for \n\tcalculating the thickness, and relative DDL viscosity and DDL limit.\nCorrect is (for example): -donnan 1e-8 visc 0.5\n or (default values):     -donnan debye_lengths 1 visc 1 lim 0.8",
+								CONTINUE);
 							error_msg(line_save, CONTINUE);
 							input_error++;
 							break;
 						}
 					}
 					else
-					{
-						error_msg
-							("Expected diffuse layer thickness (m) or Debye lengths (1/k) for \n\tcalculating the thickness, and relative DDL viscosity and DDL limit.\nCorrect is (for example): -donnan 1e-8 visc 0.5\n or (default values):     -donnan debye_lengths 1 visc 1 lim 0.8",
-							 CONTINUE);
-						error_msg(line_save, CONTINUE);
-						input_error++;
 						break;
-					}
 				}
-				else
-					break;
 			}
 			break;
 		case 8:				/* cd_music */
-			/*surface[n].edl = FALSE; */
-			surface[n].type = CD_MUSIC;
+			temp_surface.Set_type(cxxSurface::CD_MUSIC);
 			break;
 		case 9:				/* capacitances */
 			/*
@@ -7179,48 +6759,55 @@ read_surf(void)
 				input_error++;
 				break;
 			}
-			copy_token(token1, &next_char, &l);
-			if (sscanf(token1, SCANFORMAT, &grams) == 1)
+			copy_token(token1, &next_char);
+			if (sscanf(token1.c_str(), SCANFORMAT, &dummy) == 1)
 			{
-				charge_ptr->capacitance[0] = grams;
+				charge_ptr->Set_capacitance0(dummy);
 			}
-			copy_token(token1, &next_char, &l);
-			if (sscanf(token1, SCANFORMAT, &grams) == 1)
+			copy_token(token1, &next_char);
+			if (sscanf(token1.c_str(), SCANFORMAT, &dummy) == 1)
 			{
-				charge_ptr->capacitance[1] = grams;
+				charge_ptr->Set_capacitance1(dummy);
 			}
 			break;
 		case 10:				/* sites */
 		case 11:				/* sites_units */
 		case 15:				/* site_units */
-			j = copy_token(token1, &next_char, &l);
-			if (token1[0] == 'A' || token1[0] == 'a')
 			{
-				surface[n].sites_units = SITES_ABSOLUTE;
-			}
-			else if (token1[0] == 'D' || token1[0] == 'd')
-			{
-				surface[n].sites_units = SITES_DENSITY;
-			}
-			else
-			{
-				error_msg
-					("Character string expected to be 'Absolute' or 'Density' to define the units of the first item in the definition of a surface component.\n",
-					 CONTINUE);
-				input_error++;
-				break;
+				int j = copy_token(token1, &next_char);
+				if (j != EMPTY && (token1[0] == 'A' || token1[0] == 'a'))
+				{
+					temp_surface.Set_sites_units(cxxSurface::SITES_ABSOLUTE);
+				}
+				else if (j != EMPTY && (token1[0] == 'D' || token1[0] == 'd'))
+				{
+					temp_surface.Set_sites_units(cxxSurface::SITES_DENSITY);
+				}
+				else
+				{
+					error_msg
+						("Character string expected to be 'Absolute' or 'Density' to define the units of the first item in the definition of a surface component.\n",
+						CONTINUE);
+					input_error++;
+					break;
+				}
 			}
 			break;
+			// CCM not implemented yet
 		case 12:			    /* constant_capacitance */
 		case 13:			    /* ccm */
-			surface[n].type = CCM;
-			copy_token(token1, &next_char, &l);
-			if (sscanf(token1, SCANFORMAT, &(charge_ptr->capacitance[0])) != 1)
+			temp_surface.Set_type(cxxSurface::CCM);
+			copy_token(token1, &next_char);
+			if (sscanf(token1.c_str(), SCANFORMAT, &dummy) != 1)
 			{
 				error_msg("Expected capacitance for constant_capacitance model.\n",
 					 CONTINUE);
 				input_error++;
 				break;
+			}
+			else
+			{
+				charge_ptr->Set_capacitance0(dummy); 
 			}
 
 			/* constant capacitance model not implemented yet */
@@ -7232,322 +6819,241 @@ read_surf(void)
 			/*
 			 *   Read surface component
 			 */
-			ptr = line;
-			i = copy_token(token, &ptr, &l);
-			if (i != UPPER && token[0] != '[')
 			{
-				error_msg
-					("Expected surface name to begin with a capital letter.",
-					 CONTINUE);
-				error_msg(line_save, CONTINUE);
-				input_error++;
-				break;
-			}
-			/*
-			 *   Realloc space for new surface component
-			 */
-			surface[n].comps =
-				(struct surface_comp *) PHRQ_realloc(surface[n].comps,
-													 (size_t) (count_comps +
-															   1) *
-													 sizeof(struct
-															surface_comp));
-			if (surface[n].comps == NULL)
-				malloc_error();
-			surface[n].comps[count_comps].formula = string_hsave(token);
-			surface[n].comps[count_comps].formula_totals = NULL;
-			surface[n].comps[count_comps].formula_z = 0.0;
-			surface[n].comps[count_comps].moles = 0;
-			surface[n].comps[count_comps].la = 0;
-			surface[n].comps[count_comps].charge = 0;
-			surface[n].comps[count_comps].cb = 0;
-			surface[n].comps[count_comps].phase_name = NULL;
-			surface[n].comps[count_comps].phase_proportion = 0;
-			surface[n].comps[count_comps].rate_name = NULL;
-			comp_ptr = &(surface[n].comps[count_comps]);
-			surface[n].comps[count_comps].Dw = 0;
-			i = copy_token(token1, &ptr, &l);
-			if (i == DIGIT)
-			{
-				/*
-				 *   Read surface concentration
-				 */
-				/* surface concentration is read directly */
-				if (sscanf(token1, SCANFORMAT, &conc) < 1)
+				ptr = line;
+				int i = copy_token(token, &ptr);
+				if (i != UPPER && token[0] != '[')
 				{
-					error_msg("Expected number of surface sites in moles.",
-							  CONTINUE);
+					error_msg
+						("Expected surface name to begin with a capital letter.",
+						CONTINUE);
 					error_msg(line_save, CONTINUE);
 					input_error++;
 					break;
 				}
-				surface[n].comps[count_comps].moles = conc;
-				/*
-				 *   Read equilibrium phase name or kinetics rate name
-				 */
-			}
-			else if (i != EMPTY)
-			{
 
-				/* surface conc. is related to mineral or kinetics */
-				surface[n].comps[count_comps].phase_name =
-					string_hsave(token1);
-				j = copy_token(token1, &ptr, &l);
+				cxxSurfaceComp temp_comp;
+				temp_surface.Get_surface_comps().push_back(temp_comp);
+				comp_ptr = &(temp_surface.Get_surface_comps().back());
+				comp_ptr->Set_formula(token.c_str());
 
-				/* read optional 'equilibrium_phases' or 'kinetics' */
-				if (j == DIGIT)
+				i = copy_token(token1, &ptr);
+				if (i == DIGIT)
 				{
-					surface[n].related_phases = TRUE;
-				}
-				else
-				{
-					if (token1[0] == 'K' || token1[0] == 'k')
+					/*
+					*   Read surface concentration
+					*/
+					/* surface concentration is read directly */
+					if (sscanf(token1.c_str(), SCANFORMAT, &conc) < 1)
 					{
-						surface[n].comps[count_comps].rate_name =
-							surface[n].comps[count_comps].phase_name;
-						surface[n].comps[count_comps].phase_name = NULL;
-						surface[n].related_rate = TRUE;
-					}
-					else if (token1[0] == 'E' || token1[0] == 'e')
-					{
-						surface[n].related_phases = TRUE;
-						surface[n].comps[count_comps].rate_name = NULL;
-					}
-					else
-					{
-						error_msg
-							("Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.\n",
-							 CONTINUE);
+						error_msg("Expected number of surface sites in moles.",
+							CONTINUE);
+						error_msg(line_save, CONTINUE);
 						input_error++;
 						break;
 					}
-					j = copy_token(token1, &ptr, &l);
+					comp_ptr->Set_moles(conc);
+					/*
+					*   Read equilibrium phase name or kinetics rate name
+					*/
 				}
+				else if (i != EMPTY)
+				{
 
-				/* read proportion */
-				if (j != DIGIT)
-				{
-					error_msg
-						("Expected a coefficient to relate surface to mineral or kinetic reaction.\n",
-						 CONTINUE);
-					input_error++;
-					break;
-				}
-				sscanf(token1, SCANFORMAT,
-					   &surface[n].comps[count_comps].phase_proportion);
-				/* real conc must be defined in tidy_model */
-				conc = 1.0;
-			}
-			else
-			{
-				error_msg
-					("Expected concentration of surface, mineral name, or kinetic reaction name.",
-					 CONTINUE);
-				error_msg(line_save, CONTINUE);
-				input_error++;
-				break;
-			}
-			/*
-			 *   Accumulate elements in elt_list
-			 */
-			count_elts = 0;
-			paren_count = 0;
-			ptr1 = token;
-			get_elts_in_species(&ptr1, conc);
+					/* surface conc. is related to mineral or kinetics */
+					comp_ptr->Set_phase_name(token1.c_str());
+					int j = copy_token(token1, &ptr);
 
-			/*
-			 *   save formula for adjusting number of exchange sites
-			 */
-
-			ptr1 = token;
-			get_token(&ptr1, token1,
-					  &surface[n].comps[count_comps].formula_z, &l);
-			surface[n].comps[count_comps].formula_totals = elt_list_save();
-			surface[n].comps[count_comps].totals = elt_list_save();
-			/*
-			 *   Search for charge structure
-			 */
-			ptr1 = token;
-			get_elt(&ptr1, name, &l);
-			ptr1 = strchr(name, '_');
-			if (ptr1 != NULL)
-				ptr1[0] = '\0';
-			for (i = 0; i < count_charge; i++)
-			{
-				if (strcmp(surface[n].charge[i].name, name) == 0)
-					break;
-			}
-			if (i >= count_charge)
-			{
-				surface[n].charge =
-					(struct surface_charge *) PHRQ_realloc(surface[n].charge,
-														   (size_t)
-														   (count_charge +
-															1) *
-														   sizeof(struct
-																  surface_charge));
-				if (surface[n].charge == NULL)
-					malloc_error();
-				i = count_charge;
-				surface[n].charge[i].name = string_hsave(name);
-				if (surface[n].comps[count_comps].phase_name == NULL
-					&& surface[n].comps[count_comps].rate_name == NULL)
-				{
-					surface[n].charge[i].specific_area = 600.0;
-					surface[n].charge[i].grams = 0.0;
-				}
-				else
-				{
-					surface[n].charge[i].specific_area = 0.0;
-					surface[n].charge[i].grams = 1.0;
-				}
-				surface[n].charge[i].charge_balance = 0.0;
-				surface[n].charge[i].mass_water = 0.0;
-				surface[n].charge[i].diffuse_layer_totals = NULL;
-				surface[n].charge[i].count_g = 0;
-				surface[n].charge[i].g = NULL;
-				surface[n].charge[i].la_psi = 0;
-				surface[n].charge[i].la_psi1 = 0;
-				surface[n].charge[i].la_psi2 = 0;
-				surface[n].charge[i].psi = 0;
-				surface[n].charge[i].psi1 = 0;
-				surface[n].charge[i].psi2 = 0;
-				surface[n].charge[i].capacitance[0] = 1.0;
-				surface[n].charge[i].capacitance[1] = 5.0;
-				surface[n].charge[i].sigma0 = 0;
-				surface[n].charge[i].sigma1 = 0;
-				surface[n].charge[i].sigma2 = 0;
-				surface[n].charge[i].sigmaddl = 0;
-				count_charge++;
-			}
-			charge_ptr = &(surface[n].charge[i]);
-			surface[n].comps[count_comps].charge = i;
-			count_comps++;
-			/*
-			 *   Read surface area (m2/g)
-			 */
-			copy_token(token1, &ptr, &l);
-			if (sscanf(token1, SCANFORMAT, &area) == 1)
-			{
-				surface[n].charge[i].specific_area = area;
-			}
-			else
-			{
-				break;
-			}
-			/*
-			 *   Read grams of solid (g)
-			 */
-			copy_token(token1, &ptr, &l);
-			if (sscanf(token1, SCANFORMAT, &grams) == 1)
-			{
-				surface[n].charge[i].grams = grams;
-			}
-			/* read Dw */
-			copy_token(token1, &ptr, &l);
-			str_tolower(token1);
-			if (strcmp(token1, "dw") == 0)
-			{
-				j = copy_token(token1, &ptr, &l);
-				if (j != DIGIT)
-				{
-					error_msg
-						("Expected surface diffusion coefficient (m2/s).\n",
-						 CONTINUE);
-					input_error++;
-					break;
-				}
-				else
-				{
-					sscanf(token1, SCANFORMAT,
-						   &surface[n].comps[count_comps - 1].Dw);
-					if (surface[n].comps[count_comps - 1].Dw > 0)
+					/* read optional 'equilibrium_phases' or 'kinetics' */
+					if (j != DIGIT)
 					{
-						surface[n].transport = TRUE;
-						if (surface[n].related_rate == TRUE
-							|| surface[n].related_phases == TRUE)
+						if (token1[0] == 'K' || token1[0] == 'k')
+						{
+							comp_ptr->Set_rate_name(comp_ptr->Get_phase_name().c_str());
+							comp_ptr->Set_phase_name(NULL);
+						}
+						else if (token1[0] == 'E' || token1[0] == 'e')
+						{
+							comp_ptr->Set_rate_name(NULL);
+						}
+						else
 						{
 							error_msg
-								("Can't transport surfaces related to phases or rates (yet).",
-								 CONTINUE);
+								("Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.\n",
+								CONTINUE);
 							input_error++;
+							break;
 						}
+						j = copy_token(token1, &ptr);
 					}
+
+					/* read proportion */
+					if (j != DIGIT)
+					{
+						error_msg
+							("Expected a coefficient to relate surface to mineral or kinetic reaction.\n",
+							CONTINUE);
+						input_error++;
+						break;
+					}
+					sscanf(token1.c_str(), SCANFORMAT, &dummy);
+					comp_ptr->Set_phase_proportion(dummy);
+					/* real conc must be defined in tidy_model */
+					conc = 1.0;
+				}
+				else
+				{
+					error_msg
+						("Expected concentration of surface, mineral name, or kinetic reaction name.",
+						CONTINUE);
+					error_msg(line_save, CONTINUE);
+					input_error++;
 					break;
+				}
+				/*
+				*   Accumulate elements in elt_list
+				*/
+				count_elts = 0;
+				paren_count = 0;
+				char * formula = string_duplicate(token.c_str());
+				ptr1 = formula;
+				get_elts_in_species(&ptr1, conc);
+				/*
+				*   save formula for adjusting number of exchange sites
+				*/
+				ptr1 = formula;
+				int l;
+				// name is work space
+				char * name = string_duplicate(formula);
+				name[0] = '\0';
+				get_token(&ptr1, name, &dummy, &l);
+				comp_ptr->Set_formula_z(dummy);
+				cxxNameDouble nd = elt_list_NameDouble();
+				comp_ptr->Set_totals(nd);
+				/*
+				*   Search for charge structure
+				*/
+				ptr1 = formula;
+				get_elt(&ptr1, name, &l);
+				ptr1 = strchr(name, '_');
+				if (ptr1 != NULL)
+					ptr1[0] = '\0';
+				charge_ptr = temp_surface.Find_charge(name);
+				if (charge_ptr == NULL)
+				{
+					cxxSurfaceCharge temp_charge;
+					temp_charge.Set_name(name);
+					if (comp_ptr->Get_phase_name().size() == 0
+						&& comp_ptr->Get_rate_name().size() == 0)
+					{
+						temp_charge.Set_specific_area(600.0);
+						temp_charge.Set_grams(0.0);
+					}
+					else
+					{
+						temp_charge.Set_specific_area(0.0);
+						temp_charge.Set_grams(1.0);
+					}
+					temp_surface.Get_surface_charges().push_back(temp_charge);
+					charge_ptr = temp_surface.Find_charge(name);
+				}
+				comp_ptr->Set_charge_name(name);
+				/*
+				*   Read surface area (m2/g)
+				*/
+				copy_token(token1, &ptr);
+				if (sscanf(token1.c_str(), SCANFORMAT, &dummy) == 1)
+				{
+					charge_ptr->Set_specific_area(dummy);
+				}
+				else
+				{
+					break;
+				}
+				/*
+				*   Read grams of solid (g)
+				*/
+				copy_token(token1, &ptr);
+				if (sscanf(token1.c_str(), SCANFORMAT, &dummy) == 1)
+				{
+					charge_ptr->Set_grams(dummy);
+				}
+				/* read Dw */
+				copy_token(token1, &ptr);
+				Utilities::str_tolower(token1);
+				if (strcmp(token1.c_str(), "dw") == 0)
+				{
+					int j = copy_token(token1, &ptr);
+					if (j != DIGIT)
+					{
+						error_msg
+							("Expected surface diffusion coefficient (m2/s).\n",
+							CONTINUE);
+						input_error++;
+						break;
+					}
+					else
+					{
+						sscanf(token1.c_str(), SCANFORMAT, &dummy);
+						comp_ptr->Set_Dw(dummy);
+						if (dummy > 0)
+						{
+							temp_surface.Set_transport(true);
+							if (temp_surface.Get_related_rate()
+								|| temp_surface.Get_related_phases())
+							{
+								error_msg
+									("Can't transport surfaces related to phases or rates (yet).",
+									CONTINUE);
+								input_error++;
+							}
+						}
+						break;
+					}
 				}
 			}
 			break;
-
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
 	}
-	surface[n].count_comps = count_comps;
-	surface[n].count_charge = count_charge;
 
-	/* sort charge */
-	qsort(surface[n].charge,
-		  (size_t) surface[n].count_charge,
-		  (size_t) sizeof(struct surface_charge), surface_charge_compare);
-
-	/* renumber charge variable in comps */
-	for (i = 0; i < surface[n].count_comps; i++)
-	{
-		char * temp_formula = string_duplicate(surface[n].comps[i].formula);
-		ptr = temp_formula;
-		copy_token(token, &ptr, &l);
-		ptr1 = token;
-		get_elt(&ptr1, name, &l);
-		ptr1 = strchr(name, '_');
-		if (ptr1 != NULL)
-			ptr1[0] = '\0';
-		for (j = 0; j < surface[n].count_charge; j++)
-		{
-			if (strcmp(surface[n].charge[j].name, name) == 0)
-			{
-				surface[n].comps[i].charge = j;
-				break;
-			}
-		}
-		free_check_null(temp_formula);
-		assert(j < surface[n].count_charge);
-	}
+	// Sort comps and charge
+	temp_surface.Sort_comps();
 
 	/*
 	 * copy Dw > 0 to all comps with the same charge structure, check edl & dif for surface transport
 	 */
-	if (surface[n].transport == TRUE)
+	if (temp_surface.Get_transport())
 	{
-		/*
-		   if (surface[n].edl == FALSE || surface[n].diffuse_layer == FALSE) {
-		   surface[n].edl = TRUE;
-		   surface[n].diffuse_layer = TRUE;
-		   warning_msg("Can't transport without edl and diffuse layer, set to true");
-		   }
-		 */
-		if (surface[n].type <= NO_EDL)
+		if (temp_surface.Get_type() <= cxxSurface::NO_EDL)
 		{
 			input_error++;
 			error_msg
 				("Must use default Dzombak and Morel or -cd_music for surface transport.",
 				 CONTINUE);
 		}
-		if (surface[n].dl_type <= NO_DL)
+		if (temp_surface.Get_dl_type() <= cxxSurface::NO_DL)
 		{
 			input_error++;
 			error_msg
 				("Must use -donnan or -diffuse_layer for surface transport.",
 				 CONTINUE);
 		}
-		for (i = 0; i < count_comps; i++)
+		for (size_t i = 0; i < temp_surface.Get_surface_comps().size(); i++)
 		{
-			if (surface[n].comps[i].Dw > 0)
+			comp_ptr = &(temp_surface.Get_surface_comps()[i]);
+			if (comp_ptr->Get_Dw() > 0)
 			{
-				for (j = 0; j < count_comps; j++)
+				std::string name = comp_ptr->Get_charge_name();
+				for (size_t j = 0; j < temp_surface.Get_surface_comps().size(); j++)
 				{
-					if (surface[n].comps[j].charge ==
-						surface[n].comps[i].charge)
-						surface[n].comps[j].Dw = surface[n].comps[i].Dw;
+					cxxSurfaceComp *comp_ptr1 = &(temp_surface.Get_surface_comps()[j]);
+					std::string name1 = comp_ptr1->Get_charge_name();
+					if (name == name1)
+					{
+						comp_ptr1->Set_Dw(comp_ptr->Get_Dw());
+					}
 				}
 			}
 		}
@@ -7555,16 +7061,16 @@ read_surf(void)
 	/*
 	 *   Make sure surface area is defined
 	 */
-	/*if (surface[n].edl == TRUE) { */
-	if (surface[n].type == DDL || surface[n].type == CD_MUSIC)
+	if (temp_surface.Get_type() == cxxSurface::DDL || temp_surface.Get_type() == cxxSurface::CD_MUSIC)
 	{
-		for (i = 0; i < count_charge; i++)
+		for (size_t i = 0; i < temp_surface.Get_surface_charges().size(); i++)
 		{
-			if (surface[n].charge[i].grams *
-				surface[n].charge[i].specific_area <= 0)
+			charge_ptr = &(temp_surface.Get_surface_charges()[i]);
+			if (charge_ptr->Get_grams() *
+				charge_ptr->Get_specific_area() <= 0)
 			{
 				error_string = sformatf( "Surface area not defined for %s.\n",
-						surface[n].charge[i].name);
+						charge_ptr->Get_name().c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 			}
@@ -7573,36 +7079,36 @@ read_surf(void)
 	/*
 	 *  Logical checks
 	 */
-	if (surface[n].type == UNKNOWN_DL)
+	if (temp_surface.Get_type() == cxxSurface::UNKNOWN_DL)
 	{
 		error_string = sformatf( "Unknown surface type.\n");
 		error_msg(error_string, CONTINUE);
 		input_error++;
 	}
-	else if (surface[n].type == NO_EDL)
+	else if (temp_surface.Get_type() == cxxSurface::NO_EDL)
 	{
-		if (surface[n].dl_type != NO_DL)
+		if (temp_surface.Get_dl_type() != cxxSurface::NO_DL)
 		{
 			error_string = sformatf(
 					"No electrostatic term calculations do not allow calculation of the diffuse layer composition.\n");
 			warning_msg(error_string);
-			surface[n].dl_type = NO_DL;
+			temp_surface.Set_dl_type(cxxSurface::NO_DL);
 		}
 	}
-	else if (surface[n].type == DDL)
+	else if (temp_surface.Get_type() == cxxSurface::DDL)
 	{
 		/* all values of dl_type are valid */
 	}
-	else if (surface[n].type == CD_MUSIC)
+	else if (temp_surface.Get_type() == cxxSurface::CD_MUSIC)
 	{
-		if (surface[n].dl_type == BORKOVEK_DL)
+		if (temp_surface.Get_dl_type() == cxxSurface::BORKOVEK_DL)
 		{
 			error_string = sformatf(
 					"Borkovec and Westall diffuse layer calculation is not allowed with a CD_MUSIC surface.\n\tUsing Donnan diffuse layer calculation.");
 			warning_msg(error_string);
-			surface[n].dl_type = DONNAN_DL;
+			temp_surface.Set_dl_type(cxxSurface::DONNAN_DL);
 		}
-		if (surface[n].debye_lengths > 0)
+		if (temp_surface.Get_debye_lengths() > 0)
 		{
 			error_msg
 				("Variable DDL thickness is not permitted in CD_MUSIC. Fix DDL thickness\n\tfor example (default value): -donnan 1e-8",
@@ -7610,9 +7116,10 @@ read_surf(void)
 			input_error++;
 		}
 	}
+	temp_surface.Sort_comps();
+	Rxn_surface_map[n_user] = temp_surface;
 	return (return_value);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_surface_master_species(void)
@@ -8227,19 +7734,6 @@ read_debug(void)
 				LDBLE ct;
 				sscanf(next_char, SCANFORMAT, &ct);
 				convergence_tolerance = ct;
-				//if (punch.high_precision == TRUE)
-				//{
-				//	if (ct < 1e-12)
-				//	{
-				//		convergence_tolerance = ct;
-				//	}
-				//}
-				//else
-				//{
-				//	{
-				//		convergence_tolerance = ct;
-				//	}
-				//}
 			}
 			break;
 		case 15:				/* numerical_derivatives */
@@ -8545,7 +8039,163 @@ check_key(const char *str)
 	}
 	return (FALSE);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+check_units(std::string &tot_units, bool alkalinity, bool check_compatibility,
+			const char *default_units, bool print)
+/* ---------------------------------------------------------------------- */
+{
+#define NUNITS (sizeof(units) / sizeof(char *))
+/*
+ *   Check if legitimate units
+ *   Input:
+ *	   tot_units	   character string to check,
+ *	   alkalinity	  TRUE if alkalinity, FALSE if any other total,
+ *	   check_compatibility TRUE check alk and default units, FALSE otherwise
+ *	   default_units       character string of default units (check /L, /kg, etc)
+ *	   print	       TRUE print warning messages
+ *   Output:
+ *	   tot_units	   standard form for unit
+ */
+	const char *units[] = {
+		"Mol/l",				/* 0 */
+		"mMol/l",				/* 1 */
+		"uMol/l",				/* 2 */
+		"g/l",					/* 3 */
+		"mg/l",					/* 4 */
+		"ug/l",					/* 5 */
+		"Mol/kgs",				/* 6 */
+		"mMol/kgs",				/* 7 */
+		"uMol/kgs",				/* 8 */
+		"g/kgs",				/* 9 = ppt */
+		"mg/kgs",				/* 10 = ppm */
+		"ug/kgs",				/* 11 = ppb */
+		"Mol/kgw",				/* 12 = mol/kg H2O */
+		"mMol/kgw",				/* 13 = mmol/kg H2O */
+		"uMol/kgw",				/* 14 = umol/kg H2O */
+		"g/kgw",				/* 15 = mol/kg H2O */
+		"mg/kgw",				/* 16 = mmol/kg H2O */
+		"ug/kgw",				/* 17 = umol/kg H2O */
+		"eq/l",					/* 18 */
+		"meq/l",				/* 19 */
+		"ueq/l",				/* 20 */
+		"eq/kgs",				/* 21 */
+		"meq/kgs",				/* 22 */
+		"ueq/kgs",				/* 23 */
+		"eq/kgw",				/* 24 */
+		"meq/kgw",				/* 25 */
+		"ueq/kgw",				/* 26 */
+	};
+	Utilities::squeeze_white(tot_units);
+	Utilities::str_tolower(tot_units);
+	replace("milli", "m", tot_units);
+	replace("micro", "u", tot_units);
+	replace("grams", "g", tot_units);
+	replace("gram", "g", tot_units);
+	replace("moles", "Mol", tot_units);
+	replace("mole", "Mol", tot_units);
+	replace("mol", "Mol", tot_units);
+	replace("liter", "l", tot_units);
+	replace("kgh", "kgw", tot_units);
+	replace("ppt", "g/kgs", tot_units);
+	replace("ppm", "mg/kgs", tot_units);
+	replace("ppb", "ug/kgs", tot_units);
+	replace("equivalents", "eq", tot_units);
+	replace("equivalent", "eq", tot_units);
+	replace("equiv", "eq", tot_units);
 
+	size_t pos;
+	if ((pos = tot_units.find("/l")) != std::string::npos)
+	{
+		tot_units = tot_units.substr(0, pos + 2);
+	}
+	else if ((pos = tot_units.find("/kgs")) != std::string::npos)
+	{
+		tot_units = tot_units.substr(0, pos + 4);
+	}
+	else if ((pos = tot_units.find("/kgw")) != std::string::npos)
+	{
+		tot_units = tot_units.substr(0, pos + 4);
+	}
+/*
+ *   Check if unit in list
+ */
+	bool found = false;
+	size_t i;
+	for (i = 0; i < NUNITS; i++)
+	{
+		if (strcmp(tot_units.c_str(), units[i]) == 0)
+		{
+			found = true;
+			break;
+		}
+	}
+	if (!found)
+	{
+		if (print)
+		{
+			error_string = sformatf( "Unknown unit, %s.", tot_units.c_str());
+			error_msg(error_string, CONTINUE);
+		}
+		return (ERROR);
+	}
+
+/*
+ *   Check if units are compatible with default_units
+ */
+	if (!check_compatibility)
+		return (OK);
+/*
+ *   Special cases for alkalinity
+ */
+	if (alkalinity && strstr(tot_units.c_str(), "Mol") != NULL)
+	{
+		if (print == TRUE)
+		{
+			error_string = sformatf(
+					"Alkalinity given in moles, assumed to be equivalents.");
+			warning_msg(error_string);
+		}
+		replace("Mol", "eq", tot_units);
+	}
+	if (!alkalinity && strstr(tot_units.c_str(), "eq") != NULL)
+	{
+		if (print)
+		{
+			error_msg("Only alkalinity can be entered in equivalents.",
+					  CONTINUE);
+		}
+		return (ERROR);
+	}
+/*
+ *   See if default_units are compatible with tot_units
+ */
+	if (strstr(default_units, "/l") && strstr(tot_units.c_str(), "/l"))
+		return (OK);
+	if (strstr(default_units, "/kgs") && strstr(tot_units.c_str(), "/kgs"))
+		return (OK);
+	if (strstr(default_units, "/kgw") && strstr(tot_units.c_str(), "/kgw"))
+		return (OK);
+
+	std::string string = default_units;
+	Utilities::replace("kgs", "kg solution", string);
+	Utilities::replace("kgs", "kg solution", tot_units);
+	Utilities::replace("kgw", "kg water", string);
+	Utilities::replace("kgw", "kg water", tot_units);
+	Utilities::replace("/l", "/L", string);
+	Utilities::replace("Mol", "mol", string);
+	Utilities::replace("/l", "/L", tot_units);
+	Utilities::replace("Mol", "mol", tot_units);
+	if (print == TRUE)
+	{
+		error_string = sformatf(
+				"Units for master species, %s, are not compatible with default units, %s.",
+				tot_units.c_str(), string.c_str());
+		error_msg(error_string, CONTINUE);
+	}
+	return (ERROR);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 check_units(char *tot_units, int alkalinity, int check_compatibility,
@@ -8704,7 +8354,7 @@ check_units(char *tot_units, int alkalinity, int check_compatibility,
 	}
 	return (ERROR);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 find_option(const char *item, int *n, const char **list, int count_list, int exact)
@@ -9466,12 +9116,9 @@ read_solid_solutions(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	//int i, j, n, l;
-	//int count_s_s, number_s_s, count_comps;
 	int n_user, n_user_end;
 	char *ptr;
 	char *description;
-	//char token[MAX_LENGTH];
 	std::string token;
 
 	int return_value, opt;
@@ -9972,7 +9619,7 @@ read_solid_solutions(void)
 			ptr = line;
 			copy_token(token, &ptr);
 			ss_ptr->Set_name(token);
-			ss_ptr->Set_total_moles(NAN);
+			ss_ptr->Set_total_moles(0.0);
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -10386,8 +10033,6 @@ read_named_logk(void)
 		"ln_alpha1000",			/* 7 */
 		"add_logk",				/* 8 */
 		"add_log_k",			/* 9 */
-		//"delta_v",				/* 10 */
-		//"deltav",				/* 11 */
 		"vm"					/* 10 */
 	};
 	int count_opt_list = 11;
@@ -10552,8 +10197,6 @@ read_named_logk(void)
 			logk_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
 			break;
-		//case 10:            /* delta_v */
-		//case 11:            /* deltav */
 		case 10:            /* vm, molar volume */
 			if (logk_ptr == NULL)
 			{
@@ -10564,7 +10207,7 @@ read_named_logk(void)
 				input_error++;
 				break;
 			}
-			read_delta_v_only(next_char, &logk_ptr->log_k[vm0],
+			read_vm_only(next_char, &logk_ptr->log_k[vm0],
 				&logk_ptr->original_deltav_units);
 			logk_copy2orig(logk_ptr);
 			opt_save = OPTION_DEFAULT;
@@ -10694,14 +10337,6 @@ read_copy(void)
 		{
 			n_user_end = n_user_start;
 		}
-		if (n_user_start < 0)
-		{
-			//error_msg("Target index number must be a positive integer.",
-			//		  CONTINUE);
-			//error_msg(line_save, CONTINUE);
-			//input_error++;
-			//return (ERROR);
-		}
 	}
 	else
 	{
@@ -10811,7 +10446,6 @@ read_reaction_pressure(void)
 	/*
 	 *  Make parser
 	 */
-	//CParser parser(*phrq_io->get_istream(), this->phrq_io);
 	CParser parser(this->phrq_io);
 	if (pr.echo_input == FALSE) parser.set_echo_file(CParser::EO_NONE);
 	atm.read(parser);
@@ -10859,18 +10493,9 @@ read_reaction_pressure_raw(void)
 	assert(!reading_database());
 
 	cxxPressure atm(this->phrq_io);
-	//char *ptr = line;
-	//char *description;
-	//int n_user, n_user_end;
-	//read_number_description(ptr, &n_user, &n_user_end, &description);
-	//atm.Set_n_user(n_user);
-	//atm.Set_n_user_end(n_user);
-	//atm.Set_description(description);
-	//free_check_null(description);
 	/*
 	 *  Make parser
 	 */
-	//CParser parser(*phrq_io->get_istream(), this->phrq_io);
 	CParser parser(this->phrq_io);
 	if (pr.echo_input == FALSE) parser.set_echo_file(CParser::EO_NONE);
 	atm.read_raw(parser);
@@ -10955,7 +10580,6 @@ read_temperature(void)
 	/*
 	 *  Make parser
 	 */
-	//CParser parser(*phrq_io->get_istream(), this->phrq_io);
 	CParser parser(this->phrq_io);
 	if (pr.echo_input == FALSE) parser.set_echo_file(CParser::EO_NONE);
 	t_react.read(parser);

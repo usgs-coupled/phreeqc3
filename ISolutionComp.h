@@ -13,12 +13,11 @@ class cxxISolutionComp: public PHRQ_base
 {
   public:
 	cxxISolutionComp(PHRQ_io *io=NULL);
-	cxxISolutionComp(struct conc *conc_ptr, PHRQ_io *io=NULL);
-	~cxxISolutionComp(void);
+	virtual ~cxxISolutionComp(void);
 
   public:
 
-	//STATUS_TYPE read(CParser& parser, CSolution& sol);
+	CParser::STATUS_TYPE read(const char *line, cxxSolution *solution_ptr);
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
@@ -85,16 +84,14 @@ class cxxISolutionComp: public PHRQ_base
 	{
 		this->phase_si = l_phase_si;
 	}
-
-	int Get_n_pe() const
+	std::string Get_pe_reaction() const
 	{
-		return this->n_pe;
+		return this->pe_reaction;
 	}
-	void Set_n_pe(int l_n_pe)
+	void Set_pe_reaction(const std::string & pe_r)
 	{
-		this->n_pe = l_n_pe;
+		this->pe_reaction = pe_r;
 	}
-
 	const std::string &Get_as() const
 	{
 		return this->as;
@@ -106,8 +103,6 @@ class cxxISolutionComp: public PHRQ_base
 		else
 			this->as.clear();
 	}
-
-	//LDBLE get_gfw()const {return this->gfw;}
 	LDBLE Get_gfw() const
 	{
 		return this->gfw;
@@ -116,7 +111,6 @@ class cxxISolutionComp: public PHRQ_base
 	{
 		this->gfw = l_gfw;
 	}
-	//void Set_gfw(PHREEQC_PTR_ARG);
 
 	bool operator<(const cxxISolutionComp & conc) const
 	{
@@ -130,7 +124,7 @@ class cxxISolutionComp: public PHRQ_base
 	  std::string units;
 	  std::string equation_name;
 	  LDBLE phase_si;
-	  int n_pe;
+	  std::string pe_reaction;
 	  std::string as;
 	  LDBLE gfw;
 };

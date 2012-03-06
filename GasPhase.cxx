@@ -25,7 +25,7 @@ cxxGasPhase::cxxGasPhase(PHRQ_io * io)
 	//
 :	cxxNumKeyword(io)
 {
-	new_def = true;
+	new_def = false;
 	solution_equilibria = false;
 	n_solution = -999;
 	type = cxxGasPhase::GP_PRESSURE;
@@ -182,7 +182,6 @@ cxxGasPhase::~cxxGasPhase()
 void
 cxxGasPhase::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing gas_phase message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -217,7 +216,6 @@ cxxGasPhase::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 void
 cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing gas_phase message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -231,36 +229,43 @@ cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// GasPhase element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "GAS_PHASE_RAW       " << n_user_local << " " << this->description << "\n";
+	s_oss << "GAS_PHASE_RAW                " << n_user_local << " " << this->description << "\n";
 
+	s_oss << indent1 << "# GAS_PHASE_MODIFY candidate identifiers #\n";
 	s_oss << indent1;
-	s_oss << "-new_def             " << this->new_def << "\n";
+	s_oss << "-type                      " << this->type << "\n";
 	s_oss << indent1;
-	s_oss << "-solution_equilibria " << this->solution_equilibria << "\n";
+	s_oss << "-total_p                   " << this->total_p << "\n";
 	s_oss << indent1;
-	s_oss << "-n_solution         " << this->n_solution << "\n";
-	s_oss << indent1;
-	s_oss << "-type               " << this->type << "\n";
-	s_oss << indent1;
-	s_oss << "-total_p            " << this->total_p << "\n";
-	s_oss << indent1;
-	s_oss << "-total_moles        " << this->total_moles << "\n";
-	s_oss << indent1;
-	s_oss << "-volume             " << this->volume << "\n";
-	s_oss << indent1;
-	s_oss << "-v_m                " << this->v_m << "\n";
-	s_oss << indent1;
-	s_oss << "-pr_in               " << (this->pr_in ? 1 : 0) << "\n";
-	s_oss << indent1;
-	s_oss << "-temperature         " << this->temperature << "\n";
-
+	s_oss << "-volume                    " << this->volume << "\n";
 	// gasPhaseComps 
 	for (size_t i = 0 ; i < this->gas_comps.size(); i++)
 	{
 		s_oss << indent1;
-		s_oss << "-component" << "\n";
+		s_oss << "-component                 " << this->gas_comps[i].Get_phase_name() << "\n";
 		this->gas_comps[i].dump_raw(s_oss, indent + 2);
 	}
+
+	s_oss << indent1 << "# GAS_PHASE_MODIFY candidate identifiers with new_def=true #\n";
+	s_oss << indent1;
+	s_oss << "-new_def                   " << this->new_def << "\n";
+	s_oss << indent1;
+	s_oss << "-solution_equilibria       " << this->solution_equilibria << "\n";
+	s_oss << indent1;
+	s_oss << "-n_solution                " << this->n_solution << "\n";
+	s_oss << indent1;
+	s_oss << "-temperature               " << this->temperature << "\n";
+
+	s_oss << indent1 << "# GasPhase workspace variables #\n";
+	s_oss << indent1;
+	s_oss << "-total_moles               " << this->total_moles << "\n";
+	s_oss << indent1;
+	s_oss << "-v_m                       " << this->v_m << "\n";
+	s_oss << indent1;
+	s_oss << "-pr_in                     " << (this->pr_in ? 1 : 0) << "\n";
+	s_oss << indent1;
+	s_oss << "-totals                    " << "\n";
+	this->totals.dump_raw(s_oss, indent + 2);
 }
 
 void
@@ -284,6 +289,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 		vopts.push_back("n_solution");			//9
 		vopts.push_back("total_moles");			//10
 		vopts.push_back("temperature");			//11
+		vopts.push_back("totals");              //12
 	}
 
 	std::istream::pos_type ptr;
@@ -337,7 +343,6 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 
 		case 0:				// type
 			if (!(parser.get_iss() >> i))
-				//if (!(parser.get_iss() >> (cxxGasPhase::GP_TYPE) this->type))
 			{
 				this->type = cxxGasPhase::GP_PRESSURE;
 				parser.incr_input_error();
@@ -388,38 +393,44 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			v_m_defined = true;
 			useLastLine = false;
 			break;
-
 		case 4:				// component
 			{
-				cxxGasComp gc;
-				//bool tf = gc.read_raw(parser, next_char);
-				//if (!tf
-				if (!gc.read_raw(parser, false))
+				std::string str;
+				if (!(parser.get_iss() >> str))
 				{
 					parser.incr_input_error();
-					parser.error_msg
-						("Expected gas component information.",
-						 PHRQ_io::OT_CONTINUE);
+					parser.error_msg("Expected string value for component name.",
+									 PHRQ_io::OT_CONTINUE);
 				}
 				else
 				{
-					size_t i;
-					for (i = 0; i < this->gas_comps.size(); i++)
+					cxxGasComp temp_comp(io);
+					temp_comp.Set_phase_name(str);
+					cxxGasComp * comp_ptr = this->Find_comp(str.c_str());
+					if (comp_ptr)
 					{
-						if (this->gas_comps[i].Get_phase_name() == gc.Get_phase_name())
+						temp_comp = *comp_ptr;	
+					}
+					temp_comp.read_raw(parser, false);
+					if (comp_ptr)
+					{
+						for (size_t j = 0; j < this->gas_comps.size(); j++)
 						{
-							this->gas_comps[i] = gc;
-							break;
+							if (Utilities::strcmp_nocase(this->gas_comps[j].Get_phase_name().c_str(), str.c_str()) == 0)
+							{
+								this->gas_comps[j] = temp_comp;
+							}
 						}
 					}
-					if (i >= this->gas_comps.size())
+					else
 					{
-						this->gas_comps.push_back(gc);
+						this->gas_comps.push_back(temp_comp);
 					}
+					useLastLine = true;
 				}
-				//opt_save = 4;
-				useLastLine = true;
 			}
+			
+			opt_save = CParser::OPT_DEFAULT;
 			break;
 		case 6:				// pr_in
 			if (!(parser.get_iss() >> i))
@@ -486,6 +497,18 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			}
 			useLastLine = false;
 			break;
+		case 12:				// totals
+			if (this->totals.read_raw(parser, next_char) !=
+				CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected element name and molality for GasPhase totals.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 12;
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -509,18 +532,6 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("Volume not defined for GAS_PHASE_RAW input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		if (v_m_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("V_m not defined for GAS_PHASE_RAW input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		if (pr_in_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Pr_in not defined for GAS_PHASE_RAW input.",
 				PHRQ_io::OT_CONTINUE);
 		}
 	}
@@ -604,4 +615,16 @@ LDBLE cxxGasPhase::Calc_total_moles(void)
 		tot += gas_comps[i].Get_moles();
 	}
 	return tot;
+}
+cxxGasComp *
+cxxGasPhase::Find_comp(const char * comp_name)
+{
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name) == 0)
+		{
+			return &(this->gas_comps[i]);
+		}
+	}
+	return NULL;
 }

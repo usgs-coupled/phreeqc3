@@ -32,13 +32,6 @@ StorageBinListItem::StorageBinListItem(CParser & parser)
 			{
 				break;
 			}
-			else
-			{
-				// ignore characters like RUN
-				//parser.error_msg("Expected single number or range of numbers.",
-				//	PHRQ_io::OT_CONTINUE);
-				//break;
-			}
 		}
 	}
 }

@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <gmp.h>
 
-//#define Phreeqc:: Phreeqc::
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "phrqtype.h"

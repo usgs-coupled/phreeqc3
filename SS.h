@@ -17,8 +17,7 @@ class cxxSS: public PHRQ_base
 
   public:
 	cxxSS(PHRQ_io *io=NULL);
-	//cxxSS(struct s_s *, PHRQ_io *io=NULL);
-	 ~cxxSS();
+	virtual ~cxxSS();
 
 	enum SS_PARAMETER_TYPE
 	{
@@ -104,18 +103,22 @@ class cxxSS: public PHRQ_base
 	void Set_p(const std::vector<LDBLE> & t) {this->p = t;}
 protected:
 	std::string name;
-	//cxxNameDouble comps;
-	LDBLE total_moles;
-	LDBLE dn;
-	LDBLE a0, a1;
+	// candidates for SOLID_SOLUTION_MODIFY
 	LDBLE ag0, ag1;
-	bool ss_in;
+	std::vector<cxxSScomp> ss_comps;
+
+	// SOLID_SOLUTION keyword data
+	LDBLE a0, a1;
 	bool miscibility;
 	bool spinodal;
 	LDBLE tk, xb1, xb2;
 	SS_PARAMETER_TYPE input_case;
-	std::vector<cxxSScomp> ss_comps;
 	std::vector<LDBLE> p;
+
+	// workspace variable
+	LDBLE total_moles;
+	LDBLE dn;
+	bool ss_in;
 	cxxNameDouble totals;
 public:
 

@@ -15,8 +15,7 @@ class cxxPPassemblageComp: public PHRQ_base
 
   public:
 	cxxPPassemblageComp(PHRQ_io *io=NULL);
-	//cxxPPassemblageComp(struct pure_phase *, PHRQ_io *io=NULL);
-	 ~cxxPPassemblageComp();
+	virtual ~cxxPPassemblageComp();
 
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;

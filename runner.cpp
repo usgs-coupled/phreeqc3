@@ -63,12 +63,6 @@ bool runner::Read(CParser & parser)
 			opt_save = opt;
 		}
 
-		//// Read dump entity list of numbers or number ranges for line, store in item
-		//if (opt >= 0 && opt <= 1)
-		//{
-
-		//}
-
 		// Process other identifiers
 		std::set < int >::iterator it;
 		switch (opt)

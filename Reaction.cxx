@@ -37,7 +37,6 @@ cxxReaction::~cxxReaction()
 void
 cxxReaction::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing irrev message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -72,7 +71,6 @@ cxxReaction::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 void
 cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing irrev message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -86,21 +84,14 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// Reaction element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "REACTION_RAW        " << n_user_local << " " << this->description << "\n";
+	s_oss << "REACTION_RAW                 " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-units              " << this->units << "\n";
-
-	s_oss << indent1;
-	s_oss << "-reactant_list      " << "\n";
+	s_oss << "-reactant_list" << "\n";
 	this->reactantList.dump_raw(s_oss, indent + 2);
 
 	s_oss << indent1;
-	s_oss << "-element_list       " << "\n";
-	this->elementList.dump_raw(s_oss, indent + 2);
-
-	s_oss << indent1;
-	s_oss << "-steps              " << "\n";
+	s_oss << "-steps" << "\n";
 	{
 		int i = 0;
 		s_oss << indent2;
@@ -119,12 +110,18 @@ cxxReaction::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	}
 
 	s_oss << indent1;
-	s_oss << "-equal_increments   " << this->equalIncrements << "\n";
+	s_oss << "-count_steps               " << this->countSteps << "\n";
 
 	s_oss << indent1;
-	s_oss << "-count_steps        " << this->countSteps << "\n";
+	s_oss << "-equal_increments          " << this->equalIncrements << "\n";
 
+	s_oss << indent1;
+	s_oss << "-units                     " << this->units << "\n";
 
+	s_oss << indent1 << "# REACTION workspace variables #\n";
+	s_oss << indent1;
+	s_oss << "-element_list" << "\n";
+	this->elementList.dump_raw(s_oss, indent + 2);
 }
 
 void

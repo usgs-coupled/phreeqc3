@@ -15,11 +15,6 @@ class cxxNumKeyword: public PHRQ_base
 	{
 		return this->description;
 	}
-
-	//char *Get_description() const
-	//{
-	//	return string_duplicate(this->description.c_str());
-	//}
 	void Set_description(std::string str)
 	{
 		this->description = str;
@@ -47,6 +42,10 @@ class cxxNumKeyword: public PHRQ_base
 	{
 		this->n_user_end = user_end;
 	}
+	void Set_n_user_both(int user_end)
+	{
+		this->n_user = this->n_user_end = user_end;
+	}
 
 	bool operator<(const cxxNumKeyword & key) const
 	{
@@ -56,7 +55,7 @@ class cxxNumKeyword: public PHRQ_base
 	virtual void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 	void read_number_description(CParser & parser);
-
+	void read_number_description(const std::string & line_in);
   protected:
 	int n_user;
 	int n_user_end;

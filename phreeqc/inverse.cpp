@@ -1,5 +1,8 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
+#include "Utils.h"
+#include "Solution.h"
+#include "SolutionIsotope.h"
 
 
 #define MAX_MODELS 20
@@ -49,7 +52,7 @@ inverse_models(void)
 
 	print1 = TRUE;
 	state = INVERSE;
-	dl_type_x = NO_DL;
+	dl_type_x = cxxSurface::NO_DL;
 
 	for (n = 0; n < count_inverse; n++)
 	{
@@ -160,7 +163,7 @@ setup_inverse(struct inverse *inv_ptr)
 	LDBLE f, coef, cb, conc;
 	char token[MAX_LENGTH];
 	struct phase *phase_ptr;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 	struct reaction *rxn_ptr;
 	struct master *master_ptr;
 /*
@@ -400,7 +403,7 @@ setup_inverse(struct inverse *inv_ptr)
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
 		xsolution_zero();
-		solution_ptr = solution_bsearch(inv_ptr->solns[i], &j, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
 		if (solution_ptr == NULL)
 		{
 			error_string = sformatf( "Solution number %d not found.",
@@ -408,21 +411,22 @@ setup_inverse(struct inverse *inv_ptr)
 			error_msg(error_string, STOP);
 		}
 		/* write master species concentrations */
-		for (j = 0; solution_ptr->totals[j].description != NULL; j++)
+		cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
+		for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 		{
-			master_ptr = master_bsearch(solution_ptr->totals[j].description);
-			master_ptr->total += solution_ptr->totals[j].moles;
+			master_ptr = master_bsearch(jit->first.c_str());
+			master_ptr->total += jit->second;
 			/*   List elements not included in model */
 			if (master_ptr->in < 0)
 			{
 				error_string = sformatf(
 						"%s is included in solution %d, but is not included as a mass-balance constraint.",
-						solution_ptr->totals[j].description,
+						jit->first.c_str(),
 						inv_ptr->solns[i]);
 				warning_msg(error_string);
 			}
 		}
-		master_alk->total = solution_ptr->total_alkalinity;
+		master_alk->total = solution_ptr->Get_total_alkalinity();
 		f = 1.0;
 		if (i == (inv_ptr->count_solns - 1))
 		{
@@ -650,16 +654,16 @@ setup_inverse(struct inverse *inv_ptr)
  */
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
-		solution_ptr = solution_bsearch(inv_ptr->solns[i], &j, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
 		if (i < inv_ptr->count_solns - 1)
 		{
 			array[count_rows * max_column_count + i] =
-				1.0 / gfw_water * solution_ptr->mass_water;
+				1.0 / gfw_water * solution_ptr->Get_mass_water();
 		}
 		else
 		{
 			array[count_rows * max_column_count + inv_ptr->count_solns - 1] =
-				-1.0 / gfw_water * solution_ptr->mass_water;
+				-1.0 / gfw_water * solution_ptr->Get_mass_water();
 		}
 	}
 	/* coefficient for water uncertainty */
@@ -922,20 +926,22 @@ setup_inverse(struct inverse *inv_ptr)
 	{
 		for (i = 0; i < inv_ptr->count_solns; i++)
 		{
-			solution_ptr = solution_bsearch(inv_ptr->solns[i], &k, TRUE);
+			solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
 			for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
 			{
 				column =
 					col_isotopes + (i * inv_ptr->count_isotope_unknowns) + j;
 				master_ptr = inv_ptr->isotope_unknowns[j].master;
 				isotope_number = inv_ptr->isotope_unknowns[j].isotope_number;
-				for (k = 0; k < solution_ptr->count_isotopes; k++)
+				std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
+				for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 				{
-					if (solution_ptr->isotopes[k].master == master_ptr &&
-						solution_ptr->isotopes[k].isotope_number ==
+					struct master *master_kit = master_bsearch(kit->second.Get_elt_name().c_str());
+					if (master_kit == master_ptr &&
+						kit->second.Get_isotope_number() ==
 						isotope_number)
 					{
-						coef = solution_ptr->isotopes[k].x_ratio_uncertainty;
+						coef = kit->second.Get_x_ratio_uncertainty();
 
 /* scale epsilon in optimization equation */
 
@@ -946,9 +952,8 @@ setup_inverse(struct inverse *inv_ptr)
 						array[count_rows * max_column_count + column] = 1.0;
 						array[count_rows * max_column_count + i] = -coef;
 						sprintf(token, "%d%s %s",
-								(int) solution_ptr->isotopes[k].
-								isotope_number,
-								solution_ptr->isotopes[k].elt_name, "eps+");
+								(int) kit->second.Get_isotope_number(),
+								kit->second.Get_elt_name().c_str(), "eps+");
 						row_name[count_rows] = string_hsave(token);
 						count_rows++;
 
@@ -957,9 +962,8 @@ setup_inverse(struct inverse *inv_ptr)
 						array[count_rows * max_column_count + column] = -1.0;
 						array[count_rows * max_column_count + i] = -coef;
 						sprintf(token, "%d%s %s",
-								(int) solution_ptr->isotopes[k].
-								isotope_number,
-								solution_ptr->isotopes[k].elt_name, "eps-");
+								(int) kit->second.Get_isotope_number(),
+								kit->second.Get_elt_name().c_str(), "eps-");
 						row_name[count_rows] = string_hsave(token);
 						count_rows++;
 						break;
@@ -1052,7 +1056,6 @@ setup_inverse(struct inverse *inv_ptr)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 solve_inverse(struct inverse *inv_ptr)
@@ -1740,7 +1743,6 @@ bit_print(unsigned long bits, int l)
 	output_msg(sformatf( "\n"));
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_model(struct inverse *inv_ptr)
@@ -1752,7 +1754,7 @@ print_model(struct inverse *inv_ptr)
 	int i, j, k;
 	int column;
 	int print_msg;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 	struct master *master_ptr;
 	struct isotope *isotope_ptr;
 	LDBLE d1, d2, d3, d4;
@@ -1772,23 +1774,24 @@ print_model(struct inverse *inv_ptr)
 	{
 		if (equal(inv_delta1[i], 0.0, toler) == TRUE)
 			continue;
-		solution_ptr = solution_bsearch(inv_ptr->solns[i], &j, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
 		xsolution_zero();
-		for (j = 0; solution_ptr->totals[j].description != NULL; j++)
+		cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
+		for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 		{
-			master_ptr = master_bsearch(solution_ptr->totals[j].description);
-			master_ptr->total = solution_ptr->totals[j].moles;
+			master_ptr = master_bsearch(jit->first.c_str());
+			master_ptr->total = jit->second;
 		}
 
 		output_msg(sformatf( "\nSolution %d: %s\n", inv_ptr->solns[i],
-				   solution_ptr->description));
+				   solution_ptr->Get_description().c_str()));
 		output_msg(sformatf(
 				   "\n%15.15s   %12.12s   %12.12s   %12.12s\n", "  ",
 				   "Input", "Delta", "Input+Delta"));
-		master_alk->total = solution_ptr->total_alkalinity;
+		master_alk->total = solution_ptr->Get_total_alkalinity();
 		if (inv_ptr->carbon == TRUE)
 		{
-			d1 = solution_ptr->ph;
+			d1 = solution_ptr->Get_ph();
 			d2 = inv_delta1[col_ph + i] / inv_delta1[i];
 			d3 = d1 + d2;
 			if (equal(d1, 0.0, MIN_TOTAL_INVERSE) == TRUE)
@@ -1864,14 +1867,15 @@ print_model(struct inverse *inv_ptr)
 			/* adjustments to solution isotope composition */
 			for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
 			{
-				for (k = 0; k < solution_ptr->count_isotopes; k++)
+				std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
+				for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 				{
 					if (inv_ptr->isotope_unknowns[j].elt_name !=
-						solution_ptr->isotopes[k].elt_name ||
+						string_hsave(kit->second.Get_elt_name().c_str()) ||
 						inv_ptr->isotope_unknowns[j].isotope_number !=
-						solution_ptr->isotopes[k].isotope_number)
+						kit->second.Get_isotope_number())
 						continue;
-					d1 = solution_ptr->isotopes[k].ratio;
+					d1 = kit->second.Get_ratio();
 					d2 = inv_delta1[col_isotopes +
 								i * inv_ptr->count_isotope_unknowns +
 								j] / inv_delta1[i];
@@ -1896,11 +1900,11 @@ print_model(struct inverse *inv_ptr)
 						if (d3 > max_pct) max_pct = d3;
 					}
  */
-					if (solution_ptr->isotopes[k].x_ratio_uncertainty > 0)
+					if (kit->second.Get_x_ratio_uncertainty() > 0)
 					{
 						scaled_error +=
 							fabs(d2) /
-							solution_ptr->isotopes[k].x_ratio_uncertainty;
+							kit->second.Get_x_ratio_uncertainty();
 /* debug
 						output_msg(sformatf( "%e\t%e\t%e\n", fabs(d2) / solution_ptr->isotopes[k].x_ratio_uncertainty , fabs(d2), solution_ptr->isotopes[k].x_ratio_uncertainty));
  */
@@ -2065,7 +2069,6 @@ print_model(struct inverse *inv_ptr)
 	output_flush();
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_model_heading(struct inverse *inv_ptr)
@@ -3112,9 +3115,9 @@ int Phreeqc::
 carbon_derivs(struct inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, k, n, temp;
+	int i, j, temp;
 	LDBLE c_uncertainty, d_carbon, alk_plus, alk_minus;
-	struct solution *solution_ptr_orig, *solution_ptr;
+	cxxSolution *solution_ptr_orig, *solution_ptr;
 
 	inv_ptr->dalk_dph = (LDBLE *) free_check_null(inv_ptr->dalk_dph);
 	inv_ptr->dalk_dph =
@@ -3130,7 +3133,7 @@ carbon_derivs(struct inverse *inv_ptr)
 
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
-		solution_ptr_orig = solution_bsearch(inv_ptr->solns[i], &n, TRUE);
+		solution_ptr_orig = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
 		if (solution_ptr_orig == NULL)
 		{
 			error_string = sformatf( "Solution %d for inverse "
@@ -3156,13 +3159,13 @@ carbon_derivs(struct inverse *inv_ptr)
 		}
 		else if (c_uncertainty > 0.0)
 		{
-			for (k = 0; solution_ptr_orig->totals[k].description != NULL; k++)
+			cxxNameDouble::iterator kit = solution_ptr_orig->Get_totals().begin();
+			for ( ; kit != solution_ptr_orig->Get_totals().end(); kit++)
 			{
-				if (strcmp(solution_ptr_orig->totals[k].description, "C(4)")
-					== 0)
+				if (strcmp(kit->first.c_str(), "C(4)") == 0)
 				{
-					d_carbon = solution_ptr_orig->totals[k].moles /
-						solution_ptr_orig->mass_water * c_uncertainty;
+					d_carbon = kit->second /
+						solution_ptr_orig->Get_mass_water() * c_uncertainty;
 					break;
 				}
 
@@ -3188,10 +3191,10 @@ carbon_derivs(struct inverse *inv_ptr)
 /*
  *   dAlk/dpH
  */
-		solution_ptr = solution_bsearch(-5, &n, TRUE);
-		alk_plus = solution_ptr->total_alkalinity;
-		solution_ptr = solution_bsearch(-4, &n, TRUE);
-		alk_minus = solution_ptr->total_alkalinity;
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, -5); 
+		alk_plus = solution_ptr->Get_total_alkalinity();
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, -4);
+		alk_minus = solution_ptr->Get_total_alkalinity();
 		inv_ptr->dalk_dph[i] = (alk_plus - alk_minus) /
 			(2.0 * inv_ptr->ph_uncertainties[i]);
 /*
@@ -3199,10 +3202,10 @@ carbon_derivs(struct inverse *inv_ptr)
  */
 		if (d_carbon != 0)
 		{
-			solution_ptr = solution_bsearch(-3, &n, TRUE);
-			alk_plus = solution_ptr->total_alkalinity;
-			solution_ptr = solution_bsearch(-2, &n, TRUE);
-			alk_minus = solution_ptr->total_alkalinity;
+			solution_ptr = Utilities::Rxn_find(Rxn_solution_map, -3);
+			alk_plus = solution_ptr->Get_total_alkalinity();
+			solution_ptr = Utilities::Rxn_find(Rxn_solution_map, -2);
+			alk_minus = solution_ptr->Get_total_alkalinity();
 			inv_ptr->dalk_dc[i] = (alk_plus - alk_minus) / (2.0 * d_carbon);
 		}
 		else
@@ -3218,39 +3221,45 @@ carbon_derivs(struct inverse *inv_ptr)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 set_ph_c(struct inverse *inv_ptr,
 		 int i,
-		 struct solution *solution_ptr_orig,
+		 cxxSolution *solution_ptr_orig,
 		 int n_user_new, LDBLE d_carbon, LDBLE ph_factor, LDBLE c_factor)
 /* ---------------------------------------------------------------------- */
 {
-	int j, n_user_orig;
-	struct solution *solution_ptr;
-	struct conc *conc_ptr;
+	int n_user_orig;
+	cxxSolution *solution_ptr;
 
 	n_user_orig = inv_ptr->solns[i];
-	solution_duplicate(n_user_orig, n_user_new);
-	solution_ptr = solution_bsearch(n_user_new, &j, TRUE);
-	solution_ptr->new_def = TRUE;
-	solution_ptr->n_user_end = n_user_new;
-	solution_ptr->ph += inv_ptr->ph_uncertainties[i] * ph_factor;
-	for (j = 0; solution_ptr->totals[j].description != NULL; j++)
+	Utilities::Rxn_copy(Rxn_solution_map, n_user_orig, n_user_new);
+
+	solution_ptr = Utilities::Rxn_find(Rxn_solution_map, n_user_new);
+	solution_ptr->Set_new_def(true);
+	solution_ptr->Create_initial_data();
+	solution_ptr->Set_n_user_end(n_user_new);
+	LDBLE ph = solution_ptr->Get_ph();
+	ph += inv_ptr->ph_uncertainties[i] * ph_factor;
+	solution_ptr->Set_ph(ph);
+	cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
+	for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 	{
-		conc_ptr = &solution_ptr->totals[j];
-		conc_ptr->input_conc =
-			conc_ptr->moles / solution_ptr_orig->mass_water;
-		conc_ptr->units = string_hsave("Mol/kgw");
-		if (strcmp(conc_ptr->description, "C(4)") == 0)
+		cxxISolutionComp temp_comp;
+		temp_comp.Set_description(jit->first.c_str());
+		temp_comp.Set_input_conc(jit->second / solution_ptr_orig->Get_mass_water());
+		temp_comp.Set_units("Mol/kgw");
+		if (strcmp(jit->first.c_str(), "C(4)") == 0)
 		{
-			conc_ptr->input_conc += d_carbon * c_factor;
+			LDBLE c = temp_comp.Get_input_conc();
+			c += d_carbon * c_factor;
+			 temp_comp.Set_input_conc(c);
 		}
+		solution_ptr->Get_initial_data()->Get_comps()[jit->first] = temp_comp;
 	}
+	solution_ptr->Get_totals().clear();
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
@@ -3267,8 +3276,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 	int column;
 	LDBLE f;
 	struct master *primary_ptr;
-	struct solution *solution_ptr;
-	struct isotope *isotope_ptr;
+	cxxSolution *solution_ptr;
 /*
  *   Determine primary master species and isotope number for
  *   isotope mass-balance equation
@@ -3312,57 +3320,60 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 		}
 
 		/* mixing fraction term */
-		solution_ptr = solution_bsearch(inv_ptr->solns[i], &j, TRUE);
-		isotope_ptr = solution_ptr->isotopes;
-		for (j = 0; j < solution_ptr->count_isotopes; j++)
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
+		std::map < std::string, cxxSolutionIsotope >::iterator jit = solution_ptr->Get_isotopes().begin();
+		for ( ; jit != solution_ptr->Get_isotopes().end(); jit++)
 		{
-			if (isotope_ptr[j].primary == primary_ptr &&
-				isotope_ptr[j].isotope_number == isotope_number)
+			struct master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
+			if (primary_jit == primary_ptr &&
+				jit->second.Get_isotope_number() == isotope_number)
 			{
 				array[row * max_column_count + i] +=
-					f * isotope_ptr[j].total * isotope_ptr[j].ratio;
+					f * jit->second.Get_total() * jit->second.Get_ratio();
 			}
 		}
 
 		/* epsilon of total moles of element valence * ratio */
-		for (j = 0; j < solution_ptr->count_isotopes; j++)
+		jit = solution_ptr->Get_isotopes().begin();
+		for ( ; jit != solution_ptr->Get_isotopes().end(); jit++)
 		{
-
 			/* What to do with H and O, skip for now ??? */
 			if (primary_ptr == s_hplus->primary
 				|| primary_ptr == s_h2o->primary)
 				continue;
-
-			if (isotope_ptr[j].primary == primary_ptr &&
-				isotope_ptr[j].isotope_number == isotope_number)
+			struct master *master_jit = master_bsearch(jit->second.Get_elt_name().c_str());
+			struct master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
+			if (primary_jit == primary_ptr &&
+				jit->second.Get_isotope_number() == isotope_number)
 			{
-
 				/* find column of master for solution i */
 				for (k = 0; k < inv_ptr->count_elts; k++)
 				{
-					if (isotope_ptr[j].master == inv_ptr->elts[k].master)
+					if (master_jit == inv_ptr->elts[k].master)
 						break;
 				}
 				column = col_epsilon + (k * inv_ptr->count_solns) + i;
 				array[row * max_column_count + column] +=
-					f * isotope_ptr[j].ratio;
+					f * jit->second.Get_ratio();
 			}
 		}
 
 		/* epsilon of ratio * total of element valence */
-		for (j = 0; j < solution_ptr->count_isotopes; j++)
+		jit = solution_ptr->Get_isotopes().begin();
+		for ( ; jit != solution_ptr->Get_isotopes().end(); jit++)
 		{
-
-			if (isotope_ptr[j].primary == primary_ptr &&
-				isotope_ptr[j].isotope_number == isotope_number)
+			struct master *master_jit = master_bsearch(jit->second.Get_elt_name().c_str());
+			struct master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
+			if (primary_jit == primary_ptr &&
+				jit->second.Get_isotope_number() == isotope_number)
 			{
 
 				/* find column of epsilon for ratio of valence */
 				for (k = 0; k < inv_ptr->count_isotope_unknowns; k++)
 				{
-					if (isotope_ptr[j].master ==
+					if (master_jit ==
 						inv_ptr->isotope_unknowns[k].master
-						&& isotope_ptr[j].isotope_number ==
+						&& jit->second.Get_isotope_number() ==
 						inv_ptr->isotope_unknowns[k].isotope_number)
 					{
 						column =
@@ -3371,7 +3382,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 					}
 				}
 				array[row * max_column_count + column] +=
-					f * isotope_ptr[j].total;
+					f * jit->second.Get_total();
 			}
 		}
 	}
@@ -3382,7 +3393,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 	{
 		if (inv_ptr->phases[i].count_isotopes <= 0)
 			continue;
-		isotope_ptr = inv_ptr->phases[i].isotopes;
+		struct isotope *isotope_ptr = inv_ptr->phases[i].isotopes;
 		for (j = 0; j < inv_ptr->phases[i].count_isotopes; j++)
 		{
 			if (isotope_ptr[j].primary == primary_ptr &&
@@ -3402,7 +3413,6 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 	}
 	return OK;
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 count_isotope_unknowns(struct inverse *inv_ptr,
@@ -3508,7 +3518,6 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 	*isotope_unknowns = isotopes;
 	return (count_isotopes);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 check_isotopes(struct inverse *inv_ptr)
@@ -3522,7 +3531,7 @@ check_isotopes(struct inverse *inv_ptr)
 	int err, found_isotope;
 	LDBLE isotope_number;
 	struct master *master_ptr, *primary_ptr;
-	struct solution *solution_ptr;
+	cxxSolution *solution_ptr;
 	struct phase *phase_ptr;
 	char token[MAX_LENGTH];
 
@@ -3531,7 +3540,7 @@ check_isotopes(struct inverse *inv_ptr)
  */
 	for (j = 0; j < inv_ptr->count_solns; j++)
 	{
-		solution_ptr = solution_bsearch(inv_ptr->solns[j], &i, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[j]);
 		xsolution_zero();
 		add_solution(solution_ptr, 1.0, 1.0);
 /*
@@ -3544,10 +3553,12 @@ check_isotopes(struct inverse *inv_ptr)
 			primary_ptr = master_bsearch(inv_ptr->isotopes[i].elt_name);
 			isotope_number = inv_ptr->isotopes[i].isotope_number;
 			found_isotope = FALSE;
-			for (k = 0; k < solution_ptr->count_isotopes; k++)
+			std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
+			for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 			{
-				if (solution_ptr->isotopes[k].primary == primary_ptr &&
-					solution_ptr->isotopes[k].isotope_number ==
+				struct master *primary_kit = master_bsearch_primary(kit->second.Get_elt_name().c_str());
+				if (primary_kit == primary_ptr &&
+					kit->second.Get_isotope_number() ==
 					isotope_number)
 				{
 					found_isotope = TRUE;
@@ -3571,7 +3582,7 @@ check_isotopes(struct inverse *inv_ptr)
 			{
 				error_string = sformatf(
 						"In solution %d, isotope ratio(s) are needed for element: %g%s.",
-						solution_ptr->n_user, (double) isotope_number,
+						solution_ptr->Get_n_user(), (double) isotope_number,
 						primary_ptr->elt->name);
 				error_msg(error_string, CONTINUE);
 				input_error++;
@@ -3581,9 +3592,12 @@ check_isotopes(struct inverse *inv_ptr)
 /*
  *   Go through solution isotopes and set uncertainties
  */
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			solution_ptr->isotopes[k].x_ratio_uncertainty = NAN;
+			struct master *master_kit = master_bsearch(kit->second.Get_elt_name().c_str());
+			struct master *primary_kit = master_bsearch_primary(kit->second.Get_elt_name().c_str());
+			kit->second.Set_x_ratio_uncertainty(NAN);
 /*
  *  Search for secondary or primary master in inverse uncertainties
  */
@@ -3591,12 +3605,12 @@ check_isotopes(struct inverse *inv_ptr)
 			for (i = 0; i < inv_ptr->count_i_u; i++)
 			{
 				master_ptr = master_bsearch(inv_ptr->i_u[i].elt_name);
-				if (master_ptr == solution_ptr->isotopes[k].master)
+				if (master_ptr == master_kit)
 				{
 					ii = i;
 					break;
 				}
-				if (master_ptr == solution_ptr->isotopes[k].primary)
+				if (master_ptr == primary_kit)
 				{
 					ii = i;
 				}
@@ -3610,48 +3624,45 @@ check_isotopes(struct inverse *inv_ptr)
 			if (j < inv_ptr->i_u[i].count_uncertainties
 				&& inv_ptr->i_u[i].uncertainties[j] != NAN)
 			{
-				solution_ptr->isotopes[k].x_ratio_uncertainty =
-					inv_ptr->i_u[i].uncertainties[j];
+				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[j]);
 
 				/* use solution-defined uncertainties second */
 			}
-			else if (solution_ptr->isotopes[k].ratio_uncertainty != NAN)
+			else if (kit->second.Get_ratio_uncertainty() != NAN)
 			{
-				solution_ptr->isotopes[k].x_ratio_uncertainty =
-					solution_ptr->isotopes[k].ratio_uncertainty;
+				kit->second.Set_x_ratio_uncertainty(
+					kit->second.Get_ratio_uncertainty());
 				/* use isotope defaults third */
 			}
 			else
 			{
 				sprintf(token, "%g%s",
-						(double) solution_ptr->isotopes[k].isotope_number,
-						solution_ptr->isotopes[k].elt_name);
+						(double) kit->second.Get_isotope_number(),
+						kit->second.Get_elt_name().c_str());
 				for (l = 0; l < count_iso_defaults; l++)
 				{
 					if (strcmp(token, iso_defaults[l].name) == 0)
 					{
-						solution_ptr->isotopes[k].x_ratio_uncertainty =
-							iso_defaults[l].uncertainty;
+						kit->second.Set_x_ratio_uncertainty(
+							iso_defaults[l].uncertainty);
 						error_string = sformatf(
 								"Solution %d,  element %g%s: default isotope ratio uncertainty is used, %g.",
-								solution_ptr->n_user,
-								(double) solution_ptr->isotopes[k].
-								isotope_number,
-								solution_ptr->isotopes[k].elt_name,
-								(double) solution_ptr->isotopes[k].
-								x_ratio_uncertainty);
+								solution_ptr->Get_n_user(),
+								(double) kit->second.Get_isotope_number(),
+								kit->second.Get_elt_name().c_str(),
+								kit->second.Get_x_ratio_uncertainty());
 						warning_msg(error_string);
 						break;
 					}
 				}
 			}
-			if (solution_ptr->isotopes[k].x_ratio_uncertainty == NAN)
+			if (kit->second.Get_x_ratio_uncertainty() == NAN)
 			{
 				error_string = sformatf(
 						"In solution %d, isotope ratio uncertainty is needed for element: %g%s.",
-						solution_ptr->n_user,
-						(double) solution_ptr->isotopes[k].isotope_number,
-						solution_ptr->isotopes[k].elt_name);
+						solution_ptr->Get_n_user(),
+						(double) kit->second.Get_isotope_number(),
+						kit->second.Get_elt_name().c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 			}
@@ -3710,7 +3721,6 @@ check_isotopes(struct inverse *inv_ptr)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 phase_isotope_inequalities(struct inverse *inv_ptr)
@@ -3896,21 +3906,20 @@ void Phreeqc::
 dump_netpath(struct inverse *inverse_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, l;
-	char string[MAX_LENGTH];
+	int j;
+	std::string string;
 	char *ptr;
 
-	/*if (netpath_dumped) return; */
 	if (inverse_ptr->netpath == NULL)
 		return;
 
 	/* open file */
-	strcpy(string, inverse_ptr->netpath);
-	if (replace(".lon", ".lon", string) != TRUE)
+	string = inverse_ptr->netpath;
+	if (replace(".lon", ".lon", string) != true)
 	{
-		strcat(string, ".lon");
+		string.append(".lon");
 	}
-	netpath_file = fopen(string, "w");
+	netpath_file = fopen(string.c_str(), "w");
 	if (netpath_file == NULL)
 	{
 		error_string = sformatf( "Can't open file, %s.", inverse_ptr->netpath);
@@ -3923,24 +3932,26 @@ dump_netpath(struct inverse *inverse_ptr)
 			"2.14                                                       # File format\n");
 
 	/* write out each solution */
-	for (i = 0; i < count_solution; i++)
+	std::map<int, cxxSolution>::iterator it = Rxn_solution_map.begin();
+	for ( ; it != Rxn_solution_map.end(); it++)
 	{
-		if (solution[i]->n_user < 0)
+		if (it->second.Get_n_user() < 0)
 			continue;
 
 		/* flags and description */
-		ptr = solution[i]->description;
-		j = copy_token(string, &ptr, &l);
+		char * description = string_duplicate(it->second.Get_description().c_str());
+		ptr = description;
+		j = copy_token(string, &ptr);
 		if (j != EMPTY)
 		{
-			sprintf(string, "%s", solution[i]->description);
+			string = sformatf("%s", description);
 		}
 		else
 		{
-			sprintf(string, "Solution %d", solution[i]->n_user);
+			string = sformatf("Solution %d", it->second.Get_n_user());
 		}
-		fprintf(netpath_file, "4020%s\n", string);
-
+		fprintf(netpath_file, "4020%s\n", string.c_str());
+		description = (char *) free_check_null(description);
 		/* lat/lon */
 		fprintf(netpath_file,
 				"                                                           # Lat/lon\n");
@@ -3948,12 +3959,12 @@ dump_netpath(struct inverse *inverse_ptr)
 		/* well number */
 		fprintf(netpath_file,
 				"%15d                                            # Well number\n",
-				solution[i]->n_user);
+				it->second.Get_n_user());
 
 		/* total number of wells */
 		fprintf(netpath_file,
 				"%15d                                            # Total wells\n",
-				count_solution);
+				Rxn_solution_map.size());
 
 		/* address */
 		fprintf(netpath_file,
@@ -3970,90 +3981,90 @@ dump_netpath(struct inverse *inverse_ptr)
 		/* temperature */
 		fprintf(netpath_file,
 				"%15g                                            # Temperature\n",
-				(double) solution[i]->tc);
+				(double) it->second.Get_tc());
 
 		/* pH */
 		fprintf(netpath_file,
 				"%15g                                            # pH\n",
-				(double) solution[i]->ph);
+				(double) it->second.Get_ph());
 
 		/* DO */
-		print_total(netpath_file, solution[i], "O(0)", "Dissolved Oxygen");
+		print_total(netpath_file, &(it->second), "O(0)", "Dissolved Oxygen");
 
 		/* TDIC */
-		print_total(netpath_file, solution[i], "C(4)", "TDIC");
+		print_total(netpath_file, &(it->second), "C(4)", "TDIC");
 
 		/* Tritium */
-		print_isotope(netpath_file, solution[i], "3H(1)", "Tritium");
+		print_isotope(netpath_file, &(it->second), "3H(1)", "Tritium");
 
 		/* H2S */
-		print_total(netpath_file, solution[i], "S(-2)", "H2S");
+		print_total(netpath_file, &(it->second), "S(-2)", "H2S");
 
 		/* Calcium */
-		print_total(netpath_file, solution[i], "Ca", "Calcium");
+		print_total(netpath_file, &(it->second), "Ca", "Calcium");
 
 		/* Eh */
 		fprintf(netpath_file,
 				"%15g                                            # Eh\n",
-				(double) (0.059 * solution[i]->solution_pe));
+				(double) (0.059 * it->second.Get_pe()));
 
 		/* Magnesium */
-		print_total(netpath_file, solution[i], "Mg", "Magnesium");
+		print_total(netpath_file, &(it->second), "Mg", "Magnesium");
 
 		/* Sodium */
-		print_total(netpath_file, solution[i], "Na", "Sodium");
+		print_total(netpath_file, &(it->second), "Na", "Sodium");
 
 		/* Potassium */
-		print_total(netpath_file, solution[i], "K", "Potassium");
+		print_total(netpath_file, &(it->second), "K", "Potassium");
 
 		/* Chloride */
-		print_total(netpath_file, solution[i], "Cl", "Chloride");
+		print_total(netpath_file, &(it->second), "Cl", "Chloride");
 
 		/* Sulfate */
-		print_total(netpath_file, solution[i], "S(6)", "Sulfate");
+		print_total(netpath_file, &(it->second), "S(6)", "Sulfate");
 
 		/* Fluoride */
-		print_total(netpath_file, solution[i], "F", "Fluoride");
+		print_total(netpath_file, &(it->second), "F", "Fluoride");
 
 		/* Silica */
-		print_total(netpath_file, solution[i], "Si", "Silica");
+		print_total(netpath_file, &(it->second), "Si", "Silica");
 
 		/* Bromide */
-		print_total(netpath_file, solution[i], "Br", "Bromide");
+		print_total(netpath_file, &(it->second), "Br", "Bromide");
 
 		/* Boron */
-		print_total(netpath_file, solution[i], "B", "Boron");
+		print_total(netpath_file, &(it->second), "B", "Boron");
 
 		/* Barium */
-		print_total(netpath_file, solution[i], "Ba", "Barium");
+		print_total(netpath_file, &(it->second), "Ba", "Barium");
 
 		/* Lithium */
-		print_total(netpath_file, solution[i], "Li", "Lithium");
+		print_total(netpath_file, &(it->second), "Li", "Lithium");
 
 		/* Strontium */
-		print_total(netpath_file, solution[i], "Sr", "Strontium");
+		print_total(netpath_file, &(it->second), "Sr", "Strontium");
 
 		/* Iron */
-		print_total_multi(netpath_file, solution[i], "Iron", "Fe", "Fe(2)",
+		print_total_multi(netpath_file, &(it->second), "Iron", "Fe", "Fe(2)",
 						  "Fe(3)", "", "");
 
 
 		/* Manganese */
-		print_total_multi(netpath_file, solution[i], "Manganese", "Mn",
+		print_total_multi(netpath_file, &(it->second), "Manganese", "Mn",
 						  "Mn(2)", "Mn(3)", "Mn(6)", "Mn(7)");
 
 		/* Nitrate */
-		print_total(netpath_file, solution[i], "N(5)", "Nitrate");
+		print_total(netpath_file, &(it->second), "N(5)", "Nitrate");
 
 		/* Ammonium */
-		print_total_multi(netpath_file, solution[i], "Ammonium", "N(-3)",
+		print_total_multi(netpath_file, &(it->second), "Ammonium", "N(-3)",
 						  "Amm", "", "", "");
 
 		/* Phosphate */
-		print_total(netpath_file, solution[i], "P", "Phosphate");
+		print_total(netpath_file, &(it->second), "P", "Phosphate");
 
 		/* DOC */
-		print_total_multi(netpath_file, solution[i], "DOC", "Fulvate",
+		print_total_multi(netpath_file, &(it->second), "DOC", "Fulvate",
 						  "Humate", "", "", "");
 
 		/* Sp. Cond. */
@@ -4065,45 +4076,45 @@ dump_netpath(struct inverse *inverse_ptr)
 				"                                                           # Density\n");
 
 		/* Delta C-13 TDIC */
-		print_isotope(netpath_file, solution[i], "13C(4)", "Delta C-13 TDIC");
+		print_isotope(netpath_file, &(it->second), "13C(4)", "Delta C-13 TDIC");
 
 		/* C-14 TDIC */
-		print_isotope(netpath_file, solution[i], "14C(4)", "C-14 TDIC");
+		print_isotope(netpath_file, &(it->second), "14C(4)", "C-14 TDIC");
 
 		/* Delta S-34 (SO4) */
-		print_isotope(netpath_file, solution[i], "34S(6)",
+		print_isotope(netpath_file, &(it->second), "34S(6)",
 					  "Delta S-34 (SO4)");
 
 		/* Delta S-34 (H2S) */
-		print_isotope(netpath_file, solution[i], "34S(-2)",
+		print_isotope(netpath_file, &(it->second), "34S(-2)",
 					  "Delta S-34 (H2S)");
 
 		/* Delta Deuterium */
-		print_isotope(netpath_file, solution[i], "2H(1)", "Delta Deuterium");
+		print_isotope(netpath_file, &(it->second), "2H(1)", "Delta Deuterium");
 
 		/* Delta O-18 */
-		print_isotope(netpath_file, solution[i], "18O(-2)", "Delta O-18");
+		print_isotope(netpath_file, &(it->second), "18O(-2)", "Delta O-18");
 
 		/* CH4 (aq) */
-		print_total(netpath_file, solution[i], "C(-4)", "CH4 (aq)");
+		print_total(netpath_file, &(it->second), "C(-4)", "CH4 (aq)");
 
 		/* Sr 87/86 */
-		print_isotope(netpath_file, solution[i], "87Sr", "Sr 87/86");
+		print_isotope(netpath_file, &(it->second), "87Sr", "Sr 87/86");
 
 		/* Al */
-		print_total(netpath_file, solution[i], "Al", "Alumninum");
+		print_total(netpath_file, &(it->second), "Al", "Alumninum");
 
 		/* N2 (aq) */
-		print_total(netpath_file, solution[i], "N(0)", "N2 (aq)");
+		print_total(netpath_file, &(it->second), "N(0)", "N2 (aq)");
 
 		/* N-15 of N2 (aq) */
-		print_isotope(netpath_file, solution[i], "15N(0)", "N-15 of N2 (aq)");
+		print_isotope(netpath_file, &(it->second), "15N(0)", "N-15 of N2 (aq)");
 
 		/* N-15 of Nitrate */
-		print_isotope(netpath_file, solution[i], "15N(5)", "N-15 of Nitrate");
+		print_isotope(netpath_file, &(it->second), "15N(5)", "N-15 of Nitrate");
 
 		/* N-15 of Ammonium */
-		print_isotope(netpath_file, solution[i], "15N(-3)",
+		print_isotope(netpath_file, &(it->second), "15N(-3)",
 					  "N-15 of Ammonium");
 
 		/* Formation */
@@ -4118,47 +4129,41 @@ dump_netpath(struct inverse *inverse_ptr)
 	}
 	return;
 }
-
 /* ---------------------------------------------------------------------- */
-struct conc * Phreeqc::
-get_inv_total(struct solution *solution_ptr, const char *elt)
+LDBLE Phreeqc::
+get_inv_total(cxxSolution *solution_ptr, const char *elt)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
-
-	for (i = 0; solution_ptr->totals[i].description != NULL; i++)
+	cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
+	for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 	{
-		if (strcmp(elt, solution_ptr->totals[i].description) == 0)
-			return (&solution_ptr->totals[i]);
+		if (strcmp(elt, jit->first.c_str()) == 0)
+			return jit->second;
 	}
-	return (NULL);
+	return (0);
 
 }
-
 /* ---------------------------------------------------------------------- */
-struct isotope * Phreeqc::
-get_isotope(struct solution *solution_ptr, const char *elt)
+cxxSolutionIsotope *Phreeqc::get_isotope(cxxSolution *solution_ptr, const char *elt)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
-
-	for (i = 0; i < solution_ptr->count_isotopes; i++)
+	std::string str_elt = elt;
+	std::map<std::string, cxxSolutionIsotope>::iterator it;
+	it = solution_ptr->Get_isotopes().find(str_elt);
+	if (it != solution_ptr->Get_isotopes().end())
 	{
-		if (strcmp(elt, solution_ptr->isotopes[i].isotope_name) == 0)
-			return (&solution_ptr->isotopes[i]);
+		return &(it->second);
 	}
 	return (NULL);
 }
-
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-print_total(FILE * l_netpath_file, struct solution *solution_ptr,
+print_total(FILE * l_netpath_file, cxxSolution *solution_ptr,
 			const char *elt, const char *string)
 /* ---------------------------------------------------------------------- */
 {
-	struct conc *tot_ptr;
-	tot_ptr = get_inv_total(solution_ptr, elt);
-	if (tot_ptr == NULL)
+	LDBLE moles = get_inv_total(solution_ptr, elt);
+	if (moles == 0)
 	{
 		fprintf(l_netpath_file,
 				"                                                           # %s\n",
@@ -4168,18 +4173,17 @@ print_total(FILE * l_netpath_file, struct solution *solution_ptr,
 	{
 		fprintf(l_netpath_file,
 				"%15g                                            # %s\n",
-				(double) (1000 * tot_ptr->moles / solution_ptr->mass_water),
+				(double) (1000 * moles / solution_ptr->Get_mass_water()),
 				string);
 	}
 }
-
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-print_isotope(FILE * l_netpath_file, struct solution *solution_ptr,
+print_isotope(FILE * l_netpath_file, cxxSolution *solution_ptr,
 			  const char *elt, const char *string)
 /* ---------------------------------------------------------------------- */
 {
-	struct isotope *iso_ptr;
+	cxxSolutionIsotope *iso_ptr;
 	iso_ptr = get_isotope(solution_ptr, elt);
 	if (iso_ptr == NULL)
 	{
@@ -4191,19 +4195,18 @@ print_isotope(FILE * l_netpath_file, struct solution *solution_ptr,
 	{
 		fprintf(l_netpath_file,
 				"%15g                                            # %s\n",
-				(double) iso_ptr->ratio, string);
+				(double) iso_ptr->Get_ratio(), string);
 	}
 }
-
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-print_total_multi(FILE * l_netpath_file, struct solution *solution_ptr,
+print_total_multi(FILE * l_netpath_file, cxxSolution *solution_ptr,
 				  const char *string, const char *elt0, const char *elt1,
 				  const char *elt2, const char *elt3, const char *elt4)
 /* ---------------------------------------------------------------------- */
 {
 	char elts[5][MAX_LENGTH];
-	struct conc *tot_ptr;
+	LDBLE moles;
 	LDBLE sum;
 	int i, found;
 
@@ -4218,14 +4221,14 @@ print_total_multi(FILE * l_netpath_file, struct solution *solution_ptr,
 	found = FALSE;
 	for (i = 0; i < 5; i++)
 	{
-		tot_ptr = get_inv_total(solution_ptr, elts[i]);
-		if (tot_ptr == NULL)
+		moles = get_inv_total(solution_ptr, elts[i]);
+		if (moles == 0)
 		{
 			continue;
 		}
 		else
 		{
-			sum += tot_ptr->moles;
+			sum += moles;
 			found = TRUE;
 		}
 	}
@@ -4239,11 +4242,10 @@ print_total_multi(FILE * l_netpath_file, struct solution *solution_ptr,
 	{
 		fprintf(l_netpath_file,
 				"%15g                                            # %s\n",
-				(double) (1000 * sum / solution_ptr->mass_water), string);
+				(double) (1000 * sum / solution_ptr->Get_mass_water()), string);
 	}
 	return;
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 dump_netpath_pat(struct inverse *inv_ptr)
@@ -4253,12 +4255,10 @@ dump_netpath_pat(struct inverse *inv_ptr)
  *   Prints model
  */
 	int i, j, k;
-	struct solution *solution_ptr, *solution_ptr_orig;
+	cxxSolution *solution_ptr, *solution_ptr_orig;
 	struct master *master_ptr;
 	LDBLE d1, d2, d3;
-	char string[MAX_LENGTH], string1[MAX_LENGTH], token[MAX_LENGTH];
-	char *ptr, *str_ptr;
-	int l;
+	char *ptr;
 	LDBLE sum, sum1, sum_iso, d;
 	LDBLE *array_save, *l_delta_save;
 	int count_unknowns_save, max_row_count_save, max_column_count_save, temp,
@@ -4295,26 +4295,26 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	{
 		if (equal(inv_delta1[i], 0.0, toler) == TRUE)
 			continue;
-		solution_ptr_orig = solution_bsearch(inv_ptr->solns[i], &j, TRUE);
-
-		solution_duplicate(solution_ptr_orig->n_user, -6);
-		solution_ptr = solution_bsearch(-6, &j, TRUE);
+		solution_ptr_orig = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
+		Utilities::Rxn_copy(Rxn_solution_map, solution_ptr_orig->Get_n_user(), -6);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, -6);
 		xsolution_zero();
 
 		/* Adjust pH */
 		if (inv_ptr->carbon == TRUE)
 		{
-			d1 = solution_ptr->ph;
+			d1 = solution_ptr->Get_ph();
 			d2 = inv_delta1[col_ph + i] / inv_delta1[i];
 			d3 = d1 + d2;
-			solution_ptr->ph = d3;
+			solution_ptr->Set_ph(d3);
 		}
 
 		/* put original totals in master */
-		for (j = 0; solution_ptr->totals[j].description != NULL; j++)
+		cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
+		for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 		{
-			master_ptr = master_bsearch(solution_ptr->totals[j].description);
-			master_ptr->total = solution_ptr->totals[j].moles;
+			master_ptr = master_bsearch(jit->first.c_str());
+			master_ptr->total = jit->second;
 		}
 
 		/* ignore alkalinity */
@@ -4333,12 +4333,14 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		}
 
 		/* put updated total back in solution */
-		for (j = 0; solution_ptr->totals[j].description != NULL; j++)
+		cxxNameDouble nd;
+		jit = solution_ptr->Get_totals().begin();
+		for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 		{
-			master_ptr = master_bsearch(solution_ptr->totals[j].description);
-			solution_ptr->totals[j].moles = master_ptr->total;
+			master_ptr = master_bsearch(jit->first.c_str());
+			nd[jit->first] = master_ptr->total;
 		}
-
+		solution_ptr->Set_totals(nd);
 
 		/* update isotopes in solution */
 		if (inv_ptr->count_isotopes > 0)
@@ -4346,19 +4348,20 @@ dump_netpath_pat(struct inverse *inv_ptr)
 			/* adjustments to solution isotope composition */
 			for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
 			{
-				for (k = 0; k < solution_ptr->count_isotopes; k++)
+				std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
+				for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 				{
 					if (inv_ptr->isotope_unknowns[j].elt_name !=
-						solution_ptr->isotopes[k].elt_name ||
+						string_hsave(kit->second.Get_elt_name().c_str()) ||
 						inv_ptr->isotope_unknowns[j].isotope_number !=
-						solution_ptr->isotopes[k].isotope_number)
+						kit->second.Get_isotope_number())
 						continue;
-					d1 = solution_ptr->isotopes[k].ratio;
+					d1 = kit->second.Get_ratio();
 					d2 = inv_delta1[col_isotopes +
 								i * inv_ptr->count_isotope_unknowns +
 								j] / inv_delta1[i];
 					d3 = d1 + d2;
-					solution_ptr->isotopes[k].ratio = d3;
+					kit->second.Set_ratio(d3);
 				}
 			}
 		}
@@ -4373,24 +4376,26 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		pr.all = temp;
 		pr.punch = temp_punch;
 		phrq_io->Set_punch_on(pr.punch == TRUE);
-		solution_ptr = solution_bsearch(-7, &j, TRUE);
+		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, -7);
 
 		/* Header */
-		ptr = solution_ptr_orig->description;
-		if (copy_token(string, &ptr, &l) != EMPTY)
+		char * description = string_duplicate(solution_ptr_orig->Get_description().c_str());
+		ptr = description;
+		std::string string;
+		if (copy_token(string, &ptr) != EMPTY)
 		{
 			fprintf(netpath_file, "%d. %s\n", count_inverse_models,
-					solution_ptr_orig->description);
+					solution_ptr_orig->Get_description().c_str());
 		}
 		else
 		{
 			fprintf(netpath_file, "%d. Solution %d\n", count_inverse_models,
-					solution_ptr_orig->n_user);
+					solution_ptr_orig->Get_n_user());
 		}
 
 		/* bookkeeping */
 		count_pat_solutions++;
-		solnmap[count_current_solutions][0] = solution_ptr_orig->n_user;
+		solnmap[count_current_solutions][0] = solution_ptr_orig->Get_n_user();
 		solnmap[count_current_solutions][1] = count_pat_solutions;
 		count_current_solutions++;
 
@@ -4414,19 +4419,20 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		print_total_pat(netpath_file, "Mn", "MN");
 		print_total_pat(netpath_file, "N", "N");
 		print_total_pat(netpath_file, "P", "P");
-		fprintf(netpath_file, "%14g     # TEMP\n", (double) solution_ptr->tc);
+		fprintf(netpath_file, "%14g     # TEMP\n", (double) solution_ptr->Get_tc());
 		print_total_pat(netpath_file, "S(-2)", "H2S");
 		print_total_pat(netpath_file, "S(6)", "SO4");
 
 		/* N15 */
 		sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "15N") != NULL)
+			if (strstr(kit->second.Get_isotope_name().c_str(), "15N") != NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4471,7 +4477,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		}
 
 		/* pH */
-		fprintf(netpath_file, "%14g     # PH\n", (double) solution_ptr->ph);
+		fprintf(netpath_file, "%14g     # PH\n", (double) solution_ptr->Get_ph());
 
 		/*H2CO3* */
 		d = 1000 * (molality("H2CO3") + molality("CO2"));
@@ -4517,12 +4523,13 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		/*C13 */
 		sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "13C") != NULL)
+			if (strstr(kit->second.Get_isotope_name().c_str(), "13C") != NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4539,12 +4546,13 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		/*C14 */
 		sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "14C") != NULL)
+			if (strstr(kit->second.Get_isotope_name().c_str(), "14C") != NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4561,13 +4569,14 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		/*SR87 */
 		sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "87Sr") !=
+			if (strstr(kit->second.Get_isotope_name().c_str(), "87Sr") !=
 				NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4583,12 +4592,13 @@ dump_netpath_pat(struct inverse *inv_ptr)
 
 		 /*D*/ sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "2H") != NULL)
+			if (strstr(kit->second.Get_isotope_name().c_str(), "2H") != NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4604,24 +4614,25 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		/*O-18 */
 		sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "18O") != NULL)
+			if (strstr(kit->second.Get_isotope_name().c_str(), "18O") != NULL)
 			{
-				if (strcmp(solution_ptr->isotopes[k].elt_name, "O(-2)") == 0)
+				if (strcmp(kit->second.Get_elt_name().c_str(), "O(-2)") == 0)
 				{
-					d = solution_ptr->total_o - total("O(0)");
+					d = solution_ptr->Get_total_o() - total("O(0)");
 				}
-				else if (strcmp(solution_ptr->isotopes[k].elt_name, "H(1)")
+				else if (strcmp(kit->second.Get_elt_name().c_str(), "H(1)")
 						 == 0)
 				{
-					d = solution_ptr->total_h - total("H(0)");
+					d = solution_ptr->Get_total_h() - total("H(0)");
 				}
 				else
 				{
-					d = total(solution_ptr->isotopes[k].elt_name);
+					d = total(kit->second.Get_elt_name().c_str());
 				}
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4637,12 +4648,13 @@ dump_netpath_pat(struct inverse *inv_ptr)
 
 		 /*TRITIUM*/ sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "3H") != NULL)
+			if (strstr(kit->second.Get_isotope_name().c_str(), "3H") != NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4659,13 +4671,14 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		/*34SSO4 */
 		sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "34S(6)") !=
+			if (strstr(kit->second.Get_isotope_name().c_str(), "34S(6)") !=
 				NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4682,13 +4695,14 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		/*34SH2S */
 		sum_iso = 0;
 		sum = 0;
-		for (k = 0; k < solution_ptr->count_isotopes; k++)
+		kit = solution_ptr->Get_isotopes().begin();
+		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(solution_ptr->isotopes[k].isotope_name, "34S(-2)") !=
+			if (strstr(kit->second.Get_isotope_name().c_str(), "34S(-2)") !=
 				NULL)
 			{
-				d = total(solution_ptr->isotopes[k].elt_name);
-				sum_iso += solution_ptr->isotopes[k].ratio * d;
+				d = total(kit->second.Get_elt_name().c_str());
+				sum_iso += kit->second.Get_ratio() * d;
 				sum += d;
 			}
 		}
@@ -4716,23 +4730,24 @@ dump_netpath_pat(struct inverse *inv_ptr)
 /*
  * Open model file
  */
-	strcpy(string, inv_ptr->pat);
+	std::string string;
+	string = inv_ptr->pat;
 	replace(".pat", "", string);
-	string_trim(string);
-	sprintf(string1, "%s-%d.mod", string, count_inverse_models);
-	model_file = fopen(string1, "w");
+	trim(string);
+	std::string string1 = sformatf("%s-%d.mod", string.c_str(), count_inverse_models);
+	model_file = fopen(string1.c_str(), "w");
 	if (model_file == NULL)
 	{
-		error_string = sformatf( "Can't open file, %s.", string);
+		error_string = sformatf( "Can't open file, %s.", string.c_str());
 		error_msg(error_string, STOP);
 	}
-	add_to_file("model.fil", string1);
+	add_to_file("model.fil", string1.c_str());
 
 
 /*
  * Write header
  */
-	fprintf(model_file, "%s\n", string);
+	fprintf(model_file, "%s\n", string.c_str());
 
 /*
  * Write well numbers
@@ -4770,9 +4785,9 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	{
 		if (master[j]->in == TRUE)
 		{
-			strcpy(string, master[j]->elt->name);
-			str_toupper(string);
-			fprintf(model_file, " %-2s", string);
+			string = master[j]->elt->name;
+			Utilities::str_toupper(string);
+			fprintf(model_file, " %-2s", string.c_str());
 		}
 	}
 	fprintf(model_file, " %-2s", "RS");
@@ -4781,23 +4796,23 @@ dump_netpath_pat(struct inverse *inv_ptr)
  */
 	for (j = 0; j < inv_ptr->count_isotopes; j++)
 	{
-		sprintf(string, "%d%s", (int) inv_ptr->isotopes[j].isotope_number,
+		string = sformatf("%d%s", (int) inv_ptr->isotopes[j].isotope_number,
 				inv_ptr->isotopes[j].elt_name);
-		if (strcmp(string, "13C") == 0)
+		if (strcmp(string.c_str(), "13C") == 0)
 			fprintf(model_file, " %-2s", "I1");
-		if (strcmp(string, "14C") == 0)
+		if (strcmp(string.c_str(), "14C") == 0)
 			fprintf(model_file, " %-2s", "I2");
-		if (strcmp(string, "34S") == 0)
+		if (strcmp(string.c_str(), "34S") == 0)
 			fprintf(model_file, " %-2s", "I3");
-		if (strcmp(string, "87Sr") == 0)
+		if (strcmp(string.c_str(), "87Sr") == 0)
 			fprintf(model_file, " %-2s", "I4");
-		if (strcmp(string, "15N") == 0)
+		if (strcmp(string.c_str(), "15N") == 0)
 			fprintf(model_file, " %-2s", "I9");
-		if (strcmp(string, "2H") == 0)
+		if (strcmp(string.c_str(), "2H") == 0)
 			fprintf(model_file, " %-2s", "D ");
-		if (strcmp(string, "3H") == 0)
+		if (strcmp(string.c_str(), "3H") == 0)
 			fprintf(model_file, " %-2s", "TR");
-		if (strcmp(string, "18O") == 0)
+		if (strcmp(string.c_str(), "18O") == 0)
 			fprintf(model_file, " %-2s", "18");
 	}
 
@@ -4832,45 +4847,44 @@ dump_netpath_pat(struct inverse *inv_ptr)
 /*
  * Write phase name and constraints
  */
-		strncpy(string, inv_ptr->phases[i].name, (size_t) 8);
-		str_ptr = string_pad(string, 10);
-		str_ptr[10] = '\0';
+		string = inv_ptr->phases[i].name;
+		string = string.substr(0,8);
+		string = Utilities::pad_right(string, 8);
 		if (inv_ptr->phases[i].force == TRUE)
 		{
-			str_ptr[8] = 'F';
+			string += 'F';
 		}
 		else
 		{
-			str_ptr[8] = ' ';
+			string += ' ';
 		}
 		switch (inv_ptr->phases[i].constraint)
 		{
 		case EITHER:
-			str_ptr[9] = ' ';
+			string += ' ';
 			break;
 		case PRECIPITATE:
 			if (exch == TRUE)
 			{
-				str_ptr[9] = '+';
+				string += '+';
 			}
 			else
 			{
-				str_ptr[9] = '-';
+				string += '-';
 			}
 			break;
 		case DISSOLVE:
 			if (exch == TRUE)
 			{
-				str_ptr[9] = '-';
+				string += '-';
 			}
 			else
 			{
-				str_ptr[9] = '+';
+				string += '+';
 			}
 			break;
 		}
-		fprintf(model_file, "%-10s", str_ptr);
-		str_ptr = (char *) free_check_null(str_ptr);
+		fprintf(model_file, "%-10s", string.c_str());
 /*
  *  Write stoichiometry
  */
@@ -4889,19 +4903,21 @@ dump_netpath_pat(struct inverse *inv_ptr)
 				continue;
 			if (strcmp(master_ptr->elt->name, "E") == 0)
 				continue;
-			strcpy(string, master_ptr->elt->name);
+			string = master_ptr->elt->name;
+
 			if (strcmp(master_ptr->elt->name, "X") == 0)
 			{
-				strcpy(string, "Na");
+				string = "Na";
 				f = 1.0;
 			}
-			str_toupper(string);
-			fprintf(model_file, " %-2s%12.7f", string,
+			Utilities::str_toupper(string);
+			fprintf(model_file, " %-2s%12.7f", string.c_str(),
 					(double) (next_elt->coef * f));
 		}
 /*
  * Calculate RS
  */
+		std::string token;
 		sum = 0;
 		for (rxn_ptr = inv_ptr->phases[i].phase->rxn_s->token + 1;
 			 rxn_ptr->s != NULL; rxn_ptr++)
@@ -4926,13 +4942,14 @@ dump_netpath_pat(struct inverse *inv_ptr)
 			}
 			else
 			{
-				strcpy(string, rxn_ptr->s->secondary->elt->name);
+				string = rxn_ptr->s->secondary->elt->name;
 				replace("(", " ", string);
 				replace(")", " ", string);
-				ptr = string;
-				copy_token(token, &ptr, &l);
-				copy_token(string1, &ptr, &l);
-				sscanf(string1, SCANFORMAT, &f);
+				std::string::iterator b = string.begin();
+				std::string::iterator e = string.end();
+				CParser::copy_token(token, b, e);
+				CParser::copy_token(string1, b, e);
+				sscanf(string1.c_str(), SCANFORMAT, &f);
 				sum += f * rxn_ptr->coef;
 			}
 		}
@@ -4964,26 +4981,26 @@ dump_netpath_pat(struct inverse *inv_ptr)
 				}
 			}
 			d3 = d1 + d2;
-			sprintf(string, "%d%s", (int) isotope_ptr[k].isotope_number,
+			string = sformatf("%d%s", (int) isotope_ptr[k].isotope_number,
 					isotope_ptr[k].elt_name);
-			if (strcmp(string, "13C") == 0)
+			if (strcmp(string.c_str(), "13C") == 0)
 				fprintf(model_file, " %-2s%12.7f", "I1", (double) d3);
-			if (strcmp(string, "14C") == 0)
+			if (strcmp(string.c_str(), "14C") == 0)
 				fprintf(model_file, " %-2s%12.7f", "I2", (double) d3);
-			if (strcmp(string, "34S") == 0)
+			if (strcmp(string.c_str(), "34S") == 0)
 			{
 				fprintf(model_file, " %-2s%12.7f", "I3", (double) d3);
 				fprintf(model_file, " %-2s%12.7f", "I7", 0.0);
 			}
-			if (strcmp(string, "87Sr") == 0)
+			if (strcmp(string.c_str(), "87Sr") == 0)
 				fprintf(model_file, " %-2s%12.7f", "I4", (double) d3);
-			if (strcmp(string, "15N") == 0)
+			if (strcmp(string.c_str(), "15N") == 0)
 				fprintf(model_file, " %-2s%12.7f", "I9", (double) d3);
-			if (strcmp(string, "2H") == 0)
+			if (strcmp(string.c_str(), "2H") == 0)
 				fprintf(model_file, " %-2s%12.7f", "D ", (double) d3);
-			if (strcmp(string, "3H") == 0)
+			if (strcmp(string.c_str(), "3H") == 0)
 				fprintf(model_file, " %-2s%12.7f", "TR", (double) d3);
-			if (strcmp(string, "18O") == 0)
+			if (strcmp(string.c_str(), "18O") == 0)
 				fprintf(model_file, " %-2s%12.7f", "18", (double) d3);
 		}
 /*
@@ -5038,7 +5055,6 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	state = INVERSE;
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 print_total_pat(FILE * l_netpath_file, const char *elt, const char *string)
@@ -5059,25 +5075,26 @@ print_total_pat(FILE * l_netpath_file, const char *elt, const char *string)
 		fprintf(l_netpath_file, "%14g%1s    # %s\n", (double) d, " ", string);
 	}
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 set_initial_solution(int n_user_old, int n_user_new)
 /* ---------------------------------------------------------------------- */
 {
-	int j;
-	struct solution *solution_ptr;
-	struct conc *conc_ptr;
-
-	solution_duplicate(n_user_old, n_user_new);
-	solution_ptr = solution_bsearch(n_user_new, &j, TRUE);
-	solution_ptr->new_def = TRUE;
-	solution_ptr->n_user_end = n_user_new;
-	for (j = 0; solution_ptr->totals[j].description != NULL; j++)
+	cxxSolution *solution_ptr;
+	Utilities::Rxn_copy(Rxn_solution_map, n_user_old, n_user_new);
+	solution_ptr = Utilities::Rxn_find(Rxn_solution_map, n_user_new);
+	solution_ptr->Set_new_def(true);
+	if (solution_ptr->Get_initial_data() == NULL)
+		solution_ptr->Create_initial_data();
+	solution_ptr->Set_n_user_end(n_user_new);
+	cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
+	for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 	{
-		conc_ptr = &solution_ptr->totals[j];
-		conc_ptr->input_conc = conc_ptr->moles / solution_ptr->mass_water;
-		conc_ptr->units = string_hsave("Mol/kgw");
+		cxxISolutionComp temp_comp;
+		temp_comp.Set_description(jit->first.c_str());
+		temp_comp.Set_input_conc(jit->second / solution_ptr->Get_mass_water());
+		temp_comp.Set_units("Mol/kgw");
+		solution_ptr->Get_initial_data()->Get_comps()[jit->first.c_str()] = temp_comp;
 	}
 	return (OK);
 }

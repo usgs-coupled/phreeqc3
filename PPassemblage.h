@@ -17,7 +17,6 @@ class cxxPPassemblage:public cxxNumKeyword
 
   public:
 	cxxPPassemblage(PHRQ_io * io=NULL);
-	//cxxPPassemblage(struct pp_assemblage *, PHRQ_io * io=NULL);
 	cxxPPassemblage(const std::map < int, cxxPPassemblage > &entity_map,
 					  cxxMix & mx, int n_user, PHRQ_io * io=NULL);
 	~cxxPPassemblage();
@@ -26,9 +25,9 @@ class cxxPPassemblage:public cxxNumKeyword
 
 	void read_raw(CParser & parser, bool check = true);
 
-	const cxxNameDouble & Get_totals() const
+	const cxxNameDouble & Get_assemblage_totals() const
 	{
-		return this->totals;
+		return this->assemblage_totals;
 	};
 	const cxxNameDouble & Get_eltList() const
 	{
@@ -62,8 +61,8 @@ protected:
 protected:
 	bool new_def;
 	std::map <std::string, cxxPPassemblageComp > pp_assemblage_comps;
-	cxxNameDouble eltList;
-	cxxNameDouble totals;
+	cxxNameDouble eltList;              // list of elements in phases (and alternate reactions)
+	cxxNameDouble assemblage_totals;    // after totalize, total moles of elements in the PPassemblage
 
 };
 

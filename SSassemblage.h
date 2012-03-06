@@ -23,7 +23,6 @@ class cxxSSassemblage:public cxxNumKeyword
 
 public:
 	cxxSSassemblage(PHRQ_io * io = NULL);
-	//cxxSSassemblage(struct ss_assemblage *, PHRQ_io * io = NULL);
 	cxxSSassemblage(const std::map < int, cxxSSassemblage > &entity_map,
 		cxxMix & mx, int n_user, PHRQ_io * io = NULL);
 	~cxxSSassemblage();
@@ -50,10 +49,12 @@ public:
 	cxxSS *Find(const std::string &s);
 
 protected:
-	bool new_def;
+	// SOLID_SOLUTION_MODIFY candidate
 	std::map < std::string, cxxSS > SSs;
+	// SOLID_SOLUTION keyword data
+	bool new_def;
+	// internal variables
 	cxxNameDouble totals;
-
 };
 
 #endif // !defined(SSASSEMBLAGE_H_INCLUDED)

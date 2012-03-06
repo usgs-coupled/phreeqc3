@@ -9,24 +9,21 @@ setup_fixed_volume_gas(void)
  *   Fill in data for gas phase unknown (sum of partial pressures)
  *   in unknown structure
  */
-	//int i;
 	if (use.Get_gas_phase_ptr() == NULL)
 		return (OK);
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 /*
  *   One for each gas component
  */
 	gas_unknowns.clear();
 	gas_unknown = NULL;
 	gas_phase_ptr->Set_total_moles(0);
-	//for (i = 0; i < use.Get_gas_phase_ptr()->count_comps; i++)
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
 		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
 		struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 		x[count_unknowns]->type = GAS_MOLES;
-		//x[count_unknowns]->description = string_hsave("gas moles");
 		x[count_unknowns]->description = phase_ptr->name;
 		x[count_unknowns]->phase = phase_ptr;
 		x[count_unknowns]->moles = comp_ptr->Get_moles();
@@ -35,7 +32,6 @@ setup_fixed_volume_gas(void)
 			x[count_unknowns]->moles = MIN_TOTAL;
 		}
 		x[count_unknowns]->ln_moles = log(x[count_unknowns]->moles);
-		//x[count_unknowns]->gas_phase = use.Get_gas_phase_ptr();
 		gas_unknowns.push_back(x[count_unknowns]);
 		gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + x[count_unknowns]->moles);
 		x[count_unknowns]->phase->moles_x = x[count_unknowns]->moles;
@@ -61,19 +57,15 @@ build_fixed_volume_gas(void)
  *      sum of partial pressures equation and
  *      mass balance equations for elements contained in gases
  */
-	//int i, j;
 	int row, col;
 	struct master *master_ptr;
 	struct rxn_token *rxn_ptr;
-	//struct gas_comp *gas_comp_ptr;
-	//struct phase *phase_ptr;
 	struct unknown *unknown_ptr;
 	LDBLE coef, coef_elt;
 
 	if (gas_unknown == NULL)
 		return (OK);
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
-	//for (i = 0; i < use.Get_gas_phase_ptr()->count_comps; i++)
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
 		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
@@ -127,7 +119,6 @@ build_fixed_volume_gas(void)
 			if (unknown_ptr != NULL)
 			{
 				coef = elt_list[j].coef;
-				//store_mb(&(gas_comp_ptr->phase->moles_x), &(unknown_ptr->f), coef);
 				store_mb(&(gas_unknowns[i]->moles), &(unknown_ptr->f), coef);
 				if (debug_prep == TRUE)
 				{
@@ -203,8 +194,6 @@ build_fixed_volume_gas(void)
 							"Element needed for gas component, %s, is not in model.",
 							phase_ptr->name);
 					warning_msg(error_string);
-					//error_msg(error_string, CONTINUE);
-					//input_error++;
 					continue;
 				}
 				if (debug_prep == TRUE)
@@ -226,8 +215,6 @@ build_fixed_volume_gas(void)
 				}
 				col = master_ptr->unknown->number;
 				coef = coef_elt * rxn_ptr->coef;
-				//store_jacob(&(gas_comp_ptr->phase->moles_x),
-				//			&(array[row + col]), coef);
 				store_jacob(&(gas_unknowns[i]->moles),
 							&(array[row + col]), coef);
 				if (debug_prep == TRUE)
@@ -271,8 +258,6 @@ build_fixed_volume_gas(void)
 					"Element in species, %s, in phase, %s, is not in model.",
 					rxn_ptr->s->name, phase_ptr->name);
 				warning_msg(error_string);
-				//error_msg(error_string, CONTINUE);
-				//input_error++;
 			}
 			else
 			{
@@ -311,8 +296,6 @@ build_fixed_volume_gas(void)
 							"Element, %s, in phase, %s, is not in model.",
 							master_ptr->elt->name, phase_ptr->name);
 						warning_msg(error_string);
-						//error_msg(error_string, CONTINUE);
-						//input_error++;
 					}
 					col = master_ptr->unknown->number;
 					coef = rxn_ptr->coef;
@@ -356,7 +339,6 @@ calc_PR(void)
   pr_si_f = log10(phi_i) -  Delta_V_i * (P - 1) / (2.303 * R * TK);
 */
 {
-	//int i, i1;
 	LDBLE T_c, P_c;
 	LDBLE A, B, B_r, /*b2,*/ kk, oo, a_aa, T_r;
 	LDBLE m_sum, /*b_sum, a_aa_sum,*/ a_aa_sum2;
@@ -378,7 +360,7 @@ calc_PR(void)
 	{
 		error_msg("No gas unknowns.", STOP);
 	}
-	cxxGasPhase * gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 	
 	for (i = 0; i < gas_unknowns.size(); i++)
 	{
@@ -613,7 +595,7 @@ calc_fixed_volume_gas_pressures(void)
  */
 	if (use.Get_gas_phase_ptr() == NULL)
 		return (OK);
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	gas_phase_ptr->Set_total_moles(0);
 
 	for (i = 0; i < gas_unknowns.size(); i++)

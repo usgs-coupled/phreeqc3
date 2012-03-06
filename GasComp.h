@@ -15,7 +15,7 @@ class cxxGasComp: public PHRQ_base
   public:
 	cxxGasComp(PHRQ_io *io=NULL);
 
-	 ~cxxGasComp();
+	virtual ~cxxGasComp();
 
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
@@ -40,8 +40,11 @@ class cxxGasComp: public PHRQ_base
 #endif
   protected:
 	std::string phase_name;
-	LDBLE p_read;
+	// GAS_PHASE_MODIFY candidates
 	LDBLE moles;
+	// GAS_PHASE_MODIFY candidates with new_def=true
+	LDBLE p_read;
+	// internal workspace
 	LDBLE initial_moles;
 };
 

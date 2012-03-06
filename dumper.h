@@ -12,7 +12,7 @@ class dumper: public PHRQ_base
 public:
 	dumper(PHRQ_io *io=NULL);
 	dumper(CParser & parser, PHRQ_io *io=NULL);
-	~dumper(void);
+	virtual ~dumper(void);
 	bool Read(CParser & parser);
 	void SetAll(bool tf);
 	std::string Get_file_name(void)		{ return(this->file_name); };

@@ -13,8 +13,6 @@
 #include "cxxMix.h"
 #include "phqalloc.h"
 
-
-
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -35,7 +33,6 @@ cxxMix::~cxxMix()
 void
 cxxMix::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -70,7 +67,6 @@ cxxMix::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 void
 cxxMix::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -84,7 +80,7 @@ cxxMix::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 	// Mix element and attributes
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "MIX        " << n_user_local << " " << this->description << "\n";
+	s_oss << "MIX                          " << n_user_local << " " << this->description << "\n";
 
 	for (std::map < int, LDBLE >::const_iterator it = this->mixComps.begin();
 		 it != this->mixComps.end(); it++)
@@ -175,7 +171,6 @@ cxxMix::read_raw(CParser & parser)
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
-	// members that must be defined
 }
 void cxxMix::Vectorize(std::vector<int> &n, std::vector<LDBLE> &f)
 {

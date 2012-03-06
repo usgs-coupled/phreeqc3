@@ -1,14 +1,14 @@
 #ifndef _INC_GLOBAL_STRUCTURES_H
 #define _INC_GLOBAL_STRUCTURES_H
+#include "Surface.h"
 /* ----------------------------------------------------------------------
  *   #define DEFINITIONS
  * ---------------------------------------------------------------------- */
 #ifndef NAN
 #   define NAN -99999999
 #endif
-#define MISSING -9999.999
-//#define NA -98.765	            /* NA = not available */
-#include "NA.h"
+#define MISSING -9999.999            
+#include "NA.h"   /* NA = not available */
 
 #define F_C_MOL 96493.5			/* C/mol or joule/volt-eq */
 #define F_KJ_V_EQ  96.4935		/* kJ/volt-eq */
@@ -16,11 +16,12 @@
 #define R_LITER_ATM 0.0820597	/* L-atm/deg-mol */
 #define R_KCAL_DEG_MOL 0.00198726	/* kcal/deg-mol */
 #define R_KJ_DEG_MOL 0.00831470	/* kJ/deg-mol */
-#define EPSILON 78.5			/* dialectric constant, dimensionless */
+#define EPSILON 78.5			/* dialectric constant, dimensionless. Is calculated as eps_r(P, T) in calc_dielectrics. Update the code?? */
 #define EPSILON_ZERO 8.854e-12	/* permittivity of free space, C/V-m = C**2/m-J */
 #define JOULES_PER_CALORIE 4.1840
 #define PASCAL_PER_ATM 1.01325E5 /* conversion from atm to Pa */
 #define AVOGADRO 6.02252e23		/* atoms / mole */
+#define pi 3.14159265358979
 
 #define TRUE 1
 #define FALSE 0
@@ -121,7 +122,6 @@
 #define MAX_ELTS 15				/* default estimate for maximum number of times elements occur in
 								   an equation */
 #define MAX_PHASES 500			/* initial guess of number of phases defined */
-#define MAX_SOLUTION 10			/* The maximum number of solutions allowed */
 #define MAX_S 500				/* default estimate for maximum number of species in aqueous model */
 #define MAX_STRINGS 3000
 #define MAX_SUM_JACOB0 50		/* list used to calculate jacobian */
@@ -152,12 +152,6 @@
 //
 typedef enum { kcal, cal, kjoules, joules } DELTA_H_UNIT;
 typedef enum { cm3_per_mol } DELTA_V_UNIT;
-enum SURFACE_TYPE
-{ UNKNOWN_DL, NO_EDL, DDL, CD_MUSIC, CCM };
-enum DIFFUSE_LAYER_TYPE
-{ NO_DL, BORKOVEK_DL, DONNAN_DL };
-enum SITES_UNITS
-{ SITES_ABSOLUTE, SITES_DENSITY };
 enum entity_type
 { Solution, Reaction, Exchange, Surface, Gas_phase, Pure_phase, Ss_phase,
 	Kinetics, Mix, Temperature, Pressure, UnKnown
@@ -177,7 +171,11 @@ typedef enum {
 	vm0,		/* read: molar volume at tc = 0 */
 	vm1,		/* read: coef * tc */
 	vm2,		/* read: coef * tc * tc */
-	kappa,		/* read: compressibility coef * P */
+	vm3,		/* read: coef for I (ionic strength) */
+	vm4,		/* read: coef for I * tc */
+	vm5,		/* read: coef for I * tc * tc */
+	kappa,		/* read: compression constant, cm3/mol/atm */
+	b_Av,		/* read: b in z^2 * A_v * log(1 + b * I^0.5) / (2 * b), 0 if -Millero is used */
 	MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
 } LOG_K_INDICES;
 /* HSEARCH(3C) */
@@ -251,12 +249,10 @@ struct model
 	const char **add_formula;
 	LDBLE *si;
 
-	/*int diffuse_layer; */
-	/*int edl; */
-	enum DIFFUSE_LAYER_TYPE dl_type;
-	enum SURFACE_TYPE surface_type;
+	cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
+	cxxSurface::SURFACE_TYPE surface_type;
 	int only_counter_ions;
-	/*int donnan; */
+
 	LDBLE thickness;
 	int count_surface_comp;
 	const char **surface_comp;
@@ -325,74 +321,6 @@ struct punch
 	int charge_balance;
 	int percent_error;
 };
-/* ----------------------------------------------------------------------
- *   Surface
- * --------------------------------------------------------------------- */
-struct surface
-{
-	int n_user;
-	int n_user_end;
-	int new_def;
-	/*int diffuse_layer; */
-	/*int edl; */
-	int only_counter_ions;
-	/*int donnan; */
-	enum DIFFUSE_LAYER_TYPE dl_type;
-	enum SURFACE_TYPE type;
-	enum SITES_UNITS sites_units;
-	LDBLE thickness;
-	LDBLE debye_lengths;
-	LDBLE DDL_viscosity;		/* viscosity relative to pure water */
-	LDBLE DDL_limit;			/* limits DDL water to this fraction of bulk water */
-	char *description;
-	int solution_equilibria;
-	int n_solution;
-	int count_comps;
-	struct surface_comp *comps;
-	int count_charge;
-	struct surface_charge *charge;
-	int related_phases;
-	int related_rate;
-	int transport;				/* transports comp's and charges if true */
-};
-struct surface_comp
-{
-	const char *formula;
-	struct elt_list *formula_totals;
-	LDBLE formula_z;
-	LDBLE moles;
-	struct master *master;
-	struct elt_list *totals;
-	LDBLE la;
-	int charge;
-	LDBLE cb;
-	const char *phase_name;
-	LDBLE phase_proportion;
-	const char *rate_name;
-	LDBLE Dw;					/* diffusion coefficient in water, used in MCD. No transport if 0 */
-};
-struct surface_charge
-{
-	const char *name;
-	LDBLE specific_area;
-	LDBLE grams;
-	LDBLE charge_balance;
-	LDBLE mass_water;
-	struct elt_list *diffuse_layer_totals;
-	int count_g;
-	struct surface_diff_layer *g;	/* stores g and dg/dXd for each ionic charge */
-	LDBLE la_psi, la_psi1, la_psi2;
-	LDBLE psi, psi1, psi2;
-	LDBLE capacitance[2];
-	LDBLE sigma0, sigma1, sigma2, sigmaddl;
-};
-struct surface_diff_layer
-{
-	LDBLE charge;
-	LDBLE g;
-	LDBLE dg;
-	LDBLE psi_to_z;
-};
 
 struct Change_Surf
 {
@@ -409,45 +337,7 @@ struct Charge_Group
 	LDBLE z;
 	LDBLE eq;
 };
-#ifdef SKIP
-/* ----------------------------------------------------------------------
- *   Kinetics
- * ---------------------------------------------------------------------- */
-struct kinetics
-{
-	int n_user;
-	int n_user_end;
-	char *description;
-	int count_comps;
-	struct kinetics_comp *comps;
-	int count_steps;
-	LDBLE *steps;
-	LDBLE step_divide;
-	/*char *units; */
-	struct elt_list *totals;
-	int rk;
-	int bad_step_max;
-	int use_cvode;
-	int cvode_order;
-	int cvode_steps;
-};
-struct kinetics_comp
-{
-	const char *rate_name;
-	struct name_coef *list;
-	int count_list;
-	/*    struct phase *phase; */
-	LDBLE tol;
-	LDBLE m;
-	LDBLE initial_moles;
-	LDBLE m0;
-	LDBLE moles;
-	int count_c_params;
-	const char **c_params;
-	int count_d_params;
-	LDBLE *d_params;
-};
-#endif
+
 /*----------------------------------------------------------------------
  *   Save
  *---------------------------------------------------------------------- */
@@ -606,62 +496,6 @@ struct list2
 	LDBLE coef;
 };
 
-/*----------------------------------------------------------------------
- *   Solution
- *---------------------------------------------------------------------- */
- struct solution
- {
- 	int new_def;
- 	int n_user;
- 	int n_user_end;
- 	char *description;
- 	LDBLE tc;
- 	LDBLE ph;
- 	LDBLE solution_pe;
- 	LDBLE mu;
- 	LDBLE ah2o;
- 	LDBLE density;
- 	LDBLE total_h;
- 	LDBLE total_o;
- 	LDBLE cb;
- 	LDBLE mass_water;
- 	LDBLE total_alkalinity;
- 	const char *units;
- 	struct pe_data *pe;
- 	int default_pe;
- 	struct conc *totals;
- 	struct master_activity *master_activity;
- 	int count_master_activity;
- 	int count_isotopes;
- 	struct isotope *isotopes;
- 	struct master_activity *species_gamma;
- 	int count_species_gamma;
-	LDBLE patm;
- };
- struct master_activity
- {
- 	const char *description;
- 	LDBLE la;
- };
- struct conc
- {
- 	const char *description;
- 	/*int skip; */
- 	LDBLE moles;
- 	LDBLE input_conc;
- 	const char *units;
- 	const char *equation_name;
- 	struct phase *phase;
- 	LDBLE phase_si;
- 	int n_pe;
- 	const char *as;
- 	LDBLE gfw;
- };
- struct pe_data
- {
- 	const char *name;
- 	struct reaction *rxn;
- };
  struct isotope
  {
  	LDBLE isotope_number;
@@ -751,6 +585,63 @@ struct rxn_token
 	LDBLE coef;
 	const char *name;
 };
+class cxxChemRxn
+{
+public:
+	cxxChemRxn(void)
+	{
+		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			logk[i] = 0.0;
+		}
+		for (size_t i = 0; i < 3; i++)
+		{
+			dz[i] =0.0;
+		}
+	}
+	cxxChemRxn(struct reaction *rxn)
+	{
+		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			logk[i] = rxn->logk[i];
+		}
+		for (size_t i = 0; i < 3; i++)
+		{
+			dz[i] = rxn->dz[i];
+		}
+		struct rxn_token *next_token;
+		next_token = rxn->token;
+		while (next_token->s != NULL)
+		{
+			this->tokens.push_back(*next_token++);
+		}
+	}
+	~cxxChemRxn(void) {}
+	LDBLE *Get_logk(void) {return this->logk;}
+	void   Set_logk(LDBLE *d)
+	{
+		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			logk[i] = d[i];
+		}
+
+	}
+	LDBLE *Get_dz(void) {return this->dz;}
+	void   Set_dz(LDBLE *d)
+	{
+		for (size_t i = 0; i < 3; i++)
+		{
+			dz[i] = d[i];
+		}
+	}
+	std::vector<struct rxn_token> &Get_tokens(void) {return this->tokens;}
+	void Set_tokens(const std::vector<struct rxn_token> &t) {this->tokens = t;}
+
+protected:
+	LDBLE logk[MAX_LOG_K_INDICES];
+	LDBLE dz[3];
+	std::vector<struct rxn_token> tokens;
+};
 /*----------------------------------------------------------------------
  *   Species
  *---------------------------------------------------------------------- */
@@ -774,10 +665,10 @@ struct species
 	LDBLE o;					/* stoichiometric coefficient of O in species */
 	LDBLE dha, dhb, a_f;		/* WATEQ Debye Huckel a and b-dot; active_fraction coef for exchange species */
 	LDBLE lk;					/* log10 k at working temperature */
-	LDBLE logk[MAX_LOG_K_INDICES];				/* log kt0, delh, 6 coefficients analytical expression */
+	LDBLE logk[MAX_LOG_K_INDICES];				/* log kt0, delh, 6 coefficients analytical expression + volume terms */
 /* VP: Density Start */
-	LDBLE millero[6];		    /* regression coefficients to calculate temperature dependent phi_0 and b_v of Millero density model */
-/* VP: Density End */
+	LDBLE millero[7];		    /* regression coefficients to calculate temperature dependent phi_0 and b_v of Millero density model */
+	/* VP: Density End */
 	DELTA_H_UNIT original_units;	/* enum with original delta H units */
 	int count_add_logk;
 	struct name_coef *add_logk;
@@ -801,8 +692,6 @@ struct species
 	struct reaction *rxn_x;		/* reaction to be used in model */
 	LDBLE tot_g_moles;			/* (1 + sum(g)) * moles */
 	LDBLE tot_dh2o_moles;		/* sum(moles*g*Ws/Waq) */
-	struct species_diff_layer *diff_layer;	/* information related to diffuse layer factors for each
-											   surface */
 	LDBLE cd_music[5];
 	LDBLE dz[3];
 	DELTA_V_UNIT original_deltav_units;
@@ -818,16 +707,6 @@ struct logk
 	struct name_coef *add_logk;
 	LDBLE log_k_original[MAX_LOG_K_INDICES];	/* log kt0, delh, 5 coefficients analalytical expression */
 	DELTA_V_UNIT original_deltav_units;
-};
-struct species_diff_layer
-{
-	struct surface_charge *charge;
-	int count_g;
-	LDBLE g_moles;
-	LDBLE dg_g_moles;			/* g_moles*dgterm */
-	LDBLE dx_moles;
-	LDBLE dh2o_moles;			/* moles*g*Ws/Waq */
-	LDBLE drelated_moles;		/* for related phase */
 };
 
 /*----------------------------------------------------------------------
@@ -899,8 +778,7 @@ struct phase
  									   master species */
  	struct reaction *rxn_secondary;	/* reaction writes master species in terms of secondary
  									   master species */
- 	struct reaction **pe_rxn;	/* e- written in terms of redox couple (or e-), points
- 								   to location */
+	const char * pe_rxn;
  	int minor_isotope;
 };
 /*----------------------------------------------------------------------
@@ -920,28 +798,22 @@ struct unknown
 	struct master **master;
 	struct phase *phase;
 	LDBLE si;
-	//struct gas_phase *gas_phase;
 	int n_gas_phase_user;
-	struct conc *total;
 	struct species *s;
-	//struct exch_comp *exch_comp;
 	const char * exch_comp;
-	//struct pure_phase *pure_phase;
 	const char *pp_assemblage_comp_name;
-	//struct ss *s_s;
-	//struct ss_comp *s_s_comp;
 	const char * ss_name;
 	const char * ss_comp_name;
 	int ss_comp_number;
 	int ss_in;
-	struct surface_comp *surface_comp;
+	const char *surface_comp;
+	const char *surface_charge;
 	LDBLE related_moles;
 	struct unknown *potential_unknown, *potential_unknown1,
 		*potential_unknown2;
 	int count_comp_unknowns;
 	struct unknown **comp_unknowns;	/* list for CD_MUSIC of comps that contribute to 0 plane mass-balance term */
 	struct unknown *phase_unknown;
-	struct surface_charge *surface_charge;
 	LDBLE mass_water;
 	int dissolve_only;
 	LDBLE inert_moles;

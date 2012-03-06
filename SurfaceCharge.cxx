@@ -10,7 +10,6 @@
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "SurfaceCharge.h"
-//#include "Dictionary.h"
 #include "phqalloc.h"
 
 
@@ -30,60 +29,18 @@ PHRQ_base(io)
 	charge_balance = 0.0;
 	mass_water = 0.0;
 	la_psi = 0.0;
-	la_psi1 = 0.0;
-	la_psi2 = 0.0;
 	capacitance[0] = 1.0;
 	capacitance[1] = 5.0;
+	sigma0 = sigma1 = sigma2 = sigmaddl = 0;
 	diffuse_layer_totals.type = cxxNameDouble::ND_ELT_MOLES;
 }
-
-cxxSurfaceCharge::cxxSurfaceCharge(struct surface_charge *surf_charge_ptr, PHRQ_io *io)
-//
-// constructor for cxxSurfaceCharge from struct surface_charge
-//
-:
-PHRQ_base(io),
-diffuse_layer_totals(surf_charge_ptr->diffuse_layer_totals)
-{
-	this->Set_name(surf_charge_ptr->name);
-	specific_area = surf_charge_ptr->specific_area;
-	grams = surf_charge_ptr->grams;
-	charge_balance = surf_charge_ptr->charge_balance;
-	mass_water = surf_charge_ptr->mass_water;
-	la_psi = surf_charge_ptr->la_psi;
-	la_psi1 = surf_charge_ptr->la_psi1;
-	la_psi2 = surf_charge_ptr->la_psi2;
-	capacitance[0] = surf_charge_ptr->capacitance[0];
-	capacitance[1] = surf_charge_ptr->capacitance[1];
-}
-
 cxxSurfaceCharge::~cxxSurfaceCharge()
 {
 }
 
-//struct master *
-//cxxSurfaceCharge::get_psi_master()
-//{
-//	struct master *master_ptr = NULL;
-//	std::string str = this->name;
-//
-//	str.append("_psi");
-//	master_ptr = master_bsearch(str.c_str());
-//	if (master_ptr == NULL)
-//	{
-//		std::ostringstream error_oss;
-//		error_oss << "Surface charge psi_master not found." << this->
-//			name << "\n";
-//		//Utilities::error_msg(error_oss.str(), CONTINUE);
-//		error_msg(error_oss.str().c_str(), CONTINUE);
-//	}
-//	return (master_ptr);
-//}
-
 void
 cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing surf_charge message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -95,7 +52,6 @@ cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 		indent2.append(Utilities::INDENT);
 
 	// Surf_Charge element and attributes
-
 	s_oss << indent0 << "name=\"" << this->name << "\"" << "\n";
 	s_oss << indent0 << "specific_area=\"" << this->
 		specific_area << "\"" << "\n";
@@ -105,8 +61,6 @@ cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << indent0 << "mass_water=\"" << this->
 		mass_water << "\"" << "\n";
 	s_oss << indent0 << "la_psi=\"" << this->la_psi << "\"" << "\n";
-	s_oss << indent0 << "la_psi1=\"" << this->la_psi1 << "\"" << "\n";
-	s_oss << indent0 << "la_psi2=\"" << this->la_psi2 << "\"" << "\n";
 	s_oss << indent0 << "capacitance=\"" << this->
 		capacitance[0] << " " << this->capacitance[0] << "\"" << "\n";
 
@@ -120,7 +74,6 @@ cxxSurfaceCharge::dump_xml(std::ostream & s_oss, unsigned int indent) const
 void
 cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing surf_charge message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -132,31 +85,32 @@ cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent2.append(Utilities::INDENT);
 
 	// Surf_Charge element and attributes
-
-	s_oss << indent0 << "-name                  " << this->name << "\n";
-	s_oss << indent1 << "-specific_area         " << this->
-		specific_area << "\n";
-	s_oss << indent1 << "-grams                 " << this->grams << "\n";
-	s_oss << indent1 << "-charge_balance        " << this->
-		charge_balance << "\n";
-	s_oss << indent1 << "-mass_water            " << this->
-		mass_water << "\n";
-	s_oss << indent1 << "-la_psi                " << this->
-		la_psi << "\n";
-	s_oss << indent1 << "-la_psi1               " << this->
-		la_psi1 << "\n";
-	s_oss << indent1 << "-la_psi2               " << this->
-		la_psi2 << "\n";
-	s_oss << indent1 << "-capacitance0          " << this->
-		capacitance[0] << "\n";
-	s_oss << indent1 << "-capacitance1          " << this->
-		capacitance[1] << "\n";
-
+	s_oss << indent0 << "# SURFACE_MODIFY candidate identifiers #\n";
+	s_oss << indent0 << "-specific_area           " << this->specific_area << "\n";
+	s_oss << indent0 << "-grams                   " << this->grams << "\n";
+	s_oss << indent0 << "-charge_balance          " << this->charge_balance << "\n";
+	s_oss << indent0 << "-mass_water              " << this->mass_water << "\n";
+	s_oss << indent0 << "-la_psi                  " << this->la_psi << "\n";
+	s_oss << indent0 << "-capacitance0            " << this->capacitance[0] << "\n";
+	s_oss << indent0 << "-capacitance1            " << this->capacitance[1] << "\n";
 	// totals
-	s_oss << indent1;
+	s_oss << indent0;
 	s_oss << "-diffuse_layer_totals" << "\n";
-	this->diffuse_layer_totals.dump_raw(s_oss, indent + 2);
+	this->diffuse_layer_totals.dump_raw(s_oss, indent + 1);
 
+	s_oss << indent0 << "# Surface workspace variables #\n";
+	s_oss << indent0 << "-sigma0                  " << this->sigma0 << "\n";
+	s_oss << indent0 << "-sigma1                  " << this->sigma1 << "\n";
+	s_oss << indent0 << "-sigma2                  " << this->sigma2 << "\n";
+	s_oss << indent0 << "-sigmaddl                " << this->sigmaddl << "\n";
+	std::map<LDBLE, cxxSurfDL>::const_iterator git;
+	for (git = this->g_map.begin(); git != g_map.end(); git++)
+	{
+		s_oss << indent0 << "-g_map                   " << git->first << "\t";
+		s_oss << git->second.Get_g() << "\t";
+		s_oss << git->second.Get_dg() << "\t";
+		s_oss << git->second.Get_psi_to_z() << "\n";
+	}
 }
 
 void
@@ -167,7 +121,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 	static std::vector < std::string > vopts;
 	if (vopts.empty())
 	{
-		vopts.reserve(10);
+		vopts.reserve(15);
 		vopts.push_back("name");	// 0 
 		vopts.push_back("specific_area");	// 1 
 		vopts.push_back("grams");	// 2 
@@ -179,6 +133,11 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 		vopts.push_back("la_psi2");	// 8 
 		vopts.push_back("capacitance0");	// 9 
 		vopts.push_back("capacitance1");	// 10 
+		vopts.push_back("sigma0");	// 11 
+		vopts.push_back("sigma1");	// 12 
+		vopts.push_back("sigma2");	// 13 
+		vopts.push_back("sigmaddl");	// 14
+		vopts.push_back("g_map");	// 14
 	}
 
 	std::istream::pos_type ptr;
@@ -187,16 +146,14 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 	int opt_save;
 
 	opt_save = CParser::OPT_ERROR;
-	bool name_defined(false);
 	bool specific_area_defined(false);
 	bool grams_defined(false);
 	bool charge_balance_defined(false);
 	bool mass_water_defined(false);
 	bool la_psi_defined(false);
-	bool la_psi1_defined(false);
-	bool la_psi2_defined(false);
 	bool capacitance0_defined(false);
 	bool capacitance1_defined(false);
+	bool g_map_first(true);
 
 	for (;;)
 	{
@@ -216,23 +173,10 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Surface for more processing
-			//parser.error_msg("Unknown input in SURF_CHARGE read.", PHRQ_io::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// name
-			if (!(parser.get_iss() >> str))
-			{
-				this->name.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for name.",
-					PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->name = str;
-			}
-			name_defined = true;
+			warning_msg("-name ignored. Defined with -charge_component.");
 			break;
 
 		case 1:				// specific_area
@@ -307,25 +251,11 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 			break;
 
 		case 7:				// la_psi1
-			if (!(parser.get_iss() >> this->la_psi1))
-			{
-				this->la_psi1 = 0;
-				parser.incr_input_error();
-				parser.error_msg("Expected numeric value for la_psi1.",
-					PHRQ_io::OT_CONTINUE);
-			}
-			la_psi1_defined = true;
+			parser.warning_msg("-la_psi1 identifier not used");
 			break;
 
 		case 8:				// la_psi2
-			if (!(parser.get_iss() >> this->la_psi2))
-			{
-				this->la_psi2 = 0;
-				parser.incr_input_error();
-				parser.error_msg("Expected numeric value for la_psi.",
-					PHRQ_io::OT_CONTINUE);
-			}
-			la_psi2_defined = true;
+			parser.warning_msg("-la_psi2 identifier not used");
 			break;
 
 		case 9:				// capacitance0
@@ -349,7 +279,69 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 			}
 			capacitance1_defined = true;
 			break;
-
+		case 11:				// sigma0
+			if (!(parser.get_iss() >> this->sigma0))
+			{
+				this->sigma0 = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for sigma0.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+		case 12:				// sigma1
+			if (!(parser.get_iss() >> this->sigma1))
+			{
+				this->sigma1 = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for sigma1.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+		case 13:				// sigma2
+			if (!(parser.get_iss() >> this->sigma2))
+			{
+				this->sigma2 = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for sigma2.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+		case 14:				// sigmaddl
+			if (!(parser.get_iss() >> this->sigmaddl))
+			{
+				this->sigmaddl = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for sigmaddl.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+		case 15:				// g_map
+			{
+				if (g_map_first)
+				{
+					this->g_map.clear();
+					g_map_first = false;
+				}
+				LDBLE z, dummy;
+				if (!(parser.get_iss() >> z))
+					break;
+				cxxSurfDL temp_surf_dl;
+				this->g_map[z] = temp_surf_dl;
+				std::map<LDBLE, cxxSurfDL>::iterator git = g_map.find(z);
+				if (!(parser.get_iss() >> dummy))
+					break;
+				else
+					git->second.Set_g(dummy);
+				if (!(parser.get_iss() >> dummy))
+					break;
+				else
+					git->second.Set_dg(dummy);
+				if (!(parser.get_iss() >> dummy))
+					break;
+				else
+					git->second.Set_psi_to_z(dummy);
+			}
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -357,12 +349,6 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 	if (check)
 	{
 		// members that must be defined
-		if (name_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Name not defined for SurfaceCharge input.",
-				PHRQ_io::OT_CONTINUE);
-		}
 		if (specific_area_defined == false)
 		{
 			parser.incr_input_error();
@@ -392,18 +378,6 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 		{
 			parser.incr_input_error();
 			parser.error_msg("La_psi not defined for SurfaceCharge input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		if (la_psi1_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("La_psi1 not defined for SurfaceCharge input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		if (la_psi2_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("La_psi2 not defined for SurfaceCharge input.",
 				PHRQ_io::OT_CONTINUE);
 		}
 		if (capacitance0_defined == false)
@@ -467,15 +441,7 @@ cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, LDBLE extensive)
 {
 	if (extensive == 0.0)
 		return;
-	//char * name;
-	//LDBLE specific_area;
-	//LDBLE grams;
-	//LDBLE charge_balance;
-	//LDBLE mass_water;
-	//LDBLE la_psi, la_psi1, la_psi2;
-	//LDBLE capacitance[2];
 
-	//char * name;
 	if (this->name.size() == 0 && addee.name.size() == 0)
 	{
 		return;
@@ -495,39 +461,23 @@ cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, LDBLE extensive)
 		f1 = 0.5;
 		f2 = 0.5;
 	}
-
-	//LDBLE specific_area;
 	this->specific_area = f1 * this->specific_area + f2 * addee.specific_area;
-	//LDBLE grams;
 	this->grams += addee.grams * extensive;
-	//LDBLE charge_balance;
 	this->charge_balance += addee.charge_balance * extensive;
-	//LDBLE mass_water;
 	this->mass_water += addee.mass_water * extensive;
-	//LDBLE la_psi, la_psi1, la_psi2;
 	this->la_psi = this->la_psi * f1 + addee.la_psi * f2;
-	this->la_psi1 = this->la_psi1 * f1 + addee.la_psi1 * f2;
-	this->la_psi2 = this->la_psi2 * f1 + addee.la_psi2 * f2;
-	//LDBLE capacitance[2];  
 	this->capacitance[0] =
 		this->capacitance[0] * f1 + this->capacitance[0] * f2;
 	this->capacitance[1] =
 		this->capacitance[1] * f1 + this->capacitance[1] * f2;
+	this->diffuse_layer_totals.add_extensive(addee.diffuse_layer_totals, extensive);
 }
 
 void
 cxxSurfaceCharge::multiply(LDBLE extensive)
 {
-	//char * name;
-	//LDBLE specific_area;
-	//LDBLE grams;
 	this->grams *= extensive;
-	//LDBLE charge_balance;
 	this->charge_balance *= extensive;
-	//LDBLE mass_water;
 	this->mass_water *= extensive;
-	//LDBLE la_psi, la_psi1, la_psi2;
-	//LDBLE capacitance[2];
-	//cxxNameDouble diffuse_layer_totals; 
 	this->diffuse_layer_totals.multiply(extensive);
 }

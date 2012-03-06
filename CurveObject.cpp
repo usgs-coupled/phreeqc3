@@ -18,10 +18,6 @@ CurveObject::CurveObject()
 {
 	x.clear();
 	y.clear();
-	//this->npoints_plot = 0;
-	//this->npoints = 0;
-	//this->nxy = 0;
-	//this->prev_npoints = 0;
 	this->id = "";
 	this->symbol = "";
 	this->color = "";

@@ -23,14 +23,21 @@
 
 cxxISolution::cxxISolution(PHRQ_io *io)
 :
-cxxSolution(io),
+//cxxSolution(io),
 units("mMol/kgw")
 {
-	density = 1.0;
-	default_pe = -1;
-	pes = NULL;
-}
+	default_pe = "pe";
+	cxxChemRxn temp_pe_reactions;
+	pe_reactions[default_pe] = temp_pe_reactions;
 
+}
+//cxxISolution::cxxISolution(const cxxISolution *is_old)
+//{
+//	units                      = is_old->units;
+//	comps                      = is_old->comps;
+//	pe_reactions               = is_old->pe_reactions;
+//	default_pe                 = is_old->default_pe;
+//}
 cxxISolution::~cxxISolution()
 {
 	//// ToDo //pe_data_free(this->pes);
@@ -393,7 +400,6 @@ cxxISolution::dump_xml(std::ostream & os, unsigned int indent) const const
 	assert(this->pe.size() > 0);
 	assert(this->default_pe >= 0);
 	assert(this->pe.size() > (unsigned int) this->default_pe);
-	//this->pe[this->default_pe].dump_xml(os, indent + 1);
 
 	for (i = 0; i < indent + 1; ++i)
 		os << Utilities::INDENT;

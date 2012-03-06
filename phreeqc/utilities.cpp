@@ -1,7 +1,9 @@
+#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "NameDouble.h"
 #include "Exchange.h"
+#include "Solution.h"
 #include <time.h>
 
 /* ---------------------------------------------------------------------- */
@@ -79,6 +81,7 @@ calc_alk(struct reaction * rxn_ptr)
 	}
 	return (return_value);
 }
+#ifdef PHREEQC2
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_rho_0(LDBLE tc, LDBLE pa)
@@ -102,6 +105,83 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 
 	return (1e-3 * rho_0);
 }
+#else
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_rho_0(LDBLE tc, LDBLE pa)
+/* ---------------------------------------------------------------------- */
+{
+	/* Density of pure water
+        Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
+		interpolation 0 - 300 oC, 0.006 - 1000 atm...
+    */
+	LDBLE T = tc + 273.15; // note... the new temp scale is + 273.16. Should be changed everywhere.
+	LDBLE p0 =  9.99843e2 +  tc * ( 1.58729e-2 + tc * (-5.90233e-3 + tc * ( 1.96602e-5  + tc * -3.77118E-08)));
+	LDBLE p1 =  5.15090e-2 + tc * (-3.65419e-4 + tc * ( 5.36431e-6 + tc * (-2.74401e-8  + tc *  6.26304E-11)));
+	LDBLE p2 = -5.50294e-6 + tc * ( 1.07699e-7 + tc * (-2.05409e-9 + tc * ( 1.30238e-11 + tc * -3.20982E-14)));
+
+	/* The minimal pressure equals the saturation pressure... */
+	p_sat = exp(11.6702 - 3816.44 / (T - 46.13)) * ah2o_x;
+	ah2o_x0 = ah2o_x; // for updating rho in model(): compare with new ah2o_x
+	if (pa < p_sat || (use.Get_solution_ptr() && use.Get_solution_ptr()->Get_patm() < p_sat))
+	{
+		pa = p_sat;
+	}
+	patm_x = pa;
+	rho_0 = p0 + pa * (p1 + pa * p2);
+
+	/* compressibility, d(ln(rho)) / d(P), 1/atm... */
+	kappa_0 = (p1 + 2 * pa * p2) / rho_0;
+
+	/* for tc < 99, P < 3 atm, use the more accurate eqn. 2.6... */
+	if (tc <= 99 && pa < 3.0)
+	{
+		LDBLE Tc = 647.096, th = 1 - T / Tc;
+		LDBLE b1 = 1.99274064, b2 = 1.09965342, b3 = -0.510839303,
+			b4 = -1.75493479, b5 = -45.5170352, b6 = -6.7469445e5;
+	    rho_0 = 322.0 * (1.0 + b1 * pow(th, (LDBLE) 1./3.) + b2 * pow(th, (LDBLE) 2./3.) + b3 * pow(th, (LDBLE) 5./3.) +\
+                   b4 * pow(th, (LDBLE) 16./3.) + b5 * pow(th, (LDBLE) 43./3.) + b6 * pow(th, (LDBLE) 110./3));
+	}
+
+	return (rho_0 / 1e3);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_dielectrics(LDBLE tc, LDBLE pa)
+/* ---------------------------------------------------------------------- */
+{
+	/* Relative dielectric constant of pure water, eps as a function of (P, T)
+       Bradley and Pitzer, 1979, JPC 83, 1599.
+	   (newer data in Fernandez et al., 1995, JPCRD 24, 33,
+	              and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
+	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
+    */
+	LDBLE T = tc + 273.15; 
+    LDBLE u1 = 3.4279e2, u2 = -5.0866e-3, u3 = 9.469e-7, u4 = -2.0525,
+		u5 = 3.1159e3, u6 = -1.8289e2,  u7 = -8.0325e3, u8 = 4.2142e6,
+		u9 = 2.1417;
+    LDBLE d1000 = u1 * exp(T * (u2 + T * u3)); // relative dielectric constant at 1000 bar
+    LDBLE c = u4 + u5 / (u6 + T);
+    LDBLE b = u7 + u8 / T + u9 * T;
+	pa *= 1.01325; // pa in bar
+    eps_r = d1000 + c * log((b + pa) / (b + 1e3)); // relative dielectric constant
+
+	/* qe^2 / (eps_r * kB * T) = 4.803204e-10**2 / 1.38065e-16 / (eps_r * T)
+	                           = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
+	LDBLE e2_DkT = 1.671008e-3 / (eps_r * T);
+
+	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length kappa, 1/cm
+
+	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
+
+	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
+	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pa) / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
+
+	DH_B /= 1e8; // kappa, 1/Angstrom
+
+	return (OK);
+}
+#endif
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -277,7 +357,6 @@ copy_token(std::string &token, char **ptr)
 		   /*              c != ',' && */
 		   c != ';' && c != '\0')
 	{
-		//token_ptr[i] = c;
 		c_char[0] = c;
 		token.append(c_char);
 		(*ptr)++;
@@ -1059,6 +1138,54 @@ string_duplicate(const char *token)
 	strcpy(str, token);
 	return (str);
 }
+#ifdef HASH
+/* ---------------------------------------------------------------------- */
+const char * Phreeqc::
+string_hsave(const char *str)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Save character string str
+ *
+ *      Arguments:
+ *         str   input string to save.
+ *
+ *      Returns:
+ *         starting address of saved string (str)
+ */
+	std::hash_map<std::string, std::string *>::const_iterator it;
+	it = strings_hash.find(str);
+	if (it != strings_hash.end())
+	{
+		return (it->second->c_str());
+	}
+
+	std::string *stdstr = new std::string(str);
+	strings_map[*stdstr] = stdstr;
+	return(stdstr->c_str());
+}
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+strings_hash_clear()
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Save character string str
+ *
+ *      Arguments:
+ *         str   input string to save.
+ *
+ *      Returns:
+ *         starting address of saved string (str)
+ */
+	std::hash_map<std::string, std::string *>::iterator it;
+	for (it = strings_hash.begin(); it != strings_hash.end(); it++)
+	{
+		delete it->second;
+	}
+	strings_hash.clear();
+}
+#else
 /* ---------------------------------------------------------------------- */
 const char * Phreeqc::
 string_hsave(const char *str)
@@ -1084,6 +1211,7 @@ string_hsave(const char *str)
 	strings_map[*stdstr] = stdstr;
 	return(stdstr->c_str());
 }
+#endif
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 strings_map_clear()
@@ -1129,125 +1257,111 @@ under(LDBLE xval)
 	return (pow ((LDBLE) 10.0, xval));
 /*	return (exp(xval * LOG_10)) */;
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-backspace_screen(int spaces)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-	char token[MAX_LENGTH];
-	for (i = 0; i < spaces; i++)
-	{
-		token[i] = '\b';
-	}
-	token[i] = '\0';
-	screen_msg(sformatf("%s", token));
-	return (OK);
-}
-
 #ifndef PHREEQCI_GUI
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-status(int count, const char *str)
+status(int count, const char *str, bool rk_string)
 /* ---------------------------------------------------------------------- */
 {
 	static int spinner;
 	char sim_str[20];
 	char state_str[45];
 	char spin_str[2];
-	float t2;
-/*	char all[MAX_LENGTH]; */
+	clock_t t2;
+
+
 #ifdef PHREEQ98
 	if (ProcessMessages)
 		ApplicationProcessMessages();
 	if (stop_calculations == TRUE)
 		error_msg("Execution canceled by user.", STOP);
 #endif
-
 	if (pr.status == FALSE || phast == TRUE)
 		return (OK);
-	t2 = (float) clock();
+
+	if (state == INITIALIZE)
+	{
+		screen_string = sformatf("\n%-80s", "Initializing...");
+		screen_msg(screen_string.c_str());
+		return (OK);
+	}
+	t2 = clock();
 	if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
 		return (OK);
 	else
 		status_timer = t2;
-	sprintf(sim_str, "Simulation %d.", simulation);
-	sprintf(state_str, " ");
-	sprintf(spin_str, " ");
 
-	if (state == INITIALIZE)
+	switch (state)
 	{
-		screen_msg(sformatf("\n%-80s", "Initializing..."));
-
-		status_on = TRUE;
-		return (OK);
-	}
-/*
- *   If str is defined print it
- */
-	if (str != NULL)
-	{
-		if (status_on == TRUE)
+	case INITIALIZE:
+		break;
+	case TRANSPORT:
+		if (str != NULL)
 		{
-			backspace_screen(80);
-		}
-		else
-		{
-			status_on = TRUE;
-		}
-#ifdef DOS
-		backspace_screen(80);
-		/* if (state == TRANSPORT ) backspace_screen(80); */
-		screen_msg(sformatf("%-79s", str));
-#else
-		screen_msg(sformatf("%-80s", str));
-#endif
-	}
-	else if (state != TRANSPORT && state != PHAST)
-	{
-		if (state == INITIAL_SOLUTION)
-		{
-			sprintf(state_str, "Initial solution %d.",
-					use.Get_solution_ptr()->n_user);
-		}
-		else if (state == INITIAL_EXCHANGE)
-		{
-			//sprintf(state_str, "Initial exchange %d.",
-			//		(cxxExchange *) use.Get_exchange_ptr()->n_user);
-			sprintf(state_str, "Initial exchange %d.",
-					((cxxExchange *) (use.Get_exchange_ptr()))->Get_n_user());
-		}
-		else if (state == INITIAL_SURFACE)
-		{
-			sprintf(state_str, "Initial surface %d.",
-					use.Get_surface_ptr()->n_user);
-		}
-		else if (state == INVERSE)
-		{
-			sprintf(state_str, "Inverse %d. Models = %d.",
-					use.Get_inverse_ptr()->n_user, count);
-		}
-		else if (state == REACTION)
-		{
-			if (use.Get_kinetics_in() == TRUE)
+			if (rk_string)
 			{
-				sprintf(state_str, "Kinetic step %d.", reaction_step);
+
+				screen_string = screen_string.substr(0, 43);
+				screen_string.append(str);
+				screen_msg(screen_string.c_str());
 			}
 			else
 			{
-				sprintf(state_str, "Reaction step %d.", reaction_step);
+				screen_string = "\r";
+				screen_string.append(str);
+				screen_msg(screen_string.c_str());
 			}
 		}
-		else if (state == ADVECTION || state == TRANSPORT)
+	case PHAST:
+		break;
+	default:
+		// if str not NULL, print it
+		if (str != NULL && !rk_string)
 		{
-			if (state == ADVECTION)
+			screen_string = "\r";
+			screen_string.append(str);
+			screen_msg(screen_string.c_str());
+		}
+		else
+		// print state
+		{
+			std::string stdstr;
+			if (str != NULL && rk_string)
 			{
-				sprintf(state_str, "Advection, shift %d.", advection_step);
+				stdstr = str;
 			}
-			else if (state == TRANSPORT)
+			sprintf(sim_str, "\rSimulation %d.", simulation);
+			sprintf(state_str, " ");
+			sprintf(spin_str, " ");
+			switch (state)
 			{
-				sprintf(state_str, "Transport, shift %d.", transport_step);
+			default:
+				break;
+			case INITIAL_SOLUTION:
+				sprintf(state_str, "Initial solution %d.", use.Get_solution_ptr()->Get_n_user());
+				break;
+			case INITIAL_EXCHANGE:
+				sprintf(state_str, "Initial exchange %d.", use.Get_exchange_ptr()->Get_n_user());
+				break;
+			case INITIAL_SURFACE:
+				sprintf(state_str, "Initial surface %d.", use.Get_surface_ptr()->Get_n_user());
+				break;
+			case INVERSE:
+				sprintf(state_str, "Inverse %d. Models = %d.", use.Get_inverse_ptr()->n_user, count);
+				break;
+			case REACTION:
+				if (use.Get_kinetics_in() == TRUE)
+				{
+					sprintf(state_str, "Kinetic step %d.", reaction_step);
+				}
+				else
+				{
+					sprintf(state_str, "Reaction step %d.", reaction_step);
+				}
+				break;
+			case ADVECTION:
+				sprintf(state_str, "Advection, shift %d.", advection_step);
+				break;
 			}
 			spinner++;
 			if (spinner == 1)
@@ -1263,38 +1377,19 @@ status(int count, const char *str)
 				spin_str[0] = '\\';
 				spinner = 0;
 			}
+			if (use.Get_kinetics_in() == TRUE)
+			{
+				screen_string = sformatf("%-15s%-27s%38s", sim_str, state_str, stdstr.c_str());
+				screen_msg(screen_string.c_str());
+			}
+			else
+			{
+				screen_string = sformatf("%-15s%-27s%1s%37s", sim_str, state_str, spin_str, stdstr.c_str());
+				screen_msg(screen_string.c_str());
+			}
 		}
-		if (status_on == TRUE)
-		{
-			backspace_screen(80);
-		}
-		else
-		{
-			status_on = TRUE;
-		}
-		if (use.Get_kinetics_in() == TRUE)
-		{
-#ifdef DOS
-			backspace_screen(80);
-			screen_msg(sformatf("%-15s%-27s%37s", sim_str, state_str,
-					   " "));
-#else
-			screen_msg(sformatf("%-15s%-27s%38s", sim_str, state_str,
-					   " "));
-#endif
-
-		}
-		else
-		{
-#ifdef DOS
-			backspace_screen(80);
-			screen_msg(sformatf("%-15s%-27s%1s%36s", sim_str,
-					   state_str, spin_str, " "));
-#else
-			screen_msg(sformatf("%-15s%-27s%1s%37s", sim_str,
-					   state_str, spin_str, " "));
-#endif
-		}
+		status_on = true;
+		break;
 	}
 	return (OK);
 }

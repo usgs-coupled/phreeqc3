@@ -15,29 +15,38 @@ class cxxSurfaceComp: public PHRQ_base
 public:
 
 	cxxSurfaceComp(PHRQ_io *io=NULL);
-	cxxSurfaceComp(struct surface_comp *, PHRQ_io *io=NULL);
-	~cxxSurfaceComp();
+	virtual ~cxxSurfaceComp();
 
-	const std::string &Get_phase_name() const;
-	void Set_phase_name(const char * f);
-	const std::string &Get_rate_name() const;
-	void Set_rate_name(const char * f);
-	const std::string &Get_formula() const;
-	void Set_formula(const char * f);
-	LDBLE Get_charge_balance() const;
-	void Set_charge_balance(LDBLE d);
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 	void dump_raw(std::ostream & s_oss, unsigned int indent) const;
 	void read_raw(CParser & parser, bool check = true);
-	const cxxNameDouble & Get_totals() const;
-	const cxxNameDouble & Get_formula_totals() const;
-	LDBLE Get_formula_z(void) const {return formula_z;};
-	LDBLE Get_moles(void) const {return moles;};
-	LDBLE Get_la(void) const {return la;};
-	LDBLE Get_phase_proportion(void) const {return phase_proportion;};
-	LDBLE Get_Dw(void) const {return Dw;};
 	void add(const cxxSurfaceComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
+
+	const std::string &Get_formula() const {return this->formula;}
+	void Set_formula(const char * f) {this->formula = f ? f : "";}
+	LDBLE Get_formula_z(void) const {return formula_z;};
+	void Set_formula_z(LDBLE t) {this->formula_z = t;}
+	LDBLE Get_moles(void) const {return moles;}
+	void Set_moles(LDBLE t) {this->moles = t;}
+	cxxNameDouble & Get_totals() {return (this->totals);}
+	void Set_totals(cxxNameDouble & nd) {this->totals = nd;}
+	LDBLE Get_la(void) const {return la;};
+	void Set_la(LDBLE t) {this->la = t;}
+	LDBLE Get_charge_balance() const {return this->charge_balance;}
+	void Set_charge_balance(LDBLE d) {this->charge_balance = d;}
+	const std::string &Get_charge_name() const {return this->charge_name;}
+	void Set_charge_name(const char * f) {this->charge_name = f ? f : "";}
+	const std::string &Get_phase_name() const {return this->phase_name;}
+	void Set_phase_name(const char * f) {this->phase_name = f ? f : "";}
+	LDBLE Get_phase_proportion(void) const {return phase_proportion;}
+	void Set_phase_proportion(LDBLE d) {this->phase_proportion = d;}
+	const std::string &Get_rate_name() const {return this->rate_name;}
+	void Set_rate_name(const char * f) {this->rate_name = f ? f : "";}
+	LDBLE Get_Dw(void) const {return Dw;}
+	void Set_Dw(LDBLE d) {this->Dw = d;}
+	const std::string &Get_master_element() const {return this->master_element;}
+	void Set_master_element(const char * f) {this->master_element = f ? f : "";}
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
@@ -46,17 +55,17 @@ public:
 
 protected:
 	std::string formula;
-	cxxNameDouble formula_totals;
 	LDBLE formula_z;
 	LDBLE moles;
 	cxxNameDouble totals;
 	LDBLE la;
-	//int charge_number;
+	std::string charge_name;
 	LDBLE charge_balance;
 	std::string phase_name;
 	LDBLE phase_proportion;
 	std::string rate_name;
 	LDBLE Dw;
+	std::string master_element;
 public:
 
 };

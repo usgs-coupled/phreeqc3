@@ -468,9 +468,6 @@ ChartObject::OpenCSVFile(std::string file_name)
 		return false;
 	}
 
-	//std::ostringstream oss_out;
-	//std::ostringstream oss_err;
-	//CParser parser(f_csv, oss_out, oss_err, this->Get_io());
 	CParser parser(f_csv, this->Get_io());
 	parser.set_echo_file(CParser::EO_NONE);	
 
@@ -744,7 +741,6 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 	
 	// Add to list of new plotxy curves
 	this->new_plotxy_curves.push_back(new_curve);
-	//std::cerr << revised_line << "\n";
 	cmd_line = revised_line;
 }
 void 

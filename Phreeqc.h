@@ -14,6 +14,9 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#ifdef HASH
+#include <hash_map>
+#endif
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -32,6 +35,7 @@
 #include "Pressure.h"
 #include "cxxMix.h"
 #include "Use.h"
+#include "Surface.h"
 
 class cxxNameDouble;
 class cxxKinetics;
@@ -45,12 +49,10 @@ class cxxPPassemblage;
 class cxxPPassemblageComp;
 class cxxReaction;
 class cxxSolution;
-class cxxSolutionIsotopeList;
+class cxxISolutionComp;
+class cxxSolutionIsotope;
 class cxxSSassemblage;
 class cxxSS;
-class cxxSurface;
-class cxxSurfaceCharge;
-class cxxSurfaceComp;
 class cxxStorageBin;
 
 #include "global_structures.h"
@@ -129,12 +131,11 @@ public:
 	int system_total_elt_secondary(const char *total_name);
 	LDBLE total(const char *total_name);
 	LDBLE total_mole(const char *total_name);
-	//int system_total_solids(struct exchange *exchange_ptr,
 	int system_total_solids(cxxExchange *exchange_ptr,
 		cxxPPassemblage *pp_assemblage_ptr,
 		cxxGasPhase *gas_phase_ptr,
 		cxxSSassemblage *ss_assemblage_ptr,
-		struct surface *surface_ptr);
+		cxxSurface *surface_ptr);
 
 	static LDBLE f_rho(LDBLE rho_old, void *cookie);
 	static LDBLE f_Vm(LDBLE v1, void *cookie);
@@ -173,9 +174,7 @@ public:
 		LDBLE * cu_arg, int *iu, int *s, int check, LDBLE censor_arg);
 
 	// class_main.cpp -------------------------------
-#ifdef DOS
 	int write_banner(void);
-#endif
 
 	/* default.cpp */
 public:
@@ -186,9 +185,6 @@ public:
 		std::istream **input_cookie, int log);
 
 	/* PHRQ_io_output.cpp */
-	//bool screen_open(const char *file_name);
-	//void screen_flush(void);
-	//void screen_close(void);
 	void screen_msg(const char * str);
 
 	void echo_msg(const char *err_str);
@@ -200,40 +196,30 @@ public:
 	bool dump_open(const char *file_name);
 	void dump_flush(void);
 	void dump_close(void);
-	//void dump_rewind(void);
-	//bool dump_isopen(void);
 	void dump_msg(const char * str);
 
 	// log_ostream
 	bool log_open(const char *file_name);
 	void log_flush(void);
 	void log_close(void);
-	//void log_rewind(void);
-	//bool log_isopen(void);
 	void log_msg(const char * str);
 
 	// error_ostream
 	bool error_open(const char *file_name);
 	void error_flush(void);
 	void error_close(void);
-	//void error_rewind(void);
-	//bool error_isopen(void);
 	void error_msg(const char * str, bool stop=false);
 
 	// output_ostream
 	bool output_open(const char *file_name);
 	void output_flush(void);
 	void output_close(void);
-	//void output_rewind(void);
-	//bool output_isopen(void);
 	void output_msg(const char * str);
 
 	// punch_ostream
 	bool punch_open(const char *file_name);
 	void punch_flush(void);
 	void punch_close(void);
-	//void punch_rewind(void);
-	//bool punch_isopen(void);
 	void punch_msg(const char * str);
 
 	void fpunchf_heading(const char *name);
@@ -262,15 +248,15 @@ public:
 	int calc_all_g(void);
 	int calc_init_g(void);
 	int initial_surface_water(void);
-	int sum_diffuse_layer(struct surface_charge *surface_charge_ptr1);
+	int sum_diffuse_layer(cxxSurfaceCharge *surface_charge_ptr1);
 	int calc_all_donnan(void);
 	int calc_init_donnan(void);
 	LDBLE g_function(LDBLE x_value);
 	LDBLE midpnt(LDBLE x1, LDBLE x2, int n);
 	void polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv,
 		LDBLE * dy);
-	LDBLE qromb_midpnt(LDBLE x1, LDBLE x2);
-	LDBLE calc_psi_avg(LDBLE surf_chrg_eq);
+	LDBLE qromb_midpnt(cxxSurfaceCharge *charge_ptr, LDBLE x1, LDBLE x2);
+	LDBLE calc_psi_avg(cxxSurfaceCharge *charge_ptr, LDBLE surf_chrg_eq);
 	int calc_all_donnan_music(void);
 	int calc_init_donnan_music(void);
 
@@ -282,9 +268,9 @@ public:
 	int check_isotopes(struct inverse *inv_ptr);
 	int check_solns(struct inverse *inv_ptr);
 	int count_isotope_unknowns(struct inverse *inv_ptr,
-	struct isotope **isotope_unknowns);
-	struct isotope *get_isotope(struct solution *solution_ptr, const char *elt);
-	struct conc *get_inv_total(struct solution *solution_ptr, const char *elt);
+		struct isotope **isotope_unknowns);
+	cxxSolutionIsotope *get_isotope(cxxSolution *solution_ptr, const char *elt);
+	LDBLE get_inv_total(cxxSolution *solution_ptr, const char *elt);
 	int isotope_balance_equation(struct inverse *inv_ptr, int row, int n);
 	int post_mortem(void);
 	bool test_cl1_solution(void);
@@ -299,14 +285,15 @@ public:
 	int print_model(struct inverse *inv_ptr);
 	int punch_model_heading(struct inverse *inv_ptr);
 	int punch_model(struct inverse *inv_ptr);
-	void print_isotope(FILE * netpath_file, struct solution *solution_ptr,
+	void print_isotope(FILE * netpath_file, cxxSolution *solution_ptr,
 		const char *elt, const char *string);
-	void print_total(FILE * netpath_file, struct solution *solution_ptr,
+	void print_total(FILE * netpath_file, cxxSolution *solution_ptr,
 		const char *elt, const char *string);
-	void print_total_multi(FILE * netpath_file, struct solution *solution_ptr,
+	void print_total_multi(FILE * netpath_file, cxxSolution *solution_ptr,
 		const char *string, const char *elt0,
 		const char *elt1, const char *elt2, const char *elt3,
 		const char *elt4);
+
 	void print_total_pat(FILE * netpath_file, const char *elt,
 		const char *string);
 	int range(struct inverse *inv_ptr, unsigned long cur_bits);
@@ -317,9 +304,7 @@ public:
 	int setup_inverse(struct inverse *inv_ptr);
 	int set_initial_solution(int n_user_old, int n_user_new);
 	int set_ph_c(struct inverse *inv_ptr,
-		int i,
-	struct solution *soln_ptr_orig,
-		int n_user_new,
+		int i, cxxSolution *soln_ptr_orig,	int n_user_new,
 		LDBLE d_alk, LDBLE ph_factor, LDBLE alk_factor);
 	int shrink(struct inverse *inv_ptr, LDBLE * array_in,
 		LDBLE * array_out, int *k, int *l, int *m, int *n,
@@ -333,10 +318,10 @@ public:
 	int write_optimize_names(struct inverse *inv_ptr);
 
 	// isotopes.cpp -------------------------------
-	int add_isotopes(struct solution *solution_ptr);
+	int add_isotopes(cxxSolution &solution_ptr);
 	int calculate_values(void);
 	int calculate_isotope_moles(struct element *elt_ptr,
-	struct solution *solution_ptr, LDBLE total_moles);
+		cxxSolution *solution_ptr, LDBLE total_moles);
 	LDBLE convert_isotope(struct master_isotope *master_isotope_ptr, LDBLE ratio);
 	int from_pcil(struct master_isotope *master_isotope_ptr);
 	int from_permil(struct master_isotope *master_isotope_ptr, LDBLE major_total);
@@ -423,7 +408,6 @@ public:
 	int do_initialize(void);
 	int do_status(void);
 	void save_init(int i);
-	//void use_init(void);
 	int copy_use(int i);
 	int set_use(void);
 
@@ -463,7 +447,6 @@ public:
 	int revise_guesses(void);
 	int ss_binary(cxxSS *ss_ptr);
 	int ss_ideal(cxxSS *ss_ptr);
-	//int remove_unstable_phases;
 	int gas_in;
 	void ineq_init(int max_row_count, int max_column_count);
 
@@ -550,16 +533,16 @@ public:
 	int build_min_surface(void);
 	LDBLE calc_lk_phase(phase * p_ptr, LDBLE TK, LDBLE pa);
 	LDBLE calc_delta_v(reaction * r_ptr, bool phase);
-	//LDBLE calc_PR(struct phase **phase_ptrs, int n_g, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int calc_vm(LDBLE tc, LDBLE pa);
 	int change_hydrogen_in_elt_list(LDBLE charge);
 	int clear(void);
-	int convert_units(struct solution *solution_ptr);
+	//int convert_units(struct solution *solution_ptr);
+	int convert_units(cxxSolution *solution_ptr);
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
 	LDBLE f_Vm(LDBLE v1);
-	struct unknown *find_surface_charge_unknown(char *str_ptr, int plane);
+	struct unknown *find_surface_charge_unknown(std::string &str_ptr, int plane);
 	struct master **get_list_master_ptrs(char *ptr,
 	struct master *master_ptr);
 	int inout(void);
@@ -575,7 +558,7 @@ public:
 	int setup_fixed_volume_gas(void);
 	int setup_slack(void);
 	int setup_master_rxn(struct master **master_ptr_list,
-	struct reaction **pe_rxn);
+		const std::string &pe_rxn);
 	int setup_pure_phases(void);
 	int adjust_setup_pure_phases(void);
 	int setup_related_surface(void);
@@ -622,7 +605,7 @@ public:
 	int print_user_print(void);
 	int punch_all(void);
 	int print_alkalinity(void);
-	int print_diffuse_layer(struct surface_charge *surface_charge_ptr);
+	int print_diffuse_layer(cxxSurfaceCharge *surface_charge_ptr);
 	int print_eh(void);
 	int print_reaction(void);
 	int print_kinetics(void);
@@ -650,7 +633,7 @@ public:
 
 	// read.cpp -------------------------------
 	int read_input(void);
-	int read_conc(int n, int count_mass_balance, char *str);
+	int read_conc(cxxSolution *solution_ptr, int count_mass_balance, char *str);
 	int *read_list_ints_range(char **ptr, int *count_ints, int positive,
 		int *int_list);
 	int read_log_k_only(char *ptr, LDBLE * log_k);
@@ -660,8 +643,8 @@ public:
 	int read_number_description(char *ptr, int *n_user, int *n_user_end,
 		char **description, int allow_negative=FALSE);
 	int check_key(const char *str);
-	int check_units(char * tot_units, int alkalinity, int check_compatibility,
-		const char *default_units, int print);
+	int check_units(std::string &tot_units, bool alkalinity, bool check_compatibility,
+			const char *default_units, bool print);
 	int find_option(const char *item, int *n, const char **list, int count_list,
 		int exact);
 	int get_option(const char **opt_list, int count_opt_list, char **next_char);
@@ -677,7 +660,7 @@ public:
 	int read_debug(void);
 	int read_delta_h_only(char *ptr, LDBLE * delta_h,
 		DELTA_H_UNIT * units);
-	int read_delta_v_only(char *ptr, LDBLE * delta_v,
+	int read_vm_only(char *ptr, LDBLE * delta_v,
 		DELTA_V_UNIT * units);
 	int read_llnl_aqueous_model_parameters(void);
 	int read_exchange(void);
@@ -703,13 +686,10 @@ public:
 	int read_named_logk(void);
 	int read_phases(void);
 	int read_print(void);
-	//int read_pure_phases(void);
 	int read_pp_assemblage(void);
 	int read_rates(void);
 	int read_reaction(void);
-	//int read_reaction_reactants(struct irrev *irrev_ptr);
 	int read_reaction_reactants(cxxReaction *reaction_ptr);
-	//int read_reaction_steps(struct irrev *irrev_ptr);
 	int read_reaction_steps(cxxReaction *reaction_ptr);
 	int read_solid_solutions(void);
 	int read_temperature(void);
@@ -720,7 +700,7 @@ public:
 	int read_selected_output(void);
 	int read_solution(void);
 	int read_species(void);
-	int read_surf(void);
+	int read_surface(void);
 	int read_surface_master_species(void);
 	int read_surface_species(void);
 	int read_use(void);
@@ -737,27 +717,7 @@ public:
 	int cleanup_after_parser(CParser &parser);
 
 	// ReadClass.cxx
-	int read_generic(Keywords::KEYWORDS key);
-	int read_solution_raw(void);
-	//int read_exchange_raw(void);
-	int read_surface_raw(void);
-	//int read_equilibrium_phases_raw(void);
-	int read_kinetics_raw(void);
-	int read_solid_solutions_raw(void);
-	//int read_gas_phase_raw(void);
-	//int read_reaction_raw(void);
-	//int read_mix_raw(void);
-	//int read_temperature_raw(void);
 	int read_dump(void);
-	int read_solution_modify(void);
-	//int read_equilibrium_phases_modify(void);
-	//int read_exchange_modify(void);
-	int read_surface_modify(void);
-	int read_solid_solutions_modify(void);
-	//int read_gas_phase_modify(void);
-	int read_kinetics_modify(void);
-	//int read_reaction_modify(void);
-	//int read_reaction_temperature_modify(void);
 	int read_delete(void);
 	int read_run_cells(void);
 	int streamify_to_next_keyword(std::istringstream & lines);
@@ -822,28 +782,19 @@ public:
 	// step.cpp -------------------------------
 	int step(LDBLE step_fraction);
 	int xsolution_zero(void);
-	//int add_exchange(struct exchange *exchange_ptr);
 	int add_exchange(cxxExchange *exchange_ptr);
 	int add_gas_phase(cxxGasPhase *gas_phase_ptr);
 	int add_kinetics(cxxKinetics *kinetics_ptr);
-	//int add_mix(struct mix *mix_ptr);
 	int add_mix(cxxMix * mix_ptr);
-	//int add_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
 	int add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr);
-	//int add_reaction(struct irrev *irrev_ptr, int step_number,
-	//	LDBLE step_fraction);
 	int add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction);
-	//int add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr);
 	int add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr);
-	int add_solution(struct solution *solution_ptr, LDBLE extensive,
+	int add_solution(cxxSolution *solution_ptr, LDBLE extensive,
 		LDBLE intensive);
-	int add_surface(struct surface *surface_ptr);
-	//int check_pp_assemblage(struct pp_assemblage *pp_assemblage_ptr);
+	int add_surface(cxxSurface *surface_ptr);
 	int check_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr);
 	int gas_phase_check(cxxGasPhase *gas_phase_ptr);
-	//int pp_assemblage_check(struct pp_assemblage *pp_assemblage_ptr);
 	int pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr);
-	//int reaction_calc(struct irrev *irrev_ptr);
 	int reaction_calc(cxxReaction *reaction_ptr);
 	int solution_check(void);
 	int ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr);
@@ -871,32 +822,6 @@ public:
 	static int inverse_isotope_compare(const void *ptr1, const void *ptr2);
 	struct inverse *inverse_search(int n_user, int *n);
 	int inverse_sort(void);
-public:
-#ifdef SKIP
-	struct kinetics *kinetics_alloc(void);
-	struct kinetics *kinetics_bsearch(int k, int *n);
-protected:
-	int kinetics_delete(int n_user_old);
-	int kinetics_comp_duplicate(struct kinetics_comp *kinetics_comp_new_ptr,
-	struct kinetics_comp *kinetics_comp_old_ptr);
-	static int kinetics_compare(const void *ptr1, const void *ptr2);
-public:
-	int kinetics_copy(struct kinetics *kinetics_old_ptr,
-	struct kinetics *kinetics_new_ptr, int n_user_new);
-protected:				 
-	int kinetics_copy_to_last(int n, int n_user);
-	int kinetics_duplicate(int n_user_old, int n_user_new);
-	int kinetics_init(struct kinetics *kinetics_ptr, int n_user, int n_user_end,
-		char *description);
-public:
-	int kinetics_free(struct kinetics *kinetics_ptr);
-protected:
-	int kinetics_ptr_to_user(struct kinetics *kinetics_ptr_old, int n_user_new);
-	struct kinetics *kinetics_replicate(struct kinetics *kinetics_old_ptr,
-		int n_user_new);
-	struct kinetics *kinetics_search(int n_user, int *n, int print);
-	int kinetics_sort(void);
-#endif
 protected:
 	struct logk *logk_alloc(void);
 	int logk_copy2orig(struct logk *logk_ptr);
@@ -910,15 +835,6 @@ public:
 	struct master *master_bsearch_primary(const char *ptr);
 	struct master *master_bsearch_secondary(char *ptr);
 	struct master *master_search(char *ptr, int *n);
-	//struct mix *mix_bsearch(int k, int *n);
-	//int mix_copy(struct mix *mix_old_ptr,
-	//struct mix *mix_new_ptr, int n_user_new);
-	//int mix_delete(int n_user_old);
-	//int mix_duplicate(int n_user_old, int n_user_new);
-	//int mix_free(struct mix *mix_ptr);
-	//struct mix *mix_search(int n_user, int *n, int print);
-	//int mix_ptr_to_user(struct mix *mix_ptr_old, int n_user_new);
-	//int mix_sort(void);
 	struct pe_data *pe_data_alloc(void);
 public:
 	struct pe_data *pe_data_dup(struct pe_data *pe_ptr_old);
@@ -950,56 +866,16 @@ protected:
 	static int save_values_compare(const void *ptr1, const void *ptr2);
 	int save_values_sort(void);
 	int save_values_store(struct save_values *s_v);
-	static int conc_compare(const void *ptr1, const void *ptr2);
-	int conc_init(struct conc *conc_ptr);
 	static int isotope_compare(const void *ptr1, const void *ptr2);
-public:
-	struct solution *solution_alloc(void);
-	struct solution *solution_bsearch(int k, int *n, int print);
-	struct solution *solution_copy(struct solution *solution_old_ptr,
-		int n_user_new);
-protected:
-	int solution_copy_to_last(int n, int n_user_new);
-	int solution_duplicate(int n_user_old, int n_user_new);
-	int solution_delete(int n_user_old);
-	int solution_delete_n(int n);
-	int solution_free(struct solution *solution_ptr);
-	int solution_ptr_to_user(struct solution *solution_old_ptr, int n_user_new);
-	struct solution *solution_replicate(struct solution *solution_old_ptr,
-		int n_user_new);
-	int solution_sort(void);
 	static int species_list_compare_alk(const void *ptr1, const void *ptr2);
 	static int species_list_compare_master(const void *ptr1, const void *ptr2);
 	int species_list_sort(void);
 	struct Change_Surf *change_surf_alloc(int count);
 public:
-	struct surface *surface_alloc(void);
-	struct surface *surface_bsearch(int k, int *n);
-protected:
 	struct master *surface_get_psi_master(const char *name, int plane);
-	static int surface_comp_compare(const void *ptr1, const void *ptr2);
-	static int surface_charge_compare(const void *ptr1, const void *ptr2);
-	struct surface_charge * surface_charge_duplicate(struct surface_charge *charge_old_ptr);
-	int surface_charge_free(struct surface_charge *charge);
-	static int surface_compare(const void *ptr1, const void *ptr2);
-public:
-	int surface_copy(struct surface *surface_old_ptr,
-	struct surface *surface_new_ptr, int n_user_new);
-protected:
-	int surface_copy_to_last(int n, int n_user);
-	int surface_delete(int n_user_old);
-	int surface_duplicate(int n_user_old, int n_user_new);
-public:
-	int surface_free(struct surface *surface_ptr);
-	int surface_init(struct surface *surface_ptr, int n_user, int n_user_end,
-		char *description);
-	int surface_ptr_to_user(struct surface *surface_ptr_old, int n_user_new);
-	struct surface *surface_replicate(struct surface *surface_old_ptr,
-		int n_user_new);
-	struct surface *surface_search(int n_user, int *n, int print);
-	int surface_sort(void);
 	int system_duplicate(int i, int save_old);
 	int trxn_add(struct reaction *r_ptr, LDBLE coef, int combine);
+	int trxn_add(cxxChemRxn &r_ptr, LDBLE coef, int combine);
 	int trxn_add_phase(struct reaction *r_ptr, LDBLE coef, int combine);
 	int trxn_combine(void);
 	int trxn_copy(struct reaction *rxn_ptr);
@@ -1012,24 +888,16 @@ public:
 	int unknown_delete(int i);
 	int unknown_free(struct unknown *unknown_ptr);
 	int entity_exists(char *name, int n_user);
-
-	//static int exchange_compare_int(const void *ptr1, const void *ptr2);
-	//static int gas_phase_compare_int(const void *ptr1, const void *ptr2);
 	static int inverse_compare(const void *ptr1, const void *ptr2);
 	int inverse_free(struct inverse *inverse_ptr);
-	//static int irrev_compare(const void *ptr1, const void *ptr2);
-	//static int irrev_compare_int(const void *ptr1, const void *ptr2);
 	static int kinetics_compare_int(const void *ptr1, const void *ptr2);
 	int logk_init(struct logk *logk_ptr);
 	static int master_compare_string(const void *ptr1, const void *ptr2);
 	int master_free(struct master *master_ptr);
-	//static int mix_compare(const void *ptr1, const void *ptr2);
-	//static int mix_compare_int(const void *ptr1, const void *ptr2);
 	struct phase *phase_alloc(void);
 	static int phase_compare_string(const void *ptr1, const void *ptr2);
 	int phase_free(struct phase *phase_ptr);
 	int phase_init(struct phase *phase_ptr);
-	//static int pp_assemblage_compare_int(const void *ptr1, const void *ptr2);
 	static int rate_compare(const void *ptr1, const void *ptr2);
 	static int rate_compare_string(const void *ptr1, const void *ptr2);
 	struct species *s_alloc(void);
@@ -1040,8 +908,6 @@ public:
 	static int solution_compare_int(const void *ptr1, const void *ptr2);
 	static int species_list_compare(const void *ptr1, const void *ptr2);
 	static int surface_compare_int(const void *ptr1, const void *ptr2);
-	//static int temperature_compare(const void *ptr1, const void *ptr2);
-	//static int temperature_compare_int(const void *ptr1, const void *ptr2);
 	static int rxn_token_temp_compare(const void *ptr1, const void *ptr2);
 	int trxn_multiply(LDBLE coef);
 #ifdef PHREEQCI_GUI
@@ -1050,29 +916,6 @@ public:
 #if defined(USE_MPI) && defined(HDF5_CREATE) && defined(MERGE_FILES)
 	extern void MergeFinalize(void);
 #endif
-
-	// convert class to struct (structures.cpp)
-	//struct mix * cxxMix2mix(const cxxMix *mx);
-	//struct kinetics *cxxKinetics2kinetics(const cxxKinetics * kin);
-	//struct kinetics_comp * cxxKineticsComp2kinetics_comp(const std::list < cxxKineticsComp > * el);
-	//struct exchange * cxxExchange2exchange(const cxxExchange * ex);
-	//struct exch_comp * cxxExchComp2exch_comp(const std::map < std::string, cxxExchComp > * el);
-	//struct master * Get_exch_master(const cxxExchComp * ec);
-	//struct gas_phase * cxxGasPhase2gas_phase(const cxxGasPhase * gp);
-	//struct gas_comp * cxxGasPhaseComp2gas_comp(const cxxGasPhase * gp);
-	//struct temperature * cxxTemperature2temperature(const cxxTemperature *temp);
-	//struct pp_assemblage * cxxPPassemblage2pp_assemblage(const cxxPPassemblage * pp);
-	//struct pure_phase * cxxPPassemblageComp2pure_phase(const std::map < std::string, cxxPPassemblageComp > * ppc);
-	//struct irrev * cxxReaction2irrev(const cxxReaction * rxn);
-	struct solution * cxxSolution2solution(const cxxSolution * sol);
-	struct isotope * cxxSolutionIsotopeList2isotope(const cxxSolutionIsotopeList * il);
-	//struct ss_assemblage * cxxSSassemblage2ss_assemblage(const cxxSSassemblage * ss);
-	//struct s_s * cxxSSassemblageSS2s_s(const std::map < std::string, cxxSS > * sscomp);
-	struct surface * cxxSurface2surface(const cxxSurface * surf);
-	struct surface_comp * cxxSurfaceComp2surface_comp(const std::map < std::string, cxxSurfaceComp > * sc);
-	struct surface_charge * cxxSurfaceCharge2surface_charge(const std::map < std::string, cxxSurfaceCharge > * s_ch);
-
-	struct conc * cxxNameDouble2conc(const cxxNameDouble *nd); 
 	struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
 	struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
 	struct master_activity * cxxNameDouble2master_activity(const cxxNameDouble * nd);
@@ -1111,7 +954,6 @@ public:
 	int add_logks(struct logk *logk_ptr, int repeats);
 	LDBLE halve(LDBLE f(LDBLE x, void *), LDBLE x0, LDBLE x1, LDBLE tol);
 	int replace_solids_gases(void);
-	//int s_s_prep(LDBLE t, struct s_s *s_s_ptr, int print);
 	int ss_prep(LDBLE t, cxxSS *ss_ptr, int print);
 	int select_log_k_expression(LDBLE * source_k, LDBLE * target_k);
 	int slnq(int n, LDBLE * a, LDBLE * delta, int ncols, int print);
@@ -1152,9 +994,9 @@ public:
 	// transport.cpp -------------------------------
 	int transport(void);
 	int set_initial_moles(int i);
-	int sum_surface_comp(struct surface *source1, LDBLE f1,
-	struct surface *source2, int k, LDBLE f2,
-	struct surface *target, LDBLE new_Dw);
+	cxxSurface sum_surface_comp(cxxSurface *source1, LDBLE f1,
+		cxxSurface *source2, std::string charge_name, LDBLE f2,
+		LDBLE new_Dw);
 	int reformat_surf(const char *comp_name, LDBLE fraction, const char *new_comp_name,
 		LDBLE new_Dw, int cell);
 	LDBLE viscosity(void);
@@ -1165,11 +1007,10 @@ public:
 	static int sort_species_name(const void *ptr1, const void *ptr2);
 	int disp_surf(LDBLE stagkin_time);
 	int diff_stag_surf(int mobile_cell);
-	int check_surfaces(struct surface *surface_ptr1,
-	struct surface *surface_ptr2);
-	int mobile_surface_copy(struct surface *surface_old_ptr,
-	struct surface *surf_ptr1, int n_user_new,
-		int move_old);
+	int check_surfaces(cxxSurface *surface_ptr1, cxxSurface *surface_ptr2);
+	cxxSurface mobile_surface_copy(cxxSurface *surface_old_ptr,
+		int n_user_new,
+		bool move_old);
 	int init_mix(void);
 	int init_heat_mix(int nmix);
 	int heat_mix(int heat_nmix);
@@ -1185,6 +1026,7 @@ protected:
 	LDBLE calc_alk(struct reaction *rxn_ptr);
 public:
 	LDBLE calc_rho_0(LDBLE tc, LDBLE pa);
+	LDBLE calc_dielectrics(LDBLE tc, LDBLE pa);
 	int compute_gfw(const char *string, LDBLE * gfw);
 #if defined PHREEQ98 
 	int copy_title(char *token_ptr, char **ptr, int *length);
@@ -1213,7 +1055,7 @@ public:
 protected:
 	void space(void **ptr, int i, int *max, int struct_size);
 	void squeeze_white(char *s_l);
-	int status(int count, const char *str);
+	int status(int count, const char *str, bool kinetics = false);
 	void str_tolower(char *str);
 	void str_toupper(char *str);
 	static int strcmp_nocase(const char *str1, const char *str2);
@@ -1222,6 +1064,9 @@ public:
 	char *string_duplicate(const char *token);
 	const char *string_hsave(const char *str);
 	void strings_map_clear();
+#ifdef HASH
+	void strings_hash_clear();
+#endif
 protected:
 	char *string_pad(const char *str, int i);
 	int string_trim(char *str);
@@ -1262,6 +1107,7 @@ protected:
 	int same_model;
 	int same_temperature;
 	int same_pressure;
+	bool same_mu;
 	struct punch punch;
 	/* ----------------------------------------------------------------------
 	*   Temperatures
@@ -1280,11 +1126,8 @@ protected:
 
 	int g_iterations;
 	LDBLE G_TOL;
-	struct surface *surface;
-	struct surface *dbg_surface;
-	int count_surface;
-	int max_surface;
-	struct Charge_Group *charge_group;
+	std::map <int, cxxSurface> Rxn_surface_map;
+	std::map <LDBLE, LDBLE> charge_group_map;
 	int change_surf_count;
 	struct Change_Surf *change_surf;
 
@@ -1297,31 +1140,22 @@ protected:
 	*   Kinetics
 	* ---------------------------------------------------------------------- */
 	std::map<int, cxxKinetics> Rxn_kinetics_map;
-#ifdef SKIP
-	struct kinetics *kinetics;
-	struct kinetics *dbg_kinetics;
-	int count_kinetics;
-	int max_kinetics;
-#endif
-
-	int count_save_values;
-	struct save_values *save_values;
 
 	/*----------------------------------------------------------------------
 	*   Save
 	*---------------------------------------------------------------------- */
-
+	int count_save_values;
+	struct save_values *save_values;
 	struct save save;
+
 	/*----------------------------------------------------------------------
 	*   Use
 	*---------------------------------------------------------------------- */
 	cxxUse use;
-	//struct Use use;
-	//struct Use *dbg_use;
+
 	/*----------------------------------------------------------------------
 	*   Copy
 	*---------------------------------------------------------------------- */
-
 	struct copier copy_solution;
 	struct copier copy_pp_assemblage;
 	struct copier copy_exchange;
@@ -1361,24 +1195,19 @@ protected:
 	*   Solid solution
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxSSassemblage> Rxn_ss_assemblage_map;
-	//int count_ss_assemblage;
-	//int max_ss_assemblage;
-	//struct ss_assemblage *ss_assemblage;
+
 	/*----------------------------------------------------------------------
 	*   Pure-phase assemblage
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxPPassemblage> Rxn_pp_assemblage_map;
-	//int count_pp_assemblage;
-	//int max_pp_assemblage;
-	//struct pp_assemblage *pp_assemblage;
-	//struct pp_assemblage *dbg_pp_assemblage;
+
 	/*----------------------------------------------------------------------
 	*   Species_list
 	*---------------------------------------------------------------------- */
-
 	int count_species_list;
 	int max_species_list;
 	struct species_list *species_list;
+
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
 	*---------------------------------------------------------------------- */
@@ -1410,12 +1239,8 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Solution
 	*---------------------------------------------------------------------- */
-
-	struct solution **solution;
-	struct solution **dbg_solution;
-	int count_solution;
-	int max_solution;
-
+	std::map<int, cxxSolution> Rxn_solution_map;
+	std::vector<cxxSolution> unnumbered_solutions;
 	struct iso *iso_defaults;
 	int count_iso_defaults;
 
@@ -1444,18 +1269,17 @@ protected:
 	LDBLE mass_water_surfaces_x;
 	LDBLE mass_water_bulk_x;
 	char *units_x;
-	struct pe_data *pe_x;
-	int count_isotopes_x;
-	struct isotope *isotopes_x;
-	int default_pe_x;
-	/* int diffuse_layer_x;*/
-	enum DIFFUSE_LAYER_TYPE dl_type_x;
+	std::map < std::string, cxxChemRxn > pe_x;
+	std::map<std::string, cxxSolutionIsotope> isotopes_x;
+	std::string default_pe_x;
+	cxxSurface::DIFFUSE_LAYER_TYPE dl_type_x;
 	LDBLE total_carbon;
 	LDBLE total_co2;
 	LDBLE total_alkalinity;
 	LDBLE gfw_water;
 	LDBLE step_x;
 	LDBLE kin_time_x;
+
 	/*----------------------------------------------------------------------
 	*   Transport data
 	*---------------------------------------------------------------------- */
@@ -1547,6 +1371,7 @@ protected:
 	struct species **s;
 	int count_s;
 	int max_s;
+	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer;
 
 	struct species **s_x;
 	int count_s_x;
@@ -1559,21 +1384,22 @@ protected:
 	struct species *s_co3;
 	struct species *s_h2;
 	struct species *s_o2;
+
 	/*----------------------------------------------------------------------
 	*   Phases
 	*---------------------------------------------------------------------- */
-
 	struct phase **phases;
 	int count_phases;
 	int max_phases;
+
 	/*----------------------------------------------------------------------
 	*   Master species
 	*---------------------------------------------------------------------- */
-
 	struct master **master;	/* structure array of master species */
 	struct master **dbg_master;
 	int count_master;
 	int max_master;
+
 	/*----------------------------------------------------------------------
 	*   Unknowns
 	*---------------------------------------------------------------------- */
@@ -1600,10 +1426,10 @@ protected:
 	struct unknown *slack_unknown;
 	struct unknown *ss_unknown;
 	std::vector<struct unknown *> gas_unknowns;
+
 	/*----------------------------------------------------------------------
 	*   Reaction work space
 	*---------------------------------------------------------------------- */
-
 	struct reaction_temp trxn;	/* structure array of working space while reading equations
 								species names are in "temp_strings" */
 	int count_trxn;		/* number of reactants in trxn = position of next */
@@ -1612,25 +1438,26 @@ protected:
 	struct unknown_list *mb_unknowns;
 	int count_mb_unknowns;
 	int max_mb_unknowns;
+
 	/* ----------------------------------------------------------------------
 	*   Print
 	* ---------------------------------------------------------------------- */
-
 	struct prints pr;
-	int status_on, status_interval;
-	float status_timer;
+	bool status_on;
+	clock_t status_interval;
+	clock_t status_timer;
 	int count_warnings;
 
 	/* ----------------------------------------------------------------------
 	*   RATES
 	* ---------------------------------------------------------------------- */
-
 	struct rate *rates;
 	int count_rates;
-	LDBLE rate_m, rate_m0, /* *rate_p, */ rate_time, rate_sim_time_start,
+	LDBLE rate_m, rate_m0, rate_time, rate_sim_time_start,
 		rate_sim_time_end, rate_sim_time, rate_moles, initial_total_time;
 	std::vector<LDBLE> rate_p;
 	int count_rate_p;
+
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
@@ -1721,7 +1548,7 @@ protected:
 	char *selected_output_file_name;
 	char *dump_file_name;
 	int remove_unstable_phases;
-
+	std::string screen_string;
 #ifdef PHREEQCI_GUI
 	struct spread_sheet g_spread_sheet;
 #endif
@@ -1732,6 +1559,9 @@ protected:
 	*/
 
 	std::map<std::string, std::string *> strings_map;
+#ifdef HASH
+	std::hash_map<std::string, std::string *> strings_hash;
+#endif
 	HashTable *elements_hash_table;
 	HashTable *species_hash_table;
 	HashTable *phases_hash_table;
@@ -1781,7 +1611,14 @@ protected:
 	struct system_species *sys;
 	int count_sys, max_sys;
 	LDBLE sys_tot;
+#ifdef PHREEQC2
 	LDBLE AA_basic, BB_basic, CC, I_m, rho_0;
+	LDBLE eps_r; // relative dielectric permittivity
+#else
+	LDBLE V_solutes, rho_0, kappa_0, p_sat, ah2o_x0;
+	LDBLE eps_r; // relative dielectric permittivity
+	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
+#endif
 	LDBLE solution_mass, solution_volume;
 	LDBLE f_rho(LDBLE rho_old);
 
@@ -1818,8 +1655,7 @@ protected:
 
 	/* integrate.cpp ------------------------------- */
 	LDBLE midpoint_sv;
-	LDBLE z, xd, alpha;
-	struct surface_charge *surface_charge_ptr;
+	LDBLE z_global, xd_global, alpha_global;
 	int max_row_count, max_column_count;
 	int carbon;
 	const char **col_name, **row_name;
@@ -1863,7 +1699,6 @@ public:
 	M_Env kinetics_machEnv;
 	N_Vector kinetics_y, kinetics_abstol;
 	void *kinetics_cvode_mem;
-	//struct pp_assemblage *cvode_pp_assemblage_save;
 	cxxSSassemblage *cvode_ss_assemblage_save;
 	cxxPPassemblage *cvode_pp_assemblage_save;
 	LDBLE *m_original;
@@ -1872,7 +1707,6 @@ public:
 
 	/* model.cpp ------------------------------- */
 	LDBLE min_value;
-	/* LDBLE model_min_value; */
 	LDBLE *normal, *ineq_array, *inv_res, *cu, *zero, *delta1;
 	int *inv_iu, *inv_is, *back_eq;
 	int normal_max, ineq_array_max, res_max, cu_max, zero_max,

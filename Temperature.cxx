@@ -36,7 +36,6 @@ cxxTemperature::~cxxTemperature()
 void
 cxxTemperature::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing temperature message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -187,7 +186,6 @@ cxxTemperature::read(CParser & parser)
 void
 cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
-	//const char    ERR_MESSAGE[] = "Packing temperature message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -200,18 +198,18 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 
 	s_oss << indent0;
 	int n_user_local = (n_out != NULL) ? *n_out : this->n_user;
-	s_oss << "REACTION_TEMPERATURE_RAW        " << n_user_local << " " << this->description << "\n";
+	s_oss << "REACTION_TEMPERATURE_RAW     " << n_user_local << " " << this->description << "\n";
 
 	s_oss << indent1;
-	s_oss << "-count_temps        " << this->Get_countTemps() << "\n";
+	s_oss << "-count_temps               " << this->Get_countTemps() << "\n";
 
 	s_oss << indent1;
-	s_oss << "-equal_increments   " << this->equalIncrements << "\n";
+	s_oss << "-equal_increments          " << this->equalIncrements << "\n";
 
 	// Temperature element and attributes
 
 	s_oss << indent1;
-	s_oss << "-temps              " << "\n";
+	s_oss << "-temps                     " << "\n";
 	{
 		int i = 0;
 		s_oss << indent2;

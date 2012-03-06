@@ -363,7 +363,6 @@ cxxStorageBin::Get_Pressures() const
 void
 cxxStorageBin::dump_xml(std::ostream & s_oss, unsigned int indent) const const
 {
-	//const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -399,8 +398,6 @@ void
 cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
 	// Dump all data
-
-	//const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
 	s_oss.precision(DBL_DIG - 1);
 
 	// Solutions
@@ -439,7 +436,6 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent, int *n
 {
 	// Dump one user number, optionally change number from n to n_out
 	int n_user_local = (n_out != NULL) ? *n_out : n;
-	//const char    ERR_MESSAGE[] = "Packing mix message: %s, element not found\n";
 	s_oss.precision(DBL_DIG - 1);
 
 	// Solutions
@@ -519,25 +515,10 @@ cxxStorageBin::read_raw(CParser & parser)
 	{
 		switch (parser.next_keyword())
 		{
-		//case CParser::KT_END:
-		//case CParser::KT_EOF:
-		//case CParser::KT_NONE:
 		case Keywords::KEY_END:
 		case Keywords::KEY_NONE:
 			goto END_OF_SIMULATION_INPUT;
 			break;
-			/*
-			   KT_SOLUTION_RAW     =  5,
-			   KT_EXCHANGE_RAW     =  6,
-			   KT_GASPHASE_RAW     =  7,
-			   KT_KINETICS_RAW     =  8,
-			   KT_PPASSEMBLAGE_RAW =  9,
-			   KT_SSASSEMBLAGE_RAW =  10,
-			   KT_SURFACE_RAW      =  11,
-			   KT_TEMPERATURE_RAW  =  12,
-			   KT_REACTION_RAW     =  13
-			 */
-		//case CParser::KT_SOLUTION_RAW:
 		case Keywords::KEY_SOLUTION_RAW:
 			{
 				cxxSolution entity(this->Get_io());
@@ -545,8 +526,6 @@ cxxStorageBin::read_raw(CParser & parser)
 				Solutions[entity.Get_n_user()] = entity;
 			}
 			break;
-
-		//case CParser::KT_EXCHANGE_RAW:
 		case Keywords::KEY_EXCHANGE_RAW:
 			{
 				cxxExchange entity(this->Get_io());
@@ -554,8 +533,6 @@ cxxStorageBin::read_raw(CParser & parser)
 				Exchangers[entity.Get_n_user()] = entity;
 			}
 			break;
-
-		//case CParser::KT_GASPHASE_RAW:
 		case Keywords::KEY_GAS_PHASE_RAW:
 			{
 				cxxGasPhase entity(this->Get_io());
@@ -563,8 +540,6 @@ cxxStorageBin::read_raw(CParser & parser)
 				GasPhases[entity.Get_n_user()] = entity;
 			}
 			break;
-
-		//case CParser::KT_KINETICS_RAW:
 		case Keywords::KEY_KINETICS_RAW:
 			{
 				cxxKinetics entity(this->Get_io());
@@ -636,8 +611,6 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 
 	switch (parser.next_keyword())
 	{
-	//case CParser::KT_NONE:
-	//case CParser::KT_END:
 	case Keywords::KEY_NONE:
 	case Keywords::KEY_END:
 		while ((i =
@@ -648,19 +621,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 				break;			// PHRQ_io::LT_EOF;
 		}
 		break;
-	/*case CParser::KT_EOF:
-		break;*/
-		/*
-		   KT_SOLUTION_RAW     =  5,
-		   KT_EXCHANGE_RAW     =  6,
-		   KT_GASPHASE_RAW     =  7,
-		   KT_KINETICS_RAW     =  8,
-		   KT_PPASSEMBLAGE_RAW =  9,
-		   KT_SSASSEMBLAGE_RAW =  10,
-		   KT_SURFACE_RAW      =  11,
-		   KT_TEMPERATURE_RAW  =  12,
-		   KT_REACTION_RAW     =  13
-		 */
+
 	case Keywords::KEY_SOLUTION_RAW:
 		{
 			cxxSolution entity(this->Get_io());
@@ -757,71 +718,6 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 	return (entity_number);		//PHRQ_io::LT_OK;
 }
 
-//void
-//cxxStorageBin::add(struct system *system_ptr)
-//		//
-//		// add data from a system structure
-//		//
-//{
-//
-//	// Solutions
-//	if (system_ptr->solution != NULL)
-//	{
-//		this->Solutions[system_ptr->solution->n_user] =
-//			cxxSolution(system_ptr->solution, this->Get_io());
-//	}
-//
-//	// Exchangers
-//	if (system_ptr->exchange != NULL)
-//	{
-//		this->Exchangers[system_ptr->exchange->n_user] =
-//			cxxExchange(system_ptr->exchange, this->Get_io());
-//	}
-//
-//	// GasPhases
-//	if (system_ptr->gas_phase != NULL)
-//	{
-//		this->GasPhases[system_ptr->gas_phase->n_user] =
-//			cxxGasPhase(system_ptr->gas_phase, this->Get_io());
-//	}
-//
-//	// Kinetics
-//	if (system_ptr->kinetics != NULL)
-//	{
-//		this->Kinetics[system_ptr->kinetics->n_user] =
-//			cxxKinetics(system_ptr->kinetics, this->Get_io());
-//	}
-//
-//	// PPassemblages
-//	if (system_ptr->pp_assemblage != NULL)
-//	{
-//		this->PPassemblages[system_ptr->pp_assemblage->n_user] =
-//			cxxPPassemblage(system_ptr->pp_assemblage, this->Get_io());
-//	}
-//
-//	// SSassemblages
-//	if (system_ptr->ss_assemblage != NULL)
-//	{
-//		this->SSassemblages[system_ptr->ss_assemblage->n_user] =
-//			cxxSSassemblage(system_ptr->ss_assemblage);
-//	}
-//
-//	// Surfaces
-//	if (system_ptr->surface != NULL)
-//	{
-//		this->Surfaces[system_ptr->surface->n_user] =
-//			cxxSurface(system_ptr->surface, this->Get_io());
-//	}
-//
-//	// struct system not used
-//	//// Mixes
-//	//if (system_ptr->mix != NULL)
-//	//{
-//	//	this->Mixes[system_ptr->mix->n_user] =
-//	//		cxxMix(system_ptr->mix, this->Get_io());
-//	//}
-//}
-
 void
 cxxStorageBin::Remove(int n)
 {
@@ -878,6 +774,7 @@ cxxStorageBin::Clear(void)
 	// PPassemblage
 	this->PPassemblages.clear();
 
+	// SSassemblage
 	this->SSassemblages.clear();
 
 	// Surface
@@ -894,7 +791,6 @@ cxxStorageBin::Clear(void)
 
 	// Pressure
 	this->Pressures.clear();
-
 }
 #ifdef SKIP
 cxxSolution *
@@ -1169,11 +1065,9 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	int position = 0;
 	MPI_Send(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD);
 	MPI_Pack(&i, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
-	//MPI_Pack(&int_array, i, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
 	MPI_Pack(&(ints.front()), i, MPI_INT, buffer, max_size, &position,
 			 MPI_COMM_WORLD);
 	MPI_Pack(&d, 1, MPI_INT, buffer, max_size, &position, MPI_COMM_WORLD);
-	//MPI_Pack(&double_array, d, MPI_DOUBLE, buffer, max_size, &position, MPI_COMM_WORLD);
 	if (d > 0)
 	{
 		MPI_Pack(&(doubles.front()), d, MPI_DOUBLE, buffer, max_size,

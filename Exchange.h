@@ -37,14 +37,14 @@ public:
 	void Set_solution_equilibria(bool tf) {this->solution_equilibria = tf;}
 	int Get_n_solution(void) const {return this->n_solution;}
 	void Set_n_solution(int i) {this->n_solution = i;}
-	cxxExchComp *ExchComp_find(std::string s);
+	cxxExchComp *Find_comp(std::string s);
+	std::vector<cxxExchComp> & Get_exchange_comps(void) {return this->exchange_comps;}
+	void Set_exchange_comps(std::vector<cxxExchComp> &c) {this->exchange_comps = c;}
 
-	std::map < std::string, cxxExchComp > &Get_exchComps(void);
-
+	void Sort_comps(void);
 	void totalize();
 
 	const cxxNameDouble & Get_totals() const;
-	std::vector<cxxExchComp *> Vectorize(void);
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
@@ -56,11 +56,16 @@ protected:
 	void dump_xml(std::ostream & os, unsigned int indent = 0) const;
 
 protected:
+	// EXCHANGE_MODIFY candidates
+	std::vector<cxxExchComp> exchange_comps;
+	bool pitzer_exchange_gammas;
+
+	// EXCHANGE_MODIFY candidates with new_def=true
 	bool new_def;
 	bool solution_equilibria;
 	int n_solution;
-	std::map < std::string, cxxExchComp > exchComps;
-	bool pitzer_exchange_gammas;
+
+	// exchange workspace variables
 	cxxNameDouble totals;
 public:
 

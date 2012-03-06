@@ -1,6 +1,7 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
+#include "Utils.h"
 #include "../NameDouble.h"
 #include "../PBasic.h"
 #include "../Exchange.h"
@@ -8,6 +9,7 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
+#include "Parser.h"
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 activity(const char *species_name)
@@ -133,8 +135,7 @@ calc_SC(void)
 
 	return (SC);
 }
-
-/* VP: Density Start */
+#ifdef PHREEQC2
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_dens(void)
@@ -153,14 +154,13 @@ calc_dens(void)
 	LDBLE solution_mass, solution_volume;
 	*/
 	LDBLE rho_new, rho_old;
-	LDBLE e_T, M_T;
+	LDBLE M_T;
 	LDBLE a, b, c, d, e, f;
 	LDBLE phi_0_i, b_v_i, s_v_i, PHI_v, B_v, S_v;
 	/*
 	LDBLE k, I_m, I_v;
 	LDBLE AA_basic, BB, CC;
 	*/
-	LDBLE k;
 	LDBLE gfw;
 	int l_z;
 	struct species *s_ptr;
@@ -173,7 +173,6 @@ calc_dens(void)
 	rho_new = rho_0;
 	rho_old = 0.0;
 
-	e_T = 0.0;
 	M_T = 0.0;
 	I_m = 0.0;
 	PHI_v = 0.0;
@@ -221,40 +220,19 @@ calc_dens(void)
 		PHI_v += (species_list[i].s->moles * phi_0_i);
 		B_v += (species_list[i].s->moles * b_v_i);
 		S_v += (species_list[i].s->moles * l_z * (s_v_i * l_z / 2));
-
-		if (l_z == 0) e_T += (species_list[i].s->moles * 2); /* For uncharged species like H4SiO4 (times 2 because e_T is divided by 2 later on) */
-		   else e_T += (species_list[i].s->moles * l_z);
 		M_T += (species_list[i].s->moles * gfw);
 		I_m += (species_list[i].s->moles * (l_z * l_z));
 	}
 
 	/* If pure water then return rho_0 */
 	if (PHI_v == 0)
-	 return rho_0;
+		return rho_0;
 
 	solution_mass =  mass_water_aq_x * 1000 + M_T;
-	e_T /= 2;
-	M_T /= e_T;
 	I_m /= 2;
-	PHI_v /= e_T;
-	B_v /= e_T;
-	S_v /= e_T;
-
-	k = e_T / I_m;
-	AA_basic = k * (M_T - rho_0 * PHI_v);
-	BB_basic = -k * rho_0 * S_v;
-	CC = -k * rho_0 * B_v;
-
-/* DP: Replace Pickard iteration with interval halving */
-#ifdef SKIP
-  do {
-	rho_old = rho_new;
-	solution_volume = solution_mass / rho_new / 1000;
-	if (solution_volume != 0) I_v = I_m / solution_volume;
-	rho_new = AA_basic * I_v + BB_basic * exp(1.5 * log(I_v)) + CC * exp(2 * log(I_v)); /* exp/log is used for exponentiation */
-	rho_new = rho_new / 1000 + rho_0;
-  } while ((fabs(rho_new - rho_old) > 1.0e-6) && (rho_new < 1.99999));
-#endif
+	AA_basic = M_T - rho_0 * PHI_v;
+	BB_basic = -rho_0 * S_v;
+	CC = -rho_0 * B_v;
 	rho_new = halve(f_rho, 0.5, 2.0, 1e-7);
 /* DP: End Replace Pickard iteration with interval halving */
 
@@ -276,14 +254,127 @@ f_rho(LDBLE rho_old, void *cookie)
 	pThis = (Phreeqc *) cookie;
 
 	pThis->solution_volume = pThis->solution_mass / rho_old / 1000;
-	I_v = 1.0;
+	rho = 1e3;
 	if (pThis->solution_volume != 0)
-		I_v = pThis->I_m / pThis->solution_volume;
-	rho = I_v * (pThis->AA_basic + pThis->BB_basic * sqrt(I_v) + pThis->CC * (I_v));
+	{
+		I_v = pThis->I_m / pThis->solution_volume; // Ionic Strength in mol/L
+		rho = (pThis->AA_basic + pThis->BB_basic * sqrt(I_v) + pThis->CC * I_v) / pThis->solution_volume;
+	}
 	rho = rho / 1000 + pThis->rho_0;
 	return (rho - rho_old);
 }
+#else
+/* VP: Density Start */
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_dens(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Calculates density based on the formulas and parameters from Millero,
+ *   2000.
+ *
+ *   Millero, F.J. (2000) The equation of state of lakes. Aquatic geochemistry
+ *   volume 6, pages 1-17
+ */
+	int i;
+	LDBLE M_T, rho_new, gfw;
+	/* 2 options: original VP, assign the volumes of species with zero molar volume to their master species,
+	              but this doubles counts of complexes with -Vm defined. And, cation-OH and H-anion
+				  complexes are counted once. Also, must add H+ and OH-... */
+	//struct species *s_ptr;
 
+	//V_solutes = M_T = 0.0;
+	//for (i = 0; i < count_species_list; i++)
+	//{
+	//	if (species_list[i].s->type != AQ && species_list[i].s->type != HPLUS)
+	//	  continue;
+
+	//	//if (species_list[i].master_s->secondary != NULL)
+	//	//	gfw = species_list[i].master_s->secondary->gfw;
+	//	//else
+	//	//	gfw = species_list[i].master_s->primary->gfw;
+
+	//	/* OH-... */
+	//	if (!strcmp(species_list[i].s->name, "OH-"))
+	//		s_ptr = s_search("OH-");
+	//	else if (species_list[i].s->logk[vm_tc] == 0)
+	//	{
+	//		s_ptr = species_list[i].master_s;
+	//		if (s_ptr->secondary)
+	//			gfw = s_ptr->secondary->gfw;
+	//		else
+	//			gfw = s_ptr->primary->gfw;
+	//	}
+	//	else
+	//	{
+	//		s_ptr = species_list[i].s;
+	//		compute_gfw(species_list[i].s->name, &gfw);
+	//	}
+
+	//	/* Special case: CO3-2 species */
+	//	if (strcmp(s_ptr->name, "CO3-2") == 0)
+	//	{
+	//		if (strstr(species_list[i].s->name, "HCO3") != NULL)
+	//		{
+	//			s_ptr = s_search("HCO3-");
+	//		} else if (strstr(species_list[i].s->name, "CO3") != NULL)
+	//		{
+	//			compute_gfw("CO3-2", &gfw);
+	//		}
+	//	}
+	//	if (!gfw || !strcmp(species_list[i].s->name, "CO2")) /* CO2, H+ and OH- */
+	//		compute_gfw(species_list[i].s->name, &gfw);
+
+	//	M_T += (species_list[i].s->moles * gfw);
+	//	V_solutes += species_list[i].s->moles * s_ptr->logk[vm_tc];
+	//}
+
+	/* 2nd option, use species_x, vm = 0 for complexes with undefined volume... */
+	V_solutes = M_T = 0.0;
+	for (i = 0; i < count_s_x; i++)
+	{
+		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
+		  continue;
+
+		compute_gfw(s_x[i]->name, &gfw);
+		M_T += s_x[i]->moles * gfw;
+		V_solutes += s_x[i]->moles * s_x[i]->logk[vm_tc];
+	}
+	/* If pure water then return rho_0 */
+	if (M_T == 0)
+		return rho_0;
+
+	M_T /= 1e3;
+	solution_mass =  mass_water_aq_x + M_T;
+	V_solutes = M_T - rho_0 * V_solutes / 1e3;
+
+	rho_new = halve(f_rho, 0.5, 2.0, 1e-7);
+	if (!PHR_ISFINITE(rho_new) || rho_new > 1.99999) rho_new = 1.99999;
+
+	return rho_new;
+}
+/* VP: Density End */
+/* DP: Function for interval halving */
+
+LDBLE Phreeqc::
+f_rho(LDBLE rho_old, void *cookie)
+/* ---------------------------------------------------------------------- */
+{
+	LDBLE rho = 1.0;
+	Phreeqc * pThis;
+
+	pThis = (Phreeqc *) cookie;
+
+	pThis->solution_volume = pThis->solution_mass / rho_old;
+	if (pThis->solution_volume != 0)
+	{
+		rho = pThis->V_solutes / pThis->solution_volume;
+	}
+	rho = rho + pThis->rho_0;
+	return (rho - rho_old);
+}
+#endif
 /* DP: End function for interval halving */
 
 /* ---------------------------------------------------------------------- */
@@ -411,7 +502,6 @@ calc_surface_charge(const char *surface_name)
 	}
 	return (charge);
 }
-
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 diff_layer_total(const char *total_name, const char *surface_name)
@@ -420,17 +510,14 @@ diff_layer_total(const char *total_name, const char *surface_name)
 /*
  *   Provides total moles in DDL layer
  */
-	int i, j, k, count_g;
-	struct surface_charge *surface_charge_ptr1;
-	char name[MAX_LENGTH], token[MAX_LENGTH];
-	char surface_name_local[MAX_LENGTH];
-	char *ptr;
+	cxxSurfaceCharge *surface_charge_ptr1;
+	std::string name, token, surface_name_local;
 	struct master *master_ptr;
 
 	LDBLE mass_water_surface;
 	LDBLE molality, moles_excess, moles_surface, charge;
 
-	if (use.Get_surface_ptr() == NULL || (dl_type_x == NO_DL &&
+	if (use.Get_surface_ptr() == NULL || (dl_type_x == cxxSurface::NO_DL &&
 									strcmp_nocase("psi", total_name) != 0 &&
 									strcmp_nocase("psi1", total_name) != 0 &&
 									strcmp_nocase("psi2", total_name) != 0 &&
@@ -450,36 +537,36 @@ diff_layer_total(const char *total_name, const char *surface_name)
 /*
  *   Find surface...
  */
-	i = 0;
+	int j;
 	for (j = 0; j < count_unknowns; j++)
 	{
-		/*if (use.Get_surface_ptr()->edl == TRUE) { */
-		if (use.Get_surface_ptr()->type == DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
 		{
 			if (x[j]->type != SURFACE_CB)
 				continue;
-			strcpy(name, x[j]->master[0]->elt->name);
-			replace("_psi", "", name);
+			name = x[j]->master[0]->elt->name;
+			Utilities::replace("_psi", "", name);
 		}
-		else if (use.Get_surface_ptr()->type == CD_MUSIC)
+		else if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
 			if (x[j]->type != SURFACE_CB)
 				continue;
-			strcpy(name, x[j]->master[0]->elt->name);
-			replace("_psi", "", name);
+			name = x[j]->master[0]->elt->name;
+			Utilities::replace("_psi", "", name);
 		}
 		else
 		{
 			if (x[j]->type != SURFACE)
 				continue;
-			strcpy(token, x[j]->master[0]->elt->name);
-			replace("_", " ", token);
-			ptr = token;
-			copy_token(name, &ptr, &k);
+			token =  x[j]->master[0]->elt->name;
+			Utilities::replace("_", " ", token);
+			std::string::iterator b = token.begin();
+			std::string::iterator e = token.end();
+			CParser::copy_token(token, b, e);
 		}
 		if (surface_name != NULL)
 		{
-			if (strcmp(name, surface_name) == 0)
+			if (strcmp(name.c_str(), surface_name) == 0)
 				break;
 		}
 		else
@@ -489,24 +576,22 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	if (j >= count_unknowns)
 		return (0);
-	strcpy(surface_name_local, name);
+	surface_name_local = name;
 	/*
 	 *   Psi, charge, sigma
 	 */
 	if (strcmp_nocase("psi", total_name) == 0)
 	{
-		/*if (use.Get_surface_ptr()->edl == TRUE) { */
-		if (use.Get_surface_ptr()->type == DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
 		{
 			return ((LDBLE) (x[j]->master[0]->s->la * 2 * R_KJ_DEG_MOL *
 							 tk_x * LOG_10 / F_KJ_V_EQ));
 		}
-		else if (use.Get_surface_ptr()->type == CD_MUSIC)
+		else if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
 			master_ptr = surface_get_psi_master(surface_name, SURF_PSI);
 			if (master_ptr != NULL)
 			{
-				/*return((LDBLE) (-x[j]->surface_charge->psi_master->s->la * R_KJ_DEG_MOL * tk_x * LOG_10 / F_KJ_V_EQ)); */
 				return ((LDBLE)
 						(-master_ptr->s->la * R_KJ_DEG_MOL * tk_x * LOG_10 /
 						 F_KJ_V_EQ));
@@ -551,30 +636,30 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("charge", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->type == DDL && dl_type_x == NO_DL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL && dl_type_x == cxxSurface::NO_DL)
 		{
 			return ((LDBLE) (x[j]->f));
 		}
-		else if (use.Get_surface_ptr()->type == CD_MUSIC)
+		else if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			return ((LDBLE)
-					(x[j]->surface_charge->sigma0 *
-					 (x[j]->surface_charge->specific_area *
-					  x[j]->surface_charge->grams) / F_C_MOL));
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			return ((charge_ptr->Get_sigma0() *
+					(charge_ptr->Get_specific_area() *
+					 charge_ptr->Get_grams()) / F_C_MOL));
 		}
 		else
 		{
-			return (calc_surface_charge(surface_name_local));
+			return (calc_surface_charge(surface_name_local.c_str()));
 		}
 	}
 	else if (strcmp_nocase("charge1", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->type == CD_MUSIC)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			return ((LDBLE)
-					(x[j]->surface_charge->sigma1 *
-					 (x[j]->surface_charge->specific_area *
-					  x[j]->surface_charge->grams) / F_C_MOL));
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			return ((charge_ptr->Get_sigma1() *
+					(charge_ptr->Get_specific_area() *
+					 charge_ptr->Get_grams()) / F_C_MOL));
 		}
 		else
 		{
@@ -583,12 +668,12 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("charge2", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->type == CD_MUSIC)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			return ((LDBLE)
-					(x[j]->surface_charge->sigma2 *
-					 (x[j]->surface_charge->specific_area *
-					  x[j]->surface_charge->grams) / F_C_MOL));
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			return ((charge_ptr->Get_sigma2() *
+					(charge_ptr->Get_specific_area() *
+					 charge_ptr->Get_grams()) / F_C_MOL));
 		}
 		else
 		{
@@ -597,32 +682,33 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("sigma", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->type == DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
 		{
-			if (dl_type_x != NO_DL)
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			if (dl_type_x != cxxSurface::NO_DL)
 			{
-				charge = calc_surface_charge(surface_name_local);
+				charge = calc_surface_charge(surface_name_local.c_str());
 			}
 			else
 			{
 				charge = x[j]->f;
 			}
-			if ((x[j]->surface_charge->specific_area *
-				 x[j]->surface_charge->grams) > 0)
+			if ((charge_ptr->Get_specific_area() *
+				 charge_ptr->Get_grams()) > 0)
 			{
-				return ((LDBLE)
-						(charge * F_C_MOL /
-						 (x[j]->surface_charge->specific_area *
-						  x[j]->surface_charge->grams)));
+				return ((charge * F_C_MOL /
+						 (charge_ptr->Get_specific_area() *
+						  charge_ptr->Get_grams())));
 			}
 			else
 			{
 				return (0);
 			}
 		}
-		else if (use.Get_surface_ptr()->type == CD_MUSIC)
+		else if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			return ((LDBLE) (x[j]->surface_charge->sigma0));
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			return ((LDBLE) (charge_ptr->Get_sigma0()));
 		}
 		else
 		{
@@ -631,9 +717,10 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("sigma1", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->type == CD_MUSIC)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			return ((LDBLE) (x[j]->surface_charge->sigma1));
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			return ((LDBLE) (charge_ptr->Get_sigma1()));
 		}
 		else
 		{
@@ -642,9 +729,10 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("sigma2", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->type == CD_MUSIC)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			return ((LDBLE) (x[j]->surface_charge->sigma2));
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			return ((LDBLE) (charge_ptr->Get_sigma2()));
 		}
 		else
 		{
@@ -653,9 +741,10 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("water", total_name) == 0)
 	{
-		if (dl_type_x != NO_DL)
+		if (dl_type_x != cxxSurface::NO_DL)
 		{
-			return (x[j]->surface_charge->mass_water);
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+			return (charge_ptr->Get_mass_water());
 		}
 		else
 		{
@@ -665,43 +754,43 @@ diff_layer_total(const char *total_name, const char *surface_name)
 /*
  *   find total moles of each element in diffuse layer...
  */
-	surface_charge_ptr1 = x[j]->surface_charge;
-	mass_water_surface = surface_charge_ptr1->mass_water;
-	count_elts = 0;
-	paren_count = 0;
-	for (j = 0; j < count_s_x; j++)
+	surface_charge_ptr1 = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+	if (surface_charge_ptr1)
 	{
-		if (s_x[j]->type > HPLUS)
-			continue;
-		molality = under(s_x[j]->lm);
-		count_g = s_x[j]->diff_layer[i].count_g;
+		mass_water_surface = surface_charge_ptr1->Get_mass_water();
+		count_elts = 0;
+		paren_count = 0;
+		for (j = 0; j < count_s_x; j++)
+		{
+			if (s_x[j]->type > HPLUS)
+				continue;
+			molality = under(s_x[j]->lm);
+			LDBLE g = surface_charge_ptr1->Get_g_map()[s_x[j]->z].Get_g();
 
-		moles_excess =
-			mass_water_aq_x * molality * (surface_charge_ptr1->g[count_g].g *
-										  s_x[j]->erm_ddl +
+			moles_excess = mass_water_aq_x * molality * (g * s_x[j]->erm_ddl +
 										  mass_water_surface /
-										  mass_water_aq_x * (s_x[j]->erm_ddl -
-															 1));
-		moles_surface = mass_water_surface * molality + moles_excess;
+										  mass_water_aq_x * (s_x[j]->erm_ddl - 1));
+			moles_surface = mass_water_surface * molality + moles_excess;
 /*
  *   Accumulate elements in diffuse layer
  */
-		add_elt_list(s_x[j]->next_elt, moles_surface);
-	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), Phreeqc:: elt_list_compare);
-		elt_list_combine();
-	}
+			add_elt_list(s_x[j]->next_elt, moles_surface);
+		}
+		if (count_elts > 0)
+		{
+			qsort(elt_list, (size_t) count_elts,
+				  (size_t) sizeof(struct elt_list), Phreeqc:: elt_list_compare);
+			elt_list_combine();
+		}
 /*
  *   Return totals
  */
-	for (j = 0; j < count_elts; j++)
-	{
-		if (strcmp(elt_list[j].elt->name, total_name) == 0)
+		for (j = 0; j < count_elts; j++)
 		{
-			return ((LDBLE) elt_list[j].coef);
+			if (strcmp(elt_list[j].elt->name, total_name) == 0)
+			{
+				return ((LDBLE) elt_list[j].coef);
+			}
 		}
 	}
 	return (0);
@@ -728,7 +817,7 @@ equi_phase(const char *phase_name)
 /*
  *   Print pure phase assemblage data
  */
-	cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
+	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	if (j == count_unknowns)
 	{
 		/* if not an unknown */
@@ -761,7 +850,7 @@ find_gas_comp(const char *gas_comp_name)
 
 	if (use.Get_gas_phase_in() == FALSE || use.Get_gas_phase_ptr() == NULL)
 		return (0);
-	cxxGasPhase * gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 	for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 	{
 		if (strcmp_nocase(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), gas_comp_name) == 0)
@@ -782,7 +871,7 @@ find_gas_p(void)
 {
 	if (use.Get_gas_phase_in() == FALSE || use.Get_gas_phase_ptr() == NULL)
 		return (0);
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 	{
 		if (gas_unknown == NULL)
@@ -799,7 +888,7 @@ find_gas_vm(void)
 {
 	if (use.Get_gas_phase_in() == FALSE || use.Get_gas_phase_ptr() == NULL)
 		return (0);
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 	{
 		if (gas_unknown == NULL)
@@ -815,8 +904,6 @@ LDBLE Phreeqc::
 find_misc1(const char *ss_name)
 /* ---------------------------------------------------------------------- */
 {
-	//int j;
-
 	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
 		return (0.0);
 	std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
@@ -843,8 +930,6 @@ LDBLE Phreeqc::
 find_misc2(const char *ss_name)
 /* ---------------------------------------------------------------------- */
 {
-	//int j;
-
 	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
 		return (0.0);
 	std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
@@ -871,8 +956,6 @@ LDBLE Phreeqc::
 find_ss_comp(const char *ss_comp_name)
 /* ---------------------------------------------------------------------- */
 {
-	//int i, j;
-
 	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
 		return (0);
 
@@ -926,15 +1009,7 @@ get_calculate_value(const char *name)
 		error_msg(error_string, CONTINUE);
 		return (MISSING);
 	}
-	//if (calculate_value_ptr->calculated == FALSE)
-	//{
-	//	error_string = sformatf(
-	//			"Calculated value used before it has been calculated, %s.\nCalculated values are evalutated in the order in which they were defined.",
-	//			name);
-	//	input_error++;
-	//	error_msg(error_string, CONTINUE);
-	//	return (MISSING);
-	//}
+
 	char l_command[] = "run";
 	PBasic interp(this, this->phrq_io);
 	if (calculate_value_ptr->new_def == TRUE)
@@ -998,31 +1073,7 @@ kinetics_moles(const char *kinetics_name)
 	warning_msg(error_string);
 	return (0);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-kinetics_moles(const char *kinetics_name)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
 
-	if (use.Get_kinetics_in() == FALSE || use.Get_kinetics_ptr() == NULL)
-		return (0);
-	for (i = 0; i < use.Get_kinetics_ptr()->count_comps; i++)
-	{
-		if (strcmp_nocase
-			(use.Get_kinetics_ptr()->comps[i].rate_name, kinetics_name) == 0)
-		{
-			return (use.Get_kinetics_ptr()->comps[i].m);
-		}
-	}
-
-	error_string = sformatf( "No data for rate %s in KINETICS keyword.",
-			kinetics_name);
-	warning_msg(error_string);
-	return (0);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 log_activity(const char *species_name)
@@ -1227,7 +1278,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 
 	if (use.Get_gas_phase_in() == FALSE || use.Get_gas_phase_ptr() == NULL)
 		return (0);
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	tot = 0;
 	for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 	{
@@ -1296,7 +1347,6 @@ LDBLE Phreeqc::
 sum_match_ss(const char *mytemplate, const char *name)
 /* ---------------------------------------------------------------------- */
 {
-	//int i, j;
 	LDBLE tot;
 	struct elt_list *next_elt;
 
@@ -1346,8 +1396,6 @@ LDBLE Phreeqc::
 list_ss(std::string ss_name, cxxNameDouble &composition)
 /* ---------------------------------------------------------------------- */
 {
-	//int i, j;
-
 	LDBLE tot = 0;
 	composition.clear();
 	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
@@ -2237,7 +2285,7 @@ system_total_gas(void)
  */
 	if (use.Get_gas_phase_ptr() == NULL)
 		return (OK);
-	cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 	{
 		struct phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), 
@@ -2261,7 +2309,6 @@ system_total_ss(void)
 /*
  *   Provides total moles in system and lists of species/phases in sort order
  */
-	//int i, k;
 
 /*
  *  Solid solutions
@@ -2296,7 +2343,7 @@ system_total_elt(const char *total_name)
 /*
  *   Provides total moles in system and lists of species/phases in sort order
  */
-	int i, j, k, count_g;
+	int i, j, k;
 	LDBLE molality, moles_excess, moles_surface, mass_water_surface;
 	char name[MAX_LENGTH];
 
@@ -2363,7 +2410,7 @@ system_total_elt(const char *total_name)
 			}
 		}
 	}
-	if (use.Get_surface_ptr() != NULL && dl_type_x != NO_DL)
+	if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL)
 	{
 		/*
 		 *   Find position of component in surface charge data
@@ -2373,12 +2420,13 @@ system_total_elt(const char *total_name)
 		{
 			if (x[k]->type != SURFACE_CB)
 				continue;
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[k]->surface_charge);
 			i++;
 			/*
 			 *   Loop through all surface components, calculate each H2O surface (diffuse layer),
 			 *   H2O aq, and H2O bulk (diffuse layers plus aqueous).
 			 */
-			mass_water_surface = x[k]->surface_charge->mass_water;
+			mass_water_surface = charge_ptr->Get_mass_water();
 			count_elts = 0;
 			paren_count = 0;
 			for (j = 0; j < count_s_x; j++)
@@ -2386,10 +2434,9 @@ system_total_elt(const char *total_name)
 				if (s_x[j]->type > HPLUS)
 					continue;
 				molality = under(s_x[j]->lm);
-				count_g = s_x[j]->diff_layer[i].count_g;
 				moles_excess =
 					mass_water_aq_x * molality *
-					(x[k]->surface_charge->g[count_g].g * s_x[j]->erm_ddl +
+					(charge_ptr->Get_g_map()[s_x[j]->z].Get_g() * s_x[j]->erm_ddl +
 					 mass_water_surface / mass_water_aq_x * (s_x[j]->erm_ddl -
 															 1));
 				moles_surface = mass_water_surface * molality + moles_excess;
@@ -2430,7 +2477,7 @@ system_total_elt(const char *total_name)
  */
 	if (use.Get_pp_assemblage_in() == TRUE && use.Get_pp_assemblage_ptr() != NULL)
 	{
-		cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
+		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 		for (i = 0; i < count_unknowns; i++)
 		{
 			if (x[i]->type != PP)
@@ -2518,7 +2565,7 @@ system_total_elt(const char *total_name)
  */
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
-		cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 		{
 			struct phase *phase_ptr = 
@@ -2566,7 +2613,7 @@ system_total_elt_secondary(const char *total_name)
 /*
  *   Provides total moles in system and lists of species/phases in sort order
  */
-	int i, j, k, l, count_g;
+	int i, j, k, l;
 	LDBLE molality, moles_excess, moles_surface, mass_water_surface, sum,
 		coef;
 	char name[MAX_LENGTH];
@@ -2634,7 +2681,7 @@ system_total_elt_secondary(const char *total_name)
 			}
 		}
 	}
-	if (use.Get_surface_ptr() != NULL && dl_type_x != NO_DL)
+	if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL)
 	{
 		/*
 		 *   Find position of component in surface charge data
@@ -2644,12 +2691,13 @@ system_total_elt_secondary(const char *total_name)
 		{
 			if (x[k]->type != SURFACE_CB)
 				continue;
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[k]->surface_charge);
 			i++;
 			/*
 			 *   Loop through all surface components, calculate each H2O surface (diffuse layer),
 			 *   H2O aq, and H2O bulk (diffuse layers plus aqueous).
 			 */
-			mass_water_surface = x[k]->surface_charge->mass_water;
+			mass_water_surface = charge_ptr->Get_mass_water();
 			sum = 0;
 			for (j = 0; j < count_s_x; j++)
 			{
@@ -2671,10 +2719,9 @@ system_total_elt_secondary(const char *total_name)
 						if (s_x[j]->type > H2O)
 							continue;
 						molality = under(s_x[j]->lm);
-						count_g = s_x[j]->diff_layer[i].count_g;
 						moles_excess =
 							mass_water_aq_x * molality *
-							x[k]->surface_charge->g[count_g].g;
+							charge_ptr->Get_g_map()[s_x[j]->z].Get_g();
 						moles_surface =
 							mass_water_surface * molality + moles_excess;
 						sum += moles_surface * coef;
@@ -2701,13 +2748,11 @@ system_total_elt_secondary(const char *total_name)
  */
 	if (use.Get_pp_assemblage_in() == TRUE && use.Get_pp_assemblage_ptr() != NULL)
 	{
-		cxxPPassemblage * pp_assemblage_ptr = (cxxPPassemblage *) use.Get_pp_assemblage_ptr();
+		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 		for (i = 0; i < count_unknowns; i++)
 		{
 			if (x[i]->type != PP)
 				continue;
-			//if (x[i]->pure_phase->add_formula != NULL)
-			//	continue;
 			std::map<std::string, cxxPPassemblageComp>::iterator it;
 			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
 			if (it->second.Get_add_formula().size() > 0)
@@ -2791,7 +2836,7 @@ system_total_elt_secondary(const char *total_name)
  */
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
-		cxxGasPhase *gas_phase_ptr = (cxxGasPhase *) use.Get_gas_phase_ptr();
+		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 		for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)	
 		{
 			struct phase *phase_ptr = 
@@ -2905,14 +2950,12 @@ system_total_solids(cxxExchange *exchange_ptr,
 					cxxPPassemblage *pp_assemblage_ptr,
 					cxxGasPhase *gas_phase_ptr,
 					cxxSSassemblage *ss_assemblage_ptr,
-					struct surface *surface_ptr)
+					cxxSurface *surface_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Provides total moles in solid phases
  */
-	int i;
-
 	count_elts = 0;
 	paren_count = 0;
 /*
@@ -2920,17 +2963,16 @@ system_total_solids(cxxExchange *exchange_ptr,
  */
 	if (exchange_ptr != NULL)
 	{
-		std::map<std::string, cxxExchComp>::iterator it = exchange_ptr->Get_exchComps().begin();
-		for ( ; it != exchange_ptr->Get_exchComps().end(); it++)
+		for (size_t i = 0; i < exchange_ptr->Get_exchange_comps().size(); i++)
 		{
-			add_elt_list(it->second.Get_totals(), 1.0);
+			add_elt_list(exchange_ptr->Get_exchange_comps()[i].Get_totals(), 1.0);
 		}
 	}
 	if (surface_ptr != NULL)
 	{
-		for (i = 0; i < surface_ptr->count_comps; i++)
+		for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 		{
-			add_elt_list(surface_ptr->comps[i].totals, 1.0);
+			add_elt_list(surface_ptr->Get_surface_comps()[i].Get_totals(), 1.0);
 		}
 	}
 	if (ss_assemblage_ptr != NULL)
@@ -2953,6 +2995,7 @@ system_total_solids(cxxExchange *exchange_ptr,
 	{
 		for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 		{
+			int i;
 			struct phase *phase_ptr = 
 				phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &i, FALSE);
 			add_elt_list(phase_ptr->next_elt, gas_phase_ptr->Get_gas_comps()[j].Get_moles());
@@ -2969,11 +3012,6 @@ system_total_solids(cxxExchange *exchange_ptr,
 			add_elt_list(phase_ptr->next_elt,
 						 it->second.Get_moles());
 		}
-		//for (i = 0; i < pp_assemblage_ptr->count_comps; i++)
-		//{
-		//	add_elt_list(pp_assemblage_ptr->pure_phases[i].phase->next_elt,
-		//				 pp_assemblage_ptr->pure_phases[i].moles);
-		//}
 	}
 
 	if (count_elts > 0)

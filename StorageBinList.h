@@ -28,7 +28,7 @@ class StorageBinList: public PHRQ_base
 public:
 	StorageBinList(PHRQ_io *io=NULL);
 	StorageBinList(CParser & parser, PHRQ_io *io=NULL);
-	~StorageBinList(void);
+	virtual ~StorageBinList(void);
 	bool Read(CParser & parser);
 	void SetAll(bool tf);
 	void TransferAll(StorageBinListItem &source);

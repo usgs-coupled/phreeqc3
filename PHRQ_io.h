@@ -11,6 +11,7 @@
 #include <exception>
 #include <list>
 #include "Keywords.h"
+#include <time.h>
 
 class PhreeqcStop : std::exception
 {
@@ -40,6 +41,7 @@ public:
 	// methods
 	static int istream_getc(void *cookie);
 	static void safe_close(std::ostream **stream_ptr);
+	static void safe_close(FILE **file_ptr);
 	void close_ostreams(void);
 	void Set_io_error_count(int i)				{this->io_error_count = i;};
 	int Get_io_error_count(void)				{return this->io_error_count;};
@@ -66,31 +68,43 @@ public:
 	void log_flush(void);
 	void log_close(void);
 	virtual void log_msg(const char * str);
-	void Set_log_ostream(std::ostream * out)		{this->log_ostream = out;};
-	std::ostream *Get_log_ostream(void)				{return this->log_ostream;};
-	void Set_log_on(bool tf)						{this->log_on = tf;};
-	bool Get_log_on(void)							{return this->log_on;};
+	void Set_log_ostream(std::ostream * out)		{this->log_ostream = out;}
+	std::ostream *Get_log_ostream(void)				{return this->log_ostream;}
+	void Set_log_on(bool tf)						{this->log_on = tf;}
+	bool Get_log_on(void)							{return this->log_on;}
 
 	// punch_ostream
 	virtual bool punch_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void punch_flush(void);
 	void punch_close(void);
 	virtual void punch_msg(const char * str);
-	void Set_punch_ostream(std::ostream * out)		{this->punch_ostream = out;};
-	std::ostream *Get_punch_ostream(void)			{return this->punch_ostream;};
-	void Set_punch_on(bool tf)						{this->punch_on = tf;};
-	bool Get_punch_on(void)							{return this->punch_on;};
+	void Set_punch_ostream(std::ostream * out)		{this->punch_ostream = out;}
+	std::ostream *Get_punch_ostream(void)			{return this->punch_ostream;}
+	void Set_punch_on(bool tf)						{this->punch_on = tf;}
+	bool Get_punch_on(void)							{return this->punch_on;}
 	
 	// error_ostream
+#ifdef ERROR_OSTREAM
 	bool error_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void error_flush(void);
 	void error_close(void);
 	virtual void error_msg(const char * str, bool stop=false);
-	void Set_error_ostream(std::ostream * out)		{this->error_ostream = out;};
-	std::ostream *Get_error_ostream(void)			{return this->error_ostream;};
-	void Set_error_on(bool tf)						{this->error_on = tf;};
-	bool Get_error_on(void)							{return this->error_on;};
+	void Set_error_ostream(std::ostream * out)		{this->error_ostream = out;}
+	std::ostream *Get_error_ostream(void)			{return this->error_ostream;}
+	void Set_error_on(bool tf)						{this->error_on = tf;}
+	bool Get_error_on(void)							{return this->error_on;}
 	virtual void warning_msg(const char *err_str);
+#else
+	bool error_open(const char *file_name, const char * mode = "w");
+	void error_flush(void);
+	void error_close(void);
+	virtual void error_msg(const char * str, bool stop=false);
+	void Set_error_file(FILE * out)				{this->error_file = out;}
+	FILE *Get_error_file(void)					{return this->error_file;}
+	void Set_error_on(bool tf)						{this->error_on = tf;}
+	bool Get_error_on(void)							{return this->error_on;}
+	virtual void warning_msg(const char *err_str);
+#endif
 
 	// dump_ostream
 	bool dump_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
@@ -108,13 +122,7 @@ public:
 	virtual void fpunchf(const char *name, const char *format, int d);
 	virtual void fpunchf_end_row(const char *format);
 
-	// screen_ostream
-	//bool screen_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
-	//void screen_flush(void);
-	//void screen_close(void);
 	virtual void screen_msg(const char * str);
-	//void Set_screen_ostream(std::ostream * out)		{this->screen_ostream = out;};
-	//std::ostream *Get_screen_ostream(void)			{return this->screen_ostream;};
 	void Set_screen_on(bool tf)						{this->screen_on = tf;};
 	bool Get_screen_on(void)						{return this->screen_on;};
 
@@ -153,9 +161,12 @@ protected:
 	std::ostream *output_ostream;	
 	std::ostream *log_ostream;		
 	std::ostream *punch_ostream;	
+#ifdef ERROR_OSTREAM
 	std::ostream *error_ostream;
+#else
+	FILE * error_file;
+#endif
 	std::ostream *dump_ostream;
-	//std::ostream *screen_ostream;
 	int io_error_count;
 
 	bool output_on;

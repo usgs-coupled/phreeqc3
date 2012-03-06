@@ -7,6 +7,7 @@
 
 #include "NumKeyword.h"
 #include "Parser.h"
+#include "Utils.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -49,32 +50,6 @@ cxxNumKeyword::read_number_description(CParser & parser)
 
 	// skip keyword
 	parser.copy_token(keyword, ptr);
-
-	/*
-	std::istream::pos_type ptr1 = ptr;
-	std::string::size_type pos;
-	std::string token;
-	if (parser.copy_token(token, ptr) != CParser::TT_DIGIT)
-	{
-		this->n_user = 1;
-		this->n_user_end = 1;
-	}
-	else
-	{
-		std::istringstream iss(token);
-		iss >> this->n_user;
-		this->n_user_end = this->n_user;
-		std::string token1;
-		iss >> token1;
-		if ((pos = token1.find_first_of("-")) != std::string::npos)
-		{
-			token1.replace(pos, 1, " ");
-			std::istringstream iss1(token1);
-			iss1 >> this->n_user_end;
-			//      ptr1 = ptr;
-		}
-	}
-	*/
 
 	// skip whitespace
 	while (::isspace(parser.get_iss().peek()))
@@ -149,4 +124,48 @@ cxxNumKeyword::read_number_description(std::istream & is)
 		is.ignore();
 
 	std::getline(is, this->description);
+}
+void
+cxxNumKeyword::read_number_description(const std::string & line_in)
+{
+	std::string keyword, token;
+	//std::istream::pos_type ptr;
+
+	std::string line = line_in;
+	std::string::iterator b = line.begin();
+	std::string::iterator e = line.end();
+	// skip keyword
+	CParser::copy_token(keyword, b, e);
+
+	// read number
+	if (CParser::copy_token(token, b, e) == CParser::TT_DIGIT)
+	{
+		Utilities::replace("-", " ", token);
+		int j = sscanf(token.c_str(), "%d%d", &this->n_user, &this->n_user_end);
+		if (j == 0)
+		{
+			this->n_user = this->n_user_end = 1;
+		}
+		else if (j == 1)
+		{
+			this->n_user_end = this->n_user;
+		}
+		if (this->n_user_end < this->n_user)
+		{
+			this->n_user_end = this->n_user;
+		}
+	}
+	else
+	{
+		this->n_user = this->n_user_end = 1;
+	}
+
+	// skip whitespace
+	std::string::iterator ic;
+	this->description.clear();
+	for (ic = b; ic != e; ic++)
+	{
+		this->description += *ic;
+	}
+	trim_left(this->description);
 }

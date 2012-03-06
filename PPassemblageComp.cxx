@@ -41,7 +41,6 @@ cxxPPassemblageComp::~cxxPPassemblageComp()
 void
 cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing pure_phase message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -55,8 +54,7 @@ cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	// Pure_Phase element and attributes
 
 	s_oss << indent0 << "name=\"" << this->name << "\"" << "\n";
-	s_oss << indent0 << "add_formula=\"" << this->
-		add_formula << "\"" << "\n";
+	s_oss << indent0 << "add_formula=\"" << this->add_formula << "\"" << "\n";
 	s_oss << indent0 << "si=\"" << this->si << "\"" << "\n";
 	s_oss << indent0 << "si_org=\"" << this->si_org << "\"" << "\n";
 	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
@@ -75,7 +73,6 @@ cxxPPassemblageComp::dump_xml(std::ostream & s_oss, unsigned int indent) const
 void
 cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
-	//const char    ERR_MESSAGE[] = "Packing pure_phase message: %s, element not found\n";
 	unsigned int i;
 	s_oss.precision(DBL_DIG - 1);
 	std::string indent0(""), indent1(""), indent2("");
@@ -87,19 +84,21 @@ cxxPPassemblageComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 		indent2.append(Utilities::INDENT);
 
 	// Pure_Phase element and attributes
-
-	if (this->name.size() != 0)
-		s_oss << indent0 << "-name                  " << this->name << "\n";
+	s_oss << indent1 << "# EQUILIBRIUM_PHASES_MODIFY candidate identifiers #\n";
 	if (this->add_formula.size() != 0)
 		s_oss << indent1 << "-add_formula           " << this->add_formula << "\n";
 	s_oss << indent1 << "-si                    " << this->si << "\n";
-	s_oss << indent1 << "-si_org                " << this->si_org << "\n";
 	s_oss << indent1 << "-moles                 " << this->moles << "\n";
-	s_oss << indent1 << "-delta                 " << this->delta << "\n";
-	s_oss << indent1 << "-initial_moles         " << this->initial_moles << "\n";
 	s_oss << indent1 << "-force_equality        " << this->force_equality << "\n";
 	s_oss << indent1 << "-dissolve_only         " << this->dissolve_only << "\n";
 	s_oss << indent1 << "-precipitate_only      " << this->precipitate_only << "\n";
+
+	s_oss << indent1 << "# PPassemblage workspace variables #\n";
+	s_oss << indent1 << "-si_org                " << this->si_org << "\n";
+	s_oss << indent1 << "-delta                 " << this->delta << "\n";
+	s_oss << indent1 << "-initial_moles         " << this->initial_moles << "\n";
+	s_oss << indent1 << "-totals                " << "\n";
+	this->totals.dump_raw(s_oss, indent + 2);
 }
 
 void
@@ -121,6 +120,7 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		vopts.push_back("force_equality");	// 7
 		vopts.push_back("precipitate_only");	// 8
 		vopts.push_back("si_org");	// 9
+		vopts.push_back("totals");	// 10
 	}
 
 	std::istream::pos_type ptr;
@@ -129,7 +129,6 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 	int opt_save;
 
 	opt_save = CParser::OPT_ERROR;
-	bool name_defined(false);
 	bool si_defined(false);
 	bool si_org_defined(false);
 	bool moles_defined(false);
@@ -157,23 +156,10 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 		case CParser::OPT_ERROR:
 			opt = CParser::OPT_KEYWORD;
 			// Allow return to Exchange for more processing
-			//parser.error_msg("Unknown input in PURE_PHASE read.", PHRQ_io::OT_CONTINUE);
-			//parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
 			break;
 
 		case 0:				// name
-			if (!(parser.get_iss() >> str))
-			{
-				this->name.clear();
-				parser.incr_input_error();
-				parser.error_msg("Expected string value for name.",
-								 PHRQ_io::OT_CONTINUE);
-			}
-			else
-			{
-				this->name = str;
-			}
-			name_defined = true;
+			parser.warning_msg("-name ignored. Name is defined with -component.");
 			break;
 
 		case 1:				// add_formula
@@ -285,6 +271,17 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 			}
 			si_org_defined = true;
 			break;
+		case 10:				// totals
+			if (this->totals.read_raw(parser, next_char) !=	CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected element name and molality for Surface totals.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 10;
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -292,12 +289,6 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 	// members that must be defined
 	if (check)
 	{
-		if (name_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Name not defined for PPassemblageComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
 		if (si_defined == false)
 		{
 			parser.incr_input_error();
@@ -328,26 +319,11 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 			parser.error_msg("Dissolve_only not defined for PPassemblageComp input.",
 				PHRQ_io::OT_CONTINUE);
 		}
-		/* don't check to maintain backward compatibility
-		if (precipitate_only_defined == false)
-		{
-		parser.incr_input_error();
-		parser.
-		error_msg("Precipitate_only not defined for PPassemblageComp input.",
-		PHRQ_io::OT_CONTINUE);
-		}
-		*/
 		if (force_equality_defined == false)
 		{
 			parser.incr_input_error();
 			parser.error_msg
 				("Force_equality not defined for PPassemblageComp input.",
-				PHRQ_io::OT_CONTINUE);
-		}
-		if (si_org_defined == false)
-		{
-			parser.incr_input_error();
-			parser.error_msg("Si_org not defined for PPassemblageComp input.",
 				PHRQ_io::OT_CONTINUE);
 		}
 	}
@@ -439,8 +415,6 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, LDBLE extensive)
 		f1 = 0.5;
 		f2 = 0.5;
 	}
-	//char * name;
-	//char *add_formula;
 
 	if (this->name.size() == 0 && addee.name.size() == 0)
 	{
@@ -456,33 +430,17 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, LDBLE extensive)
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;
 	}
-	//LDBLE si;
 	this->si = this->si * f1 + addee.si * f2;
-	//LDBLE si_org;
 	this->si_org = this->si_org * f1 + addee.si_org * f2;
-	//LDBLE moles;
 	this->moles += addee.moles * extensive;
-	//LDBLE delta;
 	this->delta += addee.delta * extensive;
-	//LDBLE initial_moles;
 	this->initial_moles += addee.initial_moles * extensive;
-	//bool force_equality;
-	//bool dissolve_only;
-
 }
 
 void
 cxxPPassemblageComp::multiply(LDBLE extensive)
 {
-	//char * name;
-	//char *add_formula;
-	//LDBLE si;
-	//LDBLE moles;
 	this->moles *= extensive;
-	//LDBLE delta;
 	this->delta *= extensive;
-	//LDBLE initial_moles;
 	this->initial_moles *= extensive;
-	//bool force_equality;
-	//bool dissolve_only;
 }

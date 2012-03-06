@@ -1,6 +1,8 @@
 typedef unsigned char boolean;
 #include "Phreeqc.h"
 #include "phqalloc.h"
+#include "Solution.h"
+#include "Utils.h"
 
 #define STRING 11
 #define NUMBER 12
@@ -12,7 +14,6 @@ typedef unsigned char boolean;
 #define OPTION_ERROR -3
 #define OPTION_DEFAULT -4
 #define OPT_1 -5
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_solution_spread(void)
@@ -32,10 +33,8 @@ read_solution_spread(void)
  *
  */
 	struct spread_row *heading, *row_ptr, *units;
-	int i, j, l, j1, num, count;
-	int strings, numbers;
+	int count, strings, numbers;
 	int spread_lines;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	char *ptr;
 	struct defaults soln_defaults;
 	int return_value, opt;
@@ -72,8 +71,7 @@ read_solution_spread(void)
 
 	/* fill in soln_defaults.iso */
 	soln_defaults.count_iso = count_iso_defaults;
-	soln_defaults.iso =
-		(struct iso *) PHRQ_malloc((size_t) soln_defaults.count_iso *
+	soln_defaults.iso =	(struct iso *) PHRQ_malloc((size_t) soln_defaults.count_iso *
 								   sizeof(struct iso));
 	if (soln_defaults.iso == NULL)
 		malloc_error();
@@ -85,20 +83,21 @@ read_solution_spread(void)
 	units = NULL;
 	return_value = UNKNOWN;
 	spread_lines = 0;
+	CParser parser(this->phrq_io);
 /*
  *   Loop on solutions
  */
 	for (;;)
 	{
+		std::string token, token1;
 		opt = get_option(opt_list, count_opt_list, &next_char);
 		if (spread_lines == 0 && opt != OPTION_DEFAULT)
 		{
 			row_ptr = string_to_spread_row(line);
-			count = 0;
 			ptr = line;
-			numbers = 0;
-			strings = 0;
-			while (((j = copy_token(token, &ptr, &l)) != EMPTY))
+			count = numbers = strings = 0;
+			int j;
+			while (((j = copy_token(token, &ptr)) != EMPTY))
 			{
 				count++;
 				if (j == UPPER || j == LOWER)
@@ -110,13 +109,13 @@ read_solution_spread(void)
 			 * Is 2nd token all number
 			 */
 			ptr = line;
-			copy_token(token, &ptr, &l);
-			j = copy_token(token, &ptr, &l);
-			num = FALSE;
+			copy_token(token, &ptr);
+			j = copy_token(token, &ptr);
+			bool num = false;
 			if (j == DIGIT)
 			{
-				strtod(token, &ptr);
-				j1 = copy_token(token1, &ptr, &l);
+				strtod(token.c_str(), &ptr);
+				int j1 = copy_token(token1, &ptr);
 				if (j1 != EMPTY)
 				{
 					num = FALSE;
@@ -131,7 +130,7 @@ read_solution_spread(void)
 			 *   Starts with hyphen
 			 */
 			ptr = line;
-			copy_token(token, &ptr, &l);
+			copy_token(token, &ptr);
 			if (token[0] == '-')
 			{
 				opt = opt;
@@ -234,7 +233,7 @@ read_solution_spread(void)
 			{
 				numbers = 0;
 				strings = 0;
-				for (i = 0; i < heading->count; i++)
+				for (int i = 0; i < heading->count; i++)
 				{
 					if (row_ptr->type_vector[i] == STRING)
 					{
@@ -267,12 +266,12 @@ read_solution_spread(void)
 			break;
 		case 4:				/* units */
 		case 8:				/* unit */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(token, &next_char) == EMPTY)
 				break;
 			{
 				if (check_units(token, FALSE, FALSE, NULL, TRUE) == OK)
 				{
-					soln_defaults.units = string_hsave(token);
+					soln_defaults.units = string_hsave(token.c_str());
 				}
 				else
 				{
@@ -281,11 +280,11 @@ read_solution_spread(void)
 			}
 			break;
 		case 5:				/* redox */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(token, &next_char) == EMPTY)
 				break;
-			if (parse_couple(token) == OK)
+			if (parser.parse_couple(token) == OK)
 			{
-				soln_defaults.redox = string_hsave(token);
+				soln_defaults.redox = string_hsave(token.c_str());
 			}
 			else
 			{
@@ -293,18 +292,18 @@ read_solution_spread(void)
 			}
 			break;
 		case 6:				/* ph */
-			copy_token(token, &next_char, &l);
-			sscanf(token, SCANFORMAT, &(soln_defaults.ph));
-			if (copy_token(token, &next_char, &l) != EMPTY)
+			copy_token(token, &next_char);
+			sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.ph));
+			if (copy_token(token, &next_char) != EMPTY)
 			{
 				warning_msg
 					("Not possible to use phase name or saturation index in definition of default pH in SOLUTION_SPREAD.");
 			}
 			break;
 		case 7:				/* pe */
-			copy_token(token, &next_char, &l);
-			sscanf(token, SCANFORMAT, &(soln_defaults.pe));
-			if (copy_token(token, &next_char, &l) != EMPTY)
+			copy_token(token, &next_char);
+			sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.pe));
+			if (copy_token(token, &next_char) != EMPTY)
 			{
 				warning_msg
 					("Not possible to use phase name or saturation index in definition of default pe in SOLUTION_SPREAD.");
@@ -313,127 +312,137 @@ read_solution_spread(void)
 		case 11:				/* isotope_uncertainty */
 		case 12:				/* uncertainty */
 		case 13:				/* uncertainties */
-			if (copy_token(token, &next_char, &l) != DIGIT)
 			{
-				input_error++;
-				error_string = sformatf( "Expected isotope name to"
-						" begin with an isotopic number.");
-				error_msg(error_string, CONTINUE);
-				continue;
-			}
-			for (i = 0; i < soln_defaults.count_iso; i++)
-			{
-				if (strcmp(token, soln_defaults.iso[i].name) == 0)
-				{
-					break;
-				}
-			}
-			if (i == soln_defaults.count_iso)
-			{
-				soln_defaults.iso =
-					(struct iso *) PHRQ_realloc(soln_defaults.iso,
-												(size_t) (i +
-														  1) *
-												sizeof(struct iso));
-				if (soln_defaults.iso == NULL)
-					malloc_error();
-				soln_defaults.iso[i].name = string_hsave(token);
-				soln_defaults.iso[i].value = NAN;
-				soln_defaults.iso[i].uncertainty = NAN;
-				soln_defaults.count_iso++;
-			}
-
-			/* read and store isotope ratio uncertainty */
-			if ((j = copy_token(token, &next_char, &l)) != EMPTY)
-			{
-				if (j != DIGIT)
+				if (copy_token(token, &next_char) != DIGIT)
 				{
 					input_error++;
-					error_string = sformatf(
-							"Expected numeric value for uncertainty in isotope ratio.");
+					error_string = sformatf( "Expected isotope name to"
+						" begin with an isotopic number.");
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
+				int i;
+				for (i = 0; i < soln_defaults.count_iso; i++)
+				{
+					if (strcmp(token.c_str(), soln_defaults.iso[i].name) == 0)
+					{
+						break;
+					}
+				}
+				if (i == soln_defaults.count_iso)
+				{
+					soln_defaults.iso =
+						(struct iso *) PHRQ_realloc(soln_defaults.iso,
+						(size_t) (i +
+						1) *
+						sizeof(struct iso));
+					if (soln_defaults.iso == NULL)
+						malloc_error();
+					soln_defaults.iso[i].name = string_hsave(token.c_str());
+					soln_defaults.iso[i].value = NAN;
+					soln_defaults.iso[i].uncertainty = NAN;
+					soln_defaults.count_iso++;
+				}
+
+				/* read and store isotope ratio uncertainty */
+				int j;
+				if ((j = copy_token(token, &next_char)) != EMPTY)
+				{
+					if (j != DIGIT)
+					{
+						input_error++;
+						error_string = sformatf(
+							"Expected numeric value for uncertainty in isotope ratio.");
+						error_msg(error_string, CONTINUE);
+						continue;
+					}
+					else
+					{
+						sscanf(token.c_str(), SCANFORMAT,
+							&(soln_defaults.iso[i].uncertainty));
+					}
+				}
 				else
 				{
-					sscanf(token, SCANFORMAT,
-						   &(soln_defaults.iso[i].uncertainty));
+					soln_defaults.iso[i].uncertainty = NAN;
 				}
-			}
-			else
-			{
-				soln_defaults.iso[i].uncertainty = NAN;
 			}
 			break;
 		case 10:				/* water */
-			j = copy_token(token, &next_char, &l);
-			if (j != DIGIT)
 			{
-				input_error++;
-				error_string = sformatf(
-						"Expected numeric value for mass of water in solution.");
-				error_msg(error_string, CONTINUE);
-			}
-			else
-			{
-				sscanf(token, SCANFORMAT, &(soln_defaults.water));
-			}
-			break;
-		case 9:				/* isotope */
-			if (copy_token(token, &next_char, &l) != DIGIT)
-			{
-				input_error++;
-				error_string = sformatf( "Expected isotope name to"
-						" begin with an isotopic number.");
-				error_msg(error_string, CONTINUE);
-				continue;
-			}
-			for (i = 0; i < soln_defaults.count_iso; i++)
-			{
-				if (strcmp(token, soln_defaults.iso[i].name) == 0)
-				{
-					break;
-				}
-			}
-			if (i == soln_defaults.count_iso)
-			{
-				soln_defaults.iso =
-					(struct iso *) PHRQ_realloc(soln_defaults.iso,
-												(size_t) (i +
-														  1) *
-												sizeof(struct iso));
-				if (soln_defaults.iso == NULL)
-					malloc_error();
-				soln_defaults.iso[i].name = string_hsave(token);
-				soln_defaults.iso[i].value = NAN;
-				soln_defaults.iso[i].uncertainty = NAN;
-				soln_defaults.count_iso++;
-			}
-			/* read and store isotope ratio */
-			if (copy_token(token, &next_char, &l) != DIGIT)
-			{
-				input_error++;
-				error_string = sformatf(
-						"Expected numeric value for default isotope ratio.");
-				error_msg(error_string, CONTINUE);
-				break;
-			}
-			sscanf(token, SCANFORMAT, &(soln_defaults.iso[i].value));
-			/* read and store isotope ratio uncertainty */
-			if ((j = copy_token(token, &next_char, &l)) != EMPTY)
-			{
+				int j = copy_token(token, &next_char);
 				if (j != DIGIT)
 				{
 					input_error++;
 					error_string = sformatf(
-							"Expected numeric value for uncertainty in isotope ratio.");
+						"Expected numeric value for mass of water in solution.");
 					error_msg(error_string, CONTINUE);
-					continue;
 				}
 				else
 				{
-					sscanf(token, SCANFORMAT,
-						   &(soln_defaults.iso[i].uncertainty));
+					sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.water));
+				}
+			}
+			break;
+		case 9:				/* isotope */
+			{
+				if (copy_token(token, &next_char) != DIGIT)
+				{
+					input_error++;
+					error_string = sformatf( "Expected isotope name to"
+						" begin with an isotopic number.");
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				int i;
+				for (i = 0; i < soln_defaults.count_iso; i++)
+				{
+					if (strcmp(token.c_str(), soln_defaults.iso[i].name) == 0)
+					{
+						break;
+					}
+				}
+				if (i == soln_defaults.count_iso)
+				{
+					soln_defaults.iso =
+						(struct iso *) PHRQ_realloc(soln_defaults.iso,
+						(size_t) (i +
+						1) *
+						sizeof(struct iso));
+					if (soln_defaults.iso == NULL)
+						malloc_error();
+					soln_defaults.iso[i].name = string_hsave(token.c_str());
+					soln_defaults.iso[i].value = NAN;
+					soln_defaults.iso[i].uncertainty = NAN;
+					soln_defaults.count_iso++;
+				}
+				/* read and store isotope ratio */
+				if (copy_token(token, &next_char) != DIGIT)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Expected numeric value for default isotope ratio.");
+					error_msg(error_string, CONTINUE);
+					break;
+				}
+				sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.iso[i].value));
+				/* read and store isotope ratio uncertainty */
+				int j;
+				if ((j = copy_token(token, &next_char)) != EMPTY)
+				{
+					if (j != DIGIT)
+					{
+						input_error++;
+						error_string = sformatf(
+							"Expected numeric value for uncertainty in isotope ratio.");
+						error_msg(error_string, CONTINUE);
+						continue;
+					}
+					else
+					{
+						sscanf(token.c_str(), SCANFORMAT,
+							&(soln_defaults.iso[i].uncertainty));
+					}
 				}
 			}
 			break;
@@ -442,12 +451,14 @@ read_solution_spread(void)
 			break;
 		case 100:				/* read headings */
 			heading = string_to_spread_row(line);
-			for (i = 0; i < heading->count; i++)
 			{
-				while (replace(" ", "", heading->char_vector[i]) == TRUE);
-				while (replace(",", "_", heading->char_vector[i]) == TRUE);
+				int i;
+				for (i = 0; i < heading->count; i++)
+				{
+					while (replace(" ", "", heading->char_vector[i]) == TRUE);
+					while (replace(",", "_", heading->char_vector[i]) == TRUE);
+				}
 			}
-
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -466,24 +477,17 @@ read_solution_spread(void)
 	soln_defaults.iso = (struct iso *) free_check_null(soln_defaults.iso);
 	return (return_value);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 					   struct spread_row *data, struct defaults defaults)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, n, l;
 	Keywords::KEYWORDS next_keyword_save;
 	int n_user, n_user_end;
-	int default_pe, alk;
-	int count_isotopes;
-	int max_mass_balance, count_mass_balance;
-	char *ptr, *ptr1;
-	char *description;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
-	char string[2 * MAX_LENGTH];
-	LDBLE l_dummy;
+	std::string description;
+	std::string token, token1, string;
+	CParser parser(this->phrq_io);
 
 	int return_value, opt;
 	char *next_char;
@@ -501,98 +505,89 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 		"water",				/* 10 */
 		"description",			/* 11 */
 		"desc",					/* 12 */
-		"descriptor"			/* 13 */
+		"descriptor",			/* 13 */
+		"pressure"				/* 14 */
 	};
-	int count_opt_list = 14;
+	int count_opt_list = 15;
 
 /*
  *      look for solution number
  */
-	n_user = -1;
-	n_user_end = -1;
-	description = string_duplicate("");
-	for (i = 0; i < heading->count; i++)
+	n_user = n_user_end = -1;
 	{
-		if (strcmp_nocase(heading->char_vector[i], "number") == 0)
+		int i; 
+		for (i = 0; i < heading->count; i++)
 		{
-			break;
+			if (strcmp_nocase(heading->char_vector[i], "number") == 0)
+			{
+				break;
+			}
 		}
-	}
-	if (i == heading->count || data->type_vector[i] == EMPTY
-		|| data->count <= i)
-	{
-		n_user = -1;
-	}
-	else if (data->type_vector[i] == STRING)
-	{
-		input_error++;
-		error_string = sformatf(
+		if (i == heading->count || data->type_vector[i] == EMPTY
+			|| data->count <= i)
+		{
+			n_user = -1;
+		}
+		else if (data->type_vector[i] == STRING)
+		{
+			input_error++;
+			error_string = sformatf(
 				"Expected solution number or number range in 'number' column, found:  %s.",
 				data->char_vector[i]);
-		error_msg(error_string, CONTINUE);
-	}
-	else
-	{
-		strcpy(string, "solution_s ");
-		strcat(string, data->char_vector[i]);
-		ptr = string;
-		description = (char *) free_check_null(description);
-		next_keyword_save = next_keyword;
-		next_keyword = Keywords::KEY_SOLUTION_SPREAD;
-		read_number_description(ptr, &n_user, &n_user_end, &description);
-		next_keyword = next_keyword_save;
+			error_msg(error_string, CONTINUE);
+		}
+		else
+		{
+			string = "solution_s ";
+			string.append( data->char_vector[i] );
+			next_keyword_save = next_keyword;
+			next_keyword = Keywords::KEY_SOLUTION_SPREAD;
+			cxxNumKeyword nk;
+			nk.read_number_description(string);
+			n_user = nk.Get_n_user();
+			n_user_end = nk.Get_n_user_end();
+			description = nk.Get_description();
+			next_keyword = next_keyword_save;
+		}
 	}
 /*
  *   set up solution
  */
-
-	if (n_user >= 0 && solution_bsearch(n_user, &n, FALSE) != NULL)
-	{
-		solution_free(solution[n]);
-	}
-	else
-	{
-		n = count_solution++;
-		if (count_solution >= max_solution)
-		{
-			space((void **) ((void *) &(solution)), count_solution,
-				  &max_solution, sizeof(struct solution *));
-		}
-	}
-	solution[n] = solution_alloc();
-
-	solution[n]->n_user = n_user;
-	solution[n]->n_user_end = n_user_end;
+	
+	cxxSolution temp_solution;
+	temp_solution.Set_n_user(n_user);
+	temp_solution.Set_n_user_end(n_user_end);
+	temp_solution.Set_new_def(true);
+	temp_solution.Create_initial_data();
+	cxxISolution * initial_data_ptr = temp_solution.Get_initial_data();
 	if (use.Get_solution_in() == FALSE)
 	{
 		use.Set_solution_in(true);
 		use.Set_n_solution_user(n_user);
 	}
-	max_mass_balance = MAX_MASS_BALANCE;
 /*
  *   Set default ph, temp, density, pe, units
  */
-	solution[n]->description = description;
-	solution[n]->tc = defaults.temp;
-	solution[n]->patm = defaults.pressure;
-	solution[n]->ph = defaults.ph;
-	solution[n]->density = defaults.density;
-	solution[n]->solution_pe = defaults.pe;
-	solution[n]->mass_water = defaults.water;
-	solution[n]->ah2o = 1.0;
-	solution[n]->mu = 1e-7;
-	solution[n]->cb = 0.0;
-	default_pe = 0;
-	solution[n]->units = defaults.units;
-	solution[n]->totals[0].description = NULL;
-	count_mass_balance = 0;
-	count_isotopes = 0;
-	default_pe = pe_data_store(&(solution[n]->pe), defaults.redox);
+	temp_solution.Set_description(description);
+	temp_solution.Set_tc(defaults.temp);
+	temp_solution.Set_patm(defaults.pressure);
+	temp_solution.Set_ph(defaults.ph);
+	temp_solution.Set_density(defaults.density);
+	temp_solution.Set_pe(defaults.pe);
+	temp_solution.Set_mass_water(defaults.water);
+	temp_solution.Set_ah2o(1.0);
+	temp_solution.Set_mu(1e-7);
+	initial_data_ptr->Set_units(defaults.units);
+	initial_data_ptr->Set_default_pe(defaults.redox);
+	{
+		cxxChemRxn temp_chem_reaction;
+		initial_data_ptr->Get_pe_reactions()[defaults.redox] = temp_chem_reaction;
+	}
 /*
  *   Read concentration data
  */
 	return_value = UNKNOWN;
-	for (i = 0; i < heading->count; i++)
+	for (int i = 0; i < heading->count; i++)
 	{
 		if (strcmp_nocase(heading->char_vector[i], "number") == 0)
 			continue;
@@ -608,27 +603,28 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 		 */
 		if (heading->type_vector[i] == EMPTY)
 			continue;
-		strcpy(string, heading->char_vector[i]);
-		strcat(string, " ");
+		string = heading->char_vector[i];
+		string.append(" ");
 		/*
 		 *  Copy in concentration data
 		 */
 		if (i >= data->count || data->type_vector[i] == EMPTY)
 			continue;
-		strcat(string, data->char_vector[i]);
-		strcat(string, " ");
+		string.append(data->char_vector[i]); 
+		string.append(" ");
 		/*
 		 *  Copy in concentration data
 		 */
 		if (units != NULL && i < units->count
 			&& units->type_vector[i] != EMPTY)
 		{
-			strcat(string, units->char_vector[i]);
+			string.append(units->char_vector[i]);
 		}
 /*
  *   Parse string just like read_solution input 
  */
-		next_char = string;
+		char * char_string = string_duplicate(string.c_str());
+		next_char = char_string;
 		opt = get_option_string(opt_list, count_opt_list, &next_char);
 		if (opt == OPTION_DEFAULT && heading->type_vector[i] == NUMBER)
 		{
@@ -649,21 +645,22 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			break;
 		case 0:				/* temperature */
 		case 1:
-			sscanf(next_char, SCANFORMAT, &(solution[n]->tc));
+			sscanf(next_char, SCANFORMAT, &dummy);
+			temp_solution.Set_tc(dummy);
 			break;
 		case 2:				/* density */
 		case 3:
-			sscanf(next_char, SCANFORMAT, &(solution[n]->density));
+			sscanf(next_char, SCANFORMAT, &dummy);
+			temp_solution.Set_density(dummy);
 			break;
 		case 4:				/* units */
 		case 8:				/* unit */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(token, &next_char) == EMPTY)
 				break;
 			{
-				if (check_units(token, FALSE, FALSE, solution[n]->units, TRUE) ==
-					OK)
+				if (check_units(token, false, false, initial_data_ptr->Get_units().c_str(), true) == OK)
 				{
-					solution[n]->units = string_hsave(token);
+					initial_data_ptr->Set_units(token);
 				}
 				else
 				{
@@ -672,11 +669,13 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			}
 			break;
 		case 5:				/* redox */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(token, &next_char) == EMPTY)
 				break;
-			if (parse_couple(token) == OK)
+			if (parser.parse_couple(token) == OK)
 			{
-				default_pe = pe_data_store(&(solution[n]->pe), token);
+				initial_data_ptr->Set_default_pe(token);
+				cxxChemRxn temp_chem_reaction;
+				initial_data_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
 			}
 			else
 			{
@@ -684,229 +683,214 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			}
 			break;
 		case 6:				/* ph */
-			next_char = string;
-			if (read_conc(n, count_mass_balance, next_char) == ERROR)
 			{
-				input_error++;
-				break;
+				cxxISolutionComp temp_comp(this->phrq_io);
+				if (temp_comp.read(char_string, &temp_solution) == CParser::PARSER_ERROR)
+				{
+					input_error++;
+					break;
+				}
+				
+				temp_solution.Set_ph(temp_comp.Get_input_conc());
+				if (temp_comp.Get_equation_name().size() == 0)
+				{
+					break;
+					
+				}
+				temp_comp.Set_description("H(1)");
+				initial_data_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
 			}
-			solution[n]->ph =
-				solution[n]->totals[count_mass_balance].input_conc;
-			if (solution[n]->totals[count_mass_balance].equation_name == NULL)
-			{
-				break;
-			}
-			solution[n]->totals[count_mass_balance].description =
-				string_hsave("H(1)");
-			count_mass_balance++;
 			break;
 		case 7:				/* pe */
-			next_char = string;
-			if (read_conc(n, count_mass_balance, next_char) == ERROR)
 			{
-				input_error++;
-				break;
+				cxxISolutionComp temp_comp(this->phrq_io);
+				if (temp_comp.read(char_string, &temp_solution) == CParser::PARSER_ERROR)
+				{
+					input_error++;
+					break;
+				}
+				temp_solution.Set_pe(temp_comp.Get_input_conc());
+				if (temp_comp.Get_equation_name().size() == 0)
+				{
+					break;
+				}
+				temp_comp.Set_description("E");
+				initial_data_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
 			}
-			solution[n]->solution_pe =
-				solution[n]->totals[count_mass_balance].input_conc;
-			if (solution[n]->totals[count_mass_balance].equation_name == NULL)
-			{
-				break;
-			}
-			solution[n]->totals[count_mass_balance].description =
-				string_hsave("E");
-			count_mass_balance++;
 			break;
 		case 9:				/* isotope */
-			next_char = string;
-			if (copy_token(token, &next_char, &l) != DIGIT)
 			{
-				input_error++;
-				error_string = sformatf( "Expected isotope name to"
+				next_char = char_string;
+				cxxSolutionIsotope temp_isotope;
+				if (copy_token(token, &next_char) !=  CParser::TT_DIGIT)
+				{
+					input_error++;
+					error_string = sformatf( "Expected isotope name to"
 						" begin with an isotopic number.");
-				error_msg(error_string, CONTINUE);
-				continue;
-			}
-			solution[n]->isotopes =
-				(struct isotope *) PHRQ_realloc(solution[n]->isotopes,
-												(size_t) (count_isotopes +
-														  1) *
-												sizeof(struct isotope));
-			if (solution[n]->isotopes == NULL)
-				malloc_error();
-			/* read and save element name */
-			ptr1 = token;
-			get_num(&ptr1,
-					&(solution[n]->isotopes[count_isotopes].isotope_number));
-			if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
-			{
-				error_msg("Expecting element name.", CONTINUE);
-				error_msg(line_save, CONTINUE);
-				input_error++;
-				return (ERROR);
-			}
-			solution[n]->isotopes[count_isotopes].elt_name =
-				string_hsave(ptr1);
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					continue;
+				}
+				temp_isotope.Set_isotope_name(token.c_str());
 
-			/* read and store isotope ratio */
-			if (copy_token(token, &next_char, &l) != DIGIT)
-			{
-				input_error++;
-				error_string = sformatf(
-						"Expected numeric value for isotope ratio.");
-				error_msg(error_string, CONTINUE);
-				continue;
-			}
-			sscanf(token, SCANFORMAT,
-				   &(solution[n]->isotopes[count_isotopes].ratio));
-
-			/* read and store isotope ratio uncertainty */
-			/* first choice is next column */
-			if ((i + 1) < heading->count &&
-				(strcmp_nocase(heading->char_vector[i + 1], "uncertainty") ==
-				 0
-				 || strcmp_nocase(heading->char_vector[i + 1],
-								  "isotope_uncertainty") == 0
-				 || strcmp_nocase(heading->char_vector[i + 1],
-								  "uncertainties") == 0)
-				&& (i + 1) < data->count
-				&& data->type_vector[i + 1] == NUMBER)
-			{
-				solution[n]->isotopes[count_isotopes].ratio_uncertainty =
-					data->d_vector[i + 1];
-			}
-			else
-			{
-				next_char = string;
-				copy_token(token, &next_char, &l);
-				for (j = 0; j < defaults.count_iso; j++)
+				/* read and save element name */
 				{
-					if (strcmp(token, defaults.iso[j].name) == 0)
+					char *temp_iso_name = string_duplicate(token.c_str());
+					char *ptr1 = temp_iso_name;
+					get_num(&ptr1, &dummy);
+					temp_isotope.Set_isotope_number(dummy);
+					if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
 					{
-						solution[n]->isotopes[count_isotopes].
-							ratio_uncertainty = defaults.iso[j].uncertainty;
-						break;
+						error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
+						error_msg(line_save, PHRQ_io::OT_CONTINUE);
+						input_error++;
+						return (CParser::PARSER_ERROR);
 					}
+					temp_isotope.Set_elt_name(ptr1);
 				}
-				if (j == defaults.count_iso)
+				/* read and store isotope ratio */
+				if (copy_token(token, &next_char) != CParser::TT_DIGIT)
 				{
-					solution[n]->isotopes[count_isotopes].ratio_uncertainty =
-						NAN;
+					input_error++;
+					error_string = sformatf(
+						"Expected numeric value for isotope ratio.");
+					error_msg(error_string, CONTINUE);
+					continue;
 				}
+				sscanf(token.c_str(), SCANFORMAT, &dummy);
+				temp_isotope.Set_ratio(dummy);
+				temp_isotope.Set_ratio_uncertainty(NAN);
+
+				/* read and store isotope ratio uncertainty */
+				int j;
+				if ((j = copy_token(token, &next_char)) != CParser::TT_EMPTY)
+				{
+					if (j != DIGIT)
+					{
+						input_error++;
+						error_string = sformatf(
+							"Expected numeric value for uncertainty in isotope ratio.");
+						error_msg(error_string, PHRQ_io::OT_CONTINUE);
+						continue;
+					}
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					temp_isotope.Set_ratio_uncertainty(dummy);
+				}
+				temp_solution.Get_isotopes()[temp_isotope.Get_isotope_name()] = temp_isotope;
 			}
-			count_isotopes++;
 			break;
 		case 10:				/* water */
-			j = copy_token(token, &next_char, &l);
-			if (j == EMPTY)
 			{
-				solution[n]->mass_water = 1.0;
-			}
-			else if (j != DIGIT)
-			{
-				input_error++;
-				error_string = sformatf(
+				next_char = char_string;
+				int j = copy_token(token, &next_char);
+				if (j == EMPTY)
+				{
+					temp_solution.Set_mass_water(1.0);
+				}
+				else if (j != DIGIT)
+				{
+					input_error++;
+					error_string = sformatf(
 						"Expected numeric value for mass of water in solution.");
-				error_msg(error_string, CONTINUE);
-			}
-			else
-			{
-				sscanf(token, SCANFORMAT, &l_dummy);
-				solution[n]->mass_water = (LDBLE) l_dummy;
+					error_msg(error_string, CONTINUE);
+				}
+				else
+				{
+					sscanf(token.c_str(), SCANFORMAT, &dummy);
+					temp_solution.Set_mass_water(dummy);
+				}
 			}
 			break;
 		case 11:				/* description */
 		case 12:				/* desc */
 		case 13:				/* descriptor */
-			solution[n]->description =
-				(char *) free_check_null(solution[n]->description);
-			solution[n]->description = string_duplicate(next_char);
+			{
+				temp_solution.Set_description(next_char);
+			}
+			break;
+		case 14:				/* pressure */
+			{
+				next_char = char_string;
+				if (sscanf(next_char, SCANFORMAT, &dummy) != 1)
+				{
+					temp_solution.Set_patm(1);
+				}
+				else
+				{
+					temp_solution.Set_patm(dummy);
+				}
+			}
 			break;
 		case OPTION_DEFAULT:
 /*
  *   Read concentration
  */
-			next_char = string;
-			if (copy_token(token, &next_char, &l) == LOWER)
-				continue;
-			next_char = string;
-			if (read_conc(n, count_mass_balance, next_char) == ERROR)
 			{
+				next_char = char_string;
+				if (copy_token(token, &next_char) == LOWER)
+					continue;
+				cxxISolutionComp temp_comp(this->phrq_io);
+				if (temp_comp.read(char_string, &temp_solution) == CParser::PARSER_ERROR)
+				{
 #ifdef SKIP
-				input_error++;
-				break;
+					input_error++;
+					break;
 #endif
+				}
+				initial_data_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
+				if (temp_comp.Get_pe_reaction().size() > 0)
+				{
+					cxxChemRxn temp_chem_reaction;
+					initial_data_ptr->Get_pe_reactions()[temp_comp.Get_pe_reaction()] = temp_chem_reaction;
+				}
 			}
-			count_mass_balance++;
 			break;
 		}
-		if (count_mass_balance + 1 >= max_mass_balance)
-		{
-			space((void **) ((void *) &(solution[n]->totals)),
-				  count_mass_balance + 1, &max_mass_balance,
-				  sizeof(struct conc));
-		}
+		free_check_null(char_string);
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
 	}
 /*
- *   Sort totals by description
- */
-	qsort(solution[n]->totals,
-		  (size_t) count_mass_balance,
-		  (size_t) sizeof(struct conc), conc_compare);
-/*
  *   fix up default units and default pe
  */
-	for (i = 0; i < count_mass_balance; i++)
+	std::map < std::string, cxxISolutionComp >::iterator it;
+	for (it = initial_data_ptr->Get_comps().begin(); it != initial_data_ptr->Get_comps().end(); it++)
 	{
-		strcpy(token, solution[n]->totals[i].description);
-		str_tolower(token);
-		if (solution[n]->totals[i].units == NULL)
+		token = it->first;
+		Utilities::str_tolower(token);
+		if (it->second.Get_units().size() == 0)
 		{
-			solution[n]->totals[i].units = solution[n]->units;
+			it->second.Set_units(initial_data_ptr->Get_units().c_str());
 		}
 		else
 		{
-			alk = FALSE;
-			if (strstr(token, "alk") == token)
-				alk = TRUE;
-			strcpy(token1, solution[n]->totals[i].units);
-			if (check_units(token1, alk, TRUE, solution[n]->units, TRUE) ==
-				ERROR)
+			bool alk = false;
+			if (strstr(token.c_str(), "alk") == token.c_str())
+				alk = true;
+			std::string token1 = it->second.Get_units();
+			if (check_units(token1, alk, true, initial_data_ptr->Get_units().c_str(), true) ==	CParser::PARSER_ERROR)
 			{
 				input_error++;
 			}
 			else
 			{
-				solution[n]->totals[i].units = string_hsave(token1);
+				it->second.Set_units(token1.c_str());
 			}
 		}
-		if (solution[n]->totals[i].n_pe < 0)
+		if (it->second.Get_pe_reaction().size() == 0)
 		{
-			solution[n]->totals[i].n_pe = default_pe;
+			it->second.Set_pe_reaction(initial_data_ptr->Get_default_pe());
 		}
 	}
-	solution[n]->default_pe = default_pe;
-/*
- *   Mark end of solution
- */
-	solution[n]->totals[count_mass_balance].description = NULL;
-	solution[n]->count_isotopes = count_isotopes;
-	if (count_isotopes > 0)
+	if (n_user >= 0)
 	{
-		qsort(solution[n]->isotopes,
-			  (size_t) count_isotopes,
-			  (size_t) sizeof(struct isotope), isotope_compare);
+		Rxn_solution_map[n_user] = temp_solution;
 	}
 	else
 	{
-		solution[n]->isotopes =
-			(struct isotope *) free_check_null(solution[n]->isotopes);
+		unnumbered_solutions.push_back(temp_solution);
 	}
 	return (return_value);
 }
-
 /* ---------------------------------------------------------------------- */
 struct spread_row * Phreeqc::
 string_to_spread_row(char *string)
