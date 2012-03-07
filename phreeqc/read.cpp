@@ -4989,10 +4989,6 @@ read_solution(void)
 			it->second.Set_pe_reaction(isoln_ptr->Get_default_pe());
 		}
 	}
-	if (Rxn_solution_map.find(n_user) != Rxn_solution_map.end())
-	{
-		Rxn_solution_map.erase(Rxn_solution_map.find(n_user));
-	}
 	Rxn_solution_map[n_user] = temp_solution;
 
 	return (return_value);

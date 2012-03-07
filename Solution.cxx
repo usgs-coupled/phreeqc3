@@ -51,6 +51,7 @@ cxxSolution::cxxSolution(PHRQ_io * io)
 	this->initial_data = NULL;
 }
 cxxSolution::cxxSolution(const cxxSolution &old_sol)
+:	initial_data(NULL)
 {
 	*this = old_sol;
 }
@@ -80,6 +81,8 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->master_activity            = rhs.master_activity;
 		this->species_gamma              = rhs.species_gamma;
 		this->isotopes                   = rhs.isotopes;
+		if (this->initial_data)
+			delete initial_data;
 		if (rhs.initial_data != NULL)
 			this->initial_data           = new cxxISolution(*rhs.initial_data);
 		else
