@@ -243,7 +243,11 @@ PHRQ_malloc(size_t size)
 #endif
 /* ---------------------------------------------------------------------- */
 {
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
+	return _malloc_dbg(size, _NORMAL_BLOCK, szFileName, nLine);
+#else
 	return malloc(size);
+#endif
 }
 
 /* ---------------------------------------------------------------------- */
@@ -251,7 +255,11 @@ void Phreeqc::
 PHRQ_free(void *ptr)
 /* ---------------------------------------------------------------------- */
 {
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
+	_free_dbg(ptr, _NORMAL_BLOCK);
+#else
 	free(ptr);
+#endif
 }
 
 /* ---------------------------------------------------------------------- */
@@ -270,7 +278,11 @@ PHRQ_calloc(size_t num, size_t size)
 #endif
 /* ---------------------------------------------------------------------- */
 {
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
+	return _calloc_dbg(num, size, _NORMAL_BLOCK, szFileName, nLine);
+#else
 	return calloc(num, size);
+#endif
 }
 
 /* ---------------------------------------------------------------------- */
@@ -282,6 +294,10 @@ PHRQ_realloc(void *ptr, size_t size)
 #endif
 /* ---------------------------------------------------------------------- */
 {
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
+	return _realloc_dbg(ptr, size, _NORMAL_BLOCK, szFileName, nLine);
+#else
 	return realloc(ptr, size);
+#endif
 }
 #endif /* USE_PHRQ_ALLOC */
