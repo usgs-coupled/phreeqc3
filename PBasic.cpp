@@ -1,7 +1,7 @@
 #if defined(WIN32)
 #include <windows.h>
 #if defined(PHREEQCI_GUI)
-#include "resource.h"
+#include "../../resource.h"
 #endif
 #else
 #define _ASSERTE assert
@@ -58,8 +58,10 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	parse_whole_program = true;
 #if defined(PHREEQCI_GUI)
 	hInfiniteLoop = 0;
-#endif
+	nIDErrPrompt = 0;
+#else
 	nIDErrPrompt = (PBasic::IDErr)0;
+#endif
 	nErrLineNumber = 0;
 	// Basic commands initialized at bottom of file
 }

@@ -338,6 +338,10 @@ public:
 	int Get_nErrLineNumber(void) const {return nErrLineNumber;};
 	void Set_nErrLineNumber(int i) {nErrLineNumber = i;};
 #if defined(PHREEQCI_GUI)
+	UINT Get_nIDErrPrompt(void)const {return nIDErrPrompt;};
+	void Set_nIDErrPrompt(UINT u) {nIDErrPrompt = u;};
+	int Get_P_escapecode(void)const {return P_escapecode;};
+	void Set_P_escapecode(int code) {P_escapecode = code;};
 	HANDLE Get_hInfiniteLoop(void) const {return hInfiniteLoop;};
 	void Set_hInfiniteLoop(HANDLE h) {hInfiniteLoop = h;};
 #endif
