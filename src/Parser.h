@@ -10,6 +10,10 @@
 #include <sstream>				// std::istringstream std::ostringstream
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
+#include <cctype>               // std::isspace
+#include <algorithm>            // std::find_if
+#include <functional>           // std::ptr_fun std::not1
+
 #include "PHRQ_base.h"
 #include "Keywords.h"
 #include "PHRQ_io.h"
@@ -269,22 +273,19 @@ class CParser: public PHRQ_base
 };
 
 // Global functions
-inline std::string trim_right(const std::string &source , const std::string& t = " \t")
-{
-	std::string str = source;
-	return str.erase( str.find_last_not_of(t) + 1);
-}
-
-inline std::string trim_left( const std::string& source, const std::string& t = " \t")
-{
-	std::string str = source;
-	return str.erase(0 , source.find_first_not_of(t) );
-}
-
-inline std::string trim(const std::string& source, const std::string& t = " \t")
-{
-	std::string str = source;
-	return trim_left( trim_right( str , t) , t );
+static inline std::string &trim_left(std::string &s)
+{ 
+	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace)))); 
+	return s; 
+} 
+static inline std::string &trim_right(std::string &s)
+{ 
+	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end()); 
+	return s; 
+} 
+static inline std::string &trim(std::string &s)
+{ 
+	return trim_left(trim_right(s)); 
 } 
 
 #endif // PARSER_H_INCLUDED
