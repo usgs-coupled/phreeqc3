@@ -15,21 +15,6 @@
 #include "Temperature.h"
 #include "SSassemblage.h"
 
-const struct const_iso Phreeqc::iso_defaults[] = {
-	{"13C", -10, 1},
-	{"13C(4)", -10, 1},
-	{"13C(-4)", -50, 5},
-	{"34S", 10, 1},
-	{"34S(6)", 10, 1},
-	{"34S(-2)", -30, 5},
-	{"2H", -28, 1},
-	{"18O", -5, .1},
-	{"87Sr", .71, .01},
-	{"11B", 20, 5}
-};
-
-const int Phreeqc::count_iso_defaults = (sizeof(iso_defaults) / sizeof(struct const_iso));
-
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
 	if (io)
@@ -58,8 +43,42 @@ Phreeqc::Phreeqc(PHRQ_io *io)
 	sit_IPRSNT = NULL;
 	sit_M = NULL;
 
+	struct const_iso
+	{
+		const char *name;
+		LDBLE value;
+		LDBLE uncertainty;
+	};
+
+
+	struct const_iso temp_iso_defaults[] = {
+		{"13C", -10, 1},
+		{"13C(4)", -10, 1},
+		{"13C(-4)", -50, 5},
+		{"34S", 10, 1},
+		{"34S(6)", 10, 1},
+		{"34S(-2)", -30, 5},
+		{"2H", -28, 1},
+		{"18O", -5, .1},
+		{"87Sr", .71, .01},
+		{"11B", 20, 5}
+	};
+	int temp_count_iso_defaults =
+		(sizeof(temp_iso_defaults) / sizeof(struct const_iso));
+
+	count_iso_defaults = temp_count_iso_defaults;
+	iso_defaults = new iso[count_iso_defaults];
+
+	int i;
+	for (i = 0; i < temp_count_iso_defaults; i++)
+	{
+		iso_defaults[i].name = string_duplicate(temp_iso_defaults[i].name);
+		iso_defaults[i].value = temp_iso_defaults[i].value;
+		iso_defaults[i].uncertainty = temp_iso_defaults[i].uncertainty;
+	}
+
 	// counters for enum KEYWORDS
-	for (int i = 0; i < Keywords::KEY_COUNT_KEYWORDS; i++)
+	for (i = 0; i < Keywords::KEY_COUNT_KEYWORDS; i++)
 	{
 		keycount.push_back(0);
 	}
@@ -130,6 +149,13 @@ Phreeqc::~Phreeqc(void)
 		this->phrq_io->clear_istream();
 		this->phrq_io->close_ostreams();
 	}
+
+	int i;
+	for (i = 0; i < count_iso_defaults; i++)
+	{
+		iso_defaults[i].name = (char *) free_check_null((void *) iso_defaults[i].name);
+	}
+	delete[] iso_defaults;
 
 	free_check_null(default_data_base);
 	free_check_null(sformatf_buffer);

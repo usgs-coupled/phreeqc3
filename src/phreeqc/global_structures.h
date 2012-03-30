@@ -1075,12 +1075,5 @@ struct theta_param
 	LDBLE ethetap;
 };
 
-struct const_iso
-{
-	const char *name;
-	LDBLE value;
-	LDBLE uncertainty;
-};
-
 #endif /* _INC_GLOBAL_STRUCTURES_H  */
 
