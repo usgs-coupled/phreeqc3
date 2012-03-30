@@ -216,7 +216,7 @@ bool dumper::Read(CParser & parser)
 			break;
 		case 0:				//file
 			std::getline(parser.get_iss(), this->file_name);
-			this->file_name = trim(this->file_name, " \t");
+			trim(this->file_name);
 			if (this->file_name.size() == 0)
 			{
 				this->file_name = "dump.out";
