@@ -28,6 +28,7 @@ class cxxKinetics:public cxxNumKeyword
 	void read_raw(CParser & parser, bool check = true);
 
 	std::vector < LDBLE > &Get_steps(void) {return steps;}
+	const std::vector < LDBLE > &Get_steps(void)const {return steps;}
 	LDBLE Get_step_divide(void) const {return step_divide;}
 	void Set_step_divide(LDBLE t) {step_divide = t;}
 	int Get_rk(void) const {return rk;};
@@ -41,6 +42,7 @@ class cxxKinetics:public cxxNumKeyword
 	int Get_cvode_order(void) const {return cvode_order;}
 	void Set_cvode_order(int t) {cvode_order = t;}
 	std::vector < cxxKineticsComp > &Get_kinetics_comps(void) {return kinetics_comps;}
+	const std::vector < cxxKineticsComp > &Get_kinetics_comps(void)const {return kinetics_comps;}
 	cxxNameDouble & Get_totals(void) {return this->totals;}
 	void Set_totals(const cxxNameDouble &nd) {totals = nd;}
 	bool Get_equalIncrements(void) const {return equalIncrements;}
