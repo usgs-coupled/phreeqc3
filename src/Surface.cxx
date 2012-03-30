@@ -804,6 +804,16 @@ Find_charge(std::string str)
 	}
 	return NULL;
 }
+const cxxSurfaceCharge * cxxSurface::
+Find_charge(std::string str)const
+{
+	for (size_t i = 0; i < this->surface_charges.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(str.c_str(), this->surface_charges[i].Get_name().c_str()) == 0)
+			return &(this->surface_charges[i]);
+	}
+	return NULL;
+}
 void cxxSurface::
 Sort_comps(void)
 {
