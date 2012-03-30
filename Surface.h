@@ -36,6 +36,7 @@ public:
 	void totalize();
 	cxxSurfaceComp *Find_comp(std::string str);
 	cxxSurfaceCharge *Find_charge(const std::string str);
+	const cxxSurfaceCharge *Find_charge(const std::string str)const;
 	void Sort_comps();
 
 #ifdef USE_MPI
@@ -47,6 +48,7 @@ public:
 	void multiply(LDBLE extensive);
 
 	std::vector < cxxSurfaceComp > & Get_surface_comps() {return this->surface_comps;}
+	const std::vector < cxxSurfaceComp > & Get_surface_comps()const {return this->surface_comps;}
 	void Set_surface_comps(std::vector < cxxSurfaceComp > &sc) {this->surface_comps = sc;}
 	std::vector < cxxSurfaceCharge > & Get_surface_charges() {return this->surface_charges;}
 	void Set_surface_charges(std::vector < cxxSurfaceCharge > &sc) {this->surface_charges = sc;}
@@ -72,9 +74,9 @@ public:
 	void Set_transport(bool tf) {transport = tf;}
 	cxxNameDouble & Get_totals() {return this->totals;}
 	void Get_totals(cxxNameDouble &nd) {this->totals = nd;}
-	bool Get_solution_equilibria(void) {return solution_equilibria;}
+	bool Get_solution_equilibria(void)const {return solution_equilibria;}
 	void Set_solution_equilibria(bool tf) {solution_equilibria = tf;}
-	int Get_n_solution(void) {return n_solution;}
+	int Get_n_solution(void)const {return n_solution;}
 	void Set_n_solution(int i) {n_solution = i;}
 
 protected:
