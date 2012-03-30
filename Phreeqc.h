@@ -910,9 +910,6 @@ public:
 	static int surface_compare_int(const void *ptr1, const void *ptr2);
 	static int rxn_token_temp_compare(const void *ptr1, const void *ptr2);
 	int trxn_multiply(LDBLE coef);
-#ifdef PHREEQCI_GUI
-	extern void free_spread(void);
-#endif
 #if defined(USE_MPI) && defined(HDF5_CREATE) && defined(MERGE_FILES)
 	extern void MergeFinalize(void);
 #endif
@@ -1052,14 +1049,14 @@ protected:
 public:
 	static int replace(const char *str1, const char *str2, char *str);
 	static bool replace(const char *str1, const char *str2, std::string & str);
+	static int strcmp_nocase(const char *str1, const char *str2);
+	static int strcmp_nocase_arg1(const char *str1, const char *str2);
 protected:
 	void space(void **ptr, int i, int *max, int struct_size);
 	void squeeze_white(char *s_l);
 	int status(int count, const char *str, bool kinetics = false);
 	void str_tolower(char *str);
 	void str_toupper(char *str);
-	static int strcmp_nocase(const char *str1, const char *str2);
-	int strcmp_nocase_arg1(const char *str1, const char *str2);
 public:
 	char *string_duplicate(const char *token);
 	const char *string_hsave(const char *str);
@@ -1241,8 +1238,6 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxSolution> Rxn_solution_map;
 	std::vector<cxxSolution> unnumbered_solutions;
-	struct iso *iso_defaults;
-	int count_iso_defaults;
 
 	/*----------------------------------------------------------------------
 	*   Global solution
@@ -1861,5 +1856,8 @@ public:
 #  define PHR_ISFINITE(x) ( ((x) == 0.0) || (((x) == (x)) && ((x) != (2.0 * (x)))) )
 #endif
 
+public:
+	static const struct const_iso iso_defaults[];
+	static const int count_iso_defaults;
 };
 #endif
