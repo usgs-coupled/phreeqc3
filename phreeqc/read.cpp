@@ -4352,6 +4352,7 @@ read_selected_output(void)
 					input_error++;
 					error_msg(error_string, CONTINUE);
 				}
+				selected_output_file_name = string_duplicate(file_name);
 			}
 			opt_save = OPTION_ERROR;
 			break;
