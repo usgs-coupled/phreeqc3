@@ -461,14 +461,16 @@ initialize(void)
 	dump_file_name = NULL;
 
 #ifdef PHREEQCI_GUI
-	g_spread_sheet.heading = NULL;
-	g_spread_sheet.units = NULL;
-	g_spread_sheet.count_rows = 0;
-	g_spread_sheet.rows = NULL;
-	g_spread_sheet.defaults.units = NULL;
+	g_spread_sheet.heading            = NULL;
+	g_spread_sheet.units              = NULL;
+	g_spread_sheet.count_rows         = 0;
+	g_spread_sheet.rows               = NULL;
+	g_spread_sheet.defaults.units     = NULL;
 	g_spread_sheet.defaults.count_iso = 0;
-	g_spread_sheet.defaults.iso = NULL;
+	g_spread_sheet.defaults.iso       = NULL;
+	g_spread_sheet.defaults.redox     = NULL;
 #endif
+
 	/* calculate_value */
 	max_calculate_value = MAX_ELTS;
 	count_calculate_value = 0;
@@ -2589,6 +2591,11 @@ run_simulations(void)
 
 #if defined PHREEQ98 
 			AddSeries = !connect_simulations;
+#endif
+
+#if defined PHREEQCI_GUI
+			sprintf(token, "\nSimulation %d\n", simulation);
+			screen_msg(token);
 #endif
 			sprintf(token, "Reading input data for simulation %d.", simulation);
 

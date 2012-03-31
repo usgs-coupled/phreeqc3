@@ -69,6 +69,11 @@ read_solution_spread(void)
 	soln_defaults.water = 1.0;
 	soln_defaults.pressure = 1.0;
 
+#ifdef PHREEQCI_GUI
+	free_spread();
+#endif
+
+
 	/* fill in soln_defaults.iso */
 	soln_defaults.count_iso = count_iso_defaults;
 	soln_defaults.iso =	(struct iso *) PHRQ_malloc((size_t) soln_defaults.count_iso *
@@ -466,9 +471,15 @@ read_solution_spread(void)
 	}
 #ifdef PHREEQCI_GUI
 	if (heading)
+	{
+		assert(g_spread_sheet.heading == NULL);
 		g_spread_sheet.heading = copy_row(heading);
+	}
 	if (units)
+	{
+		assert(g_spread_sheet.units == NULL);
 		g_spread_sheet.units = copy_row(units);
+	}
 	copy_defaults(&g_spread_sheet.defaults, &soln_defaults);
 #endif
 	spread_row_free(heading);
@@ -1206,20 +1217,24 @@ free_spread(void)
 	{
 		spread_row_free(g_spread_sheet.rows[i]);
 	}
-	g_spread_sheet.rows = free_check_null(g_spread_sheet.rows);
+	g_spread_sheet.rows = (spread_row**)free_check_null(g_spread_sheet.rows);
 
 	for (i = 0; i < g_spread_sheet.defaults.count_iso; i++)
 	{
 		g_spread_sheet.defaults.iso[i].name =
-			free_check_null(g_spread_sheet.defaults.iso[i].name);
+			(const char *)free_check_null((void*)g_spread_sheet.defaults.iso[i].name);
 	}
 	g_spread_sheet.defaults.iso =
-		free_check_null(g_spread_sheet.defaults.iso);
+		(struct iso*)free_check_null(g_spread_sheet.defaults.iso);
 
 	g_spread_sheet.defaults.redox =
-		free_check_null(g_spread_sheet.defaults.redox);
+		(const char *)free_check_null((void*)g_spread_sheet.defaults.redox);
 	g_spread_sheet.defaults.units =
-		free_check_null(g_spread_sheet.defaults.units);
+		(const char *)free_check_null((void*)g_spread_sheet.defaults.units);
+
+	g_spread_sheet.heading = 0;
+	g_spread_sheet.count_rows = 0;
+	g_spread_sheet.defaults.count_iso = 0;
 }
 
 /* ---------------------------------------------------------------------- */
