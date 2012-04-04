@@ -24,6 +24,7 @@ class cxxTemperature:public cxxNumKeyword
 	int read(CParser & parser);
 	LDBLE Temperature_for_step(int step_number);
 	std::vector<LDBLE> & Get_temps(void) {return temps;}
+	const std::vector<LDBLE> & Get_temps(void)const {return temps;}
 	int Get_countTemps(void) const;
 	void Set_countTemps(int i) {countTemps = i;}
 	bool Get_equalIncrements(void) const {return equalIncrements;}
