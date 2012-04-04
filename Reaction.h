@@ -25,7 +25,9 @@ class cxxReaction:public cxxNumKeyword
 	const cxxNameDouble &Get_elementList(void) const {return this->elementList;}
 	void Set_elementList(cxxNameDouble nd) {this->elementList = nd;}
 	cxxNameDouble &Get_reactantList(void) {return this->reactantList;}
+	const cxxNameDouble &Get_reactantList(void)const {return this->reactantList;}
 	std::vector < LDBLE > &Get_steps(void) {return this->steps;}
+	const std::vector < LDBLE > &Get_steps(void)const {return this->steps;}
 	void Set_steps(std::vector<LDBLE> &v) {steps = v;}
 	int Get_reaction_steps(void) const;
 	int Get_countSteps(void) const {return this->countSteps;}
