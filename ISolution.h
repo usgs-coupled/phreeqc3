@@ -34,6 +34,7 @@ class cxxISolution: public PHRQ_base
 	std::string Get_default_pe() const                {return default_pe;}
 	void Set_default_pe(std::string pe)               {default_pe = pe;}
 	std::map < std::string, cxxISolutionComp > &Get_comps(void) {return this->comps;}
+	const std::map < std::string, cxxISolutionComp > &Get_comps(void)const {return this->comps;}
 	void Set_comps(std::map < std::string, cxxISolutionComp > &c) {this->comps = c;}
 	std::map < std::string, cxxChemRxn >  &Get_pe_reactions(void) {return this->pe_reactions;}
 	void Set_pe_reactions(std::map < std::string, cxxChemRxn >  &pe) {this->pe_reactions = pe;}
