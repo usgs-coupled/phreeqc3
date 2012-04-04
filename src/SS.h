@@ -93,13 +93,15 @@ class cxxSS: public PHRQ_base
 	LDBLE Get_xb2() const {return (this->xb2);}
 	void Set_xb2(LDBLE t) {xb2 = t;}
 	std::vector<cxxSScomp> & Get_ss_comps(void) {return ss_comps;}
+	const std::vector<cxxSScomp> & Get_ss_comps(void)const {return ss_comps;}
 	void Set_ss_comps(const std::vector<cxxSScomp> & comps) {ss_comps = comps;}
 
-	LDBLE Get_tk(void) {return this->tk;}
+	LDBLE Get_tk(void)const {return this->tk;}
 	void Set_tk(LDBLE t) {this->tk = t;}
-	SS_PARAMETER_TYPE Get_input_case(void) {return this->input_case;}
+	SS_PARAMETER_TYPE Get_input_case(void)const {return this->input_case;}
 	void Set_input_case(SS_PARAMETER_TYPE t) {this->input_case = t;}
-	std::vector<LDBLE> & Get_p(void) {return this->p;}
+	std::vector<LDBLE> & Get_p(void)             {return this->p;}
+	const std::vector<LDBLE> & Get_p(void)const  {return this->p;}
 	void Set_p(const std::vector<LDBLE> & t) {this->p = t;}
 protected:
 	std::string name;
