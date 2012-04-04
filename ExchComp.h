@@ -100,6 +100,7 @@ class cxxExchComp: public PHRQ_base
 		this->totals = nd;
 	}
 	cxxNameDouble & Get_totals() {return (this->totals);}
+	const cxxNameDouble & Get_totals()const {return (this->totals);}
 
 	void add(const cxxExchComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
