@@ -13,7 +13,7 @@
 #include "Keywords.h"
 #include <time.h>
 
-class PhreeqcStop : std::exception
+class PhreeqcStop : public std::exception
 {
 };
 
@@ -39,7 +39,6 @@ public:
 	virtual ~ PHRQ_io();
 
 	// methods
-	static int istream_getc(void *cookie);
 	static void safe_close(std::ostream **stream_ptr);
 	static void safe_close(FILE **file_ptr);
 	void close_ostreams(void);
@@ -64,7 +63,7 @@ public:
 	bool Get_output_on(void)						{return this->output_on;};
 
 	// log_ostream
-	bool log_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
+	virtual bool log_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void log_flush(void);
 	void log_close(void);
 	virtual void log_msg(const char * str);
@@ -85,7 +84,7 @@ public:
 	
 	// error_ostream
 #ifdef ERROR_OSTREAM
-	bool error_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
+	virtual bool error_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void error_flush(void);
 	void error_close(void);
 	virtual void error_msg(const char * str, bool stop=false);
@@ -95,7 +94,7 @@ public:
 	bool Get_error_on(void)							{return this->error_on;}
 	virtual void warning_msg(const char *err_str);
 #else
-	bool error_open(const char *file_name, const char * mode = "w");
+	virtual bool error_open(const char *file_name, const char * mode = "w");
 	void error_flush(void);
 	void error_close(void);
 	virtual void error_msg(const char * str, bool stop=false);
@@ -107,10 +106,10 @@ public:
 #endif
 
 	// dump_ostream
-	bool dump_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
+	virtual bool dump_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void dump_flush(void);
 	void dump_close(void);
-	void dump_msg(const char * str);
+	virtual void dump_msg(const char * str);
 	void Set_dump_ostream(std::ostream * out)		{this->dump_ostream = out;};
 	std::ostream *Get_dump_ostream(void)			{return this->dump_ostream;};
 	void Set_dump_on(bool tf)						{this->dump_on = tf;};
@@ -127,8 +126,9 @@ public:
 	bool Get_screen_on(void)						{return this->screen_on;};
 
 	// input methods
+	virtual int getc(void);
 	LINE_TYPE get_line(void);
-	LINE_TYPE get_logical_line(void * cookie);
+	LINE_TYPE get_logical_line(void);
 	bool check_key(std::string::iterator begin, std::string::iterator end);
 	std::string & Get_m_line()       {return m_line;}
 	std::string & Get_m_line_save()  {return m_line_save;}
