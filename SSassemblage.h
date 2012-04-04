@@ -41,6 +41,7 @@ public:
 
 	const cxxNameDouble & Get_totals() const {return this->totals;}
 	std::map < std::string, cxxSS > & Get_SSs(void) {return SSs;}
+	const std::map < std::string, cxxSS > & Get_SSs(void)const {return SSs;}
 	void Set_SSs(std::map < std::string, cxxSS > & ss) {SSs = ss;}
 	bool Get_new_def(void) const {return new_def;}
 	void Set_new_def(bool tf) {new_def = tf;}
