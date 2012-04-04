@@ -67,7 +67,7 @@ void PHRQ_io::
 output_close(void)
 /* ---------------------------------------------------------------------- */
 {
-	safe_close(&log_ostream);
+	safe_close(&output_ostream);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -449,11 +449,10 @@ dump_msg(const char * str)
 	}
 }
 int PHRQ_io::
-istream_getc(void *cookie)     //istream_getc is *** static ***
+getc(void)
 {
-	if (cookie)
+	if (std::istream* is = get_istream())
 	{
-		std::istream* is = (std::istream*)cookie;
 		int n = is->get();
 		if (n == 13 && is->peek() == 10)
 		{
@@ -654,15 +653,13 @@ get_line(void)
 	int i;
 	bool empty;
 	std::string stdtoken;
-	void *cookie;
 	bool continue_loop = true;;
 
 	PHRQ_io::LINE_TYPE return_value;
 	// loop for include files
 	for (;;)
 	{
-		cookie = this->get_istream();
-		if (cookie == NULL)
+		if (this->get_istream() == NULL)
 		{
 			break;
 		}
@@ -679,7 +676,7 @@ get_line(void)
 			*/
 			continue_loop = false;
 
-			if (get_logical_line(cookie) == LT_EOF)
+			if (get_logical_line() == LT_EOF)
 			{
 				//pop next file
 				this->pop_istream();
@@ -754,7 +751,12 @@ get_line(void)
 				{
 					std::ostringstream errstr;
 					errstr << "Could not open include file " << file_name;
+#if defined(PHREEQCI_GUI)
+					warning_msg(errstr.str().c_str());
+					continue;
+#else
 					error_msg(errstr.str().c_str(), OT_STOP);
+#endif
 				}
 				this->push_istream(next_stream);
 				continue;
@@ -775,18 +777,14 @@ get_line(void)
                 OK otherwise
 */
 PHRQ_io::LINE_TYPE PHRQ_io::
-get_logical_line(void * cookie)
+get_logical_line(void)
 {
-	int
-		j;
-	unsigned int
-		pos;
-	char
-		c;
-	if (!cookie)
-		return LT_EOF;
+	int j;
+	unsigned int pos;
+	char c;
+
 	m_line_save.erase(m_line_save.begin(), m_line_save.end());	// m_line_save.clear();
-	while ((j = istream_getc(cookie)) != EOF)
+	while ((j = getc()) != EOF)
 	{
 		c = (char) j;
 		if (c == '#')
@@ -801,7 +799,7 @@ get_logical_line(void * cookie)
 				}
 				m_line_save += c;
 			}
-			while ((j = istream_getc(cookie)) != EOF);
+			while ((j = getc()) != EOF);
 		}
 		if (c == ';')
 			break;
@@ -813,7 +811,7 @@ get_logical_line(void * cookie)
 		{
 			pos = (int) m_line_save.size();
 			m_line_save += c;
-			while ((j = PHRQ_io::istream_getc(cookie)) != EOF)
+			while ((j = getc()) != EOF)
 			{
 				c = (char) j;
 				if (c == '\\')
