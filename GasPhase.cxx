@@ -607,7 +607,7 @@ cxxGasPhase::totalize(PHREEQC_PTR_ARG)
 	}
 	return;
 }
-LDBLE cxxGasPhase::Calc_total_moles(void)
+LDBLE cxxGasPhase::Calc_total_moles(void)const
 {
 	LDBLE tot = 0.0;
 	for (size_t i = 0; i < this->gas_comps.size(); i++)
