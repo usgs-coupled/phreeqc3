@@ -538,7 +538,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				for (size_t j = 0; j < ss_ptrs.size(); j++)
 				{
 					cxxSS * ss_ptr = ss_ptrs[j];
-					cxxSScomp * comp_ptr;
+					cxxSScomp * comp_ptr = NULL;
 					size_t k;
 					for (k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
 					{
