@@ -53,7 +53,8 @@ class cxxSolution:public cxxNumKeyword
 	void Set_mass_water(LDBLE l_mass_water)             {this->mass_water = l_mass_water;}
 	LDBLE Get_total_alkalinity() const                  {return this->total_alkalinity;}
 	void Set_total_alkalinity(LDBLE l_total_alkalinity) {this->total_alkalinity = l_total_alkalinity;}
-	cxxNameDouble & Get_totals(void)					{return this->totals;}
+	cxxNameDouble & Get_totals(void)                    {return this->totals;}
+	const cxxNameDouble & Get_totals(void)const         {return this->totals;}
 	void Set_totals(cxxNameDouble & nd)
 	{
 		this->totals = nd;
@@ -61,9 +62,11 @@ class cxxSolution:public cxxNumKeyword
 	}
 	cxxNameDouble & Get_master_activity(void)           {return this->master_activity;}
 	cxxNameDouble & Get_species_gamma(void)             {return this->species_gamma;}
-	std::map < std::string, cxxSolutionIsotope > & Get_isotopes(void)           {return this->isotopes;}	
+	std::map < std::string, cxxSolutionIsotope > & Get_isotopes(void)             {return this->isotopes;}	
+	const std::map < std::string, cxxSolutionIsotope > & Get_isotopes(void)const  {return this->isotopes;}	
 	void Set_isotopes(const std::map < std::string, cxxSolutionIsotope > &iso ) {this->isotopes = iso;}	
 	cxxISolution *Get_initial_data()                    {return this->initial_data;}
+	const cxxISolution *Get_initial_data()const         {return this->initial_data;}
 	void Set_initial_data(const cxxISolution * id)
 	{
 		if (this->initial_data != NULL)
