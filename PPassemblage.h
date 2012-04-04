@@ -38,6 +38,10 @@ class cxxPPassemblage:public cxxNumKeyword
 	{
 		return this->pp_assemblage_comps;
 	};
+	const std::map <std::string, cxxPPassemblageComp > & Get_pp_assemblage_comps() const
+	{
+		return this->pp_assemblage_comps;
+	};
 	void  Set_pp_assemblage_comps(std::map <std::string, cxxPPassemblageComp > & c) 
 	{
 		this->pp_assemblage_comps = c;
