@@ -39,6 +39,7 @@ public:
 	void Set_n_solution(int i) {this->n_solution = i;}
 	cxxExchComp *Find_comp(std::string s);
 	std::vector<cxxExchComp> & Get_exchange_comps(void) {return this->exchange_comps;}
+	const std::vector<cxxExchComp> & Get_exchange_comps(void)const {return this->exchange_comps;}
 	void Set_exchange_comps(std::vector<cxxExchComp> &c) {this->exchange_comps = c;}
 
 	void Sort_comps(void);
