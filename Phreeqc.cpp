@@ -496,6 +496,7 @@ void Phreeqc::init(void)
 	user_punch				= 0;
 	user_punch_headings		= 0;
 	user_punch_count_headings = 0;
+	n_user_punch_index      = 0;
 	/*
 		 Initialize llnl aqueous model parameters
 	 */
