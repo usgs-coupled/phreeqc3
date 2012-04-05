@@ -13,6 +13,8 @@
 #include "Keywords.h"
 #include <time.h>
 
+#define ERROR_OSTREAM
+
 class PhreeqcStop : public std::exception
 {
 };
