@@ -279,11 +279,17 @@ screen_msg(const char * str)
 /* ---------------------------------------------------------------------- */
 {
 	std::string stdstr(str);
+#if defined(ERROR_OSTREAM)
 	if (error_ostream != NULL && screen_on)
 	{
-		//(*error_ostream) << stdstr;
+		(*error_ostream) << stdstr;
+	}
+#else
+	if (error_file != NULL && screen_on)
+	{
 		fprintf(error_file, "%s", str);
 	}
+#endif
 }
 #else
 /* ---------------------------------------------------------------------- */
