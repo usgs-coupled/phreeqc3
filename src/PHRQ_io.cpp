@@ -757,6 +757,7 @@ get_line(void)
 				{
 					std::ostringstream errstr;
 					errstr << "Could not open include file " << file_name;
+					delete next_stream;
 #if defined(PHREEQCI_GUI)
 					warning_msg(errstr.str().c_str());
 					continue;
