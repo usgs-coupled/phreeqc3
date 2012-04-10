@@ -1,6 +1,8 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
+#include <list>
+#include <string>
 
 /* **********************************************************************
  *
@@ -132,11 +134,9 @@ pitz_param_copy(struct pitz_param *old_ptr, struct pitz_param *new_ptr)
 	return (OK);
 }
 
-#include <list>
-#include <string>
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-pitz_param_search(struct pitz_param *pzp_ptr)
+void Phreeqc::
+pitz_param_store(struct pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -145,56 +145,57 @@ pitz_param_search(struct pitz_param *pzp_ptr)
  */
 	int i;
 	if (pzp_ptr == NULL)
-		return -1;
+		return;
 	if (pzp_ptr->type == TYPE_Other)
-		return -1;
+		return;
 
-	std::list<std::string> new_parm;
-
+	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
-		if (pzp_ptr->species[i] != NULL) new_parm.push_back(pzp_ptr->species[i]);
+		if (pzp_ptr->species[i] != NULL) header.insert(pzp_ptr->species[i]);
 	}
-	new_parm.sort();
+	std::string key;
+	std::set< std::string >::iterator it = header.begin();
+	for(; it != header.end(); ++it)
+	{
+		key += (*it);
+		key += " ";
+	}
+	std::map< std::string, size_t>::iterator jit = pitz_param_map.find(key);
+	if (jit != pitz_param_map.end())
+	{
+		if (pzp_ptr->species[2] != NULL)
+		{
+			error_string = sformatf( "Redefinition of parameter, %s %s %s\n", 
+			pzp_ptr->species[0], pzp_ptr->species[1], pzp_ptr->species[2]);
+		}
+		else
+		{
+			error_string = sformatf( "Redefinition of parameter, %s %s\n", 
+			pzp_ptr->species[0], pzp_ptr->species[1]);
+		}
+	    warning_msg(error_string);
+		pitz_params[(*jit).second] = (struct pitz_param *) free_check_null(pitz_params[(*jit).second]);
+		pitz_params[(*jit).second] = pzp_ptr;
+	}
+	else
+	{
+		if (count_pitz_param >= max_pitz_param)
+		{
+			space((void **) ((void *) &pitz_params),
+				count_pitz_param, &max_pitz_param,
+				sizeof(struct pitz_param *));
+		}
 
-	for (i = 0; i < count_pitz_param; i++)
-	{
-		if (pitz_params[i]->type != pzp_ptr->type) continue;
-		std::list<std::string> old_parm;
-		int j;
-		for (j = 0; j < 3; j++)
-		{
-			if (pitz_params[i]->species[j] != NULL) old_parm.push_back(pitz_params[i]->species[j]);
-		}
-		old_parm.sort();
-		if (old_parm.size() != new_parm.size()) continue;
-		bool found = true;
-		std::list<std::string>::iterator nit = new_parm.begin();
-		std::list<std::string>::iterator oit = old_parm.begin();
-		while (nit != new_parm.end())
-		{
-			if (*nit != *oit) 
-			{
-				found = false;
-				break;
-			}
-			nit++;
-			oit++;
-		}
-		if (found) break;
+		pitz_params[count_pitz_param] = pzp_ptr;
+		pitz_param_map[key] = count_pitz_param;
+		count_pitz_param++;
 	}
-	if (i >= count_pitz_param)
-	{
-		return -1;
-	}
-	return i;
 }
 
-
-#include <list>
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-sit_param_search(struct pitz_param *pzp_ptr)
+void Phreeqc::
+sit_param_store(struct pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -203,49 +204,52 @@ sit_param_search(struct pitz_param *pzp_ptr)
  */
 	int i;
 	if (pzp_ptr == NULL)
-		return -1;
+		return;
 	if (pzp_ptr->type == TYPE_Other)
-		return -1;
+		return;
 
-	std::list<std::string> new_parm;
-
+	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
-		if (pzp_ptr->species[i] != NULL) new_parm.push_back(pzp_ptr->species[i]);
+		if (pzp_ptr->species[i] != NULL) header.insert(pzp_ptr->species[i]);
 	}
-	new_parm.sort();
+	std::string key;
+	std::set< std::string >::iterator it = header.begin();
+	for(; it != header.end(); ++it)
+	{
+		key += (*it);
+		key += " ";
+	}
+	std::map< std::string, size_t>::iterator jit = sit_param_map.find(key);
+	if (jit != sit_param_map.end())
+	{
+		if (pzp_ptr->species[2] != NULL)
+		{
+			error_string = sformatf( "Redefinition of parameter, %s %s %s\n", 
+			pzp_ptr->species[0], pzp_ptr->species[1], pzp_ptr->species[2]);
+		}
+		else
+		{
+			error_string = sformatf( "Redefinition of parameter, %s %s\n", 
+			pzp_ptr->species[0], pzp_ptr->species[1]);
+		}
+	    warning_msg(error_string);
+		sit_params[(*jit).second] = (struct pitz_param *) free_check_null(sit_params[(*jit).second]);
+		sit_params[(*jit).second] = pzp_ptr;
+	}
+	else
+	{
+		if (count_sit_param >= max_sit_param)
+		{
+			space((void **) ((void *) &sit_params),
+				count_sit_param, &max_sit_param,
+				sizeof(struct pitz_param *));
+		}
 
-	for (i = 0; i < count_sit_param; i++)
-	{
-		if (sit_params[i]->type != pzp_ptr->type) continue;
-		std::list<std::string> old_parm;
-		int j;
-		for (j = 0; j < 3; j++)
-		{
-			if (sit_params[i]->species[j] != NULL) old_parm.push_back(sit_params[i]->species[j]);
-		}
-		old_parm.sort();
-		if (old_parm.size() != new_parm.size()) continue;
-		bool found = true;
-		std::list<std::string>::iterator nit = new_parm.begin();
-		std::list<std::string>::iterator oit = old_parm.begin();
-		while (nit != new_parm.end())
-		{
-			if (*nit != *oit) 
-			{
-				found = false;
-				break;
-			}
-			nit++;
-			oit++;
-		}
-		if (found) break;
+		sit_params[count_sit_param] = pzp_ptr;
+		sit_param_map[key] = count_sit_param;
+		count_sit_param++;
 	}
-	if (i >= count_sit_param)
-	{
-		return -1;
-	}
-	return i;
 }
 
 /* **********************************************************************

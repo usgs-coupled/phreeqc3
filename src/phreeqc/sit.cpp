@@ -159,7 +159,7 @@ read_sit(void)
    *        number of cells;
    *        number of shifts;
    */
-  int n, j;
+  int n;
   struct pitz_param *pzp_ptr;
   pitz_param_type pzp_type;
 
@@ -198,24 +198,7 @@ read_sit(void)
 	  if (pzp_ptr != NULL)
 	  {
 		  pzp_ptr->type = pzp_type;
-		  j = sit_param_search(pzp_ptr);
-		  if (j < 0)
-		  {
-			  if (count_sit_param >= max_sit_param)
-			  {
-				  space((void **) ((void *) &sit_params),
-					  count_sit_param, &max_sit_param,
-					  sizeof(struct pitz_param *));
-			  }
-
-			  sit_params[count_sit_param] = pzp_ptr;
-			  count_sit_param++;
-		  }
-		  else
-		  {
-			  sit_params[j] = (struct pitz_param *) free_check_null(sit_params[j]);
-			  sit_params[j] = pzp_ptr;
-		  }
+		  sit_param_store(pzp_ptr);
       }
       break;
     case OPTION_ERROR:
@@ -993,12 +976,7 @@ model_sit(void)
 			   || remove_unstable_phases == TRUE)
 		{
 #if defined(PHREEQCI_GUI)
-			if (WaitForSingleObject(g_hKill /*g_eventKill */ , 0) ==
-				WAIT_OBJECT_0)
-			{
-				error_msg("Execution canceled by user.", CONTINUE);
-				RaiseException(USER_CANCELED_RUN, 0, 0, NULL);
-			}
+			PhreeqcIWait(this);
 #endif
 			iterations++;
 			if (iterations > itmax - 1 && debug_model == FALSE
