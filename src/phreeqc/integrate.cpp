@@ -382,12 +382,7 @@ midpnt(LDBLE x1, LDBLE x2, int n)
 		for (j = 1; j <= it; j++)
 		{
 #if defined(PHREEQCI_GUI)
-			if (WaitForSingleObject(g_hKill /*g_eventKill */ , 0) ==
-				WAIT_OBJECT_0)
-			{
-				error_msg("Execution canceled by user.", CONTINUE);
-				RaiseException(USER_CANCELED_RUN, 0, 0, NULL);
-			}
+			PhreeqcIWait(this);
 #endif
 			sum += g_function(xv);
 			xv += ddel;
