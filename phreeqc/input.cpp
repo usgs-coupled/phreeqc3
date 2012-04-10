@@ -27,8 +27,6 @@ check_line(const char *string, int allow_empty, int allow_eof,
 		   int allow_keyword, int print)
 /* ---------------------------------------------------------------------- */
 {
-	if (phrq_io->get_istream() == NULL)
-		return EOF;
 	if (reading_database())
 		print = FALSE;
 	return check_line_impl(string, allow_empty, allow_eof, allow_keyword,
