@@ -581,7 +581,7 @@ read_pitzer(void)
 	 *        number of cells;
 	 *        number of shifts;
 	 */
-	int n, j;
+	int n;
 	struct pitz_param *pzp_ptr;
 	pitz_param_type pzp_type;
 
@@ -636,35 +636,7 @@ read_pitzer(void)
 			if (pzp_ptr != NULL)
 			{
 				pzp_ptr->type = pzp_type;
-				j = pitz_param_search(pzp_ptr);
-				if (j < 0)
-				{
-					if (count_pitz_param >= max_pitz_param)
-					{
-						space((void **) ((void *) &pitz_params),
-							  count_pitz_param, &max_pitz_param,
-							  sizeof(struct pitz_param *));
-					}
-
-					pitz_params[count_pitz_param] = pzp_ptr;
-					count_pitz_param++;
-				}
-				else
-				{
-					if (pitz_params[j]->species[2] != NULL)
-					{
-						error_string = sformatf( "Redefinition of parameter, %s %s %s\n", 
-						pitz_params[j]->species[0], pitz_params[j]->species[1], pitz_params[j]->species[2]);
-					}
-					else
-					{
-						error_string = sformatf( "Redefinition of parameter, %s %s\n", 
-						pitz_params[j]->species[0], pitz_params[j]->species[1]);
-					}
-				    warning_msg(error_string);
-					pitz_params[j] = (struct pitz_param *) free_check_null(pitz_params[j]);
-					pitz_params[j] = pzp_ptr;
-				}
+				pitz_param_store(pzp_ptr);
 			}
 			break;
 		case OPTION_ERROR:
@@ -1882,12 +1854,7 @@ model_pz(void)
 			   || remove_unstable_phases == TRUE)
 		{
 #if defined(PHREEQCI_GUI)
-			if (WaitForSingleObject(g_hKill /*g_eventKill */ , 0) ==
-				WAIT_OBJECT_0)
-			{
-				error_msg("Execution canceled by user.", CONTINUE);
-				RaiseException(USER_CANCELED_RUN, 0, 0, NULL);
-			}
+			PhreeqcIWait(this);
 #endif
 			iterations++;
 			if (iterations > itmax - 1 && debug_model == FALSE
