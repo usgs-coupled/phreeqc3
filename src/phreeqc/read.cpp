@@ -3206,6 +3206,8 @@ read_mix(void)
 	temp_mix.Set_n_user(n_user);
 	temp_mix.Set_n_user_end(n_user);
 	temp_mix.Set_description(description);
+	free_check_null(description);
+
 /*
  *   Set use data to first read
  */
@@ -4352,6 +4354,7 @@ read_selected_output(void)
 					input_error++;
 					error_msg(error_string, CONTINUE);
 				}
+				selected_output_file_name = (char*)free_check_null(selected_output_file_name);
 				selected_output_file_name = string_duplicate(file_name);
 			}
 			opt_save = OPTION_ERROR;
@@ -6940,6 +6943,7 @@ read_surface(void)
 				if (ptr1 != NULL)
 					ptr1[0] = '\0';
 				charge_ptr = temp_surface.Find_charge(name);
+				formula = (char*)free_check_null(formula);
 				if (charge_ptr == NULL)
 				{
 					cxxSurfaceCharge temp_charge;
@@ -6959,6 +6963,7 @@ read_surface(void)
 					charge_ptr = temp_surface.Find_charge(name);
 				}
 				comp_ptr->Set_charge_name(name);
+				name = (char*)free_check_null(name);
 				/*
 				*   Read surface area (m2/g)
 				*/
