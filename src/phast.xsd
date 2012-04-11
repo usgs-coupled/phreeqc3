@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+	<xs:element name="phast_state">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="system" minOccurs='0' maxOccurs='unbounded'/>
+			</xs:sequence>	
+			<xs:attribute name="nx" type="xs:integer" use='required'/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="system">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="solution" minOccurs='0' maxOccurs="unbounded"/>
+			</xs:sequence>	
+			<xs:attribute name="system_number" type="xs:integer" use='required'/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="solution">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="soln_pe" minOccurs='0' maxOccurs='unbounded'/>
+				<xs:element ref="soln_total" minOccurs='0' maxOccurs='unbounded'/>
+				<xs:element ref="soln_m_a" minOccurs='0' maxOccurs='unbounded'/>
+				<xs:element ref="soln_s_g" minOccurs='0' maxOccurs='unbounded'/>
+				<xs:element ref="soln_isotopes" minOccurs='0' maxOccurs='unbounded'/>
+			</xs:sequence>	
+			<xs:attribute name="soln_new_def" type="xs:integer" use='required'/>
+			<xs:attribute name="soln_n_user" type="xs:integer" use='required'/>
+			<xs:attribute name="soln_n_user_end" type="xs:integer" use='required'/>
+			<xs:attribute name="soln_description" type="xs:string" use='required'/>
+			<xs:attribute name="soln_tc" type="xs:double" use='required'/>
+			<xs:attribute name="soln_ph" type="xs:double" use='required'/>
+			<xs:attribute name="soln_solution_pe" type="xs:double" use='required'/>
+			<xs:attribute name="soln_mu" type="xs:double" use='required'/>
+			<xs:attribute name="soln_ah2o" type="xs:double" use='required'/>
+			<xs:attribute name="soln_density" type="xs:double" use='required'/>
+			<xs:attribute name="soln_total_h" type="xs:double" use='required'/>
+			<xs:attribute name="soln_total_o" type="xs:double" use='required'/>
+			<xs:attribute name="soln_cb" type="xs:double" use='required'/>
+			<xs:attribute name="soln_mass_water" type="xs:double" use='required'/>
+			<xs:attribute name="soln_total_alkalinity" type="xs:double" use='required'/>
+			<xs:attribute name="soln_total_co2" type="xs:double" use='required'/>
+			<xs:attribute name="soln_units" type="xs:string" use='required'/>
+			<xs:attribute name="soln_default_pe" type="xs:integer" use='required'/>
+			<xs:attribute name="soln_count_master_activity" type="xs:integer" use='required'/>
+			<xs:attribute name="soln_count_isotopes" type="xs:integer" use='required'/>
+			<xs:attribute name="soln_count_species_gamma" type="xs:integer" use='required'/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="soln_pe">
+		<xs:complexType>
+			<xs:attribute name="soln_pe_name" type="xs:string" use='required'/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="soln_total">
+		<xs:complexType>
+			<xs:attributeGroup ref="conc" />
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="conc">
+		<xs:attribute name="conc_desc" type="xs:string" use='required'/>
+		<xs:attribute name="conc_moles" type="xs:double" use='required'/>
+		<xs:attribute name="conc_input_conc" type="xs:double" />
+		<xs:attribute name="conc_units" type="xs:string" />
+		<xs:attribute name="conc_equation_name" type="xs:string" />
+		<xs:attribute name="conc_phase_si" type="xs:double" />
+		<xs:attribute name="conc_n_pe" type="xs:integer" use='required'/>
+		<xs:attribute name="conc_as" type="xs:string" />
+		<xs:attribute name="conc_gfw" type="xs:double" />
+	</xs:attributeGroup>
+	<xs:attributeGroup name="master_activity">
+		<xs:attribute name="m_a_desc" type="xs:string" use='required'/>
+		<xs:attribute name="m_a_la" type="xs:double" use='required'/>
+	</xs:attributeGroup>
+	<xs:element name="soln_m_a">
+		<xs:complexType>
+			<xs:attributeGroup ref="master_activity" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="soln_s_g">
+		<xs:complexType>
+			<xs:attributeGroup ref="master_activity" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="soln_isotopes">
+		<xs:complexType>
+			<xs:attribute name="iso_isotope_number" type="xs:integer" use='required'/>
+			<xs:attribute name="iso_elt_name" type="xs:string" use='required'/>
+			<xs:attribute name="iso_isotope_name" type="xs:string" use='required'/>
+			<xs:attribute name="iso_total" type="xs:double" use='required'/>
+			<xs:attribute name="iso_ratio" type="xs:double" use='required'/>
+			<xs:attribute name="iso_ratio_uncertainty" type="xs:double" use='required'/>
+			<xs:attribute name="iso_coef" type="xs:double" use='required'/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema> 
+
