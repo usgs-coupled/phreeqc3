@@ -480,8 +480,8 @@ public:
 
 	// pitzer.cpp -------------------------------
 	struct pitz_param *pitz_param_read(char *string, int n);
-	int pitz_param_search(struct pitz_param *pzp_ptr);
-	int sit_param_search(struct pitz_param *pzp_ptr);
+	void pitz_param_store(struct pitz_param *pzp_ptr);
+	void sit_param_store(struct pitz_param *pzp_ptr);
 	struct theta_param *theta_param_search(LDBLE zj, LDBLE zk);
 	struct theta_param *theta_param_alloc(void);
 	int theta_param_init(struct theta_param *theta_param_ptr);
@@ -1058,7 +1058,11 @@ protected:
 	void str_tolower(char *str);
 	void str_toupper(char *str);
 public:
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
+	char *_string_duplicate(const char *token, const char *szFileName, int nLine);
+#else
 	char *string_duplicate(const char *token);
+#endif
 	const char *string_hsave(const char *str);
 	void strings_map_clear();
 #ifdef HASH
@@ -1726,8 +1730,10 @@ public:
 	LDBLE VP, DW0;
 	struct pitz_param **pitz_params;
 	int count_pitz_param, max_pitz_param;
+	std::map< std::string, size_t > pitz_param_map;
 	struct pitz_param **sit_params;
 	int count_sit_param, max_sit_param;
+	std::map< std::string, size_t > sit_param_map;
 	int DW(LDBLE T);
 	LDBLE DC(LDBLE T);
 	struct theta_param **theta_params;
@@ -1860,4 +1866,13 @@ public:
 	static const struct const_iso iso_defaults[];
 	static const int count_iso_defaults;
 };
+
+#if defined(PHREEQCI_GUI)
+void PhreeqcIWait(Phreeqc *phreeqc);
+#endif
+
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
+#define   string_duplicate(s)             _string_duplicate(s, __FILE__, __LINE__)
+#endif
+
 #endif
