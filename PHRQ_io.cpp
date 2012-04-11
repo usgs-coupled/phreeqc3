@@ -13,11 +13,11 @@
 PHRQ_io::
 PHRQ_io(void)
 {
-	output_ostream = NULL;	
-	log_ostream = NULL;	
+	output_ostream = NULL;
+	log_ostream = NULL;
 	punch_ostream = NULL;
 #ifdef ERROR_OSTREAM
-	error_ostream = NULL;	
+	error_ostream = NULL;
 #else
 	error_file = NULL;
 #endif
@@ -237,7 +237,7 @@ warning_msg(const char *err_str)
 		err_stdstr.append("\n");
 		screen_msg(err_stdstr.c_str());
 		error_ostream->flush();
-	}	
+	}
 	std::ostringstream warn_str;
 	warn_str << err_str << "\n";
 	log_msg(warn_str.str().c_str());
@@ -365,7 +365,7 @@ warning_msg(const char *err_str)
 		err_stdstr.append("\n");
 		screen_msg(err_stdstr.c_str());
 		error_flush();
-	}	
+	}
 	std::ostringstream warn_str;
 	warn_str << err_str << "\n";
 	log_msg(warn_str.str().c_str());
@@ -709,7 +709,7 @@ get_line(void)
 				this->accumulated.append("\n");
 			}
 			//
-			// New line character encountered 
+			// New line character encountered
 			//
 			return_value = (empty ? LT_EMPTY : LT_OK);
 
@@ -717,7 +717,7 @@ get_line(void)
 		if (continue_loop) continue;
 		//
 		// Determine return_value
-		// 
+		//
 		if (return_value == LT_OK)
 		{
 			if (check_key(m_line.begin(), m_line.end()))
@@ -743,25 +743,26 @@ get_line(void)
 		std::string::iterator end = m_line.end();
 		CParser::copy_token(stdtoken, beg, end);
 		Utilities::str_tolower(stdtoken);
-		if ((strstr(stdtoken.c_str(),"include$") == stdtoken.c_str()) || 
+		if ((strstr(stdtoken.c_str(),"include$") == stdtoken.c_str()) ||
 			(strstr(stdtoken.c_str(),"include_file") == stdtoken.c_str()))
 		{
 			std::string file_name;
 			file_name.assign(beg, end);
 			file_name = trim(file_name);
-			
+
 			if (file_name.size() > 0)
 			{
 				std::ifstream *next_stream = new std::ifstream(file_name.c_str(), std::ios_base::in);
 				if (!next_stream->is_open())
 				{
 					std::ostringstream errstr;
-					errstr << "Could not open include file " << file_name;
+					errstr << "\n***********  Could not open include file " << file_name << ". ***********\n\n";
 					delete next_stream;
 #if defined(PHREEQCI_GUI)
 					warning_msg(errstr.str().c_str());
 					continue;
 #else
+					output_msg(errstr.str().c_str());
 					error_msg(errstr.str().c_str(), OT_STOP);
 #endif
 				}

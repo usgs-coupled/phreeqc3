@@ -32,10 +32,20 @@ Release: class_release
 release: class_release
 Class_release: class_release
 
+Debug_64: class_debug_64
+debug_64: class_debug_64
+Class_debug_64: class_debug_64
 
-CLASS_DEBUG_DIR         = Class_debug
+Release_64: class_release_64
+release_64: class_release_64
+Class_release_64: class_release_64
+
+
+CLASS_DEBUG_DIR        = Class_debug
 CLASS_DIR              = Class_release
-MAKEFILE                = Makefile
+CLASS_DEBUG_64_DIR     = Class_debug_64
+CLASS_64_DIR           = Class_release_64
+MAKEFILE               = Makefile
 
 # -----------------------------------------------------------------------------
 # fixes shared object lookup error(SIGFPE floating point exception)
@@ -54,6 +64,15 @@ class_debug:
 class_release:
 	mkdir -p $(CLASS_DIR) 
 	cd $(CLASS_DIR); $(MAKE) -r -f ../$(MAKEFILE) CFG=CLASS_RELEASE $(PROGRAM)
+.PHONY : Class_debug_64
+class_debug_64:
+	mkdir -p $(CLASS_DEBUG_64_DIR) 
+	cd $(CLASS_DEBUG_64_DIR); $(MAKE) -r -f ../$(MAKEFILE) CFG=CLASS_DEBUG_64 $(PROGRAM)
+
+.PHONY : Class_release_64
+class_release_64:
+	mkdir -p $(CLASS_64_DIR) 
+	cd $(CLASS_64_DIR); $(MAKE) -r -f ../$(MAKEFILE) CFG=CLASS_RELEASE_64 $(PROGRAM)
 
 # Recursive make begins here
 #
@@ -89,23 +108,23 @@ class_release:
 # -----------------------------------------------------------------------------
 # #define gmp for inverse modeling
 # comment the following lines to remove multiprecision option
-INVERSE_CL1MP=TRUE
-ifdef INVERSE_CL1MP
-	DEFINE_INVERSE_CL1MP=-DINVERSE_CL1MP
-	CL1MP_OBJS=cl1mp.o
-#	CL1MP_LIB=-lgmp
-	CL1MP_LIB=/z/parkplace/usr/lib/libgmp.a 
-endif
 
 # -----------------------------------------------------------------------------
 #efence for debugging
 EFENCE_LIB=-L$(HOME)/packages/efence
 
 # -----------------------------------------------------------------------------
-# 2 Versions
+# 4 Versions
 # -----------------------------------------------------------------------------
 ifeq ($(CFG), CLASS_DEBUG)
-  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP)  -DPHREEQC2
+  INVERSE_CL1MP=TRUE
+  ifdef INVERSE_CL1MP
+	DEFINE_INVERSE_CL1MP=-DINVERSE_CL1MP
+	CL1MP_OBJS=cl1mp.o
+#	CL1MP_LIB=-lgmp
+	CL1MP_LIB=/z/parkplace/usr/lib/libgmp.a 
+  endif
+  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) # -DPHREEQC2
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
@@ -115,12 +134,38 @@ ifeq ($(CFG), CLASS_DEBUG)
 endif
 
 ifeq ($(CFG), CLASS_RELEASE)
-  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP) -DPHREEQC2
+  INVERSE_CL1MP=TRUE
+  ifdef INVERSE_CL1MP
+	DEFINE_INVERSE_CL1MP=-DINVERSE_CL1MP
+	CL1MP_OBJS=cl1mp.o
+#	CL1MP_LIB=-lgmp
+	CL1MP_LIB=/z/parkplace/usr/lib/libgmp.a 
+  endif
+  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP) # -DPHREEQC2
   VPATH        = ..:../phreeqc
   INCLUDES     = -I../phreeqc -I..
   CXX          = g++
   CXXFLAGS     = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
-#  CXXFLAGS     = -Wall -pedantic -p $(DEFINES) $(INCLUDES)
+  OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
+  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
+endif
+
+ifeq ($(CFG), CLASS_DEBUG_64)
+  DEFINES      = -DUSE_PHRQ_ALLOC # $(DEFINE_INVERSE_CL1MP) # -DPHREEQC2
+  VPATH        = ..:../phreeqc
+  INCLUDES     = -I../phreeqc -I..
+  CXX          = g++
+  CXXFLAGS     = -Wall -g $(DEFINES) $(INCLUDES) 
+  OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
+  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
+endif
+
+ifeq ($(CFG), CLASS_RELEASE_64)
+  DEFINES      = -DNDEBUG # $(DEFINE_INVERSE_CL1MP) # -DPHREEQC2
+  VPATH        = ..:../phreeqc
+  INCLUDES     = -I../phreeqc -I..
+  CXX          = g++
+  CXXFLAGS     = -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)
   OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
   LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
 endif
@@ -927,7 +972,7 @@ utilities.o: ../phreeqc/utilities.cpp ../Utils.h ../Phreeqc.h \
  ../ISolutionComp.h
 # -----------------------------------------------------------------------------
 clean:
-	rm -rf Class_release Class_debug
+	rm -rf Class_release Class_debug Class_release_64 Class_debug_64
 
 dependencies:
 	mkdir -p $(CLASS_DEBUG_DIR) 

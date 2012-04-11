@@ -1099,17 +1099,23 @@ protected:
 protected:
 	PHRQ_io *phrq_io;
 	PHRQ_io ioInstance;
+	int same_model;
+	//int same_temperature;
+	//int same_pressure;
+	//bool same_mu;
+
+	LDBLE current_tc;
+	LDBLE current_pa;
+	LDBLE current_mu;
+	bool mu_terms_in_logk;
 
 	/* ----------------------------------------------------------------------
 	*   STRUCTURES
 	* ---------------------------------------------------------------------- */
 
 	struct model last_model;
-	int same_model;
-	int same_temperature;
-	int same_pressure;
-	bool same_mu;
 	struct punch punch;
+
 	/* ----------------------------------------------------------------------
 	*   Temperatures
 	* ---------------------------------------------------------------------- */
@@ -1252,6 +1258,7 @@ protected:
 	LDBLE tc_x;
 	LDBLE tk_x;
 	LDBLE patm_x;
+	LDBLE last_patm_x;
 	bool numerical_fixed_volume;
 	bool force_numerical_fixed_volume;
 	bool switch_numerical;
@@ -1573,8 +1580,8 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	struct name_coef match_tokens[50];
-	int count_match_tokens;
+	//struct name_coef match_tokens[50];
+	//int count_match_tokens;
 	int count_master_isotope;
 	struct master_isotope **master_isotope;
 	int max_master_isotope;
@@ -1614,7 +1621,7 @@ protected:
 	LDBLE AA_basic, BB_basic, CC, I_m, rho_0;
 	LDBLE eps_r; // relative dielectric permittivity
 #else
-	LDBLE V_solutes, rho_0, kappa_0, p_sat, ah2o_x0;
+	LDBLE V_solutes, rho_0, kappa_0, p_sat/*, ah2o_x0*/;
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
 #endif

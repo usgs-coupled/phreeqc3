@@ -504,7 +504,7 @@ set_sit(int initial)
 #ifdef PHREEQC2
 	patm_x = solution_ptr->Get_patm(); 
 #else
-	//patm_x = solution_ptr->Get_patm(); // done in calc_rho_0(tc, pa)
+	patm_x = solution_ptr->Get_patm(); // done in calc_rho_0(tc, pa)
 #endif
 /*
  *   H+, e-, H2O
@@ -763,6 +763,7 @@ jacobian_sit(void)
 	int i, j;
 Restart:
 	int pz_max_unknowns = max_unknowns;
+	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{
 		molalities(TRUE);
@@ -800,6 +801,8 @@ Restart:
 			d2 = d1;
 			break;
 		case PITZER_GAMMA:
+			if (!full_pitzer) 
+				continue;
 			x[i]->s->lg += d;
 			d2 = d;
 			break;
@@ -833,8 +836,10 @@ Restart:
 			x[i]->moles += d2;
 			break;
 		case MU:
+			//continue;
 			d2 = d * mu_x;
 			mu_x += d2;
+			//k_temp(tc_x, patm_x);
 			gammas(mu_x);
 			break;
 		case PP:
@@ -888,6 +893,7 @@ Restart:
 			break;
 		case MU:
 			mu_x -= d2;
+			//k_temp(tc_x, patm_x);
 			gammas(mu_x);
 			break;
 		case GAS_MOLES:
@@ -1157,11 +1163,6 @@ check_gammas_sit(void)
 	{
 		converge = FALSE;
 	}
-	if (fabs(old_mu - mu_x) > 1e-3 * mu_x)
-	{
-		same_model = false;
-		k_temp(tc_x, patm_x);
-	}
 	t = pow((LDBLE) 10.0, s_h2o->la);
 	if ((pow((LDBLE) 10.0, s_h2o->la) - AW) > tol)
 	{
@@ -1181,6 +1182,7 @@ gammas_sit()
 	int i, j;
 	LDBLE coef;
 	/* Initialize */
+	k_temp(tc_x, patm_x);
 /*
  *   Calculate activity coefficients
  */

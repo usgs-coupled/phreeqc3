@@ -232,7 +232,6 @@ quick_setup(void)
 				gas_unknowns[i]->phase->pr_phi = 1.0;
 				gas_unknowns[i]->phase->pr_p = 0;
 			}
-			same_pressure = FALSE;
 		}
 		else
 		{
@@ -2772,7 +2771,6 @@ reprep(void)
  *   Build model again
  */
 	build_model();
-	same_model = FALSE;
 	k_temp(tc_x, patm_x);
 
 	return (OK);
@@ -3973,7 +3971,8 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			m_sum += phase_ptr->moles_x;
 		}
 		if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-			continue;
+			error_msg("Cannot calculate a mixture of ideal and Peng_Robinson gases,\n       please define Tc and Pc for the active gases in PHASES.", STOP);
+			//continue;
 		if (!phase_ptr->pr_a)
 		{
 			T_c = phase_ptr->t_c;
@@ -4014,14 +4013,14 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 	{
 		a_aa_sum2 = 0.0;
 		phase_ptr = phase_ptrs[i];
-		if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-			continue;
+		//if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
+		//	continue;
 		b_sum += phase_ptr->fraction_x * phase_ptr->pr_b;
 		for (i1 = 0; i1 < n_g; i1++)
 		{
 			phase_ptr1 = phase_ptrs[i1];
-			if (phase_ptr1->t_c == 0.0 || phase_ptr1->p_c == 0.0)
-				continue;
+			//if (phase_ptr1->t_c == 0.0 || phase_ptr1->p_c == 0.0)
+			//	continue;
 			if (phase_ptr1->fraction_x == 0)
 				continue;
 			a_aa = sqrt(phase_ptr->pr_a * phase_ptr->pr_alpha *
@@ -4072,7 +4071,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 				27. * r3[3] * r3[3];
 			//if (iterations > 50)
 			//	it = 0;	// debug
-			if (disct > 1e-8)
+			if (disct > 0)
 			{
 				// 3-roots, find the largest P...
 				it = 0;
@@ -4112,7 +4111,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 // accept a (possible) whobble in the curve...
 //					error_msg("No convergence when calculating P in Peng-Robinson.", STOP);
 				}
-				if (V_m < v1)
+				if (V_m < v1 && it < 40)
 					P = R_TK / (v1 - b_sum) - a_aa_sum / (v1 * (v1 + 2 * b_sum) - b2);
 			}
 		}
@@ -4162,11 +4161,11 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			continue;
 		}
 		phase_ptr->pr_p = phase_ptr->fraction_x * P;
-		if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-		{
-			phase_ptr->pr_phi = 1;
-			continue;
-		}
+		//if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
+		//{
+		//	phase_ptr->pr_phi = 1;
+		//	continue;
+		//}
 		rz = P * V_m / R_TK;
 		A = a_aa_sum * P / (R_TK * R_TK);
 		B = b_sum * P / R_TK;
@@ -4181,6 +4180,8 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		// for initial equilibrations, adapt log_k of the gas phase...
 		if (state < REACTION)
 		{
+			rho_0 = calc_rho_0(TK - 273.15, P);
+			calc_dielectrics(TK - 273.15, P);
 			phase_ptr->lk = calc_lk_phase(phase_ptr, TK, P);
 		}
 		phase_ptr->pr_in = true;
@@ -4280,6 +4281,7 @@ adjust_setup_pure_phases(void)
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
 			{
 				p = exp(si_org * LOG_10);
+				patm_x = p;
 				t = use.Get_solution_ptr()->Get_tc() + 273.15;
 				if (!phase_ptr->pr_in || p != phase_ptr->pr_p || t != phase_ptr->pr_tk)
 				{
@@ -4685,6 +4687,7 @@ adjust_setup_solution(void)
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
 			{
 				p = exp(x[i]->si * LOG_10);
+				patm_x = p;
 				t = use.Get_solution_ptr()->Get_tc() + 273.15;
 				if (!phase_ptr->pr_in || p != phase_ptr->pr_p || t != phase_ptr->pr_tk)
 				{
@@ -5747,7 +5750,8 @@ calc_vm(LDBLE tc, LDBLE pa)
 		s_x[i]->rxn_x->logk[vm_tc] += (s_x[i]->logk[vm3] + (s_x[i]->logk[vm4] + s_x[i]->logk[vm5] * tc) * tc) * mu_x;
 
 		/* for calculating delta_v of the reaction... */
-		s_search(s_x[i]->name)->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
+		//s_search(s_x[i]->name)->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
+		s_x[i]->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
 	}
 	return OK;
 }
@@ -5761,11 +5765,11 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
  *  Calculates log k's for all species and pure_phases
  */
 #ifndef PHREEQC2
-	if (same_model == TRUE && same_temperature == TRUE && same_pressure == TRUE && same_mu)
-		return (OK);
+	if (tc == current_tc && pa == current_pa && ((fabs(mu_x - current_mu) < 1e-3 * mu_x) || !mu_terms_in_logk))
+		return OK;
 #else
-	if (same_model == TRUE && same_temperature == TRUE && same_pressure == TRUE)
-		return (OK);
+	if (tc == current_tc && pa == current_pa)
+		return OK;
 #endif
 	int i;
 	LDBLE tempk = tc + 273.15;
@@ -5780,14 +5784,15 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 #endif
 	calc_vm(tc, pa);
 
+	mu_terms_in_logk = false;
 	for (i = 0; i < count_s_x; i++)
 	{
 		if (s_x[i]->rxn_x->logk[vm_tc])
 		/* calculate delta_v for the reaction... */
 			s_x[i]->rxn_x->logk[delta_v] = calc_delta_v(s_x[i]->rxn_x, false);
-
-		if (same_model && same_temperature && s_x[i]->rxn_x->logk[delta_v] == 0)
+		if (tc == current_tc && s_x[i]->rxn_x->logk[delta_v] == 0)
 			continue;
+		mu_terms_in_logk = true;
 		s_x[i]->lk = k_calc(s_x[i]->rxn_x->logk, tempk, pa * PASCAL_PER_ATM);
 	}
 /*
@@ -5805,6 +5810,8 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 			phases[i]->rxn_x->logk[delta_v] = calc_delta_v(phases[i]->rxn_x, true) -
 				(phases[i]->logk[vm0] + (phases[i]->logk[vm1] + phases[i]->logk[vm2] * tc) * tc -
 					phases[i]->logk[kappa] * (pa - 1));
+			if (phases[i]->rxn_x->logk[delta_v])
+				mu_terms_in_logk = true;
 			phases[i]->lk = k_calc(phases[i]->rxn_x->logk, tempk, pa * PASCAL_PER_ATM);
 #endif
 		}
@@ -5823,6 +5830,11 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 			}
 		}
 	}
+
+	current_tc = tc;
+	current_pa = pa;
+	current_mu = mu_x;
+
 	return (OK);
 }
 
@@ -6036,6 +6048,12 @@ save_model(void)
 		last_model.count_surface_charge = 0;
 		last_model.surface_charge = NULL;
 	}
+
+	current_tc = NAN;
+	current_pa = NAN;
+	current_mu = NAN;
+	mu_terms_in_logk = true;
+
 	return (OK);
 }
 
@@ -6051,31 +6069,7 @@ check_same_model(void)
 	if (last_model.force_prep == TRUE)
 	{
 		last_model.force_prep = FALSE;
-		same_temperature = FALSE;
-		same_pressure = FALSE;
 		return (FALSE);
-	}
-/*
- *   Check temperature
- */
-	if (fabs(tc_x - last_model.temperature) < 0.05)
-	{
-		same_temperature = TRUE;
-	}
-	else
-	{
-		same_temperature = FALSE;
-	}
-/*
- *   Check pressure
- */
-	if (fabs(patm_x - last_model.pressure) < 0.01)
-	{
-		same_pressure = TRUE;
-	}
-	else
-	{
-		same_pressure = FALSE;
 	}
 /*
  *   Check master species

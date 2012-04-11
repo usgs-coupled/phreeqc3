@@ -551,8 +551,13 @@ initialize(void)
 	print_density = 0;
 
 	same_model = FALSE;
-	same_temperature = FALSE;
-	same_pressure = FALSE;
+	//same_temperature = FALSE;
+	//same_pressure = FALSE;
+	current_tc = NAN;
+	current_pa = NAN;
+	current_mu = NAN;
+	mu_terms_in_logk = true;
+
 	g_iterations = -1;
 	G_TOL = 1e-8;
 	save_init(-1);
@@ -674,12 +679,12 @@ initialize(void)
 	pe_step_size_now = pe_step_size;
 	count_total_steps = 0;
 	remove_unstable_phases = FALSE;
-	for (i = 0; i < 50; i++)
-	{
-		match_tokens[i].name = NULL;
-		match_tokens[i].coef = 0;
-	}
-	count_match_tokens = 0;
+	//for (i = 0; i < 50; i++)
+	//{
+	//	match_tokens[i].name = NULL;
+	//	match_tokens[i].coef = 0;
+	//}
+	//count_match_tokens = 0;
 	initial_solution_isotopes = FALSE;
 	full_pitzer = FALSE;
 	always_full_pitzer = FALSE;

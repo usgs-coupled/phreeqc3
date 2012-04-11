@@ -121,14 +121,20 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	LDBLE p2 = -5.50294e-6 + tc * ( 1.07699e-7 + tc * (-2.05409e-9 + tc * ( 1.30238e-11 + tc * -3.20982E-14)));
 
 	/* The minimal pressure equals the saturation pressure... */
-	p_sat = exp(11.6702 - 3816.44 / (T - 46.13)) * ah2o_x;
-	ah2o_x0 = ah2o_x; // for updating rho in model(): compare with new ah2o_x
+	if (ah2o_x <= 1.0)
+		p_sat = exp(11.6702 - 3816.44 / (T - 46.13)) * ah2o_x;
+	else
+		p_sat = exp(11.6702 - 3816.44 / (T - 46.13));
+	//ah2o_x0 = ah2o_x; // for updating rho in model(): compare with new ah2o_x
 	if (pa < p_sat || (use.Get_solution_ptr() && use.Get_solution_ptr()->Get_patm() < p_sat))
 	{
 		pa = p_sat;
 	}
-	patm_x = pa;
+	if (!use.Get_gas_phase_in())
+		patm_x = pa;
 	rho_0 = p0 + pa * (p1 + pa * p2);
+	if (rho_0 < 0.01)
+	  rho_0 = 0.01;
 
 	/* compressibility, d(ln(rho)) / d(P), 1/atm... */
 	kappa_0 = (p1 + 2 * pa * p2) / rho_0;

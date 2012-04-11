@@ -41,7 +41,7 @@ setup_fixed_volume_gas(void)
 	{
 		gas_unknown = gas_unknowns[0];
 	}
-	same_pressure = FALSE;
+	//same_pressure = FALSE;
 
 	return (OK);
 }
@@ -367,7 +367,8 @@ calc_PR(void)
 		m_sum += gas_unknowns[i]->moles;
 		phase_ptr = gas_unknowns[i]->phase;
 		if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-			continue;
+			error_msg("Cannot calculate a mixture of ideal and Peng_Robinson gases,\n       please define Tc and Pc for the active gases in PHASES.", STOP);
+			//continue;
 		if (!phase_ptr->pr_a)
 		{
 			T_c = phase_ptr->t_c;
@@ -404,16 +405,16 @@ calc_PR(void)
 	{
 		a_aa_sum2 = 0.0;
 		phase_ptr = gas_unknowns[i]->phase;
-		if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-			continue;
+		//if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
+		//	continue;
 		b_sum += phase_ptr->fraction_x * phase_ptr->pr_b;
 		size_t i1;
 		struct phase *phase_ptr1;
 		for (i1 = 0; i1 <  gas_unknowns.size(); i1++)
 		{
 			phase_ptr1 = gas_unknowns[i1]->phase;
-			if (phase_ptr1->t_c == 0.0 || phase_ptr1->p_c == 0.0)
-				continue;
+			//if (phase_ptr1->t_c == 0.0 || phase_ptr1->p_c == 0.0)
+			//	continue;
 			if (phase_ptr1->fraction_x == 0)
 				continue;
 			a_aa = sqrt(phase_ptr->pr_a * phase_ptr->pr_alpha *
@@ -503,7 +504,7 @@ calc_PR(void)
 // accept a (possible) whobble in the curve...
 //					error_msg("No convergence when calculating P in Peng-Robinson.", STOP);
 				}
-				if (V_m < v1)
+				if (V_m < v1 && it < 40)
 					P = R_TK / (v1 - b_sum) - a_aa_sum / (v1 * (v1 + 2 * b_sum) - b2);
 			}
 		}
@@ -558,11 +559,11 @@ calc_PR(void)
 		}	
 		phase_ptr->pr_p = phase_ptr->fraction_x * P;
 
-		if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-		{
-			phase_ptr->pr_phi = 1;
-			continue;
-		}
+		//if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
+		//{
+		//	phase_ptr->pr_phi = 1;
+		//	continue;
+		//}
 		rz = P * V_m / R_TK;
 		A = a_aa_sum * P / (R_TK * R_TK);
 		B = b_sum * P / R_TK;

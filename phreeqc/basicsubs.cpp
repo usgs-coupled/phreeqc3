@@ -1437,6 +1437,242 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	int i, i1, l, case_no, match;
 	char c, c1;
 	char *ptr, *ptr1;
+	LDBLE d;
+	char element[MAX_LENGTH];
+	char token[MAX_LENGTH], equal_list[MAX_LENGTH]; 
+	char token1[MAX_LENGTH], template1[MAX_LENGTH], equal_list1[MAX_LENGTH];
+	char str[2];
+
+	strcpy(token, name);
+	squeeze_white(token);
+	replace("(+", "(", token);
+	if (strstr("token", "++") != NULL)
+	{
+		replace("++++++", "+6", token);
+		replace("+++++", "+5", token);
+		replace("++++", "+4", token);
+		replace("+++", "+3", token);
+		replace("++", "+2", token);
+	}
+	if (strstr("token", "--") != NULL)
+	{
+		replace("------", "-6", token);
+		replace("-----", "-5", token);
+		replace("----", "-4", token);
+		replace("---", "-3", token);
+		replace("--", "-2", token);
+	}
+
+	ptr = token;
+	std::vector< std::pair<std::string, LDBLE> > match_vector;
+	while ((c = *ptr) != '\0')
+	{
+		c1 = *(ptr + 1);
+		str[0] = c;
+		str[1] = '\0';
+/*
+ * New element
+ */
+		if (isupper((int) c) || (c == 'e' && c1 == '-') || (c == '['))
+		{
+			/*
+			 *   Get new element and subscript
+			 */
+			if (get_elt(&ptr, element, &l) == ERROR)
+			{
+				return (ERROR);
+			}
+			if (get_num(&ptr, &d) == ERROR)
+			{
+				return (ERROR);
+			}
+			std::pair<std::string, LDBLE> pr(element, d);
+			match_vector.push_back(pr);			
+		}
+		else
+		{
+			std::pair<std::string, LDBLE> pr(str, 1.0);
+			match_vector.push_back(pr);		
+			ptr += 1;
+		}
+	}
+	/*
+	 *  Replace elements with first of equivalent elements
+	 */
+	strcpy(template1, mytemplate);
+	squeeze_white(template1);
+	ptr = template1;
+	while (extract_bracket(&ptr, equal_list) == TRUE)
+	{
+		replace("{", "", equal_list);
+		replace("}", "", equal_list);
+		while (replace(",", " ", equal_list) == TRUE);
+		ptr1 = equal_list;
+		/*
+		 *   Get first name in a list from template
+		 */
+		std::string elt_name;
+		if (copy_token(elt_name, &ptr1) == EMPTY)
+		{
+			error_string = sformatf(
+					"Expecting a nonempty list of element names in isotope sum. %s",
+					mytemplate);
+			error_msg(error_string, CONTINUE);
+			return (ERROR);
+		}
+		std::string replace_name = elt_name;
+		/*
+		 *   Replace in species all equivalent names from template
+		 */
+		while (copy_token(elt_name, &ptr1) != EMPTY)
+		{
+			for (i = 0; i < (int) match_vector.size(); i++)
+			{
+				if (elt_name == match_vector[i].first)
+				{
+					match_vector[i].first = replace_name;
+				}
+			}
+		}
+	}
+	/*
+	 *  Combine contiguous elements
+	 */
+	i1 = 0;		
+	for (i = 1; i < (int) match_vector.size(); i++)
+	{
+		if ((isupper((int) (match_vector[i].first[0])) != FALSE)
+		&& (match_vector[i].first == match_vector[i1].first))
+		{
+			match_vector[i1].second += match_vector[i].second;
+		}
+		else
+		{
+			i1++;
+			match_vector[i1].first = match_vector[i].first;
+			match_vector[i1].second = match_vector[i].second;
+		}
+	}
+	int count_match_tokens = i1 + 1;
+	/*
+	 * write out string
+	 */
+	token[0] = '\0';
+	for (i = 0; i < count_match_tokens; i++)
+	{
+		strcat(token, match_vector[i].first.c_str());
+		if (match_vector[i].second != 1.0)
+		{
+			sprintf(token1, "%g", (double) match_vector[i].second);
+			strcat(token, token1);
+		}
+	}
+	/*
+	 *  Write a template name using first of equivalent elements
+	 */
+	strcpy(template1, mytemplate);
+	squeeze_white(template1);
+	ptr = template1;
+	while (extract_bracket(&ptr, equal_list) == TRUE)
+	{
+		strcpy(equal_list1, equal_list);
+		replace("{", "", equal_list);
+		replace("}", "", equal_list);
+		while (replace(",", " ", equal_list) == TRUE);
+		ptr1 = equal_list;
+		/*
+		 *   Get first name in a list
+		 */
+		std::string elt_name;
+		if (copy_token(elt_name, &ptr1) == EMPTY)
+		{
+			error_string = sformatf(
+					"Expecting a nonempty list of element names in isotope sum. %s",
+					mytemplate);
+			error_msg(error_string, CONTINUE);
+			return (ERROR);
+		}
+		replace(equal_list1, elt_name.c_str(), template1);
+		squeeze_white(template1);
+		ptr = template1;
+	}
+	/*
+	 *   Compare string
+	 */
+	/* Cases: 0 exact match
+	 *	  1 leading wild card
+	 *	  2 trailing wild card
+	 *	  3 leading and trailing wild card
+	 */
+	case_no = 0;
+	if (template1[0] == '*')
+		case_no = 1;
+	l = (int) strlen(template1);
+	if (template1[l - 1] == '*')
+	{
+		if (case_no != 1)
+		{
+			case_no = 2;
+		}
+		else
+		{
+			case_no = 3;
+		}
+	}
+	while (replace("*", "", template1));
+	match = FALSE;
+	switch (case_no)
+	{
+	case 0:
+		/* exact match */
+		if (strcmp(token, template1) == 0)
+			match = TRUE;
+		break;
+	case 1:
+		/* leading wild card */
+		if ((ptr = strstr(token, template1)) == NULL)
+		{
+			match = FALSE;
+		}
+		else
+		{
+			if (strcmp(ptr, template1) == 0)
+				match = TRUE;
+		}
+		break;
+	case 2:
+		/* trailing wild card */
+		if (strstr(token, template1) == token)
+			match = TRUE;
+		break;
+	case 3:
+		/* trailing wild card */
+		if (strstr(token, template1) != NULL)
+			match = TRUE;
+		break;
+	}
+	return (match);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+match_elts_in_species(const char *name, const char *mytemplate)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *	Makes a list of elements with their coefficients, stores elements
+ *	in elt_list at position count_elts.  Global variable count_elts is
+ *	updated with each stored element.  Also uses static global variable
+ *	paren_count.
+ *
+ *	Arguments:
+ *	   **t_ptr	input, point in token string to start looking
+ *				  output, is next position to start looking
+ *		 coef	 input, coefficient to multiply subscripts by
+ */
+	int i, i1, l, case_no, match;
+	char c, c1;
+	char *ptr, *ptr1;
 	const char *replace_name, *name_ptr;
 	LDBLE d;
 	char element[MAX_LENGTH];
@@ -1648,7 +1884,7 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	}
 	return (match);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 extract_bracket(char **string, char *bracket_string)
@@ -1673,7 +1909,106 @@ extract_bracket(char **string, char *bracket_string)
 	*string += 1;
 	return (TRUE);
 }
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+surf_total(const char *total_name, const char *surface_name)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Provides total moles in LDBLE layer
+ */
+	int j;
 
+	if (use.Get_surface_ptr() == NULL)
+		return (0);
+
+/*
+ *   Find surface...
+ */
+	for (j = 0; j < count_unknowns; j++)
+	{
+		if (x[j]->type != SURFACE)
+			continue;
+		
+		std::string token;
+		token = x[j]->master[0]->elt->name;
+		replace("_", " ", token);
+		std::string::iterator b = token.begin();
+		std::string::iterator e = token.end();
+		std::string name;
+		CParser::copy_token(name, b, e);
+		if (surface_name != NULL)
+		{
+			if (strcmp(name.c_str(), surface_name) == 0)
+				break;
+		}
+		else
+		{
+			break;
+		}
+	}
+	if (j >= count_unknowns)
+		return (0);
+/*
+ *   find total moles for redox state
+ */
+	LDBLE t = 0;
+	bool redox = false;
+	if (strstr(total_name, "(") != NULL)
+	{
+		redox = true;
+	}
+	for (j = 0; j < count_s_x; j++)
+	{
+		if (s_x[j]->type != SURF)
+			continue;
+
+		std::string token;		
+		struct rxn_token *rxn_ptr;
+		for (rxn_ptr = s_x[j]->rxn_s->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		{
+			if (redox && rxn_ptr->s->secondary)
+			{
+				token = rxn_ptr->s->secondary->elt->name;
+			}
+			else if (!redox && rxn_ptr->s->secondary)
+			{
+				token = rxn_ptr->s->secondary->elt->primary->elt->name;
+			}
+			else if (!redox && rxn_ptr->s->primary)
+			{
+				token = rxn_ptr->s->primary->elt->name;
+			}
+			else
+			{
+				continue;
+			}
+			if (strcmp(token.c_str(), total_name) == 0)
+			{
+				t += rxn_ptr->coef * s_x[j]->moles;
+				break;
+			}
+			else
+			// sum all sites in case total_name is a surface name without underscore
+			{
+				if (rxn_ptr->s->type == SURF)
+				{
+					if (token.find("_") != std::string::npos)
+					{
+						token = token.substr(0, token.find("_"));
+					}
+					if (strcmp(token.c_str(), total_name) == 0)
+					{
+						t += rxn_ptr->coef * s_x[j]->moles;
+						break;
+					}
+				}
+			}
+		}
+	}
+	return t;
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 surf_total(const char *total_name, const char *surface_name)
@@ -1760,7 +2095,7 @@ surf_total(const char *total_name, const char *surface_name)
 	}
 	return (0);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 total(const char *total_name)

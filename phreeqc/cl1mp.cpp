@@ -22,6 +22,7 @@ cl1mp(int k, int l, int m, int n,
 	  int *iter, LDBLE * x_arg, LDBLE * res_arg, LDBLE * error_arg,
 	  LDBLE * cu_arg, int *iu, int *s, int check, LDBLE censor_arg)
 {
+	mpf_set_default_prec(256);
 	/* System generated locals */
 	union double_or_int
 	{
