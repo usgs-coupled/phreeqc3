@@ -1129,7 +1129,7 @@ strcmp_nocase_arg1(const char *str1, const char *str2)
 
 /* ---------------------------------------------------------------------- */
 char * Phreeqc::
-#if _DEBUG
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 _string_duplicate(const char *token, const char *szFileName, int nLine)
 #else
 string_duplicate(const char *token)
@@ -1142,7 +1142,7 @@ string_duplicate(const char *token)
 	if (token == NULL)
 		return NULL;
 	l = (int) strlen(token);
-#if _DEBUG
+#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 	str = (char *) _malloc_dbg((size_t) (l + 1) * sizeof(char), _NORMAL_BLOCK, szFileName, nLine);
 #else
 	str = (char *) PHRQ_malloc((size_t) (l + 1) * sizeof(char));
