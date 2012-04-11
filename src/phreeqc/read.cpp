@@ -2149,7 +2149,7 @@ read_kinetics(void)
 				ptr = next_char;
 				bool have_name = false;
 				std::string name;
-				LDBLE coef;
+				LDBLE coef = 1;
 				while (copy_token(token, &ptr) != EMPTY)
 				{
 					coef = 1;

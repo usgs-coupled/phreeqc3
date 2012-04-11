@@ -59,7 +59,7 @@ cxxNumKeyword::read_number_description(CParser & parser)
 	if (::isdigit(parser.get_iss().peek()) || parser.get_iss().peek() == '-')
 	{
 		parser.get_iss() >> this->n_user;
-		char ch = parser.get_iss().peek();
+		char ch = (char)parser.get_iss().peek();
 		if (ch == '-')
 		{
 			parser.get_iss() >> ch;			// eat '-'
@@ -104,7 +104,7 @@ cxxNumKeyword::read_number_description(std::istream & is)
 	if (::isdigit(is.peek()))
 	{
 		is >> this->n_user;
-		char ch = is.peek();
+		char ch = (char)is.peek();
 		if (ch == '-')
 		{
 			is >> ch;			// eat '-'
