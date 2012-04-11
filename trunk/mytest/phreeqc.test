@@ -1,0 +1,474 @@
+DATABASE ../database/phreeqc.dat
+KNOBS
+	-log
+PRINT
+	-status false
+#
+# TEST PROBLEM #1  CHANGE DATA BASE AND SPECIATE SEAWATER.                        
+#
+SOLUTION_MASTER_SPECIES
+    U           U+4     0.000  238.0290  238.0290
+SOLUTION_SPECIES
+
+U+4 = U+4
+	-log_k		0.000
+
+U+4 + 4 H2O = U(OH)4 + 4 H+                                                     
+	-log_k		-8.538
+	-delta_h	24.760 kcal
+
+U+4 + 5 H2O = U(OH)5- + 5 H+                                                    
+	-log_k		-13.147
+	-delta_h	27.580 kcal
+
+U+4 + 2 H2O = UO2+ + 4 H+ + e-                                                  
+	-log_k		-6.432
+	-delta_h	31.130 kcal
+
+U+4 + 2 H2O = UO2+2 + 4 H+ + 2 e-                                            
+	-log_k		-9.217
+	-delta_h	34.430 kcal
+
+2 U+4 + 6 H2O = (UO2)2(OH)2+2 + 10 H+ + 4 e-                                         
+	-log_k		-24.060
+	-delta_h	32.820 kcal
+
+3 U+4 + 11 H2O = (UO2)3(OH)5+ + 17 H+ + 6 e-                                         
+	-log_k		-43.292
+	-delta_h	59.020 kcal
+
+U+4 + 2 H2O + CO3-2 = UO2CO3 + 4 H+ + 2 e-                                       
+	-log_k		0.847
+	-delta_h	35.270 kcal
+
+U+4 + 2 H2O + 2 CO3-2 = UO2(CO3)2-2 + 4 H+ + 2 e-                                  
+	-log_k		7.760
+	-delta_h	37.910 kcal
+
+U+4 + 2 H2O + 3 CO3-2 = UO2(CO3)3-4 + 4 H+ + 2 e-                                  
+	-log_k		12.180
+	-delta_h	25.650 kcal
+
+U+4 + 3 H2O = UO2OH+ + 5 H+ + 2 e-                                               
+	-log_k		-14.999
+	-delta_h	45.445 kcal
+
+SOLUTION 1  SEAWATER FROM NORDSTROM ET AL. (1979) TEST CASE IN PPM.                         
+         units       ppm
+            pH    8.2200
+            pe    8.4510
+       density    1.0230
+          temp   25.0000
+    Ca          4.123000E+02
+    Mg          1.291800E+03
+    Na          1.076800E+04
+    K           3.991000E+02
+    Fe          2.000000E-03
+    Mn          2.000000E-04
+    Al          2.000000E-03
+    Ba          2.000000E-02
+    Sr          8.140000E+00
+    Si          4.280000E+00
+    Cl          1.935300E+04
+    Alkalinity  1.416820E+02 as HCO3
+    S           2.712000E+03
+    N(5)        2.900000E-01 as NO3
+    B           4.450000E+00
+    P           6.000000E-02 as PO4
+    F           1.390000E+00
+    Li          1.810000E-01
+    Br          6.730000E+01
+    N(-3)       3.000000E-02 as NH4
+    U           3.300000E-03
+PHASES 1
+
+Uraninite    
+	 UO2 + 4 H+ = U+4 + 2 H2O                                                  
+	-log_k		-3.490
+	-delta_h	-18.630  kcal
+
+
+END
+#
+# TEST PROBLEM #2 PART A - CALCITE EQUILIBRIUM AT LOG PCO2 = -2.0 AND 25C.        
+#
+SOLUTION 1  PURE WATER                                                                      
+         units   mol/kgs
+            pH    7.0000
+            pe    4.0000
+       density    1.0000
+          temp   25.0000
+PURE_PHASES
+	CO2(g)		-2.000   100.000
+	Calcite		 0.000   100.000
+SAVE solution   1
+END
+#
+# TEST PROBLEM #2 PART B - CLOSED SYSTEM MIXTURE OF PREVIOUS SOLN WITH SEAWATER   
+#
+SOLUTION 2  SEA WATER                                                                       
+         units       ppm
+            pH    8.2200
+            pe    8.4510
+       density    1.0230
+          temp   25.0000
+    Ca          4.123000E+02
+    Mg          1.291800E+03
+    Na          1.076800E+04
+    K           3.991000E+02
+    Sr          8.100000E+00
+    Si          6.850000E+00 as H4SiO4
+    Cl          1.935300E+04 charge
+    Alkalinity  1.417000E+02 as HCO3
+    S           2.712000E+03
+    B           4.500000E+00
+MIX 1
+	1      0.70000
+	2      0.30000
+USE pure_phases none
+SAVE solution   1
+END
+#
+# TEST PROBLEM #2 PART C - EQUILIBRATE MIXTURE WITH CALCITE AND DOLOMITE.         
+#
+PURE_PHASES 1
+	Calcite          0.000   100.000
+	Dolomite         0.000   100.000
+USE solution 1
+END
+#
+# TEST PROBLEM #2 PART D - EQUILIBRATE MIXTURE WITH CALCITE ONLY.                 
+#
+PURE_PHASES
+	Calcite          0.000   100.000
+USE solution 1
+END
+#
+# TEST PROBLEM #3  ADD OXYGEN TO PYRITE-CALCITE-GOETHITE EQUILIBRIUM.             
+#
+SOLUTION 1  PURE WATER                                                                      
+         units   mol/kgs
+            pH    7.0000
+            pe    4.0000
+       density    1.0000
+          temp   25.0000
+PURE_PHASES 1
+	Pyrite           0.000   100.000
+	Goethite         0.000   100.000
+	Calcite          0.000   100.000
+REACTION 1
+	O2  	1.000
+	0.0	0.001	0.005	0.01	0.05
+
+END
+#
+# TEST PROBLEM #4 PART A. CALCITE-DOLOMITE EQUILIBRIUM, LPCO2=-2.0, 25C.          
+#
+SOLUTION 1  PURE WATER                                                                      
+         units   mol/kgs
+            pH    7.0000 charge
+            pe    4.0000
+       density    1.0000
+          temp   25.0000
+PURE_PHASES 1
+	CO2(g)        -2.000   100.000
+	Calcite       0.000   100.000
+	Dolomite      0.000   100.000
+USE solution 1
+SAVE solution   1
+END
+#
+# TEST PROBLEM #4 PART B - ISOTHERMAL DE-DOLOMITIZATION.                          
+#
+PURE_PHASES 1
+	Dolomite         0.000   100.000
+	Calcite          0.000   100.000
+REACTION 1
+	Gypsum		1.0
+	0.008 in 4 steps
+USE solution 1
+END
+#
+# TEST PROBLEM #4 PART C - DE-DOLOMITIZATION WITH INCREASING TEMPERATURE.         
+#
+PURE_PHASES 1
+	Calcite          0.000   100.000
+	Dolomite         0.000   100.000
+REACTION 1
+	Gypsum		1.0
+	0.008 in 4 steps
+REACTION_TEMPERATURE 1
+        35.000    65.000 in     4 steps
+USE solution 1
+END
+#
+# TEST PROBLEM #4 PART D - DE-DOLOMITIZATION,DELTA T,SULFATE REDUCTION.           
+#
+PURE_PHASES 1
+	Calcite          0.000   100.000
+	Dolomite         0.000   100.000
+REACTION 1
+	Gypsum		1.0
+	CH2O		0.5
+	0.008 in 4 steps
+REACTION_TEMPERATURE 1
+        35.000    65.000 in     4 steps
+USE solution 1
+END
+#
+# TEST PROBLEM #4 PART E - DE-DOLOMITIZATION,DELTA T,SULFATE REDUCTION,FE PRESENT.
+#
+PURE_PHASES 1
+	Calcite          0.000   100.000
+	Dolomite         0.000   100.000
+	Pyrite           0.000   100.000
+	Goethite         0.000   100.000
+REACTION 1
+	Gypsum		1.0
+	CH2O		0.5
+	0.008 in 4 steps
+REACTION_TEMPERATURE 1
+        35.000    65.000 in     4 steps
+USE solution 1
+END
+#
+# TEST PROBLEM #5 PART A  FIND PHASE BOUNDARY INTERSECTIONS IN K-SPAR WEATHERING. 
+#
+SOLUTION 1  PURE WATER                                                                      
+         units   mol/kgs
+            pH    7.0000 charge
+            pe    4.0000
+       density    1.0000
+          temp   25.0000
+PHASES 1
+
+Gibbsite
+	Al(OH)3 + 3 H+ = Al+3 + 3 H2O                                                 
+	-log_k		8.049
+	-delta_h	-22.792 kcal
+
+Kaolinite 
+	Al2Si2O5(OH)4 + 6 H+ = H2O + 2 H4SiO4 + 2 Al+3                                      
+	-log_k		5.708
+	-delta_h	-35.306 kcal
+
+Muscovite    
+	KAl3Si3O10(OH)2 + 10 H+ = 3 Al+3 + 3 H4SiO4 + K+                                      
+	-log_k		12.970
+	-delta_h	-59.377 kcal
+
+Microcline
+	KAlSi3O8 + 4 H2O + 4 H+ = Al+3 + 3 H4SiO4 + K+                                 
+	-log_k		0.875
+	-delta_h	-12.467 kcal
+
+SAVE solution   1
+END
+#
+# TEST PROBLEM #5 PART A  FIND PHASE BOUNDARY INTERSECTIONS IN K-SPAR WEATHERING. 
+#
+SOLUTION 1  PURE WATER                                                                      
+         units   mol/kgs
+            pH    7.0000 charge
+            pe    4.0000
+       density    1.0000
+          temp   25.0000
+PHASES 1
+
+Gibbsite
+	Al(OH)3 + 3 H+ = Al+3 + 3 H2O                                                 
+	-log_k		8.049
+	-delta_h	-22.792 kcal
+
+Kaolinite 
+	Al2Si2O5(OH)4 + 6 H+ = H2O + 2 H4SiO4 + 2 Al+3                                      
+	-log_k		5.708
+	-delta_h	-35.306 kcal
+
+Muscovite    
+	KAl3Si3O10(OH)2 + 10 H+ = 3 Al+3 + 3 H4SiO4 + K+                                      
+	-log_k		12.970
+	-delta_h	-59.377 kcal
+
+Microcline
+	KAlSi3O8 + 4 H2O + 4 H+ = Al+3 + 3 H4SiO4 + K+                                 
+	-log_k		0.875
+	-delta_h	-12.467 kcal
+
+SAVE solution   1
+END
+#
+# FIND AMOUNT OF K-SPAR DISSOLVED TO REACH GIBBSITE SATURATION.                   
+#
+PURE_PHASES 1
+	Gibbsite	0.0	KAlSi3O8	100.0
+	Kaolinite  	0.0	0.0
+	Muscovite	0.0	0.0
+	Microcline	0.0	0.0
+USE solution 1
+END
+#
+# FIND AMOUNT OF K-SPAR DISSOLVED TO REACH KAOLINITE SATURATION.                  
+#
+PURE_PHASES 1
+	Kaolinite	0.0	KAlSi3O8	100.0
+	Gibbsite	0.0	0.0
+	Muscovite	0.0	0.0
+	Microcline	0.0	0.0
+USE solution 1
+END
+#
+# FIND AMOUNT OF K-SPAR DISSOLVED TO REACH MUSCOVITE SATURATION.                  
+#
+PURE_PHASES 1
+	Muscovite	0.0	KAlSi3O8	100.0
+	Kaolinite	0.0	0.0
+	Gibbsite	0.0	0.0
+	Microcline	0.0	0.0
+USE solution 1
+END
+#
+# FIND AMOUNT OF K-SPAR DISSOLVED TO REACH K-SPAR SATURATION.                     
+#
+PURE_PHASES 1
+	Microcline	0.0	100.0
+	Muscovite	0.0	0.0
+	Kaolinite	0.0	0.0
+	Gibbsite	0.0	0.0
+USE solution 1
+END
+#
+# FIND POINT WITH KAOLINITE PRESENT, BUT NO GIBBSITE
+#
+PURE_PHASES 1
+	Gibbsite	0.0	KAlSi3O8	100.0
+	Kaolinite	0.0	1.0
+USE solution 1
+END
+#
+# FIND POINT WITH MUSCOVITE PRESENT, BUT NO KAOLINITE
+#
+PURE_PHASES 1
+	Kaolinite	0.0	KAlSi3O8	100.0
+	Muscovite	0.0	1.0
+USE solution 1
+END
+#
+# REACT K-SPAR IN 35 EQUAL INCREMENTS
+#
+PURE_PHASES 1
+	Kaolinite	0.0	0.0
+	Gibbsite	0.0	0.0
+	Muscovite	0.0	0.0
+	Microcline	0.0	0.0
+USE solution 1
+REACTION 1
+	Microcline 1.0
+	35 umol in 35 steps
+END
+#
+# MACHO TEST PROBLEM
+#
+SURFACE 1
+	equilibrate with solution 1
+	SurfOH	0.001	1071.	0.33
+
+SURFACE_MASTER_SPECIES
+	Surf	SurfOH
+
+SURFACE_SPECIES
+
+	SurfOH = SurfOH
+	-log_k	0.0
+
+	SurfOH  + H+ = SurfOH2+
+	-log_k	6.3
+
+	SurfOH = SurfO- + H+
+	-log_k	-7.1
+
+	SurfOH + MoO4-2 + H+ = SurfMoO4- + H2O
+	-log_k	8.8
+
+	SurfOH + MoO4-2 = SurfOHMoO4-2
+	-log_k	2.2
+
+SOLUTION_MASTER_SPECIES
+	Mo	MoO4-2		1.0	160.94		95.94
+
+SOLUTION_SPECIES
+
+	MoO4-2 = MoO4-2
+	-log_k	0.0
+
+	MoO4-2 + H+ = HMoO4-
+	-log_k	4.24
+
+	MoO4-2 + 2H+ = H2MoO4
+	-log_k	6.85
+
+	MoO4-2 + Ca+2 = CaMoO4
+	-log_k	2.57
+
+	MoO4-2 + Mg+2 = MgMoO4
+	-log_k	3.03
+
+REACTION 1  	Reaction test
+	HCl  1.0
+	1.0 mol in 2 steps
+REACTION_TEMPERATURE
+	25.0 35.0 in 2 steps
+EXCHANGE 1
+	CaX2	1.0 
+	NaX     1.0
+
+SOLUTION 1	Seawater
+	Temp 25.
+	pH 8.22  # charge
+	density 1.02
+	pe  8.45 #	O2(g) -0.7
+	units ppm
+#	redox O(0)/O(-2)	#pe
+	Mo      1.0 ppb
+	Ca	412.3   # Calcite
+	Mg	1291.8
+	Na	10768.0
+	O(0)	8.	O2(g) -0.7	#equilibrium with atmospheric oxygen
+	K	399.1
+	Fe	2.0 ppb	N(5)/N(-3)	#units are ppb for iron
+					#pe for iron specified by nitrogen couple
+	Mn   	0.0002
+	Al	0.002
+	Ba	0.02
+	Sr	8.14
+	Si  	4.28
+	Cl	19353.0
+	Alkalinity	141.682	as HCO3	#concentration given as bicarbonate
+	S(6)	2712.0 
+	N(5) N(3)	0.290   as NO3
+	B	24.45
+	P	0.06    as PO4
+	F	1.39
+	Li	0.181
+	Br	67.3
+	N(-3)	0.03 	as NH4
+	N(0)	1.0    	N2(g) -0.3	#equilibrium with atmospheric nitrogen
+PURE_PHASES 1  Complete phase assemblage
+	Gibbsite	0.0     2.0
+	Kaolinite	0.0     5.0
+	Chalcedony	0.0     2.1
+	Calcite		0.0 	1.0
+	Dolomite	0.0     1.0
+	Anhydrite	0.0     1.0
+	Gypsum		0.0     1.0
+	Siderite	0.0     1.0
+	FeS(ppt)	0.0     1.0
+	Goethite	0.0     1.0
+	Sulfur		0.0     0.0
+	Aragonite	0.0 	2.5
+	O2(g)   	-0.7    1.0
+	CO2(g)  	-3.0    0.0
+END
+
+
+

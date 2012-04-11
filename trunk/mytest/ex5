@@ -1,0 +1,20 @@
+DATABASE ../database/phreeqc.dat
+knobs
+	-log
+TITLE Example 5.--Add oxygen, equilibrate with pyrite, calcite, and goethite.
+SOLUTION 1  PURE WATER
+        pH      7.0
+        temp    25.0
+EQUILIBRIUM_PHASES 1
+        Pyrite          0.0
+        Goethite        0.0
+        Calcite         0.0
+        Gypsum          0.0     0.0
+REACTION 1
+        O2      1.0
+        0.0     0.001   0.005   0.01    0.05
+SELECTED_OUTPUT
+        -file   ex5.pun
+        -si     CO2(g)  Gypsum
+        -equilibrium_phases  pyrite goethite calcite gypsum
+END

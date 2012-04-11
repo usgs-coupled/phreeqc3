@@ -1,0 +1,36 @@
+# Compare expt data of N2 solubility at high N2 pressure and
+#   Peng-Robinson calc's with initial solution equilibria.
+DATABASE ../database/phreeqc.dat
+INCLUDE$ CO2_V2.db
+SOLUTION 1
+N 1 N2(g) 1.4
+PHASES
+N2(g)
+	N2 = N2
+	log_k		 -3.1864
+	-analytic -58.453 1.81800E-03  3199  17.909 -27460
+	T_c  126.2 # critical T, K
+	-P_c   33.50 # critical P, atm
+	-Omega 0.039 # Pitzer acentric factor
+SELECTED_OUTPUT; -reset false; -file 25.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 820 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + ' pH 3 charge' + EOL$ + 'N 1 N2(g) ' + str$(log10(i)) + EOL$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 30 next i
+END
+
+SELECTED_OUTPUT; -selected_out false
+#PRINT; -reset false; -echo_input true
+USER_GRAPH
+ -plot_csv_file N2_25C.dat
+ -axis_titles "Pressure / atm" "N2 / (mol/kgw)"
+ -axis_scale x_axis 0 800
+ -axis_scale y_axis 0 0.3
+ -initial_solutions true
+ 10 x = PR_P("N2(g)")
+ 20 graph_x x # tot("Na")
+ 30 graph_y tot("N")/2
+ -end
+INCLUDE$ 25.prn
+END

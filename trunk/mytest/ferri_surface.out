@@ -1,0 +1,1186 @@
+   Input file: ferri_surface
+  Output file: ferri_surface.out
+Database file: ../database/minteq.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/minteq.dat
+	PRINT
+	echo_input            true
+	eh                    false
+	equilibrium_phases    true
+	exchange              false
+	gas_phase             false
+	headings              false
+	inverse               false
+	kinetics              false
+	other                 false
+	saturation_indices    false
+	solid_solutions       false
+	species               false
+	surface               true
+	totals                true
+	user_print            true
+	selected_output       false
+	status                false
+	warnings              -1
+	USER_PRINT 
+	start
+	10 PRINT "		 O(0)             ", TOT("O(0)"), "  ", TOT("O(0)")
+	end
+	Solution 172
+	redox     O(-2)/O(0)
+	units     mg/kgw
+	water    1 # kg
+	TEMP 31.7846393585
+	DENSITY 996.067138672
+	Al 0.076009543489
+	Ca 31.5927151669
+	Cl 326.437399018
+	Cu 0.0122253877467
+	C 125.324046097
+	F 0.0166651532054
+	Fe 0.209029350975
+	K 10.4758542818
+	Mg 31.9571996235
+	Mn 0.0641924194052
+	Na 331.721485812
+	N 0.000113471171062
+	P 0.000242072012043
+	Pb 0.000455468309389
+	Si 25.146238327
+	S 363.039993842
+	Zn 0.0540557554147
+	pH 8.03947707606
+	O(0) 7.02039527893
+	EQUILIBRIUM_PHASES 1
+	    Calcite		 0		 0
+	    Ferrihydrite		 0		 0
+	    Gypsum		 0		 0
+	    Gypsum		 0		 0
+	    Manganite		 0		 0
+	    Jarosite-Na		 0		 0
+	    Jarosite-K		 0		 0
+	    Alunite		 0		 0
+	    Halloysite		 0		 0
+	    Malachite		 0		 0
+	SURFACE 1
+	    equilibrate with solution 172
+	    Hfo_sOH Ferrihydrite    equilibrium_phase 0.1    64122.6
+	    Hfo_wOH Ferrihydrite    equilibrium_phase 0.001
+	END
+----------------------------------User print-----------------------------------
+
+   O(0)                4.3877e-04      4.3877e-04 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.817e-06   2.817e-06
+	C                 2.054e-03   2.054e-03
+	Ca                7.882e-04   7.882e-04
+	Cl                9.208e-03   9.208e-03
+	Cu                1.924e-07   1.924e-07
+	F                 8.772e-07   8.772e-07
+	Fe                3.743e-06   3.743e-06
+	K                 2.679e-04   2.679e-04
+	Mg                1.314e-03   1.314e-03
+	Mn                1.168e-06   1.168e-06
+	N                 8.101e-09   8.101e-09
+	Na                1.443e-02   1.443e-02
+	O(0)              4.388e-04   4.388e-04
+	P                 7.815e-09   7.815e-09
+	Pb                2.198e-09   2.198e-09
+	S                 3.779e-03   3.779e-03
+	Si                2.616e-04   2.616e-04
+	Zn                8.269e-07   8.269e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.039    
+                                       pe  =   4.000    
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.297e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.076e-03
+                       Total CO2 (mol/kg)  =   2.054e-03
+                      Temperature (deg C)  =  31.78
+                  Electrical balance (eq)  =   7.592e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.21
+                               Iterations  =  11
+                                  Total H  = 1.110156e+02
+                                  Total O  = 5.552901e+01
+
+Hfo           
+	  3.353e-33  Surface charge, eq
+	undefined  sigma, C/m**2
+	  0.000e+00  psi, V
+	 -0.000e+00  -F*psi/RT
+	  1.000e+00  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  0.000e+00  m**2 for   0.000e+00 moles of Ferrihydrite
+
+
+Hfo_s         
+	  0.000e+00  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         1.511e-33       0.000   1.511e-33     -32.821
+	Hfo_sOPb+         6.671e-34       0.000   6.671e-34     -33.176
+	Hfo_sOCu+         4.853e-34       0.000   4.853e-34     -33.314
+	Hfo_sOHCa+2       3.419e-34       0.000   3.419e-34     -33.466
+	Hfo_sOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_sOH2+         1.780e-36       0.000   1.780e-36     -35.749
+	Hfo_sO-           1.287e-36       0.000   1.287e-36     -35.891
+	Hfo_sOHSO4-2      1.110e-37       0.000   1.110e-37     -36.955
+	Hfo_sSO4-         9.913e-39       0.000   9.913e-39     -38.004
+	Hfo_sPO4-2        7.049e-39       0.000   7.049e-39     -38.152
+	Hfo_sHPO4-        3.011e-39       0.000   3.011e-39     -38.521
+	Hfo_sH2PO4        2.184e-41       0.000   2.184e-41     -40.661
+
+Hfo_w         
+	  0.000e+00  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_wOCu+         2.729e-36       0.000   2.729e-36     -35.564
+	Hfo_wOH2+         1.780e-36       0.000   1.780e-36     -35.749
+	Hfo_wOZn+         1.657e-36       0.000   1.657e-36     -35.781
+	Hfo_wO-           1.287e-36       0.000   1.287e-36     -35.891
+	Hfo_wOCa+         5.668e-37       0.000   5.668e-37     -36.247
+	Hfo_wOHSO4-2      1.110e-37       0.000   1.110e-37     -36.955
+	Hfo_wOPb+         2.595e-38       0.000   2.595e-38     -37.586
+	Hfo_wSO4-         9.913e-39       0.000   9.913e-39     -38.004
+	Hfo_wPO4-2        7.049e-39       0.000   7.049e-39     -38.152
+	Hfo_wHPO4-        3.011e-39       0.000   3.011e-39     -38.521
+	Hfo_wH2PO4        2.184e-41       0.000   2.184e-41     -40.661
+
+----------------------------------User print-----------------------------------
+
+   O(0)                4.3858e-04      4.3858e-04 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Alunite          -8.47    -9.75     -1.28    0.000e+00           0   0.000e+00
+Calcite           0.00    -8.52     -8.52    0.000e+00   1.345e-05   1.345e-05
+Ferrihydrite      0.00     4.89      4.89    0.000e+00   3.737e-06   3.737e-06
+Gypsum           -1.58    -6.19     -4.61    0.000e+00           0   0.000e+00
+Halloysite       -0.00     8.35      8.35    0.000e+00   1.242e-06   1.242e-06
+Jarosite-K       -3.06   -18.37    -15.31    0.000e+00           0   0.000e+00
+Jarosite-Na      -4.84   -16.63    -11.79    0.000e+00           0   0.000e+00
+Malachite        -2.19    -7.63     -5.43    0.000e+00           0   0.000e+00
+Manganite        -0.00    -0.24     -0.24    0.000e+00   1.168e-06   1.168e-06
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  8.070e-08  Surface charge, eq
+	  3.250e-02  sigma, C/m**2
+	  7.115e-02  psi, V
+	 -2.708e+00  -F*psi/RT
+	  6.668e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  2.396e-01  m**2 for   3.737e-06 moles of Ferrihydrite
+
+
+Hfo_s         
+	  3.737e-07  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         1.804e-07       0.483   1.804e-07      -6.744
+	Hfo_sOCu+         6.057e-08       0.162   6.057e-08      -7.218
+	Hfo_sOHSO4-2      6.006e-08       0.161   6.006e-08      -7.221
+	Hfo_sO-           3.949e-08       0.106   3.949e-08      -7.404
+	Hfo_sOH           2.403e-08       0.064   2.403e-08      -7.619
+	Hfo_sOHCa+2       3.597e-09       0.010   3.597e-09      -8.444
+	Hfo_sPO4-2        2.516e-09       0.007   2.516e-09      -8.599
+	Hfo_sOPb+         2.154e-09       0.006   2.154e-09      -8.667
+	Hfo_sSO4-         4.199e-10       0.001   4.199e-10      -9.377
+	Hfo_sOH2+         3.351e-10       0.001   3.351e-10      -9.475
+	Hfo_sHPO4-        8.416e-11       0.000   8.416e-11     -10.075
+	Hfo_sH2PO4        4.780e-14       0.000   4.780e-14     -13.321
+
+Hfo_w         
+	  3.737e-09  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      1.760e-09       0.471   1.760e-09      -8.755
+	Hfo_wO-           1.157e-09       0.310   1.157e-09      -8.937
+	Hfo_wOH           7.041e-10       0.188   7.041e-10      -9.152
+	Hfo_wPO4-2        7.371e-11       0.020   7.371e-11     -10.132
+	Hfo_wSO4-         1.230e-11       0.003   1.230e-11     -10.910
+	Hfo_wOCu+         9.978e-12       0.003   9.978e-12     -11.001
+	Hfo_wOH2+         9.816e-12       0.003   9.816e-12     -11.008
+	Hfo_wOZn+         5.795e-12       0.002   5.795e-12     -11.237
+	Hfo_wHPO4-        2.465e-12       0.001   2.465e-12     -11.608
+	Hfo_wOCa+         2.230e-12       0.001   2.230e-12     -11.652
+	Hfo_wOPb+         2.455e-15       0.000   2.455e-15     -14.610
+	Hfo_wH2PO4        1.400e-15       0.000   1.400e-15     -14.854
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                3.340e-07   3.340e-07
+	C                 2.040e-03   2.040e-03
+	Ca                7.748e-04   7.748e-04
+	Cl                9.208e-03   9.208e-03
+	Cu                1.318e-07   1.318e-07
+	F                 8.772e-07   8.772e-07
+	Fe                6.099e-09   6.099e-09
+	K                 2.679e-04   2.679e-04
+	Mg                1.314e-03   1.314e-03
+	Mn                1.177e-10   1.177e-10
+	N                 8.101e-09   8.101e-09
+	Na                1.443e-02   1.443e-02
+	P                 5.139e-09   5.139e-09
+	Pb                4.392e-11   4.392e-11
+	S                 3.779e-03   3.779e-03
+	Si                2.591e-04   2.591e-04
+	Zn                6.465e-07   6.465e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.970      Charge balance
+                                       pe  =  12.087      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.294e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.035e-03
+                       Total CO2 (mol/kg)  =   2.040e-03
+                      Temperature (deg C)  =  31.78
+                  Electrical balance (eq)  =   7.584e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.21
+                               Iterations  =  35
+                                  Total H  = 1.110155e+02
+                                  Total O  = 5.552894e+01
+
+	Solution 173
+	redox     O(-2)/O(0)
+	units     mg/kgw
+	water    1 # kg
+	TEMP 26.9743099213
+	DENSITY 997.76965332
+	Al 0.00526409083977
+	Ca 31.683221817
+	Cl 316.311676025
+	Cu 0.00726966233924
+	C 134.601125183
+	F 0.0161676388234
+	Fe 0.000340331607731
+	K 10.0218429565
+	Mg 30.8276157379
+	Mn 1.34543165586e-006
+	Na 321.627288818
+	N 0.0
+	P 1.29740101329e-006
+	Pb 0.0
+	Si 24.1730480194
+	S 345.629638672
+	Zn 0.0373720303178
+	pH 7.98798847198
+	O(0) 1.00000001335e-010
+	EQUILIBRIUM_PHASES 1
+	    Calcite		 0		 0
+	    Ferrihydrite		 0		 0
+	    Gypsum		 0		 0
+	    Gypsum		 0		 0
+	    Manganite		 0		 0
+	    Jarosite-Na		 0		 0
+	    Jarosite-K		 0		 0
+	    Alunite		 0		 0
+	    Halloysite		 0		 0
+	    Malachite		 0		 0
+	SURFACE 1
+	    equilibrate with solution 173
+	    Hfo_sOH Ferrihydrite    equilibrium_phase 0.1    64122.6
+	    Hfo_wOH Ferrihydrite    equilibrium_phase 0.001
+	END
+----------------------------------User print-----------------------------------
+
+   O(0)                6.2500e-15      6.2500e-15 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.951e-07   1.951e-07
+	C                 2.206e-03   2.206e-03
+	Ca                7.905e-04   7.905e-04
+	Cl                8.922e-03   8.922e-03
+	Cu                1.144e-07   1.144e-07
+	F                 8.510e-07   8.510e-07
+	Fe                6.094e-09   6.094e-09
+	K                 2.563e-04   2.563e-04
+	Mg                1.268e-03   1.268e-03
+	Mn                2.449e-11   2.449e-11
+	Na                1.399e-02   1.399e-02
+	O(0)              6.250e-15   6.250e-15
+	P                 4.189e-11   4.189e-11
+	S                 3.598e-03   3.598e-03
+	Si                2.515e-04   2.515e-04
+	Zn                5.717e-07   5.717e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.988    
+                                       pe  =   4.000    
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.235e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.197e-03
+                       Total CO2 (mol/kg)  =   2.206e-03
+                      Temperature (deg C)  =  26.97
+                  Electrical balance (eq)  =   4.894e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.14
+                               Iterations  =  12
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552824e+01
+
+Hfo           
+	 -3.726e-35  Surface charge, eq
+	undefined  sigma, C/m**2
+	  7.003e-02  psi, V
+	 -2.708e+00  -F*psi/RT
+	  6.668e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  0.000e+00  m**2 for   0.000e+00 moles of Ferrihydrite
+
+
+Hfo_s         
+	  0.000e+00  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         6.919e-35       0.000   6.919e-35     -34.160
+	Hfo_sOHSO4-2      2.415e-35       0.000   2.415e-35     -34.617
+	Hfo_sOCu+         2.118e-35       0.000   2.118e-35     -34.674
+	Hfo_sO-           1.714e-35       0.000   1.714e-35     -34.766
+	Hfo_sOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_sOHCa+2       1.561e-36       0.000   1.561e-36     -35.807
+	Hfo_sSO4-         1.619e-37       0.000   1.619e-37     -36.791
+	Hfo_sOH2+         1.337e-37       0.000   1.337e-37     -36.874
+	Hfo_sPO4-2        8.091e-39       0.000   8.091e-39     -38.092
+	Hfo_sHPO4-        2.594e-40       0.000   2.594e-40     -39.586
+	Hfo_sH2PO4        1.413e-43       0.000   1.413e-43     -42.850
+
+Hfo_w         
+	  0.000e+00  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      2.415e-35       0.000   2.415e-35     -34.617
+	Hfo_wO-           1.714e-35       0.000   1.714e-35     -34.766
+	Hfo_wOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_wSO4-         1.619e-37       0.000   1.619e-37     -36.791
+	Hfo_wOH2+         1.337e-37       0.000   1.337e-37     -36.874
+	Hfo_wOCu+         1.191e-37       0.000   1.191e-37     -36.924
+	Hfo_wOZn+         7.586e-38       0.000   7.586e-38     -37.120
+	Hfo_wOCa+         3.446e-38       0.000   3.446e-38     -37.463
+	Hfo_wPO4-2        8.091e-39       0.000   8.091e-39     -38.092
+	Hfo_wHPO4-        2.594e-40       0.000   2.594e-40     -39.586
+	Hfo_wH2PO4        1.413e-43       0.000   1.413e-43     -42.850
+
+----------------------------------User print-----------------------------------
+
+   O(0)                3.4665e-21      3.4665e-21 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Alunite          -7.80    -9.13     -1.33    0.000e+00           0   0.000e+00
+Calcite          -0.00    -8.49     -8.49    0.000e+00           0   0.000e+00
+Ferrihydrite     -0.00     4.89      4.89    0.000e+00   8.839e-15   8.839e-15
+Gypsum           -1.58    -6.18     -4.61    0.000e+00           0   0.000e+00
+Halloysite       -0.00     8.80      8.80    0.000e+00   1.707e-11   1.707e-11
+Jarosite-K       -3.52   -18.47    -14.95    0.000e+00           0   0.000e+00
+Jarosite-Na      -5.35   -16.73    -11.37    0.000e+00           0   0.000e+00
+Malachite        -2.50    -7.76     -5.26    0.000e+00           0   0.000e+00
+Manganite        -4.19    -4.43     -0.24    0.000e+00           0   0.000e+00
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.849e-16  Surface charge, eq
+	  3.148e-02  sigma, C/m**2
+	  6.954e-02  psi, V
+	 -2.689e+00  -F*psi/RT
+	  6.795e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  5.668e-10  m**2 for   8.839e-15 moles of Ferrihydrite
+
+
+Hfo_s         
+	  8.839e-16  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         4.325e-16       0.489   4.325e-16     -15.364
+	Hfo_sOHSO4-2      1.427e-16       0.161   1.427e-16     -15.845
+	Hfo_sOCu+         1.324e-16       0.150   1.324e-16     -15.878
+	Hfo_sO-           1.032e-16       0.117   1.032e-16     -15.986
+	Hfo_sOH           6.135e-17       0.069   6.135e-17     -16.212
+	Hfo_sOHCa+2       9.941e-18       0.011   9.941e-18     -17.003
+	Hfo_sSO4-         9.748e-19       0.001   9.748e-19     -18.011
+	Hfo_sOH2+         8.356e-19       0.001   8.356e-19     -18.078
+	Hfo_sPO4-2        4.781e-20       0.000   4.781e-20     -19.320
+	Hfo_sHPO4-        1.562e-21       0.000   1.562e-21     -20.806
+	Hfo_sH2PO4        8.668e-25       0.000   8.668e-25     -24.062
+
+Hfo_w         
+	  8.839e-18  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      4.063e-18       0.460   4.063e-18     -17.391
+	Hfo_wO-           2.937e-18       0.332   2.937e-18     -17.532
+	Hfo_wOH           1.746e-18       0.198   1.746e-18     -17.758
+	Hfo_wSO4-         2.775e-20       0.003   2.775e-20     -19.557
+	Hfo_wOH2+         2.379e-20       0.003   2.379e-20     -19.624
+	Hfo_wOCu+         2.120e-20       0.002   2.120e-20     -19.674
+	Hfo_wOZn+         1.350e-20       0.002   1.350e-20     -19.870
+	Hfo_wOCa+         6.131e-21       0.001   6.131e-21     -20.212
+	Hfo_wPO4-2        1.361e-21       0.000   1.361e-21     -20.866
+	Hfo_wHPO4-        4.447e-23       0.000   4.447e-23     -22.352
+	Hfo_wH2PO4        2.467e-26       0.000   2.467e-26     -25.608
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.951e-07   1.951e-07
+	C                 2.206e-03   2.206e-03
+	Ca                7.905e-04   7.905e-04
+	Cl                8.922e-03   8.922e-03
+	Cu                1.144e-07   1.144e-07
+	F                 8.510e-07   8.510e-07
+	Fe                6.094e-09   6.094e-09
+	K                 2.563e-04   2.563e-04
+	Mg                1.268e-03   1.268e-03
+	Mn                2.449e-11   2.449e-11
+	Na                1.399e-02   1.399e-02
+	P                 4.189e-11   4.189e-11
+	S                 3.598e-03   3.598e-03
+	Si                2.515e-04   2.515e-04
+	Zn                5.717e-07   5.717e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.988      Charge balance
+                                       pe  =   8.180      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.235e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.197e-03
+                       Total CO2 (mol/kg)  =   2.206e-03
+                      Temperature (deg C)  =  26.97
+                  Electrical balance (eq)  =   4.894e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.14
+                               Iterations  =  25
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552824e+01
+
+	Solution 174
+	redox     O(-2)/O(0)
+	units     mg/kgw
+	water    1 # kg
+	TEMP 26.9743099213
+	DENSITY 997.973510742
+	Al 0.0052371090278
+	Ca 31.767408371
+	Cl 316.382568359
+	Cu 0.00726330792531
+	C 134.906155014
+	F 0.0161714386195
+	Fe 0.00034027575748
+	K 10.0218429565
+	Mg 30.8276157379
+	Mn 1.36411051699e-006
+	Na 321.857208252
+	N 0.0
+	P 2.87744256866e-007
+	Pb 0.0
+	Si 24.1730480194
+	S 345.725708008
+	Zn 0.0373851023614
+	pH 7.9859995842
+	O(0) 1.00000001335e-010
+	EQUILIBRIUM_PHASES 1
+	    Calcite		 0		 0
+	    Ferrihydrite		 0		 0
+	    Gypsum		 0		 0
+	    Gypsum		 0		 0
+	    Manganite		 0		 0
+	    Jarosite-Na		 0		 0
+	    Jarosite-K		 0		 0
+	    Alunite		 0		 0
+	    Halloysite		 0		 0
+	    Malachite		 0		 0
+	SURFACE 1
+	    equilibrate with solution 174
+	    Hfo_sOH Ferrihydrite    equilibrium_phase 0.1    64122.6
+	    Hfo_wOH Ferrihydrite    equilibrium_phase 0.001
+	END
+----------------------------------User print-----------------------------------
+
+   O(0)                6.2500e-15      6.2500e-15 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.941e-07   1.941e-07
+	C                 2.211e-03   2.211e-03
+	Ca                7.926e-04   7.926e-04
+	Cl                8.924e-03   8.924e-03
+	Cu                1.143e-07   1.143e-07
+	F                 8.512e-07   8.512e-07
+	Fe                6.093e-09   6.093e-09
+	K                 2.563e-04   2.563e-04
+	Mg                1.268e-03   1.268e-03
+	Mn                2.483e-11   2.483e-11
+	Na                1.400e-02   1.400e-02
+	O(0)              6.250e-15   6.250e-15
+	P                 9.290e-12   9.290e-12
+	S                 3.599e-03   3.599e-03
+	Si                2.515e-04   2.515e-04
+	Zn                5.719e-07   5.719e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.986    
+                                       pe  =   4.000    
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.236e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.202e-03
+                       Total CO2 (mol/kg)  =   2.211e-03
+                      Temperature (deg C)  =  26.97
+                  Electrical balance (eq)  =   5.451e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.16
+                               Iterations  =  12
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552825e+01
+
+Hfo           
+	 -3.117e-35  Surface charge, eq
+	undefined  sigma, C/m**2
+	  6.954e-02  psi, V
+	 -2.689e+00  -F*psi/RT
+	  6.795e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  0.000e+00  m**2 for   0.000e+00 moles of Ferrihydrite
+
+
+Hfo_s         
+	  0.000e+00  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         7.031e-35       0.000   7.031e-35     -34.153
+	Hfo_sOHSO4-2      2.327e-35       0.000   2.327e-35     -34.633
+	Hfo_sOCu+         2.163e-35       0.000   2.163e-35     -34.665
+	Hfo_sO-           1.674e-35       0.000   1.674e-35     -34.776
+	Hfo_sOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_sOHCa+2       1.624e-36       0.000   1.624e-36     -35.789
+	Hfo_sSO4-         1.596e-37       0.000   1.596e-37     -36.797
+	Hfo_sOH2+         1.368e-37       0.000   1.368e-37     -36.864
+	Hfo_sPO4-2        1.728e-39       0.000   1.728e-39     -38.762
+	Hfo_sHPO4-        5.671e-41       0.000   5.671e-41     -40.246
+	Hfo_sH2PO4        3.161e-44       0.000   3.161e-44     -43.500
+
+Hfo_w         
+	  0.000e+00  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      2.327e-35       0.000   2.327e-35     -34.633
+	Hfo_wO-           1.674e-35       0.000   1.674e-35     -34.776
+	Hfo_wOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_wSO4-         1.596e-37       0.000   1.596e-37     -36.797
+	Hfo_wOH2+         1.368e-37       0.000   1.368e-37     -36.864
+	Hfo_wOCu+         1.217e-37       0.000   1.217e-37     -36.915
+	Hfo_wOZn+         7.709e-38       0.000   7.709e-38     -37.113
+	Hfo_wOCa+         3.504e-38       0.000   3.504e-38     -37.455
+	Hfo_wPO4-2        1.728e-39       0.000   1.728e-39     -38.762
+	Hfo_wHPO4-        5.671e-41       0.000   5.671e-41     -40.246
+	Hfo_wH2PO4        3.161e-44       0.000   3.161e-44     -43.500
+
+----------------------------------User print-----------------------------------
+
+   O(0)                7.6463e-14      7.6463e-14 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Alunite          -7.80    -9.13     -1.33    0.000e+00           0   0.000e+00
+Calcite           0.00    -8.49     -8.49    0.000e+00   9.793e-09   9.793e-09
+Ferrihydrite     -0.00     4.89      4.89    0.000e+00           0   0.000e+00
+Gypsum           -1.57    -6.18     -4.61    0.000e+00           0   0.000e+00
+Halloysite       -0.00     8.80      8.80    0.000e+00           0   0.000e+00
+Jarosite-K       -3.51   -18.46    -14.95    0.000e+00           0   0.000e+00
+Jarosite-Na      -5.35   -16.72    -11.37    0.000e+00           0   0.000e+00
+Malachite        -2.50    -7.76     -5.26    0.000e+00           0   0.000e+00
+Manganite        -2.35    -2.59     -0.24    0.000e+00           0   0.000e+00
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -1.253e-27  Surface charge, eq
+	undefined  sigma, C/m**2
+	  6.546e-02  psi, V
+	 -2.531e+00  -F*psi/RT
+	  7.956e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  0.000e+00  m**2 for   0.000e+00 moles of Ferrihydrite
+
+
+Hfo_s         
+	  0.000e+00  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         5.372e-26       0.000   5.372e-26     -25.270
+	Hfo_sOCu+         1.653e-26       0.000   1.653e-26     -25.782
+	Hfo_sOHSO4-2      1.107e-26       0.000   1.107e-26     -25.956
+	Hfo_sO-           9.329e-27       0.000   9.329e-27     -26.030
+	Hfo_sOH           6.525e-27       0.000   6.525e-27     -26.185
+	Hfo_sOHCa+2       1.453e-27       0.000   1.453e-27     -26.838
+	Hfo_sOH2+         1.046e-28       0.000   1.046e-28     -27.981
+	Hfo_sSO4-         8.897e-29       0.000   8.897e-29     -28.051
+	Hfo_sPO4-2        8.224e-31       0.000   8.224e-31     -30.085
+	Hfo_sHPO4-        3.161e-32       0.000   3.161e-32     -31.500
+	Hfo_sH2PO4        2.063e-35       0.000   2.063e-35     -34.685
+
+Hfo_w         
+	  0.000e+00  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      1.520e-26       0.000   1.520e-26     -25.818
+	Hfo_wO-           1.281e-26       0.000   1.281e-26     -25.893
+	Hfo_wOH           8.957e-27       0.000   8.957e-27     -26.048
+	Hfo_wOH2+         1.435e-28       0.000   1.435e-28     -27.843
+	Hfo_wOCu+         1.276e-28       0.000   1.276e-28     -27.894
+	Hfo_wSO4-         1.221e-28       0.000   1.221e-28     -27.913
+	Hfo_wOZn+         8.085e-29       0.000   8.085e-29     -28.092
+	Hfo_wOCa+         3.674e-29       0.000   3.674e-29     -28.435
+	Hfo_wPO4-2        1.129e-30       0.000   1.129e-30     -29.947
+	Hfo_wHPO4-        4.339e-32       0.000   4.339e-32     -31.363
+	Hfo_wH2PO4        2.832e-35       0.000   2.832e-35     -34.548
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.941e-07   1.941e-07
+	C                 2.211e-03   2.211e-03
+	Ca                7.926e-04   7.926e-04
+	Cl                8.924e-03   8.924e-03
+	Cu                1.143e-07   1.143e-07
+	F                 8.512e-07   8.512e-07
+	Fe                6.093e-09   6.093e-09
+	K                 2.563e-04   2.563e-04
+	Mg                1.268e-03   1.268e-03
+	Mn                2.483e-11   2.483e-11
+	Na                1.400e-02   1.400e-02
+	P                 9.290e-12   9.290e-12
+	S                 3.599e-03   3.599e-03
+	Si                2.515e-04   2.515e-04
+	Zn                5.719e-07   5.719e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.986      Charge balance
+                                       pe  =  10.018      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.236e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.202e-03
+                       Total CO2 (mol/kg)  =   2.211e-03
+                      Temperature (deg C)  =  26.97
+                  Electrical balance (eq)  =   5.451e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.16
+                               Iterations  =  31
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552825e+01
+
+	Solution 175
+	redox     O(-2)/O(0)
+	units     mg/kgw
+	water    1 # kg
+	TEMP 26.9743099213
+	DENSITY 998.183227539
+	Al 0.00519393896684
+	Ca 31.927728653
+	Cl 316.418029785
+	Cu 0.0072505986318
+	C 135.455297852
+	F 0.0161733385175
+	Fe 0.000340219936334
+	K 10.0257530212
+	Mg 30.8276157379
+	Mn 1.39927090004e-006
+	Na 321.857208252
+	N 0.0
+	P 3.84073359783e-008
+	Pb 0.0
+	Si 24.1826591492
+	S 345.821746826
+	Zn 0.0373981781304
+	pH 7.98199939728
+	O(0) 1.00000001335e-010
+	EQUILIBRIUM_PHASES 1
+	    Calcite		 0		 0
+	    Ferrihydrite		 0		 0
+	    Gypsum		 0		 0
+	    Gypsum		 0		 0
+	    Manganite		 0		 0
+	    Jarosite-Na		 0		 0
+	    Jarosite-K		 0		 0
+	    Alunite		 0		 0
+	    Halloysite		 0		 0
+	    Malachite		 0		 0
+	SURFACE 1
+	    equilibrate with solution 175
+	    Hfo_sOH Ferrihydrite    equilibrium_phase 0.1    64122.6
+	    Hfo_wOH Ferrihydrite    equilibrium_phase 0.001
+	END
+----------------------------------User print-----------------------------------
+
+   O(0)                6.2500e-15      6.2500e-15 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.925e-07   1.925e-07
+	C                 2.220e-03   2.220e-03
+	Ca                7.966e-04   7.966e-04
+	Cl                8.925e-03   8.925e-03
+	Cu                1.141e-07   1.141e-07
+	F                 8.513e-07   8.513e-07
+	Fe                6.092e-09   6.092e-09
+	K                 2.564e-04   2.564e-04
+	Mg                1.268e-03   1.268e-03
+	Mn                2.547e-11   2.547e-11
+	Na                1.400e-02   1.400e-02
+	O(0)              6.250e-15   6.250e-15
+	P                 1.240e-12   1.240e-12
+	S                 3.600e-03   3.600e-03
+	Si                2.516e-04   2.516e-04
+	Zn                5.721e-07   5.721e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.982    
+                                       pe  =   4.000    
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.237e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.210e-03
+                       Total CO2 (mol/kg)  =   2.220e-03
+                      Temperature (deg C)  =  26.97
+                  Electrical balance (eq)  =   5.134e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.15
+                               Iterations  =  12
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552829e+01
+
+Hfo           
+	  1.592e-30  Surface charge, eq
+	undefined  sigma, C/m**2
+	  6.546e-02  psi, V
+	 -2.531e+00  -F*psi/RT
+	  7.956e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  0.000e+00  m**2 for   0.000e+00 moles of Ferrihydrite
+
+
+Hfo_s         
+	  0.000e+00  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         8.188e-30       0.000   8.188e-30     -29.087
+	Hfo_sOCu+         2.545e-30       0.000   2.545e-30     -29.594
+	Hfo_sOHSO4-2      1.697e-30       0.000   1.697e-30     -29.770
+	Hfo_sO-           1.417e-30       0.000   1.417e-30     -29.849
+	Hfo_sOH           1.000e-30       0.000   1.000e-30     -30.000
+	Hfo_sOHCa+2       2.238e-31       0.000   2.238e-31     -30.650
+	Hfo_sOH2+         1.617e-32       0.000   1.617e-32     -31.791
+	Hfo_sSO4-         1.376e-32       0.000   1.376e-32     -31.861
+	Hfo_sPO4-2        1.681e-35       0.000   1.681e-35     -34.774
+	Hfo_sHPO4-        6.521e-37       0.000   6.521e-37     -36.186
+	Hfo_sH2PO4        4.296e-40       0.000   4.296e-40     -39.367
+
+Hfo_w         
+	  0.000e+00  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      1.697e-30       0.000   1.697e-30     -29.770
+	Hfo_wO-           1.417e-30       0.000   1.417e-30     -29.849
+	Hfo_wOH           1.000e-30       0.000   1.000e-30     -30.000
+	Hfo_wOH2+         1.617e-32       0.000   1.617e-32     -31.791
+	Hfo_wOCu+         1.431e-32       0.000   1.431e-32     -31.844
+	Hfo_wSO4-         1.376e-32       0.000   1.376e-32     -31.861
+	Hfo_wOZn+         8.978e-33       0.000   8.978e-33     -32.047
+	Hfo_wOCa+         4.085e-33       0.000   4.085e-33     -32.389
+	Hfo_wPO4-2        1.681e-35       0.000   1.681e-35     -34.774
+	Hfo_wHPO4-        6.521e-37       0.000   6.521e-37     -36.186
+	Hfo_wH2PO4        4.296e-40       0.000   4.296e-40     -39.367
+
+----------------------------------User print-----------------------------------
+
+   O(0)                2.4007e-21      2.4007e-21 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Alunite          -7.79    -9.11     -1.33    0.000e+00           0   0.000e+00
+Calcite          -0.00    -8.49     -8.49    0.000e+00           0   0.000e+00
+Ferrihydrite     -0.00     4.89      4.89    0.000e+00   3.667e-13   3.667e-13
+Gypsum           -1.57    -6.18     -4.61    0.000e+00           0   0.000e+00
+Halloysite        0.00     8.80      8.80    0.000e+00   3.483e-11   3.483e-11
+Jarosite-K       -3.50   -18.45    -14.95    0.000e+00           0   0.000e+00
+Jarosite-Na      -5.34   -16.71    -11.37    0.000e+00           0   0.000e+00
+Malachite        -2.50    -7.76     -5.26    0.000e+00           0   0.000e+00
+Manganite        -4.22    -4.46     -0.24    0.000e+00           0   0.000e+00
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  7.674e-15  Surface charge, eq
+	  3.150e-02  sigma, C/m**2
+	  6.954e-02  psi, V
+	 -2.689e+00  -F*psi/RT
+	  6.796e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  2.351e-08  m**2 for   3.667e-13 moles of Ferrihydrite
+
+
+Hfo_s         
+	  3.667e-14  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         1.788e-14       0.488   1.788e-14     -13.748
+	Hfo_sOHSO4-2      5.945e-15       0.162   5.945e-15     -14.226
+	Hfo_sOCu+         5.556e-15       0.152   5.556e-15     -14.255
+	Hfo_sO-           4.239e-15       0.116   4.239e-15     -14.373
+	Hfo_sOH           2.556e-15       0.070   2.556e-15     -14.592
+	Hfo_sOHCa+2       4.173e-16       0.011   4.173e-16     -15.380
+	Hfo_sSO4-         4.117e-17       0.001   4.117e-17     -16.385
+	Hfo_sOH2+         3.530e-17       0.001   3.530e-17     -16.452
+	Hfo_sPO4-2        5.890e-20       0.000   5.890e-20     -19.230
+	Hfo_sHPO4-        1.951e-21       0.000   1.951e-21     -20.710
+	Hfo_sH2PO4        1.098e-24       0.000   1.098e-24     -23.959
+
+Hfo_w         
+	  3.667e-16  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      1.693e-16       0.462   1.693e-16     -15.771
+	Hfo_wO-           1.207e-16       0.329   1.207e-16     -15.918
+	Hfo_wOH           7.278e-17       0.198   7.278e-17     -16.138
+	Hfo_wSO4-         1.172e-18       0.003   1.172e-18     -17.931
+	Hfo_wOH2+         1.005e-18       0.003   1.005e-18     -17.998
+	Hfo_wOCu+         8.897e-19       0.002   8.897e-19     -18.051
+	Hfo_wOZn+         5.582e-19       0.002   5.582e-19     -18.253
+	Hfo_wOCa+         2.539e-19       0.001   2.539e-19     -18.595
+	Hfo_wPO4-2        1.677e-21       0.000   1.677e-21     -20.775
+	Hfo_wHPO4-        5.557e-23       0.000   5.557e-23     -22.255
+	Hfo_wH2PO4        3.126e-26       0.000   3.126e-26     -25.505
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.924e-07   1.924e-07
+	C                 2.220e-03   2.220e-03
+	Ca                7.966e-04   7.966e-04
+	Cl                8.925e-03   8.925e-03
+	Cu                1.141e-07   1.141e-07
+	F                 8.513e-07   8.513e-07
+	Fe                6.092e-09   6.092e-09
+	K                 2.564e-04   2.564e-04
+	Mg                1.268e-03   1.268e-03
+	Mn                2.547e-11   2.547e-11
+	Na                1.400e-02   1.400e-02
+	P                 1.240e-12   1.240e-12
+	S                 3.600e-03   3.600e-03
+	Si                2.516e-04   2.516e-04
+	Zn                5.721e-07   5.721e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.982      Charge balance
+                                       pe  =   8.146      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.237e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.210e-03
+                       Total CO2 (mol/kg)  =   2.220e-03
+                      Temperature (deg C)  =  26.97
+                  Electrical balance (eq)  =   5.134e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.15
+                               Iterations  =  25
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552829e+01
+
+	Solution 176
+	redox     O(-2)/O(0)
+	units     mg/kgw
+	water    1 # kg
+	TEMP 26.9757270813
+	DENSITY 998.427307129
+	Al 0.00511839054525
+	Ca 32.2042808533
+	Cl 316.524383545
+	Cu 0.00723788933828
+	C 136.370532684
+	F 0.0161790382117
+	Fe 0.000340108235832
+	K 10.0257530212
+	Mg 30.8519287109
+	Mn 1.46354830122e-006
+	Na 321.857208252
+	N 0.0
+	P 3.662450343e-009
+	Pb 0.0
+	Si 24.1922721863
+	S 345.917816162
+	Zn 0.0374308638275
+	pH 7.97599935532
+	O(0) 1.00000001335e-010
+	EQUILIBRIUM_PHASES 1
+	    Calcite		 0		 0
+	    Ferrihydrite		 0		 0
+	    Gypsum		 0		 0
+	    Gypsum		 0		 0
+	    Manganite		 0		 0
+	    Jarosite-Na		 0		 0
+	    Jarosite-K		 0		 0
+	    Alunite		 0		 0
+	    Halloysite		 0		 0
+	    Malachite		 0		 0
+	SURFACE 1
+	    equilibrate with solution 176
+	    Hfo_sOH Ferrihydrite    equilibrium_phase 0.1    64122.6
+	    Hfo_wOH Ferrihydrite    equilibrium_phase 0.001
+	END
+----------------------------------User print-----------------------------------
+
+   O(0)                6.2500e-15      6.2500e-15 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.897e-07   1.897e-07
+	C                 2.235e-03   2.235e-03
+	Ca                8.035e-04   8.035e-04
+	Cl                8.928e-03   8.928e-03
+	Cu                1.139e-07   1.139e-07
+	F                 8.516e-07   8.516e-07
+	Fe                6.090e-09   6.090e-09
+	K                 2.564e-04   2.564e-04
+	Mg                1.269e-03   1.269e-03
+	Mn                2.664e-11   2.664e-11
+	Na                1.400e-02   1.400e-02
+	O(0)              6.250e-15   6.250e-15
+	P                 1.182e-13   1.182e-13
+	S                 3.601e-03   3.601e-03
+	Si                2.517e-04   2.517e-04
+	Zn                5.726e-07   5.726e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.976    
+                                       pe  =   4.000    
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.239e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.224e-03
+                       Total CO2 (mol/kg)  =   2.235e-03
+                      Temperature (deg C)  =  26.98
+                  Electrical balance (eq)  =   4.826e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.14
+                               Iterations  =  12
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552833e+01
+
+Hfo           
+	 -3.097e-35  Surface charge, eq
+	undefined  sigma, C/m**2
+	  6.954e-02  psi, V
+	 -2.689e+00  -F*psi/RT
+	  6.796e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  0.000e+00  m**2 for   0.000e+00 moles of Ferrihydrite
+
+
+Hfo_s         
+	  0.000e+00  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         6.937e-35       0.000   6.937e-35     -34.159
+	Hfo_sOHSO4-2      2.325e-35       0.000   2.325e-35     -34.634
+	Hfo_sOCu+         2.191e-35       0.000   2.191e-35     -34.659
+	Hfo_sO-           1.636e-35       0.000   1.636e-35     -34.786
+	Hfo_sOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_sOHCa+2       1.647e-36       0.000   1.647e-36     -35.783
+	Hfo_sSO4-         1.633e-37       0.000   1.633e-37     -36.787
+	Hfo_sOH2+         1.400e-37       0.000   1.400e-37     -36.854
+	Hfo_sPO4-2        2.195e-41       0.000   2.195e-41     -40.659
+	Hfo_sHPO4-        7.373e-43       0.000   7.373e-43     -42.132
+	Hfo_sH2PO4        4.206e-46       0.000   4.206e-46     -45.376
+
+Hfo_w         
+	  0.000e+00  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      2.325e-35       0.000   2.325e-35     -34.634
+	Hfo_wO-           1.636e-35       0.000   1.636e-35     -34.786
+	Hfo_wOH           1.000e-35       0.000   1.000e-35     -35.000
+	Hfo_wSO4-         1.633e-37       0.000   1.633e-37     -36.787
+	Hfo_wOH2+         1.400e-37       0.000   1.400e-37     -36.854
+	Hfo_wOCu+         1.232e-37       0.000   1.232e-37     -36.909
+	Hfo_wOZn+         7.607e-38       0.000   7.607e-38     -37.119
+	Hfo_wOCa+         3.471e-38       0.000   3.471e-38     -37.460
+	Hfo_wPO4-2        2.195e-41       0.000   2.195e-41     -40.659
+	Hfo_wHPO4-        7.373e-43       0.000   7.373e-43     -42.132
+	Hfo_wH2PO4        4.206e-46       0.000   4.206e-46     -45.376
+
+----------------------------------User print-----------------------------------
+
+   O(0)                1.2959e-14      1.2959e-14 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Alunite          -7.77    -9.10     -1.33    0.000e+00           0   0.000e+00
+Calcite           0.00    -8.49     -8.49    0.000e+00   7.197e-08   7.197e-08
+Ferrihydrite      0.00     4.89      4.89    0.000e+00   8.251e-14   8.251e-14
+Gypsum           -1.57    -6.18     -4.61    0.000e+00           0   0.000e+00
+Halloysite        0.00     8.80      8.80    0.000e+00   5.897e-12   5.897e-12
+Jarosite-K       -3.48   -18.43    -14.95    0.000e+00           0   0.000e+00
+Jarosite-Na      -5.32   -16.69    -11.37    0.000e+00           0   0.000e+00
+Malachite        -2.50    -7.75     -5.26    0.000e+00           0   0.000e+00
+Manganite        -2.53    -2.77     -0.24    0.000e+00           0   0.000e+00
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  1.728e-15  Surface charge, eq
+	  3.151e-02  sigma, C/m**2
+	  6.954e-02  psi, V
+	 -2.689e+00  -F*psi/RT
+	  6.796e-02  exp(-F*psi/RT)
+	  6.412e+04  specific area, m**2/mol Ferrihydrite
+	  5.291e-09  m**2 for   8.251e-14 moles of Ferrihydrite
+
+
+Hfo_s         
+	  8.251e-15  moles	[0.1 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+         4.005e-15       0.485   4.005e-15     -14.397
+	Hfo_sOHSO4-2      1.342e-15       0.163   1.342e-15     -14.872
+	Hfo_sOCu+         1.266e-15       0.153   1.266e-15     -14.898
+	Hfo_sO-           9.437e-16       0.114   9.437e-16     -15.025
+	Hfo_sOH           5.774e-16       0.070   5.774e-16     -15.239
+	Hfo_sOHCa+2       9.509e-17       0.012   9.509e-17     -16.022
+	Hfo_sSO4-         9.436e-18       0.001   9.436e-18     -17.025
+	Hfo_sOH2+         8.094e-18       0.001   8.094e-18     -17.092
+	Hfo_sPO4-2        1.267e-21       0.000   1.267e-21     -20.897
+	Hfo_sHPO4-        4.261e-23       0.000   4.261e-23     -22.370
+	Hfo_sH2PO4        2.433e-26       0.000   2.433e-26     -25.614
+
+Hfo_w         
+	  8.251e-17  moles	[0.001 mol/(mol Ferrihydrite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOHSO4-2      3.825e-17       0.464   3.825e-17     -16.417
+	Hfo_wO-           2.689e-17       0.326   2.689e-17     -16.570
+	Hfo_wOH           1.645e-17       0.199   1.645e-17     -16.784
+	Hfo_wSO4-         2.688e-19       0.003   2.688e-19     -18.571
+	Hfo_wOH2+         2.306e-19       0.003   2.306e-19     -18.637
+	Hfo_wOCu+         2.028e-19       0.002   2.028e-19     -18.693
+	Hfo_wOZn+         1.251e-19       0.002   1.251e-19     -18.903
+	Hfo_wOCa+         5.704e-20       0.001   5.704e-20     -19.244
+	Hfo_wPO4-2        3.611e-23       0.000   3.611e-23     -22.442
+	Hfo_wHPO4-        1.214e-24       0.000   1.214e-24     -23.916
+	Hfo_wH2PO4        6.933e-28       0.000   6.933e-28     -27.159
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.897e-07   1.897e-07
+	C                 2.235e-03   2.235e-03
+	Ca                8.034e-04   8.034e-04
+	Cl                8.928e-03   8.928e-03
+	Cu                1.139e-07   1.139e-07
+	F                 8.516e-07   8.516e-07
+	Fe                6.090e-09   6.090e-09
+	K                 2.564e-04   2.564e-04
+	Mg                1.269e-03   1.269e-03
+	Mn                2.664e-11   2.664e-11
+	Na                1.400e-02   1.400e-02
+	P                 1.182e-13   1.182e-13
+	S                 3.601e-03   3.601e-03
+	Si                2.517e-04   2.517e-04
+	Zn                5.726e-07   5.726e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.976      Charge balance
+                                       pe  =   9.835      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   2.239e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.224e-03
+                       Total CO2 (mol/kg)  =   2.235e-03
+                      Temperature (deg C)  =  26.98
+                  Electrical balance (eq)  =   4.826e-05
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.14
+                               Iterations  =  28
+                                  Total H  = 1.110157e+02
+                                  Total O  = 5.552833e+01
+

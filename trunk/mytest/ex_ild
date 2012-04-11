@@ -1,0 +1,52 @@
+#DATABASE ../database/phreeqd.dat
+DATABASE ../database/phreeqc.dat
+SOLUTION 0; K 1; Cl 1 charge
+SOLUTION 1; Na 1; Cl 1 charge
+# Ca 1
+SOLUTION_SPECIES
+K+ = K+; log_k 0; -gamma 1e10 0
+Na+ = Na+; log_k 0; -gamma 1e10 0
+Cl- = Cl-; log_k 0; -gamma 1e10 0
+Ca+2 + Cl- = CaCl+; log_k 1
+EXCHANGE_SPECIES
+#CaOH+ + X- = CaOHX; -log_k 4; -gamma
+CaCl+ + X- = CaClX; -log_k 2; -gamma 1e10 0
+EXCHANGE 1
+ X 1e-3
+ -equil 1
+END
+USER_PRINT
+ 10 print sys("K") # with interlayer diffusion: + 0.2e-3 mol K
+TRANSPORT
+ -cells 1
+ -bcon 1 2
+ -shifts 1 0
+ -multi_D true 1e-9 1 0.05 1
+ -interlayer_D true 1 0.01 1
+ -time_step 1e8
+END
+#Also stagnant
+SOLUTION 0-2; Na 1 # needed for exchange
+END
+PHASES
+ Fix_pkcl
+ KCl = K+ + Cl-; log_k 0
+ Fix_pnacl
+ NaCl = Na+ + Cl-; log_k 0
+EQUILIBRIUM_PHASES 3
+ Fix_pkcl -6
+ Fix_pnacl -15
+SOLUTION 3; K 1; Cl 1 charge
+END
+SOLUTION 4; Na 1; Cl 1 charge
+# Ca 1
+EXCHANGE 4; X 1e-3; -equil 4
+END
+MIX 3
+ 4 0.2
+TRANSPORT
+ -stag 2; -print_c 3-4
+END
+
+
+

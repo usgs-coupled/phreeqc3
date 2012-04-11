@@ -1,0 +1,3485 @@
+   Input file: N2_conc_PR_IS
+  Output file: N2_conc_PR_IS.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION_SPECIES
+	Na+ = Na+
+		gamma	4.0	0.075
+		dw	 1.33e-9
+		millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+		vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
+	Cl- = Cl-
+		gamma	3.5	0.015
+		dw	 2.03e-9
+		millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+		vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
+	SO4-2 = SO4-2
+		gamma	5.0	-0.04
+		dw	 1.07e-9
+		millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
+		vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -9e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+	CO3-2 + 2 H+ = CO2 + H2O
+		log_k	16.681
+		delta_h -5.738	kcal
+		analytical_expression	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+		dw	 1.92e-9
+		vm   26.5 -0.066   0  0 0 0 -9.7E-03 # Data in Duan et al., 2006, MC 98, 131. 1-100 oC, 1-700 atm.
+	2 H2O = O2 + 4 H+ + 4 e-
+		log_k	-86.08
+		delta_h 134.79 kcal
+		dw	 2.35e-9
+		vm 35 # Pray et al., 1952, IEC 44. 1146
+	2 H+ + 2 e- = H2
+		log_k	-3.15
+		delta_h -1.759 kcal
+		dw	 5.13e-9
+		vm 20 # Pray et al., 1952, IEC 44. 1146
+	CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
+		log_k	41.071
+		delta_h -61.039 kcal
+		dw	 1.85e-9
+		vm 33
+	HS- + H+ = H2S
+		log_k	6.994
+		delta_h -5.30	kcal
+		analytical_expression  -11.17   0.02386  3279.0
+		dw	 2.1e-9
+		vm 34 0.021 3e-4 0 0 0 2.7e-3 # Hnedkovsky et al., 1996, JCT 28, 125
+	2 NO3- + 12 H+ + 10 e- = N2 + 6 H2O
+		log_k	207.08
+		delta_h -312.130	kcal
+		dw	 1.96e-9
+		vm 30 # Pray et al., 1952, IEC 44. 1146
+	PHASES
+	CO2(g)
+		CO2 = CO2
+		log_k	-1.468
+		delta_h -4.776 kcal
+		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+		t_c  304.2 # critical T, K
+		p_c   72.80 # critical P, atm
+		omega 0.225 #  acentric factor
+	O2(g)
+		O2 = O2
+		log_k   -2.8983
+		analytical_expression -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+		T_c  154.6 # critical T, K
+		p_c   49.80 # critical P, atm
+		omega 0.021 #  acentric factor
+	H2(g)
+		H2 = H2
+		log_k	   -3.1050
+		delta_h -4.184  kJ
+		analytical_expression   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
+		t_c  33.2 # critical T, K
+		p_c   12.80 # critical P, atm
+		omega 0.225 #  acentric factor
+	N2(g)
+		N2 = N2
+		log_k		 -3.1864
+		analytical_expression -58.453 1.81800E-03  3199  17.909 -27460
+		T_c  126.2 # critical T, K
+		p_c   33.50 # critical P, atm
+		omega 0.039 #  acentric factor
+	H2S(g)
+		H2S  =  H+ + HS-
+		log_k	   -7.9759
+		analytical_expression -9.7354e+001 -3.1576e-002 1.8285e+003 3.7440e+001 2.8560e+001
+		T_c  373.2 # critical T, K
+		p_c  88.20 # critical P, atm
+		omega 0.1 #  acentric factor
+	CH4(g)
+		CH4 = CH4
+		log_k	   -2.8502
+		analytical_expression -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+		T_c  190.6 # critical T, K
+		p_c   45.40 # critical P, atm
+		omega 0.008 #  acentric factor
+	Mirabilite
+		Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
+		log_k	   -1.214
+		analytical_expression       -3862.234   -1.19856    93713.54    1577.756    0.
+		vm  216.2
+	H2O(g)
+		H2O = H2O
+		log_k  1.506
+	 delta_h -44.03 kJ
+		T_c  647.3 # critical T, K
+		p_c  217.60 # critical P, atm
+		omega 0.344 #  acentric factor
+		analytical_expression   -16.5066 -2.0013E-3  2710.7  3.7646  0 2.24E-6
+	SOLUTION 1
+	N 1 N2(g) 1.4
+	PHASES
+	N2(g)
+		N2 = N2
+		log_k		 -3.1864
+		analytical_expression -58.453 1.81800E-03  3199  17.909 -27460
+		T_c  126.2 # critical T, K
+		p_c   33.50 # critical P, atm
+		omega 0.039 # Pitzer acentric factor
+	SELECTED_OUTPUT
+	 reset false
+	 file 25.prn
+	USER_PUNCH
+	  1 sc$ = chr$(59)
+	 10 for i = 1.1 to 820 step 20
+	 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + ' pH 3 charge' + EOL$ + 'N 1 N2(g) ' + str$(log10(i)) + EOL$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+	 30 next i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+WARNING: USER_PUNCH: Headings count doesn't match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.318e-02   3.318e-02  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99732
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   7.993e-11
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -7.993e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.04
+                               Iterations  =   4
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.001e-07   1.001e-07    -6.999    -7.000    -0.000     (0)  
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.997e-01     1.744    -0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     20.00
+N(-3)         4.462e-26
+   NH4+            4.437e-26   4.435e-26   -25.353   -25.353    -0.000     17.86
+   NH3             2.527e-28   2.527e-28   -27.597   -27.597     0.000     (0)  
+N(0)          3.318e-02
+   N2              1.659e-02   1.659e-02    -1.780    -1.780     0.000     30.00
+N(3)          1.380e-36
+   NO2-            1.380e-36   1.379e-36   -35.860   -35.860    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -42.430   -42.430    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)             1.40     -1.78   -3.18  N2	 Pressure  25.1 atm, phi 0.990.
+	NH3(g)          -29.37    -27.60    1.77  NH3
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT
+	 selected_out false
+	USER_GRAPH
+	 -plot_csv_file N2_25C.dat
+	 -axis_titles "Pressure / atm" "N2 / (mol/kgw)"
+	 -axis_scale x_axis 0 800
+	 -axis_scale y_axis 0 0.3
+	 -initial_solutions true
+	 10 x = PR_P("N2(g)")
+	 20 graph_x x # tot("Na")
+	 30 graph_y tot("N")/2
+	 -end
+	SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   4.1393e-02
+	pressure   1.1000e+00
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 1.467e-03   1.467e-03  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99710
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -6.100e-20
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  =  1.10
+                  Electrical balance (eq)  =   6.100e-20
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.001e-07   1.001e-07    -7.000    -7.000    -0.000      0.00
+   OH-             1.001e-07   1.001e-07    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          1.417e-25
+   H2              7.086e-26   7.086e-26   -25.150   -25.150     0.000     20.00
+N(-3)         9.403e-27
+   NH4+            9.349e-27   9.346e-27   -26.029   -26.029    -0.000     17.86
+   NH3             5.324e-29   5.324e-29   -28.274   -28.274     0.000     (0)  
+N(0)          1.467e-03
+   N2              7.335e-04   7.335e-04    -3.135    -3.135     0.000     30.00
+N(3)          2.897e-37
+   NO2-            2.897e-37   2.896e-37   -36.538   -36.538    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -43.108   -43.109    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.081     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)             0.04     -3.13   -3.18  N2	 Pressure   1.1 atm, phi 1.000.
+	NH3(g)          -30.04    -28.27    1.77  NH3
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   1.3243e+00
+	pressure   2.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.723e-02   2.723e-02  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99820
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.369e-17
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 21.10
+                  Electrical balance (eq)  =  -1.369e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.001e-07   1.000e-07    -7.000    -7.000    -0.000     (0)  
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.998e-01     1.744    -0.000     0.000     18.05
+H(0)          1.394e-25
+   H2              6.970e-26   6.970e-26   -25.157   -25.157     0.000     20.00
+N(-3)         4.041e-26
+   NH4+            4.017e-26   4.016e-26   -25.396   -25.396    -0.000     17.86
+   NH3             2.370e-28   2.370e-28   -27.625   -27.625     0.000     (0)  
+N(0)          2.723e-02
+   N2              1.362e-02   1.362e-02    -1.866    -1.866     0.000     30.00
+N(3)          1.290e-36
+   NO2-            1.290e-36   1.289e-36   -35.889   -35.890    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -42.460   -42.460    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.081     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,  21 atm)
+
+	H2(g)           -22.06    -25.16   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)             1.29     -1.87   -3.16  N2	 Pressure  21.1 atm, phi 0.991.
+	NH3(g)          -29.40    -27.63    1.78  NH3
+	O2(g)           -39.18    -42.08   -2.91  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   1.6138e+00
+	pressure   4.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 5.140e-02   5.140e-02  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99929
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.016e-17
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 41.10
+                  Electrical balance (eq)  =  -5.016e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.001e-07   1.000e-07    -7.000    -7.000    -0.000     (0)  
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.996e-01     1.744    -0.000     0.000     18.04
+H(0)          1.371e-25
+   H2              6.856e-26   6.856e-26   -25.164   -25.164     0.000     20.00
+N(-3)         5.537e-26
+   NH4+            5.504e-26   5.501e-26   -25.259   -25.260    -0.000     17.86
+   NH3             3.363e-28   3.363e-28   -27.473   -27.473     0.000     (0)  
+N(0)          5.140e-02
+   N2              2.570e-02   2.570e-02    -1.590    -1.590     0.000     30.00
+N(3)          1.831e-36
+   NO2-            1.831e-36   1.831e-36   -35.737   -35.737    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -42.308   -42.308    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,  41 atm)
+
+	H2(g)           -22.06    -25.16   -3.10  H2
+	H2O(g)           -1.49     -0.00    1.49  H2O
+	N2(g)             1.55     -1.59   -3.14  N2	 Pressure  41.1 atm, phi 0.984.
+	NH3(g)          -29.26    -27.47    1.79  NH3
+	O2(g)           -39.16    -42.08   -2.92  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   1.7860e+00
+	pressure   6.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 7.415e-02   7.415e-02  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00037
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   9.115e-17
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 61.10
+                  Electrical balance (eq)  =  -9.115e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.001e-07   1.000e-07    -7.000    -7.000    -0.000     (0)  
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.994e-01     1.744    -0.000     0.000     18.02
+H(0)          1.349e-25
+   H2              6.743e-26   6.743e-26   -25.171   -25.171     0.000     20.00
+N(-3)         6.634e-26
+   NH4+            6.592e-26   6.590e-26   -25.181   -25.181    -0.000     17.86
+   NH3             4.172e-28   4.172e-28   -27.380   -27.380     0.000     (0)  
+N(0)          7.415e-02
+   N2              3.707e-02   3.707e-02    -1.431    -1.431     0.000     30.00
+N(3)          2.272e-36
+   NO2-            2.272e-36   2.272e-36   -35.644   -35.644    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -42.214   -42.214    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,  61 atm)
+
+	H2(g)           -22.07    -25.17   -3.10  H2
+	H2O(g)           -1.48     -0.00    1.48  H2O
+	N2(g)             1.69     -1.43   -3.12  N2	 Pressure  61.1 atm, phi 0.979.
+	NH3(g)          -29.18    -27.38    1.80  NH3
+	O2(g)           -39.15    -42.08   -2.93  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   1.9090e+00
+	pressure   8.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 9.564e-02   9.564e-02  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00144
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.305e-16
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 81.10
+                  Electrical balance (eq)  =  -1.305e-16
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.001e-07   1.000e-07    -7.000    -7.000    -0.000     (0)  
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.992e-01     1.744    -0.000     0.000     18.00
+H(0)          1.327e-25
+   H2              6.633e-26   6.633e-26   -25.178   -25.178     0.000     20.00
+N(-3)         7.516e-26
+   NH4+            7.467e-26   7.464e-26   -25.127   -25.127    -0.000     17.86
+   NH3             4.894e-28   4.894e-28   -27.310   -27.310     0.000     (0)  
+N(0)          9.564e-02
+   N2              4.782e-02   4.782e-02    -1.320    -1.320     0.000     30.00
+N(3)          2.666e-36
+   NO2-            2.666e-36   2.665e-36   -35.574   -35.574    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -42.145   -42.145    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,  81 atm)
+
+	H2(g)           -22.08    -25.18   -3.10  H2
+	H2O(g)           -1.48     -0.00    1.48  H2O
+	N2(g)             1.78     -1.32   -3.10  N2	 Pressure  81.1 atm, phi 0.975.
+	NH3(g)          -29.12    -27.31    1.81  NH3
+	O2(g)           -39.14    -42.08   -2.94  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.0048e+00
+	pressure   1.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 1.160e-01   1.160e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00251
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.000e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.648e-16
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 101.10
+                  Electrical balance (eq)  =  -1.648e-16
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.000e-07   1.000e-07    -7.000    -7.000    -0.000     (0)  
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.990e-01     1.744    -0.000     0.000     17.99
+H(0)          1.305e-25
+   H2              6.524e-26   6.524e-26   -25.185   -25.185     0.000     20.00
+N(-3)         8.257e-26
+   NH4+            8.202e-26   8.199e-26   -25.086   -25.086    -0.000     17.86
+   NH3             5.567e-28   5.567e-28   -27.254   -27.254     0.000     (0)  
+N(0)          1.160e-01
+   N2              5.801e-02   5.801e-02    -1.237    -1.237     0.000     30.00
+N(3)          3.034e-36
+   NO2-            3.034e-36   3.033e-36   -35.518   -35.518    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -42.088   -42.089    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.079   -42.079     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 101 atm)
+
+	H2(g)           -22.08    -25.19   -3.10  H2
+	H2O(g)           -1.47     -0.00    1.47  H2O
+	N2(g)             1.85     -1.24   -3.09  N2	 Pressure 101.1 atm, phi 0.972.
+	NH3(g)          -29.07    -27.25    1.81  NH3
+	O2(g)           -39.12    -42.08   -2.96  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.0831e+00
+	pressure   1.2110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 1.353e-01   1.353e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00356
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.000e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.931e-16
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 121.10
+                  Electrical balance (eq)  =  -1.931e-16
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.000e-07   1.000e-07    -7.000    -7.000    -0.000     (0)  
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.988e-01     1.744    -0.000     0.000     17.97
+H(0)          1.283e-25
+   H2              6.417e-26   6.417e-26   -25.193   -25.193     0.000     20.00
+N(-3)         8.897e-26
+   NH4+            8.835e-26   8.831e-26   -25.054   -25.054    -0.000     17.86
+   NH3             6.209e-28   6.209e-28   -27.207   -27.207     0.000     (0)  
+N(0)          1.353e-01
+   N2              6.767e-02   6.767e-02    -1.170    -1.170     0.000     30.00
+N(3)          3.385e-36
+   NO2-            3.385e-36   3.383e-36   -35.470   -35.471    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -42.041   -42.041    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.079   -42.079     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 121 atm)
+
+	H2(g)           -22.09    -25.19   -3.10  H2
+	H2O(g)           -1.47     -0.00    1.46  H2O
+	N2(g)             1.90     -1.17   -3.07  N2	 Pressure 121.1 atm, phi 0.970.
+	NH3(g)          -29.03    -27.21    1.82  NH3
+	O2(g)           -39.11    -42.08   -2.97  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.1495e+00
+	pressure   1.4110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 1.538e-01   1.538e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00461
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.000e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.155e-16
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 141.10
+                  Electrical balance (eq)  =  -2.155e-16
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.000e-07   9.999e-08    -7.000    -7.000    -0.000     (0)  
+   H+              1.000e-07   9.999e-08    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.987e-01     1.744    -0.001     0.000     17.95
+H(0)          1.262e-25
+   H2              6.312e-26   6.312e-26   -25.200   -25.200     0.000     20.00
+N(-3)         9.461e-26
+   NH4+            9.393e-26   9.389e-26   -25.027   -25.027    -0.000     17.86
+   NH3             6.835e-28   6.835e-28   -27.165   -27.165     0.000     (0)  
+N(0)          1.538e-01
+   N2              7.689e-02   7.689e-02    -1.114    -1.114     0.000     30.00
+N(3)          3.727e-36
+   NO2-            3.727e-36   3.725e-36   -35.429   -35.429    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.999   -41.999    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.079   -42.079     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 141 atm)
+
+	H2(g)           -22.10    -25.20   -3.10  H2
+	H2O(g)           -1.46     -0.00    1.46  H2O
+	N2(g)             1.94     -1.11   -3.05  N2	 Pressure 141.1 atm, phi 0.970.
+	NH3(g)          -29.00    -27.17    1.83  NH3
+	O2(g)           -39.10    -42.08   -2.98  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.2071e+00
+	pressure   1.6110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 1.714e-01   1.714e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00566
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.000e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.679e-21
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 161.10
+                  Electrical balance (eq)  =   3.679e-21
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.000e-07   9.998e-08    -7.000    -7.000    -0.000      0.00
+   OH-             1.000e-07   9.998e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.985e-01     1.744    -0.001     0.000     17.94
+H(0)          1.242e-25
+   H2              6.209e-26   6.209e-26   -25.207   -25.207     0.000     20.00
+N(-3)         9.965e-26
+   NH4+            9.891e-26   9.887e-26   -25.005   -25.005    -0.000     17.86
+   NH3             7.451e-28   7.451e-28   -27.128   -27.128     0.000     (0)  
+N(0)          1.714e-01
+   N2              8.571e-02   8.571e-02    -1.067    -1.067     0.000     30.00
+N(3)          4.064e-36
+   NO2-            4.064e-36   4.062e-36   -35.391   -35.391    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.962   -41.962    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 161 atm)
+
+	H2(g)           -22.11    -25.21   -3.10  H2
+	H2O(g)           -1.45     -0.00    1.45  H2O
+	N2(g)             1.97     -1.07   -3.03  N2	 Pressure 161.1 atm, phi 0.970.
+	NH3(g)          -28.97    -27.13    1.84  NH3
+	O2(g)           -39.08    -42.08   -2.99  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.2579e+00
+	pressure   1.8110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 1.883e-01   1.883e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00670
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.000e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.891e-21
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 181.10
+                  Electrical balance (eq)  =   3.891e-21
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.000e-07   9.997e-08    -7.000    -7.000    -0.000      0.00
+   OH-             1.000e-07   9.997e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.984e-01     1.744    -0.001     0.000     17.92
+H(0)          1.221e-25
+   H2              6.107e-26   6.107e-26   -25.214   -25.214     0.000     20.00
+N(-3)         1.042e-25
+   NH4+            1.034e-25   1.034e-25   -24.986   -24.986    -0.000     17.86
+   NH3             8.063e-28   8.063e-28   -27.093   -27.093     0.000     (0)  
+N(0)          1.883e-01
+   N2              9.416e-02   9.416e-02    -1.026    -1.026     0.000     30.00
+N(3)          4.398e-36
+   NO2-            4.398e-36   4.397e-36   -35.357   -35.357    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.927   -41.927    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 181 atm)
+
+	H2(g)           -22.11    -25.21   -3.10  H2
+	H2O(g)           -1.45     -0.00    1.45  H2O
+	N2(g)             1.99     -1.03   -3.02  N2	 Pressure 181.1 atm, phi 0.972.
+	NH3(g)          -28.94    -27.09    1.85  NH3
+	O2(g)           -39.07    -42.08   -3.01  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 12.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.3034e+00
+	pressure   2.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.045e-01   2.045e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00774
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.000e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -4.090e-21
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 201.10
+                  Electrical balance (eq)  =   4.090e-21
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  17
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.000e-07   9.997e-08    -7.000    -7.000    -0.000      0.00
+   OH-             1.000e-07   9.997e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.983e-01     1.744    -0.001     0.000     17.90
+H(0)          1.201e-25
+   H2              6.007e-26   6.007e-26   -25.221   -25.221     0.000     20.00
+N(-3)         1.083e-25
+   NH4+            1.075e-25   1.074e-25   -24.969   -24.969    -0.000     17.86
+   NH3             8.676e-28   8.676e-28   -27.062   -27.062     0.000     (0)  
+N(0)          2.045e-01
+   N2              1.023e-01   1.023e-01    -0.990    -0.990     0.000     30.00
+N(3)          4.734e-36
+   NO2-            4.734e-36   4.732e-36   -35.325   -35.325    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.895   -41.895    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 201 atm)
+
+	H2(g)           -22.12    -25.22   -3.10  H2
+	H2O(g)           -1.44     -0.00    1.44  H2O
+	N2(g)             2.01     -0.99   -3.00  N2	 Pressure 201.1 atm, phi 0.974.
+	NH3(g)          -28.92    -27.06    1.86  NH3
+	O2(g)           -39.06    -42.08   -3.02  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 13.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.3446e+00
+	pressure   2.2110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.202e-01   2.202e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00877
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.000e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -4.103e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 221.10
+                  Electrical balance (eq)  =   4.103e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              1.000e-07   9.996e-08    -7.000    -7.000    -0.000      0.00
+   OH-             1.000e-07   9.996e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.981e-01     1.744    -0.001     0.000     17.89
+H(0)          1.182e-25
+   H2              5.909e-26   5.909e-26   -25.228   -25.228     0.000     20.00
+N(-3)         1.121e-25
+   NH4+            1.112e-25   1.112e-25   -24.954   -24.954    -0.000     17.86
+   NH3             9.293e-28   9.293e-28   -27.032   -27.032     0.000     (0)  
+N(0)          2.202e-01
+   N2              1.101e-01   1.101e-01    -0.958    -0.958     0.000     30.00
+N(3)          5.071e-36
+   NO2-            5.071e-36   5.069e-36   -35.295   -35.295    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.865   -41.866    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 221 atm)
+
+	H2(g)           -22.13    -25.23   -3.10  H2
+	H2O(g)           -1.43     -0.00    1.43  H2O
+	N2(g)             2.02     -0.96   -2.98  N2	 Pressure 221.1 atm, phi 0.977.
+	NH3(g)          -28.90    -27.03    1.87  NH3
+	O2(g)           -39.05    -42.08   -3.03  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 14.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.3822e+00
+	pressure   2.4110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.353e-01   2.353e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.00979
+                        Activity of water  =   0.998
+                           Ionic strength  =   9.999e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 241.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.999e-08   9.995e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.999e-08   9.995e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.980e-01     1.744    -0.001     0.000     17.87
+H(0)          1.162e-25
+   H2              5.812e-26   5.812e-26   -25.236   -25.236     0.000     20.00
+N(-3)         1.157e-25
+   NH4+            1.147e-25   1.146e-25   -24.941   -24.941    -0.000     17.86
+   NH3             9.915e-28   9.915e-28   -27.004   -27.004     0.000     (0)  
+N(0)          2.353e-01
+   N2              1.176e-01   1.176e-01    -0.929    -0.929     0.000     30.00
+N(3)          5.412e-36
+   NO2-            5.412e-36   5.410e-36   -35.267   -35.267    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.837   -41.837    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 241 atm)
+
+	H2(g)           -22.13    -25.24   -3.10  H2
+	H2O(g)           -1.43     -0.00    1.43  H2O
+	N2(g)             2.04     -0.93   -2.97  N2	 Pressure 241.1 atm, phi 0.982.
+	NH3(g)          -28.88    -27.00    1.87  NH3
+	O2(g)           -39.03    -42.08   -3.04  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 15.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.4168e+00
+	pressure   2.6110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.498e-01   2.498e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01082
+                        Activity of water  =   0.998
+                           Ionic strength  =   9.998e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.985e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 261.10
+                  Electrical balance (eq)  =  -1.985e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.998e-08   9.995e-08    -7.000    -7.000    -0.000     (0)  
+   H+              9.998e-08   9.995e-08    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.979e-01     1.744    -0.001     0.000     17.85
+H(0)          1.143e-25
+   H2              5.717e-26   5.717e-26   -25.243   -25.243     0.000     20.00
+N(-3)         1.189e-25
+   NH4+            1.179e-25   1.178e-25   -24.929   -24.929    -0.000     17.86
+   NH3             1.055e-27   1.055e-27   -26.977   -26.977     0.000     (0)  
+N(0)          2.498e-01
+   N2              1.249e-01   1.249e-01    -0.903    -0.903     0.000     30.00
+N(3)          5.758e-36
+   NO2-            5.758e-36   5.755e-36   -35.240   -35.240    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.810   -41.810    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 261 atm)
+
+	H2(g)           -22.14    -25.24   -3.10  H2
+	H2O(g)           -1.42     -0.00    1.42  H2O
+	N2(g)             2.05     -0.90   -2.95  N2	 Pressure 261.1 atm, phi 0.986.
+	NH3(g)          -28.86    -26.98    1.88  NH3
+	O2(g)           -39.02    -42.08   -3.06  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 16.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.4489e+00
+	pressure   2.8110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.640e-01   2.640e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01184
+                        Activity of water  =   0.998
+                           Ionic strength  =   9.998e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 281.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.998e-08   9.994e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.998e-08   9.994e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.978e-01     1.744    -0.001     0.000     17.84
+H(0)          1.125e-25
+   H2              5.624e-26   5.624e-26   -25.250   -25.250     0.000     20.00
+N(-3)         1.220e-25
+   NH4+            1.208e-25   1.208e-25   -24.918   -24.918    -0.000     17.86
+   NH3             1.119e-27   1.119e-27   -26.951   -26.951     0.000     (0)  
+N(0)          2.640e-01
+   N2              1.320e-01   1.320e-01    -0.879    -0.879     0.000     30.00
+N(3)          6.109e-36
+   NO2-            6.109e-36   6.107e-36   -35.214   -35.214    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.784   -41.785    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 281 atm)
+
+	H2(g)           -22.15    -25.25   -3.10  H2
+	H2O(g)           -1.42     -0.00    1.41  H2O
+	N2(g)             2.05     -0.88   -2.93  N2	 Pressure 281.1 atm, phi 0.992.
+	NH3(g)          -28.84    -26.95    1.89  NH3
+	O2(g)           -39.01    -42.08   -3.07  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 17.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.4787e+00
+	pressure   3.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.776e-01   2.776e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01286
+                        Activity of water  =   0.998
+                           Ionic strength  =   9.997e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.985e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 301.10
+                  Electrical balance (eq)  =   1.985e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.997e-08   9.994e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.997e-08   9.994e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.976e-01     1.744    -0.001     0.000     17.82
+H(0)          1.106e-25
+   H2              5.532e-26   5.532e-26   -25.257   -25.257     0.000     20.00
+N(-3)         1.248e-25
+   NH4+            1.236e-25   1.236e-25   -24.908   -24.908    -0.000     17.86
+   NH3             1.184e-27   1.184e-27   -26.927   -26.927     0.000     (0)  
+N(0)          2.776e-01
+   N2              1.388e-01   1.388e-01    -0.858    -0.858     0.000     30.00
+N(3)          6.467e-36
+   NO2-            6.467e-36   6.465e-36   -35.189   -35.189    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.760   -41.760    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 301 atm)
+
+	H2(g)           -22.16    -25.26   -3.10  H2
+	H2O(g)           -1.41     -0.00    1.41  H2O
+	N2(g)             2.06     -0.86   -2.91  N2	 Pressure 301.1 atm, phi 0.998.
+	NH3(g)          -28.83    -26.93    1.90  NH3
+	O2(g)           -39.00    -42.08   -3.08  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 18.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.5066e+00
+	pressure   3.2110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 2.909e-01   2.909e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01388
+                        Activity of water  =   0.998
+                           Ionic strength  =   9.997e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 321.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.997e-08   9.993e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.997e-08   9.993e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.975e-01     1.744    -0.001     0.000     17.81
+H(0)          1.088e-25
+   H2              5.442e-26   5.442e-26   -25.264   -25.264     0.000     20.00
+N(-3)         1.274e-25
+   NH4+            1.262e-25   1.261e-25   -24.899   -24.899    -0.000     17.86
+   NH3             1.251e-27   1.251e-27   -26.903   -26.903     0.000     (0)  
+N(0)          2.909e-01
+   N2              1.454e-01   1.454e-01    -0.837    -0.837     0.000     30.00
+N(3)          6.832e-36
+   NO2-            6.832e-36   6.830e-36   -35.165   -35.166    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.736   -41.736    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.077   -42.077     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 321 atm)
+
+	H2(g)           -22.16    -25.26   -3.10  H2
+	H2O(g)           -1.40     -0.00    1.40  H2O
+	N2(g)             2.06     -0.84   -2.90  N2	 Pressure 321.1 atm, phi 1.005.
+	NH3(g)          -28.81    -26.90    1.91  NH3
+	O2(g)           -38.98    -42.08   -3.09  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 19.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.5329e+00
+	pressure   3.4110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.038e-01   3.038e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01489
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.996e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 341.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.996e-08   9.992e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.996e-08   9.992e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.974e-01     1.744    -0.001     0.000     17.79
+H(0)          1.071e-25
+   H2              5.353e-26   5.353e-26   -25.271   -25.271     0.000     20.00
+N(-3)         1.300e-25
+   NH4+            1.286e-25   1.286e-25   -24.891   -24.891    -0.000     17.86
+   NH3             1.319e-27   1.319e-27   -26.880   -26.880     0.000     (0)  
+N(0)          3.038e-01
+   N2              1.519e-01   1.519e-01    -0.818    -0.818     0.000     30.00
+N(3)          7.207e-36
+   NO2-            7.207e-36   7.204e-36   -35.142   -35.142    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.713   -41.713    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.077   -42.077     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 341 atm)
+
+	H2(g)           -22.17    -25.27   -3.10  H2
+	H2O(g)           -1.40     -0.00    1.40  H2O
+	N2(g)             2.06     -0.82   -2.88  N2	 Pressure 341.1 atm, phi 1.013.
+	NH3(g)          -28.80    -26.88    1.92  NH3
+	O2(g)           -38.97    -42.08   -3.11  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 20.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.5576e+00
+	pressure   3.6110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.163e-01   3.163e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01590
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.996e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 361.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.996e-08   9.992e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.996e-08   9.992e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.973e-01     1.744    -0.001     0.000     17.77
+H(0)          1.053e-25
+   H2              5.266e-26   5.266e-26   -25.279   -25.279     0.000     20.00
+N(-3)         1.323e-25
+   NH4+            1.309e-25   1.309e-25   -24.883   -24.883    -0.000     17.86
+   NH3             1.389e-27   1.389e-27   -26.857   -26.857     0.000     (0)  
+N(0)          3.163e-01
+   N2              1.582e-01   1.582e-01    -0.801    -0.801     0.000     30.00
+N(3)          7.589e-36
+   NO2-            7.589e-36   7.586e-36   -35.120   -35.120    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.690   -41.690    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.077   -42.077     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 361 atm)
+
+	H2(g)           -22.18    -25.28   -3.10  H2
+	H2O(g)           -1.39     -0.00    1.39  H2O
+	N2(g)             2.06     -0.80   -2.86  N2	 Pressure 361.1 atm, phi 1.021.
+	NH3(g)          -28.78    -26.86    1.93  NH3
+	O2(g)           -38.96    -42.08   -3.12  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 21.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.5810e+00
+	pressure   3.8110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.285e-01   3.285e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01691
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.995e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.118e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 381.10
+                  Electrical balance (eq)  =  -2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.995e-08   9.991e-08    -7.000    -7.000    -0.000     (0)  
+   H+              9.995e-08   9.991e-08    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.972e-01     1.744    -0.001     0.000     17.76
+H(0)          1.036e-25
+   H2              5.180e-26   5.180e-26   -25.286   -25.286     0.000     20.00
+N(-3)         1.346e-25
+   NH4+            1.331e-25   1.330e-25   -24.876   -24.876    -0.000     17.86
+   NH3             1.460e-27   1.460e-27   -26.836   -26.836     0.000     (0)  
+N(0)          3.285e-01
+   N2              1.643e-01   1.643e-01    -0.784    -0.784     0.000     30.00
+N(3)          7.981e-36
+   NO2-            7.981e-36   7.978e-36   -35.098   -35.098    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.668   -41.669    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.077   -42.077     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 381 atm)
+
+	H2(g)           -22.18    -25.29   -3.10  H2
+	H2O(g)           -1.38     -0.00    1.38  H2O
+	N2(g)             2.06     -0.78   -2.85  N2	 Pressure 381.1 atm, phi 1.030.
+	NH3(g)          -28.77    -26.84    1.93  NH3
+	O2(g)           -38.95    -42.08   -3.13  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 22.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.6033e+00
+	pressure   4.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.405e-01   3.405e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01792
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.995e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 401.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.995e-08   9.991e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.995e-08   9.991e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.971e-01     1.744    -0.001     0.000     17.74
+H(0)          1.019e-25
+   H2              5.095e-26   5.095e-26   -25.293   -25.293     0.000     20.00
+N(-3)         1.367e-25
+   NH4+            1.352e-25   1.351e-25   -24.869   -24.869    -0.000     17.86
+   NH3             1.534e-27   1.534e-27   -26.814   -26.814     0.000     (0)  
+N(0)          3.405e-01
+   N2              1.703e-01   1.703e-01    -0.769    -0.769     0.000     30.00
+N(3)          8.384e-36
+   NO2-            8.384e-36   8.381e-36   -35.077   -35.077    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.647   -41.647    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 401 atm)
+
+	H2(g)           -22.19    -25.29   -3.10  H2
+	H2O(g)           -1.38     -0.00    1.38  H2O
+	N2(g)             2.06     -0.77   -2.83  N2	 Pressure 401.1 atm, phi 1.039.
+	NH3(g)          -28.76    -26.81    1.94  NH3
+	O2(g)           -38.93    -42.08   -3.14  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 23.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.6244e+00
+	pressure   4.2110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.522e-01   3.522e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01892
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.994e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.103e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 421.10
+                  Electrical balance (eq)  =  -4.103e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.994e-08   9.990e-08    -7.000    -7.000    -0.000     (0)  
+   H+              9.994e-08   9.990e-08    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.970e-01     1.744    -0.001     0.000     17.73
+H(0)          1.002e-25
+   H2              5.012e-26   5.012e-26   -25.300   -25.300     0.000     20.00
+N(-3)         1.387e-25
+   NH4+            1.371e-25   1.370e-25   -24.863   -24.863    -0.000     17.86
+   NH3             1.609e-27   1.609e-27   -26.793   -26.793     0.000     (0)  
+N(0)          3.522e-01
+   N2              1.761e-01   1.761e-01    -0.754    -0.754     0.000     30.00
+N(3)          8.796e-36
+   NO2-            8.796e-36   8.793e-36   -35.056   -35.056    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.626   -41.626    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 421 atm)
+
+	H2(g)           -22.20    -25.30   -3.10  H2
+	H2O(g)           -1.37     -0.00    1.37  H2O
+	N2(g)             2.06     -0.75   -2.82  N2	 Pressure 421.1 atm, phi 1.049.
+	NH3(g)          -28.74    -26.79    1.95  NH3
+	O2(g)           -38.92    -42.08   -3.16  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 24.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.6445e+00
+	pressure   4.4110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.635e-01   3.635e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.01992
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.994e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 441.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.994e-08   9.990e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.994e-08   9.990e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.969e-01     1.744    -0.001     0.000     17.71
+H(0)          9.861e-26
+   H2              4.930e-26   4.930e-26   -25.307   -25.307     0.000     20.00
+N(-3)         1.406e-25
+   NH4+            1.389e-25   1.389e-25   -24.857   -24.857    -0.000     17.86
+   NH3             1.686e-27   1.686e-27   -26.773   -26.773     0.000     (0)  
+N(0)          3.635e-01
+   N2              1.817e-01   1.817e-01    -0.741    -0.741     0.000     30.00
+N(3)          9.219e-36
+   NO2-            9.219e-36   9.215e-36   -35.035   -35.035    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.606   -41.606    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 441 atm)
+
+	H2(g)           -22.21    -25.31   -3.10  H2
+	H2O(g)           -1.37     -0.00    1.36  H2O
+	N2(g)             2.06     -0.74   -2.80  N2	 Pressure 441.1 atm, phi 1.059.
+	NH3(g)          -28.73    -26.77    1.96  NH3
+	O2(g)           -38.91    -42.08   -3.17  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 25.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.6638e+00
+	pressure   4.6110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.746e-01   3.746e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02093
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.993e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.103e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 461.10
+                  Electrical balance (eq)  =  -4.103e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.993e-08   9.989e-08    -7.000    -7.000    -0.000     (0)  
+   H+              9.993e-08   9.989e-08    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.968e-01     1.744    -0.001     0.000     17.69
+H(0)          9.700e-26
+   H2              4.850e-26   4.850e-26   -25.314   -25.314     0.000     20.00
+N(-3)         1.424e-25
+   NH4+            1.407e-25   1.406e-25   -24.852   -24.852    -0.000     17.86
+   NH3             1.766e-27   1.766e-27   -26.753   -26.753     0.000     (0)  
+N(0)          3.746e-01
+   N2              1.873e-01   1.873e-01    -0.727    -0.727     0.000     30.00
+N(3)          9.655e-36
+   NO2-            9.655e-36   9.651e-36   -35.015   -35.015    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.586   -41.586    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 461 atm)
+
+	H2(g)           -22.21    -25.31   -3.10  H2
+	H2O(g)           -1.36     -0.00    1.36  H2O
+	N2(g)             2.05     -0.73   -2.78  N2	 Pressure 461.1 atm, phi 1.070.
+	NH3(g)          -28.72    -26.75    1.97  NH3
+	O2(g)           -38.90    -42.08   -3.18  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 26.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.6822e+00
+	pressure   4.8110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.854e-01   3.854e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02192
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.993e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 481.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.993e-08   9.989e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.993e-08   9.989e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.967e-01     1.744    -0.001     0.000     17.68
+H(0)          9.542e-26
+   H2              4.771e-26   4.771e-26   -25.321   -25.321     0.000     20.00
+N(-3)         1.442e-25
+   NH4+            1.423e-25   1.423e-25   -24.847   -24.847    -0.000     17.86
+   NH3             1.847e-27   1.847e-27   -26.733   -26.733     0.000     (0)  
+N(0)          3.854e-01
+   N2              1.927e-01   1.927e-01    -0.715    -0.715     0.000     30.00
+N(3)          1.010e-35
+   NO2-            1.010e-35   1.010e-35   -34.996   -34.996    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.566   -41.566    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 481 atm)
+
+	H2(g)           -22.22    -25.32   -3.10  H2
+	H2O(g)           -1.35     -0.00    1.35  H2O
+	N2(g)             2.05     -0.72   -2.77  N2	 Pressure 481.1 atm, phi 1.082.
+	NH3(g)          -28.71    -26.73    1.97  NH3
+	O2(g)           -38.88    -42.08   -3.19  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 27.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.6999e+00
+	pressure   5.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 3.960e-01   3.960e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02292
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.992e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.985e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 501.10
+                  Electrical balance (eq)  =   1.985e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.992e-08   9.989e-08    -7.000    -7.000    -0.000      0.00
+   OH-             9.992e-08   9.989e-08    -7.000    -7.000    -0.000     (0)  
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     17.66
+H(0)          9.386e-26
+   H2              4.693e-26   4.693e-26   -25.329   -25.329     0.000     20.00
+N(-3)         1.459e-25
+   NH4+            1.439e-25   1.439e-25   -24.842   -24.842    -0.000     17.86
+   NH3             1.931e-27   1.931e-27   -26.714   -26.714     0.000     (0)  
+N(0)          3.960e-01
+   N2              1.980e-01   1.980e-01    -0.703    -0.703     0.000     30.00
+N(3)          1.056e-35
+   NO2-            1.056e-35   1.056e-35   -34.976   -34.976    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.547   -41.547    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 501 atm)
+
+	H2(g)           -22.23    -25.33   -3.10  H2
+	H2O(g)           -1.35     -0.00    1.35  H2O
+	N2(g)             2.05     -0.70   -2.75  N2	 Pressure 501.1 atm, phi 1.094.
+	NH3(g)          -28.70    -26.71    1.98  NH3
+	O2(g)           -38.87    -42.08   -3.21  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 28.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.7169e+00
+	pressure   5.2110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.064e-01   4.064e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02392
+                        Activity of water  =   0.997
+                           Ionic strength  =   9.992e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.118e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 521.10
+                  Electrical balance (eq)  =  -2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.992e-08   9.988e-08    -7.000    -7.001    -0.000     (0)  
+   H+              9.992e-08   9.988e-08    -7.000    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.965e-01     1.744    -0.002     0.000     17.65
+H(0)          9.233e-26
+   H2              4.617e-26   4.617e-26   -25.336   -25.336     0.000     20.00
+N(-3)         1.475e-25
+   NH4+            1.454e-25   1.454e-25   -24.837   -24.837    -0.000     17.86
+   NH3             2.017e-27   2.017e-27   -26.695   -26.695     0.000     (0)  
+N(0)          4.064e-01
+   N2              2.032e-01   2.032e-01    -0.692    -0.692     0.000     30.00
+N(3)          1.103e-35
+   NO2-            1.103e-35   1.103e-35   -34.957   -34.957    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.528   -41.528    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 521 atm)
+
+	H2(g)           -22.23    -25.34   -3.10  H2
+	H2O(g)           -1.34     -0.00    1.34  H2O
+	N2(g)             2.04     -0.69   -2.73  N2	 Pressure 521.1 atm, phi 1.106.
+	NH3(g)          -28.69    -26.70    1.99  NH3
+	O2(g)           -38.86    -42.08   -3.22  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 29.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.7333e+00
+	pressure   5.4110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.167e-01   4.167e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02492
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.991e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 541.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.991e-08   9.988e-08    -7.000    -7.001    -0.000      0.00
+   OH-             9.991e-08   9.988e-08    -7.000    -7.001    -0.000     (0)  
+   H2O             5.551e+01   9.965e-01     1.744    -0.002     0.000     17.63
+H(0)          9.083e-26
+   H2              4.541e-26   4.541e-26   -25.343   -25.343     0.000     20.00
+N(-3)         1.490e-25
+   NH4+            1.469e-25   1.468e-25   -24.833   -24.833    -0.000     17.86
+   NH3             2.106e-27   2.106e-27   -26.677   -26.677     0.000     (0)  
+N(0)          4.167e-01
+   N2              2.083e-01   2.083e-01    -0.681    -0.681     0.000     30.00
+N(3)          1.152e-35
+   NO2-            1.152e-35   1.152e-35   -34.938   -34.939    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.509   -41.509    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.078   -42.078     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 541 atm)
+
+	H2(g)           -22.24    -25.34   -3.10  H2
+	H2O(g)           -1.34     -0.00    1.33  H2O
+	N2(g)             2.04     -0.68   -2.72  N2	 Pressure 541.1 atm, phi 1.119.
+	NH3(g)          -28.68    -26.68    2.00  NH3
+	O2(g)           -38.85    -42.08   -3.23  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 30.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.7490e+00
+	pressure   5.6110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.266e-01   4.266e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02591
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.991e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.103e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 561.10
+                  Electrical balance (eq)  =  -4.103e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.991e-08   9.987e-08    -7.000    -7.001    -0.000     (0)  
+   H+              9.991e-08   9.987e-08    -7.000    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.964e-01     1.744    -0.002     0.000     17.61
+H(0)          8.935e-26
+   H2              4.467e-26   4.467e-26   -25.350   -25.350     0.000     20.00
+N(-3)         1.504e-25
+   NH4+            1.482e-25   1.482e-25   -24.829   -24.829    -0.000     17.86
+   NH3             2.197e-27   2.197e-27   -26.658   -26.658     0.000     (0)  
+N(0)          4.266e-01
+   N2              2.133e-01   2.133e-01    -0.671    -0.671     0.000     30.00
+N(3)          1.202e-35
+   NO2-            1.202e-35   1.202e-35   -34.920   -34.920    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.491   -41.491    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.079   -42.079     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 561 atm)
+
+	H2(g)           -22.25    -25.35   -3.10  H2
+	H2O(g)           -1.33     -0.00    1.33  H2O
+	N2(g)             2.03     -0.67   -2.70  N2	 Pressure 561.0 atm, phi 1.132.
+	NH3(g)          -28.67    -26.66    2.01  NH3
+	O2(g)           -38.84    -42.08   -3.24  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 31.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.7643e+00
+	pressure   5.8110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.365e-01   4.365e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02690
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.991e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 581.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.991e-08   9.987e-08    -7.000    -7.001    -0.000      0.00
+   OH-             9.991e-08   9.987e-08    -7.000    -7.001    -0.000     (0)  
+   H2O             5.551e+01   9.963e-01     1.744    -0.002     0.000     17.60
+H(0)          8.789e-26
+   H2              4.395e-26   4.395e-26   -25.357   -25.357     0.000     20.00
+N(-3)         1.519e-25
+   NH4+            1.496e-25   1.495e-25   -24.825   -24.825    -0.000     17.86
+   NH3             2.291e-27   2.291e-27   -26.640   -26.640     0.000     (0)  
+N(0)          4.365e-01
+   N2              2.182e-01   2.182e-01    -0.661    -0.661     0.000     30.00
+N(3)          1.254e-35
+   NO2-            1.254e-35   1.253e-35   -34.902   -34.902    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.472   -41.472    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.079   -42.079     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 581 atm)
+
+	H2(g)           -22.26    -25.36   -3.10  H2
+	H2O(g)           -1.32     -0.00    1.32  H2O
+	N2(g)             2.02     -0.66   -2.69  N2	 Pressure 581.2 atm, phi 1.146.
+	NH3(g)          -28.66    -26.64    2.02  NH3
+	O2(g)           -38.82    -42.08   -3.25  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 32.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.7789e+00
+	pressure   6.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.459e-01   4.459e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02789
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.990e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.118e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 601.10
+                  Electrical balance (eq)  =  -2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.990e-08   9.986e-08    -7.000    -7.001    -0.000     (0)  
+   H+              9.990e-08   9.986e-08    -7.000    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.962e-01     1.744    -0.002     0.000     17.58
+H(0)          8.646e-26
+   H2              4.323e-26   4.323e-26   -25.364   -25.364     0.000     20.00
+N(-3)         1.532e-25
+   NH4+            1.508e-25   1.508e-25   -24.822   -24.822    -0.000     17.86
+   NH3             2.388e-27   2.388e-27   -26.622   -26.622     0.000     (0)  
+N(0)          4.459e-01
+   N2              2.230e-01   2.230e-01    -0.652    -0.652     0.000     30.00
+N(3)          1.307e-35
+   NO2-            1.307e-35   1.306e-35   -34.884   -34.884    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.454   -41.454    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.079   -42.079     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 601 atm)
+
+	H2(g)           -22.26    -25.36   -3.10  H2
+	H2O(g)           -1.32     -0.00    1.32  H2O
+	N2(g)             2.02     -0.65   -2.67  N2	 Pressure 601.0 atm, phi 1.160.
+	NH3(g)          -28.65    -26.62    2.02  NH3
+	O2(g)           -38.81    -42.08   -3.27  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 33.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.7932e+00
+	pressure   6.2110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.555e-01   4.555e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02889
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.990e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 621.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.990e-08   9.986e-08    -7.000    -7.001    -0.000      0.00
+   OH-             9.990e-08   9.986e-08    -7.000    -7.001    -0.000     (0)  
+   H2O             5.551e+01   9.961e-01     1.744    -0.002     0.000     17.57
+H(0)          8.505e-26
+   H2              4.252e-26   4.252e-26   -25.371   -25.371     0.000     20.00
+N(-3)         1.545e-25
+   NH4+            1.520e-25   1.520e-25   -24.818   -24.818    -0.000     17.86
+   NH3             2.487e-27   2.487e-27   -26.604   -26.604     0.000     (0)  
+N(0)          4.555e-01
+   N2              2.277e-01   2.277e-01    -0.643    -0.643     0.000     30.00
+N(3)          1.361e-35
+   NO2-            1.361e-35   1.361e-35   -34.866   -34.866    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.436   -41.437    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.079   -42.079     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 621 atm)
+
+	H2(g)           -22.27    -25.37   -3.10  H2
+	H2O(g)           -1.31     -0.00    1.31  H2O
+	N2(g)             2.01     -0.64   -2.65  N2	 Pressure 621.2 atm, phi 1.175.
+	NH3(g)          -28.64    -26.60    2.03  NH3
+	O2(g)           -38.80    -42.08   -3.28  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 34.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8069e+00
+	pressure   6.4110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.646e-01   4.646e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.02987
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.989e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 641.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.989e-08   9.986e-08    -7.000    -7.001    -0.000      0.00
+   OH-             9.989e-08   9.986e-08    -7.000    -7.001    -0.000     (0)  
+   H2O             5.551e+01   9.961e-01     1.744    -0.002     0.000     17.55
+H(0)          8.366e-26
+   H2              4.183e-26   4.183e-26   -25.378   -25.378     0.000     20.00
+N(-3)         1.558e-25
+   NH4+            1.532e-25   1.531e-25   -24.815   -24.815    -0.000     17.86
+   NH3             2.589e-27   2.589e-27   -26.587   -26.587     0.000     (0)  
+N(0)          4.646e-01
+   N2              2.323e-01   2.323e-01    -0.634    -0.634     0.000     30.00
+N(3)          1.417e-35
+   NO2-            1.417e-35   1.417e-35   -34.848   -34.849    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.419   -41.419    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 641 atm)
+
+	H2(g)           -22.28    -25.38   -3.10  H2
+	H2O(g)           -1.31     -0.00    1.30  H2O
+	N2(g)             2.00     -0.63   -2.64  N2	 Pressure 641.1 atm, phi 1.190.
+	NH3(g)          -28.63    -26.59    2.04  NH3
+	O2(g)           -38.79    -42.08   -3.29  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 35.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8203e+00
+	pressure   6.6110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.737e-01   4.737e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03086
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.989e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.985e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 661.10
+                  Electrical balance (eq)  =  -1.985e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.989e-08   9.985e-08    -7.000    -7.001    -0.000     (0)  
+   H+              9.989e-08   9.985e-08    -7.000    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.960e-01     1.744    -0.002     0.000     17.53
+H(0)          8.230e-26
+   H2              4.115e-26   4.115e-26   -25.386   -25.386     0.000     20.00
+N(-3)         1.570e-25
+   NH4+            1.543e-25   1.542e-25   -24.812   -24.812    -0.000     17.86
+   NH3             2.695e-27   2.695e-27   -26.569   -26.569     0.000     (0)  
+N(0)          4.737e-01
+   N2              2.369e-01   2.369e-01    -0.625    -0.625     0.000     30.00
+N(3)          1.475e-35
+   NO2-            1.475e-35   1.475e-35   -34.831   -34.831    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.402   -41.402    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 661 atm)
+
+	H2(g)           -22.28    -25.39   -3.10  H2
+	H2O(g)           -1.30     -0.00    1.30  H2O
+	N2(g)             2.00     -0.63   -2.62  N2	 Pressure 661.1 atm, phi 1.206.
+	NH3(g)          -28.62    -26.57    2.05  NH3
+	O2(g)           -38.78    -42.08   -3.30  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 36.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8332e+00
+	pressure   6.8110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.826e-01   4.826e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03185
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.989e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.118e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 681.10
+                  Electrical balance (eq)  =  -2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.989e-08   9.985e-08    -7.000    -7.001    -0.000     (0)  
+   H+              9.989e-08   9.985e-08    -7.000    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.959e-01     1.744    -0.002     0.000     17.52
+H(0)          8.096e-26
+   H2              4.048e-26   4.048e-26   -25.393   -25.393     0.000     20.00
+N(-3)         1.581e-25
+   NH4+            1.553e-25   1.553e-25   -24.809   -24.809    -0.000     17.86
+   NH3             2.803e-27   2.803e-27   -26.552   -26.552     0.000     (0)  
+N(0)          4.826e-01
+   N2              2.413e-01   2.413e-01    -0.617    -0.617     0.000     30.00
+N(3)          1.535e-35
+   NO2-            1.535e-35   1.534e-35   -34.814   -34.814    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.384   -41.385    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 681 atm)
+
+	H2(g)           -22.29    -25.39   -3.10  H2
+	H2O(g)           -1.29     -0.00    1.29  H2O
+	N2(g)             1.99     -0.62   -2.61  N2	 Pressure 681.1 atm, phi 1.222.
+	NH3(g)          -28.61    -26.55    2.05  NH3
+	O2(g)           -38.77    -42.08   -3.32  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 37.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8458e+00
+	pressure   7.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.913e-01   4.913e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03284
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.988e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.118e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 701.10
+                  Electrical balance (eq)  =  -2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.988e-08   9.984e-08    -7.001    -7.001    -0.000     (0)  
+   H+              9.988e-08   9.984e-08    -7.001    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.958e-01     1.744    -0.002     0.000     17.50
+H(0)          7.964e-26
+   H2              3.982e-26   3.982e-26   -25.400   -25.400     0.000     20.00
+N(-3)         1.593e-25
+   NH4+            1.563e-25   1.563e-25   -24.806   -24.806    -0.000     17.86
+   NH3             2.915e-27   2.915e-27   -26.535   -26.535     0.000     (0)  
+N(0)          4.913e-01
+   N2              2.457e-01   2.457e-01    -0.610    -0.610     0.000     30.00
+N(3)          1.596e-35
+   NO2-            1.596e-35   1.596e-35   -34.797   -34.797    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.367   -41.368    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.081     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 701 atm)
+
+	H2(g)           -22.30    -25.40   -3.10  H2
+	H2O(g)           -1.29     -0.00    1.29  H2O
+	N2(g)             1.98     -0.61   -2.59  N2	 Pressure 701.1 atm, phi 1.239.
+	NH3(g)          -28.60    -26.54    2.06  NH3
+	O2(g)           -38.75    -42.08   -3.33  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 38.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8580e+00
+	pressure   7.2110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 4.999e-01   4.999e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03382
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.988e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 721.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.988e-08   9.984e-08    -7.001    -7.001    -0.000      0.00
+   OH-             9.988e-08   9.984e-08    -7.001    -7.001    -0.000     (0)  
+   H2O             5.551e+01   9.958e-01     1.744    -0.002     0.000     17.49
+H(0)          7.834e-26
+   H2              3.917e-26   3.917e-26   -25.407   -25.407     0.000     20.00
+N(-3)         1.603e-25
+   NH4+            1.573e-25   1.573e-25   -24.803   -24.803    -0.000     17.86
+   NH3             3.030e-27   3.030e-27   -26.519   -26.519     0.000     (0)  
+N(0)          4.999e-01
+   N2              2.499e-01   2.499e-01    -0.602    -0.602     0.000     30.00
+N(3)          1.659e-35
+   NO2-            1.659e-35   1.659e-35   -34.780   -34.780    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.351   -41.351    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.081     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 721 atm)
+
+	H2(g)           -22.31    -25.41   -3.10  H2
+	H2O(g)           -1.28     -0.00    1.28  H2O
+	N2(g)             1.97     -0.60   -2.58  N2	 Pressure 721.1 atm, phi 1.256.
+	NH3(g)          -28.59    -26.52    2.07  NH3
+	O2(g)           -38.74    -42.08   -3.34  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 39.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8699e+00
+	pressure   7.4110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 5.083e-01   5.083e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03480
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.987e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.118e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 741.10
+                  Electrical balance (eq)  =  -2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.987e-08   9.984e-08    -7.001    -7.001    -0.000     (0)  
+   H+              9.987e-08   9.984e-08    -7.001    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.957e-01     1.744    -0.002     0.000     17.47
+H(0)          7.707e-26
+   H2              3.853e-26   3.853e-26   -25.414   -25.414     0.000     20.00
+N(-3)         1.614e-25
+   NH4+            1.582e-25   1.582e-25   -24.801   -24.801    -0.000     17.86
+   NH3             3.148e-27   3.148e-27   -26.502   -26.502     0.000     (0)  
+N(0)          5.083e-01
+   N2              2.542e-01   2.542e-01    -0.595    -0.595     0.000     30.00
+N(3)          1.724e-35
+   NO2-            1.724e-35   1.724e-35   -34.763   -34.764    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.334   -41.334    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.082   -42.082     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 741 atm)
+
+	H2(g)           -22.31    -25.41   -3.10  H2
+	H2O(g)           -1.28     -0.00    1.27  H2O
+	N2(g)             1.97     -0.59   -2.56  N2	 Pressure 741.1 atm, phi 1.274.
+	NH3(g)          -28.58    -26.50    2.08  NH3
+	O2(g)           -38.73    -42.08   -3.35  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 40.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8814e+00
+	pressure   7.6110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 5.165e-01   5.165e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03579
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.987e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 761.10
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.987e-08   9.983e-08    -7.001    -7.001    -0.000      0.00
+   OH-             9.987e-08   9.983e-08    -7.001    -7.001    -0.000     (0)  
+   H2O             5.551e+01   9.956e-01     1.744    -0.002     0.000     17.46
+H(0)          7.581e-26
+   H2              3.791e-26   3.791e-26   -25.421   -25.421     0.000     20.00
+N(-3)         1.624e-25
+   NH4+            1.591e-25   1.591e-25   -24.798   -24.798    -0.000     17.86
+   NH3             3.269e-27   3.269e-27   -26.486   -26.486     0.000     (0)  
+N(0)          5.165e-01
+   N2              2.582e-01   2.582e-01    -0.588    -0.588     0.000     30.00
+N(3)          1.791e-35
+   NO2-            1.791e-35   1.790e-35   -34.747   -34.747    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.317   -41.318    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.082   -42.082     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 761 atm)
+
+	H2(g)           -22.32    -25.42   -3.10  H2
+	H2O(g)           -1.27     -0.00    1.27  H2O
+	N2(g)             1.96     -0.59   -2.54  N2	 Pressure 761.0 atm, phi 1.292.
+	NH3(g)          -28.57    -26.49    2.09  NH3
+	O2(g)           -38.72    -42.08   -3.36  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 41.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.8927e+00
+	pressure   7.8110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 5.247e-01   5.247e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03677
+                        Activity of water  =   0.996
+                           Ionic strength  =   9.987e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.118e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 781.10
+                  Electrical balance (eq)  =   2.118e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              9.987e-08   9.983e-08    -7.001    -7.001    -0.000      0.00
+   OH-             9.987e-08   9.983e-08    -7.001    -7.001    -0.000     (0)  
+   H2O             5.551e+01   9.955e-01     1.744    -0.002     0.000     17.44
+H(0)          7.458e-26
+   H2              3.729e-26   3.729e-26   -25.428   -25.428     0.000     20.00
+N(-3)         1.634e-25
+   NH4+            1.600e-25   1.599e-25   -24.796   -24.796    -0.000     17.86
+   NH3             3.395e-27   3.395e-27   -26.469   -26.469     0.000     (0)  
+N(0)          5.247e-01
+   N2              2.623e-01   2.623e-01    -0.581    -0.581     0.000     30.00
+N(3)          1.860e-35
+   NO2-            1.860e-35   1.859e-35   -34.731   -34.731    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.301   -41.301    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.083   -42.083     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 781 atm)
+
+	H2(g)           -22.33    -25.43   -3.10  H2
+	H2O(g)           -1.26     -0.00    1.26  H2O
+	N2(g)             1.95     -0.58   -2.53  N2	 Pressure 781.1 atm, phi 1.310.
+	NH3(g)          -28.56    -26.47    2.09  NH3
+	O2(g)           -38.71    -42.08   -3.38  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 42.
+-------------------------------------
+
+		SOLUTION 1
+	 temp 25
+	 pH 3 charge
+	N 1 N2(g)   2.9037e+00
+	pressure   8.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                 5.327e-01   5.327e-01  Equilibrium with N2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.001      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   1.03775
+                        Activity of water  =   0.995
+                           Ionic strength  =   9.986e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   6.088e-22
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  = 801.10
+                  Electrical balance (eq)  =  -6.088e-22
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  40
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.986e-08   9.983e-08    -7.001    -7.001    -0.000     (0)  
+   H+              9.986e-08   9.983e-08    -7.001    -7.001    -0.000      0.00
+   H2O             5.551e+01   9.955e-01     1.744    -0.002     0.000     17.43
+H(0)          7.336e-26
+   H2              3.668e-26   3.668e-26   -25.436   -25.436     0.000     20.00
+N(-3)         1.643e-25
+   NH4+            1.608e-25   1.607e-25   -24.794   -24.794    -0.000     17.86
+   NH3             3.524e-27   3.524e-27   -26.453   -26.453     0.000     (0)  
+N(0)          5.327e-01
+   N2              2.664e-01   2.664e-01    -0.575    -0.575     0.000     30.00
+N(3)          1.931e-35
+   NO2-            1.931e-35   1.930e-35   -34.714   -34.714    -0.000     (0)  
+N(5)          0.000e+00
+   NO3-            0.000e+00   0.000e+00   -41.285   -41.285    -0.000     28.99
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.083   -42.083     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K, 801 atm)
+
+	H2(g)           -22.33    -25.44   -3.10  H2
+	H2O(g)           -1.26     -0.00    1.26  H2O
+	N2(g)             1.94     -0.57   -2.51  N2	 Pressure 801.1 atm, phi 1.329.
+	NH3(g)          -28.55    -26.45    2.10  NH3
+	O2(g)           -38.70    -42.08   -3.39  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 43.
+-------------------------------------
+
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 44.
+-------------------------------------
+
+-----------
+End of run.
+-----------
+

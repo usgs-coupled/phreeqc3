@@ -1,0 +1,77 @@
+# Compare expt data of CH4 solubility at high CH4 pressure and
+#   Peng-Robinson calc's with initial solution equilibria.
+DATABASE ../database/phreeqc.dat
+INCLUDE$ CO2_V.db
+SOLUTION 1
+SOLUTION_SPECIES
+CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
+	log_k	41.071
+	delta_h -61.039 kcal
+	-dw	 1.85e-9
+	-Vm 33
+PHASES
+CH4(g)
+	CH4 = CH4
+	log_k	   -2.8502
+	-analytic -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+	T_c  190.6 # critical T, K
+	-P_c   45.40 # critical P, atm
+	-Omega 0.008 # Pitzer acentric factor
+SELECTED_OUTPUT; -reset false; -file ch4_25.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 820 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + ' pH 3 charge' + EOL$ + 'C(-4) 1 CH4(g) ' + str$(log10(i)) + EOL$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 30 next i
+END
+
+SELECTED_OUTPUT; -selected_out false
+#PRINT; -reset false; -echo_input true
+USER_GRAPH
+ -plot_csv_file CH4_25C.dat
+ -axis_titles "Pressure / atm" "CH4 / (mol/kgw)"
+ -axis_scale x_axis 0 800
+ -axis_scale y_axis 0 0.4
+ -initial_solutions true
+ 10 x = PR_P("CH4(g)")
+ 20 graph_x x # tot("Na")
+ 30 graph_y tot("C(-4)")
+ -end
+INCLUDE$ ch4_25.prn
+END
+
+SOLUTION
+SELECTED_OUTPUT; -selected_out true; file CH4_50.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 820 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + sc$ + ' pH 3 charge' + EOL$ + 'C(-4) 1 CH4(g) ' + str$(log10(i)) + EOL$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 30 next i
+USER_GRAPH
+ -active false; -connect_simulations false
+END
+
+SELECTED_OUTPUT; -selected_out false
+USER_GRAPH
+ -plot_csv_file CH4_50C.dat
+ -active true;  -connect_simulations true
+INCLUDE$ CH4_50.prn
+END
+
+SOLUTION
+SELECTED_OUTPUT; -selected_out true; file CH4_100.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 820 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 100' + sc$ + ' pH 3 charge' + EOL$ + 'C(-4) 1 CH4(g) ' + str$(log10(i)) + EOL$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 30 next i
+USER_GRAPH
+ -active false;  -connect_simulations false
+END
+
+SELECTED_OUTPUT; -selected_out false
+USER_GRAPH
+ -plot_csv_file CH4_100C.dat
+ -active true; -connect_simulations true
+INCLUDE$ CH4_100.prn
+END

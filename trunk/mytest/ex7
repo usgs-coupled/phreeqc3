@@ -1,0 +1,25 @@
+DATABASE ../database/phreeqc.dat
+knobs
+	-log
+TITLE Example 7.--Organic decomposition and bubble formation
+SOLUTION 1
+EQUILIBRIUM_PHASES 1
+        Calcite
+        CO2(g)  -1.5
+SAVE solution 1
+SELECTED_OUTPUT
+        -file ex7.pun
+        -si CO2(g) CH4(g) N2(g) NH3(g)
+        -gas CO2(g) CH4(g) N2(g) NH3(g)
+END
+USE solution 1
+GAS_PHASE 1
+        -pressure       1.1
+        CO2(g)          0.0
+        CH4(g)          0.0
+        N2(g)           0.0
+        NH3(g)          0.0
+REACTION 1
+        (CH2O)N0.07     1.0
+        1. 2. 3. 4. 8. 16. 32 64. 125. 250. 500. 1000. mmol
+END

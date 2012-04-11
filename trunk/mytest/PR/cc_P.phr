@@ -1,0 +1,14 @@
+DATABASE vreeqc.dat
+SOLUTION 1
+ -pressure 1
+EQUILIBRIUM_PHASES 1
+ Calcite
+REACTION_PRESSURE
+	1 1000 in 20 steps
+USER_GRAPH
+-axis_titles "Pressure / atm" "Ca / ppm"
+ -plot_csv_file cc_P.dat
+ 10 graph_x  pressure
+ 20 graph_y tot("Ca") * 40e3
+ -end
+END

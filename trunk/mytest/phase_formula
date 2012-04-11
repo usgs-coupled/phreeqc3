@@ -1,0 +1,45 @@
+database ../database/phreeqc.dat
+SOLUTION 1
+    temp      25
+    pH        7
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    -water    1 # kg
+SOLID_SOLUTIONS 1
+    Calcite_s_s
+        -comp Calcite 0.01
+        -comp Smithsonite 0.001
+        -comp Strontianite 0.02
+    Barite
+        -comp Barite 0
+        -comp Anhydrite 0
+USER_PRINT
+5 min$ = "Calcite"
+10 form$ = PHASE_FORMULA(min$)
+20 print min$, form$
+30 form$ = PHASE_FORMULA(min$, count, elts$, coefs)
+40 for i = 1 to count
+50 print "   ", PAD(elts$[i], 20), coefs[i]
+60 next i
+105 min$ = "CalciteX"
+110 form$ = PHASE_FORMULA(min$)
+120 print min$, form$
+130 form$ = PHASE_FORMULA(min$, count, elts$, coefs)
+140 for i = 1 to count
+150 print "   ", PAD(elts$[i], 20), coefs[i]
+160 next i
+200 name$ = "Calcite_s_s"
+210 total = LIST_S_S(name$, count, comp$, moles)
+220 print PAD(name$, 20), total
+230 for i = 1 to count
+240 print "   ", PAD(comp$[i], 20), moles[i], moles[i]/total
+250 next i
+300 name$ = "Barite"
+310 total = LIST_S_S(name$, count, comp$, moles)
+320 print PAD(name$, 20), total
+330 for i = 1 to count
+340 print "   ", PAD(comp$[i], 20), moles[i], moles[i]/total
+350 next i
+END

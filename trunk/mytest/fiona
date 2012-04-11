@@ -1,0 +1,123 @@
+DATABASE ../database/phreeqc.dat
+TITLE Doug's test problem using Np in Reference Backfill water, stepping Eh
+ SOLUTION 1  Reference Backfill water
+         units   mol/L
+         pH      12.5
+         density 1.023
+         temp    25.0
+         Ca              5.1e-2
+         Mg              5.7e-3
+         Na              3.7e-1
+         K               4.4e-3
+         Al        1.7e-6    
+         Sr   2.0e-3
+         Si              2.0e-3
+         Cl              4.2e-1
+         C   1.0e-3
+         S(6)            1.2e-2
+         Np           1.e-10
+ SOLUTION_MASTER_SPECIES
+         Np       Np+4       0.0     237.048   237.048
+         Np(4)    Np+4     0.0     237.048
+         Np(5)    NpO2+  0.0     237.048
+ SOLUTION_SPECIES
+         Np+4                = Np+4
+                 log_k          0.0
+                 delta_h       = 0
+         Np+4 + 4H2O  = Np(OH)4 + 4H+
+                 logK = -9.83
+                 delta_h = 0
+         Np+4 + 2H2O  =  NpO2+ + 4H+ + e-
+                 logK =   -10.21
+                 delta_h        0 kcal/mol
+         NpO2+  + H2O =  NpO2OH + H+
+                 logK = -11.3
+                 delta_h = 0 kcal/mol
+         NpO2+ + 2H2O  =  NpO2(OH)2- + 2H+
+                 logK = -23.60
+                 delta_h = 0 kcal/mol
+ PHASES
+         Neptunium(IV)hydroxide
+         Np(OH)4 + 4H+  =  Np+4 + 4H2O
+                 log_k          0.74
+                 delta_h        0 kcal/mol
+         Neptunium(IV)oxide
+         NpO2 + 4H+ = Np+4 + 2H2O
+                 log_k          -2.68
+                 delta_h        0 kcal/mol
+         Neptunium(IV)oxide(am)
+         NpO2 + 4H+ = Np+4 + 2H2O
+                 log_k          1.53
+                 delta_h        0 kcal/mol
+#Below is a 'pseudo-phase'
+#This is not real, but is used in each batch simulation to adjust the pe to fixed values
+             Fix_pe
+             e- = e-
+             log_k  0
+
+ END
+
+USER_GRAPH
+#These are for the output data GRID; need to specify ALL species present!
+-headings pe Np  Np(OH)4 NpO2OH NpO2(OH)2- NpO2+    
+-axis_titles Eh Np(moldm-3)   #These are for the graph axes
+-start
+10 graph_x  -la("e-")*2.303*8.31451*298/9.6485E4
+20 graph_y  tot("Np"),MOL("Np(OH)4"), MOL("NpO2OH"), MOL("NpO2(OH)2-"), MOL("NpO2+")    
+-end
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+#This fixes the pe to be -7 by adding or removing O2
+Fix_pe 7  O2(g) 1
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe 6  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe 5  O2(g)
+END
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe 4  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe 3  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe 2  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe 1  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe 0  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe -1  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe -2  O2(g)
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Fix_pe -3  O2(g)
+END

@@ -1,0 +1,101 @@
+database ../database/wateq4f.dat
+# Data from Rahnemaie et al.,  Journal of Colloid and Interface Science 297 (2006) 379-388
+# and  Journal of Colloid and Interface Science 293 (2006) 312-321
+SURFACE_MASTER_SPECIES
+# Fe-O sites...
+ Goe_uni Goe_uniOH-0.5
+# Fe3-O sites...
+ Goe_tri Goe_triO-0.5
+
+SURFACE_SPECIES
+ Goe_triO-0.5 = Goe_triO-0.5
+  -cd_music  0 0 0 0 0; log_k 0
+ Goe_triO-0.5 + H+ = Goe_triOH+0.5
+  -cd_music  1   0   0 0 0; log_k 9
+# Delta    z0^ z1^ z2^
+ Goe_triO-0.5 + Na+ = Goe_triONa+0.5
+  -cd_music  0 0.59 0.41 0 0; log_k -0.38
+ Goe_triOH+0.5 + Cl- = Goe_triOHCl-0.5
+  -cd_music  0 -1 0 0 0; log_k -0.53
+ Goe_triOH+0.5 + NO3- = Goe_triOHNO3-0.5
+  -cd_music  0 -0.7 -0.3 0 0; log_k -0.43
+ 2Goe_triO-0.5 + Mg+2 = (Goe_triO)2Mg+
+  -cd_music  0.62 1.38 0 0 0; log_k 4.33
+ 2Goe_triO-0.5 + Mg+2 + H2O = (Goe_triO)2MgOH + H+
+  -cd_music  0.62 0.38 0 0 0; log_k -6.61
+
+ Goe_uniOH-0.5 = Goe_uniOH-0.5
+  -cd_music  0 0 0 0 0; log_k 0
+ Goe_uniOH-0.5 + H+ = Goe_uniOH2+0.5
+  -cd_music  1 0 0 0 0; log_k 9
+ Goe_uniOH-0.5 + Na+ = Goe_uniOHNa+0.5
+  -cd_music  0 0.59 0.41 0 0; log_k -0.38
+ Goe_uniOH2+0.5 + Cl- = Goe_uniOH2Cl-0.5
+  -cd_music  0 -1 0 0 0; log_k -0.53
+ Goe_uniOH2+0.5 + NO3- = Goe_uniOH2NO3-0.5
+  -cd_music  0 -0.7 -0.3 0 0; log_k -0.43
+ 2Goe_uniOH-0.5 + Mg+2 = (Goe_uniOH)2Mg+
+  -cd_music  0.62 1.38 0 0 0; log_k 4.33
+ 2Goe_uniOH-0.5 + Mg+2 + H2O = (Goe_uniOH)2MgOH + H+
+  -cd_music  0.62 0.38 0 0 0; log_k -6.61
+END
+
+SOLUTION 1; pH 9; Na 200 charge; N(5) 200; -pe 14 O2(g) -0.68
+END
+
+PHASES; Fix_ph; H+ = H+; log_k 0
+SURFACE 1
+ Goe_uniOHH0.5 3.45 96.8  16.52
+#        sites/nm2^     m2/g^  g^
+ Goe_triOH0.5  2.7
+ -cap             0.98  0.73; -cd_music
+# layer capacitance 1^  2^
+ -sites_units density
+ -equilibrate 1   # initial composition in equilibrium with solution 1
+# -donnan 1e-10
+USE SOLUTION 1
+SAVE surface 1
+SAVE solution 1
+END
+
+USER_PRINT
+10 PRINT "Plane 0"
+20 PRINT "   Charge: ", EDL("charge", "Goe")
+30 PRINT "   Sigma:  ", EDL("sigma", "Goe")
+40 PRINT "   Psi:    ", EDL("psi", "Goe")
+50 PRINT
+
+110 PRINT "Plane 1"
+120 PRINT "   Charge: ", EDL("charge1", "Goe")
+130 PRINT "   Sigma:  ", EDL("sigma1", "Goe")
+140 PRINT "   Psi:    ", EDL("psi1", "Goe")
+150 PRINT
+
+210 PRINT "Plane 2"
+220 PRINT "   Charge: ", EDL("charge2", "Goe")
+230 PRINT "   Sigma:  ", EDL("sigma2", "Goe")
+240 PRINT "   Psi:    ", EDL("psi2", "Goe")
+250 PRINT
+
+SELECTED_OUTPUT; -file rahn.txt; -reset false;#  -high_pr
+USER_PUNCH; -headings type pH s_H+/(umol/m2) Goe_charge/(eq/L) Na/M Mg/M sim_no
+  1 if step_no = 0 then goto 100
+  4 if sim_no = 4 then punch 'No donnan' else punch ' '
+#  5 if sim_no = 5 then punch 'Goe with Donnan'
+#  6 if sim_no = 6 then punch 'Su- with Donnan'
+ 10 H_sor = mol("Goe_triOH+0.5") - mol("Goe_triO-0.5") - mol("Goe_triONa+0.5") + mol("Goe_triOHCl-0.5")
+ 20 H_sor = H_sor + mol("Goe_triOHNO3-0.5") - mol("(Goe_triO)2Mg+") + mol("(Goe_triO)2MgOH")
+ 30 H_sor = H_sor + mol("Goe_uniOH2+0.5") - mol("Goe_uniOH-0.5") - mol("Goe_uniOHNa+0.5") + mol("Goe_uniOH2Cl-0.5")
+ 40 H_sor = H_sor + mol("Goe_uniOH2NO3-0.5") - mol("(Goe_uniOH)2Mg+") + mol("(Goe_uniOH)2MgOH")
+ 42 if step_no = 1 then put(H_sor, 1)
+ 50 punch -la("H+"), (H_sor - get(1)) * 1e6 / (96.8 * 16.52), -charge_balance
+ 60 punch tot("Na"), tot("Mg"), sim_no
+ 100 end
+USE solution 1
+USE surface 1
+REACTION 1
+ HNO3 1e-3
+  0 0 0 0 #1 2 3 4 5 6 7 8 8.5
+INCREMENTAL_REACTIONS
+END
+

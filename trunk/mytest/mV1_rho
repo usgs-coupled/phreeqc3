@@ -1,0 +1,77 @@
+#[ Plot molar volumes at "infinite" dilution
+#]
+DATABASE ../database/phreeqc.dat
+SOLUTION_SPECIES
+Na+ = Na+
+	-gamma	4.0	0.075
+	-dw	 1.33e-9
+	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+	-Vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
+K+ = K+
+	-gamma	3.5	0.015
+	-dw	 1.96e-9
+	-millero 7.26 0.0892 -0.000736 2.722 -0.101 0.00151
+	-Vm 7.92 3.56e-2 -1.9e-5  0.356 2.2e-3 -1.4e-4  -1e-3  0.77 # KCl.xls, Laliberte, 2009. 0-125 oC.
+Cl- = Cl-
+	-gamma	3.5	0.015
+	-dw	 2.03e-9
+	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+	-Vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
+
+#PRINT; -reset false; -user_print true
+USER_PRINT
+ 30 put(rho, step_no)
+SOLUTION 1
+REACTION_TEMPERATURE 1
+ 0 230 in 21
+END
+PRINT; -user_print false
+
+SOLUTION 1
+ Na 0.6; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 1 ; -chart_title  "Alkali - Chlorides"
+-plot_csv_file mV1_rho.dat
+-axis_scale x_axis 270 510
+-axis_scale y_axis -10 30
+-axis_titles "Temperature / K" "molar Volume / cm3/mol"
+ -connect false
+-headings Vm
+ 20 mV = (1e3 + tot("Na") * (22.989 + 1 * 35.453)) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(step_no))
+ 30 plot_xy tk, mV, color = Red, symbol = None, line_width = 2
+END
+
+SOLUTION 1
+ K 0.6; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 1
+-headings ...."....
+ 20 mV = (1e3 + tot("K") * (39.102 + 1 * 35.453)) / (tot("K") * rho) - 1e3 / (tot("K") * get(step_no))
+ 30 plot_xy tk, mV, color = Green , symbol = None, line_width = 2
+END
+
+SOLUTION_SPECIES
+Na+ = Na+
+-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+K+ = K+
+-millero 7.26 0.0892 -0.000736 2.722 -0.101 0.00151
+Cl- = Cl-
+-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+
+SOLUTION 1
+ Na 0.5; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 1
+-headings -millero
+ 20 mV = (1e3 + tot("Na") * (22.989 + 1 * 35.453)) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(step_no))
+ 30 plot_xy tk, mV, color = Red, symbol = None
+END
+
+SOLUTION 1
+ K 0.5; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 1
+-headings .".
+ 20 mV = (1e3 + tot("K") * (39.102 + 1 * 35.453)) / (tot("K") * rho) - 1e3 / (tot("K") * get(step_no))
+ 30 plot_xy tk, mV, color = Green , symbol = None
+END

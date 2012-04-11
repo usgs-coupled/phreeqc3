@@ -1,0 +1,111 @@
+#DATABASE ../database/phreeqd.dat
+DATABASE ../database/phreeqc.dat
+PRINT; -warn 0
+SELECTED_OUTPUT
+ -file eq_EC.prn; -reset false
+USER_PUNCH
+ -head conc eq_EC_25
+ -start
+ 10 punch tot("Cl"), SC / tot("Cl") /1e3
+ -end
+SOLUTION_SPREAD
+ -units mol/kgw
+K	Cl	HB Chem Phys
+5.00E-04	1 charge	147.8
+1.00E-03	1 charge	147
+5.00E-03	1 charge	143.3
+1.00E-02	1 charge	141.3
+2.00E-02	1 charge	138.3
+5.00E-02	1 charge	133.4
+1.00E-01	1 charge	129
+END
+SOLUTION_SPREAD
+ -units mol/kgw
+Na	Cl	HB Chem Phys
+5.00E-04	1 charge	124.5
+1.00E-03	1 charge	123.7
+5.00E-03	1 charge	120.6
+1.00E-02	1 charge	118.5
+2.00E-02	1 charge	115.5
+5.00E-02	1 charge	111.1
+1.00E-01	1 charge	106.7
+END
+SOLUTION_SPREAD
+ -units mol/kgw
+Cl	pH	HB Chem Phys
+5.00E-04	1 charge	4.23E+02
+1.00E-03	1 charge	4.21E+02
+5.00E-03	1 charge	4.16E+02
+1.00E-02	1 charge	4.12E+02
+2.00E-02	1 charge	4.07E+02
+5.00E-02	1 charge	3.99E+02
+1.00E-01	1 charge	3.91E+02
+END
+SOLUTION_SPREAD
+ -units mol/kgw
+Cl	Ca	HB Chem Phys
+5.00E-04	1 charge	1.32E+02
+1.00E-03	1 charge	1.30E+02
+5.00E-03	1 charge	1.24E+02
+1.00E-02	1 charge	1.20E+02
+2.00E-02	1 charge	1.16E+02
+5.00E-02	1 charge	1.09E+02
+1.00E-01	1 charge	1.02E+02
+END
+SOLUTION_SPREAD
+ -units mol/kgw
+Cl	Mg	HB Chem Phys
+5.00E-04	1 charge	125.6
+1.00E-03	1 charge	124.1
+5.00E-03	1 charge	118.3
+1.00E-02	1 charge	114.6
+2.00E-02	1 charge	110
+5.00E-02	1 charge	103.1
+1.00E-01	1 charge	97.1
+END
+USER_PUNCH		
+ -head conc eq_EC_25		
+ -start		
+ 10 punch tot("S(6)") * 2, SC / tot("S(6)")/2e3
+ -end		
+SOLUTION_SPREAD		
+ -units mol/kgw		
+Na	S(6)	HB Chem Phys
+5.00E-04	1 charge	1.26E+02
+1.00E-03	1 charge	1.24E+02
+5.00E-03	1 charge	1.17E+02
+1.00E-02	1 charge	1.12E+02
+2.00E-02	1 charge	1.07E+02
+5.00E-02	1 charge	9.78E+01
+1.00E-01	1 charge	9.00E+01
+END		
+SOLUTION_SPREAD
+ -units mol/kgw
+Zn	S(6)	HB Chem Phys
+2.50E-04	0.01 charge	121.4
+5.00E-04	0.01 charge	114.5
+2.50E-03	0.01 charge	95.5
+5.00E-03	0.01 charge	84.9
+1.00E-02	0.01 charge	74.2
+2.50E-02	0.01 charge	61.2
+5.00E-02	0.01 charge	52.6
+END
+USER_PUNCH		
+ -head conc eq_EC_25		
+ -start		
+ 10 if step_no > 0 then punch tot("Cl"), SC / tot("Cl") / 1e3
+ -end		
+SOLUTION_MASTER_SPECIES
+La	La+3	0.0	La	138.9055
+SOLUTION_SPECIES
+La+3 = La+3; log_k 0.0; -gamma 9.0 0.0
+ -dw 6.36e-10
+NO3- + La+3  =  LaNO3+2; -gamma 4.5 0.0; log_k 0.58
+ -dw 3e-10 # a rough estimate
+La+3 + Cl-  =  LaCl+2; -gamma 4.5 0.0; log_k 0.31
+ -dw 3e-10 # a rough estimate
+SOLUTION 1
+reaction 1
+ LaCl3 0.3333; 0.0005 0.001 0.005 0.01 0.02 0.05 0.1
+#HB_EC: 139.6	137	127.5	121.8	115.3	106.2	99.1
+END

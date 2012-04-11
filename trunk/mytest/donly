@@ -1,0 +1,37 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION_SPREAD
+    -units    mg/l
+ Number	 S(6)	 Alkalinity	 N(5)	   Cl	   Ca	   Mg	   Na	    K	   pH
+      	     	    as HCO3	     	     	     	     	     	     	     
+      0	  .03	       3038	  .05	 28.9	 50.5	 37.5	 1040	 47.4	 8.37
+   1-100	  380	        527	  .33	   15	 53.6	 23.8	  300	 17.5	 7.51
+END
+EXCHANGE 1-100
+ 	X  1.5
+	-eq 1
+END
+EQUILIBRIUM_PHASES 1-100
+	Calcite 0 1
+	Dolomite 0 1  dissolve
+	Gypsum 0 1
+SOLUTION 1-4
+	-units mmol/kgw
+	Na 100
+	Cl 100	charge
+END
+SELECTED_OUTPUT
+      -file donly.sel
+      -reset false
+      -solution
+	-tot  Na Mg Ca S C Cl
+	-equi Calcite Dolomite Gypsum 
+USER_PUNCH
+-heading pH
+10 PUNCH -LA("H+")
+END
+ADVECTION
+	-cells 30
+	-shifts 10
+        -print_frequency 5
+#        -punch_frequency 5
+END

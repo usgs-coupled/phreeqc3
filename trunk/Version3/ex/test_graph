@@ -1,0 +1,2106 @@
+
+### Example 2
+
+TITLE Example 2.--Temperature dependence of solubility
+                  of gypsum and anhydrite
+SOLUTION 1 Pure water
+        pH      7.0
+        temp    25.0                
+EQUILIBRIUM_PHASES 1
+        Gypsum          0.0     1.0
+        Anhydrite       0.0     1.0
+REACTION_TEMPERATURE 1
+        25.0 75.0 in 51 steps
+SELECTED_OUTPUT
+        -file   ex2.sel
+        -temperature
+        -si     anhydrite  gypsum
+USER_GRAPH 2 Temperature dependence of solubility of gypsum and anhydrite
+        -headings Temperature SI(Gypsum) SI(Anhydrite)
+        -chart_title "Example 2"
+        -axis_scale x_axis 25 75 5 0
+        -axis_scale y_axis auto 0.05 0.1
+        -axis_titles "Temperature / oC" "Saturation Index"
+        -initial_solutions false
+  -start
+  10 graph_x TC
+  20 graph_y SI("Gypsum") SI("Anhydrite")
+  -end
+END
+USER_GRAPH 2
+	#-active false
+	#-heading
+PRINT
+	-user_graph false
+END
+
+### Example 5
+
+TITLE Example 5.--Add oxygen, equilibrate with pyrite, calcite, and goethite.
+SOLUTION 1  PURE WATER
+        pH      7.0
+        temp    25.0
+EQUILIBRIUM_PHASES 1
+        Pyrite          0.0
+        Goethite        0.0
+        Calcite         0.0
+        CO2(g)         -3.5
+        Gypsum          0.0     0.0
+REACTION 1
+        O2      1.0
+        NaCl    0.5
+        0.0     0.001   0.005   0.01   0.03   0.05
+SELECTED_OUTPUT
+        -file   ex5.sel
+        -total  Cl
+        -si     Gypsum
+        -equilibrium_phases  pyrite goethite calcite CO2(g) gypsum
+PRINT
+	-user_graph true
+USER_GRAPH 5
+        -headings Pyrite Goethite Calcite CO2(g) Gypsum SI_Gypsum
+        -chart_title "Example 5"
+        -axis_titles "mmoles O2 added" "moles dissolved" "Saturation Index"
+  10 x = RXN * 1e3
+  20 PLOT_XY x, 10 - EQUI("Pyrite"), symbol = Plus
+  30 PLOT_XY x, 10 - EQUI("Goethite"), symbol = Plus
+  40 PLOT_XY x, 10 - EQUI("Calcite"), symbol = Plus
+  50 PLOT_XY x, 10 - EQUI("CO2(g)"), symbol = Plus
+  60 PLOT_XY x, -EQUI("Gypsum"), symbol = Plus, color = Magenta
+  70 PLOT_XY x, SI("Gypsum"), y-axis = 2, line_width = 2, symbol = Circle, symbol_size = 8, color = Magenta
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 5
+	-active false
+
+### Example 6
+
+TITLE Example 6A.--React to phase boundaries.
+SOLUTION 1  PURE WATER
+            pH    7.0 charge
+          temp   25.0
+PHASES
+        Gibbsite
+                Al(OH)3 + 3 H+ = Al+3 + 3 H2O
+                log_k          8.049
+                delta_h        -22.792 kcal
+        Kaolinite
+                Al2Si2O5(OH)4 + 6 H+ = H2O + 2 H4SiO4 + 2 Al+3
+                log_k          5.708
+                delta_h        -35.306 kcal
+        K-mica
+                KAl3Si3O10(OH)2 + 10 H+ = 3 Al+3 + 3 H4SiO4 + K+
+                log_k          12.970
+                delta_h        -59.377 kcal
+        K-feldspar
+                KAlSi3O8 + 4 H2O + 4 H+ = Al+3 + 3 H4SiO4 + K+
+                log_k          0.875
+                delta_h        -12.467 kcal
+SELECTED_OUTPUT
+        -file           ex6A-B.sel
+        -activities     K+ H+ H4SiO4
+        -si             Gibbsite Kaolinite K-mica K-feldspar
+        -equilibrium    Gibbsite Kaolinite K-mica K-feldspar
+END
+TITLE Example 6A1.--Find amount of K-feldspar dissolved to
+                    reach gibbsite saturation.
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Gibbsite        0.0     KAlSi3O8        10.0
+        Kaolinite       0.0     0.0
+        K-mica          0.0     0.0
+        K-feldspar      0.0     0.0
+PRINT
+	-user_graph true
+USER_GRAPH 6
+        -headings 6A(Phase_B)
+        -chart_title "Example 6"
+        -axis_titles "Log[H4SiO4]" "Log([K+] / [H+])"
+        -axis_scale x_axis -8.0 0.0 1 1
+        -axis_scale y_axis -1.0 8.0 1 1
+  10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Red, line_w = 0, symbol = Circle, symbol_size = 10
+END
+TITLE Example 6A2.--Find amount of K-feldspar dissolved to
+                    reach kaolinite saturation.
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Gibbsite        0.0     0.0
+        Kaolinite       0.0     KAlSi3O8        10.0
+        K-mica          0.0     0.0
+        K-feldspar      0.0     0.0
+END
+TITLE Example 6A3.--Find amount of K-feldspar dissolved to
+                    reach K-mica saturation.
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Gibbsite        0.0     0.0
+        Kaolinite       0.0     0.0
+        K-mica          0.0     KAlSi3O8        10.0
+        K-feldspar      0.0     0.0
+END
+TITLE Example 6A4.--Find amount of K-feldspar dissolved to
+                    reach K-feldspar saturation.
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Gibbsite        0.0     0.0
+        Kaolinite       0.0     0.0
+        K-mica          0.0     0.0
+        K-feldspar      0.0     KAlSi3O8        10.0
+END
+TITLE Example 6A5.--Find point with kaolinite present,
+                    but no gibbsite.
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Gibbsite        0.0     KAlSi3O8        10.0
+        Kaolinite       0.0     1.0
+END
+TITLE Example 6A6.--Find point with K-mica present,
+                    but no kaolinite
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Kaolinite       0.0     KAlSi3O8        10.0
+        K-mica          0.0     1.0
+END
+TITLE Example 6B.--Path between phase boundaries.
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Kaolinite       0.0     0.0
+        Gibbsite        0.0     0.0
+        K-mica          0.0     0.0
+        K-feldspar      0.0     0.0
+REACTION 1
+        K-feldspar      1.0
+        0.04 0.08 0.16 0.32 0.64 1.0 2.0 4.0
+        8.0 16.0 32.0 64.0 100 200 umol
+USER_GRAPH 6
+        -headings 6B(path)
+  10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Blue, line_w = 0, symbol = XCross, symbol_size = 7
+END
+TITLE Example 6C.--kinetic calculation
+SOLUTION 1
+        -units mol/kgw
+        Al         1.e-13
+        K          1.e-13
+        Si         3.e-13
+EQUILIBRIUM_PHASES 1
+        Gibbsite   0.0  0.0
+        Kaolinite  0.0  0.0
+        K-mica     0.0  0.0
+KINETICS 1
+K-feldspar
+#        k0 * A/V = 1e-16 mol/cm2/s * (10% fsp, 0.1mm cubes) 136/cm = 136.e-13 mol/dm3/s
+        -parms 1.36e-11
+        -m0 2.16
+        -m  1.94
+        -step_divide 1e-6
+        -steps    1e2 1e3 1e4 1e5 1e6 1e7 1e8
+#        -steps    1e2 1e3 1e4 1e5 63240.0 64950.0 1347610.0 1010300.0 45242800.0
+INCREMENTAL_REACTIONS true
+RATES
+K-feldspar
+-start
+  10  REM store the initial amount of K-feldspar
+  20  IF EXISTS(1) = 0 THEN PUT(M, 1)
+  30  REM calculate moles of reaction
+  40  SR_kfld = SR("K-feldspar")
+  50  moles = PARM(1) * (M/M0)^0.67 * (1 - SR_kfld) * TIME
+  60  REM The following is for printout of phase transitions
+  80  REM      Start Gibbsite
+  90  if ABS(SI("Gibbsite")) > 1e-3 THEN GOTO 150
+  100   i = 2
+  110   GOSUB 1500
+  150 REM      Start Gibbsite -> Kaolinite
+  160 if ABS(SI("Kaolinite")) > 1e-3 THEN GOTO 200
+  170   i = 3
+  180   GOSUB 1500
+  200 REM      End Gibbsite -> Kaolinite
+  210 if ABS(SI("Kaolinite")) > 1e-3 OR EQUI("Gibbsite") > 0 THEN GOTO 250
+  220   i = 4
+  230   GOSUB 1500
+  250 REM      Start Kaolinite -> K-mica
+  260 if ABS(SI("K-mica")) > 1e-3 THEN GOTO 300
+  270   i = 5
+  280   GOSUB 1500
+  300 REM      End Kaolinite -> K-mica
+  310 if ABS(SI("K-mica")) > 1e-3 OR EQUI("Kaolinite") > 0 THEN GOTO 350
+  320   i = 6
+  330   GOSUB 1500
+  350 REM      Start K-mica -> K-feldspar
+  360 if ABS(SI("K-feldspar")) > 1e-3 THEN GOTO 1000
+  370   i = 7
+  380   GOSUB 1500
+  1000 SAVE moles
+  1010 END
+  1500 REM subroutine to store data
+  1510 if GET(i) >= M THEN RETURN
+  1520     PUT(M, i)
+  1530     PUT(TOTAL_TIME, i, 1)
+  1540     PUT(LA("K+")-LA("H+"), i, 2)
+  1550     PUT(LA("H4SiO4"), i, 3)
+  1560 RETURN
+-end
+USER_PRINT
+  10 DATA "A: Gibbsite               ", "B: Gibbsite  -> Kaolinite ", \
+          "C: Gibbsite  -> Kaolinite ", "D: Kaolinite -> K-mica    ", \
+          "E: Kaolinite -> K-mica    ", "F: K-mica    -> K-feldspar"
+  20 PRINT "        Transition                 Time   K-feldspar      LA(K/H)   LA(H4SiO4)"
+  30 PRINT "                                             reacted"
+  40 PRINT "                                             (moles)"
+  50 FOR i = 2 TO 7
+  60   READ s$
+  70   IF EXISTS(i) THEN PRINT s$, GET(i,1), GET(1) - GET(i), GET(i,2), GET(i,3)
+  80 NEXT i
+SELECTED_OUTPUT
+        -file ex6C.sel
+        -reset false
+USER_PUNCH
+  -headings pH+log[K]  log[H4SiO4]
+  10 PUNCH LA("K+")-LA("H+") LA("H4SiO4")
+USER_GRAPH 6
+  -headings 6C(kinetics)
+  10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Blue, line_w = 2, symbol = None
+END
+PRINT; -user_print false
+# --Plot the phase boundaries with USER_GRAPH..
+PHASES
+ K_H; KH = K+ - H+; -no_check
+USER_GRAPH 6
+-initial_solutions true
+ 10 PLOT_XY LA("H4SiO4"), SI("K_H"), color = Black, symbol = None 
+SOLUTION 1
+ pH 11; K 1 K_H 8; Al 1 Gibbsite; Si 1 K-mica
+SOLUTION 2
+ pH 7; K 1 K-mica; Al 1 Gibbsite; Si 1 Kaolinite
+SOLUTION 3
+ pH 7; K 1 K-mica; Al 1 K-feldspar; Si 1 Kaolinite
+SOLUTION 4
+ pH 7; K 1 K_H -1; Al 1 Kaolinite; Si 1 K-feldspar
+END
+USER_GRAPH 6
+ 10 PLOT_XY LA("H4SiO4"), SI("K_H"), color = Black, symbol = None 
+SOLUTION 1
+ pH 11; K 1 K_H 8; Al 1 K-feldspar; Si 1 K-mica
+SOLUTION 2
+ pH 7; K 1 K-mica; Al 1 K-feldspar; Si 1 Kaolinite
+SOLUTION 3
+ pH 7; K 1 K-mica; Al 1 Gibbsite; Si 1 Kaolinite
+SOLUTION 4
+ pH 7; K 1 K_H -1; Al 1 Gibbsite; Si 1 Kaolinite
+END 
+PRINT
+	-user_graph false
+END
+USER_GRAPH 6
+	-active false
+	
+### Example 7
+
+TITLE Example 7.--Organic decomposition with fixed-pressure and
+                  fixed-volume gas phases
+SOLUTION_MASTER_SPECIES
+N(-3)    NH4+           0.0     N
+SOLUTION_SPECIES
+NH4+ = NH3 + H+
+        log_k           -9.252
+        delta_h 12.48   kcal
+        -analytic    0.6322    -0.001225     -2835.76
+
+NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
+        log_k           119.077
+        delta_h -187.055        kcal
+        -gamma    2.5000    0.0000
+PHASES
+NH3(g)
+        NH3 = NH3
+        log_k           1.770
+        delta_h -8.170  kcal
+SOLUTION 1
+EQUILIBRIUM_PHASES 1
+        Calcite
+        CO2(g)  -1.5
+SAVE solution 1
+SELECTED_OUTPUT
+        -reset false
+        -file ex7.sel
+        -simulation     true
+        -state          true
+        -reaction       true
+        -si CO2(g) CH4(g) N2(g) NH3(g)
+        -gas CO2(g) CH4(g) N2(g) NH3(g)
+END
+#  Simulation 2: Decomposition of organic matter, CH2O(NH3).07,
+#  at fixed pressure of 1.1 atm
+USE solution 1
+GAS_PHASE 1 Fixed-pressure gas phase
+        -fixed_pressure
+        -pressure       1.1
+        CO2(g)          0.0
+        CH4(g)          0.0
+        N2(g)           0.0
+        H2O(g)          0.0
+REACTION 1
+        CH2O(NH3)0.07     1.0
+        1. 2. 3. 4. 8. 16. 32 64. 125. 250. 500. 1000. mmol
+PRINT
+	-user_graph true
+USER_GRAPH 7
+        -headings Fixed_Pressure: CH4 CO2 N2 H2O Volume
+#        -chart_title "Example 7"
+        -axis_titles "Organic Matter added / mmoles" "Log(Partial Pressure / atm)" "Volume / L"
+        -axis_scale x_axis 1 1e3 auto auto log
+        -axis_scale y_axis -5.0 1.0 1 1
+        -axis_scale y2_axis 1e-3 1e3 auto auto log
+        -connect_simulations false
+  -start
+  10 mM_OM = RXN * 1e3
+  20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0
+  30 IF GAS("CH4(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("CH4(g)"), color = Black, symbol = XCross
+  40 IF GAS("CO2(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("CO2(g)"), color = Red, symbol = XCross
+  50 IF GAS("N2(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("N2(g)"), color = Teal, symbol = XCross
+  60 IF GAS("H2O(g)") > 1e-10 THEN PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = XCross
+  70 V = (GAS("CH4(g)") + GAS("CO2(g)") + GAS("N2(g)") + GAS("H2O(g)")) * 0.08207 * TK / 1.1
+  80 IF GAS("CH4(g)") > 1e-10 THEN PLOT_XY mM_OM, (V), color = Cyan, symbol = XCross, y_axis = 2
+  -end
+END
+#  Simulation 3: Decomposition of organic matter, CH2O(NH3).07,
+#  at fixed volume of 22.5 L
+USE solution 1
+USE reaction 1
+GAS_PHASE 1 Fixed volume gas phase
+        -fixed_volume 
+        -volume         23.19
+        CO2(g)          0.0
+        CH4(g)          0.0
+        N2(g)           0.0
+        H2O(g)          0.0
+        -equilibrate 1
+USER_GRAPH 7
+        -headings Fixed_Volume: CH4 CO2 N2 H2O
+  -start
+  10 mM_OM = RXN * 1e3
+  20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0
+  30 PLOT_XY mM_OM, SI("CH4(g)"), color = Black, symbol = Circle
+  40 PLOT_XY mM_OM, SI("CO2(g)"), color = Red, symbol = Circle
+  50 PLOT_XY mM_OM, SI("N2(g)"), color = Teal, symbol = Circle
+  60 PLOT_XY mM_OM, SI("H2O(g)"), color = Blue, symbol = Circle, symbol_size = 5
+  70 PLOT_XY mM_OM, 23.19, line_width = 0 symbol = None, y_axis = 2
+  -end
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 7
+	-active false
+
+### Example 9
+
+TITLE Example 9.--Kinetically controlled oxidation of ferrous 
+                  iron. Decoupled valence states of iron.
+SOLUTION_MASTER_SPECIES
+Fe_di              Fe_di+2    0.0     Fe_di              55.847
+Fe_tri             Fe_tri+3   0.0     Fe_tri             55.847
+SOLUTION_SPECIES
+Fe_di+2 = Fe_di+2
+        log_k   0.0
+Fe_tri+3 = Fe_tri+3
+        log_k   0.0
+#
+# Fe+2 species
+#
+Fe_di+2 + H2O = Fe_diOH+ + H+
+        log_k   -9.5
+        delta_h 13.20   kcal
+#
+#... and also other Fe+2 species
+#
+Fe_di+2 + Cl- = Fe_diCl+
+        log_k   0.14
+Fe_di+2 + CO3-2 = Fe_diCO3
+        log_k   4.38
+Fe_di+2 + HCO3- = Fe_diHCO3+
+        log_k   2.0
+Fe_di+2 + SO4-2 = Fe_diSO4
+        log_k   2.25
+        delta_h 3.230   kcal
+Fe_di+2 + HSO4- = Fe_diHSO4+
+        log_k   1.08
+Fe_di+2 + 2HS- = Fe_di(HS)2
+        log_k   8.95
+Fe_di+2 + 3HS- = Fe_di(HS)3-
+        log_k   10.987
+Fe_di+2 + HPO4-2 = Fe_diHPO4
+        log_k   3.6
+Fe_di+2 + H2PO4- = Fe_diH2PO4+
+        log_k   2.7
+Fe_di+2 + F- = Fe_diF+
+        log_k   1.0
+#
+# Fe+3 species
+#
+Fe_tri+3 + H2O = Fe_triOH+2 + H+
+        log_k   -2.19
+        delta_h 10.4    kcal
+#
+#... and also other Fe+3 species
+#
+Fe_tri+3 + 2 H2O = Fe_tri(OH)2+ + 2 H+
+        log_k   -5.67
+        delta_h 17.1    kcal
+Fe_tri+3 + 3 H2O = Fe_tri(OH)3 + 3 H+
+        log_k   -12.56
+        delta_h 24.8    kcal
+Fe_tri+3 + 4 H2O = Fe_tri(OH)4- + 4 H+
+        log_k   -21.6
+        delta_h 31.9    kcal
+2 Fe_tri+3 + 2 H2O = Fe_tri2(OH)2+4 + 2 H+
+        log_k   -2.95
+        delta_h 13.5    kcal
+3 Fe_tri+3 + 4 H2O = Fe_tri3(OH)4+5 + 4 H+
+        log_k   -6.3
+        delta_h 14.3    kcal
+Fe_tri+3 + Cl- = Fe_triCl+2
+        log_k   1.48
+        delta_h 5.6     kcal
+Fe_tri+3 + 2 Cl- = Fe_triCl2+
+        log_k   2.13
+Fe_tri+3 + 3 Cl- = Fe_triCl3
+        log_k   1.13
+Fe_tri+3 + SO4-2 = Fe_triSO4+
+        log_k   4.04
+        delta_h 3.91    kcal
+Fe_tri+3 + HSO4- = Fe_triHSO4+2
+        log_k   2.48
+Fe_tri+3 + 2 SO4-2 = Fe_tri(SO4)2-
+        log_k   5.38
+        delta_h 4.60    kcal
+Fe_tri+3 + HPO4-2 = Fe_triHPO4+
+        log_k   5.43
+        delta_h 5.76    kcal
+Fe_tri+3 + H2PO4- = Fe_triH2PO4+2
+        log_k   5.43
+Fe_tri+3 + F- = Fe_triF+2
+        log_k   6.2
+        delta_h 2.7     kcal
+Fe_tri+3 + 2 F- = Fe_triF2+
+        log_k   10.8
+        delta_h 4.8     kcal
+Fe_tri+3 + 3 F- = Fe_triF3
+        log_k   14.0
+        delta_h 5.4     kcal
+PHASES
+Goethite
+        Fe_triOOH + 3 H+ = Fe_tri+3 + 2 H2O
+        log_k   -1.0
+END
+SOLUTION 1
+        pH  7.0
+        pe 10.0  O2(g) -0.67
+        Fe_di  0.1
+        Na  10.
+        Cl  10.  charge
+EQUILIBRIUM_PHASES 1
+        O2(g)           -0.67
+RATES
+Fe_di_ox
+  -start
+  10  Fe_di = TOT("Fe_di")
+  20  if (Fe_di <= 0) then goto 200
+  30  p_o2 = SR("O2(g)")
+  40  moles = (2.91e-9 + 1.33e12 * (ACT("OH-"))^2 * p_o2) * Fe_di * TIME
+  200 SAVE moles
+  -end
+KINETICS 1
+Fe_di_ox
+        -formula  Fe_di  -1.0  Fe_tri  1.0
+        -steps 100 400 3100 10800 21600 5.04e4 8.64e4 1.728e5 1.728e5 1.728e5 1.728e5 
+        -step_divide 1e-4
+INCREMENTAL_REACTIONS true
+SELECTED_OUTPUT
+        -file ex9.sel
+        -reset false
+USER_PUNCH
+        -headings Days  Fe(2)  Fe(3)  pH  si_goethite
+  10 PUNCH SIM_TIME / 3600 / 24, TOT("Fe_di")*1e6, TOT("Fe_tri")*1e6, -LA("H+"), SI("Goethite")
+PRINT
+	-user_graph true
+USER_GRAPH 9
+        -headings _time_ Fe(2) Fe(3) pH
+        -chart_title "Example 9"
+        -axis_titles "Time / days" "umol / kgw" "pH"
+        -axis_scale secondary_y_axis 4.0 7.0 1.0 0.5
+  -start
+  10 GRAPH_X TOTAL_TIME / 3600 / 24 
+  20 GRAPH_Y TOT("Fe_tri")*1e6, TOT("Fe_di")*1e6 
+  30 GRAPH_SY -LA("H+")
+  -end
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 9
+	-active false
+	
+### Example 10
+INCREMENTAL_REACTIONS false
+TITLE Example 10.--Solid solution of strontianite and aragonite.
+PHASES
+        Strontianite
+                SrCO3 = CO3-2 + Sr+2
+                log_k           -9.271
+        Aragonite
+                CaCO3 = CO3-2 + Ca+2
+                log_k           -8.336
+END
+SOLID_SOLUTIONS 1
+        Ca(x)Sr(1-x)CO3 
+                -comp1   Aragonite       0 
+                -comp2   Strontianite    0 
+                -Gugg_nondim   3.43    -1.82
+END
+SOLUTION 1
+        -units mmol/kgw
+        pH 5.93 charge
+        Ca      3.932
+        C       7.864
+EQUILIBRIUM_PHASES 1
+        CO2(g) -0.01265 10
+        Aragonite
+SAVE solution 1
+END
+#
+#  Total of 0.00001 to 0.005 moles of SrCO3 added
+#
+USE solution 1
+USE solid_solution 1
+REACTION 1
+        SrCO3   1.0
+        .005 in 500 steps 
+PRINT
+        -reset false
+        -echo true
+        -user_print true
+USER_PRINT
+-start
+  10 sum = (S_S("Strontianite") + S_S("Aragonite"))
+  20 if sum = 0 THEN GOTO 110
+  30 xb = S_S("Strontianite")/sum
+  40 xc = S_S("Aragonite")/sum
+  50 PRINT "Simulation number:    ", SIM_NO
+  60 PRINT "Reaction step number: ", STEP_NO
+  70 PRINT "SrCO3 added:          ", RXN
+  80 PRINT "Log Sigma pi:         ", LOG10 (ACT("CO3-2") * (ACT("Ca+2") + ACT("Sr+2")))
+  90 PRINT "XAragonite:           ", xc
+ 100 PRINT "XStrontianite:        ", xb
+ 110 PRINT "XCa:                  ", TOT("Ca")/(TOT("Ca") + TOT("Sr"))
+ 120 PRINT "XSr:                  ", TOT("Sr")/(TOT("Ca") + TOT("Sr"))
+ 130 PRINT "Misc 1:               ", MISC1("Ca(x)Sr(1-x)CO3")
+ 140 PRINT "Misc 2:               ", MISC2("Ca(x)Sr(1-x)CO3")
+-end
+SELECTED_OUTPUT
+        -file ex10.sel
+        -reset false
+        -reaction true
+USER_PUNCH
+-head   lg_SigmaPi X_Arag X_Stront X_Ca_aq X_Sr_aq mol_Misc1 mol_Misc2 mol_Arag mol_Stront
+-start
+  10 sum = (S_S("Strontianite") + S_S("Aragonite"))
+  20 if sum = 0 THEN GOTO 60
+  30 xb = S_S("Strontianite")/(S_S("Strontianite") + S_S("Aragonite"))
+  40 xc = S_S("Aragonite")/(S_S("Strontianite") + S_S("Aragonite"))
+  50 REM Sigma Pi
+  60 PUNCH LOG10(ACT("CO3-2") * (ACT("Ca+2") + ACT("Sr+2")))
+  70 PUNCH xc                                 # Mole fraction aragonite
+  80 PUNCH xb                                 # Mole fraction strontianite
+  90 PUNCH TOT("Ca")/(TOT("Ca") + TOT("Sr"))  # Mole aqueous calcium
+  100 PUNCH TOT("Sr")/(TOT("Ca") + TOT("Sr")) # Mole aqueous strontium
+  110 x1 = MISC1("Ca(x)Sr(1-x)CO3")
+  120 x2 = MISC2("Ca(x)Sr(1-x)CO3")
+  130 if (xb < x1 OR xb > x2) THEN GOTO 250
+  140    nc = S_S("Aragonite")
+  150    nb = S_S("Strontianite")
+  160    mol2 = ((x1 - 1)/x1)*nb + nc
+  170    mol2 = mol2 / ( ((x1 -1)/x1)*x2 + (1 - x2))
+  180    mol1 = (nb - mol2*x2)/x1
+  190    REM                                 # Moles of misc. end members if in gap
+  200    PUNCH mol1
+  210    PUNCH mol2
+  220    GOTO 300
+  250    REM                                 # Moles of misc. end members if not in gap
+  260    PUNCH 1e-10
+  270    PUNCH 1e-10
+  300 PUNCH S_S("Aragonite")                 # Moles aragonite
+  310 PUNCH S_S("Strontianite")              # Moles Strontianite
+-end
+PRINT
+	-user_graph true
+USER_GRAPH 10
+        -headings x_Aragonite  x_Srontianite
+        -chart_title "Example 10"
+        -axis_titles "Log(SrCO3 added / mol)" "Log(Mole-fraction)"
+        -axis_scale x_axis -5 1 1 1
+        -axis_scale y_axis -5 0.1 1 1
+        -connect_simulations true
+	-start
+  10 sum = (S_S("Strontianite") + S_S("Aragonite"))
+  20 IF sum = 0 THEN GOTO 70
+  30 xb = S_S("Strontianite")/ sum
+  40 xc = S_S("Aragonite")/ sum
+  50 PLOT_XY LOG10(RXN), LOG10(xc), line_w = 2, symbol_size = 0
+  60 PLOT_XY LOG10(RXN), LOG10(xb), line_w = 2, symbol_size = 0
+  70 rem
+  -end
+END     
+#
+#  Total of 0.005 to 0.1 moles of SrCO3 added
+#
+USE solution 1
+USE solid_solution 1
+REACTION 1
+        SrCO3   1.0
+        .1 in 20 steps 
+END     
+#
+#  Total of 0.1 to 10 moles of SrCO3 added
+#
+USE solution 1
+USE solid_solution 1
+REACTION 1
+        SrCO3   1.0
+        10.0 in 100 steps 
+END   
+PRINT
+	-user_graph false
+END
+USER_GRAPH 10
+	-active false
+	
+### Example 11
+
+DELETE
+	-cells 1-1000
+END
+TITLE Example 11.--Transport and ion exchange.
+SOLUTION 0  CaCl2
+        units            mmol/kgw
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5    O2(g)   -0.68
+        Ca               0.6
+        Cl               1.2
+SOLUTION 1-40  Initial solution for column
+        units            mmol/kgw
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5    O2(g)   -0.68
+        Na               1.0
+        K                0.2
+        N(5)             1.2
+COPY solution 1 101
+END
+EXCHANGE 1-40
+        equilibrate 1
+        X                0.0011
+COPY exchange 1 101
+END
+ADVECTION
+        -cells           40
+        -shifts          100
+        -punch_cells     40
+        -punch_frequency 1
+        -print_cells     40
+        -print_frequency 120
+SELECTED_OUTPUT
+        -file            ex11adv.sel
+        -reset           false
+        -step
+        -totals          Na Cl K Ca
+USER_PUNCH
+  -heading  Pore_vol
+  10 PUNCH (STEP_NO + .5) / 40.
+PRINT
+	-user_graph true
+USER_GRAPH 11
+  -headings ADVECTION Cl Na K Ca
+  -chart_title "Example 11"
+  -axis_titles "Pore Volumes" "mmol / kgw"
+  -axis_scale x_axis 0 2.5
+  -axis_scale y_axis 0 1.4
+  -initial_solutions false
+  -plot_concentration_vs time
+  -start
+  10 x = (STEP_NO + 0.5) / cell_no
+  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = None, color = Red
+  40 PLOT_XY x, TOT("Na")*1000, symbol = None
+  50 PLOT_XY x, TOT("K")*1000, symbol = None
+  60 PLOT_XY x, TOT("Ca")*1000, symbol = None
+  70 PUT(1, 1)
+  -end
+COPY solution 101 1-40
+COPY exchange 101 1-40
+PRINT
+#  -user_graph false # uncomment to plot transport only, also comment advection headings
+END
+PRINT
+  -user_graph true # false to plot advection only
+TRANSPORT
+        -cells           40
+        -lengths         0.002
+        -shifts          100
+        -time_step       720.0
+        -flow_direction  forward
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -dispersivities  0.002
+        -correct_disp    true
+        -punch_cells     40
+        -punch_frequency 1
+        -print_cells     40
+        -print_frequency 120
+SELECTED_OUTPUT
+        -file            ex11trn.sel
+        -reset           false
+        -step
+        -totals          Na Cl K Ca
+        -high_precision true
+USER_GRAPH 11
+  -headings TRANSPORT Cl Na K Ca Cl_analytical
+  10 x = (STEP_NO + 0.5) / cell_no
+  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = Plus, symbol_size = 2 color = Red
+  40 PLOT_XY x, TOT("Na")*1000, symbol = Plus, symbol_size = 2 color = Blue
+  50 PLOT_XY x, TOT("K")*1000, symbol = Plus, symbol_size = 2 color = Orange
+  60 PLOT_XY x, TOT("Ca")*1000, symbol = Plus, symbol_size = 2 color = Magenta
+# calculate Cl_analytical...
+  70 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
+  80 READ a1, a2, a3, a4, a5, a6
+  90 Peclet = 0.08 / 0.002
+  100 z = (1 - x) / SQRT(4 * x / Peclet)
+  110 PA = 0
+  120 GOSUB 2000 # calculate e_erfc = exp(PA) * erfc(z)
+  130 e_erfc1 = e_erfc
+  140 z = (1 + x) / SQRT(4 * x / Peclet)
+  150 PA = Peclet
+  160 GOSUB 2000 # calculate exp(PA) * erfc(z)
+  170 y = 0.6 * (e_erfc1 + e_erfc)
+  180 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red
+  190 d = (y - TOT("Cl")*1000)^2
+  200 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)
+  210 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'
+  220 END
+  2000 REM calculate e_erfc = exp(PA) * erfc(z)...
+  2010 sgz = SGN(z)
+  2020 z = ABS(z)
+  2050 b = 1 / (1 + a6 * z)
+  2060 e_erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(PA - (z * z))
+  2070 IF sgz = -1 THEN e_erfc = 2 * EXP(PA) - e_erfc
+  2080 RETURN
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 11
+	-active false
+
+### Example 12
+
+DELETE
+	-cells 1-1000
+END
+TITLE Example 12.--Advective and diffusive transport of heat and solutes.
+      Two different boundary conditions at column ends.
+      After diffusion temperature should equal Na-conc in mmol/l.
+SOLUTION 0   24.0 mM KNO3
+    units mol/kgw
+    temp  0     # Incoming solution 0C
+    pH    7.0
+    pe   12.0   O2(g) -0.67
+    K    24.e-3
+    N(5) 24.e-3
+SOLUTION 1-60   0.001 mM KCl
+    units mol/kgw
+    temp 25    # Column is at 25C
+    pH   7.0
+    pe  12.0   O2(g) -0.67
+    K    1e-6
+    Cl   1e-6
+EXCHANGE_SPECIES
+    Na+ + X- = NaX
+    log_k       0.0
+    -gamma      4.0     0.075
+
+    H+ + X- = HX
+    log_k       -99.
+    -gamma      9.0     0.0
+        
+    K+ + X- = KX
+    log_k       0.0
+    gamma       3.5     0.015
+EXCHANGE 1-60
+    KX    0.048
+PRINT
+   -reset   false
+   -selected_output false
+SELECTED_OUTPUT
+   -file    ex12.sel
+   -reset   false
+   -dist    true
+   -high_precision  true
+   -temp    true
+USER_PUNCH
+        -head Na_mmol K_mmol Cl_mmol
+  10 PUNCH TOT("Na")*1000, TOT("K")*1000, TOT("Cl")*1000
+TRANSPORT           # Make column temperature 0C, displace Cl
+   -cells   60
+   -shifts  60
+   -punch_cells 1-60
+   -flow_direction  forward
+   -boundary_conditions flux  flux
+   -lengths 0.333333
+   -dispersivities        0.0     # No dispersion
+   -diffusion_coefficient 0.0     # No diffusion
+   -thermal_diffusion     1.0     # No retardation for heat
+END
+SOLUTION 0   Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet
+    units  mol/kgw
+    temp 24
+    pH  7.0
+    pe  12.0   O2(g) -0.67
+    Na  24.e-3
+    Cl  24.e-3
+SOLUTION 58-60  Same as soln 0 in cell 20 at closed column end (second type boundary cond)
+    units  mol/kgw
+    temp 24
+    pH  7.0
+    pe  12.0   O2(g) -0.67
+    Na  24.e-3
+    Cl  24.e-3
+EXCHANGE 58-60
+    NaX  0.048
+PRINT
+   -selected_output true
+TRANSPORT            # Diffuse 24C, NaCl solution from column end
+   -shifts 1
+   -flow_direction         diffusion
+   -boundary_conditions    constant  closed
+   -thermal_diffusion      3.0       # heat is retarded equal to Na
+   -diffusion_coefficient  0.3e-9    # m^2/s
+   -time_step              1.0e+10   # 317 years give 19 mixes
+PRINT
+	-user_graph true
+USER_GRAPH 12
+  -headings Na Cl Temp Analytical
+  -chart_title "Example 12"
+  -axis_titles "Distance / m" "mmol / kgw"
+  -axis_scale x_axis 0 20
+  -axis_scale y_axis 0 25
+  -initial_solutions false
+  -plot_concentration_vs x
+  -start
+  10 x = DIST
+  20 PLOT_XY x, TOT("Na")*1000, symbol = Plus
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = Plus
+  40 PLOT_XY x, TC, symbol = XCross, color = Magenta, symbol_size = 8
+  50 if (x > 10 OR SIM_TIME <= 0) THEN END
+  60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
+  70 READ a1, a2, a3, a4, a5, a6
+# Calculate and plot Cl analytical...
+  80 z = x / (2 * SQRT(3e-10 * SIM_TIME / 1.0))
+  90 GOSUB 2000
+  100 PLOT_XY x, 24 * erfc, color = Blue, symbol = Circle, symbol_size = 10, line_width = 0
+# Calculate and plot 3 times retarded Na and temperature analytical...
+  110 z = z * SQRT(3.0)
+  120 GOSUB 2000
+  130 PLOT_XY x, 24 * erfc, color = Blue, symbol = Circle, symbol_size = 10, line_width = 0
+  140 END
+  2000 REM calculate erfc...
+  2050 b = 1 / (1 + a6 * z)
+  2060 erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(-(z * z))
+  2080 RETURN
+  -end      
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 12
+	-active false
+	
+### Example 13a
+
+DELETE
+	-cells 1-1000
+END
+TITLE Example 13A.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    Implicit definition of first-order exchange model.
+SOLUTION 0    # 1 mmol/l NaCl
+        units   mmol/l
+        pH       7.0
+        pe      13.0    O2(g)   -0.7
+        Na       1.0    # Na has Retardation = 2
+        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+        N(5)     1.0    # NO3 is conservative
+#       charge imbalance is no problem ...
+END
+SOLUTION 1-41  # Column with KNO3
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+        K+ + X- = KX
+        log_k   0.0
+        -gamma  3.5     0.015
+EXCHANGE 1-41
+        -equil  1
+        X       1.e-3
+END
+PRINT
+        -reset false
+        -echo_input true
+TRANSPORT
+        -cells  20
+        -shifts 5
+        -flow_direction  forward
+        -time_step       3600
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -lengths         0.1
+        -dispersivities  0.015
+        -stagnant   1  6.8e-6  0.3        0.1
+#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im) 
+END
+SOLUTION 0  # Original solution with KNO3 reenters
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+END
+SELECTED_OUTPUT
+        -file   ex13a.sel
+        -reset  false
+        -solution
+        -distance       true
+USER_PUNCH
+        -headings Cl_mmol Na_mmol
+  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+TRANSPORT
+        -shifts 10
+        -punch_cells        1-20
+        -punch_frequency    10
+PRINT
+	-user_graph true
+USER_GRAPH 13
+        -headings Distance Na Cl
+        -chart_title "Example 13A"
+        -axis_titles "Distance / m" "mmol / kgw"
+        -axis_scale x_axis 0 2
+        -axis_scale y_axis 0 0.8
+        -plot_concentration_vs x
+  -start
+  10 GRAPH_X DIST
+  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+  -end      
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 13
+	-active false
+	
+### Example 13ac
+
+DELETE
+	-cells 1-1000
+END
+TITLE Example 13A.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    Implicit definition of first-order exchange model.
+SOLUTION 0    # 1 mmol/l NaCl
+        units   mmol/l
+        pH       7.0
+        pe      13.0    O2(g)   -0.7
+        Na       1.0    # Na has Retardation = 2
+        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+        N(5)     1.0    # NO3 is conservative
+#       charge imbalance is no problem ...
+END
+SOLUTION 1-41  # Column with KNO3
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+        K+ + X- = KX
+        log_k   0.0
+        -gamma  3.5     0.015
+EXCHANGE 1-41
+        -equil  1
+        X       1.e-3
+END
+PRINT
+        -reset false
+        -echo_input true
+TRANSPORT
+        -cells  20
+        -shifts 5
+        -flow_direction  forward
+        -time_step       3600
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -lengths         0.1
+        -dispersivities  0.015
+        -stagnant   1  6.8e-6  0.3        0.1
+#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im) 
+END
+SOLUTION 0  # Original solution with KNO3 reenters
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+END
+SELECTED_OUTPUT
+        -file   ex13a.sel
+        -reset  false
+        -solution
+        -distance       true
+USER_PUNCH
+        -headings Cl_mmol Na_mmol
+  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+TRANSPORT
+        -shifts 10
+        -punch_cells        1-20
+        -punch_frequency    10
+PRINT
+	-user_graph true
+USER_GRAPH 131
+        -headings 1st_order Na Cl
+        -chart_title "Example 13A + 13C"
+        -axis_titles "Distance / m" "mmol / kgw"
+        -axis_scale x_axis 0 2
+        -axis_scale y_axis 0 0.8
+        -plot_concentration_vs x
+  -start
+  10 plot_xy -1, -1, line_width = 0, symbol_size = 0
+  20 plot_xy dist, TOT("Na")*1000, color = Red, symbol = Square
+  30 plot_xy dist, TOT("Cl")*1000, color = Green, symbol = Diamond, symbol_size = 7
+  -end      
+END
+PRINT; -user_graph false
+TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    5 layer stagnant zone with finite differences.
+SOLUTION 0    # 1 mmol/l NaCl
+        units   mmol/l
+        pH       7.0
+
+        pe      13.0    O2(g)   -0.7
+        Na       1.0    # Na has Retardation = 2
+        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+        N(5)     1.0    # NO3 is conservative
+#       charge imbalance is no problem ...
+END
+SOLUTION 1-121
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+        K+ + X- = KX
+        log_k   0.0
+        -gamma  3.5     0.015
+EXCHANGE 1-121
+        -equilibrate  1
+        X             1.e-3
+END
+PRINT
+        -reset false
+        -echo_input true
+MIX    1;    1  0.90712;   22  0.09288
+MIX   22;    1  0.57098;   22  0.21656;   42  0.21246
+MIX   42;   22  0.35027;   42  0.45270;   62  0.19703
+MIX   62;   42  0.38368;   62  0.44579;   82  0.17053
+MIX   82;   62  0.46286;   82  0.42143;  102  0.11571
+MIX  102;   82  0.81000;  102  0.19000
+MIX    2;    2  0.90712;   23  0.09288
+MIX   23;    2  0.57098;   23  0.21656;   43  0.21246
+MIX   43;   23  0.35027;   43  0.45270;   63  0.19703
+MIX   63;   43  0.38368;   63  0.44579;   83  0.17053
+MIX   83;   63  0.46286;   83  0.42143;  103  0.11571
+MIX  103;   83  0.81000;  103  0.19000
+MIX    3;    3  0.90712;   24  0.09288
+MIX   24;    3  0.57098;   24  0.21656;   44  0.21246
+MIX   44;   24  0.35027;   44  0.45270;   64  0.19703
+MIX   64;   44  0.38368;   64  0.44579;   84  0.17053
+MIX   84;   64  0.46286;   84  0.42143;  104  0.11571
+MIX  104;   84  0.81000;  104  0.19000
+MIX    4;    4  0.90712;   25  0.09288
+MIX   25;    4  0.57098;   25  0.21656;   45  0.21246
+MIX   45;   25  0.35027;   45  0.45270;   65  0.19703
+MIX   65;   45  0.38368;   65  0.44579;   85  0.17053
+MIX   85;   65  0.46286;   85  0.42143;  105  0.11571
+MIX  105;   85  0.81000;  105  0.19000
+MIX    5;    5  0.90712;   26  0.09288
+MIX   26;    5  0.57098;   26  0.21656;   46  0.21246
+MIX   46;   26  0.35027;   46  0.45270;   66  0.19703
+MIX   66;   46  0.38368;   66  0.44579;   86  0.17053
+MIX   86;   66  0.46286;   86  0.42143;  106  0.11571
+MIX  106;   86  0.81000;  106  0.19000
+MIX    6;    6  0.90712;   27  0.09288
+MIX   27;    6  0.57098;   27  0.21656;   47  0.21246
+MIX   47;   27  0.35027;   47  0.45270;   67  0.19703
+MIX   67;   47  0.38368;   67  0.44579;   87  0.17053
+MIX   87;   67  0.46286;   87  0.42143;  107  0.11571
+MIX  107;   87  0.81000;  107  0.19000
+MIX    7;    7  0.90712;   28  0.09288
+MIX   28;    7  0.57098;   28  0.21656;   48  0.21246
+MIX   48;   28  0.35027;   48  0.45270;   68  0.19703
+MIX   68;   48  0.38368;   68  0.44579;   88  0.17053
+MIX   88;   68  0.46286;   88  0.42143;  108  0.11571
+MIX  108;   88  0.81000;  108  0.19000
+MIX    8;    8  0.90712;   29  0.09288
+MIX   29;    8  0.57098;   29  0.21656;   49  0.21246
+MIX   49;   29  0.35027;   49  0.45270;   69  0.19703
+MIX   69;   49  0.38368;   69  0.44579;   89  0.17053
+MIX   89;   69  0.46286;   89  0.42143;  109  0.11571
+MIX  109;   89  0.81000;  109  0.19000
+MIX    9;    9  0.90712;   30  0.09288
+MIX   30;    9  0.57098;   30  0.21656;   50  0.21246
+MIX   50;   30  0.35027;   50  0.45270;   70  0.19703
+MIX   70;   50  0.38368;   70  0.44579;   90  0.17053
+MIX   90;   70  0.46286;   90  0.42143;  110  0.11571
+MIX  110;   90  0.81000;  110  0.19000
+MIX   10;   10  0.90712;   31  0.09288
+MIX   31;   10  0.57098;   31  0.21656;   51  0.21246
+MIX   51;   31  0.35027;   51  0.45270;   71  0.19703
+MIX   71;   51  0.38368;   71  0.44579;   91  0.17053
+MIX   91;   71  0.46286;   91  0.42143;  111  0.11571
+MIX  111;   91  0.81000;  111  0.19000
+MIX   11;   11  0.90712;   32  0.09288
+MIX   32;   11  0.57098;   32  0.21656;   52  0.21246
+MIX   52;   32  0.35027;   52  0.45270;   72  0.19703
+MIX   72;   52  0.38368;   72  0.44579;   92  0.17053
+MIX   92;   72  0.46286;   92  0.42143;  112  0.11571
+MIX  112;   92  0.81000;  112  0.19000
+MIX   12;   12  0.90712;   33  0.09288
+MIX   33;   12  0.57098;   33  0.21656;   53  0.21246
+MIX   53;   33  0.35027;   53  0.45270;   73  0.19703
+MIX   73;   53  0.38368;   73  0.44579;   93  0.17053
+MIX   93;   73  0.46286;   93  0.42143;  113  0.11571
+MIX  113;   93  0.81000;  113  0.19000
+MIX   13;   13  0.90712;   34  0.09288
+MIX   34;   13  0.57098;   34  0.21656;   54  0.21246
+MIX   54;   34  0.35027;   54  0.45270;   74  0.19703
+MIX   74;   54  0.38368;   74  0.44579;   94  0.17053
+MIX   94;   74  0.46286;   94  0.42143;  114  0.11571
+MIX  114;   94  0.81000;  114  0.19000
+MIX   14;   14  0.90712;   35  0.09288
+MIX   35;   14  0.57098;   35  0.21656;   55  0.21246
+MIX   55;   35  0.35027;   55  0.45270;   75  0.19703
+MIX   75;   55  0.38368;   75  0.44579;   95  0.17053
+MIX   95;   75  0.46286;   95  0.42143;  115  0.11571
+MIX  115;   95  0.81000;  115  0.19000
+MIX   15;   15  0.90712;   36  0.09288
+MIX   36;   15  0.57098;   36  0.21656;   56  0.21246
+MIX   56;   36  0.35027;   56  0.45270;   76  0.19703
+MIX   76;   56  0.38368;   76  0.44579;   96  0.17053
+MIX   96;   76  0.46286;   96  0.42143;  116  0.11571
+MIX  116;   96  0.81000;  116  0.19000
+MIX   16;   16  0.90712;   37  0.09288
+MIX   37;   16  0.57098;   37  0.21656;   57  0.21246
+MIX   57;   37  0.35027;   57  0.45270;   77  0.19703
+MIX   77;   57  0.38368;   77  0.44579;   97  0.17053
+MIX   97;   77  0.46286;   97  0.42143;  117  0.11571
+MIX  117;   97  0.81000;  117  0.19000
+MIX   17;   17  0.90712;   38  0.09288
+MIX   38;   17  0.57098;   38  0.21656;   58  0.21246
+MIX   58;   38  0.35027;   58  0.45270;   78  0.19703
+MIX   78;   58  0.38368;   78  0.44579;   98  0.17053
+MIX   98;   78  0.46286;   98  0.42143;  118  0.11571
+MIX  118;   98  0.81000;  118  0.19000
+MIX   18;   18  0.90712;   39  0.09288
+MIX   39;   18  0.57098;   39  0.21656;   59  0.21246
+MIX   59;   39  0.35027;   59  0.45270;   79  0.19703
+MIX   79;   59  0.38368;   79  0.44579;   99  0.17053
+MIX   99;   79  0.46286;   99  0.42143;  119  0.11571
+MIX  119;   99  0.81000;  119  0.19000
+MIX   19;   19  0.90712;   40  0.09288
+MIX   40;   19  0.57098;   40  0.21656;   60  0.21246
+MIX   60;   40  0.35027;   60  0.45270;   80  0.19703
+MIX   80;   60  0.38368;   80  0.44579;  100  0.17053
+MIX  100;   80  0.46286;  100  0.42143;  120  0.11571
+MIX  120;  100  0.81000;  120  0.19000
+MIX   20;   20  0.90712;   41  0.09288
+MIX   41;   20  0.57098;   41  0.21656;   61  0.21246
+MIX   61;   41  0.35027;   61  0.45270;   81  0.19703
+MIX   81;   61  0.38368;   81  0.44579;  101  0.17053
+MIX  101;   81  0.46286;  101  0.42143;  121  0.11571
+MIX  121;  101  0.81000;  121  0.19000
+TRANSPORT
+        -cells  20
+        -shifts 5
+        -flow_direction  forward
+        -time_step       3600
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -lengths         0.1
+        -dispersivities  0.015
+      -stagnant        5
+END
+SOLUTION 0  # Original solution reenters
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+END
+PRINT; -user_graph true
+SELECTED_OUTPUT
+        -file   ex13c.sel
+        -reset  false
+        -distance       true
+        -solution
+USER_PUNCH
+        -headings Cl_mmol Na_mmol
+  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+TRANSPORT
+        -shifts  10
+        -punch_cells        1-20
+        -punch_frequency    10
+USER_GRAPH 131
+        -headings Finite.D Na Cl
+  -start
+  10 plot_xy -1, -1, line_width = 0, symbol_size = 0
+  20 plot_xy dist, TOT("Na")*1000, color = Red, symbol = Plus
+  30 plot_xy dist, TOT("Cl")*1000, color = Green, symbol = Plus
+  -end      
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 131
+	-active false
+	
+### Example 13b
+
+DELETE
+	-cells 1-1000
+END
+TITLE Example 13B.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    Explicit definition of first-order exchange factors.
+SOLUTION 0    # 1 mmol/l NaCl
+        units   mmol/l
+        pH       7.0
+        pe      13.0    O2(g)   -0.7
+        Na       1.0    # Na has Retardation = 2
+        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+        N(5)     1.0    # NO3 is conservative
+#       charge imbalance is no problem ...
+END
+SOLUTION 1-41  # Column with KNO3
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+        K+ + X- = KX
+        log_k   0.0
+        -gamma  3.5     0.015
+EXCHANGE 1-41
+        -equil  1
+        X       1.e-3
+END
+PRINT
+        -reset false
+        -echo_input true
+MIX  1;  1 .93038;      22 .06962       ;MIX  2;         2 .93038;      23 .06962;
+MIX  3;  3 .93038;      24 .06962       ;MIX  4;         4 .93038;      25 .06962;
+MIX  5;  5 .93038;      26 .06962       ;MIX  6;         6 .93038;      27 .06962;
+MIX  7;  7 .93038;      28 .06962       ;MIX  8;         8 .93038;      29 .06962;
+MIX  9;  9 .93038;      30 .06962       ;MIX 10;        10 .93038;      31 .06962;
+MIX 11; 11 .93038;      32 .06962       ;MIX 12;        12 .93038;      33 .06962;
+MIX 13; 13 .93038;      34 .06962       ;MIX 14;        14 .93038;      35 .06962;
+MIX 15; 15 .93038;      36 .06962       ;MIX 16;        16 .93038;      37 .06962;
+MIX 17; 17 .93038;      38 .06962       ;MIX 18;        18 .93038;      39 .06962;
+MIX 19; 19 .93038;      40 .06962       ;MIX 20;        20 .93038;      41 .06962;
+#
+MIX 22;  1 .20886;      22 .79114       ;MIX 23;         2 .20886;      23 .79114;
+MIX 24;  3 .20886;      24 .79114       ;MIX 25;         4 .20886;      25 .79114;
+MIX 26;  5 .20886;      26 .79114       ;MIX 27;         6 .20886;      27 .79114;
+MIX 28;  7 .20886;      28 .79114       ;MIX 29;         8 .20886;      29 .79114;
+MIX 30;  9 .20886;      30 .79114       ;MIX 31;        10 .20886;      31 .79114;
+MIX 32; 11 .20886;      32 .79114       ;MIX 33;        12 .20886;      33 .79114;
+MIX 34; 13 .20886;      34 .79114       ;MIX 35;        14 .20886;      35 .79114;
+MIX 36; 15 .20886;      36 .79114       ;MIX 37;        16 .20886;      37 .79114;
+MIX 38; 17 .20886;      38 .79114       ;MIX 39;        18 .20886;      39 .79114;
+MIX 40; 19 .20886;      40 .79114       ;MIX 41;        20 .20886;      41 .79114;
+TRANSPORT
+        -cells  20
+        -shifts 5
+        -flow_direction  forward
+        -time_step       3600
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -lengths         0.1
+        -dispersivities  0.015
+        -stagnant        1
+END
+SOLUTION 0  # Original solution reenters
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+END
+SELECTED_OUTPUT
+        -file   ex13b.sel
+        -reset  false
+        -distance       true
+        -solution
+USER_PUNCH
+        -headings Cl_mmol Na_mmol
+  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+TRANSPORT
+        -shifts  10
+        -punch_cells        1-20
+        -punch_frequency    10
+PRINT
+	-user_graph true
+USER_GRAPH 132
+        -headings Distance Na Cl
+        -chart_title "Example 13B"
+        -axis_titles "Distance / m" "mmol / kgw"
+        -axis_scale x_axis 0 2
+        -axis_scale y_axis 0 0.8
+        -plot_concentration_vs x
+  -start
+  10 GRAPH_X DIST
+  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+  -end      
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 132
+	-active false
+	
+### Example 13c
+
+DELETE
+	-cells 1-1000
+END
+TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    5 layer stagnant zone with finite differences.
+SOLUTION 0    # 1 mmol/l NaCl
+        units   mmol/l
+        pH       7.0
+
+        pe      13.0    O2(g)   -0.7
+        Na       1.0    # Na has Retardation = 2
+        Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+        N(5)     1.0    # NO3 is conservative
+#       charge imbalance is no problem ...
+END
+SOLUTION 1-121
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+        K+ + X- = KX
+        log_k   0.0
+        -gamma  3.5     0.015
+EXCHANGE 1-121
+        -equilibrate  1
+        X             1.e-3
+END
+PRINT
+        -reset false
+        -echo_input true
+MIX    1;    1  0.90712;   22  0.09288
+MIX   22;    1  0.57098;   22  0.21656;   42  0.21246
+MIX   42;   22  0.35027;   42  0.45270;   62  0.19703
+MIX   62;   42  0.38368;   62  0.44579;   82  0.17053
+MIX   82;   62  0.46286;   82  0.42143;  102  0.11571
+MIX  102;   82  0.81000;  102  0.19000
+MIX    2;    2  0.90712;   23  0.09288
+MIX   23;    2  0.57098;   23  0.21656;   43  0.21246
+MIX   43;   23  0.35027;   43  0.45270;   63  0.19703
+MIX   63;   43  0.38368;   63  0.44579;   83  0.17053
+MIX   83;   63  0.46286;   83  0.42143;  103  0.11571
+MIX  103;   83  0.81000;  103  0.19000
+MIX    3;    3  0.90712;   24  0.09288
+MIX   24;    3  0.57098;   24  0.21656;   44  0.21246
+MIX   44;   24  0.35027;   44  0.45270;   64  0.19703
+MIX   64;   44  0.38368;   64  0.44579;   84  0.17053
+MIX   84;   64  0.46286;   84  0.42143;  104  0.11571
+MIX  104;   84  0.81000;  104  0.19000
+MIX    4;    4  0.90712;   25  0.09288
+MIX   25;    4  0.57098;   25  0.21656;   45  0.21246
+MIX   45;   25  0.35027;   45  0.45270;   65  0.19703
+MIX   65;   45  0.38368;   65  0.44579;   85  0.17053
+MIX   85;   65  0.46286;   85  0.42143;  105  0.11571
+MIX  105;   85  0.81000;  105  0.19000
+MIX    5;    5  0.90712;   26  0.09288
+MIX   26;    5  0.57098;   26  0.21656;   46  0.21246
+MIX   46;   26  0.35027;   46  0.45270;   66  0.19703
+MIX   66;   46  0.38368;   66  0.44579;   86  0.17053
+MIX   86;   66  0.46286;   86  0.42143;  106  0.11571
+MIX  106;   86  0.81000;  106  0.19000
+MIX    6;    6  0.90712;   27  0.09288
+MIX   27;    6  0.57098;   27  0.21656;   47  0.21246
+MIX   47;   27  0.35027;   47  0.45270;   67  0.19703
+MIX   67;   47  0.38368;   67  0.44579;   87  0.17053
+MIX   87;   67  0.46286;   87  0.42143;  107  0.11571
+MIX  107;   87  0.81000;  107  0.19000
+MIX    7;    7  0.90712;   28  0.09288
+MIX   28;    7  0.57098;   28  0.21656;   48  0.21246
+MIX   48;   28  0.35027;   48  0.45270;   68  0.19703
+MIX   68;   48  0.38368;   68  0.44579;   88  0.17053
+MIX   88;   68  0.46286;   88  0.42143;  108  0.11571
+MIX  108;   88  0.81000;  108  0.19000
+MIX    8;    8  0.90712;   29  0.09288
+MIX   29;    8  0.57098;   29  0.21656;   49  0.21246
+MIX   49;   29  0.35027;   49  0.45270;   69  0.19703
+MIX   69;   49  0.38368;   69  0.44579;   89  0.17053
+MIX   89;   69  0.46286;   89  0.42143;  109  0.11571
+MIX  109;   89  0.81000;  109  0.19000
+MIX    9;    9  0.90712;   30  0.09288
+MIX   30;    9  0.57098;   30  0.21656;   50  0.21246
+MIX   50;   30  0.35027;   50  0.45270;   70  0.19703
+MIX   70;   50  0.38368;   70  0.44579;   90  0.17053
+MIX   90;   70  0.46286;   90  0.42143;  110  0.11571
+MIX  110;   90  0.81000;  110  0.19000
+MIX   10;   10  0.90712;   31  0.09288
+MIX   31;   10  0.57098;   31  0.21656;   51  0.21246
+MIX   51;   31  0.35027;   51  0.45270;   71  0.19703
+MIX   71;   51  0.38368;   71  0.44579;   91  0.17053
+MIX   91;   71  0.46286;   91  0.42143;  111  0.11571
+MIX  111;   91  0.81000;  111  0.19000
+MIX   11;   11  0.90712;   32  0.09288
+MIX   32;   11  0.57098;   32  0.21656;   52  0.21246
+MIX   52;   32  0.35027;   52  0.45270;   72  0.19703
+MIX   72;   52  0.38368;   72  0.44579;   92  0.17053
+MIX   92;   72  0.46286;   92  0.42143;  112  0.11571
+MIX  112;   92  0.81000;  112  0.19000
+MIX   12;   12  0.90712;   33  0.09288
+MIX   33;   12  0.57098;   33  0.21656;   53  0.21246
+MIX   53;   33  0.35027;   53  0.45270;   73  0.19703
+MIX   73;   53  0.38368;   73  0.44579;   93  0.17053
+MIX   93;   73  0.46286;   93  0.42143;  113  0.11571
+MIX  113;   93  0.81000;  113  0.19000
+MIX   13;   13  0.90712;   34  0.09288
+MIX   34;   13  0.57098;   34  0.21656;   54  0.21246
+MIX   54;   34  0.35027;   54  0.45270;   74  0.19703
+MIX   74;   54  0.38368;   74  0.44579;   94  0.17053
+MIX   94;   74  0.46286;   94  0.42143;  114  0.11571
+MIX  114;   94  0.81000;  114  0.19000
+MIX   14;   14  0.90712;   35  0.09288
+MIX   35;   14  0.57098;   35  0.21656;   55  0.21246
+MIX   55;   35  0.35027;   55  0.45270;   75  0.19703
+MIX   75;   55  0.38368;   75  0.44579;   95  0.17053
+MIX   95;   75  0.46286;   95  0.42143;  115  0.11571
+MIX  115;   95  0.81000;  115  0.19000
+MIX   15;   15  0.90712;   36  0.09288
+MIX   36;   15  0.57098;   36  0.21656;   56  0.21246
+MIX   56;   36  0.35027;   56  0.45270;   76  0.19703
+MIX   76;   56  0.38368;   76  0.44579;   96  0.17053
+MIX   96;   76  0.46286;   96  0.42143;  116  0.11571
+MIX  116;   96  0.81000;  116  0.19000
+MIX   16;   16  0.90712;   37  0.09288
+MIX   37;   16  0.57098;   37  0.21656;   57  0.21246
+MIX   57;   37  0.35027;   57  0.45270;   77  0.19703
+MIX   77;   57  0.38368;   77  0.44579;   97  0.17053
+MIX   97;   77  0.46286;   97  0.42143;  117  0.11571
+MIX  117;   97  0.81000;  117  0.19000
+MIX   17;   17  0.90712;   38  0.09288
+MIX   38;   17  0.57098;   38  0.21656;   58  0.21246
+MIX   58;   38  0.35027;   58  0.45270;   78  0.19703
+MIX   78;   58  0.38368;   78  0.44579;   98  0.17053
+MIX   98;   78  0.46286;   98  0.42143;  118  0.11571
+MIX  118;   98  0.81000;  118  0.19000
+MIX   18;   18  0.90712;   39  0.09288
+MIX   39;   18  0.57098;   39  0.21656;   59  0.21246
+MIX   59;   39  0.35027;   59  0.45270;   79  0.19703
+MIX   79;   59  0.38368;   79  0.44579;   99  0.17053
+MIX   99;   79  0.46286;   99  0.42143;  119  0.11571
+MIX  119;   99  0.81000;  119  0.19000
+MIX   19;   19  0.90712;   40  0.09288
+MIX   40;   19  0.57098;   40  0.21656;   60  0.21246
+MIX   60;   40  0.35027;   60  0.45270;   80  0.19703
+MIX   80;   60  0.38368;   80  0.44579;  100  0.17053
+MIX  100;   80  0.46286;  100  0.42143;  120  0.11571
+MIX  120;  100  0.81000;  120  0.19000
+MIX   20;   20  0.90712;   41  0.09288
+MIX   41;   20  0.57098;   41  0.21656;   61  0.21246
+MIX   61;   41  0.35027;   61  0.45270;   81  0.19703
+MIX   81;   61  0.38368;   81  0.44579;  101  0.17053
+MIX  101;   81  0.46286;  101  0.42143;  121  0.11571
+MIX  121;  101  0.81000;  121  0.19000
+TRANSPORT
+        -cells  20
+        -shifts 5
+        -flow_direction  forward
+        -time_step       3600
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -lengths         0.1
+        -dispersivities  0.015
+        -stagnant        5
+END
+SOLUTION 0  # Original solution reenters
+        units   mmol/l
+        pH       7.0
+        pe      13.0   O2(g)    -0.7
+        K        1.0
+        N(5)     1.0
+END
+SELECTED_OUTPUT
+        -file   ex13c.sel
+        -reset  false
+        -distance       true
+        -solution
+USER_PUNCH
+        -headings Cl_mmol Na_mmol
+  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+TRANSPORT
+        -shifts  10
+        -punch_cells        1-20
+        -punch_frequency    10
+PRINT
+	-user_graph true
+USER_GRAPH 133
+        -headings Distance Na Cl
+        -chart_title "Example 13C"
+        -axis_titles "Distance / m" "mmol / kgw"
+        -axis_scale x_axis 0 2
+        -axis_scale y_axis 0 0.8
+        -plot_concentration_vs x
+  -start
+  10 GRAPH_X DIST
+  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+  -end      
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 133
+	-active false
+	
+### Example 14
+
+DELETE
+	-cells 1-1000
+END
+
+TITLE Example 14.--Transport with equilibrium_phases, exchange, and surface reactions
+#
+# Use phreeqc.dat 
+# Dzombak and Morel (1990) aqueous and surface complexation models for arsenic
+# is defined here
+#
+SURFACE_MASTER_SPECIES
+        Surf    SurfOH
+SURFACE_SPECIES
+        SurfOH = SurfOH
+                log_k   0.0
+        SurfOH  + H+ = SurfOH2+
+                log_k   7.29
+        SurfOH = SurfO- + H+
+                log_k   -8.93
+        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O
+                log_k   29.31
+        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O
+                log_k   23.51
+        SurfOH + AsO4-3 = SurfOHAsO4-3
+                log_k   10.58
+SOLUTION_MASTER_SPECIES
+        As       H3AsO4        -1.0     74.9216    74.9216
+SOLUTION_SPECIES
+        H3AsO4 = H3AsO4
+                log_k           0.0
+        H3AsO4 = AsO4-3 + 3H+
+                log_k   -20.7
+        H+ + AsO4-3 = HAsO4-2
+                log_k   11.50
+        2H+ + AsO4-3 = H2AsO4-
+                log_k           18.46
+SOLUTION 1 Brine
+        pH      5.713
+        pe      4.0     O2(g)   -0.7
+        temp    25.
+        units   mol/kgw
+        Ca      .4655
+        Mg      .1609
+        Na      5.402
+        Cl      6.642           charge
+        C       .00396
+        S       .004725
+        As      .025 umol/kgw
+END
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Dolomite        0.0     1.6
+        Calcite         0.0     0.1
+SAVE solution 1
+# prints initial condition to the selected-output file
+SELECTED_OUTPUT
+        -file ex14.sel
+        -reset false
+        -step
+USER_PUNCH
+        -head  m_Ca m_Mg m_Na umol_As pH mmol_sorbedAs
+  10 PUNCH TOT("Ca"), TOT("Mg"), TOT("Na"), TOT("As")*1e6, -LA("H+"), SURF("As", "Surf")*1000
+END
+PRINT
+# skips print of initial exchange and initial surface to the selected-output file
+        -selected_out false
+EXCHANGE 1
+        -equil with solution 1
+        X       1.0
+SURFACE 1
+        -equil solution 1
+# assumes 1/10 of iron is HFO
+        SurfOH           0.07    600.    30.
+END
+SOLUTION 0 20 x precipitation
+        pH      4.6
+        pe      4.0     O2(g)   -0.7
+        temp    25.
+        units   mmol/kgw
+        Ca      .191625
+        Mg      .035797
+        Na      .122668
+        Cl      .133704
+        C       .01096
+        S       .235153         charge
+EQUILIBRIUM_PHASES 0
+        Dolomite        0.0     1.6
+        Calcite         0.0     0.1
+        CO2(g)          -1.5    10.
+SAVE solution 0
+END
+PRINT
+        -selected_out true
+ADVECTION
+        -cells 1
+        -shifts 200
+        -print_frequency 200
+PRINT
+	-user_graph true
+USER_GRAPH 14
+        -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH
+        -chart_title "EXAMPLE 14"
+        -axis_titles "Pore Volumes or Shift" "Log c / (ppb or molal)" "pH"
+        -axis_scale x_axis 0 200
+        -axis_scale y_axis 1e-6 100 auto auto Log 
+  10 GRAPH_X STEP_NO
+  20 GRAPH_Y TOT("As") * 74.92e6, TOT("Ca"), TOT("Mg"), TOT("Na")
+  30 GRAPH_SY -LA("H+")
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 14
+	-active false
+	
+### Example 19
+
+DELETE
+	-cells 1-1000
+END
+TITLE Example 19.--Linear, Freundlich and Langmuir isotherms for
+      Cd sorption on loamy sand. Calculates Example 7.1
+      from Appelo and Postma, 2005. Data from Christensen, 1984.
+SURFACE_MASTER_SPECIES
+      Linear Linear
+      Freundlich Freundlich
+      Langmuir Langmuir
+SURFACE_SPECIES
+  Linear = Linear
+  Linear + Cd+2 = LinearCd+2
+      -log_k -100.7         # log10(0.2) - 100
+      -mole_balance LinearCdCl2
+  Freundlich = Freundlich
+  Freundlich + 0.722 Cd+2 = FreundlichCd+2
+      -log_k -102.61        # log10(0.421) + (0.722 - 1) * log10(112.4e6) - 100
+      -no_check
+      -mole_balance FreundlichCdCl2
+  Langmuir = Langmuir
+  Langmuir + Cd+2 = LangmuirCd+2
+      -log_k 6.56           # log10(112.4 / 30.9e-6)
+      -mole_balance LangmuirCdCl2
+SURFACE 1
+      Linear 1e100 1 1
+      Freundlich 1e100 1 1
+      Langmuir 8.45e-8 1 1  # 9.5 / 112.4e6
+      -no_edl
+SOLUTION 1
+      pH  6
+      Ca  1
+      Cl  2
+REACTION 1
+      CdCl2 1
+      0.7e-6 in 20
+PRINT
+	-user_graph true
+USER_GRAPH 19
+      -headings Linear Freundlich Langmuir
+      -chart_title "Example 19"
+      -axis_titles "Solute Cd / (ug/kgw)" "Sorbed Cd / (ug/g soil)"
+      -plot_csv_file ex19_meas.txt
+      -axis_scale x_axis 0 40
+      -axis_scale y_axis 0 6
+      -initial_solutions true
+  -start
+  10 x = act("Cd+2") * 112.4e6
+  20 PLOT_XY x, mol("LinearCd+2") * 112e6, symbol = None, line_width = 2
+  30 PLOT_XY x, mol("FreundlichCd+2") * 112e6, symbol = None, line_width = 2
+  40 PLOT_XY x, mol("LangmuirCd+2") * 112e6, symbol = None, line_width = 2
+  -end
+PRINT
+     -reset false
+     -echo_input true
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 19
+	-active false
+	
+### Example 19b
+
+DELETE
+	-cells 1-1000
+END
+# Cd sorption on X, Hfo and OC in Christensen
+#
+PRINT
+        -reset false
+        -user_print true
+SURFACE_MASTER_SPECIES
+# Monodentate 60%
+  H_a  H_aH;  H_b  H_bH;  H_c  H_cH;  H_d  H_dH
+  H_e  H_eH;  H_f  H_fH;  H_g  H_gH;  H_h  H_hH
+# Bidentate 40%
+  H_ab H_abH2;  H_ad H_adH2;  H_af H_afH2;  H_ah H_ahH2
+  H_bc H_bcH2;  H_be H_beH2;  H_bg H_bgH2;  H_cd H_cdH2
+  H_cf H_cfH2;  H_ch H_chH2;  H_de H_deH2;  H_dg H_dgH2
+SURFACE_SPECIES
+  H_aH = H_aH; log_k 0;  H_bH = H_bH; log_k 0;  H_cH = H_cH; log_k 0;  H_dH = H_dH; log_k 0;
+  H_eH = H_eH; log_k 0;  H_fH = H_fH; log_k 0;  H_gH = H_gH; log_k 0;  H_hH = H_hH; log_k 0;
+
+  H_abH2 = H_abH2; log_k 0;  H_adH2 = H_adH2; log_k 0;  H_afH2 = H_afH2; log_k 0;
+  H_ahH2 = H_ahH2; log_k 0;  H_bcH2 = H_bcH2; log_k 0;  H_beH2 = H_beH2; log_k 0;
+  H_bgH2 = H_bgH2; log_k 0;  H_cdH2 = H_cdH2; log_k 0;  H_cfH2 = H_cfH2; log_k 0;
+  H_chH2 = H_chH2; log_k 0;  H_deH2 = H_deH2; log_k 0;  H_dgH2 = H_dgH2; log_k 0;
+# Protons
+  H_aH = H_a- + H+; log_k  -1.59
+  H_bH = H_b- + H+; log_k  -2.70
+  H_cH = H_c- + H+; log_k  -3.82
+  H_dH = H_d- + H+; log_k  -4.93
+
+  H_eH = H_e- + H+; log_k  -6.88
+  H_fH = H_f- + H+; log_k  -8.72
+  H_gH = H_g- + H+; log_k  -10.56
+  H_hH = H_h- + H+; log_k  -12.40
+
+  H_abH2 = H_abH- + H+; log_k -1.59;  H_abH- = H_ab-2 + H+; log_k -2.70
+  H_adH2 = H_adH- + H+; log_k -1.59;  H_adH- = H_ad-2 + H+; log_k -4.93
+  H_afH2 = H_afH- + H+; log_k -1.59;  H_afH- = H_af-2 + H+; log_k -8.72
+  H_ahH2 = H_ahH- + H+; log_k -1.59;  H_ahH- = H_ah-2 + H+; log_k -12.40
+  H_bcH2 = H_bcH- + H+; log_k -2.70;  H_bcH- = H_bc-2 + H+; log_k -3.82
+  H_beH2 = H_beH- + H+; log_k -2.70;  H_beH- = H_be-2 + H+; log_k -6.88
+  H_bgH2 = H_bgH- + H+; log_k -2.70;  H_bgH- = H_bg-2 + H+; log_k -10.56
+  H_cdH2 = H_cdH- + H+; log_k -3.82;  H_cdH- = H_cd-2 + H+; log_k -4.93
+  H_cfH2 = H_cfH- + H+; log_k -3.82;  H_cfH- = H_cf-2 + H+; log_k -8.72
+  H_chH2 = H_chH- + H+; log_k -3.82;  H_chH- = H_ch-2 + H+; log_k -12.40
+  H_deH2 = H_deH- + H+; log_k -4.93;  H_deH- = H_de-2 + H+; log_k -6.88
+  H_dgH2 = H_dgH- + H+; log_k -4.93;  H_dgH- = H_dg-2 + H+; log_k -10.56
+# Calcium
+  H_aH + Ca+2 = H_aCa+ + H+; log_k  -3.20
+  H_bH + Ca+2 = H_bCa+ + H+; log_k  -3.20
+  H_cH + Ca+2 = H_cCa+ + H+; log_k  -3.20
+  H_dH + Ca+2 = H_dCa+ + H+; log_k  -3.20
+
+  H_eH + Ca+2 = H_eCa+ + H+; log_k  -6.99
+  H_fH + Ca+2 = H_fCa+ + H+; log_k  -6.99
+  H_gH + Ca+2 = H_gCa+ + H+; log_k  -6.99
+  H_hH + Ca+2 = H_hCa+ + H+; log_k  -6.99
+
+  H_abH2 + Ca+2 = H_abCa + 2H+; log_k -6.40
+  H_adH2 + Ca+2 = H_adCa + 2H+; log_k -6.40
+  H_afH2 + Ca+2 = H_afCa + 2H+; log_k -7.45
+  H_ahH2 + Ca+2 = H_ahCa + 2H+; log_k -10.2
+  H_bcH2 + Ca+2 = H_bcCa + 2H+; log_k -6.40
+  H_beH2 + Ca+2 = H_beCa + 2H+; log_k -10.2
+  H_bgH2 + Ca+2 = H_bgCa + 2H+; log_k -10.2
+  H_cdH2 + Ca+2 = H_cdCa + 2H+; log_k -6.40
+  H_cfH2 + Ca+2 = H_cfCa + 2H+; log_k -10.2
+  H_chH2 + Ca+2 = H_chCa + 2H+; log_k -10.2
+  H_deH2 + Ca+2 = H_deCa + 2H+; log_k -10.2
+  H_dgH2 + Ca+2 = H_dgCa + 2H+; log_k -10.2
+# Cadmium
+  H_aH + Cd+2 = H_aCd+ + H+; log_k  -1.52
+  H_bH + Cd+2 = H_bCd+ + H+; log_k  -1.52
+  H_cH + Cd+2 = H_cCd+ + H+; log_k  -1.52
+  H_dH + Cd+2 = H_dCd+ + H+; log_k  -1.52
+
+  H_eH + Cd+2 = H_eCd+ + H+; log_k  -5.57
+  H_fH + Cd+2 = H_fCd+ + H+; log_k  -5.57
+  H_gH + Cd+2 = H_gCd+ + H+; log_k  -5.57
+  H_hH + Cd+2 = H_hCd+ + H+; log_k  -5.57
+
+  H_abH2 + Cd+2 = H_abCd + 2H+; log_k -3.04
+  H_adH2 + Cd+2 = H_adCd + 2H+; log_k -3.04
+  H_afH2 + Cd+2 = H_afCd + 2H+; log_k -7.09
+  H_ahH2 + Cd+2 = H_ahCd + 2H+; log_k -7.09
+  H_bcH2 + Cd+2 = H_bcCd + 2H+; log_k -3.04
+  H_beH2 + Cd+2 = H_beCd + 2H+; log_k -7.09
+  H_bgH2 + Cd+2 = H_bgCd + 2H+; log_k -7.09
+  H_cdH2 + Cd+2 = H_cdCd + 2H+; log_k -3.04
+  H_cfH2 + Cd+2 = H_cfCd + 2H+; log_k -7.09
+  H_chH2 + Cd+2 = H_chCd + 2H+; log_k -7.09
+  H_deH2 + Cd+2 = H_deCd + 2H+; log_k -7.09
+  H_dgH2 + Cd+2 = H_dgCd + 2H+; log_k -7.09
+
+END
+SURFACE 1
+# 1 g soil = 0.7% Organic Matter = 0.35% Organic Carbon.
+# For Psi vs I (= ionic strength) dependence, adapt specific surface SS in PHRC:
+# SS = 159300 - 220800/(I)^0.09 + 91260/(I)^0.18
+# Example: SS = 34170 m2/g for I = 0.01 mol/l
+#
+# 1 mg HA
+  H_a  7.10e-07 46.5e3 1.00E-03
+  H_b  7.10e-7; H_c  7.10e-7; H_d  7.10e-7
+
+  H_e  3.55e-7; H_f  3.55e-7; H_g  3.55e-7; H_h  3.55e-7
+
+  H_ab 1.18e-07; H_ad 1.18e-07; H_af 1.18e-07; H_ah 1.18e-07
+  H_bc 1.18e-07; H_be 1.18e-07; H_bg 1.18e-07; H_cd 1.18e-07
+  H_cf 1.18e-07; H_ch 1.18e-07; H_de 1.18e-07; H_dg 1.18e-07
+        -donnan
+ Hfo_w 1e-6 600 4.45e-3
+ Hfo_s 0.025e-6
+        -equilibrate 1
+EXCHANGE 1
+ X 55.7e-6
+        -equilibrate 1
+SOLUTION 1
+  pH  6.0
+  Ca  1
+  Cl  2
+  Cd  1e-6
+REACTION 1
+  CdCl2 1
+  2e-6 in 20
+PRINT
+	-user_graph true
+USER_GRAPH 191
+        -headings Cd_HumicAcids CdX2 Cd_Hfo
+        -chart_title "Example 19, Deterministic model"
+        -axis_titles "Solute Cd / (ug/kgw)" "Sorbed Cd / (ug/g soil)"
+        -plot_csv_file ex19_meas.txt
+        -axis_scale x_axis 0 40
+        -axis_scale y_axis 0 6
+        -initial_solutions true
+  -start
+  10 H_Cd = mol("H_aCd+") + mol("H_bCd+") + mol("H_cCd+") + mol("H_dCd+")
+  20 H_Cd = H_Cd + mol("H_eCd+") + mol("H_fCd+") + mol("H_gCd+") + mol("H_hCd+")
+  30 H_Cd = H_Cd + mol("H_abCd") + mol("H_adCd") + mol("H_afCd") + mol("H_ahCd")
+  40 H_Cd = H_Cd + mol("H_bcCd") + mol("H_beCd") + mol("H_bgCd") + mol("H_cdCd")
+  50 H_Cd = H_Cd + mol("H_cfCd") + mol("H_chCd") + mol("H_deCd") + mol("H_dgCd")
+  60 print " ug Cd/L =", tot("Cd")*112.4e6, " ug Cd/g = ", H_Cd*112.4e6*0.05 \
+          ," Kd (L/kg) = ", H_Cd * 1e3 / tot("Cd") / 20, " ug Cd/g in DL =", edl("Cd")*112.4e6*0.05
+  70 print "Excess meq Ca in DL =", edl("Ca")*2 - edl("water")*tot("Ca")*2
+  80 print "Excess meq Cl in DL =", edl("Cl")   - edl("water")*tot("Cl")
+  90 print "Surface charge      =", edl("Charge")
+  100 H_Ca = mol("H_aCa+") + mol("H_bCa+") + mol("H_cCa+") + mol("H_dCa+")
+  120 H_Ca = H_Ca + mol("H_eCa+") + mol("H_fCa+") + mol("H_gCa+") + mol("H_hCa+")
+  130 H_Ca = H_Ca + mol("H_abCa") + mol("H_adCa") + mol("H_afCa") + mol("H_ahCa")
+  140 H_Ca = H_Ca + mol("H_bcCa") + mol("H_beCa") + mol("H_bgCa") + mol("H_cdCa")
+  150 H_Ca = H_Ca + mol("H_cfCa") + mol("H_chCa") + mol("H_deCa") + mol("H_dgCa")
+  160 print H_Ca*0.05
+  180 x = TOT("Cd") * 112.4e6
+  190 PLOT_XY x, H_Cd * 112.4e6, color = Red, line_width = 2, symbol = None
+  200 PLOT_XY x, mol("CdX2") * 112.4e6, color = Brown, line_width = 2, symbol = None
+  210 PLOT_XY x, (mol("Hfo_wOCd+") + mol("Hfo_sOCd+")) * 112.4e6, color = Black, line_width = 2, symbol = None
+  -end
+END
+PRINT
+	-user_graph false
+END
+USER_GRAPH 191
+	-active false
+	
+### Example 19b2
+
+DELETE
+	-cells 1-1000
+END
+# Cd sorption on X, Hfo and OC in Christensen
+#
+PRINT
+        -reset false
+        -user_print true
+SURFACE_MASTER_SPECIES
+# Monodentate 60%
+# nHA sites...
+  H_a  H_aH;  H_b  H_bH;  H_c  H_cH;  H_d  H_dH
+# nHB sites...  
+  H_e  H_eH;  H_f  H_fH;  H_g  H_gH;  H_h  H_hH
+# Bidentate 40%
+  H_ab H_abH2;  H_ad H_adH2;  H_af H_afH2;  H_ah H_ahH2
+  H_bc H_bcH2;  H_be H_beH2;  H_bg H_bgH2;  H_cd H_cdH2
+  H_cf H_cfH2;  H_ch H_chH2;  H_de H_deH2;  H_dg H_dgH2
+SURFACE_SPECIES
+  H_aH = H_aH; log_k 0;  H_bH = H_bH; log_k 0;  H_cH = H_cH; log_k 0;  H_dH = H_dH; log_k 0;
+  H_eH = H_eH; log_k 0;  H_fH = H_fH; log_k 0;  H_gH = H_gH; log_k 0;  H_hH = H_hH; log_k 0;
+
+  H_abH2 = H_abH2; log_k 0;  H_adH2 = H_adH2; log_k 0;  H_afH2 = H_afH2; log_k 0;
+  H_ahH2 = H_ahH2; log_k 0;  H_bcH2 = H_bcH2; log_k 0;  H_beH2 = H_beH2; log_k 0;
+  H_bgH2 = H_bgH2; log_k 0;  H_cdH2 = H_cdH2; log_k 0;  H_cfH2 = H_cfH2; log_k 0;
+  H_chH2 = H_chH2; log_k 0;  H_deH2 = H_deH2; log_k 0;  H_dgH2 = H_dgH2; log_k 0;
+# Protons
+  H_aH = H_a- + H+; log_k  -1.59
+  H_bH = H_b- + H+; log_k  -2.70
+  H_cH = H_c- + H+; log_k  -3.82
+  H_dH = H_d- + H+; log_k  -4.93
+
+  H_eH = H_e- + H+; log_k  -6.88
+  H_fH = H_f- + H+; log_k  -8.72
+  H_gH = H_g- + H+; log_k  -10.56
+  H_hH = H_h- + H+; log_k  -12.40
+
+  H_abH2 = H_abH- + H+; log_k -1.59;  H_abH- = H_ab-2 + H+; log_k -2.70
+  H_adH2 = H_adH- + H+; log_k -1.59;  H_adH- = H_ad-2 + H+; log_k -4.93
+  H_afH2 = H_afH- + H+; log_k -1.59;  H_afH- = H_af-2 + H+; log_k -8.72
+  H_ahH2 = H_ahH- + H+; log_k -1.59;  H_ahH- = H_ah-2 + H+; log_k -12.40
+  H_bcH2 = H_bcH- + H+; log_k -2.70;  H_bcH- = H_bc-2 + H+; log_k -3.82
+  H_beH2 = H_beH- + H+; log_k -2.70;  H_beH- = H_be-2 + H+; log_k -6.88
+  H_bgH2 = H_bgH- + H+; log_k -2.70;  H_bgH- = H_bg-2 + H+; log_k -10.56
+  H_cdH2 = H_cdH- + H+; log_k -3.82;  H_cdH- = H_cd-2 + H+; log_k -4.93
+  H_cfH2 = H_cfH- + H+; log_k -3.82;  H_cfH- = H_cf-2 + H+; log_k -8.72
+  H_chH2 = H_chH- + H+; log_k -3.82;  H_chH- = H_ch-2 + H+; log_k -12.40
+  H_deH2 = H_deH- + H+; log_k -4.93;  H_deH- = H_de-2 + H+; log_k -6.88
+  H_dgH2 = H_dgH- + H+; log_k -4.93;  H_dgH- = H_dg-2 + H+; log_k -10.56
+# Calcium
+  H_aH + Ca+2 = H_aCa+ + H+; log_k  -3.20
+  H_bH + Ca+2 = H_bCa+ + H+; log_k  -3.20
+  H_cH + Ca+2 = H_cCa+ + H+; log_k  -3.20
+  H_dH + Ca+2 = H_dCa+ + H+; log_k  -3.20
+
+  H_eH + Ca+2 = H_eCa+ + H+; log_k  -6.99
+  H_fH + Ca+2 = H_fCa+ + H+; log_k  -6.99
+  H_gH + Ca+2 = H_gCa+ + H+; log_k  -6.99
+  H_hH + Ca+2 = H_hCa+ + H+; log_k  -6.99
+
+  H_abH2 + Ca+2 = H_abCa + 2H+; log_k -6.40
+  H_adH2 + Ca+2 = H_adCa + 2H+; log_k -6.40
+  H_afH2 + Ca+2 = H_afCa + 2H+; log_k -7.45
+  H_ahH2 + Ca+2 = H_ahCa + 2H+; log_k -10.2
+  H_bcH2 + Ca+2 = H_bcCa + 2H+; log_k -6.40
+  H_beH2 + Ca+2 = H_beCa + 2H+; log_k -10.2
+  H_bgH2 + Ca+2 = H_bgCa + 2H+; log_k -10.2
+  H_cdH2 + Ca+2 = H_cdCa + 2H+; log_k -6.40
+  H_cfH2 + Ca+2 = H_cfCa + 2H+; log_k -10.2
+  H_chH2 + Ca+2 = H_chCa + 2H+; log_k -10.2
+  H_deH2 + Ca+2 = H_deCa + 2H+; log_k -10.2
+  H_dgH2 + Ca+2 = H_dgCa + 2H+; log_k -10.2
+# Cadmium
+  H_aH + Cd+2 = H_aCd+ + H+; log_k  -1.52
+  H_bH + Cd+2 = H_bCd+ + H+; log_k  -1.52
+  H_cH + Cd+2 = H_cCd+ + H+; log_k  -1.52
+  H_dH + Cd+2 = H_dCd+ + H+; log_k  -1.52
+
+  H_eH + Cd+2 = H_eCd+ + H+; log_k  -5.57
+  H_fH + Cd+2 = H_fCd+ + H+; log_k  -5.57
+  H_gH + Cd+2 = H_gCd+ + H+; log_k  -5.57
+  H_hH + Cd+2 = H_hCd+ + H+; log_k  -5.57
+
+  H_abH2 + Cd+2 = H_abCd + 2H+; log_k -3.04
+  H_adH2 + Cd+2 = H_adCd + 2H+; log_k -3.04
+  H_afH2 + Cd+2 = H_afCd + 2H+; log_k -7.09
+  H_ahH2 + Cd+2 = H_ahCd + 2H+; log_k -7.09
+  H_bcH2 + Cd+2 = H_bcCd + 2H+; log_k -3.04
+  H_beH2 + Cd+2 = H_beCd + 2H+; log_k -7.09
+  H_bgH2 + Cd+2 = H_bgCd + 2H+; log_k -7.09
+  H_cdH2 + Cd+2 = H_cdCd + 2H+; log_k -3.04
+  H_cfH2 + Cd+2 = H_cfCd + 2H+; log_k -7.09
+  H_chH2 + Cd+2 = H_chCd + 2H+; log_k -7.09
+  H_deH2 + Cd+2 = H_deCd + 2H+; log_k -7.09
+  H_dgH2 + Cd+2 = H_dgCd + 2H+; log_k -7.09
+
+END
+SURFACE 1
+# 1 g soil = 0.7% Organic Matter ~ 3.5 mg Organic Carbon.
+# 7.1 meq charge per g OC
+# For Psi vs I (= ionic strength) dependence, adapt specific surface area in PHRC:
+# SS = 159300 - 220800/(I)^0.09 + 91260/(I)^0.18
+# Example: SS = 46514 m2/g for I = 0.003 mol/l
+#
+# 3.5 mg OC, 0.025 meq total charge, distributed over the sites:
+# charge on 4 nHA sites: -2.84 / 4 * 3.5e-3 / 1e3 (eq)
+  H_a  2.48e-06 46.5e3 3.50E-03
+  H_b  2.48e-06; H_c  2.48e-06; H_d  2.48e-06
+# charge on 4 nHB sites: 0.5 * charge on nHA sites
+  H_e  1.24e-06; H_f  1.24e-06; H_g  1.24e-06; H_h  1.24e-06
+# charge on 12 diprotic sites: -2.84 / 12 * 3.5e-3 / 1e3
+  H_ab 8.28e-07; H_ad 8.28e-07; H_af 8.28e-07; H_ah 8.28e-07
+  H_bc 8.28e-07; H_be 8.28e-07; H_bg 8.28e-07; H_cd 8.28e-07
+  H_cf 8.28e-07; H_ch 8.28e-07; H_de 8.28e-07; H_dg 8.28e-07
+        -donnan
+# 1 g soil = 2.79 mg Fe = 0.05 mmol Fe = 4.45 mg FeOOH
+# 10% has ferrihydrite reactivity
+ Hfo_w 1e-6 600 4.45e-4
+ Hfo_s 0.025e-6
+        -equilibrate 1
+EXCHANGE 1
+ X 55.7e-6
+        -equilibrate 1
+SOLUTION 1
+  pH  6.0
+  Ca  1
+  Cl  2
+  Cd  1e-6
+REACTION 1
+  CdCl2 1
+  2e-6 in 20
+ PRINT
+	-user_graph true
+USER_GRAPH 192
+        -headings Cd_HumicAcids CdX2 Cd_Hfo TOTAL
+        -chart_title "Example 19, Deterministic model"
+        -axis_titles "Solute Cd / (ug/kgw)" "Sorbed Cd / (ug/g soil)"
+        -plot_csv_file ex19_meas.txt
+        -axis_scale x_axis 0 40
+        -axis_scale y_axis 0 6
+        -initial_solutions true
+  -start
+  10 H_Cd = SURF("Cd", "H") + EDL("Cd", "H")
+  20 print CHR$(10) + " ug Cd/L =", tot("Cd") * 112.4e6, " ug Cd/g = ", H_Cd * 112.4e6 \
+          ," Kd (L/kg) = ", H_Cd * 1e3 / tot("Cd"), " ug Cd/g in DL =", EDL("Cd", "H") * 112.4e6
+  30 print "Excess meq Ca in DL =", EDL("Ca", "H")*2 - EDL("water", "H") * tot("Ca")*2
+  40 print "Excess meq Cl in DL =", EDL("Cl", "H")   - EDL("water", "H") * tot("Cl")
+  50 print "Surface charge      =", EDL("Charge", "H")
+  55 af_OM = 1 / 9
+  60 H_Ca = (SURF("Ca", "H") + EDL("Ca", "H")) * af_OM
+  70 print 'Total Ca in/on organic matter =', H_Ca, ' CEC on OM =' H_Ca * 200 / TOT("X"), '%.'
+  80 x = TOT("Cd") * 112.4e6
+  90 H_Cd = H_Cd * 112.4e6 * af_OM
+  100 CdX2 = mol("CdX2") * 112.4e6 * 0.96
+  110 Hfo_Cd = (mol("Hfo_wOCd+") + mol("Hfo_sOCd+")) * 112.4e6
+  120 PLOT_XY x, H_Cd, color = Green, line_width = 2, symbol = None
+  130 PLOT_XY x, CdX2, color = Brown, line_width = 2, symbol = None
+  140 PLOT_XY x, Hfo_Cd, color = Black, line_width = 2, symbol = None
+  150 PLOT_XY x, H_Cd + CdX2 + Hfo_Cd, color = Red, line_width = 2, symbol = None
+  -end
+END
+USER_GRAPH 192

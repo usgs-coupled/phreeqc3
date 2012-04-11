@@ -1,0 +1,55 @@
+DATABASE ../database/wateq4f.dat
+KNOBS
+	-log
+SOLUTION 0  Well no. 2 of Lee (1985), Coastal Plain, transport and mix withtemp17.5
+	pH		7.55	
+	pe 		2
+	units 		mg/l
+	Ca		58
+	Mg		4.9
+	Na		62
+	K		1.5
+	Fe		.66
+	Cl		100
+	C		210
+	S(6)		5.8
+	U		.005
+END
+PHASES
+	Graphite          998
+	C + 4H+ + 4e- = CH4
+	log_k             6.03
+SOLUTION 1-5 
+	pe	-4
+	temp	25
+	units       mg/l
+	Na	60
+	Cl	100
+	Fe	.01
+EQUILIBRIUM_PHASES 1-5
+	Pyrite	0	0
+	CO2(g)	-3.5
+	Uraninite(c)   0    0
+	Calcite		0	0
+	Graphite		0	.0000005
+SAVE SOLUTION 1-5
+END
+SOLUTION 6-7 
+	pe	-4
+	temp	25
+	units				mg/l
+	Na	60
+	Cl	100
+	Fe	.01
+EQUILIBRIUM_PHASES 6-7
+	Pyrite     0     0
+	CO2(g)	-3.5
+	Uraninite(c)	0	0
+	Calcite		0	0
+	Graphite		0	.0001
+SAVE SOLUTION 6-7
+#TRANSPORT
+ADVECTION
+	-cells		7
+	-shifts		21
+END

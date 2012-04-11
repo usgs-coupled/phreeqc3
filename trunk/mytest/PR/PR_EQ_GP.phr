@@ -1,0 +1,17 @@
+# conc's in equilibrium with pure gas
+INCLUDE$ CO2_V2.db
+SOLUTION 1
+pH 7 charge
+N 1 N2(g) 2
+C(4) 1 CO2(g) 2
+-pressure 200
+END
+# fugacity coefficients are different in a mixture of gases...
+GAS_PHASE 1
+ -pressure 200
+ -fixed_pressure
+ -volume 1e5
+    N2(g) 100
+    CO2(g) 100
+USE SOLUTION 1
+END

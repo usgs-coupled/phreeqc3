@@ -1,0 +1,29 @@
+#DATABASE ../database/phreeqd.dat
+DATABASE ../database/phreeqc.dat
+KNOBS; -iter 400
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES; Su- = Su-; log_k 0
+SOLUTION 0
+# Ca 0.1; Cl 0.1 charge
+ water 1
+SOLUTION 1-10
+ pH 7.0
+ Na 1; Cl 1 charge
+ water 0.3
+SURFACE 1-10
+ Su 1e-3 1e4 1
+ -equil 1
+ -donnan d 1 l 0.9 v 1# 1e-9
+#USE solution none
+END
+TRANSPORT; -cells 10; -length 1e-9; -shifts 1 0; -bcon 1 2; -time 1e-9
+ -punch_fr 1
+ -multi_d true 1e-9 1#0.547723 0 1
+SELECTED_OUTPUT
+ -file d1.prn; -reset false; #-high_pr
+USER_PUNCH
+ -head dist H2O_aq H2O_edl H2O_tot Na Ca Cl pH
+ -start
+ 10 punch dist, tot("water"), edl("water"), tot("water") + edl("water"), tot("Na")*1e3, tot("Ca")*1e3, tot("Cl")*1e3 , -la("H+")
+ -end
+END

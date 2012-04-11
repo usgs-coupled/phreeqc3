@@ -1,0 +1,71 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 1-3
+	Na	1
+	Cl	1
+END
+EQUILIBRIUM_PHASES 1-3
+	Barite	0	10
+END
+EXCHANGE 1-3
+	X	1
+	-eq	solution 1
+END
+SURFACE 1-3
+    -equilibrate with solution 1
+    Hfo_s   0.01   600    1
+END
+GAS_PHASE 1-3
+    -fixed_pressure
+    -pressure 1
+    -volume 1
+    -temperature 25
+    CO2(g)    0.00035
+END
+SOLID_SOLUTIONS 1-3
+    Calcite
+        -comp calcite 0.1
+        -comp siderite 0.001
+END
+KINETICS 1-3
+Calcite
+    -formula  CaCO3  1
+    -m        1
+    -m0       1
+    -parms    1 1 1 1
+    -tol      1e-008
+-steps       1 in 1 steps # seconds
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+END
+REACTION 1-3
+	NaCl  1
+	0.001
+END	
+MIX 1
+	1 0.5
+MIX 2   
+	2 0.5
+	3 0.5
+MIX 3
+	3 0.5
+	2 0.5
+USE mix none
+END
+REACTION_TEMPERATURE 1-3
+	30
+END
+COPY cell 1 100
+
+END
+DUMP
+	-file	cell_operations.dmp
+	-cell 100
+END
+DELETE 
+	-cell 3-100
+END
+DUMP
+	-file	cell_operations.dmp
+	-append
+	-all

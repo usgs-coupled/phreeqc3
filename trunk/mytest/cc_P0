@@ -1,0 +1,28 @@
+# Calcite dissolution with/-out CaHCO3+ complex
+DATABASE ../database/phreeqc.dat
+INCLUDE$ cc.db
+SOLUTION 1
+ pH 7 charge
+EQUILIBRIUM_PHASES
+ Calcite
+ CO2(g) 0
+REACTION_TEMPERATURE
+ 0 225 in 20
+PRINT; -reset false
+USER_GRAPH
+-headings tc CaHCO3+ #Ca_tot Ca+2 CaCO3 CaHCO3+ SI_arg
+ -connect_simulations false
+ -axis_titles "CO2 Pressure / bar" "Calcite solubility / (mol/kgw)"
+ 10 graph_x tc
+ 20 graph_y  tot("Ca"), # mol("Ca+2"), mol("CaCO3"), mol("CaHCO3+")
+END
+
+SOLUTION_SPECIES
+Ca+2 + CO3-2 + H+ = CaHCO3+
+	log_k	-100 # remove this complex
+USE solution 1
+USE reaction_temperature 1
+USE EQUILIBRIUM_PHASES 1
+USER_GRAPH
+ -headings tc no_CaHCO3+
+END

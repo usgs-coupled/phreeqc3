@@ -1,0 +1,76 @@
+DATABASE ../database/phreeqc.dat
+PRINT
+-reset false
+PHASES
+Gibbsite
+	Al(OH)3 + 3 H+ = Al+3 + 3 H2O
+	log_k	  8.049
+	delta_h -22.800 kcal
+Kaolinite
+	Al2Si2O5(OH)4 + 6 H+ = H2O + 2 H4SiO4 + 2 Al+3
+	log_k	  5.708
+	delta_h -35.300 kcal
+K-feldspar
+	KAlSi3O8 + 4 H2O + 4H+ = K+ + Al+3 + 3 H4SiO4
+	log_k	0.875
+	delta_h 30.820	kcal
+
+K-mica
+	KAl3Si3O10(OH)2 + 10 H+ = K+ + 3 Al+3 + 3 H4SiO4
+	log_k	12.970
+	delta_h -59.376 kcal
+TITLE Example 6C.--kinetic calculation
+solution 1
+units mol/kgw
+Al  1.e-13
+K  1.e-13
+Si  1.e-13
+EQUILIBRIUM_PHASES 1
+        Gibbsite   0.0  0.0
+        Kaolinite  0.0  0.0
+        K-mica     0.0  0.0
+END
+RATES
+K-feldspar
+-start
+10 SR_kfsp = sr("K-feldspar")
+20 moles = parm(1) * (m/m0)^0.67 * (1 - SR_kfsp) * time
+30 ###
+32 rem The following is for printout of phase transitions
+34 if (ABS(sr("Kaolinite") - 1.) > 1.e-5) then goto 40
+36   if equi("Kaolinite") > 4.e-8 then goto 40
+38     if la("H4SiO4") > -5.0 then goto 40
+39       print "Gibbsite -> Kaol transition" la("K+")-la("H+") la("H4SiO4") equi("Kaolinite")
+40 if (ABS(sr("Kaolinite") - 1.) > 1.e-5) then goto 50
+42   if (ABS(sr("Gibbsite") - 1.) < 1.e-5 and equi("Gibbsite") < 2e-7)\
+ then print "END: Gibbsite -> Kaol transition" la("K+")-la("H+") la("H4SiO4")\
+ equi("Gibbsite")
+50 if (ABS(sr("K-mica") - 1.) > 1.e-5) then goto 60
+52   if equi("K-mica") > 4.e-8 then goto 60
+54     print "Kaol -> K-mica transition" la("K+")-la("H+") la("H4SiO4") equi("K-mica")
+60 if (ABS(sr("K-mica") - 1.) > 1.e-5) then goto 70
+62   if (ABS(sr("Kaolinite") - 1.) < 1.e-5 and equi("Kaolinite") < 4e-7)\
+ then print "END: Kaol -> K-mica transition" la("K+")-la("H+") la("H4SiO4")\
+ equi("Kaolinite")
+66 ###
+70 save moles
+-end
+USER_PUNCH
+-head pH+log[K]  log[H4SiO4]
+10 punch la("K+")-la("H+") la("H4SiO4")
+SELECTED_OUTPUT
+	-file ex6_kin.prn
+	-reset false
+KINETICS 1
+K-feldspar
+	-m0 2.16
+	-m  1.94
+# k0 * A/V = 1e-16 mol/cm2/s * (10% fsp, 0.1mm cubes) 160/cm = 160.e-13 mol/dm3/s
+	-parms 1.36e-11
+	-steps  5.e4 5.e4 5.e4 5.e4 80.e4 20.e4 80.e4 2.e7 3.e7
+	-tol 1.e-16
+	-step_divide 1e8
+INCREMENTAL_REACTIONS true
+USE equilibrium_phases 1
+USE solution 1
+END

@@ -1,0 +1,95 @@
+#[ Plot molar volumes at "infinite" dilution
+#]
+SOLUTION_SPECIES
+Ca+2 = Ca+2
+	-gamma	5.0	0.1650
+	-dw	 0.793e-9
+	-millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
+Mg+2 = Mg+2
+	-gamma	5.5	0.20
+	-dw	 0.705e-9
+	-millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
+Cl- = Cl-
+	-gamma	3.5	0.015
+	-dw	 2.03e-9
+	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+
+PRINT; -reset false; -user_print true
+USER_PRINT
+ 30 put(rho, step_no)
+SOLUTION 1
+REACTION_TEMPERATURE 1
+ 0 230 in 21
+END
+PRINT; -user_print false
+
+SOLUTION 1
+ Mg 0.3; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 2 ; -chart_title "Alkaline Earth - Chlorides"
+-headings Millero
+-plot_csv_file mV2_rho.dat
+-axis_scale x_axis 270 510
+-axis_scale y_axis -70 30
+-connect false
+-axis_titles "Temperature / K" "molar Volume / cm3/mol"
+ 20 mV = (1e3 + tot("Mg") * (24.312 + 2 * 35.453)) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(step_no))
+ 30 plot_xy tk, mV, color = Red , symbol = None
+END
+
+SOLUTION 1
+ Ca 0.3; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 2
+-headings ...."....
+ 20 mV = (1e3 + tot("Ca") * (40.08 + 2 * 35.453)) / (tot("Ca") * rho) - 1e3 / (tot("Ca") * get(step_no))
+ 30 plot_xy tk, mV, color = Green, symbol = None
+END
+
+SOLUTION_SPECIES
+Ca+2 = Ca+2
+	-gamma	5.0	0.1650
+	-dw	 0.793e-9
+	-millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
+	-Vm  -17.95 -0.033 6.23e-4  -0.473 4.72e-2 -5.77e-4  -1e-3  4.2 # CaCl2.xls, Laliberte, 2009, 0-127 oC. Gypsum/Anhydrite solubility 0-170 oC, 1-1000 atm.
+Mg+2 = Mg+2
+	-gamma	5.5	0.20
+	-dw	 0.705e-9
+	-millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
+	-Vm -21.1 -2.41e-2 -1.06e-5  -0.242 3.39e-2 -4.52e-4  -1e-3  4.3 # MgCl2.xls, Laliberte, 0-100 oC
+Cl- = Cl-
+	-gamma	3.5	0.015
+	-dw	 2.03e-9
+	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+	-Vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
+Ba+2 = Ba+2
+	-gamma	5.0	0.0
+	-dw 0.848e-9
+	-Vm  -14 7.8e-3 5.2e-4 -5e-3 0.034 -5.7e-4 -10e-3 1.6 # 0-250 oC. BaCl2.xls, Laliberte, 2009. Barite solubility, Blount 1977, Lyashchenko and Churagulov, 1981. 0-250 oC, 1-500 atm.
+
+SOLUTION 1
+ Mg 0.3; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 2
+-headings -Vm
+ 20 mV = (1e3 + tot("Mg") * (24.312 + 2 * 35.453)) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(step_no))
+ 30 plot_xy tk, mV, color = Red, symbol = None, line_width = 2
+END
+
+SOLUTION 1
+ Ca 0.3; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 2
+-headings .".
+ 20 mV = (1e3 + tot("Ca") * (40.08 + 2 * 35.453)) / (tot("Ca") * rho) - 1e3 / (tot("Ca") * get(step_no))
+ 30 plot_xy tk, mV, color = Green , symbol = None, line_width = 2
+END
+
+SOLUTION 1
+ Ba 0.3; Cl 0.2 charge
+USE reaction_temperature 1
+USER_GRAPH 2
+-headings .".
+ 20 mV = (1e3 + tot("Ba") * (137.34 + 2 * 35.453)) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(step_no))
+ 30 plot_xy tk, mV, color = Blue, symbol = None, line_width = 2
+END

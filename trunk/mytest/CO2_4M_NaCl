@@ -1,0 +1,43 @@
+# CO2 solubility in 4M NaCl solutions, Rumpf et al. 1994, J. Sol. Chem. 23, 431
+DATABASE ../database/pitzer.dat
+
+PITZER
+ -LAMDA # in Pitzer.dat
+ Na+  CO2 0.08
+-ZETA
+  Na+       SO4-2     CO2     -0.02
+INCLUDE$ CO2_V.db
+
+SOLUTION 1
+ pH 7 charge
+ Na 4e3; Cl 4e3
+ -temp 80
+GAS_PHASE 1
+     -fixed_volume
+     CO2(g) 0
+     H2O(g) 0
+REACTION
+ CO2 1; 5*0.2 5*1
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+ -plot_csv_file CO2_4M_NaCl.dat
+ -axis_titles "CO2 Pressure / bar" "CO2 solubility in 4 M NaCl / (mol/kgw)"
+ -connect_simulations false
+ -axis_scale x_axis 0 100
+ 10 graph_x pr_p("CO2(g)") * 1.013
+ 20 graph_y tot("C")
+END
+
+SOLUTION 1
+ pH 7 charge
+ Na 4e3; Cl 4e3
+ -temp 120
+USE reaction 1; USE gas_phase 1
+END
+
+SOLUTION 1
+ pH 7 charge
+ Na 4e3; Cl 4e3
+ -temp 160
+USE reaction 1; USE gas_phase 1
+END

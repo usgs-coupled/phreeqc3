@@ -1,0 +1,30 @@
+DATABASE ../database/pitzer.dat
+SOLUTION 1
+EQUILIBRIUM_PHASES 1
+	CO2(g)	-1.5
+SAVE solution 1
+END
+GAS_PHASE 1
+	-equil	1
+	-fixed_volume
+	-volume 	1
+	CO2(g)	0.0
+END
+GAS_PHASE 2
+#	-equil	1
+	-fixed_volume
+	-volume 	1
+	CO2(g)	0.0
+END
+use solution 1
+use gas_phase 1
+equilibrium_phases 2
+	Calcite
+	Dolomite
+end
+use solution 1
+use gas_phase 2
+equilibrium_phases 2
+	Calcite
+	Dolomite
+end

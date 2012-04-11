@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+#  Script to run program PHREEQC version 2
+#
+#  $Author: dlpark $
+#
+#  $Date: 1999/11/26 19:36:33 $
+#
+#  $Revision: 1.4 $
+#
+TOPDIR=
+USAGE='Usage:  phreeqc [input.file [output.file [database.file [status.log]]]]'
+#
+#  Show usage every time.
+#
+echo $USAGE
+#
+#  Check if input file is given
+#
+if [ $1 ]; then
+#
+#   Check that input file exits
+#
+    if [ ! -f $1 ];	then
+	echo "ERROR, input file not found: " $1 .
+	exit
+	fi
+#
+#   Check if output file is given
+#
+    if [ $2 ]
+	then
+	    OUTPUT=$2
+	else 
+	    OUTPUT=$1.out
+	fi
+#
+#   Check if database file is given
+#
+    if [ $3 ]
+	then
+	    DATABASE=$3
+	else 
+	    if [ $PHREEQC_DATABASE ]
+		then 
+		    DATABASE=$PHREEQC_DATABASE
+		else
+		    DATABASE=$TOPDIR/database/phreeqc.dat
+	    fi
+	fi
+#
+#   Check if status log file is given
+#
+    if [ $4 ]
+	then
+	    STATUS_LOG=$4
+	else 
+	    STATUS_LOG=
+	fi
+#
+#   Execute program with arguments
+#
+    $TOPDIR/bin/phreeqc $1 $OUTPUT $DATABASE $STATUS_LOG
+else
+#
+#   Execute program without arguments
+#
+    $TOPDIR/bin/phreeqc
+fi

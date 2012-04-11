@@ -1,0 +1,36 @@
+DATABASE ../database/pitzer.dat
+RATES
+Gypsum
+	-start
+20      rem   1 hour half life
+40	moles = log(0.5) / 3600 * m * time
+50      if (moles > m) then moles = m
+60      rem print -moles
+200	save -moles
+	-end
+SOLUTION 1
+	pH	7.0
+	pe	8.0
+	temp	20.0
+	Ca	4.5	charge
+#	Cl	9.0	charge
+	S	9.0	Gypsum
+SOLUTION 0 # CaCl2 injected solution
+	pH	6.0
+	pe	0.0
+	temp	20.0
+	Ca	15.
+	Cl	31.	charge
+
+SURFACE 1
+	Hfo_wOH    gypsum  		kine	0.1
+	Hfo_sOH    gypsum  		kine	.01	500
+
+KINETICS 1
+	Gypsum
+		-formula CaSO4(H2O)2
+		-m	1
+	-step	3600
+USE solution 0
+END
+

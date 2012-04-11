@@ -1,0 +1,64 @@
+DATABASE ../database/phreeqc.dat
+Solution 1
+	-units mg/l
+	temp	13.
+	pH	 7.2
+	pe	 2.0
+	S	40. as SO4-2
+	P	 2. as PO4-3
+	Amm	 5. as AmmH
+	Mn	 0.6
+	Alkalinity 250.
+	Ca	120.
+	Fe	 2.0
+	Cl	 1.3 mmol/l
+	Na	 0.8 mmol/l charge
+EQUILIBRIUM_PHASES
+	Goethite	6.52	0.1
+Surface 1
+# ca. 0.2 % Fe-oxides = 12 g/l = 0.1 mol
+#	Hfo_s	0.1e-5	600	12.0
+#	Hfo_w	0.1e-2
+	Hfo_s	Goethite 0.1e-2 	54000.
+	Hfo_w	Goethite 0.1
+	-equil	1
+	-diff
+#USE surface none
+SAVE solution 1-20
+SAVE surface  1-20
+END
+=======================================
+Solution 1
+	-units mg/l
+	temp	13.
+	pH	 7.2
+	pe	 2.0
+	S	40. as SO4-2
+	P	 2. as PO4-3
+	Amm	 5. as AmmH
+	Mn	 0.6
+	Alkalinity 250.
+	Ca	120.
+	Fe	 2.0
+	Cl	 1.3 mmol/l
+	Na	 0.8 mmol/l charge
+EQUILIBRIUM_PHASES
+	Goethite	6.52	0.1
+SAVE solution 1-20
+END
+Surface 1
+# ca. 0.2 % Fe-oxides = 12 g/l = 0.1 mol
+	Hfo_s	0.1e-5	600	12.0
+	Hfo_w	0.1e-2
+#	Hfo_s	Goethite 0.1e-2 	54000.
+#	Hfo_w	Goethite 0.1
+	-equil	1
+	-diff
+#END
+USE solution 1
+USE EQUILIBRIUM_PHASES 1
+#USE surface 1
+SAVE solution 1
+SAVE EQUILIBRIUM_PHASES 1
+SAVE surface 1-20
+END

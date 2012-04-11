@@ -1,0 +1,19 @@
+database ../database/phreeqc.dat
+SOLUTION
+EQUILIBRIUM_PHASES
+	CO2(g) 	-1.0
+	O2(g)	-1.0
+	Calcite
+	Dolomite
+SAVE solution 1
+END
+GAS_PHASE
+	-equil 1
+	-fixed_volume
+	-temperature 25
+	-pressure 10
+	-volume   10
+	CO2(g)	0
+	CH4(g)	0
+	O2(g)	0
+END

@@ -1,0 +1,22 @@
+DATABASE ../database/phreeqc.dat
+print 
+	-status false
+solution 1
+equilibrium_phases 1
+	calcite -5.0	10.0
+save solution 1
+incremental_reactions true
+END
+reaction 1
+	NaCl	1.0
+	.001 umol
+end
+use reaction 1
+use solution 1
+kinetics 1
+#	Calcite func	A/V 	m0 	m 	expm_m0 	tol
+	Calcite	Calcite	5	.05	.05	0.0	1e-9
+	316 3160 31600 316000 3160000 31600000 316000000.
+save solution 1
+save kinetics 1
+end

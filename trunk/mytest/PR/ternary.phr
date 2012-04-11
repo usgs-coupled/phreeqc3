@@ -1,0 +1,30 @@
+# for comparing solubilities measured in ternary (or more) gas-mixtures
+INCLUDE$ CO2_V2.db
+PRINT; -reset false
+SOLUTION 1
+pH 7 charge
+-water 0.01
+-temp 102
+ -pressure 5e2
+GAS_PHASE 1
+ -fixed_volume
+ #-pressure 5e2
+ -temp 102
+ -volume 1
+ CH4(g) 10
+ CO2(g) 10
+# N2(g) 0
+ H2O(g) 0
+REACTION
+ CO2 1 CH4 -1; 3e-1 in 10
+USER_GRAPH
+ -axis_titles "CO2 as a fraction of all CO2 + CH4 in the system" "P_CO2(g) / mol_fraction CO2 in solution"
+  5 tw =  tot("water")
+ 10 m_h2o = tw / (18.06e-3)
+ 20 t_mol = m_h2o + tot("C(-4)") * tw + tot("C(4)") * tw
+ 30 x_CO2 = tot("C(4)") * tw / t_mol
+ 32 x_CH4 = tot("C(-4)") * tw / t_mol
+
+ 40 graph_x sys("C(4)") / sys("C")
+ 50 graph_y pr_p("CO2(g)") / x_CO2
+END

@@ -1,0 +1,210 @@
+DATABASE ../database/phreeqc.dat
+#========================================================================
+PHASES
+Pyrolusite
+	MnO2(Al(OH)3)0.34 + 4 H+ + 2 e- = Mn+2 + 2 H2O + 0.34 Al(OH)3
+	log_k	41.38
+	delta_h -65.110 kcal
+RATES
+Pyrolusite
+	-start
+5	if (m <= 0.0) then goto 200
+7	sr_pl = sr("Pyrolusite")
+9	if abs(1 - sr_pl) < 0.1 then goto 200
+10	if (sr_pl > 1.0) then goto 100
+#20 rem	initially 1 mol Fe+2 = 0.5 mol pyrolusite. k*A/V = 1/time (3 cells)
+#22 rem       time (3 cells) = 1.432e4.  1/time = 6.98e-5
+30	Fe_t = tot("Fe(2)")
+32	if Fe_t < 1.e-8 then goto 200
+40	moles =  0.5 * 6.98e-5 * Fe_t  * (m/m0)^0.67 * time * (1 - sr_pl)
+50	if moles > Fe_t / 2 then moles = Fe_t / 2
+70	if moles > m then moles = m
+90	goto 200
+100	Mn_t = tot("Mn")
+110	moles = 2e-3 * 6.98e-5 * (1-sr_pl) * time
+120	if moles <= -Mn_t then moles = -Mn_t
+200	save moles
+	-end
+SURFACE_SPECIES
+# Ca+2 on Hfo
+	Hfo_wOH + Ca+2 = Hfo_wOCa+ + H+
+	log_k	-3.22
+# Mn+2
+	Hfo_wOH + Mn+2 = Hfo_wOMn+ + H+
+	log_k	-3.0
+# Fe
+	Hfo_wOH + Fe+2 = Hfo_wOFe+ + H+
+	log_k	-3.5
+
+	1.5Hfo_wOH + Fe+3 = (Hfo_wO)1.5Fe+1.5 + 1.5H+
+	log_k	-4.75
+# Al+3
+	1.5Hfo_wOH + Al+3 = (Hfo_wO)1.5Al+1.5 + 1.5H+
+	log_k	-4.75
+
+	Hfo_wOH + AlOH+2 = Hfo_wOAlOH+ + H+
+	log_k	-3.13
+# Anions
+	Hfo_wOH + Cl- = Hfo_wOHCl-
+	log_k	-1.8
+
+	Hfo_wOH + Br- = Hfo_wOHBr-
+	log_k	-3.8
+SURFACE_MASTER_SPECIES
+	Ma_w	Ma_wOH
+	Mb_w	Mb_wOH
+SURFACE_SPECIES
+# MnO2 surface, PZC = 2.0
+	Ma_wOH = Ma_wOH
+	log_k	0.0
+
+	Ma_wOH	+ H+ = Ma_wOH2+
+	log_k	2.0	# = pKa1,int
+
+	Ma_wOH = Ma_wO- + H+
+	log_k	-2.0	# = -pKa2,int
+# CATIONS #
+	Ma_wOH + Ca+2 = Ma_wOCa+ + H+
+	log_k -3.22
+
+	Ma_wOH + Mn+2 = Ma_wOMn+ + H+
+	log_k -3.0	# 2.3 higher than for Ca table 10.5
+
+	Ma_wOH + Fe+2 = Ma_wOFe+ + H+
+	log_k	-3.5
+
+	1.5Ma_wOH + Fe+3 = (Ma_wO)1.5Fe+1.5 + 1.5H+
+	log_k	-4.75
+
+# From K_Ca\Al = 1.83. K_S-Ca = 10^-3.22. log_k = 
+# log10((10^-3.22/1.83^2)^1.5)
+# log_k = -5.62. Correct for standard state of surface complexation model:
+#	S-AlOH+  = 2/3 S3/2-Al+3/2 + 1/3 Al+3 + OH-
+# With St = total sites in mol/l, for constant [Al+3] and [OH-]:
+# (S-Al/St)^(2/3)/(AlOHS/St) = K_X. S-Al^(2/3)/AlOHS = constant = 
+#  K_X * St^-1/3. Hence log_k for S1.5Al is multiplied by St^-(1/3)*(3/2)
+#  or by (dilution)^(1/2). From 1 to 0.1 (log_k)_0.1 = (log_k)_1 * 3.16
+#  1.4 mol Surface sites gives approximately the correct ratio. 0.026 mol 
+#gives
+#  log_k=-5.62 + log((0.026/1.4)^-.5) = -4.75
+	1.5Ma_wOH + Al+3 = (Ma_wO)1.5Al+1.5 + 1.5H+
+	log_k	-4.75
+
+	Ma_wOH + AlOH+2 = Ma_wOAlOH+ + H+
+	log_k	-3.13
+# This formulation gives too high S-Al / S-AlOH
+#	Ma_wOH + 0.66Al+3 = Ma_wOAl0.66+0.98 + H+
+#	log_k	-3.74
+	
+# ANIONS #
+# pK HF = 3.45. pK HCl = -2. Hence log_k for S-HCl = -3.8
+	Ma_wOH + Cl- = Ma_wOHCl-
+	log_k	-1.8
+
+	Ma_wOH + Br- = Ma_wOHBr-
+	log_k	-3.8
+############################
+# MnO1.5 surface, PZC = 2.0
+	Mb_wOH = Mb_wOH
+	log_k	0.0
+
+	Mb_wOH	+ H+ = Mb_wOH2+
+	log_k	2.0	# = pKa1,int
+
+	Mb_wOH = Mb_wO- + H+
+	log_k	-2.0	# = -pKa2,int
+# CATIONS #
+	Mb_wOH + Ca+2 = Mb_wOCa+ + H+
+	log_k -3.22
+
+	Mb_wOH + Mn+2 = Mb_wOMn+ + H+
+	log_k -3.0	# table 10.5
+
+	Mb_wOH + Fe+2 = Mb_wOFe+ + H+
+	log_k	-3.5
+
+	1.5Mb_wOH + Fe+3 = (Mb_wO)1.5Fe+1.5 + 1.5H+
+	log_k	-4.75
+
+	1.5Mb_wOH + Al+3 = (Mb_wO)1.5Al+1.5 + 1.5H+
+	log_k	-4.75
+
+	Mb_wOH + AlOH+2 = Mb_wOAlOH+ + H+
+	log_k	-3.13
+
+# ANIONS #
+	Mb_wOH + Cl- = Mb_wOHCl-
+	log_k	-1.8
+
+	Mb_wOH + Br- = Mb_wOHBr-
+	log_k	-3.8
+
+SOLUTION 1 # MnO2 column
+	pH	7.0
+	pe	8.0
+	temp	20.0
+	Ca	4.5
+	Cl	9.0	charge
+#	Fe	1.e-8
+EQUILIBRIUM_PHASES 1
+	Manganite	0.0	0.1
+	Goethite	3.0	0.0001
+	Gibbsite	0.0	0.0	#0.034
+SAVE equilibrium_phases 1-12
+SAVE solution 1-12
+END
+KNOBS
+#	-diag true
+#	-iter	100
+#	-tol	1.e-17
+#	-pe_ste	 10.
+#	-step	70.
+USE solution 1
+USE equilibrium_phases 1
+#EXCHANGE 1-12	# Used for checking ion ratios in surface cplx. model
+#	X	2
+#	-equil	1
+SURFACE 1-12
+	Hfo_w	Goethite	0.1	5.3e3
+#	Hfo_s	Goethite	0.001
+#	Ma_w	Pyrolusite	0.268	5.3e3  0.0268
+	Mb_w	Manganite	0.268	5.3e3
+	-equil	1
+#	-diff
+#	-no_edl
+END
+SOLUTION 0 # FeCl2 injected solution
+	pH	6.0
+	pe	0.0
+	temp	20.0
+	Fe	15.5   # Analyzed: 14.55 
+	Cl	31.	charge
+#	Mn	1.e-8
+	Al	1.e-8
+END
+KINETICS 1-12
+Pyrolusite
+	-tol	1.e-7
+	-m0	0.1
+	-m	0.1
+END
+PRINT
+#	-reset false
+SELECTED_OUTPUT
+	-file	k10i.prn
+	-tot	Ca Fe(2) Fe(3) Mn(2) Al Cl
+	-si	Manganite	Pyrolusite
+	-equi	Manganite
+	-kin	Pyrolusite
+TRANSPORT
+	-cells	11		#3
+	-length	4.59e-3 	#1.683e-2
+	-disp	1.49e-3
+	-diffc	0.0
+	-timest	3.904e3   #1.432e4 # 3ml/hr, PV=35.8, res.time in column = 11.93 hr
+#	-shifts	360 1
+	-shifts	2 1
+	-sel    4		#1
+	-punch  11		#3
+	-dump k10i.dmp 1
+END

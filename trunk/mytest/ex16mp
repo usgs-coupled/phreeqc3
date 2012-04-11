@@ -1,0 +1,34 @@
+DATABASE ../database/phreeqc.dat
+TITLE Example 16.--Inverse modeling of Sierra springs
+SOLUTION_SPREAD
+        -units mmol/L
+Number	pH	Si	Ca	Mg	Na	K	Alkalinity	S(6)	Cl
+1	6.2	0.273	0.078	0.029	0.134	0.028	0.328      	0.01	0.014
+2	6.8	0.41	0.26	0.071	0.259	0.04	0.895    	0.025	0.03
+
+INVERSE_MODELING 1
+        -solutions 1 2
+        -uncertainty 0.025
+        -range
+        -phases
+                Halite
+                Gypsum
+                Kaolinite               precip
+                Ca-montmorillonite      precip
+                CO2(g)
+                Calcite
+                Chalcedony              precip
+                Biotite                 dissolve
+                Plagioclase             dissolve
+        -balances
+                Ca      0.05     0.025
+	-multiple_precision
+PHASES
+Biotite
+        KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
+        log_k  0.0      # No log_k, Inverse modeling only
+Plagioclase
+        Na0.62Ca0.38Al1.38Si2.62O8 + 5.52 H+ + 2.48H2O = \
+                0.62Na+ + 0.38Ca+2 + 1.38Al+3 + 2.62H4SiO4
+        log_k  0.0      # No log_k, inverse modeling only
+END

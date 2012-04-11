@@ -1,0 +1,31 @@
+DATABASE ../database/iso.dat
+SOLUTION 1
+	pH	2
+	C	1	CO2(g)	-3.5
+	[18O]	0
+	D	0
+	[13C]	-7
+	Cl	1	charge
+END
+USE solution 1
+REACTION
+	NaCl	0
+	0
+END
+USE solution 1
+GAS_PHASE
+	-vol	.000001
+	-fixed_volume
+	CO2(g)			0
+	CO[18O](g)		0
+	C[18O]2(g)		0
+	[13C]O2(g)		0
+	[13C]O[18O](g)		0
+	[13C][18O]2(g)		0
+	H2O(g)			0
+	HDO(g)			0
+	D2O(g)			0
+	H2[18O](g)		0
+	HD[18O](g)		0
+	D2[18O](g)		0
+END

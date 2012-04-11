@@ -1,0 +1,659 @@
+   Input file: O2_conc_PR_IS
+  Output file: O2_conc_PR_IS.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION_SPECIES
+	Na+ = Na+
+		gamma	4.0	0.075
+		dw	 1.33e-9
+		millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+		vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
+	Cl- = Cl-
+		gamma	3.5	0.015
+		dw	 2.03e-9
+		millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+		vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
+	SO4-2 = SO4-2
+		gamma	5.0	-0.04
+		dw	 1.07e-9
+		millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
+		vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -9e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+	CO3-2 + 2 H+ = CO2 + H2O
+		log_k	16.681
+		delta_h -5.738	kcal
+		analytical_expression	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+		dw	 1.92e-9
+		vm   26.5 -0.066   0  0 0 0 -9.7E-03 # Data in Duan et al., 2006, MC 98, 131. 1-100 oC, 1-700 atm.
+	2 H2O = O2 + 4 H+ + 4 e-
+		log_k	-86.08
+		delta_h 134.79 kcal
+		dw	 2.35e-9
+		vm 35 # Pray et al., 1952, IEC 44. 1146
+	2 H+ + 2 e- = H2
+		log_k	-3.15
+		delta_h -1.759 kcal
+		dw	 5.13e-9
+		vm 20 # Pray et al., 1952, IEC 44. 1146
+	CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
+		log_k	41.071
+		delta_h -61.039 kcal
+		dw	 1.85e-9
+		vm 33
+	PHASES
+	CO2(g)
+		CO2 = CO2
+		log_k	-1.468
+		delta_h -4.776 kcal
+		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
+		t_c  304.2 # critical T, K
+		p_c   72.80 # critical P, atm
+		omega 0.225 #  acentric factor
+	O2(g)
+		O2 = O2
+		log_k   -2.8983
+		analytical_expression -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+		T_c  154.6 # critical T, K
+		p_c   49.80 # critical P, atm
+		omega 0.021 #  acentric factor
+	H2(g)
+		H2 = H2
+		log_k	   -3.1050
+		delta_h -4.184  kJ
+		analytical_expression   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
+		t_c  33.2 # critical T, K
+		p_c   12.80 # critical P, atm
+		omega 0.225 #  acentric factor
+	CH4(g)
+		CH4 = CH4
+		log_k	   -2.8502
+		analytical_expression -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+		T_c  190.6 # critical T, K
+		p_c   45.40 # critical P, atm
+		omega 0.008 #  acentric factor
+	Mirabilite
+		Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
+		log_k	   -1.214
+		analytical_expression       -3862.234   -1.19856    93713.54    1577.756    0.
+		vm  216.2
+	H2O(g)
+		H2O = H2O
+		log_k  1.506
+	 delta_h -44.03 kJ
+		T_c  647.3 # critical T, K
+		p_c  217.60 # critical P, atm
+		omega 0.344 #  acentric factor
+		analytical_expression   -16.5066 -2.0013E-3  2710.7  3.7646  0 2.24E-6
+	SOLUTION 1
+	SOLUTION_SPECIES
+	2 H2O = O2 + 4 H+ + 4 e-
+		log_k	-86.08
+		delta_h 134.79 kcal
+		dw	 2.35e-9
+		vm 35
+	PHASES
+	O2(g)
+		O2 = O2
+		log_k   -2.8983
+		analytical_expression -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+		T_c  154.6 # critical T, K
+		p_c   49.80 # critical P, atm
+		omega 0.021 # Pitzer acentric factor
+	SELECTED_OUTPUT
+	 reset false
+	 file O2_25.prn
+	USER_PUNCH
+	  1 sc$ = chr$(59)
+	 10 for i = 1.1 to 120 step 20
+	 20   punch 'SOLUTION 1' + sc$ + ' -temp 27' + sc$ + ' pH 3 charge' + EOL$ + 'O(0) 1 O2(g) ' + str$(log10(i)) + EOL$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+	 30 next i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+WARNING: USER_PUNCH: Headings count doesn't match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99709
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.002e-07   1.001e-07    -6.999    -6.999    -0.000     (0)  
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     20.00
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT
+	 selected_out false
+	USER_GRAPH
+	 -plot_csv_file O2_27.dat
+	 -axis_titles "Pressure / atm" "O2 / (mol/kgw)"
+	 -axis_scale x_axis 0 100
+	 -axis_scale y_axis 0 0.12
+	 -initial_solutions true
+	 10 x = PR_P("O2(g)")
+	 20 graph_x x # tot("Na")
+	 30 graph_y tot("O(0)") / 2
+	 -end
+	SOLUTION 1
+	 temp 27
+	 pH 3 charge
+	O(0) 1 O2(g)   4.1393e-02
+	pressure   1.1000e+00
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              2.725e-03   2.725e-03  Equilibrium with O2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.967      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 27 oC) = 0
+                          Density (g/cm3)  =   0.99656
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.079e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.323e-21
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  27.00
+                           Pressure (atm)  =  1.10
+                  Electrical balance (eq)  =  -1.323e-21
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550894e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          13.6718      0.8142
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.079e-07   1.078e-07    -6.967    -6.967    -0.000     (0)  
+   H+              1.079e-07   1.078e-07    -6.967    -6.967    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.08
+H(0)          1.614e-25
+   H2              8.070e-26   8.070e-26   -25.093   -25.093     0.000     20.00
+O(0)          2.725e-03
+   O2              1.363e-03   1.363e-03    -2.866    -2.866     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K,   1 atm)
+
+	H2(g)           -21.99    -25.09   -3.11  H2
+	H2O(g)           -1.45     -0.00    1.45  H2O
+	O2(g)             0.04     -2.87   -2.91  O2	 Pressure   1.1 atm, phi 0.999.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+		SOLUTION 1
+	 temp 27
+	 pH 3 charge
+	O(0) 1 O2(g)   1.3243e+00
+	pressure   2.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              4.992e-02   4.992e-02  Equilibrium with O2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.967      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 27 oC) = 0
+                          Density (g/cm3)  =   0.99748
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.078e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.166e-18
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  27.00
+                           Pressure (atm)  = 21.10
+                  Electrical balance (eq)  =  -1.166e-18
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.555614e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          13.9875      0.8330
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.078e-07   1.078e-07    -6.967    -6.967    -0.000     (0)  
+   H+              1.078e-07   1.078e-07    -6.967    -6.967    -0.000      0.00
+   H2O             5.551e+01   9.996e-01     1.744    -0.000     0.000     18.06
+H(0)          1.587e-25
+   H2              7.936e-26   7.936e-26   -25.100   -25.100     0.000     20.00
+O(0)          4.992e-02
+   O2              2.496e-02   2.496e-02    -1.603    -1.603     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K,  21 atm)
+
+	H2(g)           -21.99    -25.10   -3.11  H2
+	H2O(g)           -1.45     -0.00    1.45  H2O
+	O2(g)             1.32     -1.60   -2.92  O2	 Pressure  21.1 atm, phi 0.981.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+		SOLUTION 1
+	 temp 27
+	 pH 3 charge
+	O(0) 1 O2(g)   1.6138e+00
+	pressure   4.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              9.295e-02   9.295e-02  Equilibrium with O2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.967      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 27 oC) = 0
+                          Density (g/cm3)  =   0.99840
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.078e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   9.694e-18
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  27.00
+                           Pressure (atm)  = 41.10
+                  Electrical balance (eq)  =  -9.694e-18
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.559917e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          14.0550      0.8370
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.078e-07   1.078e-07    -6.967    -6.967    -0.000     (0)  
+   H+              1.078e-07   1.078e-07    -6.967    -6.967    -0.000      0.00
+   H2O             5.551e+01   9.992e-01     1.744    -0.000     0.000     18.04
+H(0)          1.561e-25
+   H2              7.806e-26   7.806e-26   -25.108   -25.108     0.000     20.00
+O(0)          9.295e-02
+   O2              4.648e-02   4.648e-02    -1.333    -1.333     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K,  41 atm)
+
+	H2(g)           -22.00    -25.11   -3.11  H2
+	H2O(g)           -1.44     -0.00    1.44  H2O
+	O2(g)             1.60     -1.33   -2.93  O2	 Pressure  41.1 atm, phi 0.965.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+		SOLUTION 1
+	 temp 27
+	 pH 3 charge
+	O(0) 1 O2(g)   1.7860e+00
+	pressure   6.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              1.322e-01   1.322e-01  Equilibrium with O2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.968      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 27 oC) = 0
+                          Density (g/cm3)  =   0.99932
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.078e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.515e-17
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  27.00
+                           Pressure (atm)  = 61.10
+                  Electrical balance (eq)  =  -2.515e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.563846e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          14.0932      0.8393
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.078e-07   1.078e-07    -6.967    -6.968    -0.000     (0)  
+   H+              1.078e-07   1.078e-07    -6.967    -6.968    -0.000      0.00
+   H2O             5.551e+01   9.989e-01     1.744    -0.000     0.000     18.03
+H(0)          1.535e-25
+   H2              7.677e-26   7.677e-26   -25.115   -25.115     0.000     20.00
+O(0)          1.322e-01
+   O2              6.612e-02   6.612e-02    -1.180    -1.180     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K,  61 atm)
+
+	H2(g)           -22.01    -25.11   -3.11  H2
+	H2O(g)           -1.43     -0.00    1.43  H2O
+	O2(g)             1.76     -1.18   -2.94  O2	 Pressure  61.1 atm, phi 0.950.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+		SOLUTION 1
+	 temp 27
+	 pH 3 charge
+	O(0) 1 O2(g)   1.9090e+00
+	pressure   8.1100e+01
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              1.682e-01   1.682e-01  Equilibrium with O2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.968      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 27 oC) = 0
+                          Density (g/cm3)  =   1.00024
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.078e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.456e-17
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  27.00
+                           Pressure (atm)  = 81.10
+                  Electrical balance (eq)  =  -4.456e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.567440e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          14.1194      0.8408
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.078e-07   1.078e-07    -6.967    -6.968    -0.000     (0)  
+   H+              1.078e-07   1.078e-07    -6.967    -6.968    -0.000      0.00
+   H2O             5.551e+01   9.986e-01     1.744    -0.001     0.000     18.01
+H(0)          1.510e-25
+   H2              7.551e-26   7.551e-26   -25.122   -25.122     0.000     20.00
+O(0)          1.682e-01
+   O2              8.409e-02   8.409e-02    -1.075    -1.075     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K,  81 atm)
+
+	H2(g)           -22.02    -25.12   -3.11  H2
+	H2O(g)           -1.43     -0.00    1.43  H2O
+	O2(g)             1.88     -1.08   -2.96  O2	 Pressure  81.1 atm, phi 0.937.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+		SOLUTION 1
+	 temp 27
+	 pH 3 charge
+	O(0) 1 O2(g)   2.0048e+00
+	pressure   1.0110e+02
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              2.011e-01   2.011e-01  Equilibrium with O2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.968      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 27 oC) = 0
+                          Density (g/cm3)  =   1.00116
+                        Activity of water  =   0.998
+                           Ionic strength  =   1.078e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   6.583e-17
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  27.00
+                           Pressure (atm)  = 101.10
+                  Electrical balance (eq)  =  -6.583e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.570736e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          14.1388      0.8420
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.078e-07   1.077e-07    -6.967    -6.968    -0.000     (0)  
+   H+              1.078e-07   1.077e-07    -6.967    -6.968    -0.000      0.00
+   H2O             5.551e+01   9.983e-01     1.744    -0.001     0.000     18.00
+H(0)          1.486e-25
+   H2              7.428e-26   7.428e-26   -25.129   -25.129     0.000     20.00
+O(0)          2.011e-01
+   O2              1.006e-01   1.006e-01    -0.998    -0.998     0.000     35.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K, 101 atm)
+
+	H2(g)           -22.02    -25.13   -3.11  H2
+	H2O(g)           -1.42     -0.00    1.42  H2O
+	O2(g)             1.97     -1.00   -2.97  O2	 Pressure 101.1 atm, phi 0.925.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

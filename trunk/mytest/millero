@@ -1,0 +1,88 @@
+#DATABASE ../database/phreeqd.dat
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT
+   -file millero.csv
+   -reset false
+#   -high_precision true
+USER_PUNCH
+-headings tc rho
+-start
+#10 punch TC, (RHO - .997045) * 1000
+10 punch TC, RHO
+-end
+SOLUTION 1  SEAWATER FROM Millero 2008
+        units   ppt
+        pH      8.1
+        temp    25.0
+        Na              10.78145
+        Mg              1.28372
+        Ca              0.41208
+        K               0.39910
+        Sr              0.00795
+        Cl              19.35271
+        S(6)            2.71235
+        Alkalinity      .140346 as HCO3
+        Br              0.06728
+        F               0.00130
+        B               0.004489072
+#        water           0.96483496
+#REACTION_TEMPERATURE
+#5 40 in 8 steps
+END
+SOLUTION 2  Lake Baikal (Millero, 2000)
+        units   mmol/l
+        pH      7.00
+        temp    25.0
+        Na              0.155
+        Mg              0.126
+        Ca              0.402
+        K               0.0241
+        Cl              0.0124
+        S(6)            0.0574
+        Alkalinity      1.093
+#REACTION_TEMPERATURE
+#0 40 in 9 steps
+END
+SOLUTION 3  Lake Malawi (Millero, 2000)
+        units   mmol/l
+        pH      7.00
+        temp    25.0
+        Na              0.875
+        Mg              0.3075
+        Ca              0.4525
+        K               0.16
+        Cl              0.14
+        S(6)            0.0775
+        Alkalinity      2.32 #(2.309 + 2 * 0.0055)
+#REACTION_TEMPERATURE
+#0 40 in 9 steps
+END
+SOLUTION 4  Lake Tanganyika (Millero, 2000)
+        units   mmol/l
+        pH      7.00
+        temp    25.0
+        Na              2.72
+        Mg              1.65
+        Ca              0.27
+        K               0.82
+        Cl              0.62
+        S(6)            0.06
+        Alkalinity      6.52
+#REACTION_TEMPERATURE
+#0 40 in 9 steps
+END
+SOLUTION 5  Artificial river water (Millero et al., 1976)
+        units   ppm
+        pH      7.6
+        temp    25.0
+        Na              6.3
+        Mg              4.1
+        Ca              15.0
+        K               2.3
+        Cl              7.8
+        S(6)            11.2 as SO4
+        Alkalinity      58.0 as HCO3
+        N(5)            1.0 as NO3
+#REACTION_TEMPERATURE
+#0 40 in 9 steps
+END

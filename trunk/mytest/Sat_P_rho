@@ -1,0 +1,26 @@
+# compare PHREEQC densities with eqn 2.6 of Wagner and Pruss, 2002
+DATABASE ../database/phreeqc.dat
+SOLUTION
+#Na 1e4; Cl 1 charge
+ -pressure 0 # eqn. 2.6 if < 3 atm, tc < 99, else interpolated from pressure table
+ -temp 0
+#PRINT; -reset false
+REACTION_TEMPERATURE
+ 0 300 in 30
+USER_GRAPH
+-headings PHREEQC W&P Pressure
+ -axis_titles "temp / oC" "rho / (kg/L)" "saturation pressure / atm"
+ -axis_scale x_axis 0 300
+# 10 graph_x tc
+ 20 plot_xy tc, rho, color = Red, symbol_size = 0
+ 30 data 1.99274064,1.09965342,-0.510839303,-1.75493479,-45.5170352,-674694.45
+ 40 dim b(6)
+ 50 read b(1), b(2), b(3), b(4), b(5), b(6)
+ 60 Tcr = 647.096
+ 70 rho_c = 322
+ 80 th = 1 - tk / Tcr
+ 90 W_P = rho_c * (1 + b(1) * th^(1/3) + b(2) * th^(2/3) + b(3) * th^(5/3) +\
+          b(4) * th^(16/3) + b(5) * th^(43/3) + b(6) * th^(110/3))
+100 plot_xy tc, W_P / 1e3, color = Red, line_width = 0
+110 plot_xy tc, pressure, y_axis = 2, color = Green, symbol = None
+END

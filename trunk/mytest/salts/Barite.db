@@ -1,0 +1,17 @@
+SOLUTION_SPECIES
+Ba+2 = Ba+2
+	-gamma	5.0	0.0
+	-dw 0.848e-9
+	-Vm  -14 7.8e-3 5.2e-4 -5e-3 0.034 -5.7e-4 -10e-3 1.6 # 0-250 oC. BaCl2.xls, Laliberte, 2009. Barite solubility, Blount 1977, Lyashchenko and Churagulov, 1981. 0-250 oC, 1-500 atm.
+SO4-2 = SO4-2
+	-gamma	5.0	-0.04
+	-dw	 1.07e-9
+	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
+	-Vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -7e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+PHASES
+Barite
+	BaSO4 = Ba+2 + SO4-2
+	log_k	-9.97
+	delta_h  6.35 kcal
+	-analytic	136.035	0.0	-7680.41	-48.595
+	-Vm 51.9

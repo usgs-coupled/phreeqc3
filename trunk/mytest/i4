@@ -1,0 +1,42 @@
+DATABASE ../database/phreeqc.dat
+#DATABASE c:\dos\p\pitzer.dat
+#DATABASE phreeqd.dat
+#SOLUTION 0; Na 1; Cl 2 charge; Alkalinity 0; pH 7
+SOLUTION 0; Na 2e3; S(6) 1e3 charge; Alkalinity 0; O(0) 0e-9; pH 7
+SOLUTION 1-11; pH 7 charge; O(0) 0e-9
+SELECTED_OUTPUT
+ -high_prec
+END
+PRINT; -reset false
+TRANSPORT
+ -cells 10
+ -lengths 4e-3
+ -boundary_conditions 1 1
+ -time 86400
+ -shifts 5
+ -punch_fr 5
+ -flow_direction diffu
+ -diffc 1e-9
+ -multi_D true 1e-9 0.547723 0.0 1
+ -warn false
+SELECTED_OUTPUT
+ -file i4.prn; -reset false
+ -high_prec false
+USER_PUNCH
+ -head dist Ca/Na Cl/S(6) H2S pH pe cb
+ -start
+ 1 if step_no < 1 then goto 100
+ 10 punch dist
+ 20 gp = (equi("Gypsum") + kin("Gypsum")) * 0.172 / 2.3
+ 30 punch tot("Na"), tot("S(6)"), tot("S(-2)"), -la("H+"), -la("e-"), charge_balance
+ 100 end
+ -end
+END
+#SOLUTION 0; Na 1; Cl 2 charge; Alkalinity 0; pH 7
+SOLUTION 0; Na 2e3; S(6) 1e3 charge; Alkalinity 0; O(0) 1e-9; pH 7
+SOLUTION 1-11; pH 7 charge; O(0) 0e-9
+END
+TRANSPORT
+ -diffusion_coefficient 0.3e-9
+ -multi_D false
+END
