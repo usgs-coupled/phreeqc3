@@ -1439,8 +1439,8 @@ fill_spec(int l_cell_no)
 					continue;
 				}
 				dum2 = s_ptr->moles * dum;	/* equivalent fraction */
-				sol_D[l_cell_no].spec[count_spec].name =
-					string_hsave(s_ptr->name);
+				sol_D[l_cell_no].spec[count_spec].name = s_ptr->name;
+				  //string_hsave(s_ptr->name);
 				sol_D[l_cell_no].spec[count_spec].type = EX;
 				sol_D[l_cell_no].spec[count_spec].c = dum2;
 				sol_D[l_cell_no].spec[count_spec].lg = s_ptr->lg - log10(dum);
@@ -1466,8 +1466,8 @@ fill_spec(int l_cell_no)
 						break;
 				}
 				/* copy its name and Dw and charge... */
-				sol_D[l_cell_no].spec[count_spec].aq_name =
-					string_hsave(s_ptr2->name);
+				sol_D[l_cell_no].spec[count_spec].aq_name = s_ptr2->name;
+				  //string_hsave(s_ptr2->name);
 				sol_D[l_cell_no].spec[count_spec].z = s_ptr2->z;
 				if (s_ptr2->dw == 0)
 					sol_D[l_cell_no].spec[count_spec].Dwt =
@@ -1484,7 +1484,8 @@ fill_spec(int l_cell_no)
 		lm = s_ptr->lm;
 		if (lm > MIN_LM)
 		{
-			sol_D[l_cell_no].spec[count_spec].name = string_hsave(s_ptr->name);
+			//sol_D[l_cell_no].spec[count_spec].name = string_hsave(s_ptr->name);
+			sol_D[l_cell_no].spec[count_spec].name = s_ptr->name;
 			sol_D[l_cell_no].spec[count_spec].type = AQ;
 			sol_D[l_cell_no].spec[count_spec].c =
 				s_ptr->moles / mass_water_aq_x;
@@ -1847,7 +1848,8 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec)
 				}
 				if (l == count_m_s)
 				{
-					m_s[l].name = string_hsave(elt_list[k].elt->name);
+					//m_s[l].name = string_hsave(elt_list[k].elt->name);
+					m_s[l].name = elt_list[k].elt->name;
 					m_s[l].tot1 = elt_list[k].coef * l_J_ij[j].tot1;
 					m_s[l].tot2 = elt_list[k].coef * l_J_ij[j].tot2;
 					count_m_s++;
@@ -2297,7 +2299,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			/* species 'name' is only in icell */
 			if (il_calcs && sol_D[icell].spec[i].type == EX)
 			{
-				J_ij_il[k_il].name = string_hsave(sol_D[icell].spec[i].name);
+				//J_ij_il[k_il].name = string_hsave(sol_D[icell].spec[i].name);
+				J_ij_il[k_il].name = sol_D[icell].spec[i].name;
 				V_M_il[k_il].D = sol_D[icell].spec[i].Dwt;
 				V_M_il[k_il].z = sol_D[icell].spec[i].z;
 				V_M_il[k_il].Dz = V_M_il[k_il].D * V_M_il[k_il].z;
@@ -2312,7 +2315,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			}
 			else
 			{
-				J_ij[k].name = string_hsave(sol_D[icell].spec[i].name);
+				//J_ij[k].name = string_hsave(sol_D[icell].spec[i].name);
+				J_ij[k].name = sol_D[icell].spec[i].name;
 				V_M[k].D = sol_D[icell].spec[i].Dwt;
 				V_M[k].z = sol_D[icell].spec[i].z;
 				V_M[k].Dz = V_M[k].D * V_M[k].z;
@@ -2376,7 +2380,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			/* species 'name' is only in jcell */
 			if (il_calcs && sol_D[jcell].spec[j].type == EX)
 			{
-				J_ij_il[k_il].name = string_hsave(sol_D[jcell].spec[j].name);
+				//J_ij_il[k_il].name = string_hsave(sol_D[jcell].spec[j].name);
+				J_ij_il[k_il].name = sol_D[jcell].spec[j].name;
 				V_M_il[k_il].D = sol_D[jcell].spec[j].Dwt;
 				V_M_il[k_il].z = sol_D[jcell].spec[j].z;
 				V_M_il[k_il].Dz = V_M_il[k_il].D * V_M_il[k_il].z;
@@ -2391,7 +2396,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			}
 			else
 			{
-				J_ij[k].name = string_hsave(sol_D[jcell].spec[j].name);
+				//J_ij[k].name = string_hsave(sol_D[jcell].spec[j].name);
+				J_ij[k].name = sol_D[jcell].spec[j].name;
 				V_M[k].D = sol_D[jcell].spec[j].Dwt;
 				V_M[k].z = sol_D[jcell].spec[j].z;
 				V_M[k].Dz = V_M[k].D * V_M[k].z;
@@ -2455,7 +2461,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			/* species 'name' is in both cells */
 			if (il_calcs && sol_D[icell].spec[i].type == EX)
 			{
-				J_ij_il[k_il].name = string_hsave(sol_D[icell].spec[i].name);
+				//J_ij_il[k_il].name = string_hsave(sol_D[icell].spec[i].name);
+				J_ij_il[k_il].name = sol_D[icell].spec[i].name;
 				if (sol_D[icell].spec[i].Dwt == 0
 					|| sol_D[jcell].spec[j].Dwt == 0)
 					V_M_il[k_il].D = 0.0;
@@ -2478,7 +2485,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			}
 			else
 			{
-				J_ij[k].name = string_hsave(sol_D[icell].spec[i].name);
+				//J_ij[k].name = string_hsave(sol_D[icell].spec[i].name);
+				J_ij[k].name = sol_D[icell].spec[i].name;
 				if (sol_D[icell].spec[i].Dwt == 0
 					|| sol_D[jcell].spec[j].Dwt == 0)
 					V_M[k].D = 0.0;

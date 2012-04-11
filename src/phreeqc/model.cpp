@@ -44,7 +44,7 @@ model(void)
 	int mass_water_switch_save;
 	LDBLE old_mu;
 
-	same_mu = true;
+	//same_mu = true;
 	set_inert_moles();
 /*	debug_model = TRUE; */
 /*	debug_prep = TRUE; */
@@ -159,13 +159,6 @@ model(void)
 				}
 				reset();
 			}
-#ifndef PHREEQC2
-			if (fabs(old_mu - mu_x) > 1e-3 * mu_x)
-			{
-				same_mu = false;
-				old_mu = mu_x;
-			}
-#endif
 			gammas(mu_x);
 			if (molalities(FALSE) == ERROR)
 			{
@@ -429,7 +422,7 @@ check_residuals(void)
 				}
 				else
 				{
-					if ((residual[i] >= epsilon
+					if ((residual[i] >= epsilon * 100
 						 && x[i]->moles > 0.0) /* || stop_program == TRUE */ )
 					{
 						remove_unstable_phases = TRUE;
@@ -610,9 +603,7 @@ gammas(LDBLE mu)
 	b = 50.2905 * s3 / c1;
 #else
 	// a and b are calc'd in calc_dielectrics(tc_x, patm_x);
-	if (!same_mu)
-		k_temp(tc_x, patm_x);
-	same_mu = true;
+	k_temp(tc_x, patm_x);
 	a = DH_A;
 	b = DH_B;
 #endif
@@ -2140,7 +2131,7 @@ mb_gases(void)
 			gas_unknown->moles > MIN_TOTAL)
 		{
 			gas_in = TRUE;
-			patm_x = gas_phase_ptr->Get_total_p();
+			//patm_x = gas_phase_ptr->Get_total_p();
 
 		}
 	}
@@ -2359,7 +2350,6 @@ molalities(int allow_overflow)
 		else if (s_x[i]->type == SURF)
 		{
 			s_x[i]->moles = exp(s_x[i]->lm * LOG_10);	/* formerly * mass water */
-
 		}
 		else
 		{
@@ -2602,16 +2592,6 @@ calc_gas_pressures(void)
 				V_m = 1.0;
 			calc_PR(phase_ptrs, 0, tk_x, V_m);
 			pr_done = true;
-
-			if (fabs(gas_phase_ptr->Get_total_p() - patm_x) > 0.01)
-			{
-				same_pressure = FALSE;
-				if (V_m < 0.07)
-					patm_x = (1. * patm_x + gas_phase_ptr->Get_total_p()) / 2;
-				else
-					patm_x = gas_phase_ptr->Get_total_p();
-				k_temp(tc_x, patm_x);
-			}
 		} else
 		{
 			gas_phase_ptr->Set_total_p(0);
@@ -2695,15 +2675,6 @@ calc_gas_pressures(void)
 				}
 			}
 			gas_phase_ptr->Set_total_p(1500.0);
-		}
-		if (iterations > 1 && fabs(gas_phase_ptr->Get_total_p() - patm_x) > 0.01)
-		{
-			same_pressure = FALSE;
-			if (gas_phase_ptr->Get_total_p() > 1e3)
-				patm_x = (3 * patm_x + gas_phase_ptr->Get_total_p()) / 4;
-			else
-				patm_x = (1 * patm_x + gas_phase_ptr->Get_total_p()) / 2;
-			k_temp(tc_x, patm_x);
 		}
 	}
 
@@ -3495,11 +3466,6 @@ reset(void)
 			else
 			{
 				mu_x += delta[i];
-				if (patm_x > 1 && fabs(delta[i]) > 1e-3 * mu_x)
-				{
-					same_model = false;
-					k_temp(tc_x, patm_x);
-				}
 			}
 			if (mu_x <= 1e-8)
 			{
@@ -3522,6 +3488,7 @@ reset(void)
 						   (double) delta[i], "delta/c", (double) d));
 			}
 			s_h2o->la += d;
+			ah2o_x = exp(s_h2o->la * LOG_10);
 /*   pe */
 		}
 		else if (x[i]->type == MH)
@@ -3633,15 +3600,27 @@ reset(void)
 			x[i]->moles += delta[i];
 			if (x[i]->moles < MIN_TOTAL)
 				x[i]->moles = MIN_TOTAL;
-
 			if (x[i] == gas_unknown && gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME && 
-				(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume) 
-				&& numerical_fixed_volume && !calculating_deriv)
-			{
-					patm_x = gas_phase_ptr->Get_total_p();
-					k_temp(tc_x, patm_x);
+				 !calculating_deriv)
+			{					
+				if (debug_model == TRUE)
+				{
+					output_msg(sformatf(
+								"%-10.10s %-9s%10.2e   %-9s%10.2e   %-6s%10.2e\n",
+								"Pressure", "old P",
+								(double) last_patm_x, "new P",
+								(double) gas_phase_ptr->Get_total_p(), "iter P",
+								(double) patm_x));
+				}
+				patm_x = gas_phase_ptr->Get_total_p();
+				if (patm_x < 1e-10 && patm_x < p_sat)
+				{
+					patm_x = ( 1 * patm_x + p_sat) / 2.0;
+				}
+				if (patm_x > 1500)
+				  patm_x = 1500;
 			}
-
+			last_patm_x = patm_x;
 		}
 		else if (x[i]->type == SS_MOLES)
 		{
@@ -3844,15 +3823,6 @@ residuals(void)
 							   "Failed Residual %d: %s %d %e\n", iterations,
 							   x[i]->description, i, residual[i]));
 				converge = FALSE;
-#ifndef PHREEQC2
-				ah2o_x = exp(s_h2o->la * LOG_10);
-				/* recalculate k's if pressure changes > 0.005 atm by ah2o change... */
-				if ((use.Get_solution_ptr()->Get_patm() < p_sat && fabs(patm_x - p_sat) > 5e-3) ||
-					fabs(ah2o_x - ah2o_x0) > (5e-3 / p_sat))
-				{
-					k_temp(tc_x, patm_x);
-				}
-#endif
 			}
 		}
 		else if (x[i]->type == MH
@@ -3989,6 +3959,15 @@ residuals(void)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
 							   x[i]->description, i, residual[i]));
+				converge = FALSE;
+			}
+			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME &&
+				(fabs(last_patm_x - patm_x) > 0.001 || fabs(last_patm_x - gas_phase_ptr->Get_total_p()) > 0.001)
+				&& !calculating_deriv)
+			{
+				if (print_fail)
+					output_msg(sformatf("Failed pressure test %d: %e %e %e\n", iterations, last_patm_x, patm_x, 
+						gas_phase_ptr->Get_total_p()));
 				converge = FALSE;
 			}
 		}
@@ -4447,7 +4426,7 @@ set(int initial)
 #ifdef PHREEQC2
 	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
 #else
-	//patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
+	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
 #endif
 
 /*
@@ -4552,9 +4531,6 @@ revise_guesses(void)
 	LDBLE d;
 
 	max_iter = 10;
-#ifndef PHREEQC2
-	same_mu = false;
-#endif
 	gammas(mu_x);
 	l_iter = 0;
 	repeat = TRUE;
@@ -4711,9 +4687,6 @@ revise_guesses(void)
 	{
 		mu_x = 1e-8;
 	}
-#ifndef PHREEQC2
-	same_mu = false;
-#endif
 	gammas(mu_x);
 	return (OK);
 }
@@ -4739,6 +4712,7 @@ sum_species(void)
  */
 	ph_x = -s_hplus->la;
 	solution_pe_x = -s_eminus->la;
+	ah2o_x = exp(s_h2o->la * LOG_10);
 #ifdef PHREEQC2
 	ah2o_x = exp(s_h2o->la * LOG_10);
 #else
@@ -4932,9 +4906,6 @@ surface_model(void)
 		{
 			g_iterations++;
 			prev_aq_x = mass_water_aq_x;
-#ifndef PHREEQC2
-			same_mu = false;
-#endif
 			k_temp(tc_x, patm_x);
 			gammas(mu_x);
 			molalities(TRUE);
@@ -4966,7 +4937,7 @@ surface_model(void)
 				debug_diffuse_layer = TRUE;
 			}
 #ifndef PHREEQC2
-			same_mu = false;
+			//same_mu = false;
 #else
 			k_temp(tc_x, patm_x);
 #endif
@@ -5183,7 +5154,7 @@ numerical_jacobian(void)
 
 	calculating_deriv = TRUE;
 #ifndef PHREEQC2
-			same_mu = false;
+			//same_mu = false;
 #endif
 	gammas(mu_x);
 	molalities(TRUE);
@@ -5249,10 +5220,6 @@ numerical_jacobian(void)
 		case MU:
 			d2 = d * mu_x;
 			mu_x += d2;
-#ifndef PHREEQC2
-			if (fabs(d2 / mu_x) > 1e-3)
-				same_mu = false;
-#endif
 			gammas(mu_x);
 			break;
 		case PP:
@@ -5340,10 +5307,6 @@ numerical_jacobian(void)
 			break;
 		case MU:
 			mu_x -= d2;
-#ifndef PHREEQC2
-			if (fabs(d2 / mu_x) > 1e-3)
-				same_mu = false;
-#endif
 			gammas(mu_x);
 			break;
 		case PP:

@@ -1,0 +1,57 @@
+   Input file: seaw_anhyd
+  Output file: seaw_anhyd.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	PHASES
+	Anhydrite
+		CaSO4 = Ca+2 + SO4-2
+		log_k	-4.36
+		delta_h -1.710 kcal
+		analytical_expression   87.46  0  -3137  -32.8
+		vm 46.1 # 136.14 / 2.95
+	Gypsum
+		CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
+		analytical_expression	68.2401	0.0	-3221.51	-25.0627
+		vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
+	SOLUTION_SPECIES
+	Ca+2 + SO4-2 = CaSO4
+		log_k	2.25
+		delta_h 1.325	kcal
+		dw 4.71e-10
+		vm  11.1 0.115 -0.002  0 0 0  -1e-3
+	Ca+2 = Ca+2
+		gamma	5.0	0.1650
+		dw	 0.793e-9
+		millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
+		vm  -17.95 -0.033 6.23e-4  -0.473 4.72e-2 -5.77e-4  -1e-3  4.2 # CaCl2.xls, Laliberte, 2009, 0-127 oC. Gypsum/Anhydrite solubility.
+	SO4-2 = SO4-2
+		gamma	5.0	-0.04
+		dw	 1.07e-9
+		millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
+		vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -10e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+		vm   7.76 0.324 -3.4e-3  -0.094 -1.2e-3 2.57e-5  -10e-3  0.93
+	Na+ + SO4-2 = NaSO4-
+		log_k	0.7
+		delta_h 1.120	kcal
+		dw 6.18e-10
+		vm   2.1283310E+01   1.0273719E-01   -1.6891987E-03    7.0283082E+00   -1.4359689E-01   1.5601733E-03    0.0000000E+00    1.8806393E+00
+	PRINT
+	 reset false

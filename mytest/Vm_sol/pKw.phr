@@ -1,0 +1,33 @@
+PRINT; -reset false
+SOLUTION_SPECIES
+H2O = OH- + H+
+	log_k	-14.0
+	delta_h 13.362	kcal
+	-analytic	-283.971	-0.05069842	13323.0	102.24447	-1119669.0
+#	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
+	-gamma	3.5	0.0
+	-dw	 5.27e-9
+	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+SOLUTION 1
+REACTION_TEMPERATURE 1
+ 0 200 in 10
+REACTION_PRESSURE 1
+ 1 1e3 in 10
+USER_GRAPH
+-headings tc old_anal
+-connect_simulations false
+10 graph_x tc 
+20 graph_y la("H+") + la("OH-")
+END
+USER_GRAPH
+-headings tc new_anal
+SOLUTION_SPECIES
+H2O = OH- + H+
+	log_k	-14.0
+	delta_h 13.362	kcal
+	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
+	-gamma	3.5	0.0
+	-dw	 5.27e-9
+	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+USE solution 1; USE reaction_temperature 1; USE reaction_pressure 1
+END

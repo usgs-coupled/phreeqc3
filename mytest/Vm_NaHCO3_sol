@@ -1,0 +1,278 @@
+#DATABASE c:\phreeqc\database\pitzer.dat
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+SOLUTION_SPECIES
+H2O = OH- + H+
+	log_k	-14.0
+	delta_h 13.362	kcal
+	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
+	-gamma	3.5	0.0
+	-dw	 5.27e-9
+	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+Na+ = Na+
+	-gamma	4.0	0.075
+	-dw	 1.33e-9
+	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+	-Vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
+CO3-2 = CO3-2
+	-gamma	5.4	0.0; -dw 0.955e-9
+	#-millero  -8.74 0.300 -0.004064 5.65
+# from the combi Na2CO3/NaHCO3, pitzer (phi = 235)
+	-vm  -1.0854511E+01   3.7109643E-01   -3.8251134E-03    3.1779290E+00   -1.3514906E-01   1.0890790E-03    0.0000000E+00    1.0120735E-03
+CO3-2 + H+ = HCO3-
+log_k  10.329
+delta_h -3.561 kcal
+-analytic 107.8871 0.03252849 -5151.79 -38.92561 563713.9
+	-gamma	5.4	0.0; -dw 1.18e-9
+	#-millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
+# from the combi Na2CO3/NaHCO3, pitzer (phi = 235)
+	-vm   2.0359374E+01  2.3778296E-01  -2.3772582E-03   4.4764216E+00  -1.4912457E-01  1.4902514E-03   0.0000000E+00   1.6717902E-01
+ 
+Na+ + CO3-2 = NaCO3-
+	log_k	1.27
+	delta_h 8.910	kcal
+	-dw 5.85e-10
+	-vm  -5.4066733E+00  1.4035231E-01  -1.1954056E-03   4.4472908E+00   2.6343442E-02 -2.1687869E-04   0.0000000E+00   1.0000000E-04
+ 
+Na+ + HCO3- = NaHCO3
+ -log_k  -2.0166434E-03
+  -delta_h -9.9202932E+00 kcal
+	-vm   1.5632592E+01   1.3674500E+00   -3.1008491E-02    1.6585190E+01   -1.9994166E+00   4.9504329E-02    0.0000000E+00    0.0000000E+00
+
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	16.681
+	delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9
+	-Vm   26.5 -0.066   0  0 0 0 -9.7E-03 # Data in Duan et al., 2006, MC 98, 131. 1-100 oC, 1-700 atm.
+
+
+SOLUTION 1; pH 7 charge
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 1.000000
+REACTION_PRESSURE; 1.000000
+# from 0 to 12.
+REACTION; NaHCO3 1
+0 0.004340 0.016700 0.034910 0.060270 0.099490 0.133300 0.186490 0.262040 0.362480 0.476360 0.595860 0.745650
+USER_GRAPH; -headings 1.oC
+-axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 17.407213, 17.635336, 17.848198, 18.060376, 18.448646, 18.716294, 19.082670, 19.520351, 19.994111, 20.507891, 20.988930, 21.518795,
+20 dim d(13)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 5.000000
+REACTION_PRESSURE; 1.000000
+# from 12 to 22.
+REACTION; NaHCO3 1
+0 0.051860 0.189330 0.293550 0.396530 0.595800 0.703030 0.798210 0.897600 1.000300 1.000340
+USER_GRAPH; -headings 5.oC
+10 data 0, 19.558191, 20.822626, 21.612111, 22.041263, 22.733254, 23.038033, 23.304258, 23.644369, 23.896979, 23.850856,
+20 dim d(11)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Red #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 15.000000
+REACTION_PRESSURE; 1.000000
+# from 22 to 31.
+REACTION; NaHCO3 1
+0 0.055280 0.120200 0.239220 0.317520 0.456600 0.603940 0.724290 0.885320 1.008440
+USER_GRAPH; -headings 15.oC
+10 data 0, 22.520115, 23.141857, 23.842210, 24.119115, 24.561976, 24.893710, 25.109581, 25.346640, 25.533361,
+20 dim d(10)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 20.000000
+REACTION_PRESSURE; 1.000000
+# from 31 to 40.
+REACTION; NaHCO3 1
+0 0.210422 0.313960 0.420153 0.631163 0.842582
+USER_GRAPH; -headings 20.oC
+10 data 0, 23.785405, 24.581902, 25.270158, 25.675678, 26.103211,
+20 dim d(6)
+30 read d(1), d(2), d(3), d(4), d(5), d(6),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Black #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 1.000000
+# from 40 to 99.
+REACTION; NaHCO3 1
+0 0.002980 0.004680 0.008110 0.014050 0.017690 0.023140 0.034950 0.036880 0.040720 0.052700 0.064350 0.085650 0.099900 0.100290 0.100290 0.127230 0.176970 0.188000 0.198540 0.198540 0.199600 \
+0.249720 0.264700 0.270070 0.299090 0.299090 0.318900 0.331100 0.374380 0.399160 0.399160 0.442700 0.488970 0.499900 0.528500 0.533100 0.600530 0.600530 0.638530 0.668100 0.694270 0.694270 \
+0.774000 0.799850 0.799850 0.805500 0.807400 0.896300 0.979090 0.998000 1.082400
+USER_GRAPH; -headings 25.oC
+10 data 0, 23.155962, 23.208373, 23.469545, 24.240414, 23.502322, 23.582894, 23.622673, 23.735467, 23.701305, 24.130000, 23.935365, 24.084657, 24.702706, 24.223143, 23.982231, 24.262676, 24.668843, 24.533675, 24.734536, 24.613233, 25.099928, \
+24.963341, 24.870000, 24.794202, 25.122530, 25.045588, 24.906720, 25.060000, 25.381014, 25.426807, 25.118076, 25.440000, 25.597453, 26.021589, 25.521075, 25.610000, 25.895839, 25.854556, 25.946569, 25.940000, 26.065127, 26.032345, \
+26.114654, 26.227766, 26.193246, 26.220000, 26.256727, 26.450000, 26.428958, 27.079333, 26.880000,
+20 dim d(60)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \
+d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Blue #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Blue 
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 35.000000
+REACTION_PRESSURE; 1.000000
+# from 99 to 108.
+REACTION; NaHCO3 1
+0 0.058170 0.117800 0.235560 0.311090 0.437690 0.602040 0.718680 0.881050 1.003240
+USER_GRAPH; -headings 35.oC
+10 data 0, 24.771064, 25.317835, 25.971009, 26.151910, 26.545991, 26.948542, 27.156827, 27.365898, 27.507660,
+20 dim d(10)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Green #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Green 
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 45.000000
+REACTION_PRESSURE; 1.000000
+# from 108 to 121.
+REACTION; NaHCO3 1
+0 0.058370 0.115980 0.236380 0.238230 0.318880 0.435500 0.437300 0.601090 0.718880 0.877950 0.882210 1.000820 1.001820
+USER_GRAPH; -headings 45.oC
+10 data 0, 24.876264, 25.749948, 26.720676, 26.631917, 27.047490, 27.373584, 27.371437, 27.615287, 27.796153, 27.893510, 27.902220, 28.031663, 28.032388,
+20 dim d(14)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Brown #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 50.000000
+REACTION_PRESSURE; 1.000000
+# from 121 to 125.
+REACTION; NaHCO3 1
+0 0.200000 0.400000 0.700000
+USER_GRAPH; -headings 50.oC
+10 data 0, 22.196456, 24.865523, 26.515921,
+20 dim d(4)
+30 read d(1), d(2), d(3), d(4),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Orange #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 75.000000
+REACTION_PRESSURE; 1.000000
+# from 125 to 128.
+REACTION; NaHCO3 1
+0 0.200000 0.400000 0.700000
+USER_GRAPH; -headings 75.oC
+10 data 0, 22.547147, 25.233495, 26.975659,
+20 dim d(4)
+30 read d(1), d(2), d(3), d(4),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Blue #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 100.000000
+REACTION_PRESSURE; 1.000000
+# from 128 to 135.
+REACTION; NaHCO3 1
+0 0.099900 0.199600 0.200000 0.400000 0.499900 0.700000 0.998000
+USER_GRAPH; -headings 100.oC
+10 data 0, 26.686244, 26.960524, 21.644807, 24.692368, 28.017570, 26.801165, 29.037676,
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = DeepPink #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END
+ 
+USE solution 1
+REACTION_TEMPERATURE; 125.000000
+REACTION_PRESSURE; 1.000000
+# from 135 to 139.
+REACTION; NaHCO3 1
+0 0.200000 0.400000 0.700000
+USER_GRAPH; -headings 125.oC
+10 data 0, 19.822169, 23.322200, 25.443009, 
+20 dim d(4)
+30 read d(1), d(2), d(3), d(4),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Aqua, symbol = Square  #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Na"), Vm, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
+90 end
+END

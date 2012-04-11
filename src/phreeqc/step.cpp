@@ -1015,7 +1015,6 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
 	}
 	if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE && fabs(gas_phase_ptr->Get_total_p() - patm_x) > 0.01)
 	{
-		same_pressure = FALSE;
 		patm_x = gas_phase_ptr->Get_total_p();
 		k_temp(tc_x, patm_x);
 	}

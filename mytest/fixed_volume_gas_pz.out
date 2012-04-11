@@ -42,7 +42,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99709
+                          Density (g/cm3)  =   0.99700
                         Activity of water  =   1.000
                            Ionic strength  =   1.003e-07
                        Mass of water (kg)  =   1.000e+00
@@ -65,7 +65,7 @@ Initial solution 1.
 	                               MacInnes    Log       Log         Log 
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             1.005e-07   1.005e-07    -6.998    -6.998    -0.000     (0)  
+   OH-             1.005e-07   1.005e-07    -6.998    -6.998    -0.000     -4.46
    H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 
@@ -73,7 +73,7 @@ Initial solution 1.
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	H2O(g)           -1.50     -0.00    1.50  H2O
 
 
 -----------------------------------------
@@ -103,7 +103,7 @@ CO2(g)           -1.50    -2.97     -1.47    1.000e+01   9.999e+00  -1.099e-03
                                        pH  =   4.653      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 8
-                          Density (g/cm3)  =   0.99709
+                          Density (g/cm3)  =   0.99702
                         Activity of water  =   1.000
                            Ionic strength  =   2.237e-05
                        Mass of water (kg)  =   1.000e+00
@@ -126,19 +126,19 @@ CO2(g)           -1.50    -2.97     -1.47    1.000e+01   9.999e+00  -1.099e-03
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
    H+              2.237e-05   2.225e-05    -4.650    -4.653    -0.002      0.00
-   OH-             4.540e-10   4.515e-10    -9.343    -9.345    -0.002     (0)  
+   OH-             4.541e-10   4.516e-10    -9.343    -9.345    -0.002     -4.45
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 C(4)          1.099e-03
-   CO2             1.077e-03   1.077e-03    -2.968    -2.968     0.000     (0)  
-   HCO3-           2.237e-05   2.225e-05    -4.650    -4.653    -0.002     24.29
-   CO3-2           4.682e-11   4.579e-11   -10.330   -10.339    -0.010     -3.78
+   CO2             1.076e-03   1.076e-03    -2.968    -2.968     0.000     24.85
+   HCO3-           2.237e-05   2.225e-05    -4.650    -4.653    -0.002     24.90
+   CO3-2           4.682e-11   4.579e-11   -10.330   -10.339    -0.010     -3.89
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	CO2(g)           -1.50     -2.97   -1.47  CO2
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	CO2(g)           -1.50     -2.97   -1.47  CO2	 Pressure   0.0 atm, phi 1.000.
+	H2O(g)           -1.50     -0.00    1.50  H2O
 
 
 ------------------
@@ -171,7 +171,11 @@ Total pressure:  0.03      atmospheres
                                             ----------------------------------
 Component                log P           P     Initial       Final       Delta
 
-CO2(g)                   -1.50   3.162e-02   1.293e-03   1.293e-03   0.000e+00
+CO2(g)                   -1.50   3.162e-02   1.292e-03   1.292e-03   0.000e+00
+
+WARNING: While initializing gas phase composition by equilibrating:
+         Found definitions of gas' critical temperature and pressure.
+         Going to use Peng-Robinson in subsequent calculations.
 
 ------------------
 End of simulation.
@@ -212,48 +216,49 @@ Using gas phase 1.	Gas phase after simulation 2.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure:  0.01      atmospheres 
+Total pressure:  0.01      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   3.26e+03 liters/mole
+   P * Vm / RT:  0.99996  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
-Component                log P           P     Initial       Final       Delta
+Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)                   -2.12   7.512e-03   1.293e-03   3.070e-04  -9.855e-04
+CO2(g)            -2.12   7.510e-03  1.000   1.292e-03   3.070e-04  -9.853e-04
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Calcite           0.00    -8.41     -8.41    1.000e+01   9.999e+00  -5.441e-04
-Dolomite          0.00   -17.08    -17.08    1.000e+01   9.999e+00  -6.494e-04
+Calcite          -0.00    -8.41     -8.41    1.000e+01   9.999e+00  -5.440e-04
+Dolomite         -0.00   -17.08    -17.08    1.000e+01   9.999e+00  -6.493e-04
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
 	C                 3.927e-03   3.927e-03
-	Ca                1.194e-03   1.193e-03
-	Mg                6.494e-04   6.494e-04
+	Ca                1.193e-03   1.193e-03
+	Mg                6.493e-04   6.493e-04
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.459      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 340
-                          Density (g/cm3)  =   0.99728
+                          Density (g/cm3)  =   0.99724
                         Activity of water  =   1.000
-                           Ionic strength  =   5.513e-03
+                           Ionic strength  =   5.512e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.686e-03
+                 Total alkalinity (eq/kg)  =   3.685e-03
                        Total CO2 (mol/kg)  =   3.927e-03
                       Temperature (deg C)  =  25.00
                            Pressure (atm)  =  0.01
                   Electrical balance (eq)  =  -4.646e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  19
+                               Iterations  =  28
                          Gamma iterations  =   5
                       Osmotic coefficient  =   0.95407
                          Density of water  =   0.99706
@@ -266,22 +271,22 @@ Dolomite          0.00   -17.08    -17.08    1.000e+01   9.999e+00  -6.494e-04
 	                               MacInnes    Log       Log         Log 
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             3.179e-07   2.890e-07    -6.498    -6.539    -0.041     (0)  
-   H+              3.776e-08   3.476e-08    -7.423    -7.459    -0.036      0.00
+   OH-             3.180e-07   2.891e-07    -6.498    -6.539    -0.041     -4.39
+   H+              3.775e-08   3.475e-08    -7.423    -7.459    -0.036      0.00
    H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
 C(4)          3.927e-03
-   HCO3-           3.658e-03   3.383e-03    -2.437    -2.471    -0.034     24.36
-   CO2             2.556e-04   2.558e-04    -3.592    -3.592     0.000     (0)  
-   CO3-2           6.313e-06   4.456e-06    -5.200    -5.351    -0.151     -3.50
-   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     (0)  
-   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     (0)  
-Ca            1.194e-03
-   Ca+2            1.188e-03   8.806e-04    -2.925    -3.055    -0.130    -17.55
-   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     (0)  
-Mg            6.494e-04
-   Mg+2            6.476e-04   4.723e-04    -3.189    -3.326    -0.137    -20.87
-   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     (0)  
-   MgOH+           2.292e-08   2.109e-08    -7.640    -7.676    -0.036     (0)  
+   HCO3-           3.658e-03   3.382e-03    -2.437    -2.471    -0.034     24.98
+   CO2             2.555e-04   2.557e-04    -3.593    -3.592     0.000     24.85
+   CO3-2           6.314e-06   4.457e-06    -5.200    -5.351    -0.151     -3.63
+   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     25.00
+   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     25.00
+Ca            1.193e-03
+   Ca+2            1.188e-03   8.805e-04    -2.925    -3.055    -0.130    -18.15
+   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     25.00
+Mg            6.493e-04
+   Mg+2            6.475e-04   4.723e-04    -3.189    -3.326    -0.137    -21.47
+   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     25.00
+   MgOH+           2.293e-08   2.110e-08    -7.640    -7.676    -0.036     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -289,10 +294,10 @@ Mg            6.494e-04
 
 	Aragonite        -0.19     -8.41   -8.22  CaCO3
 	Brucite          -5.52    -16.40  -10.88  Mg(OH)2
-	Calcite           0.00     -8.41   -8.41  CaCO3
-	CO2(g)           -2.12     -3.59   -1.47  CO2
-	Dolomite          0.00    -17.08  -17.08  CaMg(CO3)2
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	Calcite          -0.00     -8.41   -8.41  CaCO3
+	CO2(g)           -2.12     -3.59   -1.47  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite         -0.00    -17.08  -17.08  CaMg(CO3)2
+	H2O(g)           -1.50     -0.00    1.50  H2O
 	Magnesite        -0.84     -8.68   -7.83  MgCO3
 	Nesquehonite     -3.51     -8.68   -5.17  MgCO3:3H2O
 	Portlandite     -10.94    -16.13   -5.19  Ca(OH)2
@@ -324,22 +329,23 @@ Using gas phase 2.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure:  0.00      atmospheres 
+Total pressure:  0.00      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   1.79e+04 liters/mole
+   P * Vm / RT:  0.99999  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
-Component                log P           P     Initial       Final       Delta
+Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)                   -2.86   1.365e-03   0.000e+00   5.580e-05   5.580e-05
+CO2(g)            -2.86   1.365e-03  1.000   0.000e+00   5.578e-05   5.578e-05
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Calcite          -0.00    -8.41     -8.41    1.000e+01   1.000e+01  -3.036e-04
+Calcite           0.00    -8.41     -8.41    1.000e+01   1.000e+01  -3.036e-04
 Dolomite         -0.00   -17.08    -17.08    1.000e+01   1.000e+01  -3.556e-04
 
 -----------------------------Solution composition------------------------------
@@ -347,7 +353,7 @@ Dolomite         -0.00   -17.08    -17.08    1.000e+01   1.000e+01  -3.556e-04
 	Elements           Molality       Moles
 
 	C                 2.058e-03   2.058e-03
-	Ca                6.592e-04   6.592e-04
+	Ca                6.591e-04   6.591e-04
 	Mg                3.556e-04   3.556e-04
 
 ----------------------------Description of solution----------------------------
@@ -355,17 +361,17 @@ Dolomite         -0.00   -17.08    -17.08    1.000e+01   1.000e+01  -3.556e-04
                                        pH  =   7.944      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 191
-                          Density (g/cm3)  =   0.99717
+                          Density (g/cm3)  =   0.99713
                         Activity of water  =   1.000
                            Ionic strength  =   3.032e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.030e-03
+                 Total alkalinity (eq/kg)  =   2.029e-03
                        Total CO2 (mol/kg)  =   2.058e-03
                       Temperature (deg C)  =  25.00
-                           Pressure (atm)  =  0.01
+                           Pressure (atm)  =  0.00
                   Electrical balance (eq)  =  -4.625e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  19
+                               Iterations  =  24
                          Gamma iterations  =   5
                       Osmotic coefficient  =   0.96296
                          Density of water  =   0.99706
@@ -378,21 +384,21 @@ Dolomite         -0.00   -17.08    -17.08    1.000e+01   1.000e+01  -3.556e-04
 	                               MacInnes    Log       Log         Log 
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             9.472e-07   8.833e-07    -6.024    -6.054    -0.030     (0)  
+   OH-             9.474e-07   8.835e-07    -6.023    -6.054    -0.030     -4.41
    H+              1.211e-08   1.137e-08    -7.917    -7.944    -0.027      0.00
    H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
 C(4)          2.058e-03
-   HCO3-           1.994e-03   1.879e-03    -2.700    -2.726    -0.026     24.35
-   CO2             4.646e-05   4.648e-05    -4.333    -4.333     0.000     (0)  
-   CO3-2           9.804e-06   7.565e-06    -5.009    -5.121    -0.113     -3.55
-   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     (0)  
-   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     (0)  
-Ca            6.592e-04
-   Ca+2            6.537e-04   5.188e-04    -3.185    -3.285    -0.100    -17.60
-   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     (0)  
+   HCO3-           1.994e-03   1.879e-03    -2.700    -2.726    -0.026     24.96
+   CO2             4.644e-05   4.646e-05    -4.333    -4.333     0.000     24.85
+   CO3-2           9.806e-06   7.566e-06    -5.009    -5.121    -0.113     -3.70
+   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     25.00
+   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     25.00
+Ca            6.591e-04
+   Ca+2            6.536e-04   5.187e-04    -3.185    -3.285    -0.100    -18.20
+   CaCO3           5.560e-06   5.560e-06    -5.255    -5.255     0.000     25.00
 Mg            3.556e-04
-   Mg+2            3.538e-04   2.783e-04    -3.451    -3.556    -0.104    -20.92
-   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     (0)  
+   Mg+2            3.537e-04   2.782e-04    -3.451    -3.556    -0.104    -21.53
+   MgCO3           1.784e-06   1.784e-06    -5.749    -5.749     0.000     25.00
    MgOH+           4.045e-08   3.798e-08    -7.393    -7.420    -0.027     (0)  
 
 ------------------------------Saturation indices-------------------------------
@@ -401,10 +407,10 @@ Mg            3.556e-04
 
 	Aragonite        -0.19     -8.41   -8.22  CaCO3
 	Brucite          -4.78    -15.66  -10.88  Mg(OH)2
-	Calcite          -0.00     -8.41   -8.41  CaCO3
-	CO2(g)           -2.86     -4.33   -1.47  CO2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	CO2(g)           -2.86     -4.33   -1.47  CO2	 Pressure   0.0 atm, phi 1.000.
 	Dolomite         -0.00    -17.08  -17.08  CaMg(CO3)2
-	H2O(g)           -1.51     -0.00    1.51  H2O
+	H2O(g)           -1.50     -0.00    1.50  H2O
 	Magnesite        -0.84     -8.68   -7.83  MgCO3
 	Nesquehonite     -3.51     -8.68   -5.17  MgCO3:3H2O
 	Portlandite     -10.20    -15.39   -5.19  Ca(OH)2

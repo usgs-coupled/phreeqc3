@@ -1,0 +1,224 @@
+#DATABASE c:\phreeqc\database\pitzer.dat # remove NaSO4- with this db
+DATABASE c:\phreeqc\database\phreeqc.dat
+PRINT; -reset false
+SOLUTION_SPECIES
+H2O = OH- + H+
+	log_k	-14.0
+	delta_h 13.362	kcal
+	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
+	-gamma	3.5	0.0
+	-dw	 5.27e-9
+	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+Na+ = Na+
+	-gamma	4.0	0.075
+	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+	-Vm  -2.1463292E+00  1.9318482E-02   2.2287507E-04   6.2123122E-03   1.5038480E-02 -2.7397708E-04   0.0000000E+00   3.5322470E-01
+SO4-2 = SO4-2
+	-gamma	5.0	-0.04
+	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
+# with pitzer.dat, no NaSO4-
+	-Vm   9.5541987E+00  2.9745815E-01  -3.4013569E-03   2.0583095E+00  -7.9700774E-02  7.0839003E-04   0.0000000E+00   1.6662280E-02
+# with phreeqc.dat && NaSO4- complex
+	-Vm   7.7562877E+00  3.2384002E-01  -3.4162697E-03  -9.4075043E-02  -1.1756707E-03  2.5667126E-05   0.0000000E+00   9.3294605E-01
+Na+ + SO4-2 = NaSO4-
+	log_k	0.7
+	delta_h 1.120	kcal
+	-dw 6.18e-10
+#	-Vm  3 0.115 -2e-3  0 0 0 -1e-3 # by analogy with CaSO4, Vm is 3* smaller at 25oC
+	-Vm   2.1283310E+01   1.0273719E-01   -1.6891987E-03    7.0283082E+00   -1.4359689E-01   1.5601733E-03    0.0000000E+00    1.8806393E+00
+
+
+SOLUTION 1; pH 7 charge
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 5.000000
+REACTION_PRESSURE; 1.000000
+# from 0 to 11.
+REACTION; Na2SO4 1
+0 0.031780 0.050500 0.055530 0.163730 0.199510 0.301820 0.502080 0.567600 0.650000 0.701890 1.333400
+USER_GRAPH; -headings 5.oC
+-axis_titles "Na2SO4 / (mol/kg H2O)" "Na2SO4 molar volume / (cm3/mol)"
+
+10 data 0, 6.658542, 7.745483, 7.906879, 10.234285, 10.964062, 12.578614, 15.119713, 15.818199, 14.088535, 17.141519, 22.311329,
+20 dim d(12)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Yellow #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 15.000000
+REACTION_PRESSURE; 1.000000
+# from 11 to 42.
+REACTION; Na2SO4 1
+0 0.031780 0.039707 0.049773 0.050000 0.050060 0.050500 0.055530 0.060070 0.062327 0.079884 0.080090 0.099681 0.100000 0.100190 0.100334 0.122326 0.139845 0.140500 0.160206 0.163730 0.179977 \
+0.199510 0.202159 0.301820 0.333070 0.403560 0.500000 0.502080 0.567600 0.701890 1.333400
+USER_GRAPH; -headings 15.oC
+10 data 0, 10.660787, 10.759914, 11.186177, 11.271016, 13.141759, 11.520620, 11.597221, 12.127897, 11.514562, 12.003572, 14.072536, 12.292560, 12.687364, 12.626973, 12.343838, 13.109338, 13.318227, 10.838139, 13.758569, 13.883328, 14.101019, \
+14.347255, 14.420171, 15.765335, 16.149783, 16.980084, 18.265683, 17.958540, 18.567345, 19.711957, 24.244000,
+20 dim d(32)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Red #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 1.000000
+# from 42 to 110.
+REACTION; Na2SO4 1
+0 0.022440 0.025082 0.030220 0.032440 0.033300 0.035810 0.039507 0.042930 0.049942 0.049980 0.050000 0.050000 0.050500 0.055530 0.059580 0.062237 0.064850 0.071535 0.074960 0.076980 0.088610 \
+0.098500 0.098803 0.099970 0.100000 0.100000 0.100190 0.112560 0.121841 0.130730 0.136510 0.139430 0.150000 0.160367 0.168010 0.179871 0.195720 0.199510 0.201900 0.203079 0.235600 0.240720 \
+0.262300 0.301820 0.327850 0.333070 0.358940 0.403560 0.471200 0.500000 0.500610 0.502080 0.505100 0.567600 0.650000 0.700000 0.701890 0.720180 0.750500 0.945150 1.000000 1.010200 1.177900 \
+1.199100 1.200000 1.491200 1.699900 1.887100
+USER_GRAPH; -headings 25.oC
+10 data 0, 13.025385, 13.281046, 13.706625, 13.427001, 10.873230, 13.901216, 12.687521, 14.066615, 14.145049, 14.080681, 14.531787, 13.931631, 14.167534, 14.215205, 14.576942, 14.532255, 14.328505, 14.481046, 14.784978, 14.888040, 15.107578, \
+15.216346, 15.219122, 15.249304, 15.983397, 15.386427, 15.257703, 15.490851, 15.706414, 15.651655, 15.925482, 15.951851, 16.396324, 16.198664, 16.442184, 16.511792, 16.629992, 16.812953, 16.873764, 16.865775, 17.486752, 17.433978, \
+17.461169, 18.054683, 18.198615, 18.377427, 18.657156, 19.095956, 19.762132, 20.178230, 19.982636, 19.979749, 20.003251, 20.519304, 21.628655, 21.846504, 21.529523, 21.671337, 21.895543, 23.057320, 23.883826, 23.598062, 24.523847, \
+24.704266, 25.045574, 26.234221, 27.220645, 28.036862,
+20 dim d(69)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \
+d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52), d(53), d(54), d(55), d(56), d(57), d(58), d(59), d(60), d(61), d(62), d(63), \
+d(64), d(65), d(66), d(67), d(68), d(69),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Magenta #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 35.000000
+REACTION_PRESSURE; 1.000000
+# from 110 to 144.
+REACTION; Na2SO4 1
+0 0.040498 0.050000 0.050500 0.053592 0.055530 0.062608 0.080143 0.099903 0.100000 0.100190 0.122265 0.140036 0.159923 0.163700 0.163730 0.180164 0.202431 0.301820 0.333070 0.334640 0.403560 \
+0.459530 0.500000 0.502080 0.567600 0.668690 0.700000 0.864570 1.000000 1.167680 1.200000 1.326560 1.515190 1.692770
+USER_GRAPH; -headings 35.oC
+10 data 0, 15.533932, 16.141160, 15.935186, 15.151988, 15.935883, 16.118754, 16.454330, 16.823765, 17.023276, 16.830298, 17.303441, 17.607979, 17.803397, 18.029721, 17.790817, 18.119064, 18.406886, 19.461406, 19.806921, 20.048241, 20.444333, \
+21.151692, 21.522545, 21.321427, 21.803853, 22.753961, 23.007500, 24.030543, 24.950112, 25.727623, 26.021276, 26.494374, 27.385685, 28.171236,
+20 dim d(35)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Black #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 45.000000
+REACTION_PRESSURE; 1.000000
+# from 144 to 163.
+REACTION; Na2SO4 1
+0 0.050000 0.050000 0.100000 0.100000 0.150000 0.152500 0.310330 0.468440 0.500000 0.628480 0.700000 0.775510 0.916700 1.000000 1.200000 1.246060 1.333400 1.417370 1.587030
+USER_GRAPH; -headings 45.oC
+10 data 0, 17.163350, 17.366230, 19.951765, 18.134889, 20.122744, 18.919812, 20.598638, 21.999546, 22.312769, 23.177860, 23.736400, 24.146381, 24.948541, 25.585335, 26.650643, 26.662262, 27.233227, 27.454401, 28.182292,
+20 dim d(20)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Blue #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Blue
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 55.000000
+REACTION_PRESSURE; 1.000000
+# from 163 to 183.
+REACTION; Na2SO4 1
+0 0.050000 0.100000 0.127450 0.254990 0.385200 0.500000 0.513860 0.523290 0.640540 0.650000 0.700000 0.776400 0.906800 1.000000 1.041810 1.056890 1.174440 1.200000 1.309790 1.339660
+USER_GRAPH; -headings 55.oC
+10 data 0, 17.524293, 18.686993, 18.783951, 20.397264, 21.663714, 22.678288, 22.670095, 22.773926, 23.569470, 23.765977, 24.070644, 24.426132, 25.175804, 25.927849, 25.860741, 26.006859, 26.540578, 26.916443, 27.192141, 27.371396,
+20 dim d(21)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Green #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Green
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 75.000000
+REACTION_PRESSURE; 1.000000
+# from 183 to 211.
+REACTION; Na2SO4 1
+0 0.050000 0.054420 0.095470 0.100000 0.106410 0.150000 0.194990 0.203930 0.209610 0.236000 0.314780 0.391920 0.392680 0.472100 0.494100 0.497670 0.593640 0.720020 0.803360 1.001000 1.006950 \
+1.180200 1.211210 1.421440 1.510600 1.636850 1.843190 2.067830
+USER_GRAPH; -headings 75.oC
+10 data 0, 14.079958, 16.910000, 18.130000, 17.644101, 18.330000, 18.748133, 19.906111, 19.760000, 19.780000, 19.204255, 20.980000, 21.760000, 21.942272, 20.939073, 22.550000, 22.430000, 23.403701, 24.270000, 24.708720, 25.920000, 25.929740, \
+26.105425, 26.889087, 27.930794, 28.260000, 28.863021, 29.682897, 30.504528,
+20 dim d(29)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Brown #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 95.000000
+REACTION_PRESSURE; 1.000000
+# from 211 to 222.
+REACTION; Na2SO4 1
+0 0.111040 0.223180 0.333890 0.412490 0.563880 0.650000 0.663810 0.782070 0.872020 1.007210 1.134750
+USER_GRAPH; -headings 95.oC
+10 data 0, 16.821419, 18.600620, 19.908739, 20.721724, 21.989980, 22.980143, 22.712395, 23.471713, 24.106676, 24.876835, 25.586307,
+20 dim d(12)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Orange #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 100.000000
+REACTION_PRESSURE; 1.000000
+# from 222 to 239.
+REACTION; Na2SO4 1
+0 0.057800 0.057800 0.100000 0.108500 0.108500 0.150000 0.201860 0.202290 0.202500 0.202500 0.236700 0.330300 0.330300 0.478400 0.522860 0.700280 1.183600
+USER_GRAPH; -headings 100.oC
+10 data 0, 17.420000, 16.580000, 10.511514, 17.440000, 17.170000, 13.425742, 18.540000, 18.500000, 18.930000, 18.750000, 16.479038, 20.120000, 20.060000, 20.424811, 21.740000, 22.930000, 24.944704,
+20 dim d(18)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Blue #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("S(6)"), Vm, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END

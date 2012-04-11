@@ -6,7 +6,15 @@ SO4-2 = SO4-2
 	-gamma	5.0	-0.04
 	-dw 	1.07e-9
 	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-	-Vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -7e-3  0.017 # 0-200 oC. Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility
+# with Pitzer.dat...
+	-Vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -10e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+# with Phreeqc.dat && NaSO4- complex...
+	-Vm   7.76 0.324 -3.4e-3  -0.094 -1.2e-3 2.57e-5  -10e-3  0.93
+Na+ + SO4-2 = NaSO4-
+	log_k	0.7
+	delta_h 1.120	kcal
+	-dw 6.18e-10
+	-Vm  21.3 0.1 -1.7e-3  7.03 -0.144 1.56e-3  0  1.9
 Sr+2 + SO4-2 = SrSO4
 	log_k	2.29
 	delta_h 2.08	kcal

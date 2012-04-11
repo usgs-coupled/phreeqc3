@@ -1383,7 +1383,7 @@ set_pz(int initial)
 #ifdef PHREEQC2
 	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
 #else
-	//patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
+	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
 #endif
 /*
  *   H+, e-, H2O
@@ -1645,6 +1645,7 @@ jacobian_pz(void)
 
 Restart:
 	int pz_max_unknowns = max_unknowns;
+	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{
 		molalities(TRUE);
@@ -1682,6 +1683,8 @@ Restart:
 			d2 = d1;
 			break;
 		case PITZER_GAMMA:
+			if (!full_pitzer) 
+				continue;
 			x[i]->s->lg += d;
 			d2 = d;
 			break;
@@ -1710,8 +1713,10 @@ Restart:
 			x[i]->moles += d2;
 			break;
 		case MU:
+			//continue;
 			d2 = d * mu_x;
 			mu_x += d2;
+			//k_temp(tc_x, patm_x);
 			gammas(mu_x);
 			break;
 		case PP:
@@ -1765,6 +1770,7 @@ Restart:
 			break;
 		case MU:
 			mu_x -= d2;
+			//k_temp(tc_x, patm_x);
 			gammas(mu_x);
 			break;
 		case GAS_MOLES:
@@ -2031,13 +2037,9 @@ check_gammas_pz(void)
 			converge = FALSE;
 		}
 	}
-	if (fabs(old_mu - mu_x) > 1e-3 * mu_x)
-	{
-		same_model = false;
-		k_temp(tc_x, patm_x);
-	}
 	if (fabs(old_mu - mu_x) > tol)
 		converge = FALSE;
+
 	if ((pow((LDBLE) 10.0, s_h2o->la) - AW) > tol)
 		converge = FALSE;
 	return converge;
@@ -2054,6 +2056,7 @@ gammas_pz()
 	int i, j;
 	LDBLE coef;
 	/* Initialize */
+	k_temp(tc_x, patm_x);
 /*
  *   Calculate activity coefficients
  */

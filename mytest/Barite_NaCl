@@ -3,7 +3,7 @@ DATABASE ../database/pitzer.dat
 PITZER
 -THETA
   Ba+2      Na+       0.02
-INCLUDE$ Barite.db
+INCLUDE$ Barite_Pitzer.db
 SOLUTION 1
  pH 7 charge
  -temp 50
@@ -14,6 +14,7 @@ REACTION
 INCREMENTAL_REACTIONS true
 USER_GRAPH
  -plot_csv Barite_NaCl.dat
+ -chart_ti "Barite solubility at 50 oC"
  axis_titles "NaCl / M" "Barite solubility / M"
  10 plot_xy tot("Na"), tot("Ba"), color = Red, symbol = None
 END

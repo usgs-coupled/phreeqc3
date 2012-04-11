@@ -1,0 +1,212 @@
+PRINT; -reset false
+SOLUTION_SPECIES
+H2O = OH- + H+
+	log_k	-14.0
+	delta_h 13.362	kcal
+	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
+	-gamma	3.5	0.0
+	-dw	 5.27e-9
+	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+Cl- = Cl-
+	-gamma	3.5	0.015
+	-dw	 2.03e-9
+	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+	-Vm   1.6256503E+01  1.0415929E-01  -1.2534252E-03   4.6744285E-01  -2.7011839E-02  2.9497981E-04   0.0000000E+00  4.0366004E-02 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
+Mg+2 = Mg+2
+	-gamma	5.5	0.2
+	-millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
+	-Vm -21.4 -0.016 3e-4
+	-Vm  -2.1116311E+01 -2.4129902E-02  -1.0626445E-05  -2.4184526E-01   3.3885255E-02 -4.5224274E-04   0.0000000E+00   4.3019712E+00
+SOLUTION 1; pH 7 charge
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 5.000000
+REACTION_PRESSURE; 0.000000
+# from 0 to 18.
+REACTION; MgCl2 1
+0 0.032780 0.041370 0.048510 0.065620 0.078900 0.096270 0.130640 0.195000 0.195250 0.267670 0.282780 0.374850 0.408110 0.524760 0.551930 0.634040 0.765350 0.998510
+USER_GRAPH; -headings 5.oC
+-axis_titles "MgCl2 / (mol/kg H2O)" "MgCl2 molar volume / (cm3/mol)"
+
+10 data 0, 13.380000, 13.444186, 13.385472, 14.000000, 14.161872, 14.031992, 14.350000, 14.860383, 14.961403, 15.760000, 15.554302, 16.085995, 16.246174, 17.300000, 16.890149, 17.255539, 18.000000, 19.090000,
+20 dim d(19)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 15.000000
+REACTION_PRESSURE; 0.000000
+# from 18 to 43.
+REACTION; MgCl2 1
+0 0.032780 0.040040 0.041370 0.048510 0.050000 0.065620 0.078900 0.090080 0.096270 0.100000 0.130640 0.160140 0.195250 0.267670 0.374850 0.408110 0.500000 0.524760 0.551930 0.634040 0.765350 \
+0.974100 0.998510 1.000000 2.000000
+USER_GRAPH; -headings 15.oC
+10 data 0, 14.370000, 14.514898, 14.882486, 14.993847, 15.091290, 15.570000, 15.531797, 15.303904, 15.422103, 16.130229, 16.420000, 16.160142, 16.375653, 17.290000, 17.313619, 17.516298, 18.268941, 18.540000, 18.108905, 18.409982, 19.120000, \
+19.525234, 20.100000, 20.119242, 22.459403,
+20 dim d(26)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Red #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 0.000000
+# from 43 to 114.
+REACTION; MgCl2 1
+0 0.031200 0.032780 0.033120 0.040093 0.048510 0.050000 0.050380 0.050380 0.065620 0.066100 0.078900 0.090290 0.091200 0.099700 0.099700 0.100000 0.130640 0.131610 0.136800 0.160717 0.195000 \
+0.195250 0.197300 0.198930 0.198930 0.233100 0.251800 0.263300 0.267670 0.282780 0.297900 0.340960 0.374850 0.482100 0.489300 0.494870 0.494870 0.500000 0.524760 0.540000 0.551930 0.634040 \
+0.715310 0.765350 0.797580 0.970800 0.990970 0.990970 0.991700 0.998510 1.000000 1.090000 1.475310 1.475310 1.499000 1.630000 1.936000 2.000000 2.180000 2.262000 2.325000 2.750000 2.952000 \
+3.079000 3.310000 3.445000 4.074000 4.187000 4.712000 5.000000 5.028000
+USER_GRAPH; -headings 25.oC
+10 data 0, 15.631306, 15.160000, 15.579497, 15.650401, 15.521040, 15.865595, 15.689242, 15.589727, 16.390000, 16.067430, 16.199315, 16.514786, 16.308838, 16.219416, 16.169281, 16.653924, 17.010000, 16.701132, 16.706547, 17.277435, 16.908613, \
+17.073599, 17.147979, 16.978625, 16.983622, 17.343953, 17.327385, 17.537196, 17.940000, 17.503765, 17.658237, 17.903870, 17.961993, 18.442056, 18.495701, 18.431948, 18.426018, 18.848315, 19.110000, 18.539711, 18.682287, 19.002558, \
+19.227463, 19.670000, 19.512540, 20.057477, 20.080684, 20.082613, 20.332950, 20.580000, 20.221862, 20.719872, 21.362537, 21.359993, 21.458473, 21.737603, 22.474923, 22.819110, 22.874489, 23.241853, 23.245860, 24.017019, 24.295173, \
+24.529134, 24.897870, 25.054683, 25.844566, 25.968732, 26.528143, 27.462847, 26.840857,
+20 dim d(72)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \
+d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52), d(53), d(54), d(55), d(56), d(57), d(58), d(59), d(60), d(61), d(62), d(63), \
+d(64), d(65), d(66), d(67), d(68), d(69), d(70), d(71), d(72),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 45.000000
+REACTION_PRESSURE; 0.000000
+# from 114 to 142.
+REACTION; MgCl2 1
+0 0.032780 0.050000 0.065620 0.100000 0.130640 0.267670 0.411320 0.500000 0.524760 0.540000 0.765350 0.892920 0.998510 1.000000 1.090000 1.221830 1.630000 1.651700 2.000000 2.080370 2.180000 \
+2.487150 2.750000 2.932770 3.310000 3.927890 4.421500 5.000000
+USER_GRAPH; -headings 45.oC
+10 data 0, 15.610000, 15.593408, 16.570000, 16.512516, 17.190000, 17.870000, 18.229547, 18.739737, 19.210000, 18.425879, 19.740000, 19.831870, 20.620000, 20.512298, 20.628324, 20.776693, 21.642269, 21.838182, 22.733781, 22.810034, 22.763932, \
+23.612419, 23.893142, 24.303771, 24.789320, 25.717299, 26.237129, 27.409697,
+20 dim d(29)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Black #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 65.000000
+REACTION_PRESSURE; 0.000000
+# from 142 to 158.
+REACTION; MgCl2 1
+0 0.032780 0.065620 0.130640 0.267670 0.416920 0.524760 0.765350 0.836140 0.998510 1.260980 2.178370 2.630820 3.110290 3.621600 4.095350 4.607840
+USER_GRAPH; -headings 65.oC
+10 data 0, 14.470000, 15.300000, 15.720000, 16.750000, 17.009826, 18.120000, 18.650000, 18.633448, 19.630000, 19.928786, 22.128669, 22.990008, 23.801251, 24.600940, 25.240008, 25.859535,
+20 dim d(17)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Blue #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Blue
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 75.000000
+REACTION_PRESSURE; 0.000000
+# from 158 to 179.
+REACTION; MgCl2 1
+0 0.108440 0.197110 0.281260 0.388420 0.527750 0.032780 0.065620 0.130640 0.267670 0.420200 0.524760 0.765350 0.800900 0.998510 1.220350 1.664310 2.118620 2.550310 2.972070 3.501120 3.986810 \
+
+USER_GRAPH; -headings 75.oC
+10 data 0, 14.420000, 15.070000, 15.600000, 16.160000, 16.840000, 13.020000, 14.150000, 14.400000, 15.680000, 16.165077, 17.150000, 17.740000, 17.737058, 18.770000, 19.033912, 20.242947, 21.336584, 22.196352, 23.059574, 23.935213, 24.633644, \
+
+20 dim d(22)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Green #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Green
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 85.000000
+REACTION_PRESSURE; 0.000000
+# from 179 to 195.
+REACTION; MgCl2 1
+0 0.032780 0.065620 0.130640 0.267670 0.348000 0.524760 0.704280 0.765350 0.998510 1.149600 1.329990 1.496540 2.154540 2.501040 2.614150 3.499190
+USER_GRAPH; -headings 85.oC
+10 data 0, 11.390000, 12.520000, 13.250000, 14.480000, 14.463183, 16.000000, 16.198962, 16.690000, 17.770000, 17.867232, 18.358515, 18.868203, 20.628299, 21.379442, 21.632708, 23.225650,
+20 dim d(17)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Brown #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 95.000000
+REACTION_PRESSURE; 0.000000
+# from 195 to 212.
+REACTION; MgCl2 1
+0 0.032780 0.065620 0.130640 0.267670 0.438680 0.524760 0.751970 0.765350 0.998510 1.204450 1.529310 2.041190 2.349730 2.832350 3.285900 3.778980 4.324190
+USER_GRAPH; -headings 95.oC
+10 data 0, 9.760000, 10.420000, 11.660000, 13.000000, 13.685979, 14.690000, 15.211714, 15.470000, 16.620000, 16.905322, 17.949766, 19.365361, 20.127846, 21.210605, 22.103784, 22.963978, 23.808445,
+20 dim d(18)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Orange #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 99.000000
+REACTION_PRESSURE; 0.000000
+# from 212 to 217.
+REACTION; MgCl2 1
+0 0.108440 0.197110 0.281260 0.388420 0.527750
+USER_GRAPH; -headings 99.oC
+10 data 0, 10.840000, 11.780000, 12.490000, 12.910000, 13.630000,
+20 dim d(6)
+30 read d(1), d(2), d(3), d(4), d(5), d(6),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vm = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Mg"), d(step_no), line_w = 0, color = Blue #aph_x tot("Mg") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Mg"), Vm, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END

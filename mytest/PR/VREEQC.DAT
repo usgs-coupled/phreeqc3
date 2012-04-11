@@ -84,7 +84,7 @@ K+ = K+
 	-gamma	3.5	0.015
 	-dw	 1.96e-9
 	-millero 7.26 0.0892 -0.000736 2.722 -0.101 0.00151
-	-Vm 7.92 3.56e-2 -1.9e-5  0.356 2.2e-3 -1.4e-4  -1e-3  0.77 # KCl.xls, Laliberte, 2009. 0-125 oC.
+	-Vm 8.14 2.55e-2 2.17e-6  0.168 6.13e-3 -1.66e-4  -1e-3  0.184 # (corrected) KCl.xls, Laliberte, 2009. 0-125 oC.
 Fe+2 = Fe+2
 	-gamma	6.0	0.0
 	-dw	 0.719e-9
@@ -119,12 +119,20 @@ CO3-2 = CO3-2
 	-gamma	5.4	0.0
 	-dw	 0.955e-9
 	-millero -8.74 0.300 -0.004064 5.65;  # d is value for 25 oC, e and f not reported by Millero, 2000
-	-Vm  -11.5 0.3 -3e-3  3.7 -0.091 6e-4 0  0.1 # K2CO3.xls Laliberte 2009, + PHREEQC speciation
+	-Vm  -10.97 0.38 -3.9e-3  3.23 -0.14 1.12e-3  0  1e-3 # NaHCO3.xls, Na2CO3.xls, Laliberte + PHREEQC speciation
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
 	-dw	 1.07e-9
 	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-	-Vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -7e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+# with Pitzer.dat...
+	-Vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -10e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+# with Phreeqc.dat && NaSO4- complex...
+	-Vm   7.76 0.324 -3.4e-3  -0.094 -1.2e-3 2.57e-5  -10e-3  0.93
+Na+ + SO4-2 = NaSO4-
+	log_k	0.7
+	delta_h 1.120	kcal
+	-dw 6.18e-10
+	-Vm  21.3 0.1 -1.7e-3  7.03 -0.144 1.56e-3  0  1.9
 NO3- = NO3-
 	-gamma	3.0	0.0
 	-dw	 1.9e-9
@@ -203,7 +211,7 @@ CO3-2 + H+ = HCO3-
 	-gamma	5.4	0.0
 	-dw	 1.18e-9
 	-millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
-	-Vm  22.4 0.107 -1e-4 -0.02 0.103 -1.02e-3 -5e-3  0.14# 0-125 oC. KHCO3.xls, Laliberte, 2009; 1-1400 atm, Read, 1975
+	-Vm  20.4 0.235 -2.2e-3  4.34 -0.146 1.45e-3 -5e-3  5e-3 # NaHCO3.xls, Na2CO3.xls, Laliberte; 1-1400 atm, Read, 1975
 CO3-2 + 2 H+ = CO2 + H2O
 	log_k	16.681
 	delta_h -5.738	kcal
@@ -372,7 +380,7 @@ Mg+2 + SO4-2 = MgSO4
 	log_k	2.37
 	delta_h 4.550	kcal
 	-dw 4.45e-10
-	-Vm  6 0.115 -2e-3  0 0 0 -1e-3 # by analogy with CaSO4, Vm is 2* smaller at 25oC
+	-Vm  11 0.115 -2e-3  0 0 0 -1e-3 # by analogy with CaSO4
 Mg+2 + PO4-3 = MgPO4-
 	log_k	6.589
 	delta_h 3.10	kcal
@@ -396,16 +404,16 @@ Na+ + CO3-2 = NaCO3-
 	log_k	1.27
 	delta_h 8.910	kcal
 	-dw 5.85e-10
-	-Vm -3.2 0.01 -2.6e-4  0.23 0.21 -1.6e-3  0  0.1 # Na2CO3.xls Laliberte, 2009 + PHREEQC speciation
+	-Vm -5.42 0.14 -1.2e-3  4.42 0.029 -1.96e-4  0  0.12 # Na2CO3.xls Laliberte, 2009 + PHREEQC speciation
 Na+ + HCO3- = NaHCO3
-	log_k	-0.25
+	log_k	0
+	-delta_h -4.84 kcal
 	-dw 6.73e-10
-	-Vm 22.2 -0.018 -1.4e-3  8.5e-3 0.3 -3.4e-5 0 0 # NaHCO3.xls Laliberte, 2009 + PHREEQC speciation
-Na+ + SO4-2 = NaSO4-
-	log_k	0.7
-	delta_h 1.120	kcal
-	-dw 6.18e-10
-	-Vm  3 0.115 -2e-3  0 0 0 -1e-3 # by analogy with CaSO4, Vm is 3* smaller at 25oC
+	-Vm 16.9 0.757 -0.011  13.1 -1 1.84e-2 0 0 # NaHCO3.xls Laliberte, 2009 + PHREEQC speciation
+# Na+ + SO4-2 = NaSO4- # is defined above with SO4-2 = SO4-2
+	# log_k	0.7
+	# delta_h 1.120	kcal
+	# -dw 6.18e-10
 Na+ + HPO4-2 = NaHPO4-
 	log_k	0.29
 

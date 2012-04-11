@@ -17,6 +17,7 @@ all: alkalinity.out \
 	aj1.out \
 	all_llnl.out \
 	aquia.out \
+	As.out \
 	as.ex.out \
 	asf.out \
 	ball.out \
@@ -197,13 +198,10 @@ all: alkalinity.out \
 	fix_V.out \
 	gas_fix_P.out \
 	gas_fix_V.out \
-	NaCl.out \
 	gypsum_P.out \
 	gypsum_P2.out \
-	mV_SO4_rho.out \
-	mV1_rho.out \
-	mV2_rho.out \
 	N2_conc_PR_IS.out \
+	N2_ideal.out \
 	NaCl.out \
 	O2_conc_PR_IS.out \
 	P_CO2_Na2SO4.out \
@@ -231,6 +229,7 @@ all: alkalinity.out \
 	CO2_Na2SO4.out \
 	co2_t30.out \
 	co2_tc.out \
+	evap_sea.out \
 	gypsum_P.out \
 	gypsum_P2.out \
 	halite.out \
@@ -239,12 +238,28 @@ all: alkalinity.out \
 	SrSO4_P.out \
 	SrSO4_tc.out \
 	water_vp.out \
-
+	Apelbl_Na2CO3.out \
+	mV_SO4_rho.out \
+	mV1_rho.out \
+	mV2_rho.out \
+	pKw.out \
+	Vm_BaCl2_sol.out \
+	Vm_CaCl2_sol.out \
+	Vm_HCl_sol.out \
+	Vm_K2CO3_sol.out \
+	Vm_KCl_sol.out \
+	Vm_KHCO3_sol.out \
+	Vm_MgCl2_sol.out \
+	Vm_Na2CO3_sol.out \
+	Vm_Na2SO4_sol.out \
+	Vm_NaCl_sol.out \
+	Vm_NaHCO3_sol.out \
+	Vm_SrCl2_sol.out
 
 # NaX.out
 
 clean:
-	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt *.csv
+	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt millero.csv
 
 revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert
