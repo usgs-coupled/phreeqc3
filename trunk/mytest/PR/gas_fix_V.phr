@@ -1,0 +1,14 @@
+# Peng-Robinson in fixed volume gas_phase.
+INCLUDE$ CO2_V2.db
+SOLUTION 1
+GAS_PHASE 6
+    -fixed_volume
+    N2(g) 200
+    CO2(g) 0
+    H2O(g) 0
+    CH4(g) 200
+
+REACTION
+ CO2 1; 6 4 2
+INCREMENTAL_REACTIONS true
+END

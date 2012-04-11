@@ -1,0 +1,87 @@
+   Input file: colt2
+  Output file: colt2.out
+Database file: ../database/Amm.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/Amm.dat
+	SOLUTION 0   24.0 mM KNO3
+	    units mol/kgw
+	    temp  0     # Incoming solution 0C
+	    pH    7.0
+	    pe   12.0   O2(g) -0.67
+	    K    24.e-3
+	    N(5) 24.e-3
+	SOLUTION 1-20   0.001 mM KCl
+	    units mol/kgw
+	    temp 25    # Column is at 25C
+	    pH   7.0
+	    pe  12.0   O2(g) -0.67
+	    K    1e-6
+	    Cl   1e-6
+	EXCHANGE_SPECIES
+	    K+ + X- = KX
+	    log_k  0.0
+	    gamma	3.5	0.015
+	EXCHANGE 1-20
+	    KX    0.048
+	PRINT
+	   reset  false
+	   selected_output false
+	SELECTED_OUTPUT
+	   file  colt2.prn
+	   reset false
+	   distance true
+	   high_precision  true
+	   temperature  true
+	   totals   Na K Cl
+	TRANSPORT           # Make column temperature 0C, displace Cl
+	   cells 20
+	   shifts 19  1
+	   bcond   3 3
+	   length  1.0
+	   disp    0.0     # No dispersion
+	   diffc   0.0     # No diffusion
+	   tempr   1.0     # No retardation for heat
+	END
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
+	SOLUTION 0    Fixed temp 24C, and NaCl conc (first type boundary cond)
+	    units  mol/kgw
+	    temp 24
+	    pH  7.0
+	    pe  12.0   O2(g) -0.67
+	    Na  24.e-3
+	    Cl  24.e-3
+	SOLUTION 20   Idem, in cell 20 at closed column end (second type boundary cond)
+	    units  mol/kgw
+	    temp 24
+	    pH  7.0
+	    pe  12.0   O2(g) -0.67
+	    Na  24.e-3
+	    Cl  24.e-3
+	EXCHANGE 20
+	    NaX    0.048
+	PRINT
+	   selected_output true
+	TRANSPORT            # Diffuse 24C, NaCl solution from column ends
+	   shifts 1  0
+	   bcond   1  2
+	   tempr  3.0       # heat is retarded equal to Na
+	   diffc  0.3e-9    # m^2/s
+	   timest 1.0e+10   # 317 years give 19 mixes
+	END

@@ -1,0 +1,305 @@
+   Input file: cell_operations
+  Output file: cell_operations.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION 1-3
+		Na	1
+		Cl	1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 123
+                          Density (g/cm3)  =   0.99713
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.658e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -3.658e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                            Log       Log         Log     mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.038e-07   1.001e-07    -6.984    -7.000    -0.016     (0)  
+   H+              1.034e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            1.000e-03
+   Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     17.82
+H(0)          1.416e-25
+   H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.21
+   NaOH            6.375e-11   6.377e-11   -10.196   -10.195     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.00    -25.15   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -7.61     -6.03    1.58  NaCl
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	EQUILIBRIUM_PHASES 1-3
+		Barite	0	10
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	EXCHANGE 1-3
+		X	1
+		equilibrate	solution 1
+	END
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X                1.000e+00 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.000e+00   1.000e+00   1.000e+00    -0.015
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	SURFACE 1-3
+	    equilibrate with solution 1
+	    Hfo_s   0.01   600    1
+	END
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	  3.785e-05  Surface charge, eq
+	  6.088e-03  sigma, C/m**2
+	  6.524e-02  psi, V
+	 -2.540e+00  -F*psi/RT
+	  7.890e-02  exp(-F*psi/RT)
+	  6.000e+02  specific area, m**2/g
+	  6.000e+02  m**2 for   1.000e+00 g
+
+
+Hfo_s         
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH           7.676e-03       0.768   7.676e-03      -2.115
+	Hfo_sOH2+         1.181e-03       0.118   1.181e-03      -2.928
+	Hfo_sO-           1.143e-03       0.114   1.143e-03      -2.942
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	GAS_PHASE 1-3
+	    fixed_pressure
+	    pressure 1
+	    volume 1
+	    temperature 25
+	    CO2(g)    0.00035
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	SOLID_SOLUTIONS 1-3
+	    Calcite
+	        component calcite 0.1
+	        component siderite 0.001
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	KINETICS 1-3
+	Calcite
+	    formula  CaCO3  1
+	    m        1
+	    m0       1
+	    parms    1 1 1 1
+	    tol      1e-008
+	steps       1 in 1 steps # seconds
+	step_divide 1
+	runge_kutta 3
+	bad_step_max 500
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	REACTION 1-3
+		NaCl  1
+		0.001
+	END	
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+	MIX 1
+		1 0.5
+	MIX 2   
+		2 0.5
+		3 0.5
+	MIX 3
+		3 0.5
+		2 0.5
+	USE mix none
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	REACTION_TEMPERATURE 1-3
+		30
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+	COPY cell 1 100
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 12.
+-------------------------------------
+
+	DUMP
+		-file	cell_operations.dmp
+		-cell 100
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 13.
+-------------------------------------
+
+	DELETE 
+		-cell 3-100
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 14.
+-------------------------------------
+
+	DUMP
+		-file	cell_operations.dmp
+		-append
+		-all
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 15.
+-------------------------------------
+
+-----------
+End of run.
+-----------
+

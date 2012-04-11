@@ -1,0 +1,19 @@
+# Barite solubility in NaCl solutions, Templeton, 1960.
+DATABASE c:/phreeqc/database/pitzer.dat
+PITZER
+-THETA
+  Ba+2      Na+       0.02
+INCLUDE$ Barite.db
+SOLUTION 1
+ pH 7 charge
+ -temp 50
+EQUILIBRIUM_PHASES
+ Barite
+REACTION
+ NaCl 1; 0 5*0.1 9*0.5
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+ -plot_csv Barite_NaCl.dat
+ axis_titles "NaCl / M" "Barite solubility / M"
+ 10 plot_xy tot("Na"), tot("Ba"), color = Red, symbol = None
+END

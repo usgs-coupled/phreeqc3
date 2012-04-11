@@ -1,0 +1,64 @@
+#[ Plot P vs Vm
+#]
+INCLUDE$ CO2_V.db
+PRINT; -reset false
+SOLUTION 1
+INCREMENTAL_REACTIONS
+GAS_PHASE 1
+ -fixed_volume
+# CH4(g) 0
+ CO2(g) 0
+# N2(g) 0
+ H2O(g) 0
+REACTION 1
+ CO2 1; 27 in 20
+ USER_GRAPH
+ -headings Vm CO2
+ -axis_titles "Gas Molar Volume / (L/mole)" "Gas Pressure / atm"
+ -axis_scale x_axis 0 1
+ -axis_scale y_axis 0 500
+ 10 graph_x gas_vm
+ 20 graph_y gas_p
+END
+
+USE solution 1
+GAS_PHASE 1
+ -fixed_volume
+ CH4(g) 0
+# CO2(g) 0
+# N2(g) 0
+ H2O(g) 0
+REACTION 1
+ CH4 1; 20 in 20
+ USER_GRAPH
+ -headings Vm CH4
+END
+
+USE solution 1
+GAS_PHASE 1
+ -fixed_volume
+# CH4(g) 0
+# CO2(g) 0
+ N2(g) 0
+ H2O(g) 0
+REACTION 1
+ N2 1; 20 in 20
+ USER_GRAPH
+ -headings Vm N2
+END
+
+#PRINT; -reset true
+USE solution 1
+GAS_PHASE 1
+ -fixed_volume
+# CH4(g) 0
+# CO2(g) 0
+# N2(g) 0
+ H2O(g) 0
+ H2S(g) 0
+KNOBS; -iter 500
+REACTION 1
+ H2S 1; 30 in 20
+ USER_GRAPH
+ -headings Vm H2S
+END

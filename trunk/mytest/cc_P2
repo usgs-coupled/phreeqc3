@@ -1,0 +1,28 @@
+# Calcite dissolution, variable P_CO2, data from Segnit 1962; Ellis 1963
+DATABASE ../database/vreeqc.dat
+INCLUDE$ cc.db
+SOLUTION 1
+ pH 7 charge
+ -temp 100
+EQUILIBRIUM_PHASES
+ Calcite
+SOLUTION_SPECIES
+Ca+2 + CO3-2 + H+ = CaHCO3+
+	log_k	-100 # remove this complex, data from Ellis, 1963 and Segnit et al. 1962.
+REACTION
+ CO2 1; 0 4*0.05 5*0.1 8*0.3
+INCREMENTAL_REACTIONS true
+GAS_PHASE
+ -fixed_volume
+ -volume 1
+ CO2(g) 0
+ H2O(g) 0
+#PRINT; -reset false
+USER_GRAPH
+ -headings tk #Ca_tot Ca+2 CaCO3 CaHCO3+ SI_arg
+ -plot_csv_file cc_tc100.dat
+ -axis_scale x_axis 0 70
+ -axis_titles "CO2 Pressure / bar" "Calcite solubility / (mol/kgw)"
+ 10 graph_x pr_p("CO2(g)") * 1.013
+ 20 graph_y  tot("Ca"), # mol("Ca+2"), mol("CaCO3"), mol("CaHCO3+")
+END

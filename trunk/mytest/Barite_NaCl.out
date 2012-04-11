@@ -1,0 +1,1420 @@
+   Input file: Barite_NaCl
+  Output file: Barite_NaCl.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	PITZER
+	theta
+	  Ba+2      Na+       0.02
+	SOLUTION_SPECIES
+	Ba+2 = Ba+2
+		gamma	5.0	0.0
+		dw 0.848e-9
+		vm  -14 7.8e-3 5.2e-4 -5e-3 0.034 -5.7e-4 -10e-3 1.6 # 0-250 oC. BaCl2.xls, Laliberte, 2009. Barite solubility, Blount 1977, Lyashchenko and Churagulov, 1981. 0-250 oC, 1-500 atm.
+	SO4-2 = SO4-2
+		gamma	5.0	-0.04
+		dw	 1.07e-9
+		millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
+		vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -7e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+	PHASES
+	Barite
+		BaSO4 = Ba+2 + SO4-2
+		log_k	-9.97
+		delta_h  6.35 kcal
+		analytical_expression	136.035	0.0	-7680.41	-48.595
+		vm 51.9
+	SOLUTION 1
+	 pH 7 charge
+	 temp 50
+	EQUILIBRIUM_PHASES
+	 Barite
+	REACTION
+	 NaCl 1
+	 0 5*0.1 9*0.5
+	INCREMENTAL_REACTIONS true
+	USER_GRAPH
+	 -plot_csv Barite_NaCl.dat
+	 axis_titles "NaCl / M" "Barite solubility / M"
+	 10 plot_xy tot("Na"), tot("Ba"), color = Red, symbol = None
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.621      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 50 oC) = 0
+                          Density (g/cm3)  =   0.98808
+                        Activity of water  =   1.000
+                           Ionic strength  =   2.397e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =   0.000e+00
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   6
+                         Gamma iterations  =   2
+                      Osmotic coefficient  =   0.99980
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+              2.397e-07   2.395e-07    -6.620    -6.621    -0.000      0.00
+   OH-             2.397e-07   2.395e-07    -6.620    -6.621    -0.000     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.23
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	H2O(g)           -0.91     -0.00    0.91  H2O
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  0.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.507e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                1.507e-05   1.507e-05
+	S                 1.507e-05   1.507e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.621      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 7
+                          Density (g/cm3)  =   0.98808
+                        Activity of water  =   1.000
+                           Ionic strength  =   6.052e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.318e-15
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -4.322e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.98750
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550628e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             2.422e-07   2.399e-07    -6.616    -6.620    -0.004     (0)  
+   H+              2.415e-07   2.392e-07    -6.617    -6.621    -0.004      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.23
+Ba            1.507e-05
+   Ba+2            1.507e-05   1.450e-05    -4.822    -4.838    -0.017    -12.32
+S(6)          1.507e-05
+   SO4-2           1.507e-05   1.451e-05    -4.822    -4.838    -0.016     16.90
+   HSO4-           6.877e-10   6.812e-10    -9.163    -9.167    -0.004     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.91     -0.00    0.91  H2O
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -2.993e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                4.500e-05   4.500e-05
+	Cl                1.000e-01   1.000e-01
+	Na                1.000e-01   1.000e-01
+	S                 4.500e-05   4.500e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.609      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 17556
+                          Density (g/cm3)  =   0.99205
+                        Activity of water  =   0.997
+                           Ionic strength  =   1.002e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.007e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -9.983e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.92993
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550640e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.091e-07   2.326e-07    -6.510    -6.633    -0.123     (0)  
+   H+              3.083e-07   2.458e-07    -6.511    -6.609    -0.098      0.00
+   H2O             5.551e+01   9.967e-01     1.744    -0.001     0.000     18.23
+Ba            4.500e-05
+   Ba+2            4.500e-05   1.546e-05    -4.347    -4.811    -0.464    -12.28
+Cl            1.000e-01
+   Cl-             1.000e-01   7.610e-02    -1.000    -1.119    -0.119     17.70
+Na            1.000e-01
+   Na+             1.000e-01   7.778e-02    -1.000    -1.109    -0.109      0.09
+S(6)          4.500e-05
+   SO4-2           4.500e-05   1.362e-05    -4.347    -4.866    -0.519     16.93
+   HSO4-           8.593e-10   6.570e-10    -9.066    -9.182    -0.117     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.91     -0.00    0.91  H2O
+	Halite           -3.82     -2.23    1.59  NaCl
+	Mirabilite       -6.78     -7.10   -0.32  Na2SO4:10H2O
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.496e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                5.996e-05   5.996e-05
+	Cl                2.000e-01   2.000e-01
+	Na                2.000e-01   2.000e-01
+	S                 5.996e-05   5.996e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.599      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 33830
+                          Density (g/cm3)  =   0.99593
+                        Activity of water  =   0.993
+                           Ionic strength  =   2.002e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.622e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -1.595e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.92177
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550646e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.253e-07   2.263e-07    -6.488    -6.645    -0.158     (0)  
+   H+              3.244e-07   2.519e-07    -6.489    -6.599    -0.110      0.00
+   H2O             5.551e+01   9.934e-01     1.744    -0.003     0.000     18.23
+Ba            5.996e-05
+   Ba+2            5.996e-05   1.629e-05    -4.222    -4.788    -0.566    -10.84
+Cl            2.000e-01
+   Cl-             2.000e-01   1.421e-01    -0.699    -0.847    -0.148     18.06
+Na            2.000e-01
+   Na+             2.000e-01   1.479e-01    -0.699    -0.830    -0.131      0.45
+S(6)          5.996e-05
+   SO4-2           5.996e-05   1.292e-05    -4.222    -4.889    -0.667     18.37
+   HSO4-           8.946e-10   6.387e-10    -9.048    -9.195    -0.146     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.92     -0.00    0.91  H2O
+	Halite           -3.27     -1.68    1.59  NaCl
+	Mirabilite       -6.26     -6.58   -0.32  Na2SO4:10H2O
+
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.184e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                7.181e-05   7.181e-05
+	Cl                3.000e-01   3.000e-01
+	Na                3.000e-01   3.000e-01
+	S                 7.181e-05   7.181e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.589      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 49666
+                          Density (g/cm3)  =   0.99976
+                        Activity of water  =   0.990
+                           Ionic strength  =   3.003e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.260e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -2.205e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.91985
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550650e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.336e-07   2.203e-07    -6.477    -6.657    -0.180     (0)  
+   H+              3.327e-07   2.579e-07    -6.478    -6.589    -0.111      0.00
+   H2O             5.551e+01   9.901e-01     1.744    -0.004     0.000     18.23
+Ba            7.181e-05
+   Ba+2            7.181e-05   1.709e-05    -4.144    -4.767    -0.623    -10.23
+Cl            3.000e-01
+   Cl-             3.000e-01   2.043e-01    -0.523    -0.690    -0.167     18.21
+Na            3.000e-01
+   Na+             3.000e-01   2.161e-01    -0.523    -0.665    -0.142      0.60
+S(6)          7.181e-05
+   SO4-2           7.181e-05   1.231e-05    -4.144    -4.910    -0.766     18.98
+   HSO4-           9.125e-10   6.232e-10    -9.040    -9.205    -0.166     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.92     -0.00    0.91  H2O
+	Halite           -2.95     -1.35    1.59  NaCl
+	Mirabilite       -5.96     -6.28   -0.32  Na2SO4:10H2O
+
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite           -0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.013e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                8.194e-05   8.194e-05
+	Cl                4.000e-01   4.000e-01
+	Na                4.000e-01   4.000e-01
+	S                 8.194e-05   8.194e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.579      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 64462
+                          Density (g/cm3)  =   1.00354
+                        Activity of water  =   0.987
+                           Ionic strength  =   4.003e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.926e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -2.827e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.92048
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550654e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.381e-07   2.147e-07    -6.471    -6.668    -0.197     (0)  
+   H+              3.372e-07   2.637e-07    -6.472    -6.579    -0.107      0.00
+   H2O             5.551e+01   9.868e-01     1.744    -0.006     0.000     18.23
+Ba            8.194e-05
+   Ba+2            8.194e-05   1.787e-05    -4.087    -4.748    -0.661     -9.76
+Cl            4.000e-01
+   Cl-             4.000e-01   2.644e-01    -0.398    -0.578    -0.180     18.33
+Na            4.000e-01
+   Na+             4.000e-01   2.839e-01    -0.398    -0.547    -0.149      0.72
+S(6)          8.194e-05
+   SO4-2           8.194e-05   1.178e-05    -4.087    -4.929    -0.842     19.45
+   HSO4-           9.230e-10   6.096e-10    -9.035    -9.215    -0.180     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite           -0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	Halite           -2.72     -1.12    1.59  NaCl
+	Mirabilite       -5.76     -6.08   -0.32  Na2SO4:10H2O
+
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -8.991e-06
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                9.093e-05   9.093e-05
+	Cl                5.000e-01   5.000e-01
+	Na                5.000e-01   5.000e-01
+	S                 9.093e-05   9.093e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.569      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 77365
+                          Density (g/cm3)  =   1.00727
+                        Activity of water  =   0.984
+                           Ionic strength  =   5.004e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.609e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -3.460e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.92248
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550658e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.404e-07   2.093e-07    -6.468    -6.679    -0.211     (0)  
+   H+              3.394e-07   2.696e-07    -6.469    -6.569    -0.100      0.00
+   H2O             5.551e+01   9.835e-01     1.744    -0.007     0.000     18.23
+Ba            9.093e-05
+   Ba+2            9.093e-05   1.865e-05    -4.041    -4.729    -0.688     -9.37
+Cl            5.000e-01
+   Cl-             5.000e-01   3.231e-01    -0.301    -0.491    -0.190     18.43
+Na            5.000e-01
+   Na+             5.000e-01   3.520e-01    -0.301    -0.453    -0.152      0.82
+S(6)          9.093e-05
+   SO4-2           9.093e-05   1.129e-05    -4.041    -4.947    -0.906     19.84
+   HSO4-           9.296e-10   5.974e-10    -9.032    -9.224    -0.192     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.92     -0.01    0.91  H2O
+	Halite           -2.54     -0.94    1.59  NaCl
+	Mirabilite       -5.61     -5.93   -0.32  Na2SO4:10H2O
+
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -3.518e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                1.261e-04   1.261e-04
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+	S                 1.261e-04   1.261e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.523      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 132862
+                          Density (g/cm3)  =   1.02534
+                        Activity of water  =   0.967
+                           Ionic strength  =   1.001e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.378e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -4.143e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.94130
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550672e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.353e-07   1.850e-07    -6.475    -6.733    -0.258     (0)  
+   H+              3.344e-07   2.999e-07    -6.476    -6.523    -0.047      0.00
+   H2O             5.551e+01   9.666e-01     1.744    -0.015     0.000     18.23
+Ba            1.261e-04
+   Ba+2            1.261e-04   2.258e-05    -3.899    -4.646    -0.747     -9.02
+Cl            1.000e+00
+   Cl-             1.000e+00   6.066e-01     0.000    -0.217    -0.217     18.51
+Na            1.000e+00
+   Na+             1.000e+00   7.067e-01     0.000    -0.151    -0.151      0.90
+S(6)          1.261e-04
+   SO4-2           1.261e-04   9.320e-06    -3.899    -5.031    -1.131     20.19
+   HSO4-           9.410e-10   5.485e-10    -9.026    -9.261    -0.234     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.93     -0.01    0.91  H2O
+	Halite           -1.96     -0.37    1.59  NaCl
+	Mirabilite       -5.16     -5.48   -0.32  Na2SO4:10H2O
+
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -2.558e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                1.517e-04   1.517e-04
+	Cl                1.500e+00   1.500e+00
+	Na                1.500e+00   1.500e+00
+	S                 1.517e-04   1.517e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.478      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 181481
+                          Density (g/cm3)  =   1.04255
+                        Activity of water  =   0.949
+                           Ionic strength  =   1.501e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.199e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -4.783e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.96664
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550682e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.189e-07   1.637e-07    -6.496    -6.786    -0.290     (0)  
+   H+              3.180e-07   3.326e-07    -6.498    -6.478     0.020      0.00
+   H2O             5.551e+01   9.491e-01     1.744    -0.023     0.000     18.23
+Ba            1.517e-04
+   Ba+2            1.517e-04   2.685e-05    -3.819    -4.571    -0.752     -7.66
+Cl            1.500e+00
+   Cl-             1.500e+00   8.868e-01     0.176    -0.052    -0.228     18.86
+Na            1.500e+00
+   Na+             1.500e+00   1.101e+00     0.176     0.042    -0.134      1.25
+S(6)          1.517e-04
+   SO4-2           1.517e-04   7.838e-06    -3.819    -5.106    -1.287     21.56
+   HSO4-           9.420e-10   5.117e-10    -9.026    -9.291    -0.265     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.94     -0.02    0.91  H2O
+	Halite           -1.60     -0.01    1.59  NaCl
+	Mirabilite       -4.93     -5.25   -0.32  Na2SO4:10H2O
+
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.927e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                1.710e-04   1.710e-04
+	Cl                2.000e+00   2.000e+00
+	Na                2.000e+00   2.000e+00
+	S                 1.710e-04   1.710e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.433      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 230228
+                          Density (g/cm3)  =   1.05898
+                        Activity of water  =   0.931
+                           Ionic strength  =   2.001e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   6.012e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -5.384e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.99524
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550690e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             2.985e-07   1.448e-07    -6.525    -6.839    -0.314     (0)  
+   H+              2.975e-07   3.688e-07    -6.526    -6.433     0.093      0.00
+   H2O             5.551e+01   9.308e-01     1.744    -0.031     0.000     18.23
+Ba            1.710e-04
+   Ba+2            1.710e-04   3.163e-05    -3.767    -4.500    -0.733     -6.61
+Cl            2.000e+00
+   Cl-             2.000e+00   1.172e+00     0.301     0.069    -0.232     19.12
+Na            2.000e+00
+   Na+             2.000e+00   1.550e+00     0.301     0.190    -0.111      1.51
+S(6)          1.710e-04
+   SO4-2           1.710e-04   6.654e-06    -3.767    -5.177    -1.410     22.61
+   HSO4-           9.419e-10   4.817e-10    -9.026    -9.317    -0.291     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.94     -0.03    0.91  H2O
+	Halite           -1.33      0.26    1.59  NaCl
+	Mirabilite       -4.79     -5.11   -0.32  Na2SO4:10H2O
+
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.439e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                1.854e-04   1.854e-04
+	Cl                2.500e+00   2.500e+00
+	Na                2.500e+00   2.500e+00
+	S                 1.854e-04   1.854e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.388      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 284334
+                          Density (g/cm3)  =   1.07471
+                        Activity of water  =   0.912
+                           Ionic strength  =   2.501e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   6.901e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -5.994e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.02596
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550696e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             2.768e-07   1.279e-07    -6.558    -6.893    -0.335     (0)  
+   H+              2.758e-07   4.092e-07    -6.559    -6.388     0.171      0.00
+   H2O             5.551e+01   9.117e-01     1.744    -0.040     0.000     18.23
+Ba            1.854e-04
+   Ba+2            1.854e-04   3.703e-05    -3.732    -4.431    -0.699     -5.72
+Cl            2.500e+00
+   Cl-             2.500e+00   1.467e+00     0.398     0.166    -0.232     19.34
+Na            2.500e+00
+   Na+             2.500e+00   2.068e+00     0.398     0.316    -0.082      1.73
+S(6)          1.854e-04
+   SO4-2           1.853e-04   5.683e-06    -3.732    -5.245    -1.513     23.49
+   HSO4-           9.435e-10   4.564e-10    -9.025    -9.341    -0.315     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.95     -0.04    0.91  H2O
+	Halite           -1.11      0.48    1.59  NaCl
+	Mirabilite       -4.69     -5.02   -0.32  Na2SO4:10H2O
+
+
+Reaction step 11.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.045e-05
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                1.958e-04   1.958e-04
+	Cl                3.000e+00   3.000e+00
+	Na                3.000e+00   3.000e+00
+	S                 1.958e-04   1.958e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.343      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 349008
+                          Density (g/cm3)  =   1.08978
+                        Activity of water  =   0.892
+                           Ionic strength  =   3.001e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   7.791e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -6.484e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.05816
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550700e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             2.551e-07   1.127e-07    -6.593    -6.948    -0.355     (0)  
+   H+              2.541e-07   4.543e-07    -6.595    -6.343     0.252      0.00
+   H2O             5.551e+01   8.919e-01     1.744    -0.050     0.000     18.23
+Ba            1.958e-04
+   Ba+2            1.958e-04   4.318e-05    -3.708    -4.365    -0.657     -4.94
+Cl            3.000e+00
+   Cl-             3.000e+00   1.773e+00     0.477     0.249    -0.228     19.53
+Na            3.000e+00
+   Na+             3.000e+00   2.668e+00     0.477     0.426    -0.051      1.92
+S(6)          1.958e-04
+   SO4-2           1.958e-04   4.874e-06    -3.708    -5.312    -1.604     24.27
+   HSO4-           9.477e-10   4.346e-10    -9.023    -9.362    -0.339     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.96     -0.05    0.91  H2O
+	Halite           -0.92      0.67    1.59  NaCl
+	Mirabilite       -4.64     -4.96   -0.32  Na2SO4:10H2O
+
+
+Reaction step 12.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -7.269e-06
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                2.031e-04   2.031e-04
+	Cl                3.500e+00   3.500e+00
+	Na                3.500e+00   3.500e+00
+	S                 2.031e-04   2.031e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.297      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 430536
+                          Density (g/cm3)  =   1.10422
+                        Activity of water  =   0.871
+                           Ionic strength  =   3.501e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   8.725e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -6.916e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.09141
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550703e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             2.342e-07   9.904e-08    -6.630    -7.004    -0.374     (0)  
+   H+              2.332e-07   5.048e-07    -6.632    -6.297     0.335      0.00
+   H2O             5.551e+01   8.714e-01     1.744    -0.060     0.000     18.23
+Ba            2.031e-04
+   Ba+2            2.031e-04   5.018e-05    -3.692    -4.299    -0.607     -4.24
+Cl            3.500e+00
+   Cl-             3.500e+00   2.092e+00     0.544     0.321    -0.224     19.71
+Na            3.500e+00
+   Na+             3.500e+00   3.364e+00     0.544     0.527    -0.017      2.10
+S(6)          2.031e-04
+   SO4-2           2.031e-04   4.194e-06    -3.692    -5.377    -1.685     24.97
+   HSO4-           9.553e-10   4.156e-10    -9.020    -9.381    -0.361     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.97     -0.06    0.91  H2O
+	Halite           -0.74      0.85    1.59  NaCl
+	Mirabilite       -4.60     -4.92   -0.32  Na2SO4:10H2O
+
+
+Reaction step 13.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -4.721e-06
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                2.078e-04   2.078e-04
+	Cl                4.000e+00   4.000e+00
+	Na                4.000e+00   4.000e+00
+	S                 2.078e-04   2.078e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.250      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 508228
+                          Density (g/cm3)  =   1.11809
+                        Activity of water  =   0.850
+                           Ionic strength  =   4.001e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   9.637e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -7.433e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.12541
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550705e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             2.143e-07   8.686e-08    -6.669    -7.061    -0.392     (0)  
+   H+              2.134e-07   5.617e-07    -6.671    -6.250     0.420      0.00
+   H2O             5.551e+01   8.503e-01     1.744    -0.070     0.000     18.23
+Ba            2.078e-04
+   Ba+2            2.078e-04   5.816e-05    -3.682    -4.235    -0.553     -3.59
+Cl            4.000e+00
+   Cl-             4.000e+00   2.426e+00     0.602     0.385    -0.217     19.87
+Na            4.000e+00
+   Na+             4.000e+00   4.175e+00     0.602     0.621     0.019      2.26
+S(6)          2.078e-04
+   SO4-2           2.078e-04   3.619e-06    -3.682    -5.441    -1.759     25.62
+   HSO4-           9.670e-10   3.989e-10    -9.015    -9.399    -0.384     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.98     -0.07    0.91  H2O
+	Halite           -0.59      1.01    1.59  NaCl
+	Mirabilite       -4.58     -4.90   -0.32  Na2SO4:10H2O
+
+
+Reaction step 14.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -2.718e-06
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                2.105e-04   2.105e-04
+	Cl                4.500e+00   4.500e+00
+	Na                4.500e+00   4.500e+00
+	S                 2.105e-04   2.105e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.204      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 566522
+                          Density (g/cm3)  =   1.13140
+                        Activity of water  =   0.829
+                           Ionic strength  =   4.501e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   9.685e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -7.380e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.15994
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550706e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.958e-07   7.598e-08    -6.708    -7.119    -0.411     (0)  
+   H+              1.948e-07   6.257e-07    -6.710    -6.204     0.507      0.00
+   H2O             5.551e+01   8.285e-01     1.744    -0.082     0.000     18.23
+Ba            2.105e-04
+   Ba+2            2.105e-04   6.726e-05    -3.677    -4.172    -0.496     -2.99
+Cl            4.500e+00
+   Cl-             4.500e+00   2.774e+00     0.653     0.443    -0.210     20.02
+Na            4.500e+00
+   Na+             4.500e+00   5.120e+00     0.653     0.709     0.056      2.41
+S(6)          2.105e-04
+   SO4-2           2.105e-04   3.129e-06    -3.677    -5.505    -1.828     26.22
+   HSO4-           9.832e-10   3.843e-10    -9.007    -9.415    -0.408     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -0.99     -0.08    0.91  H2O
+	Halite           -0.44      1.15    1.59  NaCl
+	Mirabilite       -4.58     -4.90   -0.32  Na2SO4:10H2O
+
+
+Reaction step 15.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  5.000e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.68     -9.68    1.000e+01   1.000e+01  -1.176e-06
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba                2.117e-04   2.117e-04
+	Cl                5.000e+00   5.000e+00
+	Na                5.000e+00   5.000e+00
+	S                 2.117e-04   2.117e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.156      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 626023
+                          Density (g/cm3)  =   1.14418
+                        Activity of water  =   0.806
+                           Ionic strength  =   5.001e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   9.716e-14
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  =  -7.411e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.19481
+                         Density of water  =   0.98803
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550706e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                           MacInnes   MacInnes
+	                               MacInnes    Log       Log         Log 
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.786e-07   6.630e-08    -6.748    -7.179    -0.430     (0)  
+   H+              1.776e-07   6.979e-07    -6.751    -6.156     0.594      0.00
+   H2O             5.551e+01   8.063e-01     1.744    -0.093     0.000     18.23
+Ba            2.117e-04
+   Ba+2            2.117e-04   7.762e-05    -3.674    -4.110    -0.436     -2.43
+Cl            5.000e+00
+   Cl-             5.000e+00   3.138e+00     0.699     0.497    -0.202     20.16
+Na            5.000e+00
+   Na+             5.000e+00   6.220e+00     0.699     0.794     0.095      2.55
+S(6)          2.117e-04
+   SO4-2           2.117e-04   2.711e-06    -3.674    -5.567    -1.892     26.79
+   HSO4-           1.004e-09   3.714e-10    -8.998    -9.430    -0.432     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Barite            0.00     -9.68   -9.68  BaSO4
+	H2O(g)           -1.01     -0.09    0.91  H2O
+	Halite           -0.30      1.29    1.59  NaCl
+	Mirabilite       -4.59     -4.91   -0.32  Na2SO4:10H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-----------
+End of run.
+-----------
+

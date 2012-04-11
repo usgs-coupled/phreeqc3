@@ -1,0 +1,42 @@
+# define gas_phase by equilibrating, note how the gas-pressures change...
+DATABASE ../database/phreeqc.dat
+INCLUDE$ CO2_V2.db
+GAS_PHASE 7
+    -fixed_volume
+    -equilibrate 7
+    N2(g)
+    CO2(g)
+SOLUTION 7
+pH 7 charge
+    C(4) 1 CO2(g) 1
+    N 1 N2(g) 2
+	-pressure 110
+END
+
+# Now use GAS_PHASE_MODIFY, comes closer, but the multicomponent mixing effects
+# give (unavoidable) different pressures than the (pure gas) initial equilibrations...
+USE solution 7
+GAS_PHASE 8
+    -fixed_volume
+    -volume 1e-8
+    N2(g) 0
+    CO2(g) 0
+SAVE gas_phase 8
+DUMP; file dump; -gas_phase 8
+
+SELECTED_OUTPUT; -reset false; -file gas_8; -high_precision true
+USER_PUNCH
+  1 if step_no = 0 then goto 100
+  2 sc$ = CHR$(59)
+ 10 punch 'GAS_PHASE_MODIFY 8' + EOL$
+ 30 punch  '  -volume             1' + EOL$
+ 40 punch '-comp  CO2(g)' + EOL$
+ 60 punch '-moles ' + STR$(1e8 * GAS("CO2(g)")) + EOL$
+ #70 punch '-comp N2(g) ' + sc$ + '-moles ' + STR$(1e8 * GAS("N2(g)")) + EOL$
+ 100 end
+END
+
+SELECTED_OUTPUT; -selected_out false
+INCLUDE$ gas_8
+USE gas_phase 8; USE solution 7
+END

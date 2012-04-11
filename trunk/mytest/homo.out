@@ -1,0 +1,69 @@
+   Input file: homo
+  Output file: homo.out
+Database file: ../database/iso.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	SOLUTION_MASTER_SPECIES
+	ISOTOPES
+	ISOTOPE_RATIOS
+	ISOTOPE_ALPHAS
+	NAMED_EXPRESSIONS
+	CALCULATE_VALUES
+	CALCULATE_VALUES
+	SOLUTION_SPECIES
+	PHASES
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/iso.dat
+	print
+		status off
+	NAMED_EXPRESSIONS
+	        Log_KH_CO2(g)  CO2(g) = CO2(aq)
+	                log_k           -1.468
+	        Log_alpha_18O_CO2(g)/CO2(aq)            # 1000ln(alpha(25C)) = -1.07
+			 log_k   -1.07
+	        Log_alpha_13C_CO2(g)/CO2(aq)            # 1000ln(alpha(25C)) = 0.8
+			 log_k   0.8
+	PHASES
+	CO2(g)
+	        CO2 = CO2
+	        add_logk       Log_KH_CO2(g)                           1.0
+	CO[18O](g)
+	        CO[18O] = CO[18O]
+	        add_logk       Log_KH_CO2(g)                           1.0
+	        add_logk       Log_alpha_18O_CO2(g)/CO2(aq)            -1.0
+	C[18O]2(g)
+		C[18O]2(g) + CO2(g) = 2CO[18O](g) 
+	        log_k           0.602059991327962396                   # log10(4)
+	[13C]O2(g)
+	        [13C]O2 = [13C]O2
+	        add_logk       Log_KH_CO2(g)                           1.0
+	        add_logk       Log_alpha_13C_CO2(g)/CO2(aq)            -1.0
+	[13C]O[18O](g)
+		[13C]O[18O] + CO2(g) = [13C]O2(g) + CO[18O](g)
+	        log_k           0.0
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-----------
+End of run.
+-----------
+
