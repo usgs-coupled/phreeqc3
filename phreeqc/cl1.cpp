@@ -343,7 +343,7 @@ cl1(int k, int l, int m, int n,
 #if defined(USE_GMP)
 		q2[klm * q_dim + j].dval = mpf_get_d(sum);
 #else
-		q2[klm * q_dim + j].dval = sum;
+		q2[klm * q_dim + j].dval = (double)sum;
 #endif
 	}
 	for (j = js; j < n; ++j)
@@ -771,7 +771,7 @@ cl1(int k, int l, int m, int n,
 #if defined(USE_GMP)
 	*l_error = mpf_get_d(sum);
 #else
-	*l_error = sum;
+	*l_error = (double)sum;
 #endif
 #if defined(USE_GMP)
 	mpf_clear(sum);
