@@ -4868,9 +4868,11 @@ read_solution(void)
 						error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
 						input_error++;
+						temp_iso_name = (char*)free_check_null(temp_iso_name);
 						return (CParser::PARSER_ERROR);
 					}
 					temp_isotope.Set_elt_name(ptr1);
+					temp_iso_name = (char*)free_check_null(temp_iso_name);
 				}
 				/* read and store isotope ratio */
 				if (copy_token(token, &next_char) != CParser::TT_DIGIT)
