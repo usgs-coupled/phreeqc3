@@ -154,13 +154,15 @@ pitz_param_store(struct pitz_param *pzp_ptr)
 	{
 		if (pzp_ptr->species[i] != NULL) header.insert(pzp_ptr->species[i]);
 	}
-	std::string key;
+
+	std::ostringstream key_str;
+	key_str << pzp_ptr->type << " ";
 	std::set< std::string >::iterator it = header.begin();
 	for(; it != header.end(); ++it)
 	{
-		key += (*it);
-		key += " ";
+		key_str << *it << " ";
 	}
+	std::string key = key_str.str().c_str();
 	std::map< std::string, size_t>::iterator jit = pitz_param_map.find(key);
 	if (jit != pitz_param_map.end())
 	{
