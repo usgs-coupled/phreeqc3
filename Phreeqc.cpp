@@ -125,16 +125,16 @@ Phreeqc::~Phreeqc(void)
 {
 
 	clean_up();
-	if (phrq_io == &ioInstance)
-	{
-		this->phrq_io->clear_istream();
-		this->phrq_io->close_ostreams();
-	}
 
 	free_check_null(default_data_base);
 	free_check_null(sformatf_buffer);
 
 	PHRQ_free_all();
+	if (phrq_io == &ioInstance)
+	{
+		this->phrq_io->clear_istream();
+		this->phrq_io->close_ostreams();
+	}
 }
 
 void Phreeqc::set_phast(int tf)
