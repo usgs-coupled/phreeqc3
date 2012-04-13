@@ -4392,6 +4392,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 			fprintf(netpath_file, "%d. Solution %d\n", count_inverse_models,
 					solution_ptr_orig->Get_n_user());
 		}
+		description = (char *) free_check_null(description);
 
 		/* bookkeeping */
 		count_pat_solutions++;

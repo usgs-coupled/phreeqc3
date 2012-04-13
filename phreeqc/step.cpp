@@ -175,6 +175,16 @@ step(LDBLE step_fraction)
 			Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
 			use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 		}
+		if (pp_assemblage_save != NULL)
+		{
+			delete pp_assemblage_save;
+			pp_assemblage_save = NULL;
+		}
+		if (ss_assemblage_save != NULL)
+		{
+			delete ss_assemblage_save;
+			ss_assemblage_save = NULL;
+		}
 		return (MASS_BALANCE);
 	}
 /*
@@ -190,6 +200,11 @@ step(LDBLE step_fraction)
 	{
 		delete pp_assemblage_save;
 		pp_assemblage_save = NULL;
+	}
+	if (ss_assemblage_save != NULL)
+	{
+		delete ss_assemblage_save;
+		ss_assemblage_save = NULL;
 	}
 	//
 	// Solution -1 has sum of solution/mix, exchange, surface, gas_phase

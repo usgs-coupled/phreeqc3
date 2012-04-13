@@ -1709,6 +1709,7 @@ public:
 	cxxPPassemblage *cvode_pp_assemblage_save;
 	LDBLE *m_original;
 	LDBLE *m_temp;
+	LDBLE *rk_moles;
 	int set_and_run_attempt;
 
 	/* model.cpp ------------------------------- */

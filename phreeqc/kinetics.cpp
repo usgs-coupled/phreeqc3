@@ -260,7 +260,6 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	int l_bad, step_bad, step_ok;
 	int n_reactions;
 	LDBLE h, h_old, h_sum;
-	LDBLE *rk_moles;
 	LDBLE l_error, error_max, safety, moles_max, moles_reduction;
 	cxxKinetics *kinetics_ptr;
 	int equal_rate, zero_rate;
@@ -293,10 +292,9 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	if (kinetics_ptr == NULL)
 		return (OK);
 	n_reactions = (int) kinetics_ptr->Get_kinetics_comps().size();
-	rk_moles =
-		(LDBLE *) PHRQ_malloc((size_t) 6 * n_reactions * sizeof(LDBLE));
-	if (rk_moles == NULL)
-		malloc_error();
+	rk_moles = (LDBLE *) free_check_null(rk_moles);
+	rk_moles = (LDBLE *) PHRQ_malloc((size_t) 6 * n_reactions * sizeof(LDBLE));
+	if (rk_moles == NULL) malloc_error();
 
 	/*if (use_mix != NOMIX) last_model.force_prep = TRUE; */
 	set_and_run_wrapper(i, use_mix, FALSE, i, step_fraction);
@@ -1388,6 +1386,16 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		pr.use = TRUE;
 		sum_species();
 		print_all();
+		if (pp_assemblage_save != NULL)
+		{
+			delete pp_assemblage_save;
+			pp_assemblage_save = NULL;
+		}
+		if (ss_assemblage_save != NULL)
+		{
+			delete ss_assemblage_save;
+			ss_assemblage_save = NULL;
+		}
 		error_string = sformatf(
 				"Numerical method failed on all combinations of convergence parameters");
 		error_msg(error_string, STOP);
@@ -2528,12 +2536,12 @@ store_get_equi_reactants(int l, int kin_end)
 			}
 		}
 		k = count_pp + count_ss + count_pg;
-		x0_moles = NULL;
+		
 		if (k == 0)
 			return (OK);
+		x0_moles = (LDBLE *) free_check_null(x0_moles);
 		x0_moles = (LDBLE *) PHRQ_malloc((size_t) k * sizeof(LDBLE));
-		if (x0_moles == NULL)
-			malloc_error();
+		if (x0_moles == NULL) malloc_error();
 		for (i = 0; i < k; i++)
 		{
 		  x0_moles[i] = 0.0;
