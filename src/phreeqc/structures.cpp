@@ -135,6 +135,10 @@ clean_up(void)
 
 /* kinetics */
 	Rxn_kinetics_map.clear();
+	x0_moles = (LDBLE *) free_check_null(x0_moles);
+	m_temp = (LDBLE *) free_check_null(m_temp);
+	m_original = (LDBLE *) free_check_null(m_original);
+	rk_moles = (LDBLE *) free_check_null(rk_moles);
 
 /* rates */
 	for (j = 0; j < count_rates; j++)

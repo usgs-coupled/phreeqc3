@@ -631,6 +631,7 @@ void Phreeqc::init(void)
 	pitzer_pe				= FALSE;
 
 	count_pp = count_pg = count_ss = 0; // used in store_get_equi_reactants
+	x0_moles = NULL;
 	/*
 	 *	SIT
 	 */
@@ -746,6 +747,7 @@ void Phreeqc::init(void)
 	/* kinetics.c */
 	m_original = NULL;
 	m_temp = NULL;
+	rk_moles = NULL;
 
 	/* pitzer.c */
 	A0 = 0;

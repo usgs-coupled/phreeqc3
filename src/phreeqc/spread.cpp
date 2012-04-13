@@ -739,6 +739,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 					error_string = sformatf( "Expected isotope name to"
 						" begin with an isotopic number.");
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					free_check_null(char_string);
 					continue;
 				}
 				temp_isotope.Set_isotope_name(token.c_str());
@@ -768,6 +769,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 					error_string = sformatf(
 						"Expected numeric value for isotope ratio.");
 					error_msg(error_string, CONTINUE);
+					free_check_null(char_string);
 					continue;
 				}
 				sscanf(token.c_str(), SCANFORMAT, &dummy);
@@ -784,6 +786,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 						error_string = sformatf(
 							"Expected numeric value for uncertainty in isotope ratio.");
 						error_msg(error_string, PHRQ_io::OT_CONTINUE);
+						free_check_null(char_string);
 						continue;
 					}
 					sscanf(token.c_str(), SCANFORMAT, &dummy);
@@ -841,7 +844,10 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			{
 				next_char = char_string;
 				if (copy_token(token, &next_char) == LOWER)
+				{
+					free_check_null(char_string);
 					continue;
+				}
 				cxxISolutionComp temp_comp(this->phrq_io);
 				if (temp_comp.read(char_string, &temp_solution) == CParser::PARSER_ERROR)
 				{
