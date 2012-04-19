@@ -7,7 +7,6 @@
 #include "Parser.h"
 #include "ChartObject.h"
 #include "PHRQ_base.h"
-#include "Phreeqc_class.h"
 
 class ChartHandler: public PHRQ_base
 {
@@ -28,8 +27,8 @@ public:
 	{
 		return timer;
 	}
-	bool Read(PHREEQC_PTR_ARG_COMMA CParser &parser);
-	void Punch_user_graph(PHREEQC_PTR_ARG);
+	bool Read(Phreeqc * phreeqc_ptr, CParser &parser);
+	void Punch_user_graph(Phreeqc * phreeqc_ptr);
 	bool End_timer();
 	bool dump(std::ostream & oss, unsigned int indent);
 protected:

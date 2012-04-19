@@ -934,7 +934,7 @@ cxxSolution::mpi_send(int task_number)
 
 	/*  int count_isotopes; */
 	/*  struct isotope *isotopes; */
-	if (P_INSTANCE_POINTER input_error > 0)
+	if (phreeqc_ptr-> input_error > 0)
 	{
 		std::string errstr("Stopping due to errors\n");
 		error_msg(errstr.c_str(), STOP);
@@ -950,7 +950,7 @@ cxxSolution::mpi_send(int task_number)
 	MPI_Pack_size((int) doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD,
 				  &member_size);
 	max_size += member_size + 10;
-	buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
+	buffer = phreeqc_ptr-> PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 /*
@@ -998,7 +998,7 @@ cxxSolution::mpi_recv(int task_number)
 
 	MPI_Recv(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD,
 			 &mpi_status);
-	void *buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
+	void *buffer = phreeqc_ptr-> PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 	/*

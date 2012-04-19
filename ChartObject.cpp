@@ -12,7 +12,6 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
-#include "Phreeqc_class.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
@@ -755,7 +754,7 @@ ChartObject::Set_rate_struct(void)
 		oss << *it << "\n";
 	}
 	this->Rate_free();
-	this->user_graph->commands = (char *) P_INSTANCE_POINTER PHRQ_malloc((oss.str().size()) + 100 * sizeof(char));
+	this->user_graph->commands = (char *) phreeqc_ptr-> PHRQ_malloc((oss.str().size()) + 100 * sizeof(char));
 	::strcpy(this->user_graph->commands, oss.str().c_str());
 	this->user_graph->new_def = this->rate_new_def;
 	this->user_graph->loopbase = NULL;
@@ -987,12 +986,12 @@ ChartObject::Rate_free(void)
 {
 
 
-	user_graph->commands = (char *) P_INSTANCE_POINTER free_check_null(user_graph->commands);
+	user_graph->commands = (char *) phreeqc_ptr-> free_check_null(user_graph->commands);
 
 	if (user_graph->linebase != NULL)
 	{
 		char cmd[] = "new; quit";
-		P_INSTANCE_POINTER basic_run(cmd, user_graph->linebase, user_graph->varbase, user_graph->loopbase);
+		phreeqc_ptr-> basic_run(cmd, user_graph->linebase, user_graph->varbase, user_graph->loopbase);
 		user_graph->linebase = NULL;
 		user_graph->varbase = NULL;
 		user_graph->loopbase = NULL;

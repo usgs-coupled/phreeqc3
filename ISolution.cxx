@@ -33,7 +33,7 @@ cxxISolution::~cxxISolution()
 
 #ifdef SKIP_OR_MOVE_TO_STRUCTURES
 void
-cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
+cxxISolution::ConvertUnits(Phreeqc * phreeqc_ptr)
   //
   // Converts from input units to moles per kilogram water
   //
@@ -44,7 +44,7 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 		this->comps.begin();
 	for (; iter != this->comps.end(); ++iter)
 	{
-		struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(iter->first.c_str());
+		struct master *master_ptr = phreeqc_ptr-> master_bsearch(iter->first.c_str());
 		if (master_ptr != NULL && (master_ptr->minor_isotope == TRUE))
 			continue;
 		//if (iter->second.Get_description() == "H(1)" || iter->second.Get_description() == "E") continue;
@@ -65,7 +65,7 @@ cxxISolution::ConvertUnits(PHREEQC_PTR_ARG)
 * Convert to moles
 */
 		//set gfw for element
-		iter->second.set_gfw(P_INSTANCE);
+		iter->second.set_gfw(phreeqc_ptr);
 		// convert to moles
 		if (iter->second.get_units().find("g/") != std::string::npos)
 		{

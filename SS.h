@@ -8,7 +8,6 @@
 #include <vector>				// std::vector
 #include "phrqtype.h"
 #include "NameDouble.h"
-#include "Phreeqc_class.h"
 #include "SScomp.h"
 
 
@@ -53,7 +52,7 @@ class cxxSS: public PHRQ_base
 			this->name.clear();
 	}
 
-	void totalize(PHREEQC_PTR_ARG);
+	void totalize(Phreeqc * phreeqc_ptr);
 	const cxxNameDouble & Get_totals() const
 	{
 		return (this->totals);

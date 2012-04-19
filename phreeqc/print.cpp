@@ -126,7 +126,7 @@ punch_all(void)
 #elif  defined MULTICHART
 	if (pr.user_graph == TRUE)
 	{
-			chart_handler.Punch_user_graph(PHREEQC_THIS);
+			chart_handler.Punch_user_graph(this);
 	}
 #endif
 	if (pr.hdf == FALSE && (punch.in == FALSE || pr.punch == FALSE))

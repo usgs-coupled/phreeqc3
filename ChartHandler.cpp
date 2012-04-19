@@ -36,7 +36,7 @@ ChartHandler::~ChartHandler()
 	}
 }
 void
-ChartHandler::Punch_user_graph(PHREEQC_PTR_ARG)
+ChartHandler::Punch_user_graph(Phreeqc * phreeqc_ptr)
 {
 	std::map<int, ChartObject *>::iterator it = this->chart_map.begin();
 	for ( ; it != chart_map.end(); it++)
@@ -46,14 +46,14 @@ ChartHandler::Punch_user_graph(PHREEQC_PTR_ARG)
 			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1))
 				System::Threading::Thread::Sleep(1);
 			this->current_chart = it->second;
-			P_INSTANCE_POINTER punch_user_graph();
+			phreeqc_ptr-> punch_user_graph();
 			System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
 		}
 	}
 }
 
 bool
-ChartHandler::Read(PHREEQC_PTR_ARG_COMMA CParser &parser)
+ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 {
 	int n_user;
 	std::string token;
@@ -76,7 +76,7 @@ ChartHandler::Read(PHREEQC_PTR_ARG_COMMA CParser &parser)
 	{
 		chart_map[n_user] = new ChartObject(this->Get_io());
 		it = this->chart_map.find(n_user);
-		it->second->Set_phreeqc(P_INSTANCE);
+		it->second->Set_phreeqc(phreeqc_ptr);
 	}
 
 	// Read/update ChartObject

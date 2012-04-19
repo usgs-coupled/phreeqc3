@@ -39,7 +39,7 @@ class cxxISolution: public PHRQ_base
 	std::map < std::string, cxxChemRxn >  &Get_pe_reactions(void) {return this->pe_reactions;}
 	void Set_pe_reactions(std::map < std::string, cxxChemRxn >  &pe) {this->pe_reactions = pe;}
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
-	//void ConvertUnits(PHREEQC_PTR_ARG);
+	//void ConvertUnits(Phreeqc * phreeqc_ptr);
 
   protected:
 	friend class cxxISolutionComp;	// for this->pe access

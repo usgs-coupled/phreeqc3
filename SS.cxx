@@ -503,7 +503,7 @@ cxxSS::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 }
 #endif
 void
-cxxSS::totalize(PHREEQC_PTR_ARG)
+cxxSS::totalize(Phreeqc * phreeqc_ptr)
 {
 	this->totals.clear();
 	// component structures
@@ -511,7 +511,7 @@ cxxSS::totalize(PHREEQC_PTR_ARG)
 	{
 		struct phase *phase_ptr;
 		int l;
-		phase_ptr = P_INSTANCE_POINTER phase_bsearch(ss_comps[i].Get_name().c_str(), &l, FALSE);
+		phase_ptr = phreeqc_ptr-> phase_bsearch(ss_comps[i].Get_name().c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);

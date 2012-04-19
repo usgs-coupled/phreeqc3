@@ -829,7 +829,7 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
 			error_string = sformatf(
 					"Solution %d not found in mix_cxxSolutions.", it->first);
 			error_msg(error_string, CONTINUE);
-			P_INSTANCE_POINTER input_error++;
+			phreeqc_ptr-> input_error++;
 			return (NULL);
 		}
 		intensive = it->second / extensive;
@@ -841,22 +841,22 @@ cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
 
 #ifdef SKIP_OR_MOVE_TO_STRUCTURES
 struct system *
-cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
+cxxStorageBin::cxxStorageBin2system(Phreeqc * phreeqc_ptr, int n)
 		//
 		// make a system from storagebin
 		//
 {
 	struct system *system_ptr =
-		(struct system *) P_INSTANCE_POINTER PHRQ_malloc(sizeof(struct system));
+		(struct system *) phreeqc_ptr-> PHRQ_malloc(sizeof(struct system));
 	if (system_ptr == NULL)
-		P_INSTANCE_POINTER malloc_error();
+		phreeqc_ptr-> malloc_error();
 
 	// Solutions
 
 	if (this->getSolution(n) != NULL)
 	{
-		//system_ptr->solution = (this->getSolution(n))->cxxSolution2solution(P_INSTANCE);
-		system_ptr->solution = P_INSTANCE_POINTER cxxSolution2solution(this->getSolution(n));
+		//system_ptr->solution = (this->getSolution(n))->cxxSolution2solution(phreeqc_ptr);
+		system_ptr->solution = phreeqc_ptr-> cxxSolution2solution(this->getSolution(n));
 	}
 	else
 	{
@@ -866,8 +866,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// Exchangers
 	if (this->getExchange(n) != NULL)
 	{
-		//system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange(P_INSTANCE);
-		system_ptr->exchange = P_INSTANCE_POINTER cxxExchange2exchange(this->getExchange(n));
+		//system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange(phreeqc_ptr);
+		system_ptr->exchange = phreeqc_ptr-> cxxExchange2exchange(this->getExchange(n));
 	}
 	else
 	{
@@ -877,8 +877,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// GasPhases
 	if (this->getGasPhase(n) != NULL)
 	{
-		//system_ptr->gas_phase = (this->getGasPhase(n))->cxxGasPhase2gas_phase(P_INSTANCE);
-		system_ptr->gas_phase = P_INSTANCE_POINTER cxxGasPhase2gas_phase(this->getGasPhase(n));
+		//system_ptr->gas_phase = (this->getGasPhase(n))->cxxGasPhase2gas_phase(phreeqc_ptr);
+		system_ptr->gas_phase = phreeqc_ptr-> cxxGasPhase2gas_phase(this->getGasPhase(n));
 	}
 	else
 	{
@@ -888,8 +888,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// Kinetics
 	if (this->getKinetics(n) != NULL)
 	{
-		//system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics(P_INSTANCE);
-		system_ptr->kinetics = P_INSTANCE_POINTER cxxKinetics2kinetics(this->getKinetics(n));
+		//system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics(phreeqc_ptr);
+		system_ptr->kinetics = phreeqc_ptr-> cxxKinetics2kinetics(this->getKinetics(n));
 		
 	}
 	else
@@ -901,9 +901,9 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	if (this->getPPassemblage(n) != NULL)
 	{
 		//system_ptr->pp_assemblage =
-		//	(this->getPPassemblage(n))->cxxPPassemblage2pp_assemblage(P_INSTANCE);
+		//	(this->getPPassemblage(n))->cxxPPassemblage2pp_assemblage(phreeqc_ptr);
 		system_ptr->pp_assemblage =
-			P_INSTANCE_POINTER cxxPPassemblage2pp_assemblage(this->getPPassemblage(n));
+			phreeqc_ptr-> cxxPPassemblage2pp_assemblage(this->getPPassemblage(n));
 	}
 	else
 	{
@@ -914,9 +914,9 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	if (this->getSSassemblage(n) != NULL)
 	{
 		//system_ptr->ss_assemblage =
-		//	(this->getSSassemblage(n))->cxxSSassemblage2ss_assemblage(P_INSTANCE);
+		//	(this->getSSassemblage(n))->cxxSSassemblage2ss_assemblage(phreeqc_ptr);
 		system_ptr->ss_assemblage =
-			P_INSTANCE_POINTER cxxSSassemblage2ss_assemblage((this->getSSassemblage(n)));
+			phreeqc_ptr-> cxxSSassemblage2ss_assemblage((this->getSSassemblage(n)));
 	}
 	else
 	{
@@ -926,8 +926,8 @@ cxxStorageBin::cxxStorageBin2system(PHREEQC_PTR_ARG_COMMA int n)
 	// Surfaces
 	if (this->getSurface(n) != NULL)
 	{
-		//system_ptr->surface = (this->getSurface(n))->cxxSurface2surface(P_INSTANCE);
-		system_ptr->surface = P_INSTANCE_POINTER cxxSurface2surface((this->getSurface(n)));
+		//system_ptr->surface = (this->getSurface(n))->cxxSurface2surface(phreeqc_ptr);
+		system_ptr->surface = phreeqc_ptr-> cxxSurface2surface((this->getSurface(n)));
 	}
 	else
 	{
@@ -1040,7 +1040,7 @@ cxxStorageBin::mpi_send(int n, int task_number)
 	MPI_Pack_size((int) doubles.size(), MPI_DOUBLE, MPI_COMM_WORLD,
 				  &member_size);
 	max_size += member_size + 10;
-	void *buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
+	void *buffer = phreeqc_ptr-> PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 
@@ -1092,7 +1092,7 @@ cxxStorageBin::mpi_recv(int task_number)
 
 	MPI_Recv(&max_size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD,
 			 &mpi_status);
-	void *buffer = P_INSTANCE_POINTER PHRQ_malloc(max_size);
+	void *buffer = phreeqc_ptr-> PHRQ_malloc(max_size);
 	if (buffer == NULL)
 		malloc_error();
 	/*
@@ -1223,7 +1223,7 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 		error_string = sformatf( "Exchange %d not found in mix_cxxExchange.",
 				it_mix->first);
 		error_msg(error_string, CONTINUE);
-		P_INSTANCE_POINTER input_error++;
+		phreeqc_ptr-> input_error++;
 		return (NULL);
 	}
 	new_exch_ptr->set_pitzer_exchange_gammas(old_exch_ptr->
@@ -1244,7 +1244,7 @@ cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
 			error_string = sformatf( "Exchange %d not found in mix_cxxExchange.",
 					it_mix->first);
 			error_msg(error_string, CONTINUE);
-			P_INSTANCE_POINTER input_error++;
+			phreeqc_ptr-> input_error++;
 			return (NULL);
 		}
 		//  Add exchange components to vector ec_vector

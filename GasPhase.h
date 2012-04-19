@@ -9,7 +9,6 @@
 #include "phrqtype.h"
 #include "NumKeyword.h"
 #include "NameDouble.h"
-#include "Phreeqc_class.h"
 #include "GasComp.h"
 class cxxMix;
 
@@ -39,7 +38,7 @@ class cxxGasPhase:public cxxNumKeyword
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 
-	void totalize(PHREEQC_PTR_ARG);
+	void totalize(Phreeqc * phreeqc_ptr);
 
 	const cxxNameDouble & Get_totals() const
 	{

@@ -10,7 +10,6 @@
 
 #include "NumKeyword.h"
 #include "NameDouble.h"
-#include "Phreeqc_class.h"
 #include "SS.h"
 
 class cxxSS;
@@ -37,7 +36,7 @@ public:
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
-	void totalize(PHREEQC_PTR_ARG);
+	void totalize(Phreeqc * phreeqc_ptr);
 
 	const cxxNameDouble & Get_totals() const {return this->totals;}
 	std::map < std::string, cxxSS > & Get_SSs(void) {return SSs;}

@@ -275,14 +275,14 @@ cxxSSassemblage::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 #endif
 
 void
-cxxSSassemblage::totalize(PHREEQC_PTR_ARG)
+cxxSSassemblage::totalize(Phreeqc * phreeqc_ptr)
 {
 	this->totals.clear();
 	// component structures
 	for (std::map < std::string, cxxSS >::iterator it =
 		 SSs.begin(); it != SSs.end(); ++it)
 	{
-		(*it).second.totalize(P_INSTANCE);
+		(*it).second.totalize(phreeqc_ptr);
 		this->totals.add_extensive((*it).second.Get_totals(), 1.0);
 	}
 	return;

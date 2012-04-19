@@ -9,7 +9,6 @@
 
 #include "NumKeyword.h"
 #include "PPassemblageComp.h"
-#include "Phreeqc_class.h"
 class cxxMix;
 
 class cxxPPassemblage:public cxxNumKeyword
@@ -55,7 +54,7 @@ class cxxPPassemblage:public cxxNumKeyword
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif
 
-	void totalize(PHREEQC_PTR_ARG);
+	void totalize(Phreeqc * phreeqc_ptr);
 
 protected:
 	void add(const cxxPPassemblage & addee, LDBLE extensive);
