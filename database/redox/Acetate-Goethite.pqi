@@ -1,0 +1,25 @@
+DATABASE C:\Programs\phreeqc-trunk\database\redox\redox.dat
+SOLUTION_MASTER_SPECIES
+Acetate  HAcetate       0.0     Acetate        59.
+SOLUTION_SPECIES
+HAcetate =  HAcetate
+	log_k 0
+HAcetate =  Acetate- + H+
+         log_k        -4.7572
+
+SOLUTION 1 Goethite reduction by organic matter
+	pH      7    
+	Na	  1	 charge
+	Acetate 2
+	Amm     1
+EQUILIBRIUM_PHASES 1
+	redoxGoethite	0	0.05
+REACTION 1
+	Acetate  -1.0
+	CH3COO    0.7
+	Ferric   -5.6
+	Ferrous   5.6
+      CH3COO      0.3
+      C5H7O2Amm  -0.12
+	0.1 mmol
+END
