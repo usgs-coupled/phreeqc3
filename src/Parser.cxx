@@ -13,7 +13,6 @@
 #include "Utils.h"
 #include <stdio.h>
 #include "Parser.h"
-#include "Phreeqc.h"
 #include "PHRQ_io.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -989,12 +988,12 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	return PARSER_OK;
 }
 
-CParser::STATUS_TYPE CParser::addPair(std::map < std::string, LDBLE >&totals,
+template <class T>
+CParser::STATUS_TYPE CParser::addPair(std::map < std::string, T >&totals,
 									  std::istream::pos_type & pos)
 {
 	std::string token;
-	LDBLE
-		d;
+	T d;
 	CParser::TOKEN_TYPE j;
 
 	m_line_iss.seekg(pos);
