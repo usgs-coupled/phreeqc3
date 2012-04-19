@@ -7,7 +7,6 @@
 
 #include "Utils.h"
 #include "Phreeqc.h"
-#include "Phreeqc_class.h"
 #include "Parser.h"
 #include "Solution.h"
 #include "Exchange.h"
@@ -917,7 +916,7 @@ read_user_graph_handler(void)
 
 	assert(!reading_database());
 
-	bool success = chart_handler.Read(PHREEQC_THIS_COMMA parser);
+	bool success = chart_handler.Read(this, parser);
 
 	// Need to output the next keyword
 	if (return_value == OPTION_KEYWORD) echo_msg(sformatf( "\t%s\n", line));

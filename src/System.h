@@ -2,7 +2,6 @@
 #define SYSTEM_H_INCLUDED
 #include "NameDouble.h"
 #include "PHRQ_base.h"
-#include "Phreeqc_class.h"
 class cxxSolution;
 class cxxExchange;
 class cxxGasPhase;
@@ -65,7 +64,7 @@ public:
 	{
 		this->pressure = entity;
 	} 
-	void totalize(PHREEQC_PTR_ARG);
+	void totalize(Phreeqc * phreeqc_ptr);
 	cxxNameDouble &Get_Totals(void)
 	{
 		return this->totals;

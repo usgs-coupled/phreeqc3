@@ -227,11 +227,11 @@ class ChartObject:public cxxNumKeyword
 	}
 	void Set_phreeqc(Phreeqc * ptr)
 	{
-		this->p_instance1 = ptr;
+		this->phreeqc_ptr = ptr;
 	}
 	Phreeqc * Get_phreeqc()
 	{
-		return this->p_instance1;
+		return this->phreeqc_ptr;
 	}
 
 	bool Set_axis_scale(std::vector<std::string>, std::vector<int> types, std::ostringstream &);
@@ -326,7 +326,7 @@ class ChartObject:public cxxNumKeyword
 	bool active;
 	bool detach;
 	bool form_started;
-	class Phreeqc * p_instance1;
+	class Phreeqc * phreeqc_ptr;
 
   public:
 	int usingResource;

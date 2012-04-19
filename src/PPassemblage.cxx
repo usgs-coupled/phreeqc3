@@ -288,14 +288,14 @@ cxxPPassemblage::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 }
 #endif
 void
-cxxPPassemblage::totalize(PHREEQC_PTR_ARG)
+cxxPPassemblage::totalize(Phreeqc * phreeqc_ptr)
 {
 	this->assemblage_totals.clear();
 	// component structures
 	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
 		 pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
-		(*it).second.totalize(P_INSTANCE);
+		(*it).second.totalize(phreeqc_ptr);
 		this->assemblage_totals.add_extensive((*it).second.Get_totals(), 1.0);
 	}
 	return;

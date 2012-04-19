@@ -23,7 +23,7 @@ cxxISolutionComp::~cxxISolutionComp(void)
 
 #ifdef SKIP_OR_MOVE_TO_STRUCTURES
 struct conc *
-cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < std::string,
+cxxISolutionComp::cxxISolutionComp2conc(Phreeqc * phreeqc_ptr, const std::map < std::string,
 										cxxISolutionComp > &totals)
 		// for ISolutions
 		// takes a std::vector cxxISolutionComp structures
@@ -31,27 +31,27 @@ cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < s
 {
 	struct conc *c;
 	c = (struct conc *)
-		P_INSTANCE_POINTER PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
+		phreeqc_ptr-> PHRQ_malloc((size_t) ((totals.size() + 1) * sizeof(struct conc)));
 	if (c == NULL)
-		P_INSTANCE_POINTER malloc_error();
+		phreeqc_ptr-> malloc_error();
 	int i = 0;
 	for (std::map < std::string, cxxISolutionComp >::const_iterator it = totals.begin();
 		 it != totals.end(); ++it)
 	{
-		c[i].description = P_INSTANCE_POINTER string_duplicate(it->second.description.c_str());
+		c[i].description = phreeqc_ptr-> string_duplicate(it->second.description.c_str());
 		c[i].moles = it->second.moles;
 		c[i].input_conc = it->second.input_conc;
 		if (it->second.units.size() == 0)
 			c[i].units = NULL;
 		else
-			c[i].units = P_INSTANCE_POINTER string_hsave(it->second.units.c_str());
+			c[i].units = phreeqc_ptr-> string_hsave(it->second.units.c_str());
 		if (it->second.equation_name.size() == 0)
 			c[i].equation_name = NULL;
 		else
-			c[i].equation_name = P_INSTANCE_POINTER string_hsave(it->second.equation_name.c_str());
+			c[i].equation_name = phreeqc_ptr-> string_hsave(it->second.equation_name.c_str());
 		c[i].phase_si = it->second.phase_si;
 		c[i].n_pe = it->second.n_pe;
-		c[i].as = P_INSTANCE_POINTER string_hsave(it->second.as.c_str());
+		c[i].as = phreeqc_ptr-> string_hsave(it->second.as.c_str());
 		c[i].gfw = it->second.gfw;
 		//c[i].skip                = 0;
 		c[i].phase = NULL;
@@ -64,7 +64,7 @@ cxxISolutionComp::cxxISolutionComp2conc(PHREEQC_PTR_ARG_COMMA const std::map < s
 
 #ifdef SKIP_OR_MOVE_TO_STRUCTURES
 void
-cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
+cxxISolutionComp::set_gfw(Phreeqc * phreeqc_ptr)
 {
 // return gfw
 	if (this->gfw > 0.0)
@@ -74,7 +74,7 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 	{
 		/* use given chemical formula to calculate gfw */
 		LDBLE l_gfw;
-		if (P_INSTANCE_POINTER compute_gfw(this->as.c_str(), &l_gfw) == ERROR)
+		if (phreeqc_ptr-> compute_gfw(this->as.c_str(), &l_gfw) == ERROR)
 		{
 			std::ostringstream oss;
 			oss << "Could not compute gfw, " << this->as;
@@ -92,7 +92,7 @@ cxxISolutionComp::set_gfw(PHREEQC_PTR_ARG)
 	}
 	/* use gfw of master species */
 	std::string str(this->description);
-	struct master *master_ptr = P_INSTANCE_POINTER master_bsearch(str.c_str());
+	struct master *master_ptr = phreeqc_ptr-> master_bsearch(str.c_str());
 	if (master_ptr != NULL)
 	{
 		/* use gfw for element redox state */

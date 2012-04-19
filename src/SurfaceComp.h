@@ -6,7 +6,6 @@
 #include <string>				// std::string
 #include <list>					// std::list
 #include <vector>				// std::vector
-#include "Phreeqc_class.h"
 #include "NameDouble.h"
 
 class cxxSurfaceComp: public PHRQ_base

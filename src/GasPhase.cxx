@@ -586,7 +586,7 @@ cxxGasPhase::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 }
 #endif
 void
-cxxGasPhase::totalize(PHREEQC_PTR_ARG)
+cxxGasPhase::totalize(Phreeqc * phreeqc_ptr)
 {
 	this->totals.clear();
 	// component structures
@@ -594,7 +594,7 @@ cxxGasPhase::totalize(PHREEQC_PTR_ARG)
 	{
 		struct phase *phase_ptr;
 		int l;
-		phase_ptr = P_INSTANCE_POINTER phase_bsearch(this->gas_comps[i].Get_phase_name().c_str(), &l, FALSE);
+		phase_ptr = phreeqc_ptr-> phase_bsearch(this->gas_comps[i].Get_phase_name().c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);

@@ -6,7 +6,6 @@
 #endif
 #include <cassert>				// assert
 #include <algorithm>			// std::sort
-#include "Phreeqc_class.h"
 #include "Utils.h"				// define first
 #include "Phreeqc.h"
 #include "Surface.h"

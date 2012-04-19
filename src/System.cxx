@@ -50,7 +50,7 @@ cxxSystem::Initialize(void)
 	this->pressure = NULL;
 } 
 void
-cxxSystem::totalize(PHREEQC_PTR_ARG) 
+cxxSystem::totalize(Phreeqc * phreeqc_ptr) 
 {
 	//initialize
 	this->totals.clear();
@@ -73,22 +73,22 @@ cxxSystem::totalize(PHREEQC_PTR_ARG)
 	}
 	if (this->ppassemblage != NULL)
 	{
-		this->ppassemblage->totalize(P_INSTANCE);
+		this->ppassemblage->totalize(phreeqc_ptr);
 		this->totals.add_extensive(this->ppassemblage->Get_assemblage_totals(), 1.0);
 	}
 	if (this->gasphase != NULL)
 	{
-		this->gasphase->totalize(P_INSTANCE);
+		this->gasphase->totalize(phreeqc_ptr);
 		this->totals.add_extensive(this->gasphase->Get_totals(), 1.0);
 	}
 	if (this->ssassemblage != NULL)
 	{
-		this->ssassemblage->totalize(P_INSTANCE);
+		this->ssassemblage->totalize(phreeqc_ptr);
 		this->totals.add_extensive(this->ssassemblage->Get_totals(), 1.0);
 	}
 	if (this->surface != NULL)
 	{
-		this->ssassemblage->totalize(P_INSTANCE);
+		this->ssassemblage->totalize(phreeqc_ptr);
 		this->totals.add_extensive(this->surface->Get_totals(), 1.0);
 	}
 	return;

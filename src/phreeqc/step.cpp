@@ -226,7 +226,7 @@ step(LDBLE step_fraction)
 			sys_bin.Set_SSassemblage(-1, *use.Get_ss_assemblage_ptr());
 		}
 		sys_bin.Set_System(-1);
-		sys_bin.Get_System().totalize(PHREEQC_THIS);
+		sys_bin.Get_System().totalize(this);
 		cxxNameDouble sys_tots = sys_bin.Get_System().Get_Totals();
 		if (use.Get_pp_assemblage_in())
 		{

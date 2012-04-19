@@ -7,12 +7,10 @@
 #include <vector>				// std::vector
 #include <iostream>
 #include "NumKeyword.h"
-//#include "SolutionIsotopeList.h"
 #include "SolutionIsotope.h"
 #include "NameDouble.h"
 #include "PHRQ_base.h"
 #include "PHRQ_io.h"
-#include "Phreeqc_class.h"
 #include "ISolution.h"
 class cxxMix;
 

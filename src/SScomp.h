@@ -8,7 +8,6 @@
 #include <vector>				// std::vector
 
 #include "NameDouble.h"
-#include "Phreeqc_class.h"
 
 class cxxSScomp: public PHRQ_base
 {
