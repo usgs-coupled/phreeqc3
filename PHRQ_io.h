@@ -129,8 +129,8 @@ public:
 
 	// input methods
 	virtual int getc(void);
-	LINE_TYPE get_line(void);
-	LINE_TYPE get_logical_line(void);
+	virtual LINE_TYPE get_line(void);
+	virtual LINE_TYPE get_logical_line(void);
 	bool check_key(std::string::iterator begin, std::string::iterator end);
 	std::string & Get_m_line()       {return m_line;}
 	std::string & Get_m_line_save()  {return m_line_save;}
