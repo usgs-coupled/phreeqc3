@@ -1,3 +1,4 @@
+#include <string.h>     // ::strstr
 #include <assert.h>
 #include "PHRQ_io.h"
 #include "Parser.h"
