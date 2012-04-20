@@ -1,5 +1,4 @@
 #include <assert.h>
-#include "Utils.h"
 #include "PHRQ_io.h"
 #include "Parser.h"
 
@@ -742,7 +741,7 @@ get_line(void)
 		std::string::iterator beg = m_line.begin();
 		std::string::iterator end = m_line.end();
 		CParser::copy_token(stdtoken, beg, end);
-		Utilities::str_tolower(stdtoken);
+		std::transform(stdtoken.begin(), stdtoken.end(), stdtoken.begin(), ::tolower);
 		if ((strstr(stdtoken.c_str(),"include$") == stdtoken.c_str()) ||
 			(strstr(stdtoken.c_str(),"include_file") == stdtoken.c_str()))
 		{
