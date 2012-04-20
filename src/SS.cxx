@@ -7,6 +7,7 @@
 #include <cassert>				// assert
 #include <algorithm>			// std::sort
 
+#include "Phreeqc.h"
 #include "Utils.h"				// define first
 #include "SS.h"
 //#include "Dictionary.h"
