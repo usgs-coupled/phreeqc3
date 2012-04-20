@@ -3,7 +3,7 @@
 #endif
 #include <stdlib.h>				// ::tolower
 #include <ctype.h>				// ::tolower
-#include <algorithm>			//std::transform
+#include <algorithm>			// std::transform
 #include <iostream>				// std::cout std::cerr
 #include <string.h>
 
