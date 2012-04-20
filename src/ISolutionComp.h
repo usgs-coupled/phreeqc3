@@ -1,16 +1,18 @@
 #if !defined(ISOLUTIONCOMP_H_INCLUDED)
 #define ISOLUTIONCOMP_H_INCLUDED
 
+#include <string.h>             // ::strcmp
 #include <string>
-#include <map>					// std::map
+#include <map>                  // std::map
 #include <vector>
 #include <set>
 #include "phrqtype.h"           // LDBLE
 #include "Parser.h"             // CParser
 #include "PHRQ_base.h"          // PHRQ_base
+
 // forward declarations
 class cxxSolution;
-class cxxISolution;				// reqd for read and dump_xml
+class cxxISolution;             // reqd for read and dump_xml
 class PHRQ_io;
 
 class cxxISolutionComp: public PHRQ_base

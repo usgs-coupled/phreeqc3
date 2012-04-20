@@ -5,6 +5,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include <stdio.h>           // ::sscanf
 #include "NumKeyword.h"
 #include "Parser.h"
 #include "Utils.h"
