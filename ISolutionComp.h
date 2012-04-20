@@ -5,9 +5,13 @@
 #include <map>					// std::map
 #include <vector>
 #include <set>
-#include "PHRQ_base.h"
+#include "phrqtype.h"           // LDBLE
+#include "Parser.h"             // CParser
+#include "PHRQ_base.h"          // PHRQ_base
 // forward declarations
+class cxxSolution;
 class cxxISolution;				// reqd for read and dump_xml
+class PHRQ_io;
 
 class cxxISolutionComp: public PHRQ_base
 {
