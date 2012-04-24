@@ -5,11 +5,9 @@
 SOLUTION_MASTER_SPECIES
 H	H+	     -1.     H	       1.008
 H(1)     H+	     -1.     0.0
-Hdg		Hdg	0	Hdg	2.016 # H2 gas
 E	e-	     0.0     0.0	     0.0
 O	H2O	    0.0     O	       16.00
 O(-2)    H2O	    0.0     0.0
-Oxg		Oxg	0	Oxg	32 # Oxygen gas
 Ca       Ca+2	   0.0     Ca	      40.08
 Mg       Mg+2	   0.0     Mg	      24.305
 Na       Na+	    0.0     Na	      22.9898
@@ -21,197 +19,188 @@ Sr       Sr+2	   0.0     Sr	      87.62
 Cl       Cl-	    0.0     Cl	      35.453
 C	CO3-2	  2.0     HCO3	    12.0111
 C(4)     CO3-2	  2.0     HCO3	    12.0111
-Mtg		Mtg	0.0	Mtg	16.032 # CH4 gas
 Alkalinity CO3-2	1.0     Ca0.5(CO3)0.5   50.05
 S	SO4-2	  0.0     SO4	     32.064
 S(6)     SO4-2	  0.0     SO4
-Sg		H2Sg	1.0	H2Sg	34.08 # H2S gas
-Ntg		Ntg	0	Ntg	28.0134 # N2 gas
 B	B(OH)3	 0.0     B	       10.81
 Li       Li+	    0.0     Li	      6.941
 Br       Br-	    0.0     Br	      79.904
-SOLUTION_SPECIES
+# redox-uncoupled gases
+Hdg		Hdg	0	Hdg	2.016 # H2 gas
+Oxg		Oxg	0	Oxg	32 # Oxygen gas
+Mtg		Mtg	0.0	Mtg	16.032 # CH4 gas
+Sg		H2Sg	1.0	H2Sg	34.08
+Ntg		Ntg	0	Ntg	28.0134 # N2 gas
 
+SOLUTION_SPECIES
 H+ = H+
-	log_k	   0.000
 	-dw	 9.31e-9
 e- = e-
-	log_k	   0.000
 H2O = H2O
-	log_k	   0.000
 Ca+2 = Ca+2
-	log_k	   0.000
 	-dw	 0.793e-9
-	-Vm  -17.95 -0.033 6.23e-4  -0.473 4.72e-2 -5.77e-4  -1e-3  4.2 # CaCl2.xls, Laliberte, 2009, 0-127 oC. Gypsum/Anhydrite solubility 0-170 oC, 1-1000 atm.
+	-millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
+	-Vm   -1.13  -1.985  7.98e-3  -2.697   1.67   4.6 6.8e-2 20 # supcrt modified
 Mg+2 = Mg+2
-	log_k	   0.000
 	-dw	 0.705e-9
-	-Vm -21.1 -2.41e-2 -1.06e-5  -0.242 3.39e-2 -4.52e-4  -1e-3  4.3 # MgCl2.xls, Laliberte, 0-100 oC
+	-millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
+	-Vm   1.85 -8.6 -3.27e-3 -2.39   3.9   3.9 0.05 16 # supcrt modified
 Na+ = Na+
-	log_k	   0.000
 	-dw	 1.33e-9
-	-Vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
+	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+	-Vm   1.53 -2.285 4.57 -2.726   0.169   2.6 -0.28 44 # supcrt modified
 K+ = K+
-	log_k	   0.000
 	-dw	 1.96e-9
-	-Vm 8.14 2.55e-2 2.17e-6  0.168 6.13e-3 -1.66e-4  -1e-3  0.184 # (corrected) KCl.xls, Laliberte, 2009. 0-125 oC.
+	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+	-Vm   3.72 -1.473 5.22 -2.712   0.471   0 -0.81 65 # supcrt modified
 Fe+2 = Fe+2
-	log_k	   0.000
 	-dw	 0.719e-9
-	-Vm -23.0 0.04 -8e-4 # Millero, 2001, App 14.
+	-Vm  -.7803   -9.6867   9.5573   -2.3786 1.4574 # supcrt
 Mn+2 = Mn+2
-	log_k	   0.000
 	-dw	 0.688e-9
-	-Vm  -17 0.02 -8e-4 # Millero, 2001, App 14.
+	-Vm   -.1016   -8.0295   8.9060   -2.4471  1.4006 # supcrt
 Ba+2 = Ba+2
-	log_k	   0.000
 	-dw	 0.848e-9
-	-Vm  -14 7.8e-3 5.2e-4 -5e-3 0.034 -5.7e-4 -10e-3 1.6 # 0-250 oC. BaCl2.xls, Laliberte, 2009. Barite solubility, Blount 1977, Lyashchenko and Churagulov, 1981. 0-250 oC, 1-500 atm.
+	-Vm   2.45 -10.06 0.34 -2.36   0.625   4.5  -0.46 88 # supcrt modified
 Sr+2 = Sr+2
-	log_k	   0.000
 	-dw	 0.794e-9
-	-Vm  -15.4 -0.168 23e-4  0.051 0.075 -9.2e-4  -10e-3 97 # SrCl2.xls, Laliberte, 2009.  Celestite solubility, Howell et al., 1992, JCED 37, 464. 0-200 OC, 1-600 atm.
+	-Vm   0.12 -10.15 4.89 -2.36   -7.17e-2   38 0.8 37 # supcrt modified
 Cl- = Cl-
-	log_k	   0.000
 	-dw	 2.03e-9
-	-Vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
+	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+	-Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 # supcrt modified
 CO3-2 = CO3-2
 	log_k	   0.000
 	-dw	 0.955e-9
-	-Vm  -10.97 0.38 -3.9e-3  3.23 -0.14 1.12e-3  0  1e-3 # NaHCO3.xls, Na2CO3.xls, Laliberte + PHREEQC speciation
+	-Vm   5.99 -3.98 -9.81 -2.61   4.33   -1.5e-3 -2.5 207
 SO4-2 = SO4-2
 	log_k	   0.000
 	-dw	 1.07e-9
-	-Vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -10e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
+	-Vm  10.57 -1.985 -11.65 -2.7   5.2  0 -1.5 142 # supcrt modified
 B(OH)3 = B(OH)3
 	log_k	   0.000
 	-dw	1.1e-9
 	-millero 36.56 0.130 -0.00081 # d, e and f not reported by Millero, 2000
+	-Vm 7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
 Li+ = Li+
 	log_k	   0.000
 	-dw	 1.03e-9
-	-Vm  -0.37 -0.029 4E-4 # Table 43.4
+	-Vm   -.0237   -.0690   11.5800   -2.7761 .4862 # supcrt
 Br- = Br-
 	log_k	   0.000
 	-dw	 2.01e-9
 	-millero 22.98 0.0934 -0.000968 -1.675 0.05 -0.001105
+	-Vm  5.2690   6.5940   4.7450   -3.1430 1.3858 # supcrt
 # redox-uncoupled gases
 Hdg = Hdg # H2
-	-Vm 20
+	-dw	 5.13e-9
+	-Vm 6.52  0.78  0.12 # supcrt
 Oxg = Oxg # O2
-	-Vm 35
+	-dw	 2.35e-9
+	-Vm   5.7889  6.3536  3.2528  -3.0417   -0.3943 # supcrt
 Mtg = Mtg # CH4
-	-Vm 33
-#	-Vm 37.5 8.7e-3 4e-4 0 0 0 5.7e-3 # Hnedkovsky et al., 1996, JCT 28, 125
+	-dw	 1.85e-9
+	-Vm 7.7 # CH4 solubility, 25-100C, 1-700atm
 Ntg = Ntg # N2
-	-Vm 30
+	-dw	 1.96e-9
+	-Vm 7 # Pray et al., 1952, IEC 44. 1146
 H2Sg = H2Sg # H2S
-	-Vm 34 0.021 3e-4 0 0 0 2.7e-3 # Hnedkovsky et al., 1996, JCT 28, 125
+	-dw	 2.1e-9
+	-Vm  7.81  2.96  -0.46 # supcrt
 # aqueous species
 H2O = OH- + H+
-	log_k	   -13.998
-	delta_h 13.345  kcal
-#	-analytic       -283.971       -0.05069842  13323.0    102.24447      -1119669.0
-	-dw	 5.27e-9
-	-Vm  -3.74 -0.02  -3.48E-4 0 0 0  -3.38E-3 # 0 - 200oC, 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
+	-gamma	3.5	0.0
+	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15 # supcrt modified
 CO3-2 + H+ = HCO3-
 	log_k	   10.3393
 	delta_h -3.561  kcal
-	-analytic       107.8975       0.03252849  -5151.79     -38.92561       563713.9
+	-analytic    107.8975    0.03252849  -5151.79   -38.92561    563713.9
 	-dw	 1.18e-9
-	-Vm  20.4 0.235 -2.2e-3  4.34 -0.146 1.45e-3 -5e-3  5e-3 # NaHCO3.xls, Na2CO3.xls, Laliberte; 1-1400 atm, Read, 1975
+	-Vm   8.51 1.15 -0.678 -2.83   2.38   0 2.0  14.5 # supcrt modified
 CO3-2 + 2 H+ = CO2 + H2O
 	log_k	   16.6767
 	delta_h	 -5.738  kcal
-	-analytic       464.1925       0.09344813  -26986.16	-165.75951      2248628.9
+	-analytic    464.1925    0.09344813  -26986.16	-165.75951   2248628.9
 	-dw	 1.92e-9
-	-Vm   26.5 -0.066   0  0 0 0 -9.7E-03 # Data in Duan et al., 2006, MC 98, 131. 1-100 oC, 1-700 atm.
-
+	-Vm   12.84 -24.3 11.1 1.52  # supcrt modified
 SO4-2 + H+ = HSO4-
 	log_k	   1.979
 	delta_h 4.91    kcal
-	-analytic      -5.3585     0.0183412   557.2461
+	-analytic   -5.3585   0.0183412   557.2461
 	-dw	 1.33e-9
+	-Vm 6.9788   9.2590   2.1108   -3.1618 1.1748 # supcrt
 H2Sg = HSg- + H+
 	log_k	-6.994
 	delta_h 5.30	kcal
 	-analytical  11.17   -0.02386  -3279.0
 	-dw	 2.1e-9
-	-Vm 15 # H2S dissociation, delta_v = -15, Table 43.37.
+	-Vm 5.0119   4.9799   3.4765   -2.9849 1.4410 # supcrt
 B(OH)3 + H2O = B(OH)4- + H+
 	log_k	   -9.239
 	delta_h 0   kcal
-	-Vm   20
-
 3B(OH)3 = B3O3(OH)4- + 2H2O + H+
 	log_k	   -7.528
 	delta_h 0   kcal
-
 4B(OH)3 = B4O5(OH)4-2 + 3H2O + 2H+
 	log_k	   -16.134
 	delta_h 0   kcal
-
 Ca+2 + B(OH)3 + H2O = CaB(OH)4+ + H+
 	log_k	   -7.589
 	delta_h 0   kcal
-
 Mg+2 + B(OH)3 + H2O = MgB(OH)4+ + H+
 	log_k	   -7.840
 	delta_h 0   kcal
-
-Ca+2 + CO3-2 = CaCO3
-	log_k	   3.151
-	delta_h 3.547   kcal
-	-analytic       -1228.806     -0.299440    35512.75      485.818
-	-dw 4.46e-10	# complexes: calc'd with the Pikal formula
-	-Vm 25 0 0 # 1 - 1000 atm, calcite dissolution, McDonald and North, 1974, Can. J. Chem. 52, 3181
+# Ca+2 + CO3-2 = CaCO3
+	# log_k	   3.151
+	# delta_h 3.547   kcal
+	# -analytic    -1228.806   -0.299440    35512.75   485.818
+	# -dw 4.46e-10	# complexes: calc'd with the Pikal formula
+	# -Vm  -.2430   -8.3748   9.0417   -2.4328  -.0300 # supcrt
 Mg+2 + H2O = MgOH+ + H+
 	log_k	   -11.809
 	delta_h 15.419 kcal
-
 Mg+2 + CO3-2 = MgCO3
 	log_k	   2.928
 	delta_h 2.535   kcal
-	-analytic	-32.225     0.0	  1093.486    12.72433
+	-analytic	-32.225   0.0	  1093.486    12.72433
 	-dw 4.21e-10
-	-Vm 25 # by analogy with CaCO3
+	-Vm  -.5837   -9.2067   9.3687   -2.3984  -.0300 # supcrt
 
 PHASES
 Anhydrite
 	CaSO4 = Ca+2 + SO4-2
 	log_k	   -4.362
-#	-analytic      422.950     0.0	 -18431.     -147.708
+#	-analytic    422.950   0.0	 -18431.   -147.708
 	-analytic   87.46  0  -3137  -32.8 # 50 - 160oC, 1 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
 	-Vm 46.1 # 136.14 / 2.95
-
 Aragonite
 	CaCO3 = CO3-2 + Ca+2
 	log_k	   -8.336
 	delta_h -2.589 kcal
-	-analytic       -171.8607   -.077993    2903.293    71.595
+	-analytic     -171.8607   -.077993    2903.293    71.595
 	-Vm 34.04
-
 Arcanite
 	K2SO4  =  + 1.0000 SO4-- + 2.0000 K+
 	log_k	   -1.776
-	-analytic       2.823       0.0	 -1371.2
+	-analytic     2.823     0.0	 -1371.2
 	-Vm 65.5
 Bischofite
 	MgCl2:6H2O  =  + 1.0000 Mg++ + 2.0000 Cl- + 6.0000 H2O
 	log_k	   4.455
-	-analytic       3.524       0.0	 277.6
+	-analytic     3.524     0.0	 277.6
 	Vm 127.1
 Bloedite
 	Na2Mg(SO4)2:4H2O  =  + 1.0000 Mg++ + 2.0000 Na+ + 2.0000 SO4-- + 4.0000 H2O
 	log_k	   -2.347
-	-delta_H	0	       # Not possible to calculate enthalpy of reaction	Bloedite
+	-delta_H	0	     # Not possible to calculate enthalpy of reaction	Bloedite
 	Vm 147
 Brucite
 	Mg(OH)2  =  + 1.0000 Mg++ + 2.0000 OH-
 	log_k	   -10.88
 	-delta_H	4.85    kcal/mol
 #	-analytic -1.0280e+002 -1.9759e-002 9.0180e+003 3.8282e+001 1.4075e+002
-#       -Range:  0-300
+#     -Range:  0-300
 	Vm 24.6
 Burkeite
 	Na6CO3(SO4)2  =  + 1.0000 CO3-2 + 2.0000 SO4-- + 6.0000 Na+
@@ -221,7 +210,7 @@ Calcite
 	CaCO3 = CO3-2 + Ca+2
 	log_k	   -8.406
 	delta_h -2.297 kcal
-	-analytic       -171.8329    -0.077993      2839.319      71.595
+	-analytic     -171.8329    -0.077993    2839.319    71.595
 	-Vm 36.9
 Carnallite
 	KMgCl3:6H2O  =  K+ + Mg++ + 3Cl- + 6H2O
@@ -230,7 +219,7 @@ Carnallite
 Celestite
 	SrSO4 = Sr+2 + SO4-2
 	log_k	   -6.630
-	-analytic	35.3106    -0.00422837  0.	 -14.99586   -318312.
+	-analytic  -7.14 6.11E-03  75 0 0 -1.79E-05  # Howell et al., 1992, JCED 37, 464.
 	-Vm 46.4
 Dolomite
 	CaMg(CO3)2 = Ca+2 + Mg+2 + 2 CO3-2
@@ -240,16 +229,14 @@ Dolomite
 Epsomite
 	MgSO4:7H2O  =  Mg+2 + SO4-2 + 7 H2O
 	log_k	   -1.881
-	-analytical     1.718       0.0	 -1073.
+	-analytical   1.718     0.0	 -1073.
 	Vm 147
 Gaylussite
 	CaNa2(CO3)2:5H2O = Ca+2 + 2 CO3-2 + 2 Na+ + 5 H2O
 	log_k	   -9.421
-
 Glaserite
 	NaK3(SO4)2 =  Na+ + 3K+ + 2SO4-2
 	log_k	   -3.803
-
 Glauberite
 	Na2Ca(SO4)2  =  Ca+2 + 2 Na+ + 2 SO4-2
 	log_k	   -5.245
@@ -258,7 +245,7 @@ Gypsum
 	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
 	log_k	   -4.581
 	delta_h -0.109 kcal
-	-analytic       90.318      0.0	 -4213.      -32.641
+	-analytic     90.318    0.0	 -4213.    -32.641
 	-Vm 73.9
 Barite
 	BaSO4 = Ba+2 + SO4-2
@@ -274,16 +261,14 @@ Halite
 Hexahydrite
 	MgSO4:6H2O  =  Mg+2 + SO4-2 + 6 H2O
 	log_k	   -1.635
-	-analytic       -62.666     0.0	 1828.       22.187
+	-analytic     -62.666   0.0	 1828.     22.187
 	Vm 132
 Kainite
 	KMgClSO4:3H2O  =  Cl- + K+ + Mg+2 + SO4-2 + 3 H2O
 	log_k	   -0.193
-
 Kalicinite
 	KHCO3  =  K+ + H+ + CO3-2
 	log_k	   -10.058
-
 Kieserite
 	MgSO4:H2O  =  Mg+2 + SO4-2 + H2O
 	log_k	   -0.123
@@ -291,15 +276,12 @@ Kieserite
 Labile_S
 	Na4Ca(SO4)3:2H2O = 4Na+ + Ca+2 + 3SO4-2 + 2H2O
 	log_k	   -5.672
-
 Leonhardite
 	MgSO4:4H2O = Mg+2 + SO4-2 + 4H2O
 	log_k	   -0.887
-
 Leonite
 	K2Mg(SO4)2:4H2O  =  Mg+2 + 2 K+ + 2 SO4-2 + 4 H2O
 	log_k	   -3.979
-
 Magnesite
 	MgCO3 =  CO3-2 + Mg+2
 	log_k	  -7.834
@@ -308,32 +290,26 @@ Magnesite
 Mirabilite
 	Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
 	log_k	   -1.214
-	-analytic       -3862.234   -1.19856    93713.54    1577.756    0.
+	-analytic     -3862.234   -1.19856    93713.54    1577.756    0.
 	Vm 216
 Misenite
 	K8H6(SO4)7  =  6 H+ + 7 SO4-2 + 8 K+
 	log_k	   -10.806
-
 Nahcolite
 	NaHCO3  =  CO3-2 + H+ + Na+
 	log_k	   -10.742
-
 Natron
 	Na2CO3:10H2O = CO3-2 + 2 Na+ + 10.0000 H2O
 	log_k	   -0.825
-
 Nesquehonite
 	MgCO3:3H2O =  CO3-2 + Mg+2 + 3 H2O
 	log_k	   -5.167
-
 Pentahydrite
 	MgSO4:5H2O  =  Mg+2 + SO4-2 + 5 H2O
 	log_k	   -1.285
-
 Pirssonite
 	Na2Ca(CO3)2:2H2O = 2Na+ + Ca+2 + 2CO3-2 + 2 H2O
 	log_k	   -9.234
-
 Polyhalite
 	K2MgCa2(SO4)4:2H2O  = 2K+ +  Mg+2 + 2 Ca+2 + 4SO4-2 + 2 H2O
 	log_k	   -13.744
@@ -341,20 +317,17 @@ Polyhalite
 Portlandite
 	Ca(OH)2 =  Ca+2 + 2 OH-
 	log_k	   -5.190
-
 Schoenite
 	K2Mg(SO4)2:6H2O  =  2K+ + Mg+2 + 2 SO4-2 + 6H2O
 	log_k	   -4.328
-
 Sylvite
 	KCl  = K+ + Cl-
 	log_k	   0.900
-	-analytic       3.984       0.0	 -919.55
+	-analytic     3.984     0.0	 -919.55
 	Vm 37.5
 Syngenite
 	K2Ca(SO4)2:H2O  =  2K+ + Ca+2 + 2SO4-2 + H2O
 	log_k	   -7.448
-
 Trona
 	Na3H(CO3)2:2H2O =  3 Na+ + H+ + 2CO3-2 + 2H2O
 	log_k	   -11.384
@@ -366,27 +339,21 @@ Borax
 Boric_acid,s
 	B(OH)3  =  B(OH)3
 	log_k	   -0.030
-
 KB5O8:4H2O
 	KB5O8:4H2O + 3H2O + H+ = 5B(OH)3 + K+
 	log_k	   4.671
-
 K2B4O7:4H2O
 	K2B4O7:4H2O + H2O + 2H+ = 4B(OH)3 + 2K+
 	log_k	   13.906
-
 NaBO2:4H2O
 	NaBO2:4H2O + H+ = B(OH)3 + Na+ + 3H2O
 	log_k	   9.568
-
 NaB5O8:5H2O
 	NaB5O8:5H2O + 2H2O + H+ = 5B(OH)3 + Na+
 	log_k	   5.895
-
 Teepleite
 	Na2B(OH)4Cl + H+ = B(OH)3 + 2Na+ + Cl- + H2O
 	log_k	   10.840
-
 CO2(g)
 	CO2 = CO2
 	log_k	-1.468
@@ -868,40 +835,49 @@ END
 #    kij    CH4    CO2    H2S    N2
 #    H2O    0.49   0.19   0.19   0.49
 # =============================================================================================
-# Temperature- and pressure-dependent volumina of species and phases are calculated from 
-#   coefficients entered as:   -Vm a b c d e f kappaC b_Av
-# The volume is Vm(t, P, I) = a + b * t + c * t^2
-#                             + z^2 / 2 * Av * f(I^0.5) + (d + e * t + f * t^2) * I
-#                             - kappaC * (P - 1).
-#   t is temperature in oC.
+# The molar volumes of solids are entered with
+#                         -Vm vm cm3/mol
+#    vm is the molar volume, cm3/mol (default), but dm3/mol and m3/mol are permitted.
+# Data for minerals' vm (= MW (g/mol) / rho (g/cm3)) are defined using rho from
+#   Deer, Howie and Zussman, The rock-forming minerals, Longman.
+#                           --------------------
+# Temperature- and pressure-dependent volumina of aqueous species are calculated with a Redlich-
+#   type equation (cf. Redlich and Meyer, Chem. Rev. 64, 221), from parameters entered with 
+#                        -Vm a1 a2 a3 a4 Wref b_Av i1 i2
+# The volume (cm3/mol) is
+#    Vm(T, pb, I) = 41.84 * (a1 * 0.1 + a2 * 100 / (2600 + pb)  + a3 / (T - 228) +
+#                            a4 * 1e4 / (2600 + pb) / (T - 228) - W * QBrn)
+#                   + z^2 / 2 * Av * f(I^0.5) + (i1 + i2 / (T - 228)) * I
+#   Volumina at I = 0 are obtained using supcrt92 formulas (Johnson et al., 1992, CG 18, 899).
+#   41.84 transforms cal/bar/mol into cm3/mol.
+#   pb is pressure in bar.
+#   W * QBrn is the Born volume, calculated from Wref and the pressure dependence of the 
+#     dielectric constant of water (f(P, T), see below).
 #   z is charge of the solute species.
-#   Av is the Debye-Hueckel limiting slope, cf. Redlich and Meyer, Chem. Rev. 64, 221.
+#   Av is the Debye-Hueckel limiting slope.
 #   b_Av constrains the Debye-Hueckel slope: f(I^0.5) = ln(1 + b_Av * I^0.5) / b_Av,
 #   I is ionic strength. If b_Av = 0, f(I^0.5) = I^0.5.
-#   kappaC is a compression constant, cm3/mol/atm.
 # Av (P, T) is calculated using the dielectric constant of water from Bradley and Pitzer, 1979, JPC 83, 1599,
 #   and the compressibility of pure water.
-# The density of pure water (0 < P < 3 atm, -20 < t < 100) is calculated with eqn 2.6 from
+# The density of pure water at water saturation pressure is calculated with eqn 2.6 from
 #   Wagner and Pruss, 2002, J. Phys. Chem. Ref. Data 31, 387. At higher P,T with polynomials
 #   interpolated from IAPWS table 3 (2007).
 #
-# Data for species' a-b-c-d-e-f-kappaC-b_Av were fitted or taken primarily from 
-#   Millero, 1983, Chpt. 43 in Chem. Ocean. vol. 8, Table 43.4,
-#   Millero, 2001, The Physical Chemistry of Natural Waters. Wiley, Appendix 14,
-#   Laliberte, 2009, J. Chem. Eng. Data 54, 1725, **.xls data sets in the Supplementary Information.
+# Data for species' parameters, commented with ‘# supcrt modified’, were fitted from data
+#   compiled by Laliberte, 2009, J. Chem. Eng. Data 54, 1725.
 # H+ has the reference volume of 0 at all P, T.
-# OH- is fitted from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15, 0-200 oC, 1-2000 atm.
-# For Cl-, a-b-c-d-e-f-kappaC-b_Av were obtained from densities of HCl solutions up to 176 oC, 1 - 280 atm.
-# The a..f-kappaC-b_Av values of cations were extracted from the densities of cation-Cl-solutions.
-# Other anions then follow from the measured densities of cation-anion solutions.
+# For Cl-, parameters were obtained from densities of HCl solutions up to 176 oC, 1 - 280 atm.
+# The numbers for major cations were extracted from the densities of cation-Cl-solutions.
+# Other major anions and OH- then follow from the measured densities of cation-anion solutions.
+# Water dissociation was fitted from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15, 0-200 oC, 1-2000 atm.
+#                           --------------------
 # If -Vm is not defined, the a-f values from -Millero a b c d e f (if available) will be used for calculating
-#   Vm(t).
+#   Vm(t, I) = a + b * t + c * t^2 + z^2 / 2 * Av * I^0.5 + (d + e * t + f * t^2) * I
+#   t is temperature in oC.
 #
 # redox-uncoupled gases have been added for H2 (Hdg), O2 (Oxg), CH4 (Mtg), N2 (Ntg),
 #   H2S (H2Sg, species HSg-, etc.).
 #
-# Data for minerals' a (= MW (g/mol) / rho (g/cm3)) are defined using rho from
-#   Deer, Howie and Zussman, The rock-forming minerals, Longman.
 # =============================================================================================
 # It remains the responsibility of the user to check the calculated results, for example with
 #   measured solubilities as a function of (P, T).
