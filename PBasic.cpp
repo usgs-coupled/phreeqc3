@@ -1493,6 +1493,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokeps_r:
 			output_msg("EPS_R"); // dielectric constant
 			break;
+ 		case tokvm:
+ 			output_msg("VM"); // mole volume of aqueous solute
+ 			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3056,6 +3059,12 @@ factor(struct LOC_exec * LINK)
 	case toklog10:
 		n.UU.val = log10(realfactor(LINK));
 		break;
+  	case tokvm:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
+		}
+ 		break;
 
 	case toksin:
 		n.UU.val = sin(realfactor(LINK));
@@ -6350,7 +6359,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pressure",           PBasic::tokpressure),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eps_r",              PBasic::tokeps_r)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eps_r",              PBasic::tokeps_r),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("vm",                 PBasic::tokvm)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

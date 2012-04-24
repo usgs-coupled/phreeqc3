@@ -302,7 +302,8 @@ public:
 		tokgas_vm,
 		tokpressure,
 		tokerase,
-		tokeps_r
+		tokeps_r,
+		tokvm
 	};
 
 #if !defined(PHREEQCI_GUI)
