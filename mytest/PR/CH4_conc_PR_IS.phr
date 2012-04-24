@@ -1,19 +1,18 @@
 # Compare expt data of CH4 solubility at high CH4 pressure and
 #   Peng-Robinson calc's with initial solution equilibria.
-INCLUDE$ CO2_V.db
 SOLUTION 1
 SOLUTION_SPECIES
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	log_k	41.071
 	delta_h -61.039 kcal
 	-dw	 1.85e-9
-	-Vm 33
+	-Vm  7.7
 PHASES
 CH4(g)
 	CH4 = CH4
 	log_k	   -2.8502
 	-analytic -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
-	T_c  190.6 # critical T, K
+	-T_c  190.6 # critical T, K
 	-P_c   45.40 # critical P, atm
 	-Omega 0.008 # Pitzer acentric factor
 SELECTED_OUTPUT; -reset false; -file ch4_25.prn

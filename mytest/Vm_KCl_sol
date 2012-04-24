@@ -1,25 +1,5 @@
 DATABASE ../database/phreeqc.dat
 #PRINT; -reset false
-# SOLUTION_MASTER_SPECIES
-# Cl		Cl-	0.0	Cl		35.453
-# K		K+	0.0	K		39.102
-SOLUTION_SPECIES
-Cl- = Cl-
-	-gamma	3.5	0.015
-	-dw	 2.03e-9
-	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm   1.6256503E+01  1.0415929E-01  -1.2534252E-03   4.6744285E-01  -2.7011839E-02  2.9497981E-04   0.0000000E+00  4.0366004E-02 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
-K+ = K+
-	-gamma	3.5	0.015
-	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	-Vm   8.1411145E+00  2.5463171E-02   2.1685253E-06   1.6793115E-01   6.1319174E-03 -1.6649403E-04   0.0000000E+00   1.8433122E-01
-H2O = OH- + H+
-	log_k	-14.0
-	delta_h 13.362	kcal
-	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
 
 SOLUTION 1; pH 7 charge
 END
@@ -39,11 +19,11 @@ USER_GRAPH; -headings 5.oC
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 d(22), d(23), d(24),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
 90 end
 END
  
@@ -61,11 +41,11 @@ USER_GRAPH; -headings 15.oC
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 d(22), d(23), d(24), d(25), d(26), d(27),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Red #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
 90 end
 END
  
@@ -104,11 +84,11 @@ d(127), d(128), d(129), d(130), d(131), d(132), d(133), d(134), d(135), d(136), 
 d(148), d(149), d(150), d(151), d(152), d(153), d(154), d(155), d(156), d(157), d(158), d(159), d(160), d(161), d(162), d(163), d(164), d(165), d(166), d(167), d(168), \
 d(169), d(170), d(171), d(172), d(173), d(174), d(175), d(176), d(177),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
 90 end
 END
  
@@ -127,11 +107,11 @@ USER_GRAPH; -headings 45.oC
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Black #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
 90 end
 END
  
@@ -146,11 +126,11 @@ USER_GRAPH; -headings 65.oC
 20 dim d(17)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Blue #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Blue 
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Blue 
 90 end
 END
  
@@ -165,11 +145,11 @@ USER_GRAPH; -headings 85.oC
 20 dim d(17)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Green #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Green 
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Green 
 90 end
 END
  
@@ -184,11 +164,11 @@ USER_GRAPH; -headings 95.oC
 20 dim d(18)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Brown #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
  
@@ -203,11 +183,11 @@ USER_GRAPH; -headings 99.oC
 20 dim d(12)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Orange #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
  
@@ -222,10 +202,10 @@ USER_GRAPH; -headings 125.oC
 20 dim d(4)
 30 read d(1), d(2), d(3), d(4),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Cl"), d(step_no), line_w = 0, color = Blue #aph_x tot("Cl") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Cl"), Vm, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Cl"), Vm1, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END

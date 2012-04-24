@@ -1,4 +1,3 @@
-#include <string.h>     // ::strstr
 #include <assert.h>
 #include "PHRQ_io.h"
 #include "Parser.h"
@@ -756,7 +755,8 @@ get_line(void)
 				if (!next_stream->is_open())
 				{
 					std::ostringstream errstr;
-					errstr << "\n***********  Could not open include file " << file_name << ". ***********\n\n";
+					errstr << "\n***********  Could not open include file " << file_name 
+						   <<".\n             Please, write the full path to this file. ***********\n\n";
 					delete next_stream;
 #if defined(PHREEQCI_GUI)
 					warning_msg(errstr.str().c_str());

@@ -1,22 +1,23 @@
+#DATABASE \dos\p\minim.dat
 PRINT; -reset false
+SOLUTION_MASTER_SPECIES
+Cl		Cl-	0.0	Cl		35.453
+Ca		Ca+2	0.0	Ca		40.08
+
 SOLUTION_SPECIES
 H2O = OH- + H+
-	log_k	-14.0
-	delta_h 13.362	kcal
-	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
+	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
 	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
 Cl- = Cl-
 	-gamma	3.5	0.015
 	-dw	 2.03e-9
 	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm   1.6256503E+01  1.0415929E-01  -1.2534252E-03   4.6744285E-01  -2.7011839E-02  2.9497981E-04   0.0000000E+00  4.0366004E-02 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
+	-Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18
 Ca+2 = Ca+2
 	-gamma	5.0	0.165
 	-millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
-	-Vm -18.8 0.04 2e-4
-	-Vm  -1.7951071E+01 -3.2881345E-02   6.2289211E-04  -4.7277369E-01   4.7178896E-02 -5.7660482E-04   0.0000000E+00   4.6868669E+00
+	-Vm  -1.13 -1.985 7.98e-3 -2.6970000E+00   1.67   4.6 6.8e-2 20
 SOLUTION 1; pH 7 charge
 END
 #SELECTED_OUTPUT; -file HCl.txt; -reset false; -high_precision true

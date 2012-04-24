@@ -1,6 +1,11 @@
 # Compare expt data of N2 solubility at high N2 pressure and
 #   Peng-Robinson calc's with initial solution equilibria.
-INCLUDE$ CO2_V2.db
+SOLUTION_SPECIES
+2 NO3- + 12 H+ + 10 e- = N2 + 6 H2O
+	log_k	207.08
+	delta_h -312.130	kcal
+	-dw	 1.96e-9
+	-Vm 7 # Pray et al., 1952, IEC 44. 1146
 SOLUTION 1
 N 1 N2(g) 1.4
 PHASES
@@ -8,7 +13,7 @@ N2(g)
 	N2 = N2
 	log_k		 -3.1864
 	-analytic -58.453 1.81800E-03  3199  17.909 -27460
-	T_c  126.2 # critical T, K
+	-T_c  126.2 # critical T, K
 	-P_c   33.50 # critical P, atm
 	-Omega 0.039 # Pitzer acentric factor
 SELECTED_OUTPUT; -reset false; -file 25.prn

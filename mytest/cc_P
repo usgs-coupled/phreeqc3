@@ -1,4 +1,5 @@
-DATABASE ../database/vreeqc.dat
+DATABASE ../database/phreeqc.dat
+# MacDonald and Neil, 1974, CJC 52, 3181
 SOLUTION 1
  -pressure 1
 EQUILIBRIUM_PHASES 1
@@ -10,5 +11,6 @@ USER_GRAPH
  -plot_csv_file cc_P.dat
  10 graph_x  pressure
  20 graph_y tot("Ca") * 40e3
+# 30 graph_sy act("H+") * act("HCO3-") / (act("CO2") * act("H2O"))
  -end
 END

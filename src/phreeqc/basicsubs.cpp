@@ -80,6 +80,26 @@ log_activity_coefficient(const char *species_name)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
+aqueous_vm(const char *species_name)
+/* ---------------------------------------------------------------------- */
+{
+	struct species *s_ptr;
+	LDBLE g;
+
+	s_ptr = s_search(species_name);
+	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
+	{
+		g = s_ptr->logk[vm_tc];
+	}
+	else
+	{
+		g = 0;
+	}
+	return (g);
+}
+
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
 calc_SC(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -899,6 +919,7 @@ find_gas_vm(void)
 	// also for non-PR gas phases...
 	return (gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles());
 }
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 find_misc1(const char *ss_name)

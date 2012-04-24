@@ -1,7 +1,13 @@
 # Compare expt data of CO2 solubility at high CO2 pressure and
-#   Peng-Robinson calc's with initial solution equilibria, 25, 50, 75 oC.
+#   Peng-Robinson calc's with initial solution equilibria, 25, 50, 75 100 oC.
 DATABASE ../database/phreeqc.dat
-INCLUDE$ CO2_V.db
+SOLUTION_SPECIES
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	16.681
+	delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9
+	-Vm   12.84 -24.3 11.1 1.52
 SOLUTION 1
 SELECTED_OUTPUT; -reset false; -file co2.prn
 USER_PUNCH
@@ -15,7 +21,7 @@ SELECTED_OUTPUT; -selected_out false
 #PRINT; -reset false; -echo_input true
 USER_GRAPH
  -chart_title "Using: Initial Equilibrations"
- -plot_csv_file co2_25_50_75.dat
+ -plot_csv_file co2.dat
  -axis_titles "Pressure / atm" "CO2 / (mol/kgw)"
  -axis_scale x_axis 0 500
  -axis_scale y_axis 0 2
@@ -59,4 +65,21 @@ SELECTED_OUTPUT; -selected_out false
 USER_GRAPH
  -active true; -connect_simulations true
 INCLUDE$ co2_75.prn
+END
+
+SOLUTION
+SELECTED_OUTPUT; -selected_out true; file co2_100.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 520 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 100' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 30 next i
+USER_GRAPH
+ -active false;  -connect_simulations false
+END
+
+SELECTED_OUTPUT; -selected_out false
+USER_GRAPH
+ -active true; -connect_simulations true
+INCLUDE$ co2_100.prn
 END

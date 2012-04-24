@@ -17,4 +17,7 @@ call p.bat CO2_t30.phr
 call p.bat CO2_tc.phr
 call p.bat P_CO2_Na2SO4.phr
 call p.bat water_vp.phr
+call p.bat CH4_conc_PR_IS.phr
+call p.bat N2_conc_PR_IS.phr
+call p.bat O2_conc_PR_IS.phr
 @call clean.bat

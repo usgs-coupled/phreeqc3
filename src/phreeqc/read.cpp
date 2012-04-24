@@ -2752,7 +2752,46 @@ read_omega_only(char *ptr, LDBLE *omega)
 	}
 	return OK;
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
+/* ---------------------------------------------------------------------- */
+{
+	int j;
+	/*
+	*   Read supcrt parms and Ionic strength terms
+	*/
+	for (j = 0; j < 9; j++)
+	{
+		delta_v[j] = 0.0;
+	}
+	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+		/* a1..a4 */
+		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
+		/* wref */
+		&(delta_v[4]),
+		/* b_Av */
+		&(delta_v[5]),
+		/* c1..c3 */
+		&(delta_v[6]), &(delta_v[7]), &(delta_v[8]));
+	if (j < 1)
+	{
+		input_error++;
+		error_msg("Expecting numeric values for calculating the species' molar volume from the supcrt database.",
+			CONTINUE);
+		return (ERROR);
+	}
+	/* multiply with factors. a1 is in cal/mol/bar. a2 in  cal/mol, a3, a4 in cal K/mol
+	  41.84004 converts cal/mol/bar to cm3/mol. */
+	delta_v[0] *= 41.84004e-1;
+	delta_v[1] *= 41.84004e2;
+	delta_v[2] *= 41.84004;
+	delta_v[3] *= 41.84004e4;
+	/* wref in cal/mol/bar */
+	delta_v[4] *= 1e5;
 
+	return (OK);
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
@@ -2773,7 +2812,7 @@ read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	if (j < 1)
 	{
 		input_error++;
-		error_msg("Expecting numeric values for the species' molar volume, vm.",
+		error_msg("Expecting numeric value for the phase's molar volume, vm.",
 			CONTINUE);
 		return (ERROR);
 	}
@@ -2811,7 +2850,73 @@ read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 			factor = 1e6;
 		}
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 8; i++)
+		{
+			delta_v[i] *= factor;
+		}
+	}
+	return (OK);
+}
+
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_phase_vm(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
+/* ---------------------------------------------------------------------- */
+{
+	int j, l;
+	char token[MAX_LENGTH];
+	/*
+	*   Read analytical expression
+	*/
+	for (j = 0; j < 1; j++)
+	{
+		delta_v[j] = 0.0;
+	}
+	j = sscanf(ptr, SCANFORMAT /*SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT*/,
+		&(delta_v[0])/*, &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
+		&(delta_v[4]), &(delta_v[5]), &(delta_v[6]), &(delta_v[7])*/);
+	if (j < 1)
+	{
+		input_error++;
+		error_msg("Expecting numeric value for the phase's molar volume, vm.",
+			CONTINUE);
+		return (ERROR);
+	}
+	/*
+	*   Read delta V units
+	*/
+	*units = cm3_per_mol;
+	do
+	{
+		j = copy_token(token, &ptr, &l);
+	} while (j == DIGIT); 
+
+	if (j == EMPTY)
+	{
+		return (OK);
+	}
+
+	LDBLE factor = 1.0;
+	if (j == UPPER || j == LOWER)
+	{
+		str_tolower(token);
+		if (strstr(token, "cm3") != NULL)
+		{
+			/* cm3/mol */
+			;
+		}
+		else if (strstr(token, "dm3") != NULL)
+		{
+			/* Convert dm3/mol to cm3/mol */
+			factor = 1e3;
+		}
+		else if (strstr(token, "m3") != NULL)
+		{
+			/* Convert m3/mol to cm3/mol */
+			factor = 1e6;
+		}
+
+		for (int i = 0; i < 1; i++)
 		{
 			delta_v[i] *= factor;
 		}
@@ -3567,7 +3672,7 @@ read_phases(void)
 		case 15:            /* vm, molar volume */
 			if (phase_ptr == NULL)
 				break;
-			read_vm_only(next_char, &(phase_ptr->logk[vm0]),
+			read_phase_vm(next_char, &(phase_ptr->logk[vm0]),
 				&phase_ptr->original_deltav_units);
 			phase_ptr->delta_v[1] = phase_ptr->logk[vm0];
 			opt_save = OPTION_DEFAULT;
@@ -5012,7 +5117,7 @@ read_species(void)
 	struct species *s_ptr;
 	struct elt_list *next_elt;
 	char *ptr, token[MAX_LENGTH];
-	bool vm_read = false;
+	//bool vm_read = false;
 	int return_value, opt, opt_save;
 	char *next_char;
 	const char *opt_list[] = {
@@ -5040,7 +5145,7 @@ read_species(void)
 /* VP: Density Start */
 		"millero",				/* 21 */
 /* VP: Density End */
-		"vm"	/* 22, molar volume, must replace delta_v */
+		"vm"		/* 22, parms for molar volume, a1..a4 and w_ref from supcrt, I terms */
 	};
 	int count_opt_list = 23;
 
@@ -5057,7 +5162,7 @@ read_species(void)
 		if (opt == OPTION_DEFAULT)
 		{
 			opt = opt_save;
-			vm_read = false;
+			//vm_read = false;
 		}
 		switch (opt)
 		{
@@ -5383,17 +5488,17 @@ read_species(void)
 				break;
 			}
 			print_density = read_millero_abcdef (next_char, &(s_ptr->millero[0]));
-			if (!vm_read)
-			{
-			/* copy millero parms into logk, for calculating pressure dependency... */
-				for (i = 0; i < 7; i++)
-					s_ptr->logk[vm0 + i] = s_ptr->millero[i];
-				s_ptr->logk[vm0 + i] = 0;
-			}
+			//if (!vm_read)
+			//{
+			///* copy millero parms into logk, for calculating pressure dependency... */
+			//	for (i = 0; i < 7; i++)
+			//		s_ptr->logk[vm0 + i] = s_ptr->millero[i];
+			//	s_ptr->logk[vm0 + i] = 0;
+			//}
 			opt_save = OPTION_DEFAULT;
 			break;
 /* VP: Density End */
-		case 22:            /* vm, molar volume */
+		case 22:            /* vm, supcrt parms + Ionic strength terms */
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
@@ -5403,9 +5508,8 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_vm_only(next_char, &s_ptr->logk[vm0],
-				&s_ptr->original_deltav_units);
-			vm_read = true;
+			read_aq_species_vm_parms(next_char, &s_ptr->logk[vma1]);
+			//vm_read = true;
 			print_density = OK;
 			opt_save = OPTION_DEFAULT;
 			break;

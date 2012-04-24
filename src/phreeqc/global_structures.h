@@ -167,15 +167,12 @@ typedef enum {
 	T_A5,
 	T_A6,
 	delta_v,	/* set in calc_delta_v: calculated molar volume-change of the reaction */
-	vm_tc,		/* set in k_temp: calculated molar volume of the species at tc */
-	vm0,		/* read: molar volume at tc = 0 */
-	vm1,		/* read: coef * tc */
-	vm2,		/* read: coef * tc * tc */
-	vm3,		/* read: coef for I (ionic strength) */
-	vm4,		/* read: coef for I * tc */
-	vm5,		/* read: coef for I * tc * tc */
-	kappa,		/* read: compression constant, cm3/mol/atm */
-	b_Av,		/* read: b in z^2 * A_v * log(1 + b * I^0.5) / (2 * b), 0 if -Millero is used */
+	vm_tc,		/* set in calc_vm: calculated molal volume of the species at tc */
+	vm0,		/* read: molar volume of a phase */
+	vma1, vma2, vma3, vma4, /* read: a1..a4 from supcrt, see calc_vm */
+	wref,       /* from supcrt */
+	b_Av,		/* b in z^2 * A_v * log(1 + b * I^0.5) / (2 * b) */
+	vmi1, vmi2, vmi3, /* ionic strength terms: (i1 + i2/(TK - 228) + i3(TK)) * I. i3 not used */
 	MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
 } LOG_K_INDICES;
 /* HSEARCH(3C) */

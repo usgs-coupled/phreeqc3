@@ -1194,7 +1194,7 @@ print_saturation_indices(void)
 			phases[i]->pr_in = false;
 		}
 		reaction_ptr->logk[delta_v] = calc_delta_v(phases[i]->rxn_x, true) -
-			 (phases[i]->logk[vm0] + phases[i]->logk[vm1] * tc_x + phases[i]->logk[vm2] * tc_x * tc_x);
+			 phases[i]->logk[vm0];
 		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		if (PR_inprint)
 			phases[i]->pr_in = true;
@@ -1378,9 +1378,9 @@ print_species(void)
 	{
 		if (ICON == TRUE)
 		{
-			output_msg(sformatf("%67s%11s\n", "MacInnes", "MacInnes"));
-			output_msg(sformatf("\t%-15s%12s%12s%10s%10s%10s\n", " ",
-					   " ", "MacInnes", "Log   ", "Log   ", "Log "));
+			output_msg(sformatf("%60s%10s\n", "MacInnes", "MacInnes"));
+			output_msg(sformatf("%40s%10s%10s%10s%10s\n",
+					   "MacInnes", "Log", "Log", "Log", "mole V"));
 		}
 		else
 		{
@@ -1391,8 +1391,7 @@ print_species(void)
 	}
 	else
 	{
-		output_msg(sformatf("   %-13s%12s%12s%10s%10s%10s%10s\n", " ",
-				   " ", " ", "Log   ", "Log   ", "Log ", "mole V"));
+		output_msg(sformatf("%50s%10s%10s%10s\n", "Log", "Log", "Log", "mole V"));
 	}
 	output_msg(sformatf("   %-13s%12s%12s%10s%10s%10s%10s\n\n", "Species",
 			   "Molality", "Activity", "Molality", "Activity", "Gamma", "cm3/mol"));

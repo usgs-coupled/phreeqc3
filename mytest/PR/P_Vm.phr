@@ -1,6 +1,28 @@
 #[ Plot P vs Vm
 #]
-INCLUDE$ CO2_V.db
+SOLUTION_SPECIES
+HS- + H+ = H2S
+	log_k	6.994
+	delta_h -5.30	kcal
+	-analytical  -11.17   0.02386  3279.0
+	-dw	 2.1e-9
+	-Vm  7.81  2.96  -0.46 # supcrit
+2 NO3- + 12 H+ + 10 e- = N2 + 6 H2O
+	log_k	207.08
+	delta_h -312.130	kcal
+	-dw	 1.96e-9
+	-Vm 7 # Pray et al., 1952, IEC 44. 1146
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	   16.6767
+	delta_h	 -5.738  kcal
+	-analytic    464.1925    0.09344813  -26986.16	-165.75951   2248628.9
+	-dw	 1.92e-9
+	-Vm   12.84 -24.3 11.1 1.52  # supcrt modified
+CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
+	log_k	41.071
+	delta_h -61.039 kcal
+	-dw	 1.85e-9
+	-Vm 7.7
 PRINT; -reset false
 SOLUTION 1#; -temp 200
 INCREMENTAL_REACTIONS
@@ -49,18 +71,6 @@ H2S(g)
 	T_c  373.2 # critical T, K
 	-P_c  88.20 # critical P, atm
 	-Omega 0.1 #  acentric factor
-SOLUTION_SPECIES
-HS- + H+ = H2S
-	log_k	6.994
-	delta_h -5.30	kcal
-	-analytical  -11.17   0.02386  3279.0
-	-dw	 2.1e-9
-	-Vm 34 0.021 3e-4 0 0 0 2.7e-3 # Hnedkovsky et al., 1996, JCT 28, 125
-2 NO3- + 12 H+ + 10 e- = N2 + 6 H2O
-	log_k	207.08
-	delta_h -312.130	kcal
-	-dw	 1.96e-9
-	-Vm 30 # Pray et al., 1952, IEC 44. 1146
 USE solution 1
 GAS_PHASE 1
  -fixed_volume

@@ -254,6 +254,8 @@ all: alkalinity.out \
 	Vm_Na2SO4_sol.out \
 	Vm_NaCl_sol.out \
 	Vm_NaHCO3_sol.out \
+	Vm_NaNO3_sol.out \
+	Vm_NH4Cl_sol.out \
 	Vm_SrCl2_sol.out
 
 # NaX.out

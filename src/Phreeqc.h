@@ -80,6 +80,7 @@ public:
 	LDBLE activity(const char *species_name);
 	LDBLE activity_coefficient(const char *species_name);
 	LDBLE log_activity_coefficient(const char *species_name);
+	LDBLE aqueous_vm(const char *species_name);
 	LDBLE calc_SC(void);
 	/* VP: Density Start */
 	LDBLE calc_dens(void);
@@ -660,7 +661,10 @@ public:
 	int read_debug(void);
 	int read_delta_h_only(char *ptr, LDBLE * delta_h,
 		DELTA_H_UNIT * units);
+	int read_aq_species_vm_parms(char *ptr, LDBLE * delta_v);
 	int read_vm_only(char *ptr, LDBLE * delta_v,
+		DELTA_V_UNIT * units);
+	int read_phase_vm(char *ptr, LDBLE * delta_v,
 		DELTA_V_UNIT * units);
 	int read_llnl_aqueous_model_parameters(void);
 	int read_exchange(void);
@@ -1624,6 +1628,9 @@ protected:
 	LDBLE V_solutes, rho_0, kappa_0, p_sat/*, ah2o_x0*/;
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
+	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
+	LDBLE ZBrn; // Born function (-1/eps_r + 1) * 41.84004, for supcrt calc'n of molal volume
+	LDBLE dgdP; // dg / dP, pressure derivative of g-function, for supcrt calc'n of molal volume
 #endif
 	LDBLE solution_mass, solution_volume;
 	LDBLE f_rho(LDBLE rho_old);
@@ -1998,6 +2005,9 @@ void PhreeqcIWait(Phreeqc *phreeqc);
 
 #if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 #define   string_duplicate(s)             _string_duplicate(s, __FILE__, __LINE__)
+#endif
+#if defined(_DEBUG)
+	char * _string_duplicate(const char *token, const char *szFileName, int nLine);
 #endif
 
 #endif

@@ -1,12 +1,17 @@
 # CO2 solubility in Na2SO4 solutions, Rumpf and Maurer, 1993.
 DATABASE ../database/pitzer.dat
-
+SOLUTION_SPECIES
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	16.681
+	delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9
+	-Vm   12.84 -24.3 11.1 1.52
 PITZER
  -LAMDA # in Pitzer.dat
  Na+  CO2 0.08
 -ZETA
   Na+       SO4-2     CO2     -0.02
-INCLUDE$ CO2_V.db
 
 SOLUTION 1
  pH 7 charge

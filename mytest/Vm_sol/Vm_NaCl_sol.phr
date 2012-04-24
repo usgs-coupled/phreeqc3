@@ -2,24 +2,6 @@
 # data from NaCl.xls, Laliberte, 2009.
 DATABASE c:\phreeqc\database\phreeqc.dat
 PRINT; -reset false
-SOLUTION_SPECIES
-H2O = OH- + H+
-	log_k	-14.0
-	delta_h 13.362	kcal
-	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
-Na+ = Na+
-	-gamma	4.0	0.075
-	-dw	 1.33e-9
-	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	-Vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
-Cl- = Cl-
-	-gamma	3.5	0.015
-	-dw	 2.03e-9
-	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
 
 SOLUTION 1; pH 7 charge
 END

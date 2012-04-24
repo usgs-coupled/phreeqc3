@@ -1,37 +1,28 @@
 #DATABASE c:\phreeqc\database\pitzer.dat
 PRINT; -reset false
 SOLUTION_SPECIES
+H2O = OH- + H+
+	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
+	-gamma	3.5	0.0
+	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
 K+ = K+
 	-gamma	3.5	0.015
 	-dw	 1.96e-9
-	-millero 7.26 0.0892 -0.000736 2.722 -0.101 0.00151
-	-Vm 8.14 2.55e-2 2.17e-6  0.168 6.13e-3 -1.66e-4  -1e-3  0.184 # (corrected) KCl.xls, Laliberte, 2009. 0-125 oC.
-H2O = OH- + H+
-	log_k	-14.0
-	delta_h 13.362	kcal
-	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
+	-Vm   3.72 -1.473 5.22 -2.712   0.471   0 -0.81 65
 CO3-2 = CO3-2
 	-gamma	5.4	0.0; -dw 0.955e-9
-	#-millero  -8.74 0.300 -0.004064 5.65
-# from the combi Na2CO3/NaHCO3, pitzer (phi = 235)
-	-vm  -1.0854511E+01   3.7109643E-01   -3.8251134E-03    3.1779290E+00   -1.3514906E-01   1.0890790E-03    0.0000000E+00    1.0120735E-03
+	-Vm   7.25 -3.98  -19.8 -2.61   5.17   0 -3.63 415
 CO3-2 + H+ = HCO3-
-log_k  10.329
-delta_h -3.561 kcal
--analytic 107.8871 0.03252849 -5151.79 -38.92561 563713.9
+	-analytic 107.8871 0.03252849 -5151.79 -38.92561 563713.9
 	-gamma	5.4	0.0; -dw 1.18e-9
-	#-millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
-# from the combi Na2CO3/NaHCO3, pitzer (phi = 235)
-	-vm   2.0359374E+01  2.3778296E-01  -2.3772582E-03   4.4764216E+00  -1.4912457E-01  1.4902514E-03   0.0000000E+00   1.6717902E-01
+	-Vm   7.56 1.15 1.20 -2.83   1.15   0 0.2 74
 CO3-2 + 2 H+ = CO2 + H2O
 	log_k	16.681
 	delta_h -5.738	kcal
 	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
 	-dw	 1.92e-9
-	-Vm   26.5 -0.066   0  0 0 0 -9.7E-03 # Data in Duan et al., 2006, MC 98, 131. 1-100 oC, 1-700 atm.
+	-Vm   6.2466      7.4711      2.8136     -3.0879 -.0200
+	-Vm   12.84 -24.3 11.1 1.52
 
 SOLUTION 1; pH 7 charge
 END

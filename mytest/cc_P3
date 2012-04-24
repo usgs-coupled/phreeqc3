@@ -1,6 +1,8 @@
 # data from Duan and Li, 2008, GCA 72, 5128
-DATABASE ../database/vreeqc.dat
-INCLUDE$ cc.db
+DATABASE ../database/phreeqc.dat
+SOLUTION_SPECIES
+Ca+2 + CO3-2 + H+ = CaHCO3+
+	log_k	-100 # remove this complex, data from Ellis, 1963 and Segnit et al. 1962.
 SOLUTION 1
  pH 7 charge
  -pressure 9.87
@@ -13,7 +15,7 @@ GAS_PHASE
  CO2(g) 0
  H2O(g) 0
 REACTION_TEMPERATURE
- 0 110 in 20
+ 1 110 in 20
 #PRINT; -reset false
 USER_GRAPH
 -headings tk #Ca_tot Ca+2 CaCO3 CaHCO3+ SI_arg

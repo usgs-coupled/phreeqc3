@@ -115,11 +115,18 @@ calc_rho_0(LDBLE tc, LDBLE pa)
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
     */
-	LDBLE T = tc + 273.15; // note... the new temp scale is + 273.16. Should be changed everywhere.
-	LDBLE p0 =  9.99843e2 +  tc * ( 1.58729e-2 + tc * (-5.90233e-3 + tc * ( 1.96602e-5  + tc * -3.77118E-08)));
-	LDBLE p1 =  5.15090e-2 + tc * (-3.65419e-4 + tc * ( 5.36431e-6 + tc * (-2.74401e-8  + tc *  6.26304E-11)));
-	LDBLE p2 = -5.50294e-6 + tc * ( 1.07699e-7 + tc * (-2.05409e-9 + tc * ( 1.30238e-11 + tc * -3.20982E-14)));
-
+	LDBLE T = tc + 273.15;
+	//eqn. 2.6...
+	LDBLE Tc = 647.096, th = 1 - T / Tc;
+	LDBLE b1 = 1.99274064, b2 = 1.09965342, b3 = -0.510839303,
+		b4 = -1.75493479, b5 = -45.5170352, b6 = -6.7469445e5;
+    rho_0 = 322.0 * (1.0 + b1 * pow(th, (LDBLE) 1./3.) + b2 * pow(th, (LDBLE) 2./3.) + b3 * pow(th, (LDBLE) 5./3.) +\
+               b4 * pow(th, (LDBLE) 16./3.) + b5 * pow(th, (LDBLE) 43./3.) + b6 * pow(th, (LDBLE) 110./3));
+	//pressure...
+	LDBLE p0 =  5.1880000E-02 + tc * (-4.1885519E-04 + tc * ( 6.6780748E-06 + tc * (-3.6648699E-08 + tc *  8.3501912E-11)));
+	LDBLE p1 = -6.0251348E-06 + tc * ( 3.6696407E-07 + tc * (-9.2056269E-09 + tc * ( 6.7024182E-11 + tc * -1.5947241E-13)));
+	LDBLE p2 = -2.2983596E-09 + tc * (-4.0133819E-10 + tc * ( 1.2619821E-11 + tc * (-9.8952363E-14 + tc *  2.3363281E-16)));
+	LDBLE p3 =  7.0517647E-11 + tc * ( 6.8566831E-12 + tc * (-2.2829750E-13 + tc * ( 1.8113313E-15 + tc * -4.2475324E-18)));
 	/* The minimal pressure equals the saturation pressure... */
 	if (ah2o_x <= 1.0)
 		p_sat = exp(11.6702 - 3816.44 / (T - 46.13)) * ah2o_x;
@@ -132,22 +139,13 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	}
 	if (!use.Get_gas_phase_in())
 		patm_x = pa;
-	rho_0 = p0 + pa * (p1 + pa * p2);
+	pa -= (p_sat - 1e-6);
+	rho_0 += pa * (p0 + pa * (p1 + pa * (p2 + sqrt(pa) * p3)));
 	if (rho_0 < 0.01)
-	  rho_0 = 0.01;
+		rho_0 = 0.01;
 
 	/* compressibility, d(ln(rho)) / d(P), 1/atm... */
-	kappa_0 = (p1 + 2 * pa * p2) / rho_0;
-
-	/* for tc < 99, P < 3 atm, use the more accurate eqn. 2.6... */
-	if (tc <= 99 && pa < 3.0)
-	{
-		LDBLE Tc = 647.096, th = 1 - T / Tc;
-		LDBLE b1 = 1.99274064, b2 = 1.09965342, b3 = -0.510839303,
-			b4 = -1.75493479, b5 = -45.5170352, b6 = -6.7469445e5;
-	    rho_0 = 322.0 * (1.0 + b1 * pow(th, (LDBLE) 1./3.) + b2 * pow(th, (LDBLE) 2./3.) + b3 * pow(th, (LDBLE) 5./3.) +\
-                   b4 * pow(th, (LDBLE) 16./3.) + b5 * pow(th, (LDBLE) 43./3.) + b6 * pow(th, (LDBLE) 110./3));
-	}
+	kappa_0 = (p0 + pa * (2 * p1 + pa * (3 * p2 + sqrt(pa) * 3.5 * p3))) / rho_0;
 
 	return (rho_0 / 1e3);
 }
@@ -184,6 +182,27 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pa) / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
 
 	DH_B /= 1e8; // kappa, 1/Angstrom
+
+	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
+	ZBrn = (- 1 / eps_r + 1.0) * 41.84004;
+	QBrn = c / (b + pa) / eps_r / eps_r * 41.84004;
+	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at TK < 300)...
+	   and, dgdP is small. Better, adapt Wref to experimental Vm's */
+	dgdP = 0;
+	//if (tc > 150 && rho_0 < 1.0)
+	//{
+	//	LDBLE sc[7] = {1, -0.2037662e+01,  0.5747000e-02, -0.6557892e-05,
+	//				0.6107361e+01, -0.1074377e-01,  0.1268348e-04};
+	//	LDBLE csc[4] = {1, 0.3666666e+02, -0.1504956e-9,   0.5017997e-13};
+	//	LDBLE sa = sc[1] + tc * (sc[2] + tc * sc[3]);
+	//	LDBLE sb = sc[4] + tc * (sc[5] + tc * sc[6]);
+
+	//	dgdP = - sa * sb * pow(1.0 - rho_0, sb - 1.0) * rho_0 * kappa_0 / 1.01325;
+
+	//	LDBLE ft = pow((tc - 155.0)/300.0, 4.8) + csc[1] * pow((tc - 155.0)/300.0, 16.0);
+	//	LDBLE dfdP   = ft * (-3.0 * csc[2] * pow(1000.0 - pa, 2) - 4.0 * csc[3] * pow(1000.0 - pa, 3)); 
+	//	dgdP -= dfdP;
+	//}
 
 	return (OK);
 }
@@ -1129,11 +1148,11 @@ strcmp_nocase_arg1(const char *str1, const char *str2)
 
 /* ---------------------------------------------------------------------- */
 char * Phreeqc::
-#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
-_string_duplicate(const char *token, const char *szFileName, int nLine)
-#else
+//#if _DEBUG
+//_string_duplicate(const char *token, const char *szFileName, int nLine)
+//#else
 string_duplicate(const char *token)
-#endif
+//#endif
 /* ---------------------------------------------------------------------- */
 {
 	int l;
@@ -1142,11 +1161,11 @@ string_duplicate(const char *token)
 	if (token == NULL)
 		return NULL;
 	l = (int) strlen(token);
-#if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
-	str = (char *) _malloc_dbg((size_t) (l + 1) * sizeof(char), _NORMAL_BLOCK, szFileName, nLine);
-#else
+//#if _DEBUG
+//	str = (char *) _malloc_dbg((size_t) (l + 1) * sizeof(char), _NORMAL_BLOCK, szFileName, nLine);
+//#else
 	str = (char *) PHRQ_malloc((size_t) (l + 1) * sizeof(char));
-#endif
+//#endif
 
 	if (str == NULL)
 		malloc_error();

@@ -14,5 +14,7 @@
 ..\ClrClass_release\phreeqcpp.exe Vm_Na2SO4_sol
 ..\ClrClass_release\phreeqcpp.exe Vm_NaCl_sol
 ..\ClrClass_release\phreeqcpp.exe Vm_NaHCO3_sol
+..\ClrClass_release\phreeqcpp.exe Vm_NaNO3_sol
+..\ClrClass_release\phreeqcpp.exe Vm_NH4Cl_sol
 ..\ClrClass_release\phreeqcpp.exe Vm_SrCl2_sol
 

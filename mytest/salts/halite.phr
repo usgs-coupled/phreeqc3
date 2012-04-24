@@ -1,25 +1,10 @@
-#DATABASE c:\phreeqc\database\pitzer.dat # increase Vm[3] from 6.2e-3 to 0.23....
-SOLUTION_SPECIES
-Na+ = Na+
-	-gamma 4.0 0.08 # original 4.0	0.075
-	-dw	 1.33e-9
-	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	-Vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
-# with pitzer.dat...
-#	-Vm -2.15 0.0193 2.23e-4  0.23 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
-Cl- = Cl-
-	-gamma 3.5 0.024 # original	3.5	0.015
-	-dw	 2.03e-9
-	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1.e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
-
+DATABASE c:\phreeqc\database\pitzer.dat
 PHASES
 Halite
 	NaCl = Na+ + Cl-
 	log_k	   1.582
 	delta_h 0.918 kcal
 	-Vm 27.1
-
 SOLUTION 1
  pH 7 charge
  -temp 30
@@ -28,13 +13,10 @@ EQUILIBRIUM_PHASES
 REACTION_PRESSURE
  1 2000 in 10
 USER_GRAPH
- -headings p model Sawam.eqn
+ -headings p model
  -axis_titles "Pressure / bar" " Halite solubility / mol/kgw"
  -axis_scale x_axis 0 2e3
  -plot_csv_file halite.dat
  10 graph_x pressure * 1.013
  20 graph_y tot("Na")
- 30 ln_ = 2.86623 - 571.361/(TK) + 77.128/(TK)^2 + 4.0479e-4 * pressure / 9.869\
- - 7.445e-7*(pressure / 9.869)^2 + 6.209e-10*(pressure / 9.869)^3
-# 40 if pressure < 5000 then graph_y exp(ln_) + 3.5 # + 3.5 ?? Sawamura et al., 2007.
 END

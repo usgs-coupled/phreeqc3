@@ -1,7 +1,13 @@
 # Compare expt data of CO2 solubility at high CO2 pressure and
-#   Peng-Robinson calc's with fixed-volume gas_phase, 25, 50, 75 oC.
+#   Peng-Robinson calc's with fixed-volume gas_phase, 25, 50, 75, 100 oC.
 DATABASE ../database/phreeqc.dat
-INCLUDE$ CO2_V.db
+SOLUTION_SPECIES
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	16.681
+	delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9
+	-Vm   12.84 -24.3 11.1 1.52
 #PRINT; -reset false
 SOLUTION 1 pH 7 charge
 GAS_PHASE 6
@@ -10,7 +16,7 @@ GAS_PHASE 6
 	H2O(g) 0
 USER_GRAPH
  -chart_title "Using: GAS_PHASE with H2O(g)"
- -plot_csv_file co2_25_50_75.dat
+ -plot_csv_file co2.dat
  -axis_titles "Pressure / atm" "CO2 / (mol/kgw)"
  -axis_scale x_axis 0 500
  -axis_scale y_axis 0 2
@@ -36,6 +42,13 @@ USER_GRAPH; -connect_simulations false
 END
 SOLUTION 1 pH 7 charge
  -temp 75
+USER_GRAPH; -connect_simulations true
+REACTION
+ CO2 1; 25 in 25
+use gas_phase 6
+END
+SOLUTION 1 pH 7 charge
+ -temp 100
 USER_GRAPH; -connect_simulations true
 REACTION
  CO2 1; 25 in 25
