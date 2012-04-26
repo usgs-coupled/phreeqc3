@@ -1,24 +1,5 @@
 DATABASE ../database/phreeqc.dat
 #PRINT; -reset false
-SOLUTION_MASTER_SPECIES
-Na		Na+	0.0	Na		22.9898
-N    NO3-  0.0  N    14.0067
-SOLUTION_SPECIES
-H2O = OH- + H+
-	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15 #
-Na+ = Na+
-	-gamma	4.0	0.075
-	-Vm   1.53 -2.28 4.57 -2.73   0.169   2.6 -0.28 44
-NO3- = NO3-
-	-gamma 3 0; -dw 1.9e-9
-#	-Vm @ v1          @ @ v2         @  @ v3         @  @ v4         @ @ v5          @ @ v6         @  @ v7         @  @ v8         @
-	-Vm   5.5068295E+00  6.7800000E+00   4.6233128E+00  -3.0600000E+00   1.0823526E-01  0.0000000E+00  -3.9816203E-01   2.9824784E+01
-
-
-
 SOLUTION 1; pH 7 charge
 END
 SELECTED_OUTPUT; -file HCl.txt; -reset false; -high_precision true
@@ -37,14 +18,14 @@ USER_GRAPH; -headings 5.C1.atm
 20 dim d(7)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 7 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Square, line_w = 0, color = Red
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Red
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Red
 150 end
 END
 
@@ -61,14 +42,14 @@ USER_GRAPH; -headings 15.C1.atm
 20 dim d(15)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 15 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Diamond, line_w = 0, color = Green
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Green
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Green
 150 end
 END
 
@@ -85,14 +66,14 @@ USER_GRAPH; -headings 20.C1.atm
 20 dim d(13)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 13 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Triangle, line_w = 0, color = Blue
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Blue
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Blue
 150 end
 END
 
@@ -118,14 +99,14 @@ d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(3
 d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52), d(53), d(54), d(55), d(56), d(57), d(58), d(59), d(60), d(61), d(62), d(63), \
 d(64), d(65), d(66), d(67), d(68), d(69), d(70), d(71), d(72), d(73), d(74), d(75), d(76), d(77), d(78), d(79), d(80), d(81),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 81 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Circle, line_w = 0, color = Orange
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Orange
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Orange
 150 end
 END
 
@@ -142,14 +123,14 @@ USER_GRAPH; -headings 30.C1.atm
 20 dim d(20)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 20 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = XCross, line_w = 0, color = Magenta
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Magenta
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Magenta
 150 end
 END
 
@@ -166,14 +147,14 @@ USER_GRAPH; -headings 35.C1.atm
 20 dim d(15)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 15 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Plus, line_w = 0, color = Yellow
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Yellow
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Yellow
 150 end
 END
 
@@ -190,14 +171,14 @@ USER_GRAPH; -headings 40.C1.atm
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 5 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Star, line_w = 0, color = Black
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Black
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Black
 150 end
 END
 
@@ -214,14 +195,14 @@ USER_GRAPH; -headings 45.C1.atm
 20 dim d(15)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 15 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = TriangleDown, line_w = 0, color = Aqua
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Aqua
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Aqua
 150 end
 END
 
@@ -238,14 +219,14 @@ USER_GRAPH; -headings 50.C1.atm
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 5 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = HDash, line_w = 0, color = Brown
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Brown
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Brown
 150 end
 END
 
@@ -262,14 +243,14 @@ USER_GRAPH; -headings 55.C1.atm
 20 dim d(15)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 15 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = VDash, line_w = 0, color = Red
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Red
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Red
 150 end
 END
 
@@ -286,14 +267,14 @@ USER_GRAPH; -headings 60.C1.atm
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 5 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Square, line_w = 0, color = Green
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Green
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Green
 150 end
 END
 
@@ -310,14 +291,14 @@ USER_GRAPH; -headings 65.C1.atm
 20 dim d(7)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 7 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Diamond, line_w = 0, color = Blue
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Blue
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Blue
 150 end
 END
 
@@ -334,14 +315,14 @@ USER_GRAPH; -headings 70.C1.atm
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 5 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Triangle, line_w = 0, color = Orange
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Orange
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Orange
 150 end
 END
 
@@ -358,14 +339,14 @@ USER_GRAPH; -headings 75.C1.atm
 20 dim d(7)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 7 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Circle, line_w = 0, color = Magenta
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Magenta
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Magenta
 150 end
 END
 
@@ -382,14 +363,14 @@ USER_GRAPH; -headings 80.C1.atm
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 5 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = XCross, line_w = 0, color = Yellow
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Yellow
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Yellow
 150 end
 END
 
@@ -406,14 +387,14 @@ USER_GRAPH; -headings 85.C1.atm
 20 dim d(7)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 7 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Plus, line_w = 0, color = Black
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Black
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Black
 150 end
 END
 
@@ -430,13 +411,13 @@ USER_GRAPH; -headings 95.C1.atm
 20 dim d(7)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 7 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Na"), d(step_no), symbol = Star, line_w = 0, color = Aqua
-120 plot_xy tot("Na"), Vm1, symbol = None, color = Aqua
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Aqua
 150 end
 END

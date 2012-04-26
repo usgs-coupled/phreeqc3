@@ -1,44 +1,9 @@
 #DATABASE c:\phreeqc\database\pitzer.dat # remove the NaC(4) cmplxs with this db.
 PRINT; -reset false
-SOLUTION_SPECIES
-H2O = OH- + H+
-	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-	-gamma	3.5	0.0
-	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
-Na+ = Na+
-	-gamma	4.0	0.075
-	-Vm   1.53 -2.28 4.57 -2.73   0.169   2.6 -0.28 44
-CO3-2 + 2 H+ = CO2 + H2O
-	log_k	16.681
-	delta_h -5.738	kcal
-	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
-	-dw	 1.92e-9
-	-Vm   6.2466      7.4711      2.8136     -3.0879 -.0200
-	-Vm   12.84 -24.3 11.1 1.52
-CO3-2 = CO3-2
-	-gamma	5.4	0.0; -dw 0.955e-9
-	-Vm   5.99 -3.98 -9.81 -2.61   4.33   -1.5e-3 -2.5 207
-CO3-2 + H+ = HCO3-
-	log_k  10.329
-	delta_h -3.561 kcal
-	-analytic 107.8871 0.03252849 -5151.79 -38.92561 563713.9
-	-gamma	5.4	0.0; -dw 1.18e-9
-	-Vm   8.51 1.15 -0.678 -2.83   2.38   0 2.0  14.5
-Na+ + CO3-2 = NaCO3-
-	log_k	1.27
-	delta_h 8.910	kcal
-	-dw 5.85e-10
-	-vm   8.4e-2 0 -5.67 0 -0.05   0 5.8 -49
- 
-Na+ + HCO3- = NaHCO3
- -log_k  -0.19
-  -delta_h  0.29 kcal
-	-vm   9.6 0 -18.5 0
-
 
 SOLUTION 1; pH 7 charge
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 1.000000
 REACTION_PRESSURE; 1.000000
@@ -51,15 +16,15 @@ USER_GRAPH; -headings 1.oC
 20 dim d(13)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 5.000000
 REACTION_PRESSURE; 1.000000
@@ -71,15 +36,15 @@ USER_GRAPH; -headings 5.oC
 20 dim d(11)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Red #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 15.000000
 REACTION_PRESSURE; 1.000000
@@ -91,15 +56,15 @@ USER_GRAPH; -headings 15.oC
 20 dim d(10)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 20.000000
 REACTION_PRESSURE; 1.000000
@@ -111,15 +76,15 @@ USER_GRAPH; -headings 20.oC
 20 dim d(6)
 30 read d(1), d(2), d(3), d(4), d(5), d(6),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Black #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 25.000000
 REACTION_PRESSURE; 1.000000
@@ -137,15 +102,15 @@ USER_GRAPH; -headings 25.oC
 d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \
 d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Blue #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Blue 
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Blue
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 35.000000
 REACTION_PRESSURE; 1.000000
@@ -157,15 +122,15 @@ USER_GRAPH; -headings 35.oC
 20 dim d(10)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Green #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Green 
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Green
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 45.000000
 REACTION_PRESSURE; 1.000000
@@ -177,15 +142,15 @@ USER_GRAPH; -headings 45.oC
 20 dim d(14)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Brown #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 50.000000
 REACTION_PRESSURE; 1.000000
@@ -197,15 +162,15 @@ USER_GRAPH; -headings 50.oC
 20 dim d(4)
 30 read d(1), d(2), d(3), d(4),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Orange #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 75.000000
 REACTION_PRESSURE; 1.000000
@@ -217,15 +182,15 @@ USER_GRAPH; -headings 75.oC
 20 dim d(4)
 30 read d(1), d(2), d(3), d(4),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Blue #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 100.000000
 REACTION_PRESSURE; 1.000000
@@ -237,15 +202,15 @@ USER_GRAPH; -headings 100.oC
 20 dim d(8)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = DeepPink #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 125.000000
 REACTION_PRESSURE; 1.000000
@@ -253,15 +218,15 @@ REACTION_PRESSURE; 1.000000
 REACTION; NaHCO3 1
 0 0.200000 0.400000 0.700000
 USER_GRAPH; -headings 125.oC
-10 data 0, 19.822169, 23.322200, 25.443009, 
+10 data 0, 19.822169, 23.322200, 25.443009,
 20 dim d(4)
 30 read d(1), d(2), d(3), d(4),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("Na"), d(step_no), line_w = 0, color = Aqua, symbol = Square  #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("Na"), Vm, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("Na"), Vmol, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
 # 82 plot_xy tot("Na"), mol("CO3-2")/tot("C"), y_axis = 2
 90 end
 END

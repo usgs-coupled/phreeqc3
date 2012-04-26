@@ -149,7 +149,7 @@ cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent, int * n_out) co
 
 	// equal_steps
 	s_oss << indent1;
-	s_oss << "-equalIncrements           " << this->equalIncrements << "\n";
+	s_oss << "-equal_increments           " << this->equalIncrements << "\n";
 
 	// equal_steps
 	s_oss << indent1;
@@ -202,6 +202,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 		vopts.push_back("cvode_order");
 		vopts.push_back("equalincrements");
 		vopts.push_back("count");
+		vopts.push_back("equal_increments");
 	}
 
 	std::istream::pos_type ptr;
@@ -392,6 +393,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 
 			break;
 		case 9:				// equalIncrements
+		case 11:			// equal_increments
 			if (!(parser.get_iss() >> this->equalIncrements))
 			{
 				this->use_cvode = false;

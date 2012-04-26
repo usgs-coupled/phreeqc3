@@ -1,32 +1,9 @@
 #DATABASE c:\phreeqc\database\pitzer.dat
 PRINT; -reset false
-SOLUTION_SPECIES
-H2O = OH- + H+
-	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-	-gamma	3.5	0.0
-	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
-K+ = K+
-	-gamma	3.5	0.015
-	-dw	 1.96e-9
-	-Vm   3.72 -1.473 5.22 -2.712   0.471   0 -0.81 65
-CO3-2 = CO3-2
-	-gamma	5.4	0.0; -dw 0.955e-9
-	-Vm   7.25 -3.98  -19.8 -2.61   5.17   0 -3.63 415
-CO3-2 + H+ = HCO3-
-	-analytic 107.8871 0.03252849 -5151.79 -38.92561 563713.9
-	-gamma	5.4	0.0; -dw 1.18e-9
-	-Vm   7.56 1.15 1.20 -2.83   1.15   0 0.2 74
-CO3-2 + 2 H+ = CO2 + H2O
-	log_k	16.681
-	delta_h -5.738	kcal
-	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
-	-dw	 1.92e-9
-	-Vm   6.2466      7.4711      2.8136     -3.0879 -.0200
-	-Vm   12.84 -24.3 11.1 1.52
 
 SOLUTION 1; pH 7 charge
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 5.000000
 REACTION_PRESSURE; 1.000000
@@ -40,14 +17,14 @@ USER_GRAPH; -headings 5.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Yellow #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 10.000000
 REACTION_PRESSURE; 1.000000
@@ -59,14 +36,14 @@ USER_GRAPH; -headings 10.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Red #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 15.000000
 REACTION_PRESSURE; 1.000000
@@ -78,14 +55,14 @@ USER_GRAPH; -headings 15.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Magenta #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 25.000000
 REACTION_PRESSURE; 1.000000
@@ -97,14 +74,14 @@ USER_GRAPH; -headings 25.oC
 20 dim d(12)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Black #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 35.000000
 REACTION_PRESSURE; 1.000000
@@ -116,14 +93,14 @@ USER_GRAPH; -headings 35.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Blue #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Blue 
+80 plot_xy tot("C"), Vmol, symbol = None, color = Blue
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 45.000000
 REACTION_PRESSURE; 1.000000
@@ -135,14 +112,14 @@ USER_GRAPH; -headings 45.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Green #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Green 
+80 plot_xy tot("C"), Vmol, symbol = None, color = Green
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 55.000000
 REACTION_PRESSURE; 1.000000
@@ -154,14 +131,14 @@ USER_GRAPH; -headings 55.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Brown #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 65.000000
 REACTION_PRESSURE; 1.000000
@@ -173,14 +150,14 @@ USER_GRAPH; -headings 65.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Orange #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 75.000000
 REACTION_PRESSURE; 1.000000
@@ -192,14 +169,14 @@ USER_GRAPH; -headings 75.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Blue #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 85.000000
 REACTION_PRESSURE; 1.000000
@@ -211,14 +188,14 @@ USER_GRAPH; -headings 85.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = DeepPink #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
- 
+
 USE solution 1
 REACTION_TEMPERATURE; 95.000000
 REACTION_PRESSURE; 1.000000
@@ -230,10 +207,10 @@ USER_GRAPH; -headings 95.oC
 20 dim d(5)
 30 read d(1), d(2), d(3), d(4), d(5),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("C"), d(step_no), line_w = 0, color = Aqua, symbol = Square  #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("C"), Vm, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("C"), Vmol, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END

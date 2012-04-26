@@ -1,20 +1,20 @@
 # Compare expt data of O2 solubility at high O2 pressure and
 #   Peng-Robinson calc's with initial solution equilibria.
 SOLUTION 1
-SOLUTION_SPECIES
-2 H2O = O2 + 4 H+ + 4 e-
-	log_k	-86.08
-	delta_h 134.79 kcal
-	-dw	 2.35e-9
-	-Vm   5.7889  6.3536  3.2528  -3.0417   -0.3943 # supcrit
-PHASES
-O2(g)
-	O2 = O2
-	log_k   -2.8983
-	-analytic -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
-	-T_c  154.6 # critical T, K
-	-P_c   49.80 # critical P, atm
-	-Omega 0.021 # Pitzer acentric factor
+# SOLUTION_SPECIES
+# 2 H2O = O2 + 4 H+ + 4 e-
+	# log_k	-86.08
+	# delta_h 134.79 kcal
+	# -dw	 2.35e-9
+	# -Vm   5.7889  6.3536  3.2528  -3.0417   -0.3943 # supcrit
+# PHASES
+# O2(g)
+	# O2 = O2
+	# log_k   -2.8983
+	# -analytic -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+	# -T_c  154.6 # critical T, K
+	# -P_c   49.80 # critical P, atm
+	# -Omega 0.021 # Pitzer acentric factor
 SELECTED_OUTPUT; -reset false; -file O2_25.prn
 USER_PUNCH
   1 sc$ = chr$(59)

@@ -9,7 +9,8 @@ call p.bat PR_EQ.phr
 call p.bat CO2_conc_PR_GP.phr
 call p.bat CO2_conc_PR_IS.phr
 call p.bat CO2_conc_PR_EQ.phr
-call p.bat phi_Duan_PR.phr
+@rem call p.bat phi_Duan_PR.phr
+call p.bat phi_Angus.phr
 call p.bat P_Vm.phr
 call p.bat CO2_4M_NaCl.phr
 call p.bat CO2_Na2SO4.phr

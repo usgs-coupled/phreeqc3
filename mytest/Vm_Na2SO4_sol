@@ -1,39 +1,6 @@
 #DATABASE c:\phreeqc\database\pitzer.dat # remove NaSO4- with this db
 DATABASE ../database/phreeqc.dat
 #PRINT; -reset false
-SOLUTION_SPECIES
-H2O = OH- + H+
-	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-	-gamma	3.5	0.0
-	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
-Cl- = Cl-
-	-gamma	3.5	0.015
-	-dw	 2.03e-9
-	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18
- 
-Na+ = Na+
-	-gamma	4.0	0.075
-	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	-Vm   1.53 -2.28 4.57 -2.73   0.169   2.6 -0.28 44
-SO4-2 = SO4-2
-	-gamma	5.0	-0.04
-	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-	-Vm 8.3014     -1.9846     -6.2122     -2.6970 3.1463
-# pitzer...
-	-Vm  10.57 -1.985 -11.65 -2.7   5.2  0 -1.5 142
-
-# phreeqc.dat...
-	# -Vm  11.7 -1.985 -16.9 -2.7   6.35   0 -0.055 20.9
-Na+ + SO4-2 = NaSO4-
-	log_k	0.7
-	delta_h 1.120	kcal
-	-dw 6.18e-10
-	-Vm   5.24 0 -0.55 0  1.43e-2   0 0.29 172
-# phreeqc.dat, with the pitzer Vm. phi increases from 103 to 170, otherwise seems OK
-	-Vm   4.2790166E+00   0.0000000E+00   -1.6168928E+00    0.0000000E+00    1.2032450E-01   4.5366903E-03    2.8755002E+00    4.8181863E+01
-	-Vm   4.28 0 -1.62 0   0.12   0 2.88 48
-
 SOLUTION 1; pH 7 charge
 END
 
@@ -50,11 +17,11 @@ USER_GRAPH; -headings 5.oC
 20 dim d(12)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Yellow #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
 90 end
 END
 
@@ -72,11 +39,11 @@ USER_GRAPH; -headings 15.oC
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Red #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
 90 end
 END
 
@@ -100,11 +67,11 @@ d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(3
 d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52), d(53), d(54), d(55), d(56), d(57), d(58), d(59), d(60), d(61), d(62), d(63), \
 d(64), d(65), d(66), d(67), d(68), d(69),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Magenta #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
 90 end
 END
 
@@ -122,11 +89,11 @@ USER_GRAPH; -headings 35.oC
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Black #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
 90 end
 END
 
@@ -141,11 +108,11 @@ USER_GRAPH; -headings 45.oC
 20 dim d(20)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Blue #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Blue
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Blue
 90 end
 END
 
@@ -161,11 +128,11 @@ USER_GRAPH; -headings 55.oC
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Green #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Green
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Green
 90 end
 END
 
@@ -183,11 +150,11 @@ USER_GRAPH; -headings 75.oC
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Brown #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
 
@@ -202,11 +169,11 @@ USER_GRAPH; -headings 95.oC
 20 dim d(12)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Orange #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END
 
@@ -221,10 +188,10 @@ USER_GRAPH; -headings 100.oC
 20 dim d(18)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 90
 70 plot_xy tot("S(6)"), d(step_no), line_w = 0, color = Blue #aph_x tot("S(6)") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy tot("S(6)"), Vm1, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+80 plot_xy tot("S(6)"), Vmol, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
 90 end
 END

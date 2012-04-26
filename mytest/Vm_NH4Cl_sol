@@ -1,530 +1,522 @@
-DATABASE ../database/phreeqc.dat
+DATABASE ../database/Amm.dat
 #PRINT; -reset false
-SOLUTION_MASTER_SPECIES
-Cl		Cl-	0.0	Cl		35.453
-Amm    AmmH+  0.0  Amm    14.0067
-SOLUTION_SPECIES
-H2O = OH- + H+
-	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15 #
-Cl- = Cl-
-	-gamma	3.5	0.015
-	-dw	 2.03e-9
-	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	-Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 #
-AmmH+ = AmmH+
-	-gamma 3 0; -dw 1.9e-9
-	#-Vm @ v1          @ @ v2         @  @ v3         @  @ v4         @ @ v5          @ @ v6         @  @ v7         @  @ v8         @
-	-Vm   4.28  2.34  4.52  -2.88   0.923   19  -4.7e-2  11
-AmmH+ = Amm + H+
-	-dw 2.28e-9
-	-analytic    0.6322    -0.001225     -2835.76
-	-Vm   5.09  2.8   8.62  -2.89
+# SOLUTION_SPECIES
+# H2O = OH- + H+
+	# -analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
+	# -gamma	3.5	0.0
+	# -dw	 5.27e-9
+	# -Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15 #
+# Cl- = Cl-
+	# -gamma	3.5	0.015
+	# -dw	 2.03e-9
+	# -millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+	# -Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 #
+# AmmH+ = AmmH+
+	# -gamma 3 0; -dw 1.9e-9
+	# -Vm   4.1985780E+00  2.3450000E+00   7.5353956E+00  -2.8800000E+00   4.9217814E-01  3.5403265E+00  -1.5954743E-01   1.9840872E+01
+# AmmH+ = Amm + H+
+	# -dw 2.28e-9
+	# -analytic    0.6322    -0.001225     -2835.76
+	# -Vm   5.0900000E+00   2.8000000E+00    8.6200000E+00   -2.8900000E+00    0.0000000E+00
 
 SOLUTION 1; pH 7 charge
 END
-SELECTED_OUTPUT; -file HCl.txt; -reset false; -high_precision true
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 12.500000
 REACTION_PRESSURE; 1.000000
-# from 0 to 10.
+# from 0 to 9.
 REACTION; AmmHCl 1
-0 0.001000 0.002000 0.005000 0.010010 0.020020 0.050060 0.100130 0.200260 0.500650 0.600780
+0 0.001000 0.005000 0.010010 0.020020 0.050060 0.100130 0.200260 0.500650 0.600780 
 #USER_PUNCH
-USER_GRAPH; -headings 12.C1.atm
+USER_GRAPH; -headings 12.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 34.510000, 33.509000, 35.508000, 35.523000, 34.517000, 34.701000, 35.071000, 35.959000, 36.529000, 36.418000,
-20 dim d(11)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11),
+10 data 0, 34.510000, 35.508000, 35.523000, 34.517000, 34.701000, 35.071000, 35.959000, 36.529000, 36.418000, 
+20 dim d(10)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
-90 if step_no = 11 then put(step_no + get(1), 1)
+90 if step_no = 10 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Square, line_w = 0, color = Red
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Red
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Red
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 15.000000
 REACTION_PRESSURE; 1.000000
-# from 10 to 32.
+# from 9 to 27.
 REACTION; AmmHCl 1
-0 0.001000 0.002000 0.005000 0.010010 0.020020 0.050000 0.050060 0.070000 0.100000 0.100130 0.200000 0.200260 0.300000 0.500000 0.500650 0.600780 1.000000 1.500000 2.000000 3.000000 4.000000 \
-5.000000
+0 0.010010 0.020020 0.050000 0.050060 0.070000 0.100000 0.100130 0.200000 0.200260 0.300000 0.500000 0.500650 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000 
 #USER_PUNCH
-USER_GRAPH; -headings 15.C1.atm
+USER_GRAPH; -headings 15.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 43.530000, 38.525000, 37.522000, 35.535000, 35.029000, 35.869000, 35.113000, 35.744000, 35.941000, 35.283000, 36.836000, 36.021000, 36.087000, 36.605000, 36.602000, 34.797000, 36.899000, 37.271000, 37.651000, 38.095000, 38.312000, \
-38.988000,
-20 dim d(23)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
-d(22), d(23),
+10 data 0, 35.535000, 35.029000, 35.869000, 35.113000, 35.744000, 35.941000, 35.283000, 36.836000, 36.021000, 36.087000, 36.605000, 36.602000, 36.899000, 37.271000, 37.651000, 38.095000, 38.312000, 38.988000, 
+20 dim d(19)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
-90 if step_no = 23 then put(step_no + get(1), 1)
+90 if step_no = 19 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Diamond, line_w = 0, color = Green
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Green
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Green
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 20.000000
 REACTION_PRESSURE; 1.000000
-# from 32 to 44.
+# from 27 to 39.
 REACTION; AmmHCl 1
-0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000
+0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000 
 #USER_PUNCH
-USER_GRAPH; -headings 20.C1.atm
+USER_GRAPH; -headings 20.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 36.177000, 36.112000, 36.506000, 37.179000, 36.389000, 36.875000, 37.147000, 37.515000, 37.878000, 38.311000, 38.513000, 39.167000,
+10 data 0, 36.177000, 36.112000, 36.506000, 37.179000, 36.389000, 36.875000, 37.147000, 37.515000, 37.878000, 38.311000, 38.513000, 39.167000, 
 20 dim d(13)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 13 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Triangle, line_w = 0, color = Blue
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Blue
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Blue
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 25.000000
 REACTION_PRESSURE; 1.000000
-# from 44 to 122.
+# from 39 to 112.
 REACTION; AmmHCl 1
-0 0.001000 0.002000 0.005000 0.010010 0.020020 0.049940 0.050000 0.050060 0.060410 0.070000 0.100000 0.100000 0.100130 0.150670 0.151690 0.200000 0.200000 0.200260 0.200270 0.253110 0.300000 \
-0.304160 0.400000 0.406880 0.407220 0.461370 0.499990 0.500000 0.500650 0.552550 0.598720 0.600000 0.600780 0.699410 0.711860 0.799570 0.800000 0.821940 0.899640 0.939540 1.000000 1.000000 \
-1.000840 1.032470 1.336750 1.500000 1.537700 1.564630 1.648760 1.653030 1.971470 2.000000 2.000000 2.046810 2.168100 2.338340 2.631130 2.821080 2.894420 3.000000 3.000000 3.290610 3.445320 \
-3.933490 4.000000 4.000000 4.099700 4.521170 4.633670 4.810540 5.000000 5.000000 5.367940 5.550970 6.000000 6.124920 6.338710 7.380000
+0 0.010010 0.020020 0.049940 0.050000 0.050060 0.060410 0.070000 0.100000 0.100000 0.100130 0.150670 0.151690 0.200000 0.200000 0.200260 0.200270 0.253110 0.300000 0.304160 0.400000 0.406880 \ 
+0.407220 0.461370 0.499990 0.500000 0.500650 0.552550 0.598720 0.600000 0.600780 0.711860 0.799570 0.800000 0.821940 0.899640 0.939540 1.000000 1.000000 1.000840 1.032470 1.500000 1.537700 \ 
+1.564630 1.648760 1.653030 1.971470 2.000000 2.000000 2.046810 2.168100 2.338340 2.631130 2.821080 2.894420 3.000000 3.000000 3.290610 3.445320 3.933490 4.000000 4.000000 4.099700 4.521170 \ 
+4.633670 4.810540 5.000000 5.000000 5.367940 5.550970 6.000000 6.124920 6.338710 7.380000 
 #USER_PUNCH
-USER_GRAPH; -headings 25.C1.atm
+USER_GRAPH; -headings 25.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 43.620000, 33.590000, 37.600000, 35.609000, 35.602000, 35.990000, 36.415000, 35.988000, 35.709000, 36.432000, 36.738000, 36.043000, 36.058000, 36.699000, 36.811000, 37.359000, 36.394000, 36.548000, 36.473000, 35.824000, 36.616000, \
-36.912000, 36.758000, 36.875000, 36.839000, 37.052000, 36.941000, 37.104000, 36.758000, 37.052000, 37.052000, 37.003000, 36.843000, 38.607000, 37.195000, 37.230000, 37.197000, 37.310000, 37.305000, 37.344000, 37.368000, 37.374000, \
-37.381000, 37.455000, 38.341000, 37.714000, 37.690000, 37.817000, 37.847000, 37.796000, 37.917000, 38.052000, 37.976000, 37.999000, 38.076000, 38.129000, 38.271000, 38.798000, 38.380000, 38.479000, 38.411000, 38.528000, 38.586000, \
-38.731000, 38.676000, 38.763000, 38.795000, 39.259000, 38.951000, 39.001000, 39.322000, 39.049000, 39.145000, 39.189000, 39.279000, 39.315000, 39.357000, 39.529000,
-20 dim d(79)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
-d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \
-d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52), d(53), d(54), d(55), d(56), d(57), d(58), d(59), d(60), d(61), d(62), d(63), \
-d(64), d(65), d(66), d(67), d(68), d(69), d(70), d(71), d(72), d(73), d(74), d(75), d(76), d(77), d(78), d(79),
+10 data 0, 35.609000, 35.602000, 35.990000, 36.415000, 35.988000, 35.709000, 36.432000, 36.738000, 36.043000, 36.058000, 36.699000, 36.811000, 37.359000, 36.394000, 36.548000, 36.473000, 35.824000, 36.616000, 36.912000, 36.758000, 36.875000, \ 
+36.839000, 37.052000, 36.941000, 37.104000, 36.758000, 37.052000, 37.052000, 37.003000, 36.843000, 37.195000, 37.230000, 37.197000, 37.310000, 37.305000, 37.344000, 37.368000, 37.374000, 37.381000, 37.455000, 37.714000, 37.690000, \ 
+37.817000, 37.847000, 37.796000, 37.917000, 38.052000, 37.976000, 37.999000, 38.076000, 38.129000, 38.271000, 38.798000, 38.380000, 38.479000, 38.411000, 38.528000, 38.586000, 38.731000, 38.676000, 38.763000, 38.795000, 39.259000, \ 
+38.951000, 39.001000, 39.322000, 39.049000, 39.145000, 39.189000, 39.279000, 39.315000, 39.357000, 39.529000, 
+20 dim d(74)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \ 
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \ 
+d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52), d(53), d(54), d(55), d(56), d(57), d(58), d(59), d(60), d(61), d(62), d(63), \ 
+d(64), d(65), d(66), d(67), d(68), d(69), d(70), d(71), d(72), d(73), d(74), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
-90 if step_no = 79 then put(step_no + get(1), 1)
+90 if step_no = 74 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Circle, line_w = 0, color = Orange
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Orange
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Orange
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 30.000000
 REACTION_PRESSURE; 1.000000
-# from 122 to 134.
+# from 112 to 124.
 REACTION; AmmHCl 1
-0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000
+0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000 
 #USER_PUNCH
-USER_GRAPH; -headings 30.C1.atm
+USER_GRAPH; -headings 30.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 36.490000, 36.493000, 36.790000, 37.502000, 36.753000, 37.239000, 37.493000, 37.857000, 38.191000, 38.611000, 38.800000, 39.439000,
+10 data 0, 36.490000, 36.493000, 36.790000, 37.502000, 36.753000, 37.239000, 37.493000, 37.857000, 38.191000, 38.611000, 38.800000, 39.439000, 
 20 dim d(13)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 13 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = XCross, line_w = 0, color = Magenta
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Magenta
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Magenta
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 35.000000
 REACTION_PRESSURE; 1.000000
-# from 134 to 161.
+# from 124 to 147.
 REACTION; AmmHCl 1
-0 0.001000 0.002000 0.005000 0.010010 0.020020 0.050000 0.050060 0.062500 0.070000 0.100000 0.100130 0.125000 0.200000 0.200260 0.250000 0.300000 0.500000 0.500000 0.500650 0.600780 1.000000 \
-1.000000 1.500000 2.000000 3.000000 4.000000 5.000000
+0 0.020020 0.050000 0.050060 0.062500 0.070000 0.100000 0.100130 0.125000 0.200000 0.200260 0.250000 0.300000 0.500000 0.500000 0.500650 0.600780 1.000000 1.000000 1.500000 2.000000 3.000000 \ 
+4.000000 5.000000 
 #USER_PUNCH
-USER_GRAPH; -headings 35.C1.atm
+USER_GRAPH; -headings 35.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 43.752000, 38.722000, 37.714000, 37.727000, 36.715000, 36.817000, 37.102000, 37.200000, 36.591000, 36.970000, 37.275000, 37.300000, 37.661000, 37.365000, 37.400000, 36.903000, 37.365000, 37.600000, 37.458000, 37.531000, 37.615000, \
-37.700000, 37.974000, 38.305000, 38.717000, 38.902000, 39.541000,
-20 dim d(28)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
-d(22), d(23), d(24), d(25), d(26), d(27), d(28),
+10 data 0, 36.715000, 36.817000, 37.102000, 37.200000, 36.591000, 36.970000, 37.275000, 37.300000, 37.661000, 37.365000, 37.400000, 36.903000, 37.365000, 37.600000, 37.458000, 37.531000, 37.615000, 37.700000, 37.974000, 38.305000, 38.717000, \ 
+38.902000, 39.541000, 
+20 dim d(24)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \ 
+d(22), d(23), d(24), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
-90 if step_no = 28 then put(step_no + get(1), 1)
+90 if step_no = 24 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Plus, line_w = 0, color = Yellow
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Yellow
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Yellow
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 40.000000
 REACTION_PRESSURE; 1.000000
-# from 161 to 173.
+# from 147 to 159.
 REACTION; AmmHCl 1
-0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000
+0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000 
 #USER_PUNCH
-USER_GRAPH; -headings 40.C1.atm
+USER_GRAPH; -headings 40.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 36.933000, 36.829000, 37.148000, 37.772000, 36.953000, 37.452000, 37.690000, 38.045000, 38.381000, 38.791000, 38.982000, 39.620000,
+10 data 0, 36.933000, 36.829000, 37.148000, 37.772000, 36.953000, 37.452000, 37.690000, 38.045000, 38.381000, 38.791000, 38.982000, 39.620000, 
 20 dim d(13)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 13 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Star, line_w = 0, color = Black
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Black
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Black
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 42.500000
 REACTION_PRESSURE; 1.000000
-# from 173 to 183.
+# from 159 to 164.
 REACTION; AmmHCl 1
-0 0.001000 0.002000 0.005000 0.010010 0.020020 0.050060 0.100130 0.200260 0.500650 0.600780
+0 0.020020 0.100130 0.200260 0.500650 0.600780 
 #USER_PUNCH
-USER_GRAPH; -headings 42.C1.atm
+USER_GRAPH; -headings 42.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 43.876000, 38.831000, 39.838000, 37.833000, 37.323000, 38.014000, 38.087000, 37.926000, 37.951000, 37.995000,
-20 dim d(11)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11),
+10 data 0, 37.323000, 38.087000, 37.926000, 37.951000, 37.995000, 
+20 dim d(6)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
-90 if step_no = 11 then put(step_no + get(1), 1)
+90 if step_no = 6 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = TriangleDown, line_w = 0, color = Aqua
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Aqua
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Aqua
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 45.000000
 REACTION_PRESSURE; 1.000000
-# from 183 to 200.
+# from 164 to 181.
 REACTION; AmmHCl 1
-0 0.050000 0.062500 0.070000 0.100000 0.125000 0.200000 0.250000 0.300000 0.500000 0.500000 1.000000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000
+0 0.050000 0.062500 0.070000 0.100000 0.125000 0.200000 0.250000 0.300000 0.500000 0.500000 1.000000 1.000000 1.500000 2.000000 3.000000 4.000000 5.000000 
 #USER_PUNCH
-USER_GRAPH; -headings 45.C1.atm
+USER_GRAPH; -headings 45.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 37.125000, 37.700000, 36.977000, 37.164000, 37.800000, 37.905000, 37.900000, 37.053000, 37.510000, 38.000000, 37.741000, 38.200000, 38.103000, 38.432000, 38.847000, 39.037000, 39.676000,
+10 data 0, 37.125000, 37.700000, 36.977000, 37.164000, 37.800000, 37.905000, 37.900000, 37.053000, 37.510000, 38.000000, 37.741000, 38.200000, 38.103000, 38.432000, 38.847000, 39.037000, 39.676000, 
 20 dim d(18)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 18 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = HDash, line_w = 0, color = Brown
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Brown
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Brown
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 50.000000
 REACTION_PRESSURE; 1.000000
-# from 200 to 222.
+# from 181 to 203.
 REACTION; AmmHCl 1
-0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 3.043290 3.560860 4.000000 4.103670 4.673620 5.000000 5.272800 5.903520 6.568330 7.270080 8.011920 \
-8.797410
+0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 1.000000 1.500000 2.000000 3.000000 3.043290 3.560860 4.000000 4.103670 4.673620 5.000000 5.272800 5.903520 6.568330 7.270080 8.011920 \ 
+8.797410 
 #USER_PUNCH
-USER_GRAPH; -headings 50.C1.atm
+USER_GRAPH; -headings 50.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 36.823000, 36.627000, 37.035000, 37.763000, 36.936000, 37.459000, 37.730000, 38.106000, 38.442000, 38.868000, 38.853000, 39.004000, 39.059000, 39.139000, 39.286000, 39.712000, 39.419000, 39.541000, 39.637000, 39.746000, 39.850000, \
-39.934000,
+10 data 0, 36.823000, 36.627000, 37.035000, 37.763000, 36.936000, 37.459000, 37.730000, 38.106000, 38.442000, 38.868000, 38.853000, 39.004000, 39.059000, 39.139000, 39.286000, 39.712000, 39.419000, 39.541000, 39.637000, 39.746000, 39.850000, \ 
+39.934000, 
 20 dim d(23)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
-d(22), d(23),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \ 
+d(22), d(23), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 23 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = VDash, line_w = 0, color = Red
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Red
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Red
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 55.000000
 REACTION_PRESSURE; 1.000000
-# from 222 to 250.
+# from 203 to 228.
 REACTION; AmmHCl 1
-0 0.050000 0.062500 0.070000 0.100000 0.125000 0.200000 0.250000 0.300000 0.500000 0.500000 1.000000 1.000000 1.500000 2.000000 3.000000 3.043290 3.560860 4.000000 4.103670 4.673620 5.000000 \
-5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490
+0 0.050000 0.070000 0.100000 0.200000 0.300000 0.500000 0.500000 1.000000 1.000000 1.500000 2.000000 3.000000 3.043290 3.560860 4.000000 4.103670 4.673620 5.000000 5.272800 5.903520 6.568330 \ 
+7.270080 8.011920 8.797410 9.630490 
 #USER_PUNCH
-USER_GRAPH; -headings 55.C1.atm
+USER_GRAPH; -headings 55.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 36.847000, 38.200000, 36.951000, 37.174000, 38.300000, 37.860000, 38.500000, 37.014000, 37.465000, 38.600000, 37.748000, 38.700000, 38.115000, 38.459000, 38.885000, 38.859000, 39.018000, 39.080000, 39.159000, 39.335000, 39.736000, \
-39.448000, 39.554000, 39.673000, 39.768000, 39.875000, 39.963000, 40.062000,
-20 dim d(29)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
-d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29),
+10 data 0, 36.847000, 36.951000, 37.174000, 37.860000, 37.014000, 37.465000, 38.600000, 37.748000, 38.700000, 38.115000, 38.459000, 38.885000, 38.859000, 39.018000, 39.080000, 39.159000, 39.335000, 39.736000, 39.448000, 39.554000, 39.673000, \ 
+39.768000, 39.875000, 39.963000, 40.062000, 
+20 dim d(26)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \ 
+d(22), d(23), d(24), d(25), d(26), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
-90 if step_no = 29 then put(step_no + get(1), 1)
+90 if step_no = 26 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Square, line_w = 0, color = Green
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Green
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Green
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 60.000000
 REACTION_PRESSURE; 1.000000
-# from 250 to 261.
+# from 228 to 239.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 
 #USER_PUNCH
-USER_GRAPH; -headings 60.C1.atm
+USER_GRAPH; -headings 60.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 38.958000, 39.081000, 39.195000, 39.326000, 39.469000, 39.580000, 39.685000, 39.802000, 39.897000, 39.974000, 40.077000,
+10 data 0, 38.958000, 39.081000, 39.195000, 39.326000, 39.469000, 39.580000, 39.685000, 39.802000, 39.897000, 39.974000, 40.077000, 
 20 dim d(12)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 12 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Diamond, line_w = 0, color = Blue
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Blue
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Blue
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 65.000000
 REACTION_PRESSURE; 1.000000
-# from 261 to 273.
+# from 239 to 250.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 
 #USER_PUNCH
-USER_GRAPH; -headings 65.C1.atm
+USER_GRAPH; -headings 65.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 38.897000, 39.070000, 39.221000, 39.358000, 39.483000, 39.640000, 39.710000, 39.814000, 39.930000, 40.025000, 40.117000, 40.218000,
-20 dim d(13)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+10 data 0, 38.897000, 39.070000, 39.221000, 39.358000, 39.483000, 39.640000, 39.710000, 39.814000, 39.930000, 40.025000, 40.117000, 
+20 dim d(12)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
-90 if step_no = 13 then put(step_no + get(1), 1)
+90 if step_no = 12 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Triangle, line_w = 0, color = Orange
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Orange
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Orange
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 70.000000
 REACTION_PRESSURE; 1.000000
-# from 273 to 285.
+# from 250 to 262.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 
 #USER_PUNCH
-USER_GRAPH; -headings 70.C1.atm
+USER_GRAPH; -headings 70.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 38.750000, 39.016000, 39.156000, 39.308000, 39.469000, 39.595000, 39.712000, 39.823000, 39.929000, 40.030000, 40.127000, 40.221000,
+10 data 0, 38.750000, 39.016000, 39.156000, 39.308000, 39.469000, 39.595000, 39.712000, 39.823000, 39.929000, 40.030000, 40.127000, 40.221000, 
 20 dim d(13)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 13 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Circle, line_w = 0, color = Magenta
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Magenta
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Magenta
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 75.000000
 REACTION_PRESSURE; 1.000000
-# from 285 to 297.
+# from 262 to 274.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 
 #USER_PUNCH
-USER_GRAPH; -headings 75.C1.atm
+USER_GRAPH; -headings 75.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 38.812000, 38.953000, 39.110000, 39.277000, 39.427000, 39.544000, 39.673000, 39.778000, 39.909000, 40.004000, 40.109000, 40.210000,
+10 data 0, 38.812000, 38.953000, 39.110000, 39.277000, 39.427000, 39.544000, 39.673000, 39.778000, 39.909000, 40.004000, 40.109000, 40.210000, 
 20 dim d(13)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 13 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = XCross, line_w = 0, color = Yellow
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Yellow
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Yellow
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 80.000000
 REACTION_PRESSURE; 1.000000
-# from 297 to 310.
+# from 274 to 287.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910 
 #USER_PUNCH
-USER_GRAPH; -headings 80.C1.atm
+USER_GRAPH; -headings 80.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 38.680000, 38.851000, 39.030000, 39.190000, 39.335000, 39.469000, 39.613000, 39.747000, 39.856000, 39.961000, 40.076000, 40.186000, 40.291000,
+10 data 0, 38.680000, 38.851000, 39.030000, 39.190000, 39.335000, 39.469000, 39.613000, 39.747000, 39.856000, 39.961000, 40.076000, 40.186000, 40.291000, 
 20 dim d(14)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 14 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Plus, line_w = 0, color = Black
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Black
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Black
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 85.000000
 REACTION_PRESSURE; 1.000000
-# from 310 to 323.
+# from 287 to 300.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910 
 #USER_PUNCH
-USER_GRAPH; -headings 85.C1.atm
+USER_GRAPH; -headings 85.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 38.391000, 38.676000, 38.859000, 39.073000, 39.239000, 39.411000, 39.549000, 39.696000, 39.833000, 39.976000, 40.083000, 40.070000, 40.310000,
+10 data 0, 38.391000, 38.676000, 38.859000, 39.073000, 39.239000, 39.411000, 39.549000, 39.696000, 39.833000, 39.976000, 40.083000, 40.070000, 40.310000, 
 20 dim d(14)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 14 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = Star, line_w = 0, color = Aqua
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Aqua
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Aqua
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 90.000000
 REACTION_PRESSURE; 1.000000
-# from 323 to 337.
+# from 300 to 314.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910 12.462990
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910 12.462990 
 #USER_PUNCH
-USER_GRAPH; -headings 90.C1.atm
+USER_GRAPH; -headings 90.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 38.129000, 38.138000, 38.710000, 38.925000, 39.116000, 39.309000, 39.483000, 39.644000, 39.792000, 39.931000, 40.062000, 40.186000, 40.316000, 40.429000,
+10 data 0, 38.129000, 38.138000, 38.710000, 38.925000, 39.116000, 39.309000, 39.483000, 39.644000, 39.792000, 39.931000, 40.062000, 40.186000, 40.316000, 40.429000, 
 20 dim d(15)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 15 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = TriangleDown, line_w = 0, color = Brown
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Brown
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Brown
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 95.000000
 REACTION_PRESSURE; 1.000000
-# from 337 to 350.
+# from 314 to 327.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 11.457910 12.462990
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 11.457910 12.462990 
 #USER_PUNCH
-USER_GRAPH; -headings 95.C1.atm
+USER_GRAPH; -headings 95.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 37.783000, 37.850000, 38.470000, 38.519000, 39.013000, 39.204000, 39.396000, 39.572000, 39.734000, 39.885000, 40.027000, 40.299000, 40.419000,
+10 data 0, 37.783000, 37.850000, 38.470000, 38.519000, 39.013000, 39.204000, 39.396000, 39.572000, 39.734000, 39.885000, 40.027000, 40.299000, 40.419000, 
 20 dim d(14)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 14 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = HDash, line_w = 0, color = Red
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Red
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Red
 150 end
 END
 
 USE solution 1
 REACTION_TEMPERATURE; 100.000000
 REACTION_PRESSURE; 1.000000
-# from 350 to 364.
+# from 327 to 341.
 REACTION; AmmHCl 1
-0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910 12.462990
+0 3.043290 3.560860 4.103670 4.673620 5.272800 5.903520 6.568330 7.270080 8.011920 8.797410 9.630490 10.515650 11.457910 12.462990 
 #USER_PUNCH
-USER_GRAPH; -headings 100.C1.atm
+USER_GRAPH; -headings 100.C_1.atm
  -axis_titles "NH4Cl / (mol/kg H2O)" "NH4Cl molar volume / (cm3/mol)"
-10 data 0, 37.466000, 38.112000, 38.369000, 38.618000, 38.837000, 39.075000, 39.288000, 39.482000, 39.675000, 39.839000, 39.991000, 40.148000, 40.282000, 40.410000,
+10 data 0, 37.466000, 38.112000, 38.369000, 38.618000, 38.837000, 39.075000, 39.288000, 39.482000, 39.675000, 39.839000, 39.991000, 40.148000, 40.282000, 40.410000, 
 20 dim d(15)
-30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15),
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), 
 40 if step_no = 1 then put(rho, 10)
-50 if step_no > 1 then Vm1 = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
-60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
-62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 53.4917) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 or pressure > 1e3 then dif = 0 
 #80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
 90 if step_no = 15 then put(step_no + get(1), 1)
 100 if step_no = 1 then goto 150
 110 plot_xy tot("Cl"), d(step_no), symbol = VDash, line_w = 0, color = Green
-120 plot_xy tot("Cl"), Vm1, symbol = None, color = Green
+120 plot_xy tot("Cl"), Vmol, symbol = None, color = Green
 150 end
 END
