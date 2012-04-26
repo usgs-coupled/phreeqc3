@@ -38,7 +38,7 @@ initialize(void)
 	debug_diffuse_layer = FALSE;
 	debug_inverse = FALSE;
 	itmax = 100;
-	max_tries = 100;
+	max_tries = 1000;
 #ifdef USE_LONG_DOUBLE
 	/* from float.h, sets tolerance for cl1 routine */
 	ineq_tol = pow((long double) 10, (long double) -LDBL_DIG);

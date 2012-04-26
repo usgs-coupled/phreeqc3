@@ -5827,7 +5827,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	rho_0 = calc_rho_0(tc, pa);
 #ifndef PHREEQC2
 	pa = patm_x;
-	calc_dielectrics(tc_x, pa);
+	//calc_dielectrics(tc_x, pa);
 	calc_dielectrics(tc, pa);
 #endif
 	calc_vm(tc, pa);
