@@ -433,7 +433,9 @@ ChartObject::Read(CParser & parser)
 				if (cmd_lower.find("plot_xy") != std::string::npos)
 				{
 					//Curves are created in Basic cmds
-					ExtractCurveInfo(cmd); // truncates cmd
+					CurveObject new_curve = ExtractCurveInfo(cmd); // truncates cmd
+					// Add to list of new plotxy curves
+					this->new_plotxy_curves.push_back(new_curve);
 				}
 				this->rate_command_list.push_back(cmd);
 			}
@@ -605,13 +607,13 @@ ChartObject::OpenCSVFile(std::string file_name)
 	return true;
 }
 
-void 
+CurveObject 
 ChartObject::ExtractCurveInfo(std::string & cmd_line)
 {
 	/* plot_xy x, tot("Cl"), color = Red, symbol = Circle, symbol_size = 0.0, line_w = 1.0, y_axis = 2 */
 
 	// Make copy of cmd_line
-	int curvenr = (int) this->Curves.size();
+	//int curvenr = (int) this->Curves.size();
 	std::string str_line = cmd_line;
 
 	// Massage line
@@ -738,9 +740,8 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 		}
 	}
 	
-	// Add to list of new plotxy curves
-	this->new_plotxy_curves.push_back(new_curve);
 	cmd_line = revised_line;
+	return new_curve;
 }
 void 
 ChartObject::Set_rate_struct(void)
