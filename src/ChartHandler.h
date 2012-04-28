@@ -15,11 +15,15 @@ public:
 	ChartHandler(PHRQ_io *io = NULL);
 	virtual ~ChartHandler();
 
-	size_t Get_chart_count()
+	size_t Get_chart_count()const
 	{
 		return this->chart_map.size();
 	}
 	ChartObject * Get_current_chart()
+	{
+		return this->current_chart;
+	}
+	const ChartObject * Get_current_chart()const
 	{
 		return this->current_chart;
 	}

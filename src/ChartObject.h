@@ -171,6 +171,10 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->user_graph;
 	}
+	const struct rate *Get_user_graph()const
+	{
+		return this->user_graph;
+	}
 	std::list<std::string> &Get_rate_command_list()
 	{
 		return this->rate_command_list;
@@ -205,6 +209,10 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->new_headings;
 	}
+	const std::vector<std::string> &Get_new_headings()const
+	{
+		return this->new_headings;
+	}
 	void Set_active(bool tf)
 	{
 		this->active = tf;
@@ -233,12 +241,16 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->phreeqc_ptr;
 	}
+	const std::list<std::string>& Get_rate_command_list_original()const
+	{
+		return this->rate_command_list_original;
+	}
 
 	bool Set_axis_scale(std::vector<std::string>, std::vector<int> types, std::ostringstream &);
 	bool Set_axis_scale(CParser & parser);
 	bool Read(CParser & parser);
 	bool OpenCSVFile(std::string fn);
-	void ExtractCurveInfo(std::string & str_line);
+	static CurveObject ExtractCurveInfo(std::string & str_line);
 	void Set_rate_struct(void);
 	void PlotXY(std::string x, std::string y);
     bool start_chart(void);
