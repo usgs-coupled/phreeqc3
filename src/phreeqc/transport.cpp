@@ -3855,7 +3855,7 @@ diff_stag_surf(int mobile_cell)
 	for ( ; jit != Rxn_temp_surface_map.end(); jit++)
 	{
 		i = jit->first;
-		assert (i = jit->second.Get_n_user());
+		assert(i == jit->second.Get_n_user());
 		if ((i == 0 && bcon_first == 1)	|| (i == count_cells + 1 && bcon_last == 1))
 		{
 			continue;
