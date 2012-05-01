@@ -291,6 +291,12 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 
 	/*  exit(EXIT_SUCCESS); */
 	PhreeqcPtr->PHRQ_free(inbuf);
+
+	// Cleanup after run
+	clearvars();
+	clearloops();
+	restoredata();
+
 	return (P_escapecode);
 }
 
