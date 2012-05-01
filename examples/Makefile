@@ -9,7 +9,8 @@ PITZERDAT=../database/pitzer.dat
 PHREEQC=../src/Class_release/phreeqcpp
 
 ifeq ($(CFG), CYGWIN)
-   PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/ErrorHandling/ClrClass_release/phreeqcpp.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/ClrClass_release/phreeqcpp.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
 endif
 
 all: ex1.out ex2.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
