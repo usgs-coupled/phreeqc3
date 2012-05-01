@@ -8,6 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <set>
+#include <string.h>
 
 PHRQ_io::
 PHRQ_io(void)
