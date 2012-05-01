@@ -7,6 +7,10 @@ C(4) 1 CO2(g) 2
 -pressure 200
 END
 # fugacity coefficients are different in a mixture of gases...
+SOLUTION_SPECIES
+	H2O + 0.01e- = H2O-0.01
+	log_k -9
+
 GAS_PHASE 1
  -pressure 200
  -fixed_pressure
@@ -14,4 +18,7 @@ GAS_PHASE 1
     N2(g) 100
     CO2(g) 100
 USE SOLUTION 1
+KNOBS
+	-try 1
+	-debug_model
 END

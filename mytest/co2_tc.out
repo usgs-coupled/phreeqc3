@@ -21,86 +21,12 @@ Reading input data for simulation 1.
 
 	DATABASE ../database/phreeqc.dat
 	SOLUTION_SPECIES
-	Na+ = Na+
-		gamma	4.0	0.075
-		dw	 1.33e-9
-		millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-		vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
-	Cl- = Cl-
-		gamma	3.5	0.015
-		dw	 2.03e-9
-		millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-		vm 16.26 0.104 -1.25e-3  0.467 -0.027 2.95e-4  -1e-3  0.04 # 0-100 oC, HCl.xls, Laliberte, 2009. Halite solubility
-	SO4-2 = SO4-2
-		gamma	5.0	-0.04
-		dw	 1.07e-9
-		millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-		vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -9e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
 	CO3-2 + 2 H+ = CO2 + H2O
 		log_k	16.681
 		delta_h -5.738	kcal
 		analytical_expression	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
 		dw	 1.92e-9
-		vm   26.5 -0.066   0  0 0 0 -9.7E-03 # Data in Duan et al., 2006, MC 98, 131. 1-100 oC, 1-700 atm.
-	2 H2O = O2 + 4 H+ + 4 e-
-		log_k	-86.08
-		delta_h 134.79 kcal
-		dw	 2.35e-9
-		vm 35 # Pray et al., 1952, IEC 44. 1146
-	2 H+ + 2 e- = H2
-		log_k	-3.15
-		delta_h -1.759 kcal
-		dw	 5.13e-9
-		vm 20 # Pray et al., 1952, IEC 44. 1146
-	CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
-		log_k	41.071
-		delta_h -61.039 kcal
-		dw	 1.85e-9
-		vm 33
-	PHASES
-	CO2(g)
-		CO2 = CO2
-		log_k	-1.468
-		delta_h -4.776 kcal
-		analytical_expression	108.3865	0.01985076	-6919.53	-40.45154	669365.0
-		t_c  304.2 # critical T, K
-		p_c   72.80 # critical P, atm
-		omega 0.225 #  acentric factor
-	O2(g)
-		O2 = O2
-		log_k   -2.8983
-		analytical_expression -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
-		T_c  154.6 # critical T, K
-		p_c   49.80 # critical P, atm
-		omega 0.021 #  acentric factor
-	H2(g)
-		H2 = H2
-		log_k	   -3.1050
-		delta_h -4.184  kJ
-		analytical_expression   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
-		t_c  33.2 # critical T, K
-		p_c   12.80 # critical P, atm
-		omega 0.225 #  acentric factor
-	CH4(g)
-		CH4 = CH4
-		log_k	   -2.8502
-		analytical_expression -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
-		T_c  190.6 # critical T, K
-		p_c   45.40 # critical P, atm
-		omega 0.008 #  acentric factor
-	Mirabilite
-		Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
-		log_k	   -1.214
-		analytical_expression       -3862.234   -1.19856    93713.54    1577.756    0.
-		vm  216.2
-	H2O(g)
-		H2O = H2O
-		log_k  1.506
-	 delta_h -44.03 kJ
-		T_c  647.3 # critical T, K
-		p_c  217.60 # critical P, atm
-		omega 0.344 #  acentric factor
-		analytical_expression   -16.5066 -2.0013E-3  2710.7  3.7646  0 2.24E-6
+		vm   12.84 -24.3 11.1 1.52 # supcrit modified
 	SOLUTION 1
 	 pH 7 charge
 	 temp 25
@@ -133,18 +59,18 @@ Initial solution 1.
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.997      Charge balance
+                                       pH  =   7.000      Charge balance
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99700
+                          Density (g/cm3)  =   0.99704
                         Activity of water  =   1.000
-                           Ionic strength  =   1.008e-07
+                           Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.540e-17
+                 Total alkalinity (eq/kg)  =   6.310e-18
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -3.540e-17
+                  Electrical balance (eq)  =  -6.310e-18
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   2
                                   Total H  = 1.110124e+02
@@ -152,24 +78,24 @@ Initial solution 1.
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             1.008e-07   1.008e-07    -6.997    -6.997    -0.000     -3.76
-   H+              1.008e-07   1.008e-07    -6.997    -6.997    -0.000      0.00
+   OH-             1.001e-07   1.001e-07    -6.999    -7.000    -0.000     -4.11
+   H+              1.001e-07   1.001e-07    -6.999    -7.000    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-H(0)          1.438e-25
-   H2              7.189e-26   7.189e-26   -25.143   -25.143     0.000     20.00
+H(0)          1.419e-25
+   H2              7.095e-26   7.095e-26   -25.149   -25.149     0.000     28.61
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -42.093   -42.093     0.000     35.00
+   O2              0.000e+00   0.000e+00   -42.082   -42.082     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
-	H2(g)           -22.04    -25.14   -3.10  H2
+	H2(g)           -22.05    -25.15   -3.10  H2
 	H2O(g)           -1.50     -0.00    1.50  H2O
-	O2(g)           -39.20    -42.09   -2.89  O2
+	O2(g)           -39.19    -42.08   -2.89  O2
 
 
 -----------------------------------------
@@ -188,7 +114,7 @@ Using temperature 1.
 Total pressure: 65.13      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   1.16e-01 liters/mole
-   P * Vm / RT:  0.30767  (Compressibility Factor Z) 
+   P * Vm / RT:  0.30765  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
@@ -208,55 +134,55 @@ CO2(g)            1.60     0.13     -1.47    1.000e+01           0  -1.000e+01
 
 	Elements           Molality       Moles
 
-	C                 1.362e+00   1.361e+00
+	C                 1.361e+00   1.361e+00
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   3.103      Charge balance
-                                       pe  =  14.789      Adjusted to redox equilibrium
+                                       pe  =   2.536      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 314
-                          Density (g/cm3)  =   1.02419
+                          Density (g/cm3)  =   1.02415
                         Activity of water  =   0.977
-                           Ionic strength  =   8.127e-04
+                           Ionic strength  =   8.131e-04
                        Mass of water (kg)  =   9.997e-01
-                 Total alkalinity (eq/kg)  =   2.828e-15
-                       Total CO2 (mol/kg)  =   1.362e+00
+                 Total alkalinity (eq/kg)  =   2.747e-15
+                       Total CO2 (mol/kg)  =   1.361e+00
                       Temperature (deg C)  =  25.00
                            Pressure (atm)  = 65.13
-                  Electrical balance (eq)  =  -2.827e-15
+                  Electrical balance (eq)  =  -2.746e-15
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  83
+                               Iterations  =  82
                                   Total H  = 1.109844e+02
-                                  Total O  = 5.821498e+01
+                                  Total O  = 5.821402e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              8.127e-04   7.881e-04    -3.090    -3.103    -0.013      0.00
-   OH-             1.376e-11   1.332e-11   -10.862   -10.876    -0.014     -3.49
+   H+              8.131e-04   7.885e-04    -3.090    -3.103    -0.013      0.00
+   OH-             1.358e-11   1.315e-11   -10.867   -10.881    -0.014     -3.85
    H2O             5.551e+01   9.768e-01     1.744    -0.010     0.000     18.02
-C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00  -118.648  -118.648     0.000     33.00
-C(4)          1.362e+00
-   CO2             1.361e+00   1.361e+00     0.134     0.134     0.000     25.47
-   HCO3-           8.127e-04   7.873e-04    -3.090    -3.104    -0.014     25.21
-   CO3-2           5.741e-11   5.056e-11   -10.241   -10.296    -0.055     -3.88
-H(0)          2.200e-39
-   H2              1.100e-39   1.100e-39   -38.959   -38.959     0.000     20.00
-O(0)          5.935e-15
-   O2              2.968e-15   2.968e-15   -14.528   -14.528     0.000     35.00
+C(-4)         2.421e-21
+   CH4             2.421e-21   2.421e-21   -20.616   -20.616     0.000     32.22
+C(4)          1.361e+00
+   CO2             1.360e+00   1.361e+00     0.134     0.134     0.000     25.61
+   HCO3-           8.131e-04   7.877e-04    -3.090    -3.104    -0.014     24.79
+   CO3-2           5.730e-11   5.046e-11   -10.242   -10.297    -0.055     -3.53
+H(0)          6.926e-15
+   H2              3.463e-15   3.463e-15   -14.461   -14.460     0.000     28.58
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -63.538   -63.538     0.000     30.31
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(298 K,  65 atm)
 
-	CH4(g)         -115.87   -118.65   -2.78  CH4
+	CH4(g)          -17.84    -20.62   -2.78  CH4
 	CO2(g)            1.58      0.13   -1.44  CO2	 Pressure  65.0 atm, phi 0.657.
-	H2(g)           -35.86    -38.96   -3.10  H2
+	H2(g)           -11.36    -14.46   -3.10  H2
 	H2O(g)           -1.49     -0.01    1.48  H2O	 Pressure   0.1 atm, phi 0.305.
-	O2(g)           -11.59    -14.53   -2.93  O2
+	O2(g)           -60.60    -63.54   -2.93  O2
 
 
 Reaction step 2.
@@ -268,17 +194,17 @@ Using temperature 1.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure: 91.75      atmospheres          (Peng-Robinson calculation)
+Total pressure: 91.74      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   1.12e-01 liters/mole
-   P * Vm / RT:  0.39525  (Compressibility Factor Z) 
+   P * Vm / RT:  0.39533  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)             1.96   9.143e+01  0.619   0.000e+00   8.876e+00   8.876e+00
-H2O(g)            -0.49   3.245e-01  0.295   0.000e+00   3.150e-02   3.150e-02
+CO2(g)             1.96   9.142e+01  0.619   0.000e+00   8.873e+00   8.873e+00
+H2O(g)            -0.49   3.244e-01  0.295   0.000e+00   3.149e-02   3.149e-02
 
 -------------------------------Phase assemblage--------------------------------
 
@@ -291,55 +217,55 @@ CO2(g)            1.68     0.05     -1.63    1.000e+01           0  -1.000e+01
 
 	Elements           Molality       Moles
 
-	C                 1.125e+00   1.124e+00
+	C                 1.128e+00   1.127e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.112      Charge balance
-                                       pe  =  13.243      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 44 oC) = 456
-                          Density (g/cm3)  =   1.01591
+                                       pH  =   3.111      Charge balance
+                                       pe  =   2.327      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 44 oC) = 457
+                          Density (g/cm3)  =   1.01661
                         Activity of water  =   0.981
-                           Ionic strength  =   7.982e-04
+                           Ionic strength  =   8.000e-04
                        Mass of water (kg)  =   9.994e-01
-                 Total alkalinity (eq/kg)  =   1.466e-14
-                       Total CO2 (mol/kg)  =   1.125e+00
+                 Total alkalinity (eq/kg)  =  -2.012e-13
+                       Total CO2 (mol/kg)  =   1.128e+00
                       Temperature (deg C)  =  44.44
-                           Pressure (atm)  = 91.75
-                  Electrical balance (eq)  =  -1.465e-14
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  79
-                                  Total H  = 1.109494e+02
-                                  Total O  = 5.772343e+01
+                           Pressure (atm)  = 91.74
+                  Electrical balance (eq)  =   2.010e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  75
+                                  Total H  = 1.109495e+02
+                                  Total O  = 5.772855e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              7.982e-04   7.734e-04    -3.098    -3.112    -0.014      0.00
-   OH-             5.547e-11   5.367e-11   -10.256   -10.270    -0.014     -3.01
-   H2O             5.551e+01   9.809e-01     1.744    -0.008     0.000     18.12
-C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00  -108.996  -108.996     0.000     33.00
-C(4)          1.125e+00
-   CO2             1.124e+00   1.124e+00     0.051     0.051     0.000     24.45
-   HCO3-           7.982e-04   7.726e-04    -3.098    -3.112    -0.014     26.76
-   CO3-2           7.960e-11   6.987e-11   -10.099   -10.156    -0.057     -1.83
-H(0)          2.148e-36
-   H2              1.074e-36   1.074e-36   -35.969   -35.969     0.000     20.00
-O(0)          4.725e-15
-   O2              2.362e-15   2.363e-15   -14.627   -14.627     0.000     35.00
+   H+              8.000e-04   7.751e-04    -3.097    -3.111    -0.014      0.00
+   OH-             5.489e-11   5.310e-11   -10.261   -10.275    -0.014     -3.34
+   H2O             5.551e+01   9.808e-01     1.744    -0.008     0.000     18.12
+C(-4)         2.202e-22
+   CH4             2.202e-22   2.202e-22   -21.657   -21.657     0.000     32.22
+C(4)          1.128e+00
+   CO2             1.127e+00   1.127e+00     0.052     0.052     0.000     23.79
+   HCO3-           8.000e-04   7.743e-04    -3.097    -3.111    -0.014     25.47
+   CO3-2           7.940e-11   6.969e-11   -10.100   -10.157    -0.057     -2.36
+H(0)          1.424e-14
+   H2              7.119e-15   7.120e-15   -14.148   -14.148     0.000     28.55
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -58.290   -58.290     0.000     31.45
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(317 K,  92 atm)
 
-	CH4(g)         -106.12   -109.00   -2.88  CH4
+	CH4(g)          -18.78    -21.66   -2.88  CH4
 	CO2(g)            1.69      0.05   -1.63  CO2	 Pressure  91.4 atm, phi 0.619.
-	H2(g)           -32.84    -35.97   -3.13  H2
+	H2(g)           -11.02    -14.15   -3.13  H2
 	H2O(g)           -1.02     -0.01    1.01  H2O	 Pressure   0.3 atm, phi 0.295.
-	O2(g)           -11.57    -14.63   -3.06  O2
+	O2(g)           -55.23    -58.29   -3.06  O2
 
 
 Reaction step 3.
@@ -375,61 +301,61 @@ H2O(g)            -0.22   6.039e-01  0.406   0.000e+00   3.846e-02   3.846e-02
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.75    -0.03     -1.78    1.000e+01   2.807e+00  -7.193e+00
+CO2(g)            1.75    -0.03     -1.78    1.000e+01   2.804e+00  -7.196e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 9.417e-01   9.410e-01
+	C                 9.442e-01   9.435e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.153      Charge balance
-                                       pe  =  12.841      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 63 oC) = 567
-                          Density (g/cm3)  =   1.00476
+                                       pH  =   3.152      Charge balance
+                                       pe  =   2.277      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 63 oC) = 568
+                          Density (g/cm3)  =   1.00534
                         Activity of water  =   0.984
-                           Ionic strength  =   7.258e-04
+                           Ionic strength  =   7.273e-04
                        Mass of water (kg)  =   9.993e-01
-                 Total alkalinity (eq/kg)  =  -1.507e-12
-                       Total CO2 (mol/kg)  =   9.417e-01
+                 Total alkalinity (eq/kg)  =   1.580e-13
+                       Total CO2 (mol/kg)  =   9.442e-01
                       Temperature (deg C)  =  63.89
                            Pressure (atm)  = 98.76
-                  Electrical balance (eq)  =   1.506e-12
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  = 105
+                  Electrical balance (eq)  =  -1.579e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 119
                                   Total H  = 1.109355e+02
-                                  Total O  = 5.734977e+01
+                                  Total O  = 5.735473e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              7.258e-04   7.034e-04    -3.139    -3.153    -0.014      0.00
-   OH-             1.856e-10   1.796e-10    -9.731    -9.746    -0.014     -3.57
-   H2O             5.551e+01   9.840e-01     1.744    -0.007     0.000     18.28
-C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00  -108.556  -108.556     0.000     33.00
-C(4)          9.417e-01
-   CO2             9.409e-01   9.411e-01    -0.026    -0.026     0.000     23.23
-   HCO3-           7.258e-04   7.027e-04    -3.139    -3.153    -0.014     26.42
-   CO3-2           9.214e-11   8.095e-11   -10.036   -10.092    -0.056     -2.66
-H(0)          9.643e-36
-   H2              4.822e-36   4.822e-36   -35.317   -35.317     0.000     20.00
-O(0)          3.834e-11
-   O2              1.917e-11   1.917e-11   -10.717   -10.717     0.000     35.00
+   H+              7.273e-04   7.048e-04    -3.138    -3.152    -0.014      0.00
+   OH-             1.850e-10   1.790e-10    -9.733    -9.747    -0.014     -3.62
+   H2O             5.551e+01   9.839e-01     1.744    -0.007     0.000     18.28
+C(-4)         9.192e-25
+   CH4             9.192e-25   9.193e-25   -24.037   -24.037     0.000     32.22
+C(4)          9.442e-01
+   CO2             9.434e-01   9.436e-01    -0.025    -0.025     0.000     22.49
+   HCO3-           7.273e-04   7.041e-04    -3.138    -3.152    -0.014     25.27
+   CO3-2           9.181e-11   8.065e-11   -10.037   -10.093    -0.056     -2.76
+H(0)          1.261e-14
+   H2              6.304e-15   6.305e-15   -14.200   -14.200     0.000     28.53
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -52.972   -52.972     0.000     32.30
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(337 K,  99 atm)
 
-	CH4(g)         -105.61   -108.56   -2.94  CH4
+	CH4(g)          -21.09    -24.04   -2.94  CH4
 	CO2(g)            1.75     -0.03   -1.78  CO2	 Pressure  98.2 atm, phi 0.671.
-	H2(g)           -32.18    -35.32   -3.14  H2
+	H2(g)           -11.06    -14.20   -3.14  H2
 	H2O(g)           -0.61     -0.01    0.60  H2O	 Pressure   0.6 atm, phi 0.406.
-	O2(g)            -7.59    -10.72   -3.13  O2
+	O2(g)           -49.84    -52.97   -3.13  O2
 
 
 Reaction step 4.
@@ -458,61 +384,61 @@ H2O(g)             0.05   1.128e+00  0.493   0.000e+00   5.732e-02   5.732e-02
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.79    -0.09     -1.88    1.000e+01   4.202e+00  -5.798e+00
+CO2(g)            1.79    -0.09     -1.88    1.000e+01   4.201e+00  -5.799e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 8.086e-01   8.078e-01
+	C                 8.098e-01   8.089e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.212      Charge balance
-                                       pe  =  11.822      Adjusted to redox equilibrium
+                                       pH  =   3.213      Charge balance
+                                       pe  =   2.040      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 83 oC) = 639
-                          Density (g/cm3)  =   0.99173
+                          Density (g/cm3)  =   0.99203
                         Activity of water  =   0.986
-                           Ionic strength  =   6.322e-04
+                           Ionic strength  =   6.320e-04
                        Mass of water (kg)  =   9.990e-01
-                 Total alkalinity (eq/kg)  =  -8.118e-13
-                       Total CO2 (mol/kg)  =   8.086e-01
+                 Total alkalinity (eq/kg)  =  -7.994e-15
+                       Total CO2 (mol/kg)  =   8.098e-01
                       Temperature (deg C)  =  83.33
                            Pressure (atm)  = 99.36
-                  Electrical balance (eq)  =   8.110e-13
+                  Electrical balance (eq)  =   7.986e-15
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  29
                                   Total H  = 1.108978e+02
-                                  Total O  = 5.706441e+01
+                                  Total O  = 5.706675e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              6.322e-04   6.131e-04    -3.199    -3.212    -0.013      0.00
-   OH-             5.292e-10   5.125e-10    -9.276    -9.290    -0.014     -5.15
+   H+              6.320e-04   6.129e-04    -3.199    -3.213    -0.013      0.00
+   OH-             5.343e-10   5.174e-10    -9.272    -9.286    -0.014     -4.49
    H2O             5.551e+01   9.862e-01     1.744    -0.006     0.000     18.49
-C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00  -103.155  -103.155     0.000     33.00
-C(4)          8.086e-01
-   CO2             8.080e-01   8.081e-01    -0.093    -0.093     0.000     21.95
-   HCO3-           6.322e-04   6.125e-04    -3.199    -3.213    -0.014     24.24
-   CO3-2           9.373e-11   8.258e-11   -10.028   -10.083    -0.055     -6.38
-H(0)          6.946e-34
-   H2              3.473e-34   3.473e-34   -33.459   -33.459     0.000     20.00
-O(0)          3.288e-10
-   O2              1.644e-10   1.644e-10    -9.784    -9.784     0.000     35.00
+C(-4)         1.274e-25
+   CH4             1.274e-25   1.274e-25   -24.895   -24.895     0.000     32.22
+C(4)          8.098e-01
+   CO2             8.091e-01   8.093e-01    -0.092    -0.092     0.000     21.52
+   HCO3-           6.320e-04   6.123e-04    -3.199    -3.213    -0.014     24.43
+   CO3-2           9.314e-11   8.206e-11   -10.031   -10.086    -0.055     -4.33
+H(0)          2.477e-14
+   H2              1.239e-14   1.239e-14   -13.907   -13.907     0.000     28.53
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -48.911   -48.911     0.000     33.01
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(356 K,  99 atm)
 
-	CH4(g)         -100.18   -103.16   -2.97  CH4
+	CH4(g)          -21.92    -24.89   -2.98  CH4
 	CO2(g)            1.79     -0.09   -1.88  CO2	 Pressure  98.2 atm, phi 0.727.
-	H2(g)           -30.33    -33.46   -3.12  H2
+	H2(g)           -10.78    -13.91   -3.12  H2
 	H2O(g)           -0.26     -0.01    0.25  H2O	 Pressure   1.1 atm, phi 0.493.
-	O2(g)            -6.62     -9.78   -3.16  O2
+	O2(g)           -45.75    -48.91   -3.16  O2
 
 
 Reaction step 5.
@@ -541,61 +467,61 @@ H2O(g)             0.32   2.066e+00  0.554   0.000e+00   9.068e-02   9.068e-02
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.82    -0.14     -1.95    1.000e+01   4.954e+00  -5.046e+00
+CO2(g)            1.82    -0.14     -1.96    1.000e+01   4.954e+00  -5.046e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 7.293e-01   7.281e-01
+	C                 7.290e-01   7.278e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.278      Charge balance
-                                       pe  =  10.020      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 102 oC) = 681
-                          Density (g/cm3)  =   0.97299
+                                       pH  =   3.280      Charge balance
+                                       pe  =  10.639      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 102 oC) = 678
+                          Density (g/cm3)  =   0.97290
                         Activity of water  =   0.988
-                           Ionic strength  =   5.427e-04
+                           Ionic strength  =   5.403e-04
                        Mass of water (kg)  =   9.984e-01
-                 Total alkalinity (eq/kg)  =  -5.110e-14
-                       Total CO2 (mol/kg)  =   7.293e-01
+                 Total alkalinity (eq/kg)  =  -1.407e-12
+                       Total CO2 (mol/kg)  =   7.290e-01
                       Temperature (deg C)  = 102.78
                            Pressure (atm)  = 100.44
-                  Electrical balance (eq)  =   5.101e-14
+                  Electrical balance (eq)  =   1.405e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  50
+                               Iterations  =  52
                                   Total H  = 1.108311e+02
-                                  Total O  = 5.687175e+01
+                                  Total O  = 5.687108e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              5.427e-04   5.266e-04    -3.265    -3.278    -0.013      0.00
-   OH-             1.303e-09   1.263e-09    -8.885    -8.899    -0.014     -7.71
+   H+              5.403e-04   5.244e-04    -3.267    -3.280    -0.013      0.00
+   OH-             1.339e-09   1.297e-09    -8.873    -8.887    -0.014     -5.93
    H2O             5.551e+01   9.876e-01     1.744    -0.005     0.000     18.84
 C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00   -91.378   -91.378     0.000     33.00
-C(4)          7.293e-01
-   CO2             7.288e-01   7.289e-01    -0.137    -0.137     0.000     20.68
-   HCO3-           5.427e-04   5.262e-04    -3.265    -3.279    -0.013     20.27
-   CO3-2           8.651e-11   7.649e-11   -10.063   -10.116    -0.053    -12.99
-H(0)          1.813e-30
-   H2              9.065e-31   9.066e-31   -30.043   -30.043     0.000     20.00
-O(0)          7.089e-13
-   O2              3.544e-13   3.545e-13   -12.450   -12.450     0.000     35.00
+   CH4             0.000e+00   0.000e+00   -96.338   -96.338     0.000     32.22
+C(4)          7.290e-01
+   CO2             7.284e-01   7.285e-01    -0.138    -0.138     0.000     20.82
+   HCO3-           5.403e-04   5.239e-04    -3.267    -3.281    -0.013     22.97
+   CO3-2           8.558e-11   7.568e-11   -10.068   -10.121    -0.053     -7.01
+H(0)          1.014e-31
+   H2              5.071e-32   5.072e-32   -31.295   -31.295     0.000     28.52
+O(0)          2.153e-10
+   O2              1.077e-10   1.077e-10    -9.968    -9.968     0.000     33.67
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(375 K, 100 atm)
 
-	CH4(g)          -88.41    -91.38   -2.97  CH4
-	CO2(g)            1.81     -0.14   -1.94  CO2	 Pressure  98.4 atm, phi 0.770.
-	H2(g)           -26.95    -30.04   -3.10  H2
+	CH4(g)          -93.36    -96.34   -2.97  CH4
+	CO2(g)            1.81     -0.14   -1.95  CO2	 Pressure  98.4 atm, phi 0.770.
+	H2(g)           -28.20    -31.29   -3.10  H2
 	H2O(g)            0.06     -0.01   -0.06  H2O	 Pressure   2.1 atm, phi 0.554.
-	O2(g)            -9.28    -12.45   -3.17  O2
+	O2(g)            -6.80     -9.97   -3.17  O2
 
 
 Reaction step 6.
@@ -610,7 +536,7 @@ Using temperature 1.
 Total pressure: 102.17      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   2.49e-01 liters/mole
-   P * Vm / RT:  0.78328  (Compressibility Factor Z) 
+   P * Vm / RT:  0.78327  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
@@ -624,61 +550,61 @@ H2O(g)             0.56   3.619e+00  0.599   0.000e+00   1.424e-01   1.424e-01
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.83    -0.16     -1.99    1.000e+01   5.438e+00  -4.562e+00
+CO2(g)            1.84    -0.16     -2.00    1.000e+01   5.439e+00  -4.561e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 6.862e-01   6.845e-01
+	C                 6.843e-01   6.826e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.348      Charge balance
-                                       pe  =   9.138      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 122 oC) = 698
-                          Density (g/cm3)  =   0.95763
+                                       pH  =   3.353      Charge balance
+                                       pe  =   9.057      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 122 oC) = 692
+                          Density (g/cm3)  =   0.95715
                         Activity of water  =   0.988
-                           Ionic strength  =   4.617e-04
+                           Ionic strength  =   4.571e-04
                        Mass of water (kg)  =   9.974e-01
-                 Total alkalinity (eq/kg)  =  -2.444e-14
-                       Total CO2 (mol/kg)  =   6.862e-01
+                 Total alkalinity (eq/kg)  =  -1.683e-13
+                       Total CO2 (mol/kg)  =   6.843e-01
                       Temperature (deg C)  = 122.22
                            Pressure (atm)  = 102.17
-                  Electrical balance (eq)  =   2.437e-14
+                  Electrical balance (eq)  =   1.678e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  26
                                   Total H  = 1.107276e+02
-                                  Total O  = 5.673274e+01
+                                  Total O  = 5.672898e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              4.617e-04   4.484e-04    -3.336    -3.348    -0.013      0.00
-   OH-             2.830e-09   2.745e-09    -8.548    -8.561    -0.013    -11.24
-   H2O             5.551e+01   9.883e-01     1.744    -0.005     0.000     19.14
+   H+              4.571e-04   4.440e-04    -3.340    -3.353    -0.013      0.00
+   OH-             2.966e-09   2.878e-09    -8.528    -8.541    -0.013     -8.01
+   H2O             5.551e+01   9.884e-01     1.744    -0.005     0.000     19.14
 C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00   -86.838   -86.838     0.000     33.00
-C(4)          6.862e-01
-   CO2             6.858e-01   6.858e-01    -0.164    -0.164     0.000     19.41
-   HCO3-           4.617e-04   4.480e-04    -3.336    -3.349    -0.013     14.50
-   CO3-2           7.378e-11   6.545e-11   -10.132   -10.184    -0.052    -22.48
-H(0)          6.834e-29
-   H2              3.417e-29   3.417e-29   -28.466   -28.466     0.000     20.00
-O(0)          2.847e-12
-   O2              1.423e-12   1.423e-12   -11.847   -11.847     0.000     35.00
+   CH4             0.000e+00   0.000e+00   -86.228   -86.228     0.000     32.22
+C(4)          6.843e-01
+   CO2             6.839e-01   6.840e-01    -0.165    -0.165     0.000     20.30
+   HCO3-           4.571e-04   4.436e-04    -3.340    -3.353    -0.013     20.82
+   CO3-2           7.254e-11   6.439e-11   -10.139   -10.191    -0.052    -10.93
+H(0)          9.447e-29
+   H2              4.723e-29   4.724e-29   -28.326   -28.326     0.000     28.52
+O(0)          1.416e-12
+   O2              7.078e-13   7.078e-13   -12.150   -12.150     0.000     34.35
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(395 K, 102 atm)
 
-	CH4(g)          -83.91    -86.84   -2.93  CH4
-	CO2(g)            1.82     -0.16   -1.98  CO2	 Pressure  98.5 atm, phi 0.806.
-	H2(g)           -25.41    -28.47   -3.05  H2
+	CH4(g)          -83.28    -86.23   -2.94  CH4
+	CO2(g)            1.83     -0.16   -2.00  CO2	 Pressure  98.5 atm, phi 0.806.
+	H2(g)           -25.27    -28.33   -3.05  H2
 	H2O(g)            0.34     -0.01   -0.34  H2O	 Pressure   3.6 atm, phi 0.599.
-	O2(g)            -8.70    -11.85   -3.15  O2
+	O2(g)            -9.00    -12.15   -3.15  O2
 
 
 Reaction step 7.
@@ -693,75 +619,75 @@ Using temperature 1.
 Total pressure: 104.79      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   2.65e-01 liters/mole
-   P * Vm / RT:  0.81432  (Compressibility Factor Z) 
+   P * Vm / RT:  0.81431  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
 CO2(g)             1.99   9.873e+01  0.834   0.000e+00   3.562e+00   3.562e+00
-H2O(g)             0.78   6.058e+00  0.631   0.000e+00   2.186e-01   2.186e-01
+H2O(g)             0.78   6.059e+00  0.631   0.000e+00   2.186e-01   2.186e-01
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.84    -0.17     -2.01    1.000e+01   5.772e+00  -4.228e+00
+CO2(g)            1.85    -0.18     -2.03    1.000e+01   5.775e+00  -4.225e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 6.692e-01   6.666e-01
+	C                 6.657e-01   6.631e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.421      Charge balance
-                                       pe  =   1.688      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 141 oC) = 696
-                          Density (g/cm3)  =   0.94121
+                                       pH  =   3.428      Charge balance
+                                       pe  =   1.973      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 141 oC) = 684
+                          Density (g/cm3)  =   0.94023
                         Activity of water  =   0.989
-                           Ionic strength  =   3.906e-04
+                           Ionic strength  =   3.841e-04
                        Mass of water (kg)  =   9.961e-01
-                 Total alkalinity (eq/kg)  =   4.824e-13
-                       Total CO2 (mol/kg)  =   6.692e-01
+                 Total alkalinity (eq/kg)  =  -3.505e-13
+                       Total CO2 (mol/kg)  =   6.657e-01
                       Temperature (deg C)  = 141.67
                            Pressure (atm)  = 104.79
-                  Electrical balance (eq)  =  -4.805e-13
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  34
+                  Electrical balance (eq)  =   3.491e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  29
                                   Total H  = 1.105753e+02
-                                  Total O  = 5.662086e+01
+                                  Total O  = 5.661379e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              3.906e-04   3.796e-04    -3.408    -3.421    -0.012      0.00
-   OH-             5.522e-09   5.361e-09    -8.258    -8.271    -0.013    -15.75
-   H2O             5.551e+01   9.886e-01     1.744    -0.005     0.000     19.49
-C(-4)         2.217e-30
-   CH4             2.217e-30   2.217e-30   -29.654   -29.654     0.000     33.00
-C(4)          6.692e-01
-   CO2             6.689e-01   6.689e-01    -0.175    -0.175     0.000     18.16
-   HCO3-           3.906e-04   3.794e-04    -3.408    -3.421    -0.013      6.94
-   CO3-2           5.892e-11   5.244e-11   -10.230   -10.280    -0.051    -34.85
-H(0)          3.507e-14
-   H2              1.753e-14   1.753e-14   -13.756   -13.756     0.000     20.00
-O(0)          2.738e-38
-   O2              1.369e-38   1.369e-38   -37.864   -37.864     0.000     35.00
+   H+              3.841e-04   3.734e-04    -3.416    -3.428    -0.012      0.00
+   OH-             5.909e-09   5.738e-09    -8.229    -8.241    -0.013    -10.88
+   H2O             5.551e+01   9.887e-01     1.744    -0.005     0.000     19.48
+C(-4)         1.011e-32
+   CH4             1.011e-32   1.011e-32   -31.995   -31.995     0.000     32.22
+C(4)          6.657e-01
+   CO2             6.653e-01   6.654e-01    -0.177    -0.177     0.000     19.90
+   HCO3-           3.841e-04   3.731e-04    -3.416    -3.428    -0.013     17.82
+   CO3-2           5.752e-11   5.124e-11   -10.240   -10.290    -0.050    -16.37
+H(0)          8.873e-15
+   H2              4.437e-15   4.437e-15   -14.353   -14.353     0.000     28.51
+O(0)          4.059e-37
+   O2              2.029e-37   2.029e-37   -36.693   -36.693     0.000     35.09
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(414 K, 105 atm)
 
-	CH4(g)          -26.79    -29.65   -2.87  CH4
-	CO2(g)            1.82     -0.17   -1.99  CO2	 Pressure  98.7 atm, phi 0.834.
-	H2(g)           -10.75    -13.76   -3.00  H2
+	CH4(g)          -29.10    -32.00   -2.89  CH4
+	CO2(g)            1.84     -0.18   -2.02  CO2	 Pressure  98.7 atm, phi 0.834.
+	H2(g)           -11.35    -14.35   -3.00  H2
 	H2O(g)            0.58     -0.00   -0.59  H2O	 Pressure   6.1 atm, phi 0.631.
-	O2(g)           -34.75    -37.86   -3.11  O2
+	O2(g)           -33.58    -36.69   -3.11  O2
 
 
 Reaction step 8.
@@ -783,68 +709,68 @@ Total pressure: 108.59      atmospheres          (Peng-Robinson calculation)
 Component         log P           P    phi     Initial       Final       Delta
 
 CO2(g)             2.00   9.886e+01  0.858   0.000e+00   3.322e+00   3.322e+00
-H2O(g)             0.99   9.724e+00  0.652   0.000e+00   3.268e-01   3.268e-01
+H2O(g)             0.99   9.725e+00  0.652   0.000e+00   3.268e-01   3.268e-01
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.84    -0.17     -2.01    1.000e+01   6.009e+00  -3.991e+00
+CO2(g)            1.86    -0.18     -2.03    1.000e+01   6.014e+00  -3.986e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 6.729e-01   6.689e-01
+	C                 6.674e-01   6.635e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.495      Charge balance
-                                       pe  =   7.632      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 161 oC) = 679
-                          Density (g/cm3)  =   0.92370
+                                       pH  =   3.505      Charge balance
+                                       pe  =   1.543      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 161 oC) = 662
+                          Density (g/cm3)  =   0.92206
                         Activity of water  =   0.989
-                           Ionic strength  =   3.293e-04
+                           Ionic strength  =   3.213e-04
                        Mass of water (kg)  =   9.941e-01
-                 Total alkalinity (eq/kg)  =  -4.252e-14
-                       Total CO2 (mol/kg)  =   6.729e-01
+                 Total alkalinity (eq/kg)  =  -7.504e-16
+                       Total CO2 (mol/kg)  =   6.674e-01
                       Temperature (deg C)  = 161.11
                            Pressure (atm)  = 108.59
-                  Electrical balance (eq)  =   4.227e-14
+                  Electrical balance (eq)  =   7.460e-16
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  27
-                                  Total H  = 1.103589e+02
-                                  Total O  = 5.651726e+01
+                               Iterations  =  48
+                                  Total H  = 1.103588e+02
+                                  Total O  = 5.650641e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              3.293e-04   3.203e-04    -3.482    -3.495    -0.012      0.00
-   OH-             9.822e-09   9.544e-09    -8.008    -8.020    -0.012    -21.24
+   H+              3.213e-04   3.126e-04    -3.493    -3.505    -0.012      0.00
+   OH-             1.071e-08   1.041e-08    -7.970    -7.982    -0.012    -14.78
    H2O             5.551e+01   9.886e-01     1.744    -0.005     0.000     19.88
-C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00   -79.524   -79.524     0.000     33.00
-C(4)          6.729e-01
-   CO2             6.725e-01   6.726e-01    -0.172    -0.172     0.000     16.91
-   HCO3-           3.293e-04   3.200e-04    -3.482    -3.495    -0.012     -2.42
-   CO3-2           4.455e-11   3.976e-11   -10.351   -10.401    -0.049    -50.10
-H(0)          2.938e-26
-   H2              1.469e-26   1.469e-26   -25.833   -25.833     0.000     20.00
-O(0)          4.889e-11
-   O2              2.445e-11   2.445e-11   -10.612   -10.612     0.000     35.00
+C(-4)         1.276e-31
+   CH4             1.276e-31   1.276e-31   -30.894   -30.894     0.000     32.22
+C(4)          6.674e-01
+   CO2             6.671e-01   6.672e-01    -0.176    -0.176     0.000     19.60
+   HCO3-           3.212e-04   3.124e-04    -3.493    -3.505    -0.012     13.74
+   CO3-2           4.315e-11   3.856e-11   -10.365   -10.414    -0.049    -23.79
+H(0)          4.113e-14
+   H2              2.057e-14   2.057e-14   -13.687   -13.687     0.000     28.51
+O(0)          2.363e-35
+   O2              1.181e-35   1.181e-35   -34.928   -34.928     0.000     35.97
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(434 K, 109 atm)
 
-	CH4(g)          -76.74    -79.52   -2.79  CH4
-	CO2(g)            1.81     -0.17   -1.99  CO2	 Pressure  98.9 atm, phi 0.858.
-	H2(g)           -22.89    -25.83   -2.94  H2
+	CH4(g)          -28.07    -30.89   -2.82  CH4
+	CO2(g)            1.85     -0.18   -2.02  CO2	 Pressure  98.9 atm, phi 0.858.
+	H2(g)           -10.74    -13.69   -2.94  H2
 	H2O(g)            0.80     -0.00   -0.81  H2O	 Pressure   9.7 atm, phi 0.652.
-	O2(g)            -7.55    -10.61   -3.06  O2
+	O2(g)           -31.87    -34.93   -3.06  O2
 
 
 Reaction step 9.
@@ -856,78 +782,78 @@ Using temperature 1.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure: 113.91      atmospheres          (Peng-Robinson calculation)
+Total pressure: 113.92      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   2.77e-01 liters/mole
-   P * Vm / RT:  0.84719  (Compressibility Factor Z) 
+   P * Vm / RT:  0.84718  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
 CO2(g)             2.00   9.889e+01  0.879   0.000e+00   3.135e+00   3.135e+00
-H2O(g)             1.18   1.503e+01  0.664   0.000e+00   4.764e-01   4.764e-01
+H2O(g)             1.18   1.503e+01  0.664   0.000e+00   4.765e-01   4.765e-01
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.83    -0.16     -1.98    1.000e+01   6.176e+00  -3.824e+00
+CO2(g)            1.86    -0.16     -2.02    1.000e+01   6.184e+00  -3.816e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 6.945e-01   6.886e-01
+	C                 6.868e-01   6.809e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.569      Charge balance
-                                       pe  =   6.490      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 180 oC) = 651
-                          Density (g/cm3)  =   0.90496
+                                       pH  =   3.584      Charge balance
+                                       pe  =   1.767      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 180 oC) = 630
+                          Density (g/cm3)  =   0.90256
                         Activity of water  =   0.988
-                           Ionic strength  =   2.770e-04
+                           Ionic strength  =   2.679e-04
                        Mass of water (kg)  =   9.914e-01
-                 Total alkalinity (eq/kg)  =   1.980e-17
-                       Total CO2 (mol/kg)  =   6.945e-01
+                 Total alkalinity (eq/kg)  =  -8.804e-14
+                       Total CO2 (mol/kg)  =   6.868e-01
                       Temperature (deg C)  = 180.56
-                           Pressure (atm)  = 113.91
-                  Electrical balance (eq)  =  -1.963e-17
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  26
-                                  Total H  = 1.100597e+02
-                                  Total O  = 5.640700e+01
+                           Pressure (atm)  = 113.92
+                  Electrical balance (eq)  =   8.729e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  36
+                                  Total H  = 1.100595e+02
+                                  Total O  = 5.639154e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              2.770e-04   2.696e-04    -3.558    -3.569    -0.012      0.00
-   OH-             1.612e-08   1.568e-08    -7.793    -7.805    -0.012    -27.71
-   H2O             5.551e+01   9.882e-01     1.744    -0.005     0.000     20.32
-C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00   -72.622   -72.622     0.000     33.00
-C(4)          6.945e-01
-   CO2             6.943e-01   6.943e-01    -0.158    -0.158     0.000     15.68
-   HCO3-           2.770e-04   2.694e-04    -3.558    -3.570    -0.012    -13.56
-   CO3-2           3.217e-11   2.879e-11   -10.493   -10.541    -0.048    -68.23
-H(0)          3.662e-24
-   H2              1.831e-24   1.831e-24   -23.737   -23.737     0.000     20.00
-O(0)          2.136e-12
-   O2              1.068e-12   1.068e-12   -11.971   -11.971     0.000     35.00
+   H+              2.679e-04   2.608e-04    -3.572    -3.584    -0.012      0.00
+   OH-             1.785e-08   1.736e-08    -7.748    -7.760    -0.012    -20.08
+   H2O             5.551e+01   9.883e-01     1.744    -0.005     0.000     20.32
+C(-4)         1.126e-35
+   CH4             1.126e-35   1.126e-35   -34.948   -34.948     0.000     32.22
+C(4)          6.868e-01
+   CO2             6.865e-01   6.866e-01    -0.163    -0.163     0.000     19.38
+   HCO3-           2.679e-04   2.607e-04    -3.572    -3.584    -0.012      8.17
+   CO3-2           3.091e-11   2.771e-11   -10.510   -10.557    -0.047    -33.88
+H(0)          9.346e-15
+   H2              4.673e-15   4.673e-15   -14.330   -14.330     0.000     28.50
+O(0)          3.097e-31
+   O2              1.548e-31   1.548e-31   -30.810   -30.810     0.000     37.05
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(453 K, 114 atm)
 
-	CH4(g)          -69.93    -72.62   -2.69  CH4
-	CO2(g)            1.80     -0.16   -1.96  CO2	 Pressure  98.9 atm, phi 0.879.
-	H2(g)           -20.86    -23.74   -2.88  H2
+	CH4(g)          -32.21    -34.95   -2.73  CH4
+	CO2(g)            1.84     -0.16   -2.01  CO2	 Pressure  98.9 atm, phi 0.879.
+	H2(g)           -11.45    -14.33   -2.88  H2
 	H2O(g)            1.00     -0.01   -1.00  H2O	 Pressure  15.0 atm, phi 0.664.
-	O2(g)            -8.97    -11.97   -3.00  O2
+	O2(g)           -27.81    -30.81   -3.00  O2
 
 
 Reaction step 10.
@@ -939,78 +865,78 @@ Using temperature 1.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure: 121.14      atmospheres          (Peng-Robinson calculation)
+Total pressure: 121.15      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e+00 liters
   Molar volume:   2.73e-01 liters/mole
-   P * Vm / RT:  0.85158  (Compressibility Factor Z) 
+   P * Vm / RT:  0.85156  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
 CO2(g)             1.99   9.869e+01  0.899   0.000e+00   2.985e+00   2.985e+00
-H2O(g)             1.35   2.245e+01  0.667   0.000e+00   6.789e-01   6.789e-01
+H2O(g)             1.35   2.245e+01  0.667   0.000e+00   6.791e-01   6.791e-01
 
 -------------------------------Phase assemblage--------------------------------
 
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-CO2(g)            1.81    -0.13     -1.94    1.000e+01   6.290e+00  -3.710e+00
+CO2(g)            1.85    -0.14     -1.99    1.000e+01   6.301e+00  -3.699e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 7.336e-01   7.246e-01
+	C                 7.229e-01   7.140e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.645      Charge balance
-                                       pe  =   5.748      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 200 oC) = 616
-                          Density (g/cm3)  =   0.88480
+                                       pH  =   3.663      Charge balance
+                                       pe  =   6.033      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 200 oC) = 591
+                          Density (g/cm3)  =   0.88159
                         Activity of water  =   0.988
-                           Ionic strength  =   2.328e-04
+                           Ionic strength  =   2.231e-04
                        Mass of water (kg)  =   9.878e-01
-                 Total alkalinity (eq/kg)  =  -1.058e-13
-                       Total CO2 (mol/kg)  =   7.336e-01
+                 Total alkalinity (eq/kg)  =  -4.338e-13
+                       Total CO2 (mol/kg)  =   7.229e-01
                       Temperature (deg C)  = 200.00
-                           Pressure (atm)  = 121.14
-                  Electrical balance (eq)  =   1.045e-13
+                           Pressure (atm)  = 121.15
+                  Electrical balance (eq)  =   4.285e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  29
-                                  Total H  = 1.096547e+02
-                                  Total O  = 5.627664e+01
+                               Iterations  =  26
+                                  Total H  = 1.096543e+02
+                                  Total O  = 5.625523e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                            Log       Log         Log     mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   H+              2.328e-04   2.267e-04    -3.633    -3.645    -0.012      0.00
-   OH-             2.465e-08   2.399e-08    -7.608    -7.620    -0.012    -35.14
-   H2O             5.551e+01   9.875e-01     1.744    -0.005     0.000     20.83
+   H+              2.231e-04   2.174e-04    -3.651    -3.663    -0.011      0.00
+   OH-             2.755e-08   2.682e-08    -7.560    -7.571    -0.012    -27.33
+   H2O             5.551e+01   9.877e-01     1.744    -0.005     0.000     20.84
 C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00   -68.840   -68.840     0.000     33.00
-C(4)          7.336e-01
-   CO2             7.334e-01   7.334e-01    -0.135    -0.135     0.000     14.47
-   HCO3-           2.327e-04   2.265e-04    -3.633    -3.645    -0.012    -26.49
-   CO3-2           2.236e-11   2.006e-11   -10.651   -10.698    -0.047    -89.23
-H(0)          7.262e-23
-   H2              3.631e-23   3.631e-23   -22.440   -22.440     0.000     20.00
-O(0)          2.155e-12
-   O2              1.077e-12   1.077e-12   -11.968   -11.968     0.000     35.00
+   CH4             0.000e+00   0.000e+00   -71.257   -71.257     0.000     32.22
+C(4)          7.229e-01
+   CO2             7.227e-01   7.227e-01    -0.141    -0.141     0.000     19.23
+   HCO3-           2.231e-04   2.173e-04    -3.651    -3.663    -0.012      0.55
+   CO3-2           2.133e-11   1.918e-11   -10.671   -10.717    -0.046    -47.70
+H(0)          1.759e-23
+   H2              8.797e-24   8.797e-24   -23.056   -23.056     0.000     28.50
+O(0)          3.448e-11
+   O2              1.724e-11   1.724e-11   -10.763   -10.763     0.000     38.44
 
 ------------------------------Saturation indices-------------------------------
 
 	Phase               SI   log IAP   log K(473 K, 121 atm)
 
-	CH4(g)          -66.27    -68.84   -2.57  CH4
-	CO2(g)            1.78     -0.13   -1.92  CO2	 Pressure  98.7 atm, phi 0.899.
-	H2(g)           -19.63    -22.44   -2.81  H2
-	H2O(g)            1.18     -0.01   -1.18  H2O	 Pressure  22.4 atm, phi 0.667.
-	O2(g)            -9.04    -11.97   -2.92  O2
+	CH4(g)          -68.63    -71.26   -2.63  CH4
+	CO2(g)            1.83     -0.14   -1.97  CO2	 Pressure  98.7 atm, phi 0.899.
+	H2(g)           -20.25    -23.06   -2.81  H2
+	H2O(g)            1.18     -0.01   -1.18  H2O	 Pressure  22.5 atm, phi 0.667.
+	O2(g)            -7.84    -10.76   -2.92  O2
 
 
 ------------------
