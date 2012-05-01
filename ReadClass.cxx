@@ -223,7 +223,7 @@ int Phreeqc::
 dump_entities(void)
 /* ---------------------------------------------------------------------- */
 {
-	if (!dump_info.Get_on())
+	if (!dump_info.Get_on() || pr.dump == FALSE)
 	{
 		return(OK);
 	}
