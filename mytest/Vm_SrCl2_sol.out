@@ -20,21 +20,6 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
-	SOLUTION_SPECIES
-	H2O = OH- + H+
-		analytical_expression    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-		gamma	3.5	0.0
-		vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
-	Cl- = Cl-
-		gamma	3.5	0.015
-	 dw	 2.03e-9
-		millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-		vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18
-	Sr+2 = Sr+2
-		gamma	5.260	0.121
-	 dw 0.794e-9
-		vm   1.2033594E-01 -1.0150000E+01   4.8886663E+00  -2.3600000E+00  -7.1701814E-02  3.8459098E+01   7.9670393E-01   3.6837347E+01
-		vm   0.12 -10.15 4.89 -2.36   -7.17e-2   38 0.8 37
 	SOLUTION 1
 	 pH 7 charge
 	END
@@ -114,11 +99,11 @@ Reading input data for simulation 2.
 	20 dim d(8)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Sr"), Vm1, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+	80 plot_xy tot("Sr"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -733,11 +718,11 @@ Reading input data for simulation 3.
 	20 dim d(37)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Red #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Sr"), Vm1, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+	80 plot_xy tot("Sr"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -3498,11 +3483,11 @@ Reading input data for simulation 4.
 	20 dim d(8)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Sr"), Vm1, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+	80 plot_xy tot("Sr"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -3609,7 +3594,7 @@ Reaction 1.
 
                                        pH  =   6.810      Charge balance
                                        pe  =   8.405      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 35 oC) = 12513
+       Specific Conductance (uS/cm, 35 oC) = 12514
                           Density (g/cm3)  =   1.00092
                         Activity of water  =   0.997
                            Ionic strength  =   1.500e-01
@@ -4117,11 +4102,11 @@ Reading input data for simulation 5.
 	20 dim d(8)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Black #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Sr"), Vm1, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+	80 plot_xy tot("Sr"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -4736,11 +4721,11 @@ Reading input data for simulation 6.
 	20 dim d(8)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Blue #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Sr"), Vm1, symbol = None, color = Blue
+	80 plot_xy tot("Sr"), Vmol, symbol = None, color = Blue
 	90 end
 	END
 -----------------------------------------
@@ -5355,11 +5340,11 @@ Reading input data for simulation 7.
 	20 dim d(6)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Green #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Sr"), Vm1, symbol = None, color = Green
+	80 plot_xy tot("Sr"), Vmol, symbol = None, color = Green
 	90 end
 	END
 -----------------------------------------
@@ -5826,11 +5811,11 @@ Reading input data for simulation 8.
 	20 dim d(6)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Brown #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Sr"), Vm1, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("Sr"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -5868,7 +5853,7 @@ Reaction 1.
 
                                        pH  =   6.128      Charge balance
                                        pe  =   0.919      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 99 oC) = 0
+       Specific Conductance (uS/cm, 99 oC) = 1
                           Density (g/cm3)  =   0.95906
                         Activity of water  =   1.000
                            Ionic strength  =   7.458e-07
@@ -5937,7 +5922,7 @@ Reaction 1.
 
                                        pH  =   6.091      Charge balance
                                        pe  =   6.072      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 99 oC) = 56548
+       Specific Conductance (uS/cm, 99 oC) = 56549
                           Density (g/cm3)  =   0.97250
                         Activity of water  =   0.995
                            Ionic strength  =   2.994e-01
@@ -6159,7 +6144,7 @@ Reaction 1.
 
                                        pH  =   6.048      Charge balance
                                        pe  =   6.612      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 99 oC) = 257767
+       Specific Conductance (uS/cm, 99 oC) = 257768
                           Density (g/cm3)  =   1.08991
                         Activity of water  =   0.947
                            Ionic strength  =   3.136e+00

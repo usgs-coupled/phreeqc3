@@ -20,20 +20,6 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
-	SOLUTION_SPECIES
-	H2O = OH- + H+
-		analytical_expression    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-		gamma	3.5	0.0
-		vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
-	Cl- = Cl-
-		gamma	3.5	0.015
-		dw	 2.03e-9
-		millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-		vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18
-	Ba+2 = Ba+2
-		gamma	5.0	0.0
-	 dw 0.848e-9
-		vm   2.45 -10.06 0.34 -2.36   0.625   4.5  -0.46 88
 	SOLUTION 1
 	 pH 7 charge
 	END
@@ -113,11 +99,11 @@ Reading input data for simulation 2.
 	20 dim d(21)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), 
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -1694,11 +1680,11 @@ Reading input data for simulation 3.
 	20 dim d(40)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Red #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -2397,7 +2383,7 @@ Reaction 1.
 
                                        pH  =   6.959      Charge balance
                                        pe  =  10.102      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 14440
+       Specific Conductance (uS/cm, 25 oC) = 14441
                           Density (g/cm3)  =   1.01027
                         Activity of water  =   0.996
                            Ionic strength  =   2.178e-01
@@ -4681,11 +4667,11 @@ Reading input data for simulation 4.
 	20 dim d(25)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), d(22), d(23), d(24), d(25),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -5458,7 +5444,7 @@ Reaction 1.
 
                                        pH  =   6.778      Charge balance
                                        pe  =   9.504      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 35 oC) = 55409
+       Specific Conductance (uS/cm, 35 oC) = 55410
                           Density (g/cm3)  =   1.04742
                         Activity of water  =   0.985
                            Ionic strength  =   9.012e-01
@@ -5976,7 +5962,7 @@ Reaction 1.
 
                                        pH  =   6.762      Charge balance
                                        pe  =  10.338      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 35 oC) = 87743
+       Specific Conductance (uS/cm, 35 oC) = 87744
                           Density (g/cm3)  =   1.13772
                         Activity of water  =   0.958
                            Ionic strength  =   2.500e+00
@@ -6558,11 +6544,11 @@ Reading input data for simulation 5.
 	20 dim d(24)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), d(22), d(23), d(24),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Black #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -8361,11 +8347,11 @@ Reading input data for simulation 6.
 	20 dim d(23)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), d(22), d(23),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Blue #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Blue
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Blue
 	90 end
 	END
 -----------------------------------------
@@ -10026,7 +10012,7 @@ Reaction 1.
 
                                        pH  =   6.495      Charge balance
                                        pe  =   1.559      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 55 oC) = 143164
+       Specific Conductance (uS/cm, 55 oC) = 143165
                           Density (g/cm3)  =   1.24595
                         Activity of water  =   0.919
                            Ionic strength  =   4.757e+00
@@ -10090,11 +10076,11 @@ Reading input data for simulation 7.
 	20 dim d(18)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Green #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Green
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Green
 	90 end
 	END
 -----------------------------------------
@@ -10201,7 +10187,7 @@ Reaction 1.
 
                                        pH  =   6.287      Charge balance
                                        pe  =   0.781      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 80 oC) = 5413
+       Specific Conductance (uS/cm, 80 oC) = 5414
                           Density (g/cm3)  =   0.97345
                         Activity of water  =   1.000
                            Ionic strength  =   2.790e-02
@@ -10349,7 +10335,7 @@ Reaction 1.
 
                                        pH  =   6.270      Charge balance
                                        pe  =   0.287      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 80 oC) = 25093
+       Specific Conductance (uS/cm, 80 oC) = 25094
                           Density (g/cm3)  =   0.98069
                         Activity of water  =   0.997
                            Ionic strength  =   1.503e-01
@@ -11449,11 +11435,11 @@ Reading input data for simulation 8.
 	20 dim d(17)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Brown #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -11491,7 +11477,7 @@ Reaction 1.
 
                                        pH  =   6.120      Charge balance
                                        pe  =   0.926      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 0
+       Specific Conductance (uS/cm, 100 oC) = 1
                           Density (g/cm3)  =   0.95835
                         Activity of water  =   1.000
                            Ionic strength  =   7.596e-07
@@ -11560,7 +11546,7 @@ Reaction 1.
 
                                        pH  =   6.101      Charge balance
                                        pe  =   6.320      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 19844
+       Specific Conductance (uS/cm, 100 oC) = 19845
                           Density (g/cm3)  =   0.96375
                         Activity of water  =   0.998
                            Ionic strength  =   9.120e-02
@@ -11634,7 +11620,7 @@ Reaction 1.
 
                                        pH  =   6.094      Charge balance
                                        pe  =   6.058      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 31169
+       Specific Conductance (uS/cm, 100 oC) = 31170
                           Density (g/cm3)  =   0.96726
                         Activity of water  =   0.997
                            Ionic strength  =   1.509e-01
@@ -11782,7 +11768,7 @@ Reaction 1.
 
                                        pH  =   6.083      Charge balance
                                        pe  =   6.669      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 57487
+       Specific Conductance (uS/cm, 100 oC) = 57488
                           Density (g/cm3)  =   0.97596
                         Activity of water  =   0.995
                            Ionic strength  =   3.000e-01
@@ -11930,7 +11916,7 @@ Reaction 1.
 
                                        pH  =   6.073      Charge balance
                                        pe  =   6.196      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 87435
+       Specific Conductance (uS/cm, 100 oC) = 87436
                           Density (g/cm3)  =   0.98751
                         Activity of water  =   0.991
                            Ionic strength  =   5.000e-01
@@ -12004,7 +11990,7 @@ Reaction 1.
 
                                        pH  =   6.070      Charge balance
                                        pe  =   6.836      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 100143
+       Specific Conductance (uS/cm, 100 oC) = 100144
                           Density (g/cm3)  =   0.99314
                         Activity of water  =   0.990
                            Ionic strength  =   5.982e-01
@@ -12226,7 +12212,7 @@ Reaction 1.
 
                                        pH  =   6.057      Charge balance
                                        pe  =   6.693      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 149206
+       Specific Conductance (uS/cm, 100 oC) = 149207
                           Density (g/cm3)  =   1.02739
                         Activity of water  =   0.980
                            Ionic strength  =   1.205e+00
@@ -12300,7 +12286,7 @@ Reaction 1.
 
                                        pH  =   6.050      Charge balance
                                        pe  =   6.774      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 173689
+       Specific Conductance (uS/cm, 100 oC) = 173690
                           Density (g/cm3)  =   1.05960
                         Activity of water  =   0.970
                            Ionic strength  =   1.787e+00
@@ -12670,7 +12656,7 @@ Reaction 1.
 
                                        pH  =   6.042      Charge balance
                                        pe  =   6.818      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 100 oC) = 214347
+       Specific Conductance (uS/cm, 100 oC) = 214348
                           Density (g/cm3)  =   1.20172
                         Activity of water  =   0.923
                            Ionic strength  =   4.500e+00
@@ -12734,11 +12720,11 @@ Reading input data for simulation 9.
 	20 dim d(16)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Orange #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -12776,7 +12762,7 @@ Reaction 1.
 
                                        pH  =   5.977      Charge balance
                                        pe  =   0.980      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 1
+       Specific Conductance (uS/cm, 120 oC) = 2
                           Density (g/cm3)  =   0.94311
                         Activity of water  =   1.000
                            Ionic strength  =   1.057e-06
@@ -12846,7 +12832,7 @@ Reaction 1.
 
                                        pH  =   5.961      Charge balance
                                        pe  =   5.499      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 16603
+       Specific Conductance (uS/cm, 120 oC) = 16604
                           Density (g/cm3)  =   0.94675
                         Activity of water  =   0.999
                            Ionic strength  =   6.120e-02
@@ -12921,7 +12907,7 @@ Reaction 1.
 
                                        pH  =   5.956      Charge balance
                                        pe  =   5.531      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 23768
+       Specific Conductance (uS/cm, 120 oC) = 23769
                           Density (g/cm3)  =   0.94852
                         Activity of water  =   0.998
                            Ionic strength  =   9.120e-02
@@ -12996,7 +12982,7 @@ Reaction 1.
 
                                        pH  =   5.949      Charge balance
                                        pe  =   5.565      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 37249
+       Specific Conductance (uS/cm, 120 oC) = 37250
                           Density (g/cm3)  =   0.95203
                         Activity of water  =   0.997
                            Ionic strength  =   1.509e-01
@@ -13071,7 +13057,7 @@ Reaction 1.
 
                                        pH  =   5.943      Charge balance
                                        pe  =   5.665      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 51645
+       Specific Conductance (uS/cm, 120 oC) = 51646
                           Density (g/cm3)  =   0.95596
                         Activity of water  =   0.996
                            Ionic strength  =   2.181e-01
@@ -13221,7 +13207,7 @@ Reaction 1.
 
                                        pH  =   5.930      Charge balance
                                        pe  =   5.824      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 96023
+       Specific Conductance (uS/cm, 120 oC) = 96024
                           Density (g/cm3)  =   0.96948
                         Activity of water  =   0.992
                            Ionic strength  =   4.518e-01
@@ -13296,7 +13282,7 @@ Reaction 1.
 
                                        pH  =   5.928      Charge balance
                                        pe  =   5.786      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 103717
+       Specific Conductance (uS/cm, 120 oC) = 103718
                           Density (g/cm3)  =   0.97224
                         Activity of water  =   0.991
                            Ionic strength  =   5.000e-01
@@ -13371,7 +13357,7 @@ Reaction 1.
 
                                        pH  =   5.924      Charge balance
                                        pe  =   5.486      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 118537
+       Specific Conductance (uS/cm, 120 oC) = 118538
                           Density (g/cm3)  =   0.97786
                         Activity of water  =   0.990
                            Ionic strength  =   5.982e-01
@@ -13521,7 +13507,7 @@ Reaction 1.
 
                                        pH  =   5.914      Charge balance
                                        pe  =   5.118      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 160432
+       Specific Conductance (uS/cm, 120 oC) = 160433
                           Density (g/cm3)  =   1.00057
                         Activity of water  =   0.983
                            Ionic strength  =   1.000e+00
@@ -13671,7 +13657,7 @@ Reaction 1.
 
                                        pH  =   5.899      Charge balance
                                        pe  =   5.926      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 215795
+       Specific Conductance (uS/cm, 120 oC) = 215796
                           Density (g/cm3)  =   1.07558
                         Activity of water  =   0.960
                            Ionic strength  =   2.374e+00
@@ -13746,7 +13732,7 @@ Reaction 1.
 
                                        pH  =   5.899      Charge balance
                                        pe  =   5.838      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 120 oC) = 218196
+       Specific Conductance (uS/cm, 120 oC) = 218197
                           Density (g/cm3)  =   1.08230
                         Activity of water  =   0.957
                            Ionic strength  =   2.500e+00
@@ -13961,11 +13947,11 @@ Reading input data for simulation 10.
 	20 dim d(18)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = DarkCyan #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("Ba"), Vm1, symbol = None, color = DarkCyan #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("Ba"), Vmol, symbol = None, color = DarkCyan #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -14003,7 +13989,7 @@ Reaction 1.
 
                                        pH  =   5.860      Charge balance
                                        pe  =   4.519      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 2
+       Specific Conductance (uS/cm, 140 oC) = 3
                           Density (g/cm3)  =   0.92614
                         Activity of water  =   1.000
                            Ionic strength  =   1.382e-06
@@ -14073,7 +14059,7 @@ Reaction 1.
 
                                        pH  =   5.839      Charge balance
                                        pe  =   4.654      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 27711
+       Specific Conductance (uS/cm, 140 oC) = 27713
                           Density (g/cm3)  =   0.93158
                         Activity of water  =   0.998
                            Ionic strength  =   9.120e-02
@@ -14148,7 +14134,7 @@ Reaction 1.
 
                                        pH  =   5.831      Charge balance
                                        pe  =   4.662      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 43166
+       Specific Conductance (uS/cm, 140 oC) = 43168
                           Density (g/cm3)  =   0.93507
                         Activity of water  =   0.997
                            Ionic strength  =   1.503e-01
@@ -14223,7 +14209,7 @@ Reaction 1.
 
                                        pH  =   5.825      Charge balance
                                        pe  =   4.581      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 59949
+       Specific Conductance (uS/cm, 140 oC) = 59950
                           Density (g/cm3)  =   0.93904
                         Activity of water  =   0.996
                            Ionic strength  =   2.181e-01
@@ -14298,7 +14284,7 @@ Reaction 1.
 
                                        pH  =   5.819      Charge balance
                                        pe  =   4.567      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 79368
+       Specific Conductance (uS/cm, 140 oC) = 79370
                           Density (g/cm3)  =   0.94381
                         Activity of water  =   0.995
                            Ionic strength  =   3.000e-01
@@ -14373,7 +14359,7 @@ Reaction 1.
 
                                        pH  =   5.811      Charge balance
                                        pe  =   4.616      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 110221
+       Specific Conductance (uS/cm, 140 oC) = 110223
                           Density (g/cm3)  =   0.95237
                         Activity of water  =   0.992
                            Ionic strength  =   4.482e-01
@@ -14448,7 +14434,7 @@ Reaction 1.
 
                                        pH  =   5.809      Charge balance
                                        pe  =   4.565      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 119620
+       Specific Conductance (uS/cm, 140 oC) = 119621
                           Density (g/cm3)  =   0.95535
                         Activity of water  =   0.991
                            Ionic strength  =   5.000e-01
@@ -14523,7 +14509,7 @@ Reaction 1.
 
                                        pH  =   5.805      Charge balance
                                        pe  =   4.606      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 136381
+       Specific Conductance (uS/cm, 140 oC) = 136382
                           Density (g/cm3)  =   0.96096
                         Activity of water  =   0.990
                            Ionic strength  =   5.982e-01
@@ -14598,7 +14584,7 @@ Reaction 1.
 
                                        pH  =   5.796      Charge balance
                                        pe  =   4.476      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 174164
+       Specific Conductance (uS/cm, 140 oC) = 174165
                           Density (g/cm3)  =   0.97809
                         Activity of water  =   0.985
                            Ionic strength  =   9.012e-01
@@ -14673,7 +14659,7 @@ Reaction 1.
 
                                        pH  =   5.794      Charge balance
                                        pe  =   4.431      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 182654
+       Specific Conductance (uS/cm, 140 oC) = 182655
                           Density (g/cm3)  =   0.98363
                         Activity of water  =   0.983
                            Ionic strength  =   1.000e+00
@@ -14898,7 +14884,7 @@ Reaction 1.
 
                                        pH  =   5.779      Charge balance
                                        pe  =   4.185      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 238728
+       Specific Conductance (uS/cm, 140 oC) = 238729
                           Density (g/cm3)  =   1.05772
                         Activity of water  =   0.960
                            Ionic strength  =   2.363e+00
@@ -14973,7 +14959,7 @@ Reaction 1.
 
                                        pH  =   5.778      Charge balance
                                        pe  =   4.505      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 241079
+       Specific Conductance (uS/cm, 140 oC) = 241080
                           Density (g/cm3)  =   1.06495
                         Activity of water  =   0.957
                            Ionic strength  =   2.500e+00
@@ -15123,7 +15109,7 @@ Reaction 1.
 
                                        pH  =   5.774      Charge balance
                                        pe  =   5.494      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 252707
+       Specific Conductance (uS/cm, 140 oC) = 252708
                           Density (g/cm3)  =   1.12546
                         Activity of water  =   0.938
                            Ionic strength  =   3.673e+00
@@ -15273,7 +15259,7 @@ Reaction 1.
 
                                        pH  =   5.773      Charge balance
                                        pe  =   4.784      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 140 oC) = 258018
+       Specific Conductance (uS/cm, 140 oC) = 258019
                           Density (g/cm3)  =   1.17924
                         Activity of water  =   0.919
                            Ionic strength  =   4.757e+00

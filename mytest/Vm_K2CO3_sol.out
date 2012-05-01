@@ -20,31 +20,6 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
-	SOLUTION_SPECIES
-	H2O = OH- + H+
-		analytical_expression    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
-		gamma	3.5	0.0
-		vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15
-	K+ = K+
-		gamma	3.5	0.015
-		dw	 1.96e-9
-		vm   3.72 -1.473 5.22 -2.712   0.471   0 -0.81 65
-	CO3-2 = CO3-2
-		gamma	5.4	0.0
-	 dw 0.955e-9
-		vm   7.25 -3.98  -19.8 -2.61   5.17   0 -3.63 415
-	CO3-2 + H+ = HCO3-
-		analytical_expression 107.8871 0.03252849 -5151.79 -38.92561 563713.9
-		gamma	5.4	0.0
-	 dw 1.18e-9
-		vm   7.56 1.15 1.20 -2.83   1.15   0 0.2 74
-	CO3-2 + 2 H+ = CO2 + H2O
-		log_k	16.681
-		delta_h -5.738	kcal
-		analytical_expression	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
-		dw	 1.92e-9
-		vm   6.2466      7.4711      2.8136     -3.0879 -.0200
-		vm   12.84 -24.3 11.1 1.52
 	SOLUTION 1
 	 pH 7 charge
 	END
@@ -124,11 +99,11 @@ Reading input data for simulation 2.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Yellow #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -237,8 +212,8 @@ Reaction 1.
 
                                        pH  =  11.796      Charge balance
                                        pe  =   7.596      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 5 oC) = 9655
-                          Density (g/cm3)  =   1.01049
+       Specific Conductance (uS/cm, 5 oC) = 9805
+                          Density (g/cm3)  =   1.01016
                         Activity of water  =   0.996
                            Ionic strength  =   2.385e-01
                        Mass of water (kg)  =   1.000e+00
@@ -262,9 +237,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -136.084  -136.060     0.024     32.22
 C(4)          8.017e-02
-   CO3-2           7.834e-02   2.368e-02    -1.106    -1.626    -0.520    -10.00
-   HCO3-           1.830e-03   1.357e-03    -2.738    -2.868    -0.130     23.59
-   CO2             6.766e-09   7.147e-09    -8.170    -8.146     0.024     28.77
+   CO3-2           7.834e-02   2.368e-02    -1.106    -1.626    -0.520     -5.77
+   HCO3-           1.830e-03   1.357e-03    -2.738    -2.868    -0.130     23.37
+   CO2             6.766e-09   7.147e-09    -8.170    -8.146     0.024     37.67
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.865   -41.841     0.024     28.63
 K             1.603e-01
@@ -278,7 +253,7 @@ O(0)          4.541e-16
 	Phase               SI   log IAP   log K(278 K,   1 atm)
 
 	CH4(g)         -133.41   -136.06   -2.65  CH4
-	CO2(g)           -6.95     -8.15   -1.19  CO2
+	CO2(g)           -6.95     -8.15   -1.20  CO2
 	H2(g)           -38.81    -41.84   -3.03  H2
 	H2O(g)           -2.06     -0.00    2.06  H2O
 	O2(g)           -12.91    -15.62   -2.71  O2
@@ -317,8 +292,8 @@ Reaction 1.
 
                                        pH  =  11.871      Charge balance
                                        pe  =  -6.051      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 5 oC) = 16811
-                          Density (g/cm3)  =   1.01943
+       Specific Conductance (uS/cm, 5 oC) = 16989
+                          Density (g/cm3)  =   1.01888
                         Activity of water  =   0.992
                            Ionic strength  =   4.486e-01
                        Mass of water (kg)  =   1.000e+00
@@ -342,9 +317,9 @@ Reaction 1.
 C(-4)         3.229e-28
    CH4             3.229e-28   3.580e-28   -27.491   -27.446     0.045     32.22
 C(4)          1.505e-01
-   CO3-2           1.480e-01   3.648e-02    -0.830    -1.438    -0.608     -8.47
-   HCO3-           2.497e-03   1.759e-03    -2.603    -2.755    -0.152     24.08
-   CO2             7.063e-09   7.831e-09    -8.151    -8.106     0.045     28.77
+   CO3-2           1.480e-01   3.648e-02    -0.830    -1.438    -0.608     -4.86
+   HCO3-           2.497e-03   1.759e-03    -2.603    -2.755    -0.152     23.99
+   CO2             7.063e-09   7.831e-09    -8.151    -8.106     0.045     37.67
 H(0)          3.613e-15
    H2              1.807e-15   2.003e-15   -14.743   -14.698     0.045     28.63
 K             3.010e-01
@@ -358,7 +333,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(278 K,   1 atm)
 
 	CH4(g)          -24.80    -27.45   -2.65  CH4
-	CO2(g)           -6.91     -8.11   -1.19  CO2
+	CO2(g)           -6.91     -8.11   -1.20  CO2
 	H2(g)           -11.66    -14.70   -3.03  H2
 	H2O(g)           -2.06     -0.00    2.06  H2O
 	O2(g)           -67.19    -69.91   -2.71  O2
@@ -397,8 +372,8 @@ Reaction 1.
 
                                        pH  =  11.950      Charge balance
                                        pe  =   7.519      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 5 oC) = 28145
-                          Density (g/cm3)  =   1.03766
+       Specific Conductance (uS/cm, 5 oC) = 28333
+                          Density (g/cm3)  =   1.03697
                         Activity of water  =   0.985
                            Ionic strength  =   8.985e-01
                        Mass of water (kg)  =   9.999e-01
@@ -422,9 +397,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -136.660  -136.570     0.090     32.22
 C(4)          3.010e-01
-   CO3-2           2.974e-01   5.893e-02    -0.527    -1.230    -0.703     -5.52
-   HCO3-           3.556e-03   2.372e-03    -2.449    -2.625    -0.176     25.05
-   CO2             7.224e-09   8.884e-09    -8.141    -8.051     0.090     28.77
+   CO3-2           2.974e-01   5.893e-02    -0.527    -1.230    -0.703     -3.27
+   HCO3-           3.556e-03   2.372e-03    -2.449    -2.625    -0.176     25.24
+   CO2             7.224e-09   8.884e-09    -8.141    -8.051     0.090     37.67
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -42.085   -41.995     0.090     28.63
 K             6.020e-01
@@ -438,7 +413,7 @@ O(0)          7.737e-16
 	Phase               SI   log IAP   log K(278 K,   1 atm)
 
 	CH4(g)         -133.92   -136.57   -2.65  CH4
-	CO2(g)           -6.86     -8.05   -1.19  CO2
+	CO2(g)           -6.86     -8.05   -1.20  CO2
 	H2(g)           -38.96    -41.99   -3.03  H2
 	H2O(g)           -2.06     -0.01    2.06  H2O
 	O2(g)           -12.61    -15.32   -2.71  O2
@@ -477,8 +452,8 @@ Reaction 1.
 
                                        pH  =  12.010      Charge balance
                                        pe  =  -6.359      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 5 oC) = 37116
-                          Density (g/cm3)  =   1.06059
+       Specific Conductance (uS/cm, 5 oC) = 37298
+                          Density (g/cm3)  =   1.06038
                         Activity of water  =   0.974
                            Ionic strength  =   1.510e+00
                        Mass of water (kg)  =   9.999e-01
@@ -502,9 +477,9 @@ Reaction 1.
 C(-4)         7.467e-27
    CH4             7.467e-27   1.057e-26   -26.127   -25.976     0.151     32.22
 C(4)          5.053e-01
-   CO3-2           5.006e-01   8.522e-02    -0.300    -1.069    -0.769     -1.82
-   HCO3-           4.650e-03   2.987e-03    -2.333    -2.525    -0.192     26.29
-   CO2             6.954e-09   9.845e-09    -8.158    -8.007     0.151     28.77
+   CO3-2           5.006e-01   8.522e-02    -0.300    -1.069    -0.769     -1.42
+   HCO3-           4.650e-03   2.987e-03    -2.333    -2.525    -0.192     26.85
+   CO2             6.954e-09   9.845e-09    -8.158    -8.007     0.151     37.67
 H(0)          6.173e-15
    H2              3.086e-15   4.369e-15   -14.511   -14.360     0.151     28.63
 K             1.011e+00
@@ -518,7 +493,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(278 K,   1 atm)
 
 	CH4(g)          -23.33    -25.98   -2.65  CH4
-	CO2(g)           -6.81     -8.01   -1.19  CO2
+	CO2(g)           -6.81     -8.01   -1.20  CO2
 	H2(g)           -11.33    -14.36   -3.03  H2
 	H2O(g)           -2.07     -0.01    2.06  H2O
 	O2(g)           -67.89    -70.60   -2.71  O2
@@ -546,11 +521,11 @@ Reading input data for simulation 3.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Red #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -659,8 +634,8 @@ Reaction 1.
 
                                        pH  =  11.670      Charge balance
                                        pe  =   7.251      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 10 oC) = 11164
-                          Density (g/cm3)  =   1.01002
+       Specific Conductance (uS/cm, 10 oC) = 11372
+                          Density (g/cm3)  =   1.00973
                         Activity of water  =   0.996
                            Ionic strength  =   2.383e-01
                        Mass of water (kg)  =   1.000e+00
@@ -684,9 +659,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -132.919  -132.895     0.024     32.22
 C(4)          8.017e-02
-   CO3-2           7.809e-02   2.344e-02    -1.107    -1.630    -0.523     -8.15
-   HCO3-           2.081e-03   1.540e-03    -2.682    -2.812    -0.131     24.24
-   CO2             9.093e-09   9.606e-09    -8.041    -8.017     0.024     27.49
+   CO3-2           7.809e-02   2.344e-02    -1.107    -1.630    -0.523     -4.53
+   HCO3-           2.081e-03   1.540e-03    -2.682    -2.812    -0.131     24.12
+   CO2             9.093e-09   9.606e-09    -8.041    -8.017     0.024     35.31
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -40.948   -40.924     0.024     28.63
 K             1.603e-01
@@ -739,8 +714,8 @@ Reaction 1.
 
                                        pH  =  11.750      Charge balance
                                        pe  =  -5.947      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 10 oC) = 19436
-                          Density (g/cm3)  =   1.01879
+       Specific Conductance (uS/cm, 10 oC) = 19685
+                          Density (g/cm3)  =   1.01833
                         Activity of water  =   0.992
                            Ionic strength  =   4.484e-01
                        Mass of water (kg)  =   9.999e-01
@@ -764,9 +739,9 @@ Reaction 1.
 C(-4)         1.097e-28
    CH4             1.097e-28   1.216e-28   -27.960   -27.915     0.045     32.22
 C(4)          1.505e-01
-   CO3-2           1.477e-01   3.610e-02    -0.831    -1.442    -0.612     -6.74
-   HCO3-           2.809e-03   1.975e-03    -2.551    -2.704    -0.153     24.71
-   CO2             9.281e-09   1.029e-08    -8.032    -7.988     0.045     27.49
+   CO3-2           1.477e-01   3.610e-02    -0.831    -1.442    -0.612     -3.68
+   HCO3-           2.809e-03   1.975e-03    -2.551    -2.704    -0.153     24.74
+   CO2             9.281e-09   1.029e-08    -8.032    -7.988     0.045     35.31
 H(0)          3.702e-15
    H2              1.851e-15   2.052e-15   -14.733   -14.688     0.045     28.63
 K             3.010e-01
@@ -819,8 +794,8 @@ Reaction 1.
 
                                        pH  =  11.835      Charge balance
                                        pe  =   7.179      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 10 oC) = 32511
-                          Density (g/cm3)  =   1.03676
+       Specific Conductance (uS/cm, 10 oC) = 32778
+                          Density (g/cm3)  =   1.03618
                         Activity of water  =   0.985
                            Ionic strength  =   8.984e-01
                        Mass of water (kg)  =   9.999e-01
@@ -844,9 +819,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -133.641  -133.551     0.090     32.22
 C(4)          3.010e-01
-   CO3-2           2.971e-01   5.831e-02    -0.527    -1.234    -0.707     -4.09
-   HCO3-           3.941e-03   2.623e-03    -2.404    -2.581    -0.177     25.63
-   CO2             9.212e-09   1.133e-08    -8.036    -7.946     0.090     27.49
+   CO3-2           2.971e-01   5.831e-02    -0.527    -1.234    -0.707     -2.22
+   HCO3-           3.941e-03   2.623e-03    -2.404    -2.581    -0.177     25.99
+   CO2             9.212e-09   1.133e-08    -8.036    -7.946     0.090     35.31
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.199   -41.109     0.090     28.63
 K             6.020e-01
@@ -899,8 +874,8 @@ Reaction 1.
 
                                        pH  =  11.900      Charge balance
                                        pe  =  -6.269      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 10 oC) = 42818
-                          Density (g/cm3)  =   1.05952
+       Specific Conductance (uS/cm, 10 oC) = 43079
+                          Density (g/cm3)  =   1.05938
                         Activity of water  =   0.974
                            Ionic strength  =   1.510e+00
                        Mass of water (kg)  =   9.999e-01
@@ -924,9 +899,9 @@ Reaction 1.
 C(-4)         2.535e-27
    CH4             2.535e-27   3.588e-27   -26.596   -26.445     0.151     32.22
 C(4)          5.053e-01
-   CO3-2           5.002e-01   8.429e-02    -0.301    -1.074    -0.773     -0.81
-   HCO3-           5.096e-03   3.265e-03    -2.293    -2.486    -0.193     26.80
-   CO2             8.666e-09   1.227e-08    -8.062    -7.911     0.151     27.49
+   CO3-2           5.002e-01   8.429e-02    -0.301    -1.074    -0.773     -0.55
+   HCO3-           5.096e-03   3.265e-03    -2.293    -2.486    -0.193     27.59
+   CO2             8.666e-09   1.227e-08    -8.062    -7.911     0.151     35.31
 H(0)          6.408e-15
    H2              3.204e-15   4.536e-15   -14.494   -14.343     0.151     28.63
 K             1.011e+00
@@ -968,11 +943,11 @@ Reading input data for simulation 4.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Magenta #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -1081,8 +1056,8 @@ Reaction 1.
 
                                        pH  =  11.549      Charge balance
                                        pe  =   6.915      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 15 oC) = 12762
-                          Density (g/cm3)  =   1.00924
+       Specific Conductance (uS/cm, 15 oC) = 13043
+                          Density (g/cm3)  =   1.00900
                         Activity of water  =   0.996
                            Ionic strength  =   2.380e-01
                        Mass of water (kg)  =   1.000e+00
@@ -1106,9 +1081,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -129.839  -129.815     0.024     32.22
 C(4)          8.017e-02
-   CO3-2           7.780e-02   2.317e-02    -1.109    -1.635    -0.526     -6.67
-   HCO3-           2.378e-03   1.756e-03    -2.624    -2.755    -0.132     24.77
-   CO2             1.238e-08   1.308e-08    -7.907    -7.884     0.024     26.42
+   CO3-2           7.780e-02   2.317e-02    -1.109    -1.635    -0.526     -3.55
+   HCO3-           2.378e-03   1.756e-03    -2.624    -2.755    -0.132     24.71
+   CO2             1.238e-08   1.308e-08    -7.907    -7.884     0.024     33.35
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -40.057   -40.033     0.024     28.62
 K             1.603e-01
@@ -1122,7 +1097,7 @@ O(0)          4.176e-16
 	Phase               SI   log IAP   log K(288 K,   1 atm)
 
 	CH4(g)         -127.06   -129.82   -2.76  CH4
-	CO2(g)           -6.54     -7.88   -1.34  CO2
+	CO2(g)           -6.55     -7.88   -1.34  CO2
 	H2(g)           -36.96    -40.03   -3.07  H2
 	H2O(g)           -1.77     -0.00    1.77  H2O
 	O2(g)           -12.84    -15.66   -2.81  O2
@@ -1161,8 +1136,8 @@ Reaction 1.
 
                                        pH  =  11.632      Charge balance
                                        pe  =  -5.839      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 15 oC) = 22216
-                          Density (g/cm3)  =   1.01788
+       Specific Conductance (uS/cm, 15 oC) = 22554
+                          Density (g/cm3)  =   1.01749
                         Activity of water  =   0.992
                            Ionic strength  =   4.481e-01
                        Mass of water (kg)  =   9.999e-01
@@ -1186,9 +1161,9 @@ Reaction 1.
 C(-4)         3.474e-29
    CH4             3.474e-29   3.851e-29   -28.459   -28.414     0.045     32.22
 C(4)          1.505e-01
-   CO3-2           1.473e-01   3.569e-02    -0.832    -1.447    -0.616     -5.37
-   HCO3-           3.187e-03   2.236e-03    -2.497    -2.651    -0.154     25.22
-   CO2             1.245e-08   1.380e-08    -7.905    -7.860     0.045     26.42
+   CO3-2           1.473e-01   3.569e-02    -0.832    -1.447    -0.616     -2.74
+   HCO3-           3.187e-03   2.236e-03    -2.497    -2.651    -0.154     25.33
+   CO2             1.245e-08   1.380e-08    -7.905    -7.860     0.045     33.35
 H(0)          3.686e-15
    H2              1.843e-15   2.043e-15   -14.734   -14.690     0.045     28.62
 K             3.010e-01
@@ -1241,8 +1216,8 @@ Reaction 1.
 
                                        pH  =  11.721      Charge balance
                                        pe  =   7.792      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 15 oC) = 37127
-                          Density (g/cm3)  =   1.03563
+       Specific Conductance (uS/cm, 15 oC) = 37493
+                          Density (g/cm3)  =   1.03515
                         Activity of water  =   0.985
                            Ionic strength  =   8.981e-01
                        Mass of water (kg)  =   9.999e-01
@@ -1266,9 +1241,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -138.231  -138.141     0.090     32.22
 C(4)          3.010e-01
-   CO3-2           2.966e-01   5.763e-02    -0.528    -1.239    -0.711     -2.96
-   HCO3-           4.426e-03   2.939e-03    -2.354    -2.532    -0.178     26.10
-   CO2             1.210e-08   1.489e-08    -7.917    -7.827     0.090     26.42
+   CO3-2           2.966e-01   5.763e-02    -0.528    -1.239    -0.711     -1.38
+   HCO3-           4.426e-03   2.939e-03    -2.354    -2.532    -0.178     26.58
+   CO2             1.210e-08   1.489e-08    -7.917    -7.827     0.090     33.35
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -42.221   -42.131     0.090     28.62
 K             6.020e-01
@@ -1321,8 +1296,8 @@ Reaction 1.
 
                                        pH  =  11.790      Charge balance
                                        pe  =  -6.155      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 15 oC) = 48830
-                          Density (g/cm3)  =   1.05826
+       Specific Conductance (uS/cm, 15 oC) = 49191
+                          Density (g/cm3)  =   1.05817
                         Activity of water  =   0.974
                            Ionic strength  =   1.509e+00
                        Mass of water (kg)  =   9.999e-01
@@ -1346,9 +1321,9 @@ Reaction 1.
 C(-4)         5.966e-28
    CH4             5.966e-28   8.445e-28   -27.224   -27.073     0.151     32.22
 C(4)          5.053e-01
-   CO3-2           4.996e-01   8.329e-02    -0.301    -1.079    -0.778     -0.01
-   HCO3-           5.675e-03   3.627e-03    -2.246    -2.441    -0.195     27.21
-   CO2             1.120e-08   1.585e-08    -7.951    -7.800     0.151     26.42
+   CO3-2           4.996e-01   8.329e-02    -0.301    -1.079    -0.778      0.14
+   HCO3-           5.675e-03   3.627e-03    -2.246    -2.441    -0.195     28.18
+   CO2             1.120e-08   1.585e-08    -7.951    -7.800     0.151     33.35
 H(0)          5.979e-15
    H2              2.990e-15   4.232e-15   -14.524   -14.373     0.151     28.62
 K             1.011e+00
@@ -1390,11 +1365,11 @@ Reading input data for simulation 5.
 	20 dim d(12)
 	30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Black #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -1503,8 +1478,8 @@ Reaction 1.
 
                                        pH  =  11.323      Charge balance
                                        pe  =   6.287      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 16197
-                          Density (g/cm3)  =   1.00692
+       Specific Conductance (uS/cm, 25 oC) = 16678
+                          Density (g/cm3)  =   1.00674
                         Activity of water  =   0.996
                            Ionic strength  =   2.373e-01
                        Mass of water (kg)  =   9.999e-01
@@ -1528,9 +1503,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -124.119  -124.096     0.024     32.22
 C(4)          8.017e-02
-   CO3-2           7.707e-02   2.258e-02    -1.113    -1.646    -0.533     -4.56
-   HCO3-           3.109e-03   2.287e-03    -2.507    -2.641    -0.133     25.55
-   CO2             2.323e-08   2.453e-08    -7.634    -7.610     0.024     24.74
+   CO3-2           7.707e-02   2.258e-02    -1.113    -1.646    -0.533     -2.19
+   HCO3-           3.109e-03   2.287e-03    -2.507    -2.641    -0.133     25.53
+   CO2             2.323e-08   2.453e-08    -7.634    -7.610     0.024     30.26
 H(0)          8.081e-39
    H2              4.041e-39   4.268e-39   -38.394   -38.370     0.024     28.61
 K             1.603e-01
@@ -1544,7 +1519,7 @@ O(0)          4.298e-16
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)         -121.25   -124.10   -2.84  CH4
-	CO2(g)           -6.14     -7.61   -1.47  CO2
+	CO2(g)           -6.15     -7.61   -1.46  CO2
 	H2(g)           -35.27    -38.37   -3.10  H2
 	H2O(g)           -1.50     -0.00    1.50  H2O
 	O2(g)           -12.75    -15.64   -2.89  O2
@@ -1583,8 +1558,8 @@ Reaction 1.
 
                                        pH  =  11.410      Charge balance
                                        pe  =  -5.640      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 28189
-                          Density (g/cm3)  =   1.01535
+       Specific Conductance (uS/cm, 25 oC) = 28774
+                          Density (g/cm3)  =   1.01506
                         Activity of water  =   0.992
                            Ionic strength  =   4.473e-01
                        Mass of water (kg)  =   9.999e-01
@@ -1608,9 +1583,9 @@ Reaction 1.
 C(-4)         4.002e-30
    CH4             4.002e-30   4.436e-30   -29.398   -29.353     0.045     32.22
 C(4)          1.505e-01
-   CO3-2           1.464e-01   3.479e-02    -0.835    -1.459    -0.624     -3.41
-   HCO3-           4.137e-03   2.889e-03    -2.383    -2.539    -0.156     25.99
-   CO2             2.299e-08   2.549e-08    -7.638    -7.594     0.045     24.74
+   CO3-2           1.464e-01   3.479e-02    -0.835    -1.459    -0.624     -1.42
+   HCO3-           4.137e-03   2.889e-03    -2.383    -2.539    -0.156     26.16
+   CO2             2.299e-08   2.549e-08    -7.638    -7.594     0.045     30.26
 H(0)          3.691e-15
    H2              1.846e-15   2.046e-15   -14.734   -14.689     0.045     28.61
 K             3.010e-01
@@ -1624,7 +1599,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)          -26.51    -29.35   -2.84  CH4
-	CO2(g)           -6.13     -7.59   -1.47  CO2
+	CO2(g)           -6.13     -7.59   -1.46  CO2
 	H2(g)           -11.59    -14.69   -3.10  H2
 	H2O(g)           -1.51     -0.00    1.50  H2O
 	O2(g)           -60.12    -63.01   -2.89  O2
@@ -1663,8 +1638,8 @@ Reaction 1.
 
                                        pH  =  11.503      Charge balance
                                        pe  =   6.245      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 46934
-                          Density (g/cm3)  =   1.03266
+       Specific Conductance (uS/cm, 25 oC) = 47575
+                          Density (g/cm3)  =   1.03231
                         Activity of water  =   0.985
                            Ionic strength  =   8.942e-01
                        Mass of water (kg)  =   9.999e-01
@@ -1688,9 +1663,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -125.246  -125.157     0.089     32.22
 C(4)          3.001e-01
-   CO3-2           2.944e-01   5.603e-02    -0.531    -1.252    -0.721     -1.36
-   HCO3-           5.676e-03   3.749e-03    -2.246    -2.426    -0.180     26.80
-   CO2             2.186e-08   2.686e-08    -7.660    -7.571     0.089     24.74
+   CO3-2           2.944e-01   5.603e-02    -0.531    -1.252    -0.721     -0.20
+   HCO3-           5.676e-03   3.749e-03    -2.246    -2.426    -0.180     27.40
+   CO2             2.186e-08   2.686e-08    -7.660    -7.571     0.089     30.26
 H(0)          3.666e-39
    H2              1.833e-39   2.252e-39   -38.737   -38.647     0.089     28.61
 K             6.001e-01
@@ -1704,7 +1679,7 @@ O(0)          1.297e-15
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)         -122.31   -125.16   -2.84  CH4
-	CO2(g)           -6.10     -7.57   -1.47  CO2
+	CO2(g)           -6.11     -7.57   -1.46  CO2
 	H2(g)           -35.55    -38.65   -3.10  H2
 	H2O(g)           -1.51     -0.01    1.50  H2O
 	O2(g)           -12.21    -15.10   -2.89  O2
@@ -1743,8 +1718,8 @@ Reaction 1.
 
                                        pH  =  11.504      Charge balance
                                        pe  =   6.199      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 47020
-                          Density (g/cm3)  =   1.03277
+       Specific Conductance (uS/cm, 25 oC) = 47661
+                          Density (g/cm3)  =   1.03241
                         Activity of water  =   0.985
                            Ionic strength  =   8.970e-01
                        Mass of water (kg)  =   9.999e-01
@@ -1768,9 +1743,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -124.876  -124.786     0.090     32.22
 C(4)          3.010e-01
-   CO3-2           2.953e-01   5.615e-02    -0.530    -1.251    -0.721     -1.35
-   HCO3-           5.684e-03   3.753e-03    -2.245    -2.426    -0.180     26.81
-   CO2             2.185e-08   2.687e-08    -7.660    -7.571     0.090     24.74
+   CO3-2           2.953e-01   5.615e-02    -0.530    -1.251    -0.721     -0.19
+   HCO3-           5.684e-03   3.753e-03    -2.245    -2.426    -0.180     27.41
+   CO2             2.185e-08   2.687e-08    -7.660    -7.571     0.090     30.26
 H(0)          4.535e-39
    H2              2.268e-39   2.788e-39   -38.644   -38.555     0.090     28.61
 K             6.020e-01
@@ -1784,7 +1759,7 @@ O(0)          8.457e-16
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)         -121.94   -124.79   -2.84  CH4
-	CO2(g)           -6.10     -7.57   -1.47  CO2
+	CO2(g)           -6.11     -7.57   -1.46  CO2
 	H2(g)           -35.45    -38.55   -3.10  H2
 	H2O(g)           -1.51     -0.01    1.50  H2O
 	O2(g)           -12.39    -15.28   -2.89  O2
@@ -1823,8 +1798,8 @@ Reaction 1.
 
                                        pH  =  11.543      Charge balance
                                        pe  =   6.269      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 55005
-                          Density (g/cm3)  =   1.04379
+       Specific Conductance (uS/cm, 25 oC) = 55649
+                          Density (g/cm3)  =   1.04353
                         Activity of water  =   0.980
                            Ionic strength  =   1.193e+00
                        Mass of water (kg)  =   9.999e-01
@@ -1848,9 +1823,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -125.769  -125.649     0.119     32.22
 C(4)          3.999e-01
-   CO3-2           3.934e-01   6.860e-02    -0.405    -1.164    -0.759     -0.14
-   HCO3-           6.480e-03   4.188e-03    -2.188    -2.378    -0.190     27.31
-   CO2             2.091e-08   2.752e-08    -7.680    -7.560     0.119     24.74
+   CO3-2           3.934e-01   6.860e-02    -0.405    -1.164    -0.759      0.48
+   HCO3-           6.480e-03   4.188e-03    -2.188    -2.378    -0.190     28.20
+   CO2             2.091e-08   2.752e-08    -7.680    -7.560     0.119     30.26
 H(0)          2.555e-39
    H2              1.278e-39   1.681e-39   -38.894   -38.774     0.119     28.61
 K             7.999e-01
@@ -1864,7 +1839,7 @@ O(0)          2.150e-15
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)         -122.81   -125.65   -2.84  CH4
-	CO2(g)           -6.09     -7.56   -1.47  CO2
+	CO2(g)           -6.10     -7.56   -1.46  CO2
 	H2(g)           -35.67    -38.77   -3.10  H2
 	H2O(g)           -1.51     -0.01    1.50  H2O
 	O2(g)           -11.96    -14.85   -2.89  O2
@@ -1903,8 +1878,8 @@ Reaction 1.
 
                                        pH  =  11.575      Charge balance
                                        pe  =  -5.755      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 61354
-                          Density (g/cm3)  =   1.05459
+       Specific Conductance (uS/cm, 25 oC) = 61990
+                          Density (g/cm3)  =   1.05455
                         Activity of water  =   0.974
                            Ionic strength  =   1.492e+00
                        Mass of water (kg)  =   9.999e-01
@@ -1928,9 +1903,9 @@ Reaction 1.
 C(-4)         1.422e-30
    CH4             1.422e-30   2.005e-30   -29.847   -29.698     0.149     32.22
 C(4)          4.998e-01
-   CO3-2           4.926e-01   8.047e-02    -0.307    -1.094    -0.787      1.02
-   HCO3-           7.184e-03   4.567e-03    -2.144    -2.340    -0.197     27.81
-   CO2             1.990e-08   2.805e-08    -7.701    -7.552     0.149     24.74
+   CO3-2           4.926e-01   8.047e-02    -0.307    -1.094    -0.787      1.09
+   HCO3-           7.184e-03   4.567e-03    -2.144    -2.340    -0.197     28.98
+   CO2             1.990e-08   2.805e-08    -7.701    -7.552     0.149     30.26
 H(0)          2.302e-15
    H2              1.151e-15   1.623e-15   -14.939   -14.790     0.149     28.61
 K             9.996e-01
@@ -1944,7 +1919,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)          -26.85    -29.70   -2.84  CH4
-	CO2(g)           -6.08     -7.55   -1.47  CO2
+	CO2(g)           -6.09     -7.55   -1.46  CO2
 	H2(g)           -11.69    -14.79   -3.10  H2
 	H2O(g)           -1.51     -0.01    1.50  H2O
 	O2(g)           -59.93    -62.82   -2.89  O2
@@ -1983,8 +1958,8 @@ Reaction 1.
 
                                        pH  =  11.576      Charge balance
                                        pe  =  -5.944      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 61662
-                          Density (g/cm3)  =   1.05517
+       Specific Conductance (uS/cm, 25 oC) = 62297
+                          Density (g/cm3)  =   1.05514
                         Activity of water  =   0.974
                            Ionic strength  =   1.508e+00
                        Mass of water (kg)  =   9.999e-01
@@ -2008,9 +1983,9 @@ Reaction 1.
 C(-4)         4.510e-29
    CH4             4.510e-29   6.382e-29   -28.346   -28.195     0.151     32.22
 C(4)          5.053e-01
-   CO3-2           4.981e-01   8.110e-02    -0.303    -1.091    -0.788      1.09
-   HCO3-           7.220e-03   4.587e-03    -2.141    -2.339    -0.197     27.84
-   CO2             1.984e-08   2.808e-08    -7.702    -7.552     0.151     24.74
+   CO3-2           4.981e-01   8.110e-02    -0.303    -1.091    -0.788      1.13
+   HCO3-           7.220e-03   4.587e-03    -2.141    -2.339    -0.197     29.02
+   CO2             1.984e-08   2.808e-08    -7.702    -7.552     0.151     30.26
 H(0)          5.446e-15
    H2              2.723e-15   3.854e-15   -14.565   -14.414     0.151     28.61
 K             1.011e+00
@@ -2024,7 +1999,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)          -25.35    -28.20   -2.84  CH4
-	CO2(g)           -6.08     -7.55   -1.47  CO2
+	CO2(g)           -6.09     -7.55   -1.46  CO2
 	H2(g)           -11.31    -14.41   -3.10  H2
 	H2O(g)           -1.51     -0.01    1.50  H2O
 	O2(g)           -60.68    -63.57   -2.89  O2
@@ -2063,8 +2038,8 @@ Reaction 1.
 
                                        pH  =  11.601      Charge balance
                                        pe  =   6.604      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 66475
-                          Density (g/cm3)  =   1.06510
+       Specific Conductance (uS/cm, 25 oC) = 67098
+                          Density (g/cm3)  =   1.06539
                         Activity of water  =   0.969
                            Ionic strength  =   1.791e+00
                        Mass of water (kg)  =   9.999e-01
@@ -2088,9 +2063,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -128.952  -128.773     0.179     32.22
 C(4)          6.000e-01
-   CO3-2           5.922e-01   9.187e-02    -0.228    -1.037    -0.809      2.15
-   HCO3-           7.816e-03   4.905e-03    -2.107    -2.309    -0.202     28.29
-   CO2             1.886e-08   2.849e-08    -7.724    -7.545     0.179     24.74
+   CO3-2           5.922e-01   9.187e-02    -0.228    -1.037    -0.809      1.66
+   HCO3-           7.816e-03   4.905e-03    -2.107    -2.309    -0.202     29.75
+   CO2             1.886e-08   2.849e-08    -7.724    -7.545     0.179     30.26
 H(0)          3.636e-40
    H2              1.818e-40   2.746e-40   -39.740   -39.561     0.179     28.61
 K             1.200e+00
@@ -2104,7 +2079,7 @@ O(0)          6.875e-14
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)         -125.93   -128.77   -2.84  CH4
-	CO2(g)           -6.08     -7.55   -1.47  CO2
+	CO2(g)           -6.09     -7.55   -1.46  CO2
 	H2(g)           -36.46    -39.56   -3.10  H2
 	H2O(g)           -1.52     -0.01    1.50  H2O
 	O2(g)           -10.39    -13.28   -2.89  O2
@@ -2143,8 +2118,8 @@ Reaction 1.
 
                                        pH  =  11.624      Charge balance
                                        pe  =  -6.042      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 70668
-                          Density (g/cm3)  =   1.07525
+       Specific Conductance (uS/cm, 25 oC) = 71274
+                          Density (g/cm3)  =   1.07599
                         Activity of water  =   0.964
                            Ionic strength  =   2.090e+00
                        Mass of water (kg)  =   9.998e-01
@@ -2168,9 +2143,9 @@ Reaction 1.
 C(-4)         1.033e-28
    CH4             1.033e-28   1.672e-28   -27.986   -27.777     0.209     32.22
 C(4)          6.998e-01
-   CO3-2           6.914e-01   1.029e-01    -0.160    -0.988    -0.827      3.23
-   HCO3-           8.389e-03   5.210e-03    -2.076    -2.283    -0.207     28.77
-   CO2             1.783e-08   2.886e-08    -7.749    -7.540     0.209     24.74
+   CO3-2           6.914e-01   1.029e-01    -0.160    -0.988    -0.827      2.19
+   HCO3-           8.389e-03   5.210e-03    -2.076    -2.283    -0.207     30.51
+   CO2             1.783e-08   2.886e-08    -7.749    -7.540     0.209     30.26
 H(0)          5.988e-15
    H2              2.994e-15   4.845e-15   -14.524   -14.315     0.209     28.61
 K             1.400e+00
@@ -2184,7 +2159,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)          -24.93    -27.78   -2.84  CH4
-	CO2(g)           -6.07     -7.54   -1.47  CO2
+	CO2(g)           -6.08     -7.54   -1.46  CO2
 	H2(g)           -11.21    -14.31   -3.10  H2
 	H2O(g)           -1.52     -0.02    1.50  H2O
 	O2(g)           -60.89    -63.78   -2.89  O2
@@ -2223,8 +2198,8 @@ Reaction 1.
 
                                        pH  =  11.645      Charge balance
                                        pe  =  -6.012      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 74177
-                          Density (g/cm3)  =   1.08509
+       Specific Conductance (uS/cm, 25 oC) = 74764
+                          Density (g/cm3)  =   1.08640
                         Activity of water  =   0.959
                            Ionic strength  =   2.389e+00
                        Mass of water (kg)  =   9.998e-01
@@ -2248,9 +2223,9 @@ Reaction 1.
 C(-4)         3.875e-29
    CH4             3.875e-29   6.717e-29   -28.412   -28.173     0.239     32.22
 C(4)          7.996e-01
-   CO3-2           7.907e-01   1.136e-01    -0.102    -0.945    -0.843      4.28
-   HCO3-           8.916e-03   5.489e-03    -2.050    -2.260    -0.211     29.23
-   CO2             1.683e-08   2.917e-08    -7.774    -7.535     0.239     24.74
+   CO3-2           7.907e-01   1.136e-01    -0.102    -0.945    -0.843      2.70
+   HCO3-           8.916e-03   5.489e-03    -2.050    -2.260    -0.211     31.26
+   CO2             1.683e-08   2.917e-08    -7.774    -7.535     0.239     30.26
 H(0)          4.426e-15
    H2              2.213e-15   3.836e-15   -14.655   -14.416     0.239     28.61
 K             1.599e+00
@@ -2264,7 +2239,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)          -25.33    -28.17   -2.84  CH4
-	CO2(g)           -6.07     -7.54   -1.47  CO2
+	CO2(g)           -6.07     -7.54   -1.46  CO2
 	H2(g)           -11.32    -14.42   -3.10  H2
 	H2O(g)           -1.52     -0.02    1.50  H2O
 	O2(g)           -60.69    -63.58   -2.89  O2
@@ -2303,8 +2278,8 @@ Reaction 1.
 
                                        pH  =  11.663      Charge balance
                                        pe  =   6.218      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 25 oC) = 77190
-                          Density (g/cm3)  =   1.09468
+       Specific Conductance (uS/cm, 25 oC) = 77758
+                          Density (g/cm3)  =   1.09669
                         Activity of water  =   0.954
                            Ionic strength  =   2.690e+00
                        Mass of water (kg)  =   9.998e-01
@@ -2328,9 +2303,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -126.421  -126.152     0.269     32.22
 C(4)          9.001e-01
-   CO3-2           8.907e-01   1.241e-01    -0.050    -0.906    -0.856      5.32
-   HCO3-           9.409e-03   5.749e-03    -2.026    -2.240    -0.214     29.70
-   CO2             1.584e-08   2.943e-08    -7.800    -7.531     0.269     24.74
+   CO3-2           8.907e-01   1.241e-01    -0.050    -0.906    -0.856      3.18
+   HCO3-           9.409e-03   5.749e-03    -2.026    -2.240    -0.214     32.01
+   CO2             1.584e-08   2.943e-08    -7.800    -7.531     0.269     30.26
 H(0)          1.315e-39
    H2              6.575e-40   1.221e-39   -39.182   -38.913     0.269     28.61
 K             1.800e+00
@@ -2344,7 +2319,7 @@ O(0)          2.737e-15
 	Phase               SI   log IAP   log K(298 K,   1 atm)
 
 	CH4(g)         -123.31   -126.15   -2.84  CH4
-	CO2(g)           -6.06     -7.53   -1.47  CO2
+	CO2(g)           -6.07     -7.53   -1.46  CO2
 	H2(g)           -35.81    -38.91   -3.10  H2
 	H2O(g)           -1.52     -0.02    1.50  H2O
 	O2(g)           -11.70    -14.59   -2.89  O2
@@ -2372,11 +2347,11 @@ Reading input data for simulation 6.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Blue #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Blue 
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Blue
 	90 end
 	END
 -----------------------------------------
@@ -2485,8 +2460,8 @@ Reaction 1.
 
                                        pH  =  11.122      Charge balance
                                        pe  =   6.866      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 35 oC) = 19900
-                          Density (g/cm3)  =   1.00372
+       Specific Conductance (uS/cm, 35 oC) = 20681
+                          Density (g/cm3)  =   1.00358
                         Activity of water  =   0.996
                            Ionic strength  =   2.364e-01
                        Mass of water (kg)  =   9.999e-01
@@ -2510,9 +2485,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -128.206  -128.182     0.024     32.22
 C(4)          8.018e-02
-   CO3-2           7.614e-02   2.191e-02    -1.118    -1.659    -0.541     -3.27
-   HCO3-           4.037e-03   2.957e-03    -2.394    -2.529    -0.135     26.08
-   CO2             4.335e-08   4.577e-08    -7.363    -7.339     0.024     23.48
+   CO3-2           7.614e-02   2.191e-02    -1.118    -1.659    -0.541     -1.40
+   HCO3-           4.037e-03   2.957e-03    -2.394    -2.529    -0.135     26.00
+   CO2             4.335e-08   4.577e-08    -7.363    -7.339     0.024     27.94
 H(0)          1.287e-39
    H2              6.437e-40   6.797e-40   -39.191   -39.168     0.024     28.60
 K             1.604e-01
@@ -2526,7 +2501,7 @@ O(0)          2.247e-11
 	Phase               SI   log IAP   log K(308 K,   1 atm)
 
 	CH4(g)         -125.27   -128.18   -2.91  CH4
-	CO2(g)           -5.76     -7.34   -1.58  CO2
+	CO2(g)           -5.77     -7.34   -1.57  CO2
 	H2(g)           -36.05    -39.17   -3.12  H2
 	H2O(g)           -1.26     -0.00    1.26  H2O
 	O2(g)            -7.97    -10.93   -2.96  O2
@@ -2565,8 +2540,8 @@ Reaction 1.
 
                                        pH  =  11.210      Charge balance
                                        pe  =  -5.455      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 35 oC) = 34630
-                          Density (g/cm3)  =   1.01200
+       Specific Conductance (uS/cm, 35 oC) = 35584
+                          Density (g/cm3)  =   1.01178
                         Activity of water  =   0.992
                            Ionic strength  =   4.461e-01
                        Mass of water (kg)  =   9.999e-01
@@ -2590,9 +2565,9 @@ Reaction 1.
 C(-4)         4.480e-31
    CH4             4.480e-31   4.964e-31   -30.349   -30.304     0.045     32.22
 C(4)          1.505e-01
-   CO3-2           1.452e-01   3.378e-02    -0.838    -1.471    -0.633     -2.21
-   HCO3-           5.361e-03   3.723e-03    -2.271    -2.429    -0.158     26.50
-   CO2             4.264e-08   4.725e-08    -7.370    -7.326     0.045     23.48
+   CO3-2           1.452e-01   3.378e-02    -0.838    -1.471    -0.633     -0.65
+   HCO3-           5.361e-03   3.723e-03    -2.271    -2.429    -0.158     26.64
+   CO2             4.264e-08   4.725e-08    -7.370    -7.326     0.045     27.94
 H(0)          3.582e-15
    H2              1.791e-15   1.985e-15   -14.747   -14.702     0.045     28.60
 K             3.010e-01
@@ -2606,7 +2581,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(308 K,   1 atm)
 
 	CH4(g)          -27.39    -30.30   -2.91  CH4
-	CO2(g)           -5.75     -7.33   -1.58  CO2
+	CO2(g)           -5.76     -7.33   -1.57  CO2
 	H2(g)           -11.58    -14.70   -3.12  H2
 	H2O(g)           -1.26     -0.00    1.26  H2O
 	O2(g)           -56.90    -59.86   -2.96  O2
@@ -2645,8 +2620,8 @@ Reaction 1.
 
                                        pH  =  11.306      Charge balance
                                        pe  =   5.594      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 35 oC) = 57651
-                          Density (g/cm3)  =   1.02918
+       Specific Conductance (uS/cm, 35 oC) = 58699
+                          Density (g/cm3)  =   1.02890
                         Activity of water  =   0.985
                            Ionic strength  =   8.955e-01
                        Mass of water (kg)  =   9.999e-01
@@ -2670,9 +2645,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -119.525  -119.435     0.090     32.22
 C(4)          3.010e-01
-   CO3-2           2.937e-01   5.451e-02    -0.532    -1.264    -0.731     -0.38
-   HCO3-           7.333e-03   4.813e-03    -2.135    -2.318    -0.183     27.29
-   CO2             4.013e-08   4.932e-08    -7.396    -7.307     0.090     23.48
+   CO3-2           2.937e-01   5.451e-02    -0.532    -1.264    -0.731      0.52
+   HCO3-           7.333e-03   4.813e-03    -2.135    -2.318    -0.183     27.91
+   CO2             4.013e-08   4.932e-08    -7.396    -7.307     0.090     27.94
 H(0)          1.659e-37
    H2              8.297e-38   1.020e-37   -37.081   -36.992     0.090     28.60
 K             6.020e-01
@@ -2686,7 +2661,7 @@ O(0)          8.384e-16
 	Phase               SI   log IAP   log K(308 K,   1 atm)
 
 	CH4(g)         -116.52   -119.44   -2.91  CH4
-	CO2(g)           -5.73     -7.31   -1.58  CO2
+	CO2(g)           -5.74     -7.31   -1.57  CO2
 	H2(g)           -33.87    -36.99   -3.12  H2
 	H2O(g)           -1.26     -0.01    1.26  H2O
 	O2(g)           -12.33    -15.29   -2.96  O2
@@ -2725,8 +2700,8 @@ Reaction 1.
 
                                        pH  =  11.381      Charge balance
                                        pe  =  -5.809      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 35 oC) = 75364
-                          Density (g/cm3)  =   1.05142
+       Specific Conductance (uS/cm, 35 oC) = 76405
+                          Density (g/cm3)  =   1.05141
                         Activity of water  =   0.974
                            Ionic strength  =   1.506e+00
                        Mass of water (kg)  =   9.998e-01
@@ -2751,8 +2726,8 @@ C(-4)         1.162e-29
    CH4             1.162e-29   1.644e-29   -28.935   -28.784     0.151     32.22
 C(4)          5.053e-01
    CO3-2           4.960e-01   7.869e-02    -0.304    -1.104    -0.800      1.71
-   HCO3-           9.278e-03   5.856e-03    -2.033    -2.232    -0.200     28.26
-   CO2             3.613e-08   5.111e-08    -7.442    -7.292     0.151     23.48
+   HCO3-           9.278e-03   5.856e-03    -2.033    -2.232    -0.200     29.52
+   CO2             3.613e-08   5.111e-08    -7.442    -7.292     0.151     27.94
 H(0)          6.540e-15
    H2              3.270e-15   4.625e-15   -14.485   -14.335     0.151     28.60
 K             1.011e+00
@@ -2766,7 +2741,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(308 K,   1 atm)
 
 	CH4(g)          -25.87    -28.78   -2.91  CH4
-	CO2(g)           -5.71     -7.29   -1.58  CO2
+	CO2(g)           -5.73     -7.29   -1.57  CO2
 	H2(g)           -11.21    -14.33   -3.12  H2
 	H2O(g)           -1.27     -0.01    1.26  H2O
 	O2(g)           -57.65    -60.61   -2.96  O2
@@ -2794,11 +2769,11 @@ Reading input data for simulation 7.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Green #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Green 
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Green
 	90 end
 	END
 -----------------------------------------
@@ -2907,8 +2882,8 @@ Reaction 1.
 
                                        pH  =  10.944      Charge balance
                                        pe  =   5.124      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 45 oC) = 23814
-                          Density (g/cm3)  =   0.99977
+       Specific Conductance (uS/cm, 45 oC) = 25029
+                          Density (g/cm3)  =   0.99965
                         Activity of water  =   0.996
                            Ionic strength  =   2.353e-01
                        Mass of water (kg)  =   9.999e-01
@@ -2932,9 +2907,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -113.866  -113.843     0.024     32.22
 C(4)          8.018e-02
-   CO3-2           7.499e-02   2.116e-02    -1.125    -1.674    -0.549     -2.58
-   HCO3-           5.185e-03   3.779e-03    -2.285    -2.423    -0.137     26.42
-   CO2             7.961e-08   8.405e-08    -7.099    -7.075     0.024     22.50
+   CO3-2           7.499e-02   2.116e-02    -1.125    -1.674    -0.549     -1.04
+   HCO3-           5.185e-03   3.779e-03    -2.285    -2.423    -0.137     26.21
+   CO2             7.961e-08   8.405e-08    -7.099    -7.075     0.024     26.13
 H(0)          8.137e-36
    H2              4.068e-36   4.295e-36   -35.391   -35.367     0.024     28.59
 K             1.604e-01
@@ -2948,7 +2923,7 @@ O(0)          4.750e-16
 	Phase               SI   log IAP   log K(318 K,   1 atm)
 
 	CH4(g)         -110.88   -113.84   -2.97  CH4
-	CO2(g)           -5.41     -7.08   -1.67  CO2
+	CO2(g)           -5.42     -7.08   -1.66  CO2
 	H2(g)           -32.23    -35.37   -3.13  H2
 	H2O(g)           -1.03     -0.00    1.03  H2O
 	O2(g)           -12.59    -15.60   -3.01  O2
@@ -2987,8 +2962,8 @@ Reaction 1.
 
                                        pH  =  11.033      Charge balance
                                        pe  =  -5.305      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 45 oC) = 41443
-                          Density (g/cm3)  =   1.00795
+       Specific Conductance (uS/cm, 45 oC) = 42930
+                          Density (g/cm3)  =   1.00776
                         Activity of water  =   0.992
                            Ionic strength  =   4.446e-01
                        Mass of water (kg)  =   9.999e-01
@@ -3012,9 +2987,9 @@ Reaction 1.
 C(-4)         7.043e-32
    CH4             7.043e-32   7.802e-32   -31.152   -31.108     0.044     32.22
 C(4)          1.505e-01
-   CO3-2           1.436e-01   3.267e-02    -0.843    -1.486    -0.643     -1.56
-   HCO3-           6.886e-03   4.755e-03    -2.162    -2.323    -0.161     26.84
-   CO2             7.811e-08   8.653e-08    -7.107    -7.063     0.044     22.50
+   CO3-2           1.436e-01   3.267e-02    -0.843    -1.486    -0.643     -0.27
+   HCO3-           6.886e-03   4.755e-03    -2.162    -2.323    -0.161     26.87
+   CO2             7.811e-08   8.653e-08    -7.107    -7.063     0.044     26.13
 H(0)          3.709e-15
    H2              1.855e-15   2.054e-15   -14.732   -14.687     0.044     28.59
 K             3.011e-01
@@ -3028,7 +3003,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(318 K,   1 atm)
 
 	CH4(g)          -28.14    -31.11   -2.97  CH4
-	CO2(g)           -5.39     -7.06   -1.67  CO2
+	CO2(g)           -5.41     -7.06   -1.66  CO2
 	H2(g)           -11.55    -14.69   -3.13  H2
 	H2O(g)           -1.03     -0.00    1.03  H2O
 	O2(g)           -53.95    -56.96   -3.01  O2
@@ -3067,8 +3042,8 @@ Reaction 1.
 
                                        pH  =  11.130      Charge balance
                                        pe  =   5.013      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 45 oC) = 68855
-                          Density (g/cm3)  =   1.02494
+       Specific Conductance (uS/cm, 45 oC) = 70488
+                          Density (g/cm3)  =   1.02472
                         Activity of water  =   0.984
                            Ionic strength  =   8.936e-01
                        Mass of water (kg)  =   9.998e-01
@@ -3092,9 +3067,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -114.494  -114.404     0.089     32.22
 C(4)          3.010e-01
-   CO3-2           2.916e-01   5.271e-02    -0.535    -1.278    -0.743      0.12
-   HCO3-           9.408e-03   6.134e-03    -2.027    -2.212    -0.186     27.61
-   CO2             7.322e-08   8.995e-08    -7.135    -7.046     0.089     22.50
+   CO3-2           2.916e-01   5.271e-02    -0.535    -1.278    -0.743      0.88
+   HCO3-           9.408e-03   6.134e-03    -2.027    -2.212    -0.186     28.15
+   CO2             7.322e-08   8.995e-08    -7.135    -7.046     0.089     26.13
 H(0)          4.947e-36
    H2              2.474e-36   3.039e-36   -35.607   -35.517     0.089     28.59
 K             6.021e-01
@@ -3108,7 +3083,7 @@ O(0)          7.970e-16
 	Phase               SI   log IAP   log K(318 K,   1 atm)
 
 	CH4(g)         -111.44   -114.40   -2.97  CH4
-	CO2(g)           -5.38     -7.05   -1.67  CO2
+	CO2(g)           -5.39     -7.05   -1.66  CO2
 	H2(g)           -32.38    -35.52   -3.13  H2
 	H2O(g)           -1.03     -0.01    1.03  H2O
 	O2(g)           -12.30    -15.31   -3.01  O2
@@ -3147,8 +3122,8 @@ Reaction 1.
 
                                        pH  =  11.205      Charge balance
                                        pe  =  -5.634      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 45 oC) = 89705
-                          Density (g/cm3)  =   1.04707
+       Specific Conductance (uS/cm, 45 oC) = 91325
+                          Density (g/cm3)  =   1.04703
                         Activity of water  =   0.974
                            Ionic strength  =   1.504e+00
                        Mass of water (kg)  =   9.998e-01
@@ -3172,9 +3147,9 @@ Reaction 1.
 C(-4)         1.105e-30
    CH4             1.105e-30   1.562e-30   -29.957   -29.806     0.150     32.22
 C(4)          5.053e-01
-   CO3-2           4.934e-01   7.608e-02    -0.307    -1.119    -0.812      1.97
-   HCO3-           1.189e-02   7.448e-03    -1.925    -2.128    -0.203     28.54
-   CO2             6.568e-08   9.286e-08    -7.183    -7.032     0.150     22.50
+   CO3-2           4.934e-01   7.608e-02    -0.307    -1.119    -0.812      2.01
+   HCO3-           1.189e-02   7.448e-03    -1.925    -2.128    -0.203     29.78
+   CO2             6.568e-08   9.286e-08    -7.183    -7.032     0.150     26.13
 H(0)          5.985e-15
    H2              2.992e-15   4.231e-15   -14.524   -14.374     0.150     28.59
 K             1.011e+00
@@ -3188,7 +3163,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(318 K,   1 atm)
 
 	CH4(g)          -26.84    -29.81   -2.97  CH4
-	CO2(g)           -5.36     -7.03   -1.67  CO2
+	CO2(g)           -5.38     -7.03   -1.66  CO2
 	H2(g)           -11.24    -14.37   -3.13  H2
 	H2O(g)           -1.04     -0.01    1.03  H2O
 	O2(g)           -54.60    -57.61   -3.01  O2
@@ -3216,11 +3191,11 @@ Reading input data for simulation 8.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Brown #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -3329,8 +3304,8 @@ Reaction 1.
 
                                        pH  =  10.787      Charge balance
                                        pe  =   4.566      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 55 oC) = 27887
-                          Density (g/cm3)  =   0.99516
+       Specific Conductance (uS/cm, 55 oC) = 29709
+                          Density (g/cm3)  =   0.99506
                         Activity of water  =   0.996
                            Ionic strength  =   2.339e-01
                        Mass of water (kg)  =   9.999e-01
@@ -3354,9 +3329,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -109.128  -109.105     0.023     32.22
 C(4)          8.018e-02
-   CO3-2           7.360e-02   2.034e-02    -1.133    -1.692    -0.558     -2.35
-   HCO3-           6.580e-03   4.771e-03    -2.182    -2.321    -0.140     26.62
-   CO2             1.433e-07   1.513e-07    -6.844    -6.820     0.023     21.71
+   CO3-2           7.360e-02   2.034e-02    -1.133    -1.692    -0.558     -1.02
+   HCO3-           6.580e-03   4.771e-03    -2.182    -2.321    -0.140     26.21
+   CO2             1.433e-07   1.513e-07    -6.844    -6.820     0.023     24.69
 H(0)          2.011e-34
    H2              1.005e-34   1.061e-34   -33.998   -33.974     0.023     28.58
 K             1.604e-01
@@ -3370,7 +3345,7 @@ O(0)          4.357e-16
 	Phase               SI   log IAP   log K(328 K,   1 atm)
 
 	CH4(g)         -106.10   -109.10   -3.01  CH4
-	CO2(g)           -5.07     -6.82   -1.75  CO2
+	CO2(g)           -5.09     -6.82   -1.73  CO2
 	H2(g)           -30.84    -33.97   -3.14  H2
 	H2O(g)           -0.81     -0.00    0.81  H2O
 	O2(g)           -12.59    -15.64   -3.05  O2
@@ -3409,8 +3384,8 @@ Reaction 1.
 
                                        pH  =  10.876      Charge balance
                                        pe  =  -5.163      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 55 oC) = 48539
-                          Density (g/cm3)  =   1.00326
+       Specific Conductance (uS/cm, 55 oC) = 50773
+                          Density (g/cm3)  =   1.00311
                         Activity of water  =   0.992
                            Ionic strength  =   4.428e-01
                        Mass of water (kg)  =   9.998e-01
@@ -3434,9 +3409,9 @@ Reaction 1.
 C(-4)         9.654e-33
    CH4             9.654e-33   1.069e-32   -32.015   -31.971     0.044     32.22
 C(4)          1.505e-01
-   CO3-2           1.418e-01   3.146e-02    -0.848    -1.502    -0.654     -1.35
-   HCO3-           8.751e-03   6.006e-03    -2.058    -2.221    -0.163     27.04
-   CO2             1.405e-07   1.556e-07    -6.852    -6.808     0.044     21.71
+   CO3-2           1.418e-01   3.146e-02    -0.848    -1.502    -0.654     -0.22
+   HCO3-           8.751e-03   6.006e-03    -2.058    -2.221    -0.163     26.88
+   CO2             1.405e-07   1.556e-07    -6.852    -6.808     0.044     24.69
 H(0)          3.648e-15
    H2              1.824e-15   2.020e-15   -14.739   -14.695     0.044     28.58
 K             3.011e-01
@@ -3450,7 +3425,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(328 K,   1 atm)
 
 	CH4(g)          -28.96    -31.97   -3.01  CH4
-	CO2(g)           -5.06     -6.81   -1.75  CO2
+	CO2(g)           -5.08     -6.81   -1.73  CO2
 	H2(g)           -11.56    -14.69   -3.14  H2
 	H2O(g)           -0.81     -0.00    0.81  H2O
 	O2(g)           -51.15    -54.20   -3.05  O2
@@ -3489,8 +3464,8 @@ Reaction 1.
 
                                        pH  =  10.974      Charge balance
                                        pe  =   5.124      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 55 oC) = 80481
-                          Density (g/cm3)  =   1.02013
+       Specific Conductance (uS/cm, 55 oC) = 82932
+                          Density (g/cm3)  =   1.01992
                         Activity of water  =   0.984
                            Ionic strength  =   8.911e-01
                        Mass of water (kg)  =   9.998e-01
@@ -3514,9 +3489,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -115.112  -115.023     0.089     32.22
 C(4)          3.010e-01
-   CO3-2           2.891e-01   5.079e-02    -0.539    -1.294    -0.755      0.25
-   HCO3-           1.196e-02   7.744e-03    -1.922    -2.111    -0.189     27.80
-   CO2             1.315e-07   1.615e-07    -6.881    -6.792     0.089     21.71
+   CO3-2           2.891e-01   5.079e-02    -0.539    -1.294    -0.755      0.96
+   HCO3-           1.196e-02   7.744e-03    -1.922    -2.111    -0.189     28.19
+   CO2             1.315e-07   1.615e-07    -6.881    -6.792     0.089     24.69
 H(0)          5.605e-36
    H2              2.802e-36   3.441e-36   -35.552   -35.463     0.089     28.58
 K             6.021e-01
@@ -3530,7 +3505,7 @@ O(0)          3.480e-13
 	Phase               SI   log IAP   log K(328 K,   1 atm)
 
 	CH4(g)         -112.02   -115.02   -3.01  CH4
-	CO2(g)           -5.04     -6.79   -1.75  CO2
+	CO2(g)           -5.06     -6.79   -1.73  CO2
 	H2(g)           -32.32    -35.46   -3.14  H2
 	H2O(g)           -0.82     -0.01    0.81  H2O
 	O2(g)            -9.62    -12.67   -3.05  O2
@@ -3569,8 +3544,8 @@ Reaction 1.
 
                                        pH  =  11.049      Charge balance
                                        pe  =  -5.521      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 55 oC) = 104473
-                          Density (g/cm3)  =   1.04217
+       Specific Conductance (uS/cm, 55 oC) = 106901
+                          Density (g/cm3)  =   1.04208
                         Activity of water  =   0.974
                            Ionic strength  =   1.501e+00
                        Mass of water (kg)  =   9.997e-01
@@ -3594,9 +3569,9 @@ Reaction 1.
 C(-4)         2.545e-31
    CH4             2.545e-31   3.595e-31   -30.594   -30.444     0.150     32.22
 C(4)          5.054e-01
-   CO3-2           4.902e-01   7.328e-02    -0.310    -1.135    -0.825      1.95
-   HCO3-           1.511e-02   9.394e-03    -1.821    -2.027    -0.206     28.72
-   CO2             1.178e-07   1.664e-07    -6.929    -6.779     0.150     21.71
+   CO3-2           4.902e-01   7.328e-02    -0.310    -1.135    -0.825      2.08
+   HCO3-           1.511e-02   9.394e-03    -1.821    -2.027    -0.206     29.84
+   CO2             1.178e-07   1.664e-07    -6.929    -6.779     0.150     24.69
 H(0)          6.708e-15
    H2              3.354e-15   4.739e-15   -14.474   -14.324     0.150     28.58
 K             1.011e+00
@@ -3610,7 +3585,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(328 K,   1 atm)
 
 	CH4(g)          -27.44    -30.44   -3.01  CH4
-	CO2(g)           -5.03     -6.78   -1.75  CO2
+	CO2(g)           -5.05     -6.78   -1.73  CO2
 	H2(g)           -11.19    -14.32   -3.14  H2
 	H2O(g)           -0.82     -0.01    0.81  H2O
 	O2(g)           -51.91    -54.96   -3.05  O2
@@ -3638,11 +3613,11 @@ Reading input data for simulation 9.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Orange #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -3751,8 +3726,8 @@ Reaction 1.
 
                                        pH  =  10.648      Charge balance
                                        pe  =   4.033      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 65 oC) = 32067
-                          Density (g/cm3)  =   0.98996
+       Specific Conductance (uS/cm, 65 oC) = 34717
+                          Density (g/cm3)  =   0.98988
                         Activity of water  =   0.996
                            Ionic strength  =   2.323e-01
                        Mass of water (kg)  =   9.999e-01
@@ -3776,9 +3751,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -104.702  -104.679     0.023     32.22
 C(4)          8.018e-02
-   CO3-2           7.193e-02   1.945e-02    -1.143    -1.711    -0.568     -2.53
-   HCO3-           8.252e-03   5.950e-03    -2.083    -2.225    -0.142     26.71
-   CO2             2.526e-07   2.665e-07    -6.597    -6.574     0.023     21.07
+   CO3-2           7.193e-02   1.945e-02    -1.143    -1.711    -0.568     -1.29
+   HCO3-           8.252e-03   5.950e-03    -2.083    -2.225    -0.142     26.03
+   CO2             2.526e-07   2.665e-07    -6.597    -6.574     0.023     23.50
 H(0)          4.089e-33
    H2              2.044e-33   2.157e-33   -32.689   -32.666     0.023     28.58
 K             1.604e-01
@@ -3792,7 +3767,7 @@ O(0)          4.060e-16
 	Phase               SI   log IAP   log K(338 K,   1 atm)
 
 	CH4(g)         -101.64   -104.68   -3.04  CH4
-	CO2(g)           -4.76     -6.57   -1.82  CO2
+	CO2(g)           -4.78     -6.57   -1.80  CO2
 	H2(g)           -29.53    -32.67   -3.14  H2
 	H2O(g)           -0.61     -0.00    0.61  H2O
 	O2(g)           -12.59    -15.67   -3.08  O2
@@ -3831,8 +3806,8 @@ Reaction 1.
 
                                        pH  =  10.738      Charge balance
                                        pe  =  -5.042      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 65 oC) = 55836
-                          Density (g/cm3)  =   0.99802
+       Specific Conductance (uS/cm, 65 oC) = 59093
+                          Density (g/cm3)  =   0.99787
                         Activity of water  =   0.992
                            Ionic strength  =   4.406e-01
                        Mass of water (kg)  =   9.998e-01
@@ -3856,9 +3831,9 @@ Reaction 1.
 C(-4)         1.511e-33
    CH4             1.511e-33   1.672e-33   -32.821   -32.777     0.044     32.22
 C(4)          1.505e-01
-   CO3-2           1.395e-01   3.015e-02    -0.855    -1.521    -0.665     -1.51
-   HCO3-           1.100e-02   7.500e-03    -1.959    -2.125    -0.166     27.14
-   CO2             2.476e-07   2.741e-07    -6.606    -6.562     0.044     21.07
+   CO3-2           1.395e-01   3.015e-02    -0.855    -1.521    -0.665     -0.43
+   HCO3-           1.100e-02   7.500e-03    -1.959    -2.125    -0.166     26.72
+   CO2             2.476e-07   2.741e-07    -6.606    -6.562     0.044     23.50
 H(0)          3.651e-15
    H2              1.826e-15   2.020e-15   -14.739   -14.695     0.044     28.58
 K             3.011e-01
@@ -3872,7 +3847,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(338 K,   1 atm)
 
 	CH4(g)          -29.74    -32.78   -3.04  CH4
-	CO2(g)           -4.75     -6.56   -1.82  CO2
+	CO2(g)           -4.76     -6.56   -1.80  CO2
 	H2(g)           -11.56    -14.69   -3.14  H2
 	H2O(g)           -0.61     -0.00    0.61  H2O
 	O2(g)           -48.54    -51.62   -3.08  O2
@@ -3911,8 +3886,8 @@ Reaction 1.
 
                                        pH  =  10.836      Charge balance
                                        pe  =   4.503      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 65 oC) = 92390
-                          Density (g/cm3)  =   1.01480
+       Specific Conductance (uS/cm, 65 oC) = 95958
+                          Density (g/cm3)  =   1.01459
                         Activity of water  =   0.984
                            Ionic strength  =   8.881e-01
                        Mass of water (kg)  =   9.997e-01
@@ -3936,9 +3911,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -109.994  -109.905     0.089     32.22
 C(4)          3.011e-01
-   CO3-2           2.860e-01   4.873e-02    -0.544    -1.312    -0.769      0.07
-   HCO3-           1.506e-02   9.673e-03    -1.822    -2.014    -0.192     27.90
-   CO2             2.317e-07   2.843e-07    -6.635    -6.546     0.089     21.07
+   CO3-2           2.860e-01   4.873e-02    -0.544    -1.312    -0.769      0.80
+   HCO3-           1.506e-02   9.673e-03    -1.822    -2.014    -0.192     28.05
+   CO2             2.317e-07   2.843e-07    -6.635    -6.546     0.089     23.50
 H(0)          1.698e-34
    H2              8.490e-35   1.042e-34   -34.071   -33.982     0.089     28.58
 K             6.021e-01
@@ -3952,7 +3927,7 @@ O(0)          1.463e-13
 	Phase               SI   log IAP   log K(338 K,   1 atm)
 
 	CH4(g)         -106.87   -109.91   -3.04  CH4
-	CO2(g)           -4.73     -6.55   -1.82  CO2
+	CO2(g)           -4.75     -6.55   -1.80  CO2
 	H2(g)           -30.84    -33.98   -3.14  H2
 	H2O(g)           -0.62     -0.01    0.61  H2O
 	O2(g)            -9.97    -13.05   -3.08  O2
@@ -3991,8 +3966,8 @@ Reaction 1.
 
                                        pH  =  10.912      Charge balance
                                        pe  =  -5.385      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 65 oC) = 119481
-                          Density (g/cm3)  =   1.03676
+       Specific Conductance (uS/cm, 65 oC) = 123005
+                          Density (g/cm3)  =   1.03661
                         Activity of water  =   0.974
                            Ionic strength  =   1.497e+00
                        Mass of water (kg)  =   9.997e-01
@@ -4016,9 +3991,9 @@ Reaction 1.
 C(-4)         2.974e-32
    CH4             2.974e-32   4.197e-32   -31.527   -31.377     0.150     32.22
 C(4)          5.054e-01
-   CO3-2           4.864e-01   7.032e-02    -0.313    -1.153    -0.840      1.68
-   HCO3-           1.903e-02   1.173e-02    -1.721    -1.931    -0.210     28.82
-   CO2             2.075e-07   2.929e-07    -6.683    -6.533     0.150     21.07
+   CO3-2           4.864e-01   7.032e-02    -0.313    -1.153    -0.840      1.95
+   HCO3-           1.903e-02   1.173e-02    -1.721    -1.931    -0.210     29.74
+   CO2             2.075e-07   2.929e-07    -6.683    -6.533     0.150     23.50
 H(0)          6.244e-15
    H2              3.122e-15   4.407e-15   -14.506   -14.356     0.150     28.58
 K             1.011e+00
@@ -4032,7 +4007,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(338 K,   1 atm)
 
 	CH4(g)          -28.34    -31.38   -3.04  CH4
-	CO2(g)           -4.72     -6.53   -1.82  CO2
+	CO2(g)           -4.73     -6.53   -1.80  CO2
 	H2(g)           -11.22    -14.36   -3.14  H2
 	H2O(g)           -0.62     -0.01    0.61  H2O
 	O2(g)           -49.23    -52.31   -3.08  O2
@@ -4060,11 +4035,11 @@ Reading input data for simulation 10.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Blue #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -4173,8 +4148,8 @@ Reaction 1.
 
                                        pH  =  10.527      Charge balance
                                        pe  =   3.531      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 75 oC) = 36309
-                          Density (g/cm3)  =   0.98422
+       Specific Conductance (uS/cm, 75 oC) = 40060
+                          Density (g/cm3)  =   0.98415
                         Activity of water  =   0.996
                            Ionic strength  =   2.303e-01
                        Mass of water (kg)  =   9.998e-01
@@ -4198,9 +4173,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -100.622  -100.599     0.023     32.22
 C(4)          8.018e-02
-   CO3-2           6.995e-02   1.847e-02    -1.155    -1.733    -0.578     -3.06
-   HCO3-           1.023e-02   7.333e-03    -1.990    -2.135    -0.145     26.69
-   CO2             4.361e-07   4.599e-07    -6.360    -6.337     0.023     20.53
+   CO3-2           6.995e-02   1.847e-02    -1.155    -1.733    -0.578     -1.83
+   HCO3-           1.023e-02   7.333e-03    -1.990    -2.135    -0.145     25.69
+   CO2             4.361e-07   4.599e-07    -6.360    -6.337     0.023     22.52
 H(0)          6.713e-32
    H2              3.357e-32   3.540e-32   -31.474   -31.451     0.023     28.58
 K             1.604e-01
@@ -4214,7 +4189,7 @@ O(0)          4.123e-16
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
 	CH4(g)          -97.54   -100.60   -3.05  CH4
-	CO2(g)           -4.46     -6.34   -1.87  CO2
+	CO2(g)           -4.48     -6.34   -1.85  CO2
 	H2(g)           -28.32    -31.45   -3.13  H2
 	H2O(g)           -0.42     -0.00    0.42  H2O
 	O2(g)           -12.56    -15.66   -3.10  O2
@@ -4253,8 +4228,8 @@ Reaction 1.
 
                                        pH  =  10.617      Charge balance
                                        pe  =  -4.943      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 75 oC) = 63260
-                          Density (g/cm3)  =   0.99225
+       Specific Conductance (uS/cm, 75 oC) = 67885
+                          Density (g/cm3)  =   0.99211
                         Activity of water  =   0.992
                            Ionic strength  =   4.379e-01
                        Mass of water (kg)  =   9.998e-01
@@ -4278,9 +4253,9 @@ Reaction 1.
 C(-4)         2.745e-34
    CH4             2.745e-34   3.036e-34   -33.561   -33.518     0.044     32.22
 C(4)          1.505e-01
-   CO3-2           1.369e-01   2.875e-02    -0.864    -1.541    -0.678     -2.00
-   HCO3-           1.368e-02   9.261e-03    -1.864    -2.033    -0.169     27.14
-   CO2             4.276e-07   4.730e-07    -6.369    -6.325     0.044     20.53
+   CO3-2           1.369e-01   2.875e-02    -0.864    -1.541    -0.678     -0.90
+   HCO3-           1.368e-02   9.261e-03    -1.864    -2.033    -0.169     26.40
+   CO2             4.276e-07   4.730e-07    -6.369    -6.325     0.044     22.52
 H(0)          3.738e-15
    H2              1.869e-15   2.067e-15   -14.728   -14.685     0.044     28.58
 K             3.011e-01
@@ -4294,7 +4269,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
 	CH4(g)          -30.46    -33.52   -3.05  CH4
-	CO2(g)           -4.45     -6.33   -1.87  CO2
+	CO2(g)           -4.47     -6.33   -1.85  CO2
 	H2(g)           -11.55    -14.68   -3.13  H2
 	H2O(g)           -0.43     -0.00    0.42  H2O
 	O2(g)           -46.10    -49.20   -3.10  O2
@@ -4333,8 +4308,8 @@ Reaction 1.
 
                                        pH  =  10.716      Charge balance
                                        pe  =   3.453      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 75 oC) = 104461
-                          Density (g/cm3)  =   1.00897
+       Specific Conductance (uS/cm, 75 oC) = 109520
+                          Density (g/cm3)  =   1.00875
                         Activity of water  =   0.984
                            Ionic strength  =   8.844e-01
                        Mass of water (kg)  =   9.997e-01
@@ -4358,9 +4333,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -101.533  -101.444     0.088     32.22
 C(4)          3.011e-01
-   CO3-2           2.823e-01   4.655e-02    -0.549    -1.332    -0.783     -0.40
-   HCO3-           1.876e-02   1.196e-02    -1.727    -1.922    -0.196     27.92
-   CO2             4.003e-07   4.907e-07    -6.398    -6.309     0.088     20.53
+   CO3-2           2.823e-01   4.655e-02    -0.549    -1.332    -0.783      0.43
+   HCO3-           1.876e-02   1.196e-02    -1.727    -1.922    -0.196     27.77
+   CO2             4.003e-07   4.907e-07    -6.398    -6.309     0.088     22.52
 H(0)          3.473e-32
    H2              1.736e-32   2.128e-32   -31.760   -31.672     0.088     28.58
 K             6.022e-01
@@ -4374,7 +4349,7 @@ O(0)          9.584e-16
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
 	CH4(g)          -98.39   -101.44   -3.05  CH4
-	CO2(g)           -4.44     -6.31   -1.87  CO2
+	CO2(g)           -4.45     -6.31   -1.85  CO2
 	H2(g)           -28.54    -31.67   -3.13  H2
 	H2O(g)           -0.43     -0.01    0.42  H2O
 	O2(g)           -12.13    -15.23   -3.10  O2
@@ -4413,8 +4388,8 @@ Reaction 1.
 
                                        pH  =  10.791      Charge balance
                                        pe  =  -5.283      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 75 oC) = 134561
-                          Density (g/cm3)  =   1.03088
+       Specific Conductance (uS/cm, 75 oC) = 139542
+                          Density (g/cm3)  =   1.03064
                         Activity of water  =   0.974
                            Ionic strength  =   1.492e+00
                        Mass of water (kg)  =   9.996e-01
@@ -4438,9 +4413,9 @@ Reaction 1.
 C(-4)         5.152e-33
    CH4             5.152e-33   7.265e-33   -32.288   -32.139     0.149     32.22
 C(4)          5.054e-01
-   CO3-2           4.817e-01   6.720e-02    -0.317    -1.173    -0.855      1.18
-   HCO3-           2.373e-02   1.450e-02    -1.625    -1.839    -0.214     28.84
-   CO2             3.586e-07   5.056e-07    -6.445    -6.296     0.149     20.53
+   CO3-2           4.817e-01   6.720e-02    -0.317    -1.173    -0.855      1.65
+   HCO3-           2.373e-02   1.450e-02    -1.625    -1.839    -0.214     29.48
+   CO2             3.586e-07   5.056e-07    -6.445    -6.296     0.149     22.52
 H(0)          6.319e-15
    H2              3.159e-15   4.455e-15   -14.500   -14.351     0.149     28.58
 K             1.011e+00
@@ -4454,7 +4429,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(348 K,   1 atm)
 
 	CH4(g)          -29.08    -32.14   -3.05  CH4
-	CO2(g)           -4.42     -6.30   -1.87  CO2
+	CO2(g)           -4.44     -6.30   -1.85  CO2
 	H2(g)           -11.22    -14.35   -3.13  H2
 	H2O(g)           -0.43     -0.01    0.42  H2O
 	O2(g)           -46.78    -49.88   -3.10  O2
@@ -4482,11 +4457,11 @@ Reading input data for simulation 11.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = DeepPink #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -4595,8 +4570,8 @@ Reaction 1.
 
                                        pH  =  10.419      Charge balance
                                        pe  =   3.051      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 85 oC) = 40569
-                          Density (g/cm3)  =   0.97798
+       Specific Conductance (uS/cm, 85 oC) = 45754
+                          Density (g/cm3)  =   0.97791
                         Activity of water  =   0.996
                            Ionic strength  =   2.280e-01
                        Mass of water (kg)  =   9.998e-01
@@ -4620,9 +4595,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00   -96.796   -96.774     0.023     32.22
 C(4)          8.019e-02
-   CO3-2           6.765e-02   1.743e-02    -1.170    -1.759    -0.589     -3.94
-   HCO3-           1.254e-02   8.933e-03    -1.902    -2.049    -0.147     26.59
-   CO2             7.376e-07   7.774e-07    -6.132    -6.109     0.023     20.08
+   CO3-2           6.765e-02   1.743e-02    -1.170    -1.759    -0.589     -2.63
+   HCO3-           1.254e-02   8.933e-03    -1.902    -2.049    -0.147     25.18
+   CO2             7.376e-07   7.774e-07    -6.132    -6.109     0.023     21.68
 H(0)          9.392e-31
    H2              4.696e-31   4.949e-31   -30.328   -30.305     0.023     28.57
 K             1.604e-01
@@ -4636,7 +4611,7 @@ O(0)          4.216e-16
 	Phase               SI   log IAP   log K(358 K,   1 atm)
 
 	CH4(g)          -93.71    -96.77   -3.06  CH4
-	CO2(g)           -4.19     -6.11   -1.92  CO2
+	CO2(g)           -4.21     -6.11   -1.90  CO2
 	H2(g)           -27.18    -30.31   -3.12  H2
 	H2O(g)           -0.25     -0.00    0.25  H2O
 	O2(g)           -12.54    -15.65   -3.11  O2
@@ -4675,8 +4650,8 @@ Reaction 1.
 
                                        pH  =  10.511      Charge balance
                                        pe  =  -4.858      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 85 oC) = 70744
-                          Density (g/cm3)  =   0.98600
+       Specific Conductance (uS/cm, 85 oC) = 77160
+                          Density (g/cm3)  =   0.98587
                         Activity of water  =   0.992
                            Ionic strength  =   4.348e-01
                        Mass of water (kg)  =   9.997e-01
@@ -4700,9 +4675,9 @@ Reaction 1.
 C(-4)         5.438e-35
    CH4             5.438e-35   6.010e-35   -34.265   -34.221     0.043     32.22
 C(4)          1.506e-01
-   CO3-2           1.337e-01   2.727e-02    -0.874    -1.564    -0.691     -2.81
-   HCO3-           1.683e-02   1.131e-02    -1.774    -1.946    -0.173     27.05
-   CO2             7.237e-07   7.999e-07    -6.140    -6.097     0.043     20.08
+   CO3-2           1.337e-01   2.727e-02    -0.874    -1.564    -0.691     -1.60
+   HCO3-           1.683e-02   1.131e-02    -1.774    -1.946    -0.173     25.92
+   CO2             7.237e-07   7.999e-07    -6.140    -6.097     0.043     21.68
 H(0)          3.858e-15
    H2              1.929e-15   2.132e-15   -14.715   -14.671     0.043     28.57
 K             3.011e-01
@@ -4716,7 +4691,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(358 K,   1 atm)
 
 	CH4(g)          -31.16    -34.22   -3.06  CH4
-	CO2(g)           -4.18     -6.10   -1.92  CO2
+	CO2(g)           -4.19     -6.10   -1.90  CO2
 	H2(g)           -11.55    -14.67   -3.12  H2
 	H2O(g)           -0.25     -0.00    0.25  H2O
 	O2(g)           -43.81    -46.92   -3.11  O2
@@ -4755,8 +4730,8 @@ Reaction 1.
 
                                        pH  =  10.610      Charge balance
                                        pe  =   2.981      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 85 oC) = 116586
-                          Density (g/cm3)  =   1.00270
+       Specific Conductance (uS/cm, 85 oC) = 123597
+                          Density (g/cm3)  =   1.00244
                         Activity of water  =   0.984
                            Ionic strength  =   8.801e-01
                        Mass of water (kg)  =   9.996e-01
@@ -4780,9 +4755,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00   -97.793   -97.705     0.088     32.22
 C(4)          3.011e-01
-   CO3-2           2.780e-01   4.426e-02    -0.556    -1.354    -0.798     -1.14
-   HCO3-           2.315e-02   1.463e-02    -1.635    -1.835    -0.199     27.86
-   CO2             6.779e-07   8.302e-07    -6.169    -6.081     0.088     20.08
+   CO3-2           2.780e-01   4.426e-02    -0.556    -1.354    -0.798     -0.14
+   HCO3-           2.315e-02   1.463e-02    -1.635    -1.835    -0.199     27.33
+   CO2             6.779e-07   8.302e-07    -6.169    -6.081     0.088     21.68
 H(0)          4.625e-31
    H2              2.313e-31   2.832e-31   -30.636   -30.548     0.088     28.57
 K             6.022e-01
@@ -4796,7 +4771,7 @@ O(0)          1.083e-15
 	Phase               SI   log IAP   log K(358 K,   1 atm)
 
 	CH4(g)          -94.64    -97.70   -3.06  CH4
-	CO2(g)           -4.16     -6.08   -1.92  CO2
+	CO2(g)           -4.18     -6.08   -1.90  CO2
 	H2(g)           -27.43    -30.55   -3.12  H2
 	H2O(g)           -0.25     -0.01    0.25  H2O
 	O2(g)           -12.07    -15.18   -3.11  O2
@@ -4835,8 +4810,8 @@ Reaction 1.
 
                                        pH  =  10.685      Charge balance
                                        pe  =  -5.210      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 85 oC) = 149570
-                          Density (g/cm3)  =   1.02456
+       Specific Conductance (uS/cm, 85 oC) = 156451
+                          Density (g/cm3)  =   1.02422
                         Activity of water  =   0.974
                            Ionic strength  =   1.487e+00
                        Mass of water (kg)  =   9.995e-01
@@ -4860,9 +4835,9 @@ Reaction 1.
 C(-4)         1.233e-33
    CH4             1.233e-33   1.736e-33   -32.909   -32.760     0.149     32.22
 C(4)          5.055e-01
-   CO3-2           4.762e-01   6.394e-02    -0.322    -1.194    -0.872      0.47
-   HCO3-           2.933e-02   1.775e-02    -1.533    -1.751    -0.218     28.80
-   CO2             6.076e-07   8.558e-07    -6.216    -6.068     0.149     20.08
+   CO3-2           4.762e-01   6.394e-02    -0.322    -1.194    -0.872      1.19
+   HCO3-           2.933e-02   1.775e-02    -1.533    -1.751    -0.218     29.08
+   CO2             6.076e-07   8.558e-07    -6.216    -6.068     0.149     21.68
 H(0)          6.838e-15
    H2              3.419e-15   4.815e-15   -14.466   -14.317     0.149     28.57
 K             1.011e+00
@@ -4876,7 +4851,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(358 K,   1 atm)
 
 	CH4(g)          -29.70    -32.76   -3.06  CH4
-	CO2(g)           -4.15     -6.07   -1.92  CO2
+	CO2(g)           -4.17     -6.07   -1.90  CO2
 	H2(g)           -11.19    -14.32   -3.12  H2
 	H2O(g)           -0.26     -0.01    0.25  H2O
 	O2(g)           -44.54    -47.65   -3.11  O2
@@ -4904,11 +4879,11 @@ Reading input data for simulation 12.
 	20 dim d(5)
 	30 read d(1), d(2), d(3), d(4), d(5),
 	40 if step_no = 1 then put(rho, 10)
-	50 if step_no > 1 then Vm1 = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
-	60 if step_no = 1 then dif = 0 else dif = Vm1 - d(step_no)
+	50 if step_no > 1 then Vmol = (1e3 + tot("C") * 138.2151) / (tot("C") * rho) - 1e3 / (tot("C") * get(10))
+	60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 	62 if step_no = 1 then goto 90
 	70 plot_xy tot("C"), d(step_no), line_w = 0, color = Aqua, symbol = Square  #aph_x tot("C") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-	80 plot_xy tot("C"), Vm1, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
+	80 plot_xy tot("C"), Vmol, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
 	90 end
 	END
 -----------------------------------------
@@ -4947,7 +4922,7 @@ Reaction 1.
 
                                        pH  =   6.160      Charge balance
                                        pe  =   0.892      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 95 oC) = 0
+       Specific Conductance (uS/cm, 95 oC) = 1
                           Density (g/cm3)  =   0.96188
                         Activity of water  =   1.000
                            Ionic strength  =   6.919e-07
@@ -5017,8 +4992,8 @@ Reaction 1.
 
                                        pH  =  10.325      Charge balance
                                        pe  =   3.170      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 95 oC) = 44810
-                          Density (g/cm3)  =   0.97127
+       Specific Conductance (uS/cm, 95 oC) = 51823
+                          Density (g/cm3)  =   0.97121
                         Activity of water  =   0.996
                            Ionic strength  =   2.254e-01
                        Mass of water (kg)  =   9.997e-01
@@ -5042,9 +5017,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00   -97.853   -97.830     0.023     32.22
 C(4)          8.019e-02
-   CO3-2           6.499e-02   1.632e-02    -1.187    -1.787    -0.600     -5.16
-   HCO3-           1.520e-02   1.076e-02    -1.818    -1.968    -0.150     26.40
-   CO2             1.223e-06   1.288e-06    -5.913    -5.890     0.023     19.69
+   CO3-2           6.499e-02   1.632e-02    -1.187    -1.787    -0.600     -3.70
+   HCO3-           1.520e-02   1.076e-02    -1.818    -1.968    -0.150     24.51
+   CO2             1.223e-06   1.288e-06    -5.913    -5.890     0.023     20.97
 H(0)          7.810e-31
    H2              3.905e-31   4.113e-31   -30.408   -30.386     0.023     28.57
 K             1.604e-01
@@ -5058,7 +5033,7 @@ O(0)          9.157e-14
 	Phase               SI   log IAP   log K(368 K,   1 atm)
 
 	CH4(g)          -94.76    -97.83   -3.07  CH4
-	CO2(g)           -3.93     -5.89   -1.96  CO2
+	CO2(g)           -3.95     -5.89   -1.94  CO2
 	H2(g)           -27.28    -30.39   -3.11  H2
 	H2O(g)           -0.09     -0.00    0.08  H2O
 	O2(g)           -10.20    -13.32   -3.11  O2
@@ -5097,8 +5072,8 @@ Reaction 1.
 
                                        pH  =  10.418      Charge balance
                                        pe  =  -4.771      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 95 oC) = 78228
-                          Density (g/cm3)  =   0.97930
+       Specific Conductance (uS/cm, 95 oC) = 86947
+                          Density (g/cm3)  =   0.97916
                         Activity of water  =   0.992
                            Ionic strength  =   4.312e-01
                        Mass of water (kg)  =   9.996e-01
@@ -5122,9 +5097,9 @@ Reaction 1.
 C(-4)         8.467e-36
    CH4             8.467e-36   9.351e-36   -35.072   -35.029     0.043     32.22
 C(4)          1.506e-01
-   CO3-2           1.301e-01   2.570e-02    -0.886    -1.590    -0.704     -3.94
-   HCO3-           2.051e-02   1.367e-02    -1.688    -1.864    -0.176     26.89
-   CO2             1.201e-06   1.326e-06    -5.920    -5.877     0.043     19.69
+   CO3-2           1.301e-01   2.570e-02    -0.886    -1.590    -0.704     -2.55
+   HCO3-           2.051e-02   1.367e-02    -1.688    -1.864    -0.176     25.28
+   CO2             1.201e-06   1.326e-06    -5.920    -5.877     0.043     20.97
 H(0)          3.701e-15
    H2              1.851e-15   2.044e-15   -14.733   -14.690     0.043     28.57
 K             3.011e-01
@@ -5138,7 +5113,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(368 K,   1 atm)
 
 	CH4(g)          -31.96    -35.03   -3.07  CH4
-	CO2(g)           -3.92     -5.88   -1.96  CO2
+	CO2(g)           -3.94     -5.88   -1.94  CO2
 	H2(g)           -11.58    -14.69   -3.11  H2
 	H2O(g)           -0.09     -0.00    0.08  H2O
 	O2(g)           -41.60    -44.71   -3.11  O2
@@ -5177,8 +5152,8 @@ Reaction 1.
 
                                        pH  =  10.517      Charge balance
                                        pe  =   2.762      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 95 oC) = 128670
-                          Density (g/cm3)  =   0.99598
+       Specific Conductance (uS/cm, 95 oC) = 138188
+                          Density (g/cm3)  =   0.99569
                         Activity of water  =   0.984
                            Ionic strength  =   8.751e-01
                        Mass of water (kg)  =   9.995e-01
@@ -5202,9 +5177,9 @@ Reaction 1.
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00   -96.154   -96.066     0.088     32.22
 C(4)          3.011e-01
-   CO3-2           2.728e-01   4.187e-02    -0.564    -1.378    -0.814     -2.15
-   HCO3-           2.830e-02   1.771e-02    -1.548    -1.752    -0.203     27.73
-   CO2             1.126e-06   1.378e-06    -5.948    -5.861     0.088     19.69
+   CO3-2           2.728e-01   4.187e-02    -0.564    -1.378    -0.814     -0.92
+   HCO3-           2.830e-02   1.771e-02    -1.548    -1.752    -0.203     26.74
+   CO2             1.126e-06   1.378e-06    -5.948    -5.861     0.088     20.97
 H(0)          1.815e-30
    H2              9.075e-31   1.110e-30   -30.042   -29.955     0.088     28.57
 K             6.023e-01
@@ -5218,7 +5193,7 @@ O(0)          1.057e-14
 	Phase               SI   log IAP   log K(368 K,   1 atm)
 
 	CH4(g)          -93.00    -96.07   -3.07  CH4
-	CO2(g)           -3.90     -5.86   -1.96  CO2
+	CO2(g)           -3.92     -5.86   -1.94  CO2
 	H2(g)           -26.85    -29.95   -3.11  H2
 	H2O(g)           -0.09     -0.01    0.08  H2O
 	O2(g)           -11.07    -14.19   -3.11  O2
@@ -5257,8 +5232,8 @@ Reaction 1.
 
                                        pH  =  10.593      Charge balance
                                        pe  =  -5.107      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 95 oC) = 164387
-                          Density (g/cm3)  =   1.01782
+       Specific Conductance (uS/cm, 95 oC) = 173699
+                          Density (g/cm3)  =   1.01737
                         Activity of water  =   0.974
                            Ionic strength  =   1.481e+00
                        Mass of water (kg)  =   9.994e-01
@@ -5282,9 +5257,9 @@ Reaction 1.
 C(-4)         1.435e-34
    CH4             1.435e-34   2.018e-34   -33.843   -33.695     0.148     32.22
 C(4)          5.055e-01
-   CO3-2           4.696e-01   6.057e-02    -0.328    -1.218    -0.890     -0.45
-   HCO3-           3.591e-02   2.152e-02    -1.445    -1.667    -0.222     28.70
-   CO2             1.010e-06   1.421e-06    -5.996    -5.847     0.148     19.69
+   CO3-2           4.696e-01   6.057e-02    -0.328    -1.218    -0.890      0.57
+   HCO3-           3.591e-02   2.152e-02    -1.445    -1.667    -0.222     28.54
+   CO2             1.010e-06   1.421e-06    -5.996    -5.847     0.148     20.97
 H(0)          6.101e-15
    H2              3.051e-15   4.290e-15   -14.516   -14.368     0.148     28.57
 K             1.011e+00
@@ -5298,7 +5273,7 @@ O(0)          0.000e+00
 	Phase               SI   log IAP   log K(368 K,   1 atm)
 
 	CH4(g)          -30.63    -33.70   -3.07  CH4
-	CO2(g)           -3.89     -5.85   -1.96  CO2
+	CO2(g)           -3.91     -5.85   -1.94  CO2
 	H2(g)           -11.26    -14.37   -3.11  H2
 	H2O(g)           -0.09     -0.01    0.08  H2O
 	O2(g)           -42.26    -45.37   -3.11  O2
