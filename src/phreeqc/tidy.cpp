@@ -3151,6 +3151,7 @@ tidy_min_surface(void)
 				get_elts_in_species(&ptr, 1.0);
 				free_check_null(temp_formula);
 			}
+#ifdef SKIP
 			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
 			{
 				cxxSurfaceComp *comp_jj_ptr = &(surface_ptr->Get_surface_comps()[jj]);
@@ -3183,6 +3184,38 @@ tidy_min_surface(void)
 					}
 				}
 			}
+#endif
+			// Revise logic for surface related to mineral
+			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
+			{
+				cxxSurfaceComp *comp_jj_ptr = &(surface_ptr->Get_surface_comps()[jj]);
+				// Use formula for all types of surfaces
+				{
+					char * temp_formula = string_duplicate(comp_jj_ptr->Get_formula().c_str());
+					char *ptr = temp_formula;
+					get_elts_in_species(&ptr,
+										-comp_jj_ptr->Get_phase_proportion());
+
+
+					// Warn if not master species and charge balanced
+					struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
+					if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
+					{
+						error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
+							elt_ptr->master->s->name);
+						warning_msg(error_string);
+					}
+					else
+					if (elt_ptr->master->s->z != 0.0)
+					{
+						error_string = sformatf(
+								"Master species of surface, %s, should be uncharged for surface related to equilibrium_phase.",
+								elt_ptr->master->s->name);
+						warning_msg(error_string);
+					}	
+					free_check_null(temp_formula);
+				}
+			}
 			qsort(elt_list, (size_t) count_elts,
 				  (size_t) sizeof(struct elt_list), elt_list_compare);
 			elt_list_combine();
@@ -3197,21 +3230,22 @@ tidy_min_surface(void)
 			{
 				if (elt_list[jj].elt->primary->s->type != SURF
 					&& elt_list[jj].coef < 0
-					&& elt_list[jj].elt->primary->s != s_hplus
-					&& elt_list[jj].elt->primary->s != s_h2o)
+					//&& elt_list[jj].elt->primary->s != s_hplus
+					//&& elt_list[jj].elt->primary->s != s_h2o
+					)
 				{
 					struct element *elt_ptr = element_store(surface_comp_ptr->Get_master_element().c_str());
-					input_error++;
 					error_string = sformatf(
 							"Element %s in sum of surface sites,\n"
-							"\tincluding %s * %g mol sites/mol phase,\n"
-							"\texceeds stoichiometry in the related phase %s, %s.",
+							"\t including %s * %g mol sites/mol phase,\n"
+							"\t exceeds stoichiometry in the related phase %s, %s.",
 							elt_list[jj].elt->name,
 							elt_ptr->master->s->name,
 							(double) surface_comp_ptr->Get_phase_proportion(),
 							phase_ptr->name,
 							phase_ptr->formula);
-					error_msg(error_string, CONTINUE);
+					warning_msg(error_string);
+					warning_msg("The mismatch in stoichiometry may cause mass-balance errors or unwanted redox reactions.");
 					break;
 				}
 			}
