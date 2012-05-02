@@ -7,6 +7,7 @@ WATEQ4FDAT=../database/wateq4f.dat
 PITZERDAT=../database/pitzer.dat
 
 PHREEQC=../src/Class_release/phreeqcpp
+#PHREEQC=../src/Class_debug/phreeqcpp
 
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/ClrClass_release/phreeqcpp.exe
@@ -81,7 +82,7 @@ ex13b.out: $(INPUT)/ex13b $(PHREEQC) $(PHREEQCDAT)
 ex13c.out: $(INPUT)/ex13c $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex13c ex13c.out $(PHREEQCDAT)
 	mv phreeqc.log ex13c.log
-	
+
 ex13ac.out: $(INPUT)/ex13ac $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex13ac ex13ac.out $(PHREEQCDAT)
 	mv phreeqc.log ex13ac.log	
@@ -101,7 +102,7 @@ ex16.out: $(INPUT)/ex16 $(PHREEQC) $(PHREEQCDAT)
 ex17.out: $(INPUT)/ex17 $(PHREEQC) 
 	$(PHREEQC) $(INPUT)/ex17 ex17.out 
 	mv phreeqc.log ex17.log
-	
+
 ex17b.out: $(INPUT)/ex17b $(PHREEQC) 
 	$(PHREEQC) $(INPUT)/ex17b ex17b.out 
 	mv phreeqc.log ex17b.log	
@@ -109,19 +110,19 @@ ex17b.out: $(INPUT)/ex17b $(PHREEQC)
 ex18.out: $(INPUT)/ex18 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex18 ex18.out $(PHREEQCDAT)
 	mv phreeqc.log ex18.log
-	
+
 ex19.out: $(INPUT)/ex19 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex19 ex19.out $(PHREEQCDAT)
 	mv phreeqc.log ex19.log	
-	
+
 ex19b.out: $(INPUT)/ex19b $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex19b ex19b.out $(PHREEQCDAT)
 	mv phreeqc.log ex19b.log	
-	
+
 ex20a.out: $(INPUT)/ex20a $(PHREEQC) ../database/iso.dat
 	$(PHREEQC) $(INPUT)/ex20a ex20a.out 
 	mv phreeqc.log ex20a.log
-	
+
 ex20b.out: $(INPUT)/ex20b $(PHREEQC) ../database/iso.dat
 	$(PHREEQC) $(INPUT)/ex20b ex20b.out 
 	mv phreeqc.log ex20b.log
@@ -129,7 +130,7 @@ ex20b.out: $(INPUT)/ex20b $(PHREEQC) ../database/iso.dat
 ex21_radial.out: $(INPUT)/ex21_radial $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex21_radial ex21_radial.out $(PHREEQCDAT)
 	mv phreeqc.log ex21_radial.log
-	
+
 diff:
 	svn diff --diff-cmd diff -x -bw	
 
