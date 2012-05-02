@@ -3196,24 +3196,27 @@ tidy_min_surface(void)
 					get_elts_in_species(&ptr,
 										-comp_jj_ptr->Get_phase_proportion());
 
+					if (surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
+					{
 
-					// Warn if not master species and charge balanced
-					struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
-					if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
-					{
-						error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
-							elt_ptr->master->s->name);
-						warning_msg(error_string);
-					}
-					else
-					if (elt_ptr->master->s->z != 0.0 && surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
-					{
-						error_string = sformatf(
+						// Warn if not master species and charge balanced
+						struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
+						if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
+						{
+							error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
+								elt_ptr->master->s->name);
+							warning_msg(error_string);
+						}
+						else
+						if (elt_ptr->master->s->z != 0.0)
+						{
+							error_string = sformatf(
 								"Suggest master species of surface, %s, be uncharged for surface related to equilibrium_phase.",
 								elt_ptr->master->s->name);
-						warning_msg(error_string);
-					}	
-					free_check_null(temp_formula);
+							warning_msg(error_string);
+						}	
+						free_check_null(temp_formula);
+					}
 				}
 			}
 			qsort(elt_list, (size_t) count_elts,
