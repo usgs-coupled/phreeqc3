@@ -138,6 +138,7 @@ all: alkalinity.out \
 	surf_related_pz.out \
 	surf_kin_related.out \
 	surf_kin_related_pz.out \
+	surf_related_warnings.out \
 	surf_transport.out \
 	ss_r.out \
 	sys_ex.out \
