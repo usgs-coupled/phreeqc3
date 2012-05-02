@@ -3206,10 +3206,10 @@ tidy_min_surface(void)
 						warning_msg(error_string);
 					}
 					else
-					if (elt_ptr->master->s->z != 0.0)
+					if (elt_ptr->master->s->z != 0.0 && surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
 					{
 						error_string = sformatf(
-								"Master species of surface, %s, should be uncharged for surface related to equilibrium_phase.",
+								"Suggest master species of surface, %s, be uncharged for surface related to equilibrium_phase.",
 								elt_ptr->master->s->name);
 						warning_msg(error_string);
 					}	
