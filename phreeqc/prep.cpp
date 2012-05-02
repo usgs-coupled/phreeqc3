@@ -6386,8 +6386,8 @@ build_min_exch(void)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Did not find unknown for exchange related to mineral %s",
-						comp_ref.Get_phase_name().c_str());
+						"Did not find unknown for %s, exchange related to mineral %s",
+						elt_list[jj].elt->primary->elt->name, comp_ref.Get_phase_name().c_str());
 				error_msg(error_string, STOP);
 			}
 			if (master_ptr->in == FALSE)
@@ -6500,7 +6500,7 @@ build_min_surface(void)
 						 -comp_ptr->Get_formula_z() * comp_ptr->Get_phase_proportion());
 		count_elts = 0;
 		paren_count = 0;
-
+#ifdef SKIP
 		if (surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
 		{
 			/* Add formula for CD_MUSIC */
@@ -6513,6 +6513,15 @@ build_min_surface(void)
 		{
 			/* Add master species for non CD_MUSIC */
 			add_elt_list(x[j]->master[0]->s->next_elt, 1.0);
+		}
+#endif
+		//
+		{
+			/* Add specified formula for all types of surfaces */
+			char * formula = string_duplicate(comp_ptr->Get_formula().c_str());
+			char *ptr1 = formula;
+			get_elts_in_species(&ptr1, 1.0);
+			free_check_null(formula);
 		}
 #ifdef COMBINE
 		change_hydrogen_in_elt_list(0);
@@ -6528,8 +6537,8 @@ build_min_surface(void)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Did not find unknown for surface related to mineral %s",
-						comp_ptr->Get_phase_name().c_str());
+						"Did not find unknown for %s, surface related to mineral %s",
+						elt_list[jj].elt->primary->elt->name, comp_ptr->Get_phase_name().c_str());
 				error_msg(error_string, STOP);
 			}
 			if (master_ptr->s->type == SURF)
