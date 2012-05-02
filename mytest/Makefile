@@ -3,6 +3,7 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
 PHREEQC=../src/Class_release/phreeqcpp
 #PHREEQC=../src/Class_debug/phreeqcpp
+
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/ErrorHandling/Class_release/phreeqcpp.exe
 endif
