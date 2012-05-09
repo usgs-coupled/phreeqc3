@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include Version.wxi?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <!-- product -->
+  <Product Id="*"
+           Name="$(var.FullName)"
+           Language="1033"
+           Version="$(var.Version)"
+           Manufacturer="$(var.Manufacturer)"
+           UpgradeCode="$(var.UpgradeGuid)">
+    
+    <Package InstallerVersion="300" Compressed="yes" />
+
+    <!-- Prereqs -->
+
+    <!-- NT only -->
+    <Condition Message="[ProductName] requires a Windows NT based OS (Windows 2000 or later, specifically).">
+      <![CDATA[VersionNT]]>
+    </Condition>
+
+    <!-- Windows 2000 or higher -->
+    <Condition Message="[ProductName] requires a Windows NT based OS (Windows 2000 or later, specifically).">
+      <![CDATA[VersionNT >= 500]]>
+    </Condition>
+    
+    <!-- 
+    This disallows non-admin installations 
+    can be overriden using 
+        msiexec /i Phreeqci.msi ALLOW_PER_USER=1
+    on the command line
+    -->
+    <Condition Message="An administrator must approve or install [ProductName].">
+      <![CDATA[Privileged OR (Installed OR ALLOW_PER_USER)]]>
+    </Condition>
+
+    <Media Id="1" Cabinet="$(var.Cabinet)" EmbedCab="yes" />
+
+    <!-- directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <!-- program files -->
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="APPLICATIONFOLDER" Name="$(var.FolderName)">
+          <Directory Id="doc" Name="doc"/>
+          <Directory Id="examples" Name="examples"/>
+          <Directory Id="src" Name="src">
+            <Directory Id="Release" Name="Release"/>
+          </Directory>
+          <Directory Id="test" Name="test"/>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <!-- top dir -->
+    <DirectoryRef Id="APPLICATIONFOLDER">
+      <Component Id="top.dir" Guid="A30D01A1-F3DC-4c7e-BDB5-00E30BA4F209">
+        <!-- batch file -->
+        <File Id="phreeqc.bat" Name="phreeqc.bat" Source="..\win\phreeqc2.bat" />
+        <!-- path -->
+        <Environment Id="path_phreeqc" Name="PATH_PHREEQC" Action="set" Part="all" System="yes" Value="[APPLICATIONFOLDER]" />
+        <Environment Id="path" Name="Path" Action="set" Part="last" System="yes" Value="%PATH_PHREEQC%" />
+        <!-- databases -->
+        <File Id="iso.dat" Name="iso.dat" Source="..\database\iso.dat" />
+        <File Id="llnl.dat" Name="llnl.dat" Source="..\database\llnl.dat" />
+        <File Id="minteq.dat" Name="minteq.dat" Source="..\database\minteq.dat" />
+        <File Id="minteq.v4.dat" Name="minteq.v4.dat" Source="..\database\minteq.v4.dat" />
+        <File Id="phreeqc.dat" Name="phreeqc.dat" Source="..\database\phreeqc.dat" />
+        <File Id="pitzer.dat" Name="pitzer.dat" Source="..\database\pitzer.dat" />
+        <File Id="sit.dat" Name="sit.dat" Source="..\database\sit.dat" />
+        <File Id="Amm.dat" Name="Amm.dat" Source="..\database\Amm.dat" />
+        <File Id="wateq4f.dat" Name="wateq4f.dat" Source="..\database\wateq4f.dat" />
+        <!-- text files -->
+        <File Id="NOTICE.TXT" Name="NOTICE.TXT" Source="..\doc\NOTICE.TXT" />
+        <File Id="README.TXT" Name="README.TXT" Source="..\win\README.TXT" />
+        <File Id="RELEASE.TXT" Name="RELEASE.TXT" Source="..\src\revisions" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- doc -->
+    <DirectoryRef Id="doc">
+      <Component Id="doc" Guid="C4320025-B374-4445-BF78-9684010ECFF5">
+        <File Id="filDA4893EAA735D8EA151EDCF3107A8D89" Source="..\doc\manual.pdf" KeyPath="yes" />
+        <File Id="fil5F379D629211874DFB03357D7E17E72E" Source="..\doc\phreeqc.txt" />
+        <File Id="fil55394A9EBD892E09CA706026D64063D7" Source="..\doc\wrir02-4172.pdf" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- examples -->
+    <DirectoryRef Id="examples">
+      <Component Id="examples" Guid="593C751F-687C-4089-BE85-CA1CB6AF3A96">
+        <File Id="filE81E4FC0200D24E60A6DDC3063D2F40F" Source="..\examples\ex1" KeyPath="yes" />
+        <File Id="fil769FD0424D29D7326655D21B1E3EF1CD" Source="..\examples\ex1.out" />
+        <File Id="filCB9A0990FD69EEFF1E046E2D783435DF" Source="..\examples\ex10" />
+        <File Id="fil2987323360A0733784C7875CCAD7B14B" Source="..\examples\ex10.out" />
+        <File Id="fil9CC0A921C8F939B1CCF30AC6A8624652" Source="..\examples\ex10.sel" />
+        <File Id="fil75A2EECD55C4138A8FAB112546247123" Source="..\examples\ex11" />
+        <File Id="fil3627748901B66D7ED1EF2F911088D9E8" Source="..\examples\ex11.out" />
+        <File Id="fil2B7835C54CF2F846F6929FD4601C2C07" Source="..\examples\ex11adv.sel" />
+        <File Id="fil0BF1F15AE180E5CFD11D4E672F2E79B3" Source="..\examples\ex11trn.sel" />
+        <File Id="fil835E30B4BA9E1AFBF2E520369EE6F888" Source="..\examples\ex12" />
+        <File Id="filD699749C27E489A8A202F3B5A540A2C3" Source="..\examples\ex12.out" />
+        <File Id="fil37642D6A43B902DE2F2C19057205E219" Source="..\examples\ex12.sel" />
+        <File Id="fil6FA9D3D6856AB9A45E399BF0AD0C6E5D" Source="..\examples\ex12a.out" />
+        <File Id="fil0C83258504C6081FDCE6AB964508C118" Source="..\examples\ex12a.sel" />
+        <File Id="filD4FB8BC4A68DBA43CC35A8318721610E" Source="..\examples\ex12a" />
+        <File Id="fil6D6A6123D0CEB008DD46C8B6EA288440" Source="..\examples\ex13a" />
+        <File Id="filD86E3C15B0E663279B2724A1E2D3066A" Source="..\examples\ex13a.out" />
+        <File Id="filB58EFE783A0164DE3B0C3B94C89CEB76" Source="..\examples\ex13a.sel" />
+        <File Id="fil162B220DE30059EA24EA74F705FFFD6B" Source="..\examples\ex13b" />
+        <File Id="fil6992798AEDB1D5D3701A8A0FF8097FE0" Source="..\examples\ex13b.out" />
+        <File Id="filFC3F2F459525D4EC9D041AA8671FB910" Source="..\examples\ex13b.sel" />
+        <File Id="fil81AAE2766CD897C550FD3B1BA746D568" Source="..\examples\ex13c" />
+        <File Id="fil9E91F44C3CD3F88D8A41980C016AC658" Source="..\examples\ex13c.out" />
+        <File Id="filEBEEE8204241419D8C2E52DAD2E733F0" Source="..\examples\ex13c.sel" />
+        <File Id="filB52C1C744F4162EBA302960CD545EB41" Source="..\examples\ex14" />
+        <File Id="filF3F76685B9F763416775B3748F1C57CD" Source="..\examples\ex14.out" />
+        <File Id="filE0FF587D847F810308231496482BC045" Source="..\examples\ex14.sel" />
+        <File Id="fil3B288268CD7D7B2F1DE726693AE768B3" Source="..\examples\ex15" />
+        <File Id="fil1F9571EBCC21B10B1DE2241C67CFA567" Source="..\examples\ex15.dat" />
+        <File Id="fil758A5C1E4424E124392CF2A9F96756F1" Source="..\examples\ex15.out" />
+        <File Id="fil97EB47DC4ADFC32960399047E29A1B9C" Source="..\examples\ex15.sel" />
+        <File Id="filA803FB127A5A768E384083BDD89EEC46" Source="..\examples\ex16" />
+        <File Id="fil077198E758D5307439133A3E291942AD" Source="..\examples\ex16.out" />
+        <File Id="filF21B8E6A585B169CD07116C40EC57114" Source="..\examples\ex17" />
+        <File Id="filD8B9EA84A0396402F660F987F350E86B" Source="..\examples\ex17.out" />
+        <File Id="fil06FCD8861BCD652AEAC79EF98F22006C" Source="..\examples\ex18" />
+        <File Id="filD8FDD8F871B05AE27EA7A40BBB20CB48" Source="..\examples\ex18.out" />
+        <File Id="filF457C089C9DEF00AB45CE417E786565A" Source="..\examples\ex2" />
+        <File Id="filDAE94EA49B489FA392AA0EC2FB0C5676" Source="..\examples\ex2.out" />
+        <File Id="filEAC8309D799E6EF85EC79EEB15D9FD9C" Source="..\examples\ex2.sel" />
+        <File Id="filC3132D15A40295DFB771553703C9595F" Source="..\examples\ex3" />
+        <File Id="filE3CEB24139E16CB92BCC80F5D81CB9A2" Source="..\examples\ex3.out" />
+        <File Id="fil4382247A8C26993D74515AF912FE997C" Source="..\examples\ex4" />
+        <File Id="fil2ECF5FDE468577AF0B22E7F3B1E785AE" Source="..\examples\ex4.out" />
+        <File Id="filC51170661B7FE493B30EBAC78A0F095C" Source="..\examples\ex5" />
+        <File Id="filC58BA2C5EB264C6049C58F19397EBA2D" Source="..\examples\ex5.out" />
+        <File Id="filF00BDD0791D5299893839F678FC38F04" Source="..\examples\ex5.sel" />
+        <File Id="fil35ACE33D3B185C718F6FF9489EE3EE77" Source="..\examples\ex6" />
+        <File Id="filF8D3BEE228E14778FB0E3F86BABDB127" Source="..\examples\ex6.out" />
+        <File Id="fil37F98F3E7759A294CFA0574CDF9C9C00" Source="..\examples\ex6A-B.sel" />
+        <File Id="filA74EEF92781902419A7D0D21041670AA" Source="..\examples\ex6C.sel" />
+        <File Id="fil52FC6E38B32A7815A3874FAD61977272" Source="..\examples\ex7" />
+        <File Id="filAF1FACDFAA95D8C1F8038BE8C507C7CA" Source="..\examples\ex7.out" />
+        <File Id="filE20A1A7F627DA589C6D00DC8C06CC872" Source="..\examples\ex7.sel" />
+        <File Id="fil20184746F38ADD4D2A110C1C46D520E0" Source="..\examples\ex8" />
+        <File Id="fil86C64137C307CEEAB255B4B0355CA045" Source="..\examples\ex8.out" />
+        <File Id="fil9DAC12280DC31A8D4CAABE2A1610C991" Source="..\examples\ex8.sel" />
+        <File Id="filE93FC0179DD708AB83520BFB0C8818D4" Source="..\examples\ex9" />
+        <File Id="filCF8185CAD4488E4EB7EBC7F6B8A0FB13" Source="..\examples\ex9.out" />
+        <File Id="fil74D8A84C4181B834E1A19C614DB1BA6E" Source="..\examples\ex9.sel" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- src -->
+    <DirectoryRef Id="src">
+      <Component Id="src" Guid="5CFB5531-2950-4b06-81F8-BA1F667E74AC">
+        <File Id="filD8AD188464F7866DD028DB69F3E4D29D" Source="..\src\Makefile" KeyPath="yes" />
+        <File Id="filF284C8ED2D0545B0B89974D0F18DC452" Source="..\src\advection.c" />
+        <File Id="filC75CDABB97474C3DB50E7AB0BBDAEA99" Source="..\src\basic.c" />
+        <File Id="fil320DFF3C21D5F19E885FF971EAFE4F93" Source="..\src\basic.h" />
+        <File Id="fil5DFF29E30C39EBAE73E337B0AB906DE7" Source="..\src\basicsubs.c" />
+        <File Id="fil056186FA3BAF82B16EECB257C04E08DA" Source="..\src\cl1.c" />
+        <File Id="filDD5C071663A3905B644DB7D62860B978" Source="..\src\cl1mp.c" />
+        <File Id="fil6FB343587531622B2C75B7E3C5C29CCE" Source="..\src\cvdense.c" />
+        <File Id="fil2F263E479BFAD03EE2E3A5E6D69C74A1" Source="..\src\cvdense.h" />
+        <File Id="fil41260F7DC3DAB49D649EF5137804FAF7" Source="..\src\cvode.c" />
+        <File Id="filA3BFEF2AC38843383B32C44C7D9D9BAB" Source="..\src\cvode.h" />
+        <File Id="fil728A2B221023B302A47E4447D5EF32AE" Source="..\src\dense.c" />
+        <File Id="fil567EC0B47E0812A01B80ADBCD62AECDA" Source="..\src\dense.h" />
+        <File Id="fil9DE4CB313B3CE7EEBA06BAE49FACA148" Source="..\src\dw.c" />
+        <File Id="filC4F425BF224DFBF8478F96BFFD94A6FD" Source="..\src\global.h" />
+        <File Id="filB09FB29A13A774B217A18FEE6751FBD1" Source="..\src\global_structures.h" />
+        <File Id="filFC17CE7089B3942FD2594458E2C9DDEF" Source="..\src\input.c" />
+        <File Id="filDA022B116DA87F8208E238288DE484D2" Source="..\src\input.h" />
+        <File Id="fil2A99CD9DCAD764E25889555BE1E8C95D" Source="..\src\integrate.c" />
+        <File Id="fil05DAC842362197E165D2B79BF73EE5C2" Source="..\src\inverse.c" />
+        <File Id="fil54D019FAE9A60D6104F460CC9BDC2308" Source="..\src\isotopes.c" />
+        <File Id="fil9E9FC587205D95302338D776075F751A" Source="..\src\kinetics.c" />
+        <File Id="fil5AE3EAD7D07F5919C307DDD9787C55F4" Source="..\src\kinetics.h" />
+        <File Id="fil8DB867823CA5D6DFC04DDE3ECB8C6D5A" Source="..\src\main.c" />
+        <File Id="filFEF6E3231CDEBC11664390871D23EB16" Source="..\src\mainsubs.c" />
+        <File Id="filE1E660A1B547DF242C8DEFB602E05C95" Source="..\src\model.c" />
+        <File Id="filDDD4A5468CF46E889AF506EC939E675B" Source="..\src\nvector.c" />
+        <File Id="filBBB4AF13F597663EC422677AEC2DBF7F" Source="..\src\nvector.h" />
+        <File Id="fil77B486DAEC9280B2103481128D91F713" Source="..\src\nvector_serial.c" />
+        <File Id="fil387F29776659B5DDDD760BD6902F176F" Source="..\src\nvector_serial.h" />
+        <File Id="filE31AF0BC6CB16D46D5F54FC9175FA1E5" Source="..\src\output.c" />
+        <File Id="filC48C21EEC88DBCE1D4620FB7D76CE9E8" Source="..\src\output.h" />
+        <File Id="fil10AA9C4AE479D6993FCA535573927E1D" Source="..\src\p2c.h" />
+        <File Id="filA03F580F67A092C6DE23E4DC7548BE45" Source="..\src\p2clib.c" />
+        <File Id="fil84D498CB4199F35EAFB9801B26C8007C" Source="..\src\parse.c" />
+        <File Id="fil99D60DD8290A4DEE58B1C9E5D3426A95" Source="..\src\phqalloc.c" />
+        <File Id="fil6B83CBFF2D1D967669B2D78FE8737D2D" Source="..\src\phqalloc.h" />
+        <File Id="filEBC5B3691C715F739F65B5DCC6761219" Source="..\src\phreeqc_files.c" />
+        <File Id="fil1C8A8F4D7B317EEBD279F160715FD8D5" Source="..\src\phrqproto.h" />
+        <File Id="filBC7AE0733730ECCF3CD0CFB85EC0E300" Source="..\src\phrqtype.h" />
+        <File Id="filFEDD60D783DBE3A3724E77C6D4EEBC3A" Source="..\src\pitzer.c" />
+        <File Id="fil61E2CD2D84B35B29293E1217737F59AA" Source="..\src\pitzer.h" />
+        <File Id="fil7AFA9B02423C9E636FF20170F8371F3D" Source="..\src\pitzer_structures.c" />
+        <File Id="fil2DC0683FCF593C9A3BE26645E32DD0B2" Source="..\src\pitzer_structures.h" />
+        <File Id="fil55E0F257A5819D2D772511F618FFCEC8" Source="..\src\prep.c" />
+        <File Id="fil4BD36341B1C285D860C48427833B7C86" Source="..\src\print.c" />
+        <File Id="fil65DDA2CCBC89AFACD65DDB428B6ABFFC" Source="..\src\read.c" />
+        <File Id="fil1598C0580237EF44314B2FEE2CAA95D2" Source="..\src\readtr.c" />
+        <File Id="filFD99718A89BD6AA94B6C7C25FAF192A3" Source="..\src\sit.c" />
+        <File Id="fil9DB5D5D7374B5C683044608D9F54FE3B" Source="..\src\smalldense.c" />
+        <File Id="fil5177AB63914B42E4F05E317CF06D743B" Source="..\src\smalldense.h" />
+        <File Id="fil7AAB4684553DF1C4671224A441805A78" Source="..\src\spread.c" />
+        <File Id="fil47673CA865F57E6E7B16D172D541C022" Source="..\src\step.c" />
+        <File Id="fil341905853CA4392D93447354AB467FC5" Source="..\src\structures.c" />
+        <File Id="fil241876CBFE79476993BA6A060E859E47" Source="..\src\sundialsmath.c" />
+        <File Id="fil553DCCF34E48BD25B93AE193DFC5852D" Source="..\src\sundialsmath.h" />
+        <File Id="filB6E7ED9854546F802A18A3E0B78DA20C" Source="..\src\sundialstypes.h" />
+        <File Id="filE35C1912F954974B9831D255005CC3ED" Source="..\src\tally.c" />
+        <File Id="fil7EDD5FEBB48CC9851B4A358B7AB921D1" Source="..\src\tidy.c" />
+        <File Id="filAB3DB2F1D25A8CDE2706C79D0E40A2FF" Source="..\src\transport.c" />
+        <File Id="filE18EF9E2105D6CD72E38C06C5F70E8CC" Source="..\src\utilities.c" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- test -->
+    <DirectoryRef Id="test">
+      <Component Id="test" Guid="F65BCF27-C9F9-49a2-A6BD-F63A887CB57C">
+        <File Id="fil60A83EC251E6CBC641F4AD35F35044F1" Source="..\win\check.bat" />
+        <File Id="fil44D3B1871068824B68134F030E6EAE44" Source="..\win\clean.bat" />
+        <File Id="fil770D262A99CA2FAFA4E59ED0A53B2D52" Source="..\win\test.bat" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- phreeqc.exe -->
+    <DirectoryRef Id="Release">
+      <Component Id="phreeqc.exe" Guid="119F9425-2ECC-4a4e-944A-D03A51F0C75C">
+        <!-- executable -->
+        <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\build\win32\Release\phreeqc.exe" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- This component contains the program executable, files required during execution, and minimal informal documentation.  It cannot be deselected unless the Verification Tests component is deselected. -->
+    <Feature Id="ProgramFiles" Title="Program Files" Description="This component contains the program executable, files required during execution, and minimal informal documentation." AllowAdvertise="system" Level="1" Display="expand">
+      <ComponentRef Id="top.dir" />
+      <ComponentRef Id="phreeqc.exe" />
+      <Feature Id="Documentation" Title="Documentation" Description="This component contains brief, summary documentation as well as the full, formal program documentation." AllowAdvertise="system" Level="1">
+        <ComponentRef Id="doc" />
+      </Feature>
+      <Feature Id="Verification" Title="Verification Tests" Description="This component contains the standard data sets and batch files used in running the verification tests." AllowAdvertise="system" Level="1">
+        <ComponentRef Id="examples" />
+        <ComponentRef Id="test" />
+      </Feature>
+      <Feature Id="Source" Title="Source Code" Description="This component contains the program source code." AllowAdvertise="system" Level="1">
+        <ComponentRef Id="src" />
+      </Feature>
+    </Feature>
+
+    <!-- gui -->
+    <UIRef Id="WixUI_Advanced"/>
+    <Property Id="ApplicationFolderName" Value="$(var.FolderName)" />
+    <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
+    <Property Id="ALLUSERS" Value="1" />
+
+    <!-- override default install location -->
+    <CustomAction Id="WixSetDefaultPerMachineFolderOverride" Property="WixPerMachineFolder" Value="[ProgramFilesFolder]USGS\[ApplicationFolderName]" Execute="immediate" />
+    <InstallExecuteSequence>
+      <Custom Action="WixSetDefaultPerMachineFolderOverride" After="WixSetDefaultPerMachineFolder" />
+    </InstallExecuteSequence>
+    <InstallUISequence>
+      <Custom Action="WixSetDefaultPerMachineFolderOverride" After="WixSetDefaultPerMachineFolder" />
+    </InstallUISequence>
+
+    <!--
+    Disallow per-user installs
+    -->
+    <WixVariable Id="WixUISupportPerUser" Value="0" Overridable="no" />
+
+    <!--
+    This overrides the default License agreement
+    -->
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+
+  </Product>
+</Wix>

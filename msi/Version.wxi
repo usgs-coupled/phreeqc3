@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define Name="PHREEQC"?>
+
+  <!-- Note Major Minor and Build are set on the command line -->
+  <!-- ie MSBuild.exe phreeqc.sln /p:Major=2 /p:Minor=17 /p:Build=3976 -->
+
+  <!-- format must be major.minor.build -->
+  <!-- major and minor have a maximum value of 255 -->
+  <!-- build has a maximum value of 65535 -->
+  <?define Version=$(var.Major).$(var.Minor).$(var.Build)?>
+
+  <?define Manufacturer="U.S. Geological Survey"?>
+  <?define UpgradeGuid=0AC6BDD7-D312-4682-A564-747A740F2E12?>
+  <?define Description="USGS $(var.Name) $(var.Major).$(var.Minor).$(var.Build) Installer"?>
+  <?define DiskPrompt="USGS $(var.Name) $(var.Major).$(var.Minor).$(var.Build) Installation [1]"?>
+  <?define PrgMenu="$(var.Name) $(var.Major).$(var.Build)"?>
+  <?define Shortcut="$(var.Name) Reference"?>
+  <?define FeatureTitle="$(var.Name) $(var.Major).$(var.Minor).$(var.Build)"?>
+  <?define Cabinet=phreeqc.cab?>
+  <?define Directory="$(var.Name) $(var.Major).$(var.Minor).$(var.Build)"?>
+  <?define FullName="$(var.Name) $(var.Major).$(var.Minor).$(var.Build)"?>
+  <?define FolderName="phreeqc-$(var.Major).$(var.Minor).$(var.Build)"?>  
+  <?define Comments="$(var.Name) component"?>
+</Include>
