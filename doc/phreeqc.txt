@@ -1,0 +1,214 @@
+
+
+
+U.S. Geological Survey                                 phreeqc(1)
+
+
+
+NAME
+     phreeqc - A program for speciation, batch-reaction, one-
+     dimensional transport, and inverse geochemical calculations
+
+SYNOPSIS
+     phreeqc [infile [outfile [database [screen_output]]]
+
+OPTIONS
+     infile          the name of the PHREEQC input file
+
+     outfile         the name of the file to which PHREEQC output
+                     will be written
+
+     database        the name of the PHREEQC database
+
+     screen_output   the name of the file to which screen output
+                     will be directed
+
+     If no arguments are specified, the program prompts for the
+     input, output, and database file names.
+
+     If only infile is specified, then outfile defaults to
+     infile.out.  If no database file is specified, the
+     phreeqc.dat database distributed with PHREEQC will be used.
+
+ABSTRACT
+     PHREEQC is a computer program written in the C programming
+     language that is designed to perform a wide variety of low-
+     temperature aqueous geochemical calculations.  PHREEQC is
+     based on an ion-association aqueous model and has
+     capabilities for (1) speciation and saturation-index
+     calculations; (2) batch-reaction and one-dimensional (1D)
+     transport calculations involving reversible reactions, which
+     include aqueous, mineral, gas, solid-solution, surface-
+     complexation, and ion-exchange equilibria, and irreversible
+     reactions, which include specified mole transfers of
+     reactants, kinetically controlled reactions, mixing of
+     solutions, and temperature changes; and (3) inverse
+     modeling, which finds sets of mineral and gas mole transfers
+     that account for differences in composition between waters,
+     within specified compositional uncertainty limits.
+
+METHOD
+     For speciation and batch-reaction calculations, PHREEQC
+     solves sets of nonlinear mole-balance and mass-action
+     equations that define an ion-association model.  A Newton-
+     Raphson formulation is used to iteratively arrive at a
+     solution to the equations.  A robust numerical method is
+     provided by using an optimizing solver that allows both
+     equality and inequality equations.  The solver is used to
+     obtain the intermediate estimates of changes in the unknowns
+     at each iteration.
+
+     For inverse modeling, a set of linear mole-balance equations
+     are solved.  The equations contain additional unknowns that
+     account for uncertainty in the analytical data.  The
+     optimizing solver is used to solve the linear equations
+     while maintaining the uncertainty terms within specified
+     limits.
+
+     For transport modeling, the partial differential equations
+     of transport are solved by an operator splitting scheme that
+     sequentially solves for advective and dispersive transport,
+     followed by chemical equilibration that is equivalent to
+     batch-reaction calculations for each cell.  Time steps are
+     selected to maintain numerical accuracy.  If kinetic
+     reactions are modeled, yet another splitting of operators is
+     implemented and a 5th order Runge-Kutta method is used to
+     integrate the ordinary differential equations of the kinetic
+     reactions.
+
+HISTORY--See RELEASE.TXT 
+	
+DATA REQUIREMENTS
+     Proper use of the program requires adequate knowledge of
+     geochemistry and a proper formulation of the problem.  Input
+     is arranged in keyword data blocks, which can appear in any
+     order.  Data fields for a keyword are read in a free format,
+     thus they are not column dependent.
+
+     For speciation modeling, analytical data for a solution
+     composition (SOLUTION keyword) are needed.
+
+     For batch-reaction modeling, the initial solution
+     composition is required (SOLUTION or MIX data block).  Other
+     equilibrium reactants may be defined with
+     EQUILIBRIUM_PHASES, EXCHANGE, SURFACE, GAS_PHASE, and
+     SOLID_SOLUTION data blocks.  Nonequilibrium reactions may be
+     defined with KINETICS and RATES, REACTION, and
+     REACTION_TEMPERATURE data blocks.
+
+     For 1D transport modeling, the data for batch-reaction
+     modeling are needed for each cell in the modeled system.  In
+     addition, physical information is needed about column
+     dimensions, time steps, boundary conditions, and
+     dispersivity.
+
+     For inverse modeling, the solution composition of the final
+     solution and one or more initial solutions are needed
+     (SOLUTION data block).  Uncertainty limits must be defined
+     explicitly or by default for each element and element redox
+     state in the solutions.  In addition, the identity and
+     composition of a set of plausible reactants and products are
+     needed.
+
+     Three default databases are included that contain the
+     definition of aqueous species, exchange species, surface
+     species, and mineral and phases for a set of elements.  The
+     database phreeqc.dat contains information for Al, B, Ba, Br,
+     C, Ca, Cd, Cl, Cu, F, Fe, H, K, Li, Mg, Mn, N, Na, O, P, S,
+     Si, Sr, Zn.  The database wateq4f.dat contains the
+     additional constituents Ag, As, Cs, Fulvate, Humate, I, Ni,
+     Rb, Se, and U.  The database minteq.dat is derived from the
+     thermodynamic data of the program MINTEQA2.  If additional
+     elements, species, or phases are needed, then chemical
+     reactions, log K, and data for the temperature dependence of
+     log K are needed for each additional species and phase.
+
+SYSTEM REQUIREMENTS
+     PHREEQC is written in ANSI C.  Generally, the program is
+     easily installed on most computer systems.  The code has
+     been used on UNIX-based computers and on IBM-compatible
+     computers with processors running at 100 megahertz or
+     faster.
+
+DOCUMENTATION
+     Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to
+        PHREEQC (Version 2)--a computer program for speciation,
+        batch-reaction, one-dimensional transport, and inverse
+        geochemical calculations: U.S. Geological Survey Water-
+        Resources Investigations Report 99-4259, 312 p.
+
+     Thorstenson, D.C., and Parkhurst, D.L., 2002, Calculation of
+        individual isotope equilibrium constants for implementation in
+        geochemical models: U.S. Geological Survey Water-Resources
+        Investigations Report 02-4172, 129 p.
+
+RELATED DOCUMENTATION
+
+     Charlton, S.R., Macklin, C.L. and Parkhurst, D.L., 1997,
+        PHREEQCI--a graphical user interface for the geochemical
+        computer program PHREEQC: U.S. Geological Survey Water-
+        Resources Investigations Report 97-4222, 9 p.
+
+     Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user
+        interface to the geochemical model PHREEQC: U.S. Geological Survey 
+        Fact Sheet FS-031-02, 2 p.
+
+     Parkhurst, D.L., Thorstenson, D.C., and Plummer, L.N., 1980,
+        PHREEQE--a computer program for geochemical calculations:
+        U.S. Geological Survey Water-Resources Investigations
+        Report 80-96, 195 p. (Revised and reprinted, 1990.)
+
+     Plummer, L.N., Parkhurst, D.L., Fleming, G.W., and Dunkle,
+        S.A., 1988, A computer program incorporating Pitzer's
+        equations for calculation of geochemical reactions in
+        brines: U.S. Geological Survey Water-Resources
+        Investigations Report 88-4153, 310 p.
+
+     Plummer, L.N., Prestemon, E.C., and Parkhurst, D.L., 1991,
+        An interactive code (NETPATH) for modeling NET
+        geochemical reactions along a flow PATH:  U.S.
+        Geological Survey Water-Resources Investigations Report
+        91-4078, 227 p.
+
+     Plummer, L.N., Prestemon, E.C., and Parkhurst, D.L., 1994,
+        An interactive code (NETPATH) for modeling NET
+        geochemical reactions along a flow PATH--version 2.0:
+        U.S. Geological Survey Water-Resources Investigations
+        Report 94-4169, 130 p.
+
+REFERENCES
+     Appelo, C.A.J., and Postma, D., 1993, Geochemistry,
+        groundwater and pollution:  Rotterdam, Netherlands, and
+        Brookfield, Vermont, A.A. Balkema.
+
+     Appelo, C.A.J., and Willemsen, A., 1987, Geochemical
+        calculations and observations on salt water intrusions.
+        I: A combined geochemical/mixing cell model: Journal of
+        Hydrology, v. 94, p. 313-330.
+
+     Parkhurst, D.L., and Plummer, L.N., 1993, Geochemical
+        models, in Alley, W.M., ed., Regional ground-water
+        quality: New York, Van Nostrand Reinhold, chap. 9, p.
+        199-225.
+
+     Plummer, L.N., 1984, Geochemical modeling: A comparison of
+        forward and inverse methods, in Hitchon, B., and Wallick,
+        E.I., eds., Proceedings First Canadian/American
+        Conference on Hydrogeology--Practical Applications of
+        Ground Water Geochemistry, Banff, Alberta, Canada:
+        Worthington, Ohio, National Water Well Association, p.
+        149-177.
+
+TRAINING
+     PHREEQC is taught as part of the courses Geochemistry for
+     Ground-Water Systems (GW3021TC) at the USGS National
+     Training Center.
+
+CONTACTS
+     Operation:
+        U.S. Geological Survey
+        David Parkhurst
+        Denver Federal Center, MS 413
+        Lakewood, CO  80225
+
+        dlpark@usgs.gov
