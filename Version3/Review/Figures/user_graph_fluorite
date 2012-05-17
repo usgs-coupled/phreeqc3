@@ -1,0 +1,18 @@
+SOLUTION 1           # distilled water 
+EQUILIBRIUM_PHASES 1 # equilibrium with Fluorite, CaF2 
+    Fluorite 
+REACTION             # Change Ca concentration for plot 
+    Ca(OH)2 1 
+    0 0.01 0.05 0.1 0.2 0.5 1 2 3 5 7 9 12 14 mmol 
+USER_GRAPH 3 (multiple graphs with different numbers are possible) 
+    -headings Ca F pH               # for graph_x, graph_y, graph_sy: 3 space-delimited headings for 2 lines, the first one is for graph_x 
+    -chart_title "Fluorite Equilibrium" 
+    -axis_titles "CALCIUM, IN MILLIGRAMS PER LITER" "FLUORIDE, IN MILLIGRAMS PER LITER" "pH" # x-, y-, and y2-axes titles 
+
+    -axis_scale x_axis 0 350 50 25  # minimum, maximum, major step, minor step 
+    -axis_scale y_axis 0 7 1          # minor step defaults to about 5 substeps (here 0.2) 
+    -axis_scale sy_axis 7 14 1 0      # secondary y_axis, no minor steps 
+    10 graph_x tot("Ca") * 40.08e3  # Ca in mg/L on x-axis 
+    20 graph_y tot("F") * 19e3      # F in mg/L on y-axis 
+    30 graph_sy -la("H+")           # pH on y2-axis 
+END 
