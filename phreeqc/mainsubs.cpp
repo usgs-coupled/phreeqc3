@@ -2739,9 +2739,10 @@ do_status(void)
 #endif
 			screen_msg("\n");
 		}
-		dup_print("End of run.", TRUE);
-		screen_msg(sformatf("\nEnd of Run after %g Seconds.\n",
-				   (double) clock() / CLOCKS_PER_SEC));
+		pr.headings = TRUE;
+		LDBLE ext = (double) clock() / CLOCKS_PER_SEC;
+		dup_print(sformatf("End of Run after %g Seconds.", ext), TRUE);
+		screen_msg(sformatf("\nEnd of Run after %g Seconds.\n", ext));
 	}
 	catch (PhreeqcStop e)
 	{

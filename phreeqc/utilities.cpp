@@ -186,7 +186,7 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
 	ZBrn = (- 1 / eps_r + 1.0) * 41.84004;
 	QBrn = c / (b + pa) / eps_r / eps_r * 41.84004;
-	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at TK < 300)...
+	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at tc < 300)...
 	   and, dgdP is small. Better, adapt Wref to experimental Vm's */
 	dgdP = 0;
 	//if (tc > 150 && rho_0 < 1.0)
