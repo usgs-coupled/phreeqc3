@@ -2040,7 +2040,9 @@ jacobian_sums(void)
 	if (surface_unknown != NULL && dl_type_x == cxxSurface::NO_DL)
 	{
 		sinh_constant =
-			sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
+			//sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
+			//	 1000);
+			sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
 				 1000);
 		for (i = 0; i < count_unknowns; i++)
 		{
@@ -4055,7 +4057,9 @@ residuals(void)
 		{
 			/*sinh_constant = 0.1174; */
 			sinh_constant =
-				sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
+				//sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
+				//	 tk_x * 1000);
+				sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
 					 tk_x * 1000);
 /*			if (x[i]->surface_charge->grams <= MIN_RELATED_SURFACE) { */
 			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
@@ -4253,6 +4257,8 @@ residuals(void)
 				/* eqns A-6 and A-7 */
 				sinh_constant =
 					sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
+						 tk_x * 1000);
+					sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
 						 tk_x * 1000);
 				/*
 				 *   sinh_constant is (8 e e0 R T 1000)**1/2

@@ -593,6 +593,10 @@ open_input_stream(char *query, char *default_name, std::ios_base::openmode mode,
 #endif
 			error_string = sformatf( "\nERROR: Can't open file, %s.\n", name);
 			screen_msg(error_string);
+#ifdef NPP
+			error_msg(sformatf( "\nERROR: Can't open file, %s.\n       Please check, and give the correct, full path + name.\n", name), STOP);
+			break;
+#endif
 			error_flush();
 			batch = FALSE;
 			continue;		

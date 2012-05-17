@@ -261,7 +261,8 @@ all: alkalinity.out \
 	Vm_NaHCO3_sol.out \
 	Vm_NaNO3_sol.out \
 	Vm_NH4Cl_sol.out \
-	Vm_SrCl2_sol.out
+	Vm_SrCl2_sol.out \
+	rho_CaNaCl.out
 
 # NaX.out
 

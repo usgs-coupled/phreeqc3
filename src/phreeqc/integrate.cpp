@@ -46,7 +46,9 @@ calc_all_g(void)
 		xd_global = exp(-2 * x[j]->master[0]->s->la * LOG_10);
 		/* alpha = 0.02935 @ 25;        (ee0RT/2)**1/2, (L/mol)**1/2 C / m**2 */
 		/* 1000 J/kJ and 1000 L/m**3 */
-		alpha_global =	sqrt(EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) * 1000.0 *
+		//alpha_global =	sqrt(EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) * 1000.0 *
+		//		 tk_x * 0.5);
+		alpha_global =	sqrt(eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) * 1000.0 *
 				 tk_x * 0.5);
 /*
  *   calculate g for given surface for each species
@@ -464,7 +466,9 @@ calc_init_g(void)
 		xd_global = exp(-2 * x[j]->master[0]->s->la * LOG_10);
 		/* alpha = 0.02935 @ 25;      (ee0RT/2)**1/2, (L/mol)**1/2 C / m**2 */
 		/*  second 1000 is liters/m**3 */
-		alpha_global =	sqrt(EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
+		//alpha_global =	sqrt(EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
+		//	1000.0 * tk_x * 0.5);
+		alpha_global =	sqrt(eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
 			1000.0 * tk_x * 0.5);
 
 		if (charge_ptr->Get_g_map().size() == 0)
@@ -548,7 +552,9 @@ initial_surface_water(void)
  *
  *   1000 converts kJ to J; 1000 converts Liters to meter**3; debye_length is in meters.
  */
-	debye_length = (EPSILON * EPSILON_ZERO * R_KJ_DEG_MOL * 1000.0 * tk_x)
+	//debye_length = (EPSILON * EPSILON_ZERO * R_KJ_DEG_MOL * 1000.0 * tk_x)
+	//	/ (2. * F_C_MOL * F_C_MOL * mu_x * 1000.);
+	debye_length = (eps_r * EPSILON_ZERO * R_KJ_DEG_MOL * 1000.0 * tk_x)
 		/ (2. * F_C_MOL * F_C_MOL * mu_x * 1000.);
 	debye_length = sqrt(debye_length);
 
@@ -726,7 +732,9 @@ calc_all_donnan(void)
 
 	if (use.Get_surface_ptr() == NULL)
 		return (OK);
-	f_sinh = sqrt(8000.0 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
+	//f_sinh = sqrt(8000.0 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
+	//		 tk_x * mu_x);
+	f_sinh = sqrt(8000.0 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
 			 tk_x * mu_x);
 	cz = cm = 1.0;
 	cp = 1.0;
@@ -866,7 +874,9 @@ calc_init_donnan(void)
 	if (use.Get_surface_ptr() == NULL)
 		return (OK);
 	f_sinh =
-		sqrt(8000.0 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
+		//sqrt(8000.0 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
+		//	 tk_x * mu_x);
+		sqrt(8000.0 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
 			 tk_x * mu_x);
 	if (convergence_tolerance >= 1e-8)
 	{
