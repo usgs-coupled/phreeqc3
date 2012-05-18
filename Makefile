@@ -26,6 +26,10 @@ ex1.out: $(INPUT)/ex1 $(PHREEQC) $(PHREEQCDAT)
 ex2.out: $(INPUT)/ex2 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex2 ex2.out $(PHREEQCDAT)
 	mv phreeqc.log ex2.log
+	
+ex2b.out: $(INPUT)/ex2b $(PHREEQC) $(PHREEQCDAT)
+	$(PHREEQC) $(INPUT)/ex2b ex2b.out $(PHREEQCDAT)
+	mv phreeqc.log ex2b.log	
 
 ex3.out: $(INPUT)/ex3 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex3 ex3.out $(PHREEQCDAT)
@@ -130,6 +134,10 @@ ex20b.out: $(INPUT)/ex20b $(PHREEQC) ../database/iso.dat
 ex21_radial.out: $(INPUT)/ex21_radial $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex21_radial ex21_radial.out $(PHREEQCDAT)
 	mv phreeqc.log ex21_radial.log
+	
+ex22.out: $(INPUT)/ex22 $(PHREEQC) $(PHREEQCDAT)
+	$(PHREEQC) $(INPUT)/ex22 ex22.out $(PHREEQCDAT)
+	mv phreeqc.log ex22.log		
 
 diff:
 	svn diff --diff-cmd diff -x -bw	
