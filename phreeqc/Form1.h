@@ -34,7 +34,7 @@ namespace zdg_ui2 {
 				Y2 = false;
 				phreeqc_done = false;
 				background = true;
-
+				hints = true;
 			}
 	public:	Form1(ChartObject *ptr)
 			{
@@ -47,6 +47,7 @@ namespace zdg_ui2 {
 				phreeqc_done = false;
 				Y2show = false;	
 				background = true;
+				hints = true;
 			}
 			static void ThreadForm(Object^ data)
 			{
@@ -132,6 +133,10 @@ namespace zdg_ui2 {
 			 bool Y2, Y2show;
 			 static cli::array<String^> ^ColorList = {"Red", "Green", "Blue", "Orange", "Magenta", "Yellow", "Black" };
 			 bool background;
+			 bool hints;
+
+			 ZedGraph::GraphObjList ^GOL_no_hints;
+			 ZedGraph::GraphObjList ^GOL_hints;
 
 			 void DefineCurves(GraphPane ^myPane, int init)
 			 {
@@ -397,6 +402,8 @@ namespace zdg_ui2 {
 				DefineCurves(myPane, 0);
 
 				// Add text boxes with instructions...
+				GOL_no_hints = gcnew ZedGraph::GraphObjList(myPane->GraphObjList);
+
 				TextObj ^text;
 				text = gcnew TextObj(
 					L" Click right mouse for options... \0",
@@ -414,6 +421,16 @@ namespace zdg_ui2 {
 				text->FontSpec->FontColor = Color::Red;
 				text->ZOrder = ZOrder::H_BehindAll;
 				myPane->GraphObjList->Add( text );
+
+				GOL_hints = gcnew ZedGraph::GraphObjList(myPane->GraphObjList);
+				if (this->hints)
+				{
+					myPane->GraphObjList = GOL_hints;
+				}
+				else
+				{
+					myPane->GraphObjList = GOL_no_hints;
+				}
 
 				// Enable scrollbars if needed...
 				/*z1->IsShowHScrollBar = true;
@@ -469,20 +486,35 @@ namespace zdg_ui2 {
 				System::Windows::Forms::ContextMenuStrip ^menuStrip,
 				Point mousePt,
 				ZedGraphControl::ContextMenuObjectState objState ) {
+
+					// removes Copy
+					menuStrip->Items->RemoveAt(0);
+					// removes Save Image As
+					menuStrip->Items->RemoveAt(0);
+
 					ToolStripMenuItem ^item = gcnew ToolStripMenuItem();
 					item->Text = L"Zoom: left mouse + drag\nPan: middle mouse + drag";
 					menuStrip->Items->Insert(5, item );
-
-					menuStrip->Items->RemoveAt(0);
-					ToolStripMenuItem ^item2 = gcnew ToolStripMenuItem();
-					item2->Text = L"Save Data to File...";
-					item2->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::SaveCurves );
-					menuStrip->Items->Insert(0, item2 );
 
 					ToolStripMenuItem ^item3 = gcnew ToolStripMenuItem();
 					item3->Text = L"Toggle Background";
 					item3->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::ToggleBackground );
 					menuStrip->Items->Insert(0, item3 );
+
+					ToolStripMenuItem ^item5 = gcnew ToolStripMenuItem();
+					item5->Text = L"Toggle Hints";
+					item5->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::ToggleHints );
+					menuStrip->Items->Insert(0, item5 );
+
+					ToolStripMenuItem ^item2 = gcnew ToolStripMenuItem();
+					item2->Text = L"Save Data to File...";
+					item2->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::SaveCurves );
+					menuStrip->Items->Insert(0, item2 );
+
+					ToolStripMenuItem ^item4 = gcnew ToolStripMenuItem();
+					item4->Text = L"Save Image As...";
+					item4->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::SaveImage );
+					menuStrip->Items->Insert(0, item4 );
 
 			}
 
@@ -703,6 +735,27 @@ namespace zdg_ui2 {
 					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
 				}
 				zg1->Refresh();
+			}
+
+			void ToggleHints( System::Object ^sender, System::EventArgs ^e )
+			{
+				this->hints = !this->hints;
+				if (this->hints)
+				{
+					zg1->GraphPane->GraphObjList = GOL_hints;
+				}
+				else
+				{
+					zg1->GraphPane->GraphObjList = GOL_no_hints;
+				}
+				zg1->Refresh();
+			}
+			void SaveImage( System::Object ^sender, System::EventArgs ^e )
+			{
+				ZedGraph::GraphObjList ^copy = gcnew ZedGraph::GraphObjList(zg1->GraphPane->GraphObjList);
+				zg1->GraphPane->GraphObjList = GOL_no_hints;
+				zg1->SaveAs();
+				zg1->GraphPane->GraphObjList = copy;
 			}
 
    private: void timer1_Tick(System::Object ^sender, System::EventArgs ^e )
