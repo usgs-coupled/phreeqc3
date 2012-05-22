@@ -1,0 +1,27 @@
+DATABASE ../../database/phreeqc.dat
+SOLUTION 1           # distilled water 
+EQUILIBRIUM_PHASES 1 # equilibrium with Fluorite, CaF2 
+    Fluorite 
+REACTION             # Change Ca concentration for plot 
+    Ca(OH)2 1 
+    0 0.01 0.05 0.1 0.2 0.5 1 2 3 5 7 9 12 14 mmol 
+USER_GRAPH 3 (multiple graphs with different numbers are possible) 
+    -headings Ca F pH               # for graph_x, graph_y, graph_sy: 3 space-delimited headings for 2 lines, the first one is for graph_x 
+    -chart_title "Fluorite Equilibrium in Ca(OH)2 Solutions" 
+    -axis_titles "CALCIUM, IN MILLIGRAMS PER LITER" \
+                 "FLUORIDE, IN MILLIGRAMS PER LITER" "pH" 
+    -axis_scale x_axis 0 350 50 25  # minimum, maximum, major step, minor step 
+    -axis_scale y_axis 0 7 1          # minor step defaults to about 5 substeps (here 0.2) 
+    -axis_scale sy_axis 7 14 1 0      # secondary y_axis, no minor steps 
+    -initial_solutions     false
+    -connect_simulations   true
+    -plot_concentration_vs x
+#    -plot_csv_file         file_name
+    -start
+    10 PLOT_XY tot("Ca")*40.08e3, TOT("F")*19e3, color = Red, \
+               symbol = Square, symbol_size = 6, y-axis = 1
+    20 PLOT_XY tot("Ca")*40.08e3, -LA("H+"), color = Green, \
+               symbol = Diamond, symbol_size = 7, y-axis = 2 \
+               line_width = 1
+    -end
+END 
