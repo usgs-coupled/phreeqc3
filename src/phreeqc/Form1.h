@@ -33,6 +33,7 @@ namespace zdg_ui2 {
 				symbol_use = 0;
 				Y2 = false;
 				phreeqc_done = false;
+				background = true;
 
 			}
 	public:	Form1(ChartObject *ptr)
@@ -45,6 +46,7 @@ namespace zdg_ui2 {
 				Y2 = false;
 				phreeqc_done = false;
 				Y2show = false;	
+				background = true;
 			}
 			static void ThreadForm(Object^ data)
 			{
@@ -129,6 +131,7 @@ namespace zdg_ui2 {
 			 int col_use, symbol_use;
 			 bool Y2, Y2show;
 			 static cli::array<String^> ^ColorList = {"Red", "Green", "Blue", "Orange", "Magenta", "Yellow", "Black" };
+			 bool background;
 
 			 void DefineCurves(GraphPane ^myPane, int init)
 			 {
@@ -363,7 +366,14 @@ namespace zdg_ui2 {
 
 				 // Fill the axis background with a gradient
 				 //myPane->Chart->Fill = gcnew Fill( Color::White, Color::LightYellow, 45.0f ); /* FromArgb(255, 255, 224) */
-				 myPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+				if (this->background)
+				{
+					myPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+				}
+				else
+				{
+					myPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+				}
 
 				 // normalize pane size...
 				 myPane->BaseDimension = 8.0F;
@@ -468,6 +478,11 @@ namespace zdg_ui2 {
 					item2->Text = L"Save Data to File...";
 					item2->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::SaveCurves );
 					menuStrip->Items->Insert(0, item2 );
+
+					ToolStripMenuItem ^item3 = gcnew ToolStripMenuItem();
+					item3->Text = L"Toggle Background";
+					item3->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::ToggleBackground );
+					menuStrip->Items->Insert(0, item3 );
 
 			}
 
@@ -675,6 +690,21 @@ namespace zdg_ui2 {
 			{
 				// Here we get notification everytime the user zooms
 			}
+
+			void ToggleBackground( System::Object ^sender, System::EventArgs ^e )
+			{
+				this->background = !this->background;
+				if (this->background)
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+				}
+				else
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+				}
+				zg1->Refresh();
+			}
+
    private: void timer1_Tick(System::Object ^sender, System::EventArgs ^e )
 			{
 				LineItem  ^curve;
