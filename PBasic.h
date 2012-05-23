@@ -303,7 +303,11 @@ public:
 		tokpressure,
 		tokerase,
 		tokeps_r,
-		tokvm
+		tokvm,
+		tokdh_a,
+		tokdh_b,
+		tokdh_av,
+		tokqbrn
 	};
 
 #if !defined(PHREEQCI_GUI)

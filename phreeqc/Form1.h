@@ -131,7 +131,7 @@ namespace zdg_ui2 {
 	private: PointPairList ^list;
 			 int col_use, symbol_use;
 			 bool Y2, Y2show;
-			 static cli::array<String^> ^ColorList = {"Red", "Green", "Blue", "Orange", "Magenta", "Yellow", "Black" };
+			 static cli::array<String^> ^ColorList = {"Red", "Green", "Blue", "Orange", "Magenta", "Yellow", "Black", "Cyan", "Brown", "Lime", "Gray" };
 			 bool background;
 			 bool hints;
 
