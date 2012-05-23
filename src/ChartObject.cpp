@@ -55,6 +55,10 @@ cxxNumKeyword(io)
 	Color_vector.push_back("Magenta");
 	Color_vector.push_back("Yellow");
 	Color_vector.push_back("Black");
+	Color_vector.push_back("Cyan");
+	Color_vector.push_back("Brown");
+	Color_vector.push_back("Lime");
+	Color_vector.push_back("Gray");
 
 	chart_title.clear();
 	axis_titles.clear();

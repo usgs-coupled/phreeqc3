@@ -1502,6 +1502,18 @@ listtokens(FILE * f, tokenrec * l_buf)
  		case tokvm:
  			output_msg("VM"); // mole volume of aqueous solute
  			break;
+ 		case tokdh_a:
+ 			output_msg("DH_A"); // Debye-Hueckel A
+ 			break;
+ 		case tokdh_b:
+ 			output_msg("DH_B"); // Debye-Hueckel B
+ 			break;
+ 		case tokdh_av:
+ 			output_msg("DH_Av"); // Debye-Hueckel Av
+ 			break;
+ 		case tokqbrn:
+ 			output_msg("QBrn"); // Q_Born, d(eps_r)/d(P)/(eps_r^2)
+ 			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3061,6 +3073,18 @@ factor(struct LOC_exec * LINK)
  		break;
 	case tokeps_r:
 		n.UU.val = PhreeqcPtr->eps_r;
+		break;
+	case tokdh_a:
+		n.UU.val = PhreeqcPtr->DH_A;
+		break;
+	case tokdh_b:
+		n.UU.val = PhreeqcPtr->DH_B;
+		break;
+	case tokdh_av:
+		n.UU.val = PhreeqcPtr->DH_Av;
+		break;
+	case tokqbrn:
+		n.UU.val = PhreeqcPtr->QBrn;
 		break;
 	case toklog10:
 		n.UU.val = log10(realfactor(LINK));
@@ -6366,7 +6390,11 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pressure",           PBasic::tokpressure),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eps_r",              PBasic::tokeps_r),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("vm",                 PBasic::tokvm)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("vm",                 PBasic::tokvm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_a",               PBasic::tokdh_a),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_b",               PBasic::tokdh_b),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_av",              PBasic::tokdh_av),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

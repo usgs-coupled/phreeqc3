@@ -328,7 +328,9 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		delete local_database_file;
 		screen_msg(sformatf("Database file: %s\n\n", token));
 		strcpy(db_file, token);
-
+#ifdef NPP
+		output_msg(sformatf("Using PHREEQC: version 3.beta, compiled on May 22, 2012\n"));
+#endif
 		output_msg(sformatf("   Input file: %s\n", in_file));
 		output_msg(sformatf("  Output file: %s\n", out_file));
 		output_msg(sformatf("Database file: %s\n\n", token));
