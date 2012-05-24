@@ -425,6 +425,89 @@ ChartObject::Read(CParser & parser)
 		case 16: /* batch */
 			{
 				this->batch = ChartObject::ChO_BATCH_ONLY;
+				std::string rest_of_line, lc_rest_of_line;
+				parser.get_rest_of_line(rest_of_line);
+				lc_rest_of_line = rest_of_line;
+				Utilities::str_tolower(lc_rest_of_line);
+	
+				std::vector<std::string> file_types;
+				file_types.push_back(".emf");
+				file_types.push_back(".png");
+				file_types.push_back(".jpg");
+				file_types.push_back(".gif");
+				file_types.push_back(".tiff");
+				file_types.push_back(".bmp");
+				file_types.push_back(".jpeg");
+
+				size_t first, last;
+				size_t i;
+				for (i = 0; i < file_types.size(); i++)
+				{
+					first = lc_rest_of_line.rfind(file_types[i].c_str());
+					if (first != std::string::npos)
+					{
+						break;
+					}
+				}
+				if (i >=  file_types.size())
+				{
+					std::ostringstream estream;
+					estream << "Batch file name must have suffix emf, png, jpg, jpeg, gif, tiff, or bmp.";
+					error_msg(estream.str().c_str(), CONTINUE);	
+					break;
+				}
+				switch (i)
+				{
+				case 0:
+					this->batch = ChartObject::ChO_EMF;
+					last = first + 4;
+					break;
+				case 1:
+					this->batch = ChartObject::ChO_PNG;
+					last = first + 4;
+					break;
+				case 2:
+					this->batch = ChartObject::ChO_JPG;
+					last = first + 4;
+					break;
+				case 3:
+					this->batch = ChartObject::ChO_GIF;
+					last = first + 4;
+					break;
+				case 4:
+					this->batch = ChartObject::ChO_TIFF;
+					last = first + 5;
+					break;
+				case 5:
+					this->batch = ChartObject::ChO_BMP;
+					last = first + 4;
+					break;
+				case 6:
+					this->batch = ChartObject::ChO_JPG;
+					last = first + 5;
+					break;
+				}
+
+				this->batch_fn = rest_of_line.substr(0, last);
+				if (last+1 < rest_of_line.size())
+				{
+					token = rest_of_line.substr(last);
+					token = trim(token);
+					if (token.size() > 0)
+					{
+						Utilities::str_tolower(token);
+						if (token[0] == 'f') 
+						{
+							this->batch_background = false;
+						}
+					}
+				}
+			}
+			break;
+#ifdef SKIP
+		case 16: /* batch */
+			{
+				this->batch = ChartObject::ChO_BATCH_ONLY;
 
 				std::string file_name;
 				if (parser.copy_token(file_name, next_char) != CParser::TT_EMPTY)
@@ -478,6 +561,7 @@ ChartObject::Read(CParser & parser)
 
 			}
 			break;
+#endif
 		case CParser::OPT_DEFAULT:	// Read Basic commands
 			{
 				if (!new_command_lines)
