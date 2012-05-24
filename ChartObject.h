@@ -30,7 +30,7 @@ class ChartObject:public cxxNumKeyword
 	  ChO_BMP        = 6
 	};
 
-	bool Get_new_ug()
+	bool Get_new_ug()const
 	{
 		return this->new_ug;
 	}
@@ -42,23 +42,27 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->FirstCallToUSER_GRAPH = b;
 	}
-	bool Get_FirstCallToUSER_GRAPH()
+	bool Get_FirstCallToUSER_GRAPH()const
 	{
 		return this->FirstCallToUSER_GRAPH;
 	}
-	int Get_update_time_chart()
+	int Get_update_time_chart()const
 	{
 		return (this->update_time_chart);
 	}
-	int Get_PanelHeight()
+	int Get_PanelHeight()const
 	{
 		return (this->PanelHeight);
 	}
-	int Get_PanelWidth()
+	int Get_PanelWidth()const
 	{
 		return (this->PanelWidth);
 	}
 	std::string &Get_chart_title()
+	{
+		return this->chart_title;
+	}
+	const std::string &Get_chart_title()const
 	{
 		return this->chart_title;
 	}
@@ -74,7 +78,15 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->axis_titles;
 	}
+	const std::vector<std::string> &Get_axis_titles()const
+	{
+		return this->axis_titles;
+	}
 	LDBLE *Get_axis_scale_x()
+	{
+		return this->axis_scale_x;
+	}
+	const LDBLE *Get_axis_scale_x()const
 	{
 		return this->axis_scale_x;
 	}
@@ -82,27 +94,43 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->axis_scale_y;
 	}
+	const LDBLE *Get_axis_scale_y()const
+	{
+		return this->axis_scale_y;
+	}
 	LDBLE *Get_axis_scale_y2()
 	{
 		return this->axis_scale_y2;
 	}
-	int Get_chart_type()
+	const LDBLE *Get_axis_scale_y2()const
+	{
+		return this->axis_scale_y2;
+	}
+	int Get_chart_type()const
 	{
 		return this->chart_type;
 	}
-	bool Get_graph_initial_solutions()
+	bool Get_graph_initial_solutions()const
 	{
 		return this->graph_initial_solutions;
 	}
-	bool Get_connect_simulations()
+	void Set_graph_initial_solutions(bool val)
+	{
+		this->graph_initial_solutions = val;
+	}
+	bool Get_connect_simulations()const
 	{
 		return this->connect_simulations;
+	}
+	void Set_connect_simulations(bool val)
+	{
+		this->connect_simulations = val;
 	}
 	void Set_colnr(int i)
 	{
 		this->colnr = i;
 	}
-	int Get_colnr()
+	int Get_colnr()const
 	{
 		return (this->colnr);
 	}
@@ -110,7 +138,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->ColumnOffset = i;
 	}
-	int Get_ColumnOffset()
+	int Get_ColumnOffset()const
 	{
 		return (this->ColumnOffset);
 	}	
@@ -118,15 +146,23 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->AddSeries = b;
 	}
-	bool Get_AddSeries()
+	bool Get_AddSeries()const
 	{
 		return this->AddSeries;
+	}
+	std::vector< std::string > Get_csv_file_names()const
+	{
+		return this->csv_file_names;
+	}
+	void Get_csv_file_names(std::vector< std::string > names)
+	{
+		this->csv_file_names = names;
 	}
 	void Set_prev_advection_step(int i)
 	{
 		this->prev_advection_step = i;
 	}
-	int Get_prev_advection_step()
+	int Get_prev_advection_step()const
 	{
 		return (this->prev_advection_step);
 	}
@@ -134,7 +170,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->prev_transport_step = i;
 	}
-	int Get_prev_transport_step()
+	int Get_prev_transport_step()const
 	{
 		return (this->prev_transport_step);
 	}
@@ -142,7 +178,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->prev_sim_no = i;
 	}
-	int Get_prev_sim_no(void)
+	int Get_prev_sim_no(void)const
 	{
 		return this->prev_sim_no;
 	}
@@ -150,7 +186,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->end_timer = b;
 	}
-	bool Get_end_timer()
+	bool Get_end_timer()const
 	{
 		return this->end_timer;
 	}
@@ -158,7 +194,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->done = b;
 	}
-	bool Get_done()
+	bool Get_done()const
 	{
 		return this->done;
 	}
@@ -166,7 +202,15 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->CurvesCSV;
 	}
+	const std::vector<CurveObject *> &Get_CurvesCSV()const
+	{
+		return this->CurvesCSV;
+	}
 	std::vector<CurveObject *> &Get_Curves()
+	{
+		return this->Curves;
+	}
+	const std::vector<CurveObject *> &Get_Curves()const
 	{
 		return this->Curves;
 	}
@@ -174,7 +218,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->curve_added = tf;
 	}
-	bool Get_curve_added()
+	bool Get_curve_added()const
 	{
 		return this->curve_added;
 	}
@@ -182,7 +226,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->point_added = tf;
 	}
-	bool Get_point_added()
+	bool Get_point_added()const
 	{
 		return this->point_added;
 	}
@@ -198,9 +242,13 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->rate_command_list;
 	}
+	const std::list<std::string> &Get_rate_command_list()const
+	{
+		return this->rate_command_list;
+	}
 	void Set_rate_new_def(bool tf);
 
-	bool Get_rate_new_def()
+	bool Get_rate_new_def()const
 	{
 		return this->rate_new_def;
 	}
@@ -208,7 +256,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->graph_x = d;
 	}
-	LDBLE Get_graph_x()
+	LDBLE Get_graph_x()const
 	{
 		return this->graph_x;
 	}
@@ -216,11 +264,23 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->graph_y;
 	}
+	const std::map<int, LDBLE> &Get_graph_y()const
+	{
+		return this->graph_y;
+	}
 	std::map<int, bool> &Get_secondary_y()
 	{
 		return this->secondary_y;
 	}
+	const std::map<int, bool> &Get_secondary_y()const
+	{
+		return this->secondary_y;
+	}
 	std::vector<CurveObject> &Get_new_plotxy_curves()
+	{
+		return this->new_plotxy_curves;
+	}
+	const std::vector<CurveObject> &Get_new_plotxy_curves()const
 	{
 		return this->new_plotxy_curves;
 	}
@@ -236,7 +296,7 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->active = tf;
 	}
-	bool Get_active()
+	bool Get_active()const
 	{
 		return this->active;
 	}
@@ -244,11 +304,11 @@ class ChartObject:public cxxNumKeyword
 	{
 		this->detach = tf;
 	}
-	bool Get_detach()
+	bool Get_detach()const
 	{
 		return this->detach;
 	}
-	bool Get_form_started()
+	bool Get_form_started()const
 	{
 		return this->form_started;
 	}
@@ -257,6 +317,10 @@ class ChartObject:public cxxNumKeyword
 		this->phreeqc_ptr = ptr;
 	}
 	Phreeqc * Get_phreeqc()
+	{
+		return this->phreeqc_ptr;
+	}
+	const Phreeqc * Get_phreeqc()const
 	{
 		return this->phreeqc_ptr;
 	}
