@@ -105,6 +105,9 @@ cxxNumKeyword(io)
 	form_started = false;
 	active = true;
 	detach = false;
+
+	batch_background = true;
+	batch = ChO_NO_BATCH;
 }
 
 ChartObject::~ChartObject()
@@ -257,6 +260,7 @@ ChartObject::Read(CParser & parser)
 		vopts.push_back("clear");	// 13
 		vopts.push_back("detach");	// 14
 		vopts.push_back("active");	// 15
+		vopts.push_back("batch");   // 16
 
 	}
 	std::istream::pos_type ptr;
@@ -414,6 +418,62 @@ ChartObject::Read(CParser & parser)
 			this->active = parser.get_true_false(next_char, true);
 			break;
 			/* End of modifications */
+		case 16: /* batch */
+			{
+				this->batch = ChartObject::ChO_BATCH_ONLY;
+
+				std::string file_name;
+				if (parser.copy_token(file_name, next_char) != CParser::TT_EMPTY)
+				{
+					//Get suffix from file_name
+					size_t ssi = file_name.rfind('.');
+					if (ssi == std::string::npos)
+					{
+						std::ostringstream estream;
+						estream << "Batch file name must have suffix emf, phg, jpg, gif, tiff, or bmp.";
+						error_msg(estream.str().c_str(), CONTINUE);	
+						break;
+					}
+
+					std::string suffix = file_name.substr(ssi + 1);	
+					Utilities::str_tolower(suffix);
+					if (suffix == "emf")
+						this->batch = ChartObject::ChO_EMF;
+					else if (suffix == "png")
+						this->batch = ChartObject::ChO_PNG;
+					else if (suffix == "jpg")
+						this->batch = ChartObject::ChO_JPG;
+					else if (suffix == "gif")
+						this->batch = ChartObject::ChO_GIF;
+					else if (suffix == "tiff")
+						this->batch = ChartObject::ChO_TIFF;
+					else if (suffix == "bmp")
+						this->batch = ChartObject::ChO_BMP;
+					else if (suffix == "jpeg")
+						this->batch = ChartObject::ChO_JPG;
+					else
+					{
+						std::ostringstream estream;
+						estream << "Batch file name must have suffix emf, phg, jpg, jpeg, gif, tiff, or bmp.";
+						error_msg(estream.str().c_str(), CONTINUE);	
+						break;
+					}
+					this->batch_fn = file_name;
+
+					// Get background bool
+					parser.copy_token(token, next_char);
+					if (token.size() > 0)
+					{
+					Utilities::str_tolower(token);
+						if (token[0] == 'f') 
+						{
+							this->batch_background = false;
+						}
+					}
+				}
+
+			}
+			break;
 		case CParser::OPT_DEFAULT:	// Read Basic commands
 			{
 				if (!new_command_lines)

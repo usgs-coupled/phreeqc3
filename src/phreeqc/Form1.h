@@ -1,15 +1,21 @@
 #pragma once
+#include <Windows.h>
 #include <cassert>	
 #define P_INSTANCE_POINTER1 phreeqc_ptr->
+
 namespace zdg_ui2 {
 	using namespace System;
 	//using namespace System::ComponentModel;
 	using namespace System::Resources;
 	using namespace System::Windows::Forms;
 	using namespace System::Drawing;
+	using namespace System::Drawing::Imaging;
 	using namespace System::Threading;
 	using namespace ZedGraph;
-
+							//using namespace System::Runtime::InteropServices;
+							//[DllImport("gdi32.dll")]
+							////extern IntPtr CopyEnhMetaFileA(IntPtr hemfSrc, System::Text::StringBuilder* hNULL);
+							//extern IntPtr CopyEnhMetaFileA(IntPtr hemfSrc, String^ hNULL);
 // Form1 is only used with MULTICHART
 	public ref class ChartObj : public System::Object
 	{
@@ -757,7 +763,117 @@ namespace zdg_ui2 {
 				zg1->SaveAs();
 				zg1->GraphPane->GraphObjList = copy;
 			}
+			void BatchSaveImage( )
+			{
+				ChartObject *chart = this->chartobject_ptr;
+				assert(chart->Get_batch() > 0);
+				// Save GraphObjList
+				ZedGraph::GraphObjList ^GOL_copy = gcnew ZedGraph::GraphObjList(zg1->GraphPane->GraphObjList);
 
+				// Don't write red hint boxes
+				zg1->GraphPane->GraphObjList = GOL_no_hints;
+
+				// Set background
+				if (chart->Get_batch_background())
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+				}
+				else
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+				}
+
+				// Save the graph
+				if (this->zg1)
+				{
+					ImageFormat ^format = ImageFormat::Png;
+					switch (chart->Get_batch())
+					{
+					case 2:
+						format = ImageFormat::Png;
+						break;
+					case 3:
+						format = ImageFormat::Gif;
+						break;
+					case 4:
+						format = ImageFormat::Jpeg;
+						break;
+					case 5:
+						format = ImageFormat::Tiff;
+						break;
+					case 6:
+						format = ImageFormat::Bmp;
+						break;
+					default:
+						break;
+					}
+					switch (chart->Get_batch())
+					{
+					case 1: // emf
+						//SaveEmfFile( );
+						{
+							//using namespace System::Runtime::InteropServices;
+							//[DllImport("user32.dll")]
+							////extern IntPtr CopyEnhMetaFileA(IntPtr hemfSrc, System::Text::StringBuilder* hNULL);
+							//extern IntPtr CopyEnhMetaFileA(IntPtr hemfSrc, System::String* hNULL);
+							System::String ^fn = gcnew System::String(chart->Get_batch_fn().c_str());
+							//System::Drawing::Graphics ^g = this->zg1->CreateGraphics();
+							//IntPtr hdc = g->GetHdc();
+							//System::Drawing::Imaging::Metafile ^metaFile = gcnew System::Drawing::Imaging::Metafile(hdc, EmfType::EmfPlusOnly);
+							System::Drawing::Imaging::Metafile ^metaFile = this->zg1->MasterPane->GetMetafile();
+							//Graphics ^gMeta = Graphics::FromImage(metaFile);
+							//zg1->MasterPane->Draw(gMeta);
+							//System::IO::FileStream ^mySream = gcnew System::IO::FileStream(fn, System::IO::FileMode::Create);
+							//metaFile->Save(chart->Get_batch_fn());
+							//ClipboardMetafileHelper.SaveEnhMetafileToFile(metaFile, fileName );
+							//System::Runtime::InteropServices::ClipboardMetafileHelper->SaveEnhMetafileToFile(metaFile, fileName );
+							metaFile->Save(fn);
+
+							//IntPtr hEMF;
+							//hEMF = metaFile->GetHenhmetafile(); // invalidates mf 
+							//if (!hEMF.Equals(gcnew IntPtr(0)))
+							//{
+							//	System::Text::StringBuilder ^filename = gcnew System::Text::StringBuilder("test.emf", 250);
+							//	//System::Text::StringBuilder temp = new System::Text::StringBuilder(filename);
+							//	System::IO::FileStream ^myStream = gcnew System::IO::FileStream("phreeqc.png", System::IO::FileMode::Create);
+							//	System::Text::StringBuilder x1("test.emf");
+							//	CopyEnhMetaFile(hEMF, "test.emf");
+							//}
+							//DeleteEnhMetaFile(hEMF);
+							//g->ReleaseHdc(hdc);
+						}
+						break;
+					case 2: // bitmaps
+					case 3:
+					case 4:
+					case 5:
+					case 6:
+						{
+							System::String ^fn = gcnew System::String(chart->Get_batch_fn().c_str());
+							System::IO::FileStream ^myStream = gcnew System::IO::FileStream(fn, System::IO::FileMode::Create);
+							zg1->MasterPane->GetImage()->Save( myStream, format);
+							myStream->Close();
+						}
+					default:
+						break;
+					}
+				}
+
+#if 0
+				// reset GraphObjList
+				zg1->GraphPane->GraphObjList = GOL_copy;
+
+				// reset background
+				if (this->background)
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+				}
+				else
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+				}
+#endif
+			}
    private: void timer1_Tick(System::Object ^sender, System::EventArgs ^e )
 			{
 				LineItem  ^curve;
@@ -885,43 +1001,18 @@ namespace zdg_ui2 {
 					chart->Set_done(true);
 					phreeqc_done = true;
 
-					//std::string str;
-					//
-
-					//System::Runtime::Serialization::SerializationInfo ^info;
-					////System::Runtime::Serialization::SerializationInfo ^info = gcnew System::Runtime::Serialization::SerializationInfo();
-					////System::Runtime::Serialization::StreamingContext context;
-					//System::IO::Stream ^strm = System::IO::File::Create("serialize");
-					//zg1->GraphPane->GetObjectData(info, strm);
-					//
-					//this->ToString(info->ToString(), str);
-					//std::cerr << str;
-
+					int batch = chart->Get_batch();
+					if (chart->Get_batch() > 0)
 					{
-						//// Debugging check
-						//std::vector<CurveObject *> Curves = chart->Get_CurvesCSV(); 
-						//size_t i;
-						//for (i = 0; i < chart->Get_Curves().size(); i++)
-						//{
-						//	Curves.push_back(chart->Get_Curves()[i]);
-						//}
-						//for (i = 0; i < (size_t) zg1->GraphPane->CurveList->Count; i++) 
-						//{
-						//	if (zg1->GraphPane->CurveList[i]->Points->Count !=
-						//		Curves[i]->Get_x().size())
-						//	{
-						//		std::cerr << "Form: " << i << "\t" << zg1->GraphPane->CurveList[i]->Points->Count << std::endl;
-						//		std::cerr << "Curves: " << i << "\t" << Curves[i]->Get_x().size() << std::endl;
-						//		//form_error_msg("Did not plot all points. Why?");
-						//	}
-						//	assert (zg1->GraphPane->CurveList[i]->Points->Count ==
-						//		Curves[i]->Get_x().size());
-						//}
+						BatchSaveImage();
 					}
+
 					//unlock thread before setting chartobject_ptr to NULL
 					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
 					this->phreeqc_ptr = NULL;
 					this->chartobject_ptr = NULL;
+					if (batch >= 0)
+						this->Close();
 					return;
 				}
 
@@ -931,126 +1022,6 @@ namespace zdg_ui2 {
 				return;
 			}
 
-	private: void timer1_Tick_old(System::Object ^sender, System::EventArgs ^e )
-			 {
-				 LineItem  ^curve;
-				 ChartObject *chart = this->chartobject_ptr;
-				 if (chart == NULL) return;
-				 //std::cerr << "timer1_Tick." << std::endl;
-				 //lock for thread
-				 while (0 != System::Threading::Interlocked::Exchange(chart->usingResource, 1)) 
-					 System::Threading::Thread::Sleep(1);
-				 
-				 std::vector<CurveObject *> Curves; 
-				 size_t i;
-				 for (i = 0; i < chart->Get_CurvesCSV().size(); i++)
-				 {
-					 Curves.push_back(chart->Get_CurvesCSV()[i]);
-				 }
-				 for (i = 0; i < chart->Get_Curves().size(); i++)
-				 {
-					 Curves.push_back(chart->Get_Curves()[i]);
-				 }
-
-				 if ( ((Environment::TickCount - tickStart ) > this->chartobject_ptr->Get_update_time_chart())
-					 || chart->Get_end_timer() ) {
-					if (this->chartobject_ptr->Get_curve_added())
-					 {
-						 DefineCurves(zg1->GraphPane, zg1->GraphPane->CurveList->Count);
-
-					 }
-					 else if (this->chartobject_ptr->Get_point_added())
-					 {
-						 // Add points to curves ...
-						 for (int i = 0; i < zg1->GraphPane->CurveList->Count; i++) 
-						 {
-							 curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
-							 // Get the PointPairList
-							 IPointListEdit  ^ip = (IPointListEdit^) curve->Points;
-							 if ((size_t) ip->Count < Curves[i]->Get_x().size())
-							 {
-
-								 if (Curves[i]->Get_y_axis() == 2)
-									 Y2 = true;
-								 else
-									 Y2 = false;
-								 for ( size_t i2 = ip->Count; i2 < Curves[i]->Get_x().size(); i2++ )
-								 {
-									 if ((LogX && Curves[i]->Get_x()[i2] <=0)
-										 || (LogY && !Y2 && Curves[i]->Get_y()[i2] <=0)
-										 || (LogY2 && Y2 && Curves[i]->Get_y()[i2] <=0))
-										 continue;
-									 else
-										 ip->Add(Curves[i]->Get_x()[i2], Curves[i]->Get_y()[i2] );
-								 }
-							 }
-						 }
-
-						 /* explicitly reset the max in case of log scale, zedgraphs doesn't do this... */
-						 if ((fabs(chart->Get_axis_scale_x()[1] - NA) < 1e-3) && zg1->GraphPane->XAxis->Type == AxisType::Log)
-						 {
-							 double max = -1e99;
-							 for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
-							 {
-								 if (Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1] > max)
-									 max = Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1];
-							 }
-							 max += pow(10.0, log10(max / 3));
-							 zg1->GraphPane->XAxis->Scale->Max = max;
-						 }
-						 if ((fabs(chart->Get_axis_scale_y()[1] - NA) < 1e-3) && zg1->GraphPane->YAxis->Type == AxisType::Log)
-						 {
-							 double max = -1e99;
-							 for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
-							 {
-								 curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
-								 if (curve->IsY2Axis) continue;
-								 if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
-									 max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
-							 }
-							 max += pow(10.0, log10(max / 3));
-							 zg1->GraphPane->YAxis->Scale->Max = max;
-						 }
-						 if ((fabs(chart->Get_axis_scale_y2()[1] - NA) < 1e-3) && zg1->GraphPane->Y2Axis->Type == AxisType::Log)
-						 {
-							 double max = -1e99;
-							 for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
-							 {
-								 curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
-								 if (!curve->IsY2Axis) continue;
-								 if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
-									 max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
-							 }
-							 max += pow(10.0, log10(max / 3));
-							 zg1->GraphPane->Y2Axis->Scale->Max = max;
-						 }
-
-						 zg1->AxisChange();
-						 zg1->Refresh();
-						 tickStart = Environment::TickCount;
-					 }
-				 }
-				 chart->Set_point_added(false);
-				 if (chart->Get_end_timer())
-				 {
-					 //std::cerr << "Form got end_timer message." << std::endl;
-					 zg1->Refresh();
-					 timer1->Stop();
-					 chart->Set_done(true);
-					 phreeqc_done = true;
-					 //unlock thread
-					 System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
-					this->phreeqc_ptr = NULL;
-					this->chartobject_ptr = NULL;
-					//std::cerr << "Form released thread, pointers null." << std::endl;
-				 }
-				 else
-				 {
-					 //unlock thread
-					 System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
-				 }
-				 return;
-			 }
 			 void ToString(System::String^ src, std::string& dest)
 			 {
 				 using namespace System::Runtime::InteropServices;

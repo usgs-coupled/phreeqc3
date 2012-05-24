@@ -19,6 +19,17 @@ class ChartObject:public cxxNumKeyword
 	ChartObject(int i, PHRQ_io *io=NULL);
 	~ChartObject();
 
+	enum chart_batch_type
+	{ ChO_NO_BATCH   = -1, 
+	  ChO_BATCH_ONLY = 0,
+	  ChO_EMF        = 1,
+	  ChO_PNG        = 2, 
+	  ChO_JPG        = 3,
+	  ChO_GIF        = 4,
+	  ChO_TIFF       = 5, 
+	  ChO_BMP        = 6
+	};
+
 	bool Get_new_ug()
 	{
 		return this->new_ug;
@@ -50,6 +61,14 @@ class ChartObject:public cxxNumKeyword
 	std::string &Get_chart_title()
 	{
 		return this->chart_title;
+	}
+	std::string Get_batch_fn()
+	{
+		return this->batch_fn;
+	}
+	void Set_batch_fn(std::string fn)
+	{
+		this->batch_fn = fn;
 	}
 	std::vector<std::string> &Get_axis_titles()
 	{
@@ -245,7 +264,6 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->rate_command_list_original;
 	}
-
 	bool Set_axis_scale(std::vector<std::string>, std::vector<int> types, std::ostringstream &);
 	bool Set_axis_scale(CParser & parser);
 	bool Read(CParser & parser);
@@ -271,6 +289,11 @@ class ChartObject:public cxxNumKeyword
 					   int y_axis = 1,
 					   std::string color = "");
 	void dump(std::ostream & s_oss, unsigned int indent);
+
+	chart_batch_type Get_batch(void) {return this->batch;}
+	void Set_batch(chart_batch_type bt) {this->batch = bt;}
+	bool Get_batch_background(void) {return this->batch_background;}
+	void Set_batch_background(bool tf) {this->batch_background = tf;}
   protected:
 
 	bool new_ug;
@@ -339,6 +362,10 @@ class ChartObject:public cxxNumKeyword
 	bool detach;
 	bool form_started;
 	class Phreeqc * phreeqc_ptr;
+
+	bool batch_background;
+	std::string batch_fn;
+	chart_batch_type batch;
 
   public:
 	int usingResource;
