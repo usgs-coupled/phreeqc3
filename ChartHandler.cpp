@@ -43,11 +43,15 @@ ChartHandler::Punch_user_graph(Phreeqc * phreeqc_ptr)
 	{
 		if (it->second->Get_active())
 		{
+#if defined(__cplusplus_cli)
 			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1))
 				System::Threading::Thread::Sleep(1);
+#endif
 			this->current_chart = it->second;
 			phreeqc_ptr-> punch_user_graph();
+#if defined(__cplusplus_cli)
 			System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+#endif
 		}
 	}
 }
@@ -80,8 +84,10 @@ ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 	}
 
 	// Read/update ChartObject
+#if defined(__cplusplus_cli)
 	while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1)) 
 		System::Threading::Thread::Sleep(1);
+#endif
 	{
 		it->second->Read(parser);
 		current_chart_n_user = n_user;
@@ -96,15 +102,19 @@ ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 		it->second->Rate_free();
 	}
 
+#if defined(__cplusplus_cli)
 	// Release lock
 	System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+#endif
 
 	// if detached, wait for thread to acknowledge and then erase chart
 	if (it->second->Get_detach())
 	{
 		while (it->second->Get_form_started() && it->second->Get_done() != true) 
 		{
+#if defined(__cplusplus_cli)
 			System::Threading::Thread::Sleep(1);
+#endif
 		}
 		delete it->second;
 		this->chart_map.erase(it);
@@ -124,19 +134,25 @@ ChartHandler::End_timer()
 		it->second->Rate_free();
 		if (it->second->Get_form_started())
 		{
+#if defined(__cplusplus_cli)
 			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1) && i < max_tries) 
 			{
 				i++;
 				System::Threading::Thread::Sleep(1);
 			}
+#endif
 			it->second->Set_end_timer(true);
+#if defined(__cplusplus_cli)
 			System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+#endif
 
 			size_t i2 = 0;
 			while (it->second->Get_done() != true && i2 < max_tries) 
 			{
 				i2++;
+#if defined(__cplusplus_cli)
 				System::Threading::Thread::Sleep(1);
+#endif
 			}
 			if (i >= max_tries || i2 >= max_tries)
 			{

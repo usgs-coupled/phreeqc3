@@ -1484,6 +1484,16 @@ protected:
 #endif
 #if defined MULTICHART
 	ChartHandler chart_handler;
+public:
+	ChartHandler& Get_ChartHandler(void)
+	{
+		return chart_handler;
+	}
+	const ChartHandler& Get_ChartHandler(void)const
+	{
+		return chart_handler;
+	}
+protected:
 #endif
 
 	/* ----------------------------------------------------------------------
