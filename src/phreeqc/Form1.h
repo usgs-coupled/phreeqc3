@@ -810,63 +810,10 @@ namespace zdg_ui2 {
 					switch (chart->Get_batch())
 					{
 					case 1: // emf
-						//SaveEmfFile( );
 						{
-							//using namespace System::Runtime::InteropServices;
-							//[DllImport("user32.dll")]
-							////extern IntPtr CopyEnhMetaFileA(IntPtr hemfSrc, System::Text::StringBuilder* hNULL);
-							//extern IntPtr CopyEnhMetaFileA(IntPtr hemfSrc, System::String* hNULL);
-// COMMENT: {5/23/2012 10:25:57 PM}							System::String ^fn = gcnew System::String(chart->Get_batch_fn().c_str());
-							//System::Drawing::Graphics ^g = this->zg1->CreateGraphics();
-							//IntPtr hdc = g->GetHdc();
-							//System::Drawing::Imaging::Metafile ^metaFile = gcnew System::Drawing::Imaging::Metafile(hdc, EmfType::EmfPlusOnly);
-// COMMENT: {5/23/2012 10:25:53 PM}							System::Drawing::Imaging::Metafile ^metaFile = this->zg1->MasterPane->GetMetafile();
-							//Graphics ^gMeta = Graphics::FromImage(metaFile);
-							//zg1->MasterPane->Draw(gMeta);
-							//System::IO::FileStream ^mySream = gcnew System::IO::FileStream(fn, System::IO::FileMode::Create);
-							//metaFile->Save(chart->Get_batch_fn());
-							//ClipboardMetafileHelper.SaveEnhMetafileToFile(metaFile, fileName );
-							//System::Runtime::InteropServices::ClipboardMetafileHelper->SaveEnhMetafileToFile(metaFile, fileName );
-// COMMENT: {5/23/2012 10:25:45 PM}							metaFile->Save(fn);
-
-							//IntPtr hEMF;
-							//hEMF = metaFile->GetHenhmetafile(); // invalidates mf 
-							//if (!hEMF.Equals(gcnew IntPtr(0)))
-							//{
-							//	System::Text::StringBuilder ^filename = gcnew System::Text::StringBuilder("test.emf", 250);
-							//	//System::Text::StringBuilder temp = new System::Text::StringBuilder(filename);
-							//	System::IO::FileStream ^myStream = gcnew System::IO::FileStream("phreeqc.png", System::IO::FileMode::Create);
-							//	System::Text::StringBuilder x1("test.emf");
-							//	CopyEnhMetaFile(hEMF, "test.emf");
-							//}
-							//DeleteEnhMetaFile(hEMF);
-							//g->ReleaseHdc(hdc);
-
-#if 1
 							System::String ^fn = gcnew System::String(chart->Get_batch_fn().c_str());
 							System::Drawing::Imaging::Metafile ^metaFile = this->zg1->MasterPane->GetMetafile();
 							metaFile->Save(fn);
-#else
-							System::String ^fn = gcnew System::String(chart->Get_batch_fn().c_str());
-
-							System::Drawing::Bitmap ^bm = gcnew System::Drawing::Bitmap(1, 1);
-							System::Drawing::Graphics ^g = System::Drawing::Graphics::FromImage(bm);
-							IntPtr hdc = g->GetHdc();
-
-							System::IO::Stream ^stream = gcnew System::IO::MemoryStream();
-
-							System::Drawing::Imaging::Metafile ^metafile = gcnew Metafile(stream, hdc, this->zg1->MasterPane->Rect, System::Drawing::Imaging::MetafileFrameUnit::Pixel, System::Drawing::Imaging::EmfType::EmfOnly);
-
-							System::Drawing::Graphics ^metafileGraphics = System::Drawing::Graphics::FromImage(metafile);
-							metafileGraphics->TranslateTransform( -this->zg1->MasterPane->Rect.Left, -this->zg1->MasterPane->Rect.Top );
-							metafileGraphics->PageUnit = System::Drawing::GraphicsUnit::Pixel;
-
-							System::Drawing::PointF *P = new System::Drawing::PointF(this->zg1->MasterPane->Rect.Width, this->zg1->MasterPane->Rect.Height);
-							//System::Drawing::PointF *PA[] = new System::Drawing::PointF[] { P };
-							//metafileGraphics.TransformPoints( CoordinateSpace.Page, CoordinateSpace.Device, PA );
-
-							metafile->Save(fn);
-#endif
 						}
 						break;
 					case 2: // bitmaps
@@ -885,20 +832,6 @@ namespace zdg_ui2 {
 					}
 				}
 
-#if 0
-				// reset GraphObjList
-				zg1->GraphPane->GraphObjList = GOL_copy;
-
-				// reset background
-				if (this->background)
-				{
-					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
-				}
-				else
-				{
-					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
-				}
-#endif
 			}
    private: void timer1_Tick(System::Object ^sender, System::EventArgs ^e )
 			{
