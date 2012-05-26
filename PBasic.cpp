@@ -870,7 +870,14 @@ listtokens(FILE * f, tokenrec * l_buf)
 			break;
 
 		case tokstr:
-			output_msg(PhreeqcPtr->sformatf("\"%s\"", l_buf->UU.sp));
+			if (strchr(l_buf->UU.sp, '\"'))
+			{
+				output_msg(PhreeqcPtr->sformatf("\'%s\'", l_buf->UU.sp));
+			}
+			else
+			{
+				output_msg(PhreeqcPtr->sformatf("\"%s\"", l_buf->UU.sp));
+			}
 			break;
 
 		case toksnerr:
@@ -3998,7 +4005,7 @@ cmdrenum(struct LOC_exec *LINK)
 					}
 					else
 					{
-#if defined(PHREEQC_GUI)
+#if defined(PHREEQCI_GUI)
 						if (phreeqci_gui)
 						{
 							_snprintf(tok->sz_num, tok->n_sz, "%ld", l1->num2);
