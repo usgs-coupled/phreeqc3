@@ -111,6 +111,7 @@ LDBLE Phreeqc::
 calc_rho_0(LDBLE tc, LDBLE pa)
 /* ---------------------------------------------------------------------- */
 {
+#ifdef SKIP
 	/* Density of pure water
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
@@ -148,6 +149,85 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	kappa_0 = (p0 + pa * (2 * p1 + pa * (3 * p2 + sqrt(pa) * 3.5 * p3))) / rho_0;
 
 	return (rho_0 / 1e3);
+#endif
+//#ifdef SKIP
+	/* Calculate the density and compressibility of pure water,
+	   IAPWS, IF97, region 1, 273 < Tk < 623, p_sat < p < 1e8 Pascal.
+	   Seems to give somewhat better rho's and kappa's for p < 2e3 than above,
+	   but may give densities < 0 outside the limits, e.g. tc = 250, p = 2.5e3... */
+
+	/* The minimal pressure equals the saturation pressure... */
+	double tk = tc + 273.15;
+	p_sat = exp(11.6702 - 3816.44 / (tk - 46.13));
+	if (ah2o_x <= 1.0)
+		p_sat *= ah2o_x;
+	//ah2o_x0 = ah2o_x; // for updating rho in model(): compare with new ah2o_x
+	if (pa < p_sat || (use.Get_solution_ptr() && use.Get_solution_ptr()->Get_patm() < p_sat))
+	{
+		pa = p_sat;
+	}
+	if (!use.Get_gas_phase_in())
+		patm_x = pa;
+	double pasc = pa * 1.01325e5;
+    double Rg = 0.461526e3; //J / kg / K
+	double Tref = 1386.0, Pref = 16.53e6; // K, Pa
+	double t_t = Tref / tk, p_p = pasc / Pref;
+	double ni[34] = {0.14632971213167,    -0.84548187169114,     -0.37563603672040e1,    0.33855169168385e1,
+					-0.95791963387872,     0.15772038513228,     -0.16616417199501e-1,   0.81214629983568e-3,
+					 0.28319080123804e-3,  -0.60706301565874e-3, -0.18990068218419e-1,  -0.32529748770505e-1,
+					-0.21841717175414e-1,  -0.52838357969930e-4, -0.47184321073267e-3,  -0.30001780793026e-3,
+					 0.47661393906987e-4,  -0.44141845330846e-5, -0.72694996297594e-15, -0.31679644845054e-4,
+					-0.28270797985312e-5,  -0.85205128120103e-9, -0.22425281908000e-5,  -0.65171222895601e-6,
+					-0.14341729937924e-12, -0.40516996860117e-6, -0.12734301741641e-8,  -0.17424871230634e-9,
+					-0.68762131295531e-18,  0.14478307828521e-19, 0.26335781662795e-22, -0.11947622640071e-22,
+					 0.18228094581404e-23, -0.93537087292458e-25};
+	int ii[34] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,  1,  1,  1,  2,  2,  2,
+		          2, 2, 3, 3, 3, 4, 4, 4, 5, 8, 8, 21, 23, 29, 30, 31, 32};
+	int jj[34] = {-2, -1,  0, 1, 2,  3,  4,  5, -9,  -7, -1,   0,   1,   3,  -3,   0,   1,
+	               3, 17, -4, 0, 6, -5, -2, 10, -8, -11, -6, -29, -31, -38, -39, -40, -41};
+	/* v (m3/kg) = dG/dp =
+		(p_p * Rg * tk / pasc) * Sum_i (-ni[i] * ii[i] * (7.1 - p_p)^(ii[i] - 1) * (t_t - 1.222)^jj[i])
+	   kappa_0 (1 / Pa) = -1/v * dv/dp = -1/v * d2G/dp2 =
+		-1 / (v * Pref) * Sum_i (ni[i] * ii[i] * (ii[i] - 1) * (7.1 - p_p)^(ii[i] - 2) * (t_t - 1.222)^jj[i]) */
+
+	double v = -ni[11] - (7.1 - p_p) * (ni[15] * ii[15] + ni[20] * ii[20] * (7.1 - p_p));
+	double dvdp = ni[15] * ii[15] + ni[20] * ii[20] * (ii[20] - 1) * (7.1 - p_p);
+	for (int i = 8; i < 34; i++)
+	{
+		if (i == 11 || i == 15 || i == 20)
+			continue;
+		if (ii[i] == 1)
+		{
+			if (jj[i] == 1)
+				v -= ni[i] * (t_t - 1.222);
+			else
+				v -= ni[i] * pow(t_t - 1.222, jj[i]);
+		}
+		else if (ii[i] == 2)
+		{
+			if (jj[i] == 1)
+			{
+				v -= ni[i] * ii[i] * (7.1 - p_p) * (t_t - 1.222);
+				dvdp += ni[i] * ii[i] * (ii[i] - 1) * (t_t - 1.222);
+			}
+			else
+			{
+				v -= ni[i] * ii[i] * (7.1 - p_p) * pow(t_t - 1.222, jj[i]);
+				dvdp += ni[i] * ii[i] * (ii[i] - 1) * pow(t_t - 1.222, jj[i]);
+			}
+		}
+		else
+		{
+			v -= ni[i] * ii[i] * pow(7.1 - p_p, ii[i] - 1) * pow(t_t - 1.222, jj[i]);
+			dvdp += ni[i] * ii[i] * (ii[i] - 1) * pow(7.1 - p_p, ii[i] - 2) * pow(t_t - 1.222, jj[i]);
+		}
+	}
+	if (v < 0)
+		error_msg("Calculating negative densities:\n       Pressure and/or Temperature are outside the model's domain.\n", TRUE);
+	kappa_0 = -dvdp / v / Pref * 1.01325e5; // compressibility, 1/atm
+	rho_0 = 1e-3 / (v * (p_p * Rg * tk / pasc)); // density, kg/L
+	return rho_0;
+//#endif
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -174,14 +254,14 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	                           = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
 	LDBLE e2_DkT = 1.671008e-3 / (eps_r * T);
 
-	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length kappa, 1/cm
+	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length kappa, 1/cm(mol/kg)^-0.5
 
 	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
 
 	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
 	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pa) / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
 
-	DH_B /= 1e8; // kappa, 1/Angstrom
+	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
 
 	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
 	ZBrn = (- 1 / eps_r + 1.0) * 41.84004;
