@@ -253,7 +253,7 @@ USER_PUNCH
 2180 FOR i = 0 to 1
 2190   punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + i)) + ' Example 21' + nl$
 2200   punch nl$ + ' -chart_title " ' + tracer$(tracer + i) + ' Diffusion to Outer Cell"' 
-2210   punch nl$ + ' -plot_csv_file ' + tracer$(tracer + i) + '_rad.csv'
+2210   punch nl$ + ' -plot_tsv_file ' + tracer$(tracer + i) + '_rad.tsv'
 2220   punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time(tracer + i) / (3600 * 24)))
 2230   punch nl$ + ' -axis_titles "TIME, IN DAYS" "FLUX, IN ' + scale_y1$(tracer + i) + ' MOL/M2/S" "ACCUMULATED MASS, IN ' + scale_y2$(tracer + i) + ' MOL"'
 2240   punch nl$ + ' -plot_concentration_vs time'
@@ -296,7 +296,7 @@ USER_PUNCH
 3030 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer)) + sc$ + ' -detach'
 3040 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + 4)) + ' Example 21' + nl$
 3050 punch nl$ + ' -chart_title "' + tracer$(tracer) + ' Concentration Profile: Filter1 | Clay | Filter2"' 
-3060 REM punch nl$ + ' -plot_csv_file ' + tracer$(tracer) + '_prof.csv'
+3060 REM punch nl$ + ' -plot_tsv_file ' + tracer$(tracer) + '_prof.tsv'
 3070 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$((thickn_filter1 + thickn_clay + thickn_filter2) * 1e3))
 3080 punch nl$ + ' -axis_scale y_axis 0 ' + TRIM(STR$(profile_y1(tracer)))
 3090 punch nl$ + ' -axis_scale sy_axis 0 ' + TRIM(STR$(profile_y2(tracer)))
