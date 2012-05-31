@@ -8633,8 +8633,9 @@ read_user_graph(void)
 		"grid_offset",			/* 10 */
 		"connect_simulations",	/* 11 */
 		"plot_csv_file"			/* 12 */
+		"plot_tsv_file"			/* 13 */
 	};
-	int count_opt_list = 13;
+	int count_opt_list = 14;
 	int i;
 
 	opt_save = OPTION_DEFAULT;
