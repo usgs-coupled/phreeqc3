@@ -1,5 +1,6 @@
 TITLE Calculate gypsum/anhydrite transitions, 30 - 170 oC, 1 - 1000 atm
       Data in ex2b.dat from Blount and Dickson, 1973, Am. Mineral. 58, 323, fig. 2.
+PRINT; -reset false
 SOLUTION 1
 EQUILIBRIUM_PHASES
 Gypsum
@@ -7,7 +8,7 @@ REACTION_TEMPERATURE
  30 90 in 10
 USER_GRAPH 1 Example 2b, (P, T)-dependent solubilities of Gypsum and Anhydrite
  -plot_tsv_file ex2b.tsv
- -axis_titles "temperature / oC" "Solubility / (mol/kgw)"
+ -axis_titles "TEMPERATURE, IN DEGREES CELSIUS" "SOLUBILITY, IN MOLES PER KG WATER"
  -axis_scale x_axis 30 170
  -axis_scale y_axis 1e-3 0.05 auto auto log
  10 plot_xy tc, tot("Ca"), color = Red, symbol = None
