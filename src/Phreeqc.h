@@ -943,6 +943,7 @@ public:
 		LDBLE fill_factor);
 	int zero_tally_table(void);
 	int elt_list_to_tally_table(struct tally_buffer *buffer_ptr);
+	int master_to_tally_table(struct tally_buffer *buffer_ptr);
 	int get_all_components(void);
 	int print_tally_table(void);
 	int set_reaction_moles(int n_user, LDBLE moles);
