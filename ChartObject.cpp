@@ -265,6 +265,7 @@ ChartObject::Read(CParser & parser)
 		vopts.push_back("detach");	// 14
 		vopts.push_back("active");	// 15
 		vopts.push_back("batch");   // 16
+		vopts.push_back("plot_tsv_file");	// 17
 
 	}
 	std::istream::pos_type ptr;
@@ -405,6 +406,7 @@ ChartObject::Read(CParser & parser)
 			this->connect_simulations = parser.get_true_false(next_char, true);
 			break;
 		case 12: /* plot_csv_file */
+		case 17: /* plot_tsv_file */
 			{
 				std::string file_name;
 				parser.get_rest_of_line(file_name);
@@ -1360,7 +1362,7 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 	// csv files
 	for (i = 0; i < this->csv_file_names.size(); i++)
 	{
-		oss << indent1 << "-plot_csv_file " << this->csv_file_names[i] << "\n";
+		oss << indent1 << "-plot_tsv_file " << this->csv_file_names[i] << "\n";
 	}
 
 	// headings
