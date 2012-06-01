@@ -96,7 +96,8 @@ REACTION 1
         8.0 16.0 32.0 64.0 100 200 umol
 USER_GRAPH
         -headings 6B--Increments
-  10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Blue, line_w = 0, symbol = XCross, symbol_size = 7
+  10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Blue, line_w = 0, \
+  		symbol = XCross, symbol_size = 7
 END
 TITLE Example 6C.--kinetic calculation
 SOLUTION 1
@@ -110,7 +111,7 @@ EQUILIBRIUM_PHASES 1
         K-mica     0.0  0.0
 KINETICS 1
 K-feldspar
-#        k0 * A/V = 1e-16 mol/cm2/s * (10% fsp, 0.1mm cubes) 136/cm = 136.e-13 mol/dm3/s
+# k0 * A/V = 1e-16 mol/cm2/s * (10% fsp, 0.1mm cubes) 136/cm = 136.e-13 mol/dm3/s
         -parms 1.36e-11
         -m0 2.16
         -m  1.94
@@ -165,7 +166,8 @@ USER_PRINT
   10 DATA "A: Gibbsite               ", "B: Gibbsite  -> Kaolinite ", \
           "C: Gibbsite  -> Kaolinite ", "D: Kaolinite -> K-mica    ", \
           "E: Kaolinite -> K-mica    ", "F: K-mica    -> K-feldspar"
-  20 PRINT "        Transition                 Time   K-feldspar      LA(K/H)   LA(H4SiO4)"
+  20 PRINT \
+  "        Transition                 Time   K-feldspar      LA(K/H)   LA(H4SiO4)"
   30 PRINT "                                             reacted"
   40 PRINT "                                             (moles)"
   50 FOR i = 2 TO 7
