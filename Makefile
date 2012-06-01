@@ -17,7 +17,7 @@ endif
 all: ex1.out ex2.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
 	ex10.out ex11.out ex12.out ex12a.out ex13a.out ex13b.out ex13c.out ex13ac.out \
 	ex14.out ex15.out ex16.out ex17.out ex17b.out ex18.out \
-	ex19.out ex19b.out ex20a.out ex20b.out ex21_radial.out
+	ex19.out ex19b.out ex20a.out ex20b.out ex21_radial.out ex22.out
 
 ex1.out: $(INPUT)/ex1 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex1 ex1.out $(PHREEQCDAT)
