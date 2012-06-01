@@ -51,14 +51,14 @@ TRANSPORT           # Make column temperature 0C, displace Cl
    -diffusion_coefficient 0.0     # No diffusion
    -thermal_diffusion     1.0     # No retardation for heat
 END
-SOLUTION 0   Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet
+SOLUTION 0   Fixed temp 24C, and NaCl conc (first type bound cond) at inlet
     units  mol/kgw
     temp 24
     pH  7.0
     pe  12.0   O2(g) -0.67
     Na  24.e-3
     Cl  24.e-3
-SOLUTION 58-60  Same as soln 0 in cell 20 at closed column end (second type boundary cond)
+SOLUTION 58-60 Same as soln 0 in cell 20 at closed column end (second type bound cond)
     units  mol/kgw
     temp 24
     pH  7.0
@@ -79,7 +79,7 @@ TRANSPORT            # Diffuse 24C, NaCl solution from column end
 USER_GRAPH Example 12
    -headings Na Cl Temp Analytical
    -chart_title "Diffusion of Solutes and Heat"
-   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER", "DEGREES CELSIUS"
+   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER" "DEGREES CELSIUS"
    -axis_scale x_axis 0 20
    -axis_scale y_axis 0 25
    -axis_scale sy_axis 0 25   
