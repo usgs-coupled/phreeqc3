@@ -354,7 +354,7 @@ read_exchange_species(void)
 	struct species *s_ptr;
 	struct elt_list *next_elt;
 	struct rxn_token *token_ptr;
-	LDBLE exchange_coef;
+	//LDBLE exchange_coef;
 	LDBLE offset;
 
 	int return_value, opt, opt_save;
@@ -744,6 +744,8 @@ read_exchange_species(void)
 					trxn.token[0].s->o = next_elt->coef;
 				}
 			}
+#ifdef SKIP
+			// Need to do this in tidy species in case X- is not first species read.
 /*
  *   Find valence of cation from coefficients of reaction components
  *   Changed to be coefficient of exchanger
@@ -757,6 +759,7 @@ read_exchange_species(void)
 				}
 			}
 			trxn.token[0].s->equiv = exchange_coef;
+#endif
 /*
  *   Malloc space for species reaction
  */
@@ -6218,6 +6221,8 @@ read_surface_species(void)
 					trxn.token[0].s->o = next_elt->coef;
 				}
 			}
+#ifdef SKIP
+			// need to do this in tidy in case surface master species not yet defined
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
@@ -6231,6 +6236,7 @@ read_surface_species(void)
 			}
 			if (trxn.token[0].s->equiv == 0.0)
 				trxn.token[0].s->equiv = 1.0;
+#endif
 			/*
 			 *   Malloc space for species reaction
 			 */

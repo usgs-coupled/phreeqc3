@@ -2310,6 +2310,55 @@ tidy_species(void)
 				}
 			}
 		}
+		if (s[i]->type == EX)
+		{
+/*
+ *   Find valence of cation from coefficients of reaction components
+ *   Changed to be coefficient of exchanger
+ */
+			double exchange_coef = 0.0;
+			for (j = 1; s[i]->next_elt[j].elt != NULL; j++)
+			{
+				if (s[i]->next_elt[j].elt->master->s->type == EX)
+				{
+					exchange_coef = s[i]->next_elt[j].coef;
+					break;
+				}
+			}
+			if (exchange_coef == 0.0)
+			{
+				input_error++;
+				error_string = sformatf(
+					"No exchange species found in equation for %s.\n", s[i]->name);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			s[i]->equiv = exchange_coef;
+		}
+		if (s[i]->type == SURF)
+		{
+			double surface_coef = 0.0;
+			/*
+			 *   Find coefficient of surface in rxn, store in equiv
+			 */
+			for (j = 1; s[i]->next_elt[j].elt != NULL; j++)
+			{
+				if (s[i]->next_elt[j].elt->master->s->type == SURF)
+				{
+					surface_coef = s[i]->next_elt[j].coef;
+					break;
+				}
+			}
+			if (surface_coef == 0.0)
+			{
+				input_error++;
+				error_string = sformatf(
+					"No surface species found in equation for %s.\n", s[i]->name);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			s[i]->equiv = surface_coef;
+		}
 	}
 	return (OK);
 }
