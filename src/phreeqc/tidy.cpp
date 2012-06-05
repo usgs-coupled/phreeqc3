@@ -2317,11 +2317,11 @@ tidy_species(void)
  *   Changed to be coefficient of exchanger
  */
 			double exchange_coef = 0.0;
-			for (j = 1; s[i]->next_elt[j].elt != NULL; j++)
+			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
 			{
-				if (s[i]->next_elt[j].elt->master->s->type == EX)
+				if (s[i]->rxn_s->token[j].s->type == EX)
 				{
-					exchange_coef = s[i]->next_elt[j].coef;
+					exchange_coef = s[i]->rxn_s->token[j].coef;
 					break;
 				}
 			}
@@ -2341,11 +2341,11 @@ tidy_species(void)
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
-			for (j = 1; s[i]->next_elt[j].elt != NULL; j++)
+			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
 			{
-				if (s[i]->next_elt[j].elt->master->s->type == SURF)
+				if (s[i]->rxn_s->token[j].s->type == SURF)
 				{
-					surface_coef = s[i]->next_elt[j].coef;
+					surface_coef = s[i]->rxn_s->token[j].coef;
 					break;
 				}
 			}
