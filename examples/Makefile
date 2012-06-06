@@ -14,7 +14,7 @@ ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
 endif
 
-all: ex1.out ex2.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
+all: ex1.out ex2.out ex2b.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
 	ex10.out ex11.out ex12.out ex12a.out ex13a.out ex13b.out ex13c.out ex13ac.out \
 	ex14.out ex15.out ex16.out ex17.out ex17b.out ex18.out \
 	ex19.out ex19b.out ex20a.out ex20b.out ex21_radial.out ex22.out
@@ -26,7 +26,7 @@ ex1.out: $(INPUT)/ex1 $(PHREEQC) $(PHREEQCDAT)
 ex2.out: $(INPUT)/ex2 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex2 ex2.out $(PHREEQCDAT)
 	mv phreeqc.log ex2.log
-	
+
 ex2b.out: $(INPUT)/ex2b $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex2b ex2b.out $(PHREEQCDAT)
 	mv phreeqc.log ex2b.log	
@@ -134,7 +134,7 @@ ex20b.out: $(INPUT)/ex20b $(PHREEQC) ../database/iso.dat
 ex21_radial.out: $(INPUT)/ex21_radial $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex21_radial ex21_radial.out $(PHREEQCDAT)
 	mv phreeqc.log ex21_radial.log
-	
+
 ex22.out: $(INPUT)/ex22 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex22 ex22.out $(PHREEQCDAT)
 	mv phreeqc.log ex22.log		

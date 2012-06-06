@@ -94,8 +94,8 @@ Initial solution 1.	Brine
                  Total alkalinity (eq/kg)  =   3.332e-03
                        Total CO2 (mol/kg)  =   3.960e-03
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -2.474e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                  Electrical balance (eq)  =   1.376e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  10
                                   Total H  = 1.110158e+02
                                   Total O  = 5.553646e+01
@@ -237,7 +237,7 @@ Reading input data for simulation 2.
 	        step
 	USER_PUNCH
 	        heading  m_Ca m_Mg m_Na umol_As pH mmol_sorbedAs
-	  10 PUNCH TOT("Ca"), TOT("Mg"), TOT("Na"), TOT("As")*1e6, -LA("H+"), SURF("As", "Surf")*1000
+	  10 PUNCH TOT("Ca"), TOT("Mg"), TOT("Na"), TOT("As")*1e6, -LA("H+"),            SURF("As", "Surf")*1000
 	END
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -278,8 +278,8 @@ Dolomite          0.00   -17.09    -17.09    1.600e+00   1.599e+00  -7.445e-04
                  Total alkalinity (eq/kg)  =   2.440e-03
                        Total CO2 (mol/kg)  =   3.514e-03
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -2.474e-10
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                  Electrical balance (eq)  =   1.378e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   5
                                   Total H  = 1.110158e+02
                                   Total O  = 5.553512e+01
@@ -303,7 +303,7 @@ As(3)         2.554e-33
 As(5)         2.500e-08
    H2AsO4-         2.498e-08   1.373e-07    -7.602    -6.862     0.740     (0)  
    H3AsO4          2.000e-11   1.066e-10   -10.699    -9.972     0.727     (0)  
-   HAsO4-2         3.690e-12   3.369e-09   -11.433    -8.473     2.960     (0)  
+   HAsO4-2         3.689e-12   3.369e-09   -11.433    -8.473     2.960     (0)  
    AsO4-3          5.202e-22   2.384e-15   -21.284   -14.623     6.661     (0)  
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -143.767  -143.040     0.727     (0)  
@@ -316,7 +316,7 @@ C(4)          3.514e-03
    CaCO3           1.041e-06   5.550e-06    -5.983    -5.256     0.727     (0)  
    MgCO3           4.392e-07   2.341e-06    -6.357    -5.631     0.727     (0)  
    NaCO3-          1.494e-07   8.211e-07    -6.826    -6.086     0.740     (0)  
-   CO3-2           4.175e-08   4.672e-09    -7.379    -8.330    -0.951     (0)  
+   CO3-2           4.176e-08   4.672e-09    -7.379    -8.330    -0.951     (0)  
 Ca            4.643e-01
    Ca+2            4.620e-01   7.090e-01    -0.335    -0.149     0.186     (0)  
    CaSO4           1.600e-03   8.529e-03    -2.796    -2.069     0.727     (0)  
@@ -515,7 +515,7 @@ Initial solution 0.	20 x precipitation
                  Total alkalinity (eq/kg)  =  -2.630e-05
                        Total CO2 (mol/kg)  =   1.096e-05
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   8.174e-16
+                  Electrical balance (eq)  =   8.169e-16
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   9
                                   Total H  = 1.110125e+02
@@ -677,7 +677,7 @@ C(4)          7.121e-03
    CaHCO3+         8.951e-05   8.086e-05    -4.048    -4.092    -0.044     (0)  
    MgHCO3+         6.082e-05   5.495e-05    -4.216    -4.260    -0.044     (0)  
    CaCO3           5.537e-06   5.550e-06    -5.257    -5.256     0.001     (0)  
-   CO3-2           4.127e-06   2.787e-06    -5.384    -5.555    -0.171     (0)  
+   CO3-2           4.128e-06   2.787e-06    -5.384    -5.555    -0.171     (0)  
    MgCO3           2.336e-06   2.341e-06    -5.631    -5.631     0.001     (0)  
    NaHCO3          3.310e-07   3.317e-07    -6.480    -6.479     0.001     (0)  
    NaCO3-          6.352e-09   5.739e-09    -8.197    -8.241    -0.044     (0)  
@@ -773,7 +773,7 @@ Reading input data for simulation 5.
 	USER_GRAPH Example 14
 	        -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH
 	        -chart_title "Chemical Evolution of the Central Oklahoma Aquifer"
-	        -axis_titles "PORE VOLUMES OR SHIFT NUMBER" "Log(CONCENTRATION, IN PPB OR MOLAL)" "pH"
+	        -axis_titles "PORE VOLUMES OR SHIFT NUMBER"                      "Log(CONCENTRATION, IN PPB OR MOLAL)" "pH"
 	        -axis_scale x_axis 0 200
 	        -axis_scale y_axis 1e-6 100 auto auto Log 
 	  10 GRAPH_X STEP_NO
@@ -1191,6 +1191,6 @@ Reading input data for simulation 6.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.36 Seconds.
+End of Run after 0.37 Seconds.
 ------------------------------
 
