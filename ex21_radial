@@ -37,16 +37,16 @@ SOLUTION 0-2 column with only cell 1, two boundary solutions 0 and 2.
   Na 1; Cl 1
 END
 
-KNOBS; -iter 2000; -pe_step 5; -step 10; -diag true; -conv 1e-7
+#KNOBS; -tolerance 1e-20; -diagonal_scale true # because of low concentrations
 
 SOLUTION 3 tracer solution
   pH 7.6; pe 14 O2(g) -1.0; temp 23
   Na 240; K 1.61; Mg 16.9; Ca 25.8; Sr 0.505
   Cl 300; S(6) 14.1; Fe(2) 0.0; Alkalinity 0.476
 # uncomment tracer concentrations and kg water 1 by 1...
-  Hto 1.14e-3;   -water 0.2 # 1.14e-6 mM in the xpt
+#  Hto 1.14e-6;   -water 0.2
 #  Cl_tr 2.505e-2; -water 0.502
-#  Cs 1; Na_tr 1.87e-4; -water 1.02 # 1.87e-7 mM Na in the expt
+  Cs 1; Na_tr 1.87e-7; -water 1.02
 SELECTED_OUTPUT
   -file radial; -reset false
 USER_PUNCH
@@ -64,7 +64,7 @@ USER_PUNCH
 50   thickn_filter2 = 1.6e-3  # tracer-out filter thickness / m
 60   por_filter1 = 0.418      # porosity
 70   por_filter2 = 0.367
-80   G_filter1 = 4.18         # geometrical factor. (for filters, por / G = 10)
+80   G_filter1 = 4.18         # geometrical factor. (for filters, G = por / 10)
 90   G_filter2 = 3.67
 100  V_end = 0.2              # volume of the tracer-out solution / L
 110  thickn_clay = r_ext - r_int # clay thickness / m
@@ -73,24 +73,24 @@ USER_PUNCH
 140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
 150  A_por = 37e3 * rho_b_eps # pore surface area / (m2/L porewater)
 
-160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1(4), profile_y2(4)
+160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1$(4), profile_y2$(4)
 170  DATA 'Hto', 'Cl_tr', 'Na_tr', 'Cs'
 180  READ tracer$(1), tracer$(2), tracer$(3), tracer$(4)
      # experimental times (seconds) for HTO, 36Cl, 22Na and Cs, respectively,
      # in order of increasing times...
 200  DATA 86400 * 20, 86400 * 40, 86400 * 45, 86400 * 1000
 210  READ exp_time(1), exp_time(2), exp_time(3), exp_time(4)
-     # scale y1-axis (flux)...
-230  DATA '1e-15', '1e-11', '1e-15', '1e-9'
+     # scale y1-axis (flux) (not used)...
+230  DATA '1', '1', '1', '1'
 240  READ scale_y1$(1), scale_y1$(2), scale_y1$(3), scale_y1$(4)
-     # scale y2-axis (mass)...
-260  DATA '1e-11', '1e-7', '1e-11', '1e-4'
+     # scale y2-axis (mass) (not used)...
+260  DATA '1', '1', '1', '1'
 270  READ scale_y2$(1), scale_y2$(2), scale_y2$(3), scale_y2$(4)
      # scale max of the profile y axes...
-280  DATA 1.2e-6, 2.5e-5, 2e-7, 1.3e-4
-290  READ profile_y1(1), profile_y1(2), profile_y1(3), profile_y1(4)
-300  DATA 1.2e-6, 2.5e-5, 6e-7, 3e-2
-310  READ profile_y2(1), profile_y2(2), profile_y2(3), profile_y2(4)
+280  DATA '0 1.2e-9', '0 2.5e-5', '0 2e-10', '0 auto'
+290  READ profile_y1$(1), profile_y1$(2), profile_y1$(3), profile_y1$(4)
+300  DATA '0 1.2e-9', '0 2.5e-5', '0 6e-10', '0 auto'
+310  READ profile_y2$(1), profile_y2$(2), profile_y2$(3), profile_y2$(4)
 
      # Define model parameters...
 350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m2/s)
@@ -102,7 +102,7 @@ USER_PUNCH
 410  tort_n = -0.99           # exponent in Archie's law, -1.045 without filters
 420  G_clay = por_clay^tort_n # geometrical factor
 430  interlayer_D$ = 'false'  # 'true' or 'false' for interlayer diffusion
-440  G_IL = 750               # geometrical factor for clay interlayers
+440  G_IL = 700               # geometrical factor for clay interlayers
 450  punch_time = 60 * 60 * 6 # punch time / seconds
 460  profile$ = 'true'        # 'true' or 'false' for c/x profile visualization
 470  IF nfilt1 = 0 THEN thickn_filter1 = 0
@@ -246,32 +246,29 @@ USER_PUNCH
 2040 punch nl$ + ' -flow diff' + sc$ + ' -cells 1' + sc$ + ' -bcon 1 2' + sc$ + ' -stag ' + TRIM(STR$(stag))
 2050 punch nl$ + ' -time ' + STR$(dt)
 2060 punch nl$ + ' -multi_D true ' + STR$(Dw) + STR$(por_clay) + ' 0.0 ' + TRIM(STR$(-tort_n))
-2070 punch nl$ + ' -interlayer_D ' + interlayer_D$ + ' 0.04 0.0 ' + TRIM(STR$(G_IL))
+2070 punch nl$ + ' -interlayer_D ' + interlayer_D$ + ' 0.001 0.0 ' + TRIM(STR$(G_IL))
 2080 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c ' + TRIM(STR$(2 + stag))
 
      # Write USER_GRAPH...
 2180 FOR i = 0 to 1
 2190   punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + i)) + ' Example 21' + nl$
 2200   punch nl$ + ' -chart_title " ' + tracer$(tracer + i) + ' Diffusion to Outer Cell"' 
-2210   punch nl$ + ' -plot_tsv_file ' + tracer$(tracer + i) + '_rad.tsv'
+2210   punch nl$ + ' -plot_tsv_file ex21_' + tracer$(tracer + i) + '_rad.tsv'
 2220   punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time(tracer + i) / (3600 * 24)))
-2230   punch nl$ + ' -axis_titles "TIME, IN DAYS" "FLUX, IN ' + scale_y1$(tracer + i) + ' MOL/M2/S" "ACCUMULATED MASS, IN ' + scale_y2$(tracer + i) + ' MOL"'
+2230   punch nl$ + ' -axis_titles "TIME, IN DAYS" "FLUX, IN MOL/M2/S" "ACCUMULATED MASS, IN MOL"'
 2240   punch nl$ + ' -plot_concentration_vs time'
 2250   punch nl$ + ' 10 days = total_time / (3600 * 24)'
-2260   punch nl$ + ' 20 IF INSTR("' + tracer$(tracer + i) + '", "C") THEN mm = 1 ELSE mm = 1e-3'
-2270   punch nl$ + ' 30 s1 = ' + STR$(1 / val(scale_y1$(tracer + i))) + ' * mm'
-2280   punch nl$ + ' 40 s2 = ' + STR$(1 / val(scale_y2$(tracer + i))) + ' * mm'
-2290   punch nl$ + ' 50 a = equi("A_' + tracer$(tracer + i) + '") * s2'
-2300   punch nl$ + ' 60 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)'
-2310   punch nl$ + ' 70 dt = get(1)'
-2320   A = 2 * pi * r_ext * height
-2330   i$ = TRIM(STR$(2 + i))
-2340   punch nl$ + ' 80 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) * s1 / s2 / dt /' + STR$(A) +', color = Green, symbol = None'
-2350   punch nl$ + ' 90 put(a, ' + i$ + ')'
-2360   punch nl$ + ' 100 plot_xy days, equi("A_' + tracer$(tracer + i) + '") * s2, y_axis = 2, color = Red, symbol = None'
-2370   IF tracer < 3 THEN GOTO 2390
-2380 NEXT i
-2390 punch nl$ + 'END'
+2260   punch nl$ + ' 20 a = equi("A_' + tracer$(tracer + i) + '")'
+2270   punch nl$ + ' 30 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)'
+2280   punch nl$ + ' 40 dt = get(1)'
+2290   A = 2 * pi * r_ext * height
+2300   i$ = TRIM(STR$(2 + i))
+2310   punch nl$ + ' 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) / dt /' + STR$(A) +', color = Green, symbol = None'
+2320   punch nl$ + ' 60 put(a, ' + i$ + ')'
+2330   punch nl$ + ' 70 plot_xy days, equi("A_' + tracer$(tracer + i) + '"), y_axis = 2, color = Red, symbol = None'
+2340   IF tracer < 3 THEN GOTO 2360
+2350 NEXT i
+2360 punch nl$ + 'END'
 
 2400 IF profile$ = 'true' THEN GOSUB 3000
 2410 IF tracer < 3 THEN END # finished for Hto and Cl
@@ -298,8 +295,8 @@ USER_PUNCH
 3050 punch nl$ + ' -chart_title "' + tracer$(tracer) + ' Concentration Profile: Filter1 | Clay | Filter2"' 
 3060 REM punch nl$ + ' -plot_tsv_file ' + tracer$(tracer) + '_prof.tsv'
 3070 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$((thickn_filter1 + thickn_clay + thickn_filter2) * 1e3))
-3080 punch nl$ + ' -axis_scale y_axis 0 ' + TRIM(STR$(profile_y1(tracer)))
-3090 punch nl$ + ' -axis_scale sy_axis 0 ' + TRIM(STR$(profile_y2(tracer)))
+3080 punch nl$ + ' -axis_scale y_axis ' + profile_y1$(tracer)
+3090 punch nl$ + ' -axis_scale sy_axis ' + profile_y2$(tracer)
 3100 punch nl$ + ' -axis_titles ' + '"DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"'
 3110 punch nl$ + ' -headings ' + tracer$(tracer) + '_free ' + tracer$(tracer) + '_tot'
 3120 punch nl$ + ' -plot_concentration_vs x'
