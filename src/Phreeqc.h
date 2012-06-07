@@ -1858,6 +1858,7 @@ public:
 	friend class IPhreeqc;
 	friend class TestIPhreeqc;
 	friend class TestSelectedOutput;
+	friend class IPhreeqcMMS;
 
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
