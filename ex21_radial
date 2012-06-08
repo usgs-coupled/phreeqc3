@@ -1,4 +1,5 @@
-TITLE Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 2010, GCA 74, 1201
+TITLE Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 
+	2010, GCA 74, 1201
 SOLUTION_MASTER_SPECIES
 # element   species   alk gfw_formula element_gfw
   Hto       Hto       0.0   20        20
@@ -30,23 +31,23 @@ SURFACE_SPECIES
   Su_- = Su_-; log_k 0
 
 EXCHANGE_SPECIES
-  Na_tr+ + X- = Na_trX; log_k 0.0;  -gamma 4.0 0.075 
+  Na_tr+ + X- = Na_trX; log_k 0.0;  -gamma 4.0 0.075
   Cs+ + X- = CsX;       log_k 2.04; -gamma 3.5 0.015
 
 SOLUTION 0-2 column with only cell 1, two boundary solutions 0 and 2.
   Na 1; Cl 1
 END
 
-#KNOBS; -tolerance 1e-20; -diagonal_scale true # because of low concentrations
+KNOBS; -diagonal_scale true #; -tolerance 1e-17 # if necessary, try lower tolereance 
 
 SOLUTION 3 tracer solution
   pH 7.6; pe 14 O2(g) -1.0; temp 23
   Na 240; K 1.61; Mg 16.9; Ca 25.8; Sr 0.505
   Cl 300; S(6) 14.1; Fe(2) 0.0; Alkalinity 0.476
 # uncomment tracer concentrations and kg water 1 by 1...
-#  Hto 1.14e-6;   -water 0.2
+   Hto 1.14e-6;   -water 0.2
 #  Cl_tr 2.505e-2; -water 0.502
-  Cs 1; Na_tr 1.87e-7; -water 1.02
+#  Cs 1; Na_tr 1.87e-7; -water 1.02
 SELECTED_OUTPUT
   -file radial; -reset false
 USER_PUNCH
@@ -116,18 +117,18 @@ USER_PUNCH
 520  sol$ = nl$ + ' pH 7.6' + sc$ +' pe 14 O2(g) -1.0' + sc$ +' temp 23'
 530  sol$ = sol$ + nl$ + ' Na 240' + sc$ +' K 1.61' + sc$ +' Mg 16.9' + sc$ +' Ca 25.8' + sc$ +' Sr 0.505'
 540  sol$ = sol$ + nl$ + ' Cl 300' + sc$ +' S(6) 14.1' + sc$ +' Fe(2) 0.0' + sc$ +' Alkalinity 0.476'
-     
+
      # Define phases in which the tracers precipitate...
 550  tracer_phases$ = nl$ + 'PHASES '
 560  tracer_phases$ = tracer_phases$ + nl$ + ' A_Hto' + nl$ + ' Hto = Hto' + sc$ +' log_k -15'
-570  tracer_phases$ = tracer_phases$ + nl$ + ' A_Na_tr' + nl$ + ' Na_trCl = Na_tr+ + Cl-' + sc$ + ' log_k -14'
+570  tracer_phases$ = tracer_phases$ + nl$ + ' A_Na_tr' + nl$ + ' Na_trCl = Na_tr+ + Cl-' + sc$ +' log_k -14'
 580  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cl_tr' + nl$ + ' NaCl_tr = Na+ + Cl_tr-' + sc$ +' log_k -14'
 590  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cs' + nl$ + ' CsCl = Cs+ + Cl-' + sc$ + ' log_k -13'
 600  DIM tracer_equi$(4)
 610  FOR i = 1 TO 4
 620    tracer_equi$(i) = nl$ + 'A_' + tracer$(i) + ' 0 0'
 630  NEXT i
-     
+
      # Write solutions for the cells...
 650  punch nl$ + 'PRINT ' + sc$ + ' -reset false' + sc$ + ' -echo_input true' + sc$ + ' -user_print true'
 660  IF nfilt1 = 0 THEN GOTO 800
@@ -141,7 +142,7 @@ USER_PUNCH
 740    punch sol$ + nl$
 750    r1 = r1 + xf1
 760  NEXT i
-     
+
 800  punch nl$ + nl$ + x$ + ' cells in Opalinus Clay...'
 810  r1 = r_int
 820  x = thickn_clay / nclay
@@ -160,7 +161,7 @@ USER_PUNCH
 950    punch nl$ + ' X ' + TRIM(STR$((1 - f_DL_charge) * CEC * V_water)) + nl$
 960    r1 = r1 + x
 970  NEXT i
-     
+
 1000 IF nfilt2 = 0 THEN GOTO 1200
 1010 punch nl$ + nl$ + x$ + ' tracer-out filter cells...'
 1020 r1 = r_ext
@@ -172,7 +173,7 @@ USER_PUNCH
 1080   punch sol$ + nl$
 1090   r1 = r1 + xf2
 1100 NEXT i
-     
+
 1200 punch nl$ + x$ + ' outside solution...'
 1210 num$ = TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + sc$
 1220 punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_end)
@@ -184,11 +185,11 @@ USER_PUNCH
 1310 punch nl$ + 'EQUILIBRIUM_PHASES ' + num$ + tracer_equi$(tracer)
 1312 If tracer = 3 THEN punch nl$ + tracer_equi$(tracer + 1)
 1320 punch nl$ + 'END'
-     
+
      # Define mixing factors for the diffusive flux between cells 1 and 2:
      #    J_12 = -2 * Dw / (x_1 / g_1 + x_2 / g_2) * (c_2 - c_1)
      # Multiply with dt * A / (V = 1e-3 m3).  (Actual volumes are given with SOLUTION; -water)
-     # Use harmonic mean: g_1 = por_1 / G_1, g_2 = por_2 / G_2, x_1 = Delta(x_1), etc. 
+     # Use harmonic mean: g_1 = por_1 / G_1, g_2 = por_2 / G_2, x_1 = Delta(x_1), etc.
 1400 IF nfilt1 > 0 THEN gf1 = por_filter1 / G_filter1
 1410 IF nfilt2 > 0 THEN gf2 = por_filter2 / G_filter2
 1420 g = por_clay / G_clay
@@ -252,7 +253,7 @@ USER_PUNCH
      # Write USER_GRAPH...
 2180 FOR i = 0 to 1
 2190   punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + i)) + ' Example 21' + nl$
-2200   punch nl$ + ' -chart_title " ' + tracer$(tracer + i) + ' Diffusion to Outer Cell"' 
+2200   punch nl$ + ' -chart_title " ' + tracer$(tracer + i) + ' Diffusion to Outer Cell"'
 2210   punch nl$ + ' -plot_tsv_file ex21_' + tracer$(tracer + i) + '_rad.tsv'
 2220   punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time(tracer + i) / (3600 * 24)))
 2230   punch nl$ + ' -axis_titles "TIME, IN DAYS" "FLUX, IN MOL/M2/S" "ACCUMULATED MASS, IN MOL"'
@@ -263,9 +264,11 @@ USER_PUNCH
 2280   punch nl$ + ' 40 dt = get(1)'
 2290   A = 2 * pi * r_ext * height
 2300   i$ = TRIM(STR$(2 + i))
-2310   punch nl$ + ' 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) / dt /' + STR$(A) +', color = Green, symbol = None'
+2310   punch nl$ + ' 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) / dt /' + STR$(A) + \
+	', color = Green, symbol = None'
 2320   punch nl$ + ' 60 put(a, ' + i$ + ')'
-2330   punch nl$ + ' 70 plot_xy days, equi("A_' + tracer$(tracer + i) + '"), y_axis = 2, color = Red, symbol = None'
+2330   punch nl$ + ' 70 plot_xy days, equi("A_' + tracer$(tracer + i) + \
+	'"), y_axis = 2, color = Red, symbol = None'
 2340   IF tracer < 3 THEN GOTO 2360
 2350 NEXT i
 2360 punch nl$ + 'END'
@@ -292,9 +295,10 @@ USER_PUNCH
      # Write USER_GRAPH...
 3030 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer)) + sc$ + ' -detach'
 3040 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + 4)) + ' Example 21' + nl$
-3050 punch nl$ + ' -chart_title "' + tracer$(tracer) + ' Concentration Profile: Filter1 | Clay | Filter2"' 
-3060 REM punch nl$ + ' -plot_tsv_file ' + tracer$(tracer) + '_prof.tsv'
-3070 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$((thickn_filter1 + thickn_clay + thickn_filter2) * 1e3))
+3050 punch nl$ + ' -chart_title "' + tracer$(tracer) + ' Concentration Profile: Filter1 | Clay | Filter2"'
+3060 REM punch nl$ + ' -plot_tsv_file + tracer$(tracer) + '_prof.tsv'
+3070 punch nl$ + ' -axis_scale x_axis 0 ' + \
+	TRIM(STR$((thickn_filter1 + thickn_clay + thickn_filter2) * 1e3))
 3080 punch nl$ + ' -axis_scale y_axis ' + profile_y1$(tracer)
 3090 punch nl$ + ' -axis_scale sy_axis ' + profile_y2$(tracer)
 3100 punch nl$ + ' -axis_titles ' + '"DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"'
@@ -302,32 +306,43 @@ USER_PUNCH
 3120 punch nl$ + ' -plot_concentration_vs x'
 3130 punch nl$ + ' -initial_solutions true'
 3140 punch nl$ + ' 10 IF cell_no = 3 THEN xval = 0 ELSE xval = get(14)'
-3150 punch nl$ + ' 20 IF (' + TRIM(STR$(nfilt1)) + ' = 0 OR cell_no > ' + TRIM(STR$(nfilt1 + 3)) + ') THEN GOTO 60'
+3150 punch nl$ + ' 20 IF (' + TRIM(STR$(nfilt1)) + ' = 0 OR cell_no > ' + \
+	TRIM(STR$(nfilt1 + 3)) + ') THEN GOTO 60'
 3160 punch nl$ + ' 30 IF (cell_no = 4) THEN xval = xval + 0.5 * ' + TRIM(STR$(xf1))
-3170 punch nl$ + ' 40 IF (cell_no > 4 AND cell_no < ' + TRIM(STR$(nfilt1 + 4)) + ') THEN xval = xval + ' + TRIM(STR$(xf1))
+3170 punch nl$ + ' 40 IF (cell_no > 4 AND cell_no < ' + \
+	TRIM(STR$(nfilt1 + 4)) + ') THEN xval = xval + ' + TRIM(STR$(xf1))
 3180 punch nl$ + ' 50 GOTO 200'
-3190 punch nl$ + ' 60 IF (cell_no = ' + TRIM(STR$(4 + nfilt1)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf1)) + ' + 0.5 * ' + TRIM(STR$(x))
-3200 punch nl$ + ' 70 IF (cell_no > ' + TRIM(STR$(4 + nfilt1)) + ' AND cell_no < ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + ' + TRIM(STR$(x)) + ' ELSE GOTO 90'
+3190 punch nl$ + ' 60 IF (cell_no = ' + TRIM(STR$(4 + nfilt1)) + ') THEN \
+	xval = xval + 0.5 * ' + TRIM(STR$(xf1)) + ' + 0.5 * ' + TRIM(STR$(x))
+3200 punch nl$ + ' 70 IF (cell_no > ' + TRIM(STR$(4 + nfilt1)) + ' AND cell_no < ' + \
+	TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + ' + TRIM(STR$(x)) + ' ELSE GOTO 90'
 3210 punch nl$ + ' 80 GOTO 200'
-3220 punch nl$ + ' 90 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(x)) + ' + 0.5 * ' + TRIM(STR$(xf2))
-3230 punch nl$ + ' 100 IF (cell_no > ' + TRIM(STR$(4 + nfilt1 + nclay)) + ' AND cell_no <= ' + TRIM(STR$(3 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + ' + TRIM(STR$(xf2))
-3240 punch nl$ + ' 110 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf2))
+3220 punch nl$ + ' 90 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN \
+	xval = xval + 0.5 * ' + TRIM(STR$(x)) + ' + 0.5 * ' + TRIM(STR$(xf2))
+3230 punch nl$ + ' 100 IF (cell_no > ' + TRIM(STR$(4 + nfilt1 + nclay)) + ' AND cell_no <= ' + \
+	TRIM(STR$(3 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + ' + TRIM(STR$(xf2))
+3240 punch nl$ + ' 110 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + ') THEN \
+	xval = xval + 0.5 * ' + TRIM(STR$(xf2))
 3250 punch nl$ + ' 200 y1 = TOT("' + tracer$(tracer) + '")'
 3260 punch nl$ + ' 210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus'
 3270 punch nl$ + ' 220 IF cell_no = 3 THEN put(y1, 15)'
-3280 punch nl$ + ' 230 IF (cell_no < ' + TRIM(STR$(4 + nfilt1)) + ' OR cell_no > ' + TRIM(STR$(3 + nfilt1 + nclay)) + ') THEN GOTO 400'
+3280 punch nl$ + ' 230 IF (cell_no < ' + TRIM(STR$(4 + nfilt1)) + ' OR cell_no > ' + \
+	TRIM(STR$(3 + nfilt1 + nclay)) + ') THEN GOTO 400'
 3290 punch nl$ + ' 240 y2 = SYS("' + tracer$(tracer) + '") / (tot("water") + edl("water"))'
      # Remove REM if total conc's per kg solid must be plotted (and adapt axis_titles)...
 3310 punch nl$ + ' 250 REM y2 = y2 / ' + TRIM(STR$(rho_b_eps)) + x$ + ' conc / kg solid'
 3320 punch nl$ + ' 260 plot_xy xval * 1e3, y2, symbol = Circle, y_axis = 2'
 3330 punch nl$ + ' 270 IF (cell_no > ' + TRIM(STR$(5 + nfilt1)) + ') THEN GOTO 400'
-3340 punch nl$ + ' 280 IF ' + TRIM(STR$(nfilt1)) + ' THEN plot_xy ' + TRIM(STR$(thickn_filter1 * 1e3)) + ', get(15), color = Black, symbol = None'
-3350 punch nl$ + ' 290 IF ' + TRIM(STR$(nfilt2)) + ' THEN plot_xy ' + TRIM(STR$((thickn_filter1 + thickn_clay) * 1e3)) + ', get(15), color = Black, symbol = None'
+3340 punch nl$ + ' 280 IF ' + TRIM(STR$(nfilt1)) + ' THEN plot_xy ' + \
+	TRIM(STR$(thickn_filter1 * 1e3)) + ', get(15), color = Black, symbol = None'
+3350 punch nl$ + ' 290 IF ' + TRIM(STR$(nfilt2)) + ' THEN plot_xy ' + \
+	TRIM(STR$((thickn_filter1 + thickn_clay) * 1e3)) + \
+	', get(15), color = Black, symbol = None'
 3360 punch nl$ + ' 300 put(0, 15)'
 3370 punch nl$ + ' 400 put(xval, 14)'
 3380 punch nl$ + 'END'
 3390 RETURN
-END  
+END
 PRINT
  -selected_out false
 INCLUDE$ radial
