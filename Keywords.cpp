@@ -122,7 +122,8 @@ std::map<const std::string, Keywords::KEYWORDS>::value_type("solid_solution_modi
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressure", 			Keywords::KEY_REACTION_PRESSURE),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressures", 			Keywords::KEY_REACTION_PRESSURE),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressure_raw", 		Keywords::KEY_REACTION_PRESSURE_RAW),
-std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressure_modify", 	Keywords::KEY_REACTION_PRESSURE_MODIFY)
+std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressure_modify", 	Keywords::KEY_REACTION_PRESSURE_MODIFY),
+std::map<const std::string, Keywords::KEYWORDS>::value_type("solution_mix", 	            Keywords::KEY_SOLUTION_MIX)
 
 };
 std::map<const std::string, Keywords::KEYWORDS> Keywords::phreeqc_keywords(temp_keywords, temp_keywords + sizeof temp_keywords / sizeof temp_keywords[0]);
@@ -196,6 +197,7 @@ std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTI
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_TEMPERATURE_MODIFY,	"REACTION_TEMPERATURE_MODIFY"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE,			"REACTION_PRESSURE"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_RAW,		"REACTION_PRESSURE_RAW"),
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_MODIFY,		"REACTION_PRESSURE_MODIFY")	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_MODIFY,		"REACTION_PRESSURE_MODIFY"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLUTION_MIX,		            "SOLUTION_MIX")	
 };
 std::map<Keywords::KEYWORDS, const std::string> Keywords::phreeqc_keyword_names(temp_keyword_names, temp_keyword_names + sizeof temp_keyword_names / sizeof temp_keyword_names[0]);

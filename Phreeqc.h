@@ -395,6 +395,7 @@ public:
 	int initial_exchangers(int print);
 	int initial_gas_phases(int print);
 	int initial_solutions(int print);
+	int solution_mix(void);
 	int step_save_exch(int n_user);
 	int step_save_surf(int n_user);
 	int initial_surfaces(int print);
@@ -687,6 +688,7 @@ public:
 	int *read_list_t_f(char **ptr, int *count_ints);
 	int read_master_species(void);
 	int read_mix(void);
+	int read_solution_mix(void);
 	int read_named_logk(void);
 	int read_phases(void);
 	int read_print(void);
@@ -1192,6 +1194,7 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxMix> Rxn_mix_map;
 	std::map<int, cxxMix> Dispersion_mix_map;
+	std::map<int, cxxMix> Rxn_solution_mix_map;
 
 	/*----------------------------------------------------------------------
 	*   Irreversible reaction

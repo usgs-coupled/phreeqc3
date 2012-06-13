@@ -112,6 +112,9 @@ read_input(void)
 		case Keywords::KEY_MIX:
 			read_mix();
 			break;
+		case Keywords::KEY_SOLUTION_MIX:
+			read_solution_mix();
+			break;
 		case Keywords::KEY_USE:
 			read_use();
 			break;
@@ -3388,6 +3391,110 @@ read_mix(void)
 		}
 	}
 
+	return (return_value);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_solution_mix(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Reads mixing fractions
+ */
+	int n_user, n_user_end;
+	int return_value;
+	int n_solution;
+	LDBLE fraction;
+	int j, i, l;
+	char *ptr;
+	char token[MAX_LENGTH];
+	char *description;
+	cxxMix temp_mix;
+
+/*
+ *   Read mix number
+ */
+	ptr = line;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+
+	temp_mix.Set_n_user(n_user);
+	temp_mix.Set_n_user_end(n_user_end);
+	temp_mix.Set_description(description);
+	free_check_null(description);
+#ifdef SKIP
+/*
+ *   Set use data to first read
+ */
+	if (use.Get_mix_in() == FALSE)
+	{
+		use.Set_mix_in(true);
+		use.Set_n_mix_user(n_user);
+	}
+#endif
+/*
+ *   Read mixture data
+ */
+	for (;;)
+	{
+		return_value = check_line("Mix raw data", FALSE, TRUE, TRUE, TRUE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+		{
+			break;
+		}
+		ptr = line;
+/*
+ *   Read n_user
+ */
+		i = copy_token(token, &ptr, &l);
+		if (i == DIGIT)
+		{
+			sscanf(token, "%d ", &n_solution);
+		}
+		else
+		{
+			input_error++;
+			error_msg("Expected a solution number in mix_raw input.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			continue;
+		}
+/*
+ *   Read fraction for solution
+ */
+		copy_token(token, &ptr, &l);
+		j = sscanf(token, SCANFORMAT, &fraction);
+		if (j != 1)
+		{
+			input_error++;
+			error_msg("Expected a mixing fraction.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			continue;
+		}
+		
+/*
+ *   Save data
+ */
+		temp_mix.Add(n_solution ,fraction);
+	}
+	if (temp_mix.Get_mixComps().size() == 0)
+	{
+		input_error++;
+		error_msg
+			("Must define at least one solution number and mixing fraction for MIX_RAW input.",
+			 CONTINUE);
+	}
+	Rxn_solution_mix_map[n_user] = temp_mix;
+#ifdef SKIP
+	// copy if needed
+	if (n_user_end > n_user)
+	{
+		int i;
+		for (i = n_user + 1; i <= n_user_end; i++)
+		{
+			Utilities::Rxn_copy(Rxn_mix_map, n_user, i);
+		}
+	}
+#endif
 	return (return_value);
 }
 

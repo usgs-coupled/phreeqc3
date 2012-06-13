@@ -686,6 +686,8 @@ cxxSolution::zero()
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
 	this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
 	this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
+	this->patm = 1.0;
+	this->initial_data = NULL;
 }
 
 void
