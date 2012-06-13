@@ -54,9 +54,10 @@ read_solution_spread(void)
 		"isotope_uncertainty",	/* 11 */
 		"uncertainty",			/* 12 */
 		"uncertainties",		/* 13 */
-		"pressure"				/* 14 */
+		"pressure",				/* 14 */
+		"press"		  		    /* 15 */
 	};
-	int count_opt_list = 15;
+	int count_opt_list = 16;
 /*
  * Initialize defaults
  */
@@ -205,6 +206,7 @@ read_solution_spread(void)
 					}
 					break;
 				case 14: /* pressure */
+				case 15: /* press */
 					sscanf(next_char, SCANFORMAT, &(soln_defaults.pressure));
 					break;
 				}
@@ -517,9 +519,10 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 		"description",			/* 11 */
 		"desc",					/* 12 */
 		"descriptor",			/* 13 */
-		"pressure"				/* 14 */
+		"pressure",				/* 14 */
+		"press"				    /* 15 */
 	};
-	int count_opt_list = 15;
+	int count_opt_list = 16;
 
 /*
  *      look for solution number
@@ -825,13 +828,9 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			}
 			break;
 		case 14:				/* pressure */
+		case 15:				/* press */
 			{
-				next_char = char_string;
-				if (sscanf(next_char, SCANFORMAT, &dummy) != 1)
-				{
-					temp_solution.Set_patm(1);
-				}
-				else
+				if (sscanf(next_char, SCANFORMAT, &dummy) == 1)
 				{
 					temp_solution.Set_patm(dummy);
 				}
