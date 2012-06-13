@@ -1035,6 +1035,25 @@ initial_solutions(int print)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
+solution_mix()
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Go through list of solution_mix, mix, save solutions
+ */
+	std::map<int, cxxMix>::iterator it;
+	for (it = Rxn_solution_mix_map.begin(); it != Rxn_solution_mix_map.end(); it++)
+	{
+		int i = 1; 
+		cxxSolution sol(Rxn_solution_map, it->second, it->second.Get_n_user(), this->phrq_io);
+		Rxn_solution_map[it->second.Get_n_user()] = sol;
+		Utilities::Rxn_copies(Rxn_solution_map, it->second.Get_n_user(), it->second.Get_n_user_end());
+	}
+	Rxn_solution_mix_map.clear();
+	return OK;
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
 initial_exchangers(int print)
 /* ---------------------------------------------------------------------- */
 {
@@ -2626,6 +2645,11 @@ run_simulations(void)
  */
 			if (new_solution)
 				initial_solutions(TRUE);
+/*
+ *   Calculate mixed solutions
+ */
+			if (Rxn_solution_mix_map.size() > 0)
+				solution_mix();
 /*
  *   Calculate distribution for exchangers
  */
