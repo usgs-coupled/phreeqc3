@@ -1,6 +1,7 @@
 #include "runner.h"
 #include "Parser.h"
 #include "NA.h"
+#include "Utils.h"
 runner::runner(PHRQ_io *io)
 :
 PHRQ_base(io)
@@ -99,6 +100,15 @@ bool runner::Read(CParser & parser)
 				parser.error_msg("Expected start_time for RUN_CELLS.",
 					PHRQ_io::OT_CONTINUE);
 				parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
+				break;
+			}
+			{
+				std::string token;
+				if (parser.get_iss() >> token)
+				{
+					token = trim(token);
+					this->start_time = Utilities::convert_time(this->start_time, token, "s");
+				}
 			}
 			break;
 		case 3:				//time_step
@@ -110,6 +120,15 @@ bool runner::Read(CParser & parser)
 				parser.error_msg("Expected time_step for RUN_CELLS.",
 					PHRQ_io::OT_CONTINUE);
 				parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
+				break;
+			}
+			{
+				std::string token;
+				if (parser.get_iss() >> token)
+				{
+					token = trim(token);
+					this->time_step = Utilities::convert_time(this->time_step, token, "s");
+				}
 			}
 			break;
 		default:

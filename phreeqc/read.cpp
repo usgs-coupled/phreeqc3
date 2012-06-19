@@ -1999,6 +1999,7 @@ read_kinetics(void)
 	temp_kinetics.Set_description(description);
 	description = (char *) free_check_null(description);
 	cxxKineticsComp *kinetics_comp_ptr = NULL;
+	std::string stdunits;
 /*
  *   Set use data to first read
  */
@@ -2210,68 +2211,80 @@ read_kinetics(void)
 			 */
 			{
 				int j;
-				while ((j = copy_token(token, &next_char)) == DIGIT)
+				while ((j = copy_token(token, &next_char)) != EMPTY)
 				{
-					/*  Read next step increment(s) */
-	/* multiple, equal timesteps 15 aug. 2005 */
-					if (Utilities::replace("*", " ", token))
+					if (j == DIGIT)
 					{
-						int k;
-						if (sscanf(token.c_str(), "%d" SCANFORMAT, &k, &step) == 2)
+						/*  Read next step increment(s) */
+		/* multiple, equal timesteps 15 aug. 2005 */
+						if (Utilities::replace("*", " ", token))
 						{
-							for (int i = 0; i < k; i++)
+							int k;
+							if (sscanf(token.c_str(), "%d" SCANFORMAT, &k, &step) == 2)
 							{
-								temp_kinetics.Get_steps().push_back(step);
+								for (int i = 0; i < k; i++)
+								{
+									temp_kinetics.Get_steps().push_back(step);
+								}
+							}
+							else
+							{
+								input_error++;
+								error_msg
+									("Format error in multiple, equal KINETICS timesteps.\nCorrect is (for example): 20 4*10 2*5 3\n",
+									 CONTINUE);
 							}
 						}
 						else
 						{
-							input_error++;
-							error_msg
-								("Format error in multiple, equal KINETICS timesteps.\nCorrect is (for example): 20 4*10 2*5 3\n",
-								 CONTINUE);
+							step = strtod(token.c_str(), &ptr);
+							temp_kinetics.Get_steps().push_back(step);
 						}
 					}
 					else
 					{
-						step = strtod(token.c_str(), &ptr);
-						temp_kinetics.Get_steps().push_back(step);
+						Utilities::str_tolower(token);
+						if (token.substr(0,1) == "i" )
+						{
+							/*
+							 *   Read number of increments
+							 */
+							if (temp_kinetics.Get_steps().size() != 1)
+							{
+								error_msg
+									("To define equal time increments, only one total time should be defined.",
+									 CONTINUE);
+								input_error++;
+								break;
+							}
+							temp_kinetics.Set_equalIncrements(true);
+							do
+							{
+								int i = 1;
+								j = sscanf(token.c_str(), "%d", &i);
+								if (j == 1)
+								{
+									temp_kinetics.Set_count(abs(i));
+									break;
+								}
+								else if (j == 1 && i < 0)
+								{
+									error_msg
+										("Expecting positive number for number of equal "
+										 "time increments for kinetics.", CONTINUE);
+									error_msg(line_save, CONTINUE);
+									input_error++;
+									break;
+								}
+							}
+							while (copy_token(token, &next_char) != EMPTY);
+						}
+						else 
+						{
+							stdunits = token;
+						}
 					}
 				}
-				if (j == EMPTY)
-					break;
-				/*
-				 *   Read number of increments
-				 */
-				if (temp_kinetics.Get_steps().size() != 1)
-				{
-					error_msg
-						("To define equal time increments, only one total time should be defined.",
-						 CONTINUE);
-					input_error++;
-					break;
-				}
-				temp_kinetics.Set_equalIncrements(true);
-				do
-				{
-					int i = 1;
-					j = sscanf(token.c_str(), "%d", &i);
-					if (j == 1)
-					{
-						temp_kinetics.Set_count(abs(i));
-						break;
-					}
-					else if (j == 1 && i < 0)
-					{
-						error_msg
-							("Expecting positive number for number of equal "
-							 "time increments for kinetics.", CONTINUE);
-						error_msg(line_save, CONTINUE);
-						input_error++;
-						break;
-					}
-				}
-				while (copy_token(token, &next_char) != EMPTY);
 			}
 			break;
 		case 6:				/* step_divide */
@@ -2396,6 +2409,14 @@ read_kinetics(void)
 	if (temp_kinetics.Get_steps().size() == 0)
 	{
 		temp_kinetics.Get_steps().push_back(1.0);
+	}
+	else if (stdunits.size() > 0)
+	{
+		std::vector<double>::iterator it;
+		for (it = temp_kinetics.Get_steps().begin(); it != temp_kinetics.Get_steps().end(); it++)
+		{
+			*it = Utilities::convert_time(*it, stdunits, "s");
+		}
 	}
 /*
  *   set defaults for moles
@@ -7384,6 +7405,15 @@ read_advection(void)
 		case 7:				/* time_step */
 		case 8:				/* timest */
 			sscanf(next_char, SCANFORMAT, &advection_kin_time);
+			{
+				std::string token;
+				int j = copy_token(token, &next_char);
+				j = copy_token(token, &next_char);
+				if (j == UPPER || j == LOWER)
+				{
+					advection_kin_time = Utilities::convert_time(advection_kin_time, token, "s");
+				}
+			}
 			advection_kin_time_defined = TRUE;
 			opt_save = OPTION_DEFAULT;
 			break;

@@ -111,7 +111,50 @@ Utilities::squeeze_white(std::string & s_l)
 	}
 	s_l = str;
 }
+////////////////////////////////////////////////////////////////////////////
+double 
+Utilities::convert_time(double t, std::string in, std::string out)
+////////////////////////////////////////////////////////////////////////////
+{
+	Utilities::str_tolower(in);
 
+	// convert t to seconds
+	if (in.substr(0,1) == "m")
+	{
+		t = t * 60.;
+	}
+	if (in.substr(0,1) == "h")
+	{
+		t = t * 3600.;
+	}
+	if (in.substr(0,1) == "d")
+	{
+		t = t * 3600. * 24.;
+	}
+	if (in.substr(0,1) == "y")
+	{
+		t = t * 3600. * 24. * 365.25;
+	}
+	// convert to ouput units
+	if (out.substr(0,1) == "m")
+	{
+		t = t / 60.;
+	}
+	if (out.substr(0,1) == "h")
+	{
+		t = t / 3600.;
+	}
+	if (out.substr(0,1) == "d")
+	{
+		t = t / ( 3600. * 24.);
+	}
+	if (out.substr(0,1) == "y")
+	{
+		t = t / (3600. * 24. * 365.25);
+	}
+	return t;
+
+}
 //+NAN LDBLE: 7ff8000000000000
 //-NAN LDBLE: fff8000000000000
 /*
