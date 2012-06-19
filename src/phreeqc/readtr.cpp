@@ -7,6 +7,7 @@
 typedef unsigned char boolean;
 #include "Phreeqc.h"
 #include "phqalloc.h"
+#include "Utils.h"
 
 
 #define OPTION_EOF -1
@@ -273,12 +274,25 @@ read_transport(void)
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
-		case 5:				/* timest */
+		case 5:					/* timest */
 		case 14:				/* time_step */
 			if (copy_token(token, &next_char, &l) == DIGIT)
 				sscanf(token, SCANFORMAT, &timest);
-			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, SCANFORMAT, &mcd_substeps);
+			{
+				std::string stdtoken;
+				j = copy_token(stdtoken, &next_char);
+				if (j == UPPER || j == LOWER)
+				{
+					timest = Utilities::convert_time(timest, stdtoken, "s");
+					j = copy_token(stdtoken, &next_char);
+				}
+				if (j == DIGIT)
+				{
+					sscanf(stdtoken.c_str(), SCANFORMAT, &mcd_substeps);
+				}
+			}
+			//if (copy_token(token, &next_char, &l) == DIGIT)
+			//	sscanf(token, SCANFORMAT, &mcd_substeps);
 			if (mcd_substeps < 1)
 			{
 				mcd_substeps = 1.0;

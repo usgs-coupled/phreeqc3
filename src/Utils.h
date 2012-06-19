@@ -22,6 +22,6 @@ namespace Utilities
 	bool replace(const char *str1, const char *str2, std::string & str);
 
 	void squeeze_white(std::string & s_l);
-
+	double convert_time(double t, std::string in, std::string out);
 }
 #endif // UTILITIES_H_INCLUDED
