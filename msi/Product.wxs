@@ -47,6 +47,7 @@
           <Directory Id="doc" Name="doc"/>
           <Directory Id="examples" Name="examples"/>
           <Directory Id="src" Name="src">
+            <Directory Id="phreeqc" Name="phreeqc"/>
             <Directory Id="Release" Name="Release"/>
           </Directory>
           <Directory Id="test" Name="test"/>
@@ -56,7 +57,7 @@
 
     <!-- top dir -->
     <DirectoryRef Id="APPLICATIONFOLDER">
-      <Component Id="top.dir" Guid="A30D01A1-F3DC-4c7e-BDB5-00E30BA4F209">
+      <Component Id="top.dir" Guid="*">
         <!-- batch file -->
         <File Id="phreeqc.bat" Name="phreeqc.bat" Source="..\win\phreeqc2.bat" />
         <!-- path -->
@@ -75,13 +76,13 @@
         <!-- text files -->
         <File Id="NOTICE.TXT" Name="NOTICE.TXT" Source="..\doc\NOTICE.TXT" />
         <File Id="README.TXT" Name="README.TXT" Source="..\win\README.TXT" />
-        <File Id="RELEASE.TXT" Name="RELEASE.TXT" Source="..\src\revisions" />
+        <File Id="RELEASE.TXT" Name="RELEASE.TXT" Source="..\src\phreeqc\revisions" />
       </Component>
     </DirectoryRef>
 
     <!-- doc -->
     <DirectoryRef Id="doc">
-      <Component Id="doc" Guid="C4320025-B374-4445-BF78-9684010ECFF5">
+      <Component Id="doc" Guid="*">
         <File Id="filDA4893EAA735D8EA151EDCF3107A8D89" Source="..\doc\manual.pdf" KeyPath="yes" />
         <File Id="fil5F379D629211874DFB03357D7E17E72E" Source="..\doc\phreeqc.txt" />
         <File Id="fil55394A9EBD892E09CA706026D64063D7" Source="..\doc\wrir02-4172.pdf" />
@@ -90,7 +91,7 @@
 
     <!-- examples -->
     <DirectoryRef Id="examples">
-      <Component Id="examples" Guid="593C751F-687C-4089-BE85-CA1CB6AF3A96">
+      <Component Id="examples" Guid="*">
         <File Id="filE81E4FC0200D24E60A6DDC3063D2F40F" Source="..\examples\ex1" KeyPath="yes" />
         <File Id="fil769FD0424D29D7326655D21B1E3EF1CD" Source="..\examples\ex1.out" />
         <File Id="filCB9A0990FD69EEFF1E046E2D783435DF" Source="..\examples\ex10" />
@@ -156,74 +157,155 @@
 
     <!-- src -->
     <DirectoryRef Id="src">
-      <Component Id="src" Guid="5CFB5531-2950-4b06-81F8-BA1F667E74AC">
-        <File Id="filD8AD188464F7866DD028DB69F3E4D29D" Source="..\src\Makefile" KeyPath="yes" />
-        <File Id="filF284C8ED2D0545B0B89974D0F18DC452" Source="..\src\advection.c" />
-        <File Id="filC75CDABB97474C3DB50E7AB0BBDAEA99" Source="..\src\basic.c" />
-        <File Id="fil320DFF3C21D5F19E885FF971EAFE4F93" Source="..\src\basic.h" />
-        <File Id="fil5DFF29E30C39EBAE73E337B0AB906DE7" Source="..\src\basicsubs.c" />
-        <File Id="fil056186FA3BAF82B16EECB257C04E08DA" Source="..\src\cl1.c" />
-        <File Id="filDD5C071663A3905B644DB7D62860B978" Source="..\src\cl1mp.c" />
-        <File Id="fil6FB343587531622B2C75B7E3C5C29CCE" Source="..\src\cvdense.c" />
-        <File Id="fil2F263E479BFAD03EE2E3A5E6D69C74A1" Source="..\src\cvdense.h" />
-        <File Id="fil41260F7DC3DAB49D649EF5137804FAF7" Source="..\src\cvode.c" />
-        <File Id="filA3BFEF2AC38843383B32C44C7D9D9BAB" Source="..\src\cvode.h" />
-        <File Id="fil728A2B221023B302A47E4447D5EF32AE" Source="..\src\dense.c" />
-        <File Id="fil567EC0B47E0812A01B80ADBCD62AECDA" Source="..\src\dense.h" />
-        <File Id="fil9DE4CB313B3CE7EEBA06BAE49FACA148" Source="..\src\dw.c" />
-        <File Id="filC4F425BF224DFBF8478F96BFFD94A6FD" Source="..\src\global.h" />
-        <File Id="filB09FB29A13A774B217A18FEE6751FBD1" Source="..\src\global_structures.h" />
-        <File Id="filFC17CE7089B3942FD2594458E2C9DDEF" Source="..\src\input.c" />
-        <File Id="filDA022B116DA87F8208E238288DE484D2" Source="..\src\input.h" />
-        <File Id="fil2A99CD9DCAD764E25889555BE1E8C95D" Source="..\src\integrate.c" />
-        <File Id="fil05DAC842362197E165D2B79BF73EE5C2" Source="..\src\inverse.c" />
-        <File Id="fil54D019FAE9A60D6104F460CC9BDC2308" Source="..\src\isotopes.c" />
-        <File Id="fil9E9FC587205D95302338D776075F751A" Source="..\src\kinetics.c" />
-        <File Id="fil5AE3EAD7D07F5919C307DDD9787C55F4" Source="..\src\kinetics.h" />
-        <File Id="fil8DB867823CA5D6DFC04DDE3ECB8C6D5A" Source="..\src\main.c" />
-        <File Id="filFEF6E3231CDEBC11664390871D23EB16" Source="..\src\mainsubs.c" />
-        <File Id="filE1E660A1B547DF242C8DEFB602E05C95" Source="..\src\model.c" />
-        <File Id="filDDD4A5468CF46E889AF506EC939E675B" Source="..\src\nvector.c" />
-        <File Id="filBBB4AF13F597663EC422677AEC2DBF7F" Source="..\src\nvector.h" />
-        <File Id="fil77B486DAEC9280B2103481128D91F713" Source="..\src\nvector_serial.c" />
-        <File Id="fil387F29776659B5DDDD760BD6902F176F" Source="..\src\nvector_serial.h" />
-        <File Id="filE31AF0BC6CB16D46D5F54FC9175FA1E5" Source="..\src\output.c" />
-        <File Id="filC48C21EEC88DBCE1D4620FB7D76CE9E8" Source="..\src\output.h" />
-        <File Id="fil10AA9C4AE479D6993FCA535573927E1D" Source="..\src\p2c.h" />
-        <File Id="filA03F580F67A092C6DE23E4DC7548BE45" Source="..\src\p2clib.c" />
-        <File Id="fil84D498CB4199F35EAFB9801B26C8007C" Source="..\src\parse.c" />
-        <File Id="fil99D60DD8290A4DEE58B1C9E5D3426A95" Source="..\src\phqalloc.c" />
-        <File Id="fil6B83CBFF2D1D967669B2D78FE8737D2D" Source="..\src\phqalloc.h" />
-        <File Id="filEBC5B3691C715F739F65B5DCC6761219" Source="..\src\phreeqc_files.c" />
-        <File Id="fil1C8A8F4D7B317EEBD279F160715FD8D5" Source="..\src\phrqproto.h" />
-        <File Id="filBC7AE0733730ECCF3CD0CFB85EC0E300" Source="..\src\phrqtype.h" />
-        <File Id="filFEDD60D783DBE3A3724E77C6D4EEBC3A" Source="..\src\pitzer.c" />
-        <File Id="fil61E2CD2D84B35B29293E1217737F59AA" Source="..\src\pitzer.h" />
-        <File Id="fil7AFA9B02423C9E636FF20170F8371F3D" Source="..\src\pitzer_structures.c" />
-        <File Id="fil2DC0683FCF593C9A3BE26645E32DD0B2" Source="..\src\pitzer_structures.h" />
-        <File Id="fil55E0F257A5819D2D772511F618FFCEC8" Source="..\src\prep.c" />
-        <File Id="fil4BD36341B1C285D860C48427833B7C86" Source="..\src\print.c" />
-        <File Id="fil65DDA2CCBC89AFACD65DDB428B6ABFFC" Source="..\src\read.c" />
-        <File Id="fil1598C0580237EF44314B2FEE2CAA95D2" Source="..\src\readtr.c" />
-        <File Id="filFD99718A89BD6AA94B6C7C25FAF192A3" Source="..\src\sit.c" />
-        <File Id="fil9DB5D5D7374B5C683044608D9F54FE3B" Source="..\src\smalldense.c" />
-        <File Id="fil5177AB63914B42E4F05E317CF06D743B" Source="..\src\smalldense.h" />
-        <File Id="fil7AAB4684553DF1C4671224A441805A78" Source="..\src\spread.c" />
-        <File Id="fil47673CA865F57E6E7B16D172D541C022" Source="..\src\step.c" />
-        <File Id="fil341905853CA4392D93447354AB467FC5" Source="..\src\structures.c" />
-        <File Id="fil241876CBFE79476993BA6A060E859E47" Source="..\src\sundialsmath.c" />
-        <File Id="fil553DCCF34E48BD25B93AE193DFC5852D" Source="..\src\sundialsmath.h" />
-        <File Id="filB6E7ED9854546F802A18A3E0B78DA20C" Source="..\src\sundialstypes.h" />
-        <File Id="filE35C1912F954974B9831D255005CC3ED" Source="..\src\tally.c" />
-        <File Id="fil7EDD5FEBB48CC9851B4A358B7AB921D1" Source="..\src\tidy.c" />
-        <File Id="filAB3DB2F1D25A8CDE2706C79D0E40A2FF" Source="..\src\transport.c" />
-        <File Id="filE18EF9E2105D6CD72E38C06C5F70E8CC" Source="..\src\utilities.c" />
+      <Component Id="src" Guid="*">
+        <File Id="fil06D2A2C2548AFE74E9781BD91BF743AE" Source="..\src\Makefile" KeyPath="yes" />
+        <File Id="fil3E10EC75ABC1FDC582C81EA9D854C710" Source="..\src\ChartHandler.cpp" />
+        <File Id="fil109339E6807DD047612EEA0F8EAFD54F" Source="..\src\ChartHandler.h" />
+        <File Id="fil03D11773954FC1A6D061CA465CE8105A" Source="..\src\ChartObject.cpp" />
+        <File Id="fil464B72C5B7D4BC98F4DC9DEEE66268AC" Source="..\src\ChartObject.h" />
+        <File Id="filCBC09EEA16661F2C0770C0F8D451AC6D" Source="..\src\class_main.cpp" />
+        <File Id="filAB160316FAC2772223C8878BE5EA1CD1" Source="..\src\CurveObject.cpp" />
+        <File Id="filE1F75D26F011FD96FD04FD68BF317ACD" Source="..\src\CurveObject.h" />
+        <File Id="fil255B54A7BB063811A2ABCEC999EF74A6" Source="..\src\cxxKinetics.cxx" />
+        <File Id="filE14D7F019EA7F9EC0B910D8D05068B17" Source="..\src\cxxKinetics.h" />
+        <File Id="fil8E0EFC5A411AE2B8C1157BD02BCD02CC" Source="..\src\cxxMix.cxx" />
+        <File Id="fil4F5F886ED2607087F0AB5EB102DE9098" Source="..\src\cxxMix.h" />
+        <File Id="filF8612AA8051400BAAE4E8A621FF519CD" Source="..\src\dumper.cpp" />
+        <File Id="filF1AB4B1B3239DC2A18959E83E6E8C217" Source="..\src\dumper.h" />
+        <File Id="fil731FB394AF777CA7C8B89AB46D97788F" Source="..\src\Exchange.cxx" />
+        <File Id="fil2FB08FC0F1C3CF2BA047E2F6B6BA59B7" Source="..\src\Exchange.h" />
+        <File Id="fil9C9630FE371EB62EBDB8340716C6E3D0" Source="..\src\ExchComp.cxx" />
+        <File Id="fil31F26D514BEC0ED7C75E99C83DBDFC44" Source="..\src\ExchComp.h" />
+        <File Id="fil47FFF808E75A5D49B21E77D876AE5EEF" Source="..\src\GasComp.cxx" />
+        <File Id="filAF648B592E155030536D23745E364D98" Source="..\src\GasComp.h" />
+        <File Id="filD99480336F34348EE6D4BA087F17A21C" Source="..\src\GasPhase.cxx" />
+        <File Id="fil915DD0171295371D8B53EA421D39E68B" Source="..\src\GasPhase.h" />
+        <File Id="filC7E181F79B138B541C2F0EF15D670B55" Source="..\src\ISolution.cxx" />
+        <File Id="fil1A987CAE67BC1A7318DFFA714356F79C" Source="..\src\ISolution.h" />
+        <File Id="fil6EC38E3B06EB9E46ABD82B74CB547D12" Source="..\src\ISolutionComp.cxx" />
+        <File Id="fil05B20337D187FCC1B3EC15E475DC09E1" Source="..\src\ISolutionComp.h" />
+        <File Id="fil6400E100FC96EE175BE28B9B6FD0612B" Source="..\src\Keywords.cpp" />
+        <File Id="fil75E2BCB85BB0F8CD1626331B43110AEB" Source="..\src\Keywords.h" />
+        <File Id="fil2D2B41C8129F17B599A86EE462B89913" Source="..\src\KineticsComp.cxx" />
+        <File Id="filBDC6C8402ECAE19E1477D43A09FFA7DC" Source="..\src\KineticsComp.h" />
+        <File Id="filE49573BA9D02F19DD646C9C7E0A1811B" Source="..\src\NameDouble.cxx" />
+        <File Id="fil0D5A04A0FD53CADB6803420C6F3A9BCB" Source="..\src\NameDouble.h" />
+        <File Id="fil9E84D7185AC439C63F5BDAAEF0CD1DB0" Source="..\src\NumKeyword.cxx" />
+        <File Id="fil84A0EAF06F34DD528A35811EBCCCF837" Source="..\src\NumKeyword.h" />
+        <File Id="fil9A98E26372BD9B064B93AB2EC62BC9B4" Source="..\src\Parser.cxx" />
+        <File Id="fil6A041F997A61FDB3E3FC666AEEEFDE9D" Source="..\src\Parser.h" />
+        <File Id="fil1FC36ABE9668FCFF64C37FD524C81C9D" Source="..\src\PBasic.cpp" />
+        <File Id="fil28BB6F712AA7331E363A5B44F8DAD244" Source="..\src\PBasic.h" />
+        <File Id="filAF8B1CCA93BA0D501E08DA37C511919B" Source="..\src\Phreeqc.cpp" />
+        <File Id="fil1BF74775827EF4015657B3A2BCB00417" Source="..\src\Phreeqc.h" />
+        <File Id="fil74DE8EC04BE67C9ECF4BF7724A6FA1D7" Source="..\src\PHRQ_base.cxx" />
+        <File Id="filC4170C8187D017A87724E89721411B27" Source="..\src\PHRQ_base.h" />
+        <File Id="filB3ECE96664AEC978D4AE009973B6E02A" Source="..\src\PHRQ_io.cpp" />
+        <File Id="filA7A776E74CEA2976BE4A259A156B7EE8" Source="..\src\PHRQ_io.h" />
+        <File Id="fil9F76C302ED82FA5EC40A5110E747937A" Source="..\src\PPassemblage.cxx" />
+        <File Id="fil452F7E278ADFB07F0F6E5DC5222C74C4" Source="..\src\PPassemblage.h" />
+        <File Id="fil3EA5475B118C3E1342DB4653C1A59C06" Source="..\src\PPassemblageComp.cxx" />
+        <File Id="filF9B63AA157C41ED6FFE6E453F521A45C" Source="..\src\PPassemblageComp.h" />
+        <File Id="fil33F63CB6ACAE1AED952ABC8E6FE88396" Source="..\src\Pressure.cxx" />
+        <File Id="filC7C6ADE524139082228C8F7234264FF6" Source="..\src\Pressure.h" />
+        <File Id="fil044937F16FA426043BB5E4D21CE28381" Source="..\src\Reaction.cxx" />
+        <File Id="fil17857C5EE4EE6A0CBF979ECBFB35CA81" Source="..\src\Reaction.h" />
+        <File Id="filF3B1852793ACE8A9FE274149491E3E6D" Source="..\src\ReadClass.cxx" />
+        <File Id="fil1160D1DD5DA3498710433CA2A7C254A2" Source="..\src\runner.cpp" />
+        <File Id="filCB6F0AE80F03E008A0A36BA189C0DCCD" Source="..\src\runner.h" />
+        <File Id="fil804677EA32F0BD12565863AA958903B7" Source="..\src\Solution.cxx" />
+        <File Id="fil820B8AD1A28E842BA69BDFD625443F07" Source="..\src\Solution.h" />
+        <File Id="fil0D9DBA5883073D1AF3C0B2A32007EFA4" Source="..\src\SolutionIsotope.cxx" />
+        <File Id="filBCFCAF63C2FEBACDCF6815D2532D7C93" Source="..\src\SolutionIsotope.h" />
+        <File Id="filFEC4D702AB3C10C14F48625BD5AAADD7" Source="..\src\SS.cxx" />
+        <File Id="filF604DC289F50EBC6340A0ABD4E4E247A" Source="..\src\SS.h" />
+        <File Id="fil42EF63CF5A47ACF40314668B64F4F208" Source="..\src\SSassemblage.cxx" />
+        <File Id="fil6794462AE552720EFF0ED19C445F92E5" Source="..\src\SSassemblage.h" />
+        <File Id="fil1B090798F2A2418CD2E624E8E9AF8441" Source="..\src\SScomp.cxx" />
+        <File Id="filBCBEED49259CF531BB4C0FC65143267E" Source="..\src\SScomp.h" />
+        <File Id="fil50F0FD3FFA6D6E7312FD22D85AE127EB" Source="..\src\StorageBin.cxx" />
+        <File Id="fil5FB9EF43D394AE306AB231993FE8D826" Source="..\src\StorageBin.h" />
+        <File Id="fil3A71CFBA62C93A27CFE8615108570419" Source="..\src\StorageBinList.cpp" />
+        <File Id="fil86216C11B5E9AC6DEBFD3C4E4AAE949F" Source="..\src\StorageBinList.h" />
+        <File Id="filAEA943421D35282AECC05A40B91E5D77" Source="..\src\Surface.cxx" />
+        <File Id="fil2844A4E7BB9463F33A501CDB39A1180E" Source="..\src\Surface.h" />
+        <File Id="filB0E20674B1241636C4DA71F3DC87FD74" Source="..\src\SurfaceCharge.cxx" />
+        <File Id="fil7EF3144FC5E5EE4AFE37B70EB35EFD86" Source="..\src\SurfaceCharge.h" />
+        <File Id="fil115A051F74882B3023E1F8AE2EB6BED0" Source="..\src\SurfaceComp.cxx" />
+        <File Id="fil839F3B79C2BBCDD77080423372C3F4ED" Source="..\src\SurfaceComp.h" />
+        <File Id="filE71FEAC0118BB9542F26AA4B7E677B76" Source="..\src\System.cxx" />
+        <File Id="filEB4DACDFC3709F476B2F63266010403C" Source="..\src\System.h" />
+        <File Id="fil5A8603A98BB2B56BA7E44C92F9E186EF" Source="..\src\Temperature.cxx" />
+        <File Id="fil011959D2528660CF439F78CA25D9CA07" Source="..\src\Temperature.h" />
+        <File Id="filF1C714CB5139897182B664DED794138B" Source="..\src\Use.cpp" />
+        <File Id="fil9992624F3D00EBCFB3D88AD39D2FC5B8" Source="..\src\Use.h" />
+        <File Id="filB0534B05654C3DCF0F0F7D139FC4C4CB" Source="..\src\Utils.cxx" />
+        <File Id="filF8962495B2AFD1BD4B9523247E85B1AB" Source="..\src\Utils.h" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- src/phreeqc -->
+    <DirectoryRef Id="phreeqc">
+      <Component Id="src_phreeqc" Guid="*">
+        <File Id="fil7096E07498A949E0C7EA9AAD4D4A58D8" Source="..\src\phreeqc\advection.cpp" KeyPath="yes" />
+        <File Id="fil7A2ED04338F7DEA565AD153F302ECB5A" Source="..\src\phreeqc\basicsubs.cpp" />
+        <File Id="filC2DB32AA52BE92CC4A649EC8A42240A1" Source="..\src\phreeqc\chart_icon.gif" />
+        <File Id="fil842FEE681D906BE2A7721F2B05A69EE7" Source="..\src\phreeqc\cl1.cpp" />
+        <File Id="fil1FFDE0A985C368A9FA31DD629BA43A21" Source="..\src\phreeqc\cl1mp.cpp" />
+        <File Id="fil14500BA90C662A65239301CA51E03BD1" Source="..\src\phreeqc\cvdense.cpp" />
+        <File Id="fil121315FB5E33945B8B2040647857A35B" Source="..\src\phreeqc\cvdense.h" />
+        <File Id="fil0539CF7D538491C05D4F27FD94E42D99" Source="..\src\phreeqc\cvode.cpp" />
+        <File Id="fil5A3628E3C0EB4F750249255C3F6BE9C4" Source="..\src\phreeqc\cvode.h" />
+        <File Id="fil1492F82BDF7E9F5C57EA256D520DA530" Source="..\src\phreeqc\dense.cpp" />
+        <File Id="fil19BF4ABFDB6A0AE257F3CA32E2344E8A" Source="..\src\phreeqc\dense.h" />
+        <File Id="fil0B18AD2828F5049E0417D8672C679E1E" Source="..\src\phreeqc\dw.cpp" />
+        <File Id="filFAAE9555A17AEE06D82144FAADD70E0C" Source="..\src\phreeqc\Form1.h" />
+        <File Id="fil012F54F5792B81343A7B36AA9FCE3AE5" Source="..\src\phreeqc\Form1.resX" />
+        <File Id="filBDE7F84F2123034BA5FE9C1490B9C802" Source="..\src\phreeqc\gases.cpp" />
+        <File Id="fil5F34B3847B926B35B99A0369DD7705A7" Source="..\src\phreeqc\global_structures.h" />
+        <File Id="fil2FE239D62D80DB8808FB28E898566A14" Source="..\src\phreeqc\input.cpp" />
+        <File Id="fil10DAAB73E10235B280CE6C5697B4C557" Source="..\src\phreeqc\integrate.cpp" />
+        <File Id="fil6D354E70E046AC99FA714BFF001EBAD2" Source="..\src\phreeqc\inverse.cpp" />
+        <File Id="fil6A8C15FB594C8E08670EB4D695771A03" Source="..\src\phreeqc\isotopes.cpp" />
+        <File Id="fil67B52C4C842E60FC8C419E2B11E86FCD" Source="..\src\phreeqc\kinetics.cpp" />
+        <File Id="filE7DF4C2D37E78A770B1B06BE8C99AEB8" Source="..\src\phreeqc\mainsubs.cpp" />
+        <File Id="fil21930CBC2D9B7BDBB7A912677DB0BF6A" Source="..\src\phreeqc\model.cpp" />
+        <File Id="fil956EF099950AE50919F45A9097A132A2" Source="..\src\phreeqc\NA.h" />
+        <File Id="fil1EB27EA8D66E4DD787F259E41314ED05" Source="..\src\phreeqc\nvector.cpp" />
+        <File Id="filA630B13096F6C82C9B75518DB0F43FD5" Source="..\src\phreeqc\nvector.h" />
+        <File Id="fil1E7E7987B0BD295548D2FBEA6D206960" Source="..\src\phreeqc\nvector_serial.cpp" />
+        <File Id="fil804AC2DEA5AF6E8631A2901F255054B2" Source="..\src\phreeqc\nvector_serial.h" />
+        <File Id="filED0C419A938D89B94C28573BCC318E4E" Source="..\src\phreeqc\parse.cpp" />
+        <File Id="filA9C8DC3BF7CD71B46E8D12DD1EB01E6E" Source="..\src\phreeqc\phqalloc.cpp" />
+        <File Id="filAD33C5D183EF3FF0897CBA2711D40EA2" Source="..\src\phreeqc\phqalloc.h" />
+        <File Id="filE304E2C2BA41B24E621097AF8B45B74A" Source="..\src\phreeqc\phreex.ico" />
+        <File Id="fil691953EA384E9DAA71907C47ED1AC7E0" Source="..\src\phreeqc\PHRQ_io_output.cpp" />
+        <File Id="fil57F93199E7D9F7C7B638981FC76B8672" Source="..\src\phreeqc\phrqtype.h" />
+        <File Id="fil86EFCAB8B6D785E06AB845DEA9285563" Source="..\src\phreeqc\pitzer.cpp" />
+        <File Id="fil373CC68467C58032A3563300A0988AF8" Source="..\src\phreeqc\pitzer_structures.cpp" />
+        <File Id="fil760C091344458D59057BE3E5F05DF370" Source="..\src\phreeqc\prep.cpp" />
+        <File Id="fil3FEDDD105E7E4CE1FEE9CE282C6149B9" Source="..\src\phreeqc\print.cpp" />
+        <File Id="fil48A2837AAE0C3ED38FD8C1CDE424D7BC" Source="..\src\phreeqc\read.cpp" />
+        <File Id="filD2B278C3D08F5ED48960CE6AFEC87814" Source="..\src\phreeqc\readtr.cpp" />
+        <File Id="fil33BD37F44922AA9AFF6DFACEB2966730" Source="..\src\phreeqc\sit.cpp" />
+        <File Id="filB01C74219BD2EB564BDFC521304C3B14" Source="..\src\phreeqc\smalldense.cpp" />
+        <File Id="fil520E38D932E6ECCD6C786C182A96D2C0" Source="..\src\phreeqc\smalldense.h" />
+        <File Id="fil71B1613F36AB6CA3FBB75E77E3A65721" Source="..\src\phreeqc\spread.cpp" />
+        <File Id="filDFFC04DAD00BD4B2BF78CEF957019BB2" Source="..\src\phreeqc\step.cpp" />
+        <File Id="fil5D59836D2FC2B8DCA976D62AE085B6FE" Source="..\src\phreeqc\structures.cpp" />
+        <File Id="fil0B0871818DB9F5EA4DE60EC50B3B2294" Source="..\src\phreeqc\sundialsmath.cpp" />
+        <File Id="filE386BE9CC7A7BD66FF02E70966C4AAA8" Source="..\src\phreeqc\sundialsmath.h" />
+        <File Id="filE6C73F8B2663A38CDBE110A90E063ED1" Source="..\src\phreeqc\sundialstypes.h" />
+        <File Id="fil453F272721E9D2EDAA78BFEAD286C087" Source="..\src\phreeqc\tally.cpp" />
+        <File Id="fil3A11B59F16F3E8A2AB0A083F20511DEF" Source="..\src\phreeqc\tidy.cpp" />
+        <File Id="fil8E947D3677972C115CE5179877F35B4A" Source="..\src\phreeqc\transport.cpp" />
+        <File Id="filEFC15448183325AF335ABC834F1446B7" Source="..\src\phreeqc\utilities.cpp" />
       </Component>
     </DirectoryRef>
 
     <!-- test -->
     <DirectoryRef Id="test">
-      <Component Id="test" Guid="F65BCF27-C9F9-49a2-A6BD-F63A887CB57C">
+      <Component Id="test" Guid="*">
         <File Id="fil60A83EC251E6CBC641F4AD35F35044F1" Source="..\win\check.bat" />
         <File Id="fil44D3B1871068824B68134F030E6EAE44" Source="..\win\clean.bat" />
         <File Id="fil770D262A99CA2FAFA4E59ED0A53B2D52" Source="..\win\test.bat" />
@@ -232,9 +314,9 @@
 
     <!-- phreeqc.exe -->
     <DirectoryRef Id="Release">
-      <Component Id="phreeqc.exe" Guid="119F9425-2ECC-4a4e-944A-D03A51F0C75C">
+      <Component Id="phreeqc.exe" Guid="*">
         <!-- executable -->
-        <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\build\win32\Release\phreeqc.exe" />
+        <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\ClrClass_release\phreeqc.exe" />
       </Component>
     </DirectoryRef>
 
@@ -251,6 +333,7 @@
       </Feature>
       <Feature Id="Source" Title="Source Code" Description="This component contains the program source code." AllowAdvertise="system" Level="1">
         <ComponentRef Id="src" />
+        <ComponentRef Id="src_phreeqc" />
       </Feature>
     </Feature>
 
