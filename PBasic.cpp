@@ -1521,6 +1521,9 @@ listtokens(FILE * f, tokenrec * l_buf)
  		case tokqbrn:
  			output_msg("QBrn"); // Q_Born, d(eps_r)/d(P)/(eps_r^2)
  			break;
+ 		case tokkappa:
+ 			output_msg("kappa"); // compressibility of pure water, d(rho)/d(P) / rho
+ 			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3092,6 +3095,9 @@ factor(struct LOC_exec * LINK)
 		break;
 	case tokqbrn:
 		n.UU.val = PhreeqcPtr->QBrn;
+		break;
+	case tokkappa:
+		n.UU.val = PhreeqcPtr->kappa_0;
 		break;
 	case toklog10:
 		n.UU.val = log10(realfactor(LINK));
@@ -6401,7 +6407,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_a",               PBasic::tokdh_a),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_b",               PBasic::tokdh_b),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_av",              PBasic::tokdh_av),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kappa",               PBasic::tokkappa)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

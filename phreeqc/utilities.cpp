@@ -111,7 +111,7 @@ LDBLE Phreeqc::
 calc_rho_0(LDBLE tc, LDBLE pa)
 /* ---------------------------------------------------------------------- */
 {
-#ifdef SKIP
+//#ifdef SKIP
 	/* Density of pure water
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
@@ -149,8 +149,8 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	kappa_0 = (p0 + pa * (2 * p1 + pa * (3 * p2 + sqrt(pa) * 3.5 * p3))) / rho_0;
 
 	return (rho_0 / 1e3);
-#endif
-//#ifdef SKIP
+//#endif
+#ifdef SKIP
 	/* Calculate the density and compressibility of pure water,
 	   IAPWS, IF97, region 1, 273 < Tk < 623, p_sat < p < 1e8 Pascal.
 	   Seems to give somewhat better rho's and kappa's for p < 2e3 than above,
@@ -227,7 +227,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	kappa_0 = -dvdp / v / Pref * 1.01325e5; // compressibility, 1/atm
 	rho_0 = 1e-3 / (v * (p_p * Rg * tk / pasc)); // density, kg/L
 	return rho_0;
-//#endif
+#endif
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -254,12 +254,12 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	                           = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
 	LDBLE e2_DkT = 1.671008e-3 / (eps_r * T);
 
-	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length kappa, 1/cm(mol/kg)^-0.5
+	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length parameter, 1/cm(mol/kg)^-0.5
 
 	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
 
 	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
-	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pa) / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
+	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pa) * 1.01325 / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
 
 	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
 
