@@ -39,15 +39,19 @@ e- = e-
 H2O = H2O
 Ca+2 = Ca+2
 	-dw	 0.793e-9
-	-Vm   0.8 -7.25  0.51  -2.48   1.84  3.64   0.073   17.8 # supcrt modified
+	-millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
+	-Vm   -1.08 -3.6 13 -5  1.4  8.5  0.31  3.8 # supcrt modified
 Mg+2 = Mg+2
 	-dw	 0.705e-9
-	-Vm   0.083  -8.6  6.8  -2.39   2.66   4.28  0.13  13.5 # supcrt modified
+	-millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
+	-Vm  -1.21 -8.6  10.26  -2.39  1.34   8.47  0.088  23.6 # supcrt modified
 Na+ = Na+
 	-dw	 1.33e-9
+	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
 	-Vm   1.53 -2.285 4.57 -2.726   0.169   2.6 -0.28 44 # supcrt modified
 K+ = K+
 	-dw	 1.96e-9
+	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
 	-Vm   3.72 -1.473 5.22 -2.712   0.471   0 -0.81 65 # supcrt modified
 Fe+2 = Fe+2
 	-dw	 0.719e-9
@@ -57,24 +61,26 @@ Mn+2 = Mn+2
 	-Vm   -.1016   -8.0295   8.9060   -2.4471  1.4006 # supcrt
 Ba+2 = Ba+2
 	-dw	 0.848e-9
-	-Vm   2.45 -10.06 0.34 -2.36   0.625   4.5  -0.46 88 # supcrt modified
+	-Vm   2.45  -10.06  0.34  -2.36   0.625   4.5  -0.46  88 # supcrt modified
 Sr+2 = Sr+2
 	-dw	 0.794e-9
-	-Vm   0.12 -10.15 4.89 -2.36   -7.17e-2   38 0.8 37 # supcrt modified
+	-Vm   0.87  -10.15  0.36  -2.36   0.116   107  0.36  70 # supcrt modified
 Cl- = Cl-
 	-dw	 2.03e-9
+	-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
 	-Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 # supcrt modified
 CO3-2 = CO3-2
 	log_k	   0.000
 	-dw	 0.955e-9
-	-Vm   5.99 -3.98 -9.81 -2.61   4.33   -1.5e-3 -2.5 207
+	-Vm   5.99 -3.98 -9.81 -2.61   4.33   0 -2.5 207
 SO4-2 = SO4-2
 	log_k	   0.000
 	-dw	 1.07e-9
-	-Vm  10.57 -1.985 -11.65 -2.7   5.2  0 -1.5 142 # supcrt modified
+	-Vm   8.7  -0.33  -0.15  -4.6   4.1   1.1  0.4  69 # supcrt modified
 B(OH)3 = B(OH)3
 	log_k	   0.000
 	-dw	1.1e-9
+	-millero 36.56 0.130 -0.00081 # d, e and f not reported by Millero, 2000
 	-Vm 7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
 Li+ = Li+
 	log_k	   0.000
@@ -83,6 +89,7 @@ Li+ = Li+
 Br- = Br-
 	log_k	   0.000
 	-dw	 2.01e-9
+	-millero 22.98 0.0934 -0.000968 -1.675 0.05 -0.001105
 	-Vm  5.2690   6.5940   4.7450   -3.1430 1.3858 # supcrt
 # redox-uncoupled gases
 Hdg = Hdg # H2
@@ -122,7 +129,7 @@ SO4-2 + H+ = HSO4-
 	delta_h 4.91    kcal
 	-analytic   -5.3585   0.0183412   557.2461
 	-dw	 1.33e-9
-	-Vm 6.9788   9.2590   2.1108   -3.1618 1.1748 # supcrt
+	-Vm 8.2 9.2590   2.1108   -3.1618 1.1748  0 -0.3 15 # supcrt modified
 H2Sg = HSg- + H+
 	log_k	-6.994
 	delta_h 5.30	kcal
@@ -165,7 +172,7 @@ Anhydrite
 	CaSO4 = Ca+2 + SO4-2
 	log_k	   -4.362
 #	-analytic    422.950   0.0	 -18431.   -147.708
-	-analytic   86.5  0  -3137  -32.411 # 50 - 160oC, 1 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
+	-analytic   79.507  0  -2.705e3  -30.17 # 50 - 160oC, 1 - 1e3 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
 	-Vm 46.1 # 136.14 / 2.95
 Aragonite
 	CaCO3 = CO3-2 + Ca+2
