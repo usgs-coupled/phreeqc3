@@ -1,0 +1,229 @@
+DATABASE ../database/phreeqc.dat
+#DATABASE c:\dos\p\pfw.dat
+#PRINT; -reset false
+# SOLUTION_SPECIES
+# Ca+2 = Ca+2
+	# -gamma	5.0	0.1650
+	# -dw	 0.793e-9
+	# -Vm   0.8 -7.25  0.51  -2.48   1.84  3.64   0.073   17.8 # supcrt modified
+	# -Vm   0.8 -7.25  0.51  -2.48   1.84 # 3.64   0.073   17.8 # supcrt modified
+# Na+ = Na+
+	# -gamma	4.0	0.075
+	# -dw	 1.33e-9
+	# -Vm   1.53 -2.285 4.57 -2.726   0.169   2.6 -0.28 44 # supcrt modified
+	# -Vm   1.53 -2.285 4.57 -2.726   0.169  # 2.6 -0.28 44 # supcrt modified
+# Cl- = Cl-
+	# -gamma	3.5	0.015
+	# -dw	 2.03e-9
+	# -Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 # supcrt modified
+	# -Vm  4.03 5.9 5.27 -3.09   1.734 #  0 -0.3 18 # supcrt modified
+
+SOLUTION 1; pH 7 charge
+END
+
+# HCl...
+USE solution 1
+REACTION_TEMPERATURE; 65.000000
+REACTION_PRESSURE; 0.000000
+# from 203 to 215.
+REACTION; HCl 1
+0 1.203100 1.483900 1.618400 1.851100 2.095800 2.114800 2.195000 2.264800 2.395500 2.457900 2.764100 2.957400
+#USER_PUNCH
+USER_GRAPH; -headings HCl
+-axis_titles "(Ionic Strength)^0.5 / (mol/kg H2O)^0.5" "molar volume / (cm3/mol)"
+-axis_scale x_axis 0 3
+-axis_scale y_axis 14 32
+10 data 0, 19.163098, 19.323853, 19.388113, 19.490484, 19.578167, 19.581691, 19.606290, 19.626931, 19.657965, 19.670590, 19.713658, 19.722742,
+20 dim d(13)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 36.461) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Cl") > 10 or tc > 200 then goto 150
+#80 punch dif, str$(tc), str$(pressure), str$(step_no + get(1))
+#90 if step_no = 107 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy mu^0.5, d(step_no), symbol = Triangle, line_w = 0, color = Blue
+120 plot_xy mu^0.5, Vmol, symbol = None, color = Blue, line_width = 2
+122 if step_no > 3 then goto 150
+130 V0 = 18.02
+134 if step_no = 2 then plot_xy 0, V0, symbol = None, color = Blue, line_width = 2 else\
+                        plot_xy 4, V0 + DH_Av * 4 * 0.5, symbol = None, color = Blue, line_width = 1
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 65.000000
+REACTION_PRESSURE; 0.000000
+# from 450 to 475.
+REACTION; NaCl 1
+0 0.100000 0.216680 0.256170 0.349370 0.518980 0.527510 0.625830 0.779010 0.875250 1.000000 1.103670 1.225410 1.556330 1.609170 2.000000 2.232540 2.500000 2.547010 3.035630 3.989210 4.266790 \
+4.565810 5.557430 5.715770 5.913880
+USER_GRAPH
+-headings NaCl
+10 data 0, 18.495315, 18.721759, 19.165135, 19.108003, 19.224043, 19.387386, 19.353910, 19.604876, 19.665787, 20.101217, 19.918429, 20.026973, 20.211263, 20.253637, 20.621179, 20.668477, 20.839475, 20.873152, 21.102330, 21.500523, 21.609698, \
+21.734248, 22.074488, 22.120537, 22.205722,
+20 dim d(26)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 58.4428) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 150
+70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Red #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy mu^0.5, Vmol, symbol = None, color = Red, line_width = 2 #step_no = 264 then put(step_no + get(1), 1)
+122 if step_no > 3 then goto 150
+130 Van = 18.02; 131 Vcat = 16.7 - 18.02
+134 if step_no = 2 then plot_xy 0, Van + Vcat, symbol = None, color = Red, line_width = 1 else\
+                        plot_xy 4, Van + Vcat + DH_Av * 4, symbol = None, color = Red, line_width = 1
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 65.000000
+REACTION_PRESSURE; 1.000000
+# from 305 to 329.
+REACTION; KCl 1
+0 0.040000 0.090000 0.099980 0.160000 0.250000 0.400000 0.414940 0.700000 0.791540 1.000000 1.210810 2.053600 2.494080 3.425060 3.889560 4.400920
+USER_GRAPH; -headings KCl
+10 data 0, 28.263387, 28.474136, 28.444355, 28.595452, 28.753733, 28.974771, 29.165882, 29.370969, 29.627072, 29.723816, 30.428660, 30.644089, 30.914683, 31.406855, 31.602573, 31.838722,
+20 dim d(17)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 74.555) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 150
+70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Orange #aph_x tot("Ca") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy mu^0.5, Vmol, symbol = None, color = Orange, line_width = 2 #step_no = 264 then put(step_no + get(1), 1)
+122 if step_no > 3 then goto 150
+130 Van = 18.02; 131 Vcat = 26.95 - 18.02
+134 if step_no = 2 then plot_xy 0,Van + Vcat, symbol = None, color = Orange , line_width = 2 else\
+                       plot_xy 4, (Van + Vcat) + DH_Av * 4, symbol = None, color = Orange , line_width = 1
+
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 65.000000
+REACTION_PRESSURE; 0.000000
+# from 142 to 158.
+REACTION; MgCl2 1
+0 0.032780 0.065620 0.130640 0.267670 0.416920 0.524760 0.765350 0.836140 0.998510 1.260980 2.178370 2.630820 3.110290 3.621600 4.095350 4.607840
+USER_GRAPH; -headings MgCl2
+10 data 0, 14.470000, 15.300000, 15.720000, 16.750000, 17.009826, 18.120000, 18.650000, 18.633448, 19.630000, 19.928786, 22.128669, 22.990008, 23.801251, 24.600940, 25.240008, 25.859535,
+20 dim d(17)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Mg") * 95.218) / (tot("Mg") * rho) - 1e3 / (tot("Mg") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 150
+70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Magenta #aph_x tot("Ca") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy mu^0.5, Vmol, symbol = None, color = Magenta, line_width = 2 #step_no = 264 then put(step_no + get(1), 1)
+122 if step_no > 3 then goto 150
+130 Van = 18.02; 131 Vcat = 14.06 - 2 * 18.02
+134 if step_no = 2 then plot_xy 0, 2*Van + Vcat, symbol = None, color = Magenta , line_width = 1 else\
+                       plot_xy 4, (2*Van + Vcat) + DH_Av * 3^0.5 * 4, symbol = None, color = Magenta , line_width = 1
+#                       plot_xy 4, (2*Van + Vcat) + DH_Av * 1.707 * 4, symbol = None, color = Magenta , line_width = 1
+
+   150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 75.000000
+REACTION_PRESSURE; 0.000000
+# from 250 to 264.
+REACTION; CaCl2 1
+0 0.049700 0.049750 0.051080 0.100150 0.101400 0.202710 0.272200 0.494490 0.524600 0.984520 1.024000 3.197000 5.010000 6.424400
+USER_GRAPH; -headings CaCl2
+10 data 0, 19.078669, 21.030000, 21.150000, 22.220000, 19.915486, 22.980000, 21.170338, 23.810000, 22.606464, 26.030000, 24.093383, 29.568802, 32.228313, 34.341011,
+20 dim d(15)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ca") * 110.986) / (tot("Ca") * rho) - 1e3 / (tot("Ca") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 150
+70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Green
+80 plot_xy mu^0.5, Vmol, symbol = None, color = Green, line_width = 2
+122 if step_no > 3 then goto 150
+130 Van = 18.02; 131 Vcat = 17.6 - 2 * 18.02
+134 if step_no = 2 then plot_xy 0, 2*Van + Vcat, symbol = None, color = Green , line_width = 1 else\
+                        plot_xy 4, (2*Van + Vcat) + DH_Av * 3^0.5 * 4, symbol = None, color = Green , line_width = 1
+#                       plot_xy 4, (2*Van + Vcat) + DH_Av * 1.707 * 4, symbol = None, color = Green , line_width = 1
+#
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 80.000000
+REACTION_PRESSURE; 1.000000
+# from 128 to 145.
+REACTION; BaCl2 1
+0 0.009300 0.029500 0.050100 0.072700 0.100000 0.149400 0.166667 0.200000 0.300400 0.333333 0.406400 0.587800 0.787700 0.833333 0.992100 1.500000 1.585800
+USER_GRAPH; -headings BaCl2(80.C)
+10 data 0, 22.734012, 24.913060, 24.934121, 26.061974, 26.161452, 26.757482, 27.122355, 27.318779, 28.138802, 28.602932, 28.996480, 29.899580, 30.972617, 30.997780, 31.564314, 33.253646, 33.521923,
+20 dim d(18)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 150
+70 plot_xy mu^0.5, d(step_no), line_w = 0, color = DarkCyan
+80 plot_xy mu^0.5, Vmol, symbol = None, color = DarkCyan, line_width = 2
+122 if step_no > 3 then goto 150
+130 Van = 18.02; 131 Vcat = 23.35 - 2 * 18.02
+134 if step_no = 2 then plot_xy 0, 2*Van + Vcat, symbol = None, color = DarkCyan , line_width = 1 else\
+                       plot_xy 4, (2*Van + Vcat) + DH_Av * 3^0.5 * 4, symbol = None, color = DarkCyan , line_width = 1
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 75.000000
+REACTION_PRESSURE; 1.000000
+# from 183 to 211.
+REACTION; Na2SO4 1
+0 0.050000 0.054420 0.095470 0.100000 0.106410 0.150000 0.194990 0.203930 0.209610 0.236000 0.314780 0.391920 0.392680 0.472100 0.494100 0.497670 0.593640 0.720020 0.803360 1.001000 1.006950 \
+1.180200 1.211210 1.421440 1.510600 1.636850 1.843190 2.067830
+USER_GRAPH; -headings Na2SO4(75.C)
+10 data 0, 14.079958, 16.910000, 18.130000, 17.644101, 18.330000, 18.748133, 19.906111, 19.760000, 19.780000, 19.204255, 20.980000, 21.760000, 21.942272, 20.939073, 22.550000, 22.430000, 23.403701, 24.270000, 24.708720, 25.920000, 25.929740, \
+26.105425, 26.889087, 27.930794, 28.260000, 28.863021, 29.682897, 30.504528,
+20 dim d(29)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("S(6)") * 142.0436) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 150
+70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Brown
+80 plot_xy mu^0.5, Vmol, symbol = None, color = Brown, line_width = 2
+122 if step_no > 3 then goto 150
+130 Vcat = -1.53; 131 Van = 12.35 - 2 * Vcat
+134 if step_no = 2 then plot_xy 0, 2*Vcat + Van, symbol = None, color = Brown , line_width = 1 else\
+                       plot_xy 4, (2*Vcat + Van) + DH_Av * 3^0.5 * 4, symbol = None, color = Brown , line_width = 1
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 65.000000
+REACTION_PRESSURE; 1.000000
+# from 185 to 191.
+REACTION; NaNO3 1
+0 0.015090 0.030170 0.060390 0.120790 0.251400 0.501000
+#USER_PUNCH
+USER_GRAPH; -headings NaNO3
+ -axis_titles "NaNO3 / (mol/kg H2O)" "NaNO3 molar volume / (cm3/mol)"
+10 data 0, 32.100000, 32.190000, 32.260000, 32.780000, 32.872000, 33.180000,
+20 dim d(7)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.9965) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 or tc > 200 or pressure > 1e3 then dif = 0
+63 if step_no = 1 then goto 150
+70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Black
+80 plot_xy mu^0.5, Vmol, symbol = None, color = Black, line_width = 2
+122 if step_no > 3 then goto 150
+130 Vcat = -1.3; 131 Van = 28.18 - Vcat
+134 if step_no = 2 then plot_xy 0, Vcat + Van, symbol = None, color = Black , line_width = 1 else\
+                       plot_xy 4, (Vcat + Van) + DH_Av * 1. * 4, symbol = None, color = Black , line_width = 1
+150 end
+END

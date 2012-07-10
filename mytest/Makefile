@@ -262,7 +262,15 @@ all: alkalinity.out \
 	Vm_NaNO3_sol.out \
 	Vm_NH4Cl_sol.out \
 	Vm_SrCl2_sol.out \
-	rho_CaNaCl.out
+	rho_CaNaCl.out \
+	co2_VP.out \
+	phi_CO2-CH4_GP.out \
+	rho_MgCaCl.out \
+	rho_MgNaCl.out \
+	Vm_salt.out \
+	Vm_salt_65.out \
+	Vm_salt_fig.out \
+	Vm0_tc.out
 
 # NaX.out
 

@@ -1,0 +1,235 @@
+#DATABASE \dos\p\pfw.dat # for -Millero
+PRINT; -reset false
+SOLUTION 1; pH 7 charge
+SOLUTION 1; pH 7 charge
+SELECTED_OUTPUT; -file rho24.prn; -reset false; -selected_out true
+USER_GRAPH; -active false
+USER_PUNCH
+# from 1 to 18.
+ 10 data 0.859190, 0.744030, 0.679070, 0.578520, 0.472430, 0.376860, 0.310690, 0.195070, 0.104830, 1.282400, \
+1.206200, 1.052500, 0.885570, 0.764020, 0.618000, 0.460540, 0.353770, 0.165000, 
+ 20 dim Mg(18)
+ 22 restore 10
+ 30 read Mg(1), Mg(2), Mg(3), Mg(4), Mg(5), Mg(6), Mg(7), Mg(8), Mg(9), Mg(10), \
+Mg(11), Mg(12), Mg(13), Mg(14), Mg(15), Mg(16), Mg(17), Mg(18), 
+ 40 data 0.276730, 0.576500, 0.831210, 1.106050, 1.423840, 1.715000, 1.976590, 2.321420, 2.649200, 0.415330, \
+0.849830, 1.282300, 1.827400, 2.310900, 2.808700, 3.316300, 3.821600, 4.438900, 
+ 50 dim Na(18)
+ 52 restore 40
+ 60 read Na(1), Na(2), Na(3), Na(4), Na(5), Na(6), Na(7), Na(8), Na(9), Na(10), \
+Na(11), Na(12), Na(13), Na(14), Na(15), Na(16), Na(17), Na(18), 
+ 70 data 3.000000, 0.000000, 1.000000, 5.000000, 4.000000, 0.000000, 9.000000, 2.000000, 0.000000, 3.000000, \
+3.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 
+ 80 dim Cl(18)
+ 82 restore 70
+ 90 read Cl(1), Cl(2), Cl(3), Cl(4), Cl(5), Cl(6), Cl(7), Cl(8), Cl(9), Cl(10), \
+Cl(11), Cl(12), Cl(13), Cl(14), Cl(15), Cl(16), Cl(17), Cl(18), 
+ 100 data 1070.739700, 1073.744700, 1078.299900, 1081.009000, 1084.835100, 1088.447900, 1092.869700, 1096.827400, 1101.791500, 1103.877100, \
+1113.223300, 1117.617700, 1124.500700, 1132.220700, 1138.712500, 1144.649900, 1153.391800, 1160.394400, 
+ 110 dim rho_m(18)
+ 112 restore 100
+ 120 read rho_m(1), rho_m(2), rho_m(3), rho_m(4), rho_m(5), rho_m(6), rho_m(7), rho_m(8), rho_m(9), rho_m(10), \
+rho_m(11), rho_m(12), rho_m(13), rho_m(14), rho_m(15), rho_m(16), rho_m(17), rho_m(18), 
+800 for i = 1 to 18
+810   punch 'SOLUTION '+ str$(i),  EOL$
+820   punch ' -temp 24.000000 ', EOL$
+822   punch ' -pressure 5.900000 ', EOL$
+830   punch ' Mg ', Mg(i) * 1e3,  EOL$
+831   punch ' Na ', Na(i) * 1e3,  EOL$
+832   punch ' Cl 100 charge ' + EOL$
+850   punch 'USER_GRAPH' + EOL$
+852   if i = 1 then punch '-headings 24.oC__6.bar' + EOL$
+854   punch '-active true' + EOL$
+860   punch '-initial_solutions true' + EOL$
+870   punch '10 plot_xy ', rho_m(i), ', rho * 1e3, line_width = 0, symbol = Square, symbol_size = 4, color = Red' + EOL$
+880   punch 'END' + EOL$
+890 next i
+END
+
+PRINT; -selected_out false; -echo_input false
+INCLUDE$ rho24.prn
+END
+solution 1
+USER_GRAPH
+#-headings 24.oC__6.bar
+-initial_solutions true; -connect_simulations true
+-axis_titles "(measured) rho of (Na, Mg) + Cl solutions / (g/L)" "calculated"
+20 if cell_no = 1 then plot_xy 1060.739700, 1060.739700,  color = Black, symbol = None, line_width = 2
+30 if cell_no = 2 then plot_xy 1170.394400, 1170.394400,  color = Black, symbol = None, line_width = 2
+END
+solution 2
+END
+SOLUTION 1; pH 7 charge
+SELECTED_OUTPUT; -file rho49.prn; -reset false; -selected_out true
+USER_GRAPH; -active false
+USER_PUNCH
+# from 19 to 36.
+ 10 data 0.859190, 0.744030, 0.679070, 0.578520, 0.472430, 0.376860, 0.310690, 0.195070, 0.104830, 1.282400, \
+1.206200, 1.052500, 0.885570, 0.764020, 0.618000, 0.460540, 0.353770, 0.165000, 
+ 20 dim Mg(18)
+ 22 restore 10
+ 30 read Mg(1), Mg(2), Mg(3), Mg(4), Mg(5), Mg(6), Mg(7), Mg(8), Mg(9), Mg(10), \
+Mg(11), Mg(12), Mg(13), Mg(14), Mg(15), Mg(16), Mg(17), Mg(18), 
+ 40 data 0.276730, 0.576500, 0.831210, 1.106050, 1.423840, 1.715000, 1.976590, 2.321420, 2.649200, 0.415330, \
+0.849830, 1.282300, 1.827400, 2.310900, 2.808700, 3.316300, 3.821600, 4.438900, 
+ 50 dim Na(18)
+ 52 restore 40
+ 60 read Na(1), Na(2), Na(3), Na(4), Na(5), Na(6), Na(7), Na(8), Na(9), Na(10), \
+Na(11), Na(12), Na(13), Na(14), Na(15), Na(16), Na(17), Na(18), 
+ 70 data 3.000000, 0.000000, 1.000000, 5.000000, 4.000000, 0.000000, 9.000000, 2.000000, 0.000000, 3.000000, \
+3.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 
+ 80 dim Cl(18)
+ 82 restore 70
+ 90 read Cl(1), Cl(2), Cl(3), Cl(4), Cl(5), Cl(6), Cl(7), Cl(8), Cl(9), Cl(10), \
+Cl(11), Cl(12), Cl(13), Cl(14), Cl(15), Cl(16), Cl(17), Cl(18), 
+ 100 data 1060.960500, 1063.638500, 1067.877700, 1070.305100, 1073.838000, 1077.160200, 1081.321400, 1084.996900, 1089.672100, 1093.869700, \
+1102.882100, 1106.789800, 1113.282200, 1120.532300, 1126.708900, 1132.254800, 1140.491500, 1147.258500, 
+ 110 dim rho_m(18)
+ 112 restore 100
+ 120 read rho_m(1), rho_m(2), rho_m(3), rho_m(4), rho_m(5), rho_m(6), rho_m(7), rho_m(8), rho_m(9), rho_m(10), \
+rho_m(11), rho_m(12), rho_m(13), rho_m(14), rho_m(15), rho_m(16), rho_m(17), rho_m(18), 
+800 for i = 1 to 18
+810   punch 'SOLUTION '+ str$(i),  EOL$
+820   punch ' -temp 49.600000 ', EOL$
+822   punch ' -pressure 5.900000 ', EOL$
+830   punch ' Mg ', Mg(i) * 1e3,  EOL$
+831   punch ' Na ', Na(i) * 1e3,  EOL$
+832   punch ' Cl 100 charge ' + EOL$
+850   punch 'USER_GRAPH' + EOL$
+852   if i = 1 then punch '-headings 49.oC__6.bar' + EOL$
+854   punch '-active true' + EOL$
+860   punch '-initial_solutions true' + EOL$
+870   punch '10 plot_xy ', rho_m(i), ', rho * 1e3, line_width = 0, symbol = Diamond, symbol_size = 5, color = Green' + EOL$
+880   punch 'END' + EOL$
+890 next i
+END
+
+PRINT; -selected_out false; -echo_input false
+INCLUDE$ rho49.prn
+END
+solution 1
+USER_GRAPH
+#-headings 49.oC__6.bar
+-initial_solutions true; -connect_simulations true
+-axis_titles "(measured) rho of (Na, Mg) + Cl solutions / (g/L)" "calculated"
+20 if cell_no = 1 then plot_xy 1050.960500, 1050.960500,  color = Black, symbol = None, line_width = 2
+30 if cell_no = 2 then plot_xy 1157.258500, 1157.258500,  color = Black, symbol = None, line_width = 2
+END
+solution 2
+END
+SOLUTION 1; pH 7 charge
+SELECTED_OUTPUT; -file rho74.prn; -reset false; -selected_out true
+USER_GRAPH; -active false
+USER_PUNCH
+# from 37 to 54.
+ 10 data 0.859190, 0.744030, 0.679070, 0.578520, 0.472430, 0.376860, 0.310690, 0.195070, 0.104830, 1.282400, \
+1.206200, 1.052500, 0.885570, 0.764020, 0.618000, 0.460540, 0.353770, 0.165000, 
+ 20 dim Mg(18)
+ 22 restore 10
+ 30 read Mg(1), Mg(2), Mg(3), Mg(4), Mg(5), Mg(6), Mg(7), Mg(8), Mg(9), Mg(10), \
+Mg(11), Mg(12), Mg(13), Mg(14), Mg(15), Mg(16), Mg(17), Mg(18), 
+ 40 data 0.276730, 0.576500, 0.831210, 1.106050, 1.423840, 1.715000, 1.976590, 2.321420, 2.649200, 0.415330, \
+0.849830, 1.282300, 1.827400, 2.310900, 2.808700, 3.316300, 3.821600, 4.438900, 
+ 50 dim Na(18)
+ 52 restore 40
+ 60 read Na(1), Na(2), Na(3), Na(4), Na(5), Na(6), Na(7), Na(8), Na(9), Na(10), \
+Na(11), Na(12), Na(13), Na(14), Na(15), Na(16), Na(17), Na(18), 
+ 70 data 3.000000, 0.000000, 1.000000, 5.000000, 4.000000, 0.000000, 9.000000, 2.000000, 0.000000, 3.000000, \
+3.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 
+ 80 dim Cl(18)
+ 82 restore 70
+ 90 read Cl(1), Cl(2), Cl(3), Cl(4), Cl(5), Cl(6), Cl(7), Cl(8), Cl(9), Cl(10), \
+Cl(11), Cl(12), Cl(13), Cl(14), Cl(15), Cl(16), Cl(17), Cl(18), 
+ 100 data 1048.404700, 1048.868400, 1054.925400, 1057.208200, 1060.433200, 1063.565900, 1067.672500, 1071.062800, 1075.584400, 1081.688000, \
+1090.579100, 1094.270800, 1100.297800, 1107.316900, 1113.192300, 1118.428900, 1126.656700, 1132.932400, 
+ 110 dim rho_m(18)
+ 112 restore 100
+ 120 read rho_m(1), rho_m(2), rho_m(3), rho_m(4), rho_m(5), rho_m(6), rho_m(7), rho_m(8), rho_m(9), rho_m(10), \
+rho_m(11), rho_m(12), rho_m(13), rho_m(14), rho_m(15), rho_m(16), rho_m(17), rho_m(18), 
+800 for i = 1 to 18
+810   punch 'SOLUTION '+ str$(i),  EOL$
+820   punch ' -temp 74.500000 ', EOL$
+822   punch ' -pressure 5.900000 ', EOL$
+830   punch ' Mg ', Mg(i) * 1e3,  EOL$
+831   punch ' Na ', Na(i) * 1e3,  EOL$
+832   punch ' Cl 100 charge ' + EOL$
+850   punch 'USER_GRAPH' + EOL$
+852   if i = 1 then punch '-headings 74.oC__6.bar' + EOL$
+854   punch '-active true' + EOL$
+860   punch '-initial_solutions true' + EOL$
+870   punch '10 plot_xy ', rho_m(i), ', rho * 1e3, line_width = 0, symbol = Triangle, symbol_size = 6, color = Blue' + EOL$
+880   punch 'END' + EOL$
+890 next i
+END
+
+PRINT; -selected_out false; -echo_input false
+INCLUDE$ rho74.prn
+END
+solution 1
+USER_GRAPH
+#-headings 74.oC__6.bar
+-initial_solutions true; -connect_simulations true
+-axis_titles "(measured) rho of (Na, Mg) + Cl solutions / (g/L)" "calculated"
+20 if cell_no = 1 then plot_xy 1038.404700, 1038.404700,  color = Black, symbol = None, line_width = 2
+30 if cell_no = 2 then plot_xy 1142.932400, 1142.932400,  color = Black, symbol = None, line_width = 2
+END
+solution 2
+END
+SOLUTION 1; pH 7 charge
+SELECTED_OUTPUT; -file rho99.prn; -reset false; -selected_out true
+USER_GRAPH; -active false
+USER_PUNCH
+# from 55 to 72.
+ 10 data 0.859190, 0.744030, 0.679070, 0.578520, 0.472430, 0.376860, 0.310690, 0.195070, 0.104830, 1.282400, \
+1.206200, 1.052500, 0.885570, 0.764020, 0.618000, 0.460540, 0.353770, 0.165000, 
+ 20 dim Mg(18)
+ 22 restore 10
+ 30 read Mg(1), Mg(2), Mg(3), Mg(4), Mg(5), Mg(6), Mg(7), Mg(8), Mg(9), Mg(10), \
+Mg(11), Mg(12), Mg(13), Mg(14), Mg(15), Mg(16), Mg(17), Mg(18), 
+ 40 data 0.276730, 0.576500, 0.831210, 1.106050, 1.423840, 1.715000, 1.976590, 2.321420, 2.649200, 0.415330, \
+0.849830, 1.282300, 1.827400, 2.310900, 2.808700, 3.316300, 3.821600, 4.438900, 
+ 50 dim Na(18)
+ 52 restore 40
+ 60 read Na(1), Na(2), Na(3), Na(4), Na(5), Na(6), Na(7), Na(8), Na(9), Na(10), \
+Na(11), Na(12), Na(13), Na(14), Na(15), Na(16), Na(17), Na(18), 
+ 70 data 3.000000, 0.000000, 1.000000, 5.000000, 4.000000, 0.000000, 9.000000, 2.000000, 0.000000, 3.000000, \
+3.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 
+ 80 dim Cl(18)
+ 82 restore 70
+ 90 read Cl(1), Cl(2), Cl(3), Cl(4), Cl(5), Cl(6), Cl(7), Cl(8), Cl(9), Cl(10), \
+Cl(11), Cl(12), Cl(13), Cl(14), Cl(15), Cl(16), Cl(17), Cl(18), 
+ 100 data 1033.684600, 1035.910200, 1039.897800, 1041.975600, 1045.155400, 1048.149200, 1051.891300, 1055.294100, 1059.735300, 1067.686000, \
+1076.372100, 1079.861700, 1085.559500, 1092.425200, 1098.054800, 1102.804500, 1110.683200, 1117.152500, 
+ 110 dim rho_m(18)
+ 112 restore 100
+ 120 read rho_m(1), rho_m(2), rho_m(3), rho_m(4), rho_m(5), rho_m(6), rho_m(7), rho_m(8), rho_m(9), rho_m(10), \
+rho_m(11), rho_m(12), rho_m(13), rho_m(14), rho_m(15), rho_m(16), rho_m(17), rho_m(18), 
+800 for i = 1 to 18
+810   punch 'SOLUTION '+ str$(i),  EOL$
+820   punch ' -temp 99.400000 ', EOL$
+822   punch ' -pressure 5.900000 ', EOL$
+830   punch ' Mg ', Mg(i) * 1e3,  EOL$
+831   punch ' Na ', Na(i) * 1e3,  EOL$
+832   punch ' Cl 100 charge ' + EOL$
+850   punch 'USER_GRAPH' + EOL$
+852   if i = 1 then punch '-headings 99.oC__6.bar' + EOL$
+854   punch '-active true' + EOL$
+860   punch '-initial_solutions true' + EOL$
+870   punch '10 plot_xy ', rho_m(i), ', rho * 1e3, line_width = 0, symbol = Circle, symbol_size = 7, color = Orange' + EOL$
+880   punch 'END' + EOL$
+890 next i
+END
+
+PRINT; -selected_out false; -echo_input false
+INCLUDE$ rho99.prn
+END
+solution 1
+USER_GRAPH
+#-headings 99.oC__6.bar
+-initial_solutions true; -connect_simulations true
+-axis_titles "(measured) rho of (Na, Mg) + Cl solutions / (g/L)" "calculated"
+20 if cell_no = 1 then plot_xy 1023.684600, 1023.684600,  color = Black, symbol = None, line_width = 2
+30 if cell_no = 2 then plot_xy 1127.152500, 1127.152500,  color = Black, symbol = None, line_width = 2
+END
+solution 2
+END

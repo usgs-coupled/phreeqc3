@@ -1,0 +1,38 @@
+#database phreeqc.dat # contains Dw's since version 2.17
+PRINT; -reset false
+SOLUTION 1
+-temp 25 # 40.09
+REACTION 1
+CO2 1; 0.1 10*0.4 12*2
+INCREMENTAL_REACTIONS true
+GAS_PHASE 1
+-fixed_volume
+ CO2(g) 20
+USER_GRAPH
+-headings Vm
+-plot_csv_file co2_VP.dat
+-connect_simulations false
+-axis_scale x_axis 0 0.5 #0.2
+-axis_scale y_axis 0 500 #100
+-axis_titles "molar volume / (L/mol)" "Gas pressure / atm"
+60 graph_x 1 / gas("CO2(g)")
+70 graph_y  gas_p #* pr_phi("CO2(g)")
+
+END
+
+SOLUTION 1
+-temp 50
+USE reaction 1; USE gas_phase 1
+END
+
+SOLUTION 1
+-temp 100
+REACTION 1
+CO2 1; 0.1 10*0.4 10*2
+USE gas_phase 1
+END
+
+SOLUTION 1
+-temp 150
+USE reaction 1; USE gas_phase 1
+END

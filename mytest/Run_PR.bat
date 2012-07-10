@@ -8,6 +8,7 @@
 ..\ClrClass_release\phreeqcpp.exe    CO2_Na2SO4
 ..\ClrClass_release\phreeqcpp.exe    co2_t30
 ..\ClrClass_release\phreeqcpp.exe    co2_tc
+..\ClrClass_release\phreeqcpp.exe    co2_vp
 ..\ClrClass_release\phreeqcpp.exe    densities
 ..\ClrClass_release\phreeqcpp.exe    diel
 ..\ClrClass_release\phreeqcpp.exe    fix_P
@@ -22,6 +23,7 @@
 ..\ClrClass_release\phreeqcpp.exe    O2_conc_PR_IS
 ..\ClrClass_release\phreeqcpp.exe    P_CO2_Na2SO4
 ..\ClrClass_release\phreeqcpp.exe    P_Vm
+..\ClrClass_release\phreeqcpp.exe    phi_CO2-CH4_GP
 ..\ClrClass_release\phreeqcpp.exe    phi_Duan_PR
 ..\ClrClass_release\phreeqcpp.exe    phi_Duan_PR_EQ
 ..\ClrClass_release\phreeqcpp.exe    PR_EQ

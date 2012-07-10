@@ -1,93 +1,55 @@
 #[ Plot molar volumes at "infinite" dilution
 #]
 DATABASE ../database/phreeqc.dat
-SOLUTION_SPECIES
-Na+ = Na+
-	-gamma	4.0	0.075
-	-dw	 1.33e-9
-	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-SO4-2 = SO4-2
-	-gamma	5.0	-0.04
-	-dw	 1.07e-9
-	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-
 #PRINT; -reset false; -user_print true
-USER_PRINT
- 30 put(rho, step_no)
-SOLUTION 1
 REACTION_TEMPERATURE 1
  0 250 in 21
-END
-PRINT; -user_print false
 
 SOLUTION 1
+ -units umol/kgw
  Na 0.6; S(6) 0.2 charge
-USE reaction_temperature 1
 USER_GRAPH 3
  -chart_title Na2SO4
  -plot_csv_file mV_SO4_rho.dat
--headings Millero # Monnin_model
+-headings -Vm  Monnin_model
 -axis_scale x_axis 270 520
 -axis_scale y_axis -80 20
 -connect false
 -axis_titles "Temperature / K" "molar Volume / cm3/mol"
- 200 mV = (1e3 + tot("S(6)") * (2 * 22.989 + 1 * 96.064)) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(step_no))
- 230 plot_xy tk, mV, color = Red, symbol = None
+ 20 mV = Vm("SO4-2") + 2*Vm("Na+")
+ 30 plot_xy tk, mV, color = Red, symbol = None, line_width = 2
 # Monnin model
  40 a1 = 1.281259e3; 42 a2 = -3.292342;   44 a3 = -1.231424e5; 46 a4 = 0.0; 48 a5 = 0.0
  50 a6 = 4.267199e-3;52 a7 = -9.132116e4; 54 a8 = -1.067946e3; 56 a9 = 0.0; 58 a10 = 0.0
  60 y = a1 + TK * (a2 + TK * (a6 + TK * (a9 + TK * a10))) + a3/TK + a4*log(TK) +\
         a5/(TK-263) + a7/(680-TK) + a8/(TK-227)
-# 70 plot_xy tk, y, color = Orange, line_width = 0, symbol = XCross
+ 70 plot_xy tk, y, color = Orange, line_width = 0, symbol = XCross
 END
+
+USE solution 1
+REACTION_PRESSURE; 300
+USE reaction_temperature 1
+USER_GRAPH 3
+-headings -Vm.(300.bar)
+ 20 mV = Vm("SO4-2") + 2*Vm("Na+")
+ 30 plot_xy tk, mV, color = Green, symbol = None, line_width = 2
+END
+
 
 SOLUTION_SPECIES
 Na+ = Na+
 	-gamma	4.0	0.075
 	-dw	 1.33e-9
 	-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	-Vm -2.15 0.0193 2.23e-4  6.2e-3 0.015 -2.74e-4  -0.9e-3  0.35 # NaCl.xls, Laliberte, 2009. Halite solubility
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
 	-dw	 1.07e-9
 	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-# with Pitzer.dat...
-	-Vm 9.55 0.297 -3e-3  2.06 -0.08 7.08e-4  -10e-3  0.017 # Na2SO4.xls, Laliberte, 2009; Phulela and Pitzer, 1986; Gypsum/Anhydrite solubility.  0-200 oC, 1-1000 atm.
-# with Phreeqc.dat && NaSO4- complex...
-	-Vm   7.76 0.324 -3.4e-3  -0.094 -1.2e-3 2.57e-5  -10e-3  0.93
-Na+ + SO4-2 = NaSO4-
-	log_k	0.7
-	delta_h 1.120	kcal
-	-dw 6.18e-10
-	-Vm  21.3 0.1 -1.7e-3  7.03 -0.144 1.56e-3  0  1.9
-SOLUTION 1
- Na 0.6; S(6) 0.2 charge
+USE solution 1
 USE reaction_temperature 1
 USER_GRAPH 3
--headings .Vm.
- 20 mV = (1e3 + tot("S(6)") * (2 * 22.989 + 1 * 96.064)) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(step_no))
- 30 plot_xy tk, mV, color = Red, symbol = None, line_width = 2
+-headings -Millero
+ 20 mV = Vm("SO4-2") + 2*Vm("Na+")
+ 30 plot_xy tk, mV, color = Red, symbol = None, line_width = 1
 END
 
-PRINT; -reset false; -user_print true
-USER_GRAPH 3; -active false # deactivates USER_GRAPH no
-USER_PRINT
- 30 put(rho, step_no)
-SOLUTION 1; -pressure 300
-REACTION_TEMPERATURE 1
- 0 250 in 21
-END
-PRINT; -user_print false
-USER_GRAPH 3; -active true
-SOLUTION_SPECIES
-#SO4-2 = SO4-2
-#	-millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-#	-mil 5.56 0.314 -3.2e-3 0 0 0 0.01 (approxim. kappa = 0.01 at t < 100 oC)
-SOLUTION 1
- Na 0.6; S(6) 0.2 charge; -pressure 300
-USE reaction_temperature 1
-USER_GRAPH 3
--headings .Vm.(300.bar)
- 20 mV = (1e3 + tot("S(6)") * (2 * 22.989 + 1 * 96.064)) / (tot("S(6)") * rho) - 1e3 / (tot("S(6)") * get(step_no))
- 30 plot_xy tk, mV, color = Green, symbol = None, line_width = 2
-END

@@ -14,6 +14,9 @@
 ..\ClrClass_release\phreeqcpp.exe    gypsum_P2 
 ..\ClrClass_release\phreeqcpp.exe    halite 
 ..\ClrClass_release\phreeqcpp.exe    P_CO2_Na2SO4 
+..\ClrClass_release\phreeqcpp.exe    rho_CaNaCl
+..\ClrClass_release\phreeqcpp.exe    rho_MgCaCl
+..\ClrClass_release\phreeqcpp.exe    rho_MgNaCl
 ..\ClrClass_release\phreeqcpp.exe    seaw_anhyd 
 ..\ClrClass_release\phreeqcpp.exe    SrSO4_P
 ..\ClrClass_release\phreeqcpp.exe    SrSO4_tc

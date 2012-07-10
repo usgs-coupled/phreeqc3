@@ -1,0 +1,60 @@
+# Calculate phi_CO2 with P_CH4 at 25, 50, 100 oC.
+PRINT; -reset false; -user_print true
+#KNOBS; -iter 4000; #-diagonal_scale true; -tolerance 1e-19; -step_size 10; -pe_step_size 5 # aids convergence
+SOLUTION 1 pH 7 charge
+# EQUILIBRIUM_PHASES
+# CH4(g) 2.7
+GAS_PHASE 6
+    -fixed_volume
+    CO2(g) 1
+	CH4(g) 400
+USER_PRINT
+ 10 print tc, PR_P("CH4(g)") #* PR_PHI("CH4(g)")
+USER_GRAPH
+ # -headings 25.oC #P_total
+ -axis_titles "CO2 pressure / atm" "CO2 fugacity coefficient (-)" "Total pressure / atm"
+ -axis_scale x_axis 0 500
+ -axis_scale y_axis 0 1.2
+ -init false
+ 10 x = PR_P("CO2(g)")
+ 20 plot_xy x, PR_Phi("CO2(g)"), symbol = None, line_w 2 color = Red
+ 30 if step_no > 0 then plot_xy x, gas_p, symbol = Circle, line_w 1, y_axis = 2 color = Red 
+ -end
+
+REACTION
+ CO2 1; 0.01 5*0.1 11*1
+INCREMENTAL_REACTIONS true
+END
+
+
+SOLUTION 1; pH 7 charge
+ -temp 50
+USER_GRAPH; # -headings 50.oC
+ 10 x = PR_P("CO2(g)")
+ 20 plot_xy x, PR_Phi("CO2(g)"), symbol = None, line_w 2 color = Green
+ 30 if step_no > 0 then plot_xy x, gas_p, symbol = Circle, line_w 1, y_axis = 2 color = Green 
+ -end
+REACTION
+ CO2 1; 0.01 5*0.1 12*1
+GAS_PHASE 6
+    -fixed_volume
+	temp 50
+    CO2(g) 1
+	CH4(g) 400
+END
+
+
+SOLUTION 1 pH 7 charge
+ -temp 75
+USER_GRAPH; # -headings 75.oC
+ 10 x = PR_P("CO2(g)")
+ 20 plot_xy x, PR_Phi("CO2(g)"), symbol = None, line_w 2 color = Blue
+ 30 if step_no > 0 then plot_xy x, gas_p, symbol = Circle, line_w 1, y_axis = 2 color = Blue 
+ -end
+REACTION
+ CO2 1; 0.01 5*0.1 12*1
+GAS_PHASE 6
+    -fixed_volume; -temp 75
+    CO2(g) 1
+	CH4(g) 400
+END
