@@ -5767,14 +5767,13 @@ calc_vm(LDBLE tc, LDBLE pa)
 			if (s_x[i]->z)
 			{
 			/* the ionic strength term * I^0.5... */
-				if (s_x[i]->logk[b_Av] == 0)
+				if (s_x[i]->logk[b_Av] < 1e-5)
 					s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt(mu_x);
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
-					LDBLE b = (s_x[i]->logk[b_Av] < 1e-5 ? 1e-5 : s_x[i]->logk[b_Av]);
 					s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
-						log(1 + b * sqrt(mu_x)) / b;
+						log(1 + s_x[i]->logk[b_Av] * sqrt(mu_x)) / s_x[i]->logk[b_Av];
 				}
 				/* plus the volume terms * I... */
 				LDBLE bi = s_x[i]->logk[vmi1] + s_x[i]->logk[vmi2]  / (TK - 228.); // + s_x[i]->logk[vmi3] * TK);
@@ -5797,7 +5796,6 @@ calc_vm(LDBLE tc, LDBLE pa)
 			continue;
 
 		/* for calculating delta_v of the reaction... */
-		//s_search(s_x[i]->name)->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
 		s_x[i]->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
 	}
 	return OK;

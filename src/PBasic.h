@@ -307,7 +307,8 @@ public:
 		tokdh_a,
 		tokdh_b,
 		tokdh_av,
-		tokqbrn
+		tokqbrn,
+		tokkappa
 	};
 
 #if !defined(PHREEQCI_GUI)
