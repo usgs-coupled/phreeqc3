@@ -236,10 +236,10 @@ cxxTemperature::read_raw(CParser & parser)
 	// clear steps for modify operation, if pressures are read
 	bool cleared_once = false;
 
-#if defined(STATIC_VOPTS)
-	static std::vector < std::string > vopts;
-#else
+#if defined(NO_STATIC_VOPTS)
 	std::vector < std::string > vopts;
+#else
+	static std::vector < std::string > vopts;
 #endif
 	if (vopts.empty())
 	{
