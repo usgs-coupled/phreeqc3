@@ -64,10 +64,6 @@ extern void HDFWriteHyperSlabV(const char *name, const char *format,
 							   va_list argptr);
 #endif
 
-#if defined(USE_MPI) && defined(HDF5_CREATE) && defined(MERGE_FILES)
-extern int Merge_fpunchf(const int length, const char *format,
-						 va_list argptr);
-#endif
 void Phreeqc::
 fpunchf_heading(const char *name)
 {

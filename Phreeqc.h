@@ -917,7 +917,7 @@ public:
 	static int rxn_token_temp_compare(const void *ptr1, const void *ptr2);
 	int trxn_multiply(LDBLE coef);
 #if defined(USE_MPI) && defined(HDF5_CREATE) && defined(MERGE_FILES)
-	extern void MergeFinalize(void);
+	void MergeFinalize(void);
 #endif
 	struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
 	struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
