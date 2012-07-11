@@ -118,7 +118,11 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
+#if defined(STATIC_VOPTS)
 	static std::vector < std::string > vopts;
+#else
+	std::vector < std::string > vopts;
+#endif
 	if (vopts.empty())
 	{
 		vopts.reserve(15);

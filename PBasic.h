@@ -505,6 +505,7 @@ protected:
 	bool phreeqci_gui;
 	bool parse_all;    /* true, most function values set to 1 for testing compilation */
 	bool parse_whole_program;
+	char fnbuf[256];
 #if defined(PHREEQCI_GUI)
 	HANDLE hInfiniteLoop;
 	UINT nIDErrPrompt;
