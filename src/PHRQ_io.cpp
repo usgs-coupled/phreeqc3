@@ -223,6 +223,8 @@ error_msg(const char *err_str, bool stop)
 		}
 		output_msg("Stopping.\n");
 		log_msg("Stopping.\n");
+
+		throw PhreeqcStop();
 	}
 }
 /* ---------------------------------------------------------------------- */
