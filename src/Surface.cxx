@@ -234,10 +234,10 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) cons
 void
 cxxSurface::read_raw(CParser & parser, bool check)
 {
-#if defined(STATIC_VOPTS)
-	static std::vector < std::string > vopts;
-#else
+#if defined(NO_STATIC_VOPTS)
 	std::vector < std::string > vopts;
+#else
+	static std::vector < std::string > vopts;
 #endif
 	int i = 0;
 	if (vopts.empty())

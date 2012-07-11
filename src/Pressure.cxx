@@ -198,10 +198,10 @@ cxxPressure::read_raw(CParser & parser)
 	bool cleared_once = false;
 	LDBLE d;
 	CParser::TOKEN_TYPE k;
-#if defined(STATIC_VOPTS)
-	static std::vector < std::string > vopts;
-#else
+#if defined(NO_STATIC_VOPTS)
 	std::vector < std::string > vopts;
+#else
+	static std::vector < std::string > vopts;
 #endif
 	if (vopts.empty())
 	{
