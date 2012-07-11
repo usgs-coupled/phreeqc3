@@ -497,6 +497,9 @@ void Phreeqc::init(void)
 	user_punch_headings		= 0;
 	user_punch_count_headings = 0;
 	n_user_punch_index      = 0;
+	fpunchf_user_s_warning  = 0;
+
+	spread_length           = 10;
 	/*
 		 Initialize llnl aqueous model parameters
 	 */
@@ -805,6 +808,9 @@ void Phreeqc::init(void)
 	warn_fixed_Surf = 0;
 	/* model.c */
 	gas_in = FALSE;
+
+	/* utilities.c */
+	spinner = 0;
 
 	count_strings = 0;
 #ifdef MULTICHART

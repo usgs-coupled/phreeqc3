@@ -916,7 +916,7 @@ string_to_spread_row(char *string)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
-	static int length = 10;		/* possible memory error if length of line is smaller than previous line */
+	/* possible memory error if length of line is smaller than previous line */
 	char *token;
 	char *ptr;
 	struct spread_row *spread_row_ptr;
@@ -931,15 +931,15 @@ string_to_spread_row(char *string)
 	if (spread_row_ptr == NULL)
 		malloc_error();
 	spread_row_ptr->char_vector =
-		(char **) PHRQ_malloc((size_t) length * sizeof(char *));
+		(char **) PHRQ_malloc((size_t) spread_length * sizeof(char *));
 	if (spread_row_ptr->char_vector == NULL)
 		malloc_error();
 	spread_row_ptr->d_vector =
-		(LDBLE *) PHRQ_malloc((size_t) length * sizeof(LDBLE));
+		(LDBLE *) PHRQ_malloc((size_t) spread_length * sizeof(LDBLE));
 	if (spread_row_ptr->d_vector == NULL)
 		malloc_error();
 	spread_row_ptr->type_vector =
-		(int *) PHRQ_malloc((size_t) length * sizeof(int));
+		(int *) PHRQ_malloc((size_t) spread_length * sizeof(int));
 	if (spread_row_ptr->type_vector == NULL)
 		malloc_error();
 	spread_row_ptr->count = 0;
@@ -952,25 +952,25 @@ string_to_spread_row(char *string)
  */
 	for (;;)
 	{
-		if (spread_row_ptr->count + 1 > length)
+		if (spread_row_ptr->count + 1 > spread_length)
 		{
-			length *= 2;
+			spread_length *= 2;
 
 			spread_row_ptr->char_vector =
 				(char **) PHRQ_realloc(spread_row_ptr->char_vector,
-									   (size_t) length * sizeof(char *));
+									   (size_t) spread_length * sizeof(char *));
 			if (spread_row_ptr->char_vector == NULL)
 				malloc_error();
 
 			spread_row_ptr->d_vector =
 				(LDBLE *) PHRQ_realloc(spread_row_ptr->d_vector,
-									   (size_t) length * sizeof(LDBLE));
+									   (size_t) spread_length * sizeof(LDBLE));
 			if (spread_row_ptr->d_vector == NULL)
 				malloc_error();
 
 			spread_row_ptr->type_vector =
 				(int *) PHRQ_realloc(spread_row_ptr->type_vector,
-									 (size_t) length * sizeof(int));
+									 (size_t) spread_length * sizeof(int));
 			if (spread_row_ptr->type_vector == NULL)
 				malloc_error();
 		}

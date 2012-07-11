@@ -91,8 +91,6 @@ fpunchf(const char *name, const char *format, int d)
 void Phreeqc::
 fpunchf_user(int user_index, const char *format, double d)
 {
-	static int s_warning = 0;
-	static char buffer[80];
 	const char *name;
 
 	// check headings
@@ -102,16 +100,16 @@ fpunchf_user(int user_index, const char *format, double d)
 	}
 	else
 	{
-		if (s_warning == 0)
+		if (fpunchf_user_s_warning == 0)
 		{
 			error_string = sformatf(
 					"USER_PUNCH: Headings count doesn't match number of calls to PUNCH.\n");
 			warning_msg(error_string);
-			s_warning = 1;
+			fpunchf_user_s_warning = 1;
 		}
-		sprintf(buffer, "no_heading_%d",
+		sprintf(fpunchf_user_buffer, "no_heading_%d",
 				(user_index - user_punch_count_headings) + 1);
-		name = buffer;
+		name = fpunchf_user_buffer;
 	}
 	if (phrq_io) phrq_io->fpunchf(name, format, (double) d);
 }
@@ -119,8 +117,6 @@ fpunchf_user(int user_index, const char *format, double d)
 void Phreeqc::
 fpunchf_user(int user_index, const char *format, char * d)
 {
-	static int s_warning = 0;
-	static char buffer[80];
 	const char *name;
 
 	// check headings
@@ -130,16 +126,16 @@ fpunchf_user(int user_index, const char *format, char * d)
 	}
 	else
 	{
-		if (s_warning == 0)
+		if (fpunchf_user_s_warning == 0)
 		{
 			error_string = sformatf(
 					"USER_PUNCH: Headings count doesn't match number of calls to PUNCH.\n");
 			warning_msg(error_string);
-			s_warning = 1;
+			fpunchf_user_s_warning = 1;
 		}
-		sprintf(buffer, "no_heading_%d",
+		sprintf(fpunchf_user_buffer, "no_heading_%d",
 				(user_index - user_punch_count_headings) + 1);
-		name = buffer;
+		name = fpunchf_user_buffer;
 	}
 	if (phrq_io) phrq_io->fpunchf(name, format, d);
 }

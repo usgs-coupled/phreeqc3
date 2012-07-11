@@ -1377,7 +1377,6 @@ int Phreeqc::
 status(int count, const char *str, bool rk_string)
 /* ---------------------------------------------------------------------- */
 {
-	static int spinner;
 	char sim_str[20];
 	char state_str[45];
 	char spin_str[2];

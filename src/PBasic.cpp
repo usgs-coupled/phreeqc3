@@ -5854,7 +5854,6 @@ P_maxpos(FILE * f)
 char * PBasic::
 P_trimname(register char * fn, register int len)
 {
-	static char fnbuf[256];
 	register char *cp = fnbuf;
 
 	while (--len >= 0 && *fn && !isspace((int) *fn))

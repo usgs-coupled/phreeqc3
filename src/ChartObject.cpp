@@ -243,8 +243,11 @@ ChartObject::Set_axis_scale(CParser & parser)
 bool
 ChartObject::Read(CParser & parser)
 {
-
+#if defined(STATIC_VOPTS)
 	static std::vector < std::string > vopts;
+#else
+	std::vector < std::string > vopts;
+#endif
 	if (vopts.empty())
 	{
 		vopts.reserve(20);

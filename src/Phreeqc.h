@@ -1481,6 +1481,9 @@ protected:
 	int user_punch_count_headings;
 	int n_user_punch_index;
 
+	int fpunchf_user_s_warning;
+	char fpunchf_user_buffer[80];
+
 #if defined PHREEQ98 
 	struct rate *user_graph;
 	char **user_graph_headings;
@@ -1576,6 +1579,7 @@ protected:
 #ifdef PHREEQCI_GUI
 	struct spread_sheet g_spread_sheet;
 #endif
+	int spread_length;
 
 	/* ---------------------------------------------------------------------- */
 	/*
@@ -1855,6 +1859,8 @@ public:
 	int stop_calculations;
 	char err_str98[80];
 #endif
+	/* utilities.cpp ------------------------------- */
+	int spinner;
 
 	friend class PBasic;
 	friend class ChartObject;

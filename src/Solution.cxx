@@ -292,7 +292,11 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 void
 cxxSolution::read_raw(CParser & parser, bool check)
 {
+#if defined(STATIC_VOPTS)
 	static std::vector < std::string > vopts;
+#else
+	std::vector < std::string > vopts;
+#endif
 	if (vopts.empty())
 	{
 		vopts.reserve(21);
