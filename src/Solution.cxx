@@ -95,8 +95,7 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 //
 // constructor for cxxSolution from mixture of solutions
 //
-	:
-cxxNumKeyword(io)
+: cxxNumKeyword(io)
 {
 
 //

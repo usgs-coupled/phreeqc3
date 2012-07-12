@@ -93,17 +93,17 @@ class cxxStorageBin: public PHRQ_base
 	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix & mixmap);
 
-	const std::map < int, cxxSolution > &Get_Solutions() const;
-	const std::map < int, cxxExchange > &Get_Exchangers() const;
-	const std::map < int, cxxGasPhase > &Get_GasPhases() const;
-	const std::map < int, cxxKinetics > &Get_Kinetics() const;
-	const std::map < int, cxxPPassemblage > &Get_PPassemblages() const;
-	const std::map < int, cxxSSassemblage > &Get_SSassemblages() const;
-	const std::map < int, cxxSurface > &Get_Surfaces() const;
-	const std::map < int, cxxMix > &Get_Mixes() const;
-	const std::map < int, cxxReaction > &Get_Reactions() const;
-	const std::map < int, cxxTemperature > &Get_Temperatures() const;
-	const std::map < int, cxxPressure > &Get_Pressures() const;
+	std::map < int, cxxSolution > &Get_Solutions();
+	std::map < int, cxxExchange > &Get_Exchangers();
+	std::map < int, cxxGasPhase > &Get_GasPhases();
+	std::map < int, cxxKinetics > &Get_Kinetics();
+	std::map < int, cxxPPassemblage > &Get_PPassemblages();
+	std::map < int, cxxSSassemblage > &Get_SSassemblages();
+	std::map < int, cxxSurface > &Get_Surfaces();
+	std::map < int, cxxMix > &Get_Mixes();
+	std::map < int, cxxReaction > &Get_Reactions();
+	std::map < int, cxxTemperature > &Get_Temperatures();
+	std::map < int, cxxPressure > &Get_Pressures();
 
 	cxxSystem & Get_system(void) {return system;};
 #ifdef USE_MPI
