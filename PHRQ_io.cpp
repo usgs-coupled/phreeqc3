@@ -247,51 +247,15 @@ warning_msg(const char *err_str)
 	output_msg(warn_str.str().c_str());
 	output_flush();
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-screen_msg(const char * str, bool force_print)
-/* ---------------------------------------------------------------------- */
-{
-	clock_t t2 = 0;
-	if (!force_print)
-	{
-		t2 = clock();
-		if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
-		{
-			return;
-		}
-		else
-		{
-			status_timer = t2;
-		}
-	}
-
-	if (error_ostream != NULL && (screen_on || force_print))
-	{
-		(*error_ostream) << str;
-	}
-	if (force_print)
-		error_ostream->flush();
-}
-#endif
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
 screen_msg(const char * str)
 /* ---------------------------------------------------------------------- */
 {
-	std::string stdstr(str);
-#if defined(ERROR_OSTREAM)
 	if (error_ostream != NULL && screen_on)
 	{
-		(*error_ostream) << stdstr;
+		(*error_ostream) << str;
 	}
-#else
-	if (error_file != NULL && screen_on)
-	{
-		fprintf(error_file, "%s", str);
-	}
-#endif
 }
 #else
 /* ---------------------------------------------------------------------- */
@@ -375,34 +339,6 @@ warning_msg(const char *err_str)
 	output_msg(warn_str.str().c_str());
 	output_flush();
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-void PHRQ_io::
-screen_msg(const char * str, bool force_print)
-/* ---------------------------------------------------------------------- */
-{
-	clock_t t2 = 0;
-	if (!force_print)
-	{
-		t2 = clock();
-		if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
-		{
-			return;
-		}
-		else
-		{
-			status_timer = t2;
-		}
-	}
-
-	if (error_ostream != NULL && (screen_on || force_print))
-	{
-		(*error_ostream) << str;
-	}
-	if (force_print)
-		error_ostream->flush();
-}
-#endif
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
 screen_msg(const char * str)
