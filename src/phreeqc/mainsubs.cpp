@@ -1044,7 +1044,6 @@ solution_mix()
 	std::map<int, cxxMix>::iterator it;
 	for (it = Rxn_solution_mix_map.begin(); it != Rxn_solution_mix_map.end(); it++)
 	{
-		int i = 1; 
 		cxxSolution sol(Rxn_solution_map, it->second, it->second.Get_n_user(), this->phrq_io);
 		Rxn_solution_map[it->second.Get_n_user()] = sol;
 		Utilities::Rxn_copies(Rxn_solution_map, it->second.Get_n_user(), it->second.Get_n_user_end());
