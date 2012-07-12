@@ -304,58 +304,58 @@ cxxStorageBin::Remove_Pressure(int n_user)
 	Pressures.erase(n_user);
 }
 
-const std::map < int, cxxSolution > &
-cxxStorageBin::Get_Solutions() const
+std::map < int, cxxSolution > &
+cxxStorageBin::Get_Solutions()
 {
 	return this->Solutions;
 }
-const std::map < int, cxxExchange > &
-cxxStorageBin::Get_Exchangers() const
+std::map < int, cxxExchange > &
+cxxStorageBin::Get_Exchangers()
 {
 	return this->Exchangers;
 }
-const std::map < int, cxxGasPhase > &
-cxxStorageBin::Get_GasPhases() const
+std::map < int, cxxGasPhase > &
+cxxStorageBin::Get_GasPhases() 
 {
 	return this->GasPhases;
 }
-const std::map < int, cxxKinetics > &
-cxxStorageBin::Get_Kinetics() const
+std::map < int, cxxKinetics > &
+cxxStorageBin::Get_Kinetics()
 {
 	return this->Kinetics;
 }
-const std::map < int, cxxPPassemblage > &
-cxxStorageBin::Get_PPassemblages() const
+std::map < int, cxxPPassemblage > &
+cxxStorageBin::Get_PPassemblages()
 {
 	return this->PPassemblages;
 }
-const std::map < int, cxxSSassemblage > &
-cxxStorageBin::Get_SSassemblages() const
+std::map < int, cxxSSassemblage > &
+cxxStorageBin::Get_SSassemblages()
 {
 	return this->SSassemblages;
 }
-const std::map < int, cxxSurface > &
-cxxStorageBin::Get_Surfaces() const
+std::map < int, cxxSurface > &
+cxxStorageBin::Get_Surfaces()
 {
 	return this->Surfaces;
 }
-const std::map < int, cxxMix > &
-cxxStorageBin::Get_Mixes() const
+std::map < int, cxxMix > &
+cxxStorageBin::Get_Mixes()
 {
 	return this->Mixes;
 }
-const std::map < int, cxxReaction > &
-cxxStorageBin::Get_Reactions() const
+std::map < int, cxxReaction > &
+cxxStorageBin::Get_Reactions()
 {
 	return this->Reactions;
 }
-const std::map < int, cxxTemperature > &
-cxxStorageBin::Get_Temperatures() const
+std::map < int, cxxTemperature > &
+cxxStorageBin::Get_Temperatures()
 {
 	return this->Temperatures;
 }
-const std::map < int, cxxPressure > &
-cxxStorageBin::Get_Pressures() const
+std::map < int, cxxPressure > &
+cxxStorageBin::Get_Pressures()
 {
 	return this->Pressures;
 }
