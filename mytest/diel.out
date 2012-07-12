@@ -25,7 +25,7 @@ Reading input data for simulation 1.
 	REACTION_TEMPERATURE
 	         0.0100   25.0000   60.0000  100.0000 150.0000  200.0000  250.0000  300.0000
 	USER_GRAPH
-	 -headings eps_r Fernandez DH_A LLNL
+	 -headings eps_r Fernandez DH_A LLNL Grenthe
 	 -axis_titles "temp / oC" "dielectric constant (-)" "Debye Hueckel A (mol/kg)^-0.5"
 	 -axis_scale x_axis 0 300
 	 10 plot_xy tc, eps_r, color = Red, symbol_size = 0
@@ -33,14 +33,13 @@ Reading input data for simulation 1.
 	 14 dim b(8)
 	 16 read b(1), b(2), b(3), b(4), b(5), b(6), b(7), b(8)
 	 20 plot_xy tc, b(step_no), color = Red, line_width = 0
-	 30 e2_DkT = 1.671008e-3 / (eps_r * Tk)
-	 32 pi = 2 * arctan(1e10)
-	 40 DH_B = sqrt(8 * pi * 6.02252e23 * e2_DkT * rho / 1e3) #  Debye length kappa, 1/cm
-	 50 DH_A = DH_B * e2_DkT / (2. * 2.303)
 	 60 plot_xy tc, DH_A, y_axis = 2, color = Green, symbol = None
 	 70 data  0.4939, 0.5114, 0.5465, 0.5995, 0.6855, 0.7994, 0.9593, 1.2180
 	 90 read b(1), b(2), b(3), b(4), b(5), b(6), b(7), b(8)
 	 100 plot_xy tc, b(step_no), y_axis = 2, color = Green, line_width = 0
+	 110 data  0.491, 0.509, 0.546, 0.6, 0.69, 0.81, 0.98, 1.252
+	 120 read g(1), g(2), g(3), g(4), g(5), g(6), g(7), g(8)
+	 130 plot_xy tc, g(step_no), y_axis = 2, color = Green, line_width = 0, symbol = XCross 
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -59,7 +58,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =   4.000    
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99704
                         Activity of water  =   1.000
                            Ionic strength  =   1.002e-07
                        Mass of water (kg)  =   1.000e+00
@@ -137,10 +136,10 @@ Using temperature 1.
    OH-             3.326e-08   3.325e-08    -7.478    -7.478    -0.000     -6.62
    H+              3.303e-08   3.303e-08    -7.481    -7.481    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.02
-H(0)          4.726e-15
+H(0)          4.725e-15
    H2              2.363e-15   2.363e-15   -14.627   -14.627     0.000     28.65
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.930   -71.930     0.000     27.49
+   O2              0.000e+00   0.000e+00   -71.929   -71.929     0.000     27.49
 
 ------------------------------Saturation indices-------------------------------
 
@@ -167,7 +166,7 @@ Using temperature 1.
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.262      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 0
-                          Density (g/cm3)  =   0.99705
+                          Density (g/cm3)  =   0.99704
                         Activity of water  =   1.000
                            Ionic strength  =   1.001e-07
                        Mass of water (kg)  =   1.000e+00
@@ -189,7 +188,7 @@ Using temperature 1.
    OH-             1.003e-07   1.002e-07    -6.999    -6.999    -0.000     -4.11
    H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-H(0)          4.726e-15
+H(0)          4.725e-15
    H2              2.363e-15   2.363e-15   -14.627   -14.627     0.000     28.61
 O(0)          0.000e+00
    O2              0.000e+00   0.000e+00   -63.127   -63.127     0.000     30.40
@@ -219,7 +218,7 @@ Using temperature 1.
                                        pH  =   6.508      Charge balance
                                        pe  =  -0.838      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 60 oC) = 0
-                          Density (g/cm3)  =   0.98321
+                          Density (g/cm3)  =   0.98319
                         Activity of water  =   1.000
                            Ionic strength  =   3.110e-07
                        Mass of water (kg)  =   1.000e+00
@@ -242,7 +241,7 @@ Using temperature 1.
    H+              3.109e-07   3.107e-07    -6.507    -6.508    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.32
 H(0)          4.745e-15
-   H2              2.373e-15   2.373e-15   -14.625   -14.625     0.000     28.58
+   H2              2.372e-15   2.372e-15   -14.625   -14.625     0.000     28.58
 O(0)          0.000e+00
    O2              0.000e+00   0.000e+00   -53.022   -53.022     0.000     32.38
 
@@ -346,10 +345,10 @@ Using temperature 1.
    OH-             1.548e-06   1.545e-06    -5.810    -5.811    -0.001    -13.52
    H+              1.548e-06   1.545e-06    -5.810    -5.811    -0.001      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     19.65
-H(0)          3.218e-24
-   H2              1.609e-24   1.609e-24   -23.793   -23.793     0.000     28.56
-O(0)          8.496e-17
-   O2              4.248e-17   4.248e-17   -16.372   -16.372     0.000     35.91
+H(0)          3.217e-24
+   H2              1.609e-24   1.609e-24   -23.794   -23.794     0.000     28.56
+O(0)          8.500e-17
+   O2              4.250e-17   4.250e-17   -16.372   -16.372     0.000     35.91
 
 ------------------------------Saturation indices-------------------------------
 
@@ -429,7 +428,7 @@ Using temperature 1.
                                        pH  =   5.581      Charge balance
                                        pe  =   3.072      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 250 oC) = 12
-                          Density (g/cm3)  =   0.79889
+                          Density (g/cm3)  =   0.79899
                         Activity of water  =   1.000
                            Ionic strength  =   2.633e-06
                        Mass of water (kg)  =   1.000e+00
@@ -482,7 +481,7 @@ Using temperature 1.
                                        pH  =   5.569      Charge balance
                                        pe  =   1.890      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 300 oC) = 16
-                          Density (g/cm3)  =   0.71192
+                          Density (g/cm3)  =   0.71233
                         Activity of water  =   1.000
                            Ionic strength  =   2.708e-06
                        Mass of water (kg)  =   1.000e+00
@@ -502,9 +501,9 @@ Using temperature 1.
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             2.708e-06   2.695e-06    -5.567    -5.569    -0.002   -214.32
+   OH-             2.708e-06   2.695e-06    -5.567    -5.569    -0.002   -214.31
    H+              2.708e-06   2.695e-06    -5.567    -5.569    -0.002      0.00
-   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     25.31
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     25.29
 H(0)          3.914e-19
    H2              1.957e-19   1.957e-19   -18.708   -18.708     0.000     28.51
 O(0)          2.787e-09

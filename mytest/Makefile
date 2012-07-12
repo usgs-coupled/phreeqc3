@@ -186,6 +186,7 @@ all: alkalinity.out \
 	ppdump.out \
 	errorinp.out \
 	diel.out \
+	H_K.out \
 	Sat_P_rho.out \
 	densities.out \
 	cc_P.out \
