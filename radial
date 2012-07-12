@@ -190,25 +190,22 @@ TRANSPORT
  -flow diff; -cells 1; -bcon 1 2; -stag 15	
  -time   1.5429e+03	
  -multi_D true   2.5000e-09  1.5900e-01 0.0 9.9000e-01	
- -interlayer_D false 0.04 0.0 750	
+ -interlayer_D false 0.001 0.0 700	
  -punch_fr 14; -punch_c 17	
 USER_GRAPH 1 Example 21
 	
  -chart_title " Hto Diffusion to Outer Cell"	
- -plot_tsv_file Hto_rad.tsv	
+ -plot_tsv_file ex21_Hto_rad.tsv	
  -axis_scale x_axis 0 20	
- -axis_titles "TIME, IN DAYS" "FLUX, IN 1e-15 MOL/M2/S" "ACCUMULATED MASS, IN 1e-11 MOL"	
+ -axis_titles "TIME, IN DAYS" "FLUX, IN MOL/M2/S" "ACCUMULATED MASS, IN MOL"	
  -plot_concentration_vs time	
  10 days = total_time / (3600 * 24)	
- 20 IF INSTR("Hto", "C") THEN mm = 1 ELSE mm = 1e-3	
- 30 s1 =   1.0000e+15 * mm	
- 40 s2 =        1e+11 * mm	
- 50 a = equi("A_Hto") * s2	
- 60 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)	
- 70 dt = get(1)	
- 80 plot_xy days - dt / (2 * 3600 * 24), (a - get(2)) * s1 / s2 / dt /  8.2988e-03, color = Green, symbol = None	
- 90 put(a, 2)	
- 100 plot_xy days, equi("A_Hto") * s2, y_axis = 2, color = Red, symbol = None	        
+ 20 a = equi("A_Hto")	
+ 30 IF get(1) = 0 AND total_time > 0 THEN put(total_time, 1)	
+ 40 dt = get(1)	
+ 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(2)) / dt /  8.2988e-03, color = Green, symbol = None	
+ 60 put(a, 2)	
+ 70 plot_xy days, equi("A_Hto"), y_axis = 2, color = Red, symbol = None	        
 END	  
 TRANSPORT	 
  -shifts 0	
@@ -218,8 +215,8 @@ USER_GRAPH 5 Example 21
 	
  -chart_title "Hto Concentration Profile: Filter1 | Clay | Filter2"	
  -axis_scale x_axis 0 2.2220e+01	
- -axis_scale y_axis 0 1.2000e-06	
- -axis_scale sy_axis 0 1.2000e-06	
+ -axis_scale y_axis 0 1.2e-9	
+ -axis_scale sy_axis 0 1.2e-9	
  -axis_titles "DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"	
  -headings Hto_free Hto_tot	
  -plot_concentration_vs x	
@@ -229,12 +226,12 @@ USER_GRAPH 5 Example 21
  30 IF (cell_no = 4) THEN xval = xval + 0.5 * 1.8000e-03	
  40 IF (cell_no > 4 AND cell_no < 5) THEN xval = xval + 1.8000e-03	
  50 GOTO 200	
- 60 IF (cell_no = 5) THEN xval = xval + 0.5 * 1.8000e-03 + 0.5 * 1.7109e-03	
+ 60 IF (cell_no = 5) THEN  xval = xval + 0.5 * 1.8000e-03 + 0.5 * 1.7109e-03	
  70 IF (cell_no > 5 AND cell_no < 16) THEN xval = xval + 1.7109e-03 ELSE GOTO 90	
  80 GOTO 200	
- 90 IF (cell_no = 16) THEN xval = xval + 0.5 * 1.7109e-03 + 0.5 * 1.6000e-03	
+ 90 IF (cell_no = 16) THEN  xval = xval + 0.5 * 1.7109e-03 + 0.5 * 1.6000e-03	
  100 IF (cell_no > 16 AND cell_no <= 16) THEN xval = xval + 1.6000e-03	
- 110 IF (cell_no = 17) THEN xval = xval + 0.5 * 1.6000e-03	
+ 110 IF (cell_no = 17) THEN  xval = xval + 0.5 * 1.6000e-03	
  200 y1 = TOT("Hto")	
  210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus	
  220 IF cell_no = 3 THEN put(y1, 15)	
