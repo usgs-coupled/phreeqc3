@@ -68,6 +68,7 @@ all: alkalinity.out \
 	i5.out \
 	i6.out \
 	i7.out \
+	Ilulissat_diff3.out \
 	is.out \
 	include.out \
 	initial_gas.out \
