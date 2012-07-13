@@ -212,8 +212,17 @@ transport(void)
 	kin_time_save = kin_time;
 
 /* Reaction defined for a shift... */
-	if (ishift == 0 && nmix == 1)
-		step_fraction = 1.0;
+	//if (ishift == 0 && nmix == 1)
+	//	step_fraction = 1.0;
+	//else
+	//	step_fraction = 1.0 / (1.0 + nmix);
+	if (!ishift)
+	{
+		if (nmix < 2)
+			step_fraction = 1.0;
+		else
+			step_fraction = 1.0 / nmix;
+	}
 	else
 		step_fraction = 1.0 / (1.0 + nmix);
 /*

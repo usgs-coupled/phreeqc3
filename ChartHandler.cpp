@@ -45,7 +45,7 @@ ChartHandler::Punch_user_graph(Phreeqc * phreeqc_ptr)
 		{
 #if defined(__cplusplus_cli)
 			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1))
-				System::Threading::Thread::Sleep(1);
+				System::Threading::Thread::Sleep(5);
 #endif
 			this->current_chart = it->second;
 			phreeqc_ptr-> punch_user_graph();
@@ -86,7 +86,7 @@ ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 	// Read/update ChartObject
 #if defined(__cplusplus_cli)
 	while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1)) 
-		System::Threading::Thread::Sleep(1);
+		System::Threading::Thread::Sleep(5);
 #endif
 	{
 		it->second->Read(parser);
@@ -113,7 +113,7 @@ ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 		while (it->second->Get_form_started() && it->second->Get_done() != true) 
 		{
 #if defined(__cplusplus_cli)
-			System::Threading::Thread::Sleep(1);
+			System::Threading::Thread::Sleep(5);
 #endif
 		}
 		delete it->second;
@@ -125,20 +125,22 @@ bool
 ChartHandler::End_timer()
 {
 	
-	size_t max_tries = 1000; 
+	size_t max_tries = 6000; // 1 h, but not used
 	std::map<int, ChartObject *>::iterator it = this->chart_map.begin();
-	
+	if (chart_map.size() > 0) screen_msg("Detaching charts...");;
+	size_t i(0), i2(0);
 	for  ( ; it != chart_map.end(); it++)
 	{
-		size_t i = 0;
+		i = 0;
 		it->second->Rate_free();
 		if (it->second->Get_form_started())
 		{
 #if defined(__cplusplus_cli)
-			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1) && i < max_tries) 
+			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1)) 
 			{
+				//if (i > max_tries) break;
 				i++;
-				System::Threading::Thread::Sleep(1);
+				System::Threading::Thread::Sleep(60);
 			}
 #endif
 			it->second->Set_end_timer(true);
@@ -146,20 +148,23 @@ ChartHandler::End_timer()
 			System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
 #endif
 
-			size_t i2 = 0;
-			while (it->second->Get_done() != true && i2 < max_tries) 
+			i2 = 0;
+			while (it->second->Get_done() != true) 
 			{
+				//if (i2 > max_tries) break;
 				i2++;
 #if defined(__cplusplus_cli)
-				System::Threading::Thread::Sleep(1);
+				System::Threading::Thread::Sleep(60);
 #endif
 			}
-			if (i >= max_tries || i2 >= max_tries)
-			{
-				error_msg("Chart did not respond.", CONTINUE);
-			}
+			//if (i >= max_tries || i2 >= max_tries)
+			//{
+			//	error_msg("\nChart did not respond.", CONTINUE);
+			//}
 		}
 	}
+	//if (chart_map.size() > 0 && i < max_tries && i2 < max_tries)
+	screen_msg("\rCharts detached.         \n");
 	this->timer = false;
 
 	return true;

@@ -403,7 +403,7 @@ namespace zdg_ui2 {
 
 				// lock thread
 				while (0 != System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 1)) 
-					System::Threading::Thread::Sleep(1);
+					System::Threading::Thread::Sleep(5);
 
 				DefineCurves(myPane, 0);
 
@@ -841,7 +841,7 @@ namespace zdg_ui2 {
 
 				//lock for thread
 				while (0 != System::Threading::Interlocked::Exchange(chart->usingResource, 1)) 
-					System::Threading::Thread::Sleep(1);
+					System::Threading::Thread::Sleep(5);
 
 				if (this->chartobject_ptr->Get_curve_added())
 				{
@@ -1011,6 +1011,7 @@ namespace zdg_ui2 {
 		/// </summary>
 		void InitializeComponent()
 		{
+			//System::Threading::Thread::Sleep(5000);
 			this->components = (gcnew System::ComponentModel::Container());
 			this->zg1 = (gcnew ZedGraph::ZedGraphControl());
 			this->timer1 = (gcnew System::Windows::Forms::Timer( this->components ));
@@ -1059,7 +1060,5 @@ namespace zdg_ui2 {
 			this->ResumeLayout(false);
 		}
 #pragma endregion
-
-
 	};
 }

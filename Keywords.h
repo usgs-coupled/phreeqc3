@@ -86,8 +86,8 @@ public:
 	static KEYWORDS Keyword_search(std::string key);
 	static const std::string & Keyword_name_search(KEYWORDS key);
 
-	static std::map<const std::string, KEYWORDS> phreeqc_keywords;
-	static std::map<KEYWORDS, const std::string> phreeqc_keyword_names;
+	static const std::map<const std::string, KEYWORDS> phreeqc_keywords;
+	static const std::map<KEYWORDS, const std::string> phreeqc_keyword_names;
 };
 
 #endif // _INC_KEYWORDS_H

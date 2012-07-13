@@ -126,7 +126,7 @@ std::map<const std::string, Keywords::KEYWORDS>::value_type("reaction_pressure_m
 std::map<const std::string, Keywords::KEYWORDS>::value_type("solution_mix", 	            Keywords::KEY_SOLUTION_MIX)
 
 };
-std::map<const std::string, Keywords::KEYWORDS> Keywords::phreeqc_keywords(temp_keywords, temp_keywords + sizeof temp_keywords / sizeof temp_keywords[0]);
+const std::map<const std::string, Keywords::KEYWORDS> Keywords::phreeqc_keywords(temp_keywords, temp_keywords + sizeof temp_keywords / sizeof temp_keywords[0]);
 
 const std::map<Keywords::KEYWORDS, std::string>::value_type temp_keyword_names[] = {
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_NONE,							"UNKNOWN"),
@@ -200,4 +200,4 @@ std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTI
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_MODIFY,		"REACTION_PRESSURE_MODIFY"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLUTION_MIX,		            "SOLUTION_MIX")	
 };
-std::map<Keywords::KEYWORDS, const std::string> Keywords::phreeqc_keyword_names(temp_keyword_names, temp_keyword_names + sizeof temp_keyword_names / sizeof temp_keyword_names[0]);
+const std::map<Keywords::KEYWORDS, const std::string> Keywords::phreeqc_keyword_names(temp_keyword_names, temp_keyword_names + sizeof temp_keyword_names / sizeof temp_keyword_names[0]);
