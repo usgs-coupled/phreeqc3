@@ -114,7 +114,7 @@ ChartObject::~ChartObject()
 {
 	while (0 != System::Threading::Interlocked::Exchange(this->usingResource, 1))
 	{
-		System::Threading::Thread::Sleep(1);
+		System::Threading::Thread::Sleep(5);
 	}
 	this->Rate_free();
 	delete this->user_graph;
