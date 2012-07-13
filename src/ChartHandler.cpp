@@ -163,8 +163,10 @@ ChartHandler::End_timer()
 			//}
 		}
 	}
-	//if (chart_map.size() > 0 && i < max_tries && i2 < max_tries)
-	screen_msg("\rCharts detached.         \n");
+	if (chart_map.size() > 0)
+	{
+		screen_msg("\rCharts detached.         \n");
+	}
 	this->timer = false;
 
 	return true;
