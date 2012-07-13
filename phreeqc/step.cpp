@@ -619,6 +619,9 @@ add_mix(cxxMix *mix_ptr)
 		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, it->first);
 		if (solution_ptr == NULL)
 		{
+			error_string = sformatf( "Mix solution not found, %d.",
+						it->first);
+			error_msg(error_string, CONTINUE);
 			input_error++;
 			continue;
 		}
