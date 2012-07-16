@@ -673,6 +673,42 @@ cxxSolution::read_raw(CParser & parser, bool check)
 	return;
 }
 void
+cxxSolution::Update(const cxxNameDouble &const_nd)
+{
+	// const_nd is updated totals
+	cxxNameDouble simple_original_totals = this->totals.Simplify_redox();
+	cxxNameDouble original_activities(this->master_activity);
+
+	this->master_activity.clear();
+
+	// Update activities
+	if (original_activities.size() > 0)
+	{
+		cxxNameDouble nd = const_nd;
+		cxxNameDouble simple_this_totals = nd.Simplify_redox();
+		cxxNameDouble::iterator it = simple_original_totals.begin();
+		for ( ; it != simple_original_totals.end(); it++)
+		{
+			cxxNameDouble::iterator jit = simple_this_totals.find(it->first);
+			if (jit != simple_this_totals.end())
+			{
+				if (it->second != 0)
+				{
+					LDBLE f = jit->second / it->second;
+					if (f != 1)
+					{
+						original_activities.Multiply_activities_redox(it->first, f);
+					}
+				}
+			}
+		}
+		original_activities.merge_redox(this->master_activity);
+		this->master_activity = original_activities;
+	}
+
+	return;
+}
+void
 cxxSolution::zero()
 {
 	this->tc = 0.0;
@@ -740,7 +776,7 @@ cxxSolution::multiply(LDBLE extensive)
 }
 
 LDBLE
-cxxSolution::Get_total(char *string) const
+cxxSolution::Get_total(const char *string) const
 {
 	cxxNameDouble::const_iterator it = this->totals.find(string);
 	if (it == this->totals.end())
