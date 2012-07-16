@@ -96,12 +96,12 @@ class cxxSolution:public cxxNumKeyword
 
 	LDBLE Get_master_activity(char *string) const;
 	void Set_master_activity(char *string, LDBLE value);	
-	LDBLE Get_total(char *string) const;
+	LDBLE Get_total(const char *string) const;
 	LDBLE Get_total_element(const char *string) const;
 	void Set_total(char *string, LDBLE value);
 	void read_raw(CParser & parser, bool check = true);
-	void modify_activities(const cxxSolution & original);
-	void Simplify_totals();
+	//void modify_activities(const cxxSolution & original);
+	//void Simplify_totals();
 	void Update(const cxxNameDouble &nd);
 
 #ifdef USE_MPI
