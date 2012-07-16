@@ -891,12 +891,14 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 		LDBLE coef = it->second;
 		if (elt_ptr == NULL)
 		{
+
 			assert (false);
 		}
 		master_ptr = elt_ptr->primary;
 		if (master_ptr == NULL)
 		{
-			assert (false);
+			// error msg has been called in reaction_calc
+			continue;
 		}
 		if (master_ptr->s == s_hplus)
 		{
