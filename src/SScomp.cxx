@@ -92,27 +92,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("name");	// 0                 
-		vopts.push_back("initial_moles");	// 1
-		vopts.push_back("moles");	// 2
-		vopts.push_back("init_moles");	// 3
-		vopts.push_back("delta");	// 4
-		vopts.push_back("fraction_x");	// 5     
-		vopts.push_back("log10_lambda");	// 6
-		vopts.push_back("log10_fraction_x");	// 7
-		vopts.push_back("dn");	// 8
-		vopts.push_back("dnc");	// 9
-		vopts.push_back("dnb");	// 10
-	}
-
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -337,3 +316,17 @@ cxxSScomp::multiply(double extensive)
 	this->delta *= extensive;
 	this->initial_moles *= extensive;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("name"),	            // 0                 
+	std::vector< std::string >::value_type("initial_moles"),	// 1
+	std::vector< std::string >::value_type("moles"),	        // 2
+	std::vector< std::string >::value_type("init_moles"),	    // 3
+	std::vector< std::string >::value_type("delta"),	        // 4
+	std::vector< std::string >::value_type("fraction_x"),	    // 5     
+	std::vector< std::string >::value_type("log10_lambda"),	    // 6
+	std::vector< std::string >::value_type("log10_fraction_x"),	// 7
+	std::vector< std::string >::value_type("dn"),	            // 8
+	std::vector< std::string >::value_type("dnc"),	            // 9
+	std::vector< std::string >::value_type("dnb") 	            // 10
+};									   
+const std::vector< std::string > cxxSScomp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

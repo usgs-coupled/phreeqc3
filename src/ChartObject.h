@@ -430,6 +430,7 @@ class ChartObject:public cxxNumKeyword
 	bool batch_background;
 	std::string batch_fn;
 	chart_batch_type batch;
+	const static std::vector < std::string > vopts;
 
   public:
 	int usingResource;

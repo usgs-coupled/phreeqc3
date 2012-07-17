@@ -74,6 +74,7 @@ class cxxKinetics:public cxxNumKeyword
 	int cvode_order;
 	// internal variables
 	cxxNameDouble totals;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(CXXKINETICS_H_INCLUDED)

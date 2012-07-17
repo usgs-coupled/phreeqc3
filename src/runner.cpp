@@ -28,22 +28,6 @@ bool runner::Read(CParser & parser)
 {
 
 	bool return_value(true);
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(20);
-		vopts.push_back("cell");
-		vopts.push_back("cells");
-		vopts.push_back("start_time");
-		vopts.push_back("time_step");
-		vopts.push_back("time_steps");
-		vopts.push_back("step");
-		vopts.push_back("steps");
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -155,3 +139,13 @@ bool runner::Read(CParser & parser)
 	}
 	return(return_value);
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+		std::vector< std::string >::value_type("cell"),		 	 // 0 
+		std::vector< std::string >::value_type("cells"),		 // 1 
+		std::vector< std::string >::value_type("start_time"),	 // 2 
+		std::vector< std::string >::value_type("time_step"),	 // 3 
+		std::vector< std::string >::value_type("time_steps"),	 // 4 
+		std::vector< std::string >::value_type("step"),		 	 // 5 
+		std::vector< std::string >::value_type("steps")			 // 6 
+};									   
+const std::vector< std::string > runner::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

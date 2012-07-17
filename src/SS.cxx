@@ -126,34 +126,6 @@ cxxSS::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("ss_name");	// 0                                   
-		vopts.push_back("total_moles");	// 1   
-		vopts.push_back("a0");	// 2   
-		vopts.push_back("a1");	// 3
-		vopts.push_back("components");	// 4
-		vopts.push_back("miscibility");	// 5
-		vopts.push_back("spinodal");	// 6
-		vopts.push_back("tk");	// 7
-		vopts.push_back("xb1");	// 8
-		vopts.push_back("xb2");	// 9
-		vopts.push_back("ag0");	// 10
-		vopts.push_back("ag1");	// 11
-		vopts.push_back("component");	// 12
-		vopts.push_back("input_case"); //13
-		vopts.push_back("p"); //14
-		vopts.push_back("ss_in"); //15
-		vopts.push_back("totals"); //16
-		vopts.push_back("dn"); //17
-	}
-
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -596,3 +568,24 @@ cxxSS::Find(const char * comp_name)
 	}
 	return NULL;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("ss_name"),	    // 0                                   
+	std::vector< std::string >::value_type("total_moles"),	// 1   
+	std::vector< std::string >::value_type("a0"),           // 2   
+	std::vector< std::string >::value_type("a1"),	        // 3
+	std::vector< std::string >::value_type("components"),	// 4
+	std::vector< std::string >::value_type("miscibility"),	// 5
+	std::vector< std::string >::value_type("spinodal"),	    // 6
+	std::vector< std::string >::value_type("tk"),	        // 7
+	std::vector< std::string >::value_type("xb1"),	        // 8
+	std::vector< std::string >::value_type("xb2"),	        // 9
+	std::vector< std::string >::value_type("ag0"),	        // 10
+	std::vector< std::string >::value_type("ag1"),	        // 11
+	std::vector< std::string >::value_type("component"),	// 12
+	std::vector< std::string >::value_type("input_case"),   //13
+	std::vector< std::string >::value_type("p"),            //14
+	std::vector< std::string >::value_type("ss_in"),        //15
+	std::vector< std::string >::value_type("totals"),       //16
+	std::vector< std::string >::value_type("dn")            //17
+};									   
+const std::vector< std::string > cxxSS::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

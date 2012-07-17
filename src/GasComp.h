@@ -46,6 +46,7 @@ class cxxGasComp: public PHRQ_base
 	LDBLE p_read;
 	// internal workspace
 	LDBLE initial_moles;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(GASCOMP_H_INCLUDED)

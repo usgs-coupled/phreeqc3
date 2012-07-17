@@ -187,27 +187,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 {
 
 	LDBLE d;
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("step_divide");
-		vopts.push_back("rk");
-		vopts.push_back("bad_step_max");
-		vopts.push_back("use_cvode");
-		vopts.push_back("component");
-		vopts.push_back("totals");
-		vopts.push_back("steps");
-		vopts.push_back("cvode_steps");
-		vopts.push_back("cvode_order");
-		vopts.push_back("equalincrements");
-		vopts.push_back("count");
-		vopts.push_back("equal_increments");
-	}
+
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -656,3 +636,18 @@ Current_step(bool incremental_reactions, int reaction_step) const
 	}
 	return kin_time;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("step_divide"),             // 0 
+	std::vector< std::string >::value_type("rk"),                      // 1 
+	std::vector< std::string >::value_type("bad_step_max"),            // 2 
+	std::vector< std::string >::value_type("use_cvode"),               // 3 
+	std::vector< std::string >::value_type("component"),               // 4 
+	std::vector< std::string >::value_type("totals"),                  // 5 
+	std::vector< std::string >::value_type("steps"),                   // 6 
+	std::vector< std::string >::value_type("cvode_steps"),             // 7 
+	std::vector< std::string >::value_type("cvode_order"),             // 8 
+	std::vector< std::string >::value_type("equalincrements"),         // 9 
+	std::vector< std::string >::value_type("count"),                   // 10
+	std::vector< std::string >::value_type("equal_increments")         // 11
+};
+const std::vector< std::string > cxxKinetics::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);

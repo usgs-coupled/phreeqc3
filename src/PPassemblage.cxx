@@ -125,19 +125,6 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 void
 cxxPPassemblage::read_raw(CParser & parser, bool check)
 {
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("eltlist");	// 0
-		vopts.push_back("component");	// 1
-		vopts.push_back("new_def"); // 2
-		vopts.push_back("assemblage_totals"); // 3
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -360,3 +347,10 @@ Find(const std::string name_in)
 	}
 	return comp;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("eltlist"),	        // 0
+	std::vector< std::string >::value_type("component"),	    // 1
+	std::vector< std::string >::value_type("new_def"),          // 2
+	std::vector< std::string >::value_type("assemblage_totals") // 3
+};									   
+const std::vector< std::string > cxxPPassemblage::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

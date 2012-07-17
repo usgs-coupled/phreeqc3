@@ -95,15 +95,6 @@ cxxMix::read_raw(CParser & parser)
 
 	int i;
 	LDBLE d;
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -187,3 +178,4 @@ void cxxMix::Vectorize(std::vector<int> &n, std::vector<LDBLE> &f)
 		f.push_back(it->second);
 	}
 }
+const std::vector< std::string > cxxMix::vopts;

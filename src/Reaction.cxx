@@ -131,21 +131,6 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 	int j;
 	LDBLE d;
 	CParser::TOKEN_TYPE k;
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("units");	//0
-		vopts.push_back("reactant_list");	//1
-		vopts.push_back("element_list");	//2
-		vopts.push_back("steps");	//3
-		vopts.push_back("equal_increments");	//4
-		vopts.push_back("count_steps");	//5
-	}
 
 	// clear steps for modify operation, if steps are read
 	bool cleared_once = false;
@@ -316,3 +301,12 @@ Get_reaction_steps(void) const
 	}
 	return (int) this->steps.size();
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("units"),	        //0
+	std::vector< std::string >::value_type("reactant_list"),	//1
+	std::vector< std::string >::value_type("element_list"),	    //2
+	std::vector< std::string >::value_type("steps"),	        //3
+	std::vector< std::string >::value_type("equal_increments"),	//4
+	std::vector< std::string >::value_type("count_steps") 	    //5
+};									   
+const std::vector< std::string > cxxReaction::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

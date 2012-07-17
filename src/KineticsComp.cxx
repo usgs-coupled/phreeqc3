@@ -134,23 +134,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("rate_name_not_used");	// 0
-		vopts.push_back("tol");	// 1
-		vopts.push_back("m");	// 2
-		vopts.push_back("m0");	// 3
-		vopts.push_back("moles");	// 4
-		vopts.push_back("namecoef");	// 5
-		vopts.push_back("d_params");	// 6
-		vopts.push_back("initial_moles");	// 7
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -366,3 +349,14 @@ cxxKineticsComp::multiply(LDBLE extensive)
 	this->m0 *= extensive;
 	this->moles *= extensive;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("rate_name_not_used"),	// 0
+	std::vector< std::string >::value_type("tol"),	                // 1
+	std::vector< std::string >::value_type("m"),	                // 2
+	std::vector< std::string >::value_type("m0"),	                // 3
+	std::vector< std::string >::value_type("moles"),	            // 4
+	std::vector< std::string >::value_type("namecoef"),	            // 5
+	std::vector< std::string >::value_type("d_params"),	            // 6
+	std::vector< std::string >::value_type("initial_moles") 	    // 7
+};									   
+const std::vector< std::string > cxxKineticsComp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);

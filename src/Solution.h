@@ -131,6 +131,7 @@ class cxxSolution:public cxxNumKeyword
 	//cxxSolutionIsotopeList isotopes;
 	std::map < std::string, cxxSolutionIsotope > isotopes;
 	cxxISolution *initial_data;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(SOLUTION_H_INCLUDED)

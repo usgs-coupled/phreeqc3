@@ -121,6 +121,7 @@ protected:
 	LDBLE dn;
 	bool ss_in;
 	cxxNameDouble totals;
+	const static std::vector < std::string > vopts;
 public:
 
 };

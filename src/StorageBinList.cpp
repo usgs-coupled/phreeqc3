@@ -138,34 +138,6 @@ void StorageBinList::SetAll(bool tf)
 bool StorageBinList::Read(CParser & parser)
 {
 	bool return_value(true);
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(20);
-		vopts.push_back("solution");
-		vopts.push_back("pp_assemblage");
-		vopts.push_back("equilibrium_phases");
-		vopts.push_back("exchange");
-		vopts.push_back("surface");
-		vopts.push_back("ss_assemblage");
-		vopts.push_back("solid_solution");
-		vopts.push_back("solid_solutions");
-		vopts.push_back("gas_phase");
-		vopts.push_back("kinetics");
-		vopts.push_back("mix");
-		vopts.push_back("reaction");
-		vopts.push_back("temperature");	
-		vopts.push_back("all");    // 13
-		vopts.push_back("cell");
-		vopts.push_back("cells");  // 15
-		vopts.push_back("reaction_temperature");
-		vopts.push_back("pressure");			//17	
-		vopts.push_back("reaction_pressure");	//18	
-	}
 
 	std::istream::pos_type next_char;
 	std::string token;
@@ -329,3 +301,25 @@ void StorageBinList::TransferAll(StorageBinListItem &source)
 		this->pressure.Augment(*it);
 	}
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("solution"),			       // 0 
+	std::vector< std::string >::value_type("pp_assemblage"),		   // 1 
+	std::vector< std::string >::value_type("equilibrium_phases"),	   // 2 
+	std::vector< std::string >::value_type("exchange"),			       // 3 
+	std::vector< std::string >::value_type("surface"),			       // 4 
+	std::vector< std::string >::value_type("ss_assemblage"),		   // 5 
+	std::vector< std::string >::value_type("solid_solution"),		   // 6 
+	std::vector< std::string >::value_type("solid_solutions"),		   // 7 
+	std::vector< std::string >::value_type("gas_phase"),			   // 8 
+	std::vector< std::string >::value_type("kinetics"),			       // 9 
+	std::vector< std::string >::value_type("mix"),				       // 10
+	std::vector< std::string >::value_type("reaction"),			       // 11
+	std::vector< std::string >::value_type("temperature"),			   // 12
+	std::vector< std::string >::value_type("all"),   			       // 13
+	std::vector< std::string >::value_type("cell"),			           // 14
+	std::vector< std::string >::value_type("cells"), 			       // 15
+	std::vector< std::string >::value_type("reaction_temperature"),	   // 16
+	std::vector< std::string >::value_type("pressure"),			       // 17
+	std::vector< std::string >::value_type("reaction_pressure") 	   // 18 
+};									   
+const std::vector< std::string > StorageBinList::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

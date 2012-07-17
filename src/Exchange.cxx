@@ -196,23 +196,6 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 void
 cxxExchange::read_raw(CParser & parser, bool check)
 {
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("pitzer_exchange_gammas");	// 0
-		vopts.push_back("component");	// 1
-		vopts.push_back("exchange_gammas"); // 2
-		vopts.push_back("new_def"); // 3
-		vopts.push_back("solution_equilibria"); // 4
-		vopts.push_back("n_solution"); // 5
-		vopts.push_back("totals"); // 6
-	}
-
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -498,3 +481,13 @@ Sort_comps(void)
 		}
 	}
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("pitzer_exchange_gammas"),   // 0
+	std::vector< std::string >::value_type("component"),		        // 1
+	std::vector< std::string >::value_type("exchange_gammas"),	        // 2
+	std::vector< std::string >::value_type("new_def"),		            // 3
+	std::vector< std::string >::value_type("solution_equilibria"),	    // 4
+	std::vector< std::string >::value_type("n_solution"),		        // 5
+	std::vector< std::string >::value_type("totals")		            // 6
+};									   
+const std::vector< std::string > cxxExchange::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);

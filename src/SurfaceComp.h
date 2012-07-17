@@ -65,6 +65,7 @@ protected:
 	std::string rate_name;
 	LDBLE Dw;
 	std::string master_element;
+	const static std::vector < std::string > vopts;
 public:
 
 };

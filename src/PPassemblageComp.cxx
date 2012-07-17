@@ -106,27 +106,6 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("name");	// 0                 
-		vopts.push_back("add_formula");	// 1
-		vopts.push_back("si");	// 2
-		vopts.push_back("moles");	// 3
-		vopts.push_back("delta");	// 4
-		vopts.push_back("initial_moles");	// 5     
-		vopts.push_back("dissolve_only");	// 6
-		vopts.push_back("force_equality");	// 7
-		vopts.push_back("precipitate_only");	// 8
-		vopts.push_back("si_org");	// 9
-		vopts.push_back("totals");	// 10
-	}
-
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -448,3 +427,17 @@ cxxPPassemblageComp::multiply(LDBLE extensive)
 	this->delta *= extensive;
 	this->initial_moles *= extensive;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("name"),	            // 0                 
+	std::vector< std::string >::value_type("add_formula"),	    // 1
+	std::vector< std::string >::value_type("si"),	            // 2
+	std::vector< std::string >::value_type("moles"),	        // 3
+	std::vector< std::string >::value_type("delta"),	        // 4
+	std::vector< std::string >::value_type("initial_moles"),	// 5     
+	std::vector< std::string >::value_type("dissolve_only"),	// 6
+	std::vector< std::string >::value_type("force_equality"),	// 7
+	std::vector< std::string >::value_type("precipitate_only"),	// 8
+	std::vector< std::string >::value_type("si_org"),	        // 9
+	std::vector< std::string >::value_type("totals") 	        // 10
+};									   
+const std::vector< std::string > cxxPPassemblageComp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

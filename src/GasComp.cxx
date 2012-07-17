@@ -62,20 +62,6 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("phase_name");	// 0 
-		vopts.push_back("name");	// 1
-		vopts.push_back("p_read");	// 2 
-		vopts.push_back("moles");	// 3 
-		vopts.push_back("initial_moles");	// 4 
-	}
 	int errors = parser.get_input_error();
 
 	std::istream::pos_type ptr;
@@ -192,4 +178,11 @@ cxxGasComp::multiply(LDBLE extensive)
 	this->moles *= extensive;
 	this->initial_moles *= extensive;
 }
-
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("phase_name"),	// 0 
+	std::vector< std::string >::value_type("name"),	        // 1
+	std::vector< std::string >::value_type("p_read"),	    // 2 
+	std::vector< std::string >::value_type("moles"),	    // 3 
+	std::vector< std::string >::value_type("initial_moles")	// 4 
+};									   
+const std::vector< std::string > cxxGasComp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

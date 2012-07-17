@@ -291,37 +291,6 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 void
 cxxSolution::read_raw(CParser & parser, bool check)
 {
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(21);
-		vopts.push_back("totals");	// 0 
-		vopts.push_back("activities");	// 1 
-		vopts.push_back("gammas");	// 2 
-		vopts.push_back("isotopes");	// 3 
-		vopts.push_back("temp");	// 4 
-		vopts.push_back("tc_avoid_conflict_with_technetium");	// 5 
-		vopts.push_back("temperature");	// 6 
-		vopts.push_back("ph");	// 7 
-		vopts.push_back("pe");	// 8 
-		vopts.push_back("mu");	// 9 
-		vopts.push_back("ionic_strength");	// 10
-		vopts.push_back("ah2o");	// 11
-		vopts.push_back("activity_water");	// 12
-		vopts.push_back("total_h");	// 13
-		vopts.push_back("total_o");	// 14
-		vopts.push_back("mass_water");	// 15
-		vopts.push_back("mass_h2o");	// 16
-		vopts.push_back("total_alkalinity");	// 17
-		vopts.push_back("total_alk");	// 18
-		vopts.push_back("cb");	// 19
-		vopts.push_back("charge_balance");	// 20
-		vopts.push_back("density");	// 21
-	}
 
 	// Used if it is modify
 	cxxNameDouble simple_original_totals = this->totals.Simplify_redox();
@@ -1158,3 +1127,28 @@ cxxSolution::Multiply_isotopes(LDBLE extensive)
 		it->second.Set_total(total);
 	}
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("totals"),	                            // 0 
+	std::vector< std::string >::value_type("activities"),	                        // 1 
+	std::vector< std::string >::value_type("gammas"),	                            // 2 
+	std::vector< std::string >::value_type("isotopes"),	                            // 3 
+	std::vector< std::string >::value_type("temp"),	                                // 4 
+	std::vector< std::string >::value_type("tc_avoid_conflict_with_technetium"),	// 5 
+	std::vector< std::string >::value_type("temperature"),	                        // 6 
+	std::vector< std::string >::value_type("ph"),	                                // 7 
+	std::vector< std::string >::value_type("pe"),	                                // 8 
+	std::vector< std::string >::value_type("mu"),	                                // 9 
+	std::vector< std::string >::value_type("ionic_strength"),	                    // 10
+	std::vector< std::string >::value_type("ah2o"),	                                // 11
+	std::vector< std::string >::value_type("activity_water"),	                    // 12
+	std::vector< std::string >::value_type("total_h"),	                            // 13
+	std::vector< std::string >::value_type("total_o"),	                            // 14
+	std::vector< std::string >::value_type("mass_water"),	                        // 15
+	std::vector< std::string >::value_type("mass_h2o"),	                            // 16
+	std::vector< std::string >::value_type("total_alkalinity"),	                    // 17
+	std::vector< std::string >::value_type("total_alk"),	                        // 18
+	std::vector< std::string >::value_type("cb"),	                                // 19
+	std::vector< std::string >::value_type("charge_balance"),	                    // 20
+	std::vector< std::string >::value_type("density") 	                            // 21
+};									   
+const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

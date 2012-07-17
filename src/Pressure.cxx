@@ -198,18 +198,6 @@ cxxPressure::read_raw(CParser & parser)
 	bool cleared_once = false;
 	LDBLE d;
 	CParser::TOKEN_TYPE k;
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(5);
-		vopts.push_back("pressures");	        //0
-		vopts.push_back("equal_increments");	//1
-		vopts.push_back("count");	            //2
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char = 0;
@@ -408,3 +396,9 @@ Get_count(void) const
 	}
 	return (int) this->pressures.size();
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("pressures"),	        //0
+	std::vector< std::string >::value_type("equal_increments"),	    //1
+	std::vector< std::string >::value_type("count") 	            //2
+};									   
+const std::vector< std::string > cxxPressure::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

@@ -66,7 +66,7 @@ protected:
 	std::map <std::string, cxxPPassemblageComp > pp_assemblage_comps;
 	cxxNameDouble eltList;              // list of elements in phases (and alternate reactions)
 	cxxNameDouble assemblage_totals;    // after totalize, total moles of elements in the PPassemblage
-
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(PPASSEMBLAGE_H_INCLUDED)

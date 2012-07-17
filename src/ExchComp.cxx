@@ -179,26 +179,6 @@ cxxExchComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("formula");	// 0 
-		vopts.push_back("moles");	// 1
-		vopts.push_back("la");	// 2 
-		vopts.push_back("charge_balance");	// 3 
-		vopts.push_back("phase_name");	// 4 
-		vopts.push_back("rate_name");	// 5 
-		vopts.push_back("formula_z");	// 6
-		vopts.push_back("phase_proportion");	// 7 
-		vopts.push_back("totals");	// 8
-		vopts.push_back("formula_totals");	// 9
-	}
-
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -464,3 +444,16 @@ cxxExchComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
 	*dd = d;
 }
 #endif
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("formula"),	            // 0 
+	std::vector< std::string >::value_type("moles"),	            // 1
+	std::vector< std::string >::value_type("la"),	                // 2 
+	std::vector< std::string >::value_type("charge_balance"),	    // 3 
+	std::vector< std::string >::value_type("phase_name"),	        // 4 
+	std::vector< std::string >::value_type("rate_name"),	        // 5 
+	std::vector< std::string >::value_type("formula_z"),	        // 6
+	std::vector< std::string >::value_type("phase_proportion"),	    // 7 
+	std::vector< std::string >::value_type("totals"),	            // 8
+	std::vector< std::string >::value_type("formula_totals")	    // 9	
+};									   
+const std::vector< std::string > cxxExchComp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);

@@ -51,7 +51,7 @@ protected:
 	int countSteps;
 	bool equalIncrements;
 	std::string units;
-
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(REACTION_H_INCLUDED)

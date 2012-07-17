@@ -68,6 +68,7 @@ protected:
 
 	// exchange workspace variables
 	cxxNameDouble totals;
+	const static std::vector < std::string > vopts;
 public:
 
 };

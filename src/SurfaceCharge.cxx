@@ -118,31 +118,6 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("name");	// 0 
-		vopts.push_back("specific_area");	// 1 
-		vopts.push_back("grams");	// 2 
-		vopts.push_back("charge_balance");	// 3 
-		vopts.push_back("mass_water");	// 4 
-		vopts.push_back("la_psi");	// 5 
-		vopts.push_back("diffuse_layer_totals");	// 6 
-		vopts.push_back("la_psi1");	// 7 
-		vopts.push_back("la_psi2");	// 8 
-		vopts.push_back("capacitance0");	// 9 
-		vopts.push_back("capacitance1");	// 10 
-		vopts.push_back("sigma0");	// 11 
-		vopts.push_back("sigma1");	// 12 
-		vopts.push_back("sigma2");	// 13 
-		vopts.push_back("sigmaddl");	// 14
-		vopts.push_back("g_map");	// 14
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -485,3 +460,22 @@ cxxSurfaceCharge::multiply(LDBLE extensive)
 	this->mass_water *= extensive;
 	this->diffuse_layer_totals.multiply(extensive);
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("name"),	                // 0 
+	std::vector< std::string >::value_type("specific_area"),	    // 1 
+	std::vector< std::string >::value_type("grams"),	            // 2 
+	std::vector< std::string >::value_type("charge_balance"),	    // 3 
+	std::vector< std::string >::value_type("mass_water"),	        // 4 
+	std::vector< std::string >::value_type("la_psi"),	            // 5 
+	std::vector< std::string >::value_type("diffuse_layer_totals"),	// 6 
+	std::vector< std::string >::value_type("la_psi1"),	            // 7 
+	std::vector< std::string >::value_type("la_psi2"),	            // 8 
+	std::vector< std::string >::value_type("capacitance0"),	        // 9 
+	std::vector< std::string >::value_type("capacitance1"),	        // 10 
+	std::vector< std::string >::value_type("sigma0"),	            // 11 
+	std::vector< std::string >::value_type("sigma1"),	            // 12 
+	std::vector< std::string >::value_type("sigma2"),	            // 13 
+	std::vector< std::string >::value_type("sigmaddl"),	            // 14
+	std::vector< std::string >::value_type("g_map") 	            // 15
+};									   
+const std::vector< std::string > cxxSurfaceCharge::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

@@ -95,6 +95,7 @@ protected:
 	cxxNameDouble totals;
 	bool solution_equilibria;
 	int n_solution;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(SURFACE_H_INCLUDED)

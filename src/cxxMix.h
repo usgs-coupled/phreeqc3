@@ -51,6 +51,7 @@ class cxxMix:public cxxNumKeyword
   protected:
 	friend class cxxStorageBin;
 	std::map < int, LDBLE >mixComps;
+	const static std::vector < std::string > vopts;
 
 };
 

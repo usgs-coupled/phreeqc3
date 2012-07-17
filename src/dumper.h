@@ -49,6 +49,7 @@ protected:
 	bool append;
 	bool on;
 	StorageBinList binList;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(DUMPER_H_INCLUDED)
