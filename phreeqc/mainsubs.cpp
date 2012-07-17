@@ -2754,12 +2754,7 @@ do_status(void)
 
 		if (pr.status == TRUE)
 		{
-#if defined(PHREEQCI_GUI)
-		state = -1;
-		status(0, "\r\nDone.");
-#else
 			status(0, "\nDone.");
-#endif
 			screen_msg("\n");
 		}
 		pr.headings = TRUE;
