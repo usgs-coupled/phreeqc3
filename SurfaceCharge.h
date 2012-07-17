@@ -121,6 +121,7 @@ protected:
 	// workspace variables
 	LDBLE sigma0, sigma1, sigma2, sigmaddl;
 	std::map<LDBLE, cxxSurfDL> g_map;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(SURFACECHARGE_H_INCLUDED)

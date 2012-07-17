@@ -273,28 +273,6 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 {
 
 	int i;
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("type");				//0
-		vopts.push_back("total_p");				//1
-		vopts.push_back("volume");				//2
-		vopts.push_back("v_m");					//3
-		vopts.push_back("component");			//4
-		vopts.push_back("pressure");			//5
-		vopts.push_back("pr_in");				//6
-		vopts.push_back("new_def");				//7
-		vopts.push_back("solution_equilibria");	//8
-		vopts.push_back("n_solution");			//9
-		vopts.push_back("total_moles");			//10
-		vopts.push_back("temperature");			//11
-		vopts.push_back("totals");              //12
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -632,3 +610,19 @@ cxxGasPhase::Find_comp(const char * comp_name)
 	}
 	return NULL;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("type"),				    //0
+	std::vector< std::string >::value_type("total_p"),				//1
+	std::vector< std::string >::value_type("volume"),				//2
+	std::vector< std::string >::value_type("v_m"),					//3
+	std::vector< std::string >::value_type("component"),			//4
+	std::vector< std::string >::value_type("pressure"),			    //5
+	std::vector< std::string >::value_type("pr_in"),				//6
+	std::vector< std::string >::value_type("new_def"),				//7
+	std::vector< std::string >::value_type("solution_equilibria"),	//8
+	std::vector< std::string >::value_type("n_solution"),			//9
+	std::vector< std::string >::value_type("total_moles"),			//10
+	std::vector< std::string >::value_type("temperature"),			//11
+	std::vector< std::string >::value_type("totals")                //12
+};									   
+const std::vector< std::string > cxxGasPhase::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);

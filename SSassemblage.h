@@ -55,6 +55,7 @@ protected:
 	bool new_def;
 	// internal variables
 	cxxNameDouble totals;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(SSASSEMBLAGE_H_INCLUDED)

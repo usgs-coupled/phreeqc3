@@ -94,6 +94,7 @@ protected:
 	LDBLE v_m;
 	bool pr_in;
 	cxxNameDouble totals;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(GASPHASE_H_INCLUDED)

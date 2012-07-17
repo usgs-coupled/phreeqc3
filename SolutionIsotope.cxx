@@ -95,23 +95,6 @@ cxxSolutionIsotope::dump_raw(std::ostream & s_oss, unsigned int indent) const
 }
 void cxxSolutionIsotope::read_raw(CParser & parser, bool check )
 {
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(21);
-		vopts.push_back("isotope_number");	// 0 
-		vopts.push_back("elt_name");	// 1 
-		vopts.push_back("total");	// 2 
-		vopts.push_back("ratio");	// 3 
-		vopts.push_back("ratio_uncertainty_defined");	// 4 
-		vopts.push_back("ratio_uncertainty");	// 5 
-		vopts.push_back("x_ratio_uncertainty");	// 6 
-		vopts.push_back("coef");	// 7 
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -302,4 +285,14 @@ cxxSolutionIsotope::multiply(LDBLE extensive)
 {
 	this->total *= extensive;
 }
-
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("isotope_number"),	            // 0 
+	std::vector< std::string >::value_type("elt_name"),	                    // 1 
+	std::vector< std::string >::value_type("total"),	                    // 2 
+	std::vector< std::string >::value_type("ratio"),	                    // 3 
+	std::vector< std::string >::value_type("ratio_uncertainty_defined"),	// 4 
+	std::vector< std::string >::value_type("ratio_uncertainty"),	        // 5 
+	std::vector< std::string >::value_type("x_ratio_uncertainty"),	        // 6 
+	std::vector< std::string >::value_type("coef") 	                        // 7 
+};									   
+const std::vector< std::string > cxxSolutionIsotope::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);

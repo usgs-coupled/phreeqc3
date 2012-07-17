@@ -33,7 +33,7 @@ protected:
 	std::vector < LDBLE >pressures;
 	int count;
 	bool equalIncrements;
-
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(PRESSURE_H_INCLUDED)

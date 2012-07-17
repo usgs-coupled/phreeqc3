@@ -62,6 +62,7 @@ protected:
 	LDBLE log10_lambda;
 	LDBLE log10_fraction_x;
 	LDBLE dn, dnc, dnb;
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(SSCOMP_H_INCLUDED)

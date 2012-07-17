@@ -120,7 +120,7 @@ class cxxExchComp: public PHRQ_base
 	LDBLE phase_proportion;
 	std::string rate_name;
 	LDBLE formula_z;			// charge on formula
-
+	const static std::vector < std::string > vopts;
   public:
 
 };

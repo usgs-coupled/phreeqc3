@@ -78,7 +78,7 @@ protected:
 	bool dissolve_only;
 	bool precipitate_only;
 	cxxNameDouble totals;
-
+	const static std::vector < std::string > vopts;
 public:
 
 };

@@ -33,43 +33,6 @@ void dumper::SetAll(bool tf)
 bool dumper::Read(CParser & parser)
 {
 	bool return_value(true);
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(20);
-		vopts.push_back("file");				// 0
-		vopts.push_back("append");				// 1
-		vopts.push_back("all");					// 2
-		vopts.push_back("cell");				// 3
-		vopts.push_back("cells");				// 4
-		vopts.push_back("solution");			// 5
-		vopts.push_back("solutions");			// 6
-		vopts.push_back("pp_assemblage");
-		vopts.push_back("pp_assemblages");
-		vopts.push_back("equilibrium_phase");
-		vopts.push_back("equilibrium_phases");	// 10
-		vopts.push_back("exchange");
-		vopts.push_back("surface");
-		vopts.push_back("ss_assemblage");
-		vopts.push_back("solid_solution");
-		vopts.push_back("solid_solutions");		// 15
-		vopts.push_back("gas_phase");
-		vopts.push_back("gas_phases");
-		vopts.push_back("kinetics");			// 18
-		vopts.push_back("mix");					// 19
-		vopts.push_back("reaction");			// 20
-		vopts.push_back("reactions");			// 21
-		vopts.push_back("temperature");			// 22
-		vopts.push_back("reaction_temperature");	// 23
-		vopts.push_back("reaction_temperatures");   // 24
-		vopts.push_back("pressure");			// 25
-		vopts.push_back("reaction_pressure");	// 26
-		vopts.push_back("reaction_pressures");	// 27
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -275,3 +238,34 @@ bool dumper::Get_bool_any(void)
 		Get_bool_pressure()
 		);
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("file"),		                // 0 
+	std::vector< std::string >::value_type("append"),		            // 1 
+	std::vector< std::string >::value_type("all"),			            // 2 
+	std::vector< std::string >::value_type("cell"),			            // 3 
+	std::vector< std::string >::value_type("cells"),		            // 4 
+	std::vector< std::string >::value_type("solution"),		            // 5 
+	std::vector< std::string >::value_type("solutions"),		        // 6 
+	std::vector< std::string >::value_type("pp_assemblage"),	        // 7 
+	std::vector< std::string >::value_type("pp_assemblages"),	        // 8 
+	std::vector< std::string >::value_type("equilibrium_phase"),	    // 9 
+	std::vector< std::string >::value_type("equilibrium_phases"),	    // 10
+	std::vector< std::string >::value_type("exchange"),		            // 11
+	std::vector< std::string >::value_type("surface"),		            // 12
+	std::vector< std::string >::value_type("ss_assemblage"),	        // 13
+	std::vector< std::string >::value_type("solid_solution"),	        // 14
+	std::vector< std::string >::value_type("solid_solutions"),	        // 15
+	std::vector< std::string >::value_type("gas_phase"),		        // 16
+	std::vector< std::string >::value_type("gas_phases"),		        // 17
+	std::vector< std::string >::value_type("kinetics"),		            // 18
+	std::vector< std::string >::value_type("mix"),			            // 19
+	std::vector< std::string >::value_type("reaction"),		            // 20
+	std::vector< std::string >::value_type("reactions"),		        // 21
+	std::vector< std::string >::value_type("temperature"),		        // 22
+	std::vector< std::string >::value_type("reaction_temperature"),	    // 23
+	std::vector< std::string >::value_type("reaction_temperatures"),    // 24
+	std::vector< std::string >::value_type("pressure"),		            // 25
+	std::vector< std::string >::value_type("reaction_pressure"),	    // 26
+	std::vector< std::string >::value_type("reaction_pressures")	    // 27
+};
+const std::vector< std::string > dumper::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);

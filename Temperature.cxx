@@ -236,19 +236,6 @@ cxxTemperature::read_raw(CParser & parser)
 	// clear steps for modify operation, if pressures are read
 	bool cleared_once = false;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("temps");	//0
-		vopts.push_back("equal_increments");	//1
-		vopts.push_back("count_temps");	//2
-	}
-
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -420,3 +407,9 @@ Get_countTemps(void) const
 	}
 	return (int) this->temps.size();
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("temps"),	        //0
+	std::vector< std::string >::value_type("equal_increments"),	//1
+	std::vector< std::string >::value_type("count_temps") 	    //2
+};									   
+const std::vector< std::string > cxxTemperature::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

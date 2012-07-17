@@ -114,29 +114,6 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 {
 	std::string str;
 
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("formula");	// 0 
-		vopts.push_back("moles");	// 1
-		vopts.push_back("la");	// 2 
-		vopts.push_back("charge_number");	// 3 
-		vopts.push_back("charge_balance");	// 4
-		vopts.push_back("phase_name");	// 5 
-		vopts.push_back("rate_name");	// 6 
-		vopts.push_back("phase_proportion");	// 7 
-		vopts.push_back("totals");	// 8
-		vopts.push_back("formula_z");	// 9
-		vopts.push_back("formula_totals");	// 10
-		vopts.push_back("dw");	// 11
-		vopts.push_back("charge_name");	// 12
-		vopts.push_back("master_element");	// 13
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -509,4 +486,20 @@ cxxSurfaceComp::multiply(LDBLE extensive)
 
 	this->charge_balance *= extensive;
 }
-
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("formula"),	        // 0 
+	std::vector< std::string >::value_type("moles"),	        // 1
+	std::vector< std::string >::value_type("la"),	            // 2 
+	std::vector< std::string >::value_type("charge_number"),	// 3 
+	std::vector< std::string >::value_type("charge_balance"),	// 4
+	std::vector< std::string >::value_type("phase_name"),	    // 5 
+	std::vector< std::string >::value_type("rate_name"),	    // 6 
+	std::vector< std::string >::value_type("phase_proportion"),	// 7 
+	std::vector< std::string >::value_type("totals"),	        // 8
+	std::vector< std::string >::value_type("formula_z"),	    // 9
+	std::vector< std::string >::value_type("formula_totals"),	// 10
+	std::vector< std::string >::value_type("dw"),	            // 11
+	std::vector< std::string >::value_type("charge_name"),	    // 12
+	std::vector< std::string >::value_type("master_element") 	// 13
+};									   
+const std::vector< std::string > cxxSurfaceComp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

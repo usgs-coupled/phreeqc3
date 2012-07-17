@@ -56,6 +56,7 @@ protected:
 	StorageBinListItem reaction;
 	StorageBinListItem temperature;
 	StorageBinListItem pressure;
+	const static std::vector < std::string > vopts;
 };
 
 

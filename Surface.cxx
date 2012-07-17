@@ -234,35 +234,7 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) cons
 void
 cxxSurface::read_raw(CParser & parser, bool check)
 {
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
 	int i = 0;
-	if (vopts.empty())
-	{
-		vopts.reserve(15);
-		vopts.push_back("diffuse_layer");	// 0 
-		vopts.push_back("edl");	// 1 
-		vopts.push_back("only_counter_ions");	// 2 
-		vopts.push_back("donnan");	// 3 
-		vopts.push_back("thickness");	// 4 
-		vopts.push_back("component");	// 5
-		vopts.push_back("charge_component");	// 6 
-		vopts.push_back("type ");	// 7
-		vopts.push_back("dl_type");	// 8 
-		vopts.push_back("sites_units");	// 9 
-		vopts.push_back("debye_lengths");	// 10
-		vopts.push_back("ddl_viscosity");	// 11
-		vopts.push_back("ddl_limit");	// 12
-		vopts.push_back("transport");	// 13
-		vopts.push_back("new_def");	// 14
-		vopts.push_back("solution_equilibria");	// 15
-		vopts.push_back("n_solution");	// 16
-		vopts.push_back("totals");	// 17
-	}
-
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -850,3 +822,24 @@ Sort_comps(void)
 		}
 	}
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("diffuse_layer"),	    // 0 
+	std::vector< std::string >::value_type("edl"),	                // 1 
+	std::vector< std::string >::value_type("only_counter_ions"),	// 2 
+	std::vector< std::string >::value_type("donnan"),	            // 3 
+	std::vector< std::string >::value_type("thickness"),	        // 4 
+	std::vector< std::string >::value_type("component"),	        // 5
+	std::vector< std::string >::value_type("charge_component"),	    // 6 
+	std::vector< std::string >::value_type("type "),	            // 7
+	std::vector< std::string >::value_type("dl_type"),	            // 8 
+	std::vector< std::string >::value_type("sites_units"),	        // 9 
+	std::vector< std::string >::value_type("debye_lengths"),	    // 10
+	std::vector< std::string >::value_type("ddl_viscosity"),	    // 11
+	std::vector< std::string >::value_type("ddl_limit"),	        // 12
+	std::vector< std::string >::value_type("transport"),	        // 13
+	std::vector< std::string >::value_type("new_def"),	            // 14
+	std::vector< std::string >::value_type("solution_equilibria"),	// 15
+	std::vector< std::string >::value_type("n_solution"),	        // 16
+	std::vector< std::string >::value_type("totals") 	            // 17
+};									   
+const std::vector< std::string > cxxSurface::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

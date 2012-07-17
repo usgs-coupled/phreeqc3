@@ -243,34 +243,7 @@ ChartObject::Set_axis_scale(CParser & parser)
 bool
 ChartObject::Read(CParser & parser)
 {
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(20);
-		vopts.push_back("start");	// 0 
-		vopts.push_back("end");	// 1 
-		vopts.push_back("heading");	// 2 
-		vopts.push_back("headings");	// 3 
-		vopts.push_back("chart_title");	// 4 
-		vopts.push_back("axis_titles");	// 5 
-		vopts.push_back("axis_scale");	// 6 
-		vopts.push_back("initial_solutions");	// 7 
-		vopts.push_back("plot_concentration_vs");	// 8 
-		vopts.push_back("shifts_as_points");	// 9 
-		vopts.push_back("grid_offset");	// 10
-		vopts.push_back("connect_simulations");	// 11
-		vopts.push_back("plot_csv_file");	// 12	
-		vopts.push_back("clear");	// 13
-		vopts.push_back("detach");	// 14
-		vopts.push_back("active");	// 15
-		vopts.push_back("batch");   // 16
-		vopts.push_back("plot_tsv_file");	// 17
 
-	}
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
@@ -1418,4 +1391,28 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 	bool form_started;
 	*/
 }
+
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("start"),                   // 0 
+	std::vector< std::string >::value_type("end"),	                   // 1 
+	std::vector< std::string >::value_type("heading"),	               // 2 
+	std::vector< std::string >::value_type("headings"),                // 3 
+	std::vector< std::string >::value_type("chart_title"),	           // 4 
+	std::vector< std::string >::value_type("axis_titles"),	           // 5 
+	std::vector< std::string >::value_type("axis_scale"),	           // 6 
+	std::vector< std::string >::value_type("initial_solutions"),       // 7 
+	std::vector< std::string >::value_type("plot_concentration_vs"),   // 8 
+	std::vector< std::string >::value_type("shifts_as_points"),        // 9 
+	std::vector< std::string >::value_type("grid_offset"),	           // 10
+	std::vector< std::string >::value_type("connect_simulations"),	   // 11
+	std::vector< std::string >::value_type("plot_csv_file"),	       // 12	
+	std::vector< std::string >::value_type("clear"),	               // 13
+	std::vector< std::string >::value_type("detach"),	               // 14
+	std::vector< std::string >::value_type("active"),	               // 15
+	std::vector< std::string >::value_type("batch"),                   // 16
+	std::vector< std::string >::value_type("plot_tsv_file")            // 17
+};
+const std::vector< std::string > ChartObject::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);
+
+
 #endif // MULTICHART

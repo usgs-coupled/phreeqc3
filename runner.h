@@ -26,5 +26,6 @@ protected:
 	LDBLE start_time;
 	StorageBinListItem cells;
 	bool run_cells;
+	const static std::vector < std::string > vopts;
 };
 #endif // !defined(RUNNER_H_INCLUDED)

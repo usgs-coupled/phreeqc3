@@ -77,5 +77,6 @@ class cxxSolutionIsotope: public PHRQ_base
 	bool ratio_uncertainty_defined;
  	LDBLE x_ratio_uncertainty;
  	LDBLE coef;					/* coefficient of element in phase */
+	const static std::vector < std::string > vopts;
 };
 #endif // SOLUTIONISOTOPE_H_INCLUDED

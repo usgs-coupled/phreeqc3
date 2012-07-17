@@ -126,18 +126,6 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 void
 cxxSSassemblage::read_raw(CParser & parser, bool check)
 {
-#if defined(NO_STATIC_VOPTS)
-	std::vector < std::string > vopts;
-#else
-	static std::vector < std::string > vopts;
-#endif
-	if (vopts.empty())
-	{
-		vopts.reserve(10);
-		vopts.push_back("solid_solution");	// 0
-		vopts.push_back("ssassemblage_totals");	// 1
-		vopts.push_back("new_def");	// 2
-	}
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
@@ -340,3 +328,9 @@ Find(const std::string &s)
 		return &(it->second);
 	return NULL;
 }
+const std::vector< std::string >::value_type temp_vopts[] = {
+	std::vector< std::string >::value_type("solid_solution"),	    // 0
+	std::vector< std::string >::value_type("ssassemblage_totals"),	// 1
+	std::vector< std::string >::value_type("new_def") 	            // 2
+};									   
+const std::vector< std::string > cxxSSassemblage::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

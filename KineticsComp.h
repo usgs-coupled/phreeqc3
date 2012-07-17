@@ -71,7 +71,7 @@ public:
 	  // kinetics workspace variables
 	  LDBLE moles;
 	  LDBLE initial_moles;
-
+	  const static std::vector < std::string > vopts;
   public:
 
 };

@@ -34,7 +34,7 @@ protected:
 	std::vector < LDBLE >temps;
 	int countTemps;
 	bool equalIncrements;
-
+	const static std::vector < std::string > vopts;
 };
 
 #endif // !defined(TEMPERATURE_H_INCLUDED)
