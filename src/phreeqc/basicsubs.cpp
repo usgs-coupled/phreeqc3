@@ -395,6 +395,37 @@ f_rho(LDBLE rho_old, void *cookie)
 	return (rho - rho_old);
 }
 #endif
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_solution_volume(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Calculates solution volume based on sum of mass of element plus density
+ */
+	LDBLE total_mass = 0;
+	LDBLE gfw;
+	compute_gfw("H", &gfw);
+	total_mass = total_h_x * gfw;
+	compute_gfw("O", &gfw);
+	total_mass += total_o_x * gfw;
+
+	for (int i = 0; i < count_master; i++)
+	{
+		if (master[i]->s->type != AQ) continue;
+		struct master *master_ptr = master[i];
+		if (master_ptr->primary == TRUE)
+		{
+			total_mass += master_ptr->total_primary * master_ptr->gfw; 
+			//if (master_ptr->total_primary > 0)
+			//	std::cerr << master_ptr->elt->name << "  " << master_ptr->total_primary << "\n";
+		}
+	}
+	LDBLE rho = calc_dens();
+	LDBLE vol = 1e-3 * total_mass / rho;
+	return (vol);
+
+}
 /* DP: End function for interval halving */
 
 /* ---------------------------------------------------------------------- */

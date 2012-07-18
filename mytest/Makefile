@@ -59,6 +59,7 @@ all: alkalinity.out \
 	fixed_volume_gas_pz.out \
 	fluorite.out \
 	gas.out \
+	gfw.out \
 	hard.tests.out \
 	high_mu.out \
 	homo.out \

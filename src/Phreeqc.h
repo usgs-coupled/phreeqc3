@@ -140,6 +140,8 @@ public:
 
 	static LDBLE f_rho(LDBLE rho_old, void *cookie);
 	static LDBLE f_Vm(LDBLE v1, void *cookie);
+	LDBLE calc_solution_volume(void);
+
 	// chart.cpp
 #if defined PHREEQ98 
 	void DeleteCurves(void);
@@ -1651,7 +1653,6 @@ protected:
 	LDBLE dgdP; // dg / dP, pressure derivative of g-function, for supcrt calc'n of molal volume
 #endif
 	LDBLE solution_mass, solution_volume;
-	LDBLE f_rho(LDBLE rho_old);
 
 	/* phqalloc.cpp ------------------------------- */
 	PHRQMemHeader *s_pTail;
