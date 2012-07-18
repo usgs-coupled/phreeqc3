@@ -2086,6 +2086,8 @@ print_totals(void)
 			   (double) dens));
 		if (dens > 1.999) output_msg(sformatf("%18s\n", " (Program's limit)"));
 		else output_msg(sformatf("\n"));
+		output_msg(sformatf("%45s%9.5f\n", "     Volume (L)  = ",
+			   (double) calc_solution_volume()));
 	}
 /* VP: Density End */
 	output_msg(sformatf("%45s%7.3f\n", "Activity of water  = ",
