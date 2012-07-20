@@ -384,7 +384,7 @@ read_exchange_species(void)
 		"add_constant",			/* 18 */
 		"vm"	/* 19, molar volume, must replace delta_v */
 	};
-	int count_opt_list = 18;
+	int count_opt_list = 20;
 
 	association = TRUE;
 	s_ptr = NULL;
@@ -400,6 +400,7 @@ read_exchange_species(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -1563,9 +1564,11 @@ read_inverse(void)
 			break;
 		case 20:				/* mineral_water */
 			inverse[n].mineral_water = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 22:				/* multiple_precision */
 			inverse[n].mp = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 23:				/* mp_tolerance */
 			j = sscanf(next_char, SCANFORMAT, &inv_tol);
@@ -1573,6 +1576,7 @@ read_inverse(void)
 			{
 				inverse[n].mp_tolerance = fabs(inv_tol);
 			}
+			opt_save = OPTION_ERROR;
 			break;
 		case 24:				/* censor_mp */
 			j = sscanf(next_char, SCANFORMAT, &inv_tol);
@@ -1580,6 +1584,7 @@ read_inverse(void)
 			{
 				inverse[n].mp_censor = fabs(inv_tol);
 			}
+			opt_save = OPTION_ERROR;
 			break;
 		case 25:				/* lon_netpath */
 			/*copy_token(file_name, &next_char, &l); */
@@ -3647,6 +3652,7 @@ read_phases(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -3972,6 +3978,7 @@ read_pp_assemblage(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -4730,6 +4737,7 @@ read_selected_output(void)
 		case 12:				/* inverse */
 		case 16:				/* inverse_modeling */
 			punch.inverse = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 13:				/* kinetic_reactants */
 		case 14:				/* kinetics */
@@ -4825,52 +4833,66 @@ read_selected_output(void)
 			punch.water = value;
 			punch.charge_balance = value;
 			punch.percent_error = value;
+			opt_save = OPTION_ERROR;
 			break;
 		case 18:				/* simulation */
 		case 19:				/* sim */
 			punch.sim = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 20:				/* state */
 			punch.state = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 21:				/* solution */
 		case 22:				/* soln */
 			punch.soln = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 23:				/* distance */
 		case 24:				/* dist */
 			punch.dist = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 25:				/* time */
 			punch.time = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 26:				/* step */
 			punch.step = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 27:				/* reaction */
 		case 28:				/* rxn */
 			punch.rxn = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 29:				/* temperature */
 		case 30:				/* temp */
 			punch.temp = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 31:				/* ph */
 			punch.ph = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 32:				/* pe */
 			punch.pe = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 33:				/* alkalinity */
 		case 34:				/* alk */
 			punch.alk = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 35:				/* ionic strength */
 		case 36:				/* mu */
 			punch.mu = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 37:				/* water */
 			punch.water = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 38:				/* high_precision */
 			punch.high_precision = get_true_false(next_char, TRUE);
@@ -4878,19 +4900,25 @@ read_selected_output(void)
 			{
 				convergence_tolerance = 1e-12;
 			}
+			opt_save = OPTION_ERROR;
 			break;
 		case 39:				/* user_punch */
 			punch.user_punch = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 42:				/* charge_balance */
 			punch.charge_balance = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 43:				/* percent_error */
 			punch.percent_error = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		case 44:				/* selected_out */
 		case 45:				/* selected_output */
-			pr.punch = get_true_false(next_char, TRUE);
+			warning_msg("Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output");
+			//pr.punch = get_true_false(next_char, TRUE);
+			opt_save = OPTION_ERROR;
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -5295,6 +5323,7 @@ read_species(void)
 			opt = opt_save;
 			//vm_read = false;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -6038,6 +6067,7 @@ read_surface_species(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -7039,6 +7069,7 @@ read_surface_master_species(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -7352,6 +7383,7 @@ read_advection(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -8455,6 +8487,7 @@ read_rates(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -8574,6 +8607,7 @@ read_user_print(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -8670,6 +8704,7 @@ read_user_punch(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -9947,6 +9982,7 @@ read_named_logk(void)
 		{
 			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
