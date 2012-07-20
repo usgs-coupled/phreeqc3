@@ -2241,7 +2241,7 @@ total_mole(const char *total_name)
 	{
 		if (strcmp_nocase(total_name, "water") == 0)
 		{
-			return (mass_water_aq_x / gfw_water * 1000.);
+			return (mass_water_aq_x / gfw_water);
 		}
 		else if (strcmp_nocase(total_name, "charge") == 0)
 		{
