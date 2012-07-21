@@ -18,6 +18,7 @@
 #include "cxxKinetics.h"
 #include <map>
 #include <fstream>
+#include <memory>
 #include "nvector_serial.h"		/* definitions of type N_Vector and macro          */
 							 /* NV_Ith_S, prototypes for N_VNew, N_VFree      */
 /* These macros are defined in order to write code which exactly matches
@@ -1109,9 +1110,9 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	int old_diag, old_itmax;
 	LDBLE old_tol, old_min_value, old_step, old_pe, old_pp_column_scale;
 	LDBLE small_pe_step, small_step;
-	cxxPPassemblage *pp_assemblage_save = NULL;
-	cxxSSassemblage *ss_assemblage_save = NULL;
-	cxxKinetics *kinetics_save = NULL;
+	std::auto_ptr<cxxPPassemblage> pp_assemblage_save(NULL);
+	std::auto_ptr<cxxSSassemblage> ss_assemblage_save(NULL);
+	std::auto_ptr<cxxKinetics> kinetics_save(NULL);
 
 	
 	small_pe_step = 5.;
@@ -1141,26 +1142,16 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	if (use.Get_pp_assemblage_ptr() != NULL)
 	{
 		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-		if (pp_assemblage_save)
-		{
-			delete pp_assemblage_save;
-			pp_assemblage_save = NULL;
-		}
-		pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
+		pp_assemblage_save.reset(new cxxPPassemblage(*pp_assemblage_ptr));
 	}
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
 		cxxSSassemblage * ss_assemblage_ptr = use.Get_ss_assemblage_ptr();
-		if (ss_assemblage_save)
-		{
-			delete ss_assemblage_save;
-			ss_assemblage_save = NULL;
-		}
-		ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
+		ss_assemblage_save.reset(new cxxSSassemblage(*ss_assemblage_ptr));
 	}
 	if (use.Get_kinetics_ptr() != NULL)
 	{
-		kinetics_save = new cxxKinetics(*use.Get_kinetics_ptr());
+		kinetics_save.reset(new cxxKinetics(*use.Get_kinetics_ptr()));
 	}
 
 	if (pitzer_model == TRUE || sit_model == TRUE)
@@ -1309,17 +1300,17 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		}
 		if (j > 0)
 		{
-			if (pp_assemblage_save != NULL)
+			if (pp_assemblage_save.get() != NULL)
 			{
 				Rxn_pp_assemblage_map[pp_assemblage_save->Get_n_user()] = *pp_assemblage_save;
 				use.Set_pp_assemblage_ptr(Utilities::Rxn_find(Rxn_pp_assemblage_map, pp_assemblage_save->Get_n_user()));
 			}
-			if (ss_assemblage_save != NULL)
+			if (ss_assemblage_save.get() != NULL)
 			{
 				Rxn_ss_assemblage_map[ss_assemblage_save->Get_n_user()] = *ss_assemblage_save;
 				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, ss_assemblage_save->Get_n_user()));
 			}
-			if (kinetics_save != NULL)
+			if (kinetics_save.get() != NULL)
 			{
 				Rxn_kinetics_map[kinetics_save->Get_n_user()] = *kinetics_save;
 				use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, kinetics_save->Get_n_user()));
@@ -1386,34 +1377,9 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		pr.use = TRUE;
 		sum_species();
 		print_all();
-		if (pp_assemblage_save != NULL)
-		{
-			delete pp_assemblage_save;
-			pp_assemblage_save = NULL;
-		}
-		if (ss_assemblage_save != NULL)
-		{
-			delete ss_assemblage_save;
-			ss_assemblage_save = NULL;
-		}
 		error_string = sformatf(
 				"Numerical method failed on all combinations of convergence parameters");
 		error_msg(error_string, STOP);
-	}
-	if (pp_assemblage_save != NULL)
-	{
-		delete pp_assemblage_save;
-		pp_assemblage_save = NULL;
-	}
-	if (ss_assemblage_save != NULL)
-	{
-		delete ss_assemblage_save;
-		ss_assemblage_save = NULL;
-	}
-	if (kinetics_save != NULL)
-	{
-		delete kinetics_save;
-		kinetics_save = NULL;
 	}
 	if (converge == MASS_BALANCE)
 	{
