@@ -3391,7 +3391,7 @@ check_surfaces(cxxSurface *surface_ptr1, cxxSurface *surface_ptr2)
 	if (surface_ptr1->Get_type() != surface_ptr2->Get_type())
 	{
 		error_string = sformatf(
-				"Surfaces %d and %d differ in use of electrical double layer. Can not mix.",
+				"Surfaces %d and %d differ in use of electrical double layer. Cannot mix.",
 				n_user1, n_user2);
 		error_msg(error_string, STOP);
 		return_code = ERROR;
@@ -3400,7 +3400,7 @@ check_surfaces(cxxSurface *surface_ptr1, cxxSurface *surface_ptr2)
 	if (surface_ptr1->Get_only_counter_ions() != surface_ptr2->Get_only_counter_ions())
 	{
 		error_string = sformatf(
-				"Surfaces %d and %d differ in use of only counter ions in the diffuse layer. Can not mix.",
+				"Surfaces %d and %d differ in use of only counter ions in the diffuse layer. Cannot mix.",
 				n_user1, n_user2);
 		error_msg(error_string, STOP);
 		return_code = ERROR;
@@ -3409,7 +3409,7 @@ check_surfaces(cxxSurface *surface_ptr1, cxxSurface *surface_ptr2)
 	if (surface_ptr1->Get_related_phases() != surface_ptr2->Get_related_phases())
 	{
 		error_string = sformatf(
-				"Surfaces %d and %d differ in use of related phases (sites proportional to moles of an equilibrium phase). Can not mix.",
+				"Surfaces %d and %d differ in use of related phases (sites proportional to moles of an equilibrium phase). Cannot mix.",
 				n_user1, n_user2);
 		error_msg(error_string, STOP);
 		return_code = ERROR;
@@ -3418,7 +3418,7 @@ check_surfaces(cxxSurface *surface_ptr1, cxxSurface *surface_ptr2)
 	if (surface_ptr1->Get_related_rate() != surface_ptr2->Get_related_rate())
 	{
 		error_string = sformatf(
-				"Surfaces %d and %d differ in use of related rate (sites proportional to moles of a kinetic reactant). Can not mix.",
+				"Surfaces %d and %d differ in use of related rate (sites proportional to moles of a kinetic reactant). Cannot mix.",
 				n_user1, n_user2);
 		error_msg(error_string, STOP);
 		return_code = ERROR;

@@ -113,7 +113,26 @@ read_input(void)
 			read_mix();
 			break;
 		case Keywords::KEY_SOLUTION_MIX:
-			read_solution_mix();
+			//read_solution_mix();
+			read_entity_mix(Rxn_solution_mix_map);
+			break;
+		case Keywords::KEY_EXCHANGE_MIX:
+			read_entity_mix(Rxn_exchange_mix_map);
+			break;
+		case Keywords::KEY_GAS_PHASE_MIX:
+			read_entity_mix(Rxn_gas_phase_mix_map);
+			break;
+		case Keywords::KEY_KINETICS_MIX:
+			read_entity_mix(Rxn_kinetics_mix_map);
+			break;
+		case Keywords::KEY_PPASSEMBLAGE_MIX:
+			read_entity_mix(Rxn_pp_assemblage_mix_map);
+			break;
+		case Keywords::KEY_SSASSEMBLAGE_MIX:
+			read_entity_mix(Rxn_ss_assemblage_mix_map);
+			break;
+		case Keywords::KEY_SURFACE_MIX:
+			read_entity_mix(Rxn_surface_mix_map);
 			break;
 		case Keywords::KEY_USE:
 			read_use();
@@ -2455,7 +2474,7 @@ read_list_doubles(char **ptr, int *count_doubles)
 {
 /*
  *   Reads a list of LDBLE numbers until end of line is reached or
- *   a LDBLE can not be read from a token.
+ *   a LDBLE cannot be read from a token.
  *
  *      Arguments:
  *	 ptr    entry: points to line to read from
@@ -2509,7 +2528,7 @@ read_list_ints(char **ptr, int *count_ints, int positive)
 {
 /*
  *   Reads a list of int numbers until end of line is reached or
- *   an int can not be read from a token.
+ *   an int cannot be read from a token.
  *
  *      Arguments:
  *	 ptr    entry: points to line to read from
@@ -2569,7 +2588,7 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 {
 /*
  *   Reads a list of int numbers until end of line is reached or
- *   an int can not be read from a token.
+ *   an int cannot be read from a token.
  *
  *      Arguments:
  *	 ptr    entry: points to line to read from
@@ -3421,6 +3440,89 @@ read_mix(void)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
+read_entity_mix(std::map<int, cxxMix> &mix_map)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Reads mixing fractions
+ */
+	int n_user, n_user_end;
+	int return_value;
+	int n_solution;
+	LDBLE fraction;
+	int j, i, l;
+	char *ptr;
+	char token[MAX_LENGTH];
+	char *description;
+	cxxMix temp_mix;
+
+/*
+ *   Read mix number
+ */
+	ptr = line;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+
+	temp_mix.Set_n_user(n_user);
+	temp_mix.Set_n_user_end(n_user_end);
+	temp_mix.Set_description(description);
+	free_check_null(description);
+/*
+ *   Read mixture data
+ */
+	for (;;)
+	{
+		return_value = check_line("Mix raw data", FALSE, TRUE, TRUE, TRUE);
+		/* empty, eof, keyword, print */
+		if (return_value == EOF || return_value == KEYWORD)
+		{
+			break;
+		}
+		ptr = line;
+/*
+ *   Read n_user
+ */
+		i = copy_token(token, &ptr, &l);
+		if (i == DIGIT)
+		{
+			sscanf(token, "%d ", &n_solution);
+		}
+		else
+		{
+			input_error++;
+			error_msg("Expected a number in mix input.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			continue;
+		}
+/*
+ *   Read fraction for entity
+ */
+		copy_token(token, &ptr, &l);
+		j = sscanf(token, SCANFORMAT, &fraction);
+		if (j != 1)
+		{
+			input_error++;
+			error_msg("Expected a mixing fraction.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			continue;
+		}
+/*
+ *   Save data
+ */
+		temp_mix.Add(n_solution ,fraction);
+	}
+	if (temp_mix.Get_mixComps().size() == 0)
+	{
+		input_error++;
+		error_msg
+			("Must define at least one number and mixing fraction for mix input.",
+			 CONTINUE);
+	}
+	mix_map[n_user] = temp_mix;
+	return (return_value);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
 read_solution_mix(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -3523,7 +3625,7 @@ read_solution_mix(void)
 #endif
 	return (return_value);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_number_description(char *ptr, int *n_user,

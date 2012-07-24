@@ -408,7 +408,7 @@ cxxPPassemblageComp::add(const cxxPPassemblageComp & addee, LDBLE extensive)
 	{
 		std::ostringstream oss;
 		oss <<
-			"Can not mix two Equilibrium_phases with differing add_formulae., "
+			"Cannot mix two Equilibrium_phases with differing add_formulae., "
 			<< this->name;
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;

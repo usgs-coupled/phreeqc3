@@ -360,7 +360,7 @@ tidy_model(void)
 	else if (s_hplus != NULL && s_h3oplus != NULL)
 	{
 		input_error++;
-		error_msg("Can not define both H+ and H3O+ in solution_species.",
+		error_msg("Cannot define both H+ and H3O+ in solution_species.",
 				  STOP);
 	}
 	if (s_hplus->primary == NULL)
@@ -925,7 +925,7 @@ tidy_gas_phase(void)
 				{
 					input_error++;
 					error_string = sformatf(
-							"Gas phase %d: can not use '-equilibrium' option with fixed pressure gas phase.",
+							"Gas phase %d: cannot use '-equilibrium' option with fixed pressure gas phase.",
 							gas_phase_ptr->Get_n_user());
 					error_msg(error_string, CONTINUE);
 				}

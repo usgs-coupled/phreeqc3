@@ -439,7 +439,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, LDBLE extensive)
 	{
 		std::ostringstream oss;
 		oss <<
-			"Can not mix two Surface components with same formula and different related phases, "
+			"Cannot mix two Surface components with same formula and different related phases, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;
@@ -454,7 +454,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, LDBLE extensive)
 	{
 		std::ostringstream oss;
 		oss <<
-			"Can not mix two exchange components with same formula and different related kinetics, "
+			"Cannot mix two exchange components with same formula and different related kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;
@@ -470,7 +470,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, LDBLE extensive)
 	{
 		std::ostringstream oss;
 		oss <<
-			"Can not mix exchange components related to phase with exchange components related to kinetics, "
+			"Cannot mix exchange components related to phase with exchange components related to kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;

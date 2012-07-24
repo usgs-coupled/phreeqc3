@@ -690,7 +690,8 @@ public:
 	int *read_list_t_f(char **ptr, int *count_ints);
 	int read_master_species(void);
 	int read_mix(void);
-	int read_solution_mix(void);
+	int read_entity_mix(std::map<int, cxxMix> &mix_map);
+	//int read_solution_mix(void);
 	int read_named_logk(void);
 	int read_phases(void);
 	int read_print(void);
@@ -1197,7 +1198,12 @@ protected:
 	std::map<int, cxxMix> Rxn_mix_map;
 	std::map<int, cxxMix> Dispersion_mix_map;
 	std::map<int, cxxMix> Rxn_solution_mix_map;
-
+	std::map<int, cxxMix> Rxn_exchange_mix_map;
+	std::map<int, cxxMix> Rxn_gas_phase_mix_map;
+	std::map<int, cxxMix> Rxn_kinetics_mix_map;
+	std::map<int, cxxMix> Rxn_pp_assemblage_mix_map;
+	std::map<int, cxxMix> Rxn_ss_assemblage_mix_map;
+	std::map<int, cxxMix> Rxn_surface_mix_map;
 	/*----------------------------------------------------------------------
 	*   Irreversible reaction
 	*---------------------------------------------------------------------- */
@@ -2016,6 +2022,19 @@ namespace Utilities
 		entity_ptr->read_raw(parser, false);
 
 		return phreeqc_cookie->cleanup_after_parser(parser);
+	}
+
+	template < typename T >
+	void Rxn_mix(std::map <int, cxxMix> &mix_map, std::map < int, T > &entity_map, Phreeqc * phreeqc_cookie)
+	{
+		std::map<int, cxxMix>::iterator mix_it;
+		for (mix_it = mix_map.begin(); mix_it != mix_map.end(); mix_it++)
+		{
+			T entity(entity_map, mix_it->second, mix_it->second.Get_n_user(), phreeqc_cookie->Get_phrq_io());
+			entity_map[mix_it->second.Get_n_user()] = entity;
+			Utilities::Rxn_copies(entity_map, mix_it->second.Get_n_user(), mix_it->second.Get_n_user_end());
+		}
+		mix_map.clear();
 	}
 
 } // namespace Utilities
