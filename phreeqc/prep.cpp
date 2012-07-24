@@ -3869,7 +3869,7 @@ setup_master_rxn(struct master **master_ptr_list, const std::string &pe_rxn)
 		if (master_ptr->s == s_h2o)
 		{
 			error_string = sformatf(
-					"Can not enter concentration data for O(-2),\n\tdissolved oxygen is O(0),\n\tfor mass of water, use -water identifier.");
+					"Cannot enter concentration data for O(-2),\n\tdissolved oxygen is O(0),\n\tfor mass of water, use -water identifier.");
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			continue;
@@ -4649,7 +4649,7 @@ setup_solution(void)
 		(ph_unknown == charge_balance_unknown)
 		&& (alkalinity_unknown != NULL))
 	{
-		error_msg("pH adustment can not attain charge balance"
+		error_msg("pH adustment cannot attain charge balance"
 				  " when alkalinity is fixed.", CONTINUE);
 		input_error++;
 	}
@@ -4657,7 +4657,7 @@ setup_solution(void)
 		(alkalinity_unknown->type == CB ||
 		 alkalinity_unknown->type == SOLUTION_PHASE_BOUNDARY))
 	{
-		error_msg("Alkalinity can not be used with charge balance"
+		error_msg("Alkalinity cannot be used with charge balance"
 				  " or solution phase boundary constraints.", CONTINUE);
 		input_error++;
 	}

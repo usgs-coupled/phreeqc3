@@ -2647,8 +2647,15 @@ run_simulations(void)
 /*
  *   Calculate mixed solutions
  */
-			if (Rxn_solution_mix_map.size() > 0)
-				solution_mix();
+			//if (Rxn_solution_mix_map.size() > 0)
+			//	solution_mix();
+			Utilities::Rxn_mix(Rxn_solution_mix_map, Rxn_solution_map, this);
+			Utilities::Rxn_mix(Rxn_exchange_mix_map, Rxn_exchange_map, this);
+			Utilities::Rxn_mix(Rxn_gas_phase_mix_map, Rxn_gas_phase_map, this);
+			Utilities::Rxn_mix(Rxn_kinetics_mix_map, Rxn_kinetics_map, this);
+			Utilities::Rxn_mix(Rxn_pp_assemblage_mix_map, Rxn_pp_assemblage_map, this);
+			Utilities::Rxn_mix(Rxn_ss_assemblage_mix_map, Rxn_ss_assemblage_map, this);
+			Utilities::Rxn_mix(Rxn_surface_mix_map, Rxn_surface_map, this);
 /*
  *   Calculate distribution for exchangers
  */

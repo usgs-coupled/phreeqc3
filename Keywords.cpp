@@ -198,6 +198,23 @@ std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTI
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE,			"REACTION_PRESSURE"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_RAW,		"REACTION_PRESSURE_RAW"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_REACTION_PRESSURE_MODIFY,		"REACTION_PRESSURE_MODIFY"),
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLUTION_MIX,		            "SOLUTION_MIX")	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLUTION_MIX,		            "SOLUTION_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SOLUTION_MIX,		            "MIX_SOLUTION"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_EXCHANGE_MIX,		            "EXCHANGE_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_EXCHANGE_MIX,		            "MIX_EXCHANGE"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_GAS_PHASE_MIX,		        "GAS_PHASE_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_GAS_PHASE_MIX,		        "MIX_GAS_PHASE"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_KINETICS_MIX,		            "KINETICS_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_KINETICS_MIX,		            "MIX_KINETICS"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_PPASSEMBLAGE_MIX,		        "EQUILIBRIUM_PHASES_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_PPASSEMBLAGE_MIX,		        "MIX_EQUILIBRIUM_PHASES"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_PPASSEMBLAGE_MIX,		        "EQUILIBRIUM_PHASE_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_PPASSEMBLAGE_MIX,		        "MIX_EQUILIBRIUM_PHASE"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SSASSEMBLAGE_MIX,		        "SOLID_SOLUTION_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SSASSEMBLAGE_MIX,		        "MIX_SOLID_SOLUTION"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SSASSEMBLAGE_MIX,		        "SOLID_SOLUTIONS_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SSASSEMBLAGE_MIX,		        "MIX_SOLID_SOLUTIONS"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SURFACE_MIX,		            "SURFACE_MIX"),	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SURFACE_MIX,		            "MIX_SURFACE")	
 };
 const std::map<Keywords::KEYWORDS, const std::string> Keywords::phreeqc_keyword_names(temp_keyword_names, temp_keyword_names + sizeof temp_keyword_names / sizeof temp_keyword_names[0]);

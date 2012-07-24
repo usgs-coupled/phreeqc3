@@ -1381,7 +1381,7 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
 		}
 
 /*
- *   minimal_bits can not be superset of a minimal model, but
+ *   minimal_bits cannot be superset of a minimal model, but
  *   could be subset of one of the sets of minerals with no feasible solution
  *   If it is a subset, then replace mineral and go on to next 
  */

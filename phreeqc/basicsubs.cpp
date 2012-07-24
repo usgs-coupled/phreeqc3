@@ -2178,7 +2178,7 @@ total(const char *total_name)
 			return (cb_x / mass_water_aq_x);
 		}
 /*
-        sprintf (error_string, "Can not find definition for master species, %s.",
+        sprintf (error_string, "Cannot find definition for master species, %s.",
 	         total_name);
         warning_msg (error_string);
 */
@@ -2248,7 +2248,7 @@ total_mole(const char *total_name)
 			return (cb_x);
 		}
 /*
-        sprintf (error_string, "Can not find definition for master species, %s.",
+        sprintf (error_string, "Cannot find definition for master species, %s.",
 	         total_name);
         warning_msg (error_string);
 */

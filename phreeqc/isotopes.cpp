@@ -529,7 +529,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 	if (total_moles <= 0)
 	{
 		error_string = sformatf(
-				"Can not calculate molality of isotopes, molality of element is zero, %s",
+				"Cannot calculate molality of isotopes, molality of element is zero, %s",
 				elt_ptr->name);
 		warning_msg(error_string);
 		return (ERROR);

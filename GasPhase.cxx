@@ -78,7 +78,7 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 			if (this->type != entity_ptr->type)
 			{
 				std::ostringstream oss;
-				oss << "Can not mix two gas_phases with differing types.";
+				oss << "Cannot mix two gas_phases with differing types.";
 				error_msg(oss.str().c_str(), CONTINUE);
 				return;
 			}
@@ -160,7 +160,7 @@ cxxNumKeyword(io)
 				if (this->type != entity_ptr->type)
 				{
 					std::ostringstream oss;
-					oss << "Can not mix two gas_phases with differing types.";
+					oss << "Cannot mix two gas_phases with differing types.";
 					error_msg(oss.str().c_str(), CONTINUE);
 					//input_error++;
 					return;
