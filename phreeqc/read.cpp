@@ -3446,26 +3446,19 @@ read_entity_mix(std::map<int, cxxMix> &mix_map)
 /*
  *   Reads mixing fractions
  */
-	int n_user, n_user_end;
 	int return_value;
 	int n_solution;
 	LDBLE fraction;
 	int j, i, l;
 	char *ptr;
 	char token[MAX_LENGTH];
-	char *description;
 	cxxMix temp_mix;
 
 /*
  *   Read mix number
  */
 	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-
-	temp_mix.Set_n_user(n_user);
-	temp_mix.Set_n_user_end(n_user_end);
-	temp_mix.Set_description(description);
-	free_check_null(description);
+	temp_mix.read_number_description(line);
 /*
  *   Read mixture data
  */
@@ -3517,7 +3510,7 @@ read_entity_mix(std::map<int, cxxMix> &mix_map)
 			("Must define at least one number and mixing fraction for mix input.",
 			 CONTINUE);
 	}
-	mix_map[n_user] = temp_mix;
+	mix_map[temp_mix.Get_n_user()] = temp_mix;
 	return (return_value);
 }
 #ifdef SKIP

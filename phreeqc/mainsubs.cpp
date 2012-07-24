@@ -1033,6 +1033,7 @@ initial_solutions(int print)
 	initial_solution_isotopes = FALSE;
 	return (OK);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 solution_mix()
@@ -1051,6 +1052,7 @@ solution_mix()
 	Rxn_solution_mix_map.clear();
 	return OK;
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 initial_exchangers(int print)
