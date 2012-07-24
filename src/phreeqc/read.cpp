@@ -10328,27 +10328,27 @@ read_copy(void)
 	if (i == DIGIT)
 	{
 		sscanf(token, "%d", &n_user);
-		if (n_user < 0)
-		{
-			error_msg("Source index number must be a positive integer.",
-					  CONTINUE);
-			error_msg(line_save, CONTINUE);
-			input_error++;
-			return (ERROR);
-		}
-		if (strstr(token, "-") != NULL)
-		{
-			error_msg
-				("COPY does not accept a range of numbers for source index",
-				 CONTINUE);
-			error_msg(line_save, CONTINUE);
-			input_error++;
-			return (ERROR);
-		}
+		//if (n_user < 0)
+		//{
+		//	error_msg("Source index number must be a positive integer.",
+		//			  CONTINUE);
+		//	error_msg(line_save, CONTINUE);
+		//	input_error++;
+		//	return (ERROR);
+		//}
+		//if (strstr(token, "-") != NULL)
+		//{
+		//	error_msg
+		//		("COPY does not accept a range of numbers for source index",
+		//		 CONTINUE);
+		//	error_msg(line_save, CONTINUE);
+		//	input_error++;
+		//	return (ERROR);
+		//}
 	}
 	else
 	{
-		error_msg("Source index number must be a positive integer.",
+		error_msg("Source index number must be an integer.",
 				  CONTINUE);
 		error_msg(line_save, CONTINUE);
 		input_error++;
@@ -10369,7 +10369,7 @@ read_copy(void)
 	}
 	else
 	{
-		error_msg("Target index number must be a positive integer.",
+		error_msg("Target index number must be an integer.",
 				  CONTINUE);
 		error_msg(line_save, CONTINUE);
 		input_error++;

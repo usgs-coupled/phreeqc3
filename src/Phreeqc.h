@@ -393,6 +393,7 @@ public:
 	std::ifstream * open_input_stream(char *query, char *default_name, std::ios_base::openmode mode, bool batch);
 	std::ofstream * open_output_stream(char *query, char *default_name, std::ios_base::openmode mode, bool batch);
 	int copy_entities(void);
+	void do_mixes(void);
 	void initialize(void);
 	int initial_exchangers(int print);
 	int initial_gas_phases(int print);
