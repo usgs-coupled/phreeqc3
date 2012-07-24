@@ -91,6 +91,7 @@ all: alkalinity.out \
 	membrane.out \
 	mgcl2mgso4_pz.out \
 	millero.out \
+	mixes.out \
 	mmb.out \
 	mmb2.out \
 	modifyact.out \
