@@ -105,7 +105,7 @@ cxxPPassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 
 
 	s_oss << indent1 << "# EXCHANGE_MODIFY candidates; use new_def=true #\n";
-	s_oss << indent1 << "-new_def                   " << this->new_def << "\n";
+	s_oss << indent1 << "-new_def                   " << 0 << "\n";
 	for (std::map < std::string, cxxPPassemblageComp >::const_iterator it =
 		 pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
@@ -211,7 +211,7 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.
 					error_msg
-					("Expected boolean value for new_def.",
+					("Expected boolean value for new_def in PPassemblage.",
 					 PHRQ_io::OT_CONTINUE);
 			}
 			break;
