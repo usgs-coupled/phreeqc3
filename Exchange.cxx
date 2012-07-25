@@ -169,7 +169,7 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 
 	s_oss << indent1 << "# EXCHANGE_MODIFY candidate identifiers #\n";
 	s_oss << indent1;
-	s_oss << "-exchange_gammas           " << this->pitzer_exchange_gammas << "\n";
+	s_oss << "-exchange_gammas           " << (this->pitzer_exchange_gammas ? 1 : 0) << "\n";
 	// exchComps 
 	for (size_t i = 0; i < this->exchange_comps.size(); i++)
 	{
@@ -180,9 +180,9 @@ cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 
 	s_oss << indent1 << "# EXCHANGE_MODIFY candidates with new_def=true #\n";
 	s_oss << indent1;
-	s_oss << "-new_def                   " << this->new_def << "\n";
+	s_oss << "-new_def                   " << 0 << "\n";
 	s_oss << indent1;
-	s_oss << "-solution_equilibria       " << this->solution_equilibria << "\n";
+	s_oss << "-solution_equilibria       " << 0 << "\n";
 	s_oss << indent1;
 	s_oss << "-n_solution                " << this->n_solution << "\n";
 

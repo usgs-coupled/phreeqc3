@@ -60,33 +60,33 @@ tidy_model(void)
 	{							
 		new_model = TRUE;
 	}
-	if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0		|| 
+	if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0		/*|| 
 		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_RAW] > 0	||
-		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY])
+		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY]*/)
 	{
 		new_pp_assemblage = TRUE;					/*"pure_phases" */
 	}
-	if (keycount[Keywords::KEY_SURFACE] > 0					||
+	if (keycount[Keywords::KEY_SURFACE] > 0					/*||
 		keycount[Keywords::KEY_SURFACE_RAW] > 0				||
-		keycount[Keywords::KEY_SURFACE_MODIFY])
+		keycount[Keywords::KEY_SURFACE_MODIFY]*/)
 	{
 		new_surface = TRUE;							/*"surface" */
 	}
-	if (keycount[Keywords::KEY_EXCHANGE] > 0				||
-		keycount[Keywords::KEY_SURFACE_RAW] > 0				||
-		keycount[Keywords::KEY_SURFACE_MODIFY])
+	if (keycount[Keywords::KEY_EXCHANGE] > 0				/*||
+		keycount[Keywords::KEY_EXCHANGE_RAW] > 0				||
+		keycount[Keywords::KEY_EXCHANGE_MODIFY]*/)
 	{
 		new_exchange = TRUE;						/*"exchange" */
 	}
-	if (keycount[Keywords::KEY_REACTION] > 0				||
+	if (keycount[Keywords::KEY_REACTION] > 0				/*||
 		keycount[Keywords::KEY_REACTION_RAW] > 0			||
-		keycount[Keywords::KEY_REACTION_MODIFY])
+		keycount[Keywords::KEY_REACTION_MODIFY]*/)
 	{
 		new_reaction = TRUE;						/*"reaction" */
 	}
-	if (keycount[Keywords::KEY_REACTION_TEMPERATURE] > 0		||
+	if (keycount[Keywords::KEY_REACTION_TEMPERATURE] > 0		/*||
 		keycount[Keywords::KEY_REACTION_TEMPERATURE_RAW] > 0	||
-		keycount[Keywords::KEY_REACTION_TEMPERATURE_MODIFY])
+		keycount[Keywords::KEY_REACTION_TEMPERATURE_MODIFY]*/)
 	{
 		new_temperature = TRUE;						/*"reacton_temperature" */
 	}
@@ -96,27 +96,27 @@ tidy_model(void)
 		new_mix = TRUE;								/*"mix" */
 	}
 	if (keycount[Keywords::KEY_SOLUTION] > 0 ||			
-		keycount[Keywords::KEY_SOLUTION_SPREAD] > 0			||
+		keycount[Keywords::KEY_SOLUTION_SPREAD] > 0			/*||
 		keycount[Keywords::KEY_SOLUTION_RAW] > 0			||
-		keycount[Keywords::KEY_SOLUTION_MODIFY])
+		keycount[Keywords::KEY_SOLUTION_MODIFY]*/)
 	{												/*"solution" */
 		new_solution = TRUE;
 	}
-	if (keycount[Keywords::KEY_GAS_PHASE]  > 0				||
+	if (keycount[Keywords::KEY_GAS_PHASE]  > 0				/*||
 		keycount[Keywords::KEY_GAS_PHASE_RAW] > 0			||
-		keycount[Keywords::KEY_GAS_PHASE_MODIFY])
+		keycount[Keywords::KEY_GAS_PHASE_MODIFY]*/)
 	{
 		new_gas_phase = TRUE;						/*"gas_phase" */
 	}
-	if (keycount[Keywords::KEY_SOLID_SOLUTIONS] > 0			||
+	if (keycount[Keywords::KEY_SOLID_SOLUTIONS] > 0			/*||
 		keycount[Keywords::KEY_SOLID_SOLUTIONS_RAW] > 0		||
-		keycount[Keywords::KEY_SOLID_SOLUTIONS_MODIFY])
+		keycount[Keywords::KEY_SOLID_SOLUTIONS_MODIFY]*/)
 	{
 		new_ss_assemblage = TRUE;					/*"solid_solutions" */
 	}
-	if (keycount[Keywords::KEY_KINETICS] > 0				||
+	if (keycount[Keywords::KEY_KINETICS] > 0				/*||
 		keycount[Keywords::KEY_KINETICS_RAW] > 0			||
-		keycount[Keywords::KEY_KINETICS_MODIFY])
+		keycount[Keywords::KEY_KINETICS_MODIFY]*/)
 	{
 		new_kinetics = TRUE;						/*"kinetics" */
 	}
@@ -1504,6 +1504,7 @@ tidy_pp_assemblage(void)
 	it = Rxn_pp_assemblage_map.begin();
 	for ( ; it != Rxn_pp_assemblage_map.end(); it++)
 	{
+		if (!it->second.Get_new_def()) continue;
 		cxxPPassemblage *pp_assemblage_ptr = &(it->second);
 		count_elts = 0;
 		paren_count = 0;
@@ -1590,6 +1591,7 @@ tidy_ss_assemblage(void)
 	std::map<int, cxxSSassemblage>::iterator it;
 	for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
 	{
+		if (!it->second.Get_new_def()) continue;
 		count_elts = 0;
 		paren_count = 0;
 		cxxSSassemblage *ss_assemblage_ptr = &(it->second);
@@ -2376,6 +2378,7 @@ tidy_surface(void)
 	std::map<int, cxxSurface>::iterator kit;
 	for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
 	{
+		if (!kit->second.Get_new_def()) continue;
 		surface_ptr = &(kit->second);
 		for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 		{
@@ -3323,11 +3326,11 @@ tidy_kin_surface(void)
 	for (it = Rxn_surface_map.begin(); it != Rxn_surface_map.end(); it++)
 	{
 		cxxSurface *surface_ptr = &(it->second);
-		int n = surface_ptr->Get_n_user();
 		if (!surface_ptr->Get_new_def())
 			continue;
 		if (surface_ptr->Get_n_user() < 0)
 			continue;
+		int n = surface_ptr->Get_n_user();
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
 			cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
