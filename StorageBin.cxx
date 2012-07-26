@@ -62,11 +62,13 @@ cxxStorageBin::Set_Solution(int n_user, cxxSolution * entity)
 	if (entity == NULL)
 		return;
 	Solutions[n_user] = *entity;
+	Solutions.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Set_Solution(int n_user, cxxSolution & entity)
 {
 	Solutions[n_user] = entity;
+	Solutions.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_Solution(int n_user)
@@ -89,6 +91,13 @@ cxxStorageBin::Set_Exchange(int n_user, cxxExchange * entity)
 	if (entity == NULL)
 		return;
 	Exchangers[n_user] = *entity;
+	Exchangers.find(n_user)->second.Set_n_user_both(n_user);
+}
+void 
+cxxStorageBin::Set_Exchange(int n_user, cxxExchange & entity)
+{
+	Exchangers[n_user] = entity;
+	Exchangers.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_Exchange(int n_user)
@@ -111,11 +120,13 @@ cxxStorageBin::Set_PPassemblage(int n_user, cxxPPassemblage * entity)
 	if (entity == NULL)
 		return;
 	PPassemblages[n_user] = *entity;
+	PPassemblages.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Set_PPassemblage(int n_user, cxxPPassemblage & entity)
 {
 	PPassemblages[n_user] = entity;
+	PPassemblages.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_PPassemblage(int n_user)
@@ -138,6 +149,13 @@ cxxStorageBin::Set_GasPhase(int n_user, cxxGasPhase * entity)
 	if (entity == NULL)
 		return;
 	GasPhases[n_user] = *entity;
+	GasPhases.find(n_user)->second.Set_n_user_both(n_user);
+}
+void 
+cxxStorageBin::Set_GasPhase(int n_user, cxxGasPhase & entity)
+{
+	GasPhases[n_user] = entity;
+	GasPhases.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_GasPhase(int n_user)
@@ -160,11 +178,13 @@ cxxStorageBin::Set_SSassemblage(int n_user, cxxSSassemblage * entity)
 	if (entity == NULL)
 		return;
 	SSassemblages[n_user] = *entity;
+	SSassemblages.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Set_SSassemblage(int n_user, cxxSSassemblage & entity)
 {
 	SSassemblages[n_user] = entity;
+	SSassemblages.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_SSassemblage(int n_user)
@@ -187,6 +207,13 @@ cxxStorageBin::Set_Kinetics(int n_user, cxxKinetics * entity)
 	if (entity == NULL)
 		return;
 	Kinetics[n_user] = *entity;
+	Kinetics.find(n_user)->second.Set_n_user_both(n_user);
+}
+void 
+cxxStorageBin::Set_Kinetics(int n_user, cxxKinetics & entity)
+{
+	Kinetics[n_user] = entity;
+	Kinetics.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_Kinetics(int n_user)
@@ -209,6 +236,13 @@ cxxStorageBin::Set_Surface(int n_user, cxxSurface * entity)
 	if (entity == NULL)
 		return;
 	Surfaces[n_user] = *entity;
+	Surfaces.find(n_user)->second.Set_n_user_both(n_user);
+}
+void 
+cxxStorageBin::Set_Surface(int n_user, cxxSurface & entity)
+{
+	Surfaces[n_user] = entity;
+	Surfaces.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_Surface(int n_user)
@@ -231,6 +265,13 @@ cxxStorageBin::Set_Mix(int n_user, cxxMix * entity)
 	if (entity == NULL)
 		return;
 	Mixes[n_user] = *entity;
+	Mixes.find(n_user)->second.Set_n_user_both(n_user);
+}
+void 
+cxxStorageBin::Set_Mix(int n_user, cxxMix & entity)
+{
+	Mixes[n_user] = entity;
+	Mixes.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_Mix(int n_user)
@@ -253,6 +294,13 @@ cxxStorageBin::Set_Reaction(int n_user, cxxReaction * entity)
 	if (entity == NULL)
 		return;
 	Reactions[n_user] = *entity;
+	Reactions.find(n_user)->second.Set_n_user_both(n_user);
+}
+void 
+cxxStorageBin::Set_Reaction(int n_user, cxxReaction & entity)
+{
+	Reactions[n_user] = entity;
+	Reactions.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 cxxStorageBin::Remove_Reaction(int n_user)
@@ -276,8 +324,14 @@ cxxStorageBin::Set_Temperature(int n_user, cxxTemperature * entity)
 	if (entity == NULL)
 		return;
 	Temperatures[n_user] = *entity;
+	Temperatures.find(n_user)->second.Set_n_user_both(n_user);
 }
-
+void 
+cxxStorageBin::Set_Temperature(int n_user, cxxTemperature & entity)
+{
+	Temperatures[n_user] = entity;
+	Temperatures.find(n_user)->second.Set_n_user_both(n_user);
+}
 void 
 cxxStorageBin::Remove_Temperature(int n_user)
 {
@@ -296,6 +350,13 @@ cxxStorageBin::Set_Pressure(int n_user, cxxPressure * entity)
 	if (entity == NULL)
 		return;
 	Pressures[n_user] = *entity;
+	Pressures.find(n_user)->second.Set_n_user_both(n_user);
+}
+void
+cxxStorageBin::Set_Pressure(int n_user, cxxPressure & entity)
+{
+	Pressures[n_user] = entity;
+	Pressures.find(n_user)->second.Set_n_user_both(n_user);
 }
 void 
 
