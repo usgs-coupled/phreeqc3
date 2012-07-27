@@ -24,6 +24,7 @@ class cxxPressure:public cxxNumKeyword
 	void read_raw(CParser & parser);
 	LDBLE Pressure_for_step(int step_number);
 	std::vector<LDBLE> & Get_pressures(void) {return pressures;}
+	const std::vector<LDBLE> & Get_pressures(void)const {return pressures;}
 	int Get_count(void) const;
 	void Set_count(int i) {count = i;}
 	bool Get_equalIncrements(void) const {return equalIncrements;}

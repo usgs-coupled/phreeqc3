@@ -10313,7 +10313,7 @@ read_copy(void)
 	default:
 		input_error++;
 		error_msg
-			("Expecting keyword solution, mix, kinetics, reaction, reaction_temperature, equilibrium_phases, exchange, surface, gas_phase, or solid_solutions, or cell.",
+			("Expecting keyword solution, mix, kinetics, reaction, reaction_pressure, reaction_temperature, equilibrium_phases, exchange, surface, gas_phase, or solid_solutions, or cell.",
 			 CONTINUE);
 		error_msg(line_save, CONTINUE);
 		check_line("End of use", FALSE, TRUE, TRUE, TRUE);
