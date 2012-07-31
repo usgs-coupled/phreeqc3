@@ -1,0 +1,208 @@
+DATABASE C:\Programs\phreeqc3-trunk\database\phreeqc.dat
+SOLUTION 0
+END
+# KCl 
+USE solution 0
+REACTION 1
+	KCl
+	0.067069081 0.134138162 0.202548625 0.270959088
+	0.340710932 0.409121395 0.478873239 0.549966465
+	0.690811536 0.83433937  0.979208585 1.052984574 moles
+USER_GRAPH 1
+    -chart_title            "SPECIFIC CONDUCTANCE, 20 C
+    -headings               KCl_measured KCl_calculated
+    -axis_titles            "MOLES PER KILOGRAM WATER" "SPECIFIC CONDUCTANCE" ""
+    -start
+10 data 8200, \ 
+	15700, \
+	22700, \
+	29500, \
+	36500, \
+	43600, \
+	50600, \
+	57600, \
+	71900, \
+	86200, \
+	100000, \
+	108000
+20 dim d(12)
+25 restore 10
+40 for i = 1 to 12
+42   read d(i)
+50 next i
+60 j = GET(1) + 1
+70 plot_xy rxn, d(j), symbol = Square, line_w = 0, color = Red
+80 plot_xy rxn, SC,   symbol = None, line_w = 1, color = Red
+90 PUT(j, 1)
+    -end
+END
+# NaCl 
+USE solution 0
+REACTION 1
+	NaCl
+	0.085557837
+	0.172826831
+	0.258384668
+	0.345653662
+	0.434633812
+	0.523613963
+	0.612594114
+	0.684462697
+	0.865845311
+	1.031827515
+	1.368925394
+	1.676933607 
+USER_GRAPH 1
+    -headings               NaCl_measured NaCl_calculated
+    -start
+10 data 8200, \
+	16000, \
+	23200, \
+	30200, \
+	37100, \
+	44000, \
+	50700, \
+	56000, \
+	68900, \
+	80000, \
+	101000, \
+	118000
+20 dim d(12)
+25 restore 10
+40 for i = 1 to 12
+42   read d(i)
+50 next i
+60 j = GET(2) + 1
+70 plot_xy rxn, d(j), symbol = Square, line_w = 0, color = Green
+80 plot_xy rxn, SC,   symbol = None, line_w = 1, color = Green
+90 PUT(j, 2)
+    -end
+END
+# CaCl2
+USE solution 0
+REACTION 1
+	CaCl2
+4.50E-02
+9.10E-02
+1.37E-01
+1.83E-01
+2.30E-01
+2.77E-01
+3.24E-01
+3.72E-01
+4.69E-01
+5.67E-01
+6.67E-01
+8.20E-01
+USER_GRAPH 1
+    -headings               CaCl2_measured CaCl2_calculated
+    -start
+10 data \
+8100, \
+15700, \
+22700, \
+29400, \
+36100, \
+42600, \
+48900, \
+55100, \
+67000, \
+78300, \
+88700, \
+103000
+20 dim d(12)
+25 restore 10
+40 for i = 1 to 12
+42   read d(i)
+50 next i
+60 j = GET(3) + 1
+70 plot_xy rxn, d(j), symbol = Square, line_w = 0, color = Blue
+80 plot_xy rxn, SC,   symbol = None, line_w = 1, color = Blue
+90 PUT(j, 3)
+    -end
+END
+# MgCl2
+USE solution 0
+REACTION 1
+	MgCl2
+0.052504463
+0.106059015
+0.213168119
+0.322377402
+0.432636774
+0.546046414
+0.660506143
+0.777066051
+0.894676047
+1.014386223
+USER_GRAPH 1
+    -headings               MgCl2_measured MgCl2_calculated
+    -start
+10 data \
+8600, \
+16600, \
+31200, \
+44500, \
+56400, \
+66900, \
+77200, \
+86400, \
+94500, \
+102000
+20 dim d(12)
+25 restore 10
+40 for i = 1 to 10
+42   read d(i)
+50 next i
+60 j = GET(4) + 1
+70 plot_xy rxn, d(j), symbol = Square, line_w = 0, color = Magenta
+80 plot_xy rxn, SC,   symbol = None, line_w = 1, color = Magenta
+90 PUT(j, 4)
+    -end
+END
+SOLUTION_SPECIES
+Mg+2 + SO4-2 = MgSO4
+	log_k	2.37
+	#log_k	2.0
+	delta_h 4.550	kcal
+	-dw 4.45e-10
+	-Vm   2.4      -0.97      6.1     -2.74  # est'd
+# MgSO4
+USE solution 0
+REACTION 1
+	MgSO4
+0.041538589
+0.08390795
+0.169477445
+0.256708482
+0.345601063
+0.436155188
+0.528370857
+0.62307884
+0.718617596
+0.916341281
+USER_GRAPH 1
+    -headings               MgSO4_measured MgSO4_calculated
+    -start
+10 data \
+4100, \
+7600, \
+13300, \
+18400, \
+23100, \
+27400, \
+31100, \
+34400, \
+37300, \
+42700
+20 dim d(12)
+25 restore 10
+40 for i = 1 to 10
+42   read d(i)
+50 next i
+60 j = GET(5) + 1
+70 plot_xy rxn, d(j), symbol = Square, line_w = 0, color = Black
+80 plot_xy rxn, SC,   symbol = None, line_w = 1, color = Black
+90 PUT(j, 5)
+    -end
+END
