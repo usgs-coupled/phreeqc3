@@ -381,16 +381,21 @@ namespace zdg_ui2 {
 				if (this->background)
 				{
 					myPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+				}
+				else
+				{
+					myPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+				}
+				if (this->grid)
+				{
 					myPane->XAxis->MajorGrid->IsVisible = true;
 					myPane->YAxis->MajorGrid->IsVisible = true;
 				}
 				else
 				{
-					myPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
 					myPane->XAxis->MajorGrid->IsVisible = false;
 					myPane->YAxis->MajorGrid->IsVisible = false;
 				}
-
 				 // normalize pane size...
 				 myPane->BaseDimension = 8.0F;
 				 // increase bottom margin to accommodate text options...
@@ -746,25 +751,6 @@ namespace zdg_ui2 {
 			{
 				// Here we get notification everytime the user zooms
 			}
-#ifdef SKIP
-			void ToggleBackground( System::Object ^sender, System::EventArgs ^e )
-			{
-				this->background = !this->background;
-				if (this->background)
-				{
-					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
-					zg1->GraphPane->XAxis->MajorGrid->IsVisible = true;
-					zg1->GraphPane->YAxis->MajorGrid->IsVisible = true;
-				}
-				else
-				{
-					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
-					zg1->GraphPane->XAxis->MajorGrid->IsVisible = false;
-					zg1->GraphPane->YAxis->MajorGrid->IsVisible = false;
-				}
-				zg1->Refresh();
-			}
-#endif
 			void SetChartOptions( System::Object ^sender, System::EventArgs ^e )
 			{
 				// Create form
@@ -857,18 +843,13 @@ namespace zdg_ui2 {
 					this->grid = (cb3->CheckState == CheckState::Checked);
 				}
 
-				//this->background = !this->background;
 				if (this->background)
 				{
 					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
-					//zg1->GraphPane->XAxis->MajorGrid->IsVisible = true;
-					//zg1->GraphPane->YAxis->MajorGrid->IsVisible = true;
 				}
 				else
 				{
 					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
-					//zg1->GraphPane->XAxis->MajorGrid->IsVisible = false;
-					//zg1->GraphPane->YAxis->MajorGrid->IsVisible = false;
 				}
 				if (this->grid)
 				{
@@ -890,19 +871,6 @@ namespace zdg_ui2 {
 				}
 				zg1->Refresh();
 			}
-			//void ToggleHints( System::Object ^sender, System::EventArgs ^e )
-			//{
-			//	this->hints = !this->hints;
-			//	if (this->hints)
-			//	{
-			//		zg1->GraphPane->GraphObjList = GOL_hints;
-			//	}
-			//	else
-			//	{
-			//		zg1->GraphPane->GraphObjList = GOL_no_hints;
-			//	}
-			//	zg1->Refresh();
-			//}
 			void SaveImage( System::Object ^sender, System::EventArgs ^e )
 			{
 				ZedGraph::GraphObjList ^copy = gcnew ZedGraph::GraphObjList(zg1->GraphPane->GraphObjList);
@@ -929,7 +897,17 @@ namespace zdg_ui2 {
 				{
 					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
 				}
-
+				// Set grid
+				if (chart->Get_batch_grid())
+				{
+					zg1->GraphPane->XAxis->MajorGrid->IsVisible = true;
+					zg1->GraphPane->YAxis->MajorGrid->IsVisible = true;
+				}
+				else
+				{
+					zg1->GraphPane->XAxis->MajorGrid->IsVisible = false;
+					zg1->GraphPane->YAxis->MajorGrid->IsVisible = false;
+				}
 				// Save the graph
 				if (this->zg1)
 				{
