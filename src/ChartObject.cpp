@@ -107,6 +107,7 @@ cxxNumKeyword(io)
 	detach = false;
 
 	batch_background = true;
+	batch_grid = true;
 	batch = ChO_NO_BATCH;
 }
 
@@ -474,75 +475,31 @@ ChartObject::Read(CParser & parser)
 				{
 					token = rest_of_line.substr(last);
 					token = trim(token);
-					if (token.size() > 0)
+					std::string tf;
+					std::string::iterator b = token.begin();
+					std::string::iterator e = token.end();
+
+					CParser::copy_token(tf, b, e);
+					if (tf.size() > 0)
 					{
-						Utilities::str_tolower(token);
-						if (token[0] == 'f') 
+						Utilities::str_tolower(tf);
+						if (tf[0] == 'f') 
 						{
 							this->batch_background = false;
+						}
+					}
+					CParser::copy_token(tf, b, e);
+					if (tf.size() > 0)
+					{
+						Utilities::str_tolower(tf);
+						if (tf[0] == 'f') 
+						{
+							this->batch_grid = false;
 						}
 					}
 				}
 			}
 			break;
-#ifdef SKIP
-		case 16: /* batch */
-			{
-				this->batch = ChartObject::ChO_BATCH_ONLY;
-
-				std::string file_name;
-				if (parser.copy_token(file_name, next_char) != CParser::TT_EMPTY)
-				{
-					//Get suffix from file_name
-					size_t ssi = file_name.rfind('.');
-					if (ssi == std::string::npos)
-					{
-						std::ostringstream estream;
-						estream << "Batch file name must have suffix emf, phg, jpg, gif, tiff, or bmp.";
-						error_msg(estream.str().c_str(), CONTINUE);	
-						break;
-					}
-
-					std::string suffix = file_name.substr(ssi + 1);	
-					Utilities::str_tolower(suffix);
-					if (suffix == "emf")
-						this->batch = ChartObject::ChO_EMF;
-					else if (suffix == "png")
-						this->batch = ChartObject::ChO_PNG;
-					else if (suffix == "jpg")
-						this->batch = ChartObject::ChO_JPG;
-					else if (suffix == "gif")
-						this->batch = ChartObject::ChO_GIF;
-					else if (suffix == "tiff")
-						this->batch = ChartObject::ChO_TIFF;
-					else if (suffix == "bmp")
-						this->batch = ChartObject::ChO_BMP;
-					else if (suffix == "jpeg")
-						this->batch = ChartObject::ChO_JPG;
-					else
-					{
-						std::ostringstream estream;
-						estream << "Batch file name must have suffix emf, phg, jpg, jpeg, gif, tiff, or bmp.";
-						error_msg(estream.str().c_str(), CONTINUE);	
-						break;
-					}
-					this->batch_fn = file_name;
-
-					// Get background bool
-					parser.copy_token(token, next_char);
-					if (token.size() > 0)
-					{
-					Utilities::str_tolower(token);
-						if (token[0] == 'f') 
-						{
-							this->batch_background = false;
-						}
-					}
-				}
-
-			}
-			break;
-#endif
 		case CParser::OPT_DEFAULT:	// Read Basic commands
 			{
 				if (!new_command_lines)

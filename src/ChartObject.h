@@ -358,6 +358,9 @@ class ChartObject:public cxxNumKeyword
 	void Set_batch(chart_batch_type bt) {this->batch = bt;}
 	bool Get_batch_background(void) {return this->batch_background;}
 	void Set_batch_background(bool tf) {this->batch_background = tf;}
+
+	bool Get_batch_grid(void) {return this->batch_grid;}
+	void Set_batch_grid(bool tf) {this->batch_grid = tf;}
   protected:
 
 	bool new_ug;
@@ -428,6 +431,7 @@ class ChartObject:public cxxNumKeyword
 	class Phreeqc * phreeqc_ptr;
 
 	bool batch_background;
+	bool batch_grid;
 	std::string batch_fn;
 	chart_batch_type batch;
 	const static std::vector < std::string > vopts;
