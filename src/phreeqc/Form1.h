@@ -756,26 +756,11 @@ namespace zdg_ui2 {
 				// Create form
 				Form ^graphOptions = gcnew Form;
 				graphOptions->Text = "Chart options";
-				//graphOptions->CenterToParent();
 				graphOptions->BringToFront();
-				graphOptions->SetBounds(0, 0, 255, 230);
-				//graphOptions->AutoSize = true;
-
-				// done button for Form
-				Button^ button1 = gcnew Button;
-				button1->DialogResult = System::Windows::Forms::DialogResult::OK;
-				button1->Text = "Done";
-				button1->Location = System::Drawing::Point(75, 160);
-				graphOptions->Controls->Add(button1);
-				graphOptions->AcceptButton = button1;
-
-				// cancel button for Form
-				Button^ button2 = gcnew Button;
-				button2->DialogResult = System::Windows::Forms::DialogResult::Cancel;
-				button2->Text = "Cancel";
-				button2->Location = System::Drawing::Point(155, 160);
-				graphOptions->Controls->Add(button2);
-				graphOptions->CancelButton = button2;
+				graphOptions->MinimumSize = System::Drawing::Size(255, 230);
+				graphOptions->MaximumSize = System::Drawing::Size(255, 230);
+				graphOptions->Size = System::Drawing::Size(255, 230);
+				graphOptions->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
 
 				// Check box for hints
 				CheckBox ^cb1 = gcnew CheckBox;
@@ -812,8 +797,6 @@ namespace zdg_ui2 {
 				}
 				cb2->Text = "Show colored background";
 				cb2->AutoSize = true;
-				//cb2->TextBox->Width = 250;
-				//cb2->SetBounds(5, 60, 150, 20);
 				cb2->Visible = true;
 				graphOptions->Controls->Add(cb2);
 
@@ -835,6 +818,23 @@ namespace zdg_ui2 {
 				cb3->Text = "Show grid lines";
 				cb3->Visible = true;
 				graphOptions->Controls->Add(cb3);
+
+				// done button for Form
+				Button^ button1 = gcnew Button;
+				button1->DialogResult = System::Windows::Forms::DialogResult::OK;
+				button1->Text = "Done";
+				button1->Location = System::Drawing::Point(75, 160);
+				graphOptions->Controls->Add(button1);
+				graphOptions->AcceptButton = button1;
+
+				// cancel button for Form
+				Button^ button2 = gcnew Button;
+				button2->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+				button2->Text = "Cancel";
+				button2->Location = System::Drawing::Point(155, 160);
+				graphOptions->Controls->Add(button2);
+				graphOptions->CancelButton = button2;
+
 
 				if (graphOptions->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 				{
