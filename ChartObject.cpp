@@ -112,8 +112,9 @@ cxxNumKeyword(io)
 
 ChartObject::~ChartObject()
 {
-	while (0 != System::Threading::Interlocked::Exchange(this->usingResource, 1))
+	while (0 != System::Threading::Interlocked::CompareExchange(this->usingResource, 0, 7))
 	{
+		::OutputDebugString("Sleeping 7\n");
 		System::Threading::Thread::Sleep(5);
 	}
 	this->Rate_free();
@@ -316,7 +317,9 @@ ChartObject::Read(CParser & parser)
 			{
 				std::string tok;
 				parser.get_rest_of_line(tok);
-				CParser::copy_title(this->chart_title, tok.begin(), tok.end());
+				std::string::iterator b = tok.begin();
+				std::string::iterator e = tok.end();
+				CParser::copy_title(this->chart_title, b, e);
 			}
 			break;
 		case 5:	/* axis titles */

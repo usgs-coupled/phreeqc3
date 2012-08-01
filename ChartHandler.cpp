@@ -44,11 +44,24 @@ ChartHandler::Punch_user_graph(Phreeqc * phreeqc_ptr)
 		if (it->second->Get_active())
 		{
 #if defined(__cplusplus_cli)
-			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1))
+			while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 0, 4))
+			{
+				::OutputDebugString("Sleeping 4\n");
 				System::Threading::Thread::Sleep(5);
+			}
 #endif
-			this->current_chart = it->second;
-			phreeqc_ptr-> punch_user_graph();
+			try
+			{
+				this->current_chart = it->second;
+				phreeqc_ptr-> punch_user_graph();
+			}
+			catch (...)
+			{
+#if defined(__cplusplus_cli)
+				System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+#endif
+				throw;
+			}
 #if defined(__cplusplus_cli)
 			System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
 #endif
@@ -85,23 +98,36 @@ ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 
 	// Read/update ChartObject
 #if defined(__cplusplus_cli)
-	while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1)) 
+	while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 0, 5))
+	{
+		::OutputDebugString("Sleeping 5\n");
 		System::Threading::Thread::Sleep(5);
+	}
 #endif
+	try
 	{
-		it->second->Read(parser);
-		current_chart_n_user = n_user;
-		current_chart = it->second;
-		u_g_defined = true;
-	}
+		{
+			it->second->Read(parser);
+			current_chart_n_user = n_user;
+			current_chart = it->second;
+			u_g_defined = true;
+		}
 
-	// if detached, set timer_end and free
-	if (it->second->Get_detach() && it->second->Get_form_started())
+		// if detached, set timer_end and free
+		if (it->second->Get_detach() && it->second->Get_form_started())
+		{
+			it->second->Set_end_timer(true);
+			it->second->Rate_free();
+		}
+	}
+	catch(...)
 	{
-		it->second->Set_end_timer(true);
-		it->second->Rate_free();
+#if defined(__cplusplus_cli)
+		// Release lock
+		System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+		throw;
+#endif
 	}
-
 #if defined(__cplusplus_cli)
 	// Release lock
 	System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
@@ -136,8 +162,9 @@ ChartHandler::End_timer()
 		if (it->second->Get_form_started())
 		{
 #if defined(__cplusplus_cli)
-			while (0 != System::Threading::Interlocked::Exchange(it->second->usingResource, 1)) 
+			while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 0, 6))
 			{
+				::OutputDebugString("Sleeping 6\n");
 				//if (i > max_tries) break;
 				i++;
 				System::Threading::Thread::Sleep(60);
