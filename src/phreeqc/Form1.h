@@ -41,6 +41,7 @@ namespace zdg_ui2 {
 				phreeqc_done = false;
 				background = true;
 				hints = true;
+				grid = true;
 			}
 	public:	Form1(ChartObject *ptr)
 			{
@@ -54,6 +55,7 @@ namespace zdg_ui2 {
 				Y2show = false;	
 				background = true;
 				hints = true;
+				grid = true;
 			}
 			static void ThreadForm(Object^ data)
 			{
@@ -138,8 +140,7 @@ namespace zdg_ui2 {
 			 int col_use, symbol_use;
 			 bool Y2, Y2show;
 			 static cli::array<String^> ^ColorList = {"Red", "Green", "Blue", "Orange", "Magenta", "Yellow", "Black", "Cyan", "Brown", "Lime", "Gray" };
-			 bool background;
-			 bool hints;
+			 bool background, hints, grid;
 
 			 ZedGraph::GraphObjList ^GOL_no_hints;
 			 ZedGraph::GraphObjList ^GOL_hints;
@@ -380,10 +381,14 @@ namespace zdg_ui2 {
 				if (this->background)
 				{
 					myPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+					myPane->XAxis->MajorGrid->IsVisible = true;
+					myPane->YAxis->MajorGrid->IsVisible = true;
 				}
 				else
 				{
 					myPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+					myPane->XAxis->MajorGrid->IsVisible = false;
+					myPane->YAxis->MajorGrid->IsVisible = false;
 				}
 
 				 // normalize pane size...
@@ -516,14 +521,14 @@ namespace zdg_ui2 {
 					menuStrip->Items->Insert(5, item );
 
 					ToolStripMenuItem ^item3 = gcnew ToolStripMenuItem();
-					item3->Text = L"Toggle Background";
-					item3->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::ToggleBackground );
+					item3->Text = L"Chart options...";
+					item3->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::SetChartOptions );
 					menuStrip->Items->Insert(0, item3 );
 
-					ToolStripMenuItem ^item5 = gcnew ToolStripMenuItem();
-					item5->Text = L"Toggle Hints";
-					item5->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::ToggleHints );
-					menuStrip->Items->Insert(0, item5 );
+					//ToolStripMenuItem ^item5 = gcnew ToolStripMenuItem();
+					//item5->Text = L"Toggle Hints";
+					//item5->Click += gcnew System::EventHandler(this, &zdg_ui2::Form1::ToggleHints );
+					//menuStrip->Items->Insert(0, item5 );
 
 					ToolStripMenuItem ^item2 = gcnew ToolStripMenuItem();
 					item2->Text = L"Save Data to File...";
@@ -741,24 +746,140 @@ namespace zdg_ui2 {
 			{
 				// Here we get notification everytime the user zooms
 			}
-
+#ifdef SKIP
 			void ToggleBackground( System::Object ^sender, System::EventArgs ^e )
 			{
 				this->background = !this->background;
 				if (this->background)
 				{
 					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+					zg1->GraphPane->XAxis->MajorGrid->IsVisible = true;
+					zg1->GraphPane->YAxis->MajorGrid->IsVisible = true;
 				}
 				else
 				{
 					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+					zg1->GraphPane->XAxis->MajorGrid->IsVisible = false;
+					zg1->GraphPane->YAxis->MajorGrid->IsVisible = false;
 				}
 				zg1->Refresh();
 			}
-
-			void ToggleHints( System::Object ^sender, System::EventArgs ^e )
+#endif
+			void SetChartOptions( System::Object ^sender, System::EventArgs ^e )
 			{
-				this->hints = !this->hints;
+				// Create form
+				Form ^graphOptions = gcnew Form;
+				graphOptions->Text = "Chart options";
+				//graphOptions->CenterToParent();
+				graphOptions->BringToFront();
+				graphOptions->SetBounds(0, 0, 255, 230);
+				//graphOptions->AutoSize = true;
+
+				// done button for Form
+				Button^ button1 = gcnew Button;
+				button1->DialogResult = System::Windows::Forms::DialogResult::OK;
+				button1->Text = "Done";
+				button1->Location = System::Drawing::Point(75, 160);
+				graphOptions->Controls->Add(button1);
+				graphOptions->AcceptButton = button1;
+
+				// cancel button for Form
+				Button^ button2 = gcnew Button;
+				button2->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+				button2->Text = "Cancel";
+				button2->Location = System::Drawing::Point(155, 160);
+				graphOptions->Controls->Add(button2);
+				graphOptions->CancelButton = button2;
+
+				// Check box for hints
+				CheckBox ^cb1 = gcnew CheckBox;
+				cb1->Appearance = Appearance::Normal;
+				cb1->ThreeState = false;
+				cb1->AutoCheck = true;
+				cb1->Location = System::Drawing::Point(5, 10);
+				if (this->hints)
+				{
+					cb1->CheckState = CheckState::Checked;
+				}
+				else
+				{
+					cb1->CheckState = CheckState::Unchecked;
+				}
+				cb1->Text = "Show hints";
+				cb1->Visible = true;
+				graphOptions->Controls->Add(cb1);
+
+				// Check box for background color
+				CheckBox ^cb2 = gcnew CheckBox;
+				cb2->Appearance = Appearance::Normal;
+				cb2->ThreeState = false;
+				cb2->AutoCheck = true;
+				cb2->Location = System::Drawing::Point(5, 60);
+
+				if (this->background)
+				{
+					cb2->CheckState = CheckState::Checked;
+				}
+				else
+				{
+					cb2->CheckState = CheckState::Unchecked;
+				}
+				cb2->Text = "Show colored background";
+				cb2->AutoSize = true;
+				//cb2->TextBox->Width = 250;
+				//cb2->SetBounds(5, 60, 150, 20);
+				cb2->Visible = true;
+				graphOptions->Controls->Add(cb2);
+
+				// checkbox for grid
+				CheckBox ^cb3 = gcnew CheckBox;
+				cb3->Appearance = Appearance::Normal;
+				cb3->ThreeState = false;
+				cb3->AutoCheck = true;
+				cb3->Location = System::Drawing::Point(5, 110);
+
+				if (this->grid)
+				{
+					cb3->CheckState = CheckState::Checked;
+				}
+				else
+				{
+					cb3->CheckState = CheckState::Unchecked;
+				}
+				cb3->Text = "Show grid lines";
+				cb3->Visible = true;
+				graphOptions->Controls->Add(cb3);
+
+				if (graphOptions->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+				{
+					this->hints = (cb1->CheckState == CheckState::Checked);
+					this->background = (cb2->CheckState == CheckState::Checked);
+					this->grid = (cb3->CheckState == CheckState::Checked);
+				}
+
+				//this->background = !this->background;
+				if (this->background)
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::FromArgb(255, 255, 230), 45.0f );
+					//zg1->GraphPane->XAxis->MajorGrid->IsVisible = true;
+					//zg1->GraphPane->YAxis->MajorGrid->IsVisible = true;
+				}
+				else
+				{
+					zg1->GraphPane->Chart->Fill = gcnew Fill( Color::White, Color::White, 45.0f );
+					//zg1->GraphPane->XAxis->MajorGrid->IsVisible = false;
+					//zg1->GraphPane->YAxis->MajorGrid->IsVisible = false;
+				}
+				if (this->grid)
+				{
+					zg1->GraphPane->XAxis->MajorGrid->IsVisible = true;
+					zg1->GraphPane->YAxis->MajorGrid->IsVisible = true;
+				}
+				else
+				{
+					zg1->GraphPane->XAxis->MajorGrid->IsVisible = false;
+					zg1->GraphPane->YAxis->MajorGrid->IsVisible = false;
+				}
 				if (this->hints)
 				{
 					zg1->GraphPane->GraphObjList = GOL_hints;
@@ -769,6 +890,19 @@ namespace zdg_ui2 {
 				}
 				zg1->Refresh();
 			}
+			//void ToggleHints( System::Object ^sender, System::EventArgs ^e )
+			//{
+			//	this->hints = !this->hints;
+			//	if (this->hints)
+			//	{
+			//		zg1->GraphPane->GraphObjList = GOL_hints;
+			//	}
+			//	else
+			//	{
+			//		zg1->GraphPane->GraphObjList = GOL_no_hints;
+			//	}
+			//	zg1->Refresh();
+			//}
 			void SaveImage( System::Object ^sender, System::EventArgs ^e )
 			{
 				ZedGraph::GraphObjList ^copy = gcnew ZedGraph::GraphObjList(zg1->GraphPane->GraphObjList);
