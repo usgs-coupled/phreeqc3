@@ -402,76 +402,89 @@ namespace zdg_ui2 {
 				GraphPane ^myPane = z1->GraphPane;
 
 				// lock thread
-				while (0 != System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 1)) 
+				while (0 != System::Threading::Interlocked::CompareExchange(this->chartobject_ptr->usingResource, 0, 2))
+				{
+					::OutputDebugString("Sleeping 2\n");
 					System::Threading::Thread::Sleep(5);
-
-				DefineCurves(myPane, 0);
-
-				// Add text boxes with instructions...
-				GOL_no_hints = gcnew ZedGraph::GraphObjList(myPane->GraphObjList);
-
-				TextObj ^text;
-				text = gcnew TextObj(
-					L" Click right mouse for options... \0",
-					0.01f, 0.99f, CoordType::PaneFraction, AlignH::Left, AlignV::Bottom );
-				text->FontSpec->StringAlignment = StringAlignment::Near;
-				text->FontSpec->Size = 10;
-				text->FontSpec->FontColor = Color::Red;
-				text->ZOrder = ZOrder::H_BehindAll;
-				myPane->GraphObjList->Add( text );
-				text = gcnew TextObj(
-					L" Press Alt + F4 to quit",
-					0.81f, 0.99f, CoordType::PaneFraction, AlignH::Left, AlignV::Bottom );
-				text->FontSpec->StringAlignment = StringAlignment::Near;
-				text->FontSpec->Size = 10;
-				text->FontSpec->FontColor = Color::Red;
-				text->ZOrder = ZOrder::H_BehindAll;
-				myPane->GraphObjList->Add( text );
-
-				GOL_hints = gcnew ZedGraph::GraphObjList(myPane->GraphObjList);
-				if (this->hints)
-				{
-					myPane->GraphObjList = GOL_hints;
-				}
-				else
-				{
-					myPane->GraphObjList = GOL_no_hints;
 				}
 
-				// Enable scrollbars if needed...
-				/*z1->IsShowHScrollBar = true;
-				z1->IsShowVScrollBar = true;
-				z1->IsAutoScrollRange = true;
-				z1->IsScrollY2 = true;*/
+				try
+				{
 
-				// OPTIONAL: Show tooltips when the mouse hovers over a point
-				z1->IsShowPointValues = false;
-				z1->PointValueEvent += gcnew ZedGraphControl::PointValueHandler( this,
-					&Form1::MyPointValueHandler );
+					DefineCurves(myPane, 0);
 
-				// OPTIONAL: Add a custom context menu item
-				z1->ContextMenuBuilder += gcnew	ZedGraphControl::ContextMenuBuilderEventHandler(
-					this, &Form1::MyContextMenuBuilder );
+					// Add text boxes with instructions...
+					GOL_no_hints = gcnew ZedGraph::GraphObjList(myPane->GraphObjList);
 
-				// OPTIONAL: Handle the Zoom Event
-				z1->ZoomEvent += gcnew ZedGraphControl::ZoomEventHandler( this,
-					&Form1::MyZoomEvent );
+					TextObj ^text;
+					text = gcnew TextObj(
+						L" Click right mouse for options... \0",
+						0.01f, 0.99f, CoordType::PaneFraction, AlignH::Left, AlignV::Bottom );
+					text->FontSpec->StringAlignment = StringAlignment::Near;
+					text->FontSpec->Size = 10;
+					text->FontSpec->FontColor = Color::Red;
+					text->ZOrder = ZOrder::H_BehindAll;
+					myPane->GraphObjList->Add( text );
+					text = gcnew TextObj(
+						L" Press Alt + F4 to quit",
+						0.81f, 0.99f, CoordType::PaneFraction, AlignH::Left, AlignV::Bottom );
+					text->FontSpec->StringAlignment = StringAlignment::Near;
+					text->FontSpec->Size = 10;
+					text->FontSpec->FontColor = Color::Red;
+					text->ZOrder = ZOrder::H_BehindAll;
+					myPane->GraphObjList->Add( text );
 
-				// Size the control to fit the window
-				SetSize();
+					GOL_hints = gcnew ZedGraph::GraphObjList(myPane->GraphObjList);
+					if (this->hints)
+					{
+						myPane->GraphObjList = GOL_hints;
+					}
+					else
+					{
+						myPane->GraphObjList = GOL_no_hints;
+					}
 
-				// Tell ZedGraph to calculate the axis ranges
-				// Note that you MUST call this after enabling IsAutoScrollRange, since AxisChange() sets
-				// up the proper scrolling parameters
+					// Enable scrollbars if needed...
+					/*z1->IsShowHScrollBar = true;
+					z1->IsShowVScrollBar = true;
+					z1->IsAutoScrollRange = true;
+					z1->IsScrollY2 = true;*/
 
-				z1->AxisChange();
-				// Make sure the Graph gets redrawn
-				z1->Invalidate();
-				timer1->Interval = this->chartobject_ptr->Get_update_time_chart();
-				timer1->Enabled = true;
-				timer1->Start();
+					// OPTIONAL: Show tooltips when the mouse hovers over a point
+					z1->IsShowPointValues = false;
+					z1->PointValueEvent += gcnew ZedGraphControl::PointValueHandler( this,
+						&Form1::MyPointValueHandler );
 
-				tickStart = Environment::TickCount;
+					// OPTIONAL: Add a custom context menu item
+					z1->ContextMenuBuilder += gcnew	ZedGraphControl::ContextMenuBuilderEventHandler(
+						this, &Form1::MyContextMenuBuilder );
+
+					// OPTIONAL: Handle the Zoom Event
+					z1->ZoomEvent += gcnew ZedGraphControl::ZoomEventHandler( this,
+						&Form1::MyZoomEvent );
+
+					// Size the control to fit the window
+					SetSize();
+
+					// Tell ZedGraph to calculate the axis ranges
+					// Note that you MUST call this after enabling IsAutoScrollRange, since AxisChange() sets
+					// up the proper scrolling parameters
+
+					z1->AxisChange();
+					// Make sure the Graph gets redrawn
+					z1->Invalidate();
+					timer1->Interval = this->chartobject_ptr->Get_update_time_chart();
+					timer1->Enabled = true;
+					timer1->Start();
+
+					tickStart = Environment::TickCount;
+				}
+				catch (...)
+				{
+					//unlock thread
+					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+					throw;
+				}
 
 				//unlock thread
 				System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
@@ -840,141 +853,152 @@ namespace zdg_ui2 {
 				if (chart == NULL) return;
 
 				//lock for thread
-				while (0 != System::Threading::Interlocked::Exchange(chart->usingResource, 1)) 
+				while (0 != System::Threading::Interlocked::CompareExchange(chart->usingResource, 0, 3))
+				{
+					::OutputDebugString("Sleeping 3\n");
 					System::Threading::Thread::Sleep(5);
-
-				if (this->chartobject_ptr->Get_curve_added())
-				{
-					DefineCurves(zg1->GraphPane, zg1->GraphPane->CurveList->Count);
 				}
-				else if (this->chartobject_ptr->Get_point_added())
-				{
 
-					// Make list of curves
-					std::vector<CurveObject *> Curves; 
-					size_t j;
-					for (j = 0; j < chart->Get_CurvesCSV().size(); j++)
+				try
+				{
+					if (this->chartobject_ptr->Get_curve_added())
 					{
-						Curves.push_back(chart->Get_CurvesCSV()[j]);
+						DefineCurves(zg1->GraphPane, zg1->GraphPane->CurveList->Count);
 					}
-					for (j = 0; j < chart->Get_Curves().size(); j++)
+					else if (this->chartobject_ptr->Get_point_added())
 					{
-						Curves.push_back(chart->Get_Curves()[j]);
-					}
-					// Add points to curves ...
-					for (int i = 0; i < zg1->GraphPane->CurveList->Count; i++) 
-					{
-						curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
-						// Get the PointPairList
-						IPointListEdit  ^ip = (IPointListEdit^) curve->Points;
-						if ((size_t) ip->Count < Curves[i]->Get_x().size())
+
+						// Make list of curves
+						std::vector<CurveObject *> Curves; 
+						size_t j;
+						for (j = 0; j < chart->Get_CurvesCSV().size(); j++)
 						{
-							if (Curves[i]->Get_y_axis() == 2)
-								Y2 = true;
-							else
-								Y2 = false;
-							for ( size_t i2 = ip->Count; i2 < Curves[i]->Get_x().size(); i2++ )
+							Curves.push_back(chart->Get_CurvesCSV()[j]);
+						}
+						for (j = 0; j < chart->Get_Curves().size(); j++)
+						{
+							Curves.push_back(chart->Get_Curves()[j]);
+						}
+						// Add points to curves ...
+						for (int i = 0; i < zg1->GraphPane->CurveList->Count; i++) 
+						{
+							curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
+							// Get the PointPairList
+							IPointListEdit  ^ip = (IPointListEdit^) curve->Points;
+							if ((size_t) ip->Count < Curves[i]->Get_x().size())
 							{
-								if ((LogX && Curves[i]->Get_x()[i2] <=0)
-									|| (LogY && !Y2 && Curves[i]->Get_y()[i2] <=0)
-									|| (LogY2 && Y2 && Curves[i]->Get_y()[i2] <=0))
-									continue;
+								if (Curves[i]->Get_y_axis() == 2)
+									Y2 = true;
 								else
-									ip->Add(Curves[i]->Get_x()[i2], Curves[i]->Get_y()[i2] );
+									Y2 = false;
+								for ( size_t i2 = ip->Count; i2 < Curves[i]->Get_x().size(); i2++ )
+								{
+									if ((LogX && Curves[i]->Get_x()[i2] <=0)
+										|| (LogY && !Y2 && Curves[i]->Get_y()[i2] <=0)
+										|| (LogY2 && Y2 && Curves[i]->Get_y()[i2] <=0))
+										continue;
+									else
+										ip->Add(Curves[i]->Get_x()[i2], Curves[i]->Get_y()[i2] );
+								}
 							}
 						}
-					}
-					// Add points to curves ...
+						// Add points to curves ...
 
-					//size_t i, k;
-					//k = 0;
-					//for (i = 0; i < Curves.size(); i++) 
-					//{
-					//	if (Curves[i]->Get_x().size() == 0) continue;
-					//	curve =  (LineItem ^) zg1->GraphPane->CurveList[k++];
-					//	// Get the PointPairList
-					//	IPointListEdit  ^ip = (IPointListEdit^) curve->Points;
-					//	if ((size_t) ip->Count < Curves[i]->Get_x().size())
-					//	{
-					//		if (Curves[i]->Get_y_axis() == 2)
-					//			Y2 = true;
-					//		else
-					//			Y2 = false;
-					//		for ( size_t i2 = ip->Count; i2 < Curves[i]->Get_x().size(); i2++ )
-					//		{
-					//			if ((LogX && Curves[i]->Get_x()[i2] <=0)
-					//				|| (LogY && !Y2 && Curves[i]->Get_y()[i2] <=0)
-					//				|| (LogY2 && Y2 && Curves[i]->Get_y()[i2] <=0))
-					//				continue;
-					//			else
-					//				ip->Add(Curves[i]->Get_x()[i2], Curves[i]->Get_y()[i2] );
-					//		}
-					//	}
-					//}
-					/* explicitly reset the max in case of log scale, zedgraphs doesn't do this... */
-					if ((fabs(chart->Get_axis_scale_x()[1] - NA) < 1e-3) && zg1->GraphPane->XAxis->Type == AxisType::Log)
-					{
-						double max = -1e99;
-						for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+						//size_t i, k;
+						//k = 0;
+						//for (i = 0; i < Curves.size(); i++) 
+						//{
+						//	if (Curves[i]->Get_x().size() == 0) continue;
+						//	curve =  (LineItem ^) zg1->GraphPane->CurveList[k++];
+						//	// Get the PointPairList
+						//	IPointListEdit  ^ip = (IPointListEdit^) curve->Points;
+						//	if ((size_t) ip->Count < Curves[i]->Get_x().size())
+						//	{
+						//		if (Curves[i]->Get_y_axis() == 2)
+						//			Y2 = true;
+						//		else
+						//			Y2 = false;
+						//		for ( size_t i2 = ip->Count; i2 < Curves[i]->Get_x().size(); i2++ )
+						//		{
+						//			if ((LogX && Curves[i]->Get_x()[i2] <=0)
+						//				|| (LogY && !Y2 && Curves[i]->Get_y()[i2] <=0)
+						//				|| (LogY2 && Y2 && Curves[i]->Get_y()[i2] <=0))
+						//				continue;
+						//			else
+						//				ip->Add(Curves[i]->Get_x()[i2], Curves[i]->Get_y()[i2] );
+						//		}
+						//	}
+						//}
+						/* explicitly reset the max in case of log scale, zedgraphs doesn't do this... */
+						if ((fabs(chart->Get_axis_scale_x()[1] - NA) < 1e-3) && zg1->GraphPane->XAxis->Type == AxisType::Log)
 						{
-							if (Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1] > max)
-								max = Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1];
+							double max = -1e99;
+							for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+							{
+								if (Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1] > max)
+									max = Curves[i]->Get_x()[Curves[i]->Get_x().size() - 1];
+							}
+							max += pow(10.0, log10(max / 3));
+							zg1->GraphPane->XAxis->Scale->Max = max;
 						}
-						max += pow(10.0, log10(max / 3));
-						zg1->GraphPane->XAxis->Scale->Max = max;
-					}
-					if ((fabs(chart->Get_axis_scale_y()[1] - NA) < 1e-3) && zg1->GraphPane->YAxis->Type == AxisType::Log)
-					{
-						double max = -1e99;
-						for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+						if ((fabs(chart->Get_axis_scale_y()[1] - NA) < 1e-3) && zg1->GraphPane->YAxis->Type == AxisType::Log)
 						{
-							curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
-							if (curve->IsY2Axis) continue;
-							if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
-								max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+							double max = -1e99;
+							for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+							{
+								curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
+								if (curve->IsY2Axis) continue;
+								if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
+									max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+							}
+							max += pow(10.0, log10(max / 3));
+							zg1->GraphPane->YAxis->Scale->Max = max;
 						}
-						max += pow(10.0, log10(max / 3));
-						zg1->GraphPane->YAxis->Scale->Max = max;
-					}
-					if ((fabs(chart->Get_axis_scale_y2()[1] - NA) < 1e-3) && zg1->GraphPane->Y2Axis->Type == AxisType::Log)
-					{
-						double max = -1e99;
-						for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+						if ((fabs(chart->Get_axis_scale_y2()[1] - NA) < 1e-3) && zg1->GraphPane->Y2Axis->Type == AxisType::Log)
 						{
-							curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
-							if (!curve->IsY2Axis) continue;
-							if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
-								max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+							double max = -1e99;
+							for  (int i = 0; i < zg1->GraphPane->CurveList->Count; i++)
+							{
+								curve =  (LineItem ^) zg1->GraphPane->CurveList[i];
+								if (!curve->IsY2Axis) continue;
+								if (Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1] > max)
+									max = Curves[i]->Get_y()[Curves[i]->Get_y().size() - 1];
+							}
+							max += pow(10.0, log10(max / 3));
+							zg1->GraphPane->Y2Axis->Scale->Max = max;
 						}
-						max += pow(10.0, log10(max / 3));
-						zg1->GraphPane->Y2Axis->Scale->Max = max;
+						zg1->AxisChange();
+						zg1->Refresh();
 					}
-					zg1->AxisChange();
-					zg1->Refresh();
+
+					chart->Set_point_added(false);
+					if (chart->Get_end_timer())
+					{
+						timer1->Stop();
+						chart->Set_done(true);
+						phreeqc_done = true;
+
+						int batch = chart->Get_batch();
+						if (batch > 0)
+						{
+							BatchSaveImage();
+						}
+
+						//unlock thread before setting chartobject_ptr to NULL
+						System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+						this->phreeqc_ptr = NULL;
+						this->chartobject_ptr = NULL;
+						if (batch >= 0)
+						{
+							this->Close();
+						}
+						return;
+					}
 				}
-
-				chart->Set_point_added(false);
-				if (chart->Get_end_timer())
+				catch(...)
 				{
-					timer1->Stop();
-					chart->Set_done(true);
-					phreeqc_done = true;
-
-					int batch = chart->Get_batch();
-					if (batch > 0)
-					{
-						BatchSaveImage();
-					}
-
-					//unlock thread before setting chartobject_ptr to NULL
 					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
-					this->phreeqc_ptr = NULL;
-					this->chartobject_ptr = NULL;
-					if (batch >= 0)
-					{
-						this->Close();
-					}
-					return;
+					throw;
 				}
 
 				//unlock thread
