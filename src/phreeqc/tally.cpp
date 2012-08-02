@@ -811,11 +811,14 @@ elt_list_to_tally_table(struct tally_buffer *buffer_ptr)
 			continue;
 		for (i = 0; i < count_tally_table_rows; i++)
 		{
-			if (elt_list[j].elt->primary ==
-				buffer_ptr[i].master->elt->primary)
+			if (buffer_ptr[i].master != NULL)
 			{
-				buffer_ptr[i].moles = elt_list[j].coef;
-				break;
+				if (elt_list[j].elt->primary ==
+					buffer_ptr[i].master->elt->primary)
+				{
+					buffer_ptr[i].moles = elt_list[j].coef;
+					break;
+				}
 			}
 		}
 		if (i >= count_tally_table_rows)
