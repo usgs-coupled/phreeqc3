@@ -102,9 +102,9 @@ get_all_components(void)
 
 
 /*
- *   Count components + Alkalinity
+ *   Count components + Alkalinity + total_h + total_o
  */
-	tally_count_component = 1;
+	tally_count_component = 3;
 	for (i = 0; i < count_master; i++)
 	{
 		if (master[i]->total > 0.0 && master[i]->s->type == AQ)
@@ -128,6 +128,17 @@ get_all_components(void)
 	t_buffer[j].gfw = t_buffer[j].master->elt->gfw;
 	j++;		
 
+	// store total_h
+	t_buffer[j].name = string_hsave("Total_H");
+	t_buffer[j].master = NULL;
+	compute_gfw("H", &(t_buffer[j].gfw));
+	j++;
+
+	// store total_o
+	t_buffer[j].name = string_hsave("Total_O");
+	t_buffer[j].master = NULL;
+	compute_gfw("O", &(t_buffer[j].gfw));
+	j++;
 
 	for (i = 0; i < count_master; i++)
 	{
@@ -505,6 +516,12 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				
 				// Add alkalinity
 				tally_table[i].total[n_buffer][0].moles = solution_ptr->Get_total_alkalinity();
+
+				// Add total_h
+				tally_table[i].total[n_buffer][1].moles = solution_ptr->Get_total_h();
+
+				// Add total_o
+				tally_table[i].total[n_buffer][2].moles = solution_ptr->Get_total_o();
 			}
 			break;
 #ifdef SKIP
