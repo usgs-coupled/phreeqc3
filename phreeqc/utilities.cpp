@@ -116,6 +116,18 @@ calc_rho_0(LDBLE tc, LDBLE pa)
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
     */
+	if (tc > 350.)
+	{
+		if (need_temp_msg < 1)
+		{
+			std::ostringstream w_msg;
+			w_msg << "Fitting range for density of pure water is 0-300 C.\n";
+			w_msg << "Using temperature of 350 C for density and dielectric calculation.";
+			warning_msg(w_msg.str().c_str());
+			need_temp_msg++;
+		}
+		tc = 350.;
+	}
 	LDBLE T = tc + 273.15;
 	//eqn. 2.6...
 	LDBLE Tc = 647.096, th = 1 - T / Tc;
@@ -240,6 +252,10 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	              and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
 	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
     */
+	if (tc > 350.)
+	{
+		tc = 350.;
+	}
 	LDBLE T = tc + 273.15; 
     LDBLE u1 = 3.4279e2, u2 = -5.0866e-3, u3 = 9.469e-7, u4 = -2.0525,
 		u5 = 3.1159e3, u6 = -1.8289e2,  u7 = -8.0325e3, u8 = 4.2142e6,
@@ -1382,7 +1398,6 @@ status(int count, const char *str, bool rk_string)
 	char spin_str[2];
 	clock_t t2;
 
-
 #ifdef PHREEQ98
 	if (ProcessMessages)
 		ApplicationProcessMessages();
@@ -1396,6 +1411,7 @@ status(int count, const char *str, bool rk_string)
 	{
 		screen_string = sformatf("\n%-80s", "Initializing...");
 		screen_msg(screen_string.c_str());
+		status_on = true;
 		return (OK);
 	}
 	t2 = clock();
@@ -1424,6 +1440,7 @@ status(int count, const char *str, bool rk_string)
 				screen_string.append(str);
 				screen_msg(screen_string.c_str());
 			}
+			status_on = true;
 		}
 	case PHAST:
 		break;
@@ -1433,8 +1450,7 @@ status(int count, const char *str, bool rk_string)
 		{
 			screen_string = "\r";
 			screen_string.append(str);
-			screen_msg(screen_string.c_str());
-		}
+			screen_msg(screen_string.c_str());		}
 		else
 		// print state
 		{

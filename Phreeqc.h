@@ -1659,6 +1659,7 @@ protected:
 	LDBLE ZBrn; // Born function (-1/eps_r + 1) * 41.84004, for supcrt calc'n of molal volume
 	LDBLE dgdP; // dg / dP, pressure derivative of g-function, for supcrt calc'n of molal volume
 #endif
+	int need_temp_msg;
 	LDBLE solution_mass, solution_volume;
 
 	/* phqalloc.cpp ------------------------------- */
