@@ -703,6 +703,7 @@ initialize(void)
 	eps_r = EPSILON;
 #endif
 	rho_0 = 0;
+	need_temp_msg = 0;
 	solution_mass = 0;
 	solution_volume = 0;
 
