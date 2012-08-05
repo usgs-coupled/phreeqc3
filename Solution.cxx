@@ -644,6 +644,74 @@ cxxSolution::read_raw(CParser & parser, bool check)
 void
 cxxSolution::Update(const cxxNameDouble &const_nd)
 {
+	if (this->master_activity.size() > 0)
+	{
+		cxxNameDouble simple_original = this->totals.Simplify_redox();
+		cxxNameDouble simple_new = const_nd.Simplify_redox();
+
+		// make factors
+		{
+			cxxNameDouble::iterator it = simple_new.begin();
+			for ( ; it != simple_new.end(); it++)
+			{
+				cxxNameDouble::iterator jit = simple_original.find(it->first);
+				if (jit != simple_original.end())
+				{
+					if (it->second != 0 && jit->second > 0)
+					{
+						it->second = log10(jit->second / it->second);
+					}
+				}
+				else
+				{
+					it->second = 0;
+				}
+			}
+		}
+
+		// simple_new now has factors for master activities
+		// Now add factors to activities
+		{
+			cxxNameDouble::iterator activity_it = this->master_activity.begin();
+			cxxNameDouble::iterator total_it = simple_new.begin();
+			std::string activity_ename;
+			std::basic_string < char >::size_type indexCh;
+			while (activity_it != master_activity.end() && total_it != simple_new.end())
+			{
+				activity_ename = activity_it->first;
+				if (activity_ename.size() > 3)
+				{
+					indexCh = activity_ename.find("(");
+					if (indexCh != std::string::npos)
+					{
+						activity_ename = activity_ename.substr(0, indexCh);
+					}
+				}
+				int j = strcmp(total_it->first.c_str(), activity_ename.c_str());
+				if (j < 0)
+				{
+					total_it++;
+				}
+				else if (j == 0)
+				{
+					if (total_it->second > 0)
+					{
+						activity_it->second += total_it->second;
+					}
+					activity_it++;
+				}
+				else 
+				{
+					activity_it++;
+				}
+			}
+		}
+	}
+}
+#ifdef SKIP
+void
+cxxSolution::Update(const cxxNameDouble &const_nd)
+{
 	// const_nd is updated totals
 	cxxNameDouble simple_original_totals = this->totals.Simplify_redox();
 	cxxNameDouble original_activities(this->master_activity);
@@ -677,6 +745,7 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 
 	return;
 }
+#endif
 void
 cxxSolution::zero()
 {

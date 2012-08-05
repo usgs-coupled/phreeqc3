@@ -34,7 +34,7 @@ class cxxNameDouble:public
 	 ~cxxNameDouble();
 
 	LDBLE Get_total_element(const char *string) const;
-	cxxNameDouble Simplify_redox(void);
+	cxxNameDouble Simplify_redox(void) const;
 	void Multiply_activities_redox(std::string, LDBLE f);
 
 	void dump_xml(std::ostream & s_oss, unsigned int indent) const;
