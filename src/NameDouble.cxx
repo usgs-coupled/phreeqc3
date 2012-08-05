@@ -289,6 +289,85 @@ cxxNameDouble::add_log_activities(const cxxNameDouble & addee, LDBLE f1,
 	}
 }
 cxxNameDouble 
+cxxNameDouble::Simplify_redox(void) const
+{
+	cxxNameDouble const &nd = *this;
+	std::basic_string < char >::size_type indexCh;
+	cxxNameDouble new_totals;
+	new_totals.type = cxxNameDouble::ND_ELT_MOLES;
+	{
+		std::string current_ename;
+		cxxNameDouble::const_iterator it;
+
+		// make list of elements in new_totals
+		for (it = nd.begin(); it != nd.end(); ++it)
+		{
+			current_ename = it->first;
+			if (it->first.size() < 4)
+			{
+				current_ename = it->first;
+			}
+			else
+			{
+				indexCh = current_ename.find("(");
+				if (indexCh != std::string::npos)
+				{
+					current_ename = current_ename.substr(0, indexCh);
+				}
+				else
+				{
+					current_ename = it->first;
+				}
+			}
+			if (current_ename == "H" || current_ename == "O" || current_ename == "Charge")
+				continue;
+			new_totals[current_ename] = 0;
+		}
+	}
+
+	// sum totals for elements
+	{
+		cxxNameDouble::const_iterator old_it = nd.begin();
+		cxxNameDouble::iterator new_it = new_totals.begin();
+		std::string old_ename;
+		while (old_it != nd.end() && new_it != new_totals.end())
+		{
+			if (old_it->first.size() < 4)
+			{
+				old_ename = old_it->first;
+			}
+			else
+			{
+				indexCh = old_it->first.find("(");
+				if (indexCh != std::string::npos)
+				{
+					old_ename = old_ename.substr(0, indexCh);
+				}
+				else
+				{
+					old_ename = old_it->first;
+				}
+			}
+			int j = strcmp(new_it->first.c_str(), old_ename.c_str());
+			if (j < 0)
+			{
+				new_it++;
+			}
+			else if (j == 0)
+			{
+				new_it->second += old_it->second;
+				old_it++;
+			}
+			else 
+			{
+				old_it++;
+			}
+		}
+	}
+	return new_totals;
+}
+#ifdef SKIP
+cxxNameDouble 
 cxxNameDouble::Simplify_redox(void)
 {
 	// remove individual redox states from totals
@@ -318,6 +397,7 @@ cxxNameDouble::Simplify_redox(void)
 	}
 	return new_totals;
 }
+#endif
 void 
 cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
 {
