@@ -642,41 +642,62 @@ cxxSolution::read_raw(CParser & parser, bool check)
 	return;
 }
 void
+cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble &const_nd)
+{
+	// H, O, charge, totals, and activities of solution are updated
+	this->total_h = h_tot;
+	this->total_o = o_tot;
+	this->cb = charge;
+
+	this->Update(const_nd);
+}
+void
 cxxSolution::Update(const cxxNameDouble &const_nd)
 {
-	if (this->master_activity.size() > 0)
-	{
-		cxxNameDouble simple_original = this->totals.Simplify_redox();
-		cxxNameDouble simple_new = const_nd.Simplify_redox();
+	// Totals and activities of solution are updated
+	// nd does not have H, O, charge
+	cxxNameDouble simple_original = this->totals.Simplify_redox();
+	cxxNameDouble simple_new = const_nd.Simplify_redox();
 
-		// make factors
+	// make factors 
+	cxxNameDouble factors;
+	{
+		cxxNameDouble::iterator it = simple_new.begin();
+		cxxNameDouble::iterator jit = simple_original.begin();
+		while (it != simple_new.end() && jit != simple_original.end())
 		{
-			cxxNameDouble::iterator it = simple_new.begin();
-			for ( ; it != simple_new.end(); it++)
+			int j = strcmp(it->first.c_str(), jit->first.c_str());
+			if (j < 0)
 			{
-				cxxNameDouble::iterator jit = simple_original.find(it->first);
-				if (jit != simple_original.end())
+				it++;
+			}
+			else if (j == 0)
+			{
+				if (jit->second != it->second)
 				{
-					if (it->second != 0 && jit->second > 0)
+					if (it->second > 0 && jit->second > 0)
 					{
-						it->second = log10(jit->second / it->second);
+						factors[it->first] = log10(jit->second / it->second);
 					}
 				}
-				else
-				{
-					it->second = 0;
-				}
+				it++;
+				jit++;
+			}
+			else
+			{
+				jit++;
 			}
 		}
+
 
 		// simple_new now has factors for master activities
 		// Now add factors to activities
 		{
 			cxxNameDouble::iterator activity_it = this->master_activity.begin();
-			cxxNameDouble::iterator total_it = simple_new.begin();
+			cxxNameDouble::iterator factors_it = factors.begin();
 			std::string activity_ename;
 			std::basic_string < char >::size_type indexCh;
-			while (activity_it != master_activity.end() && total_it != simple_new.end())
+			while (activity_it != master_activity.end() && factors_it != factors.end())
 			{
 				activity_ename = activity_it->first;
 				if (activity_ename.size() > 3)
@@ -687,17 +708,14 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 						activity_ename = activity_ename.substr(0, indexCh);
 					}
 				}
-				int j = strcmp(total_it->first.c_str(), activity_ename.c_str());
+				int j = strcmp(factors_it->first.c_str(), activity_ename.c_str());
 				if (j < 0)
 				{
-					total_it++;
+					factors_it++;
 				}
 				else if (j == 0)
 				{
-					if (total_it->second > 0)
-					{
-						activity_it->second += total_it->second;
-					}
+					activity_it->second += factors_it->second;
 					activity_it++;
 				}
 				else 
@@ -705,6 +723,15 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 					activity_it++;
 				}
 			}
+		}
+	}
+
+	// update other totals
+	{
+		cxxNameDouble::iterator it;
+		for (it = simple_new.begin(); it  != simple_new.end(); it++)
+		{
+			simple_original[it->first] = it->second;
 		}
 	}
 }
