@@ -104,7 +104,7 @@ class cxxSolution:public cxxNumKeyword
 	//void Simplify_totals();
 	void Update(const cxxNameDouble &nd);
 	void Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble &nd);
-	void Update_activities(const cxxNameDouble &old_tot, const cxxNameDouble &new_tot);
+	void Update_activities(const cxxNameDouble &original_tot);
 
 #ifdef USE_MPI
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
