@@ -288,6 +288,350 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 
 	return;
 }
+
+#ifdef USE_REVISED_READ_RAW
+void
+cxxSolution::read_raw(CParser & parser, bool check)
+{
+
+	// Used if it is modify
+	cxxNameDouble original_totals = this->totals;
+	cxxNameDouble original_activities(this->master_activity);
+
+	this->master_activity.clear();
+
+	std::istream::pos_type ptr;
+	std::istream::pos_type next_char;
+	std::string token;
+	int opt_save;
+
+	// Read solution number and description
+	this->read_number_description(parser.line());
+
+	opt_save = CParser::OPT_ERROR;
+	bool tc_defined(false);
+	bool ph_defined(false);
+	bool pe_defined(false);
+	bool mu_defined(false);
+	bool ah2o_defined(false);
+	bool total_h_defined(false);
+	bool total_o_defined(false);
+	bool cb_defined(false);
+	bool mass_water_defined(false);
+	bool total_alkalinity_defined(false);
+
+	for (;;)
+	{
+		int opt = parser.get_option(vopts, next_char);
+		if (opt == CParser::OPT_DEFAULT)
+		{
+			opt = opt_save;
+		}
+
+		switch (opt)
+		{
+		case CParser::OPT_EOF:
+			break;
+		case CParser::OPT_KEYWORD:
+			break;
+		case CParser::OPT_DEFAULT:
+		case CParser::OPT_ERROR:
+			opt = CParser::OPT_EOF;
+			parser.error_msg("Unknown input in SOLUTION_RAW keyword.",
+							 PHRQ_io::OT_CONTINUE);
+			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
+			continue;
+
+		case 0:				// totals
+			{
+				cxxNameDouble temp_totals;
+				if (temp_totals.read_raw(parser, next_char) !=	CParser::PARSER_OK)
+				{
+					parser.incr_input_error();
+					parser.
+						error_msg("Expected element name and moles for totals.",
+						PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					this->totals.merge_redox(temp_totals);
+				}
+			}
+			opt_save = 0;
+			break;
+
+		case 1:				// activities
+			if (this->master_activity.read_raw(parser, next_char) !=
+				CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected species name and log activity for activities.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 1;
+			break;
+
+		case 2:				// gammas
+			if (this->species_gamma.read_raw(parser, next_char) !=
+				CParser::PARSER_OK)
+			{
+				parser.incr_input_error();
+				parser.
+					error_msg
+					("Expected species name and activity coefficient for gammas.",
+					 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = 2;
+			break;
+
+		case 3:				// isotope
+			{
+				std::string name;
+				if (!(parser.get_iss() >> name))
+				{
+					parser.incr_input_error();
+					parser.error_msg("Expected character value for isotope name.",
+									 PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					cxxSolutionIsotope iso(this->Get_io());
+					iso.Set_isotope_name(name.c_str());
+					iso.read_raw(parser, check);
+					this->isotopes[name] = iso;
+				}
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 4:				// temp
+		case 5:				// tc_avoid_conflict_with_technetium
+		case 6:				// temperature                  
+			if (!(parser.get_iss() >> this->tc))
+			{
+				this->tc = 25.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for temperature.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			tc_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 7:				// ph
+			if (!(parser.get_iss() >> this->ph))
+			{
+				this->ph = 7.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for pH.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			ph_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 8:				// pe
+			if (!(parser.get_iss() >> this->pe))
+			{
+				this->pe = 4.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for pe.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			pe_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 9:				// mu
+		case 10:				// ionic_strength
+			if (!(parser.get_iss() >> this->mu))
+			{
+				this->mu = 1e-7;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for ionic strength.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			mu_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 11:				// ah2o
+		case 12:				// activity_water
+			if (!(parser.get_iss() >> this->ah2o))
+			{
+				this->ah2o = 1.0;
+				parser.incr_input_error();
+				parser.
+					error_msg("Expected numeric value for activity of water.",
+							  PHRQ_io::OT_CONTINUE);
+			}
+			ah2o_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 13:				// total_h
+			if (!(parser.get_iss() >> this->total_h))
+			{
+				this->total_h = 111.1;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for total hydrogen.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			total_h_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 14:				// total_o
+			if (!(parser.get_iss() >> this->total_o))
+			{
+				this->total_o = 55.55;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for total oxygen.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			total_o_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 15:				// mass_water
+		case 16:				// mass_h2o
+			if (!(parser.get_iss() >> this->mass_water))
+			{
+				this->mass_water = 1.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for mass of water.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			mass_water_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 17:				// total_alkalinity
+		case 18:				// total_alk
+			if (!(parser.get_iss() >> this->total_alkalinity))
+			{
+				this->total_alkalinity = 0;
+				parser.incr_input_error();
+				parser.
+					error_msg("Expected numeric value for total_alkalinity.",
+							  PHRQ_io::OT_CONTINUE);
+			}
+			total_alkalinity_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
+		case 19:				// cb
+		case 20:				// charge_balance
+			if (!(parser.get_iss() >> this->cb))
+			{
+				this->cb = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for charge balance.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			cb_defined = true;
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+		case 21:				// density
+			if (!(parser.get_iss() >> this->density))
+			{
+				this->density = 1.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for density.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+		}
+
+		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
+			break;
+	}
+	if (check)
+	{
+		// all members must be defined
+		if (tc_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Temp not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (ph_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("pH not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (pe_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("pe not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (mu_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Ionic strength not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (ah2o_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Activity of water not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (total_h_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Total hydrogen not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (total_o_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Total oxygen not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (cb_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Charge balance not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (mass_water_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Temp not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (total_alkalinity_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg("Total alkalinity not defined for SOLUTION_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+	}
+
+	// Update activities
+	
+	if (original_activities.size() > 0)
+	{
+		cxxNameDouble new_activities = this->master_activity;
+		this->master_activity = original_activities;
+		this->Update_activities(original_totals);
+		cxxNameDouble::iterator it = new_activities.begin();
+		for ( ; it != new_activities.end(); it++)
+		{
+			this->master_activity[it->first] = it->second;
+		}
+	}
+	return;
+}
+#endif
 void
 cxxSolution::read_raw(CParser & parser, bool check)
 {
@@ -641,6 +985,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 
 	return;
 }
+
 void
 cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble &const_nd)
 {
@@ -652,12 +997,13 @@ cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble 
 	this->Update(const_nd);
 }
 void
-cxxSolution::Update(const cxxNameDouble &const_nd)
+cxxSolution::Update_activities(const cxxNameDouble &original_tot)
 {
 	// Totals and activities of solution are updated
 	// nd does not have H, O, charge
-	cxxNameDouble simple_original = this->totals.Simplify_redox();
-	cxxNameDouble simple_new = const_nd.Simplify_redox();
+	cxxNameDouble simple_original = original_tot.Simplify_redox();
+	// totals after read
+	cxxNameDouble simple_new = this->totals.Simplify_redox();
 
 	// make factors 
 	cxxNameDouble factors;
@@ -725,15 +1071,84 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 			}
 		}
 	}
+}
+void
+cxxSolution::Update(const cxxNameDouble &const_nd)
+{
+	// const_nd is a list of new totals, assumed to be inclusive of all elements
+	// Totals and activities of solution are updated
+	// nd does not have H, O, charge
+	cxxNameDouble simple_original = this->totals.Simplify_redox();
+	cxxNameDouble simple_new = const_nd.Simplify_redox();
 
-	// update other totals
+	cxxNameDouble factors;
 	{
-		cxxNameDouble::iterator it;
-		for (it = simple_new.begin(); it  != simple_new.end(); it++)
+		// make factors 
+		cxxNameDouble::iterator it = simple_new.begin();
+		cxxNameDouble::iterator jit = simple_original.begin();
+		while (it != simple_new.end() && jit != simple_original.end())
 		{
-			simple_original[it->first] = it->second;
+			int j = strcmp(it->first.c_str(), jit->first.c_str());
+			if (j < 0)
+			{
+				it++;
+			}
+			else if (j == 0)
+			{
+				if (jit->second != it->second)
+				{
+					if (it->second > 0 && jit->second > 0)
+					{
+						factors[it->first] = log10(jit->second / it->second);
+					}
+				}
+				it++;
+				jit++;
+			}
+			else
+			{
+				jit++;
+			}
+		}
+
+		// simple_new now has factors for master activities
+		// Now add log factors to log activities
+		{
+			cxxNameDouble::iterator activity_it = this->master_activity.begin();
+			cxxNameDouble::iterator factors_it = factors.begin();
+			std::string activity_ename;
+			std::basic_string < char >::size_type indexCh;
+			while (activity_it != master_activity.end() && factors_it != factors.end())
+			{
+				activity_ename = activity_it->first;
+				if (activity_ename.size() > 3)
+				{
+					indexCh = activity_ename.find("(");
+					if (indexCh != std::string::npos)
+					{
+						activity_ename = activity_ename.substr(0, indexCh);
+					}
+				}
+				int j = strcmp(factors_it->first.c_str(), activity_ename.c_str());
+				if (j < 0)
+				{
+					factors_it++;
+				}
+				else if (j == 0)
+				{
+					activity_it->second += factors_it->second;
+					activity_it++;
+				}
+				else 
+				{
+					activity_it++;
+				}
+			}
 		}
 	}
+
+	// update totals
+	this->totals = simple_new;
 }
 #ifdef SKIP
 void

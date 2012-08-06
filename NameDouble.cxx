@@ -297,6 +297,7 @@ cxxNameDouble::Simplify_redox(void) const
 	new_totals.type = cxxNameDouble::ND_ELT_MOLES;
 	{
 		std::string current_ename;
+		std::string const *ename_ptr;
 		cxxNameDouble::const_iterator it;
 
 		// make list of elements in new_totals
@@ -305,23 +306,24 @@ cxxNameDouble::Simplify_redox(void) const
 			current_ename = it->first;
 			if (it->first.size() < 4)
 			{
-				current_ename = it->first;
+				ename_ptr = &(it->first);
 			}
 			else
 			{
-				indexCh = current_ename.find("(");
+				indexCh = it->first.find("(");
 				if (indexCh != std::string::npos)
 				{
-					current_ename = current_ename.substr(0, indexCh);
+					current_ename = it->first.substr(0, indexCh);
+					ename_ptr = &(current_ename);
 				}
 				else
 				{
-					current_ename = it->first;
+					ename_ptr = &(it->first);
 				}
 			}
 			if (current_ename == "H" || current_ename == "O" || current_ename == "Charge")
 				continue;
-			new_totals[current_ename] = 0;
+			new_totals[*ename_ptr] = 0;
 		}
 	}
 
@@ -330,25 +332,27 @@ cxxNameDouble::Simplify_redox(void) const
 		cxxNameDouble::const_iterator old_it = nd.begin();
 		cxxNameDouble::iterator new_it = new_totals.begin();
 		std::string old_ename;
+		std::string const *old_ename_ptr;
 		while (old_it != nd.end() && new_it != new_totals.end())
 		{
 			if (old_it->first.size() < 4)
 			{
-				old_ename = old_it->first;
+				old_ename_ptr = &old_it->first;
 			}
 			else
 			{
 				indexCh = old_it->first.find("(");
 				if (indexCh != std::string::npos)
 				{
-					old_ename = old_ename.substr(0, indexCh);
+					old_ename = old_it->first.substr(0, indexCh);
+					old_ename_ptr = &old_ename;
 				}
 				else
 				{
-					old_ename = old_it->first;
+					old_ename_ptr = &old_it->first;
 				}
 			}
-			int j = strcmp(new_it->first.c_str(), old_ename.c_str());
+			int j = strcmp(new_it->first.c_str(), old_ename_ptr->c_str());
 			if (j < 0)
 			{
 				new_it++;
@@ -409,6 +413,35 @@ cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
 
 	for (it = this->begin(); it != this->end(); it++)
 	{
+		if (str[0] > it->first[0]) continue;
+		if (it->first == str)
+		{
+			// Found exact match
+			it->second += lg_f;
+		}
+		else 
+		{
+			// no exact match, current is element name, need to find all valences
+			if (strstr(it->first.c_str(), redox_name.c_str()) == it->first.c_str())
+			{
+				it->second += lg_f;
+			}
+		}
+		if (str[0] < it->first[0]) break;
+	}
+}
+#ifdef SKIP
+void 
+cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
+{
+	// update original master_activities using just computed factors
+	cxxNameDouble::iterator it;
+	LDBLE lg_f = log10(f);
+	std::string redox_name = str;
+	redox_name.append("(");
+
+	for (it = this->begin(); it != this->end(); it++)
+	{
 		if (it->first == str)
 		{
 			// Found exact match
@@ -424,6 +457,7 @@ cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
 		}
 	}
 }
+#endif
 LDBLE
 cxxNameDouble::Get_total_element(const char *string) const
 {
@@ -539,7 +573,6 @@ cxxNameDouble::merge_redox(const cxxNameDouble & source)
 			// Put in elt name
 			(*this)[elt_name] = sit->second;
 		}
-
 	}
 }
 struct DblCmp {     
