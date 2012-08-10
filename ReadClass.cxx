@@ -456,6 +456,217 @@ delete_entities(void)
 	delete_info.SetAll(false);
 	return (OK);
 }
+#ifdef USE_OPTIMIZED_BUT_NOT_MUCH
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+run_as_cells(void)
+/* ---------------------------------------------------------------------- */
+{
+	struct save save_data;
+	LDBLE kin_time;
+	int count_steps, use_mix;
+	char token[2 * MAX_LENGTH];
+
+	state = REACTION;
+	if (run_info.Get_cells().Get_numbers().size() == 0 ||
+		!(run_info.Get_cells().Get_defined())) return(OK);
+
+	// running cells
+	run_info.Set_run_cells(true);
+
+	dup_print("Beginning of run as cells.", TRUE);
+	LDBLE initial_total_time_save;
+	if (run_info.Get_start_time() != NA)
+	{
+		initial_total_time_save = run_info.Get_start_time();
+	}
+	else
+	{
+		initial_total_time_save = initial_total_time;
+	}
+
+	std::set < int >::iterator it = run_info.Get_cells().Get_numbers().begin();
+
+	for ( ; it != run_info.Get_cells().Get_numbers().end(); it++)
+	{
+		int i = *it;
+		if (i < 0) continue;
+		initial_total_time = initial_total_time_save;
+		cxxKinetics *kinetics_ptr = NULL;
+/*
+ *   Run reaction step
+ */
+		/*
+		*   Find maximum number of steps
+		*/
+		dup_print("Beginning of batch-reaction calculations.", TRUE);
+		count_steps = 1;
+		if (cxxReaction *rxn_ptr = Utilities::Rxn_find(Rxn_reaction_map, i))
+		{
+			int count = rxn_ptr->Get_reaction_steps();
+			if (count > count_steps)
+				count_steps = count;
+		}
+		if (cxxKinetics *rxn_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i))
+		{
+			kinetics_ptr = rxn_ptr;
+			if (rxn_ptr->Get_reaction_steps() > count_steps)
+				count_steps = rxn_ptr->Get_reaction_steps();
+		}
+		if (cxxTemperature *rxn_ptr = Utilities::Rxn_find(Rxn_temperature_map, i))
+		{
+			int count = rxn_ptr->Get_countTemps();
+			if (count > count_steps)
+			{
+				count_steps = count;
+			}
+		}
+		if (cxxPressure *rxn_ptr = Utilities::Rxn_find(Rxn_pressure_map, i))
+		{
+			int count = rxn_ptr->Get_count();
+			if (count > count_steps)
+			{
+				count_steps = count;
+			}
+		}
+		count_total_steps = count_steps;
+		if (count_steps > 1)
+		{
+			state = ADVECTION;
+			set_advection(i, TRUE, TRUE, i);
+			/*
+			*  save data for saving solutions
+			*/
+			memcpy(&save_data, &save, sizeof(struct save));
+			/* 
+			*Copy everything to -2
+			*/
+			copy_use(-2);
+			rate_sim_time_start = 0;
+			rate_sim_time = 0;
+			for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
+			{
+				sprintf(token, "Reaction step %d.", reaction_step);
+				if (reaction_step > 1 && incremental_reactions == FALSE)
+				{
+					copy_use(-2);
+				}
+				set_initial_moles(-2);
+				dup_print(token, FALSE);
+				/*
+				*  Determine time step for kinetics
+				*/
+				kin_time = 0.0;
+				if (use.Get_kinetics_in() == TRUE)
+				{
+					// runner kin_time
+					// equivalent to kin_time in count_steps
+					if (run_info.Get_time_step() != NA)
+					{
+						if (incremental_reactions == FALSE)
+						{
+							/* not incremental reactions */
+							kin_time = reaction_step * run_info.Get_time_step() / ((LDBLE) count_steps);
+						}
+						else
+						{
+							/* incremental reactions */
+							kin_time = run_info.Get_time_step() / ((LDBLE) count_steps);
+						}
+					}
+					// runner kin_time not defined
+					else
+					{
+						cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
+						kin_time = kinetics_ptr->Current_step((incremental_reactions==TRUE), reaction_step);
+					}
+				}
+				if (incremental_reactions == FALSE ||
+					(incremental_reactions == TRUE && reaction_step == 1))
+				{
+					use_mix = TRUE;
+				}
+				else
+				{
+					use_mix = FALSE;
+				}
+				/*
+				*   Run reaction step
+				*/
+				run_reactions(-2, kin_time, use_mix, 1.0);
+				if (incremental_reactions == TRUE)
+				{
+					rate_sim_time_start += kin_time;
+					rate_sim_time = rate_sim_time_start;
+				}
+				else
+				{
+					rate_sim_time = kin_time;
+				}
+				punch_all();
+				print_all();
+				/* saves back into -2 */
+				if (reaction_step < count_steps)
+				{
+					saver();
+				}
+			}
+			/*
+			*   save end of reaction
+			*/
+			memcpy(&save, &save_data, sizeof(struct save));
+			if (use.Get_kinetics_in() == TRUE)
+			{
+				Utilities::Rxn_copy(Rxn_kinetics_map, -2, use.Get_n_kinetics_user());
+			}
+			saver();
+		}
+		else
+			// only 1 step, no worries about incremental reactions
+		{
+			state = TRANSPORT;
+
+			rate_sim_time_start = 0;
+			rate_sim_time = 0;
+			reaction_step = 1;
+
+			sprintf(token, "Reaction step %d.", reaction_step);
+
+			dup_print(token, FALSE);
+			/*
+			*  Determine time step for kinetics
+			*/
+			kin_time = 0.0;
+			if (kinetics_ptr)
+			{
+				// runner kin_time
+				// equivalent to kin_time in count_steps
+				if (run_info.Get_time_step() != NA)
+				{
+					kin_time = run_info.Get_time_step();
+				}
+				// runner kin_time not defined
+				else
+				{
+					kin_time = kinetics_ptr->Get_steps()[0];
+				}
+			}
+			/*
+			*   Run reaction step
+			*/
+			use_mix = TRUE;
+			run_reactions(i, kin_time, use_mix, 1.0);
+			rate_sim_time = kin_time;
+			saver();
+		}
+	}
+	initial_total_time += rate_sim_time;
+	run_info.Get_cells().Set_defined(false);
+	// not running cells
+	run_info.Set_run_cells(false);
+	return (OK);
+}
+#else
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 run_as_cells(void)
@@ -624,6 +835,7 @@ run_as_cells(void)
 	run_info.Set_run_cells(false);
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 dump_ostream(std::ostream& os)
