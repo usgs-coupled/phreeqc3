@@ -59,10 +59,10 @@ get_forward_output_to_log(void)
 	return forward_output_to_log;
 }
 
-#if defined(HDF5_CREATE)
-extern void HDFWriteHyperSlabV(const char *name, const char *format,
-							   va_list argptr);
-#endif
+//#if defined(HDF5_CREATE)
+//extern void HDFWriteHyperSlabV(const char *name, const char *format,
+//							   va_list argptr);
+//#endif
 
 void Phreeqc::
 fpunchf_heading(const char *name)
