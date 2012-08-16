@@ -994,7 +994,9 @@ cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble 
 	this->total_o = o_tot;
 	this->cb = charge;
 
-	this->Update(const_nd);
+	// Don't bother to update activities?
+	//this->Update(const_nd);
+	this->totals = const_nd;
 }
 void
 cxxSolution::Update_activities(const cxxNameDouble &original_tot)
@@ -1099,7 +1101,7 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 				{
 					if (it->second > 0 && jit->second > 0)
 					{
-						factors[it->first] = log10(jit->second / it->second);
+						factors[it->first] = log10(it->second / jit->second);
 					}
 				}
 				it++;
@@ -1110,7 +1112,6 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 				jit++;
 			}
 		}
-
 		// simple_new now has factors for master activities
 		// Now add log factors to log activities
 		{
@@ -1121,6 +1122,16 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 			while (activity_it != master_activity.end() && factors_it != factors.end())
 			{
 				activity_ename = activity_it->first;
+				if (factors_it->first[0] < activity_ename[0])
+				{
+					factors_it++;
+					continue;
+				}
+				else if (factors_it->first[0] > activity_ename[0])
+				{
+					activity_it++;
+					continue;
+				}
 				if (activity_ename.size() > 3)
 				{
 					indexCh = activity_ename.find("(");
