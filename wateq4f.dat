@@ -92,6 +92,7 @@ SOLUTION_SPECIES
 #Al+3 primary master species
         Al+3 = Al+3
         log_k           0.0
+        -gamma  9.0     0.0 
 
 #H3AsO4 primary master species
         H3AsO4 = H3AsO4
@@ -104,6 +105,7 @@ SOLUTION_SPECIES
 #Ba+2 primary master species
         Ba+2 = Ba+2
         log_k           0.0
+        -gamma  5.0     0.0 
 
 #Br- primary master species
         Br- = Br-
@@ -135,15 +137,18 @@ SOLUTION_SPECIES
 #Cu+2 primary master species
         Cu+2 = Cu+2
         log_k           0.0
+        -gamma  6.0     0.0
 
 #F- primary master species
         F- = F-
         log_k           0.0
+        -gamma  3.5     0.0 
 
 #Fe+2 primary master species
         Fe+2 = Fe+2
         log_k           0.0
-
+        -gamma  6.0     0.0
+        
 #Fulvate-2 primary master species
         Fulvate-2 = Fulvate-2
         log_k           0.0
@@ -164,6 +169,7 @@ SOLUTION_SPECIES
 #Li+ primary master species
         Li+ = Li+
         log_k           0.0
+        -gamma  6.0     0.0 
 
 #Mg+2 primary master species
         Mg+2 = Mg+2
@@ -173,10 +179,12 @@ SOLUTION_SPECIES
 #Mn+2 primary master species
         Mn+2 = Mn+2
         log_k           0.0
+        -gamma  6.0     0.0
 
 #NO3- primary master species
         NO3- = NO3-
         log_k           0.0
+        -gamma  3.0     0.0 
 
 #Na+ primary master species
         Na+ = Na+
@@ -190,6 +198,7 @@ SOLUTION_SPECIES
 #PO4-3 primary master species
         PO4-3 = PO4-3
         log_k           0.0
+        -gamma  5.0     0.0 
 
 #Pb+2 primary master species
         Pb+2 = Pb+2
@@ -224,36 +233,43 @@ SOLUTION_SPECIES
 #Zn+2 primary master species
         Zn+2 = Zn+2
         log_k           0.0
+        -gamma  6.0     0.0
 
 #Fe+3 secondary master species  0
         Fe+2 = Fe+3 + e- 
         log_k           -13.020
         delta_h 9.680 kcal
+        -gamma  9.0     0.0
 
 #FeOH+2              1
         Fe+3 + H2O = FeOH+2 + H+ 
         log_k           -2.19
         delta_h 10.4 kcal
+        -gamma  5.0     0.0        
 
 #FeOH+               2
         Fe+2 + H2O = FeOH+ + H+ 
         log_k           -9.5
         delta_h 13.2 kcal
+        -gamma  5.0     0.0   
 
 #Fe(OH)3-            3
         Fe+2 + 3H2O = Fe(OH)3- + 3H+ 
         log_k           -31.0
         delta_h 30.3 kcal
+        -gamma  5.0     0.0   
 
 #FeSO4+              4
         Fe+3 + SO4-2 = FeSO4+ 
         log_k           4.04
         delta_h 3.91 kcal
+        -gamma  5.0     0.0 
 
 #FeCl+2              5
         Fe+3 + Cl- = FeCl+2 
         log_k           1.48
         delta_h 5.6 kcal
+        -gamma  5.0     0.0 
 
 #FeCl2+              6
         Fe+3 + 2Cl- = FeCl2+ 
@@ -273,27 +289,32 @@ SOLUTION_SPECIES
         log_k           -9.83
         delta_h 6.12 kcal
         -analytical     -302.3724       -0.050698       15669.69        108.18466       -1119669.0
+        -gamma  4.0     0.0 
 
 #H2SiO4-2            14
         H4SiO4 = H2SiO4-2 + 2H+
         log_k           -23.0
         delta_h 17.6 kcal
         -analytical -294.0184   -0.07265        11204.49        108.18466       -1119669.0
+        -gamma  5.4     0.0 
 
 #HPO4-2              15
         H+ + PO4-3 = HPO4-2
         log_k           12.346
         delta_h -3.53 kcal
+        -gamma  5.0     0.0 
 
 #H2PO4-              16
         2H+ + PO4-3 = H2PO4-
         log_k           19.553
         delta_h -4.52 kcal
+        -gamma  5.4     0.0 
 
 #MgF+                22
         Mg+2 + F- = MgF+ 
         log_k           1.82
         delta_h 3.2 kcal
+        -gamma  4.5     0.0 
 
 #CaSO4               23
         Ca+2 + SO4-2 = CaSO4 
@@ -304,26 +325,31 @@ SOLUTION_SPECIES
         Mg+2 + H2O = MgOH+ + H+ 
         log_k           -11.44
         delta_h 15.952 kcal
+        -gamma  6.5     0.0 
 
 #H3BO3               25
         H3BO3 = H2BO3- + H+
         log_k           -9.24
         delta_h 3.224 kcal
 #       -analytical 24.3919    0.012078   -1343.9    -13.2258
+        -gamma  2.5     0.0 
 
 #NH3                 26
         NH4+ = NH3 + H+ 
         log_k           -9.252
         delta_h 12.48 kcal
         -analytic    0.6322    -0.001225    -2835.76
+        -gamma  2.5     0.0 
 
 #NaHPO4-             30
         Na+ + HPO4-2 = NaHPO4-
         log_k           0.29
+        -gamma  5.4     0.0 
 
 #KHPO4-              32
         K+ + HPO4-2 = KHPO4-
         log_k           0.29
+        -gamma  5.4     0.0 
 
 #MgHPO4              33
         Mg+2 + HPO4-2 = MgHPO4 
@@ -363,6 +389,7 @@ SOLUTION_SPECIES
         Na+ + CO3-2 = NaCO3- 
         log_k           1.27
         delta_h 8.91 kcal
+        -gamma  5.4     0.0 
 
 #NaHCO3              70
         Na+ + HCO3- = NaHCO3 
@@ -372,12 +399,14 @@ SOLUTION_SPECIES
         Na+ + SO4-2 = NaSO4-
         log_k           0.7
         delta_h 1.12 kcal
+        -gamma  5.4     0.0 
 
 #KSO4-               72
         K+ + SO4-2 = KSO4-
         log_k           0.85
         delta_h 2.25 kcal
         -analytical      3.106  0.0   -673.6
+        -gamma  5.4     0.0 
 
 #MgCO3               73
         Mg+2 + CO3-2 = MgCO3 
@@ -390,6 +419,7 @@ SOLUTION_SPECIES
         log_k           1.07
         delta_h 0.79 kcal
         -analytical     -59.215         0.0     2537.455        20.92298        0.0
+        -gamma  4.0     0.0 
 
 #MgSO4               75
         Mg+2 + SO4-2 = MgSO4 
@@ -399,12 +429,14 @@ SOLUTION_SPECIES
 #CaOH+               76
         Ca+2 + H2O = CaOH+ + H+ 
         log_k           -12.78
+        -gamma  6.0     0.0 
 
 #CaHCO3+             77
         Ca+2 + HCO3- = CaHCO3+
         log_k           1.106
         delta_h 2.69 kcal
         -analytical     1209.12         0.31294         -34765.05       -478.782        0.0
+        -gamma  6.0     0.0 
 
 #CaCO3               78
         Ca+2 + CO3-2 = CaCO3 
@@ -424,12 +456,14 @@ SOLUTION_SPECIES
         log_k           -5.0
         delta_h 11.49 kcal
         -analytical     -38.253         0.0     -656.27         14.327  0.0
+        -gamma  5.4     0.0 
 
 #Al(OH)2+            81
         Al+3 + 2H2O = Al(OH)2+ + 2H+ 
         log_k           -10.1
         delta_h 26.9 kcal
         -analytical     88.5    0.0     -9391.6         -27.121         0.0
+        -gamma  5.4     0.0 
 
 #Al(OH)3             336
         Al+3 + 3H2O = Al(OH)3 + 3H+ 
@@ -442,16 +476,19 @@ SOLUTION_SPECIES
         log_k           -22.7
         delta_h 42.3 kcal
         -analytical     51.578          0.0     -11168.9        -14.865         0.0
+        -gamma  4.5     0.0 
 
 #AlF+2               83
         Al+3 + F- = AlF+2 
         log_k           7.0
         delta_h 1.06 kcal
+        -gamma  5.4     0.0 
 
 #AlF2+               84
         Al+3 + 2F- = AlF2+ 
         log_k           12.7
         delta_h 1.98 kcal
+        -gamma  5.4     0.0 
 
 #AlF3                85
         Al+3 + 3F- = AlF3 
@@ -462,22 +499,26 @@ SOLUTION_SPECIES
         Al+3 + 4F- = AlF4- 
         log_k           19.4
         delta_h 2.2 kcal
+        -gamma  4.5     0.0 
 
 #AlSO4+              87
         Al+3 + SO4-2 = AlSO4+
         log_k           3.5
         delta_h 2.29 kcal
+        -gamma  4.5     0.0 
 
 #Al(SO4)2-           88
         Al+3 + 2SO4-2 = Al(SO4)2-
         log_k           5.0
         delta_h 3.11 kcal
+        -gamma  4.5     0.0 
 
 #HSO4-               89
         H+ + SO4-2 = HSO4- 
         log_k           1.988
         delta_h 3.85 kcal
         -analytical     -56.889         0.006473        2307.9          19.8858         0.0
+        -gamma  4.5     0.0 
 
 #H2S secondary master species   90
         SO4-2 + 10H+ + 8e- = H2S + 4H2O 
@@ -489,11 +530,13 @@ SOLUTION_SPECIES
         log_k           -6.994
         delta_h 5.3 kcal
         -analytical  11.17   -0.02386  -3279.0
+        -gamma  3.5     0.0 
 
 #S-2                 92
         HS- = S-2 + H+ 
         log_k           -12.918
         delta_h 12.1 kcal
+        -gamma  5.0     0.0 
 
 #oxy                 93
 #       0.5H2O = 0.25O2 + H+ + e- 
@@ -514,6 +557,7 @@ SOLUTION_SPECIES
         Fe+3 + 2H2O = Fe(OH)2+ + 2H+ 
         log_k           -5.67
         delta_h 17.1 kcal
+        -gamma  5.4     0.0 
 
 #Fe(OH)3             103
         Fe+3 + 3H2O = Fe(OH)3 + 3H+ 
@@ -524,6 +568,7 @@ SOLUTION_SPECIES
         Fe+3 + 4H2O = Fe(OH)4- + 4H+ 
         log_k           -21.6
         delta_h 31.9 kcal
+        -gamma  5.4     0.0 
 
 #Fe(OH)2             105
         Fe+2 + 2H2O = Fe(OH)2 + 2H+ 
@@ -533,30 +578,36 @@ SOLUTION_SPECIES
 #FeH2PO4+            120
         Fe+2 + H2PO4- = FeH2PO4+ 
         log_k           2.7
+        -gamma  5.4     0.0 
 
 #CaPO4-              121
         Ca+2 + PO4-3 = CaPO4-
         log_k           6.459
         delta_h 3.1 kcal
+        -gamma  5.4     0.0 
 
 #CaH2PO4+            122
         Ca+2 + H2PO4- = CaH2PO4+
         log_k           1.408
         delta_h 3.4 kcal
+        -gamma  5.4     0.0 
 
 #MgPO4-              123
         Mg+2 + PO4-3 = MgPO4-
         log_k           6.589
         delta_h 3.1 kcal
+        -gamma  5.4     0.0 
 
 #MgH2PO4+            124
         Mg+2 + H2PO4- = MgH2PO4+
         log_k           1.513
         delta_h 3.4 kcal
+        -gamma  5.4     0.0 
 
 #LiSO4-              126
         Li+ + SO4-2 = LiSO4-
         log_k           0.64
+        -gamma  5.0     0.0 
 
 #N2  secondary master species
         2 NO3- + 12 H+ + 10 e- = N2 + 6 H2O
@@ -576,10 +627,12 @@ SOLUTION_SPECIES
 #BaOH+               130
         Ba+2 + H2O = BaOH+ + H+ 
         log_k           -13.47
+        -gamma  5.0     0.0 
 
 #NH4SO4-             131
         NH4+ + SO4-2 = NH4SO4- 
         log_k           1.11
+        -gamma  5.0     0.0
 
 #SrCO3               135
         Sr+2 + CO3-2 = SrCO3 
@@ -604,6 +657,7 @@ SOLUTION_SPECIES
         Fe+3 + HPO4-2 = FeHPO4+ 
         log_k           5.43
         delta_h 5.76 kcal
+        -gamma  5.5     0.0   
 
 #FeHSO4+             148
         Fe+2 + HSO4- = FeHSO4+
@@ -619,10 +673,12 @@ SOLUTION_SPECIES
         log_k           -14.0
         delta_h 13.362 kcal
         -analytical     -283.971        -0.05069842     13323.0         102.24447       -1119669.0
+        -gamma  3.5     0.0 
 
 #FeH2PO4+2           156
         Fe+3 + H2PO4- = FeH2PO4+2
         log_k           5.43
+        -gamma  5.4     0.0
 
 #FeHSO4+2            159
         Fe+3 + HSO4- = FeHSO4+2 
@@ -632,36 +688,43 @@ SOLUTION_SPECIES
         Ca+2 + F- = CaF+ 
         log_k           0.94
         delta_h 4.12 kcal
+        -gamma  5.5     0.0
 
 #BF(OH)3-            161
         H3BO3 + F- = BF(OH)3-
         log_k           -0.4
         delta_h 1.85 kcal
+        -gamma  2.5     0.0
 
 #BF2(OH)2-           162
         H3BO3 + H+ + 2F- = BF2(OH)2- + H2O 
         log_k           7.63
         delta_h 1.618 kcal
+        -gamma  2.5     0.0
 
 #BF3OH-              163
         H3BO3 + 2H+ + 3F- = BF3OH- + 2H2O 
         log_k           13.67
         delta_h -1.614 kcal
+        -gamma  2.5     0.0
 
 #BF4-                164
         H3BO3 + 3H+ + 4F- = BF4- + 3H2O 
         log_k           20.28
         delta_h -1.846 kcal
+        -gamma  2.5     0.0
 
 #FeF+2               165
         Fe+3 + F- = FeF+2 
         log_k           6.2
         delta_h 2.7 kcal
+        -gamma  5.0     0.0
 
 #FeF2+               166
         Fe+3 + 2F- = FeF2+
         log_k           10.8
         delta_h 4.8 kcal
+        -gamma  5.0     0.0
 
 #FeF3                167
         Fe+3 + 3F- = FeF3
@@ -676,10 +739,12 @@ SOLUTION_SPECIES
         Mn+2 = Mn+3 + e- 
         log_k           -25.51
         delta_h 25.8 kcal
+        -gamma  9.0     0.0
 
 #MnCl+               170
         Mn+2 + Cl- = MnCl+ 
         log_k           0.61
+        -gamma  5.0     0.0
 
 #MnCl2               171
         Mn+2 + 2Cl- = MnCl2
@@ -688,19 +753,23 @@ SOLUTION_SPECIES
 #MnCl3-              172
         Mn+2 + 3Cl- = MnCl3-
         log_k           -0.31
+        -gamma  5.0     0.0
 
 #MnOH+               173
         Mn+2 + H2O = MnOH+ + H+ 
         log_k           -10.59
         delta_h 14.4 kcal
+        -gamma  5.0     0.0
 
 #Mn(OH)3-            174
         Mn+2 + 3H2O = Mn(OH)3- + 3H+ 
         log_k           -34.8
+        -gamma  5.0     0.0
 
 #MnF+                175
         Mn+2 + F- = MnF+ 
         log_k           0.84
+        -gamma  5.0     0.0
 
 #MnSO4               176
         Mn+2 + SO4-2 = MnSO4 
@@ -715,21 +784,25 @@ SOLUTION_SPECIES
 #MnHCO3+             178
         Mn+2 + HCO3- = MnHCO3+
         log_k           1.95
+        -gamma  5.0     0.0
 
 #MnO4- secondary master species   179
         Mn+2 + 4H2O = MnO4- + 8H+ + 5e- 
         log_k           -127.824
         delta_h 176.62 kcal
+        -gamma  3.0     0.0
 
 #MnO4-2 secondary master species   180
         Mn+2 + 4H2O = MnO4-2 + 8H+ + 4e- 
         log_k           -118.44
         delta_h 150.02 kcal
+        -gamma  5.0     0.0
 
 #SiF6-2              201
         H4SiO4 + 4H+ + 6F- = SiF6-2 + 4H2O 
         log_k           30.18
         delta_h -16.26 kcal
+        -gamma  5.0     0.0
 
 #HF                  202
         H+ + F- = HF 
@@ -741,6 +814,7 @@ SOLUTION_SPECIES
         H+ + 2F- = HF2- 
         log_k           3.76
         delta_h 4.55 kcal
+        -gamma  3.5     0.0
 
 #CuCl2-              206
 #       Cu+2 + 2Cl- + e- = CuCl2-
@@ -749,6 +823,7 @@ SOLUTION_SPECIES
         Cu+ + 2Cl- = CuCl2-
         log_k           5.50
         delta_h -0.42 kcal
+        -gamma  4.0     0.0
 
 #CuCl3-2             207
 #       Cu+2 + 3Cl- + e- = CuCl3-2 
@@ -757,11 +832,13 @@ SOLUTION_SPECIES
         Cu+ + 3Cl- = CuCl3-2
         log_k           5.70
         delta_h 0.26 kcal
+        -gamma  5.0     0.0
 
 #Cu+ secondary master species  208
         Cu+2 + e- = Cu+ 
         log_k           2.72
         delta_h 1.65 kcal
+        -gamma  2.5     0.0
 
 #CuCO3               209
         Cu+2 + CO3-2 = CuCO3 
@@ -775,6 +852,7 @@ SOLUTION_SPECIES
         Cu+2 + Cl- = CuCl+ 
         log_k           0.43
         delta_h 8.65 kcal
+        -gamma  4.0     0.0
 
 #CuCl2               212
         Cu+2 + 2Cl- = CuCl2 
@@ -785,11 +863,13 @@ SOLUTION_SPECIES
         Cu+2 + 3Cl- = CuCl3-
         log_k           -2.29
         delta_h 13.69 kcal
+        -gamma  4.0     0.0
 
 #CuCl4-2             214
         Cu+2 + 4Cl- = CuCl4-2
         log_k           -4.59
         delta_h 17.78 kcal
+        -gamma  5.0     0.0
 
 #CuF+                215
         Cu+2 + F- = CuF+ 
@@ -799,6 +879,7 @@ SOLUTION_SPECIES
 #CuOH+               216
         Cu+2 + H2O = CuOH+ + H+ 
         log_k           -8.0
+        -gamma  4.0     0.0
 
 #Cu(OH)2             217
         Cu+2 + 2H2O = Cu(OH)2 + 2H+ 
@@ -831,6 +912,7 @@ SOLUTION_SPECIES
         Zn+2 + Cl- = ZnCl+ 
         log_k           0.43
         delta_h 7.79 kcal
+        -gamma  4.0     0.0
 
 #ZnCl2               252
         Zn+2 + 2Cl- = ZnCl2
@@ -841,11 +923,13 @@ SOLUTION_SPECIES
         Zn+2 + 3Cl- = ZnCl3-
         log_k           0.5
         delta_h 9.56 kcal
+        -gamma  4.0     0.0
 
 #ZnCl4-2             254
         Zn+2 + 4Cl- = ZnCl4-2
         log_k           0.2
         delta_h 10.96 kcal
+        -gamma  5.0     0.0
 
 #ZnF+                255
         Zn+2 + F- = ZnF+ 
@@ -1299,10 +1383,12 @@ SOLUTION_SPECIES
 #As3S4(HS)-2 		631	
 	3H3AsO3 + 6HS- + 5H+ = As3S4(HS)2- + 9H2O
 	log_k	72.314
+        -gamma  5.0     0.0
 
 #AsS(OH)(HS)- 		637	
 	H3AsO3 + 2HS-  + H+ = AsS(OH)(HS)- + 2H2O
 	log_k	18.038
+        -gamma  5.0     0.0
 
 #
 #  TURNING OFF CHECKING FOR EQUATION BALANCE FOR 
@@ -1499,6 +1585,7 @@ SOLUTION_SPECIES
 #FeCl+               542
         Fe+2 + Cl- = FeCl+ 
         log_k           0.14
+        -gamma  5.0     0.0 
 
 #BaSO4               543
         Ba+2 + SO4-2 = BaSO4 
