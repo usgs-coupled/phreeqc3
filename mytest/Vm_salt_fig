@@ -1,24 +1,8 @@
 # calculates and plots molar volumes of NaCl in solution (c, tc)
-# data from NaCl.xls, Laliberte, 2009.
-DATABASE ../database/phreeqc.dat
+#DATABASE c:\phreeqc\database\phreeqc.dat
 #DATABASE c:\dos\p\pfw.dat
+DATABASE ../database/Amm.dat
 #PRINT; -reset false; -echo_input false
-# SOLUTION_SPECIES
-# Ca+2 = Ca+2
-	# -gamma	5.0	0.1650
-	# -dw	 0.793e-9
-	# -Vm   0.8 -7.25  0.51  -2.48   1.84  3.64   0.073   17.8 # supcrt modified
-	# -Vm   0.8 -7.25  0.51  -2.48   1.84 # 3.64   0.073   17.8 # supcrt modified
-# Na+ = Na+
-	# -gamma	4.0	0.075
-	# -dw	 1.33e-9
-	# -Vm   1.53 -2.285 4.57 -2.726   0.169   2.6 -0.28 44 # supcrt modified
-	# -Vm   1.53 -2.285 4.57 -2.726   0.169  # 2.6 -0.28 44 # supcrt modified
-# Cl- = Cl-
-	# -gamma	3.5	0.015
-	# -dw	 2.03e-9
-	# -Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 # supcrt modified
-	# -Vm  4.03 5.9 5.27 -3.09   1.734 #  0 -0.3 18 # supcrt modified
 
 SOLUTION 1; pH 7 charge
 END
@@ -65,13 +49,13 @@ d(106), d(107), d(108), d(109), d(110), d(111), d(112), d(113), d(114), d(115), 
 100 if step_no = 1 then goto 150
 102 Vmol = Vm("Cl-")
 110 plot_xy mu^0.5, d(step_no), symbol = Triangle, line_w = 0, color = Blue
-120 plot_xy mu^0.5, Vmol, symbol = None, color = Blue, line_width = 2
-122 if step_no > 3 then goto 150
-130 V0 = 17.83
-134 if step_no = 2 then plot_xy 0, V0, symbol = None, color = Blue, line_width = 2 else\
-                        plot_xy 1, V0 + DH_Av * 1 * 1, symbol = None, color = Blue, line_width = 1
+# 120 plot_xy mu^0.5, Vmol, symbol = None, color = Blue, line_width = 2
+# 122 if step_no > 3 then goto 150
+# 130 V0 = 17.83
+# 134 if step_no = 2 then plot_xy 0, V0, symbol = None, color = Blue, line_width = 2 else\
+                        # plot_xy 1, V0 + DH_Av * 1 * 1, symbol = None, color = Blue, line_width = 1
 
-150 end
+ 150 end
 END
 
 
@@ -93,7 +77,7 @@ REACTION; NaCl 1
 2.001000 2.003380 2.064300 2.088900 2.251740 2.315600 2.366600 2.397100 2.426460 2.473330 2.500000 2.500000 2.500000 2.513930 2.718600 2.762450 2.811600 2.898600 2.929600 2.940500 2.951430 \
 2.983550 3.000000 3.000000 3.000000 3.000000 3.023000 3.023400 3.049929 3.093920 3.224900 3.257900 3.432100 3.486500 3.487100 3.500000 3.534500 3.539741 3.660200 3.673600 3.681300 3.944700 \
 3.987300 4.000000 4.000000 4.050567 4.217900 4.339700 4.447300 4.500000 4.500000 4.579735 4.636800 4.928800 4.930300 4.991000 5.000000 5.000000 5.024728 5.116000 5.243240 5.259300 5.346000 \
-5.385900 5.495200 5.542600 5.800000 5.802300 5.822670 5.834500 5.951800 6.000000 6.021600 6.100000 7.5625
+5.385900 5.495200 5.542600 5.800000 5.802300 5.822670 5.834500 5.951800 6.000000 6.021600 6.100000 
 USER_GRAPH
 -headings NaCl
 -axis_titles "(Ionic Strength)^0.5 / (mol/kg H2O)^0.5" "molar volume / (cm3/mol)"
@@ -109,8 +93,8 @@ USER_GRAPH
 19.325361, 19.376901, 19.390000, 19.360000, 19.554547, 19.545244, 19.570000, 19.610477, 19.640000, 19.703160, 19.713096, 19.652476, 19.674000, 19.735885, 19.801453, 19.884049, 19.830000, 19.940000, 19.966988, 19.958426, 20.010537, \
 20.018188, 20.086128, 20.046411, 20.044454, 19.990000, 19.950264, 20.001334, 19.958584, 20.131313, 20.107857, 20.111921, 20.211215, 20.270260, 20.307903, 20.267000, 20.323162, 20.241423, 20.353000, 20.348896, 20.310892, 20.544246, \
 20.534193, 20.541555, 20.574963, 20.493405, 20.608595, 20.671835, 20.780091, 20.853975, 20.752418, 20.720203, 20.772121, 20.886565, 20.990491, 20.953457, 21.042978, 21.012571, 20.929426, 21.007954, 21.147581, 21.054617, 21.111617, \
-21.167996, 21.177452, 21.197141, 21.320445, 21.279215, 21.363727, 21.286835, 21.377863, 21.389039, 21.330531, 21.422152,\
-0
+21.167996, 21.177452, 21.197141, 21.320445, 21.279215, 21.363727, 21.286835, 21.377863, 21.389039, 21.330531, 21.422152,
+
 20 dim d(272)
 30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
 d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \
@@ -125,19 +109,19 @@ d(190), d(191), d(192), d(193), d(194), d(195), d(196), d(197), d(198), d(199), 
 d(211), d(212), d(213), d(214), d(215), d(216), d(217), d(218), d(219), d(220), d(221), d(222), d(223), d(224), d(225), d(226), d(227), d(228), d(229), d(230), d(231), \
 d(232), d(233), d(234), d(235), d(236), d(237), d(238), d(239), d(240), d(241), d(242), d(243), d(244), d(245), d(246), d(247), d(248), d(249), d(250), d(251), d(252), \
 d(253), d(254), d(255), d(256), d(257), d(258), d(259), d(260), d(261), d(262), d(263), d(264), d(265), d(266), d(267), d(268), d(269), d(270), d(271),\
-d(272)
+#d(272)
 40 if step_no = 1 then put(rho, 10)
 50 if step_no > 1 then Vmol = (1e3 + tot("Cl") * 58.4428) / (tot("Cl") * rho) - 1e3 / (tot("Cl") * get(10))
 52 if step_no > 1 then Vmol = Vm("Cl-") + Vm("Na+")
 60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 150
 70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Red #aph_x tot("Na") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
-80 plot_xy mu^0.5, Vmol, symbol = None, color = Red, line_width = 2 #step_no = 264 then put(step_no + get(1), 1)
-122 if step_no > 3 then goto 150
-130 Van = 17.82; 131 Vcat = -1.21
-134 if step_no = 2 then plot_xy 0, Van + Vcat, symbol = None, color = Red, line_width = 1 else\
-                        plot_xy 1, Van + Vcat + DH_Av * 1, symbol = None, color = Red, line_width = 1
-150 end
+# 80 plot_xy mu^0.5, Vmol, symbol = None, color = Red, line_width = 2 #step_no = 264 then put(step_no + get(1), 1)
+# 122 if step_no > 3 then goto 150
+# 130 Van = 17.82; 131 Vcat = -1.21
+# 134 if step_no = 2 then plot_xy 0, Van + Vcat, symbol = None, color = Red, line_width = 1 else\
+                        # plot_xy 1, Van + Vcat + DH_Av * 1, symbol = None, color = Red, line_width = 1
+ 150 end
 END
 
 USE solution 1
@@ -174,26 +158,63 @@ d(85), d(86), d(87), d(88), d(89), d(90), d(91), d(92), d(93), d(94), d(95), d(9
 d(106), d(107), d(108), d(109), d(110), d(111), d(112), d(113), d(114), d(115), d(116), d(117), d(118), d(119), d(120), d(121), d(122), d(123), d(124), d(125), d(126), \ 
 d(127), d(128), d(129), d(130), d(131), d(132), d(133), d(134), d(135), d(136), d(137), d(138), d(139), d(140), d(141), d(142), d(143), d(144), d(145), d(146), d(147), \ 
 d(148), d(149), d(150), d(151), d(152), d(153), d(154), d(155), d(156), d(157), d(158), d(159), d(160), d(161), d(162), d(163), d(164), d(165), d(166), d(167), d(168), \ 
-d(169), d(170), d(171), d(172), d(173), d(174), d(175), d(176), d(177), d(178), d(179), d(180), 
+d(169), d(170), d(171), d(172), d(173), d(174), d(175), d(176), d(177), d(178), d(179), d(180),# d(181)
 40 if step_no = 1 then put(rho, 10)
 50 if step_no > 1 then Vmol = (1e3 + tot("Ca") * 110.986) / (tot("Ca") * rho) - 1e3 / (tot("Ca") * get(10))
 52 if step_no > 1 then Vmol = 2*Vm("Cl-") + Vm("Ca+2")
 60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
 62 if step_no = 1 then goto 150
 70 plot_xy mu^0.5, d(step_no), line_w = 0, color = Green, symbol = Diamond 
-80 plot_xy mu^0.5, Vmol, symbol = None, color = Green, line_width = 2
-122 if step_no > 3 then goto 150
-130 Van = 17.82; 131 Vcat = -17.83
-134 if step_no = 2 then plot_xy 0, 2*Van + Vcat, symbol = None, color = Green , line_width = 1 else\
-                       plot_xy 1, (2*Van + Vcat) + DH_Av * 3 * 1, symbol = None, color = Green , line_width = 1
+# 80 plot_xy mu^0.5, Vmol, symbol = None, color = Green, line_width = 2
+# 122 if step_no > 3 then goto 150
+# 130 Van = 17.82; 131 Vcat = -17.83
+# 134 if step_no = 2 then plot_xy 0, 2*Van + Vcat, symbol = None, color = Green , line_width = 1 else\
+                       # plot_xy 1, (2*Van + Vcat) + DH_Av * 3 * 1, symbol = None, color = Green , line_width = 1
 #                       plot_xy 4, (2*Van + Vcat) + DH_Av * 1.707 * 4, symbol = None, color = Green , line_width = 1
-# 'officially...'      plot_xy 4, (2*Van + Vcat) + DH_Av * 3 * 4, symbol = None, color = Green , line_width = 1
-
 150 end
 END
 
-#INCLUDE$ c:\dos\p\pfw.dat
-INCLUDE$ pfw.dat
+USE solution 1
+REACTION 1; HCl 1; 1e-6 5*0.002 4*0.02 4*0.2 5*0.5 7*1
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+52 Vmol = Vm("Cl-")
+121 plot_xy mu^0.5, Vmol, symbol = None, color = Blue, line_width = 2
+122 if step_no > 2 then goto 150
+134 if step_no = 1 then plot_xy 0, Vmol, symbol = None, color = Blue, line_width = 1 else\
+                        plot_xy 1, get(11) + DH_Av * 1 * 0.5, symbol = None, color = Blue, line_width = 1
+140 put(Vmol, 11)
+150 end
+END
+
+USE solution 1
+REACTION 1; NaCl 1; 1e-6 5*0.002 4*0.02 4*0.2 12*0.5 #10*1
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+52 Vmol = Vm("Cl-") + Vm("Na+")
+120 plot_xy mu^0.5, Vmol, symbol = None  , color = Red, line_width = 2
+122 if step_no > 2 then goto 150
+134 if step_no = 1 then plot_xy 0, Vmol, symbol = None, color = Red, line_width = 1 else\
+                        plot_xy 1, get(11) + DH_Av, symbol = None, color = Red, line_width = 1
+140 put(Vmol, 11)
+150 end
+END
+
+USE solution 1
+REACTION 1; CaCl2 1; 1e-6 5*0.002 4*0.02 4*0.2 9*0.25 #10*1
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+52 Vmol = Vm("Cl-") * 2 + Vm("Ca+2")
+120 plot_xy mu^0.5, Vmol, symbol = None , color = Green, line_width = 2
+122 if step_no > 2 then goto 150
+134 if step_no = 1 then plot_xy 0, Vmol, symbol = None, color = Green , line_width = 1 else\
+                        plot_xy 1, get(11) + DH_Av * 3, symbol = None, color = Green , line_width = 1
+140 put(Vmol, 11)
+150 end
+END
+
+############ Millero
+INCLUDE$ c:\dos\p\pfw.dat
 USE solution 1
 REACTION 1; HCl 1; 1e-6 5*0.002 4*0.02 4*0.2 5*0.5
 INCREMENTAL_REACTIONS true
@@ -203,7 +224,7 @@ USER_GRAPH; #-headings Millero
 END
 
 USE solution 1
-REACTION 1; NaCl 1; 1e-6 5*0.002 4*0.02 4*0.2 20*0.5
+REACTION 1; NaCl 1; 1e-6 5*0.002 4*0.02 4*0.2 14*0.5
 INCREMENTAL_REACTIONS true
 USER_GRAPH; #-headings Millero
 52 Vmol = Vm("Cl-") + Vm("Na+")
@@ -211,7 +232,7 @@ USER_GRAPH; #-headings Millero
 END
 
 USE solution 1
-REACTION 1; CaCl2 1; 1e-6 5*0.002 4*0.02 4*0.2 9*0.25
+REACTION 1; CaCl2 1; 1e-6 5*0.002 4*0.02 8*0.1 9*0.25
 INCREMENTAL_REACTIONS true
 USER_GRAPH; #-headings Millero
 52 Vmol = Vm("Cl-") * 2 + Vm("Ca+2")

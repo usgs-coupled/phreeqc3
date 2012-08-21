@@ -172,7 +172,7 @@ typedef enum {
 	vma1, vma2, vma3, vma4, /* read: a1..a4 from supcrt, see calc_vm */
 	wref,       /* from supcrt */
 	b_Av,		/* b in z^2 * A_v * log(1 + b * I^0.5) / (2 * b) */
-	vmi1, vmi2, vmi3, /* ionic strength terms: (i1 + i2/(TK - 228) + i3(TK)) * I. i3 not used */
+	vmi1, vmi2, vmi3, vmi4, /* ionic strength terms: (i1 + i2/(TK - 228) + i3 * (TK - 228) ) * I^i4 */
 	MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
 } LOG_K_INDICES;
 /* HSEARCH(3C) */

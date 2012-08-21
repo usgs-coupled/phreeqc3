@@ -1,8 +1,15 @@
-DATABASE ../database/phreeqc.dat # for -Millero
+#DATABASE \dos\p\pfw.dat # for -Millero
+DATABASE ../database/Amm.dat
 #PRINT; -reset false
+SOLUTION_SPECIES
+Na+ = Na+
+	-gamma	4.0	0.075
+	 -Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  4.0  0.162  47.67  -3.09e-3  0.725 # supcrt modified
+# for calculating densities (rho) when I > 3...
+#	 -Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  2.0  0.162  47.67  -3.09e-3  0.4
 SOLUTION 1; pH 7 charge
-SOLUTION 1; pH 7 charge
-SELECTED_OUTPUT; -file rho24.prn; -reset false; -selected_out true
+SELECTED_OUTPUT; -file rho24.prn; -reset false
+PRINT; -selected_out true
 USER_GRAPH; -active false
 USER_PUNCH
 # from 1 to 18.
@@ -60,7 +67,8 @@ END
 solution 2
 END
 SOLUTION 1; pH 7 charge
-SELECTED_OUTPUT; -file rho49.prn; -reset false; -selected_out true
+SELECTED_OUTPUT; -file rho49.prn; -reset false
+PRINT; -selected_out true
 USER_GRAPH; -active false
 USER_PUNCH
 # from 19 to 36.
@@ -118,7 +126,8 @@ END
 solution 2
 END
 SOLUTION 1; pH 7 charge
-SELECTED_OUTPUT; -file rho74.prn; -reset false; -selected_out true
+SELECTED_OUTPUT; -file rho74.prn; -reset false
+PRINT; -selected_out true
 USER_GRAPH; -active false
 USER_PUNCH
 # from 37 to 54.
@@ -176,7 +185,8 @@ END
 solution 2
 END
 SOLUTION 1; pH 7 charge
-SELECTED_OUTPUT; -file rho99.prn; -reset false; -selected_out true
+SELECTED_OUTPUT; -file rho99.prn; -reset false
+PRINT; -selected_out true
 USER_GRAPH; -active false
 USER_PUNCH
 # from 55 to 72.

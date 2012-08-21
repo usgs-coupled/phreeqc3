@@ -1,50 +1,6 @@
-DATABASE ../database/phreeqc.dat
 #DATABASE c:\phreeqc\database\pitzer.dat
+DATABASE ../database/Amm.dat
 #PRINT; -reset false; -user_print true
-SOLUTION_SPECIES
-# Na+ = Na+
-	# -gamma	4.0	0.075
-	# -millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	# -Vm 1.8390    -2.2850      3.2560     -2.7260 0.3306 # supcrt
-	# -Vm   1.53 -2.28 4.57 -2.73   0.169   2.6 -0.28 44 # supcrt modified
-# K+ = K+
-	# -gamma	3.5	0.015
-	# -millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
-	# -Vm  3.5590     -1.4730      5.4350     -2.7120  .1927 # supcrt
-	# -Vm  3.62 -1.473 5.22 -2.712   0.471   0 -0.81 65 # supcrt modified
-# Mg+2 = Mg+2
-	# -gamma	5.5	0.2
-	# -millero -22.32 0.0868 -0.0016 2.017 -0.125 0.001457
-	# -Vm  -.8217     -8.5990      8.3900     -2.3900  1.5372 # supcrt
-	# -Vm  -1.21 -8.6  10.26  -2.39  1.34   8.47  0.088  23.6
-
-
-
-
-
-# Ca+2 = Ca+2
-	# -gamma	5.0	0.165
-	# -millero -19.69 0.1058 -0.001256 1.617 -0.075 0.0008262
-	# -Vm -0.1947     -7.2520      5.2966     -2.4792   1.2366 # supcrt
-	# -Vm -1.08 -3.6 13 -5  1.4  8.5  0.31  3.8 # supcrt modified
-# # Cl- = Cl-
-	# # -gamma	3.5	0.015
-	# # -millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
-	# # -Vm  4.0320      4.8010      5.5630     -2.8470   1.4560 # supcrt
-	# # -Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 # supcrt modified
-
-
-# SO4-2 = SO4-2  # phreeqc.dat
-	# -gamma	5.0	-0.04
-	# -millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-	# -Vm 8.3014     -1.9846     -6.2122     -2.6970 3.1463 # supcrt
-	# -Vm   8.34 -0.34 -0.023 -5.4  3.47  18  -0.013 -4.7 # supcrt modified
-# SO4-2 = SO4-2 # pitzer.dat
-	# -gamma	5.0	-0.04
-	# -millero 9.26 0.284 -0.003808 0.4348 -0.0099143 -8.4762e-05
-	# -Vm 8.3014     -1.9846     -6.2122     -2.6970 3.1463 # supcrt
-	# -Vm   8.7 -0.33 -0.15 -4.6  4.1  1.1 0.4 69
-
 SOLUTION 1
  Na 1e-5; K 1e-5; Mg 1e-5; Ca 1e-5; Sr 1e-5; Ba 1e-5
  Cl 1e-5; Alkalinity 1e-5; S(6) 1e-5
@@ -52,21 +8,27 @@ SOLUTION 1
  # 1000
 # SAVE solution 1
 END
+PRINT; -reset false; -user_print true
 USE solution 1
 REACTION_TEMPERATURE
  0 200 in 17
 USER_GRAPH
  -plot_csv_file Vm0_tc.dat
  #-headings tc Na+ K+ Mg+2 Ca+2 Cl- HCO3- SO4-2
- -axis_titles "temp / oC" "molar volume / (cm3/mol)"
+ -axis_titles "temp / oC" "molar volume at infinite dilution / (cm3/mol)"
  -axis_scale x_axis 0 200
- -axis_scale y_axis -60 30
+ -axis_scale y_axis -50 30
  10 graph_x tc 
  20 graph_y Vm("Na+"), Vm("K+"), Vm("Mg+2"), Vm("Ca+2")
  30 graph_y Vm("Cl-"), Vm("HCO3-"), Vm("SO4-2")
- 40 if tc <> 25 then goto 200
+ #40 if tc <> 25 then goto 200
+ 42 print tc
+ 48 print "Na+ " "K+ " "Mg+2 " "Ca+2 " "Sr+2 " "Ba+2"
  50 print Vm("Na+"), Vm("K+"), Vm("Mg+2"), Vm("Ca+2"), Vm("Sr+2"), Vm("Ba+2")
- 60 print Vm("Cl-"), Vm("HCO3-"), Vm("CO3-2"), Vm("SO4-2")
+ 58 print "OH- " "Cl- " "HCO3- " "CO3-2 " "SO4-2" "CO2"
+ 60 print Vm("OH-"), Vm("Cl-"), Vm("HCO3-"), Vm("CO3-2"), Vm("SO4-2"), Vm("CO2")
+ 68 print "NaCO3- " "NaHCO3 "   "NaSO4-"
+ 70 print Vm("NaCO3-"), vm("NaHCO3"),   Vm("NaSO4-")
 200 end
 END
 

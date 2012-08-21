@@ -21,4 +21,5 @@
 ..\ClrClass_release\phreeqcpp.exe Vm_salt_fig
 ..\ClrClass_release\phreeqcpp.exe Vm_SrCl2_sol
 ..\ClrClass_release\phreeqcpp.exe Vm0_tc
-
+..\ClrClass_release\phreeqcpp.exe y_H2O
+ 
