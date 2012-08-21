@@ -2816,15 +2816,16 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 	{
 		delta_v[j] = 0.0;
 	}
-	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+	delta_v[9] = 1.0;
+	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
 		/* a1..a4 */
 		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
 		/* wref */
 		&(delta_v[4]),
 		/* b_Av */
 		&(delta_v[5]),
-		/* c1..c3 */
-		&(delta_v[6]), &(delta_v[7]), &(delta_v[8]));
+		/* c1..c4 */
+		&(delta_v[6]), &(delta_v[7]), &(delta_v[8]), &(delta_v[9]));
 	if (j < 1)
 	{
 		input_error++;
@@ -5012,7 +5013,7 @@ read_selected_output(void)
 		case 44:				/* selected_out */
 		case 45:				/* selected_output */
 			warning_msg("Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output");
-			//pr.punch = get_true_false(next_char, TRUE);
+			pr.punch = get_true_false(next_char, TRUE);
 			opt_save = OPTION_ERROR;
 			break;
 		}

@@ -5657,7 +5657,8 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	if (!r_ptr->logk[vm0]) // in case Vm of the phase is 0...
 		return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
 
-	LDBLE tc = TK - 273.15, pb = pa * 1.01325;
+	LDBLE tc = TK - 273.15;
+	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
 	LDBLE d_v = 0.0;
 	species * s_ptr;
 
@@ -5679,8 +5680,9 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 		{
 		/* supcrt volume at I = 0... */
 			d_v += r_ptr->token[i].coef *
-				(s_ptr->logk[vma1] +	s_ptr->logk[vma2] / (2600. + pb) +
-				s_ptr->logk[vma3] / (TK - 228.) + s_ptr->logk[vma2] / (2600. + pb) / (TK - 228.));
+				(s_ptr->logk[vma1] + s_ptr->logk[vma2] / pb_s +
+				(s_ptr->logk[vma3] + s_ptr->logk[vma4] / pb_s) / TK_s -
+				s_ptr->logk[wref] * QBrn);
 			//if (dgdP && s_ptr->z)
 			//{
 			//	LDBLE re = s_ptr->z * s_ptr->z / (s_ptr->logk[wref] / 1.66027e5 + s_ptr->z / 3.082);
@@ -5688,20 +5690,25 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 			//	d_v += r_ptr->token[i].coef * ZBrn * 1.66027e5 * Z3 * dgdP;
 			//}
 			if (s_ptr->z)
-			{
+				{
 			/* the ionic strength term * I^0.5... */
-				if (s_ptr->logk[b_Av] == 0)
-					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt(mu_x);
+				if (s_ptr->logk[b_Av] < 1e-5)
+					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
-					LDBLE b = (s_ptr->logk[b_Av] < 1e-5 ? 1e-5 : s_ptr->logk[b_Av]);
 					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-						log(1 + b * sqrt(mu_x)) / b;
+						sqrt_mu / (1 + s_ptr->logk[b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				LDBLE bi = s_ptr->logk[vmi1] + s_ptr->logk[vmi2]  / (TK - 228.); // + s_x[i]->logk[vmi3] * TK);
-				d_v += bi * mu_x;
+				if (s_ptr->logk[vmi1] != 0.0 || s_ptr->logk[vmi2] != 0.0 || s_ptr->logk[vmi3] != 0.0)
+				{
+					LDBLE bi = s_ptr->logk[vmi1] + s_ptr->logk[vmi2] / TK_s + s_ptr->logk[vmi3] * TK_s;
+					if (s_ptr->logk[vmi4] == 1.0)
+						d_v += bi * mu_x;
+					else
+						d_v +=  bi * pow(mu_x, s_ptr->logk[vmi4]);
+				}
 			}
 		}
 		else if (s_x[i]->millero[0])
@@ -5711,7 +5718,7 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 			if (s_ptr->z)
 			{
 			/* the ionic strength terms... */
-				d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt(mu_x) +
+				d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu +
 					(s_ptr->millero[3] + tc * (s_ptr->millero[4] + tc * s_ptr->millero[5])) * mu_x;
 			}
 		}
@@ -5733,15 +5740,17 @@ calc_vm(LDBLE tc, LDBLE pa)
 {
 /*
  *  Calculate molar volumes for aqueous species with a Redlich type eqn:
-    Vm = Vm0(tc) + (Av / 2) * z^2 * I^0.5 + coef(tc) * I.
+    Vm = Vm0(tc) + (Av / 2) * z^2 * I^0.5 + coef(tc) * I^(b4).
  *    Vm0(tc) is calc'd using supcrt parms, or from millero[0] + millero[1] * tc + millero[2] * tc^2
  *    for Av * z^2 * I^0.5, see Redlich and Meyer, Chem. Rev. 64, 221.
-          Av is in (cm3/mol)(mol/kg)^-0.5, = DH_Av from calc_dielectrics(tc, pa).
-		  if b_Av != 0, I^0.5 is constrained to ln(1 + b_Av * I^0.5) / b_Av.
- *	  coef(tc) = logk[vmi1] + logk[vmi2] / (TK - 228), or
+          Av is in (cm3/mol)(mol/kg)^-0.5, = DH_Av.
+		  If b_Av != 0, the extended DH formula is used: I^0.5 /(1 + b_Av * DH_B * I^0.5).
+		  DH_Av and DH_B are from calc_dielectrics(tc, pa).
+ *	  coef(tc) = logk[vmi1] + logk[vmi2] / (TK - 228) + logk[vmi3] * (TK - 228).
+ *    b4 = logk[vmi4], or
  *	  coef(tc) = millero[3] + millero[4] * tc + millero[5] * tc^2
  */
-	LDBLE pb = pa * 1.01325, TK = tc + 273.15; 
+	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
 	for (int i = 0; i < count_s_x; i++)
 	{
 		if (!strcmp(s_x[i]->name, "H2O"))
@@ -5752,8 +5761,8 @@ calc_vm(LDBLE tc, LDBLE pa)
 		if (s_x[i]->logk[vma1])
 		{
 		/* supcrt volume at I = 0... */
-			s_x[i]->rxn_x->logk[vm_tc] = s_x[i]->logk[vma1] + s_x[i]->logk[vma2] / (2600. + pb) +
-				s_x[i]->logk[vma3] / (TK - 228.) + s_x[i]->logk[vma4] / (2600. + pb) / (TK - 228.) -
+			s_x[i]->rxn_x->logk[vm_tc] = s_x[i]->logk[vma1] + s_x[i]->logk[vma2] / pb_s +
+				(s_x[i]->logk[vma3] + s_x[i]->logk[vma4] / pb_s) / TK_s -
 				s_x[i]->logk[wref] * QBrn;
 			/* A (small) correction by Shock et al., 1992, for 155 < tc < 255, P_sat < P < 1e3.
 			   The vma1..a4 and wref numbers are refitted for major cations and anions on xpts,
@@ -5768,18 +5777,27 @@ calc_vm(LDBLE tc, LDBLE pa)
 			{
 			/* the ionic strength term * I^0.5... */
 				if (s_x[i]->logk[b_Av] < 1e-5)
-					s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt(mu_x);
+					s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
+					/* pitzer... */
+					//s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
+					//	log(1 + s_x[i]->logk[b_Av] * sqrt(mu_x)) / s_x[i]->logk[b_Av];
+					/* extended DH... */
 					s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
-						log(1 + s_x[i]->logk[b_Av] * sqrt(mu_x)) / s_x[i]->logk[b_Av];
+						sqrt_mu / (1 + s_x[i]->logk[b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				LDBLE bi = s_x[i]->logk[vmi1] + s_x[i]->logk[vmi2]  / (TK - 228.); // + s_x[i]->logk[vmi3] * TK);
-				s_x[i]->rxn_x->logk[vm_tc] += bi * mu_x;
+				if (s_x[i]->logk[vmi1] != 0.0 || s_x[i]->logk[vmi2] != 0.0 || s_x[i]->logk[vmi3] != 0.0)
+				{
+					LDBLE bi = s_x[i]->logk[vmi1] + s_x[i]->logk[vmi2] / TK_s + s_x[i]->logk[vmi3] * TK_s;
+					if (s_x[i]->logk[vmi4] == 1.0)
+						s_x[i]->rxn_x->logk[vm_tc] += bi * mu_x;
+					else
+						s_x[i]->rxn_x->logk[vm_tc] += bi * pow(mu_x, s_x[i]->logk[vmi4]);
+				}
 			}
-			// perhaps, add a term for neutral species * tot molality...
 		}
 		else if (s_x[i]->millero[0])
 		{
@@ -5788,7 +5806,7 @@ calc_vm(LDBLE tc, LDBLE pa)
 			if (s_x[i]->z)
 			{
 			/* the ionic strength terms... */
-				s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt(mu_x) +
+				s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
 					(s_x[i]->millero[3] + tc * (s_x[i]->millero[4] + tc * s_x[i]->millero[5])) * mu_x;
 			}
 		}
