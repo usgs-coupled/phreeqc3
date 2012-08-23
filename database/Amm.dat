@@ -60,7 +60,6 @@ Sg		H2Sg	1.0	H2Sg	34.08
 Ntg		Ntg	0	Ntg	28.0134 # N2 gas
 
 SOLUTION_SPECIES
-
 H+ = H+
 	-gamma	9.0	0.0
 	-dw	 9.31e-9
@@ -69,62 +68,64 @@ H2O = H2O
 Ca+2 = Ca+2
 	-gamma	5.0	0.1650
 	-dw	 0.793e-9
-	-Vm   -1.08  -3.6  13  -5   1.4   8.5  0.31  3.8 # supcrt modified
+	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # supcrt modified
 Mg+2 = Mg+2
 	-gamma	5.5	0.20
 	-dw	 0.705e-9
-	-Vm  -1.21 -8.6  10.26  -2.39  1.34   8.47  0.088  23.6 # supcrt modified
+	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1 # supcrt modified
 Na+ = Na+
 	-gamma	4.0	0.075
 	-dw	 1.33e-9
-	-Vm   1.53 -2.285 4.57 -2.726   0.169   2.6 -0.28 44 # supcrt modified
+	 -Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  4.0  0.162  47.67  -3.09e-3  0.725 # supcrt modified
+# for calculating densities (rho) when I > 3...
+#	 -Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  2.0  0.162  47.67  -3.09e-3  0.4
 K+ = K+
 	-gamma	3.5	0.015
 	-dw	 1.96e-9
-	-Vm   3.72 -1.473 5.22 -2.712   0.471   0 -0.81 65 # supcrt modified
+	-Vm  3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.7  0  1 # supcrt modified
 Fe+2 = Fe+2
 	-gamma	6.0	0.0
 	-dw	 0.719e-9
-	-Vm  -.7803   -9.6867   9.5573   -2.3786 1.4574 # supcrt
+	-Vm  -0.3255  -9.687  1.536  -2.379  0.3033  5.5  -4.21e-2  37.96  0  1 # supcrt modified
 Mn+2 = Mn+2
 	-gamma	6.0	0.0
 	-dw	 0.688e-9
-	-Vm   -.1016   -8.0295   8.9060   -2.4471  1.4006 # supcrt
+	-Vm   -.1016   -8.0295   8.9060   -2.4471  1.4006 6 # supcrt
 Al+3 = Al+3
 	-gamma	9.0	0.0
 	-dw	 0.559e-9
-	-Vm   -3.3404  -17.1108  14.9917  -2.0716  2.8711 # supcrt
+	-Vm   -3.3404  -17.1108  14.9917  -2.0716  2.8711 9 # supcrt
 Ba+2 = Ba+2
 	-gamma	5.0	0.0
 	-dw 0.848e-9
-	-Vm   2.45  -10.06  0.34  -2.36   0.625   4.5  -0.46 88 # supcrt modified
+	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1 # supcrt modified
 Sr+2 = Sr+2
 	-dw	 0.794e-9
 	-gamma	5.260	0.121
-	-Vm   0.87  -10.15  0.36  -2.36   0.116   107  0.36  70 # supcrt modified
+	-Vm  -2.062  -10.15  13.71  -2.36  -1.612  5.26  1.278  -40.55  -6.87e-3  1.914  1 # supcrt modified
 H4SiO4 = H4SiO4
 	-dw	 1.10e-9
 	-Vm   10.5  1.7  20  -2.7   0.1291 # supcrt + 2*H2O in a1
 Cl- = Cl-
 	-gamma	3.5	0.015
 	-dw	 2.03e-9
-	-Vm  4.03 5.9 5.27 -3.09   1.734   0 -0.3 18 # supcrt modified
+	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # supcrt modified
 CO3-2 = CO3-2
 	-gamma	5.4	0.0
 	-dw	 0.955e-9
-	-Vm   5.99 -3.98 -9.81 -2.61   4.33   0 -2.5 207 # supcrt modified
+	-Vm  5.224  0  0  -5.85  5.126  0  0.404  110  -5.74e-3  1 # supcrt modified
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
 	-dw	 1.07e-9
-	-Vm   8.34  -0.34  -0.023  -5.4   3.47   18  -0.013  -4.7 # supcrt modified
+	-Vm  7.546  -1.985  -0.562  -2.697  3.366  0  0  0  0  1 # supcrt modified
 NO3- = NO3-
 	-gamma	3.0	0.0
 	-dw	 1.9e-9
-	-Vm   5.51  6.78  4.62  -3.06   0.11   0  -0.4  30 # supcrt modified
+	-Vm  6.392  6.78  0  -3.06  0.449  0  0.80  0  -1.05e-2  1 # supcrt modified
 AmmH+ = AmmH+
 	-gamma	2.5	0.0
 	-dw	 1.98e-9
-	-Vm   4.20  2.34  7.54  -2.88   0.492   3.54  -0.16  20 # supcrt modified
+	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # supcrt modified
 H3BO3 = H3BO3
 	-dw	1.1e-9
 	-Vm 7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
@@ -139,7 +140,7 @@ F- = F-
 Li+ = Li+
 	-gamma	6.0	0.0
 	-dw	 1.03e-9
-	-Vm   -.0237   -.0690   11.5800   -2.7761 .4862 # supcrt
+	-Vm   -.0237   -.0690   11.5800   -2.7761 .4862 6 # supcrt
 Br- = Br-
 	-gamma	3.0	0.0
 	-dw	 2.01e-9
@@ -147,17 +148,17 @@ Br- = Br-
 Zn+2 = Zn+2
 	-gamma	5.0	0.0
 	-dw	 0.715e-9
-	-Vm    -1.0677    -10.3884      9.8331     -2.3495  1.4574 # supcrt
+	-Vm    -1.0677    -10.3884      9.8331     -2.3495  1.4574 5 # supcrt
 Cd+2 = Cd+2
 	-dw	 0.717e-9
-	-Vm   .0537    -10.7080     16.5176     -2.3363  1.2528 # supcrt
+	-Vm   .0537    -10.7080     16.5176     -2.3363  1.2528 5 # supcrt
 Pb+2 = Pb+2
 	-dw	 0.945e-9
-	-Vm   -.0051     -7.7939      8.8134     -2.4568  1.0788 # supcrt
+	-Vm   -.0051     -7.7939      8.8134     -2.4568  1.0788 4.5 # supcrt
 Cu+2 = Cu+2
 	-gamma	6.0	0.0
 	-dw	 0.733e-9
-	-Vm   -1.1021    -10.4726      9.8662     -2.3461  1.4769 # supcrt
+	-Vm   -1.1021    -10.4726      9.8662     -2.3461  1.4769 6 # supcrt
 # redox-uncoupled gases
 Hdg = Hdg # H2
 	-dw	 5.13e-9
@@ -176,10 +177,10 @@ H2Sg = H2Sg # H2S
 	-Vm  7.81  2.96  -0.46 # supcrt
 # aqueous species
 H2O = OH- + H+
-	-analytic    3.8923E+02   1.72E-01   -1.3111E+04   -1.6301E+02    2.715E+03  -8.11E-05
+	-analytic  68.547  0  -6199.8  -24.955
 	-gamma	3.5	0.0
 	-dw	 5.27e-9
-	-Vm  1.75 0.07 0.356 -2.64   2.26   0 1.4 15 # supcrt modified
+	-Vm  1.776  0.0738  1.417  -2.782  2.347  0  0.906  0  0  1 # supcrt modified
 2 H2O = O2 + 4 H+ + 4 e-
 	log_k	-86.08
 	delta_h 134.79 kcal
@@ -196,7 +197,7 @@ CO3-2 + H+ = HCO3-
 	-analytic	107.8871	0.03252849	-5151.79	-38.92561	563713.9
 	-gamma	5.4	0.0
 	-dw	 1.18e-9
-	-Vm   8.51 1.15 -0.678 -2.83   2.38   0 2.0  14.5 # supcrt modified
+	-Vm  8.615  0  -12.21 0  1.667  0  0  264  0  1 # supcrt modified
 CO3-2 + 2 H+ = CO2 + H2O
 	log_k	16.681
 	delta_h -5.738	kcal
@@ -213,7 +214,7 @@ SO4-2 + H+ = HSO4-
 	delta_h 3.85	kcal
 	-analytic	-56.889	0.006473	2307.9	19.8858	0.0
 	-dw	 1.33e-9
-	-Vm 6.9788   9.2590   2.1108   -3.1618 1.1748 # supcrt
+	-Vm 8.2 9.2590   2.1108   -3.1618 1.1748  0 -0.3 15 0 1 # supcrt modified
 HS- = S-2 + H+
 	log_k	-12.918
 	delta_h 12.1	kcal
@@ -253,12 +254,12 @@ AmmH+ = Amm + H+
 	delta_h 12.48	kcal
 	-analytic    0.6322    -0.001225     -2835.76
 	-dw	 2.28e-9
-	-Vm   5.09  2.8   8.62  -2.89 # supcrt
+	-Vm  5.09  2.8  8.62  -2.88  -0.05 # supcrt
 #NO3- + 10 H+ + 8 e- = AmmH+ + 3 H2O
 #	log_k	119.077
 #	delta_h -187.055	kcal
 #	-gamma	2.5	0.0
-#	-Vm   4.28  2.34  4.52  -2.88   0.923   19  -4.7e-2  11
+#	-Vm  4.371  2.345  7.125  -2.88 0.707  3  -0.937  52.99  4.27e-3  1 # supcrt modified
 
 AmmH+ + SO4-2 = AmmHSO4-
 	log_k	1.11
@@ -312,10 +313,10 @@ Ca+2 + CO3-2 + H+ = CaHCO3+
 	-analytic	1317.0071	0.34546894	-39916.84	-517.70761	563713.9
 	-gamma	5.4	0.0
 	-dw 5.06e-10
-	-Vm   3.1911       .0104      5.7459     -2.7794  .3084 # supcrt
+	-Vm   3.1911       .0104      5.7459     -2.7794  .3084 5.4 # supcrt
 Ca+2 + SO4-2 = CaSO4
 	log_k	2.25
-	delta_h 1.325	kcal
+	delta_h 1.3	kcal
 	-dw 4.71e-10
 	-Vm   2.7910      -.9666      6.1300     -2.7390  -.0010 # supcrt
 Ca+2 + HSO4- = CaHSO4+
@@ -332,7 +333,7 @@ Ca+2 + H2PO4- = CaH2PO4+
 Ca+2 + F- = CaF+
 	log_k	0.94
 	delta_h 4.120	kcal
-	-Vm   .9846     -5.3773      7.8635     -2.5567  .6911 # supcrt
+	-Vm   .9846     -5.3773      7.8635     -2.5567  .6911 3 # supcrt
 Mg+2 + H2O = MgOH+ + H+
 	log_k	-11.44
 	delta_h 15.952 kcal
@@ -347,7 +348,7 @@ Mg+2 + H+ + CO3-2 = MgHCO3+
 	delta_h -2.771	kcal
 	-analytic	48.6721	0.03252849	-2614.335	-18.00263	563713.9
 	-dw 4.78e-10
-	-Vm   2.7171     -1.1469      6.2008     -2.7316  .5985 # supcrt
+	-Vm   2.7171     -1.1469      6.2008     -2.7316  .5985 3 # supcrt
 Mg+2 + SO4-2 = MgSO4
 	log_k	2.37
 	delta_h 4.550	kcal
@@ -365,24 +366,24 @@ Mg+2 + H2PO4- = MgH2PO4+
 Mg+2 + F- = MgF+
 	log_k	1.82
 	delta_h 3.20	kcal
-	-Vm   .6494     -6.1958      8.1852     -2.5229  .9706 # supcrt
+	-Vm   .6494     -6.1958      8.1852     -2.5229  .9706 3 # supcrt
 Na+ + OH- = NaOH
 	log_k	-10 # remove this complex
 Na+ + CO3-2 = NaCO3-
-	log_k	1.27
-	delta_h 8.910	kcal
+	-log_k	0.65
+	-delta_h 0.7 kcal
 	-dw 5.85e-10
-	-Vm   8.4e-2 0 -5.67 0 -0.05   0 5.8 -49  # NaHCO3.xls + Na2CO3.xls Laliberte, 2009 + PHREEQC speciation
+	-Vm  3.411  0  15.99  -8.20  2.258  0  4.06  0  -2.21e-2  1
 Na+ + HCO3- = NaHCO3
-	log_k	0
-	-delta_h -9.9 kcal
+	-log_k  0.4
+	-delta_h  -0.4 kcal
 	-dw 6.73e-10
-	-Vm  9.6 0 -18.5 0 # NaHCO3.xls + Na2CO3.xls Laliberte, 2009 + PHREEQC speciation
+	-Vm  4.64
 Na+ + SO4-2 = NaSO4-
 	log_k	0.7
 	delta_h 1.120	kcal
 	-dw 6.18e-10
-	-Vm   1.1 18 2e-3 -2e-3  2.5  0  4.8 -10 # Na2SO4.xls Laliberte, 2009 + PHREEQC speciation
+	-Vm  10.58  7.129  -32.06  0  5.97  0  5.34  0  -3.16e-2  1 # not in supcrt
 Na+ + HPO4-2 = NaHPO4-
 	log_k	0.29
 Na+ + F- = NaF
@@ -616,7 +617,7 @@ Zn+2 + 4 H2O = Zn(OH)4-2 + 4 H+
 Zn+2 + Cl- = ZnCl+
 	log_k	0.43
 	delta_h 7.79 kcal
-	-Vm   1.5844     -3.9128      7.2879     -2.6172  .2025
+	-Vm   1.5844     -3.9128      7.2879     -2.6172  .2025 6
 Zn+2 + 2 Cl- = ZnCl2
 	log_k	0.45
 	delta_h 8.5 kcal
@@ -682,7 +683,7 @@ Pb+2 + 4 H2O = Pb(OH)4-2 + 4 H+
 Pb+2 + Cl- = PbCl+
 	log_k	1.6
 	delta_h 4.38 kcal
-	-Vm   2.8934      -.7165      6.0316     -2.7494  .1281
+	-Vm   2.8934      -.7165      6.0316     -2.7494  .1281 6
 Pb+2 + 2 Cl- = PbCl2
 	log_k	1.8
 	delta_h 1.08 kcal
@@ -709,7 +710,6 @@ Pb+2 + NO3- = PbNO3+
 	log_k	1.17
 
 PHASES
-
 Calcite
 	CaCO3 = CO3-2 + Ca+2
 	log_k	-8.48
@@ -759,8 +759,7 @@ Anhydrite
 	CaSO4 = Ca+2 + SO4-2
 	log_k	-4.36
 	delta_h -1.710 kcal
-#	-analytic	197.52	0.0	-8669.8	-69.835
-	-analytic  85.917  0  -3.137e3  -32.184 # 50 - 160oC, 1 - 1e3 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
+	-analytical  84.68  0  -3066.1  -31.782 # 50 - 160oC, 1 - 1e3 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
 	-Vm 46.1 # 136.14 / 2.95
 Celestite
 	SrSO4 = Sr+2 + SO4-2
