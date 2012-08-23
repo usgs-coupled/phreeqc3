@@ -3964,7 +3964,7 @@ dump_netpath(struct inverse *inverse_ptr)
 		/* total number of wells */
 		fprintf(netpath_file,
 				"%15d                                            # Total wells\n",
-				Rxn_solution_map.size());
+				(int) Rxn_solution_map.size());
 
 		/* address */
 		fprintf(netpath_file,
