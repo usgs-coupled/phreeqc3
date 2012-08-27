@@ -14,7 +14,7 @@
 /* ----------------------------------------------------------------------
  *   MAIN
  * ---------------------------------------------------------------------- */
-int 
+int
 main(int argc, char *argv[])
 /*
  *   Main program for PHREEQC
@@ -40,7 +40,7 @@ main(int argc, char *argv[])
 #endif
 #ifdef SKIP
 //Set the x86 floating-point control word according to what
-//exceptions you want to trap. 
+//exceptions you want to trap.
 _clearfp(); //Always call _clearfp before setting the control
             //word
 //Because the second parameter in the following call is 0, it
@@ -52,9 +52,9 @@ unsigned int cw = _controlfp(0, 0); //Get the default control
 //exception is //blocked from being generating.
 cw &=~(EM_OVERFLOW|EM_UNDERFLOW|EM_ZERODIVIDE|
        EM_DENORMAL|EM_INVALID);
-//For any bit in the second parameter (mask) that is 1, the 
+//For any bit in the second parameter (mask) that is 1, the
 //corresponding bit in the first parameter is used to update
-//the control word.  
+//the control word.
 unsigned int cwOriginal = _controlfp(cw, MCW_EM); //Set it.
                             //MCW_EM is defined in float.h.
                             //Restore the original value when done:
@@ -160,7 +160,11 @@ write_banner(void)
 			   "              º                                            º\n");
 
 	/* version */
+#ifdef NPP
+	len = sprintf(buffer, "* PHREEQC-%s *", "3.beta");
+#else
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
+#endif
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
@@ -180,7 +184,11 @@ write_banner(void)
 
 
 	/* date */
+#ifdef NPP
+	len = sprintf(buffer, "%s", "July 19, 2012");
+#else
 	len = sprintf(buffer, "%s", "@VER_DATE@");
+#endif
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
