@@ -3615,10 +3615,10 @@ reset(void)
 								(double) patm_x));
 				}
 				patm_x = gas_phase_ptr->Get_total_p();
-				if (patm_x < 1e-10 && patm_x < p_sat)
-				{
-					patm_x = ( 1 * patm_x + p_sat) / 2.0;
-				}
+				//if (patm_x < 1e-10 && patm_x < p_sat)
+				//{
+				//	patm_x = ( 1 * patm_x + p_sat) / 2.0;
+				//}
 				if (patm_x > 1500)
 				  patm_x = 1500;
 			}
