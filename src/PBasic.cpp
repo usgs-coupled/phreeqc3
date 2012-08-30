@@ -2779,11 +2779,11 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state == TRANSPORT)
 		{
-			n.UU.val = PhreeqcPtr->cell_data[PhreeqcPtr->cell - 1].mid_cell_x;
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell - 1].mid_cell_x;
 		}
 		else if (PhreeqcPtr->state == ADVECTION)
 		{
-			n.UU.val = (LDBLE) PhreeqcPtr->use.Get_n_solution_user();
+			n.UU.val = (parse_all) ? 1 : (LDBLE) PhreeqcPtr->use.Get_n_solution_user();
 		}
 		else
 		{
@@ -2843,6 +2843,11 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case tokcell_no:
+		if (parse_all)
+		{
+			n.UU.val = 1;
+			break;
+		}
 		if (PhreeqcPtr->state == TRANSPORT)
 		{
 			n.UU.val = PhreeqcPtr->cell_no;
@@ -2870,7 +2875,6 @@ factor(struct LOC_exec * LINK)
 				n.UU.val = PhreeqcPtr->use.Get_n_solution_user();
 			}
 		}
-		if (parse_all) n.UU.val = 1;
 		break;
 
 	case toksim_no:
