@@ -1241,6 +1241,7 @@ free_spread(void)
 		(const char *)free_check_null((void*)g_spread_sheet.defaults.units);
 
 	g_spread_sheet.heading = 0;
+	g_spread_sheet.units = 0;
 	g_spread_sheet.count_rows = 0;
 	g_spread_sheet.defaults.count_iso = 0;
 }
@@ -1337,6 +1338,7 @@ copy_defaults(struct defaults *dest_ptr, struct defaults *src_ptr)
 	dest_ptr->temp = src_ptr->temp;
 	dest_ptr->units = string_duplicate(src_ptr->units);
 	dest_ptr->water = src_ptr->water;
+	dest_ptr->pressure = src_ptr->pressure;
 }
 
 #endif
