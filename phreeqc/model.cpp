@@ -296,7 +296,7 @@ check_residuals(void)
 	{
 		if (x[i]->type == MB || x[i]->type == ALK)
 		{
-			if (fabs(residual[i]) >= epsilon * x[i]->moles && fabs(residual[i]) > MIN_TOTAL
+			if (fabs(residual[i]) >= epsilon * x[i]->moles && fabs(residual[i]) > sqrt(fabs(x[i]->moles) * MIN_TOTAL)
 				&& x[i]->moles > MIN_TOTAL /* || stop_program == TRUE */ )
 			{
 				error_string = sformatf(
@@ -3729,8 +3729,11 @@ residuals(void)
 		if (x[i]->type == MB)
 		{
 			residual[i] = x[i]->moles - x[i]->f;
-			if ((fabs(residual[i]) > l_toler * x[i]->moles && fabs(residual[i]) > MIN_TOTAL
-				&& x[i]->moles > MIN_TOTAL) || x[i]->moles < 0)
+			if ((fabs(residual[i]) > l_toler * x[i]->moles && 
+				fabs(residual[i]) > sqrt(fabs(x[i]->moles) * MIN_TOTAL) && 
+				x[i]->moles > MIN_TOTAL) 
+				|| 
+				x[i]->moles < 0)
 			{
 				if (print_fail)
 					output_msg(sformatf(
