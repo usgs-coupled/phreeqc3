@@ -47,6 +47,7 @@ all: alkalinity.out \
 	dump_test.out \
 	eco.out \
 	eq_EC.out \
+	eq_phase_mod.out \
 	evap.out \
 	exch_related.out \
 	exch_related_pz.out \
