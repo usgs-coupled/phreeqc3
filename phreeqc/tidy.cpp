@@ -60,21 +60,21 @@ tidy_model(void)
 	{							
 		new_model = TRUE;
 	}
-	if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0		/*|| 
+	if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0		|| 
 		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_RAW] > 0	||
-		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY]*/)
+		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY])
 	{
 		new_pp_assemblage = TRUE;					/*"pure_phases" */
 	}
-	if (keycount[Keywords::KEY_SURFACE] > 0					/*||
+	if (keycount[Keywords::KEY_SURFACE] > 0					||
 		keycount[Keywords::KEY_SURFACE_RAW] > 0				||
-		keycount[Keywords::KEY_SURFACE_MODIFY]*/)
+		keycount[Keywords::KEY_SURFACE_MODIFY])
 	{
 		new_surface = TRUE;							/*"surface" */
 	}
-	if (keycount[Keywords::KEY_EXCHANGE] > 0				/*||
+	if (keycount[Keywords::KEY_EXCHANGE] > 0				||
 		keycount[Keywords::KEY_EXCHANGE_RAW] > 0				||
-		keycount[Keywords::KEY_EXCHANGE_MODIFY]*/)
+		keycount[Keywords::KEY_EXCHANGE_MODIFY])
 	{
 		new_exchange = TRUE;						/*"exchange" */
 	}
@@ -96,21 +96,21 @@ tidy_model(void)
 		new_mix = TRUE;								/*"mix" */
 	}
 	if (keycount[Keywords::KEY_SOLUTION] > 0 ||			
-		keycount[Keywords::KEY_SOLUTION_SPREAD] > 0			/*||
+		keycount[Keywords::KEY_SOLUTION_SPREAD] > 0			||
 		keycount[Keywords::KEY_SOLUTION_RAW] > 0			||
-		keycount[Keywords::KEY_SOLUTION_MODIFY]*/)
+		keycount[Keywords::KEY_SOLUTION_MODIFY])
 	{												/*"solution" */
 		new_solution = TRUE;
 	}
-	if (keycount[Keywords::KEY_GAS_PHASE]  > 0				/*||
+	if (keycount[Keywords::KEY_GAS_PHASE]  > 0				||
 		keycount[Keywords::KEY_GAS_PHASE_RAW] > 0			||
-		keycount[Keywords::KEY_GAS_PHASE_MODIFY]*/)
+		keycount[Keywords::KEY_GAS_PHASE_MODIFY])
 	{
 		new_gas_phase = TRUE;						/*"gas_phase" */
 	}
-	if (keycount[Keywords::KEY_SOLID_SOLUTIONS] > 0			/*||
+	if (keycount[Keywords::KEY_SOLID_SOLUTIONS] > 0			||
 		keycount[Keywords::KEY_SOLID_SOLUTIONS_RAW] > 0		||
-		keycount[Keywords::KEY_SOLID_SOLUTIONS_MODIFY]*/)
+		keycount[Keywords::KEY_SOLID_SOLUTIONS_MODIFY])
 	{
 		new_ss_assemblage = TRUE;					/*"solid_solutions" */
 	}

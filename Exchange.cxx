@@ -205,7 +205,7 @@ cxxExchange::read_raw(CParser & parser, bool check)
 
 	// Read exchange number and description
 	this->read_number_description(parser);
-
+	this->Set_new_def(true);
 	opt_save = CParser::OPT_ERROR;
 	bool pitzer_exchange_gammas_defined(false);
 

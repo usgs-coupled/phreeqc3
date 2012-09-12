@@ -298,7 +298,7 @@ calc_dens(void)
  *   volume 6, pages 1-17
  */
 	int i;
-	LDBLE M_T, rho_new, gfw;
+	LDBLE M_T, /*rho_new,*/ gfw;
 	/* 2 options: original VP, assign the volumes of species with zero molar volume to their master species,
 	              but this doubles counts of complexes with -Vm defined. And, cation-OH and H-anion
 				  complexes are counted once. Also, must add H+ and OH-... */
@@ -364,15 +364,17 @@ calc_dens(void)
 	/* If pure water then return rho_0 */
 	if (M_T == 0)
 		return rho_0;
+	else
+		return rho_0 * (1e3 + M_T / mass_water_aq_x) / (rho_0 * V_solutes / mass_water_aq_x + 1e3);
 
-	M_T /= 1e3;
-	solution_mass =  mass_water_aq_x + M_T;
-	V_solutes = M_T - rho_0 * V_solutes / 1e3;
+	//M_T /= 1e3;
+	//solution_mass =  mass_water_aq_x + M_T;
+	//V_solutes = M_T - rho_0 * V_solutes / 1e3;
 
-	rho_new = halve(f_rho, 0.5, 2.0, 1e-7);
-	if (!PHR_ISFINITE(rho_new) || rho_new > 1.99999) rho_new = 1.99999;
+	//rho_new = halve(f_rho, 0.5, 2.0, 1e-7);
+	//if (!PHR_ISFINITE(rho_new) || rho_new > 1.99999) rho_new = 1.99999;
 
-	return rho_new;
+	//return rho_new;
 }
 /* VP: Density End */
 /* DP: Function for interval halving */
