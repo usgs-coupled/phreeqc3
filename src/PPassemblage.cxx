@@ -134,6 +134,7 @@ cxxPPassemblage::read_raw(CParser & parser, bool check)
 
 	// Read PPassemblage number and description
 	this->read_number_description(parser);
+	this->Set_new_def(true);
 
 	opt_save = CParser::OPT_ERROR;
 

@@ -282,6 +282,7 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 
 	// Read gas_phase number and description
 	this->read_number_description(parser);
+	this->Set_new_def(true);
 
 	opt_save = CParser::OPT_ERROR;
 	bool type_defined(false);

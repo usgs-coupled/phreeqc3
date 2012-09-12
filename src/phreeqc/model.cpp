@@ -1193,6 +1193,7 @@ ineq(int in_kode)
 			if (it->second.Get_force_equality())
 				continue;
 			/*   Undersaturated and no mass, ignore */
+			//if (x[i]->f > 1e-14/*0e-8*/ && x[i]->moles <= 0
 			if (x[i]->f > 0e-8 && x[i]->moles <= 0
 				&& it->second.Get_add_formula().size() == 0)
 			{

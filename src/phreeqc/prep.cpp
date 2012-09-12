@@ -1518,6 +1518,13 @@ build_pure_phases(void)
 			else
 			{
 				master_ptr = elt_list[j].elt->primary;
+				if (master_ptr == NULL)
+				{
+						error_string = sformatf(
+								"Element undefined, %s.",
+								elt_list[j].elt->name);
+						error_msg(error_string, STOP);					
+				}
 				if (master_ptr->in == FALSE)
 				{
 					master_ptr = master_ptr->s->secondary;
