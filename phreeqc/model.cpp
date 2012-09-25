@@ -3329,8 +3329,8 @@ reset(void)
 						   "delta", (double) delta[i], "delta/c", (double) d));
 			}
 			x[i]->master[0]->s->la += d;
-			if (x[i]->master[0]->s->la < (double) (DBL_MIN_10_EXP + 10))
-				x[i]->master[0]->s->la = (double) (DBL_MIN_10_EXP + 10);
+			//if (x[i]->master[0]->s->la < (double) (DBL_MIN_10_EXP + 10))
+			//	x[i]->master[0]->s->la = (double) (DBL_MIN_10_EXP + 10);
 
 /*
  * Surface charge balance
