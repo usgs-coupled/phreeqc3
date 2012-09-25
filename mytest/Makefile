@@ -35,6 +35,7 @@ all: alkalinity.out \
 	comments.out \
 	count_database_species.out \
 	cumulativetime.out \
+	DanPhuong.out \
 	ddl_flux.out \
 	ddlsurf.out \
 	de.out \
