@@ -139,6 +139,7 @@ main_method(int argc, char *argv[])
 /*
  *   Display successful status
  */
+	pr.headings = TRUE;
 	errors = do_status();
 	if (errors != 0)
 	{
