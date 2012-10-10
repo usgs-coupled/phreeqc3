@@ -56,7 +56,7 @@ Ca+2 = Ca+2
 	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # supcrt modified
 Sr+2 = Sr+2
 	-dw	 0.794e-9
-	-Vm  -2.062  -10.15  13.71  -2.36  -1.612  5.26  1.278  -40.55  -6.87e-3  1.914  1 # supcrt modified
+	-Vm  -1.57e-2  -10.15  10.18  -2.36  0.860  5.26  0.859  -27.0  -4.1e-3  1.97 # supcrt modified
 Ba+2 = Ba+2
 	-dw	 0.848e-9
 	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1 # supcrt modified
@@ -74,7 +74,7 @@ CO3-2 = CO3-2
 	-Vm  5.052 0  0  -5.447  4.927  0  0.103  94.9  -1.30e-2  1 # supcrt modified
 SO4-2 = SO4-2
 	-dw	 1.07e-9
-	-Vm  9.241  -1.985  -6.002  -2.697  4.396  0  5.29  -152  -3.67e-2  1 # supcrt modified
+	-Vm  5.0  9.06  -8.36  -3.14  3.773  0  6.61  -27.9  -6.32e-2  0.428 # supcrt modified
 B(OH)3 = B(OH)3
 	-dw	1.1e-9
 	-Vm 7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
@@ -161,7 +161,7 @@ PHASES
 Anhydrite
 	CaSO4 = Ca+2 + SO4-2
 	log_k	   -4.362
-	-anal  88.041  0  -3136.9  -33.0391 # 50 - 160oC, 1 - 1e3 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
+	-anal  87.836  0  -3136.79  -32.953 # 50 - 160oC, 1 - 1e3 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
 	-Vm 46.1 # 136.14 / 2.95
 Aragonite
 	CaCO3 = CO3-2 + Ca+2
@@ -832,11 +832,12 @@ END
 #                           --------------------
 # Temperature- and pressure-dependent volumina of aqueous species are calculated with a Redlich-
 #   type equation (cf. Redlich and Meyer, Chem. Rev. 64, 221), from parameters entered with 
-#                        -Vm a1 a2 a3 a4 Wref b_Av i1 i2
+#                        -Vm a1 a2 a3 a4 W a0 i1 i2 i3 i4
 # The volume (cm3/mol) is
 #    Vm(T, pb, I) = 41.84 * (a1 * 0.1 + a2 * 100 / (2600 + pb)  + a3 / (T - 228) +
 #                            a4 * 1e4 / (2600 + pb) / (T - 228) - W * QBrn)
-#                   + z^2 / 2 * Av * f(I^0.5) + (i1 + i2 / (T - 228)) * I
+#                   + z^2 / 2 * Av * f(I^0.5)
+#                   + (i1 + i2 / (T - 228) + i3 * (T - 228)) * I^i4
 #   Volumina at I = 0 are obtained using supcrt92 formulas (Johnson et al., 1992, CG 18, 899).
 #   41.84 transforms cal/bar/mol into cm3/mol.
 #   pb is pressure in bar.
@@ -844,8 +845,9 @@ END
 #     dielectric constant of water (f(P, T), see below).
 #   z is charge of the solute species.
 #   Av is the Debye-Hueckel limiting slope.
-#   b_Av constrains the Debye-Hueckel slope: f(I^0.5) = ln(1 + b_Av * I^0.5) / b_Av,
-#   I is ionic strength. If b_Av = 0, f(I^0.5) = I^0.5.
+#   a0 is the ion-size parameter in the extended Debye-Hueckel paramter:
+#     f(I^0.5) = I^0.5) / (1 + a0 * DH_B * I^0.5),
+#     a0 = -gamma x for cations, = 0 for anions.
 # Av (P, T) is calculated using the dielectric constant of water from Bradley and Pitzer, 1979, JPC 83, 1599,
 #   and the compressibility of pure water.
 # The density of pure water at water saturation pressure is calculated with eqn 2.6 from
@@ -853,11 +855,11 @@ END
 #   interpolated from IAPWS table 3 (2007).
 #
 # Data for species' parameters, commented with ‘# supcrt modified’, were fitted from data
-#   compiled by Laliberte, 2009, J. Chem. Eng. Data 54, 1725.
-# H+ has the reference volume of 0 at all P, T.
+#   compiled by Laliberte, 2009, J. Chem. Eng. Data 54, 1725, + additions, see Appelo, Parkhurst and Post (in prep.)
+# H+ has the reference volume of 0 at all P, T and I.
 # For Cl-, parameters were obtained from densities of HCl solutions up to 176 oC, 1 - 280 atm.
-# The numbers for major cations were extracted from the densities of cation-Cl-solutions.
-# Other major anions and OH- then follow from the measured densities of cation-anion solutions.
+# The numbers for cations were extracted from the densities of cation-Cl-solutions.
+# Other anions and OH- then follow from the measured densities of cation-anion solutions.
 # Water dissociation was fitted from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15, 0-200 oC, 1-2000 atm.
 #                           --------------------
 # If -Vm is not defined, the a-f values from -Millero a b c d e f (if available) will be used for calculating
