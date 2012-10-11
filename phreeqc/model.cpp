@@ -44,7 +44,6 @@ model(void)
 	int mass_water_switch_save;
 	LDBLE old_mu;
 
-	//same_mu = true;
 	set_inert_moles();
 /*	debug_model = TRUE; */
 /*	debug_prep = TRUE; */
@@ -4946,9 +4945,7 @@ surface_model(void)
 				debug_model = TRUE;
 				debug_diffuse_layer = TRUE;
 			}
-#ifndef PHREEQC2
-			//same_mu = false;
-#else
+#ifdef PHREEQC2
 			k_temp(tc_x, patm_x);
 #endif
 			gammas(mu_x);
@@ -5163,9 +5160,6 @@ numerical_jacobian(void)
 		return(OK);
 
 	calculating_deriv = TRUE;
-#ifndef PHREEQC2
-			//same_mu = false;
-#endif
 	gammas(mu_x);
 	molalities(TRUE);
 	mb_sums();

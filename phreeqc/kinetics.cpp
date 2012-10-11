@@ -1471,7 +1471,6 @@ set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 	else
 	{
 		prep();
-		//same_pressure = false;
 		k_temp(use.Get_solution_ptr()->Get_tc(), use.Get_solution_ptr()->Get_patm());
 		set(FALSE);
 		converge = model();

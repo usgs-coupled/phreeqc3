@@ -41,7 +41,6 @@ setup_fixed_volume_gas(void)
 	{
 		gas_unknown = gas_unknowns[0];
 	}
-	//same_pressure = FALSE;
 
 	return (OK);
 }

@@ -29,7 +29,7 @@ const struct const_iso Phreeqc::iso_defaults[] = {
 };
 
 const int Phreeqc::count_iso_defaults = (sizeof(iso_defaults) / sizeof(struct const_iso));
-
+#ifdef SKIP
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
 	if (io)
@@ -120,7 +120,7 @@ Phreeqc::Phreeqc(PHRQ_io *io)
 
 	init();
 }
-
+#endif
 Phreeqc::~Phreeqc(void)
 {
 
@@ -259,6 +259,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 	return(list_c.size());
 }
+#ifdef SKIP
 void Phreeqc::init(void)
 {
 	int i;
@@ -819,6 +820,957 @@ void Phreeqc::init(void)
 	run_info.Set_io(phrq_io);
 
 	phrq_io->clear_istream();
+
+	return;
+}
+#endif
+Phreeqc::Phreeqc(PHRQ_io *io)
+{
+	// phrq_io
+	if (io)
+	{
+		this->phrq_io = io;
+	}
+	else
+	{
+		this->phrq_io = &this->ioInstance;
+	}
+	// auto PHRQ_io ioInstance;
+
+	// initialize data members
+	init();
+}
+void Phreeqc::init(void)
+{
+	same_model                      = FALSE;
+	current_tc                      = NAN;
+	current_pa                      = NAN;
+	current_mu                      = NAN;
+	mu_terms_in_logk                = true;
+
+	/* ----------------------------------------------------------------------
+	*   STRUCTURES
+	* ---------------------------------------------------------------------- */
+/*
+ *	 last model
+ */
+	last_model.force_prep           = TRUE;
+	last_model.temperature          = -100;
+	last_model.pressure             = 0;
+	last_model.count_exchange       = -1;
+	last_model.exchange             = NULL;
+	last_model.count_kinetics       = -1;
+	last_model.kinetics             = NULL;
+	last_model.count_gas_phase      = -1;
+	last_model.gas_phase            = NULL;
+	last_model.count_ss_assemblage  = -1;
+	last_model.ss_assemblage        = NULL;
+	last_model.count_pp_assemblage  = -1;
+	last_model.pp_assemblage        = NULL;
+	last_model.add_formula          = NULL;
+	last_model.si                   = NULL;
+	last_model.dl_type              = cxxSurface::NO_DL;
+	last_model.surface_type         = cxxSurface::UNKNOWN_DL;
+	last_model.only_counter_ions    = FALSE;
+	last_model.thickness            = 1e-8;
+	last_model.count_surface_comp   = -1;
+	last_model.surface_comp         = NULL;
+	last_model.count_surface_charge = -1;
+	last_model.surface_charge       = NULL;
+
+	//struct punch punch;
+/*
+ *	 Initialize punch
+ */
+	punch.in				= FALSE;
+	punch.count_totals		= 0;
+	punch.totals			= 0;
+	punch.count_molalities	= 0;
+	punch.molalities		= 0;
+	punch.count_activities	= 0;
+	punch.activities		= 0;
+	punch.count_pure_phases = 0;
+	punch.pure_phases		= 0;
+	punch.count_si			= 0;
+	punch.si				= 0;
+	punch.count_gases		= 0;
+	punch.gases				= 0;
+	punch.count_s_s			= 0;
+	punch.s_s               = 0;
+	punch.count_kinetics	= 0;
+	punch.kinetics			= 0;
+	punch.count_isotopes	= 0;
+	punch.isotopes			= 0;
+	punch.count_calculate_values = 0;
+	punch.calculate_values	= 0;
+	punch.inverse			= TRUE;
+	punch.sim				= TRUE;
+	punch.state				= TRUE;
+	punch.soln				= TRUE;
+	punch.dist				= TRUE;
+	punch.time				= TRUE;
+	punch.step				= TRUE;
+	punch.rxn				= FALSE;
+	punch.temp				= FALSE;
+	punch.ph				= TRUE;
+	punch.pe				= TRUE;
+	punch.alk				= FALSE;
+	punch.mu				= FALSE;
+	punch.water				= FALSE;
+	punch.high_precision	= FALSE;
+	punch.user_punch		= TRUE;
+	punch.charge_balance	= FALSE;
+	punch.percent_error		= FALSE;
+
+	// auto Rxn_temperature_map;
+	// auto Rxn_pressure_map;
+
+	/* ----------------------------------------------------------------------
+	*   Surface
+	* --------------------------------------------------------------------- */
+	g_iterations               = -1;
+	G_TOL                      = 1e-8;
+	// auto Rxn_surface_map;
+	// auto charge_group_map;
+	change_surf_count          = 0;
+	change_surf                = NULL;
+	/* ----------------------------------------------------------------------
+	*   Exchange
+	* ---------------------------------------------------------------------- */
+	// auto Rxn_exchange_map;
+
+	/* ----------------------------------------------------------------------
+	*   Kinetics
+	* ---------------------------------------------------------------------- */
+	// auto Rxn_kinetics_map;
+
+	/*----------------------------------------------------------------------
+	*   Save
+	*---------------------------------------------------------------------- */
+	count_save_values          = 0;
+	save_values                = NULL;
+	save_init(-1);             // set initial save values
+
+	// auto use
+
+	// copier structures
+	copy_solution.n_user		= copy_solution.start		= copy_solution.end			= 0;
+	copy_solution.count		    = copy_solution.max                                     = 0;
+	copy_pp_assemblage.n_user	= copy_pp_assemblage.start	= copy_pp_assemblage.end	= 0;
+	copy_pp_assemblage.count	= copy_pp_assemblage.max                                = 0;
+	copy_exchange.n_user		= copy_exchange.start		= copy_exchange.end			= 0;
+	copy_exchange.count		    = copy_exchange.max                                     = 0;
+	copy_surface.n_user			= copy_surface.start		= copy_surface.end			= 0;
+	copy_surface.count		    = copy_surface.max                                      = 0;
+	copy_ss_assemblage.n_user	= copy_ss_assemblage.start = copy_ss_assemblage.end		= 0;
+	copy_ss_assemblage.count	= copy_ss_assemblage.max                                = 0;
+	copy_gas_phase.n_user		= copy_gas_phase.start		= copy_gas_phase.end		= 0;
+	copy_gas_phase.count		= copy_gas_phase.max                                    = 0;
+	copy_kinetics.n_user		= copy_kinetics.start		= copy_kinetics.end			= 0;
+	copy_kinetics.count		    = copy_kinetics.max                                     = 0;
+	copy_mix.n_user				= copy_mix.start			= copy_mix.end				= 0;
+	copy_mix.count		        = copy_mix.max                                          = 0;
+	copy_reaction.n_user		= copy_reaction.start		= copy_reaction.end			= 0;
+	copy_reaction.count		    = copy_reaction.max                                     = 0;
+	copy_temperature.n_user		= copy_temperature.start	= copy_temperature.end		= 0;
+	copy_temperature.count		= copy_temperature.max                                  = 0;
+	copy_pressure.n_user		= copy_pressure.start		= copy_pressure.end			= 0;
+	copy_pressure.count		    = copy_pressure.max                                     = 0;
+	/*----------------------------------------------------------------------
+	*   Inverse
+	*---------------------------------------------------------------------- */
+	inverse					= NULL;
+	count_inverse			= 0;
+	/*----------------------------------------------------------------------
+	*   Mix
+	*---------------------------------------------------------------------- */
+	// auto Rxn_mix_map;
+	// auto Dispersion_mix_map;
+	// auto Rxn_solution_mix_map;
+	// auto Rxn_exchange_mix_map;
+	// auto Rxn_gas_phase_mix_map;
+	// auto Rxn_kinetics_mix_map;
+	// auto Rxn_pp_assemblage_mix_map;
+	// auto Rxn_ss_assemblage_mix_map;
+	// auto Rxn_surface_mix_map;
+	/*----------------------------------------------------------------------
+	*   Irreversible reaction
+	*---------------------------------------------------------------------- */
+	// auto Rxn_reaction_map;
+	/*----------------------------------------------------------------------
+	*   Gas phase
+	*---------------------------------------------------------------------- */
+	// auto Rxn_gas_phase_map;
+	/*----------------------------------------------------------------------
+	*   Solid solution
+	*---------------------------------------------------------------------- */
+	// auto Rxn_ss_assemblage_map;
+	/*----------------------------------------------------------------------
+	*   Pure-phase assemblage
+	*---------------------------------------------------------------------- */
+	// auto Rxn_pp_assemblage_map;
+	/*----------------------------------------------------------------------
+	*   Species_list
+	*---------------------------------------------------------------------- */
+	count_species_list      = 0;
+	max_species_list        = 0;
+	species_list            = NULL;
+	/*----------------------------------------------------------------------
+	*   Jacobian and Mass balance lists
+	*---------------------------------------------------------------------- */
+	count_sum_jacob0        = 0;
+	max_sum_jacob0          = 0;
+	sum_jacob0              = NULL;	
+	count_sum_mb1           = 0;
+	max_sum_mb1             = 0;
+	sum_mb1                 = NULL;	
+	count_sum_jacob1        = 0;
+	max_sum_jacob1          = 0;
+	sum_jacob1              = NULL;
+	count_sum_mb2           = 0;
+	max_sum_mb2             = 0;
+	sum_mb2                 = NULL;
+	count_sum_jacob2        = 0;
+	max_sum_jacob2          = 0;
+	sum_jacob2              = NULL;
+	count_sum_delta         = 0;
+	max_sum_delta           = 0;
+	sum_delta               = NULL;
+	/*----------------------------------------------------------------------
+	*   Solution
+	*---------------------------------------------------------------------- */
+	// auto Rxn_solution_map;
+	// auto unnumbered_solutions;
+	/*----------------------------------------------------------------------
+	*   Global solution
+	*---------------------------------------------------------------------- */
+	title_x                 = NULL;
+	new_x                   = FALSE;
+	description_x			= NULL;
+	tc_x                    = 0;
+	tk_x                    = 0;
+	patm_x                  = 1;
+	last_patm_x             = 1;
+	numerical_fixed_volume  = false;
+	force_numerical_fixed_volume = false;
+	switch_numerical        = false;
+	ph_x                    = 0;
+	solution_pe_x           = 0;
+	mu_x                    = 0;
+	ah2o_x                  = 1.0;
+	density_x               = 0;
+	total_h_x               = 0;
+	total_o_x               = 0;
+	cb_x                    = 0;
+	total_ions_x            = 0;
+	mass_water_aq_x         = 0;
+	mass_water_surfaces_x   = 0;
+	mass_water_bulk_x       = 0;
+	units_x					= NULL;
+	// auto pe_x
+	// auto isotopes_x
+	// auto default_pe_x
+	dl_type_x                = cxxSurface::NO_DL;
+	total_carbon             = 0;
+	total_co2                = 0;
+	total_alkalinity         = 0;
+	gfw_water                = 0;
+	step_x                   = 0;
+	kin_time_x               = 0;
+	/*----------------------------------------------------------------------
+	*   Transport data
+	*---------------------------------------------------------------------- */
+	count_cells              = 1;
+	count_shifts             = 1;
+	ishift                   = 1;
+	bcon_first = bcon_last   = 3;
+	correct_disp             = FALSE;
+	tempr                    = 2.0;
+	timest                   = 0.0;
+	simul_tr                 = 0;
+	diffc                    = 0.3e-9;
+	heat_diffc               = -0.1;
+	cell                     = 0;
+	mcd_substeps             = 1.0;
+	stag_data                = NULL;
+	print_modulus            = 1;
+	punch_modulus            = 1;
+	dump_in                  = FALSE;
+	dump_modulus             = 0;
+	transport_warnings       = TRUE;
+	cell_data                = FALSE;
+	multi_Dflag              = FALSE;
+	interlayer_Dflag         = FALSE;
+	default_Dw               = 0;
+	multi_Dpor               = 0;
+	interlayer_Dpor          = 0.1;
+	multi_Dpor_lim           = 0;
+	interlayer_Dpor_lim      = 0;
+	multi_Dn                 = 0;
+	interlayer_tortf         = 100.0;
+	cell_no                  = 0;
+	/*----------------------------------------------------------------------
+	*   Advection data
+	*---------------------------------------------------------------------- */
+	count_ad_cells           = 1;
+	count_ad_shifts          = 1;
+	print_ad_modulus         = 1;
+	punch_ad_modulus         = 1;
+	advection_punch          = NULL;
+	advection_kin_time       = 0.0;
+	advection_kin_time_defined = FALSE;
+	advection_print          = NULL;
+	advection_warnings       = TRUE;
+	/*----------------------------------------------------------------------
+	*   Tidy data
+	*---------------------------------------------------------------------- */
+	new_model                = TRUE;
+	new_exchange             = FALSE;
+	new_pp_assemblage        = FALSE;
+	new_surface              = FALSE;
+	new_reaction             = FALSE;
+	new_temperature          = FALSE;
+	new_mix                  = FALSE;
+	new_solution             = FALSE;
+	new_gas_phase            = FALSE;
+	new_inverse              = FALSE;
+	new_punch                = FALSE;
+	new_ss_assemblage        = FALSE;
+	new_kinetics             = FALSE;
+	new_copy                 = FALSE;
+	new_pitzer               = FALSE;
+	/*----------------------------------------------------------------------
+	*   Elements
+	*---------------------------------------------------------------------- */
+	elements                 = NULL;
+	count_elements           = 0;
+	max_elements             = MAX_ELEMENTS;
+	element_h_one            = NULL;
+	/*----------------------------------------------------------------------
+	*   Element List
+	*---------------------------------------------------------------------- */
+	elt_list                 = NULL;
+	count_elts               = 0;
+	max_elts                 = MAX_ELTS;
+	/*----------------------------------------------------------------------
+	*   Species
+	*---------------------------------------------------------------------- */
+	logk                     = NULL;
+	count_logk               = 0;
+	max_logk                 = MAX_S;
+	moles_per_kilogram_string= NULL;
+	pe_string                = NULL;
+	s                        = NULL;
+	count_s                  = 0;
+	max_s                    = MAX_S;
+	// auto s_diff_layer;
+	s_x                      = NULL;
+	count_s_x                = 0;
+	max_s_x                  = 0;
+	s_h2o					= NULL;
+	s_hplus					= NULL;
+	s_h3oplus				= NULL;
+	s_eminus				= NULL;
+	s_co3					= NULL;
+	s_h2					= NULL;
+	s_o2					= NULL;
+	/*----------------------------------------------------------------------
+	*   Phases
+	*---------------------------------------------------------------------- */
+	phases					= NULL;
+	count_phases            = 0;
+	max_phases              = MAX_PHASES;
+	/*----------------------------------------------------------------------
+	*   Master species
+	*---------------------------------------------------------------------- */
+	master                  = NULL;
+	dbg_master              = NULL;
+	count_master            = 0;
+	max_master              = MAX_MASTER;
+	/*----------------------------------------------------------------------
+	*   Unknowns
+	*---------------------------------------------------------------------- */
+	x                       = NULL;
+	count_unknowns          = 0;
+	max_unknowns            = 0;
+	ah2o_unknown            = NULL;
+	alkalinity_unknown      = NULL;
+	carbon_unknown          = NULL;
+	charge_balance_unknown  = NULL;
+	exchange_unknown        = NULL;
+	mass_hydrogen_unknown   = NULL;
+	mass_oxygen_unknown     = NULL;
+	mb_unknown              = NULL;
+	mu_unknown              = NULL;
+	pe_unknown              = NULL;
+	ph_unknown              = NULL;
+	pure_phase_unknown      = NULL;
+	solution_phase_boundary_unknown = NULL;
+	surface_unknown         = NULL;
+	gas_unknown             = NULL;
+	slack_unknown           = NULL;
+	ss_unknown              = NULL;
+	// auto gas_unknowns;
+	/*----------------------------------------------------------------------
+	*   Reaction work space
+	*---------------------------------------------------------------------- */
+	// struct trxn;	
+	trxn.token				= 0;
+	for (int i = 0; i < MAX_LOG_K_INDICES; i++)
+	{
+		trxn.logk[i] = 0;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		trxn.dz[i] = 0;
+	}
+	count_trxn              = 0;
+	max_trxn                = MAX_TRXN;
+
+	mb_unknowns             = NULL;
+	count_mb_unknowns       = 0;
+	max_mb_unknowns         = MAX_TRXN;
+	/* ----------------------------------------------------------------------
+	*   Print
+	* ---------------------------------------------------------------------- */
+	pr.all                  = TRUE;
+	pr.initial_solutions    = TRUE;
+	pr.initial_exchangers   = TRUE;
+	pr.reactions            = TRUE;
+	pr.gas_phase            = TRUE;
+	pr.ss_assemblage        = TRUE;
+	pr.pp_assemblage        = TRUE;
+	pr.surface              = TRUE;
+	pr.exchange             = TRUE;
+	pr.kinetics             = TRUE;
+	pr.totals               = TRUE;
+	pr.eh                   = TRUE;
+	pr.species              = TRUE;
+	pr.saturation_indices   = TRUE;
+	pr.irrev                = TRUE;
+	pr.mix                  = TRUE;
+	pr.reaction             = TRUE;
+	pr.use                  = TRUE;
+	pr.logfile              = FALSE;
+	pr.punch                = TRUE;
+	pr.status               = TRUE;
+	pr.inverse              = TRUE;
+	pr.dump                 = TRUE;
+	pr.user_print           = TRUE;
+	pr.headings             = TRUE;
+	pr.user_graph           = TRUE;
+	pr.echo_input           = TRUE;
+	pr.warnings             = 100;
+	pr.initial_isotopes     = TRUE;
+	pr.isotope_ratios       = TRUE;
+	pr.isotope_alphas       = TRUE;
+	pr.hdf                  = FALSE;
+	pr.alkalinity           = FALSE;
+	status_on               = true;
+	status_interval         = 0;
+	status_timer            = clock();
+	count_warnings          = 0;
+	/* ----------------------------------------------------------------------
+	*   RATES
+	* ---------------------------------------------------------------------- */
+	rates                   = NULL;
+	count_rates				= 0;
+	rate_m					= 0;
+	rate_m0					= 0;
+	rate_time				= 0;
+	rate_sim_time_start		= 0;
+	rate_sim_time_end		= 0;
+	rate_sim_time			= 0;
+	rate_moles				= 0;
+	initial_total_time		= 0;
+	// auto rate_p
+	count_rate_p            = 0;
+	/* ----------------------------------------------------------------------
+	*   USER PRINT COMMANDS
+	* ---------------------------------------------------------------------- */
+	user_print				= NULL;
+	user_punch				= NULL;
+	user_punch_headings		= NULL;
+	user_punch_count_headings = 0;
+	n_user_punch_index      = 0;
+	fpunchf_user_s_warning  = 0;
+	fpunchf_user_buffer[0]  = 0;
+
+#if defined PHREEQ98 
+	struct rate *user_graph;
+	char **user_graph_headings;
+	int user_graph_count_headings;
+#endif
+#if defined MULTICHART
+	// auto chart_handler;
+	chart_handler.Set_io(phrq_io);
+#endif
+	/* ----------------------------------------------------------------------
+	*   GLOBAL DECLARATIONS
+	* ---------------------------------------------------------------------- */
+	error_string            = NULL;
+	simulation				= 0;
+	int state               = INITIALIZE;
+	reaction_step           = 0;
+	transport_step          = 0;
+	transport_start         = 0;
+	advection_step          = 0;
+	stop_program            = FALSE;
+	incremental_reactions   = FALSE;
+	count_strings           = 0;
+	max_strings				= MAX_STRINGS;
+	array					= NULL;
+	delta					= NULL;
+	residual				= NULL;
+	input_error             = 0;
+	next_keyword            = Keywords::KEY_NONE;
+	parse_error             = 0;
+	paren_count             = 0;
+	iterations              = 0;
+	gamma_iterations        = 0;
+	run_reactions_iterations= 0;
+	max_line				= MAX_LINE;
+	line                    = NULL;
+	line_save				= NULL;
+	LOG_10                  = log(10.0);
+	debug_model             = FALSE;
+	debug_prep              = FALSE;
+	debug_set               = FALSE;
+	debug_diffuse_layer     = FALSE;
+	debug_inverse           = FALSE;
+#ifdef USE_LONG_DOUBLE
+	/* from float.h, sets tolerance for cl1 routine */
+	inv_tol_default         = pow((long double) 10, (long double) -LDBL_DIG + 5);
+#else
+	inv_tol_default         = pow((double) 10, (double) -DBL_DIG + 5);
+#endif
+	itmax                   = 100;
+	max_tries               = 1000;
+#ifdef USE_LONG_DOUBLE
+	/* from float.h, sets tolerance for cl1 routine */
+	ineq_tol                = pow((long double) 10, (long double) -LDBL_DIG);
+#else
+	ineq_tol                = pow((double) 10, (double) -DBL_DIG);
+#endif
+	convergence_tolerance   = 1e-8;	
+	step_size				= 100.;
+	pe_step_size			= 10.;
+	step_size_now           = step_size;
+	pe_step_size_now        = pe_step_size;
+	pp_scale				= 1.0;
+	pp_column_scale			= 1.0;
+	diagonal_scale			= FALSE;
+	mass_water_switch		= FALSE;
+	delay_mass_water		= FALSE;
+	dampen_ah2o             = false;
+	slack                   = false;
+	censor					= 0.0;
+	aqueous_only			= 0;
+	negative_concentrations = FALSE;
+	calculating_deriv		= FALSE;
+	numerical_deriv			= FALSE;
+	count_total_steps       = 0;
+	phast                   = FALSE;
+	llnl_temp				= 0;
+	llnl_count_temp			= 0;
+	llnl_adh				= 0;
+	llnl_count_adh			= 0;
+	llnl_bdh				= 0;
+	llnl_count_bdh			= 0;
+	llnl_bdot				= 0;
+	llnl_count_bdot			= 0;
+	llnl_co2_coefs			= 0;
+	llnl_count_co2_coefs	= 0;
+	selected_output_file_name = NULL;
+	dump_file_name			= NULL;
+	remove_unstable_phases  = FALSE;
+	// auto screen_string;
+#ifdef PHREEQCI_GUI
+	struct spread_sheet g_spread_sheet;
+#endif
+	spread_length           = 10;
+	/* ---------------------------------------------------------------------- */
+	/*
+	*   Hash definitions
+	*/
+	// auto strings_map;
+#ifdef HASH
+	// auto strings_hash;
+#endif
+	elements_hash_table     = NULL;
+	species_hash_table      = NULL;
+	phases_hash_table       = NULL;
+	logk_hash_table         = NULL;
+	master_isotope_hash_table = NULL;
+	/* ----------------------------------------------------------------------
+	*   ISOTOPES
+	* ---------------------------------------------------------------------- */
+	count_master_isotope	= 0;
+	master_isotope			= NULL;
+	max_master_isotope		= MAX_ELTS;
+	initial_solution_isotopes = FALSE;
+	count_calculate_value	= 0;
+	calculate_value			= NULL;
+	max_calculate_value		= MAX_ELTS;
+	calculate_value_hash_table = NULL;	
+	count_isotope_ratio		= 0;
+	isotope_ratio			= 0;
+	max_isotope_ratio		= MAX_ELTS;
+	isotope_ratio_hash_table = 0;	
+	count_isotope_alpha		= 0;
+	isotope_alpha			= 0;
+	max_isotope_alpha		= MAX_ELTS;
+	isotope_alpha_hash_table = 0;
+
+
+	phreeqc_mpi_myself		= 0;
+	first_read_input		= TRUE;
+	user_database			= NULL;
+	have_punch_name			= FALSE;
+	print_density		    = 0;
+	zeros                   = NULL;	
+	zeros_max			    = 1;
+	cell_pore_volume	    = 0;
+	cell_volume			    = 0;
+	cell_porosity		    = 0;
+	cell_saturation		    = 0;
+	sys                     = NULL;
+	count_sys               = 0;
+	max_sys                 = 0;
+	sys_tot                 = 0;
+#ifdef PHREEQC2
+	AA_basic                = 0;
+	BB_basic                = 0;
+	CC                      = 0;
+	I_m                     = 0;
+	rho_0                   = 0;
+	eps_r                   = EPSILON;
+#else
+	V_solutes               = 0.0;
+	rho_0                   = 0;
+	kappa_0                 = 0.0;
+	p_sat                   = 0.0;
+	eps_r                   = EPSILON;
+	DH_A                    = 0.0;
+	DH_B                    = 0.0;
+	DH_Av                   = 0.0;
+	QBrn                    = 0.0;
+	ZBrn                    = 0.0;
+	dgdP                    = 0.0;
+#endif
+	need_temp_msg           = 0;
+	solution_mass           = 0;
+	solution_volume         = 0;
+	/* phqalloc.cpp ------------------------------- */
+	s_pTail                 = NULL;
+	/* Basic */
+	basic_interpreter       = NULL;
+	/* cl1.cpp ------------------------------- */
+	x_arg                   = NULL; 
+	res_arg                 = NULL; 
+	scratch                 = NULL;
+	x_arg_max               = 0; 
+	res_arg_max             = 0; 
+	scratch_max             = 0;
+	/* dw.cpp ------------------------------- */
+	/* COMMON /QQQQ/ */	
+	Q0                      = 0;
+	Q5                      = 0;
+	GASCON                  = 0.461522e0;
+	TZ                      = 647.073e0;
+	AA                      = 1.e0;
+	Z                       = 0;
+	DZ                      = 0;
+	Y                       = 0;
+	G1                      = 11.e0;
+	G2                      = 44.333333333333e0;
+	GF                      = 3.5e0;
+	B1                      = 0;
+	B2                      = 0;
+	B1T                     = 0;
+	B2T                     = 0;
+	B1TT                    = 0;
+	B2TT                    = 0;
+	/* gases.cpp ------------------------------- */
+	a_aa_sum                = 0;
+	b2                      = 0;
+	b_sum                   = 0;
+	R_TK                    = 0;
+	/* input.cpp ------------------------------- */
+	check_line_return       = 0;  
+	reading_db              = FALSE;
+	/* integrate.cpp ------------------------------- */
+	midpoint_sv             = 0;
+	z_global                = 0;
+	xd_global               = 0;
+	alpha_global            = 0;
+	/* integrate.cpp ------------------------------- */
+	max_row_count           = 50;
+	max_column_count        = 50;
+	carbon                  = FALSE;
+	col_name                = NULL;
+	row_name                = NULL;
+	count_rows              = 0;
+	count_optimize          = 0;
+	col_phases              = 0;
+	col_redox               = 0;
+	col_epsilon             = 0;
+	col_ph                  = 0;
+	col_water               = 0;
+	col_isotopes            = 0;
+	col_phase_isotopes      = 0;
+	row_mb                  = 0;
+	row_fract               = 0;
+	row_charge              = 0;
+	row_carbon              = 0;
+	row_isotopes            = 0;
+	row_epsilon             = 0;
+	row_isotope_epsilon     = 0;
+	row_water               = 0;
+	inv_zero                = NULL;
+	array1                  = 0;
+	inv_res                 = NULL;
+	inv_delta1              = NULL;
+	delta2                  = NULL;
+	delta3                  = NULL;
+	inv_cu                  = NULL;
+	delta_save              = NULL;
+	min_delta               = NULL;
+	max_delta               = NULL;
+	inv_iu                  = NULL;
+	inv_is                  = NULL;
+	klmd                    = 0;
+	nklmd                   = 0;
+	n2d                     = 0;
+	kode                    = 0;
+	iter                    = 0;
+	toler                   = 0;
+	error                   = 0;
+	max_pct                 = 0;
+	scaled_error            = 0;
+	master_alk              = NULL;
+	row_back                = NULL;
+	col_back                = NULL;
+	good                    = NULL;
+	bad                     = NULL;
+	minimal                 = NULL;
+	max_good                = 0;
+	max_bad                 = 0;
+	max_minimal             = 0;
+	count_good              = 0;
+	count_bad               = 0;
+	count_minimal           = 0;
+	count_calls             = 0;
+	soln_bits               = 0;
+	phase_bits              = 0;
+	current_bits            = 0;
+	temp_bits               = 0;
+	netpath_file            = NULL;
+	count_inverse_models    = 0;
+	count_pat_solutions     = 0;
+	for (int i = 0; i < 32; i++)
+	{
+		min_position[i]     = 0;
+		max_position[i]     = 0;
+		now[i]              = 0;
+	}
+	/* kinetics.cpp ------------------------------- */
+	count_pp = count_pg = count_ss = 0; 
+	cvode_kinetics_ptr      = NULL;
+	cvode_test              = FALSE;
+	cvode_error             = FALSE;
+	cvode_n_user            = -99;
+	cvode_n_reactions       = -99;
+	cvode_step_fraction     = 0.0;
+	cvode_rate_sim_time     = 0.0;
+	cvode_rate_sim_time_start = 0.0;
+	cvode_last_good_time    = 0.0;
+	cvode_prev_good_time    = 0.0;
+	cvode_last_good_y       = NULL;
+	cvode_prev_good_y       = NULL;
+	kinetics_machEnv        = NULL;
+	kinetics_y              = NULL;
+	kinetics_abstol         = NULL;
+	kinetics_cvode_mem      = NULL;
+	cvode_pp_assemblage_save= NULL;
+	cvode_ss_assemblage_save= NULL;
+	m_original              = NULL;
+	m_temp                  = NULL;
+	rk_moles                = NULL;
+	set_and_run_attempt     = 0;
+	x0_moles                = NULL;
+	/* model.cpp ------------------------------- */
+	gas_in                  = FALSE;
+	min_value               = 1e-10;
+	normal                  = NULL;
+	ineq_array              = NULL;
+	res                     = NULL;
+	cu                      = NULL;
+	zero                    = NULL;
+	delta1                  = NULL;
+	iu                      = NULL;
+	is                      = NULL;
+	back_eq                 = NULL;
+	normal_max              = 0;
+	ineq_array_max          = 0;
+	res_max                 = 0;
+	cu_max                  = 0;
+	zero_max                = 0;
+	delta1_max              = 0;
+	iu_max                  = 0;
+	is_max                  = 0;
+	back_eq_max             = 0;
+	/* phrq_io_output.cpp ------------------------------- */
+	forward_output_to_log   = 0;
+	/* phreeqc_files.cpp ------------------------------- */
+	default_data_base       = string_duplicate("phreeqc.dat");
+#ifdef PHREEQ98
+	int outputlinenr;
+	char *LogFileNameC;
+	char progress_str[512];
+#endif
+	/* Pitzer  */	
+	pitzer_model			= FALSE;
+	sit_model				= FALSE;
+	pitzer_pe				= FALSE;
+	full_pitzer = FALSE;
+	always_full_pitzer = FALSE;
+	ICON					= TRUE;
+	IC                      = -1;
+	COSMOT                  = 0;
+	AW                      = 0;
+	VP                      = 0;
+	DW0                     = 0;
+	pitz_params				= NULL;
+	count_pitz_param		= 0;
+	max_pitz_param			= 100;
+	// auto pitz_param_map
+	theta_params			= 0;
+	count_theta_param		= 0;
+	max_theta_param			= 100;
+	use_etheta				= TRUE;
+	OTEMP					= 0.0;
+	A0                      = 0;	
+	spec                    = NULL;
+	cations                 = NULL;
+	anions                  = NULL;
+	neutrals                = NULL;
+	count_cations           = 0;
+	count_anions            = 0;
+	count_neutrals          = 0;
+	MAXCATIONS              = 0;
+	FIRSTANION              = 0;
+	MAXNEUTRAL              = 0;
+	mcb0                    = NULL;
+	mcb1                    = NULL;
+	mcc0                    = NULL;
+	IPRSNT                  = NULL;
+	M                       = NULL;
+	LGAMMA                  = NULL;
+	for (int i = 0; i < 23; i++)
+	{
+		BK[i]				= 0.0;
+		DK[i]				= 0.0;
+	}
+#ifdef PHREEQ98
+	int connect_simulations, graph_initial_solutions;
+	int shifts_as_points;
+	int chart_type;
+	int ShowChart;
+	int RowOffset, ColumnOffset;
+#endif
+	dummy                   = 0;
+	/* print.cpp ------------------------------- */
+	sformatf_buffer = (char *) PHRQ_malloc(256 * sizeof(char));
+	if (sformatf_buffer == NULL) 
+		malloc_error();
+	sformatf_buffer_size = 256;
+#ifdef PHREEQ98
+	int colnr, rownr;
+	int graph_initial_solutions;
+	int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
+	/* int shifts_as_points; */
+	int chart_type;
+	int AddSeries;
+	int FirstCallToUSER_GRAPH;
+#endif
+	/* read.cpp */
+	prev_next_char          = NULL;
+#if defined PHREEQ98 
+	int shifts_as_points;
+#endif
+	/* read_class.cxx */
+	// auto dump_info
+	// auto delete_info
+	// auto run_info
+	run_info.Set_io(phrq_io);
+	/* readtr.cpp */
+	// auto dump_file_name_cpp;
+	/* sit.cpp ------------------------------- */
+	sit_params              = NULL;
+	count_sit_param			= 0;
+	max_sit_param			= 100;
+	// auto sit_param_map	
+	sit_A0                  = 0;
+	sit_count_cations       = 0;
+	sit_count_anions        = 0;
+	sit_count_neutrals      = 0;
+	sit_MAXCATIONS          = 0;
+	sit_FIRSTANION          = 0;
+	sit_MAXNEUTRAL          = 0;
+	sit_IPRSNT              = NULL;
+	sit_M                   = NULL;
+	sit_LGAMMA              = NULL;
+	/* tidy.cpp ------------------------------- */
+	a0                      = 0;
+	a1                      = 0;
+	kc                      = 0;
+	kb                      = 0;
+	/* tally.cpp ------------------------------- */
+	t_buffer                = NULL;
+	tally_count_component   = 0;
+	tally_table             = NULL;
+	count_tally_table_columns = 0;
+	count_tally_table_rows  = 0;
+	/* transport.cpp ------------------------------- */
+	sol_D                   = NULL;
+	sol_D_dbg               = NULL;
+	J_ij                    = NULL;
+	J_ij_il                 = NULL;
+	J_ij_count_spec         = 0;
+	m_s                     = NULL;
+	count_m_s               = 0;
+	tot1_h                  = 0;
+	tot1_o                  = 0;
+	tot2_h                  = 0;
+	tot2_o                  = 0;
+	diffc_max               = 0;
+	diffc_tr                = 0;
+	J_ij_sum                = 0;
+	transp_surf             = FALSE;
+	heat_mix_array          = NULL;
+	temp1                   = NULL;
+	temp2                   = NULL;
+	nmix                    = 0;
+	heat_nmix               = 0;
+	heat_mix_f_imm          = 0;
+	heat_mix_f_m            = 0;
+	warn_MCD_X              = 0;
+	warn_fixed_Surf         = 0;
+#ifdef PHREEQ98
+	int AutoLoadOutputFile, CreateToC;
+	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
+	int outputlinenr;
+	int stop_calculations;
+	char err_str98[80];
+#endif
+	/* utilities.cpp ------------------------------- */
+	spinner                 = 0;
+	// keycount;
+	for (int i = 0; i < Keywords::KEY_COUNT_KEYWORDS; i++)
+	{
+		keycount.push_back(0);
+	}
 
 	return;
 }

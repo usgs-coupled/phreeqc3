@@ -246,6 +246,13 @@ public:
 	void set_reading_database(int reading_database);
 	int check_line(const char *string, int allow_empty, int allow_eof,
 		int allow_keyword, int print);
+	int add_char_to_line(int *i, char c);
+	int check_line_impl(const char *string, int allow_empty,
+		int allow_eof, int allow_keyword, int print);
+	int get_line(void);
+	int get_logical_line(void *cookie, int *l);
+	int read_database(void);
+	int run_simulations(void);
 
 	// integrate.cpp -------------------------------
 	int calc_all_g(void);
@@ -386,8 +393,6 @@ public:
 	int set_reaction(int i, int use_mix, int use_kinetics);
 	int set_transport(int i, int use_mix, int use_kinetics, int nsaver);
 	int store_get_equi_reactants(int k, int kin_end);
-	int count_pp, count_pg, count_ss;
-	LDBLE *x0_moles;
 
 	// mainsubs.cpp  -------------------------------
 	std::ifstream * open_input_stream(char *query, char *default_name, std::ios_base::openmode mode, bool batch);
@@ -452,7 +457,6 @@ public:
 	int revise_guesses(void);
 	int ss_binary(cxxSS *ss_ptr);
 	int ss_ideal(cxxSS *ss_ptr);
-	int gas_in;
 	void ineq_init(int max_row_count, int max_column_count);
 
 	// parse.cpp -------------------------------
@@ -499,7 +503,9 @@ public:
 	int read_pitzer(void);
 	int set_pz(int initial);
 	int calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
-	int check_gammas_pz(void);
+	int check_gammas_pz(void);	
+	LDBLE DC(LDBLE T);
+	int DW(LDBLE T);
 	int ISPEC(const char *name);
 	LDBLE G(LDBLE Y);
 	LDBLE GP(LDBLE Y);
@@ -545,7 +551,6 @@ public:
 	int clear(void);
 	//int convert_units(struct solution *solution_ptr);
 	int convert_units(cxxSolution *solution_ptr);
-	LDBLE a_aa_sum, b2, b_sum, R_TK;
 	LDBLE f_Vm(LDBLE v1);
 	struct unknown *find_surface_charge_unknown(std::string &str_ptr, int plane);
 	struct master **get_list_master_ptrs(char *ptr,
@@ -777,9 +782,9 @@ public:
 		char **next_char);
 	int spread_row_free(struct spread_row *spread_row_ptr);
 	int spread_row_to_solution(struct spread_row *heading,
-	struct spread_row *units,
-	struct spread_row *data,
-	struct defaults defaults);
+		struct spread_row *units,
+		struct spread_row *data,
+		struct defaults defaults);
 	struct spread_row *string_to_spread_row(char *string);
 #ifdef PHREEQCI_GUI
 	void add_row(struct spread_row *spread_row_ptr);
@@ -1111,9 +1116,6 @@ protected:
 	PHRQ_io *phrq_io;
 	PHRQ_io ioInstance;
 	int same_model;
-	//int same_temperature;
-	//int same_pressure;
-	//bool same_mu;
 
 	LDBLE current_tc;
 	LDBLE current_pa;
@@ -1664,8 +1666,6 @@ protected:
 
 	/* phqalloc.cpp ------------------------------- */
 	PHRQMemHeader *s_pTail;
-	std::stringstream merged_database_stream;
-	std::stringstream merged_input_stream;
 
 	/* Basic */
 	PBasic * basic_interpreter;
@@ -1682,20 +1682,18 @@ protected:
 	LDBLE G1, G2, GF;
 	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
 
+	/* gases.cpp ------------------------------- */
+	LDBLE a_aa_sum, b2, b_sum, R_TK;
+
 	/* input.cpp ------------------------------- */
-	int add_char_to_line(int *i, char c);
-	int check_line_impl(const char *string, int allow_empty,
-		int allow_eof, int allow_keyword, int print);
-	int get_line(void);
-	int get_logical_line(void *cookie, int *l);
-	int read_database(void);
-	int run_simulations(void);
 	int check_line_return;  
 	int reading_db;
 
 	/* integrate.cpp ------------------------------- */
 	LDBLE midpoint_sv;
 	LDBLE z_global, xd_global, alpha_global;
+
+	/* inverse.cpp ------------------------------- */
 	int max_row_count, max_column_count;
 	int carbon;
 	const char **col_name, **row_name;
@@ -1704,10 +1702,10 @@ protected:
 		col_isotopes, col_phase_isotopes;
 	int row_mb, row_fract, row_charge, row_carbon, row_isotopes,
 		row_epsilon, row_isotope_epsilon, row_water;
-	LDBLE *inv_zero, *array1, *res, *inv_delta1, *delta2, *delta3, *inv_cu,
+	LDBLE *inv_zero, *array1, *inv_res, *inv_delta1, *delta2, *delta3, *inv_cu,
 		*delta_save;
 	LDBLE *min_delta, *max_delta;
-	int *iu, *is;
+	int *inv_iu, *inv_is;
 	int klmd, nklmd, n2d, kode, iter;
 	LDBLE toler, error, max_pct, scaled_error;
 	struct master *master_alk;
@@ -1716,14 +1714,13 @@ protected:
 	int max_good, max_bad, max_minimal;
 	int count_good, count_bad, count_minimal, count_calls;
 	unsigned long soln_bits, phase_bits, current_bits, temp_bits;
-
-	/* inverse.cpp ------------------------------- */
 	FILE *netpath_file;
 	int count_inverse_models, count_pat_solutions;
 	int min_position[32], max_position[32], now[32];
 
 	/* kinetics.cpp ------------------------------- */
 public:
+	int count_pp, count_pg, count_ss;
 	void *cvode_kinetics_ptr;
 	int cvode_test;
 	int cvode_error;
@@ -1741,15 +1738,18 @@ public:
 	void *kinetics_cvode_mem;
 	cxxSSassemblage *cvode_ss_assemblage_save;
 	cxxPPassemblage *cvode_pp_assemblage_save;
+protected:
 	LDBLE *m_original;
 	LDBLE *m_temp;
 	LDBLE *rk_moles;
 	int set_and_run_attempt;
+	LDBLE *x0_moles;
 
 	/* model.cpp ------------------------------- */
+	int gas_in;
 	LDBLE min_value;
-	LDBLE *normal, *ineq_array, *inv_res, *cu, *zero, *delta1;
-	int *inv_iu, *inv_is, *back_eq;
+	LDBLE *normal, *ineq_array, *res, *cu, *zero, *delta1;
+	int *iu, *is, *back_eq;
 	int normal_max, ineq_array_max, res_max, cu_max, zero_max,
 		delta1_max, iu_max, is_max, back_eq_max;
 
@@ -1773,11 +1773,6 @@ public:
 	struct pitz_param **pitz_params;
 	int count_pitz_param, max_pitz_param;
 	std::map< std::string, size_t > pitz_param_map;
-	struct pitz_param **sit_params;
-	int count_sit_param, max_sit_param;
-	std::map< std::string, size_t > sit_param_map;
-	int DW(LDBLE T);
-	LDBLE DC(LDBLE T);
 	struct theta_param **theta_params;
 	int count_theta_param, max_theta_param;
 	int use_etheta;
@@ -1828,6 +1823,9 @@ public:
 	std::string dump_file_name_cpp;
 
 	/* sit.cpp ------------------------------- */
+	struct pitz_param **sit_params;
+	int count_sit_param, max_sit_param;
+	std::map< std::string, size_t > sit_param_map;
 	LDBLE sit_A0;
 	int sit_count_cations, sit_count_anions, sit_count_neutrals;
 	int sit_MAXCATIONS, sit_FIRSTANION, sit_MAXNEUTRAL;

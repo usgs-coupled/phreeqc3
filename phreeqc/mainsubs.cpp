@@ -16,7 +16,7 @@
 #if defined(WINDOWS) || defined(_WINDOWS)
 #include <windows.h>
 #endif
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 initialize(void)
@@ -551,8 +551,6 @@ initialize(void)
 	print_density = 0;
 
 	same_model = FALSE;
-	//same_temperature = FALSE;
-	//same_pressure = FALSE;
 	current_tc = NAN;
 	current_pa = NAN;
 	current_mu = NAN;
@@ -714,7 +712,316 @@ initialize(void)
 
 	return;
 }
+#endif
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+initialize(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Initialize global variables
+ */
+	struct logk *logk_ptr;
+	char token[MAX_LENGTH];
 
+	moles_per_kilogram_string = string_duplicate("Mol/kgw");
+	pe_string = string_duplicate("pe");
+/*
+ *   Initialize advection
+ */
+	advection_punch = (int *) PHRQ_malloc(sizeof(int));
+	if (advection_punch == NULL)
+		malloc_error();
+	advection_punch[0] = TRUE;
+	advection_print = (int *) PHRQ_malloc(sizeof(int));
+	if (advection_print == NULL)
+		malloc_error();
+	advection_print[0] = TRUE;
+/*
+ *   Allocate space
+ */
+	space((void **) ((void *) &cell_data), INIT, &count_cells,
+		  sizeof(struct cell_data));
+
+	space((void **) ((void *) &elements), INIT, &max_elements,
+		  sizeof(struct element *));
+
+	space((void **) ((void *) &elt_list), INIT, &max_elts,
+		  sizeof(struct elt_list));
+
+	inverse = (struct inverse *) PHRQ_malloc((size_t) sizeof(struct inverse));
+	if (inverse == NULL) malloc_error();
+	count_inverse = 0;
+	space((void **) ((void *) &line), INIT, &max_line, sizeof(char));
+
+	space((void **) ((void *) &line_save), INIT, &max_line, sizeof(char));
+
+	space((void **) ((void *) &master), INIT, &max_master,
+		  sizeof(struct master *));
+
+	space((void **) ((void *) &mb_unknowns), INIT, &max_mb_unknowns,
+		  sizeof(struct unknown_list));
+
+	// one stag_data
+	stag_data = (struct stag_data *) PHRQ_calloc(1, sizeof(struct stag_data));
+	if (stag_data == NULL)
+		malloc_error();
+	stag_data->count_stag = 0;
+	stag_data->exch_f = 0;
+	stag_data->th_m = 0;
+	stag_data->th_im = 0;
+
+	space((void **) ((void *) &phases), INIT, &max_phases,
+		  sizeof(struct phase *));
+
+	space((void **) ((void *) &trxn.token), INIT, &max_trxn,
+		  sizeof(struct rxn_token_temp));
+
+	space((void **) ((void *) &s), INIT, &max_s, sizeof(struct species *));
+
+	space((void **) ((void *) &logk), INIT, &max_logk, sizeof(struct logk *));
+
+	space((void **) ((void *) &master_isotope), INIT, &max_master_isotope,
+		  sizeof(struct master_isotope *));
+
+/*
+ *   Create hash tables
+ */
+	hcreate_multi((unsigned) max_logk, &logk_hash_table);
+	hcreate_multi((unsigned) max_master_isotope, &master_isotope_hash_table);
+	hcreate_multi((unsigned) max_elements, &elements_hash_table);
+	hcreate_multi((unsigned) max_s, &species_hash_table);
+	hcreate_multi((unsigned) max_phases, &phases_hash_table);
+/*
+ *   Initialize punch
+ */
+	punch.in = FALSE;
+	punch.new_def = FALSE;
+
+	// one punch.totals
+	punch.count_totals = 0;
+	punch.totals =
+		(struct name_master *) PHRQ_malloc(sizeof(struct name_master));
+	if (punch.totals == NULL)
+		malloc_error();
+
+	// one punch.molalities
+	punch.count_molalities = 0;
+	punch.molalities =
+		(struct name_species *) PHRQ_malloc(sizeof(struct name_species));
+	if (punch.molalities == NULL)
+		malloc_error();
+
+	// one punch.activities
+	punch.count_activities = 0;
+	punch.activities =
+		(struct name_species *) PHRQ_malloc(sizeof(struct name_species));
+	if (punch.activities == NULL)
+		malloc_error();
+
+	// one punch.pure_phases
+	punch.count_pure_phases = 0;
+	punch.pure_phases =
+		(struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
+	if (punch.pure_phases == NULL)
+		malloc_error();
+
+	// one punch.si
+	punch.count_si = 0;
+	punch.si = (struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
+	if (punch.si == NULL)
+		malloc_error();
+
+	// one punch.gases
+	punch.count_gases = 0;
+	punch.gases =
+		(struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
+	if (punch.gases == NULL)
+		malloc_error();
+
+	// one punch.s_s
+	punch.count_s_s = 0;
+	punch.s_s = (struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
+	if (punch.s_s == NULL)
+		malloc_error();
+
+	// one punch.kinetics
+	punch.count_kinetics = 0;
+	punch.kinetics =
+		(struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
+	if (punch.kinetics == NULL)
+		malloc_error();
+
+	// one punch.isotopes
+	punch.count_isotopes = 0;
+	punch.isotopes =
+		(struct name_master *) PHRQ_malloc(sizeof(struct name_master));
+	if (punch.isotopes == NULL)
+		malloc_error();
+
+	// one punch.calculate_values
+	punch.count_calculate_values = 0;
+	punch.calculate_values =
+		(struct name_master *) PHRQ_malloc(sizeof(struct name_master));
+	if (punch.calculate_values == NULL)
+		malloc_error();
+
+	// one save_values
+	save_values =
+		(struct save_values *) PHRQ_malloc(sizeof(struct save_values));
+	if (save_values == NULL)
+		malloc_error();
+
+	// one rate
+	rates = (struct rate *) PHRQ_malloc(sizeof(struct rate));
+	if (rates == NULL)
+		malloc_error();
+
+	// user_print
+	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
+	if (user_print == NULL)
+		malloc_error();
+	user_print->commands = NULL;
+	user_print->linebase = NULL;
+	user_print->varbase = NULL;
+	user_print->loopbase = NULL;
+
+	// user_punch
+	user_punch = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
+	if (user_punch == NULL)
+		malloc_error();
+	user_punch->commands = NULL;
+	user_punch->linebase = NULL;
+	user_punch->varbase = NULL;
+	user_punch->loopbase = NULL;
+	user_punch_headings = (const char **) PHRQ_malloc(sizeof(char *));
+	if (user_punch_headings == NULL)
+		malloc_error();
+	user_punch_count_headings = 0;
+#if defined PHREEQ98 
+/*
+ *   user_graph
+ */
+	user_graph = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
+	if (user_graph == NULL)
+		malloc_error();
+	user_graph->commands = NULL;
+	user_graph->linebase = NULL;
+	user_graph->varbase = NULL;
+	user_graph->loopbase = NULL;
+	user_graph_headings = (char **) PHRQ_malloc(sizeof(char *));
+	if (user_graph_headings == NULL)
+		malloc_error();
+	user_graph_count_headings = 0;
+#endif
+	/*
+	   Initialize llnl aqueous model parameters
+	 */
+	llnl_temp = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
+	if (llnl_temp == NULL)
+		malloc_error();
+	llnl_count_temp = 0;
+	llnl_adh = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
+	if (llnl_adh == NULL)
+		malloc_error();
+	llnl_count_adh = 0;
+	llnl_bdh = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
+	if (llnl_bdh == NULL)
+		malloc_error();
+	llnl_count_bdh = 0;
+	llnl_bdot = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
+	if (llnl_bdot == NULL)
+		malloc_error();
+	llnl_count_bdot = 0;
+	llnl_co2_coefs = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
+	if (llnl_co2_coefs == NULL)
+		malloc_error();
+	llnl_count_co2_coefs = 0;
+    // new PBasic
+	basic_interpreter = new PBasic(this, phrq_io);
+	// allocate one change_surf
+	change_surf =
+		(struct Change_Surf *)
+		PHRQ_malloc((size_t) (2 * sizeof(struct Change_Surf)));
+	if (change_surf == NULL)
+		malloc_error();
+	change_surf[0].cell_no = -99;
+	change_surf[0].next = TRUE;
+	change_surf[1].cell_no = -99;
+	change_surf[1].next = FALSE;
+
+#ifdef PHREEQCI_GUI
+	g_spread_sheet.heading            = NULL;
+	g_spread_sheet.units              = NULL;
+	g_spread_sheet.count_rows         = 0;
+	g_spread_sheet.rows               = NULL;
+	g_spread_sheet.defaults.units     = NULL;
+	g_spread_sheet.defaults.count_iso = 0;
+	g_spread_sheet.defaults.iso       = NULL;
+	g_spread_sheet.defaults.redox     = NULL;
+#endif
+
+	/* calculate_value */
+	max_calculate_value = MAX_ELTS;
+	count_calculate_value = 0;
+	space((void **) ((void *) &calculate_value), INIT, &max_calculate_value,
+		  sizeof(struct calculate_value *));
+	hcreate_multi((unsigned) max_calculate_value,
+				  &calculate_value_hash_table);
+
+	/* isotope_ratio */
+	max_isotope_ratio = MAX_ELTS;
+	count_isotope_ratio = 0;
+	space((void **) ((void *) &isotope_ratio), INIT, &max_isotope_ratio,
+		  sizeof(struct isotope_ratio *));
+	hcreate_multi((unsigned) max_isotope_ratio, &isotope_ratio_hash_table);
+
+	/* isotope_value */
+	max_isotope_alpha = MAX_ELTS;
+	count_isotope_alpha = 0;
+	space((void **) ((void *) &isotope_alpha), INIT, &max_isotope_alpha,
+		  sizeof(struct isotope_alpha *));
+	hcreate_multi((unsigned) max_isotope_alpha, &isotope_alpha_hash_table);
+
+	/* 
+	 * define constant named log_k
+	 */
+	strcpy(token, "XconstantX");
+	logk_ptr = logk_store(token, TRUE);
+	strcpy(token, "1.0");
+	read_log_k_only(token, &logk_ptr->log_k[0]);
+
+	// allocate space for copier
+	copier_init(&copy_solution);
+	copier_init(&copy_pp_assemblage);
+	copier_init(&copy_exchange);
+	copier_init(&copy_surface);
+	copier_init(&copy_ss_assemblage);
+	copier_init(&copy_gas_phase);
+	copier_init(&copy_kinetics);
+	copier_init(&copy_mix);
+	copier_init(&copy_reaction);
+	copier_init(&copy_temperature);
+	copier_init(&copy_pressure);
+
+	// Initialize cvode
+	cvode_init();
+
+	// Allocate space for pitzer
+	pitzer_init();
+
+	// Allocate space for sit
+	sit_init();
+
+	// Allocate zeros
+	zeros = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
+	if (zeros == NULL)
+		malloc_error();
+	zeros[0] = 0.0;
+	zeros_max = 1;
+
+	return;
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 set_use(void)
