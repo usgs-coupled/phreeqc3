@@ -62,6 +62,8 @@ class Phreeqc
 {
 public:
 	Phreeqc(PHRQ_io *io = NULL);
+	Phreeqc(const Phreeqc &src);
+	void InternalCopy(const Phreeqc *pSrc);
 	~Phreeqc(void);
 
 public:
@@ -830,6 +832,7 @@ protected:
 	int elt_list_print(struct elt_list *elt_list_ptr);
 	struct elt_list *elt_list_save(void);
 	cxxNameDouble elt_list_NameDouble(void);
+	struct elt_list * NameDouble2elt_list(const cxxNameDouble &nd);
 public:
 	enum entity_type get_entity_enum(char *name);
 	struct inverse *inverse_alloc(void);
@@ -869,6 +872,7 @@ public:
 	int rate_sort(void);
 	struct reaction *rxn_alloc(int ntokens);
 	struct reaction *rxn_dup(struct reaction *rxn_ptr_old);
+	struct reaction * cxxChemRxn2rxn(cxxChemRxn &cr);
 	LDBLE rxn_find_coef(struct reaction *r_ptr, const char *str);
 	int rxn_free(struct reaction *rxn_ptr);
 	int rxn_print(struct reaction *rxn_ptr);

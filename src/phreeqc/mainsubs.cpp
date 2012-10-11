@@ -74,7 +74,6 @@ initialize(void)
 	max_mb_unknowns = MAX_TRXN;
 	max_phases = MAX_PHASES;
 	max_s = MAX_S;
-	max_strings = MAX_STRINGS;
 	max_trxn = MAX_TRXN;
 	max_logk = MAX_S;
 	max_master_isotope = MAX_ELTS;

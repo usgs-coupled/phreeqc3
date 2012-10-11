@@ -662,6 +662,29 @@ elt_list_save(void)
 	elt_list_ptr[count_elts].elt = NULL;
 	return (elt_list_ptr);
 }
+/* ---------------------------------------------------------------------- */
+struct elt_list * Phreeqc::
+NameDouble2elt_list(const cxxNameDouble &nd)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Takes NameDouble allocates space and fills new elt_list struct
+ */
+	struct elt_list *elt_list_ptr = (struct elt_list *) PHRQ_malloc((nd.size() + 1) * sizeof(struct elt_list));
+	if (elt_list_ptr == NULL)
+		malloc_error();
+	cxxNameDouble::const_iterator it = nd.begin();
+	int i = 0;
+	for( ; it != nd.end(); it++)
+	{
+		elt_list_ptr[i].elt = element_store(it->first.c_str());
+		elt_list_ptr[i].coef = it->second;
+		i++;
+	}
+	elt_list_ptr[i].elt = NULL;
+	elt_list_ptr[i].coef = 0;
+	return (elt_list_ptr);
+}
 /* **********************************************************************
  *
  *   Routines related to structure "inverse"
@@ -1734,7 +1757,45 @@ rxn_dup(struct reaction *rxn_ptr_old)
 
 	return (rxn_ptr_new);
 }
+/* ---------------------------------------------------------------------- */
+struct reaction * Phreeqc::
+cxxChemRxn2rxn(cxxChemRxn &cr)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   mallocs space for a reaction and copies the cxxChemRxn to a struct reaction
+ *
+ *   Return: rxn_ptr_new,  pointer to new structure 
+ */
+	for (int i = 0; i < cr.Get_tokens().size(); i++)
+	{
+		cr.Get_tokens()[i].s = s_store(cr.Get_tokens()[i].s->name, cr.Get_tokens()[i].s->z, FALSE);
+		if (cr.Get_tokens()[i].name != NULL)
+		{
+			cr.Get_tokens()[i].name = string_hsave(cr.Get_tokens()[i].name);
+		}
+		else
+		{
+			cr.Get_tokens()[i].name = string_hsave(cr.Get_tokens()[i].s->name);
+		}
+	}
 
+	count_trxn = 0;
+	trxn_add(cr, 1.0, 1);
+
+	struct reaction *rxn_ptr_new = rxn_alloc(count_trxn + 1);
+	trxn_copy(rxn_ptr_new);
+
+	// cleanup pointers for copy operator name, and s may point into another instance
+
+	for (int i = 0; rxn_ptr_new->token[i].s != NULL; i++)
+	{
+		rxn_ptr_new->token[i].name = string_hsave(rxn_ptr_new->token[i].name);
+		double z = rxn_ptr_new->token[i].s->z;
+		rxn_ptr_new->token[i].s = s_store(rxn_ptr_new->token[i].name, z, false);
+	}
+	return (rxn_ptr_new);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 rxn_find_coef(struct reaction * r_ptr, const char *str)
