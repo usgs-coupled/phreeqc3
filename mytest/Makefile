@@ -42,6 +42,7 @@ all: alkalinity.out \
 	deb1.out \
 	deb2.out \
 	debye1.out \
+	deltas.out \
 	desc.out \
 	dissolve_only.out \
 	donly.out \

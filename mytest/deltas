@@ -1,0 +1,30 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 1
+EQUILIBRIUM_PHASES 1-2
+
+Dolomite
+SAVE solution 0-2
+END
+USE solution 1
+USE equilibrium_phases 1
+KINETICS 1-2
+#-cvode
+Calcite
+	-tol    1e-8
+	-m0	5.e-3
+	-m	5.e-3
+	-parms	50	  0.6	
+REACTION 1-2
+	HCl 1
+	1 mmol 
+USER_PRINT
+10 PRINT "Delta Dolomite: ", EQUI_DELTA("Dolomite")
+20 PRINT "Delta Calcite:  ", KIN_DELTA("Calcite")
+END
+TRANSPORT
+    -cells                 2
+    -shifts                2
+    -time_step             2592000 # seconds = 30 days
+END 
+	
+	
