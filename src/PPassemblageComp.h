@@ -62,7 +62,7 @@ class cxxPPassemblageComp: public PHRQ_base
 	void add(const cxxPPassemblageComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif

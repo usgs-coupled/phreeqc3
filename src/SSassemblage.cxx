@@ -223,7 +223,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 			break;
 	}
 }
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 /* ---------------------------------------------------------------------- */
 void
 cxxSSassemblage::mpi_pack(std::vector < int >&ints,

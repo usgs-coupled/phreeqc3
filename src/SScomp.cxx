@@ -247,7 +247,7 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 void
 cxxSScomp::mpi_pack(std::vector < int >&ints,
 							  std::vector < double >&doubles)

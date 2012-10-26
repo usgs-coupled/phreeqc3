@@ -1326,7 +1326,7 @@ cxxSolution::Get_master_activity(char *string) const
 	}
 }
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 /* ---------------------------------------------------------------------- */
 void
 cxxSolution::mpi_pack(std::vector < int >&ints,

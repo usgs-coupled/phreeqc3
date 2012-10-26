@@ -589,7 +589,7 @@ cxxNameDouble::sort_second(void)
 
 	return myvec;
 }
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 void
 cxxNameDouble::mpi_pack(std::vector < int >&ints,
 						std::vector < LDBLE >&doubles)

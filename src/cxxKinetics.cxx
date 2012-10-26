@@ -447,7 +447,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 		}
 	}
 }
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 void
 cxxKinetics::mpi_pack(std::vector < int >&ints,
 					  std::vector < LDBLE >&doubles)

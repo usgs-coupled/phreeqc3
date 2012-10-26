@@ -375,7 +375,7 @@ cxxExchange::add(const cxxExchange & addee, LDBLE extensive)
 	}
 	this->pitzer_exchange_gammas = addee.pitzer_exchange_gammas;
 }
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 /* ---------------------------------------------------------------------- */
 void
 cxxExchange::mpi_pack(std::vector < int >&ints,
