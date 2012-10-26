@@ -4,7 +4,7 @@
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 //MPICH seems to require mpi.h to be first
 #include <mpi.h>
 #endif
@@ -1581,7 +1581,7 @@ cxxStorageBin::Set_System(int i)
 		this->system.Set_Pressure(Utilities::Rxn_find(this->Pressures, i));
 	}
 }
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 void
 cxxStorageBin::mpi_send(int n, int task_number)
 {

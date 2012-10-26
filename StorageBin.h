@@ -114,7 +114,7 @@ class cxxStorageBin: public PHRQ_base
 	std::map < int, cxxPressure > &Get_Pressures();
 
 	cxxSystem & Get_system(void) {return system;};
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 	void mpi_send(int n, int task_number);
 	void mpi_recv(int task_number);
 #endif
