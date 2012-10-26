@@ -6,7 +6,7 @@
 #endif
 
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 //MPICH seems to require mpi.h to be first
 #include <mpi.h>
 #endif
@@ -97,12 +97,12 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 //
 : cxxNumKeyword(io)
 {
-
 //
 //   Zero out solution data
 //
 	this->zero();
 	this->n_user = this->n_user_end = l_n_user;
+	this->new_def = false;
 //
 //   Mix solutions
 //
@@ -124,6 +124,7 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 			this->add(*cxxsoln_ptr1, it->second);
 		}
 	}
+
 }
 cxxSolution::~cxxSolution()
 {

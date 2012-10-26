@@ -2546,36 +2546,39 @@ tidy_solutions(void)
 		if (solution_ref.Get_new_def())
 		{
 			cxxISolution *initial_data_ptr = solution_ref.Get_initial_data();
-			std::map<std::string, cxxISolutionComp>::iterator iit = initial_data_ptr->Get_comps().begin();
-			for ( ; iit != initial_data_ptr->Get_comps().end(); iit++)
+			if (initial_data_ptr != NULL)
 			{
-				cxxISolutionComp &comp_ref = iit->second;
-				if (strcmp(comp_ref.Get_description().c_str(), "H(1)") == 0 ||
-					strcmp(comp_ref.Get_description().c_str(), "E") == 0)
+				std::map<std::string, cxxISolutionComp>::iterator iit = initial_data_ptr->Get_comps().begin();
+				for ( ; iit != initial_data_ptr->Get_comps().end(); iit++)
 				{
-					comp_ref.Set_moles(0.0);
-					continue;
-				}
-				std::string token;
-				std::string description = comp_ref.Get_description();
-				std::string::iterator b = description.begin();
-				std::string::iterator e = description.end();
-				CParser::copy_token(token, b, e);
+					cxxISolutionComp &comp_ref = iit->second;
+					if (strcmp(comp_ref.Get_description().c_str(), "H(1)") == 0 ||
+						strcmp(comp_ref.Get_description().c_str(), "E") == 0)
+					{
+						comp_ref.Set_moles(0.0);
+						continue;
+					}
+					std::string token;
+					std::string description = comp_ref.Get_description();
+					std::string::iterator b = description.begin();
+					std::string::iterator e = description.end();
+					CParser::copy_token(token, b, e);
 
-				master_ptr = master_bsearch(token.c_str());
-				if (master_ptr == NULL)
-				{
-					error_string = sformatf(
+					master_ptr = master_bsearch(token.c_str());
+					if (master_ptr == NULL)
+					{
+						error_string = sformatf(
 							"Could not find element in database, %s.\n\tConcentration is set to zero.",
 							comp_ref.Get_description().c_str());
-					warning_msg(error_string);
-					comp_ref.Set_input_conc(0.0);
-					continue;
+						warning_msg(error_string);
+						comp_ref.Set_input_conc(0.0);
+						continue;
+					}
 				}
 			}
 		}
 	}
-
+	
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

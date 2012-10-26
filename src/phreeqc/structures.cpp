@@ -346,7 +346,7 @@ clean_up(void)
 #endif
 	title_x = (char *) free_check_null(title_x);
 
-#if defined(USE_MPI) && defined(HDF5_CREATE) && defined(MERGE_FILES)
+#if defined(USE_MPI_SKIP) && defined(HDF5_CREATE) && defined(MERGE_FILES)
 	MergeFinalize();
 #endif
 
