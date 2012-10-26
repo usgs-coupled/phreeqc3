@@ -896,6 +896,76 @@ equi_phase(const char *phase_name)
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
+equi_phase_delta(const char *phase_name)
+/* ---------------------------------------------------------------------- */
+{
+	int j;
+
+	if (use.Get_pp_assemblage_in() == FALSE || use.Get_pp_assemblage_ptr() == NULL)
+		return (0);
+	for (j = 0; j < count_unknowns; j++)
+	{
+		if (x[j]->type != PP)
+			continue;
+		if (strcmp_nocase(x[j]->pp_assemblage_comp_name, phase_name) == 0)
+		{
+			break;
+		}
+	}
+/*
+ *   Print pure phase assemblage data
+ */
+	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
+	if (j == count_unknowns)
+	{
+		/* if not an unknown */
+		std::map<std::string, cxxPPassemblageComp>::iterator it;
+		it =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
+		for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
+		{
+			if (strcmp_nocase
+				(it->second.Get_name().c_str(), phase_name) == 0)
+			{
+				cxxPPassemblageComp * comp_ptr = &(it->second);
+				if (state != TRANSPORT && state != PHAST)
+				{
+					//LDBLE moles = it->second.Get_moles();
+					//LDBLE delta_moles = moles - comp_ptr->Get_moles() -
+					//	comp_ptr->Get_delta();
+					return(0);
+				}
+				else
+				{
+					LDBLE moles = it->second.Get_moles();
+					LDBLE delta_moles =	moles - comp_ptr->Get_initial_moles();
+					return(delta_moles);
+				}
+			}
+		}
+	}
+	else
+	{
+		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+		if (state != TRANSPORT && state != PHAST)
+		{
+			LDBLE moles = x[j]->moles;
+			LDBLE delta_moles =
+				x[j]->moles - comp_ptr->Get_moles() -
+				comp_ptr->Get_delta();
+			return(delta_moles);
+		}
+		else
+		{
+			LDBLE moles = x[j]->moles;
+			LDBLE delta_moles =
+				x[j]->moles - comp_ptr->Get_initial_moles();
+			return(delta_moles);
+		}
+	}
+	return (0);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
 find_gas_comp(const char *gas_comp_name)
 /* ---------------------------------------------------------------------- */
 {
@@ -1127,7 +1197,44 @@ kinetics_moles(const char *kinetics_name)
 	warning_msg(error_string);
 	return (0);
 }
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+kinetics_moles_delta(const char *kinetics_name)
+/* ---------------------------------------------------------------------- */
+{
 
+	if (use.Get_kinetics_in() == FALSE || use.Get_kinetics_ptr() == NULL)
+		return (0);
+	for (size_t i = 0; i < use.Get_kinetics_ptr()->Get_kinetics_comps().size(); i++)
+	{
+		cxxKineticsComp *kinetics_comp_ptr = &(use.Get_kinetics_ptr()->Get_kinetics_comps()[i]);
+		if (strcmp_nocase
+			(kinetics_comp_ptr->Get_rate_name().c_str(), kinetics_name) == 0)
+		{
+			//return (kinetics_comp_ptr->Get_m());
+
+			if (state != TRANSPORT && state != PHAST)
+			{
+				//LDBLE moles = kinetics_comp_ptr->Get_m();
+				LDBLE delta_moles = - kinetics_comp_ptr->Get_moles();
+				return delta_moles;
+			}
+			else
+			{
+				//moles =  kinetics_comp_ptr->Get_m();
+				LDBLE delta_moles =
+						kinetics_comp_ptr->Get_m() -
+						kinetics_comp_ptr->Get_initial_moles();
+				return delta_moles;
+			}
+		}
+	}
+
+	//error_string = sformatf( "No data for rate %s in KINETICS keyword.",
+	//		kinetics_name);
+	//warning_msg(error_string);
+	return (0);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 log_activity(const char *species_name)

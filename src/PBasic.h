@@ -310,7 +310,9 @@ public:
 		tokqbrn,
 		tokkappa,
 		tokgfw,
-		toksoln_vol
+		toksoln_vol,
+		tokequi_delta,
+		tokkin_delta
 	};
 
 #if !defined(PHREEQCI_GUI)
