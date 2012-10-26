@@ -93,6 +93,7 @@ public:
 	LDBLE calc_surface_charge(const char *surface_name);
 	LDBLE diff_layer_total(const char *total_name, const char *surface_name);
 	LDBLE equi_phase(const char *phase_name);
+	LDBLE equi_phase_delta(const char *phase_name);
 	LDBLE find_gas_comp(const char *gas_comp_name);
 	LDBLE find_gas_p(void);
 	LDBLE find_gas_vm(void);
@@ -103,6 +104,7 @@ public:
 	char * iso_unit(const char *total_name);
 	LDBLE iso_value(const char *total_name);
 	LDBLE kinetics_moles(const char *kinetics_name);
+	LDBLE kinetics_moles_delta(const char *kinetics_name);
 	LDBLE log_activity(const char *species_name);
 	LDBLE log_molality(const char *species_name);
 	LDBLE molality(const char *species_name);

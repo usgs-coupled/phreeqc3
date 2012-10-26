@@ -1283,6 +1283,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("EQUI");
 			break;
 
+		case tokequi_delta:
+			output_msg("EQUI_DELTA");
+			break;
+
 		case tokgas:
 			output_msg("GAS");
 			break;
@@ -1293,6 +1297,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 
 		case tokkin:
 			output_msg("KIN");
+			break;
+
+		case tokkin_delta:
+			output_msg("KIN_DELTA");
 			break;
 
 		case toks_s:
@@ -2192,10 +2200,24 @@ factor(struct LOC_exec * LINK)
 		}
 		break;
 
+	case tokequi_delta:
+		{
+			const char * str = stringfactor(STR1, LINK);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equi_phase_delta(str);
+		}
+		break;
+
 	case tokkin:
 		{
 			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles(str);
+		}
+		break;
+
+	case tokkin_delta:
+		{
+			const char * str = stringfactor(STR1, LINK);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles_delta(str);
 		}
 		break;
 
@@ -6430,7 +6452,9 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kappa",              PBasic::tokkappa),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gfw",                PBasic::tokgfw),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("soln_vol",           PBasic::toksoln_vol)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("soln_vol",           PBasic::toksoln_vol),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi_delta",         PBasic::tokequi_delta),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
