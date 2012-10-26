@@ -998,7 +998,7 @@ cxxStorageBin::cxxStorageBin2system(Phreeqc * phreeqc_ptr, int n)
 }
 #endif
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 void
 cxxStorageBin::mpi_send(int n, int task_number)
 {
@@ -1581,3 +1581,83 @@ cxxStorageBin::Set_System(int i)
 		this->system.Set_Pressure(Utilities::Rxn_find(this->Pressures, i));
 	}
 }
+#ifdef USE_MPI
+void
+cxxStorageBin::mpi_send(int n, int task_number)
+{
+	//
+	// Send data for system n to task_number
+	//
+
+	std::ostringstream raw_stream;
+
+	// Solution
+	if (this->Get_Solution(n) != NULL)
+	{
+		this->Get_Solution(n)->dump_raw(raw_stream, 0);
+	}
+
+	// Exchanger
+	if (this->Get_Exchange(n) != NULL)
+	{
+		this->Get_Exchange(n)->dump_raw(raw_stream, 0);
+	}
+
+	// GasPhase
+	if (this->Get_GasPhase(n) != NULL)
+	{
+		this->Get_GasPhase(n)->dump_raw(raw_stream, 0);
+	}
+
+	// Kinetics
+	if (this->Get_Kinetics(n) != NULL)
+	{
+		this->Get_Kinetics(n)->dump_raw(raw_stream, 0);
+	}
+
+	// PPassemblages
+	if (this->Get_PPassemblage(n) != NULL)
+	{
+		this->Get_PPassemblage(n)->dump_raw(raw_stream, 0);
+	}
+
+	// SSassemblages
+	if (this->Get_SSassemblage(n) != NULL)
+	{
+		this->Get_SSassemblage(n)->dump_raw(raw_stream, 0);
+	}
+
+	// Surfaces
+	if (this->Get_Surface(n) != NULL)
+	{
+		this->Get_Surface(n)->dump_raw(raw_stream, 0);
+	}
+
+	// Send string
+	int size = raw_stream.str().size();
+	MPI_Send(&size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD);
+	MPI_Send((void *) raw_stream.str().c_str(), size, MPI_CHARACTER, task_number, 0, MPI_COMM_WORLD);
+}
+void
+cxxStorageBin::mpi_recv(int task_number)
+{
+	//
+	// Recieve raw data from task_number
+	//
+
+	MPI_Status mpi_status;
+	int size;
+	MPI_Recv(&size, 1, MPI_INT, task_number, 0, MPI_COMM_WORLD, &mpi_status);
+	
+	std::vector<char> raw_buffer;
+	raw_buffer.resize(size + 1);
+	MPI_Recv((void *) raw_buffer.data(), size, MPI_CHARACTER, task_number, 0, MPI_COMM_WORLD, &mpi_status);
+	raw_buffer[size] = '\0';
+
+	std::istringstream raw_stream(raw_buffer.data());
+	CParser parser(raw_stream);
+	parser.set_echo_file(CParser::EO_NONE);
+	parser.set_echo_stream(CParser::EO_NONE);
+	this->read_raw(parser);
+}
+#endif

@@ -54,10 +54,11 @@ class cxxNameDouble:public
 	{
 		(*this)[str] = d;
 	}
-
+#ifdef USE_MPI_SKIP
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
 	void mpi_pack(int *ints, int *ii, LDBLE *doubles, int *dd);
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
+#endif
 
 	enum ND_TYPE type;
 

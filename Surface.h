@@ -39,7 +39,7 @@ public:
 	const cxxSurfaceCharge *Find_charge(const std::string str)const;
 	void Sort_comps();
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
 	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
 #endif

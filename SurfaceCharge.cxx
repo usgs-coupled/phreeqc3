@@ -374,7 +374,7 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 void
 cxxSurfaceCharge::mpi_pack(std::vector < int >&ints,
 						   std::vector < LDBLE >&doubles)

@@ -406,7 +406,7 @@ cxxExchComp::multiply(LDBLE extensive)
 	this->phase_proportion *= extensive;
 }
 
-#ifdef USE_MPI
+#ifdef USE_MPI_SKIP
 void
 cxxExchComp::mpi_pack(std::vector < int >&ints,
 					  std::vector < LDBLE >&doubles)
