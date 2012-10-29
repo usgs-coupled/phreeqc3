@@ -520,54 +520,6 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI_SKIP
-void
-cxxGasPhase::mpi_pack(std::vector < int >&ints,
-					  std::vector < LDBLE >&doubles)
-{
-	ints.push_back(this->n_user);
-	this->gasPhaseComps.mpi_pack(ints, doubles);
-	if (this->type == cxxGasPhase::GP_PRESSURE)
-	{
-		ints.push_back(0);
-	}
-	else
-	{
-		ints.push_back(1);
-	}
-	doubles.push_back(this->total_p);
-	doubles.push_back(this->volume);
-	doubles.push_back(this->v_m);
-	ints.push_back((pr_in) ? 1 : 0);
-}
-
-void
-cxxGasPhase::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-{
-	int i = *ii;
-	int d = *dd;
-	this->n_user = ints[i++];
-	this->n_user_end = this->n_user;
-	this->description = " ";
-	this->gasPhaseComps.mpi_unpack(ints, &i, doubles, &d);
-	int n = ints[i++];
-	if (n == 0)
-	{
-		this->type = cxxGasPhase::GP_PRESSURE;
-	}
-	else
-	{
-		this->type = cxxGasPhase::GP_VOLUME;
-	}
-	this->total_p = doubles[d++];
-	this->volume = doubles[d++];
-	this->v_m = doubles[d++];
-	n = ints[i++];
-	this->pr_in = (n == 1) ? true : false;
-	*ii = i;
-	*dd = d;
-}
-#endif
 void
 cxxGasPhase::totalize(Phreeqc * phreeqc_ptr)
 {

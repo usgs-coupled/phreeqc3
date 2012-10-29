@@ -282,47 +282,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI_SKIP
-void
-cxxKineticsComp::mpi_pack(std::vector < int >&ints,
-						  std::vector < LDBLE >&doubles)
-{
-	extern cxxDictionary dictionary;
-	ints.push_back(dictionary.string2int(this->rate_name));
-	this->namecoef.mpi_pack(ints, doubles);
-	doubles.push_back(this->tol);
-	doubles.push_back(this->m);
-	doubles.push_back(this->m0);
-	doubles.push_back(this->moles);
-	ints.push_back((int) this->d_params.size());
-	for (std::vector < LDBLE >::iterator it = this->d_params.begin();
-		 it != this->d_params.end(); it++)
-	{
-		doubles.push_back(*it);
-	}
-}
-void
-cxxKineticsComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-{
-	extern cxxDictionary dictionary;
-	int i = *ii;
-	int d = *dd;
-	this->rate_name = dictionary.int2stdstring(ints[i++]);
-	this->namecoef.mpi_unpack(ints, &i, doubles, &d);
-	this->tol = doubles[d++];
-	this->m = doubles[d++];
-	this->m0 = doubles[d++];
-	this->moles = doubles[d++];
-	int n = ints[i++];
-	this->d_params.clear();
-	for (int j = 0; j < n; j++)
-	{
-		this->d_params.push_back(doubles[d++]);
-	}
-	*ii = i;
-	*dd = d;
-}
-#endif
 void
 cxxKineticsComp::add(const cxxKineticsComp & addee, LDBLE extensive)
 {

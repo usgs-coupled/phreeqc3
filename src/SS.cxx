@@ -443,42 +443,6 @@ cxxSS::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI_SKIP
-void
-cxxSS::mpi_pack(std::vector < int >&ints,
-							std::vector < LDBLE >&doubles)
-{
-	extern cxxDictionary dictionary;
-	ints.push_back(dictionary.string2int(this->name));
-	this->comps.mpi_pack(ints, doubles);
-	doubles.push_back(this->a0);
-	doubles.push_back(this->a1);
-	doubles.push_back(this->ag0);
-	doubles.push_back(this->ag1);
-	ints.push_back((int) this->miscibility);
-	doubles.push_back(this->xb1);
-	doubles.push_back(this->xb2);
-}
-
-void
-cxxSS::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-{
-	extern cxxDictionary dictionary;
-	int i = *ii;
-	int d = *dd;
-	this->name = dictionary.int2stdstring(ints[i++]);
-	this->comps.mpi_unpack(ints, &i, doubles, &d);
-	this->a0 = doubles[d++];
-	this->a1 = doubles[d++];
-	this->ag0 = doubles[d++];
-	this->ag1 = doubles[d++];
-	this->miscibility = (ints[i++] != 0);
-	this->xb1 = doubles[d++];
-	this->xb2 = doubles[d++];
-	*ii = i;
-	*dd = d;
-}
-#endif
 void
 cxxSS::totalize(Phreeqc * phreeqc_ptr)
 {

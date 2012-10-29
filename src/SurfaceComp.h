@@ -47,11 +47,6 @@ public:
 	const std::string &Get_master_element() const {return this->master_element;}
 	void Set_master_element(const char * f) {this->master_element = f ? f : "";}
 
-#ifdef USE_MPI_SKIP
-	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
-	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
-#endif
-
 protected:
 	std::string formula;
 	LDBLE formula_z;

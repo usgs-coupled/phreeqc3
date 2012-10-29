@@ -33,11 +33,6 @@ class cxxGasPhase:public cxxNumKeyword
 
 	void read_raw(CParser & parser, bool check = true);
 
-#ifdef USE_MPI_SKIP
-	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
-	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
-#endif
-
 	void totalize(Phreeqc * phreeqc_ptr);
 
 	const cxxNameDouble & Get_totals() const

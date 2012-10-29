@@ -134,7 +134,7 @@ inverse_models(void)
 		}
 	}
 
-	user_punch_count_headings = old_headings.size();
+	user_punch_count_headings = (int) old_headings.size();
 	user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
 		(size_t) (user_punch_count_headings + 1) * sizeof(char *));
 	if (user_punch_headings == NULL)
@@ -2125,7 +2125,7 @@ punch_model_heading(struct inverse *inv_ptr)
 
 	size_t j;
 
-	user_punch_count_headings = heading_names.size();
+	user_punch_count_headings = (int) heading_names.size();
 	user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
 		(size_t) (user_punch_count_headings + 1) * sizeof(char *));
 	if (user_punch_headings == NULL)

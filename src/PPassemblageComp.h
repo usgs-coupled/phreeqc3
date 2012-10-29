@@ -58,14 +58,9 @@ class cxxPPassemblageComp: public PHRQ_base
 	bool Get_precipitate_only() const {return this->precipitate_only;}
 	void Set_precipitate_only(bool tf) {this->precipitate_only = tf;}
 
-
 	void add(const cxxPPassemblageComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
 
-#ifdef USE_MPI_SKIP
-	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
-	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
-#endif
 protected:
 	std::string name;
 	std::string add_formula;

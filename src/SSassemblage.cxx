@@ -223,49 +223,6 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 			break;
 	}
 }
-#ifdef USE_MPI_SKIP
-/* ---------------------------------------------------------------------- */
-void
-cxxSSassemblage::mpi_pack(std::vector < int >&ints,
-						  std::vector < LDBLE >&doubles)
-/* ---------------------------------------------------------------------- */
-{
-	/* int n_user; */
-	ints.push_back(this->n_user);
-	ints.push_back((int) this->SSs.size());
-	for (std::map < std::string, cxxSS >::iterator it =
-		 this->SSs.begin(); it != this->SSs.end();
-		 it++)
-	{
-		(*it).second.mpi_pack(ints, doubles);
-	}
-}
-
-/* ---------------------------------------------------------------------- */
-void
-cxxSSassemblage::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-/* ---------------------------------------------------------------------- */
-{
-	int i = *ii;
-	int d = *dd;
-	/* int n_user; */
-	this->n_user = ints[i++];
-	this->n_user_end = this->n_user;
-	this->description = " ";
-
-	int count = ints[i++];
-	this->SSs.clear();
-	for (int n = 0; n < count; n++)
-	{
-		cxxSS ssc;
-		ssc.mpi_unpack(ints, &i, doubles, &d);
-		std::string str(ssc.get_name());
-		this->SSs[str] = ssc;
-	}
-	*ii = i;
-	*dd = d;
-}
-#endif
 
 void
 cxxSSassemblage::totalize(Phreeqc * phreeqc_ptr)

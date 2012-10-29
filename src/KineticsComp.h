@@ -52,10 +52,6 @@ public:
 	const std::vector < LDBLE > &Get_d_params(void)const {return d_params;};
 	std::vector < std::string > &Get_c_params(void) {return c_params;};
 
-#ifdef USE_MPI_SKIP
-	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
-	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
-#endif
 	void add(const cxxKineticsComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
 

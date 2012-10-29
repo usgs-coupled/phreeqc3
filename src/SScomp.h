@@ -45,10 +45,6 @@ class cxxSScomp: public PHRQ_base
 
 	void multiply(double extensive);
 
-#ifdef USE_MPI_SKIP
-	void mpi_pack(std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(int *ints, int *ii, double *doubles, int *dd);
-#endif
 protected:
 	std::string name;
 	// SOLID_SOLUTION_MODIFY candidate identifier

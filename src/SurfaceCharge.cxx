@@ -374,47 +374,6 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI_SKIP
-void
-cxxSurfaceCharge::mpi_pack(std::vector < int >&ints,
-						   std::vector < LDBLE >&doubles)
-{
-	extern cxxDictionary dictionary;
-
-	ints.push_back(dictionary.string2int(this->name));
-	doubles.push_back(this->specific_area);
-	doubles.push_back(this->grams);
-	doubles.push_back(this->charge_balance);
-	doubles.push_back(this->mass_water);
-	doubles.push_back(this->la_psi);
-	doubles.push_back(this->la_psi1);
-	doubles.push_back(this->la_psi2);
-	doubles.push_back(this->capacitance[0]);
-	doubles.push_back(this->capacitance[1]);
-	this->diffuse_layer_totals.mpi_pack(ints, doubles);
-}
-
-void
-cxxSurfaceCharge::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-{
-	extern cxxDictionary dictionary;
-	int i = *ii;
-	int d = *dd;
-	this->name = dictionary.int2stdstring(ints[i++]);
-	this->specific_area = doubles[d++];
-	this->grams = doubles[d++];
-	this->charge_balance = doubles[d++];
-	this->mass_water = doubles[d++];
-	this->la_psi = doubles[d++];
-	this->la_psi1 = doubles[d++];
-	this->la_psi2 = doubles[d++];
-	this->capacitance[0] = doubles[d++];
-	this->capacitance[1] = doubles[d++];
-	this->diffuse_layer_totals.mpi_unpack(ints, &i, doubles, &d);
-	*ii = i;
-	*dd = d;
-}
-#endif
 void
 cxxSurfaceCharge::add(const cxxSurfaceCharge & addee, LDBLE extensive)
 {
