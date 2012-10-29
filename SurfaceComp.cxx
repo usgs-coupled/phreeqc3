@@ -356,47 +356,6 @@ cxxSurfaceComp::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI_SKIP
-void
-cxxSurfaceComp::mpi_pack(std::vector < int >&ints,
-						 std::vector < LDBLE >&doubles)
-{
-	extern cxxDictionary dictionary;
-
-	ints.push_back(dictionary.string2int(this->formula));
-	doubles.push_back(this->formula_z);
-	this->formula_totals.mpi_pack(ints, doubles);
-	doubles.push_back(this->moles);
-	this->totals.mpi_pack(ints, doubles);
-	doubles.push_back(this->la);
-	doubles.push_back(this->charge_balance);
-	ints.push_back(dictionary.string2int(this->phase_name));
-	doubles.push_back(this->phase_proportion);
-	ints.push_back(dictionary.string2int(this->rate_name));
-	doubles.push_back(this->Dw);
-}
-
-void
-cxxSurfaceComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-{
-	extern cxxDictionary dictionary;
-	int i = *ii;
-	int d = *dd;
-	this->formula = dictionary.int2stdstring(ints[i++]);
-	this->formula_z = doubles[d++];
-	this->formula_totals.mpi_unpack(ints, &i, doubles, &d);
-	this->moles = doubles[d++];
-	this->totals.mpi_unpack(ints, &i, doubles, &d);
-	this->la = doubles[d++];
-	this->charge_balance = doubles[d++];
-	this->phase_name = dictionary.int2stdstring(ints[i++]);
-	this->phase_proportion = doubles[d++];
-	this->rate_name = dictionary.int2stdstring(ints[i++]);
-	this->Dw = doubles[d++];
-	*ii = i;
-	*dd = d;
-}
-#endif
 void
 cxxSurfaceComp::add(const cxxSurfaceComp & addee, LDBLE extensive)
 {

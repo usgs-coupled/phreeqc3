@@ -3954,7 +3954,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
   pr_si_f = log10(phi_i) -  Delta_V_i * (P - 1) / (2.303 * R * TK);
 */
 {
-	int i, i1, n_g = phase_ptrs.size();
+	int i, i1, n_g = (int) phase_ptrs.size();
 	LDBLE T_c, P_c;
 	LDBLE A, B, B_r, /*b2,*/ kk, oo, a_aa, T_r;
 	LDBLE m_sum, /*b_sum, a_aa_sum,*/ a_aa_sum2;
@@ -4746,11 +4746,11 @@ setup_unknowns(void)
  */
 	if (solution_ptr->Get_initial_data())
 	{
-		max_unknowns += solution_ptr->Get_initial_data()->Get_comps().size();
+		max_unknowns += (int) solution_ptr->Get_initial_data()->Get_comps().size();
 	}
 	else
 	{
-		max_unknowns += solution_ptr->Get_totals().size();
+		max_unknowns += (int) solution_ptr->Get_totals().size();
 	}
 /*
  *   Add 5 for ionic strength, activity of water, charge balance, total H, total O
@@ -4804,8 +4804,8 @@ setup_unknowns(void)
 		}
 		else
 		{
-			max_unknowns +=	use.Get_surface_ptr()->Get_surface_comps().size() +
-				4 * (int) use.Get_surface_ptr()->Get_surface_charges().size();
+			max_unknowns +=	(int) (use.Get_surface_ptr()->Get_surface_comps().size() +
+				4 * (int) use.Get_surface_ptr()->Get_surface_charges().size());
 		}
 	}
 /*
@@ -4817,7 +4817,7 @@ setup_unknowns(void)
 		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME && 
 			(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume) && numerical_fixed_volume)
 		{
-			max_unknowns += gas_phase_ptr->Get_gas_comps().size();
+			max_unknowns += (int) gas_phase_ptr->Get_gas_comps().size();
 		}
 		else
 		{
@@ -4832,7 +4832,7 @@ setup_unknowns(void)
 		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
 		for (size_t i = 0; i < ss_ptrs.size(); i++)
 		{
-			max_unknowns += ss_ptrs[i]->Get_ss_comps().size();
+			max_unknowns += (int) ss_ptrs[i]->Get_ss_comps().size();
 		}
 	}
 /*
@@ -6011,7 +6011,7 @@ save_model(void)
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
 		size_t count_ss = use.Get_ss_assemblage_ptr()->Get_SSs().size();
-		last_model.count_ss_assemblage = count_ss;
+		last_model.count_ss_assemblage = (int) count_ss;
 		last_model.ss_assemblage =
 			(const char **) PHRQ_malloc(count_ss * sizeof(char *));
 		if (last_model.ss_assemblage == NULL)

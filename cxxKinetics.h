@@ -53,10 +53,6 @@ class cxxKinetics:public cxxNumKeyword
 	cxxKineticsComp * Find(const std::string &str);
 	LDBLE Current_step(const bool incremental_reactions, const int reaction_step) const;
 
-#ifdef USE_MPI_SKIP
-	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
-	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
-#endif
   protected:
 	void add(const cxxKinetics & addee, LDBLE extensive);
 

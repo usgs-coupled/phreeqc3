@@ -931,9 +931,7 @@ public:
 	static int surface_compare_int(const void *ptr1, const void *ptr2);
 	static int rxn_token_temp_compare(const void *ptr1, const void *ptr2);
 	int trxn_multiply(LDBLE coef);
-#if defined(USE_MPI_SKIP) && defined(HDF5_CREATE) && defined(MERGE_FILES)
-	void MergeFinalize(void);
-#endif
+
 	struct elt_list * cxxNameDouble2elt_list(const cxxNameDouble * nd);
 	struct name_coef * cxxNameDouble2name_coef(const cxxNameDouble * nd);
 	struct master_activity * cxxNameDouble2master_activity(const cxxNameDouble * nd);

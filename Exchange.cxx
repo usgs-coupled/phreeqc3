@@ -375,52 +375,6 @@ cxxExchange::add(const cxxExchange & addee, LDBLE extensive)
 	}
 	this->pitzer_exchange_gammas = addee.pitzer_exchange_gammas;
 }
-#ifdef USE_MPI_SKIP
-/* ---------------------------------------------------------------------- */
-void
-cxxExchange::mpi_pack(std::vector < int >&ints,
-					  std::vector < LDBLE >&doubles)
-/* ---------------------------------------------------------------------- */
-{
-	/* int n_user; */
-	ints.push_back(this->n_user);
-
-	ints.push_back((int) this->pitzer_exchange_gammas);
-	ints.push_back((int) this->exchComps.size());
-	for (std::map < std::string, cxxExchComp >::iterator it = this->exchComps.begin();
-		 it != this->exchComps.end(); it++)
-	{
-		(*it).second.mpi_pack(ints, doubles);
-	}
-}
-
-/* ---------------------------------------------------------------------- */
-void
-cxxExchange::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-/* ---------------------------------------------------------------------- */
-{
-	int i = *ii;
-	int d = *dd;
-	/* int n_user; */
-	this->n_user = ints[i++];
-	this->n_user_end = this->n_user;
-	this->description = " ";
-
-
-	this->pitzer_exchange_gammas = (ints[i++] == TRUE);
-	int count = ints[i++];
-	this->exchComps.clear();
-	for (int n = 0; n < count; n++)
-	{
-		cxxExchComp ec;
-		ec.mpi_unpack(ints, &i, doubles, &d);
-		std::string str(ec.get_formula());
-		this->exchComps[str] = ec;
-	}
-	*ii = i;
-	*dd = d;
-}
-#endif
 void
 cxxExchange::totalize()
 {

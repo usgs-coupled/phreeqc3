@@ -106,13 +106,6 @@ class cxxSolution:public cxxNumKeyword
 	void Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble &nd);
 	void Update_activities(const cxxNameDouble &original_tot);
 
-#ifdef USE_MPI_SKIP
-	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
-	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
-	void mpi_send(int task_number);
-	void mpi_recv(int task_number);
-#endif
-
   protected:
 	bool new_def;
 	LDBLE patm;

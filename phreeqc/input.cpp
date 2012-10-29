@@ -107,7 +107,7 @@ get_line(void)
 	size_t l = (l1 > l2) ? l1 : l2;
 	if (l >= (size_t) max_line)
 	{
-		max_line = l * 2;
+		max_line = (int) l * 2;
 		line_save =	(char *) PHRQ_realloc(line_save,
 			(size_t) max_line * sizeof(char));
 		if (line_save == NULL)

@@ -312,46 +312,6 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef USE_MPI_SKIP
-void
-cxxPPassemblageComp::mpi_pack(std::vector < int >&ints,
-							  std::vector < LDBLE >&doubles)
-{
-	extern cxxDictionary dictionary;
-
-	ints.push_back(dictionary.string2int(this->name));
-	ints.push_back(dictionary.string2int(this->add_formula));
-	doubles.push_back(this->si);
-	doubles.push_back(this->si_org);
-	doubles.push_back(this->moles);
-	doubles.push_back(this->delta);
-	doubles.push_back(this->initial_moles);
-	ints.push_back((int) this->force_equality);
-	ints.push_back((int) this->dissolve_only);
-	ints.push_back((int) this->precipitate_only);
-}
-
-void
-cxxPPassemblageComp::mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd)
-{
-	extern cxxDictionary dictionary;
-	int i = *ii;
-	int d = *dd;
-	this->name = dictionary.int2stdstring(ints[i++]);
-	this->add_formula = dictionary.int2stdstring(ints[i++]);
-	this->si = doubles[d++];
-	this->si_org = doubles[d++];
-	this->moles = doubles[d++];
-	this->delta = doubles[d++];
-	this->initial_moles = doubles[d++];
-	this->force_equality = (ints[i++] != 0);
-	this->dissolve_only = (ints[i++] != 0);
-	this->precipitate_only = (ints[i++] != 0);
-	*ii = i;
-	*dd = d;
-}
-#endif
-
 void
 cxxPPassemblageComp::totalize(Phreeqc * phreeqc_ptr)
 {

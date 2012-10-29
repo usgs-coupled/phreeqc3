@@ -49,10 +49,6 @@ class cxxPPassemblage:public cxxNumKeyword
 	void Set_new_def(bool tf) {this->new_def = tf;}
 
 	cxxPPassemblageComp *Find(const std::string name);
-#ifdef USE_MPI_SKIP
-	void mpi_pack(std::vector < int >&ints, std::vector < LDBLE >&doubles);
-	void mpi_unpack(int *ints, int *ii, LDBLE *doubles, int *dd);
-#endif
 
 	void totalize(Phreeqc * phreeqc_ptr);
 

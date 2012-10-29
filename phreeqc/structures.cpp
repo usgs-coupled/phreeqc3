@@ -346,10 +346,6 @@ clean_up(void)
 #endif
 	title_x = (char *) free_check_null(title_x);
 
-#if defined(USE_MPI_SKIP) && defined(HDF5_CREATE) && defined(MERGE_FILES)
-	MergeFinalize();
-#endif
-
 	count_elements = 0;
 	count_master = 0;
 	count_phases = 0;
