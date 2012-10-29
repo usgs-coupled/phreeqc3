@@ -1953,7 +1953,7 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 			iso_ptr->master = NULL;
 			iso_ptr->primary = NULL;
 		}
-		inverse_ptr->phases[inverse_ptr->count_phases].count_isotopes =	isotopes.size();
+		inverse_ptr->phases[inverse_ptr->count_phases].count_isotopes =	(int) isotopes.size();
 	}
 	else
 	{
@@ -10563,7 +10563,7 @@ cleanup_after_parser(CParser &parser)
 	size_t l = (l1 > l2) ? l1 : l2;
 	if (l >= (size_t) max_line)
 	{
-		max_line = l * 2;
+		max_line = (int) l * 2;
 		line_save =	(char *) PHRQ_realloc(line_save,
 			(size_t) max_line * sizeof(char));
 		if (line_save == NULL)
