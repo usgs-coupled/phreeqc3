@@ -1309,7 +1309,7 @@ void Phreeqc::init(void)
 	* ---------------------------------------------------------------------- */
 	error_string            = NULL;
 	simulation				= 0;
-	int state               = INITIALIZE;
+	state                   = INITIALIZE;
 	reaction_step           = 0;
 	transport_step          = 0;
 	transport_start         = 0;

@@ -948,7 +948,6 @@ equi_phase_delta(const char *phase_name)
 		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
 		if (state != TRANSPORT && state != PHAST)
 		{
-			LDBLE moles = x[j]->moles;
 			LDBLE delta_moles =
 				x[j]->moles - comp_ptr->Get_moles() -
 				comp_ptr->Get_delta();
@@ -956,7 +955,6 @@ equi_phase_delta(const char *phase_name)
 		}
 		else
 		{
-			LDBLE moles = x[j]->moles;
 			LDBLE delta_moles =
 				x[j]->moles - comp_ptr->Get_initial_moles();
 			return(delta_moles);
