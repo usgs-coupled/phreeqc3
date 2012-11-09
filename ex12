@@ -23,7 +23,7 @@ EXCHANGE_SPECIES
     H+ + X- = HX
     log_k       -99.
     -gamma      9.0     0.0
-        
+
     K+ + X- = KX
     log_k       0.0
     gamma       3.5     0.015
@@ -32,6 +32,7 @@ EXCHANGE 1-60
 PRINT
    -reset   false
    -selected_output false
+   -status false
 SELECTED_OUTPUT
    -file    ex12.sel
    -reset   false
@@ -51,14 +52,14 @@ TRANSPORT           # Make column temperature 0C, displace Cl
    -diffusion_coefficient 0.0     # No diffusion
    -thermal_diffusion     1.0     # No retardation for heat
 END
-SOLUTION 0   Fixed temp 24C, and NaCl conc (first type bound cond) at inlet
+SOLUTION 0   Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet
     units  mol/kgw
     temp 24
     pH  7.0
     pe  12.0   O2(g) -0.67
     Na  24.e-3
     Cl  24.e-3
-SOLUTION 58-60 Same as soln 0 in cell 20 at closed column end (second type bound cond)
+SOLUTION 58-60  Same as soln 0 in cell 20 at closed column end (second type boundary cond)
     units  mol/kgw
     temp 24
     pH  7.0
@@ -76,13 +77,13 @@ TRANSPORT            # Diffuse 24C, NaCl solution from column end
    -thermal_diffusion      3.0       # heat is retarded equal to Na
    -diffusion_coefficient  0.3e-9    # m^2/s
    -time_step              1.0e+10   # 317 years give 19 mixes
-USER_GRAPH Example 12
+USER_GRAPH 1 Example 12
    -headings Na Cl Temp Analytical
    -chart_title "Diffusion of Solutes and Heat"
-   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER" "DEGREES CELSIUS"
+   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER", "DEGREES CELSIUS"
    -axis_scale x_axis 0 20
    -axis_scale y_axis 0 25
-   -axis_scale sy_axis 0 25   
+   -axis_scale sy_axis 0 25
    -initial_solutions false
    -plot_concentration_vs x
    -start
@@ -108,5 +109,5 @@ USER_GRAPH Example 12
   2050 b = 1 / (1 + a6 * z)
   2060 erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(-(z * z))
   2080 RETURN
-   -end      
+   -end
 END

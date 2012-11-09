@@ -26,6 +26,7 @@ END
 PRINT
    -reset false
    -echo_input true
+   -status false
 TRANSPORT
    -cells  20
    -shifts 5
@@ -36,7 +37,7 @@ TRANSPORT
    -lengths         0.1
    -dispersivities  0.015
    -stagnant   1  6.8e-6  0.3        0.1
-#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im) 
+#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im)
 END
 SOLUTION 0  # Original solution with KNO3 reenters
    units   mmol/l
@@ -57,7 +58,7 @@ TRANSPORT
    -shifts 10
    -punch_cells        1-20
    -punch_frequency    10
-USER_GRAPH Example 13A
+USER_GRAPH 1 Example 13A
    -headings Distance Na Cl
    -chart_title "Dual Porosity, First-Order Exchange with Implicit Mixing Factors"
    -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
@@ -67,5 +68,5 @@ USER_GRAPH Example 13A
    -start
   10 GRAPH_X DIST
   20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
-  -end      
+  -end
 END

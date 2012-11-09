@@ -1,7 +1,6 @@
-DATABASE ../database/wateq4f.dat
 TITLE Example 14.--Transport with equilibrium_phases, exchange, and surface reactions
 #
-# Use phreeqc.dat 
+# Use phreeqc.dat
 # Dzombak and Morel (1990) aqueous and surface complexation models for arsenic
 # are defined here
 #
@@ -56,8 +55,7 @@ SELECTED_OUTPUT
         -step
 USER_PUNCH
         -head  m_Ca m_Mg m_Na umol_As pH mmol_sorbedAs
-  10 PUNCH TOT("Ca"), TOT("Mg"), TOT("Na"), TOT("As")*1e6, -LA("H+"), \
-           SURF("As", "Surf")*1000
+  10 PUNCH TOT("Ca"), TOT("Mg"), TOT("Na"), TOT("As")*1e6, -LA("H+"), SURF("As", "Surf")*1000
 END
 PRINT
 # skips print of initial exchange and initial surface to the selected-output file
@@ -89,17 +87,17 @@ SAVE solution 0
 END
 PRINT
         -selected_out true
+		-status false
 ADVECTION
         -cells 1
         -shifts 200
         -print_frequency 200
-USER_GRAPH Example 14
+USER_GRAPH 1 Example 14
         -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH
         -chart_title "Chemical Evolution of the Central Oklahoma Aquifer"
-        -axis_titles "PORE VOLUMES OR SHIFT NUMBER" \
-                     "Log(CONCENTRATION, IN PPB OR MOLAL)" "pH"
+        -axis_titles "PORE VOLUMES OR SHIFT NUMBER" "Log(CONCENTRATION, IN PPB OR MOLAL)" "pH"
         -axis_scale x_axis 0 200
-        -axis_scale y_axis 1e-6 100 auto auto Log 
+        -axis_scale y_axis 1e-6 100 auto auto Log
   10 GRAPH_X STEP_NO
   20 GRAPH_Y TOT("As") * 74.92e6, TOT("Ca"), TOT("Mg"), TOT("Na")
   30 GRAPH_SY -LA("H+")

@@ -27,6 +27,7 @@ ADVECTION
         -punch_frequency 1
         -print_cells     40
         -print_frequency 120
+PRINT; -reset false; -status false
 SELECTED_OUTPUT
         -file            ex11adv.sel
         -reset           false
@@ -44,16 +45,17 @@ USER_GRAPH 1 Example 11
   -plot_concentration_vs time
   -start
   10 x = (STEP_NO + 0.5) / cell_no
-  20 PLOT_XY x, TOT("Cl")*1000, symbol = None, color = Red
-  30 PLOT_XY x, TOT("Na")*1000, symbol = None, color = Blue
-  40 PLOT_XY x, TOT("K")*1000, symbol = None, color = Orange
-  50 PLOT_XY x, TOT("Ca")*1000, symbol = None, color = Magenta
+  20 PLOT_XY x, TOT("Cl")*1000, symbol = None
+  30 PLOT_XY x, TOT("Na")*1000, symbol = None
+  40 PLOT_XY x, TOT("K")*1000, symbol = None
+  50 PLOT_XY x, TOT("Ca")*1000, symbol = None
   60 PUT(1, 1)
   -end
 COPY cell 101 1-40
 END
 USER_GRAPH 1
         -detach
+END
 TRANSPORT
         -cells           40
         -lengths         0.002
@@ -80,12 +82,13 @@ USER_GRAPH 2 Example 11
   -axis_titles "PORE VOLUMES" "MILLIMOLES PER KILOGRAM WATER"
   -axis_scale x_axis 0 2.5
   -axis_scale y_axis 0 1.4
+#  -batch \temp\11.gif false # After saving, the chart on the monitor is closed.
   -plot_concentration_vs time
   10 x = (STEP_NO + 0.5) / cell_no
-  20 PLOT_XY x, TOT("Cl")*1000, symbol = Plus, symbol_size = 2, color = Red
-  30 PLOT_XY x, TOT("Na")*1000, symbol = Plus, symbol_size = 2, color = Blue
-  40 PLOT_XY x, TOT("K") *1000, symbol = Plus, symbol_size = 2, color = Orange
-  50 PLOT_XY x, TOT("Ca")*1000, symbol = Plus, symbol_size = 2, color = Magenta
+  20 PLOT_XY x, TOT("Cl")*1000, symbol = Plus, symbol_size = 2
+  30 PLOT_XY x, TOT("Na")*1000, symbol = Plus, symbol_size = 2
+  40 PLOT_XY x, TOT("K") *1000, symbol = Plus, symbol_size = 2
+  50 PLOT_XY x, TOT("Ca")*1000, symbol = Plus, symbol_size = 2
 # calculate Cl_analytical...
   60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
   70 READ a1, a2, a3, a4, a5, a6
@@ -101,8 +104,7 @@ USER_GRAPH 2 Example 11
   170 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red
   180 d = (y - TOT("Cl")*1000)^2
   190 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)
-  200 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', \
-  	GET(10), '(mmol/L)^2'
+  200 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'
   210 END
   2000 REM calculate e_erfc = exp(PA) * erfc(z)...
   2010 sgz = SGN(z)
