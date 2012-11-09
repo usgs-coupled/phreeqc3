@@ -114,8 +114,7 @@ read_delete(void)
 		parser.set_echo_file(CParser::EO_NOKEYWORDS);
 	}
 
-	StorageBinList deleter(parser, phrq_io);
-	delete_info = deleter;
+	delete_info.Read(parser);
 
 
 	// Need to output the next keyword
