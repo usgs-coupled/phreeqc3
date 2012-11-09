@@ -2952,7 +2952,16 @@ run_simulations(void)
  *   Calculate distribution of species for initial solutions
  */
 			if (new_solution)
+			{
 				initial_solutions(TRUE);
+/* For further printout, remove Peng-Robinson equilibration (if done) */
+				for (int i = 0; i < count_phases; i++)
+				{
+					if (phases[i]->pr_in)
+						(phases[i]->pr_in) = FALSE;
+				}
+			}
+
 /*
  *   Calculate distribution for exchangers
  */

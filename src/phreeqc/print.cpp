@@ -3095,14 +3095,14 @@ punch_kinetics(void)
 			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%12.4e\t",
 					(double) moles);
 			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%12.4e\t",
-					(double) -delta_moles);
+					(double) delta_moles);
 		}
 		else
 		{
 			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%20.12e\t",
 					(double) moles);
 			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%20.12e\t",
-					(double) -delta_moles);
+					(double) delta_moles);
 		}
 	}
 	return (OK);
