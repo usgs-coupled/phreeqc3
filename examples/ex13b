@@ -26,6 +26,7 @@ END
 PRINT
         -reset false
         -echo_input true
+		-status false
 MIX  1;  1 .93038;      22 .06962       ;MIX  2;         2 .93038;      23 .06962;
 MIX  3;  3 .93038;      24 .06962       ;MIX  4;         4 .93038;      25 .06962;
 MIX  5;  5 .93038;      26 .06962       ;MIX  6;         6 .93038;      27 .06962;
@@ -77,7 +78,7 @@ TRANSPORT
    -shifts  10
    -punch_cells        1-20
    -punch_frequency    10
-USER_GRAPH Example 13B
+USER_GRAPH 1 Example 13B
    -headings Distance Na Cl
    -chart_title "Dual Porosity, First-Order Exchange with Explicit Mixing Factors"
    -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
@@ -87,5 +88,5 @@ USER_GRAPH Example 13B
    -start
   10 GRAPH_X DIST
   20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
-   -end      
+   -end
 END

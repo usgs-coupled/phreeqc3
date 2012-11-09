@@ -26,6 +26,7 @@ END
 PRINT
         -reset false
         -echo_input true
+		-status false
 TRANSPORT
         -cells  20
         -shifts 5
@@ -36,7 +37,7 @@ TRANSPORT
         -lengths         0.1
         -dispersivities  0.015
         -stagnant   1  6.8e-6  0.3        0.1
-#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im) 
+#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im)
 END
 SOLUTION 0  # Original solution with KNO3 reenters
         units   mmol/l
@@ -57,7 +58,7 @@ TRANSPORT
         -shifts 10
         -punch_cells        1-20
         -punch_frequency    10
-USER_GRAPH Examples 13A and 13C
+USER_GRAPH 1 Examples 13A and 13C
         -headings 1st_Order Na Cl
         -chart_title "Dual Porosity, First Order and Finite Difference Approximations"
         -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
@@ -68,7 +69,7 @@ USER_GRAPH Examples 13A and 13C
   10 plot_xy -1, -1, line_width = 0, symbol_size = 0
   20 plot_xy dist, TOT("Na")*1000, color = Red, symbol = Square
   30 plot_xy dist, TOT("Cl")*1000, color = Green, symbol = Diamond, symbol_size = 7
-  -end      
+  -end
 END
 PRINT; -user_graph false
 TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
@@ -251,11 +252,11 @@ TRANSPORT
         -shifts  10
         -punch_cells        1-20
         -punch_frequency    10
-USER_GRAPH
+USER_GRAPH 1
         -headings Finite_Diff Na Cl
   -start
   10 plot_xy -1, -1, line_width = 0, symbol_size = 0
   20 plot_xy dist, TOT("Na")*1000, color = Red, symbol = Plus
   30 plot_xy dist, TOT("Cl")*1000, color = Green, symbol = Plus
-  -end      
+  -end
 END
