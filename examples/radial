@@ -226,12 +226,12 @@ USER_GRAPH 5 Example 21
  30 IF (cell_no = 4) THEN xval = xval + 0.5 * 1.8000e-03	
  40 IF (cell_no > 4 AND cell_no < 5) THEN xval = xval + 1.8000e-03	
  50 GOTO 200	
- 60 IF (cell_no = 5) THEN  xval = xval + 0.5 * 1.8000e-03 + 0.5 * 1.7109e-03	
+ 60 IF (cell_no = 5) THEN xval = xval + 0.5 * 1.8000e-03 + 0.5 * 1.7109e-03	
  70 IF (cell_no > 5 AND cell_no < 16) THEN xval = xval + 1.7109e-03 ELSE GOTO 90	
  80 GOTO 200	
- 90 IF (cell_no = 16) THEN  xval = xval + 0.5 * 1.7109e-03 + 0.5 * 1.6000e-03	
+ 90 IF (cell_no = 16) THEN xval = xval + 0.5 * 1.7109e-03 + 0.5 * 1.6000e-03	
  100 IF (cell_no > 16 AND cell_no <= 16) THEN xval = xval + 1.6000e-03	
- 110 IF (cell_no = 17) THEN  xval = xval + 0.5 * 1.6000e-03	
+ 110 IF (cell_no = 17) THEN xval = xval + 0.5 * 1.6000e-03	
  200 y1 = TOT("Hto")	
  210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus	
  220 IF cell_no = 3 THEN put(y1, 15)	

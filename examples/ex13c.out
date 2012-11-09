@@ -56,6 +56,7 @@ Initial solution 0.
                                        pe  =  13.622      Equilibrium with O2(g)
        Specific Conductance (uS/cm, 25 oC) = 192
                           Density (g/cm3)  =   0.99712
+                               Volume (L)  =   1.00302
                         Activity of water  =   1.000
                            Ionic strength  =   1.500e-03
                        Mass of water (kg)  =   1.000e+00
@@ -85,7 +86,6 @@ N(5)          1.000e-03
    NO3-            1.000e-03   9.572e-04    -3.000    -3.019    -0.019     29.46
 Na            1.000e-03
    Na+             1.000e-03   9.580e-04    -3.000    -3.019    -0.019     -1.19
-   NaOH            9.597e-21   9.600e-21   -20.018   -20.018     0.000     (0)  
 O(0)          5.110e-04
    O2              2.555e-04   2.556e-04    -3.593    -3.592     0.000     30.40
 
@@ -140,14 +140,15 @@ Initial solution 1.
                                        pe  =  13.622      Equilibrium with O2(g)
        Specific Conductance (uS/cm, 25 oC) = 141
                           Density (g/cm3)  =   0.99711
+                               Volume (L)  =   1.00301
                         Activity of water  =   1.000
                            Ionic strength  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.521e-10
+                 Total alkalinity (eq/kg)  =   4.186e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -4.521e-10
+                  Electrical balance (eq)  =  -4.186e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 1.110124e+02
@@ -165,7 +166,6 @@ H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -44.394   -44.394     0.000     28.61
 K             1.000e-03
    K+              1.000e-03   9.649e-04    -3.000    -3.016    -0.016      8.93
-   KOH             3.345e-11   3.345e-11   -10.476   -10.476     0.000     (0)  
 N(5)          1.000e-03
    NO3-            1.000e-03   9.647e-04    -3.000    -3.016    -0.016     29.45
 O(0)          5.111e-04
@@ -225,16 +225,17 @@ X                1.000e-03 mol
                                        pe  =  13.622      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 141
                           Density (g/cm3)  =   0.99711
+                               Volume (L)  =   1.00301
                         Activity of water  =   1.000
                            Ionic strength  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.521e-10
+                 Total alkalinity (eq/kg)  =   4.186e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -4.521e-10
+                  Electrical balance (eq)  =  -4.186e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   5
+                               Iterations  =   0
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550973e+01
 
@@ -250,7 +251,6 @@ H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -44.394   -44.394     0.000     28.61
 K             1.000e-03
    K+              1.000e-03   9.649e-04    -3.000    -3.016    -0.016      8.93
-   KOH             3.345e-11   3.345e-11   -10.476   -10.476     0.000     (0)  
 N(-3)         0.000e+00
    NH4+            0.000e+00   0.000e+00   -62.898   -62.914    -0.016     18.02
    NH3             0.000e+00   0.000e+00   -65.158   -65.158     0.000     24.31
@@ -271,7 +271,7 @@ O(0)          5.111e-04
 	H2O(g)           -1.50     -0.00    1.50  H2O
 	N2(g)           -15.99    -19.17   -3.18  N2
 	NH3(g)          -66.95    -65.16    1.80  NH3
-	O2(g)            -0.70     -3.59   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+	O2(g)            -0.70     -3.59   -2.89  O2
 
 
 ------------------
@@ -284,6 +284,7 @@ Reading input data for simulation 3.
 
 	PRINT
 	   reset false
+	   status false
 	MIX    1
 	    1  0.90712
 	   22  0.09288
@@ -756,7 +757,7 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	   shifts  10
 	   punch_cells        1-20
 	   punch_frequency    10
-	USER_GRAPH Example 13C
+	USER_GRAPH 1 Example 13C
 	        -headings Distance Na Cl
 	   -chart_title "Dual Porosity, Finite-Difference Approximation"
 	   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
@@ -766,9 +767,9 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	   -start
 	  10 GRAPH_X DIST
 	  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
-	    -end      
+	    -end
 	END
 ------------------------------
-End of Run after 0.89 Seconds.
+End of Run after 0.51 Seconds.
 ------------------------------
 

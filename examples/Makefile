@@ -16,8 +16,8 @@ endif
 
 all: ex1.out ex2.out ex2b.out ex3.out ex4.out ex5.out ex6.out ex7.out ex8.out ex9.out \
 	ex10.out ex11.out ex12.out ex12a.out ex13a.out ex13b.out ex13c.out ex13ac.out \
-	ex14.out ex15.out ex16.out ex17.out ex17b.out ex18.out \
-	ex19.out ex19b.out ex20a.out ex20b.out ex21_radial.out ex22.out
+	ex14.out ex15.out ex15a.out ex15b.out ex16.out ex17.out ex17b.out ex18.out \
+	ex19.out ex19b.out ex20a.out ex20b.out ex21.out ex22.out
 
 ex1.out: $(INPUT)/ex1 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex1 ex1.out $(PHREEQCDAT)
@@ -92,12 +92,20 @@ ex13ac.out: $(INPUT)/ex13ac $(PHREEQC) $(PHREEQCDAT)
 	mv phreeqc.log ex13ac.log	
 
 ex14.out: $(INPUT)/ex14 $(PHREEQC) $(WATEQ4FDAT)
-	$(PHREEQC) $(INPUT)/ex14 ex14.out 
+	$(PHREEQC) $(INPUT)/ex14 ex14.out $(PHREEQCDAT)
 	mv phreeqc.log ex14.log
 
 ex15.out: $(INPUT)/ex15 $(PHREEQC) $(INPUT)/ex15.dat
 	$(PHREEQC) $(INPUT)/ex15 ex15.out $(INPUT)/ex15.dat
 	mv phreeqc.log ex15.log
+
+ex15a.out: $(INPUT)/ex15 $(PHREEQC) $(INPUT)/ex15.dat
+	$(PHREEQC) $(INPUT)/ex15a ex15a.out $(INPUT)/ex15.dat
+	mv phreeqc.log ex15a.log
+
+ex15b.out: $(INPUT)/ex15b $(PHREEQC) $(INPUT)/ex15.dat
+	$(PHREEQC) $(INPUT)/ex15b ex15b.out $(INPUT)/ex15.dat
+	mv phreeqc.log ex15b.log
 
 ex16.out: $(INPUT)/ex16 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex16 ex16.out $(PHREEQCDAT)
@@ -131,9 +139,9 @@ ex20b.out: $(INPUT)/ex20b $(PHREEQC) ../database/iso.dat
 	$(PHREEQC) $(INPUT)/ex20b ex20b.out 
 	mv phreeqc.log ex20b.log
 
-ex21_radial.out: $(INPUT)/ex21_radial $(PHREEQC) $(PHREEQCDAT)
-	$(PHREEQC) $(INPUT)/ex21_radial ex21_radial.out $(PHREEQCDAT)
-	mv phreeqc.log ex21_radial.log
+ex21.out: $(INPUT)/ex21 $(PHREEQC) $(PHREEQCDAT)
+	$(PHREEQC) $(INPUT)/ex21 ex21.out $(PHREEQCDAT)
+	mv phreeqc.log ex21.log
 
 ex22.out: $(INPUT)/ex22 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex22 ex22.out $(PHREEQCDAT)
