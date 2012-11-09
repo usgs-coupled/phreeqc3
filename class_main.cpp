@@ -130,6 +130,8 @@ main_method(int argc, char *argv[])
 
 	this->phrq_io->push_istream(input_cookie);
 	errors = run_simulations();
+
+	//Phreeqc mycopy(*this);
 	this->phrq_io->clear_istream();
 
 	if (errors != 0)
