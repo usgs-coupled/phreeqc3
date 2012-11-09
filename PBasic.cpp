@@ -478,7 +478,7 @@ numtostr(char * Result, LDBLE n)
 		}
 		else
 		{
-			sprintf(l_s, "%19g", (double) n);
+			sprintf(l_s, "%20g", (double) n);
 		}
 	}
 	else
