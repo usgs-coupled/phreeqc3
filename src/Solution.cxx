@@ -98,6 +98,7 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 	this->zero();
 	this->n_user = this->n_user_end = l_n_user;
 	this->new_def = false;
+	this->ah2o = 0;
 //
 //   Mix solutions
 //
