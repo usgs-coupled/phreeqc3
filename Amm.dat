@@ -67,6 +67,7 @@ e- = e-
 H2O = H2O
 Ca+2 = Ca+2
 	-gamma	5.0	0.1650
+#	-gamma	4.5	0.23 # anhydrite in NaCl solutions, Freyer and Voigt, 2004, GCA 68, 307
 	-dw	 0.793e-9
 	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # supcrt modified
 Mg+2 = Mg+2
@@ -74,7 +75,7 @@ Mg+2 = Mg+2
 	-dw	 0.705e-9
 	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1 # supcrt modified
 Na+ = Na+
-	-gamma	4.0	0.075
+	-gamma	4.08 0.082 # halite solubility
 	-dw	 1.33e-9
 	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  4.0  0.162  47.67  -3.09e-3  0.725 # supcrt modified
 # for calculating densities (rho) when I > 3...
@@ -96,7 +97,7 @@ Al+3 = Al+3
 	-dw	 0.559e-9
 	-Vm  -3.3404  -17.1108  14.9917  -2.0716  2.8711 9 # supcrt
 Ba+2 = Ba+2
-	-gamma	5.0	0.0
+	-gamma	4.0  0.153 # Barite solubility
 	-dw 0.848e-9
 	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1 # supcrt modified
 Sr+2 = Sr+2
@@ -108,6 +109,7 @@ H4SiO4 = H4SiO4
 	-Vm  10.5  1.7  20  -2.7  0.1291 # supcrt + 2*H2O in a1
 Cl- = Cl-
 	-gamma	3.5	0.015
+	-gamma	3.63  0.017 # from pitzer.dat
 	-dw	 2.03e-9
 	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # supcrt modified
 CO3-2 = CO3-2
@@ -177,10 +179,10 @@ H2Sg = H2Sg # H2S
 	-Vm  7.81  2.96  -0.46 # supcrt
 # aqueous species
 H2O = OH- + H+
-	-analytic  68.547  0  -6199.8  -24.955
+	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
 	-gamma	3.5	0.0
 	-dw	 5.27e-9
-	-Vm  1.776  0.0738  1.417  -2.782  2.347  0  0.906  0  0  1 # supcrt modified
+	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # supcrt modified
 2 H2O = O2 + 4 H+ + 4 e-
 	-log_k	-86.08
 	-delta_h 134.79 kcal
@@ -1051,10 +1053,15 @@ Pyrochroite
 	Mn(OH)2 + 2 H+ = Mn+2 + 2 H2O
 	-log_k	15.2
 Halite
-	NaCl = Na+ + Cl-
-	-log_k	   1.582
-	-delta_h 0.918 kcal
+	NaCl  =  Cl- + Na+
+	log_k	   1.570
+	-analytic -713.4616   -.1201241   37302.21    262.4583    -2106915.
 	-Vm 27.1
+Sylvite
+	KCl  = K+ + Cl-
+	log_k	   0.900
+	-analytic     3.984     0.0	 -919.55
+	Vm 37.5
 CO2(g)
 	CO2 = CO2
 	-log_k	-1.468
@@ -1075,7 +1082,7 @@ H2O(g)
 O2(g)
 	O2 = O2
 	-log_k   -2.8983
-	-analytic -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+	-analytic -7.5001 7.8981e-3 0.0 0.0 2.0027e5
 	-T_c  154.6
 	-P_c   49.80
 	-Omega 0.021
@@ -1083,58 +1090,58 @@ H2(g)
 	H2 = H2
 	-log_k	   -3.1050
 	-delta_h -4.184  kJ
-	-analytic   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
+	-analytic   -9.3114    4.6473e-3   -49.335    1.4341    1.2815e5
 	-T_c  33.2
 	-P_c   12.80
 	-Omega 0.225
 N2(g)
 	N2 = N2
 	-log_k		 -3.1864
-	-analytic -58.453 1.81800E-03  3199  17.909 -27460
+	-analytic -58.453 1.818e-3  3199  17.909 -27460
 	-T_c  126.2
 	-P_c   33.50
 	-Omega 0.039
 H2S(g)
 	H2S  =  H+ + HS-
 	-log_k	   -7.9759
-	-analytic -9.7354e+001 -3.1576e-002 1.8285e+003 3.7440e+001 2.8560e+001
+	-analytic -97.354 -3.1576e-2 1.8285e3 37.44 28.56
 	-T_c  373.2
 	-P_c  88.20
 	-Omega 0.1
 CH4(g)
 	CH4 = CH4
 	-log_k	   -2.8502
-	-analytic -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+	-analytic -24.027 4.7146e-3 372.27 6.4264 2.3362e5
 	-T_c  190.6
 	-P_c   45.40
 	-Omega 0.008
 Amm(g)
 	Amm = Amm
 	-log_k	   1.7966
-	-analytic -1.8758e+001 3.3670e-004 2.5113e+003 4.8619e+000 3.9192e+001
+	-analytic -18.758 3.3670e-4 2.5113e3 4.8619 39.192
 	-T_c  405.6
 	-P_c   111.3
 	-Omega 0.25
 # redox-uncoupled gases
 Oxg(g)
 	Oxg = Oxg
-	-analytic -7.5001 7.8981e-003 0.0 0.0 2.0027e+005
+	-analytic -7.5001 7.8981e-3 0.0 0.0 2.0027e5
 	-T_c  154.6 ; -P_c   49.80 ; -Omega 0.021
 Hdg(g)
 	Hdg = Hdg
-	-analytic   -9.3114e+000    4.6473e-003   -4.9335e+001    1.4341e+000    1.2815e+005
+	-analytic   -9.3114    4.6473e-3   -49.335    1.4341    1.2815e5
 	-T_c  33.2 ; -P_c   12.80 ; -Omega 0.225
 Ntg(g)
 	Ntg = Ntg
-	-analytic -58.453 1.81800E-03  3199  17.909 -27460
+	-analytic -58.453 1.81800e-3  3199  17.909 -27460
 	T_c  126.2 ; -P_c   33.50 ; -Omega 0.039
 Mtg(g)
 	Mtg = Mtg
-	-analytic -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+	-analytic -24.027 4.7146e-3 3.7227e2 6.4264 2.3362e5
 	-T_c  190.6 ; -P_c   45.40 ; -Omega 0.008
 H2Sg(g)
 	H2Sg  =  H+ + HSg-
-	-analytic -9.7354e+001 -3.1576e-002 1.8285e+003 3.7440e+001 2.8560e+001
+	-analytic -97.354 -3.1576e-2 1.8285e3 37.44 28.56
 	-T_c  373.2 ; -P_c  88.20 ; -Omega 0.1
 Melanterite
 	FeSO4:7H2O = 7 H2O + Fe+2 + SO4-2
@@ -1200,7 +1207,7 @@ EXCHANGE_SPECIES
 
 	Na+ + X- = NaX
 	-log_k	0.0
-	-gamma	4.0	0.075
+	-gamma	4.08 0.082
 
 	K+ + X- = KX
 	-log_k	0.7
