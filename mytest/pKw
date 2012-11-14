@@ -1,34 +1,55 @@
-DATABASE ../database/phreeqc.dat
-#PRINT; -reset false
-SOLUTION_SPECIES
-H2O = OH- + H+
-	log_k	-14.0
-	delta_h 13.362	kcal
-	-analytic	-283.971	-0.05069842	13323.0	102.24447	-1119669.0
-#	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
-SOLUTION 1
-REACTION_TEMPERATURE 1
- 0 200 in 10
-REACTION_PRESSURE 1
- 1 1e3 in 10
-USER_GRAPH
--headings tc old_anal
--connect_simulations false
-10 graph_x tc 
-20 graph_y la("H+") + la("OH-")
+# compare pKw from Bandura and Lvov with PHREEQC
+DATABASE ../database/pitzer.dat
+SOLUTION 1; pH 7 charge
 END
+ 
+USE SOLUTION 1
+REACTION_TEMPERATURE
+ 1 300 in 31
 USER_GRAPH
--headings tc new_anal
-SOLUTION_SPECIES
-H2O = OH- + H+
-	log_k	-14.0
-	delta_h 13.362	kcal
-	-analytic   235.27  8.638e-2  -9.9073e3 -96.2854   2.8e+03  -4.0136e-5 # 0 - 200 oC
-	-gamma	3.5	0.0
-	-dw	 5.27e-9
-	-Vm -5.7 0.11 -13e-4  1 0 0 -3.77e-3 0 # NaOH.xls, KOH.xls Laliberte, tc >= 15oC, Na, K < 0.51M. 1 - 1000 atm, pKw(T, rho) from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15.
-USE solution 1; USE reaction_temperature 1; USE reaction_pressure 1
+ -connect_simulations false
+ -axis_scale x_axis 0 300
+ -axis_scale y_axis 10 15
+ -axis_titles "temperature / oC" pKw
+ -headings sat_P
+ 1 rh = rho; 2 n = 6;          3 aa0 = -0.864671; 4 aa1 = 8659.19
+ 5 aa2 = -22786.2; 6 bb0 = 0.642044; 7 bb1 = -56.8534;  8 bb2 = -0.375754
+ 9 MW = 18.016
+ 10 pkw_g = 0.61415 + 48251.33 / tk - 67707.93 / tk^2 + 10102100 / tk^3
+ 30 Z = rh * exp(aa0 + aa1 / tk + aa2 / tk^2 * rh^(2/3))
+ 40 pkw = - 2 * n * (log10(1 + Z) - Z / (Z + 1) * rh * (bb0 + bb1 / tk + bb2 * rh))
+ 50 pkw = pkw + pkw_g + 2 * log10(MW * 1e-3)
+ 60 plot_xy tc, pkw, line_width = 0, color = Aqua
+ 70 plot_xy tc, -(la("H+") + la("OH-") -la("H2O")), symbol_size = 0, color = Aqua
+ -end
+END
+ 
+USE SOLUTION 1; REACTION_PRESSURE 1; 500
+USE REACTION_TEMPERATURE 1
+USER_GRAPH; -headings 500.atm
+ 1 rh = rho; 2 n = 6;          3 aa0 = -0.864671; 4 aa1 = 8659.19
+ 5 aa2 = -22786.2; 6 bb0 = 0.642044; 7 bb1 = -56.8534;  8 bb2 = -0.375754
+ 9 MW = 18.016
+ 10 pkw_g = 0.61415 + 48251.33 / tk - 67707.93 / tk^2 + 10102100 / tk^3
+ 30 Z = rh * exp(aa0 + aa1 / tk + aa2 / tk^2 * rh^(2/3))
+ 40 pkw = - 2 * n * (log10(1 + Z) - Z / (Z + 1) * rh * (bb0 + bb1 / tk + bb2 * rh))
+ 50 pkw = pkw + pkw_g + 2 * log10(MW * 1e-3)
+ 60 plot_xy tc, pkw, line_width = 0, color = Red
+ 70 plot_xy tc, -(la("H+") + la("OH-") -la("H2O")), symbol_size = 0, color = Red
+ -end
+END
+ 
+USE SOLUTION 1; REACTION_PRESSURE 1; 1000
+USE REACTION_TEMPERATURE 1
+USER_GRAPH; -headings 1000.atm
+ 1 rh = rho; 2 n = 6;          3 aa0 = -0.864671; 4 aa1 = 8659.19
+ 5 aa2 = -22786.2; 6 bb0 = 0.642044; 7 bb1 = -56.8534;  8 bb2 = -0.375754
+ 9 MW = 18.016
+ 10 pkw_g = 0.61415 + 48251.33 / tk - 67707.93 / tk^2 + 10102100 / tk^3
+ 30 Z = rh * exp(aa0 + aa1 / tk + aa2 / tk^2 * rh^(2/3))
+ 40 pkw = - 2 * n * (log10(1 + Z) - Z / (Z + 1) * rh * (bb0 + bb1 / tk + bb2 * rh))
+ 50 pkw = pkw + pkw_g + 2 * log10(MW * 1e-3)
+ 60 plot_xy tc, pkw, line_width = 0, color = Green
+ 70 plot_xy tc, -(la("H+") + la("OH-") -la("H2O")), symbol_size = 0, color = Green
+ -end
 END
