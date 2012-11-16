@@ -264,7 +264,14 @@ bool StorageBinList::Read(CParser & parser)
 			break;
 		case 14:
 		case 15:
-			this->TransferAll(cell_list);
+			if (cell_list.Get_numbers().empty())
+			{
+				this->SetAll(true);
+			}
+			else
+			{
+				this->TransferAll(cell_list);
+			}
 			break;
 		default:
 		case CParser::OPT_DEFAULT:
