@@ -1,11 +1,18 @@
 DATABASE ../database/pitzer.dat
+SOLUTION_SPECIES
+Na+ = Na+
+	-gamma	4.08 0.082 # Halite solubility according to pitzer.dat
+	-dw	 1.33e-9
+	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  4.0  0.162  47.67  -3.09e-3  0.725 # supcrt modified
+# for calculating densities (rho) when I > 3...
+	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  2.0  0.162  47.67  -3.09e-3  0.4
+
 PHASES
 Halite
-	NaCl = Na+ + Cl-
-	log_k	   1.582
-	delta_h 0.918 kcal
+	NaCl  =  Cl- + Na+
+	log_k	   1.583
+	-analytic -713.4616   -.1201241   37302.21    262.4583    -2106915.
 	-Vm 27.1
-
 SOLUTION 1
  pH 7 charge
  -temp 30
