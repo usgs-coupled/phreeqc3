@@ -16,6 +16,7 @@
     <Package InstallerVersion="300" Compressed="yes" />
 
     <!-- Prereqs -->
+    <PropertyRef Id="NETFRAMEWORK20"/>
 
     <!-- NT only -->
     <Condition Message="[ProductName] requires a Windows NT based OS (Windows 2000 or later, specifically).">
@@ -35,6 +36,11 @@
     -->
     <Condition Message="An administrator must approve or install [ProductName].">
       <![CDATA[Privileged OR (Installed OR ALLOW_PER_USER)]]>
+    </Condition>
+
+    <!-- .Net framework 2.0 -->
+    <Condition Message="This application requires .NET Framework 2.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK20]]>
     </Condition>
 
     <Media Id="1" Cabinet="$(var.Cabinet)" EmbedCab="yes" />
@@ -314,6 +320,7 @@
 
     <!-- phreeqc.exe -->
     <DirectoryRef Id="Release">
+      <Merge Id="CRT" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\microsoft_vc80_crt_x86.msm" DiskId="1" />
       <Component Id="phreeqc.exe" Guid="*">
         <!-- executable -->
         <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\ClrClass_release\phreeqc.exe" />
@@ -334,6 +341,10 @@
       <Feature Id="Source" Title="Source Code" Description="This component contains the program source code." AllowAdvertise="system" Level="1">
         <ComponentRef Id="src" />
         <ComponentRef Id="src_phreeqc" />
+      </Feature>
+      <Feature Id="LocalMachine" Display="hidden" Level="0">
+        <Condition Level="1">ALLUSERS=1</Condition>
+        <MergeRef Id='CRT' />
       </Feature>
     </Feature>
 
