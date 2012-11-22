@@ -163,8 +163,8 @@ if [ -z "$ver_patch" ]; then
 fi
 
 SED_FILES="$DISTPATH/build/phreeqc_version.h \
-           $DISTPATH/src/main.c \
-           $DISTPATH/src/revisions \
+           $DISTPATH/src/class_main.cpp \
+           $DISTPATH/src/phreeqc/revisions \
            $DISTPATH/win/README.TXT \
            $DISTPATH/doc/README.TXT"
 
