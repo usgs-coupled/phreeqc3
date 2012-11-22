@@ -1,5 +1,5 @@
-#define PHREEQC_VER_MAJOR      2
-#define PHREEQC_VER_MINOR     11
+#define PHREEQC_VER_MAJOR      3
+#define PHREEQC_VER_MINOR      0
 #define PHREEQC_VER_PATCH      0  
 #define PHREEQC_VER_REVISION   0
 
