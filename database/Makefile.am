@@ -1,0 +1,16 @@
+# Docs
+#
+databasedir = $(docdir)/database
+
+dist_database_DATA = $(DATABASE)
+
+DATABASE= \
+	Amm.dat \
+	iso.dat \
+	llnl.dat \
+	minteq.dat \
+	minteq.v4.dat \
+	phreeqc.dat \
+	pitzer.dat \
+	sit.dat \
+	wateq4f.dat
