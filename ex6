@@ -1,4 +1,4 @@
-TITLE Example 6A.--React to phase boundaries.
+TITLE Simulation 6A.--React to phase boundaries.
 SOLUTION 1  PURE WATER
             pH    7.0 charge
           temp   25.0
@@ -25,7 +25,7 @@ SELECTED_OUTPUT
         -si             Gibbsite Kaolinite K-mica K-feldspar
         -equilibrium    Gibbsite Kaolinite K-mica K-feldspar
 END
-TITLE Example 6A1.--Find amount of K-feldspar dissolved to
+TITLE Simulation 6A1.--Find amount of K-feldspar dissolved to
                     reach gibbsite saturation.
 USE solution 1
 EQUILIBRIUM_PHASES 1
@@ -33,7 +33,7 @@ EQUILIBRIUM_PHASES 1
         Kaolinite       0.0     0.0
         K-mica          0.0     0.0
         K-feldspar      0.0     0.0
-USER_GRAPH 1 Example 6
+USER_GRAPH 1 Simulation 6
         -headings 6A--Intersections
         -chart_title "K-Feldspar Reaction Path"
         -axis_titles "Log[H4SiO4]" "Log([K+] / [H+])"
@@ -42,7 +42,7 @@ USER_GRAPH 1 Example 6
   10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Red, line_w = 0, \
   	symbol = Circle, symbol_size = 10
 END
-TITLE Example 6A2.--Find amount of K-feldspar dissolved to
+TITLE Simulation 6A2.--Find amount of K-feldspar dissolved to
                     reach kaolinite saturation.
 USE solution 1
 EQUILIBRIUM_PHASES 1
@@ -51,7 +51,7 @@ EQUILIBRIUM_PHASES 1
         K-mica          0.0     0.0
         K-feldspar      0.0     0.0
 END
-TITLE Example 6A3.--Find amount of K-feldspar dissolved to
+TITLE Simulation 6A3.--Find amount of K-feldspar dissolved to
                     reach K-mica saturation.
 USE solution 1
 EQUILIBRIUM_PHASES 1
@@ -60,7 +60,7 @@ EQUILIBRIUM_PHASES 1
         K-mica          0.0     KAlSi3O8        10.0
         K-feldspar      0.0     0.0
 END
-TITLE Example 6A4.--Find amount of K-feldspar dissolved to
+TITLE Simulation 6A4.--Find amount of K-feldspar dissolved to
                     reach K-feldspar saturation.
 USE solution 1
 EQUILIBRIUM_PHASES 1
@@ -69,21 +69,21 @@ EQUILIBRIUM_PHASES 1
         K-mica          0.0     0.0
         K-feldspar      0.0     KAlSi3O8        10.0
 END
-TITLE Example 6A5.--Find point with kaolinite present,
+TITLE Simulation 6A5.--Find point with kaolinite present,
                     but no gibbsite.
 USE solution 1
 EQUILIBRIUM_PHASES 1
         Gibbsite        0.0     KAlSi3O8        10.0
         Kaolinite       0.0     1.0
 END
-TITLE Example 6A6.--Find point with K-mica present,
+TITLE Simulation 6A6.--Find point with K-mica present,
                     but no kaolinite
 USE solution 1
 EQUILIBRIUM_PHASES 1
         Kaolinite       0.0     KAlSi3O8        10.0
         K-mica          0.0     1.0
 END
-TITLE Example 6B.--Path between phase boundaries.
+TITLE Simulation 6B.--Path between phase boundaries.
 USE solution 1
 EQUILIBRIUM_PHASES 1
         Kaolinite       0.0     0.0
@@ -99,7 +99,7 @@ USER_GRAPH
   10 PLOT_XY LA("H4SiO4"),(LA("K+")-LA("H+")), color = Blue, line_w = 0, \
   		symbol = XCross, symbol_size = 7
 END
-TITLE Example 6C.--kinetic calculation
+TITLE Simulation 6C.--kinetic calculation
 SOLUTION 1
         -units mol/kgw
         Al         1.e-13
@@ -168,11 +168,11 @@ USER_PRINT
           "E: Kaolinite -> K-mica    ", "F: K-mica    -> K-feldspar"
   20 PRINT \
   "        Transition                 Time   K-feldspar      LA(K/H)   LA(H4SiO4)"
-  30 PRINT "                                             reacted"
-  40 PRINT "                                             (moles)"
+  30 PRINT "                                            transfer"
+  40 PRINT "                                            (umoles)"
   50 FOR i = 2 TO 7
   60   READ s$
-  70   IF EXISTS(i) THEN PRINT s$, GET(i,1), GET(1) - GET(i), GET(i,2), GET(i,3)
+  70   IF EXISTS(i) THEN PRINT s$, GET(i,1), (GET(1) - GET(i))*1e6, GET(i,2), GET(i,3)
   80 NEXT i
 SELECTED_OUTPUT
         -file ex6C.sel
