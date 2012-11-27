@@ -50,11 +50,11 @@
       <!-- program files -->
       <Directory Id="ProgramFilesFolder">
         <Directory Id="APPLICATIONFOLDER" Name="$(var.FolderName)">
+          <Directory Id="bin" Name="bin"/>
           <Directory Id="doc" Name="doc"/>
           <Directory Id="examples" Name="examples"/>
           <Directory Id="src" Name="src">
             <Directory Id="phreeqc" Name="phreeqc"/>
-            <Directory Id="Release" Name="Release"/>
           </Directory>
           <Directory Id="test" Name="test"/>
         </Directory>
@@ -319,11 +319,14 @@
     </DirectoryRef>
 
     <!-- phreeqc.exe -->
-    <DirectoryRef Id="Release">
+    <DirectoryRef Id="bin">
       <Merge Id="CRT" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\microsoft_vc80_crt_x86.msm" DiskId="1" />
       <Component Id="phreeqc.exe" Guid="*">
         <!-- executable -->
         <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\ClrClass_release\phreeqc.exe" />
+      </Component>
+      <Component Id="ZedGraph.dll" Guid="*">
+        <File Id="ZedGraph.dll" Name="ZedGraph.dll" Source="..\ClrClass_release\ZedGraph.dll" />
       </Component>
     </DirectoryRef>
 
@@ -331,6 +334,7 @@
     <Feature Id="ProgramFiles" Title="Program Files" Description="This component contains the program executable, files required during execution, and minimal informal documentation." AllowAdvertise="system" Level="1" Display="expand">
       <ComponentRef Id="top.dir" />
       <ComponentRef Id="phreeqc.exe" />
+      <ComponentRef Id="ZedGraph.dll" />
       <Feature Id="Documentation" Title="Documentation" Description="This component contains brief, summary documentation as well as the full, formal program documentation." AllowAdvertise="system" Level="1">
         <ComponentRef Id="doc" />
       </Feature>

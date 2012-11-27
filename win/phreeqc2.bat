@@ -71,7 +71,7 @@ if errorlevel 0 goto R_4_ERR3
 	echo.
 	echo Screen output sent to file:  "%~4" .
 	echo.
-	"%TD%src\Release\phreeqc" "%~1" "%~2" "%~3" "%~4"
+	"%TD%bin\phreeqc" "%~1" "%~2" "%~3" "%~4"
 	goto END
 REM ************************  END R_4  ******************************
 
@@ -110,7 +110,7 @@ if errorlevel 0 goto R_3_ERR0
 	echo.
 	goto END
 :R_3_ERR0
-	"%TD%src\Release\phreeqc" "%~1" "%~2" "%~3"
+	"%TD%bin\phreeqc" "%~1" "%~2" "%~3"
 	goto END
 REM ************************  END R_3  ******************************
 
@@ -157,10 +157,10 @@ if exist "%TD%phreeqc.dat" goto R_2_DEF
 	echo.
 	goto END
 :R_2_DEF
-	"%TD%src\Release\phreeqc" "%~1" "%~2" "%TD%phreeqc.dat"
+	"%TD%bin\phreeqc" "%~1" "%~2" "%TD%phreeqc.dat"
 	goto END
 :R_2_ENV
-	"%TD%src\Release\phreeqc" "%~1" "%~2" "%PHREEQC_DATABASE%"
+	"%TD%bin\phreeqc" "%~1" "%~2" "%PHREEQC_DATABASE%"
 goto END
 REM ************************  END R_2  ******************************
 
@@ -207,10 +207,10 @@ if exist "%TD%phreeqc.dat" goto R_1_DEF
 	echo.
 	goto END
 :R_1_DEF
-	"%TD%src\Release\phreeqc" "%~1" "%~1.out" "%TD%phreeqc.dat"
+	"%TD%bin\phreeqc" "%~1" "%~1.out" "%TD%phreeqc.dat"
 	goto END
 :R_1_ENV
-	"%TD%src\Release\phreeqc" "%~1" "%~1.out" "%PHREEQC_DATABASE%"
+	"%TD%bin\phreeqc" "%~1" "%~1.out" "%PHREEQC_DATABASE%"
 	goto END
 REM ************************  END R_1  ******************************
 
@@ -234,10 +234,10 @@ if exist "%TD%phreeqc.dat" goto R_0_DEF
 	goto END
 :R_0_DEF
 	set PHREEQC_DATABASE=%TD%phreeqc.dat
-	"%TD%src\Release\phreeqc"
+	"%TD%bin\phreeqc"
 	goto END
 :R_0_ENV
-	"%TD%src\Release\phreeqc"
+	"%TD%bin\phreeqc"
 	goto END
 REM ************************  END R_0  ******************************
 
