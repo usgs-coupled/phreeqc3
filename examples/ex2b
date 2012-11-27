@@ -8,12 +8,13 @@ REACTION_TEMPERATURE
  30 90 in 10
 USER_GRAPH 1 Example 2B, (P, T)-dependent solubilities of Gypsum and Anhydrite
  -plot_tsv_file ex2b.tsv
- -axis_titles "TEMPERATURE, IN DEGREES CELSIUS" "SOLUBILITY, IN MOLES PER KG WATER"
+ -axis_titles "Temperature, in degrees celsius" "Solubility, in moles per \
+kilogram water"
  -axis_scale x_axis 30 170
  -axis_scale y_axis 1e-3 0.05 auto auto log
  10 plot_xy tc, tot("Ca"), color = Red, symbol = None
  -end
-END
+END # 1st simulation
 
 USE solution 1 
 USE equilibrium_phases 1
@@ -31,7 +32,7 @@ REACTION_PRESSURE 3
  987
 USER_GRAPH
  20 plot_xy tc, tot("Ca"), color = Red, symbol = None
-END
+END # 2nd simulation
 
 USE solution 1 
 EQUILIBRIUM_PHASES 4

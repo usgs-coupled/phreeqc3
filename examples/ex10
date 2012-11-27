@@ -57,7 +57,8 @@ SELECTED_OUTPUT
         -reset false
         -reaction true
 USER_PUNCH
--head   lg_SigmaPi X_Arag X_Stront X_Ca_aq X_Sr_aq mol_Misc1 mol_Misc2 mol_Arag mol_Stront
+-head   lg_SigmaPi X_Arag X_Stront X_Ca_aq X_Sr_aq mol_Misc1 mol_Misc2 \
+     mol_Arag mol_Stront
 -start
   10 sum = (S_S("Strontianite") + S_S("Aragonite"))
   20 if sum = 0 THEN GOTO 60
@@ -90,7 +91,7 @@ USER_PUNCH
 USER_GRAPH Example 10
         -headings x_Aragonite  x_Srontianite
         -chart_title "Aragonite-Strontianite Solid Solution"
-        -axis_titles "Log(SrCO3 ADDED, IN MOLES)" "Log(MOLE FRACTION OF COMPONENT)"
+        -axis_titles "Log(SrCO3 added, in moles)" "Log(Mole fraction of component)"
         -axis_scale x_axis -5 1 1 1
         -axis_scale y_axis -5 0.1 1 1
         -connect_simulations true
