@@ -147,7 +147,7 @@ REM ---------------------------
 if "%PHREEQC_DATABASE%"=="" goto T_2_DEF
 if exist "%PHREEQC_DATABASE%" goto R_2_ENV
 	echo.
-	echo ERROR, database file not found: "%PHREEQC_DATBASE%" .
+	echo ERROR, database file not found: "%PHREEQC_DATABASE%" .
 	echo.
 	goto END
 :T_2_DEF
@@ -197,7 +197,7 @@ REM ---------------------------
 if "%PHREEQC_DATABASE%"=="" goto T_1_DEF
 if exist "%PHREEQC_DATABASE%" goto R_1_ENV
 	echo.
-	echo ERROR, database file not found: "%PHREEQC_DATBASE%" .
+	echo ERROR, database file not found: "%PHREEQC_DATABASE%" .
 	echo.
 	goto END
 :T_1_DEF
@@ -223,7 +223,7 @@ REM ---------------------------
 if "%PHREEQC_DATABASE%"=="" goto T_0_DEF
 if exist "%PHREEQC_DATABASE%" goto R_0_ENV
 	echo.
-	echo ERROR, database file not found: "%PHREEQC_DATBASE%" .
+	echo ERROR, database file not found: "%PHREEQC_DATABASE%" .
 	echo.
 	goto END
 :T_0_DEF
