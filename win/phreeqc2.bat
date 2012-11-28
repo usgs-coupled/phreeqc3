@@ -3,6 +3,19 @@ setlocal
 set TD=%~dp0
 
 REM ---------------------------
+REM Strip quotes
+REM ---------------------------
+if not defined PHREEQC_DATABASE goto strip
+CALL :do_strip PHREEQC_DATABASE
+goto strip
+ 
+:do_strip
+for /f "delims=" %%d in ('echo %%%1%%') do set %1=%%~d
+Goto :eof
+
+:strip
+
+REM ---------------------------
 REM Show usage every time.
 REM ---------------------------
 echo.
