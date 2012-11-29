@@ -102,7 +102,7 @@ USER_PUNCH
 USER_GRAPH 1 Example 15
         -headings 10_cells: Co+2 CoNTA- HNTA-2 pH
         -chart_title "Kinetic Biodegradation, Cell Growth, and Sorption: Dissolved Species"
-        -axis_titles "TIME, IN HOURS" "MICROMOLES PER KILOGRAM WATER" "pH"
+        -axis_titles "Time, in hours" "Micromoles per kilogram water" "pH"
         -axis_scale x_axis 0 75
         -axis_scale y_axis 0 4
         -axis_scale secondary_y_axis 5.799 6.8 0.2 0.1
@@ -118,7 +118,8 @@ USER_GRAPH 1 Example 15
 USER_GRAPH 2 Example 15
         -headings 10_cells: Co+2 CoNTA- Biomass
         -chart_title "Kinetic Biodegradation, Cell Growth, and Sorption: Sorbed Species"
-        -axis_titles "TIME, IN HOURS"  "NANOMOLES PER KILOGRAM WATER" "BIOMASS, IN MILLIGRAMS PER LITER"
+        -axis_titles "Time, in hours"  "Nanomoles per kilogram water" \
+             "Biomass, in milligrams per liter"
         -axis_scale x_axis 0 75
         -axis_scale y_axis 0 2
         -axis_scale secondary_y_axis 0 0.4
@@ -127,8 +128,10 @@ USER_GRAPH 2 Example 15
   10 x = TOTAL_TIME/3600 + 3600/2/3600
   20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0
   30 PLOT_XY x, KIN("Co_sorption") / 3.75e3 * 1e9, color = Red, line_width = 0, symbol_size = 4
-  40 PLOT_XY x, KIN("CoNta_sorption") / 3.75e3 * 1e9, color = Green, line_width = 0, symbol_size = 4
-  50 PLOT_XY x, KIN("Biomass") * 1e3, y-axis = 2, color = Magenta, line_width = 0, symbol_size = 4
+  40 PLOT_XY x, KIN("CoNta_sorption") / 3.75e3 * 1e9, color = Green, line_width = 0, \
+       symbol_size = 4
+  50 PLOT_XY x, KIN("Biomass") * 1e3, y-axis = 2, color = Magenta, line_width = 0, \
+       symbol_size = 4
         -end          -end
 TRANSPORT First 20 hours have NTA and cobalt in infilling solution
         -cells                10

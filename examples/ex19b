@@ -1,4 +1,4 @@
-# Cd sorption on X, Hfo and OC in loamy soil
+TITLE Example 19B.--Cd sorption on X, Hfo and OC in loamy soil
 #
 PRINT
         -reset false
@@ -12,8 +12,10 @@ SURFACE_MASTER_SPECIES
   H_bc H_bcH2;  H_be H_beH2;  H_bg H_bgH2;  H_cd H_cdH2
   H_cf H_cfH2;  H_ch H_chH2;  H_de H_deH2;  H_dg H_dgH2
 SURFACE_SPECIES
-  H_aH = H_aH; log_k 0;  H_bH = H_bH; log_k 0;  H_cH = H_cH; log_k 0;  H_dH = H_dH; log_k 0;
-  H_eH = H_eH; log_k 0;  H_fH = H_fH; log_k 0;  H_gH = H_gH; log_k 0;  H_hH = H_hH; log_k 0;
+  H_aH = H_aH; log_k 0;  H_bH = H_bH; log_k 0;  H_cH = H_cH; log_k 0;  \
+       H_dH = H_dH; log_k 0;
+  H_eH = H_eH; log_k 0;  H_fH = H_fH; log_k 0;  H_gH = H_gH; log_k 0;  \
+       H_hH = H_hH; log_k 0;
 
   H_abH2 = H_abH2; log_k 0;  H_adH2 = H_adH2; log_k 0;  H_afH2 = H_afH2; log_k 0;
   H_ahH2 = H_ahH2; log_k 0;  H_bcH2 = H_bcH2; log_k 0;  H_beH2 = H_beH2; log_k 0;
@@ -99,7 +101,7 @@ SURFACE 1
 #
 # 3.5 mg OC, 0.025 meq total charge, distributed over the sites:
 # charge on 4 nHA sites: -2.84 / 4 * 3.5e-3 / 1e3 (eq)
-  H_a  2.48e-06 46.5e3 3.50E-03
+  H_a  2.48e-06 46.5e3 3.50e-03
   H_b  2.48e-06; H_c  2.48e-06; H_d  2.48e-06
 # charge on 4 nHB sites: 0.5 * charge on nHA sites
   H_e  1.24e-06; H_f  1.24e-06; H_g  1.24e-06; H_h  1.24e-06
@@ -127,8 +129,8 @@ REACTION 1
 USER_GRAPH Example 19
         -headings Cd_HumicAcids CdX2 Cd_Hfo TOTAL
         -chart_title "Deterministic Sorption Model"
-        -axis_titles "DISSOLVED Cd, IN MICROGRAMS PER KILOGRAM WATER" \
-                     "SORBED Cd, IN MICROGRAMS PER GRAM SOIL"
+        -axis_titles "Dissolved Cd, in micrograms per kilogram water" \
+                     "Sorbed Cd, in micrograms per gram soil"
         -plot_tsv_file ex19_meas.tsv
         -axis_scale x_axis 0 40
         -axis_scale y_axis 0 6
@@ -136,13 +138,15 @@ USER_GRAPH Example 19
   -start
 10 H_Cd = SURF("Cd", "H") + EDL("Cd", "H")
 20 print CHR$(10) + " ug Cd/L =", tot("Cd") * 112.4e6, " ug Cd/g = ", H_Cd * 112.4e6 \
-        ," Kd (L/kg) = ", H_Cd*1e3/tot("Cd"), " ug Cd/g in DL =", EDL("Cd", "H") * 112.4e6
+        ," Kd (L/kg) = ", H_Cd*1e3/tot("Cd"), " ug Cd/g in DL =", \
+        EDL("Cd", "H") * 112.4e6
 30 print "Excess meq Ca in DL =", EDL("Ca", "H")*2 - EDL("water", "H") * tot("Ca")*2
 40 print "Excess meq Cl in DL =", EDL("Cl", "H")   - EDL("water", "H") * tot("Cl")
 50 print "Surface charge      =", EDL("Charge", "H")
 55 af_OM = 1 / 9
 60 H_Ca = (SURF("Ca", "H") + EDL("Ca", "H")) * af_OM
-70 print 'Total Ca in/on organic matter =', H_Ca, ' CEC on OM =' H_Ca*200/TOT("X"), '%.'
+70 print 'Total Ca in/on organic matter =', H_Ca, ' CEC on OM =' H_Ca*200/TOT("X"),\
+        '%.'
 80 x = TOT("Cd") * 112.4e6
 90 H_Cd = H_Cd * 112.4e6 * af_OM
 100 CdX2 = mol("CdX2") * 112.4e6 * 0.96
