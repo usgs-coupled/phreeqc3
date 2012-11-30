@@ -3358,7 +3358,7 @@ sformatf(const char *format, ...)
 		va_list args;
 		va_start(args, format);
 		int j = vsnprintf(sformatf_buffer, sformatf_buffer_size, format, args);
-		success = (j > 0 && j <= (int) sformatf_buffer_size);
+		success = (j > 0 && j < (int) sformatf_buffer_size);
 		va_end(args);
 		if (!success)
 		{
@@ -3371,6 +3371,7 @@ sformatf(const char *format, ...)
 
 	return sformatf_buffer;
 }
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_alkalinity(void)
