@@ -472,7 +472,7 @@ fpunchf_helper(std::ostream *os, const char *format, ...)
 				{
 					delete[] alloc_buffer;
 					alloc_buffer_size *= 2;
-					char *alloc_buffer = new char[alloc_buffer_size];
+					alloc_buffer = new char[alloc_buffer_size];
 				}
 			}
 			while (!success);
@@ -516,7 +516,7 @@ fpunchf_helper(std::string *str, const char *format, ...)
 				{
 					delete[] alloc_buffer;
 					alloc_buffer_size *= 2;
-					char *alloc_buffer = new char[alloc_buffer_size];
+					alloc_buffer = new char[alloc_buffer_size];
 				}
 			}
 			while (!success);
