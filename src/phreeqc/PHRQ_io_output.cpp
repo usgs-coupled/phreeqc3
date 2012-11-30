@@ -75,17 +75,38 @@ fpunchf_heading(const char *name)
 void Phreeqc::
 fpunchf(const char *name, const char *format, double d)
 {
-	if (phrq_io) phrq_io->fpunchf(name, format, d);
+	try
+	{
+		if (phrq_io) phrq_io->fpunchf(name, format, d);
+	}
+	catch(std::bad_alloc)
+	{
+		malloc_error();
+	}
 }
 void Phreeqc::
 fpunchf(const char *name, const char *format, char * s)
 {
-	if (phrq_io) phrq_io->fpunchf(name, format, s);
+	try
+	{
+		if (phrq_io) phrq_io->fpunchf(name, format, s);
+	}
+	catch(std::bad_alloc)
+	{
+		malloc_error();
+	}
 }
 void Phreeqc::
 fpunchf(const char *name, const char *format, int d)
 {
-	if (phrq_io) phrq_io->fpunchf(name, format, d);
+	try
+	{
+		if (phrq_io) phrq_io->fpunchf(name, format, d);
+	}
+	catch(std::bad_alloc)
+	{
+		malloc_error();
+	}
 }
 
 void Phreeqc::
@@ -111,7 +132,14 @@ fpunchf_user(int user_index, const char *format, double d)
 				(user_index - user_punch_count_headings) + 1);
 		name = fpunchf_user_buffer;
 	}
-	if (phrq_io) phrq_io->fpunchf(name, format, (double) d);
+	try
+	{
+		if (phrq_io) phrq_io->fpunchf(name, format, (double) d);
+	}
+	catch(std::bad_alloc)
+	{
+		malloc_error();
+	}
 }
 
 void Phreeqc::
@@ -137,7 +165,14 @@ fpunchf_user(int user_index, const char *format, char * d)
 				(user_index - user_punch_count_headings) + 1);
 		name = fpunchf_user_buffer;
 	}
-	if (phrq_io) phrq_io->fpunchf(name, format, d);
+	try
+	{
+		if (phrq_io) phrq_io->fpunchf(name, format, d);
+	}
+	catch(std::bad_alloc)
+	{
+		malloc_error();
+	}
 }
 
 int Phreeqc::

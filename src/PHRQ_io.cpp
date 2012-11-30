@@ -414,11 +414,7 @@ fpunchf(const char *name, const char *format, double d)
 {
 	if (punch_ostream != NULL && punch_on)
 	{
-		{
-			char token[256];
-			sprintf(token, format, d);
-			(*punch_ostream) << token;
-		}
+		fpunchf_helper(punch_ostream, format, d);
 	}
 }
 /* ---------------------------------------------------------------------- */
@@ -428,11 +424,7 @@ fpunchf(const char *name, const char *format, char * s)
 {
 	if (punch_ostream != NULL && punch_on)
 	{
-		{
-			char token[256];
-			sprintf(token, format, s);
-			(*punch_ostream) << token;
-		}
+		fpunchf_helper(punch_ostream, format, s);
 	}
 }
 /* ---------------------------------------------------------------------- */
@@ -442,13 +434,98 @@ fpunchf(const char *name, const char *format, int d)
 {
 	if (punch_ostream != NULL && punch_on)
 	{
+		fpunchf_helper(punch_ostream, format, d);
+	}
+}
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+fpunchf_helper(std::ostream *os, const char *format, ...)
+/* ---------------------------------------------------------------------- */
+{
+	if (os)
+	{
+		const size_t STACK_MAX = 2048;
+		char stack_buffer[STACK_MAX];
+
+		va_list args;
+		va_start(args, format);
+		int j = ::vsnprintf(stack_buffer, STACK_MAX, format, args);
+		bool success = (j > 0 && j < (int) STACK_MAX);
+		va_end(args);
+
+		if (success)
 		{
-			char token[256];
-			sprintf(token, format, d);
-			(*punch_ostream) << token;
+			(*os) << stack_buffer;
+		}
+		else
+		{
+			size_t alloc_buffer_size = STACK_MAX * 2;
+			char *alloc_buffer = new char[alloc_buffer_size];
+			do 
+			{
+				va_list args;
+				va_start(args, format);
+				j = ::vsnprintf(alloc_buffer, alloc_buffer_size, format, args);
+				success = (j > 0 && j < (int) alloc_buffer_size);
+				va_end(args);
+				if (!success)
+				{
+					delete[] alloc_buffer;
+					alloc_buffer_size *= 2;
+					char *alloc_buffer = new char[alloc_buffer_size];
+				}
+			}
+			while (!success);
+			(*os) << alloc_buffer;
+			delete alloc_buffer;
 		}
 	}
 }
+/* ---------------------------------------------------------------------- */
+void PHRQ_io::
+fpunchf_helper(std::string *str, const char *format, ...)
+/* ---------------------------------------------------------------------- */
+{
+	if (str)
+	{
+		const size_t STACK_MAX = 2048;
+		char stack_buffer[STACK_MAX];
+
+		va_list args;
+		va_start(args, format);
+		int j = ::vsnprintf(stack_buffer, STACK_MAX, format, args);
+		bool success = (j > 0 && j < (int) STACK_MAX);
+		va_end(args);
+
+		if (success)
+		{
+			(*str) += stack_buffer;
+		}
+		else
+		{
+			size_t alloc_buffer_size = STACK_MAX * 2;
+			char *alloc_buffer = new char[alloc_buffer_size];
+			do 
+			{
+				va_list args;
+				va_start(args, format);
+				j = ::vsnprintf(alloc_buffer, alloc_buffer_size, format, args);
+				success = (j > 0 && j < (int) alloc_buffer_size);
+				va_end(args);
+				if (!success)
+				{
+					delete[] alloc_buffer;
+					alloc_buffer_size *= 2;
+					char *alloc_buffer = new char[alloc_buffer_size];
+				}
+			}
+			while (!success);
+			(*str) += alloc_buffer;
+			delete alloc_buffer;
+		}
+	}
+}
+
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::fpunchf_end_row(const char *format)
 /* ---------------------------------------------------------------------- */
