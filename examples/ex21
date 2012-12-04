@@ -45,9 +45,9 @@ SOLUTION 3 tracer solution
   Na 240; K 1.61; Mg 16.9; Ca 25.8; Sr 0.505
   Cl 300; S(6) 14.1; Fe(2) 0.0; Alkalinity 0.476
 # uncomment tracer concentrations and kg water 1 by 1...
-#  Hto 1.14e-6;   -water 0.2
+  Hto 1.14e-6;   -water 0.2
 #  Cl_tr 2.505e-2; -water 0.502
-  Cs 1; Na_tr 1.87e-7; -water 1.02
+#  Cs 1; Na_tr 1.87e-7; -water 1.02
 SELECTED_OUTPUT
   -file radial; -reset false
 USER_PUNCH
@@ -102,7 +102,7 @@ USER_PUNCH
 400  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer
 410  tort_n = -0.99           # exponent in Archie's law, -1.045 without filters
 420  G_clay = por_clay^tort_n # geometrical factor
-430  interlayer_D$ = 'true'  # 'true' or 'false' for interlayer diffusion
+430  interlayer_D$ = 'false'  # 'true' or 'false' for interlayer diffusion
 440  G_IL = 700               # geometrical factor for clay interlayers
 450  punch_time = 60 * 60 * 6 # punch time / seconds
 460  profile$ = 'true'        # 'true' or 'false' for c/x profile visualization
