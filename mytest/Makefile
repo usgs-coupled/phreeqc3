@@ -140,6 +140,7 @@ all: alkalinity.out \
 	sc7.out \
 	stag_diss_only.out \
 	surf3.out \
+	surf_check.out \
 	surf3_density.out \
 	surf_related.out \
 	surf_related_pz.out \

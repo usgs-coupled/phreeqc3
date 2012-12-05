@@ -2078,7 +2078,7 @@ surf_total(const char *total_name, const char *surface_name)
  */
 	int j;
 
-	if (use.Get_surface_ptr() == NULL)
+	if (use.Get_surface_ptr() == NULL || surface_name == NULL)
 		return (0);
 
 /*
@@ -2096,15 +2096,8 @@ surf_total(const char *total_name, const char *surface_name)
 		std::string::iterator e = token.end();
 		std::string name;
 		CParser::copy_token(name, b, e);
-		if (surface_name != NULL)
-		{
-			if (strcmp(name.c_str(), surface_name) == 0)
+		if (strcmp(name.c_str(), surface_name) == 0)
 				break;
-		}
-		else
-		{
-			break;
-		}
 	}
 	if (j >= count_unknowns)
 		return (0);
@@ -2122,7 +2115,33 @@ surf_total(const char *total_name, const char *surface_name)
 		if (s_x[j]->type != SURF)
 			continue;
 
-		std::string token;		
+		std::string token;
+		bool match = false; 
+
+		// find if surface matches 
+		for (int i = 0; s_x[j]->next_elt[i].elt != NULL; i++)
+		{
+			if (s_x[j]->next_elt[i].elt->master->type != SURF) continue;
+
+			//strcpy(token, s_x[j]->next_elt[i].elt->name);
+			//replace("_", " ", token);
+			//ptr = token;
+			//copy_token(name, &ptr, &k);
+			token = s_x[j]->next_elt[i].elt->name;
+			replace("_", " ", token);
+			std::string::iterator b = token.begin();
+			std::string::iterator e = token.end();
+			std::string name;
+			CParser::copy_token(name, b, e);
+			if (strcmp(name.c_str(), surface_name) == 0)
+			{
+				match = true;
+				break;
+			}
+		}
+		if (!match) continue;
+
+		// surface matches, now match element or redox state
 		struct rxn_token *rxn_ptr;
 		for (rxn_ptr = s_x[j]->rxn_s->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
 		{
@@ -2158,6 +2177,8 @@ surf_total(const char *total_name, const char *surface_name)
 					}
 					if (strcmp(token.c_str(), total_name) == 0)
 					{
+						assert(false);
+						error_msg("Error in surf_total", STOP);
 						t += rxn_ptr->coef * s_x[j]->moles;
 						break;
 					}
