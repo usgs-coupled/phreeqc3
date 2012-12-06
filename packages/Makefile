@@ -2,7 +2,7 @@
 # Build the tar.gz for building with configure/make.                     #
 ##########################################################################
 
-NAME ?= phreeqc
+NAME ?= phreeqc-src
 
 UPDATE := $(shell svn up ..)
 
