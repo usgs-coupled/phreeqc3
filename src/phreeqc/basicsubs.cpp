@@ -2167,7 +2167,7 @@ surf_total(const char *total_name, const char *surface_name)
 				break;
 			}
 			else
-			// sum all sites in case total_name is a surface name without underscore
+			// sum all sites in case total_name is a surface name without underscore surf ("Hfo_w", "Hfo")
 			{
 				if (rxn_ptr->s->type == SURF)
 				{
@@ -2177,8 +2177,6 @@ surf_total(const char *total_name, const char *surface_name)
 					}
 					if (strcmp(token.c_str(), total_name) == 0)
 					{
-						assert(false);
-						error_msg("Error in surf_total", STOP);
 						t += rxn_ptr->coef * s_x[j]->moles;
 						break;
 					}
