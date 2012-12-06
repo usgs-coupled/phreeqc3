@@ -89,7 +89,10 @@ LIBGMP=
 AS_IF([test "x$with_gmp" != xno],
   [
     AC_CHECK_LIB([gmp], [__gmpz_init],
-    [AC_SUBST([LIBGMP], ["-lgmp"])],
+    [
+    AC_SUBST([LIBGMP], ["-lgmp"])
+    [with_gmp=yes]
+    ],
     [if test "x$with_gmp" != xcheck; then
        AC_MSG_FAILURE([--with-gmp was given, but test for gmp failed])
      fi],
