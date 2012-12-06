@@ -74,6 +74,39 @@ AC_LANG_POP(C++)
 # isnan
 AC_CHECK_FUNCS([isnan],    , AC_CHECK_LIB(m, isnan))
 
+# check for gmp
+AC_ARG_WITH([gmp],
+  [AS_HELP_STRING([--with-gmp],
+    [support GNU Multiple Precision library @<:@default=check@:>@])],
+  [],
+  [with_gmp=check])
+
+# check for gmp header
+AS_IF([test "x$with_gmp" != xno],
+  [
+    AC_CHECK_HEADER([gmp.h],
+    [AC_DEFINE([INVERSE_CL1MP], [1], [Define if you have gmp])],
+    [if test "x$with_gmp" != xcheck; then
+       AC_MSG_FAILURE([--with-gmp was given, but gmp.h not found])
+     fi
+    ])
+  ]
+)
+
+# check for gmp lib
+LIBGMP=
+AS_IF([test "x$with_gmp" != xno],
+  [
+    AC_CHECK_LIB([gmp], [__gmpz_init],
+    [AC_SUBST([LIBGMP], ["-lgmp"])],
+    [if test "x$with_gmp" != xcheck; then
+       AC_MSG_FAILURE([--with-gmp was given, but test for gmp failed])
+     fi],
+    -lgmp)
+  ]
+)
+
+AM_CONDITIONAL([BUILD_GMP], [test "X$with_gmp" = "Xyes"])
 
 AC_CONFIG_FILES([
   Makefile

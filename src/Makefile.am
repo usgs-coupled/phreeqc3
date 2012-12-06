@@ -128,3 +128,13 @@ phreeqc_SOURCES=\
 	phreeqc/tidy.cpp\
 	phreeqc/transport.cpp\
 	phreeqc/utilities.cpp
+
+if BUILD_GMP
+
+phreeqc_SOURCES+=\
+	phreeqc/cl1mp.cpp
+
+endif
+
+
+LDADD = $(LIBGMP)
