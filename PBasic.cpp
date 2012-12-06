@@ -474,11 +474,11 @@ numtostr(char * Result, LDBLE n)
 	{
 		if (PhreeqcPtr->punch.high_precision == FALSE)
 		{
-			sprintf(l_s, "%12g", (double) n);
+			sprintf(l_s, "%12.0f", (double) n);
 		}
 		else
 		{
-			sprintf(l_s, "%20g", (double) n);
+			sprintf(l_s, "%20.0f", (double) n);
 		}
 	}
 	else
