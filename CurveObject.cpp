@@ -1,6 +1,7 @@
 // CurveObject.cpp: implementation of the CurveObject class.
 //
 //////////////////////////////////////////////////////////////////////
+#ifdef MULTICHART
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
@@ -31,3 +32,4 @@ CurveObject::~CurveObject()
 {
 }
 
+#endif // MULTICHART

@@ -113,9 +113,8 @@ cxxNumKeyword(io)
 
 ChartObject::~ChartObject()
 {
-	while (0 != System::Threading::Interlocked::CompareExchange(this->usingResource, 0, 7))
+	while (0 != System::Threading::Interlocked::CompareExchange(this->usingResource, 7, 0))
 	{
-		::OutputDebugString("Sleeping 7\n");
 		System::Threading::Thread::Sleep(5);
 	}
 	this->Rate_free();
