@@ -412,9 +412,8 @@ namespace zdg_ui2 {
 				GraphPane ^myPane = z1->GraphPane;
 
 				// lock thread
-				while (0 != System::Threading::Interlocked::CompareExchange(this->chartobject_ptr->usingResource, 0, 2))
+				while (0 != System::Threading::Interlocked::CompareExchange(this->chartobject_ptr->usingResource, 2, 0))
 				{
-					::OutputDebugString("Sleeping 2\n");
 					System::Threading::Thread::Sleep(5);
 				}
 
@@ -492,12 +491,14 @@ namespace zdg_ui2 {
 				catch (...)
 				{
 					//unlock thread
-					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+					int n = System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+					assert(n == 2);
 					throw;
 				}
 
 				//unlock thread
-				System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+				int n = System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+				assert(n == 2);
 			}
 
 			/// <summary>
@@ -965,9 +966,8 @@ namespace zdg_ui2 {
 				if (chart == NULL) return;
 
 				//lock for thread
-				while (0 != System::Threading::Interlocked::CompareExchange(chart->usingResource, 0, 3))
+				while (0 != System::Threading::Interlocked::CompareExchange(chart->usingResource, 3, 0))
 				{
-					::OutputDebugString("Sleeping 3\n");
 					System::Threading::Thread::Sleep(5);
 				}
 
@@ -1082,7 +1082,25 @@ namespace zdg_ui2 {
 						zg1->AxisChange();
 						zg1->Refresh();
 					}
-
+					for (size_t j = 0; j < chart->Get_CurvesCSV().size(); j++)
+					{
+						if (zg1->GraphPane->CurveList[j]->Points->Count != chart->Get_CurvesCSV()[j]->Get_x().size())
+						{
+							fprintf(stderr, "graph points = %d\n", zg1->GraphPane->CurveList[j]->Points->Count);
+							fprintf(stderr, "phreeqc points = %d\n", chart->Get_CurvesCSV()[j]->Get_x().size());
+						}
+						assert(zg1->GraphPane->CurveList[j]->Points->Count == chart->Get_CurvesCSV()[j]->Get_x().size());
+					}
+					for (int j = chart->Get_CurvesCSV().size(); j < zg1->GraphPane->CurveList->Count; j++) 
+					{
+						int k = j - chart->Get_CurvesCSV().size();
+						if (zg1->GraphPane->CurveList[j]->Points->Count != chart->Get_Curves()[k]->Get_x().size())
+						{
+							fprintf(stderr, "graph points = %d\n", zg1->GraphPane->CurveList[j]->Points->Count);
+							fprintf(stderr, "phreeqc points = %d\n", chart->Get_Curves()[k]->Get_x().size());
+						}
+						assert(zg1->GraphPane->CurveList[j]->Points->Count == chart->Get_Curves()[k]->Get_x().size());
+					}
 					chart->Set_point_added(false);
 					if (chart->Get_end_timer())
 					{
@@ -1097,7 +1115,9 @@ namespace zdg_ui2 {
 						}
 
 						//unlock thread before setting chartobject_ptr to NULL
-						System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+						int n = System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+						assert(n == 3);
+
 						this->phreeqc_ptr = NULL;
 						this->chartobject_ptr = NULL;
 						if (batch >= 0)
@@ -1109,12 +1129,15 @@ namespace zdg_ui2 {
 				}
 				catch(...)
 				{
-					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+					int n = System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+					assert(n == 3);
+
 					throw;
 				}
 
 				//unlock thread
-				System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+				int n = System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+				assert(n == 3);
 				//tickStart = Environment::TickCount;
 				return;
 			}

@@ -44,9 +44,8 @@ ChartHandler::Punch_user_graph(Phreeqc * phreeqc_ptr)
 		if (it->second->Get_active())
 		{
 #if defined(__cplusplus_cli)
-			while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 0, 4))
+			while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 4, 0))
 			{
-				::OutputDebugString("Sleeping 4\n");
 				System::Threading::Thread::Sleep(5);
 			}
 #endif
@@ -58,7 +57,8 @@ ChartHandler::Punch_user_graph(Phreeqc * phreeqc_ptr)
 			catch (...)
 			{
 #if defined(__cplusplus_cli)
-				System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+				int n = System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+				assert(n == 4);
 #endif
 				throw;
 			}
@@ -98,9 +98,8 @@ ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 
 	// Read/update ChartObject
 #if defined(__cplusplus_cli)
-	while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 0, 5))
+	while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 5, 0))
 	{
-		::OutputDebugString("Sleeping 5\n");
 		System::Threading::Thread::Sleep(5);
 	}
 #endif
@@ -124,13 +123,15 @@ ChartHandler::Read(Phreeqc * phreeqc_ptr, CParser &parser)
 	{
 #if defined(__cplusplus_cli)
 		// Release lock
-		System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+		int n = System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+		assert(n == 5);
 		throw;
 #endif
 	}
 #if defined(__cplusplus_cli)
 	// Release lock
-	System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+	int n = System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+	assert(n == 5);
 #endif
 
 	// if detached, wait for thread to acknowledge and then erase chart
@@ -162,9 +163,8 @@ ChartHandler::End_timer()
 		if (it->second->Get_form_started())
 		{
 #if defined(__cplusplus_cli)
-			while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 0, 6))
+			while (0 != System::Threading::Interlocked::CompareExchange(it->second->usingResource, 6, 0))
 			{
-				::OutputDebugString("Sleeping 6\n");
 				//if (i > max_tries) break;
 				i++;
 				System::Threading::Thread::Sleep(60);
@@ -172,7 +172,8 @@ ChartHandler::End_timer()
 #endif
 			it->second->Set_end_timer(true);
 #if defined(__cplusplus_cli)
-			System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+			int n = System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
+			assert(n == 6);
 #endif
 
 			i2 = 0;
