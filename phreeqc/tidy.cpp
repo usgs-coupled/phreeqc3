@@ -3348,8 +3348,8 @@ tidy_min_surface(void)
 								elt_ptr->master->s->name);
 							warning_msg(error_string);
 						}	
-						free_check_null(temp_formula);
 					}
+					free_check_null(temp_formula);
 				}
 			}
 			qsort(elt_list, (size_t) count_elts,
