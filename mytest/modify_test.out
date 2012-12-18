@@ -1,0 +1,135 @@
+   Input file: modify_test
+  Output file: modify_test.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION
+		Na	1
+		Cl	1
+		N(0)	1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.000e-003  1.000e-003
+	N(0)             1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 123
+                          Density (g/cm3)  =   0.99708
+                               Volume (L)  =   1.00300
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.450e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.450e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.049e-007  1.012e-007    -6.979    -6.995    -0.016     -4.11
+   H+             1.035e-007  1.000e-007    -6.985    -7.000    -0.015      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Cl           1.000e-003
+   Cl-            1.000e-003  9.649e-004    -3.000    -3.016    -0.016     18.07
+H(0)         1.416e-025
+   H2             7.078e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+N(0)         1.000e-003
+   N2             5.000e-004  5.001e-004    -3.301    -3.301     0.000     29.29
+Na           1.000e-003
+   Na+            1.000e-003  9.652e-004    -3.000    -3.015    -0.015     -1.39
+   NaOH           9.766e-021  9.769e-021   -20.010   -20.010     0.000     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Halite           -7.60     -6.03    1.57  NaCl
+	N2(g)            -0.13     -3.30   -3.18  N2
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION_MODIFY 1
+		-totals
+			Brx	0.001
+		-activities
+			Brx	0.001
+	END	
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	EQUILIBRIUM_PHASES 1
+		Calcite
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	EQUILIBRIUM_PHASES_MODIFY
+		-component DolomiteX
+			-add_formula Bx
+			-moles	10
+			-si -1
+	END
+ERROR: Phase not found in database, DolomiteX.
+ERROR: Calculations terminating due to input errors.
+Stopping.
+No memory leaks
