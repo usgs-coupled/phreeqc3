@@ -4721,7 +4721,9 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		fprintf(netpath_file, "%14d     # Well number\n",
 				count_pat_solutions);
 	}
-	free_model_allocs();
+	//free_model_allocs();
+	array = (LDBLE *) free_check_null(array);
+	delta = (LDBLE *) free_check_null(delta);
 	array = array_save;
 	delta = l_delta_save;
 	count_unknowns = count_unknowns_save;
