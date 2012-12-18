@@ -304,7 +304,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 
 	// Read solution number and description
 	this->read_number_description(parser.line());
-	this->Set_new_def(true);
+	this->Set_new_def(false);
 
 	opt_save = CParser::OPT_ERROR;
 	bool tc_defined(false);

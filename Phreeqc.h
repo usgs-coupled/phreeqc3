@@ -1211,6 +1211,20 @@ protected:
 	std::map<int, cxxMix> Rxn_pp_assemblage_mix_map;
 	std::map<int, cxxMix> Rxn_ss_assemblage_mix_map;
 	std::map<int, cxxMix> Rxn_surface_mix_map;
+	/*
+	* List new definitions
+	*/
+	std::vector<int> Rxn_new_exchange;
+	std::vector<int> Rxn_new_gas_phase;
+	std::vector<int> Rxn_new_kinetics;     // not used
+	std::vector<int> Rxn_new_mix;          // not used
+	std::vector<int> Rxn_new_pp_assemblage;
+	std::vector<int> Rxn_new_pressure;     // not used
+	std::vector<int> Rxn_new_reaction;     // not used
+	std::vector<int> Rxn_new_solution;
+	std::vector<int> Rxn_new_ss_assemblage;
+	std::vector<int> Rxn_new_surface;
+	std::vector<int> Rxn_new_temperature;  // not used
 	/*----------------------------------------------------------------------
 	*   Irreversible reaction
 	*---------------------------------------------------------------------- */
@@ -1980,7 +1994,7 @@ namespace Utilities
 		}
 	}
 	template < typename T >
-	int Rxn_read_raw(std::map < int, T > &m, Phreeqc * phreeqc_cookie)
+	int Rxn_read_raw(std::map < int, T > &m, std::vector < int > &v, Phreeqc * phreeqc_cookie)
 	{
 		typename std::map < int, T >::iterator it;
 		assert(!phreeqc_cookie->reading_database());
@@ -1998,11 +2012,15 @@ namespace Utilities
 
 		// Make copies if necessary
 		Utilities::Rxn_copies(m, entity.Get_n_user(), entity.Get_n_user_end());
+		for (int i = entity.Get_n_user(); i <= entity.Get_n_user_end(); i++)
+		{
+			v.push_back(i);
+		}
 		return phreeqc_cookie->cleanup_after_parser(parser);
 	}
 
 	template < typename T >
-	int Rxn_read_modify(std::map < int, T > &m, Phreeqc * phreeqc_cookie)
+	int Rxn_read_modify(std::map < int, T > &m, std::vector < int > &v, Phreeqc * phreeqc_cookie)
 	{
 		typename std::map < int, T >::iterator it;
 		
@@ -2024,6 +2042,7 @@ namespace Utilities
 		}
 
 		entity_ptr->read_raw(parser, false);
+		v.push_back(entity_ptr->Get_n_user());
 
 		return phreeqc_cookie->cleanup_after_parser(parser);
 	}

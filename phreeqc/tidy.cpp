@@ -888,12 +888,14 @@ tidy_gas_phase(void)
 /*
  *   Find all gases for each gas_phase in phase list
  */
-	std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.begin();
-	for ( ; it != Rxn_gas_phase_map.end(); it++)
+	//std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.begin();
+	//for ( ; it != Rxn_gas_phase_map.end(); it++)
+	for (size_t nn = 0; nn < Rxn_new_gas_phase.size(); nn++)
 	{
+		std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.find(Rxn_new_gas_phase[nn]);
 		cxxGasPhase *gas_phase_ptr = &(it->second);
-		if (gas_phase_ptr->Get_new_def() != TRUE)
-			continue;
+		//if (gas_phase_ptr->Get_new_def() != TRUE)
+		//	continue;
 		gas_phase_ptr->Set_new_def(false);
 		PR = false;
 		P = 0.0;
@@ -906,7 +908,7 @@ tidy_gas_phase(void)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Gas not found in PHASES data base, %s.",
+						"Gas not found in PHASES database, %s.",
 						gc[j].Get_phase_name().c_str());
 				error_msg(error_string, CONTINUE);
 				continue;
@@ -1500,12 +1502,15 @@ tidy_pp_assemblage(void)
 /*
  *   Find pointers for pure phases
  */
-	std::map<int, cxxPPassemblage>::iterator it;
-	it = Rxn_pp_assemblage_map.begin();
-	for ( ; it != Rxn_pp_assemblage_map.end(); it++)
+	//std::map<int, cxxPPassemblage>::iterator it;
+	//it = Rxn_pp_assemblage_map.begin();
+	//for ( ; it != Rxn_pp_assemblage_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_pp_assemblage.size(); nn++)
 	{
-		if (!it->second.Get_new_def()) continue;
-		cxxPPassemblage *pp_assemblage_ptr = &(it->second);
+		std::map<int, cxxPPassemblage>::iterator kit = Rxn_pp_assemblage_map.find(Rxn_new_pp_assemblage[nn]);
+		//if (!kit->second.Get_new_def()) continue;
+		cxxPPassemblage *pp_assemblage_ptr = &(kit->second);
 		count_elts = 0;
 		paren_count = 0;
 		coef = 1.0;
@@ -1520,7 +1525,7 @@ tidy_pp_assemblage(void)
 			if (phase_ptr == NULL)
 			{
 				input_error++;
-				error_string = sformatf( "Phase not found in data base, %s.",
+				error_string = sformatf( "Phase not found in database, %s.",
 						it->first.c_str());
 				error_msg(error_string, CONTINUE);
 				continue;
@@ -1588,10 +1593,13 @@ tidy_ss_assemblage(void)
 /*
  *   Find pointers for pure phases
  */
-	std::map<int, cxxSSassemblage>::iterator it;
-	for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
+	//std::map<int, cxxSSassemblage>::iterator it;
+	//for (it = Rxn_ss_assemblage_map.begin(); it != Rxn_ss_assemblage_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_ss_assemblage.size(); nn++)
 	{
-		if (!it->second.Get_new_def()) continue;
+		std::map<int, cxxSSassemblage>::iterator it = Rxn_ss_assemblage_map.find(Rxn_new_ss_assemblage[nn]);
+		//if (!it->second.Get_new_def()) continue;
 		count_elts = 0;
 		paren_count = 0;
 		cxxSSassemblage *ss_assemblage_ptr = &(it->second);
@@ -1608,7 +1616,7 @@ tidy_ss_assemblage(void)
 				{
 					input_error++;
 					error_string = sformatf(
-							"Phase not found in data base, %s, assemblage %d.",
+							"Phase not found in database, %s, assemblage %d.",
 							comp_ptr->Get_name().c_str(),
 							ss_assemblage_ptr->Get_n_user());
 					error_msg(error_string, CONTINUE);
@@ -2375,10 +2383,13 @@ tidy_surface(void)
  */
 	char *ptr1;
 	cxxSurface *surface_ptr;
-	std::map<int, cxxSurface>::iterator kit;
-	for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
+	//std::map<int, cxxSurface>::iterator kit;
+	//for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
-		if (!kit->second.Get_new_def()) continue;
+		std::map<int, cxxSurface>::iterator kit = Rxn_surface_map.find(Rxn_new_surface[nn]);
+		//if (!kit->second.Get_new_def()) continue;
 		surface_ptr = &(kit->second);
 		for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 		{
@@ -2395,7 +2406,7 @@ tidy_surface(void)
 				{
 					input_error++;
 					error_string = sformatf(
-							"Master species not in data base for %s, "
+							"Master species not in database for %s, "
 							"skipping element.",
 							elt_ptr->name);
 					error_msg(error_string, CONTINUE);
@@ -2533,17 +2544,20 @@ tidy_solutions(void)
 		{
 			unnumbered_solutions[i].Set_n_user_both(++last);
 			Rxn_solution_map[last] = unnumbered_solutions[i];
+			Rxn_new_solution.push_back(last);
 		}
 		unnumbered_solutions.clear();
 	}
 	/*
 	 * Check that elements are in database
 	 */
-	std::map<int, cxxSolution>::iterator it;
-	for (it = Rxn_solution_map.begin(); it != Rxn_solution_map.end(); it++)
+	//std::map<int, cxxSolution>::iterator it;
+	//for (it = Rxn_solution_map.begin(); it != Rxn_solution_map.end(); it++)
+	for(size_t n = 0; n < Rxn_new_solution.size(); n++)
 	{
+		std::map<int, cxxSolution>::iterator it = Rxn_solution_map.find(Rxn_new_solution[n]);
 		cxxSolution &solution_ref = it->second;
-		if (solution_ref.Get_new_def())
+		//if (solution_ref.Get_new_def())
 		{
 			cxxISolution *initial_data_ptr = solution_ref.Get_initial_data();
 			if (initial_data_ptr != NULL)
@@ -2834,14 +2848,16 @@ tidy_kin_exchange(void)
 	char *ptr;
 	LDBLE conc;
 
-	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
-	for ( ; it != Rxn_exchange_map.end(); it++)
+	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
+	//for ( ; it != Rxn_exchange_map.end(); it++)
+	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
+		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
 		cxxExchange * exchange_ptr = &(it->second);
-		if (!exchange_ptr->Get_new_def())
-			continue;
-		if (exchange_ptr->Get_n_user() < 0)
-			continue;
+		//if (!exchange_ptr->Get_new_def())
+		//	continue;
+		//if (exchange_ptr->Get_n_user() < 0)
+		//	continue;
 		// check elements
 		for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
 		{
@@ -2859,8 +2875,8 @@ tidy_kin_exchange(void)
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;
-					error_string = sformatf( "Master species not in data "
-							"base for %s, skipping element.",
+					error_string = sformatf( "Master species not in database "
+							"for %s, skipping element.",
 							elt_ptr->name);
 					error_msg(error_string, CONTINUE);
 					continue;
@@ -2943,14 +2959,17 @@ tidy_min_exchange(void)
 	char *ptr;
 	LDBLE conc;
 
-	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
-	for ( ; it != Rxn_exchange_map.end(); it++)
+	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
+	//for ( ; it != Rxn_exchange_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
+		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
 		cxxExchange * exchange_ptr = &(it->second);
-		if (!exchange_ptr->Get_new_def())
-				continue;
-		if (exchange_ptr->Get_n_user() < 0)
-			continue;
+		//if (!exchange_ptr->Get_new_def())
+		//		continue;
+		//if (exchange_ptr->Get_n_user() < 0)
+		//	continue;
 		n = exchange_ptr->Get_n_user();
 		// check elements
 		for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
@@ -2969,8 +2988,8 @@ tidy_min_exchange(void)
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;
-					error_string = sformatf( "Master species not in data "
-							"base for %s, skipping element.",
+					error_string = sformatf( "Master species not in database "
+							"for %s, skipping element.",
 							kit->first.c_str());
 					error_msg(error_string, CONTINUE);
 					continue;
@@ -3082,14 +3101,17 @@ tidy_min_surface(void)
  *  set in proportion
  */
 {
-	std::map<int, cxxSurface>::iterator kit;
-	for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
+	//std::map<int, cxxSurface>::iterator kit;
+	//for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
+		std::map<int, cxxSurface>::iterator kit = Rxn_surface_map.find(Rxn_new_surface[nn]);
 		cxxSurface *surface_ptr = &(kit->second);
-		if (!surface_ptr->Get_new_def())
-			continue;
-		if (surface_ptr->Get_n_user() < 0)
-			continue;
+		//if (!surface_ptr->Get_new_def())
+		//	continue;
+		//if (surface_ptr->Get_n_user() < 0)
+		//	continue;
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
 			cxxSurfaceComp *surface_comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
@@ -3109,8 +3131,8 @@ tidy_min_surface(void)
 				if (master_ptr == NULL)
 				{
 					input_error++;
-					error_string = sformatf( "Master species not in data "
-							"base for %s, skipping element.",
+					error_string = sformatf( "Master species not in database "
+							"for %s, skipping element.",
 							elt_ptr->name);
 					error_msg(error_string, CONTINUE);
 					continue;
@@ -3325,14 +3347,17 @@ tidy_kin_surface(void)
 	struct elt_list *elt_list_kinetics;
 	int count_elts_kinetics;
 
-	std::map<int, cxxSurface>::iterator it;
-	for (it = Rxn_surface_map.begin(); it != Rxn_surface_map.end(); it++)
+	//std::map<int, cxxSurface>::iterator it;
+	//for (it = Rxn_surface_map.begin(); it != Rxn_surface_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
+		std::map<int, cxxSurface>::iterator it = Rxn_surface_map.find(Rxn_new_surface[nn]);
 		cxxSurface *surface_ptr = &(it->second);
-		if (!surface_ptr->Get_new_def())
-			continue;
-		if (surface_ptr->Get_n_user() < 0)
-			continue;
+		//if (!surface_ptr->Get_new_def())
+		//	continue;
+		//if (surface_ptr->Get_n_user() < 0)
+		//	continue;
 		int n = surface_ptr->Get_n_user();
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
@@ -3352,8 +3377,8 @@ tidy_kin_surface(void)
 				if (master_ptr == NULL)
 				{
 					input_error++;
-					error_string = sformatf( "Master species not in data "
-							"base for %s, skipping element.",
+					error_string = sformatf( "Master species not in database "
+							"for %s, skipping element.",
 							elt_ptr->name);
 					error_msg(error_string, CONTINUE);
 					continue;
@@ -4679,14 +4704,17 @@ tidy_exchange(void)
  *  set in proportion
  */
 {
-	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
-	for ( ; it != Rxn_exchange_map.end(); it++)
+	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
+	//for ( ; it != Rxn_exchange_map.end(); it++)
+	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
+		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
+		//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
 		cxxExchange * exchange_ptr = &(it->second);
-		if (!exchange_ptr->Get_new_def())
-			continue;
-		if (exchange_ptr->Get_n_user() < 0)
-			continue;
+		//if (!exchange_ptr->Get_new_def())
+		//	continue;
+		//if (exchange_ptr->Get_n_user() < 0)
+		//	continue;
 		// check elements
 		for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
 		{
@@ -4706,8 +4734,8 @@ tidy_exchange(void)
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;
-					error_string = sformatf( "Master species not in data "
-							"base for %s, skipping element.",
+					error_string = sformatf( "Master species not in database "
+							"for %s, skipping element.",
 							kit->first.c_str());
 					error_msg(error_string, CONTINUE);
 					break;

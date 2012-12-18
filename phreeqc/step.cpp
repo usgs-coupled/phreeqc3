@@ -373,7 +373,15 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 	for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 	{
 		master_ptr = master_bsearch_primary(jit->first.c_str());
-		master_ptr->total += jit->second * extensive;
+		if (master_ptr != NULL)
+		{
+			master_ptr->total += jit->second * extensive;
+		}
+		else
+		{
+			input_error++;
+			error_msg(sformatf("Undefined element in solution, %s\n", jit->first.c_str()), CONTINUE);
+		}
 	}
 /*
  *   Accumulate initial guesses for activities
@@ -495,6 +503,10 @@ add_surface(cxxSurface *surface_ptr)
 	{
 		cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[i]);
 		struct element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
+		if (elt_ptr->master == NULL)
+		{
+			error_msg(sformatf("Data not defined for master in SURFACE, %s\n", comp_ptr->Get_formula().c_str()), STOP);
+		}
 		struct master *master_i_ptr = elt_ptr->master;
 
 		if (surface_ptr->Get_type() == cxxSurface::NO_EDL)
@@ -1001,9 +1013,16 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int k;
 		struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
-		assert(phase_ptr);
-
-		add_elt_list(phase_ptr->next_elt, gc_ptr->Get_moles());
+		if (phase_ptr == NULL)
+		{
+			input_error++;
+			error_msg(sformatf("PHASE not found in database, %s\n", gc_ptr->Get_phase_name().c_str()), CONTINUE);
+		}
+		//assert(phase_ptr);
+		else
+		{
+			add_elt_list(phase_ptr->next_elt, gc_ptr->Get_moles());
+		}
 	}
 /*
  *   Sort elements in reaction and combine

@@ -3311,6 +3311,17 @@ setup_exchange(void)
 	for (size_t j = 0; j < use.Get_exchange_ptr()->Get_exchange_comps().size(); j++)
 	{
 		cxxExchComp & comp_ref = use.Get_exchange_ptr()->Get_exchange_comps()[j];
+		{
+			element * elt_ptr = element_store(comp_ref.Get_formula().c_str());
+			if (elt_ptr == NULL || elt_ptr->master == NULL)
+			{
+				error_string = sformatf( "Component not in database, %s", comp_ref.Get_formula().c_str());
+				input_error++;
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+		}
+
 		cxxNameDouble nd(comp_ref.Get_totals());
 		cxxNameDouble::iterator it = nd.begin();
 		for ( ; it != nd.end(); it++)
@@ -3321,8 +3332,8 @@ setup_exchange(void)
 			element * elt_ptr = element_store(it->first.c_str());
 			if (elt_ptr == NULL || elt_ptr->master == NULL)
 			{
-				error_string = sformatf( "Master species not in data "
-						"base for %s, skipping element.",
+				error_string = sformatf( "Master species not in database "
+						"for %s, skipping element.",
 						it->first.c_str());
 				input_error++;
 				error_msg(error_string, CONTINUE);
@@ -3535,7 +3546,7 @@ setup_surface(void)
 			if (master_ptr == NULL)
 			{
 				error_string = sformatf(
-						"Master species not in data base for %s, skipping element.",
+						"Master species not in database for %s, skipping element.",
 						elt_ptr->name);
 				warning_msg(error_string);
 				continue;
@@ -3600,6 +3611,12 @@ setup_surface(void)
 					 */
 					cxxSurfaceCharge *charge_ptr =  use.Get_surface_ptr()->
 						Find_charge(comp_ptr->Get_charge_name());
+					if (charge_ptr == NULL)
+					{
+						input_error++;
+						error_msg(sformatf("Charge structure not defined for surface, %s", use.Get_surface_ptr()->Get_description().c_str()), CONTINUE);
+						continue;
+					}
 					x[count_unknowns]->type = SURFACE_CB;
 					x[count_unknowns]->surface_charge = string_hsave(charge_ptr->Get_name().c_str());
 					x[count_unknowns]->related_moles = charge_ptr->Get_grams();
@@ -4371,7 +4388,7 @@ setup_solution(void)
 		if (master_ptr == NULL)
 		{
 			error_string = sformatf(
-					"Master species not in data base for %s, skipping element.",
+					"Master species not in database for %s, skipping element.",
 					it->first.c_str());
 			warning_msg(error_string);
 			free_check_null(temp_desc);

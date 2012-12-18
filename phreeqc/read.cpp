@@ -31,6 +31,18 @@ read_input(void)
 	input_error = 0;
 	next_keyword = Keywords::KEY_NONE;
 	count_warnings = 0;
+
+	Rxn_new_exchange.clear();
+	Rxn_new_gas_phase.clear();
+	Rxn_new_kinetics.clear();      // not used
+	Rxn_new_mix.clear();           // not used
+	Rxn_new_pp_assemblage.clear();
+	Rxn_new_pressure.clear();      // not used
+	Rxn_new_reaction.clear();      // not used
+	Rxn_new_solution.clear();
+	Rxn_new_ss_assemblage.clear();
+	Rxn_new_surface.clear();
+	Rxn_new_temperature.clear();   // not used
 /*
  *  Initialize keyword counters
  */
@@ -279,58 +291,58 @@ read_input(void)
 			read_sit();
 			break;
 		case Keywords::KEY_SOLUTION_RAW:
-			Utilities::Rxn_read_raw(Rxn_solution_map, this);
+			Utilities::Rxn_read_raw(Rxn_solution_map, Rxn_new_solution, this);
 			break;
 		case Keywords::KEY_EXCHANGE_RAW:		
-			Utilities::Rxn_read_raw(Rxn_exchange_map, this);
+			Utilities::Rxn_read_raw(Rxn_exchange_map, Rxn_new_exchange, this);
 			break;
 		case Keywords::KEY_SURFACE_RAW:
-			Utilities::Rxn_read_raw(Rxn_surface_map, this);
+			Utilities::Rxn_read_raw(Rxn_surface_map, Rxn_new_surface, this);
 			break;
 		case Keywords::KEY_EQUILIBRIUM_PHASES_RAW:		
-			Utilities::Rxn_read_raw(Rxn_pp_assemblage_map, this);
+			Utilities::Rxn_read_raw(Rxn_pp_assemblage_map, Rxn_new_pp_assemblage, this);
 			break;
 		case Keywords::KEY_KINETICS_RAW:
-			Utilities::Rxn_read_raw(Rxn_kinetics_map, this);
+			Utilities::Rxn_read_raw(Rxn_kinetics_map, Rxn_new_kinetics, this);
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_RAW:
-			Utilities::Rxn_read_raw(Rxn_ss_assemblage_map, this);
+			Utilities::Rxn_read_raw(Rxn_ss_assemblage_map, Rxn_new_ss_assemblage, this);
 			break;
 		case Keywords::KEY_GAS_PHASE_RAW:		
-			Utilities::Rxn_read_raw(Rxn_gas_phase_map, this);
+			Utilities::Rxn_read_raw(Rxn_gas_phase_map, Rxn_new_gas_phase, this);
 			break;
 		case Keywords::KEY_REACTION_RAW:		
-			Utilities::Rxn_read_raw(Rxn_reaction_map, this);
+			Utilities::Rxn_read_raw(Rxn_reaction_map, Rxn_new_reaction, this);
 			break;
 		case Keywords::KEY_MIX_RAW:		
-			Utilities::Rxn_read_raw(Rxn_mix_map, this);
+			Utilities::Rxn_read_raw(Rxn_mix_map, Rxn_new_mix, this);
 			break;
 		case Keywords::KEY_REACTION_TEMPERATURE_RAW:
-			Utilities::Rxn_read_raw(Rxn_temperature_map, this);
+			Utilities::Rxn_read_raw(Rxn_temperature_map, Rxn_new_temperature, this);
 			break;
 		case Keywords::KEY_DUMP:		
 			read_dump();
 			break;
 		case Keywords::KEY_SOLUTION_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_solution_map, this);
+			Utilities::Rxn_read_modify(Rxn_solution_map, Rxn_new_solution, this);
 			break;
 		case Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_pp_assemblage_map, this);
+			Utilities::Rxn_read_modify(Rxn_pp_assemblage_map, Rxn_new_pp_assemblage, this);
 			break;
 		case Keywords::KEY_EXCHANGE_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_exchange_map, this);
+			Utilities::Rxn_read_modify(Rxn_exchange_map, Rxn_new_exchange, this);
 			break;
 		case Keywords::KEY_SURFACE_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_surface_map, this);
+			Utilities::Rxn_read_modify(Rxn_surface_map, Rxn_new_surface, this);
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_ss_assemblage_map, this);
+			Utilities::Rxn_read_modify(Rxn_ss_assemblage_map, Rxn_new_ss_assemblage, this);
 			break;
 		case Keywords::KEY_GAS_PHASE_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_gas_phase_map, this);
+			Utilities::Rxn_read_modify(Rxn_gas_phase_map, Rxn_new_gas_phase, this);
 			break;
 		case Keywords::KEY_KINETICS_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_kinetics_map, this);
+			Utilities::Rxn_read_modify(Rxn_kinetics_map, Rxn_new_kinetics, this);
 			break;
 		case Keywords::KEY_DELETE:
 			read_delete();
@@ -339,7 +351,7 @@ read_input(void)
 			read_run_cells();
 			break;
 		case Keywords::KEY_REACTION_MODIFY:
-			Utilities::Rxn_read_modify(Rxn_reaction_map, this);
+			Utilities::Rxn_read_modify(Rxn_reaction_map, Rxn_new_reaction, this);
 			break;
 		//case LAST_C_KEYWORD + 22:		//reaction_temperature_modify
 		//	keyword[LAST_C_KEYWORD + 22].keycount++;
@@ -349,7 +361,7 @@ read_input(void)
 			read_reaction_pressure();
 			break;
 		case Keywords::KEY_REACTION_PRESSURE_RAW:
-			Utilities::Rxn_read_raw(Rxn_pressure_map, this);
+			Utilities::Rxn_read_raw(Rxn_pressure_map, Rxn_new_pressure, this);
 			break;
 		default:
 			error_msg("Error in keyword switch", STOP);
@@ -1098,6 +1110,7 @@ read_exchange(void)
 			break;
 	}
 	Rxn_exchange_map[n_user] = temp_exchange;
+	Rxn_new_exchange.push_back(n_user);
 	return (return_value);
 }
 
@@ -1390,7 +1403,7 @@ read_gas_phase(void)
 
 
 	Rxn_gas_phase_map[n_user] = temp_gas_phase;
-
+	Rxn_new_gas_phase.push_back(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -4191,7 +4204,7 @@ read_pp_assemblage(void)
 	}
 	temp_pp_assemblage.Set_pp_assemblage_comps(comps);
 	Rxn_pp_assemblage_map[n_user] = temp_pp_assemblage;
-
+	Rxn_new_pp_assemblage.push_back(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -5356,7 +5369,7 @@ read_solution(void)
 		}
 	}
 	Rxn_solution_map[n_user] = temp_solution;
-
+	Rxn_new_solution.push_back(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -7132,6 +7145,7 @@ read_surface(void)
 	}
 	temp_surface.Sort_comps();
 	Rxn_surface_map[n_user] = temp_surface;
+	Rxn_new_surface.push_back(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -9660,8 +9674,14 @@ read_solid_solutions(void)
 		comps.insert(comps.begin(), *comp1_ptr);
 	if (comp0_ptr)
 		comps.insert(comps.begin(), *comp0_ptr);
-	ss_ptr->Set_ss_comps(comps);
-	temp_ss_assemblage.Get_SSs()[ss_ptr->Get_name()] = *ss_ptr;
+	if (ss_ptr != NULL && comps.size() > 0)
+	{
+		ss_ptr->Set_ss_comps(comps);
+	}
+	if (ss_ptr != NULL && ss_ptr->Get_name().size() > 0)
+	{
+		temp_ss_assemblage.Get_SSs()[ss_ptr->Get_name()] = *ss_ptr;
+	}
 	delete ss_ptr;
 	ss_ptr = NULL;
 	comps.clear();
@@ -9689,7 +9709,7 @@ read_solid_solutions(void)
 
 	// Add to map
 	Rxn_ss_assemblage_map[n_user] = temp_ss_assemblage;
-
+	Rxn_new_ss_assemblage.push_back(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */

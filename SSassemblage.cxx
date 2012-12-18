@@ -136,7 +136,7 @@ cxxSSassemblage::read_raw(CParser & parser, bool check)
 
 	// Read SSassemblage number and description
 	this->read_number_description(parser);
-	this->Set_new_def(true);
+	this->Set_new_def(false);
 
 	opt_save = CParser::OPT_ERROR;
 

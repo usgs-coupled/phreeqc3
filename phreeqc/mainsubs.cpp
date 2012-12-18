@@ -1278,9 +1278,12 @@ initial_solutions(int print)
 	set_use();
 	print1 = TRUE;
 	dl_type_x = cxxSurface::NO_DL;
-	std::map<int, cxxSolution>::iterator it = Rxn_solution_map.begin();
-	for ( ; it != Rxn_solution_map.end(); it++)
+	//std::map<int, cxxSolution>::iterator it = Rxn_solution_map.begin();
+	//for ( ; it != Rxn_solution_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_solution.size(); nn++)
 	{
+		std::map<int, cxxSolution>::iterator it = Rxn_solution_map.find(Rxn_new_solution[nn]);
 		cxxSolution &solution_ref = it->second;
 		initial_solution_isotopes = FALSE;
 		if (solution_ref.Get_new_def())
@@ -1378,9 +1381,12 @@ initial_exchangers(int print)
 	set_use();
 	print1 = TRUE;
 	dl_type_x = cxxSurface::NO_DL;
-	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
-	for ( ; it != Rxn_exchange_map.end(); it++)
+	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
+	//for ( ; it != Rxn_exchange_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
+		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
 		if (!it->second.Get_new_def())
 			continue;
 		cxxExchange *exchange_ptr = &(it->second);
@@ -1458,9 +1464,12 @@ initial_gas_phases(int print)
 	set_use();
 	print1 = TRUE;
 	dl_type_x = cxxSurface::NO_DL;
-	std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.begin();
-	for ( ; it != Rxn_gas_phase_map.end(); it++)
+	//std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.begin();
+	//for ( ; it != Rxn_gas_phase_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_gas_phase.size(); nn++)
 	{
+		std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.find(Rxn_new_gas_phase[nn]);
 		cxxGasPhase *gas_phase_ptr = &it->second;
 		if (!gas_phase_ptr->Get_new_def())
 			continue;
@@ -1568,9 +1577,12 @@ initial_surfaces(int print)
 	set_use();
 	print1 = TRUE;
 
-	std::map<int, cxxSurface>::iterator it = Rxn_surface_map.begin();
-	for ( ; it != Rxn_surface_map.end(); it++)
+	//std::map<int, cxxSurface>::iterator it = Rxn_surface_map.begin();
+	//for ( ; it != Rxn_surface_map.end(); it++)
+	//{
+	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
+		std::map<int, cxxSurface>::iterator it = Rxn_surface_map.find(Rxn_new_surface[nn]);
 		cxxSurface * surface_ptr = &it->second;
 		if (!surface_ptr->Get_new_def())
 			continue;
