@@ -1281,9 +1281,10 @@ initial_solutions(int print)
 	//std::map<int, cxxSolution>::iterator it = Rxn_solution_map.begin();
 	//for ( ; it != Rxn_solution_map.end(); it++)
 	//{
-	for (size_t nn = 0; nn < Rxn_new_solution.size(); nn++)
+	//for (size_t nn = 0; nn < Rxn_new_solution.size(); nn++)
+	for (std::set<int>::const_iterator nit = Rxn_new_solution.begin(); nit != Rxn_new_solution.end(); nit++)
 	{
-		std::map<int, cxxSolution>::iterator it = Rxn_solution_map.find(Rxn_new_solution[nn]);
+		std::map<int, cxxSolution>::iterator it = Rxn_solution_map.find(*nit);
 		if (it == Rxn_solution_map.end())
 		{
 			assert(false);
@@ -1388,9 +1389,12 @@ initial_exchangers(int print)
 	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
 	//for ( ; it != Rxn_exchange_map.end(); it++)
 	//{
-	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
+	//for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
+	//{
+		//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
+	for (std::set<int>::const_iterator nit = Rxn_new_exchange.begin(); nit != Rxn_new_exchange.end(); nit++)
 	{
-		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
+		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(*nit);
 		if (it == Rxn_exchange_map.end())
 		{
 			assert(false);
@@ -1475,9 +1479,12 @@ initial_gas_phases(int print)
 	//std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.begin();
 	//for ( ; it != Rxn_gas_phase_map.end(); it++)
 	//{
-	for (size_t nn = 0; nn < Rxn_new_gas_phase.size(); nn++)
+	//for (size_t nn = 0; nn < Rxn_new_gas_phase.size(); nn++)
+	//{
+		//std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.find(Rxn_new_gas_phase[nn]);
+	for (std::set<int>::const_iterator nit = Rxn_new_gas_phase.begin(); nit != Rxn_new_gas_phase.end(); nit++)
 	{
-		std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.find(Rxn_new_gas_phase[nn]);
+		std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.find(*nit);
 		if (it == Rxn_gas_phase_map.end())
 		{
 			assert(false);
@@ -1592,9 +1599,12 @@ initial_surfaces(int print)
 	//std::map<int, cxxSurface>::iterator it = Rxn_surface_map.begin();
 	//for ( ; it != Rxn_surface_map.end(); it++)
 	//{
-	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
+	//for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
+	//{
+		//std::map<int, cxxSurface>::iterator it = Rxn_surface_map.find(Rxn_new_surface[nn]);
+	for (std::set<int>::const_iterator nit = Rxn_new_surface.begin(); nit != Rxn_new_surface.end(); nit++)
 	{
-		std::map<int, cxxSurface>::iterator it = Rxn_surface_map.find(Rxn_new_surface[nn]);
+		std::map<int, cxxSurface>::iterator it = Rxn_surface_map.find(*nit);
 		if (it == Rxn_surface_map.end())
 		{
 			assert(false);
@@ -2932,12 +2942,12 @@ run_simulations(void)
 /* ---------------------------------------------------------------------- */
 {
 	char token[MAX_LENGTH];
-#ifdef SKIP_KEEP
+//#ifdef SKIP_KEEP
 #if defined(WIN32)
 	unsigned int old_exponent_format;
 	old_exponent_format = _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
-#endif
+//#endif
 /*
  *   Prepare error handling
  */

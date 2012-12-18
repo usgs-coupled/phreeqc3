@@ -562,7 +562,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			n_user_end = nk.Get_n_user_end();
 			description = nk.Get_description();
 			next_keyword = next_keyword_save;
-			Rxn_new_solution.push_back(n_user);
+			Rxn_new_solution.insert(n_user);
 		}
 	}
 /*
