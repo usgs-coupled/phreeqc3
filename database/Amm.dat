@@ -75,6 +75,7 @@ Mg+2 = Mg+2
 	-dw	 0.705e-9
 	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1 # supcrt modified
 Na+ = Na+
+	-gamma	4.0	 0.075
 	-gamma	4.08 0.082 # halite solubility
 	-dw	 1.33e-9
 	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  4.0  0.162  47.67  -3.09e-3  0.725 # supcrt modified
@@ -97,6 +98,7 @@ Al+3 = Al+3
 	-dw	 0.559e-9
 	-Vm  -3.3404  -17.1108  14.9917  -2.0716  2.8711 9 # supcrt
 Ba+2 = Ba+2
+	-gamma  5.0  0
 	-gamma	4.0  0.153 # Barite solubility
 	-dw 0.848e-9
 	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1 # supcrt modified
@@ -108,8 +110,8 @@ H4SiO4 = H4SiO4
 	-dw	 1.10e-9
 	-Vm  10.5  1.7  20  -2.7  0.1291 # supcrt + 2*H2O in a1
 Cl- = Cl-
-	-gamma	3.5	0.015
-	-gamma	3.63  0.017 # from pitzer.dat
+	-gamma	3.5	  0.015
+	-gamma	3.63  0.017 # cf. pitzer.dat
 	-dw	 2.03e-9
 	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # supcrt modified
 CO3-2 = CO3-2
@@ -334,11 +336,11 @@ Ca+2 + H2PO4- = CaH2PO4+
 	-log_k	1.408
 	-delta_h 3.4 kcal
 	-gamma  5.4  0.0 
-#Ca+2 + F- = CaF+
-#	-log_k	0.94
-#	-delta_h 4.120	kcal
-#	-Vm  .9846  -5.3773  7.8635  -2.5567  .6911 5.5 # supcrt
-#	-gamma  5.5  0.0 
+# Ca+2 + F- = CaF+
+	# -log_k	0.94
+	# -delta_h 4.120	kcal
+	# -Vm  .9846  -5.3773  7.8635  -2.5567  .6911 5.5 # supcrt
+	# -gamma  5.5  0.0 
 Mg+2 + H2O = MgOH+ + H+
 	-log_k	-11.44
 	-delta_h 15.952 kcal
@@ -918,7 +920,7 @@ Celestite
 	-log_k	-6.63
 	-delta_h -4.037 kcal
 #	-analytic	-14805.9622	-2.4660924	756968.533	5436.3588	-40553604.0
-	-analytic  -7.14 6.11E-03  75 0 0 -1.79E-05  # Howell et al., 1992, JCED 37, 464.
+	-analytic  -7.14 6.11e-3  75 0 0 -1.79e-5  # Howell et al., 1992, JCED 37, 464.
 	-Vm 46.4
 Barite
 	BaSO4 = Ba+2 + SO4-2
