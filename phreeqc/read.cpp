@@ -1110,7 +1110,7 @@ read_exchange(void)
 			break;
 	}
 	Rxn_exchange_map[n_user] = temp_exchange;
-	Rxn_new_exchange.push_back(n_user);
+	Rxn_new_exchange.insert(n_user);
 	return (return_value);
 }
 
@@ -1403,7 +1403,7 @@ read_gas_phase(void)
 
 
 	Rxn_gas_phase_map[n_user] = temp_gas_phase;
-	Rxn_new_gas_phase.push_back(n_user);
+	Rxn_new_gas_phase.insert(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -4204,7 +4204,7 @@ read_pp_assemblage(void)
 	}
 	temp_pp_assemblage.Set_pp_assemblage_comps(comps);
 	Rxn_pp_assemblage_map[n_user] = temp_pp_assemblage;
-	Rxn_new_pp_assemblage.push_back(n_user);
+	Rxn_new_pp_assemblage.insert(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -5369,7 +5369,7 @@ read_solution(void)
 		}
 	}
 	Rxn_solution_map[n_user] = temp_solution;
-	Rxn_new_solution.push_back(n_user);
+	Rxn_new_solution.insert(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -7145,7 +7145,7 @@ read_surface(void)
 	}
 	temp_surface.Sort_comps();
 	Rxn_surface_map[n_user] = temp_surface;
-	Rxn_new_surface.push_back(n_user);
+	Rxn_new_surface.insert(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -9709,7 +9709,7 @@ read_solid_solutions(void)
 
 	// Add to map
 	Rxn_ss_assemblage_map[n_user] = temp_ss_assemblage;
-	Rxn_new_ss_assemblage.push_back(n_user);
+	Rxn_new_ss_assemblage.insert(n_user);
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
