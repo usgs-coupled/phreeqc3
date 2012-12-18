@@ -893,6 +893,10 @@ tidy_gas_phase(void)
 	for (size_t nn = 0; nn < Rxn_new_gas_phase.size(); nn++)
 	{
 		std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.find(Rxn_new_gas_phase[nn]);
+		if (it == Rxn_gas_phase_map.end())
+		{
+			assert(false);
+		}
 		cxxGasPhase *gas_phase_ptr = &(it->second);
 		//if (gas_phase_ptr->Get_new_def() != TRUE)
 		//	continue;
@@ -1509,6 +1513,10 @@ tidy_pp_assemblage(void)
 	for (size_t nn = 0; nn < Rxn_new_pp_assemblage.size(); nn++)
 	{
 		std::map<int, cxxPPassemblage>::iterator kit = Rxn_pp_assemblage_map.find(Rxn_new_pp_assemblage[nn]);
+		if (kit == Rxn_pp_assemblage_map.end())
+		{
+			assert(false);
+		}
 		//if (!kit->second.Get_new_def()) continue;
 		cxxPPassemblage *pp_assemblage_ptr = &(kit->second);
 		count_elts = 0;
@@ -1599,6 +1607,10 @@ tidy_ss_assemblage(void)
 	for (size_t nn = 0; nn < Rxn_new_ss_assemblage.size(); nn++)
 	{
 		std::map<int, cxxSSassemblage>::iterator it = Rxn_ss_assemblage_map.find(Rxn_new_ss_assemblage[nn]);
+		if (it == Rxn_ss_assemblage_map.end())
+		{
+			assert(false);
+		}
 		//if (!it->second.Get_new_def()) continue;
 		count_elts = 0;
 		paren_count = 0;
@@ -2389,6 +2401,10 @@ tidy_surface(void)
 	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
 		std::map<int, cxxSurface>::iterator kit = Rxn_surface_map.find(Rxn_new_surface[nn]);
+		if (kit == Rxn_surface_map.end())
+		{
+			assert(false);
+		}
 		//if (!kit->second.Get_new_def()) continue;
 		surface_ptr = &(kit->second);
 		for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
@@ -2556,6 +2572,10 @@ tidy_solutions(void)
 	for(size_t n = 0; n < Rxn_new_solution.size(); n++)
 	{
 		std::map<int, cxxSolution>::iterator it = Rxn_solution_map.find(Rxn_new_solution[n]);
+		if (it == Rxn_solution_map.end())
+		{
+			assert(false);
+		}
 		cxxSolution &solution_ref = it->second;
 		//if (solution_ref.Get_new_def())
 		{
@@ -2853,6 +2873,10 @@ tidy_kin_exchange(void)
 	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
 		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
+		if (it == Rxn_exchange_map.end())
+		{
+			assert(false);
+		}
 		cxxExchange * exchange_ptr = &(it->second);
 		//if (!exchange_ptr->Get_new_def())
 		//	continue;
@@ -2965,6 +2989,10 @@ tidy_min_exchange(void)
 	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
 		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
+		if (it == Rxn_exchange_map.end())
+		{
+			assert(false);
+		}
 		cxxExchange * exchange_ptr = &(it->second);
 		//if (!exchange_ptr->Get_new_def())
 		//		continue;
@@ -3107,6 +3135,10 @@ tidy_min_surface(void)
 	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
 		std::map<int, cxxSurface>::iterator kit = Rxn_surface_map.find(Rxn_new_surface[nn]);
+		if (kit == Rxn_surface_map.end())
+		{
+			assert(false);
+		}
 		cxxSurface *surface_ptr = &(kit->second);
 		//if (!surface_ptr->Get_new_def())
 		//	continue;
@@ -3353,6 +3385,10 @@ tidy_kin_surface(void)
 	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
 		std::map<int, cxxSurface>::iterator it = Rxn_surface_map.find(Rxn_new_surface[nn]);
+		if (it == Rxn_surface_map.end())
+		{
+			assert(false);
+		}
 		cxxSurface *surface_ptr = &(it->second);
 		//if (!surface_ptr->Get_new_def())
 		//	continue;
@@ -4709,6 +4745,10 @@ tidy_exchange(void)
 	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
 		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
+		if (it == Rxn_exchange_map.end())
+		{
+			assert(false);
+		}
 		//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
 		cxxExchange * exchange_ptr = &(it->second);
 		//if (!exchange_ptr->Get_new_def())

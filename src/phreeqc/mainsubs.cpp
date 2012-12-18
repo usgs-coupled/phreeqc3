@@ -1284,6 +1284,10 @@ initial_solutions(int print)
 	for (size_t nn = 0; nn < Rxn_new_solution.size(); nn++)
 	{
 		std::map<int, cxxSolution>::iterator it = Rxn_solution_map.find(Rxn_new_solution[nn]);
+		if (it == Rxn_solution_map.end())
+		{
+			assert(false);
+		}
 		cxxSolution &solution_ref = it->second;
 		initial_solution_isotopes = FALSE;
 		if (solution_ref.Get_new_def())
@@ -1387,6 +1391,10 @@ initial_exchangers(int print)
 	for (size_t nn = 0; nn < Rxn_new_exchange.size(); nn++)
 	{
 		std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.find(Rxn_new_exchange[nn]);
+		if (it == Rxn_exchange_map.end())
+		{
+			assert(false);
+		}
 		if (!it->second.Get_new_def())
 			continue;
 		cxxExchange *exchange_ptr = &(it->second);
@@ -1470,6 +1478,10 @@ initial_gas_phases(int print)
 	for (size_t nn = 0; nn < Rxn_new_gas_phase.size(); nn++)
 	{
 		std::map<int, cxxGasPhase>::iterator it = Rxn_gas_phase_map.find(Rxn_new_gas_phase[nn]);
+		if (it == Rxn_gas_phase_map.end())
+		{
+			assert(false);
+		}
 		cxxGasPhase *gas_phase_ptr = &it->second;
 		if (!gas_phase_ptr->Get_new_def())
 			continue;
@@ -1583,6 +1595,10 @@ initial_surfaces(int print)
 	for (size_t nn = 0; nn < Rxn_new_surface.size(); nn++)
 	{
 		std::map<int, cxxSurface>::iterator it = Rxn_surface_map.find(Rxn_new_surface[nn]);
+		if (it == Rxn_surface_map.end())
+		{
+			assert(false);
+		}
 		cxxSurface * surface_ptr = &it->second;
 		if (!surface_ptr->Get_new_def())
 			continue;

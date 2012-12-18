@@ -2042,6 +2042,9 @@ namespace Utilities
 		}
 
 		entity_ptr->read_raw(parser, false);
+		entity_ptr->Set_n_user(nk.Get_n_user());
+		entity_ptr->Set_n_user_end(nk.Get_n_user_end());
+		entity_ptr->Set_description(nk.Get_description());
 		v.push_back(entity_ptr->Get_n_user());
 
 		return phreeqc_cookie->cleanup_after_parser(parser);
