@@ -3311,16 +3311,16 @@ setup_exchange(void)
 	for (size_t j = 0; j < use.Get_exchange_ptr()->Get_exchange_comps().size(); j++)
 	{
 		cxxExchComp & comp_ref = use.Get_exchange_ptr()->Get_exchange_comps()[j];
-		{
-			element * elt_ptr = element_store(comp_ref.Get_formula().c_str());
-			if (elt_ptr == NULL || elt_ptr->master == NULL)
-			{
-				error_string = sformatf( "Component not in database, %s", comp_ref.Get_formula().c_str());
-				input_error++;
-				error_msg(error_string, CONTINUE);
-				continue;
-			}
-		}
+		//{
+		//	element * elt_ptr = element_store(comp_ref.Get_formula().c_str());
+		//	if (elt_ptr == NULL || elt_ptr->master == NULL)
+		//	{
+		//		error_string = sformatf( "Component not in database, %s", comp_ref.Get_formula().c_str());
+		//		input_error++;
+		//		error_msg(error_string, CONTINUE);
+		//		continue;
+		//	}
+		//}
 
 		cxxNameDouble nd(comp_ref.Get_totals());
 		cxxNameDouble::iterator it = nd.begin();
