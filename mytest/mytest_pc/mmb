@@ -1,0 +1,28 @@
+DATABASE ../database/phreeqc.dat
+#DATABASE phreeqd.dat
+# diffusion of NaCl in clay membrane. Membrane opens up when DDL thickness reduces.
+USER_PRINT
+ -start
+  5 print 'solution =', cell_no
+ 10 print 'EB =', charge_balance, 'total water', edl("water") + tot("water"), -la("H+"), 'Na =', tot("Na"), 'Cl =', tot("Cl")
+ 20 print 'sys_Ca =', sys("Ca"), 'a_Ca =', act("Ca+2"), 'a_Na =', act("Na+")
+ -end
+KNOBS; -step_size 10; -pe_step_size 5; -iterations 5000; -diag true
+SOLUTION 0; Ca 1e-3; Na 1; Cl 1 charge; water 1#0.61609 # fresh outer solution
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES; Su- = Su-; log_k 0
+END
+SOLUTION 1-20; Na 500; Cl 500 charge; water 0.61609
+SURFACE 1-20; Su 0.1 1e6 1; -equil 1
+# -donnan debye_length 1 limit_DDL 0.99 viscosity 1
+ -donnan 3.8391e-10
+ -only_co
+END
+PRINT; -reset false; -user_pr true; -warnings 10
+TRANSPORT; -cells 1; -length 1e-2; -shifts 8 0; -bcon 1 2
+ -time 0.5e6 40
+ -multi_d true 1e-9 0.3 0 1; -print_c 1
+#-dump c:\dos\p\dump_it.phrq # filename
+#-dump_frequency 1
+END
+

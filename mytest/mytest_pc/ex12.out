@@ -1,0 +1,319 @@
+   Input file: ex12
+  Output file: ex12.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	knobs
+		logfile
+	TITLE 
+	Example 12.--Inverse modeling of Black Sea water evaporation
+	SOLUTION 1  Black Sea water
+	        units   mg/L
+	        density 1.014
+	        pH      8.0     # estimated
+	        Ca      233
+	        Mg      679
+	        Na      5820
+	        K       193
+	        S(6)    1460
+	        Cl      10340
+	        Br      35
+	SOLUTION 2  Composition during halite precipitation
+	        units   mg/L
+	        density 1.271
+	        pH      8.0     # estimated
+	        Ca      0.0 
+	        Mg      50500
+	        Na      55200
+	        K       15800
+	        S(6)    76200
+	        Cl      187900
+	        Br      2670
+	INVERSE_MODELING
+	        solutions 1 2
+	        uncertainties .025
+	        phases
+	                H2O     pre
+	                gypsum  pre
+	                halite  pre
+	        balances 
+	                Alkalinity 1.0
+	                Br
+	                K
+	                Mg
+	PHASES
+	H2O
+	        H2O = H2O
+	        log_k   0.0
+	Halite
+	        NaCl = Na+ + Cl- 
+	        log_k   1.582
+	END
+-----
+TITLE
+-----
+
+Example 12.--Inverse modeling of Black Sea water evaporation
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	Black Sea water
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.401e-004  4.401e-004
+	Ca               5.841e-003  5.841e-003
+	Cl               2.930e-001  2.930e-001
+	K                4.959e-003  4.959e-003
+	Mg               2.806e-002  2.806e-002
+	Na               2.544e-001  2.544e-001
+	S(6)             1.527e-002  1.527e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 31118
+                          Density (g/cm3)  =   1.01088
+                               Volume (L)  =   1.00885
+                        Activity of water  =   0.990
+                           Ionic strength  =  3.539e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  5.232e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  3.097e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.49
+                               Iterations  =   5
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.556731e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.517e-006  1.002e-006    -5.819    -5.999    -0.180     -3.19
+   H+             1.288e-008  1.000e-008    -7.890    -8.000    -0.110      0.00
+   H2O            5.551e+001  9.899e-001     1.744    -0.004     0.000     18.07
+Br           4.401e-004
+   Br-            4.401e-004  2.833e-004    -3.356    -3.548    -0.191     25.34
+Ca           5.841e-003
+   Ca+2           5.341e-003  1.486e-003    -2.272    -2.828    -0.555    -16.99
+   CaSO4          5.000e-004  5.425e-004    -3.301    -3.266     0.035      7.50
+   CaOH+          3.341e-008  2.442e-008    -7.476    -7.612    -0.136     (0)  
+   CaHSO4+        4.878e-011  3.566e-011   -10.312   -10.448    -0.136     (0)  
+Cl           2.930e-001
+   Cl-            2.930e-001  1.974e-001    -0.533    -0.705    -0.171     18.59
+H(0)         1.305e-027
+   H2             6.525e-028  7.079e-028   -27.185   -27.150     0.035     28.61
+K            4.959e-003
+   K+             4.893e-003  3.271e-003    -2.310    -2.485    -0.175      9.46
+   KSO4-          6.627e-005  4.717e-005    -4.179    -4.326    -0.148     (0)  
+Mg           2.806e-002
+   Mg+2           2.471e-002  7.562e-003    -1.607    -2.121    -0.514    -20.71
+   MgSO4          3.353e-003  3.638e-003    -2.475    -2.439     0.035      5.84
+   MgOH+          3.697e-006  2.718e-006    -5.432    -5.566    -0.134     (0)  
+Na           2.544e-001
+   Na+            2.517e-001  1.824e-001    -0.599    -0.739    -0.140     -0.81
+   NaSO4-         2.636e-003  1.877e-003    -2.579    -2.727    -0.148     21.05
+   NaOH           1.685e-017  1.828e-017   -16.773   -16.738     0.035     (0)  
+O(0)         1.502e-038
+   O2             7.512e-039  8.150e-039   -38.124   -38.089     0.035     30.40
+S(6)         1.527e-002
+   SO4-2          8.715e-003  2.052e-003    -2.060    -2.688    -0.628     16.14
+   MgSO4          3.353e-003  3.638e-003    -2.475    -2.439     0.035      5.84
+   NaSO4-         2.636e-003  1.877e-003    -2.579    -2.727    -0.148     21.05
+   CaSO4          5.000e-004  5.425e-004    -3.301    -3.266     0.035      7.50
+   KSO4-          6.627e-005  4.717e-005    -4.179    -4.326    -0.148     (0)  
+   HSO4-          2.730e-009  1.995e-009    -8.564    -8.700    -0.136     40.78
+   CaHSO4+        4.878e-011  3.566e-011   -10.312   -10.448    -0.136     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -1.24     -5.52   -4.28  CaSO4
+	Gypsum           -0.94     -5.52   -4.58  CaSO4:2H2O
+	H2(g)           -24.05    -27.15   -3.10  H2
+	H2O              -0.00     -0.00    0.00  H2O
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Halite           -3.03     -1.44    1.58  NaCl
+	O2(g)           -35.20    -38.09   -2.89  O2
+	Sylvite          -4.09     -3.19    0.90  KCl
+
+
+Initial solution 2.	Composition during halite precipitation
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               3.785e-002  3.785e-002
+	Cl               6.004e+000  6.004e+000
+	K                4.578e-001  4.578e-001
+	Mg               2.353e+000  2.353e+000
+	Na               2.720e+000  2.720e+000
+	S(6)             8.986e-001  8.986e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 442758
+                          Density (g/cm3)  =   1.28486
+                               Volume (L)  =   1.16544
+                        Activity of water  =   0.802
+                           Ionic strength  =  8.014e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.500e-003
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  4.140e-002
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.33
+                               Iterations  =   9
+                                  Total H  = 1.110159e+002
+                                  Total O  = 5.910412e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.774e-006  8.121e-007    -5.751    -6.090    -0.339      7.27
+   H+             1.426e-008  1.000e-008    -7.846    -8.000    -0.154      0.00
+   H2O            5.551e+001  8.023e-001     1.744    -0.096     0.000     18.07
+Br           3.785e-002
+   Br-            3.785e-002  1.574e-002    -1.422    -1.803    -0.381     27.45
+Cl           6.004e+000
+   Cl-            6.004e+000  3.843e+000     0.778     0.585    -0.194     20.37
+H(0)         2.237e-028
+   H2             1.118e-028  7.079e-028   -27.951   -27.150     0.801     28.61
+K            4.578e-001
+   K+             4.493e-001  2.713e-001    -0.347    -0.567    -0.219     13.00
+   KSO4-          8.407e-003  4.840e-003    -2.075    -2.315    -0.240     (0)  
+Mg           2.353e+000
+   Mg+2           1.645e+000  7.491e+000     0.216     0.875     0.658    -16.90
+   MgSO4          7.043e-001  4.458e+000    -0.152     0.649     0.801      5.84
+   MgOH+          3.498e-003  2.182e-003    -2.456    -2.661    -0.205     (0)  
+Na           2.720e+000
+   Na+            2.590e+000  5.879e+000     0.413     0.769     0.356      1.97
+   NaSO4-         1.299e-001  7.481e-002    -0.886    -1.126    -0.240     44.39
+   NaOH           7.542e-017  4.774e-016   -16.123   -15.321     0.801     (0)  
+O(0)         1.692e-039
+   O2             8.458e-040  5.354e-039   -39.073   -38.271     0.801     30.40
+S(6)         8.986e-001
+   MgSO4          7.043e-001  4.458e+000    -0.152     0.649     0.801      5.84
+   NaSO4-         1.299e-001  7.481e-002    -0.886    -1.126    -0.240     44.39
+   SO4-2          5.591e-002  2.539e-003    -1.253    -2.595    -1.343     24.58
+   KSO4-          8.407e-003  4.840e-003    -2.075    -2.315    -0.240     (0)  
+   HSO4-          3.493e-010  2.469e-009    -9.457    -8.608     0.849     42.23
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -24.05    -27.15   -3.10  H2
+	H2O              -0.10     -0.10    0.00  H2O
+	H2O(g)           -1.60     -0.10    1.50  H2O
+	Halite           -0.23      1.35    1.58  NaCl
+	O2(g)           -35.38    -38.27   -2.89  O2
+	Sylvite          -0.88      0.02    0.90  KCl
+
+
+---------------------------------------------
+Beginning of inverse modeling 1 calculations.
+---------------------------------------------
+
+Using Cl1 standard precision optimization routine.
+
+Solution 1: Black Sea water
+
+                         Input          Delta    Input+Delta
+     Alkalinity     5.232e-006  +  0.000e+000  =  5.232e-006
+             Br     4.401e-004  +  0.000e+000  =  4.401e-004
+             Ca     5.841e-003  + -1.272e-004  =  5.714e-003
+             Cl     2.930e-001  +  7.792e-004  =  2.938e-001
+           H(0)     0.000e+000  +  0.000e+000  =  0.000e+000
+              K     4.959e-003  +  1.034e-004  =  5.063e-003
+             Mg     2.806e-002  + -7.016e-004  =  2.736e-002
+             Na     2.544e-001  +  0.000e+000  =  2.544e-001
+           O(0)     0.000e+000  +  0.000e+000  =  0.000e+000
+          S(-2)     0.000e+000  +  0.000e+000  =  0.000e+000
+           S(6)     1.527e-002  +  3.818e-004  =  1.565e-002
+
+Solution 2: Composition during halite precipitation
+
+                         Input          Delta    Input+Delta
+     Alkalinity     3.500e-003  + -3.039e-003  =  4.612e-004
+             Br     3.785e-002  +  9.440e-004  =  3.880e-002
+             Ca     0.000e+000  +  0.000e+000  =  0.000e+000
+             Cl     6.004e+000  +  1.501e-001  =  6.154e+000
+           H(0)     0.000e+000  +  0.000e+000  =  0.000e+000
+              K     4.578e-001  + -1.144e-002  =  4.463e-001
+             Mg     2.353e+000  +  5.883e-002  =  2.412e+000
+             Na     2.720e+000  + -4.453e-002  =  2.676e+000
+           O(0)     0.000e+000  +  0.000e+000  =  0.000e+000
+          S(-2)     0.000e+000  +  0.000e+000  =  0.000e+000
+           S(6)     8.986e-001  + -2.247e-002  =  8.761e-001
+
+Solution fractions:                   Minimum        Maximum
+   Solution   1     8.815e+001     0.000e+000     0.000e+000
+   Solution   2     1.000e+000     0.000e+000     0.000e+000
+
+Phase mole transfers:                 Minimum        Maximum
+            H2O    -4.837e+003     0.000e+000     0.000e+000   H2O
+         Gypsum    -5.037e-001     0.000e+000     0.000e+000   CaSO4:2H2O
+         Halite    -1.975e+001     0.000e+000     0.000e+000   NaCl
+
+Redox mole transfers:    
+
+Sum of residuals (epsilons in documentation):        3.425e+002
+Sum of delta/uncertainty limit:                      1.033e+001
+Maximum fractional error in element concentration:   8.682e-001
+
+Model contains minimum number of phases.
+===============================================================================
+
+
+Summary of inverse modeling:
+
+	Number of models found: 1
+	Number of minimal models found: 1
+	Number of infeasible sets of phases saved: 4
+	Number of calls to cl1: 8
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.023 Seconds.
+-------------------------------
+

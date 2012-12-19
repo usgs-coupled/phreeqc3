@@ -1,0 +1,24 @@
+DATABASE ../database/phreeqc.dat
+TITLE Test solubility of Cd in synthetic stream water.
+SOLUTION 1  Synthetic stream water
+        units      mmol/kgw
+        pH         7.20
+	pe	12
+        temp       25.0
+        C               0.53
+        Ca              0.14
+        Cl              0.17
+        K               0.02
+        Mg              0.08
+        Na              0.29
+        S(6)            0.03 as SO4
+#	N(5)		.000001 as N
+end
+knobs
+#	debug_model
+	-log
+#	-tol	1e-20
+use solution 1
+EQUILIBRIUM_PHASES 1  Diss. Cd(NO3)2 to equil. w/otavite
+Otavite          0.0     Cd(NO3)2    0.0089
+END

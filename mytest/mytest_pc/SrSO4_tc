@@ -1,0 +1,23 @@
+# SrSO4 solubility, Howell et al., 1992
+DATABASE ../database/phreeqc.dat
+SOLUTION 1
+ pH 7 charge
+ -temp 25
+ -pressure 200
+EQUILIBRIUM_PHASES
+ Celestite
+REACTION_TEMPERATURE
+ 25 250 in 10
+USER_GRAPH
+ axis_titles "Temperature / oC" "Celestitte solubility / M"
+  1 DATA 7.556e-04, 6.469e-04, 3.901e-04, 2.568e-04, 1.580e-04,  5.926e-05
+  2 DIM d(6)
+  3 read d(1), d(2), d(3), d(4), d(5), d(6)
+  4 DATA 25, 50, 100, 150, 200, 250
+  5 DIM t(6)
+  6 read t(1), t(2), t(3), t(4), t(5), t(6)
+ 10 plot_xy tc, tot("Sr"), color = Red, symbol = None
+ 20 if step_no > 6 then goto 30
+ 22 plot_xy t(step_no), d(step_no), line_width = 0, color = Red
+ 30 end
+END

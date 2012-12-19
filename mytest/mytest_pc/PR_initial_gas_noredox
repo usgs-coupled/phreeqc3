@@ -1,0 +1,86 @@
+#DATABASE ../database/llnl.dat
+DATABASE ../database/pitzer.dat
+INCLUDE$ gas_no_redox.dat
+
+SOLUTION_SPECIES
+H2O = OH- + H+
+	log_k	-14.0
+	delta_h 13.362	kcal
+	-analytic	-283.971	-0.05069842	13323.0	102.24447	-1119669.0
+	-gamma	3.5	0.0
+	-dw	 5.27e-9
+	-vm -22
+CO3-2 + H+ = HCO3-
+	log_k	10.329
+	delta_h -3.561	kcal
+	-analytic	107.8871	0.03252849	-5151.79	-38.92561	563713.9
+	-gamma	5.4	0.0
+	-dw	 1.18e-9
+	-millero 21.07 0.185 -0.002248 2.29 -0.006644 -3.667E-06
+	-vm 28
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	16.681
+	delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9
+	-vm 27
+
+PHASES
+Calcite
+	CaCO3 = CO3-2 + Ca+2
+	log_k	-8.48
+	delta_h -2.297 kcal
+	-analytic	-171.9065	-0.077993	2839.319	71.595
+	-vm -50 cm3/mol
+Strontianite
+	SrCO3 = Sr+2 + CO3-2
+	log_k	-9.271
+	delta_h -0.400 kcal
+	-analytic	155.0305	0.0	-7239.594	-56.58638
+
+
+SOLUTION 1 Khuff reservoir: Franco et al., 2009, SAJT.
+-units ppm
+pH 7
+-temp 132
+-pressure 400  # 13000 feet
+Na 54936
+Ca 14259
+Mg 1524
+S(6) 100
+Cl 114055
+Alkalinity 434 as HCO3
+Ba 22
+K 5887
+Sr 1047
+END
+
+USE solution 1
+GAS_PHASE 1
+ -fixed_volume
+ -volume 1
+ -temperature 132
+ CO2(g) 12 # 3%
+ Ng(g) 40
+ H2Sg(g) 0.2 # 500 ppm_v
+ Mth(g) 334
+ H2O(g) 11.7
+SAVE solution 1
+SAVE gas_phase 1
+END
+
+#PRINT; -reset false
+USE solution 1
+REACTION_TEMPERATURE
+ 132 30 in 10
+USE GAS_PHASE 1
+REACTION 1
+CO2(g)  0.3282 H2Sg(g) 0.004922 Mth(g)  9.552 Ng(g)   1.146; -1. in 1
+
+USER_GRAPH
+ -headings temp calcite strontianite anhydrite gyps halite pressure
+ -axis_titles "Temperature / oC" "SI" "Pressure / atm"
+ 10 graph_x tc
+ 20 graph_y si("Calcite"), si("Strontianite"), si("Anhydrite"), si("Gypsum"), si("Halite")
+ 30 graph_sy pressure
+END

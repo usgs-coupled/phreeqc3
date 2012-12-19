@@ -1,0 +1,2340 @@
+   Input file: ex15.cvode
+  Output file: ex15.cvode.out
+Database file: ex15.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ex15.dat
+	PRINT
+		warnings 10
+	TITLE Example 15.--1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption
+	***********
+	PLEASE NOTE: This problem requires database file ex15.dat!!
+	***********
+	SOLUTION 0 Pulse solution with NTA and cobalt
+	        units umol/L
+	        pH      6
+	        C       .49
+	        O(0)    62.5 
+	        Nta     5.23
+	        Co      5.23
+	        Na      1000
+	        Cl      1000
+	END
+-----
+TITLE
+-----
+
+ Example 15.--1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption
+***********
+PLEASE NOTE: This problem requires database file ex15.dat!!
+***********
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	Pulse solution with NTA and cobalt
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                4.900e-007  4.900e-007
+	Cl               1.000e-003  1.000e-003
+	Co               5.230e-006  5.230e-006
+	Na               1.000e-003  1.000e-003
+	Nta              5.230e-006  5.230e-006
+	O(0)             6.250e-005  6.250e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.005e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.539e-005
+                       Total CO2 (mol/kg)  =  4.900e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.954e-006
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.20
+                               Iterations  =   6
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          14.3937      0.8515
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.000e-006  1.000e-006    -6.000    -6.000    -0.000      0.00
+   OH-            1.000e-008  1.000e-008    -8.000    -8.000    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            4.900e-007
+   CO2            3.387e-007  3.387e-007    -6.470    -6.470     0.000     (0)  
+   HCO3-          1.513e-007  1.513e-007    -6.820    -6.820    -0.000     (0)  
+   CO3-2          7.077e-012  7.077e-012   -11.150   -11.150    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Co           5.230e-006
+   CoNta-         4.793e-006  4.793e-006    -5.319    -5.319    -0.000     (0)  
+   Co+2           4.370e-007  4.370e-007    -6.360    -6.360    -0.000     (0)  
+   CoOH+          8.719e-011  8.719e-011   -10.060   -10.060    -0.000     (0)  
+   CoOHNta-2      3.024e-011  3.024e-011   -10.519   -10.519    -0.000     (0)  
+   CoNta2-4       6.618e-014  6.618e-014   -13.179   -13.179    -0.000     (0)  
+   Co(OH)2        5.501e-018  5.501e-018   -17.260   -17.260     0.000     (0)  
+   Co(OH)3-       1.382e-020  1.382e-020   -19.860   -19.860    -0.000     (0)  
+H(0)         1.416e-023
+   H2             7.079e-024  7.079e-024   -23.150   -23.150     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Nta          5.230e-006
+   CoNta-         4.793e-006  4.793e-006    -5.319    -5.319    -0.000     (0)  
+   HNta-2         4.366e-007  4.366e-007    -6.360    -6.360    -0.000     (0)  
+   H2Nta-         4.366e-010  4.366e-010    -9.360    -9.360    -0.000     (0)  
+   CoOHNta-2      3.024e-011  3.024e-011   -10.519   -10.519    -0.000     (0)  
+   Nta-3          2.188e-011  2.188e-011   -10.660   -10.660    -0.000     (0)  
+   CoNta2-4       6.618e-014  6.618e-014   -13.179   -13.179    -0.000     (0)  
+   H3Nta          1.738e-014  1.738e-014   -13.760   -13.760     0.000     (0)  
+O(0)         6.250e-005
+   O2             3.125e-005  3.125e-005    -4.505    -4.505     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1-10 Background solution initially filling column     # 1-20
+	        units umol/L
+	        pH      6
+	        C       .49
+	        O(0)    62.5 
+	        Na      1000
+	        Cl      1000
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	Background solution initially filling column     
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                4.900e-007  4.900e-007
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+	O(0)             6.250e-005  6.250e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.414e-007
+                       Total CO2 (mol/kg)  =  4.900e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          14.3937      0.8515
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.000e-006  1.000e-006    -6.000    -6.000    -0.000      0.00
+   OH-            1.000e-008  1.000e-008    -8.000    -8.000    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            4.900e-007
+   CO2            3.387e-007  3.387e-007    -6.470    -6.470     0.000     (0)  
+   HCO3-          1.513e-007  1.513e-007    -6.820    -6.820    -0.000     (0)  
+   CO3-2          7.077e-012  7.077e-012   -11.150   -11.150    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+H(0)         1.416e-023
+   H2             7.079e-024  7.079e-024   -23.150   -23.150     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+O(0)         6.250e-005
+   O2             3.125e-005  3.125e-005    -4.505    -4.505     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	RATES Rate expressions for the four kinetic reactions
+	        HNTA-2
+	        start
+	10 Ks = 7.64e-7
+	20 Ka = 6.25e-6
+	30 qm = 1.407e-3/3600
+	40 f1 = MOL("HNta-2")/(Ks + MOL("HNta-2"))
+	50 f2 = MOL("O2")/(Ka + MOL("O2"))
+	60 rate = -qm * KIN("Biomass") * f1 * f2 
+	70 moles = rate * TIME
+	80 PUT(rate, 1)   # save the rate for use in Biomass rate calculation
+	90 SAVE moles
+	        end
+	        Biomass
+	        start
+	10 Y = 65.14
+	20 b = 0.00208/3600
+	30 rate = GET(1)  # uses rate calculated in HTNA-2 rate calculation
+	40 rate = -Y*rate -b*M
+	50 moles = -rate * TIME
+	60 if (M + moles) < 0 then moles = -M
+	70 SAVE moles
+	        end
+	        Co_sorption
+	        start
+	10 km = 1/3600
+	20 kd = 5.07e-3
+	30 solids = 3.75e3
+	40 rate = -km*(MOL("Co+2") - (M/solids)/kd)
+	50 moles = rate * TIME
+	60 if (M - moles) < 0 then moles = M
+	70 SAVE moles
+	        end
+	        CoNta_sorption
+	        start
+	10 km = 1/3600
+	20 kd = 5.33e-4
+	30 solids = 3.75e3
+	40 rate = -km*(MOL("CoNta-") - (M/solids)/kd)
+	50 moles = rate * TIME
+	60 if (M - moles) < 0 then moles = M
+	70 SAVE moles
+	        end
+	KINETICS 1-10 Four kinetic reactions for all cells     # 1-20
+		 cvode
+	        HNTA-2
+	                formula C -3.12 H -1.968 O -4.848 N -0.424 Nta 1.
+	        Biomass
+	                formula        H 0.0
+	                m              1.36e-4
+	        Co_sorption
+	                formula CoCl2
+	                m      0.0
+	                tol 1e-11
+	        CoNta_sorption
+	                formula NaCoNta
+	                m      0.0
+	                tol 1e-11
+	SELECTED_OUTPUT
+	        file   ex15.sel
+	        molalities    Nta-3 CoNta- HNta-2 Co+2
+	USER_PUNCH
+	        heading        hours   Co_sorb CoNta_sorb      Biomass
+	        start
+	10 punch TOTAL_TIME/3600 + 1800/3600    # TOTAL_TIME/3600 + 900/3600
+	20 punch KIN("Co_sorption")/3.75e3
+	30 punch KIN("CoNta_sorption")/3.75e3
+	40 punch KIN("Biomass")
+	        end
+	TRANSPORT First 20 hours have NTA and cobalt in infilling solution
+	        cells                10                #   20
+	        length               1                 #    0.5
+	        shifts               20                #   40
+	        time_step            3600              # 1800
+	        flow_direction       forward
+	        boundary_conditions   flux flux
+	        dispersivity         .05
+	        correct_disp         true
+	        diffusion_coefficient       0.0e-9
+	        punch_cells          10                #   20
+	        punch_frequency      1                 #    2
+	        print_cells          10                #   20
+	        print_frequency      5                 #   10
+	END
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 10.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 10.	Background solution initially filling column     
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                4.900e-007  4.900e-007
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  14.394      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.414e-007
+                       Total CO2 (mol/kg)  =  4.900e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.000e-006  1.000e-006    -6.000    -6.000    -0.000      0.00
+   OH-            1.000e-008  1.000e-008    -8.000    -8.000    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            4.900e-007
+   CO2            3.387e-007  3.387e-007    -6.470    -6.470     0.000     (0)  
+   HCO3-          1.513e-007  1.513e-007    -6.820    -6.820    -0.000     (0)  
+   CO3-2          7.077e-012  7.077e-012   -11.150   -11.150    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.937   -43.937     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+O(0)         6.250e-005
+   O2             3.125e-005  3.125e-005    -4.505    -4.505     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step   1.
+
+WARNING: Negative moles in solution for N, -4.240000e-014. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-015. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-016. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-017. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-018. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-019. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-020. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-021. Recovering...
+Transport step   1. Mixrun   1.
+
+Transport step   2.
+
+Transport step   2. Mixrun   1.
+
+Transport step   3.
+
+Transport step   3. Mixrun   1.
+
+Transport step   4.
+
+Transport step   4. Mixrun   1.
+
+Transport step   5.
+
+Transport step   5. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 3.                           
+	 9.400e-001 Solution 10	Solution after simulation 3.                           
+	 0.000e+000 Solution 11	Solution after simulation 3.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      18000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           9.148e-014  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass         -2.801e-007  1.346e-004   H                         0
+	Co_sorption      2.832e-014  2.832e-014   CoCl2                     1
+	CoNta_sorption   5.316e-019  5.316e-019   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                4.900e-007  4.900e-007
+	Cl               1.000e-003  1.000e-003
+	Co               4.973e-014  4.973e-014
+	N                4.566e-013  4.566e-013
+	Na               1.000e-003  1.000e-003
+	Nta              8.513e-013  8.513e-013
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  14.394      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.414e-007
+                       Total CO2 (mol/kg)  =  4.900e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  =  90
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.000e-006  1.000e-006    -6.000    -6.000    -0.000      0.00
+   OH-            1.000e-008  1.000e-008    -8.000    -8.000    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            4.900e-007
+   CO2            3.387e-007  3.387e-007    -6.470    -6.470     0.000     (0)  
+   HCO3-          1.513e-007  1.513e-007    -6.820    -6.820    -0.000     (0)  
+   CO3-2          7.077e-012  7.077e-012   -11.150   -11.150    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Co           4.973e-014
+   Co+2           4.972e-014  4.972e-014   -13.303   -13.303    -0.000     (0)  
+   CoOH+          9.921e-018  9.921e-018   -17.003   -17.003    -0.000     (0)  
+   CoNta-         1.062e-018  1.062e-018   -17.974   -17.974    -0.000     (0)  
+   CoOHNta-2      6.701e-024  6.701e-024   -23.174   -23.174    -0.000     (0)  
+   Co(OH)2        6.259e-025  6.259e-025   -24.203   -24.203     0.000     (0)  
+   Co(OH)3-       1.572e-027  1.572e-027   -26.803   -26.803    -0.000     (0)  
+   CoNta2-4       2.856e-032  2.856e-032   -31.544   -31.544    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.937   -43.937     0.000     (0)  
+N            4.566e-013
+   NH4+           4.564e-013  4.564e-013   -12.341   -12.341    -0.000     (0)  
+   NH3            2.287e-016  2.287e-016   -15.641   -15.641     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Nta          8.513e-013
+   HNta-2         8.504e-013  8.504e-013   -12.070   -12.070    -0.000     (0)  
+   H2Nta-         8.504e-016  8.504e-016   -15.070   -15.070    -0.000     (0)  
+   Nta-3          4.262e-017  4.262e-017   -16.370   -16.370    -0.000     (0)  
+   CoNta-         1.062e-018  1.062e-018   -17.974   -17.974    -0.000     (0)  
+   H3Nta          3.385e-020  3.385e-020   -19.470   -19.470     0.000     (0)  
+   CoOHNta-2      6.701e-024  6.701e-024   -23.174   -23.174    -0.000     (0)  
+   CoNta2-4       2.856e-032  2.856e-032   -31.544   -31.544    -0.000     (0)  
+O(0)         6.251e-005
+   O2             3.125e-005  3.125e-005    -4.505    -4.505     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step   6.
+
+Transport step   6. Mixrun   1.
+
+Transport step   7.
+
+Transport step   7. Mixrun   1.
+
+Transport step   8.
+
+Transport step   8. Mixrun   1.
+
+Transport step   9.
+
+Transport step   9. Mixrun   1.
+
+Transport step  10.
+
+Transport step  10. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 3.                           
+	 9.400e-001 Solution 10	Solution after simulation 3.                           
+	 0.000e+000 Solution 11	Solution after simulation 3.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      36000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           2.134e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          1.109e-006  1.356e-004   H                         0
+	Co_sorption      1.867e-009  3.674e-009   CoCl2                     1
+	CoNta_sorption   7.148e-009  9.214e-009   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.541e-006  1.541e-006
+	Cl               9.992e-004  9.992e-004
+	Co               9.601e-009  9.601e-009
+	N                1.429e-007  1.429e-007
+	Na               9.967e-004  9.967e-004
+	Nta              1.196e-007  1.196e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.237      Charge balance
+                                       pe  =  14.155      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  9.989e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.438e-006
+                       Total CO2 (mol/kg)  =  1.541e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.646e-006
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.13
+                               Iterations  =  90
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             5.796e-007  5.796e-007    -6.237    -6.237    -0.000      0.00
+   OH-            1.725e-008  1.725e-008    -7.763    -7.763    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            1.541e-006
+   CO2            8.705e-007  8.705e-007    -6.060    -6.060     0.000     (0)  
+   HCO3-          6.708e-007  6.708e-007    -6.173    -6.173    -0.000     (0)  
+   CO3-2          5.414e-011  5.414e-011   -10.267   -10.267    -0.000     (0)  
+Cl           9.992e-004
+   Cl-            9.992e-004  9.992e-004    -3.000    -3.000    -0.000     (0)  
+Co           9.601e-009
+   CoNta-         7.955e-009  7.955e-009    -8.099    -8.099    -0.000     (0)  
+   Co+2           1.646e-009  1.646e-009    -8.784    -8.784    -0.000     (0)  
+   CoOH+          5.665e-013  5.665e-013   -12.247   -12.247    -0.000     (0)  
+   CoOHNta-2      8.660e-014  8.660e-014   -13.063   -13.063    -0.000     (0)  
+   CoNta2-4       4.841e-017  4.841e-017   -16.315   -16.315    -0.000     (0)  
+   Co(OH)2        6.167e-020  6.167e-020   -19.210   -19.210     0.000     (0)  
+   Co(OH)3-       2.673e-022  2.673e-022   -21.573   -21.573    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.934   -43.934     0.000     (0)  
+N            1.429e-007
+   NH4+           1.427e-007  1.427e-007    -6.845    -6.845    -0.000     (0)  
+   NH3            1.234e-010  1.234e-010    -9.909    -9.909     0.000     (0)  
+Na           9.967e-004
+   Na+            9.967e-004  9.967e-004    -3.001    -3.001    -0.000     (0)  
+Nta          1.196e-007
+   HNta-2         1.115e-007  1.115e-007    -6.953    -6.953    -0.000     (0)  
+   CoNta-         7.955e-009  7.955e-009    -8.099    -8.099    -0.000     (0)  
+   H2Nta-         6.464e-011  6.464e-011   -10.189   -10.189    -0.000     (0)  
+   Nta-3          9.644e-012  9.644e-012   -11.016   -11.016    -0.000     (0)  
+   CoOHNta-2      8.660e-014  8.660e-014   -13.063   -13.063    -0.000     (0)  
+   H3Nta          1.492e-015  1.492e-015   -14.826   -14.826     0.000     (0)  
+   CoNta2-4       4.841e-017  4.841e-017   -16.315   -16.315    -0.000     (0)  
+O(0)         6.141e-005
+   O2             3.071e-005  3.071e-005    -4.513    -4.513     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  11.
+
+Transport step  11. Mixrun   1.
+
+Transport step  12.
+
+Transport step  12. Mixrun   1.
+
+Transport step  13.
+
+Transport step  13. Mixrun   1.
+
+Transport step  14.
+
+Transport step  14. Mixrun   1.
+
+Transport step  15.
+
+Transport step  15. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 3.                           
+	 9.400e-001 Solution 10	Solution after simulation 3.                           
+	 0.000e+000 Solution 11	Solution after simulation 3.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      54000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           4.019e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          2.318e-006  1.453e-004   H                         0
+	Co_sorption      1.090e-008  3.658e-008   CoCl2                     1
+	CoNta_sorption   9.434e-008  2.657e-007   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                2.330e-006  2.330e-006
+	Cl               9.985e-004  9.985e-004
+	Co               1.861e-007  1.861e-007
+	N                2.500e-007  2.500e-007
+	Na               9.958e-004  9.958e-004
+	Nta              4.000e-007  4.000e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.448      Charge balance
+                                       pe  =  13.942      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  9.987e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  6.603e-006
+                       Total CO2 (mol/kg)  =  2.330e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.954e-006
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.20
+                               Iterations  = 130
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.564e-007  3.564e-007    -6.448    -6.448    -0.000      0.00
+   OH-            2.806e-008  2.806e-008    -7.552    -7.552    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            2.330e-006
+   HCO3-          1.296e-006  1.296e-006    -5.887    -5.887    -0.000     (0)  
+   CO2            1.034e-006  1.034e-006    -5.985    -5.985     0.000     (0)  
+   CO3-2          1.700e-010  1.700e-010    -9.769    -9.769    -0.000     (0)  
+Cl           9.985e-004
+   Cl-            9.985e-004  9.985e-004    -3.001    -3.001    -0.000     (0)  
+Co           1.861e-007
+   CoNta-         1.751e-007  1.751e-007    -6.757    -6.757    -0.000     (0)  
+   Co+2           1.105e-008  1.105e-008    -7.957    -7.957    -0.000     (0)  
+   CoOH+          6.184e-012  6.184e-012   -11.209   -11.209    -0.000     (0)  
+   CoOHNta-2      3.099e-012  3.099e-012   -11.509   -11.509    -0.000     (0)  
+   CoNta2-4       3.493e-015  3.493e-015   -14.457   -14.457    -0.000     (0)  
+   Co(OH)2        1.095e-018  1.095e-018   -17.961   -17.961     0.000     (0)  
+   Co(OH)3-       7.715e-021  7.715e-021   -20.113   -20.113    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.931   -43.931     0.000     (0)  
+N            2.500e-007
+   NH4+           2.497e-007  2.497e-007    -6.603    -6.603    -0.000     (0)  
+   NH3            3.511e-010  3.511e-010    -9.455    -9.455     0.000     (0)  
+Na           9.958e-004
+   Na+            9.958e-004  9.958e-004    -3.002    -3.002    -0.000     (0)  
+Nta          4.000e-007
+   HNta-2         2.249e-007  2.249e-007    -6.648    -6.648    -0.000     (0)  
+   CoNta-         1.751e-007  1.751e-007    -6.757    -6.757    -0.000     (0)  
+   H2Nta-         8.014e-011  8.014e-011   -10.096   -10.096    -0.000     (0)  
+   Nta-3          3.162e-011  3.162e-011   -10.500   -10.500    -0.000     (0)  
+   CoOHNta-2      3.099e-012  3.099e-012   -11.509   -11.509    -0.000     (0)  
+   CoNta2-4       3.493e-015  3.493e-015   -14.457   -14.457    -0.000     (0)  
+   H3Nta          1.137e-015  1.137e-015   -14.944   -14.944     0.000     (0)  
+O(0)         6.059e-005
+   O2             3.030e-005  3.030e-005    -4.519    -4.519     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  16.
+
+Transport step  16. Mixrun   1.
+
+Transport step  17.
+
+Transport step  17. Mixrun   1.
+
+Transport step  18.
+
+Transport step  18. Mixrun   1.
+
+Transport step  19.
+
+Transport step  19. Mixrun   1.
+
+Transport step  20.
+
+Transport step  20. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 3.                           
+	 9.400e-001 Solution 10	Solution after simulation 3.                           
+	 0.000e+000 Solution 11	Solution after simulation 3.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      72000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           4.950e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          2.897e-006  1.588e-004   H                         0
+	Co_sorption      2.585e-008  1.347e-007   CoCl2                     1
+	CoNta_sorption   2.379e-007  1.169e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                2.638e-006  2.638e-006
+	Cl               9.982e-004  9.982e-004
+	Co               7.184e-007  7.184e-007
+	N                2.918e-007  2.918e-007
+	Na               9.965e-004  9.965e-004
+	Nta              9.572e-007  9.572e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.540      Charge balance
+                                       pe  =  13.850      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  9.994e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  9.227e-006
+                       Total CO2 (mol/kg)  =  2.638e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.954e-006
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.20
+                               Iterations  = 140
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.887e-007  2.887e-007    -6.540    -6.540    -0.000      0.00
+   OH-            3.464e-008  3.464e-008    -7.460    -7.460    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            2.638e-006
+   HCO3-          1.602e-006  1.602e-006    -5.795    -5.795    -0.000     (0)  
+   CO2            1.035e-006  1.035e-006    -5.985    -5.985     0.000     (0)  
+   CO3-2          2.596e-010  2.596e-010    -9.586    -9.586    -0.000     (0)  
+Cl           9.982e-004
+   Cl-            9.982e-004  9.982e-004    -3.001    -3.001    -0.000     (0)  
+Co           7.184e-007
+   CoNta-         6.888e-007  6.888e-007    -6.162    -6.162    -0.000     (0)  
+   Co+2           2.952e-008  2.952e-008    -7.530    -7.530    -0.000     (0)  
+   CoOH+          2.040e-011  2.040e-011   -10.690   -10.690    -0.000     (0)  
+   CoOHNta-2      1.506e-011  1.506e-011   -10.822   -10.822    -0.000     (0)  
+   CoNta2-4       2.024e-014  2.024e-014   -13.694   -13.694    -0.000     (0)  
+   Co(OH)2        4.459e-018  4.459e-018   -17.351   -17.351     0.000     (0)  
+   Co(OH)3-       3.880e-020  3.880e-020   -19.411   -19.411    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.930   -43.930     0.000     (0)  
+N            2.918e-007
+   NH4+           2.913e-007  2.913e-007    -6.536    -6.536    -0.000     (0)  
+   NH3            5.058e-010  5.058e-010    -9.296    -9.296     0.000     (0)  
+Na           9.965e-004
+   Na+            9.965e-004  9.965e-004    -3.002    -3.002    -0.000     (0)  
+Nta          9.572e-007
+   CoNta-         6.888e-007  6.888e-007    -6.162    -6.162    -0.000     (0)  
+   HNta-2         2.682e-007  2.682e-007    -6.572    -6.572    -0.000     (0)  
+   H2Nta-         7.742e-011  7.742e-011   -10.111   -10.111    -0.000     (0)  
+   Nta-3          4.656e-011  4.656e-011   -10.332   -10.332    -0.000     (0)  
+   CoOHNta-2      1.506e-011  1.506e-011   -10.822   -10.822    -0.000     (0)  
+   CoNta2-4       2.024e-014  2.024e-014   -13.694   -13.694    -0.000     (0)  
+   H3Nta          8.897e-016  8.897e-016   -15.051   -15.051     0.000     (0)  
+O(0)         6.027e-005
+   O2             3.014e-005  3.014e-005    -4.521    -4.521     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	PRINT
+	        selected_output false
+	SOLUTION 0 New infilling solution, same as background solution
+	        units umol/L
+	        pH      6
+	        C       .49
+	        O(0)    62.5 
+	        Na      1000
+	        Cl      1000
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	New infilling solution, same as background solution
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                4.900e-007  4.900e-007
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+	O(0)             6.250e-005  6.250e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.414e-007
+                       Total CO2 (mol/kg)  =  4.900e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          14.3937      0.8515
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.000e-006  1.000e-006    -6.000    -6.000    -0.000      0.00
+   OH-            1.000e-008  1.000e-008    -8.000    -8.000    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            4.900e-007
+   CO2            3.387e-007  3.387e-007    -6.470    -6.470     0.000     (0)  
+   HCO3-          1.513e-007  1.513e-007    -6.820    -6.820    -0.000     (0)  
+   CO3-2          7.077e-012  7.077e-012   -11.150   -11.150    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+H(0)         1.416e-023
+   H2             7.079e-024  7.079e-024   -23.150   -23.150     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+O(0)         6.250e-005
+   O2             3.125e-005  3.125e-005    -4.505    -4.505     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	PRINT
+	        selected_output true
+	TRANSPORT Last 55 hours with background infilling solution
+	        shifts               55                #  110
+	END
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 10.	Solution after simulation 3.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                2.638e-006  2.638e-006
+	Cl               9.982e-004  9.982e-004
+	Co               7.184e-007  7.184e-007
+	N                2.918e-007  2.918e-007
+	Na               9.965e-004  9.965e-004
+	Nta              9.572e-007  9.572e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.540      Charge balance
+                                       pe  =  13.850      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  9.994e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  9.227e-006
+                       Total CO2 (mol/kg)  =  2.638e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.954e-006
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.20
+                               Iterations  =   5
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.887e-007  2.887e-007    -6.540    -6.540    -0.000      0.00
+   OH-            3.464e-008  3.464e-008    -7.460    -7.460    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            2.638e-006
+   HCO3-          1.602e-006  1.602e-006    -5.795    -5.795    -0.000     (0)  
+   CO2            1.035e-006  1.035e-006    -5.985    -5.985     0.000     (0)  
+   CO3-2          2.596e-010  2.596e-010    -9.586    -9.586    -0.000     (0)  
+Cl           9.982e-004
+   Cl-            9.982e-004  9.982e-004    -3.001    -3.001    -0.000     (0)  
+Co           7.184e-007
+   CoNta-         6.888e-007  6.888e-007    -6.162    -6.162    -0.000     (0)  
+   Co+2           2.952e-008  2.952e-008    -7.530    -7.530    -0.000     (0)  
+   CoOH+          2.040e-011  2.040e-011   -10.690   -10.690    -0.000     (0)  
+   CoOHNta-2      1.506e-011  1.506e-011   -10.822   -10.822    -0.000     (0)  
+   CoNta2-4       2.024e-014  2.024e-014   -13.694   -13.694    -0.000     (0)  
+   Co(OH)2        4.459e-018  4.459e-018   -17.351   -17.351     0.000     (0)  
+   Co(OH)3-       3.880e-020  3.880e-020   -19.411   -19.411    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.930   -43.930     0.000     (0)  
+N            2.918e-007
+   NH4+           2.913e-007  2.913e-007    -6.536    -6.536    -0.000     (0)  
+   NH3            5.058e-010  5.058e-010    -9.296    -9.296     0.000     (0)  
+Na           9.965e-004
+   Na+            9.965e-004  9.965e-004    -3.002    -3.002    -0.000     (0)  
+Nta          9.572e-007
+   CoNta-         6.888e-007  6.888e-007    -6.162    -6.162    -0.000     (0)  
+   HNta-2         2.682e-007  2.682e-007    -6.572    -6.572    -0.000     (0)  
+   H2Nta-         7.742e-011  7.742e-011   -10.111   -10.111    -0.000     (0)  
+   Nta-3          4.656e-011  4.656e-011   -10.332   -10.332    -0.000     (0)  
+   CoOHNta-2      1.506e-011  1.506e-011   -10.822   -10.822    -0.000     (0)  
+   CoNta2-4       2.024e-014  2.024e-014   -13.694   -13.694    -0.000     (0)  
+   H3Nta          8.897e-016  8.897e-016   -15.051   -15.051     0.000     (0)  
+O(0)         6.027e-005
+   O2             3.014e-005  3.014e-005    -4.521    -4.521     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step   1.
+
+WARNING: Negative moles in solution for N, -4.240000e-014. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-015. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-016. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-017. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-018. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-019. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-020. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-021. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-022. Recovering...
+WARNING: Negative moles in solution for N, -4.240000e-023. Recovering...
+Transport step   1. Mixrun   1.
+
+Transport step   2.
+
+Transport step   2. Mixrun   1.
+
+Transport step   3.
+
+Transport step   3. Mixrun   1.
+
+Transport step   4.
+
+Transport step   4. Mixrun   1.
+
+Transport step   5.
+
+Transport step   5. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      90000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           5.582e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          3.276e-006  1.744e-004   H                         0
+	Co_sorption      4.161e-008  3.117e-007   CoCl2                     1
+	CoNta_sorption   3.270e-007  2.663e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                2.855e-006  2.855e-006
+	Cl               9.981e-004  9.981e-004
+	Co               1.525e-006  1.525e-006
+	N                3.214e-007  3.214e-007
+	Na               9.973e-004  9.973e-004
+	Nta              1.754e-006  1.754e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.593      Charge balance
+                                       pe  =  13.797      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.229e-005
+                       Total CO2 (mol/kg)  =  2.855e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.954e-006
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.20
+                               Iterations  = 135
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.555e-007  2.555e-007    -6.593    -6.593    -0.000      0.00
+   OH-            3.914e-008  3.914e-008    -7.407    -7.407    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            2.855e-006
+   HCO3-          1.816e-006  1.816e-006    -5.741    -5.741    -0.000     (0)  
+   CO2            1.039e-006  1.039e-006    -5.984    -5.984     0.000     (0)  
+   CO3-2          3.324e-010  3.324e-010    -9.478    -9.478    -0.000     (0)  
+Cl           9.981e-004
+   Cl-            9.981e-004  9.981e-004    -3.001    -3.001    -0.000     (0)  
+Co           1.525e-006
+   CoNta-         1.472e-006  1.472e-006    -5.832    -5.832    -0.000     (0)  
+   Co+2           5.314e-008  5.314e-008    -7.275    -7.275    -0.000     (0)  
+   CoOH+          4.150e-011  4.150e-011   -10.382   -10.382    -0.000     (0)  
+   CoOHNta-2      3.635e-011  3.635e-011   -10.440   -10.440    -0.000     (0)  
+   CoNta2-4       5.131e-014  5.131e-014   -13.290   -13.290    -0.000     (0)  
+   Co(OH)2        1.025e-017  1.025e-017   -16.989   -16.989     0.000     (0)  
+   Co(OH)3-       1.008e-019  1.008e-019   -18.997   -18.997    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.929   -43.929     0.000     (0)  
+N            3.214e-007
+   NH4+           3.207e-007  3.207e-007    -6.494    -6.494    -0.000     (0)  
+   NH3            6.292e-010  6.292e-010    -9.201    -9.201     0.000     (0)  
+Na           9.973e-004
+   Na+            9.973e-004  9.973e-004    -3.001    -3.001    -0.000     (0)  
+Nta          1.754e-006
+   CoNta-         1.472e-006  1.472e-006    -5.832    -5.832    -0.000     (0)  
+   HNta-2         2.817e-007  2.817e-007    -6.550    -6.550    -0.000     (0)  
+   H2Nta-         7.197e-011  7.197e-011   -10.143   -10.143    -0.000     (0)  
+   Nta-3          5.526e-011  5.526e-011   -10.258   -10.258    -0.000     (0)  
+   CoOHNta-2      3.635e-011  3.635e-011   -10.440   -10.440    -0.000     (0)  
+   CoNta2-4       5.131e-014  5.131e-014   -13.290   -13.290    -0.000     (0)  
+   H3Nta          7.320e-016  7.320e-016   -15.136   -15.136     0.000     (0)  
+O(0)         6.005e-005
+   O2             3.002e-005  3.002e-005    -4.523    -4.523     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step   6.
+
+Transport step   6. Mixrun   1.
+
+Transport step   7.
+
+Transport step   7. Mixrun   1.
+
+Transport step   8.
+
+Transport step   8. Mixrun   1.
+
+Transport step   9.
+
+Transport step   9. Mixrun   1.
+
+Transport step  10.
+
+Transport step  10. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      108000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           5.493e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          3.184e-006  1.911e-004   H                         0
+	Co_sorption      5.378e-008  5.596e-007   CoCl2                     1
+	CoNta_sorption   3.109e-007  4.299e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                2.617e-006  2.617e-006
+	Cl               9.984e-004  9.984e-004
+	Co               2.355e-006  2.355e-006
+	N                2.891e-007  2.891e-007
+	Na               1.002e-003  1.002e-003
+	Nta              2.524e-006  2.524e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.680      Charge balance
+                                       pe  =  13.710      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.003e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.418e-005
+                       Total CO2 (mol/kg)  =  2.617e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -4.697e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  = 135
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.092e-007  2.092e-007    -6.680    -6.680    -0.000      0.00
+   OH-            4.781e-008  4.781e-008    -7.321    -7.321    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            2.617e-006
+   HCO3-          1.782e-006  1.782e-006    -5.749    -5.749    -0.000     (0)  
+   CO2            8.346e-007  8.346e-007    -6.079    -6.079     0.000     (0)  
+   CO3-2          3.985e-010  3.985e-010    -9.400    -9.400    -0.000     (0)  
+Cl           9.984e-004
+   Cl-            9.984e-004  9.984e-004    -3.001    -3.001    -0.000     (0)  
+Co           2.355e-006
+   CoNta-         2.278e-006  2.278e-006    -5.642    -5.642    -0.000     (0)  
+   Co+2           7.711e-008  7.711e-008    -7.113    -7.113    -0.000     (0)  
+   CoOH+          7.355e-011  7.355e-011   -10.133   -10.133    -0.000     (0)  
+   CoOHNta-2      6.872e-011  6.872e-011   -10.163   -10.163    -0.000     (0)  
+   CoNta2-4       8.474e-014  8.474e-014   -13.072   -13.072    -0.000     (0)  
+   Co(OH)2        2.219e-017  2.219e-017   -16.654   -16.654     0.000     (0)  
+   Co(OH)3-       2.664e-019  2.664e-019   -18.574   -18.574    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.930   -43.930     0.000     (0)  
+N            2.891e-007
+   NH4+           2.884e-007  2.884e-007    -6.540    -6.540    -0.000     (0)  
+   NH3            6.910e-010  6.910e-010    -9.161    -9.161     0.000     (0)  
+Na           1.002e-003
+   Na+            1.002e-003  1.002e-003    -2.999    -2.999    -0.000     (0)  
+Nta          2.524e-006
+   CoNta-         2.278e-006  2.278e-006    -5.642    -5.642    -0.000     (0)  
+   HNta-2         2.460e-007  2.460e-007    -6.609    -6.609    -0.000     (0)  
+   CoOHNta-2      6.872e-011  6.872e-011   -10.163   -10.163    -0.000     (0)  
+   Nta-3          5.895e-011  5.895e-011   -10.230   -10.230    -0.000     (0)  
+   H2Nta-         5.146e-011  5.146e-011   -10.289   -10.289    -0.000     (0)  
+   CoNta2-4       8.474e-014  8.474e-014   -13.072   -13.072    -0.000     (0)  
+   H3Nta          4.285e-016  4.285e-016   -15.368   -15.368     0.000     (0)  
+O(0)         6.029e-005
+   O2             3.015e-005  3.015e-005    -4.521    -4.521     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  11.
+
+Transport step  11. Mixrun   1.
+
+Transport step  12.
+
+Transport step  12. Mixrun   1.
+
+Transport step  13.
+
+Transport step  13. Mixrun   1.
+
+Transport step  14.
+
+Transport step  14. Mixrun   1.
+
+Transport step  15.
+
+Transport step  15. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      126000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           5.701e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          3.286e-006  2.072e-004   H                         0
+	Co_sorption      6.690e-008  8.667e-007   CoCl2                     1
+	CoNta_sorption   1.293e-007  5.375e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                2.207e-006  2.207e-006
+	Cl               9.987e-004  9.987e-004
+	Co               2.833e-006  2.833e-006
+	N                2.334e-007  2.334e-007
+	Na               1.004e-003  1.004e-003
+	Nta              2.963e-006  2.963e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.644      Charge balance
+                                       pe  =  13.747      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.004e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.435e-005
+                       Total CO2 (mol/kg)  =  2.207e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.384e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  = 135
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.271e-007  2.271e-007    -6.644    -6.644    -0.000      0.00
+   OH-            4.403e-008  4.403e-008    -7.356    -7.356    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            2.207e-006
+   HCO3-          1.463e-006  1.463e-006    -5.835    -5.835    -0.000     (0)  
+   CO2            7.440e-007  7.440e-007    -6.128    -6.128     0.000     (0)  
+   CO3-2          3.013e-010  3.013e-010    -9.521    -9.521    -0.000     (0)  
+Cl           9.987e-004
+   Cl-            9.987e-004  9.987e-004    -3.001    -3.001    -0.000     (0)  
+Co           2.833e-006
+   CoNta-         2.728e-006  2.728e-006    -5.564    -5.564    -0.000     (0)  
+   Co+2           1.049e-007  1.049e-007    -6.979    -6.979    -0.000     (0)  
+   CoOH+          9.211e-011  9.211e-011   -10.036   -10.036    -0.000     (0)  
+   CoOHNta-2      7.577e-011  7.577e-011   -10.120   -10.120    -0.000     (0)  
+   CoNta2-4       8.933e-014  8.933e-014   -13.049   -13.049    -0.000     (0)  
+   Co(OH)2        2.559e-017  2.559e-017   -16.592   -16.592     0.000     (0)  
+   Co(OH)3-       2.830e-019  2.830e-019   -18.548   -18.548    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.931   -43.931     0.000     (0)  
+N            2.334e-007
+   NH4+           2.329e-007  2.329e-007    -6.633    -6.633    -0.000     (0)  
+   NH3            5.139e-010  5.139e-010    -9.289    -9.289     0.000     (0)  
+Na           1.004e-003
+   Na+            1.004e-003  1.004e-003    -2.998    -2.998    -0.000     (0)  
+Nta          2.963e-006
+   CoNta-         2.728e-006  2.728e-006    -5.564    -5.564    -0.000     (0)  
+   HNta-2         2.352e-007  2.352e-007    -6.629    -6.629    -0.000     (0)  
+   CoOHNta-2      7.577e-011  7.577e-011   -10.120   -10.120    -0.000     (0)  
+   H2Nta-         5.342e-011  5.342e-011   -10.272   -10.272    -0.000     (0)  
+   Nta-3          5.191e-011  5.191e-011   -10.285   -10.285    -0.000     (0)  
+   CoNta2-4       8.933e-014  8.933e-014   -13.049   -13.049    -0.000     (0)  
+   H3Nta          4.830e-016  4.830e-016   -15.316   -15.316     0.000     (0)  
+O(0)         6.072e-005
+   O2             3.036e-005  3.036e-005    -4.518    -4.518     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  16.
+
+Transport step  16. Mixrun   1.
+
+Transport step  17.
+
+Transport step  17. Mixrun   1.
+
+Transport step  18.
+
+Transport step  18. Mixrun   1.
+
+Transport step  19.
+
+Transport step  19. Mixrun   1.
+
+Transport step  20.
+
+Transport step  20. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      144000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           5.782e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          3.305e-006  2.237e-004   H                         0
+	Co_sorption      7.698e-008  1.234e-006   CoCl2                     1
+	CoNta_sorption  -1.236e-007  5.252e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.847e-006  1.847e-006
+	Cl               9.990e-004  9.990e-004
+	Co               2.681e-006  2.681e-006
+	N                1.845e-007  1.845e-007
+	Na               1.003e-003  1.003e-003
+	Nta              2.767e-006  2.767e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.540      Charge balance
+                                       pe  =  13.851      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.004e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.265e-005
+                       Total CO2 (mol/kg)  =  1.847e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  = 130
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.881e-007  2.881e-007    -6.540    -6.540    -0.000      0.00
+   OH-            3.471e-008  3.471e-008    -7.460    -7.460    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            1.847e-006
+   HCO3-          1.123e-006  1.123e-006    -5.950    -5.950    -0.000     (0)  
+   CO2            7.243e-007  7.243e-007    -6.140    -6.140     0.000     (0)  
+   CO3-2          1.823e-010  1.823e-010    -9.739    -9.739    -0.000     (0)  
+Cl           9.990e-004
+   Cl-            9.990e-004  9.990e-004    -3.000    -3.000    -0.000     (0)  
+Co           2.681e-006
+   CoNta-         2.548e-006  2.548e-006    -5.594    -5.594    -0.000     (0)  
+   Co+2           1.332e-007  1.332e-007    -6.875    -6.875    -0.000     (0)  
+   CoOH+          9.225e-011  9.225e-011   -10.035   -10.035    -0.000     (0)  
+   CoOHNta-2      5.579e-011  5.579e-011   -10.253   -10.253    -0.000     (0)  
+   CoNta2-4       6.134e-014  6.134e-014   -13.212   -13.212    -0.000     (0)  
+   Co(OH)2        2.020e-017  2.020e-017   -16.695   -16.695     0.000     (0)  
+   Co(OH)3-       1.762e-019  1.762e-019   -18.754   -18.754    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.932   -43.932     0.000     (0)  
+N            1.845e-007
+   NH4+           1.841e-007  1.841e-007    -6.735    -6.735    -0.000     (0)  
+   NH3            3.203e-010  3.203e-010    -9.494    -9.494     0.000     (0)  
+Na           1.003e-003
+   Na+            1.003e-003  1.003e-003    -2.999    -2.999    -0.000     (0)  
+Nta          2.767e-006
+   CoNta-         2.548e-006  2.548e-006    -5.594    -5.594    -0.000     (0)  
+   HNta-2         2.194e-007  2.194e-007    -6.659    -6.659    -0.000     (0)  
+   H2Nta-         6.319e-011  6.319e-011   -10.199   -10.199    -0.000     (0)  
+   CoOHNta-2      5.579e-011  5.579e-011   -10.253   -10.253    -0.000     (0)  
+   Nta-3          3.816e-011  3.816e-011   -10.418   -10.418    -0.000     (0)  
+   CoNta2-4       6.134e-014  6.134e-014   -13.212   -13.212    -0.000     (0)  
+   H3Nta          7.248e-016  7.248e-016   -15.140   -15.140     0.000     (0)  
+O(0)         6.109e-005
+   O2             3.055e-005  3.055e-005    -4.515    -4.515     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  21.
+
+Transport step  21. Mixrun   1.
+
+Transport step  22.
+
+Transport step  22. Mixrun   1.
+
+Transport step  23.
+
+Transport step  23. Mixrun   1.
+
+Transport step  24.
+
+Transport step  24. Mixrun   1.
+
+Transport step  25.
+
+Transport step  25. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      162000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           5.421e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          3.036e-006  2.396e-004   H                         0
+	Co_sorption      7.935e-008  1.630e-006   CoCl2                     1
+	CoNta_sorption  -2.766e-007  4.114e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.473e-006  1.473e-006
+	Cl               9.994e-004  9.994e-004
+	Co               2.065e-006  2.065e-006
+	N                1.336e-007  1.336e-007
+	Na               1.002e-003  1.002e-003
+	Nta              2.097e-006  2.097e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.412      Charge balance
+                                       pe  =  13.980      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.003e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  9.478e-006
+                       Total CO2 (mol/kg)  =  1.473e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  = 125
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.871e-007  3.871e-007    -6.412    -6.412    -0.000      0.00
+   OH-            2.583e-008  2.583e-008    -7.588    -7.588    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            1.473e-006
+   HCO3-          7.893e-007  7.893e-007    -6.103    -6.103    -0.000     (0)  
+   CO2            6.840e-007  6.840e-007    -6.165    -6.165     0.000     (0)  
+   CO3-2          9.538e-011  9.538e-011   -10.021   -10.021    -0.000     (0)  
+Cl           9.994e-004
+   Cl-            9.994e-004  9.994e-004    -3.000    -3.000    -0.000     (0)  
+Co           2.065e-006
+   CoNta-         1.909e-006  1.909e-006    -5.719    -5.719    -0.000     (0)  
+   Co+2           1.565e-007  1.565e-007    -6.806    -6.806    -0.000     (0)  
+   CoOH+          8.067e-011  8.067e-011   -10.093   -10.093    -0.000     (0)  
+   CoOHNta-2      3.111e-011  3.111e-011   -10.507   -10.507    -0.000     (0)  
+   CoNta2-4       2.931e-014  2.931e-014   -13.533   -13.533    -0.000     (0)  
+   Co(OH)2        1.315e-017  1.315e-017   -16.881   -16.881     0.000     (0)  
+   Co(OH)3-       8.533e-020  8.533e-020   -19.069   -19.069    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.934   -43.934     0.000     (0)  
+N            1.336e-007
+   NH4+           1.335e-007  1.335e-007    -6.875    -6.875    -0.000     (0)  
+   NH3            1.728e-010  1.728e-010    -9.762    -9.762     0.000     (0)  
+Na           1.002e-003
+   Na+            1.002e-003  1.002e-003    -2.999    -2.999    -0.000     (0)  
+Nta          2.097e-006
+   CoNta-         1.909e-006  1.909e-006    -5.719    -5.719    -0.000     (0)  
+   HNta-2         1.879e-007  1.879e-007    -6.726    -6.726    -0.000     (0)  
+   H2Nta-         7.275e-011  7.275e-011   -10.138   -10.138    -0.000     (0)  
+   CoOHNta-2      3.111e-011  3.111e-011   -10.507   -10.507    -0.000     (0)  
+   Nta-3          2.434e-011  2.434e-011   -10.614   -10.614    -0.000     (0)  
+   CoNta2-4       2.931e-014  2.931e-014   -13.533   -13.533    -0.000     (0)  
+   H3Nta          1.121e-015  1.121e-015   -14.950   -14.950     0.000     (0)  
+O(0)         6.148e-005
+   O2             3.074e-005  3.074e-005    -4.512    -4.512     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  26.
+
+Transport step  26. Mixrun   1.
+
+Transport step  27.
+
+Transport step  27. Mixrun   1.
+
+Transport step  28.
+
+Transport step  28. Mixrun   1.
+
+Transport step  29.
+
+Transport step  29. Mixrun   1.
+
+Transport step  30.
+
+Transport step  30. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      180000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           4.557e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          2.445e-006  2.531e-004   H                         0
+	Co_sorption      7.182e-008  2.008e-006   CoCl2                     1
+	CoNta_sorption  -2.844e-007  2.658e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.132e-006  1.132e-006
+	Cl               9.997e-004  9.997e-004
+	Co               1.349e-006  1.349e-006
+	N                8.722e-008  8.722e-008
+	Na               1.002e-003  1.002e-003
+	Nta              1.324e-006  1.324e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.278      Charge balance
+                                       pe  =  14.115      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.002e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  6.102e-006
+                       Total CO2 (mol/kg)  =  1.132e-006
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  = 135
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             5.273e-007  5.273e-007    -6.278    -6.278    -0.000      0.00
+   OH-            1.896e-008  1.896e-008    -7.722    -7.722    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            1.132e-006
+   CO2            6.127e-007  6.127e-007    -6.213    -6.213     0.000     (0)  
+   HCO3-          5.190e-007  5.190e-007    -6.285    -6.285    -0.000     (0)  
+   CO3-2          4.604e-011  4.604e-011   -10.337   -10.337    -0.000     (0)  
+Cl           9.997e-004
+   Cl-            9.997e-004  9.997e-004    -3.000    -3.000    -0.000     (0)  
+Co           1.349e-006
+   CoNta-         1.179e-006  1.179e-006    -5.929    -5.929    -0.000     (0)  
+   Co+2           1.705e-007  1.705e-007    -6.768    -6.768    -0.000     (0)  
+   CoOH+          6.450e-011  6.450e-011   -10.190   -10.190    -0.000     (0)  
+   CoOHNta-2      1.411e-011  1.411e-011   -10.851   -10.851    -0.000     (0)  
+   CoNta2-4       1.026e-014  1.026e-014   -13.989   -13.989    -0.000     (0)  
+   Co(OH)2        7.718e-018  7.718e-018   -17.112   -17.112     0.000     (0)  
+   Co(OH)3-       3.677e-020  3.677e-020   -19.435   -19.435    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.935   -43.935     0.000     (0)  
+N            8.722e-008
+   NH4+           8.714e-008  8.714e-008    -7.060    -7.060    -0.000     (0)  
+   NH3            8.282e-011  8.282e-011   -10.082   -10.082     0.000     (0)  
+Na           1.002e-003
+   Na+            1.002e-003  1.002e-003    -2.999    -2.999    -0.000     (0)  
+Nta          1.324e-006
+   CoNta-         1.179e-006  1.179e-006    -5.929    -5.929    -0.000     (0)  
+   HNta-2         1.452e-007  1.452e-007    -6.838    -6.838    -0.000     (0)  
+   H2Nta-         7.655e-011  7.655e-011   -10.116   -10.116    -0.000     (0)  
+   CoOHNta-2      1.411e-011  1.411e-011   -10.851   -10.851    -0.000     (0)  
+   Nta-3          1.380e-011  1.380e-011   -10.860   -10.860    -0.000     (0)  
+   CoNta2-4       1.026e-014  1.026e-014   -13.989   -13.989    -0.000     (0)  
+   H3Nta          1.607e-015  1.607e-015   -14.794   -14.794     0.000     (0)  
+O(0)         6.184e-005
+   O2             3.092e-005  3.092e-005    -4.510    -4.510     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  31.
+
+Transport step  31. Mixrun   1.
+
+Transport step  32.
+
+Transport step  32. Mixrun   1.
+
+Transport step  33.
+
+Transport step  33. Mixrun   1.
+
+Transport step  34.
+
+Transport step  34. Mixrun   1.
+
+Transport step  35.
+
+Transport step  35. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      198000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           3.282e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          1.593e-006  2.629e-004   H                         0
+	Co_sorption      5.514e-008  2.320e-006   CoCl2                     1
+	CoNta_sorption  -2.069e-007  1.451e-006   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                8.577e-007  8.577e-007
+	Cl               1.000e-003  1.000e-003
+	Co               7.878e-007  7.878e-007
+	N                4.997e-008  4.997e-008
+	Na               1.001e-003  1.001e-003
+	Nta              7.129e-007  7.129e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.162      Charge balance
+                                       pe  =  14.231      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.002e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.419e-006
+                       Total CO2 (mol/kg)  =  8.577e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  = 125
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             6.892e-007  6.892e-007    -6.162    -6.162    -0.000      0.00
+   OH-            1.451e-008  1.451e-008    -7.838    -7.838    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            8.577e-007
+   CO2            5.204e-007  5.204e-007    -6.284    -6.284     0.000     (0)  
+   HCO3-          3.373e-007  3.373e-007    -6.472    -6.472    -0.000     (0)  
+   CO3-2          2.289e-011  2.289e-011   -10.640   -10.640    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Co           7.878e-007
+   CoNta-         6.151e-007  6.151e-007    -6.211    -6.211    -0.000     (0)  
+   Co+2           1.727e-007  1.727e-007    -6.763    -6.763    -0.000     (0)  
+   CoOH+          4.999e-011  4.999e-011   -10.301   -10.301    -0.000     (0)  
+   CoOHNta-2      5.630e-012  5.630e-012   -11.249   -11.249    -0.000     (0)  
+   CoNta2-4       2.758e-015  2.758e-015   -14.559   -14.559    -0.000     (0)  
+   Co(OH)2        4.576e-018  4.576e-018   -17.339   -17.339     0.000     (0)  
+   Co(OH)3-       1.668e-020  1.668e-020   -19.778   -19.778    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.936   -43.936     0.000     (0)  
+N            4.997e-008
+   NH4+           4.993e-008  4.993e-008    -7.302    -7.302    -0.000     (0)  
+   NH3            3.631e-011  3.631e-011   -10.440   -10.440     0.000     (0)  
+Na           1.001e-003
+   Na+            1.001e-003  1.001e-003    -3.000    -3.000    -0.000     (0)  
+Nta          7.129e-007
+   CoNta-         6.151e-007  6.151e-007    -6.211    -6.211    -0.000     (0)  
+   HNta-2         9.773e-008  9.773e-008    -7.010    -7.010    -0.000     (0)  
+   H2Nta-         6.736e-011  6.736e-011   -10.172   -10.172    -0.000     (0)  
+   Nta-3          7.107e-012  7.107e-012   -11.148   -11.148    -0.000     (0)  
+   CoOHNta-2      5.630e-012  5.630e-012   -11.249   -11.249    -0.000     (0)  
+   CoNta2-4       2.758e-015  2.758e-015   -14.559   -14.559    -0.000     (0)  
+   H3Nta          1.848e-015  1.848e-015   -14.733   -14.733     0.000     (0)  
+O(0)         6.212e-005
+   O2             3.106e-005  3.106e-005    -4.508    -4.508     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  36.
+
+Transport step  36. Mixrun   1.
+
+Transport step  37.
+
+Transport step  37. Mixrun   1.
+
+Transport step  38.
+
+Transport step  38. Mixrun   1.
+
+Transport step  39.
+
+Transport step  39. Mixrun   1.
+
+Transport step  40.
+
+Transport step  40. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      216000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           1.946e-008  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          7.108e-007  2.681e-004   H                         0
+	Co_sorption      3.544e-008  2.536e-006   CoCl2                     1
+	CoNta_sorption  -1.185e-007  6.879e-007   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                6.714e-007  6.714e-007
+	Cl               1.000e-003  1.000e-003
+	Co               4.457e-007  4.457e-007
+	N                2.465e-008  2.465e-008
+	Na               1.000e-003  1.000e-003
+	Nta              3.351e-007  3.351e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.080      Charge balance
+                                       pe  =  14.313      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.708e-006
+                       Total CO2 (mol/kg)  =  6.714e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  = 125
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             8.308e-007  8.308e-007    -6.080    -6.080    -0.000      0.00
+   OH-            1.204e-008  1.204e-008    -7.920    -7.920    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            6.714e-007
+   CO2            4.366e-007  4.366e-007    -6.360    -6.360     0.000     (0)  
+   HCO3-          2.348e-007  2.348e-007    -6.629    -6.629    -0.000     (0)  
+   CO3-2          1.322e-011  1.322e-011   -10.879   -10.879    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Co           4.457e-007
+   CoNta-         2.794e-007  2.794e-007    -6.554    -6.554    -0.000     (0)  
+   Co+2           1.662e-007  1.662e-007    -6.779    -6.779    -0.000     (0)  
+   CoOH+          3.992e-011  3.992e-011   -10.399   -10.399    -0.000     (0)  
+   CoOHNta-2      2.122e-012  2.122e-012   -11.673   -11.673    -0.000     (0)  
+   CoNta2-4       5.913e-016  5.913e-016   -15.228   -15.228    -0.000     (0)  
+   Co(OH)2        3.032e-018  3.032e-018   -17.518   -17.518     0.000     (0)  
+   Co(OH)3-       9.166e-021  9.166e-021   -20.038   -20.038    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.937   -43.937     0.000     (0)  
+N            2.465e-008
+   NH4+           2.463e-008  2.463e-008    -7.608    -7.608    -0.000     (0)  
+   NH3            1.486e-011  1.486e-011   -10.828   -10.828     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Nta          3.351e-007
+   CoNta-         2.794e-007  2.794e-007    -6.554    -6.554    -0.000     (0)  
+   HNta-2         5.559e-008  5.559e-008    -7.255    -7.255    -0.000     (0)  
+   H2Nta-         4.619e-011  4.619e-011   -10.335   -10.335    -0.000     (0)  
+   Nta-3          3.354e-012  3.354e-012   -11.474   -11.474    -0.000     (0)  
+   CoOHNta-2      2.122e-012  2.122e-012   -11.673   -11.673    -0.000     (0)  
+   H3Nta          1.528e-015  1.528e-015   -14.816   -14.816     0.000     (0)  
+   CoNta2-4       5.913e-016  5.913e-016   -15.228   -15.228    -0.000     (0)  
+O(0)         6.232e-005
+   O2             3.116e-005  3.116e-005    -4.506    -4.506     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  41.
+
+Transport step  41. Mixrun   1.
+
+Transport step  42.
+
+Transport step  42. Mixrun   1.
+
+Transport step  43.
+
+Transport step  43. Mixrun   1.
+
+Transport step  44.
+
+Transport step  44. Mixrun   1.
+
+Transport step  45.
+
+Transport step  45. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      234000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           9.467e-009  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass          5.601e-008  2.696e-004   H                         0
+	Co_sorption      2.002e-008  2.664e-006   CoCl2                     1
+	CoNta_sorption  -5.697e-008  2.927e-007   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                5.675e-007  5.675e-007
+	Cl               1.000e-003  1.000e-003
+	Co               2.732e-007  2.732e-007
+	N                1.053e-008  1.053e-008
+	Na               1.000e-003  1.000e-003
+	Nta              1.416e-007  1.416e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.035      Charge balance
+                                       pe  =  14.359      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  8.060e-007
+                       Total CO2 (mol/kg)  =  5.675e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  = 120
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             9.229e-007  9.229e-007    -6.035    -6.035    -0.000      0.00
+   OH-            1.083e-008  1.083e-008    -7.965    -7.965    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            5.675e-007
+   CO2            3.824e-007  3.824e-007    -6.417    -6.417     0.000     (0)  
+   HCO3-          1.851e-007  1.851e-007    -6.733    -6.733    -0.000     (0)  
+   CO3-2          9.379e-012  9.379e-012   -11.028   -11.028    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Co           2.732e-007
+   Co+2           1.583e-007  1.583e-007    -6.801    -6.801    -0.000     (0)  
+   CoNta-         1.149e-007  1.149e-007    -6.940    -6.940    -0.000     (0)  
+   CoOH+          3.422e-011  3.422e-011   -10.466   -10.466    -0.000     (0)  
+   CoOHNta-2      7.853e-013  7.853e-013   -12.105   -12.105    -0.000     (0)  
+   CoNta2-4       1.049e-016  1.049e-016   -15.979   -15.979    -0.000     (0)  
+   Co(OH)2        2.339e-018  2.339e-018   -17.631   -17.631     0.000     (0)  
+   Co(OH)3-       6.366e-021  6.366e-021   -20.196   -20.196    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.937   -43.937     0.000     (0)  
+N            1.053e-008
+   NH4+           1.052e-008  1.052e-008    -7.978    -7.978    -0.000     (0)  
+   NH3            5.713e-012  5.713e-012   -11.243   -11.243     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Nta          1.416e-007
+   CoNta-         1.149e-007  1.149e-007    -6.940    -6.940    -0.000     (0)  
+   HNta-2         2.667e-008  2.667e-008    -7.574    -7.574    -0.000     (0)  
+   H2Nta-         2.461e-011  2.461e-011   -10.609   -10.609    -0.000     (0)  
+   Nta-3          1.448e-012  1.448e-012   -11.839   -11.839    -0.000     (0)  
+   CoOHNta-2      7.853e-013  7.853e-013   -12.105   -12.105    -0.000     (0)  
+   H3Nta          9.043e-016  9.043e-016   -15.044   -15.044     0.000     (0)  
+   CoNta2-4       1.049e-016  1.049e-016   -15.979   -15.979    -0.000     (0)  
+O(0)         6.242e-005
+   O2             3.121e-005  3.121e-005    -4.506    -4.506     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  46.
+
+Transport step  46. Mixrun   1.
+
+Transport step  47.
+
+Transport step  47. Mixrun   1.
+
+Transport step  48.
+
+Transport step  48. Mixrun   1.
+
+Transport step  49.
+
+Transport step  49. Mixrun   1.
+
+Transport step  50.
+
+Transport step  50. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      252000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           3.940e-009  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass         -3.026e-007  2.687e-004   H                         0
+	Co_sorption      1.118e-008  2.735e-006   CoCl2                     1
+	CoNta_sorption  -2.426e-008  1.156e-007   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                5.196e-007  5.196e-007
+	Cl               1.000e-003  1.000e-003
+	Co               1.976e-007  1.976e-007
+	N                4.016e-009  4.016e-009
+	Na               1.000e-003  1.000e-003
+	Nta              5.544e-008  5.544e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.014      Charge balance
+                                       pe  =  14.380      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.992e-007
+                       Total CO2 (mol/kg)  =  5.196e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  =  95
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             9.693e-007  9.693e-007    -6.014    -6.014    -0.000      0.00
+   OH-            1.032e-008  1.032e-008    -7.986    -7.986    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            5.196e-007
+   CO2            3.557e-007  3.557e-007    -6.449    -6.449     0.000     (0)  
+   HCO3-          1.639e-007  1.639e-007    -6.785    -6.785    -0.000     (0)  
+   CO3-2          7.908e-012  7.908e-012   -11.102   -11.102    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Co           1.976e-007
+   Co+2           1.533e-007  1.533e-007    -6.815    -6.815    -0.000     (0)  
+   CoNta-         4.428e-008  4.428e-008    -7.354    -7.354    -0.000     (0)  
+   CoOH+          3.155e-011  3.155e-011   -10.501   -10.501    -0.000     (0)  
+   CoOHNta-2      2.882e-013  2.882e-013   -12.540   -12.540    -0.000     (0)  
+   CoNta2-4       1.611e-017  1.611e-017   -16.793   -16.793    -0.000     (0)  
+   Co(OH)2        2.053e-018  2.053e-018   -17.688   -17.688     0.000     (0)  
+   Co(OH)3-       5.321e-021  5.321e-021   -20.274   -20.274    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.937   -43.937     0.000     (0)  
+N            4.016e-009
+   NH4+           4.014e-009  4.014e-009    -8.396    -8.396    -0.000     (0)  
+   NH3            2.075e-012  2.075e-012   -11.683   -11.683     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Nta          5.544e-008
+   CoNta-         4.428e-008  4.428e-008    -7.354    -7.354    -0.000     (0)  
+   HNta-2         1.115e-008  1.115e-008    -7.953    -7.953    -0.000     (0)  
+   H2Nta-         1.081e-011  1.081e-011   -10.966   -10.966    -0.000     (0)  
+   Nta-3          5.765e-013  5.765e-013   -12.239   -12.239    -0.000     (0)  
+   CoOHNta-2      2.882e-013  2.882e-013   -12.540   -12.540    -0.000     (0)  
+   H3Nta          4.171e-016  4.171e-016   -15.380   -15.380     0.000     (0)  
+   CoNta2-4       1.611e-017  1.611e-017   -16.793   -16.793    -0.000     (0)  
+O(0)         6.247e-005
+   O2             3.124e-005  3.124e-005    -4.505    -4.505     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+Transport step  51.
+
+Transport step  51. Mixrun   1.
+
+Transport step  52.
+
+Transport step  52. Mixrun   1.
+
+Transport step  53.
+
+Transport step  53. Mixrun   1.
+
+Transport step  54.
+
+Transport step  54. Mixrun   1.
+
+Transport step  55.
+
+Transport step  55. Mixrun   1.
+
+Using mix 10.	
+Using kinetics 10.	Four kinetic reactions for all cells     
+
+Mixture 10.	
+
+	 6.000e-002 Solution 9	Solution after simulation 5.                           
+	 9.400e-001 Solution 10	Solution after simulation 5.                           
+	 0.000e+000 Solution 11	Solution after simulation 5.                           
+
+Kinetics 10.	Four kinetic reactions for all cells     
+
+	Time:      270000 seconds
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	HNTA-2           1.481e-009  1.000e+000   C                     -3.12
+	                                          H                    -1.968
+	                                          N                    -0.424
+	                                          Nta                       1
+	                                          O                    -4.848
+	Biomass         -4.586e-007  2.667e-004   H                         0
+	Co_sorption      6.971e-009  2.777e-006   CoCl2                     1
+	CoNta_sorption  -9.570e-009  4.330e-008   NaCoNta                   1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                5.005e-007  5.005e-007
+	Cl               1.000e-003  1.000e-003
+	Co               1.677e-007  1.677e-007
+	N                1.423e-009  1.423e-009
+	Na               1.000e-003  1.000e-003
+	Nta              2.059e-008  2.059e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.005      Charge balance
+                                       pe  =  14.389      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.001e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.356e-007
+                       Total CO2 (mol/kg)  =  5.005e-007
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.387e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.04
+                               Iterations  =  90
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             9.888e-007  9.888e-007    -6.005    -6.005    -0.000      0.00
+   OH-            1.011e-008  1.011e-008    -7.995    -7.995    -0.000     (0)  
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C            5.005e-007
+   CO2            3.448e-007  3.448e-007    -6.462    -6.462     0.000     (0)  
+   HCO3-          1.557e-007  1.557e-007    -6.808    -6.808    -0.000     (0)  
+   CO3-2          7.366e-012  7.366e-012   -11.133   -11.133    -0.000     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Co           1.677e-007
+   Co+2           1.513e-007  1.513e-007    -6.820    -6.820    -0.000     (0)  
+   CoNta-         1.634e-008  1.634e-008    -7.787    -7.787    -0.000     (0)  
+   CoOH+          3.053e-011  3.053e-011   -10.515   -10.515    -0.000     (0)  
+   CoOHNta-2      1.042e-013  1.042e-013   -12.982   -12.982    -0.000     (0)  
+   CoNta2-4       2.221e-018  2.221e-018   -17.654   -17.654    -0.000     (0)  
+   Co(OH)2        1.948e-018  1.948e-018   -17.710   -17.710     0.000     (0)  
+   Co(OH)3-       4.948e-021  4.948e-021   -20.306   -20.306    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.937   -43.937     0.000     (0)  
+N            1.423e-009
+   NH4+           1.422e-009  1.422e-009    -8.847    -8.847    -0.000     (0)  
+   NH3            7.207e-013  7.207e-013   -12.142   -12.142     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+Nta          2.059e-008
+   CoNta-         1.634e-008  1.634e-008    -7.787    -7.787    -0.000     (0)  
+   HNta-2         4.251e-009  4.251e-009    -8.372    -8.372    -0.000     (0)  
+   H2Nta-         4.203e-012  4.203e-012   -11.376   -11.376    -0.000     (0)  
+   Nta-3          2.154e-013  2.154e-013   -12.667   -12.667    -0.000     (0)  
+   CoOHNta-2      1.042e-013  1.042e-013   -12.982   -12.982    -0.000     (0)  
+   H3Nta          1.655e-016  1.655e-016   -15.781   -15.781     0.000     (0)  
+   CoNta2-4       2.221e-018  2.221e-018   -17.654   -17.654    -0.000     (0)  
+O(0)         6.249e-005
+   O2             3.125e-005  3.125e-005    -4.505    -4.505     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+--------------------------------
+End of Run after 14.957 Seconds.
+--------------------------------
+

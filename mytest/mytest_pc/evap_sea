@@ -1,0 +1,33 @@
+DATABASE ../database/pitzer.dat
+SOLUTION 1
+ pH 8.22
+ Na 485; K 10.6;         Mg 55.1;  Ca 10.7
+ Cl 566; Alkalinity 2.4; S(6) 29.3
+EQUILIBRIUM_PHASES
+ # carbonates...
+ CO2(g) -3.5 10; Calcite 0 0
+ # sulfates...
+ Gypsum 0 0;     Anhydrite 0 0;  #Glauberite 0 0;  Polyhalite 0 0
+ #Epsomite 0 0;   Kieserite 0 0;  Hexahydrite 0 0
+ # chlorides...
+ Halite 0 0;     #Bischofite 0 0; Carnallite 0 0
+USER_GRAPH
+ -head I Density EC CaSO4*10 Halite
+ -init false
+ -axis_scale x_axis 0 10 2
+ -axis_scale y_axis 1 1.3 0.05
+ -axis_scale sy_axis 0 0.6 0.1
+ -axis_titles "Ionic Strength" "Density / (kg/L)" "[EC / (mho/cm)] or [precipitate / mol]"
+ -chart_title "Evaporating Seawater"
+ -plot_csv dens.csv  # For plotting the data cited by Chambers et al., 1993
+ -start
+ 10 graph_x MU
+ 20 graph_y rho
+ 25 if equi("Anhydrite") > 1e-10 then s = equi("Anhydrite") else\
+    s = equi("Gypsum")
+ 30 graph_sy sc / 1e6, s * 10, equi("Halite")
+ -end
+REACTION
+ H2O -1; 0 36 3*4 5*1 0.7 0.4 0.4#2*0.25 0.19 4*0.1 3*0.05
+ INCREMENTAL_REACTIONS true
+END

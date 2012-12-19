@@ -1,0 +1,193 @@
+   Input file: pitzgas
+  Output file: pitzgas.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SOLUTION 1
+			 pH 6.57 charge
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.998      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.004e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  0.000e+000
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  0.000e+000
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   6
+                         Gamma iterations  =   2
+                      Osmotic coefficient  =   0.99988
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.004e-007  1.004e-007    -6.998    -6.998    -0.000     -3.91
+   H+             1.004e-007  1.004e-007    -6.998    -6.998    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2O(g)           -1.50     -0.00    1.50  H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE solution 1
+	GAS_PHASE 1
+			 fixed_pressure
+			 pressure 		 1.0
+			 CO2(g)		 		 0.0
+			 H2O(g)				 0.0		 
+	REACTION 1
+			 CO2		 		 0.10
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using gas phase 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CO2                  0.10000
+
+	                 Relative
+	Element             moles
+	C                    0.10000
+	O                    0.20000
+
+-----------------------------------Gas phase-----------------------------------
+
+Total pressure:  1.00      atmospheres          (Peng-Robinson calculation)
+    Gas volume:  1.67e+000 liters
+  Molar volume:  2.43e+001 liters/mole
+   P * Vm / RT:  0.99431  (Compressibility Factor Z) 
+
+                                                        Moles in gas
+                                            ----------------------------------
+Component         log P           P    phi     Initial       Final       Delta
+
+CO2(g)            -0.01  9.683e-001  0.994  0.000e+000  6.650e-002  6.650e-002
+H2O(g)            -1.50  3.171e-002  0.990  0.000e+000  2.178e-003  2.178e-003
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                3.350e-002  3.350e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.909      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 48
+                          Density (g/cm3)  =   0.99751
+                               Volume (L)  =   1.00558
+                        Activity of water  =   0.999
+                           Ionic strength  =  1.249e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  9.496e-020
+                       Total CO2 (mol/kg)  =  3.350e-002
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -9.496e-020
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  30
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.99997
+                         Density of water  =   0.99706
+                                  Total H  = 1.110081e+002
+                                  Total O  = 5.557103e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.249e-004  1.232e-004    -3.904    -3.909    -0.006      0.00
+   OH-            8.276e-011  8.171e-011   -10.082   -10.088    -0.006     -3.90
+   H2O            5.551e+001  9.994e-001     1.744    -0.000     0.000     18.07
+C(4)         3.350e-002
+   CO2            3.337e-002  3.337e-002    -1.477    -1.477     0.000     30.26
+   HCO3-          1.249e-004  1.233e-004    -3.904    -3.909    -0.006     24.72
+   CO3-2          4.828e-011  4.581e-011   -10.316   -10.339    -0.023     -3.74
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	CO2(g)           -0.02     -1.48   -1.46  CO2	 Pressure   1.0 atm, phi 0.994.
+	H2O(g)           -1.50     -0.00    1.50  H2O	 Pressure   0.0 atm, phi 0.990.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.017 Seconds.
+-------------------------------
+

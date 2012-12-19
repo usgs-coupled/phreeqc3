@@ -1,0 +1,147 @@
+DATABASE LangmuirAs_wateq4f.dat
+#Red River water  use database LangmuirAs_wateq4f.dat
+
+#SOLUTION_SPECIES
+##S2-2		502
+#	HS- = S2-2 + H+		# (lhs) +S
+#	log_k		-14.528
+#      log_k       -100
+#	delta_h 11.4 kcal
+#	-no_check
+#	-mass_balance	S(-2)2
+#	-gamma	6.5	0.0
+#
+##S3-2		503
+#	HS- = S3-2 + H+		# (lhs) +2S
+#	log_k		-13.282
+#      log_k       -100
+#	delta_h 10.4 kcal
+#	-no_check
+#	-mass_balance	S(-2)3
+#	-gamma	8.0	0.0
+#
+##S4-2		504
+#	HS- = S4-2 + H+		# (lhs) +3S
+#	log_k		-9.829
+#      log_k       -100
+#	delta_h 9.7 kcal
+#	-no_check
+#	-mass_balance	S(-2)4
+#	-gamma	10.0	0.0
+#
+##S5-2		505
+#	HS- = S5-2 + H+		# (lhs) +4S
+#	log_k		-9.595
+#      log_k       -100
+#	delta_h 9.3 kcal
+#	-no_check
+#	-mass_balance	S(-2)5
+#	-gamma	12.0	0.0
+#
+##S6-2		506
+#	HS- = S6-2 + H+		# (lhs) +5S
+#	log_k		-9.881
+#      log_k       -100
+#	-no_check
+#	-mass_balance	S(-2)6
+#	-gamma	14.0	0.0
+PHASES
+Fe(OH)3As
+    #Fe(OH)2.9925(AsO4)0.0025 + 2.9925H+ = Fe+3 + 2.9925H2O + 0.0025AsO4-3
+Fe(OH)2.925(AsO4)0.025 + 2.925H+ = Fe+3 + 2.925H2O + 0.025AsO4-3	
+#Fe(OH)2.25(AsO4)0.25 + 2.25H+ = Fe+3 + 2.25H2O + 0.25AsO4-3		
+	log_k		4.891
+
+Fe(OH)3As3
+    Fe(OH)2.9925(AsO4)0.0025 + 2.9925H+ = Fe+3 + 2.9925H2O + 0.0025AsO4-3
+#Fe(OH)2.925(AsO4)0.025 + 2.925H+ = Fe+3 + 2.925H2O + 0.025AsO4-3	
+#Fe(OH)3(FeAsO3)0.025 + 3H+ = Fe+3 + 3H2O + 0.025Fe+3 + 0.025AsO3-3		
+	log_k		4.891
+
+solution 0
+temp 	27
+O(0)  	0.6
+units  mmol/l
+pH	7.18
+Ca 	0.53
+Mg   1      #increased from 0.18
+Na 0.2
+K 0.04
+Alkalinity 2.38
+S(6)	0.2 # increased from 0.06
+Cl 0.11
+N(5) 0.4  # increased from 0.01
+Si 0.27
+EQUILIBRIUM_PHASES 0
+Calcite  0.2
+CO2(g) -1.3
+ save solution 0
+  end
+ use solution 0
+ 
+SOLUTION  1-20
+temp 27
+ O(0)  	0.6
+units  mmol/l
+pH	7.18
+#As 3e-4                            #2e-4
+Ca 	0.53
+Mg   0.18
+Na 0.2
+K 0.04
+Alkalinity 2.38
+S(6)	0.06
+Cl 0.11
+N(5)  0.01
+Si 0.27
+
+SURFACE 1111-1120
+ Hfo_w  0.01e-2 600 55
+ Hfo_s  2.5e-6                   # 0.025 X Hfo_w
+ -equil 1
+
+EQUILIBRIUM_PHASES 1-20
+Calcite 0.2
+Fe(OH)3As   -4.
+#-force_equ
+Siderite 1.4 0
+FeS(ppt) 0 0
+
+REACTION 1-20
+C   1.0
+ 9e-4 moles         #3.5e-4 moles
+knobs
+#-step 10000
+#-pe 10
+
+TRANSPORT
+-cells 20
+-shifts 20          # 40 years
+-time_step 6.3e7  # 2 years  = 0.5m/yr
+-lengths  1
+-punch_frequency    10
+
+SELECTED_OUTPUT
+-file    C:\dell_den_nye\WP51\DOC\UNDERV\PhDcourse\DFmodel7.xls
+-totals    Ca  N(5) Fe(2) C(-4) S(6) S(-2) Br As(5) As(3)
+-mol O2 Hfo_wH2AsO3 Hfo_wH2AsO4 Hfo_wHAsO4- Hfo_wOHAsO4-3
+-alkalinity
+-saturation_indices   CO2(g)  siderite calcite
+-equilibrium_phases  siderite calcite Fe(OH)3As
+
+PRINT
+-reset    false
+end
+#knobs
+#-try 2
+#-iter 400
+#-debug_model
+#TRANSPORT
+#-shifts 5          # 40 years
+
+
+
+
+
+
+

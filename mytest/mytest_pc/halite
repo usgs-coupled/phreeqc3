@@ -1,0 +1,30 @@
+DATABASE ../database/pitzer.dat
+SOLUTION_SPECIES
+Na+ = Na+
+	-gamma	4.08 0.082 # Halite solubility according to pitzer.dat
+	-dw	 1.33e-9
+	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  4.0  0.162  47.67  -3.09e-3  0.725 # supcrt modified
+# for calculating densities (rho) when I > 3...
+	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  2.0  0.162  47.67  -3.09e-3  0.4
+
+PHASES
+Halite
+	NaCl  =  Cl- + Na+
+	log_k	   1.583
+	-analytic -713.4616   -.1201241   37302.21    262.4583    -2106915.
+	-Vm 27.1
+SOLUTION 1
+ pH 7 charge
+ -temp 30
+EQUILIBRIUM_PHASES
+ Halite
+REACTION_PRESSURE
+ 1 2000 in 10
+USER_GRAPH
+ -headings p model
+ -axis_titles "Pressure / bar" " Halite solubility / mol/kgw"
+ -axis_scale x_axis 0 2e3
+ -plot_csv_file halite.dat
+ 10 graph_x pressure * 1.013
+ 20 graph_y tot("Na")
+END

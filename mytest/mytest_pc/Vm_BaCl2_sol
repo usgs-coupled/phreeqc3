@@ -1,0 +1,190 @@
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+SOLUTION 1; pH 7 charge
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 15.000000
+REACTION_PRESSURE; 1.000000
+# from 0 to 20.
+REACTION; BaCl2 1
+0 0.009300 0.029500 0.050000 0.050100 0.072600 0.099800 0.100000 0.149400 0.200000 0.300400 0.406400 0.500000 0.587800 0.700000 0.992100 1.000000 1.200000 1.224300 1.500000 1.585800
+USER_GRAPH; -headings 15.oC
+-axis_titles "BaCl2 / (mol/kg H2O)" "BaCl2 molar volume / (cm3/mol)"
+
+10 data 0, 20.741910, 22.782720, 23.271951, 23.109905, 23.619726, 23.751890, 25.234145, 24.332228, 24.681781, 25.436091, 25.958348, 26.972194, 26.983782, 28.857845, 28.547434, 29.563096, 30.198633, 29.441347, 31.763106, 30.622114,
+20 dim d(21)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 1.000000
+# from 20 to 59.
+REACTION; BaCl2 1
+0 0.003880 0.009300 0.015620 0.027360 0.029500 0.038790 0.050000 0.050100 0.072600 0.078810 0.099800 0.100000 0.149400 0.156900 0.166667 0.200000 0.236470 0.300400 0.316140 0.333333 0.386880 \
+0.406400 0.500000 0.504000 0.587800 0.700000 0.787700 0.831700 0.833333 0.992100 1.000000 1.200000 1.224300 1.253800 1.500000 1.500000 1.503000 1.585800 1.622600
+USER_GRAPH; -headings 25.oC
+10 data 0, 23.468045, 22.557733, 23.894426, 24.569435, 24.416802, 24.868136, 25.242099, 24.929573, 25.401255, 25.441698, 25.410838, 27.047115, 25.814888, 26.102926, 26.170699, 26.332243, 26.907893, 27.130840, 27.354525, 27.331509, 27.739107, \
+27.519066, 28.397786, 29.657731, 28.484175, 30.135384, 29.206810, 30.447445, 29.371041, 29.955730, 30.780148, 31.437404, 30.674231, 31.567360, 32.960994, 31.590919, 32.246795, 31.833738, 32.553137,
+20 dim d(40)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Red #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 35.000000
+REACTION_PRESSURE; 1.000000
+# from 59 to 83.
+REACTION; BaCl2 1
+0 0.009300 0.029500 0.050000 0.050100 0.072600 0.100000 0.149400 0.166667 0.200000 0.300400 0.333333 0.406400 0.500000 0.587800 0.700000 0.787700 0.833333 0.992100 1.000000 1.200000 1.224300 \
+1.500000 1.500000 1.585800
+USER_GRAPH; -headings 35.oC
+10 data 0, 23.147250, 25.230649, 26.110400, 25.653550, 26.044225, 28.051170, 26.801312, 27.031101, 27.167711, 27.990898, 28.220719, 28.572469, 29.200020, 29.285485, 30.949123, 30.167254, 30.232009, 30.743540, 31.592859, 32.296570, 31.593440, \
+33.741712, 32.291200, 32.530480,
+20 dim d(25)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 45.000000
+REACTION_PRESSURE; 1.000000
+# from 83 to 106.
+REACTION; BaCl2 1
+0 0.029500 0.050000 0.050100 0.072600 0.100000 0.149400 0.166667 0.200000 0.300400 0.333333 0.406400 0.500000 0.587800 0.700000 0.787700 0.833333 0.992100 1.000000 1.200000 1.224300 1.500000 \
+1.500000 1.585800
+USER_GRAPH; -headings 45.oC
+10 data 0, 25.581986, 27.154305, 26.097547, 26.513341, 28.688611, 29.840881, 28.066839, 27.744259, 28.855186, 29.471883, 29.338827, 29.700730, 30.308342, 31.436078, 31.338240, 31.170758, 31.771530, 32.178819, 32.813045, 32.573592, 34.214123, \
+33.392875, 33.620037,
+20 dim d(24)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Black #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 55.000000
+REACTION_PRESSURE; 1.000000
+# from 106 to 128.
+REACTION; BaCl2 1
+0 0.020100 0.050000 0.050300 0.072700 0.100000 0.150600 0.166667 0.200000 0.300400 0.333333 0.406400 0.500000 0.700000 0.787700 0.833333 0.992100 1.000000 1.200000 1.224300 1.500000 1.500000 \
+1.585800
+USER_GRAPH; -headings 55.oC
+10 data 0, 24.985825, 27.301288, 26.229999, 26.400955, 29.033014, 27.420853, 27.688029, 28.118943, 28.886521, 29.071124, 29.279287, 29.921125, 31.732690, 31.139621, 31.130883, 31.544803, 32.389586, 33.041188, 32.475081, 34.421478, 33.301191, \
+33.550547,
+20 dim d(23)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Blue #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Blue
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 80.000000
+REACTION_PRESSURE; 1.000000
+# from 128 to 145.
+REACTION; BaCl2 1
+0 0.009300 0.029500 0.050100 0.072700 0.100000 0.149400 0.166667 0.200000 0.300400 0.333333 0.406400 0.587800 0.787700 0.833333 0.992100 1.500000 1.585800
+USER_GRAPH; -headings 80.oC
+10 data 0, 22.734012, 24.913060, 24.934121, 26.061974, 26.161452, 26.757482, 27.122355, 27.318779, 28.138802, 28.602932, 28.996480, 29.899580, 30.972617, 30.997780, 31.564314, 33.253646, 33.521923,
+20 dim d(18)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Green #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Green
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 100.000000
+REACTION_PRESSURE; 1.000000
+# from 145 to 161.
+REACTION; BaCl2 1
+0 0.030400 0.050300 0.072700 0.100000 0.150600 0.166667 0.199400 0.291700 0.333333 0.401500 0.595700 0.796200 0.833333 0.988100 1.246700 1.500000
+USER_GRAPH; -headings 100.oC
+10 data 0, 22.397624, 23.919877, 24.216676, 25.135034, 25.670523, 26.003246, 26.536520, 27.103027, 27.730003, 28.114681, 28.923009, 29.823250, 29.854599, 30.609838, 31.300350, 32.604472,
+20 dim d(17)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Brown #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 120.000000
+REACTION_PRESSURE; 1.000000
+# from 161 to 176.
+REACTION; BaCl2 1
+0 0.020400 0.030400 0.050300 0.072700 0.100000 0.150600 0.166667 0.199400 0.291700 0.333333 0.587300 0.791200 0.833333 0.988100 1.246700
+USER_GRAPH; -headings 120.oC
+10 data 0, 21.374600, 20.195403, 21.663147, 21.900628, 23.011516, 24.034559, 24.459822, 24.275967, 25.877943, 26.282481, 27.680970, 28.649578, 28.662681, 29.649656, 30.696815,
+20 dim d(16)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = Orange #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 140.000000
+REACTION_PRESSURE; 1.000000
+# from 176 to 193.
+REACTION; BaCl2 1
+0 0.030400 0.050100 0.072700 0.100000 0.149400 0.166667 0.199400 0.300400 0.333333 0.401500 0.587800 0.787700 0.833333 0.992100 1.224300 1.500000 1.585800
+USER_GRAPH; -headings 140.oC
+10 data 0, 15.223706, 16.484922, 17.736854, 18.808129, 19.672243, 20.284133, 20.943292, 21.910284, 22.755867, 23.189193, 24.175759, 25.708385, 25.586159, 26.230475, 28.087224, 29.354077, 29.793919,
+20 dim d(18)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Ba") * 208.246) / (tot("Ba") * rho) - 1e3 / (tot("Ba") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Ba"), d(step_no), line_w = 0, color = DarkCyan #aph_x tot("Ba") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Ba"), Vmol, symbol = None, color = DarkCyan #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END

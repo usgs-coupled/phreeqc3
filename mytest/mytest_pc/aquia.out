@@ -1,0 +1,1000 @@
+   Input file: aquia
+  Output file: aquia.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	EXCHANGE_SPECIES
+	  H+ + X- = HX
+	 log_k 3.0
+	 gamma 9.0 0.0 3.4
+	  Na+ + X- = NaX
+	 log_k -0.5
+	 gamma 4.0 0.075 0.5
+	  K+ + X- = KX
+	 log_k 0.902
+	 gamma 3.5 0.015
+	  Ca+2 + 2X- = CaX2
+	 log_k 0.93
+	 gamma 5.0 0.165
+	  Mg+2 + 2X- = MgX2
+	 log_k 0.614
+	 gamma 5.5 0.20
+	SOLUTION 0
+	 units mol/kgw
+	 pH 7.57
+	 pe 8.0
+	 temp 15
+	 Ca 1.4000E-03
+	 Alkalinity 2.8000E-03
+	 Na 0.1e-3
+	 K 0.05e-3
+	 Cl 0.1e-3
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Alkalinity       2.800e-003  2.800e-003
+	Ca               1.400e-003  1.400e-003
+	Cl               1.000e-004  1.000e-004
+	K                5.000e-005  5.000e-005
+	Na               1.000e-004  1.000e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.570    
+                                       pe  =   8.000    
+       Specific Conductance (uS/cm, 15 oC) = 218
+                          Density (g/cm3)  =   0.99929
+                               Volume (L)  =   1.00110
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.253e-003
+                       Mass of water (kg)  =  1.000e+000
+                    Total carbon (mol/kg)  =  2.971e-003
+                       Total CO2 (mol/kg)  =  2.971e-003
+                      Temperature (deg C)  =  15.00
+                  Electrical balance (eq)  =  5.000e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.87
+                               Iterations  =   7
+                                  Total H  = 1.110152e+002
+                                  Total O  = 5.551495e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.808e-007  1.685e-007    -6.743    -6.773    -0.030     -4.59
+   H+             2.867e-008  2.692e-008    -7.543    -7.570    -0.027      0.00
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.03
+C(4)         2.971e-003
+   HCO3-          2.749e-003  2.570e-003    -2.561    -2.590    -0.029     23.67
+   CO2            1.812e-004  1.814e-004    -3.742    -3.741     0.000     33.35
+   CaHCO3+        3.019e-005  2.824e-005    -4.520    -4.549    -0.029      9.25
+   CaCO3          5.294e-006  5.299e-006    -5.276    -5.276     0.000    -14.63
+   CO3-2          4.664e-006  3.560e-006    -5.331    -5.449    -0.117     -5.73
+   NaHCO3         6.126e-007  6.132e-007    -6.213    -6.212     0.000     19.41
+   NaCO3-         1.515e-009  1.416e-009    -8.819    -8.849    -0.029     -1.83
+Ca           1.400e-003
+   Ca+2           1.365e-003  1.041e-003    -2.865    -2.983    -0.118    -18.20
+   CaHCO3+        3.019e-005  2.824e-005    -4.520    -4.549    -0.029      9.25
+   CaCO3          5.294e-006  5.299e-006    -5.276    -5.276     0.000    -14.63
+   CaOH+          6.878e-009  6.418e-009    -8.163    -8.193    -0.030     (0)  
+Cl           1.000e-004
+   Cl-            1.000e-004  9.326e-005    -4.000    -4.030    -0.030     17.71
+H(0)         1.136e-034
+   H2             5.680e-035  5.685e-035   -34.246   -34.245     0.000     28.62
+K            5.000e-005
+   K+             5.000e-005  4.662e-005    -4.301    -4.331    -0.030      8.66
+Na           1.000e-004
+   Na+            9.939e-005  9.281e-005    -4.003    -4.032    -0.030     -1.96
+   NaHCO3         6.126e-007  6.132e-007    -6.213    -6.212     0.000     19.41
+   NaCO3-         1.515e-009  1.416e-009    -8.819    -8.849    -0.029     -1.83
+   NaOH           1.563e-021  1.564e-021   -20.806   -20.806     0.000     (0)  
+O(0)         1.180e-027
+   O2             5.899e-028  5.905e-028   -27.229   -27.229     0.000     29.51
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(288 K,   1 atm)
+
+	Aragonite        -0.15     -8.43   -8.28  CaCO3
+	Calcite          -0.00     -8.43   -8.43  CaCO3
+	CO2(g)           -2.40     -3.74   -1.34  CO2
+	H2(g)           -31.17    -34.25   -3.07  H2
+	H2O(g)           -1.77     -0.00    1.77  H2O
+	Halite           -9.61     -8.06    1.55  NaCl
+	O2(g)           -24.42    -27.23   -2.81  O2
+	Sylvite          -9.15     -8.36    0.79  KCl
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	 SOLUTION 1-3 # Fill first 10 miles with just average infiltrating water; no X
+	 units mol/kgw
+	 pH 7.57
+	 pe 8.0
+	 temp 15
+	 Ca 1.4000E-03
+	 Alkalinity 2.8000E-03
+	 Na 0.1e-3
+	 K 0.05e-3
+	 Cl 0.1e-3
+	EQUILIBRIUM_PHASES 1-3
+	 Calcite
+	SAVE solution 1-3
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Alkalinity       2.800e-003  2.800e-003
+	Ca               1.400e-003  1.400e-003
+	Cl               1.000e-004  1.000e-004
+	K                5.000e-005  5.000e-005
+	Na               1.000e-004  1.000e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.570    
+                                       pe  =   8.000    
+       Specific Conductance (uS/cm, 15 oC) = 218
+                          Density (g/cm3)  =   0.99929
+                               Volume (L)  =   1.00110
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.253e-003
+                       Mass of water (kg)  =  1.000e+000
+                    Total carbon (mol/kg)  =  2.971e-003
+                       Total CO2 (mol/kg)  =  2.971e-003
+                      Temperature (deg C)  =  15.00
+                  Electrical balance (eq)  =  5.000e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.87
+                               Iterations  =   7
+                                  Total H  = 1.110152e+002
+                                  Total O  = 5.551495e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.808e-007  1.685e-007    -6.743    -6.773    -0.030     -4.59
+   H+             2.867e-008  2.692e-008    -7.543    -7.570    -0.027      0.00
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.03
+C(4)         2.971e-003
+   HCO3-          2.749e-003  2.570e-003    -2.561    -2.590    -0.029     23.67
+   CO2            1.812e-004  1.814e-004    -3.742    -3.741     0.000     33.35
+   CaHCO3+        3.019e-005  2.824e-005    -4.520    -4.549    -0.029      9.25
+   CaCO3          5.294e-006  5.299e-006    -5.276    -5.276     0.000    -14.63
+   CO3-2          4.664e-006  3.560e-006    -5.331    -5.449    -0.117     -5.73
+   NaHCO3         6.126e-007  6.132e-007    -6.213    -6.212     0.000     19.41
+   NaCO3-         1.515e-009  1.416e-009    -8.819    -8.849    -0.029     -1.83
+Ca           1.400e-003
+   Ca+2           1.365e-003  1.041e-003    -2.865    -2.983    -0.118    -18.20
+   CaHCO3+        3.019e-005  2.824e-005    -4.520    -4.549    -0.029      9.25
+   CaCO3          5.294e-006  5.299e-006    -5.276    -5.276     0.000    -14.63
+   CaOH+          6.878e-009  6.418e-009    -8.163    -8.193    -0.030     (0)  
+Cl           1.000e-004
+   Cl-            1.000e-004  9.326e-005    -4.000    -4.030    -0.030     17.71
+H(0)         1.136e-034
+   H2             5.680e-035  5.685e-035   -34.246   -34.245     0.000     28.62
+K            5.000e-005
+   K+             5.000e-005  4.662e-005    -4.301    -4.331    -0.030      8.66
+Na           1.000e-004
+   Na+            9.939e-005  9.281e-005    -4.003    -4.032    -0.030     -1.96
+   NaHCO3         6.126e-007  6.132e-007    -6.213    -6.212     0.000     19.41
+   NaCO3-         1.515e-009  1.416e-009    -8.819    -8.849    -0.029     -1.83
+   NaOH           1.563e-021  1.564e-021   -20.806   -20.806     0.000     (0)  
+O(0)         1.180e-027
+   O2             5.899e-028  5.905e-028   -27.229   -27.229     0.000     29.51
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(288 K,   1 atm)
+
+	Aragonite        -0.15     -8.43   -8.28  CaCO3
+	Calcite          -0.00     -8.43   -8.43  CaCO3
+	CO2(g)           -2.40     -3.74   -1.34  CO2
+	H2(g)           -31.17    -34.25   -3.07  H2
+	H2O(g)           -1.77     -0.00    1.77  H2O
+	Halite           -9.61     -8.06    1.55  NaCl
+	O2(g)           -24.42    -27.23   -2.81  O2
+	Sylvite          -9.15     -8.36    0.79  KCl
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite           0.00    -8.43     -8.43   1.000e+001  1.000e+001 -3.225e-007
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                2.971e-003  2.971e-003
+	Ca               1.400e-003  1.400e-003
+	Cl               1.000e-004  1.000e-004
+	K                5.000e-005  5.000e-005
+	Na               1.000e-004  1.000e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.571      Charge balance
+                                       pe  =  11.300      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 15 oC) = 218
+                          Density (g/cm3)  =   0.99929
+                               Volume (L)  =   1.00110
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.254e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.801e-003
+                       Total CO2 (mol/kg)  =  2.971e-003
+                      Temperature (deg C)  =  15.00
+                  Electrical balance (eq)  =  5.000e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.87
+                               Iterations  =  10
+                                  Total H  = 1.110152e+002
+                                  Total O  = 5.551495e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.811e-007  1.688e-007    -6.742    -6.773    -0.030     -4.59
+   H+             2.862e-008  2.687e-008    -7.543    -7.571    -0.027      0.00
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.03
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -128.935  -128.934     0.000     32.22
+C(4)         2.971e-003
+   HCO3-          2.750e-003  2.570e-003    -2.561    -2.590    -0.029     23.67
+   CO2            1.809e-004  1.811e-004    -3.742    -3.742     0.000     33.35
+   CaHCO3+        3.020e-005  2.825e-005    -4.520    -4.549    -0.029      9.25
+   CaCO3          5.306e-006  5.311e-006    -5.275    -5.275     0.000    -14.63
+   CO3-2          4.674e-006  3.567e-006    -5.330    -5.448    -0.117     -5.73
+   NaHCO3         6.127e-007  6.133e-007    -6.213    -6.212     0.000     19.41
+   NaCO3-         1.519e-009  1.419e-009    -8.819    -8.848    -0.029     -1.83
+Ca           1.400e-003
+   Ca+2           1.365e-003  1.041e-003    -2.865    -2.983    -0.118    -18.20
+   CaHCO3+        3.020e-005  2.825e-005    -4.520    -4.549    -0.029      9.25
+   CaCO3          5.306e-006  5.311e-006    -5.275    -5.275     0.000    -14.63
+   CaOH+          6.892e-009  6.431e-009    -8.162    -8.192    -0.030     (0)  
+Cl           1.000e-004
+   Cl-            1.000e-004  9.326e-005    -4.000    -4.030    -0.030     17.71
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -40.848   -40.847     0.000     28.62
+K            5.000e-005
+   K+             5.000e-005  4.662e-005    -4.301    -4.331    -0.030      8.66
+Na           1.000e-004
+   Na+            9.939e-005  9.280e-005    -4.003    -4.032    -0.030     -1.96
+   NaHCO3         6.127e-007  6.133e-007    -6.213    -6.212     0.000     19.41
+   NaCO3-         1.519e-009  1.419e-009    -8.819    -8.848    -0.029     -1.83
+   NaOH           1.565e-021  1.567e-021   -20.805   -20.805     0.000     (0)  
+O(0)         1.889e-014
+   O2             9.443e-015  9.452e-015   -14.025   -14.024     0.000     29.51
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(288 K,   1 atm)
+
+	Aragonite        -0.15     -8.43   -8.28  CaCO3
+	Calcite           0.00     -8.43   -8.43  CaCO3
+	CH4(g)         -126.18   -128.93   -2.76  CH4
+	CO2(g)           -2.40     -3.74   -1.34  CO2
+	H2(g)           -37.77    -40.85   -3.07  H2
+	H2O(g)           -1.77     -0.00    1.77  H2O
+	Halite           -9.61     -8.06    1.55  NaCl
+	O2(g)           -11.21    -14.02   -2.81  O2
+	Sylvite          -9.15     -8.36    0.79  KCl
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	 SOLUTION 4-21 # Fill flowline with 18% seawater, CEC = 0.20 M
+	 units mol/kgw
+	 pH 6.80
+	 pe 8.0
+	 temp 15
+	 dens 1.023
+	 Ca 4.3790E-03
+	 Mg 9.9162E-03
+	 Na 87.381E-03
+	 K 1.9044E-03
+	 Cl 101.84E-03
+	 Alkalinity 15.502E-03
+	 S(6) 0.2670E-03
+	EQUILIBRIUM_PHASES 4-21
+	 Calcite
+	SAVE solution 4-21
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 4.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Alkalinity       1.550e-002  1.550e-002
+	Ca               4.379e-003  4.379e-003
+	Cl               1.018e-001  1.018e-001
+	K                1.904e-003  1.904e-003
+	Mg               9.916e-003  9.916e-003
+	Na               8.738e-002  8.738e-002
+	S(6)             2.670e-004  2.670e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.800    
+                                       pe  =   8.000    
+       Specific Conductance (uS/cm, 15 oC) = 9278
+                          Density (g/cm3)  =   1.00441
+                               Volume (L)  =   1.00381
+                        Activity of water  =   0.996
+                           Ionic strength  =  1.289e-001
+                       Mass of water (kg)  =  1.000e+000
+                    Total carbon (mol/kg)  =  1.958e-002
+                       Total CO2 (mol/kg)  =  1.958e-002
+                      Temperature (deg C)  =  15.00
+                  Electrical balance (eq)  = -1.998e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                                  Total H  = 1.110279e+002
+                                  Total O  = 5.556193e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.939e-007  1.585e-007    -6.712    -6.800    -0.088      0.00
+   OH-            3.826e-008  2.851e-008    -7.417    -7.545    -0.128     -4.20
+   H2O            5.551e+001  9.962e-001     1.744    -0.002     0.000     18.03
+C(4)         1.958e-002
+   HCO3-          1.303e-002  1.011e-002    -1.885    -1.995    -0.110     24.47
+   CO2            4.096e-003  4.219e-003    -2.388    -2.375     0.013     33.35
+   NaHCO3         1.674e-003  1.724e-003    -2.776    -2.763     0.013     19.41
+   MgHCO3+        5.475e-004  4.128e-004    -3.262    -3.384    -0.123      5.32
+   CaHCO3+        2.086e-004  1.635e-004    -3.681    -3.786    -0.106      9.39
+   MgCO3          6.821e-006  7.026e-006    -5.166    -5.153     0.013    -17.08
+   CO3-2          6.568e-006  2.379e-006    -5.183    -5.624    -0.441     -4.48
+   CaCO3          5.058e-006  5.211e-006    -5.296    -5.283     0.013    -14.63
+   NaCO3-         8.719e-007  6.764e-007    -6.060    -6.170    -0.110     -1.24
+Ca           4.379e-003
+   Ca+2           4.150e-003  1.532e-003    -2.382    -2.815    -0.433    -17.59
+   CaHCO3+        2.086e-004  1.635e-004    -3.681    -3.786    -0.106      9.39
+   CaSO4          1.569e-005  1.616e-005    -4.804    -4.792     0.013      7.06
+   CaCO3          5.058e-006  5.211e-006    -5.296    -5.283     0.013    -14.63
+   CaOH+          2.073e-009  1.598e-009    -8.683    -8.796    -0.113     (0)  
+   CaHSO4+        1.916e-011  1.476e-011   -10.718   -10.831    -0.113     (0)  
+Cl           1.018e-001
+   Cl-            1.018e-001  7.652e-002    -0.992    -1.116    -0.124     17.96
+H(0)         3.827e-033
+   H2             1.914e-033  1.971e-033   -32.718   -32.705     0.013     28.62
+K            1.904e-003
+   K+             1.904e-003  1.425e-003    -2.720    -2.846    -0.126      8.89
+   KSO4-          6.908e-007  5.359e-007    -6.161    -6.271    -0.110     (0)  
+Mg           9.916e-003
+   Mg+2           9.322e-003  3.609e-003    -2.031    -2.443    -0.412    -20.74
+   MgHCO3+        5.475e-004  4.128e-004    -3.262    -3.384    -0.123      5.32
+   MgSO4          4.033e-005  4.155e-005    -4.394    -4.381     0.013      5.40
+   MgCO3          6.821e-006  7.026e-006    -5.166    -5.153     0.013    -17.08
+   MgOH+          4.094e-008  3.236e-008    -7.388    -7.490    -0.102     (0)  
+Na           8.738e-002
+   Na+            8.568e-002  6.632e-002    -1.067    -1.178    -0.111     -1.64
+   NaHCO3         1.674e-003  1.724e-003    -2.776    -2.763     0.013     19.41
+   NaSO4-         2.572e-005  1.996e-005    -4.590    -4.700    -0.110     19.49
+   NaCO3-         8.719e-007  6.764e-007    -6.060    -6.170    -0.110     -1.24
+   NaOH           1.836e-019  1.891e-019   -18.736   -18.723     0.013     (0)  
+O(0)         9.465e-031
+   O2             4.732e-031  4.875e-031   -30.325   -30.312     0.013     29.51
+S(6)         2.670e-004
+   SO4-2          1.846e-004  6.411e-005    -3.734    -4.193    -0.459     13.61
+   MgSO4          4.033e-005  4.155e-005    -4.394    -4.381     0.013      5.40
+   NaSO4-         2.572e-005  1.996e-005    -4.590    -4.700    -0.110     19.49
+   CaSO4          1.569e-005  1.616e-005    -4.804    -4.792     0.013      7.06
+   KSO4-          6.908e-007  5.359e-007    -6.161    -6.271    -0.110     (0)  
+   HSO4-          1.040e-009  8.016e-010    -8.983    -9.096    -0.113     39.73
+   CaHSO4+        1.916e-011  1.476e-011   -10.718   -10.831    -0.113     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(288 K,   1 atm)
+
+	Anhydrite        -2.84     -7.01   -4.17  CaSO4
+	Aragonite        -0.16     -8.44   -8.28  CaCO3
+	Calcite          -0.01     -8.44   -8.43  CaCO3
+	CO2(g)           -1.04     -2.37   -1.34  CO2
+	Dolomite          0.35    -16.50  -16.85  CaMg(CO3)2
+	Gypsum           -2.43     -7.01   -4.58  CaSO4:2H2O
+	H2(g)           -29.63    -32.71   -3.07  H2
+	H2O(g)           -1.77     -0.00    1.77  H2O
+	Halite           -3.85     -2.29    1.55  NaCl
+	O2(g)           -27.50    -30.31   -2.81  O2
+	Sylvite          -4.76     -3.96    0.79  KCl
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 4.	
+Using pure phase assemblage 4.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite           0.00    -8.43     -8.43   1.000e+001  1.000e+001 -2.688e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.961e-002  1.961e-002
+	Ca               4.406e-003  4.406e-003
+	Cl               1.018e-001  1.018e-001
+	K                1.904e-003  1.904e-003
+	Mg               9.916e-003  9.916e-003
+	Na               8.738e-002  8.738e-002
+	S                2.670e-004  2.670e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.804      Charge balance
+                                       pe  =  -0.423      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 15 oC) = 9280
+                          Density (g/cm3)  =   1.00441
+                               Volume (L)  =   1.00381
+                        Activity of water  =   0.996
+                           Ionic strength  =  1.290e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.556e-002
+                       Total CO2 (mol/kg)  =  1.961e-002
+                      Temperature (deg C)  =  15.00
+                  Electrical balance (eq)  = -1.998e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                                  Total H  = 1.110279e+002
+                                  Total O  = 5.556201e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.920e-007  1.569e-007    -6.717    -6.804    -0.088      0.00
+   OH-            3.864e-008  2.880e-008    -7.413    -7.541    -0.128     -4.20
+   H2O            5.551e+001  9.962e-001     1.744    -0.002     0.000     18.03
+C(-4)        2.181e-028
+   CH4            2.181e-028  2.247e-028   -27.661   -27.648     0.013     32.22
+C(4)         1.961e-002
+   HCO3-          1.308e-002  1.015e-002    -1.883    -1.994    -0.110     24.47
+   CO2            4.069e-003  4.192e-003    -2.390    -2.378     0.013     33.35
+   NaHCO3         1.679e-003  1.730e-003    -2.775    -2.762     0.013     19.41
+   MgHCO3+        5.491e-004  4.141e-004    -3.260    -3.383    -0.123      5.32
+   CaHCO3+        2.105e-004  1.650e-004    -3.677    -3.782    -0.106      9.39
+   MgCO3          6.909e-006  7.117e-006    -5.161    -5.148     0.013    -17.08
+   CO3-2          6.656e-006  2.410e-006    -5.177    -5.618    -0.441     -4.48
+   CaCO3          5.155e-006  5.311e-006    -5.288    -5.275     0.013    -14.63
+   NaCO3-         8.834e-007  6.853e-007    -6.054    -6.164    -0.110     -1.23
+Ca           4.406e-003
+   Ca+2           4.174e-003  1.541e-003    -2.379    -2.812    -0.433    -17.59
+   CaHCO3+        2.105e-004  1.650e-004    -3.677    -3.782    -0.106      9.39
+   CaSO4          1.577e-005  1.625e-005    -4.802    -4.789     0.013      7.06
+   CaCO3          5.155e-006  5.311e-006    -5.288    -5.275     0.013    -14.63
+   CaOH+          2.106e-009  1.623e-009    -8.676    -8.790    -0.113     (0)  
+   CaHSO4+        1.907e-011  1.470e-011   -10.720   -10.833    -0.113     (0)  
+Cl           1.018e-001
+   Cl-            1.018e-001  7.652e-002    -0.992    -1.116    -0.124     17.96
+H(0)         2.632e-016
+   H2             1.316e-016  1.355e-016   -15.881   -15.868     0.013     28.62
+K            1.904e-003
+   K+             1.904e-003  1.425e-003    -2.720    -2.846    -0.126      8.89
+   KSO4-          6.905e-007  5.356e-007    -6.161    -6.271    -0.110     (0)  
+Mg           9.916e-003
+   Mg+2           9.320e-003  3.608e-003    -2.031    -2.443    -0.412    -20.74
+   MgHCO3+        5.491e-004  4.141e-004    -3.260    -3.383    -0.123      5.32
+   MgSO4          4.030e-005  4.152e-005    -4.395    -4.382     0.013      5.40
+   MgCO3          6.909e-006  7.117e-006    -5.161    -5.148     0.013    -17.08
+   MgOH+          4.133e-008  3.267e-008    -7.384    -7.486    -0.102     (0)  
+Na           8.738e-002
+   Na+            8.568e-002  6.631e-002    -1.067    -1.178    -0.111     -1.64
+   NaHCO3         1.679e-003  1.730e-003    -2.775    -2.762     0.013     19.41
+   NaSO4-         2.571e-005  1.995e-005    -4.590    -4.700    -0.110     19.49
+   NaCO3-         8.834e-007  6.853e-007    -6.054    -6.164    -0.110     -1.23
+   NaOH           1.854e-019  1.910e-019   -18.732   -18.719     0.013     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -64.000   -63.987     0.013     29.51
+S(-2)        4.391e-027
+   H2S            2.546e-027  2.623e-027   -26.594   -26.581     0.013     37.12
+   HS-            1.845e-027  1.375e-027   -26.734   -26.862    -0.128     20.30
+   S-2            1.482e-033  5.209e-034   -32.829   -33.283    -0.454     (0)  
+S(6)         2.670e-004
+   SO4-2          1.845e-004  6.408e-005    -3.734    -4.193    -0.459     13.61
+   MgSO4          4.030e-005  4.152e-005    -4.395    -4.382     0.013      5.40
+   NaSO4-         2.571e-005  1.995e-005    -4.590    -4.700    -0.110     19.49
+   CaSO4          1.577e-005  1.625e-005    -4.802    -4.789     0.013      7.06
+   KSO4-          6.905e-007  5.356e-007    -6.161    -6.271    -0.110     (0)  
+   HSO4-          1.030e-009  7.934e-010    -8.987    -9.100    -0.113     39.73
+   CaHSO4+        1.907e-011  1.470e-011   -10.720   -10.833    -0.113     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(288 K,   1 atm)
+
+	Anhydrite        -2.83     -7.01   -4.17  CaSO4
+	Aragonite        -0.15     -8.43   -8.28  CaCO3
+	Calcite           0.00     -8.43   -8.43  CaCO3
+	CH4(g)          -24.89    -27.65   -2.76  CH4
+	CO2(g)           -1.04     -2.38   -1.34  CO2
+	Dolomite          0.36    -16.49  -16.85  CaMg(CO3)2
+	Gypsum           -2.42     -7.01   -4.58  CaSO4:2H2O
+	H2(g)           -12.80    -15.87   -3.07  H2
+	H2O(g)           -1.77     -0.00    1.77  H2O
+	H2S(g)          -25.65    -33.67   -8.02  H2S
+	Halite           -3.85     -2.29    1.55  NaCl
+	O2(g)           -61.17    -63.99   -2.81  O2
+	Sulfur          -18.94    -13.82    5.12  S
+	Sylvite          -4.76     -3.96    0.79  KCl
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	EXCHANGE 4-21
+	 X 0.2
+	 equilibrate 4
+	END 
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 4.	
+
+X               2.000e-001 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	HX               4.501e-002  4.501e-002  2.251e-001    -2.722
+	NaX              3.764e-002  3.764e-002  1.882e-001    -0.519
+	MgX2             2.830e-002  5.660e-002  2.830e-001    -0.412
+	CaX2             2.624e-002  5.248e-002  2.624e-001    -0.433
+	KX               8.257e-003  8.257e-003  4.129e-002    -0.126
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	MIX	13	
+		11	0.9	
+		13	0.1
+	MIX	14	
+		13	0.8	
+		14	0.2
+	MIX	15	
+		14	0.7	
+		15	0.3
+	MIX	16	
+		15	0.6	
+		16	0.4
+	MIX	17	
+		16	0.5	
+		17	0.5
+	MIX	18	
+		17	0.4	
+		18	0.6
+	MIX	19	
+		18	0.3	
+		19	0.7
+	MIX	20	
+		19	0.2	
+		20	0.8
+	MIX	21	
+		20	0.1	
+		21	0.9
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 13.	
+
+Mixture 13.	
+
+	 9.000e-001 Solution 11	Solution after simulation 3.                           
+	 1.000e-001 Solution 13	Solution after simulation 3.                           
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.961e-002  1.961e-002
+	Ca               4.406e-003  4.406e-003
+	Cl               1.018e-001  1.018e-001
+	K                1.904e-003  1.904e-003
+	Mg               9.916e-003  9.916e-003
+	Na               8.738e-002  8.738e-002
+	S                2.670e-004  2.670e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.804      Charge balance
+                                       pe  =  12.178      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 15 oC) = 9280
+                          Density (g/cm3)  =   1.00441
+                               Volume (L)  =   1.00381
+                        Activity of water  =   0.996
+                           Ionic strength  =  1.290e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.556e-002
+                       Total CO2 (mol/kg)  =  1.961e-002
+                      Temperature (deg C)  =  15.00
+                  Electrical balance (eq)  = -1.998e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  14
+                                  Total H  = 1.110279e+002
+                                  Total O  = 5.556201e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.920e-007  1.569e-007    -6.717    -6.804    -0.088      0.00
+   OH-            3.864e-008  2.880e-008    -7.413    -7.541    -0.128     -4.20
+   H2O            5.551e+001  9.962e-001     1.744    -0.002     0.000     18.03
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -128.467  -128.454     0.013     32.22
+C(4)         1.961e-002
+   HCO3-          1.308e-002  1.015e-002    -1.883    -1.994    -0.110     24.47
+   CO2            4.069e-003  4.192e-003    -2.390    -2.378     0.013     33.35
+   NaHCO3         1.679e-003  1.730e-003    -2.775    -2.762     0.013     19.41
+   MgHCO3+        5.491e-004  4.141e-004    -3.260    -3.383    -0.123      5.32
+   CaHCO3+        2.105e-004  1.650e-004    -3.677    -3.782    -0.106      9.39
+   MgCO3          6.909e-006  7.117e-006    -5.161    -5.148     0.013    -17.08
+   CO3-2          6.656e-006  2.410e-006    -5.177    -5.618    -0.441     -4.48
+   CaCO3          5.155e-006  5.311e-006    -5.288    -5.275     0.013    -14.63
+   NaCO3-         8.834e-007  6.853e-007    -6.054    -6.164    -0.110     -1.23
+Ca           4.406e-003
+   Ca+2           4.174e-003  1.541e-003    -2.379    -2.812    -0.433    -17.59
+   CaHCO3+        2.105e-004  1.650e-004    -3.677    -3.782    -0.106      9.39
+   CaSO4          1.577e-005  1.625e-005    -4.802    -4.789     0.013      7.06
+   CaCO3          5.155e-006  5.311e-006    -5.288    -5.275     0.013    -14.63
+   CaOH+          2.106e-009  1.623e-009    -8.676    -8.790    -0.113     (0)  
+   CaHSO4+        1.907e-011  1.470e-011   -10.720   -10.833    -0.113     (0)  
+Cl           1.018e-001
+   Cl-            1.018e-001  7.652e-002    -0.992    -1.116    -0.124     17.96
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.082   -41.069     0.013     28.62
+K            1.904e-003
+   K+             1.904e-003  1.425e-003    -2.720    -2.846    -0.126      8.89
+   KSO4-          6.905e-007  5.356e-007    -6.161    -6.271    -0.110     (0)  
+Mg           9.916e-003
+   Mg+2           9.320e-003  3.608e-003    -2.031    -2.443    -0.412    -20.74
+   MgHCO3+        5.491e-004  4.141e-004    -3.260    -3.383    -0.123      5.32
+   MgSO4          4.030e-005  4.152e-005    -4.395    -4.382     0.013      5.40
+   MgCO3          6.909e-006  7.117e-006    -5.161    -5.148     0.013    -17.08
+   MgOH+          4.133e-008  3.267e-008    -7.384    -7.486    -0.102     (0)  
+Na           8.738e-002
+   Na+            8.568e-002  6.631e-002    -1.067    -1.178    -0.111     -1.64
+   NaHCO3         1.679e-003  1.730e-003    -2.775    -2.762     0.013     19.41
+   NaSO4-         2.571e-005  1.995e-005    -4.590    -4.700    -0.110     19.49
+   NaCO3-         8.834e-007  6.853e-007    -6.054    -6.164    -0.110     -1.23
+   NaOH           1.854e-019  1.910e-019   -18.732   -18.719     0.013     (0)  
+O(0)         5.063e-014
+   O2             2.531e-014  2.608e-014   -13.597   -13.584     0.013     29.51
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -127.400  -127.387     0.013     37.12
+   HS-            0.000e+000  0.000e+000  -127.540  -127.668    -0.128     20.30
+   S-2            0.000e+000  0.000e+000  -133.635  -134.089    -0.454     (0)  
+S(6)         2.670e-004
+   SO4-2          1.845e-004  6.408e-005    -3.734    -4.193    -0.459     13.61
+   MgSO4          4.030e-005  4.152e-005    -4.395    -4.382     0.013      5.40
+   NaSO4-         2.571e-005  1.995e-005    -4.590    -4.700    -0.110     19.49
+   CaSO4          1.577e-005  1.625e-005    -4.802    -4.789     0.013      7.06
+   KSO4-          6.905e-007  5.356e-007    -6.161    -6.271    -0.110     (0)  
+   HSO4-          1.030e-009  7.934e-010    -8.987    -9.100    -0.113     39.73
+   CaHSO4+        1.907e-011  1.470e-011   -10.720   -10.833    -0.113     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(288 K,   1 atm)
+
+	Anhydrite        -2.83     -7.01   -4.17  CaSO4
+	Aragonite        -0.15     -8.43   -8.28  CaCO3
+	Calcite           0.00     -8.43   -8.43  CaCO3
+	CH4(g)         -125.70   -128.45   -2.76  CH4
+	CO2(g)           -1.04     -2.38   -1.34  CO2
+	Dolomite          0.36    -16.49  -16.85  CaMg(CO3)2
+	Gypsum           -2.42     -7.01   -4.58  CaSO4:2H2O
+	H2(g)           -38.00    -41.07   -3.07  H2
+	H2O(g)           -1.77     -0.00    1.77  H2O
+	H2S(g)         -126.45   -134.47   -8.02  H2S
+	Halite           -3.85     -2.29    1.55  NaCl
+	O2(g)           -10.77    -13.58   -2.81  O2
+	Sulfur          -94.55    -89.42    5.12  S
+	Sylvite          -4.76     -3.96    0.79  KCl
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	PRINT
+	 reset false
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 11.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 11.
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+--------------------------------
+End of Run after 36.126 Seconds.
+--------------------------------
+

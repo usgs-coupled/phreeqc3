@@ -1,0 +1,219 @@
+database ../database/phreeqc.dat
+SURFACE_MASTER_SPECIES
+        Surf    SurfOH
+SURFACE_SPECIES
+        SurfOH = SurfOH
+                log_k   0.0
+        SurfOH  + H+ = SurfOH2+
+                log_k   7.29
+        SurfOH = SurfO- + H+
+                log_k   -8.93
+        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O
+                log_k   29.31
+        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O
+                log_k   23.51
+        SurfOH + AsO4-3 = SurfOHAsO4-3
+                log_k   10.58
+SOLUTION_MASTER_SPECIES
+        As       H3AsO4        -1.0     74.9216         74.9216
+SOLUTION_SPECIES
+#
+# Nordstrom and Archer
+#
+#H2AsO4- 		482	
+	H3AsO4 = H2AsO4- + H+
+	log_k	-2.3
+	delta_h	-7.066	kJ
+#HAsO4-2 		483	
+	H3AsO4 = HAsO4-2 + 2H+
+	log_k	-9.46
+	delta_h	-3.846	kJ
+
+#AsO43- 		484	
+	H3AsO4 = AsO4-3 + 3H+
+	log_k	-21.11
+	delta_h	14.354	kJ
+#
+# Old Wateq4f
+#
+#H2AsO4-             482
+        H3AsO4 = H2AsO4- + H+ 
+        log_k           -2.243
+        delta_h -1.69 kcal
+
+#HAsO4-2             483
+        H3AsO4 = HAsO4-2 + 2H+ 
+        log_k           -9.001
+        delta_h -0.92 kcal
+
+#AsO4-3              484
+        H3AsO4 = AsO4-3 + 3H+
+        log_k           -20.597
+        delta_h 3.43 kcal
+#
+#  Dzombak and Morel
+#
+#H3AsO4 primary master species
+        H3AsO4 = H3AsO4
+        log_k           0.0
+#H2AsO4-             482
+        H3AsO4 = AsO4-3 + 3H+
+        log_k   -20.7
+#HAsO4-2                483     
+        H+ + AsO4-3 = HAsO4-2
+        log_k   11.50
+#AsO4-3              484
+        2H+ + AsO4-3 = H2AsO4-
+        log_k           18.46
+
+END
+SOLUTION_RAW       20
+  -temp              25
+  -pH                7
+  -pe                4
+  -mu                1e-07
+  -ah2o              1
+  -total_h           111.01974134192
+  -total_o           55.535325076996
+  -cb                0.0012883279473439
+  -mass_water        1
+  -total_alkalinity  0
+  -totals
+    As   4.1908616387069e-07
+    C   0.0096003939798442
+    Ca   9.3009440332783e-05
+    Cl   0.0032689522220291
+    Mg   6.6514137243683e-05
+    Na   0.01444565173261
+    S   0.00023718575024482
+  -activities
+    As   -8.3776966771614
+    C(-4)   -4.0177109440686
+    C(4)   -4.0177109440686
+    Ca   -6.0314729689045
+    Cl   -4.4855914268839
+    Mg   -6.1770860377888
+    Na   -3.8402628596702
+    S(-2)   -5.6249114062687
+    S(6)   -5.6249114062687
+  -gammas
+#  -Isotopes
+EXCHANGE_RAW       20 Exchanger defined in simulation 1.
+  -pitzer_exchange_gammas 1
+  -component               X
+#    -formula               X
+#    -moles                 0
+    -la                    0.60688497237009
+    -charge_balance        0
+    -phase_proportion              0
+    -formula_z                     0
+    -totals
+      Ca   0.067100780469236
+      Mg   0.029709189613889
+      Na   0.30638006319249
+      X   0.50000000335874
+#    -formula_totals
+#      X   0.5
+EQUILIBRIUM_PHASES_RAW       20 Pp_Assemblage defined in simulation 1.
+  -eltList       
+    C   3
+    Ca   2
+    Mg   1
+    O   9
+  -component               Calcite
+#    -name                  Calcite
+    -si                    0
+    -moles                 0.11781770315801
+    -delta                 0
+    -initial_moles         0.1180709871316
+    -force_equality        0
+    -dissolve_only         0
+  -component               Dolomite
+#    -name                  Dolomite
+    -si                    0
+    -moles                 1.568403984096
+    -delta                 0
+    -initial_moles         1.5687877423086
+    -force_equality        0
+    -dissolve_only         0
+SURFACE_RAW       20 Surface defined in simulation 1.
+  -type 2
+  -dl_type 0
+  -sites_units 0
+  -only_counter_ions 0
+  -thickness 1e-08
+  -debye_lengths 0
+  -DDL_viscosity 1
+  -DDL_limit 0.8
+  -transport 0
+  -component               SurfOH
+#    -formula               SurfOH
+    -charge_name           Surf
+    -formula_z             0
+    -moles                 0
+    -la                    -0.20250616397962
+#    -charge_number         0
+    -master_element        Surf
+    -charge_name           Surf       
+    -charge_balance        0.084703340238721
+    -phase_proportion      0
+    -Dw                    0
+#    -formula_totals
+#      H   0.14
+#      O   0.14
+#      Surf   0.14
+    -totals
+      As   0.0080729678646393
+      H   0.17518734394924
+      O   0.17225449222186
+      Surf   0.14000000006222
+  -charge_component                    Surf
+#    -name                  Surf
+    -specific_area         600
+    -grams                 30
+    -charge_balance        0.011043198890933
+    -mass_water            0
+    -la_psi                0.46673410986017
+    #-la_psi1               0
+    #-la_psi2               0
+    -capacitance0          1
+    -capacitance1          5
+    -diffuse_layer_totals
+USE solution 20
+USE exchange 20
+USE equilibrium_phases 20
+USE surface 20
+END
+SOLUTION_RAW       20
+  -temp              25
+  -pH                7
+  -pH                xx
+  -xx                1
+  -pe                4
+  -mu                1e-07
+  -ah2o              1
+  -total_h           111.01974134192
+  -total_o           55.535325076996
+  -cb                0.0012883279473439
+  -mass_water        1
+  -total_alkalinity  0
+  -totals
+    As   4.1908616387069e-07
+    C   0.0096003939798442
+    Ca   9.3009440332783e-05
+    Cl   0.0032689522220291
+    Mg   6.6514137243683e-05
+    Na   0.01444565173261
+    S   0.00023718575024482
+  -activities
+    As   -8.3776966771614
+    C(-4)   -4.0177109440686
+    C(4)   -4.0177109440686
+    Ca   -6.0314729689045
+    Cl   -4.4855914268839
+    Mg   -6.1770860377888
+    Na   -3.8402628596702
+    S(-2)   -5.6249114062687
+    S(6)   -5.6249114062687
+  -gammas
+#  -Isotopes

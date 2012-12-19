@@ -1,0 +1,2296 @@
+   Input file: surf_related
+  Output file: surf_related.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	knobs
+		logfile
+	solution 1
+	equilibrium_phases 1-2
+		goethite	0.0	0.01
+	save solution 1-2
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.00    -1.00     -1.00   1.000e-002  1.000e-002 -5.256e-014
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               5.256e-014  5.256e-014
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   5.495      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.006e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.000e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        3.369e-015
+   Fe+2           3.358e-015  3.353e-015   -14.474   -14.475    -0.001    -22.25
+   FeOH+          1.061e-017  1.060e-017   -16.974   -16.975    -0.000     (0)  
+   Fe(OH)2        9.025e-022  9.025e-022   -21.045   -21.045     0.000     (0)  
+   Fe(OH)3-       3.354e-025  3.353e-025   -24.474   -24.475    -0.000     (0)  
+Fe(3)        4.919e-014
+   Fe(OH)3        2.754e-014  2.754e-014   -13.560   -13.560     0.000     (0)  
+   Fe(OH)2+       2.139e-014  2.138e-014   -13.670   -13.670    -0.000     (0)  
+   Fe(OH)4-       2.513e-016  2.512e-016   -15.600   -15.600    -0.000     (0)  
+   FeOH+2         6.466e-018  6.457e-018   -17.189   -17.190    -0.001     (0)  
+   Fe+3           1.003e-022  1.000e-022   -21.999   -22.000    -0.001     (0)  
+   Fe2(OH)2+4     1.129e-033  1.122e-033   -32.947   -32.950    -0.003     (0)  
+   Fe3(OH)4+5     0.000e+000  0.000e+000   -44.296   -44.300    -0.004     (0)  
+H(0)         1.452e-028
+   H2             7.260e-029  7.260e-029   -28.139   -28.139     0.000     28.61
+O(0)         1.582e-036
+   O2             7.910e-037  7.910e-037   -36.102   -36.102     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
+	Goethite         -0.00     -1.00   -1.00  FeOOH
+	H2(g)           -25.04    -28.14   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Hematite          2.01     -2.00   -4.01  Fe2O3
+	O2(g)           -33.21    -36.10   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	reaction 1
+		HCl	1.0
+		0.25	moles
+	surface 1-2
+		Hfo_sOH	goethite	0.01	50000.
+		Hfo_wOH	goethite	0.1	50000.
+		equilibrate	solution 1
+	use solution 1
+	use equilibrium_phases 1
+	use reaction 1
+	use surface 1
+	save solution 2
+	save equilibrium_phases 2
+	save surface 2
+	end
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 3.190e-007  Surface charge, eq
+	 6.156e-005  sigma, C/m**2
+	 6.563e-002  psi, V
+	-2.555e+000  -F*psi/RT
+	 7.772e-002  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 5.000e+002  m**2 for  1.000e-002 moles of Goethite
+
+
+Hfo_s         
+	 1.000e-004  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          7.676e-005       0.768  7.676e-005      -4.115
+	Hfo_sOH2+        1.163e-005       0.116  1.163e-005      -4.934
+	Hfo_sO-          1.160e-005       0.116  1.160e-005      -4.935
+	Hfo_sOFe+        2.245e-014       0.000  2.245e-014     -13.649
+
+Hfo_w         
+	 1.000e-003  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          7.676e-004       0.768  7.676e-004      -3.115
+	Hfo_wOH2+        1.163e-004       0.116  1.163e-004      -3.934
+	Hfo_wO-          1.160e-004       0.116  1.160e-004      -3.935
+	Hfo_wOFe+        2.095e-015       0.000  2.095e-015     -14.679
+	Hfo_wOFeOH       7.255e-016       0.000  7.255e-016     -15.139
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 1.
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	HCl                  1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	H                    1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.24    -1.24     -1.00   1.000e-002           0 -1.000e-002
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 4.706e-026  Surface charge, eq
+	undefined  sigma, C/m**2
+	 3.263e-002  psi, V
+	-1.270e+000  -F*psi/RT
+	 2.808e-001  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 0.000e+000  m**2 for  0.000e+000 moles of Goethite
+
+
+Hfo_s         
+	 0.000e+000  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        2.353e-026       0.000  2.352e-026     -25.628
+	Hfo_sOH          2.478e-032       0.000  2.477e-032     -31.606
+	Hfo_sO-          5.980e-040       0.000  5.977e-040     -39.223
+	Hfo_sOFe+        4.417e-042       0.000  4.416e-042     -41.355
+
+Hfo_w         
+	 0.000e+000  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        2.353e-026       0.000  2.352e-026     -25.628
+	Hfo_wOH          2.478e-032       0.000  2.477e-032     -31.606
+	Hfo_wO-          5.980e-040       0.000  5.977e-040     -39.223
+	Hfo_wOFe+        4.122e-044       0.000  4.121e-044     -43.385
+	Hfo_wOFeOH       2.260e-051       0.000  2.260e-051     -50.646
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.499e-001  2.500e-001
+	Fe               9.996e-003  1.000e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.761      Charge balance
+                                       pe  =  18.516      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81486
+                          Density (g/cm3)  =   1.00220
+                               Volume (L)  =   1.00779
+                        Activity of water  =   0.992
+                           Ionic strength  =  2.545e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.399e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  3.178e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  20
+                                  Total H  = 1.112724e+002
+                                  Total O  = 5.552622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.200e-001  1.734e-001    -0.658    -0.761    -0.103      0.00
+   OH-            8.424e-014  5.790e-014   -13.074   -13.237    -0.163     -3.38
+   H2O            5.551e+001  9.920e-001     1.744    -0.003     0.000     18.07
+Cl           2.499e-001
+   Cl-            2.409e-001  1.681e-001    -0.618    -0.774    -0.156     18.51
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   FeCl+          3.085e-010  2.276e-010    -9.511    -9.643    -0.132     (0)  
+Fe(2)        3.527e-009
+   Fe+2           3.219e-009  9.810e-010    -8.492    -9.008    -0.516    -21.13
+   FeCl+          3.085e-010  2.276e-010    -9.511    -9.643    -0.132     (0)  
+   FeOH+          2.454e-018  1.775e-018   -17.610   -17.751    -0.141     (0)  
+   Fe(OH)2        8.148e-029  8.640e-029   -28.089   -28.063     0.025     (0)  
+   Fe(OH)3-       2.539e-038  1.836e-038   -37.595   -37.736    -0.141     (0)  
+Fe(3)        9.996e-003
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   Fe+3           2.613e-003  3.074e-004    -2.583    -3.512    -0.929     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeOH+2         4.149e-005  1.135e-005    -4.382    -4.945    -0.563     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   Fe2(OH)2+4     4.503e-007  3.469e-009    -6.346    -8.460    -2.113     (0)  
+   Fe(OH)2+       2.940e-008  2.151e-008    -7.532    -7.667    -0.136     (0)  
+   Fe3(OH)4+5     3.125e-011  1.559e-014   -10.505   -13.807    -3.302     (0)  
+   Fe(OH)3        1.495e-014  1.585e-014   -13.825   -13.800     0.025     (0)  
+   Fe(OH)4-       1.130e-022  8.268e-023   -21.947   -22.083    -0.136     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.729   -41.704     0.025     28.61
+O(0)         1.979e-009
+   O2             9.896e-010  1.049e-009    -9.005    -8.979     0.025     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -6.13     -1.24    4.89  Fe(OH)3
+	Goethite         -0.24     -1.24   -1.00  FeOOH
+	H2(g)           -38.60    -41.70   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Hematite          1.54     -2.47   -4.01  Fe2O3
+	O2(g)            -6.09     -8.98   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	use solution 2
+	use equilibrium_phases 2
+	use surface 2
+	end
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	Solution after simulation 2.
+Using surface 2.	
+Using pure phase assemblage 2.	Pure-phase assemblage after simulation 2.
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.24    -1.24     -1.00   0.000e+000           0  0.000e+000
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.899e-024  Surface charge, eq
+	undefined  sigma, C/m**2
+	 3.263e-002  psi, V
+	-1.270e+000  -F*psi/RT
+	 2.808e-001  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 0.000e+000  m**2 for  0.000e+000 moles of Goethite
+
+
+Hfo_s         
+	 0.000e+000  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        9.495e-025       0.000  9.492e-025     -24.023
+	Hfo_sOH          1.000e-030       0.000  9.996e-031     -30.000
+	Hfo_sO-          2.413e-038       0.000  2.412e-038     -37.618
+	Hfo_sOFe+        1.782e-040       0.000  1.782e-040     -39.749
+
+Hfo_w         
+	 0.000e+000  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        9.495e-025       0.000  9.492e-025     -24.023
+	Hfo_wOH          1.000e-030       0.000  9.996e-031     -30.000
+	Hfo_wO-          2.413e-038       0.000  2.412e-038     -37.618
+	Hfo_wOFe+        1.663e-042       0.000  1.663e-042     -41.779
+	Hfo_wOFeOH       9.120e-050       0.000  9.117e-050     -49.040
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.499e-001  2.500e-001
+	Fe               9.996e-003  1.000e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.761      Charge balance
+                                       pe  =  18.516      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81486
+                          Density (g/cm3)  =   1.00220
+                               Volume (L)  =   1.00779
+                        Activity of water  =   0.992
+                           Ionic strength  =  2.545e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.399e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  3.178e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   5
+                                  Total H  = 1.112724e+002
+                                  Total O  = 5.552622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.200e-001  1.734e-001    -0.658    -0.761    -0.103      0.00
+   OH-            8.424e-014  5.790e-014   -13.074   -13.237    -0.163     -3.38
+   H2O            5.551e+001  9.920e-001     1.744    -0.003     0.000     18.07
+Cl           2.499e-001
+   Cl-            2.409e-001  1.681e-001    -0.618    -0.774    -0.156     18.51
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   FeCl+          3.085e-010  2.276e-010    -9.511    -9.643    -0.132     (0)  
+Fe(2)        3.527e-009
+   Fe+2           3.219e-009  9.810e-010    -8.492    -9.008    -0.516    -21.13
+   FeCl+          3.085e-010  2.276e-010    -9.511    -9.643    -0.132     (0)  
+   FeOH+          2.454e-018  1.775e-018   -17.610   -17.751    -0.141     (0)  
+   Fe(OH)2        8.148e-029  8.640e-029   -28.089   -28.063     0.025     (0)  
+   Fe(OH)3-       2.539e-038  1.836e-038   -37.595   -37.736    -0.141     (0)  
+Fe(3)        9.996e-003
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   Fe+3           2.613e-003  3.074e-004    -2.583    -3.512    -0.929     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeOH+2         4.149e-005  1.135e-005    -4.382    -4.945    -0.563     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   Fe2(OH)2+4     4.503e-007  3.469e-009    -6.346    -8.460    -2.113     (0)  
+   Fe(OH)2+       2.940e-008  2.151e-008    -7.532    -7.667    -0.136     (0)  
+   Fe3(OH)4+5     3.125e-011  1.559e-014   -10.505   -13.807    -3.302     (0)  
+   Fe(OH)3        1.495e-014  1.585e-014   -13.825   -13.800     0.025     (0)  
+   Fe(OH)4-       1.130e-022  8.268e-023   -21.947   -22.083    -0.136     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.729   -41.704     0.025     28.61
+O(0)         1.979e-009
+   O2             9.896e-010  1.049e-009    -9.005    -8.979     0.025     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -6.13     -1.24    4.89  Fe(OH)3
+	Goethite         -0.24     -1.24   -1.00  FeOOH
+	H2(g)           -38.60    -41.70   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Hematite          1.54     -2.47   -4.01  Fe2O3
+	O2(g)            -6.09     -8.98   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	solution 1
+	equilibrium_phases 1
+		goethite	0.0	0.0
+	reaction 1
+		FeCl3	1.0
+		0.25	moles
+	surface 1
+		Hfo_sOH	goethite	0.01	50000
+		Hfo_wOH	goethite	0.1	50000
+		equilibrate	solution 1
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 1.011e-030  Surface charge, eq
+	undefined  sigma, C/m**2
+	 3.263e-002  psi, V
+	-1.270e+000  -F*psi/RT
+	 2.808e-001  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 0.000e+000  m**2 for  0.000e+000 moles of Goethite
+
+
+Hfo_s         
+	 0.000e+000  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          1.000e-030       0.000  1.000e-030     -30.000
+	Hfo_sOH2+        5.475e-031       0.000  5.475e-031     -30.262
+	Hfo_sO-          4.184e-032       0.000  4.184e-032     -31.378
+
+Hfo_w         
+	 0.000e+000  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.000e-030       0.000  1.000e-030     -30.000
+	Hfo_wOH2+        5.475e-031       0.000  5.475e-031     -30.262
+	Hfo_wO-          4.184e-032       0.000  4.184e-032     -31.378
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	FeCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   3.00000
+	Fe                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.00    -1.00     -1.00   0.000e+000  1.092e-001  1.092e-001
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.201e-002  Surface charge, eq
+	 2.123e-001  sigma, C/m**2
+	 7.712e-002  psi, V
+	-3.002e+000  -F*psi/RT
+	 4.969e-002  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 5.458e+003  m**2 for  1.092e-001 moles of Goethite
+
+
+Hfo_s         
+	 1.092e-003  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        1.092e-003       1.000  1.096e-003      -2.960
+	Hfo_sOH          4.722e-009       0.000  4.741e-009      -8.324
+	Hfo_sO-          4.680e-016       0.000  4.698e-016     -15.328
+	Hfo_sOFe+        2.621e-019       0.000  2.631e-019     -18.580
+
+Hfo_w         
+	 1.092e-002  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.092e-002       1.000  1.096e-002      -1.960
+	Hfo_wOH          4.722e-008       0.000  4.741e-008      -7.324
+	Hfo_wO-          4.680e-015       0.000  4.698e-015     -14.328
+	Hfo_wOFe+        2.446e-020       0.000  2.455e-020     -19.610
+	Hfo_wOFeOH       5.454e-027       0.000  5.475e-027     -26.262
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               7.530e-001  7.500e-001
+	Fe               1.414e-001  1.408e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.622      Charge balance
+                                       pe  =  18.793      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 117282
+                          Density (g/cm3)  =   1.02058
+                               Volume (L)  =   1.01006
+                        Activity of water  =   0.982
+                           Ionic strength  =  7.207e-001
+                       Mass of water (kg)  =  9.961e-001
+                 Total alkalinity (eq/kg)  = -5.995e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.201e-002
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -1.03
+                               Iterations  =  28
+                                  Total H  = 1.108913e+002
+                                  Total O  = 5.528789e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.169e-001  2.386e-001    -0.499    -0.622    -0.123      0.00
+   OH-            6.902e-014  4.167e-014   -13.161   -13.380    -0.219     -2.55
+   H2O            5.551e+001  9.822e-001     1.744    -0.008     0.000     18.07
+Cl           7.530e-001
+   Cl-            5.891e-001  3.692e-001    -0.230    -0.433    -0.203     18.81
+   FeCl+2         8.299e-002  1.569e-002    -1.081    -1.804    -0.723     (0)  
+   FeCl2+         3.924e-002  2.588e-002    -1.406    -1.587    -0.181     (0)  
+   FeCl3          8.093e-004  9.554e-004    -3.092    -3.020     0.072     (0)  
+   FeCl+          1.610e-009  1.210e-009    -8.793    -8.917    -0.124     (0)  
+Fe(2)        1.216e-008
+   Fe+2           1.055e-008  2.374e-009    -7.977    -8.624    -0.648    -20.62
+   FeCl+          1.610e-009  1.210e-009    -8.793    -8.917    -0.124     (0)  
+   FeOH+          4.688e-018  3.091e-018   -17.329   -17.510    -0.181     (0)  
+   Fe(OH)2        9.176e-029  1.083e-028   -28.037   -27.965     0.072     (0)  
+   Fe(OH)3-       2.513e-038  1.657e-038   -37.600   -37.781    -0.181     (0)  
+Fe(3)        1.414e-001
+   FeCl+2         8.299e-002  1.569e-002    -1.081    -1.804    -0.723     (0)  
+   FeCl2+         3.924e-002  2.588e-002    -1.406    -1.587    -0.181     (0)  
+   Fe+3           1.814e-002  1.408e-003    -1.741    -2.852    -1.110     (0)  
+   FeCl3          8.093e-004  9.554e-004    -3.092    -3.020     0.072     (0)  
+   FeOH+2         1.979e-004  3.741e-005    -3.704    -4.427    -0.723     (0)  
+   Fe2(OH)2+4     3.619e-006  3.768e-008    -5.441    -7.424    -1.983     (0)  
+   Fe(OH)2+       7.593e-008  5.101e-008    -7.120    -7.292    -0.173     (0)  
+   Fe3(OH)4+5     5.028e-010  4.015e-013    -9.299   -12.396    -3.098     (0)  
+   Fe(OH)3        2.292e-014  2.705e-014   -13.640   -13.568     0.072     (0)  
+   Fe(OH)4-       1.512e-022  1.016e-022   -21.820   -21.993    -0.173     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.053   -41.981     0.072     28.61
+O(0)         6.230e-009
+   O2             3.115e-009  3.677e-009    -8.507    -8.435     0.072     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -5.90     -1.01    4.89  Fe(OH)3
+	Goethite         -0.00     -1.00   -1.00  FeOOH
+	H2(g)           -38.88    -41.98   -3.10  H2
+	H2O(g)           -1.51     -0.01    1.50  H2O
+	Hematite          2.02     -1.99   -4.01  Fe2O3
+	O2(g)            -5.54     -8.43   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	solution 1
+	equilibrium_phases 1-2
+		goethite	0.0	0.01
+	save solution 1-2
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.00    -1.00     -1.00   1.000e-002  1.000e-002 -5.256e-014
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               5.256e-014  5.256e-014
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   5.495      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.006e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.000e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        3.369e-015
+   Fe+2           3.358e-015  3.353e-015   -14.474   -14.475    -0.001    -22.25
+   FeOH+          1.061e-017  1.060e-017   -16.974   -16.975    -0.000     (0)  
+   Fe(OH)2        9.025e-022  9.025e-022   -21.045   -21.045     0.000     (0)  
+   Fe(OH)3-       3.354e-025  3.353e-025   -24.474   -24.475    -0.000     (0)  
+Fe(3)        4.919e-014
+   Fe(OH)3        2.754e-014  2.754e-014   -13.560   -13.560     0.000     (0)  
+   Fe(OH)2+       2.139e-014  2.138e-014   -13.670   -13.670    -0.000     (0)  
+   Fe(OH)4-       2.513e-016  2.512e-016   -15.600   -15.600    -0.000     (0)  
+   FeOH+2         6.466e-018  6.457e-018   -17.189   -17.190    -0.001     (0)  
+   Fe+3           1.003e-022  1.000e-022   -21.999   -22.000    -0.001     (0)  
+   Fe2(OH)2+4     1.129e-033  1.122e-033   -32.947   -32.950    -0.003     (0)  
+   Fe3(OH)4+5     0.000e+000  0.000e+000   -44.296   -44.300    -0.004     (0)  
+H(0)         1.452e-028
+   H2             7.260e-029  7.260e-029   -28.139   -28.139     0.000     28.61
+O(0)         1.582e-036
+   O2             7.910e-037  7.910e-037   -36.102   -36.102     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
+	Goethite         -0.00     -1.00   -1.00  FeOOH
+	H2(g)           -25.04    -28.14   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Hematite          2.01     -2.00   -4.01  Fe2O3
+	O2(g)           -33.21    -36.10   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	reaction 1
+		HCl	1.0
+		0.25	moles
+	SURFACE 1-2
+		diff
+		Hfo_sOH	goethite	0.01	50000
+		Hfo_wOH	goethite	0.1	50000
+		equilibrate	solution 1
+	use solution 1
+	use equilibrium_phases 1
+	use reaction 1
+	use surface 1
+	save solution 2
+	save equilibrium_phases 2
+	save surface 2
+	end
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 4.212e-015  Surface + diffuse layer charge, eq
+	 3.163e-007  Surface charge, eq
+	 6.104e-005  sigma, C/m**2
+	 6.563e-002  psi, V
+	-2.555e+000  -F*psi/RT
+	 7.772e-002  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 5.000e+002  m**2 for  1.000e-002 moles of Goethite
+
+	Water in diffuse layer: 5.000e-003 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Fe            	-1.6892e-014
+	H             	 1.8188e-007
+	O             	 2.4908e-007
+
+Hfo_s         
+	 1.000e-004  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          7.676e-005       0.768  7.676e-005      -4.115
+	Hfo_sOH2+        1.163e-005       0.116  1.163e-005      -4.934
+	Hfo_sO-          1.160e-005       0.116  1.160e-005      -4.935
+	Hfo_sOFe+        2.245e-014       0.000  2.245e-014     -13.649
+
+Hfo_w         
+	 1.000e-003  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          7.676e-004       0.768  7.676e-004      -3.115
+	Hfo_wOH2+        1.163e-004       0.116  1.163e-004      -3.934
+	Hfo_wO-          1.160e-004       0.116  1.160e-004      -3.935
+	Hfo_wOFe+        2.095e-015       0.000  2.095e-015     -14.679
+	Hfo_wOFeOH       7.255e-016       0.000  7.255e-016     -15.139
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 5.
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	HCl                  1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	H                    1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.24    -1.24     -1.00   1.000e-002           0 -1.000e-002
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.304e-025  Surface + diffuse layer charge, eq
+	 1.304e-025  Surface charge, eq
+	undefined  sigma, C/m**2
+	 2.065e-002  psi, V
+	-8.039e-001  -F*psi/RT
+	 4.476e-001  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 0.000e+000  m**2 for  0.000e+000 moles of Goethite
+
+	Water in diffuse layer: 0.000e+000 kg,  0.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Cl            	 0.0000e+000
+	Fe            	 0.0000e+000
+	H             	 0.0000e+000
+	O             	 0.0000e+000
+
+Hfo_s         
+	 0.000e+000  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        6.969e-026       0.000  6.967e-026     -25.157
+	Hfo_sOH          4.605e-032       0.000  4.603e-032     -31.337
+	Hfo_sO-          6.971e-040       0.000  6.969e-040     -39.157
+	Hfo_sOFe+        9.905e-042       0.000  9.902e-042     -41.004
+
+Hfo_w         
+	 0.000e+000  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        6.072e-026       0.000  6.070e-026     -25.217
+	Hfo_wOH          4.013e-032       0.000  4.011e-032     -31.397
+	Hfo_wO-          6.074e-040       0.000  6.072e-040     -39.217
+	Hfo_wOFe+        8.054e-044       0.000  8.052e-044     -43.094
+	Hfo_wOFeOH       2.771e-051       0.000  2.770e-051     -50.558
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.499e-001  2.500e-001
+	Fe               9.996e-003  1.000e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.761      Charge balance
+                                       pe  =  18.637      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81486
+                          Density (g/cm3)  =   1.00220
+                               Volume (L)  =   1.00779
+                        Activity of water  =   0.992
+                           Ionic strength  =  2.545e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.399e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.102e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                                  Total H  = 1.112724e+002
+                                  Total O  = 5.552622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.200e-001  1.734e-001    -0.658    -0.761    -0.103      0.00
+   OH-            8.424e-014  5.790e-014   -13.074   -13.237    -0.163     -3.38
+   H2O            5.551e+001  9.920e-001     1.744    -0.003     0.000     18.07
+Cl           2.499e-001
+   Cl-            2.409e-001  1.681e-001    -0.618    -0.774    -0.156     18.51
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   FeCl+          2.336e-010  1.723e-010    -9.632    -9.764    -0.132     (0)  
+Fe(2)        2.671e-009
+   Fe+2           2.437e-009  7.428e-010    -8.613    -9.129    -0.516    -21.13
+   FeCl+          2.336e-010  1.723e-010    -9.632    -9.764    -0.132     (0)  
+   FeOH+          1.858e-018  1.344e-018   -17.731   -17.872    -0.141     (0)  
+   Fe(OH)2        6.170e-029  6.542e-029   -28.210   -28.184     0.025     (0)  
+   Fe(OH)3-       1.922e-038  1.390e-038   -37.716   -37.857    -0.141     (0)  
+Fe(3)        9.996e-003
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   Fe+3           2.613e-003  3.074e-004    -2.583    -3.512    -0.929     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeOH+2         4.149e-005  1.135e-005    -4.382    -4.945    -0.563     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   Fe2(OH)2+4     4.504e-007  3.470e-009    -6.346    -8.460    -2.113     (0)  
+   Fe(OH)2+       2.940e-008  2.151e-008    -7.532    -7.667    -0.136     (0)  
+   Fe3(OH)4+5     3.125e-011  1.559e-014   -10.505   -13.807    -3.302     (0)  
+   Fe(OH)3        1.495e-014  1.585e-014   -13.825   -13.800     0.025     (0)  
+   Fe(OH)4-       1.130e-022  8.269e-023   -21.947   -22.083    -0.136     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.971   -41.946     0.025     28.61
+O(0)         6.022e-009
+   O2             3.011e-009  3.193e-009    -8.521    -8.496     0.025     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -6.13     -1.24    4.89  Fe(OH)3
+	Goethite         -0.24     -1.24   -1.00  FeOOH
+	H2(g)           -38.84    -41.95   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Hematite          1.54     -2.47   -4.01  Fe2O3
+	O2(g)            -5.60     -8.50   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	use solution 2
+	use equilibrium_phases 2
+	use surface 2
+	end
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	Solution after simulation 6.
+Using surface 2.	
+Using pure phase assemblage 2.	Pure-phase assemblage after simulation 6.
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.24    -1.24     -1.00   0.000e+000           0  0.000e+000
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 3.027e-024  Surface + diffuse layer charge, eq
+	 3.027e-024  Surface charge, eq
+	undefined  sigma, C/m**2
+	 2.065e-002  psi, V
+	-8.039e-001  -F*psi/RT
+	 4.476e-001  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 0.000e+000  m**2 for  0.000e+000 moles of Goethite
+
+	Water in diffuse layer: 0.000e+000 kg,  0.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Cl            	 0.0000e+000
+	Fe            	 0.0000e+000
+	H             	 0.0000e+000
+	O             	 0.0000e+000
+
+Hfo_s         
+	 0.000e+000  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        1.513e-024       0.000  1.513e-024     -23.820
+	Hfo_sOH          1.000e-030       0.000  9.996e-031     -30.000
+	Hfo_sO-          1.514e-038       0.000  1.513e-038     -37.820
+	Hfo_sOFe+        2.126e-040       0.000  2.125e-040     -39.673
+
+Hfo_w         
+	 0.000e+000  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.513e-024       0.000  1.513e-024     -23.820
+	Hfo_wOH          1.000e-030       0.000  9.996e-031     -30.000
+	Hfo_wO-          1.514e-038       0.000  1.513e-038     -37.820
+	Hfo_wOFe+        1.984e-042       0.000  1.984e-042     -41.703
+	Hfo_wOFeOH       6.826e-050       0.000  6.824e-050     -49.166
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.499e-001  2.500e-001
+	Fe               9.996e-003  1.000e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.761      Charge balance
+                                       pe  =  18.642      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81486
+                          Density (g/cm3)  =   1.00220
+                               Volume (L)  =   1.00779
+                        Activity of water  =   0.992
+                           Ionic strength  =  2.545e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.399e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.090e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.112724e+002
+                                  Total O  = 5.552622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.200e-001  1.734e-001    -0.658    -0.761    -0.103      0.00
+   OH-            8.424e-014  5.790e-014   -13.074   -13.237    -0.163     -3.38
+   H2O            5.551e+001  9.920e-001     1.744    -0.003     0.000     18.07
+Cl           2.499e-001
+   Cl-            2.409e-001  1.681e-001    -0.618    -0.774    -0.156     18.51
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   FeCl+          2.309e-010  1.704e-010    -9.637    -9.769    -0.132     (0)  
+Fe(2)        2.640e-009
+   Fe+2           2.409e-009  7.342e-010    -8.618    -9.134    -0.516    -21.13
+   FeCl+          2.309e-010  1.704e-010    -9.637    -9.769    -0.132     (0)  
+   FeOH+          1.836e-018  1.328e-018   -17.736   -17.877    -0.141     (0)  
+   Fe(OH)2        6.099e-029  6.467e-029   -28.215   -28.189     0.025     (0)  
+   Fe(OH)3-       1.900e-038  1.374e-038   -37.721   -37.862    -0.141     (0)  
+Fe(3)        9.996e-003
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   Fe+3           2.613e-003  3.074e-004    -2.583    -3.512    -0.929     (0)  
+   FeCl2+         1.620e-003  1.172e-003    -2.791    -2.931    -0.141     (0)  
+   FeOH+2         4.149e-005  1.135e-005    -4.382    -4.945    -0.563     (0)  
+   FeCl3          1.857e-005  1.969e-005    -4.731    -4.706     0.025     (0)  
+   Fe2(OH)2+4     4.504e-007  3.470e-009    -6.346    -8.460    -2.113     (0)  
+   Fe(OH)2+       2.940e-008  2.151e-008    -7.532    -7.667    -0.136     (0)  
+   Fe3(OH)4+5     3.125e-011  1.559e-014   -10.505   -13.807    -3.302     (0)  
+   Fe(OH)3        1.495e-014  1.585e-014   -13.825   -13.800     0.025     (0)  
+   Fe(OH)4-       1.130e-022  8.269e-023   -21.947   -22.083    -0.136     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.981   -41.956     0.025     28.61
+O(0)         6.306e-009
+   O2             3.153e-009  3.343e-009    -8.501    -8.476     0.025     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -6.13     -1.24    4.89  Fe(OH)3
+	Goethite         -0.24     -1.24   -1.00  FeOOH
+	H2(g)           -38.85    -41.96   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Hematite          1.54     -2.47   -4.01  Fe2O3
+	O2(g)            -5.58     -8.48   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	solution 1
+	equilibrium_phases 1
+		goethite	0.0	0.0
+	reaction 1
+		FeCl3	1.0
+		0.25	moles
+	surface 1
+		diff
+		Hfo_sOH	goethite	0.01	50000
+		Hfo_wOH	goethite	0.1	50000
+		equilibrate	solution 1
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 3.876e-030  Surface + diffuse layer charge, eq
+	 3.876e-030  Surface charge, eq
+	undefined  sigma, C/m**2
+	 0.000e+000  psi, V
+	-0.000e+000  -F*psi/RT
+	 1.000e+000  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 0.000e+000  m**2 for  0.000e+000 moles of Goethite
+
+	Water in diffuse layer: 0.000e+000 kg,  0.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	H             	 0.0000e+000
+	O             	 0.0000e+000
+
+Hfo_s         
+	 0.000e+000  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        1.950e-030       0.000  1.950e-030     -29.710
+	Hfo_sOH          1.000e-030       0.000  1.000e-030     -30.000
+	Hfo_sO-          1.175e-032       0.000  1.175e-032     -31.930
+
+Hfo_w         
+	 0.000e+000  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.950e-030       0.000  1.950e-030     -29.710
+	Hfo_wOH          1.000e-030       0.000  1.000e-030     -30.000
+	Hfo_wO-          1.175e-032       0.000  1.175e-032     -31.930
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-014 ...
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling and reduced tolerance 1e-016 ...
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns 1e-010 ...
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns and diagonal scale 1e-010 ...
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased scaling 1e-009 ...
+
+WARNING: Mass of water is less than 1e-10 kilogram.
+The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Skipping optimize equations for first 5 iterations ...
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	FeCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   3.00000
+	Fe                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite          0.00    -1.00     -1.00   0.000e+000  1.144e-001  1.144e-001
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	-1.498e-011  Surface + diffuse layer charge, eq
+	 1.258e-002  Surface charge, eq
+	 2.123e-001  sigma, C/m**2
+	 8.306e-002  psi, V
+	-3.233e+000  -F*psi/RT
+	 3.945e-002  exp(-F*psi/RT)
+	 5.000e+004  specific area, m**2/mol Goethite
+	 5.718e+003  m**2 for  1.144e-001 moles of Goethite
+
+	Water in diffuse layer: 5.718e-002 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	Cl            	 4.9815e-002
+	Fe            	 6.7857e-003
+	H             	 1.6900e-002
+	O             	 1.0454e-005
+
+Hfo_s         
+	 1.144e-003  moles	[0.01 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        1.144e-003       1.000  1.148e-003      -2.940
+	Hfo_sOH          6.255e-009       0.000  6.281e-009      -8.202
+	Hfo_sO-          7.839e-016       0.000  7.871e-016     -15.104
+	Hfo_sOFe+        2.777e-019       0.000  2.789e-019     -18.555
+
+Hfo_w         
+	 1.144e-002  moles	[0.1 mol/(mol Goethite)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.144e-002       1.000  1.148e-002      -1.940
+	Hfo_wOH          6.255e-008       0.000  6.281e-008      -7.202
+	Hfo_wO-          7.839e-015       0.000  7.871e-015     -14.104
+	Hfo_wOFe+        2.592e-020       0.000  2.603e-020     -19.585
+	Hfo_wOFeOH       7.314e-027       0.000  7.345e-027     -26.134
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               7.031e-001  7.002e-001
+	Fe               1.294e-001  1.289e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.624      Charge balance
+                                       pe  =  18.786      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 116143
+                          Density (g/cm3)  =   1.01882
+                               Volume (L)  =   1.00923
+                        Activity of water  =   0.983
+                           Ionic strength  =  6.847e-001
+                       Mass of water (kg)  =  9.959e-001
+                 Total alkalinity (eq/kg)  = -5.737e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.108686e+002
+                                  Total O  = 5.527749e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.151e-001  2.377e-001    -0.502    -0.624    -0.122      0.00
+   OH-            6.887e-014  4.186e-014   -13.162   -13.378    -0.216     -2.61
+   H2O            5.551e+001  9.830e-001     1.744    -0.007     0.000     18.07
+Cl           7.031e-001
+   Cl-            5.555e-001  3.498e-001    -0.255    -0.456    -0.201     18.80
+   FeCl+2         7.628e-002  1.468e-002    -1.118    -1.833    -0.716     (0)  
+   FeCl2+         3.464e-002  2.295e-002    -1.460    -1.639    -0.179     (0)  
+   FeCl3          6.856e-004  8.027e-004    -3.164    -3.095     0.068     (0)  
+   FeCl+          1.540e-009  1.152e-009    -8.813    -8.939    -0.126     (0)  
+Fe(2)        1.199e-008
+   Fe+2           1.045e-008  2.385e-009    -7.981    -8.623    -0.642    -20.66
+   FeCl+          1.540e-009  1.152e-009    -8.813    -8.939    -0.126     (0)  
+   FeOH+          4.708e-018  3.119e-018   -17.327   -17.506    -0.179     (0)  
+   Fe(OH)2        9.376e-029  1.098e-028   -28.028   -27.960     0.068     (0)  
+   Fe(OH)3-       2.546e-038  1.687e-038   -37.594   -37.773    -0.179     (0)  
+Fe(3)        1.294e-001
+   FeCl+2         7.628e-002  1.468e-002    -1.118    -1.833    -0.716     (0)  
+   FeCl2+         3.464e-002  2.295e-002    -1.460    -1.639    -0.179     (0)  
+   Fe+3           1.758e-002  1.390e-003    -1.755    -2.857    -1.102     (0)  
+   FeCl3          6.856e-004  8.027e-004    -3.164    -3.095     0.068     (0)  
+   FeOH+2         1.928e-004  3.711e-005    -3.715    -4.431    -0.716     (0)  
+   Fe2(OH)2+4     3.870e-006  3.707e-008    -5.412    -7.431    -2.019     (0)  
+   Fe(OH)2+       7.534e-008  5.082e-008    -7.123    -7.294    -0.171     (0)  
+   Fe3(OH)4+5     5.614e-010  3.935e-013    -9.251   -12.405    -3.154     (0)  
+   Fe(OH)3        2.313e-014  2.707e-014   -13.636   -13.567     0.068     (0)  
+   Fe(OH)4-       1.514e-022  1.021e-022   -21.820   -21.991    -0.171     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.038   -41.969     0.068     28.61
+O(0)         5.967e-009
+   O2             2.983e-009  3.493e-009    -8.525    -8.457     0.068     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -5.90     -1.01    4.89  Fe(OH)3
+	Goethite          0.00     -1.00   -1.00  FeOOH
+	H2(g)           -38.87    -41.97   -3.10  H2
+	H2O(g)           -1.51     -0.01    1.50  H2O
+	Hematite          2.02     -1.99   -4.01  Fe2O3
+	O2(g)            -5.56     -8.46   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+	solution 1
+	equilibrium_phases 1-2
+		goethite	0.0	0.01
+	save solution 1-2
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.00    -1.00     -1.00   1.000e-002  1.000e-002 -5.256e-014
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               5.256e-014  5.256e-014
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   5.495      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.006e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.000e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        3.369e-015
+   Fe+2           3.358e-015  3.353e-015   -14.474   -14.475    -0.001    -22.25
+   FeOH+          1.061e-017  1.060e-017   -16.974   -16.975    -0.000     (0)  
+   Fe(OH)2        9.025e-022  9.025e-022   -21.045   -21.045     0.000     (0)  
+   Fe(OH)3-       3.354e-025  3.353e-025   -24.474   -24.475    -0.000     (0)  
+Fe(3)        4.919e-014
+   Fe(OH)3        2.754e-014  2.754e-014   -13.560   -13.560     0.000     (0)  
+   Fe(OH)2+       2.139e-014  2.138e-014   -13.670   -13.670    -0.000     (0)  
+   Fe(OH)4-       2.513e-016  2.512e-016   -15.600   -15.600    -0.000     (0)  
+   FeOH+2         6.466e-018  6.457e-018   -17.189   -17.190    -0.001     (0)  
+   Fe+3           1.003e-022  1.000e-022   -21.999   -22.000    -0.001     (0)  
+   Fe2(OH)2+4     1.129e-033  1.122e-033   -32.947   -32.950    -0.003     (0)  
+   Fe3(OH)4+5     0.000e+000  0.000e+000   -44.296   -44.300    -0.004     (0)  
+H(0)         1.452e-028
+   H2             7.260e-029  7.260e-029   -28.139   -28.139     0.000     28.61
+O(0)         1.582e-036
+   O2             7.910e-037  7.910e-037   -36.102   -36.102     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -5.89     -1.00    4.89  Fe(OH)3
+	Goethite         -0.00     -1.00   -1.00  FeOOH
+	H2(g)           -25.04    -28.14   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Hematite          2.01     -2.00   -4.01  Fe2O3
+	O2(g)           -33.21    -36.10   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	reaction 1
+		HCl	1.0
+		0.25	moles
+	surface 1-2
+		no_edl
+		Hfo_sOH	goethite	0.01	50000
+		Hfo_wOH	goethite	0.1	50000
+		equilibrate	solution 1
+	use solution 1
+	use equilibrium_phases 1
+	use reaction 1
+	use surface 1
+	save solution 2
+	save equilibrium_phases 2
+	save surface 2
+	end
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 7.199e-004  Surface charge, eq
+Hfo_s         
+	 1.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        6.584e-005       0.658  6.584e-005      -4.182
+	Hfo_sOH          3.377e-005       0.338  3.377e-005      -4.472
+	Hfo_sO-          3.967e-007       0.004  3.967e-007      -6.402
+	Hfo_sOFe+        1.270e-013       0.000  1.270e-013     -12.896
+
+Hfo           
+	 7.199e-004  Surface charge, eq
+Hfo_w         
+	 1.000e-003  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        6.584e-004       0.658  6.584e-004      -3.182
+	Hfo_wOH          3.377e-004       0.338  3.377e-004      -3.472
+	Hfo_wO-          3.967e-006       0.004  3.967e-006      -5.402
+	Hfo_wOFe+        1.186e-014       0.000  1.186e-014     -13.926
+	Hfo_wOFeOH       3.191e-016       0.000  3.191e-016     -15.496
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 9.
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	HCl                  1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	H                    1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.24    -1.24     -1.00   1.000e-002           0 -1.000e-002
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 6.437e-026  Surface charge, eq
+Hfo_s         
+	 0.000e+000  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        3.218e-026       0.000  3.217e-026     -25.493
+	Hfo_sOH          9.488e-033       0.000  9.485e-033     -32.023
+	Hfo_sO-          6.408e-041       0.000  6.406e-041     -40.193
+	Hfo_sOFe+        6.095e-042       0.000  6.092e-042     -41.215
+
+Hfo           
+	 6.437e-026  Surface charge, eq
+Hfo_w         
+	 0.000e+000  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        3.218e-026       0.000  3.217e-026     -25.493
+	Hfo_wOH          9.488e-033       0.000  9.485e-033     -32.023
+	Hfo_wO-          6.408e-041       0.000  6.406e-041     -40.193
+	Hfo_wOFe+        5.688e-044       0.000  5.686e-044     -43.245
+	Hfo_wOFeOH       8.729e-052       0.000  8.726e-052     -51.059
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.499e-001  2.500e-001
+	Fe               9.996e-003  1.000e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.760      Charge balance
+                                       pe  =  18.509      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81700
+                          Density (g/cm3)  =   1.00220
+                               Volume (L)  =   1.00779
+                        Activity of water  =   0.992
+                           Ionic strength  =  2.549e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.406e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  7.198e-004
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.15
+                               Iterations  =  19
+                                  Total H  = 1.112732e+002
+                                  Total O  = 5.552622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.207e-001  1.740e-001    -0.656    -0.760    -0.103      0.00
+   OH-            8.399e-014  5.771e-014   -13.076   -13.239    -0.163     -3.38
+   H2O            5.551e+001  9.920e-001     1.744    -0.003     0.000     18.07
+Cl           2.499e-001
+   Cl-            2.409e-001  1.681e-001    -0.618    -0.775    -0.156     18.51
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   FeCl2+         1.619e-003  1.171e-003    -2.791    -2.932    -0.141     (0)  
+   FeCl3          1.856e-005  1.968e-005    -4.732    -4.706     0.025     (0)  
+   FeCl+          3.132e-010  2.310e-010    -9.504    -9.636    -0.132     (0)  
+Fe(2)        3.583e-009
+   Fe+2           3.269e-009  9.959e-010    -8.486    -9.002    -0.516    -21.13
+   FeCl+          3.132e-010  2.310e-010    -9.504    -9.636    -0.132     (0)  
+   FeOH+          2.483e-018  1.796e-018   -17.605   -17.746    -0.141     (0)  
+   Fe(OH)2        8.219e-029  8.716e-029   -28.085   -28.060     0.025     (0)  
+   Fe(OH)3-       2.553e-038  1.846e-038   -37.593   -37.734    -0.141     (0)  
+Fe(3)        9.996e-003
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   Fe+3           2.614e-003  3.073e-004    -2.583    -3.512    -0.930     (0)  
+   FeCl2+         1.619e-003  1.171e-003    -2.791    -2.932    -0.141     (0)  
+   FeOH+2         4.137e-005  1.131e-005    -4.383    -4.946    -0.563     (0)  
+   FeCl3          1.856e-005  1.968e-005    -4.732    -4.706     0.025     (0)  
+   Fe2(OH)2+4     4.476e-007  3.445e-009    -6.349    -8.463    -2.114     (0)  
+   Fe(OH)2+       2.921e-008  2.136e-008    -7.535    -7.670    -0.136     (0)  
+   Fe3(OH)4+5     3.087e-011  1.538e-014   -10.511   -13.813    -3.303     (0)  
+   Fe(OH)3        1.480e-014  1.569e-014   -13.830   -13.804     0.025     (0)  
+   Fe(OH)4-       1.116e-022  8.160e-023   -21.952   -22.088    -0.136     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.713   -41.688     0.025     28.61
+O(0)         1.837e-009
+   O2             9.183e-010  9.738e-010    -9.037    -9.012     0.025     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -6.14     -1.24    4.89  Fe(OH)3
+	Goethite         -0.24     -1.24   -1.00  FeOOH
+	H2(g)           -38.59    -41.69   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Hematite          1.53     -2.48   -4.01  Fe2O3
+	O2(g)            -6.12     -9.01   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+	use solution 2
+	use equilibrium_phases 2
+	use surface 2
+	end
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	Solution after simulation 10.
+Using surface 2.	
+Using pure phase assemblage 2.	Pure-phase assemblage after simulation 10.
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite         -0.24    -1.24     -1.00   0.000e+000           0  0.000e+000
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 6.784e-024  Surface charge, eq
+Hfo_s         
+	 0.000e+000  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        3.392e-024       0.000  3.391e-024     -23.470
+	Hfo_sOH          1.000e-030       0.000  9.996e-031     -30.000
+	Hfo_sO-          6.754e-039       0.000  6.751e-039     -38.171
+	Hfo_sOFe+        6.423e-040       0.000  6.421e-040     -39.192
+
+Hfo           
+	 6.784e-024  Surface charge, eq
+Hfo_w         
+	 0.000e+000  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        3.392e-024       0.000  3.391e-024     -23.470
+	Hfo_wOH          1.000e-030       0.000  9.996e-031     -30.000
+	Hfo_wO-          6.754e-039       0.000  6.751e-039     -38.171
+	Hfo_wOFe+        5.995e-042       0.000  5.992e-042     -41.222
+	Hfo_wOFeOH       9.200e-050       0.000  9.197e-050     -49.036
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.499e-001  2.500e-001
+	Fe               9.996e-003  1.000e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.760      Charge balance
+                                       pe  =  18.509      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81700
+                          Density (g/cm3)  =   1.00220
+                               Volume (L)  =   1.00779
+                        Activity of water  =   0.992
+                           Ionic strength  =  2.549e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.406e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  7.198e-004
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.15
+                               Iterations  =   5
+                                  Total H  = 1.112732e+002
+                                  Total O  = 5.552622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.207e-001  1.740e-001    -0.656    -0.760    -0.103      0.00
+   OH-            8.399e-014  5.771e-014   -13.076   -13.239    -0.163     -3.38
+   H2O            5.551e+001  9.920e-001     1.744    -0.003     0.000     18.07
+Cl           2.499e-001
+   Cl-            2.409e-001  1.681e-001    -0.618    -0.775    -0.156     18.51
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   FeCl2+         1.619e-003  1.171e-003    -2.791    -2.932    -0.141     (0)  
+   FeCl3          1.856e-005  1.968e-005    -4.732    -4.706     0.025     (0)  
+   FeCl+          3.132e-010  2.310e-010    -9.504    -9.636    -0.132     (0)  
+Fe(2)        3.583e-009
+   Fe+2           3.269e-009  9.959e-010    -8.486    -9.002    -0.516    -21.13
+   FeCl+          3.132e-010  2.310e-010    -9.504    -9.636    -0.132     (0)  
+   FeOH+          2.483e-018  1.796e-018   -17.605   -17.746    -0.141     (0)  
+   Fe(OH)2        8.219e-029  8.716e-029   -28.085   -28.060     0.025     (0)  
+   Fe(OH)3-       2.553e-038  1.846e-038   -37.593   -37.734    -0.141     (0)  
+Fe(3)        9.996e-003
+   FeCl+2         5.703e-003  1.560e-003    -2.244    -2.807    -0.563     (0)  
+   Fe+3           2.614e-003  3.073e-004    -2.583    -3.512    -0.930     (0)  
+   FeCl2+         1.619e-003  1.171e-003    -2.791    -2.932    -0.141     (0)  
+   FeOH+2         4.137e-005  1.131e-005    -4.383    -4.946    -0.563     (0)  
+   FeCl3          1.856e-005  1.968e-005    -4.732    -4.706     0.025     (0)  
+   Fe2(OH)2+4     4.476e-007  3.445e-009    -6.349    -8.463    -2.114     (0)  
+   Fe(OH)2+       2.921e-008  2.136e-008    -7.535    -7.670    -0.136     (0)  
+   Fe3(OH)4+5     3.087e-011  1.538e-014   -10.511   -13.813    -3.303     (0)  
+   Fe(OH)3        1.480e-014  1.569e-014   -13.830   -13.804     0.025     (0)  
+   Fe(OH)4-       1.116e-022  8.160e-023   -21.952   -22.088    -0.136     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.713   -41.688     0.025     28.61
+O(0)         1.837e-009
+   O2             9.183e-010  9.738e-010    -9.037    -9.012     0.025     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -6.14     -1.24    4.89  Fe(OH)3
+	Goethite         -0.24     -1.24   -1.00  FeOOH
+	H2(g)           -38.59    -41.69   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Hematite          1.53     -2.48   -4.01  Fe2O3
+	O2(g)            -6.12     -9.01   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 12.
+-------------------------------------
+
+	solution 1
+	equilibrium_phases 1
+		goethite	0.0	0.0
+	reaction 1
+		FeCl3	1.0
+		0.25	moles
+	surface 1
+		no_edl
+		Hfo_sOH	goethite	0.01	50000
+		Hfo_wOH	goethite	0.1	50000
+		equilibrate	solution 1
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 3.876e-030  Surface charge, eq
+Hfo_s         
+	 0.000e+000  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        1.950e-030       0.000  1.950e-030     -29.710
+	Hfo_sOH          1.000e-030       0.000  1.000e-030     -30.000
+	Hfo_sO-          1.175e-032       0.000  1.175e-032     -31.930
+
+Hfo           
+	 3.876e-030  Surface charge, eq
+Hfo_w         
+	 0.000e+000  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.950e-030       0.000  1.950e-030     -29.710
+	Hfo_wOH          1.000e-030       0.000  1.000e-030     -30.000
+	Hfo_wO-          1.175e-032       0.000  1.175e-032     -31.930
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	FeCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   3.00000
+	Fe                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Goethite          0.00    -1.00     -1.00   0.000e+000  1.092e-001  1.092e-001
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.201e-002  Surface charge, eq
+Hfo_s         
+	 1.092e-003  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        1.092e-003       1.000  1.096e-003      -2.960
+	Hfo_sOH          2.347e-010       0.000  2.356e-010      -9.628
+	Hfo_sO-          1.156e-018       0.000  1.160e-018     -17.935
+	Hfo_sOFe+        2.629e-019       0.000  2.639e-019     -18.579
+
+Hfo           
+	 1.201e-002  Surface charge, eq
+Hfo_w         
+	 1.092e-002  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.092e-002       1.000  1.096e-002      -1.960
+	Hfo_wOH          2.347e-009       0.000  2.356e-009      -8.628
+	Hfo_wO-          1.156e-017       0.000  1.160e-017     -16.935
+	Hfo_wOFe+        2.453e-020       0.000  2.463e-020     -19.609
+	Hfo_wOFeOH       2.719e-028       0.000  2.729e-028     -27.564
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               7.530e-001  7.500e-001
+	Fe               1.414e-001  1.408e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.622      Charge balance
+                                       pe  =  18.792      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 117282
+                          Density (g/cm3)  =   1.02058
+                               Volume (L)  =   1.01006
+                        Activity of water  =   0.982
+                           Ionic strength  =  7.207e-001
+                       Mass of water (kg)  =  9.961e-001
+                 Total alkalinity (eq/kg)  = -5.995e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.201e-002
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -1.03
+                               Iterations  =  29
+                                  Total H  = 1.108913e+002
+                                  Total O  = 5.528789e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.169e-001  2.386e-001    -0.499    -0.622    -0.123      0.00
+   OH-            6.902e-014  4.167e-014   -13.161   -13.380    -0.219     -2.55
+   H2O            5.551e+001  9.822e-001     1.744    -0.008     0.000     18.07
+Cl           7.530e-001
+   Cl-            5.891e-001  3.692e-001    -0.230    -0.433    -0.203     18.81
+   FeCl+2         8.299e-002  1.569e-002    -1.081    -1.804    -0.723     (0)  
+   FeCl2+         3.924e-002  2.588e-002    -1.406    -1.587    -0.181     (0)  
+   FeCl3          8.093e-004  9.554e-004    -3.092    -3.020     0.072     (0)  
+   FeCl+          1.615e-009  1.214e-009    -8.792    -8.916    -0.124     (0)  
+Fe(2)        1.220e-008
+   Fe+2           1.059e-008  2.382e-009    -7.975    -8.623    -0.648    -20.62
+   FeCl+          1.615e-009  1.214e-009    -8.792    -8.916    -0.124     (0)  
+   FeOH+          4.702e-018  3.101e-018   -17.328   -17.509    -0.181     (0)  
+   Fe(OH)2        9.205e-029  1.087e-028   -28.036   -27.964     0.072     (0)  
+   Fe(OH)3-       2.521e-038  1.662e-038   -37.599   -37.779    -0.181     (0)  
+Fe(3)        1.414e-001
+   FeCl+2         8.299e-002  1.569e-002    -1.081    -1.804    -0.723     (0)  
+   FeCl2+         3.924e-002  2.588e-002    -1.406    -1.587    -0.181     (0)  
+   Fe+3           1.814e-002  1.408e-003    -1.741    -2.852    -1.110     (0)  
+   FeCl3          8.093e-004  9.554e-004    -3.092    -3.020     0.072     (0)  
+   FeOH+2         1.979e-004  3.741e-005    -3.704    -4.427    -0.723     (0)  
+   Fe2(OH)2+4     3.619e-006  3.768e-008    -5.441    -7.424    -1.983     (0)  
+   Fe(OH)2+       7.593e-008  5.101e-008    -7.120    -7.292    -0.173     (0)  
+   Fe3(OH)4+5     5.028e-010  4.015e-013    -9.299   -12.396    -3.098     (0)  
+   Fe(OH)3        2.292e-014  2.705e-014   -13.640   -13.568     0.072     (0)  
+   Fe(OH)4-       1.512e-022  1.016e-022   -21.820   -21.993    -0.173     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.050   -41.978     0.072     28.61
+O(0)         6.153e-009
+   O2             3.076e-009  3.632e-009    -8.512    -8.440     0.072     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)       -5.90     -1.01    4.89  Fe(OH)3
+	Goethite          0.00     -1.00   -1.00  FeOOH
+	H2(g)           -38.88    -41.98   -3.10  H2
+	H2O(g)           -1.51     -0.01    1.50  H2O
+	Hematite          2.02     -1.99   -4.01  Fe2O3
+	O2(g)            -5.55     -8.44   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 13.
+-------------------------------------
+
+-------------------------------
+End of Run after 0.109 Seconds.
+-------------------------------
+

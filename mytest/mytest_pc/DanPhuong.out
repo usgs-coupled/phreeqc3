@@ -1,0 +1,626 @@
+   Input file: DanPhuong
+  Output file: DanPhuong.out
+Database file: LangmuirAs_wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE LangmuirAs_wateq4f.dat
+	PHASES
+	Fe(OH)3As
+	Fe(OH)2.925(AsO4)0.025 + 2.925H+ = Fe+3 + 2.925H2O + 0.025AsO4-3	
+		log_k		4.891
+	Fe(OH)3As3
+	    Fe(OH)2.9925(AsO4)0.0025 + 2.9925H+ = Fe+3 + 2.9925H2O + 0.0025AsO4-3
+		log_k		4.891
+	solution 0
+	temp 	27
+	O(0)  	0.6
+	units  mmol/l
+	pH	7.18
+	Ca 	0.53
+	Mg   1      #increased from 0.18
+	Na 0.2
+	K 0.04
+	Alkalinity 2.38
+	S(6)	0.2 # increased from 0.06
+	Cl 0.11
+	N(5) 0.4  # increased from 0.01
+	Si 0.27
+	EQUILIBRIUM_PHASES 0
+	Calcite  0.2
+	CO2(g) -1.3
+	 save solution 0
+	  end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Alkalinity       2.381e-003  2.381e-003
+	Ca               5.301e-004  5.301e-004
+	Cl               1.100e-004  1.100e-004
+	K                4.001e-005  4.001e-005
+	Mg               1.000e-003  1.000e-003
+	N(5)             4.001e-004  4.001e-004
+	Na               2.000e-004  2.000e-004
+	O(0)             6.001e-004  6.001e-004
+	S(6)             2.000e-004  2.000e-004
+	Si               2.701e-004  2.701e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.180    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.831e-003
+                       Mass of water (kg)  =  1.000e+000
+                    Total carbon (mol/kg)  =  2.691e-003
+                       Total CO2 (mol/kg)  =  2.691e-003
+                      Temperature (deg C)  =  27.00
+                  Electrical balance (eq)  =  1.000e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.16
+                               Iterations  =   6
+                                  Total H  = 1.110159e+002
+                                  Total O  = 5.551765e+001
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          13.2949      0.7917
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.897e-007  1.760e-007    -6.722    -6.755    -0.033     (0)  
+   H+             7.071e-008  6.607e-008    -7.150    -7.180    -0.030      0.00
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.08
+C(4)         2.691e-003
+   HCO3-          2.339e-003  2.175e-003    -2.631    -2.663    -0.032     (0)  
+   CO2            3.152e-004  3.156e-004    -3.501    -3.501     0.000     (0)  
+   MgHCO3+        1.985e-005  1.842e-005    -4.702    -4.735    -0.033     (0)  
+   CaHCO3+        1.167e-005  1.083e-005    -4.933    -4.965    -0.033     (0)  
+   CO3-2          2.149e-006  1.606e-006    -5.668    -5.794    -0.127     (0)  
+   MgCO3          1.131e-006  1.133e-006    -5.946    -5.946     0.000     (0)  
+   CaCO3          1.062e-006  1.063e-006    -5.974    -5.974     0.000     (0)  
+   NaHCO3         2.265e-007  2.267e-007    -6.645    -6.644     0.000     (0)  
+   NaCO3-         6.603e-009  6.127e-009    -8.180    -8.213    -0.033     (0)  
+Ca           5.301e-004
+   Ca+2           5.077e-004  3.791e-004    -3.294    -3.421    -0.127     (0)  
+   CaHCO3+        1.167e-005  1.083e-005    -4.933    -4.965    -0.033     (0)  
+   CaSO4          9.639e-006  9.650e-006    -5.016    -5.015     0.000     (0)  
+   CaCO3          1.062e-006  1.063e-006    -5.974    -5.974     0.000     (0)  
+   CaOH+          1.026e-009  9.522e-010    -8.989    -9.021    -0.033     (0)  
+   CaHSO4+        4.129e-012  3.831e-012   -11.384   -11.417    -0.033     (0)  
+Cl           1.100e-004
+   Cl-            1.100e-004  1.020e-004    -3.959    -3.991    -0.033     (0)  
+H(0)         6.053e-026
+   H2             3.026e-026  3.030e-026   -25.519   -25.519     0.000     (0)  
+K            4.001e-005
+   K+             3.997e-005  3.706e-005    -4.398    -4.431    -0.033     (0)  
+   KSO4-          3.638e-008  3.376e-008    -7.439    -7.472    -0.033     (0)  
+Mg           1.000e-003
+   Mg+2           9.571e-004  7.170e-004    -3.019    -3.144    -0.125     (0)  
+   MgSO4          2.213e-005  2.215e-005    -4.655    -4.655     0.000     (0)  
+   MgHCO3+        1.985e-005  1.842e-005    -4.702    -4.735    -0.033     (0)  
+   MgCO3          1.131e-006  1.133e-006    -5.946    -5.946     0.000     (0)  
+   MgOH+          5.080e-008  4.714e-008    -7.294    -7.327    -0.033     (0)  
+N(5)         4.001e-004
+   NO3-           4.001e-004  3.712e-004    -3.398    -3.430    -0.033     (0)  
+Na           2.000e-004
+   Na+            1.997e-004  1.854e-004    -3.700    -3.732    -0.032     (0)  
+   NaHCO3         2.265e-007  2.267e-007    -6.645    -6.644     0.000     (0)  
+   NaSO4-         1.270e-007  1.178e-007    -6.896    -6.929    -0.033     (0)  
+   NaCO3-         6.603e-009  6.127e-009    -8.180    -8.213    -0.033     (0)  
+O(0)         6.001e-004
+   O2             3.001e-004  3.004e-004    -3.523    -3.522     0.000     (0)  
+S(6)         2.000e-004
+   SO4-2          1.681e-004  1.252e-004    -3.774    -3.902    -0.128     (0)  
+   MgSO4          2.213e-005  2.215e-005    -4.655    -4.655     0.000     (0)  
+   CaSO4          9.639e-006  9.650e-006    -5.016    -5.015     0.000     (0)  
+   NaSO4-         1.270e-007  1.178e-007    -6.896    -6.929    -0.033     (0)  
+   KSO4-          3.638e-008  3.376e-008    -7.439    -7.472    -0.033     (0)  
+   HSO4-          9.060e-010  8.406e-010    -9.043    -9.075    -0.033     (0)  
+   CaHSO4+        4.129e-012  3.831e-012   -11.384   -11.417    -0.033     (0)  
+Si           2.701e-004
+   H4SiO4         2.694e-004  2.697e-004    -3.570    -3.569     0.000     (0)  
+   H3SiO4-        6.947e-007  6.446e-007    -6.158    -6.191    -0.033     (0)  
+   H2SiO4-2       1.018e-012  7.548e-013   -11.992   -12.122    -0.130     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K,   1 atm)
+
+	Anhydrite        -2.95     -7.32   -4.37  CaSO4
+	Aragonite        -0.87     -9.22   -8.35  CaCO3
+	Artinite         -7.18      2.28    9.46  MgCO3:Mg(OH)2:3H2O
+	Brucite          -5.49     11.22   16.71  Mg(OH)2
+	Calcite          -0.72     -9.22   -8.49  CaCO3
+	Chalcedony       -0.04     -3.57   -3.53  SiO2
+	Chrysotile       -5.45     26.51   31.95  Mg3Si2O5(OH)4
+	Clinoenstatite   -3.60      7.65   11.24  MgSiO3
+	CO2(g)           -2.01     -3.50   -1.49  CO2
+	Cristobalite     -0.01     -3.57   -3.56  SiO2
+	Diopside         -4.72     15.02   19.74  CaMgSi2O6
+	Dolomite         -1.02    -18.15  -17.14  CaMg(CO3)2
+	Dolomite(d)      -1.56    -18.15  -16.59  CaMg(CO3)2
+	Epsomite         -4.92     -7.05   -2.13  MgSO4:7H2O
+	Forsterite       -9.21     18.86   28.07  Mg2SiO4
+	Gypsum           -2.74     -7.32   -4.58  CaSO4:2H2O
+	H2(g)           -22.36    -25.52   -3.16  H2
+	H2O(g)           -1.46     -0.00    1.46  H2O
+	Halite           -9.31     -7.72    1.59  NaCl
+	Huntite          -5.94    -36.03  -30.09  CaMg3(CO3)4
+	Hydromagnesite  -15.52    -24.54   -9.02  Mg5(CO3)4(OH)2:4H2O
+	Magadiite        -7.24    -21.54  -14.30  NaSi7O13(OH)3:3H2O
+	Magnesite        -0.88     -8.94   -8.06  MgCO3
+	Mirabilite      -10.35    -11.37   -1.02  Na2SO4:10H2O
+	Nahcolite        -5.86     -6.39   -0.53  NaHCO3
+	Natron          -12.02    -13.26   -1.23  Na2CO3:10H2O
+	Nesquehonite     -3.29     -8.94   -5.65  MgCO3:3H2O
+	O2(g)            -0.62     -3.52   -2.91  O2
+	Portlandite     -11.71     10.94   22.65  Ca(OH)2
+	Quartz            0.38     -3.57   -3.95  SiO2
+	Sepiolite        -3.98     11.72   15.71  Mg2Si3O7.5OH:3H2O
+	Sepiolite(d)     -6.94     11.72   18.66  Mg2Si3O7.5OH:3H2O
+	Silicagel        -0.57     -3.57   -3.00  SiO2
+	SiO2(a)          -0.87     -3.57   -2.70  SiO2
+	Talc             -1.80     19.37   21.17  Mg3Si4O10(OH)2
+	Thenardite      -11.18    -11.37   -0.18  Na2SO4
+	Thermonatrite   -13.37    -13.26    0.11  Na2CO3:H2O
+	Tremolite        -6.70     49.40   56.10  Ca2Mg5Si8O22(OH)2
+	Trona           -18.77    -19.65   -0.88  NaHCO3:Na2CO3:2H2O
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	
+Using pure phase assemblage 0.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.30    -2.79     -1.49   1.000e+001  9.996e+000 -3.826e-003
+Calcite           0.20    -8.29     -8.49   1.000e+001  9.997e+000 -2.538e-003
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                9.055e-003  9.055e-003
+	Ca               3.068e-003  3.068e-003
+	Cl               1.100e-004  1.100e-004
+	K                4.001e-005  4.001e-005
+	Mg               1.000e-003  1.000e-003
+	N                4.001e-004  4.001e-004
+	Na               2.001e-004  2.000e-004
+	S                2.001e-004  2.000e-004
+	Si               2.701e-004  2.701e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.943      Charge balance
+                                       pe  =  13.532      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.196e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  7.457e-003
+                       Total CO2 (mol/kg)  =  9.055e-003
+                      Temperature (deg C)  =  27.00
+                  Electrical balance (eq)  =  1.000e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  24
+                                  Total H  = 1.110159e+002
+                                  Total O  = 5.553292e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.256e-007  1.140e-007    -6.901    -6.943    -0.042      0.00
+   OH-            1.141e-007  1.020e-007    -6.943    -6.991    -0.049     (0)  
+   H2O            5.551e+001  9.998e-001     1.744    -0.000     0.000     18.08
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -142.473  -142.472     0.001     (0)  
+C(4)         9.055e-003
+   HCO3-          7.199e-003  6.463e-003    -2.143    -2.190    -0.047     (0)  
+   CO2            1.613e-003  1.618e-003    -2.792    -2.791     0.001     (0)  
+   CaHCO3+        1.754e-004  1.569e-004    -3.756    -3.804    -0.049     (0)  
+   MgHCO3+        5.203e-005  4.652e-005    -4.284    -4.332    -0.049     (0)  
+   CaCO3          8.903e-006  8.927e-006    -5.050    -5.049     0.001     (0)  
+   CO3-2          4.259e-006  2.766e-006    -5.371    -5.558    -0.187     (0)  
+   MgCO3          1.654e-006  1.659e-006    -5.781    -5.780     0.001     (0)  
+   NaHCO3         6.467e-007  6.485e-007    -6.189    -6.188     0.001     (0)  
+   NaCO3-         1.136e-008  1.016e-008    -7.945    -7.993    -0.049     (0)  
+Ca           3.068e-003
+   Ca+2           2.848e-003  1.848e-003    -2.545    -2.733    -0.188     (0)  
+   CaHCO3+        1.754e-004  1.569e-004    -3.756    -3.804    -0.049     (0)  
+   CaSO4          3.611e-005  3.621e-005    -4.442    -4.441     0.001     (0)  
+   CaCO3          8.903e-006  8.927e-006    -5.050    -5.049     0.001     (0)  
+   CaOH+          3.010e-009  2.691e-009    -8.521    -8.570    -0.049     (0)  
+   CaHSO4+        2.774e-011  2.480e-011   -10.557   -10.606    -0.049     (0)  
+Cl           1.100e-004
+   Cl-            1.100e-004  9.817e-005    -3.958    -4.008    -0.050     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.110   -44.109     0.001     (0)  
+K            4.001e-005
+   K+             3.998e-005  3.567e-005    -4.398    -4.448    -0.050     (0)  
+   KSO4-          2.797e-008  2.501e-008    -7.553    -7.602    -0.049     (0)  
+Mg           1.000e-003
+   Mg+2           9.321e-004  6.095e-004    -3.031    -3.215    -0.184     (0)  
+   MgHCO3+        5.203e-005  4.652e-005    -4.284    -4.332    -0.049     (0)  
+   MgSO4          1.446e-005  1.449e-005    -4.840    -4.839     0.001     (0)  
+   MgCO3          1.654e-006  1.659e-006    -5.781    -5.780     0.001     (0)  
+   MgOH+          2.598e-008  2.323e-008    -7.585    -7.634    -0.049     (0)  
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -62.921   -62.970    -0.049     (0)  
+   NH3            0.000e+000  0.000e+000   -65.211   -65.210     0.001     (0)  
+   NH4SO4-        0.000e+000  0.000e+000   -65.827   -65.876    -0.049     (0)  
+N(0)         2.118e-020
+   N2             1.059e-020  1.062e-020   -19.975   -19.974     0.001     (0)  
+N(3)         1.020e-016
+   NO2-           1.020e-016  9.116e-017   -15.992   -16.040    -0.049     (0)  
+N(5)         4.001e-004
+   NO3-           4.001e-004  3.577e-004    -3.398    -3.446    -0.049     (0)  
+Na           2.001e-004
+   Na+            1.993e-004  1.784e-004    -3.700    -3.749    -0.048     (0)  
+   NaHCO3         6.467e-007  6.485e-007    -6.189    -6.188     0.001     (0)  
+   NaSO4-         9.763e-008  8.729e-008    -7.010    -7.059    -0.049     (0)  
+   NaCO3-         1.136e-008  1.016e-008    -7.945    -7.993    -0.049     (0)  
+O(0)         6.002e-004
+   O2             3.001e-004  3.009e-004    -3.523    -3.522     0.001     (0)  
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -141.303  -141.351    -0.049     (0)  
+   H2S            0.000e+000  0.000e+000  -141.379  -141.378     0.001     (0)  
+   S5-2           0.000e+000  0.000e+000  -143.801  -143.958    -0.156     (0)  
+   S4-2           0.000e+000  0.000e+000  -144.025  -144.190    -0.165     (0)  
+   S6-2           0.000e+000  0.000e+000  -144.140  -144.289    -0.149     (0)  
+   S-2            0.000e+000  0.000e+000  -147.072  -147.267    -0.194     (0)  
+   S3-2           0.000e+000  0.000e+000  -147.465  -147.639    -0.174     (0)  
+   S2-2           0.000e+000  0.000e+000  -148.699  -148.880    -0.181     (0)  
+S(6)         2.001e-004
+   SO4-2          1.494e-004  9.639e-005    -3.826    -4.016    -0.190     (0)  
+   CaSO4          3.611e-005  3.621e-005    -4.442    -4.441     0.001     (0)  
+   MgSO4          1.446e-005  1.449e-005    -4.840    -4.839     0.001     (0)  
+   NaSO4-         9.763e-008  8.729e-008    -7.010    -7.059    -0.049     (0)  
+   KSO4-          2.797e-008  2.501e-008    -7.553    -7.602    -0.049     (0)  
+   HSO4-          1.248e-009  1.116e-009    -8.904    -8.952    -0.049     (0)  
+   CaHSO4+        2.774e-011  2.480e-011   -10.557   -10.606    -0.049     (0)  
+   NH4SO4-        0.000e+000  0.000e+000   -65.827   -65.876    -0.049     (0)  
+Si           2.701e-004
+   H4SiO4         2.697e-004  2.704e-004    -3.569    -3.568     0.001     (0)  
+   H3SiO4-        4.191e-007  3.747e-007    -6.378    -6.426    -0.049     (0)  
+   H2SiO4-2       3.980e-013  2.544e-013   -12.400   -12.595    -0.194     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(300 K,   1 atm)
+
+	Anhydrite        -2.38     -6.75   -4.37  CaSO4
+	Aragonite         0.06     -8.29   -8.35  CaCO3
+	Artinite         -7.56      1.90    9.46  MgCO3:Mg(OH)2:3H2O
+	Brucite          -6.04     10.67   16.71  Mg(OH)2
+	Calcite           0.20     -8.29   -8.49  CaCO3
+	CH4(g)         -139.60   -142.47   -2.88  CH4
+	Chalcedony       -0.04     -3.57   -3.53  SiO2
+	Chrysotile       -7.08     24.88   31.95  Mg3Si2O5(OH)4
+	Clinoenstatite   -4.14      7.10   11.24  MgSiO3
+	CO2(g)           -1.30     -2.79   -1.49  CO2
+	Cristobalite     -0.01     -3.57   -3.56  SiO2
+	Diopside         -5.05     14.69   19.74  CaMgSi2O6
+	Dolomite          0.07    -17.06  -17.14  CaMg(CO3)2
+	Dolomite(d)      -0.47    -17.06  -16.59  CaMg(CO3)2
+	Epsomite         -5.11     -7.23   -2.13  MgSO4:7H2O
+	Forsterite      -10.29     17.77   28.07  Mg2SiO4
+	Gypsum           -2.17     -6.75   -4.58  CaSO4:2H2O
+	H2(g)           -40.95    -44.11   -3.16  H2
+	H2O(g)           -1.46     -0.00    1.46  H2O
+	H2S(g)         -140.36   -141.38   -1.02  H2S
+	Halite           -9.34     -7.76    1.59  NaCl
+	Huntite          -4.52    -34.61  -30.09  CaMg3(CO3)4
+	Hydromagnesite  -15.40    -24.42   -9.02  Mg5(CO3)4(OH)2:4H2O
+	Magadiite        -7.48    -21.78  -14.30  NaSi7O13(OH)3:3H2O
+	Magnesite        -0.71     -8.77   -8.06  MgCO3
+	Mirabilite      -10.49    -11.51   -1.02  Na2SO4:10H2O
+	N2(g)           -16.71    -19.97   -3.27  N2
+	Nahcolite        -5.41     -5.94   -0.53  NaHCO3
+	Natron          -11.82    -13.06   -1.23  Na2CO3:10H2O
+	Nesquehonite     -3.12     -8.77   -5.65  MgCO3:3H2O
+	NH3(g)          -66.94    -65.21    1.73  NH3
+	O2(g)            -0.62     -3.52   -2.91  O2
+	Portlandite     -11.50     11.15   22.65  Ca(OH)2
+	Quartz            0.38     -3.57   -3.95  SiO2
+	Sepiolite        -5.07     10.64   15.71  Mg2Si3O7.5OH:3H2O
+	Sepiolite(d)     -8.02     10.64   18.66  Mg2Si3O7.5OH:3H2O
+	Silicagel        -0.57     -3.57   -3.00  SiO2
+	SiO2(a)          -0.87     -3.57   -2.70  SiO2
+	Sulfur         -105.22   -120.20  -14.99  S
+	Talc             -3.43     17.74   21.17  Mg3Si4O10(OH)2
+	Thenardite      -11.33    -11.51   -0.18  Na2SO4
+	Thermonatrite   -13.17    -13.06    0.11  Na2CO3:H2O
+	Tremolite        -8.98     47.12   56.10  Ca2Mg5Si8O22(OH)2
+	Trona           -18.11    -18.99   -0.88  NaHCO3:Na2CO3:2H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	 use solution 0
+	SOLUTION  1-20
+	temp 27
+	 O(0)  	0.6
+	units  mmol/l
+	pH	7.18
+	Ca 	0.53
+	Mg   0.18
+	Na 0.2
+	K 0.04
+	Alkalinity 2.38
+	S(6)	0.06
+	Cl 0.11
+	N(5)  0.01
+	Si 0.27
+	SURFACE 1111-1120
+	 Hfo_w  0.01e-2 600 55
+	 Hfo_s  2.5e-6                   # 0.025 X Hfo_w
+	 equilibrate 1
+	EQUILIBRIUM_PHASES 1-20
+	Calcite 0.2
+	Fe(OH)3As   -4.
+	Siderite 1.4 0
+	FeS(ppt) 0 0
+	REACTION 1-20
+	C   1.0
+	 9e-4 moles         #3.5e-4 moles
+	knobs
+	TRANSPORT
+	cells 20
+	shifts 20          # 40 years
+	time_step 6.3e7  # 2 years  = 0.5m/yr
+	lengths  1
+	punch_frequency    10
+	SELECTED_OUTPUT
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
+WARNING: No dispersivities were read; disp = 0 assumed.
+	file    C:\dell_den_nye\WP51\DOC\UNDERV\PhDcourse\DFmodel7.xls
+	totals    Ca  N(5) Fe(2) C(-4) S(6) S(-2) Br As(5) As(3)
+	molalities O2 Hfo_wH2AsO3 Hfo_wH2AsO4 Hfo_wHAsO4- Hfo_wOHAsO4-3
+	alkalinity
+	saturation_indices   CO2(g)  siderite calcite
+	equilibrium_phases  siderite calcite Fe(OH)3As
+	PRINT
+	reset    false
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+-------------------------------
+End of Run after 2.831 Seconds.
+-------------------------------
+

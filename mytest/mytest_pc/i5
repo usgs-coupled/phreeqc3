@@ -1,0 +1,70 @@
+DATABASE ../database/phreeqc.dat
+#DATABASE phreeqd.dat
+SOLUTION_MASTER_SPECIES
+ A A 0 A 1
+ Ap Ap+ 0 Ap 1
+ Am Am- 0 Am 1
+SOLUTION_SPECIES
+# H+ = H+; log_k 0; -gamma 1e20 0
+# H2O = OH- + H+; log_k -14; -gamma 1e20 0
+ A = A; log_k 0; -gamma 1e20 0
+# Ap++ = Ap++; log_k 0; -gamma 1e20 0; Dw 3.5714285714e-10
+ Ap+ = Ap+; log_k 0; -gamma 1e20 0; # Dw 5.2631578948e-10
+ Am- = Am-; log_k 0; -gamma 1e20 0; # Dw 1e-8
+SOLUTION 0
+ pH 7.0 # charge
+ A 1
+ Ap 10  charge
+ Am 10
+SOLUTION 1-2; pH 7 charge
+SOLUTION 4-6; pH 7 charge; water 0.5  # Note that MCD adds absolute moles,
+SOLUTION 8; pH 7 charge; water 0.25   # adapt water to match conc'n change
+SELECTED_OUTPUT
+ -high_prec
+END          
+# Define mixf only 1 time for each interface (1,4), (4,6), (4,8), (2,5)
+MIX 1; 4 0.03                         # Note to take small fractions if
+MIX 4; 6 0.03; 8 0.03                 #   Dw(Am-) = 10 * default_Dw
+MIX 2; 5 0.02
+END
+PRINT; -reset false
+SELECTED_OUTPUT
+ -high_prec false
+ -file i5.prn
+ -reset false
+USER_PUNCH
+ -head cell pH pe O2 A A+ A- cb
+ -start
+ 1 if step_no < 1 then goto 20
+ 10 punch cell_no, -la("H+"), -la("e-"), mol("O2")*1e3, tot("A")*1e3, tot("Ap")*1e3, tot("Am")*1e3, charge_balance
+ 20 end
+ -end
+TRANSPORT
+ -cells 2
+ -shifts 100 0
+ -punch_fr 100
+ -time 1e7
+ -bcon 1 1
+ -multi_d true 1e-9 0.547723 0.0 1.0 # D_w  porosity
+ -stag 3
+END
+PRINT; -sel false
+MIX 1; 1 0.97; 4 0.03
+MIX 4; 1 0.06; 6 0.06; 8 0.06; 4 0.82  # Note that mix is per L
+MIX 6; 4 0.06; 6 0.94
+MIX 8; 4 0.12; 8 0.88
+MIX 2; 5 0.02; 2 0.98
+MIX 5; 2 0.04; 5 0.96
+END
+PRINT; -sel true
+SOLUTION 0
+ pH 7.0 # charge
+ A 1
+ Ap 10  charge
+ Am 10
+SOLUTION 1-6; pH 7 charge
+SOLUTION 8; pH 7 charge
+TRANSPORT
+ -diffc 0.3e-9
+ -multi_d false
+END

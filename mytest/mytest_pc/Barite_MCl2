@@ -1,0 +1,23 @@
+DATABASE ../database/pitzer.dat
+SOLUTION 1
+ pH 7 charge
+ -temp 25
+EQUILIBRIUM_PHASES
+ Barite
+REACTION
+ CaCl2 1; 0 5*0.1 4*0.5
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+ -headings CaCl2
+ axis_titles "CaCl2 / M" "Barite solubility / M"
+ 10 plot_xy tot("Ca"), tot("Ba"), color = Red, symbol = None
+END
+
+USE solution 1; USE equilibrium_phases 1
+REACTION
+ MgCl2 1; 0 5*0.1 4*0.5
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+ -headings MgCl2
+ axis_titles "MCl2 / M" "Barite solubility / M"
+ 10 plot_xy tot("Mg"), tot("Ba"), color = Blue, symbol = None

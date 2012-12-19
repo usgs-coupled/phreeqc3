@@ -1,0 +1,186 @@
+   Input file: aj1
+  Output file: aj1.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	TITLE Example 1.--Molybdophosphate speciation in catalysis.
+	SOLUTION 1  Molybdophosphate speciation profile.
+			units   mmol/l
+			pH      1.00
+			pe      0.00
+			density 1.023
+			temp    25.0
+			Mo              2000
+			P               200
+			Zn              150
+	SOLUTION_MASTER_SPECIES
+			Mo      MoO4-2  0.0     95.94     95.94
+			Mo(6)   MoO4-2  0.0     MoO4
+			P       PO4-3   0.0     30.97     30.97
+			Zn      Zn+2    0.0     65.37     65.37
+	SOLUTION_SPECIES
+			MoO4-2 = MoO4-2
+					log_k          0.0
+			PO4-3 = PO4-3
+					log_k          0.0
+			Zn+2 = Zn+2
+					log_k          0.0
+			18 MoO4-2 + 2 PO4-3 + 36 H+ = Mo18P2O62-6 + 18 H2O
+					log_k          249.879
+			12 MoO4-2 + PO4-3 + 24 H+ = Mo12PO40-3 + 12 H2O
+					log_k          162.490
+			11 MoO4-2 + PO4-3 + 20 H+ = H2Mo11PO39-5 + 9 H2O
+					log_k          143.917
+			11 MoO4-2 + PO4-3 + 19 H+ = HMo11PO39-6 + 9 H2O
+					log_k          139.308
+			11 MoO4-2 + PO4-3 + 18 H+ = Mo11PO39-7 + 9 H2O
+					log_k          134.010
+			7 MoO4-2 + 8 H+ = Mo7O24-6 + 4 H2O
+					log_k          64.1472
+			9 MoO4-2 + PO4-3 + 16 H+ = H2Mo9PO33-5 + 7 H2O
+					log_k          115.833
+			5 MoO4-2 + 2 PO4-3 + 11 H+ = HMo5P2O23-5 + 5 H2O
+					log_k          74.3289
+			5 MoO4-2 + 2 PO4-3 + 10 H+ = Mo5P2O23-6 + 5 H2O
+					log_K          67.5705
+			2 Zn+2 + 2 PO4-3 + 2 H+ = (ZnHPO4)2
+					log_k          10.2505
+	KNOBS
+			logfile         TRUE
+	PHASES
+			Zn1
+			(ZnHPO4)2 = 2 Zn+2 + 2 PO4-3 + 2 H+
+			log_k          -10.2505
+			Mo5
+			Mo5P2O23-6 + 5 H2O = 5 MoO4-2 + 2 PO4-3 + 10 H+
+			log_k          -67.5705
+			HMo5
+			HMo5P2O23-5 + 5 H2O = 5 MoO4-2 + 2 PO4-3 + 11 H+
+			log_k          -743289
+	END
+-----
+TITLE
+-----
+
+ Example 1.--Molybdophosphate speciation in catalysis.
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	Molybdophosphate speciation profile.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mo               2.454e+000  2.454e+000
+	P                2.454e-001  2.454e-001
+	Zn               1.840e-001  1.840e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   1.000    
+                                       pe  =   0.000    
+       Specific Conductance (uS/cm, 25 oC) = 33856
+                          Density (g/cm3)  =   1.38287
+                               Volume (L)  =   1.00427
+                        Activity of water  =   0.990
+                           Ionic strength  =  1.388e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -5.125e+000
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.512e-001
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -13.04
+                               Iterations  =  39
+                                  Total H  = 1.112296e+002
+                                  Total O  = 6.384971e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.362e-001  1.000e-001    -0.866    -1.000    -0.134      0.00
+   OH-            1.804e-013  1.002e-013   -12.744   -12.999    -0.255     -1.52
+   H2O            5.551e+001  9.904e-001     1.744    -0.004     0.000     18.07
+H(0)         1.029e-005
+   H2             5.143e-006  7.079e-006    -5.289    -5.150     0.139     28.61
+Mo(6)        2.454e+000
+   Mo12PO40-3     2.031e-001  5.441e-002    -0.692    -1.264    -0.572     (0)  
+   Mo18P2O62-6    9.223e-004  4.755e-006    -3.035    -5.323    -2.288     (0)  
+   H2Mo11PO39-5   6.225e-005  1.605e-006    -4.206    -5.795    -1.589     (0)  
+   HMo11PO39-6    7.658e-008  3.949e-010    -7.116    -9.404    -2.288     (0)  
+   H2Mo9PO33-5    6.492e-009  1.674e-010    -8.188    -9.776    -1.589     (0)  
+   MoO4-2         1.581e-010  8.804e-011    -9.801   -10.055    -0.254     (0)  
+   Mo11PO39-7     2.584e-011  1.988e-014   -10.588   -13.702    -3.114     (0)  
+   Mo7O24-6       1.160e-012  5.980e-015   -11.936   -14.223    -2.288     (0)  
+   HMo5P2O23-5    2.401e-024  6.191e-026   -23.620   -25.208    -1.589     (0)  
+   Mo5P2O23-6     2.094e-029  1.080e-031   -28.679   -30.967    -2.288     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -82.227   -82.088     0.139     30.40
+P            2.454e-001
+   Mo12PO40-3     2.031e-001  5.441e-002    -0.692    -1.264    -0.572     (0)  
+   H2PO4-         4.043e-002  2.584e-002    -1.393    -1.588    -0.194     32.34
+   Mo18P2O62-6    9.223e-004  4.755e-006    -3.035    -5.323    -2.288     (0)  
+   H2Mo11PO39-5   6.225e-005  1.605e-006    -4.206    -5.795    -1.589     (0)  
+   HPO4-2         1.057e-007  1.604e-008    -6.976    -7.795    -0.819      9.67
+   HMo11PO39-6    7.658e-008  3.949e-010    -7.116    -9.404    -2.288     (0)  
+   H2Mo9PO33-5    6.492e-009  1.674e-010    -8.188    -9.776    -1.589     (0)  
+   Mo11PO39-7     2.584e-011  1.988e-014   -10.588   -13.702    -3.114     (0)  
+   PO4-3          2.699e-019  7.232e-020   -18.569   -19.141    -0.572     (0)  
+   HMo5P2O23-5    2.401e-024  6.191e-026   -23.620   -25.208    -1.589     (0)  
+   Mo5P2O23-6     2.094e-029  1.080e-031   -28.679   -30.967    -2.288     (0)  
+   (ZnHPO4)2      7.108e-033  9.784e-033   -32.148   -32.009     0.139     (0)  
+Zn           1.840e-001
+   Zn+2           1.840e-001  1.025e-001    -0.735    -0.989    -0.254     (0)  
+   ZnOH+          1.289e-009  1.113e-009    -8.890    -8.953    -0.064     (0)  
+   Zn(OH)2        9.196e-017  1.266e-016   -16.036   -15.898     0.139     (0)  
+   Zn(OH)3-       4.589e-027  3.964e-027   -26.338   -26.402    -0.064     (0)  
+   (ZnHPO4)2      7.108e-033  9.784e-033   -32.148   -32.009     0.139     (0)  
+   Zn(OH)4-2      1.117e-038  6.223e-039   -37.952   -38.206    -0.254     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)            -2.05     -5.15   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	HMo5           743189.46    -99.54-743289.00  HMo5P2O23-5
+	Mo5             -30.97    -98.54  -67.57  Mo5P2O23-6
+	O2(g)           -79.20    -82.09   -2.89  O2
+	Zn(OH)2(e)      -10.50      1.00   11.50  Zn(OH)2
+	Zn1             -32.01    -42.26  -10.25  (ZnHPO4)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.022 Seconds.
+-------------------------------
+

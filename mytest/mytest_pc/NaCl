@@ -1,0 +1,17 @@
+DATABASE ../database/pitzer.dat
+SOLUTION 1
+PHASES
+Halite
+	NaCl = Na+ + Cl-
+	log_k	   1.582
+	delta_h 0.918 kcal
+	-vm 27
+EQUILIBRIUM_PHASES
+Halite
+REACTION_PRESSURE
+ 1 1000 in 20
+USER_GRAPH
+ -headings P g_NaCl/kgw
+ 10 graph_x pressure
+ 20 graph_y tot("Na") * 58.44
+END

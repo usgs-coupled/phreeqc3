@@ -1,0 +1,290 @@
+   Input file: surf_kin_related_pz
+  Output file: surf_kin_related_pz.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	RATES
+	Gypsum
+		start
+	20      rem   1 hour half life
+	40	moles = log(0.5) / 3600 * m * time
+	50      if (moles > m) then moles = m
+	60      rem print -moles
+	200	save -moles
+		end
+	SOLUTION 1
+		pH	7.0
+		pe	8.0
+		temp	20.0
+		Ca	4.5	charge
+		S	9.0	Gypsum
+	SOLUTION 0 # CaCl2 injected solution
+		pH	6.0
+		pe	0.0
+		temp	20.0
+		Ca	15.
+		Cl	31.	charge
+	SURFACE 1
+		Hfo_wOH    gypsum  		kine	0.1
+		Hfo_sOH    gypsum  		kine	.01	500
+	KINETICS 1
+		Gypsum
+			formula CaSO4(H2O)2
+			m	1
+		steps	3600
+	USE solution 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.500e-002  1.500e-002
+	Cl               3.000e-002  3.000e-002  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000    
+                                       pe  =   0.000    
+       Specific Conductance (uS/cm, 20 oC) = 2982
+                          Density (g/cm3)  =   0.99959
+                               Volume (L)  =   1.00208
+                        Activity of water  =   0.999
+                           Ionic strength  =  4.500e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.185e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  20.00
+                  Electrical balance (eq)  =  4.391e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  13
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.89592
+                         Density of water  =   0.99823
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.194e-006  1.000e-006    -5.923    -6.000    -0.077      0.00
+   OH-            9.091e-009  6.785e-009    -8.041    -8.168    -0.127     -3.92
+   H2O            5.551e+001  9.993e-001     1.744    -0.000     0.000     18.05
+Ca           1.500e-002
+   Ca+2           1.500e-002  7.368e-003    -1.824    -2.133    -0.309    -17.73
+Cl           3.000e-002
+   Cl-            3.000e-002  2.468e-002    -1.523    -1.608    -0.085     18.07
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(293 K,   1 atm)
+
+	H2O(g)           -1.63     -0.00    1.63  H2O
+	Portlandite     -13.28    -18.47   -5.19  Ca(OH)2
+
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.493e-002  1.493e-002  Charge balance
+	S                1.493e-002  1.493e-002  Equilibrium with Gypsum
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   8.000    
+       Specific Conductance (uS/cm, 20 oC) = 2349
+                          Density (g/cm3)  =   1.00028
+                               Volume (L)  =   1.00271
+                        Activity of water  =   1.000
+                           Ionic strength  =  5.970e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -7.834e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  20.00
+                  Electrical balance (eq)  = -6.409e-014
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.69952
+                         Density of water  =   0.99823
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.556592e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.216e-007  1.000e-007    -6.915    -7.000    -0.085      0.00
+   OH-            9.202e-008  6.787e-008    -7.036    -7.168    -0.132     -3.87
+   H2O            5.551e+001  9.996e-001     1.744    -0.000     0.000     18.05
+Ca           1.493e-002
+   Ca+2           1.493e-002  5.455e-003    -1.826    -2.263    -0.437    -17.66
+S(6)         1.493e-002
+   SO4-2          1.493e-002  4.806e-003    -1.826    -2.318    -0.492     14.65
+   HSO4-          4.878e-008  3.989e-008    -7.312    -7.399    -0.087     40.10
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(293 K,   1 atm)
+
+	Anhydrite        -0.42     -4.58   -4.16  CaSO4
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.63     -0.00    1.63  H2O
+	Portlandite     -11.41    -16.60   -5.19  Ca(OH)2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	
+Using surface 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 3600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Gypsum          -5.000e-001  5.000e-001   CaSO4(H2O)2               1
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.927e-004  Surface charge, eq
+	 7.438e-002  sigma, C/m**2
+	 2.214e-002  psi, V
+	-8.767e-001  -F*psi/RT
+	 4.162e-001  exp(-F*psi/RT)
+	 5.000e+002  specific area, m**2/mol Gypsum
+	 2.500e+002  m**2 for  5.000e-001 moles of Gypsum
+
+
+Hfo_s         
+	 5.000e-003  moles	[0.01 mol/(mol kinetic reactant Gypsum)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOHCa+2      4.991e-003       0.998  4.903e-003      -2.310
+	Hfo_sOH          5.686e-006       0.001  5.585e-006      -5.253
+	Hfo_sOH2+        2.598e-006       0.001  2.552e-006      -5.593
+	Hfo_sO-          2.851e-007       0.000  2.800e-007      -6.553
+
+Hfo_w         
+	 5.000e-002  moles	[0.1 mol/(mol kinetic reactant Gypsum)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.708e-002       0.342  1.677e-002      -1.775
+	Hfo_wOHSO4-2     1.184e-002       0.237  1.163e-002      -1.934
+	Hfo_wOCa+        9.684e-003       0.194  9.512e-003      -2.022
+	Hfo_wOH2+        7.803e-003       0.156  7.664e-003      -2.116
+	Hfo_wSO4-        2.737e-003       0.055  2.688e-003      -2.571
+	Hfo_wO-          8.563e-004       0.017  8.411e-004      -3.075
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               4.914e-001  5.003e-001
+	Cl               2.947e-002  3.000e-002
+	S                4.768e-001  4.854e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.249      Charge balance
+                                       pe  =  -0.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 20 oC) = 19382
+                          Density (g/cm3)  =   1.06187
+                               Volume (L)  =   1.05181
+                        Activity of water  =   0.991
+                           Ionic strength  =  1.951e+000
+                       Mass of water (kg)  =  1.018e+000
+                 Total alkalinity (eq/kg)  =  2.701e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  20.00
+                  Electrical balance (eq)  = -1.927e-004
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  = 820
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.50659
+                         Density of water  =   0.99823
+                                  Total H  = 1.130179e+002
+                                  Total O  = 5.845063e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            5.186e-007  1.195e-007    -6.285    -6.923    -0.637     -1.12
+   H+             9.903e-008  5.631e-008    -7.004    -7.249    -0.245      0.00
+   H2O            5.551e+001  9.909e-001     1.744    -0.004     0.000     18.05
+Ca           4.914e-001
+   Ca+2           4.914e-001  5.431e-002    -0.309    -1.265    -0.957    -16.15
+Cl           2.947e-002
+   Cl-            2.947e-002  1.681e-002    -1.531    -1.774    -0.244     19.10
+S(6)         4.768e-001
+   SO4-2          4.768e-001  1.948e-002    -0.322    -1.710    -1.389     20.93
+   HSO4-          1.495e-007  9.104e-008    -6.825    -7.041    -0.215     41.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(293 K,   1 atm)
+
+	Anhydrite         1.19     -2.98   -4.16  CaSO4
+	Gypsum            1.60     -2.98   -4.58  CaSO4:2H2O
+	H2O(g)           -1.64     -0.00    1.63  H2O
+	Portlandite      -9.92    -15.11   -5.19  Ca(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+------------------------------
+End of Run after 0.16 Seconds.
+------------------------------
+

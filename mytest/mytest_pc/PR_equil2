@@ -1,0 +1,27 @@
+# Peng-Robinson gives different phi's in mixtures than
+# in pure gas
+DATABASE ../database/phreeqc.dat
+SOLUTION 1
+C(-4) 1 CH4(g) 2 # equilibrium with a pure gas
+ C(4) 1 CO2(g) 2
+N 1 N2(g) 2
+  pH 3 charge
+  -pressure 300
+GAS_PHASE 1 Mixture: Note changing phi's...
+ -fixed_pressure
+ -pressure 300
+CH4(g) 100
+ CO2(g) 100
+N2(g) 100
+# H2O(g) 1
+END
+
+SOLUTION 2
+ C(4) 1 CO2(g) 2
+  pH 3 charge
+  -pressure 100
+GAS_PHASE 2 Pure: same phi...
+ -fixed_pressure
+ -pressure 100
+ CO2(g) 100
+END

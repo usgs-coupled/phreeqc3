@@ -1,0 +1,724 @@
+   Input file: exch_related
+  Output file: exch_related.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	knobs
+		logfile
+	solution 1
+	equilibrium_phases 1
+		Ca-Montmorillonite	0.0	0.01
+	save solution 1
+	save equilibrium_phases 1
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Ca-Montmorillonite   -0.00   -45.03    -45.03   1.000e-002  9.997e-003 -2.610e-006
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               6.082e-006  6.082e-006
+	Ca               4.307e-007  4.307e-007
+	Si               9.580e-006  9.580e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.400      Charge balance
+                                       pe  =  11.424      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.926e-006
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.911e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  =  12
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550625e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.991e-007  3.981e-007    -6.399    -6.400    -0.001      0.00
+   OH-            2.548e-008  2.542e-008    -7.594    -7.595    -0.001     -4.14
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           6.082e-006
+   Al(OH)4-       3.357e-006  3.349e-006    -5.474    -5.475    -0.001     (0)  
+   Al(OH)2+       1.916e-006  1.912e-006    -5.718    -5.719    -0.001     (0)  
+   Al(OH)3        7.074e-007  7.074e-007    -6.150    -6.150     0.000     (0)  
+   AlOH+2         9.801e-008  9.710e-008    -7.009    -7.013    -0.004    -27.80
+   Al+3           3.974e-009  3.892e-009    -8.401    -8.410    -0.009    -44.54
+Ca           4.307e-007
+   Ca+2           4.307e-007  4.267e-007    -6.366    -6.370    -0.004    -18.25
+   CaOH+          1.783e-013  1.779e-013   -12.749   -12.750    -0.001     (0)  
+H(0)         3.181e-039
+   H2             1.591e-039  1.591e-039   -38.798   -38.798     0.000     28.61
+O(0)         3.296e-015
+   O2             1.648e-015  1.648e-015   -14.783   -14.783     0.000     30.40
+Si           9.580e-006
+   H4SiO4         9.576e-006  9.576e-006    -5.019    -5.019     0.000     52.08
+   H3SiO4-        3.555e-009  3.546e-009    -8.449    -8.450    -0.001     27.95
+   H2SiO4-2       6.116e-016  6.059e-016   -15.214   -15.218    -0.004     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -0.01     10.79   10.80  Al(OH)3
+	Anorthite        -7.64    -27.36  -19.71  CaAl2Si2O8
+	Ca-Montmorillonite  -0.00    -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2
+	Chalcedony       -1.47     -5.02   -3.55  SiO2
+	Gibbsite          2.68     10.79    8.11  Al(OH)3
+	H2(g)           -35.70    -38.80   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Kaolinite         4.11     11.54    7.43  Al2Si2O5(OH)4
+	O2(g)           -11.89    -14.78   -2.89  O2
+	Quartz           -1.04     -5.02   -3.98  SiO2
+	SiO2(a)          -2.31     -5.02   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	reaction 1
+		HCl	1.0
+		0.25	moles
+	exchange 1
+		Ca.5X	Ca-Montmorillonite	0.33
+		equilibrate	solution 1
+	use solution 1
+	use equilibrium_phases 1
+	save solution 2
+	save exchange 2
+	save equilibrium_phases 2
+	end
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X               3.299e-003 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2             6.168e-004  1.234e-003  3.739e-001    -0.004
+	AlX3             5.734e-004  1.720e-003  5.214e-001    -0.009
+	AlOHX2           1.727e-004  3.454e-004  1.047e-001    -0.004
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 1.
+Using exchange 1.	Exchange assemblage after simulation 2.
+Using pure phase assemblage 1.	Pure-phase assemblage after simulation 1.
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	HCl                  1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	H                    1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Ca-Montmorillonite  -13.28   -58.31    -45.03   9.997e-003           0 -9.997e-003
+
+-----------------------------Exchange composition------------------------------
+
+X               8.327e-017 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               2.406e-002  2.405e-002
+	Ca               6.175e-004  6.173e-004
+	Cl               2.501e-001  2.500e-001
+	Si               3.672e-002  3.670e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.861      Charge balance
+                                       pe  =   4.603      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 70484
+                          Density (g/cm3)  =   1.00473
+                               Volume (L)  =   1.00917
+                        Activity of water  =   0.992
+                           Ionic strength  =  3.229e-001
+                       Mass of water (kg)  =  9.995e-001
+                 Total alkalinity (eq/kg)  = -1.767e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  33
+                                  Total H  = 1.112826e+002
+                                  Total O  = 5.562639e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.767e-001  1.378e-001    -0.753    -0.861    -0.108      0.00
+   OH-            1.091e-013  7.286e-014   -12.962   -13.137    -0.175     -3.25
+   H2O            5.551e+001  9.917e-001     1.744    -0.004     0.000     18.07
+Al           2.406e-002
+   Al+3           2.406e-002  2.558e-003    -1.619    -2.592    -0.973    -42.75
+   AlOH+2         6.912e-007  1.829e-007    -6.160    -6.738    -0.577    -26.74
+   Al(OH)2+       1.439e-011  1.032e-011   -10.842   -10.986    -0.144     (0)  
+   Al(OH)3        1.016e-017  1.095e-017   -16.993   -16.961     0.032     (0)  
+   Al(OH)4-       2.135e-022  1.485e-022   -21.671   -21.828    -0.158     (0)  
+Ca           6.175e-004
+   Ca+2           6.175e-004  1.755e-004    -3.209    -3.756    -0.546    -17.03
+   CaOH+          2.864e-016  2.097e-016   -15.543   -15.678    -0.135     (0)  
+Cl           2.501e-001
+   Cl-            2.501e-001  1.702e-001    -0.602    -0.769    -0.167     18.57
+H(0)         1.550e-014
+   H2             7.750e-015  8.348e-015   -14.111   -14.078     0.032     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -64.263   -64.230     0.032     30.40
+Si           3.672e-002
+   H4SiO4         3.672e-002  3.955e-002    -1.435    -1.403     0.032     52.08
+   H3SiO4-        6.203e-011  4.233e-011   -10.207   -10.373    -0.166     28.48
+   H2SiO4-2       7.899e-023  2.090e-023   -22.102   -22.680    -0.577     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)      -10.82     -0.02   10.80  Al(OH)3
+	Anorthite       -30.47    -50.19  -19.71  CaAl2Si2O8
+	Ca-Montmorillonite -13.28    -58.31  -45.03  Ca0.165Al2.33Si3.67O10(OH)2
+	Chalcedony        2.16     -1.40   -3.55  SiO2
+	Gibbsite         -8.13     -0.02    8.11  Al(OH)3
+	H2(g)           -10.98    -14.08   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Kaolinite       -10.26     -2.83    7.43  Al2Si2O5(OH)4
+	O2(g)           -61.34    -64.23   -2.89  O2
+	Quartz            2.58     -1.40   -3.98  SiO2
+	SiO2(a)           1.32     -1.40   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	use solution 2
+	use equilibrium_phases 2
+	use exchange 2
+	end
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	Solution after simulation 2.
+Using exchange 2.	Exchange assemblage after simulation 2.
+Using pure phase assemblage 2.	Pure-phase assemblage after simulation 2.
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Ca-Montmorillonite  -13.28   -58.31    -45.03   0.000e+000           0  0.000e+000
+
+-----------------------------Exchange composition------------------------------
+
+X               8.327e-017 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               2.406e-002  2.405e-002
+	Ca               6.175e-004  6.173e-004
+	Cl               2.501e-001  2.500e-001
+	Si               3.672e-002  3.670e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.861      Charge balance
+                                       pe  =   4.634      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 70484
+                          Density (g/cm3)  =   1.00473
+                               Volume (L)  =   1.00917
+                        Activity of water  =   0.992
+                           Ionic strength  =  3.229e-001
+                       Mass of water (kg)  =  9.995e-001
+                 Total alkalinity (eq/kg)  = -1.767e-001
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   5
+                                  Total H  = 1.112826e+002
+                                  Total O  = 5.562639e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.767e-001  1.378e-001    -0.753    -0.861    -0.108      0.00
+   OH-            1.091e-013  7.286e-014   -12.962   -13.137    -0.175     -3.25
+   H2O            5.551e+001  9.917e-001     1.744    -0.004     0.000     18.07
+Al           2.406e-002
+   Al+3           2.406e-002  2.558e-003    -1.619    -2.592    -0.973    -42.75
+   AlOH+2         6.912e-007  1.829e-007    -6.160    -6.738    -0.577    -26.74
+   Al(OH)2+       1.439e-011  1.032e-011   -10.842   -10.986    -0.144     (0)  
+   Al(OH)3        1.016e-017  1.095e-017   -16.993   -16.961     0.032     (0)  
+   Al(OH)4-       2.135e-022  1.485e-022   -21.671   -21.828    -0.158     (0)  
+Ca           6.175e-004
+   Ca+2           6.175e-004  1.755e-004    -3.209    -3.756    -0.546    -17.03
+   CaOH+          2.864e-016  2.097e-016   -15.543   -15.678    -0.135     (0)  
+Cl           2.501e-001
+   Cl-            2.501e-001  1.702e-001    -0.602    -0.769    -0.167     18.57
+H(0)         1.346e-014
+   H2             6.728e-015  7.247e-015   -14.172   -14.140     0.032     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -64.140   -64.108     0.032     30.40
+Si           3.672e-002
+   H4SiO4         3.672e-002  3.955e-002    -1.435    -1.403     0.032     52.08
+   H3SiO4-        6.203e-011  4.233e-011   -10.207   -10.373    -0.166     28.48
+   H2SiO4-2       7.899e-023  2.090e-023   -22.102   -22.680    -0.577     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)      -10.82     -0.02   10.80  Al(OH)3
+	Anorthite       -30.47    -50.19  -19.71  CaAl2Si2O8
+	Ca-Montmorillonite -13.28    -58.31  -45.03  Ca0.165Al2.33Si3.67O10(OH)2
+	Chalcedony        2.16     -1.40   -3.55  SiO2
+	Gibbsite         -8.13     -0.02    8.11  Al(OH)3
+	H2(g)           -11.04    -14.14   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Kaolinite       -10.26     -2.83    7.43  Al2Si2O5(OH)4
+	O2(g)           -61.22    -64.11   -2.89  O2
+	Quartz            2.58     -1.40   -3.98  SiO2
+	SiO2(a)           1.32     -1.40   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	solution 1
+	equilibrium_phases 1
+		Ca-Montmorillonite	0.0	0.0
+	save solution 1
+	end
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Ca-Montmorillonite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Ca is contained in Ca-Montmorillonite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Si is contained in Ca-Montmorillonite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element in phase, Ca-Montmorillonite, is not in model.
+WARNING: Element in phase, Ca-Montmorillonite, is not in model.
+WARNING: Element in phase, Ca-Montmorillonite, is not in model.
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Ca-Montmorillonite   Element not present.   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  10.804      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.006e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.000e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         3.485e-039
+   H2             1.742e-039  1.742e-039   -38.759   -38.759     0.000     28.61
+O(0)         2.746e-015
+   O2             1.373e-015  1.373e-015   -14.862   -14.862     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -35.66    -38.76   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -11.97    -14.86   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	reaction 1
+		Ca-Montmorillonite	1
+		0.1	moles
+	exchange 1
+		Ca.5X	Ca-Montmorillonite	0.33
+		equilibrate	solution 	1
+	use solution 1
+	use equilibrium_phases 1
+	end
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 4.
+Using exchange 1.	Exchange assemblage after simulation 5.
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Ca-Montmorillonite      1.00000
+
+	                 Relative
+	Element             moles
+	Al                   2.33000
+	Ca                   0.16500
+	H                    2.00000
+	O                   12.00000
+	Si                   3.67000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Ca-Montmorillonite   -0.00   -45.03    -45.03   0.000e+000  1.000e-001  1.000e-001
+
+-----------------------------Exchange composition------------------------------
+
+X               3.300e-002 mol	[0.33 (mol Ca.5X)/(mol Ca-Montmorillonite)]
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2             1.650e-002  3.299e-002  9.998e-001    -0.007
+	AlOHX2           2.253e-006  4.506e-006  1.366e-004    -0.007
+	AlX3             5.187e-007  1.556e-006  4.715e-005    -0.015
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               7.663e-006  7.663e-006
+	Ca               3.770e-006  3.770e-006
+	Si               1.644e-005  1.644e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.305      Charge balance
+                                       pe  =  -1.624      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.143e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.053e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  36
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550627e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.051e-007  2.043e-007    -6.688    -6.690    -0.002     -4.14
+   H+             4.974e-008  4.954e-008    -7.303    -7.305    -0.002      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           7.663e-006
+   Al(OH)4-       7.404e-006  7.374e-006    -5.131    -5.132    -0.002     (0)  
+   Al(OH)3        1.938e-007  1.938e-007    -6.713    -6.713     0.000     (0)  
+   Al(OH)2+       6.544e-008  6.518e-008    -7.184    -7.186    -0.002     (0)  
+   AlOH+2         4.186e-010  4.120e-010    -9.378    -9.385    -0.007    -27.80
+   Al+3           2.129e-012  2.055e-012   -11.672   -11.687    -0.015    -44.53
+Ca           3.770e-006
+   Ca+2           3.770e-006  3.711e-006    -5.424    -5.430    -0.007    -18.24
+   CaOH+          1.248e-011  1.243e-011   -10.904   -10.905    -0.002     (0)  
+H(0)         6.152e-015
+   H2             3.076e-015  3.076e-015   -14.512   -14.512     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -63.356   -63.356     0.000     30.40
+Si           1.644e-005
+   H4SiO4         1.639e-005  1.639e-005    -4.785    -4.785     0.000     52.08
+   H3SiO4-        4.897e-008  4.877e-008    -7.310    -7.312    -0.002     27.95
+   H2SiO4-2       6.803e-014  6.696e-014   -13.167   -13.174    -0.007     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -0.57     10.23   10.80  Al(OH)3
+	Anorthite        -5.55    -25.27  -19.71  CaAl2Si2O8
+	Ca-Montmorillonite  -0.00    -45.03  -45.03  Ca0.165Al2.33Si3.67O10(OH)2
+	Chalcedony       -1.23     -4.79   -3.55  SiO2
+	Gibbsite          2.12     10.23    8.11  Al(OH)3
+	H2(g)           -11.41    -14.51   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Kaolinite         3.45     10.88    7.43  Al2Si2O5(OH)4
+	O2(g)           -60.46    -63.36   -2.89  O2
+	Quartz           -0.81     -4.79   -3.98  SiO2
+	SiO2(a)          -2.07     -4.79   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+-------------------------------
+End of Run after 0.015 Seconds.
+-------------------------------
+

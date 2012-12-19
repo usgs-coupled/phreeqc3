@@ -1,0 +1,1436 @@
+   Input file: cumulativetime
+  Output file: cumulativetime.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	INCREMENTAL_REACTIONS false
+	SOLUTION
+		O(0) 1 O2(g) -0.7
+	KINETICS 1
+	Pyrite
+	    formula  FeS2  1
+	    m        1
+	    m0       1
+	    parms    2 0.67 0.5 -0.11
+	    tol      1e-008
+	steps       31500000 in 3 steps # seconds
+	step_divide 1
+	runge_kutta 3
+	bad_step_max 500
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)             5.112e-004  5.112e-004  Equilibrium with O2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.006e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.216e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          13.6219      0.8058
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.000e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         5.112e-004
+   O2             2.556e-004  2.556e-004    -3.592    -3.592     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)            -0.70     -3.59   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Negative moles in solution for Fe, -1.553887e-006. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.999e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.539      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 686
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        1.953e-009
+   Fe+2           1.916e-009  1.745e-009    -8.718    -8.758    -0.041    -22.17
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+   FeOH+          3.291e-015  3.215e-015   -14.483   -14.493    -0.010     (0)  
+   Fe(OH)2        1.594e-022  1.594e-022   -21.797   -21.797     0.000     (0)  
+   Fe(OH)3-       3.533e-029  3.451e-029   -28.452   -28.462    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.735  -256.735     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.161    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.758   -41.758     0.000     28.61
+O(0)         2.736e-009
+   O2             1.368e-009  1.368e-009    -8.864    -8.864     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -125.287  -125.287     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.453  -128.463    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.575  -137.616    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.735  -256.735     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.161    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.54   -133.46   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.66    -41.76   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -124.24   -132.23   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.81   -133.46   -4.65  FeS
+	Melanterite     -10.46    -12.67   -2.21  FeSO4:7H2O
+	O2(g)            -5.97     -8.86   -2.89  O2
+	Pyrite         -208.60   -227.08  -18.48  FeS2
+	Sulfur          -91.56    -86.68    4.88  S
+
+
+Reaction step 2.
+
+WARNING: Negative moles in solution for Fe, -4.804480e-006. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2.1e+007 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.999e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.544      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 711
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        1.929e-009
+   Fe+2           1.891e-009  1.723e-009    -8.723    -8.764    -0.041    -22.17
+   FeSO4          3.721e-011  3.721e-011   -10.429   -10.429     0.000     (0)  
+   FeHSO4+        4.299e-014  4.198e-014   -13.367   -13.377    -0.010     (0)  
+   FeOH+          3.250e-015  3.174e-015   -14.488   -14.498    -0.010     (0)  
+   Fe(OH)2        1.574e-022  1.574e-022   -21.803   -21.803     0.000     (0)  
+   Fe(OH)3-       3.489e-029  3.408e-029   -28.457   -28.468    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.829  -256.829     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.289  -383.299    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.769   -41.769     0.000     28.61
+O(0)         2.879e-009
+   O2             1.439e-009  1.440e-009    -8.842    -8.842     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -125.331  -125.331     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.497  -128.507    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.619  -137.660    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.829  -256.829     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.289  -383.299    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          3.721e-011  3.721e-011   -10.429   -10.429     0.000     (0)  
+   FeHSO4+        4.299e-014  4.198e-014   -13.367   -13.377    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.59   -133.51   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.67    -41.77   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -124.28   -132.27   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.86   -133.51   -4.65  FeS
+	Melanterite     -10.47    -12.68   -2.21  FeSO4:7H2O
+	O2(g)            -5.95     -8.84   -2.89  O2
+	Pyrite         -208.68   -227.16  -18.48  FeS2
+	Sulfur          -91.59    -86.71    4.88  S
+
+
+Reaction step 3.
+
+WARNING: Negative moles in solution for Fe, -8.789924e-006. Recovering...
+WARNING: Negative moles in solution for Fe, -6.864184e-008. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 3.15e+007 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.999e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.487      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 770
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        2.202e-009
+   Fe+2           2.160e-009  1.967e-009    -8.666    -8.706    -0.041    -22.17
+   FeSO4          4.249e-011  4.249e-011   -10.372   -10.372     0.000     (0)  
+   FeHSO4+        4.909e-014  4.794e-014   -13.309   -13.319    -0.010     (0)  
+   FeOH+          3.711e-015  3.625e-015   -14.431   -14.441    -0.010     (0)  
+   Fe(OH)2        1.797e-022  1.797e-022   -21.745   -21.745     0.000     (0)  
+   Fe(OH)3-       3.984e-029  3.891e-029   -28.400   -28.410    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -255.849  -255.849     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -381.848  -381.858    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.654   -41.654     0.000     28.61
+O(0)         1.693e-009
+   O2             8.466e-010  8.467e-010    -9.072    -9.072     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -124.870  -124.870     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.036  -128.046    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.158  -137.199    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -255.849  -255.849     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -381.848  -381.858    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          4.249e-011  4.249e-011   -10.372   -10.372     0.000     (0)  
+   FeHSO4+        4.909e-014  4.794e-014   -13.309   -13.319    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.07   -132.99   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.55    -41.65   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -123.82   -131.81   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.34   -132.99   -4.65  FeS
+	Melanterite     -10.41    -12.62   -2.21  FeSO4:7H2O
+	O2(g)            -6.18     -9.07   -2.89  O2
+	Pyrite         -207.82   -226.30  -18.48  FeS2
+	Sulfur          -91.25    -86.37    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	INCREMENTAL_REACTIONS true
+	USE solution 1
+	USE kinetics 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Negative moles in solution for Fe, -1.553761e-006. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds  (Incremented time: 1.05e+007 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.999e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.539      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 686
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        1.953e-009
+   Fe+2           1.916e-009  1.745e-009    -8.718    -8.758    -0.041    -22.17
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+   FeOH+          3.291e-015  3.215e-015   -14.483   -14.493    -0.010     (0)  
+   Fe(OH)2        1.594e-022  1.594e-022   -21.797   -21.797     0.000     (0)  
+   Fe(OH)3-       3.533e-029  3.451e-029   -28.452   -28.462    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.734  -256.734     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.161    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.758   -41.758     0.000     28.61
+O(0)         2.736e-009
+   O2             1.368e-009  1.368e-009    -8.864    -8.864     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -125.287  -125.287     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.453  -128.463    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.575  -137.616    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.734  -256.734     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.161    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.54   -133.46   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.66    -41.76   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -124.24   -132.23   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.81   -133.46   -4.65  FeS
+	Melanterite     -10.46    -12.67   -2.21  FeSO4:7H2O
+	O2(g)            -5.97     -8.86   -2.89  O2
+	Pyrite         -208.60   -227.08  -18.48  FeS2
+	Sulfur          -91.56    -86.68    4.88  S
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds  (Incremented time: 2.1e+007 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -3.108e-010  9.999e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.401      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  25
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        2.683e-009
+   Fe+2           2.631e-009  2.396e-009    -8.580    -8.620    -0.041    -22.17
+   FeSO4          5.176e-011  5.176e-011   -10.286   -10.286     0.000     (0)  
+   FeHSO4+        5.979e-014  5.839e-014   -13.223   -13.234    -0.010     (0)  
+   FeOH+          4.520e-015  4.415e-015   -14.345   -14.355    -0.010     (0)  
+   Fe(OH)2        2.189e-022  2.190e-022   -21.660   -21.660     0.000     (0)  
+   Fe(OH)3-       4.853e-029  4.740e-029   -28.314   -28.324    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -254.392  -254.392     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -379.706  -379.716    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.483   -41.482     0.000     28.61
+O(0)         7.691e-010
+   O2             3.845e-010  3.846e-010    -9.415    -9.415     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -124.185  -124.185     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -127.351  -127.361    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -136.473  -136.513    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -254.392  -254.392     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -379.706  -379.716    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          5.176e-011  5.176e-011   -10.286   -10.286     0.000     (0)  
+   FeHSO4+        5.979e-014  5.839e-014   -13.223   -13.234    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -128.30   -132.22   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.38    -41.48   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -123.13   -131.13   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -127.57   -132.22   -4.65  FeS
+	Melanterite     -10.33    -12.54   -2.21  FeSO4:7H2O
+	O2(g)            -6.52     -9.42   -2.89  O2
+	Pyrite         -206.53   -225.01  -18.48  FeS2
+	Sulfur          -90.73    -85.85    4.88  S
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds  (Incremented time: 3.15e+007 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -1.099e-010  9.999e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.299      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        3.393e-009
+   Fe+2           3.328e-009  3.031e-009    -8.478    -8.518    -0.041    -22.17
+   FeSO4          6.547e-011  6.547e-011   -10.184   -10.184     0.000     (0)  
+   FeHSO4+        7.563e-014  7.386e-014   -13.121   -13.132    -0.010     (0)  
+   FeOH+          5.718e-015  5.585e-015   -14.243   -14.253    -0.010     (0)  
+   Fe(OH)2        2.769e-022  2.770e-022   -21.558   -21.558     0.000     (0)  
+   Fe(OH)3-       6.138e-029  5.995e-029   -28.212   -28.222    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -252.657  -252.657     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -377.154  -377.165    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.278   -41.278     0.000     28.61
+O(0)         3.004e-010
+   O2             1.502e-010  1.502e-010    -9.823    -9.823     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -123.368  -123.368     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -126.534  -126.544    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -135.656  -135.697    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -252.657  -252.657     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -377.154  -377.165    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          6.547e-011  6.547e-011   -10.184   -10.184     0.000     (0)  
+   FeHSO4+        7.563e-014  7.386e-014   -13.121   -13.132    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -127.38   -131.30   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.18    -41.28   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -122.32   -130.31   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -126.65   -131.30   -4.65  FeS
+	Melanterite     -10.22    -12.43   -2.21  FeSO4:7H2O
+	O2(g)            -6.93     -9.82   -2.89  O2
+	Pyrite         -205.00   -223.48  -18.48  FeS2
+	Sulfur          -90.12    -85.24    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	INCREMENTAL_REACTIONS false
+	USE solution 1
+	SELECTED_OUTPUT
+		file cumulativetime.sel
+		reset false
+		time
+	USE kinetics 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Negative moles in solution for Fe, -1.553635e-006. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.998e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.539      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 718
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        1.953e-009
+   Fe+2           1.916e-009  1.745e-009    -8.718    -8.758    -0.041    -22.17
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+   FeOH+          3.291e-015  3.215e-015   -14.483   -14.493    -0.010     (0)  
+   Fe(OH)2        1.594e-022  1.594e-022   -21.797   -21.797     0.000     (0)  
+   Fe(OH)3-       3.533e-029  3.451e-029   -28.452   -28.462    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.734  -256.734     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.160    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.758   -41.758     0.000     28.61
+O(0)         2.736e-009
+   O2             1.368e-009  1.368e-009    -8.864    -8.864     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -125.287  -125.287     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.453  -128.463    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.575  -137.616    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.734  -256.734     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.160    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.54   -133.46   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.66    -41.76   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -124.24   -132.23   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.81   -133.46   -4.65  FeS
+	Melanterite     -10.46    -12.67   -2.21  FeSO4:7H2O
+	O2(g)            -5.97     -8.86   -2.89  O2
+	Pyrite         -208.60   -227.08  -18.48  FeS2
+	Sulfur          -91.56    -86.68    4.88  S
+
+
+Reaction step 2.
+
+WARNING: Negative moles in solution for Fe, -4.803811e-006. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2.1e+007 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.998e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.544      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 743
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        1.929e-009
+   Fe+2           1.891e-009  1.723e-009    -8.723    -8.764    -0.041    -22.17
+   FeSO4          3.721e-011  3.721e-011   -10.429   -10.429     0.000     (0)  
+   FeHSO4+        4.299e-014  4.198e-014   -13.367   -13.377    -0.010     (0)  
+   FeOH+          3.250e-015  3.174e-015   -14.488   -14.498    -0.010     (0)  
+   Fe(OH)2        1.574e-022  1.574e-022   -21.803   -21.803     0.000     (0)  
+   Fe(OH)3-       3.489e-029  3.408e-029   -28.457   -28.468    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.829  -256.829     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.289  -383.299    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.769   -41.769     0.000     28.61
+O(0)         2.879e-009
+   O2             1.440e-009  1.440e-009    -8.842    -8.842     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -125.331  -125.331     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.497  -128.507    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.619  -137.660    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.829  -256.829     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.289  -383.299    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          3.721e-011  3.721e-011   -10.429   -10.429     0.000     (0)  
+   FeHSO4+        4.299e-014  4.198e-014   -13.367   -13.377    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.59   -133.51   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.67    -41.77   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -124.28   -132.27   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.86   -133.51   -4.65  FeS
+	Melanterite     -10.47    -12.68   -2.21  FeSO4:7H2O
+	O2(g)            -5.95     -8.84   -2.89  O2
+	Pyrite         -208.68   -227.16  -18.48  FeS2
+	Sulfur          -91.59    -86.71    4.88  S
+
+
+Reaction step 3.
+
+WARNING: Negative moles in solution for Fe, -8.788750e-006. Recovering...
+WARNING: Negative moles in solution for Fe, -6.861215e-008. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 3.15e+007 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.998e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.487      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 802
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        2.202e-009
+   Fe+2           2.160e-009  1.967e-009    -8.666    -8.706    -0.041    -22.17
+   FeSO4          4.249e-011  4.249e-011   -10.372   -10.372     0.000     (0)  
+   FeHSO4+        4.908e-014  4.794e-014   -13.309   -13.319    -0.010     (0)  
+   FeOH+          3.711e-015  3.624e-015   -14.431   -14.441    -0.010     (0)  
+   Fe(OH)2        1.797e-022  1.797e-022   -21.745   -21.745     0.000     (0)  
+   Fe(OH)3-       3.984e-029  3.891e-029   -28.400   -28.410    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -255.849  -255.849     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -381.848  -381.858    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.654   -41.654     0.000     28.61
+O(0)         1.693e-009
+   O2             8.467e-010  8.467e-010    -9.072    -9.072     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -124.870  -124.870     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.036  -128.046    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.158  -137.199    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -255.849  -255.849     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -381.848  -381.858    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          4.249e-011  4.249e-011   -10.372   -10.372     0.000     (0)  
+   FeHSO4+        4.908e-014  4.794e-014   -13.309   -13.319    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.07   -132.99   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.55    -41.65   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -123.82   -131.81   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.34   -132.99   -4.65  FeS
+	Melanterite     -10.41    -12.62   -2.21  FeSO4:7H2O
+	O2(g)            -6.18     -9.07   -2.89  O2
+	Pyrite         -207.82   -226.30  -18.48  FeS2
+	Sulfur          -91.25    -86.37    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	INCREMENTAL_REACTIONS true 
+	USE solution 1
+	INCREMENTAL_REACTIONS true
+	USE kinetics 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Negative moles in solution for Fe, -1.553509e-006. Recovering...
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds  (Incremented time: 1.05e+007 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -6.816e-005  9.997e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.539      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 686
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        1.953e-009
+   Fe+2           1.916e-009  1.745e-009    -8.718    -8.758    -0.041    -22.17
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+   FeOH+          3.291e-015  3.215e-015   -14.483   -14.493    -0.010     (0)  
+   Fe(OH)2        1.594e-022  1.594e-022   -21.797   -21.797     0.000     (0)  
+   Fe(OH)3-       3.534e-029  3.451e-029   -28.452   -28.462    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.734  -256.734     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.160    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.758   -41.758     0.000     28.61
+O(0)         2.735e-009
+   O2             1.368e-009  1.368e-009    -8.864    -8.864     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -125.287  -125.287     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -128.453  -128.463    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -137.575  -137.616    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -256.734  -256.734     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -383.150  -383.160    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          3.769e-011  3.769e-011   -10.424   -10.424     0.000     (0)  
+   FeHSO4+        4.354e-014  4.252e-014   -13.361   -13.371    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -129.54   -133.46   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.66    -41.76   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -124.24   -132.23   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -128.81   -133.46   -4.65  FeS
+	Melanterite     -10.46    -12.67   -2.21  FeSO4:7H2O
+	O2(g)            -5.97     -8.86   -2.89  O2
+	Pyrite         -208.60   -227.08  -18.48  FeS2
+	Sulfur          -91.56    -86.68    4.88  S
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds  (Incremented time: 2.1e+007 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -3.108e-010  9.997e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.401      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  25
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        2.683e-009
+   Fe+2           2.631e-009  2.396e-009    -8.580    -8.620    -0.041    -22.17
+   FeSO4          5.176e-011  5.176e-011   -10.286   -10.286     0.000     (0)  
+   FeHSO4+        5.979e-014  5.839e-014   -13.223   -13.234    -0.010     (0)  
+   FeOH+          4.520e-015  4.415e-015   -14.345   -14.355    -0.010     (0)  
+   Fe(OH)2        2.189e-022  2.190e-022   -21.660   -21.660     0.000     (0)  
+   Fe(OH)3-       4.853e-029  4.740e-029   -28.314   -28.324    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -254.392  -254.392     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -379.706  -379.716    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.483   -41.482     0.000     28.61
+O(0)         7.690e-010
+   O2             3.845e-010  3.845e-010    -9.415    -9.415     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -124.185  -124.185     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -127.351  -127.361    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -136.473  -136.513    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -254.392  -254.392     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -379.706  -379.716    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          5.176e-011  5.176e-011   -10.286   -10.286     0.000     (0)  
+   FeHSO4+        5.979e-014  5.839e-014   -13.223   -13.234    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -128.30   -132.22   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.38    -41.48   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -123.13   -131.13   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -127.57   -132.22   -4.65  FeS
+	Melanterite     -10.33    -12.54   -2.21  FeSO4:7H2O
+	O2(g)            -6.52     -9.42   -2.89  O2
+	Pyrite         -206.53   -225.01  -18.48  FeS2
+	Sulfur          -90.73    -85.85    4.88  S
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1.05e+007 seconds  (Incremented time: 3.15e+007 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Pyrite          -1.099e-010  9.997e-001   FeS2                      1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Fe               6.816e-005  6.816e-005
+	S                1.363e-004  1.363e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.765      Charge balance
+                                       pe  =  15.299      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 81
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.285e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.045e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.216e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550673e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.756e-004  1.716e-004    -3.755    -3.765    -0.010      0.00
+   OH-            6.039e-011  5.897e-011   -10.219   -10.229    -0.010     -4.12
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Fe(2)        3.393e-009
+   Fe+2           3.328e-009  3.031e-009    -8.478    -8.518    -0.041    -22.17
+   FeSO4          6.547e-011  6.547e-011   -10.184   -10.184     0.000     (0)  
+   FeHSO4+        7.563e-014  7.386e-014   -13.121   -13.132    -0.010     (0)  
+   FeOH+          5.718e-015  5.585e-015   -14.243   -14.253    -0.010     (0)  
+   Fe(OH)2        2.769e-022  2.770e-022   -21.558   -21.558     0.000     (0)  
+   Fe(OH)3-       6.138e-029  5.995e-029   -28.212   -28.222    -0.010     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -252.657  -252.657     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -377.154  -377.164    -0.010     (0)  
+Fe(3)        6.816e-005
+   Fe(OH)2+       4.279e-005  4.180e-005    -4.369    -4.379    -0.010     (0)  
+   FeOH+2         2.380e-005  2.167e-005    -4.623    -4.664    -0.041     (0)  
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe+3           7.078e-007  5.759e-007    -6.150    -6.240    -0.090     (0)  
+   Fe(OH)3        3.137e-008  3.138e-008    -7.503    -7.503     0.000     (0)  
+   Fe2(OH)2+4     1.845e-008  1.263e-008    -7.734    -7.898    -0.164     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   Fe3(OH)4+5     1.994e-010  1.103e-010    -9.700    -9.957    -0.257     (0)  
+   Fe(OH)4-       1.707e-013  1.667e-013   -12.768   -12.778    -0.010     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.278   -41.278     0.000     28.61
+O(0)         3.004e-010
+   O2             1.502e-010  1.502e-010    -9.823    -9.823     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -123.368  -123.368     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -126.534  -126.544    -0.010     20.59
+   S-2            0.000e+000  0.000e+000  -135.656  -135.697    -0.041     (0)  
+   Fe(HS)2        0.000e+000  0.000e+000  -252.657  -252.657     0.000     (0)  
+   Fe(HS)3-       0.000e+000  0.000e+000  -377.154  -377.164    -0.010     (0)  
+S(6)         1.363e-004
+   SO4-2          1.335e-004  1.215e-004    -3.875    -3.916    -0.041     13.97
+   HSO4-          2.075e-006  2.027e-006    -5.683    -5.693    -0.010     40.27
+   FeSO4+         7.853e-007  7.671e-007    -6.105    -6.115    -0.010     (0)  
+   Fe(SO4)2-      2.087e-009  2.039e-009    -8.680    -8.691    -0.010     (0)  
+   FeHSO4+2       3.875e-010  3.525e-010    -9.412    -9.453    -0.041     (0)  
+   FeSO4          6.547e-011  6.547e-011   -10.184   -10.184     0.000     (0)  
+   FeHSO4+        7.563e-014  7.386e-014   -13.121   -13.132    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fe(OH)3(a)        0.17      5.06    4.89  Fe(OH)3
+	FeS(ppt)       -127.38   -131.30   -3.92  FeS
+	Goethite          6.06      5.06   -1.00  FeOOH
+	H2(g)           -38.18    -41.28   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -122.32   -130.31   -7.99  H2S
+	Hematite         14.12     10.11   -4.01  Fe2O3
+	Mackinawite    -126.65   -131.30   -4.65  FeS
+	Melanterite     -10.22    -12.43   -2.21  FeSO4:7H2O
+	O2(g)            -6.93     -9.82   -2.89  O2
+	Pyrite         -205.00   -223.48  -18.48  FeS2
+	Sulfur          -90.12    -85.24    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+-------------------------------
+End of Run after 0.187 Seconds.
+-------------------------------
+

@@ -1,0 +1,131 @@
+   Input file: calc_values
+  Output file: calc_values.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SOLUTION
+	 Ca 1
+	 C(4) 45.14
+	 pH 7 charge
+	CALCULATE_VALUES
+	    calc1
+	    start 
+	    10  c2 = calc_value("calc2")
+	    20  c1 = get(1)
+	    30 save c1 + c2 
+	    40 print "calc1 ", c1
+	    end 
+	    calc2
+	    start 
+	    20  c2 = get(2)
+	    30 save c2 
+	    40 print "calc2 ", c2
+	    end     
+	USER_PRINT
+	10 put(2, 1)
+	20 put(3, 2)
+	30 print calc_value("calc1"), get(1), get(2)
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+calc2             3 
+calc1             2 
+           5            2            3 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)             4.514e-002  4.514e-002
+	Ca               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.991      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 195
+                          Density (g/cm3)  =   0.99777
+                               Volume (L)  =   1.00652
+                        Activity of water  =   0.999
+                           Ionic strength  =  2.971e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.000e-003
+                       Total CO2 (mol/kg)  =  4.514e-002
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  1.019e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110145e+002
+                                  Total O  = 5.559851e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.079e-005  1.021e-005    -4.967    -4.991    -0.024      0.00
+   OH-            1.052e-009  9.903e-010    -8.978    -9.004    -0.026     -4.08
+   H2O            5.551e+001  9.992e-001     1.744    -0.000     0.000     18.07
+C(4)         4.514e-002
+   CO2            4.313e-002  4.316e-002    -1.365    -1.365     0.000     30.26
+   HCO3-          1.991e-003  1.878e-003    -2.701    -2.726    -0.025     24.62
+   CaHCO3+        1.970e-005  1.859e-005    -4.706    -4.731    -0.025      9.69
+   CaCO3          1.123e-008  1.124e-008    -7.949    -7.949     0.000    -14.60
+   CO3-2          1.089e-008  8.625e-009    -7.963    -8.064    -0.101     -4.28
+Ca           1.000e-003
+   Ca+2           9.803e-004  7.758e-004    -3.009    -3.110    -0.102    -18.07
+   CaHCO3+        1.970e-005  1.859e-005    -4.706    -4.731    -0.025      9.69
+   CaCO3          1.123e-008  1.124e-008    -7.949    -7.949     0.000    -14.60
+   CaOH+          1.337e-011  1.260e-011   -10.874   -10.900    -0.026     (0)  
+H(0)         1.476e-021
+   H2             7.378e-022  7.384e-022   -21.132   -21.132     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -50.118   -50.117     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Aragonite        -2.84    -11.17   -8.34  CaCO3
+	Calcite          -2.69    -11.17   -8.48  CaCO3
+	CO2(g)            0.10     -1.36   -1.46  CO2
+	H2(g)           -18.03    -21.13   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -47.22    -50.12   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.021 Seconds.
+-------------------------------
+

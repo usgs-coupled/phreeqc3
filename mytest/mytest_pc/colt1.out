@@ -1,0 +1,131 @@
+   Input file: colt1
+  Output file: colt1.out
+Database file: ../database/Amm.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/Amm.dat
+	SOLUTION 0  CaCl2
+	        units   mmol/kgw
+	        pH      7.0     charge
+	        pe      12.5	O2(g)	-0.68
+	        temp    25.0
+	        Ca      0.6
+	        Cl      1.2
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	CaCl2
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               6.000e-004  6.000e-004
+	Cl               1.200e-003  1.200e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.995      Charge balance
+                                       pe  =  13.632      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 155
+                          Density (g/cm3)  =   0.99710
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.800e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  6.950e-020
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  4.519e-018
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550675e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.058e-007  1.012e-007    -6.976    -6.995    -0.019      0.00
+   OH-            1.049e-007  1.000e-007    -6.979    -7.000    -0.021     -4.10
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Ca           6.000e-004
+   Ca+2           6.000e-004  4.983e-004    -3.222    -3.302    -0.081    -18.10
+   CaOH+          8.569e-010  8.174e-010    -9.067    -9.088    -0.020     (0)  
+Cl           1.200e-003
+   Cl-            1.200e-003  1.144e-003    -2.921    -2.941    -0.021     18.08
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.404   -44.404     0.000     28.61
+O(0)         5.351e-004
+   O2             2.675e-004  2.676e-004    -3.573    -3.572     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.30    -44.40   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)            -0.68     -3.57   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1-8  Initial solution for column
+	        units   mmol/kgw
+	        pH      7.0     charge
+	        pe      12.5	O2(g)	-0.68
+	        temp    25.0
+	        Na      1.0
+	        K       0.2
+	        N(5)    1.2
+	EXCHANGE 1-8
+	        equilibrate 1
+	        X      0.0011
+	PRINT
+	        reset  false
+	SELECTED_OUTPUT
+	        file colt1.prn
+	        totals Na Cl K Ca
+	TRANSPORT
+	     cells  8
+	     shifts  25   1
+	     timest 0.0
+	     tempr  3.0
+	     bcond   3  3
+	     diffc  0.0e-9
+	     length 0.01
+	     disp   0.002
+	     punch  8
+	END
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 8.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 8.
+-------------------------------
+End of Run after 0.123 Seconds.
+-------------------------------
+

@@ -1,0 +1,84 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION
+	Na	1
+	Cl	1
+	N(0)	1
+END
+SOLUTION_MODIFY 1
+	-totals
+		Brx	0.001
+	-activities
+		Brx	0.001
+END	
+EQUILIBRIUM_PHASES 1
+	Calcite
+END
+EQUILIBRIUM_PHASES_MODIFY
+	-component DolomiteX
+		-add_formula Bx
+		-moles	10
+		-si -1
+END
+EXCHANGE 1
+	X	1
+	-eq 1
+END
+EXCHANGE_MODIFY 1
+	-component Y
+		-totals
+			Na 0.5
+			Ca 0.25
+			Y  1
+
+END
+GAS_PHASE 1
+	-fixed_volume
+	CO2(g) .0001
+END
+GAS_PHASE_MODIFY 1
+	-component N2X(g)
+		-moles   1e-5
+END
+KINETICS 1
+	-step 86400
+END
+KINETICS_MODIFY 1
+	-component CalciteX
+		-tol    1e-8
+		-m0	3.e-3
+		-m	3.e-3
+		-namecoef
+			CaCO3 1
+		-d_params	50	  0.6	
+REACTION 1
+REACTION_MODIFY 1
+	-reactant_list
+		CeCO3 1
+	-steps
+		.1
+	-equal_increments 0
+SOLID_SOLUTION 1
+SOLID_SOLUTION_MODIFY 1
+	-solid_solution calcite_ss
+		-component calciteX
+			-moles 1
+		-component siderite
+			-moles .1	
+SURFACE 1
+	Hfo_wOH 1 600 1
+	-eq 1
+END
+SURFACE_MODIFY 1
+	-component Hfo_wOH
+		-totals
+			Hfo_wx  0.01
+			O      0.01
+			H      0.01
+	#-charge_component  Hfo
+			
+RUN_CELLS
+	-cells 1
+END
+
+
+		

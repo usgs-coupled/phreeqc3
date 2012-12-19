@@ -1,0 +1,42 @@
+#DATABASE D:\Travail\Applications\PhreeqcI\llnl.dat
+DATABASE pitzer-04.dat
+
+PHASES
+Fix_pH
+	H+ = H+
+	log_k		0
+
+#****************************************************
+SOLUTION 1
+pH 7
+units	mol/kgw
+END
+USE solution 1
+REACTION 1
+FeCl3 1
+FeCl2 1
+0.5 mmol
+
+#EQUILIBRIUM_PHASES
+#Fix_pH -7 HCl
+#knobs
+#	-Debug_model
+SAVE solution 2
+END
+USE solution 2
+REACTION
+	O2 1
+	2 mmol in 2 steps
+##****************************************************
+#SOLUTION 1
+#pH 7
+#units	mol/kgw
+#
+#REACTION 1
+#FeCl2 1
+#0.5
+#
+#EQUILIBRIUM_PHASES
+#Fix_pH -7 HCl
+#
+#END

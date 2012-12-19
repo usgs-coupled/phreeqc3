@@ -1,0 +1,59 @@
+   Input file: mmb2
+  Output file: mmb2.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	USER_PRINT
+	 start
+	 10 print 'edl_H2O', edl("water"), 'total water', edl("water") + tot("water"), -la("H+"), 'Na =', tot("Na"), 'Cl =', tot("Cl")
+	 20 print 'EB =', charge_balance, 'sys_Ca =', sys("Ca"), 'sol =', cell_no, 'a_Na =', act("Na+")
+	 end
+	PRINT
+	 reset false
+----------------------------------User print-----------------------------------
+
+edl_H2O            0 total water            1            7 Na =  1.0000e-003 Cl =  1.0020e-003 
+EB = -1.9775e-013 sys_Ca =  1.0000e-006 sol =            0 a_Na =  9.6513e-004 
+
+----------------------------------User print-----------------------------------
+
+edl_H2O            0 total water  6.1609e-001            7 Na =  5.0000e-001 Cl =  5.0000e-001 
+EB = -1.1375e-011 sys_Ca =            0 sol =            1 a_Na =  3.5876e-001 
+
+----------------------------------User print-----------------------------------
+
+edl_H2O  3.8365e-001 total water  9.9974e-001  7.0000e+000 Na =  5.0000e-001 Cl =  5.0000e-001 
+EB = -1.1388e-011 sys_Ca =            0 sol =            1 a_Na =  3.5876e-001 
+
+WARNING: No dispersivities were read; disp = 0 assumed.
+----------------------------------User print-----------------------------------
+
+edl_H2O  3.8365e-001 total water  9.9974e-001  7.0000e+000 Na =  5.0000e-001 Cl =  5.0000e-001 
+EB = -1.1388e-011 sys_Ca =            0 sol =            1 a_Na =  3.5876e-001 
+
+----------------------------------User print-----------------------------------
+
+edl_H2O  9.8975e-001 total water  9.9974e-001  7.3259e+000 Na =  1.0176e-003 Cl =  1.0298e-003 
+EB = -1.1739e-007 sys_Ca =  2.6168e-003 sol =            1 a_Na =  9.8181e-004 
+
+--------------------------------
+End of Run after 45.505 Seconds.
+--------------------------------
+

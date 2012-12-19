@@ -1,0 +1,230 @@
+#DATABASE c:\phreeqc\database\pitzer.dat
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+SOLUTION 1; pH 7 charge
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 5.000000
+REACTION_PRESSURE; 1.000000
+# from 0 to 4.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 5.oC
+-axis_titles "KHCO3 / (mol/kg H2O)" "KHCO3 molar volume / (cm3/mol)"
+
+10 data 0, 32.425, 31.74, 30.92, 31.12, 30.33, 31.85, 32.11
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Yellow #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 10.000000
+REACTION_PRESSURE; 1.000000
+# from 4 to 8.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 10.oC
+10 data 0, 33.33, 32.71, 31.91, 32.08, 31.34, 32.24, 32.77
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Red #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 15.000000
+REACTION_PRESSURE; 1.000000
+# from 8 to 12.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 15.oC
+10 data 0, 34.16, 33.49, 32.75, 32.77, 32.22, 32.43, 33.48
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Magenta #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 1.000000
+# from 12 to 34.
+REACTION; KHCO3 1
+0 0.01505 0.03015 0.05045 0.080640 0.088100 0.098060 0.101400 0.150500 0.176700 0.200050 0.254900 0.293860 0.301690 0.333100 0.400010 0.499750 0.503480 0.513900 0.674500 0.699270 0.780500 0.800150 0.907200 0.992470 \
+1.049500
+USER_GRAPH; -headings 25.oC
+10 data 0,  33.91, 33.61, 33.36, 33.690000, 34.490000, 34.899638, 34.850000, 34.140000, 34.860000, 35.196051, 35.370000, 34.497911, 34.800000, 35.260000, 35.725791, 35.967134, 35.370000, 35.900000, 36.110000, 36.409342, 36.820000, 36.613232, 36.620000, 36.968652, \
+37.280000,
+20 dim d(26)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Black #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 35.000000
+REACTION_PRESSURE; 1.000000
+# from 34 to 38.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 35.oC
+10 data 0, 36.217, 35.72, 35.09, 34.55, 34.27, 34.66, 35.13,
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Blue #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Blue
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 45.000000
+REACTION_PRESSURE; 1.000000
+# from 38 to 42.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 45.oC
+10 data 0, 36.812, 36.304, 35.82, 35.21, 35.19, 34.76, 35.1
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Green #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Green
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 55.000000
+REACTION_PRESSURE; 1.000000
+# from 42 to 46.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 55.oC
+10 data 0, 37.201, 36.736, 36.26, 35.56, 35.97, 35.77, 35.5
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Brown #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 65.000000
+REACTION_PRESSURE; 1.000000
+# from 46 to 50.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 65.oC
+10 data 0, 37.370, 36.957, 36.46, 35.88, 36.17, 36.31, 36.4
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Orange #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Orange #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 75.000000
+REACTION_PRESSURE; 1.000000
+# from 50 to 54.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 75.oC
+10 data 0, 37.427, 36.975, 36.54, 35.60, 36.06, 36.33, 35.4
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Blue #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Blue #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 85.000000
+REACTION_PRESSURE; 1.000000
+# from 54 to 58.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 85.oC
+10 data 0, 37.322, 36.878, 36.30, 35.70, 35.87, 35.79, 34.9
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = DeepPink #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = DeepPink #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 95.000000
+REACTION_PRESSURE; 1.000000
+# from 58 to 62.
+REACTION; KHCO3 1
+0  0.50348 0.30169 0.15050 0.08064 0.05045 0.03015 0.01505
+USER_GRAPH; -headings 95.oC
+10 data 0, 37.141, 36.619, 35.92, 35.18, 35.54, 35.79, 34.7
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("K") * 100.1211) / (tot("K") * rho) - 1e3 / (tot("K") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("K"), d(step_no), line_w = 0, color = Aqua, symbol = Square  #aph_x tot("K") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("K"), Vmol, symbol = None, color = Aqua #step_no = 6 then put(step_no + get(1), 1)
+# 82 plot_xy tot("K"), mol("CO3-2")/tot("C"), y_axis = 2, symbol = None
+ 90 end
+END

@@ -1,0 +1,41 @@
+#[ Plot molar volumes at "infinite" dilution
+#]
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false; -user_print true
+REACTION_TEMPERATURE 1
+ 0 230 in 21
+SOLUTION 1
+ -units umol/kgw
+ Na 1; K 1; Cl 2
+USER_GRAPH 1 ; -chart_title  "Alkali - Chlorides"
+-plot_csv_file mV1_rho.dat
+-headings -Vm
+-axis_scale x_axis 270 510
+-axis_scale y_axis -10 30
+-axis_titles "Temperature / K" "molar Volume / cm3/mol"
+ -connect false
+-headings Vm
+ 20 mV = Vm("Na+") + Vm("Cl-")
+ 30 plot_xy tk, mV, color = Red, symbol = None, line_width = 2
+ 40 mV = Vm("K+") + Vm("Cl-")
+ 50 plot_xy tk, mV, color = Green, symbol = None, line_width = 2
+END
+
+
+SOLUTION_SPECIES
+Na+ = Na+
+-millero -3.46 0.1092 -0.000768 2.698 -0.106 0.001651
+K+ = K+
+-millero 7.26 0.0892 -0.000736 2.722 -0.101 0.00151
+Cl- = Cl-
+-millero 16.37 0.0896 -0.001264 -1.494 0.034 -0.000621
+
+USE solution 1
+USE reaction_temperature 1
+USER_GRAPH 1
+-headings -millero
+ 20 mV = Vm("Na+") + Vm("Cl-")
+ 30 plot_xy tk, mV, color = Red, symbol = None, line_width = 1
+ 40 mV = Vm("K+") + Vm("Cl-")
+ 50 plot_xy tk, mV, color = Green, symbol = None, line_width = 1
+END

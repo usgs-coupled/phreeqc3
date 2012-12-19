@@ -1,0 +1,351 @@
+   Input file: surf3
+  Output file: surf3.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	knobs
+		logfile
+	PRINT
+		status false
+	SOLUTION_SPECIES
+		H2O = OH- + H+
+		log_k -13.8
+		gamma    3.5000    0.0000
+	SURFACE 1
+		equilibrate with solution 1
+		diffuse_layer 1e-9
+		SurfOH	0.001	1058.	1.0
+		SurfaOH	0.001	1058.	1.0
+	SURFACE_MASTER_SPECIES
+		Surf	SurfOH
+		Surfa	SurfaOH
+	SURFACE_SPECIES
+		SurfOH = SurfOH
+		log_k	0.0
+		SurfOH  + H+ = SurfOH2+
+		log_k	7.66
+		SurfOH = SurfO- + H+
+		log_k	-8.98
+		SurfaOH = SurfaOH
+		log_k	0.0
+		SurfaOH  + H+ = SurfaOH2+
+		log_k	7.66
+		SurfaOH = SurfaO- + H+
+		log_k	-8.98
+	use surface 1
+	SOLUTION 1	Seawater
+		Temp 25.
+		pH 7.0
+		pe  8.45 
+		units mol/kgw
+		K	0.0003
+		S(6)    0.0001
+		N(5)	0.0001	charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	Seawater
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                3.000e-004  3.000e-004
+	N(5)             9.994e-005  9.994e-005  Charge balance
+	S(6)             1.000e-004  1.000e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   8.450    
+       Specific Conductance (uS/cm, 25 oC) = 44
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.997e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  5.902e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -6.472e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550692e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.622e-007  1.585e-007    -6.790    -6.800    -0.010     (0)  
+   H+             1.022e-007  1.000e-007    -6.990    -7.000    -0.010      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         1.782e-034
+   H2             8.912e-035  8.913e-035   -34.050   -34.050     0.000     28.61
+K            3.000e-004
+   K+             2.998e-004  2.930e-004    -3.523    -3.533    -0.010      9.00
+   KSO4-          1.919e-007  1.876e-007    -6.717    -6.727    -0.010     (0)  
+N(5)         9.994e-005
+   NO3-           9.994e-005  9.767e-005    -4.000    -4.010    -0.010     29.52
+O(0)         1.050e-024
+   O2             5.248e-025  5.248e-025   -24.280   -24.280     0.000     30.40
+S(6)         1.000e-004
+   SO4-2          9.981e-005  9.113e-005    -4.001    -4.040    -0.040     13.97
+   KSO4-          1.919e-007  1.876e-007    -6.717    -6.727    -0.010     (0)  
+   HSO4-          9.065e-010  8.860e-010    -9.043    -9.053    -0.010     40.27
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -30.95    -34.05   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -21.39    -24.28   -2.89  O2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Surf          
+	-1.291e-010  Surface + diffuse layer charge, eq
+	 9.915e-005  Surface charge, eq
+	 9.043e-003  sigma, C/m**2
+	 6.973e-002  psi, V
+	-2.714e+000  -F*psi/RT
+	 6.626e-002  exp(-F*psi/RT)
+	 1.058e+003  specific area, m**2/g
+	 1.058e+003  m**2 for  1.000e+000 g
+
+	Water in diffuse layer: 1.058e-003 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	H             	 8.7693e-009
+	K             	-5.4910e-006
+	N             	 6.5246e-006
+	O             	 1.9383e-004
+	S             	 4.3561e-005
+
+Surf          
+	 1.000e-003  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	SurfOH           6.845e-004       0.685  6.845e-004      -3.165
+	SurfOH2+         2.073e-004       0.207  2.073e-004      -3.683
+	SurfO-           1.082e-004       0.108  1.082e-004      -3.966
+
+Surfa         
+	-1.291e-010  Surface + diffuse layer charge, eq
+	 9.915e-005  Surface charge, eq
+	 9.043e-003  sigma, C/m**2
+	 6.973e-002  psi, V
+	-2.714e+000  -F*psi/RT
+	 6.626e-002  exp(-F*psi/RT)
+	 1.058e+003  specific area, m**2/g
+	 1.058e+003  m**2 for  1.000e+000 g
+
+	Water in diffuse layer: 1.058e-003 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	H             	 8.7693e-009
+	K             	-5.4910e-006
+	N             	 6.5246e-006
+	O             	 1.9383e-004
+	S             	 4.3561e-005
+
+Surfa         
+	 1.000e-003  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	SurfaOH          6.845e-004       0.685  6.845e-004      -3.165
+	SurfaOH2+        2.073e-004       0.207  2.073e-004      -3.683
+	SurfaO-          1.082e-004       0.108  1.082e-004      -3.966
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Seawater
+Using surface 1.	
+
+------------------------------Surface composition------------------------------
+
+Surf          
+	 5.692e-019  Surface + diffuse layer charge, eq
+	 9.915e-005  Surface charge, eq
+	 9.043e-003  sigma, C/m**2
+	 6.973e-002  psi, V
+	-2.714e+000  -F*psi/RT
+	 6.626e-002  exp(-F*psi/RT)
+	 1.058e+003  specific area, m**2/g
+	 1.058e+003  m**2 for  1.000e+000 g
+
+	Water in diffuse layer: 1.058e-003 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	H             	 8.7695e-009
+	K             	-5.4910e-006
+	N             	 6.5243e-006
+	O             	 1.9383e-004
+	S             	 4.3561e-005
+
+Surf          
+	 1.000e-003  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	SurfOH           6.845e-004       0.685  6.845e-004      -3.165
+	SurfOH2+         2.073e-004       0.207  2.073e-004      -3.683
+	SurfO-           1.082e-004       0.108  1.082e-004      -3.966
+
+Surfa         
+	 5.692e-019  Surface + diffuse layer charge, eq
+	 9.915e-005  Surface charge, eq
+	 9.043e-003  sigma, C/m**2
+	 6.973e-002  psi, V
+	-2.714e+000  -F*psi/RT
+	 6.626e-002  exp(-F*psi/RT)
+	 1.058e+003  specific area, m**2/g
+	 1.058e+003  m**2 for  1.000e+000 g
+
+	Water in diffuse layer: 1.058e-003 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water)
+
+	Element       	     Moles
+	H             	 8.7695e-009
+	K             	-5.4910e-006
+	N             	 6.5243e-006
+	O             	 1.9383e-004
+	S             	 4.3561e-005
+
+Surfa         
+	 1.000e-003  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	SurfaOH          6.845e-004       0.685  6.845e-004      -3.165
+	SurfaOH2+        2.073e-004       0.207  2.073e-004      -3.683
+	SurfaO-          1.082e-004       0.108  1.082e-004      -3.966
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                3.000e-004  3.000e-004
+	N                9.994e-005  9.994e-005
+	S                1.000e-004  1.000e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  12.396      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 44
+                          Density (g/cm3)  =   0.99706
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.997e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  5.903e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.588e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550692e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.622e-007  1.585e-007    -6.790    -6.800    -0.010     (0)  
+   H+             1.022e-007  1.000e-007    -6.990    -7.000    -0.010      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -41.941   -41.941     0.000     28.61
+K            3.000e-004
+   K+             2.998e-004  2.930e-004    -3.523    -3.533    -0.010      9.00
+   KSO4-          1.919e-007  1.876e-007    -6.717    -6.727    -0.010     (0)  
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.087   -54.098    -0.010     17.95
+   NH3            0.000e+000  0.000e+000   -56.342   -56.342     0.000     24.46
+   NH4SO4-        0.000e+000  0.000e+000   -57.018   -57.028    -0.010     (0)  
+N(0)         2.542e-009
+   N2             1.271e-009  1.271e-009    -8.896    -8.896     0.000     29.29
+N(3)         6.007e-015
+   NO2-           6.007e-015  5.871e-015   -14.221   -14.231    -0.010     24.96
+N(5)         9.994e-005
+   NO3-           9.994e-005  9.766e-005    -4.000    -4.010    -0.010     29.52
+O(0)         6.355e-009
+   O2             3.177e-009  3.178e-009    -8.498    -8.498     0.000     30.40
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -132.545  -132.555    -0.010     20.59
+   H2S            0.000e+000  0.000e+000  -132.613  -132.613     0.000     37.16
+   S-2            0.000e+000  0.000e+000  -138.433  -138.473    -0.039     (0)  
+S(6)         1.000e-004
+   SO4-2          9.981e-005  9.113e-005    -4.001    -4.040    -0.040     13.97
+   KSO4-          1.919e-007  1.876e-007    -6.717    -6.727    -0.010     (0)  
+   HSO4-          9.065e-010  8.860e-010    -9.043    -9.053    -0.010     40.27
+   NH4SO4-        0.000e+000  0.000e+000   -57.018   -57.028    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -38.84    -41.94   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -131.56   -139.55   -7.99  H2S
+	N2(g)            -5.72     -8.90   -3.18  N2
+	NH3(g)          -58.14    -56.34    1.80  NH3
+	O2(g)            -5.61     -8.50   -2.89  O2
+	Sulfur          -98.70    -93.82    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.039 Seconds.
+-------------------------------
+

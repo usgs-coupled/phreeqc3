@@ -1,0 +1,1308 @@
+   Input file: kinex
+  Output file: kinex.out
+Database file: ../database/wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/wateq4f.dat
+	RATES
+	CaX2       # species 2
+	start
+	10 DATA 5, "NaX", 1, "CaX2", 2, "MgX2", 2, "KX", 1, "HX", 1
+	20 DATA 2, "CaX2", 0.8, 2, "Na+", 2, "Ca+2", -1
+	30 krate = PARM(1)/(24*3600) 
+	100 REM  Calculate sites and log_master_fraction
+	110 RESTORE 10
+	120 READ nspec
+	130 sites = 0
+	140 FOR i = 1 to nspec
+	150   READ spec$, equiv
+	170   sites = sites + KIN(spec$)*equiv
+	180   PUT(equiv, i, 0)           # equiv in (i, 0)
+	190 NEXT i
+	200 PUT (nspec, 0)               # number of species in (0)
+	210 PUT (sites, 1)               # moles of sites stored in (1)
+	230 RESTORE 10
+	240 READ nspec
+	250 FOR i = 1 to nspec
+	260   READ spec$, equiv
+	270   if (KIN(spec$) > 0) then PUT(LOG10(equiv*KIN(spec$)/sites), i, 1) else PUT (-99, i, 1)
+	280 NEXT i
+	300 REM Calculate SR for reaction
+	310 if (M <= 0) then goto 600
+	320 RESTORE 20
+	330 READ nspec, spec$, logk, n
+	340 q = GET(nspec, 1)
+	360 FOR i = 1 to n
+	370   READ s$, c
+	380   q = q + LA(s$) * c
+	390 NEXT i
+	410 q = q - GET(nspec, 0)*GET(1, 1)                  # subtract log_master_frac
+	420 satrat = 10^(q - logk)
+	430 PUT (q - logk, nspec, 2)                         # log SR in (i, 2)
+	440 rate = krate*(1-satrat)
+	450 moles = rate*TIME
+	460 GOTO 1000
+	600 REM Calculate rate if KIN is <=0
+	610 rate = krate
+	620 moles = rate*TIME
+	630 GOTO 1000
+	1000 REM save rate
+	1010 SAVE -moles
+	1020 PUT(GET(nspec,0)*moles, nspec, 3)                # delta equivs in (i,3)
+	end
+	MgX2       # species 3
+	start
+	20 DATA 3, "MgX2", 0.6, 2, "Na+", 2, "Mg+2", -1
+	30 krate = PARM(1)/(24*3600) 
+	300 REM Calculate SR for reaction
+	310 if (M <= 0) then goto 600
+	320 RESTORE 20
+	330 READ nspec, spec$, logk, n
+	340 q = GET(nspec, 1)
+	360 FOR i = 1 to n
+	370   READ s$, c
+	380   q = q + LA(s$) * c
+	390 NEXT i
+	410 q = q - GET(nspec, 0)*GET(1, 1)                  # subtract log_master_frac
+	420 satrat = 10^(q - logk)
+	430 PUT (q - logk, nspec, 2)                         # log SR in (i, 2)
+	440 rate = krate*(1-satrat)
+	450 moles = rate*TIME
+	460 GOTO 1000
+	600 REM Calculate rate if KIN is <=0
+	610 rate = krate
+	620 moles = rate*TIME
+	630 GOTO 1000
+	1000 REM save rate
+	1010 SAVE -moles
+	1020 PUT(GET(nspec,0)*moles, nspec, 3)                # delta equivs in (i,3)
+	end
+	KX       # species 4
+	start
+	20 DATA 4, "KX", 0.7, 2, "Na+", 1, "K+", -1
+	30 krate = PARM(1)/(24*3600) 
+	300 REM Calculate SR for reaction
+	310 if (M <= 0) then goto 600
+	320 RESTORE 20
+	330 READ nspec, spec$, logk, n
+	340 q = GET(nspec, 1)
+	360 FOR i = 1 to n
+	370   READ s$, c
+	380   q = q + LA(s$) * c
+	390 NEXT i
+	410 q = q - GET(nspec, 0)*GET(1, 1)                  # subtract log_master_frac
+	420 satrat = 10^(q - logk)
+	430 PUT (q - logk, nspec, 2)                         # log SR in (i, 2)
+	440 rate = krate*(1-satrat)
+	450 moles = rate*TIME
+	460 GOTO 1000
+	600 REM Calculate rate if KIN is <=0
+	610 rate = krate
+	620 moles = rate*TIME
+	630 GOTO 1000
+	1000 REM save rate
+	1010 SAVE -moles
+	1020 PUT(GET(nspec,0)*moles, nspec, 3)                # delta equivs in (i,3)
+	end
+	HX       # species 5
+	start
+	20 DATA 5, "HX", 1.0, 2, "Na+", 1, "H+", -1
+	30 krate = PARM(1)/(24*3600) 
+	300 REM Calculate SR for reaction
+	310 if (M <= 0) then goto 600
+	320 RESTORE 20
+	330 READ nspec, spec$, logk, n
+	340 q = GET(nspec, 1)
+	360 FOR i = 1 to n
+	370   READ s$, c
+	380   q = q + LA(s$) * c
+	390 NEXT i
+	410 q = q - GET(nspec, 0)*GET(1, 1)                  # subtract log_master_frac
+	420 satrat = 10^(q - logk)
+	430 PUT (q - logk, nspec, 2)                         # log SR in (i, 2)
+	440 rate = krate*(1-satrat)
+	450 moles = rate*TIME
+	460 GOTO 1000
+	600 REM Calculate rate if KIN is <=0
+	610 rate = krate
+	620 moles = rate*TIME
+	630 GOTO 1000
+	1000 REM save rate
+	1010 SAVE -moles
+	1020 PUT(GET(nspec,0)*moles, nspec, 3)                # delta equivs in (i,3)
+	end
+	NaX       # species 1
+	start
+	10 numspec = get(0)
+	20 moles = 0
+	30 FOR i = 2 to numspec
+	40  moles = moles + GET(i, 3)
+	50 NEXT i
+	60 SAVE moles
+	end
+	SOLUTION
+		pH  7
+		pe 10
+	        Ca 10
+		Mg 10
+		K  10
+		Na 10
+		Cl 10 charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.000e-002  1.000e-002
+	Cl               6.000e-002  6.000e-002  Charge balance
+	K                1.000e-002  1.000e-002
+	Mg               1.000e-002  1.000e-002
+	Na               1.000e-002  1.000e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  10.000    
+                        Activity of water  =   0.998
+                           Ionic strength  =  8.000e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.091e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.063e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.284e-007  9.994e-008    -6.891    -7.000    -0.109     (0)  
+   H+             1.198e-007  1.000e-007    -6.921    -7.000    -0.079      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           1.000e-002
+   Ca+2           1.000e-002  4.161e-003    -2.000    -2.381    -0.381     (0)  
+   CaOH+          8.533e-009  6.894e-009    -8.069    -8.162    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.683e-002    -1.222    -1.330    -0.108     (0)  
+H(0)         1.390e-037
+   H2             6.950e-038  7.079e-038   -37.158   -37.150     0.008     (0)  
+K            1.000e-002
+   K+             1.000e-002  7.804e-003    -2.000    -2.108    -0.108     (0)  
+Mg           1.000e-002
+   Mg+2           1.000e-002  4.306e-003    -2.000    -2.366    -0.366     (0)  
+   MgOH+          1.920e-007  1.561e-007    -6.717    -6.807    -0.090     (0)  
+Na           1.000e-002
+   Na+            1.000e-002  7.958e-003    -2.000    -2.099    -0.099     (0)  
+O(0)         1.628e-018
+   O2             8.138e-019  8.289e-019   -18.089   -18.081     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.21     11.63   16.84  Mg(OH)2
+	H2(g)           -34.00    -37.15   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.01     -3.43    1.58  NaCl
+	O2(g)           -15.19    -18.08   -2.89  O2
+	Portlandite     -11.18     11.62   22.80  Ca(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE solution 1
+	EXCHANGE
+		CaX2  0
+		MgX2  0
+		KX    0
+		NaX   1e-3
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using exchange 1.	
+
+-----------------------------Exchange composition------------------------------
+
+X               1.000e-003 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2             2.399e-004  4.799e-004  4.799e-001     0.000
+	KX               1.664e-004  1.664e-004  1.664e-001     0.000
+	MgX2             1.580e-004  3.160e-004  3.160e-001     0.000
+	NaX              3.774e-005  3.774e-005  3.774e-002     0.000
+	HX               4.254e-009  4.254e-009  4.254e-006     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.760e-003  9.760e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.834e-003  9.834e-003
+	Mg               9.842e-003  9.842e-003
+	Na               1.096e-002  1.096e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.007      Charge balance
+                                       pe  =  -1.236      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.960e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.134e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.360e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  22
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.305e-007  1.016e-007    -6.884    -6.993    -0.109     (0)  
+   H+             1.179e-007  9.837e-008    -6.929    -7.007    -0.078      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.760e-003
+   Ca+2           9.760e-003  4.067e-003    -2.011    -2.391    -0.380     (0)  
+   CaOH+          8.475e-009  6.849e-009    -8.072    -8.164    -0.092     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.685e-002    -1.222    -1.329    -0.107     (0)  
+H(0)         3.980e-015
+   H2             1.990e-015  2.027e-015   -14.701   -14.693     0.008     (0)  
+K            9.834e-003
+   K+             9.834e-003  7.678e-003    -2.007    -2.115    -0.107     (0)  
+Mg           9.842e-003
+   Mg+2           9.842e-003  4.244e-003    -2.007    -2.372    -0.365     (0)  
+   MgOH+          1.923e-007  1.564e-007    -6.716    -6.806    -0.090     (0)  
+Na           1.096e-002
+   Na+            1.096e-002  8.728e-003    -1.960    -2.059    -0.099     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -63.003   -62.995     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.20     11.64   16.84  Mg(OH)2
+	H2(g)           -11.54    -14.69   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.97     -3.39    1.58  NaCl
+	O2(g)           -60.10    -63.00   -2.89  O2
+	Portlandite     -11.18     11.62   22.80  Ca(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	USE solution 1
+	KINETICS
+		cvode
+		steps 20 in 10 steps
+	     CaX2
+		  formula   Ca  1  
+		  parms   1           # rate constant in per day
+	          m 0
+	     MgX2
+		  formula   Mg  1  
+		  parms   1           # rate constant in per day
+	          m 0
+	     KX
+		  formula   K  1  
+		  parms   1           # rate constant in per day
+	          m 0
+	     HX
+		  formula   H  1  
+		  parms   1           # rate constant in per day
+	          m 0
+	     NaX
+		  formula   Na  1 
+	          m 1e-3
+	INCREMENTAL_REACTIONS
+	PRINT
+		warnings 1
+	USER_PRINT
+	10 sites = GET(1)
+	20 print "Total equivalents:         ", sites
+	40 print "equiv frac NaX:            ", 10^get(1,1)
+	50 print "equiv frac CaX2:           ", 10^get(2,1)
+	60 print "equiv frac MgX2:           ", 10^get(3,1)
+	70 print "equiv frac KX:             ", 10^get(4,1)
+	80 print "equiv frac HX:             ", 10^get(5,1)
+	SELECTED_OUTPUT
+		file kinex.sel
+		reset false
+		step
+	USER_PUNCH
+	heading Na_eq_frac Ca_eq_frac Mg_eq_frac K_eq_frac H_eq_frac
+	40 PUNCH 10^get(1,1)
+	50 PUNCH 10^get(2,1)
+	60 PUNCH 10^get(3,1)
+	70 PUNCH 10^get(4,1)
+	80 PUNCH 10^get(5,1)
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 2 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.315e-005  2.315e-005   Ca                        1
+	MgX2             2.315e-005  2.315e-005   Mg                        1
+	KX               2.308e-005  2.308e-005   K                         1
+	HX               9.085e-008  9.085e-008   H                         1
+	NaX             -1.158e-004  8.842e-004   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              8.7336e-001 
+equiv frac CaX2:             5.0653e-002 
+equiv frac MgX2:             5.0651e-002 
+equiv frac KX:               2.5252e-002 
+equiv frac HX:               8.6845e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.977e-003  9.977e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.977e-003  9.977e-003
+	Mg               9.977e-003  9.977e-003
+	Na               1.012e-002  1.012e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.084      Charge balance
+                                       pe  =  -1.343      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.995e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.000e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  4.663e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 322
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.558e-007  1.213e-007    -6.807    -6.916    -0.109     (0)  
+   H+             9.873e-008  8.239e-008    -7.006    -7.084    -0.079      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.977e-003
+   Ca+2           9.977e-003  4.152e-003    -2.001    -2.382    -0.381     (0)  
+   CaOH+          1.033e-008  8.349e-009    -7.986    -8.078    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.683e-002    -1.222    -1.329    -0.108     (0)  
+H(0)         4.573e-015
+   H2             2.286e-015  2.329e-015   -14.641   -14.633     0.008     (0)  
+K            9.977e-003
+   K+             9.977e-003  7.787e-003    -2.001    -2.109    -0.108     (0)  
+Mg           9.977e-003
+   Mg+2           9.977e-003  4.297e-003    -2.001    -2.367    -0.366     (0)  
+   MgOH+          2.325e-007  1.890e-007    -6.634    -6.723    -0.090     (0)  
+Na           1.012e-002
+   Na+            1.012e-002  8.051e-003    -1.995    -2.094    -0.099     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -63.124   -63.116     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.04     11.80   16.84  Mg(OH)2
+	H2(g)           -11.48    -14.63   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.01     -3.42    1.58  NaCl
+	O2(g)           -60.22    -63.12   -2.89  O2
+	Portlandite     -11.01     11.79   22.80  Ca(OH)2
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 4 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.314e-005  4.629e-005   Ca                        1
+	MgX2             2.314e-005  4.628e-005   Mg                        1
+	KX               2.293e-005  4.601e-005   K                         1
+	HX              -1.132e-008  7.954e-008   H                         1
+	NaX             -1.155e-004  7.688e-004   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              7.2233e-001 
+equiv frac CaX2:             1.1120e-001 
+equiv frac MgX2:             1.1119e-001 
+equiv frac KX:               5.5206e-002 
+equiv frac HX:               7.5063e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.954e-003  9.954e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.954e-003  9.954e-003
+	Mg               9.954e-003  9.954e-003
+	Na               1.023e-002  1.023e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.075      Charge balance
+                                       pe  =  10.862      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.991e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.887e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.746e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 155
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.525e-007  1.187e-007    -6.817    -6.926    -0.109     (0)  
+   H+             1.009e-007  8.421e-008    -6.996    -7.075    -0.079      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.954e-003
+   Ca+2           9.954e-003  4.143e-003    -2.002    -2.383    -0.381     (0)  
+   CaOH+          1.009e-008  8.151e-009    -7.996    -8.089    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.683e-002    -1.222    -1.329    -0.108     (0)  
+H(0)         1.859e-039
+   H2             9.296e-040  9.469e-040   -39.032   -39.024     0.008     (0)  
+K            9.954e-003
+   K+             9.954e-003  7.769e-003    -2.002    -2.110    -0.108     (0)  
+Mg           9.954e-003
+   Mg+2           9.953e-003  4.288e-003    -2.002    -2.368    -0.366     (0)  
+   MgOH+          2.270e-007  1.846e-007    -6.644    -6.734    -0.090     (0)  
+Na           1.023e-002
+   Na+            1.023e-002  8.143e-003    -1.990    -2.089    -0.099     (0)  
+O(0)         9.098e-015
+   O2             4.549e-015  4.634e-015   -14.342   -14.334     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.06     11.78   16.84  Mg(OH)2
+	H2(g)           -35.87    -39.02   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.00     -3.42    1.58  NaCl
+	O2(g)           -11.44    -14.33   -2.89  O2
+	Portlandite     -11.03     11.77   22.80  Ca(OH)2
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 6 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.313e-005  6.942e-005   Ca                        1
+	MgX2             2.313e-005  6.941e-005   Mg                        1
+	KX               2.274e-005  6.875e-005   K                         1
+	HX              -1.120e-008  6.834e-008   H                         1
+	NaX             -1.153e-004  6.535e-004   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              6.2939e-001 
+equiv frac CaX2:             1.4854e-001 
+equiv frac MgX2:             1.4851e-001 
+equiv frac KX:               7.3495e-002 
+equiv frac HX:               6.5969e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.931e-003  9.931e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.931e-003  9.931e-003
+	Mg               9.931e-003  9.931e-003
+	Na               1.035e-002  1.035e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.065      Charge balance
+                                       pe  =  10.968      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.986e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.775e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.890e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 160
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.492e-007  1.161e-007    -6.826    -6.935    -0.109     (0)  
+   H+             1.031e-007  8.608e-008    -6.987    -7.065    -0.079      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.931e-003
+   Ca+2           9.931e-003  4.134e-003    -2.003    -2.384    -0.381     (0)  
+   CaOH+          9.848e-009  7.957e-009    -8.007    -8.099    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.683e-002    -1.222    -1.329    -0.108     (0)  
+H(0)         1.192e-039
+   H2             5.959e-040  6.069e-040   -39.225   -39.217     0.008     (0)  
+K            9.931e-003
+   K+             9.931e-003  7.752e-003    -2.003    -2.111    -0.108     (0)  
+Mg           9.931e-003
+   Mg+2           9.930e-003  4.278e-003    -2.003    -2.369    -0.366     (0)  
+   MgOH+          2.216e-007  1.802e-007    -6.654    -6.744    -0.090     (0)  
+Na           1.035e-002
+   Na+            1.035e-002  8.235e-003    -1.985    -2.084    -0.099     (0)  
+O(0)         2.215e-014
+   O2             1.107e-014  1.128e-014   -13.956   -13.948     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.08     11.76   16.84  Mg(OH)2
+	H2(g)           -36.07    -39.22   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.00     -3.41    1.58  NaCl
+	O2(g)           -11.06    -13.95   -2.89  O2
+	Portlandite     -11.05     11.75   22.80  Ca(OH)2
+
+
+Reaction step 4.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 8 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.312e-005  9.254e-005   Ca                        1
+	MgX2             2.310e-005  9.251e-005   Mg                        1
+	KX               2.247e-005  9.122e-005   K                         1
+	HX              -1.136e-008  5.698e-008   H                         1
+	NaX             -1.149e-004  5.386e-004   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              5.3736e-001 
+equiv frac CaX2:             1.8558e-001 
+equiv frac MgX2:             1.8553e-001 
+equiv frac KX:               9.1468e-002 
+equiv frac HX:               5.6850e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.907e-003  9.907e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.909e-003  9.909e-003
+	Mg               9.907e-003  9.907e-003
+	Na               1.046e-002  1.046e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.055      Charge balance
+                                       pe  =  10.960      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.981e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.661e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.943e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 160
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.458e-007  1.135e-007    -6.836    -6.945    -0.109     (0)  
+   H+             1.055e-007  8.804e-008    -6.977    -7.055    -0.079      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.907e-003
+   Ca+2           9.907e-003  4.125e-003    -2.004    -2.385    -0.381     (0)  
+   CaOH+          9.607e-009  7.763e-009    -8.017    -8.110    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.684e-002    -1.222    -1.329    -0.108     (0)  
+H(0)         1.295e-039
+   H2             6.473e-040  6.593e-040   -39.189   -39.181     0.008     (0)  
+K            9.909e-003
+   K+             9.909e-003  7.735e-003    -2.004    -2.112    -0.108     (0)  
+Mg           9.907e-003
+   Mg+2           9.907e-003  4.269e-003    -2.004    -2.370    -0.366     (0)  
+   MgOH+          2.162e-007  1.758e-007    -6.665    -6.755    -0.090     (0)  
+Na           1.046e-002
+   Na+            1.046e-002  8.327e-003    -1.980    -2.080    -0.099     (0)  
+O(0)         1.877e-014
+   O2             9.384e-015  9.559e-015   -14.028   -14.020     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.10     11.74   16.84  Mg(OH)2
+	H2(g)           -36.03    -39.18   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.99     -3.41    1.58  NaCl
+	O2(g)           -11.13    -14.02   -2.89  O2
+	Portlandite     -11.08     11.72   22.80  Ca(OH)2
+
+
+Reaction step 5.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 10 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.309e-005  1.156e-004   Ca                        1
+	MgX2             2.306e-005  1.156e-004   Mg                        1
+	KX               2.205e-005  1.133e-004   K                         1
+	HX              -1.153e-008  4.544e-008   H                         1
+	NaX             -1.143e-004  4.243e-004   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              3.8972e-001 
+equiv frac CaX2:             2.4525e-001 
+equiv frac MgX2:             2.4511e-001 
+equiv frac KX:               1.1987e-001 
+equiv frac HX:               4.1908e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.884e-003  9.884e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.887e-003  9.887e-003
+	Mg               9.884e-003  9.884e-003
+	Na               1.058e-002  1.058e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.045      Charge balance
+                                       pe  =  10.983      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.977e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.546e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.729e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 153
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.424e-007  1.109e-007    -6.846    -6.955    -0.109     (0)  
+   H+             1.080e-007  9.012e-008    -6.967    -7.045    -0.079      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.884e-003
+   Ca+2           9.884e-003  4.116e-003    -2.005    -2.385    -0.380     (0)  
+   CaOH+          9.365e-009  7.568e-009    -8.029    -8.121    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.684e-002    -1.222    -1.329    -0.108     (0)  
+H(0)         1.219e-039
+   H2             6.094e-040  6.207e-040   -39.215   -39.207     0.008     (0)  
+K            9.887e-003
+   K+             9.887e-003  7.718e-003    -2.005    -2.112    -0.108     (0)  
+Mg           9.884e-003
+   Mg+2           9.884e-003  4.260e-003    -2.005    -2.371    -0.366     (0)  
+   MgOH+          2.107e-007  1.713e-007    -6.676    -6.766    -0.090     (0)  
+Na           1.058e-002
+   Na+            1.058e-002  8.418e-003    -1.976    -2.075    -0.099     (0)  
+O(0)         2.117e-014
+   O2             1.059e-014  1.078e-014   -13.975   -13.967     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.12     11.72   16.84  Mg(OH)2
+	H2(g)           -36.06    -39.21   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.99     -3.40    1.58  NaCl
+	O2(g)           -11.07    -13.97   -2.89  O2
+	Portlandite     -11.10     11.70   22.80  Ca(OH)2
+
+
+Reaction step 6.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 12 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.302e-005  1.386e-004   Ca                        1
+	MgX2             2.295e-005  1.385e-004   Mg                        1
+	KX               2.139e-005  1.347e-004   K                         1
+	HX              -1.169e-008  3.375e-008   H                         1
+	NaX             -1.133e-004  3.110e-004   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              2.8112e-001 
+equiv frac CaX2:             2.8949e-001 
+equiv frac MgX2:             2.8918e-001 
+equiv frac KX:               1.4019e-001 
+equiv frac HX:               3.0622e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.861e-003  9.861e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.865e-003  9.865e-003
+	Mg               9.861e-003  9.861e-003
+	Na               1.069e-002  1.069e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.035      Charge balance
+                                       pe  =  10.990      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.972e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.429e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.754e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 160
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.391e-007  1.083e-007    -6.857    -6.965    -0.109     (0)  
+   H+             1.106e-007  9.230e-008    -6.956    -7.035    -0.078      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.861e-003
+   Ca+2           9.861e-003  4.107e-003    -2.006    -2.386    -0.380     (0)  
+   CaOH+          9.123e-009  7.372e-009    -8.040    -8.132    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.684e-002    -1.222    -1.329    -0.108     (0)  
+H(0)         1.238e-039
+   H2             6.190e-040  6.304e-040   -39.208   -39.200     0.008     (0)  
+K            9.865e-003
+   K+             9.865e-003  7.702e-003    -2.006    -2.113    -0.108     (0)  
+Mg           9.861e-003
+   Mg+2           9.861e-003  4.250e-003    -2.006    -2.372    -0.365     (0)  
+   MgOH+          2.053e-007  1.669e-007    -6.688    -6.778    -0.090     (0)  
+Na           1.069e-002
+   Na+            1.069e-002  8.509e-003    -1.971    -2.070    -0.099     (0)  
+O(0)         2.052e-014
+   O2             1.026e-014  1.045e-014   -13.989   -13.981     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.14     11.70   16.84  Mg(OH)2
+	H2(g)           -36.05    -39.20   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.98     -3.40    1.58  NaCl
+	O2(g)           -11.09    -13.98   -2.89  O2
+	Portlandite     -11.12     11.68   22.80  Ca(OH)2
+
+
+Reaction step 7.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 14 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.282e-005  1.615e-004   Ca                        1
+	MgX2             2.264e-005  1.612e-004   Mg                        1
+	KX               2.013e-005  1.548e-004   K                         1
+	HX              -1.174e-008  2.201e-008   H                         1
+	NaX             -1.110e-004  1.999e-004   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              1.8466e-001 
+equiv frac CaX2:             3.2927e-001 
+equiv frac MgX2:             3.2859e-001 
+equiv frac KX:               1.5746e-001 
+equiv frac HX:               2.0370e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.839e-003  9.839e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.845e-003  9.845e-003
+	Mg               9.839e-003  9.839e-003
+	Na               1.080e-002  1.080e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.024      Charge balance
+                                       pe  =  10.875      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.968e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.311e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.824e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 165
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.357e-007  1.057e-007    -6.867    -6.976    -0.109     (0)  
+   H+             1.133e-007  9.459e-008    -6.946    -7.024    -0.078      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.839e-003
+   Ca+2           9.839e-003  4.099e-003    -2.007    -2.387    -0.380     (0)  
+   CaOH+          8.883e-009  7.179e-009    -8.051    -8.144    -0.093     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.684e-002    -1.222    -1.329    -0.107     (0)  
+H(0)         2.214e-039
+   H2             1.107e-039  1.128e-039   -38.956   -38.948     0.008     (0)  
+K            9.845e-003
+   K+             9.845e-003  7.686e-003    -2.007    -2.114    -0.107     (0)  
+Mg           9.839e-003
+   Mg+2           9.839e-003  4.241e-003    -2.007    -2.373    -0.365     (0)  
+   MgOH+          1.999e-007  1.625e-007    -6.699    -6.789    -0.090     (0)  
+Na           1.080e-002
+   Na+            1.080e-002  8.598e-003    -1.967    -2.066    -0.099     (0)  
+O(0)         6.416e-015
+   O2             3.208e-015  3.267e-015   -14.494   -14.486     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.17     11.67   16.84  Mg(OH)2
+	H2(g)           -35.80    -38.95   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.98     -3.39    1.58  NaCl
+	O2(g)           -11.59    -14.49   -2.89  O2
+	Portlandite     -11.14     11.66   22.80  Ca(OH)2
+
+
+Reaction step 8.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 16 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             2.190e-005  1.834e-004   Ca                        1
+	MgX2             2.124e-005  1.824e-004   Mg                        1
+	KX               1.704e-005  1.718e-004   K                         1
+	HX              -1.122e-008  1.079e-008   H                         1
+	NaX             -1.033e-004  9.662e-005   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0000e-003 
+equiv frac NaX:              8.6466e-002 
+equiv frac CaX2:             3.7124e-001 
+equiv frac MgX2:             3.6897e-001 
+equiv frac KX:               1.7332e-001 
+equiv frac HX:               9.6669e-006 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.817e-003  9.817e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.828e-003  9.828e-003
+	Mg               9.818e-003  9.818e-003
+	Na               1.090e-002  1.090e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.014      Charge balance
+                                       pe  =  10.997      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.963e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.199e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.581e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 195
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.325e-007  1.032e-007    -6.878    -6.986    -0.109     (0)  
+   H+             1.160e-007  9.686e-008    -6.935    -7.014    -0.078      0.00
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.817e-003
+   Ca+2           9.817e-003  4.090e-003    -2.008    -2.388    -0.380     (0)  
+   CaOH+          8.656e-009  6.996e-009    -8.063    -8.155    -0.092     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.685e-002    -1.222    -1.329    -0.107     (0)  
+H(0)         1.324e-039
+   H2             6.618e-040  6.741e-040   -39.179   -39.171     0.008     (0)  
+K            9.828e-003
+   K+             9.828e-003  7.674e-003    -2.008    -2.115    -0.107     (0)  
+Mg           9.818e-003
+   Mg+2           9.817e-003  4.233e-003    -2.008    -2.373    -0.365     (0)  
+   MgOH+          1.948e-007  1.584e-007    -6.710    -6.800    -0.090     (0)  
+Na           1.090e-002
+   Na+            1.090e-002  8.680e-003    -1.962    -2.061    -0.099     (0)  
+O(0)         1.795e-014
+   O2             8.977e-015  9.143e-015   -14.047   -14.039     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -5.19     11.65   16.84  Mg(OH)2
+	H2(g)           -36.02    -39.17   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.97     -3.39    1.58  NaCl
+	O2(g)           -11.15    -14.04   -2.89  O2
+	Portlandite     -11.16     11.64   22.80  Ca(OH)2
+
+
+Reaction step 9.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 18 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             1.447e-005  1.978e-004   Ca                        1
+	MgX2             1.008e-005  1.925e-004   Mg                        1
+	KX               6.853e-006  1.787e-004   K                         1
+	HX              -7.631e-009  3.155e-009   H                         1
+	NaX             -5.551e-005  4.111e-005   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0005e-003 
+equiv frac NaX:              4.1045e-002 
+equiv frac CaX2:             3.9550e-001 
+equiv frac MgX2:             3.8480e-001 
+equiv frac KX:               1.7861e-001 
+equiv frac HX:               5.0501e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.802e-003  9.802e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.821e-003  9.821e-003
+	Mg               9.808e-003  9.808e-003
+	Na               1.096e-002  1.096e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.533      Charge balance
+                                       pe  =  13.253      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.961e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.398e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.328e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 660
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.508e-007  2.928e-007    -6.455    -6.533    -0.078      0.00
+   OH-            4.383e-008  3.413e-008    -7.358    -7.467    -0.109     (0)  
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.802e-003
+   Ca+2           9.802e-003  4.084e-003    -2.009    -2.389    -0.380     (0)  
+   CaOH+          2.859e-009  2.311e-009    -8.544    -8.636    -0.092     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.685e-002    -1.222    -1.329    -0.107     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.730   -42.722     0.008     (0)  
+K            9.821e-003
+   K+             9.821e-003  7.668e-003    -2.008    -2.115    -0.107     (0)  
+Mg           9.808e-003
+   Mg+2           9.807e-003  4.229e-003    -2.008    -2.374    -0.365     (0)  
+   MgOH+          6.437e-008  5.234e-008    -7.191    -7.281    -0.090     (0)  
+Na           1.096e-002
+   Na+            1.096e-002  8.725e-003    -1.960    -2.059    -0.099     (0)  
+O(0)         2.269e-007
+   O2             1.134e-007  1.155e-007    -6.945    -6.937     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -6.15     10.69   16.84  Mg(OH)2
+	H2(g)           -39.57    -42.72   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.97     -3.39    1.58  NaCl
+	O2(g)            -4.04     -6.94   -2.89  O2
+	Portlandite     -12.12     10.68   22.80  Ca(OH)2
+
+
+Reaction step 10.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 2 seconds  (Incremented time: 20 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaX2             5.038e-006  2.029e-004   Ca                        1
+	MgX2            -3.241e-006  1.892e-004   Mg                        1
+	KX              -9.148e-007  1.778e-004   K                         1
+	HX               1.027e-008  1.343e-008   H                         1
+	NaX             -2.661e-006  3.845e-005   Na                        1
+
+----------------------------------User print-----------------------------------
+
+Total equivalents:           1.0005e-003 
+equiv frac NaX:              3.8407e-002 
+equiv frac CaX2:             4.0641e-001 
+equiv frac MgX2:             3.7760e-001 
+equiv frac KX:               1.7757e-001 
+equiv frac HX:               1.3177e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               9.797e-003  9.797e-003
+	Cl               6.000e-002  6.000e-002
+	K                9.822e-003  9.822e-003
+	Mg               9.811e-003  9.811e-003
+	Na               1.096e-002  1.096e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.515      Charge balance
+                                       pe  =  13.277      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =  7.961e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.590e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.485e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  = 210
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.656e-007  3.052e-007    -6.437    -6.515    -0.078      0.00
+   OH-            4.205e-008  3.275e-008    -7.376    -7.485    -0.109     (0)  
+   H2O            5.551e+001  9.983e-001     1.744    -0.001     0.000     18.07
+Ca           9.797e-003
+   Ca+2           9.797e-003  4.082e-003    -2.009    -2.389    -0.380     (0)  
+   CaOH+          2.742e-009  2.216e-009    -8.562    -8.654    -0.092     (0)  
+Cl           6.000e-002
+   Cl-            6.000e-002  4.685e-002    -1.222    -1.329    -0.107     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.744   -42.736     0.008     (0)  
+K            9.822e-003
+   K+             9.822e-003  7.669e-003    -2.008    -2.115    -0.107     (0)  
+Mg           9.811e-003
+   Mg+2           9.811e-003  4.230e-003    -2.008    -2.374    -0.365     (0)  
+   MgOH+          6.178e-008  5.024e-008    -7.209    -7.299    -0.090     (0)  
+Na           1.096e-002
+   Na+            1.096e-002  8.727e-003    -1.960    -2.059    -0.099     (0)  
+O(0)         2.417e-007
+   O2             1.208e-007  1.231e-007    -6.918    -6.910     0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Brucite          -6.18     10.66   16.84  Mg(OH)2
+	H2(g)           -39.59    -42.74   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -4.97     -3.39    1.58  NaCl
+	O2(g)            -4.02     -6.91   -2.89  O2
+	Portlandite     -12.16     10.64   22.80  Ca(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+-------------------------------
+End of Run after 0.202 Seconds.
+-------------------------------
+

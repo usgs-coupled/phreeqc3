@@ -1,0 +1,444 @@
+DATABASE ../database/pitzer.dat
+#PRINT; -reset false
+
+SOLUTION 1; pH 7 charge
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 0.000000
+REACTION_PRESSURE; 1.000000
+# from 0 to 12.
+REACTION; NaHCO3 1
+0 0.004340 0.016700 0.034910 0.060270 0.099490 0.133300 0.186490 0.262040 0.362480 0.476360 0.595860 0.745650 
+USER_GRAPH; -headings 0.oC-1.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+ -axis_scale y_axis 10 35
+10 data 0, 17.407213, 17.635336, 17.848198, 18.060376, 18.448646, 18.716294, 19.082670, 19.520351, 19.994111, 20.507891, 20.988930, 21.518795, 
+20 dim d(13)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 13 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Square, line_w = 0, color = Red
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Red
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 5.000000
+REACTION_PRESSURE; 1.000000
+# from 12 to 22.
+REACTION; NaHCO3 1
+0 0.051860 0.189330 0.293550 0.396530 0.595800 0.703030 0.798210 0.897600 1.000300 1.000340 
+USER_GRAPH; -headings 5.oC-1.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 19.558191, 20.822626, 21.612111, 22.041263, 22.733254, 23.038033, 23.304258, 23.644369, 23.896979, 23.850856, 
+20 dim d(11)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 11 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Diamond, line_w = 0, color = Green
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Green
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 15.000000
+REACTION_PRESSURE; 1.000000
+# from 22 to 31.
+REACTION; NaHCO3 1
+0 0.055280 0.120200 0.239220 0.317520 0.456600 0.603940 0.724290 0.885320 1.008440 
+USER_GRAPH; -headings 15.oC-1.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 22.520115, 23.141857, 23.842210, 24.119115, 24.561976, 24.893710, 25.109581, 25.346640, 25.533361, 
+20 dim d(10)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 10 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Triangle, line_w = 0, color = Blue
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Blue
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 20.000000
+REACTION_PRESSURE; 1.000000
+# from 31 to 40.
+REACTION; NaHCO3 1
+0 0.210422 0.210422 0.313960 0.420153 0.631163 0.842582 0.842582 1.072243 1.097463 
+USER_GRAPH; -headings 20.oC-1.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 23.785405, 23.785405, 24.581902, 25.270158, 25.675678, 26.103211, 26.103211, 27.235962, 27.902190, 
+20 dim d(10)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 10 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Circle, line_w = 0, color = Orange
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Orange
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 1.000000
+# from 40 to 93.
+REACTION; NaHCO3 1
+0 0.002980 0.004680 0.008110 0.014050 0.017690 0.023140 0.034950 0.036880 0.040720 0.052700 0.064350 0.085650 0.100290 0.100290 0.127230 0.176970 0.188000 0.198540 0.198540 0.249720 0.264700 \ 
+0.270070 0.299090 0.299090 0.318900 0.331100 0.374380 0.399160 0.399160 0.442700 0.488970 0.528500 0.533100 0.600530 0.600530 0.638530 0.668100 0.694270 0.694270 0.774000 0.799850 0.799850 \ 
+0.805500 0.807400 0.844484 0.896300 0.979090 1.074680 1.082400 0.998000 0.099900 0.199600 0.499900 
+USER_GRAPH; -headings 25.oC-1.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 23.155962, 23.208373, 23.469545, 24.240414, 23.502322, 23.582894, 23.622673, 23.735467, 23.701305, 24.130000, 23.935365, 24.084657, 24.223143, 23.982231, 24.262676, 24.668843, 24.533675, 24.734536, 24.613233, 24.963341, 24.870000, \ 
+24.794202, 25.122530, 25.045588, 24.906720, 25.060000, 25.381014, 25.426807, 25.118076, 25.440000, 25.597453, 25.521075, 25.610000, 25.895839, 25.854556, 25.946569, 25.940000, 26.065127, 26.032345, 26.114654, 26.227766, 26.193246, \ 
+26.220000, 26.256727, 27.401906, 26.450000, 26.428958, 28.271329, 26.880000, 27.079333, 24.702706, 25.099928, 26.021589, 
+20 dim d(54)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \ 
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37), d(38), d(39), d(40), d(41), d(42), \ 
+d(43), d(44), d(45), d(46), d(47), d(48), d(49), d(50), d(51), d(52), d(53), d(54), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 54 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = XCross, line_w = 0, color = Magenta
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Magenta
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 35.000000
+REACTION_PRESSURE; 1.000000
+# from 93 to 102.
+REACTION; NaHCO3 1
+0 0.058170 0.117800 0.235560 0.311090 0.437690 0.602040 0.718680 0.881050 1.003240 
+USER_GRAPH; -headings 35.oC-1.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 24.771064, 25.317835, 25.971009, 26.151910, 26.545991, 26.948542, 27.156827, 27.365898, 27.507660, 
+20 dim d(10)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 10 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Plus, line_w = 0, color = Yellow
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Yellow
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 45.000000
+REACTION_PRESSURE; 1.000000
+# from 102 to 115.
+REACTION; NaHCO3 1
+0 0.058370 0.115980 0.236380 0.238230 0.318880 0.435500 0.437300 0.601090 0.718880 0.877950 0.882210 1.000820 1.001820 
+USER_GRAPH; -headings 45.oC-1.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 24.876264, 25.749948, 26.720676, 26.631917, 27.047490, 27.373584, 27.371437, 27.615287, 27.796153, 27.893510, 27.902220, 28.031663, 28.032388, 
+20 dim d(14)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 14 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Star, line_w = 0, color = Black
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Black
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 75.000000
+REACTION_PRESSURE; 20.000000
+# from 115 to 119.
+REACTION; NaHCO3 1
+0 0.100000 0.200000 0.400000 0.700000 
+USER_GRAPH; -headings 75.oC-20.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 26.630000, 26.759000, 27.712000, 28.292000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = TriangleDown, line_w = 0, color = Aqua
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Aqua
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 100.000000
+REACTION_PRESSURE; 20.000000
+# from 119 to 123.
+REACTION; NaHCO3 1
+0 0.100000 0.200000 0.400000 0.700000 
+USER_GRAPH; -headings 100.oC-20.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 25.672000, 26.520000, 27.100000, 27.999000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = HDash, line_w = 0, color = Brown
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Brown
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 125.000000
+REACTION_PRESSURE; 20.000000
+# from 123 to 127.
+REACTION; NaHCO3 1
+0 0.100000 0.200000 0.400000 0.700000 
+USER_GRAPH; -headings 125.oC-20.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 24.210000, 25.164000, 26.010000, 26.988000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = VDash, line_w = 0, color = Red
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Red
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 150.000000
+REACTION_PRESSURE; 20.000000
+# from 127 to 131.
+REACTION; NaHCO3 1
+0 0.100000 0.200000 0.400000 0.700000 
+USER_GRAPH; -headings 150.oC-20.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 22.800000, 22.956000, 23.935000, 25.366000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Square, line_w = 0, color = Green
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Green
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 175.000000
+REACTION_PRESSURE; 20.000000
+# from 131 to 135.
+REACTION; NaHCO3 1
+0 0.100000 0.200000 0.400000 0.700000 
+USER_GRAPH; -headings 175.oC-20.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 18.492000, 18.993000, 20.797000, 22.361000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Diamond, line_w = 0, color = Blue
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Blue
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 200.000000
+REACTION_PRESSURE; 20.000000
+# from 135 to 139.
+REACTION; NaHCO3 1
+0 0.100000 0.200000 0.400000 0.700000 
+USER_GRAPH; -headings 200.oC-20.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 12.667000, 13.515000, 15.903000, 18.212000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Triangle, line_w = 0, color = Orange
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Orange
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 100.000000
+REACTION_PRESSURE; 98.700000
+# from 139 to 143.
+REACTION; NaHCO3 1
+0 0.099900 0.199600 0.499900 0.998000 
+USER_GRAPH; -headings 100.oC-99.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 26.840000, 27.140000, 28.150000, 29.170000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Circle, line_w = 0, color = Magenta
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Magenta
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 175.000000
+REACTION_PRESSURE; 98.700000
+# from 143 to 147.
+REACTION; NaHCO3 1
+0 0.099900 0.199600 0.499900 0.998000 
+USER_GRAPH; -headings 175.oC-99.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 19.400000, 20.300000, 22.130000, 24.060000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = XCross, line_w = 0, color = Yellow
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Yellow
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 277.000000
+# from 147 to 151.
+REACTION; NaHCO3 1
+0 0.099900 0.199600 0.499900 0.998000 
+USER_GRAPH; -headings 25.oC-277.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 25.750000, 26.150000, 27.070000, 27.970000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Plus, line_w = 0, color = Black
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Black
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 100.000000
+REACTION_PRESSURE; 277.000000
+# from 151 to 155.
+REACTION; NaHCO3 1
+0 0.099900 0.199600 0.499900 0.998000 
+USER_GRAPH; -headings 100.oC-277.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 27.580000, 27.970000, 28.870000, 29.840000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = Star, line_w = 0, color = Aqua
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Aqua
+150 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 175.000000
+REACTION_PRESSURE; 277.000000
+# from 155 to 159.
+REACTION; NaHCO3 1
+0 0.099900 0.199600 0.499900 0.998000 
+USER_GRAPH; -headings 175.oC-277.atm
+ -axis_titles "NaHCO3 / (mol/kg H2O)" "NaHCO3 molar volume / (cm3/mol)"
+10 data 0, 20.960000, 22.380000, 24.330000, 25.950000, 
+20 dim d(5)
+30 read d(1), d(2), d(3), d(4), d(5), 
+40 if step_no = 1 then put(rho, 10)
+#50 if step_no > 1 then Vmol = (1e3 + tot("Na") * 84.0089) / (tot("Na") * rho) - 1e3 / (tot("Na") * get(10))
+50 if step_no > 1 then Vmol = Vm("Na+") + Vm("HCO3-")
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if tot("Na") > 10 then dif = 0 
+64 if tc > 251 then dif = 0 
+90 if step_no = 5 then put(step_no + get(1), 1)
+100 if step_no = 1 then goto 150
+110 plot_xy tot("Na"), d(step_no), symbol = TriangleDown, line_w = 0, color = Brown
+120 plot_xy tot("Na"), Vmol, symbol = None, color = Brown
+150 end
+END

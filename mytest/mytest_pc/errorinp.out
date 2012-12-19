@@ -1,0 +1,492 @@
+   Input file: errorinp
+  Output file: errorinp.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION 1
+		units mol/kgw
+	SOLUTION 2
+		K	1
+		Br	1
+	MIX
+		1 0.5
+		2 0.5
+	EQUILIBRIUM_PHASES
+		calcite
+	EXCHANGE
+		CaX2 1.0
+	SURFACE
+		Hfo_w 1.0 600 1
+	REACTION 1
+		NaCl	1
+		100 mole
+	KINETICS 3
+	       Calcite
+		       tol    1e-8
+		       m0     3.e-3
+		       m      3.e-3
+		       parms  5.0      0.6
+	GAS_PHASE 2
+		CO2(g)  .0003
+	SOLID_SOLUTION 5
+	Carbonate
+		component Calcite	0.0
+		component Strontianite  0.0
+	REACTION_TEMPERATURE
+		31
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               1.000e-003  1.000e-003
+	K                1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 145
+                          Density (g/cm3)  =   0.99713
+                               Volume (L)  =   1.00300
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.451e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.451e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.049e-007  1.012e-007    -6.979    -6.995    -0.016     -4.11
+   H+             1.035e-007  1.000e-007    -6.985    -7.000    -0.015      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Br           1.000e-003
+   Br-            1.000e-003  9.646e-004    -3.000    -3.016    -0.016     24.81
+H(0)         1.416e-025
+   H2             7.078e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+K            1.000e-003
+   K+             1.000e-003  9.648e-004    -3.000    -3.016    -0.016      9.01
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-016 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-014 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling and reduced tolerance 1e-016 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns 1e-010 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying scaling pure_phase columns and diagonal scale 1e-010 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased scaling 1e-009 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Skipping optimize equations for first 5 iterations ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Adding inequality to make concentrations greater than zero.
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-017 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-018 ...
+
+WARNING: Element Sr is contained in solid solution Strontianite (which has 0.0 mass),
+but is not in solution or other phases.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: The program has failed to converge to a numerical solution.
+
+The following equations were not satisfied:
+ERROR:                   Br has not converged. Total: 5.000000e-004	Calculated: 4.379216e-004	Residual: 6.207841e-005
+
+ERROR:                    C has not converged. Total: 1.000001e+001	Calculated: 8.985153e-002	Residual: 9.910161e+000
+
+ERROR:                   Ca has not converged. Total: 1.100000e+001	Calculated: 4.630493e-001	Residual: 1.053695e+001
+
+ERROR:                   Cl has not converged. Total: 1.000000e+002	Calculated: 7.125477e+001	Residual: 2.874523e+001
+
+ERROR:                    K has not converged. Total: 5.000000e-004	Calculated: 3.307819e-004	Residual: 1.692181e-004
+
+ERROR:                   Na has not converged. Total: 1.000000e+002	Calculated: 1.681058e+001	Residual: 8.318942e+001
+
+ERROR:                   Mu Ionic strength has not converged. 	Residual: 3.095272e+001
+
+ERROR:               A(H2O) Activity of water has not converged. 	Residual: 4.952352e-001
+
+ERROR:                   pH Charge balance has not converged. 	Residual: 5.384628e+001
+
+ERROR:             Hydrogen Mass of hydrogen has not converged. 	Residual: -5.903910e+001
+
+ERROR:               Oxygen Mass of oxygen has not converged. 	Residual: 2.878410e+001
+
+ERROR:                    X Exchanger mass balance has not converged. 	Residual: 1.344741e+000
+
+ERROR:                Hfo_w Surface mass balance has not converged. 	Residual: -6.344900e-001
+
+ERROR:               Hfo_CB Surface charge/potential has not converged. 	Residual: -8.688426e+001
+
+ERROR:            gas moles Total moles in gas phase has not converged. 	Residual: 2.999966e-004
+
+Using mix 1.	
+Using exchange 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using solid solution assemblage 5.	
+Using gas phase 2.	
+Using temperature 1.	
+Using reaction 1.	
+Using kinetics 3.	
+
+Mixture 1.	
+
+	 5.000e-001 Solution 1	                                                       
+	 5.000e-001 Solution 2	                                                       
+
+Reaction 1.	
+
+	 1.000e+002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaCl                 1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   1.00000
+	Na                   1.00000
+
+Kinetics 3.	
+
+	Time step: 1 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Calcite         -0.000e+000  3.000e-003   Calcite                   1
+
+-----------------------------------Gas phase-----------------------------------
+
+Total pressure:  0.00      atmospheres          (Peng-Robinson calculation)
+    Gas volume:  1.21e+007 liters
+  Molar volume:  8.32e+004 liters/mole
+   P * Vm / RT:  1.00000  (Compressibility Factor Z) 
+
+                                                        Moles in gas
+                                            ----------------------------------
+Component         log P           P    phi     Initial       Final       Delta
+
+CO2(g)            -8.47  3.359e-009  1.000  1.226e-005  1.629e-003  1.616e-003
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite         -25.68   -34.19     -8.52   1.000e+001           0 -1.000e+001
+
+--------------------------------Solid solutions--------------------------------
+
+
+Solid solution                Component        Moles  Delta moles   Mole fract
+
+Carbonate                                  0.00e+000
+                                Calcite    0.00e+000    9.78e-014    0.00e+000
+                           Strontianite    0.00e+000    0.00e+000    0.00e+000
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.243e+000  Surface charge, eq
+	 1.999e+002  sigma, C/m**2
+	 2.834e-001  psi, V
+	-1.081e+001  -F*psi/RT
+	 2.011e-005  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 6.000e+002  m**2 for  1.000e+000 g
+
+
+Hfo_w         
+	 1.000e+000  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        7.856e-001       0.786  7.916e-001      -0.101
+	Hfo_wOCa+        4.618e-001       0.462  4.653e-001      -0.332
+	Hfo_wOH          3.828e-001       0.383  3.858e-001      -0.414
+	Hfo_wO-          4.274e-003       0.004  4.307e-003      -2.366
+	Hfo_wHCO3        3.978e-007       0.000  4.008e-007      -6.397
+	Hfo_wCO3-        3.292e-008       0.000  3.317e-008      -7.479
+
+-----------------------------Exchange composition------------------------------
+
+X               2.000e+000 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX              6.552e-001  6.552e-001  9.999e-001     5.332
+	KX               5.431e-005  5.431e-005  8.288e-005     0.238
+	CaX2             3.428e-006  6.856e-006  1.046e-005    10.760
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.413e-004  4.379e-004
+	C                8.890e-002  8.822e-002
+	Ca               1.267e-003  1.257e-003
+	Cl               7.180e+001  7.125e+001
+	K                2.786e-004  2.765e-004
+	Na               1.628e+001  1.616e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.281      Charge balance
+                                       pe  =   3.733      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 31 oC) = 7171157
+                          Density (g/cm3)  =   1.41297
+                               Volume (L)  =   2.75720
+                        Activity of water  =   0.000
+                           Ionic strength  =  7.524e+001
+                       Mass of water (kg)  =  9.924e-001
+                 Total alkalinity (eq/kg)  = -7.695e-003
+                       Total CO2 (mol/kg)  =  3.002e-018
+                      Temperature (deg C)  =  31.00
+                           Pressure (atm)  =  0.00
+                  Electrical balance (eq)  = -5.509e+001
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -63.02
+                               Iterations  = 201
+                                  Total H  = 1.105293e+002
+                                  Total O  = 5.508439e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             7.695e-003  5.234e-003    -2.114    -2.281    -0.167      0.00
+   H2O            5.551e+001  3.162e-021     1.744   -20.500     0.000     18.10
+   OH-            2.430e-032  9.533e-033   -31.614   -32.021    -0.406     86.71
+Br           4.413e-004
+   Br-            4.413e-004  1.505e-004    -3.355    -3.822    -0.467     33.64
+C(-4)        8.890e-002
+   CH4            8.890e-002  1.000e+003    -1.051     6.473     7.524     32.22
+C(4)         3.002e-018
+   CO2            3.002e-018  1.002e-010   -17.523    -9.999     7.524     28.79
+   CaHCO3+        1.557e-025  8.828e-026   -24.808   -25.054    -0.246     10.37
+   HCO3-          5.373e-035  2.872e-035   -34.270   -34.542    -0.272    294.46
+   NaCO3-         2.624e-035  1.402e-035   -34.581   -34.853    -0.272    187.30
+   NaHCO3         2.273e-035  7.588e-028   -34.643   -27.120     7.524     19.41
+   CaCO3          3.673e-039  1.226e-031   -38.435   -30.911     7.524    -14.59
+   CO3-2          0.000e+000  0.000e+000   -41.453   -42.541    -1.088    136.85
+Ca           1.267e-003
+   Ca+2           1.267e-003  1.000e+003    -2.897     8.347    11.244     12.93
+   CaHCO3+        1.557e-025  8.828e-026   -24.808   -25.054    -0.246     10.37
+   CaOH+          1.500e-034  2.229e-023   -33.824   -22.652    11.172     (0)  
+   CaCO3          3.673e-039  1.226e-031   -38.435   -30.911     7.524    -14.59
+Cl           7.180e+001
+   Cl-            7.180e+001  5.521e+002     1.856     2.742     0.886     21.85
+H(0)         3.748e-023
+   H2             1.874e-023  6.258e-016   -22.727   -15.204     7.524     28.60
+K            2.786e-004
+   K+             2.786e-004  1.469e-003    -3.555    -2.833     0.722     39.28
+Na           1.628e+001
+   Na+            1.628e+001  1.000e+003     1.212     7.028     5.816     12.23
+   NaCO3-         2.624e-035  1.402e-035   -34.581   -34.853    -0.272    187.30
+   NaHCO3         2.273e-035  7.588e-028   -34.643   -27.120     7.524     19.41
+   NaOH           0.000e+000  1.016e-035   -42.517   -34.993     7.524     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000  -108.598  -101.075     7.524     30.84
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(304 K,   0 atm)
+
+	Aragonite       -25.82    -34.19   -8.38  CaCO3
+	Calcite         -25.68    -34.19   -8.52  CaCO3
+	CH4(g)            9.36      6.47   -2.89  CH4
+	CO2(g)           -8.47    -10.00   -1.53  CO2	 Pressure   0.0 atm, phi 1.000.
+	H2(g)           -12.09    -15.20   -3.11  H2
+	H2O(g)          -21.85    -20.50    1.35  H2O
+	Halite            8.19      9.77    1.58  NaCl
+	O2(g)           -98.14   -101.07   -2.93  O2
+	Sylvite          -1.05     -0.09    0.96  KCl
+
+
+ERROR: Numerical method failed on all combinations of convergence parameters
+Stopping.

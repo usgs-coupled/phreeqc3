@@ -1,0 +1,506 @@
+   Input file: mu
+  Output file: mu.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	 SOLUTION 2
+	  pH  7.0
+	  Ca  36.0  Fluorite
+	  F   0.5 mg/kgw     # Why does this one (+0.2, -0.1) fail?
+	  Cl 10   charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               4.570e-001  4.570e-001  Equilibrium with Fluorite
+	Cl               9.140e-001  9.140e-001  Charge balance
+	F                2.632e-005  2.632e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 62442
+                          Density (g/cm3)  =   1.03725
+                               Volume (L)  =   1.01298
+                        Activity of water  =   0.977
+                           Ionic strength  =  1.371e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.607e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  1.797e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.776e-007  9.886e-008    -6.750    -7.005    -0.255     -1.54
+   H+             1.361e-007  1.000e-007    -6.866    -7.000    -0.134      0.00
+   H2O            5.551e+001  9.767e-001     1.744    -0.010     0.000     18.07
+Ca           4.570e-001
+   Ca+2           4.570e-001  1.172e-001    -0.340    -0.931    -0.591    -16.25
+   CaOH+          2.208e-007  1.900e-007    -6.656    -6.721    -0.065     (0)  
+Cl           9.140e-001
+   Cl-            9.140e-001  5.433e-001    -0.039    -0.265    -0.226     19.09
+F            2.632e-005
+   F-             2.632e-005  1.465e-005    -4.580    -4.834    -0.255     -0.31
+   HF             1.602e-009  2.196e-009    -8.795    -8.658     0.137     12.50
+   HF2-           1.435e-013  1.234e-013   -12.843   -12.909    -0.065     23.14
+H(0)         1.033e-025
+   H2             5.163e-026  7.079e-026   -25.287   -25.150     0.137     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.238   -42.100     0.137     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fluorite          0.00    -10.60  -10.60  CaF2
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.51     -0.01    1.50  H2O
+	O2(g)           -39.21    -42.10   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	 SOLUTION 2
+	  pH  7.0
+	  Ca  36.0  Fluorite
+	  F   0.3 mg/kgw   # OK
+	  Cl 10   charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.026e+000  1.026e+000  Equilibrium with Fluorite
+	Cl               2.051e+000  2.051e+000  Charge balance
+	F                1.579e-005  1.579e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 112955
+                          Density (g/cm3)  =   1.08429
+                               Volume (L)  =   1.02725
+                        Activity of water  =   0.948
+                           Ionic strength  =  3.077e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.938e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  3.441e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.899e-007  9.592e-008    -6.722    -7.018    -0.297      0.87
+   H+             1.395e-007  1.000e-007    -6.855    -7.000    -0.145      0.00
+   H2O            5.551e+001  9.477e-001     1.744    -0.023     0.000     18.07
+Ca           1.026e+000
+   Ca+2           1.026e+000  3.951e-001     0.011    -0.403    -0.414    -15.45
+   CaOH+          4.440e-007  6.214e-007    -6.353    -6.207     0.146     (0)  
+Cl           2.051e+000
+   Cl-            2.051e+000  1.188e+000     0.312     0.075    -0.237     19.57
+F            1.579e-005
+   F-             1.579e-005  7.977e-006    -4.802    -5.098    -0.297      0.24
+   HF             5.890e-010  1.196e-009    -9.230    -8.922     0.308     12.50
+   HF2-           2.616e-014  3.661e-014   -13.582   -13.436     0.146     23.69
+H(0)         6.971e-026
+   H2             3.486e-026  7.079e-026   -25.458   -25.150     0.308     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.434   -42.127     0.308     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fluorite         -0.00    -10.60  -10.60  CaF2
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.53     -0.02    1.50  H2O
+	O2(g)           -39.23    -42.13   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	 SOLUTION 2
+	  pH  7.0
+	  Ca  36.0  Fluorite
+	  F   0.8  mg/kgw   # OK
+	  Cl 10   charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.158e-001  1.158e-001  Equilibrium with Fluorite
+	Cl               2.315e-001  2.315e-001  Charge balance
+	F                4.211e-005  4.211e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 21979
+                          Density (g/cm3)  =   1.00751
+                               Volume (L)  =   1.00530
+                        Activity of water  =   0.994
+                           Ionic strength  =  3.474e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  9.245e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.773e-011
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.520e-007  1.006e-007    -6.818    -6.997    -0.179     -3.20
+   H+             1.287e-007  1.000e-007    -6.890    -7.000    -0.110      0.00
+   H2O            5.551e+001  9.941e-001     1.744    -0.003     0.000     18.07
+Ca           1.158e-001
+   Ca+2           1.158e-001  3.236e-002    -0.936    -1.490    -0.554    -17.00
+   CaOH+          7.302e-008  5.339e-008    -7.137    -7.273    -0.136     (0)  
+Cl           2.315e-001
+   Cl-            2.315e-001  1.563e-001    -0.635    -0.806    -0.171     18.59
+F            4.211e-005
+   F-             4.210e-005  2.787e-005    -4.376    -4.555    -0.179     -0.86
+   HF             3.859e-009  4.180e-009    -8.414    -8.379     0.035     12.50
+   HF2-           6.113e-013  4.470e-013   -12.214   -12.350    -0.136     22.59
+H(0)         1.307e-025
+   H2             6.535e-026  7.079e-026   -25.185   -25.150     0.035     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.120   -42.085     0.035     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fluorite          0.00    -10.60  -10.60  CaF2
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	O2(g)           -39.19    -42.09   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	 SOLUTION 2
+	  pH  7.0
+	  Ca  36.0  Fluorite
+	  F   0.5 mg/kgw     # Why does this one (+0.2, -0.1) fail?
+	  Cl 10  # charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               4.204e-001  4.204e-001  Equilibrium with Fluorite
+	Cl               1.000e-002  1.000e-002
+	F                2.632e-005  2.632e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 26805
+                          Density (g/cm3)  =   1.02110
+                               Volume (L)  =   0.99619
+                        Activity of water  =   0.993
+                           Ionic strength  =  8.458e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.569e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.307e-001
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  97.64
+                               Iterations  =  15
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.698e-007  1.005e-007    -6.770    -6.998    -0.228     -2.35
+   H+             1.337e-007  1.000e-007    -6.874    -7.000    -0.126      0.00
+   H2O            5.551e+001  9.927e-001     1.744    -0.003     0.000     18.07
+Ca           4.204e-001
+   Ca+2           4.204e-001  1.037e-001    -0.376    -0.984    -0.608    -16.57
+   CaOH+          2.226e-007  1.709e-007    -6.652    -6.767    -0.115     (0)  
+Cl           1.000e-002
+   Cl-            1.000e-002  6.175e-003    -2.000    -2.209    -0.209     18.88
+F            2.632e-005
+   F-             2.632e-005  1.557e-005    -4.580    -4.808    -0.228     -0.55
+   HF             1.922e-009  2.335e-009    -8.716    -8.632     0.085     12.50
+   HF2-           1.817e-013  1.395e-013   -12.741   -12.856    -0.115     22.90
+H(0)         1.165e-025
+   H2             5.827e-026  7.079e-026   -25.235   -25.150     0.085     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.171   -42.086     0.085     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fluorite          0.00    -10.60  -10.60  CaF2
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	O2(g)           -39.19    -42.09   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	 SOLUTION 2
+	  pH  7.0
+	  Ca  36.0  Fluorite
+	  F   0.3 mg/kgw   # OK
+	  Cl 10   # charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.176e+000  1.176e+000  Equilibrium with Fluorite
+	Cl               1.000e-002  1.000e-002
+	F                1.579e-005  1.579e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 58173
+                          Density (g/cm3)  =   1.06385
+                               Volume (L)  =   0.98462
+                        Activity of water  =   0.980
+                           Ionic strength  =  2.357e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  5.873e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.342e+000
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  99.15
+                               Iterations  =  12
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.904e-007  9.918e-008    -6.720    -7.004    -0.283     -0.12
+   H+             1.385e-007  1.000e-007    -6.859    -7.000    -0.141      0.00
+   H2O            5.551e+001  9.798e-001     1.744    -0.009     0.000     18.07
+Ca           1.176e+000
+   Ca+2           1.176e+000  3.715e-001     0.070    -0.430    -0.500    -15.77
+   CaOH+          5.361e-007  6.040e-007    -6.271    -6.219     0.052     (0)  
+Cl           1.000e-002
+   Cl-            1.000e-002  5.800e-003    -2.000    -2.237    -0.237     19.39
+F            1.579e-005
+   F-             1.579e-005  8.226e-006    -4.802    -5.085    -0.283      0.03
+   HF             7.170e-010  1.234e-009    -9.144    -8.909     0.236     12.50
+   HF2-           3.456e-014  3.894e-014   -13.461   -13.410     0.052     23.48
+H(0)         8.229e-026
+   H2             4.114e-026  7.079e-026   -25.386   -25.150     0.236     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.333   -42.098     0.236     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fluorite          0.00    -10.60  -10.60  CaF2
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.51     -0.01    1.50  H2O
+	O2(g)           -39.21    -42.10   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	 SOLUTION 2
+	  pH  7.0
+	  Ca  36.0  Fluorite
+	  F   0.8  mg/kgw   # OK
+	  Cl 10   # charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               8.032e-002  8.032e-002  Equilibrium with Fluorite
+	Cl               1.000e-002  1.000e-002
+	F                4.211e-005  4.211e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 6676
+                          Density (g/cm3)  =   1.00181
+                               Volume (L)  =   1.00176
+                        Activity of water  =   0.998
+                           Ionic strength  =  1.657e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  7.105e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  1.506e-001
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  88.23
+                               Iterations  =   8
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.400e-007  1.011e-007    -6.854    -6.995    -0.141     -3.57
+   H+             1.242e-007  1.000e-007    -6.906    -7.000    -0.094      0.00
+   H2O            5.551e+001  9.985e-001     1.744    -0.001     0.000     18.07
+Ca           8.032e-002
+   Ca+2           8.032e-002  2.720e-002    -1.095    -1.566    -0.470    -17.28
+   CaOH+          5.971e-008  4.506e-008    -7.224    -7.346    -0.122     (0)  
+Cl           1.000e-002
+   Cl-            1.000e-002  7.296e-003    -2.000    -2.137    -0.137     18.42
+F            4.211e-005
+   F-             4.210e-005  3.040e-005    -4.376    -4.517    -0.141     -1.03
+   HF             4.389e-009  4.560e-009    -8.358    -8.341     0.017     12.50
+   HF2-           7.047e-013  5.319e-013   -12.152   -12.274    -0.122     22.42
+H(0)         1.363e-025
+   H2             6.814e-026  7.079e-026   -25.167   -25.150     0.017     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.098   -42.081     0.017     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fluorite          0.00    -10.60  -10.60  CaF2
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+-------------------------------
+End of Run after 0.024 Seconds.
+-------------------------------
+

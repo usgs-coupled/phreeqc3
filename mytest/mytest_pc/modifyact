@@ -1,0 +1,49 @@
+DATABASE ../database/phreeqc.dat
+# No incremental reactions, No selected_output
+SOLUTION 1-6
+	-units mol/kgw
+	pe  -1
+	Na  1
+	S 0.5
+END
+SOLUTION_MODIFY 2
+    -totals
+	Na	2
+	S       1
+END
+SOLUTION_MODIFY 3
+    -totals
+	Na	2
+	S       1
+    -activities
+    	S    -7
+END
+SOLUTION_MODIFY 4
+    -totals
+	Na	2
+	S       1
+    -activities
+    	S(6) -2    
+    	S    -7
+END
+SOLUTION_MODIFY 5
+    -totals
+	Na	2
+	S       1
+    -activities
+    	S    -7
+    	S(6) -2
+    	S(-2) 1
+END
+SOLUTION_MODIFY 6
+    -totals
+	Na	2
+	S       1
+    -activities
+    	S(6) -2
+    	S(-2) 1
+END
+DUMP 
+	-file modifyact.dmp
+	-solution 1-6
+END

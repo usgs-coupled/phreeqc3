@@ -1,0 +1,77 @@
+#database ../database/phreeqc.dat
+DATABASE ../database/Amm.dat
+# for comparing solubilities measured in ternary (or more) gas-mixtures
+# Here: K_Henry in H2O/CO2/CH4 at 102 oC, 10-50 MPa,
+#   Qin et al., 2008, J. Chem. Eng. Data 53, 1246–1249
+#PRINT; -reset false
+SOLUTION 1
+pH 7 charge
+-water 0.05; -temp 102;  -pressure 105.6
+ C(4) 1 CO2(g) 2
+GAS_PHASE 1
+ -fixed_pressure; -temp 102; -pressure 105.6
+ Mtg(g) 0; CO2(g) 105; H2O(g) 0
+REACTION
+ CO2 -1 Mtg 1; 3 in 10
+USER_GRAPH 1 ...  K_H for CO2 in CO2/CH4 mixture
+ -plot_csv_file Qin_CO2.dat
+ -axis_scale x_axis 0.5 0.9
+ -connect_simulations false
+ -axis_titles "CO2 as a fraction of all CO2 + CH4 in the system" "P_CO2(g) / mol_fraction CO2 in solution / (MPa)"
+  5 tw =  tot("water")
+ 10 m_h2o = tw / (18.06e-3)
+ 20 t_mol = m_h2o + tot("Mtg") * tw + tot("C(4)") * tw
+ 30 x_CO2 = tot("C(4)") * tw / t_mol
+ 32 x_Mtg = tot("Mtg") * tw / t_mol
+
+ 40 graph_x sys("C(4)") / (sys("C") + sys("Mtg"))
+ 50 graph_y pr_p("CO2(g)") / x_CO2 * 0.101325
+# 52 graph_sy pr_p("CO2(g)") * pr_phi("CO2(g)") / x_CO2 * 0.101325
+ -end
+USER_GRAPH 2 ... K_H for CH4 in CO2/CH4 mixture
+ -plot_csv_file Qin_CH4.dat
+ -axis_scale x_axis 0.5 0.9
+ -connect_simulations false
+ -axis_titles "CO2 as a fraction of all CO2 + CH4 in the system" "P_CH4(g) / mol_fraction CH4 in solution / (MPa)"
+  5 tw =  tot("water")
+ 10 m_h2o = tw / (18.06e-3)
+ 20 t_mol = m_h2o + tot("Mtg") * tw + tot("C(4)") * tw
+ 30 x_CO2 = tot("C(4)") * tw / t_mol
+ 32 x_Mtg = tot("Mtg") * tw / t_mol
+ 34 mol_gas = gas("H2O(g)") + gas("CO2(g)") + gas("Mtg(g)")
+
+ 40 graph_x sys("C(4)") / (sys("C") + sys("Mtg"))
+ 50 graph_y pr_p("Mtg(g)") / x_Mtg * 0.101325
+END
+
+USE solution 1; REACTION_PRESSURE; 200
+GAS_PHASE 1
+ -fixed_pressure; -temp 102; -pressure 200
+ Mtg(g) 0;  CO2(g) 200;  H2O(g) 0
+REACTION
+ CO2 -1 Mtg 1; 6 in 10
+END
+
+USE solution 1; REACTION_PRESSURE; 300
+GAS_PHASE 1
+ -fixed_pressure; -temp 102; -pressure 300
+ Mtg(g) 0;  CO2(g) 300;  H2O(g) 0
+REACTION
+ CO2 -1 Mtg 1; 8 in 10
+END
+
+USE solution 1; REACTION_PRESSURE; 397
+GAS_PHASE 1
+ -fixed_pressure; -temp 102; -pressure 397
+ Mtg(g) 0;  CO2(g) 397;  H2O(g) 0
+REACTION
+ CO2 -1 Mtg 1; 10 in 10
+END
+
+USE solution 1; REACTION_PRESSURE; 493
+GAS_PHASE 1
+ -fixed_pressure; -temp 102; -pressure 493
+ Mtg(g) 0;  CO2(g) 493;  H2O(g) 0
+REACTION
+ CO2 -1 Mtg 1; 12 in 10
+END

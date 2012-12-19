@@ -1,0 +1,51 @@
+   Input file: negexp_totmol
+  Output file: negexp_totmol.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SOLUTION 1 # Mine water from Bain et al., 2001
+	USER_PRINT
+	10 print -(0.006^0.9)
+	20 print TOTMOL("H"), TOTMOLE("H"), TOTMOLES("H")
+	110 print (-0.2)^3
+	120 print (-0.2)^3.0
+	130 print (-0.2)^-2
+	140 print (-0.2)^-3
+	150 print -0.2^2.2
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+-1.0008e-002 
+ 1.1101e+002  1.1101e+002  1.1101e+002 
+-8.0000e-003 
+-8.0000e-003 
+ 2.5000e+001 
+-1.2500e+002 
+ERROR: Type mismatch error: negative number cannot be raised to a fractional power.
+ERROR:  in BASIC line
+ 150  print -0.2^2.2
+ERROR: Fatal Basic error in USER_PRINT.
+Stopping.

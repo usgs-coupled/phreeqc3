@@ -1,0 +1,401 @@
+   Input file: mmb
+  Output file: mmb.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	USER_PRINT
+	 start
+	  5 print 'solution =', cell_no
+	 10 print 'EB =', charge_balance, 'total water', edl("water") + tot("water"), -la("H+"), 'Na =', tot("Na"), 'Cl =', tot("Cl")
+	 20 print 'sys_Ca =', sys("Ca"), 'a_Ca =', act("Ca+2"), 'a_Na =', act("Na+")
+	 end
+	KNOBS
+	 step_size 10
+	 pe_step_size 5
+	 iterations 5000
+	 diagonal_scale true
+	SOLUTION 0
+	 Ca 1e-3
+	 Na 1
+	 Cl 1 charge
+	 water 1#0.61609 # fresh outer solution
+	SURFACE_MASTER_SPECIES
+	 Su Su-
+	SURFACE_SPECIES
+	 Su- = Su-
+	 log_k 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+----------------------------------User print-----------------------------------
+
+solution =            0 
+EB = -1.9775e-013 total water            1            7 Na =  1.0000e-003 Cl =  1.0020e-003 
+sys_Ca =  1.0000e-006 a_Ca =  8.6845e-007 a_Na =  9.6513e-004 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.000e-006  1.000e-006
+	Cl               1.002e-003  1.002e-003  Charge balance
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 123
+                          Density (g/cm3)  =   0.99708
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.003e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.453e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.978e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   6
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.049e-007  1.012e-007    -6.979    -6.995    -0.016     -4.11
+   H+             1.035e-007  1.000e-007    -6.985    -7.000    -0.015      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Ca           1.000e-006
+   Ca+2           1.000e-006  8.685e-007    -6.000    -6.061    -0.061    -18.14
+   CaOH+          1.494e-012  1.441e-012   -11.826   -11.841    -0.016     (0)  
+Cl           1.002e-003
+   Cl-            1.002e-003  9.668e-004    -2.999    -3.015    -0.016     18.07
+H(0)         1.416e-025
+   H2             7.078e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+Na           1.000e-003
+   Na+            1.000e-003  9.651e-004    -3.000    -3.015    -0.015     -1.39
+   NaOH           9.766e-021  9.768e-021   -20.010   -20.010     0.000     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Halite           -7.60     -6.03    1.57  NaCl
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1-20
+	 Na 500
+	 Cl 500 charge
+	 water 0.61609
+	SURFACE 1-20
+	 Su 0.1 1e6 1
+	 equilibrate 1
+	 donnan 3.8391e-10
+	 only_counter_ions
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB = -1.1375e-011 total water  6.1609e-001            7 Na =  5.0000e-001 Cl =  5.0000e-001 
+sys_Ca =            0 a_Ca =  1.0000e-099 a_Na =  3.5876e-001 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               5.000e-001  3.080e-001  Charge balance
+	Na               5.000e-001  3.080e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 47858
+                          Density (g/cm3)  =   1.01705
+                               Volume (L)  =   0.62346
+                        Activity of water  =   0.983
+                           Ionic strength  =  5.000e-001
+                       Mass of water (kg)  =  6.161e-001
+                 Total alkalinity (eq/kg)  =  2.647e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.138e-011
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                                  Total H  = 6.839365e+001
+                                  Total O  = 3.419683e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.573e-007  9.950e-008    -6.803    -7.002    -0.199     -2.93
+   H+             1.308e-007  1.000e-007    -6.883    -7.000    -0.117      0.00
+   H2O            5.551e+001  9.830e-001     1.744    -0.007     0.000     18.07
+Cl           5.000e-001
+   Cl-            5.000e-001  3.249e-001    -0.301    -0.488    -0.187     18.69
+H(0)         1.262e-025
+   H2             6.310e-026  7.079e-026   -25.200   -25.150     0.050     28.61
+Na           5.000e-001
+   Na+            5.000e-001  3.588e-001    -0.301    -0.445    -0.144     -0.70
+   NaOH           3.181e-018  3.570e-018   -17.497   -17.447     0.050     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.145   -42.095     0.050     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.51     -0.01    1.50  H2O
+	Halite           -2.50     -0.93    1.57  NaCl
+	O2(g)           -39.20    -42.09   -2.89  O2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Su            
+	 8.793e-009  Surface + diffuse layer charge, eq
+	-1.000e-001  Surface charge, eq
+	-9.649e-003  sigma, C/m**2
+	-5.963e-003  psi, V
+	 2.321e-001  -F*psi/RT
+	 1.261e+000  exp(-F*psi/RT)
+	 1.000e+006  specific area, m**2/g
+	 1.000e+006  m**2 for  1.000e+000 g
+
+	Water in diffuse layer: 3.839e-001 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	 3.0803e-013
+	H             	 2.6165e-008
+	Na            	 1.0000e-001
+	O             	 1.3182e-018
+
+Su            
+	 1.000e-001  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-              1.000e-001       1.000  1.623e-001      -0.790
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.7812e-009 total water            1  7.0000e+000 Na =  5.0000e-001 Cl =  5.0000e-001 
+sys_Ca =            0 a_Ca =  1.0000e-099 a_Na =  3.5876e-001 
+
+------------------------------Surface composition------------------------------
+
+Su            
+	-8.327e-017  Surface + diffuse layer charge, eq
+	-1.000e-001  Surface charge, eq
+	-9.649e-003  sigma, C/m**2
+	-5.963e-003  psi, V
+	 2.321e-001  -F*psi/RT
+	 1.261e+000  exp(-F*psi/RT)
+	 1.000e+006  specific area, m**2/g
+	 1.000e+006  m**2 for  1.000e+000 g
+
+	Water in diffuse layer: 3.839e-001 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Cl            	 3.0803e-013
+	H             	 2.6165e-008
+	Na            	 1.0000e-001
+	O             	 1.3182e-018
+
+Su            
+	 1.000e-001  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su-              1.000e-001       1.000  1.623e-001      -0.790
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               5.000e-001  3.080e-001
+	Na               5.000e-001  3.080e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  -0.759      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 47858
+                          Density (g/cm3)  =   1.01705
+                               Volume (L)  =   0.62346
+                        Activity of water  =   0.983
+                           Ionic strength  =  5.000e-001
+                       Mass of water (kg)  =  6.161e-001
+                 Total alkalinity (eq/kg)  =  2.647e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.781e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 6.839365e+001
+                                  Total O  = 3.419683e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.573e-007  9.950e-008    -6.803    -7.002    -0.199     -2.93
+   H+             1.308e-007  1.000e-007    -6.883    -7.000    -0.117      0.00
+   H2O            5.551e+001  9.830e-001     1.744    -0.007     0.000     18.07
+Cl           5.000e-001
+   Cl-            5.000e-001  3.249e-001    -0.301    -0.488    -0.187     18.69
+H(0)         4.154e-016
+   H2             2.077e-016  2.330e-016   -15.683   -15.633     0.050     28.61
+Na           5.000e-001
+   Na+            5.000e-001  3.588e-001    -0.301    -0.445    -0.144     -0.70
+   NaOH           3.181e-018  3.570e-018   -17.497   -17.447     0.050     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -61.180   -61.130     0.050     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -12.53    -15.63   -3.10  H2
+	H2O(g)           -1.51     -0.01    1.50  H2O
+	Halite           -2.50     -0.93    1.57  NaCl
+	O2(g)           -58.24    -61.13   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	PRINT
+	 reset false
+WARNING: No dispersivities were read; disp = 0 assumed.
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.7812e-009 total water            1  7.0000e+000 Na =  5.0000e-001 Cl =  5.0000e-001 
+sys_Ca =            0 a_Ca =  1.0000e-099 a_Na =  3.5876e-001 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.5852e-008 total water  9.9998e-001  4.5682e+000 Na =  5.6989e-003 Cl =  5.7278e-003 
+sys_Ca =  3.9917e-006 a_Ca =  3.6706e-009 a_Na =  5.2628e-003 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.6108e-008 total water  9.9998e-001  5.2064e+000 Na =  1.0139e-003 Cl =  1.0202e-003 
+sys_Ca =  6.5965e-006 a_Ca =  2.2875e-010 a_Na =  9.7823e-004 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.6544e-008 total water  9.9998e-001  5.3260e+000 Na =  9.8165e-004 Cl =  9.8639e-004 
+sys_Ca =  9.0094e-006 a_Ca =  2.9277e-010 a_Na =  9.4769e-004 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.7239e-008 total water  9.9998e-001  5.4333e+000 Na =  9.8579e-004 Cl =  9.8946e-004 
+sys_Ca =  1.1413e-005 a_Ca =  3.7315e-010 a_Na =  9.5164e-004 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.8261e-008 total water  9.9998e-001  5.5407e+000 Na =  9.8929e-004 Cl =  9.9212e-004 
+sys_Ca =  1.3811e-005 a_Ca =  4.5395e-010 a_Na =  9.5497e-004 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  8.9686e-008 total water  9.9998e-001  5.6480e+000 Na =  9.9203e-004 Cl =  9.9420e-004 
+sys_Ca =  1.6204e-005 a_Ca =  5.3483e-010 a_Na =  9.5758e-004 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  9.1596e-008 total water  9.9998e-001  5.7550e+000 Na =  9.9416e-004 Cl =  9.9583e-004 
+sys_Ca =  1.8594e-005 a_Ca =  6.1571e-010 a_Na =  9.5961e-004 
+
+----------------------------------User print-----------------------------------
+
+solution =            1 
+EB =  9.4078e-008 total water  9.9998e-001  5.8612e+000 Na =  9.9583e-004 Cl =  9.9709e-004 
+sys_Ca =  2.0981e-005 a_Ca =  6.9654e-010 a_Na =  9.6120e-004 
+
+-------------------------------
+End of Run after 7.595 Seconds.
+-------------------------------
+

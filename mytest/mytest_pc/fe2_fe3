@@ -1,0 +1,160 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION_MASTER_SPECIES
+Ft		Ft+2	0.0	Ft		55.847
+Fd		Fd+3	0.0	Fd		55.847
+
+SOLUTION_SPECIES
+Ft+2 = Ft+2
+	log_k	0.0
+Fd+3 = Fd+3
+	log_k	0.0
+#################### All Fe+2 species
+Ft+2 + H2O = FtOH+ + H+
+	log_k	-9.5
+	delta_h 13.20	kcal
+
+Ft+2 + Cl- = FtCl+
+	log_k	0.14
+
+Ft+2 + CO3-2 = FtCO3
+	log_k	4.38
+
+Ft+2 + HCO3- = FtHCO3+
+	log_k	2.0
+
+Ft+2 + SO4-2 = FtSO4
+	log_k	2.25
+	delta_h 3.230	kcal
+
+Ft+2 + HSO4- = FtHSO4+
+	log_k	1.08
+
+Ft+2 + 2HS- = Ft(HS)2
+	log_k	8.95
+
+Ft+2 + 3HS- = Ft(HS)3-
+	log_k	10.987
+
+Ft+2 + HPO4-2 = FtHPO4
+	log_k	3.6
+
+Ft+2 + H2PO4- = FtH2PO4+
+	log_k	2.7
+
+Ft+2 + F- = FtF+
+	log_k	1.0
+#################### All Fe+3 species
+Fd+3 + H2O = FdOH+2 + H+
+	log_k	-2.19
+	delta_h 10.4	kcal
+
+Fd+3 + 2 H2O = Fd(OH)2+ + 2 H+
+	log_k	-5.67
+	delta_h 17.1	kcal
+
+Fd+3 + 3 H2O = Fd(OH)3 + 3 H+
+	log_k	-12.56
+	delta_h 24.8	kcal
+
+Fd+3 + 4 H2O = Fd(OH)4- + 4 H+
+	log_k	-21.6
+	delta_h 31.9	kcal
+
+2 Fd+3 + 2 H2O = Fd2(OH)2+4 + 2 H+
+	log_k	-2.95
+	delta_h 13.5	kcal
+
+3 Fd+3 + 4 H2O = Fd3(OH)4+5 + 4 H+
+	log_k	-6.3
+	delta_h 14.3	kcal
+
+Fd+3 + Cl- = FdCl+2
+	log_k	1.48
+	delta_h 5.6	kcal
+
+Fd+3 + 2 Cl- = FdCl2+
+	log_k	2.13
+
+Fd+3 + 3 Cl- = FdCl3
+	log_k	1.13
+
+Fd+3 + SO4-2 = FdSO4+
+	log_k	4.04
+	delta_h 3.91	kcal
+
+Fd+3 + HSO4- = FdHSO4+2
+	log_k	2.48
+
+Fd+3 + 2 SO4-2 = Fd(SO4)2-
+	log_k	5.38
+	delta_h 4.60	kcal
+
+Fd+3 + HPO4-2 = FdHPO4+
+	log_k	5.43
+	delta_h 5.76	kcal
+
+Fd+3 + H2PO4- = FdH2PO4+2
+	log_k	5.43
+
+Fd+3 + F- = FdF+2
+	log_k	6.2
+	delta_h 2.7	kcal
+
+Fd+3 + 2 F- = FdF2+
+	log_k	10.8
+	delta_h 4.8	kcal
+
+Fd+3 + 3 F- = FdF3
+	log_k	14.0
+	delta_h 5.4	kcal
+PHASES
+Goethite
+	FdOOH + 3 H+ = Fd+3 + 2 H2O
+	log_k	-1.0
+
+END
+RATES
+Ft_ox
+-start
+10  Ft = tot("Ft+2")
+20  if (Ft <= 0) then goto 200
+30  p_o2 = 10^(si("O2(g)"))
+40  moles = (2.91e-9 + 1.33e12 * (act("OH-"))^2 * p_o2) * Ft * time
+50  if moles > 1.e-4 then moles = 1.e-4
+200 save moles
+-end
+
+END
+PHASES
+        Fix_H+
+        H+ = H+
+        log_k  0.0
+END
+EQUILIBRIUM_PHASES 1
+#	Calcite
+#	Goethite	3.0	1.e-4
+#        Fix_H+   -8.5   NaOH    10.0
+#	CO2(g)		-1.5
+	O2(g)		-0.67
+SOLUTION 1
+	pH  7.0
+	pe 10.0  O2(g) -0.67
+	Ft  0.1
+	Na  1.e-2
+	Cl  1.e-2  charge
+SAVE solution 1
+END
+SELECTED_OUTPUT
+	-file fe.prn
+	-tot Ft  Fd
+	-si	Goethite
+USE solution 1
+USE equilibrium_phases 1
+INCREMENTAL_REACTIONS true
+KINETICS 1
+Ft_ox
+	-Formula  Ft  -1.0   Fd  1.0
+#	-steps 8.64e4 in 1
+	-steps 100 400 3100 10800 21600 5.04e4 8.64e4 1.728e5 1.728e5 1.728e5 1.728e5 
+#	-step_divide 1e10
+END

@@ -1,0 +1,105 @@
+DATABASE ../database/phreeqc.dat
+#solution_species
+#	H2O + 0.01e- = H2O-0.01
+#	log_k -9
+PRINT
+	-status false
+SOLUTION 1	WLB ms APW04
+	-temp	25.
+	-ph	6.692	charge
+	-dens	1.0
+	-pe	4.0
+	-u	mol/kgw
+	Ca	6.227e-03
+	Mg	4.850e-03
+	Na	1.863e-01
+	K	3.200e-03
+	Sr	5.800e-04
+	Cl	2.000e-01
+	C	1.646e-02	as HCO3
+	F	2.026e-04
+	Si	2.700e-04	as Si(OH)4
+
+EXCHANGE	1
+	-equil	1
+	X	1.06534
+PURE_PHASES	1
+	Calcite		0.0
+	Fluorite	0.0
+	CO2(g)		-0.94
+EXCHANGE_MASTER_SPECIES
+	X	X-	
+EXCHANGE_SPECIES
+	X- = X-
+	-log_k		0.0
+
+	Na+ + X- = NaX
+	-log_k		0.0
+
+	K+ + X- = KX
+	-log_k		0.819
+
+	H+ + X- = HX
+	-log_k		1.     0
+
+	Ca+2 + 2X- = CaX2
+	-log_k		0.564
+
+	Mg+2 + 2X- = MgX2
+	-log_k		0.182
+
+	Sr+2 + 2X- = SrX2
+	-log_k		0.529
+
+SAVE exchange 2
+END
+SOLUTION 2
+	-temp	25
+	-ph	7.0	charge
+	-den	1.0
+	-pe	4.0
+	-u	mol/kgw
+	Cl	0.2
+#	Fe	0.2 mmol/kgw
+MIX
+	2	0.1
+PURE_PHASES 2
+	Calcite 	0.0	0.1
+	Fluorite	0.0	0.1
+USE exchange 2
+END
+MIX
+	2	0.01
+USE pure_phases 2
+USE exchange 2
+END
+MIX
+	2	0.001
+USE pure_phases 2
+USE exchange 2
+END
+MIX
+	2	0.0001
+USE pure_phases 2
+USE exchange 2
+END
+MIX
+	2	0.00001
+USE pure_phases 2
+USE exchange 2
+END
+MIX
+	2	0.000001
+USE pure_phases 2
+USE exchange 2
+END
+MIX
+	2	0.0000001
+USE pure_phases 2
+USE exchange 2
+END
+MIX
+	2	0.00000001
+USE pure_phases 2
+USE exchange 2
+END

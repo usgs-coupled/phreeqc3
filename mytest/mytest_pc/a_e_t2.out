@@ -1,0 +1,261 @@
+   Input file: a_e_t2
+  Output file: a_e_t2.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	PHASES
+	Calcite
+		CaCO3 = CO3-2 + Ca+2
+		log_k	   -8.480
+		delta_h -2.297 kcal
+		analytical_expression       0   0   0    0	 0   -8.999541E-05 
+	SOLUTION_SPECIES
+	Ca+2 + CO3-2 = CaCO3
+		log_k	   3.224
+		delta_h 3.545   kcal
+		analytical_expression       0   0   0    0	 0   3E-05	
+		dw 4.46e-10	# complexes: calc'd with the Pikal formula
+	EXCHANGE_SPECIES
+	Ca+2 + 2X- = CaX2
+		log_k   0.8
+		gamma  5.0     0.165
+		delta_h  7.2    # Van Bladel & Gheyl, 1980
+		analytical_expression       0   0   0    0	 0   1E-05	
+	SURFACE_SPECIES
+		Hfo_sOH + Ca+2 = Hfo_sOHCa+2
+		log_k  4.97
+		analytical_expression       0   0   0    0	 0   5E-05
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION
+	EQUILIBRIUM_PHASES
+		calcite
+	EXCHANGE
+		NaX   1
+	SURFACE
+		no_edl
+		Hfo_sOH   .01
+	USER_PRINT
+	10 PRINT "Calcite:    ", lk_phase("Calcite"), lk_phase("Calcite")/TK/TK
+	20 PRINT "CaCO3(aq):  ", lk_species("CaCO3"), lk_species("CaCO3")/TK/TK
+	30 PRINT "CaX2:       ", lk_species("CaX2"), lk_species("CaX2")/TK/TK
+	40 PRINT "Hfo_sOHCa+2:", lk_species("Hfo_sOHCa+2"), lk_species("Hfo_sOHCa+2")/TK/TK
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+Calcite:     -8.0000e+000 -8.9995e-005 
+CaCO3(aq):    2.6668e+000  3.0000e-005 
+CaX2:         8.8893e-001  1.0000e-005 
+Hfo_sOHCa+2:  4.4447e+000  5.0000e-005 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using exchange 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+----------------------------------User print-----------------------------------
+
+Calcite:     -8.0000e+000 -8.9995e-005 
+CaCO3(aq):    2.6668e+000  3.0000e-005 
+CaX2:         8.8893e-001  1.0000e-005 
+Hfo_sOHCa+2:  4.4447e+000  5.0000e-005 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite           0.00    -8.00     -8.00   1.000e+001  9.983e+000 -1.717e-002
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	-9.099e-003  Surface charge, eq
+Hfo_s         
+	 1.000e-002  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-          9.210e-003       0.921  9.210e-003      -2.036
+	Hfo_sOH          7.339e-004       0.073  7.339e-004      -3.134
+	Hfo_sOHCa+2      5.465e-005       0.005  5.465e-005      -4.262
+	Hfo_sOH2+        1.340e-006       0.000  1.340e-006      -5.873
+
+-----------------------------Exchange composition------------------------------
+
+X               1.000e+000 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX              9.658e-001  9.658e-001  9.658e-001    -0.074
+	CaX2             1.710e-002  3.421e-002  3.421e-002    -0.289
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.717e-002  1.717e-002
+	Ca               1.011e-005  1.011e-005
+	Na               3.421e-002  3.421e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  10.029      Charge balance
+                                       pe  =  -4.380      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 2680
+                          Density (g/cm3)  =   0.99871
+                               Volume (L)  =   1.00397
+                        Activity of water  =   0.999
+                           Ionic strength  =  3.588e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.513e-002
+                       Total CO2 (mol/kg)  =  1.717e-002
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  9.099e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  15.91
+                               Iterations  =  19
+                                  Total H  = 1.110216e+002
+                                  Total O  = 5.555773e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.297e-004  1.080e-004    -3.887    -3.967    -0.079     -3.92
+   H+             1.080e-010  9.362e-011    -9.967   -10.029    -0.062      0.00
+   H2O            5.551e+001  9.991e-001     1.744    -0.000     0.000     18.07
+C(-4)        2.462e-027
+   CH4            2.462e-027  2.482e-027   -26.609   -26.605     0.004     32.22
+C(4)         1.717e-002
+   HCO3-          8.816e-003  7.463e-003    -2.055    -2.127    -0.072     24.87
+   CO3-2          7.277e-003  3.738e-003    -2.138    -2.427    -0.289     -3.72
+   NaCO3-         5.511e-004  4.666e-004    -3.259    -3.331    -0.072     -0.42
+   NaHCO3         5.195e-004  5.238e-004    -3.284    -3.281     0.004     19.41
+   CaCO3          4.605e-006  4.643e-006    -5.337    -5.333     0.004     (0)  
+   CO2            1.559e-006  1.572e-006    -5.807    -5.803     0.004     30.26
+   CaHCO3+        2.995e-007  2.547e-007    -6.524    -6.594    -0.070      9.78
+Ca           1.011e-005
+   Ca+2           5.201e-006  2.675e-006    -5.284    -5.573    -0.289    -17.70
+   CaCO3          4.605e-006  4.643e-006    -5.337    -5.333     0.004     (0)  
+   CaHCO3+        2.995e-007  2.547e-007    -6.524    -6.594    -0.070      9.78
+   CaOH+          5.640e-009  4.737e-009    -8.249    -8.324    -0.076     (0)  
+H(0)         7.068e-015
+   H2             3.534e-015  3.563e-015   -14.452   -14.448     0.004     28.61
+Na           3.421e-002
+   Na+            3.314e-002  2.794e-002    -1.480    -1.554    -0.074     -1.22
+   NaCO3-         5.511e-004  4.666e-004    -3.259    -3.331    -0.072     -0.42
+   NaHCO3         5.195e-004  5.238e-004    -3.284    -3.281     0.004     19.41
+   NaOH           2.993e-016  3.018e-016   -15.524   -15.520     0.004     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -63.488   -63.484     0.004     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Aragonite         0.34     -8.00   -8.34  CaCO3
+	Calcite           0.00     -8.00   -8.00  CaCO3
+	CH4(g)          -23.76    -26.61   -2.84  CH4
+	CO2(g)           -4.34     -5.80   -1.46  CO2
+	H2(g)           -11.35    -14.45   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -60.59    -63.48   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.026 Seconds.
+-------------------------------
+

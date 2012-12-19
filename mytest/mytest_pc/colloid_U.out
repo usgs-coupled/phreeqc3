@@ -1,0 +1,711 @@
+   Input file: colloid_U
+  Output file: colloid_U.out
+Database file: ../database/wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/wateq4f.dat
+	SOLUTION_SPECIES
+	 Na+ = Na+
+	 log_k 0
+	 gamma 1e10 0
+	 Ca+2 = Ca+2
+	 log_k 0
+	 gamma 1e10 0
+	 Cl- = Cl-
+	 log_k 0
+	 gamma 1e10 0
+	 H2O + 0.01e- = H2O-0.01
+	 log_k -9
+	SURFACE_MASTER_SPECIES /* define sorbed form of Hfo = Sfo */
+	 Sfo_s Sfo_sOH
+	 Sfo_w Sfo_wOH
+	SURFACE_SPECIES
+	 Sfo_sOH = Sfo_sOH
+	 log_k 0.0
+	 Sfo_sOH + H+ = Sfo_sOH2+
+	 log_k 7.29
+	 Sfo_sOH = Sfo_sO- + H+
+	 log_k -8.93
+	 Sfo_wOH = Sfo_wOH
+	 log_k 0.0
+	 Sfo_wOH + H+ = Sfo_wOH2+
+	 log_k 7.29
+	 Sfo_wOH = Sfo_wO- + H+
+	 log_k -8.93
+	 Sfo_sOH + Ca+2 = Sfo_sOHCa+2
+	 log_k 4.97
+	 Sfo_wOH + Ca+2 = Sfo_wOCa+ + H+
+	 log_k -5.85
+	 Sfo_sOH + Zn+2 = Sfo_sOZn+ + H+
+	 log_k 0.99
+	 Sfo_wOH + Zn+2 = Sfo_wOZn+ + H+
+	 log_k -1.99
+	 Sfo_sOH + UO2+2 = Sfo_sOHUO2+2
+	 log_k 5.2
+	 Sfo_wOH + UO2+2 = Sfo_wOUO2+ + H+
+	 log_k 2.8
+	SOLUTION 1-21
+	 pe 14 O2(g) -0.58
+	 Na 1
+	 Ca 1
+	 Cl 1 charge
+	SURFACE 1-21                        # define small conc's
+	 Hfo_w 97.5e-15 600 88e-13 Dw 1e-13
+	 Hfo_s 2.5e-15
+	 Sfo_w 97.5e-15 600 88e-13 Dw 0
+	 Sfo_s 2.5e-15
+	 donnan 1e-10
+	 equilibrate 1
+	END          
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.000e-003  1.000e-003
+	Cl               3.000e-003  3.000e-003  Charge balance
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  13.652      Equilibrium with O2(g)
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.591e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.774e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550689e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.073e-007  1.001e-007    -6.969    -7.000    -0.030     (0)  
+   H+             1.065e-007  1.000e-007    -6.973    -7.000    -0.027      0.00
+   H2O-0.01       7.302e-010  7.302e-010    -9.137    -9.137    -0.000     (0)  
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.07
+Ca           1.000e-003
+   Ca+2           1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+   CaOH+          1.773e-009  1.659e-009    -8.751    -8.780    -0.029     (0)  
+Cl           3.000e-003
+   Cl-            3.000e-003  3.000e-003    -2.523    -2.523    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.454   -44.454     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+O(0)         6.734e-004
+   O2             3.367e-004  3.370e-004    -3.473    -3.472     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.30    -44.45   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -7.10     -5.52    1.58  NaCl
+	O2(g)            -0.58     -3.47   -2.89  O2
+	Portlandite     -11.80     11.00   22.80  Ca(OH)2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 9.359e-017  Surface + diffuse layer charge, eq
+	 7.784e-016  Surface charge, eq
+	 1.423e-002  sigma, C/m**2
+	 6.649e-002  psi, V
+	-2.588e+000  -F*psi/RT
+	 7.516e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.280e-009  m**2 for  8.800e-012 g
+
+	Water in diffuse layer: 5.280e-016 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	 2.8272e-024
+	Cl            	 6.8479e-016
+	H             	 2.4488e-020
+	Na            	 1.2213e-021
+	O             	 3.8004e-019
+
+Hfo_s         
+	 2.500e-015  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          1.369e-015       0.547  1.369e-015     -14.864
+	Hfo_sOHCa+2      7.216e-016       0.289  7.216e-016     -15.142
+	Hfo_sO-          2.139e-016       0.086  2.139e-016     -15.670
+	Hfo_sOH2+        2.006e-016       0.080  2.006e-016     -15.698
+
+Hfo_w         
+	 9.750e-014  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          7.496e-014       0.769  7.496e-014     -13.125
+	Hfo_wO-          1.172e-014       0.120  1.172e-014     -13.931
+	Hfo_wOH2+        1.099e-014       0.113  1.099e-014     -13.959
+	Hfo_wOCa+        7.958e-017       0.001  7.958e-017     -16.099
+
+Sfo           
+	 9.359e-017  Surface + diffuse layer charge, eq
+	 7.784e-016  Surface charge, eq
+	 1.423e-002  sigma, C/m**2
+	 6.649e-002  psi, V
+	-2.588e+000  -F*psi/RT
+	 7.516e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.280e-009  m**2 for  8.800e-012 g
+
+	Water in diffuse layer: 5.280e-016 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	 2.8272e-024
+	Cl            	 6.8479e-016
+	H             	 2.4488e-020
+	Na            	 1.2213e-021
+	O             	 3.8004e-019
+
+Sfo_s         
+	 2.500e-015  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Sfo_sOH          1.369e-015       0.547  1.369e-015     -14.864
+	Sfo_sOHCa+2      7.216e-016       0.289  7.216e-016     -15.142
+	Sfo_sO-          2.139e-016       0.086  2.139e-016     -15.670
+	Sfo_sOH2+        2.006e-016       0.080  2.006e-016     -15.698
+
+Sfo_w         
+	 9.750e-014  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Sfo_wOH          7.496e-014       0.769  7.496e-014     -13.125
+	Sfo_wO-          1.172e-014       0.120  1.172e-014     -13.931
+	Sfo_wOH2+        1.099e-014       0.113  1.099e-014     -13.959
+	Sfo_wOCa+        7.958e-017       0.001  7.958e-017     -16.099
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	-3.741e-024  Surface + diffuse layer charge, eq
+	 6.863e-016  Surface charge, eq
+	 1.254e-002  sigma, C/m**2
+	 6.658e-002  psi, V
+	-2.592e+000  -F*psi/RT
+	 7.489e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.280e-009  m**2 for  8.800e-012 g
+
+	Water in diffuse layer: 5.280e-016 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	 2.8153e-024
+	Cl            	 6.8624e-016
+	H             	 2.4540e-020
+	Na            	 1.2187e-021
+	O             	 3.8009e-019
+
+Hfo_s         
+	 2.505e-015  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          1.371e-015       0.548  1.371e-015     -14.863
+	Hfo_sOHCa+2      7.178e-016       0.287  7.178e-016     -15.144
+	Hfo_sO-          2.151e-016       0.086  2.151e-016     -15.667
+	Hfo_sOH2+        2.003e-016       0.080  2.003e-016     -15.698
+
+Hfo_w         
+	 9.774e-014  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          7.495e-014       0.767  7.495e-014     -13.125
+	Hfo_wO-          1.176e-014       0.120  1.176e-014     -13.930
+	Hfo_wOH2+        1.095e-014       0.112  1.095e-014     -13.961
+	Hfo_wOCa+        7.929e-017       0.001  7.929e-017     -16.101
+
+Sfo           
+	-3.741e-024  Surface + diffuse layer charge, eq
+	 6.863e-016  Surface charge, eq
+	 1.254e-002  sigma, C/m**2
+	 6.658e-002  psi, V
+	-2.592e+000  -F*psi/RT
+	 7.489e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.280e-009  m**2 for  8.800e-012 g
+
+	Water in diffuse layer: 5.280e-016 kg, 50.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	 2.8153e-024
+	Cl            	 6.8624e-016
+	H             	 2.4540e-020
+	Na            	 1.2187e-021
+	O             	 3.8009e-019
+
+Sfo_s         
+	 2.505e-015  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Sfo_sOH          1.371e-015       0.548  1.371e-015     -14.863
+	Sfo_sOHCa+2      7.178e-016       0.287  7.178e-016     -15.144
+	Sfo_sO-          2.151e-016       0.086  2.151e-016     -15.667
+	Sfo_sOH2+        2.003e-016       0.080  2.003e-016     -15.698
+
+Sfo_w         
+	 9.774e-014  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Sfo_wOH          7.495e-014       0.767  7.495e-014     -13.125
+	Sfo_wO-          1.176e-014       0.120  1.176e-014     -13.930
+	Sfo_wOH2+        1.095e-014       0.112  1.095e-014     -13.961
+	Sfo_wOCa+        7.929e-017       0.001  7.929e-017     -16.101
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.000e-003  1.000e-003
+	Cl               3.000e-003  3.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  13.652      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.591e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.772e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550689e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.073e-007  1.001e-007    -6.969    -7.000    -0.030     (0)  
+   H+             1.065e-007  1.000e-007    -6.973    -7.000    -0.027      0.00
+   H2O-0.01       7.302e-010  7.302e-010    -9.137    -9.137    -0.000     (0)  
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.07
+Ca           1.000e-003
+   Ca+2           1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+   CaOH+          1.773e-009  1.659e-009    -8.751    -8.780    -0.029     (0)  
+Cl           3.000e-003
+   Cl-            3.000e-003  3.000e-003    -2.523    -2.523    -0.000     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.454   -44.454     0.000     (0)  
+Na           1.000e-003
+   Na+            1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+O(0)         6.734e-004
+   O2             3.367e-004  3.370e-004    -3.473    -3.472     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.30    -44.45   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -7.10     -5.52    1.58  NaCl
+	O2(g)            -0.58     -3.47   -2.89  O2
+	Portlandite     -11.80     11.00   22.80  Ca(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 0
+	 pe 14 O2(g) -0.58
+	 Na 10
+	 Ca 1
+	 U 0.001
+	 Cl 100 charge
+	SURFACE 0
+	 Hfo_w 97.5e-5 600 88e-3 Dw 1e-13
+	 Hfo_s 2.5e-5
+	 donnan 1e-10 #d 1 l 0.99 v 1# 1e-9
+	 equilibrate 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.000e-003  1.000e-003
+	Cl               1.200e-002  1.200e-002  Charge balance
+	Na               1.000e-002  1.000e-002
+	U                1.000e-006  1.000e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  13.652      Equilibrium with O2(g)
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.300e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.773e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  4.307e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550689e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.126e-007  1.001e-007    -6.948    -7.000    -0.051     (0)  
+   H+             1.105e-007  1.000e-007    -6.957    -7.000    -0.043      0.00
+   H2O-0.01       7.300e-010  7.300e-010    -9.137    -9.137    -0.000     (0)  
+   H2O            5.551e+001  9.996e-001     1.744    -0.000     0.000     18.07
+Ca           1.000e-003
+   Ca+2           1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+   CaOH+          1.851e-009  1.659e-009    -8.733    -8.780    -0.047     (0)  
+Cl           1.200e-002
+   Cl-            1.200e-002  1.200e-002    -1.921    -1.921    -0.000     (0)  
+   UO2Cl+         3.754e-011  3.344e-011   -10.425   -10.476    -0.050     (0)  
+   UO2Cl2         2.149e-014  2.155e-014   -13.668   -13.666     0.001     (0)  
+   UCl+3          0.000e+000  0.000e+000   -54.737   -55.189    -0.452     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.455   -44.454     0.001     (0)  
+Na           1.000e-002
+   Na+            1.000e-002  1.000e-002    -2.000    -2.000    -0.000     (0)  
+O(0)         6.720e-004
+   O2             3.360e-004  3.370e-004    -3.474    -3.472     0.001     (0)  
+U(3)         0.000e+000
+   U+3            0.000e+000  0.000e+000   -76.985   -77.437    -0.452     (0)  
+U(4)         3.248e-036
+   U(OH)4         3.247e-036  3.257e-036   -35.489   -35.487     0.001     (0)  
+   U(OH)3+        1.337e-039  1.191e-039   -38.874   -38.924    -0.050     (0)  
+   U(OH)2+2       0.000e+000  0.000e+000   -43.058   -43.259    -0.201     (0)  
+   UOH+3          0.000e+000  0.000e+000   -48.077   -48.529    -0.452     (0)  
+   U+4            0.000e+000  0.000e+000   -54.185   -54.989    -0.803     (0)  
+   UCl+3          0.000e+000  0.000e+000   -54.737   -55.189    -0.452     (0)  
+   U6(OH)15+9     0.000e+000  0.000e+000  -238.067  -242.134    -4.067     (0)  
+U(5)         1.457e-021
+   UO2+           1.457e-021  1.298e-021   -20.837   -20.887    -0.050     (0)  
+U(6)         1.000e-006
+   (UO2)3(OH)5+   2.112e-007  1.882e-007    -6.675    -6.725    -0.050     (0)  
+   UO2OH+         1.334e-007  1.188e-007    -6.875    -6.925    -0.050     (0)  
+   UO2(OH)3-      1.333e-007  1.187e-007    -6.875    -6.925    -0.050     (0)  
+   (UO2)4(OH)7+   1.776e-008  1.582e-008    -7.750    -7.801    -0.050     (0)  
+   (UO2)3(OH)7-   7.488e-009  6.671e-009    -8.126    -8.176    -0.050     (0)  
+   UO2+2          2.992e-009  1.884e-009    -8.524    -8.725    -0.201     (0)  
+   (UO2)2(OH)2+2  1.351e-009  8.510e-010    -8.869    -9.070    -0.201     (0)  
+   (UO2)3(OH)4+2  1.335e-010  8.408e-011    -9.874   -10.075    -0.201     (0)  
+   UO2Cl+         3.754e-011  3.344e-011   -10.425   -10.476    -0.050     (0)  
+   (UO2)2OH+3     2.004e-013  7.081e-014   -12.698   -13.150    -0.452     (0)  
+   UO2(OH)4-2     2.987e-014  1.881e-014   -13.525   -13.726    -0.201     (0)  
+   UO2Cl2         2.149e-014  2.155e-014   -13.668   -13.666     0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	B-UO2(OH)2       -0.27      5.27    5.54  UO2(OH)2
+	Gummite          -5.13      5.27   10.40  UO3
+	H2(g)           -41.30    -44.45   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.50     -3.92    1.58  NaCl
+	O2(g)            -0.58     -3.47   -2.89  O2
+	Portlandite     -11.80     11.00   22.80  Ca(OH)2
+	Schoepite        -0.13      5.27    5.40  UO2(OH)2:H2O
+	U3O8(c)         -18.89      1.64   20.53  U3O8
+	U4O9(c)         -63.27    -66.65   -3.38  U4O9
+	UO2(a)          -27.09    -26.99    0.10  UO2
+	UO3(gamma)       -2.44      5.27    7.72  UO3
+	Uraninite(c)    -22.19    -26.99   -4.80  UO2
+
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 0.	
+
+Hfo           
+	-4.692e-017  Surface + diffuse layer charge, eq
+	 2.091e-005  Surface charge, eq
+	 3.822e-002  sigma, C/m**2
+	 9.106e-002  psi, V
+	-3.544e+000  -F*psi/RT
+	 2.888e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.280e+001  m**2 for  8.800e-002 g
+
+	Water in diffuse layer: 5.280e-006 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	 4.8501e-014
+	Cl            	 2.0912e-005
+	H             	 9.8461e-010
+	Na            	 1.5998e-010
+	O             	 5.0757e-009
+	U             	 2.7147e-010
+
+Hfo_s         
+	 2.500e-005  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOUO2+       2.456e-005       0.982  2.456e-005      -4.610
+	Hfo_sOH          2.848e-007       0.011  2.848e-007      -6.546
+	Hfo_sO-          1.158e-007       0.005  1.158e-007      -6.936
+	Hfo_sOHCa+2      2.217e-008       0.001  2.217e-008      -7.654
+	Hfo_sOH2+        1.604e-008       0.001  1.604e-008      -7.795
+
+Hfo_w         
+	 9.750e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          5.396e-004       0.553  5.396e-004      -3.268
+	Hfo_wO-          2.195e-004       0.225  2.195e-004      -3.659
+	Hfo_wOUO2+       1.853e-004       0.190  1.853e-004      -3.732
+	Hfo_wOH2+        3.039e-005       0.031  3.039e-005      -4.517
+	Hfo_wOCa+        2.202e-007       0.000  2.202e-007      -6.657
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	
+Using surface 0.	
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.181e-011  Surface + diffuse layer charge, eq
+	 2.091e-005  Surface charge, eq
+	 3.822e-002  sigma, C/m**2
+	 9.106e-002  psi, V
+	-3.544e+000  -F*psi/RT
+	 2.888e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.280e+001  m**2 for  8.800e-002 g
+
+	Water in diffuse layer: 5.280e-006 kg, 100.0% of total DDL-water.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation 
+
+	Element       	     Moles
+	Ca            	 4.8501e-014
+	Cl            	 2.0912e-005
+	H             	 9.8461e-010
+	Na            	 1.5998e-010
+	O             	 5.0757e-009
+	U             	 2.7147e-010
+
+Hfo_s         
+	 2.500e-005  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOUO2+       2.456e-005       0.982  2.456e-005      -4.610
+	Hfo_sOH          2.848e-007       0.011  2.848e-007      -6.546
+	Hfo_sO-          1.158e-007       0.005  1.158e-007      -6.936
+	Hfo_sOHCa+2      2.217e-008       0.001  2.217e-008      -7.654
+	Hfo_sOH2+        1.604e-008       0.001  1.604e-008      -7.795
+
+Hfo_w         
+	 9.750e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          5.396e-004       0.553  5.396e-004      -3.268
+	Hfo_wO-          2.195e-004       0.225  2.195e-004      -3.659
+	Hfo_wOUO2+       1.853e-004       0.190  1.853e-004      -3.732
+	Hfo_wOH2+        3.039e-005       0.031  3.039e-005      -4.517
+	Hfo_wOCa+        2.202e-007       0.000  2.202e-007      -6.657
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               1.000e-003  1.000e-003
+	Cl               1.200e-002  1.200e-002
+	Na               1.000e-002  1.000e-002
+	U                1.000e-006  1.000e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  13.652      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.300e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.773e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.098e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550689e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.126e-007  1.001e-007    -6.948    -7.000    -0.051     (0)  
+   H+             1.105e-007  1.000e-007    -6.957    -7.000    -0.043      0.00
+   H2O-0.01       7.300e-010  7.300e-010    -9.137    -9.137    -0.000     (0)  
+   H2O            5.551e+001  9.996e-001     1.744    -0.000     0.000     18.07
+Ca           1.000e-003
+   Ca+2           1.000e-003  1.000e-003    -3.000    -3.000    -0.000     (0)  
+   CaOH+          1.851e-009  1.659e-009    -8.733    -8.780    -0.047     (0)  
+Cl           1.200e-002
+   Cl-            1.200e-002  1.200e-002    -1.921    -1.921    -0.000     (0)  
+   UO2Cl+         3.754e-011  3.344e-011   -10.425   -10.476    -0.050     (0)  
+   UO2Cl2         2.149e-014  2.155e-014   -13.668   -13.666     0.001     (0)  
+   UCl+3          0.000e+000  0.000e+000   -54.737   -55.189    -0.452     (0)  
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.455   -44.454     0.001     (0)  
+Na           1.000e-002
+   Na+            1.000e-002  1.000e-002    -2.000    -2.000    -0.000     (0)  
+O(0)         6.720e-004
+   O2             3.360e-004  3.370e-004    -3.474    -3.472     0.001     (0)  
+U(3)         0.000e+000
+   U+3            0.000e+000  0.000e+000   -76.985   -77.437    -0.452     (0)  
+U(4)         3.248e-036
+   U(OH)4         3.247e-036  3.257e-036   -35.489   -35.487     0.001     (0)  
+   U(OH)3+        1.337e-039  1.191e-039   -38.874   -38.924    -0.050     (0)  
+   U(OH)2+2       0.000e+000  0.000e+000   -43.058   -43.259    -0.201     (0)  
+   UOH+3          0.000e+000  0.000e+000   -48.077   -48.529    -0.452     (0)  
+   U+4            0.000e+000  0.000e+000   -54.185   -54.989    -0.803     (0)  
+   UCl+3          0.000e+000  0.000e+000   -54.737   -55.189    -0.452     (0)  
+   U6(OH)15+9     0.000e+000  0.000e+000  -238.067  -242.134    -4.067     (0)  
+U(5)         1.457e-021
+   UO2+           1.457e-021  1.298e-021   -20.837   -20.887    -0.050     (0)  
+U(6)         1.000e-006
+   (UO2)3(OH)5+   2.112e-007  1.882e-007    -6.675    -6.725    -0.050     (0)  
+   UO2OH+         1.334e-007  1.188e-007    -6.875    -6.925    -0.050     (0)  
+   UO2(OH)3-      1.333e-007  1.187e-007    -6.875    -6.925    -0.050     (0)  
+   (UO2)4(OH)7+   1.776e-008  1.582e-008    -7.750    -7.801    -0.050     (0)  
+   (UO2)3(OH)7-   7.488e-009  6.671e-009    -8.126    -8.176    -0.050     (0)  
+   UO2+2          2.992e-009  1.884e-009    -8.524    -8.725    -0.201     (0)  
+   (UO2)2(OH)2+2  1.351e-009  8.510e-010    -8.869    -9.070    -0.201     (0)  
+   (UO2)3(OH)4+2  1.335e-010  8.408e-011    -9.874   -10.075    -0.201     (0)  
+   UO2Cl+         3.754e-011  3.344e-011   -10.425   -10.476    -0.050     (0)  
+   (UO2)2OH+3     2.004e-013  7.081e-014   -12.698   -13.150    -0.452     (0)  
+   UO2(OH)4-2     2.987e-014  1.881e-014   -13.525   -13.726    -0.201     (0)  
+   UO2Cl2         2.149e-014  2.155e-014   -13.668   -13.666     0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	B-UO2(OH)2       -0.27      5.27    5.54  UO2(OH)2
+	Gummite          -5.13      5.27   10.40  UO3
+	H2(g)           -41.30    -44.45   -3.15  H2
+	H2O(g)           -1.51     -0.00    1.51  H2O
+	Halite           -5.50     -3.92    1.58  NaCl
+	O2(g)            -0.58     -3.47   -2.89  O2
+	Portlandite     -11.80     11.00   22.80  Ca(OH)2
+	Schoepite        -0.13      5.27    5.40  UO2(OH)2:H2O
+	U3O8(c)         -18.89      1.64   20.53  U3O8
+	U4O9(c)         -63.27    -66.65   -3.38  U4O9
+	UO2(a)          -27.09    -26.99    0.10  UO2
+	UO3(gamma)       -2.44      5.27    7.72  UO3
+	Uraninite(c)    -22.19    -26.99   -4.80  UO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	PRINT
+	 reset false
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 10.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
+--------------------------------
+End of Run after 10.862 Seconds.
+--------------------------------
+

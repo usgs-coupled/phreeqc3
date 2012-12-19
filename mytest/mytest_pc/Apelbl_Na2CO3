@@ -1,0 +1,37 @@
+# Vm_Na2CO3 Apelblat et al., 2009, JECD 54, 2550.
+#DATABASE c:\phreeqc\database\pitzer.dat
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+SOLUTION 1
+ pH 7 charge
+ Na 0.2e3; C(4) 0.1e3
+SOLUTION 2
+ pH 7 charge
+ Na 1e3; C(4) 0.5e3
+SOLUTION 3
+ pH 7 charge
+ Na 2e3; C(4) 1e3
+END
+
+REACTION_TEMPERATURE 1
+5 70 in 20
+USE solution 1
+USER_GRAPH
+ -connect_simulations false
+ -plot_csv_file Apelbl_Na2CO3.dat
+ 10 graph_x tc
+# density of water, eqn 2.6, Wagner and Pruss, 2002.
+ 30 th = 1 - Tk / 647.096
+ 40 b1 = 1.99274064; 41 b2 = 1.09965342; 42 b3 = -0.510839303
+ 50 b4 = -1.75493479; 51 b5 = -45.5170352; 52 b6 = -6.7469445e5;
+ 60 rho_0 = 322.0 * (1.0 + b1 * th^(1./3.) + b2 * th^(2./3.) + b3 * th^(5./3.) +\
+                   b4 * th^(16./3.) + b5 * th^(43./3.) + b6 * th^(110./3));
+  70 Vmol = (1e3 + tot("C") * 105.9907) / (tot("C") * rho) - 1e3 / (tot("C") * rho_0 / 1e3)
+ 120 graph_y Vmol
+END
+
+USE solution 2; USE reaction_temperature 1
+END
+
+USE solution 3; USE reaction_temperature 1
+END

@@ -1,0 +1,2402 @@
+   Input file: ex6
+  Output file: ex6.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	knobs
+		logfile
+	TITLE Example 6A.--React to phase boundaries.
+	SOLUTION 1  PURE WATER
+	            pH    7.0 charge
+	          temp   25.0
+	PHASES 1
+	        Gibbsite
+	                Al(OH)3 + 3 H+ = Al+3 + 3 H2O
+	                log_k          8.049
+	                delta_h        -22.792 kcal
+	        Kaolinite
+	                Al2Si2O5(OH)4 + 6 H+ = H2O + 2 H4SiO4 + 2 Al+3
+	                log_k          5.708
+	                delta_h        -35.306 kcal
+	        Muscovite
+	                KAl3Si3O10(OH)2 + 10 H+ = 3 Al+3 + 3 H4SiO4 + K+
+	                log_k          12.970
+	                delta_h        -59.377 kcal
+	        Microcline
+	                KAlSi3O8 + 4 H2O + 4 H+ = Al+3 + 3 H4SiO4 + K+
+	                log_k          0.875
+	                delta_h        -12.467 kcal
+	END
+-----
+TITLE
+-----
+
+ Example 6A.--React to phase boundaries.
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	PURE WATER
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.997      Charge balance
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.006e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.040e-017
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.040e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.006e-007  1.006e-007    -6.997    -6.997    -0.000     -4.14
+   H+             1.006e-007  1.006e-007    -6.997    -6.997    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         1.433e-025
+   H2             7.166e-026  7.166e-026   -25.145   -25.145     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.090   -42.090     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.04    -25.14   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -39.20    -42.09   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	TITLE Example 6A1.--Find amount of k-spar dissolved to 
+	                    reach gibbsite saturation.
+	SELECTED_OUTPUT
+	        file           ex6.pun
+	        activities     K+ H+ H4SiO4
+	        si             Gibbsite Kaolinite Muscovite Microcline
+	        equilibrium_phases    Gibbsite Kaolinite Muscovite Microcline
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Gibbsite        0.0     KAlSi3O8        10.0
+	        Kaolinite       0.0     0.0
+	        Muscovite       0.0     0.0
+	        Microcline      0.0     0.0
+	END
+-----
+TITLE
+-----
+
+ Example 6A1.--Find amount of k-spar dissolved to 
+                    reach gibbsite saturation.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.00     8.05      8.05
+	 KAlSi3O8           is reactant      1.000e+001  1.000e+001 -2.658e-008
+Kaolinite        -3.81     1.90      5.71   0.000e+000           0  0.000e+000
+Microcline      -14.69   -13.82      0.88   0.000e+000           0  0.000e+000
+Muscovite       -10.69     2.28     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               2.658e-008  2.658e-008
+	K                2.658e-008  2.658e-008
+	Si               7.974e-008  7.974e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.004      Charge balance
+                                       pe  =  10.368      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.267e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.063e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.065e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.021e-007  1.021e-007    -6.991    -6.991    -0.000     -4.14
+   H+             9.919e-008  9.915e-008    -7.004    -7.004    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           2.658e-008
+   Al(OH)4-       2.442e-008  2.441e-008    -7.612    -7.612    -0.000     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       8.645e-010  8.641e-010    -9.063    -9.063    -0.000     (0)  
+   AlOH+2         1.095e-011  1.093e-011   -10.961   -10.961    -0.001    -27.81
+   Al+3           1.095e-013  1.091e-013   -12.960   -12.962    -0.002    -44.55
+H(0)         2.553e-038
+   H2             1.276e-038  1.276e-038   -37.894   -37.894     0.000     28.61
+K            2.658e-008
+   K+             2.658e-008  2.657e-008    -7.575    -7.576    -0.000      8.98
+O(0)         5.119e-017
+   O2             2.559e-017  2.559e-017   -16.592   -16.592     0.000     30.40
+Si           7.974e-008
+   H4SiO4         7.962e-008  7.962e-008    -7.099    -7.099     0.000     52.08
+   H3SiO4-        1.184e-010  1.184e-010    -9.926    -9.927    -0.000     27.94
+   H2SiO4-2       8.136e-017  8.123e-017   -16.090   -16.090    -0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -3.55     -7.10   -3.55  SiO2
+	Gibbsite         -0.00      8.05    8.05  Al(OH)3
+	H2(g)           -34.79    -37.89   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar      -15.91    -36.49  -20.57  KAlSi3O8
+	K-mica          -10.42      2.28   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -3.81      1.90    5.71  Al2Si2O5(OH)4
+	Microcline      -14.69    -13.82    0.88  KAlSi3O8
+	Muscovite       -10.69      2.28   12.97  KAl3Si3O10(OH)2
+	O2(g)           -13.70    -16.59   -2.89  O2
+	Quartz           -3.12     -7.10   -3.98  SiO2
+	SiO2(a)          -4.39     -7.10   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	TITLE Example 6A2.--Find amount of k-spar dissolved to 
+	                    reach kaolinite saturation.
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Gibbsite        0.0     0.0
+	        Kaolinite       0.0     KAlSi3O8        10.0
+	        Muscovite       0.0     0.0
+	        Microcline      0.0     0.0
+	END
+-----
+TITLE
+-----
+
+ Example 6A2.--Find amount of k-spar dissolved to 
+                    reach kaolinite saturation.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.00     8.05      8.05   0.000e+000  1.785e-006  1.785e-006
+Kaolinite        -0.00     5.71      5.71
+	 KAlSi3O8           is reactant      1.000e+001  1.000e+001 -2.178e-006
+Microcline       -5.86    -4.99      0.88   0.000e+000           0  0.000e+000
+Muscovite        -1.86    11.11     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               3.935e-007  3.935e-007
+	K                2.178e-006  2.178e-006
+	Si               6.535e-006  6.535e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.209      Charge balance
+                                       pe  =   9.163      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.185e-006
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.359e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.042e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  14
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550623e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.640e-006  1.637e-006    -5.785    -5.786    -0.001     -4.14
+   H+             6.193e-009  6.182e-009    -8.208    -8.209    -0.001      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           3.935e-007
+   Al(OH)4-       3.921e-007  3.915e-007    -6.407    -6.407    -0.001     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       5.397e-011  5.388e-011   -10.268   -10.269    -0.001     (0)  
+   AlOH+2         4.280e-014  4.250e-014   -13.369   -13.372    -0.003    -27.80
+   Al+3           2.687e-017  2.645e-017   -16.571   -16.578    -0.007    -44.54
+H(0)         2.557e-038
+   H2             1.279e-038  1.279e-038   -37.893   -37.893     0.000     28.61
+K            2.178e-006
+   K+             2.178e-006  2.175e-006    -5.662    -5.663    -0.001      8.98
+O(0)         5.100e-017
+   O2             2.550e-017  2.550e-017   -16.594   -16.594     0.000     30.40
+Si           6.535e-006
+   H4SiO4         6.383e-006  6.383e-006    -5.195    -5.195     0.000     52.08
+   H3SiO4-        1.525e-007  1.522e-007    -6.817    -6.818    -0.001     27.95
+   H2SiO4-2       1.687e-012  1.675e-012   -11.773   -11.776    -0.003     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -1.64     -5.20   -3.55  SiO2
+	Gibbsite         -0.00      8.05    8.05  Al(OH)3
+	H2(g)           -34.79    -37.89   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -7.08    -27.65  -20.57  KAlSi3O8
+	K-mica           -1.59     11.11   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -5.86     -4.99    0.88  KAlSi3O8
+	Muscovite        -1.86     11.11   12.97  KAl3Si3O10(OH)2
+	O2(g)           -13.70    -16.59   -2.89  O2
+	Quartz           -1.21     -5.20   -3.98  SiO2
+	SiO2(a)          -2.48     -5.20   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	TITLE Example 6A3.--Find amount of k-spar dissolved to 
+	                    reach muscovite saturation.
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Gibbsite        0.0     0.0
+	        Kaolinite       0.0     0.0
+	        Muscovite       0.0     KAlSi3O8        10.0
+	        Microcline      0.0     0.0
+	END
+-----
+TITLE
+-----
+
+ Example 6A3.--Find amount of k-spar dissolved to 
+                    reach muscovite saturation.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.73     7.32      8.05   0.000e+000           0  0.000e+000
+Kaolinite         0.00     5.71      5.71   0.000e+000  9.760e-006  9.760e-006
+Microcline       -2.54    -1.67      0.88   0.000e+000           0  0.000e+000
+Muscovite         0.00    12.97     12.97
+	 KAlSi3O8           is reactant      1.000e+001  1.000e+001 -2.010e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               5.799e-007  5.799e-007
+	K                2.010e-005  2.010e-005
+	Si               4.078e-005  4.078e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.107      Charge balance
+                                       pe  =   8.265      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 4
+                          Density (g/cm3)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.010e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.184e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  1.179e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550629e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.302e-005  1.295e-005    -4.885    -4.888    -0.002     -4.13
+   H+             7.856e-010  7.815e-010    -9.105    -9.107    -0.002      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           5.799e-007
+   Al(OH)4-       5.796e-007  5.766e-007    -6.237    -6.239    -0.002     (0)  
+   Al(OH)3        2.391e-010  2.391e-010    -9.621    -9.621     0.000     (0)  
+   Al(OH)2+       1.275e-012  1.268e-012   -11.895   -11.897    -0.002     (0)  
+   AlOH+2         1.291e-016  1.265e-016   -15.889   -15.898    -0.009    -27.79
+   Al+3           1.043e-020  9.949e-021   -19.982   -20.002    -0.020    -44.52
+H(0)         2.557e-038
+   H2             1.279e-038  1.279e-038   -37.893   -37.893     0.000     28.61
+K            2.010e-005
+   K+             2.010e-005  2.000e-005    -4.697    -4.699    -0.002      8.98
+O(0)         5.099e-017
+   O2             2.550e-017  2.550e-017   -16.594   -16.594     0.000     30.40
+Si           4.078e-005
+   H4SiO4         3.428e-005  3.428e-005    -4.465    -4.465     0.000     52.08
+   H3SiO4-        6.501e-006  6.468e-006    -5.187    -5.189    -0.002     27.95
+   H2SiO4-2       5.748e-010  5.629e-010    -9.240    -9.250    -0.009     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -3.48      7.32   10.80  Al(OH)3
+	Chalcedony       -0.91     -4.46   -3.55  SiO2
+	Gibbsite         -0.73      7.32    8.05  Al(OH)3
+	H2(g)           -34.79    -37.89   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -3.76    -24.33  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite         0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -2.54     -1.67    0.88  KAlSi3O8
+	Muscovite         0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -13.70    -16.59   -2.89  O2
+	Quartz           -0.48     -4.46   -3.98  SiO2
+	SiO2(a)          -1.75     -4.46   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	TITLE Example 6A4.--Find amount of k-spar dissolved to 
+	                    reach k-spar saturation.
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Gibbsite        0.0     0.0
+	        Kaolinite       0.0     0.0
+	        Muscovite       0.0     0.0
+	        Microcline      0.0     10.0
+	END
+-----
+TITLE
+-----
+
+ Example 6A4.--Find amount of k-spar dissolved to 
+                    reach k-spar saturation.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -2.00     6.05      8.05   0.000e+000           0  0.000e+000
+Kaolinite        -0.72     4.99      5.71   0.000e+000           0  0.000e+000
+Microcline       -0.00     0.87      0.88   1.000e+001  1.000e+001 -1.909e-004
+Muscovite        -0.00    12.97     12.97   0.000e+000  6.362e-005  6.362e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               5.973e-008  5.973e-008
+	K                1.273e-004  1.273e-004
+	Si               3.819e-004  3.819e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.388      Charge balance
+                                       pe  =   7.983      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 14
+                          Density (g/cm3)  =   0.99707
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.273e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.275e-004
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.210e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.550698e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.506e-005  2.474e-005    -4.601    -4.607    -0.006     -4.13
+   H+             4.144e-010  4.092e-010    -9.383    -9.388    -0.006      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           5.973e-008
+   Al(OH)4-       5.972e-008  5.895e-008    -7.224    -7.230    -0.006     (0)  
+   Al(OH)3        1.280e-011  1.280e-011   -10.893   -10.893     0.000     (0)  
+   Al(OH)2+       3.600e-014  3.554e-014   -13.444   -13.449    -0.006     (0)  
+   AlOH+2         1.954e-018  1.855e-018   -17.709   -17.732    -0.023    -27.77
+   Al+3           8.576e-023  7.641e-023   -22.067   -22.117    -0.050    -44.46
+H(0)         2.558e-038
+   H2             1.279e-038  1.279e-038   -37.893   -37.893     0.000     28.61
+K            1.273e-004
+   K+             1.273e-004  1.256e-004    -3.895    -3.901    -0.006      8.99
+O(0)         5.096e-017
+   O2             2.548e-017  2.548e-017   -16.594   -16.594     0.000     30.40
+Si           3.819e-004
+   H4SiO4         2.797e-004  2.797e-004    -3.553    -3.553     0.000     52.08
+   H3SiO4-        1.021e-004  1.008e-004    -3.991    -3.996    -0.006     27.95
+   H2SiO4-2       1.765e-008  1.676e-008    -7.753    -7.776    -0.023     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -4.75      6.05   10.80  Al(OH)3
+	Chalcedony       -0.00     -3.55   -3.55  SiO2
+	Gibbsite         -2.00      6.05    8.05  Al(OH)3
+	H2(g)           -34.79    -37.89   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -1.22    -21.79  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.72      4.99    5.71  Al2Si2O5(OH)4
+	Microcline       -0.00      0.87    0.88  KAlSi3O8
+	Muscovite        -0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -13.70    -16.59   -2.89  O2
+	Quartz            0.43     -3.55   -3.98  SiO2
+	SiO2(a)          -0.84     -3.55   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	TITLE 
+	Example 6A5.--Find point with kaolinite present, 
+	              but no gibbsite.
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Gibbsite        0.0     KAlSi3O8        10.0
+	        Kaolinite       0.0     1.0
+	END
+-----
+TITLE
+-----
+
+Example 6A5.--Find point with kaolinite present, 
+              but no gibbsite.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     8.05      8.05
+	 KAlSi3O8           is reactant      1.000e+001  1.000e+001 -3.025e-006
+Kaolinite         0.00     5.71      5.71   1.000e+000  1.000e+000  1.240e-006
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               5.450e-007  5.450e-007
+	K                3.025e-006  3.025e-006
+	Si               6.594e-006  6.594e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.351      Charge balance
+                                       pe  =   9.021      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.029e-006
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.660e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  9.719e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550623e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.274e-006  2.269e-006    -5.643    -5.644    -0.001     -4.14
+   H+             4.469e-009  4.460e-009    -8.350    -8.351    -0.001      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           5.450e-007
+   Al(OH)4-       5.437e-007  5.426e-007    -6.265    -6.266    -0.001     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       3.895e-011  3.887e-011   -10.409   -10.410    -0.001     (0)  
+   AlOH+2         2.230e-014  2.212e-014   -13.652   -13.655    -0.004    -27.80
+   Al+3           1.012e-017  9.934e-018   -16.995   -17.003    -0.008    -44.54
+H(0)         2.557e-038
+   H2             1.279e-038  1.279e-038   -37.893   -37.893     0.000     28.61
+K            3.025e-006
+   K+             3.025e-006  3.018e-006    -5.519    -5.520    -0.001      8.98
+O(0)         5.099e-017
+   O2             2.550e-017  2.550e-017   -16.594   -16.594     0.000     30.40
+Si           6.594e-006
+   H4SiO4         6.383e-006  6.383e-006    -5.195    -5.195     0.000     52.08
+   H3SiO4-        2.114e-007  2.110e-007    -6.675    -6.676    -0.001     27.95
+   H2SiO4-2       3.244e-012  3.218e-012   -11.489   -11.492    -0.004     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -1.64     -5.20   -3.55  SiO2
+	Gibbsite          0.00      8.05    8.05  Al(OH)3
+	H2(g)           -34.79    -37.89   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -6.80    -27.37  -20.57  KAlSi3O8
+	K-mica           -1.31     11.39   12.70  KAl3Si3O10(OH)2
+	Kaolinite         0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -5.58     -4.71    0.88  KAlSi3O8
+	Muscovite        -1.58     11.39   12.97  KAl3Si3O10(OH)2
+	O2(g)           -13.70    -16.59   -2.89  O2
+	Quartz           -1.21     -5.20   -3.98  SiO2
+	SiO2(a)          -2.48     -5.20   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	TITLE 
+	Example 6A6.--Find point with muscovite present, 
+	              but no kaolinite
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Kaolinite       0.0     KAlSi3O8        10.0
+	        Muscovite       0.0     1.0
+	END
+-----
+TITLE
+-----
+
+Example 6A6.--Find point with muscovite present, 
+              but no kaolinite
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Kaolinite        -0.00     5.71      5.71
+	 KAlSi3O8           is reactant      1.000e+001  1.000e+001 -3.281e-005
+Muscovite        -0.00    12.97     12.97   1.000e+000  1.000e+000  1.083e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               3.235e-007  3.235e-007
+	K                2.198e-005  2.198e-005
+	Si               6.595e-005  6.595e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.068      Charge balance
+                                       pe  =   8.303      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 3
+                          Density (g/cm3)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.199e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.295e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.853e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550635e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.191e-005  1.184e-005    -4.924    -4.926    -0.002     -4.13
+   H+             8.592e-010  8.545e-010    -9.066    -9.068    -0.002      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           3.235e-007
+   Al(OH)4-       3.234e-007  3.216e-007    -6.490    -6.493    -0.002     (0)  
+   Al(OH)3        1.458e-010  1.458e-010    -9.836    -9.836     0.000     (0)  
+   Al(OH)2+       8.504e-013  8.458e-013   -12.070   -12.073    -0.002     (0)  
+   AlOH+2         9.425e-017  9.222e-017   -16.026   -16.035    -0.009    -27.79
+   Al+3           8.331e-021  7.933e-021   -20.079   -20.101    -0.021    -44.52
+H(0)         2.557e-038
+   H2             1.278e-038  1.278e-038   -37.893   -37.893     0.000     28.61
+K            2.198e-005
+   K+             2.198e-005  2.186e-005    -4.658    -4.660    -0.002      8.98
+O(0)         5.103e-017
+   O2             2.551e-017  2.551e-017   -16.593   -16.593     0.000     30.40
+Si           6.595e-005
+   H4SiO4         5.620e-005  5.620e-005    -4.250    -4.250     0.000     52.08
+   H3SiO4-        9.751e-006  9.697e-006    -5.011    -5.013    -0.002     27.95
+   H2SiO4-2       7.890e-010  7.719e-010    -9.103    -9.112    -0.009     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -3.70      7.10   10.80  Al(OH)3
+	Chalcedony       -0.70     -4.25   -3.55  SiO2
+	Gibbsite         -0.94      7.10    8.05  Al(OH)3
+	H2(g)           -34.79    -37.89   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -3.33    -23.90  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -2.11     -1.24    0.88  KAlSi3O8
+	Muscovite        -0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -13.70    -16.59   -2.89  O2
+	Quartz           -0.27     -4.25   -3.98  SiO2
+	SiO2(a)          -1.54     -4.25   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	TITLE Example 6B.--Path between phase boundaries.
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Kaolinite       0.0     0.0
+	        Gibbsite        0.0     0.0
+	        Muscovite       0.0     0.0
+	        Microcline      0.0     0.0
+	REACTION 1
+	        Microcline      1.0
+	        0.04 0.08 0.16 0.32 0.64 1.0 2.0 4.0 
+	        8.0 16.0 32.0 40.0 50.0 umol
+	END
+-----
+TITLE
+-----
+
+ Example 6B.--Path between phase boundaries.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 4.000e-008 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.00     8.05      8.05   0.000e+000  1.200e-008  1.200e-008
+Kaolinite        -3.45     2.25      5.71   0.000e+000           0  0.000e+000
+Microcline      -13.96   -13.08      0.88   0.000e+000           0  0.000e+000
+Muscovite        -9.96     3.01     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               2.800e-008  2.800e-008
+	K                4.000e-008  4.000e-008
+	Si               1.200e-007  1.200e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.029      Charge balance
+                                       pe  =  -1.250      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.344e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.240e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.040e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.083e-007  1.082e-007    -6.965    -6.966    -0.000     -4.14
+   H+             9.354e-008  9.350e-008    -7.029    -7.029    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           2.800e-008
+   Al(OH)4-       2.589e-008  2.588e-008    -7.587    -7.587    -0.000     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       8.152e-010  8.149e-010    -9.089    -9.089    -0.000     (0)  
+   AlOH+2         9.738e-012  9.722e-012   -11.012   -11.012    -0.001    -27.81
+   Al+3           9.187e-014  9.151e-014   -13.037   -13.039    -0.002    -44.55
+H(0)         3.920e-015
+   H2             1.960e-015  1.960e-015   -14.708   -14.708     0.000     28.61
+K            4.000e-008
+   K+             4.000e-008  3.998e-008    -7.398    -7.398    -0.000      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -62.965   -62.965     0.000     30.40
+Si           1.200e-007
+   H4SiO4         1.198e-007  1.198e-007    -6.922    -6.922     0.000     52.08
+   H3SiO4-        1.890e-010  1.889e-010    -9.723    -9.724    -0.000     27.94
+   H2SiO4-2       1.377e-016  1.374e-016   -15.861   -15.862    -0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -3.37     -6.92   -3.55  SiO2
+	Gibbsite         -0.00      8.05    8.05  Al(OH)3
+	H2(g)           -11.61    -14.71   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar      -15.18    -35.75  -20.57  KAlSi3O8
+	K-mica           -9.69      3.01   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -3.45      2.25    5.71  Al2Si2O5(OH)4
+	Microcline      -13.96    -13.08    0.88  KAlSi3O8
+	Muscovite        -9.96      3.01   12.97  KAl3Si3O10(OH)2
+	O2(g)           -60.07    -62.96   -2.89  O2
+	Quartz           -2.94     -6.92   -3.98  SiO2
+	SiO2(a)          -4.21     -6.92   -2.71  SiO2
+
+
+Reaction step 2.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 8.000e-008 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     8.05      8.05   0.000e+000  4.731e-008  4.731e-008
+Kaolinite        -2.85     2.86      5.71   0.000e+000           0  0.000e+000
+Microcline      -12.68   -11.81      0.88   0.000e+000           0  0.000e+000
+Muscovite        -8.68     4.29     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               3.269e-008  3.269e-008
+	K                8.000e-008  8.000e-008
+	Si               2.400e-007  2.400e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.103      Charge balance
+                                       pe  =  10.720      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.596e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.781e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.040e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.284e-007  1.284e-007    -6.891    -6.892    -0.000     -4.14
+   H+             7.888e-008  7.885e-008    -7.103    -7.103    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           3.269e-008
+   Al(OH)4-       3.071e-008  3.069e-008    -7.513    -7.513    -0.000     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       6.875e-010  6.872e-010    -9.163    -9.163    -0.000     (0)  
+   AlOH+2         6.926e-012  6.913e-012   -11.160   -11.160    -0.001    -27.81
+   Al+3           5.511e-014  5.487e-014   -13.259   -13.261    -0.002    -44.55
+H(0)         3.203e-039
+   H2             1.602e-039  1.602e-039   -38.795   -38.795     0.000     28.61
+K            8.000e-008
+   K+             8.000e-008  7.996e-008    -7.097    -7.097    -0.000      8.98
+O(0)         3.251e-015
+   O2             1.625e-015  1.625e-015   -14.789   -14.789     0.000     30.40
+Si           2.400e-007
+   H4SiO4         2.396e-007  2.396e-007    -6.621    -6.621     0.000     52.08
+   H3SiO4-        4.482e-010  4.480e-010    -9.349    -9.349    -0.000     27.94
+   H2SiO4-2       3.872e-016  3.865e-016   -15.412   -15.413    -0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -3.07     -6.62   -3.55  SiO2
+	Gibbsite          0.00      8.05    8.05  Al(OH)3
+	H2(g)           -35.69    -38.80   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar      -13.90    -34.47  -20.57  KAlSi3O8
+	K-mica           -8.41      4.29   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -2.85      2.86    5.71  Al2Si2O5(OH)4
+	Microcline      -12.68    -11.81    0.88  KAlSi3O8
+	Muscovite        -8.68      4.29   12.97  KAl3Si3O10(OH)2
+	O2(g)           -11.90    -14.79   -2.89  O2
+	Quartz           -2.64     -6.62   -3.98  SiO2
+	SiO2(a)          -3.91     -6.62   -2.71  SiO2
+
+
+Reaction step 3.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.600e-007 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     8.05      8.05   0.000e+000  1.163e-007  1.163e-007
+Kaolinite        -2.25     3.46      5.71   0.000e+000           0  0.000e+000
+Microcline      -11.34   -10.47      0.88   0.000e+000           0  0.000e+000
+Muscovite        -7.34     5.63     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               4.369e-008  4.369e-008
+	K                1.600e-007  1.600e-007
+	Si               4.800e-007  4.800e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.238      Charge balance
+                                       pe  =  -1.232      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.183e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.911e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.121e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.752e-007  1.751e-007    -6.756    -6.757    -0.000     -4.14
+   H+             5.783e-008  5.780e-008    -7.238    -7.238    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           4.369e-008
+   Al(OH)4-       4.190e-008  4.187e-008    -7.378    -7.378    -0.000     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       5.040e-010  5.037e-010    -9.298    -9.298    -0.000     (0)  
+   AlOH+2         3.723e-012  3.714e-012   -11.429   -11.430    -0.001    -27.81
+   Al+3           2.172e-014  2.161e-014   -13.663   -13.665    -0.002    -44.55
+H(0)         1.378e-015
+   H2             6.889e-016  6.889e-016   -15.162   -15.162     0.000     28.61
+K            1.600e-007
+   K+             1.600e-007  1.599e-007    -6.796    -6.796    -0.000      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -62.056   -62.056     0.000     30.40
+Si           4.800e-007
+   H4SiO4         4.788e-007  4.788e-007    -6.320    -6.320     0.000     52.08
+   H3SiO4-        1.222e-009  1.221e-009    -8.913    -8.913    -0.000     27.94
+   H2SiO4-2       1.441e-015  1.438e-015   -14.841   -14.842    -0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -2.77     -6.32   -3.55  SiO2
+	Gibbsite          0.00      8.05    8.05  Al(OH)3
+	H2(g)           -12.06    -15.16   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar      -12.56    -33.13  -20.57  KAlSi3O8
+	K-mica           -7.07      5.63   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -2.25      3.46    5.71  Al2Si2O5(OH)4
+	Microcline      -11.34    -10.47    0.88  KAlSi3O8
+	Muscovite        -7.34      5.63   12.97  KAl3Si3O10(OH)2
+	O2(g)           -59.16    -62.06   -2.89  O2
+	Quartz           -2.34     -6.32   -3.98  SiO2
+	SiO2(a)          -3.61     -6.32   -2.71  SiO2
+
+
+Reaction step 4.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.200e-007 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.00     8.05      8.05   0.000e+000  2.505e-007  2.505e-007
+Kaolinite        -1.65     4.06      5.71   0.000e+000           0  0.000e+000
+Microcline       -9.93    -9.06      0.88   0.000e+000           0  0.000e+000
+Muscovite        -5.93     7.04     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               6.953e-008  6.953e-008
+	K                3.200e-007  3.200e-007
+	Si               9.600e-007  9.600e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.448      Charge balance
+                                       pe  =  -1.590      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.560e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  5.286e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.042e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.841e-007  2.839e-007    -6.547    -6.547    -0.000     -4.14
+   H+             3.568e-008  3.565e-008    -7.448    -7.448    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           6.953e-008
+   Al(OH)4-       6.793e-008  6.788e-008    -7.168    -7.168    -0.000     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       3.109e-010  3.107e-010    -9.507    -9.508    -0.000     (0)  
+   AlOH+2         1.417e-012  1.413e-012   -11.849   -11.850    -0.001    -27.81
+   Al+3           5.105e-015  5.073e-015   -14.292   -14.295    -0.003    -44.55
+H(0)         2.725e-015
+   H2             1.363e-015  1.363e-015   -14.866   -14.866     0.000     28.61
+K            3.200e-007
+   K+             3.200e-007  3.198e-007    -6.495    -6.495    -0.000      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -62.649   -62.649     0.000     30.40
+Si           9.600e-007
+   H4SiO4         9.560e-007  9.560e-007    -6.020    -6.020     0.000     52.08
+   H3SiO4-        3.957e-009  3.954e-009    -8.403    -8.403    -0.000     27.94
+   H2SiO4-2       7.565e-015  7.544e-015   -14.121   -14.122    -0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -2.47     -6.02   -3.55  SiO2
+	Gibbsite         -0.00      8.05    8.05  Al(OH)3
+	H2(g)           -11.76    -14.87   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar      -11.15    -31.72  -20.57  KAlSi3O8
+	K-mica           -5.66      7.04   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -1.65      4.06    5.71  Al2Si2O5(OH)4
+	Microcline       -9.93     -9.06    0.88  KAlSi3O8
+	Muscovite        -5.93      7.04   12.97  KAl3Si3O10(OH)2
+	O2(g)           -59.76    -62.65   -2.89  O2
+	Quartz           -2.04     -6.02   -3.98  SiO2
+	SiO2(a)          -3.31     -6.02   -2.71  SiO2
+
+
+Reaction step 5.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 6.400e-007 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     8.05      8.05   0.000e+000  5.140e-007  5.140e-007
+Kaolinite        -1.05     4.66      5.71   0.000e+000           0  0.000e+000
+Microcline       -8.47    -7.59      0.88   0.000e+000           0  0.000e+000
+Muscovite        -4.47     8.50     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               1.260e-007  1.260e-007
+	K                6.400e-007  6.400e-007
+	Si               1.920e-006  1.920e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.711      Charge balance
+                                       pe  =  -2.002      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  6.596e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.018e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.374e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            5.207e-007  5.202e-007    -6.283    -6.284    -0.000     -4.14
+   H+             1.948e-008  1.946e-008    -7.711    -7.711    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           1.260e-007
+   Al(OH)4-       1.245e-007  1.244e-007    -6.905    -6.905    -0.000     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       1.697e-010  1.696e-010    -9.770    -9.771    -0.000     (0)  
+   AlOH+2         4.226e-013  4.210e-013   -12.374   -12.376    -0.002    -27.81
+   Al+3           8.317e-016  8.246e-016   -15.080   -15.084    -0.004    -44.55
+H(0)         5.420e-015
+   H2             2.710e-015  2.710e-015   -14.567   -14.567     0.000     28.61
+K            6.400e-007
+   K+             6.400e-007  6.394e-007    -6.194    -6.194    -0.000      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -63.246   -63.246     0.000     30.40
+Si           1.920e-006
+   H4SiO4         1.906e-006  1.906e-006    -5.720    -5.720     0.000     52.08
+   H3SiO4-        1.445e-008  1.444e-008    -7.840    -7.840    -0.000     27.94
+   H2SiO4-2       5.068e-014  5.048e-014   -13.295   -13.297    -0.002     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -2.17     -5.72   -3.55  SiO2
+	Gibbsite          0.00      8.05    8.05  Al(OH)3
+	H2(g)           -11.47    -14.57   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -9.69    -30.26  -20.57  KAlSi3O8
+	K-mica           -4.20      8.50   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -1.05      4.66    5.71  Al2Si2O5(OH)4
+	Microcline       -8.47     -7.59    0.88  KAlSi3O8
+	Muscovite        -4.47      8.50   12.97  KAl3Si3O10(OH)2
+	O2(g)           -60.35    -63.25   -2.89  O2
+	Quartz           -1.74     -5.72   -3.98  SiO2
+	SiO2(a)          -3.01     -5.72   -2.71  SiO2
+
+
+Reaction step 6.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e-006 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     8.05      8.05   0.000e+000  8.097e-007  8.097e-007
+Kaolinite        -0.67     5.04      5.71   0.000e+000           0  0.000e+000
+Microcline       -7.52    -6.64      0.88   0.000e+000           0  0.000e+000
+Muscovite        -3.52     9.45     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               1.903e-007  1.903e-007
+	K                1.000e-006  1.000e-006
+	Si               3.000e-006  3.000e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.892      Charge balance
+                                       pe  =   9.814      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.013e-006
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.571e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -4.791e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            7.899e-007  7.890e-007    -6.102    -6.103    -0.001     -4.14
+   H+             1.284e-008  1.283e-008    -7.891    -7.892    -0.001      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           1.903e-007
+   Al(OH)4-       1.889e-007  1.887e-007    -6.724    -6.724    -0.001     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       1.119e-010  1.118e-010    -9.951    -9.952    -0.001     (0)  
+   AlOH+2         1.839e-013  1.830e-013   -12.736   -12.738    -0.002    -27.81
+   Al+3           2.388e-016  2.363e-016   -15.622   -15.626    -0.005    -44.55
+H(0)         5.499e-039
+   H2             2.749e-039  2.749e-039   -38.561   -38.561     0.000     28.61
+K            1.000e-006
+   K+             1.000e-006  9.988e-007    -6.000    -6.001    -0.001      8.98
+O(0)         1.103e-015
+   O2             5.515e-016  5.515e-016   -15.258   -15.258     0.000     30.40
+Si           3.000e-006
+   H4SiO4         2.966e-006  2.966e-006    -5.528    -5.528     0.000     52.08
+   H3SiO4-        3.413e-008  3.409e-008    -7.467    -7.467    -0.001     27.94
+   H2SiO4-2       1.816e-013  1.808e-013   -12.741   -12.743    -0.002     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -1.98     -5.53   -3.55  SiO2
+	Gibbsite          0.00      8.05    8.05  Al(OH)3
+	H2(g)           -35.46    -38.56   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -8.74    -29.31  -20.57  KAlSi3O8
+	K-mica           -3.25      9.45   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.67      5.04    5.71  Al2Si2O5(OH)4
+	Microcline       -7.52     -6.64    0.88  KAlSi3O8
+	Muscovite        -3.52      9.45   12.97  KAl3Si3O10(OH)2
+	O2(g)           -12.37    -15.26   -2.89  O2
+	Quartz           -1.55     -5.53   -3.98  SiO2
+	SiO2(a)          -2.82     -5.53   -2.71  SiO2
+
+
+Reaction step 7.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.000e-006 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     8.05      8.05   0.000e+000  1.636e-006  1.636e-006
+Kaolinite        -0.07     5.64      5.71   0.000e+000           0  0.000e+000
+Microcline       -6.05    -5.17      0.88   0.000e+000           0  0.000e+000
+Muscovite        -2.04    10.93     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               3.636e-007  3.636e-007
+	K                2.000e-006  2.000e-006
+	Si               6.000e-006  6.000e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.174      Charge balance
+                                       pe  =   9.607      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.007e-006
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.091e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.567e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550623e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.515e-006  1.512e-006    -5.820    -5.820    -0.001     -4.14
+   H+             6.703e-009  6.692e-009    -8.174    -8.174    -0.001      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           3.636e-007
+   Al(OH)4-       3.622e-007  3.616e-007    -6.441    -6.442    -0.001     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       5.842e-011  5.832e-011   -10.233   -10.234    -0.001     (0)  
+   AlOH+2         5.013e-014  4.980e-014   -13.300   -13.303    -0.003    -27.80
+   Al+3           3.406e-017  3.355e-017   -16.468   -16.474    -0.006    -44.54
+H(0)         3.875e-039
+   H2             1.937e-039  1.937e-039   -38.713   -38.713     0.000     28.61
+K            2.000e-006
+   K+             2.000e-006  1.997e-006    -5.699    -5.700    -0.001      8.98
+O(0)         2.221e-015
+   O2             1.111e-015  1.111e-015   -14.954   -14.954     0.000     30.40
+Si           6.000e-006
+   H4SiO4         5.870e-006  5.870e-006    -5.231    -5.231     0.000     52.08
+   H3SiO4-        1.296e-007  1.293e-007    -6.888    -6.888    -0.001     27.95
+   H2SiO4-2       1.323e-012  1.315e-012   -11.878   -11.881    -0.003     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -1.68     -5.23   -3.55  SiO2
+	Gibbsite          0.00      8.05    8.05  Al(OH)3
+	H2(g)           -35.61    -38.71   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -7.26    -27.84  -20.57  KAlSi3O8
+	K-mica           -1.78     10.93   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.07      5.64    5.71  Al2Si2O5(OH)4
+	Microcline       -6.05     -5.17    0.88  KAlSi3O8
+	Muscovite        -2.04     10.93   12.97  KAl3Si3O10(OH)2
+	O2(g)           -12.06    -14.95   -2.89  O2
+	Quartz           -1.25     -5.23   -3.98  SiO2
+	SiO2(a)          -2.52     -5.23   -2.71  SiO2
+
+
+Reaction step 8.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 4.000e-006 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.11     7.94      8.05   0.000e+000           0  0.000e+000
+Kaolinite        -0.00     5.71      5.71   0.000e+000  1.714e-006  1.714e-006
+Microcline       -5.11    -4.24      0.88   0.000e+000           0  0.000e+000
+Muscovite        -1.33    11.64     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               5.714e-007  5.714e-007
+	K                4.000e-006  4.000e-006
+	Si               8.571e-006  8.571e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.480      Charge balance
+                                       pe  =  -2.767      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  4.003e-006
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  5.714e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.400e-014
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550623e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            3.066e-006  3.059e-006    -5.513    -5.514    -0.001     -4.14
+   H+             3.316e-009  3.309e-009    -8.479    -8.480    -0.001      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           5.714e-007
+   Al(OH)4-       5.704e-007  5.690e-007    -6.244    -6.245    -0.001     (0)  
+   Al(OH)3        9.989e-010  9.989e-010    -9.000    -9.000     0.000     (0)  
+   Al(OH)2+       2.248e-011  2.243e-011   -10.648   -10.649    -0.001     (0)  
+   AlOH+2         9.558e-015  9.469e-015   -14.020   -14.024    -0.004    -27.80
+   Al+3           3.221e-018  3.154e-018   -17.492   -17.501    -0.009    -44.54
+H(0)         5.295e-015
+   H2             2.648e-015  2.648e-015   -14.577   -14.577     0.000     28.61
+K            4.000e-006
+   K+             4.000e-006  3.991e-006    -5.398    -5.399    -0.001      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -63.226   -63.226     0.000     30.40
+Si           8.571e-006
+   H4SiO4         8.205e-006  8.205e-006    -5.086    -5.086     0.000     52.08
+   H3SiO4-        3.665e-007  3.657e-007    -6.436    -6.437    -0.001     27.95
+   H2SiO4-2       7.589e-012  7.518e-012   -11.120   -11.124    -0.004     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.86      7.94   10.80  Al(OH)3
+	Chalcedony       -1.53     -5.09   -3.55  SiO2
+	Gibbsite         -0.11      7.94    8.05  Al(OH)3
+	H2(g)           -11.48    -14.58   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -6.33    -26.90  -20.57  KAlSi3O8
+	K-mica           -1.06     11.64   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -5.11     -4.24    0.88  KAlSi3O8
+	Muscovite        -1.33     11.64   12.97  KAl3Si3O10(OH)2
+	O2(g)           -60.33    -63.23   -2.89  O2
+	Quartz           -1.11     -5.09   -3.98  SiO2
+	SiO2(a)          -2.37     -5.09   -2.71  SiO2
+
+
+Reaction step 9.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 8.000e-006 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.38     7.67      8.05   0.000e+000           0  0.000e+000
+Kaolinite         0.00     5.71      5.71   0.000e+000  3.697e-006  3.697e-006
+Microcline       -3.98    -3.10      0.88   0.000e+000           0  0.000e+000
+Muscovite        -0.73    12.24     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               6.057e-007  6.057e-007
+	K                8.000e-006  8.000e-006
+	Si               1.661e-005  1.661e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.775      Charge balance
+                                       pe  =   8.985      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 1
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  8.002e-006
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  9.817e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.043e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550625e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            6.051e-006  6.031e-006    -5.218    -5.220    -0.001     -4.14
+   H+             1.684e-009  1.678e-009    -8.774    -8.775    -0.001      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           6.057e-007
+   Al(OH)4-       6.052e-007  6.032e-007    -6.218    -6.220    -0.001     (0)  
+   Al(OH)3        5.371e-010  5.371e-010    -9.270    -9.270     0.000     (0)  
+   Al(OH)2+       6.137e-012  6.117e-012   -11.212   -11.213    -0.001     (0)  
+   AlOH+2         1.327e-015  1.310e-015   -14.877   -14.883    -0.006    -27.80
+   Al+3           2.280e-019  2.213e-019   -18.642   -18.655    -0.013    -44.53
+H(0)         4.275e-039
+   H2             2.137e-039  2.137e-039   -38.670   -38.670     0.000     28.61
+K            8.000e-006
+   K+             8.000e-006  7.974e-006    -5.097    -5.098    -0.001      8.98
+O(0)         1.825e-015
+   O2             9.126e-016  9.126e-016   -15.040   -15.040     0.000     30.40
+Si           1.661e-005
+   H4SiO4         1.526e-005  1.526e-005    -4.816    -4.816     0.000     52.08
+   H3SiO4-        1.345e-006  1.341e-006    -5.871    -5.873    -0.001     27.95
+   H2SiO4-2       5.507e-011  5.435e-011   -10.259   -10.265    -0.006     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -3.13      7.67   10.80  Al(OH)3
+	Chalcedony       -1.27     -4.82   -3.55  SiO2
+	Gibbsite         -0.38      7.67    8.05  Al(OH)3
+	H2(g)           -35.57    -38.67   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -5.19    -25.77  -20.57  KAlSi3O8
+	K-mica           -0.46     12.24   12.70  KAl3Si3O10(OH)2
+	Kaolinite         0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -3.98     -3.10    0.88  KAlSi3O8
+	Muscovite        -0.73     12.24   12.97  KAl3Si3O10(OH)2
+	O2(g)           -12.15    -15.04   -2.89  O2
+	Quartz           -0.84     -4.82   -3.98  SiO2
+	SiO2(a)          -2.10     -4.82   -2.71  SiO2
+
+
+Reaction step 10.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.600e-005 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.64     7.41      8.05   0.000e+000           0  0.000e+000
+Kaolinite        -0.00     5.71      5.71   0.000e+000  7.703e-006  7.703e-006
+Microcline       -2.89    -2.01      0.88   0.000e+000           0  0.000e+000
+Muscovite        -0.17    12.80     12.97   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               5.936e-007  5.936e-007
+	K                1.600e-005  1.600e-005
+	Si               3.259e-005  3.259e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.031      Charge balance
+                                       pe  =  -3.375      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 3
+                          Density (g/cm3)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.600e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.778e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.041e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550628e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.093e-005  1.088e-005    -4.961    -4.963    -0.002     -4.13
+   H+             9.347e-010  9.304e-010    -9.029    -9.031    -0.002      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           5.936e-007
+   Al(OH)4-       5.933e-007  5.905e-007    -6.227    -6.229    -0.002     (0)  
+   Al(OH)3        2.915e-010  2.915e-010    -9.535    -9.535     0.000     (0)  
+   Al(OH)2+       1.849e-012  1.841e-012   -11.733   -11.735    -0.002     (0)  
+   AlOH+2         2.226e-016  2.185e-016   -15.652   -15.661    -0.008    -27.79
+   Al+3           2.134e-020  2.046e-020   -19.671   -19.689    -0.018    -44.52
+H(0)         6.880e-015
+   H2             3.440e-015  3.440e-015   -14.463   -14.463     0.000     28.61
+K            1.600e-005
+   K+             1.600e-005  1.593e-005    -4.796    -4.798    -0.002      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -63.453   -63.453     0.000     30.40
+Si           3.259e-005
+   H4SiO4         2.812e-005  2.812e-005    -4.551    -4.551     0.000     52.08
+   H3SiO4-        4.477e-006  4.456e-006    -5.349    -5.351    -0.002     27.95
+   H2SiO4-2       3.319e-010  3.258e-010    -9.479    -9.487    -0.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -3.39      7.41   10.80  Al(OH)3
+	Chalcedony       -1.00     -4.55   -3.55  SiO2
+	Gibbsite         -0.64      7.41    8.05  Al(OH)3
+	H2(g)           -11.36    -14.46   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -4.11    -24.68  -20.57  KAlSi3O8
+	K-mica            0.09     12.80   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -2.89     -2.01    0.88  KAlSi3O8
+	Muscovite        -0.17     12.80   12.97  KAl3Si3O10(OH)2
+	O2(g)           -60.56    -63.45   -2.89  O2
+	Quartz           -0.57     -4.55   -3.98  SiO2
+	SiO2(a)          -1.84     -4.55   -2.71  SiO2
+
+
+Reaction step 11.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.200e-005 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.93     7.12      8.05   0.000e+000           0  0.000e+000
+Kaolinite        -0.00     5.71      5.71   0.000e+000  6.295e-007  6.295e-007
+Microcline       -2.14    -1.26      0.88   0.000e+000           0  0.000e+000
+Muscovite         0.00    12.97     12.97   0.000e+000  1.014e-005  1.014e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               3.338e-007  3.338e-007
+	K                2.186e-005  2.186e-005
+	Si               6.433e-005  6.433e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.071      Charge balance
+                                       pe  =   8.470      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 3
+                          Density (g/cm3)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.187e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.287e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  8.617e-014
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  13
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550635e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.197e-005  1.191e-005    -4.922    -4.924    -0.002     -4.13
+   H+             8.545e-010  8.499e-010    -9.068    -9.071    -0.002      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           3.338e-007
+   Al(OH)4-       3.336e-007  3.318e-007    -6.477    -6.479    -0.002     (0)  
+   Al(OH)3        1.496e-010  1.496e-010    -9.825    -9.825     0.000     (0)  
+   Al(OH)2+       8.678e-013  8.630e-013   -12.062   -12.064    -0.002     (0)  
+   AlOH+2         9.565e-017  9.359e-017   -16.019   -16.029    -0.009    -27.79
+   Al+3           8.407e-021  8.007e-021   -20.075   -20.097    -0.021    -44.52
+H(0)         1.177e-038
+   H2             5.884e-039  5.884e-039   -38.230   -38.230     0.000     28.61
+K            2.186e-005
+   K+             2.186e-005  2.175e-005    -4.660    -4.663    -0.002      8.98
+O(0)         2.408e-016
+   O2             1.204e-016  1.204e-016   -15.919   -15.919     0.000     30.40
+Si           6.433e-005
+   H4SiO4         5.478e-005  5.478e-005    -4.261    -4.261     0.000     52.08
+   H3SiO4-        9.556e-006  9.504e-006    -5.020    -5.022    -0.002     27.95
+   H2SiO4-2       7.774e-010  7.606e-010    -9.109    -9.119    -0.009     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -3.68      7.12   10.80  Al(OH)3
+	Chalcedony       -0.71     -4.26   -3.55  SiO2
+	Gibbsite         -0.93      7.12    8.05  Al(OH)3
+	H2(g)           -35.13    -38.23   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -3.35    -23.93  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -2.14     -1.26    0.88  KAlSi3O8
+	Muscovite         0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -13.03    -15.92   -2.89  O2
+	Quartz           -0.28     -4.26   -3.98  SiO2
+	SiO2(a)          -1.55     -4.26   -2.71  SiO2
+
+
+Reaction step 12.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 4.000e-005 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -1.07     6.98      8.05   0.000e+000           0  0.000e+000
+Kaolinite        -0.09     5.62      5.71   0.000e+000           0  0.000e+000
+Microcline       -1.87    -0.99      0.88   0.000e+000           0  0.000e+000
+Muscovite         0.00    12.97     12.97   0.000e+000  1.324e-005  1.324e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               2.741e-007  2.741e-007
+	K                2.676e-005  2.676e-005
+	Si               8.027e-005  8.027e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.119      Charge balance
+                                       pe  =   8.656      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 4
+                          Density (g/cm3)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  2.676e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.758e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.070e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  14
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550638e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.338e-005  1.330e-005    -4.873    -4.876    -0.003     -4.13
+   H+             7.654e-010  7.608e-010    -9.116    -9.119    -0.003      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           2.741e-007
+   Al(OH)4-       2.740e-007  2.724e-007    -6.562    -6.565    -0.003     (0)  
+   Al(OH)3        1.100e-010  1.100e-010    -9.959    -9.959     0.000     (0)  
+   Al(OH)2+       5.712e-013  5.677e-013   -12.243   -12.246    -0.003     (0)  
+   AlOH+2         5.645e-017  5.511e-017   -16.248   -16.259    -0.010    -27.79
+   Al+3           4.454e-021  4.221e-021   -20.351   -20.375    -0.023    -44.51
+H(0)         4.003e-039
+   H2             2.002e-039  2.002e-039   -38.699   -38.699     0.000     28.61
+K            2.676e-005
+   K+             2.676e-005  2.660e-005    -4.573    -4.575    -0.003      8.98
+O(0)         2.081e-015
+   O2             1.041e-015  1.041e-015   -14.983   -14.983     0.000     30.40
+Si           8.027e-005
+   H4SiO4         6.718e-005  6.718e-005    -4.173    -4.173     0.000     52.08
+   H3SiO4-        1.310e-005  1.302e-005    -4.883    -4.885    -0.003     27.95
+   H2SiO4-2       1.192e-009  1.164e-009    -8.924    -8.934    -0.010     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -3.82      6.98   10.80  Al(OH)3
+	Chalcedony       -0.62     -4.17   -3.55  SiO2
+	Gibbsite         -1.07      6.98    8.05  Al(OH)3
+	H2(g)           -35.60    -38.70   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -3.09    -23.66  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.09      5.62    5.71  Al2Si2O5(OH)4
+	Microcline       -1.87     -0.99    0.88  KAlSi3O8
+	Muscovite         0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -12.09    -14.98   -2.89  O2
+	Quartz           -0.19     -4.17   -3.98  SiO2
+	SiO2(a)          -1.46     -4.17   -2.71  SiO2
+
+
+Reaction step 13.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 5.000e-005 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	Microcline           1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	K                    1.00000
+	O                    8.00000
+	Si                   3.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -1.20     6.84      8.05   0.000e+000           0  0.000e+000
+Kaolinite        -0.19     5.52      5.71   0.000e+000           0  0.000e+000
+Microcline       -1.59    -0.72      0.88   0.000e+000           0  0.000e+000
+Muscovite         0.00    12.97     12.97   0.000e+000  1.659e-005  1.659e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               2.258e-007  2.257e-007
+	K                3.341e-005  3.341e-005
+	Si               1.002e-004  1.002e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.171      Charge balance
+                                       pe  =  -3.234      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 5
+                          Density (g/cm3)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.341e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.409e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.070e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  14
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550642e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.510e-005  1.500e-005    -4.821    -4.824    -0.003     -4.13
+   H+             6.792e-010  6.746e-010    -9.168    -9.171    -0.003      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           2.258e-007
+   Al(OH)4-       2.257e-007  2.242e-007    -6.647    -6.649    -0.003     (0)  
+   Al(OH)3        8.024e-011  8.024e-011   -10.096   -10.096     0.000     (0)  
+   Al(OH)2+       3.699e-013  3.674e-013   -12.432   -12.435    -0.003     (0)  
+   AlOH+2         3.249e-017  3.162e-017   -16.488   -16.500    -0.012    -27.79
+   Al+3           2.281e-021  2.148e-021   -20.642   -20.668    -0.026    -44.51
+H(0)         1.895e-015
+   H2             9.473e-016  9.473e-016   -15.023   -15.023     0.000     28.61
+K            3.341e-005
+   K+             3.341e-005  3.318e-005    -4.476    -4.479    -0.003      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -62.333   -62.333     0.000     30.40
+Si           1.002e-004
+   H4SiO4         8.215e-005  8.215e-005    -4.085    -4.085     0.000     52.08
+   H3SiO4-        1.808e-005  1.795e-005    -4.743    -4.746    -0.003     27.95
+   H2SiO4-2       1.860e-009  1.810e-009    -8.731    -8.742    -0.012     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -3.96      6.84   10.80  Al(OH)3
+	Chalcedony       -0.53     -4.09   -3.55  SiO2
+	Gibbsite         -1.20      6.84    8.05  Al(OH)3
+	H2(g)           -11.92    -15.02   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -2.81    -23.38  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.19      5.52    5.71  Al2Si2O5(OH)4
+	Microcline       -1.59     -0.72    0.88  KAlSi3O8
+	Muscovite         0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -59.44    -62.33   -2.89  O2
+	Quartz           -0.10     -4.09   -3.98  SiO2
+	SiO2(a)          -1.37     -4.09   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Muscovite               0.0     10.0
+	        Kaolinite       0.0     10.0
+	        Gibbsite        0.0     10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     8.05      8.05   1.000e+001  1.000e+001  4.334e-006
+Kaolinite         0.00     5.71      5.71   1.000e+001  1.000e+001  2.416e-005
+Muscovite         0.00    12.97     12.97   1.000e+001  1.000e+001 -1.867e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               3.352e-006  3.352e-006
+	K                1.867e-005  1.867e-005
+	Si               7.686e-006  7.686e-006
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.139      Charge balance
+                                       pe  =  -3.636      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 4
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.867e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.872e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -6.258e-014
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550621e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.401e-005  1.394e-005    -4.853    -4.856    -0.002     -4.13
+   H+             7.296e-010  7.259e-010    -9.137    -9.139    -0.002      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           3.352e-006
+   Al(OH)4-       3.351e-006  3.334e-006    -5.475    -5.477    -0.002     (0)  
+   Al(OH)3        1.284e-009  1.284e-009    -8.891    -8.891     0.000     (0)  
+   Al(OH)2+       6.358e-012  6.326e-012   -11.197   -11.199    -0.002     (0)  
+   AlOH+2         5.979e-016  5.859e-016   -15.223   -15.232    -0.009    -27.79
+   Al+3           4.480e-020  4.282e-020   -19.349   -19.368    -0.020    -44.52
+H(0)         1.398e-014
+   H2             6.988e-015  6.988e-015   -14.156   -14.156     0.000     28.61
+K            1.867e-005
+   K+             1.867e-005  1.857e-005    -4.729    -4.731    -0.002      8.98
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -64.069   -64.069     0.000     30.40
+Si           7.686e-006
+   H4SiO4         6.383e-006  6.383e-006    -5.195    -5.195     0.000     52.08
+   H3SiO4-        1.303e-006  1.296e-006    -5.885    -5.887    -0.002     27.95
+   H2SiO4-2       1.240e-010  1.215e-010    -9.907    -9.915    -0.009     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -2.75      8.05   10.80  Al(OH)3
+	Chalcedony       -1.64     -5.20   -3.55  SiO2
+	Gibbsite          0.00      8.05    8.05  Al(OH)3
+	H2(g)           -11.05    -14.16   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -5.22    -25.79  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite         0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline       -4.00     -3.13    0.88  KAlSi3O8
+	Muscovite         0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -61.18    -64.07   -2.89  O2
+	Quartz           -1.21     -5.20   -3.98  SiO2
+	SiO2(a)          -2.48     -5.20   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Microcline      0.0     10.0
+	        Muscovite       0.0     10.0
+	        Kaolinite       0.0     10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	PURE WATER
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Kaolinite        -0.00     5.71      5.71   1.000e+001  1.000e+001 -2.655e-004
+Microcline        0.00     0.88      0.88   1.000e+001  1.000e+001 -3.438e-004
+Muscovite         0.00    12.97     12.97   1.000e+001  1.000e+001  2.916e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               1.204e-008  1.204e-008
+	K                5.216e-005  5.216e-005
+	Si               6.876e-004  6.875e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.694      Charge balance
+                                       pe  =  -2.723      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 4
+                          Density (g/cm3)  =   0.99708
+                               Volume (L)  =   1.00300
+                        Activity of water  =   1.000
+                           Ionic strength  =  5.217e-005
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  5.220e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -6.775e-018
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  13
+                                  Total H  = 1.110129e+002
+                                  Total O  = 5.550786e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            5.048e-006  5.006e-006    -5.297    -5.300    -0.004     -4.13
+   H+             2.039e-009  2.022e-009    -8.691    -8.694    -0.004      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Al           1.204e-008
+   Al(OH)4-       1.203e-008  1.193e-008    -7.920    -7.923    -0.004     (0)  
+   Al(OH)3        1.280e-011  1.280e-011   -10.893   -10.893     0.000     (0)  
+   Al(OH)2+       1.771e-013  1.756e-013   -12.752   -12.755    -0.004     (0)  
+   AlOH+2         4.684e-017  4.530e-017   -16.329   -16.344    -0.015    -27.78
+   Al+3           9.935e-021  9.220e-021   -20.003   -20.035    -0.032    -44.49
+H(0)         1.616e-015
+   H2             8.080e-016  8.080e-016   -15.093   -15.093     0.000     28.61
+K            5.216e-005
+   K+             5.216e-005  5.173e-005    -4.283    -4.286    -0.004      8.99
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -62.195   -62.195     0.000     30.40
+Si           6.876e-004
+   H4SiO4         6.405e-004  6.405e-004    -3.194    -3.194     0.000     52.08
+   H3SiO4-        4.710e-005  4.671e-005    -4.327    -4.331    -0.004     27.95
+   H2SiO4-2       1.625e-009  1.572e-009    -8.789    -8.804    -0.015     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)       -4.75      6.05   10.80  Al(OH)3
+	Chalcedony        0.36     -3.19   -3.55  SiO2
+	Gibbsite         -2.00      6.05    8.05  Al(OH)3
+	H2(g)           -11.99    -15.09   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	K-feldspar       -1.22    -21.79  -20.57  KAlSi3O8
+	K-mica            0.27     12.97   12.70  KAl3Si3O10(OH)2
+	Kaolinite        -0.00      5.71    5.71  Al2Si2O5(OH)4
+	Microcline        0.00      0.88    0.88  KAlSi3O8
+	Muscovite         0.00     12.97   12.97  KAl3Si3O10(OH)2
+	O2(g)           -59.30    -62.19   -2.89  O2
+	Quartz            0.79     -3.19   -3.98  SiO2
+	SiO2(a)          -0.48     -3.19   -2.71  SiO2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+-------------------------------
+End of Run after 0.044 Seconds.
+-------------------------------
+

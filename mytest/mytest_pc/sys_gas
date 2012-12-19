@@ -1,0 +1,48 @@
+#[ Plot P vs Vm
+#]
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+KNOBS
+-step 10
+-pe   2
+-iter 200
+SOLUTION 1
+pH 7 charge
+-water 1e-3
+-temp 102
+ -pressure 5e2
+GAS_PHASE 1
+ -fixed_volume
+ -pressure 5e2
+ -temp 102
+ -volume 10
+ CH4(g) 250
+ CO2(g) 250
+# N2(g) 0
+# H2O(g) 0
+REACTION
+ H 1; 1 in 2
+INCREMENTAL_REACTIONS true
+USER_PRINT
+  5 tw =  tot("water")
+ 10 m_h2o = tw / (18.06e-3)
+ 20 t_mol = m_h2o + tot("C(-4)") * tw + tot("C(4)") * tw
+ 30 x_CO2 = tot("C(4)") * tw / t_mol
+ 32 x_CH4 = tot("C(-4)") * tw / t_mol
+ 34 x = sys("C(4)") / (sys("C(4)") + sys("C(-4)"))
+ 40 print "C(4), C(-4):    ", sys("C(4)"), sys("C(-4)")
+ 50 print "Aq C(4), C(-4): ", TOTMOL("C(4)"), TOTMOL("C(-4)")
+ 60 print "Gas C(4), C(-4): ", sys("C(4)") - TOTMOL("C(4)"), sys("C(-4)") - TOTMOL("C(-4)")
+ 70 print "Gas C(4), C(-4): ", GAS("CO2(g)"), GAS("CH4(g)")
+
+USER_GRAPH
+  5 tw =  tot("water")
+ 10 m_h2o = tw / (18.06e-3)
+ 20 t_mol = m_h2o + tot("C(-4)") * tw + tot("C(4)") * tw
+ 30 x_CO2 = tot("C(4)") * tw / t_mol
+ 32 x_CH4 = tot("C(-4)") * tw / t_mol
+ 34 x = sys("C(4)") / (sys("C(4)") + sys("C(-4)"))
+ 36 print 'fraction of CO2 =', x
+ 40 graph_x x
+ 50 graph_y pr_p("CO2(g)") / x_CO2
+END

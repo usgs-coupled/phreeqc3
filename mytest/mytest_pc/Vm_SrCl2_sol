@@ -1,0 +1,141 @@
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+SOLUTION 1; pH 7 charge
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 15.000000
+REACTION_PRESSURE; 1.000000
+# from 0 to 7.
+REACTION; SrCl2 1
+0 0.050000 0.100000 0.500000 1.000000 1.500000 2.000000 2.500000
+USER_GRAPH; -headings 15.oC
+-axis_titles "SrCl2 / (mol/kg H2O)" "SrCl2 molar volume / (cm3/mol)"
+10 data 0, 17.477965, 17.261427, 20.249324, 22.589649, 24.852259, 30.836713, 33.148526,
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Yellow #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Sr"), Vmol, symbol = None, color = Yellow #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 25.000000
+REACTION_PRESSURE; 1.000000
+# from 7 to 43.
+REACTION; SrCl2 1
+0 0.003740 0.012600 0.021900 0.032500 0.050000 0.065200 0.099388 0.100000 0.129200 0.197500 0.200200 0.251300 0.270148 0.299800 0.328600 0.400200 0.459628 0.499600 0.500000 0.572209 0.600000 \
+0.699000 0.779959 0.800000 0.899600 0.996200 1.000000 1.055673 1.163073 1.253665 1.500000 1.510686 1.727951 1.776134 2.000000 2.500000
+USER_GRAPH; -headings 25.oC
+10 data 0, 19.385877, 19.353254, 19.452491, 19.895267, 19.129893, 20.160234, 19.800914, 18.651625, 20.726614, 21.230587, 21.236266, 21.577449, 21.484517, 21.907462, 22.019479, 22.500087, 22.464019, 23.073035, 21.479827, 24.984758, 23.557050, \
+23.999321, 24.181522, 24.422903, 24.820734, 25.098337, 23.765195, 25.158512, 26.549475, 25.806514, 25.871305, 26.504216, 27.171747, 27.903135, 31.680838, 33.964941,
+20 dim d(37)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8), d(9), d(10), d(11), d(12), d(13), d(14), d(15), d(16), d(17), d(18), d(19), d(20), d(21), \
+d(22), d(23), d(24), d(25), d(26), d(27), d(28), d(29), d(30), d(31), d(32), d(33), d(34), d(35), d(36), d(37),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Red #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Sr"), Vmol, symbol = None, color = Red #step_no = 264 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 35.000000
+REACTION_PRESSURE; 1.000000
+# from 43 to 50.
+REACTION; SrCl2 1
+0 0.050000 0.100000 0.500000 1.000000 1.500000 2.000000 2.500000
+USER_GRAPH; -headings 35.oC
+10 data 0, 19.710659, 19.157054, 22.163186, 24.405255, 26.414300, 32.236530, 34.488276,
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Magenta #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Sr"), Vmol, symbol = None, color = Magenta  #step_no = 93 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 45.000000
+REACTION_PRESSURE; 1.000000
+# from 50 to 57.
+REACTION; SrCl2 1
+0 0.050000 0.100000 0.500000 1.000000 1.500000 2.000000 2.500000
+USER_GRAPH; -headings 45.oC
+10 data 0, 20.087980, 19.615909, 22.487449, 24.703340, 26.725387, 32.546618, 34.793172,
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Black #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Sr"), Vmol, symbol = None, color = Black #step_no = 26 then put(step_no + get(1), 1)
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 55.000000
+REACTION_PRESSURE; 1.000000
+# from 57 to 64.
+REACTION; SrCl2 1
+0 0.050000 0.100000 0.500000 1.000000 1.500000 2.000000 2.500000
+USER_GRAPH; -headings 55.oC
+10 data 0, 19.785723, 19.495210, 22.468868, 24.705441, 26.716822, 32.602815, 34.866337,
+20 dim d(8)
+30 read d(1), d(2), d(3), d(4), d(5), d(6), d(7), d(8),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Blue #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Sr"), Vmol, symbol = None, color = Blue
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 74.000000
+REACTION_PRESSURE; 1.000000
+# from 64 to 69.
+REACTION; SrCl2 1
+0 0.027470 0.100440 0.204590 0.683090 1.000930
+USER_GRAPH; -headings 74.oC
+10 data 0, 19.900000, 21.040000, 23.530000, 25.270000, 27.410000,
+20 dim d(6)
+30 read d(1), d(2), d(3), d(4), d(5), d(6),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Green #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Sr"), Vmol, symbol = None, color = Green
+90 end
+END
+
+USE solution 1
+REACTION_TEMPERATURE; 99.000000
+REACTION_PRESSURE; 1.000000
+# from 69 to 74.
+REACTION; SrCl2 1
+0 0.099800 0.205800 0.501300 1.045400 1.998900
+USER_GRAPH; -headings 99.oC
+10 data 0, 21.760000, 22.200000, 22.750000, 24.760000, 27.360000,
+20 dim d(6)
+30 read d(1), d(2), d(3), d(4), d(5), d(6),
+40 if step_no = 1 then put(rho, 10)
+50 if step_no > 1 then Vmol = (1e3 + tot("Sr") * 158.526) / (tot("Sr") * rho) - 1e3 / (tot("Sr") * get(10))
+60 if step_no = 1 then dif = 0 else dif = Vmol - d(step_no)
+62 if step_no = 1 then goto 90
+70 plot_xy tot("Sr"), d(step_no), line_w = 0, color = Brown #aph_x tot("Sr") # dif, str$(tc), str$(pressure), str$(step_no + get(1))
+80 plot_xy tot("Sr"), Vmol, symbol = None, color = Brown #step_no = 6 then put(step_no + get(1), 1)
+90 end
+END

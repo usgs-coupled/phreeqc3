@@ -1,0 +1,387 @@
+   Input file: raw
+  Output file: raw.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SURFACE_MASTER_SPECIES
+	        Surf    SurfOH
+	SURFACE_SPECIES
+	        SurfOH = SurfOH
+	                log_k   0.0
+	        SurfOH  + H+ = SurfOH2+
+	                log_k   7.29
+	        SurfOH = SurfO- + H+
+	                log_k   -8.93
+	        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O
+	                log_k   29.31
+	        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O
+	                log_k   23.51
+	        SurfOH + AsO4-3 = SurfOHAsO4-3
+	                log_k   10.58
+	SOLUTION_MASTER_SPECIES
+	        As       H3AsO4        -1.0     74.9216         74.9216
+	SOLUTION_SPECIES
+		H3AsO4 = H2AsO4- + H+
+		log_k	-2.3
+		delta_h	-7.066	kJ
+		H3AsO4 = HAsO4-2 + 2H+
+		log_k	-9.46
+		delta_h	-3.846	kJ
+		H3AsO4 = AsO4-3 + 3H+
+		log_k	-21.11
+		delta_h	14.354	kJ
+	        H3AsO4 = H2AsO4- + H+ 
+	        log_k           -2.243
+	        delta_h -1.69 kcal
+	        H3AsO4 = HAsO4-2 + 2H+ 
+	        log_k           -9.001
+	        delta_h -0.92 kcal
+	        H3AsO4 = AsO4-3 + 3H+
+	        log_k           -20.597
+	        delta_h 3.43 kcal
+	        H3AsO4 = H3AsO4
+	        log_k           0.0
+	        H3AsO4 = AsO4-3 + 3H+
+	        log_k   -20.7
+	        H+ + AsO4-3 = HAsO4-2
+	        log_k   11.50
+	        2H+ + AsO4-3 = H2AsO4-
+	        log_k           18.46
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION_RAW       20
+	  -temp              25
+	  -pH                7
+	  -pe                4
+	  -mu                1e-07
+	  -ah2o              1
+	  -total_h           111.01974134192
+	  -total_o           55.535325076996
+	  -cb                0.0012883279473439
+	  -mass_water        1
+	  -total_alkalinity  0
+	  -totals
+	    As   4.1908616387069e-07
+	    C   0.0096003939798442
+	    Ca   9.3009440332783e-05
+	    Cl   0.0032689522220291
+	    Mg   6.6514137243683e-05
+	    Na   0.01444565173261
+	    S   0.00023718575024482
+	  -activities
+	    As   -8.3776966771614
+	    C(-4)   -4.0177109440686
+	    C(4)   -4.0177109440686
+	    Ca   -6.0314729689045
+	    Cl   -4.4855914268839
+	    Mg   -6.1770860377888
+	    Na   -3.8402628596702
+	    S(-2)   -5.6249114062687
+	    S(6)   -5.6249114062687
+	  -gammas
+	EXCHANGE_RAW       20 Exchanger defined in simulation 1.
+	  -pitzer_exchange_gammas 1
+	  -component               X
+	    -la                    0.60688497237009
+	    -charge_balance        0
+	    -phase_proportion              0
+	    -formula_z                     0
+	    -totals
+	      Ca   0.067100780469236
+	      Mg   0.029709189613889
+	      Na   0.30638006319249
+	      X   0.50000000335874
+	EQUILIBRIUM_PHASES_RAW       20 Pp_Assemblage defined in simulation 1.
+	  -eltList       
+	    C   3
+	    Ca   2
+	    Mg   1
+	    O   9
+	  -component               Calcite
+	    -si                    0
+	    -moles                 0.11781770315801
+	    -delta                 0
+	    -initial_moles         0.1180709871316
+	    -force_equality        0
+	    -dissolve_only         0
+	  -component               Dolomite
+	    -si                    0
+	    -moles                 1.568403984096
+	    -delta                 0
+	    -initial_moles         1.5687877423086
+	    -force_equality        0
+	    -dissolve_only         0
+	SURFACE_RAW       20 Surface defined in simulation 1.
+	  -type 2
+	  -dl_type 0
+	  -sites_units 0
+	  -only_counter_ions 0
+	  -thickness 1e-08
+	  -debye_lengths 0
+	  -DDL_viscosity 1
+	  -DDL_limit 0.8
+	  -transport 0
+	  -component               SurfOH
+	    -charge_name           Surf
+	    -formula_z             0
+	    -moles                 0
+	    -la                    -0.20250616397962
+	    -master_element        Surf
+	    -charge_name           Surf       
+	    -charge_balance        0.084703340238721
+	    -phase_proportion      0
+	    -Dw                    0
+	    -totals
+	      As   0.0080729678646393
+	      H   0.17518734394924
+	      O   0.17225449222186
+	      Surf   0.14000000006222
+	  -charge_component                    Surf
+	    -specific_area         600
+	    -grams                 30
+	    -charge_balance        0.011043198890933
+	    -mass_water            0
+	    -la_psi                0.46673410986017
+	    -capacitance0          1
+	    -capacitance1          5
+	    -diffuse_layer_totals
+	USE solution 20
+	USE exchange 20
+	USE equilibrium_phases 20
+	USE surface 20
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 20.	
+Using exchange 20.	Exchanger defined in simulation 1.
+Using surface 20.	Surface defined in simulation 1.
+Using pure phase assemblage 20.	Pp_Assemblage defined in simulation 1.
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite           0.00    -8.48     -8.48   1.178e-001  1.157e-001 -2.123e-003
+Dolomite          0.00   -17.09    -17.09   1.568e+000  1.564e+000 -4.023e-003
+
+------------------------------Surface composition------------------------------
+
+Surf          
+	 1.873e-004  Surface charge, eq
+	 1.004e-003  sigma, C/m**2
+	 2.608e-003  psi, V
+	-1.015e-001  -F*psi/RT
+	 9.035e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 1.800e+004  m**2 for  3.000e+001 g
+
+
+Surf          
+	 1.400e-001  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	SurfOH           9.438e-002       0.674  9.438e-002      -1.025
+	SurfOH2+         3.096e-002       0.221  3.096e-002      -1.509
+	SurfOHAsO4-3     8.054e-003       0.058  8.054e-003      -2.094
+	SurfO-           6.591e-003       0.047  6.591e-003      -2.181
+	SurfHAsO4-       1.942e-005       0.000  1.942e-005      -4.712
+	SurfH2AsO4       2.061e-007       0.000  2.061e-007      -6.686
+
+-----------------------------Exchange composition------------------------------
+
+X               5.000e-001 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX              2.864e-001  2.864e-001  5.727e-001    -0.068
+	CaX2             7.316e-002  1.463e-001  2.926e-001    -0.265
+	MgX2             3.367e-002  6.733e-002  1.347e-001    -0.258
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	As               2.039e-008  2.039e-008
+	C                1.977e-002  1.977e-002
+	Ca               1.840e-004  1.840e-004
+	Cl               3.269e-003  3.269e-003
+	Mg               1.321e-004  1.321e-004
+	Na               3.447e-002  3.447e-002
+	S                2.372e-004  2.372e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.730      Charge balance
+                                       pe  =  12.876      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 2528
+                          Density (g/cm3)  =   0.99867
+                               Volume (L)  =   1.00445
+                        Activity of water  =   0.999
+                           Ionic strength  =  2.841e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.921e-002
+                       Total CO2 (mol/kg)  =  1.977e-002
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  1.214e-002
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  21.80
+                               Iterations  =  16
+                                  Total H  = 1.110306e+002
+                                  Total O  = 5.556581e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            6.410e-007  5.430e-007    -6.193    -6.265    -0.072     -3.95
+   H+             2.125e-008  1.862e-008    -7.673    -7.730    -0.057      0.00
+   H2O            5.551e+001  9.990e-001     1.744    -0.000     0.000     18.07
+As           2.039e-008
+   HAsO4-2        1.844e-008  9.747e-009    -7.734    -8.011    -0.277     (0)  
+   H2AsO4-        1.941e-009  1.655e-009    -8.712    -8.781    -0.069     (0)  
+   AsO4-3         6.948e-012  1.655e-012   -11.158   -11.781    -0.623     (0)  
+   H3AsO4         5.322e-015  5.357e-015   -14.274   -14.271     0.003     (0)  
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -143.649  -143.646     0.003     32.22
+C(4)         1.977e-002
+   HCO3-          1.792e-002  1.538e-002    -1.747    -1.813    -0.066     24.82
+   NaHCO3         1.095e-003  1.102e-003    -2.961    -2.958     0.003     19.41
+   CO2            6.405e-004  6.447e-004    -3.194    -3.191     0.003     30.26
+   CO3-2          7.127e-005  3.874e-005    -4.147    -4.412    -0.265     -3.81
+   CaHCO3+        1.947e-005  1.678e-005    -4.711    -4.775    -0.065      9.77
+   MgHCO3+        1.341e-005  1.140e-005    -4.873    -4.943    -0.070      5.58
+   NaCO3-         5.750e-006  4.937e-006    -5.240    -5.307    -0.066     -0.46
+   CaCO3          5.529e-006  5.565e-006    -5.257    -5.255     0.003    -14.60
+   MgCO3          2.326e-006  2.341e-006    -5.633    -5.631     0.003    -17.09
+Ca           1.840e-004
+   Ca+2           1.573e-004  8.550e-005    -3.803    -4.068    -0.265    -17.75
+   CaHCO3+        1.947e-005  1.678e-005    -4.711    -4.775    -0.065      9.77
+   CaCO3          5.529e-006  5.565e-006    -5.257    -5.255     0.003    -14.60
+   CaSO4          1.739e-006  1.750e-006    -5.760    -5.757     0.003      7.50
+   CaOH+          8.928e-010  7.613e-010    -9.049    -9.118    -0.069     (0)  
+   CaHSO4+        2.513e-013  2.142e-013   -12.600   -12.669    -0.069     (0)  
+Cl           3.269e-003
+   Cl-            3.269e-003  2.775e-003    -2.486    -2.557    -0.071     18.20
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.365   -44.362     0.003     28.61
+Mg           1.321e-004
+   Mg+2           1.147e-004  6.333e-005    -3.940    -4.198    -0.258    -21.44
+   MgHCO3+        1.341e-005  1.140e-005    -4.873    -4.943    -0.070      5.58
+   MgCO3          2.326e-006  2.341e-006    -5.633    -5.631     0.003    -17.09
+   MgSO4          1.698e-006  1.709e-006    -5.770    -5.767     0.003      5.84
+   MgOH+          1.427e-008  1.234e-008    -7.846    -7.909    -0.063     (0)  
+Na           3.447e-002
+   Na+            3.335e-002  2.853e-002    -1.477    -1.545    -0.068     -1.24
+   NaHCO3         1.095e-003  1.102e-003    -2.961    -2.958     0.003     19.41
+   NaSO4-         1.917e-005  1.646e-005    -4.717    -4.784    -0.066     18.84
+   NaCO3-         5.750e-006  4.937e-006    -5.240    -5.307    -0.066     -0.46
+   NaOH           1.539e-018  1.549e-018   -17.813   -17.810     0.003     (0)  
+O(0)         4.373e-004
+   O2             2.187e-004  2.201e-004    -3.660    -3.657     0.003     30.40
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -142.792  -142.864    -0.072     20.73
+   H2S            0.000e+000  0.000e+000  -143.655  -143.652     0.003     37.16
+   S-2            0.000e+000  0.000e+000  -147.783  -148.052    -0.269     (0)  
+S(6)         2.372e-004
+   SO4-2          2.146e-004  1.151e-004    -3.668    -3.939    -0.270     14.53
+   NaSO4-         1.917e-005  1.646e-005    -4.717    -4.784    -0.066     18.84
+   CaSO4          1.739e-006  1.750e-006    -5.760    -5.757     0.003      7.50
+   MgSO4          1.698e-006  1.709e-006    -5.770    -5.767     0.003      5.84
+   HSO4-          2.444e-010  2.084e-010    -9.612    -9.681    -0.069     40.40
+   CaHSO4+        2.513e-013  2.142e-013   -12.600   -12.669    -0.069     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -3.73     -8.01   -4.28  CaSO4
+	Aragonite        -0.14     -8.48   -8.34  CaCO3
+	Calcite           0.00     -8.48   -8.48  CaCO3
+	CH4(g)         -140.80   -143.65   -2.84  CH4
+	CO2(g)           -1.73     -3.19   -1.46  CO2
+	Dolomite          0.00    -17.09  -17.09  CaMg(CO3)2
+	Gypsum           -3.43     -8.01   -4.58  CaSO4:2H2O
+	H2(g)           -41.26    -44.36   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -142.60   -150.59   -7.99  H2S
+	Halite           -5.67     -4.10    1.57  NaCl
+	O2(g)            -0.77     -3.66   -2.89  O2
+	Sulfur         -107.32   -102.44    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SOLUTION_RAW       20
+	  -temp              25
+	  -pH                7
+	  -pH                xx
+ERROR: Expected numeric value for pH.
+	  -xx                1
+ERROR: Unknown input in SOLUTION_RAW keyword.
+ERROR:   -xx                1
+	  -pe                4
+	  -mu                1e-07
+	  -ah2o              1
+	  -total_h           111.01974134192
+	  -total_o           55.535325076996
+	  -cb                0.0012883279473439
+	  -mass_water        1
+	  -total_alkalinity  0
+	  -totals
+	    As   4.1908616387069e-07
+	    C   0.0096003939798442
+	    Ca   9.3009440332783e-05
+	    Cl   0.0032689522220291
+	    Mg   6.6514137243683e-05
+	    Na   0.01444565173261
+	    S   0.00023718575024482
+	  -activities
+	    As   -8.3776966771614
+	    C(-4)   -4.0177109440686
+	    C(4)   -4.0177109440686
+	    Ca   -6.0314729689045
+	    Cl   -4.4855914268839
+	    Mg   -6.1770860377888
+	    Na   -3.8402628596702
+	    S(-2)   -5.6249114062687
+	    S(6)   -5.6249114062687
+	  -gammas
+ERROR: Calculations terminating due to input errors.
+Stopping.
