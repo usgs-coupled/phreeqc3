@@ -128,7 +128,7 @@ Initial solution 1.
                  Total alkalinity (eq/kg)  =   7.864e-03
                        Total CO2 (mol/kg)  =   7.864e-03
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   8.202e-17
+                  Electrical balance (eq)  =   9.333e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   9
                                   Total H  = 1.110200e+02
@@ -210,7 +210,7 @@ CO2(g)           -0.01    -1.48     -1.46    1.000e+01   9.960e+00  -3.990e-02
                  Total alkalinity (eq/kg)  =   2.118e-02
                        Total CO2 (mol/kg)  =   5.443e-02
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =   1.688e-11
+                  Electrical balance (eq)  =   1.692e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  10
                                   Total H  = 1.110200e+02
@@ -225,7 +225,7 @@ CO2(g)           -0.01    -1.48     -1.46    1.000e+01   9.960e+00  -3.990e-02
    OH-             1.371e-08   1.159e-08    -7.863    -7.936    -0.073     -3.95
    H2O             5.551e+01   9.989e-01     1.744    -0.000     0.000     18.07
 C(-4)         0.000e+00
-   CH4             0.000e+00   0.000e+00  -121.503  -121.501     0.003     32.22
+   CH4             0.000e+00   0.000e+00  -121.506  -121.503     0.003     32.22
 C(4)          5.443e-02
    CO2             3.326e-02   3.348e-02    -1.478    -1.475     0.003     30.26
    HCO3-           1.989e-02   1.705e-02    -1.701    -1.768    -0.067     24.83
@@ -237,10 +237,10 @@ Ca            1.059e-02
    CaHCO3+         1.272e-03   1.095e-03    -2.896    -2.961    -0.065      9.77
    CaCO3           7.698e-06   7.750e-06    -5.114    -5.111     0.003    -14.60
    CaOH+           1.123e-09   9.562e-10    -8.949    -9.019    -0.070     (0)  
-H(0)          1.107e-39
-   H2              5.533e-40   5.570e-40   -39.257   -39.254     0.003     28.61
-O(0)          2.664e-14
-   O2              1.332e-14   1.341e-14   -13.876   -13.873     0.003     30.40
+H(0)          1.105e-39
+   H2              5.524e-40   5.561e-40   -39.258   -39.255     0.003     28.61
+O(0)          2.672e-14
+   O2              1.336e-14   1.345e-14   -13.874   -13.871     0.003     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -293,7 +293,7 @@ Reading input data for simulation 4.
 	        reset false
 	        reaction true
 	USER_PUNCH
-	heading   lg_SigmaPi X_Arag X_Stront X_Ca_aq X_Sr_aq mol_Misc1 mol_Misc2 mol_Arag mol_Stront
+	heading   lg_SigmaPi X_Arag X_Stront X_Ca_aq X_Sr_aq mol_Misc1 mol_Misc2      mol_Arag mol_Stront
 	start
 	  10 sum = (S_S("Strontianite") + S_S("Aragonite"))
 	  20 if sum = 0 THEN GOTO 60
@@ -326,7 +326,7 @@ Reading input data for simulation 4.
 	USER_GRAPH Example 10
 	        -headings x_Aragonite  x_Srontianite
 	        -chart_title "Aragonite-Strontianite Solid Solution"
-	        -axis_titles "Log(SrCO3 ADDED, IN MOLES)" "Log(MOLE FRACTION OF COMPONENT)"
+	        -axis_titles "Log(SrCO3 added, in moles)" "Log(Mole fraction of component)"
 	        -axis_scale x_axis -5 1 1 1
 	        -axis_scale y_axis -5 0.1 1 1
 	        -connect_simulations true
@@ -8413,6 +8413,6 @@ Misc 1:                  4.8032e-03
 Misc 2:                  8.5786e-01 
 
 ------------------------------
-End of Run after 0.75 Seconds.
+End of Run after 0.54 Seconds.
 ------------------------------
 

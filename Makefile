@@ -6,8 +6,8 @@ PHREEQCDAT=../database/phreeqc.dat
 WATEQ4FDAT=../database/wateq4f.dat
 PITZERDAT=../database/pitzer.dat
 
-PHREEQC=../src/Class_release/phreeqcpp
-#PHREEQC=../src/Class_debug/phreeqcpp
+PHREEQC=../src/Class_release_64/phreeqcpp
+#PHREEQC=../src/Class_debug_64/phreeqcpp
 
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/ClrClass_release/phreeqcpp.exe
