@@ -19,7 +19,8 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
-	TITLE Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 2010, GCA 74, 1201
+	TITLE Diffusion through Opalinus Clay in a radial diffusion cell, 
+	      Appelo and others, 2010, GCA, v. 74, p. 1201-1219.
 	SOLUTION_MASTER_SPECIES
 	  Hto       Hto       0.0   20        20
 	  Na_tr     Na_tr+    0.0   22        22
@@ -86,7 +87,8 @@ Reading input data for simulation 1.
 TITLE
 -----
 
- Diffusion through Opalinus Clay in a radial diffusion cell, Appelo, Van Loon and Wersin, 2010, GCA 74, 1201
+ Diffusion through Opalinus Clay in a radial diffusion cell, 
+      Appelo and others, 2010, GCA, v. 74, p. 1201-1219.
 
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -340,7 +342,7 @@ Reading input data for simulation 2.
 	2200   punch nl$ + ' -chart_title " ' + tracer$(tracer + i) + ' Diffusion to Outer Cell"'
 	2210   punch nl$ + ' -plot_tsv_file ex21_' + tracer$(tracer + i) + '_rad.tsv'
 	2220   punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time(tracer + i) / (3600 * 24)))
-	2230   punch nl$ + ' -axis_titles "TIME, IN DAYS" "FLUX, IN MOL/M2/S" "ACCUMULATED MASS, IN MOL"'
+	2230   punch nl$ + ' -axis_titles "Time, in days" "Flux, in moles per square meter per second"             "Accumulated mass, in moles"'
 	2240   punch nl$ + ' -plot_concentration_vs time'
 	2250   punch nl$ + ' 10 days = total_time / (3600 * 24)'
 	2260   punch nl$ + ' 20 a = equi("A_' + tracer$(tracer + i) + '")'
@@ -348,9 +350,9 @@ Reading input data for simulation 2.
 	2280   punch nl$ + ' 40 dt = get(1)'
 	2290   A = 2 * pi * r_ext * height
 	2300   i$ = TRIM(STR$(2 + i))
-	2310   punch nl$ + ' 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) / dt /' + STR$(A) +', color = Green, symbol = None'
+	2310   punch nl$ + ' 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) / dt /' + STR$(A) +             ', color = Green, symbol = None'
 	2320   punch nl$ + ' 60 put(a, ' + i$ + ')'
-	2330   punch nl$ + ' 70 plot_xy days, equi("A_' + tracer$(tracer + i) + '"), y_axis = 2, color = Red, symbol = None'
+	2330   punch nl$ + ' 70 plot_xy days, equi("A_' + tracer$(tracer + i) +             '"), y_axis = 2, color = Red, symbol = None'
 	2340   IF tracer < 3 THEN GOTO 2360
 	2350 NEXT i
 	2360 punch nl$ + 'END'
@@ -375,31 +377,31 @@ Reading input data for simulation 2.
 	3070 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$((thickn_filter1 + thickn_clay + thickn_filter2) * 1e3))
 	3080 punch nl$ + ' -axis_scale y_axis ' + profile_y1$(tracer)
 	3090 punch nl$ + ' -axis_scale sy_axis ' + profile_y2$(tracer)
-	3100 punch nl$ + ' -axis_titles ' + '"DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"'
+	3100 punch nl$ + ' -axis_titles ' + '"Distance, in millimeters" "Free pore-water molality" "Total molality"'
 	3110 punch nl$ + ' -headings ' + tracer$(tracer) + '_free ' + tracer$(tracer) + '_tot'
 	3120 punch nl$ + ' -plot_concentration_vs x'
 	3130 punch nl$ + ' -initial_solutions true'
 	3140 punch nl$ + ' 10 IF cell_no = 3 THEN xval = 0 ELSE xval = get(14)'
 	3150 punch nl$ + ' 20 IF (' + TRIM(STR$(nfilt1)) + ' = 0 OR cell_no > ' + TRIM(STR$(nfilt1 + 3)) + ') THEN GOTO 60'
 	3160 punch nl$ + ' 30 IF (cell_no = 4) THEN xval = xval + 0.5 * ' + TRIM(STR$(xf1))
-	3170 punch nl$ + ' 40 IF (cell_no > 4 AND cell_no < ' + TRIM(STR$(nfilt1 + 4)) + ') THEN xval = xval + ' + TRIM(STR$(xf1))
+	3170 punch nl$ + ' 40 IF (cell_no > 4 AND cell_no < ' + TRIM(STR$(nfilt1 + 4)) +           ') THEN xval = xval + ' + TRIM(STR$(xf1))
 	3180 punch nl$ + ' 50 GOTO 200'
-	3190 punch nl$ + ' 60 IF (cell_no = ' + TRIM(STR$(4 + nfilt1)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf1)) + ' + 0.5 * ' + TRIM(STR$(x))
-	3200 punch nl$ + ' 70 IF (cell_no > ' + TRIM(STR$(4 + nfilt1)) + ' AND cell_no < ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + ' + TRIM(STR$(x)) + ' ELSE GOTO 90'
+	3190 punch nl$ + ' 60 IF (cell_no = ' + TRIM(STR$(4 + nfilt1)) + ') THEN xval = xval + 0.5 * ' +           TRIM(STR$(xf1)) + ' + 0.5 * ' + TRIM(STR$(x))
+	3200 punch nl$ + ' 70 IF (cell_no > ' + TRIM(STR$(4 + nfilt1)) + ' AND cell_no < ' +           TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + ' + TRIM(STR$(x)) + ' ELSE GOTO 90'
 	3210 punch nl$ + ' 80 GOTO 200'
-	3220 punch nl$ + ' 90 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(x)) + ' + 0.5 * ' + TRIM(STR$(xf2))
-	3230 punch nl$ + ' 100 IF (cell_no > ' + TRIM(STR$(4 + nfilt1 + nclay)) + ' AND cell_no <= ' + TRIM(STR$(3 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + ' + TRIM(STR$(xf2))
-	3240 punch nl$ + ' 110 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf2))
+	3220 punch nl$ + ' 90 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + 0.5 * ' +           TRIM(STR$(x)) + ' + 0.5 * ' + TRIM(STR$(xf2))
+	3230 punch nl$ + ' 100 IF (cell_no > ' + TRIM(STR$(4 + nfilt1 + nclay)) + ' AND cell_no <= ' +           TRIM(STR$(3 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + ' + TRIM(STR$(xf2))
+	3240 punch nl$ + ' 110 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) +           ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf2))
 	3250 punch nl$ + ' 200 y1 = TOT("' + tracer$(tracer) + '")'
 	3260 punch nl$ + ' 210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus'
 	3270 punch nl$ + ' 220 IF cell_no = 3 THEN put(y1, 15)'
-	3280 punch nl$ + ' 230 IF (cell_no < ' + TRIM(STR$(4 + nfilt1)) + ' OR cell_no > ' + TRIM(STR$(3 + nfilt1 + nclay)) + ') THEN GOTO 400'
+	3280 punch nl$ + ' 230 IF (cell_no < ' + TRIM(STR$(4 + nfilt1)) + ' OR cell_no > ' +           TRIM(STR$(3 + nfilt1 + nclay)) + ') THEN GOTO 400'
 	3290 punch nl$ + ' 240 y2 = SYS("' + tracer$(tracer) + '") / (tot("water") + edl("water"))'
 	3310 punch nl$ + ' 250 REM y2 = y2 / ' + TRIM(STR$(rho_b_eps)) + x$ + ' conc / kg solid'
 	3320 punch nl$ + ' 260 plot_xy xval * 1e3, y2, symbol = Circle, y_axis = 2'
 	3330 punch nl$ + ' 270 IF (cell_no > ' + TRIM(STR$(5 + nfilt1)) + ') THEN GOTO 400'
-	3340 punch nl$ + ' 280 IF ' + TRIM(STR$(nfilt1)) + ' THEN plot_xy ' + TRIM(STR$(thickn_filter1 * 1e3)) + ', get(15), color = Black, symbol = None'
-	3350 punch nl$ + ' 290 IF ' + TRIM(STR$(nfilt2)) + ' THEN plot_xy ' + TRIM(STR$((thickn_filter1 + thickn_clay) * 1e3)) + ', get(15), color = Black, symbol = None'
+	3340 punch nl$ + ' 280 IF ' + TRIM(STR$(nfilt1)) + ' THEN plot_xy ' + TRIM(STR$(thickn_filter1 * 1e3)) +           ', get(15), color = Black, symbol = None'
+	3350 punch nl$ + ' 290 IF ' + TRIM(STR$(nfilt2)) + ' THEN plot_xy ' +           TRIM(STR$((thickn_filter1 + thickn_clay) * 1e3)) + ', get(15), color = Black, symbol = None'
 	3360 punch nl$ + ' 300 put(0, 15)'
 	3370 punch nl$ + ' 400 put(xval, 14)'
 	3380 punch nl$ + 'END'
@@ -904,7 +906,7 @@ WARNING: No dispersivities were read; disp = 0 assumed.
 	 -chart_title " Hto Diffusion to Outer Cell"	
 	 -plot_tsv_file ex21_Hto_rad.tsv	
 	 -axis_scale x_axis 0 20	
-	 -axis_titles "TIME, IN DAYS" "FLUX, IN MOL/M2/S" "ACCUMULATED MASS, IN MOL"	
+	 -axis_titles "Time, in days" "Flux, in moles per square meter per second"             "Accumulated mass, in moles"	
 	 -plot_concentration_vs time	
 	 10 days = total_time / (3600 * 24)	
 	 20 a = equi("A_Hto")	
@@ -937,7 +939,7 @@ WARNING: Trying reduced tolerance 1e-16 ...
 	 -axis_scale x_axis 0 2.2220e+01	
 	 -axis_scale y_axis 0 1.2e-9	
 	 -axis_scale sy_axis 0 1.2e-9	
-	 -axis_titles "DISTANCE, IN MILLIMETERS" "FREE PORE-WATER MOLALITY" "TOTAL MOLALITY"	
+	 -axis_titles "Distance, in millimeters" "Free pore-water molality" "Total molality"	
 	 -headings Hto_free Hto_tot	
 	 -plot_concentration_vs x	
 	 -initial_solutions true	
@@ -967,6 +969,6 @@ WARNING: Trying reduced tolerance 1e-16 ...
 	END	
 	END
 -------------------------------
-End of Run after 29.73 Seconds.
+End of Run after 20.42 Seconds.
 -------------------------------
 
