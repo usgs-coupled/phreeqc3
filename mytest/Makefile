@@ -5,12 +5,12 @@ PHREEQC=../src/Class_release_64/phreeqcpp
 #PHREEQC=../src/Class_debug_64/phreeqcpp
 
 ifeq ($(CFG), CYGWIN)
-   PHREEQC=/cygdrive/c/Programs/phreeqcpp-trunk/ErrorHandling/Class_release/phreeqcpp.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
-	time $(PHREEQC) $< 
-	mv phreeqc.log $<.log
+	time $(PHREEQC) $< $<.out xxx $<.log
+#	mv phreeqc.log $<.log
 #	gprof $(PHREEQC) > $<.gprof
 
 all: alkalinity.out \
