@@ -1,0 +1,776 @@
+   Input file: ../examples/ex13c
+  Output file: ex13c.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+	                    5 layer stagnant zone with finite differences.
+	SOLUTION 0    # 1 mmol/l NaCl
+	   units   mmol/l
+	   pH       7.0
+	   pe      13.0    O2(g)   -0.7
+	   Na       1.0    # Na has Retardation = 2
+	   Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+	   N(5)     1.0    # NO3 is conservative
+	END
+-----
+TITLE
+-----
+
+ Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.
+                    5 layer stagnant zone with finite differences.
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.000e-003  1.000e-003
+	N(5)             1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  13.622      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 192
+                          Density (g/cm3)  =   0.99712
+                               Volume (L)  =   1.00302
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.500e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.549e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.000e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -33.33
+                               Iterations  =   3
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550973e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.057e-007  1.012e-007    -6.976    -6.995    -0.019     -4.10
+   H+             1.042e-007  1.000e-007    -6.982    -7.000    -0.018      0.00
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.07
+Cl           1.000e-003
+   Cl-            1.000e-003  9.576e-004    -3.000    -3.019    -0.019     18.08
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.394   -44.394     0.000     28.61
+N(5)         1.000e-003
+   NO3-           1.000e-003  9.572e-004    -3.000    -3.019    -0.019     29.54
+Na           1.000e-003
+   Na+            1.000e-003  9.580e-004    -3.000    -3.019    -0.019     -1.38
+   NaOH           9.693e-021  9.696e-021   -20.014   -20.013     0.000     (0)  
+O(0)         5.110e-004
+   O2             2.555e-004  2.556e-004    -3.593    -3.592     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.29    -44.39   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Halite           -7.61     -6.04    1.57  NaCl
+	O2(g)            -0.70     -3.59   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1-121
+	   units   mmol/l
+	   pH       7.0
+	   pe      13.0   O2(g)    -0.7
+	   K        1.0
+	   N(5)     1.0
+	EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+	   K+ + X- = KX
+	   log_k   0.0
+	   gamma  3.5     0.015
+	EXCHANGE 1-121
+	   equilibrate  1
+	   X             1.e-3
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                1.000e-003  1.000e-003
+	N(5)             1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  13.622      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 141
+                          Density (g/cm3)  =   0.99711
+                               Volume (L)  =   1.00301
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.450e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.450e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550973e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.049e-007  1.012e-007    -6.979    -6.995    -0.016     -4.11
+   H+             1.035e-007  1.000e-007    -6.985    -7.000    -0.015      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.394   -44.394     0.000     28.61
+K            1.000e-003
+   K+             1.000e-003  9.649e-004    -3.000    -3.016    -0.016      9.01
+N(5)         1.000e-003
+   NO3-           1.000e-003  9.647e-004    -3.000    -3.016    -0.016     29.53
+O(0)         5.111e-004
+   O2             2.555e-004  2.556e-004    -3.593    -3.592     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.29    -44.39   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)            -0.70     -3.59   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+
+
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X               1.000e-003 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX               1.000e-003  1.000e-003  1.000e+000    -0.016
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using exchange 1.	Exchange assemblage after simulation 2.
+
+-----------------------------Exchange composition------------------------------
+
+X               1.000e-003 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX               1.000e-003  1.000e-003  1.000e+000    -0.016
+	NH4X             5.034e-063  5.034e-063  5.034e-060    -0.016
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                1.000e-003  1.000e-003
+	N                1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  13.622      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 141
+                          Density (g/cm3)  =   0.99711
+                               Volume (L)  =   1.00301
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.450e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.450e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   5
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550973e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.049e-007  1.012e-007    -6.979    -6.995    -0.016     -4.11
+   H+             1.035e-007  1.000e-007    -6.985    -7.000    -0.015      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.394   -44.394     0.000     28.61
+K            1.000e-003
+   K+             1.000e-003  9.649e-004    -3.000    -3.016    -0.016      9.01
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -62.898   -62.914    -0.016     17.96
+   NH3            0.000e+000  0.000e+000   -65.158   -65.158     0.000     24.46
+N(0)         1.351e-019
+   N2             6.757e-020  6.759e-020   -19.170   -19.170     0.000     29.29
+N(3)         2.120e-016
+   NO2-           2.120e-016  2.045e-016   -15.674   -15.689    -0.016     24.97
+N(5)         1.000e-003
+   NO3-           1.000e-003  9.647e-004    -3.000    -3.016    -0.016     29.53
+O(0)         5.111e-004
+   O2             2.555e-004  2.556e-004    -3.593    -3.592     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.29    -44.39   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)           -15.99    -19.17   -3.18  N2
+	NH3(g)          -66.95    -65.16    1.80  NH3
+	O2(g)            -0.70     -3.59   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	PRINT
+	   reset false
+	   status false
+	MIX    1
+	    1  0.90712
+	   22  0.09288
+	MIX   22
+	    1  0.57098
+	   22  0.21656
+	   42  0.21246
+	MIX   42
+	   22  0.35027
+	   42  0.45270
+	   62  0.19703
+	MIX   62
+	   42  0.38368
+	   62  0.44579
+	   82  0.17053
+	MIX   82
+	   62  0.46286
+	   82  0.42143
+	  102  0.11571
+	MIX  102
+	   82  0.81000
+	  102  0.19000
+	MIX    2
+	    2  0.90712
+	   23  0.09288
+	MIX   23
+	    2  0.57098
+	   23  0.21656
+	   43  0.21246
+	MIX   43
+	   23  0.35027
+	   43  0.45270
+	   63  0.19703
+	MIX   63
+	   43  0.38368
+	   63  0.44579
+	   83  0.17053
+	MIX   83
+	   63  0.46286
+	   83  0.42143
+	  103  0.11571
+	MIX  103
+	   83  0.81000
+	  103  0.19000
+	MIX    3
+	    3  0.90712
+	   24  0.09288
+	MIX   24
+	    3  0.57098
+	   24  0.21656
+	   44  0.21246
+	MIX   44
+	   24  0.35027
+	   44  0.45270
+	   64  0.19703
+	MIX   64
+	   44  0.38368
+	   64  0.44579
+	   84  0.17053
+	MIX   84
+	   64  0.46286
+	   84  0.42143
+	  104  0.11571
+	MIX  104
+	   84  0.81000
+	  104  0.19000
+	MIX    4
+	    4  0.90712
+	   25  0.09288
+	MIX   25
+	    4  0.57098
+	   25  0.21656
+	   45  0.21246
+	MIX   45
+	   25  0.35027
+	   45  0.45270
+	   65  0.19703
+	MIX   65
+	   45  0.38368
+	   65  0.44579
+	   85  0.17053
+	MIX   85
+	   65  0.46286
+	   85  0.42143
+	  105  0.11571
+	MIX  105
+	   85  0.81000
+	  105  0.19000
+	MIX    5
+	    5  0.90712
+	   26  0.09288
+	MIX   26
+	    5  0.57098
+	   26  0.21656
+	   46  0.21246
+	MIX   46
+	   26  0.35027
+	   46  0.45270
+	   66  0.19703
+	MIX   66
+	   46  0.38368
+	   66  0.44579
+	   86  0.17053
+	MIX   86
+	   66  0.46286
+	   86  0.42143
+	  106  0.11571
+	MIX  106
+	   86  0.81000
+	  106  0.19000
+	MIX    6
+	    6  0.90712
+	   27  0.09288
+	MIX   27
+	    6  0.57098
+	   27  0.21656
+	   47  0.21246
+	MIX   47
+	   27  0.35027
+	   47  0.45270
+	   67  0.19703
+	MIX   67
+	   47  0.38368
+	   67  0.44579
+	   87  0.17053
+	MIX   87
+	   67  0.46286
+	   87  0.42143
+	  107  0.11571
+	MIX  107
+	   87  0.81000
+	  107  0.19000
+	MIX    7
+	    7  0.90712
+	   28  0.09288
+	MIX   28
+	    7  0.57098
+	   28  0.21656
+	   48  0.21246
+	MIX   48
+	   28  0.35027
+	   48  0.45270
+	   68  0.19703
+	MIX   68
+	   48  0.38368
+	   68  0.44579
+	   88  0.17053
+	MIX   88
+	   68  0.46286
+	   88  0.42143
+	  108  0.11571
+	MIX  108
+	   88  0.81000
+	  108  0.19000
+	MIX    8
+	    8  0.90712
+	   29  0.09288
+	MIX   29
+	    8  0.57098
+	   29  0.21656
+	   49  0.21246
+	MIX   49
+	   29  0.35027
+	   49  0.45270
+	   69  0.19703
+	MIX   69
+	   49  0.38368
+	   69  0.44579
+	   89  0.17053
+	MIX   89
+	   69  0.46286
+	   89  0.42143
+	  109  0.11571
+	MIX  109
+	   89  0.81000
+	  109  0.19000
+	MIX    9
+	    9  0.90712
+	   30  0.09288
+	MIX   30
+	    9  0.57098
+	   30  0.21656
+	   50  0.21246
+	MIX   50
+	   30  0.35027
+	   50  0.45270
+	   70  0.19703
+	MIX   70
+	   50  0.38368
+	   70  0.44579
+	   90  0.17053
+	MIX   90
+	   70  0.46286
+	   90  0.42143
+	  110  0.11571
+	MIX  110
+	   90  0.81000
+	  110  0.19000
+	MIX   10
+	   10  0.90712
+	   31  0.09288
+	MIX   31
+	   10  0.57098
+	   31  0.21656
+	   51  0.21246
+	MIX   51
+	   31  0.35027
+	   51  0.45270
+	   71  0.19703
+	MIX   71
+	   51  0.38368
+	   71  0.44579
+	   91  0.17053
+	MIX   91
+	   71  0.46286
+	   91  0.42143
+	  111  0.11571
+	MIX  111
+	   91  0.81000
+	  111  0.19000
+	MIX   11
+	   11  0.90712
+	   32  0.09288
+	MIX   32
+	   11  0.57098
+	   32  0.21656
+	   52  0.21246
+	MIX   52
+	   32  0.35027
+	   52  0.45270
+	   72  0.19703
+	MIX   72
+	   52  0.38368
+	   72  0.44579
+	   92  0.17053
+	MIX   92
+	   72  0.46286
+	   92  0.42143
+	  112  0.11571
+	MIX  112
+	   92  0.81000
+	  112  0.19000
+	MIX   12
+	   12  0.90712
+	   33  0.09288
+	MIX   33
+	   12  0.57098
+	   33  0.21656
+	   53  0.21246
+	MIX   53
+	   33  0.35027
+	   53  0.45270
+	   73  0.19703
+	MIX   73
+	   53  0.38368
+	   73  0.44579
+	   93  0.17053
+	MIX   93
+	   73  0.46286
+	   93  0.42143
+	  113  0.11571
+	MIX  113
+	   93  0.81000
+	  113  0.19000
+	MIX   13
+	   13  0.90712
+	   34  0.09288
+	MIX   34
+	   13  0.57098
+	   34  0.21656
+	   54  0.21246
+	MIX   54
+	   34  0.35027
+	   54  0.45270
+	   74  0.19703
+	MIX   74
+	   54  0.38368
+	   74  0.44579
+	   94  0.17053
+	MIX   94
+	   74  0.46286
+	   94  0.42143
+	  114  0.11571
+	MIX  114
+	   94  0.81000
+	  114  0.19000
+	MIX   14
+	   14  0.90712
+	   35  0.09288
+	MIX   35
+	   14  0.57098
+	   35  0.21656
+	   55  0.21246
+	MIX   55
+	   35  0.35027
+	   55  0.45270
+	   75  0.19703
+	MIX   75
+	   55  0.38368
+	   75  0.44579
+	   95  0.17053
+	MIX   95
+	   75  0.46286
+	   95  0.42143
+	  115  0.11571
+	MIX  115
+	   95  0.81000
+	  115  0.19000
+	MIX   15
+	   15  0.90712
+	   36  0.09288
+	MIX   36
+	   15  0.57098
+	   36  0.21656
+	   56  0.21246
+	MIX   56
+	   36  0.35027
+	   56  0.45270
+	   76  0.19703
+	MIX   76
+	   56  0.38368
+	   76  0.44579
+	   96  0.17053
+	MIX   96
+	   76  0.46286
+	   96  0.42143
+	  116  0.11571
+	MIX  116
+	   96  0.81000
+	  116  0.19000
+	MIX   16
+	   16  0.90712
+	   37  0.09288
+	MIX   37
+	   16  0.57098
+	   37  0.21656
+	   57  0.21246
+	MIX   57
+	   37  0.35027
+	   57  0.45270
+	   77  0.19703
+	MIX   77
+	   57  0.38368
+	   77  0.44579
+	   97  0.17053
+	MIX   97
+	   77  0.46286
+	   97  0.42143
+	  117  0.11571
+	MIX  117
+	   97  0.81000
+	  117  0.19000
+	MIX   17
+	   17  0.90712
+	   38  0.09288
+	MIX   38
+	   17  0.57098
+	   38  0.21656
+	   58  0.21246
+	MIX   58
+	   38  0.35027
+	   58  0.45270
+	   78  0.19703
+	MIX   78
+	   58  0.38368
+	   78  0.44579
+	   98  0.17053
+	MIX   98
+	   78  0.46286
+	   98  0.42143
+	  118  0.11571
+	MIX  118
+	   98  0.81000
+	  118  0.19000
+	MIX   18
+	   18  0.90712
+	   39  0.09288
+	MIX   39
+	   18  0.57098
+	   39  0.21656
+	   59  0.21246
+	MIX   59
+	   39  0.35027
+	   59  0.45270
+	   79  0.19703
+	MIX   79
+	   59  0.38368
+	   79  0.44579
+	   99  0.17053
+	MIX   99
+	   79  0.46286
+	   99  0.42143
+	  119  0.11571
+	MIX  119
+	   99  0.81000
+	  119  0.19000
+	MIX   19
+	   19  0.90712
+	   40  0.09288
+	MIX   40
+	   19  0.57098
+	   40  0.21656
+	   60  0.21246
+	MIX   60
+	   40  0.35027
+	   60  0.45270
+	   80  0.19703
+	MIX   80
+	   60  0.38368
+	   80  0.44579
+	  100  0.17053
+	MIX  100
+	   80  0.46286
+	  100  0.42143
+	  120  0.11571
+	MIX  120
+	  100  0.81000
+	  120  0.19000
+	MIX   20
+	   20  0.90712
+	   41  0.09288
+	MIX   41
+	   20  0.57098
+	   41  0.21656
+	   61  0.21246
+	MIX   61
+	   41  0.35027
+	   61  0.45270
+	   81  0.19703
+	MIX   81
+	   61  0.38368
+	   81  0.44579
+	  101  0.17053
+	MIX  101
+	   81  0.46286
+	  101  0.42143
+	  121  0.11571
+	MIX  121
+	  101  0.81000
+	  121  0.19000
+	TRANSPORT
+	   cells  20
+	   shifts 5
+	   flow_direction  forward
+	   time_step       3600
+	   boundary_conditions   flux  flux
+	   diffusion_coefficient 0.0
+	   lengths         0.1
+	   dispersivities  0.015
+	   stagnant        5
+	END
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
+	SOLUTION 0  # Original solution reenters
+	   units   mmol/l
+	   pH       7.0
+	   pe      13.0   O2(g)    -0.7
+	   K        1.0
+	   N(5)     1.0
+	END
+	SELECTED_OUTPUT
+	   file   ex13c.sel
+	   reset  false
+	   distance       true
+	   solution
+	USER_PUNCH
+	   headings Cl_mmol Na_mmol
+	  10 PUNCH TOT("Cl")*1000, TOT("Na")*1000
+	TRANSPORT
+	   shifts  10
+	   punch_cells        1-20
+	   punch_frequency    10
+	USER_GRAPH 1 Example 13C
+	        -headings Distance Na Cl
+	   -chart_title "Dual Porosity, Finite-Difference Approximation"
+	   -axis_titles "Distance, in meters" "Millimoles per kilogram water"
+	   -axis_scale x_axis 0 2
+	   -axis_scale y_axis 0 0.8
+	   -plot_concentration_vs x
+	   -start
+	  10 GRAPH_X DIST
+	  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+	    -end
+	END
+-------------------------------
+End of Run after 0.544 Seconds.
+-------------------------------
+

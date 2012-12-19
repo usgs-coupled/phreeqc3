@@ -1,0 +1,159 @@
+TITLE Example 19B.--Cd sorption on X, Hfo and OC in loamy soil
+#
+PRINT
+        -reset false
+        -user_print true
+SURFACE_MASTER_SPECIES
+# Monodentate 60%
+  H_a  H_aH;  H_b  H_bH;  H_c  H_cH;  H_d  H_dH
+  H_e  H_eH;  H_f  H_fH;  H_g  H_gH;  H_h  H_hH
+# Bidentate 40%
+  H_ab H_abH2;  H_ad H_adH2;  H_af H_afH2;  H_ah H_ahH2
+  H_bc H_bcH2;  H_be H_beH2;  H_bg H_bgH2;  H_cd H_cdH2
+  H_cf H_cfH2;  H_ch H_chH2;  H_de H_deH2;  H_dg H_dgH2
+SURFACE_SPECIES
+  H_aH = H_aH; log_k 0;  H_bH = H_bH; log_k 0;  H_cH = H_cH; log_k 0;  \
+       H_dH = H_dH; log_k 0;
+  H_eH = H_eH; log_k 0;  H_fH = H_fH; log_k 0;  H_gH = H_gH; log_k 0;  \
+       H_hH = H_hH; log_k 0;
+
+  H_abH2 = H_abH2; log_k 0;  H_adH2 = H_adH2; log_k 0;  H_afH2 = H_afH2; log_k 0;
+  H_ahH2 = H_ahH2; log_k 0;  H_bcH2 = H_bcH2; log_k 0;  H_beH2 = H_beH2; log_k 0;
+  H_bgH2 = H_bgH2; log_k 0;  H_cdH2 = H_cdH2; log_k 0;  H_cfH2 = H_cfH2; log_k 0;
+  H_chH2 = H_chH2; log_k 0;  H_deH2 = H_deH2; log_k 0;  H_dgH2 = H_dgH2; log_k 0;
+# Protons
+  H_aH = H_a- + H+; log_k  -1.59
+  H_bH = H_b- + H+; log_k  -2.70
+  H_cH = H_c- + H+; log_k  -3.82
+  H_dH = H_d- + H+; log_k  -4.93
+
+  H_eH = H_e- + H+; log_k  -6.88
+  H_fH = H_f- + H+; log_k  -8.72
+  H_gH = H_g- + H+; log_k  -10.56
+  H_hH = H_h- + H+; log_k  -12.40
+
+  H_abH2 = H_abH- + H+; log_k -1.59;  H_abH- = H_ab-2 + H+; log_k -2.70
+  H_adH2 = H_adH- + H+; log_k -1.59;  H_adH- = H_ad-2 + H+; log_k -4.93
+  H_afH2 = H_afH- + H+; log_k -1.59;  H_afH- = H_af-2 + H+; log_k -8.72
+  H_ahH2 = H_ahH- + H+; log_k -1.59;  H_ahH- = H_ah-2 + H+; log_k -12.40
+  H_bcH2 = H_bcH- + H+; log_k -2.70;  H_bcH- = H_bc-2 + H+; log_k -3.82
+  H_beH2 = H_beH- + H+; log_k -2.70;  H_beH- = H_be-2 + H+; log_k -6.88
+  H_bgH2 = H_bgH- + H+; log_k -2.70;  H_bgH- = H_bg-2 + H+; log_k -10.56
+  H_cdH2 = H_cdH- + H+; log_k -3.82;  H_cdH- = H_cd-2 + H+; log_k -4.93
+  H_cfH2 = H_cfH- + H+; log_k -3.82;  H_cfH- = H_cf-2 + H+; log_k -8.72
+  H_chH2 = H_chH- + H+; log_k -3.82;  H_chH- = H_ch-2 + H+; log_k -12.40
+  H_deH2 = H_deH- + H+; log_k -4.93;  H_deH- = H_de-2 + H+; log_k -6.88
+  H_dgH2 = H_dgH- + H+; log_k -4.93;  H_dgH- = H_dg-2 + H+; log_k -10.56
+# Calcium
+  H_aH + Ca+2 = H_aCa+ + H+; log_k  -3.20
+  H_bH + Ca+2 = H_bCa+ + H+; log_k  -3.20
+  H_cH + Ca+2 = H_cCa+ + H+; log_k  -3.20
+  H_dH + Ca+2 = H_dCa+ + H+; log_k  -3.20
+
+  H_eH + Ca+2 = H_eCa+ + H+; log_k  -6.99
+  H_fH + Ca+2 = H_fCa+ + H+; log_k  -6.99
+  H_gH + Ca+2 = H_gCa+ + H+; log_k  -6.99
+  H_hH + Ca+2 = H_hCa+ + H+; log_k  -6.99
+
+  H_abH2 + Ca+2 = H_abCa + 2H+; log_k -6.40
+  H_adH2 + Ca+2 = H_adCa + 2H+; log_k -6.40
+  H_afH2 + Ca+2 = H_afCa + 2H+; log_k -7.45
+  H_ahH2 + Ca+2 = H_ahCa + 2H+; log_k -10.2
+  H_bcH2 + Ca+2 = H_bcCa + 2H+; log_k -6.40
+  H_beH2 + Ca+2 = H_beCa + 2H+; log_k -10.2
+  H_bgH2 + Ca+2 = H_bgCa + 2H+; log_k -10.2
+  H_cdH2 + Ca+2 = H_cdCa + 2H+; log_k -6.40
+  H_cfH2 + Ca+2 = H_cfCa + 2H+; log_k -10.2
+  H_chH2 + Ca+2 = H_chCa + 2H+; log_k -10.2
+  H_deH2 + Ca+2 = H_deCa + 2H+; log_k -10.2
+  H_dgH2 + Ca+2 = H_dgCa + 2H+; log_k -10.2
+# Cadmium
+  H_aH + Cd+2 = H_aCd+ + H+; log_k  -1.52
+  H_bH + Cd+2 = H_bCd+ + H+; log_k  -1.52
+  H_cH + Cd+2 = H_cCd+ + H+; log_k  -1.52
+  H_dH + Cd+2 = H_dCd+ + H+; log_k  -1.52
+
+  H_eH + Cd+2 = H_eCd+ + H+; log_k  -5.57
+  H_fH + Cd+2 = H_fCd+ + H+; log_k  -5.57
+  H_gH + Cd+2 = H_gCd+ + H+; log_k  -5.57
+  H_hH + Cd+2 = H_hCd+ + H+; log_k  -5.57
+
+  H_abH2 + Cd+2 = H_abCd + 2H+; log_k -3.04
+  H_adH2 + Cd+2 = H_adCd + 2H+; log_k -3.04
+  H_afH2 + Cd+2 = H_afCd + 2H+; log_k -7.09
+  H_ahH2 + Cd+2 = H_ahCd + 2H+; log_k -7.09
+  H_bcH2 + Cd+2 = H_bcCd + 2H+; log_k -3.04
+  H_beH2 + Cd+2 = H_beCd + 2H+; log_k -7.09
+  H_bgH2 + Cd+2 = H_bgCd + 2H+; log_k -7.09
+  H_cdH2 + Cd+2 = H_cdCd + 2H+; log_k -3.04
+  H_cfH2 + Cd+2 = H_cfCd + 2H+; log_k -7.09
+  H_chH2 + Cd+2 = H_chCd + 2H+; log_k -7.09
+  H_deH2 + Cd+2 = H_deCd + 2H+; log_k -7.09
+  H_dgH2 + Cd+2 = H_dgCd + 2H+; log_k -7.09
+
+END
+SURFACE 1
+# 1 g soil = 0.7% Organic Matter ~ 3.5 mg Organic Carbon.
+# 7.1 meq charge per g OC
+# For Psi vs I (= ionic strength) dependence, adapt specific surface area in PHRC:
+# SS = 159300 - 220800/(I)^0.09 + 91260/(I)^0.18
+# Example: SS = 46514 m2/g for I = 0.003 mol/l
+#
+# 3.5 mg OC, 0.025 meq total charge, distributed over the sites:
+# charge on 4 nHA sites: -2.84 / 4 * 3.5e-3 / 1e3 (eq)
+  H_a  2.48e-06 46.5e3 3.50e-03
+  H_b  2.48e-06; H_c  2.48e-06; H_d  2.48e-06
+# charge on 4 nHB sites: 0.5 * charge on nHA sites
+  H_e  1.24e-06; H_f  1.24e-06; H_g  1.24e-06; H_h  1.24e-06
+# charge on 12 diprotic sites: -2.84 / 12 * 3.5e-3 / 1e3
+  H_ab 8.28e-07; H_ad 8.28e-07; H_af 8.28e-07; H_ah 8.28e-07
+  H_bc 8.28e-07; H_be 8.28e-07; H_bg 8.28e-07; H_cd 8.28e-07
+  H_cf 8.28e-07; H_ch 8.28e-07; H_de 8.28e-07; H_dg 8.28e-07
+        -donnan
+# 1 g soil = 2.79 mg Fe = 0.05 mmol Fe = 4.45 mg FeOOH
+# 10% has ferrihydrite reactivity
+ Hfo_w 1e-6 600 4.45e-4
+ Hfo_s 0.025e-6
+        -equilibrate 1
+EXCHANGE 1
+ X 55.7e-6
+        -equilibrate 1
+SOLUTION 1
+  pH  6.0
+  Ca  1
+  Cl  2
+  Cd  1e-6
+REACTION 1
+  CdCl2 1
+  2e-6 in 20
+USER_GRAPH Example 19
+        -headings Cd_HumicAcids CdX2 Cd_Hfo TOTAL
+        -chart_title "Deterministic Sorption Model"
+        -axis_titles "Dissolved Cd, in micrograms per kilogram water" \
+                     "Sorbed Cd, in micrograms per gram soil"
+        -plot_tsv_file ex19_meas.tsv
+        -axis_scale x_axis 0 40
+        -axis_scale y_axis 0 6
+        -initial_solutions true
+  -start
+10 H_Cd = SURF("Cd", "H") + EDL("Cd", "H")
+20 print CHR$(10) + " ug Cd/L =", tot("Cd") * 112.4e6, " ug Cd/g = ", H_Cd * 112.4e6 \
+        ," Kd (L/kg) = ", H_Cd*1e3/tot("Cd"), " ug Cd/g in DL =", \
+        EDL("Cd", "H") * 112.4e6
+30 print "Excess meq Ca in DL =", EDL("Ca", "H")*2 - EDL("water", "H") * tot("Ca")*2
+40 print "Excess meq Cl in DL =", EDL("Cl", "H")   - EDL("water", "H") * tot("Cl")
+50 print "Surface charge      =", EDL("Charge", "H")
+55 af_OM = 1 / 9
+60 H_Ca = (SURF("Ca", "H") + EDL("Ca", "H")) * af_OM
+70 print 'Total Ca in/on organic matter =', H_Ca, ' CEC on OM =' H_Ca*200/TOT("X"),\
+        '%.'
+80 x = TOT("Cd") * 112.4e6
+90 H_Cd = H_Cd * 112.4e6 * af_OM
+100 CdX2 = mol("CdX2") * 112.4e6 * 0.96
+110 Hfo_Cd = (mol("Hfo_wOCd+") + mol("Hfo_sOCd+")) * 112.4e6
+120 PLOT_XY x, H_Cd, color = Green, line_width = 2, symbol = None
+130 PLOT_XY x, CdX2, color = Brown, line_width = 2, symbol = None
+140 PLOT_XY x, Hfo_Cd, color = Black, line_width = 2, symbol = None
+150 PLOT_XY x, H_Cd + CdX2 + Hfo_Cd, color = Red, line_width = 2, symbol = None
+  -end
+END

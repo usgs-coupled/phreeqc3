@@ -1,0 +1,213 @@
+   Input file: ../examples/ex11
+  Output file: ex11.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Example 11.--Transport and cation exchange.
+	SOLUTION 0  CaCl2
+	        units            mmol/kgw
+	        temp             25.0
+	        pH               7.0     charge
+	        pe               12.5    O2(g)   -0.68
+	        Ca               0.6
+	        Cl               1.2
+	SOLUTION 1-40  Initial solution for column
+	        units            mmol/kgw
+	        temp             25.0
+	        pH               7.0     charge
+	        pe               12.5    O2(g)   -0.68
+	        Na               1.0
+	        K                0.2
+	        N(5)             1.2
+	END
+-----
+TITLE
+-----
+
+ Example 11.--Transport and cation exchange.
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	CaCl2
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca               6.000e-004  6.000e-004
+	Cl               1.200e-003  1.200e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.995      Charge balance
+                                       pe  =  13.632      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 155
+                          Density (g/cm3)  =   0.99710
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.800e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  6.950e-020
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  4.519e-018
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550675e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.058e-007  1.012e-007    -6.976    -6.995    -0.019      0.00
+   OH-            1.049e-007  1.000e-007    -6.979    -7.000    -0.021     -4.10
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+Ca           6.000e-004
+   Ca+2           6.000e-004  4.983e-004    -3.222    -3.302    -0.081    -18.10
+   CaOH+          8.569e-010  8.174e-010    -9.067    -9.088    -0.020     (0)  
+Cl           1.200e-003
+   Cl-            1.200e-003  1.144e-003    -2.921    -2.941    -0.021     18.08
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.404   -44.404     0.000     28.61
+O(0)         5.351e-004
+   O2             2.675e-004  2.676e-004    -3.573    -3.572     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.30    -44.40   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)            -0.68     -3.57   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+
+
+Initial solution 1.	Initial solution for column
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                2.000e-004  2.000e-004
+	N(5)             1.200e-003  1.200e-003
+	Na               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.997      Charge balance
+                                       pe  =  13.630      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 146
+                          Density (g/cm3)  =   0.99711
+                               Volume (L)  =   1.00301
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.200e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -9.247e-019
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -9.243e-017
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.551035e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.045e-007  1.007e-007    -6.981    -6.997    -0.016      0.00
+   OH-            1.045e-007  1.005e-007    -6.981    -6.998    -0.017     -4.10
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.404   -44.404     0.000     28.61
+K            2.000e-004
+   K+             2.000e-004  1.923e-004    -3.699    -3.716    -0.017      9.01
+N(5)         1.200e-003
+   NO3-           1.200e-003  1.154e-003    -2.921    -2.938    -0.017     29.53
+Na           1.000e-003
+   Na+            1.000e-003  9.621e-004    -3.000    -3.017    -0.017     -1.38
+   NaOH           9.666e-021  9.668e-021   -20.015   -20.015     0.000     (0)  
+O(0)         5.351e-004
+   O2             2.676e-004  2.676e-004    -3.573    -3.572     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -41.30    -44.40   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)            -0.68     -3.57   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	EXCHANGE 1-40
+	        equilibrate 1
+	        X                0.0011
+	COPY cell 1 101
+	END
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X               1.100e-003 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX               5.507e-004  5.507e-004  5.006e-001    -0.017
+	NaX              5.493e-004  5.493e-004  4.994e-001    -0.017
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	ADVECTION
+	        cells           40
+	        shifts          100
+	        punch_cells     40
+	        punch_frequency 1
+	        print_cells     40
+	        print_frequency 20
+	PRINT
+	 reset false
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 40.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 40.
+-------------------------------
+End of Run after 5.332 Seconds.
+-------------------------------
+

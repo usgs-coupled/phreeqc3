@@ -1,0 +1,1060 @@
+   Input file: ../examples/ex14
+  Output file: ex14.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Example 14.--Transport with equilibrium_phases, exchange, and surface reactions
+	SURFACE_MASTER_SPECIES
+	        Surf    SurfOH
+	SURFACE_SPECIES
+	        SurfOH = SurfOH
+	                log_k   0.0
+	        SurfOH  + H+ = SurfOH2+
+	                log_k   7.29
+	        SurfOH = SurfO- + H+
+	                log_k   -8.93
+	        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O
+	                log_k   29.31
+	        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O
+	                log_k   23.51
+	        SurfOH + AsO4-3 = SurfOHAsO4-3
+	                log_k   10.58
+	SOLUTION_MASTER_SPECIES
+	        As       H3AsO4        -1.0     74.9216    74.9216
+	SOLUTION_SPECIES
+	        H3AsO4 = H3AsO4
+	                log_k           0.0
+	        H3AsO4 = AsO4-3 + 3H+
+	                log_k   -20.7
+	        H+ + AsO4-3 = HAsO4-2
+	                log_k   11.50
+	        2H+ + AsO4-3 = H2AsO4-
+	                log_k           18.46
+	SOLUTION 1 Brine
+	        pH      5.713
+	        pe      4.0     O2(g)   -0.7
+	        temp    25.
+	        units   mol/kgw
+	        Ca      .4655
+	        Mg      .1609
+	        Na      5.402
+	        Cl      6.642           charge
+	        C       .00396
+	        S       .004725
+	        As      .025 umol/kgw
+	END
+-----
+TITLE
+-----
+
+ Example 14.--Transport with equilibrium_phases, exchange, and surface reactions
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	Brine
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	As               2.500e-008  2.500e-008
+	C                3.960e-003  3.960e-003
+	Ca               4.655e-001  4.655e-001
+	Cl               6.642e+000  6.642e+000  Charge balance
+	Mg               1.609e-001  1.609e-001
+	Na               5.402e+000  5.402e+000
+	S                4.725e-003  4.725e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.713    
+                                       pe  =  14.962      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 485621
+                          Density (g/cm3)  =   1.21497
+                               Volume (L)  =   1.13864
+                        Activity of water  =   0.785
+                           Ionic strength  =  7.268e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.842e-003
+                       Total CO2 (mol/kg)  =  3.960e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.921e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                                  Total H  = 1.110163e+002
+                                  Total O  = 5.553698e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.756e-006  1.936e-006    -5.560    -5.713    -0.153      0.00
+   OH-            8.878e-009  4.101e-009    -8.052    -8.387    -0.335      6.33
+   H2O            5.551e+001  7.846e-001     1.744    -0.105     0.000     18.07
+As           2.500e-008
+   H2AsO4-        2.498e-008  1.373e-007    -7.602    -6.862     0.740     (0)  
+   H3AsO4         8.667e-012  4.621e-011   -11.062   -10.335     0.727     (0)  
+   HAsO4-2        8.521e-012  7.775e-009   -11.070    -8.109     2.960     (0)  
+   AsO4-3         2.775e-021  1.270e-014   -20.557   -13.896     6.661     (0)  
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -144.725  -143.999     0.727     32.22
+C(4)         3.960e-003
+   CaHCO3+        1.691e-003  1.024e-003    -2.772    -2.990    -0.218     10.08
+   MgHCO3+        1.385e-003  6.898e-004    -2.859    -3.161    -0.303      6.01
+   NaHCO3         5.704e-004  3.041e-003    -3.244    -2.517     0.727     19.41
+   HCO3-          1.953e-004  1.129e-004    -3.709    -3.947    -0.238     54.45
+   CO2            1.175e-004  6.266e-004    -3.930    -3.203     0.727     30.26
+   CaCO3          6.125e-007  3.265e-006    -6.213    -5.486     0.727    -14.60
+   MgCO3          2.556e-007  1.363e-006    -6.592    -5.866     0.727    -17.09
+   NaCO3-         2.264e-007  1.310e-007    -6.645    -6.883    -0.238     20.09
+   CO3-2          2.444e-008  2.735e-009    -7.612    -8.563    -0.951     17.09
+Ca           4.655e-001
+   Ca+2           4.631e-001  7.107e-001    -0.334    -0.148     0.186    -13.79
+   CaHCO3+        1.691e-003  1.024e-003    -2.772    -2.990    -0.218     10.08
+   CaSO4          7.014e-004  3.739e-003    -3.154    -2.427     0.727      7.50
+   CaCO3          6.125e-007  3.265e-006    -6.213    -5.486     0.727    -14.60
+   CaOH+          8.695e-009  4.779e-008    -8.061    -7.321     0.740     (0)  
+   CaHSO4+        8.659e-009  4.759e-008    -8.063    -7.322     0.740     (0)  
+Cl           6.642e+000
+   Cl-            6.642e+000  4.165e+000     0.822     0.620    -0.203     20.27
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -45.226   -44.499     0.727     28.61
+Mg           1.609e-001
+   Mg+2           1.588e-001  5.221e-001    -0.799    -0.282     0.517    -17.22
+   MgHCO3+        1.385e-003  6.898e-004    -2.859    -3.161    -0.303      6.01
+   MgSO4          6.792e-004  3.621e-003    -3.168    -2.441     0.727      5.84
+   MgOH+          1.227e-006  7.680e-007    -5.911    -6.115    -0.204     (0)  
+   MgCO3          2.556e-007  1.363e-006    -6.592    -5.866     0.727    -17.09
+Na           5.402e+000
+   Na+            5.399e+000  1.072e+001     0.732     1.030     0.298      1.77
+   NaSO4-         2.749e-003  1.590e-003    -2.561    -2.799    -0.238     42.57
+   NaHCO3         5.704e-004  3.041e-003    -3.244    -2.517     0.727     19.41
+   NaCO3-         2.264e-007  1.310e-007    -6.645    -6.883    -0.238     20.09
+   NaOH           8.247e-019  4.397e-018   -18.084   -17.357     0.727     (0)  
+O(0)         9.589e-005
+   O2             4.794e-005  2.556e-004    -4.319    -3.592     0.727     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -141.065  -140.338     0.727     37.16
+   HS-            0.000e+000  0.000e+000  -141.232  -141.567    -0.335     23.12
+   S-2            0.000e+000  0.000e+000  -147.759  -148.772    -1.013     (0)  
+S(6)         4.725e-003
+   NaSO4-         2.749e-003  1.590e-003    -2.561    -2.799    -0.238     42.57
+   CaSO4          7.014e-004  3.739e-003    -3.154    -2.427     0.727      7.50
+   MgSO4          6.792e-004  3.621e-003    -3.168    -2.441     0.727      5.84
+   SO4-2          5.958e-004  2.959e-005    -3.225    -4.529    -1.304     24.07
+   CaHSO4+        8.659e-009  4.759e-008    -8.063    -7.322     0.740     (0)  
+   HSO4-          1.013e-009  5.570e-009    -8.994    -8.254     0.740     42.16
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.40     -4.68   -4.28  CaSO4
+	Aragonite        -0.38     -8.71   -8.34  CaCO3
+	Calcite          -0.23     -8.71   -8.48  CaCO3
+	CH4(g)         -141.16   -144.00   -2.84  CH4
+	CO2(g)           -1.74     -3.20   -1.46  CO2
+	Dolomite         -0.47    -17.56  -17.09  CaMg(CO3)2
+	Gypsum           -0.31     -4.89   -4.58  CaSO4:2H2O
+	H2(g)           -41.40    -44.50   -3.10  H2
+	H2O(g)           -1.61     -0.11    1.50  H2O
+	H2S(g)         -139.29   -147.28   -7.99  H2S
+	Halite            0.08      1.65    1.57  NaCl
+	O2(g)            -0.70     -3.59   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+	Sulfur         -103.87    -98.99    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE solution 1
+	EQUILIBRIUM_PHASES 1
+	        Dolomite        0.0     1.6
+	        Calcite         0.0     0.1
+	SAVE solution 1
+	SELECTED_OUTPUT
+	        file ex14.sel
+	        reset false
+	        step
+	USER_PUNCH
+	        heading  m_Ca m_Mg m_Na umol_As pH mmol_sorbedAs
+	  10 PUNCH TOT("Ca"), TOT("Mg"), TOT("Na"), TOT("As")*1e6, -LA("H+"), SURF("As", "Surf")*1000
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Brine
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite           0.00    -8.48     -8.48   1.000e-001  1.020e-001  1.984e-003
+Dolomite          0.00   -17.09    -17.09   1.600e+000  1.599e+000 -1.016e-003
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	As               2.500e-008  2.500e-008
+	C                4.008e-003  4.008e-003
+	Ca               4.645e-001  4.645e-001
+	Cl               6.642e+000  6.642e+000
+	Mg               1.619e-001  1.619e-001
+	Na               5.402e+000  5.402e+000
+	S                4.725e-003  4.725e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.936      Charge balance
+                                       pe  =  14.739      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 485604
+                          Density (g/cm3)  =   1.21496
+                               Volume (L)  =   1.13864
+                        Activity of water  =   0.785
+                           Ionic strength  =  7.268e+000
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.939e-003
+                       Total CO2 (mol/kg)  =  4.008e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.935e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   5
+                                  Total H  = 1.110163e+002
+                                  Total O  = 5.553712e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.651e-006  1.160e-006    -5.782    -5.936    -0.153      0.00
+   OH-            1.482e-008  6.848e-009    -7.829    -8.164    -0.335      6.33
+   H2O            5.551e+001  7.846e-001     1.744    -0.105     0.000     18.07
+As           2.500e-008
+   H2AsO4-        2.498e-008  1.373e-007    -7.602    -6.862     0.740     (0)  
+   HAsO4-2        1.423e-011  1.298e-008   -10.847    -7.887     2.960     (0)  
+   H3AsO4         5.190e-012  2.767e-011   -11.285   -10.558     0.727     (0)  
+   AsO4-3         7.735e-021  3.540e-014   -20.112   -13.451     6.660     (0)  
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -144.938  -144.211     0.727     32.22
+C(4)         4.008e-003
+   CaHCO3+        1.726e-003  1.045e-003    -2.763    -2.981    -0.218     10.08
+   MgHCO3+        1.425e-003  7.100e-004    -2.846    -3.149    -0.303      6.01
+   NaHCO3         5.835e-004  3.111e-003    -3.234    -2.507     0.727     19.41
+   HCO3-          1.997e-004  1.155e-004    -3.700    -3.937    -0.238     54.45
+   CO2            7.201e-005  3.839e-004    -4.143    -3.416     0.727     30.26
+   CaCO3          1.044e-006  5.565e-006    -5.981    -5.255     0.727    -14.60
+   MgCO3          4.392e-007  2.341e-006    -6.357    -5.631     0.727    -17.09
+   NaCO3-         3.868e-007  2.237e-007    -6.413    -6.650    -0.238     20.09
+   CO3-2          4.175e-008  4.671e-009    -7.379    -8.331    -0.951     17.09
+Ca           4.645e-001
+   Ca+2           4.621e-001  7.091e-001    -0.335    -0.149     0.186    -13.79
+   CaHCO3+        1.726e-003  1.045e-003    -2.763    -2.981    -0.218     10.08
+   CaSO4          6.995e-004  3.729e-003    -3.155    -2.428     0.727      7.50
+   CaCO3          1.044e-006  5.565e-006    -5.981    -5.255     0.727    -14.60
+   CaOH+          1.449e-008  7.962e-008    -7.839    -7.099     0.740     (0)  
+   CaHSO4+        5.172e-009  2.842e-008    -8.286    -7.546     0.740     (0)  
+Cl           6.642e+000
+   Cl-            6.642e+000  4.165e+000     0.822     0.620    -0.203     20.27
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -45.226   -44.499     0.727     28.61
+Mg           1.619e-001
+   Mg+2           1.598e-001  5.253e-001    -0.796    -0.280     0.517    -17.22
+   MgHCO3+        1.425e-003  7.100e-004    -2.846    -3.149    -0.303      6.01
+   MgSO4          6.830e-004  3.641e-003    -3.166    -2.439     0.727      5.84
+   MgOH+          2.062e-006  1.290e-006    -5.686    -5.889    -0.204     (0)  
+   MgCO3          4.392e-007  2.341e-006    -6.357    -5.631     0.727    -17.09
+Na           5.402e+000
+   Na+            5.399e+000  1.072e+001     0.732     1.030     0.298      1.77
+   NaSO4-         2.747e-003  1.589e-003    -2.561    -2.799    -0.238     42.57
+   NaHCO3         5.835e-004  3.111e-003    -3.234    -2.507     0.727     19.41
+   NaCO3-         3.868e-007  2.237e-007    -6.413    -6.650    -0.238     20.09
+   NaOH           1.377e-018  7.341e-018   -17.861   -17.134     0.727     (0)  
+O(0)         9.589e-005
+   O2             4.794e-005  2.556e-004    -4.319    -3.592     0.727     30.40
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -141.455  -141.790    -0.335     23.12
+   H2S            0.000e+000  0.000e+000  -141.511  -140.784     0.727     37.16
+   S-2            0.000e+000  0.000e+000  -147.759  -148.772    -1.013     (0)  
+S(6)         4.725e-003
+   NaSO4-         2.747e-003  1.589e-003    -2.561    -2.799    -0.238     42.57
+   CaSO4          6.995e-004  3.729e-003    -3.155    -2.428     0.727      7.50
+   MgSO4          6.830e-004  3.641e-003    -3.166    -2.439     0.727      5.84
+   SO4-2          5.955e-004  2.957e-005    -3.225    -4.529    -1.304     24.07
+   CaHSO4+        5.172e-009  2.842e-008    -8.286    -7.546     0.740     (0)  
+   HSO4-          6.066e-010  3.334e-009    -9.217    -8.477     0.740     42.16
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.40     -4.68   -4.28  CaSO4
+	Aragonite        -0.14     -8.48   -8.34  CaCO3
+	Calcite           0.00     -8.48   -8.48  CaCO3
+	CH4(g)         -141.37   -144.21   -2.84  CH4
+	CO2(g)           -1.96     -3.42   -1.46  CO2
+	Dolomite          0.00    -17.09  -17.09  CaMg(CO3)2
+	Gypsum           -0.31     -4.89   -4.58  CaSO4:2H2O
+	H2(g)           -41.40    -44.50   -3.10  H2
+	H2O(g)           -1.61     -0.11    1.50  H2O
+	H2S(g)         -139.73   -147.73   -7.99  H2S
+	Halite            0.08      1.65    1.57  NaCl
+	O2(g)            -0.70     -3.59   -2.89  O2
+	Sulfur         -104.32    -99.43    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	PRINT
+	        selected_output false
+	EXCHANGE 1
+	        equilibrate with solution 1
+	        X       1.0
+	SURFACE 1
+	        equilibrate solution 1
+	        SurfOH           0.07    600.    30.
+	END
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X               1.000e+000 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX              9.011e-001  9.011e-001  9.011e-001     0.298
+	CaX2             4.061e-002  8.122e-002  8.122e-002     0.186
+	MgX2             8.861e-003  1.772e-002  1.772e-002     0.517
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Surf          
+	 4.995e-002  Surface charge, eq
+	 2.678e-001  sigma, C/m**2
+	 3.950e-002  psi, V
+	-1.537e+000  -F*psi/RT
+	 2.149e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 1.800e+004  m**2 for  3.000e+001 g
+
+
+Surf          
+	 7.000e-002  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	SurfOH2+         5.572e-002       0.796  5.572e-002      -1.254
+	SurfOH           1.146e-002       0.164  1.146e-002      -1.941
+	SurfOHAsO4-3     1.554e-003       0.022  1.554e-003      -2.809
+	SurfHAsO4-       1.047e-003       0.015  1.047e-003      -2.980
+	SurfH2AsO4       1.647e-004       0.002  1.647e-004      -3.783
+	SurfO-           5.403e-005       0.001  5.403e-005      -4.267
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	SOLUTION 0 20 x precipitation
+	        pH      4.6
+	        pe      4.0     O2(g)   -0.7
+	        temp    25.
+	        units   mmol/kgw
+	        Ca      .191625
+	        Mg      .035797
+	        Na      .122668
+	        Cl      .133704
+	        C       .01096
+	        S       .235153         charge
+	EQUILIBRIUM_PHASES 0
+	        Dolomite        0.0     1.6
+	        Calcite         0.0     0.1
+	        CO2(g)          -1.5    10.
+	SAVE solution 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	20 x precipitation
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.096e-005  1.096e-005
+	Ca               1.916e-004  1.916e-004
+	Cl               1.337e-004  1.337e-004
+	Mg               3.580e-005  3.580e-005
+	Na               1.227e-004  1.227e-004
+	S                2.351e-004  2.351e-004  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.600    
+                                       pe  =  16.022      Equilibrium with O2(g)
+       Specific Conductance (uS/cm, 25 oC) = 83
+                          Density (g/cm3)  =   0.99708
+                               Volume (L)  =   1.00299
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.037e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.630e-005
+                       Total CO2 (mol/kg)  =  1.096e-005
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  7.348e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110125e+002
+                                  Total O  = 5.550769e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.600e-005  2.512e-005    -4.585    -4.600    -0.015      0.00
+   OH-            4.179e-010  4.029e-010    -9.379    -9.395    -0.016     -4.11
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -145.553  -145.553     0.000     32.22
+C(4)         1.096e-005
+   CO2            1.076e-005  1.076e-005    -4.968    -4.968     0.000     30.26
+   HCO3-          1.975e-007  1.906e-007    -6.704    -6.720    -0.016     24.59
+   CaHCO3+        4.061e-010  3.919e-010    -9.391    -9.407    -0.015      9.67
+   MgHCO3+        6.903e-011  6.657e-011   -10.161   -10.177    -0.016      5.48
+   NaHCO3         5.658e-011  5.659e-011   -10.247   -10.247     0.000     19.41
+   CO3-2          4.106e-013  3.559e-013   -12.387   -12.449    -0.062     -4.37
+   CaCO3          9.631e-014  9.634e-014   -13.016   -13.016     0.000    -14.60
+   MgCO3          1.013e-014  1.014e-014   -13.994   -13.994     0.000    -17.09
+   NaCO3-         1.947e-016  1.879e-016   -15.711   -15.726    -0.016     -0.66
+Ca           1.916e-004
+   Ca+2           1.860e-004  1.612e-004    -3.731    -3.793    -0.062    -18.14
+   CaSO4          5.643e-006  5.644e-006    -5.248    -5.248     0.000      7.50
+   CaHSO4+        9.664e-010  9.319e-010    -9.015    -9.031    -0.016     (0)  
+   CaHCO3+        4.061e-010  3.919e-010    -9.391    -9.407    -0.015      9.67
+   CaOH+          1.104e-012  1.065e-012   -11.957   -11.973    -0.016     (0)  
+   CaCO3          9.631e-014  9.634e-014   -13.016   -13.016     0.000    -14.60
+Cl           1.337e-004
+   Cl-            1.337e-004  1.289e-004    -3.874    -3.890    -0.016     18.08
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.394   -44.394     0.000     28.61
+Mg           3.580e-005
+   Mg+2           3.442e-005  2.985e-005    -4.463    -4.525    -0.062    -21.82
+   MgSO4          1.378e-006  1.378e-006    -5.861    -5.861     0.000      5.84
+   MgHCO3+        6.903e-011  6.657e-011   -10.161   -10.177    -0.016      5.48
+   MgOH+          4.470e-012  4.314e-012   -11.350   -11.365    -0.015     (0)  
+   MgCO3          1.013e-014  1.014e-014   -13.994   -13.994     0.000    -17.09
+Na           1.227e-004
+   Na+            1.225e-004  1.182e-004    -3.912    -3.927    -0.016     -1.39
+   NaSO4-         1.209e-007  1.167e-007    -6.917    -6.933    -0.016     18.43
+   NaHCO3         5.658e-011  5.659e-011   -10.247   -10.247     0.000     19.41
+   NaCO3-         1.947e-016  1.879e-016   -15.711   -15.726    -0.016     -0.66
+   NaOH           4.762e-024  4.763e-024   -23.322   -23.322     0.000     (0)  
+O(0)         5.111e-004
+   O2             2.555e-004  2.556e-004    -3.593    -3.592     0.000     30.40
+S(-2)        0.000e+000
+   H2S            0.000e+000  0.000e+000  -137.289  -137.289     0.000     37.16
+   HS-            0.000e+000  0.000e+000  -139.615  -139.631    -0.016     20.60
+   S-2            0.000e+000  0.000e+000  -147.886  -147.949    -0.062     (0)  
+S(6)         2.351e-004
+   SO4-2          2.274e-004  1.970e-004    -3.643    -3.706    -0.062     14.01
+   CaSO4          5.643e-006  5.644e-006    -5.248    -5.248     0.000      7.50
+   MgSO4          1.378e-006  1.378e-006    -5.861    -5.861     0.000      5.84
+   HSO4-          4.988e-007  4.810e-007    -6.302    -6.318    -0.016     40.28
+   NaSO4-         1.209e-007  1.167e-007    -6.917    -6.933    -0.016     18.43
+   CaHSO4+        9.664e-010  9.319e-010    -9.015    -9.031    -0.016     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -3.22     -7.50   -4.28  CaSO4
+	Aragonite        -7.91    -16.24   -8.34  CaCO3
+	Calcite          -7.76    -16.24   -8.48  CaCO3
+	CH4(g)         -142.71   -145.55   -2.84  CH4
+	CO2(g)           -3.51     -4.97   -1.46  CO2
+	Dolomite        -16.13    -33.22  -17.09  CaMg(CO3)2
+	Gypsum           -2.92     -7.50   -4.58  CaSO4:2H2O
+	H2(g)           -41.29    -44.39   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -136.24   -144.23   -7.99  H2S
+	Halite           -9.39     -7.82    1.57  NaCl
+	O2(g)            -0.70     -3.59   -2.89  O2	 Pressure   0.2 atm, phi 1.000.
+	Sulfur         -100.93    -96.05    4.88  S
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	20 x precipitation
+Using pure phase assemblage 0.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CO2(g)           -1.50    -2.96     -1.46   1.000e+001  9.996e+000 -4.106e-003
+Calcite           0.00    -8.48     -8.48   1.000e-001  9.966e-002 -3.445e-004
+Dolomite          0.00   -17.09    -17.09   1.600e+000  1.599e+000 -1.359e-003
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                7.180e-003  7.180e-003
+	Ca               1.895e-003  1.895e-003
+	Cl               1.337e-004  1.337e-004
+	Mg               1.395e-003  1.395e-003
+	Na               1.227e-004  1.227e-004
+	S                2.351e-004  2.351e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.042      Charge balance
+                                       pe  =  13.580      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 589
+                          Density (g/cm3)  =   0.99748
+                               Volume (L)  =   1.00341
+                        Activity of water  =   1.000
+                           Ionic strength  =  9.697e-003
+                       Mass of water (kg)  =  9.999e-001
+                 Total alkalinity (eq/kg)  =  6.099e-003
+                       Total CO2 (mol/kg)  =  7.180e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  4.958e-015
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110125e+002
+                                  Total O  = 5.552509e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.236e-007  1.114e-007    -6.908    -6.953    -0.045     -4.03
+   H+             9.931e-008  9.080e-008    -7.003    -7.042    -0.039      0.00
+   H2O            5.551e+001  9.998e-001     1.744    -0.000     0.000     18.07
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -143.548  -143.547     0.001     32.22
+C(4)         7.180e-003
+   HCO3-          5.921e-003  5.366e-003    -2.228    -2.270    -0.043     24.69
+   CO2            1.093e-003  1.096e-003    -2.961    -2.960     0.001     30.26
+   CaHCO3+        9.015e-005  8.183e-005    -4.045    -4.087    -0.042      9.72
+   MgHCO3+        6.159e-005  5.559e-005    -4.211    -4.255    -0.044      5.53
+   CaCO3          5.552e-006  5.565e-006    -5.256    -5.255     0.001    -14.60
+   CO3-2          4.109e-006  2.771e-006    -5.386    -5.557    -0.171     -4.11
+   MgCO3          2.336e-006  2.341e-006    -5.631    -5.631     0.001    -17.09
+   NaHCO3         1.474e-006  1.477e-006    -5.832    -5.831     0.001     19.41
+   NaCO3-         1.497e-009  1.356e-009    -8.825    -8.868    -0.043     -0.58
+Ca           1.895e-003
+   Ca+2           1.773e-003  1.195e-003    -2.751    -2.923    -0.171    -17.93
+   CaHCO3+        9.015e-005  8.183e-005    -4.045    -4.087    -0.042      9.72
+   CaSO4          2.610e-005  2.616e-005    -4.583    -4.582     0.001      7.50
+   CaCO3          5.552e-006  5.565e-006    -5.256    -5.255     0.001    -14.60
+   CaOH+          2.418e-009  2.184e-009    -8.616    -8.661    -0.044     (0)  
+   CaHSO4+        1.729e-011  1.561e-011   -10.762   -10.807    -0.044     (0)  
+Cl           1.337e-004
+   Cl-            1.337e-004  1.206e-004    -3.874    -3.919    -0.045     18.14
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.395   -44.394     0.001     28.61
+Mg           1.395e-003
+   Mg+2           1.305e-003  8.854e-004    -2.884    -3.053    -0.169    -21.62
+   MgHCO3+        6.159e-005  5.559e-005    -4.211    -4.255    -0.044      5.53
+   MgSO4          2.548e-005  2.554e-005    -4.594    -4.593     0.001      5.84
+   MgCO3          2.336e-006  2.341e-006    -5.631    -5.631     0.001    -17.09
+   MgOH+          3.894e-008  3.539e-008    -7.410    -7.451    -0.041     (0)  
+Na           1.227e-004
+   Na+            1.211e-004  1.096e-004    -3.917    -3.960    -0.044     -1.32
+   NaHCO3         1.474e-006  1.477e-006    -5.832    -5.831     0.001     19.41
+   NaSO4-         7.456e-008  6.757e-008    -7.127    -7.170    -0.043     18.60
+   NaCO3-         1.497e-009  1.356e-009    -8.825    -8.868    -0.043     -0.58
+   NaOH           1.218e-021  1.221e-021   -20.914   -20.913     0.001     (0)  
+O(0)         5.111e-004
+   O2             2.556e-004  2.561e-004    -3.593    -3.592     0.001     30.40
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -142.234  -142.279    -0.045     20.67
+   H2S            0.000e+000  0.000e+000  -142.380  -142.379     0.001     37.16
+   S-2            0.000e+000  0.000e+000  -147.982  -148.155    -0.173     (0)  
+S(6)         2.351e-004
+   SO4-2          1.834e-004  1.231e-004    -3.737    -3.910    -0.173     14.26
+   CaSO4          2.610e-005  2.616e-005    -4.583    -4.582     0.001      7.50
+   MgSO4          2.548e-005  2.554e-005    -4.594    -4.593     0.001      5.84
+   NaSO4-         7.456e-008  6.757e-008    -7.127    -7.170    -0.043     18.60
+   HSO4-          1.203e-009  1.086e-009    -8.920    -8.964    -0.044     40.34
+   CaHSO4+        1.729e-011  1.561e-011   -10.762   -10.807    -0.044     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -2.55     -6.83   -4.28  CaSO4
+	Aragonite        -0.14     -8.48   -8.34  CaCO3
+	Calcite           0.00     -8.48   -8.48  CaCO3
+	CH4(g)         -140.70   -143.55   -2.84  CH4
+	CO2(g)           -1.50     -2.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          0.00    -17.09  -17.09  CaMg(CO3)2
+	Gypsum           -2.25     -6.83   -4.58  CaSO4:2H2O
+	H2(g)           -41.29    -44.39   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -141.33   -149.32   -7.99  H2S
+	Halite           -9.45     -7.88    1.57  NaCl
+	O2(g)            -0.70     -3.59   -2.89  O2
+	Sulfur         -106.02   -101.13    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	PRINT
+	        selected_output true
+			status false
+	ADVECTION
+	        cells 1
+	        shifts 200
+	        print_frequency 200
+	USER_GRAPH 1 Example 14
+	        -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH
+	        -chart_title "Chemical Evolution of the Central Oklahoma Aquifer"
+	        -axis_titles "Pore volumes or shift number" "Log(Concentration, in ppb or molal)" "pH"
+	        -axis_scale x_axis 0 200
+	        -axis_scale y_axis 1e-6 100 auto auto Log
+	  10 GRAPH_X STEP_NO
+	  20 GRAPH_Y TOT("As") * 74.92e6, TOT("Ca"), TOT("Mg"), TOT("Na")
+	  30 GRAPH_SY -LA("H+")
+	END
+------------------------------------
+Beginning of advection calculations.
+------------------------------------
+
+Beginning of advection time step 1, cumulative pore volumes 1.000000.
+Beginning of advection time step 2, cumulative pore volumes 2.000000.
+Beginning of advection time step 3, cumulative pore volumes 3.000000.
+Beginning of advection time step 4, cumulative pore volumes 4.000000.
+Beginning of advection time step 5, cumulative pore volumes 5.000000.
+Beginning of advection time step 6, cumulative pore volumes 6.000000.
+Beginning of advection time step 7, cumulative pore volumes 7.000000.
+Beginning of advection time step 8, cumulative pore volumes 8.000000.
+Beginning of advection time step 9, cumulative pore volumes 9.000000.
+Beginning of advection time step 10, cumulative pore volumes 10.000000.
+Beginning of advection time step 11, cumulative pore volumes 11.000000.
+Beginning of advection time step 12, cumulative pore volumes 12.000000.
+Beginning of advection time step 13, cumulative pore volumes 13.000000.
+Beginning of advection time step 14, cumulative pore volumes 14.000000.
+Beginning of advection time step 15, cumulative pore volumes 15.000000.
+Beginning of advection time step 16, cumulative pore volumes 16.000000.
+Beginning of advection time step 17, cumulative pore volumes 17.000000.
+Beginning of advection time step 18, cumulative pore volumes 18.000000.
+Beginning of advection time step 19, cumulative pore volumes 19.000000.
+Beginning of advection time step 20, cumulative pore volumes 20.000000.
+Beginning of advection time step 21, cumulative pore volumes 21.000000.
+Beginning of advection time step 22, cumulative pore volumes 22.000000.
+Beginning of advection time step 23, cumulative pore volumes 23.000000.
+Beginning of advection time step 24, cumulative pore volumes 24.000000.
+Beginning of advection time step 25, cumulative pore volumes 25.000000.
+Beginning of advection time step 26, cumulative pore volumes 26.000000.
+Beginning of advection time step 27, cumulative pore volumes 27.000000.
+Beginning of advection time step 28, cumulative pore volumes 28.000000.
+Beginning of advection time step 29, cumulative pore volumes 29.000000.
+Beginning of advection time step 30, cumulative pore volumes 30.000000.
+Beginning of advection time step 31, cumulative pore volumes 31.000000.
+Beginning of advection time step 32, cumulative pore volumes 32.000000.
+Beginning of advection time step 33, cumulative pore volumes 33.000000.
+Beginning of advection time step 34, cumulative pore volumes 34.000000.
+Beginning of advection time step 35, cumulative pore volumes 35.000000.
+Beginning of advection time step 36, cumulative pore volumes 36.000000.
+Beginning of advection time step 37, cumulative pore volumes 37.000000.
+Beginning of advection time step 38, cumulative pore volumes 38.000000.
+Beginning of advection time step 39, cumulative pore volumes 39.000000.
+Beginning of advection time step 40, cumulative pore volumes 40.000000.
+Beginning of advection time step 41, cumulative pore volumes 41.000000.
+Beginning of advection time step 42, cumulative pore volumes 42.000000.
+Beginning of advection time step 43, cumulative pore volumes 43.000000.
+Beginning of advection time step 44, cumulative pore volumes 44.000000.
+Beginning of advection time step 45, cumulative pore volumes 45.000000.
+Beginning of advection time step 46, cumulative pore volumes 46.000000.
+Beginning of advection time step 47, cumulative pore volumes 47.000000.
+Beginning of advection time step 48, cumulative pore volumes 48.000000.
+Beginning of advection time step 49, cumulative pore volumes 49.000000.
+Beginning of advection time step 50, cumulative pore volumes 50.000000.
+Beginning of advection time step 51, cumulative pore volumes 51.000000.
+Beginning of advection time step 52, cumulative pore volumes 52.000000.
+Beginning of advection time step 53, cumulative pore volumes 53.000000.
+Beginning of advection time step 54, cumulative pore volumes 54.000000.
+Beginning of advection time step 55, cumulative pore volumes 55.000000.
+Beginning of advection time step 56, cumulative pore volumes 56.000000.
+Beginning of advection time step 57, cumulative pore volumes 57.000000.
+Beginning of advection time step 58, cumulative pore volumes 58.000000.
+Beginning of advection time step 59, cumulative pore volumes 59.000000.
+Beginning of advection time step 60, cumulative pore volumes 60.000000.
+Beginning of advection time step 61, cumulative pore volumes 61.000000.
+Beginning of advection time step 62, cumulative pore volumes 62.000000.
+Beginning of advection time step 63, cumulative pore volumes 63.000000.
+Beginning of advection time step 64, cumulative pore volumes 64.000000.
+Beginning of advection time step 65, cumulative pore volumes 65.000000.
+Beginning of advection time step 66, cumulative pore volumes 66.000000.
+Beginning of advection time step 67, cumulative pore volumes 67.000000.
+Beginning of advection time step 68, cumulative pore volumes 68.000000.
+Beginning of advection time step 69, cumulative pore volumes 69.000000.
+Beginning of advection time step 70, cumulative pore volumes 70.000000.
+Beginning of advection time step 71, cumulative pore volumes 71.000000.
+Beginning of advection time step 72, cumulative pore volumes 72.000000.
+Beginning of advection time step 73, cumulative pore volumes 73.000000.
+Beginning of advection time step 74, cumulative pore volumes 74.000000.
+Beginning of advection time step 75, cumulative pore volumes 75.000000.
+Beginning of advection time step 76, cumulative pore volumes 76.000000.
+Beginning of advection time step 77, cumulative pore volumes 77.000000.
+Beginning of advection time step 78, cumulative pore volumes 78.000000.
+Beginning of advection time step 79, cumulative pore volumes 79.000000.
+Beginning of advection time step 80, cumulative pore volumes 80.000000.
+Beginning of advection time step 81, cumulative pore volumes 81.000000.
+Beginning of advection time step 82, cumulative pore volumes 82.000000.
+Beginning of advection time step 83, cumulative pore volumes 83.000000.
+Beginning of advection time step 84, cumulative pore volumes 84.000000.
+Beginning of advection time step 85, cumulative pore volumes 85.000000.
+Beginning of advection time step 86, cumulative pore volumes 86.000000.
+Beginning of advection time step 87, cumulative pore volumes 87.000000.
+Beginning of advection time step 88, cumulative pore volumes 88.000000.
+Beginning of advection time step 89, cumulative pore volumes 89.000000.
+Beginning of advection time step 90, cumulative pore volumes 90.000000.
+Beginning of advection time step 91, cumulative pore volumes 91.000000.
+Beginning of advection time step 92, cumulative pore volumes 92.000000.
+Beginning of advection time step 93, cumulative pore volumes 93.000000.
+Beginning of advection time step 94, cumulative pore volumes 94.000000.
+Beginning of advection time step 95, cumulative pore volumes 95.000000.
+Beginning of advection time step 96, cumulative pore volumes 96.000000.
+Beginning of advection time step 97, cumulative pore volumes 97.000000.
+Beginning of advection time step 98, cumulative pore volumes 98.000000.
+Beginning of advection time step 99, cumulative pore volumes 99.000000.
+Beginning of advection time step 100, cumulative pore volumes 100.000000.
+Beginning of advection time step 101, cumulative pore volumes 101.000000.
+Beginning of advection time step 102, cumulative pore volumes 102.000000.
+Beginning of advection time step 103, cumulative pore volumes 103.000000.
+Beginning of advection time step 104, cumulative pore volumes 104.000000.
+Beginning of advection time step 105, cumulative pore volumes 105.000000.
+Beginning of advection time step 106, cumulative pore volumes 106.000000.
+Beginning of advection time step 107, cumulative pore volumes 107.000000.
+Beginning of advection time step 108, cumulative pore volumes 108.000000.
+Beginning of advection time step 109, cumulative pore volumes 109.000000.
+Beginning of advection time step 110, cumulative pore volumes 110.000000.
+Beginning of advection time step 111, cumulative pore volumes 111.000000.
+Beginning of advection time step 112, cumulative pore volumes 112.000000.
+Beginning of advection time step 113, cumulative pore volumes 113.000000.
+Beginning of advection time step 114, cumulative pore volumes 114.000000.
+Beginning of advection time step 115, cumulative pore volumes 115.000000.
+Beginning of advection time step 116, cumulative pore volumes 116.000000.
+Beginning of advection time step 117, cumulative pore volumes 117.000000.
+Beginning of advection time step 118, cumulative pore volumes 118.000000.
+Beginning of advection time step 119, cumulative pore volumes 119.000000.
+Beginning of advection time step 120, cumulative pore volumes 120.000000.
+Beginning of advection time step 121, cumulative pore volumes 121.000000.
+Beginning of advection time step 122, cumulative pore volumes 122.000000.
+Beginning of advection time step 123, cumulative pore volumes 123.000000.
+Beginning of advection time step 124, cumulative pore volumes 124.000000.
+Beginning of advection time step 125, cumulative pore volumes 125.000000.
+Beginning of advection time step 126, cumulative pore volumes 126.000000.
+Beginning of advection time step 127, cumulative pore volumes 127.000000.
+Beginning of advection time step 128, cumulative pore volumes 128.000000.
+Beginning of advection time step 129, cumulative pore volumes 129.000000.
+Beginning of advection time step 130, cumulative pore volumes 130.000000.
+Beginning of advection time step 131, cumulative pore volumes 131.000000.
+Beginning of advection time step 132, cumulative pore volumes 132.000000.
+Beginning of advection time step 133, cumulative pore volumes 133.000000.
+Beginning of advection time step 134, cumulative pore volumes 134.000000.
+Beginning of advection time step 135, cumulative pore volumes 135.000000.
+Beginning of advection time step 136, cumulative pore volumes 136.000000.
+Beginning of advection time step 137, cumulative pore volumes 137.000000.
+Beginning of advection time step 138, cumulative pore volumes 138.000000.
+Beginning of advection time step 139, cumulative pore volumes 139.000000.
+Beginning of advection time step 140, cumulative pore volumes 140.000000.
+Beginning of advection time step 141, cumulative pore volumes 141.000000.
+Beginning of advection time step 142, cumulative pore volumes 142.000000.
+Beginning of advection time step 143, cumulative pore volumes 143.000000.
+Beginning of advection time step 144, cumulative pore volumes 144.000000.
+Beginning of advection time step 145, cumulative pore volumes 145.000000.
+Beginning of advection time step 146, cumulative pore volumes 146.000000.
+Beginning of advection time step 147, cumulative pore volumes 147.000000.
+Beginning of advection time step 148, cumulative pore volumes 148.000000.
+Beginning of advection time step 149, cumulative pore volumes 149.000000.
+Beginning of advection time step 150, cumulative pore volumes 150.000000.
+Beginning of advection time step 151, cumulative pore volumes 151.000000.
+Beginning of advection time step 152, cumulative pore volumes 152.000000.
+Beginning of advection time step 153, cumulative pore volumes 153.000000.
+Beginning of advection time step 154, cumulative pore volumes 154.000000.
+Beginning of advection time step 155, cumulative pore volumes 155.000000.
+Beginning of advection time step 156, cumulative pore volumes 156.000000.
+Beginning of advection time step 157, cumulative pore volumes 157.000000.
+Beginning of advection time step 158, cumulative pore volumes 158.000000.
+Beginning of advection time step 159, cumulative pore volumes 159.000000.
+Beginning of advection time step 160, cumulative pore volumes 160.000000.
+Beginning of advection time step 161, cumulative pore volumes 161.000000.
+Beginning of advection time step 162, cumulative pore volumes 162.000000.
+Beginning of advection time step 163, cumulative pore volumes 163.000000.
+Beginning of advection time step 164, cumulative pore volumes 164.000000.
+Beginning of advection time step 165, cumulative pore volumes 165.000000.
+Beginning of advection time step 166, cumulative pore volumes 166.000000.
+Beginning of advection time step 167, cumulative pore volumes 167.000000.
+Beginning of advection time step 168, cumulative pore volumes 168.000000.
+Beginning of advection time step 169, cumulative pore volumes 169.000000.
+Beginning of advection time step 170, cumulative pore volumes 170.000000.
+Beginning of advection time step 171, cumulative pore volumes 171.000000.
+Beginning of advection time step 172, cumulative pore volumes 172.000000.
+Beginning of advection time step 173, cumulative pore volumes 173.000000.
+Beginning of advection time step 174, cumulative pore volumes 174.000000.
+Beginning of advection time step 175, cumulative pore volumes 175.000000.
+Beginning of advection time step 176, cumulative pore volumes 176.000000.
+Beginning of advection time step 177, cumulative pore volumes 177.000000.
+Beginning of advection time step 178, cumulative pore volumes 178.000000.
+Beginning of advection time step 179, cumulative pore volumes 179.000000.
+Beginning of advection time step 180, cumulative pore volumes 180.000000.
+Beginning of advection time step 181, cumulative pore volumes 181.000000.
+Beginning of advection time step 182, cumulative pore volumes 182.000000.
+Beginning of advection time step 183, cumulative pore volumes 183.000000.
+Beginning of advection time step 184, cumulative pore volumes 184.000000.
+Beginning of advection time step 185, cumulative pore volumes 185.000000.
+Beginning of advection time step 186, cumulative pore volumes 186.000000.
+Beginning of advection time step 187, cumulative pore volumes 187.000000.
+Beginning of advection time step 188, cumulative pore volumes 188.000000.
+Beginning of advection time step 189, cumulative pore volumes 189.000000.
+Beginning of advection time step 190, cumulative pore volumes 190.000000.
+Beginning of advection time step 191, cumulative pore volumes 191.000000.
+Beginning of advection time step 192, cumulative pore volumes 192.000000.
+Beginning of advection time step 193, cumulative pore volumes 193.000000.
+Beginning of advection time step 194, cumulative pore volumes 194.000000.
+Beginning of advection time step 195, cumulative pore volumes 195.000000.
+Beginning of advection time step 196, cumulative pore volumes 196.000000.
+Beginning of advection time step 197, cumulative pore volumes 197.000000.
+Beginning of advection time step 198, cumulative pore volumes 198.000000.
+Beginning of advection time step 199, cumulative pore volumes 199.000000.
+Beginning of advection time step 200, cumulative pore volumes 200.000000.
+
+Cell 1.
+
+Using solution 1.	Solution after simulation 4.
+Using exchange 1.	Exchange assemblage after simulation 5.
+Using surface 1.	
+Using pure phase assemblage 1.	Pure-phase assemblage after simulation 5.
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Calcite          -0.00    -8.48     -8.48   0.000e+000           0  0.000e+000
+Dolomite          0.00   -17.09    -17.09   1.568e+000  1.568e+000  3.563e-007
+
+------------------------------Surface composition------------------------------
+
+Surf          
+	 2.228e-003  Surface charge, eq
+	 1.195e-002  sigma, C/m**2
+	 4.652e-002  psi, V
+	-1.811e+000  -F*psi/RT
+	 1.636e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 1.800e+004  m**2 for  3.000e+001 g
+
+
+Surf          
+	 7.000e-002  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	SurfOH           4.915e-002       0.702  4.916e-002      -1.308
+	SurfOH2+         1.425e-002       0.204  1.425e-002      -1.846
+	SurfO-           3.885e-003       0.056  3.886e-003      -2.411
+	SurfOHAsO4-3     2.709e-003       0.039  2.709e-003      -2.567
+	SurfHAsO4-       5.095e-006       0.000  5.095e-006      -5.293
+	SurfH2AsO4       4.778e-008       0.000  4.779e-008      -7.321
+
+-----------------------------Exchange composition------------------------------
+
+X               1.000e+000 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2             3.393e-001  6.786e-001  6.786e-001    -0.171
+	MgX2             1.602e-001  3.204e-001  3.204e-001    -0.169
+	NaX              9.469e-004  9.469e-004  9.469e-004    -0.044
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	As               4.412e-010  4.412e-010
+	C                7.179e-003  7.179e-003
+	Ca               1.882e-003  1.881e-003
+	Cl               1.337e-004  1.337e-004
+	Mg               1.408e-003  1.408e-003
+	Na               1.227e-004  1.227e-004
+	S                2.351e-004  2.351e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.042      Charge balance
+                                       pe  =  13.581      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 589
+                          Density (g/cm3)  =   0.99748
+                               Volume (L)  =   1.00341
+                        Activity of water  =   1.000
+                           Ionic strength  =  9.695e-003
+                       Mass of water (kg)  =  9.999e-001
+                 Total alkalinity (eq/kg)  =  6.097e-003
+                       Total CO2 (mol/kg)  =  7.179e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  6.577e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  13
+                                  Total H  = 1.110125e+002
+                                  Total O  = 5.552509e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.235e-007  1.114e-007    -6.908    -6.953    -0.045     -4.03
+   H+             9.940e-008  9.088e-008    -7.003    -7.042    -0.039      0.00
+   H2O            5.551e+001  9.998e-001     1.744    -0.000     0.000     18.07
+As           4.412e-010
+   HAsO4-2        2.739e-010  1.823e-010    -9.562    -9.739    -0.177     (0)  
+   H2AsO4-        1.673e-010  1.511e-010    -9.777    -9.821    -0.044     (0)  
+   AsO4-3         1.586e-014  6.342e-015   -13.800   -14.198    -0.398     (0)  
+   H3AsO4         2.380e-015  2.386e-015   -14.623   -14.622     0.001     (0)  
+C(-4)        0.000e+000
+   CH4            0.000e+000  0.000e+000  -143.548  -143.547     0.001     32.22
+C(4)         7.179e-003
+   HCO3-          5.920e-003  5.365e-003    -2.228    -2.270    -0.043     24.69
+   CO2            1.094e-003  1.096e-003    -2.961    -2.960     0.001     30.26
+   CaHCO3+        8.949e-005  8.123e-005    -4.048    -4.090    -0.042      9.72
+   MgHCO3+        6.214e-005  5.610e-005    -4.207    -4.251    -0.044      5.53
+   CaCO3          5.507e-006  5.519e-006    -5.259    -5.258     0.001    -14.60
+   CO3-2          4.104e-006  2.769e-006    -5.387    -5.558    -0.171     -4.11
+   MgCO3          2.355e-006  2.361e-006    -5.628    -5.627     0.001    -17.09
+   NaHCO3         1.473e-006  1.477e-006    -5.832    -5.831     0.001     19.41
+   NaCO3-         1.495e-009  1.355e-009    -8.825    -8.868    -0.043     -0.58
+Ca           1.882e-003
+   Ca+2           1.761e-003  1.187e-003    -2.754    -2.926    -0.171    -17.93
+   CaHCO3+        8.949e-005  8.123e-005    -4.048    -4.090    -0.042      9.72
+   CaSO4          2.591e-005  2.597e-005    -4.587    -4.586     0.001      7.50
+   CaCO3          5.507e-006  5.519e-006    -5.259    -5.258     0.001    -14.60
+   CaOH+          2.399e-009  2.167e-009    -8.620    -8.664    -0.044     (0)  
+   CaHSO4+        1.717e-011  1.551e-011   -10.765   -10.809    -0.044     (0)  
+Cl           1.337e-004
+   Cl-            1.337e-004  1.206e-004    -3.874    -3.919    -0.045     18.14
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -44.395   -44.394     0.001     28.61
+Mg           1.408e-003
+   Mg+2           1.317e-003  8.936e-004    -2.880    -3.049    -0.169    -21.62
+   MgHCO3+        6.214e-005  5.610e-005    -4.207    -4.251    -0.044      5.53
+   MgSO4          2.572e-005  2.577e-005    -4.590    -4.589     0.001      5.84
+   MgCO3          2.355e-006  2.361e-006    -5.628    -5.627     0.001    -17.09
+   MgOH+          3.927e-008  3.569e-008    -7.406    -7.447    -0.041     (0)  
+Na           1.227e-004
+   Na+            1.211e-004  1.096e-004    -3.917    -3.960    -0.044     -1.32
+   NaHCO3         1.473e-006  1.477e-006    -5.832    -5.831     0.001     19.41
+   NaSO4-         7.456e-008  6.757e-008    -7.127    -7.170    -0.043     18.60
+   NaCO3-         1.495e-009  1.355e-009    -8.825    -8.868    -0.043     -0.58
+   NaOH           1.217e-021  1.220e-021   -20.915   -20.914     0.001     (0)  
+O(0)         5.111e-004
+   O2             2.556e-004  2.561e-004    -3.593    -3.592     0.001     30.40
+S(-2)        0.000e+000
+   HS-            0.000e+000  0.000e+000  -142.233  -142.278    -0.045     20.67
+   H2S            0.000e+000  0.000e+000  -142.379  -142.378     0.001     37.16
+   S-2            0.000e+000  0.000e+000  -147.982  -148.155    -0.173     (0)  
+S(6)         2.351e-004
+   SO4-2          1.834e-004  1.230e-004    -3.737    -3.910    -0.173     14.26
+   CaSO4          2.591e-005  2.597e-005    -4.587    -4.586     0.001      7.50
+   MgSO4          2.572e-005  2.577e-005    -4.590    -4.589     0.001      5.84
+   NaSO4-         7.456e-008  6.757e-008    -7.127    -7.170    -0.043     18.60
+   HSO4-          1.204e-009  1.087e-009    -8.919    -8.964    -0.044     40.34
+   CaHSO4+        1.717e-011  1.551e-011   -10.765   -10.809    -0.044     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -2.56     -6.84   -4.28  CaSO4
+	Aragonite        -0.15     -8.48   -8.34  CaCO3
+	Calcite          -0.00     -8.48   -8.48  CaCO3
+	CH4(g)         -140.70   -143.55   -2.84  CH4
+	CO2(g)           -1.50     -2.96   -1.46  CO2
+	Dolomite          0.00    -17.09  -17.09  CaMg(CO3)2
+	Gypsum           -2.25     -6.84   -4.58  CaSO4:2H2O
+	H2(g)           -41.29    -44.39   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)         -141.33   -149.32   -7.99  H2S
+	Halite           -9.45     -7.88    1.57  NaCl
+	O2(g)            -0.70     -3.59   -2.89  O2
+	Sulfur         -106.02   -101.13    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+------------------------------
+End of Run after 0.24 Seconds.
+------------------------------
+
