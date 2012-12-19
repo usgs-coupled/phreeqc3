@@ -1,0 +1,3662 @@
+   Input file: ../examples/ex17b
+  Output file: ex17b.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SOLUTION 1  Black Sea water
+	        units   mg/L
+	        density 1.014
+	        pH      8.0     # estimated
+	        Ca      233
+	        Mg      679
+	        Na      5820
+	        K       193
+	        S(6)    1460
+	        Cl      10340
+	        Br      35
+	        C       1       CO2(g) -3.5
+	EQUILIBRIUM_PHASES
+	 CO2(g) -3.5 10
+	 Calcite 0 0
+	 Gypsum 0 0
+	     Anhydrite 0 0
+	  Glauberite 0 0
+	  Polyhalite 0 0
+	 Epsomite 0 0
+	   Kieserite 0 0
+	  Hexahydrite 0 0
+	 Halite 0 0
+	     Bischofite 0 0
+	 Carnallite 0 0
+	USER_GRAPH Example 17B
+	 -head H2O Na K Mg Ca Cl SO4 Calcite Gypsum Anhydrite Halite       Glauberite Polyhalite
+	 -init false
+	 -axis_scale x_axis 0 100
+	 -axis_scale y_axis -5 1. 1
+	 -axis_scale sy_axis -5 10 5 100
+	 -axis_titles "Concentration factor" "Log(Molality)"  "Log(Moles of solid)"
+	 -chart_title "Evaporating Black Sea water"
+	 -start
+	 10 graph_x 1 / tot("water")
+	 20 graph_y log10(tot("Na")), log10(tot("K")), log10(tot("Mg")), log10(tot("Ca")),            log10(tot("Cl")), log10(tot("S"))
+	 30 if equi("Calcite") > 1e-5 then graph_sy log10(equi("Calcite")) else graph_sy -5
+	 35 if equi("Gypsum") > 1e-5 then graph_sy log10(equi("Gypsum")) else graph_sy -5
+	 40 if equi("Anhydrite") > 1e-5 then graph_sy log10(equi("Anhydrite")) else graph_sy -5
+	 50 if equi("Halite") > 1e-5 then graph_sy log10(equi("Halite")) else graph_sy -5
+	 60 if equi("Glauberite") > 1e-5 then graph_sy log10(equi("Glauberite")) else graph_sy -5
+	 70 if equi("Polyhalite") > 1e-5 then graph_sy log10(equi("Polyhalite")) else graph_sy -5
+	 80 if STEP_NO > 20 THEN PRINT "x", "Na", "K", "Mg", "Ca", "Cl", "S"
+	 90 if STEP_NO > 20 THEN PRINT 1 / tot("water"), (tot("Na")), (tot("K")), (tot("Mg")),                               (tot("Ca")), (tot("Cl")), (tot("S"))
+	 -end
+	REACTION
+	 H2O -1
+	 0 36 3*4 6*1 2*0.25 0.176 4*0.05 5*0.03
+	INCREMENTAL_REACTIONS true
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	Black Sea water
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.401e-004  4.401e-004
+	C                8.453e-004  8.453e-004  Equilibrium with CO2(g)
+	Ca               5.841e-003  5.841e-003
+	Cl               2.930e-001  2.930e-001
+	K                4.960e-003  4.960e-003
+	Mg               2.807e-002  2.807e-002
+	Na               2.544e-001  2.544e-001
+	S(6)             1.527e-002  1.527e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 31362
+                          Density (g/cm3)  =   1.01094
+                               Volume (L)  =   1.00889
+                        Activity of water  =   0.990
+                           Ionic strength  =  3.752e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  8.684e-004
+                       Total CO2 (mol/kg)  =  8.453e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.89851
+                         Density of water  =   0.99706
+                                  Total H  = 1.110132e+002
+                                  Total O  = 5.556983e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.663e-006  9.977e-007    -5.779    -6.001    -0.222     -2.99
+   H+             1.290e-008  1.000e-008    -7.889    -8.000    -0.111      0.00
+   H2O            5.551e+001  9.903e-001     1.744    -0.004     0.000     18.07
+Br           4.401e-004
+   Br-            4.401e-004  3.004e-004    -3.356    -3.522    -0.166     25.36
+C(4)         8.453e-004
+   HCO3-          8.044e-004  4.944e-004    -3.095    -3.306    -0.211     25.95
+   CO3-2          1.612e-005  2.264e-006    -4.793    -5.645    -0.853     -1.27
+   MgCO3          1.441e-005  1.441e-005    -4.841    -4.841     0.000    -17.09
+   CO2            1.036e-005  1.096e-005    -4.985    -4.960     0.024     30.26
+Ca           5.841e-003
+   Ca+2           5.841e-003  1.473e-003    -2.233    -2.832    -0.598    -16.97
+Cl           2.930e-001
+   Cl-            2.930e-001  1.960e-001    -0.533    -0.708    -0.175     18.61
+K            4.960e-003
+   K+             4.960e-003  3.418e-003    -2.305    -2.466    -0.162      9.48
+Mg           2.807e-002
+   Mg+2           2.805e-002  7.511e-003    -1.552    -2.124    -0.572    -20.69
+   MgCO3          1.441e-005  1.441e-005    -4.841    -4.841     0.000    -17.09
+   MgOH+          1.244e-006  1.155e-006    -5.905    -5.938    -0.032     (0)  
+Na           2.544e-001
+   Na+            2.544e-001  1.836e-001    -0.595    -0.736    -0.142     -0.79
+S(6)         1.527e-002
+   SO4-2          1.527e-002  2.117e-003    -1.816    -2.674    -0.858     17.27
+   HSO4-          2.952e-009  2.017e-009    -8.530    -8.695    -0.165     40.79
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -1.28     -5.51   -4.22  CaSO4
+	Aragonite        -0.26     -8.48   -8.22  CaCO3
+	Arcanite         -5.83     -7.61   -1.78  K2SO4
+	Bischofite       -8.02     -3.57    4.46  MgCl2:6H2O
+	Bloedite         -6.62     -8.96   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -3.25    -14.13  -10.88  Mg(OH)2
+	Burkeite        -14.64    -15.41   -0.77  Na6CO3(SO4)2
+	Calcite          -0.07     -8.48   -8.41  CaCO3
+	Carnallite      -11.07     -6.74    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          0.84    -16.25  -17.08  CaMg(CO3)2
+	Epsomite         -2.95     -4.83   -1.88  MgSO4:7H2O
+	Gaylussite       -6.19    -15.62   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -9.68    -13.48   -3.80  NaK3(SO4)2
+	Glauberite       -4.41     -9.65   -5.25  Na2Ca(SO4)2
+	Gypsum           -0.93     -5.51   -4.58  CaSO4:2H2O
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Halite           -3.01     -1.44    1.57  NaCl
+	Hexahydrite      -3.19     -4.82   -1.63  MgSO4:6H2O
+	Kainite          -7.79     -7.99   -0.19  KMgClSO4:3H2O
+	Kalicinite       -6.05    -16.11  -10.06  KHCO3
+	Kieserite        -4.68     -4.80   -0.12  MgSO4:H2O
+	Labile_S         -8.14    -13.81   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -3.93     -4.82   -0.89  MgSO4:4H2O
+	Leonite          -8.44    -12.42   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.06     -7.77   -7.83  MgCO3
+	Mirabilite       -2.98     -4.19   -1.21  Na2SO4:10H2O
+	Misenite        -75.64    -86.45  -10.81  K8H6(SO4)7
+	Nahcolite        -3.64    -14.38  -10.74  NaHCO3
+	Natron           -6.34     -7.16   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.62     -7.78   -5.17  MgCO3:3H2O
+	Pentahydrite     -3.53     -4.82   -1.28  MgSO4:5H2O
+	Pirssonite       -6.37    -15.60   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -9.68    -23.43  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.64    -14.83   -5.19  Ca(OH)2
+	Schoenite        -8.10    -12.43   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -4.07     -3.17    0.90  KCl
+	Syngenite        -5.67    -13.12   -7.45  K2Ca(SO4)2:H2O
+	Trona           -10.12    -21.51  -11.38  Na3H(CO3)2:2H2O
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 0.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -1.28    -5.51     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -8.02    -3.57      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  2.309e-013
+Calcite          -0.07    -8.48     -8.41   0.000e+000           0  0.000e+000
+Carnallite      -11.07    -6.74      4.33   0.000e+000           0  0.000e+000
+Epsomite         -2.95    -4.83     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -4.41    -9.65     -5.25   0.000e+000           0  0.000e+000
+Gypsum           -0.93    -5.51     -4.58   0.000e+000           0  0.000e+000
+Halite           -3.01    -1.44      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -3.19    -4.82     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -4.68    -4.80     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -9.68   -23.43    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.401e-004  4.401e-004
+	C                8.453e-004  8.453e-004
+	Ca               5.841e-003  5.841e-003
+	Cl               2.930e-001  2.930e-001
+	K                4.960e-003  4.960e-003
+	Mg               2.807e-002  2.807e-002
+	Na               2.544e-001  2.544e-001
+	S                1.527e-002  1.527e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 31362
+                          Density (g/cm3)  =   1.01094
+                               Volume (L)  =   1.00889
+                        Activity of water  =   0.990
+                           Ionic strength  =  3.752e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  8.684e-004
+                       Total CO2 (mol/kg)  =  8.453e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  13
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.89851
+                         Density of water  =   0.99706
+                                  Total H  = 1.110132e+002
+                                  Total O  = 5.556983e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.663e-006  9.977e-007    -5.779    -6.001    -0.222     -2.99
+   H+             1.290e-008  1.000e-008    -7.889    -8.000    -0.111      0.00
+   H2O            5.551e+001  9.903e-001     1.744    -0.004     0.000     18.07
+Br           4.401e-004
+   Br-            4.401e-004  3.004e-004    -3.356    -3.522    -0.166     25.36
+C(4)         8.453e-004
+   HCO3-          8.044e-004  4.944e-004    -3.095    -3.306    -0.211     25.95
+   CO3-2          1.612e-005  2.264e-006    -4.793    -5.645    -0.853     -1.27
+   MgCO3          1.441e-005  1.441e-005    -4.841    -4.841     0.000    -17.09
+   CO2            1.036e-005  1.096e-005    -4.985    -4.960     0.024     30.26
+Ca           5.841e-003
+   Ca+2           5.841e-003  1.473e-003    -2.233    -2.832    -0.598    -16.97
+Cl           2.930e-001
+   Cl-            2.930e-001  1.960e-001    -0.533    -0.708    -0.175     18.61
+K            4.960e-003
+   K+             4.960e-003  3.418e-003    -2.305    -2.466    -0.162      9.48
+Mg           2.807e-002
+   Mg+2           2.805e-002  7.511e-003    -1.552    -2.124    -0.572    -20.69
+   MgCO3          1.441e-005  1.441e-005    -4.841    -4.841     0.000    -17.09
+   MgOH+          1.244e-006  1.155e-006    -5.905    -5.938    -0.032     (0)  
+Na           2.544e-001
+   Na+            2.544e-001  1.836e-001    -0.595    -0.736    -0.142     -0.79
+S(6)         1.527e-002
+   SO4-2          1.527e-002  2.117e-003    -1.816    -2.674    -0.858     17.27
+   HSO4-          2.952e-009  2.017e-009    -8.530    -8.695    -0.165     40.79
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -1.28     -5.51   -4.22  CaSO4
+	Aragonite        -0.26     -8.48   -8.22  CaCO3
+	Arcanite         -5.83     -7.61   -1.78  K2SO4
+	Bischofite       -8.02     -3.57    4.46  MgCl2:6H2O
+	Bloedite         -6.62     -8.96   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -3.25    -14.13  -10.88  Mg(OH)2
+	Burkeite        -14.64    -15.41   -0.77  Na6CO3(SO4)2
+	Calcite          -0.07     -8.48   -8.41  CaCO3
+	Carnallite      -11.07     -6.74    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          0.84    -16.25  -17.08  CaMg(CO3)2
+	Epsomite         -2.95     -4.83   -1.88  MgSO4:7H2O
+	Gaylussite       -6.19    -15.62   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -9.68    -13.48   -3.80  NaK3(SO4)2
+	Glauberite       -4.41     -9.65   -5.25  Na2Ca(SO4)2
+	Gypsum           -0.93     -5.51   -4.58  CaSO4:2H2O
+	H2O(g)           -1.51     -0.00    1.50  H2O
+	Halite           -3.01     -1.44    1.57  NaCl
+	Hexahydrite      -3.19     -4.82   -1.63  MgSO4:6H2O
+	Kainite          -7.79     -7.99   -0.19  KMgClSO4:3H2O
+	Kalicinite       -6.05    -16.11  -10.06  KHCO3
+	Kieserite        -4.68     -4.80   -0.12  MgSO4:H2O
+	Labile_S         -8.14    -13.81   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -3.93     -4.82   -0.89  MgSO4:4H2O
+	Leonite          -8.44    -12.42   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.06     -7.77   -7.83  MgCO3
+	Mirabilite       -2.98     -4.19   -1.21  Na2SO4:10H2O
+	Misenite        -75.64    -86.45  -10.81  K8H6(SO4)7
+	Nahcolite        -3.64    -14.38  -10.74  NaHCO3
+	Natron           -6.34     -7.16   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.62     -7.78   -5.17  MgCO3:3H2O
+	Pentahydrite     -3.53     -4.82   -1.28  MgSO4:5H2O
+	Pirssonite       -6.37    -15.60   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -9.68    -23.43  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.64    -14.83   -5.19  Ca(OH)2
+	Schoenite        -8.10    -12.43   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -4.07     -3.17    0.90  KCl
+	Syngenite        -5.67    -13.12   -7.45  K2Ca(SO4)2:H2O
+	Trona           -10.12    -21.51  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 2.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.600e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.78    -5.01     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -6.82    -2.36      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  2.904e-004
+Calcite           0.00    -8.41     -8.41   0.000e+000  3.020e-004  3.020e-004
+Carnallite       -9.04    -4.71      4.33   0.000e+000           0  0.000e+000
+Epsomite         -2.45    -4.34     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -2.91    -8.15     -5.25   0.000e+000           0  0.000e+000
+Gypsum           -0.45    -5.03     -4.58   0.000e+000           0  0.000e+000
+Halite           -2.16    -0.59      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -2.69    -4.32     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -4.14    -4.26     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -7.21   -20.95    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               1.252e-003  4.401e-004
+	C                7.196e-004  2.529e-004
+	Ca               1.576e-002  5.539e-003
+	Cl               8.339e-001  2.930e-001
+	K                1.411e-002  4.960e-003
+	Mg               7.987e-002  2.807e-002
+	Na               7.238e-001  2.544e-001
+	S                4.345e-002  1.527e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.844      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 70310
+                          Density (g/cm3)  =   1.03532
+                               Volume (L)  =   0.35861
+                        Activity of water  =   0.972
+                           Ionic strength  =  1.065e+000
+                       Mass of water (kg)  =  3.514e-001
+                 Total alkalinity (eq/kg)  =  7.522e-004
+                       Total CO2 (mol/kg)  =  7.196e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  20
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.91486
+                         Density of water  =   0.99706
+                                  Total H  = 3.901324e+001
+                                  Total O  = 1.956834e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.457e-006  6.842e-007    -5.836    -6.165    -0.328     -1.97
+   H+             1.634e-008  1.432e-008    -7.787    -7.844    -0.058      0.00
+   H2O            5.551e+001  9.722e-001     1.744    -0.012     0.000     18.07
+Br           1.252e-003
+   Br-            1.252e-003  7.911e-004    -2.902    -3.102    -0.200     25.75
+C(4)         7.196e-004
+   HCO3-          6.720e-004  3.391e-004    -3.173    -3.470    -0.297     27.57
+   CO3-2          1.927e-005  1.085e-006    -4.715    -5.965    -1.250      0.69
+   MgCO3          1.899e-005  1.899e-005    -4.722    -4.722     0.000    -17.09
+   CO2            9.348e-006  1.096e-005    -5.029    -4.960     0.069     30.26
+Ca           1.576e-002
+   Ca+2           1.576e-002  3.619e-003    -1.802    -2.441    -0.639    -16.43
+Cl           8.339e-001
+   Cl-            8.339e-001  4.997e-001    -0.079    -0.301    -0.222     18.97
+K            1.411e-002
+   K+             1.411e-002  8.942e-003    -1.850    -2.049    -0.198      9.88
+Mg           7.987e-002
+   Mg+2           7.985e-002  2.066e-002    -1.098    -1.685    -0.587    -20.14
+   MgCO3          1.899e-005  1.899e-005    -4.722    -4.722     0.000    -17.09
+   MgOH+          2.209e-006  2.178e-006    -5.656    -5.662    -0.006     (0)  
+Na           7.238e-001
+   Na+            7.238e-001  5.131e-001    -0.140    -0.290    -0.149     -0.35
+S(6)         4.345e-002
+   SO4-2          4.345e-002  2.722e-003    -1.362    -2.565    -1.203     19.51
+   HSO4-          6.080e-009  3.712e-009    -8.216    -8.430    -0.214     41.13
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.78     -5.01   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -4.89     -6.66   -1.78  K2SO4
+	Bischofite       -6.82     -2.36    4.46  MgCl2:6H2O
+	Bloedite         -5.10     -7.44   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -3.13    -14.01  -10.88  Mg(OH)2
+	Burkeite        -12.06    -12.83   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -9.04     -4.71    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.03    -16.06  -17.08  CaMg(CO3)2
+	Epsomite         -2.45     -4.34   -1.88  MgSO4:7H2O
+	Gaylussite       -5.59    -15.01   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -7.76    -11.57   -3.80  NaK3(SO4)2
+	Glauberite       -2.91     -8.15   -5.25  Na2Ca(SO4)2
+	Gypsum           -0.45     -5.03   -4.58  CaSO4:2H2O
+	H2O(g)           -1.52     -0.01    1.50  H2O
+	Halite           -2.16     -0.59    1.57  NaCl
+	Hexahydrite      -2.69     -4.32   -1.63  MgSO4:6H2O
+	Kainite          -6.44     -6.64   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.80    -15.86  -10.06  KHCO3
+	Kieserite        -4.14     -4.26   -0.12  MgSO4:H2O
+	Labile_S         -5.65    -11.32   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -3.41     -4.30   -0.89  MgSO4:4H2O
+	Leonite          -6.98    -10.96   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.18     -7.65   -7.83  MgCO3
+	Mirabilite       -2.05     -3.27   -1.21  Na2SO4:10H2O
+	Misenite        -70.60    -81.41  -10.81  K8H6(SO4)7
+	Nahcolite        -3.36    -14.10  -10.74  NaHCO3
+	Natron           -5.84     -6.67   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.52     -7.69   -5.17  MgCO3:3H2O
+	Pentahydrite     -3.03     -4.31   -1.28  MgSO4:5H2O
+	Pirssonite       -5.74    -14.98   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -7.21    -20.95  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.58    -14.77   -5.19  Ca(OH)2
+	Schoenite        -6.66    -10.99   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -3.25     -2.35    0.90  KCl
+	Syngenite        -4.23    -11.68   -7.45  K2Ca(SO4)2:H2O
+	Trona            -9.28    -20.67  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 3.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 4.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.66    -4.89     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -6.53    -2.07      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  3.246e-005
+Calcite           0.00    -8.41     -8.41   3.020e-004  3.365e-004  3.451e-005
+Carnallite       -8.57    -4.24      4.33   0.000e+000           0  0.000e+000
+Epsomite         -2.35    -4.23     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -2.57    -7.81     -5.25   0.000e+000           0  0.000e+000
+Gypsum           -0.34    -4.92     -4.58   0.000e+000           0  0.000e+000
+Halite           -1.96    -0.39      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -2.58    -4.21     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -4.01    -4.13     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -6.65   -20.39    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               1.575e-003  4.401e-004
+	C                6.655e-004  1.859e-004
+	Ca               1.970e-002  5.505e-003
+	Cl               1.049e+000  2.930e-001
+	K                1.775e-002  4.960e-003
+	Mg               1.005e-001  2.807e-002
+	Na               9.105e-001  2.544e-001
+	S                5.466e-002  1.527e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.790      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 82662
+                          Density (g/cm3)  =   1.04470
+                               Volume (L)  =   0.28640
+                        Activity of water  =   0.965
+                           Ionic strength  =  1.339e+000
+                       Mass of water (kg)  =  2.794e-001
+                 Total alkalinity (eq/kg)  =  6.991e-004
+                       Total CO2 (mol/kg)  =  6.655e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  15
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.92627
+                         Density of water  =   0.99706
+                                  Total H  = 3.101324e+001
+                                  Total O  = 1.556817e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.364e-006  5.990e-007    -5.865    -6.223    -0.358     -1.60
+   H+             1.728e-008  1.623e-008    -7.762    -7.790    -0.027      0.00
+   H2O            5.551e+001  9.647e-001     1.744    -0.016     0.000     18.07
+Br           1.575e-003
+   Br-            1.575e-003  9.876e-004    -2.803    -3.005    -0.203     25.87
+C(4)         6.655e-004
+   HCO3-          6.179e-004  2.968e-004    -3.209    -3.528    -0.318     28.17
+   MgCO3          1.952e-005  1.952e-005    -4.709    -4.709     0.000    -17.09
+   CO3-2          1.914e-005  8.375e-007    -4.718    -6.077    -1.359      1.31
+   CO2            8.974e-006  1.096e-005    -5.047    -4.960     0.087     30.26
+Ca           1.970e-002
+   Ca+2           1.970e-002  4.686e-003    -1.705    -2.329    -0.624    -16.27
+Cl           1.049e+000
+   Cl-            1.049e+000  6.161e-001     0.021    -0.210    -0.231     19.08
+K            1.775e-002
+   K+             1.775e-002  1.112e-002    -1.751    -1.954    -0.203     10.01
+Mg           1.005e-001
+   Mg+2           1.005e-001  2.751e-002    -0.998    -1.561    -0.563    -19.97
+   MgCO3          1.952e-005  1.952e-005    -4.709    -4.709     0.000    -17.09
+   MgOH+          2.578e-006  2.539e-006    -5.589    -5.595    -0.007     (0)  
+Na           9.105e-001
+   Na+            9.105e-001  6.539e-001    -0.041    -0.184    -0.144     -0.22
+S(6)         5.466e-002
+   SO4-2          5.466e-002  2.769e-003    -1.262    -2.558    -1.295     20.17
+   HSO4-          7.203e-009  4.280e-009    -8.143    -8.369    -0.226     41.22
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.66     -4.89   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -4.69     -6.47   -1.78  K2SO4
+	Bischofite       -6.53     -2.07    4.46  MgCl2:6H2O
+	Bloedite         -4.76     -7.11   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -3.13    -14.01  -10.88  Mg(OH)2
+	Burkeite        -11.53    -12.30   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -8.57     -4.24    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.04    -16.04  -17.08  CaMg(CO3)2
+	Epsomite         -2.35     -4.23   -1.88  MgSO4:7H2O
+	Gaylussite       -5.51    -14.93   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -7.36    -11.16   -3.80  NaK3(SO4)2
+	Glauberite       -2.57     -7.81   -5.25  Na2Ca(SO4)2
+	Gypsum           -0.34     -4.92   -4.58  CaSO4:2H2O
+	H2O(g)           -1.52     -0.02    1.50  H2O
+	Halite           -1.96     -0.39    1.57  NaCl
+	Hexahydrite      -2.58     -4.21   -1.63  MgSO4:6H2O
+	Kainite          -6.14     -6.33   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.76    -15.82  -10.06  KHCO3
+	Kieserite        -4.01     -4.13   -0.12  MgSO4:H2O
+	Labile_S         -5.10    -10.77   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -3.29     -4.18   -0.89  MgSO4:4H2O
+	Leonite          -6.67    -10.65   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.20     -7.64   -7.83  MgCO3
+	Mirabilite       -1.87     -3.08   -1.21  Na2SO4:10H2O
+	Misenite        -69.47    -80.28  -10.81  K8H6(SO4)7
+	Nahcolite        -3.31    -14.05  -10.74  NaHCO3
+	Natron           -5.78     -6.60   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.52     -7.68   -5.17  MgCO3:3H2O
+	Pentahydrite     -2.91     -4.20   -1.28  MgSO4:5H2O
+	Pirssonite       -5.65    -14.88   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -6.65    -20.39  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.58    -14.77   -5.19  Ca(OH)2
+	Schoenite        -6.35    -10.68   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -3.06     -2.16    0.90  KCl
+	Syngenite        -3.92    -11.37   -7.45  K2Ca(SO4)2:H2O
+	Trona            -9.14    -20.53  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 4.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 4.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.49    -4.72     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -6.14    -1.68      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  3.099e-005
+Calcite           0.00    -8.41     -8.41   3.365e-004  3.696e-004  3.312e-005
+Carnallite       -7.93    -3.60      4.33   0.000e+000           0  0.000e+000
+Epsomite         -2.20    -4.08     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -2.11    -7.36     -5.25   0.000e+000           0  0.000e+000
+Gypsum           -0.18    -4.76     -4.58   0.000e+000           0  0.000e+000
+Halite           -1.70    -0.13      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -2.43    -4.06     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -3.83    -3.95     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -5.88   -19.62    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               2.123e-003  4.401e-004
+	C                5.876e-004  1.218e-004
+	Ca               2.639e-002  5.472e-003
+	Cl               1.414e+000  2.930e-001
+	K                2.393e-002  4.960e-003
+	Mg               1.354e-001  2.807e-002
+	Na               1.227e+000  2.544e-001
+	S                7.366e-002  1.527e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.707      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 102616
+                          Density (g/cm3)  =   1.06022
+                               Volume (L)  =   0.21423
+                        Activity of water  =   0.952
+                           Ionic strength  =  1.805e+000
+                       Mass of water (kg)  =  2.073e-001
+                 Total alkalinity (eq/kg)  =  6.226e-004
+                       Total CO2 (mol/kg)  =  5.876e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  16
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.94891
+                         Density of water  =   0.99706
+                                  Total H  = 2.301324e+001
+                                  Total O  = 1.156801e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.227e-006  4.888e-007    -5.911    -6.311    -0.400     -1.00
+   H+             1.834e-008  1.961e-008    -7.737    -7.707     0.029      0.00
+   H2O            5.551e+001  9.516e-001     1.744    -0.022     0.000     18.07
+Br           2.123e-003
+   Br-            2.123e-003  1.331e-003    -2.673    -2.876    -0.203     26.05
+C(4)         5.876e-004
+   HCO3-          5.403e-004  2.422e-004    -3.267    -3.616    -0.348     29.17
+   MgCO3          2.035e-005  2.035e-005    -4.691    -4.691     0.000    -17.09
+   CO3-2          1.854e-005  5.656e-007    -4.732    -6.248    -1.516      2.27
+   CO2            8.374e-006  1.096e-005    -5.077    -4.960     0.117     30.26
+Ca           2.639e-002
+   Ca+2           2.639e-002  6.939e-003    -1.578    -2.159    -0.580    -16.03
+Cl           1.414e+000
+   Cl-            1.414e+000  8.132e-001     0.150    -0.090    -0.240     19.23
+K            2.393e-002
+   K+             2.393e-002  1.487e-002    -1.621    -1.828    -0.207     10.24
+Mg           1.354e-001
+   Mg+2           1.354e-001  4.247e-002    -0.868    -1.372    -0.504    -19.72
+   MgCO3          2.035e-005  2.035e-005    -4.691    -4.691     0.000    -17.09
+   MgOH+          3.310e-006  3.199e-006    -5.480    -5.495    -0.015     (0)  
+Na           1.227e+000
+   Na+            1.227e+000  9.120e-001     0.089    -0.040    -0.129     -0.00
+S(6)         7.366e-002
+   SO4-2          7.366e-002  2.760e-003    -1.133    -2.559    -1.426     21.15
+   HSO4-          9.000e-009  5.156e-009    -8.046    -8.288    -0.242     41.36
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.49     -4.72   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -4.44     -6.21   -1.78  K2SO4
+	Bischofite       -6.14     -1.68    4.46  MgCl2:6H2O
+	Bloedite         -4.31     -6.66   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -3.11    -13.99  -10.88  Mg(OH)2
+	Burkeite        -10.83    -11.61   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -7.93     -3.60    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.06    -16.03  -17.08  CaMg(CO3)2
+	Epsomite         -2.20     -4.08   -1.88  MgSO4:7H2O
+	Gaylussite       -5.42    -14.84   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -6.84    -10.64   -3.80  NaK3(SO4)2
+	Glauberite       -2.11     -7.36   -5.25  Na2Ca(SO4)2
+	Gypsum           -0.18     -4.76   -4.58  CaSO4:2H2O
+	H2O(g)           -1.52     -0.02    1.50  H2O
+	Halite           -1.70     -0.13    1.57  NaCl
+	Hexahydrite      -2.43     -4.06   -1.63  MgSO4:6H2O
+	Kainite          -5.72     -5.91   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.72    -15.78  -10.06  KHCO3
+	Kieserite        -3.83     -3.95   -0.12  MgSO4:H2O
+	Labile_S         -4.37    -10.04   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -3.13     -4.02   -0.89  MgSO4:4H2O
+	Leonite          -6.25    -10.23   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.21     -7.62   -7.83  MgCO3
+	Mirabilite       -1.64     -2.85   -1.21  Na2SO4:10H2O
+	Misenite        -67.98    -78.78  -10.81  K8H6(SO4)7
+	Nahcolite        -3.25    -13.99  -10.74  NaHCO3
+	Natron           -5.72     -6.54   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.52     -7.68   -5.17  MgCO3:3H2O
+	Pentahydrite     -2.75     -4.04   -1.28  MgSO4:5H2O
+	Pirssonite       -5.54    -14.78   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -5.88    -19.62  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.59    -14.78   -5.19  Ca(OH)2
+	Schoenite        -5.95    -10.28   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -2.82     -1.92    0.90  KCl
+	Syngenite        -3.51    -10.95   -7.45  K2Ca(SO4)2:H2O
+	Trona            -8.98    -20.37  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 5.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 4.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.29    -4.51     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -5.51    -1.05      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  2.634e-005
+Calcite           0.00    -8.41     -8.41   3.696e-004  3.974e-004  2.773e-005
+Carnallite       -6.93    -2.60      4.33   0.000e+000           0  0.000e+000
+Epsomite         -1.99    -3.87     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -1.49    -6.74     -5.25   0.000e+000           0  0.000e+000
+Gypsum            0.00    -4.58     -4.58   0.000e+000  7.537e-004  7.537e-004
+Halite           -1.29     0.28      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -2.20    -3.84     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -3.54    -3.66     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -4.85   -18.59    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               3.255e-003  4.401e-004
+	C                5.010e-004  6.774e-005
+	Ca               3.469e-002  4.690e-003
+	Cl               2.167e+000  2.930e-001
+	K                3.668e-002  4.960e-003
+	Mg               2.076e-001  2.807e-002
+	Na               1.881e+000  2.544e-001
+	S                1.074e-001  1.452e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.588      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 148315
+                          Density (g/cm3)  =   1.09026
+                               Volume (L)  =   0.14206
+                        Activity of water  =   0.923
+                           Ionic strength  =  2.744e+000
+                       Mass of water (kg)  =  1.352e-001
+                 Total alkalinity (eq/kg)  =  5.444e-004
+                       Total CO2 (mol/kg)  =  5.010e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  18
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.00525
+                         Density of water  =   0.99706
+                                  Total H  = 1.501023e+001
+                                  Total O  = 7.563354e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.053e-006  3.598e-007    -5.978    -6.444    -0.466      0.14
+   H+             1.788e-008  2.584e-008    -7.748    -7.588     0.160      0.00
+   H2O            5.551e+001  9.228e-001     1.744    -0.035     0.000     18.07
+Br           3.255e-003
+   Br-            3.255e-003  2.101e-003    -2.487    -2.677    -0.190     26.34
+C(4)         5.010e-004
+   HCO3-          4.499e-004  1.783e-004    -3.347    -3.749    -0.402     31.13
+   MgCO3          2.549e-005  2.549e-005    -4.594    -4.594     0.000    -17.09
+   CO3-2          1.836e-005  3.159e-007    -4.736    -6.500    -1.764      3.96
+   CO2            7.285e-006  1.096e-005    -5.138    -4.960     0.177     30.26
+Ca           3.469e-002
+   Ca+2           3.469e-002  1.242e-002    -1.460    -1.906    -0.446    -15.60
+Cl           2.167e+000
+   Cl-            2.167e+000  1.231e+000     0.336     0.090    -0.246     19.49
+K            3.668e-002
+   K+             3.668e-002  2.315e-002    -1.436    -1.636    -0.200     10.68
+Mg           2.076e-001
+   Mg+2           2.076e-001  9.521e-002    -0.683    -1.021    -0.338    -19.25
+   MgCO3          2.549e-005  2.549e-005    -4.594    -4.594     0.000    -17.09
+   MgOH+          5.809e-006  5.278e-006    -5.236    -5.278    -0.042     (0)  
+Na           1.881e+000
+   Na+            1.881e+000  1.550e+000     0.274     0.190    -0.084      0.37
+S(6)         1.074e-001
+   SO4-2          1.074e-001  2.484e-003    -0.969    -2.605    -1.636     22.78
+   HSO4-          1.130e-008  6.115e-009    -7.947    -8.214    -0.267     41.57
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.29     -4.51   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -4.10     -5.88   -1.78  K2SO4
+	Bischofite       -5.51     -1.05    4.46  MgCl2:6H2O
+	Bloedite         -3.64     -5.99   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -3.03    -13.91  -10.88  Mg(OH)2
+	Burkeite         -9.80    -10.57   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -6.93     -2.60    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.16    -15.93  -17.08  CaMg(CO3)2
+	Epsomite         -1.99     -3.87   -1.88  MgSO4:7H2O
+	Gaylussite       -5.28    -14.70   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -6.12     -9.93   -3.80  NaK3(SO4)2
+	Glauberite       -1.49     -6.74   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.54     -0.03    1.50  H2O
+	Halite           -1.29      0.28    1.57  NaCl
+	Hexahydrite      -2.20     -3.84   -1.63  MgSO4:6H2O
+	Kainite          -5.08     -5.28   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.67    -15.72  -10.06  KHCO3
+	Kieserite        -3.54     -3.66   -0.12  MgSO4:H2O
+	Labile_S         -3.36     -9.03   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -2.88     -3.77   -0.89  MgSO4:4H2O
+	Leonite          -5.66     -9.64   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.31     -7.52   -7.83  MgCO3
+	Mirabilite       -1.36     -2.57   -1.21  Na2SO4:10H2O
+	Misenite        -66.04    -76.84  -10.81  K8H6(SO4)7
+	Nahcolite        -3.16    -13.90  -10.74  NaHCO3
+	Natron           -5.64     -6.47   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.46     -7.63   -5.17  MgCO3:3H2O
+	Pentahydrite     -2.52     -3.80   -1.28  MgSO4:5H2O
+	Pirssonite       -5.36    -14.60   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -4.85    -18.59  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.60    -14.79   -5.19  Ca(OH)2
+	Schoenite        -5.38     -9.71   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -2.45     -1.55    0.90  KCl
+	Syngenite        -2.97    -10.42   -7.45  K2Ca(SO4)2:H2O
+	Trona            -8.70    -20.09  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 6.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.27    -4.50     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -5.27    -0.82      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.552e-006
+Calcite           0.00    -8.41     -8.41   3.974e-004  4.015e-004  4.116e-006
+Carnallite       -6.56    -2.23      4.33   0.000e+000           0  0.000e+000
+Epsomite         -1.92    -3.81     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -1.34    -6.59     -5.25   0.000e+000           0  0.000e+000
+Gypsum            0.00    -4.58     -4.58   7.537e-004  1.574e-003  8.205e-004
+Halite           -1.14     0.43      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -2.13    -3.76     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -3.43    -3.56     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -4.63   -18.37    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               3.756e-003  4.401e-004
+	C                5.042e-004  5.907e-005
+	Ca               3.299e-002  3.865e-003
+	Cl               2.501e+000  2.930e-001
+	K                4.233e-002  4.960e-003
+	Mg               2.396e-001  2.807e-002
+	Na               2.171e+000  2.544e-001
+	S                1.169e-001  1.370e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.566      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 174022
+                          Density (g/cm3)  =   1.10241
+                               Volume (L)  =   0.12397
+                        Activity of water  =   0.909
+                           Ionic strength  =  3.138e+000
+                       Mass of water (kg)  =  1.172e-001
+                 Total alkalinity (eq/kg)  =  5.580e-004
+                       Total CO2 (mol/kg)  =  5.042e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  16
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.03297
+                         Density of water  =   0.99706
+                                  Total H  = 1.300694e+001
+                                  Total O  = 6.558410e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.038e-006  3.370e-007    -5.984    -6.472    -0.488      0.61
+   H+             1.632e-008  2.719e-008    -7.787    -7.566     0.222      0.00
+   H2O            5.551e+001  9.093e-001     1.744    -0.041     0.000     18.07
+Br           3.756e-003
+   Br-            3.756e-003  2.474e-003    -2.425    -2.607    -0.181     26.45
+C(4)         5.042e-004
+   HCO3-          4.455e-004  1.670e-004    -3.351    -3.777    -0.426     31.93
+   MgCO3          3.187e-005  3.187e-005    -4.497    -4.497     0.000    -17.09
+   CO3-2          1.995e-005  2.813e-007    -4.700    -6.551    -1.851      4.61
+   CO2            6.870e-006  1.096e-005    -5.163    -4.960     0.203     30.26
+Ca           3.299e-002
+   Ca+2           3.299e-002  1.395e-002    -1.482    -1.855    -0.374    -15.43
+Cl           2.501e+000
+   Cl-            2.501e+000  1.423e+000     0.398     0.153    -0.245     19.58
+K            4.233e-002
+   K+             4.233e-002  2.713e-002    -1.373    -1.567    -0.193     10.86
+Mg           2.396e-001
+   Mg+2           2.395e-001  1.337e-001    -0.621    -0.874    -0.253    -19.06
+   MgCO3          3.187e-005  3.187e-005    -4.497    -4.497     0.000    -17.09
+   MgOH+          7.847e-006  6.943e-006    -5.105    -5.158    -0.053     (0)  
+Na           2.171e+000
+   Na+            2.171e+000  1.889e+000     0.337     0.276    -0.060      0.51
+S(6)         1.169e-001
+   SO4-2          1.169e-001  2.277e-003    -0.932    -2.643    -1.710     23.38
+   HSO4-          1.113e-008  5.898e-009    -7.953    -8.229    -0.276     41.65
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.27     -4.50   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -4.00     -5.78   -1.78  K2SO4
+	Bischofite       -5.27     -0.82    4.46  MgCl2:6H2O
+	Bloedite         -3.42     -5.77   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -2.94    -13.82  -10.88  Mg(OH)2
+	Burkeite         -9.41    -10.18   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -6.56     -2.23    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.25    -15.83  -17.08  CaMg(CO3)2
+	Epsomite         -1.92     -3.81   -1.88  MgSO4:7H2O
+	Gaylussite       -5.19    -14.61   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -5.91     -9.71   -3.80  NaK3(SO4)2
+	Glauberite       -1.34     -6.59   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.54     -0.04    1.50  H2O
+	Halite           -1.14      0.43    1.57  NaCl
+	Hexahydrite      -2.13     -3.76   -1.63  MgSO4:6H2O
+	Kainite          -4.86     -5.05   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.63    -15.68  -10.06  KHCO3
+	Kieserite        -3.43     -3.56   -0.12  MgSO4:H2O
+	Labile_S         -3.09     -8.76   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -2.79     -3.68   -0.89  MgSO4:4H2O
+	Leonite          -5.48     -9.46   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.41     -7.42   -7.83  MgCO3
+	Mirabilite       -1.29     -2.50   -1.21  Na2SO4:10H2O
+	Misenite        -65.62    -76.43  -10.81  K8H6(SO4)7
+	Nahcolite        -3.10    -13.84  -10.74  NaHCO3
+	Natron           -5.59     -6.41   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.38     -7.55   -5.17  MgCO3:3H2O
+	Pentahydrite     -2.44     -3.72   -1.28  MgSO4:5H2O
+	Pirssonite       -5.25    -14.49   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -4.63    -18.37  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.61    -14.80   -5.19  Ca(OH)2
+	Schoenite        -5.21     -9.54   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -2.31     -1.41    0.90  KCl
+	Syngenite        -2.87    -10.32   -7.45  K2Ca(SO4)2:H2O
+	Trona            -8.54    -19.92  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 7.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.25    -4.48     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -4.98    -0.52      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.536e-006
+Calcite           0.00    -8.41     -8.41   4.015e-004  4.053e-004  3.781e-006
+Carnallite       -6.11    -1.78      4.33   0.000e+000           0  0.000e+000
+Epsomite         -1.84    -3.72     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -1.16    -6.40     -5.25   0.000e+000           0  0.000e+000
+Gypsum            0.00    -4.58     -4.58   1.574e-003  2.447e-003  8.727e-004
+Halite           -0.96     0.61      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -2.04    -3.67     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -3.30    -3.42     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -4.34   -18.08    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.440e-003  4.401e-004
+	C                5.121e-004  5.076e-005
+	Ca               3.016e-002  2.989e-003
+	Cl               2.957e+000  2.930e-001
+	K                5.004e-002  4.960e-003
+	Mg               2.832e-001  2.807e-002
+	Na               2.566e+000  2.544e-001
+	S                1.294e-001  1.282e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.537      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 218831
+                          Density (g/cm3)  =   1.11845
+                               Volume (L)  =   0.10590
+                        Activity of water  =   0.890
+                           Ionic strength  =  3.674e+000
+                       Mass of water (kg)  =  9.912e-002
+                 Total alkalinity (eq/kg)  =  5.833e-004
+                       Total CO2 (mol/kg)  =  5.121e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  17
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.07237
+                         Density of water  =   0.99706
+                                  Total H  = 1.100345e+001
+                                  Total O  = 5.553153e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.014e-006  3.087e-007    -5.994    -6.510    -0.517      1.23
+   H+             1.429e-008  2.905e-008    -7.845    -7.537     0.308      0.00
+   H2O            5.551e+001  8.902e-001     1.744    -0.051     0.000     18.07
+Br           4.440e-003
+   Br-            4.440e-003  3.019e-003    -2.353    -2.520    -0.168     26.59
+C(4)         5.121e-004
+   HCO3-          4.409e-004  1.530e-004    -3.356    -3.815    -0.460     33.02
+   MgCO3          4.296e-005  4.296e-005    -4.367    -4.367     0.000    -17.09
+   CO3-2          2.185e-005  2.411e-007    -4.661    -6.618    -1.957      5.45
+   CO2            6.345e-006  1.096e-005    -5.198    -4.960     0.237     30.26
+Ca           3.016e-002
+   Ca+2           3.016e-002  1.627e-002    -1.521    -1.789    -0.268    -15.20
+Cl           2.957e+000
+   Cl-            2.957e+000  1.693e+000     0.471     0.229    -0.242     19.69
+K            5.004e-002
+   K+             5.004e-002  3.292e-002    -1.301    -1.483    -0.182     11.10
+Mg           2.832e-001
+   Mg+2           2.831e-001  2.102e-001    -0.548    -0.677    -0.129    -18.81
+   MgCO3          4.296e-005  4.296e-005    -4.367    -4.367     0.000    -17.09
+   MgOH+          1.176e-005  1.000e-005    -4.930    -5.000    -0.070     (0)  
+Na           2.566e+000
+   Na+            2.566e+000  2.421e+000     0.409     0.384    -0.025      0.70
+S(6)         1.294e-001
+   SO4-2          1.294e-001  2.037e-003    -0.888    -2.691    -1.803     24.13
+   HSO4-          1.094e-008  5.638e-009    -7.961    -8.249    -0.288     41.74
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.25     -4.48   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -3.88     -5.66   -1.78  K2SO4
+	Bischofite       -4.98     -0.52    4.46  MgCl2:6H2O
+	Bloedite         -3.15     -5.49   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -2.82    -13.70  -10.88  Mg(OH)2
+	Burkeite         -8.92     -9.70   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -6.11     -1.78    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.38    -15.70  -17.08  CaMg(CO3)2
+	Epsomite         -1.84     -3.72   -1.88  MgSO4:7H2O
+	Gaylussite       -5.09    -14.51   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -5.64     -9.45   -3.80  NaK3(SO4)2
+	Glauberite       -1.16     -6.40   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.55     -0.05    1.50  H2O
+	Halite           -0.96      0.61    1.57  NaCl
+	Hexahydrite      -2.04     -3.67   -1.63  MgSO4:6H2O
+	Kainite          -4.58     -4.77   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.58    -15.64  -10.06  KHCO3
+	Kieserite        -3.30     -3.42   -0.12  MgSO4:H2O
+	Labile_S         -2.75     -8.43   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -2.68     -3.57   -0.89  MgSO4:4H2O
+	Leonite          -5.25     -9.23   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.54     -7.29   -7.83  MgCO3
+	Mirabilite       -1.21     -2.43   -1.21  Na2SO4:10H2O
+	Misenite        -65.11    -75.92  -10.81  K8H6(SO4)7
+	Nahcolite        -3.03    -13.77  -10.74  NaHCO3
+	Natron           -5.53     -6.35   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.28     -7.45   -5.17  MgCO3:3H2O
+	Pentahydrite     -2.34     -3.62   -1.28  MgSO4:5H2O
+	Pirssonite       -5.12    -14.36   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -4.34    -18.08  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.62    -14.81   -5.19  Ca(OH)2
+	Schoenite        -5.00     -9.33   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -2.15     -1.25    0.90  KCl
+	Syngenite        -2.74    -10.19   -7.45  K2Ca(SO4)2:H2O
+	Trona            -8.34    -19.72  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 8.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.23    -4.45     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -4.60    -0.14      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.501e-006
+Calcite           0.00    -8.41     -8.41   4.053e-004  4.082e-004  2.944e-006
+Carnallite       -5.52    -1.19      4.33   0.000e+000           0  0.000e+000
+Epsomite         -1.73    -3.61     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.91    -6.15     -5.25   0.000e+000           0  0.000e+000
+Gypsum            0.00    -4.58     -4.58   2.447e-003  3.361e-003  9.141e-004
+Halite           -0.72     0.85      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -1.91    -3.54     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -3.10    -3.22     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -3.95   -17.69    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               5.429e-003  4.401e-004
+	C                5.343e-004  4.331e-005
+	Ca               2.556e-002  2.072e-003
+	Cl               3.615e+000  2.930e-001
+	K                6.118e-002  4.960e-003
+	Mg               3.462e-001  2.807e-002
+	Na               3.138e+000  2.544e-001
+	S                1.469e-001  1.191e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.498      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 286245
+                          Density (g/cm3)  =   1.14064
+                               Volume (L)  =   0.08786
+                        Activity of water  =   0.861
+                           Ionic strength  =  4.447e+000
+                       Mass of water (kg)  =  8.107e-002
+                 Total alkalinity (eq/kg)  =  6.405e-004
+                       Total CO2 (mol/kg)  =  5.343e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.35
+                               Iterations  =  17
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.13202
+                         Density of water  =   0.99706
+                                  Total H  = 8.999797e+000
+                                  Total O  = 4.547651e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            9.779e-007  2.728e-007    -6.010    -6.564    -0.554      2.11
+   H+             1.163e-008  3.180e-008    -7.935    -7.498     0.437      0.00
+   H2O            5.551e+001  8.610e-001     1.744    -0.065     0.000     18.07
+Br           5.429e-003
+   Br-            5.429e-003  3.891e-003    -2.265    -2.410    -0.145     26.77
+C(4)         5.343e-004
+   HCO3-          4.386e-004  1.352e-004    -3.358    -3.869    -0.511     34.56
+   MgCO3          6.590e-005  6.590e-005    -4.181    -4.181     0.000    -17.09
+   CO3-2          2.411e-005  1.947e-007    -4.618    -6.711    -2.093      6.59
+   CO2            5.658e-006  1.096e-005    -5.247    -4.960     0.287     30.26
+Ca           2.556e-002
+   Ca+2           2.556e-002  2.016e-002    -1.592    -1.696    -0.103    -14.89
+Cl           3.615e+000
+   Cl-            3.615e+000  2.104e+000     0.558     0.323    -0.235     19.84
+K            6.118e-002
+   K+             6.118e-002  4.214e-002    -1.213    -1.375    -0.162     11.44
+Mg           3.462e-001
+   Mg+2           3.462e-001  3.995e-001    -0.461    -0.399     0.062    -18.46
+   MgCO3          6.590e-005  6.590e-005    -4.181    -4.181     0.000    -17.09
+   MgOH+          2.096e-005  1.679e-005    -4.679    -4.775    -0.096     (0)  
+Na           3.138e+000
+   Na+            3.138e+000  3.366e+000     0.497     0.527     0.031      0.95
+S(6)         1.469e-001
+   SO4-2          1.469e-001  1.758e-003    -0.833    -2.755    -1.922     25.12
+   HSO4-          1.073e-008  5.326e-009    -7.970    -8.274    -0.304     41.85
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.23     -4.45   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -3.73     -5.51   -1.78  K2SO4
+	Bischofite       -4.60     -0.14    4.46  MgCl2:6H2O
+	Bloedite         -2.77     -5.11   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -2.65    -13.53  -10.88  Mg(OH)2
+	Burkeite         -8.29     -9.06   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -5.52     -1.19    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.57    -15.52  -17.08  CaMg(CO3)2
+	Epsomite         -1.73     -3.61   -1.88  MgSO4:7H2O
+	Gaylussite       -4.97    -14.39   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -5.31     -9.11   -3.80  NaK3(SO4)2
+	Glauberite       -0.91     -6.15   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.57     -0.06    1.50  H2O
+	Halite           -0.72      0.85    1.57  NaCl
+	Hexahydrite      -1.91     -3.54   -1.63  MgSO4:6H2O
+	Kainite          -4.21     -4.40   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.53    -15.58  -10.06  KHCO3
+	Kieserite        -3.10     -3.22   -0.12  MgSO4:H2O
+	Labile_S         -2.31     -7.98   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -2.53     -3.41   -0.89  MgSO4:4H2O
+	Leonite          -4.94     -8.92   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         0.72     -7.11   -7.83  MgCO3
+	Mirabilite       -1.14     -2.35   -1.21  Na2SO4:10H2O
+	Misenite        -64.47    -75.27  -10.81  K8H6(SO4)7
+	Nahcolite        -2.94    -13.68  -10.74  NaHCO3
+	Natron           -5.48     -6.31   -0.82  Na2CO3:10H2O
+	Nesquehonite     -2.14     -7.30   -5.17  MgCO3:3H2O
+	Pentahydrite     -2.19     -3.48   -1.28  MgSO4:5H2O
+	Pirssonite       -4.96    -14.19   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -3.95    -17.69  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.63    -14.82   -5.19  Ca(OH)2
+	Schoenite        -4.72     -9.05   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -1.95     -1.05    0.90  KCl
+	Syngenite        -2.57    -10.02   -7.45  K2Ca(SO4)2:H2O
+	Trona            -8.08    -19.47  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 9.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.17    -4.40     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -4.07     0.39      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.598e-006
+Calcite           0.00    -8.41     -8.41   4.082e-004  4.086e-004  3.617e-007
+Carnallite       -4.72    -0.39      4.33   0.000e+000           0  0.000e+000
+Epsomite         -1.56    -3.44     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.53    -5.78     -5.25   0.000e+000           0  0.000e+000
+Gypsum            0.00    -4.58     -4.58   3.361e-003  4.268e-003  9.065e-004
+Halite           -0.39     1.18      1.57   0.000e+000           0  0.000e+000
+Hexahydrite      -1.72    -3.35     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -2.78    -2.90     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -3.34   -17.09    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               6.984e-003  4.401e-004
+	C                6.086e-004  3.835e-005
+	Ca               1.849e-002  1.165e-003
+	Cl               4.650e+000  2.930e-001
+	K                7.870e-002  4.960e-003
+	Mg               4.454e-001  2.807e-002
+	Na               4.036e+000  2.544e-001
+	S                1.746e-001  1.100e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.441      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 360816
+                          Density (g/cm3)  =   1.17346
+                               Volume (L)  =   0.06986
+                        Activity of water  =   0.812
+                           Ionic strength  =  5.663e+000
+                       Mass of water (kg)  =  6.302e-002
+                 Total alkalinity (eq/kg)  =  8.125e-004
+                       Total CO2 (mol/kg)  =  6.086e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.36
+                               Iterations  =  20
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.23104
+                         Density of water  =   0.99706
+                                  Total H  = 6.996171e+000
+                                  Total O  = 3.542201e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            9.202e-007  2.256e-007    -6.036    -6.647    -0.611      3.47
+   H+             8.191e-009  3.624e-008    -8.087    -7.441     0.646      0.00
+   H2O            5.551e+001  8.116e-001     1.744    -0.091     0.000     18.07
+Br           6.984e-003
+   Br-            6.984e-003  5.501e-003    -2.156    -2.260    -0.104     27.02
+C(4)         6.086e-004
+   HCO3-          4.476e-004  1.118e-004    -3.349    -3.952    -0.602     36.97
+   MgCO3          1.296e-004  1.296e-004    -3.887    -3.887     0.000    -17.09
+   CO3-2          2.663e-005  1.413e-007    -4.575    -6.850    -2.275      8.28
+   CO2            4.728e-006  1.096e-005    -5.325    -4.960     0.365     30.26
+Ca           1.849e-002
+   Ca+2           1.849e-002  2.778e-002    -1.733    -1.556     0.177    -14.41
+Cl           4.650e+000
+   Cl-            4.650e+000  2.806e+000     0.667     0.448    -0.219     20.04
+K            7.870e-002
+   K+             7.870e-002  5.905e-002    -1.104    -1.229    -0.125     11.98
+Mg           4.454e-001
+   Mg+2           4.452e-001  1.083e+000    -0.351     0.035     0.386    -17.92
+   MgCO3          1.296e-004  1.296e-004    -3.887    -3.887     0.000    -17.09
+   MgOH+          5.153e-005  3.764e-005    -4.288    -4.424    -0.136     (0)  
+Na           4.036e+000
+   Na+            4.036e+000  5.415e+000     0.606     0.734     0.128      1.32
+S(6)         1.746e-001
+   SO4-2          1.746e-001  1.436e-003    -0.758    -2.843    -2.085     26.51
+   HSO4-          1.061e-008  4.957e-009    -7.974    -8.305    -0.330     42.00
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.17     -4.40   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -3.52     -5.30   -1.78  K2SO4
+	Bischofite       -4.07      0.39    4.46  MgCl2:6H2O
+	Bloedite         -2.20     -4.55   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -2.38    -13.26  -10.88  Mg(OH)2
+	Burkeite         -7.36     -8.13   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -4.72     -0.39    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          1.86    -15.22  -17.08  CaMg(CO3)2
+	Epsomite         -1.56     -3.44   -1.88  MgSO4:7H2O
+	Gaylussite       -4.82    -14.24   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -4.84     -8.64   -3.80  NaK3(SO4)2
+	Glauberite       -0.53     -5.78   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.59     -0.09    1.50  H2O
+	Halite           -0.39      1.18    1.57  NaCl
+	Hexahydrite      -1.72     -3.35   -1.63  MgSO4:6H2O
+	Kainite          -3.67     -3.86   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.46    -15.52  -10.06  KHCO3
+	Kieserite        -2.78     -2.90   -0.12  MgSO4:H2O
+	Labile_S         -1.66     -7.33   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -2.28     -3.17   -0.89  MgSO4:4H2O
+	Leonite          -4.49     -8.47   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         1.02     -6.82   -7.83  MgCO3
+	Mirabilite       -1.07     -2.28   -1.21  Na2SO4:10H2O
+	Misenite        -63.57    -74.38  -10.81  K8H6(SO4)7
+	Nahcolite        -2.82    -13.56  -10.74  NaHCO3
+	Natron           -5.46     -6.29   -0.82  Na2CO3:10H2O
+	Nesquehonite     -1.92     -7.09   -5.17  MgCO3:3H2O
+	Pentahydrite     -1.98     -3.26   -1.28  MgSO4:5H2O
+	Pirssonite       -4.74    -13.97   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -3.34    -17.09  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.66    -14.85   -5.19  Ca(OH)2
+	Schoenite        -4.32     -8.65   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -1.68     -0.78    0.90  KCl
+	Syngenite        -2.34     -9.79   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.74    -19.12  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 10.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.09    -4.32     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -3.42     1.03      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  5.362e-006
+Calcite           0.00    -8.41     -8.41   4.086e-004  4.004e-004 -8.136e-006
+Carnallite       -3.74     0.59      4.33   0.000e+000           0  0.000e+000
+Epsomite         -1.31    -3.19     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.02    -5.27     -5.25   0.000e+000           0  0.000e+000
+Gypsum           -0.00    -4.58     -4.58   4.268e-003  4.966e-003  6.990e-004
+Halite            0.00     1.57      1.57   0.000e+000  2.327e-002  2.327e-002
+Hexahydrite      -1.42    -3.06     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -2.28    -2.40     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -2.40   -16.14    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               9.785e-003  4.401e-004
+	C                9.143e-004  4.113e-005
+	Ca               1.054e-002  4.743e-004
+	Cl               5.998e+000  2.698e-001
+	K                1.103e-001  4.960e-003
+	Mg               6.241e-001  2.807e-002
+	Na               5.138e+000  2.311e-001
+	S                2.291e-001  1.030e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.384      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 467460
+                          Density (g/cm3)  =   1.21428
+                               Volume (L)  =   0.05142
+                        Activity of water  =   0.741
+                           Ionic strength  =  7.354e+000
+                       Mass of water (kg)  =  4.498e-002
+                 Total alkalinity (eq/kg)  =  1.500e-003
+                       Total CO2 (mol/kg)  =  9.143e-004
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.39
+                               Iterations  =  24
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.37578
+                         Density of water  =   0.99706
+                                  Total H  = 4.993375e+000
+                                  Total O  = 2.538021e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            9.013e-007  1.806e-007    -6.045    -6.743    -0.698      5.32
+   H+             4.812e-009  4.131e-008    -8.318    -7.384     0.934      0.00
+   H2O            5.551e+001  7.405e-001     1.744    -0.130     0.000     18.07
+Br           9.785e-003
+   Br-            9.785e-003  8.930e-003    -2.009    -2.049    -0.040     27.34
+C(4)         9.143e-004
+   HCO3-          5.083e-004  8.949e-005    -3.294    -4.048    -0.754     40.28
+   MgCO3          3.704e-004  3.704e-004    -3.431    -3.431     0.000    -17.09
+   CO3-2          3.187e-005  9.918e-008    -4.497    -7.004    -2.507     10.45
+   CO2            3.709e-006  1.096e-005    -5.431    -4.960     0.471     30.26
+Ca           1.054e-002
+   Ca+2           1.054e-002  3.957e-002    -1.977    -1.403     0.574    -13.75
+Cl           5.998e+000
+   Cl-            5.998e+000  3.852e+000     0.778     0.586    -0.192     20.28
+K            1.103e-001
+   K+             1.103e-001  9.444e-002    -0.958    -1.025    -0.067     12.72
+Mg           6.241e-001
+   Mg+2           6.235e-001  4.407e+000    -0.205     0.644     0.849    -17.19
+   MgCO3          3.704e-004  3.704e-004    -3.431    -3.431     0.000    -17.09
+   MgOH+          1.864e-004  1.226e-004    -3.730    -3.911    -0.182     (0)  
+Na           5.138e+000
+   Na+            5.138e+000  9.646e+000     0.711     0.984     0.274      1.80
+S(6)         2.291e-001
+   SO4-2          2.291e-001  1.211e-003    -0.640    -2.917    -2.277     28.20
+   HSO4-          1.093e-008  4.766e-009    -7.961    -8.322    -0.360     42.17
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.09     -4.32   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -3.19     -4.97   -1.78  K2SO4
+	Bischofite       -3.42      1.03    4.46  MgCl2:6H2O
+	Bloedite         -1.40     -3.74   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -1.96    -12.84  -10.88  Mg(OH)2
+	Burkeite         -6.16     -6.93   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -3.74      0.59    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          2.32    -14.77  -17.08  CaMg(CO3)2
+	Epsomite         -1.31     -3.19   -1.88  MgSO4:7H2O
+	Gaylussite       -4.67    -14.09   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -4.12     -7.92   -3.80  NaK3(SO4)2
+	Glauberite       -0.02     -5.27   -5.25  Na2Ca(SO4)2
+	Gypsum           -0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.63     -0.13    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -1.42     -3.06   -1.63  MgSO4:6H2O
+	Kainite          -2.91     -3.10   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.35    -15.41  -10.06  KHCO3
+	Kieserite        -2.28     -2.40   -0.12  MgSO4:H2O
+	Labile_S         -0.80     -6.48   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -1.91     -2.79   -0.89  MgSO4:4H2O
+	Leonite          -3.78     -7.76   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         1.47     -6.36   -7.83  MgCO3
+	Mirabilite       -1.04     -2.25   -1.21  Na2SO4:10H2O
+	Misenite        -62.11    -72.92  -10.81  K8H6(SO4)7
+	Nahcolite        -2.66    -13.40  -10.74  NaHCO3
+	Natron           -5.51     -6.34   -0.82  Na2CO3:10H2O
+	Nesquehonite     -1.58     -6.75   -5.17  MgCO3:3H2O
+	Pentahydrite     -1.64     -2.93   -1.28  MgSO4:5H2O
+	Pirssonite       -4.47    -13.70   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -2.40    -16.14  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.70    -14.89   -5.19  Ca(OH)2
+	Schoenite        -3.69     -8.02   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -1.34     -0.44    0.90  KCl
+	Syngenite        -1.97     -9.42   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.31    -18.70  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 11.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.000e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.08    -4.31     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -3.11     1.34      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.270e-006
+Calcite           0.00    -8.41     -8.41   4.004e-004  3.970e-004 -3.400e-006
+Carnallite       -3.17     1.16      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.99    -2.87     -1.88   0.000e+000           0  0.000e+000
+Glauberite        0.00    -5.25     -5.25   0.000e+000  2.034e-003  2.034e-003
+Gypsum            0.00    -4.58     -4.58   4.966e-003  3.182e-003 -1.784e-003
+Halite            0.00     1.57      1.57   2.327e-002  1.303e-001  1.071e-001
+Hexahydrite      -1.10    -2.73     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.93    -2.05     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -1.50   -15.25    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               1.628e-002  4.401e-004
+	C                1.489e-003  4.026e-005
+	Ca               8.447e-003  2.283e-004
+	Cl               6.020e+000  1.627e-001
+	K                1.835e-001  4.960e-003
+	Mg               1.039e+000  2.807e-002
+	Na               4.438e+000  1.200e-001
+	S                2.968e-001  8.022e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.400      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 485121
+                          Density (g/cm3)  =   1.22168
+                               Volume (L)  =   0.03091
+                        Activity of water  =   0.731
+                           Ionic strength  =  8.015e+000
+                       Mass of water (kg)  =  2.703e-002
+                 Total alkalinity (eq/kg)  =  2.748e-003
+                       Total CO2 (mol/kg)  =  1.489e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.62
+                               Iterations  =  21
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.45089
+                         Density of water  =   0.99706
+                                  Total H  = 3.000512e+000
+                                  Total O  = 1.532459e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.275e-006  1.848e-007    -5.895    -6.733    -0.839      6.02
+   H+             4.083e-009  3.983e-008    -8.389    -7.400     0.989      0.00
+   H2O            5.551e+001  7.307e-001     1.744    -0.136     0.000     18.07
+Br           1.628e-002
+   Br-            1.628e-002  1.609e-002    -1.788    -1.794    -0.005     27.45
+C(4)         1.489e-003
+   MgCO3          8.205e-004  8.205e-004    -3.086    -3.086     0.000    -17.09
+   HCO3-          5.998e-004  9.159e-005    -3.222    -4.038    -0.816     41.55
+   CO3-2          6.550e-005  1.053e-007    -4.184    -6.978    -2.794     11.26
+   CO2            3.528e-006  1.096e-005    -5.453    -4.960     0.492     30.26
+Ca           8.447e-003
+   Ca+2           8.447e-003  3.727e-002    -2.073    -1.429     0.645    -13.51
+Cl           6.020e+000
+   Cl-            6.020e+000  3.970e+000     0.780     0.599    -0.181     20.37
+K            1.835e-001
+   K+             1.835e-001  1.655e-001    -0.736    -0.781    -0.045     13.00
+Mg           1.039e+000
+   Mg+2           1.037e+000  9.196e+000     0.016     0.964     0.948    -16.90
+   MgCO3          8.205e-004  8.205e-004    -3.086    -3.086     0.000    -17.09
+   MgOH+          3.749e-004  2.619e-004    -3.426    -3.582    -0.156     (0)  
+Na           4.438e+000
+   Na+            4.438e+000  9.358e+000     0.647     0.971     0.324      1.97
+S(6)         2.968e-001
+   SO4-2          2.968e-001  1.320e-003    -0.528    -2.879    -2.352     28.81
+   HSO4-          9.651e-009  5.009e-009    -8.015    -8.300    -0.285     42.23
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.08     -4.31   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.67     -4.44   -1.78  K2SO4
+	Bischofite       -3.11      1.34    4.46  MgCl2:6H2O
+	Bloedite         -1.05     -3.40   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -1.62    -12.50  -10.88  Mg(OH)2
+	Burkeite         -6.14     -6.91   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -3.17      1.16    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          2.66    -14.42  -17.08  CaMg(CO3)2
+	Epsomite         -0.99     -2.87   -1.88  MgSO4:7H2O
+	Gaylussite       -4.70    -14.12   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -3.33     -7.13   -3.80  NaK3(SO4)2
+	Glauberite        0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.64     -0.14    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -1.10     -2.73   -1.63  MgSO4:6H2O
+	Kainite          -2.31     -2.51   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.10    -15.16  -10.06  KHCO3
+	Kieserite        -1.93     -2.05   -0.12  MgSO4:H2O
+	Labile_S         -0.78     -6.45   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -1.57     -2.46   -0.89  MgSO4:4H2O
+	Leonite          -2.92     -6.90   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         1.82     -6.01   -7.83  MgCO3
+	Mirabilite       -1.09     -2.30   -1.21  Na2SO4:10H2O
+	Misenite        -60.00    -70.80  -10.81  K8H6(SO4)7
+	Nahcolite        -2.66    -13.41  -10.74  NaHCO3
+	Natron           -5.57     -6.40   -0.82  Na2CO3:10H2O
+	Nesquehonite     -1.26     -6.42   -5.17  MgCO3:3H2O
+	Pentahydrite     -1.31     -2.60   -1.28  MgSO4:5H2O
+	Pirssonite       -4.48    -13.71   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -1.50    -15.25  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.71    -14.90   -5.19  Ca(OH)2
+	Schoenite        -2.85     -7.17   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -1.08     -0.18    0.90  KCl
+	Syngenite        -1.44     -8.89   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.33    -18.71  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 12.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.08    -4.30     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.98     1.47      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  1.288e-006
+Calcite           0.00    -8.41     -8.41   3.970e-004  3.941e-004 -2.972e-006
+Carnallite       -2.94     1.39      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.87    -2.75     -1.88   0.000e+000           0  0.000e+000
+Glauberite        0.00    -5.24     -5.25   2.034e-003  2.551e-003  5.174e-004
+Gypsum            0.00    -4.58     -4.58   3.182e-003  2.724e-003 -4.587e-004
+Halite            0.00     1.57      1.57   1.303e-001  1.569e-001  2.656e-002
+Hexahydrite      -0.98    -2.61     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.79    -1.91     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -1.16   -14.91    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               1.953e-002  4.401e-004
+	C                1.861e-003  4.194e-005
+	Ca               7.656e-003  1.726e-004
+	Cl               6.040e+000  1.362e-001
+	K                2.200e-001  4.960e-003
+	Mg               1.245e+000  2.807e-002
+	Na               4.098e+000  9.237e-002
+	S                3.303e-001  7.445e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.402      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 495832
+                          Density (g/cm3)  =   1.22557
+                               Volume (L)  =   0.02579
+                        Activity of water  =   0.725
+                           Ionic strength  =  8.353e+000
+                       Mass of water (kg)  =  2.254e-002
+                 Total alkalinity (eq/kg)  =  3.559e-003
+                       Total CO2 (mol/kg)  =  1.861e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.74
+                               Iterations  =  29
+                         Gamma iterations  =   7
+                      Osmotic coefficient  =   1.49143
+                         Density of water  =   0.99706
+                                  Total H  = 2.502346e+000
+                                  Total O  = 1.281079e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.493e-006  1.845e-007    -5.826    -6.734    -0.908      6.39
+   H+             3.776e-009  3.960e-008    -8.423    -7.402     1.021      0.00
+   H2O            5.551e+001  7.251e-001     1.744    -0.140     0.000     18.07
+Br           1.953e-002
+   Br-            1.953e-002  2.005e-002    -1.709    -1.698     0.011     27.51
+C(4)         1.861e-003
+   MgCO3          1.120e-003  1.120e-003    -2.951    -2.951     0.000    -17.09
+   HCO3-          6.470e-004  9.142e-005    -3.189    -4.039    -0.850     42.20
+   CO3-2          9.058e-005  1.057e-007    -4.043    -6.976    -2.933     11.67
+   CO2            3.434e-006  1.096e-005    -5.464    -4.960     0.504     30.26
+Ca           7.656e-003
+   Ca+2           7.656e-003  3.713e-002    -2.116    -1.430     0.686    -13.38
+Cl           6.040e+000
+   Cl-            6.040e+000  4.039e+000     0.781     0.606    -0.175     20.41
+K            2.200e-001
+   K+             2.200e-001  2.043e-001    -0.657    -0.690    -0.032     13.15
+Mg           1.245e+000
+   Mg+2           1.244e+000  1.250e+001     0.095     1.097     1.002    -16.76
+   MgCO3          1.120e-003  1.120e-003    -2.951    -2.951     0.000    -17.09
+   MgOH+          4.900e-004  3.553e-004    -3.310    -3.449    -0.140     (0)  
+Na           4.098e+000
+   Na+            4.098e+000  9.198e+000     0.613     0.964     0.351      2.06
+S(6)         3.303e-001
+   SO4-2          3.303e-001  1.346e-003    -0.481    -2.871    -2.390     29.11
+   HSO4-          8.990e-009  5.077e-009    -8.046    -8.294    -0.248     42.25
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.08     -4.30   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.47     -4.25   -1.78  K2SO4
+	Bischofite       -2.98      1.47    4.46  MgCl2:6H2O
+	Bloedite         -0.93     -3.28   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -1.49    -12.37  -10.88  Mg(OH)2
+	Burkeite         -6.16     -6.94   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.94      1.39    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          2.80    -14.29  -17.08  CaMg(CO3)2
+	Epsomite         -0.87     -2.75   -1.88  MgSO4:7H2O
+	Gaylussite       -4.73    -14.15   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -3.04     -6.85   -3.80  NaK3(SO4)2
+	Glauberite        0.00     -5.24   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.64     -0.14    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.98     -2.61   -1.63  MgSO4:6H2O
+	Kainite          -2.08     -2.28   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.01    -15.07  -10.06  KHCO3
+	Kieserite        -1.79     -1.91   -0.12  MgSO4:H2O
+	Labile_S         -0.80     -6.47   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -1.45     -2.33   -0.89  MgSO4:4H2O
+	Leonite          -2.60     -6.58   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         1.95     -5.88   -7.83  MgCO3
+	Mirabilite       -1.13     -2.34   -1.21  Na2SO4:10H2O
+	Misenite        -59.22    -70.03  -10.81  K8H6(SO4)7
+	Nahcolite        -2.67    -13.41  -10.74  NaHCO3
+	Natron           -5.62     -6.44   -0.82  Na2CO3:10H2O
+	Nesquehonite     -1.13     -6.30   -5.17  MgCO3:3H2O
+	Pentahydrite     -1.19     -2.47   -1.28  MgSO4:5H2O
+	Pirssonite       -4.50    -13.73   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -1.16    -14.91  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.71    -14.90   -5.19  Ca(OH)2
+	Schoenite        -2.53     -6.86   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.98     -0.08    0.90  KCl
+	Syngenite        -1.24     -8.69   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.36    -18.74  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 13.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 2.500e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.07    -4.29     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.81     1.65      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  1.506e-006
+Calcite           0.00    -8.41     -8.41   3.941e-004  3.876e-004 -6.469e-006
+Carnallite       -2.64     1.69      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.71    -2.59     -1.88   0.000e+000           0  0.000e+000
+Glauberite        0.00    -5.25     -5.25   2.551e-003  2.909e-003  3.576e-004
+Gypsum            0.00    -4.58     -4.58   2.724e-003  2.427e-003 -2.966e-004
+Halite            0.00     1.57      1.57   1.569e-001  1.834e-001  2.651e-002
+Hexahydrite      -0.81    -2.45     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.60    -1.72     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -0.71   -14.45    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               2.439e-002  4.401e-004
+	C                2.599e-003  4.690e-005
+	Ca               6.539e-003  1.180e-004
+	Cl               6.075e+000  1.096e-001
+	K                2.748e-001  4.960e-003
+	Mg               1.555e+000  2.807e-002
+	Na               3.609e+000  6.514e-002
+	S                3.893e-001  7.027e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.406      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 515133
+                          Density (g/cm3)  =   1.23221
+                               Volume (L)  =   0.02068
+                        Activity of water  =   0.716
+                           Ionic strength  =  8.890e+000
+                       Mass of water (kg)  =  1.805e-002
+                 Total alkalinity (eq/kg)  =  5.162e-003
+                       Total CO2 (mol/kg)  =  2.599e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.90
+                               Iterations  =  20
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.55543
+                         Density of water  =   0.99706
+                                  Total H  = 2.003533e+000
+                                  Total O  = 1.030014e+000
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.883e-006  1.836e-007    -5.725    -6.736    -1.011      6.96
+   H+             3.323e-009  3.927e-008    -8.479    -7.406     1.073      0.00
+   H2O            5.551e+001  7.157e-001     1.744    -0.145     0.000     18.07
+Br           2.439e-002
+   Br-            2.439e-002  2.652e-002    -1.613    -1.576     0.036     27.59
+C(4)         2.599e-003
+   MgCO3          1.718e-003  1.718e-003    -2.765    -2.765     0.000    -17.09
+   HCO3-          7.320e-004  9.100e-005    -3.135    -4.041    -0.905     43.24
+   CO3-2          1.452e-004  1.061e-007    -3.838    -6.974    -3.136     12.30
+   CO2            3.281e-006  1.096e-005    -5.484    -4.960     0.524     30.26
+Ca           6.539e-003
+   Ca+2           6.539e-003  3.698e-002    -2.185    -1.432     0.753    -13.18
+Cl           6.075e+000
+   Cl-            6.075e+000  4.154e+000     0.784     0.618    -0.165     20.47
+K            2.748e-001
+   K+             2.748e-001  2.671e-001    -0.561    -0.573    -0.012     13.38
+Mg           1.555e+000
+   Mg+2           1.553e+000  1.911e+001     0.191     1.281     1.090    -16.53
+   MgCO3          1.718e-003  1.718e-003    -2.765    -2.765     0.000    -17.09
+   MgOH+          7.008e-004  5.407e-004    -3.154    -3.267    -0.113     (0)  
+Na           3.609e+000
+   Na+            3.609e+000  8.943e+000     0.557     0.951     0.394      2.20
+S(6)         3.893e-001
+   SO4-2          3.893e-001  1.387e-003    -0.410    -2.858    -2.448     29.57
+   HSO4-          8.131e-009  5.188e-009    -8.090    -8.285    -0.195     42.29
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.07     -4.29   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.23     -4.00   -1.78  K2SO4
+	Bischofite       -2.81      1.65    4.46  MgCl2:6H2O
+	Bloedite         -0.77     -3.11   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -1.31    -12.19  -10.88  Mg(OH)2
+	Burkeite         -6.21     -6.98   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.64      1.69    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          2.98    -14.10  -17.08  CaMg(CO3)2
+	Epsomite         -0.71     -2.59   -1.88  MgSO4:7H2O
+	Gaylussite       -4.78    -14.20   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.68     -6.48   -3.80  NaK3(SO4)2
+	Glauberite        0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.65     -0.15    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.81     -2.45   -1.63  MgSO4:6H2O
+	Kainite          -1.77     -1.97   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.90    -14.95  -10.06  KHCO3
+	Kieserite        -1.60     -1.72   -0.12  MgSO4:H2O
+	Labile_S         -0.82     -6.49   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -1.27     -2.16   -0.89  MgSO4:4H2O
+	Leonite          -2.18     -6.16   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.14     -5.69   -7.83  MgCO3
+	Mirabilite       -1.19     -2.41   -1.21  Na2SO4:10H2O
+	Misenite        -58.22    -69.03  -10.81  K8H6(SO4)7
+	Nahcolite        -2.69    -13.43  -10.74  NaHCO3
+	Natron           -5.70     -6.52   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.96     -6.13   -5.17  MgCO3:3H2O
+	Pentahydrite     -1.02     -2.30   -1.28  MgSO4:5H2O
+	Pirssonite       -4.53    -13.77   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -0.71    -14.45  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.71    -14.90   -5.19  Ca(OH)2
+	Schoenite        -2.12     -6.45   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.85      0.05    0.90  KCl
+	Syngenite        -0.99     -8.44   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.41    -18.79  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 14.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.760e-001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.05    -4.28     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.64     1.82      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  1.362e-006
+Calcite           0.00    -8.41     -8.41   3.876e-004  3.777e-004 -9.938e-006
+Carnallite       -2.35     1.98      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.56    -2.44     -1.88   0.000e+000           0  0.000e+000
+Glauberite        0.00    -5.25     -5.25   2.909e-003  2.946e-003  3.731e-005
+Gypsum            0.00    -4.58     -4.58   2.427e-003  2.437e-003  9.592e-006
+Halite            0.00     1.57      1.57   1.834e-001  2.020e-001  1.864e-002
+Hexahydrite      -0.66    -2.29     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.41    -1.53     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -0.27   -14.01    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               2.959e-002  4.401e-004
+	C                3.729e-003  5.548e-005
+	Ca               5.448e-003  8.105e-005
+	Cl               6.117e+000  9.100e-002
+	K                3.334e-001  4.960e-003
+	Mg               1.887e+000  2.807e-002
+	Na               3.121e+000  4.643e-002
+	S                4.667e-001  6.943e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.410      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 539390
+                          Density (g/cm3)  =   1.24052
+                               Volume (L)  =   0.01709
+                        Activity of water  =   0.704
+                           Ionic strength  =  9.513e+000
+                       Mass of water (kg)  =  1.488e-002
+                 Total alkalinity (eq/kg)  =  7.598e-003
+                       Total CO2 (mol/kg)  =  3.729e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.06
+                               Iterations  =  22
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.62789
+                         Density of water  =   0.99706
+                                  Total H  = 1.651494e+000
+                                  Total O  = 8.536850e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.395e-006  1.822e-007    -5.621    -6.739    -1.119      7.62
+   H+             2.854e-009  3.893e-008    -8.545    -7.410     1.135      0.00
+   H2O            5.551e+001  7.041e-001     1.744    -0.152     0.000     18.07
+Br           2.959e-002
+   Br-            2.959e-002  3.424e-002    -1.529    -1.465     0.063     27.69
+C(4)         3.729e-003
+   MgCO3          2.642e-003  2.642e-003    -2.578    -2.578     0.000    -17.09
+   HCO3-          8.487e-004  9.030e-005    -3.071    -4.044    -0.973     44.43
+   CO3-2          2.356e-004  1.062e-007    -3.628    -6.974    -3.346     13.03
+   CO2            3.098e-006  1.096e-005    -5.509    -4.960     0.549     30.26
+Ca           5.448e-003
+   Ca+2           5.448e-003  3.695e-002    -2.264    -1.432     0.831    -12.94
+Cl           6.117e+000
+   Cl-            6.117e+000  4.294e+000     0.787     0.633    -0.154     20.54
+K            3.334e-001
+   K+             3.334e-001  3.410e-001    -0.477    -0.467     0.010     13.65
+Mg           1.887e+000
+   Mg+2           1.883e+000  2.935e+001     0.275     1.468     1.193    -16.27
+   MgCO3          2.642e-003  2.642e-003    -2.578    -2.578     0.000    -17.09
+   MgOH+          9.920e-004  8.242e-004    -3.003    -3.084    -0.080     (0)  
+Na           3.121e+000
+   Na+            3.121e+000  8.652e+000     0.494     0.937     0.443      2.35
+S(6)         4.667e-001
+   SO4-2          4.667e-001  1.434e-003    -0.331    -2.843    -2.512     30.09
+   HSO4-          7.368e-009  5.319e-009    -8.133    -8.274    -0.142     42.34
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.05     -4.28   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.00     -3.78   -1.78  K2SO4
+	Bischofite       -2.64      1.82    4.46  MgCl2:6H2O
+	Bloedite         -0.61     -2.95   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -1.13    -12.01  -10.88  Mg(OH)2
+	Burkeite         -6.27     -7.04   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.35      1.98    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.17    -13.91  -17.08  CaMg(CO3)2
+	Epsomite         -0.56     -2.44   -1.88  MgSO4:7H2O
+	Gaylussite       -4.85    -14.27   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.35     -6.15   -3.80  NaK3(SO4)2
+	Glauberite        0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.66     -0.15    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.66     -2.29   -1.63  MgSO4:6H2O
+	Kainite          -1.47     -1.67   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.79    -14.85  -10.06  KHCO3
+	Kieserite        -1.41     -1.53   -0.12  MgSO4:H2O
+	Labile_S         -0.85     -6.52   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -1.10     -1.99   -0.89  MgSO4:4H2O
+	Leonite          -1.78     -5.76   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.33     -5.51   -7.83  MgCO3
+	Mirabilite       -1.28     -2.49   -1.21  Na2SO4:10H2O
+	Misenite        -57.29    -68.10  -10.81  K8H6(SO4)7
+	Nahcolite        -2.70    -13.45  -10.74  NaHCO3
+	Natron           -5.80     -6.62   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.80     -5.96   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.85     -2.14   -1.28  MgSO4:5H2O
+	Pirssonite       -4.58    -13.81   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -0.27    -14.01  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.72    -14.91   -5.19  Ca(OH)2
+	Schoenite        -1.74     -6.07   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.73      0.17    0.90  KCl
+	Syngenite        -0.76     -8.21   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.47    -18.85  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 15.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 5.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.05    -4.27     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.57     1.88      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.772e-007
+Calcite           0.00    -8.41     -8.41   3.777e-004  3.731e-004 -4.596e-006
+Carnallite       -2.24     2.09      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.51    -2.39     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.00    -5.25     -5.25   2.946e-003  2.894e-003 -5.167e-005
+Gypsum            0.00    -4.58     -4.58   2.437e-003  2.503e-003  6.638e-005
+Halite            0.00     1.57      1.57   2.020e-001  2.073e-001  5.297e-003
+Hexahydrite      -0.60    -2.23     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.34    -1.46     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -0.11   -13.86    -13.74   0.000e+000           0  0.000e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               3.150e-002  4.401e-004
+	C                4.265e-003  5.960e-005
+	Ca               5.077e-003  7.094e-005
+	Cl               6.133e+000  8.570e-002
+	K                3.550e-001  4.960e-003
+	Mg               2.009e+000  2.807e-002
+	Na               2.951e+000  4.123e-002
+	S                4.995e-001  6.980e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.411      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 548763
+                          Density (g/cm3)  =   1.24393
+                               Volume (L)  =   0.01608
+                        Activity of water  =   0.699
+                           Ionic strength  =  9.755e+000
+                       Mass of water (kg)  =  1.397e-002
+                 Total alkalinity (eq/kg)  =  8.747e-003
+                       Total CO2 (mol/kg)  =  4.265e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.11
+                               Iterations  =  33
+                         Gamma iterations  =   7
+                      Osmotic coefficient  =   1.65552
+                         Density of water  =   0.99706
+                                  Total H  = 1.551229e+000
+                                  Total O  = 8.037129e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.612e-006  1.816e-007    -5.583    -6.741    -1.158      7.88
+   H+             2.687e-009  3.882e-008    -8.571    -7.411     1.160      0.00
+   H2O            5.551e+001  6.995e-001     1.744    -0.155     0.000     18.07
+Br           3.150e-002
+   Br-            3.150e-002  3.730e-002    -1.502    -1.428     0.073     27.73
+C(4)         4.265e-003
+   MgCO3          3.082e-003  3.082e-003    -2.511    -2.511     0.000    -17.09
+   HCO3-          9.004e-004  8.997e-005    -3.046    -4.046    -1.000     44.90
+   CO3-2          2.800e-004  1.061e-007    -3.553    -6.974    -3.421     13.31
+   CO2            3.026e-006  1.096e-005    -5.519    -4.960     0.559     30.26
+Ca           5.077e-003
+   Ca+2           5.077e-003  3.698e-002    -2.294    -1.432     0.862    -12.85
+Cl           6.133e+000
+   Cl-            6.133e+000  4.350e+000     0.788     0.639    -0.149     20.57
+K            3.550e-001
+   K+             3.550e-001  3.701e-001    -0.450    -0.432     0.018     13.75
+Mg           2.009e+000
+   Mg+2           2.005e+000  3.427e+001     0.302     1.535     1.233    -16.16
+   MgCO3          3.082e-003  3.082e-003    -2.511    -2.511     0.000    -17.09
+   MgOH+          1.121e-003  9.586e-004    -2.951    -3.018    -0.068     (0)  
+Na           2.951e+000
+   Na+            2.951e+000  8.541e+000     0.470     0.931     0.462      2.41
+S(6)         4.995e-001
+   SO4-2          4.995e-001  1.452e-003    -0.301    -2.838    -2.536     30.29
+   HSO4-          7.123e-009  5.370e-009    -8.147    -8.270    -0.123     42.35
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.05     -4.27   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -1.93     -3.70   -1.78  K2SO4
+	Bischofite       -2.57      1.88    4.46  MgCl2:6H2O
+	Bloedite         -0.55     -2.90   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -1.07    -11.95  -10.88  Mg(OH)2
+	Burkeite         -6.29     -7.06   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.24      2.09    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.24    -13.85  -17.08  CaMg(CO3)2
+	Epsomite         -0.51     -2.39   -1.88  MgSO4:7H2O
+	Gaylussite       -4.87    -14.29   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.24     -6.04   -3.80  NaK3(SO4)2
+	Glauberite       -0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.66     -0.16    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.60     -2.23   -1.63  MgSO4:6H2O
+	Kainite          -1.37     -1.56   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.76    -14.82  -10.06  KHCO3
+	Kieserite        -1.34     -1.46   -0.12  MgSO4:H2O
+	Labile_S         -0.86     -6.53   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -1.04     -1.92   -0.89  MgSO4:4H2O
+	Leonite          -1.65     -5.63   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.39     -5.44   -7.83  MgCO3
+	Mirabilite       -1.31     -2.53   -1.21  Na2SO4:10H2O
+	Misenite        -56.98    -67.79  -10.81  K8H6(SO4)7
+	Nahcolite        -2.71    -13.45  -10.74  NaHCO3
+	Natron           -5.84     -6.66   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.74     -5.91   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.79     -2.08   -1.28  MgSO4:5H2O
+	Pirssonite       -4.59    -13.83   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -0.11    -13.86  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.72    -14.91   -5.19  Ca(OH)2
+	Schoenite        -1.61     -5.94   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.69      0.21    0.90  KCl
+	Syngenite        -0.68     -8.13   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.49    -18.88  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 16.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 5.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.04    -4.26     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.51     1.94      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.715e-007
+Calcite           0.00    -8.41     -8.41   3.731e-004  3.681e-004 -4.964e-006
+Carnallite       -2.16     2.17      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.46    -2.34     -1.88   0.000e+000           0  0.000e+000
+Glauberite        0.00    -5.25     -5.25   2.894e-003  2.592e-003 -3.023e-004
+Gypsum            0.00    -4.58     -4.58   2.503e-003  2.540e-003  3.668e-005
+Halite            0.00     1.57      1.57   2.073e-001  2.128e-001  5.477e-003
+Hexahydrite      -0.54    -2.18     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.26    -1.39     -0.12   0.000e+000           0  0.000e+000
+Polyhalite        0.00   -13.74    -13.74   0.000e+000  1.399e-004  1.399e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               3.368e-002  4.401e-004
+	C                4.905e-003  6.409e-005
+	Ca               4.714e-003  6.159e-005
+	Cl               6.140e+000  8.023e-002
+	K                3.582e-001  4.680e-003
+	Mg               2.138e+000  2.793e-002
+	Na               2.783e+000  3.636e-002
+	S                5.348e-001  6.988e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.412      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 557669
+                          Density (g/cm3)  =   1.24730
+                               Volume (L)  =   0.01505
+                        Activity of water  =   0.695
+                           Ionic strength  =  1.000e+001
+                       Mass of water (kg)  =  1.307e-002
+                 Total alkalinity (eq/kg)  =  1.011e-002
+                       Total CO2 (mol/kg)  =  4.905e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.17
+                               Iterations  =  25
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.68640
+                         Density of water  =   0.99706
+                                  Total H  = 1.450522e+000
+                                  Total O  = 7.534058e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.865e-006  1.805e-007    -5.543    -6.743    -1.201      8.14
+   H+             2.528e-009  3.877e-008    -8.597    -7.412     1.186      0.00
+   H2O            5.551e+001  6.946e-001     1.744    -0.158     0.000     18.07
+Br           3.368e-002
+   Br-            3.368e-002  4.084e-002    -1.473    -1.389     0.084     27.76
+C(4)         4.905e-003
+   MgCO3          3.608e-003  3.608e-003    -2.443    -2.443     0.000    -17.09
+   HCO3-          9.581e-004  8.946e-005    -3.019    -4.048    -1.030     45.38
+   CO3-2          3.365e-004  1.057e-007    -3.473    -6.976    -3.503     13.59
+   CO2            2.951e-006  1.096e-005    -5.530    -4.960     0.570     30.26
+Ca           4.714e-003
+   Ca+2           4.714e-003  3.714e-002    -2.327    -1.430     0.896    -12.76
+Cl           6.140e+000
+   Cl-            6.140e+000  4.401e+000     0.788     0.644    -0.145     20.59
+K            3.582e-001
+   K+             3.582e-001  3.815e-001    -0.446    -0.418     0.027     13.86
+Mg           2.138e+000
+   Mg+2           2.133e+000  4.029e+001     0.329     1.605     1.276    -16.06
+   MgCO3          3.608e-003  3.608e-003    -2.443    -2.443     0.000    -17.09
+   MgOH+          1.265e-003  1.121e-003    -2.898    -2.951    -0.053     (0)  
+Na           2.783e+000
+   Na+            2.783e+000  8.442e+000     0.444     0.926     0.482      2.48
+S(6)         5.348e-001
+   SO4-2          5.348e-001  1.466e-003    -0.272    -2.834    -2.562     30.49
+   HSO4-          6.859e-009  5.414e-009    -8.164    -8.266    -0.103     42.37
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.04     -4.26   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -1.89     -3.67   -1.78  K2SO4
+	Bischofite       -2.51      1.94    4.46  MgCl2:6H2O
+	Bloedite         -0.50     -2.84   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -1.00    -11.88  -10.88  Mg(OH)2
+	Burkeite         -6.31     -7.09   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.16      2.17    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.31    -13.78  -17.08  CaMg(CO3)2
+	Epsomite         -0.46     -2.34   -1.88  MgSO4:7H2O
+	Gaylussite       -4.90    -14.32   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.19     -6.00   -3.80  NaK3(SO4)2
+	Glauberite        0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.66     -0.16    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.54     -2.18   -1.63  MgSO4:6H2O
+	Kainite          -1.29     -1.48   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.75    -14.81  -10.06  KHCO3
+	Kieserite        -1.26     -1.39   -0.12  MgSO4:H2O
+	Labile_S         -0.87     -6.54   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.97     -1.86   -0.89  MgSO4:4H2O
+	Leonite          -1.55     -5.53   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.46     -5.37   -7.83  MgCO3
+	Mirabilite       -1.35     -2.56   -1.21  Na2SO4:10H2O
+	Misenite        -56.85    -67.65  -10.81  K8H6(SO4)7
+	Nahcolite        -2.72    -13.46  -10.74  NaHCO3
+	Natron           -5.88     -6.71   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.68     -5.85   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.73     -2.02   -1.28  MgSO4:5H2O
+	Pirssonite       -4.61    -13.85   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite        0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.73    -14.92   -5.19  Ca(OH)2
+	Schoenite        -1.52     -5.85   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.67      0.23    0.90  KCl
+	Syngenite        -0.65     -8.09   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.52    -18.90  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 17.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 5.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.03    -4.26     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.45     2.00      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  3.995e-007
+Calcite           0.00    -8.41     -8.41   3.681e-004  3.636e-004 -4.483e-006
+Carnallite       -2.14     2.19      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.40    -2.29     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.00    -5.25     -5.25   2.592e-003  1.882e-003 -7.103e-004
+Gypsum            0.00    -4.58     -4.58   2.540e-003  2.479e-003 -6.092e-005
+Halite            0.00     1.57      1.57   2.128e-001  2.186e-001  5.797e-003
+Hexahydrite      -0.49    -2.12     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.20    -1.32     -0.12   0.000e+000           0  0.000e+000
+Polyhalite        0.00   -13.74    -13.74   1.399e-004  5.319e-004  3.920e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               3.621e-002  4.401e-004
+	C                5.610e-003  6.818e-005
+	Ca               4.391e-003  5.337e-005
+	Cl               6.124e+000  7.443e-002
+	K                3.206e-001  3.896e-003
+	Mg               2.266e+000  2.754e-002
+	Na               2.632e+000  3.198e-002
+	S                5.679e-001  6.901e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.411      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 563614
+                          Density (g/cm3)  =   1.24995
+                               Volume (L)  =   0.01400
+                        Activity of water  =   0.690
+                           Ionic strength  =  1.022e+001
+                       Mass of water (kg)  =  1.215e-002
+                 Total alkalinity (eq/kg)  =  1.161e-002
+                       Total CO2 (mol/kg)  =  5.610e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.25
+                               Iterations  =  23
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.72044
+                         Density of water  =   0.99706
+                                  Total H  = 1.349198e+000
+                                  Total O  = 7.024111e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            3.154e-006  1.790e-007    -5.501    -6.747    -1.246      8.37
+   H+             2.400e-009  3.886e-008    -8.620    -7.411     1.209      0.00
+   H2O            5.551e+001  6.904e-001     1.744    -0.161     0.000     18.07
+Br           3.621e-002
+   Br-            3.621e-002  4.482e-002    -1.441    -1.349     0.093     27.80
+C(4)         5.610e-003
+   MgCO3          4.184e-003  4.184e-003    -2.378    -2.378     0.000    -17.09
+   HCO3-          1.015e-003  8.871e-005    -2.993    -4.052    -1.059     45.80
+   CO3-2          4.072e-004  1.045e-007    -3.390    -6.981    -3.591     13.84
+   CO2            2.883e-006  1.096e-005    -5.540    -4.960     0.580     30.26
+Ca           4.391e-003
+   Ca+2           4.391e-003  3.754e-002    -2.357    -1.425     0.932    -12.68
+Cl           6.124e+000
+   Cl-            6.124e+000  4.431e+000     0.787     0.646    -0.141     20.62
+K            3.206e-001
+   K+             3.206e-001  3.497e-001    -0.494    -0.456     0.038     13.95
+Mg           2.266e+000
+   Mg+2           2.260e+000  4.724e+001     0.354     1.674     1.320    -15.97
+   MgCO3          4.184e-003  4.184e-003    -2.378    -2.378     0.000    -17.09
+   MgOH+          1.410e-003  1.303e-003    -2.851    -2.885    -0.034     (0)  
+Na           2.632e+000
+   Na+            2.632e+000  8.385e+000     0.420     0.923     0.503      2.53
+S(6)         5.679e-001
+   SO4-2          5.679e-001  1.468e-003    -0.246    -2.833    -2.588     30.67
+   HSO4-          6.567e-009  5.434e-009    -8.183    -8.265    -0.082     42.38
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.03     -4.26   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -1.97     -3.75   -1.78  K2SO4
+	Bischofite       -2.45      2.00    4.46  MgCl2:6H2O
+	Bloedite         -0.44     -2.79   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -0.94    -11.82  -10.88  Mg(OH)2
+	Burkeite         -6.33     -7.11   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.14      2.19    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.37    -13.71  -17.08  CaMg(CO3)2
+	Epsomite         -0.40     -2.29   -1.88  MgSO4:7H2O
+	Gaylussite       -4.92    -14.34   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.31     -6.11   -3.80  NaK3(SO4)2
+	Glauberite       -0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.66     -0.16    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.49     -2.12   -1.63  MgSO4:6H2O
+	Kainite          -1.26     -1.45   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.79    -14.85  -10.06  KHCO3
+	Kieserite        -1.20     -1.32   -0.12  MgSO4:H2O
+	Labile_S         -0.88     -6.55   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.92     -1.80   -0.89  MgSO4:4H2O
+	Leonite          -1.57     -5.55   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.53     -5.31   -7.83  MgCO3
+	Mirabilite       -1.38     -2.60   -1.21  Na2SO4:10H2O
+	Misenite        -57.14    -67.95  -10.81  K8H6(SO4)7
+	Nahcolite        -2.73    -13.47  -10.74  NaHCO3
+	Natron           -5.92     -6.74   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.62     -5.79   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.68     -1.96   -1.28  MgSO4:5H2O
+	Pirssonite       -4.63    -13.86   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite        0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.73    -14.92   -5.19  Ca(OH)2
+	Schoenite        -1.54     -5.87   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.71      0.19    0.90  KCl
+	Syngenite        -0.72     -8.17   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.54    -18.92  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 18.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 5.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.03    -4.25     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.38     2.07      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.689e-007
+Calcite           0.00    -8.41     -8.41   3.636e-004  3.573e-004 -6.271e-006
+Carnallite       -2.11     2.22      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.35    -2.23     -1.88   0.000e+000           0  0.000e+000
+Glauberite        0.00    -5.25     -5.25   1.882e-003  1.168e-003 -7.140e-004
+Gypsum            0.00    -4.58     -4.58   2.479e-003  2.468e-003 -1.114e-005
+Halite            0.00     1.57      1.57   2.186e-001  2.244e-001  5.779e-003
+Hexahydrite      -0.43    -2.06     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.12    -1.24     -0.12   0.000e+000           0  0.000e+000
+Polyhalite        0.00   -13.74    -13.74   5.319e-004  9.017e-004  3.697e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               3.916e-002  4.401e-004
+	C                6.582e-003  7.398e-005
+	Ca               4.028e-003  4.527e-005
+	Cl               6.108e+000  6.865e-002
+	K                2.808e-001  3.157e-003
+	Mg               2.417e+000  2.717e-002
+	Na               2.459e+000  2.763e-002
+	S                6.105e-001  6.861e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.409      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 571695
+                          Density (g/cm3)  =   1.25343
+                               Volume (L)  =   0.01295
+                        Activity of water  =   0.685
+                           Ionic strength  =  1.050e+001
+                       Mass of water (kg)  =  1.124e-002
+                 Total alkalinity (eq/kg)  =  1.367e-002
+                       Total CO2 (mol/kg)  =  6.582e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.34
+                               Iterations  =  24
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.76136
+                         Density of water  =   0.99706
+                                  Total H  = 1.247764e+000
+                                  Total O  = 6.515522e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            3.526e-006  1.771e-007    -5.453    -6.752    -1.299      8.66
+   H+             2.251e-009  3.896e-008    -8.648    -7.409     1.238      0.00
+   H2O            5.551e+001  6.851e-001     1.744    -0.164     0.000     18.07
+Br           3.916e-002
+   Br-            3.916e-002  4.965e-002    -1.407    -1.304     0.103     27.84
+C(4)         6.582e-003
+   MgCO3          4.981e-003  4.981e-003    -2.303    -2.303     0.000    -17.09
+   HCO3-          1.091e-003  8.778e-005    -2.962    -4.057    -1.094     46.32
+   CO3-2          5.074e-004  1.031e-007    -3.295    -6.987    -3.692     14.15
+   CO2            2.798e-006  1.096e-005    -5.553    -4.960     0.593     30.26
+Ca           4.028e-003
+   Ca+2           4.028e-003  3.805e-002    -2.395    -1.420     0.975    -12.58
+Cl           6.108e+000
+   Cl-            6.108e+000  4.471e+000     0.786     0.650    -0.136     20.64
+K            2.808e-001
+   K+             2.808e-001  3.152e-001    -0.552    -0.501     0.050     14.07
+Mg           2.417e+000
+   Mg+2           2.411e+000  5.698e+001     0.382     1.756     1.374    -15.85
+   MgCO3          4.981e-003  4.981e-003    -2.303    -2.303     0.000    -17.09
+   MgOH+          1.601e-003  1.555e-003    -2.796    -2.808    -0.013     (0)  
+Na           2.459e+000
+   Na+            2.459e+000  8.310e+000     0.391     0.920     0.529      2.60
+S(6)         6.105e-001
+   SO4-2          6.105e-001  1.471e-003    -0.214    -2.832    -2.618     30.88
+   HSO4-          6.253e-009  5.462e-009    -8.204    -8.263    -0.059     42.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.03     -4.25   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.06     -3.83   -1.78  K2SO4
+	Bischofite       -2.38      2.07    4.46  MgCl2:6H2O
+	Bloedite         -0.38     -2.73   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -0.87    -11.75  -10.88  Mg(OH)2
+	Burkeite         -6.36     -7.13   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.11      2.22    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.45    -13.64  -17.08  CaMg(CO3)2
+	Epsomite         -0.35     -2.23   -1.88  MgSO4:7H2O
+	Gaylussite       -4.95    -14.37   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.45     -6.25   -3.80  NaK3(SO4)2
+	Glauberite        0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.67     -0.16    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.43     -2.06   -1.63  MgSO4:6H2O
+	Kainite          -1.23     -1.42   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.84    -14.90  -10.06  KHCO3
+	Kieserite        -1.12     -1.24   -0.12  MgSO4:H2O
+	Labile_S         -0.89     -6.57   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.85     -1.73   -0.89  MgSO4:4H2O
+	Leonite          -1.59     -5.57   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.60     -5.23   -7.83  MgCO3
+	Mirabilite       -1.42     -2.64   -1.21  Na2SO4:10H2O
+	Misenite        -57.49    -68.29  -10.81  K8H6(SO4)7
+	Nahcolite        -2.73    -13.48  -10.74  NaHCO3
+	Natron           -5.96     -6.79   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.56     -5.72   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.61     -1.90   -1.28  MgSO4:5H2O
+	Pirssonite       -4.65    -13.88   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite        0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.73    -14.92   -5.19  Ca(OH)2
+	Schoenite        -1.57     -5.90   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.75      0.15    0.90  KCl
+	Syngenite        -0.80     -8.25   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.57    -18.95  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 19.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.02    -4.25     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.34     2.12      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  3.265e-007
+Calcite           0.00    -8.41     -8.41   3.573e-004  3.523e-004 -5.004e-006
+Carnallite       -2.09     2.24      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.31    -2.19     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.00    -5.25     -5.25   1.168e-003  7.331e-004 -4.345e-004
+Gypsum            0.00    -4.58     -4.58   2.468e-003  2.493e-003  2.524e-005
+Halite            0.00     1.57      1.57   2.244e-001  2.279e-001  3.459e-003
+Hexahydrite      -0.39    -2.02     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.06    -1.19     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -0.00   -13.74    -13.74   9.017e-004  1.111e-003  2.095e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.117e-002  4.401e-004
+	C                7.357e-003  7.865e-005
+	Ca               3.788e-003  4.050e-005
+	Cl               6.098e+000  6.519e-002
+	K                2.561e-001  2.738e-003
+	Mg               2.522e+000  2.696e-002
+	Na               2.343e+000  2.504e-002
+	S                6.423e-001  6.867e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.408      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 577971
+                          Density (g/cm3)  =   1.25606
+                               Volume (L)  =   0.01233
+                        Activity of water  =   0.681
+                           Ionic strength  =  1.069e+001
+                       Mass of water (kg)  =  1.069e-002
+                 Total alkalinity (eq/kg)  =  1.531e-002
+                       Total CO2 (mol/kg)  =  7.357e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.40
+                               Iterations  =  32
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.79008
+                         Density of water  =   0.99706
+                                  Total H  = 1.186825e+000
+                                  Total O  = 6.211198e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            3.802e-006  1.758e-007    -5.420    -6.755    -1.335      8.86
+   H+             2.149e-009  3.904e-008    -8.668    -7.408     1.259      0.00
+   H2O            5.551e+001  6.811e-001     1.744    -0.167     0.000     18.07
+Br           4.117e-002
+   Br-            4.117e-002  5.310e-002    -1.385    -1.275     0.111     27.86
+C(4)         7.357e-003
+   MgCO3          5.616e-003  5.616e-003    -2.251    -2.251     0.000    -17.09
+   HCO3-          1.149e-003  8.711e-005    -2.940    -4.060    -1.120     46.70
+   CO3-2          5.890e-004  1.022e-007    -3.230    -6.991    -3.761     14.37
+   CO2            2.738e-006  1.096e-005    -5.563    -4.960     0.602     30.26
+Ca           3.788e-003
+   Ca+2           3.788e-003  3.841e-002    -2.422    -1.416     1.006    -12.50
+Cl           6.098e+000
+   Cl-            6.098e+000  4.501e+000     0.785     0.653    -0.132     20.66
+K            2.561e-001
+   K+             2.561e-001  2.932e-001    -0.592    -0.533     0.059     14.15
+Mg           2.522e+000
+   Mg+2           2.514e+000  6.487e+001     0.400     1.812     1.412    -15.77
+   MgCO3          5.616e-003  5.616e-003    -2.251    -2.251     0.000    -17.09
+   MgOH+          1.746e-003  1.757e-003    -2.758    -2.755     0.003     (0)  
+Na           2.343e+000
+   Na+            2.343e+000  8.255e+000     0.370     0.917     0.547      2.64
+S(6)         6.423e-001
+   SO4-2          6.423e-001  1.474e-003    -0.192    -2.831    -2.639     31.03
+   HSO4-          6.056e-009  5.483e-009    -8.218    -8.261    -0.043     42.41
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.02     -4.25   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.12     -3.90   -1.78  K2SO4
+	Bischofite       -2.34      2.12    4.46  MgCl2:6H2O
+	Bloedite         -0.34     -2.68   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -0.82    -11.70  -10.88  Mg(OH)2
+	Burkeite         -6.38     -7.15   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.09      2.24    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.50    -13.58  -17.08  CaMg(CO3)2
+	Epsomite         -0.31     -2.19   -1.88  MgSO4:7H2O
+	Gaylussite       -4.98    -14.40   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.54     -6.34   -3.80  NaK3(SO4)2
+	Glauberite       -0.00     -5.25   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.67     -0.17    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.39     -2.02   -1.63  MgSO4:6H2O
+	Kainite          -1.21     -1.40   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.87    -14.93  -10.06  KHCO3
+	Kieserite        -1.06     -1.19   -0.12  MgSO4:H2O
+	Labile_S         -0.90     -6.58   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.80     -1.69   -0.89  MgSO4:4H2O
+	Leonite          -1.60     -5.58   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.66     -5.18   -7.83  MgCO3
+	Mirabilite       -1.45     -2.67   -1.21  Na2SO4:10H2O
+	Misenite        -57.73    -68.53  -10.81  K8H6(SO4)7
+	Nahcolite        -2.74    -13.48  -10.74  NaHCO3
+	Natron           -6.00     -6.82   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.51     -5.68   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.57     -1.85   -1.28  MgSO4:5H2O
+	Pirssonite       -4.66    -13.90   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.74    -14.93   -5.19  Ca(OH)2
+	Schoenite        -1.59     -5.92   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.78      0.12    0.90  KCl
+	Syngenite        -0.86     -8.31   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.59    -18.97  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 20.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.02    -4.24     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.28     2.17      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  3.712e-007
+Calcite           0.00    -8.41     -8.41   3.523e-004  3.460e-004 -6.314e-006
+Carnallite       -2.07     2.26      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.26    -2.14     -1.88   0.000e+000           0  0.000e+000
+Glauberite        0.00    -5.24     -5.25   7.331e-004  2.896e-004 -4.435e-004
+Gypsum            0.00    -4.58     -4.58   2.493e-003  2.549e-003  5.643e-005
+Halite            0.00     1.57      1.57   2.279e-001  2.313e-001  3.455e-003
+Hexahydrite      -0.34    -1.97     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -1.00    -1.12     -0.12   0.000e+000           0  0.000e+000
+Polyhalite        0.00   -13.74    -13.74   1.111e-003  1.310e-003  1.990e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.340e-002  4.401e-004
+	C                8.342e-003  8.460e-005
+	Ca               3.531e-003  3.580e-005
+	Cl               6.088e+000  6.174e-002
+	K                2.307e-001  2.339e-003
+	Mg               2.639e+000  2.676e-002
+	Na               2.216e+000  2.248e-002
+	S                6.806e-001  6.902e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.408      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 585693
+                          Density (g/cm3)  =   1.25922
+                               Volume (L)  =   0.01170
+                        Activity of water  =   0.676
+                           Ionic strength  =  1.092e+001
+                       Mass of water (kg)  =  1.014e-002
+                 Total alkalinity (eq/kg)  =  1.738e-002
+                       Total CO2 (mol/kg)  =  8.342e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.46
+                               Iterations  =  28
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.82263
+                         Density of water  =   0.99706
+                                  Total H  = 1.125803e+000
+                                  Total O  = 5.907647e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            4.132e-006  1.742e-007    -5.384    -6.759    -1.375      9.10
+   H+             2.037e-009  3.913e-008    -8.691    -7.408     1.284      0.00
+   H2O            5.551e+001  6.765e-001     1.744    -0.170     0.000     18.07
+Br           4.340e-002
+   Br-            4.340e-002  5.706e-002    -1.363    -1.244     0.119     27.90
+C(4)         8.342e-003
+   MgCO3          6.424e-003  6.424e-003    -2.192    -2.192     0.000    -17.09
+   HCO3-          1.222e-003  8.633e-005    -2.913    -4.064    -1.151     47.13
+   CO3-2          6.939e-004  1.010e-007    -3.159    -6.996    -3.837     14.63
+   CO2            2.668e-006  1.096e-005    -5.574    -4.960     0.614     30.26
+Ca           3.531e-003
+   Ca+2           3.531e-003  3.885e-002    -2.452    -1.411     1.041    -12.42
+Cl           6.088e+000
+   Cl-            6.088e+000  4.537e+000     0.784     0.657    -0.128     20.69
+K            2.307e-001
+   K+             2.307e-001  2.701e-001    -0.637    -0.569     0.068     14.25
+Mg           2.639e+000
+   Mg+2           2.630e+000  7.504e+001     0.420     1.875     1.455    -15.67
+   MgCO3          6.424e-003  6.424e-003    -2.192    -2.192     0.000    -17.09
+   MgOH+          1.923e-003  2.014e-003    -2.716    -2.696     0.020     (0)  
+Na           2.216e+000
+   Na+            2.216e+000  8.188e+000     0.346     0.913     0.568      2.70
+S(6)         6.806e-001
+   SO4-2          6.806e-001  1.478e-003    -0.167    -2.830    -2.663     31.21
+   HSO4-          5.851e-009  5.509e-009    -8.233    -8.259    -0.026     42.42
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.02     -4.24   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.19     -3.97   -1.78  K2SO4
+	Bischofite       -2.28      2.17    4.46  MgCl2:6H2O
+	Bloedite         -0.29     -2.64   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -0.76    -11.64  -10.88  Mg(OH)2
+	Burkeite         -6.41     -7.18   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.07      2.26    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.56    -13.53  -17.08  CaMg(CO3)2
+	Epsomite         -0.26     -2.14   -1.88  MgSO4:7H2O
+	Gaylussite       -5.00    -14.42   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.65     -6.45   -3.80  NaK3(SO4)2
+	Glauberite        0.00     -5.24   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.67     -0.17    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.34     -1.97   -1.63  MgSO4:6H2O
+	Kainite          -1.18     -1.38   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.91    -14.97  -10.06  KHCO3
+	Kieserite        -1.00     -1.12   -0.12  MgSO4:H2O
+	Labile_S         -0.92     -6.59   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.75     -1.63   -0.89  MgSO4:4H2O
+	Leonite          -1.62     -5.60   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.71     -5.12   -7.83  MgCO3
+	Mirabilite       -1.49     -2.70   -1.21  Na2SO4:10H2O
+	Misenite        -58.00    -68.81  -10.81  K8H6(SO4)7
+	Nahcolite        -2.75    -13.49  -10.74  NaHCO3
+	Natron           -6.04     -6.87   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.46     -5.63   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.52     -1.80   -1.28  MgSO4:5H2O
+	Pirssonite       -4.68    -13.91   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite        0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.74    -14.93   -5.19  Ca(OH)2
+	Schoenite        -1.61     -5.94   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.81      0.09    0.90  KCl
+	Syngenite        -0.93     -8.38   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.61    -19.00  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 21.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite        -0.01    -4.23     -4.22   0.000e+000           0  0.000e+000
+Bischofite       -2.22     2.23      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  4.575e-007
+Calcite           0.00    -8.41     -8.41   3.460e-004  3.391e-004 -6.885e-006
+Carnallite       -2.04     2.29      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.22    -2.10     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.01    -5.26     -5.25   2.896e-004           0 -2.896e-004
+Gypsum            0.00    -4.58     -4.58   2.549e-003  2.505e-003 -4.397e-005
+Halite            0.00     1.57      1.57   2.313e-001  2.345e-001  3.211e-003
+Hexahydrite      -0.29    -1.93     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -0.94    -1.06     -0.12   0.000e+000           0  0.000e+000
+Polyhalite        0.00   -13.74    -13.74   1.310e-003  1.483e-003  1.723e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.587e-002  4.401e-004
+	C                9.486e-003  9.102e-005
+	Ca               3.296e-003  3.162e-005
+	Cl               6.099e+000  5.853e-002
+	K                2.079e-001  1.995e-003
+	Mg               2.771e+000  2.659e-002
+	Na               2.068e+000  1.984e-002
+	S                7.123e-001  6.835e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.401      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 595226
+                          Density (g/cm3)  =   1.26243
+                               Volume (L)  =   0.01108
+                        Activity of water  =   0.671
+                           Ionic strength  =  1.117e+001
+                       Mass of water (kg)  =  9.596e-003
+                 Total alkalinity (eq/kg)  =  1.981e-002
+                       Total CO2 (mol/kg)  =  9.486e-003
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.52
+                               Iterations  =  28
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   1.86189
+                         Density of water  =   0.99706
+                                  Total H  = 1.065289e+000
+                                  Total O  = 5.602634e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            4.488e-006  1.703e-007    -5.348    -6.769    -1.421      9.36
+   H+             1.927e-009  3.968e-008    -8.715    -7.401     1.314      0.00
+   H2O            5.551e+001  6.707e-001     1.744    -0.173     0.000     18.07
+Br           4.587e-002
+   Br-            4.587e-002  6.158e-002    -1.339    -1.211     0.128     27.93
+C(4)         9.486e-003
+   MgCO3          7.371e-003  7.371e-003    -2.132    -2.132     0.000    -17.09
+   HCO3-          1.295e-003  8.439e-005    -2.888    -4.074    -1.186     47.60
+   CO3-2          8.171e-004  9.739e-008    -3.088    -7.011    -3.924     14.90
+   CO2            2.597e-006  1.096e-005    -5.585    -4.960     0.625     30.26
+Ca           3.296e-003
+   Ca+2           3.296e-003  4.029e-002    -2.482    -1.395     1.087    -12.33
+Cl           6.099e+000
+   Cl-            6.099e+000  4.594e+000     0.785     0.662    -0.123     20.71
+K            2.079e-001
+   K+             2.079e-001  2.502e-001    -0.682    -0.602     0.081     14.36
+Mg           2.771e+000
+   Mg+2           2.761e+000  8.931e+001     0.441     1.951     1.510    -15.57
+   MgCO3          7.371e-003  7.371e-003    -2.132    -2.132     0.000    -17.09
+   MgOH+          2.131e-003  2.344e-003    -2.671    -2.630     0.041     (0)  
+Na           2.068e+000
+   Na+            2.068e+000  8.088e+000     0.316     0.908     0.592      2.76
+S(6)         7.123e-001
+   SO4-2          7.123e-001  1.450e-003    -0.147    -2.839    -2.691     31.39
+   HSO4-          5.567e-009  5.479e-009    -8.254    -8.261    -0.007     42.44
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite        -0.01     -4.23   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.27     -4.04   -1.78  K2SO4
+	Bischofite       -2.22      2.23    4.46  MgCl2:6H2O
+	Bloedite         -0.26     -2.60   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -0.71    -11.59  -10.88  Mg(OH)2
+	Burkeite         -6.47     -7.24   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -2.04      2.29    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.62    -13.47  -17.08  CaMg(CO3)2
+	Epsomite         -0.22     -2.10   -1.88  MgSO4:7H2O
+	Gaylussite       -5.05    -14.47   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.77     -6.57   -3.80  NaK3(SO4)2
+	Glauberite       -0.01     -5.26   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.68     -0.17    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.29     -1.93   -1.63  MgSO4:6H2O
+	Kainite          -1.15     -1.35   -0.19  KMgClSO4:3H2O
+	Kalicinite       -4.96    -15.01  -10.06  KHCO3
+	Kieserite        -0.94     -1.06   -0.12  MgSO4:H2O
+	Labile_S         -0.95     -6.63   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.69     -1.58   -0.89  MgSO4:4H2O
+	Leonite          -1.64     -5.62   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.77     -5.06   -7.83  MgCO3
+	Mirabilite       -1.54     -2.76   -1.21  Na2SO4:10H2O
+	Misenite        -58.29    -69.09  -10.81  K8H6(SO4)7
+	Nahcolite        -2.76    -13.51  -10.74  NaHCO3
+	Natron           -6.11     -6.93   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.41     -5.58   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.47     -1.76   -1.28  MgSO4:5H2O
+	Pirssonite       -4.71    -13.95   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite        0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.74    -14.93   -5.19  Ca(OH)2
+	Schoenite        -1.64     -5.97   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.84      0.06    0.90  KCl
+	Syngenite        -1.00     -8.45   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.66    -19.05  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 22.
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite         0.00    -4.22     -4.22   0.000e+000  1.713e-003  1.713e-003
+Bischofite       -2.15     2.31      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  5.226e-007
+Calcite           0.00    -8.41     -8.41   3.391e-004  3.334e-004 -5.702e-006
+Carnallite       -1.98     2.35      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.19    -2.07     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.04    -5.29     -5.25   0.000e+000           0  0.000e+000
+Gypsum            0.00    -4.58     -4.58   2.505e-003  5.543e-004 -1.951e-003
+Halite            0.00     1.57      1.57   2.345e-001  2.370e-001  2.431e-003
+Hexahydrite      -0.26    -1.90     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -0.88    -1.01     -0.12   0.000e+000           0  0.000e+000
+Polyhalite       -0.00   -13.74    -13.74   1.483e-003  1.606e-003  1.235e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               4.825e-002  4.401e-004
+	C                1.055e-002  9.620e-005
+	Ca               3.133e-003  2.857e-005
+	Cl               6.150e+000  5.609e-002
+	K                1.916e-001  1.748e-003
+	Mg               2.901e+000  2.646e-002
+	Na               1.909e+000  1.741e-002
+	S                7.214e-001  6.580e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.387      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 605485
+                          Density (g/cm3)  =   1.26479
+                               Volume (L)  =   0.01053
+                        Activity of water  =   0.664
+                           Ionic strength  =  1.138e+001
+                       Mass of water (kg)  =  9.121e-003
+                 Total alkalinity (eq/kg)  =  2.209e-002
+                       Total CO2 (mol/kg)  =  1.055e-002
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.59
+                               Iterations  =  16
+                         Gamma iterations  =  16
+                      Osmotic coefficient  =   1.90536
+                         Density of water  =   0.99706
+                                  Total H  = 1.012599e+000
+                                  Total O  = 5.329111e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            4.792e-006  1.631e-007    -5.319    -6.787    -1.468      9.59
+   H+             1.844e-009  4.101e-008    -8.734    -7.387     1.347      0.00
+   H2O            5.551e+001  6.640e-001     1.744    -0.178     0.000     18.07
+Br           4.825e-002
+   Br-            4.825e-002  6.605e-002    -1.316    -1.180     0.136     27.96
+C(4)         1.055e-002
+   MgCO3          8.269e-003  8.269e-003    -2.083    -2.083     0.000    -17.09
+   HCO3-          1.345e-003  8.084e-005    -2.871    -4.092    -1.221     48.02
+   CO3-2          9.309e-004  9.026e-008    -3.031    -7.044    -4.013     15.14
+   CO2            2.543e-006  1.096e-005    -5.595    -4.960     0.635     30.26
+Ca           3.133e-003
+   Ca+2           3.133e-003  4.348e-002    -2.504    -1.362     1.142    -12.25
+Cl           6.150e+000
+   Cl-            6.150e+000  4.675e+000     0.789     0.670    -0.119     20.73
+K            1.916e-001
+   K+             1.916e-001  2.382e-001    -0.718    -0.623     0.095     14.45
+Mg           2.901e+000
+   Mg+2           2.891e+000  1.081e+002     0.461     2.034     1.573    -15.48
+   MgCO3          8.269e-003  8.269e-003    -2.083    -2.083     0.000    -17.09
+   MgOH+          2.339e-003  2.718e-003    -2.631    -2.566     0.065     (0)  
+Na           1.909e+000
+   Na+            1.909e+000  7.948e+000     0.281     0.900     0.619      2.81
+S(6)         7.214e-001
+   SO4-2          7.214e-001  1.370e-003    -0.142    -2.863    -2.721     31.56
+   HSO4-          5.196e-009  5.354e-009    -8.284    -8.271     0.013     42.45
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite         0.00     -4.22   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.33     -4.11   -1.78  K2SO4
+	Bischofite       -2.15      2.31    4.46  MgCl2:6H2O
+	Bloedite         -0.26     -2.60   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -0.66    -11.54  -10.88  Mg(OH)2
+	Burkeite         -6.60     -7.37   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -1.98      2.35    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.67    -13.42  -17.08  CaMg(CO3)2
+	Epsomite         -0.19     -2.07   -1.88  MgSO4:7H2O
+	Gaylussite       -5.12    -14.54   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -2.89     -6.70   -3.80  NaK3(SO4)2
+	Glauberite       -0.04     -5.29   -5.25  Na2Ca(SO4)2
+	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O
+	H2O(g)           -1.68     -0.18    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.26     -1.90   -1.63  MgSO4:6H2O
+	Kainite          -1.12     -1.32   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.00    -15.05  -10.06  KHCO3
+	Kieserite        -0.88     -1.01   -0.12  MgSO4:H2O
+	Labile_S         -1.03     -6.71   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.65     -1.54   -0.89  MgSO4:4H2O
+	Leonite          -1.67     -5.65   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.82     -5.01   -7.83  MgCO3
+	Mirabilite       -1.63     -2.84   -1.21  Na2SO4:10H2O
+	Misenite        -58.54    -69.35  -10.81  K8H6(SO4)7
+	Nahcolite        -2.79    -13.53  -10.74  NaHCO3
+	Natron           -6.20     -7.02   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.38     -5.54   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.43     -1.72   -1.28  MgSO4:5H2O
+	Pirssonite       -4.77    -14.01   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite       -0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.75    -14.94   -5.19  Ca(OH)2
+	Schoenite        -1.68     -6.01   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.85      0.05    0.90  KCl
+	Syngenite        -1.06     -8.51   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.75    -19.13  -11.38  Na3H(CO3)2:2H2O
+
+
+Reaction step 23.
+
+Using solution 1.	Black Sea water
+Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 3.000e-002 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	H2O                 -1.00000
+
+	                 Relative
+	Element             moles
+	H                   -2.00000
+	O                   -1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Anhydrite         0.00    -4.22     -4.22   1.713e-003  2.052e-003  3.394e-004
+Bischofite       -2.06     2.40      4.46   0.000e+000           0  0.000e+000
+CO2(g)           -3.50    -4.96     -1.46   1.000e+001  1.000e+001  7.772e-007
+Calcite           0.00    -8.41     -8.41   3.334e-004  3.219e-004 -1.151e-005
+Carnallite       -1.89     2.44      4.33   0.000e+000           0  0.000e+000
+Epsomite         -0.16    -2.04     -1.88   0.000e+000           0  0.000e+000
+Glauberite       -0.09    -5.34     -5.25   0.000e+000           0  0.000e+000
+Gypsum           -0.01    -4.59     -4.58   5.543e-004           0 -5.543e-004
+Halite            0.00     1.57      1.57   2.370e-001  2.396e-001  2.619e-003
+Hexahydrite      -0.22    -1.85     -1.63   0.000e+000           0  0.000e+000
+Kieserite        -0.81    -0.94     -0.12   0.000e+000           0  0.000e+000
+Polyhalite        0.00   -13.74    -13.74   1.606e-003  1.721e-003  1.152e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Br               5.120e-002  4.401e-004
+	C                1.244e-002  1.069e-004
+	Ca               2.841e-003  2.442e-005
+	Cl               6.221e+000  5.348e-002
+	K                1.765e-001  1.517e-003
+	Mg               3.065e+000  2.635e-002
+	Na               1.721e+000  1.479e-002
+	S                7.367e-001  6.333e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.376      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 620182
+                          Density (g/cm3)  =   1.26827
+                               Volume (L)  =   0.00993
+                        Activity of water  =   0.655
+                           Ionic strength  =  1.167e+001
+                       Mass of water (kg)  =  8.597e-003
+                 Total alkalinity (eq/kg)  =  2.611e-002
+                       Total CO2 (mol/kg)  =  1.244e-002
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  2.250e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   1.66
+                               Iterations  =  36
+                         Gamma iterations  =   7
+                      Osmotic coefficient  =   1.96085
+                         Density of water  =   0.99706
+                                  Total H  = 9.543554e-001
+                                  Total O  = 5.028376e-001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            5.262e-006  1.567e-007    -5.279    -6.805    -1.526      9.89
+   H+             1.708e-009  4.211e-008    -8.767    -7.376     1.392      0.00
+   H2O            5.551e+001  6.550e-001     1.744    -0.184     0.000     18.07
+Br           5.120e-002
+   Br-            5.120e-002  7.185e-002    -1.291    -1.144     0.147     28.00
+C(4)         1.244e-002
+   MgCO3          9.875e-003  9.875e-003    -2.005    -2.005     0.000    -17.09
+   HCO3-          1.440e-003  7.767e-005    -2.842    -4.110    -1.268     48.57
+   CO3-2          1.123e-003  8.445e-008    -2.950    -7.073    -4.124     15.46
+   CO2            2.469e-006  1.096e-005    -5.608    -4.960     0.647     30.26
+Ca           2.841e-003
+   Ca+2           2.841e-003  4.647e-002    -2.547    -1.333     1.214    -12.14
+Cl           6.221e+000
+   Cl-            6.221e+000  4.787e+000     0.794     0.680    -0.114     20.76
+K            1.765e-001
+   K+             1.765e-001  2.284e-001    -0.753    -0.641     0.112     14.58
+Mg           3.065e+000
+   Mg+2           3.053e+000  1.380e+002     0.485     2.140     1.655    -15.35
+   MgCO3          9.875e-003  9.875e-003    -2.005    -2.005     0.000    -17.09
+   MgOH+          2.675e-003  3.332e-003    -2.573    -2.477     0.095     (0)  
+Na           1.721e+000
+   Na+            1.721e+000  7.762e+000     0.236     0.890     0.654      2.88
+S(6)         7.367e-001
+   SO4-2          7.367e-001  1.282e-003    -0.133    -2.892    -2.759     31.77
+   HSO4-          4.725e-009  5.143e-009    -8.326    -8.289     0.037     42.47
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Anhydrite         0.00     -4.22   -4.22  CaSO4
+	Aragonite        -0.19     -8.41   -8.22  CaCO3
+	Arcanite         -2.40     -4.17   -1.78  K2SO4
+	Bischofite       -2.06      2.40    4.46  MgCl2:6H2O
+	Bloedite         -0.25     -2.60   -2.35  Na2Mg(SO4)2:4H2O
+	Brucite          -0.59    -11.47  -10.88  Mg(OH)2
+	Burkeite         -6.75     -7.52   -0.77  Na6CO3(SO4)2
+	Calcite           0.00     -8.41   -8.41  CaCO3
+	Carnallite       -1.89      2.44    4.33  KMgCl3:6H2O
+	CO2(g)           -3.50     -4.96   -1.46  CO2	 Pressure   0.0 atm, phi 1.000.
+	Dolomite          3.74    -13.34  -17.08  CaMg(CO3)2
+	Epsomite         -0.16     -2.04   -1.88  MgSO4:7H2O
+	Gaylussite       -5.20    -14.62   -9.42  CaNa2(CO3)2:5H2O
+	Glaserite        -3.01     -6.82   -3.80  NaK3(SO4)2
+	Glauberite       -0.09     -5.34   -5.25  Na2Ca(SO4)2
+	Gypsum           -0.01     -4.59   -4.58  CaSO4:2H2O
+	H2O(g)           -1.69     -0.18    1.50  H2O
+	Halite            0.00      1.57    1.57  NaCl
+	Hexahydrite      -0.22     -1.85   -1.63  MgSO4:6H2O
+	Kainite          -1.07     -1.26   -0.19  KMgClSO4:3H2O
+	Kalicinite       -5.03    -15.09  -10.06  KHCO3
+	Kieserite        -0.81     -0.94   -0.12  MgSO4:H2O
+	Labile_S         -1.14     -6.82   -5.67  Na4Ca(SO4)3:2H2O
+	Leonhardite      -0.60     -1.49   -0.89  MgSO4:4H2O
+	Leonite          -1.68     -5.66   -3.98  K2Mg(SO4)2:4H2O
+	Magnesite         2.90     -4.93   -7.83  MgCO3
+	Mirabilite       -1.74     -2.95   -1.21  Na2SO4:10H2O
+	Misenite        -58.82    -69.63  -10.81  K8H6(SO4)7
+	Nahcolite        -2.82    -13.56  -10.74  NaHCO3
+	Natron           -6.31     -7.13   -0.82  Na2CO3:10H2O
+	Nesquehonite     -0.32     -5.48   -5.17  MgCO3:3H2O
+	Pentahydrite     -0.39     -1.67   -1.28  MgSO4:5H2O
+	Pirssonite       -4.83    -14.07   -9.23  Na2Ca(CO3)2:2H2O
+	Polyhalite        0.00    -13.74  -13.74  K2MgCa2(SO4)4:2H2O
+	Portlandite      -9.75    -14.94   -5.19  Ca(OH)2
+	Schoenite        -1.70     -6.03   -4.33  K2Mg(SO4)2:6H2O
+	Sylvite          -0.86      0.04    0.90  KCl
+	Syngenite        -1.14     -8.58   -7.45  K2Ca(SO4)2:H2O
+	Trona            -7.84    -19.22  -11.38  Na3H(CO3)2:2H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.538 Seconds.
+-------------------------------
+

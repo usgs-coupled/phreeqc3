@@ -1,0 +1,3829 @@
+   Input file: ../examples/ex8
+  Output file: ex8.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Example 8.--Sorption of zinc on hydrous iron oxides.
+	SURFACE_SPECIES
+	     Hfo_sOH  + H+ = Hfo_sOH2+
+	     log_k  7.18
+	     Hfo_sOH = Hfo_sO- + H+
+	     log_k  -8.82
+	     Hfo_sOH + Zn+2 = Hfo_sOZn+ + H+
+	     log_k  0.66
+	     Hfo_wOH  + H+ = Hfo_wOH2+
+	     log_k  7.18
+	     Hfo_wOH = Hfo_wO- + H+
+	     log_k  -8.82
+	     Hfo_wOH + Zn+2 = Hfo_wOZn+ + H+
+	     log_k  -2.32
+	SURFACE 1
+	     Hfo_sOH        5e-6    600.    0.09
+	     Hfo_wOH        2e-4
+	END
+-----
+TITLE
+-----
+
+ Example 8.--Sorption of zinc on hydrous iron oxides.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1
+	     units  mmol/kgw
+	     pH      8.0
+	     Zn      0.0001 
+	     Na      100.    charge 
+	     N(5)    100.
+	SELECTED_OUTPUT
+	     file Zn1e_7
+	     reset false
+	USER_PUNCH
+	  10 FOR i = 5.0 to 8 STEP 0.25
+	  20 a$ = EOL$ + "USE solution 1" + CHR$(59) + " USE surface 1" + EOL$
+	  30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
+	  40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
+	  50 a$ = a$ + "END" + EOL$
+	  60 PUNCH a$
+	  70 NEXT i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+WARNING: USER_PUNCH: Headings count doesn't match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N(5)             1.000e-001  1.000e-001
+	Na               1.000e-001  1.000e-001  Charge balance
+	Zn               1.000e-007  1.000e-007
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 10341
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.326e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  6.946e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.324e-006  1.009e-006    -5.878    -5.996    -0.118     -3.73
+   H+             1.212e-008  1.000e-008    -7.917    -8.000    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         1.384e-027
+   H2             6.918e-028  7.079e-028   -27.160   -27.150     0.010     28.61
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           1.000e-001
+   Na+            1.000e-001  7.851e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           7.739e-018  7.920e-018   -17.111   -17.101     0.010     (0)  
+O(0)         1.615e-038
+   O2             8.073e-039  8.261e-039   -38.093   -38.083     0.010     30.40
+Zn           1.000e-007
+   Zn+2           9.102e-008  3.424e-008    -7.041    -7.465    -0.425    -23.59
+   ZnOH+          4.790e-009  3.742e-009    -8.320    -8.427    -0.107     (0)  
+   Zn(OH)2        4.184e-009  4.282e-009    -8.378    -8.368     0.010     (0)  
+   Zn(OH)3-       1.727e-012  1.349e-012   -11.763   -11.870    -0.107     (0)  
+   Zn(OH)4-2      5.722e-017  2.131e-017   -16.242   -16.671    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -24.05    -27.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -35.19    -38.08   -2.89  O2
+	Zn(OH)2(e)       -2.97      8.53   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SOLUTION 2
+	     units  mmol/kgw
+	     pH      8.0
+	     Zn      0.1 
+	     Na      100.    charge 
+	     N(5)    100.
+	SELECTED_OUTPUT
+	     file Zn1e_4
+	     reset false
+	USER_PUNCH
+	  10 FOR i = 5 to 8 STEP 0.25
+	  20 a$ = EOL$ + "USE solution 2" + CHR$(59) + " USE surface 1" + EOL$
+	  30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
+	  40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
+	  50 a$ = a$ + "END" + EOL$
+	  60 PUNCH a$
+	  70 NEXT i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N(5)             1.000e-001  1.000e-001
+	Na               9.981e-002  9.981e-002  Charge balance
+	Zn               1.000e-004  1.000e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.447e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  7.169e-016
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580623e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.325e-006  1.009e-006    -5.878    -5.996    -0.118     -3.73
+   H+             1.212e-008  1.000e-008    -7.917    -8.000    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         1.384e-027
+   H2             6.918e-028  7.079e-028   -27.160   -27.150     0.010     28.61
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.533e-002    -1.000    -1.123    -0.123     29.81
+Na           9.981e-002
+   Na+            9.981e-002  7.836e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           7.724e-018  7.904e-018   -17.112   -17.102     0.010     (0)  
+O(0)         1.615e-038
+   O2             8.073e-039  8.261e-039   -38.093   -38.083     0.010     30.40
+Zn           1.000e-004
+   Zn+2           9.103e-005  3.423e-005    -4.041    -4.466    -0.425    -23.59
+   ZnOH+          4.789e-006  3.741e-006    -5.320    -5.427    -0.107     (0)  
+   Zn(OH)2        4.183e-006  4.280e-006    -5.379    -5.369     0.010     (0)  
+   Zn(OH)3-       1.727e-009  1.349e-009    -8.763    -8.870    -0.107     (0)  
+   Zn(OH)4-2      5.722e-014  2.131e-014   -13.242   -13.671    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -24.05    -27.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -35.19    -38.08   -2.89  O2
+	Zn(OH)2(e)        0.03     11.53   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	PHASES
+	     Fix_H+
+	     H+ = H+
+	     log_k  0.0
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	SELECTED_OUTPUT
+	     file ex8.sel
+	     reset true
+	     molalities     Zn+2    Hfo_wOZn+      Hfo_sOZn+
+	USER_PUNCH
+	 10
+	USER_GRAPH 1 Example 8
+	     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_balance
+	     -chart_title "Total Zn = 1e-7 molal"
+	     -axis_titles pH "Moles per kilogram water" "Charge balance, in milliequivalents"
+	     -axis_scale x_axis 5.0 8.0 1 0.25
+	     -axis_scale y_axis 1e-11 1e-6 1 1 log
+	     -axis_scale sy_axis -0.15 0 0.03
+	  -start
+	  10 GRAPH_X -LA("H+")
+	  20 GRAPH_Y MOL("Zn+2"), MOL("Hfo_wOZn+"), MOL("Hfo_sOZn+")
+	  30 GRAPH_SY CHARGE_BALANCE * 1e3
+	  -end
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -5 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.00    -5.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  1.272e-004
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.123e-004  Surface charge, eq
+	 2.006e-001  sigma, C/m**2
+	 1.228e-001  psi, V
+	-4.779e+000  -F*psi/RT
+	 8.404e-003  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        2.777e-006       0.555  2.777e-006      -5.556
+	Hfo_sOH          2.183e-006       0.437  2.183e-006      -5.661
+	Hfo_sO-          3.932e-008       0.008  3.932e-008      -7.405
+	Hfo_sOZn+        3.145e-010       0.000  3.145e-010      -9.502
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.111e-004       0.555  1.111e-004      -3.954
+	Hfo_wOH          8.734e-005       0.437  8.734e-005      -4.059
+	Hfo_wO-          1.573e-006       0.008  1.573e-006      -5.803
+	Hfo_wOZn+        1.317e-011       0.000  1.317e-011     -10.880
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.987e-002  9.987e-002
+	Zn               9.967e-008  9.967e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.000      Charge balance
+                                       pe  =  15.095      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00264
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.994e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.211e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.123e-004
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.06
+                               Iterations  =  17
+                                  Total H  = 1.110122e+002
+                                  Total O  = 5.580609e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.212e-005  1.000e-005    -4.917    -5.000    -0.083      0.00
+   OH-            1.324e-009  1.009e-009    -8.878    -8.996    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.349   -43.339     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -52.670   -52.798    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -57.052   -57.042     0.010     24.46
+N(0)         1.543e-006
+   N2             7.715e-007  7.895e-007    -6.113    -6.103     0.010     29.29
+N(3)         2.412e-013
+   NO2-           2.412e-013  1.817e-013   -12.618   -12.741    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.535e-002    -1.000    -1.123    -0.123     29.81
+Na           9.987e-002
+   Na+            9.987e-002  7.841e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           7.730e-021  7.910e-021   -20.112   -20.102     0.010     (0)  
+O(0)         3.858e-006
+   O2             1.929e-006  1.974e-006    -5.715    -5.705     0.010     30.40
+Zn           9.967e-008
+   Zn+2           9.967e-008  3.750e-008    -7.001    -7.426    -0.425    -23.59
+   ZnOH+          5.245e-012  4.098e-012   -11.280   -11.387    -0.107     (0)  
+   Zn(OH)2        4.582e-015  4.689e-015   -14.339   -14.329     0.010     (0)  
+   Zn(OH)3-       1.892e-021  1.478e-021   -20.723   -20.830    -0.107     (0)  
+   Zn(OH)4-2      6.266e-029  2.334e-029   -28.203   -28.632    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.00     -5.00    0.00  H+
+	H2(g)           -40.24    -43.34   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -2.93     -6.10   -3.18  N2
+	NH3(g)          -58.84    -57.04    1.80  NH3
+	O2(g)            -2.81     -5.70   -2.89  O2
+	Zn(OH)2(e)       -8.93      2.57   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -5.2500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.25    -5.25      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  1.059e-004
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 9.667e-005  Surface charge, eq
+	 1.727e-001  sigma, C/m**2
+	 1.152e-001  psi, V
+	-4.486e+000  -F*psi/RT
+	 1.127e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          2.521e-006       0.504  2.521e-006      -5.598
+	Hfo_sOH2+        2.418e-006       0.484  2.418e-006      -5.617
+	Hfo_sO-          6.023e-008       0.012  6.023e-008      -7.220
+	Hfo_sOZn+        8.608e-010       0.000  8.608e-010      -9.065
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.009e-004       0.504  1.009e-004      -3.996
+	Hfo_wOH2+        9.673e-005       0.484  9.673e-005      -4.014
+	Hfo_wO-          2.410e-006       0.012  2.410e-006      -5.618
+	Hfo_wOZn+        3.606e-011       0.000  3.606e-011     -10.443
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.990e-002  9.990e-002
+	Zn               9.910e-008  9.910e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.250      Charge balance
+                                       pe  =  14.809      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00264
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.995e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -6.811e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -9.667e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =  22
+                                  Total H  = 1.110122e+002
+                                  Total O  = 5.580611e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             6.813e-006  5.623e-006    -5.167    -5.250    -0.083      0.00
+   OH-            2.355e-009  1.794e-009    -8.628    -8.746    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.278   -43.268     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -52.884   -53.012    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -57.017   -57.007     0.010     24.46
+N(0)         1.111e-006
+   N2             5.553e-007  5.682e-007    -6.255    -6.246     0.010     29.29
+N(3)         2.843e-013
+   NO2-           2.843e-013  2.142e-013   -12.546   -12.669    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.535e-002    -1.000    -1.123    -0.123     29.81
+Na           9.990e-002
+   Na+            9.990e-002  7.843e-002    -1.000    -1.106    -0.105     -1.09
+   NaOH           1.375e-020  1.407e-020   -19.862   -19.852     0.010     (0)  
+O(0)         2.776e-006
+   O2             1.388e-006  1.420e-006    -5.858    -5.848     0.010     30.40
+Zn           9.910e-008
+   Zn+2           9.909e-008  3.728e-008    -7.004    -7.428    -0.425    -23.59
+   ZnOH+          9.274e-012  7.245e-012   -11.033   -11.140    -0.107     (0)  
+   Zn(OH)2        1.441e-014  1.474e-014   -13.841   -13.831     0.010     (0)  
+   Zn(OH)3-       1.058e-020  8.262e-021   -19.976   -20.083    -0.107     (0)  
+   Zn(OH)4-2      6.230e-028  2.321e-028   -27.206   -27.634    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.25     -5.25    0.00  H+
+	H2(g)           -40.17    -43.27   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.07     -6.25   -3.18  N2
+	NH3(g)          -58.80    -57.01    1.80  NH3
+	O2(g)            -2.96     -5.85   -2.89  O2
+	Zn(OH)2(e)       -8.43      3.07   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -5.5000e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.50    -5.50      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  8.808e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 8.214e-005  Surface charge, eq
+	 1.468e-001  sigma, C/m**2
+	 1.071e-001  psi, V
+	-4.168e+000  -F*psi/RT
+	 1.548e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          2.821e-006       0.564  2.821e-006      -5.550
+	Hfo_sOH2+        2.090e-006       0.418  2.090e-006      -5.680
+	Hfo_sO-          8.724e-008       0.017  8.724e-008      -7.059
+	Hfo_sOZn+        2.317e-009       0.000  2.317e-009      -8.635
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.129e-004       0.564  1.129e-004      -3.947
+	Hfo_wOH2+        8.362e-005       0.418  8.362e-005      -4.078
+	Hfo_wO-          3.491e-006       0.017  3.491e-006      -5.457
+	Hfo_wOZn+        9.707e-011       0.000  9.707e-011     -10.013
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.991e-002  9.991e-002
+	Zn               9.759e-008  9.759e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.500      Charge balance
+                                       pe  =  14.523      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10338
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.996e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -3.827e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -8.214e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.04
+                               Iterations  =  20
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.580613e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.831e-006  3.162e-006    -5.417    -5.500    -0.083      0.00
+   OH-            4.188e-009  3.190e-009    -8.378    -8.496    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.206   -43.196     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.098   -53.226    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.981   -56.971     0.010     24.46
+N(0)         7.998e-007
+   N2             3.999e-007  4.092e-007    -6.398    -6.388     0.010     29.29
+N(3)         3.352e-013
+   NO2-           3.352e-013  2.525e-013   -12.475   -12.598    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.991e-002
+   Na+            9.991e-002  7.844e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           2.445e-020  2.502e-020   -19.612   -19.602     0.010     (0)  
+O(0)         1.997e-006
+   O2             9.987e-007  1.022e-006    -6.001    -5.991     0.010     30.40
+Zn           9.759e-008
+   Zn+2           9.757e-008  3.671e-008    -7.011    -7.435    -0.425    -23.59
+   ZnOH+          1.624e-011  1.269e-011   -10.789   -10.897    -0.107     (0)  
+   Zn(OH)2        4.486e-014  4.590e-014   -13.348   -13.338     0.010     (0)  
+   Zn(OH)3-       5.855e-020  4.574e-020   -19.232   -19.340    -0.107     (0)  
+   Zn(OH)4-2      6.134e-027  2.285e-027   -26.212   -26.641    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.50     -5.50    0.00  H+
+	H2(g)           -40.10    -43.20   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.21     -6.39   -3.18  N2
+	NH3(g)          -58.77    -56.97    1.80  NH3
+	O2(g)            -3.10     -5.99   -2.89  O2
+	Zn(OH)2(e)       -7.94      3.56   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -5.7500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.75    -5.75      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  7.292e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 6.888e-005  Surface charge, eq
+	 1.231e-001  sigma, C/m**2
+	 9.838e-002  psi, V
+	-3.829e+000  -F*psi/RT
+	 2.173e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.075e-006       0.615  3.075e-006      -5.512
+	Hfo_sOH2+        1.798e-006       0.360  1.798e-006      -5.745
+	Hfo_sO-          1.205e-007       0.024  1.205e-007      -6.919
+	Hfo_sOZn+        6.052e-009       0.001  6.052e-009      -8.218
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.232e-004       0.616  1.232e-004      -3.910
+	Hfo_wOH2+        7.202e-005       0.360  7.202e-005      -4.143
+	Hfo_wO-          4.824e-006       0.024  4.824e-006      -5.317
+	Hfo_wOZn+        2.538e-010       0.000  2.538e-010      -9.596
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.993e-002  9.993e-002
+	Zn               9.369e-008  9.369e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.750      Charge balance
+                                       pe  =  14.237      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.997e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.147e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -6.888e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.03
+                               Iterations  =  21
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.580615e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.155e-006  1.778e-006    -5.667    -5.750    -0.083      0.00
+   OH-            7.448e-009  5.672e-009    -8.128    -8.246    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.135   -43.125     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.313   -53.441    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.945   -56.935     0.010     24.46
+N(0)         5.752e-007
+   N2             2.876e-007  2.943e-007    -6.541    -6.531     0.010     29.29
+N(3)         3.950e-013
+   NO2-           3.950e-013  2.976e-013   -12.403   -12.526    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.993e-002
+   Na+            9.993e-002  7.846e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           4.349e-020  4.450e-020   -19.362   -19.352     0.010     (0)  
+O(0)         1.438e-006
+   O2             7.190e-007  7.357e-007    -6.143    -6.133     0.010     30.40
+Zn           9.369e-008
+   Zn+2           9.367e-008  3.524e-008    -7.028    -7.453    -0.425    -23.59
+   ZnOH+          2.772e-011  2.165e-011   -10.557   -10.664    -0.107     (0)  
+   Zn(OH)2        1.362e-013  1.393e-013   -12.866   -12.856     0.010     (0)  
+   Zn(OH)3-       3.161e-019  2.469e-019   -18.500   -18.607    -0.107     (0)  
+   Zn(OH)4-2      5.889e-026  2.193e-026   -25.230   -25.659    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.75     -5.75    0.00  H+
+	H2(g)           -40.02    -43.12   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.36     -6.53   -3.18  N2
+	NH3(g)          -58.73    -56.94    1.80  NH3
+	O2(g)            -3.24     -6.13   -2.89  O2
+	Zn(OH)2(e)       -7.46      4.04   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -6 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.00    -6.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  5.991e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 5.700e-005  Surface charge, eq
+	 1.019e-001  sigma, C/m**2
+	 8.914e-002  psi, V
+	-3.470e+000  -F*psi/RT
+	 3.113e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.280e-006       0.656  3.280e-006      -5.484
+	Hfo_sOH2+        1.545e-006       0.309  1.545e-006      -5.811
+	Hfo_sO-          1.595e-007       0.032  1.595e-007      -6.797
+	Hfo_sOZn+        1.484e-008       0.003  1.484e-008      -7.829
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.316e-004       0.658  1.316e-004      -3.881
+	Hfo_wOH2+        6.200e-005       0.310  6.200e-005      -4.208
+	Hfo_wO-          6.399e-006       0.032  6.399e-006      -5.194
+	Hfo_wOZn+        6.232e-010       0.000  6.232e-010      -9.205
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.994e-002  9.994e-002
+	Zn               8.454e-008  8.454e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  13.952      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.997e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.198e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -5.700e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.03
+                               Iterations  =  21
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.580616e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.212e-006  1.000e-006    -5.917    -6.000    -0.083      0.00
+   OH-            1.324e-008  1.009e-008    -7.878    -7.996    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.063   -43.053     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.527   -53.655    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.909   -56.899     0.010     24.46
+N(0)         4.140e-007
+   N2             2.070e-007  2.118e-007    -6.684    -6.674     0.010     29.29
+N(3)         4.657e-013
+   NO2-           4.657e-013  3.508e-013   -12.332   -12.455    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.994e-002
+   Na+            9.994e-002  7.847e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           7.735e-020  7.915e-020   -19.112   -19.102     0.010     (0)  
+O(0)         1.035e-006
+   O2             5.174e-007  5.295e-007    -6.286    -6.276     0.010     30.40
+Zn           8.454e-008
+   Zn+2           8.450e-008  3.179e-008    -7.073    -7.498    -0.425    -23.59
+   ZnOH+          4.447e-011  3.474e-011   -10.352   -10.459    -0.107     (0)  
+   Zn(OH)2        3.884e-013  3.975e-013   -12.411   -12.401     0.010     (0)  
+   Zn(OH)3-       1.603e-018  1.253e-018   -17.795   -17.902    -0.107     (0)  
+   Zn(OH)4-2      5.312e-025  1.979e-025   -24.275   -24.704    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.00     -6.00    0.00  H+
+	H2(g)           -39.95    -43.05   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.50     -6.67   -3.18  N2
+	NH3(g)          -58.70    -56.90    1.80  NH3
+	O2(g)            -3.38     -6.28   -2.89  O2
+	Zn(OH)2(e)       -7.00      4.50   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -6.2500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.25    -6.25      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  4.869e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 4.647e-005  Surface charge, eq
+	 8.304e-002  sigma, C/m**2
+	 7.941e-002  psi, V
+	-3.091e+000  -F*psi/RT
+	 4.545e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.436e-006       0.687  3.436e-006      -5.464
+	Hfo_sOH2+        1.329e-006       0.266  1.329e-006      -5.876
+	Hfo_sO-          2.034e-007       0.041  2.034e-007      -6.692
+	Hfo_sOZn+        3.186e-008       0.006  3.186e-008      -7.497
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.383e-004       0.692  1.383e-004      -3.859
+	Hfo_wOH2+        5.350e-005       0.268  5.350e-005      -4.272
+	Hfo_wO-          8.190e-006       0.041  8.190e-006      -5.087
+	Hfo_wOZn+        1.343e-009       0.000  1.343e-009      -8.872
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.995e-002  9.995e-002
+	Zn               6.679e-008  6.679e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.250      Charge balance
+                                       pe  =  13.666      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.998e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -6.577e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -4.647e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  =  23
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.580617e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             6.813e-007  5.623e-007    -6.167    -6.250    -0.083      0.00
+   OH-            2.355e-008  1.794e-008    -7.628    -7.746    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.992   -42.982     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.741   -53.869    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.874   -56.864     0.010     24.46
+N(0)         2.979e-007
+   N2             1.490e-007  1.524e-007    -6.827    -6.817     0.010     29.29
+N(3)         5.489e-013
+   NO2-           5.489e-013  4.136e-013   -12.261   -12.383    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.995e-002
+   Na+            9.995e-002  7.847e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           1.376e-019  1.408e-019   -18.862   -18.852     0.010     (0)  
+O(0)         7.448e-007
+   O2             3.724e-007  3.811e-007    -6.429    -6.419     0.010     30.40
+Zn           6.679e-008
+   Zn+2           6.673e-008  2.510e-008    -7.176    -7.600    -0.425    -23.59
+   ZnOH+          6.244e-011  4.878e-011   -10.205   -10.312    -0.107     (0)  
+   Zn(OH)2        9.700e-013  9.926e-013   -12.013   -12.003     0.010     (0)  
+   Zn(OH)3-       7.121e-018  5.563e-018   -17.147   -17.255    -0.107     (0)  
+   Zn(OH)4-2      4.195e-024  1.563e-024   -23.377   -23.806    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.25     -6.25    0.00  H+
+	H2(g)           -39.88    -42.98   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.64     -6.82   -3.18  N2
+	NH3(g)          -58.66    -56.86    1.80  NH3
+	O2(g)            -3.53     -6.42   -2.89  O2
+	Zn(OH)2(e)       -6.60      4.90   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -6.5000e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.50    -6.50      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  3.898e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 3.722e-005  Surface charge, eq
+	 6.651e-002  sigma, C/m**2
+	 6.921e-002  psi, V
+	-2.694e+000  -F*psi/RT
+	 6.762e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.546e-006       0.709  3.546e-006      -5.450
+	Hfo_sOH2+        1.148e-006       0.230  1.148e-006      -5.940
+	Hfo_sO-          2.510e-007       0.050  2.510e-007      -6.600
+	Hfo_sOZn+        5.523e-008       0.011  5.523e-008      -7.258
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.434e-004       0.717  1.434e-004      -3.843
+	Hfo_wOH2+        4.642e-005       0.232  4.642e-005      -4.333
+	Hfo_wO-          1.015e-005       0.051  1.015e-005      -4.993
+	Hfo_wOZn+        2.339e-009       0.000  2.339e-009      -8.631
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.996e-002  9.996e-002
+	Zn               4.243e-008  4.243e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.500      Charge balance
+                                       pe  =  13.380      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.998e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -3.412e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.722e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  =  21
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580618e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.831e-007  3.162e-007    -6.417    -6.500    -0.083      0.00
+   OH-            4.188e-008  3.190e-008    -7.378    -7.496    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.920   -42.910     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.955   -54.084    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.838   -56.828     0.010     24.46
+N(0)         2.145e-007
+   N2             1.073e-007  1.098e-007    -6.970    -6.960     0.010     29.29
+N(3)         6.471e-013
+   NO2-           6.471e-013  4.876e-013   -12.189   -12.312    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.996e-002
+   Na+            9.996e-002  7.848e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           2.446e-019  2.503e-019   -18.611   -18.601     0.010     (0)  
+O(0)         5.359e-007
+   O2             2.679e-007  2.742e-007    -6.572    -6.562     0.010     30.40
+Zn           4.243e-008
+   Zn+2           4.236e-008  1.594e-008    -7.373    -7.798    -0.425    -23.59
+   ZnOH+          7.049e-011  5.507e-011   -10.152   -10.259    -0.107     (0)  
+   Zn(OH)2        1.947e-012  1.993e-012   -11.711   -11.701     0.010     (0)  
+   Zn(OH)3-       2.542e-017  1.986e-017   -16.595   -16.702    -0.107     (0)  
+   Zn(OH)4-2      2.663e-023  9.919e-024   -22.575   -23.004    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.50     -6.50    0.00  H+
+	H2(g)           -39.81    -42.91   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.78     -6.96   -3.18  N2
+	NH3(g)          -58.62    -56.83    1.80  NH3
+	O2(g)            -3.67     -6.56   -2.89  O2
+	Zn(OH)2(e)       -6.30      5.20   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 12.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -6.7500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.75    -6.75      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  3.058e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 2.911e-005  Surface charge, eq
+	 5.203e-002  sigma, C/m**2
+	 5.854e-002  psi, V
+	-2.279e+000  -F*psi/RT
+	 1.024e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.624e-006       0.725  3.624e-006      -5.441
+	Hfo_sOH2+        9.990e-007       0.200  9.990e-007      -6.000
+	Hfo_sO-          3.012e-007       0.060  3.012e-007      -6.521
+	Hfo_sOZn+        7.564e-008       0.015  7.564e-008      -7.121
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.472e-004       0.736  1.472e-004      -3.832
+	Hfo_wOH2+        4.057e-005       0.203  4.057e-005      -4.392
+	Hfo_wO-          1.223e-005       0.061  1.223e-005      -4.912
+	Hfo_wOZn+        3.217e-009       0.000  3.217e-009      -8.493
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.997e-002  9.997e-002
+	Zn               2.114e-008  2.114e-008
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.750      Charge balance
+                                       pe  =  13.094      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10340
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.999e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.409e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.911e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  21
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580619e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.155e-007  1.778e-007    -6.667    -6.750    -0.083      0.00
+   OH-            7.448e-008  5.672e-008    -7.128    -7.246    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.849   -42.839     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.169   -54.297    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.802   -56.792     0.010     24.46
+N(0)         1.546e-007
+   N2             7.728e-008  7.908e-008    -7.112    -7.102     0.010     29.29
+N(3)         7.630e-013
+   NO2-           7.630e-013  5.748e-013   -12.117   -12.240    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.997e-002
+   Na+            9.997e-002  7.849e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           4.351e-019  4.452e-019   -18.361   -18.351     0.010     (0)  
+O(0)         3.855e-007
+   O2             1.927e-007  1.972e-007    -6.715    -6.705     0.010     30.40
+Zn           2.114e-008
+   Zn+2           2.108e-008  7.929e-009    -7.676    -8.101    -0.425    -23.59
+   ZnOH+          6.237e-011  4.872e-011   -10.205   -10.312    -0.107     (0)  
+   Zn(OH)2        3.064e-012  3.135e-012   -11.514   -11.504     0.010     (0)  
+   Zn(OH)3-       7.112e-017  5.556e-017   -16.148   -16.255    -0.107     (0)  
+   Zn(OH)4-2      1.325e-022  4.935e-023   -21.878   -22.307    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.75     -6.75    0.00  H+
+	H2(g)           -39.74    -42.84   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.93     -7.10   -3.18  N2
+	NH3(g)          -58.59    -56.79    1.80  NH3
+	O2(g)            -3.81     -6.71   -2.89  O2
+	Zn(OH)2(e)       -6.10      5.40   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 13.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -7 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.00    -7.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  2.326e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 2.201e-005  Surface charge, eq
+	 3.934e-002  sigma, C/m**2
+	 4.745e-002  psi, V
+	-1.847e+000  -F*psi/RT
+	 1.577e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.681e-006       0.736  3.681e-006      -5.434
+	Hfo_sOH2+        8.787e-007       0.176  8.787e-007      -6.056
+	Hfo_sO-          3.532e-007       0.071  3.532e-007      -6.452
+	Hfo_sOZn+        8.746e-008       0.017  8.746e-008      -7.058
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.498e-004       0.749  1.498e-004      -3.824
+	Hfo_wOH2+        3.577e-005       0.179  3.577e-005      -4.446
+	Hfo_wO-          1.438e-005       0.072  1.438e-005      -4.842
+	Hfo_wOZn+        3.728e-009       0.000  3.728e-009      -8.428
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.998e-002  9.998e-002
+	Zn               8.811e-009  8.811e-009
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  12.809      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10340
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.999e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.134e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.201e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580619e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.324e-007  1.009e-007    -6.878    -6.996    -0.118     -3.73
+   H+             1.212e-007  1.000e-007    -6.917    -7.000    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.778   -42.768     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.384   -54.512    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.767   -56.757     0.010     24.46
+N(0)         1.111e-007
+   N2             5.553e-008  5.682e-008    -7.256    -7.246     0.010     29.29
+N(3)         8.991e-013
+   NO2-           8.991e-013  6.774e-013   -12.046   -12.169    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.998e-002
+   Na+            9.998e-002  7.849e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           7.738e-019  7.918e-019   -18.111   -18.101     0.010     (0)  
+O(0)         2.776e-007
+   O2             1.388e-007  1.420e-007    -6.858    -6.848     0.010     30.40
+Zn           8.811e-009
+   Zn+2           8.761e-009  3.296e-009    -8.057    -8.482    -0.425    -23.59
+   ZnOH+          4.610e-011  3.601e-011   -10.336   -10.444    -0.107     (0)  
+   Zn(OH)2        4.027e-012  4.121e-012   -11.395   -11.385     0.010     (0)  
+   Zn(OH)3-       1.662e-016  1.299e-016   -15.779   -15.886    -0.107     (0)  
+   Zn(OH)4-2      5.508e-022  2.051e-022   -21.259   -21.688    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.00     -7.00    0.00  H+
+	H2(g)           -39.67    -42.77   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.07     -7.25   -3.18  N2
+	NH3(g)          -58.55    -56.76    1.80  NH3
+	O2(g)            -3.96     -6.85   -2.89  O2
+	Zn(OH)2(e)       -5.99      5.51   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 14.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -7.2500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.25    -7.25      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  1.679e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.575e-005  Surface charge, eq
+	 2.814e-002  sigma, C/m**2
+	 3.597e-002  psi, V
+	-1.400e+000  -F*psi/RT
+	 2.466e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.720e-006       0.744  3.720e-006      -5.429
+	Hfo_sOH2+        7.809e-007       0.156  7.809e-007      -6.107
+	Hfo_sO-          4.060e-007       0.081  4.060e-007      -6.391
+	Hfo_sOZn+        9.270e-008       0.019  9.270e-008      -7.033
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.516e-004       0.758  1.516e-004      -3.819
+	Hfo_wOH2+        3.183e-005       0.159  3.183e-005      -4.497
+	Hfo_wO-          1.655e-005       0.083  1.655e-005      -4.781
+	Hfo_wOZn+        3.956e-009       0.000  3.956e-009      -8.403
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.998e-002  9.998e-002
+	Zn               3.340e-009  3.340e-009
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.250      Charge balance
+                                       pe  =  12.523      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10340
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  9.999e-002
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.674e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.575e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580620e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.355e-007  1.794e-007    -6.628    -6.746    -0.118     -3.73
+   H+             6.813e-008  5.623e-008    -7.167    -7.250    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.706   -42.696     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.598   -54.726    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.731   -56.721     0.010     24.46
+N(0)         7.997e-008
+   N2             3.998e-008  4.091e-008    -7.398    -7.388     0.010     29.29
+N(3)         1.060e-012
+   NO2-           1.060e-012  7.986e-013   -11.975   -12.098    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.998e-002
+   Na+            9.998e-002  7.850e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           1.376e-018  1.408e-018   -17.861   -17.851     0.010     (0)  
+O(0)         1.998e-007
+   O2             9.988e-008  1.022e-007    -7.001    -6.991     0.010     30.40
+Zn           3.340e-009
+   Zn+2           3.304e-009  1.243e-009    -8.481    -8.905    -0.425    -23.59
+   ZnOH+          3.092e-011  2.416e-011   -10.510   -10.617    -0.107     (0)  
+   Zn(OH)2        4.803e-012  4.915e-012   -11.318   -11.308     0.010     (0)  
+   Zn(OH)3-       3.526e-016  2.755e-016   -15.453   -15.560    -0.107     (0)  
+   Zn(OH)4-2      2.077e-021  7.737e-022   -20.682   -21.111    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.25     -7.25    0.00  H+
+	H2(g)           -39.60    -42.70   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.21     -7.39   -3.18  N2
+	NH3(g)          -58.52    -56.72    1.80  NH3
+	O2(g)            -4.10     -6.99   -2.89  O2
+	Zn(OH)2(e)       -5.91      5.59   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 15.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -7.5000e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.50    -7.50      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  1.094e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.013e-005  Surface charge, eq
+	 1.811e-002  sigma, C/m**2
+	 2.418e-002  psi, V
+	-9.410e-001  -F*psi/RT
+	 3.902e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.746e-006       0.749  3.746e-006      -5.426
+	Hfo_sOH2+        6.997e-007       0.140  6.997e-007      -6.155
+	Hfo_sO-          4.595e-007       0.092  4.595e-007      -6.338
+	Hfo_sOZn+        9.474e-008       0.019  9.474e-008      -7.023
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.527e-004       0.764  1.527e-004      -3.816
+	Hfo_wOH2+        2.853e-005       0.143  2.853e-005      -4.545
+	Hfo_wO-          1.873e-005       0.094  1.873e-005      -4.727
+	Hfo_wOZn+        4.045e-009       0.000  4.045e-009      -8.393
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.999e-002  9.999e-002
+	Zn               1.217e-009  1.217e-009
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.500      Charge balance
+                                       pe  =  12.237      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10341
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.806e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.013e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  10
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580621e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            4.188e-007  3.190e-007    -6.378    -6.496    -0.118     -3.73
+   H+             3.831e-008  3.162e-008    -7.417    -7.500    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.635   -42.625     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.813   -54.941    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.695   -56.685     0.010     24.46
+N(0)         5.753e-008
+   N2             2.876e-008  2.943e-008    -7.541    -7.531     0.010     29.29
+N(3)         1.249e-012
+   NO2-           1.249e-012  9.412e-013   -11.903   -12.026    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.999e-002
+   Na+            9.999e-002  7.850e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           2.447e-018  2.504e-018   -17.611   -17.601     0.010     (0)  
+O(0)         1.438e-007
+   O2             7.189e-008  7.357e-008    -7.143    -7.133     0.010     30.40
+Zn           1.217e-009
+   Zn+2           1.192e-009  4.484e-010    -8.924    -9.348    -0.425    -23.59
+   ZnOH+          1.983e-011  1.549e-011   -10.703   -10.810    -0.107     (0)  
+   Zn(OH)2        5.479e-012  5.606e-012   -11.261   -11.251     0.010     (0)  
+   Zn(OH)3-       7.152e-016  5.587e-016   -15.146   -15.253    -0.107     (0)  
+   Zn(OH)4-2      7.493e-021  2.791e-021   -20.125   -20.554    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.50     -7.50    0.00  H+
+	H2(g)           -39.52    -42.62   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.36     -7.53   -3.18  N2
+	NH3(g)          -58.48    -56.69    1.80  NH3
+	O2(g)            -4.24     -7.13   -2.89  O2
+	Zn(OH)2(e)       -5.85      5.65   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 16.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -7.7500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.75    -7.75      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  5.407e-006
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 4.962e-006  Surface charge, eq
+	 8.867e-003  sigma, C/m**2
+	 1.217e-002  psi, V
+	-4.736e-001  -F*psi/RT
+	 6.228e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.760e-006       0.752  3.760e-006      -5.425
+	Hfo_sOH2+        6.303e-007       0.126  6.303e-007      -6.200
+	Hfo_sO-          5.139e-007       0.103  5.139e-007      -6.289
+	Hfo_sOZn+        9.548e-008       0.019  9.548e-008      -7.020
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.533e-004       0.767  1.533e-004      -3.814
+	Hfo_wOH2+        2.570e-005       0.129  2.570e-005      -4.590
+	Hfo_wO-          2.096e-005       0.105  2.096e-005      -4.679
+	Hfo_wOZn+        4.077e-009       0.000  4.077e-009      -8.390
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               1.000e-001  1.000e-001
+	Zn               4.403e-010  4.403e-010
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.750      Charge balance
+                                       pe  =  11.952      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10341
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  7.233e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -4.962e-006
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580621e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            7.448e-007  5.672e-007    -6.128    -6.246    -0.118     -3.73
+   H+             2.155e-008  1.778e-008    -7.667    -7.750    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.563   -42.553     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -55.027   -55.155    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.659   -56.649     0.010     24.46
+N(0)         4.139e-008
+   N2             2.070e-008  2.118e-008    -7.684    -7.674     0.010     29.29
+N(3)         1.473e-012
+   NO2-           1.473e-012  1.109e-012   -11.832   -11.955    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           1.000e-001
+   Na+            1.000e-001  7.851e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           4.352e-018  4.453e-018   -17.361   -17.351     0.010     (0)  
+O(0)         1.035e-007
+   O2             5.174e-008  5.295e-008    -7.286    -7.276     0.010     30.40
+Zn           4.403e-010
+   Zn+2           4.217e-010  1.586e-010    -9.375    -9.800    -0.425    -23.59
+   ZnOH+          1.248e-011  9.748e-012   -10.904   -11.011    -0.107     (0)  
+   Zn(OH)2        6.129e-012  6.272e-012   -11.213   -11.203     0.010     (0)  
+   Zn(OH)3-       1.423e-015  1.112e-015   -14.847   -14.954    -0.107     (0)  
+   Zn(OH)4-2      2.651e-020  9.873e-021   -19.577   -20.006    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.75     -7.75    0.00  H+
+	H2(g)           -39.45    -42.55   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.50     -7.67   -3.18  N2
+	NH3(g)          -58.45    -56.65    1.80  NH3
+	O2(g)            -4.38     -7.28   -2.89  O2
+	Zn(OH)2(e)       -5.80      5.70   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 17.
+-------------------------------------
+
+	USE solution 1
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -8 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -8.00    -8.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001 -1.389e-007
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.787e-008  Surface charge, eq
+	 3.193e-005  sigma, C/m**2
+	 4.423e-005  psi, V
+	-1.722e-003  -F*psi/RT
+	 9.983e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          3.765e-006       0.753  3.765e-006      -5.424
+	Hfo_sO-          5.708e-007       0.114  5.708e-007      -6.244
+	Hfo_sOH2+        5.688e-007       0.114  5.688e-007      -6.245
+	Hfo_sOZn+        9.575e-008       0.019  9.575e-008      -7.019
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.535e-004       0.768  1.535e-004      -3.814
+	Hfo_wO-          2.328e-005       0.116  2.328e-005      -4.633
+	Hfo_wOH2+        2.320e-005       0.116  2.320e-005      -4.635
+	Hfo_wOZn+        4.089e-009       0.000  4.089e-009      -8.388
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               1.000e-001  1.000e-001
+	Zn               1.628e-010  1.628e-010
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000      Charge balance
+                                       pe  =  11.666      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10341
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.312e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.787e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.324e-006  1.009e-006    -5.878    -5.996    -0.118     -3.73
+   H+             1.212e-008  1.000e-008    -7.917    -8.000    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.492   -42.482     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -55.241   -55.369    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.624   -56.614     0.010     24.46
+N(0)         2.979e-008
+   N2             1.490e-008  1.524e-008    -7.827    -7.817     0.010     29.29
+N(3)         1.736e-012
+   NO2-           1.736e-012  1.308e-012   -11.760   -11.883    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           1.000e-001
+   Na+            1.000e-001  7.851e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           7.739e-018  7.920e-018   -17.111   -17.101     0.010     (0)  
+O(0)         7.448e-008
+   O2             3.724e-008  3.811e-008    -7.429    -7.419     0.010     30.40
+Zn           1.628e-010
+   Zn+2           1.482e-010  5.574e-011    -9.829   -10.254    -0.425    -23.59
+   ZnOH+          7.797e-012  6.091e-012   -11.108   -11.215    -0.107     (0)  
+   Zn(OH)2        6.811e-012  6.969e-012   -11.167   -11.157     0.010     (0)  
+   Zn(OH)3-       2.812e-015  2.196e-015   -14.551   -14.658    -0.107     (0)  
+   Zn(OH)4-2      9.315e-020  3.469e-020   -19.031   -19.460    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -8.00     -8.00    0.00  H+
+	H2(g)           -39.38    -42.48   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.64     -7.82   -3.18  N2
+	NH3(g)          -58.41    -56.61    1.80  NH3
+	O2(g)            -4.53     -7.42   -2.89  O2
+	Zn(OH)2(e)       -5.76      5.74   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 18.
+-------------------------------------
+
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 19.
+-------------------------------------
+
+	USER_GRAPH 1
+	     -detach
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 20.
+-------------------------------------
+
+	USER_GRAPH 2 Example 8
+	     -chart_title "Total Zn = 1e-4 molal"
+	     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_balance
+	     -axis_titles pH "Moles per kilogram water" "Charge balance, in milliequivalents"
+	     -axis_scale x_axis 5.0 8.0 1 0.25
+	     -axis_scale y_axis 1e-8 1e-3 1 1 log
+	     -axis_scale sy_axis -0.15 0 0.03
+	  -start
+	  10 GRAPH_X -LA("H+")
+	  20 GRAPH_Y MOL("Zn+2"), MOL("Hfo_wOZn+"), MOL("Hfo_sOZn+")
+	  30 GRAPH_SY CHARGE_BALANCE * 1e3
+	  -end        
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -5 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.00    -5.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  1.399e-004
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.124e-004  Surface charge, eq
+	 2.008e-001  sigma, C/m**2
+	 1.228e-001  psi, V
+	-4.780e+000  -F*psi/RT
+	 8.398e-003  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+        2.612e-006       0.522  2.612e-006      -5.583
+	Hfo_sOH          2.055e-006       0.411  2.055e-006      -5.687
+	Hfo_sOZn+        2.958e-007       0.059  2.958e-007      -6.529
+	Hfo_sO-          3.704e-008       0.007  3.704e-008      -7.431
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+        1.110e-004       0.555  1.110e-004      -3.954
+	Hfo_wOH          8.737e-005       0.437  8.737e-005      -4.059
+	Hfo_wO-          1.575e-006       0.008  1.575e-006      -5.803
+	Hfo_wOZn+        1.317e-008       0.000  1.317e-008      -7.881
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.967e-002  9.967e-002
+	Zn               9.969e-005  9.969e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.000      Charge balance
+                                       pe  =  15.095      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10337
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.211e-005
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.124e-004
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.06
+                               Iterations  =  21
+                                  Total H  = 1.110122e+002
+                                  Total O  = 5.580609e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.212e-005  1.000e-005    -4.917    -5.000    -0.083      0.00
+   OH-            1.325e-009  1.009e-009    -8.878    -8.996    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.349   -43.339     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -52.670   -52.798    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -57.052   -57.042     0.010     24.46
+N(0)         1.543e-006
+   N2             7.716e-007  7.896e-007    -6.113    -6.103     0.010     29.29
+N(3)         2.412e-013
+   NO2-           2.412e-013  1.817e-013   -12.618   -12.741    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.967e-002
+   Na+            9.967e-002  7.825e-002    -1.001    -1.107    -0.105     -1.09
+   NaOH           7.714e-021  7.893e-021   -20.113   -20.103     0.010     (0)  
+O(0)         3.857e-006
+   O2             1.929e-006  1.974e-006    -5.715    -5.705     0.010     30.40
+Zn           9.969e-005
+   Zn+2           9.969e-005  3.749e-005    -4.001    -4.426    -0.425    -23.59
+   ZnOH+          5.245e-009  4.097e-009    -8.280    -8.388    -0.107     (0)  
+   Zn(OH)2        4.582e-012  4.688e-012   -11.339   -11.329     0.010     (0)  
+   Zn(OH)3-       1.891e-018  1.478e-018   -17.723   -17.830    -0.107     (0)  
+   Zn(OH)4-2      6.267e-026  2.334e-026   -25.203   -25.632    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.00     -5.00    0.00  H+
+	H2(g)           -40.24    -43.34   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -2.93     -6.10   -3.18  N2
+	NH3(g)          -58.84    -57.04    1.80  NH3
+	O2(g)            -2.81     -5.70   -2.89  O2
+	Zn(OH)2(e)       -5.93      5.57   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 21.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -5.2500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.25    -5.25      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  1.177e-004
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 9.689e-005  Surface charge, eq
+	 1.731e-001  sigma, C/m**2
+	 1.153e-001  psi, V
+	-4.489e+000  -F*psi/RT
+	 1.123e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          2.155e-006       0.431  2.155e-006      -5.667
+	Hfo_sOH2+        2.059e-006       0.412  2.059e-006      -5.686
+	Hfo_sOZn+        7.340e-007       0.147  7.340e-007      -6.134
+	Hfo_sO-          5.165e-008       0.010  5.166e-008      -7.287
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.010e-004       0.505  1.010e-004      -3.996
+	Hfo_wOH2+        9.653e-005       0.483  9.653e-005      -4.015
+	Hfo_wO-          2.421e-006       0.012  2.421e-006      -5.616
+	Hfo_wOZn+        3.603e-008       0.000  3.603e-008      -7.443
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.970e-002  9.970e-002
+	Zn               9.923e-005  9.923e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.250      Charge balance
+                                       pe  =  14.809      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10337
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -6.802e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -9.689e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =  22
+                                  Total H  = 1.110122e+002
+                                  Total O  = 5.580611e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             6.813e-006  5.623e-006    -5.167    -5.250    -0.083      0.00
+   OH-            2.355e-009  1.794e-009    -8.628    -8.746    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.278   -43.268     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -52.884   -53.012    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -57.017   -57.007     0.010     24.46
+N(0)         1.110e-006
+   N2             5.552e-007  5.682e-007    -6.256    -6.246     0.010     29.29
+N(3)         2.843e-013
+   NO2-           2.843e-013  2.142e-013   -12.546   -12.669    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.970e-002
+   Na+            9.970e-002  7.827e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           1.372e-020  1.404e-020   -19.863   -19.853     0.010     (0)  
+O(0)         2.776e-006
+   O2             1.388e-006  1.420e-006    -5.858    -5.848     0.010     30.40
+Zn           9.923e-005
+   Zn+2           9.922e-005  3.732e-005    -4.003    -4.428    -0.425    -23.59
+   ZnOH+          9.283e-009  7.252e-009    -8.032    -8.140    -0.107     (0)  
+   Zn(OH)2        1.442e-011  1.476e-011   -10.841   -10.831     0.010     (0)  
+   Zn(OH)3-       1.059e-017  8.270e-018   -16.975   -17.083    -0.107     (0)  
+   Zn(OH)4-2      6.238e-025  2.323e-025   -24.205   -24.634    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.25     -5.25    0.00  H+
+	H2(g)           -40.17    -43.27   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.07     -6.25   -3.18  N2
+	NH3(g)          -58.80    -57.01    1.80  NH3
+	O2(g)            -2.96     -5.85   -2.89  O2
+	Zn(OH)2(e)       -5.43      6.07   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 22.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -5.5000e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.50    -5.50      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  9.831e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 8.259e-005  Surface charge, eq
+	 1.476e-001  sigma, C/m**2
+	 1.073e-001  psi, V
+	-4.178e+000  -F*psi/RT
+	 1.533e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH          1.935e-006       0.387  1.935e-006      -5.713
+	Hfo_sOZn+        1.585e-006       0.317  1.585e-006      -5.800
+	Hfo_sOH2+        1.419e-006       0.284  1.419e-006      -5.848
+	Hfo_sO-          6.044e-008       0.012  6.044e-008      -7.219
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.133e-004       0.566  1.133e-004      -3.946
+	Hfo_wOH2+        8.309e-005       0.415  8.309e-005      -4.080
+	Hfo_wO-          3.538e-006       0.018  3.538e-006      -5.451
+	Hfo_wOZn+        9.715e-008       0.000  9.715e-008      -7.013
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.972e-002  9.972e-002
+	Zn               9.832e-005  9.832e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.500      Charge balance
+                                       pe  =  14.523      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10336
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -3.811e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -8.259e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.04
+                               Iterations  =  22
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.580613e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.831e-006  3.162e-006    -5.417    -5.500    -0.083      0.00
+   OH-            4.189e-009  3.190e-009    -8.378    -8.496    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.206   -43.196     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.099   -53.227    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.981   -56.971     0.010     24.46
+N(0)         7.992e-007
+   N2             3.996e-007  4.089e-007    -6.398    -6.388     0.010     29.29
+N(3)         3.351e-013
+   NO2-           3.351e-013  2.525e-013   -12.475   -12.598    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.972e-002
+   Na+            9.972e-002  7.828e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           2.440e-020  2.497e-020   -19.613   -19.603     0.010     (0)  
+O(0)         1.998e-006
+   O2             9.990e-007  1.022e-006    -6.000    -5.990     0.010     30.40
+Zn           9.832e-005
+   Zn+2           9.830e-005  3.697e-005    -4.007    -4.432    -0.425    -23.59
+   ZnOH+          1.636e-008  1.278e-008    -7.786    -7.894    -0.107     (0)  
+   Zn(OH)2        4.518e-011  4.623e-011   -10.345   -10.335     0.010     (0)  
+   Zn(OH)3-       5.898e-017  4.607e-017   -16.229   -16.337    -0.107     (0)  
+   Zn(OH)4-2      6.180e-024  2.301e-024   -23.209   -23.638    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.50     -5.50    0.00  H+
+	H2(g)           -40.10    -43.20   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.21     -6.39   -3.18  N2
+	NH3(g)          -58.77    -56.97    1.80  NH3
+	O2(g)            -3.10     -5.99   -2.89  O2
+	Zn(OH)2(e)       -4.94      6.56   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 23.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -5.7500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -5.75    -5.75      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  8.082e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 6.970e-005  Surface charge, eq
+	 1.245e-001  sigma, C/m**2
+	 9.893e-002  psi, V
+	-3.851e+000  -F*psi/RT
+	 2.126e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        2.764e-006       0.553  2.764e-006      -5.558
+	Hfo_sOH          1.387e-006       0.277  1.387e-006      -5.858
+	Hfo_sOH2+        7.937e-007       0.159  7.937e-007      -6.100
+	Hfo_sO-          5.552e-008       0.011  5.552e-008      -7.256
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.239e-004       0.619  1.239e-004      -3.907
+	Hfo_wOH2+        7.090e-005       0.354  7.090e-005      -4.149
+	Hfo_wO-          4.959e-006       0.025  4.959e-006      -5.305
+	Hfo_wOZn+        2.585e-007       0.001  2.585e-007      -6.588
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.973e-002  9.973e-002
+	Zn               9.698e-005  9.698e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   5.750      Charge balance
+                                       pe  =  14.237      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10336
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -2.118e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -6.970e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.03
+                               Iterations  =  22
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.580615e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.155e-006  1.778e-006    -5.667    -5.750    -0.083      0.00
+   OH-            7.449e-009  5.672e-009    -8.128    -8.246    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.135   -43.125     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.313   -53.441    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.945   -56.935     0.010     24.46
+N(0)         5.752e-007
+   N2             2.876e-007  2.943e-007    -6.541    -6.531     0.010     29.29
+N(3)         3.950e-013
+   NO2-           3.950e-013  2.976e-013   -12.403   -12.526    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.973e-002
+   Na+            9.973e-002  7.830e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           4.340e-020  4.441e-020   -19.362   -19.352     0.010     (0)  
+O(0)         1.438e-006
+   O2             7.189e-007  7.357e-007    -6.143    -6.133     0.010     30.40
+Zn           9.698e-005
+   Zn+2           9.695e-005  3.646e-005    -4.013    -4.438    -0.425    -23.59
+   ZnOH+          2.868e-008  2.241e-008    -7.542    -7.650    -0.107     (0)  
+   Zn(OH)2        1.409e-010  1.442e-010    -9.851    -9.841     0.010     (0)  
+   Zn(OH)3-       3.271e-016  2.555e-016   -15.485   -15.593    -0.107     (0)  
+   Zn(OH)4-2      6.095e-023  2.270e-023   -22.215   -22.644    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -5.75     -5.75    0.00  H+
+	H2(g)           -40.02    -43.12   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.36     -6.53   -3.18  N2
+	NH3(g)          -58.73    -56.94    1.80  NH3
+	O2(g)            -3.24     -6.13   -2.89  O2
+	Zn(OH)2(e)       -4.44      7.06   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 24.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -6 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.00    -6.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  6.522e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 5.821e-005  Surface charge, eq
+	 1.040e-001  sigma, C/m**2
+	 9.013e-002  psi, V
+	-3.508e+000  -F*psi/RT
+	 2.995e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        3.828e-006       0.766  3.828e-006      -5.417
+	Hfo_sOH          7.791e-007       0.156  7.791e-007      -6.108
+	Hfo_sOH2+        3.532e-007       0.071  3.532e-007      -6.452
+	Hfo_sO-          3.937e-008       0.008  3.937e-008      -7.405
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.325e-004       0.663  1.325e-004      -3.878
+	Hfo_wOH2+        6.008e-005       0.300  6.008e-005      -4.221
+	Hfo_wO-          6.698e-006       0.033  6.698e-006      -5.174
+	Hfo_wOZn+        6.820e-007       0.003  6.820e-007      -6.166
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.975e-002  9.975e-002
+	Zn               9.549e-005  9.549e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.000      Charge balance
+                                       pe  =  13.952      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10337
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.147e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -5.821e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.03
+                               Iterations  =  22
+                                  Total H  = 1.110123e+002
+                                  Total O  = 5.580617e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.212e-006  1.000e-006    -5.917    -6.000    -0.083      0.00
+   OH-            1.325e-008  1.009e-008    -7.878    -7.996    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -43.063   -43.053     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.527   -53.655    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.909   -56.899     0.010     24.46
+N(0)         4.140e-007
+   N2             2.070e-007  2.118e-007    -6.684    -6.674     0.010     29.29
+N(3)         4.657e-013
+   NO2-           4.657e-013  3.508e-013   -12.332   -12.455    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.975e-002
+   Na+            9.975e-002  7.831e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           7.719e-020  7.899e-020   -19.112   -19.102     0.010     (0)  
+O(0)         1.035e-006
+   O2             5.174e-007  5.294e-007    -6.286    -6.276     0.010     30.40
+Zn           9.549e-005
+   Zn+2           9.544e-005  3.589e-005    -4.020    -4.445    -0.425    -23.59
+   ZnOH+          5.021e-008  3.922e-008    -7.299    -7.406    -0.107     (0)  
+   Zn(OH)2        4.386e-010  4.488e-010    -9.358    -9.348     0.010     (0)  
+   Zn(OH)3-       1.811e-015  1.414e-015   -14.742   -14.849    -0.107     (0)  
+   Zn(OH)4-2      6.000e-022  2.234e-022   -21.222   -21.651    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.00     -6.00    0.00  H+
+	H2(g)           -39.95    -43.05   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.50     -6.67   -3.18  N2
+	NH3(g)          -58.70    -56.90    1.80  NH3
+	O2(g)            -3.38     -6.28   -2.89  O2
+	Zn(OH)2(e)       -3.95      7.55   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 25.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -6.2500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.25    -6.25      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  5.093e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 4.811e-005  Surface charge, eq
+	 8.597e-002  sigma, C/m**2
+	 8.102e-002  psi, V
+	-3.154e+000  -F*psi/RT
+	 4.270e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.478e-006       0.896  4.478e-006      -5.349
+	Hfo_sOH          3.663e-007       0.073  3.663e-007      -6.436
+	Hfo_sOH2+        1.331e-007       0.027  1.331e-007      -6.876
+	Hfo_sO-          2.309e-008       0.005  2.309e-008      -7.637
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.390e-004       0.695  1.390e-004      -3.857
+	Hfo_wOH2+        5.050e-005       0.253  5.050e-005      -4.297
+	Hfo_wO-          8.759e-006       0.044  8.759e-006      -5.058
+	Hfo_wOZn+        1.779e-006       0.009  1.779e-006      -5.750
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.976e-002  9.976e-002
+	Zn               9.374e-005  9.374e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.250      Charge balance
+                                       pe  =  13.666      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10337
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -5.675e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -4.811e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  =  22
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580618e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             6.813e-007  5.623e-007    -6.167    -6.250    -0.083      0.00
+   OH-            2.355e-008  1.794e-008    -7.628    -7.746    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.992   -42.982     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.741   -53.869    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.874   -56.864     0.010     24.46
+N(0)         2.980e-007
+   N2             1.490e-007  1.525e-007    -6.827    -6.817     0.010     29.29
+N(3)         5.489e-013
+   NO2-           5.489e-013  4.136e-013   -12.260   -12.383    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.976e-002
+   Na+            9.976e-002  7.832e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           1.373e-019  1.405e-019   -18.862   -18.852     0.010     (0)  
+O(0)         7.447e-007
+   O2             3.723e-007  3.810e-007    -6.429    -6.419     0.010     30.40
+Zn           9.374e-005
+   Zn+2           9.365e-005  3.522e-005    -4.028    -4.453    -0.425    -23.59
+   ZnOH+          8.762e-008  6.845e-008    -7.057    -7.165    -0.107     (0)  
+   Zn(OH)2        1.361e-009  1.393e-009    -8.866    -8.856     0.010     (0)  
+   Zn(OH)3-       9.992e-015  7.805e-015   -14.000   -14.108    -0.107     (0)  
+   Zn(OH)4-2      5.888e-021  2.192e-021   -20.230   -20.659    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.25     -6.25    0.00  H+
+	H2(g)           -39.88    -42.98   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.64     -6.82   -3.18  N2
+	NH3(g)          -58.66    -56.86    1.80  NH3
+	O2(g)            -3.53     -6.42   -2.89  O2
+	Zn(OH)2(e)       -3.46      8.04   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 26.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -6.5000e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.50    -6.50      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  3.593e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 3.957e-005  Surface charge, eq
+	 7.070e-002  sigma, C/m**2
+	 7.195e-002  psi, V
+	-2.801e+000  -F*psi/RT
+	 6.077e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.781e-006       0.956  4.781e-006      -5.320
+	Hfo_sOH          1.598e-007       0.032  1.598e-007      -6.797
+	Hfo_sOH2+        4.647e-008       0.009  4.647e-008      -7.333
+	Hfo_sO-          1.258e-008       0.003  1.258e-008      -7.900
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.428e-004       0.714  1.428e-004      -3.845
+	Hfo_wOH2+        4.152e-005       0.208  4.152e-005      -4.382
+	Hfo_wO-          1.124e-005       0.056  1.124e-005      -4.949
+	Hfo_wOZn+        4.474e-006       0.022  4.474e-006      -5.349
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.978e-002  9.978e-002
+	Zn               9.075e-005  9.075e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.500      Charge balance
+                                       pe  =  13.380      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10337
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00583
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -1.822e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.957e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  =  22
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580620e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.832e-007  3.162e-007    -6.417    -6.500    -0.083      0.00
+   OH-            4.189e-008  3.190e-008    -7.378    -7.496    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.920   -42.910     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -53.955   -54.083    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.837   -56.827     0.010     24.46
+N(0)         2.147e-007
+   N2             1.074e-007  1.099e-007    -6.969    -6.959     0.010     29.29
+N(3)         6.473e-013
+   NO2-           6.473e-013  4.876e-013   -12.189   -12.312    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.978e-002
+   Na+            9.978e-002  7.833e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           2.442e-019  2.499e-019   -18.612   -18.602     0.010     (0)  
+O(0)         5.356e-007
+   O2             2.678e-007  2.741e-007    -6.572    -6.562     0.010     30.40
+Zn           9.075e-005
+   Zn+2           9.059e-005  3.407e-005    -4.043    -4.468    -0.425    -23.59
+   ZnOH+          1.507e-007  1.177e-007    -6.822    -6.929    -0.107     (0)  
+   Zn(OH)2        4.163e-009  4.260e-009    -8.381    -8.371     0.010     (0)  
+   Zn(OH)3-       5.435e-014  4.246e-014   -13.265   -13.372    -0.107     (0)  
+   Zn(OH)4-2      5.695e-020  2.121e-020   -19.245   -19.674    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.50     -6.50    0.00  H+
+	H2(g)           -39.81    -42.91   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.78     -6.96   -3.18  N2
+	NH3(g)          -58.62    -56.83    1.80  NH3
+	O2(g)            -3.67     -6.56   -2.89  O2
+	Zn(OH)2(e)       -2.97      8.53   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 27.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -6.7500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -6.75    -6.75      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001  1.705e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 3.287e-005  Surface charge, eq
+	 5.874e-002  sigma, C/m**2
+	 6.371e-002  psi, V
+	-2.480e+000  -F*psi/RT
+	 8.376e-002  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.905e-006       0.981  4.905e-006      -5.309
+	Hfo_sOH          7.162e-008       0.014  7.162e-008      -7.145
+	Hfo_sOH2+        1.615e-008       0.003  1.615e-008      -7.792
+	Hfo_sO-          7.277e-009       0.001  7.277e-009      -8.138
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.430e-004       0.715  1.430e-004      -3.845
+	Hfo_wOH2+        3.224e-005       0.161  3.224e-005      -4.492
+	Hfo_wO-          1.453e-005       0.073  1.453e-005      -4.838
+	Hfo_wOZn+        1.025e-005       0.051  1.025e-005      -4.989
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.980e-002  9.980e-002
+	Zn               8.484e-005  8.484e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.750      Charge balance
+                                       pe  =  13.094      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10338
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.338e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -3.287e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
+                               Iterations  =  22
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.580621e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.155e-007  1.778e-007    -6.667    -6.750    -0.083      0.00
+   OH-            7.449e-008  5.672e-008    -7.128    -7.246    -0.118     -3.73
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.849   -42.839     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.169   -54.297    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.802   -56.792     0.010     24.46
+N(0)         1.546e-007
+   N2             7.730e-008  7.910e-008    -7.112    -7.102     0.010     29.29
+N(3)         7.630e-013
+   NO2-           7.630e-013  5.748e-013   -12.117   -12.240    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.980e-002
+   Na+            9.980e-002  7.835e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           4.343e-019  4.444e-019   -18.362   -18.352     0.010     (0)  
+O(0)         3.854e-007
+   O2             1.927e-007  1.972e-007    -6.715    -6.705     0.010     30.40
+Zn           8.484e-005
+   Zn+2           8.458e-005  3.181e-005    -4.073    -4.497    -0.425    -23.59
+   ZnOH+          2.502e-007  1.955e-007    -6.602    -6.709    -0.107     (0)  
+   Zn(OH)2        1.229e-008  1.258e-008    -7.910    -7.900     0.010     (0)  
+   Zn(OH)3-       2.854e-013  2.229e-013   -12.545   -12.652    -0.107     (0)  
+   Zn(OH)4-2      5.317e-019  1.980e-019   -18.274   -18.703    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -6.75     -6.75    0.00  H+
+	H2(g)           -39.74    -42.84   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -3.93     -7.10   -3.18  N2
+	NH3(g)          -58.59    -56.79    1.80  NH3
+	O2(g)            -3.81     -6.71   -2.89  O2
+	Zn(OH)2(e)       -2.50      9.00   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 28.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -7 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.00    -7.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001 -7.649e-006
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 2.819e-005  Surface charge, eq
+	 5.037e-002  sigma, C/m**2
+	 5.718e-002  psi, V
+	-2.226e+000  -F*psi/RT
+	 1.080e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.953e-006       0.991  4.953e-006      -5.305
+	Hfo_sOH          3.577e-008       0.007  3.577e-008      -7.447
+	Hfo_sOH2+        5.846e-009       0.001  5.846e-009      -8.233
+	Hfo_sO-          5.014e-009       0.001  5.014e-009      -8.300
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.381e-004       0.690  1.381e-004      -3.860
+	Hfo_wOH2+        2.256e-005       0.113  2.256e-005      -4.647
+	Hfo_wOZn+        2.002e-005       0.100  2.002e-005      -4.699
+	Hfo_wO-          1.935e-005       0.097  1.935e-005      -4.713
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.982e-002  9.982e-002
+	Zn               7.503e-005  7.503e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  12.809      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10338
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.001e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.724e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.819e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  23
+                                  Total H  = 1.110125e+002
+                                  Total O  = 5.580624e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.325e-007  1.009e-007    -6.878    -6.996    -0.118     -3.73
+   H+             1.212e-007  1.000e-007    -6.917    -7.000    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.778   -42.768     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.384   -54.512    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.767   -56.757     0.010     24.46
+N(0)         1.110e-007
+   N2             5.552e-008  5.682e-008    -7.256    -7.246     0.010     29.29
+N(3)         8.991e-013
+   NO2-           8.991e-013  6.773e-013   -12.046   -12.169    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.982e-002
+   Na+            9.982e-002  7.837e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           7.725e-019  7.905e-019   -18.112   -18.102     0.010     (0)  
+O(0)         2.776e-007
+   O2             1.388e-007  1.420e-007    -6.858    -6.848     0.010     30.40
+Zn           7.503e-005
+   Zn+2           7.460e-005  2.806e-005    -4.127    -4.552    -0.425    -23.59
+   ZnOH+          3.925e-007  3.066e-007    -6.406    -6.513    -0.107     (0)  
+   Zn(OH)2        3.428e-008  3.508e-008    -7.465    -7.455     0.010     (0)  
+   Zn(OH)3-       1.415e-012  1.106e-012   -11.849   -11.956    -0.107     (0)  
+   Zn(OH)4-2      4.690e-018  1.746e-018   -17.329   -17.758    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.00     -7.00    0.00  H+
+	H2(g)           -39.67    -42.77   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.07     -7.25   -3.18  N2
+	NH3(g)          -58.55    -56.76    1.80  NH3
+	O2(g)            -3.96     -6.85   -2.89  O2
+	Zn(OH)2(e)       -2.05      9.45   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 29.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -7.2500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.25    -7.25      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001 -3.630e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 2.512e-005  Surface charge, eq
+	 4.488e-002  sigma, C/m**2
+	 5.252e-002  psi, V
+	-2.044e+000  -F*psi/RT
+	 1.295e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.973e-006       0.995  4.973e-006      -5.303
+	Hfo_sOH          2.032e-008       0.004  2.032e-008      -7.692
+	Hfo_sO-          4.224e-009       0.001  4.224e-009      -8.374
+	Hfo_sOH2+        2.240e-009       0.000  2.240e-009      -8.650
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.270e-004       0.635  1.270e-004      -3.896
+	Hfo_wOZn+        3.255e-005       0.163  3.255e-005      -4.487
+	Hfo_wO-          2.641e-005       0.132  2.641e-005      -4.578
+	Hfo_wOH2+        1.400e-005       0.070  1.400e-005      -4.854
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.985e-002  9.985e-002
+	Zn               6.248e-005  6.248e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.250      Charge balance
+                                       pe  =  12.523      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  9.254e-007
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.512e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  23
+                                  Total H  = 1.110125e+002
+                                  Total O  = 5.580627e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.355e-007  1.794e-007    -6.628    -6.746    -0.118     -3.73
+   H+             6.813e-008  5.623e-008    -7.167    -7.250    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.706   -42.696     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.598   -54.726    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.731   -56.721     0.010     24.46
+N(0)         7.994e-008
+   N2             3.997e-008  4.090e-008    -7.398    -7.388     0.010     29.29
+N(3)         1.060e-012
+   NO2-           1.060e-012  7.985e-013   -11.975   -12.098    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.985e-002
+   Na+            9.985e-002  7.839e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           1.374e-018  1.406e-018   -17.862   -17.852     0.010     (0)  
+O(0)         1.998e-007
+   O2             9.989e-008  1.022e-007    -7.000    -6.990     0.010     30.40
+Zn           6.248e-005
+   Zn+2           6.181e-005  2.325e-005    -4.209    -4.634    -0.425    -23.59
+   ZnOH+          5.783e-007  4.517e-007    -6.238    -6.345    -0.107     (0)  
+   Zn(OH)2        8.983e-008  9.192e-008    -7.047    -7.037     0.010     (0)  
+   Zn(OH)3-       6.595e-012  5.152e-012   -11.181   -11.288    -0.107     (0)  
+   Zn(OH)4-2      3.886e-017  1.447e-017   -16.411   -16.840    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.25     -7.25    0.00  H+
+	H2(g)           -39.60    -42.70   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.21     -7.39   -3.18  N2
+	NH3(g)          -58.52    -56.72    1.80  NH3
+	O2(g)            -4.10     -6.99   -2.89  O2
+	Zn(OH)2(e)       -1.64      9.86   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 30.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -7.5000e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.50    -7.50      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001 -6.535e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 2.288e-005  Surface charge, eq
+	 4.088e-002  sigma, C/m**2
+	 4.889e-002  psi, V
+	-1.903e+000  -F*psi/RT
+	 1.491e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.982e-006       0.996  4.982e-006      -5.303
+	Hfo_sOH          1.269e-008       0.003  1.269e-008      -7.896
+	Hfo_sO-          4.074e-009       0.001  4.074e-009      -8.390
+	Hfo_sOH2+        9.061e-010       0.000  9.061e-010      -9.043
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          1.109e-004       0.555  1.109e-004      -3.955
+	Hfo_wOZn+        4.558e-005       0.228  4.558e-005      -4.341
+	Hfo_wO-          3.560e-005       0.178  3.560e-005      -4.449
+	Hfo_wOH2+        7.916e-006       0.040  7.916e-006      -5.102
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.988e-002  9.988e-002
+	Zn               4.944e-005  4.944e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.500      Charge balance
+                                       pe  =  12.237      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.631e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.288e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  23
+                                  Total H  = 1.110126e+002
+                                  Total O  = 5.580630e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            4.189e-007  3.190e-007    -6.378    -6.496    -0.118     -3.73
+   H+             3.831e-008  3.162e-008    -7.417    -7.500    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.635   -42.625     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -54.812   -54.940    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.694   -56.684     0.010     24.46
+N(0)         5.761e-008
+   N2             2.881e-008  2.948e-008    -7.541    -7.531     0.010     29.29
+N(3)         1.250e-012
+   NO2-           1.250e-012  9.415e-013   -11.903   -12.026    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.988e-002
+   Na+            9.988e-002  7.841e-002    -1.001    -1.106    -0.105     -1.09
+   NaOH           2.444e-018  2.501e-018   -17.612   -17.602     0.010     (0)  
+O(0)         1.437e-007
+   O2             7.185e-008  7.352e-008    -7.144    -7.134     0.010     30.40
+Zn           4.944e-005
+   Zn+2           4.841e-005  1.821e-005    -4.315    -4.740    -0.425    -23.59
+   ZnOH+          8.055e-007  6.292e-007    -6.094    -6.201    -0.107     (0)  
+   Zn(OH)2        2.225e-007  2.277e-007    -6.653    -6.643     0.010     (0)  
+   Zn(OH)3-       2.905e-011  2.269e-011   -10.537   -10.644    -0.107     (0)  
+   Zn(OH)4-2      3.043e-016  1.133e-016   -15.517   -15.946    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.50     -7.50    0.00  H+
+	H2(g)           -39.52    -42.62   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.35     -7.53   -3.18  N2
+	NH3(g)          -58.48    -56.68    1.80  NH3
+	O2(g)            -4.24     -7.13   -2.89  O2
+	Zn(OH)2(e)       -1.24     10.26   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 31.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+ -7.7500e+000 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -7.75    -7.75      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001 -9.247e-005
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 2.080e-005  Surface charge, eq
+	 3.717e-002  sigma, C/m**2
+	 4.535e-002  psi, V
+	-1.765e+000  -F*psi/RT
+	 1.711e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.987e-006       0.997  4.987e-006      -5.302
+	Hfo_sOH          8.387e-009       0.002  8.387e-009      -8.076
+	Hfo_sO-          4.171e-009       0.001  4.171e-009      -8.380
+	Hfo_sOH2+        3.863e-010       0.000  3.863e-010      -9.413
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          9.233e-005       0.462  9.233e-005      -4.035
+	Hfo_wOZn+        5.749e-005       0.287  5.749e-005      -4.240
+	Hfo_wO-          4.592e-005       0.230  4.592e-005      -4.338
+	Hfo_wOH2+        4.253e-006       0.021  4.253e-006      -5.371
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.991e-002  9.991e-002
+	Zn               3.752e-005  3.752e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.750      Charge balance
+                                       pe  =  11.951      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10339
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.832e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -2.080e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  23
+                                  Total H  = 1.110126e+002
+                                  Total O  = 5.580632e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            7.448e-007  5.672e-007    -6.128    -6.246    -0.118     -3.73
+   H+             2.155e-008  1.778e-008    -7.667    -7.750    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.563   -42.553     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -55.024   -55.152    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.657   -56.647     0.010     24.46
+N(0)         4.173e-008
+   N2             2.086e-008  2.135e-008    -7.681    -7.671     0.010     29.29
+N(3)         1.475e-012
+   NO2-           1.475e-012  1.111e-012   -11.831   -11.954    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.991e-002
+   Na+            9.991e-002  7.844e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           4.348e-018  4.449e-018   -17.362   -17.352     0.010     (0)  
+O(0)         1.032e-007
+   O2             5.158e-008  5.278e-008    -7.288    -7.278     0.010     30.40
+Zn           3.752e-005
+   Zn+2           3.594e-005  1.352e-005    -4.444    -4.869    -0.425    -23.59
+   ZnOH+          1.063e-006  8.307e-007    -5.973    -6.081    -0.107     (0)  
+   Zn(OH)2        5.223e-007  5.345e-007    -6.282    -6.272     0.010     (0)  
+   Zn(OH)3-       1.213e-010  9.473e-011    -9.916   -10.024    -0.107     (0)  
+   Zn(OH)4-2      2.259e-015  8.414e-016   -14.646   -15.075    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -7.75     -7.75    0.00  H+
+	H2(g)           -39.45    -42.55   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.49     -7.67   -3.18  N2
+	NH3(g)          -58.44    -56.65    1.80  NH3
+	O2(g)            -4.39     -7.28   -2.89  O2
+	Zn(OH)2(e)       -0.87     10.63   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 32.
+-------------------------------------
+
+	USE solution 2
+	 USE surface 1
+	EQUILIBRIUM_PHASES 1
+	   Fix_H+           -8 NaOH 10.0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -8.00    -8.00      0.00
+	 NaOH               is reactant      1.000e+001  1.000e+001 -1.167e-004
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.854e-005  Surface charge, eq
+	 3.313e-002  sigma, C/m**2
+	 4.129e-002  psi, V
+	-1.607e+000  -F*psi/RT
+	 2.004e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 5.400e+001  m**2 for  9.000e-002 g
+
+
+Hfo_s         
+	 5.000e-006  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOZn+        4.990e-006       0.998  4.990e-006      -5.302
+	Hfo_sOH          5.759e-009       0.001  5.759e-009      -8.240
+	Hfo_sO-          4.349e-009       0.001  4.349e-009      -8.362
+	Hfo_sOH2+        1.747e-010       0.000  1.747e-010      -9.758
+
+Hfo_w         
+	 2.000e-004  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          7.427e-005       0.371  7.427e-005      -4.129
+	Hfo_wOZn+        6.739e-005       0.337  6.739e-005      -4.171
+	Hfo_wO-          5.609e-005       0.280  5.609e-005      -4.251
+	Hfo_wOH2+        2.253e-006       0.011  2.253e-006      -5.647
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	N                1.000e-001  1.000e-001
+	Na               9.993e-002  9.993e-002
+	Zn               2.762e-005  2.762e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.000      Charge balance
+                                       pe  =  11.666      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 10340
+                          Density (g/cm3)  =   1.00265
+                               Volume (L)  =   1.00584
+                        Activity of water  =   0.997
+                           Ionic strength  =  1.000e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.948e-006
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.854e-005
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
+                               Iterations  =  24
+                                  Total H  = 1.110127e+002
+                                  Total O  = 5.580635e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.325e-006  1.009e-006    -5.878    -5.996    -0.118     -3.73
+   H+             1.212e-008  1.000e-008    -7.917    -8.000    -0.083      0.00
+   H2O            5.551e+001  9.966e-001     1.744    -0.001     0.000     18.07
+H(0)         0.000e+000
+   H2             0.000e+000  0.000e+000   -42.492   -42.482     0.010     28.61
+N(-3)        0.000e+000
+   NH4+           0.000e+000  0.000e+000   -55.241   -55.369    -0.128     18.17
+   NH3            0.000e+000  0.000e+000   -56.624   -56.614     0.010     24.46
+N(0)         2.980e-008
+   N2             1.490e-008  1.525e-008    -7.827    -7.817     0.010     29.29
+N(3)         1.736e-012
+   NO2-           1.736e-012  1.308e-012   -11.760   -11.883    -0.123     25.24
+N(5)         1.000e-001
+   NO3-           1.000e-001  7.534e-002    -1.000    -1.123    -0.123     29.81
+Na           9.993e-002
+   Na+            9.993e-002  7.845e-002    -1.000    -1.105    -0.105     -1.09
+   NaOH           7.734e-018  7.914e-018   -17.112   -17.102     0.010     (0)  
+O(0)         7.447e-008
+   O2             3.724e-008  3.810e-008    -7.429    -7.419     0.010     30.40
+Zn           2.762e-005
+   Zn+2           2.514e-005  9.458e-006    -4.600    -5.024    -0.425    -23.59
+   ZnOH+          1.323e-006  1.033e-006    -5.878    -5.986    -0.107     (0)  
+   Zn(OH)2        1.156e-006  1.183e-006    -5.937    -5.927     0.010     (0)  
+   Zn(OH)3-       4.771e-010  3.727e-010    -9.321    -9.429    -0.107     (0)  
+   Zn(OH)4-2      1.581e-014  5.887e-015   -13.801   -14.230    -0.429     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Fix_H+           -8.00     -8.00    0.00  H+
+	H2(g)           -39.38    -42.48   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	N2(g)            -4.64     -7.82   -3.18  N2
+	NH3(g)          -58.41    -56.61    1.80  NH3
+	O2(g)            -4.53     -7.42   -2.89  O2
+	Zn(OH)2(e)       -0.53     10.97   11.50  Zn(OH)2
+
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 33.
+-------------------------------------
+
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 34.
+-------------------------------------
+
+-------------------------------
+End of Run after 0.062 Seconds.
+-------------------------------
+

@@ -1,0 +1,48 @@
+DATABASE ../database/pitzer.dat
+SOLUTION 1  Black Sea water
+        units   mg/L
+        density 1.014
+        pH      8.0     # estimated
+        Ca      233
+        Mg      679
+        Na      5820
+        K       193
+        S(6)    1460
+        Cl      10340
+        Br      35
+        C       1       CO2(g) -3.5
+EQUILIBRIUM_PHASES
+ # carbonates...
+ CO2(g) -3.5 10; Calcite 0 0
+ # sulfates...
+ Gypsum 0 0;     Anhydrite 0 0;  Glauberite 0 0;  Polyhalite 0 0
+ Epsomite 0 0;   Kieserite 0 0;  Hexahydrite 0 0
+ # chlorides...
+ Halite 0 0;     Bischofite 0 0; Carnallite 0 0
+USER_GRAPH Example 17B
+ -head H2O Na K Mg Ca Cl SO4 Calcite Gypsum Anhydrite Halite\
+       Glauberite Polyhalite
+ -init false
+ -axis_scale x_axis 0 100
+ -axis_scale y_axis -5 1. 1
+ -axis_scale sy_axis -5 10 5 100
+ -axis_titles "Concentration factor" "Log(Molality)"  "Log(Moles of solid)"
+ -chart_title "Evaporating Black Sea water"
+ -start
+ 10 graph_x 1 / tot("water")
+ 20 graph_y log10(tot("Na")), log10(tot("K")), log10(tot("Mg")), log10(tot("Ca")),\
+            log10(tot("Cl")), log10(tot("S"))
+ 30 if equi("Calcite") > 1e-5 then graph_sy log10(equi("Calcite")) else graph_sy -5
+ 35 if equi("Gypsum") > 1e-5 then graph_sy log10(equi("Gypsum")) else graph_sy -5
+ 40 if equi("Anhydrite") > 1e-5 then graph_sy log10(equi("Anhydrite")) else graph_sy -5
+ 50 if equi("Halite") > 1e-5 then graph_sy log10(equi("Halite")) else graph_sy -5
+ 60 if equi("Glauberite") > 1e-5 then graph_sy log10(equi("Glauberite")) else graph_sy -5
+ 70 if equi("Polyhalite") > 1e-5 then graph_sy log10(equi("Polyhalite")) else graph_sy -5
+ 80 if STEP_NO > 20 THEN PRINT "x", "Na", "K", "Mg", "Ca", "Cl", "S"
+ 90 if STEP_NO > 20 THEN PRINT 1 / tot("water"), (tot("Na")), (tot("K")), (tot("Mg")),\
+                               (tot("Ca")), (tot("Cl")), (tot("S"))
+ -end
+REACTION
+ H2O -1; 0 36 3*4 6*1 2*0.25 0.176 4*0.05 5*0.03
+INCREMENTAL_REACTIONS true
+END

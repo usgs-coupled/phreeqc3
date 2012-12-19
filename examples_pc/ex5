@@ -1,0 +1,33 @@
+TITLE Example 5.--Add oxygen, equilibrate with pyrite, calcite, and goethite.
+SOLUTION 1  PURE WATER
+        pH      7.0
+        temp    25.0
+EQUILIBRIUM_PHASES 1
+        Pyrite          0.0
+        Goethite        0.0
+        Calcite         0.0
+        CO2(g)         -3.5
+        Gypsum          0.0     0.0
+REACTION 1
+        O2      1.0
+        NaCl    0.5
+        0.0     0.001   0.005   0.01   0.03   0.05
+SELECTED_OUTPUT
+        -file   ex5.sel
+        -total  Cl
+        -si     Gypsum
+        -equilibrium_phases  pyrite goethite calcite CO2(g) gypsum
+USER_GRAPH Example 5
+        -headings Pyrite Goethite Calcite CO2(g) Gypsum SI_Gypsum
+        -chart_title "Pyrite Oxidation"
+        -axis_titles "O2 added, in millimoles" "Millimoles dissolved" \
+             "Saturation index"
+  10 x = RXN * 1e3
+  20 PLOT_XY x, 1e3 * (10 - EQUI("Pyrite")), symbol = Plus
+  30 PLOT_XY x, 1e3 * (10 - EQUI("Goethite")), symbol = Plus
+  40 PLOT_XY x, 1e3 * (10 - EQUI("Calcite")), symbol = Plus
+  50 PLOT_XY x, 1e3 * (10 - EQUI("CO2(g)")), symbol = Plus
+  60 PLOT_XY x, 1e3 * (-EQUI("Gypsum")), symbol = Plus, color = Magenta
+  70 PLOT_XY x, SI("Gypsum"), y-axis = 2, line_width = 2, symbol = Circle, \
+  	symbol_size = 8, color = Magenta
+END

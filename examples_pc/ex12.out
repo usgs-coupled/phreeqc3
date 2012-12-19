@@ -1,0 +1,58 @@
+   Input file: ../examples/ex12
+  Output file: ex12.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Example 12.--Advective and diffusive transport of heat and solutes.
+	      Two different boundary conditions at column ends.
+	      After diffusion temperature should equal Na-conc in mmol/l.
+	SOLUTION 0   24.0 mM KNO3
+	    units mol/kgw
+	    temp  0     # Incoming solution 0C
+	    pH    7.0
+	    pe   12.0   O2(g) -0.67
+	    K    24.e-3
+	    N(5) 24.e-3
+	SOLUTION 1-60   0.001 mM KCl
+	    units mol/kgw
+	    temp 25    # Column is at 25C
+	    pH   7.0
+	    pe  12.0   O2(g) -0.67
+	    K    1e-6
+	    Cl   1e-6
+	EXCHANGE_SPECIES
+	    Na+ + X- = NaX
+	    log_k       0.0
+	    gamma      4.0     0.075
+	    H+ + X- = HX
+	    log_k       -99.
+	    gamma      9.0     0.0
+	    K+ + X- = KX
+	    log_k       0.0
+	    gamma       3.5     0.015
+	EXCHANGE 1-60
+	    KX    0.048
+	PRINT
+	   reset   false
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 60.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 60.
+-------------------------------
+End of Run after 2.118 Seconds.
+-------------------------------
+
