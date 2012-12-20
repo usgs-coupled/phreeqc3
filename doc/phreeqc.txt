@@ -30,11 +30,10 @@ OPTIONS
      infile.out.  If no database file is specified, the
      phreeqc.dat database distributed with PHREEQC will be used.
 
-ABSTRACT
-     PHREEQC is a computer program written in the C programming
-     language that is designed to perform a wide variety of low-
-     temperature aqueous geochemical calculations.  PHREEQC is
-     based on an ion-association aqueous model and has
+ABSTRACT PHREEQC is a computer program written in the C
+     programming language that is designed to perform a wide
+     variety of low- temperature aqueous geochemical calculations.
+     PHREEQC is based on an ion-association aqueous model and has
      capabilities for (1) speciation and saturation-index
      calculations; (2) batch-reaction and one-dimensional (1D)
      transport calculations involving reversible reactions, which
@@ -42,10 +41,10 @@ ABSTRACT
      complexation, and ion-exchange equilibria, and irreversible
      reactions, which include specified mole transfers of
      reactants, kinetically controlled reactions, mixing of
-     solutions, and temperature changes; and (3) inverse
-     modeling, which finds sets of mineral and gas mole transfers
-     that account for differences in composition between waters,
-     within specified compositional uncertainty limits.
+     solutions, and pressure and temperature changes; and (3)
+     inverse modeling, which finds sets of mineral and gas mole
+     transfers that account for differences in composition between
+     waters, within specified compositional uncertainty limits.
 
 METHOD
      For speciation and batch-reaction calculations, PHREEQC
@@ -88,13 +87,13 @@ DATA REQUIREMENTS
      For speciation modeling, analytical data for a solution
      composition (SOLUTION keyword) are needed.
 
-     For batch-reaction modeling, the initial solution
-     composition is required (SOLUTION or MIX data block).  Other
-     equilibrium reactants may be defined with
-     EQUILIBRIUM_PHASES, EXCHANGE, SURFACE, GAS_PHASE, and
-     SOLID_SOLUTION data blocks.  Nonequilibrium reactions may be
-     defined with KINETICS and RATES, REACTION, and
-     REACTION_TEMPERATURE data blocks.
+     For batch-reaction modeling, the initial solution composition
+     is required (SOLUTION or MIX data block).  Other equilibrium
+     reactants may be defined with EQUILIBRIUM_PHASES, EXCHANGE,
+     SURFACE, GAS_PHASE, and SOLID_SOLUTION data blocks.
+     Nonequilibrium reactions may be defined with KINETICS and
+     RATES, REACTION, REACTION_PRESSURE, and REACTION_TEMPERATURE
+     data blocks.
 
      For 1D transport modeling, the data for batch-reaction
      modeling are needed for each cell in the modeled system.  In
@@ -130,7 +129,15 @@ SYSTEM REQUIREMENTS
      computers with processors running at 100 megahertz or
      faster.
 
-DOCUMENTATION
+DOCUMENTATION 
+
+     Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of
+	input and examples for PHREEQC version 3--A computer
+	program for speciation, batch-reaction, one- dimensional
+	transport, and inverse geochemical calculations: U.S.
+	Geological Survey Techniques and Methods, book 6, chap.
+	A43, 497 p. http://pubs.usgs.gov/tm/06A43/.
+
      Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to
         PHREEQC (Version 2)--a computer program for speciation,
         batch-reaction, one-dimensional transport, and inverse
@@ -141,6 +148,11 @@ DOCUMENTATION
         individual isotope equilibrium constants for implementation in
         geochemical models: U.S. Geological Survey Water-Resources
         Investigations Report 02-4172, 129 p.
+        
+     Thorstenson, D.C., and Parkhurst, D.L., 2004, Calculation of
+	 individual isotope equilibrium constants for geochemical
+	 reactions: Geochimica et Cosmochimica Acta, v. 68, no.
+	 11, p. 2449-2465.
 
 RELATED DOCUMENTATION
 
@@ -177,9 +189,10 @@ RELATED DOCUMENTATION
         Report 94-4169, 130 p.
 
 REFERENCES
-     Appelo, C.A.J., and Postma, D., 1993, Geochemistry,
-        groundwater and pollution:  Rotterdam, Netherlands, and
-        Brookfield, Vermont, A.A. Balkema.
+
+     Appelo, C.A.J., and Postma, D., 2005, Geochemistry,
+	groundwater and pollution (2nd ed.):  Rotterdam,
+	Netherlands, and Brookfield, Vermont, A.A. Balkema.
 
      Appelo, C.A.J., and Willemsen, A., 1987, Geochemical
         calculations and observations on salt water intrusions.

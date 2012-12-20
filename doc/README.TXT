@@ -5,17 +5,12 @@ README.TXT
        A program for speciation, batch-reaction, one-dimensional 
             transport, and inverse geochemical calculations
 
-NOTE: This file describes the batch version of PHREEQC. However, a
-graphical user interface, PhreeqcI, is available that runs under
-Windows operating systems. This interactive program can be downloaded
-from http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html. 
-PhreeqcI has internal documentation for all PHREEQC data input and is a
-complete interface to PHREEQC. A brief description of the program has
-been published as a Fact Sheet:
-
-Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user
-   interface to the geochemical model PHREEQC: U.S. Geological Survey 
-   Fact Sheet FS-031-02, 2 p.
+NOTE: This file describes the batch version of PHREEQC version 3. However, a
+graphical user interface, PhreeqcI, is available that runs under Windows
+operating systems. This interactive program can be downloaded from
+http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html. PhreeqcI
+has internal documentation for all PHREEQC data input and is a complete
+interface to PHREEQC. 
 
 
                   PHREEQC - Version @VERSION@  @VER_DATE@
@@ -30,72 +25,108 @@ dlpark@usgs.gov.
 
                           TABLE OF CONTENTS
 
-                          A. DISTRIBUTION FILES
-                          B. DOCUMENTATION
-                          C. EXTRACTING FILES
-                          D  COMPILING
-                          E. INSTALLING
-                          F. RUNNING THE PROGRAM
-                          G. TESTING
-                          H. CONTACTS
+                          A. Documentation
+                          B. Windows: Installing and running PhreeqcI
+                          C. Windows: Installing the batch version of PHREEQC
+                          D. Linux: Extracting, compiling (optional), and installing 
+                             the batch version of PHREEQC 
+                          	D.1. Extracting files
+                          	D.2. Compiling (optional)
+                          	D.3. Installing
+                          E. Windows and Linux: Running the batch program
+                          F. Testing
+                          	F.1. Windows
+                          	F.2. Linux
+                          	F.3. Example problems
+                          G. Contacts
+
+A. Documentation
+
+   Brief description of the program PhreeqcI.
+
+Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user
+   interface to the geochemical model PHREEQC: U.S. Geological Survey 
+   Fact Sheet FS-031-02, 2 p.
+   
+   
+   The following two user's guides are available in electronic format. Portable Document
+   Format (PDF) files are included in the doc subdirectory of the PHREEQC program
+   distribution.
+   
+Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of input and examples for PHREEQC
+   version 3—A computer program for speciation, batch-reaction, one- dimensional
+   transport, and inverse geochemical calculations: U.S. Geological Survey Techniques
+   and Methods, book 6, chap. A43, 497 p. http://pubs.usgs.gov/tm/06A43/.
+
+Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to PHREEQC (Version 2)--A
+   computer program for speciation, batch-reaction, one-dimensional transport, and
+   inverse geochemical calculations: U.S. Geological Survey Water-Resources
+   Investigations Report 99-4259, 312 p. http://pubs.er.usgs.gov/publication/wri994259.
 
 
-A. DISTRIBUTION FILES
+   The following two reports document the theory and implementation of isotopes in
+   PHREEQC. Portable Document Format (PDF) of Thorstenson and Parkhurst (2002) is
+   included in the doc subdirectory of the PHREEQC program distribution.
 
-The following distribution packages (containing the software, test data sets,
-and information files) are currently available for UNIX systems:
+Thorstenson, D.C., and Parkhurst, D.L., 2002, Calculation of individual isotope
+   equilibrium constants for implementation in geochemical models: U.S. Geological
+   Survey Water-Resources Investigations Report 02-4172, 129 p.
+   http://pubs.er.usgs.gov/publication/wri024172.
 
-  phreeqc-@VERSION@-@REVISION@.Linux.tar.gz  - Compiled with @GCC_VER@
-                                           kernel @KERNEL_VER@
-  phreeqc-@VERSION@-@REVISION@.source.tar.gz - Source code but no executable
+Thorstenson, D.C., and Parkhurst, D.L., 2004, Calculation of individual isotope
+   equilibrium constants for geochemical reactions: Geochimica et Cosmochimica Acta, v.
+   68, no. 11, p. 2449-2465.
+   
+B. Windows installation and running of the GUI PhreeqcI
 
+Download and run the file phreeqci-@VERSION@.@REVISION@.msi. PhreeqcI will be installed
+in the selected directory, C:\Program Files (x86)\USGS\Phreeqc Interactive
+@VERSION@.@REVISION@ by default. The program can be executed from the Start menu.
+   
+C. Windows: installing and running PhreeqcI
 
-B. DOCUMENTATION
+Download and run the file phreeqc-@VERSION@.@REVISION@.msi. All of the files
+needed to install and test PHREEQC will be installed in the selected
+directory, C:\Program Files (x86)\USGS\phreeqc-@VERSION@.@REVISION@ by
+default.
 
-Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to PHREEQC
-   (Version 2)--A computer program for speciation, batch-reaction,
-   one-dimensional transport, and inverse geochemical calculations:
-   U.S. Geological Survey Water-Resources Investigations Report 99-4259,
-   312 p.
+The following directory structure is created (the contents of each
+directory are shown to the right):
 
-   This user's guide is available in electronic format. Portable Document
-   Format (PDF) files are included in the doc subdirectory of the
-   PHREEQC program distribution. An online HTML version of the User's
-   Guide can also be found at
-   http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/
+   phreeqc-@VERSION@      files NOTICE.TXT, RELEASE.TXT, and this README.TXT
+     `-----bin         compiled executable, template for execution script
+     `-----database    database files required during execution
+     `-----doc         documentation files 
+     `-----examples    examples from user's guide--used in verification tests
+     `-----src         Makefile and source code
+     `-----test        scripts to run verification tests
+     
+Notes:  It is recommended that no user files be kept in the PHREEQC directory structure.
+	If you plan to put files in the PHREEQC directory structure, do so only by
+	creating subdirectories.
+     
+D. Linux: Extracting, compiling (optional), and installing the batch version of PHREEQC 
 
-Thorstenson, D.C., and Parkhurst, D.L., 2002, Calculation of
-   individual isotope equilibrium constants for implementation in
-   geochemical models: U.S. Geological Survey Water-Resources
-   Investigations Report 02-4172, 129 p.
+D.1. Linux: Extracting files
 
-   This report documents the theory and implementation of isotopes 
-   in PHREEQC. Portable Document Format (PDF) is included in the 
-   doc subdirectory of the PHREEQC program distribution. 
-
-C. EXTRACTING FILES
-
-Compressed tar files are used to distribute the source code and
-versions of the software compiled for selected UNIX operating systems.
-All of the PHREEQC files needed to install and test the program are
-contained in the file phreeqc-@VERSION@.@REVISION@-OS.tar.gz (where OS is a
-string indicating the intended operating system.)  If there is not a
-tar file for your operating system or you want to compile the
-software, the source version of the tar file contains all of the
-PHREEQC files needed to compile and install the program on a
-UNIX-based computer.  For all of these distributions, the directory
-phreeqc-@VERSION@ is created (or overwritten) when the files are extracted
-from the tar file; if this directory already exists, you may want to
-delete or rename it before extracting the files.
+Compressed tar files are used to distribute the source code and versions of the software
+compiled for Linux operating systems. All of the files needed to install and test
+PHREEQC are contained in the file phreeqc-@VERSION@.@REVISION@.Linux.tar.gz. A Linux
+executable file is included, which is compiled with @GCC_VER@ kernel @KERNEL_VER@. If
+you want to compile the program for another operating system, the file
+phreeqc-@VERSION@.@REVISION@.source.tar.gz contains all of the files needed to compile
+and install PHREEQC. For all tar files, the directory phreeqc-@VERSION@ is created when
+the files are extracted; if this directory already exists, you may want to delete or
+rename it before extracting the files.
 
 Follow the steps below to extract the files from a distribution tar
 file. 
 
-  Steps in extracting files                 explanation
+  Steps in extracting files                 Explanation
   ----------------------------------------  -----------------------------------
-  gunzip phreeqc-@VERSION@-@REVISION@.OS.tar.gz       Uncompress the distribution file.
+  gunzip phreeqc-@VERSION@-@REVISION@.Linux.tar.gz    Uncompress the distribution file.
 
-  tar -xvpof phreeqc-@VERSION@-@REVISION@.OS.tar      Extract files from the tar file.
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.tar   Extract files from the tar file.
 
 The following directory structure is created (the contents of each
 directory are shown to the right):
@@ -114,8 +145,9 @@ Notes:  (a) A compiled executable is not included in the source
             directory structure.  If you plan to put files in the PHREEQC
             directory structure, do so only by creating subdirectories.
 
+D.2. Linux: Compiling (optional)
 
-D. COMPILING
+XXXXXXXXXXXXXXX need to describe confinure here XXXXXXXXXXXXXXXXXX
 
 If you have retrieved a pre-compiled distribution of the software, skip to
 the Installing section below.
@@ -129,7 +161,7 @@ new version of the software, you will need:
 
        (a) a C compiler, and
        (b) a minimal level of knowledge of Make, the compiler, and
-           the UNIX operating system.
+           the Linux operating system.
 
 As provided in the source distribution, the software is set up to be
 compiled under Linux with gcc.
@@ -145,7 +177,8 @@ To generate a new executable, do the following:
         CC             C compiler name
         CCFLAGS        C compiler flags
         LOADFLAGS      linker flags
-        INVERSE_CL1MP  remove definition if gmp package 
+        MULTICHART     Requires WINE and zedgraph .NET control
+        INVERSE_CL1MP  Do not define if the gmp package 
                        is not available on your system
 
 3.  Run make in the src directory to compile the source:
@@ -158,11 +191,11 @@ To generate a new executable, do the following:
         b.  place the program executable in the PHREEQC bin directory.
 
 
-E. INSTALLING
+D.3. Linux: Installing
 
 To make PHREEQC easy to use, a link to the script that runs PHREEQC
 should be placed in a directory that is included in each user's search
-path.  Run make in the PHREEQC src subdirectory to create the link:
+path. Run make in the PHREEQC src subdirectory to create the link:
 
     make install BINDIR=directory_for_links
 
@@ -182,11 +215,10 @@ PHREEQC script, the installer must have sufficient rights to the BINDIR
 directory. By default, BINDIR is $HOME/bin.
 
 
-F. RUNNING THE PROGRAM
+E. Linux and Windows: Running the batch program
 
-If PHREEQC has been installed in a directory included in the users'
-PATH (as described above), the program can be executed with any of the
-commands below. 
+If PHREEQC has been installed in a directory included in the users' PATH, the program can
+be executed with any of the commands below.
 
   command to execute PHREEQC     explanation
   -----------------------------  -----------------------------------------
@@ -209,8 +241,8 @@ commands below.
                                  and screen output is directed to the
                                  file screen_output.
 
-If the "make install" command described above has not been executed,
-the executable must be copied to the current directory. The executable
+For Linux, if the "make install" command described above has not been executed,
+the executable may be copied to the current directory. The executable
 is normally phreeqc-@VERSION@/bin/phreeqc. In addition the default database
 file will be phreeqc.dat in the current directory. Phreeqc.dat is
 installed in phreeqc-@VERSION@/database/phreeqc.dat.
@@ -232,22 +264,24 @@ to phreeqc-@VERSION@/database/phreeqc.dat.  It is possible to specify a
 different default database by editing the script.
 
 
-G. TESTING
+F. Testing
 
-Test data sets are provided to verify that the program is correctly installed
-and running on the system.  The tests execute the examples presented in
-the user's guide, which demonstrate most of the program's capabilities.
-The PHREEQC test directory contains the script to run the tests.  The PHREEQC
-examples directory contains the input data and the expected results for
-each test.
+Input files are provided to verify that the program is correctly installed and
+running on the system.  The tests execute the examples presented in the user's
+guide, which demonstrate most of the program's capabilities. The PHREEQC
+"examples" directory contains the input data and the expected results for each
+test. On Windows operating systems, the "examples" and "Win" directories have
+been copied to My Documents\xxx, and the examples can be run from Win. 
 
-To test the installation, change to the phreeqc-@VERSION@/test directory and type
-the command:
+F.1. Windows
 
-     ./test.sh [start [stop]]
+On Windows operating systems, the "examples" and "Win" directories from
+phreeqc-@VERSION@ have been copied to My Documents\xxx, and the examples can be
+run from Win. Either double click the test.bat file from Windows Explorer or cd
+to the directory in a command-prompt window and type ./test.sh [start [stop]]
 
 where:  start = the number of the first test to perform, default = 1
-        stop  = the number of the last test to perform, default = 18
+        stop  = the number of the last test to perform, default = 22
 
 For example:
 
@@ -259,9 +293,40 @@ For example:
      ./test.sh 4                         runs test 4 through the last test
 
 
-After the tests are completed, the results are compared to the expected
-results (found in the PHREEQC examples directory).  See the file check.log; 
-if all goes well, there should be no differences.  
+You will have to close chart windows after each chart has completed to proceed to
+the remaining examples. After the tests are completed, the results are compared
+to the expected results (found in the examples directory).  See the file
+check.log; if all goes well, there should be few or no differences. Differences
+in path names and run times are insignificant.
+
+To clean up after the tests, double click on clean.bat in Windows Explorer or
+type the command ./clean.bat from a command prompt. 
+
+F.2. Linux
+
+On Linux, you should copy the directory phreeqc-@VERSION@/test to an area where
+you have write access; the examples can be run from the copied directory. Change
+to the directory that you copied and type the command:
+
+     ./test.sh [start [stop]]
+
+where:  start = the number of the first test to perform, default = 1
+        stop  = the number of the last test to perform, default = 22
+
+For example:
+
+     command                             what happens
+     ----------------------------------  --------------------------------
+     ./test.sh                           runs all of the tests
+     ./test.sh 1 1                       runs the first test
+     ./test.sh 2 3                       runs tests 2 and 3
+     ./test.sh 4                         runs test 4 through the last test
+
+
+After the tests are completed, the results are compared to the expected results
+(found in the examples directory).  See the file check.log; if all goes well,
+there should be few or no differences. Differences in path names and run times
+are insignificant.
 
 To clean up after the tests, type the command:
 
@@ -284,155 +349,66 @@ Notes: The output data files for phreeqc-@VERSION@.@REVISION@.source.tar.gz
        messages simply indicate a shorthand method for defining cell
        lengths and cell dispersivities was used.
 
-The tests are described in the table below, where 'test' is the test
-number and the 'usage' column indicates how a file is used, with i for
-input and o for output.
+F.3. Example problems
 
-test  description of test and files                  file name & usage
-----  --------------------------------------------   -----------------
+The tests are described in the table below, where 'test' corresponds
+to the example number in the PHREEQC manual. 
+
+test  description of test and files                  
+----  --------------------------------------------   
   1   Add uranium and speciate seawater
 
-      PHREEQC input file                             ex1             i
-      Printed results of calculation                 ex1.out         o
-                                                                      
   2   Temperature dependence of solubility                            
       of gypsum and anhydrite                                         
                                                                       
-      PHREEQC input file                             ex2             i
-      Printed results of calculation                 ex2.out         o
-      Results written to the selected-output file    ex2.sel         o
-
-  3   A. Calcite equilibrium at log Pco2 = -2.0 and 25C
-      B. Definition of seawater
-      C. Mix 70% ground water, 30% seawater
-      D. Equilibrate mixture with calcite and dolomite
-      E. Equilibrate mixture with calcite only
-
-      PHREEQC input file                             ex3             i
-      Printed results of calculation                 ex3.out         o
+  3   Mixing seawater and groundwater
                                                                       
-  4   A. Rain water evaporation                                       
-      B. Factor of 20 more solution                                   
-                                                                      
-      PHREEQC input file                             ex4             i
-      Printed results of calculation                 ex4.out         o
+  4   Evaporation and solution volume
 
   5   Add oxygen, equilibrate with pyrite, calcite, and goethite.
-
-      PHREEQC input file                             ex5             i
-      Printed results of calculation                 ex5.out         o
-      Results written to the selected-output file    ex5.sel         o
                                                                       
-  6   6A. React to phase boundaries                                    
-      6A1.--Find amount of k-feldspar dissolved to                         
-            reach gibbsite saturation                                  
-      6A2.--Find amount of k-feldspar dissolved to                         
-            reach kaolinite saturation                                 
-      6A3.--Find amount of k-feldspar dissolved to                         
-            reach K-mica saturation                                 
-      6A4.--Find amount of k-feldspar dissolved to                         
-            reach k-feldspar saturation                                    
-      6A5.--Find point with kaolinite present,                         
-            but no gibbsite                                            
-      6A6.--Find point with K-mica present,                         
-            but no kaolinite                                           
-      6B. Path between phase boundaries                                
-      6C. Kinetic calculation
-                                                                      
-      PHREEQC input file                             ex6             i
-      Printed results of calculation                 ex6.out         o
-      Results written to the selected-output file    ex6A-B.sel      o
-      Results written to the selected-output file    ex6C.sel        o
+  6   Reaction path calculations with K-feldspar to phase boundaries                                    
 
   7   Organic decomposition with fixed-pressure and
       fixed-volume gas phases  
-
-      PHREEQC input file                             ex7             i
-      Printed results of calculation                 ex7.out         o
-      Results written to the selected-output file    ex7.sel         o
                                                                       
   8   Sorption of zinc on hydrous iron oxides                         
                                                                       
-      PHREEQC input file                             ex8             i
-      Printed results of calculation                 ex8.out         o
-      Results written to the selected-output file    ex8.sel         o
-                                                                      
   9   Kinetically controlled oxidation of ferrous iron. 
       Decoupled valence states of iron.                                      
-                                                                      
-      PHREEQC input file                             ex9             i
-      Printed results of calculation                 ex9.out         o
-      Results written to the selected-output file    ex9.sel         o
-                                                                      
+                                                                       
  10   Solid solution of strontianite and aragonite.
                                                                       
-      PHREEQC input file                             ex10            i
-      Printed results of calculation                 ex10.out        o
-      Results written to the selected-output file    ex10.sel        o
-                                                                      
  11   Transport and ion exchange.
-                                                                      
-      PHREEQC input file                             ex11            i
-      Printed results of calculation                 ex11.out        o
-      Results written to the selected-output file    ex11adv.sel     o
-      Results written to the selected-output file    ex11trn.sel     o
 
  12   Advective and diffusive transport of heat and solutes. Constant
       boundary condition at one end, closed at other. The problem is 
       designed so that temperature should equal Na-conc (in mmol/kgw) 
       after diffusion.
 
-      PHREEQC input file                             ex12            i
-      Printed results of calculation                 ex12.out        o
-      Results written to the selected-output file    ex12.sel        o
-
- 13   A. 1 mmol/l NaCl/NO3 enters column with stagnant zones. Implicit 
-         definition of first-order exchange model.
-      B. 1 mmol/l NaCl/NO3 enters column with stagnant zones. Explicit 
-         definition of first-order exchange factors.
-      C. 1 mmol/l NaCl/NO3 enters column with stagnant zones. 5 layer 
-         stagnant zone with finite differences.
-
-      PHREEQC input file                             ex13a           i
-      Printed results of calculation                 ex13a.out       o
-      Results written to the selected-output file    ex13a.sel       o
-      PHREEQC input file                             ex13b           i
-      Printed results of calculation                 ex13b.out       o
-      Results written to the selected-output file    ex13b.sel       o
-      PHREEQC input file                             ex13c           i
-      Printed results of calculation                 ex13c.out       o
-      Results written to the selected-output file    ex13c.sel       o
+ 13   1D Transport in a Dual Porosity Column With Cation Exchange
 
  14   Transport with equilibrium_phases, exchange, and surface reactions
 
-      PHREEQC input file                             ex14            i
-      Printed results of calculation                 ex14.out        o
-      Results written to the selected-output file    ex14.sel        o
-
  15   1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption 
-
-      PHREEQC input file                             ex15            i
-      database file                                  ex15.dat        i
-      Printed results of calculation                 ex15.out        o
-      Results written to the selected-output file    ex15.sel        o
 
  16   Inverse modeling of Sierra springs
 
-      PHREEQC input file                             ex16            i
-      Printed results of calculation                 ex16.out        o
-
  17   Inverse modeling of Black Sea water evaporation
 
-      PHREEQC input file                             ex17            i
-      Printed results of calculation                 ex17.out        o
-
  18   Inverse modeling of Madison aquifer
+ 
+ 19   Modeling Cd+2 sorption with Linear, Freundlich, and Langmuir isotherms, and
+      with a deterministic distribution of sorption sites for organic matter,
+      clay minerals, and iron oxyhydroxides
+      
+ 20   Distribution of isotopes between water and calcite
+ 
+ 21   Modeling diffusion of HTO, 36Cl-, 22Na+, and Cs+ in a radial diffusion cell
 
-      PHREEQC input file                             ex18            i
-      Printed results of calculation                 ex18.out        o
+ 22   Modeling gas solubilities: CO2 at high pressures
 
-
-H. CONTACTS
+G. CONTACTS
 
 Inquiries about this software distribution should be directed to:
 
