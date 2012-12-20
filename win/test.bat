@@ -14,7 +14,7 @@ rem
 set topdir=..
 set data=%topdir%\examples
 REM set prog="%PATH_PHREEQC%src\Release\phreeqc.exe"
-set prog="%topdir%\ClrClass_release\phreeqcpp.exe"
+set prog="%topdir%\Class_release\phreeqcpp.exe"
 set prognm=PHREEQC
 
 REM need to use these in distribution
@@ -392,6 +392,20 @@ set n=21
 set name=ex21
 rm -f %name%.* %name%*tsv
 cp %data%\ex21*.tsv .
+set infile=%data%\%name%
+set outfile=%name%.out
+echo.
+echo.
+echo %divd%%divd%
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
+if "%stop%"=="%n%" goto end
+
+:test22
+set n=22
+set name=ex22
+rm -f %name%.* %name%*tsv
+cp %data%\co2.tsv .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo.

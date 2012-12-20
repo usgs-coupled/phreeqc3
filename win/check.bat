@@ -9,13 +9,16 @@ rem
 rem         where: start = starting test number
 rem                 stop = ending test number (may be same as start)
 rem
-rem  History: 00/02/16 mcrouse
-rem
 
-set start=%1
-set stop=%2
+set start=1
+set stop=22
+rem  if values supplied for start and stop, use those
+if not "%1"=="" set start=%1
+if not "%2"=="" set stop=%2
+
 if exist check.log del check.log
 
+data=..\examples\examples_pc
 echo.
 echo.
 echo %divd%%divd%
@@ -26,7 +29,7 @@ goto test%start%
 
 :test1
 set n=1
-set name=ex%n%
+set name=ex1
 fc %data%\%name%.out %name%.out >> check.log
 if "%stop%"=="%n%" goto end
 
@@ -35,6 +38,8 @@ set n=2
 set name=ex%n%
 fc %data%\%name%.out %name%.out >> check.log
 fc %data%\%name%.sel %name%.sel >> check.log
+set name=ex2b
+fc %data%\%name%.out %name%.out >> check.log
 if "%stop%"=="%n%" goto end
 
 :test3
@@ -105,15 +110,24 @@ set n=12
 set name=ex%n%
 fc %data%\%name%.out %name%.out >> check.log
 fc %data%\%name%.sel %name%.sel >> check.log
-for %%s in (a) do fc %data%\%name%%%s.out %name%%%s.out >> check.log
-for %%s in (a) do fc %data%\%name%%%s.sel %name%%%s.sel >> check.log
+set name=ex%n%a
+fc %data%\%name%.out %name%.out >> check.log
+fc %data%\%name%.sel %name%.sel >> check.log
 if "%stop%"=="%n%" goto end
 
 :test13
 set n=13
-set name=ex%n%
-for %%s in (a b c) do fc %data%\%name%%%s.out %name%%%s.out >> check.log
-for %%s in (a b c) do fc %data%\%name%%%s.sel %name%%%s.sel >> check.log
+set name=ex%n%a
+fc %data%\%name%.out %name%.out >> check.log
+fc %data%\%name%.sel %name%.sel >> check.log
+set name=ex%n%ac
+fc %data%\%name%.out %name%.out >> check.log
+set name=ex%n%b
+fc %data%\%name%.out %name%.out >> check.log
+fc %data%\%name%.sel %name%.sel >> check.log
+set name=ex%n%c
+fc %data%\%name%.out %name%.out >> check.log
+fc %data%\%name%.sel %name%.sel >> check.log
 if "%stop%"=="%n%" goto end
 
 :test14
@@ -128,6 +142,10 @@ set n=15
 set name=ex%n%
 fc %data%\%name%.out %name%.out >> check.log
 fc %data%\%name%.sel %name%.sel >> check.log
+set name=ex%n%a
+fc %data%\%name%.out %name%.out >> check.log
+set name=ex%n%b
+fc %data%\%name%.out %name%.out >> check.log
 if "%stop%"=="%n%" goto end
 
 :test16
@@ -140,10 +158,40 @@ if "%stop%"=="%n%" goto end
 set n=17
 set name=ex%n%
 fc %data%\%name%.out %name%.out >> check.log
+set name=ex%n%b
+fc %data%\%name%.out %name%.out >> check.log
 if "%stop%"=="%n%" goto end
 
 :test18
 set n=18
+set name=ex%n%
+fc %data%\%name%.out %name%.out >> check.log
+if "%stop%"=="%n%" goto end
+
+:test19
+set n=19
+set name=ex%n%
+fc %data%\%name%.out %name%.out >> check.log
+set name=ex%n%b
+fc %data%\%name%.out %name%.out >> check.log
+if "%stop%"=="%n%" goto end
+
+:test20
+set n=20
+set name=ex%n%a
+fc %data%\%name%.out %name%.out >> check.log
+set name=ex%n%b
+fc %data%\%name%.out %name%.out >> check.log
+if "%stop%"=="%n%" goto end
+
+:test21
+set n=21
+set name=ex%n%
+fc %data%\%name%.out %name%.out >> check.log
+if "%stop%"=="%n%" goto end
+
+:test22
+set n=22
 set name=ex%n%
 fc %data%\%name%.out %name%.out >> check.log
 if "%stop%"=="%n%" goto end
