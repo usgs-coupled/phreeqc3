@@ -9,6 +9,8 @@ rem
 rem         where: start = starting test number
 rem                 stop = ending test number (may be same as start)
 rem
+rem  History: 00/02/16 mcrouse
+rem           December 2012, PHREEQC3
 
 set start=1
 set stop=22
