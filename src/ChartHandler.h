@@ -31,6 +31,15 @@ public:
 	{
 		return timer;
 	}
+	int Get_active_charts() {return this->active_charts;}
+	void Increment_active_charts()
+	{
+		System::Threading::Interlocked::Increment(this->active_charts);
+	}
+	void Decrement_active_charts()
+	{
+		System::Threading::Interlocked::Decrement(this->active_charts);
+	}
 	bool Read(Phreeqc * phreeqc_ptr, CParser &parser);
 	void Punch_user_graph(Phreeqc * phreeqc_ptr);
 	bool End_timer();
@@ -41,6 +50,7 @@ protected:
 	ChartObject * current_chart;
 	bool u_g_defined;
 	bool timer;
+	int active_charts;
 
 public:
 

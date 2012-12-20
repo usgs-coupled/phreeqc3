@@ -25,6 +25,7 @@ PHRQ_base(io)
 	current_chart_n_user = -1000;
 	u_g_defined = false;
 	timer = true;
+	active_charts = 0;
 }
 
 ChartHandler::~ChartHandler()

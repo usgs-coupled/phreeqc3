@@ -84,6 +84,7 @@ namespace zdg_ui2 {
 					chart->Set_done(true);
 					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
 				}
+				phreeqc_ptr->Get_chart_handler().Decrement_active_charts();
 				this->phreeqc_ptr = NULL;
 				this->chartobject_ptr = NULL;
 			}
@@ -1082,25 +1083,29 @@ namespace zdg_ui2 {
 						zg1->AxisChange();
 						zg1->Refresh();
 					}
-					for (size_t j = 0; j < chart->Get_CurvesCSV().size(); j++)
-					{
-						if (zg1->GraphPane->CurveList[j]->Points->Count != chart->Get_CurvesCSV()[j]->Get_x().size())
-						{
-							fprintf(stderr, "graph points = %d\n", zg1->GraphPane->CurveList[j]->Points->Count);
-							fprintf(stderr, "phreeqc points = %d\n", chart->Get_CurvesCSV()[j]->Get_x().size());
-						}
-						assert(zg1->GraphPane->CurveList[j]->Points->Count == chart->Get_CurvesCSV()[j]->Get_x().size());
-					}
-					for (int j = chart->Get_CurvesCSV().size(); j < zg1->GraphPane->CurveList->Count; j++) 
-					{
-						int k = j - chart->Get_CurvesCSV().size();
-						if (zg1->GraphPane->CurveList[j]->Points->Count != chart->Get_Curves()[k]->Get_x().size())
-						{
-							fprintf(stderr, "graph points = %d\n", zg1->GraphPane->CurveList[j]->Points->Count);
-							fprintf(stderr, "phreeqc points = %d\n", chart->Get_Curves()[k]->Get_x().size());
-						}
-						assert(zg1->GraphPane->CurveList[j]->Points->Count == chart->Get_Curves()[k]->Get_x().size());
-					}
+					//
+					// Following asserts may not be true for Log scales 
+					// negative values are rejected, so chart may have fewer points than phreeqc
+					//
+					//for (size_t j = 0; j < chart->Get_CurvesCSV().size(); j++)
+					//{
+					//	if (zg1->GraphPane->CurveList[j]->Points->Count != chart->Get_CurvesCSV()[j]->Get_x().size())
+					//	{
+					//		fprintf(stderr, "graph points = %d\n", zg1->GraphPane->CurveList[j]->Points->Count);
+					//		fprintf(stderr, "phreeqc points = %d\n", chart->Get_CurvesCSV()[j]->Get_x().size());
+					//	}
+					//	assert(zg1->GraphPane->CurveList[j]->Points->Count == chart->Get_CurvesCSV()[j]->Get_x().size());
+					//}
+					//for (int j = chart->Get_CurvesCSV().size(); j < zg1->GraphPane->CurveList->Count; j++) 
+					//{
+					//	int k = j - chart->Get_CurvesCSV().size();
+					//	if (zg1->GraphPane->CurveList[j]->Points->Count != chart->Get_Curves()[k]->Get_x().size())
+					//	{
+					//		fprintf(stderr, "%d %d graph points = %d\n", j, k, zg1->GraphPane->CurveList[j]->Points->Count);
+					//		fprintf(stderr, "phreeqc points = %d\n", chart->Get_Curves()[k]->Get_x().size());
+					//	}
+					//	assert(zg1->GraphPane->CurveList[j]->Points->Count == chart->Get_Curves()[k]->Get_x().size());
+					//}
 					chart->Set_point_added(false);
 					if (chart->Get_end_timer())
 					{
@@ -1118,7 +1123,7 @@ namespace zdg_ui2 {
 						int n = System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
 						assert(n == 3);
 
-						this->phreeqc_ptr = NULL;
+						//this->phreeqc_ptr = NULL;
 						this->chartobject_ptr = NULL;
 						if (batch >= 0)
 						{
