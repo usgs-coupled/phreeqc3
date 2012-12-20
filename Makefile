@@ -3,8 +3,8 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
 INPUT=../examples
 PHREEQCDAT=../database/phreeqc.dat
-WATEQ4FDAT=../database/wateq4f.dat
 PITZERDAT=../database/pitzer.dat
+ISODAT=../database/iso.dat
 
 PHREEQC=../src/Class_release_64/phreeqcpp
 #PHREEQC=../src/Class_debug_64/phreeqcpp
@@ -88,11 +88,11 @@ ex15b.out: $(INPUT)/ex15b $(PHREEQC) $(INPUT)/ex15.dat
 ex16.out: $(INPUT)/ex16 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex16 ex16.out $(PHREEQCDAT)  ex16.log
 
-ex17.out: $(INPUT)/ex17 $(PHREEQC) 
-	$(PHREEQC) $(INPUT)/ex17 ex17.out   ex17.log
+ex17.out: $(INPUT)/ex17 $(PHREEQC) $(PITZERDAT)
+	$(PHREEQC) $(INPUT)/ex17 ex17.out $(PITZERDAT)  ex17.log
 
-ex17b.out: $(INPUT)/ex17b $(PHREEQC) 
-	$(PHREEQC) $(INPUT)/ex17b ex17b.out   ex17b.log
+ex17b.out: $(INPUT)/ex17b $(PHREEQC) $(PITZERDAT)
+	$(PHREEQC) $(INPUT)/ex17b ex17b.out $(PITZERDAT)  ex17b.log
 
 ex18.out: $(INPUT)/ex18 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex18 ex18.out $(PHREEQCDAT)  ex18.log
@@ -103,11 +103,11 @@ ex19.out: $(INPUT)/ex19 $(PHREEQC) $(PHREEQCDAT)
 ex19b.out: $(INPUT)/ex19b $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex19b ex19b.out $(PHREEQCDAT)  ex19b.log
 	
-ex20a.out: $(INPUT)/ex20a $(PHREEQC) ../database/iso.dat 
-	$(PHREEQC) $(INPUT)/ex20a ex20a.out ../database/iso.dat ex20a.log
+ex20a.out: $(INPUT)/ex20a $(PHREEQC) $(ISODAT) 
+	$(PHREEQC) $(INPUT)/ex20a ex20a.out $(ISODAT) ex20a.log
 
-ex20b.out: $(INPUT)/ex20b $(PHREEQC) ../database/iso.dat 
-	$(PHREEQC) $(INPUT)/ex20b ex20b.out ../database/iso.dat ex20b.log
+ex20b.out: $(INPUT)/ex20b $(PHREEQC) $(ISODAT)
+	$(PHREEQC) $(INPUT)/ex20b ex20b.out $(ISODAT) ex20b.log
 
 ex21.out: $(INPUT)/ex21 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex21 ex21.out $(PHREEQCDAT)   ex21.log
