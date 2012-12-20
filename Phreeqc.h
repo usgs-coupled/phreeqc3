@@ -1521,11 +1521,11 @@ protected:
 #if defined MULTICHART
 	ChartHandler chart_handler;
 public:
-	ChartHandler& Get_ChartHandler(void)
+	ChartHandler& Get_chart_handler(void)
 	{
 		return chart_handler;
 	}
-	const ChartHandler& Get_ChartHandler(void)const
+	const ChartHandler& Get_chart_handler(void)const
 	{
 		return chart_handler;
 	}
