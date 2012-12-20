@@ -11,17 +11,27 @@ rem          test range and are assumed to be in ascending order--the
 rem          absence of numeric variables in batch files makes error checking
 rem          awkward.)
 rem
-rem  History: 00/02/16 mcrouse
-rem
 set topdir=..
 set data=%topdir%\examples
-set prog=%topdir%\src\release\phreeqc.exe
+REM set prog="%PATH_PHREEQC%src\Release\phreeqc.exe"
+set prog="%topdir%\ClrClass_release\phreeqcpp.exe"
 set prognm=PHREEQC
+
+REM need to use these in distribution
+REM set PHREEQCDAT="%PATH_PHREEQC%database\phreeqc.dat"
+REM set WATEQ4FDAT="%PATH_PHREEQC%database\wateq4f.dat"
+REM set PITZERDAT="%PATH_PHREEQC%database\pitzer.dat"
+REM set ISODAT="%PATH_PHREEQC%database\iso.dat"
+
+set PHREEQCDAT="%topdir%\database\phreeqc.dat"
+set WATEQ4FDAT="%topdir%\database\wateq4f.dat"
+set PITZERDAT="%topdir%\database\pitzer.dat"
+set ISODAT="%topdir%\database\iso.dat"
 set divd=---------------------------------------
 
 rem  assign valid test range values as default values
 set start=1
-set stop=18
+set stop=22
 rem  if values supplied for start and stop, use those
 if not "%1"=="" set start=%1
 if not "%2"=="" set stop=%2
@@ -34,264 +44,361 @@ goto test%start%
 
 :test1
 set n=1
-set name=ex%n%
+set name=ex1
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test2
 set n=2
-set name=ex%n%
+set name=ex2
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
+REM Part b
+set name=ex2b
+rm -f %name%.*
+cp %data%\%name%.tsv .
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test3
 set n=3
-set name=ex%n%
+set name=ex3
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test4
 set n=4
-set name=ex%n%
+set name=ex4
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test5
 set n=5
-set name=ex%n%
+set name=ex5
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test6
 set n=6
-set name=ex%n%
+set name=ex6
+rm -f %name%.* %name%*sel
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%A-B.sel del %name%A-B.sel 
-if exist %name%C.sel del %name%C.sel 
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test7
 set n=7
-set name=ex%n%
+set name=ex7
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test8
 set n=8
-set name=ex%n%
+set name=ex8
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test9
 set n=9
-set name=ex%n%
+set name=ex9
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test10
 set n=10
-set name=ex%n%
+set name=ex10
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test11
 set n=11
-set name=ex%n%
+set name=ex11
+rm -f %name%.* %name%*sel
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%adv.sel del %name%adv.sel 
-if exist %name%trn.sel del %name%trn.sel 
 echo.
 echo.
 echo %divd%%divd%
 echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test12
 set n=12
-set name=ex%n%
+set name=ex12
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
-for %%s in (a) do if exist %name%%%s.out del %name%%%s.out
-for %%s in (a) do if exist %name%%%s.sel del %name%%%s.sel
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
-for %%s in (a) do %prog% %infile%%%s %name%%%s.out %topdir%\phreeqc.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
+REM Part A
+set name=ex12a
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test13
 set n=13
-set name=ex%n%
+set name=ex13a
+rm -f %name%.*
 set infile=%data%\%name%
-for %%s in (a b c) do if exist %name%%%s.out del %name%%%s.out
-for %%s in (a b c) do if exist %name%%%s.sel del %name%%%s.sel
+set outfile=%name%.out
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-for %%s in (a b c) do %prog% %infile%%%s %name%%%s.out %topdir%\phreeqc.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
+REM Part B
+set name=ex13b
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
+REM Part C
+set name=ex13c
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
+REM Part A-C
+set name=ex13ac
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test14
 set n=14
-set name=ex%n%
+set name=ex14
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\wateq4f.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
 if "%stop%"=="%n%" goto end
 
 :test15
 set n=15
-set name=ex%n%
+set name=ex15
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
-if exist %name%.sel del %name%.sel 
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
+echo Test run number %n% 
 %prog% %infile% %outfile% %data%\ex15.dat
+REM Part A
+set name=ex15a
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %data%\ex15.dat
+mv phreeqc.log %name%.log
+REM Part B
+set name=ex15b
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %data%\ex15.dat
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test16
 set n=16
-set name=ex%n%
+set name=ex16
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
 if "%stop%"=="%n%" goto end
 
 :test17
 set n=17
-set name=ex%n%
+set name=ex17
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PITZERDAT%
+REM Part B
+set name=ex17b
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %PITZERDAT%
+mv phreeqc.log %name%.log
 if "%stop%"=="%n%" goto end
 
 :test18
 set n=18
-set name=ex%n%
+set name=ex18
+rm -f %name%.*
 set infile=%data%\%name%
 set outfile=%name%.out
-if exist %outfile% del %outfile%
 echo.
 echo.
 echo %divd%%divd%
-echo Test run number %n%
-%prog% %infile% %outfile% %topdir%\phreeqc.dat
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
+if "%stop%"=="%n%" goto end
+
+:test19
+set n=19
+set name=ex19
+rm -f %name%.* %name%*tsv 
+cp %data%\ex19_meas.tsv .
+set infile=%data%\%name%
+set outfile=%name%.out
+echo.
+echo.
+echo %divd%%divd%
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
+REM Part B
+set name=ex19b
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %PHREEQCDAT%
+mv phreeqc.log %name%.log
+if "%stop%"=="%n%" goto end
+
+:test20
+set n=20
+set name=ex20a
+rm -f %name%.* %name%*tsv
+cp 
+cp %data%\ex20-c13.tsv .
+cp %data%\ex20-c14.tsv .
+set infile=%data%\%name%
+set outfile=%name%.out
+echo.
+echo.
+echo %divd%%divd%
+echo Test run number %n% 
+%prog% %infile% %outfile% %ISODAT%
+REM Part B
+set name=ex20b
+rm -f %name%.*
+set infile=%data%\%name%
+set outfile=%name%.out
+%prog% %infile% %outfile% %ISODAT%
+mv phreeqc.log %name%.log
+if "%stop%"=="%n%" goto end
+
+:test21
+set n=21
+set name=ex21
+rm -f %name%.* %name%*tsv
+cp %data%\ex21*.tsv .
+set infile=%data%\%name%
+set outfile=%name%.out
+echo.
+echo.
+echo %divd%%divd%
+echo Test run number %n% 
+%prog% %infile% %outfile% %PHREEQCDAT%
 if "%stop%"=="%n%" goto end
 
 :end
-call %topdir%\test\check %start% %stop%
-
-rem  clear the variables used from the environment
-set topdir=
-set data=
-set prog=
-set prognm=
-set divd=
-set start=
-set stop=
-set n=
-set name=
