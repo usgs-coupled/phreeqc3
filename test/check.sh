@@ -75,8 +75,8 @@ do
     if [ -f $DATA/$Namevar -a -f $Namevar ]
     then
       # do comparison only if both orig. and new output files exist
-        echo -e $DIVD$DIVD | tee -a check.out
-        echo -e "comparison of $DATA/$Namevar with $Namevar" \
+        echo $DIVD$DIVD | tee -a check.out
+        echo "comparison of $DATA/$Namevar with $Namevar" \
             | tee -a check.out
 
         if diff -w $DATA/$Namevar $Namevar >> check.out

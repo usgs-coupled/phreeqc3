@@ -22,7 +22,7 @@
 #
   PROGNM=PHREEQC
   TOPDIR=..
-  PROG=$TOPDIR/bin/$PROGNM
+#  PROG=$TOPDIR/bin/phreeqcpp
   PROG=../src/Class_release_64/phreeqcpp
   DATA=$TOPDIR/examples
   DB=$TOPDIR/database
@@ -39,8 +39,10 @@
   if [ $Start -lt 1 ] ; then Start=1 ; fi
   if [ $Stop -lt 1 ] ; then Stop=$END ; fi
   if [ $Start -gt $END -o $Stop -gt $END ]; then
-    echo -e "\nWarning, invalid arguments--test range is 1 - $END for $PROGNM"
-    echo -e "input arguments were $Start - $Stop\n"
+    echo 
+    echo "Warning, invalid arguments--test range is 1 - $END for $PROGNM"
+    echo "input arguments were $Start - $Stop"
+    echo
     if [ $Stop -gt $END ] ; then Stop=$END ; fi
     if [ $Start -gt $END ]; then
       echo "no $PROGNM tests will be performed"
@@ -60,15 +62,17 @@
 #
   Test=$Start
    if [ $Test -ge $Start -a $Test -le $Stop ]; then
-    echo -e "\n\n"$DIVD$DIVD
-    echo -e "Begin processing $PROGNM test runs $Start to $Stop\n"
+    echo
+    echo $DIVD$DIVD
+    echo "Begin processing $PROGNM test runs $Start to $Stop"
+    echo
     date
   fi
 
   while [ $Test -ge $Start -a $Test -le $Stop ]; do
  
-     echo -e "\n\n"$DIVD$DIVD
-     echo -e "Test run number $Test"
+     echo $DIVD$DIVD
+     echo "Test run number $Test"
  
  # Example 1
      if [ $Test -eq 1 ]; then
@@ -76,25 +80,22 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 
  # Example 2	
      elif [ $Test -eq 2 ]; then
 	Namevar=ex2
 	rm -f $Namevar.* $Namevar.tsv
-	cp $DATA/$Namevar.tsv .
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log    
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	Namevar=ex2b
 	rm -f %Namevar%.*
+	cp $DATA/$Namevar.tsv .
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
  # Example 3
       elif [ $Test -eq 3 ]; then
@@ -102,8 +103,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
  # Example 4
       elif [ $Test -eq 4 ]; then
@@ -111,8 +111,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 # Example 5
       elif [ $Test -eq 5 ]; then
@@ -120,8 +119,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 # Example 6
       elif [ $Test -eq 6 ]; then
@@ -129,8 +127,7 @@
 	rm -f $Namevar.* $Namevar*sel
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 # Example 7
       elif [ $Test -eq 7 ]; then
@@ -138,8 +135,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 # Example 8
       elif [ $Test -eq 8 ]; then
@@ -147,8 +143,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log			
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 # Example 9
       elif [ $Test -eq 9 ]; then
@@ -156,8 +151,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 # Example 10
       elif [ $Test -eq 10 ]; then
@@ -165,8 +159,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 		
 # Example 11
       elif [ $Test -eq 11 ]; then
@@ -174,8 +167,7 @@
 	rm -f $Namevar.* $Namevar*sel
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 		
 # Example 12
       elif [ $Test -eq 12 ]; then
@@ -183,15 +175,13 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	Namevar=ex12a
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 		
 # Example 13
       elif [ $Test -eq 13 ]; then
@@ -199,29 +189,25 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	Namevar=ex13b
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	Namevar=ex13c
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	Namevar=ex13ac
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
  	
 # Example 14
       elif [ $Test -eq 14 ]; then
@@ -229,8 +215,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	
 # Example 15
@@ -239,22 +224,19 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DATA/ex15.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DATA/ex15.dat $Namevar.log
 	
 	Namevar=ex15a
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DATA/ex15.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DATA/ex15.dat $Namevar.log
 	
 	Namevar=ex15b
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DATA/ex15.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DATA/ex15.dat $Namevar.log
 	
 # Example 16
       elif [ $Test -eq 16 ]; then
@@ -262,8 +244,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 		
 
 # Example 17
@@ -271,15 +252,13 @@
 	Namevar=ex17
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/pitzer.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/pitzer.dat $Namevar.log
 	
 	Namevar=ex17b
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/pitzer.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/pitzer.dat $Namevar.log
 
 # Example 18
       elif [ $Test -eq 18 ]; then
@@ -287,8 +266,7 @@
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log		
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 # Example 19
       elif [ $Test -eq 19 ]; then
@@ -297,15 +275,13 @@
 	cp $DATA/ex19_meas.tsv .
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	Namevar=ex19b
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 
 # Example 20
       elif [ $Test -eq 20 ]; then
@@ -314,15 +290,13 @@
 	cp $DATA/ex20*.tsv .
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/iso.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/iso.dat $Namevar.log
 	
 	Namevar=ex20b
 	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/iso.dat
-	mv phreeqc.log $Namevar.log	
+	$PROG $infile $outfile $DB/iso.dat $Namevar.log
 
 
 # Example 21
@@ -332,8 +306,7 @@
 	cp $DATA/ex21*.tsv .
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 
 # Example 22
       elif [ $Test -eq 22 ]; then
@@ -342,8 +315,7 @@
 	cp $DATA/co2.tsv .
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
-	$PROG $infile $outfile $DB/phreeqc.dat
-	mv phreeqc.log $Namevar.log
+	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 
      fi
      
@@ -352,8 +324,10 @@
   Test=`expr $Test - 1`
 #
   if [ $Test -ge $Start -a $Test -le $Stop ]; then
-    echo -e "\n\n"$DIVD$DIVD
-    echo -e "Completed $PROGNM test runs $Start to $Test\n"
+    echo
+    echo $DIVD$DIVD
+    echo "Completed $PROGNM test runs $Start to $Test"
+    echo
   fi
 
 # check output against original output in $TOPDIR/data directory
