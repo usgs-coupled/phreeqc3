@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
 #include <cassert>	
-#define P_INSTANCE_POINTER1 phreeqc_ptr->
 
 namespace zdg_ui2 {
 	using namespace System;
@@ -31,22 +30,11 @@ namespace zdg_ui2 {
 	public ref class Form1  : public System::Windows::Forms::Form
 	{
 	public:	long int tickStart;
-	public: Form1 ^myForm;
-	public:	Form1()
-			{
-				InitializeComponent();
-				col_use = 0;
-				symbol_use = 0;
-				Y2 = false;
-				phreeqc_done = false;
-				background = true;
-				hints = true;
-				grid = true;
-			}
 	public:	Form1(ChartObject *ptr)
 			{
 				this->chartobject_ptr = ptr;
 				this->phreeqc_ptr = chartobject_ptr->Get_phreeqc();
+				this->phreeqc_ptr->Get_chart_handler().Increment_active_charts();
 				InitializeComponent();
 				col_use = 0;
 				symbol_use = 0;
@@ -84,7 +72,7 @@ namespace zdg_ui2 {
 					chart->Set_done(true);
 					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
 				}
-				phreeqc_ptr->Get_chart_handler().Decrement_active_charts();
+				this->phreeqc_ptr->Get_chart_handler().Decrement_active_charts();
 				this->phreeqc_ptr = NULL;
 				this->chartobject_ptr = NULL;
 			}
@@ -110,7 +98,7 @@ namespace zdg_ui2 {
 				 if (LogX && chart->Get_axis_scale_x()[4] == 10.0 && 
 					 Curves[i]->Get_x()[i2] <= 0)
 				 {
-					 P_INSTANCE_POINTER1 warning_msg("Obtained x_value <= 0, removing point...");
+					 this->phreeqc_ptr->warning_msg("Obtained x_value <= 0, removing point...");
 					 //axis_scale_x[4] = NA; /* if reverting to linear... */
 					 //LogX = false;
 					 return true;
@@ -121,14 +109,14 @@ namespace zdg_ui2 {
 				 {
 					 if (Curves[i]->Get_y_axis() == 2 && LogY2)
 					 {
-						 P_INSTANCE_POINTER1 warning_msg("Obtained sy_value <= 0, removing point......");
+						 this->phreeqc_ptr->warning_msg("Obtained sy_value <= 0, removing point......");
 						 //axis_scale_y2[4] = NA;
 						 //LogY2 = false;
 						 return true;
 					 }
 					 else if (LogY)
 					 {
-						 P_INSTANCE_POINTER1 warning_msg("Obtained y_value <= 0, removing point......");
+						 this->phreeqc_ptr->warning_msg("Obtained y_value <= 0, removing point......");
 						 //axis_scale_y[4] = NA;
 						 //LogY = false;
 						 return true;
@@ -553,7 +541,7 @@ namespace zdg_ui2 {
 			{
 				if (this->chartobject_ptr != NULL)
 				{
-					P_INSTANCE_POINTER1 error_msg(estring.c_str(), CONTINUE);
+					this->phreeqc_ptr->error_msg(estring.c_str(), CONTINUE);
 				}
 				else
 				{

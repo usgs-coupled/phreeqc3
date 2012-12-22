@@ -3340,7 +3340,6 @@ punch_user_graph(void)
 	if (chart->Get_FirstCallToUSER_GRAPH())
 	{
 		chart->start_chart();
-		chart_handler.Increment_active_charts();
 	}
 	chart->Set_new_ug(false);
 
