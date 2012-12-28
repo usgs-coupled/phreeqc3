@@ -89,24 +89,41 @@ the Start menu.
    
 C. Windows: installing and running PhreeqcI
 
-Download and run the file phreeqc-@VERSION@.@REVISION@.msi. All of the files
-needed to install and test PHREEQC will be installed in the selected directory,
-C:\Program Files (x86)\USGS\phreeqc-@VERSION@.@REVISION@ by default.
+Note that if the software is to be installed on a server system, the person
+installing the software generally must have administrator rights.
 
-The following directory structure is created (the contents of each
+To install the software, double-click phreeqc-@VERSION@-@REVISION@.msi to
+execute the installation program and follow the directions on the screen. The
+installation program optionally will modify the PATH environment variable so
+that the PHREEQC program can be executed from any directory, without needing to
+type the full pathname of the program's location.
+
+By default, the software is installed in the directory C:\Program
+Files\USGS\phreeqc-@VERSION@.  This is the recommended installation directory,
+but you may use other directories or disk drives.
+
+Note that program components not installed initially can be installed later,
+and that any components damaged by, for example, being inadvertently
+overwritten, can be quickly reinstalled by double-clicking
+phreeqc-@VERSION@-@REVISION@.msi--a maintenance version of the installation
+program will be executed.
+
+The following directory structure will be created (the contents of each
 directory are shown to the right):
 
-   phreeqc-@VERSION@      files NOTICE.TXT, RELEASE.TXT, and this README.TXT
-     `-----bin         compiled executable, template for execution script
-     `-----database    database files required during execution
-     `-----doc         documentation files 
-     `-----examples    examples from user's guide--used in verification tests
-     `-----src         Makefile and source code
-     `-----test        scripts to run verification tests
-     
-Notes:  It is recommended that no user files be kept in the PHREEQC directory
-	structure. If you plan to put files in the PHREEQC directory structure,
-	do so only by creating subdirectories.
+   phreeqc-@VERSION@         files NOTICE.TXT, RELEASE.TXT, and this README.TXT;
+                             batch file to run PHREEQC, database files
+     --doc                documentation files 
+     --examples           examples from user's guide--used in verification tests
+     --src                Makefile and source code
+       --ClrClass_release compiled executable with charting
+       --Class_release    compiled executable without charting
+     --test               batch files to run verification tests
+
+Note:  It is recommended that no user files be kept in the PHREEQC
+       directory structure.  If you plan to put files in the PHREEQC
+       directory structure, do so only by creating subdirectories.
+
      
 D. Linux: Extracting, compiling (optional), and installing the batch version of
 PHREEQC
