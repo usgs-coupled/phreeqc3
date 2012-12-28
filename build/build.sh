@@ -173,8 +173,15 @@ reconf() {
 }
 build() {
   (rm -fr ${instdir}/* && \
-  cd ${objdir}/build/win32 && \
-  MSBuild.exe phreeqc.sln /t:phreeqc /p:Configuration=Release && \
+  cd ${objdir} && \
+  MSBuild.exe phreeqcpp.2005.sln /t:phreeqcpp /p:Configuration=ClrClass_release && \
+  cd ${objdir} && \
+  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Build=${REL} )
+}
+build_orig() {
+  (rm -fr ${instdir}/* && \
+  cd ${objdir} && \
+  MSBuild.exe phreeqcpp.2005.sln /t:phreeqcpp /p:Configuration=ClrClass_release && \
   cd ${objdir}/src && \
   make win_dist REVISION="${REL}" TEXTCP="cp" CURSRC="src"&& \
   mkdir -p ${instdir}/${PKG}-${VER} && \
@@ -193,8 +200,8 @@ build() {
   find ${objdir} | xargs touch -t "${TOUCH_STAMP}" && \
   find ${instdir} | xargs touch -t "${TOUCH_STAMP}" && \
   cp ${instdir}/${PKG}-${VER}/examples/* ${objdir}/examples/. && \
-  cd ${objdir}/build/win32 && \
-  MSBuild.exe phreeqc.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Build=${REL} )
+  cd ${objdir} && \
+  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Build=${REL} )
 }
 check() {
   (cd ${objdir} && \

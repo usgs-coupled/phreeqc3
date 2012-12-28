@@ -193,9 +193,9 @@ do
   cp "$vsn_file" "$vsn_file.dist"
 done
 
-cp $DISTPATH/src/revisions $DISTPATH/RELEASE.TXT
-cp $DISTPATH/win/README.TXT $DISTPATH/README.TXT
-cp $DISTPATH/doc/NOTICE.TXT $DISTPATH/NOTICE.TXT
+cp $DISTPATH/src/phreeqc/revisions $DISTPATH/RELEASE.TXT
+cp $DISTPATH/win/README.TXT        $DISTPATH/README.TXT
+cp $DISTPATH/doc/NOTICE.TXT        $DISTPATH/NOTICE.TXT
 
 if [ -z "$ZIP" ]; then
   echo "Rolling $DISTNAME.tar ..."
