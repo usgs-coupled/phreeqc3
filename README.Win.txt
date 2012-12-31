@@ -5,9 +5,9 @@ README.TXT
        A program for speciation, batch-reaction, one-dimensional 
             transport, and inverse geochemical calculations
 
-NOTE: This file describes the batch version of PHREEQC version 3 fow Windows.
-However, a graphical user interface, PhreeqcI, is available that runs under
-Windows operating systems. This interactive program can be downloaded from
+NOTE: This file describes the batch version of PHREEQC version 3 for Windows
+operating systems. Also available for Windows operating systems is a graphical
+user interface (GUI), PhreeqcI. This GUI can be downloaded from
 http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html. PhreeqcI has
 internal documentation for all PHREEQC data input and is a complete interface
 to PHREEQC. Alternatively, a Notepad++ interface is available at
@@ -18,27 +18,25 @@ http://www.hydrochemistry.eu/downl.html.
 
 Instructions for installation, execution, and testing on Windows operating
 systems are provided below. After installation, see the phreeqc.txt file in the
-doc directory of the PHREEQC installation for summary information on PHREEQC.
-
-For assistance, enhancement requests, or to report bugs, contact 
-dlpark@usgs.gov.
+doc directory of the PHREEQC installation for summary information on PHREEQC
+and the RELEASE.TXT file for new features and bug fixes.
 
 
 	  TABLE OF CONTENTS
 
-	  A. Distribution file
+	  A. Distribution files
 	  B. Documentation
-	  C. Installing and running PhreeqcI
+	  C. Installing and running the GUI PhreeqcI
 	  D. Installing the batch version of PHREEQC
 	  E. Compilation (optional)
 	  F. Running the batch program
 	  G. Testing and examples
 	  H. Contacts
 
-A. Distribution Files
+A. Distribution files
 
-The following distribution file (containing the software, test data sets,
-and information files) is currently available.
+The following distribution files (containing the software, test data sets,
+and information files) are currently available.
 
 phreeqci-@VERSION@.@REVISION@.msi--GUI compiled by using Microsoft Visual C++
                                  2005
@@ -59,10 +57,10 @@ Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user
    Document Format (PDF) files are included in the doc subdirectory of the
    PHREEQC program distribution.
    
-Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of input and examples for
-   PHREEQC version 3—A computer program for speciation, batch-reaction, one-
-   dimensional transport, and inverse geochemical calculations: U.S. Geological
-   Survey Techniques and Methods, book 6, chap. A43, 497 p.
+Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of input and examples
+   for PHREEQC version 3--A computer program for speciation, batch-reaction,
+   one- dimensional transport, and inverse geochemical calculations: U.S.
+   Geological Survey Techniques and Methods, book 6, chap. A43, 497 p.
    http://pubs.usgs.gov/tm/06A43/.
 
 Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to PHREEQC (Version 2)--
@@ -86,14 +84,15 @@ Thorstenson, D.C., and Parkhurst, D.L., 2004, Calculation of individual isotope
    equilibrium constants for geochemical reactions: Geochimica et Cosmochimica
    Acta, v. 68, no. 11, p. 2449-2465.
    
-C. Windows installation and running of the GUI PhreeqcI
+C. Installing and running of the GUI PhreeqcI
 
 Note that if the software is to be installed on a server system, 
 the person installing the software generally must have administrator 
 rights.
 
-To install the GUI, double-click phreeqci-@VERSION@.@REVISION@.msi to
-execute the installation program and follow the directions on the screen. 
+To install the GUI, double-click phreeqci-@VERSION@.@REVISION@.msi to execute
+the installation program and follow the directions on the screen. The GUI is
+completely independent from the batch version.
 
 To execute the GUI, access the program through the start menus of Windows. 
 
@@ -102,10 +101,10 @@ Files\USGS\phreeqci-@VERSION@.  This is the recommended installation directory,
 but you may use other directories or disk drives.
 
 Note that program components not installed initially can be installed later,
-and that any components damaged by, for example, being inadvertently
-overwritten, can be quickly reinstalled by double-clicking
-phreeqc-@VERSION@.@REVISION@--a maintenance version of the installation program
-will be executed.
+and any components damaged (for example, by inadvertently overwriting the
+directory) can be quickly reinstalled by double-clicking
+phreeqci-@VERSION@.@REVISION@.msi--a maintenance version of the installation
+program will be executed.
 
 
 D. Installing and running the batch version of PHREEQC
@@ -117,28 +116,31 @@ To install the software, double-click phreeqc-@VERSION@-@REVISION@.msi to
 execute the installation program and follow the directions on the screen. The
 installation program optionally will modify the PATH environment variable so
 that the PHREEQC program can be executed from any directory, without needing to
-type the full pathname of the program's location.
+type the full pathname of the program's location. The batch version is
+completely independent from teh GUI version.
 
 By default, the software is installed in the directory C:\Program
 Files\USGS\phreeqc-@VERSION@.  This is the recommended installation directory,
 but you may use other directories or disk drives.
 
 Note that program components not installed initially can be installed later,
-and that any components damaged by, for example, being inadvertently
-overwritten, can be quickly reinstalled by double-clicking
+and any components damaged (for example, by inadvertently overwriting the
+directory) can be quickly reinstalled by double-clicking
 phreeqc-@VERSION@-@REVISION@.msi--a maintenance version of the installation
 program will be executed.
 
 The following directory structure will be created (the contents of each
 directory are shown to the right):
 
-   phreeqc-@VERSION@         files NOTICE.TXT, RELEASE.TXT, and this README.TXT;
-                          batch file to run PHREEQC, database files
+   phreeqc-@VERSION@         files NOTICE.TXT, RELEASE.TXT, and this
+			  README.Win.TXT; batch file to run PHREEQC
+                          
+     --database           database files
      --doc                documentation files 
      --examples           examples from user's guide--used in verification tests
      --src                Makefile and source code
-       --ClrClass_release compiled executable with charting
-       --Class_release    compiled executable without charting
+       --ClrClass_release phreeqcpp.exe, executable with charting
+       --Class_release    phreeqcpp.exe, executable without charting
      --test               batch files to run verification tests
 
 Note:  It is recommended that no user files be kept in the PHREEQC
@@ -156,9 +158,8 @@ version of the software, you will need:
        (a) a C compiler,
        (b) familiarity with the compiler and the Windows operating system.
 
-A Visual Studio project is included in the top-level directory for compilation
-	on Windows operating systems.
-
+A Visual Studio project (phreeqcpp.sln) is included in the top-level directory
+	for compilation on Windows operating systems.
 
 
 F. Running the batch program
@@ -190,24 +191,24 @@ batch program can be executed with any of the commands below.
 If the option to modify the PATH environment variable was not chosen during
 installation, then two options exist: (1) the full pathname to the script that
 runs phreeqc can be used in place of "phreeqc" in the above commands (for
-example "c:\program files\usgs\phreeqc-@VERSION@\phreeqc". Note that because of
-the space present in "program files", quotation marks must be used to enter the
-full pathname.), or, (2) the executable (installed in
-phreeqc-@VERSION@\src\release\phreeqc.exe) may be copied to the current
-directory; further, the default database file must be in the current directory
-and named "phreeqc.dat". The default database file is installed in
-phreeqc-@VERSION@\phreeqc.dat.
+example "c:\program files\usgs\phreeqc-@VERSION@\phreeqcpp". Note that because
+of the space present in "program files", quotation marks must be used to enter
+the full pathname.), or, (2) the executable (installed in
+phreeqc-@VERSION@\src\release\phreeqcpp.exe) may be copied to the current
+directory; further, the default database file may need to be in the current
+directory and named "phreeqc.dat". The default database file is installed in
+phreeqc-@VERSION@\database\phreeqc.dat.
 
 The environment variable PHREEQC_DATABASE can be used to specify the
-default database for a DOS window session.  This environment variable
+default database for a DOS window session.  This environmental variable
 can be set with the command:
 
   set PHREEQC_DATABASE=c:\mydirectory\myproject\mydata.dat
 
-This environment variable takes precedence over any default definition
+This environmental variable takes precedence over any default definition
 of the database file. If PHREEQC is invoked with at least three
 arguments, the third argument is the database file and it takes
-precedence over the environment variable or the default database.                                 
+precedence over the environmental variable or the default database.                                 
 
 G. Testing and examples
 
@@ -215,13 +216,12 @@ Input files are provided to verify that the program is correctly installed and
 running on the system.  The tests execute the examples presented in the user's
 guide, which demonstrate most of the program's capabilities. The PHREEQC
 "examples" directory contains the input data and the expected results for each
-test. On Windows operating systems, the "examples" and "Win" directories have
-been copied to My Documents\xxx, and the examples can be run from xxx.
+test. 
 
 The "examples" and "Win" directories from phreeqc-@VERSION@ have been copied to
 My Documents\xxx, and the examples can be run from My Documents\Win. Either
 double click the test.bat file from Windows Explorer or cd to the directory in
-a command-prompt window and type test.bat {[start [stop]] no_chart]
+a command-prompt window and type test.bat [start [stop [no_chart]]]
 
 where:  start    is the number of the first test to perform, default = 1
         stop     is the number of the last test to perform, default = 22
@@ -236,6 +236,7 @@ For example:
      test.bat 1 1                       runs the first test
      test.bat 2 3                       runs tests 2 and 3
      test.bat 4                         runs test 4 through the last test
+     test.bat 1 10 no                   runs tests 1 through 10 without charts
 
 
 You will have to close chart windows after each chart has completed to proceed
