@@ -61,6 +61,8 @@ for Namevar in       ex1.out \
       ex14.sel \
       ex15.out \
       ex15.sel \
+      ex15a.out \
+      ex15b.out \
       ex16.out \
       ex17b.out \
       ex17.out \

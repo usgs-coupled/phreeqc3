@@ -6,7 +6,7 @@ README.TXT
             transport, and inverse geochemical calculations
 
 This file describes the batch version of PHREEQC version 3 for Linux. No
-graphical user interface on Linux.
+graphical user interface exits for Linux.
 
 (For Windows, a graphical user interface, PhreeqcI, is available at
 http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html and a
@@ -15,13 +15,10 @@ Notepad++ interface is available at http://www.hydrochemistry.eu/downl.html.)
 
                   PHREEQC - Version @VERSION@  @VER_DATE@
 
-Instructions for installation, execution, and testing are provided below.
-After installation, see the phreeqc.txt file in the doc directory of the
-PHREEQC installation for summary information on PHREEQC.
-
-For assistance, enhancement requests, or to report bugs, contact 
-dlpark@usgs.gov.
-
+Instructions for installation, execution, and testing are provided below. After
+installation, see the phreeqc.txt file in the doc directory of the PHREEQC
+installation for summary information on PHREEQC and the RELEASE.TXT file for
+new features and bug fixes.
 
 	  TABLE OF CONTENTS
 
@@ -29,16 +26,16 @@ dlpark@usgs.gov.
 	  B. Documentation
 	  C. Extracting files
 	  D. Compiling (optional)
-	  E. Install PHREEQC
+	  E. Installing PHREEQC
 	  F. Running the batch program
 	  G. Testing and example problems
 	  H. Contacts
 
 
-A. Distribution File
+A. Distribution files
 
 	The following distribution packages (containing the software, test data
-	sets, and information files) are currently available for UNIX systems:
+	sets, and information files) are currently available for Linux systems:
 
 phreeqc-@VERSION@.@REVISION@.Linux.tar.gz--Compiled with @GCC_VER@ 
                                          kernel @KERNEL_VER@
@@ -51,22 +48,22 @@ B. Documentation
    Document Format (PDF) files are included in the doc subdirectory of the
    PHREEQC program distribution.
    
-Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of input and examples for
-   PHREEQC version 3—A computer program for speciation, batch-reaction, one-
-   dimensional transport, and inverse geochemical calculations: U.S. Geological
-   Survey Techniques and Methods, book 6, chap. A43, 497 p.
+Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of input and examples
+   for PHREEQC version 3--A computer program for speciation, batch-reaction,
+   one- dimensional transport, and inverse geochemical calculations: U.S.
+   Geological Survey Techniques and Methods, book 6, chap. A43, 497 p.
    http://pubs.usgs.gov/tm/06A43/.
 
-Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to PHREEQC (Version 2)--
-   A computer program for speciation, batch-reaction, one-dimensional transport,
-   and inverse geochemical calculations: U.S. Geological Survey Water-Resources
-   Investigations Report 99-4259, 312 p.
+Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to PHREEQC (Version
+   2)-- A computer program for speciation, batch-reaction, one-dimensional
+   transport, and inverse geochemical calculations: U.S. Geological Survey
+   Water-Resources Investigations Report 99-4259, 312 p.
    http://pubs.er.usgs.gov/publication/wri994259.
 
 
-   *The following two reports document the theory and implementation of isotopes
-   in PHREEQC. Portable Document Format (PDF) of Thorstenson and Parkhurst
-   (2002) is included in the doc subdirectory of the PHREEQC program
+   *The following two reports document the theory and implementation of
+   isotopes in PHREEQC. Portable Document Format (PDF) of Thorstenson and
+   Parkhurst (2002) is included in the doc subdirectory of the PHREEQC program
    distribution.
 
 Thorstenson, D.C., and Parkhurst, D.L., 2002, Calculation of individual isotope
@@ -80,9 +77,9 @@ Thorstenson, D.C., and Parkhurst, D.L., 2004, Calculation of individual isotope
    
    *Brief description of the program PhreeqcI.
 
-Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user
-   interface to the geochemical model PHREEQC: U.S. Geological Survey 
-   Fact Sheet FS-031-02, 2 p.
+Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user interface
+   to the geochemical model PHREEQC: U.S. Geological Survey Fact Sheet
+   FS-031-02, 2 p.
     
    
 C. Extracting files
@@ -103,20 +100,22 @@ file.
 
   Steps in extracting files                 Explanation
   ----------------------------------------  -----------------------------------
-  gunzip phreeqc-@VERSION@-@REVISION@.Linux.tar.gz   Uncompress the distribution file.
+  gunzip phreeqc-@VERSION@-@REVISION@.Linux.tar.gz   Uncompress the 
+  						   distribution file.
 
-  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.tar  Extract files from the tar file.
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.tar  Extract files from the tar
+                                                   file.
 
 The following directory structure is created (the contents of each
 directory are shown to the right):
 
    phreeqc-@VERSION@      files NOTICE.TXT, RELEASE.TXT, and this README.Linux.txt
-     `-----bin         compiled executable, template for execution script
-     `-----database    database files required during execution
-     `-----doc         documentation files 
-     `-----examples    examples from user's guide--used in verification tests
-     `-----src         Makefile and source code
-     `-----test        scripts to run verification tests
+     `--bin         compiled executable, template for execution script
+     `--database    database files required during execution
+     `--doc         documentation files 
+     `--examples    examples from user's guide--used in verification tests
+     `--src         Makefile and source code
+     `--test        scripts to run verification tests
 
 Notes:  (a) A compiled executable is not included in the source
             distribution.
@@ -171,7 +170,7 @@ To compile PHREEQC, do the following:
         b.  place the program executable in the PHREEQC bin directory.
 
 
-E. Install PHREEQC
+E. Installing PHREEQC
 
 To make PHREEQC easy to use, a link to the script that runs PHREEQC
 should be placed in a directory that is included in each user's search
@@ -223,9 +222,9 @@ program can be executed with any of the commands below.
 
 For Linux, if the "make install" command described above has not been executed,
 the executable may be copied to the current directory. The executable is
-normally phreeqc-@VERSION@/bin/phreeqc. In addition the default database file
-will be phreeqc.dat in the current directory. Phreeqc.dat is installed in
-phreeqc-@VERSION@/database/phreeqc.dat.
+normally phreeqc-@VERSION@/bin/phreeqcpp. In addition the default database
+file, phreeqc.dat, may need to be in the current directory. Phreeqc.dat is
+installed in phreeqc-@VERSION@/database/phreeqc.dat.
 
 The shell variable PHREEQC_DATABASE can be used to specify the default
 database. In the C shell, this variable can be set with the command:
@@ -243,16 +242,13 @@ in the script in the installation directory to
 phreeqc-@VERSION@/database/phreeqc.dat.  It is possible to specify a different
 default database by editing the script.
 
-
-G. Testing
+G. Testing and example problems
 
 Input files are provided to verify that the program is correctly installed and
 running on the system.  The tests execute the examples presented in the user's
 guide, which demonstrate most of the program's capabilities. The PHREEQC
 "examples" directory contains the input data and the expected results for each
-test. On Windows operating systems, the "examples" and "Win" directories have
-been copied to My Documents\xxx, and the examples can be run from Win.
-
+test. 
 
 On Linux, you should copy the directory phreeqc-@VERSION@/test to an area where
 you have write access; the examples can be run from the copied directory.
@@ -355,7 +351,7 @@ test  description of test and files
 
  22   Modeling gas solubilities: CO2 at high pressures
 
-G. CONTACTS
+H. CONTACTS
 
 Inquiries about this software distribution should be directed to:
 

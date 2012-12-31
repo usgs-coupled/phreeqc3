@@ -331,4 +331,4 @@
   fi
 
 # check output against original output in $TOPDIR/data directory
-#  $CHECK ex
+$CHECK 
