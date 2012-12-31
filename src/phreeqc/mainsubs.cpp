@@ -350,7 +350,7 @@ initialize(void)
 	if (user_punch_headings == NULL)
 		malloc_error();
 	user_punch_count_headings = 0;
-#if defined PHREEQ98 
+#if defined PHREEQ98
 /*
  *   user_graph
  */
@@ -492,7 +492,7 @@ initialize(void)
 		  sizeof(struct isotope_alpha *));
 	hcreate_multi((unsigned) max_isotope_alpha, &isotope_alpha_hash_table);
 
-	/* 
+	/*
 	 * define constant named log_k
 	 */
 	strcpy(token, "XconstantX");
@@ -897,7 +897,7 @@ initialize(void)
 	if (user_punch_headings == NULL)
 		malloc_error();
 	user_punch_count_headings = 0;
-#if defined PHREEQ98 
+#if defined PHREEQ98
 /*
  *   user_graph
  */
@@ -982,7 +982,7 @@ initialize(void)
 		  sizeof(struct isotope_alpha *));
 	hcreate_multi((unsigned) max_isotope_alpha, &isotope_alpha_hash_table);
 
-	/* 
+	/*
 	 * define constant named log_k
 	 */
 	strcpy(token, "XconstantX");
@@ -1027,9 +1027,9 @@ set_use(void)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Structure "use" has list of solution, ex, surf, pp_assemblage, 
- *   gas_phase and solid solution to use in current calculations, 
- *   also mix, irrev, and temp. 
+ *   Structure "use" has list of solution, ex, surf, pp_assemblage,
+ *   gas_phase and solid solution to use in current calculations,
+ *   also mix, irrev, and temp.
  *   This routine searches for the user numbers in each list
  *   (solution, ex, ...) and sets a pointer in structure use
  */
@@ -1375,7 +1375,7 @@ initial_exchangers(int print)
 {
 /*
  *   Go through list of exchangers, make initial calculations
- *   for any marked "new" that are defined to be in equilibrium with a 
+ *   for any marked "new" that are defined to be in equilibrium with a
  *   solution.
  */
 	int i, converge, converge1;
@@ -1461,7 +1461,7 @@ initial_gas_phases(int print)
 {
 /*
  *   Go through list of gas_phases, make initial calculations
- *   for any marked "new" that are defined to be in equilibrium with a 
+ *   for any marked "new" that are defined to be in equilibrium with a
  *   solution.
  */
 	int converge, converge1;
@@ -1511,7 +1511,7 @@ initial_gas_phases(int print)
 				dup_print(token, FALSE);
 			}
 
-			/* Try to obtain a solution pointer */ 
+			/* Try to obtain a solution pointer */
 			use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, gas_phase_ptr->Get_n_solution()));
 			prep();
 			k_temp(use.Get_solution_ptr()->Get_tc(), use.Get_solution_ptr()->Get_patm());
@@ -1557,7 +1557,7 @@ initial_gas_phases(int print)
 			}
 			if (fabs(gas_phase_ptr->Get_total_p() - use.Get_solution_ptr()->Get_patm()) > 5)
 			{
-				sprintf(token, 
+				sprintf(token,
 					"WARNING: While initializing gas phase composition by equilibrating:\n%s (%.2f atm) %s (%.2f atm).\n%s.",
 					"         Gas phase pressure",
 					(double) gas_phase_ptr->Get_total_p(),
@@ -1587,7 +1587,7 @@ initial_surfaces(int print)
 {
 /*
  *   Go through list of surfaces, make initial calculations
- *   for any marked "new" that are defined to be in equilibrium with a 
+ *   for any marked "new" that are defined to be in equilibrium with a
  *   solution.
  */
 	int last, n_user, print1;
@@ -1715,7 +1715,7 @@ reactions(void)
  *  save data for saving solutions
  */
 	memcpy(&save_data, &save, sizeof(struct save));
-	/* 
+	/*
 	 *Copy everything to -2
 	 */
 	copy_use(-2);
@@ -1795,7 +1795,7 @@ saver(void)
 {
 /*
  *   Save results of calcuations (data in variables with _x,
- *   in unknown structure x, in master, or s) into structure 
+ *   in unknown structure x, in master, or s) into structure
  *   arrays.  Structure "save" has info on whether to save
  *   data for each entity (solution, ex, surf, pp, gas, or s_s).
  *   Initial calculation may be saved into multiple "n_user"
@@ -1881,7 +1881,7 @@ xexchange_save(int n_user)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Save exchanger assemblage into structure exchange with user 
+ *   Save exchanger assemblage into structure exchange with user
  *   number n_user.
  */
 	int i, j;
@@ -1958,7 +1958,7 @@ xexchange_save(int n_user)
 /*
  *   Finish up
  */
-	Rxn_exchange_map[n_user] = temp_exchange; 
+	Rxn_exchange_map[n_user] = temp_exchange;
 
 	use.Set_exchange_ptr(NULL);
 	return (OK);
@@ -1969,7 +1969,7 @@ xgas_save(int n_user)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Save gas composition into structure gas_phase with user 
+ *   Save gas composition into structure gas_phase with user
  *   number n_user.
  */
 	char token[MAX_LENGTH];
@@ -2010,7 +2010,7 @@ xss_assemblage_save(int n_user)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Save ss_assemblage composition into structure ss_assemblage with user 
+ *   Save ss_assemblage composition into structure ss_assemblage with user
  *   number n_user.
  */
 	cxxSSassemblage temp_ss_assemblage;
@@ -2053,7 +2053,7 @@ xpp_assemblage_save(int n_user)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Save pure_phase assemblage into instance of cxxPPassemblage with user 
+ *   Save pure_phase assemblage into instance of cxxPPassemblage with user
  *   number n_user.
  */
 	std::string token;
@@ -2225,7 +2225,7 @@ xsolution_save(int n_user)
 		}
 	}
 /*
- *   Save solution 
+ *   Save solution
  */
 	Rxn_solution_map[n_user] = temp_solution;
 	return (OK);
@@ -2236,7 +2236,7 @@ xsurface_save(int n_user)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Save surface data into structure surface with user 
+ *   Save surface data into structure surface with user
  *   number n_user.
  */
 	LDBLE charge;
@@ -2501,7 +2501,7 @@ step_save_exch(int n_user)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Save exchange composition 
+ *   Save exchange composition
  *
  *   input:  n_user is user exchange number of target
  */
@@ -2549,7 +2549,7 @@ step_save_exch(int n_user)
 			}
 		}
 	}
-	
+
 	Rxn_exchange_map[n_user] = temp_exchange;
 	return (OK);
 }
@@ -2710,7 +2710,7 @@ copy_entities(void)
 			{
 				for (i = copy_mix.start[j]; i <= copy_mix.end[j]; i++)
 				{
-					if (i != copy_mix.n_user[j]) 
+					if (i != copy_mix.n_user[j])
 					{
 						Utilities::Rxn_copy(Rxn_mix_map, copy_mix.n_user[j], i);
 					}
@@ -2726,7 +2726,7 @@ copy_entities(void)
 			}
 		}
 	}
-	
+
 	if (copy_exchange.count > 0)
 	{
 		for (j = 0; j < copy_exchange.count; j++)
@@ -2783,7 +2783,7 @@ copy_entities(void)
 			{
 				for (i = copy_temperature.start[j]; i <= copy_temperature.end[j]; i++)
 				{
-					if (i != copy_temperature.n_user[j]) 
+					if (i != copy_temperature.n_user[j])
 					{
 						Utilities::Rxn_copy(Rxn_temperature_map, copy_temperature.n_user[j], i);
 					}
@@ -2807,7 +2807,7 @@ copy_entities(void)
 			{
 				for (i = copy_pressure.start[j]; i <= copy_pressure.end[j]; i++)
 				{
-					if (i != copy_pressure.n_user[j]) 
+					if (i != copy_pressure.n_user[j])
 					{
 						Utilities::Rxn_copy(Rxn_pressure_map, copy_pressure.n_user[j], i);
 					}
@@ -2959,7 +2959,7 @@ run_simulations(void)
 		for (simulation = 1;; simulation++)
 		{
 
-#if defined PHREEQ98 
+#if defined PHREEQ98
 			AddSeries = !connect_simulations;
 #endif
 
@@ -3064,11 +3064,12 @@ run_simulations(void)
  *   End of simulation
  */
 			dup_print("End of simulation.", TRUE);
+			output_flush();
+			error_flush();
 #ifdef PHREEQ98
 		}						/* if (!phreeq98_debug) */
 #endif
 		}
-
 	}
 	catch (PhreeqcStop e)
 	{
@@ -3117,6 +3118,9 @@ do_status(void)
 		LDBLE ext = (double) clock() / CLOCKS_PER_SEC;
 		dup_print(sformatf("End of Run after %g Seconds.", ext), TRUE);
 		screen_msg(sformatf("\nEnd of Run after %g Seconds.\n", ext));
+// appt this gives output when the charts are active...
+		phrq_io->output_flush();
+		phrq_io->error_flush();
 	}
 	catch (PhreeqcStop e)
 	{

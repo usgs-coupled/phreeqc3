@@ -155,7 +155,14 @@ ChartHandler::End_timer()
 	
 	size_t max_tries = 6000; // 1 h, but not used
 	std::map<int, ChartObject *>::iterator it = this->chart_map.begin();
-	if (chart_map.size() > 0) screen_msg("Detaching charts...");;
+	if (chart_map.size() > 0) 
+	{
+		screen_msg("Detaching charts...");
+		if (io != NULL)
+		{
+			io->error_flush();
+		}
+	}
 	size_t i(0), i2(0);
 	for  ( ; it != chart_map.end(); it++)
 	{
@@ -195,6 +202,10 @@ ChartHandler::End_timer()
 	if (chart_map.size() > 0)
 	{
 		screen_msg("\rCharts detached.         \n");
+		if (io != NULL)
+		{
+			io->error_flush();
+		}
 	}
 	this->timer = false;
 
