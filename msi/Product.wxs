@@ -50,7 +50,11 @@
       <!-- program files -->
       <Directory Id="ProgramFilesFolder">
         <Directory Id="APPLICATIONFOLDER" Name="$(var.FolderName)">
-          <Directory Id="bin" Name="bin"/>
+          <Directory Id="bin" Name="bin">
+            <Directory Id="Release"/>
+            <Directory Id="ClrRelease"/>
+          </Directory>
+          <Directory Id="database" Name="database"/>
           <Directory Id="doc" Name="doc"/>
           <Directory Id="examples" Name="examples"/>
           <Directory Id="src" Name="src">
@@ -64,34 +68,37 @@
     <!-- top dir -->
     <DirectoryRef Id="APPLICATIONFOLDER">
       <Component Id="top.dir" Guid="A30D01A1-F3DC-4c7e-BDB5-00E30BA4F209">
-        <!-- batch file -->
-        <File Id="phreeqc.bat" Name="phreeqc.bat" Source="..\win\phreeqc2.bat" />
         <!-- path -->
-        <Environment Id="path_phreeqc" Name="PATH_PHREEQC" Action="set" Part="all" System="yes" Value="[APPLICATIONFOLDER]" />
+        <Environment Id="path_phreeqc" Name="PATH_PHREEQC" Action="set" Part="all" System="yes" Value="[APPLICATIONFOLDER]\bin" />
         <Environment Id="path" Name="Path" Action="set" Part="last" System="yes" Value="%PATH_PHREEQC%" />
-        <!-- databases -->
-        <File Id="iso.dat" Name="iso.dat" Source="..\database\iso.dat" />
-        <File Id="llnl.dat" Name="llnl.dat" Source="..\database\llnl.dat" />
-        <File Id="minteq.dat" Name="minteq.dat" Source="..\database\minteq.dat" />
-        <File Id="minteq.v4.dat" Name="minteq.v4.dat" Source="..\database\minteq.v4.dat" />
-        <File Id="phreeqc.dat" Name="phreeqc.dat" Source="..\database\phreeqc.dat" />
-        <File Id="pitzer.dat" Name="pitzer.dat" Source="..\database\pitzer.dat" />
-        <File Id="sit.dat" Name="sit.dat" Source="..\database\sit.dat" />
-        <File Id="Amm.dat" Name="Amm.dat" Source="..\database\Amm.dat" />
-        <File Id="wateq4f.dat" Name="wateq4f.dat" Source="..\database\wateq4f.dat" />
         <!-- text files -->
         <File Id="NOTICE.TXT" Name="NOTICE.TXT" Source="..\doc\NOTICE.TXT" />
-        <File Id="README.TXT" Name="README.TXT" Source="..\win\README.TXT" />
-        <File Id="RELEASE.TXT" Name="RELEASE.TXT" Source="..\src\phreeqc\revisions" />
+        <File Id="README.TXT" Name="README.TXT" Source="..\doc\README.Win.txt" />
       </Component>
     </DirectoryRef>
 
     <!-- doc -->
     <DirectoryRef Id="doc">
       <Component Id="doc" Guid="C4320025-B374-4445-BF78-9684010ECFF5">
-        <File Id="filDA4893EAA735D8EA151EDCF3107A8D89" Source="..\doc\manual.pdf" KeyPath="yes" />
+        <File Id="fil99B753A4FD7D597788A6CEE1940B21CC" Source="..\doc\phreeqc_3_2012_manual.pdf" KeyPath="yes" />
+        <File Id="filDA4893EAA735D8EA151EDCF3107A8D89" Source="..\doc\Phreeqc_2_1999_manual.pdf" />
         <File Id="fil5F379D629211874DFB03357D7E17E72E" Source="..\doc\phreeqc.txt" />
         <File Id="fil55394A9EBD892E09CA706026D64063D7" Source="..\doc\wrir02-4172.pdf" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- database -->
+    <DirectoryRef Id="database">
+      <Component Id="database" Guid="F17B9EFD-0CE1-4a33-AF39-AB1F8DC7D966">
+        <File Id="phreeqc.dat" Name="phreeqc.dat" Source="..\database\phreeqc.dat" KeyPath="yes" />
+        <File Id="iso.dat" Name="iso.dat" Source="..\database\iso.dat" />
+        <File Id="llnl.dat" Name="llnl.dat" Source="..\database\llnl.dat" />
+        <File Id="minteq.dat" Name="minteq.dat" Source="..\database\minteq.dat" />
+        <File Id="minteq.v4.dat" Name="minteq.v4.dat" Source="..\database\minteq.v4.dat" />
+        <File Id="pitzer.dat" Name="pitzer.dat" Source="..\database\pitzer.dat" />
+        <File Id="sit.dat" Name="sit.dat" Source="..\database\sit.dat" />
+        <File Id="Amm.dat" Name="Amm.dat" Source="..\database\Amm.dat" />
+        <File Id="wateq4f.dat" Name="wateq4f.dat" Source="..\database\wateq4f.dat" />
       </Component>
     </DirectoryRef>
 
@@ -318,22 +325,45 @@
       </Component>
     </DirectoryRef>
 
-    <!-- phreeqc.exe -->
+    <!-- phreeqc.bat -->
     <DirectoryRef Id="bin">
-      <Merge Id="CRT" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\microsoft_vc80_crt_x86.msm" DiskId="1" />
+      <Component Id="phreeqc.bat" Guid="*">
+        <!-- batch file -->
+        <File Id="phreeqc.bat" Name="phreeqc.bat" Source="..\win\phreeqc.bat" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- phreeqc.exe -->
+    <DirectoryRef Id="Release">
       <Component Id="phreeqc.exe" Guid="*">
         <!-- executable -->
-        <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\ClrClass_release\phreeqc.exe" />
+        <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\Release\phreeqc.exe" />
       </Component>
+    </DirectoryRef>
+
+    <!-- clr phreeqc.exe -->
+    <DirectoryRef Id="ClrRelease">
+      <Merge Id="CRT" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\microsoft_vc80_crt_x86.msm" DiskId="1" />
+      <Component Id="CLR.phreeqc.exe" Guid="*">
+        <!-- executable -->
+        <File Id="CLR.phreeqc.exe" Name="phreeqc.exe" Source="..\ClrRelease\phreeqc.exe" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- clr phreeqc.exe -->
+    <DirectoryRef Id="bin">
       <Component Id="ZedGraph.dll" Guid="*">
-        <File Id="ZedGraph.dll" Name="ZedGraph.dll" Source="..\ClrClass_release\ZedGraph.dll" />
+        <File Id="ZedGraph.dll" Name="ZedGraph.dll" Source="..\src\phreeqc\ZedGraph.dll" KeyPath="yes" Assembly=".net"/>
       </Component>
     </DirectoryRef>
 
     <!-- This component contains the program executable, files required during execution, and minimal informal documentation.  It cannot be deselected unless the Verification Tests component is deselected. -->
     <Feature Id="ProgramFiles" Title="Program Files" Description="This component contains the program executable, files required during execution, and minimal informal documentation." AllowAdvertise="system" Level="1" Display="expand">
       <ComponentRef Id="top.dir" />
+      <ComponentRef Id="database" />
+      <ComponentRef Id="phreeqc.bat" />
       <ComponentRef Id="phreeqc.exe" />
+      <ComponentRef Id="CLR.phreeqc.exe" />
       <ComponentRef Id="ZedGraph.dll" />
       <Feature Id="Documentation" Title="Documentation" Description="This component contains brief, summary documentation as well as the full, formal program documentation." AllowAdvertise="system" Level="1">
         <ComponentRef Id="doc" />
