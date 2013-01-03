@@ -84,7 +84,7 @@ if errorlevel 0 goto R_4_ERR3
 	echo.
 	echo Screen output sent to file:  "%~4" .
 	echo.
-	"%TD%bin\phreeqc" "%~1" "%~2" "%~3" "%~4"
+	"%TD%ClrRelease\phreeqc" "%~1" "%~2" "%~3" "%~4"
 	goto END
 REM ************************  END R_4  ******************************
 
@@ -123,7 +123,7 @@ if errorlevel 0 goto R_3_ERR0
 	echo.
 	goto END
 :R_3_ERR0
-	"%TD%bin\phreeqc" "%~1" "%~2" "%~3"
+	"%TD%ClrRelease\phreeqc" "%~1" "%~2" "%~3"
 	goto END
 REM ************************  END R_3  ******************************
 
@@ -164,16 +164,16 @@ if exist "%PHREEQC_DATABASE%" goto R_2_ENV
 	echo.
 	goto END
 :T_2_DEF
-if exist "%TD%phreeqc.dat" goto R_2_DEF
+if exist "%TD%database\phreeqc.dat" goto R_2_DEF
 	echo.
-	echo ERROR, database file not found: "%TD%phreeqc.dat" .
+	echo ERROR, database file not found: "%TD%database\phreeqc.dat" .
 	echo.
 	goto END
 :R_2_DEF
-	"%TD%bin\phreeqc" "%~1" "%~2" "%TD%phreeqc.dat"
+	"%TD%ClrRelease\phreeqc" "%~1" "%~2" "%TD%database\phreeqc.dat"
 	goto END
 :R_2_ENV
-	"%TD%bin\phreeqc" "%~1" "%~2" "%PHREEQC_DATABASE%"
+	"%TD%ClrRelease\phreeqc" "%~1" "%~2" "%PHREEQC_DATABASE%"
 goto END
 REM ************************  END R_2  ******************************
 
@@ -214,16 +214,16 @@ if exist "%PHREEQC_DATABASE%" goto R_1_ENV
 	echo.
 	goto END
 :T_1_DEF
-if exist "%TD%phreeqc.dat" goto R_1_DEF
+if exist "%TD%database\phreeqc.dat" goto R_1_DEF
 	echo.
-	echo ERROR, database file not found: "%TD%phreeqc.dat" .
+	echo ERROR, database file not found: "%TD%database\phreeqc.dat" .
 	echo.
 	goto END
 :R_1_DEF
-	"%TD%bin\phreeqc" "%~1" "%~1.out" "%TD%phreeqc.dat"
+	"%TD%ClrRelease\phreeqc" "%~1" "%~1.out" "%TD%database\phreeqc.dat"
 	goto END
 :R_1_ENV
-	"%TD%bin\phreeqc" "%~1" "%~1.out" "%PHREEQC_DATABASE%"
+	"%TD%ClrRelease\phreeqc" "%~1" "%~1.out" "%PHREEQC_DATABASE%"
 	goto END
 REM ************************  END R_1  ******************************
 
@@ -240,17 +240,17 @@ if exist "%PHREEQC_DATABASE%" goto R_0_ENV
 	echo.
 	goto END
 :T_0_DEF
-if exist "%TD%phreeqc.dat" goto R_0_DEF
+if exist "%TD%database\phreeqc.dat" goto R_0_DEF
 	echo.
-	echo ERROR, database file not found: "%TD%phreeqc.dat" .
+	echo ERROR, database file not found: "%TD%database\phreeqc.dat" .
 	echo.
 	goto END
 :R_0_DEF
-	set PHREEQC_DATABASE=%TD%phreeqc.dat
-	"%TD%bin\phreeqc"
+	set PHREEQC_DATABASE=%TD%database\phreeqc.dat
+	"%TD%ClrRelease\phreeqc"
 	goto END
 :R_0_ENV
-	"%TD%bin\phreeqc"
+	"%TD%ClrRelease\phreeqc"
 	goto END
 REM ************************  END R_0  ******************************
 

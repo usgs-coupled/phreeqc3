@@ -51,8 +51,8 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="APPLICATIONFOLDER" Name="$(var.FolderName)">
           <Directory Id="bin" Name="bin">
-            <Directory Id="Release"/>
-            <Directory Id="ClrRelease"/>
+            <Directory Id="Release" Name="Release"/>
+            <Directory Id="ClrRelease" Name="ClrRelease"/>
           </Directory>
           <Directory Id="database" Name="database"/>
           <Directory Id="doc" Name="doc"/>
@@ -327,8 +327,7 @@
 
     <!-- phreeqc.bat -->
     <DirectoryRef Id="bin">
-      <Component Id="phreeqc.bat" Guid="*">
-        <!-- batch file -->
+      <Component Id="phreeqc.bat" Guid="608BA86A-213C-47c0-8487-E128C7FAD8CB">
         <File Id="phreeqc.bat" Name="phreeqc.bat" Source="..\win\phreeqc.bat" />
       </Component>
     </DirectoryRef>
@@ -336,7 +335,6 @@
     <!-- phreeqc.exe -->
     <DirectoryRef Id="Release">
       <Component Id="phreeqc.exe" Guid="*">
-        <!-- executable -->
         <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\Release\phreeqc.exe" />
       </Component>
     </DirectoryRef>
@@ -344,15 +342,15 @@
     <!-- clr phreeqc.exe -->
     <DirectoryRef Id="ClrRelease">
       <Merge Id="CRT" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\microsoft_vc80_crt_x86.msm" DiskId="1" />
+      <Merge Id="CRT Policy" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\policy_8_0_Microsoft_VC80_CRT_x86.msm" DiskId="1" />
       <Component Id="CLR.phreeqc.exe" Guid="*">
-        <!-- executable -->
         <File Id="CLR.phreeqc.exe" Name="phreeqc.exe" Source="..\ClrRelease\phreeqc.exe" />
       </Component>
     </DirectoryRef>
 
     <!-- clr phreeqc.exe -->
     <DirectoryRef Id="bin">
-      <Component Id="ZedGraph.dll" Guid="*">
+      <Component Id="ZedGraph.dll" Guid="79CFAD0D-46CE-4053-8679-85918182F74E">
         <File Id="ZedGraph.dll" Name="ZedGraph.dll" Source="..\src\phreeqc\ZedGraph.dll" KeyPath="yes" Assembly=".net"/>
       </Component>
     </DirectoryRef>
@@ -378,7 +376,8 @@
       </Feature>
       <Feature Id="LocalMachine" Display="hidden" Level="0">
         <Condition Level="1">ALLUSERS=1</Condition>
-        <MergeRef Id='CRT' />
+        <MergeRef Id="CRT" />
+        <MergeRef Id="CRT Policy" />
       </Feature>
     </Feature>
 
