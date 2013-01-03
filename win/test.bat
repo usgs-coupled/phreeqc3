@@ -15,11 +15,9 @@ rem  History: 00/02/16 mcrouse
 rem           December 2012, PHREEQC3
 set topdir=..
 set data=%topdir%\examples
-REM set prog="%PATH_PHREEQC%src\Class_Release\phreeqcpp.exe"
-set prog="%topdir%\ClrClass_release\phreeqcpp.exe"
-set prog_nochart="%topdir%\Class_Release\phreeqcpp.exe"
+set prog="%topdir%\bin\ClrRelease\phreeqc.exe"
+set prog_nochart="%topdir%\bin\Release\phreeqc.exe"
 set prognm=PHREEQC
-REM set DB="%PATH_PHREEQC%database"
 set DB="%topdir%\database"
 
 set divd=---------------------------------------
@@ -31,8 +29,6 @@ rem  if values supplied for start and stop, use those
 if not "%1"=="" set start=%1
 if not "%2"=="" set stop=%2
 if not "%3"=="" set prog=%prog_nochart% 
-
-echo xxx %prog%
 
 echo %divd%%divd%
 echo Begin processing %prognm% test runs %start% to %stop%
@@ -68,7 +64,7 @@ REM Part b
 set name=ex2b
 if exist   %name%.log           del      %name%.log
 if exist   %name%.tsv           del      %name%.tsv
-cp %data%\%name%.tsv .
+copy %data%\%name%.tsv .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
@@ -360,7 +356,7 @@ if exist   %name%.log           del      %name%.log
 if exist   ex19b.out            del      ex19b.out 
 if exist   ex19.out             del      ex19.out 
 if exist   ex19_meas.tsv        del      ex19_meas.tsv
-cp %data%\ex19_meas.tsv .
+copy %data%\ex19_meas.tsv .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
@@ -384,8 +380,8 @@ if exist   ex20a.out            del      ex20a.out
 if exist   ex20b.out            del      ex20b.out
 if exist   ex20-c13.tsv         del      ex20-c13.tsv
 if exist   ex20-c14.tsv         del      ex20-c14.tsv
-cp %data%\ex20-c13.tsv .
-cp %data%\ex20-c14.tsv .
+copy %data%\ex20-c13.tsv .
+copy %data%\ex20-c14.tsv .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
@@ -410,7 +406,7 @@ if exist   ex21_Cl_tr_rad.tsv   del      ex21_Cl_tr_rad.tsv
 if exist   ex21_Cs_rad.tsv      del      ex21_Cs_rad.tsv
 if exist   ex21_HTO_rad.tsv     del      ex21_HTO_rad.tsv
 if exist   ex21_Na_tr_rad.tsv   del      ex21_Na_tr_rad.tsv
-cp %data%\ex21*.tsv .
+copy %data%\ex21*.tsv .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
@@ -425,7 +421,7 @@ set name=ex22
 if exist   %name%.log           del      %name%.log
 if exist   ex22.out             del      ex22.out
 if exist   co2.tsv              del      co2.tsv
-cp %data%\co2.tsv .
+copy %data%\co2.tsv .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
