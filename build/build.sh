@@ -174,9 +174,11 @@ reconf() {
 build() {
   (rm -fr ${instdir}/* && \
   cd ${objdir} && \
-  MSBuild.exe phreeqcpp.2005.sln /t:phreeqcpp /p:Configuration=ClrClass_release && \
+  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=ClrRelease && \
   cd ${objdir} && \
-  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Build=${REL} )
+  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release && \
+  cd ${objdir}/msi && \
+  MSBuild.exe msi.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Build=${REL} )
 }
 build_orig() {
   (rm -fr ${instdir}/* && \

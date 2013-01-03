@@ -164,9 +164,8 @@ fi
 
 SED_FILES="$DISTPATH/build/phreeqc_version.h \
            $DISTPATH/src/class_main.cpp \
-           $DISTPATH/src/phreeqc/revisions \
-           $DISTPATH/win/README.TXT \
-           $DISTPATH/doc/README.TXT"
+           $DISTPATH/doc/RELEASE.TXT \
+           $DISTPATH/doc/README.Win.txt"
 
 for vsn_file in $SED_FILES
 do
@@ -193,8 +192,8 @@ do
   cp "$vsn_file" "$vsn_file.dist"
 done
 
-cp $DISTPATH/src/phreeqc/revisions $DISTPATH/RELEASE.TXT
-cp $DISTPATH/win/README.TXT        $DISTPATH/README.TXT
+cp $DISTPATH/doc/RELEASE.TXT       $DISTPATH/RELEASE.TXT
+cp $DISTPATH/doc/README.Win.txt    $DISTPATH/README.TXT
 cp $DISTPATH/doc/NOTICE.TXT        $DISTPATH/NOTICE.TXT
 
 if [ -z "$ZIP" ]; then
