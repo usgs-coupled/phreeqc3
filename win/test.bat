@@ -435,7 +435,7 @@ if "%stop%"=="%n%" goto end
 echo %divd%%divd%
 echo Done running.
 
-call %topdir%\win\check %start% %stop%
+call %topdir%\test\check %start% %stop%
 echo Done checking.
 
 rem  clear the variables used from the environment
