@@ -154,9 +154,8 @@ fi
 VERSION_LONG="$ver_major.$ver_minor.$ver_patch.$REVISION_SVN"
 
 SED_FILES="$DISTPATH/configure.ac \
-           $DISTPATH/doc/README.TXT \
-           $DISTPATH/src/PHREEQCPP-RELEASE.txt \
-           $DISTPATH/src/phreeqc/revisions"
+           $DISTPATH/doc/README.Linux.txt \
+           $DISTPATH/doc/RELEASE.TXT"
 
 for vsn_file in $SED_FILES
 do
@@ -174,8 +173,8 @@ do
   cp "$vsn_file" "$vsn_file.dist"
 done
 
-cp $DISTPATH/src/PHREEQCPP-RELEASE.txt $DISTPATH/doc/PHREEQCPP-RELEASE
-cp $DISTPATH/src/phreeqc/revisions     $DISTPATH/doc/RELEASE
+mv $DISTPATH/doc/RELEASE.TXT           $DISTPATH/doc/RELEASE
+mv $DISTPATH/doc/README.Linux.txt      $DISTPATH/doc/README
 
 echo "Rolling $DISTNAME.tar ..."
 (cd "$DIST_SANDBOX" > /dev/null && tar c "$DISTNAME") > \
