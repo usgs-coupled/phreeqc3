@@ -40,7 +40,6 @@ EXAMPLES= \
 	ex20b \
 	ex20-c13.tsv \
 	ex20-c14.tsv \
-	ex20_open \
 	ex21 \
 	ex21_Cl_tr_rad.tsv \
 	ex21_Cs_rad.tsv \

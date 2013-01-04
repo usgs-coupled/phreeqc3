@@ -1,3 +1,12 @@
 #! /bin/sh
 
+if [ ! -f doc/README ];then
+  ln -s README.Linux.txt doc/README
+fi
+
+if [ ! -f doc/RELEASE ];then
+  ln -s RELEASE.TXT doc/RELEASE
+fi
+
 exec autoreconf -fvi
+
