@@ -2,17 +2,33 @@
 # Build the tar.gz for building with configure/make.                     #
 ##########################################################################
 
-NAME ?= phreeqc-src
+NAME ?= phreeqc
 
 UPDATE := $(shell svn up ..)
 
 REL := $(shell svn st -v ../configure.ac | cut -b 10- | ( read one two ; echo $$one ) )
 
-TARBALL := $(NAME)-$(VER)-$(REL).tar.gz
+CONF_PKG := $(NAME)-$(VER)-$(REL).tar.gz
+
+TARBALL := $(NAME)-src-$(VER)-$(REL).tar.gz
 
 REPOS_PATH ?= trunk
 
-all : $(TARBALL)
+all : $(CONF_PKG)
+	@echo "DATE=$(DATE)"       >> history
+	@echo "VER=$(VER)"         >> history
+	@echo "REL=$(REL)"         >> history
+	@echo "==================" >> history
+
+$(CONF_PKG) : $(TARBALL)
+	rm -rf $(NAME)-$(VER)-$(REL)
+	tar xvzf $(TARBALL)
+	cd $(NAME)-src-$(VER)-$(REL) && autoreconf -fvi
+	cd $(NAME)-src-$(VER)-$(REL) && mkdir _build
+	cd $(NAME)-src-$(VER)-$(REL) && cd _build && ../configure
+	cd $(NAME)-src-$(VER)-$(REL) && cd _build && make distcheck
+	mv $(NAME)-src-$(VER)-$(REL)/_build/$(CONF_PKG) .
+	rm -rf $(NAME)-src-$(VER)-$(REL)
 
 $(TARBALL) : dist.sh
 ifeq ($(DATE),)
