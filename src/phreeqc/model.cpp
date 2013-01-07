@@ -2348,7 +2348,7 @@ molalities(int allow_overflow)
 		if (s_x[i]->type == EX)
 		{
 			s_x[i]->moles = exp(s_x[i]->lm * LOG_10);
-			if (!isfinite(s_x[i]->moles))
+			if (!PHR_ISFINITE(s_x[i]->moles))
 			{
 				if (s_x[i]->lm < 0.0)
 				{
@@ -2365,7 +2365,7 @@ molalities(int allow_overflow)
 		else if (s_x[i]->type == SURF)
 		{
 			s_x[i]->moles = exp(s_x[i]->lm * LOG_10);
-			if (!isfinite(s_x[i]->moles))
+			if (!PHR_ISFINITE(s_x[i]->moles))
 			{
 				if (s_x[i]->lm < 0.0)
 				{
