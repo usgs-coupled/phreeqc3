@@ -13,12 +13,12 @@ rem          awkward.)
 rem
 rem  History: 00/02/16 mcrouse
 rem           December 2012, PHREEQC3
-set topdir=..
+set topdir=%PHREEQC_ROOT%
 set data=%topdir%\examples
 set prog="%topdir%\bin\ClrRelease\phreeqc.exe"
 set prog_nochart="%topdir%\bin\Release\phreeqc.exe"
 set prognm=PHREEQC
-set DB="%topdir%\database"
+set DB=%topdir%\database
 
 set divd=---------------------------------------
 
@@ -44,7 +44,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test2
@@ -59,16 +59,16 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 REM Part b
 set name=ex2b
 if exist   %name%.log           del      %name%.log
 if exist   %name%.tsv           del      %name%.tsv
-copy %data%\%name%.tsv .
+copy "%data%\%name%.tsv" .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test3
@@ -81,7 +81,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test4
@@ -94,7 +94,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test5
@@ -108,7 +108,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test6
@@ -123,7 +123,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test7
@@ -137,7 +137,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test8
@@ -151,7 +151,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test9
@@ -165,7 +165,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test10
@@ -179,7 +179,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test11
@@ -194,7 +194,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n%
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test12
@@ -210,14 +210,14 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 REM Part A
 set name=ex12a
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test13
@@ -236,28 +236,28 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 REM Part B
 set name=ex13b
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 REM Part C
 set name=ex13c
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 REM Part A-C
 set name=ex13ac
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test14
@@ -271,7 +271,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test15
@@ -285,21 +285,21 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %data%\ex15.dat %name%.log
+%prog% "%infile%" %outfile% "%data%\ex15.dat" %name%.log
 REM Part A
 set name=ex15a
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %data%\ex15.dat %name%.log
+%prog% "%infile%" %outfile% "%data%\ex15.dat" %name%.log
 REM Part B
 set name=ex15b
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %data%\ex15.dat %name%.log
+%prog% "%infile%" %outfile% "%data%\ex15.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test16
@@ -312,7 +312,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test17
@@ -326,14 +326,14 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\pitzer.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\pitzer.dat" %name%.log
 REM Part B
 set name=ex17b
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\pitzer.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\pitzer.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test18
@@ -346,7 +346,7 @@ set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test19
@@ -356,20 +356,20 @@ if exist   %name%.log           del      %name%.log
 if exist   ex19b.out            del      ex19b.out 
 if exist   ex19.out             del      ex19.out 
 if exist   ex19_meas.tsv        del      ex19_meas.tsv
-copy %data%\ex19_meas.tsv .
+copy "%data%\ex19_meas.tsv" .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 REM Part B
 set name=ex19b
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test20
@@ -380,21 +380,21 @@ if exist   ex20a.out            del      ex20a.out
 if exist   ex20b.out            del      ex20b.out
 if exist   ex20-c13.tsv         del      ex20-c13.tsv
 if exist   ex20-c14.tsv         del      ex20-c14.tsv
-copy %data%\ex20-c13.tsv .
-copy %data%\ex20-c14.tsv .
+copy "%data%\ex20-c13.tsv" .
+copy "%data%\ex20-c14.tsv" .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\iso.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\iso.dat" %name%.log
 REM Part B
 set name=ex20b
 if exist   %name%.log           del      %name%.log
 set infile=%data%\%name%
 set outfile=%name%.out
 echo    %name%
-%prog% %infile% %outfile% %DB%\iso.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\iso.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test21
@@ -406,13 +406,13 @@ if exist   ex21_Cl_tr_rad.tsv   del      ex21_Cl_tr_rad.tsv
 if exist   ex21_Cs_rad.tsv      del      ex21_Cs_rad.tsv
 if exist   ex21_HTO_rad.tsv     del      ex21_HTO_rad.tsv
 if exist   ex21_Na_tr_rad.tsv   del      ex21_Na_tr_rad.tsv
-copy %data%\ex21*.tsv .
+copy "%data%\ex21*.tsv" .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :test22
@@ -421,13 +421,13 @@ set name=ex22
 if exist   %name%.log           del      %name%.log
 if exist   ex22.out             del      ex22.out
 if exist   co2.tsv              del      co2.tsv
-copy %data%\co2.tsv .
+copy "%data%\co2.tsv" .
 set infile=%data%\%name%
 set outfile=%name%.out
 echo %divd%%divd%
 echo Test run number %n% 
 echo    %name%
-%prog% %infile% %outfile% %DB%\phreeqc.dat %name%.log
+%prog% "%infile%" %outfile% "%DB%\phreeqc.dat" %name%.log
 if "%stop%"=="%n%" goto end
 
 :end
@@ -435,7 +435,7 @@ if "%stop%"=="%n%" goto end
 echo %divd%%divd%
 echo Done running.
 
-call %topdir%\test\check %start% %stop%
+call .\check %start% %stop%
 echo Done checking.
 
 rem  clear the variables used from the environment
