@@ -20,7 +20,7 @@ if not "%2"=="" set stop=%2
 
 if exist check.log del check.log
 
-set data=%PHREEQC_ROOT%\examples\examples_pc
+set data=%PHREEQC_ROOT%\examples
 set divd=---------------------------------------
 
 echo Comparing test output with expected output...

@@ -435,9 +435,6 @@ if "%stop%"=="%n%" goto end
 echo %divd%%divd%
 echo Done running.
 
-call .\check %start% %stop%
-echo Done checking.
-
 rem  clear the variables used from the environment
 set topdir=
 set data=
