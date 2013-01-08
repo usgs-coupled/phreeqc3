@@ -7,7 +7,7 @@ README.TXT
 
 NOTE: This file describes installing the GUI PhreeqcI and installing, compiling,
 and testing the batch version of PHREEQC version 3 on Windows operating systems.
-The GUI and batch versioin can be downloaded from
+The GUI and batch version can be downloaded from
 http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html. PhreeqcI has
 screens for most PHREEQC keywords and allows input files that use any of PHREEQC
 version 3 capabilities. Alternatively, a Notepad++ interface for PHREEQC version
@@ -16,7 +16,7 @@ version 3 capabilities. Alternatively, a Notepad++ interface for PHREEQC version
 
                   PHREEQC - Version @VERSION@  @VER_DATE@
 
-Instructions for installating, executing, and testing on Windows operating
+Instructions for installing, executing, and testing on Windows operating
 systems are provided below. After installation, see the phreeqc.txt file in the
 doc directory of the PHREEQC installation for summary information on PHREEQC
 and the RELEASE.TXT file in the root directory for new features and bug fixes.
@@ -87,7 +87,7 @@ Thorstenson, D.C., and Parkhurst, D.L., 2004, Calculation of individual isotope
    Acta, v. 68, no. 11, p. 2449-2465.
    
    
-C. Installing and running of the GUI PhreeqcI
+C. Installing and running the GUI PhreeqcI
 
 Note that if the software is to be installed on a server system, 
 the person installing the software generally must have administrator 
@@ -174,8 +174,7 @@ A Visual Studio project (phreeqc.sln) is included in the top-level directory
 
 F. Running the batch version
 
-If PHREEQC has been installed in a directory included in the users' PATH, the
-batch program can be executed from a command-prompt window with any of the
+The batch program can be executed from a command-prompt window with any of the
 commands below.
 
   command to execute PHREEQC     explanation
@@ -199,17 +198,18 @@ commands below.
                                  and screen output is directed to the
                                  file screen_output.
                                  
-Two alternative options exist for running the program: (1) the full pathname to
-the batch file that runs phreeqc can be used in place of "phreeqc" in the above
-commands ("C:\Program Files (x86)
-\USGS\phreeqc-@VERSION@.@REVISION@\bin\phreeqc.bat". Note that because of the
-space present in "Program Files", quotation marks must be used to enter the full
-pathname); or, (2) the executable (charting version is installed in C:\Program
-Files (x86)\USGS\phreeqc-@VERSION@.@REVISION@\ bin\ClrRelease\phreeqc.exe) may be
-copied to the current directory; further, the default database file may need to
-be in the current directory and named "phreeqc.dat". The default database file is
-installed in C:\Program Files (x86)
-\USGS\phreeqc-@VERSION@.@REVISION@\database\phreeqc.dat.
+Three alternative options exist for running the program: (1) the full pathname to
+the batch file can be used in place of "phreeqc" in the above commands
+("C:\Program Files (x86)USGS\phreeqc-@VERSION@.@REVISION@\bin\phreeqc.bat").
+Note that because of the space present in "Program Files", quotation marks must
+be used to enter the full pathname); (2) the full path to one of the executable
+files can be used in place of "phreeqc" in the above commands 
+("C:\Program Files (x86)USGS\phreeqc-@VERSION@.@REVISION@\bin\Release\phreeqc.exe",
+for example); or (3) an executable ("C:\Program Files (x86)\USGS\
+phreeqc-@VERSION@.@REVISION@\bin\ClrRelease\phreeqc.exe, for example) may be
+copied to the current directory and executed with .\phreeqc. The database file
+may need to be in the current directory. The default database file is installed
+in C:\Program Files (x86)\USGS\phreeqc-@VERSION@.@REVISION@\database\phreeqc.dat.
 
 Two executables are distributed in subdirectories of the bin directory. The
 executable (phreeqc.exe) in \bin\ClrRelease has charting capabilities. The
@@ -223,10 +223,11 @@ can be set with the command:
 
   set PHREEQC_DATABASE=C:\mydirectory\myproject\mydata.dat
 
-This environmental variable takes precedence over any default definition
-of the database file. If PHREEQC is invoked with at least three
-arguments, the third argument is the database file and it takes
-precedence over the environmental variable or the default database.                                 
+When using the batch file, phreeqc.bat, this environmental variable takes
+precedence over any default definition of the database file. If PHREEQC is
+invoked with at least three arguments, the third argument is the database file
+and it takes precedence over the environmental variable or the default
+database.
 
 
 G. Testing and examples
@@ -237,11 +238,12 @@ guide, which demonstrate most of the program's capabilities. The PHREEQC
 "examples" directory contains the input data and the expected results for each
 test. 
 
-to run the examples, copy the "test" directory (C:\Program Files (x86)
-\USGS\phreeqc-@VERSION@.@REVISION@\test) to a location where you have read/write
-access. The examples can be run from the new directory either by double clicking
-the test.bat file from Windows Explorer or by chaning directories to the
-new directory in a command-prompt window and typing the following:
+To run the examples, copy the "test" directory (C:\Program Files (x86)
+\USGS\phreeqc-@VERSION@.@REVISION@\test) to a location where you have
+read/write access. The examples can be run from the new directory either by
+double clicking the test.bat file from Windows Explorer or by changing
+directories to the new directory in a command-prompt window and typing the
+following:
 
 test.bat [start [stop [no_chart]]]
 
@@ -260,14 +262,14 @@ For example:
      test.bat 4                         runs test 4 through the last test
      test.bat 1 10 no                   runs tests 1 through 10 without charts
 
-You will have to close chart windows after each chart has completed to proceed to
-the remaining examples. After the tests are completed, the results can be
+You will have to close chart windows after each chart has completed to proceed
+to the remaining examples. After the tests are completed, the results can be
 compared to the expected results (found in the examples directory) by executing
-the check.bat batch file. See the file check.log for differences. Differences in
-path names and run times are insignificant. The results in the directory examples
-were calculated with the charting version of PHREEQC. Comparing non-charting
-results to charting results may produce a large number of differences in
-check.log; however, in almost all cases, the differences are related to the
+the check.bat batch file. See the file check.log for differences. Differences
+in path names and run times are insignificant. The results in the directory
+examples were calculated with the charting version of PHREEQC. Comparing non-
+charting results to charting results may produce a large number of differences
+in check.log; however, in almost all cases, the differences are related to the
 calculated pe. The pe may differ significantly and many aqueous species
 concentrations may differ, but the concentrations of aqueous species should
 differ by less than 1e-8 mol/kgw.
@@ -276,7 +278,8 @@ To clean up after the tests, double click on clean.bat in Windows Explorer or
 type the command clean.bat from a command prompt. 
 
 The tests are described in the table below, where 'test' corresponds
-to the example number in the PHREEQC manual. 
+to the example number in the PHREEQC manual. Charts can be compared to charts
+in the manual (Techniques and Methods 6-A43).
 
 test  description of test and files                  
 ----  --------------------------------------------   
