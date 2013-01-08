@@ -56,9 +56,7 @@
           </Directory>
           <Directory Id="database" Name="database"/>
           <Directory Id="doc" Name="doc"/>
-          <Directory Id="examples" Name="examples">
-            <Directory Id="examples_pc" Name="examples_pc"/>
-          </Directory>
+          <Directory Id="examples" Name="examples"/>
           <Directory Id="src" Name="src">
             <Directory Id="phreeqc" Name="phreeqc"/>
           </Directory>
@@ -71,16 +69,19 @@
     <DirectoryRef Id="APPLICATIONFOLDER">
       <Component Id="top.dir" Guid="A30D01A1-F3DC-4c7e-BDB5-00E30BA4F209">
         <!-- path -->
+        <Environment Id="phreeqc_root" Name="PHREEQC_ROOT" Action="set" Part="all" System="yes" Value="[APPLICATIONFOLDER]" />
         <Environment Id="path_phreeqc" Name="PATH_PHREEQC" Action="set" Part="all" System="yes" Value="[APPLICATIONFOLDER]bin" />
         <Environment Id="path" Name="Path" Action="set" Part="last" System="yes" Value="%PATH_PHREEQC%" />
         <!-- text files -->
         <File Id="NOTICE.TXT" Name="NOTICE.TXT" Source="..\doc\NOTICE.TXT" />
         <File Id="README.TXT" Name="README.TXT" Source="..\doc\README.Win.txt" />
+        <File Id="RELEASE.TXT" Name="RELEASE.TXT" Source="..\doc\RELEASE.TXT" />
         <!-- project files -->
-        <File Id="phreeqc.vcproj" Name="phreeqc.vcproj" Source="..\phreeqcpp.vcproj" />
+        <File Id="phreeqc.sln" Name="phreeqc.sln" Source="..\phreeqcpp.2005.sln" />        
+        <File Id="phreeqc.vcproj" Name="phreeqc.vcproj" Source="..\phreeqc.vcproj" />
         <File Id="ZedGraph.vsprops" Name="ZedGraph.vsprops" Source="..\ZedGraph.vsprops" />
         <File Id="resource.h" Name="resource.h" Source="..\resource.h" />
-        <File Id="phreeqcpp.rc" Name="phreeqcpp.rc" Source="..\phreeqcpp.rc" />
+        <File Id="phreeqc.rc" Name="phreeqc.rc" Source="..\phreeqc.rc" />
         <File Id="phreeqc_version.h" Name="phreeqc_version.h" Source="..\phreeqc_version.h" />
       </Component>
     </DirectoryRef>
@@ -159,7 +160,7 @@
     </DirectoryRef>
 
     <!-- examples\examples_pc -->
-    <DirectoryRef Id="examples_pc">
+    <DirectoryRef Id="examples">
       <Component Id="examples_pc" Guid="D3AE1366-C441-413c-954D-C37A12EA180E">
         <File Id="fil769FD0424D29D7326655D21B1E3EF1CD" Source="..\examples\examples_pc\ex1.out" />
         <File Id="fil2987323360A0733784C7875CCAD7B14B" Source="..\examples\examples_pc\ex10.out" />
