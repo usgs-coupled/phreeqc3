@@ -1,0 +1,11 @@
+#! /bin/sh
+# Test ex20b
+
+NAME=ex20b
+DB=iso.dat
+
+: ${PHREEQC=phreeqc}
+${PHREEQC} $DATADIR/$NAME $NAME.out $DBDIR/$DB $NAME.log
+result=$?
+
+exit $result
