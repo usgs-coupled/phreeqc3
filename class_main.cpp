@@ -61,7 +61,7 @@ unsigned int cwOriginal = _controlfp(cw, MCW_EM); //Set it.
                             //_controlfp(cwOriginal, MCW_EM);
 #endif
 	Phreeqc phreeqc_instance;
-	phreeqc_instance.main_method(argc, argv);
+	return phreeqc_instance.main_method(argc, argv);
 }
 
 
