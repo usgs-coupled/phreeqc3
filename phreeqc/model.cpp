@@ -7,6 +7,7 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "Solution.h"
+#include "float.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -4651,6 +4652,7 @@ revise_guesses(void)
 					else
 					{
 						repeat = TRUE;
+						d = 0;
 #ifdef SKIP
 						d = weight * log10(fabs(x[i]->moles / x[i]->sum));
 						double d1 = d;
