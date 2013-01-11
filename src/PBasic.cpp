@@ -3143,7 +3143,17 @@ factor(struct LOC_exec * LINK)
  		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_solution_volume();
  		break;
 	case toklog10:
-		n.UU.val = log10(realfactor(LINK));
+		{
+			double t = realfactor(LINK);
+			if (t > 0.0)
+			{
+				n.UU.val = log10(t);
+			}
+			else
+			{
+				n.UU.val = 0;
+			}
+		}
 		break;
   	case tokvm:
 		{

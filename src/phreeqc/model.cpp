@@ -2347,37 +2347,13 @@ molalities(int allow_overflow)
 		}
 		if (s_x[i]->type == EX)
 		{
-			s_x[i]->moles = exp(s_x[i]->lm * LOG_10);
-			if (!PHR_ISFINITE(s_x[i]->moles))
-			{
-				if (s_x[i]->lm < 0.0)
-				{
-					s_x[i]->moles = 1e-200;
-					fprintf(stderr, "ExchNaN-\n");
-				}
-				else
-				{
-					s_x[i]->moles = 1e200;
-					fprintf(stderr, "ExchNaN+\n");
-				}
-			}
+			s_x[i]->moles = Utilities::safe_exp(s_x[i]->lm * LOG_10);
+
 		}
 		else if (s_x[i]->type == SURF)
 		{
-			s_x[i]->moles = exp(s_x[i]->lm * LOG_10);
-			if (!PHR_ISFINITE(s_x[i]->moles))
-			{
-				if (s_x[i]->lm < 0.0)
-				{
-					s_x[i]->moles = 1e-200;
-					fprintf(stderr, "SurfNaN-\n");
-				}
-				else
-				{
-					s_x[i]->moles = 1e200;
-					fprintf(stderr, "SurfNaN+\n");
-				}
-			}
+			s_x[i]->moles = Utilities::safe_exp(s_x[i]->lm * LOG_10);
+
 		}
 		else
 		{
@@ -4312,7 +4288,15 @@ residuals(void)
 				}
 
 				/* add fictitious monovalent ion that balances charge */
-				sum += fabs(sum1) * (exp(-sum1 / fabs(sum1) * negfpsirt) - 1);
+				//sum += fabs(sum1) * (exp(-sum1 / fabs(sum1) * negfpsirt) - 1);
+				if (sum1 >= 0) 
+				{
+					sum += fabs(sum1) * (exp(-negfpsirt) - 1);
+				}
+				else
+				{
+					sum += fabs(sum1) * (exp(negfpsirt) - 1);
+				}
 
 				if (sum < 0)
 				{
@@ -4667,15 +4651,44 @@ revise_guesses(void)
 					else
 					{
 						repeat = TRUE;
+#ifdef SKIP
 						d = weight * log10(fabs(x[i]->moles / x[i]->sum));
-						/*if (!isnan(d) && _finite(d))*/
-						if (PHR_ISFINITE((double) d))
+						double d1 = d;
+#else
+						// avoid underflows and overflows
+						if (x[i]->moles > 1e101 || x[i]->moles < 1e-101 ||
+							x[i]->sum > 1e101 || x[i]->sum < 1e-101)
 						{
-							x[i]->master[0]->s->la += d;
+							double d1 = log10(x[i]->moles);
+							double d2 = log10(x[i]->sum);
+							double d3 = d1 - d2;
+							if (d3 > DBL_MAX_10_EXP/2)
+							{
+								d = pow(10.0, DBL_MAX_10_EXP/2.);
+							}
+							else if (d3 < DBL_MIN_10_EXP/2.)
+							{
+								d = pow(10.0, DBL_MIN_10_EXP/2.);
+							}
 						}
 						else
 						{
-							warning_msg("Adjustment to la in revise_guesses was NaN\n");
+							d = fabs(x[i]->moles / x[i]->sum);
+						}
+						double d1 = weight * log10(d);
+#endif
+						/*if (!isnan(d) && _finite(d))*/
+						if (PHR_ISFINITE((double) d1) && d1 < 5.0)
+						{
+							x[i]->master[0]->s->la += d1;
+						}
+						else
+						{
+							//warning_msg("Adjustment to la in revise_guesses was NaN\n");
+							if (!PHR_ISFINITE((double) d1))
+							{
+								fprintf(stderr, "revise_guesses: %e, %e, %e\n", x[i]->moles, x[i]->sum, d);
+							}
 							x[i]->master[0]->s->la += 5.0;
 						}
 
@@ -5302,7 +5315,40 @@ numerical_jacobian(void)
 		//output_msg(sformatf( "%d\n", i));
 		for (j = 0; j < count_unknowns; j++)
 		{
-			array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
+			// avoid overflow
+			if (residual[j] > 1.0e101)
+			{
+				double t = pow(10.0, DBL_MAX_10_EXP - 50.0);
+				if (residual[j]  > t)
+				{
+					array[j * (count_unknowns + 1) + i] = -pow(10.0, DBL_MAX_10_EXP - 50.0);
+				}
+				else
+				{
+					array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
+				}
+			}
+			else if (residual[j] < -1.0e101)
+			{
+				double t = pow(10.0, DBL_MIN_10_EXP + 50.0);
+				if (residual[j]  < -t)
+				{
+					array[j * (count_unknowns + 1) + i] = pow(10.0, DBL_MIN_10_EXP + 50.0);
+				}
+				else
+				{
+					array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
+				}
+			}
+			else
+			{
+				array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
+				if (!PHR_ISFINITE(array[j * (count_unknowns + 1) + i]))
+				{
+					fprintf(stderr, "oops, got NaN: %e, %e, %e, %e\n", residual[j], base[j], d2, array[j * (count_unknowns + 1) + i]);
+				}
+			}
+
 			//output_msg(sformatf( "\t%d %e %e %e %e\n", j, array[j*(count_unknowns + 1) + i] , residual[j], base[j], d2));
 		}
 		switch (x[i]->type)
