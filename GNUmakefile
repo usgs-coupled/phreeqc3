@@ -368,11 +368,11 @@ clean:
 
 dependencies:
 	mkdir -p $(CLASS_DEBUG_DIR) 
-	cd $(CLASS_DEBUG_DIR); gcc -MM -I.. -I../phreeqc ../*.cxx ../*.cpp ../phreeqc/*.cpp
+	cd $(CLASS_DEBUG_DIR); gcc -MM -I.. ../*.cxx ../*.cpp 
 
 tester:
-	cd ../mytest; make clean; make -k $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
-	cd ../examples; make clean; make $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
+	cd ../mytest; make clean; make -k -j 4 $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
+	cd ../examples; make clean; make -k -j 4 $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
 	svn status -q ../mytest 
 	svn status -q ../examples
 
