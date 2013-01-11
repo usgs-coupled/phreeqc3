@@ -4680,7 +4680,7 @@ revise_guesses(void)
 						double d1 = weight * log10(d);
 #endif
 						/*if (!isnan(d) && _finite(d))*/
-						if (PHR_ISFINITE((double) d1) && d1 < 5.0)
+						if (PHR_ISFINITE((double) d1) /*&& d1 < 5.0*/)
 						{
 							x[i]->master[0]->s->la += d1;
 						}
