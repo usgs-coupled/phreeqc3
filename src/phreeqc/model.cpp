@@ -4677,23 +4677,29 @@ revise_guesses(void)
 						{
 							d = fabs(x[i]->moles / x[i]->sum);
 						}
-						double d1 = weight * log10(d);
-#endif
-						/*if (!isnan(d) && _finite(d))*/
-						if (PHR_ISFINITE((double) d1) /*&& d1 < 5.0*/)
+						double d1;
+						if (d > 0)
 						{
-							x[i]->master[0]->s->la += d1;
+							d1 = weight * log10(d);
+							if (PHR_ISFINITE((double) d1) /*&& d1 < 5.0*/)
+							{
+								x[i]->master[0]->s->la += d1;
+							}
+							else
+							{
+								//warning_msg("Adjustment to la in revise_guesses was NaN\n");
+								if (!PHR_ISFINITE((double) d1))
+								{
+									fprintf(stderr, "revise_guesses: %e, %e, %e\n", x[i]->moles, x[i]->sum, d);
+								}
+								x[i]->master[0]->s->la += 5.0;
+							}
 						}
 						else
 						{
-							//warning_msg("Adjustment to la in revise_guesses was NaN\n");
-							if (!PHR_ISFINITE((double) d1))
-							{
-								fprintf(stderr, "revise_guesses: %e, %e, %e\n", x[i]->moles, x[i]->sum, d);
-							}
 							x[i]->master[0]->s->la += 5.0;
 						}
-
+#endif
 					}
 					if (debug_set == TRUE)
 					{
