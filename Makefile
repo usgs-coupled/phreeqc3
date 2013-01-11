@@ -10,7 +10,7 @@
 # Recursive make sets appropriate compiler, objects, options, libraries, and compiles PHREEQC
 #
 
-PROGRAM = phreeqcpp
+PROGRAM = phreeqc
 
 CFG1 :=`uname`
 CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
@@ -45,7 +45,7 @@ CLASS_DEBUG_DIR        = Class_debug
 CLASS_DIR              = Class_release
 CLASS_DEBUG_64_DIR     = Class_debug_64
 CLASS_64_DIR           = Class_release_64
-MAKEFILE               = GNUmakefile
+MAKEFILE               = Makefile
 DEPDIR                 = .deps
 
 # -----------------------------------------------------------------------------
@@ -82,7 +82,6 @@ class_release_64:
 # Significant suffixes [assuming Fortran 90 (.F90)  source code, needs to be preprocessed ]:
 # =============================================================================
 
-#SRC     = ../phreeqc
 .SUFFIXES : .o .c .cxx .cpp
 
 # compilers
@@ -127,7 +126,7 @@ EFENCE_LIB=-L$(HOME)/packages/efence
 # 4 Versions
 # -----------------------------------------------------------------------------
 ifeq ($(CFG), CLASS_DEBUG)
-  INVERSE_CL1MP=TRUE
+  INVERSE_CL1MP=FALSE
   ifdef INVERSE_CL1MP
 	DEFINE_INVERSE_CL1MP=-DINVERSE_CL1MP
 	CL1MP_OBJS=cl1mp.o
@@ -135,8 +134,8 @@ ifeq ($(CFG), CLASS_DEBUG)
 	CL1MP_LIB=/z/parkplace/usr/lib/libgmp.a 
   endif
   DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) # -DPHREEQC2
-  VPATH        = ..:../phreeqc
-  INCLUDES     = -I../phreeqc -I..
+  VPATH        = ..
+  INCLUDES     = -I..
   CXX          = g++
   CXXFLAGS     = -Wall -g $(DEFINES) $(INCLUDES) 
   OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
@@ -275,7 +274,7 @@ COMMON_CXXOBJS = \
 ${PROGRAM} : ${OBJECT_FILES}
 #	${CXX} -p -o $@ ${OBJECT_FILES}  ${LD_FLAGS} 
 	${CXX} -o $@ ${OBJECT_FILES}  ${LD_FLAGS} 
-	@echo; echo Done making for phreeqcpp
+	@echo; echo Done making for phreeqc
 # -----------------------------------------------------------------------------
 # Module dependency list
 # -----------------------------------------------------------------------------
