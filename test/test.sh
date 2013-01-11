@@ -85,14 +85,13 @@
  # Example 2	
      elif [ $Test -eq 2 ]; then
 	Namevar=ex2
-	rm -f $Namevar.* $Namevar.tsv
+	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
 	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
 	
 	Namevar=ex2b
 	rm -f %Namevar%.*
-	cp $DATA/$Namevar.tsv .
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
 	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
@@ -271,8 +270,7 @@
 # Example 19
       elif [ $Test -eq 19 ]; then
 	Namevar=ex19
-	rm -f $Namevar.* ex19_meas.tsv
-	cp $DATA/ex19_meas.tsv .
+	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
 	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
@@ -286,8 +284,7 @@
 # Example 20
       elif [ $Test -eq 20 ]; then
 	Namevar=ex20a
-	rm -f $Namevar.* ex20*tsv
-	cp $DATA/ex20*.tsv .
+	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
 	$PROG $infile $outfile $DB/iso.dat $Namevar.log
@@ -302,8 +299,7 @@
 # Example 21
       elif [ $Test -eq 21 ]; then
 	Namevar=ex21
-	rm -f $Namevar.* ex21*tsv
-	cp $DATA/ex21*.tsv .
+	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
 	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
@@ -311,8 +307,7 @@
 # Example 22
       elif [ $Test -eq 22 ]; then
 	Namevar=ex22
-	rm -f $Namevar.* co2.tsv
-	cp $DATA/co2.tsv .
+	rm -f $Namevar.*
 	infile=$DATA/$Namevar
 	outfile=$Namevar.out   
 	$PROG $infile $outfile $DB/phreeqc.dat $Namevar.log
