@@ -23,5 +23,6 @@ namespace Utilities
 
 	void squeeze_white(std::string & s_l);
 	double convert_time(double t, std::string in, std::string out);
+	double safe_exp(double t);
 }
 #endif // UTILITIES_H_INCLUDED

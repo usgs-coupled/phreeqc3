@@ -155,6 +155,22 @@ Utilities::convert_time(double t, std::string in, std::string out)
 	return t;
 
 }
+double 
+Utilities::safe_exp(double t)
+////////////////////////////////////////////////////////////////////////////
+{
+	double f = 1.442695*t; // convert to exp for 2.0
+
+	if (f > DBL_MAX_EXP - 50.0)
+	{
+		return pow(2, DBL_MAX_EXP - 50.0);
+	}
+	else if (f < DBL_MIN_EXP + 50.0)
+	{
+		return pow(2, DBL_MIN_EXP + 50.0);
+	}
+	return exp(t);
+}
 //+NAN LDBLE: 7ff8000000000000
 //-NAN LDBLE: fff8000000000000
 /*
