@@ -15,7 +15,7 @@ Notepad++ interface is available at http://www.hydrochemistry.eu/downl.html.)
 
                   PHREEQC - Version @VERSION@  @VER_DATE@
 
-Instructions for installation, execution, and testing are provided below. After
+Instructions for installing, executing, and testing are provided below. After
 installation, see the phreeqc.txt file in the doc directory of the PHREEQC
 installation for summary information on PHREEQC and the RELEASE.TXT file for
 new features and bug fixes.
@@ -25,11 +25,10 @@ new features and bug fixes.
 	  A. Distribution files
 	  B. Documentation
 	  C. Extracting files
-	  D. Compiling (optional)
-	  E. Installing PHREEQC
-	  F. Running the batch program
-	  G. Testing and example problems
-	  H. Contacts
+	  D. Compiling and installing PHREEQC
+	  E. Running the batch program
+	  F. Testing and example problems
+	  G. Contacts
 
 
 A. Distribution files
@@ -37,9 +36,9 @@ A. Distribution files
 	The following distribution packages (containing the software, test data
 	sets, and information files) are currently available for Linux systems:
 
-phreeqc-@VERSION@.@REVISION@.Linux.tar.gz--Compiled with @GCC_VER@ 
+phreeqc-@VERSION@-@REVISION@.Linux.tar.gz--Compiled with @GCC_VER@ 
                                          kernel @KERNEL_VER@
-phreeqc-@VERSION@.@REVISION@.source.tar.gz--Source code but no executable
+phreeqc-@VERSION@-@REVISION@.source.tar.gz--Source code, but no executable
 
 
 B. Documentation
@@ -48,7 +47,7 @@ B. Documentation
    Document Format (PDF) files are included in the doc subdirectory of the
    PHREEQC program distribution.
    
-Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of input and examples
+Parkhurst, D.L., and Appelo, C.A.J., 2013, Description of input and examples
    for PHREEQC version 3--A computer program for speciation, batch-reaction,
    one- dimensional transport, and inverse geochemical calculations: U.S.
    Geological Survey Techniques and Methods, book 6, chap. A43, 497 p.
@@ -87,13 +86,14 @@ C. Extracting files
 Compressed tar files are used to distribute the source code and versions of the
 software compiled for Linux operating systems. All of the files needed to
 install and test PHREEQC are contained in the file
-phreeqc-@VERSION@.@REVISION@.Linux.tar.gz. A Linux executable file is included,
+phreeqc-@VERSION@-@REVISION@.Linux.tar.gz. A Linux executable file is included,
 which is compiled with @GCC_VER@ kernel @KERNEL_VER@. If you want to compile
 the program for another operating system, the file
-phreeqc-@VERSION@.@REVISION@.source.tar.gz contains all of the files needed to
-compile and install PHREEQC. For all tar files, the directory phreeqc-@VERSION@
-is created when the files are extracted; if this directory already exists, you
-may want to delete or rename it before extracting the files.
+phreeqc-@VERSION@-@REVISION@.source.tar.gz contains all of the files needed to
+compile and install PHREEQC. For all tar files, the directory
+phreeqc-@VERSION@-@REVISION@ is created when the files are extracted; if this
+directory already exists, you may want to delete or rename it before extracting
+the files.
 
 Follow the steps below to extract the files from a distribution tar
 file. 
@@ -101,7 +101,7 @@ file.
   Steps in extracting files                 Explanation
   ----------------------------------------  -----------------------------------
   gunzip phreeqc-@VERSION@-@REVISION@.Linux.tar.gz   Uncompress the 
-  						   distribution file.
+  						   tar.gz file.
 
   tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.tar  Extract files from the tar
                                                    file.
@@ -123,9 +123,8 @@ Notes:  (a) A compiled executable is not included in the source
             directory structure.  If you plan to put files in the PHREEQC
             directory structure, do so only by creating subdirectories.
 
-D. Compiling (optional)
 
-XXXXXXXXXXXXXXX need to describe confinure here XXXXXXXXXXXXXXXXXX
+D. Compiling and installing PHREEQC
 
 If you can use the executable in the Linux.tar.gz version of the distribution
 of the software, skip to the Installing section below.
@@ -145,56 +144,43 @@ configure, and the Makefile can be used to compile the software.
 
 To compile PHREEQC, do the following:
 
-1.  Change directory to the source directory:
-        cd phreeqc-@VERSION@/src
+1.  Change directory to the directory that was extracted from the tar file.
 
-2.  Modify the beginning of the file named Makefile to correctly specify 
-    system-dependent variables:
-     
-        CC             C compiler name
-        CCFLAGS        C compiler flags
-        LOADFLAGS      linker flags
-        MULTICHART     Requires WINE and zedgraph .NET control
-        INVERSE_CL1MP  Requires gmp (gnu multiprecision package).Do not define
-		       if the gmp package is not available on your system
+        cd phreeqc-@VERSION@-@REVISION@
+        
+2.  Make a directory, for example, Release.
+	
+	mkdir Release
+	
+3.  Change directory to Release.
+	
+	cd Release
 
-3.  Run "configure".
+4.  Run configure
+	
+	../configure
+	
+    Many of the options for configure can be seen by typing:
+    
+    	../configure --help
 
-4.  Run "make" to compile the source:
+5.  Compile the program
+	
+	make
+	
+6.  Check that compiled version runs the test cases
+	
+	make check	
 
-        make
-
-    make will:
-
-        a.  compile the source code, and
-        b.  place the program executable in the PHREEQC bin directory.
-
-
-E. Installing PHREEQC
-
-To make PHREEQC easy to use, a link to the script that runs PHREEQC
-should be placed in a directory that is included in each user's search
-path. Run make in the PHREEQC src subdirectory to create the link:
-
-    make install BINDIR=directory_for_links
-
-A script for running the executable is placed in the PHREEQC installation
-directory and a link to that script is placed in the directory defined
-by BINDIR.  If each user's search path consists of
-
-    /usr/bin:/usr/opt/bin:/usr/local/bin
-
-using the command
-
-    make install BINDIR=/usr/local/bin
-
-will make PHREEQC accessible from any directory without requiring the full
-pathname of the executable.  Note that to create and delete links to the
-PHREEQC script, the installer must have sufficient rights to the BINDIR
-directory. By default, BINDIR is $HOME/bin.
+7.  Install the program. By default the program is installed in
+    /usr/local/bin, /usr/local/lib, etc. You can specify an sstallation prefix
+    other than "/usr/local" by using the"--prefix", --prefix=$HOME for
+    example. 
+    
+    	make install
 
 
-F. Running the program
+E. Running the program
 
 If PHREEQC has been installed in a directory included in the users' PATH, the
 program can be executed with any of the commands below.
@@ -242,7 +228,7 @@ in the script in the installation directory to
 phreeqc-@VERSION@/database/phreeqc.dat.  It is possible to specify a different
 default database by editing the script.
 
-G. Testing and example problems
+F. Testing and example problems
 
 Input files are provided to verify that the program is correctly installed and
 running on the system.  The tests execute the examples presented in the user's
@@ -351,7 +337,8 @@ test  description of test and files
 
  22   Modeling gas solubilities: CO2 at high pressures
 
-H. CONTACTS
+
+G. CONTACTS
 
 Inquiries about this software distribution should be directed to:
 
