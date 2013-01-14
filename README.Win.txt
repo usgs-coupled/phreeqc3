@@ -59,7 +59,7 @@ Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user
    Document Format (PDF) files are included in the doc subdirectory of the
    PHREEQC program distribution.
    
-Parkhurst, D.L., and Appelo, C.A.J., 2012, Description of input and examples
+Parkhurst, D.L., and Appelo, C.A.J., 2013, Description of input and examples
    for PHREEQC version 3--A computer program for speciation, batch-reaction,
    one- dimensional transport, and inverse geochemical calculations: U.S.
    Geological Survey Techniques and Methods, book 6, chap. A43, 497 p.
