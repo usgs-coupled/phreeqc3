@@ -165,7 +165,7 @@ themselves.  Little or no support is provided for users generating
 their own versions of the software.  In general, to compile a new
 version of PHREEQC, you will need:
 
-       (a) a C compiler,
+       (a) a C++ compiler,
        (b) familiarity with the compiler and the Windows operating system.
 
 A Visual Studio project (phreeqc.sln) is included in the top-level directory
