@@ -5,30 +5,36 @@ README.TXT
        A program for speciation, batch-reaction, one-dimensional 
             transport, and inverse geochemical calculations
 
-This file describes the batch version of PHREEQC version 3 for Linux. No
-graphical user interface exits for Linux.
+This file describes batch versions of PHREEQC version 3 for Linux. The "Linux"
+versions (32- and 64-bit) contain an executable file compiled for Linux,
+whereas the "source" version has no executable file, but has the files
+necessary to configure and compile PHREEQC on any Unix operating system.
 
-(For Windows, a graphical user interface, PhreeqcI, is available at
+Instructions for installing, executing, and testing on Windows operating
+systems are provided below. After installation, see the root or doc directory
+of the PHREEQC installation for summary information on PHREEQC in phreeqc.txt
+and the new features and bug fixes in RELEASE.TXT.
+
+No graphical user interface exits for Linux. (For Windows, a graphical user
+interface, PhreeqcI, is available at
 http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html and a
 Notepad++ interface is available at http://www.hydrochemistry.eu/downl.html.)
 
-
-                  PHREEQC - Version @VERSION@  @VER_DATE@
-
-Instructions for installing, executing, and testing are provided below. After
-installation, see the phreeqc.txt file in the doc directory of the PHREEQC
-installation for summary information on PHREEQC and the RELEASE.TXT file for
-new features and bug fixes.
 
 	  TABLE OF CONTENTS
 
 	  A. Distribution files
 	  B. Documentation
-	  C. Extracting files
-	  D. Compiling and installing PHREEQC
-	  E. Running the batch program
-	  F. Testing and example problems
-	  G. Contacts
+	  C. Linux versions (with executable)
+  		C.1. Extracting files
+  		C.2. Running
+  		C.2. Testing
+	  D. Source version (for Unix compilation)
+	  	D.1. Extracting files
+	  	D.2. Compiling, testing, installing
+		D.3. Running
+	  E. Description of test cases
+	  F. Contacts
 
 
 A. Distribution files
@@ -36,9 +42,11 @@ A. Distribution files
 	The following distribution packages (containing the software, test data
 	sets, and information files) are currently available for Linux systems:
 
-phreeqc-@VERSION@-@REVISION@.Linux.tar.gz--Compiled with @GCC_VER@ 
+phreeqc-@VERSION@-@REVISION@.Linux.tar.gz  --Compiled with @GCC_VER@ 
                                          kernel @KERNEL_VER@
-phreeqc-@VERSION@-@REVISION@.source.tar.gz--Source code, but no executable
+phreeqc-@VERSION@-@REVISION@.Linux.x84_64.tar.gz--Compiled with @GCC_VER_64@ 
+                                         kernel @KERNEL_VER_64@                                         
+phreeqc-@VERSION@-@REVISION@.source.tar.gz  --Source code, but no executable
 
 
 B. Documentation
@@ -81,68 +89,197 @@ Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user interface
    FS-031-02, 2 p.
     
    
-C. Extracting files
+C. Linux versions (with executable)
 
-Compressed tar files are used to distribute the source code and versions of the
-software compiled for Linux operating systems. All of the files needed to
-install and test PHREEQC are contained in the file
-phreeqc-@VERSION@-@REVISION@.Linux.tar.gz. A Linux executable file is included,
-which is compiled with @GCC_VER@ kernel @KERNEL_VER@. If you want to compile
-the program for another operating system, the file
+Compressed tar files, phreeqc-@VERSION@-@REVISION@.Linux.tar.gz and
+phreeqc-@VERSION@-@REVISION@.Linux.x86_64.tar.gz, are used to distribute the
+source code and the compiled executable for Linux operating systems. The 32-bit
+Linux executable file is compiled with @GCC_VER@ kernel @KERNEL_VER_64@ and the
+64-bit Linux executable file is compiled with @GCC_VER_64@ kernel @KERNEL_VER@.
+All of the files needed to run and test PHREEQC are contained in each tar file.
+(If you want to compile the program yourself, the file
 phreeqc-@VERSION@-@REVISION@.source.tar.gz contains all of the files needed to
-compile and install PHREEQC. For all tar files, the directory
-phreeqc-@VERSION@-@REVISION@ is created when the files are extracted; if this
-directory already exists, you may want to delete or rename it before extracting
-the files.
+configure, compile, test, and install PHREEQC. See Section D for details.)
+
+
+C.1. Extracting files
 
 Follow the steps below to extract the files from a distribution tar
 file. 
 
-  Steps in extracting files                 Explanation
-  ----------------------------------------  -----------------------------------
-  gunzip phreeqc-@VERSION@-@REVISION@.Linux.tar.gz   Uncompress the 
-  						   tar.gz file.
+  Steps in extracting files                 	Explanation
+  ----------------------------------------  	-----------------------------------
+  For the 32-bit version:
 
-  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.tar  Extract files from the tar
-                                                   file.
+  gunzip phreeqc-@VERSION@-@REVISION@.Linux.tar.gz   
+  						Uncompress the tar.gz file.
+
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.tar 
+    						Extract files from the tar file.
+                                                   
+  or, for the 64-bit version:
+  
+  gunzip phreeqc-@VERSION@-@REVISION@.Linux.x86_64.tar.gz   
+  						Uncompress the tar.gz file.
+
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.x86_64.tar  
+  						Extract files from the tar
+                                                file. 
+
+The directory phreeqc-@VERSION@-@REVISION@ is created when the files are
+extracted; if this directory already exists, you may want to delete or rename
+it before extracting the files.
 
 The following directory structure is created (the contents of each
 directory are shown to the right):
 
-   phreeqc-@VERSION@      files NOTICE.TXT, RELEASE.TXT, and this README.Linux.txt
-     `--bin         compiled executable, template for execution script
-     `--database    database files required during execution
-     `--doc         documentation files 
-     `--examples    examples from user's guide--used in verification tests
-     `--src         Makefile and source code
-     `--test        scripts to run verification tests
+   phreeqc-@VERSION@-@REVISION@      Files NOTICE.TXT, RELEASE.TXT, and this README.Linux.txt
+     `--bin         Compiled executable
+     `--database    Database files (one is required for execution)
+     `--doc         Documentation files 
+     `--examples    Examples from user's guide--used in verification tests
+     `--src         Source code
+     `--test        Scripts to run verification tests
+
+Notes:  It is recommended that no user files be kept in the PHREEQC directory
+	structure.  If you plan to put files in the PHREEQC directory
+	structure, do so only by creating subdirectories.
+
+
+C.2. Running 
+
+If PHREEQC has been installed in a directory included in the users' PATH, the
+program can be executed with any of the commands below.
+
+  command to execute PHREEQC     explanation
+  -----------------------------  -----------------------------------------
+  phreeqc                        The program will query for each of the
+                                 needed files.
+
+  phreeqc input                  The input file is named input, the output
+                                 file will be named input.out and the
+                                 default database file will be used.
+  
+  phreeqc input output           The input file is named input, the output
+                                 file is named output, and the default
+                                 database file will be used.
+  
+  phreeqc input output database  All file names are specified explicitly.
+  
+  phreeqc input output database screen_output     
+
+                                 All file names are specified explicitly,
+                                 and screen output is directed to the
+                                 file screen_output.
+
+If the directory containing the executable file is not included in the PATH
+environmental variable, you can (1) use the complete path name to the
+executable in place of "phreeqc" above, or (2) copy the executable to the
+current directory. The executable is phreeqc-@VERSION@-@REVISION@/bin/phreeqc.
+In addition a database file may need to be in the current directory.
+Phreeqc.dat is generally used by default and is found at
+phreeqc-@VERSION@-@REVISION@/database/phreeqc.dat.
+
+The shell variable PHREEQC_DATABASE can be used to specify the default
+database. In the C shell, this variable can be set with a command such as:
+
+  setenv PHREEQC_DATABASE /home/jdoe/phreeqc-@VERSION@-@REVISION@/database/phreeqc.dat
+
+In the Bourne or Korn shell, this variable can be set with the command:
+
+  export PHREEQC_DATABASE=/home/jdoe/phreeqc-@VERSION@-@REVISION@/database/phreeqc.dat
+
+The shell variable can be set permanently by including the appropriate command
+in a file that is read when the shell is initiated, frequently $HOME/.login or
+$HOME/.profile.  If this shell variable is not set, the default database is
+assumed to be phreeqc.dat in the current directory.  
+
+
+C.3. Testing 
+
+Input files are provided to verify that the program is correctly installed and
+running on the system.  The tests execute the examples presented in the user's
+guide, which demonstrate most of the program's capabilities. The directory
+phreeqc-@VERSION@-@REVISION@/examples contains the input data for each test.
+
+Provided that the directory phreeqc-@VERSION@/test is a directory where
+you have write access; the examples can be run from that directory.
+Change to the directory and type the command:
+
+     ./test.sh [start [stop]] 
+
+where:  start = the number of the first test to perform, default = 1
+        stop  = the number of the last test to perform, default = 22
+
+For example:
+
+     command                             what happens
+     ----------------------------------  --------------------------------
+     ./test.sh                           runs all of the tests
+     ./test.sh 1 1                       runs the first test
+     ./test.sh 2 3                       runs tests 2 and 3
+     ./test.sh 4                         runs test 4 through the last test
+
+
+After the tests are completed, the results can be found in the test directory.
+
+To clean up after the tests, type the command:
+
+     ./clean.sh
+
+
+D. Source version (for compilation)
+
+A compressed tar file, phreeqc-@VERSION@-@REVISION@.source.tar.gz, is used to
+distribute the source code and other files necessary to compile, test, install,
+and run PHREEQC on Unix operating systems. (A compiled executable for Linux is
+distributed in the Linux versions. See section C.)
+
+D.1. Extracting files
+
+Follow the steps below to extract the files from a distribution tar
+file. 
+
+  Steps in extracting files                  Explanation
+  ----------------------------------------   -----------------------------------
+  gunzip phreeqc-@VERSION@-@REVISION@.source.tar.gz   Uncompress the 
+  						    tar.gz file.
+
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.source.tar  Extract files from the tar
+                                                    file.
+
+The directory phreeqc-@VERSION@-@REVISION@ is created when the files are
+extracted; if this directory already exists, you may want to delete or rename
+it before extracting the files.
+
+The following directory structure is created (the contents of each directory
+are shown to the right):
+
+   phreeqc-@VERSION@-@REVISION@      Files related to configure
+     `--config      More configure files
+     `--database    Database files required during execution
+     `--doc         Documentation files 
+     `--examples    Examples from user's guide--used in verification tests
+     `--src         Source code
 
 Notes:  (a) A compiled executable is not included in the source
             distribution.
         (b) It is recommended that no user files be kept in the PHREEQC
-            directory structure.  If you plan to put files in the PHREEQC
-            directory structure, do so only by creating subdirectories.
+            directory structure.  
 
+D.2. Compiling, testing, installing
 
-D. Compiling and installing PHREEQC
+No support beyond this README file is provided for users compiling their own
+versions of the software. In general, to compile the software, you will need:
 
-If you can use the executable in the Linux.tar.gz version of the distribution
-of the software, skip to the Installing section below.
-
-If a compiled version of the software is not available for your computer or you
-want to build the executable yourself, follow the instructions in this section.
-The source distribution is provided for those users who want the source code.
-Little or no support is provided for users generating their own versions of the
-software.  In general, to compile a new version of the software, you will need:
-
-       (a) a C compiler, and
+       (a) a C++ compiler, and
        (b) a minimal level of knowledge of configure, Make, the compiler, and
            the Linux operating system.
 
-As provided in the source distribution, a Makefile can be generated by
-configure, and the Makefile can be used to compile the software.
+A Makefile can be generated by configure, and the Makefile can be used to
+compile, test, and install the software.
 
-To compile PHREEQC, do the following:
+To compile, test, and install PHREEQC, do the following:
 
 1.  Change directory to the directory that was extracted from the tar file.
 
@@ -168,19 +305,48 @@ To compile PHREEQC, do the following:
 	
 	make
 	
-6.  Check that compiled version runs the test cases
+6.  Check that compiled version runs the test cases. Check may take several
+	minutes.
 	
-	make check	
+	make check
+	
+    Results of running the test cases are stored in the directory
+    	
+    	Release/test
 
-7.  Install the program. By default the program is installed in
-    /usr/local/bin, /usr/local/lib, etc. You can specify an sstallation prefix
-    other than "/usr/local" by using the"--prefix", --prefix=$HOME for
-    example. 
+7.  Install the program. By default the program is installed in /usr/local/bin
+    and /usr/local/share/doc/phreeqc. You can specify an installation prefix
+    other than "/usr/local" by using the prefix option, prefix=$HOME for
+    example.
     
     	make install
+    	
+    The locations of various files are given (a) for default installation (make
+    install), and (b) if prefix is defined to be $HOME (make install prefix=
+    $HOME). $HOME is used to represent your home directory in the following
+    pathnames.
+    
+    Executable:
+      	(a) /usr/local/bin/phreeqc
+    	(b) $HOME/bin/phreeqc
+    	
+    Documentation (PDFs, README, NOTICE, phreeqc.txt):
+    	
+    	(a) /usr/local/share/doc/phreeqc
+    	(b) $HOME/share/doc/phreeqc
+    
+    Databases: 
+    
+    	(a) /usr/local/share/doc/phreeqc/databases
+    	(b) $HOME/share/doc/phreeqc/databases
+    
+    Example input files:
+    
+    	(a) /usr/local/share/doc/phreeqc/examples
+    	(b) $HOME/share/doc/phreeqc/examples
 
 
-E. Running the program
+D.3. Running
 
 If PHREEQC has been installed in a directory included in the users' PATH, the
 program can be executed with any of the commands below.
@@ -207,10 +373,9 @@ program can be executed with any of the commands below.
                                  file screen_output.
 
 For Linux, if the "make install" command described above has not been executed,
-the executable may be copied to the current directory. The executable is
-normally phreeqc-@VERSION@/bin/phreeqcpp. In addition the default database
-file, phreeqc.dat, may need to be in the current directory. Phreeqc.dat is
-installed in phreeqc-@VERSION@/database/phreeqc.dat.
+the executable may be copied to the current directory. In addition the default
+database file, phreeqc.dat, may need to be in the current directory.
+Phreeqc.dat is installed in phreeqc-@VERSION@/database/phreeqc.dat.
 
 The shell variable PHREEQC_DATABASE can be used to specify the default
 database. In the C shell, this variable can be set with the command:
@@ -228,57 +393,10 @@ in the script in the installation directory to
 phreeqc-@VERSION@/database/phreeqc.dat.  It is possible to specify a different
 default database by editing the script.
 
-F. Testing and example problems
-
-Input files are provided to verify that the program is correctly installed and
-running on the system.  The tests execute the examples presented in the user's
-guide, which demonstrate most of the program's capabilities. The PHREEQC
-"examples" directory contains the input data and the expected results for each
-test. 
-
-On Linux, you should copy the directory phreeqc-@VERSION@/test to an area where
-you have write access; the examples can be run from the copied directory.
-Change to the directory that you copied and type the command:
-
-     ./test.sh [start [stop]] 
-
-where:  start = the number of the first test to perform, default = 1
-        stop  = the number of the last test to perform, default = 22
-
-For example:
-
-     command                             what happens
-     ----------------------------------  --------------------------------
-     ./test.sh                           runs all of the tests
-     ./test.sh 1 1                       runs the first test
-     ./test.sh 2 3                       runs tests 2 and 3
-     ./test.sh 4                         runs test 4 through the last test
-
-
-After the tests are completed, the results are compared to the expected results
-(found in the examples directory).  See the file check.log; if all goes well,
-there should be few or no differences. Differences in path names and run times
-are insignificant.
-
-To clean up after the tests, type the command:
-
-     ./clean.sh
-
-Notes: The output data files for phreeqc-@VERSION@.@REVISION@.source.tar.gz
-       were created on a Linux system. You may notice slight numeric
-       differences in the results. These are generally due to different round-
-       off algorithms and the different architecture of the central processing
-       unit chip. Slight differences in output formats may occur on other
-       computers, particularly for the value 0.0.
-
-       Problem 9 generates a warning message that indicates negative
-       concentrations were generated in a kinetic run. The numerical method
-       automatically reduces the step size until negative concentrations are
-       eliminated and an accurate kinetic integration is obtained.
-
-       Problems 11, 12, 13, and 15 generate warning messages. The messages
-       simply indicate a shorthand method for defining cell lengths and cell
-       dispersivities was used.
+ 
+ ========================================
+ 
+E. Description of test cases
 
 The tests are described in the table below, where 'test' corresponds
 to the example number in the PHREEQC manual. 
@@ -338,7 +456,7 @@ test  description of test and files
  22   Modeling gas solubilities: CO2 at high pressures
 
 
-G. CONTACTS
+F. CONTACTS
 
 Inquiries about this software distribution should be directed to:
 
