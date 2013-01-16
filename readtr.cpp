@@ -1,8 +1,8 @@
 #include <iostream>				/* std::cout std::cerr */
 #include <sstream>
 #include <fstream>
-#include "../StorageBin.h"
-#include "../SS.h"
+#include "StorageBin.h"
+#include "SS.h"
 
 typedef unsigned char boolean;
 #include "Phreeqc.h"

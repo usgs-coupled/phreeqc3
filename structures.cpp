@@ -3615,7 +3615,7 @@ copier_init(struct copier *copier_ptr)
 		(int *) PHRQ_malloc((size_t) (copier_ptr->max * sizeof(int)));
 	return (OK);
 }
-#include "../StorageBin.h"
+#include "StorageBin.h"
 
 void Phreeqc::
 Use2cxxStorageBin(cxxStorageBin & sb)
