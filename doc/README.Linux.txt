@@ -42,11 +42,11 @@ A. Distribution files
 	The following distribution packages (containing the software, test data
 	sets, and information files) are currently available for Linux systems:
 
-phreeqc-@VERSION@-@REVISION@.Linux.tar.gz  --Compiled with @GCC_VER@ 
+phreeqc-@VERSION@-@REVISION@.@M32@.tar.gz  --Compiled with @GCC_VER@ 
                                          kernel @KERNEL_VER@
-phreeqc-@VERSION@-@REVISION@.Linux.x84_64.tar.gz--Compiled with @GCC_VER_64@ 
+phreeqc-@VERSION@-@REVISION@.@M64@.tar.gz--Compiled with @GCC_VER_64@ 
                                          kernel @KERNEL_VER_64@                                         
-phreeqc-@VERSION@-@REVISION@.source.tar.gz  --Source code, but no executable
+phreeqc-@VERSION@-@REVISION@.tar.gz  --Source code, but no executable
 
 
 B. Documentation

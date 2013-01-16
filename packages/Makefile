@@ -10,11 +10,15 @@ REL := $(shell svn st -v ../configure.ac | cut -b 10- | ( read one two ; echo $$
 
 TOP_DIR := $(shell pwd)
 
+M32 := $(shell ssh lobo7 'uname -m')
+
+M64 := $(shell ssh lobo2 'uname -m')
+
 CONF_PKG := $(NAME)-$(VER)-$(REL).tar.gz
 
-PKG_32 := $(NAME)-$(VER)-$(REL).i686.tar.gz
+PKG_32 := $(NAME)-$(VER)-$(REL).$(M32).tar.gz
 
-PKG_64 := $(NAME)-$(VER)-$(REL).x86_64.tar.gz
+PKG_64 := $(NAME)-$(VER)-$(REL).$(M64).tar.gz
 
 TARBALL := $(NAME)-src-$(VER)-$(REL).tar.gz
 
@@ -54,7 +58,7 @@ $(PKG_64) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/test.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/test/.
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/clean.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/test/.
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/share
-	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && tar cvzf $(NAME)-$(VER)-$(REL).$(shell ssh lobo02 'uname -m').tar.gz $(NAME)-$(VER)-$(REL)
+	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && tar cvzf $(NAME)-$(VER)-$(REL).$(shell ssh lobo2 'uname -m').tar.gz $(NAME)-$(VER)-$(REL)
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL).$(shell ssh lobo2 'uname -m').tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build64
@@ -82,7 +86,7 @@ $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/test.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/test/.
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/clean.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/test/.
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/share
-	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && tar cvzf $(NAME)-$(VER)-$(REL).$(shell ssh lobo07 'uname -m').tar.gz $(NAME)-$(VER)-$(REL)
+	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && tar cvzf $(NAME)-$(VER)-$(REL).$(shell ssh lobo7 'uname -m').tar.gz $(NAME)-$(VER)-$(REL)
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL).$(shell ssh lobo7 'uname -m').tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build32
