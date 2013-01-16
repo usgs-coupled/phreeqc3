@@ -86,8 +86,8 @@ $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL).$(shell ssh lobo7 'uname -m').tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build32
-	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
-	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make LDFLAGS=-all-static LIBGMP=/usr/lib/libgmp.a'
+	ssh lobo7 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
+	ssh lobo7 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make LDFLAGS=-all-static LIBGMP=/usr/lib/libgmp.a'
 
 $(NAME)-$(VER)-$(REL)/_build32 : $(CONF_PKG)
 	rm -rf $(NAME)-$(VER)-$(REL)
