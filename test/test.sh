@@ -22,8 +22,7 @@
 #
   PROGNM=PHREEQC
   TOPDIR=..
-#  PROG=$TOPDIR/bin/phreeqcpp
-  PROG=../src/Class_release_64/phreeqcpp
+  PROG=$TOPDIR/bin/phreeqc
   DATA=$TOPDIR/examples
   DB=$TOPDIR/database
   CHECK=$TOPDIR/test/check.sh
@@ -324,6 +323,3 @@
     echo "Completed $PROGNM test runs $Start to $Test"
     echo
   fi
-
-# check output against original output in $TOPDIR/data directory
-$CHECK 
