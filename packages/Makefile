@@ -58,8 +58,8 @@ $(PKG_64) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL).$(shell ssh lobo2 'uname -m').tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build64
-	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && ../configure CXXFLAGS="-O3 -Wall -ansi -pedantic -DNDEBUG" --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)'
-	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make LDFLAGS=-all-static'
+	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)'
+	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make LDFLAGS=-all-static LIBGMP=/usr/lib64/libgmp.a'
 
 $(NAME)-$(VER)-$(REL)/_build64 : $(CONF_PKG)
 	rm -rf $(NAME)-$(VER)-$(REL)
@@ -86,8 +86,8 @@ $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL).$(shell ssh lobo7 'uname -m').tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build32
-	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure CXXFLAGS="-O3 -Wall -ansi -pedantic -DNDEBUG" --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
-	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make LDFLAGS=-all-static'
+	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
+	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make LDFLAGS=-all-static LIBGMP=/usr/lib/libgmp.a'
 
 $(NAME)-$(VER)-$(REL)/_build32 : $(CONF_PKG)
 	rm -rf $(NAME)-$(VER)-$(REL)
