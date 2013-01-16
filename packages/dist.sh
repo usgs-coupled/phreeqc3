@@ -116,6 +116,10 @@ VER_UC=`echo $VERSION | sed -e "y/$LOWER/$UPPER/"`
 
 # format date string
 RELEASE_DATE="`date -d $RDATE  "+%B %e, %G"`"
+GCC_VER_64="`ssh lobo2 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
+GCC_VER="`ssh lobo7 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
+KERNEL_VER_64="`ssh lobo2 'uname -r'`"
+KERNEL_VER="`ssh lobo7 'uname -r'`"
 
 if [ -z "$REPOS_PATH" ]; then
   REPOS_PATH="branches/$VERSION"
@@ -161,10 +165,15 @@ for vsn_file in $SED_FILES
 do
   sed \
    -e "s/AC_INIT(.*)/AC_INIT([phreeqc], [$VERSION-$REVISION], [dlpark@usgs.gov])/g" \
-   -e "s/@VERSION@/$VER/g" \
-   -e "s/@PHREEQC_VER@/$VER/g" \
+   -e "s/@VERSION@/$VERSION/g" \
+   -e "s/@PHREEQC_VER@/$VERSION/g" \
    -e "s/@VER_DATE@/$RELEASE_DATE/g" \
    -e "s/@PHREEQC_DATE@/$RELEASE_DATE/g" \
+   -e "s/@REVISION@/$REVISION/g" \
+   -e "s/@GCC_VER@/$GCC_VER/g" \
+   -e "s/@KERNEL_VER@/$KERNEL_VER/g" \
+   -e "s/@GCC_VER_64@/$GCC_VER_64/g" \
+   -e "s/@KERNEL_VER_64@/$KERNEL_VER_64/g" \
     < "$vsn_file" > "$vsn_file.tmp"
   mv -f "$vsn_file.tmp" "$vsn_file"
   if [ -n "$WIN" ]; then

@@ -10,6 +10,10 @@ REL := $(shell svn st -v ../configure.ac | cut -b 10- | ( read one two ; echo $$
 
 CONF_PKG := $(NAME)-$(VER)-$(REL).tar.gz
 
+PKG_32 := $(NAME)-$(VER)-$(REL).i686.tar.gz
+
+PKG_64 := $(NAME)-$(VER)-$(REL).x86_64.tar.gz
+
 TARBALL := $(NAME)-src-$(VER)-$(REL).tar.gz
 
 REPOS_PATH ?= trunk
@@ -20,6 +24,8 @@ all : $(CONF_PKG)
 	@echo "REL=$(REL)"         >> history
 	@echo "==================" >> history
 
+conf : $(CONF_PKG)
+
 $(CONF_PKG) : $(TARBALL)
 	rm -rf $(NAME)-$(VER)-$(REL)
 	tar xvzf $(TARBALL)
@@ -29,6 +35,19 @@ $(CONF_PKG) : $(TARBALL)
 	cd $(NAME)-src-$(VER)-$(REL) && cd _build && make distcheck
 	mv $(NAME)-src-$(VER)-$(REL)/_build/$(CONF_PKG) .
 	rm -rf $(NAME)-src-$(VER)-$(REL)
+
+64 : $(PKG_64)
+
+$(PKG_64) : $(CONF_PKG)
+	rm -rf $(NAME)-$(VER)-$(REL)
+	tar xvzf $(CONF_PKG)
+	cd $(NAME)-$(VER)-$(REL) && mkdir _build
+	cd $(NAME)-$(VER)-$(REL)/_build && mkdir $(NAME)-$(VER)-$(REL)
+	ssh lobo2 'cd `pwd`/$(NAME)-$(VER)-$(REL)/_build && ../configure CXXFLAGS="-O3 -Wall -ansi -pedantic -DNDEBUG" --prefix=`pwd`/$(NAME)-$(VER)-$(REL)'
+	ssh lobo2 'cd `pwd`/$(NAME)-$(VER)-$(REL)/_build && make install'
+	echo "TODO"
+
+
 
 $(TARBALL) : dist.sh
 ifeq ($(DATE),)
