@@ -3,9 +3,6 @@
 
 testdir = $(docdir)/test
 
-##dist_test_DATA = test.sh check.sh clean.sh
-##dist_test_SCRIPTS = test.sh check.sh clean.sh
-
 TESTS = ex1 ex2 ex2b ex3 ex4 ex5 ex6 ex7 ex8 ex9 ex10 ex11 ex12 ex12a ex13a \
         ex13b ex13c ex13ac ex14 ex15 ex15a ex15b ex16 ex17 ex17b ex18 ex19 \
         ex19b ex20a ex20b ex21 ex22
