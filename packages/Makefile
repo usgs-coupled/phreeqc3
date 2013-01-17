@@ -10,9 +10,9 @@ REL := $(shell svn st -v ../configure.ac | cut -b 10- | ( read one two ; echo $$
 
 TOP_DIR := $(shell pwd)
 
-M32 := $(shell ssh lobo7 'uname -m')
+M32 := $(shell ssh lobo7 'uname -m' 2> /dev/null)
 
-M64 := $(shell ssh lobo2 'uname -m')
+M64 := $(shell ssh lobo2 'uname -m' 2> /dev/null)
 
 CONF_PKG := $(NAME)-$(VER)-$(REL).tar.gz
 
@@ -48,7 +48,7 @@ $(CONF_PKG) : $(TARBALL)
 $(PKG_64) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)
 	mkdir $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)
-	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make install
+	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make install'
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/share/doc/phreeqc $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/doc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/doc/README $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/.
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/doc/RELEASE $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/.
@@ -58,8 +58,8 @@ $(PKG_64) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/test.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/test/.
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/clean.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/test/.
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/share
-	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && tar cvzf $(NAME)-$(VER)-$(REL).$(shell ssh lobo2 'uname -m').tar.gz $(NAME)-$(VER)-$(REL)
-	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL).$(shell ssh lobo2 'uname -m').tar.gz .
+	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && tar cvzf $(NAME)-$(VER)-$(REL).$(M64).tar.gz $(NAME)-$(VER)-$(REL)
+	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL).$(M64).tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build64
 	ssh lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)'
@@ -76,7 +76,7 @@ $(NAME)-$(VER)-$(REL)/_build64 : $(CONF_PKG)
 $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)
 	mkdir $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)
-	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make install
+	ssh lobo7 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make install'
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/share/doc/phreeqc $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc/README $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/.
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc/RELEASE $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/.
@@ -86,8 +86,8 @@ $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/test.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/test/.
 	install $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/test/clean.sh $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/test/.
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/share
-	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && tar cvzf $(NAME)-$(VER)-$(REL).$(shell ssh lobo7 'uname -m').tar.gz $(NAME)-$(VER)-$(REL)
-	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL).$(shell ssh lobo7 'uname -m').tar.gz .
+	cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && tar cvzf $(NAME)-$(VER)-$(REL).$(M32).tar.gz $(NAME)-$(VER)-$(REL)
+	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL).$(M32).tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build32
 	ssh lobo7 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
