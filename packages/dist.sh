@@ -120,6 +120,8 @@ GCC_VER_64="`ssh -q lobo2 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
 GCC_VER="`ssh -q lobo7 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
 KERNEL_VER_64="`ssh -q lobo2 'uname -r'`"
 KERNEL_VER="`ssh -q lobo7 'uname -r'`"
+M32="`ssh -q lobo7 'uname -m'`"
+M64="`ssh -q lobo2 'uname -m'`"
 
 if [ -z "$REPOS_PATH" ]; then
   REPOS_PATH="branches/$VERSION"
@@ -174,6 +176,8 @@ do
    -e "s/@KERNEL_VER@/$KERNEL_VER/g" \
    -e "s/@GCC_VER_64@/$GCC_VER_64/g" \
    -e "s/@KERNEL_VER_64@/$KERNEL_VER_64/g" \
+   -e "s/@M32@/$M32/g" \
+   -e "s/@M64@/$M64/g" \
     < "$vsn_file" > "$vsn_file.tmp"
   mv -f "$vsn_file.tmp" "$vsn_file"
   if [ -n "$WIN" ]; then
