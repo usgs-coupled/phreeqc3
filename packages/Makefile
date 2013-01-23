@@ -99,6 +99,8 @@ $(NAME)-$(VER)-$(REL)/_build32 : $(CONF_PKG)
 	mkdir $(NAME)-$(VER)-$(REL)/_build32
 
 
+tarball : $(TARBALL)
+
 $(TARBALL) : dist.sh
 ifeq ($(DATE),)
 	$(error usage: make DATE=<m/d/yyyy> VER=<x.y.z> [REL=x])
