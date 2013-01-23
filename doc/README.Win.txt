@@ -100,8 +100,8 @@ completely independent from the batch version.
 To execute the GUI, access the program through the start menus of Windows. 
 
 By default, the software is installed in the directory C:\Program
-Files\USGS\phreeqci-@VERSION@.@REVISION@ for 32-bit operating systems or
-C:\Program Files (x86)\USGS\phreeqci-@VERSION@.@REVISION@ for 64-bit operating
+Files\USGS\phreeqci-@VERSION@-@REVISION@ for 32-bit operating systems or
+C:\Program Files (x86)\USGS\phreeqci-@VERSION@-@REVISION@ for 64-bit operating
 systems.  This is the recommended installation directory, but you may use other
 directories or disk drives.
 
@@ -125,8 +125,8 @@ directory without needing to type the full pathname of the program's location.
 The batch version is completely independent from the GUI version.
 
 By default, the software is installed in the directory C:\Program
-Files\USGS\phreeqc-@VERSION@.@REVISION@ (32-bit operating system) or C:\Program
-Files (x86)\USGS\phreeqc-@VERSION@.@REVISION@ (64-bit operating system). This is
+Files\USGS\phreeqc-@VERSION@-@REVISION@ (32-bit operating system) or C:\Program
+Files (x86)\USGS\phreeqc-@VERSION@-@REVISION@ (64-bit operating system). This is
 the recommended installation directory, but you may use other directories or
 disk drives. The following documentation assumes default installation for a 64-
 bit operating system.
@@ -140,7 +140,7 @@ program will be executed.
 The following directory structure will be created (the contents of each
 directory are shown to the right):
 
-C:\Program Files (x86)\USGS\phreeqc-@VERSION@.@REVISION@
+C:\Program Files (x86)\USGS\phreeqc-@VERSION@-@REVISION@
                           Files NOTICE.TXT, RELEASE.TXT, this file
 			  (README.TXT), and Visual Studio project files
              
@@ -200,16 +200,16 @@ commands below.
                                  
 Three alternative options exist for running the program: (1) the full pathname to
 the batch file can be used in place of "phreeqc" in the above commands
-("C:\Program Files (x86)USGS\phreeqc-@VERSION@.@REVISION@\bin\phreeqc.bat").
+("C:\Program Files (x86)USGS\phreeqc-@VERSION@-@REVISION@\bin\phreeqc.bat").
 Note that because of the space present in "Program Files", quotation marks must
 be used to enter the full pathname); (2) the full path to one of the executable
 files can be used in place of "phreeqc" in the above commands 
-("C:\Program Files (x86)USGS\phreeqc-@VERSION@.@REVISION@\bin\Release\phreeqc.exe",
+("C:\Program Files (x86)USGS\phreeqc-@VERSION@-@REVISION@\bin\Release\phreeqc.exe",
 for example); or (3) an executable ("C:\Program Files (x86)\USGS\
-phreeqc-@VERSION@.@REVISION@\bin\ClrRelease\phreeqc.exe, for example) may be
+phreeqc-@VERSION@-@REVISION@\bin\ClrRelease\phreeqc.exe, for example) may be
 copied to the current directory and executed with .\phreeqc. The database file
 may need to be in the current directory. The default database file is installed
-in C:\Program Files (x86)\USGS\phreeqc-@VERSION@.@REVISION@\database\phreeqc.dat.
+in C:\Program Files (x86)\USGS\phreeqc-@VERSION@-@REVISION@\database\phreeqc.dat.
 
 Two executables are distributed in subdirectories of the bin directory. The
 executable (phreeqc.exe) in \bin\ClrRelease has charting capabilities. The
@@ -239,7 +239,7 @@ guide, which demonstrate most of the program's capabilities. The PHREEQC
 test. 
 
 To run the examples, copy the "test" directory (C:\Program Files (x86)
-\USGS\phreeqc-@VERSION@.@REVISION@\test) to a location where you have
+\USGS\phreeqc-@VERSION@-@REVISION@\test) to a location where you have
 read/write access. The examples can be run from the new directory either by
 double clicking the test.bat file from Windows Explorer or by changing
 directories to the new directory in a command-prompt window and typing the
