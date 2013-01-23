@@ -5,12 +5,13 @@ README.TXT
        A program for speciation, batch-reaction, one-dimensional 
             transport, and inverse geochemical calculations
 
-This file describes batch versions of PHREEQC version 3 for Linux. The "Linux"
-versions (32- and 64-bit) contain an executable file compiled for Linux,
-whereas the "source" version has no executable file, but has the files
+This file describes batch versions of PHREEQC version 3 for Linux. The @M32@
+(32-bit) and @M64@ (64-bit) versions, referred to as "Linux" versions, contain
+an executable file compiled for Linux, whereas the plain .tar.gz version,
+referred to as the "source" version, has no executable file, but has the files
 necessary to configure and compile PHREEQC on any Unix operating system.
 
-Instructions for installing, executing, and testing on Windows operating
+Instructions for installing, executing, and testing on Linux operating
 systems are provided below. After installation, see the root or doc directory
 of the PHREEQC installation for summary information on PHREEQC in phreeqc.txt
 and the new features and bug fixes in RELEASE.TXT.
@@ -42,11 +43,11 @@ A. Distribution files
 	The following distribution packages (containing the software, test data
 	sets, and information files) are currently available for Linux systems:
 
-phreeqc-@VERSION@-@REVISION@.@M32@.tar.gz  --Compiled with @GCC_VER@ 
+phreeqc-@VERSION@-@REVISION@.@M32@.tar.gz--Compiled with @GCC_VER@ 
                                          kernel @KERNEL_VER@
 phreeqc-@VERSION@-@REVISION@.@M64@.tar.gz--Compiled with @GCC_VER_64@ 
                                          kernel @KERNEL_VER_64@                                         
-phreeqc-@VERSION@-@REVISION@.tar.gz  --Source code, but no executable
+phreeqc-@VERSION@-@REVISION@.tar.gz      --Source code, but no executable
 
 
 B. Documentation
@@ -59,7 +60,7 @@ Parkhurst, D.L., and Appelo, C.A.J., 2013, Description of input and examples
    for PHREEQC version 3--A computer program for speciation, batch-reaction,
    one- dimensional transport, and inverse geochemical calculations: U.S.
    Geological Survey Techniques and Methods, book 6, chap. A43, 497 p.
-   http://pubs.usgs.gov/tm/06A43/.
+   http://pubs.usgs.gov/tm/06/a43/.
 
 Parkhurst, D.L., and Appelo, C.A.J., 1999, User's guide to PHREEQC (Version
    2)-- A computer program for speciation, batch-reaction, one-dimensional
@@ -94,11 +95,13 @@ C. Linux versions (with executable)
 Compressed tar files, phreeqc-@VERSION@-@REVISION@.Linux.tar.gz and
 phreeqc-@VERSION@-@REVISION@.Linux.x86_64.tar.gz, are used to distribute the
 source code and the compiled executable for Linux operating systems. The 32-bit
-Linux executable file is compiled with @GCC_VER@ kernel @KERNEL_VER_64@ and the
-64-bit Linux executable file is compiled with @GCC_VER_64@ kernel @KERNEL_VER@.
+Linux executable file is compiled with 
+@GCC_VER@ kernel @KERNEL_VER_64@ 
+and the 64-bit Linux executable file is compiled with 
+@GCC_VER_64@ kernel @KERNEL_VER@.
 All of the files needed to run and test PHREEQC are contained in each tar file.
 (If you want to compile the program yourself, the file
-phreeqc-@VERSION@-@REVISION@.source.tar.gz contains all of the files needed to
+phreeqc-@VERSION@-@REVISION@.tar.gz contains all of the files needed to
 configure, compile, test, and install PHREEQC. See Section D for details.)
 
 
@@ -107,24 +110,19 @@ C.1. Extracting files
 Follow the steps below to extract the files from a distribution tar
 file. 
 
-  Steps in extracting files                 	Explanation
-  ----------------------------------------  	-----------------------------------
+  Steps in extracting files                 	 Explanation
+  ----------------------------------------  	 -----------------------------------
   For the 32-bit version:
 
-  gunzip phreeqc-@VERSION@-@REVISION@.Linux.tar.gz   
-  						Uncompress the tar.gz file.
+  gunzip phreeqc-@VERSION@-@REVISION@.i686.tar.gz          Uncompress the tar.gz file.
 
-  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.tar 
-    						Extract files from the tar file.
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.i686.tar         Extract files from the tar file.
                                                    
   or, for the 64-bit version:
   
-  gunzip phreeqc-@VERSION@-@REVISION@.Linux.x86_64.tar.gz   
-  						Uncompress the tar.gz file.
+  gunzip phreeqc-@VERSION@-@REVISION@.x86_64.tar.gz        Uncompress the tar.gz file.
 
-  tar -xvpof phreeqc-@VERSION@-@REVISION@.Linux.x86_64.tar  
-  						Extract files from the tar
-                                                file. 
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.x86_64.tar       Extract files from the tar file. 
 
 The directory phreeqc-@VERSION@-@REVISION@ is created when the files are
 extracted; if this directory already exists, you may want to delete or rename
@@ -133,12 +131,11 @@ it before extracting the files.
 The following directory structure is created (the contents of each
 directory are shown to the right):
 
-   phreeqc-@VERSION@-@REVISION@      Files NOTICE.TXT, RELEASE.TXT, and this README.Linux.txt
+   phreeqc-@VERSION@-@REVISION@      Files NOTICE.TXT, RELEASE, and (this file) README 
      `--bin         Compiled executable
      `--database    Database files (one is required for execution)
      `--doc         Documentation files 
      `--examples    Examples from user's guide--used in verification tests
-     `--src         Source code
      `--test        Scripts to run verification tests
 
 Notes:  It is recommended that no user files be kept in the PHREEQC directory
@@ -180,8 +177,9 @@ In addition a database file may need to be in the current directory.
 Phreeqc.dat is generally used by default and is found at
 phreeqc-@VERSION@-@REVISION@/database/phreeqc.dat.
 
-The shell variable PHREEQC_DATABASE can be used to specify the default
-database. In the C shell, this variable can be set with a command such as:
+The shell variable PHREEQC_DATABASE can be used to specify the default database.
+In the C shell, this variable can be set (assuming the tar file was extracted in
+the directory /home/jdoe) with a command such as:
 
   setenv PHREEQC_DATABASE /home/jdoe/phreeqc-@VERSION@-@REVISION@/database/phreeqc.dat
 
@@ -191,7 +189,7 @@ In the Bourne or Korn shell, this variable can be set with the command:
 
 The shell variable can be set permanently by including the appropriate command
 in a file that is read when the shell is initiated, frequently $HOME/.login or
-$HOME/.profile.  If this shell variable is not set, the default database is
+$HOME/.profile. If this shell variable is not set, the default database is
 assumed to be phreeqc.dat in the current directory.  
 
 
@@ -202,7 +200,7 @@ running on the system.  The tests execute the examples presented in the user's
 guide, which demonstrate most of the program's capabilities. The directory
 phreeqc-@VERSION@-@REVISION@/examples contains the input data for each test.
 
-Provided that the directory phreeqc-@VERSION@/test is a directory where
+Provided that the directory phreeqc-@VERSION@-@REVISION@/test is a directory where
 you have write access; the examples can be run from that directory.
 Change to the directory and type the command:
 
@@ -230,7 +228,7 @@ To clean up after the tests, type the command:
 
 D. Source version (for compilation)
 
-A compressed tar file, phreeqc-@VERSION@-@REVISION@.source.tar.gz, is used to
+A compressed tar file, phreeqc-@VERSION@-@REVISION@.tar.gz, is used to
 distribute the source code and other files necessary to compile, test, install,
 and run PHREEQC on Unix operating systems. (A compiled executable for Linux is
 distributed in the Linux versions. See section C.)
@@ -242,11 +240,9 @@ file.
 
   Steps in extracting files                  Explanation
   ----------------------------------------   -----------------------------------
-  gunzip phreeqc-@VERSION@-@REVISION@.source.tar.gz   Uncompress the 
-  						    tar.gz file.
+  gunzip phreeqc-@VERSION@-@REVISION@.source.tar.gz           Uncompress the tar.gz file.
 
-  tar -xvpof phreeqc-@VERSION@-@REVISION@.source.tar  Extract files from the tar
-                                                    file.
+  tar -xvpof phreeqc-@VERSION@-@REVISION@.source.tar          Extract files from the tar file.
 
 The directory phreeqc-@VERSION@-@REVISION@ is created when the files are
 extracted; if this directory already exists, you may want to delete or rename
@@ -261,6 +257,7 @@ are shown to the right):
      `--doc         Documentation files 
      `--examples    Examples from user's guide--used in verification tests
      `--src         Source code
+     `--test        Files used to test the compilation
 
 Notes:  (a) A compiled executable is not included in the source
             distribution.
@@ -337,8 +334,8 @@ To compile, test, and install PHREEQC, do the following:
     
     Databases: 
     
-    	(a) /usr/local/share/doc/phreeqc/databases
-    	(b) $HOME/share/doc/phreeqc/databases
+    	(a) /usr/local/share/doc/phreeqc/database
+    	(b) $HOME/share/doc/phreeqc/database
     
     Example input files:
     
@@ -375,10 +372,11 @@ program can be executed with any of the commands below.
 For Linux, if the "make install" command described above has not been executed,
 the executable may be copied to the current directory. In addition the default
 database file, phreeqc.dat, may need to be in the current directory.
-Phreeqc.dat is installed in phreeqc-@VERSION@/database/phreeqc.dat.
+Phreeqc.dat is in phreeqc-@VERSION@-@REVISION@/database/phreeqc.dat.
 
 The shell variable PHREEQC_DATABASE can be used to specify the default
-database. In the C shell, this variable can be set with the command:
+database. In the C shell, this variable can be set (assuming your database
+is named /home/jdoe/local/project/mydata.dat) with the command:
 
   setenv PHREEQC_DATABASE /home/jdoe/local/project/mydata.dat
 
@@ -388,13 +386,9 @@ In the Bourne or Korn shell, this variable can be set with the command:
 
 The shell variable can be set permanently by including the appropriate command
 in a file that is read when the shell is initiated, frequently $HOME/.login or
-$HOME/.profile.  If this shell variable is not set, the default database is set
-in the script in the installation directory to
-phreeqc-@VERSION@/database/phreeqc.dat.  It is possible to specify a different
-default database by editing the script.
+$HOME/.profile. If this shell variable is not set, the default database is
+assumed to be phreeqc.dat in the current directory.   
 
- 
- ========================================
  
 E. Description of test cases
 
