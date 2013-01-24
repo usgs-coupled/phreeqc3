@@ -11,19 +11,21 @@
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.0\Wix.targets</WixTargetsPath>
     <Major Condition=" '$(Major)' == '' ">0</Major>
     <Minor Condition=" '$(Minor)' == '' ">0</Minor>
+    <Patch Condition=" '$(Patch)' == '' ">0</Patch>
     <Build Condition=" '$(Build)' == '' ">0</Build>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;Major=$(Major);Minor=$(Minor);Build=$(Build)</DefineConstants>
+    <DefineConstants>Debug;Major=$(Major);Minor=$(Minor);Patch=$(Patch);Build=$(Build)</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Major=$(Major);Minor=$(Minor);Build=$(Build)</DefineConstants>
+    <DefineConstants>Major=$(Major);Minor=$(Minor);Patch=$(Patch);Build=$(Build)</DefineConstants>
     <SuppressIces>
     </SuppressIces>
+    <SuppressValidation>True</SuppressValidation>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
