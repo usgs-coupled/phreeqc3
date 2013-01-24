@@ -37,8 +37,9 @@ tscriptname=`basename $0 .sh`
 export PKG=`echo $tscriptname | sed -e 's/\-[^\-]*\-[^\-]*$//'`
 export VER=`echo $tscriptname | sed -e "s/${PKG}\-//" -e 's/\-[^\-]*$//'`
 export REL=`echo $tscriptname | sed -e "s/${PKG}\-${VER}\-//"`
-export MAJOR=`echo $VER | sed -e 's/\.[^.]*//g'`
-export MINOR=`echo $VER | sed -e 's/[^\.]*\.//' -e 's/\.[^\.]*//'`
+export MAJOR=`echo $VER | sed -e 's/\./ /g' | awk '{ print $1 }'`
+export MINOR=`echo $VER | sed -e 's/\./ /g' | awk '{ print $2 }'`
+export PATCH=`echo $VER | sed -e 's/\./ /g' | awk '{ print $3 }'`
 export BASEPKG=${PKG}-${VER}-${REL}
 export FULLPKG=${BASEPKG}
 export TOUCH_STAMP=`date -d ${DATE} "+%Y%m%d0000"`
@@ -178,32 +179,7 @@ build() {
   cd ${objdir} && \
   MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release && \
   cd ${objdir}/msi && \
-  MSBuild.exe msi.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Build=${REL} )
-}
-build_orig() {
-  (rm -fr ${instdir}/* && \
-  cd ${objdir} && \
-  MSBuild.exe phreeqcpp.2005.sln /t:phreeqcpp /p:Configuration=ClrClass_release && \
-  cd ${objdir}/src && \
-  make win_dist REVISION="${REL}" TEXTCP="cp" CURSRC="src"&& \
-  mkdir -p ${instdir}/${PKG}-${VER} && \
-  cd ${instdir}/${PKG}-${VER} && \
-  tar xvzf ${objdir}/src/phreeqc_export/*.Windows.tar.gz && \
-  mv ${instdir}/${PKG}-${VER}/database/* ${instdir}/${PKG}-${VER} && \
-  rmdir ${instdir}/${PKG}-${VER}/database && \
-  mkdir -p ${instdir}/${PKG}-${VER}/src/Release && \
-  cp -al ${objdir}/build/win32/Release/phreeqc.exe ${instdir}/${PKG}-${VER}/src/Release/. && \
-  if [ "${SKIP_TEST}" -eq 0 ] ; then \
-    cd ${instdir}/${PKG}-${VER}/test && \
-    cmd /c test.bat && \
-    mv *.out *.sel ../examples/. && \
-    cmd /c clean.bat; \
-  fi && \
-  find ${objdir} | xargs touch -t "${TOUCH_STAMP}" && \
-  find ${instdir} | xargs touch -t "${TOUCH_STAMP}" && \
-  cp ${instdir}/${PKG}-${VER}/examples/* ${objdir}/examples/. && \
-  cd ${objdir} && \
-  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Build=${REL} )
+  MSBuild.exe msi.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Patch=${PATCH} /p:Build=${REL} )
 }
 check() {
   (cd ${objdir} && \
