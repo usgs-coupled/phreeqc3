@@ -1415,7 +1415,11 @@ status(int count, const char *str, bool rk_string)
 		return (OK);
 	}
 	t2 = clock();
-	if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
+	if (((state < ADVECTION && reaction_step < count_total_steps) || 
+		(state == ADVECTION && (advection_step < count_ad_shifts || cell_no < count_cells)) || 
+		(state == TRANSPORT && (transport_step < count_shifts || cell_no < count_cells + (stag_data->count_stag == 0 ? 
+		                                               0 : stag_data->count_stag * count_cells + 2))))
+		&& (int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
 		return (OK);
 	else
 		status_timer = t2;

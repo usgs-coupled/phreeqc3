@@ -27,6 +27,7 @@ clean_up(void)
 	int i, j;
 #if defined MULTICHART
 	chart_handler.End_timer();
+	output_flush();
 	// Wait for charts to end
 	while (0 != this->chart_handler.Get_active_charts())
 	{

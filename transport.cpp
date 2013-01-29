@@ -563,6 +563,7 @@ transport(void)
 			{
 				if (i == first_c && count_cells > 1)
 					kin_time /= 2;
+				cell_no = i;
 				if (multi_Dflag)
 					sprintf(token,
 							"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
@@ -572,7 +573,6 @@ transport(void)
 							"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
 							transport_step, 0, i, max_iter);
 				status(0, token);
-				cell_no = i;
 				run_reactions(i, kin_time, NOMIX, step_fraction);
 				if (multi_Dflag == TRUE)
 					fill_spec(i);
