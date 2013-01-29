@@ -1,0 +1,62 @@
+#DATABASE c:\phreeqc\database\pitzer.dat
+DATABASE ../database/pitzer.dat
+PITZER
+# Coefficients from Pabalan and Pitzer, 1987, GCA 51, 2429.
+-B0;  Mg+2  Cl-  0.351  0  0  -9.32e-4  5.94e-7
+-B1;  Mg+2  Cl-  1.65  0  0  -1.09e-2  2.60e-5
+-C0;  Mg+2  Cl-  0.00651  0  0  -2.50e-4  2.418e-7
+
+-B0;  K+  Cl-  0.04808  -758.48  -4.7062 0.010072  -3.7599e-6
+-B1;  K+  Cl-  0.2168  0  -6.895  2.262e-2  -9.293e-6  -1e5
+-C0;  K+  Cl-  -7.88E-04  91.27  0.58643  -1.298e-3  4.9567e-7
+
+-PSI; K+  Mg+2  Cl-  -0.022  -14.27
+
+PHASES
+Carnallite
+	KMgCl3:6H2O  =  K+ + Mg++ + 3Cl- + 6H2O
+	log_k	 4.35; -delta_h 1.17
+	-analytical_expression  24.06  -3.11e-2  -3.09e3
+	Vm 173.7
+SOLUTION 1
+ pH 2 charge
+ Mg 7e3
+ K 1e-4 Carnallite
+ Cl 14e3
+END
+
+
+USE solution 1
+EQUILIBRIUM_PHASES 1;  Carnallite
+REACTION 1; KCl 1; 6 in 30
+REACTION_TEMPERATURE 
+ 0
+USER_GRAPH 1
+-headings 0.oC
+-chart_title "Carnallite solubility"
+-axis_titles "MgCl2 / (mol/kgw)" "KCl / (mol/kgw)"
+-axis_scale y_axis 0 1.2
+-axis_scale x_axis 3 8
+-plot_csv_file Carnallite.csv
+10 graph_x tot("Mg")
+20 graph_y tot("K")
+-end
+#PRINT; -reset false; -status false
+PRINT; -status false
+END
+
+USE solution 1
+USE equilibrium_phases 1
+USE reaction 1
+REACTION_TEMPERATURE 1
+ 35
+USER_GRAPH 1; -headings 35
+END
+
+USE solution 1
+USE equilibrium_phases 1
+USE reaction 1
+REACTION_TEMPERATURE 1
+ 75
+USER_GRAPH 1; -headings 75
+END

@@ -1,0 +1,1917 @@
+   Input file: MgCl2
+  Output file: MgCl2.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	PITZER
+	b0
+	  Mg+2  Cl-  0.351  0  0  -9.32e-4  5.94e-7
+WARNING: Redefinition of parameter, Mg+2 Cl-
+
+	b1
+	  Mg+2  Cl-  1.65  0  0  -1.09e-2  2.60e-5
+WARNING: Redefinition of parameter, Mg+2 Cl-
+
+	c0
+	  Mg+2  Cl-  0.00651  0  0  -2.50e-4  2.418e-7
+WARNING: Redefinition of parameter, Mg+2 Cl-
+
+	PHASES
+	Bischofite
+		MgCl2:6H2O  =  Mg+2 + 2 Cl- + 6 H2O
+		log_k	   4.455
+		analytical_expression  7.526  -1.114e-2  115.7
+		Vm 127.1
+	MgCl2_4H2O
+		MgCl2:4H2O  =  Mg+2 + 2 Cl- + 4 H2O
+		analytical_expression  12.98  -2.013e-2
+	MgCl2_2H2O
+		MgCl2:2H2O  =  Mg+2 + 2 Cl- + 2 H2O
+		analytical_expression  -10.273  0  7.403e3
+	SOLUTION 1
+	REACTION_TEMPERATURE 
+	0, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 116
+	EQUILIBRIUM_PHASES
+	Bischofite 0 300
+	USER_GRAPH 1
+	-chart_title "Mg-hydrates' solubility"
+	-axis_titles "mol MgCl2 / kgw" "temperature / oC"
+	-headings Bischofite
+	10 data 5.586, 5.676, 5.721, 5.766, 5.811, 5.901, 5.946, 6.036, 6.261, 6.396, 6.667, 6.982, 7.342, 7.703, 9.009
+	20 dim c(30)
+	30 for i = 1 to 15
+	40   read c(i)
+	50 next i
+	60 plot_xy tot("Mg"), tc, symbol_size = 0 color = Red
+	70 plot_xy c(step_no), tc, line_width = 0, color = Red
+	-end
+	PRINT
+	 status false
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.004e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  7.510e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -7.510e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.37
+                               Iterations  =   3
+                         Gamma iterations  =   2
+                      Osmotic coefficient  =   0.99988
+                         Density of water  =   0.99706
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.008e-007  1.008e-007    -6.997    -6.997    -0.000     -3.91
+   H+             1.000e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2O(g)           -1.50     -0.00    1.50  H2O
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite       -0.00     4.91      4.91   3.000e+002  2.861e+002 -1.393e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.112e+001  2.787e+001
+	Mg               5.560e+000  1.393e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.931      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 0 oC) = 720602
+                          Density (g/cm3)  =   1.32081
+                               Volume (L)  =   2.90170
+                        Activity of water  =   0.325
+                           Ionic strength  =  1.668e+001
+                       Mass of water (kg)  =  2.506e+000
+                 Total alkalinity (eq/kg)  =  2.997e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =   0.00
+                  Electrical balance (eq)  = -6.108e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  63
+                         Gamma iterations  =  13
+                      Osmotic coefficient  =   3.73588
+                         Density of water  =   0.99983
+                                  Total H  = 2.782041e+002
+                                  Total O  = 1.391020e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.691e-006  1.173e-003    -5.772    -2.931     2.841      0.00
+   OH-            1.349e-010  3.106e-013    -9.870   -12.508    -2.638     11.95
+   H2O            5.551e+001  3.255e-001     1.744    -0.488     0.000     18.02
+Cl           1.112e+001
+   Cl-            1.112e+001  1.144e+001     1.046     1.059     0.012     21.41
+Mg           5.560e+000
+   Mg+2           5.560e+000  1.000e+003     0.745     5.715     4.970    -14.44
+   MgOH+          1.691e-006  2.062e-005    -5.772    -4.686     1.086     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(273 K,   1 atm)
+
+	Bischofite       -0.00      4.91    4.91  MgCl2:6H2O
+	Brucite          -8.10    -19.30  -11.21  Mg(OH)2
+	H2O(g)           -2.70     -0.49    2.21  H2O
+	MgCl2_2H2O       -9.97      6.86   16.83  MgCl2:2H2O
+	MgCl2_4H2O       -1.60      5.88    7.48  MgCl2:4H2O
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.78      4.78   3.000e+002  2.854e+002 -1.461e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.133e+001  2.921e+001
+	Mg               5.664e+000  1.461e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.760      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 10 oC) = 999221
+                          Density (g/cm3)  =   1.32044
+                               Volume (L)  =   3.00612
+                        Activity of water  =   0.324
+                           Ionic strength  =  1.699e+001
+                       Mass of water (kg)  =  2.579e+000
+                 Total alkalinity (eq/kg)  =  2.912e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  10.00
+                  Electrical balance (eq)  = -7.230e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  47
+                         Gamma iterations  =  12
+                      Osmotic coefficient  =   3.68347
+                         Density of water  =   0.99974
+                                  Total H  = 2.862786e+002
+                                  Total O  = 1.431393e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.573e-006  1.739e-003    -5.590    -2.760     2.830      0.00
+   OH-            2.383e-010  5.385e-013    -9.623   -12.269    -2.646     13.87
+   H2O            5.551e+001  3.238e-001     1.744    -0.490     0.000     18.02
+Cl           1.133e+001
+   Cl-            1.133e+001  1.148e+001     1.054     1.060     0.006     21.32
+Mg           5.664e+000
+   Mg+2           5.664e+000  1.000e+003     0.753     5.599     4.846    -13.43
+   MgOH+          2.573e-006  2.890e-005    -5.590    -4.539     1.051     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(283 K,   1 atm)
+
+	Bischofite        0.00      4.78    4.78  MgCl2:6H2O
+	Brucite          -7.87    -18.94  -11.07  Mg(OH)2
+	H2O(g)           -2.40     -0.49    1.91  H2O
+	MgCl2_2H2O       -9.13      6.74   15.87  MgCl2:2H2O
+	MgCl2_4H2O       -1.52      5.76    7.28  MgCl2:4H2O
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.72      4.72   3.000e+002  2.850e+002 -1.499e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.144e+001  2.997e+001
+	Mg               5.720e+000  1.499e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.677      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 15 oC) = 1157000
+                          Density (g/cm3)  =   1.32114
+                               Volume (L)  =   3.06329
+                        Activity of water  =   0.323
+                           Ionic strength  =  1.716e+001
+                       Mass of water (kg)  =  2.620e+000
+                 Total alkalinity (eq/kg)  =  2.866e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  15.00
+                  Electrical balance (eq)  = -2.330e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  51
+                         Gamma iterations  =  12
+                      Osmotic coefficient  =   3.65877
+                         Density of water  =   0.99914
+                                  Total H  = 2.908603e+002
+                                  Total O  = 1.454302e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.131e-006  2.105e-003    -5.504    -2.677     2.828      0.00
+   OH-            3.094e-010  6.869e-013    -9.510   -12.163    -2.654     14.63
+   H2O            5.551e+001  3.227e-001     1.744    -0.491     0.000     18.03
+Cl           1.144e+001
+   Cl-            1.144e+001  1.146e+001     1.058     1.059     0.001     21.29
+Mg           5.720e+000
+   Mg+2           5.720e+000  1.000e+003     0.757     5.546     4.789    -13.16
+   MgOH+          3.131e-006  3.394e-005    -5.504    -4.469     1.035     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(288 K,   1 atm)
+
+	Bischofite        0.00      4.72    4.72  MgCl2:6H2O
+	Brucite          -7.78    -18.78  -11.00  Mg(OH)2
+	H2O(g)           -2.26     -0.49    1.77  H2O
+	MgCl2_2H2O       -8.74      6.68   15.42  MgCl2:2H2O
+	MgCl2_4H2O       -1.48      5.70    7.18  MgCl2:4H2O
+
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.65      4.65   3.000e+002  2.846e+002 -1.540e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.156e+001  3.081e+001
+	Mg               5.780e+000  1.540e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.595      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 20 oC) = 1288739
+                          Density (g/cm3)  =   1.32228
+                               Volume (L)  =   3.12486
+                        Activity of water  =   0.321
+                           Ionic strength  =  1.734e+001
+                       Mass of water (kg)  =  2.665e+000
+                 Total alkalinity (eq/kg)  =  2.818e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  20.00
+                  Electrical balance (eq)  = -2.129e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  52
+                         Gamma iterations  =  12
+                      Osmotic coefficient  =   3.63515
+                         Density of water  =   0.99823
+                                  Total H  = 2.958715e+002
+                                  Total O  = 1.479358e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.777e-006  2.541e-003    -5.423    -2.595     2.828      0.00
+   OH-            3.957e-010  8.583e-013    -9.403   -12.066    -2.664     15.31
+   H2O            5.551e+001  3.212e-001     1.744    -0.493     0.000     18.05
+Cl           1.156e+001
+   Cl-            1.156e+001  1.142e+001     1.063     1.058    -0.005     21.26
+Mg           5.780e+000
+   Mg+2           5.780e+000  1.000e+003     0.762     5.499     4.737    -12.99
+   MgOH+          3.777e-006  3.968e-005    -5.423    -4.401     1.021     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(293 K,   1 atm)
+
+	Bischofite        0.00      4.65    4.65  MgCl2:6H2O
+	Brucite          -7.69    -18.63  -10.94  Mg(OH)2
+	H2O(g)           -2.13     -0.49    1.63  H2O
+	MgCl2_2H2O       -8.35      6.63   14.98  MgCl2:2H2O
+	MgCl2_4H2O       -1.44      5.64    7.08  MgCl2:4H2O
+
+
+Reaction step 5.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.59      4.59   3.000e+002  2.841e+002 -1.592e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.170e+001  3.184e+001
+	Mg               5.851e+000  1.592e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.510      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 1405840
+                          Density (g/cm3)  =   1.32413
+                               Volume (L)  =   3.19950
+                        Activity of water  =   0.319
+                           Ionic strength  =  1.755e+001
+                       Mass of water (kg)  =  2.721e+000
+                 Total alkalinity (eq/kg)  =  2.760e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -8.383e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  55
+                         Gamma iterations  =  12
+                      Osmotic coefficient  =   3.61649
+                         Density of water  =   0.99706
+                                  Total H  = 3.020458e+002
+                                  Total O  = 1.510229e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             4.521e-006  3.088e-003    -5.345    -2.510     2.834      0.00
+   OH-            4.980e-010  1.040e-012    -9.303   -11.983    -2.680     15.93
+   H2O            5.551e+001  3.187e-001     1.744    -0.497     0.000     18.07
+Cl           1.170e+001
+   Cl-            1.170e+001  1.135e+001     1.068     1.055    -0.013     21.23
+Mg           5.851e+000
+   Mg+2           5.851e+000  1.000e+003     0.767     5.462     4.695    -12.90
+   MgOH+          4.521e-006  4.645e-005    -5.345    -4.333     1.012     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Bischofite        0.00      4.59    4.59  MgCl2:6H2O
+	Brucite          -7.62    -18.50  -10.88  Mg(OH)2
+	H2O(g)           -2.00     -0.50    1.50  H2O
+	MgCl2_2H2O       -7.98      6.58   14.56  MgCl2:2H2O
+	MgCl2_4H2O       -1.39      5.59    6.98  MgCl2:4H2O
+
+
+Reaction step 6.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.53      4.53   3.000e+002  2.836e+002 -1.637e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.182e+001  3.274e+001
+	Mg               5.911e+000  1.637e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.433      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 30 oC) = 1516505
+                          Density (g/cm3)  =   1.32569
+                               Volume (L)  =   3.26463
+                        Activity of water  =   0.318
+                           Ionic strength  =  1.773e+001
+                       Mass of water (kg)  =  2.769e+000
+                 Total alkalinity (eq/kg)  =  2.712e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  30.00
+                  Electrical balance (eq)  = -7.950e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  43
+                         Gamma iterations  =  11
+                      Osmotic coefficient  =   3.59133
+                         Density of water  =   0.99565
+                                  Total H  = 3.074373e+002
+                                  Total O  = 1.537187e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             5.364e-006  3.689e-003    -5.270    -2.433     2.837      0.00
+   OH-            6.211e-010  1.261e-012    -9.207   -11.899    -2.692     16.48
+   H2O            5.551e+001  3.175e-001     1.744    -0.498     0.000     18.09
+Cl           1.182e+001
+   Cl-            1.182e+001  1.125e+001     1.073     1.051    -0.021     21.21
+Mg           5.911e+000
+   Mg+2           5.911e+000  1.000e+003     0.772     5.418     4.646    -12.90
+   MgOH+          5.364e-006  5.368e-005    -5.271    -4.270     1.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(303 K,   1 atm)
+
+	Bischofite        0.00      4.53    4.53  MgCl2:6H2O
+	Brucite          -7.56    -18.38  -10.82  Mg(OH)2
+	H2O(g)           -1.88     -0.50    1.38  H2O
+	MgCl2_2H2O       -7.62      6.52   14.15  MgCl2:2H2O
+	MgCl2_4H2O       -1.35      5.53    6.88  MgCl2:4H2O
+
+
+Reaction step 7.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.47      4.47   3.000e+002  2.831e+002 -1.693e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.196e+001  3.386e+001
+	Mg               5.982e+000  1.693e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.352      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 35 oC) = 1612331
+                          Density (g/cm3)  =   1.32787
+                               Volume (L)  =   3.34497
+                        Activity of water  =   0.315
+                           Ionic strength  =  1.795e+001
+                       Mass of water (kg)  =  2.830e+000
+                 Total alkalinity (eq/kg)  =  2.654e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  35.00
+                  Electrical balance (eq)  = -7.835e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  47
+                         Gamma iterations  =  11
+                      Osmotic coefficient  =   3.57128
+                         Density of water  =   0.99403
+                                  Total H  = 3.141537e+002
+                                  Total O  = 1.570769e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             6.318e-006  4.444e-003    -5.199    -2.352     2.847      0.00
+   OH-            7.631e-010  1.484e-012    -9.117   -11.829    -2.711     17.00
+   H2O            5.551e+001  3.152e-001     1.744    -0.501     0.000     18.12
+Cl           1.196e+001
+   Cl-            1.196e+001  1.112e+001     1.078     1.046    -0.032     21.19
+Mg           5.982e+000
+   Mg+2           5.982e+000  1.000e+003     0.777     5.385     4.608    -12.95
+   MgOH+          6.317e-006  6.220e-005    -5.199    -4.206     0.993     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(308 K,   1 atm)
+
+	Bischofite        0.00      4.47    4.47  MgCl2:6H2O
+	Brucite          -7.51    -18.27  -10.76  Mg(OH)2
+	H2O(g)           -1.76     -0.50    1.26  H2O
+	MgCl2_2H2O       -7.28      6.47   13.75  MgCl2:2H2O
+	MgCl2_4H2O       -1.31      5.47    6.78  MgCl2:4H2O
+
+
+Reaction step 8.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite       -0.00     4.41      4.41   3.000e+002  2.824e+002 -1.755e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.212e+001  3.510e+001
+	Mg               6.058e+000  1.755e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.271      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 40 oC) = 1693523
+                          Density (g/cm3)  =   1.33036
+                               Volume (L)  =   3.43394
+                        Activity of water  =   0.313
+                           Ionic strength  =  1.817e+001
+                       Mass of water (kg)  =  2.897e+000
+                 Total alkalinity (eq/kg)  =  2.592e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  40.00
+                  Electrical balance (eq)  = -7.764e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  43
+                         Gamma iterations  =  11
+                      Osmotic coefficient  =   3.55256
+                         Density of water  =   0.99221
+                                  Total H  = 3.216318e+002
+                                  Total O  = 1.608159e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             7.383e-006  5.359e-003    -5.132    -2.271     2.861      0.00
+   OH-            9.263e-010  1.710e-012    -9.033   -11.767    -2.734     17.50
+   H2O            5.551e+001  3.125e-001     1.744    -0.505     0.000     18.16
+Cl           1.212e+001
+   Cl-            1.212e+001  1.095e+001     1.083     1.039    -0.044     21.17
+Mg           6.058e+000
+   Mg+2           6.058e+000  1.000e+003     0.782     5.359     4.577    -13.05
+   MgOH+          7.383e-006  7.199e-005    -5.132    -4.143     0.989     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(313 K,   1 atm)
+
+	Bischofite       -0.00      4.41    4.41  MgCl2:6H2O
+	Brucite          -7.46    -18.17  -10.71  Mg(OH)2
+	H2O(g)           -1.64     -0.51    1.14  H2O
+	MgCl2_2H2O       -6.94      6.43   13.37  MgCl2:2H2O
+	MgCl2_4H2O       -1.26      5.42    6.68  MgCl2:4H2O
+
+
+Reaction step 9.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.28      4.28   3.000e+002  2.810e+002 -1.904e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.245e+001  3.807e+001
+	Mg               6.226e+000  1.904e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   2.105      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 50 oC) = 1810856
+                          Density (g/cm3)  =   1.33628
+                               Volume (L)  =   3.64478
+                        Activity of water  =   0.306
+                           Ionic strength  =  1.868e+001
+                       Mass of water (kg)  =  3.058e+000
+                 Total alkalinity (eq/kg)  =  2.456e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  50.00
+                  Electrical balance (eq)  = -7.749e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  44
+                         Gamma iterations  =  11
+                      Osmotic coefficient  =   3.51959
+                         Density of water  =   0.98803
+                                  Total H  = 3.394610e+002
+                                  Total O  = 1.697305e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             9.860e-006  7.860e-003    -5.006    -2.105     2.902      0.00
+   OH-            1.318e-009  2.136e-012    -8.880   -11.670    -2.790     18.43
+   H2O            5.551e+001  3.060e-001     1.744    -0.514     0.000     18.23
+Cl           1.245e+001
+   Cl-            1.245e+001  1.049e+001     1.095     1.021    -0.075     21.13
+Mg           6.226e+000
+   Mg+2           6.226e+000  1.000e+003     0.794     5.329     4.535    -13.38
+   MgOH+          9.859e-006  9.645e-005    -5.006    -4.016     0.990     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(323 K,   1 atm)
+
+	Bischofite        0.00      4.28    4.28  MgCl2:6H2O
+	Brucite          -7.41    -18.01  -10.60  Mg(OH)2
+	H2O(g)           -1.43     -0.51    0.92  H2O
+	MgCl2_2H2O       -6.29      6.34   12.64  MgCl2:2H2O
+	MgCl2_4H2O       -1.16      5.31    6.47  MgCl2:4H2O
+
+
+Reaction step 10.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     4.16      4.16   3.000e+002  2.790e+002 -2.096e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.284e+001  4.193e+001
+	Mg               6.419e+000  2.096e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   1.929      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 60 oC) = 1880933
+                          Density (g/cm3)  =   1.34352
+                               Volume (L)  =   3.91656
+                        Activity of water  =   0.298
+                           Ionic strength  =  1.926e+001
+                       Mass of water (kg)  =  3.266e+000
+                 Total alkalinity (eq/kg)  =  2.299e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  60.00
+                  Electrical balance (eq)  = -7.805e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  44
+                         Gamma iterations  =  11
+                      Osmotic coefficient  =   3.49360
+                         Density of water  =   0.98320
+                                  Total H  = 3.625717e+002
+                                  Total O  = 1.812858e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.278e-005  1.177e-002    -4.893    -1.929     2.964      0.00
+   OH-            1.793e-009  2.442e-012    -8.746   -11.612    -2.866     19.35
+   H2O            5.551e+001  2.976e-001     1.744    -0.526     0.000     18.32
+Cl           1.284e+001
+   Cl-            1.284e+001  9.843e+000     1.108     0.993    -0.115     21.11
+Mg           6.419e+000
+   Mg+2           6.419e+000  1.000e+003     0.807     5.334     4.526    -13.85
+   MgOH+          1.278e-005  1.303e-004    -4.894    -3.885     1.008     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(333 K,   1 atm)
+
+	Bischofite        0.00      4.16    4.16  MgCl2:6H2O
+	Brucite          -7.38    -17.89  -10.51  Mg(OH)2
+	H2O(g)           -1.23     -0.53    0.71  H2O
+	MgCl2_2H2O       -5.68      6.27   11.95  MgCl2:2H2O
+	MgCl2_4H2O       -1.06      5.21    6.27  MgCl2:4H2O
+
+
+Reaction step 11.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite       -0.00     4.04      4.04   3.000e+002  2.764e+002 -2.357e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.329e+001  4.715e+001
+	Mg               6.644e+000  2.357e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   1.738      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 70 oC) = 1940769
+                          Density (g/cm3)  =   1.35230
+                               Volume (L)  =   4.28348
+                        Activity of water  =   0.287
+                           Ionic strength  =  1.993e+001
+                       Mass of water (kg)  =  3.548e+000
+                 Total alkalinity (eq/kg)  =  2.117e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  70.00
+                  Electrical balance (eq)  = -8.011e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  46
+                         Gamma iterations  =  11
+                      Osmotic coefficient  =   3.47646
+                         Density of water  =   0.97778
+                                  Total H  = 3.938880e+002
+                                  Total O  = 1.969440e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.606e-005  1.829e-002    -4.794    -1.738     3.057      0.00
+   OH-            2.334e-009  2.525e-012    -8.632   -11.598    -2.966     20.29
+   H2O            5.551e+001  2.870e-001     1.744    -0.542     0.000     18.43
+Cl           1.329e+001
+   Cl-            1.329e+001  8.990e+000     1.123     0.954    -0.170     21.11
+Mg           6.644e+000
+   Mg+2           6.644e+000  1.000e+003     0.822     5.386     4.563    -14.44
+   MgOH+          1.606e-005  1.796e-004    -4.794    -3.746     1.049     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(343 K,   1 atm)
+
+	Bischofite       -0.00      4.04    4.04  MgCl2:6H2O
+	Brucite          -7.40    -17.81  -10.41  Mg(OH)2
+	H2O(g)           -1.06     -0.54    0.51  H2O
+	MgCl2_2H2O       -5.09      6.21   11.30  MgCl2:2H2O
+	MgCl2_4H2O       -0.95      5.12    6.07  MgCl2:4H2O
+
+
+Reaction step 12.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     3.92      3.92   3.000e+002  2.726e+002 -2.735e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.383e+001  5.470e+001
+	Mg               6.913e+000  2.735e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   1.520      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 80 oC) = 2044945
+                          Density (g/cm3)  =   1.36301
+                               Volume (L)  =   4.81349
+                        Activity of water  =   0.273
+                           Ionic strength  =  2.074e+001
+                       Mass of water (kg)  =  3.957e+000
+                 Total alkalinity (eq/kg)  =  1.898e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  80.00
+                  Electrical balance (eq)  = -9.242e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  45
+                         Gamma iterations  =  11
+                      Osmotic coefficient  =   3.47137
+                         Density of water  =   0.97182
+                                  Total H  = 4.392362e+002
+                                  Total O  = 2.196181e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.952e-005  3.020e-002    -4.710    -1.520     3.190      0.00
+   OH-            2.903e-009  2.311e-012    -8.537   -11.636    -3.099     21.33
+   H2O            5.551e+001  2.734e-001     1.744    -0.563     0.000     18.54
+Cl           1.383e+001
+   Cl-            1.383e+001  7.904e+000     1.141     0.898    -0.243     21.13
+Mg           6.913e+000
+   Mg+2           6.913e+000  1.000e+003     0.840     5.503     4.664    -15.14
+   MgOH+          1.952e-005  2.578e-004    -4.710    -3.589     1.121     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(353 K,   1 atm)
+
+	Bischofite        0.00      3.92    3.92  MgCl2:6H2O
+	Brucite          -7.44    -17.77  -10.33  Mg(OH)2
+	H2O(g)           -0.90     -0.56    0.33  H2O
+	MgCl2_2H2O       -4.52      6.17   10.69  MgCl2:2H2O
+	MgCl2_4H2O       -0.83      5.05    5.87  MgCl2:4H2O
+
+
+Reaction step 13.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite        0.00     3.80      3.80   3.000e+002  2.665e+002 -3.346e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.449e+001  6.691e+001
+	Mg               7.247e+000  3.346e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   1.258      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 90 oC) = 2247519
+                          Density (g/cm3)  =   1.37638
+                               Volume (L)  =   5.66840
+                        Activity of water  =   0.255
+                           Ionic strength  =  2.174e+001
+                       Mass of water (kg)  =  4.616e+000
+                 Total alkalinity (eq/kg)  =  1.627e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  90.00
+                  Electrical balance (eq)  = -1.842e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  49
+                         Gamma iterations  =  12
+                      Osmotic coefficient  =   3.48442
+                         Density of water  =   0.96535
+                                  Total H  = 5.124850e+002
+                                  Total O  = 2.562425e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.279e-005  5.519e-002    -4.642    -1.258     3.384      0.00
+   OH-            3.423e-009  1.791e-012    -8.466   -11.747    -3.281     22.58
+   H2O            5.551e+001  2.554e-001     1.744    -0.593     0.000     18.66
+Cl           1.449e+001
+   Cl-            1.449e+001  6.565e+000     1.161     0.817    -0.344     21.21
+Mg           7.247e+000
+   Mg+2           7.247e+000  1.000e+003     0.860     5.721     4.861    -15.93
+   MgOH+          2.279e-005  3.984e-004    -4.642    -3.400     1.243     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(363 K,   1 atm)
+
+	Bischofite        0.00      3.80    3.80  MgCl2:6H2O
+	Brucite          -7.53    -17.77  -10.24  Mg(OH)2
+	H2O(g)           -0.76     -0.59    0.16  H2O
+	MgCl2_2H2O       -3.94      6.17   10.11  MgCl2:2H2O
+	MgCl2_4H2O       -0.69      4.98    5.67  MgCl2:4H2O
+
+
+Reaction step 14.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite       -0.00     3.68      3.68   3.000e+002  2.543e+002 -4.568e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.539e+001  9.137e+001
+	Mg               7.693e+000  4.568e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   0.913      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 100 oC) = 2585448
+                          Density (g/cm3)  =   1.39424
+                               Volume (L)  =   7.37862
+                        Activity of water  =   0.230
+                           Ionic strength  =  2.308e+001
+                       Mass of water (kg)  =  5.938e+000
+                 Total alkalinity (eq/kg)  =  1.265e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 100.00
+                  Electrical balance (eq)  = -1.618e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  52
+                         Gamma iterations  =  13
+                      Osmotic coefficient  =   3.53007
+                         Density of water  =   0.95839
+                                  Total H  = 6.592033e+002
+                                  Total O  = 3.296016e+002
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.516e-005  1.221e-001    -4.599    -0.913     3.686      0.00
+   OH-            3.744e-009  1.064e-012    -8.427   -11.973    -3.547     24.18
+   H2O            5.551e+001  2.304e-001     1.744    -0.637     0.000     18.80
+Cl           1.539e+001
+   Cl-            1.539e+001  4.947e+000     1.187     0.694    -0.493     21.35
+Mg           7.693e+000
+   Mg+2           7.693e+000  1.000e+003     0.886     6.115     5.229    -16.81
+   MgOH+          2.515e-005  7.138e-004    -4.599    -3.146     1.453     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(373 K,   1 atm)
+
+	Bischofite       -0.00      3.68    3.68  MgCl2:6H2O
+	Brucite          -7.67    -17.83  -10.17  Mg(OH)2
+	H2O(g)           -0.64     -0.64    0.00  H2O
+	MgCl2_2H2O       -3.34      6.23    9.57  MgCl2:2H2O
+	MgCl2_4H2O       -0.51      4.95    5.47  MgCl2:4H2O
+
+
+Reaction step 15.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Bischofite       -0.03     3.46      3.49   3.000e+002           0 -3.000e+002
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.795e+001  6.000e+002
+	Mg               8.974e+000  3.000e+002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -0.097      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 116 oC) = 3511938
+                          Density (g/cm3)  =   1.44444
+                               Volume (L)  =  42.91782
+                        Activity of water  =   0.161
+                           Ionic strength  =  2.692e+001
+                       Mass of water (kg)  =  3.343e+001
+                 Total alkalinity (eq/kg)  =  2.261e-011
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 116.00
+                           Pressure (atm)  =  1.31
+                  Electrical balance (eq)  = -2.147e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  90
+                         Gamma iterations  =  17
+                      Osmotic coefficient  =   3.77098
+                         Density of water  =   0.94634
+                                  Total H  = 3.711012e+003
+                                  Total O  = 1.855506e+003
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.260e-005  1.249e+000    -4.646     0.097     4.743      0.00
+   OH-            3.161e-009  1.224e-013    -8.500   -12.912    -4.412     28.81
+   H2O            5.551e+001  1.606e-001     1.744    -0.794     0.000     19.04
+Cl           1.795e+001
+   Cl-            1.795e+001  1.826e+000     1.254     0.261    -0.993     21.83
+Mg           8.974e+000
+   Mg+2           8.974e+000  1.000e+003     0.953     7.701     6.748    -18.34
+   MgOH+          2.260e-005  4.408e-003    -4.646    -2.356     2.290     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(389 K,   1 atm)
+
+	Bischofite       -0.03      3.46    3.49  MgCl2:6H2O
+	Brucite          -8.07    -18.12  -10.05  Mg(OH)2
+	H2O(g)           -0.56     -0.79   -0.23  H2O
+	MgCl2_2H2O       -2.11      6.64    8.75  MgCl2:2H2O
+	MgCl2_4H2O       -0.10      5.05    5.15  MgCl2:4H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE solution 1
+	REACTION 1
+	 MgCl2 1
+	 9.009, 9.910, 11.306, 12.658, 13.243
+	REACTION_TEMPERATURE 1
+	116, 130, 150, 170, 180
+	EQUILIBRIUM_PHASES
+	MgCl2_4H2O
+	USER_GRAPH 
+	-headings MgCl2_4H2O
+	10 data  9.009, 9.910, 11.306, 12.658, 13.243
+	20 dim c(30)
+	30 for i = 1 to 5
+	40   read c(i)
+	50 next i
+	60 plot_xy tot("Mg"), tc, symbol_size = 0 color =  Green
+	70 plot_xy c(step_no), tc, line_width = 0, color = Green, symbol_size = 8, symbol = Plus  
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 9.009e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_4H2O       -0.00     5.15      5.15   1.000e+001  9.250e+000 -7.505e-001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.852e+001  1.952e+001
+	Mg               9.259e+000  9.759e+000
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -0.316      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 116 oC) = 3623221
+                          Density (g/cm3)  =   1.45554
+                               Volume (L)  =   1.36258
+                        Activity of water  =   0.144
+                           Ionic strength  =  2.778e+001
+                       Mass of water (kg)  =  1.054e+000
+                 Total alkalinity (eq/kg)  =  7.125e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 116.00
+                           Pressure (atm)  =  1.24
+                  Electrical balance (eq)  = -7.856e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                         Gamma iterations  =  15
+                      Osmotic coefficient  =   3.87352
+                         Density of water  =   0.94634
+                                  Total H  = 1.170162e+002
+                                  Total O  = 5.850812e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             2.070e-005  2.069e+000    -4.684     0.316     5.000      0.00
+   OH-            2.667e-009  6.629e-014    -8.574   -13.179    -4.605     29.79
+   H2O            5.551e+001  1.439e-001     1.744    -0.842     0.000     19.04
+Cl           1.852e+001
+   Cl-            1.852e+001  1.508e+000     1.268     0.178    -1.089     21.85
+Mg           9.259e+000
+   Mg+2           9.259e+000  1.000e+003     0.967     8.156     7.190    -18.21
+   MgOH+          2.069e-005  6.805e-003    -4.684    -2.167     2.517     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(389 K,   1 atm)
+
+	Bischofite       -0.03      3.46    3.49  MgCl2:6H2O
+	Brucite          -8.15    -18.20  -10.05  Mg(OH)2
+	H2O(g)           -0.61     -0.84   -0.23  H2O
+	MgCl2_2H2O       -1.92      6.83    8.75  MgCl2:2H2O
+	MgCl2_4H2O        0.00      5.15    5.15  MgCl2:4H2O
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 9.910e+000 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_4H2O       -0.00     4.86      4.86   1.000e+001  1.061e+001  6.114e-001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               1.945e+001  1.860e+001
+	Mg               9.727e+000  9.299e+000
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -0.784      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 130 oC) = 4311511
+                          Density (g/cm3)  =   1.47045
+                               Volume (L)  =   1.25218
+                        Activity of water  =   0.137
+                           Ionic strength  =  2.918e+001
+                       Mass of water (kg)  =  9.559e-001
+                 Total alkalinity (eq/kg)  =  7.856e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 130.00
+                           Pressure (atm)  =  1.15
+                  Electrical balance (eq)  = -1.090e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  83
+                         Gamma iterations  =  17
+                      Osmotic coefficient  =   3.78467
+                         Density of water  =   0.93488
+                                  Total H  = 1.061216e+002
+                                  Total O  = 5.306081e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.902e-005  6.085e+000    -4.721     0.784     5.505      0.00
+   OH-            3.729e-009  3.168e-014    -8.428   -13.499    -5.071     31.82
+   H2O            5.551e+001  1.367e-001     1.744    -0.864     0.000     19.27
+Cl           1.945e+001
+   Cl-            1.945e+001  6.444e-001     1.289    -0.191    -1.480     22.54
+Mg           9.727e+000
+   Mg+2           9.727e+000  1.000e+003     0.988     8.702     7.714    -20.39
+   MgOH+          1.902e-005  1.544e-002    -4.721    -1.811     2.909     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(403 K,   1 atm)
+
+	Bischofite       -0.19      3.14    3.32  MgCl2:6H2O
+	Brucite          -8.34    -18.30   -9.95  Mg(OH)2
+	H2O(g)           -0.45     -0.86   -0.42  H2O
+	MgCl2_2H2O       -1.50      6.59    8.09  MgCl2:2H2O
+	MgCl2_4H2O        0.00      4.86    4.86  MgCl2:4H2O
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.131e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_4H2O       -0.00     4.46      4.46   1.000e+001  1.284e+001  2.840e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.129e+001  1.693e+001
+	Mg               1.064e+001  8.466e+000
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -1.769      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 150 oC) = 5534862
+                          Density (g/cm3)  =   1.49100
+                               Volume (L)  =   1.07408
+                        Activity of water  =   0.120
+                           Ionic strength  =  3.193e+001
+                       Mass of water (kg)  =  7.954e-001
+                 Total alkalinity (eq/kg)  =  9.442e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 150.00
+                           Pressure (atm)  =  1.18
+                  Electrical balance (eq)  = -6.066e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  71
+                         Gamma iterations  =  18
+                      Osmotic coefficient  =   3.69175
+                         Density of water  =   0.91706
+                                  Total H  = 8.829493e+001
+                                  Total O  = 4.414746e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.303e-005  5.881e+001    -4.885     1.769     6.655      0.00
+   OH-            5.507e-009  4.565e-015    -8.259   -14.341    -6.082     36.02
+   H2O            5.551e+001  1.196e-001     1.744    -0.922     0.000     19.65
+Cl           2.129e+001
+   Cl-            2.129e+001  1.026e-001     1.328    -0.989    -2.317     24.26
+Mg           1.064e+001
+   Mg+2           1.064e+001  1.000e+003     1.027    10.129     9.102    -24.10
+   MgOH+          1.302e-005  9.272e-002    -4.885    -1.033     3.852     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(423 K,   1 atm)
+
+	Bischofite       -0.47      2.62    3.09  MgCl2:6H2O
+	Brucite          -8.72    -18.55   -9.83  Mg(OH)2
+	H2O(g)           -0.26     -0.92   -0.66  H2O
+	MgCl2_2H2O       -0.92      6.31    7.22  MgCl2:2H2O
+	MgCl2_4H2O        0.00      4.46    4.46  MgCl2:4H2O
+
+
+Reaction step 4.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.266e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_4H2O       -0.00     4.06      4.06   1.000e+001  1.203e+001  2.032e+000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.490e+001  2.125e+001
+	Mg               1.245e+001  1.063e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -3.915      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 170 oC) = 7462779
+                          Density (g/cm3)  =   1.51588
+                               Volume (L)  =   1.23049
+                        Activity of water  =   0.082
+                           Ionic strength  =  3.735e+001
+                       Mass of water (kg)  =  8.536e-001
+                 Total alkalinity (eq/kg)  =  8.798e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 170.00
+                           Pressure (atm)  =  1.00
+                  Electrical balance (eq)  = -8.894e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 103
+                         Gamma iterations  =  24
+                      Osmotic coefficient  =   3.72094
+                         Density of water  =   0.89751
+                                  Total H  = 9.475650e+001
+                                  Total O  = 4.737825e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             3.782e-006  1.000e+003    -5.422     3.915     9.337      0.00
+   OH-            6.604e-009  3.233e-017    -8.180   -16.490    -8.310     44.54
+   H2O            5.551e+001  8.180e-002     1.744    -1.087     0.000     20.07
+Cl           2.490e+001
+   Cl-            2.490e+001  1.777e-003     1.396    -2.750    -4.147     27.66
+Mg           1.245e+001
+   Mg+2           1.245e+001  1.000e+003     1.095    13.909    12.814    -29.02
+   MgOH+          3.776e-006  6.250e+000    -5.423     0.796     6.219     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(443 K,   1 atm)
+
+	Bischofite       -0.97      1.88    2.85  MgCl2:6H2O
+	Brucite          -9.35    -19.07   -9.72  Mg(OH)2
+	H2O(g)           -0.21     -1.09   -0.87  H2O
+	MgCl2_2H2O       -0.20      6.23    6.43  MgCl2:2H2O
+	MgCl2_4H2O       -0.00      4.06    4.06  MgCl2:4H2O
+
+
+Reaction step 5.
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.324e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_4H2O       -0.07     3.79      3.86   1.000e+001           0 -1.000e+001
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.702e+001  4.649e+001
+	Mg               1.351e+001  2.324e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -5.401      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 180 oC) = 8648214
+                          Density (g/cm3)  =   1.51268
+                               Volume (L)  =   2.60044
+                        Activity of water  =   0.067
+                           Ionic strength  =  4.053e+001
+                       Mass of water (kg)  =  1.721e+000
+                 Total alkalinity (eq/kg)  =  4.365e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 180.00
+                           Pressure (atm)  =  1.09
+                  Electrical balance (eq)  = -7.517e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                         Gamma iterations  =  70
+                      Osmotic coefficient  =   3.70374
+                         Density of water  =   0.88706
+                                  Total H  = 1.910124e+002
+                                  Total O  = 9.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.446e-006  1.000e+003    -5.840     5.401    11.241      0.00
+   OH-            7.649e-009  1.007e-018    -8.116   -17.997    -9.880     50.13
+   H2O            5.551e+001  6.694e-002     1.744    -1.174     0.000     20.31
+Cl           2.702e+001
+   Cl-            2.702e+001  8.603e-005     1.432    -4.065    -5.497     30.28
+Mg           1.351e+001
+   Mg+2           1.351e+001  1.000e+003     1.131    16.617    15.486    -32.14
+   MgOH+          1.439e-006  1.253e+002    -5.842     2.098     7.940     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(453 K,   1 atm)
+
+	Bischofite       -1.29      1.44    2.73  MgCl2:6H2O
+	Brucite          -9.71    -19.38   -9.66  Mg(OH)2
+	H2O(g)           -0.20     -1.17   -0.97  H2O
+	MgCl2_2H2O        0.07      6.14    6.06  MgCl2:2H2O
+	MgCl2_4H2O       -0.07      3.79    3.86  MgCl2:4H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	USE solution 1
+	REACTION 1
+	 MgCl2 1
+	 13.243, 13.468, 13.874
+	REACTION_TEMPERATURE 1
+	180, 187, 200
+	EQUILIBRIUM_PHASES
+	MgCl2_2H2O
+	USER_GRAPH 
+	-headings MgCl2_2H2O
+	10 data   13.243, 13.468, 13.874
+	20 dim c(30)
+	30 for i = 1 to 3
+	40   read c(i)
+	50 next i
+	60 plot_xy tot("Mg"), tc, symbol_size = 0 color =  Blue
+	70 plot_xy c(step_no), tc, line_width = 0, color = Blue, symbol_size = 8, symbol = Circle  
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.324e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_2H2O        0.00     6.06      6.06   1.000e+001  9.975e+000 -2.483e-002
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.651e+001  2.654e+001
+	Mg               1.326e+001  1.327e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -5.088      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 180 oC) = 8486641
+                          Density (g/cm3)  =   1.50651
+                               Volume (L)  =   1.50290
+                        Activity of water  =   0.072
+                           Ionic strength  =  3.977e+001
+                       Mass of water (kg)  =  1.001e+000
+                 Total alkalinity (eq/kg)  =  7.503e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 180.00
+                           Pressure (atm)  =  1.03
+                  Electrical balance (eq)  = -8.075e-010
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  94
+                         Gamma iterations  =  27
+                      Osmotic coefficient  =   3.66391
+                         Density of water  =   0.88706
+                                  Total H  = 1.111118e+002
+                                  Total O  = 5.555588e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.812e-006  1.000e+003    -5.742     5.088    10.830      0.00
+   OH-            8.067e-009  2.242e-018    -8.093   -17.649    -9.556     49.07
+   H2O            5.551e+001  7.244e-002     1.744    -1.140     0.000     20.31
+Cl           2.651e+001
+   Cl-            2.651e+001  1.532e-004     1.423    -3.815    -5.238     30.12
+Mg           1.326e+001
+   Mg+2           1.326e+001  1.000e+003     1.122    15.973    14.851    -32.01
+   MgOH+          1.805e-006  6.333e+001    -5.744     1.802     7.545     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(453 K,   1 atm)
+
+	Bischofite       -1.23      1.50    2.73  MgCl2:6H2O
+	Brucite          -9.66    -19.33   -9.66  Mg(OH)2
+	H2O(g)           -0.17     -1.14   -0.97  H2O
+	MgCl2_2H2O       -0.00      6.06    6.06  MgCl2:2H2O
+	MgCl2_4H2O       -0.07      3.78    3.86  MgCl2:4H2O
+
+
+Reaction step 2.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.347e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_2H2O       -0.00     5.82      5.82   1.000e+001  1.004e+001  4.319e-002
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.689e+001  2.685e+001
+	Mg               1.345e+001  1.342e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -5.509      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 187 oC) = 8996766
+                          Density (g/cm3)  =   1.48239
+                               Volume (L)  =   1.53578
+                        Activity of water  =   0.076
+                           Ionic strength  =  4.034e+001
+                       Mass of water (kg)  =  9.984e-001
+                 Total alkalinity (eq/kg)  =  7.522e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 187.00
+                           Pressure (atm)  =  1.11
+                  Electrical balance (eq)  = -5.516e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  93
+                         Gamma iterations  =  28
+                      Osmotic coefficient  =   3.55530
+                         Density of water  =   0.87947
+                                  Total H  = 1.108397e+002
+                                  Total O  = 5.541983e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.440e-006  1.000e+003    -5.842     5.509    11.351      0.00
+   OH-            1.017e-008  9.758e-019    -7.993   -18.011   -10.018     50.95
+   H2O            5.551e+001  7.550e-002     1.744    -1.122     0.000     20.49
+Cl           2.689e+001
+   Cl-            2.689e+001  5.463e-005     1.430    -4.263    -5.692     31.97
+Mg           1.345e+001
+   Mg+2           1.345e+001  1.000e+003     1.129    16.584    15.456    -34.11
+   MgOH+          1.430e-006  1.327e+002    -5.845     2.123     7.967     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(460 K,   1 atm)
+
+	Bischofite       -1.32      1.33    2.65  MgCl2:6H2O
+	Brucite          -9.81    -19.44   -9.63  Mg(OH)2
+	H2O(g)           -0.08     -1.12   -1.04  H2O
+	MgCl2_2H2O        0.00      5.82    5.82  MgCl2:2H2O
+	MgCl2_4H2O       -0.15      3.57    3.72  MgCl2:4H2O
+
+
+Reaction step 3.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using temperature 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 1.387e+001 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	MgCl2                1.00000
+
+	                 Relative
+	Element             moles
+	Cl                   2.00000
+	Mg                   1.00000
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+MgCl2_2H2O       -0.00     5.37      5.37   1.000e+001  9.982e+000 -1.828e-002
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.777e+001  2.778e+001
+	Mg               1.388e+001  1.389e+001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  -6.474      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 200 oC) = 10046239
+                          Density (g/cm3)  =   1.42217
+                               Volume (L)  =   1.63367
+                        Activity of water  =   0.080
+                           Ionic strength  =  4.165e+001
+                       Mass of water (kg)  =  1.001e+000
+                 Total alkalinity (eq/kg)  =  7.505e-010
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  = 200.00
+                           Pressure (atm)  =  1.23
+                  Electrical balance (eq)  = -1.459e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 100
+                         Gamma iterations  =  29
+                      Osmotic coefficient  =   3.37042
+                         Density of water  =   0.86474
+                                  Total H  = 1.110856e+002
+                                  Total O  = 5.554278e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             8.368e-007  1.000e+003    -6.077     6.474    12.552      0.00
+   OH-            1.510e-008  1.307e-019    -7.821   -18.884   -11.063     55.41
+   H2O            5.551e+001  7.975e-002     1.744    -1.098     0.000     20.84
+Cl           2.777e+001
+   Cl-            2.777e+001  5.564e-006     1.444    -5.255    -6.698     36.35
+Mg           1.388e+001
+   Mg+2           1.388e+001  1.000e+003     1.142    18.079    16.936    -38.41
+   MgOH+          8.224e-007  7.537e+002    -6.085     2.877     8.962     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(473 K,   1 atm)
+
+	Bischofite       -1.52      0.98    2.50  MgCl2:6H2O
+	Brucite         -10.12    -19.69   -9.57  Mg(OH)2
+	H2O(g)            0.05     -1.10   -1.15  H2O
+	MgCl2_2H2O       -0.00      5.37    5.37  MgCl2:2H2O
+	MgCl2_4H2O       -0.28      3.18    3.46  MgCl2:4H2O
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+-------------------------------
+End of Run after 1.021 Seconds.
+-------------------------------
+
