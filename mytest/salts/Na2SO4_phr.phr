@@ -1,0 +1,81 @@
+# Mirabilite/Thenardite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
+# gamma's for SO4-2 optimized on Holmes and Mesmer
+SOLUTION_SPECIES
+SO4-2 = SO4-2;	-gamma	     2.6878744E+00    -1.9968622E-01
+Na+ + SO4-2 = NaSO4-; -log_k -1e5
+
+SOLUTION 1
+PHASES
+Mirabilite
+	Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
+	log_k	   -1.214
+	-analytic     -3862.234   -1.19856    93713.54    1577.756    0.0
+	Vm 216
+Thenardite
+	Na2SO4 = 2 Na+ + SO4-2
+	-log_k -0.35
+ -analytical_expression  7.9206627e2  3.6570899e-1  -1.9344429e4  -3.3198923e2  0  -1.6913933e-4 
+ Vm 52.9
+EQUILIBRIUM_PHASES 1
+ Mirabilite 0 12
+ Thenardite 0 0
+REACTION_TEMPERATURE 1
+ 0 35 in 8
+
+USER_GRAPH 1
+# -axis_scale y_axis 0 50
+-chart_title "Mirabilite/Thenardite solubility"
+-axis_titles "mol Na2SO4 / kgw" "temperature / oC"
+-plot_csv_file Na2SO4.csv
+70 plot_xy tot("S"), tc, symbol_size = 0, color = Red
+-end
+
+PRINT; -reset false; -status false
+SAVE solution 1
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+ Thenardite 0 2
+SOLUTION_SPECIES
+SO4-2 = SO4-2;	-gamma	     2.9669106E+00    -1.9483220E-01
+REACTION_TEMPERATURE 
+50
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+ Thenardite 0 2
+SOLUTION_SPECIES
+SO4-2 = SO4-2;	-gamma	     3.0821160E+00    -1.9566984E-01
+REACTION_TEMPERATURE 
+75
+END
+
+USE solution 1; USE EQUILIBRIUM_PHASES 1
+SOLUTION_SPECIES
+SO4-2 = SO4-2;	-gamma	     3.0975221E+00     -1.9952928E-01
+REACTION_TEMPERATURE 
+100
+END
+
+USE solution 1; USE EQUILIBRIUM_PHASES 1
+SOLUTION_SPECIES
+SO4-2 = SO4-2;	-gamma	      3.0070016E+00     -2.1493896E-01
+REACTION_TEMPERATURE 
+150
+END
+
+USE solution 1; USE EQUILIBRIUM_PHASES 1
+SOLUTION_SPECIES
+SO4-2 = SO4-2;	-gamma	      2.8878190E+00     -2.2934673E-01
+REACTION_TEMPERATURE 
+200
+END
+
+USE solution 1; USE EQUILIBRIUM_PHASES 1
+SOLUTION_SPECIES
+SO4-2 = SO4-2;	-gamma	      2.9694541E+00     -2.5562108E-01
+REACTION_TEMPERATURE 
+225
+END

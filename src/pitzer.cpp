@@ -744,7 +744,11 @@ C
 /*
 C     Set DW0
 */
-	DW(TK);
+	//DW(TK);
+	//rho_0 = DW0;
+	//patm_x = VP;
+	DW0 = rho_0 = calc_rho_0(TK - 273.15, patm_x);
+	VP = patm_x;
 	for (i = 0; i < count_pitz_param; i++)
 	{
 		calc_pitz_param(pitz_params[i], TK, TR);

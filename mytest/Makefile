@@ -278,8 +278,21 @@ all: alkalinity.out \
 	Vm_salt.out \
 	Vm_salt_65.out \
 	Vm_salt_fig.out \
-	Vm0_tc.out
-
+	Vm0_tc.out \
+	Carnallite.out \
+	K2SO4.out \
+	KCl.out \
+	KCl-SO4.out \
+	MgCl2.out \
+	MgCl-SO4.out \
+	MgSO4.out \
+	Na2SO4.out \
+	Na2SO4_phr.out \
+	NaCl_temp.out \
+	NaCl-SO4.out \
+	NaKCl.out \
+	NaMgCl.out 
+	
 # NaX.out
 
 clean:

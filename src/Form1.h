@@ -746,6 +746,7 @@ namespace zdg_ui2 {
 				// Create form
 				Form ^graphOptions = gcnew Form;
 				graphOptions->Text = "Chart options";
+				graphOptions->ShowIcon = false;
 				graphOptions->BringToFront();
 				graphOptions->MinimumSize = System::Drawing::Size(255, 230);
 				graphOptions->MaximumSize = System::Drawing::Size(255, 230);

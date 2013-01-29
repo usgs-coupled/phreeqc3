@@ -1,0 +1,84 @@
+DATABASE c:\phreeqc\database\pitzer.dat
+PITZER
+# Coefficients from Pabalan and Pitzer, 1987, GCA 51, 2429.
+-B0
+  # Mg+2      Cl-       0.35235       0	   0	  -1.943E-4
+  Mg+2  Cl-  0.351  0  0  -9.32e-4  5.94e-7
+-B1
+  # Mg+2      Cl-       1.6815	0	   0	   3.6525E-3
+  Mg+2  Cl-  1.65  0  0  -1.09e-2  2.60e-5
+-C0
+  # Mg+2      Cl-       0.00519       0	   0	-1.64933E-4
+  Mg+2  Cl-  0.00651  0  0  -2.50e-4  2.418e-7
+PHASES
+Bischofite
+	MgCl2:6H2O  =  Mg+2 + 2 Cl- + 6 H2O
+	log_k	   4.455
+	-analytical_expression  7.526  -1.114e-2  115.7
+	Vm 127.1
+MgCl2_4H2O
+	MgCl2:4H2O  =  Mg+2 + 2 Cl- + 4 H2O
+	-analytical_expression  12.98  -2.013e-2
+MgCl2_2H2O
+	MgCl2:2H2O  =  Mg+2 + 2 Cl- + 2 H2O
+	-analytical_expression  -10.273  0  7.403e3
+
+SOLUTION 1
+
+REACTION_TEMPERATURE 
+0, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 116
+EQUILIBRIUM_PHASES
+Bischofite 0 300
+
+USER_GRAPH 1
+-chart_title "Mg-hydrates' solubility"
+-axis_titles "mol MgCl2 / kgw" "temperature / oC"
+-headings Bischofite
+# -connect_simulations false
+10 data 5.586, 5.676, 5.721, 5.766, 5.811, 5.901, 5.946, 6.036, 6.261, 6.396, 6.667, 6.982, 7.342, 7.703, 9.009
+20 dim c(30)
+30 for i = 1 to 15
+40   read c(i)
+50 next i
+60 plot_xy tot("Mg"), tc, symbol_size = 0 color = Red
+70 plot_xy c(step_no), tc, line_width = 0, color = Red
+# 80 plot_xy tot("Mg"), osmotic, y_axis = 2 
+-end
+PRINT; -reset false; -status false
+END
+
+USE solution 1
+REACTION 1
+ MgCl2 1; 9.009, 9.910, 11.306, 12.658, 13.243
+REACTION_TEMPERATURE 1
+116, 130, 150, 170, 180
+EQUILIBRIUM_PHASES
+MgCl2_4H2O
+USER_GRAPH 
+-headings MgCl2_4H2O
+10 data  9.009, 9.910, 11.306, 12.658, 13.243
+20 dim c(30)
+30 for i = 1 to 5
+40   read c(i)
+50 next i
+60 plot_xy tot("Mg"), tc, symbol_size = 0 color =  Green
+70 plot_xy c(step_no), tc, line_width = 0, color = Green, symbol_size = 8, symbol = Plus  
+END
+
+USE solution 1
+REACTION 1
+ MgCl2 1; 13.243, 13.468, 13.874
+REACTION_TEMPERATURE 1
+180, 187, 200
+EQUILIBRIUM_PHASES
+MgCl2_2H2O
+USER_GRAPH 
+-headings MgCl2_2H2O
+10 data   13.243, 13.468, 13.874
+20 dim c(30)
+30 for i = 1 to 3
+40   read c(i)
+50 next i
+60 plot_xy tot("Mg"), tc, symbol_size = 0 color =  Blue
+70 plot_xy c(step_no), tc, line_width = 0, color = Blue, symbol_size = 8, symbol = Circle  
+END

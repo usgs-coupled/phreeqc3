@@ -24,3 +24,16 @@
 ..\ClrClass_release\phreeqcpp.exe    SrSO4_tc
 ..\ClrClass_release\phreeqcpp.exe    t2
 ..\ClrClass_release\phreeqcpp.exe    water_vp
+..\ClrClass_release\phreeqcpp.exe    Carnallite 
+..\ClrClass_release\phreeqcpp.exe    K2SO4
+..\ClrClass_release\phreeqcpp.exe    KCl
+..\ClrClass_release\phreeqcpp.exe    KCl-SO4
+..\ClrClass_release\phreeqcpp.exe    MgCl2
+..\ClrClass_release\phreeqcpp.exe    MgCl-SO4
+..\ClrClass_release\phreeqcpp.exe    MgSO4
+..\ClrClass_release\phreeqcpp.exe    Na2SO4
+..\ClrClass_release\phreeqcpp.exe    Na2SO4_phr
+..\ClrClass_release\phreeqcpp.exe    NaCl_temp
+..\ClrClass_release\phreeqcpp.exe    NaCl-SO4
+..\ClrClass_release\phreeqcpp.exe    NaKCl
+..\ClrClass_release\phreeqcpp.exe    NaMgCl
