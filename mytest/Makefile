@@ -1,8 +1,8 @@
 CFG1 :=`uname`
 CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
-PHREEQC=../src/Class_release_64/phreeqcpp
-#PHREEQC=../src/Class_debug_64/phreeqcpp
+PHREEQC=../src/Class_release_64/phreeqc
+#PHREEQC=../src/Class_debug_64/phreeqc
 
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
@@ -292,7 +292,6 @@ all: alkalinity.out \
 	NaCl-SO4.out \
 	NaKCl.out \
 	NaMgCl.out 
-	
 # NaX.out
 
 clean:

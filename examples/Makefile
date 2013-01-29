@@ -6,8 +6,8 @@ PHREEQCDAT=../database/phreeqc.dat
 PITZERDAT=../database/pitzer.dat
 ISODAT=../database/iso.dat
 
-PHREEQC=../src/Class_release_64/phreeqcpp
-#PHREEQC=../src/Class_debug_64/phreeqcpp
+PHREEQC=../src/Class_release_64/phreeqc
+#PHREEQC=../src/Class_debug_64/phreeqc
 
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
@@ -96,13 +96,13 @@ ex17b.out: $(INPUT)/ex17b $(PHREEQC) $(PITZERDAT)
 
 ex18.out: $(INPUT)/ex18 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex18 ex18.out $(PHREEQCDAT)  ex18.log
-	
+
 ex19.out: $(INPUT)/ex19 $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex19 ex19.out $(PHREEQCDAT)  ex19.log
 
 ex19b.out: $(INPUT)/ex19b $(PHREEQC) $(PHREEQCDAT)
 	$(PHREEQC) $(INPUT)/ex19b ex19b.out $(PHREEQCDAT)  ex19b.log
-	
+
 ex20a.out: $(INPUT)/ex20a $(PHREEQC) $(ISODAT) 
 	$(PHREEQC) $(INPUT)/ex20a ex20a.out $(ISODAT) ex20a.log
 
