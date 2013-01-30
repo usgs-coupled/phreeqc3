@@ -8,5 +8,9 @@ if [ ! -f doc/RELEASE ];then
   ln -s RELEASE.TXT doc/RELEASE
 fi
 
+if [ ! -f doc/NOTICE ];then
+  ln -s NOTICE.TXT doc/NOTICE
+fi
+
 exec autoreconf -fvi
 

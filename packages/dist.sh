@@ -188,6 +188,7 @@ done
 
 mv $DISTPATH/doc/RELEASE.TXT           $DISTPATH/doc/RELEASE
 mv $DISTPATH/doc/README.Linux.txt      $DISTPATH/doc/README
+mv $DISTPATH/doc/NOTICE.TXT            $DISTPATH/doc/NOTICE
 
 echo "Rolling $DISTNAME.tar ..."
 (cd "$DIST_SANDBOX" > /dev/null && tar c "$DISTNAME") > \
