@@ -10,9 +10,9 @@ REL := $(shell svn st -v ../configure.ac | cut -b 10- | ( read one two ; echo $$
 
 TOP_DIR := $(shell pwd)
 
-M32 := $(shell ssh -q lobo7 'uname -m')
+M32 := $(shell ssh -q lobo07 'uname -m')
 
-M64 := $(shell ssh -q lobo2 'uname -m')
+M64 := $(shell ssh -q lobo02 'uname -m')
 
 CONF_PKG := $(NAME)-$(VER)-$(REL).tar.gz
 
@@ -48,7 +48,7 @@ $(CONF_PKG) : $(TARBALL)
 $(PKG_64) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)
 	mkdir $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)
-	ssh -q lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make install'
+	ssh -q lobo02 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make install'
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/share/doc/phreeqc $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/doc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/doc/NOTICE $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/.
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/doc/README $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/.
@@ -63,8 +63,8 @@ $(PKG_64) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL).$(M64).tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build64
-	ssh -q lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)'
-	ssh -q lobo2 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make LDFLAGS=-all-static LIBGMP=/usr/lib64/libgmp.a'
+	ssh -q lobo02 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)'
+	ssh -q lobo02 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make LDFLAGS=-all-static LIBGMP=/usr/lib64/libgmp.a'
 
 $(NAME)-$(VER)-$(REL)/_build64 : $(CONF_PKG)
 	rm -rf $(NAME)-$(VER)-$(REL)
@@ -77,9 +77,9 @@ $(NAME)-$(VER)-$(REL)/_build64 : $(CONF_PKG)
 $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 	rm -rf $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)
 	mkdir $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)
-	ssh -q lobo7 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make install'
+	ssh -q lobo07 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make install'
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/share/doc/phreeqc $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc
-	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/doc/NOTICE $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/.
+	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc/NOTICE $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)/.
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc/README $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/.
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc/RELEASE $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/.
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/doc/database $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)/.
@@ -92,8 +92,8 @@ $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 	mv $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL).$(M32).tar.gz .
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build32
-	ssh -q lobo7 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
-	ssh -q lobo7 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make LDFLAGS=-all-static LIBGMP=/usr/lib/libgmp.a'
+	ssh -q lobo07 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
+	ssh -q lobo07 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make LDFLAGS=-all-static LIBGMP=/usr/lib/libgmp.a'
 
 $(NAME)-$(VER)-$(REL)/_build32 : $(CONF_PKG)
 	rm -rf $(NAME)-$(VER)-$(REL)
