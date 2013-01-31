@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
+<LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<HR><P> | <A HREF="phreeqc3-27.htm">Next</A> || <A HREF="phreeqc3-25.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<BODY BGCOLOR="#ffffff">
+<H2 CLASS="FM3d-order-node">
+<A NAME="50651137_pgfId-482236"></A><STRONG CLASS="Bold">
+LLNL_AQUEOUS_MODEL_PARAMETERS</STRONG>
+<A NAME="50651137_10503"></A></H2>
+<P CLASS="BodyText">
+<A NAME="50651137_pgfId-482237"></A>This keyword data block is used to define aqueous model parameters for the Lawrence Livermore National Laboratory aqueous model. The parameters are the temperature-dependent values of the Debye-H&uuml;ckel <EM CLASS="Emphasis">
+A</EM>
+, <EM CLASS="Emphasis">
+B</EM>
+, and <EM CLASS="Emphasis">
+B</EM>
+-dot parameters and the expression for the activity coefficient of aqueous carbon dioxide as a function of temperature and ionic strength. The <STRONG CLASS="Bold">
+LLNL_AQUEOUS_MODEL_PARAMETERS</STRONG>
+ data block is used in the database file <EM CLASS="Emphasis">
+llnl.dat</EM>
+, which is the only context in which it can be used. </P>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50651137_pgfId-482241"></A><A NAME="50651137_83858"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-482242"></A>Line 0: LLNL_AQUEOUS_MODEL_PARAMETERS</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490161"></A>Line 1: -temperature</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490162"></A>Line 2:	0.0100		25.0000		60.0000		100.0000</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490220"></A>Line 2a	150.0000		200.0000		250.0000		300.0000</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490221"></A>Line 3: -dh_a</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490222"></A>Line 4:	0.4939		0.5114		0.5465		0.5995</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490241"></A>Line 4a:	0.6855		0.7994		0.9593		1.2180</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490242"></A>Line 5: -dh_b</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490243"></A>Line 6:	0.3253		0.3288		0.3346		0.3421</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490171"></A>Line 6a:	0.3525		0.3639		0.3766		0.3925</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490172"></A>Line 7: -bdot</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490173"></A>Line 8:	0.0374		0.0410		0.0438		0.0460</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490174"></A>Line 8a:	0.0470		0.0470		0.0340		0.0000</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490278"></A>Line 9: -co2_coefs</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490279"></A>Line 10:	-1.0312		0.0012806</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-490280"></A>Line 10a:	255.9		0.4445</pre>
+<pre CLASS="ComputerInput"><A NAME="50651137_pgfId-482245"></A>Line 10b:	-0.001606</pre>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50651137_pgfId-482246"></A><A NAME="50651137_93240"></A>Explanation</H6>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-482247"></A>Line 0: <STRONG CLASS="Bold">
+LLNL_AQUEOUS_MODEL_PARAMETERS</STRONG>
+</P>
+<P CLASS="Body1">
+<A NAME="50651137_pgfId-482248"></A><STRONG CLASS="Bold">
+LLNL_AQUEOUS_MODEL_PARAMETERS</STRONG>
+ is the keyword for the data block. No other data are input on the keyword line.</P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-482249"></A>Line 1: <STRONG CLASS="Bold">
+-temperature</STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-482250"></A><STRONG CLASS="Bold">
+-temperature</STRONG>
+--Begins a block of data that defines a temperature grid. Values of the other parameters are specified at each of the temperatures in the grid. Optionally, <STRONG CLASS="Bold">
+temperature</STRONG>
+, <STRONG CLASS="Bold">
+temperatures</STRONG>
+, or <STRONG CLASS="Bold">
+-t</STRONG>
+[<STRONG CLASS="Bold">
+emperatures</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490640"></A>Line 2: <EM CLASS="Emphasis">
+list_of_temperatures</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490641"></A><EM CLASS="Emphasis">
+list_of_temperatures</EM>
+--Temperatures, &#176;C, for the temperature grid. Any number of temperatures can be given, but values of the parameters defined by <STRONG CLASS="Bold">
+-dh_a</STRONG>
+, <STRONG CLASS="Bold">
+-dh_b</STRONG>
+, and <STRONG CLASS="Bold">
+-bdot </STRONG>
+must be defined for each temperature. </P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490645"></A>Line 3: <STRONG CLASS="Bold">
+-dh_a</STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490646"></A><STRONG CLASS="Bold">
+-dh_a</STRONG>
+--Begins a block of data that defines the Debye-H&uuml;ckel <EM CLASS="Emphasis">
+A</EM>
+ parameter at each temperature in the temperature grid. Optionally, <STRONG CLASS="Bold">
+adh</STRONG>
+, <STRONG CLASS="Bold">
+dh_a</STRONG>
+, <STRONG CLASS="Bold">
+-a</STRONG>
+[<STRONG CLASS="Bold">
+dh</STRONG>
+], or <STRONG CLASS="Bold">
+-d</STRONG>
+[<STRONG CLASS="Bold">
+h_a</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490780"></A>Line 4: <EM CLASS="Emphasis">
+dh_a_values</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490781"></A><EM CLASS="Emphasis">
+dh_a_values</EM>
+--Values of Debye-H&uuml;ckel <EM CLASS="Emphasis">
+A</EM>
+ for each temperature in the temperature grid. </P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490805"></A>Line 5: <STRONG CLASS="Bold">
+-dh_b</STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490806"></A><STRONG CLASS="Bold">
+-dh_b</STRONG>
+--Begins a block of data that defines the Debye-H&uuml;ckel <EM CLASS="Emphasis">
+B</EM>
+ parameter at each temperature in the temperature grid. Optionally, <STRONG CLASS="Bold">
+bdh</STRONG>
+, <STRONG CLASS="Bold">
+dh_b</STRONG>
+, <STRONG CLASS="Bold">
+-b</STRONG>
+[<STRONG CLASS="Bold">
+dh</STRONG>
+], or <STRONG CLASS="Bold">
+-dh_b</STRONG>
+.</P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490807"></A>Line 6: <EM CLASS="Emphasis">
+dh_b_values</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490808"></A><EM CLASS="Emphasis">
+dh_b_values</EM>
+--Values of Debye-H&uuml;ckel <EM CLASS="Emphasis">
+B</EM>
+ for each temperature in the temperature grid. </P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490816"></A>Line 7: <STRONG CLASS="Bold">
+-bdot</STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490817"></A><STRONG CLASS="Bold">
+-bdot</STRONG>
+--Begins a block of data that defines the Debye-H&uuml;ckel <EM CLASS="Emphasis">
+B</EM>
+-dot parameter at each temperature in the temperature grid. Optionally, <STRONG CLASS="Bold">
+bdot</STRONG>
+, <STRONG CLASS="Bold">
+b_dot</STRONG>
+, <STRONG CLASS="Bold">
+-bdo</STRONG>
+[<STRONG CLASS="Bold">
+t</STRONG>
+], or <STRONG CLASS="Bold">
+-b_</STRONG>
+[<STRONG CLASS="Bold">
+dot</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490818"></A>Line 8: <EM CLASS="Emphasis">
+dh_bdot_values</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490819"></A><EM CLASS="Emphasis">
+dh_bdot_values</EM>
+--Values of Debye-H&uuml;ckel <EM CLASS="Emphasis">
+B</EM>
+-dot for each temperature in the temperature grid. </P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490887"></A>Line 9: <STRONG CLASS="Bold">
+-co2_coefs</STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50651137_pgfId-490888"></A><STRONG CLASS="Bold">
+-co2_coefs</STRONG>
+--Begins a block of data that defines the parameters in the expression for the activity coefficient of CO<Sub CLASS="Subscript">
+2</Sub>
+(aq) as a function of temperature and ionic strength. Optionally, <STRONG CLASS="Bold">
+c_co2</STRONG>
+, <STRONG CLASS="Bold">
+co2_coefs</STRONG>
+, <STRONG CLASS="Bold">
+-c</STRONG>
+[<STRONG CLASS="Bold">
+_co2</STRONG>
+], or <STRONG CLASS="Bold">
+-c</STRONG>
+[<STRONG CLASS="Bold">
+o2_coefs</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490923"></A>Line 10: <EM CLASS="Emphasis">
+C, F, G, E, H</EM>
+</P>
+<P CLASS="Body-indent">
+<A NAME="50651137_pgfId-490960"></A><EM CLASS="Emphasis">
+C, F, G, E, H</EM>
+--Parameters in the expression <IMG SRC="phreeqc3-16.gif" ALIGN="BASELINE">
+. </P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50651137_pgfId-490924"></A><A NAME="50651137_88721"></A>Notes</H6>
+<P CLASS="BodyText">
+<A NAME="50651137_pgfId-490925"></A>The Lawrence Livermore National Laboratory aqueous model (Daveler and Wolery, 1992) uses this expression for the log (base 10) of an activity coefficient: <IMG SRC="phreeqc3-17.gif" ALIGN="BASELINE">
+, where <IMG SRC="phreeqc3-18.gif" ALIGN="BASELINE">
+ is the Debye-H&uuml;ckel <EM CLASS="Emphasis">
+A</EM>
+ parameter corresponding to <STRONG CLASS="Bold">
+-dh_a</STRONG>
+, <IMG SRC="phreeqc3-19.gif" ALIGN="BASELINE">
+ is the Debye-H&uuml;ckel <EM CLASS="Emphasis">
+B</EM>
+ parameter corresponding to <STRONG CLASS="Bold">
+-dh_b</STRONG>
+, <IMG SRC="phreeqc3-20.gif" ALIGN="BASELINE">
+ is the Debye-H&uuml;ckel <EM CLASS="Emphasis">
+B-</EM>
+dot parameter corresponding to <STRONG CLASS="Bold">
+-bdot</STRONG>
+, <IMG SRC="phreeqc3-21.gif" ALIGN="BASELINE">
+ is the hard core diameter, which is specific to each aqueous species, and <EM CLASS="Emphasis">
+I</EM>
+ is the ionic strength. The <STRONG CLASS="Bold">
+LLNL_AQUEOUS_MODEL_PARAMETERS </STRONG>
+data block defines <IMG SRC="phreeqc3-22.gif" ALIGN="BASELINE">
+, <IMG SRC="phreeqc3-23.gif" ALIGN="BASELINE">
+, and <IMG SRC="phreeqc3-24.gif" ALIGN="BASELINE">
+ as functions of temperature. A temperature grid is defined with <STRONG CLASS="Bold">
+-temperatures</STRONG>
+ and values of each of these parameters are specified at each point in the temperature grid. For a given simulation temperature, values of the parameters are interpolated linearly between points on the temperature grid. The ion-specific parameter <IMG SRC="phreeqc3-25.gif" ALIGN="BASELINE">
+ is defined in the <A HREF="phreeqc3-43.htm#50651137_61994" CLASS="XRef">SOLUTION_SPECIES</A> data block with the identifier <STRONG CLASS="Bold">
+-llnl_gamma</STRONG>
+. </P>
+<P CLASS="BodyText">
+<A NAME="50651137_pgfId-490499"></A>The activity coefficient of aqueous carbon dioxide is defined as a function of ionic strength based on the parameterization of Drummond (1981). The formula for the natural log of the activity coefficient is <IMG SRC="phreeqc3-26.gif" ALIGN="BASELINE">
+, where <EM CLASS="Emphasis">
+T</EM>
+ is temperature in kelvin; <EM CLASS="Emphasis">
+I</EM>
+ is ionic strength; and <EM CLASS="Emphasis">
+C</EM>
+, <EM CLASS="Emphasis">
+F</EM>
+, <EM CLASS="Emphasis">
+G</EM>
+, <EM CLASS="Emphasis">
+E</EM>
+, and <EM CLASS="Emphasis">
+H</EM>
+ are defined in order with the <STRONG CLASS="Bold">
+-co2_coefs </STRONG>
+identifier. The activity coefficient calculated from this formula can be applied to specific neutral species by using the identifier <STRONG CLASS="Bold">
+-CO2_llnl_gamma</STRONG>
+ in the <A HREF="phreeqc3-43.htm#50651137_61994" CLASS="XRef">SOLUTION_SPECIES</A> data block. </P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50651137_pgfId-482264"></A><A NAME="50651137_20130"></A>Example problems</H6>
+<P CLASS="BodyText">
+<A NAME="50651137_pgfId-482292"></A>The <STRONG CLASS="Bold">
+LLNL_AQUEOUS_MODEL_PARAMETERS </STRONG>
+data block is used in the llnl.dat database.</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50651137_pgfId-482293"></A><A NAME="50651137_90175"></A>Related keywords</H6>
+<P CLASS="BodyText">
+<A NAME="50651137_pgfId-482297"></A><A HREF="phreeqc3-43.htm#50651137_61994" CLASS="XRef">SOLUTION_SPECIES</A>.</P>
+</DIV>
+<HR><P> | <A HREF="phreeqc3-27.htm">Next</A> || <A HREF="phreeqc3-25.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
+</HTML>

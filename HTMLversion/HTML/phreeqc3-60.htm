@@ -1,0 +1,620 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
+<LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<HR><P> | <A HREF="phreeqc3-61.htm">Next</A> || <A HREF="phreeqc3-59.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<BODY BGCOLOR="#ffffff">
+<H2 CLASS="FM2d-order-examples">
+<A NAME="50651151_pgfId-337364"></A>Example 5--<A NAME="50651151_31870"></A>Irreversible Reactions</H2>
+<P CLASS="BodyText">
+<A NAME="50651151_pgfId-1593075"></A>This example demonstrates the irreversible reaction capabilities of PHREEQC in modeling the oxidation of pyrite. Oxygen (O<Sub CLASS="Subscript">
+2</Sub>
+) and NaCl are added irreversibly to pure water in six amounts (0.0, 0.001, 0.005, 0.01, 0.03, and 0.05 mol); the relative proportion of O<Sub CLASS="Subscript">
+2</Sub>
+ to NaCl in the irreversible reaction is 1.0 to 0.5. Pyrite, calcite, and goethite are allowed to dissolve to equilibrium and the carbon dioxide partial pressure is maintained at 10<Sup CLASS="Superscript">
+-3.5</Sup>
+ (atmospheric partial pressure). In addition, gypsum is allowed to precipitate if it becomes supersaturated. </P>
+<P CLASS="BodyText">
+<A NAME="50651151_pgfId-1672935"></A>Pure water is defined with <A HREF="phreeqc3-41.htm#50651137_30253" CLASS="XRef">SOLUTION</A> input (<A HREF="phreeqc3-60.htm#50651151_51987" CLASS="XRef">table 19</A>), and the pure-phase assemblage is defined with <A HREF="phreeqc3-13.htm#50651137_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> input. By default, 10 mol of pyrite, goethite, calcite, and carbon dioxide are present in the pure-phase assemblage, but gypsum is defined to have 0.0 mol in the pure-phase    assemblage. Gypsum can precipitate if it becomes supersaturated; it cannot dissolve initially because no moles are present. The <A HREF="phreeqc3-33.htm#50651137_75635" CLASS="XRef">REACTION</A> data block defines the irreversible reaction that is to be modeled. In this example, oxygen (&#8220;O2&#8221;) will be added with a relative coefficient of 1.0 and NaCl will be added with a relative coefficient of 0.5. The steps of the reaction are defined to be 0.0, 0.001, 0.005, 0.01, 0.03, and 0.05 mol. The reactants can be defined by a chemical formula, as in this case (&#8220;O2&#8221; and &#8220;NaCl&#8221;) or by a phase name that has been defined with <A HREF="phreeqc3-29.htm#50651137_84418" CLASS="XRef">PHASES</A> input. Thus, the phase names &#8220;O2(g)&#8221; or &#8220;Halite&#8221; from the default database file could have been used in place of &#8220;O2&#8221; or &#8220;NaCl&#8221; to achieve the same result. The number of moles of oxygen atoms added is equal to the stoichiometric coefficient of oxygen in the formula &#8220;O2&#8221; (2.0) times the relative coefficient (1.0) times the moles of reaction defined by the reaction step (0.0, 0.001, 0.005, 0.01, 0.03 or 0.05). Thus, in the last step, 2.0 &#215; 1.0 &#215; 0.05 = 0.1 mol of O atoms are added. Similarly, the number of moles of chloride added at each step is the stoichiometric coefficient of chlorine in the formula &#8220;NaCl&#8221; (1.0) times the relative coefficient (0.5) times the moles in the reaction step. <A HREF="phreeqc3-38.htm#50651137_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-51.htm#50651137_26121" CLASS="XRef">USER_GRAPH</A> are used to write the total concentration of chloride, the saturation index of gypsum, and the total amounts and mole transfers of pyrite, goethite, calcite, carbon dioxide, and gypsum to the file <EM CLASS="Emphasis">
+ex5.sel</EM>
+ and to plot the reactions in the chart after each equilibrium calculation.       </P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50651151_pgfId-1672944"></A>Table 19. <A NAME="50651151_51987"></A>Input file for example 5.</P>
+</CAPTION>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672946"></A>TITLE Example 5.--Add oxygen, equilibrate with pyrite, calcite, and goethite.</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672948"></A>SOLUTION 1  PURE WATER</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672950"></A>        pH      7.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672952"></A>        temp    25.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672954"></A>EQUILIBRIUM_PHASES 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672956"></A>        Pyrite          0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672958"></A>        Goethite        0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672960"></A>        Calcite         0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672962"></A>        CO2(g)         -3.5</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672964"></A>        Gypsum          0.0     0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672966"></A>REACTION 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672968"></A>        O2      1.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672970"></A>        NaCl    0.5</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672972"></A>        0.0     0.001   0.005   0.01   0.03   0.05</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672974"></A>SELECTED_OUTPUT</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672976"></A>        -file   ex5.sel</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672978"></A>        -total  Cl</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672980"></A>        -si     Gypsum</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672982"></A>        -equilibrium_phases  pyrite goethite calcite CO2(g) gypsum</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672984"></A>USER_GRAPH Example 5</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672986"></A>        -headings Pyrite Goethite Calcite CO2(g) Gypsum SI_Gypsum</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672988"></A>        -chart_title &quot;Pyrite Oxidation&quot;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672990"></A>        -axis_titles &quot;O2 added, in millimoles&quot; &quot;Millimoles dissolved&quot; &#92;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672992"></A>             &quot;Saturation index&quot;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672994"></A>  10 x = RXN * 1e3</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672996"></A>  20 PLOT_XY x, 1e3 * (10 - EQUI(&quot;Pyrite&quot;)), symbol = Plus</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1672998"></A>  30 PLOT_XY x, 1e3 * (10 - EQUI(&quot;Goethite&quot;)), symbol = Plus</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1673000"></A>  40 PLOT_XY x, 1e3 * (10 - EQUI(&quot;Calcite&quot;)), symbol = Plus</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1673002"></A>  50 PLOT_XY x, 1e3 * (10 - EQUI(&quot;CO2(g)&quot;)), symbol = Plus</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1673004"></A>  60 PLOT_XY x, 1e3 * (-EQUI(&quot;Gypsum&quot;)), symbol = Plus, color = Magenta</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1673006"></A>  70 PLOT_XY x, SI(&quot;Gypsum&quot;), y-axis = 2, line_width = 2, symbol = Circle, &#92;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1673008"></A>  	symbol_size = 8, color = Magenta</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1673010"></A>END</Pre>
+</TD>
+</TR>
+</TABLE>
+<P CLASS="BodyText">
+<A NAME="50651151_pgfId-1671365"></A>The results for example 5 are summarized in <A HREF="phreeqc3-60.htm#50651151_33607" CLASS="XRef">table 20</A> and displayed in figure.6. When no oxygen or sodium chloride is added to the system, a small amount of calcite and carbon dioxide dissolves, and trace amounts of pyrite and goethite react; the pH is 8.27, the pe is low (-4.94) because of equilibrium with pyrite, and gypsum is six orders of magnitude undersaturated (saturation index -6.13). As oxygen and sodium   chloride are added, pyrite oxidizes, and goethite, being relatively insoluble, precipitates. This reaction generates sulfuric acid, decreases the pH, slightly increases the pe, and causes calcite to dissolve and carbon dioxide to be released. When slightly more than 30 mmol of oxygen is added, gypsum reaches saturation and begins to precipitate. When 50 mmol of oxygen and 25 mmol of sodium chloride have been added, a total of 9.55 mmol of gypsum has precipitated. </P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50651151_pgfId-1677562"></A>Table 20. <A NAME="50651151_33607"></A>Selected results for example 5.</P>
+<P CLASS="TableHeadnote">
+<A NAME="50651151_pgfId-1677563"></A>[Mole transfer is relative to the moles in the phase assemblage. Positive numbers indicate an increase in the amount of the phase present; that is, precipitation. Negative numbers indicate a decrease in the amount of the phase; that is, dissolution]</P>
+</CAPTION>
+<TR>
+<TH ROWSPAN="2" COLSPAN="2">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677583"></A>Reactants added, millimoles</P>
+</TH>
+<TH ROWSPAN="3" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677587"></A>pH</P>
+</TH>
+<TH ROWSPAN="3" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677589"></A>pe</P>
+</TH>
+<TH ROWSPAN="2" COLSPAN="5">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677591"></A>Mole transfer, millimoles</P>
+</TH>
+<TH ROWSPAN="3" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677601"></A>Saturation</P>
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677602"></A>index of</P>
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677603"></A>gypsum</P>
+</TH>
+</TR>
+<TR>
+</TR>
+<TR>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading">
+<A NAME="50651151_pgfId-1677625"></A>O<Sub CLASS="Subscript">
+2</Sub>
+</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading">
+<A NAME="50651151_pgfId-1677627"></A>NaCl</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677633"></A>Pyrite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677635"></A>Goethite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677637"></A>Calcite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677639"></A>CO<Sub CLASS="Subscript">
+2(g)</Sub>
+</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50651151_pgfId-1677641"></A>Gypsum</P>
+</TH>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677645"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677647"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50651151_pgfId-1677649"></A>8.27</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-25-">
+<A NAME="50651151_pgfId-1677651"></A>-4.94</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-35-">
+<A NAME="50651151_pgfId-1677653"></A>-0.00003</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677655"></A>0.00001</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677657"></A>-0.50</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677659"></A>-0.49</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677661"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677663"></A>-6.13</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677665"></A>1.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677667"></A>0.5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50651151_pgfId-1677669"></A>8.17</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-25-">
+<A NAME="50651151_pgfId-1677671"></A>-4.28</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-35-">
+<A NAME="50651151_pgfId-1677673"></A>-0.27</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677675"></A>0.27</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677677"></A>-0.93</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677679"></A>0.14</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677681"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677683"></A>-2.01</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677685"></A>5.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677687"></A>2.5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50651151_pgfId-1677689"></A>7.98</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-25-">
+<A NAME="50651151_pgfId-1677691"></A>-3.96</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-35-">
+<A NAME="50651151_pgfId-1677693"></A>-1.33</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677695"></A>1.33</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677697"></A>-2.94</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677699"></A>2.39</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677701"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677703"></A>-1.05</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677705"></A>10.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677707"></A>5.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50651151_pgfId-1677709"></A>7.88</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-25-">
+<A NAME="50651151_pgfId-1677711"></A>-3.81</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-35-">
+<A NAME="50651151_pgfId-1677713"></A>-2.67</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677715"></A>2.67</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677717"></A>-5.56</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677719"></A>5.10</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677721"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677723"></A>-0.64</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677725"></A>30.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677727"></A>15.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50651151_pgfId-1677729"></A>7.72</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-25-">
+<A NAME="50651151_pgfId-1677731"></A>-3.57</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-35-">
+<A NAME="50651151_pgfId-1677733"></A>-8.00</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677735"></A>8.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677737"></A>-16.18</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677739"></A>15.82</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677741"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677743"></A>-0.01</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677745"></A>50.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677747"></A>25.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50651151_pgfId-1677749"></A>7.72</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-25-">
+<A NAME="50651151_pgfId-1677751"></A>-3.56</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptDec-35-">
+<A NAME="50651151_pgfId-1677753"></A>-13.33</H6>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677755"></A>13.33</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677757"></A>-26.84</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677759"></A>26.49</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677761"></A>9.55</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50651151_pgfId-1677763"></A>0.00</LI>
+</UL>
+</TD>
+</TR>
+</TABLE>
+<DIV>
+<MAP NAME="phreeqc3-226">
+</MAP>
+<IMG SRC="phreeqc3-226.gif" USEMAP="#phreeqc3-226">
+</DIV>
+<HR><P> | <A HREF="phreeqc3-61.htm">Next</A> || <A HREF="phreeqc3-59.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
+</HTML>
