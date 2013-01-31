@@ -1383,9 +1383,6 @@ void Phreeqc::init(void)
 	dump_file_name			= NULL;
 	remove_unstable_phases  = FALSE;
 	// auto screen_string;
-#ifdef PHREEQCI_GUI
-	struct spread_sheet g_spread_sheet;
-#endif
 	spread_length           = 10;
 	/* ---------------------------------------------------------------------- */
 	/*
@@ -2631,9 +2628,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	//dump_file_name			= NULL;
 	//remove_unstable_phases  = FALSE;
 	// auto screen_string;
-#ifdef PHREEQCI_GUI
-	struct spread_sheet g_spread_sheet;
-#endif
 	spread_length           = 10;
 	/* ---------------------------------------------------------------------- */
 	/*
