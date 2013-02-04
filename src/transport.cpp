@@ -357,6 +357,7 @@ transport(void)
 					(transport_step - 1) * timest + (j - 1) * kin_time;
 				rate_sim_time = rate_sim_time_start + kin_time;
 
+				mixrun = j;
 				if (multi_Dflag)
 					sprintf(token,
 							"Transport step %3d. Multicomponent diffusion run %3d.",
@@ -394,6 +395,8 @@ transport(void)
 
 					if (iterations > max_iter)
 						max_iter = iterations;
+					cell_no = i;
+					mixrun = j;
 					if (multi_Dflag)
 						sprintf(token,
 								"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
@@ -404,7 +407,6 @@ transport(void)
 								transport_step, j, i, max_iter);
 					status(0, token);
 
-					cell_no = i;
 					run_reactions(i, kin_time, DISP, step_fraction);
 					if (multi_Dflag)
 						fill_spec(i);
@@ -564,6 +566,7 @@ transport(void)
 				if (i == first_c && count_cells > 1)
 					kin_time /= 2;
 				cell_no = i;
+				mixrun = 0;
 				if (multi_Dflag)
 					sprintf(token,
 							"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
@@ -669,6 +672,8 @@ transport(void)
 			{
 				if (iterations > max_iter)
 					max_iter = iterations;
+				cell_no = i;
+				mixrun = j;
 				if (multi_Dflag)
 					sprintf(token,
 							"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
@@ -678,7 +683,7 @@ transport(void)
 							"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
 							transport_step, j, i, max_iter);
 				status(0, token);
-				cell_no = i;
+
 				run_reactions(i, kin_time, DISP, step_fraction);
 				if (multi_Dflag == TRUE)
 					fill_spec(i);

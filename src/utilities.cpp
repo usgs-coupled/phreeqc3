@@ -1417,8 +1417,8 @@ status(int count, const char *str, bool rk_string)
 	t2 = clock();
 	if (((state < ADVECTION && reaction_step < count_total_steps) || 
 		(state == ADVECTION && (advection_step < count_ad_shifts || cell_no < count_cells)) || 
-		(state == TRANSPORT && (transport_step < count_shifts || cell_no < count_cells + (stag_data->count_stag == 0 ? 
-		                                               0 : stag_data->count_stag * count_cells + 2))))
+		(state == TRANSPORT && (transport_step < count_shifts || (mixrun < nmix &&
+		                        cell_no < count_cells))))
 		&& (int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
 		return (OK);
 	else
