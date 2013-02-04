@@ -1358,7 +1358,7 @@ protected:
 	LDBLE interlayer_tortf;	/* tortuosity_factor in interlayer porosity,
 							Dpil = Dw / interlayer_tortf */
 
-	int cell_no;
+	int cell_no, mixrun;
 	/*----------------------------------------------------------------------
 	*   Advection data
 	*---------------------------------------------------------------------- */
