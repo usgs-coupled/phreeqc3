@@ -145,7 +145,7 @@ bool StorageBinList::Read(CParser & parser)
 
 	bool useLastLine(false);
 	opt_save = CParser::OPT_DEFAULT;
-
+	StorageBinListItem cell_list;
 	for (;;)
 	{
 		int opt;
@@ -161,7 +161,7 @@ bool StorageBinList::Read(CParser & parser)
 
 		// Select StorageBinListItem
 		StorageBinListItem *item = NULL;
-		StorageBinListItem cell_list;
+		//StorageBinListItem cell_list;
 		switch (opt)
 		{
 		case 0:
@@ -264,14 +264,14 @@ bool StorageBinList::Read(CParser & parser)
 			break;
 		case 14:
 		case 15:
-			if (cell_list.Get_numbers().empty())
-			{
-				this->SetAll(true);
-			}
-			else
-			{
-				this->TransferAll(cell_list);
-			}
+			//if (cell_list.Get_numbers().empty())
+			//{
+			//	this->SetAll(true);
+			//}
+			//else
+			//{
+				//this->TransferAll(cell_list);
+			//}
 			break;
 		default:
 		case CParser::OPT_DEFAULT:
@@ -286,6 +286,19 @@ bool StorageBinList::Read(CParser & parser)
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
+	}
+
+	// Now check to see if cell_list defined 
+	if (cell_list.Get_defined())
+	{
+		if (cell_list.Get_numbers().empty())
+		{
+			this->SetAll(true);
+		}
+		else
+		{
+			this->TransferAll(cell_list);
+		}
 	}
 	return(return_value);
 }
