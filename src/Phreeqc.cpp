@@ -1860,6 +1860,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Mix
 	*---------------------------------------------------------------------- */
+	// Should be empty after each END
 	// auto Rxn_mix_map;
 	// auto Dispersion_mix_map;
 	// auto Rxn_solution_mix_map;
@@ -2079,30 +2080,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	s_o2					= NULL;
 	*/	
 	// logk
-#ifdef SKIP
-	count_logk = pSrc->count_logk;
-	max_logk = pSrc->max_logk;
-	logk = (struct logk **) free_check_null(logk);
-	logk = (struct logk **) PHRQ_malloc((size_t) max_logk * sizeof(struct logk *));
-	if (logk == NULL) malloc_error();
-	for (int i = 0; i < count_logk; i++)
-	{
-		logk[i] = (struct logk *) PHRQ_malloc((size_t) max_logk * sizeof(struct logk));
-		memcpy(logk[i], pSrc->logk[i], sizeof(struct logk));
-		logk[i]->name = string_hsave(pSrc->logk[i]->name);
-		logk[i]->add_logk = NULL;
-		if (logk[i]->count_add_logk > 0)
-		{
-			logk[i]->add_logk = (struct name_coef *) PHRQ_malloc((size_t) logk[i]->count_add_logk * sizeof(struct name_coef));
-			if (logk[i]->add_logk == NULL) malloc_error();
-			for (int j = 0; j < logk[i]->count_add_logk; j++)
-			{
-				logk[i]->add_logk[j].coef = pSrc->logk[i]->add_logk[j].coef;
-				logk[i]->add_logk[j].name = string_hsave( pSrc->logk[i]->add_logk[j].name);
-			}
-		}	
-	}
-#endif
 	for (int i = 0; i < pSrc->count_logk; i++)
 	{
 		char * name = string_duplicate(pSrc->logk[i]->name);
@@ -2134,6 +2111,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		{
 			s_ptr->mole_balance = string_hsave(pSrc->s[i]->mole_balance);
 		}
+		s_ptr->primary = NULL;
+		s_ptr->secondary = NULL;
 		//add_logk
 		s_ptr->add_logk = NULL;
 		if (s_ptr->count_add_logk > 0)
@@ -2147,28 +2126,43 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			}
 		}
 		//next_elt
-		cxxNameDouble next_elt(pSrc->s[i]->next_elt);
-		s_ptr->next_elt = NameDouble2elt_list(next_elt);
+		s_ptr->next_elt = NULL;
+		if (pSrc->s[i]->next_elt)
+		{
+			cxxNameDouble next_elt(pSrc->s[i]->next_elt);
+			s_ptr->next_elt = NameDouble2elt_list(next_elt);
+		}
 		//next_secondary
-		cxxNameDouble next_secondary(pSrc->s[i]->next_secondary);
-		s_ptr->next_secondary = NameDouble2elt_list(next_secondary);
+		s_ptr->next_secondary = NULL;
+		if (pSrc->s[i]->next_secondary)
+		{
+			cxxNameDouble next_secondary(pSrc->s[i]->next_secondary);
+			s_ptr->next_secondary = NameDouble2elt_list(next_secondary);
+		}
 		//next_sys_total
-		cxxNameDouble next_sys_total(pSrc->s[i]->next_sys_total);
-		s_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
+		s_ptr->next_sys_total = NULL;
+		if (pSrc->s[i]->next_sys_total)
+		{
+			cxxNameDouble next_sys_total(pSrc->s[i]->next_sys_total);
+			s_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
+		}
 		//rxn
+		s_ptr->rxn = NULL;
 		if (pSrc->s[i]->rxn != NULL)
 		{
 			cxxChemRxn rxn(pSrc->s[i]->rxn);
 			s_ptr->rxn = cxxChemRxn2rxn(rxn);
 			//s_ptr->rxn = rxn_copy_operator(pSrc->s[i]->rxn);
 		}
-		//rxn_s		
+		//rxn_s	
+		s_ptr->rxn_s = NULL;
 		if (pSrc->s[i]->rxn_s != NULL)
 		{
 			cxxChemRxn rxn_s(pSrc->s[i]->rxn_s);
 			s_ptr->rxn_s = cxxChemRxn2rxn(rxn_s);
 		}
 		//rxn_x
+		s_ptr->rxn_x = NULL;
 		if (pSrc->s[i]->rxn_x != NULL)
 		{
 			cxxChemRxn rxn_x(pSrc->s[i]->rxn_x);
@@ -2190,49 +2184,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_phases            = 0;
 	max_phases              = MAX_PHASES;
 	*/
-#ifdef SKIP
-	count_phases = pSrc->count_phases;
-	max_phases = pSrc->max_phases;
-	phases = (struct phase **) free_check_null(phases);
-	phases = (struct phase **) PHRQ_malloc((size_t) max_phases * sizeof(struct phase *));
-	if (phases == NULL) malloc_error();
-	for (int i = 0; i < count_phases; i++)
-	{
-		phases[i] = (struct phase *) PHRQ_malloc( sizeof(struct phase));
-		if (phases[i] == NULL) malloc_error();
-		memcpy(phases[i], pSrc->phases[i], sizeof(struct phase));
-		// clean up pointers
-		phases[i]->name = string_hsave(pSrc->phases[i]->name);
-		phases[i]->formula = string_hsave(pSrc->phases[i]->formula);
-		//add_logk
-		phases[i]->add_logk = NULL;
-		if (phases[i]->count_add_logk > 0)
-		{
-			phases[i]->add_logk = (struct name_coef *) PHRQ_malloc((size_t) pSrc->phases[i]->count_add_logk * sizeof(struct name_coef));
-			if (phases[i]->add_logk == NULL) malloc_error();
-			for (int j = 0; j < phases[i]->count_add_logk; j++)
-			{
-				phases[i]->add_logk[j].coef = pSrc->phases[i]->add_logk[j].coef;
-				phases[i]->add_logk[j].name = string_hsave( pSrc->phases[i]->add_logk[j].name);
-			}
-		}
-		//next_elt
-		cxxNameDouble next_elt(pSrc->phases[i]->next_elt);
-		phases[i]->next_elt = NameDouble2elt_list(next_elt);
-		//next_sys_total
-		cxxNameDouble next_sys_total(pSrc->phases[i]->next_sys_total);
-		phases[i]->next_sys_total = NameDouble2elt_list(next_sys_total);
-		//rxn
-		cxxChemRxn rxn(pSrc->phases[i]->rxn);
-		phases[i]->rxn = cxxChemRxn2rxn(rxn);
-		//rxn_s
-		cxxChemRxn rxn_s(pSrc->phases[i]->rxn_s);
-		phases[i]->rxn_s = cxxChemRxn2rxn(rxn_s);
-		//rxn_x
-		cxxChemRxn rxn_x(pSrc->phases[i]->rxn_x);
-		phases[i]->rxn_x = cxxChemRxn2rxn(rxn_x);		
-	}
-#endif
 	for (int i = 0; i < pSrc->count_phases; i++)
 	{
 		struct phase *phase_ptr = phase_store(pSrc->phases[i]->name);
@@ -2253,24 +2204,35 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			}
 		}
 		//next_elt
-		cxxNameDouble next_elt(pSrc->phases[i]->next_elt);
-		phase_ptr->next_elt = NameDouble2elt_list(next_elt);
+		phase_ptr->next_elt = NULL;
+		if (pSrc->phases[i]->next_elt)
+		{
+			cxxNameDouble next_elt(pSrc->phases[i]->next_elt);
+			phase_ptr->next_elt = NameDouble2elt_list(next_elt);
+		}
 		//next_sys_total
-		cxxNameDouble next_sys_total(pSrc->phases[i]->next_sys_total);
-		phase_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
+		phase_ptr->next_sys_total = NULL;
+		if (pSrc->phases[i]->next_sys_total)
+		{
+			cxxNameDouble next_sys_total(pSrc->phases[i]->next_sys_total);
+			phase_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
+		}
 		//rxn
+		phase_ptr->rxn = NULL;
 		if (pSrc->phases[i]->rxn != NULL)
 		{
 			cxxChemRxn rxn(pSrc->phases[i]->rxn);
 			phase_ptr->rxn = cxxChemRxn2rxn(rxn);
 		}
 		//rxn_s
+		phase_ptr->rxn_s = NULL;
 		if (pSrc->phases[i]->rxn_s != NULL)
 		{
 			cxxChemRxn rxn_s(pSrc->phases[i]->rxn_s);
 			phase_ptr->rxn_s = cxxChemRxn2rxn(rxn_s);
 		}
 		//rxn_x
+		phase_ptr->rxn_x = NULL;
 		if (pSrc->phases[i]->rxn_x != NULL)
 		{
 			cxxChemRxn rxn_x(pSrc->phases[i]->rxn_x);
@@ -2307,12 +2269,14 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		master[i]->unknown = NULL;
 		master[i]->s = s_store(pSrc->master[i]->s->name, pSrc->master[i]->s->z, false);
 		//rxn_primary
+		master[i]->rxn_primary = NULL;
 		if (pSrc->master[i]->rxn_primary != NULL)
 		{
 			cxxChemRxn rxn_primary(pSrc->master[i]->rxn_primary);
 			master[i]->rxn_primary = cxxChemRxn2rxn(rxn_primary);
 		}
 		//rxn_secondary
+		master[i]->rxn_secondary = NULL;
 		if (pSrc->master[i]->rxn_secondary != NULL)
 		{
 			cxxChemRxn rxn_secondary(pSrc->master[i]->rxn_secondary);
@@ -2538,25 +2502,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	debug_diffuse_layer     = FALSE;
 	debug_inverse           = FALSE;
 	*/
-#ifdef SKIP
-#ifdef USE_LONG_DOUBLE
-	/* from float.h, sets tolerance for cl1 routine */
-	inv_tol_default         = pow((long double) 10, (long double) -LDBL_DIG + 5);
-#else
-	inv_tol_default         = pow((double) 10, (double) -DBL_DIG + 5);
-#endif
-#endif
 	inv_tol_default         = pSrc->inv_tol_default;
 	itmax                   = pSrc->itmax;
 	max_tries               = pSrc->max_tries;
-#ifdef SKIP
-#ifdef USE_LONG_DOUBLE
-	/* from float.h, sets tolerance for cl1 routine */
-	ineq_tol                = pow((long double) 10, (long double) -LDBL_DIG);
-#else
-	ineq_tol                = pow((double) 10, (double) -DBL_DIG);
-#endif
-#endif
 	ineq_tol                = pSrc->ineq_tol;
 	convergence_tolerance   = pSrc->convergence_tolerance;
 	step_size				= pSrc->step_size;
@@ -2678,7 +2626,11 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		struct calculate_value *calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
 		memcpy(calculate_value_ptr, pSrc->calculate_value[i], sizeof(struct calculate_value));
 		calculate_value_ptr->value = pSrc->calculate_value[i]->value;
-		calculate_value_ptr->commands = string_duplicate(pSrc->calculate_value[i]->commands);
+		calculate_value_ptr->commands = NULL;
+		if (pSrc->calculate_value[i]->commands)
+		{
+			calculate_value_ptr->commands = string_duplicate(pSrc->calculate_value[i]->commands);
+		}
 		calculate_value_ptr->new_def = TRUE;
 		calculate_value_ptr->calculated = FALSE;
 		calculate_value_ptr->linebase = NULL;
@@ -2934,9 +2886,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	VP                      = 0;
 	DW0                     = 0;
 #endif
-#ifdef TODO_PITZER
-#endif
-	
+	ICON					= pSrc->ICON;
 	/*
 	pitz_params				= NULL;
 	count_pitz_param		= 0;
@@ -2944,7 +2894,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*/
 	for (int i = 0; i < pSrc->count_pitz_param; i++)
 	{
-		pitz_param_store(pSrc->pitz_params[i]);
+		pitz_param_store(pSrc->pitz_params[i], true);
 	}
 
 	// auto pitz_param_map
@@ -2977,7 +2927,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		DK[i]				= 0.0;
 	}
 	*/
-	pitzer_tidy();
 
 #ifdef PHREEQ98
 	int connect_simulations, graph_initial_solutions;
@@ -3090,6 +3039,34 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		keycount.push_back(0);
 	}
 #endif
+	// make sure new_model gets set
+	this->keycount[Keywords::KEY_SOLUTION_SPECIES] = 1;
 	this->tidy_model();
 	return;
+}
+// Operator overloaded using a member function
+Phreeqc &Phreeqc::operator=(const Phreeqc &rhs) 
+{
+	if (this == &rhs)      // Same object?
+		return *this; 
+
+	// clean up this here
+	this->clean_up();
+
+	this->free_check_null(default_data_base);
+	this->free_check_null(sformatf_buffer);
+
+	this->PHRQ_free_all();
+	if (this->phrq_io == &this->ioInstance)
+	{
+		this->phrq_io->clear_istream();
+		this->phrq_io->close_ostreams();
+	}
+
+	// copy Phreeqc object to this
+	this->phrq_io = rhs.phrq_io;
+	this->init();
+	this->initialize();
+	this->InternalCopy(&rhs);
+	return *this;
 }

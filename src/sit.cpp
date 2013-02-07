@@ -198,7 +198,7 @@ read_sit(void)
 	  if (pzp_ptr != NULL)
 	  {
 		  pzp_ptr->type = pzp_type;
-		  sit_param_store(pzp_ptr);
+		  sit_param_store(pzp_ptr, false);
       }
       break;
     case OPTION_ERROR:

@@ -64,6 +64,7 @@ public:
 	Phreeqc(PHRQ_io *io = NULL);
 	Phreeqc(const Phreeqc &src);
 	void InternalCopy(const Phreeqc *pSrc);
+	Phreeqc &operator=(const Phreeqc &rhs); 
 	~Phreeqc(void);
 
 public:
@@ -493,8 +494,8 @@ public:
 
 	// pitzer.cpp -------------------------------
 	struct pitz_param *pitz_param_read(char *string, int n);
-	void pitz_param_store(struct pitz_param *pzp_ptr);
-	void sit_param_store(struct pitz_param *pzp_ptr);
+	void pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy);
+	void sit_param_store(struct pitz_param *pzp_ptr, bool force_copy);
 	struct theta_param *theta_param_search(LDBLE zj, LDBLE zk);
 	struct theta_param *theta_param_alloc(void);
 	int theta_param_init(struct theta_param *theta_param_ptr);

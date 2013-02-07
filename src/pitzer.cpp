@@ -636,7 +636,7 @@ read_pitzer(void)
 			if (pzp_ptr != NULL)
 			{
 				pzp_ptr->type = pzp_type;
-				pitz_param_store(pzp_ptr);
+				pitz_param_store(pzp_ptr, false);
 			}
 			break;
 		case OPTION_ERROR:
