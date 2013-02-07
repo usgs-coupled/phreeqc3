@@ -63,8 +63,95 @@ unsigned int cwOriginal = _controlfp(cw, MCW_EM); //Set it.
 	Phreeqc phreeqc_instance;
 	return phreeqc_instance.main_method(argc, argv);
 }
+//#define TEST_COPY
+#ifdef TEST_COPY
+int Phreeqc::
+main_method(int argc, char *argv[])
+/*
+ *   Main program for PHREEQC
+ */
+{
 
+	int errors;
+	std::istream *db_cookie = NULL;
+	std::istream *input_cookie = NULL;
+#if defined(WIN32_MEMORY_DEBUG)
+	int tmpDbgFlag;
 
+	/*
+	 * Set the debug-heap flag to keep freed blocks in the
+	 * heap's linked list - This will allow us to catch any
+	 * inadvertent use of freed memory
+	 */
+	tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+	//tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;
+	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
+	///tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;
+	_CrtSetDbgFlag(tmpDbgFlag);
+	//_crtBreakAlloc = 9482;
+#endif
+
+	phast = FALSE;
+/*
+ *   Open input/output files
+ */
+	errors = process_file_names(argc, argv, &db_cookie, &input_cookie, TRUE);
+	if (errors != 0)
+	{
+		return errors;
+	}
+#ifdef DOS
+	write_banner();
+#endif
+
+/*
+ *   Initialize arrays
+ */
+	errors = do_initialize();
+	if (errors != 0)
+	{
+		return errors;
+	}
+/*
+ *   Load database into memory
+ */
+	this->phrq_io->push_istream(db_cookie);
+	errors = read_database();
+	this->phrq_io->clear_istream();
+
+	if (errors != 0)
+	{
+		return errors;
+	}
+	Phreeqc MyCopy;
+	MyCopy = *this;
+	//this->clean_up();
+/*
+ *   Read input data for simulation
+ */
+
+	MyCopy.phrq_io->push_istream(input_cookie);
+	errors = MyCopy.run_simulations();
+
+	//Phreeqc mycopy(*this);
+	MyCopy.phrq_io->clear_istream();
+
+	if (errors != 0)
+	{
+		return errors;
+	}
+/*
+ *   Display successful status
+ */
+	pr.headings = TRUE;
+	errors = do_status();
+	if (errors != 0)
+	{
+		return errors;
+	}
+	return 0;
+}
+#else
 int Phreeqc::
 main_method(int argc, char *argv[])
 /*
@@ -149,7 +236,7 @@ main_method(int argc, char *argv[])
 	}
 	return 0;
 }
-
+#endif //TEST_COPY
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 write_banner(void)
