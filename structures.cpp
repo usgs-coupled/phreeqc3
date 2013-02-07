@@ -1771,14 +1771,24 @@ cxxChemRxn2rxn(cxxChemRxn &cr)
  */
 	for (int i = 0; i < (int) cr.Get_tokens().size(); i++)
 	{
-		cr.Get_tokens()[i].s = s_store(cr.Get_tokens()[i].s->name, cr.Get_tokens()[i].s->z, FALSE);
+		if (cr.Get_tokens()[i].s != NULL)
+		{
+			cr.Get_tokens()[i].s = s_store(cr.Get_tokens()[i].s->name, cr.Get_tokens()[i].s->z, FALSE);
+		}
 		if (cr.Get_tokens()[i].name != NULL)
 		{
 			cr.Get_tokens()[i].name = string_hsave(cr.Get_tokens()[i].name);
 		}
 		else
 		{
-			cr.Get_tokens()[i].name = string_hsave(cr.Get_tokens()[i].s->name);
+			if (cr.Get_tokens()[i].s != NULL)
+			{
+				cr.Get_tokens()[i].name = string_hsave(cr.Get_tokens()[i].s->name);
+			}
+			else
+			{
+				cr.Get_tokens()[i].name=NULL;
+			}
 		}
 	}
 

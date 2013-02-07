@@ -136,7 +136,7 @@ pitz_param_copy(struct pitz_param *old_ptr, struct pitz_param *new_ptr)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-pitz_param_store(struct pitz_param *pzp_ptr)
+pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -188,8 +188,25 @@ pitz_param_store(struct pitz_param *pzp_ptr)
 				count_pitz_param, &max_pitz_param,
 				sizeof(struct pitz_param *));
 		}
-
-		pitz_params[count_pitz_param] = pzp_ptr;
+		if (force_copy)
+		{
+			pitz_params[count_pitz_param] = pitz_param_duplicate(pzp_ptr);
+			// clean up pointers
+			// species 
+			for (i = 0; i < 3; i++)
+			{
+				if (pzp_ptr->species[i] != NULL) 
+				{
+					pitz_params[count_pitz_param]->species[i] = string_hsave(pzp_ptr->species[i]);
+				}
+			}
+			// thetas
+			pitz_params[count_pitz_param]->thetas = NULL;
+		}
+		else
+		{
+			pitz_params[count_pitz_param] = pzp_ptr;
+		}
 		pitz_param_map[key] = count_pitz_param;
 		count_pitz_param++;
 	}
@@ -197,7 +214,7 @@ pitz_param_store(struct pitz_param *pzp_ptr)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-sit_param_store(struct pitz_param *pzp_ptr)
+sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -247,8 +264,25 @@ sit_param_store(struct pitz_param *pzp_ptr)
 				count_sit_param, &max_sit_param,
 				sizeof(struct pitz_param *));
 		}
-
-		sit_params[count_sit_param] = pzp_ptr;
+		if (force_copy)
+		{
+			sit_params[count_sit_param] = pitz_param_duplicate(pzp_ptr);
+			// clean up pointers
+			// species 
+			for (i = 0; i < 3; i++)
+			{
+				if (pzp_ptr->species[i] != NULL) 
+				{
+					sit_params[count_sit_param]->species[i] = string_hsave(pzp_ptr->species[i]);
+				}
+			}
+			// thetas
+			sit_params[count_sit_param]->thetas = NULL;
+		}
+		else
+		{
+			sit_params[count_sit_param] = pzp_ptr;
+		}
 		sit_param_map[key] = count_sit_param;
 		count_sit_param++;
 	}

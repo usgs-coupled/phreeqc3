@@ -1246,7 +1246,7 @@ build_model(void)
 			}
 			if (debug_prep == TRUE)
 			{
-				output_msg(sformatf( "\tElement composition\n",
+				output_msg(sformatf( "\tElement composition %s\n",
 						   trxn.token[0].s->name));
 				for (j = 0; j < count_elts; j++)
 				{
