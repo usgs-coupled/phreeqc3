@@ -17,8 +17,13 @@
 #include "Keywords.h"
 #include "PHRQ_io.h"
 
-
-
+#ifdef _DEBUG
+#define isspace(a) isspace((a) < -1 ? (a) + 256 : (a)) 
+#define isupper(a) isupper((a) < -1 ? (a) + 256 : (a))
+#define islower(a) islower((a) < -1 ? (a) + 256 : (a)) 
+#define isdigit(a) isdigit((a) < -1 ? (a) + 256 : (a)) 
+#define isalpha(a) isalpha((a) < -1 ? (a) + 256 : (a))
+#endif
 
 class CParser: public PHRQ_base
 {
