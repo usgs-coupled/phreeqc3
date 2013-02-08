@@ -608,7 +608,7 @@ public:
 		struct rxn_token *next_token;
 		next_token = rxn->token;
 		this->tokens.push_back(*next_token++);
-		while (next_token->s != NULL)
+		while (next_token->s != NULL || next_token->name != NULL)
 		{
 			this->tokens.push_back(*next_token++);
 		}
