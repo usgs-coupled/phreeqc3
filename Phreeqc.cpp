@@ -2604,15 +2604,29 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	{
 		struct master_isotope *master_isotope_ptr = master_isotope_store(pSrc->master_isotope[i]->name, FALSE);
 		memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(struct master_isotope));
+		master_isotope_ptr->name = string_hsave(pSrc->master_isotope[i]->name);
 		int n;
-		char * name = string_duplicate(pSrc->master_isotope[i]->master->elt->name);
-		master_isotope_ptr->master = master_search(name, &n);
+		master_isotope_ptr->master = NULL;
+		if (pSrc->master_isotope[i]->master)
+		{
+			char * name = string_duplicate(pSrc->master_isotope[i]->master->elt->name);
+			master_isotope_ptr->master = master_search(name, &n);
+			free_check_null(name);
+		}
 		if (master_isotope_ptr->master == NULL)
 		{
-			error_msg("Error in copy constructor for master_isotope.", STOP);
+			//error_msg("Error in copy constructor for master_isotope.", STOP);
 		}
-		master_isotope_ptr->elt = element_store(pSrc->master_isotope[i]->elt->name);
-		master_isotope_ptr->units = string_hsave(pSrc->master_isotope[i]->units);
+		master_isotope_ptr->elt = NULL;
+		if (pSrc->master_isotope[i]->elt)
+		{
+			master_isotope_ptr->elt = element_store(pSrc->master_isotope[i]->elt->name);
+		}
+		master_isotope_ptr->units = NULL;
+		if (pSrc->master_isotope[i]->units)
+		{
+			master_isotope_ptr->units = string_hsave(pSrc->master_isotope[i]->units);
+		}
 	}
 	initial_solution_isotopes = pSrc->initial_solution_isotopes;
 	/*
@@ -2646,9 +2660,10 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	for (int i = 0; i < pSrc->count_isotope_ratio; i++)
 	{
 		struct isotope_ratio *isotope_ratio_ptr = isotope_ratio_store(pSrc->isotope_ratio[i]->name, FALSE);
+		isotope_ratio_ptr->name = string_hsave(pSrc->isotope_ratio[i]->name);
 		isotope_ratio_ptr->isotope_name = string_hsave(pSrc->isotope_ratio[i]->isotope_name);
-		isotope_ratio_ptr->ratio = 0;
-		isotope_ratio_ptr->converted_ratio = -999.9;
+		isotope_ratio_ptr->ratio = pSrc->isotope_ratio[i]->ratio;
+		isotope_ratio_ptr->converted_ratio = pSrc->isotope_ratio[i]->converted_ratio;
 	}
 	/*
 	count_isotope_alpha		= 0;
@@ -2660,7 +2675,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	{
 		struct isotope_alpha *isotope_alpha_ptr = isotope_alpha_store(pSrc->isotope_alpha[i]->name, FALSE);
 		isotope_alpha_ptr->named_logk = string_hsave(pSrc->isotope_alpha[i]->named_logk);
-		isotope_alpha_ptr->value = -999.9;
+		isotope_alpha_ptr->value = pSrc->isotope_alpha[i]->value;
 	}
 
 	phreeqc_mpi_myself		= 0;
