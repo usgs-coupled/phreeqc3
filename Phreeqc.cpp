@@ -2983,6 +2983,11 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	sit_M                   = NULL;
 	sit_LGAMMA              = NULL;
 #endif
+	
+	for (int i = 0; i < pSrc->count_sit_param; i++)
+	{
+		sit_param_store(pSrc->sit_params[i], true);
+	}
 #ifdef SKIP
 	/* tidy.cpp ------------------------------- */
 	a0                      = 0;
