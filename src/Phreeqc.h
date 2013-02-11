@@ -1894,6 +1894,8 @@ protected:
 	friend class TestIPhreeqc;
 	friend class TestSelectedOutput;
 	friend class IPhreeqcMMS;
+	friend class IPhreeqcPhast;
+	friend class Reaction_module;
 
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
