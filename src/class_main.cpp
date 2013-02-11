@@ -36,7 +36,7 @@ main(int argc, char *argv[])
 	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
 	///tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;
 	_CrtSetDbgFlag(tmpDbgFlag);
-	//_crtBreakAlloc = 9482;
+	//_crtBreakAlloc = 329203;
 #endif
 #ifdef SKIP
 //Set the x86 floating-point control word according to what
@@ -125,7 +125,9 @@ main_method(int argc, char *argv[])
 	}
 	Phreeqc MyCopy;
 	MyCopy = *this;
-	//this->clean_up();
+	this->clean_up();
+	this->init();
+	this->initialize();
 /*
  *   Read input data for simulation
  */

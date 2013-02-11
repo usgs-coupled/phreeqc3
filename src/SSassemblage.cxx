@@ -49,6 +49,7 @@ cxxNumKeyword(io)
 			this->add(*entity_ptr, it->second);
 		}
 	}
+	this->new_def = false;
 }
 
 cxxSSassemblage::~cxxSSassemblage()
@@ -116,7 +117,7 @@ cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out)
 
 	s_oss << indent1 << "# SOLID_SOLUTION candidate identifiers with new_def=true #\n";
 	s_oss << indent1;
-	s_oss << "-new_def                   " << this->new_def << "\n";
+	s_oss << "-new_def                   " << (this->new_def ? 1 : 0) << "\n";
 
 	s_oss << indent1 << "# solid solution workspace variables #\n";
 	s_oss << indent1;
