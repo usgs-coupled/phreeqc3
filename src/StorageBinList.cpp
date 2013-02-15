@@ -108,31 +108,32 @@ StorageBinList::~StorageBinList(void)
 {
 }
 
+std::set<StorageBinListItem *> StorageBinList::GetAllItems(void)
+{
+	std::set<StorageBinListItem *> items;
+	items.insert(&this->solution);
+	items.insert(&this->pp_assemblage);
+	items.insert(&this->exchange);
+	items.insert(&this->surface);
+	items.insert(&this->ss_assemblage);
+	items.insert(&this->gas_phase);
+	items.insert(&this->kinetics);
+	items.insert(&this->mix);
+	items.insert(&this->reaction);
+	items.insert(&this->temperature);
+	items.insert(&this->pressure);
+	return items;
+}
+
 void StorageBinList::SetAll(bool tf)
 {
-	this->solution.Clear();
-	this->pp_assemblage.Clear();
-	this->exchange.Clear();
-	this->surface.Clear();
-	this->ss_assemblage.Clear();
-	this->gas_phase.Clear();
-	this->kinetics.Clear();
-	this->mix.Clear();
-	this->reaction.Clear();
-	this->temperature.Clear();
-	this->pressure.Clear();
-
-	this->solution.Set_defined(tf);
-	this->pp_assemblage.Set_defined(tf);
-	this->exchange.Set_defined(tf);
-	this->surface.Set_defined(tf);
-	this->ss_assemblage.Set_defined(tf);
-	this->gas_phase.Set_defined(tf);
-	this->kinetics.Set_defined(tf);
-	this->mix.Set_defined(tf);
-	this->reaction.Set_defined(tf);
-	this->temperature.Set_defined(tf);
-	this->pressure.Set_defined(tf);
+	std::set<StorageBinListItem *> all = this->GetAllItems();
+	std::set<StorageBinListItem *>::iterator it = all.begin();
+	for (; it != all.end(); ++it)
+	{
+		(*it)->Clear();
+		(*it)->Set_defined(tf);
+	}
 }
 
 bool StorageBinList::Read(CParser & parser)
@@ -305,20 +306,15 @@ bool StorageBinList::Read(CParser & parser)
 
 void StorageBinList::TransferAll(StorageBinListItem &source)
 {
+	std::set<StorageBinListItem *> items = this->GetAllItems();
 	std::set < int >::iterator it;
 	for (it = source.Get_numbers().begin(); it != source.Get_numbers().end(); it++)
 	{
-		this->solution.Augment(*it);
-		this->pp_assemblage.Augment(*it);
-		this->exchange.Augment(*it);
-		this->surface.Augment(*it);
-		this->ss_assemblage.Augment(*it);
-		this->gas_phase.Augment(*it);
-		this->kinetics.Augment(*it);
-		this->mix.Augment(*it);
-		this->reaction.Augment(*it);
-		this->temperature.Augment(*it);
-		this->pressure.Augment(*it);
+		std::set<StorageBinListItem *>::iterator item = items.begin();
+		for (; item != items.end(); ++item)
+		{
+			(*item)->Augment(*it);
+		}
 	}
 }
 const std::vector< std::string >::value_type temp_vopts[] = {
