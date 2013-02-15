@@ -1888,6 +1888,9 @@ protected:
 	/* utilities.cpp ------------------------------- */
 	int spinner;
 
+	/* new after release of Version 3 */
+	std::map<std::string, std::vector < std::string> > sum_species_map; 
+
 	friend class PBasic;
 	friend class ChartObject;
 	friend class IPhreeqc;
