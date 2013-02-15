@@ -1465,6 +1465,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 	}
 	return (tot);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 sum_match_species(const char *mytemplate, const char *name)
@@ -1501,6 +1502,58 @@ sum_match_species(const char *mytemplate, const char *name)
 	}
 	return (tot);
 }
+#else
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+sum_match_species(const char *mytemplate, const char *name)
+/* ---------------------------------------------------------------------- */
+{
+	int i;
+	LDBLE tot;
+	struct elt_list *next_elt;
+
+	count_elts = 0;
+	paren_count = 0;
+	tot = 0;
+	if (sum_species_map.find(mytemplate) == sum_species_map.end())
+	{
+		std::vector<std::string> species_list;
+		for (i = 0; i < count_s_x; i++)
+		{
+			struct species *s_ptr = s_x[i];
+			if (match_elts_in_species(s_ptr->name, mytemplate) == TRUE)
+			{
+				species_list.push_back(s_ptr->name);
+			}
+		}
+		sum_species_map[mytemplate] = species_list;
+	}
+	std::vector<std::string> &species_list = (sum_species_map.find(mytemplate))->second;
+	for (size_t i=0; i < species_list.size(); i++)
+	{
+		struct species *s_ptr = s_search(species_list[i].c_str());
+		if (s_ptr->in == FALSE) continue;
+		if (name == NULL)
+		{
+			tot += s_ptr->moles;
+		}
+		else
+		{
+			for (next_elt = s_ptr->next_elt; next_elt->elt != NULL;
+					next_elt++)
+			{
+				if (strcmp(next_elt->elt->name, name) == 0)
+				{
+					tot += next_elt->coef * s_ptr->moles;
+					break;
+				}
+			}
+		}
+	}
+	return (tot);
+}
+#endif
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 sum_match_ss(const char *mytemplate, const char *name)

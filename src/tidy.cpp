@@ -180,6 +180,8 @@ tidy_model(void)
  */
 	if (new_model)
 	{
+		sum_species_map.clear();
+
 		tidy_species();
 
 		tidy_phases();
