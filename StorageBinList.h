@@ -1,9 +1,9 @@
 #if !defined(STORAGEBINLIST_H_INCLUDED)
 #define STORAGEBINLIST_H_INCLUDED
-#include <set>					// std::set
-#include <string>				// std::string
-#include <list>					// std::list
-#include <vector>					// std::vector
+#include <set>                  // std::set
+#include <string>               // std::string
+#include <list>                 // std::list
+#include <vector>               // std::vector
 #include "PHRQ_base.h"
 class CParser;
 
@@ -32,19 +32,21 @@ public:
 	bool Read(CParser & parser);
 	void SetAll(bool tf);
 	void TransferAll(StorageBinListItem &source);
+	std::set<StorageBinListItem *> GetAllItems(void);
 
-	StorageBinListItem & Get_solution(void) { return(this->solution); };
+	StorageBinListItem & Get_solution(void)      { return(this->solution); };
 	StorageBinListItem & Get_pp_assemblage(void) { return(this->pp_assemblage); };
-	StorageBinListItem & Get_exchange(void) { return(this->exchange); };
-	StorageBinListItem & Get_surface(void) { return(this->surface); };
+	StorageBinListItem & Get_exchange(void)      { return(this->exchange); };
+	StorageBinListItem & Get_surface(void)       { return(this->surface); };
 	StorageBinListItem & Get_ss_assemblage(void) { return(this->ss_assemblage); };
-	StorageBinListItem & Get_gas_phase(void) { return(this->gas_phase); };
-	StorageBinListItem & Get_kinetics(void) { return(this->kinetics); };
-	StorageBinListItem & Get_mix(void) { return(this->mix); };
-	StorageBinListItem & Get_reaction(void) { return(this->reaction); };
-	StorageBinListItem & Get_temperature(void) { return(this->temperature); };
-	StorageBinListItem & Get_pressure(void) { return(this->pressure); };
+	StorageBinListItem & Get_gas_phase(void)     { return(this->gas_phase); };
+	StorageBinListItem & Get_kinetics(void)      { return(this->kinetics); };
+	StorageBinListItem & Get_mix(void)           { return(this->mix); };
+	StorageBinListItem & Get_reaction(void)      { return(this->reaction); };
+	StorageBinListItem & Get_temperature(void)   { return(this->temperature); };
+	StorageBinListItem & Get_pressure(void)      { return(this->pressure); };
 protected:
+	// update GetAllItems() if StorageBinListItem is added/removed
 	StorageBinListItem solution;
 	StorageBinListItem pp_assemblage;
 	StorageBinListItem exchange;
