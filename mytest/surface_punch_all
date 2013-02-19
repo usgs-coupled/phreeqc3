@@ -1,0 +1,391 @@
+#DATABASE C:\data\Program Files\USGS\Phreeqc Interactive 2.18.5314\database\Phreeqc master_NEA_Ra_Mo_V_MCJ.dat
+DATABASE Phreeqc_master_NEA_Ra_Mo_V_MCJ.dat
+PRINT
+-species true
+-si false
+
+SELECTED_OUTPUT
+    -file                surface_punch_all.sel
+    -totals               Ra  Ba  S(6)
+    -equilibrium_phases   ThO2(OECDAged) Calcite
+    -solid_solutions      Ba(x)Ra(1-x)SO4
+    -si RaSO4(a)	
+
+USER_PUNCH
+-headings time TOTAL_TIME SO4 Th Ra  Ba  MF  226Ra_pCi 226Ra_ALT_pCi/L 230Th_pCi/L  MF_RASO4 MF_BaSO4  Th_SORBED  Th_sorbed_ratio Ra_Sorbed
+-start
+10 PUNCH time
+20 PUNCH TOTAL_TIME/31536000
+25 PUNCH TOT("S(6)")*96*1000
+30 PUNCH TOT("Th")
+35 PUNCH TOT("Ra")
+38 PUNCH TOT("Ba")
+39 PUNCH TOT("Ra")/TOT("Ba")
+41 RA226mg =  TOT ("Ra")*226*1000 
+45 PUNCH TOT("Ra")*226*1e12
+46 PUNCH RA226mg/(2.8e-15*226*1600)
+50 TH230 = TOT("Th")*0.00125*230*1000
+60 TH230ACT = TH230/((2.8e-15)*230*77000)
+65 PUNCH TH230ACT 
+70 PUNCH S_S("RaSO4(a)")
+72 PUNCH S_S("Barite")
+78 PUNCH MOL("(Hfo_wO)2Th+2")
+80 PUNCH MOL("(Hfo_wO)2Th+2")/TOT("Th")
+82 PUNCH MOL("Hfo_wORa+")+ MOL("Hfo_sOHRa+2")
+
+-end
+
+USER_PRINT
+-start
+
+35 PRINT "Cell Number           :"  CELL_NO 
+40 PRINT "226Ra   mol/L         :",  TOT("Ra")
+41 RA226mg =  TOT ("Ra")*226*1000 
+42 PRINT  "226Ra   mg/L          :", RA226mg
+43 PRINT  "226Ra   pCi/L Alt     :", RA226mg/(2.8e-15*226*1600)
+45 PRINT "226Ra   pCi/L         :", TOT ("Ra")*226*1e12
+47 PRINT "TIME     :", TOTAL_TIME/3.1536e7  ": in years"
+50 PRINT "Th 230 plus 232 mol/L :", TOT("Th")
+51  Th230mg =  TOT("Th")*230*1000*0.00125 
+52 PRINT "230Th mol/L (Fraction):", TOT("Th")*0.00125 
+54 PRINT "230Th mg/L (Fraction) :", Th230mg
+56 PRINT "230Th   pCi/L Alt     :", Th230mg/(2.8e-15*230*77000)
+
+-end
+
+SOLUTION 0   S8 water
+    temp      25
+    pH        6.93
+    pe        4
+    redox     pe
+    units     mg/kgw
+    density   1
+    S(6)      11
+	Alkalinity 300
+Cl  31
+Ca  99
+K  25
+Mg 17
+Na 23 
+    -water    1 # kg
+
+SOLUTION 1-38 
+
+    temp      25
+    pH        6.93
+    pe        4
+    redox     pe
+    units     mg/kgw
+    density   1
+    S(6)      11
+	Alkalinity 300
+	Cl  31
+	Ca  99
+	K  25
+	Mg 17
+	Na 23 
+    -water    1 # kg
+
+SURFACE 1-38    #0.1 percent HFO 50 percent porosity
+Hfo_wOH  0.000595 600 .265
+Hfo_sOH  1.4e-5
+
+SOLID_SOLUTION 1-8
+Ba(x)Ra(1-x)SO4
+-comp Barite  0.0162  #CORRECTED FOR TOTAL IN 
+-comp RaSO4(a)   6.64e-9
+-Gugg_nondim 0.36
+
+EQUILIBRIUM_PHASES	1-8			
+ThO2(OECDAged)		0	 2.934e-3  #CORRECTED FOR SITE CONDITIONS
+O2(g)  	-0.7	10		
+CO2(g)  	-3.5	10
+Calcite 0 10
+
+EQUILIBRIUM_PHASES	9-38
+ThO2(OECDAged)		0	 0.0	
+O2(g)  	-0.7	10		
+CO2(g)  	-3.5	10
+Calcite 0 10
+		
+KINETICS 1-38
+#THO2_DECAY
+#-formula 	ThO2(OECDAged)  1  Ra -1
+#-m        0
+#    -m0       0
+			
+THOR_DECAY				
+ -formula  Th 1   Ra -1				
+    -m        0				
+    -m0       0				
+    -tol      1e-008				
+#-steps       31536000000 in 100 steps # seconds				
+-step_divide 1				
+-runge_kutta 3				
+-bad_step_max 500				
+				
+Radium_decay
+    -formula  Ra   1  
+    -m        0
+    -m0       0
+
+SURF_Ra_DECAY
+-formula    Ra  1 
+-m            0
+    -m0       0
+
+RaSO4(a)_decay
+    -formula  RaSO4(a)  1  Pb -1
+
+SURF_Th_DECAY
+-formula  Th 1   Ra -1		
+
+RATES 
+THO2_DECAY
+-start				
+10  rate = EQUI("ThO2(OECDAged)")* 2.85449E-13*0.00125	
+15  moles = -rate*time				
+20 save moles  				
+-end
+ 
+    Radium_decay  
+-start  
+10  rate = TOT("Ra")*1.37201E-11
+15  moles = -rate *time
+20 save moles  
+-end		
+  				
+    THOR_DECAY				
+-start				
+10  rate = TOT("Th")*2.85449E-13*0.00125	
+15  moles = -rate*time				
+20 save moles  				
+-end	
+
+RaSO4(a)_decay
+  -start  
+10  rate = S_S("RaSO4(a)")*1.37201E-11
+15  moles = -rate * time
+20  save moles   
+-end	
+
+SURF_Ra_DECAY
+-start
+10 rate = (MOL("Hfo_wORa+")+ MOL("Hfo_sOHRa+2"))*1.37201E-11
+15  moles = -rate *time
+20 save moles  
+-end
+
+SURF_Th_DECAY
+10 rate = MOL("(Hfo_wO)2Th+2")*2.85449E-13*0.00125
+15  moles = -rate *time
+20 save moles  
+-end
+
+TRANSPORT
+    -cells                 38
+    -shifts                10 # 00
+    -time_step             31536000 # seconds
+    -diffusion_coefficient  0.3e-9
+    -lengths               38*0.4
+    -print_cells           1-10 38
+    -punch_cells           1-38
+    -punch_frequency       1
+    -multi_d               false
+		
+SOLUTION_MASTER_SPECIES
+Th	 Th+4		0.0	Th		232.0381
+SOLUTION_SPECIES
+Th+4 =  Th+4 
+	##-llnl_gamma	11.0000	
+	log_k 0
+	-delta_H	0	kJ/mol	# Calculated enthalpy of reaction	Th+4
+
+1.0000 Th++++ + 1.0000 H2O  =  ThOH+++ +1.0000 H+
+        #-llnl_gamma           5.0    
+        log_k           -2.5
+	-delta_H	25.0275	kJ/mol	# Calculated enthalpy of reaction	ThOH+3
+#	Enthalpy of formation:	-1029.83 kJ/mol
+        -analytic 1.0495e+001 5.1532e-003 -8.6396e+002 -4.8420e+000 -9.2609e+004
+#       -Range:  0-300
+
+2.0000 H2O + 1.0000 Th++++  =  Th(OH)2++ +2.0000 H+
+        #-llnl_gamma           4.5    
+        log_k           -6.2
+	-delta_H	58.668	kJ/mol	# Calculated enthalpy of reaction	Th(OH)2+2
+#	Enthalpy of formation:	-306.412 kcal/mol
+        -analytic -1.1274e+001 3.4195e-003 -3.7553e+002 3.1299e+000 -2.9696e+005
+#       -Range:  0-300
+
+#3.0000 H2O + 1.0000 Th++++  =  Th(OH)3+ +3.0000 H+
+ #       #-llnl_gamma           4.0    
+  #      log_k           -11.8623
+#	-delta_H	86.1318	kJ/mol	# Calculated enthalpy of reaction	Th(OH)3+
+#	Enthalpy of formation:	-368.165 kcal/mol
+
+4.0000 H2O + 1.0000 Th++++  =  Th(OH)4 +4.0000 H+
+        #-llnl_gamma           3.0    
+        log_k           -17.4
+	-delta_H	104.01	kJ/mol	# Calculated enthalpy of reaction	Th(OH)4
+#	Enthalpy of formation:	-432.209 kcal/mol
+#        -analytic 2.9534e+001 1.5550e-002 -5.6680e+003 -1.2598e+001 -9.6262e+001
+#       -Range:  0-200
+
+2.0000 SO4-- + 1.0000 Th++++  =  Th(SO4)2
+        #-llnl_gamma           3.0    
+        log_k           +9.69
+	-delta_H	32.2377	kJ/mol	# Calculated enthalpy of reaction	Th(SO4)2
+#	Enthalpy of formation:	-610.895 kcal/mol
+        -analytic 4.6425e+002 1.6769e-001 -1.1195e+004 -1.8875e+002 -1.9027e+002
+#       -Range:  0-200
+
+3.0000 SO4-- + 1.0000 Th++++  =  Th(SO4)3--
+        #-llnl_gamma           4.0    
+        log_k           +10.748
+	-delta_H	0	      	# Not possible to calculate enthalpy of reaction	Th(SO4)3-2
+#	Enthalpy of formation:	-0 kcal/mol
+ 
+#4.0000 SO4-- + 1.0000 Th++++  =  Th(SO4)4----
+ #       #-llnl_gamma           4.0    
+  #      log_k           +8.4003
+#	-delta_H	0	      	# Not possible to calculate enthalpy of reaction	Th(SO4)4-4
+#	Enthalpy of formation:	-0 kcal/mol
+ 
+2.0000 Th++++ + 2.0000 H2O  =  Th2(OH)2+6 +2.0000 H+
+        #-llnl_gamma           6.0    
+        log_k           -5.9
+	-delta_H	63.7181	kJ/mol	# Calculated enthalpy of reaction	Th2(OH)2+6
+#	Enthalpy of formation:	-489.005 kcal/mol
+        -analytic 6.8838e+001 -4.1348e-003 -6.4415e+003 -2.1200e+001 -1.0053e+002
+#       -Range:  0-300
+
+8.0000 H2O + 4.0000 Th++++  =  Th4(OH)8+8 +8.0000 H+
+        #-llnl_gamma           6.0    
+        log_k           -20.4
+	-delta_H	245.245	kJ/mol	# Calculated enthalpy of reaction	Th4(OH)8+8
+#	Enthalpy of formation:	-1223.12 kcal/mol
+        -analytic 2.7826e+002 -2.3504e-003 -2.4410e+004 -8.7873e+001 -3.8097e+002
+#       -Range:  0-300
+
+15.0000 H2O + 6.0000 Th++++  =  Th6(OH)15+9 +15.0000 H+
+        #-llnl_gamma           6.0    
+        log_k           -36.8
+	-delta_H	458.248	kJ/mol	# Calculated enthalpy of reaction	Th6(OH)15+9
+#	Enthalpy of formation:	-2018.03 kcal/mol
+        -analytic 5.2516e+002 3.3015e-003 -4.5237e+004 -1.6654e+002 -7.0603e+002
+#       -Range:  0-300
+
+1.0000 Th++++ + 1.0000 Cl-  =  ThCl+++
+        #-llnl_gamma           5.0    
+        log_k           +1.7
+	-delta_H	0.06276	kJ/mol	# Calculated enthalpy of reaction	ThCl+3
+#	Enthalpy of formation:	-223.718 kcal/mol
+        -analytic 9.7430e+001 3.9398e-002 -1.8653e+003 -4.1202e+001 -2.9135e+001
+#       -Range:  0-300
+
+1.0000 Th++++ + 1.0000 SO4--  =  ThSO4++
+        #-llnl_gamma           4.5    
+        log_k           +6.17
+	-delta_H	16.3511	kJ/mol	# Calculated enthalpy of reaction	ThSO4+2
+#	Enthalpy of formation:	-397.292 kcal/mol
+        -analytic 1.9443e+002 7.5245e-002 -4.5010e+003 -7.9379e+001 -7.0291e+001
+#       -Range:  0-300
+
+
+1.0000 Th+4   + 5.000 CO3-2 = Th(CO3)5-6
+    log_k           31.0  
+
+1.0000 Th+4  + 1.000 OH- +4.000 CO3-2 = ThOH(CO3)4-5
+    log_k           35.6
+
+1.0000 Th+4  + 2.000 OH- + 2.000 CO3-2 = Th(OH)2(CO3)2-2
+    log_k           36.8
+
+1.0000 Th+4  + 4.000 OH- + 1.000 CO3-2 = Th(OH)4(CO3)1-2
+    log_k           40.4
+
+PHASES
+
+Fix_H+ 
+H+ = H+ 
+log_k 0.0
+ 
+
+#Barite              92
+	#BaSO4 = Ba+2 + SO4-2 
+	#log_k		-9.97
+	#delta_h	6.35 kcal
+#	-analytical	136.035	0.0	-7680.41	-48.595	0.0
+
+Barite(a)              
+	BaSO4 = Ba+2 + SO4-2 
+	log_k		-8.97
+
+RaSO4			
+       RaSO4  =  + 1.0000 Ra++ + 1.0000 SO4-2			
+        log_k           -10.4499
+
+RaSO4(a)			
+       RaSO4  =  + 1.0000 Ra++ + 1.0000 SO4-2			
+        log_k           -10.26
+
+Th
+       Th +4.0000 H+ +1.0000 O2  =  + 1.0000 Th++++ + 2.0000 H2O
+        log_k           209.6028
+	-delta_H	-1328.56	kJ/mol	# Calculated enthalpy of reaction	Th
+#	Enthalpy of formation:	0 kJ/mol
+        -analytic -2.8256e+001 -1.1963e-002 6.8870e+004 4.2068e+000 1.0747e+003
+#       -Range:  0-300
+
+Th(NO3)4:5H2O
+       Th(NO3)4:5H2O  =  + 1.0000 Th++++ + 4.0000 NO3- + 5.0000 H2O
+        log_k           1.7789
+	-delta_H	-18.1066	kJ/mol	# Calculated enthalpy of reaction	Th(NO3)4:5H2O
+#	Enthalpy of formation:	-3007.35 kJ/mol
+        -analytic -1.2480e+002 -2.0405e-002 5.1601e+003 4.6613e+001 8.7669e+001
+#       -Range:  0-200
+
+Th(OH)4
+       Th(OH)4 +4.0000 H+  =  + 1.0000 Th++++ + 4.0000 H2O
+        log_k           9.6543
+	-delta_H	-140.336	kJ/mol	# Calculated enthalpy of reaction	Th(OH)4
+#	Enthalpy of formation:	-423.527 kcal/mol
+        -analytic -1.4031e+002 -9.2493e-003 1.2345e+004 4.4990e+001 2.0968e+002
+#       -Range:  0-200
+
+Th(SO4)2
+       Th(SO4)2  =  + 1.0000 Th++++ + 2.0000 SO4--
+        log_k           -20.3006
+	-delta_H	-46.1064	kJ/mol	# Calculated enthalpy of reaction	Th(SO4)2
+#	Enthalpy of formation:	-2542.12 kJ/mol
+        -analytic -8.4525e+000 -3.5442e-002 0.0000e+000 0.0000e+000 -1.1540e+005
+#       -Range:  0-200
+
+
+ThCl4
+       ThCl4  =  + 1.0000 Th++++ + 4.0000 Cl-
+        log_k           23.8491
+	-delta_H	-251.094	kJ/mol	# Calculated enthalpy of reaction	ThCl4
+#	Enthalpy of formation:	-283.519 kcal/mol
+        -analytic -5.9340e+000 -4.1640e-002 9.8623e+003 3.6804e+000 1.6748e+002
+#       -Range:  0-200
+
+
+ThO2(OECDFresh)
+        ThO2 +4.0000 H+  =  + 1.0000 Th++++ + 2.0000 H2O
+        log_k           9.3
+
+ThO2(OECDAged)
+        ThO2 +4.0000 H+  =  + 1.0000 Th++++ + 2.0000 H2O
+        log_k           8.5
+
+SURFACE_SPECIES
+ 2Hfo_wOH + Th+4  = (Hfo_wO)2Th+2 + 2H+
+log_k  6.65
+
+END
+	
+
+
+
+	

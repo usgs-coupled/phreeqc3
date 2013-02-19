@@ -6,6 +6,7 @@ PHREEQC=../src/Class_release_64/phreeqc
 
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
+#   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -148,6 +149,7 @@ all: alkalinity.out \
 	surf_kin_related_pz.out \
 	surf_related_warnings.out \
 	surf_transport.out \
+	surface_punch_all.out \
 	ss_r.out \
 	sys_ex.out \
 	sys_gas.out \
