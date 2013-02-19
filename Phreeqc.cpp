@@ -2559,6 +2559,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	llnl_count_temp			= pSrc->llnl_count_temp;
 	if (llnl_count_temp > 0)
 	{
+		llnl_temp = (LDBLE *) free_check_null(llnl_temp);
 		llnl_temp = (LDBLE *) PHRQ_malloc((size_t) llnl_count_temp * sizeof(LDBLE));
 		if (llnl_temp == NULL) malloc_error();
 		memcpy(llnl_temp, pSrc->llnl_temp, (size_t) llnl_count_temp * sizeof(LDBLE));
@@ -2566,6 +2567,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	llnl_count_adh			= pSrc->llnl_count_adh;
 	if (llnl_count_adh > 0)
 	{
+		llnl_adh = (LDBLE *) free_check_null(llnl_adh);
 		llnl_adh = (LDBLE *) PHRQ_malloc((size_t) llnl_count_adh * sizeof(LDBLE));
 		if (llnl_adh == NULL) malloc_error();
 		memcpy(llnl_adh, pSrc->llnl_adh, (size_t) llnl_count_adh * sizeof(LDBLE));
@@ -2573,6 +2575,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	llnl_count_bdh			= pSrc->llnl_count_bdh;
 	if (llnl_count_bdh > 0)
 	{
+		llnl_bdh = (LDBLE *) free_check_null(llnl_bdh);
 		llnl_bdh = (LDBLE *) PHRQ_malloc((size_t) llnl_count_bdh * sizeof(LDBLE));
 		if (llnl_bdh == NULL) malloc_error();
 		memcpy(llnl_bdh, pSrc->llnl_bdh, (size_t) llnl_count_bdh * sizeof(LDBLE));
@@ -2580,6 +2583,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	llnl_count_bdot			= pSrc->llnl_count_bdot;
 	if (llnl_count_bdot > 0)
 	{
+		llnl_bdot = (LDBLE *) free_check_null(llnl_bdot);
 		llnl_bdot = (LDBLE *) PHRQ_malloc((size_t) llnl_count_bdot * sizeof(LDBLE));
 		if (llnl_bdot == NULL) malloc_error();
 		memcpy(llnl_bdot, pSrc->llnl_bdot, (size_t) llnl_count_bdot * sizeof(LDBLE));
@@ -2587,6 +2591,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	llnl_count_co2_coefs	= pSrc->llnl_count_co2_coefs;
 	if (llnl_count_co2_coefs > 0)
 	{
+		llnl_co2_coefs = (LDBLE *) free_check_null(llnl_co2_coefs);
 		llnl_co2_coefs = (LDBLE *) PHRQ_malloc((size_t) llnl_count_co2_coefs * sizeof(LDBLE));
 		if (llnl_co2_coefs == NULL) malloc_error();
 		memcpy(llnl_co2_coefs, pSrc->llnl_co2_coefs, (size_t) llnl_count_co2_coefs * sizeof(LDBLE));
