@@ -1890,6 +1890,7 @@ protected:
 
 	/* new after release of Version 3 */
 	std::map<std::string, std::vector < std::string> > sum_species_map; 
+	std::map<std::string, std::vector < std::string> > sum_species_map_db;
 
 	friend class PBasic;
 	friend class ChartObject;

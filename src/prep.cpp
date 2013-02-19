@@ -1131,6 +1131,7 @@ build_model(void)
 	max_s_x = MAX_S;
 	
 	// clear sum_species_map, which is built from s_x
+	sum_species_map_db.clear();
 	sum_species_map.clear();
 
 	space((void **) ((void *) &s_x), INIT, &max_s_x,
