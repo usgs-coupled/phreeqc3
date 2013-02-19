@@ -1966,51 +1966,70 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Transport data
 	*---------------------------------------------------------------------- */
-	/*
-	count_cells              = 1;
-	count_shifts             = 1;
-	ishift                   = 1;
-	bcon_first = bcon_last   = 3;
-	correct_disp             = FALSE;
-	tempr                    = 2.0;
-	timest                   = 0.0;
-	simul_tr                 = 0;
-	diffc                    = 0.3e-9;
-	heat_diffc               = -0.1;
-	cell                     = 0;
-	mcd_substeps             = 1.0;
-	stag_data                = NULL;
-	print_modulus            = 1;
-	punch_modulus            = 1;
-	dump_in                  = FALSE;
-	dump_modulus             = 0;
-	transport_warnings       = TRUE;
-	cell_data                = FALSE;
-	multi_Dflag              = FALSE;
-	interlayer_Dflag         = FALSE;
-	default_Dw               = 0;
-	multi_Dpor               = 0;
-	interlayer_Dpor          = 0.1;
-	multi_Dpor_lim           = 0;
-	interlayer_Dpor_lim      = 0;
-	multi_Dn                 = 0;
-	interlayer_tortf         = 100.0;
-	cell_no                  = 0;
-	*/
+	count_cells              = pSrc->count_cells;
+	count_shifts             = pSrc->count_shifts;
+	ishift                   = pSrc->ishift;
+	bcon_first				 = pSrc->bcon_first;
+	bcon_last				 = pSrc->bcon_last;
+	correct_disp             = pSrc->correct_disp;
+	tempr                    = pSrc->tempr;
+	timest                   = pSrc->timest;
+	simul_tr                 = pSrc->simul_tr;
+	diffc                    = pSrc->diffc;
+	heat_diffc               = pSrc->heat_diffc;
+	cell                     = pSrc->cell;
+	mcd_substeps             = pSrc->mcd_substeps;
+	/* stag_data */
+	memcpy(stag_data, pSrc->stag_data, sizeof(struct stag_data));
+	print_modulus            = pSrc->print_modulus;
+	punch_modulus            = pSrc->punch_modulus;
+	dump_in                  = pSrc->dump_in;
+	dump_modulus             = pSrc->dump_modulus;
+	transport_warnings       = pSrc->transport_warnings;
+	/* cell_data */
+	if (count_cells > 0)
+	{
+		cell_data = (struct cell_data *) free_check_null(cell_data);
+		cell_data = (struct cell_data *) PHRQ_malloc((size_t) (count_cells * sizeof(struct cell_data)));
+		if (cell_data == NULL) malloc_error();
+		memcpy(cell_data, pSrc->cell_data, ((size_t) (count_cells * sizeof(struct cell_data))));
+	}
+	multi_Dflag              = pSrc->multi_Dflag;
+	interlayer_Dflag         = pSrc->interlayer_Dflag;
+	default_Dw               = pSrc->default_Dw;
+	multi_Dpor               = pSrc->multi_Dpor;
+	interlayer_Dpor          = pSrc->interlayer_Dpor;
+	multi_Dpor_lim           = pSrc->multi_Dpor_lim;
+	interlayer_Dpor_lim      = pSrc->interlayer_Dpor_lim;
+	multi_Dn                 = pSrc->multi_Dn;
+	interlayer_tortf         = pSrc->interlayer_tortf;
+	cell_no                  = pSrc->cell_no;
 	/*----------------------------------------------------------------------
 	*   Advection data
 	*---------------------------------------------------------------------- */
-	/*
-	count_ad_cells           = 1;
-	count_ad_shifts          = 1;
-	print_ad_modulus         = 1;
-	punch_ad_modulus         = 1;
-	advection_punch          = NULL;
-	advection_kin_time       = 0.0;
-	advection_kin_time_defined = FALSE;
-	advection_print          = NULL;
-	advection_warnings       = TRUE;
-	*/
+	count_ad_cells           = pSrc->count_ad_cells;
+	count_ad_shifts          = pSrc->count_ad_shifts;
+	print_ad_modulus         = pSrc->print_ad_modulus;
+	punch_ad_modulus         = pSrc->punch_ad_modulus;
+	/* advection_punch */
+	if (count_ad_cells > 0)
+	{
+		advection_punch = (int *) free_check_null(advection_punch);
+		advection_punch = (int *) PHRQ_malloc((size_t) (count_ad_cells * sizeof(int)));
+		if (advection_punch == NULL) malloc_error();
+		memcpy(advection_punch, pSrc->advection_punch, (size_t) (count_ad_cells * sizeof(int)));
+	}
+	/* advection_print */
+	if (count_ad_cells > 0)
+	{
+		advection_print = (int *) free_check_null(advection_print);
+		advection_print = (int *) PHRQ_malloc((size_t) (count_ad_cells * sizeof(int)));
+		if (advection_print == NULL) malloc_error();
+		memcpy(advection_print, pSrc->advection_print, (size_t) (count_ad_cells * sizeof(int)));
+	}
+	advection_kin_time       = pSrc->advection_kin_time;
+	advection_kin_time_defined = pSrc->advection_kin_time_defined;
+	advection_warnings       = pSrc->advection_warnings;
 	/*----------------------------------------------------------------------
 	*   Tidy data
 	*---------------------------------------------------------------------- */
@@ -2982,7 +3001,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/* readtr.cpp */
 	// auto dump_file_name_cpp;
 	/* sit.cpp ------------------------------- */
-#ifdef TODO_SIT
+/*
 	sit_params              = NULL;
 	count_sit_param			= 0;
 	max_sit_param			= 100;
@@ -2997,7 +3016,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	sit_IPRSNT              = NULL;
 	sit_M                   = NULL;
 	sit_LGAMMA              = NULL;
-#endif
+*/
 	
 	for (int i = 0; i < pSrc->count_sit_param; i++)
 	{
@@ -3017,32 +3036,32 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_tally_table_rows  = 0;
 #endif
 	/* transport.cpp ------------------------------- */
-#ifdef TODO_transport
-	sol_D                   = NULL;
+	/* storage is created and freed in tranport.cpp */
+	sol_D                   = NULL;   
 	sol_D_dbg               = NULL;
 	J_ij                    = NULL;
 	J_ij_il                 = NULL;
-	J_ij_count_spec         = 0;
+	J_ij_count_spec         = pSrc->J_ij_count_spec;
 	m_s                     = NULL;
-	count_m_s               = 0;
-	tot1_h                  = 0;
-	tot1_o                  = 0;
-	tot2_h                  = 0;
-	tot2_o                  = 0;
-	diffc_max               = 0;
-	diffc_tr                = 0;
-	J_ij_sum                = 0;
-	transp_surf             = FALSE;
+	count_m_s               = pSrc->count_m_s;
+	tot1_h                  = pSrc->tot1_h;
+	tot1_o                  = pSrc->tot1_o;
+	tot2_h                  = pSrc->tot2_h;
+	tot2_o                  = pSrc->tot2_o;
+	diffc_max               = pSrc->diffc_max;
+	diffc_tr                = pSrc->diffc_tr;
+	J_ij_sum                = pSrc->J_ij_sum;
+	transp_surf             = pSrc->transp_surf;
 	heat_mix_array          = NULL;
 	temp1                   = NULL;
 	temp2                   = NULL;
-	nmix                    = 0;
-	heat_nmix               = 0;
-	heat_mix_f_imm          = 0;
-	heat_mix_f_m            = 0;
-	warn_MCD_X              = 0;
-	warn_fixed_Surf         = 0;
-#endif
+	nmix                    = pSrc->nmix;
+	heat_nmix               = pSrc->heat_nmix;
+	heat_mix_f_imm          = pSrc->heat_mix_f_imm;
+	heat_mix_f_m            = pSrc->heat_mix_f_m;
+	warn_MCD_X              = pSrc->warn_MCD_X;
+	warn_fixed_Surf         = pSrc->warn_fixed_Surf;
+
 #ifdef PHREEQ98
 	int AutoLoadOutputFile, CreateToC;
 	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
