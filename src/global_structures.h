@@ -465,7 +465,7 @@ struct name_coef
 /*----------------------------------------------------------------------
  *   Species_list
  *---------------------------------------------------------------------- */
-struct species_list
+struct Species_List
 {
 	struct species *master_s;
 	struct species *s;

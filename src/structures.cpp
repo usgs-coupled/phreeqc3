@@ -177,7 +177,8 @@ clean_up(void)
 
 /* species_list */
 
-	species_list = (struct species_list *) free_check_null(species_list);
+	//species_list = (struct species_list *) free_check_null(species_list);
+	species_list.clear();
 
 /* transport data */
 
@@ -2344,10 +2345,10 @@ species_list_compare(const void *ptr1, const void *ptr2)
 {
 	int j;
 	const char *name1, *name2;
-	const struct species_list *nptr1, *nptr2;
+	const struct Species_List *nptr1, *nptr2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const struct Species_List *) ptr1;
+	nptr2 = (const struct Species_List *) ptr2;
 
 /*
  *   Put H+ first
@@ -2418,11 +2419,11 @@ int Phreeqc::
 species_list_compare_alk(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct species_list *nptr1, *nptr2;
+	const struct Species_List *nptr1, *nptr2;
 	LDBLE alk1, alk2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const struct Species_List *) ptr1;
+	nptr2 = (const struct Species_List *) ptr2;
 /*
  *   Else, descending order by log molality
  */
@@ -2448,10 +2449,10 @@ species_list_compare_master(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
 	const char *name1, *name2;
-	const struct species_list *nptr1, *nptr2;
+	const struct Species_List *nptr1, *nptr2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const struct Species_List *) ptr1;
+	nptr2 = (const struct Species_List *) ptr2;
 
 /*
  *   Put H+ first
@@ -2504,10 +2505,10 @@ species_list_sort(void)
 /*
  *   Sort list using rules in species_list_compare
  */
-	if (count_species_list > 0)
+	if (species_list.size() > 0)
 	{
-		qsort(&species_list[0], (size_t) count_species_list,
-			  (size_t) sizeof(struct species_list), species_list_compare);
+		qsort(&species_list[0],(size_t) species_list.size(),
+			  (size_t) sizeof(struct Species_List), species_list_compare);
 	}
 	return (OK);
 }

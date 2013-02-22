@@ -1362,7 +1362,7 @@ fill_spec(int l_cell_no)
 	sol_D[l_cell_no].spec =
 		(struct spec *) free_check_null(sol_D[l_cell_no].spec);
 	sol_D[l_cell_no].spec =
-		(struct spec *) PHRQ_malloc((size_t) count_species_list *
+		(struct spec *) PHRQ_malloc((size_t) species_list.size() *
 									sizeof(struct spec));
 	if (sol_D[l_cell_no].spec == NULL)
 		malloc_error();
@@ -1402,11 +1402,11 @@ fill_spec(int l_cell_no)
 /*
  * sort species by name...
  */
-	if (count_species_list > 0)
-		qsort(&species_list[0], (size_t) count_species_list,
-			  (size_t) sizeof(struct species_list), sort_species_name);
+	if (species_list.size() > 0)
+		qsort(&species_list[0], (size_t) species_list.size(),
+			  (size_t) sizeof(struct Species_List), sort_species_name);
 
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int) species_list.size(); i++)
 	{
 /*
  *   copy species data
@@ -1539,10 +1539,10 @@ int Phreeqc::
 sort_species_name(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct species_list *nptr1, *nptr2;
+	const struct Species_List *nptr1, *nptr2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const struct Species_List *) ptr1;
+	nptr2 = (const struct Species_List *) ptr2;
 
 	return (strcmp(nptr1->s->name, nptr2->s->name));
 }

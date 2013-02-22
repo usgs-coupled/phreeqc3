@@ -107,7 +107,7 @@ calc_SC(void)
 	LDBLE lm, a, l_z, Dw, SC, ff;
 
 	SC = 0;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int) species_list.size(); i++)
 	{
 		if (species_list[i].s->type == EX)
 			continue;
@@ -198,7 +198,7 @@ calc_dens(void)
 	PHI_v = 0.0;
 	B_v = 0.0;
 	S_v = 0.0;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int) species_list.size(); i++)
 	{
 		if (species_list[i].s->type != AQ)
 		  continue;
@@ -305,7 +305,7 @@ calc_dens(void)
 	//struct species *s_ptr;
 
 	//V_solutes = M_T = 0.0;
-	//for (i = 0; i < count_species_list; i++)
+	//for (i = 0; i < (int) species_list.size(); i++)
 	//{
 	//	if (species_list[i].s->type != AQ && species_list[i].s->type != HPLUS)
 	//	  continue;
@@ -1518,21 +1518,21 @@ sum_match_species(const char *mytemplate, const char *name)
 	tot = 0;
 	if (sum_species_map.find(mytemplate) == sum_species_map.end())
 	{
-		std::vector<std::string> species_list;
+		std::vector<std::string> local_species_list;
 		for (i = 0; i < (int) s_x.size(); i++)
 		{
 			struct species *s_ptr = s_x[i];
 			if (match_elts_in_species(s_ptr->name, mytemplate) == TRUE)
 			{
-				species_list.push_back(s_ptr->name);
+				local_species_list.push_back(s_ptr->name);
 			}
 		}
-		sum_species_map[mytemplate] = species_list;
+		sum_species_map[mytemplate] = local_species_list;
 	}
-	std::vector<std::string> &species_list = (sum_species_map.find(mytemplate))->second;
-	for (size_t i=0; i < species_list.size(); i++)
+	std::vector<std::string> &local_species_list = (sum_species_map.find(mytemplate))->second;
+	for (size_t i=0; i < local_species_list.size(); i++)
 	{
-		struct species *s_ptr = s_search(species_list[i].c_str());
+		struct species *s_ptr = s_search(local_species_list[i].c_str());
 		if (s_ptr->in == FALSE) continue;
 		if (name == NULL)
 		{
@@ -1581,22 +1581,22 @@ sum_match_species(const char *mytemplate, const char *name)
 			}
 			sum_species_map_db[mytemplate] = species_list_db;
 		}
-		std::vector<std::string> &species_list = (sum_species_map_db.find(mytemplate))->second;
+		std::vector<std::string> &local_species_list = (sum_species_map_db.find(mytemplate))->second;
 		std::vector<std::string> species_list_x;
 		for (size_t i=0; i < species_list.size(); i++)
 		{
-			struct species *s_ptr = s_search(species_list[i].c_str());
+			struct species *s_ptr = s_search(local_species_list[i].c_str());
 			if (s_ptr->in == TRUE)
 			{
-				species_list_x.push_back(species_list[i]);
+				species_list_x.push_back(local_species_list[i]);
 			}
 		}
 		sum_species_map[mytemplate] = species_list_x;
 	}
-	std::vector<std::string> &species_list = (sum_species_map.find(mytemplate))->second;
-	for (size_t i=0; i < species_list.size(); i++)
+	std::vector<std::string> &local_species_list = (sum_species_map.find(mytemplate))->second;
+	for (size_t i=0; i < local_species_list.size(); i++)
 	{
-		struct species *s_ptr = s_search(species_list[i].c_str());
+		struct species *s_ptr = s_search(local_species_list[i].c_str());
 		if (s_ptr->in == FALSE) continue;
 		if (name == NULL)
 		{

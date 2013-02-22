@@ -451,7 +451,7 @@ initialize(void)
 	pr.isotope_alphas = TRUE;
 	pr.hdf = FALSE;
 	pr.alkalinity = FALSE;
-	species_list = NULL;
+	//species_list = NULL;
 
 	user_database = NULL;
 	first_read_input = TRUE;
@@ -558,8 +558,8 @@ initialize(void)
 	g_iterations = -1;
 	G_TOL = 1e-8;
 	save_init(-1);
-	count_species_list = 0;
-	max_species_list = 0;
+	//count_species_list = 0;
+	//max_species_list = 0;
 	//count_sum_jacob0 = 0;
 	//max_sum_jacob0 = 0;
 	//count_sum_mb1 = 0;
@@ -1926,7 +1926,7 @@ xexchange_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (j = 0; j < count_species_list; j++)
+			for (j = 0; j < (int) species_list.size(); j++)
 			{
 				if (species_list[j].master_s == x[i]->master[0]->s)
 				{
@@ -2281,7 +2281,7 @@ xsurface_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (int j = 0; j < count_species_list; j++)
+			for (int j = 0; j < (int) species_list.size(); j++)
 			{
 				if (species_list[j].master_s == x[i]->master[0]->s)
 				{

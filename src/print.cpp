@@ -399,7 +399,7 @@ print_exchange(void)
 
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int) species_list.size(); i++)
 	{
 /*
  *   Get name of master species
@@ -1400,7 +1400,7 @@ print_species(void)
  */
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int) species_list.size(); i++)
 	{
 /*
  *   Get name of master species
@@ -1642,7 +1642,7 @@ print_surface(void)
 				output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < count_species_list; i++)
+				for (int i = 0; i < (int) species_list.size(); i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
@@ -1684,7 +1684,7 @@ print_surface(void)
 			output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 					   "Species", "Moles", "Fraction", "Molality",
 					   "Molality"));
-			for (int i = 0; i < count_species_list; i++)
+			for (int i = 0; i < (int) species_list.size(); i++)
 			{
 				if (species_list[i].master_s != master_ptr->s)
 					continue;
@@ -1920,7 +1920,7 @@ print_surface_cd_music(void)
 				output_msg(sformatf("\t%-20s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < count_species_list; i++)
+				for (int i = 0; i < (int) species_list.size(); i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
@@ -3382,40 +3382,46 @@ print_alkalinity(void)
  *   order of aqueous species.
  */
 	int i, j;
-	struct species_list *alk_list;
-	int count_alk_list;
+	//struct species_list *alk_list;
+	//int count_alk_list;
+	std::vector<struct Species_List> alk_list;
 	LDBLE min;
 
 	if (pr.alkalinity == FALSE || pr.all == FALSE)
 		return (OK);
 	print_centered("Distribution of alkalinity");
-	alk_list =
-		(struct species_list *)
-		PHRQ_malloc((size_t) ((int) s_x.size() * sizeof(struct species_list)));
-	if (alk_list == NULL)
-		malloc_error();
+	//alk_list =
+	//	(struct species_list *)
+	//	PHRQ_malloc((size_t) ((int) s_x.size() * sizeof(struct species_list)));
+	//if (alk_list == NULL)
+	//	malloc_error();
 	j = 0;
 	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->alk == 0.0)
 			continue;
-		alk_list[j].master_s = s_hplus;
-		alk_list[j].s = s_x[i];
-		alk_list[j].coef = s_x[i]->alk;
-		j++;
+		struct Species_List sl;
+		sl.master_s = s_hplus;
+		sl.s = s_x[i];
+		sl.coef = s_x[i]->alk;
+		alk_list.push_back(sl);
+		//alk_list[j].master_s = s_hplus;
+		//alk_list[j].s = s_x[i];
+		//alk_list[j].coef = s_x[i]->alk;
+		//j++;
 	}
-	count_alk_list = j;
+	//count_alk_list = j;
 	min = fabs(censor * total_alkalinity / mass_water_aq_x);
-	if (count_alk_list > 0)
+	if (alk_list.size() > 0)
 	{
 		output_msg(sformatf("\t%26s%11.3e\n\n",
 				   "Total alkalinity (eq/kgw)  = ",
 				   (double) (total_alkalinity / mass_water_aq_x)));
 		output_msg(sformatf("\t%-15s%12s%12s%10s\n\n", "Species",
 				   "Alkalinity", "Molality", "Alk/Mol"));
-		qsort(&alk_list[0], (size_t) count_alk_list,
-			  (size_t) sizeof(struct species_list), species_list_compare_alk);
-		for (i = 0; i < count_alk_list; i++)
+		qsort(&alk_list[0], (size_t) alk_list.size(),
+			  (size_t) sizeof(struct Species_List), species_list_compare_alk);
+		for (i = 0; i < (int) alk_list.size(); i++)
 		{
 			if (fabs
 				(alk_list[i].s->alk * (alk_list[i].s->moles) /
@@ -3431,7 +3437,7 @@ print_alkalinity(void)
 	}
 
 	output_msg(sformatf("\n"));
-	alk_list = (struct species_list *) free_check_null(alk_list);
+	//alk_list = (struct species_list *) free_check_null(alk_list);
 	return (OK);
 }
 

@@ -564,7 +564,7 @@ void Phreeqc::init(void)
 	pr.isotope_alphas		= TRUE;
 	pr.hdf					= FALSE;
 	pr.alkalinity			= FALSE;
-	species_list			= NULL;
+	//species_list			= NULL;
 	user_database			= NULL;
 	first_read_input		= TRUE;
 	have_punch_name			= FALSE;
@@ -1011,9 +1011,9 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Species_list
 	*---------------------------------------------------------------------- */
-	count_species_list      = 0;
-	max_species_list        = 0;
-	species_list            = NULL;
+	//count_species_list      = 0;
+	//max_species_list        = 0;
+	//species_list            = NULL;
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
 	*---------------------------------------------------------------------- */
@@ -1890,9 +1890,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Species_list
 	*---------------------------------------------------------------------- */
 	/*
-	count_species_list      = 0;
-	max_species_list        = 0;
-	species_list            = NULL;
+	//count_species_list      = 0;
+	//max_species_list        = 0;
+	//species_list            = NULL;
 	*/
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
