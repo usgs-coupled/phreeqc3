@@ -1180,6 +1180,16 @@ build_model(void)
 	//space((void **) ((void *) &species_list), INIT, &max_species_list,
 	//	  sizeof(struct species_list));
 	species_list.clear();
+	phases_x.clear();
+	master_x.clear();
+
+	for (i = 0; i < count_master; i++)
+	{
+		if (master[i]->in != FALSE)
+		{
+			master_x.push_back(master[i]);
+		}
+	}
 
 /*
  *   Pick species in the model, determine reaction for model, build jacobian
@@ -1371,6 +1381,7 @@ build_model(void)
 		phases[i]->in = inout();
 		if (phases[i]->in == TRUE)
 		{
+			phases_x.push_back(phases[i]);
 /*
  *   Replace e- in original equation with default redox reaction
  */

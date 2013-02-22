@@ -1448,6 +1448,7 @@ protected:
 	struct phase **phases;
 	int count_phases;
 	int max_phases;
+	std::vector<struct phase *> phases_x;
 
 	/*----------------------------------------------------------------------
 	*   Master species
@@ -1456,6 +1457,7 @@ protected:
 	struct master **dbg_master;
 	int count_master;
 	int max_master;
+	std::vector<struct master *> master_x;
 
 	/*----------------------------------------------------------------------
 	*   Unknowns
