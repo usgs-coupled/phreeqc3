@@ -352,7 +352,7 @@ calc_dens(void)
 
 	/* 2nd option, use species_x, vm = 0 for complexes with undefined volume... */
 	V_solutes = M_T = 0.0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 		  continue;
@@ -528,7 +528,7 @@ calc_surface_charge(const char *surface_name)
 	 *   Go through species, sum charge
 	 */
 	charge = 0;
-	for (k = 0; k < count_s_x; k++)
+	for (k = 0; k < (int) s_x.size(); k++)
 	{
 		if (s_x[k]->type != SURF)
 			continue;
@@ -813,7 +813,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 		mass_water_surface = surface_charge_ptr1->Get_mass_water();
 		count_elts = 0;
 		paren_count = 0;
-		for (j = 0; j < count_s_x; j++)
+		for (j = 0; j < (int) s_x.size(); j++)
 		{
 			if (s_x[j]->type > HPLUS)
 				continue;
@@ -1478,7 +1478,7 @@ sum_match_species(const char *mytemplate, const char *name)
 	count_elts = 0;
 	paren_count = 0;
 	tot = 0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (match_elts_in_species(s_x[i]->name, mytemplate) == TRUE)
 		{
@@ -1519,7 +1519,7 @@ sum_match_species(const char *mytemplate, const char *name)
 	if (sum_species_map.find(mytemplate) == sum_species_map.end())
 	{
 		std::vector<std::string> species_list;
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int) s_x.size(); i++)
 		{
 			struct species *s_ptr = s_x[i];
 			if (match_elts_in_species(s_ptr->name, mytemplate) == TRUE)
@@ -2230,7 +2230,7 @@ surf_total(const char *total_name, const char *surface_name)
 	{
 		redox = true;
 	}
-	for (j = 0; j < count_s_x; j++)
+	for (j = 0; j < (int) s_x.size(); j++)
 	{
 		if (s_x[j]->type != SURF)
 			continue;
@@ -2352,7 +2352,7 @@ surf_total(const char *total_name, const char *surface_name)
  */
 	count_elts = 0;
 	paren_count = 0;
-	for (j = 0; j < count_s_x; j++)
+	for (j = 0; j < (int) s_x.size(); j++)
 	{
 		if (s_x[j]->type != SURF)
 			continue;
@@ -2833,7 +2833,7 @@ system_total_aq(void)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ)
 			continue;
@@ -2860,7 +2860,7 @@ system_total_ex(void)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type != EX)
 			continue;
@@ -2889,7 +2889,7 @@ system_total_surf(void)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type != SURF)
 			continue;
@@ -2983,7 +2983,7 @@ system_total_elt(const char *total_name)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		count_elts = 0;
 		paren_count = 0;
@@ -3062,7 +3062,7 @@ system_total_elt(const char *total_name)
 			mass_water_surface = charge_ptr->Get_mass_water();
 			count_elts = 0;
 			paren_count = 0;
-			for (j = 0; j < count_s_x; j++)
+			for (j = 0; j < (int) s_x.size(); j++)
 			{
 				if (s_x[j]->type > HPLUS)
 					continue;
@@ -3253,7 +3253,7 @@ system_total_elt_secondary(const char *total_name)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		count_elts = 0;
 		paren_count = 0;
@@ -3332,7 +3332,7 @@ system_total_elt_secondary(const char *total_name)
 			 */
 			mass_water_surface = charge_ptr->Get_mass_water();
 			sum = 0;
-			for (j = 0; j < count_s_x; j++)
+			for (j = 0; j < (int) s_x.size(); j++)
 			{
 				count_elts = 0;
 				paren_count = 0;
@@ -3526,7 +3526,7 @@ solution_sum_secondary(const char *total_name)
  *   find total moles in aq, surface, and exchange
  */
 	sum = 0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type > H2O)
 			continue;

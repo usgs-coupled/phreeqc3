@@ -123,10 +123,10 @@
 								   an equation */
 #define MAX_PHASES 500			/* initial guess of number of phases defined */
 #define MAX_S 500				/* default estimate for maximum number of species in aqueous model */
-#define MAX_SUM_JACOB0 50		/* list used to calculate jacobian */
-#define MAX_SUM_JACOB1 500		/* list used to calculate jacobian */
-#define MAX_SUM_JACOB2 500		/* list used to calculate jacobian */
-#define MAX_SUM_MB 500			/* list used to calculate mass balance sums */
+//#define MAX_SUM_JACOB0 50		/* list used to calculate jacobian */
+//#define MAX_SUM_JACOB1 500		/* list used to calculate jacobian */
+//#define MAX_SUM_JACOB2 500		/* list used to calculate jacobian */
+//#define MAX_SUM_MB 500			/* list used to calculate mass balance sums */
 #define MAX_TRXN 16				/* default estimate for maximum number of components in an eqn */
 #define MAX_UNKNOWNS 15			/* default estimate for maximum number of unknowns in model */
 #define TOL 1e-9				/* tolerance for comparisons of double numbers */

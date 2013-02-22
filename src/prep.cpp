@@ -1076,18 +1076,18 @@ build_mb_sums(void)
 /*
  *   Make space for lists
  */
-	if (count_sum_mb1 + count_mb_unknowns >= max_sum_mb1)
-	{
-		space((void **) ((void *) &sum_mb1),
-			  count_sum_mb1 + count_mb_unknowns, &max_sum_mb1,
-			  sizeof(struct list1));
-	}
-	if (count_sum_mb2 + count_mb_unknowns >= max_sum_mb2)
-	{
-		space((void **) ((void *) &sum_mb2),
-			  count_sum_mb2 + count_mb_unknowns, &max_sum_mb2,
-			  sizeof(struct list2));
-	}
+	//if (count_sum_mb1 + count_mb_unknowns >= max_sum_mb1)
+	//{
+	//	space((void **) ((void *) &sum_mb1),
+	//		  count_sum_mb1 + count_mb_unknowns, &max_sum_mb1,
+	//		  sizeof(struct list1));
+	//}
+	//if (count_sum_mb2 + count_mb_unknowns >= max_sum_mb2)
+	//{
+	//	space((void **) ((void *) &sum_mb2),
+	//		  count_sum_mb2 + count_mb_unknowns, &max_sum_mb2,
+	//		  sizeof(struct list2));
+	//}
 
 	if (debug_prep == TRUE)
 	{
@@ -1128,45 +1128,44 @@ build_model(void)
  *   Make space for lists of pointers to species in the model
  */
 
-	max_s_x = MAX_S;
+	//max_s_x = MAX_S;
 	
 	// clear sum_species_map, which is built from s_x
 	sum_species_map_db.clear();
 	sum_species_map.clear();
 
-	space((void **) ((void *) &s_x), INIT, &max_s_x,
-		  sizeof(struct species *));
+	//space((void **) ((void *) &s_x), INIT, &max_s_x,
+	//	  sizeof(struct species *));
 
-	max_sum_mb1 = MAX_SUM_MB;
-	count_sum_mb1 = 0;
-	space((void **) ((void *) &sum_mb1), INIT, &max_sum_mb1,
-		  sizeof(struct list1));
+	//max_sum_mb1 = MAX_SUM_MB;
+	//count_sum_mb1 = 0;
+	//space((void **) ((void *) &sum_mb1), INIT, &max_sum_mb1,
+	//	  sizeof(struct list1));
 
-	max_sum_mb2 = MAX_SUM_MB;
-	count_sum_mb2 = 0;
-	space((void **) ((void *) &sum_mb2), INIT, &max_sum_mb2,
-		  sizeof(struct list2));
+	//max_sum_mb2 = MAX_SUM_MB;
+	//count_sum_mb2 = 0;
+	//space((void **) ((void *) &sum_mb2), INIT, &max_sum_mb2,
+	//	  sizeof(struct list2));
 
-	max_sum_jacob0 = MAX_SUM_JACOB0;
-	count_sum_jacob0 = 0;
-	space((void **) ((void *) &sum_jacob0), INIT, &max_sum_jacob0,
-		  sizeof(struct list0));
+	//max_sum_jacob0 = MAX_SUM_JACOB0;
+	//count_sum_jacob0 = 0;
+	//space((void **) ((void *) &sum_jacob0), INIT, &max_sum_jacob0,
+	//	  sizeof(struct list0));
 
-	max_sum_jacob1 = MAX_SUM_JACOB1;
-	count_sum_jacob1 = 0;
-	space((void **) ((void *) &sum_jacob1), INIT, &max_sum_jacob1,
-		  sizeof(struct list1));
+	//max_sum_jacob1 = MAX_SUM_JACOB1;
+	//count_sum_jacob1 = 0;
+	//space((void **) ((void *) &sum_jacob1), INIT, &max_sum_jacob1,
+	//	  sizeof(struct list1));
 
-	max_sum_jacob2 = MAX_SUM_JACOB2;
-	count_sum_jacob2 = 0;
-	space((void **) ((void *) &sum_jacob2), INIT, &max_sum_jacob2,
-		  sizeof(struct list2));
+	//max_sum_jacob2 = MAX_SUM_JACOB2;
+	//count_sum_jacob2 = 0;
+	//space((void **) ((void *) &sum_jacob2), INIT, &max_sum_jacob2,
+	//	  sizeof(struct list2));
 
-
-	max_sum_delta = MAX_SUM_JACOB0;
-	count_sum_delta = 0;
-	space((void **) ((void *) &sum_delta), INIT, &max_sum_delta,
-		  sizeof(struct list2));
+	//max_sum_delta = MAX_SUM_JACOB0;
+	//count_sum_delta = 0;
+	//space((void **) ((void *) &sum_delta), INIT, &max_sum_delta,
+	//	  sizeof(struct list2));
 
 	max_species_list = 5 * MAX_S;
 	count_species_list = 0;
@@ -1177,7 +1176,7 @@ build_model(void)
 /*
  *   Pick species in the model, determine reaction for model, build jacobian
  */
-	count_s_x = 0;
+	//count_s_x = 0;
 	compute_gfw("H2O", &gfw_water);
 	gfw_water *= 0.001;
 	for (i = 0; i < count_s; i++)
@@ -1200,12 +1199,13 @@ build_model(void)
 			}
 			if (pitzer_model == FALSE && sit_model == FALSE)
 				s[i]->lg = 0.0;
-			if (count_s_x + 1 >= max_s_x)
-			{
-				space((void **) ((void *) &s_x), count_s_x + 1,
-					  &max_s_x, sizeof(struct species *));
-			}
-			s_x[count_s_x++] = s[i];
+			//if (count_s_x + 1 >= max_s_x)
+			//{
+			//	space((void **) ((void *) &s_x), count_s_x + 1,
+			//		  &max_s_x, sizeof(struct species *));
+			//}
+			//s_x[count_s_x++] = s[i];
+			s_x.push_back(s[i]);
 /*
  *   Write mass action equation for current model
  */
@@ -1336,7 +1336,7 @@ build_model(void)
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
 		j0 = count_unknowns;
-		j = count_unknowns + count_s_x;
+		j = count_unknowns + (int) s_x.size();
 		k = j0;
 		for (i = j0; i < j; i++)
 		{
@@ -2772,13 +2772,20 @@ reprep(void)
 /*
  *   Free arrays built in build_model
  */
-	s_x = (struct species **) free_check_null(s_x);
-	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
-	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
-	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
-	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
-	sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
-	sum_delta = (struct list2 *) free_check_null(sum_delta);
+	//s_x = (struct species **) free_check_null(s_x);
+	s_x.clear();
+	//sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
+	sum_mb1.clear();
+	//sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
+	sum_mb2.clear();
+	//sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
+	sum_jacob0.clear();
+	//sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
+	sum_jacob1.clear();
+	//sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
+	sum_jacob2.clear();
+	//sum_delta = (struct list2 *) free_check_null(sum_delta);
+	sum_delta.clear();
 /*
  *   Build model again
  */
@@ -4982,32 +4989,41 @@ store_jacob(LDBLE * source, LDBLE * target, LDBLE coef)
 	{
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\t\tjacob1 %d\n", count_sum_jacob1));
+			output_msg(sformatf( "\t\tjacob1 %d\n", (int) sum_jacob1.size()));
 		}
-		sum_jacob1[count_sum_jacob1].source = source;
-		sum_jacob1[count_sum_jacob1++].target = target;
-		/*    Check space */
-		if (count_sum_jacob1 >= max_sum_jacob1)
-		{
-			space((void **) ((void *) &sum_jacob1), count_sum_jacob1,
-				  &max_sum_jacob1, sizeof(struct list1));
-		}
+		struct list1 l1;
+		l1.source = source;
+		l1.target = target;
+		sum_jacob1.push_back(l1);
+		//sum_jacob1[count_sum_jacob1].source = source;
+		//sum_jacob1[count_sum_jacob1++].target = target;
+		///*    Check space */
+		//if (count_sum_jacob1 >= max_sum_jacob1)
+		//{
+		//	space((void **) ((void *) &sum_jacob1), count_sum_jacob1,
+		//		  &max_sum_jacob1, sizeof(struct list1));
+		//}
 	}
 	else
 	{
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\t\tjacob2 %d\n", count_sum_jacob2));
+			output_msg(sformatf( "\t\tjacob2 %d\n", (int) sum_jacob2.size()));
 		}
-		sum_jacob2[count_sum_jacob2].source = source;
-		sum_jacob2[count_sum_jacob2].target = target;
-		sum_jacob2[count_sum_jacob2++].coef = coef;
-		/*    Check space */
-		if (count_sum_jacob2 >= max_sum_jacob2)
-		{
-			space((void **) ((void *) &sum_jacob2), count_sum_jacob2,
-				  &max_sum_jacob2, sizeof(struct list2));
-		}
+		struct list2 l2;
+		l2.source = source;
+		l2.target = target;
+		l2.coef = coef;
+		sum_jacob2.push_back(l2);
+		//sum_jacob2[count_sum_jacob2].source = source;
+		//sum_jacob2[count_sum_jacob2].target = target;
+		//sum_jacob2[count_sum_jacob2++].coef = coef;
+		///*    Check space */
+		//if (count_sum_jacob2 >= max_sum_jacob2)
+		//{
+		//	space((void **) ((void *) &sum_jacob2), count_sum_jacob2,
+		//		  &max_sum_jacob2, sizeof(struct list2));
+		//}
 	}
 	return (OK);
 }
@@ -5020,15 +5036,19 @@ store_jacob0(int row, int column, LDBLE coef)
 /*
  *   Stores in list a constant coef which will be added into jacobian array
  */
-	sum_jacob0[count_sum_jacob0].target =
-		&(array[row * (count_unknowns + 1) + column]);
-	sum_jacob0[count_sum_jacob0++].coef = coef;
-	/*    Check space */
-	if (count_sum_jacob0 >= max_sum_jacob0)
-	{
-		space((void **) ((void *) &sum_jacob0), count_sum_jacob0,
-			  &max_sum_jacob0, sizeof(struct list0));
-	}
+	struct list0 l0;
+	l0.target = &(array[row * (count_unknowns + 1) + column]);
+	l0.coef = coef;
+	sum_jacob0.push_back(l0);
+	//sum_jacob0[count_sum_jacob0].target =
+	//	&(array[row * (count_unknowns + 1) + column]);
+	//sum_jacob0[count_sum_jacob0++].coef = coef;
+	///*    Check space */
+	//if (count_sum_jacob0 >= max_sum_jacob0)
+	//{
+	//	space((void **) ((void *) &sum_jacob0), count_sum_jacob0,
+	//		  &max_sum_jacob0, sizeof(struct list0));
+	//}
 	return (OK);
 }
 
@@ -5044,25 +5064,35 @@ store_mb(LDBLE * source, LDBLE * target, LDBLE coef)
  */
 	if (equal(coef, 1.0, TOL) == TRUE)
 	{
-		sum_mb1[count_sum_mb1].source = source;
-		sum_mb1[count_sum_mb1++].target = target;
-		if (count_sum_mb1 >= max_sum_mb1)
-		{
-			space((void **) ((void *) &sum_mb1),
-				  count_sum_mb1 + count_trxn + 4, &max_sum_mb1,
-				  sizeof(struct list1));
-		}
+		//sum_mb1[count_sum_mb1].source = source;
+		//sum_mb1[count_sum_mb1++].target = target;
+		struct list1 l1;
+		l1.source = source;
+		l1.target = target;
+		sum_mb1.push_back(l1);
+		//if (count_sum_mb1 >= max_sum_mb1)
+		//{
+		//	space((void **) ((void *) &sum_mb1),
+		//		  count_sum_mb1 + count_trxn + 4, &max_sum_mb1,
+		//		  sizeof(struct list1));
+		//}
 	}
 	else
 	{
-		sum_mb2[count_sum_mb2].source = source;
-		sum_mb2[count_sum_mb2].coef = coef;
-		sum_mb2[count_sum_mb2++].target = target;
-		if (count_sum_mb2 >= max_sum_mb2)
-		{
-			space((void **) ((void *) &sum_mb2), count_sum_mb2,
-				  &max_sum_mb2, sizeof(struct list2));
-		}
+		struct list2 l2;
+		l2.source = source;
+		l2.coef = coef;
+		l2.target = target;
+		sum_mb2.push_back(l2);
+
+		//sum_mb2[count_sum_mb2].source = source;
+		//sum_mb2[count_sum_mb2].coef = coef;
+		//sum_mb2[count_sum_mb2++].target = target;
+		//if (count_sum_mb2 >= max_sum_mb2)
+		//{
+		//	space((void **) ((void *) &sum_mb2), count_sum_mb2,
+		//		  &max_sum_mb2, sizeof(struct list2));
+		//}
 	}
 	return (OK);
 }
@@ -5078,15 +5108,20 @@ store_sum_deltas(LDBLE * source, LDBLE * target, LDBLE coef)
  *   in x[i]->delta. These may be multiplied by a factor under some
  *   situations where the entire calculated step is not taken
  */
-	sum_delta[count_sum_delta].source = source;
-	sum_delta[count_sum_delta].target = target;
-	sum_delta[count_sum_delta++].coef = coef;
-	/*    Check space */
-	if (count_sum_delta >= max_sum_delta)
-	{
-		space((void **) ((void *) &sum_delta), count_sum_delta,
-			  &max_sum_delta, sizeof(struct list2));
-	}
+	struct list2 l2;
+	l2.source = source;
+	l2.target = target;
+	l2.coef = coef;
+	sum_delta.push_back(l2);
+	//sum_delta[count_sum_delta].source = source;
+	//sum_delta[count_sum_delta].target = target;
+	//sum_delta[count_sum_delta++].coef = coef;
+	///*    Check space */
+	//if (count_sum_delta >= max_sum_delta)
+	//{
+	//	space((void **) ((void *) &sum_delta), count_sum_delta,
+	//		  &max_sum_delta, sizeof(struct list2));
+	//}
 	return (OK);
 }
 
@@ -5588,7 +5623,7 @@ calc_vm(LDBLE tc, LDBLE pa)
 	   Use mu_x for the volume averaged Iv, the difference is negligible....*/
 	LDBLE Sv_I = 0.5 * (1.444 + (0.016799 + (-8.4055e-6 + 5.5153e-7 * tc) * tc) * tc) * sqrt(mu_x);
 	// Sv_I = 0.0;
-	for (int i = 0; i < count_s_x; i++)
+	for (int i = 0; i < (int) s_x.size(); i++)
 	{
 		if (!strcmp(s_x[i]->name, "H2O"))
 		{
@@ -5645,7 +5680,7 @@ calc_vm(LDBLE tc, LDBLE pa)
 		I_v = mu_x;
 
 	LDBLE Sv_I = 0.5 * (1.444 + (0.016799 + (-8.4055e-6 + 5.5153e-7 * tc) * tc) * tc) * sqrt(I_v);
-	for (int i = 0; i < count_s_x; i++)
+	for (int i = 0; i < (int) s_x.size(); i++)
 	{
 		if (!strcmp(s_x[i]->name, "H2O"))
 		{
@@ -5780,7 +5815,7 @@ calc_vm(LDBLE tc, LDBLE pa)
  *	  coef(tc) = millero[3] + millero[4] * tc + millero[5] * tc^2
  */
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
-	for (int i = 0; i < count_s_x; i++)
+	for (int i = 0; i < (int) s_x.size(); i++)
 	{
 		if (!strcmp(s_x[i]->name, "H2O"))
 		{
@@ -5878,7 +5913,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	calc_vm(tc, pa);
 
 	mu_terms_in_logk = false;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->rxn_x->logk[vm_tc])
 		/* calculate delta_v for the reaction... */

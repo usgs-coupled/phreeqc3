@@ -484,14 +484,14 @@ set_sit(int initial)
  */
 	iterations = -1;
 	solution_ptr = use.Get_solution_ptr();
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		s_x[i]->lm = LOG_ZERO_MOLALITY;
 		s_x[i]->lg_pitzer = 0.0;
 	}
 	if (initial == TRUE || set_and_run_attempt > 0)
 	{
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int) s_x.size(); i++)
 		{
 			s_x[i]->lg = 0.0;
 		}
@@ -1186,7 +1186,7 @@ gammas_sit()
 /*
  *   Calculate activity coefficients
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		switch (s_x[i]->gflag)
 		{
@@ -1249,7 +1249,7 @@ gammas_sit()
 
 	if (use.Get_exchange_ptr() != NULL)
 	{
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int) s_x.size(); i++)
 		{
 			switch (s_x[i]->gflag)
 			{

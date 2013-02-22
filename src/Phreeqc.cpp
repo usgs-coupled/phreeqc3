@@ -378,14 +378,14 @@ void Phreeqc::init(void)
 	//pe_x					= NULL;
 	description_x			= NULL;
 	units_x					= NULL;
-	s_x						= NULL;
+	//s_x						= NULL;
 
-	sum_mb1					= NULL;
-	sum_mb2					= NULL;
-	sum_jacob0				= NULL;
-	sum_jacob1				= NULL;
-	sum_jacob2				= NULL;
-	sum_delta				= NULL;
+	//sum_mb1					= NULL;
+	//sum_mb2					= NULL;
+	//sum_jacob0				= NULL;
+	//sum_jacob1				= NULL;
+	//sum_jacob2				= NULL;
+	//sum_delta				= NULL;
 
 	//isotopes_x				= 0;
 
@@ -1017,24 +1017,24 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
 	*---------------------------------------------------------------------- */
-	count_sum_jacob0        = 0;
-	max_sum_jacob0          = 0;
-	sum_jacob0              = NULL;	
-	count_sum_mb1           = 0;
-	max_sum_mb1             = 0;
-	sum_mb1                 = NULL;	
-	count_sum_jacob1        = 0;
-	max_sum_jacob1          = 0;
-	sum_jacob1              = NULL;
-	count_sum_mb2           = 0;
-	max_sum_mb2             = 0;
-	sum_mb2                 = NULL;
-	count_sum_jacob2        = 0;
-	max_sum_jacob2          = 0;
-	sum_jacob2              = NULL;
-	count_sum_delta         = 0;
-	max_sum_delta           = 0;
-	sum_delta               = NULL;
+	//count_sum_jacob0        = 0;
+	//max_sum_jacob0          = 0;
+	//sum_jacob0              = NULL;	
+	//count_sum_mb1           = 0;
+	//max_sum_mb1             = 0;
+	//sum_mb1                 = NULL;	
+	//count_sum_jacob1        = 0;
+	//max_sum_jacob1          = 0;
+	//sum_jacob1              = NULL;
+	//count_sum_mb2           = 0;
+	//max_sum_mb2             = 0;
+	//sum_mb2                 = NULL;
+	//count_sum_jacob2        = 0;
+	//max_sum_jacob2          = 0;
+	//sum_jacob2              = NULL;
+	//count_sum_delta         = 0;
+	//max_sum_delta           = 0;
+	//sum_delta               = NULL;
 	/*----------------------------------------------------------------------
 	*   Solution
 	*---------------------------------------------------------------------- */
@@ -1163,9 +1163,9 @@ void Phreeqc::init(void)
 	count_s                  = 0;
 	max_s                    = MAX_S;
 	// auto s_diff_layer;
-	s_x                      = NULL;
-	count_s_x                = 0;
-	max_s_x                  = 0;
+	//s_x                      = NULL;
+	//count_s_x                = 0;
+	//max_s_x                  = 0;
 	s_h2o					= NULL;
 	s_hplus					= NULL;
 	s_h3oplus				= NULL;
@@ -1898,24 +1898,24 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Jacobian and Mass balance lists
 	*---------------------------------------------------------------------- */
 	/*
-	count_sum_jacob0        = 0;
-	max_sum_jacob0          = 0;
-	sum_jacob0              = NULL;	
-	count_sum_mb1           = 0;
-	max_sum_mb1             = 0;
-	sum_mb1                 = NULL;	
-	count_sum_jacob1        = 0;
-	max_sum_jacob1          = 0;
-	sum_jacob1              = NULL;
-	count_sum_mb2           = 0;
-	max_sum_mb2             = 0;
-	sum_mb2                 = NULL;
-	count_sum_jacob2        = 0;
-	max_sum_jacob2          = 0;
-	sum_jacob2              = NULL;
-	count_sum_delta         = 0;
-	max_sum_delta           = 0;
-	sum_delta               = NULL;
+	//count_sum_jacob0        = 0;
+	//max_sum_jacob0          = 0;
+	//sum_jacob0              = NULL;	
+	//count_sum_mb1           = 0;
+	//max_sum_mb1             = 0;
+	//sum_mb1                 = NULL;	
+	//count_sum_jacob1        = 0;
+	//max_sum_jacob1          = 0;
+	//sum_jacob1              = NULL;
+	//count_sum_mb2           = 0;
+	//max_sum_mb2             = 0;
+	//sum_mb2                 = NULL;
+	//count_sum_jacob2        = 0;
+	//max_sum_jacob2          = 0;
+	//sum_jacob2              = NULL;
+	//count_sum_delta         = 0;
+	//max_sum_delta           = 0;
+	//sum_delta               = NULL;
 	*/
 	/*----------------------------------------------------------------------
 	*   Solution
@@ -2088,8 +2088,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	max_s                    = MAX_S;
 	// auto s_diff_layer;
 	s_x                      = NULL;
-	count_s_x                = 0;
-	max_s_x                  = 0;
+	//count_s_x                = 0;
+	//max_s_x                  = 0;
 	s_h2o					= NULL;
 	s_hplus					= NULL;
 	s_h3oplus				= NULL;

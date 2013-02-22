@@ -235,7 +235,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	mass_water_surface = charge_ptr->Get_mass_water();
 	count_elts = 0;
 	paren_count = 0;
-	for (j = 0; j < count_s_x; j++)
+	for (j = 0; j < (int) s_x.size(); j++)
 	{
 		if (s_x[j]->type > HPLUS)
 			continue;
@@ -3391,11 +3391,11 @@ print_alkalinity(void)
 	print_centered("Distribution of alkalinity");
 	alk_list =
 		(struct species_list *)
-		PHRQ_malloc((size_t) (count_s_x * sizeof(struct species_list)));
+		PHRQ_malloc((size_t) ((int) s_x.size() * sizeof(struct species_list)));
 	if (alk_list == NULL)
 		malloc_error();
 	j = 0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->alk == 0.0)
 			continue;

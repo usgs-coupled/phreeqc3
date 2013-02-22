@@ -177,12 +177,12 @@ initialize(void)
 	units_x = NULL;
 	s_x = NULL;
 /* SRC ADDED */
-	sum_mb1 = NULL;
-	sum_mb2 = NULL;
-	sum_jacob0 = NULL;
-	sum_jacob1 = NULL;
-	sum_jacob2 = NULL;
-	sum_delta = NULL;
+	//sum_mb1 = NULL;
+	//sum_mb2 = NULL;
+	//sum_jacob0 = NULL;
+	//sum_jacob1 = NULL;
+	//sum_jacob2 = NULL;
+	//sum_delta = NULL;
 /* SRC ADDED */
 	x = NULL;
 	max_unknowns = 0;
@@ -560,18 +560,18 @@ initialize(void)
 	save_init(-1);
 	count_species_list = 0;
 	max_species_list = 0;
-	count_sum_jacob0 = 0;
-	max_sum_jacob0 = 0;
-	count_sum_mb1 = 0;
-	max_sum_mb1 = 0;
-	count_sum_jacob1 = 0;
-	max_sum_jacob1 = 0;
-	count_sum_mb2 = 0;
-	max_sum_mb2 = 0;
-	count_sum_jacob2 = 0;
-	max_sum_jacob2 = 0;
-	count_sum_delta = 0;
-	max_sum_delta = 0;
+	//count_sum_jacob0 = 0;
+	//max_sum_jacob0 = 0;
+	//count_sum_mb1 = 0;
+	//max_sum_mb1 = 0;
+	//count_sum_jacob1 = 0;
+	//max_sum_jacob1 = 0;
+	//count_sum_mb2 = 0;
+	//max_sum_mb2 = 0;
+	//count_sum_jacob2 = 0;
+	//max_sum_jacob2 = 0;
+	//count_sum_delta = 0;
+	//max_sum_delta = 0;
 	new_x = FALSE;
 	tc_x = 0;
 	tk_x = 0;
@@ -622,8 +622,8 @@ initialize(void)
 	new_pitzer = FALSE;
 	element_h_one = NULL;
 	count_elts = 0;
-	count_s_x = 0;
-	max_s_x = 0;
+	//count_s_x = 0;
+	//max_s_x = 0;
 	count_unknowns = 0;
 	ah2o_unknown = NULL;
 	alkalinity_unknown = NULL;
@@ -2198,7 +2198,7 @@ xsolution_save(int n_user)
 	}
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		for (int j = 0; j < count_s_x; j++)
+		for (int j = 0; j < (int) s_x.size(); j++)
 		{
 			if (s_x[j]->lg != 0.0)
 			{

@@ -676,7 +676,7 @@ gammas(LDBLE mu)
 /*
  *   Calculate activity coefficients
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		switch (s_x[i]->gflag)
 		{
@@ -1945,21 +1945,21 @@ jacobian_sums(void)
 /*
  *   Add constant terms
  */
-	for (k = 0; k < count_sum_jacob0; k++)
+	for (k = 0; k < (int) sum_jacob0.size(); k++)
 	{
 		*sum_jacob0[k].target += sum_jacob0[k].coef;
 	}
 /*
  *   Add terms with coefficients of 1.0
  */
-	for (k = 0; k < count_sum_jacob1; k++)
+	for (k = 0; k < (int) sum_jacob1.size(); k++)
 	{
 		*sum_jacob1[k].target += *sum_jacob1[k].source;
 	}
 /*
  *   Add terms with coefficients != 1.0
  */
-	for (k = 0; k < count_sum_jacob2; k++)
+	for (k = 0; k < (int) sum_jacob2.size(); k++)
 	{
 		*sum_jacob2[k].target += *sum_jacob2[k].source * sum_jacob2[k].coef;
 	}
@@ -2100,7 +2100,7 @@ mb_sums(void)
 /*
  *   Add terms with coefficients of 1.0
  */
-	for (k = 0; k < count_sum_mb1; k++)
+	for (k = 0; k < (int) sum_mb1.size(); k++)
 	{
 		*sum_mb1[k].target += *sum_mb1[k].source;
 /*		{ k += 1; k -= 1;} */
@@ -2108,7 +2108,7 @@ mb_sums(void)
 /*
  *   Add terms with coefficients != 1.0
  */
-	for (k = 0; k < count_sum_mb2; k++)
+	for (k = 0; k < (int) sum_mb2.size(); k++)
 	{
 		*sum_mb2[k].target += *sum_mb2[k].source * sum_mb2[k].coef;
 /*		{ k += 1; k -= 1;} */
@@ -2325,7 +2325,7 @@ molalities(int allow_overflow)
 		s_h2o->tot_g_moles = s_h2o->moles;
 		s_h2o->tot_dh2o_moles = 0.0;
 	}
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type > HPLUS && s_x[i]->type != EX
 			&& s_x[i]->type != SURF)
@@ -2380,7 +2380,7 @@ molalities(int allow_overflow)
 		&& dl_type_x != cxxSurface::NO_DL)
 		calc_all_donnan();
 
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type > HPLUS && s_x[i]->type != EX
 			&& s_x[i]->type != SURF)
@@ -3081,7 +3081,7 @@ reset(void)
 			x[i]->delta = 0.0;
 		}
 
-		for (i = 0; i < count_sum_delta; i++)
+		for (i = 0; i < (int) sum_delta.size(); i++)
 		{
 			*sum_delta[i].target += *sum_delta[i].source * sum_delta[i].coef;
 		}
@@ -4230,7 +4230,7 @@ residuals(void)
 			{
 				sum = 0;
 				sum1 = 0;
-				for (j = 0; j < count_s_x; j++)
+				for (j = 0; j < (int) s_x.size(); j++)
 				{
 					if (s_x[j]->type == SURF)
 					{
@@ -4276,7 +4276,7 @@ residuals(void)
 				negfpsirt = master_ptr2->s->la * LOG_10;
 				sum = 0;
 				sum1 = 0;
-				for (j = 0; j < count_s_x; j++)
+				for (j = 0; j < (int) s_x.size(); j++)
 				{
 					if (s_x[j]->type < H2O)
 					{
@@ -4431,7 +4431,7 @@ set(int initial)
 		return (set_sit(initial));
 	iterations = -1;
 	solution_ptr = use.Get_solution_ptr();
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		s_x[i]->lm = LOG_ZERO_MOLALITY;
 		s_x[i]->lg = 0.0;
@@ -4785,7 +4785,7 @@ sum_species(void)
 	total_ions_x = 0.0;
 	total_o_x = 0.0;
 	total_h_x = 0.0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int) s_x.size(); i++)
 	{
 		if (s_x[i]->type == EX)
 			continue;
@@ -5041,13 +5041,20 @@ free_model_allocs(void)
 	array = (LDBLE *) free_check_null(array);
 	delta = (LDBLE *) free_check_null(delta);
 	residual = (LDBLE *) free_check_null(residual);
-	s_x = (struct species **) free_check_null(s_x);
-	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
-	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
-	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
-	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
-	sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
-	sum_delta = (struct list2 *) free_check_null(sum_delta);
+	//s_x = (struct species **) free_check_null(s_x);
+	s_x.clear();
+	//sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
+	sum_mb1.clear();
+	//sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
+	sum_mb2.clear();
+	//sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
+	sum_jacob0.clear();
+	//sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
+	sum_jacob1.clear();
+	//sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
+	sum_jacob2.clear();
+	//sum_delta = (struct list2 *) free_check_null(sum_delta);
+	sum_delta.clear();
 	return (OK);
 }
 
