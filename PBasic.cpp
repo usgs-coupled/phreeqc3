@@ -121,7 +121,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				{
 					char * error_string = PhreeqcPtr->sformatf("%d/%d", (int) P_escapecode,
 						(int) P_ioresult);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 			}
 			else
@@ -208,7 +208,7 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 			{
 				char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-				warning_msg(error_string);
+				PhreeqcPtr->warning_msg(error_string);
 			}
 			else
 			{
@@ -278,7 +278,7 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 				{
 					char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
 						(int) P_ioresult);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 			}
 			else
@@ -347,7 +347,7 @@ basic_main(char *commands)
 			{
 				char * error_string = PhreeqcPtr->sformatf( "%d/%d", (int) P_escapecode,
 					(int) P_ioresult);
-				warning_msg(error_string);
+				PhreeqcPtr->warning_msg(error_string);
 			}
 			else
 			{
@@ -3375,7 +3375,7 @@ term(struct LOC_exec * LINK)
 			if (!parse_all)
 			{
 				char * error_string = PhreeqcPtr->sformatf( "Zero divide in BASIC line\n %ld %s.\nValue set to zero.", stmtline->num, stmtline->inbuf);
-				warning_msg(error_string);
+				PhreeqcPtr->warning_msg(error_string);
 			}
 			n.UU.val = 0;
 		}
@@ -5201,7 +5201,7 @@ exec(void)
 	{
 		//_Ltry1:
 		if (P_escapecode == -20)
-			warning_msg("Break");
+			PhreeqcPtr->warning_msg("Break");
 		/* printf("Break"); */
 		else if (P_escapecode != 42)
 		{
@@ -5211,28 +5211,28 @@ exec(void)
 			case -4:
 				{
 					char * error_string = PhreeqcPtr->sformatf( "Integer overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 				break;
 
 			case -5:
 				{
 					char * error_string = PhreeqcPtr->sformatf( "Divide by zero in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 				break;
 
 			case -6:
 				{
 					char * error_string = PhreeqcPtr->sformatf( "Real math overflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 				break;
 
 			case -7:
 				{
 					char * error_string = PhreeqcPtr->sformatf( "Real math underflow in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 				break;
 
@@ -5244,14 +5244,14 @@ exec(void)
 			case -15:
 				{
 				char * error_string = PhreeqcPtr->sformatf( "Value range error in BASIC line\n %ld %s", stmtline->num, stmtline->inbuf);
-				warning_msg(error_string);
+				PhreeqcPtr->warning_msg(error_string);
 				}
 				break;
 
 			case -10:
 				{
 					char * error_string = PhreeqcPtr->sformatf("I/O Error %d", (int) P_ioresult);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 				break;
 
@@ -5259,7 +5259,7 @@ exec(void)
 				if (EXCP_LINE != -1)
 				{
 					char * error_string = PhreeqcPtr->sformatf( "%12ld\n", EXCP_LINE);
-					warning_msg(error_string);
+					PhreeqcPtr->warning_msg(error_string);
 				}
 				_Escape(P_escapecode);
 				break;

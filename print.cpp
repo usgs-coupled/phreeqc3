@@ -2431,9 +2431,9 @@ punch_ss_assemblage(void)
 			for (j = 0; j < (int) ss_ptrs.size(); j++)
 			{
 				cxxSS * ss_ptr = ss_ptrs[j];
-				for (k = 0; k < (int) ss_ptr->Get_ss_comps().size(); k++)
+				for (int i = 0; i < (int) ss_ptr->Get_ss_comps().size(); i++)
 				{
-					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
+					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[i]);
 
 					if (strcmp_nocase(punch.s_s[k].name, comp_ptr->Get_name().c_str()) == 0)
 					{
