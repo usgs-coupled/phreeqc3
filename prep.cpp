@@ -1209,6 +1209,7 @@ build_model(void)
 /*
  *   Write mass action equation for current model
  */
+			//if (write_mass_action_eqn_x(STOP) == ERROR) continue;
 			write_mass_action_eqn_x(STOP);
 			if (s[i]->type == SURF)
 			{
@@ -1402,6 +1403,11 @@ build_model(void)
  *   Save model description
  */
 	save_model();
+
+	if (input_error > 0)
+	{
+		error_msg("Stopping due to input errors.", STOP);
+	}
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -2857,12 +2863,19 @@ write_mass_action_eqn_x(int stop)
 		count++;
 		if (count > MAX_ADD_EQUATIONS)
 		{
+			std::string name;
+			name = "Unknown";
+			if (trxn.token[0].s != NULL)
+			{
+				name = trxn.token[0].s->name;
+			}
+			
+			input_error++;
 			error_string = sformatf( "Could not reduce equation "
 					"to primary and secondary species that are "
-					"in the model\n\t Species: %s.", trxn.token[0].s->name);
+					"in the model.  Species: %s.", name.c_str());
 			if (stop == STOP)
 			{
-				input_error++;
 				error_msg(error_string, CONTINUE);
 			}
 			else
@@ -4953,7 +4966,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 		{
 			output_msg(sformatf( "\t\t%s\n", master_ptr->s->name));
 		}
-		if (master_ptr->unknown == NULL)
+		if (master_ptr == NULL ||master_ptr->unknown == NULL)
 			continue;
 		col = master_ptr->unknown->number;
 		coef = coef_in * rxn_ptr->coef;
@@ -5291,9 +5304,15 @@ write_mb_eqn_x(void)
 		count++;
 		if (count > MAX_ADD_EQUATIONS)
 		{
+			std::string name;
+			name = "Unknown";
+			if (trxn.token[0].s != NULL)
+			{
+				name = trxn.token[0].s->name;
+			}
 			error_string = sformatf( "Could not reduce equation "
 					"to primary and secondary species that are "
-					"in the model, %s.", trxn.token[0].s->name);
+					"in the model.  Species: %s.", name.c_str());
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
