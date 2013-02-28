@@ -1909,7 +1909,7 @@ xexchange_save(int n_user)
  *   Write exch_comp structure for each exchange component
  */
 	count_comps = 0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == EXCH)
 		{
@@ -2072,7 +2072,7 @@ xpp_assemblage_save(int n_user)
 /*
  *   Update amounts
  */
-	for (int j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP)
 			continue;
@@ -2267,7 +2267,7 @@ xsurface_save(int n_user)
 	 *  Now when we save, the site order differs from the charge order
 	 *  last_charge sets up logic to renumber charge balance equations.
 	 */
-	for (int i = 0; i < count_unknowns; i++)
+	for (int i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == SURFACE)
 		{

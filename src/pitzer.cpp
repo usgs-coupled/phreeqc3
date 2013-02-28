@@ -1427,7 +1427,7 @@ pitzer_initial_guesses(void)
 		exp((solution_ptr->Get_ph() - 14.) * LOG_10) * mass_water_aq_x;
 	mu_x /= mass_water_aq_x;
 	s_h2o->la = 0.0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i] == ph_unknown || x[i] == pe_unknown)
 			continue;
@@ -1527,7 +1527,7 @@ pitzer_revise_guesses(void)
 		}
 		else
 		{
-			for (i = 0; i < count_unknowns; i++)
+			for (i = 0; i < (int) x.size(); i++)
 			{
 				x[i]->sum = x[i]->f;
 			}
@@ -1540,7 +1540,7 @@ pitzer_revise_guesses(void)
 		   }
 		 */
 		repeat = FALSE;
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i] == ph_unknown || x[i] == pe_unknown)
 				continue;
@@ -1648,7 +1648,7 @@ jacobian_pz(void)
 	int i, j;
 
 Restart:
-	int pz_max_unknowns = max_unknowns;
+	int pz_max_unknowns = (int) x.size();
 	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{
@@ -1656,17 +1656,17 @@ Restart:
 		pitzer();
 		residuals();
 	}
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
+	base = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
 	if (base == NULL)
 		malloc_error();
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		base[i] = residual[i];
 	}
 	d = 0.0001;
 	d1 = d * log(10.0);
 	d2 = 0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		switch (x[i]->type)
 		{
@@ -1729,7 +1729,7 @@ Restart:
 			break;
 		}
 		molalities(TRUE);
-		if (max_unknowns > pz_max_unknowns) 
+		if ((int) x.size() > pz_max_unknowns) 
 		{
 		  base = (LDBLE *) free_check_null(base);
 		  goto Restart;
@@ -1738,9 +1738,9 @@ Restart:
 			pitzer();
 		mb_sums();
 		residuals();
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < (int) x.size(); j++)
 		{
-			array[j * (count_unknowns + 1) + i] =
+			array[j * ((int) x.size() + 1) + i] =
 				-(residual[j] - base[j]) / d2;
 		}
 		switch (x[i]->type)
@@ -1759,9 +1759,9 @@ Restart:
 			break;
 		case MH:
 			s_eminus->la -= d;
-			if (array[i * (count_unknowns + 1) + i] == 0)
+			if (array[i * ((int) x.size() + 1) + i] == 0)
 			{
-				array[i * (count_unknowns + 1) + i] =
+				array[i * ((int) x.size() + 1) + i] =
 					exp(s_h2->lm * LOG_10) * 2;
 			}
 			break;
@@ -2032,7 +2032,7 @@ check_gammas_pz(void)
 	mb_sums();
 	converge = TRUE;
 	tol = convergence_tolerance * 10.;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != PITZER_GAMMA)
 			continue;

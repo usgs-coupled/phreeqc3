@@ -291,7 +291,7 @@ check_residuals(void)
 			("The program has failed to converge to a numerical solution.\n\nThe following equations were not satisfied:");
 		/*error_msg("The program has failed to converge to a numerical solution.\n\nThe following equations were not satisfied:", CONTINUE); */
 	}
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == MB || x[i]->type == ALK)
 		{
@@ -950,7 +950,7 @@ ineq(int in_kode)
 			output_msg(sformatf(
 					   "\nSolution vector for removing unstable phases:\n"));
 		}
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 
 			if (x[i]->type == PP)
@@ -986,20 +986,20 @@ ineq(int in_kode)
  */
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if ((x[i]->type == AH2O && full_pitzer == FALSE) ||
 				(x[i]->type == MH && pitzer_model == TRUE && pitzer_pe == FALSE) ||
 				/*x[i]->type == MU ||*/
 				(x[i]->type == PITZER_GAMMA && full_pitzer == FALSE))
 			{
-				for (j = 0; j < count_unknowns; j++)
+				for (j = 0; j < (int) x.size(); j++)
 				{
-					array[j * (count_unknowns + 1) + i] = 0.0;
+					array[j * ((int) x.size() + 1) + i] = 0.0;
 				}
-				for (j = 0; j < count_unknowns + 1; j++)
+				for (j = 0; j < (int) x.size() + 1; j++)
 				{
-					array[i * (count_unknowns + 1) + j] = 0.0;
+					array[i * ((int) x.size() + 1) + j] = 0.0;
 				}
 			}
 		}
@@ -1012,14 +1012,14 @@ ineq(int in_kode)
 	{
 		int n = slack_unknown->number;
 		// slack row
-		for (j = 0; j <= count_unknowns + 1; j++)
+		for (j = 0; j <= (int) x.size() + 1; j++)
 		{
-			array[n * (count_unknowns + 1) + j] = 0.0;
+			array[n * ((int) x.size() + 1) + j] = 0.0;
 		}
 		// slack column
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < (int) x.size(); j++)
 		{
-			array[j * (count_unknowns + 1) + n] = 1.0;
+			array[j * ((int) x.size() + 1) + n] = 1.0;
 		}
 	}
 #ifdef SKIP
@@ -1038,18 +1038,18 @@ ineq(int in_kode)
 /*
  * Initialize space if necessary
  */
-	ineq_init(3 * count_unknowns, 3 * count_unknowns);
+	ineq_init(3 * (int) x.size(), 3 * (int) x.size());
 /*
  *   Normalize column
  */
-	space((void **) ((void *) &normal), count_unknowns, &normal_max,
+	space((void **) ((void *) &normal), (int) x.size(), &normal_max,
 		  sizeof(LDBLE));
 
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 		normal[i] = 1.0;
 
 
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		max = 0.0;
 
@@ -1060,31 +1060,31 @@ ineq(int in_kode)
 			if (x[i]->moles <= MIN_RELATED_SURFACE
 			   && (x[i]->type == EXCH || x[i]->type == SURFACE))
 				continue;
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
 				if (x[i]->type == SURFACE && x[j]->type == SURFACE_CB)
 					continue;
 				if (x[i]->type == SURFACE_CB1 && x[j]->type == SURFACE_CB2)
 					continue;
 
-				if (fabs(array[j * (count_unknowns + 1) + i]) > max)
+				if (fabs(array[j * ((int) x.size() + 1) + i]) > max)
 				{
-					max = fabs(array[j * (count_unknowns + 1) + i]);
+					max = fabs(array[j * ((int) x.size() + 1) + i]);
 					if (max > min_value)
 						break;
 				}
 			}
 			if (diagonal_scale == TRUE)
 			{
-				if (fabs(array[i * (count_unknowns + 1) + i]) < min_value)
+				if (fabs(array[i * ((int) x.size() + 1) + i]) < min_value)
 				{
-					max = fabs(array[i * (count_unknowns + 1) + i]);
+					max = fabs(array[i * ((int) x.size() + 1) + i]);
 				}
 			}
 
 			if (max == 0)
 			{
-				array[i * (count_unknowns + 1) + i] = 1e-5 * x[i]->moles;
+				array[i * ((int) x.size() + 1) + i] = 1e-5 * x[i]->moles;
 				max = fabs(1e-5 * x[i]->moles);
 			}
 		}
@@ -1095,15 +1095,15 @@ ineq(int in_kode)
 
 			min = 1e-12;
 			min = MIN_TOTAL;
-			array[x[i]->number * (count_unknowns + 1) + x[i]->number] += min;
+			array[x[i]->number * ((int) x.size() + 1) + x[i]->number] += min;
 			if (fabs
-				(array[x[i]->number * (count_unknowns + 1) + x[i]->number]) <
+				(array[x[i]->number * ((int) x.size() + 1) + x[i]->number]) <
 				min)
-				array[x[i]->number * (count_unknowns + 1) + x[i]->number] =
+				array[x[i]->number * ((int) x.size() + 1) + x[i]->number] =
 					min;
 			max = 0.0;
 
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
 				if (x[j]->type != MB &&
 					x[j]->type != SURFACE &&
@@ -1113,9 +1113,9 @@ ineq(int in_kode)
 					x[j]->type != EXCH && x[j]->type != MH
 					&& x[j]->type != MH2O)
 					continue;
-				if (fabs(array[j * (count_unknowns + 1) + i]) > max)
+				if (fabs(array[j * ((int) x.size() + 1) + i]) > max)
 				{
-					max = fabs(array[j * (count_unknowns + 1) + i]);
+					max = fabs(array[j * ((int) x.size() + 1) + i]);
 					if (max > min_value)
 						break;
 				}
@@ -1130,9 +1130,9 @@ ineq(int in_kode)
 						   "Scaling column for %s, max= %e\n",
 						   x[i]->description, (double) max));
 			}
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
-				array[j * (count_unknowns + 1) + i] *= min_value / max;
+				array[j * ((int) x.size() + 1) + i] *= min_value / max;
 			}
 			normal[i] = min_value / max;
 		}
@@ -1141,8 +1141,8 @@ ineq(int in_kode)
 /*
  *   Allocate arrays for inequality solver
  */
-	max_row_count = 2 * count_unknowns + 2;
-	max_column_count = count_unknowns + 2;
+	max_row_count = 2 * (int) x.size() + 2;
+	max_column_count = (int) x.size() + 2;
 	space((void **) ((void *) &ineq_array), max_row_count * max_column_count,
 		  &ineq_array_max, sizeof(LDBLE));
 
@@ -1164,7 +1164,7 @@ ineq(int in_kode)
  *   Copy equations to optimize into ineq_array
  */
 	l_count_rows = 0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (iterations < aqueous_only)
 			continue;
@@ -1174,8 +1174,8 @@ ineq(int in_kode)
 		if (slack && slack_unknown && x[i]->type == SLACK)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-				(void *) &(array[i * (count_unknowns + 1)]),
-				(size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				(void *) &(array[i * ((int) x.size() + 1)]),
+				(size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			l_count_rows++;
 		}
@@ -1207,8 +1207,8 @@ ineq(int in_kode)
 			{
 				/*   Copy in saturation index equation (has mass or supersaturated) */
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-					   (void *) &(array[i * (count_unknowns + 1)]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   (void *) &(array[i * ((int) x.size() + 1)]),
+					   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
 				if (it->second.Get_add_formula().size() == 0
 					&& x[i]->dissolve_only == FALSE)
@@ -1220,7 +1220,7 @@ ineq(int in_kode)
  */
 				if (pp_scale != 1)
 				{
-					for (j = 0; j < count_unknowns + 1; j++)
+					for (j = 0; j < (int) x.size() + 1; j++)
 					{
 						ineq_array[l_count_rows * max_column_count + j] *=
 							pp_scale;
@@ -1240,8 +1240,8 @@ ineq(int in_kode)
  *   Alkalinity and solution phase boundary
  */
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-				   (void *) &(array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   (void *) &(array[i * ((int) x.size() + 1)]),
+				   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			l_count_rows++;
 /*
@@ -1251,8 +1251,8 @@ ineq(int in_kode)
 		else if (x[i]->type == GAS_MOLES && gas_in == TRUE)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-				   (void *) &(array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   (void *) &(array[i * ((int) x.size() + 1)]),
+				   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 
 			res[l_count_rows] = 1.0;
@@ -1268,8 +1268,8 @@ ineq(int in_kode)
 		else if (x[i]->type == SS_MOLES && x[i]->ss_in == TRUE)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-				   (void *) &(array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   (void *) &(array[i * ((int) x.size() + 1)]),
+				   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			res[l_count_rows] = 1.0;
 			if (in_kode != 1)
@@ -1283,7 +1283,7 @@ ineq(int in_kode)
 /*
  *   Copy equality equations into ineq_array
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		comp_ptr = NULL;
 		cxxPPassemblageComp *comp_ptr1 = NULL;
@@ -1348,16 +1348,16 @@ ineq(int in_kode)
 				}
 			}
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-				   (void *) &(array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   (void *) &(array[i * ((int) x.size() + 1)]),
+				   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			if (mass_water_switch == TRUE && x[i] == mass_hydrogen_unknown)
 			{
 				k = mass_oxygen_unknown->number;
-				for (j = 0; j < count_unknowns; j++)
+				for (j = 0; j < (int) x.size(); j++)
 				{
 					ineq_array[l_count_rows * max_column_count + j] -=
-						2 * array[k * (count_unknowns + 1) + j];
+						2 * array[k * ((int) x.size() + 1) + j];
 				}
 			}
 			l_count_rows++;
@@ -1365,8 +1365,8 @@ ineq(int in_kode)
 		else if (x[i]->type == PITZER_GAMMA)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-				   (void *) &(array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   (void *) &(array[i * ((int) x.size() + 1)]),
+				   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			l_count_rows++;
 		}
@@ -1377,7 +1377,7 @@ ineq(int in_kode)
  */
 	if (pure_phase_unknown != NULL)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == PP)
 			{
@@ -1409,10 +1409,10 @@ ineq(int in_kode)
 					memcpy((void *)
 						   &(ineq_array[l_count_rows * max_column_count]),
 						   (void *) &(zero[0]),
-						   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+						   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 					ineq_array[l_count_rows * max_column_count + i] = 1.0;
 					ineq_array[l_count_rows * max_column_count +
-							   count_unknowns] = x[i]->moles;
+							   (int) x.size()] = x[i]->moles;
 					back_eq[l_count_rows] = i;
 					l_count_rows++;
 				}
@@ -1422,10 +1422,10 @@ ineq(int in_kode)
 					memcpy((void *)
 						   &(ineq_array[l_count_rows * max_column_count]),
 						   (void *) &(zero[0]),
-						   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+						   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 					ineq_array[l_count_rows * max_column_count + i] = -1.0;
 					ineq_array[l_count_rows * max_column_count +
-							   count_unknowns] =
+							   (int) x.size()] =
 						comp_ptr->Get_initial_moles() - x[i]->moles;
 					back_eq[l_count_rows] = i;
 					l_count_rows++;
@@ -1438,15 +1438,15 @@ ineq(int in_kode)
  */
 	if (pitzer_model || sit_model)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == MH2O)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-					   (void *) &(array[i * (count_unknowns + 1)]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   (void *) &(array[i * ((int) x.size() + 1)]),
+					   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
-				for (j = 0; j < count_unknowns; j++)
+				for (j = 0; j < (int) x.size(); j++)
 				{
 					if (x[j]->type < PP)
 					{
@@ -1457,7 +1457,7 @@ ineq(int in_kode)
 						/*ineq_array[l_count_rows*max_column_count + j] = -ineq_array[l_count_rows*max_column_count + j]; */
 					}
 				}
-				ineq_array[l_count_rows * max_column_count + count_unknowns] =
+				ineq_array[l_count_rows * max_column_count + (int) x.size()] =
 					0.5 * x[i]->moles;
 				l_count_rows++;
 			}
@@ -1473,7 +1473,7 @@ ineq(int in_kode)
  */
 	if (pure_phase_unknown != NULL)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == PP)
 			{
@@ -1509,7 +1509,7 @@ ineq(int in_kode)
 		&& (use.Get_exchange_ptr()->Get_related_phases() ||
 		use.Get_exchange_ptr()->Get_related_rate()))
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == EXCH && x[i]->moles <= 0)
 			{
@@ -1527,7 +1527,7 @@ ineq(int in_kode)
 		&& (use.Get_surface_ptr()->Get_related_phases()
 			|| use.Get_surface_ptr()->Get_related_rate()))
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			comp_ptr = NULL;
 			cxxPPassemblageComp * comp_ptr1 = NULL;
@@ -1571,7 +1571,7 @@ ineq(int in_kode)
 	if (use.Get_surface_ptr() != NULL)
 	{
 		LDBLE grams = 0;;
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if ((x[i]->type == SURFACE_CB || x[i]->type == SURFACE_CB1
 				  || x[i]->type == SURFACE_CB2) && x[i - 1]->phase_unknown == NULL)
@@ -1599,15 +1599,15 @@ ineq(int in_kode)
  */
 	if (gas_in == TRUE)
 	{
-		for (i = gas_unknown->number; i < count_unknowns; i++)
+		for (i = gas_unknown->number; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == GAS_MOLES)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 					   (void *) &(zero[0]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = -1.0;
-				ineq_array[l_count_rows * max_column_count + count_unknowns] =
+				ineq_array[l_count_rows * max_column_count + (int) x.size()] =
 					x[i]->moles;
 				back_eq[l_count_rows] = i;
 				l_count_rows++;
@@ -1635,7 +1635,7 @@ ineq(int in_kode)
 
 	if (ss_unknown != NULL)
 	{
-		for (i = ss_unknown->number; i < count_unknowns; i++)
+		for (i = ss_unknown->number; i < (int) x.size(); i++)
 		{
 			if (x[i]->type != SS_MOLES)
 				break;
@@ -1643,9 +1643,9 @@ ineq(int in_kode)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 					   (void *) &(zero[0]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = 1.0;
-				ineq_array[l_count_rows * max_column_count + count_unknowns] =
+				ineq_array[l_count_rows * max_column_count + (int) x.size()] =
 					0.99 * x[i]->moles - MIN_TOTAL_SS;
 				back_eq[l_count_rows] = i;
 				l_count_rows++;
@@ -1664,15 +1664,15 @@ ineq(int in_kode)
  */
 	if (negative_concentrations)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == MB && x[i]->moles < 0.0)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-					   (void *) &(array[i * (count_unknowns + 1)]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   (void *) &(array[i * ((int) x.size() + 1)]),
+					   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
-				for (j = 0; j < count_unknowns; j++)
+				for (j = 0; j < (int) x.size(); j++)
 				{
 					if (x[j]->type < PP)
 					{
@@ -1697,7 +1697,7 @@ ineq(int in_kode)
 /*
  *   Scale column for pure phases
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if ((x[i]->type == PP || x[i]->type == SS_MOLES)
 			&& pp_column_scale != 1.0)
@@ -1713,7 +1713,7 @@ ineq(int in_kode)
 	if (debug_model == TRUE)
 	{
 		output_msg(sformatf( "\nA and B arrays:\n\n"));
-		array_print(ineq_array, l_count_rows, count_unknowns + 1,
+		array_print(ineq_array, l_count_rows, (int) x.size() + 1,
 					max_column_count);
 	}
 /*
@@ -1730,7 +1730,7 @@ ineq(int in_kode)
 		output_msg(sformatf( "k, l, m\t%d\t%d\t%d\n", k, l, m));
 	}
 
-	n = count_unknowns;			/* columns in A, C, E */
+	n = (int) x.size();			/* columns in A, C, E */
 	l_klmd = max_row_count - 2;
 	l_nklmd = n + l_klmd;
 	l_n2d = n + 2;
@@ -1744,7 +1744,7 @@ ineq(int in_kode)
 	{
 		l_kode = 1;
 	}
-	l_iter = 2*(count_unknowns + l_count_rows);
+	l_iter = 2*((int) x.size() + l_count_rows);
 /*
  *   Allocate space for arrays
  */
@@ -1846,19 +1846,19 @@ ineq(int in_kode)
 /*   Copy delta1 into delta and scale */
 
 	memcpy((void *) &(delta[0]), (void *) &(delta1[0]),
-		   (size_t) count_unknowns * sizeof(LDBLE));
-	for (i = 0; i < count_unknowns; i++)
+		   (size_t) (int) x.size() * sizeof(LDBLE));
+	for (i = 0; i < (int) x.size(); i++)
 		delta[i] *= normal[i];
 /*
  *   Rescale columns of array
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (normal[i] != 1.0)
 		{
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
-				array[j * (count_unknowns + 1) + i] /= normal[i];
+				array[j * ((int) x.size() + 1) + i] /= normal[i];
 			}
 		}
 	}
@@ -1889,7 +1889,7 @@ ineq(int in_kode)
 		output_msg(sformatf( "kode: %d\titer: %d\terror: %e\n", l_kode,
 				   l_iter, (double) l_error));
 		output_msg(sformatf( "\nsolution vector:\n"));
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			output_msg(sformatf( "%6d  %-12.12s %10.2e", i,
 					   x[i]->description, (double) delta[i]));
@@ -1933,14 +1933,14 @@ jacobian_sums(void)
 /*
  *   Clear array, note residuals are in array[i, count_unknowns+1]
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		array[i] = 0.0;
 	}
-	for (i = 1; i < count_unknowns; i++)
+	for (i = 1; i < (int) x.size(); i++)
 	{
-		memcpy((void *) &(array[i * (count_unknowns + 1)]),
-			   (void *) &(array[0]), (size_t) count_unknowns * sizeof(LDBLE));
+		memcpy((void *) &(array[i * ((int) x.size() + 1)]),
+			   (void *) &(array[0]), (size_t) (int) x.size() * sizeof(LDBLE));
 	}
 /*
  *   Add constant terms
@@ -1971,12 +1971,12 @@ jacobian_sums(void)
  */
 	if (mu_unknown != NULL)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			// using straight mu equation
-			array[mu_unknown->number * (count_unknowns + 1) + i] *= 0.5;
+			array[mu_unknown->number * ((int) x.size() + 1) + i] *= 0.5;
 		}
-		array[mu_unknown->number * (count_unknowns + 1) +
+		array[mu_unknown->number * ((int) x.size() + 1) +
 			  mu_unknown->number] -= mass_water_aq_x;
 	}
 /*
@@ -1984,7 +1984,7 @@ jacobian_sums(void)
  */
 	if (mass_oxygen_unknown != NULL && mu_unknown != NULL)
 	{
-		array[mu_unknown->number * (count_unknowns + 1) +
+		array[mu_unknown->number * ((int) x.size() + 1) +
 			  mass_oxygen_unknown->number] -= mu_x * mass_water_aq_x;
 	}
 /*
@@ -2002,33 +2002,33 @@ jacobian_sums(void)
 			LDBLE factor = -a*(x_h2o*(-0.5*tanh(lim) - 0.5) + (50.0*a*y_sum - 47.5 * x_h2o) / (cosh(lim)*cosh(lim))) /
 				(x_h2o*x_h2o);
 
-			for (i = 0; i < count_unknowns; i++)
+			for (i = 0; i < (int) x.size(); i++)
 			{
-				array[ah2o_unknown->number * (count_unknowns + 1) + i] *= factor;
+				array[ah2o_unknown->number * ((int) x.size() + 1) + i] *= factor;
 			}
 			// activity of water term
-			array[ah2o_unknown->number * (count_unknowns + 1) +
+			array[ah2o_unknown->number * ((int) x.size() + 1) +
 				  ah2o_unknown->number] -= exp(s_h2o->la * LOG_10);
 
 			// mass of water term
 			if (mass_oxygen_unknown != NULL)
 			{
-				array[ah2o_unknown->number * (count_unknowns + 1) + mass_oxygen_unknown->number] -=
+				array[ah2o_unknown->number * ((int) x.size() + 1) + mass_oxygen_unknown->number] -=
 					  a*y_sum*(x_h2o*(0.5*tanh(lim) + 0.5) + (47.5*x_h2o - 50.0*a*y_sum)/(cosh(lim)*cosh(lim))) / 
 					  (x_h2o*x_h2o*x_h2o);
 			}
 		}
 		else
 		{
-			for (i = 0; i < count_unknowns; i++)
+			for (i = 0; i < (int) x.size(); i++)
 			{
-				array[ah2o_unknown->number * (count_unknowns + 1) + i] *= -0.017;
+				array[ah2o_unknown->number * ((int) x.size() + 1) + i] *= -0.017;
 			}
-			array[ah2o_unknown->number * (count_unknowns + 1) + ah2o_unknown->number] -=
+			array[ah2o_unknown->number * ((int) x.size() + 1) + ah2o_unknown->number] -=
 				mass_water_aq_x * exp(s_h2o->la * LOG_10);
 			if (mass_oxygen_unknown != NULL)
 			{
-				array[ah2o_unknown->number * (count_unknowns + 1) + mass_oxygen_unknown->number] -=
+				array[ah2o_unknown->number * ((int) x.size() + 1) + mass_oxygen_unknown->number] -=
 					(exp(s_h2o->la * LOG_10) - 1) * mass_water_aq_x;
 			}
 		}
@@ -2044,7 +2044,7 @@ jacobian_sums(void)
 			//	 1000);
 			sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
 				 1000);
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			cxxSurfaceCharge *charge_ptr = NULL;
 			if (x[i]->type == SURFACE_CB)
@@ -2053,18 +2053,18 @@ jacobian_sums(void)
 			}
 			if (x[i]->type == SURFACE_CB && charge_ptr->Get_grams() > 0)
 			{
-				for (j = 0; j < count_unknowns; j++)
+				for (j = 0; j < (int) x.size(); j++)
 				{
-					array[x[i]->number * (count_unknowns + 1) + j] *=
+					array[x[i]->number * ((int) x.size() + 1) + j] *=
 						F_C_MOL / (charge_ptr->Get_specific_area() *
 								   charge_ptr->Get_grams());
 				}
-				array[x[i]->number * (count_unknowns + 1) + x[i]->number] -=
+				array[x[i]->number * ((int) x.size() + 1) + x[i]->number] -=
 					sinh_constant * sqrt(mu_x) *
 					cosh(x[i]->master[0]->s->la * LOG_10);
 				if (mu_unknown != NULL)
 				{
-					array[x[i]->number * (count_unknowns + 1) +
+					array[x[i]->number * ((int) x.size() + 1) +
 						  mu_unknown->number] -=
 						0.5 * sinh_constant / sqrt(mu_x) *
 						sinh(x[i]->master[0]->s->la * LOG_10);
@@ -2092,7 +2092,7 @@ mb_sums(void)
 /*
  *   Clear functions in unknowns
  */
-	for (k = 0; k < count_unknowns; k++)
+	for (k = 0; k < (int) x.size(); k++)
 	{
 		x[k]->f = 0.0;
 		x[k]->sum = 0.0;
@@ -2287,7 +2287,7 @@ mb_ss(void)
 			}
 		}
 	}
-	for (int i = ss_unknown->number; i < count_unknowns; i++)
+	for (int i = ss_unknown->number; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != SS_MOLES)
 			break;
@@ -2951,7 +2951,7 @@ reset(void)
 /*
  *   Don't take out more mineral than is present
  */
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == PP || x[i]->type == SS_MOLES)
 			{
@@ -3057,7 +3057,7 @@ reset(void)
  *   Calculate change in element concentrations due to pure phases and gases
  */
 	warning = 0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 
 		/*if (isnan(delta[i]))*/
@@ -3076,7 +3076,7 @@ reset(void)
 	if (pure_phase_unknown != NULL || gas_unknown != NULL
 		|| ss_unknown != NULL)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			x[i]->delta = 0.0;
 		}
@@ -3091,7 +3091,7 @@ reset(void)
  */
 
 
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			x[i]->delta /= factor;
 			if (x[i]->type == PP || x[i]->type == SS_MOLES)
@@ -3106,7 +3106,7 @@ reset(void)
  */
 	factor = 1.0;
 	sum_deltas = 0.0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 
 	{
 		/* fixes underflow problem on Windows */
@@ -3240,14 +3240,14 @@ reset(void)
 	}
 	factor = 1.0 / factor;
 
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != PP && x[i]->type != SS_MOLES)
 			delta[i] *= factor;
 	}
 
 	warning = 0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 
 		/*if (isnan(delta[i]))*/
@@ -3266,7 +3266,7 @@ reset(void)
 /*
  *   Solution mass balances: MB, ALK, CB, SOLUTION_PHASE_BOUNDARY
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == MB || x[i]->type == ALK || x[i]->type == EXCH
 			|| x[i]->type == SURFACE)
@@ -3670,7 +3670,7 @@ reset(void)
 	if (pure_phase_unknown != NULL || gas_unknown != NULL
 		|| ss_unknown != NULL)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == MB || x[i]->type == MH ||
 				x[i]->type == MH2O ||
@@ -3726,7 +3726,7 @@ residuals(void)
 	converge = TRUE;
 	l_toler = convergence_tolerance;
 
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == MB)
 		{
@@ -4396,7 +4396,7 @@ residuals(void)
 /*
  *   Store residuals in array
  */
-		array[(i + 1) * (count_unknowns + 1) - 1] = residual[i];
+		array[(i + 1) * ((int) x.size() + 1) - 1] = residual[i];
 		sum_residual += fabs(residual[i]);
 	}
 /*
@@ -4485,7 +4485,7 @@ initial_guesses(void)
 		exp((solution_ptr->Get_ph() - 14.) * LOG_10) * mass_water_aq_x;
 	mu_x /= mass_water_aq_x;
 	s_h2o->la = 0.0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i] == ph_unknown || x[i] == pe_unknown)
 			continue;
@@ -4583,7 +4583,7 @@ revise_guesses(void)
 		}
 		else
 		{
-			for (i = 0; i < count_unknowns; i++)
+			for (i = 0; i < (int) x.size(); i++)
 			{
 				x[i]->sum = x[i]->f;
 			}
@@ -4596,7 +4596,7 @@ revise_guesses(void)
 		}
  */
 		repeat = FALSE;
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i] == ph_unknown || x[i] == pe_unknown)
 				continue;
@@ -4833,7 +4833,7 @@ sum_species(void)
 /*
  *   Calculate mass-balance sums
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == MB ||
 			x[i]->type == SOLUTION_PHASE_BOUNDARY ||
@@ -5029,15 +5029,16 @@ free_model_allocs(void)
  *   free space allocated in model
  */
 	int i;
-	if (x != NULL)
-	{
-		for (i = 0; i < max_unknowns; i++)
+	//if (x != NULL)
+	//{
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			unknown_free(x[i]);
 		}
-	}
-	x = (struct unknown **) free_check_null(x);
-	max_unknowns = 0;
+	//}
+	//x = (struct unknown **) free_check_null(x);
+	x.clear();
+	//max_unknowns = 0;
 	array = (LDBLE *) free_check_null(array);
 	delta = (LDBLE *) free_check_null(delta);
 	residual = (LDBLE *) free_check_null(residual);
@@ -5217,27 +5218,27 @@ numerical_jacobian(void)
  *   Clear array, note residuals are in array[i, count_unknowns+1]
  */
 
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		array[i] = 0.0;
 	}
-	for (i = 1; i < count_unknowns; i++)
+	for (i = 1; i < (int) x.size(); i++)
 	{
-		memcpy((void *) &(array[i * (count_unknowns + 1)]),
-			   (void *) &(array[0]), (size_t) count_unknowns * sizeof(LDBLE));
+		memcpy((void *) &(array[i * ((int) x.size() + 1)]),
+			   (void *) &(array[0]), (size_t) (int) x.size() * sizeof(LDBLE));
 	}
 
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
+	base = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
 	if (base == NULL)
 		malloc_error();
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		base[i] = residual[i];
 	}
 	d = 0.0001;
 	d1 = d * log(10.0);
 	d2 = 0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		switch (x[i]->type)
 		{
@@ -5276,7 +5277,7 @@ numerical_jacobian(void)
 			gammas(mu_x);
 			break;
 		case PP:
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
 				delta[j] = 0.0;
 			}
@@ -5288,7 +5289,7 @@ numerical_jacobian(void)
 		case SS_MOLES:
 			if (x[i]->ss_in == FALSE)
 				continue;
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
 				delta[j] = 0.0;
 			}
@@ -5323,7 +5324,7 @@ numerical_jacobian(void)
 		 */
 		residuals();
 		//output_msg(sformatf( "%d\n", i));
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < (int) x.size(); j++)
 		{
 			// avoid overflow
 			if (residual[j] > 1.0e101)
@@ -5331,11 +5332,11 @@ numerical_jacobian(void)
 				double t = pow(10.0, DBL_MAX_10_EXP - 50.0);
 				if (residual[j]  > t)
 				{
-					array[j * (count_unknowns + 1) + i] = -pow(10.0, DBL_MAX_10_EXP - 50.0);
+					array[j * ((int) x.size() + 1) + i] = -pow(10.0, DBL_MAX_10_EXP - 50.0);
 				}
 				else
 				{
-					array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
+					array[j * ((int) x.size() + 1) + i] = -(residual[j] - base[j]) / d2;
 				}
 			}
 			else if (residual[j] < -1.0e101)
@@ -5343,17 +5344,17 @@ numerical_jacobian(void)
 				double t = pow(10.0, DBL_MIN_10_EXP + 50.0);
 				if (residual[j]  < -t)
 				{
-					array[j * (count_unknowns + 1) + i] = pow(10.0, DBL_MIN_10_EXP + 50.0);
+					array[j * ((int) x.size() + 1) + i] = pow(10.0, DBL_MIN_10_EXP + 50.0);
 				}
 				else
 				{
-					array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
+					array[j * ((int) x.size() + 1) + i] = -(residual[j] - base[j]) / d2;
 				}
 			}
 			else
 			{
-				array[j * (count_unknowns + 1) + i] = -(residual[j] - base[j]) / d2;
-				if (!PHR_ISFINITE(array[j * (count_unknowns + 1) + i]))
+				array[j * ((int) x.size() + 1) + i] = -(residual[j] - base[j]) / d2;
+				if (!PHR_ISFINITE(array[j * ((int) x.size() + 1) + i]))
 				{
 					//fprintf(stderr, "oops, got NaN: %e, %e, %e, %e\n", residual[j], base[j], d2, array[j * (count_unknowns + 1) + i]);
 				}
@@ -5377,10 +5378,10 @@ numerical_jacobian(void)
 			break;
 		case MH:
 			s_eminus->la -= d;
-			if (array[i * (count_unknowns + 1) + i] == 0)
+			if (array[i * ((int) x.size() + 1) + i] == 0)
 			{
 				/*output_msg(sformatf( "Zero diagonal for MH\n")); */
-				array[i * (count_unknowns + 1) + i] =
+				array[i * ((int) x.size() + 1) + i] =
 				  under(s_h2->lm) * 2;
 			}
 			break;
@@ -5426,8 +5427,8 @@ ineq_init(int l_max_row_count, int l_max_column_count)
 	if (normal == NULL)
 	{
 		normal =
-			(LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-		normal_max = count_unknowns;
+			(LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
+		normal_max = (int) x.size();
 		if (normal == NULL)
 			malloc_error();
 	}
@@ -5501,7 +5502,7 @@ set_inert_moles(void)
 	if (use.Get_pp_assemblage_ptr() == NULL) return;
 	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP) continue;
 		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 
@@ -5520,7 +5521,7 @@ unset_inert_moles()
 	int j;
 	if (use.Get_pp_assemblage_ptr() == NULL) return;
 	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP) continue;
 		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 

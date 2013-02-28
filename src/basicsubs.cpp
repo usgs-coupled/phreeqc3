@@ -591,7 +591,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
  *   Find surface...
  */
 	int j;
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
 		{
@@ -627,7 +627,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 			break;
 		}
 	}
-	if (j >= count_unknowns)
+	if (j >= (int) x.size())
 		return (0);
 	surface_name_local = name;
 	/*
@@ -858,7 +858,7 @@ equi_phase(const char *phase_name)
 
 	if (use.Get_pp_assemblage_in() == FALSE || use.Get_pp_assemblage_ptr() == NULL)
 		return (0);
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP)
 			continue;
@@ -871,7 +871,7 @@ equi_phase(const char *phase_name)
  *   Print pure phase assemblage data
  */
 	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-	if (j == count_unknowns)
+	if (j == (int) x.size())
 	{
 		/* if not an unknown */
 		std::map<std::string, cxxPPassemblageComp>::iterator it;
@@ -903,7 +903,7 @@ equi_phase_delta(const char *phase_name)
 
 	if (use.Get_pp_assemblage_in() == FALSE || use.Get_pp_assemblage_ptr() == NULL)
 		return (0);
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP)
 			continue;
@@ -916,7 +916,7 @@ equi_phase_delta(const char *phase_name)
  *   Print pure phase assemblage data
  */
 	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-	if (j == count_unknowns)
+	if (j == (int) x.size())
 	{
 		/* if not an unknown */
 		std::map<std::string, cxxPPassemblageComp>::iterator it;
@@ -2204,7 +2204,7 @@ surf_total(const char *total_name, const char *surface_name)
 /*
  *   Find surface...
  */
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != SURFACE)
 			continue;
@@ -2219,7 +2219,7 @@ surf_total(const char *total_name, const char *surface_name)
 		if (strcmp(name.c_str(), surface_name) == 0)
 				break;
 	}
-	if (j >= count_unknowns)
+	if (j >= (int) x.size())
 		return (0);
 /*
  *   find total moles for redox state
@@ -3049,7 +3049,7 @@ system_total_elt(const char *total_name)
 		 *   Find position of component in surface charge data
 		 */
 		i = -1;
-		for (k = 0; k < count_unknowns; k++)
+		for (k = 0; k < (int) x.size(); k++)
 		{
 			if (x[k]->type != SURFACE_CB)
 				continue;
@@ -3111,7 +3111,7 @@ system_total_elt(const char *total_name)
 	if (use.Get_pp_assemblage_in() == TRUE && use.Get_pp_assemblage_ptr() != NULL)
 	{
 		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type != PP)
 				continue;
@@ -3320,7 +3320,7 @@ system_total_elt_secondary(const char *total_name)
 		 *   Find position of component in surface charge data
 		 */
 		i = -1;
-		for (k = 0; k < count_unknowns; k++)
+		for (k = 0; k < (int) x.size(); k++)
 		{
 			if (x[k]->type != SURFACE_CB)
 				continue;
@@ -3382,7 +3382,7 @@ system_total_elt_secondary(const char *total_name)
 	if (use.Get_pp_assemblage_in() == TRUE && use.Get_pp_assemblage_ptr() != NULL)
 	{
 		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type != PP)
 				continue;

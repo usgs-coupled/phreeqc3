@@ -111,11 +111,12 @@ clean_up(void)
 
 /* unknowns */
 
-	for (j = 0; j < max_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		unknown_free(x[j]);
 	}
-	x = (struct unknown **) free_check_null(x);
+	//x = (struct unknown **) free_check_null(x);
+	x.clear();
 
 /* mixtures */
 	Rxn_mix_map.clear();
@@ -3113,7 +3114,7 @@ unknown_alloc(void)
 	unknown_ptr->sum = 0.0;
 	unknown_ptr->delta = 0.0;
 	unknown_ptr->la = 0.0;
-	unknown_ptr->number = 0;
+	unknown_ptr->number = (int) x.size();
 	unknown_ptr->description = NULL;
 	unknown_ptr->master = NULL;
 	unknown_ptr->phase = NULL;
@@ -3138,7 +3139,7 @@ unknown_alloc(void)
 
 	return (unknown_ptr);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 unknown_delete(int i)
@@ -3156,7 +3157,7 @@ unknown_delete(int i)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 unknown_free(struct unknown *unknown_ptr)

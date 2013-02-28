@@ -174,7 +174,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
  *   Find position of component in surface charge data
  */
 	int j;
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;
@@ -184,7 +184,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 			break;
 		}
 	}
-	if (j >= count_unknowns)
+	if (j >= (int) x.size())
 	{
 		error_string = sformatf(
 				"In print_diffuse_layer: component not found, %s.",
@@ -210,7 +210,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	if (use.Get_surface_ptr()->Get_debye_lengths() > 0)
 	{
 		sum_surfs = 0.0;
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < (int) x.size(); j++)
 		{
 			if (x[j]->type != SURFACE_CB)
 				continue;
@@ -1259,7 +1259,7 @@ print_pp_assemblage(void)
 			   " Delta"));
 	output_msg("\n\n");
 
-	for (j = 0; j < count_unknowns; j++)
+	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP)
 			continue;
@@ -1502,7 +1502,7 @@ print_surface(void)
  */
 
 	s_h2o->lm = s_h2o->la;
-	for (int j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < (int) x.size(); j++)
 	{
 		/*if (use.Get_surface_ptr()->edl == TRUE) { */
 		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
@@ -1608,7 +1608,7 @@ print_surface(void)
 /*
  *   Heading for species
  */
-			for (int k = j - 1; k < count_unknowns; k++)
+			for (int k = j - 1; k < (int) x.size(); k++)
 			{
 				if (x[k]->type != SURFACE)
 					continue;
@@ -1747,7 +1747,7 @@ print_surface_cd_music(void)
  */
 
 	s_h2o->lm = s_h2o->la;
-	for (int j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;
@@ -1886,7 +1886,7 @@ print_surface_cd_music(void)
 /*
  *   Heading for species
  */
-			for (int k = j - 1; k < count_unknowns; k++)
+			for (int k = j - 1; k < (int) x.size(); k++)
 			{
 				if (x[k]->type != SURFACE)
 					continue;
@@ -1971,7 +1971,7 @@ print_totals(void)
 	pure_water = TRUE;
 	output_msg(sformatf("\t%-15s%12s%12s\n\n", "Elements", "Molality",
 			   "Moles"));
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i] == alkalinity_unknown)
 		{
@@ -2608,9 +2608,9 @@ punch_pp_assemblage(void)
 		moles = 0.0;
 		if (punch.pure_phases[i].phase != NULL)
 		{
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
-				if (x == NULL || x[j]->type != PP)
+				if (x.size() == 0 || x[j]->type != PP)
 					continue;
 				cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
 /*

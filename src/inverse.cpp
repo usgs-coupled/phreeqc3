@@ -217,7 +217,8 @@ setup_inverse(struct inverse *inv_ptr)
 		inv_ptr->count_isotope_unknowns * inv_ptr->count_solns +	/* isotopes in solution */
 		inv_ptr->count_isotopes * inv_ptr->count_phases +	/* isotopes in phases */
 		1 + 1;					/* rhs, ineq */
-	count_unknowns = max_column_count - 2;
+	
+	inverse_count_unknowns = max_column_count - 2;
 	col_phases = inv_ptr->count_solns;
 	col_redox = col_phases + inv_ptr->count_phases;
 	col_epsilon = col_redox + inv_ptr->count_redox_rxns;
@@ -680,7 +681,7 @@ setup_inverse(struct inverse *inv_ptr)
  */
 
 	array[count_rows * max_column_count + inv_ptr->count_solns - 1] = 1.0;
-	array[count_rows * max_column_count + count_unknowns] = 1.0;
+	array[count_rows * max_column_count + inverse_count_unknowns] = 1.0;
 	row_name[count_rows] = string_hsave("fract, final");
 	count_rows++;
 
@@ -905,7 +906,7 @@ setup_inverse(struct inverse *inv_ptr)
 	{
 /* set upper limit of change in positive direction */
 		array[count_rows * max_column_count + column] = 1.0;
-		array[count_rows * max_column_count + count_unknowns] = coef;
+		array[count_rows * max_column_count + inverse_count_unknowns] = coef;
 		sprintf(token, "%s %s", "water", "eps+");
 		row_name[count_rows] = string_hsave(token);
 		count_rows++;
@@ -913,7 +914,7 @@ setup_inverse(struct inverse *inv_ptr)
 /* set lower limit of change in negative direction */
 
 		array[count_rows * max_column_count + column] = -1.0;
-		array[count_rows * max_column_count + count_unknowns] = coef;
+		array[count_rows * max_column_count + inverse_count_unknowns] = coef;
 		sprintf(token, "%s %s", "water", "eps-");
 		row_name[count_rows] = string_hsave(token);
 		count_rows++;
@@ -1012,7 +1013,7 @@ setup_inverse(struct inverse *inv_ptr)
  */
 	if (debug_inverse == TRUE)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < inverse_count_unknowns; i++)
 		{
 			output_msg(sformatf( "%d\t%s\n", i, col_name[i]));
 		}
@@ -1020,7 +1021,7 @@ setup_inverse(struct inverse *inv_ptr)
 		{
 			k = 0;
 			output_msg(sformatf( "%d\t%s\n", i, row_name[i]));
-			for (j = 0; j < count_unknowns + 1; j++)
+			for (j = 0; j < inverse_count_unknowns + 1; j++)
 			{
 				if (k > 7)
 				{
@@ -1052,7 +1053,7 @@ setup_inverse(struct inverse *inv_ptr)
 		output_msg(sformatf( "col_isotopes %d\n", col_isotopes));
 		output_msg(sformatf( "col_phase_isotopes %d\n",
 				   col_phase_isotopes));
-		output_msg(sformatf( "count_unknowns %d\n", count_unknowns));
+		output_msg(sformatf( "count_unknowns %d\n", inverse_count_unknowns));
 	}
 	return (OK);
 }
@@ -1073,7 +1074,7 @@ solve_inverse(struct inverse *inv_ptr)
 	unsigned long minimal_bits, good_bits;
 	char token[MAX_LENGTH];
 
-	n = count_unknowns;			/* columns in A, C, E */
+	n = inverse_count_unknowns;			/* columns in A, C, E */
 	klmd = max_row_count - 2;
 	nklmd = n + klmd;
 	n2d = n + 2;
@@ -1444,7 +1445,7 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 	k = row_mb;					/* rows in A */
 	l = row_epsilon - row_mb;	/* rows in C */
 	m = count_rows - row_epsilon;	/* rows in E */
-	n = count_unknowns;
+	n = inverse_count_unknowns;
 
 
 
@@ -2395,7 +2396,7 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 			k = row_mb;			/* rows in A */
 			l = row_epsilon - row_mb;	/* rows in C */
 			m = count_rows - row_epsilon;	/* rows in E */
-			n = count_unknowns;	/* number of variables */
+			n = inverse_count_unknowns;	/* number of variables */
 /*
  *   Copy equations
  */
@@ -2803,7 +2804,7 @@ check_solns(struct inverse *inv_ptr)
 		k = row_mb;				/* rows in A */
 		l = row_epsilon - row_mb;	/* rows in C */
 		m = count_rows - row_epsilon;	/* rows in E */
-		n = count_unknowns;		/* number of variables */
+		n = inverse_count_unknowns;		/* number of variables */
 /* debug
 	output_msg(sformatf( "\nColumns\n"));
 	for (j = 0; j < n; j++) {
@@ -2963,18 +2964,18 @@ post_mortem(void)
 	for (i = row_mb; i < row_epsilon; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < inverse_count_unknowns; j++)
 		{
 			sum += inv_delta1[j] * array[i * max_column_count + j];
 		}
 
-		if (equal(sum, array[(i * max_column_count) + count_unknowns], toler)
+		if (equal(sum, array[(i * max_column_count) + inverse_count_unknowns], toler)
 			== FALSE)
 		{
 			output_msg(sformatf(
 					   "\tERROR: equality not satisfied for %s, %e.\n",
 					   row_name[i],
-				   (double) (sum - array[(i * max_column_count) + count_unknowns])));
+				   (double) (sum - array[(i * max_column_count) + inverse_count_unknowns])));
 		}
 	}
 /*
@@ -2983,23 +2984,23 @@ post_mortem(void)
 	for (i = row_epsilon; i < count_rows; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < inverse_count_unknowns; j++)
 		{
 			sum += inv_delta1[j] * array[i * max_column_count + j];
 		}
 
-		if (sum > array[(i * max_column_count) + count_unknowns] + toler)
+		if (sum > array[(i * max_column_count) + inverse_count_unknowns] + toler)
 		{
 			output_msg(sformatf(
 					   "\tERROR: inequality not satisfied for %s, %e\n",
 					   row_name[i],
-				   (double) (sum - array[(i * max_column_count) + count_unknowns])));
+				   (double) (sum - array[(i * max_column_count) + inverse_count_unknowns])));
 		}
 	}
 /*
  *   Check dissolution/precipitation constraints
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < inverse_count_unknowns; i++)
 	{
 		if (delta_save[i] > 0.5 && inv_delta1[i] < -toler)
 		{
@@ -3042,17 +3043,17 @@ test_cl1_solution(void)
 	for (i = row_mb; i < row_epsilon; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < inverse_count_unknowns; j++)
 		{
 			sum += inv_delta1[j] * array[i * max_column_count + j];
 		}
 
-		if (equal(sum, array[(i * max_column_count) + count_unknowns], toler) == FALSE)
+		if (equal(sum, array[(i * max_column_count) + inverse_count_unknowns], toler) == FALSE)
 		{
 			if (debug_inverse)
 			{
 				output_msg(sformatf("\tERROR: equality not satisfied for %s, %e.\n", row_name[i],
-				   (double) (sum - array[(i * max_column_count) + count_unknowns])));
+				   (double) (sum - array[(i * max_column_count) + inverse_count_unknowns])));
 			}
 			rv = false;
 		}
@@ -3063,19 +3064,19 @@ test_cl1_solution(void)
 	for (i = row_epsilon; i < count_rows; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (j = 0; j < inverse_count_unknowns; j++)
 		{
 			sum += inv_delta1[j] * array[i * max_column_count + j];
 		}
 
-		if (sum > array[(i * max_column_count) + count_unknowns] + toler)
+		if (sum > array[(i * max_column_count) + inverse_count_unknowns] + toler)
 		{
 			if (debug_inverse)
 			{
 				output_msg(sformatf(
 					"\tERROR: inequality not satisfied for %s, %e\n",
 					row_name[i],
-					(double) (sum - array[(i * max_column_count) + count_unknowns])));
+					(double) (sum - array[(i * max_column_count) + inverse_count_unknowns])));
 			}
 			rv = false;
 		}
@@ -3083,7 +3084,7 @@ test_cl1_solution(void)
 /*
  *   Check dissolution/precipitation constraints
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < inverse_count_unknowns; i++)
 	{
 		if (delta_save[i] > 0.5 && inv_delta1[i] < -toler)
 		{
@@ -4278,13 +4279,13 @@ dump_netpath_pat(struct inverse *inv_ptr)
 
 	array_save = array;
 	l_delta_save = delta;
-	count_unknowns_save = count_unknowns;
+	count_unknowns_save = inverse_count_unknowns;
 	max_row_count_save = max_row_count;
 	max_column_count_save = max_column_count;
 
 	array = NULL;
 	delta = NULL;
-	count_unknowns = 0;
+	inverse_count_unknowns = 0;
 	max_row_count = 0;
 	max_column_count = 0;
 
@@ -4726,7 +4727,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	delta = (LDBLE *) free_check_null(delta);
 	array = array_save;
 	delta = l_delta_save;
-	count_unknowns = count_unknowns_save;
+	inverse_count_unknowns = count_unknowns_save;
 	max_row_count = max_row_count_save;
 	max_column_count = max_column_count_save;
 

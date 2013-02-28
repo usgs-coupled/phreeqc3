@@ -58,7 +58,7 @@ prep(void)
 	if (same_model == FALSE || switch_numerical)
 	{
 		clear();
-		setup_unknowns();
+		//setup_unknowns();
 /*
  *   Set unknown pointers, unknown types, validity checks
  */
@@ -89,18 +89,18 @@ prep(void)
 		if (residual == NULL) malloc_error();
 */
 		array =
-			(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) *
-								  max_unknowns * sizeof(LDBLE));
+			(LDBLE *) PHRQ_malloc((size_t) ((int) x.size() + 1) *
+								  (int) x.size() * sizeof(LDBLE));
 		if (array == NULL)
 			malloc_error();
-		delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
+		delta = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
 		if (delta == NULL)
 			malloc_error();
 		residual =
-			(LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
+			(LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
 		if (residual == NULL)
 			malloc_error();
-		for (int j = 0; j < max_unknowns; j++)
+		for (int j = 0; j < (int) x.size(); j++)
 		{
 		  residual[j] = 0;
 		}
@@ -190,7 +190,7 @@ quick_setup(void)
  *   pp_assemblage
  */
 	j = 0;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == PP)
 		{
@@ -252,7 +252,7 @@ quick_setup(void)
  */
 	if (ss_unknown != NULL)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == SS_MOLES)
 				break;
@@ -291,7 +291,7 @@ quick_setup(void)
  */
 	if (use.Get_surface_ptr() != NULL)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == SURFACE)
 			{
@@ -300,7 +300,7 @@ quick_setup(void)
 		}
 		j = 0;
 		k = 0;
-		for (; i < count_unknowns; i++)
+		for (; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == SURFACE_CB)
 			{
@@ -500,7 +500,7 @@ build_gas_phase(void)
 				output_msg(sformatf( "\n\t%s.\n",
 						   unknown_ptr->description));
 			}
-			row = unknown_ptr->number * (count_unknowns + 1);
+			row = unknown_ptr->number * ((int) x.size() + 1);
 			coef_elt = elt_list[j].coef;
 			for (rxn_ptr = phase_ptr->rxn_x->token + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
@@ -548,7 +548,7 @@ build_gas_phase(void)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 							   master_ptr->s->name, (double) coef,
-							   row / (count_unknowns + 1), col));
+							   row / ((int) x.size() + 1), col));
 				}
 			}
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
@@ -560,7 +560,7 @@ build_gas_phase(void)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 							   "gas moles", (double) elt_list[j].coef,
-							   row / (count_unknowns + 1),
+							   row / ((int) x.size() + 1),
 							   gas_unknown->number));
 				}
 			}
@@ -576,7 +576,7 @@ build_gas_phase(void)
 					   phase_ptr->name));
 		}
 		unknown_ptr = gas_unknown;
-		row = unknown_ptr->number * (count_unknowns + 1);
+		row = unknown_ptr->number * ((int) x.size() + 1);
 		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
@@ -631,7 +631,7 @@ build_gas_phase(void)
 					{
 						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 							master_ptr->s->name, (double) coef,
-							row / (count_unknowns + 1), col));
+							row / ((int) x.size() + 1), col));
 					}
 				}
 			}
@@ -660,7 +660,7 @@ build_ss_assemblage(void)
 		return (OK);
 	cxxSS * ss_ptr_old = NULL;
 	col = 0;
-	for (int i = 0; i < count_unknowns; i++)
+	for (int i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != SS_MOLES)
 			continue;
@@ -715,7 +715,7 @@ build_ss_assemblage(void)
  *   For binary solid solution
  */
 			/* next dnc terms */
-			row = x[i]->number * (count_unknowns + 1);
+			row = x[i]->number * ((int) x.size() + 1);
 			if (x[i]->ss_comp_number == 0)
 			{
 				col = x[i]->number;
@@ -735,7 +735,7 @@ build_ss_assemblage(void)
 /*
  *   For ideal solid solution
  */
-			row = x[i]->number * (count_unknowns + 1);
+			row = x[i]->number * ((int) x.size() + 1);
 			for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 			{
 				if ((int) j != x[i]->ss_comp_number)
@@ -825,7 +825,7 @@ build_ss_assemblage(void)
 				else if (master_ptr->in == REWRITE)
 				{
 					stop = FALSE;
-					for (int k = 0; k < count_unknowns; k++)
+					for (int k = 0; k < (int) x.size(); k++)
 					{
 						if (x[k]->type != MB)
 							continue;
@@ -904,7 +904,7 @@ build_jacobian_sums(int k)
 				source = &s[k]->tot_dh2o_moles;
 				target =
 					&(array
-					  [mb_unknowns[i].unknown->number * (count_unknowns + 1) +
+					  [mb_unknowns[i].unknown->number * ((int) x.size() + 1) +
 					   mass_oxygen_unknown->number]);
 				store_jacob(source, target, coef);
 				if (debug_prep == TRUE)
@@ -918,14 +918,14 @@ build_jacobian_sums(int k)
 
 			/* terms for psi, one for each surface */
 			count_g = 0;
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
 				if (x[j]->type != SURFACE_CB)
 					continue;
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 				source = s_diff_layer[k][charge_ptr->Get_name()].Get_dx_moles_address();
 				target = &(array[mb_unknowns[i].unknown->number *
-								 (count_unknowns + 1) + x[j]->number]);
+								 ((int) x.size() + 1) + x[j]->number]);
 				store_jacob(source, target, coef);
 				if (debug_prep == TRUE)
 				{
@@ -940,7 +940,7 @@ build_jacobian_sums(int k)
 
 			/* terms for related phases */
 			count_g = 0;
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
 				if (x[j]->type != SURFACE_CB)
 					continue;
@@ -951,7 +951,7 @@ build_jacobian_sums(int k)
 					continue;
 
 				/* now find the related phase */
-				for (kk = count_unknowns - 1; kk >= 0; kk--)
+				for (kk = (int) x.size() - 1; kk >= 0; kk--)
 				{
 					if (x[kk]->type != PP)
 						continue;
@@ -963,7 +963,7 @@ build_jacobian_sums(int k)
 				{
 					source = s_diff_layer[k][charge_ptr->Get_name()].Get_drelated_moles_address();
 					target = &(array[mb_unknowns[i].unknown->number *
-									 (count_unknowns + 1) + x[kk]->number]);
+									 ((int) x.size() + 1) + x[kk]->number]);
 					store_jacob(source, target, coef);
 					if (debug_prep == TRUE)
 					{
@@ -983,7 +983,7 @@ build_jacobian_sums(int k)
 		else if (mb_unknowns[i].unknown->type == SURFACE_CB)
 		{
 			count_g = 0;
-			for (j = 0; j < count_unknowns; j++)
+			for (j = 0; j < (int) x.size(); j++)
 			{
 				if (x[j]->type != SURFACE_CB)
 					continue;
@@ -992,7 +992,7 @@ build_jacobian_sums(int k)
 				{
 					source = s_diff_layer[k][charge_ptr->Get_name()].Get_dx_moles_address();
 					target = &(array[mb_unknowns[i].unknown->number *
-									 (count_unknowns + 1) + x[j]->number]);
+									 ((int) x.size() + 1) + x[j]->number]);
 					store_jacob(source, target, coef);
 					if (debug_prep == TRUE)
 					{
@@ -1009,7 +1009,7 @@ build_jacobian_sums(int k)
 					if (comp_ptr->Get_phase_name().size() > 0)
 					{
 						/* now find the related phase */
-						for (kk = count_unknowns - 1; kk >= 0; kk--)
+						for (kk = (int) x.size() - 1; kk >= 0; kk--)
 						{
 							if (x[kk]->type != PP)
 								continue;
@@ -1020,7 +1020,7 @@ build_jacobian_sums(int k)
 						{
 							source = s_diff_layer[k][charge_ptr->Get_name()].Get_drelated_moles_address();
 							target = &(array[mb_unknowns[i].unknown->number *
-								   (count_unknowns + 1) + x[kk]->number]);
+								   ((int) x.size() + 1) + x[kk]->number]);
 							store_jacob(source, target, coef);
 							if (debug_prep == TRUE)
 							{
@@ -1038,7 +1038,7 @@ build_jacobian_sums(int k)
 						/* term for water, for same surfaces */
 						source = s_diff_layer[k][charge_ptr->Get_name()].Get_dh2o_moles_address();
 						target = &(array[mb_unknowns[i].unknown->number *
-										 (count_unknowns + 1) +
+										 ((int) x.size() + 1) +
 										 mass_oxygen_unknown->number]);
 						store_jacob(source, target, coef);
 						if (debug_prep == TRUE)
@@ -1331,7 +1331,7 @@ build_model(void)
  */
 	if (dl_type_x != cxxSurface::NO_DL && state >= REACTION)
 	{
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == SURFACE_CB)
 			{
@@ -1353,8 +1353,8 @@ build_model(void)
 
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		j0 = count_unknowns;
-		j = count_unknowns + (int) s_x.size();
+		j0 = (int) x.size();
+		j = (int) x.size() + (int) s_x.size();
 		k = j0;
 		for (i = j0; i < j; i++)
 		{
@@ -1362,12 +1362,17 @@ build_model(void)
 				continue;
 			if (s_x[i - j0]->type == SURF)
 				continue;
-			x[k]->number = k;
-			x[k]->type = PITZER_GAMMA;
-			x[k]->s = s_x[i - j0];
-			x[k]->description = s_x[i - j0]->name;
-			k++;
-			count_unknowns++;
+
+			size_t kk = x.size();
+			struct unknown * xtemp = unknown_alloc();
+			x.push_back(xtemp);
+
+			x[kk]->number = kk;
+			x[kk]->type = PITZER_GAMMA;
+			x[kk]->s = s_x[i - j0];
+			x[kk]->description = s_x[i - j0]->name;
+			//k++;
+			//count_unknowns++;
 		}
 	}
 /*
@@ -1448,7 +1453,7 @@ build_pure_phases(void)
 /*
  *   Calculate inverse saturation index
  */
-	for (int i = 0; i < count_unknowns; i++)
+	for (int i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != PP || x[i]->phase->rxn_x == NULL)
 			continue;
@@ -1464,7 +1469,7 @@ build_pure_phases(void)
 			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
 		}
 	}
-	for (int i = 0; i < count_unknowns; i++)
+	for (int i = 0; i < (int) x.size(); i++)
 	{
 /*
  *  rxn_x is null if an element in phase is not in solution
@@ -1584,7 +1589,7 @@ build_pure_phases(void)
 				else if (master_ptr->in == REWRITE)
 				{
 					stop = false;
-					for (int k = 0; k < count_unknowns; k++)
+					for (int k = 0; k < (int) x.size(); k++)
 					{
 						if (x[k]->type != MB)
 							continue;
@@ -1628,7 +1633,7 @@ build_solution_phase_boundaries(void)
 /*
  *   Calculate inverse saturation index
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY)
 			continue;
@@ -1655,7 +1660,7 @@ build_solution_phase_boundaries(void)
 /*
  *   Put coefficients into array
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY)
 			continue;
@@ -2503,7 +2508,7 @@ mb_for_species_aq(int n)
 	if (use.Get_surface_ptr() != NULL && s[n]->type < H2O && dl_type_x != cxxSurface::NO_DL)
 	{
 		j = 0;
-		for (i = 0; i < count_unknowns; i++)
+		for (i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type == SURFACE_CB)
 			{
@@ -2860,7 +2865,7 @@ resetup_master(void)
 	int i, j;
 	struct master *master_ptr, *master_ptr0;
 
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != MB)
 			continue;
@@ -3424,13 +3429,17 @@ setup_exchange(void)
 /*
  *   Set unknown data
  */
+				size_t count_unknowns = x.size();
+				struct unknown * xtemp = unknown_alloc();
+				x.push_back(xtemp);
+
 				x[count_unknowns]->type = EXCH;
 				x[count_unknowns]->exch_comp = string_hsave(it->first.c_str());
 				x[count_unknowns]->description = elt_ptr->name;
 				x[count_unknowns]->moles = it->second;
 				x[count_unknowns]->master = master_ptr_list;
 				x[count_unknowns]->master[0]->unknown = x[count_unknowns];
-				count_unknowns++;
+				//count_unknowns++;
 			}
 		}
 	}
@@ -3457,19 +3466,26 @@ setup_gas_phase(void)
 /*
  *   One for total moles in gas
  */
-	x[count_unknowns]->type = GAS_MOLES;
-	x[count_unknowns]->description = string_hsave("gas moles");
-	x[count_unknowns]->moles = 0.0;
-	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
-	{	
-		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-		x[count_unknowns]->moles += gc_ptr->Get_moles();
+	{
+
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
+		x[count_unknowns]->type = GAS_MOLES;
+		x[count_unknowns]->description = string_hsave("gas moles");
+		x[count_unknowns]->moles = 0.0;
+		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+		{	
+			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+			x[count_unknowns]->moles += gc_ptr->Get_moles();
+		}
+		if (x[count_unknowns]->moles <= 0)
+			x[count_unknowns]->moles = MIN_TOTAL;
+		x[count_unknowns]->ln_moles = log(x[count_unknowns]->moles);
+		gas_unknown = x[count_unknowns];
+		//count_unknowns++;
 	}
-	if (x[count_unknowns]->moles <= 0)
-		x[count_unknowns]->moles = MIN_TOTAL;
-	x[count_unknowns]->ln_moles = log(x[count_unknowns]->moles);
-	gas_unknown = x[count_unknowns];
-	count_unknowns++;
 	return (OK);
 }
 
@@ -3484,12 +3500,16 @@ setup_slack(void)
 	slack_unknown = NULL;
 	if (slack)
 	{
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		x[count_unknowns]->type = SLACK;
 		x[count_unknowns]->description = string_hsave("slack");
 		x[count_unknowns]->moles = 0.0;
 		x[count_unknowns]->number = count_unknowns;
 		slack_unknown = x[count_unknowns];
-		count_unknowns++;
+		//count_unknowns++;
 	}
 	return (OK);
 }
@@ -3554,6 +3574,11 @@ setup_ss_assemblage(void)
 			cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[i]);
 			int l;
 			struct phase* phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+
+			size_t count_unknowns = x.size();
+			struct unknown * xtemp = unknown_alloc();
+			x.push_back(xtemp);
+
 			x[count_unknowns]->type = SS_MOLES;
 			x[count_unknowns]->description = string_hsave(comp_ptr->Get_name().c_str());
 			x[count_unknowns]->moles = 0.0;
@@ -3576,7 +3601,7 @@ setup_ss_assemblage(void)
 			x[count_unknowns]->phase->log10_lambda =comp_ptr->Get_log10_lambda();
 			if (ss_unknown == NULL)
 				ss_unknown = x[count_unknowns];
-			count_unknowns++;
+			//count_unknowns++;
 		}
 	}
 	return (OK);
@@ -3636,6 +3661,10 @@ setup_surface(void)
 			/*
 			 *   Setup mass balance unknown
 			 */
+			size_t count_unknowns = x.size();
+			struct unknown * xtemp = unknown_alloc();
+			x.push_back(xtemp);
+
 			x[count_unknowns]->type = SURFACE;
 			x[count_unknowns]->description = string_hsave(jit->first.c_str());
 			x[count_unknowns]->number = count_unknowns;
@@ -3646,7 +3675,7 @@ setup_surface(void)
 			if (surface_unknown == NULL)
 				surface_unknown = x[count_unknowns];
 			x[count_unknowns]->potential_unknown = NULL;
-			count_unknowns++;
+			//count_unknowns++;
 			/*if (use.Get_surface_ptr()->edl == FALSE) continue; */
 			if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
 			{
@@ -3680,6 +3709,11 @@ setup_surface(void)
 						error_msg(sformatf("Charge structure not defined for surface, %s", use.Get_surface_ptr()->Get_description().c_str()), CONTINUE);
 						continue;
 					}
+
+					size_t count_unknowns = x.size();
+					struct unknown * xtemp = unknown_alloc();
+					x.push_back(xtemp);
+
 					x[count_unknowns]->type = SURFACE_CB;
 					x[count_unknowns]->surface_charge = string_hsave(charge_ptr->Get_name().c_str());
 					x[count_unknowns]->related_moles = charge_ptr->Get_grams();
@@ -3693,7 +3727,7 @@ setup_surface(void)
 						x[count_unknowns];
 					x[count_unknowns]->surface_comp =
 						x[count_unknowns - 1]->surface_comp;
-					count_unknowns++;
+					//count_unknowns++;
 				}
 			}
 			else if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
@@ -3752,6 +3786,12 @@ setup_surface(void)
 						 */
 						cxxSurfaceCharge *charge_ptr =  use.Get_surface_ptr()->
 							Find_charge(comp_ptr->Get_charge_name());
+
+
+						size_t count_unknowns = x.size();
+						struct unknown * xtemp = unknown_alloc();
+						x.push_back(xtemp);
+
 						x[count_unknowns]->type = type;
 						x[count_unknowns]->surface_charge = string_hsave(charge_ptr->Get_name().c_str());
 						x[count_unknowns]->related_moles = charge_ptr->Get_grams();
@@ -3785,7 +3825,7 @@ setup_surface(void)
 						x[count_unknowns]->moles = 0.0;
 						x[count_unknowns]->surface_comp =
 							x[mb_unknown_number]->surface_comp;
-						count_unknowns++;
+						//count_unknowns++;
 					}
 				}
 				/* Add SURFACE unknown to a list for SURF_PSI */
@@ -3804,12 +3844,12 @@ setup_surface(void)
 	 */
 	if (use.Get_surface_ptr()->Get_related_phases())
 	{
-		for (int i = 0; i < count_unknowns; i++)
+		for (int i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type != SURFACE_CB)
 				continue;
 			cxxSurfaceComp *comp_i_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
-			for (int j = 0; j < count_unknowns; j++)
+			for (int j = 0; j < (int) x.size(); j++)
 			{
 				if (x[j]->type != SURFACE)
 					continue;
@@ -3852,12 +3892,12 @@ setup_surface(void)
 	 */
 	if (use.Get_surface_ptr()->Get_related_rate())
 	{
-		for (int i = 0; i < count_unknowns; i++)
+		for (int i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type != SURFACE_CB)
 				continue;
 			cxxSurfaceComp *comp_i_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
-			for (int j = 0; j < count_unknowns; j++)
+			for (int j = 0; j < (int) x.size(); j++)
 			{
 				if (x[j]->type != SURFACE)
 					continue;
@@ -3924,7 +3964,7 @@ find_surface_charge_unknown(std::string &str, int plane)
 		token.append("_CBd");
 	}
 	str = token;
-	for (int i = 0; i < count_unknowns; i++)
+	for (int i = 0; i < (int) x.size(); i++)
 	{
 		if (strcmp(str.c_str(), x[i]->description) == 0)
 		{
@@ -4320,6 +4360,11 @@ setup_pure_phases(void)
 		int j;
 		struct phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
 		assert(phase_ptr);
+
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		x[count_unknowns]->type = PP;
 		x[count_unknowns]->description = string_hsave(comp_ptr->Get_name().c_str());
 		x[count_unknowns]->pp_assemblage_comp_name = x[count_unknowns]->description;
@@ -4334,7 +4379,7 @@ setup_pure_phases(void)
 		x[count_unknowns]->dissolve_only = comp_ptr->Get_dissolve_only();
 		if (pure_phase_unknown == NULL)
 			pure_phase_unknown = x[count_unknowns];
-		count_unknowns++;
+		//count_unknowns++;
 	}
 	return (OK);
 }
@@ -4356,7 +4401,7 @@ adjust_setup_pure_phases(void)
 /*
  *   Adjust si for gases
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		std::vector<struct phase *> phase_ptrs;
 		if (x[i]->type == PP)
@@ -4396,7 +4441,7 @@ setup_solution(void)
 	struct phase *phase_ptr;
 
 	solution_ptr = use.Get_solution_ptr();
-	count_unknowns = 0;
+	//count_unknowns = 0;
 
 	/*
 	 * Treat minor isotopes as special in initial solution calculation
@@ -4470,6 +4515,10 @@ setup_solution(void)
 /*
  *   Store list of master species pointers, set master[i].in and master[i].rxn for list
  */
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		x[count_unknowns]->master = get_list_master_ptrs(ptr, master_ptr);
 		if (comp_ptr)
 		{
@@ -4602,12 +4651,12 @@ setup_solution(void)
 			}
 			free_check_null(temp_eq_name);
 		}
-		count_unknowns++;
+		//count_unknowns++;
 	}
 /*
  *   Set mb_unknown
  */
-	if (count_unknowns > 0)
+	if ((int) x.size() > 0)
 		mb_unknown = x[0];
 /*
  *   Special for alkalinity
@@ -4663,25 +4712,35 @@ setup_solution(void)
 		/*
 		 *   Ionic strength
 		 */
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		mu_unknown = x[count_unknowns];
 		x[count_unknowns]->description = string_hsave("Mu");
 		x[count_unknowns]->type = MU;
 		x[count_unknowns]->number = count_unknowns;
 		x[count_unknowns]->moles = 0.0;
-		count_unknowns++;
+		//count_unknowns++;
 	}
 	/*
 	 *   Activity of water
 	 */
-	ah2o_unknown = x[count_unknowns];
-	ah2o_unknown->description = string_hsave("A(H2O)");
-	ah2o_unknown->type = AH2O;
-	ah2o_unknown->number = count_unknowns;
-	ah2o_unknown->master = unknown_alloc_master();
-	ah2o_unknown->master[0] = master_bsearch("O");
-	ah2o_unknown->master[0]->unknown = ah2o_unknown;
-	ah2o_unknown->moles = 0.0;
-	count_unknowns++;
+	{
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
+		ah2o_unknown = x[count_unknowns];
+		ah2o_unknown->description = string_hsave("A(H2O)");
+		ah2o_unknown->type = AH2O;
+		ah2o_unknown->number = count_unknowns;
+		ah2o_unknown->master = unknown_alloc_master();
+		ah2o_unknown->master[0] = master_bsearch("O");
+		ah2o_unknown->master[0]->unknown = ah2o_unknown;
+		ah2o_unknown->moles = 0.0;
+		//count_unknowns++;
+	}
 
 	if (state >= REACTION)
 	{
@@ -4689,6 +4748,10 @@ setup_solution(void)
 
  *   Reaction: pH for charge balance
  */
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		ph_unknown = x[count_unknowns];
 		ph_unknown->description = string_hsave("pH");
 		ph_unknown->type = CB;
@@ -4698,10 +4761,14 @@ setup_solution(void)
 		ph_unknown->master[0] = s_hplus->primary;
 		ph_unknown->master[0]->unknown = ph_unknown;
 		charge_balance_unknown = ph_unknown;
-		count_unknowns++;
+		//count_unknowns++;
 /*
  *   Reaction: pe for total hydrogen
  */
+		count_unknowns = x.size();
+		xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		pe_unknown = x[count_unknowns];
 		mass_hydrogen_unknown = x[count_unknowns];
 		mass_hydrogen_unknown->description = string_hsave("Hydrogen");
@@ -4716,10 +4783,14 @@ setup_solution(void)
 		mass_hydrogen_unknown->master = unknown_alloc_master();
 		mass_hydrogen_unknown->master[0] = s_eminus->primary;
 		mass_hydrogen_unknown->master[0]->unknown = mass_hydrogen_unknown;
-		count_unknowns++;
+		//count_unknowns++;
 /*
  *   Reaction H2O for total oxygen
  */
+		count_unknowns = x.size();
+		xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		mass_oxygen_unknown = x[count_unknowns];
 		mass_oxygen_unknown->description = string_hsave("Oxygen");
 		mass_oxygen_unknown->type = MH2O;
@@ -4727,7 +4798,7 @@ setup_solution(void)
 		mass_oxygen_unknown->number = count_unknowns;
 		mass_oxygen_unknown->master = unknown_alloc_master();
 		mass_oxygen_unknown->master[0] = s_h2o->primary;
-		count_unknowns++;
+		//count_unknowns++;
 	}
 /*
  *   Validity tests
@@ -4763,12 +4834,14 @@ adjust_setup_solution(void)
 	struct phase *phase_ptr;
 	LDBLE p, t;
 
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		std::vector<struct phase *> phase_ptrs;
 		if (x[i]->type == SOLUTION_PHASE_BOUNDARY)
 		{
-			x[count_unknowns]->type = SOLUTION_PHASE_BOUNDARY;
+			//size_t count_unknowns = x.size() - 1;
+			//x[count_unknowns]->type = SOLUTION_PHASE_BOUNDARY;
+			//x[i]->type = SOLUTION_PHASE_BOUNDARY;
 			phase_ptr = x[i]->phase;
 			phase_ptrs.push_back(phase_ptr);
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
@@ -4804,7 +4877,7 @@ unknown_alloc_master(void)
 	master_ptr[1] = NULL;
 	return (master_ptr);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 setup_unknowns(void)
@@ -4941,7 +5014,7 @@ setup_unknowns(void)
 	}
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
@@ -4963,14 +5036,14 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 /*   Gamma term for d molality of species */
 /*   Note dg includes molality as a factor */
 
-	row = row * (count_unknowns + 1);
+	row = row * ((int) x.size() + 1);
 	if (s[k]->type != SURF && s[k] != s_h2o)
 	{
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 					   "Activity coefficient", (double) (-1.0 * coef_in),
-					   row / (count_unknowns + 1), mu_unknown->number));
+					   row / ((int) x.size() + 1), mu_unknown->number));
 		}
 		/* mu term */
 		if (gamma_source != NULL)
@@ -4988,7 +5061,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 		{
 			output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 					   mass_oxygen_unknown->master[0]->s->name,
-					   (double) coef_in, row / (count_unknowns + 1),
+					   (double) coef_in, row / ((int) x.size() + 1),
 					   mass_oxygen_unknown->number));
 		}
 		store_jacob(source, &(array[row + mass_oxygen_unknown->number]),
@@ -5020,7 +5093,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 		{
 			output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 					   master_ptr->s->name, (double) coef,
-					   row / (count_unknowns + 1), col));
+					   row / ((int) x.size() + 1), col));
 		}
 	}
 	return (OK);
@@ -5088,7 +5161,7 @@ store_jacob0(int row, int column, LDBLE coef)
  *   Stores in list a constant coef which will be added into jacobian array
  */
 	struct list0 l0;
-	l0.target = &(array[row * (count_unknowns + 1) + column]);
+	l0.target = &(array[row * ((int) x.size() + 1) + column]);
 	l0.coef = coef;
 	sum_jacob0.push_back(l0);
 	//sum_jacob0[count_sum_jacob0].target =
@@ -5192,7 +5265,7 @@ switch_bases(void)
 	struct master *master_ptr;
 
 	return_value = FALSE;
-	for (i = 0; i < count_unknowns; i++)
+	for (i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type != MB)
 			continue;
@@ -6463,14 +6536,14 @@ build_min_exch(void)
 			continue;
 		}
 		/* find unknown number */
-		for (j = count_unknowns - 1; j >= 0; j--)
+		for (j = (int) x.size() - 1; j >= 0; j--)
 		{
 			if (x[j]->type != EXCH)
 				continue;
 			if (x[j]->master[0] == exchange_master)
 				break;
 		}
-		for (k = count_unknowns - 1; k >= 0; k--)
+		for (k = (int) x.size() - 1; k >= 0; k--)
 		{
 			if (x[k]->type != PP)
 				continue;
@@ -6592,7 +6665,7 @@ build_min_surface(void)
 		struct element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
 		/* find unknown number */
 		int j;
-		for (j = count_unknowns - 1; j >= 0; j--)
+		for (j = (int) x.size() - 1; j >= 0; j--)
 		{
 			if (x[j]->type != SURFACE)
 				continue;
@@ -6600,7 +6673,7 @@ build_min_surface(void)
 				break;
 		}
 		int k;
-		for (k = count_unknowns - 1; k >= 0; k--)
+		for (k = (int) x.size() - 1; k >= 0; k--)
 		{
 			if (x[k]->type != PP)
 				continue;
@@ -6619,7 +6692,7 @@ build_min_surface(void)
 			continue;
 
 		/* update grams == moles in this case */
-		if (j < count_unknowns - 1 && x[j + 1]->type == SURFACE_CB)
+		if (j < (int) x.size() - 1 && x[j + 1]->type == SURFACE_CB)
 		{
 			store_sum_deltas(&delta[k], &(x[j + 1]->related_moles), -1.0);
 		}
@@ -6733,7 +6806,7 @@ setup_related_surface(void)
 	if (!use.Get_surface_ptr()->Get_related_phases())
 		return (OK);
 
-	for (int i = 0; i < count_unknowns; i++)
+	for (int i = 0; i < (int) x.size(); i++)
 	{
 		if (x[i]->type == SURFACE)
 		{
@@ -6741,7 +6814,7 @@ setup_related_surface(void)
 			if (comp_ptr->Get_phase_name().size() > 0)
 			{
 				int k;
-				for (k = count_unknowns - 1; k >= 0; k--)
+				for (k = (int) x.size() - 1; k >= 0; k--)
 				{
 					if (x[k]->type != PP)
 						continue;
@@ -6764,7 +6837,7 @@ setup_related_surface(void)
 			{
 				cxxSurfaceComp *comp_i_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
 				int k;
-				for (k = count_unknowns - 1; k >= 0; k--)
+				for (k = (int) x.size() - 1; k >= 0; k--)
 				{
 					if (x[k]->type != PP)
 						continue;

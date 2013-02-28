@@ -23,6 +23,11 @@ setup_fixed_volume_gas(void)
 		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
 		struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+
+		size_t count_unknowns = x.size();
+		struct unknown * xtemp = unknown_alloc();
+		x.push_back(xtemp);
+
 		x[count_unknowns]->type = GAS_MOLES;
 		x[count_unknowns]->description = phase_ptr->name;
 		x[count_unknowns]->phase = phase_ptr;
@@ -35,7 +40,7 @@ setup_fixed_volume_gas(void)
 		gas_unknowns.push_back(x[count_unknowns]);
 		gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + x[count_unknowns]->moles);
 		x[count_unknowns]->phase->moles_x = x[count_unknowns]->moles;
-		count_unknowns++;
+		//count_unknowns++;
 	}
 	if (gas_unknowns.size() > 0)
 	{
@@ -172,7 +177,7 @@ build_fixed_volume_gas(void)
 				output_msg(sformatf( "\n\t%s.\n",
 						   unknown_ptr->description));
 			}
-			row = unknown_ptr->number * (count_unknowns + 1);
+			row = unknown_ptr->number * ((int) x.size()  + 1);
 			coef_elt = elt_list[j].coef;
 			for (rxn_ptr = phase_ptr->rxn_x->token + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
@@ -220,7 +225,7 @@ build_fixed_volume_gas(void)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 							   master_ptr->s->name, (double) coef,
-							   row / (count_unknowns + 1), col));
+							   row / ((int) x.size() + 1), col));
 				}
 			}
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
@@ -232,7 +237,7 @@ build_fixed_volume_gas(void)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 							   "gas moles", (double) elt_list[j].coef,
-							   row / (count_unknowns + 1),
+							   row / ((int) x.size()  + 1),
 							   gas_unknown->number));
 				}
 			}
@@ -248,7 +253,7 @@ build_fixed_volume_gas(void)
 					   phase_ptr->name));
 		}
 		unknown_ptr = gas_unknown;
-		row = unknown_ptr->number * (count_unknowns + 1);
+		row = unknown_ptr->number * ((int) x.size()  + 1);
 		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
@@ -303,7 +308,7 @@ build_fixed_volume_gas(void)
 					{
 						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
 							master_ptr->s->name, (double) coef,
-							row / (count_unknowns + 1), col));
+							row / ((int) x.size()  + 1), col));
 					}
 				}
 			}

@@ -980,6 +980,7 @@ void Phreeqc::init(void)
 	*---------------------------------------------------------------------- */
 	inverse					= NULL;
 	count_inverse			= 0;
+	inverse_count_unknowns  = 0;
 	/*----------------------------------------------------------------------
 	*   Mix
 	*---------------------------------------------------------------------- */
@@ -1189,9 +1190,9 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Unknowns
 	*---------------------------------------------------------------------- */
-	x                       = NULL;
-	count_unknowns          = 0;
-	max_unknowns            = 0;
+	//x                       = NULL;
+	//count_unknowns          = 0;
+	//max_unknowns            = 0;
 	ah2o_unknown            = NULL;
 	alkalinity_unknown      = NULL;
 	carbon_unknown          = NULL;
@@ -1856,6 +1857,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*
 	inverse					= NULL;
 	*/
+	inverse_count_unknowns  = 0;
 	count_inverse			= 0;
 	/*----------------------------------------------------------------------
 	*   Mix

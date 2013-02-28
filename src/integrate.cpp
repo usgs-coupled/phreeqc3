@@ -32,7 +32,7 @@ calc_all_g(void)
 
 	converge = TRUE;
 
-	for (int j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;
@@ -458,7 +458,7 @@ calc_init_g(void)
 /*
  *   calculate g for each surface
  */
-	for (int j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;
@@ -569,7 +569,7 @@ initial_surface_water(void)
 	if (use.Get_surface_ptr()->Get_debye_lengths() > 0)
 	{
 		sum_surfs = 0.0;
-		for (int i = 0; i < count_unknowns; i++)
+		for (int i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type != SURFACE_CB)
 				continue;
@@ -607,7 +607,7 @@ initial_surface_water(void)
 				mass_water_surfaces_x =
 					(r * r / pow(r - rd, 2) -
 					 1) * use.Get_solution_ptr()->Get_mass_water();
-			for (int i = 0; i < count_unknowns; i++)
+			for (int i = 0; i < (int) x.size(); i++)
 			{
 				if (x[i]->type != SURFACE_CB)
 					continue;
@@ -636,7 +636,7 @@ initial_surface_water(void)
 				damp_aq = 0.5;
 			mass_water_surfaces_x = damp_aq * fraction * mass_water_bulk_x +
 				(1 - damp_aq) * mass_water_surfaces_x;
-			for (int i = 0; i < count_unknowns; i++)
+			for (int i = 0; i < (int) x.size(); i++)
 			{
 				if (x[i]->type != SURFACE_CB)
 					continue;
@@ -651,7 +651,7 @@ initial_surface_water(void)
 	{
 		/* take constant thickness of, default 1e-8 m (100 Angstroms) */
 		mass_water_surfaces_x = 0.0;
-		for (int i = 0; i < count_unknowns; i++)
+		for (int i = 0; i < (int) x.size(); i++)
 		{
 			if (x[i]->type != SURFACE_CB)
 				continue;
@@ -742,7 +742,7 @@ calc_all_donnan(void)
  *   calculate g for each surface...
  */
 	converge = TRUE;
-	for (int j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;
@@ -908,7 +908,7 @@ calc_init_donnan(void)
 /*
  *   calculate g for each surface...
  */
-	for (int j = 0; j < count_unknowns; j++)
+	for (int j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != SURFACE_CB)
 			continue;

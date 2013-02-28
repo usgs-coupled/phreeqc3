@@ -581,7 +581,7 @@ public:
 	int setup_solution(void);
 	int adjust_setup_solution(void);
 	int setup_surface(void);
-	int setup_unknowns(void);
+	//int setup_unknowns(void);
 	int store_dn(int k, LDBLE * source, int row, LDBLE coef_in,
 		LDBLE * gamma_source);
 	int store_jacob(LDBLE * source, LDBLE * target, LDBLE coef);
@@ -907,7 +907,7 @@ public:
 	int trxn_sort(void);
 	int trxn_swap(const char *token);
 	struct unknown *unknown_alloc(void);
-	int unknown_delete(int i);
+	//int unknown_delete(int i);
 	int unknown_free(struct unknown *unknown_ptr);
 	int entity_exists(char *name, int n_user);
 	static int inverse_compare(const void *ptr1, const void *ptr2);
@@ -1463,9 +1463,10 @@ protected:
 	*   Unknowns
 	*---------------------------------------------------------------------- */
 
-	struct unknown **x;
-	int count_unknowns;
-	int max_unknowns;
+	//struct unknown **x;
+	//int count_unknowns;
+	//int max_unknowns;
+	std::vector <struct unknown *> x;
 
 	struct unknown *ah2o_unknown;
 	struct unknown *alkalinity_unknown;
@@ -1729,6 +1730,7 @@ protected:
 	LDBLE z_global, xd_global, alpha_global;
 
 	/* inverse.cpp ------------------------------- */
+	int inverse_count_unknowns;
 	int max_row_count, max_column_count;
 	int carbon;
 	const char **col_name, **row_name;
