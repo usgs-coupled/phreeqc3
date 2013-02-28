@@ -1226,9 +1226,9 @@ void Phreeqc::init(void)
 	count_trxn              = 0;
 	max_trxn                = MAX_TRXN;
 
-	mb_unknowns             = NULL;
-	count_mb_unknowns       = 0;
-	max_mb_unknowns         = MAX_TRXN;
+	//mb_unknowns             = NULL;
+	//count_mb_unknowns       = 0;
+	//max_mb_unknowns         = MAX_TRXN;
 	/* ----------------------------------------------------------------------
 	*   Print
 	* ---------------------------------------------------------------------- */

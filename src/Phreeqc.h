@@ -1494,9 +1494,10 @@ protected:
 	int count_trxn;		/* number of reactants in trxn = position of next */
 	int max_trxn;
 
-	struct unknown_list *mb_unknowns;
-	int count_mb_unknowns;
-	int max_mb_unknowns;
+	//struct unknown_list *mb_unknowns;
+	//int count_mb_unknowns;
+	//int max_mb_unknowns;
+	std::vector<struct unknown_list> mb_unknowns;
 
 	/* ----------------------------------------------------------------------
 	*   Print

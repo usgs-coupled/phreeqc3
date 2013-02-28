@@ -320,7 +320,8 @@ clean_up(void)
 
 	elt_list = (struct elt_list *) free_check_null(elt_list);
 	trxn.token = (struct rxn_token_temp *) free_check_null(trxn.token);
-	mb_unknowns = (struct unknown_list *) free_check_null(mb_unknowns);
+	//mb_unknowns = (struct unknown_list *) free_check_null(mb_unknowns);
+	mb_unknowns.clear();
 	line = (char *) free_check_null(line);
 	line_save = (char *) free_check_null(line_save);
 

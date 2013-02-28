@@ -871,7 +871,7 @@ build_jacobian_sums(int k)
 /*
  *   Calculate jacobian coefficients for each mass balance equation
  */
-	for (i = 0; i < count_mb_unknowns; i++)
+	for (i = 0; i < (int) mb_unknowns.size(); i++)
 	{
 /*
  *   Store d(moles) for a mass balance equation
@@ -1093,7 +1093,7 @@ build_mb_sums(void)
 	{
 		output_msg(sformatf( "\n\tMass balance summations.\n\n"));
 	}
-	for (i = 0; i < count_mb_unknowns; i++)
+	for (i = 0; i < (int) mb_unknowns.size(); i++)
 	{
 		target = &(mb_unknowns[i].unknown->f);
 		store_mb(mb_unknowns[i].source, target, mb_unknowns[i].coef);
@@ -2390,16 +2390,23 @@ store_mb_unknowns(struct unknown *unknown_ptr, LDBLE * LDBLE_ptr, LDBLE coef,
 {
 	if (equal(coef, 0.0, TOL) == TRUE)
 		return (OK);
-	if ((count_mb_unknowns + 1) >= max_mb_unknowns)
-	{
-		space((void **) ((void *) &mb_unknowns), count_mb_unknowns + 1,
-			  &max_mb_unknowns, sizeof(struct unknown_list));
-	}
-	mb_unknowns[count_mb_unknowns].unknown = unknown_ptr;
-	mb_unknowns[count_mb_unknowns].source = LDBLE_ptr;
-	mb_unknowns[count_mb_unknowns].gamma_source = gamma_ptr;
-	mb_unknowns[count_mb_unknowns].coef = coef;
-	count_mb_unknowns++;
+	//if ((count_mb_unknowns + 1) >= max_mb_unknowns)
+	//{
+	//	space((void **) ((void *) &mb_unknowns), count_mb_unknowns + 1,
+	//		  &max_mb_unknowns, sizeof(struct unknown_list));
+	//}
+	struct unknown_list ul;
+	ul.unknown = unknown_ptr;
+	ul.source = LDBLE_ptr;
+	ul.gamma_source = gamma_ptr;
+	ul.coef = coef;
+	mb_unknowns.push_back(ul);
+
+	//mb_unknowns[count_mb_unknowns].unknown = unknown_ptr;
+	//mb_unknowns[count_mb_unknowns].source = LDBLE_ptr;
+	//mb_unknowns[count_mb_unknowns].gamma_source = gamma_ptr;
+	//mb_unknowns[count_mb_unknowns].coef = coef;
+	//count_mb_unknowns++;
 	return (OK);
 }
 
@@ -2422,7 +2429,8 @@ mb_for_species_aq(int n)
 	struct master *master_ptr;
 	struct unknown *unknown_ptr;
 
-	count_mb_unknowns = 0;
+	//count_mb_unknowns = 0;
+	mb_unknowns.clear();
 /*
  *   e- does not appear in any mass balances
  */
@@ -2580,7 +2588,8 @@ mb_for_species_ex(int n)
  */
 	int i;
 	struct master *master_ptr;
-	count_mb_unknowns = 0;
+	//count_mb_unknowns = 0;
+	mb_unknowns.clear();
 /*
  *   Master species for exchange do not appear in any mass balances
  */
@@ -2670,7 +2679,8 @@ mb_for_species_surf(int n)
 	int i;
 	struct master *master_ptr;
 
-	count_mb_unknowns = 0;
+	//count_mb_unknowns = 0;
+	mb_unknowns.clear();
 /*
  *   Include in charge balance, if diffuse_layer_x == FALSE
  */
