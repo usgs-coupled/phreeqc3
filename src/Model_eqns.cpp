@@ -1,34 +1,226 @@
 
 #include "Model_eqns.h"
-Model_eqns::Model_eqns()
+Model_eqns::Model_eqns(Phreeqc * pptr)
 {
+	if (pptr == NULL)
+	{
+		error_msg("Model_eqns constructor needs a pointer to a Phreeqc instance.", 1);
+	}
+	phreeqc_ptr                        = pptr;
+	ah2o_unknown_ME                    = NULL;
+	alkalinity_unknown_ME              = NULL;
+	carbon_unknown_ME                  = NULL;
+	charge_balance_unknown_ME          = NULL;
+	exchange_unknown_ME                = NULL;
+	mass_hydrogen_unknown_ME           = NULL;
+	mass_oxygen_unknown_ME             = NULL;
+	mb_unknown_ME                      = NULL;
+	mu_unknown_ME                      = NULL;
+	pe_unknown_ME                      = NULL;
+	ph_unknown_ME                      = NULL;
+	pure_phase_unknown_ME              = NULL;
+	solution_phase_boundary_unknown_ME = NULL;
+	surface_unknown_ME                 = NULL;
+	gas_unknown_ME                     = NULL;
+	slack_unknown_ME                   = NULL;
+	ss_unknown_ME                      = NULL;
+	std::vector<struct unknown *> gas_unknowns_ME;
 
-	ah2o_unknown                    = NULL;
-	alkalinity_unknown              = NULL;
-	carbon_unknown                  = NULL;
-	charge_balance_unknown          = NULL;
-	exchange_unknown                = NULL;
-	mass_hydrogen_unknown           = NULL;
-	mass_oxygen_unknown             = NULL;
-	mb_unknown                      = NULL;
-	mu_unknown                      = NULL;
-	pe_unknown                      = NULL;
-	ph_unknown                      = NULL;
-	pure_phase_unknown              = NULL;
-	solution_phase_boundary_unknown = NULL;
-	surface_unknown                 = NULL;
-	gas_unknown                     = NULL;
-	slack_unknown                   = NULL;
-	ss_unknown                      = NULL;
-	std::vector<struct unknown *> gas_unknowns;
+	array_ME = NULL;                                                    // eqn solving
+	delta_ME = NULL;                                                    // eqn solving
+	residual_ME = NULL;                                                 // eqn solving
 
-	array = NULL;                                                    // eqn solving
-	delta = NULL;                                                    // eqn solving
-	residual = NULL;                                                 // eqn solving
-
-	phreeqc_ptr = NULL;
+	Copy_phreeqc_model();
 };
 Model_eqns::~Model_eqns(void)
 {
-};
+	
 
+	for (size_t i = 0; i < (int) this->x_ME.size(); i++)
+	{
+		phreeqc_ptr->unknown_free(x_ME[i]);
+	}
+	x_ME.clear();
+
+	array_ME = (LDBLE *) phreeqc_ptr->free_check_null(array_ME);
+	delta_ME = (LDBLE *) phreeqc_ptr->free_check_null(delta_ME);
+	residual_ME = (LDBLE *) phreeqc_ptr->free_check_null(residual_ME);
+
+	s_x_ME.clear();
+	sum_mb1_ME.clear();
+	sum_mb2_ME.clear();
+	sum_jacob0_ME.clear();
+	sum_jacob1_ME.clear();
+	sum_jacob2_ME.clear();
+	sum_delta_ME.clear();
+
+	// master
+	for (size_t i = 0; i < master_ME.size(); i++)
+	{
+		phreeqc_ptr->rxn_free(master_ME[i].rxn_secondary);
+	}
+	master_ME.clear();
+
+	// species
+	for (size_t i = 0; i < s_ME.size(); i++)
+	{
+		phreeqc_ptr->rxn_free(s_ME[i].rxn_x);
+	}
+	s_ME.clear();
+
+	// phases
+	for (size_t i = 0; i < phases_ME.size(); i++)
+	{
+		if (phases_ME[i].in == TRUE)
+		{
+			phreeqc_ptr->rxn_free(phases_ME[i].rxn_x);
+		}
+	}
+	phases_ME.clear();
+
+	return;
+};
+void Model_eqns::
+Copy_phreeqc_model(void)
+{
+	this->x_ME                         = phreeqc_ptr->x;
+	ah2o_unknown_ME		               = phreeqc_ptr->ah2o_unknown;
+	alkalinity_unknown_ME		       = phreeqc_ptr->alkalinity_unknown;
+	carbon_unknown_ME		           = phreeqc_ptr->carbon_unknown;
+	charge_balance_unknown_ME	       = phreeqc_ptr->charge_balance_unknown;
+	exchange_unknown_ME		           = phreeqc_ptr->exchange_unknown;
+	mass_hydrogen_unknown_ME	       = phreeqc_ptr->mass_hydrogen_unknown;
+	mass_oxygen_unknown_ME		       = phreeqc_ptr->mass_oxygen_unknown;
+	mb_unknown_ME			           = phreeqc_ptr->mb_unknown;
+	mu_unknown_ME			           = phreeqc_ptr->mu_unknown;
+	pe_unknown_ME			           = phreeqc_ptr->pe_unknown;
+	ph_unknown_ME			           = phreeqc_ptr->ph_unknown;
+	pure_phase_unknown_ME		       = phreeqc_ptr->pure_phase_unknown;
+	solution_phase_boundary_unknown_ME = phreeqc_ptr->solution_phase_boundary_unknown;
+	surface_unknown_ME		           = phreeqc_ptr->surface_unknown;
+	gas_unknown_ME			           = phreeqc_ptr->gas_unknown;
+	slack_unknown_ME		           = phreeqc_ptr->slack_unknown;
+	ss_unknown_ME			           = phreeqc_ptr->ss_unknown;
+	gas_unknowns_ME                    = phreeqc_ptr->gas_unknowns;
+
+	array_ME                           = phreeqc_ptr->array;               // eqn solving
+	delta_ME                           = phreeqc_ptr->delta;               // eqn solving
+	residual_ME                        = phreeqc_ptr->residual;            // eqn solving
+	// master
+	for (int i = 0; i < phreeqc_ptr->count_master; i++)
+	{
+		if (phreeqc_ptr->master[i]->in == TRUE)
+		{
+			master_ME.push_back(*phreeqc_ptr->master[i]);
+			master_ME.back().rxn_secondary = phreeqc_ptr->rxn_dup(phreeqc_ptr->master[i]->rxn_secondary);
+		}
+	}
+	// species
+	for (int i = 0; i < phreeqc_ptr->count_s; i++)
+	{
+		if (phreeqc_ptr->s[i]->in == TRUE)
+		{
+			s_ME.push_back(*phreeqc_ptr->s[i]);
+			s_ME.back().rxn_x = phreeqc_ptr->rxn_dup(phreeqc_ptr->s[i]->rxn_x);
+		}
+	}
+	// phases
+	for (int i = 0; i < phreeqc_ptr->count_phases; i++)
+	{
+		if (phreeqc_ptr->phases[i]->in == TRUE)
+		{
+			phases_ME[i] = *phreeqc_ptr->phases[i];
+			phases_ME[i].rxn_x = phreeqc_ptr->rxn_dup(phreeqc_ptr->phases[i]->rxn_x);
+		}
+	}
+
+	pe_x_ME                             = phreeqc_ptr->pe_x;
+	default_pe_x_ME                     = phreeqc_ptr->default_pe_x;
+	s_x_ME                              = phreeqc_ptr->s_x;                // eqn solving
+	sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
+	sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
+	sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
+	sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
+	sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
+	sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
+	species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
+	sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
+
+}
+void Model_eqns::
+Copy_to_phreeqc(void)
+{
+	phreeqc_ptr->x                               = this->x_ME;
+	phreeqc_ptr->ah2o_unknown	                 = ah2o_unknown_ME;		     
+	phreeqc_ptr->alkalinity_unknown	             = alkalinity_unknown_ME;		     
+	phreeqc_ptr->carbon_unknown	                 = carbon_unknown_ME;		     
+	phreeqc_ptr->charge_balance_unknown	         = charge_balance_unknown_ME;	     
+	phreeqc_ptr->exchange_unknown	             = exchange_unknown_ME;		     
+	phreeqc_ptr->mass_hydrogen_unknown	         = mass_hydrogen_unknown_ME;	     
+	phreeqc_ptr->mass_oxygen_unknown	         = mass_oxygen_unknown_ME;		
+	phreeqc_ptr->mb_unknown	                     = mb_unknown_ME;			     
+	phreeqc_ptr->mu_unknown	                     = mu_unknown_ME;			     
+	phreeqc_ptr->pe_unknown	                     = pe_unknown_ME;			     
+	phreeqc_ptr->ph_unknown	                     = ph_unknown_ME;			     
+	phreeqc_ptr->pure_phase_unknown	             = pure_phase_unknown_ME;		     
+	phreeqc_ptr->solution_phase_boundary_unknown = solution_phase_boundary_unknown_ME; 
+	phreeqc_ptr->surface_unknown	             = surface_unknown_ME;		     
+	phreeqc_ptr->gas_unknown	                 = gas_unknown_ME;			
+	phreeqc_ptr->slack_unknown	                 = slack_unknown_ME;		     
+	phreeqc_ptr->ss_unknown	                     = ss_unknown_ME;			     
+	phreeqc_ptr->gas_unknowns	                 = gas_unknowns_ME;                    
+
+	phreeqc_ptr->array                           = array_ME;               // eqn solving
+	phreeqc_ptr->delta                           = delta_ME;               // eqn solving
+	phreeqc_ptr->residual                        = residual_ME;            // eqn solving
+	// master
+	for (int i = 0; i < phreeqc_ptr->count_master; i++)
+	{
+		phreeqc_ptr->master[i]->in = FALSE;
+	}
+	for (size_t i = 0; i < master_ME.size(); i++)
+	{
+		int n = master_ME[i].number;	
+		phreeqc_ptr->rxn_free(phreeqc_ptr->master[n]->rxn_secondary);
+		memcpy(phreeqc_ptr->master[n], &master_ME[i], sizeof(struct master));
+		phreeqc_ptr->master[n]->rxn_secondary = phreeqc_ptr->rxn_dup(master_ME[i].rxn_secondary);
+	}
+	// species
+	for (int i = 0; i < phreeqc_ptr->count_s; i++)
+	{
+		phreeqc_ptr->s[i]->in = FALSE;
+	}
+	for (size_t i = 0; i < s_ME.size(); i++)
+	{
+		int n = s_ME[i].number;
+		phreeqc_ptr->rxn_free(phreeqc_ptr->s[n]->rxn_x);
+		memcpy(phreeqc_ptr->s[n], &s_ME[i], sizeof(struct species));
+		phreeqc_ptr->s[n]->rxn_x = phreeqc_ptr->rxn_dup(s_ME[i].rxn_x);
+	}
+	// phases
+	for (int i = 0; i < phreeqc_ptr->count_phases; i++)
+	{
+		phreeqc_ptr->phases[i]->in = FALSE;
+	}
+	std::map<int, struct phase>::iterator it;
+	for (it = phases_ME.begin(); it != phases_ME.end(); it++)
+	{
+		int i = it->first;
+		phreeqc_ptr->rxn_free(phreeqc_ptr->phases[i]->rxn_x);
+		memcpy(phreeqc_ptr->phases[i], &it->second, sizeof(struct phase));
+		phreeqc_ptr->phases[i]->rxn_x = phreeqc_ptr->rxn_dup(it->second.rxn_x);
+	}
+
+	phreeqc_ptr->pe_x                             = pe_x_ME;
+	phreeqc_ptr->default_pe_x                     = default_pe_x_ME;
+	phreeqc_ptr->s_x                              = s_x_ME;                // eqn solving
+	phreeqc_ptr->sum_mb1                          = sum_mb1_ME;            // eqn solving
+	phreeqc_ptr->sum_mb2                          = sum_mb2_ME;            // eqn solving
+	phreeqc_ptr->sum_jacob0                       = sum_jacob0_ME;         // eqn solving
+	phreeqc_ptr->sum_jacob1                       = sum_jacob1_ME;         // eqn solving
+	phreeqc_ptr->sum_jacob2                       = sum_jacob2_ME;         // eqn solving
+	phreeqc_ptr->sum_delta                        = sum_delta_ME;          // eqn solving
+	phreeqc_ptr->species_list                     = species_list_ME;       // eqn solving
+	phreeqc_ptr->sum_species_map                  = sum_species_map_ME;    // eqn solving
+
+}

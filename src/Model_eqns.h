@@ -6,44 +6,53 @@
 class Model_eqns: public PHRQ_base
 {
 public:
-	Model_eqns();
+	Model_eqns(Phreeqc * pptr);
 	~Model_eqns();
+	void Copy_phreeqc_model(void);
+	void Copy_to_phreeqc(void);
 
 protected:
 
-	std::vector <struct unknown *> x;
+	std::vector <struct unknown *> x_ME;
 
-	struct unknown *ah2o_unknown;
-	struct unknown *alkalinity_unknown;
-	struct unknown *carbon_unknown;
-	struct unknown *charge_balance_unknown;
-	struct unknown *exchange_unknown;
-	struct unknown *mass_hydrogen_unknown;
-	struct unknown *mass_oxygen_unknown;
-	struct unknown *mb_unknown;
-	struct unknown *mu_unknown;
-	struct unknown *pe_unknown;
-	struct unknown *ph_unknown;
-	struct unknown *pure_phase_unknown;
-	struct unknown *solution_phase_boundary_unknown;
-	struct unknown *surface_unknown;
-	struct unknown *gas_unknown;
-	struct unknown *slack_unknown;
-	struct unknown *ss_unknown;
-	std::vector<struct unknown *> gas_unknowns;
+	struct unknown *ah2o_unknown_ME;
+	struct unknown *alkalinity_unknown_ME;
+	struct unknown *carbon_unknown_ME;
+	struct unknown *charge_balance_unknown_ME;
+	struct unknown *exchange_unknown_ME;
+	struct unknown *mass_hydrogen_unknown_ME;
+	struct unknown *mass_oxygen_unknown_ME;
+	struct unknown *mb_unknown_ME;
+	struct unknown *mu_unknown_ME;
+	struct unknown *pe_unknown_ME;
+	struct unknown *ph_unknown_ME;
+	struct unknown *pure_phase_unknown_ME;
+	struct unknown *solution_phase_boundary_unknown_ME;
+	struct unknown *surface_unknown_ME;
+	struct unknown *gas_unknown_ME;
+	struct unknown *slack_unknown_ME;
+	struct unknown *ss_unknown_ME;
+	std::vector<struct unknown *> gas_unknowns_ME;
 
-	LDBLE * array;                                                      // eqn solving
-	LDBLE * delta;                                                      // eqn solving
-	LDBLE * residual;                                                   // eqn solving
-	std::vector<struct species *> s_x;                                  // eqn solving
-	std::vector<struct list1> sum_mb1;                                  // eqn solving
-	std::vector<struct list2> sum_mb2;                                  // eqn solving
-	std::vector<list0> sum_jacob0;                                      // eqn solving
-	std::vector<struct list1> sum_jacob1;                               // eqn solving
-	std::vector<struct list2> sum_jacob2;                               // eqn solving
-	std::vector<struct list2> sum_delta;                                // eqn solving
-	std::vector<struct Species_List> species_list;                      // for output
-	std::map<std::string, std::vector < std::string> > sum_species_map; // for sum_species function
+	LDBLE * array_ME;                                                      // eqn solving
+	LDBLE * delta_ME;                                                      // eqn solving
+	LDBLE * residual_ME;                                                   // eqn solving
+
+	std::vector<struct master> master_ME;
+	std::vector<struct species> s_ME;
+	std::map<int, struct phase> phases_ME;
+
+	std::map < std::string, cxxChemRxn > pe_x_ME;
+	std::string default_pe_x_ME;
+	std::vector<struct species *> s_x_ME;                                  // eqn solving
+	std::vector<struct list1> sum_mb1_ME;                                  // eqn solving
+	std::vector<struct list2> sum_mb2_ME;                                  // eqn solving
+	std::vector<list0> sum_jacob0_ME;                                      // eqn solving
+	std::vector<struct list1> sum_jacob1_ME;                               // eqn solving
+	std::vector<struct list2> sum_jacob2_ME;                               // eqn solving
+	std::vector<struct list2> sum_delta_ME;                                // eqn solving
+	std::vector<struct Species_List> species_list_ME;                      // for output
+	std::map<std::string, std::vector < std::string> > sum_species_map_ME; // for sum_species function
 
 	Phreeqc * phreeqc_ptr;
 };

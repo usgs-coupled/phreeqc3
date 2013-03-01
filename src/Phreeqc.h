@@ -554,6 +554,7 @@ public:
 	int calc_vm(LDBLE tc, LDBLE pa);
 	int change_hydrogen_in_elt_list(LDBLE charge);
 	int clear(void);
+	int clear_model_eqn(void);
 	//int convert_units(struct solution *solution_ptr);
 	int convert_units(cxxSolution *solution_ptr);
 	LDBLE f_Vm(LDBLE v1);
@@ -1918,6 +1919,7 @@ protected:
 	friend class IPhreeqcMMS;
 	friend class IPhreeqcPhast;
 	friend class Reaction_module;
+	friend class Model_eqns;
 
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 

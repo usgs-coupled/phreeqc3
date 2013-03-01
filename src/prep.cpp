@@ -9,6 +9,7 @@
 #include "SSassemblage.h"
 #include "SS.h"
 #include "Solution.h"
+#include "Model_eqns.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 prep(void)
@@ -111,6 +112,10 @@ prep(void)
 		build_model();
 		adjust_setup_pure_phases();
 		adjust_setup_solution();
+
+		Model_eqns *test = new Model_eqns(this);
+		clear_model_eqn();
+		test->Copy_to_phreeqc();
 	}
 	else
 	{
@@ -1807,7 +1812,6 @@ build_species_list(int n)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 clear(void)
@@ -1898,6 +1902,132 @@ clear(void)
  *   Free arrays used in model   
  */
 	free_model_allocs();
+
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+clear_model_eqn(void)
+/* ---------------------------------------------------------------------- */
+{
+	int i;
+/*
+ *   Resets information for setting up a new model
+ */
+	cxxSolution *solution_ptr;
+/*
+ *   Clear species solution-dependent data
+ */
+	solution_ptr = use.Get_solution_ptr();
+
+	for (i = 0; i < count_s; i++)
+	{
+		s[i]->in = FALSE;
+	}
+/*
+ *   Set pe structure
+ */
+	pe_x.clear();
+	default_pe_x.clear();
+	if (solution_ptr->Get_initial_data())
+	{
+		pe_x = solution_ptr->Get_initial_data()->Get_pe_reactions();
+		default_pe_x = solution_ptr->Get_initial_data()->Get_default_pe();
+	}
+	else
+	{
+		default_pe_x = "pe";
+	}
+
+/*
+ *   Clear master species solution-dependent data
+ */
+	for (i = 0; i < count_master; i++)
+	{
+		master[i]->in = FALSE;
+		master[i]->unknown = NULL;
+		if (solution_ptr->Get_initial_data())
+		{
+			master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
+		}
+		else
+		{
+			master[i]->pe_rxn = string_hsave("pe");
+		}
+/*
+ *   copy primary reaction to secondary reaction
+ */
+		rxn_free(master[i]->rxn_secondary);
+		master[i]->rxn_secondary = rxn_dup(master[i]->rxn_primary);
+	}
+
+	if (state == INITIAL_SOLUTION)
+	{
+		s_h2o->secondary->in = TRUE;
+		s_hplus->secondary->in = TRUE;
+	}
+	else
+	{
+		s_h2o->primary->in = TRUE;
+		s_hplus->primary->in = TRUE;
+	}
+	s_eminus->primary->in = TRUE;
+/*
+ *   Set all unknown pointers to NULL
+ */
+	mb_unknown = NULL;
+	ah2o_unknown = NULL;
+	mass_hydrogen_unknown = NULL;
+	mass_oxygen_unknown = NULL;
+	mu_unknown = NULL;
+	alkalinity_unknown = NULL;
+	carbon_unknown = NULL;
+	ph_unknown = NULL;
+	pe_unknown = NULL;
+	charge_balance_unknown = NULL;
+	solution_phase_boundary_unknown = NULL;
+	pure_phase_unknown = NULL;
+	exchange_unknown = NULL;
+	surface_unknown = NULL;
+	gas_unknown = NULL;
+	ss_unknown = NULL;
+/*
+ *   Free arrays used in model   
+ */
+	//free_model_allocs();
+
+	//int i;
+	//if (x != NULL)
+	//{
+		//for (i = 0; i < (int) x.size(); i++)
+		//{
+		//	unknown_free(x[i]);
+		//}
+	//}
+	//x = (struct unknown **) free_check_null(x);
+	x.clear();
+
+	//max_unknowns = 0;
+	//array = (LDBLE *) free_check_null(array);
+	//delta = (LDBLE *) free_check_null(delta);
+	//residual = (LDBLE *) free_check_null(residual);
+	array = NULL;
+	delta = NULL;
+	residual = NULL;
+	//s_x = (struct species **) free_check_null(s_x);
+	s_x.clear();
+	//sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
+	sum_mb1.clear();
+	//sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
+	sum_mb2.clear();
+	//sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
+	sum_jacob0.clear();
+	//sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
+	sum_jacob1.clear();
+	//sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
+	sum_jacob2.clear();
+	//sum_delta = (struct list2 *) free_check_null(sum_delta);
+	sum_delta.clear();
 
 	return (OK);
 }

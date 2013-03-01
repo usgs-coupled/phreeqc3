@@ -1743,7 +1743,7 @@ rxn_dup(struct reaction *rxn_ptr_old)
 
 	if (rxn_ptr_old == NULL)
 		return (NULL);
-	for (i = 0; rxn_ptr_old->token[i].s != NULL; i++);
+	for (i = 0; rxn_ptr_old->token[i].s != NULL || rxn_ptr_old->token[i].name != NULL; i++);
 
 	rxn_ptr_new = rxn_alloc(i + 1);
 /*
