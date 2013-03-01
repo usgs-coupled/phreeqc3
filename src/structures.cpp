@@ -14,6 +14,7 @@
 #include "cxxKinetics.h"
 #include "Surface.h"
 #include "Solution.h"
+#include "Model_eqns.h"
 
 
 /* ---------------------------------------------------------------------- */
@@ -58,7 +59,7 @@ clean_up(void)
 		(const char **) free_check_null(last_model.surface_charge);
 
 	/* model */
-	free_model_allocs();
+	//free_model_allocs();
 
 /* species */
 
@@ -111,10 +112,10 @@ clean_up(void)
 
 /* unknowns */
 
-	for (j = 0; j < (int) x.size(); j++)
-	{
-		unknown_free(x[j]);
-	}
+	//for (j = 0; j < (int) x.size(); j++)
+	//{
+	//	unknown_free(x[j]);
+	//}
 	//x = (struct unknown **) free_check_null(x);
 	x.clear();
 
@@ -350,6 +351,10 @@ clean_up(void)
 	selected_output_file_name =
 		(char *) free_check_null(selected_output_file_name);
 	dump_file_name = (char *) free_check_null(dump_file_name);
+	for (size_t i = 0; i < model_eqns_vector.size(); i++)
+	{
+		delete model_eqns_vector[i];
+	}
 #ifdef PHREEQCI_GUI
 	free_spread();
 #endif

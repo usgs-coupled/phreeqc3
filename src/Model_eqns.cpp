@@ -53,6 +53,8 @@ Model_eqns::~Model_eqns(void)
 	sum_jacob1_ME.clear();
 	sum_jacob2_ME.clear();
 	sum_delta_ME.clear();
+	species_list_ME.clear();
+	sum_species_map_ME.clear();
 
 	// master
 	for (size_t i = 0; i < master_ME.size(); i++)
@@ -71,10 +73,7 @@ Model_eqns::~Model_eqns(void)
 	// phases
 	for (size_t i = 0; i < phases_ME.size(); i++)
 	{
-		if (phases_ME[i].in == TRUE)
-		{
-			phreeqc_ptr->rxn_free(phases_ME[i].rxn_x);
-		}
+		phreeqc_ptr->rxn_free(phases_ME[i].rxn_x);
 	}
 	phases_ME.clear();
 

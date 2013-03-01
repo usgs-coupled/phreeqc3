@@ -54,6 +54,7 @@ class cxxSolutionIsotope;
 class cxxSSassemblage;
 class cxxSS;
 class cxxStorageBin;
+class Model_eqns;
 
 #include "global_structures.h"
 class PBasic;
@@ -1464,9 +1465,7 @@ protected:
 	*   Unknowns
 	*---------------------------------------------------------------------- */
 
-	//struct unknown **x;
-	//int count_unknowns;
-	//int max_unknowns;
+	std::vector <Model_eqns *> model_eqns_vector;
 	std::vector <struct unknown *> x;
 
 	struct unknown *ah2o_unknown;

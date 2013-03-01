@@ -58,7 +58,8 @@ prep(void)
 		numerical_fixed_volume = false;
 	if (same_model == FALSE || switch_numerical)
 	{
-		clear();
+		clear_model_eqn();
+		//clear();
 		//setup_unknowns();
 /*
  *   Set unknown pointers, unknown types, validity checks
@@ -114,8 +115,9 @@ prep(void)
 		adjust_setup_solution();
 
 		Model_eqns *test = new Model_eqns(this);
+		model_eqns_vector.push_back(test);
 		clear_model_eqn();
-		test->Copy_to_phreeqc();
+		model_eqns_vector.back()->Copy_to_phreeqc();
 	}
 	else
 	{
