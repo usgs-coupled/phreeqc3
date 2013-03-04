@@ -9,6 +9,7 @@
 #include "SSassemblage.h"
 #include "SS.h"
 #include "Solution.h"
+#include "ISolution.h"
 #include "Model_eqns.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -25,22 +26,8 @@ prep(void)
  *   Routine builds a set of lists for calculating mass balance and
  *      for building jacobian.
  */
-	cxxSolution *solution_ptr;
-
-	if (state >= REACTION)
-	{
-		same_model = check_same_model();
-	}
-	else
-	{
-		same_model = FALSE;
-		last_model.force_prep = TRUE;
-	}
-	/*same_model = FALSE; */
-/*
- *   Initialize s, master, and unknown pointers
- */
-	solution_ptr = use.Get_solution_ptr();
+	// Check solution
+	cxxSolution *solution_ptr = use.Get_solution_ptr();
 	if (solution_ptr == NULL)
 	{
 		error_msg("Solution needed for calculation not found, stopping.",
@@ -48,11 +35,41 @@ prep(void)
 	}
 	description_x = (char *) free_check_null(description_x);
 	description_x = string_duplicate(solution_ptr->Get_description().c_str());
-/*
- *   Allocate space for unknowns
- *   Must allocate all necessary space before pointers to
- *   X are set.
- */
+	if (state == INITIAL_SOLUTION)
+	{
+		convert_units(solution_ptr);
+	}
+
+	// determine model
+	std::string last_model_id = current_model_id;
+	current_model_id = Make_model_id();
+	same_model = FALSE;
+	last_model.force_prep = TRUE;
+
+	if (state == INITIAL_SOLUTION || 
+		state == INITIAL_EXCHANGE || 
+		state == INITIAL_SURFACE || 
+		state == INITIAL_GAS_PHASE ||
+		state >= REACTION)
+	{
+		if(last_model_id == current_model_id)
+		{
+			same_model = TRUE;
+			last_model.force_prep = FALSE;
+		}
+		else
+		{
+			std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
+			if(me_it != model_eqns_map.end())
+			{
+				clear_model_eqn();
+				me_it->second->Copy_to_phreeqc();
+				same_model = TRUE;
+				last_model.force_prep = FALSE;
+				current_tc = -99999.9;
+			}
+		}
+	}
 
 	if (!same_model && !switch_numerical)
 		numerical_fixed_volume = false;
@@ -64,8 +81,8 @@ prep(void)
 /*
  *   Set unknown pointers, unknown types, validity checks
  */
-		if (state == INITIAL_SOLUTION)
-			convert_units(solution_ptr);
+		//if (state == INITIAL_SOLUTION)
+		//	convert_units(solution_ptr);
 		setup_solution();
 		setup_exchange();
 		setup_surface();
@@ -82,31 +99,16 @@ prep(void)
 /*
  *   Allocate space for array
  */
-/*
-		array = (LDBLE *) PHRQ_malloc( (size_t) (count_unknowns+1) * count_unknowns * sizeof( LDBLE ));
+		array =	(LDBLE *) PHRQ_malloc((size_t) ((int) x.size() + 1) * (int) x.size() * sizeof(LDBLE));
 		if (array == NULL) malloc_error();
-		delta = (LDBLE *) PHRQ_malloc( (size_t) count_unknowns * sizeof( LDBLE ));
-		if (delta == NULL) malloc_error();
-		residual = (LDBLE *) PHRQ_malloc( (size_t) count_unknowns * sizeof( LDBLE ));
-		if (residual == NULL) malloc_error();
-*/
-		array =
-			(LDBLE *) PHRQ_malloc((size_t) ((int) x.size() + 1) *
-								  (int) x.size() * sizeof(LDBLE));
-		if (array == NULL)
-			malloc_error();
 		delta = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
-		if (delta == NULL)
-			malloc_error();
-		residual =
-			(LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
-		if (residual == NULL)
-			malloc_error();
+		if (delta == NULL) malloc_error();
+		residual = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
+		if (residual == NULL) malloc_error();
 		for (int j = 0; j < (int) x.size(); j++)
 		{
 		  residual[j] = 0;
 		}
-
 /*
  *   Build lists to fill Jacobian array and species list
  */
@@ -114,10 +116,12 @@ prep(void)
 		adjust_setup_pure_phases();
 		adjust_setup_solution();
 
-		Model_eqns *test = new Model_eqns(this);
-		model_eqns_vector.push_back(test);
+		// same model 
+		Model_eqns *new_model_eqns = new Model_eqns(this);
+		model_eqns_map[current_model_id] = new_model_eqns;
 		clear_model_eqn();
-		model_eqns_vector.back()->Copy_to_phreeqc();
+		new_model_eqns->Copy_to_phreeqc();
+		current_tc = -999999.9;  // recalculate Ks
 	}
 	else
 	{
@@ -132,7 +136,7 @@ prep(void)
 	}
 	return (OK);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
 quick_setup(void)
@@ -373,6 +377,252 @@ quick_setup(void)
 		}
 	}
 	save_model();
+	return (OK);
+}
+#endif
+/* ---------------------------------------------------------------------- */
+ int Phreeqc::
+quick_setup(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Routine is used if model is the same as previous model
+ *   Assumes moles of elements, exchangers, surfaces, gases, and solid solutions have
+ *       been accumulated in array master, usually by subroutine step.
+ *   Updates essential information for the model.
+ */
+	int i, j, k;
+	if (state >= REACTION)
+	{
+		for (i = 0; i < count_master; i++)
+		{
+			if (master[i]->s->type == SURF_PSI)
+				continue;
+			if (master[i]->s == s_eminus ||
+				master[i]->s == s_hplus ||
+				master[i]->s == s_h2o || master[i]->s == s_h2
+				|| master[i]->s == s_o2)
+				continue;
+			if (master[i]->total > 0)
+			{
+				if (master[i]->s->secondary != NULL)
+				{
+					master[i]->s->secondary->unknown->moles = master[i]->total;
+				}
+				else
+				{
+					master[i]->unknown->moles = master[i]->total;
+				}
+			}
+		}
+		/*
+		*   Reaction: pH for charge balance
+		*/
+		ph_unknown->moles = use.Get_solution_ptr()->Get_cb();
+		/*
+		*   Reaction: pe for total hydrogen
+		*/
+		if (mass_hydrogen_unknown != NULL)
+		{
+			/* Use H - 2O linear combination in place of H */
+#define COMBINE
+			/*#define COMBINE_CHARGE */
+#ifdef COMBINE
+			mass_hydrogen_unknown->moles =
+				use.Get_solution_ptr()->Get_total_h() - 2 * use.Get_solution_ptr()->Get_total_o();
+#else
+			mass_hydrogen_unknown->moles = use.Get_solution_ptr()->total_h;
+#endif
+		}
+		/*
+		*   Reaction H2O for total oxygen
+		*/
+		if (mass_oxygen_unknown != NULL)
+		{
+			mass_oxygen_unknown->moles = use.Get_solution_ptr()->Get_total_o();
+		}
+
+		/*
+		*   pp_assemblage
+		*/
+		j = 0;
+		for (i = 0; i < (int) x.size(); i++)
+		{
+			if (x[i]->type == PP)
+			{
+				cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
+				std::map<std::string, cxxPPassemblageComp>::iterator it;
+				it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+				assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
+				cxxPPassemblageComp * comp_ptr = &(it->second);
+
+				x[i]->moles = comp_ptr->Get_moles();
+				/* A. Crapsi */
+				x[i]->si    = comp_ptr->Get_si();
+				x[i]->delta = comp_ptr->Get_delta();
+				/* End A. Crapsi */
+				x[i]->dissolve_only = comp_ptr->Get_dissolve_only() ? TRUE : FALSE;
+				comp_ptr->Set_delta(0.0);
+			}
+		}
+		// Need to update SIs for gases
+		adjust_setup_pure_phases();
+
+		/*
+		*   gas phase
+		*/
+		if (gas_unknown != NULL)
+		{
+			cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
+			if ((gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME) && 
+				numerical_fixed_volume && 
+				(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume))
+			{
+				for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+				{	
+					cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+					gas_unknowns[i]->moles = gc_ptr->Get_moles();
+					if (gas_unknowns[i]->moles <= 0)
+						gas_unknowns[i]->moles = MIN_TOTAL;
+					gas_unknowns[i]->phase->pr_in = false;
+					gas_unknowns[i]->phase->pr_phi = 1.0;
+					gas_unknowns[i]->phase->pr_p = 0;
+				}
+			}
+			else
+			{
+				gas_unknown->moles = 0.0;
+				for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+				{	
+					cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+					gas_unknown->moles += gc_ptr->Get_moles();
+				}
+				if (gas_unknown->moles <= 0)
+					gas_unknown->moles = MIN_TOTAL;
+				gas_unknown->ln_moles = log(gas_unknown->moles);
+			}
+		}
+
+		/*
+		*   ss_assemblage
+		*/
+		if (ss_unknown != NULL)
+		{
+			for (i = 0; i < (int) x.size(); i++)
+			{
+				if (x[i]->type == SS_MOLES)
+					break;
+			}
+
+			std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+			for (size_t j = 0; j < ss_ptrs.size(); j++)
+			{
+				for (size_t k = 0; k < ss_ptrs[j]->Get_ss_comps().size(); k++)
+				{
+					cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[k]);
+					x[i]->moles = comp_ptr->Get_moles();
+					if (x[i]->moles <= 0)
+					{
+						x[i]->moles = MIN_TOTAL_SS;
+						comp_ptr->Set_moles(MIN_TOTAL_SS);
+					}
+					comp_ptr->Set_initial_moles(x[i]->moles);
+					x[i]->ln_moles = log(x[i]->moles);
+
+					x[i]->phase->dn = comp_ptr->Get_dn();
+					x[i]->phase->dnb = comp_ptr->Get_dnb();
+					x[i]->phase->dnc = comp_ptr->Get_dnc();
+					x[i]->phase->log10_fraction_x =	comp_ptr->Get_log10_fraction_x();
+					x[i]->phase->log10_lambda = comp_ptr->Get_log10_lambda();
+					i++;
+				}
+			}
+		}
+		/*
+		*   exchange
+		*/
+		// number of moles is set from master->moles above
+		/*
+		*   surface
+		*/
+		if (use.Get_surface_ptr() != NULL)
+		{
+			for (i = 0; i < (int) x.size(); i++)
+			{
+				if (x[i]->type == SURFACE)
+				{
+					break;
+				}
+			}
+			j = 0;
+			k = 0;
+			for (; i < (int) x.size(); i++)
+			{
+				if (x[i]->type == SURFACE_CB)
+				{
+					cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
+					x[i]->related_moles = charge_ptr->Get_grams();
+					x[i]->mass_water = charge_ptr->Get_mass_water();
+#ifdef DEBUG
+					/* test that charge and surface match */
+					cxxSurfaceComp *comp_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
+					char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
+					char * ptr = temp_formula;
+					copy_token(token, &ptr, &l);
+					char * ptr1 = token;
+					get_elt(&ptr1, name, &l);
+					ptr1 = strchr(name, '_');
+					if (ptr1 != NULL)
+						ptr1[0] = '\0';
+					if (strcmp(name, charge_ptr->Get_name().c_str()) != 0)
+					{
+						free_check_null(temp_formula);
+						error_string = sformatf(
+							"Internal error: Surface charge name %s does not match surface component name %s\nTry alphabetical order for surfaces in SURFACE",
+							charge_ptr->Get_name().c_str(),
+							comp_ptr->Get_formula().c_str());
+						error_msg(error_string, STOP);
+					}
+					free_check_null(temp_formula);
+#endif
+					/* moles picked up from master->total */
+				}
+				else if (x[i]->type == SURFACE_CB1 || x[i]->type == SURFACE_CB2)
+				{
+					cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
+					x[i]->related_moles = charge_ptr->Get_grams();
+					x[i]->mass_water = charge_ptr->Get_mass_water();
+				}
+				else if (x[i]->type == SURFACE)
+				{
+					/* moles picked up from master->total
+					except for surfaces related to kinetic minerals ... */
+					cxxSurfaceComp *comp_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
+					if (comp_ptr->Get_rate_name().size() > 0)
+					{
+						cxxNameDouble::iterator lit;
+						for (lit = comp_ptr->Get_totals().begin(); lit != comp_ptr->Get_totals().end(); lit++)
+						{
+							struct element *elt_ptr = element_store(lit->first.c_str());
+							struct master *master_ptr = elt_ptr->master;
+							if (master_ptr->type != SURF)
+								continue;
+							if (strcmp_nocase(x[i]->description, lit->first.c_str()) == 0)
+							{
+								x[i]->moles = lit->second;
+							}
+						}
+					}
+				}
+				else
+				{
+					break;
+				}
+
+			}
+		}
+	}
+	//save_model();
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -7032,4 +7282,259 @@ change_hydrogen_in_elt_list(LDBLE charge)
 	}
 	elt_list[found_h].coef = coef;
 	return (OK);
+}
+std::string Phreeqc::
+Make_model_id(void)
+{
+	std::ostringstream model_id;
+	// state
+	model_id << state << " ";
+	// numerical_deriv
+	//{
+	//	std::ostringstream os;
+	//	os << phreeqc_ptr->numerical_deriv;
+	//	model_id.push_back(os.str());
+	//}
+//#define INITIAL_SOLUTION   1
+//#define INITIAL_EXCHANGE   2
+//#define INITIAL_SURFACE 3
+//#define INITIAL_GAS_PHASE  4
+	if (state == INITIAL_SOLUTION)
+	{
+		// solution
+		{
+			model_id << "SOLUTION ";
+			cxxSolution * solution_ptr = use.Get_solution_ptr();
+			solution_ptr->Get_initial_data()->Get_default_pe();
+			std::map<std::string, cxxISolutionComp >::iterator comp_it = solution_ptr->Get_initial_data()->Get_comps().begin();
+			for ( ; comp_it != solution_ptr->Get_initial_data()->Get_comps().end(); comp_it++)
+			{
+				model_id << comp_it->first << " ";
+				if (comp_it->second.Get_pe_reaction().size() > 0)
+				{
+					model_id << comp_it->second.Get_pe_reaction() << " ";
+				}
+				if (comp_it->second.Get_equation_name().size() > 0)
+				{
+					model_id << comp_it->second.Get_equation_name() << " ";
+				}
+			}
+		}
+	}
+	else if (state == INITIAL_EXCHANGE)
+	{
+		// solution
+		{
+			model_id << "SOLUTION ";
+			cxxSolution * solution_ptr = use.Get_solution_ptr();
+			cxxNameDouble::const_iterator it;
+			for (it = solution_ptr->Get_totals().begin(); it != solution_ptr->Get_totals().end(); it++)
+			{
+				model_id << it->first << " ";
+			}
+		}
+		// exchange
+		{
+			model_id << "EXCHANGE ";
+			cxxExchange * exchange_ptr = use.Get_exchange_ptr();
+			model_id << exchange_ptr->Get_pitzer_exchange_gammas() << " ";
+			cxxNameDouble::const_iterator it;
+			for (size_t i = 0; i < exchange_ptr->Get_exchange_comps().size(); i++)
+			{
+				model_id << exchange_ptr->Get_exchange_comps()[i].Get_formula() << " ";
+				if (exchange_ptr->Get_exchange_comps()[i].Get_phase_name().size() > 0)
+				{
+					model_id << "phase " << exchange_ptr->Get_exchange_comps()[i].Get_phase_name() << " ";
+				}
+				if (exchange_ptr->Get_exchange_comps()[i].Get_rate_name().size() > 0)
+				{
+					model_id << "rate " << exchange_ptr->Get_exchange_comps()[i].Get_rate_name() << " ";
+				}
+			}
+		}
+	}
+	else if (state == INITIAL_SURFACE)
+	{
+		// solution
+		{
+			model_id << "SOLUTION ";
+			cxxSolution * solution_ptr = use.Get_solution_ptr();
+			cxxNameDouble::const_iterator it;
+			for (it = solution_ptr->Get_totals().begin(); it != solution_ptr->Get_totals().end(); it++)
+			{
+				model_id << it->first << " ";
+			}
+		}
+		// surface
+		{
+			model_id << "SURFACE ";
+			cxxSurface * surface_ptr = use.Get_surface_ptr();
+
+			model_id << surface_ptr->Get_dl_type() << " ";
+			model_id << surface_ptr->Get_type() << " ";
+			/*
+			if (last_model.only_counter_ions != use.Get_surface_ptr()->only_counter_ions) return(FALSE);
+			*/
+			for (size_t i = 0; i <surface_ptr->Get_surface_comps().size(); i++)
+			{
+				model_id << surface_ptr->Get_surface_comps()[i].Get_formula() << " ";
+				if (surface_ptr->Get_surface_comps()[i].Get_phase_name().size() > 0)
+				{
+					model_id << "phase " << surface_ptr->Get_surface_comps()[i].Get_phase_name() << " ";
+				}
+				if (surface_ptr->Get_surface_comps()[i].Get_rate_name().size() > 0)
+				{
+					model_id << "rate " << surface_ptr->Get_surface_comps()[i].Get_rate_name() << " ";
+				}
+			}
+			for (size_t i = 0; i < surface_ptr->Get_surface_charges().size(); i++)
+			{
+				model_id << use.Get_surface_ptr()->Get_surface_charges()[i].Get_name() << " ";
+			}
+
+		}
+	}
+	else if (state == INITIAL_GAS_PHASE)
+	{
+		// solution
+		{
+			model_id << "SOLUTION ";
+			cxxSolution * solution_ptr = use.Get_solution_ptr();
+			cxxNameDouble::const_iterator it;
+			for (it = solution_ptr->Get_totals().begin(); it != solution_ptr->Get_totals().end(); it++)
+			{
+				model_id << it->first << " ";
+			}
+		}
+		// Gas phase
+		{
+			//model_id << "GAS_PHASE ";
+			//cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
+			//model_id << gas_phase_ptr->Get_type() << " ";
+			//model_id << numerical_fixed_volume << " ";
+			//for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+			//{
+			//	cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+			//	std::string phz = gas_phase_ptr->Get_gas_comps()[i].Get_phase_name();
+			//	Utilities::str_tolower(phz);
+			//	model_id << phz << " ";
+			//}
+		}
+	}
+	else if (state >= REACTION)
+	{
+		// solution
+		{
+			model_id << "SOLUTION ";
+			for (int i = 0; i < count_master; i++)
+			{
+				if (master[i]->total > 0)
+				{
+					model_id << master[i]->elt->name<< " ";
+				}
+			}
+		}
+		// Check pure_phases
+		if (use.Get_pp_assemblage_ptr() != NULL)
+		{
+			model_id << "EQUILIBRIUM_PHASES ";
+			cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
+			std::map<std::string, cxxPPassemblageComp>::iterator it;
+			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
+			for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
+			{
+				std::string phz = it->first;
+				Utilities::str_tolower(phz);
+				model_id << phz << " ";
+				if (it->second.Get_add_formula().size() > 0)
+				{
+					phz = it->second.Get_add_formula();
+					Utilities::str_tolower(phz);
+					model_id << phz << " ";
+				}
+			}
+		}
+		// exchange
+		if (use.Get_exchange_ptr() != NULL)
+		{
+			model_id << "EXCHANGE ";
+			cxxExchange * exchange_ptr = use.Get_exchange_ptr();
+			model_id << exchange_ptr->Get_pitzer_exchange_gammas() << " ";
+			cxxNameDouble::const_iterator it;
+			for (size_t i = 0; i < exchange_ptr->Get_exchange_comps().size(); i++)
+			{
+				model_id << exchange_ptr->Get_exchange_comps()[i].Get_formula() << " ";
+				if (exchange_ptr->Get_exchange_comps()[i].Get_phase_name().size() > 0)
+				{
+					model_id << "phase " << exchange_ptr->Get_exchange_comps()[i].Get_phase_name() << " ";
+				}
+				if (exchange_ptr->Get_exchange_comps()[i].Get_rate_name().size() > 0)
+				{
+					model_id << "rate " << exchange_ptr->Get_exchange_comps()[i].Get_rate_name() << " ";
+				}
+			}
+		}
+		// Surface
+		if (use.Get_surface_ptr() != NULL)
+		{
+			model_id << "SURFACE ";
+			cxxSurface * surface_ptr = use.Get_surface_ptr();
+			model_id << surface_ptr->Get_dl_type() << " ";
+			model_id << surface_ptr->Get_type() << " ";
+			/*
+			if (last_model.only_counter_ions != use.Get_surface_ptr()->only_counter_ions) return(FALSE);
+			*/
+			for (size_t i = 0; i <surface_ptr->Get_surface_comps().size(); i++)
+			{
+				model_id << surface_ptr->Get_surface_comps()[i].Get_formula() << " ";
+				if (surface_ptr->Get_surface_comps()[i].Get_phase_name().size() > 0)
+				{
+					model_id << "phase " << surface_ptr->Get_surface_comps()[i].Get_phase_name() << " ";
+				}
+				if (surface_ptr->Get_surface_comps()[i].Get_rate_name().size() > 0)
+				{
+					model_id << "rate " << surface_ptr->Get_surface_comps()[i].Get_rate_name() << " ";
+				}
+			}
+			for (size_t i = 0; i < surface_ptr->Get_surface_charges().size(); i++)
+			{
+				model_id << use.Get_surface_ptr()->Get_surface_charges()[i].Get_name() << " ";
+			}
+		}	
+		// Check solid solutions
+		if (use.Get_ss_assemblage_ptr() != NULL)
+		{
+			model_id << "SOLID_SOLUTION ";
+			std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+			for (size_t i = 0; i < ss_ptrs.size(); i++)
+			{
+				std::string phz = ss_ptrs[i]->Get_name();
+				Utilities::str_tolower(phz);
+				model_id <<  phz << " ";
+				for (size_t j = 0; j < ss_ptrs[j]->Get_ss_comps().size(); j++)
+				{
+					phz = ss_ptrs[j]->Get_ss_comps()[j].Get_name();
+					Utilities::str_tolower(phz);
+					model_id <<  phz << " ";
+				}
+			}
+		}
+		// Gas phase
+		if (use.Get_gas_phase_ptr() != NULL)
+		{
+			model_id << "GAS_PHASE ";
+			cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
+			model_id << gas_phase_ptr->Get_type() << " ";
+			model_id << numerical_fixed_volume << " ";
+			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+			{
+				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+				std::string phz = gas_phase_ptr->Get_gas_comps()[i].Get_phase_name();
+				Utilities::str_tolower(phz);
+				model_id << phz << " ";
+			}
+		}
+
+	}
+	return model_id.str();
 }

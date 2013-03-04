@@ -55,5 +55,6 @@ protected:
 	std::map<std::string, std::vector < std::string> > sum_species_map_ME; // for sum_species function
 
 	Phreeqc * phreeqc_ptr;
+	std::string model_id;
 };
 #endif // !defined(DUMPER_H_INCLUDED)

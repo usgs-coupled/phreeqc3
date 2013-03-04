@@ -1465,7 +1465,9 @@ protected:
 	*   Unknowns
 	*---------------------------------------------------------------------- */
 
-	std::vector <Model_eqns *> model_eqns_vector;
+	std::map <std::string, Model_eqns *> model_eqns_map;
+	std::string Make_model_id(void);
+	std::string current_model_id;
 	std::vector <struct unknown *> x;
 
 	struct unknown *ah2o_unknown;

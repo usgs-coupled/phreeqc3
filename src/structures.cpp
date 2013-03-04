@@ -351,9 +351,11 @@ clean_up(void)
 	selected_output_file_name =
 		(char *) free_check_null(selected_output_file_name);
 	dump_file_name = (char *) free_check_null(dump_file_name);
-	for (size_t i = 0; i < model_eqns_vector.size(); i++)
+	std::map<std::string, Model_eqns *>::iterator me_it;
+	for (me_it = model_eqns_map.begin(); me_it != model_eqns_map.end(); me_it++)
 	{
-		delete model_eqns_vector[i];
+		//delete model_eqns_vector[i];
+		delete me_it->second;
 	}
 #ifdef PHREEQCI_GUI
 	free_spread();

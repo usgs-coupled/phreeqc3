@@ -1,5 +1,11 @@
 
 #include "Model_eqns.h"
+#include "Solution.h"
+#include "PPassemblage.h"
+#include "SSassemblage.h"
+#include "GasPhase.h"
+#include "Utils.h"
+
 Model_eqns::Model_eqns(Phreeqc * pptr)
 {
 	if (pptr == NULL)
@@ -144,6 +150,8 @@ Copy_phreeqc_model(void)
 	sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
 	species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
 	sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
+
+	model_id = phreeqc_ptr->current_model_id;
 
 }
 void Model_eqns::

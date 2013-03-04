@@ -1305,6 +1305,7 @@ initial_solutions(int print)
 						solution_ref.Get_n_user(), solution_ref.Get_description().c_str());
 				dup_print(token, FALSE);
 			}
+			xsolution_zero();
 			use.Set_solution_ptr(&solution_ref);
 			prep();
 			k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
@@ -1428,7 +1429,7 @@ initial_exchangers(int print)
 					("Solution not found for initial exchange calculation",
 					 STOP);
 			}
-
+			xsolution_zero();
 			prep();
 			k_temp(use.Get_solution_ptr()->Get_tc(), use.Get_solution_ptr()->Get_patm());
 			set(TRUE);
@@ -1512,6 +1513,7 @@ initial_gas_phases(int print)
 			}
 
 			/* Try to obtain a solution pointer */
+			xsolution_zero();
 			use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, gas_phase_ptr->Get_n_solution()));
 			prep();
 			k_temp(use.Get_solution_ptr()->Get_tc(), use.Get_solution_ptr()->Get_patm());
@@ -1639,6 +1641,7 @@ initial_surfaces(int print)
 					("Solution not found for initial surface calculation",
 					 STOP);
 			}
+			xsolution_zero();
 			set_and_run_wrapper(-1, FALSE, FALSE, -1, 0.0);
 			species_list_sort();
 			print_surface();
