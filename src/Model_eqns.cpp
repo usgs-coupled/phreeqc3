@@ -73,6 +73,7 @@ Model_eqns::~Model_eqns(void)
 	for (size_t i = 0; i < s_ME.size(); i++)
 	{
 		phreeqc_ptr->rxn_free(s_ME[i].rxn_x);
+		phreeqc_ptr->free_check_null(s_ME[i].next_sys_total);
 	}
 	s_ME.clear();
 
@@ -80,6 +81,7 @@ Model_eqns::~Model_eqns(void)
 	for (size_t i = 0; i < phases_ME.size(); i++)
 	{
 		phreeqc_ptr->rxn_free(phases_ME[i].rxn_x);
+		phreeqc_ptr->free_check_null(phases_ME[i].next_sys_total);
 	}
 	phases_ME.clear();
 
@@ -127,6 +129,7 @@ Copy_phreeqc_model(void)
 		{
 			s_ME.push_back(*phreeqc_ptr->s[i]);
 			s_ME.back().rxn_x = phreeqc_ptr->rxn_dup(phreeqc_ptr->s[i]->rxn_x);
+			s_ME.back().next_sys_total = phreeqc_ptr->elt_list_dup(phreeqc_ptr->s[i]->next_sys_total);
 		}
 	}
 	// phases
@@ -136,6 +139,7 @@ Copy_phreeqc_model(void)
 		{
 			phases_ME[i] = *phreeqc_ptr->phases[i];
 			phases_ME[i].rxn_x = phreeqc_ptr->rxn_dup(phreeqc_ptr->phases[i]->rxn_x);
+			phases_ME[i].next_sys_total = phreeqc_ptr->elt_list_dup(phreeqc_ptr->phases[i]->next_sys_total);
 		}
 	}
 
@@ -201,8 +205,10 @@ Copy_to_phreeqc(void)
 	{
 		int n = s_ME[i].number;
 		phreeqc_ptr->rxn_free(phreeqc_ptr->s[n]->rxn_x);
+		phreeqc_ptr->s[n]->next_sys_total = (struct elt_list *) phreeqc_ptr->free_check_null(phreeqc_ptr->s[n]->next_sys_total);
 		memcpy(phreeqc_ptr->s[n], &s_ME[i], sizeof(struct species));
 		phreeqc_ptr->s[n]->rxn_x = phreeqc_ptr->rxn_dup(s_ME[i].rxn_x);
+		phreeqc_ptr->s[n]->next_sys_total = phreeqc_ptr->elt_list_dup(s_ME[i].next_sys_total);
 	}
 	// phases
 	for (int i = 0; i < phreeqc_ptr->count_phases; i++)
@@ -214,8 +220,10 @@ Copy_to_phreeqc(void)
 	{
 		int i = it->first;
 		phreeqc_ptr->rxn_free(phreeqc_ptr->phases[i]->rxn_x);
+		phreeqc_ptr->phases[i]->next_sys_total = (struct elt_list *) phreeqc_ptr->free_check_null(phreeqc_ptr->phases[i]->next_sys_total);
 		memcpy(phreeqc_ptr->phases[i], &it->second, sizeof(struct phase));
 		phreeqc_ptr->phases[i]->rxn_x = phreeqc_ptr->rxn_dup(it->second.rxn_x);
+		phreeqc_ptr->phases[i]->next_sys_total = phreeqc_ptr->elt_list_dup(it->second.next_sys_total);
 	}
 
 	phreeqc_ptr->pe_x                             = pe_x_ME;

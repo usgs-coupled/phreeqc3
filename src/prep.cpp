@@ -4068,7 +4068,8 @@ setup_surface(void)
 				struct unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
 				if (unknown_ptr != NULL)
 				{
-					x[count_unknowns - 1]->potential_unknown = unknown_ptr;
+					//x[count_unknowns - 1]->potential_unknown = unknown_ptr;
+					x.back()->potential_unknown = unknown_ptr;
 				}
 				else
 				{
