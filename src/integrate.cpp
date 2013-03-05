@@ -511,10 +511,10 @@ calc_init_g(void)
 
 			{
 				int is = s_x[i]->number;
-				assert (is < (int) s_diff_layer.size());
+				assert (is < (int) (*s_diff_layer).size());
 				// species found in diff_layer
-				s_diff_layer[is][charge_ptr->Get_name()].Set_g_moles(0);
-				s_diff_layer[is][charge_ptr->Get_name()].Set_dg_g_moles(0);
+				(*s_diff_layer)[is][charge_ptr->Get_name()].Set_g_moles(0);
+				(*s_diff_layer)[is][charge_ptr->Get_name()].Set_dg_g_moles(0);
 			}
 		}
 		if (debug_diffuse_layer == TRUE)
@@ -960,10 +960,10 @@ calc_init_donnan(void)
 			for (int i = 0; i < (int) s_x.size(); i++)
 			{
 				int is = s_x[i]->number;
-				assert (is < (int) s_diff_layer.size());
+				assert (is < (int) (*s_diff_layer).size());
 
-				s_diff_layer[is][charge_ptr->Get_name()].Set_g_moles(0.0);
-				s_diff_layer[is][charge_ptr->Get_name()].Set_dg_g_moles(0.0);
+				(*s_diff_layer)[is][charge_ptr->Get_name()].Set_g_moles(0.0);
+				(*s_diff_layer)[is][charge_ptr->Get_name()].Set_dg_g_moles(0.0);
 			}
 		}
 		if (debug_diffuse_layer == TRUE)

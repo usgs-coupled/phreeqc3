@@ -1163,7 +1163,7 @@ void Phreeqc::init(void)
 	s                        = NULL;
 	count_s                  = 0;
 	max_s                    = MAX_S;
-	// auto s_diff_layer;
+	s_diff_layer             = NULL;
 	//s_x                      = NULL;
 	//count_s_x                = 0;
 	//max_s_x                  = 0;

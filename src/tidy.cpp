@@ -7,7 +7,7 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
-
+#include "Model_eqns.h"
 #define ZERO_TOL 1.0e-30
 
 /* ---------------------------------------------------------------------- */
@@ -180,7 +180,14 @@ tidy_model(void)
  */
 	if (new_model)
 	{
+		std::map<std::string, Model_eqns *>::iterator it;
+		for (it = model_eqns_map.begin(); it != model_eqns_map.end(); it++)
+		{
+			delete it->second;
+		}
+		model_eqns_map.clear();
 		sum_species_map.clear();
+		s_diff_layer = NULL;
 
 		tidy_species();
 

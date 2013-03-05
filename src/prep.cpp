@@ -392,6 +392,10 @@ quick_setup(void)
  *   Updates essential information for the model.
  */
 	int i, j, k;
+	if (state == INITIAL_SOLUTION)
+	{
+		adjust_setup_solution();
+	}
 	if (state >= REACTION)
 	{
 		for (i = 0; i < count_master; i++)
@@ -1180,7 +1184,7 @@ build_jacobian_sums(int k)
 				if (x[j]->type != SURFACE_CB)
 					continue;
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
-				source = s_diff_layer[k][charge_ptr->Get_name()].Get_dx_moles_address();
+				source = (*s_diff_layer)[k][charge_ptr->Get_name()].Get_dx_moles_address();
 				target = &(array[mb_unknowns[i].unknown->number *
 								 ((int) x.size() + 1) + x[j]->number]);
 				store_jacob(source, target, coef);
@@ -1218,7 +1222,7 @@ build_jacobian_sums(int k)
 
 				if (kk >= 0)
 				{
-					source = s_diff_layer[k][charge_ptr->Get_name()].Get_drelated_moles_address();
+					source = (*s_diff_layer)[k][charge_ptr->Get_name()].Get_drelated_moles_address();
 					target = &(array[mb_unknowns[i].unknown->number *
 									 ((int) x.size() + 1) + x[kk]->number]);
 					store_jacob(source, target, coef);
@@ -1247,7 +1251,7 @@ build_jacobian_sums(int k)
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 				if (mb_unknowns[i].unknown->number == x[j]->number)
 				{
-					source = s_diff_layer[k][charge_ptr->Get_name()].Get_dx_moles_address();
+					source = (*s_diff_layer)[k][charge_ptr->Get_name()].Get_dx_moles_address();
 					target = &(array[mb_unknowns[i].unknown->number *
 									 ((int) x.size() + 1) + x[j]->number]);
 					store_jacob(source, target, coef);
@@ -1275,7 +1279,7 @@ build_jacobian_sums(int k)
 						}
 						if (kk >= 0)
 						{
-							source = s_diff_layer[k][charge_ptr->Get_name()].Get_drelated_moles_address();
+							source = (*s_diff_layer)[k][charge_ptr->Get_name()].Get_drelated_moles_address();
 							target = &(array[mb_unknowns[i].unknown->number *
 								   ((int) x.size() + 1) + x[kk]->number]);
 							store_jacob(source, target, coef);
@@ -1293,7 +1297,7 @@ build_jacobian_sums(int k)
 					if (mass_oxygen_unknown != NULL)
 					{
 						/* term for water, for same surfaces */
-						source = s_diff_layer[k][charge_ptr->Get_name()].Get_dh2o_moles_address();
+						source = (*s_diff_layer)[k][charge_ptr->Get_name()].Get_dh2o_moles_address();
 						target = &(array[mb_unknowns[i].unknown->number *
 										 ((int) x.size() + 1) +
 										 mass_oxygen_unknown->number]);
@@ -2899,8 +2903,8 @@ mb_for_species_aq(int n)
 				if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 					unknown_ptr = x[i + 2];
 
-				store_mb_unknowns(unknown_ptr, s_diff_layer[n][charge_ptr->Get_name()].Get_g_moles_address(),
-								  s[n]->z, s_diff_layer[n][charge_ptr->Get_name()].Get_dg_g_moles_address());
+				store_mb_unknowns(unknown_ptr, (*s_diff_layer)[n][charge_ptr->Get_name()].Get_g_moles_address(),
+								  s[n]->z, (*s_diff_layer)[n][charge_ptr->Get_name()].Get_dg_g_moles_address());
 				j++;
 			}
 		}
@@ -3210,6 +3214,7 @@ reprep(void)
 /*
  *   Free arrays built in build_model
  */
+	/*
 	//s_x = (struct species **) free_check_null(s_x);
 	s_x.clear();
 	//sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
@@ -3224,11 +3229,13 @@ reprep(void)
 	sum_jacob2.clear();
 	//sum_delta = (struct list2 *) free_check_null(sum_delta);
 	sum_delta.clear();
+	*/
 /*
  *   Build model again
  */
-	build_model();
-	k_temp(tc_x, patm_x);
+	//build_model();
+	//k_temp(tc_x, patm_x);
+	prep();
 
 	return (OK);
 }
@@ -4118,7 +4125,8 @@ setup_surface(void)
 				/*
 				 *   Setup 3 surface-potential unknowns
 				 */
-				mb_unknown_number = count_unknowns - 1;
+				//mb_unknown_number = count_unknowns - 1;
+				mb_unknown_number = x.size() - 1;
 				std::string token(master_ptr->elt->name);
 				std::string mass_balance_name(token);
 				int plane;
@@ -4314,6 +4322,23 @@ setup_surface(void)
 							comp_j_ptr->Get_master_element().c_str(), name2.c_str());
 					error_msg(error_string, CONTINUE);
 				}
+			}
+		}
+	}
+	cxxSurface *surface_ptr = use.Get_surface_ptr();
+	if (surface_ptr != NULL && surface_ptr->Get_dl_type() != cxxSurface::NO_DL)
+	{
+		//std::vector< std::map < std::string, cxxSpeciesDL > > *s_diff_layer_ME = new();
+		s_diff_layer = new std::vector< std::map < std::string, cxxSpeciesDL > > ; 
+		for (int i = 0; i < count_s; i++)
+		{
+			std::map < std::string, cxxSpeciesDL > dl;
+			s_diff_layer->push_back(dl);
+			for (size_t j = 0; j < surface_ptr->Get_surface_charges().size(); j++)
+			{
+				cxxSpeciesDL species_dl;
+				std::string name = surface_ptr->Get_surface_charges()[j].Get_name();
+				(*s_diff_layer).back()[name] = species_dl;
 			}
 		}
 	}
@@ -5222,9 +5247,6 @@ adjust_setup_solution(void)
 		std::vector<struct phase *> phase_ptrs;
 		if (x[i]->type == SOLUTION_PHASE_BOUNDARY)
 		{
-			//size_t count_unknowns = x.size() - 1;
-			//x[count_unknowns]->type = SOLUTION_PHASE_BOUNDARY;
-			//x[i]->type = SOLUTION_PHASE_BOUNDARY;
 			phase_ptr = x[i]->phase;
 			phase_ptrs.push_back(phase_ptr);
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
@@ -7512,9 +7534,9 @@ Make_model_id(void)
 				std::string phz = ss_ptrs[i]->Get_name();
 				Utilities::str_tolower(phz);
 				model_id <<  phz << " ";
-				for (size_t j = 0; j < ss_ptrs[j]->Get_ss_comps().size(); j++)
+				for (size_t j = 0; j < ss_ptrs[i]->Get_ss_comps().size(); j++)
 				{
-					phz = ss_ptrs[j]->Get_ss_comps()[j].Get_name();
+					phz = ss_ptrs[i]->Get_ss_comps()[j].Get_name();
 					Utilities::str_tolower(phz);
 					model_id <<  phz << " ";
 				}

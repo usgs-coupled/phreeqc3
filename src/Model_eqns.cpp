@@ -30,7 +30,8 @@ Model_eqns::Model_eqns(Phreeqc * pptr)
 	gas_unknown_ME                     = NULL;
 	slack_unknown_ME                   = NULL;
 	ss_unknown_ME                      = NULL;
-	std::vector<struct unknown *> gas_unknowns_ME;
+	//std::vector<struct unknown *> gas_unknowns_ME;
+	s_diff_layer_ME                    = NULL;
 
 	array_ME = NULL;                                                    // eqn solving
 	delta_ME = NULL;                                                    // eqn solving
@@ -84,6 +85,11 @@ Model_eqns::~Model_eqns(void)
 		phreeqc_ptr->free_check_null(phases_ME[i].next_sys_total);
 	}
 	phases_ME.clear();
+	if (s_diff_layer_ME != NULL)
+	{
+		s_diff_layer_ME->clear();
+		delete s_diff_layer_ME;
+	}
 
 	return;
 };
@@ -154,6 +160,7 @@ Copy_phreeqc_model(void)
 	sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
 	species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
 	sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
+	s_diff_layer_ME                     = phreeqc_ptr->s_diff_layer;
 
 	model_id = phreeqc_ptr->current_model_id;
 
@@ -237,5 +244,6 @@ Copy_to_phreeqc(void)
 	phreeqc_ptr->sum_delta                        = sum_delta_ME;          // eqn solving
 	phreeqc_ptr->species_list                     = species_list_ME;       // eqn solving
 	phreeqc_ptr->sum_species_map                  = sum_species_map_ME;    // eqn solving
-
+	phreeqc_ptr->s_diff_layer                     = s_diff_layer_ME;
+	phreeqc_ptr->s_diff_layer                     = s_diff_layer_ME;
 }

@@ -175,21 +175,21 @@ model(void)
  *   Switch bases if necessary
  */
 
-			if (switch_bases() == TRUE)
-			{
-				count_basis_change++;
-				reprep();
-				gammas(mu_x);
-				molalities(TRUE);
-				if (use.Get_surface_ptr() != NULL &&
-					use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
-					use.Get_surface_ptr()->Get_related_phases())
-					initial_surface_water();
-				revise_guesses();
-				mb_sums();
-				mb_gases();
-				mb_ss();
-			}
+			//if (switch_bases() == TRUE)
+			//{
+			//	count_basis_change++;
+			//	reprep();
+			//	gammas(mu_x);
+			//	molalities(TRUE);
+			//	if (use.Get_surface_ptr() != NULL &&
+			//		use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
+			//		use.Get_surface_ptr()->Get_related_phases())
+			//		initial_surface_water();
+			//	revise_guesses();
+			//	mb_sums();
+			//	mb_gases();
+			//	mb_ss();
+			//}
 /* debug
 						species_list_sort();
 						sum_species();
@@ -2400,13 +2400,13 @@ molalities(int allow_overflow)
  *   instead of moles_water_bulk.
  */
 				/* revised eq. 61 */
-				s_diff_layer[is][charge_ref.Get_name()].Set_g_moles(s_x[i]->moles * s_x[i]->erm_ddl *
+				(*s_diff_layer)[is][charge_ref.Get_name()].Set_g_moles(s_x[i]->moles * s_x[i]->erm_ddl *
 					(charge_ref.Get_g_map()[s_x[i]->z].Get_g() +
 					charge_ref.Get_mass_water() /
 					mass_water_aq_x));
 				if (s_x[i]->moles > 1e-30)
 				{
-					s_diff_layer[is][charge_ref.Get_name()].Set_dg_g_moles(s_x[i]->dg * s_diff_layer[is][charge_ref.Get_name()].Get_g_moles() /
+					(*s_diff_layer)[is][charge_ref.Get_name()].Set_dg_g_moles(s_x[i]->dg * (*s_diff_layer)[is][charge_ref.Get_name()].Get_g_moles() /
 						s_x[i]->moles);
 				}
 
@@ -2421,18 +2421,18 @@ molalities(int allow_overflow)
 					mass_water_aq_x;
 				/* revised eq. 63, second term */
 				/* g.dg is dg/dx(-2y**2) or dg/d(ln y) */
-				s_diff_layer[is][charge_ref.Get_name()].Set_dx_moles(
+				(*s_diff_layer)[is][charge_ref.Get_name()].Set_dx_moles(
 					s_x[i]->moles * s_x[i]->erm_ddl *
 					charge_ref.Get_g_map()[s_x[i]->z].Get_dg());
 				/* revised eq. 63, third term */
-				s_diff_layer[is][charge_ref.Get_name()].Set_dh2o_moles(
+				(*s_diff_layer)[is][charge_ref.Get_name()].Set_dh2o_moles(
 					-s_x[i]->moles * s_x[i]->erm_ddl *
 					charge_ref.Get_mass_water() /
 					mass_water_aq_x);
-				s_x[i]->tot_dh2o_moles += s_diff_layer[is][charge_ref.Get_name()].Get_dh2o_moles();
+				s_x[i]->tot_dh2o_moles += (*s_diff_layer)[is][charge_ref.Get_name()].Get_dh2o_moles();
 
 				/* surface related to phase */
-				s_diff_layer[is][charge_ref.Get_name()].Set_drelated_moles(
+				(*s_diff_layer)[is][charge_ref.Get_name()].Set_drelated_moles(
 					s_x[i]->moles * s_x[i]->erm_ddl *
 					charge_ref.Get_specific_area() *
 					use.Get_surface_ptr()->Get_thickness() / mass_water_aq_x);
@@ -2471,7 +2471,7 @@ molalities(int allow_overflow)
 					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
 					int is = s_x[i]->number;
 					output_msg(sformatf( "\t%e",
-						(double) s_diff_layer[is][charge_ref.Get_name()].Get_g_moles()));
+						(double) (*s_diff_layer)[is][charge_ref.Get_name()].Get_g_moles()));
 				}
 				output_msg(sformatf( "\n\tdg\n"));
 				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
@@ -2486,7 +2486,7 @@ molalities(int allow_overflow)
 					int is = s_x[i]->number;
 					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
 					output_msg(sformatf( "\t%e",
-						(double) s_diff_layer[is][charge_ref.Get_name()].Get_dx_moles()));
+						(double) (*s_diff_layer)[is][charge_ref.Get_name()].Get_dx_moles()));
 				}
 				output_msg(sformatf( "\n\tdh2o_moles\t%e\n",
 						   (double) s_x[i]->tot_dh2o_moles));
@@ -2495,7 +2495,7 @@ molalities(int allow_overflow)
 					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
 					int is = s_x[i]->number;
 					output_msg(sformatf( "\t%e",
-						s_diff_layer[is][charge_ref.Get_name()].Get_dh2o_moles()));
+						(*s_diff_layer)[is][charge_ref.Get_name()].Get_dh2o_moles()));
 				}
 				output_msg(sformatf( "\n"));
 			}
@@ -4239,7 +4239,7 @@ residuals(void)
 					if (s_x[j]->type < H2O)
 					{
 						int is = s_x[j]->number;
-						sum1 += s_x[j]->z * s_x[j]->z * s_diff_layer[is][charge_ptr->Get_name()].Get_g_moles();
+						sum1 += s_x[j]->z * s_x[j]->z * (*s_diff_layer)[is][charge_ptr->Get_name()].Get_g_moles();
 					}
 				}
 				charge_ptr->Set_sigma2(
@@ -4881,29 +4881,30 @@ surface_model(void)
  */
 	debug_diffuse_layer_save = debug_diffuse_layer;
 	debug_model_save = debug_model;
-	if (last_model.force_prep == TRUE)
-	{
-		same_model = FALSE;
-	}
-	else
-	{
-		same_model = check_same_model();
-	}
-	if (dl_type_x != cxxSurface::NO_DL && same_model == FALSE)
-	{
-		s_diff_layer.clear();
-		for (i = 0; i < count_s; i++)
-		{
-			std::map < std::string, cxxSpeciesDL > dl;
-			s_diff_layer.push_back(dl);
-			for (size_t j = 0; j < use.Get_surface_ptr()->Get_surface_charges().size(); j++)
-			{
-				cxxSpeciesDL species_dl;
-				std::string name = use.Get_surface_ptr()->Get_surface_charges()[j].Get_name();
-				s_diff_layer.back()[name] = species_dl;
-			}
-		}
-	}
+	//if (last_model.force_prep == TRUE)
+	//{
+	//	same_model = FALSE;
+	//}
+	//else
+	//{
+	//	same_model = check_same_model();
+	//}
+	//same_model = TRUE;
+	//if (dl_type_x != cxxSurface::NO_DL && same_model == FALSE)
+	//{
+	//	s_diff_layer.clear();
+	//	for (i = 0; i < count_s; i++)
+	//	{
+	//		std::map < std::string, cxxSpeciesDL > dl;
+	//		s_diff_layer.push_back(dl);
+	//		for (size_t j = 0; j < use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+	//		{
+	//			cxxSpeciesDL species_dl;
+	//			std::string name = use.Get_surface_ptr()->Get_surface_charges()[j].Get_name();
+	//			s_diff_layer.back()[name] = species_dl;
+	//		}
+	//	}
+	//}
 	if (state >= REACTION && dl_type_x != cxxSurface::NO_DL)
 	{
 		if (use.Get_mix_ptr() != NULL)
