@@ -71,8 +71,8 @@ prep(void)
 		}
 	}
 
-	if (!same_model && !switch_numerical)
-		numerical_fixed_volume = false;
+	//if (!same_model && !switch_numerical)
+	//	numerical_fixed_volume = false;
 	if (same_model == FALSE || switch_numerical)
 	{
 		clear_model_eqn();
@@ -7549,6 +7549,7 @@ Make_model_id(void)
 			cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 			model_id << gas_phase_ptr->Get_type() << " ";
 			model_id << numerical_fixed_volume << " ";
+			model_id << force_numerical_fixed_volume << " ";
 			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 			{
 				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);

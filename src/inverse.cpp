@@ -263,7 +263,7 @@ setup_inverse(struct inverse *inv_ptr)
 /*
  *   Malloc space for arrays
  */
-	array = (LDBLE *) free_check_null(array);
+	//array = (LDBLE *) free_check_null(array);
 	array =
 		(LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
 							  sizeof(LDBLE));
@@ -285,7 +285,7 @@ setup_inverse(struct inverse *inv_ptr)
 	if (row_name == NULL)
 		malloc_error();
 
-	delta = (LDBLE *) free_check_null(delta);
+	//delta = (LDBLE *) free_check_null(delta);
 	delta = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
 	if (delta == NULL)
 		malloc_error();
