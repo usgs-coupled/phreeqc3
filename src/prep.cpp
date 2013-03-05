@@ -7552,7 +7552,7 @@ Make_model_id(void)
 			model_id << force_numerical_fixed_volume << " ";
 			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 			{
-				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+				//cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 				std::string phz = gas_phase_ptr->Get_gas_comps()[i].Get_phase_name();
 				Utilities::str_tolower(phz);
 				model_id << phz << " ";

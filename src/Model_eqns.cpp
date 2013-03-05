@@ -38,12 +38,12 @@ Model_eqns::Model_eqns(Phreeqc * pptr)
 	residual_ME = NULL;                                                 // eqn solving
 
 	Copy_phreeqc_model();
-};
+}
 Model_eqns::~Model_eqns(void)
 {
 	
 
-	for (size_t i = 0; i < (int) this->x_ME.size(); i++)
+	for (size_t i = 0; i < this->x_ME.size(); i++)
 	{
 		phreeqc_ptr->unknown_free(x_ME[i]);
 	}
@@ -92,7 +92,7 @@ Model_eqns::~Model_eqns(void)
 	}
 
 	return;
-};
+}
 void Model_eqns::
 Copy_phreeqc_model(void)
 {
