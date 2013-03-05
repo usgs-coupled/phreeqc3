@@ -568,6 +568,7 @@ public:
 	int mb_for_species_ex(int n);
 	int mb_for_species_surf(int n);
 	int quick_setup(void);
+	int quick_setup_initial_solution(void);
 	int resetup_master(void);
 	int save_model(void);
 	int setup_exchange(void);
@@ -583,7 +584,7 @@ public:
 	int setup_solution(void);
 	int adjust_setup_solution(void);
 	int setup_surface(void);
-	//int setup_unknowns(void);
+	int setup_unknowns(void);
 	int store_dn(int k, LDBLE * source, int row, LDBLE coef_in,
 		LDBLE * gamma_source);
 	int store_jacob(LDBLE * source, LDBLE * target, LDBLE coef);
@@ -1469,6 +1470,7 @@ protected:
 	std::string Make_model_id(void);
 	std::string current_model_id;
 	std::vector <struct unknown *> x;
+	int max_unknowns;
 
 	struct unknown *ah2o_unknown;
 	struct unknown *alkalinity_unknown;

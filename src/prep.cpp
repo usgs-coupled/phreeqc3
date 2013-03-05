@@ -77,7 +77,7 @@ prep(void)
 	{
 		clear_model_eqn();
 		//clear();
-		//setup_unknowns();
+		setup_unknowns();
 /*
  *   Set unknown pointers, unknown types, validity checks
  */
@@ -99,13 +99,13 @@ prep(void)
 /*
  *   Allocate space for array
  */
-		array =	(LDBLE *) PHRQ_malloc((size_t) ((int) x.size() + 1) * (int) x.size() * sizeof(LDBLE));
+		array =	(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) * max_unknowns * sizeof(LDBLE));
 		if (array == NULL) malloc_error();
-		delta = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
+		delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
 		if (delta == NULL) malloc_error();
-		residual = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
+		residual = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
 		if (residual == NULL) malloc_error();
-		for (int j = 0; j < (int) x.size(); j++)
+		for (int j = 0; j < max_unknowns; j++)
 		{
 		  residual[j] = 0;
 		}
@@ -394,6 +394,7 @@ quick_setup(void)
 	int i, j, k;
 	if (state == INITIAL_SOLUTION)
 	{
+		quick_setup_initial_solution();
 		adjust_setup_solution();
 	}
 	if (state >= REACTION)
@@ -2263,7 +2264,7 @@ clear_model_eqn(void)
 	//x = (struct unknown **) free_check_null(x);
 	x.clear();
 
-	//max_unknowns = 0;
+	max_unknowns = 0;
 	//array = (LDBLE *) free_check_null(array);
 	//delta = (LDBLE *) free_check_null(delta);
 	//residual = (LDBLE *) free_check_null(residual);
@@ -4835,6 +4836,106 @@ adjust_setup_pure_phases(void)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
+quick_setup_initial_solution(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Fills in data in unknown structure for initial solution
+ */
+	cxxSolution *solution_ptr = use.Get_solution_ptr();
+
+	/*
+	 * Treat minor isotopes as special in initial solution calculation
+	 */
+	if (solution_ptr->Get_initial_data())
+	{
+		struct master *master_ptr;
+		std::map<std::string, cxxISolutionComp >::iterator comp_it = solution_ptr->Get_initial_data()->Get_comps().begin();
+		for ( ; comp_it != solution_ptr->Get_initial_data()->Get_comps().end(); comp_it++)
+		{
+			master_ptr = master_bsearch(comp_it->first.c_str());
+			if ((master_ptr != NULL)
+				&& (master_ptr->minor_isotope == TRUE)
+				&& (initial_solution_isotopes == FALSE))
+			{
+				struct master_isotope *master_isotope_ptr;
+				master_isotope_ptr = master_isotope_search(comp_it->first.c_str());
+				if (master_isotope_ptr != NULL)
+				{
+					master_isotope_ptr->ratio = comp_it->second.Get_input_conc();
+				}
+			}
+		}
+	}
+	int count_unknowns = 0;
+	cxxNameDouble::iterator it = solution_ptr->Get_totals().begin();
+	for ( ; it != solution_ptr->Get_totals().end(); it++)
+	{
+		//struct master *master_ptr;
+		cxxISolutionComp *comp_ptr = NULL;
+		if (solution_ptr->Get_initial_data())
+		{
+			std::map<std::string, cxxISolutionComp >::iterator comp_it;
+			comp_it = solution_ptr->Get_initial_data()->Get_comps().find(it->first.c_str());
+			comp_ptr = &(comp_it->second);
+		}
+/*
+ *   Set default unknown data
+ */
+		x[count_unknowns]->moles = it->second;
+/*
+ *   Charge balance unknown
+ */
+		if (comp_ptr && comp_ptr->Get_equation_name().size() > 0)
+		{
+			char * temp_eq_name = string_duplicate(comp_ptr->Get_equation_name().c_str());
+			char *ptr = temp_eq_name;
+			std::string token;
+			copy_token(token, &ptr);
+			Utilities::str_tolower(token);
+			if (strstr(token.c_str(), "charge") != NULL)
+			{
+				if (charge_balance_unknown == ph_unknown)
+				{
+					x[count_unknowns]->moles = solution_ptr->Get_cb();
+				}
+				charge_balance_unknown->moles = solution_ptr->Get_cb();
+			}
+			else
+			{
+/*
+ *   Solution phase boundaries
+ */
+				int l;
+				struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_equation_name().c_str(), &l, FALSE);
+				x[count_unknowns]->si = comp_ptr->Get_phase_si();
+				/* For Peng-Robinson gas, the fugacity
+				   coefficient is added later in adjust_setup_solution,
+				   when rxn_x has been defined for each phase in the model */
+			}
+			free_check_null(temp_eq_name);
+		}
+		count_unknowns++;
+	}
+	/*
+	 *   Ionic strength
+	 */
+	{
+
+		mu_unknown->moles = 0.0;
+	}
+	/*
+	 *   Activity of water
+	 */
+	{
+		ah2o_unknown->moles = 0.0;
+	}
+
+
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
 setup_solution(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -5282,7 +5383,6 @@ unknown_alloc_master(void)
 	master_ptr[1] = NULL;
 	return (master_ptr);
 }
-#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 setup_unknowns(void)
@@ -5291,7 +5391,7 @@ setup_unknowns(void)
 /*
  *   Counts unknowns and allocates space for unknown structures
  */
-	int i;
+	//int i;
 	cxxSolution *solution_ptr;
 
 	solution_ptr = use.Get_solution_ptr();
@@ -5410,16 +5510,15 @@ setup_unknowns(void)
  *   Allocate space for pointer array and structures
  */
 
-	space((void **) ((void *) &x), INIT, &max_unknowns,
-		  sizeof(struct unknown *));
-	for (i = 0; i < max_unknowns; i++)
-	{
-		x[i] = (struct unknown *) unknown_alloc();
-		x[i]->number = i;
-	}
+	//space((void **) ((void *) &x), INIT, &max_unknowns,
+	//	  sizeof(struct unknown *));
+	//for (i = 0; i < max_unknowns; i++)
+	//{
+	//	x[i] = (struct unknown *) unknown_alloc();
+	//	x[i]->number = i;
+	//}
 	return (OK);
 }
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)

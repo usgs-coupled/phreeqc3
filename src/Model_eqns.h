@@ -37,6 +37,7 @@ protected:
 	LDBLE * array_ME;                                                      // eqn solving
 	LDBLE * delta_ME;                                                      // eqn solving
 	LDBLE * residual_ME;                                                   // eqn solving
+	int max_unknowns_ME;
 
 	std::vector<struct master> master_ME;
 	std::vector<struct species> s_ME;

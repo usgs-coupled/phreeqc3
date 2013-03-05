@@ -762,7 +762,7 @@ jacobian_sit(void)
 	LDBLE d, d1, d2;
 	int i, j;
 Restart:
-	int pz_max_unknowns = (int) x.size();
+	int pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{
@@ -770,7 +770,7 @@ Restart:
 		sit();
 		residuals();
 	}
-	base = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
+	base = (LDBLE *) PHRQ_malloc(x.size() * sizeof(LDBLE));
 	if (base == NULL)
 		malloc_error();
 	for (i = 0; i < (int) x.size(); i++)

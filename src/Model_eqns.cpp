@@ -36,6 +36,7 @@ Model_eqns::Model_eqns(Phreeqc * pptr)
 	array_ME = NULL;                                                    // eqn solving
 	delta_ME = NULL;                                                    // eqn solving
 	residual_ME = NULL;                                                 // eqn solving
+	max_unknowns_ME = 0;
 
 	Copy_phreeqc_model();
 }
@@ -119,6 +120,8 @@ Copy_phreeqc_model(void)
 	array_ME                           = phreeqc_ptr->array;               // eqn solving
 	delta_ME                           = phreeqc_ptr->delta;               // eqn solving
 	residual_ME                        = phreeqc_ptr->residual;            // eqn solving
+	max_unknowns_ME                    = phreeqc_ptr->max_unknowns;
+
 	// master
 	for (int i = 0; i < phreeqc_ptr->count_master; i++)
 	{
@@ -191,6 +194,8 @@ Copy_to_phreeqc(void)
 	phreeqc_ptr->array                           = array_ME;               // eqn solving
 	phreeqc_ptr->delta                           = delta_ME;               // eqn solving
 	phreeqc_ptr->residual                        = residual_ME;            // eqn solving
+	phreeqc_ptr->max_unknowns                    = max_unknowns_ME;
+
 	// master
 	for (int i = 0; i < phreeqc_ptr->count_master; i++)
 	{

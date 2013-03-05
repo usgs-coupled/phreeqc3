@@ -24,6 +24,7 @@ main(int argc, char *argv[])
   // check for floating point exceptions on Linux
   // feenableexcept(FE_DIVBYZERO|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
 #if defined(WIN32_MEMORY_DEBUG)
+#endif
 	int tmpDbgFlag;
 
 	/*
@@ -37,7 +38,7 @@ main(int argc, char *argv[])
 	///tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;
 	_CrtSetDbgFlag(tmpDbgFlag);
 	//_crtBreakAlloc = 329203;
-#endif
+
 #ifdef SKIP
 //Set the x86 floating-point control word according to what
 //exceptions you want to trap.

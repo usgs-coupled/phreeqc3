@@ -1648,7 +1648,7 @@ jacobian_pz(void)
 	int i, j;
 
 Restart:
-	int pz_max_unknowns = (int) x.size();
+	int pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{
@@ -1656,7 +1656,7 @@ Restart:
 		pitzer();
 		residuals();
 	}
-	base = (LDBLE *) PHRQ_malloc((size_t) (int) x.size() * sizeof(LDBLE));
+	base = (LDBLE *) PHRQ_malloc(x.size() * sizeof(LDBLE));
 	if (base == NULL)
 		malloc_error();
 	for (i = 0; i < (int) x.size(); i++)
@@ -1828,7 +1828,7 @@ model_pz(void)
 	int count_infeasible, count_basis_change;
 	int debug_model_save;
 	int mass_water_switch_save;
-
+	
 /*	debug_model = TRUE; */
 /*	debug_prep = TRUE; */
 /*	debug_set = TRUE; */

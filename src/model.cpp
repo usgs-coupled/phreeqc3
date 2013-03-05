@@ -5039,7 +5039,7 @@ free_model_allocs(void)
 	//}
 	//x = (struct unknown **) free_check_null(x);
 	x.clear();
-	//max_unknowns = 0;
+	max_unknowns = 0;
 	array = (LDBLE *) free_check_null(array);
 	delta = (LDBLE *) free_check_null(delta);
 	residual = (LDBLE *) free_check_null(residual);
