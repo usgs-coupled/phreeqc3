@@ -175,21 +175,21 @@ model(void)
  *   Switch bases if necessary
  */
 
-			//if (switch_bases() == TRUE)
-			//{
-			//	count_basis_change++;
-			//	reprep();
-			//	gammas(mu_x);
-			//	molalities(TRUE);
-			//	if (use.Get_surface_ptr() != NULL &&
-			//		use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
-			//		use.Get_surface_ptr()->Get_related_phases())
-			//		initial_surface_water();
-			//	revise_guesses();
-			//	mb_sums();
-			//	mb_gases();
-			//	mb_ss();
-			//}
+			if (switch_bases() == TRUE)
+			{
+				count_basis_change++;
+				reprep();
+				gammas(mu_x);
+				molalities(TRUE);
+				if (use.Get_surface_ptr() != NULL &&
+					use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
+					use.Get_surface_ptr()->Get_related_phases())
+					initial_surface_water();
+				revise_guesses();
+				mb_sums();
+				mb_gases();
+				mb_ss();
+			}
 /* debug
 						species_list_sort();
 						sum_species();

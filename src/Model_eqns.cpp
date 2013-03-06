@@ -125,7 +125,7 @@ Copy_phreeqc_model(void)
 	// master
 	for (int i = 0; i < phreeqc_ptr->count_master; i++)
 	{
-		if (phreeqc_ptr->master[i]->in == TRUE)
+		if (phreeqc_ptr->master[i]->in == TRUE || phreeqc_ptr->master[i]->unknown != NULL)
 		{
 			master_ME.push_back(*phreeqc_ptr->master[i]);
 			master_ME.back().rxn_secondary = phreeqc_ptr->rxn_dup(phreeqc_ptr->master[i]->rxn_secondary);

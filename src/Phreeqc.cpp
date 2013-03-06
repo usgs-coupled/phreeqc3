@@ -1192,7 +1192,7 @@ void Phreeqc::init(void)
 	*---------------------------------------------------------------------- */
 	//x                       = NULL;
 	//count_unknowns          = 0;
-	//max_unknowns            = 0;
+	max_unknowns            = 0;
 	ah2o_unknown            = NULL;
 	alkalinity_unknown      = NULL;
 	carbon_unknown          = NULL;

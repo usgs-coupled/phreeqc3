@@ -3215,7 +3215,6 @@ reprep(void)
 /*
  *   Free arrays built in build_model
  */
-	/*
 	//s_x = (struct species **) free_check_null(s_x);
 	s_x.clear();
 	//sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
@@ -3230,14 +3229,36 @@ reprep(void)
 	sum_jacob2.clear();
 	//sum_delta = (struct list2 *) free_check_null(sum_delta);
 	sum_delta.clear();
-	*/
+	species_list.clear();
+	sum_species_map.clear();
 /*
  *   Build model again
  */
-	//build_model();
-	//k_temp(tc_x, patm_x);
-	prep();
+	build_model();
 
+	//adjust_setup_pure_phases();
+	//adjust_setup_solution();
+	//k_temp(tc_x, patm_x);
+
+	//force_reprep = true;
+	//prep();
+	//force_reprep = false;
+
+
+	//adjust_setup_pure_phases();
+	//adjust_setup_solution();
+
+	//// same model 
+	//std::map<std::string, Model_eqns *>::iterator it = model_eqns_map.find(current_model_id);
+	//delete it->second;
+	//model_eqns_map.erase(it);
+
+	//Model_eqns *new_model_eqns = new Model_eqns(this);
+	//model_eqns_map[current_model_id] = new_model_eqns;
+	//clear_model_eqn();
+	//new_model_eqns->Copy_to_phreeqc();
+	//current_tc = -999999.9;  // recalculate Ks
+	//k_temp(tc_x, patm_x);
 	return (OK);
 }
 
