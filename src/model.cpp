@@ -4916,12 +4916,10 @@ surface_model(void)
 				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, cit->first);
 				mass_water_bulk_x += solution_ptr->Get_mass_water() * cit->second;
 			}
-			mass_water_aq_x = mass_water_bulk_x;
 		}
 		else
 		{
 			mass_water_bulk_x = use.Get_solution_ptr()->Get_mass_water();
-			mass_water_aq_x = mass_water_bulk_x;
 		}
 		for (i = 0; i < (int) use.Get_surface_ptr()->Get_surface_charges().size(); i++)
 		{

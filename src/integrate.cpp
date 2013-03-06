@@ -671,6 +671,7 @@ initial_surface_water(void)
 		if (state > INITIAL_SURFACE)
 			mass_water_aq_x = mass_water_bulk_x - mass_water_surfaces_x;
 		else
+			mass_water_aq_x = use.Get_solution_ptr()->Get_mass_water();
 			mass_water_bulk_x = mass_water_aq_x + mass_water_surfaces_x;
 	}
 
