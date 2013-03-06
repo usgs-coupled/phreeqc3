@@ -3235,30 +3235,14 @@ reprep(void)
  *   Build model again
  */
 	build_model();
-
-	//adjust_setup_pure_phases();
-	//adjust_setup_solution();
-	//k_temp(tc_x, patm_x);
-
-	//force_reprep = true;
-	//prep();
-	//force_reprep = false;
-
+	current_tc = -999999.9;
+	k_temp(tc_x, patm_x);
 
 	//adjust_setup_pure_phases();
 	//adjust_setup_solution();
 
-	//// same model 
-	//std::map<std::string, Model_eqns *>::iterator it = model_eqns_map.find(current_model_id);
-	//delete it->second;
-	//model_eqns_map.erase(it);
-
-	//Model_eqns *new_model_eqns = new Model_eqns(this);
-	//model_eqns_map[current_model_id] = new_model_eqns;
-	//clear_model_eqn();
-	//new_model_eqns->Copy_to_phreeqc();
-	//current_tc = -999999.9;  // recalculate Ks
-	//k_temp(tc_x, patm_x);
+	model_eqns_map[current_model_id]->Reprep_model();
+	
 	return (OK);
 }
 
@@ -4920,7 +4904,7 @@ quick_setup_initial_solution(void)
 				{
 					x[count_unknowns]->moles = solution_ptr->Get_cb();
 				}
-				charge_balance_unknown->moles = solution_ptr->Get_cb();
+				//charge_balance_unknown->moles = solution_ptr->Get_cb();
 			}
 			else
 			{

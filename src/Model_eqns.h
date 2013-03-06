@@ -10,6 +10,7 @@ public:
 	~Model_eqns();
 	void Copy_phreeqc_model(void);
 	void Copy_to_phreeqc(void);
+	void Reprep_model(void);
 
 protected:
 

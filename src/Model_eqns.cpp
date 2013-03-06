@@ -252,3 +252,94 @@ Copy_to_phreeqc(void)
 	phreeqc_ptr->s_diff_layer                     = s_diff_layer_ME;
 	phreeqc_ptr->s_diff_layer                     = s_diff_layer_ME;
 }
+void Model_eqns::
+Reprep_model(void)
+{
+	//this->x_ME                         = phreeqc_ptr->x;
+	//ah2o_unknown_ME		               = phreeqc_ptr->ah2o_unknown;
+	//alkalinity_unknown_ME		       = phreeqc_ptr->alkalinity_unknown;
+	//carbon_unknown_ME		           = phreeqc_ptr->carbon_unknown;
+	//charge_balance_unknown_ME	       = phreeqc_ptr->charge_balance_unknown;
+	//exchange_unknown_ME		           = phreeqc_ptr->exchange_unknown;
+	//mass_hydrogen_unknown_ME	       = phreeqc_ptr->mass_hydrogen_unknown;
+	//mass_oxygen_unknown_ME		       = phreeqc_ptr->mass_oxygen_unknown;
+	//mb_unknown_ME			           = phreeqc_ptr->mb_unknown;
+	//mu_unknown_ME			           = phreeqc_ptr->mu_unknown;
+	//pe_unknown_ME			           = phreeqc_ptr->pe_unknown;
+	//ph_unknown_ME			           = phreeqc_ptr->ph_unknown;
+	//pure_phase_unknown_ME		       = phreeqc_ptr->pure_phase_unknown;
+	//solution_phase_boundary_unknown_ME = phreeqc_ptr->solution_phase_boundary_unknown;
+	//surface_unknown_ME		           = phreeqc_ptr->surface_unknown;
+	//gas_unknown_ME			           = phreeqc_ptr->gas_unknown;
+	//slack_unknown_ME		           = phreeqc_ptr->slack_unknown;
+	//ss_unknown_ME			           = phreeqc_ptr->ss_unknown;
+	//gas_unknowns_ME                    = phreeqc_ptr->gas_unknowns;
+
+	//array_ME                           = phreeqc_ptr->array;               // eqn solving
+	//delta_ME                           = phreeqc_ptr->delta;               // eqn solving
+	//residual_ME                        = phreeqc_ptr->residual;            // eqn solving
+	//max_unknowns_ME                    = phreeqc_ptr->max_unknowns;
+
+	// master
+	for (size_t i = 0; i < master_ME.size(); i++)
+	{
+		phreeqc_ptr->rxn_free(master_ME[i].rxn_secondary);
+	}
+	master_ME.clear();
+	for (int i = 0; i < phreeqc_ptr->count_master; i++)
+	{
+		if (phreeqc_ptr->master[i]->in == TRUE || phreeqc_ptr->master[i]->unknown != NULL)
+		{
+			master_ME.push_back(*phreeqc_ptr->master[i]);
+			master_ME.back().rxn_secondary = phreeqc_ptr->rxn_dup(phreeqc_ptr->master[i]->rxn_secondary);
+		}
+	}
+	// species
+	for (size_t i = 0; i < s_ME.size(); i++)
+	{
+		phreeqc_ptr->rxn_free(s_ME[i].rxn_x);
+		phreeqc_ptr->free_check_null(s_ME[i].next_sys_total);
+	}
+	s_ME.clear();
+	for (int i = 0; i < phreeqc_ptr->count_s; i++)
+	{
+		if (phreeqc_ptr->s[i]->in == TRUE)
+		{
+			s_ME.push_back(*phreeqc_ptr->s[i]);
+			s_ME.back().rxn_x = phreeqc_ptr->rxn_dup(phreeqc_ptr->s[i]->rxn_x);
+			s_ME.back().next_sys_total = phreeqc_ptr->elt_list_dup(phreeqc_ptr->s[i]->next_sys_total);
+		}
+	}
+	// phases
+	for (size_t i = 0; i < phases_ME.size(); i++)
+	{
+		phreeqc_ptr->rxn_free(phases_ME[i].rxn_x);
+		phreeqc_ptr->free_check_null(phases_ME[i].next_sys_total);
+	}
+	phases_ME.clear();
+	for (int i = 0; i < phreeqc_ptr->count_phases; i++)
+	{
+		if (phreeqc_ptr->phases[i]->in == TRUE)
+		{
+			phases_ME[i] = *phreeqc_ptr->phases[i];
+			phases_ME[i].rxn_x = phreeqc_ptr->rxn_dup(phreeqc_ptr->phases[i]->rxn_x);
+			phases_ME[i].next_sys_total = phreeqc_ptr->elt_list_dup(phreeqc_ptr->phases[i]->next_sys_total);
+		}
+	}
+
+	pe_x_ME                             = phreeqc_ptr->pe_x;
+	default_pe_x_ME                     = phreeqc_ptr->default_pe_x;
+	s_x_ME                              = phreeqc_ptr->s_x;                // eqn solving
+	sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
+	sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
+	sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
+	sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
+	sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
+	sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
+	species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
+	sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
+	//s_diff_layer_ME                     = phreeqc_ptr->s_diff_layer;
+
+	//model_id = phreeqc_ptr->current_model_id;
+
+}
