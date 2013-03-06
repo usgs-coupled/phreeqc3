@@ -4887,6 +4887,7 @@ quick_setup_initial_solution(void)
 /*
  *   Set default unknown data
  */
+		if (it->second <= 0) continue;
 		x[count_unknowns]->moles = it->second;
 /*
  *   Charge balance unknown
