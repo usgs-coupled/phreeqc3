@@ -7436,6 +7436,12 @@ Make_model_id(void)
 			std::map<std::string, cxxISolutionComp >::iterator comp_it = solution_ptr->Get_initial_data()->Get_comps().begin();
 			for ( ; comp_it != solution_ptr->Get_initial_data()->Get_comps().end(); comp_it++)
 			{
+				cxxNameDouble::iterator it; 
+				it = solution_ptr->Get_totals().find(comp_it->first);
+				if (it != solution_ptr->Get_totals().end())
+				{
+					if (it->second <= 0) continue;
+				}
 				model_id << comp_it->first << " ";
 				if (comp_it->second.Get_pe_reaction().size() > 0)
 				{
