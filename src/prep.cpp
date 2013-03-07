@@ -63,9 +63,9 @@ prep(void)
 		}
 		process_prep = false;
 		if (state == INITIAL_SOLUTION || 
-			state == INITIAL_EXCHANGE || 
+			/*state == INITIAL_EXCHANGE || 
 			state == INITIAL_SURFACE || 
-			state == INITIAL_GAS_PHASE ||
+			state == INITIAL_GAS_PHASE || */
 			state >= REACTION)
 		{
 			if(last_model_id == current_model_id)
@@ -7483,10 +7483,6 @@ Make_model_id(void)
 	//	os << phreeqc_ptr->numerical_deriv;
 	//	model_id.push_back(os.str());
 	//}
-//#define INITIAL_SOLUTION   1
-//#define INITIAL_EXCHANGE   2
-//#define INITIAL_SURFACE 3
-//#define INITIAL_GAS_PHASE  4
 	if (state == INITIAL_SOLUTION)
 	{
 		// solution
@@ -7499,7 +7495,7 @@ Make_model_id(void)
 			{
 				cxxNameDouble::iterator it; 
 				it = solution_ptr->Get_totals().find(comp_it->first);
-				if (it != solution_ptr->Get_totals().end())
+				if (it->first != "E" && it->first != "H(1)" && it != solution_ptr->Get_totals().end())
 				{
 					if (it->second <= 0) continue;
 				}

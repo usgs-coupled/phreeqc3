@@ -554,6 +554,8 @@ initial_surface_water(void)
  */
 	//debye_length = (EPSILON * EPSILON_ZERO * R_KJ_DEG_MOL * 1000.0 * tk_x)
 	//	/ (2. * F_C_MOL * F_C_MOL * mu_x * 1000.);
+	if (mu_x <= 0)
+		mu_x = 1e-7;
 	debye_length = (eps_r * EPSILON_ZERO * R_KJ_DEG_MOL * 1000.0 * tk_x)
 		/ (2. * F_C_MOL * F_C_MOL * mu_x * 1000.);
 	debye_length = sqrt(debye_length);
