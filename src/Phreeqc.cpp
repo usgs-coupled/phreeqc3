@@ -1767,7 +1767,8 @@ void Phreeqc::init(void)
 	{
 		keycount.push_back(0);
 	}
-
+	current_model_id = "none";
+	force_prep = false;
 	return;
 }
 /*-----------------------------------------------------*/

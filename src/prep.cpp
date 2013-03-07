@@ -43,92 +43,110 @@ prep(void)
 	// determine model
 	std::string last_model_id = current_model_id;
 	current_model_id = Make_model_id();
+
+	// remove current_model_id if force_prep
+	if (force_prep)
+	{
+		std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
+		if (me_it != model_eqns_map.end())
+		{
+			model_eqns_map.erase(me_it);
+		}
+		force_prep = false;
+	}
+
 	same_model = FALSE;
 	last_model.force_prep = TRUE;
-
-	if (state == INITIAL_SOLUTION || 
-		state == INITIAL_EXCHANGE || 
-		state == INITIAL_SURFACE || 
-		state == INITIAL_GAS_PHASE ||
-		state >= REACTION)
+	bool process_prep = true;
+	while (process_prep == TRUE)
 	{
-		if(last_model_id == current_model_id)
+		process_prep = false;
+		if (state == INITIAL_SOLUTION || 
+			state == INITIAL_EXCHANGE || 
+			state == INITIAL_SURFACE || 
+			state == INITIAL_GAS_PHASE ||
+			state >= REACTION)
 		{
-			same_model = TRUE;
-			last_model.force_prep = FALSE;
+			if(last_model_id == current_model_id)
+			{
+				same_model = TRUE;
+				last_model.force_prep = FALSE;
+			}
+			else
+			{
+				std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
+				if(me_it != model_eqns_map.end())
+				{
+					clear_model_eqn();
+					me_it->second->Copy_to_phreeqc();
+					same_model = TRUE;
+					last_model.force_prep = FALSE;
+					current_tc = -99999.9;
+				}
+			}
+		}
+
+		//if (!same_model && !switch_numerical)
+		//	numerical_fixed_volume = false;
+		if (same_model == FALSE || switch_numerical)
+		{
+			clear_model_eqn();
+			//clear();
+			setup_unknowns();
+	/*
+	 *   Set unknown pointers, unknown types, validity checks
+	 */
+			//if (state == INITIAL_SOLUTION)
+			//	convert_units(solution_ptr);
+			setup_solution();
+			setup_exchange();
+			setup_surface();
+			setup_pure_phases();
+			setup_gas_phase();
+			setup_ss_assemblage();
+			setup_related_surface();
+			setup_slack();
+			tidy_redox();
+			if (get_input_errors() > 0)
+			{
+				error_msg("Program terminating due to input errors.", STOP);
+			}
+	/*
+	 *   Allocate space for array
+	 */
+			array =	(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) * max_unknowns * sizeof(LDBLE));
+			if (array == NULL) malloc_error();
+			delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
+			if (delta == NULL) malloc_error();
+			residual = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
+			if (residual == NULL) malloc_error();
+			for (int j = 0; j < max_unknowns; j++)
+			{
+			  residual[j] = 0;
+			}
+	/*
+	 *   Build lists to fill Jacobian array and species list
+	 */
+			build_model();
+			adjust_setup_pure_phases();
+			adjust_setup_solution();
+
+			// same model 
+			Model_eqns *new_model_eqns = new Model_eqns(this);
+			model_eqns_map[current_model_id] = new_model_eqns;
+			clear_model_eqn();
+			new_model_eqns->Copy_to_phreeqc();
+			current_tc = -999999.9;  // recalculate Ks
 		}
 		else
 		{
-			std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
-			if(me_it != model_eqns_map.end())
-			{
-				clear_model_eqn();
-				me_it->second->Copy_to_phreeqc();
-				same_model = TRUE;
-				last_model.force_prep = FALSE;
-				current_tc = -99999.9;
-			}
+	/*
+	 *   If model is same, just update masses, don't rebuild unknowns and lists
+	 */
+			bool setup_ok = quick_setup();
+			if (!setup_ok)
+				process_prep = true;
 		}
-	}
-
-	//if (!same_model && !switch_numerical)
-	//	numerical_fixed_volume = false;
-	if (same_model == FALSE || switch_numerical)
-	{
-		clear_model_eqn();
-		//clear();
-		setup_unknowns();
-/*
- *   Set unknown pointers, unknown types, validity checks
- */
-		//if (state == INITIAL_SOLUTION)
-		//	convert_units(solution_ptr);
-		setup_solution();
-		setup_exchange();
-		setup_surface();
-		setup_pure_phases();
-		setup_gas_phase();
-		setup_ss_assemblage();
-		setup_related_surface();
-		setup_slack();
-		tidy_redox();
-		if (get_input_errors() > 0)
-		{
-			error_msg("Program terminating due to input errors.", STOP);
-		}
-/*
- *   Allocate space for array
- */
-		array =	(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) * max_unknowns * sizeof(LDBLE));
-		if (array == NULL) malloc_error();
-		delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-		if (delta == NULL) malloc_error();
-		residual = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-		if (residual == NULL) malloc_error();
-		for (int j = 0; j < max_unknowns; j++)
-		{
-		  residual[j] = 0;
-		}
-/*
- *   Build lists to fill Jacobian array and species list
- */
-		build_model();
-		adjust_setup_pure_phases();
-		adjust_setup_solution();
-
-		// same model 
-		Model_eqns *new_model_eqns = new Model_eqns(this);
-		model_eqns_map[current_model_id] = new_model_eqns;
-		clear_model_eqn();
-		new_model_eqns->Copy_to_phreeqc();
-		current_tc = -999999.9;  // recalculate Ks
-	}
-	else
-	{
-/*
- *   If model is same, just update masses, don't rebuild unknowns and lists
- */
-		quick_setup();
 	}
 	if (get_input_errors() > 0)
 	{
@@ -381,7 +399,7 @@ quick_setup(void)
 }
 #endif
 /* ---------------------------------------------------------------------- */
- int Phreeqc::
+bool Phreeqc::
 quick_setup(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -410,13 +428,29 @@ quick_setup(void)
 				continue;
 			if (master[i]->total > 0)
 			{
+				// check that pointers are OK
+				// if KINETICS adds surface or exchange, may not be set up right
 				if (master[i]->s->secondary != NULL)
 				{
-					master[i]->s->secondary->unknown->moles = master[i]->total;
+					if (master[i]->s->secondary->unknown)
+					{
+						master[i]->s->secondary->unknown->moles = master[i]->total;
+					}
+					else
+					{
+						return false;
+					}
 				}
 				else
 				{
-					master[i]->unknown->moles = master[i]->total;
+					if (master[i]->unknown)
+					{
+						master[i]->unknown->moles = master[i]->total;
+					}
+					else
+					{
+						return false;
+					}
 				}
 			}
 		}
@@ -4887,9 +4921,28 @@ quick_setup_initial_solution(void)
 			comp_ptr = &(comp_it->second);
 		}
 /*
+ *   Check that total not <= zero
+ */
+		struct master *master_ptr;
+		std::string token;
+		char * temp_desc = string_duplicate(it->first.c_str());
+		char *ptr = temp_desc;
+		copy_token(token, &ptr);
+		master_ptr = master_bsearch(token.c_str());
+		free_check_null(temp_desc);
+		if (it->second <= 0.0)
+		{
+			if (strcmp(token.c_str(), "H(1)") != 0 && strcmp(token.c_str(), "E") != 0)
+			{
+				//free_check_null(temp_desc);
+				continue;
+			}
+		}
+
+/*
  *   Set default unknown data
  */
-		if (it->second <= 0) continue;
+
 		x[count_unknowns]->moles = it->second;
 /*
  *   Charge balance unknown
@@ -7674,4 +7727,18 @@ Make_model_id(void)
 
 	}
 	return model_id.str();
+}
+void Phreeqc::
+clear_model_eqns_map(void)
+{
+	std::map<std::string, Model_eqns *>::iterator it;
+	for (it = model_eqns_map.begin(); it != model_eqns_map.end(); it++)
+	{
+		delete it->second;
+	}
+	model_eqns_map.clear();
+	current_model_id = "none";
+	sum_species_map.clear();
+	s_diff_layer = NULL;
+	return;
 }

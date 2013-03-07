@@ -567,7 +567,7 @@ public:
 	int mb_for_species_aq(int n);
 	int mb_for_species_ex(int n);
 	int mb_for_species_surf(int n);
-	int quick_setup(void);
+	bool quick_setup(void);
 	int quick_setup_initial_solution(void);
 	int resetup_master(void);
 	int save_model(void);
@@ -1466,9 +1466,11 @@ protected:
 	*   Unknowns
 	*---------------------------------------------------------------------- */
 
+	void clear_model_eqns_map(void);
 	std::map <std::string, Model_eqns *> model_eqns_map;
 	std::string Make_model_id(void);
 	std::string current_model_id;
+	bool force_prep;
 	std::vector <struct unknown *> x;
 	int max_unknowns;
 
