@@ -343,9 +343,18 @@ Reprep_model(void)
 	sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
 	sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
 	species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
-	sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
+	//sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
 	//s_diff_layer_ME                     = phreeqc_ptr->s_diff_layer;
 
 	//model_id = phreeqc_ptr->current_model_id;
 
+}
+void Model_eqns:: 
+Add_sum_species_map(std::map<std::string, std::vector < std::string> > &v)
+{
+	std::map<std::string, std::vector < std::string> >::iterator it;
+	for (it = v.begin(); it != v.end(); it++)
+	{
+		this->sum_species_map_ME[it->first] = it->second;
+	}
 }

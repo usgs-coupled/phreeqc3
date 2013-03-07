@@ -11,6 +11,7 @@ public:
 	void Copy_phreeqc_model(void);
 	void Copy_to_phreeqc(void);
 	void Reprep_model(void);
+	void Add_sum_species_map(std::map<std::string, std::vector < std::string> > &v);
 
 protected:
 

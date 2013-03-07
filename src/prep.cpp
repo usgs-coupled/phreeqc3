@@ -75,6 +75,15 @@ prep(void)
 			}
 			else
 			{
+				// save sum_species_map
+				if (sum_species_map.size() > 0)
+				{
+					std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(last_model_id);
+					if(me_it != model_eqns_map.end())
+					{
+						me_it->second->Add_sum_species_map(sum_species_map);
+					}
+				}
 				std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
 				if(me_it != model_eqns_map.end())
 				{
@@ -7494,12 +7503,14 @@ Make_model_id(void)
 			for ( ; comp_it != solution_ptr->Get_initial_data()->Get_comps().end(); comp_it++)
 			{
 				cxxNameDouble::iterator it; 
+				model_id << comp_it->first << " ";
 				it = solution_ptr->Get_totals().find(comp_it->first);
+				if (it == solution_ptr->Get_totals().end())
+					continue;
 				if (it->first != "E" && it->first != "H(1)" && it != solution_ptr->Get_totals().end())
 				{
 					if (it->second <= 0) continue;
 				}
-				model_id << comp_it->first << " ";
 				if (comp_it->second.Get_pe_reaction().size() > 0)
 				{
 					model_id << comp_it->second.Get_pe_reaction() << " ";
