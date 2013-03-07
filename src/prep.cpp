@@ -44,22 +44,23 @@ prep(void)
 	std::string last_model_id = current_model_id;
 	current_model_id = Make_model_id();
 
-	// remove current_model_id if force_prep
-	if (force_prep)
-	{
-		std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
-		if (me_it != model_eqns_map.end())
-		{
-			model_eqns_map.erase(me_it);
-		}
-		force_prep = false;
-	}
-
 	same_model = FALSE;
 	last_model.force_prep = TRUE;
 	bool process_prep = true;
-	while (process_prep == TRUE)
+	while (process_prep)
 	{
+		// remove current_model_id if force_prep
+		if (force_prep)
+		{
+			std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
+			if (me_it != model_eqns_map.end())
+			{
+				model_eqns_map.erase(me_it);
+			}
+			last_model_id = "none";
+			same_model = FALSE;
+			force_prep = false;
+		}
 		process_prep = false;
 		if (state == INITIAL_SOLUTION || 
 			state == INITIAL_EXCHANGE || 
@@ -145,7 +146,11 @@ prep(void)
 	 */
 			bool setup_ok = quick_setup();
 			if (!setup_ok)
+			{
 				process_prep = true;
+				force_prep = true;
+			}
+
 		}
 	}
 	if (get_input_errors() > 0)
