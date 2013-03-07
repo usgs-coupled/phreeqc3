@@ -4958,6 +4958,7 @@ quick_setup_initial_solution(void)
 			char *ptr = temp_eq_name;
 			std::string token;
 			copy_token(token, &ptr);
+			free_check_null(temp_eq_name);
 			Utilities::str_tolower(token);
 			if (strstr(token.c_str(), "charge") != NULL)
 			{
@@ -4972,14 +4973,13 @@ quick_setup_initial_solution(void)
 /*
  *   Solution phase boundaries
  */
-				int l;
-				struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_equation_name().c_str(), &l, FALSE);
+				//int l;
+				//struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_equation_name().c_str(), &l, FALSE);
 				x[count_unknowns]->si = comp_ptr->Get_phase_si();
 				/* For Peng-Robinson gas, the fugacity
 				   coefficient is added later in adjust_setup_solution,
 				   when rxn_x has been defined for each phase in the model */
 			}
-			free_check_null(temp_eq_name);
 		}
 		count_unknowns++;
 	}
