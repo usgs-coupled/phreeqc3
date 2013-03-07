@@ -4881,30 +4881,6 @@ surface_model(void)
  */
 	debug_diffuse_layer_save = debug_diffuse_layer;
 	debug_model_save = debug_model;
-	//if (last_model.force_prep == TRUE)
-	//{
-	//	same_model = FALSE;
-	//}
-	//else
-	//{
-	//	same_model = check_same_model();
-	//}
-	//same_model = TRUE;
-	//if (dl_type_x != cxxSurface::NO_DL && same_model == FALSE)
-	//{
-	//	s_diff_layer.clear();
-	//	for (i = 0; i < count_s; i++)
-	//	{
-	//		std::map < std::string, cxxSpeciesDL > dl;
-	//		s_diff_layer.push_back(dl);
-	//		for (size_t j = 0; j < use.Get_surface_ptr()->Get_surface_charges().size(); j++)
-	//		{
-	//			cxxSpeciesDL species_dl;
-	//			std::string name = use.Get_surface_ptr()->Get_surface_charges()[j].Get_name();
-	//			s_diff_layer.back()[name] = species_dl;
-	//		}
-	//	}
-	//}
 	if (state >= REACTION && dl_type_x != cxxSurface::NO_DL)
 	{
 		if (use.Get_mix_ptr() != NULL)

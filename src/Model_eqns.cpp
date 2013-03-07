@@ -205,8 +205,12 @@ Copy_to_phreeqc(void)
 	{
 		int n = master_ME[i].number;	
 		phreeqc_ptr->rxn_free(phreeqc_ptr->master[n]->rxn_secondary);
+		double total = phreeqc_ptr->master[n]->total;
 		memcpy(phreeqc_ptr->master[n], &master_ME[i], sizeof(struct master));
 		phreeqc_ptr->master[n]->rxn_secondary = phreeqc_ptr->rxn_dup(master_ME[i].rxn_secondary);
+		//phreeqc_ptr->master[n]->unknown = master_ME[i].unknown;
+		//phreeqc_ptr->master[n]->pe_rxn = master_ME[i].pe_rxn;
+		phreeqc_ptr->master[n]->total = total;
 	}
 	// species
 	for (int i = 0; i < phreeqc_ptr->count_s; i++)

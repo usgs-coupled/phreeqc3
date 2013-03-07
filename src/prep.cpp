@@ -2285,6 +2285,7 @@ clear_model_eqn(void)
 	sum_jacob2.clear();
 	//sum_delta = (struct list2 *) free_check_null(sum_delta);
 	sum_delta.clear();
+	s_diff_layer = NULL;
 
 	return (OK);
 }
@@ -4332,6 +4333,7 @@ setup_surface(void)
 		}
 	}
 	cxxSurface *surface_ptr = use.Get_surface_ptr();
+	s_diff_layer = NULL;
 	if (surface_ptr != NULL && surface_ptr->Get_dl_type() != cxxSurface::NO_DL)
 	{
 		//std::vector< std::map < std::string, cxxSpeciesDL > > *s_diff_layer_ME = new();
@@ -7564,7 +7566,7 @@ Make_model_id(void)
 			{
 				if (master[i]->total > 0)
 				{
-					model_id << master[i]->elt->name<< " ";
+					model_id << master[i]->elt->name << " ";
 				}
 			}
 		}
