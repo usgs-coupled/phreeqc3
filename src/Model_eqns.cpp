@@ -131,6 +131,7 @@ Copy_phreeqc_model(void)
 			master_ME.back().rxn_secondary = phreeqc_ptr->rxn_dup(phreeqc_ptr->master[i]->rxn_secondary);
 		}
 	}
+	this->master_x_ME = phreeqc_ptr->master_x;
 	// species
 	for (int i = 0; i < phreeqc_ptr->count_s; i++)
 	{
@@ -212,6 +213,7 @@ Copy_to_phreeqc(void)
 		//phreeqc_ptr->master[n]->pe_rxn = master_ME[i].pe_rxn;
 		phreeqc_ptr->master[n]->total = total;
 	}
+	phreeqc_ptr->master_x = this->master_x_ME;
 	// species
 	for (int i = 0; i < phreeqc_ptr->count_s; i++)
 	{

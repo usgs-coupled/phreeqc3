@@ -2313,11 +2313,20 @@ molalities(int allow_overflow)
 /*
  *   la for master species
  */
+	/*
 	for (i = 0; i < count_master; i++)
 	{
 		if (master[i]->in == REWRITE)
 		{
 			master[i]->s->la = master[i]->s->lm + master[i]->s->lg;
+		}
+	}
+	*/
+	for (i = 0; i < (int) master_x.size(); i++)
+	{
+		if (master_x[i]->in == REWRITE)
+		{
+			master_x[i]->s->la = master_x[i]->s->lm + master_x[i]->s->lg;
 		}
 	}
 	if (dl_type_x != cxxSurface::NO_DL)
@@ -4813,11 +4822,19 @@ sum_species(void)
 /*
  *   Sum valence states, put in master->total
  */
+
 	for (i = 0; i < count_master; i++)
 	{
 		master[i]->total = 0.0;
 		master[i]->total_primary = 0.0;
 	}
+	/*
+	for (i = 0; i < (int) master_x.size(); i++)
+	{
+		master_x[i]->total = 0.0;
+		master_x[i]->total_primary = 0.0;
+	}
+	*/
 	for (i = 0; i < (int) species_list.size(); i++)
 	{
 		if (species_list[i].master_s->secondary != NULL)
@@ -4855,10 +4872,17 @@ sum_species(void)
 /*
  *   Calculate total element concentrations
  */
+
 	for (i = 0; i < count_master; i++)
 	{
 		master[i]->elt->primary->total_primary += master[i]->total;
 	}
+	/*
+	for (i = 0; i < (int) master_x.size(); i++)
+	{
+		master_x[i]->elt->primary->total_primary += master_x[i]->total;
+	}
+	*/
 	/*
 	 *  Calculate isotope ratios
 	 */

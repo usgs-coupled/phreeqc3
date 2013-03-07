@@ -43,6 +43,7 @@ protected:
 	std::vector<struct master> master_ME;
 	std::vector<struct species> s_ME;
 	std::map<int, struct phase> phases_ME;
+	std::vector<struct master *> master_x_ME;
 
 	std::map < std::string, cxxChemRxn > pe_x_ME;
 	std::string default_pe_x_ME;
