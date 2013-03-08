@@ -115,19 +115,19 @@ prep(void)
 			{
 				error_msg("Program terminating due to input errors.", STOP);
 			}
-	/*
-	 *   Allocate space for array
-	 */
-			array =	(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) * max_unknowns * sizeof(LDBLE));
-			if (array == NULL) malloc_error();
-			delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-			if (delta == NULL) malloc_error();
-			residual = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-			if (residual == NULL) malloc_error();
-			for (int j = 0; j < max_unknowns; j++)
-			{
-			  residual[j] = 0;
-			}
+
+			// Allocates arrays, sets pointers in phreeqc
+			current_model_ptr->Allocate_arrays(max_unknowns);
+			//array =	(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) * max_unknowns * sizeof(LDBLE));
+			//if (array == NULL) malloc_error();
+			//delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
+			//if (delta == NULL) malloc_error();
+			//residual = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
+			//if (residual == NULL) malloc_error();
+			//for (int j = 0; j < max_unknowns; j++)
+			//{
+			//  residual[j] = 0;
+			//}
 	/*
 	 *   Build lists to fill Jacobian array and species list
 	 */

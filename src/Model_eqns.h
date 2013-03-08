@@ -12,6 +12,8 @@ public:
 	void Copy_to_phreeqc(void);
 	void Reprep_model(void);
 	void Initialize_phreeqc(void);
+	void Allocate_arrays(int max);
+	//std::vector< std::map < std::string, cxxSpeciesDL > > * New_s_diff_layer();
 
 protected:
 

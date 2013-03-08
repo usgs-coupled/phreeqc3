@@ -1,11 +1,10 @@
-
 #include "Model_eqns.h"
 #include "Solution.h"
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "GasPhase.h"
 #include "Utils.h"
-
+#include "phqalloc.h"
 Model_eqns::Model_eqns(Phreeqc * pptr)
 {
 	if (pptr == NULL)
@@ -156,14 +155,6 @@ Copy_from_phreeqc(void)
 	pe_x_ME                             = phreeqc_ptr->pe_x;
 	default_pe_x_ME                     = phreeqc_ptr->default_pe_x;
 	s_x_ME                              = phreeqc_ptr->s_x;                // eqn solving
-	//sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
-	//sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
-	//sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
-	//sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
-	//sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
-	//sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
-	//species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
-	//sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
 	s_diff_layer_ME                     = phreeqc_ptr->s_diff_layer;
 
 	model_id = phreeqc_ptr->current_model_id;
@@ -311,18 +302,6 @@ Reprep_model(void)
 	pe_x_ME                             = phreeqc_ptr->pe_x;
 	default_pe_x_ME                     = phreeqc_ptr->default_pe_x;
 	s_x_ME                              = phreeqc_ptr->s_x;                // eqn solving
-	//sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
-	//sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
-	//sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
-	//sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
-	//sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
-	//sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
-	//species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
-	//sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
-	//s_diff_layer_ME                     = phreeqc_ptr->s_diff_layer;
-
-	//model_id = phreeqc_ptr->current_model_id;
-
 }
 void Model_eqns::
 Initialize_phreeqc(void)
@@ -336,3 +315,28 @@ Initialize_phreeqc(void)
 	phreeqc_ptr->species_list                     = &species_list_ME;       // eqn solving
 	phreeqc_ptr->sum_species_map                  = &sum_species_map_ME;
 }
+void Model_eqns::
+Allocate_arrays(int max)
+{
+		this->array_ME =	(LDBLE *) phreeqc_ptr->PHRQ_malloc((size_t) (max + 1) * max * sizeof(LDBLE));
+		if (array_ME == NULL) phreeqc_ptr->malloc_error();
+		phreeqc_ptr->array = array_ME;
+
+		this->delta_ME = (LDBLE *) phreeqc_ptr->PHRQ_malloc((size_t) max * sizeof(LDBLE));
+		if (delta_ME == NULL) phreeqc_ptr->malloc_error();
+		phreeqc_ptr->delta = delta_ME;
+
+		residual_ME = (LDBLE *) phreeqc_ptr->PHRQ_malloc((size_t) max * sizeof(LDBLE));
+		if (residual_ME == NULL) phreeqc_ptr->malloc_error();
+		phreeqc_ptr->residual = residual_ME;
+		this->max_unknowns_ME = max;
+		for (int j = 0; j < max; j++)
+		{
+			residual_ME[j] = 0;
+		}
+}
+//void Model_eqns::
+//std::vector< std::map < std::string, cxxSpeciesDL > > * New_s_diff_layer()
+//{
+//	s_s_diff_layer_ME = new std::vector< std::map < std::string, cxxSpeciesDL > >;
+//}
