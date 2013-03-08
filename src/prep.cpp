@@ -54,14 +54,13 @@ prep(void)
 		{
 			last_model_id = "none";
 			same_model = FALSE;
-			force_prep = false;
 		}
 		process_prep = false;
-		if (state == INITIAL_SOLUTION || 
+		if ((state == INITIAL_SOLUTION || 
 			/*state == INITIAL_EXCHANGE || 
 			state == INITIAL_SURFACE || 
 			state == INITIAL_GAS_PHASE || */
-			state >= REACTION)
+			state >= REACTION) && !force_prep)
 		{
 			if(last_model_id == current_model_id)
 			{
@@ -70,15 +69,6 @@ prep(void)
 			}
 			else
 			{
-				//// save sum_species_map
-				//if (sum_species_map->size() > 0)
-				//{
-				//	std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(last_model_id);
-				//	if(me_it != model_eqns_map.end())
-				//	{
-				//		me_it->second->Add_sum_species_map(sum_species_map);
-				//	}
-				//}
 				std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
 				if(me_it != model_eqns_map.end())
 				{
@@ -94,7 +84,7 @@ prep(void)
 
 		//if (!same_model && !switch_numerical)
 		//	numerical_fixed_volume = false;
-		if (same_model == FALSE || switch_numerical)
+		if (force_prep || same_model == FALSE || switch_numerical)
 		{
 			std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
 			if (me_it != model_eqns_map.end())
@@ -150,6 +140,7 @@ prep(void)
 			//new_model_eqns->Copy_to_phreeqc();
 			model_eqns_map[current_model_id]->Copy_from_phreeqc();
 			current_tc = -999999.9;  // recalculate Ks
+			force_prep = false;
 		}
 		else
 		{
