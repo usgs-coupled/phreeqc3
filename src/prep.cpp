@@ -52,11 +52,6 @@ prep(void)
 		// remove current_model_id if force_prep
 		if (force_prep)
 		{
-			std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
-			if (me_it != model_eqns_map.end())
-			{
-				model_eqns_map.erase(me_it);
-			}
 			last_model_id = "none";
 			same_model = FALSE;
 			force_prep = false;
@@ -89,6 +84,7 @@ prep(void)
 				{
 					clear_model_eqn();
 					me_it->second->Copy_to_phreeqc();
+					current_model_ptr = me_it->second;
 					same_model = TRUE;
 					last_model.force_prep = FALSE;
 					current_tc = -99999.9;
@@ -100,9 +96,13 @@ prep(void)
 		//	numerical_fixed_volume = false;
 		if (same_model == FALSE || switch_numerical)
 		{
-			//Model_eqns *new_model_eqns = new Model_eqns(this);
-			//model_eqns_map[current_model_id] = new_model_eqns;
+			std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
+			if (me_it != model_eqns_map.end())
+			{
+				model_eqns_map.erase(me_it);
+			}
 			model_eqns_map[current_model_id] = new Model_eqns(this);
+			current_model_ptr = model_eqns_map[current_model_id];
 			model_eqns_map[current_model_id]->Initialize_phreeqc();
 			clear_model_eqn();
 			//clear();
@@ -148,7 +148,7 @@ prep(void)
 			// same model 
 			//clear_model_eqn();
 			//new_model_eqns->Copy_to_phreeqc();
-			model_eqns_map[current_model_id]->Copy_phreeqc_model();
+			model_eqns_map[current_model_id]->Copy_from_phreeqc();
 			current_tc = -999999.9;  // recalculate Ks
 		}
 		else

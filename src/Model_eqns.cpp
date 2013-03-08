@@ -80,7 +80,7 @@ Model_eqns::~Model_eqns(void)
 	s_ME.clear();
 
 	// phases
-	for (int i = 0; i < phases_ME.size(); i++)
+	for (int i = 0; i < (int) phases_ME.size(); i++)
 	{
 		phreeqc_ptr->rxn_free(phases_ME[i].rxn_x);
 		phreeqc_ptr->free_check_null(phases_ME[i].next_sys_total);
@@ -95,7 +95,7 @@ Model_eqns::~Model_eqns(void)
 	return;
 }
 void Model_eqns::
-Copy_phreeqc_model(void)
+Copy_from_phreeqc(void)
 {
 	this->x_ME                         = phreeqc_ptr->x;
 	ah2o_unknown_ME		               = phreeqc_ptr->ah2o_unknown;
@@ -260,30 +260,6 @@ Copy_to_phreeqc(void)
 void Model_eqns::
 Reprep_model(void)
 {
-	//this->x_ME                         = phreeqc_ptr->x;
-	//ah2o_unknown_ME		               = phreeqc_ptr->ah2o_unknown;
-	//alkalinity_unknown_ME		       = phreeqc_ptr->alkalinity_unknown;
-	//carbon_unknown_ME		           = phreeqc_ptr->carbon_unknown;
-	//charge_balance_unknown_ME	       = phreeqc_ptr->charge_balance_unknown;
-	//exchange_unknown_ME		           = phreeqc_ptr->exchange_unknown;
-	//mass_hydrogen_unknown_ME	       = phreeqc_ptr->mass_hydrogen_unknown;
-	//mass_oxygen_unknown_ME		       = phreeqc_ptr->mass_oxygen_unknown;
-	//mb_unknown_ME			           = phreeqc_ptr->mb_unknown;
-	//mu_unknown_ME			           = phreeqc_ptr->mu_unknown;
-	//pe_unknown_ME			           = phreeqc_ptr->pe_unknown;
-	//ph_unknown_ME			           = phreeqc_ptr->ph_unknown;
-	//pure_phase_unknown_ME		       = phreeqc_ptr->pure_phase_unknown;
-	//solution_phase_boundary_unknown_ME = phreeqc_ptr->solution_phase_boundary_unknown;
-	//surface_unknown_ME		           = phreeqc_ptr->surface_unknown;
-	//gas_unknown_ME			           = phreeqc_ptr->gas_unknown;
-	//slack_unknown_ME		           = phreeqc_ptr->slack_unknown;
-	//ss_unknown_ME			           = phreeqc_ptr->ss_unknown;
-	//gas_unknowns_ME                    = phreeqc_ptr->gas_unknowns;
-
-	//array_ME                           = phreeqc_ptr->array;               // eqn solving
-	//delta_ME                           = phreeqc_ptr->delta;               // eqn solving
-	//residual_ME                        = phreeqc_ptr->residual;            // eqn solving
-	//max_unknowns_ME                    = phreeqc_ptr->max_unknowns;
 
 	// master
 	for (size_t i = 0; i < master_ME.size(); i++)
@@ -348,15 +324,6 @@ Reprep_model(void)
 	//model_id = phreeqc_ptr->current_model_id;
 
 }
-void Model_eqns:: 
-Add_sum_species_map(std::map<std::string, std::vector < std::string> > &v)
-{
-	std::map<std::string, std::vector < std::string> >::iterator it;
-	for (it = v.begin(); it != v.end(); it++)
-	{
-		this->sum_species_map_ME[it->first] = it->second;
-	}
-}
 void Model_eqns::
 Initialize_phreeqc(void)
 {
@@ -367,4 +334,5 @@ Initialize_phreeqc(void)
 	phreeqc_ptr->sum_jacob2                       = &sum_jacob2_ME;         // eqn solving
 	phreeqc_ptr->sum_delta                        = &sum_delta_ME;          // eqn solving
 	phreeqc_ptr->species_list                     = &species_list_ME;       // eqn solving
+	phreeqc_ptr->sum_species_map                  = &sum_species_map_ME;
 }

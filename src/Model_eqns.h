@@ -8,10 +8,9 @@ class Model_eqns: public PHRQ_base
 public:
 	Model_eqns(Phreeqc * pptr);
 	~Model_eqns();
-	void Copy_phreeqc_model(void);
+	void Copy_from_phreeqc(void);
 	void Copy_to_phreeqc(void);
 	void Reprep_model(void);
-	void Add_sum_species_map(std::map<std::string, std::vector < std::string> > &v);
 	void Initialize_phreeqc(void);
 
 protected:
@@ -43,16 +42,16 @@ protected:
 	int max_unknowns_ME;
 
 	std::vector<struct master> master_ME;
-	std::vector<struct species> s_ME;
-	std::map<int, struct phase> phases_ME;
 	std::vector<struct master *> master_x_ME;
+	std::vector<struct species> s_ME;
+	std::vector<struct species *> s_x_ME;
+	std::map<int, struct phase> phases_ME;
 
 	std::map < std::string, cxxChemRxn > pe_x_ME;
 	std::string default_pe_x_ME;
-	std::vector<struct species *> s_x_ME;                                  // eqn solving
 	std::vector<struct list1> sum_mb1_ME;                                  // eqn solving
 	std::vector<struct list2> sum_mb2_ME;                                  // eqn solving
-	std::vector<list0> sum_jacob0_ME;                                      // eqn solving
+	std::vector<struct list0> sum_jacob0_ME;                               // eqn solving
 	std::vector<struct list1> sum_jacob1_ME;                               // eqn solving
 	std::vector<struct list2> sum_jacob2_ME;                               // eqn solving
 	std::vector<struct list2> sum_delta_ME;                                // eqn solving

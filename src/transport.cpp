@@ -1403,7 +1403,7 @@ fill_spec(int l_cell_no)
  * sort species by name...
  */
 	if ((*species_list).size() > 0)
-		qsort(&species_list[0], (size_t) (*species_list).size(),
+		qsort(&(*species_list)[0], (size_t) (*species_list).size(),
 			  (size_t) sizeof(struct Species_List), sort_species_name);
 
 	for (i = 0; i < (int) (*species_list).size(); i++)

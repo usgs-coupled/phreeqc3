@@ -1470,6 +1470,7 @@ protected:
 	std::map <std::string, Model_eqns *> model_eqns_map;
 	std::string Make_model_id(void);
 	std::string current_model_id;
+	Model_eqns *current_model_ptr;
 	bool force_prep;
 	std::vector <struct unknown *> x;
 	int max_unknowns;
