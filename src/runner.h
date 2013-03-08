@@ -18,6 +18,8 @@ public:
 	StorageBinListItem & Get_cells(void) { return(this->cells); };
 	LDBLE Get_time_step() { return(this->time_step); };
 	LDBLE Get_start_time() { return(this->start_time); };
+	void Set_time_step(LDBLE ts) { this->time_step = ts; };
+	void Set_start_time(LDBLE st) { this->start_time = st; };
 	bool Get_run_cells() { return(this->run_cells); };
 	void Set_run_cells(bool tf) { this->run_cells = tf; };
 
