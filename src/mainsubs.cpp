@@ -1929,13 +1929,13 @@ xexchange_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (j = 0; j < (int) species_list.size(); j++)
+			for (j = 0; j < (int) (*species_list).size(); j++)
 			{
-				if (species_list[j].master_s == x[i]->master[0]->s)
+				if ((*species_list)[j].master_s == x[i]->master[0]->s)
 				{
-					add_elt_list(species_list[j].s->next_elt,
-								 species_list[j].s->moles);
-					charge += species_list[j].s->moles * species_list[j].s->z;
+					add_elt_list((*species_list)[j].s->next_elt,
+								 (*species_list)[j].s->moles);
+					charge += (*species_list)[j].s->moles * (*species_list)[j].s->z;
 				}
 			}
 /*
@@ -2284,13 +2284,13 @@ xsurface_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (int j = 0; j < (int) species_list.size(); j++)
+			for (int j = 0; j < (int) (*species_list).size(); j++)
 			{
-				if (species_list[j].master_s == x[i]->master[0]->s)
+				if ((*species_list)[j].master_s == x[i]->master[0]->s)
 				{
-					add_elt_list(species_list[j].s->next_elt,
-								 species_list[j].s->moles);
-					charge += species_list[j].s->moles * species_list[j].s->z;
+					add_elt_list((*species_list)[j].s->next_elt,
+								 (*species_list)[j].s->moles);
+					charge += (*species_list)[j].s->moles * (*species_list)[j].s->z;
 				}
 			}
 			{

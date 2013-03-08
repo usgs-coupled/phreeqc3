@@ -1255,7 +1255,7 @@ protected:
 	//int count_species_list;
 	//int max_species_list;
 	//struct species_list *species_list;
-	std::vector<struct Species_List> species_list;
+	std::vector<struct Species_List> *species_list;
 
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
@@ -1264,38 +1264,38 @@ protected:
 	//int count_sum_jacob0;	/* number of elements in sum_jacob0 */
 	//int max_sum_jacob0;	/* calculated maximum number of elements in sum_jacob0 */
 	//struct list0 *sum_jacob0;	/* array of pointers to targets and coefficients for array */
-	std::vector<list0> sum_jacob0;
+	std::vector<list0> *sum_jacob0;
 
 	//int count_sum_mb1;		/* number of elements in sum_mb1 */
 	//int max_sum_mb1;		/* calculated maximum number of elements in sum_mb1 */
 	//struct list1 *sum_mb1;	/* array of pointers to sources and targets for mass
 							//balance summations with coef = 1.0 */
-	std::vector<struct list1> sum_mb1;
+	std::vector<struct list1> *sum_mb1;
 
 	//int count_sum_jacob1;	/* number of elements in sum_jacob1 */
 	//int max_sum_jacob1;	/* calculated maximum number of elements in sum_jacob1 */
 	//struct list1 *sum_jacob1;	/* array of pointers to sources and targets for array
 								//equations with coef = 1.0 */
-	std::vector<struct list1> sum_jacob1;
+	std::vector<struct list1> *sum_jacob1;
 	
 	//int count_sum_mb2;		/* number of elements in sum_mb2 */
 	//int max_sum_mb2;		/* calculated maximum number of elements in sum_mb2 */
 	//struct list2 *sum_mb2;	/* array of coefficients and pointers to sources and
 							//targets for mass balance summations with coef != 1.0 */
-	std::vector<struct list2> sum_mb2;
+	std::vector<struct list2> *sum_mb2;
 
 	//int count_sum_jacob2;	/* number of elements in sum_jacob2 */
 	//int max_sum_jacob2;	/* calculated maximum number of elements in sum_jacob2 */
 	//struct list2 *sum_jacob2;	/* array of coefficients and pointers to sources and
 								//targets, coef != 1.0 */
-	std::vector<struct list2> sum_jacob2;
+	std::vector<struct list2> *sum_jacob2;
 
 
 	//int count_sum_delta;	/* number of elements in sum_delta */
 	//int max_sum_delta;		/* calculated maximum number of elements in sum_delta */
 	//struct list2 *sum_delta;	/* array of pointers to sources, targets and coefficients for
 								//summing deltas for mass balance equations */
-	std::vector<struct list2> sum_delta;
+	std::vector<struct list2> *sum_delta;
 	/*----------------------------------------------------------------------
 	*   Solution
 	*---------------------------------------------------------------------- */
@@ -1913,8 +1913,8 @@ protected:
 	int spinner;
 
 	/* new after release of Version 3 */
-	std::map<std::string, std::vector < std::string> > sum_species_map; 
-	std::map<std::string, std::vector < std::string> > sum_species_map_db;
+	std::map<std::string, std::vector < std::string> > *sum_species_map; 
+	//std::map<std::string, std::vector < std::string> > sum_species_map_db;
 
 	friend class PBasic;
 	friend class ChartObject;

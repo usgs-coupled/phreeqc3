@@ -1362,7 +1362,7 @@ fill_spec(int l_cell_no)
 	sol_D[l_cell_no].spec =
 		(struct spec *) free_check_null(sol_D[l_cell_no].spec);
 	sol_D[l_cell_no].spec =
-		(struct spec *) PHRQ_malloc((size_t) species_list.size() *
+		(struct spec *) PHRQ_malloc((size_t) (*species_list).size() *
 									sizeof(struct spec));
 	if (sol_D[l_cell_no].spec == NULL)
 		malloc_error();
@@ -1402,22 +1402,22 @@ fill_spec(int l_cell_no)
 /*
  * sort species by name...
  */
-	if (species_list.size() > 0)
-		qsort(&species_list[0], (size_t) species_list.size(),
+	if ((*species_list).size() > 0)
+		qsort(&species_list[0], (size_t) (*species_list).size(),
 			  (size_t) sizeof(struct Species_List), sort_species_name);
 
-	for (i = 0; i < (int) species_list.size(); i++)
+	for (i = 0; i < (int) (*species_list).size(); i++)
 	{
 /*
  *   copy species data
  */
-		s_ptr = species_list[i].s;
+		s_ptr = (*species_list)[i].s;
 
 		if (s_ptr->type == EX && !interlayer_Dflag)
 			continue;
 		if (s_ptr->type == SURF)
 			continue;
-		if (i > 0 && strcmp(s_ptr->name, species_list[i - 1].s->name) == 0)
+		if (i > 0 && strcmp(s_ptr->name, (*species_list)[i - 1].s->name) == 0)
 			continue;
 		if (s_ptr == s_h2o)
 			continue;
@@ -1427,15 +1427,15 @@ fill_spec(int l_cell_no)
 			if (s_ptr->moles > 1e-30)
 			{
 				/* find exchanger's name, use only master exchanger 'X' */
-				if (species_list[i].master_s->secondary != NULL)
-					master_ptr = species_list[i].master_s->secondary;
+				if ((*species_list)[i].master_s->secondary != NULL)
+					master_ptr = (*species_list)[i].master_s->secondary;
 				else
-					master_ptr = species_list[i].master_s->primary;
+					master_ptr = (*species_list)[i].master_s->primary;
 				if (s_ptr->equiv != 0.0)
 					dum = fabs(s_ptr->equiv) / master_ptr->total;
 				else
 				{
-					if (species_list[i].master_s->z == 0)
+					if ((*species_list)[i].master_s->z == 0)
 						dum = 1 / master_ptr->total;
 					else
 						dum = 1;

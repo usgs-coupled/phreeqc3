@@ -107,24 +107,24 @@ calc_SC(void)
 	LDBLE lm, a, l_z, Dw, SC, ff;
 
 	SC = 0;
-	for (i = 0; i < (int) species_list.size(); i++)
+	for (i = 0; i < (int) (*species_list).size(); i++)
 	{
-		if (species_list[i].s->type == EX)
+		if ((*species_list)[i].s->type == EX)
 			continue;
-		if (species_list[i].s->type == SURF)
+		if ((*species_list)[i].s->type == SURF)
 			continue;
 		if (i > 0
-			&& strcmp(species_list[i].s->name,
-					  species_list[i - 1].s->name) == 0)
+			&& strcmp((*species_list)[i].s->name,
+					  (*species_list)[i - 1].s->name) == 0)
 			continue;
-		if (species_list[i].s == s_h2o)
+		if ((*species_list)[i].s == s_h2o)
 			continue;
-		if ((Dw = species_list[i].s->dw) == 0)
+		if ((Dw = (*species_list)[i].s->dw) == 0)
 			continue;
-		if ((l_z = fabs(species_list[i].s->z)) == 0)
+		if ((l_z = fabs((*species_list)[i].s->z)) == 0)
 			continue;
 
-		lm = species_list[i].s->lm;
+		lm = (*species_list)[i].s->lm;
 		if (lm > -9)
 		{
 /*
@@ -139,7 +139,7 @@ calc_SC(void)
 */
 			ff = (mu_x < .36 * l_z ? 0.6 / sqrt(l_z) : sqrt(mu_x) / l_z);
 
-			ff *= species_list[i].s->lg;
+			ff *= (*species_list)[i].s->lg;
 			if (ff > 0) ff = 0;
 			a = under(lm + ff);
 			SC += a * l_z * l_z * Dw;
@@ -1516,7 +1516,7 @@ sum_match_species(const char *mytemplate, const char *name)
 	count_elts = 0;
 	paren_count = 0;
 	tot = 0;
-	if (sum_species_map.find(mytemplate) == sum_species_map.end())
+	if (sum_species_map->find(mytemplate) == sum_species_map->end())
 	{
 		std::vector<std::string> local_species_list;
 		for (i = 0; i < (int) s_x.size(); i++)
@@ -1527,9 +1527,9 @@ sum_match_species(const char *mytemplate, const char *name)
 				local_species_list.push_back(s_ptr->name);
 			}
 		}
-		sum_species_map[mytemplate] = local_species_list;
+		(*sum_species_map)[mytemplate] = local_species_list;
 	}
-	std::vector<std::string> &local_species_list = (sum_species_map.find(mytemplate))->second;
+	std::vector<std::string> &local_species_list = (sum_species_map->find(mytemplate))->second;
 	for (size_t i=0; i < local_species_list.size(); i++)
 	{
 		struct species *s_ptr = s_search(local_species_list[i].c_str());

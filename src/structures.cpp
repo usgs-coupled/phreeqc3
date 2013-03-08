@@ -180,7 +180,7 @@ clean_up(void)
 /* species_list */
 
 	//species_list = (struct species_list *) free_check_null(species_list);
-	species_list.clear();
+	//species_list.clear();
 
 /* transport data */
 
@@ -2514,9 +2514,9 @@ species_list_sort(void)
 /*
  *   Sort list using rules in species_list_compare
  */
-	if (species_list.size() > 0)
+	if ((*species_list).size() > 0)
 	{
-		qsort(&species_list[0],(size_t) species_list.size(),
+		qsort(&(*species_list)[0],(size_t) (*species_list).size(),
 			  (size_t) sizeof(struct Species_List), species_list_compare);
 	}
 	return (OK);

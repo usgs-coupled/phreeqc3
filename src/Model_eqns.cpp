@@ -38,7 +38,7 @@ Model_eqns::Model_eqns(Phreeqc * pptr)
 	residual_ME = NULL;                                                 // eqn solving
 	max_unknowns_ME = 0;
 
-	Copy_phreeqc_model();
+	//Copy_phreeqc_model();
 }
 Model_eqns::~Model_eqns(void)
 {
@@ -80,7 +80,7 @@ Model_eqns::~Model_eqns(void)
 	s_ME.clear();
 
 	// phases
-	for (size_t i = 0; i < phases_ME.size(); i++)
+	for (int i = 0; i < phases_ME.size(); i++)
 	{
 		phreeqc_ptr->rxn_free(phases_ME[i].rxn_x);
 		phreeqc_ptr->free_check_null(phases_ME[i].next_sys_total);
@@ -156,14 +156,14 @@ Copy_phreeqc_model(void)
 	pe_x_ME                             = phreeqc_ptr->pe_x;
 	default_pe_x_ME                     = phreeqc_ptr->default_pe_x;
 	s_x_ME                              = phreeqc_ptr->s_x;                // eqn solving
-	sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
-	sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
-	sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
-	sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
-	sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
-	sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
-	species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
-	sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
+	//sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
+	//sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
+	//sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
+	//sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
+	//sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
+	//sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
+	//species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
+	//sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
 	s_diff_layer_ME                     = phreeqc_ptr->s_diff_layer;
 
 	model_id = phreeqc_ptr->current_model_id;
@@ -247,15 +247,14 @@ Copy_to_phreeqc(void)
 	phreeqc_ptr->pe_x                             = pe_x_ME;
 	phreeqc_ptr->default_pe_x                     = default_pe_x_ME;
 	phreeqc_ptr->s_x                              = s_x_ME;                // eqn solving
-	phreeqc_ptr->sum_mb1                          = sum_mb1_ME;            // eqn solving
-	phreeqc_ptr->sum_mb2                          = sum_mb2_ME;            // eqn solving
-	phreeqc_ptr->sum_jacob0                       = sum_jacob0_ME;         // eqn solving
-	phreeqc_ptr->sum_jacob1                       = sum_jacob1_ME;         // eqn solving
-	phreeqc_ptr->sum_jacob2                       = sum_jacob2_ME;         // eqn solving
-	phreeqc_ptr->sum_delta                        = sum_delta_ME;          // eqn solving
-	phreeqc_ptr->species_list                     = species_list_ME;       // eqn solving
-	phreeqc_ptr->sum_species_map                  = sum_species_map_ME;    // eqn solving
-	phreeqc_ptr->s_diff_layer                     = s_diff_layer_ME;
+	phreeqc_ptr->sum_mb1                          = &sum_mb1_ME;            // eqn solving
+	phreeqc_ptr->sum_mb2                          = &sum_mb2_ME;            // eqn solving
+	phreeqc_ptr->sum_jacob0                       = &sum_jacob0_ME;         // eqn solving
+	phreeqc_ptr->sum_jacob1                       = &sum_jacob1_ME;         // eqn solving
+	phreeqc_ptr->sum_jacob2                       = &sum_jacob2_ME;         // eqn solving
+	phreeqc_ptr->sum_delta                        = &sum_delta_ME;          // eqn solving
+	phreeqc_ptr->species_list                     = &species_list_ME;       // eqn solving
+	phreeqc_ptr->sum_species_map                  = &sum_species_map_ME;    // eqn solving
 	phreeqc_ptr->s_diff_layer                     = s_diff_layer_ME;
 }
 void Model_eqns::
@@ -336,13 +335,13 @@ Reprep_model(void)
 	pe_x_ME                             = phreeqc_ptr->pe_x;
 	default_pe_x_ME                     = phreeqc_ptr->default_pe_x;
 	s_x_ME                              = phreeqc_ptr->s_x;                // eqn solving
-	sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
-	sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
-	sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
-	sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
-	sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
-	sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
-	species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
+	//sum_mb1_ME                          = phreeqc_ptr->sum_mb1;            // eqn solving
+	//sum_mb2_ME                          = phreeqc_ptr->sum_mb2;            // eqn solving
+	//sum_jacob0_ME                       = phreeqc_ptr->sum_jacob0;         // eqn solving
+	//sum_jacob1_ME                       = phreeqc_ptr->sum_jacob1;         // eqn solving
+	//sum_jacob2_ME                       = phreeqc_ptr->sum_jacob2;         // eqn solving
+	//sum_delta_ME                        = phreeqc_ptr->sum_delta;          // eqn solving
+	//species_list_ME                     = phreeqc_ptr->species_list;       // eqn solving
 	//sum_species_map_ME                  = phreeqc_ptr->sum_species_map;    // eqn solving
 	//s_diff_layer_ME                     = phreeqc_ptr->s_diff_layer;
 
@@ -357,4 +356,15 @@ Add_sum_species_map(std::map<std::string, std::vector < std::string> > &v)
 	{
 		this->sum_species_map_ME[it->first] = it->second;
 	}
+}
+void Model_eqns::
+Initialize_phreeqc(void)
+{
+	phreeqc_ptr->sum_mb1                          = &sum_mb1_ME; 
+	phreeqc_ptr->sum_mb2                          = &sum_mb2_ME;            // eqn solving
+	phreeqc_ptr->sum_jacob0                       = &sum_jacob0_ME;         // eqn solving
+	phreeqc_ptr->sum_jacob1                       = &sum_jacob1_ME;         // eqn solving
+	phreeqc_ptr->sum_jacob2                       = &sum_jacob2_ME;         // eqn solving
+	phreeqc_ptr->sum_delta                        = &sum_delta_ME;          // eqn solving
+	phreeqc_ptr->species_list                     = &species_list_ME;       // eqn solving
 }

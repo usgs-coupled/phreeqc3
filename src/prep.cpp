@@ -75,15 +75,15 @@ prep(void)
 			}
 			else
 			{
-				// save sum_species_map
-				if (sum_species_map.size() > 0)
-				{
-					std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(last_model_id);
-					if(me_it != model_eqns_map.end())
-					{
-						me_it->second->Add_sum_species_map(sum_species_map);
-					}
-				}
+				//// save sum_species_map
+				//if (sum_species_map->size() > 0)
+				//{
+				//	std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(last_model_id);
+				//	if(me_it != model_eqns_map.end())
+				//	{
+				//		me_it->second->Add_sum_species_map(sum_species_map);
+				//	}
+				//}
 				std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
 				if(me_it != model_eqns_map.end())
 				{
@@ -100,6 +100,10 @@ prep(void)
 		//	numerical_fixed_volume = false;
 		if (same_model == FALSE || switch_numerical)
 		{
+			//Model_eqns *new_model_eqns = new Model_eqns(this);
+			//model_eqns_map[current_model_id] = new_model_eqns;
+			model_eqns_map[current_model_id] = new Model_eqns(this);
+			model_eqns_map[current_model_id]->Initialize_phreeqc();
 			clear_model_eqn();
 			//clear();
 			setup_unknowns();
@@ -142,10 +146,9 @@ prep(void)
 			adjust_setup_solution();
 
 			// same model 
-			Model_eqns *new_model_eqns = new Model_eqns(this);
-			model_eqns_map[current_model_id] = new_model_eqns;
-			clear_model_eqn();
-			new_model_eqns->Copy_to_phreeqc();
+			//clear_model_eqn();
+			//new_model_eqns->Copy_to_phreeqc();
+			model_eqns_map[current_model_id]->Copy_phreeqc_model();
 			current_tc = -999999.9;  // recalculate Ks
 		}
 		else
@@ -1442,7 +1445,7 @@ build_model(void)
 	
 	// clear sum_species_map, which is built from s_x
 	//sum_species_map_db.clear();
-	sum_species_map.clear();
+	//sum_species_map.clear();
 
 	//space((void **) ((void *) &s_x), INIT, &max_s_x,
 	//	  sizeof(struct species *));
@@ -1452,44 +1455,44 @@ build_model(void)
 	//count_sum_mb1 = 0;
 	//space((void **) ((void *) &sum_mb1), INIT, &max_sum_mb1,
 	//	  sizeof(struct list1));
-	sum_mb1.clear();
+	(*sum_mb1).clear();
 
 	//max_sum_mb2 = MAX_SUM_MB;
 	//count_sum_mb2 = 0;
 	//space((void **) ((void *) &sum_mb2), INIT, &max_sum_mb2,
 	//	  sizeof(struct list2));
-	sum_mb2.clear();
+	(*sum_mb2).clear();
 
 	//max_sum_jacob0 = MAX_SUM_JACOB0;
 	//count_sum_jacob0 = 0;
 	//space((void **) ((void *) &sum_jacob0), INIT, &max_sum_jacob0,
 	//	  sizeof(struct list0));
-	sum_jacob0.clear();
+	(*sum_jacob0).clear();
 
 	//max_sum_jacob1 = MAX_SUM_JACOB1;
 	//count_sum_jacob1 = 0;
 	//space((void **) ((void *) &sum_jacob1), INIT, &max_sum_jacob1,
 	//	  sizeof(struct list1));
-	sum_jacob1.clear();
+	(*sum_jacob1).clear();
 
 	//max_sum_jacob2 = MAX_SUM_JACOB2;
 	//count_sum_jacob2 = 0;
 	//space((void **) ((void *) &sum_jacob2), INIT, &max_sum_jacob2,
 	//	  sizeof(struct list2));
-	sum_jacob2.clear();
+	(*sum_jacob2).clear();
 
 	//max_sum_delta = MAX_SUM_JACOB0;
 	//count_sum_delta = 0;
 	//space((void **) ((void *) &sum_delta), INIT, &max_sum_delta,
 	//	  sizeof(struct list2));
-	sum_delta.clear();
+	(*sum_delta).clear();
 
 	//max_species_list = 5 * MAX_S;
 	//count_species_list = 0;
 	//species_list = (struct species_list *) free_check_null(species_list);
 	//space((void **) ((void *) &species_list), INIT, &max_species_list,
 	//	  sizeof(struct species_list));
-	species_list.clear();
+	(*species_list).clear();
 	phases_x.clear();
 	master_x.clear();
 
@@ -1730,7 +1733,7 @@ build_model(void)
 /*
  *   Sort species list, by master only
  */
-	qsort(&species_list[0], species_list.size(),
+	qsort(&(*species_list)[0], (*species_list).size(),
 		  (size_t) sizeof(struct Species_List), species_list_compare_master);
 /*
  *   Save model description
@@ -2025,7 +2028,7 @@ build_species_list(int n)
 		sl.master_s = s_hplus;
 		sl.s = s[n];
 		sl.coef = 0.0;
-		species_list.push_back(sl);
+		(*species_list).push_back(sl);
 		//species_list[count_species_list].master_s = s_hplus;
 		//species_list[count_species_list].s = s[n];
 		//species_list[count_species_list].coef = 0.0;
@@ -2048,7 +2051,7 @@ build_species_list(int n)
 			sl.master_s = elt_list[j].elt->master->s;
 			sl.s = s[n];
 			sl.coef = master_ptr->coef * elt_list[j].coef;
-			species_list.push_back(sl);
+			(*species_list).push_back(sl);
 			//species_list[count_species_list].master_s =
 			//	elt_list[j].elt->master->s;
 			//species_list[count_species_list].s = s[n];
@@ -2074,7 +2077,7 @@ build_species_list(int n)
 			sl.master_s = elt_list[j].elt->master->s;
 			sl.s = s[n];
 			sl.coef = master_ptr->coef * elt_list[j].coef;
-			species_list.push_back(sl);
+			(*species_list).push_back(sl);
 
 			//species_list[count_species_list].master_s =
 			//	elt_list[j].elt->master->s;
@@ -2104,7 +2107,7 @@ build_species_list(int n)
 		sl.master_s = master_ptr->s;
 		sl.s = s[n];
 		sl.coef = master_ptr->coef * elt_list[j].coef;
-		species_list.push_back(sl);
+		(*species_list).push_back(sl);
 
 //		species_list[count_species_list].master_s = master_ptr->s;
 //		species_list[count_species_list].s = s[n];
@@ -2322,17 +2325,17 @@ clear_model_eqn(void)
 	//s_x = (struct species **) free_check_null(s_x);
 	s_x.clear();
 	//sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
-	sum_mb1.clear();
+	//sum_mb1.clear();
 	//sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
-	sum_mb2.clear();
+	//sum_mb2.clear();
 	//sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
-	sum_jacob0.clear();
+	//sum_jacob0.clear();
 	//sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
-	sum_jacob1.clear();
+	//sum_jacob1.clear();
 	//sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
-	sum_jacob2.clear();
+	//sum_jacob2.clear();
 	//sum_delta = (struct list2 *) free_check_null(sum_delta);
-	sum_delta.clear();
+	//sum_delta.clear();
 	s_diff_layer = NULL;
 
 	return (OK);
@@ -3267,19 +3270,19 @@ reprep(void)
 	//s_x = (struct species **) free_check_null(s_x);
 	s_x.clear();
 	//sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
-	sum_mb1.clear();
+	(*sum_mb1).clear();
 	//sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
-	sum_mb2.clear();
+	(*sum_mb2).clear();
 	//sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
-	sum_jacob0.clear();
+	(*sum_jacob0).clear();
 	//sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
-	sum_jacob1.clear();
+	(*sum_jacob1).clear();
 	//sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
-	sum_jacob2.clear();
+	(*sum_jacob2).clear();
 	//sum_delta = (struct list2 *) free_check_null(sum_delta);
-	sum_delta.clear();
-	species_list.clear();
-	sum_species_map.clear();
+	(*sum_delta).clear();
+	(*species_list).clear();
+	//sum_species_map.clear();
 /*
  *   Build model again
  */
@@ -5692,12 +5695,12 @@ store_jacob(LDBLE * source, LDBLE * target, LDBLE coef)
 	{
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\t\tjacob1 %d\n", (int) sum_jacob1.size()));
+			output_msg(sformatf( "\t\tjacob1 %d\n", (int) (*sum_jacob1).size()));
 		}
 		struct list1 l1;
 		l1.source = source;
 		l1.target = target;
-		sum_jacob1.push_back(l1);
+		(*sum_jacob1).push_back(l1);
 		//sum_jacob1[count_sum_jacob1].source = source;
 		//sum_jacob1[count_sum_jacob1++].target = target;
 		///*    Check space */
@@ -5711,13 +5714,13 @@ store_jacob(LDBLE * source, LDBLE * target, LDBLE coef)
 	{
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\t\tjacob2 %d\n", (int) sum_jacob2.size()));
+			output_msg(sformatf( "\t\tjacob2 %d\n", (int) (*sum_jacob2).size()));
 		}
 		struct list2 l2;
 		l2.source = source;
 		l2.target = target;
 		l2.coef = coef;
-		sum_jacob2.push_back(l2);
+		(*sum_jacob2).push_back(l2);
 		//sum_jacob2[count_sum_jacob2].source = source;
 		//sum_jacob2[count_sum_jacob2].target = target;
 		//sum_jacob2[count_sum_jacob2++].coef = coef;
@@ -5742,7 +5745,7 @@ store_jacob0(int row, int column, LDBLE coef)
 	struct list0 l0;
 	l0.target = &(array[row * ((int) x.size() + 1) + column]);
 	l0.coef = coef;
-	sum_jacob0.push_back(l0);
+	(*sum_jacob0).push_back(l0);
 	//sum_jacob0[count_sum_jacob0].target =
 	//	&(array[row * (count_unknowns + 1) + column]);
 	//sum_jacob0[count_sum_jacob0++].coef = coef;
@@ -5772,7 +5775,7 @@ store_mb(LDBLE * source, LDBLE * target, LDBLE coef)
 		struct list1 l1;
 		l1.source = source;
 		l1.target = target;
-		sum_mb1.push_back(l1);
+		(*sum_mb1).push_back(l1);
 		//if (count_sum_mb1 >= max_sum_mb1)
 		//{
 		//	space((void **) ((void *) &sum_mb1),
@@ -5786,7 +5789,7 @@ store_mb(LDBLE * source, LDBLE * target, LDBLE coef)
 		l2.source = source;
 		l2.coef = coef;
 		l2.target = target;
-		sum_mb2.push_back(l2);
+		(*sum_mb2).push_back(l2);
 
 		//sum_mb2[count_sum_mb2].source = source;
 		//sum_mb2[count_sum_mb2].coef = coef;
@@ -5815,7 +5818,7 @@ store_sum_deltas(LDBLE * source, LDBLE * target, LDBLE coef)
 	l2.source = source;
 	l2.target = target;
 	l2.coef = coef;
-	sum_delta.push_back(l2);
+	(*sum_delta).push_back(l2);
 	//sum_delta[count_sum_delta].source = source;
 	//sum_delta[count_sum_delta].target = target;
 	//sum_delta[count_sum_delta++].coef = coef;
@@ -7750,7 +7753,7 @@ clear_model_eqns_map(void)
 	}
 	model_eqns_map.clear();
 	current_model_id = "none";
-	sum_species_map.clear();
+	//sum_species_map.clear();
 	s_diff_layer = NULL;
 	return;
 }

@@ -399,22 +399,22 @@ print_exchange(void)
 
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < (int) species_list.size(); i++)
+	for (i = 0; i < (int) (*species_list).size(); i++)
 	{
 /*
  *   Get name of master species
  */
-		if (species_list[i].s->type != EX)
+		if ((*species_list)[i].s->type != EX)
 			continue;
-		if (species_list[i].master_s->secondary != NULL)
+		if ((*species_list)[i].master_s->secondary != NULL)
 		{
-			master_ptr = species_list[i].master_s->secondary;
-			name1 = species_list[i].master_s->secondary->elt->name;
+			master_ptr = (*species_list)[i].master_s->secondary;
+			name1 = (*species_list)[i].master_s->secondary->elt->name;
 		}
 		else
 		{
-			master_ptr = species_list[i].master_s->primary;
-			name1 = species_list[i].master_s->primary->elt->name;
+			master_ptr = (*species_list)[i].master_s->primary;
+			name1 = (*species_list)[i].master_s->primary->elt->name;
 		}
 /*
  *   Check if new master species, print total molality
@@ -455,13 +455,13 @@ print_exchange(void)
 /* !!!!! */
 		if (master_ptr->total > 1.0e-10)
 		{
-			if (species_list[i].s->equiv != 0.0)
+			if ((*species_list)[i].s->equiv != 0.0)
 			{
-				dum = fabs(species_list[i].s->equiv) / master_ptr->total;
+				dum = fabs((*species_list)[i].s->equiv) / master_ptr->total;
 			}
 			else
 			{
-				if (species_list[i].master_s->z == 0)
+				if ((*species_list)[i].master_s->z == 0)
 				{
 					dum = 1 / master_ptr->total;
 				}
@@ -470,22 +470,22 @@ print_exchange(void)
 					dum = 1;
 				}
 			}
-			if (species_list[i].master_s->z != 0.0)
+			if ((*species_list)[i].master_s->z != 0.0)
 			{
-				dum2 = fabs(species_list[i].master_s->z);
+				dum2 = fabs((*species_list)[i].master_s->z);
 			}
 			else
 			{
 				dum2 = 1;
 			}
 			output_msg(sformatf("\t%-15s%12.3e%12.3e%12.3e%10.3f\n",
-					   species_list[i].s->name,
-					   (double) species_list[i].s->moles,
-					   (double) (species_list[i].s->moles * dum2 *
-								 species_list[i].s->equiv),
-					   (double) (species_list[i].s->moles *
+					   (*species_list)[i].s->name,
+					   (double) (*species_list)[i].s->moles,
+					   (double) ((*species_list)[i].s->moles * dum2 *
+								 (*species_list)[i].s->equiv),
+					   (double) ((*species_list)[i].s->moles *
 								 dum /* / dum2 */ ),
-					   (double) (species_list[i].s->lg - log10(dum))));
+					   (double) ((*species_list)[i].s->lg - log10(dum))));
 		}
 	}
 	output_msg(sformatf("\n"));
@@ -1400,24 +1400,24 @@ print_species(void)
  */
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < (int) species_list.size(); i++)
+	for (i = 0; i < (int) (*species_list).size(); i++)
 	{
 /*
  *   Get name of master species
  */
-		if (species_list[i].s->type == EX)
+		if ((*species_list)[i].s->type == EX)
 			continue;
-		if (species_list[i].s->type == SURF)
+		if ((*species_list)[i].s->type == SURF)
 			continue;
-		if (species_list[i].master_s->secondary != NULL)
+		if ((*species_list)[i].master_s->secondary != NULL)
 		{
-			master_ptr = species_list[i].master_s->secondary;
-			name1 = species_list[i].master_s->secondary->elt->name;
+			master_ptr = (*species_list)[i].master_s->secondary;
+			name1 = (*species_list)[i].master_s->secondary->elt->name;
 		}
 		else
 		{
-			master_ptr = species_list[i].master_s->primary;
-			name1 = species_list[i].master_s->primary->elt->name;
+			master_ptr = (*species_list)[i].master_s->primary;
+			name1 = (*species_list)[i].master_s->primary->elt->name;
 		}
 /*
  *   Check if new master species, print total molality
@@ -1440,29 +1440,29 @@ print_species(void)
 /*
  *   Print species data
  */
-		if (species_list[i].s->lm > min)
+		if ((*species_list)[i].s->lm > min)
 		{
-			if (species_list[i].s == s_h2o)
+			if ((*species_list)[i].s == s_h2o)
 			{
 				lm = log10(s_h2o->moles / mass_water_aq_x);
 			}
 			else
 			{
-				lm = species_list[i].s->lm;
+				lm = (*species_list)[i].s->lm;
 			}
 			output_msg(sformatf(
 					   "   %-13s%12.3e%12.3e%10.3f%10.3f%10.3f",
-					   species_list[i].s->name,
-					   (double) ((species_list[i].s->moles) /
+					   (*species_list)[i].s->name,
+					   (double) (((*species_list)[i].s->moles) /
 								 mass_water_aq_x),
-					   (double) under(species_list[i].s->lm +
-									  species_list[i].s->lg), (double) lm,
-					   (double) (species_list[i].s->lm +
-								 species_list[i].s->lg),
-					   (double) species_list[i].s->lg));
-			if (species_list[i].s->logk[vm_tc] || !strcmp(species_list[i].s->name, "H+"))
+					   (double) under((*species_list)[i].s->lm +
+									  (*species_list)[i].s->lg), (double) lm,
+					   (double) ((*species_list)[i].s->lm +
+								 (*species_list)[i].s->lg),
+					   (double) (*species_list)[i].s->lg));
+			if ((*species_list)[i].s->logk[vm_tc] || !strcmp((*species_list)[i].s->name, "H+"))
 				output_msg(sformatf("%10.2f\n",
-					   (double) species_list[i].s->logk[vm_tc]));
+					   (double) (*species_list)[i].s->logk[vm_tc]));
 			else
 				output_msg(sformatf("     (0)  \n"));
 		}
@@ -1642,9 +1642,9 @@ print_surface(void)
 				output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < (int) species_list.size(); i++)
+				for (int i = 0; i < (int) (*species_list).size(); i++)
 				{
-					if (species_list[i].master_s != master_ptr->s)
+					if ((*species_list)[i].master_s != master_ptr->s)
 						continue;
 /*
  *   Print species data
@@ -1652,8 +1652,8 @@ print_surface(void)
 					if (x[k]->moles >= MIN_RELATED_SURFACE)
 					{
 						molfrac =
-							(LDBLE) (species_list[i].s->moles) / x[k]->moles *
-							species_list[i].s->equiv;
+							(LDBLE) ((*species_list)[i].s->moles) / x[k]->moles *
+							(*species_list)[i].s->equiv;
 					}
 					else
 					{
@@ -1661,12 +1661,12 @@ print_surface(void)
 					}
 					output_msg(sformatf(
 							   "\t%-15s%12.3e%12.3f%12.3e%12.3f\n",
-							   species_list[i].s->name,
-							   (double) species_list[i].s->moles,
+							   (*species_list)[i].s->name,
+							   (double) (*species_list)[i].s->moles,
 							   (double) molfrac,
-							   (double) (species_list[i].s->moles /
+							   (double) ((*species_list)[i].s->moles /
 										 mass_water_aq_x),
-							   log10(species_list[i].s->moles /
+							   log10((*species_list)[i].s->moles /
 									 mass_water_aq_x)));
 				}
 				output_msg(sformatf("\n"));
@@ -1684,9 +1684,9 @@ print_surface(void)
 			output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 					   "Species", "Moles", "Fraction", "Molality",
 					   "Molality"));
-			for (int i = 0; i < (int) species_list.size(); i++)
+			for (int i = 0; i < (int) (*species_list).size(); i++)
 			{
-				if (species_list[i].master_s != master_ptr->s)
+				if ((*species_list)[i].master_s != master_ptr->s)
 					continue;
 /*
  *   Print species data
@@ -1694,8 +1694,8 @@ print_surface(void)
 				if (x[k]->moles >= MIN_RELATED_SURFACE)
 				{
 					molfrac =
-						(double) (species_list[i].s->moles) / x[k]->moles *
-						species_list[i].s->equiv;
+						(double) ((*species_list)[i].s->moles) / x[k]->moles *
+						(*species_list)[i].s->equiv;
 				}
 				else
 				{
@@ -1703,12 +1703,12 @@ print_surface(void)
 				}
 				output_msg(sformatf(
 						   "\t%-15s%12.3e%12.3f%12.3e%12.3f\n",
-						   species_list[i].s->name,
-						   (double) species_list[i].s->moles,
+						   (*species_list)[i].s->name,
+						   (double) (*species_list)[i].s->moles,
 						   (double) molfrac,
-						   (double) (species_list[i].s->moles /
+						   (double) ((*species_list)[i].s->moles /
 									 mass_water_aq_x),
-						   log10(species_list[i].s->moles / mass_water_aq_x)));
+						   log10((*species_list)[i].s->moles / mass_water_aq_x)));
 			}
 			output_msg(sformatf("\n"));
 		}
@@ -1920,9 +1920,9 @@ print_surface_cd_music(void)
 				output_msg(sformatf("\t%-20s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < (int) species_list.size(); i++)
+				for (int i = 0; i < (int) (*species_list).size(); i++)
 				{
-					if (species_list[i].master_s != master_ptr->s)
+					if ((*species_list)[i].master_s != master_ptr->s)
 						continue;
 /*
  *   Print species data
@@ -1930,8 +1930,8 @@ print_surface_cd_music(void)
 					if (x[k]->moles >= MIN_RELATED_SURFACE)
 					{
 						molfrac =
-							(LDBLE) (species_list[i].s->moles) / x[k]->moles *
-							species_list[i].s->equiv;
+							(LDBLE) ((*species_list)[i].s->moles) / x[k]->moles *
+							(*species_list)[i].s->equiv;
 					}
 					else
 					{
@@ -1939,12 +1939,12 @@ print_surface_cd_music(void)
 					}
 					output_msg(sformatf(
 							   "\t%-20s%12.3e%12.3f%12.3e%12.3f\n",
-							   species_list[i].s->name,
-							   (double) species_list[i].s->moles,
+							   (*species_list)[i].s->name,
+							   (double) (*species_list)[i].s->moles,
 							   (double) molfrac,
-							   (double) (species_list[i].s->moles /
+							   (double) ((*species_list)[i].s->moles /
 										 mass_water_aq_x),
-							   log10(species_list[i].s->moles /
+							   log10((*species_list)[i].s->moles /
 									 mass_water_aq_x)));
 				}
 				output_msg(sformatf("\n"));
