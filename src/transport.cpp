@@ -743,7 +743,7 @@ transport(void)
 		if (dump_modulus != 0 && (transport_step % dump_modulus) == 0)
 			dump();
 	}
-	screen_msg("\n");
+	screen_msg(sformatf("%s\n", status_string.c_str()));
 
 	/* free_model_allocs(); */
 /*
