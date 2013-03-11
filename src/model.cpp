@@ -1278,7 +1278,7 @@ ineq(int in_kode)
 			}
 			l_count_rows++;
 		}
-	}
+				}
 	l_count_optimize = l_count_rows;
 /*
  *   Copy equality equations into ineq_array
@@ -4147,6 +4147,10 @@ residuals(void)
 			if (charge_ptr->Get_grams() == 0)
 			{
 				residual[i] = 0.0;
+				cd_psi.clear();
+				cd_psi.push_back(0.0);
+				cd_psi.push_back(0.0);
+				cd_psi.push_back(0.0);
 			}
 			else
 			{
