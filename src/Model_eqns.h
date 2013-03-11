@@ -13,7 +13,6 @@ public:
 	void Reprep_model(void);
 	void Initialize_phreeqc(void);
 	void Allocate_arrays(int max);
-	//std::vector< std::map < std::string, cxxSpeciesDL > > * New_s_diff_layer();
 
 protected:
 
@@ -62,6 +61,6 @@ protected:
 
 	Phreeqc * phreeqc_ptr;
 	std::string model_id;
-	std::vector< std::map < std::string, cxxSpeciesDL > > *s_diff_layer_ME;
+	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer_ME;
 };
 #endif // !defined(DUMPER_H_INCLUDED)

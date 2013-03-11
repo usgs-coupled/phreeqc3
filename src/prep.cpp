@@ -2333,7 +2333,7 @@ clear_model_eqn(void)
 	//sum_jacob2.clear();
 	//sum_delta = (struct list2 *) free_check_null(sum_delta);
 	//sum_delta.clear();
-	s_diff_layer = NULL;
+	//s_diff_layer = NULL;
 
 	return (OK);
 }
@@ -4388,11 +4388,12 @@ setup_surface(void)
 		}
 	}
 	cxxSurface *surface_ptr = use.Get_surface_ptr();
-	s_diff_layer = NULL;
+	//s_diff_layer = NULL;
 	if (surface_ptr != NULL && surface_ptr->Get_dl_type() != cxxSurface::NO_DL)
 	{
 		//std::vector< std::map < std::string, cxxSpeciesDL > > *s_diff_layer_ME = new();
-		s_diff_layer = new std::vector< std::map < std::string, cxxSpeciesDL > > ; 
+		//s_diff_layer = new std::vector< std::map < std::string, cxxSpeciesDL > > ; 
+		//s_diff_layer = current_model_ptr->New_s_diff_layer();
 		for (int i = 0; i < count_s; i++)
 		{
 			std::map < std::string, cxxSpeciesDL > dl;
@@ -7764,6 +7765,6 @@ clear_model_eqns_map(void)
 	model_eqns_map.clear();
 	current_model_id = "none";
 	//sum_species_map.clear();
-	s_diff_layer = NULL;
+	//s_diff_layer = NULL;
 	return;
 }
