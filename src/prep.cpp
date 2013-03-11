@@ -1602,7 +1602,7 @@ build_model(void)
 /*
  *   Save model description
  */
-	save_model();
+	//save_model();
 
 	if (input_error > 0)
 	{
@@ -6587,7 +6587,7 @@ k_calc(LDBLE * l_logk, LDBLE tempk, LDBLE presPa)
 	return lk;
 }
 
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
 save_model(void)
@@ -6772,6 +6772,7 @@ save_model(void)
 
 	return (OK);
 }
+#endif
 #ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

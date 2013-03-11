@@ -41,6 +41,7 @@ clean_up(void)
 	moles_per_kilogram_string =
 		(char *) free_check_null(moles_per_kilogram_string);
 	pe_string = (char *) free_check_null(pe_string);
+#ifdef SKIP
 /* model */
 	last_model.exchange =
 		(struct master **) free_check_null(last_model.exchange);
@@ -57,7 +58,7 @@ clean_up(void)
 		(const char **) free_check_null(last_model.surface_comp);
 	last_model.surface_charge =
 		(const char **) free_check_null(last_model.surface_charge);
-
+#endif
 	/* model */
 	//free_model_allocs();
 
@@ -998,7 +999,7 @@ master_alloc(void)
  */
 	ptr->in = FALSE;
 	ptr->number = -1;
-	ptr->last_model = -1;
+	//ptr->last_model = -1;
 	ptr->type = 0;
 	ptr->primary = FALSE;
 	ptr->coef = 0.0;

@@ -570,7 +570,7 @@ public:
 	bool quick_setup(void);
 	int quick_setup_initial_solution(void);
 	int resetup_master(void);
-	int save_model(void);
+	//int save_model(void);
 	int setup_exchange(void);
 	int setup_gas_phase(void);
 	int setup_fixed_volume_gas(void);
@@ -985,7 +985,7 @@ public:
 	LDBLE coef_in_master(struct master *master_ptr);
 	int phase_rxn_to_trxn(struct phase *phase_ptr,
 	struct reaction *rxn_ptr);
-	int reset_last_model(void);
+	//int reset_last_model(void);
 	int rewrite_eqn_to_primary(void);
 	int rewrite_eqn_to_secondary(void);
 	int species_rxn_to_trxn(struct species *s_ptr);
@@ -1134,7 +1134,7 @@ protected:
 	*   STRUCTURES
 	* ---------------------------------------------------------------------- */
 
-	struct model last_model;
+	//struct model last_model;
 	struct punch punch;
 
 	/* ----------------------------------------------------------------------

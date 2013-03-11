@@ -223,7 +223,7 @@ typedef struct PHRQMemHeader
 	int dummy;					/* alignment */
 #endif
 } PHRQMemHeader;
-
+#ifdef SKIP
 struct model
 {
 	int force_prep;
@@ -256,7 +256,7 @@ struct model
 	const char **surface_charge;
 	LDBLE pressure;
 };
-
+#endif
 
 
 struct name_master
@@ -755,7 +755,7 @@ struct phase
  {								/* list of name and number of elements in an equation */
  	int in;						/* TRUE if in model, FALSE if out, REWRITE if other mb eq */
  	int number;					/* sequence number in list of masters */
- 	int last_model;				/* saved to determine if model has changed */
+ 	//int last_model;				/* saved to determine if model has changed */
  	int type;					/* AQ or EX */
  	int primary;				/* TRUE if master species is primary */
  	LDBLE coef;					/* coefficient of element in master species */

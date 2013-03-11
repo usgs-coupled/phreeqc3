@@ -321,11 +321,11 @@ tidy_model(void)
 		tidy_solutions();
 	}
 
-	/*      if (new_model || new_exchange || new_pp_assemblage || new_surface || new_gas_phase || new_kinetics) reset_last_model(); */
-	if (new_model)
-	{
-		reset_last_model();
-	}
+	///*      if (new_model || new_exchange || new_pp_assemblage || new_surface || new_gas_phase || new_kinetics) reset_last_model(); */
+	//if (new_model)
+	//{
+	//	reset_last_model();
+	//}
 /*
  *   make sure essential species are defined
  */
@@ -4727,7 +4727,7 @@ tidy_isotope_alphas(void)
 	}
 	return (OK);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 reset_last_model(void)
@@ -4761,6 +4761,7 @@ reset_last_model(void)
 		(const char **) free_check_null(last_model.surface_charge);
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_exchange(void)

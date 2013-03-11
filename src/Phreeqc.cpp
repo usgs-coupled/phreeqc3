@@ -853,6 +853,7 @@ void Phreeqc::init(void)
 /*
  *	 last model
  */
+#ifdef SKIP
 	last_model.force_prep           = TRUE;
 	last_model.temperature          = -100;
 	last_model.pressure             = 0;
@@ -876,6 +877,7 @@ void Phreeqc::init(void)
 	last_model.surface_comp         = NULL;
 	last_model.count_surface_charge = -1;
 	last_model.surface_charge       = NULL;
+#endif
 
 	//struct punch punch;
 /*
