@@ -44,6 +44,121 @@ prep(void)
 	std::string last_model_id = current_model_id;
 	current_model_id = Make_model_id();
 
+	bool same_model = false;
+	if (!force_prep && 
+		!switch_numerical &&
+		(state == INITIAL_SOLUTION || 
+		/*state == INITIAL_EXCHANGE || 
+		state == INITIAL_SURFACE || 
+		state == INITIAL_GAS_PHASE || */
+		state >= REACTION) )
+	{
+		if(last_model_id == current_model_id)
+		{
+			same_model = quick_setup();
+		}
+		else
+		{
+			std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
+			if(me_it != model_eqns_map.end())
+			{
+				clear_model_eqn();
+				me_it->second->Copy_to_phreeqc();
+				current_model_ptr = me_it->second;
+
+				same_model = quick_setup();
+				current_tc = -99999.9;
+			}
+		}
+	}
+	//if (!same_model && !switch_numerical)
+	//	numerical_fixed_volume = false;
+	if (!same_model)
+	{
+		// Remove old model
+		std::map<std::string, Model_eqns *>::iterator me_it = model_eqns_map.find(current_model_id);
+		if (me_it != model_eqns_map.end())
+		{
+			model_eqns_map.erase(me_it);
+		}
+
+		// Make new model
+		model_eqns_map[current_model_id] = new Model_eqns(this);
+		current_model_ptr = model_eqns_map[current_model_id];
+		current_model_ptr->Initialize_phreeqc();
+		clear_model_eqn();
+		/*
+		*   Set unknown pointers, unknown types, validity checks
+		*/
+		setup_unknowns();
+		setup_solution();
+		setup_exchange();
+		setup_surface();
+		setup_pure_phases();
+		setup_gas_phase();
+		setup_ss_assemblage();
+		setup_related_surface();
+		setup_slack();
+		tidy_redox();
+		if (get_input_errors() > 0)
+		{
+			error_msg("Program terminating due to input errors.", STOP);
+		}
+
+		// Allocates arrays, sets pointers in phreeqc
+		current_model_ptr->Allocate_arrays(max_unknowns);
+
+		/*
+		*   Build lists to fill Jacobian array and species list
+		*/
+		build_model();
+		adjust_setup_pure_phases();
+		adjust_setup_solution();
+
+		current_model_ptr->Copy_from_phreeqc();
+		current_tc = -999999.9;  // recalculate Ks
+		force_prep = false;
+	}
+	if (get_input_errors() > 0)
+	{
+		error_msg("Program stopping due to input errors.", STOP);
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+prep(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Input is model defined by the structure use.
+ *   Most of routine is skipped if model, as defined by master.total
+ *      plus use.pure_phases, is same as previous calculation.
+ *   Routine sets up struct unknown for each unknown.
+ *   Determines elements, species, and phases that are in the model.
+ *   Calculates mass-action equations for each species and phase.
+ *   Routine builds a set of lists for calculating mass balance and
+ *      for building jacobian.
+ */
+	// Check solution
+	cxxSolution *solution_ptr = use.Get_solution_ptr();
+	if (solution_ptr == NULL)
+	{
+		error_msg("Solution needed for calculation not found, stopping.",
+				  STOP);
+	}
+	description_x = (char *) free_check_null(description_x);
+	description_x = string_duplicate(solution_ptr->Get_description().c_str());
+	if (state == INITIAL_SOLUTION)
+	{
+		convert_units(solution_ptr);
+	}
+
+	// determine model
+	std::string last_model_id = current_model_id;
+	current_model_id = Make_model_id();
+
 	same_model = FALSE;
 	last_model.force_prep = TRUE;
 	bool process_prep = true;
@@ -160,249 +275,6 @@ prep(void)
 	{
 		error_msg("Program stopping due to input errors.", STOP);
 	}
-	return (OK);
-}
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
- int Phreeqc::
-quick_setup(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Routine is used if model is the same as previous model
- *   Assumes moles of elements, exchangers, surfaces, gases, and solid solutions have
- *       been accumulated in array master, usually by subroutine step.
- *   Updates essential information for the model.
- */
-	int i, j, k;
-	for (i = 0; i < count_master; i++)
-	{
-		if (master[i]->s->type == SURF_PSI)
-			continue;
-		if (master[i]->s == s_eminus ||
-			master[i]->s == s_hplus ||
-			master[i]->s == s_h2o || master[i]->s == s_h2
-			|| master[i]->s == s_o2)
-			continue;
-		if (master[i]->total > 0)
-		{
-			if (master[i]->s->secondary != NULL)
-			{
-				master[i]->s->secondary->unknown->moles = master[i]->total;
-			}
-			else
-			{
-				master[i]->unknown->moles = master[i]->total;
-			}
-		}
-	}
-/*
- *   Reaction: pH for charge balance
- */
-	ph_unknown->moles = use.Get_solution_ptr()->Get_cb();
-/*
- *   Reaction: pe for total hydrogen
- */
-	if (mass_hydrogen_unknown != NULL)
-	{
-/* Use H - 2O linear combination in place of H */
-#define COMBINE
-		/*#define COMBINE_CHARGE */
-#ifdef COMBINE
-		mass_hydrogen_unknown->moles =
-			use.Get_solution_ptr()->Get_total_h() - 2 * use.Get_solution_ptr()->Get_total_o();
-#else
-		mass_hydrogen_unknown->moles = use.Get_solution_ptr()->total_h;
-#endif
-	}
-/*
- *   Reaction H2O for total oxygen
- */
-	if (mass_oxygen_unknown != NULL)
-	{
-		mass_oxygen_unknown->moles = use.Get_solution_ptr()->Get_total_o();
-	}
-
-/*
- *   pp_assemblage
- */
-	j = 0;
-	for (i = 0; i < (int) x.size(); i++)
-	{
-		if (x[i]->type == PP)
-		{
-			cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-			std::map<std::string, cxxPPassemblageComp>::iterator it;
-			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
-			assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
-			cxxPPassemblageComp * comp_ptr = &(it->second);
-
-			x[i]->moles = comp_ptr->Get_moles();
-			/* A. Crapsi */
-			x[i]->si    = comp_ptr->Get_si();
-			x[i]->delta = comp_ptr->Get_delta();
-			/* End A. Crapsi */
-			x[i]->dissolve_only = comp_ptr->Get_dissolve_only() ? TRUE : FALSE;
-			comp_ptr->Set_delta(0.0);
-		}
-	}
-	// Need to update SIs for gases
-	adjust_setup_pure_phases();
-
-/*
- *   gas phase
- */
-	if (gas_unknown != NULL)
-	{
-		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
-		if ((gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME) && 
-			numerical_fixed_volume && 
-			(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume))
-		{
-			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
-			{	
-				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-				gas_unknowns[i]->moles = gc_ptr->Get_moles();
-				if (gas_unknowns[i]->moles <= 0)
-					gas_unknowns[i]->moles = MIN_TOTAL;
-				gas_unknowns[i]->phase->pr_in = false;
-				gas_unknowns[i]->phase->pr_phi = 1.0;
-				gas_unknowns[i]->phase->pr_p = 0;
-			}
-		}
-		else
-		{
-			gas_unknown->moles = 0.0;
-			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
-			{	
-				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-				gas_unknown->moles += gc_ptr->Get_moles();
-			}
-			if (gas_unknown->moles <= 0)
-				gas_unknown->moles = MIN_TOTAL;
-			gas_unknown->ln_moles = log(gas_unknown->moles);
-		}
-	}
-
-/*
- *   ss_assemblage
- */
-	if (ss_unknown != NULL)
-	{
-		for (i = 0; i < (int) x.size(); i++)
-		{
-			if (x[i]->type == SS_MOLES)
-				break;
-		}
-
-		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
-		for (size_t j = 0; j < ss_ptrs.size(); j++)
-		{
-			for (size_t k = 0; k < ss_ptrs[j]->Get_ss_comps().size(); k++)
-			{
-				cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[k]);
-				x[i]->moles = comp_ptr->Get_moles();
-				if (x[i]->moles <= 0)
-				{
-					x[i]->moles = MIN_TOTAL_SS;
-					comp_ptr->Set_moles(MIN_TOTAL_SS);
-				}
-				comp_ptr->Set_initial_moles(x[i]->moles);
-				x[i]->ln_moles = log(x[i]->moles);
-
-				x[i]->phase->dn = comp_ptr->Get_dn();
-				x[i]->phase->dnb = comp_ptr->Get_dnb();
-				x[i]->phase->dnc = comp_ptr->Get_dnc();
-				x[i]->phase->log10_fraction_x =	comp_ptr->Get_log10_fraction_x();
-				x[i]->phase->log10_lambda = comp_ptr->Get_log10_lambda();
-				i++;
-			}
-		}
-	}
-/*
- *   exchange
- */
-	// number of moles is set from master->moles above
-/*
- *   surface
- */
-	if (use.Get_surface_ptr() != NULL)
-	{
-		for (i = 0; i < (int) x.size(); i++)
-		{
-			if (x[i]->type == SURFACE)
-			{
-				break;
-			}
-		}
-		j = 0;
-		k = 0;
-		for (; i < (int) x.size(); i++)
-		{
-			if (x[i]->type == SURFACE_CB)
-			{
-				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
-				x[i]->related_moles = charge_ptr->Get_grams();
-				x[i]->mass_water = charge_ptr->Get_mass_water();
-#ifdef DEBUG
-				/* test that charge and surface match */
-				cxxSurfaceComp *comp_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
-				char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				char * ptr = temp_formula;
-				copy_token(token, &ptr, &l);
-				char * ptr1 = token;
-				get_elt(&ptr1, name, &l);
-				ptr1 = strchr(name, '_');
-				if (ptr1 != NULL)
-					ptr1[0] = '\0';
-				if (strcmp(name, charge_ptr->Get_name().c_str()) != 0)
-				{
-					free_check_null(temp_formula);
-					error_string = sformatf(
-							"Internal error: Surface charge name %s does not match surface component name %s\nTry alphabetical order for surfaces in SURFACE",
-							charge_ptr->Get_name().c_str(),
-							comp_ptr->Get_formula().c_str());
-					error_msg(error_string, STOP);
-				}
-				free_check_null(temp_formula);
-#endif
-				/* moles picked up from master->total */
-			}
-			else if (x[i]->type == SURFACE_CB1 || x[i]->type == SURFACE_CB2)
-			{
-				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
-				x[i]->related_moles = charge_ptr->Get_grams();
-				x[i]->mass_water = charge_ptr->Get_mass_water();
-			}
-			else if (x[i]->type == SURFACE)
-			{
-				/* moles picked up from master->total
-				   except for surfaces related to kinetic minerals ... */
-				cxxSurfaceComp *comp_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
-				if (comp_ptr->Get_rate_name().size() > 0)
-				{
-					cxxNameDouble::iterator lit;
-					for (lit = comp_ptr->Get_totals().begin(); lit != comp_ptr->Get_totals().end(); lit++)
-					{
-						struct element *elt_ptr = element_store(lit->first.c_str());
-						struct master *master_ptr = elt_ptr->master;
-						if (master_ptr->type != SURF)
-							continue;
-						if (strcmp_nocase(x[i]->description, lit->first.c_str()) == 0)
-						{
-							x[i]->moles = lit->second;
-						}
-					}
-				}
-			}
-			else
-			{
-				break;
-			}
-
-		}
-	}
-	save_model();
 	return (OK);
 }
 #endif
@@ -6900,7 +6772,7 @@ save_model(void)
 
 	return (OK);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 check_same_model(void)
@@ -7071,6 +6943,7 @@ check_same_model(void)
  */
 	return (TRUE);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 build_min_exch(void)

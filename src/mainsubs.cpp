@@ -549,7 +549,7 @@ initialize(void)
 
 	print_density = 0;
 
-	same_model = FALSE;
+	//same_model = FALSE;
 	current_tc = NAN;
 	current_pa = NAN;
 	current_mu = NAN;

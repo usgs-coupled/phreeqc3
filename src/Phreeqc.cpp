@@ -841,7 +841,7 @@ Phreeqc::Phreeqc(PHRQ_io *io)
 }
 void Phreeqc::init(void)
 {
-	same_model                      = FALSE;
+	//same_model                      = FALSE;
 	current_tc                      = NAN;
 	current_pa                      = NAN;
 	current_mu                      = NAN;
@@ -1795,7 +1795,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	}
 	*/
 
-	same_model                      = FALSE;
+	//same_model                      = FALSE;
 	current_tc                      = pSrc->current_tc;
 	current_pa                      = pSrc->current_pa;
 	current_mu                      = pSrc->current_mu;

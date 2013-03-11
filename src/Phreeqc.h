@@ -599,7 +599,7 @@ public:
 	int write_mb_for_species_list(int n);
 	int write_mass_action_eqn_x(int stop);
 
-	int check_same_model(void);
+	//int check_same_model(void);
 	int k_temp(LDBLE tc, LDBLE pa);
 	LDBLE k_calc(LDBLE * logk, LDBLE tempk, LDBLE presPa);
 	int prep(void);
@@ -1123,7 +1123,7 @@ protected:
 protected:
 	PHRQ_io *phrq_io;
 	PHRQ_io ioInstance;
-	int same_model;
+	//int same_model;
 
 	LDBLE current_tc;
 	LDBLE current_pa;
