@@ -1,0 +1,232 @@
+   Input file: pressure_si
+  Output file: pressure_si.out
+Database file: C:\Program Files (x86)\USGS\Phreeqc Interactive 3.0.0-7430\database\phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.0.0-7430\database\phreeqc.dat
+	SOLUTION 1
+	Ba 1
+	S(6) 1
+	ph   6.35
+	temp 75
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba               1.000e-003  1.000e-003
+	S(6)             1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.350    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 75 oC) = 490
+                          Density (g/cm3)  =   0.97506
+                               Volume (L)  =   1.02588
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.238e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  = -8.543e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  75.00
+                  Electrical balance (eq)  =  8.543e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.551022e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            4.924e-007  4.595e-007    -6.308    -6.338    -0.030     -4.39
+   H+             4.758e-007  4.467e-007    -6.323    -6.350    -0.027      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.48
+Ba           1.000e-003
+   Ba+2           8.095e-004  6.157e-004    -3.092    -3.211    -0.119    -11.30
+   BaSO4          1.905e-004  1.906e-004    -3.720    -3.720     0.000     (0)  
+   BaOH+          4.997e-011  4.671e-011   -10.301   -10.331    -0.029     (0)  
+H(0)         1.843e-024
+   H2             9.215e-025  9.222e-025   -24.035   -24.035     0.000     28.58
+O(0)         6.454e-031
+   O2             3.227e-031  3.229e-031   -30.491   -30.491     0.000     32.99
+S(6)         1.000e-003
+   SO4-2          8.094e-004  6.177e-004    -3.092    -3.209    -0.117     14.38
+   BaSO4          1.905e-004  1.906e-004    -3.720    -3.720     0.000     (0)  
+   HSO4-          1.022e-007  9.538e-008    -6.991    -7.021    -0.030     41.37
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(348 K,   1 atm)
+
+	Barite            3.12     -6.42   -9.54  BaSO4
+	H2(g)           -20.90    -24.04   -3.13  H2
+	H2O(g)           -0.42     -0.00    0.42  H2O
+	O2(g)           -27.39    -30.49   -3.10  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE solution 1
+	Equilibrium_Phases 1
+	Calcite    0.0
+	Barite     0.0
+	Reaction_Pressure 1
+	500
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+Using pressure 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Barite            0.00    -9.20     -9.20   1.000e+001  1.000e+001  9.698e-004
+Calcite           0.00    -8.52     -8.52   1.000e+001  1.000e+001 -2.456e-004
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ba               3.015e-005  3.015e-005
+	C                2.456e-004  2.456e-004
+	Ca               2.456e-004  2.456e-004
+	S                3.015e-005  3.015e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.808      Charge balance
+                                       pe  =  -3.425      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 75 oC) = 199
+                          Density (g/cm3)  =   0.99600
+                               Volume (L)  =   1.00406
+                        Activity of water  =   1.000
+                           Ionic strength  =  8.060e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  4.911e-004
+                       Total CO2 (mol/kg)  =  2.456e-004
+                      Temperature (deg C)  =  75.00
+                           Pressure (atm)  = 500.00
+                  Electrical balance (eq)  =  8.543e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.01
+                               Iterations  =  17
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550707e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            2.077e-004  2.006e-004    -3.683    -3.698    -0.015     -5.91
+   H+             1.608e-009  1.556e-009    -8.794    -8.808    -0.014      0.00
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.09
+Ba           3.015e-005
+   Ba+2           2.891e-005  2.519e-005    -4.539    -4.599    -0.060     -8.10
+   BaCO3          5.390e-007  5.391e-007    -6.268    -6.268     0.000     -8.03
+   BaHCO3+        3.879e-007  3.747e-007    -6.411    -6.426    -0.015     (0)  
+   BaSO4          3.173e-007  3.174e-007    -6.499    -6.498     0.000     (0)  
+   BaOH+          5.675e-010  5.484e-010    -9.246    -9.261    -0.015     (0)  
+C(-4)        3.073e-032
+   CH4            3.073e-032  3.074e-032   -31.512   -31.512     0.000     32.22
+C(4)         2.456e-004
+   HCO3-          2.057e-004  1.988e-004    -3.687    -3.702    -0.015     26.45
+   CaCO3          1.998e-005  1.998e-005    -4.699    -4.699     0.000    -11.78
+   CO3-2          1.776e-005  1.550e-005    -4.751    -4.810    -0.059     -1.10
+   CaHCO3+        7.268e-007  7.026e-007    -6.139    -6.153    -0.015     11.29
+   BaCO3          5.390e-007  5.391e-007    -6.268    -6.268     0.000     -8.03
+   CO2            4.568e-007  4.569e-007    -6.340    -6.340     0.000     28.49
+   BaHCO3+        3.879e-007  3.747e-007    -6.411    -6.426    -0.015     (0)  
+Ca           2.456e-004
+   Ca+2           2.239e-004  1.953e-004    -3.650    -3.709    -0.059    -15.71
+   CaCO3          1.998e-005  1.998e-005    -4.699    -4.699     0.000    -11.78
+   CaSO4          1.001e-006  1.001e-006    -5.999    -5.999     0.000      9.44
+   CaHCO3+        7.268e-007  7.026e-007    -6.139    -6.153    -0.015     11.29
+   CaOH+          2.156e-008  2.083e-008    -7.666    -7.681    -0.015     (0)  
+   CaHSO4+        3.287e-014  3.175e-014   -13.483   -13.498    -0.015     (0)  
+H(0)         9.630e-015
+   H2             4.815e-015  4.816e-015   -14.317   -14.317     0.000     28.37
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -50.324   -50.324     0.000     31.77
+S(-2)        1.848e-030
+   HS-            1.829e-030  1.766e-030   -29.738   -29.753    -0.015     20.93
+   S-2            1.167e-032  1.018e-032   -31.933   -31.992    -0.059     (0)  
+   H2S            7.518e-033  7.519e-033   -32.124   -32.124     0.000     36.50
+S(6)         3.015e-005
+   SO4-2          2.883e-005  2.514e-005    -4.540    -4.600    -0.059     14.61
+   CaSO4          1.001e-006  1.001e-006    -5.999    -5.999     0.000      9.44
+   BaSO4          3.173e-007  3.174e-007    -6.499    -6.498     0.000     (0)  
+   HSO4-          8.951e-012  8.647e-012   -11.048   -11.063    -0.015     40.21
+   CaHSO4+        3.287e-014  3.175e-014   -13.483   -13.498    -0.015     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(348 K, 500 atm)
+
+	Anhydrite        -3.76     -8.31   -4.55  CaSO4
+	Aragonite        -0.09     -8.52   -8.43  CaCO3
+	Barite            0.00     -9.20   -9.20  BaSO4
+	Calcite           0.00     -8.52   -8.52  CaCO3
+	CH4(g)          -28.88    -31.51   -2.63  CH4
+	CO2(g)           -4.63     -6.34   -1.71  CO2
+	Gypsum           -3.89     -8.31   -4.42  CaSO4:2H2O
+	H2(g)           -11.18    -14.32   -3.13  H2
+	H2O(g)           -0.29     -0.00    0.29  H2O
+	H2S(g)          -31.07    -38.56   -7.49  H2S
+	O2(g)           -46.95    -50.32   -3.37  O2
+	Sulfur          -25.68    -21.36    4.32  S
+	Witherite        -1.04     -9.41   -8.37  BaCO3
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.262 Seconds.
+-------------------------------
+
+No memory leaks

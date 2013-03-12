@@ -115,6 +115,7 @@ all: alkalinity.out \
 	pitzer_fail.out \
 	pitzgas.out \
 	precipitate_only.out \
+	pressure_si.out \
 	prob8.out \
 	pyrite_34s.out \
 	rahn.out \
