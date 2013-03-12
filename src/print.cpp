@@ -1283,6 +1283,10 @@ print_pp_assemblage(void)
 				PR_inprint = true;
 				phase_ptr->pr_in = false;
 			}
+			phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
+				phase_ptr->logk[vm0];
+			if (phase_ptr->rxn->logk[delta_v])
+				mu_terms_in_logk = true;
 			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
 			if (PR_inprint)
 				phase_ptr->pr_in = true;
