@@ -5521,22 +5521,36 @@ calc_delta_v(reaction *r_ptr, bool phase)
 {
 /* calculate delta_v from molar volumes */
 
-	int p = -1;
 	LDBLE d_v = 0.0;
 
 	if (phase)
-		p = 1; /* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
-
-	for (size_t i = 0; r_ptr->token[i].name; i++)
 	{
-		if (!r_ptr->token[i].s)
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "H+"))
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "e-"))
-			continue;
-		else if (r_ptr->token[i].s->logk[vm_tc])
-			d_v += p * r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+		/* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
+		for (size_t i = 1; r_ptr->token[i].s /*|| r_ptr->token[i].s*/ ; i++)
+		{
+			if (!r_ptr->token[i].s)
+				continue;
+			if (!strcmp(r_ptr->token[i].s->name, "H+"))
+				continue;
+			if (!strcmp(r_ptr->token[i].s->name, "e-"))
+				continue;
+			else if (r_ptr->token[i].s->logk[vm_tc])
+				d_v += r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+		}
+	}
+	else
+	{	
+		for (size_t i = 0; r_ptr->token[i].name /*|| r_ptr->token[i].s*/ ; i++)
+		{
+			if (!r_ptr->token[i].s)
+				continue;
+			if (!strcmp(r_ptr->token[i].s->name, "H+"))
+				continue;
+			if (!strcmp(r_ptr->token[i].s->name, "e-"))
+				continue;
+			else if (r_ptr->token[i].s->logk[vm_tc])
+				d_v += - r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+		}
 	}
 	return d_v;
 }

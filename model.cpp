@@ -4138,6 +4138,10 @@ residuals(void)
 			if (charge_ptr->Get_grams() == 0)
 			{
 				residual[i] = 0.0;
+				cd_psi.clear();
+				cd_psi.push_back(0.0);
+				cd_psi.push_back(0.0);
+				cd_psi.push_back(0.0);
 			}
 			else
 			{
