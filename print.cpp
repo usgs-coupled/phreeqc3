@@ -1282,12 +1282,19 @@ print_pp_assemblage(void)
 			{
 				PR_inprint = true;
 				phase_ptr->pr_in = false;
-			}
-			phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
+				phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn_x, true) -
 				phase_ptr->logk[vm0];
-			if (phase_ptr->rxn->logk[delta_v])
-				mu_terms_in_logk = true;
-			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
+				lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
+			}
+			else 
+				lk = phase_ptr->lk;
+// dlp
+			//phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
+			//	phase_ptr->logk[vm0];
+			//if (phase_ptr->rxn->logk[delta_v])
+			//	mu_terms_in_logk = true;
+// end
+//			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
 			if (PR_inprint)
 				phase_ptr->pr_in = true;
 			for (rxn_ptr = phase_ptr->rxn->token + 1; rxn_ptr->s != NULL;
