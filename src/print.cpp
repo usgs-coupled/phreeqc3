@@ -1278,6 +1278,7 @@ print_pp_assemblage(void)
 		{
 			phase_ptr = x[j]->phase;
 			PR_inprint = false;
+#ifdef TONY
 			if (phase_ptr->pr_in)
 			{
 				PR_inprint = true;
@@ -1288,6 +1289,13 @@ print_pp_assemblage(void)
 			}
 			else 
 				lk = phase_ptr->lk;
+#else
+			phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
+				phase_ptr->logk[vm0];
+			if (phase_ptr->rxn->logk[delta_v])
+				mu_terms_in_logk = true;
+			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
+#endif
 // dlp
 			//phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
 			//	phase_ptr->logk[vm0];
