@@ -253,7 +253,7 @@ write_banner(void)
 
 	/* version */
 #ifdef NPP
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.beta");
+	len = sprintf(buffer, "* PHREEQC-%s *", "3.0");
 #else
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 #endif
@@ -277,7 +277,7 @@ write_banner(void)
 
 	/* date */
 #ifdef NPP
-	len = sprintf(buffer, "%s", "July 19, 2012");
+	len = sprintf(buffer, "%s", "March 16, 2013");
 #else
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 #endif
