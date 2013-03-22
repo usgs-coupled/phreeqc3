@@ -17,6 +17,7 @@
 
     <!-- Prereqs -->
     <PropertyRef Id="NETFRAMEWORK20"/>
+    <PropertyRef Id="NETFRAMEWORK40FULL"/>
 
     <!-- NT only -->
     <Condition Message="[ProductName] requires a Windows NT based OS (Windows 2000 or later, specifically).">
@@ -38,9 +39,9 @@
       <![CDATA[Privileged OR (Installed OR ALLOW_PER_USER)]]>
     </Condition>
 
-    <!-- .Net framework 2.0 -->
+    <!-- .Net framework 2.0/4.0 -->
     <Condition Message="This application requires .NET Framework 2.0. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK20]]>
+      <![CDATA[Installed OR (NETFRAMEWORK20 OR NETFRAMEWORK40FULL)]]>
     </Condition>
 
     <Media Id="1" Cabinet="$(var.Cabinet)" EmbedCab="yes" />
@@ -391,6 +392,9 @@
       <Component Id="CLR.phreeqc.exe" Guid="*">
         <File Id="CLR.phreeqc.exe" Name="phreeqc.exe" Source="..\ClrRelease\phreeqc.exe" />
       </Component>
+      <Component Id="CLR.phreeqc.exe.config" Guid="*">
+        <File Id="CLR.phreeqc.exe.config" Name="phreeqc.exe.config" Source="..\ClrRelease\phreeqc.exe.config" />
+      </Component>
     </DirectoryRef>
 
     <!-- clr phreeqc.exe -->
@@ -407,6 +411,7 @@
       <ComponentRef Id="phreeqc.bat" />
       <ComponentRef Id="phreeqc.exe" />
       <ComponentRef Id="CLR.phreeqc.exe" />
+      <ComponentRef Id="CLR.phreeqc.exe.config" />
       <ComponentRef Id="ZedGraph.dll" />
       <Feature Id="Documentation" Title="Documentation" Description="This component contains brief, summary documentation as well as the full, formal program documentation." AllowAdvertise="system" Level="1">
         <ComponentRef Id="doc" />
