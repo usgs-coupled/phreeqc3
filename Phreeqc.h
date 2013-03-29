@@ -1490,6 +1490,7 @@ protected:
 	bool status_on;
 	clock_t status_interval;
 	clock_t status_timer;
+	std::string status_string;
 	int count_warnings;
 
 	/* ----------------------------------------------------------------------
