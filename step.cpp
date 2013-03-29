@@ -308,7 +308,7 @@ xsolution_zero(void)
 	ph_x = 0.0;
 	solution_pe_x = 0.0;
 	mu_x = 0.0;
-	ah2o_x = 1.0;
+	ah2o_x = 0.0;
 	density_x = 0.0;
 	total_h_x = 0.0;
 	total_o_x = 0.0;
