@@ -169,7 +169,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	   but may give densities < 0 outside the limits, e.g. tc = 250, p = 2.5e3... */
 
 	/* The minimal pressure equals the saturation pressure... */
-	double tk = tc + 273.15;
+	LDBLE tk = tc + 273.15;
 	p_sat = exp(11.6702 - 3816.44 / (tk - 46.13));
 	if (ah2o_x <= 1.0)
 		p_sat *= ah2o_x;
@@ -180,11 +180,11 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	}
 	if (!use.Get_gas_phase_in())
 		patm_x = pa;
-	double pasc = pa * 1.01325e5;
-    double Rg = 0.461526e3; //J / kg / K
-	double Tref = 1386.0, Pref = 16.53e6; // K, Pa
-	double t_t = Tref / tk, p_p = pasc / Pref;
-	double ni[34] = {0.14632971213167,    -0.84548187169114,     -0.37563603672040e1,    0.33855169168385e1,
+	LDBLE pasc = pa * 1.01325e5;
+    LDBLE Rg = 0.461526e3; //J / kg / K
+	LDBLE Tref = 1386.0, Pref = 16.53e6; // K, Pa
+	LDBLE t_t = Tref / tk, p_p = pasc / Pref;
+	LDBLE ni[34] = {0.14632971213167,    -0.84548187169114,     -0.37563603672040e1,    0.33855169168385e1,
 					-0.95791963387872,     0.15772038513228,     -0.16616417199501e-1,   0.81214629983568e-3,
 					 0.28319080123804e-3,  -0.60706301565874e-3, -0.18990068218419e-1,  -0.32529748770505e-1,
 					-0.21841717175414e-1,  -0.52838357969930e-4, -0.47184321073267e-3,  -0.30001780793026e-3,

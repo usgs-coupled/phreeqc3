@@ -233,7 +233,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 		case 6:				// d_params
 			while (parser.copy_token(token, next_char) == CParser::TT_DIGIT)
 			{
-				double dd;
+				LDBLE dd;
 				sscanf(token.c_str(), "%lf", &dd);
 				temp_d_params.push_back((LDBLE) dd);
 				d_params_defined = true;

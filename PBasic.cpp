@@ -3144,7 +3144,7 @@ factor(struct LOC_exec * LINK)
  		break;
 	case toklog10:
 		{
-			double t = realfactor(LINK);
+			LDBLE t = realfactor(LINK);
 			if (t > 0.0)
 			{
 				n.UU.val = log10(t);

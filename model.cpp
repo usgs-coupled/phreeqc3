@@ -4668,9 +4668,9 @@ revise_guesses(void)
 						if (x[i]->moles > 1e101 || x[i]->moles < 1e-101 ||
 							x[i]->sum > 1e101 || x[i]->sum < 1e-101)
 						{
-							double d1 = log10(x[i]->moles);
-							double d2 = log10(x[i]->sum);
-							double d3 = d1 - d2;
+							LDBLE d1 = log10(x[i]->moles);
+							LDBLE d2 = log10(x[i]->sum);
+							LDBLE d3 = d1 - d2;
 							if (d3 > DBL_MAX_10_EXP/2)
 							{
 								d = pow(10.0, DBL_MAX_10_EXP/2.);
@@ -4684,7 +4684,7 @@ revise_guesses(void)
 						{
 							d = fabs(x[i]->moles / x[i]->sum);
 						}
-						double d1;
+						LDBLE d1;
 						if (d > 0)
 						{
 							d1 = weight * log10(d);
@@ -5329,7 +5329,7 @@ numerical_jacobian(void)
 			// avoid overflow
 			if (residual[j] > 1.0e101)
 			{
-				double t = pow(10.0, DBL_MAX_10_EXP - 50.0);
+				LDBLE t = pow((LDBLE) 10.0, LDBLE(DBL_MAX_10_EXP - 50.0));
 				if (residual[j]  > t)
 				{
 					array[j * (count_unknowns + 1) + i] = -pow(10.0, DBL_MAX_10_EXP - 50.0);
@@ -5341,7 +5341,7 @@ numerical_jacobian(void)
 			}
 			else if (residual[j] < -1.0e101)
 			{
-				double t = pow(10.0, DBL_MIN_10_EXP + 50.0);
+				LDBLE t = pow((LDBLE) 10.0, (LDBLE) (DBL_MIN_10_EXP + 50.0));
 				if (residual[j]  < -t)
 				{
 					array[j * (count_unknowns + 1) + i] = pow(10.0, DBL_MIN_10_EXP + 50.0);

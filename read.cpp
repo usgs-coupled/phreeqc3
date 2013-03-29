@@ -2449,7 +2449,7 @@ read_kinetics(void)
 	}
 	else if (stdunits.size() > 0)
 	{
-		std::vector<double>::iterator it;
+		std::vector<LDBLE>::iterator it;
 		for (it = temp_kinetics.Get_steps().begin(); it != temp_kinetics.Get_steps().end(); it++)
 		{
 			*it = Utilities::convert_time(*it, stdunits, "s");

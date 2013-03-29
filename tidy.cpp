@@ -2349,7 +2349,7 @@ tidy_species(void)
  *   Find valence of cation from coefficients of reaction components
  *   Changed to be coefficient of exchanger
  */
-			double exchange_coef = 0.0;
+			LDBLE exchange_coef = 0.0;
 			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
 			{
 				if (s[i]->rxn_s->token[j].s->type == EX)
@@ -2370,7 +2370,7 @@ tidy_species(void)
 		}
 		if (s[i]->type == SURF)
 		{
-			double surface_coef = 0.0;
+			LDBLE surface_coef = 0.0;
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */

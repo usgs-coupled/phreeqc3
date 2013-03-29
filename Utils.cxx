@@ -157,11 +157,11 @@ Utilities::convert_time(double t, std::string in, std::string out)
 	return t;
 
 }
-double 
-Utilities::safe_exp(double t)
+LDBLE 
+Utilities::safe_exp(LDBLE t)
 ////////////////////////////////////////////////////////////////////////////
 {
-	double f = 1.442695*t; // convert to exp for 2.0
+	LDBLE f = 1.442695*t; // convert to exp for 2.0
 
 	if (f > DBL_MAX_EXP - 50.0)
 	{
