@@ -1803,7 +1803,7 @@ cxxChemRxn2rxn(cxxChemRxn &cr)
 	for (int i = 0; rxn_ptr_new->token[i].s != NULL; i++)
 	{
 		rxn_ptr_new->token[i].name = string_hsave(rxn_ptr_new->token[i].name);
-		double z = rxn_ptr_new->token[i].s->z;
+		LDBLE  z = rxn_ptr_new->token[i].s->z;
 		rxn_ptr_new->token[i].s = s_store(rxn_ptr_new->token[i].name, z, false);
 	}
 	return (rxn_ptr_new);
