@@ -101,7 +101,7 @@
 #define HLB_FACTOR RCONST(100.0)
 #define HUB_FACTOR RCONST(0.1)
 #define H_BIAS     HALF
-#define MAX_ITERS  4
+#define MAX_ITERS  40
 
 /* CVSet */
 
@@ -1680,10 +1680,11 @@ CVHin(CVodeMem cv_mem, realtype tout)
 
 	/* Set lower and upper bounds on h0, and take geometric mean 
 	   Exit with this value if the bounds cross each other       */
-
+	
 	hlb = HLB_FACTOR * tround;
 	hub = CVUpperBoundH0(cv_mem, tdist);
 	hg = RSqrt(hlb * hub);
+	hnew = hg;
 	if (hub < hlb)
 	{
 		if (sign == -1)
@@ -1848,11 +1849,13 @@ CVStep(CVodeMem cv_mem)
 	/* Looping point for attempts to take a step */
 	loop
 	{
+		bool predict_fail = false;
 		CVMEM cvode_test = TRUE;
 		f(N, tn, y, ftemp, f_data);
 		CVMEM cvode_test = FALSE;
 		if (CVMEM cvode_error == TRUE)
 		{
+			predict_fail = true;
 #ifdef DEBUG_CVODE
 			CVMEM warning_msg("Before predict, y Fail, time %e\n", tn);
 #endif
@@ -1910,6 +1913,10 @@ CVStep(CVodeMem cv_mem)
 		CVSet(cv_mem);
 
 		nflag = CVnls(cv_mem, nflag);
+		if (CVMEM cvode_error == TRUE || predict_fail)
+		{
+			nflag = -1;
+		}
 #ifdef DEBUG_CVODE
 		cvode_test = TRUE;
 		f(N, tn, y, ftemp, f_data);
@@ -1934,6 +1941,7 @@ CVStep(CVodeMem cv_mem)
 			CVMEM warning_msg("After CVnls, zn OK\n");
 		}
 #endif
+		//fprintf(stderr, "\nTime %e,\th %e\n", tn, h);
 		kflag = CVHandleNFlag(cv_mem, &nflag, saved_t, &ncf);
 		if (kflag == PREDICT_AGAIN)
 			continue;
@@ -2753,7 +2761,10 @@ CVnlsNewton(CVodeMem cv_mem, int nflag)
 
 		/* Do the Newton iteration */
 		ier = CVNewtonIteration(cv_mem);
-
+		if (CVMEM cvode_error == TRUE)
+		{
+			return (CONV_FAIL);
+		}
 		CVMEM cvode_test = TRUE;
 		f(N, tn, y, ftemp, f_data);
 		CVMEM cvode_test = FALSE;
@@ -3062,6 +3073,7 @@ CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr, int *kflagPtr,
 		CVMEM warning_msg("CVDoErrorTest");
 		/*exit(8); */
 		CVMEM error_msg("CVDoErrorTest", 1 /* STOP */ );
+		exit(4);
 	}
 	nfe++;
 	N_VScale(h, tempv, zn[1]);

@@ -1841,7 +1841,11 @@ model_pz(void)
 	debug_model_save = debug_model;
 	pe_step_size_now = pe_step_size;
 	step_size_now = step_size;
+#ifdef NPP
 	if (!use.Get_kinetics_in()) status(0, NULL);
+#else
+	status(0, NULL);
+#endif
 	iterations = 0;
 	gamma_iterations = 0;
 	count_basis_change = count_infeasible = 0;

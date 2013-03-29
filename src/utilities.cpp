@@ -1388,6 +1388,7 @@ under(LDBLE xval)
 /*	return (exp(xval * LOG_10)) */;
 }
 #ifndef PHREEQCI_GUI
+#ifdef NPP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 status(int count, const char *str, bool rk_string)
@@ -1526,6 +1527,146 @@ status(int count, const char *str, bool rk_string)
 	}
 	return (OK);
 }
+#else
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+status(int count, const char *str, bool rk_string)
+/* ---------------------------------------------------------------------- */
+{
+	char sim_str[20];
+	char state_str[45];
+	char spin_str[2];
+	clock_t t2;
+
+#ifdef PHREEQ98
+	if (ProcessMessages)
+		ApplicationProcessMessages();
+	if (stop_calculations == TRUE)
+		error_msg("Execution canceled by user.", STOP);
+#endif
+	if (pr.status == FALSE || phast == TRUE)
+		return (OK);
+
+	if (state == INITIALIZE)
+	{
+		screen_string = sformatf("\n%-80s", "Initializing...");
+		screen_msg(screen_string.c_str());
+		status_on = true;
+		return (OK);
+	}
+
+	switch (state)
+	{
+	case INITIALIZE:
+		break;
+	case TRANSPORT:
+		if (str != NULL)
+		{
+			if (rk_string)
+			{
+
+				screen_string = screen_string.substr(0, 43);
+				screen_string.append(str);
+				status_string = screen_string;
+			}
+			else
+			{
+				screen_string = "\r";
+				screen_string.append(str);
+				status_string = screen_string;
+			}
+			status_on = true;
+		}
+	case PHAST:
+		break;
+	default:
+		// if str not NULL, print it
+		if (str != NULL && !rk_string)
+		{
+			screen_string = "\r";
+			screen_string.append(str);
+			status_string = screen_string;
+		}
+		else
+		// print state
+		{
+			std::string stdstr;
+			if (str != NULL && rk_string)
+			{
+				stdstr = str;
+			}
+			sprintf(sim_str, "\rSimulation %d.", simulation);
+			sprintf(state_str, " ");
+			sprintf(spin_str, " ");
+			switch (state)
+			{
+			default:
+				break;
+			case INITIAL_SOLUTION:
+				sprintf(state_str, "Initial solution %d.", use.Get_solution_ptr()->Get_n_user());
+				break;
+			case INITIAL_EXCHANGE:
+				sprintf(state_str, "Initial exchange %d.", use.Get_exchange_ptr()->Get_n_user());
+				break;
+			case INITIAL_SURFACE:
+				sprintf(state_str, "Initial surface %d.", use.Get_surface_ptr()->Get_n_user());
+				break;
+			case INVERSE:
+				sprintf(state_str, "Inverse %d. Models = %d.", use.Get_inverse_ptr()->n_user, count);
+				break;
+			case REACTION:
+				if (use.Get_kinetics_in() == TRUE)
+				{
+					sprintf(state_str, "Kinetic step %d.", reaction_step);
+				}
+				else
+				{
+					sprintf(state_str, "Reaction step %d.", reaction_step);
+				}
+				break;
+			case ADVECTION:
+				sprintf(state_str, "Advection, shift %d.", advection_step);
+				break;
+			}
+			spinner++;
+			if (spinner == 1)
+			{
+				spin_str[0] = '/';
+			}
+			else if (spinner == 2)
+			{
+				spin_str[0] = '-';
+			}
+			else
+			{
+				spin_str[0] = '\\';
+				spinner = 0;
+			}
+			if (use.Get_kinetics_in() == TRUE)
+			{
+				screen_string = sformatf("%-15s%-27s%38s", sim_str, state_str, stdstr.c_str());
+				status_string = screen_string;
+			}
+			else
+			{
+				screen_string = sformatf("%-15s%-27s%1s%37s", sim_str, state_str, spin_str, stdstr.c_str());
+				status_string = screen_string;
+			}
+		}
+		status_on = true;
+		break;
+	}
+
+	t2 = clock();
+	if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) > status_interval)
+	{
+		status_timer = t2;
+		screen_msg(status_string.c_str());
+		status_string.clear();
+	}
+	return (OK);
+}
+#endif /* NPP */
 #endif /*PHREEQCI_GUI */
 /*
 ** Dynamic hashing, after CACM April 1988 pp 446-457, by Per-Ake Larson.
