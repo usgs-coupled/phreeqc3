@@ -3141,8 +3141,11 @@ reset(void)
 			else if (x[i]->type == AH2O)
 			{
 				down = up;
-				up = 0.05;
-				down = -0.03;
+				if (pitzer_model || sit_model)
+				  {
+				    up = 0.05;
+				    down = -0.03;
+				  }
 			}
 			else if (x[i]->type == MH)
 			{
