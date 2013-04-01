@@ -5334,7 +5334,7 @@ numerical_jacobian(void)
 			// avoid overflow
 			if (residual[j] > 1.0e101)
 			{
-				LDBLE t = pow((LDBLE) 10.0, LDBLE(DBL_MAX_10_EXP - 50.0));
+			  LDBLE t = (LDBLE) pow((LDBLE) 10.0, (LDBLE) (DBL_MAX_10_EXP - 50.0));
 				if (residual[j]  > t)
 				{
 					array[j * (count_unknowns + 1) + i] = -pow(10.0, DBL_MAX_10_EXP - 50.0);
