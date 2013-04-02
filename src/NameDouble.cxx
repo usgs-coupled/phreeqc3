@@ -195,7 +195,14 @@ cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	for (const_iterator it = (*this).begin(); it != (*this).end(); it++)
 	{
 		s_oss << indent0;
-		s_oss << Utilities::pad_right(it->first, 29 - indent0.size())  << it->second << "\n";
+		if (it->first.size() < 29 - indent0.size())
+		{
+			s_oss << Utilities::pad_right(it->first, 29 - indent0.size())  << it->second << "\n";
+		}
+		else
+		{
+			s_oss << Utilities::pad_right(it->first, it->first.size()  + indent0.size())  << " " << it->second << "\n";
+		}
 	}
 }
 
