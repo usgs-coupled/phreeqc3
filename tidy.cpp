@@ -905,7 +905,7 @@ tidy_gas_phase(void)
 		cxxGasPhase *gas_phase_ptr = &(it->second);
 		//if (!gas_phase_ptr->Get_new_def())
 		//	continue;
-		gas_phase_ptr->Set_new_def(false);
+		//gas_phase_ptr->Set_new_def(false);
 		PR = false;
 		P = 0.0;
 		std::vector<cxxGasComp> gc = gas_phase_ptr->Get_gas_comps();
@@ -930,6 +930,7 @@ tidy_gas_phase(void)
 			gas_phase_ptr->Set_pr_in(PR);
 			if (gas_phase_ptr->Get_new_def())
 			{
+				gas_phase_ptr->Set_new_def(false);
 				/*
 				*   Fixed pressure
 				*/
