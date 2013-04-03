@@ -1378,14 +1378,11 @@ under(LDBLE xval)
 	{
 		return (0.0);
 	}
-/*	if (xval > MAX_LM) { */
-	if (xval > 3.)
+	if (xval > MAX_LM)  
 	{
-		return (1.0e3);
-/*		return ( pow (10.0, MAX_LM));*/
+		return ( MAX_M );
 	}
 	return (pow ((LDBLE) 10.0, xval));
-/*	return (exp(xval * LOG_10)) */;
 }
 #ifndef PHREEQCI_GUI
 #ifdef NPP
