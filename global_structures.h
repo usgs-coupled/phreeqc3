@@ -115,8 +115,6 @@
 #define MAX_ELEMENTS 50			/* default estimate of the number of elements */
 #define MAX_LENGTH 256			/* maximum number of characters component name */
 #define MAX_LINE 4096			/* estimate of maximum line length */
-#define MAX_LM 3.0				/* maximum log molality allowed in intermediate iterations */
-#define MIN_LM -30.0			/* minimum log molality allowed before molality set to zero */
 #define MAX_MASS_BALANCE 10		/* initial guess of number mass balance equations for a solution */
 #define MAX_MASTER 50			/* default estimate of the number of master species */
 #define MAX_ELTS 15				/* default estimate for maximum number of times elements occur in
@@ -130,11 +128,23 @@
 #define MAX_TRXN 16				/* default estimate for maximum number of components in an eqn */
 #define MAX_UNKNOWNS 15			/* default estimate for maximum number of unknowns in model */
 #define TOL 1e-9				/* tolerance for comparisons of double numbers */
+#define MAX_LM 3.0				/* maximum log molality allowed in intermediate iterations */
+#define MAX_M 1000.0
+#ifdef USE_DECIMAL128
+#define MIN_LM -80.0			/* minimum log molality allowed before molality set to zero */
+#define LOG_ZERO_MOLALITY -80	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
+#define MIN_TOTAL 1e-60
+#define MIN_TOTAL_SS MIN_TOTAL/100
+#define MIN_RELATED_SURFACE MIN_TOTAL*100
+#define MIN_RELATED_LOG_ACTIVITY -60
+#else
+#define MIN_LM -30.0			/* minimum log molality allowed before molality set to zero */
 #define LOG_ZERO_MOLALITY -30	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
 #define MIN_TOTAL 1e-25
 #define MIN_TOTAL_SS MIN_TOTAL/100
 #define MIN_RELATED_SURFACE MIN_TOTAL*100
 #define MIN_RELATED_LOG_ACTIVITY -30
+#endif
 #define REF_PRES_PASCAL 1.01325E5   /* Reference pressure: 1 atm */
 /*
  *   Hash definitions
