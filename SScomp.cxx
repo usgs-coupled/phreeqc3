@@ -271,7 +271,7 @@ cxxSScomp::totalize(Phreeqc * phreeqc_ptr)
 }
 #endif
 void
-cxxSScomp::multiply(double extensive)
+cxxSScomp::multiply(LDBLE extensive)
 {
 	this->moles *= extensive;
 	this->delta *= extensive;
