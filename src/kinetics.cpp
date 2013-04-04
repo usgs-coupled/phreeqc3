@@ -2161,7 +2161,6 @@ RESTART:
 					kinetics_comp_ptr->Set_m(0.0);
 				}
 			}
-#endif
 			if (use.Get_pp_assemblage_ptr() != NULL)
 			{
 				Rxn_pp_assemblage_map[cvode_pp_assemblage_save->Get_n_user()] = *cvode_pp_assemblage_save;
@@ -2172,6 +2171,7 @@ RESTART:
 				Rxn_ss_assemblage_map[cvode_ss_assemblage_save->Get_n_user()] = *cvode_ss_assemblage_save;
 				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
 			}
+#endif
 			
 			// put remaining kinetic reaction in last_good_y for update
 			N_VScale(1.0, kinetics_y, cvode_last_good_y);
@@ -3311,6 +3311,19 @@ cvode_update_reactants(int i, int nsaver)
 
 	// saves result to reactants defined by saver
 	saver();
+
+	cxxPPassemblage *pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, nsaver);
+	cxxSSassemblage *ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, nsaver);
+	if (cvode_pp_assemblage_save != NULL)
+	{
+		delete cvode_pp_assemblage_save;
+		cvode_pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
+	}
+	if (cvode_ss_assemblage_save != NULL)
+	{
+		delete cvode_ss_assemblage_save;
+		cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
+	}
 
 	for (int j = 0; j < n_reactions; j++)
 	{
