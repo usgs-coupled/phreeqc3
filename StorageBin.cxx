@@ -38,8 +38,81 @@ PHRQ_base(io)
 {
 	// default constructor for cxxStorageBin 
 	this->system.Set_io(io);
+	this->system.Initialize();
 }
 
+cxxStorageBin::cxxStorageBin(cxxUse &use_ref, PHRQ_io *io)
+:
+PHRQ_base(io)
+{
+	this->system.Set_io(io);
+	this->system.Initialize();
+	// Solution
+	if (use_ref.Get_solution_ptr() != NULL)
+	{
+		this->Set_Solution(use_ref.Get_solution_ptr()->Get_n_user(), use_ref.Get_solution_ptr());
+	}
+
+	// Exchange
+	if (use_ref.Get_exchange_ptr() != NULL)
+	{
+		this->Set_Exchange(use_ref.Get_exchange_ptr()->Get_n_user(), use_ref.Get_exchange_ptr());
+	}
+
+	// gas_phase
+	if (use_ref.Get_gas_phase_ptr() != NULL)
+	{
+		this->Set_GasPhase(use_ref.Get_gas_phase_ptr()->Get_n_user(), use_ref.Get_gas_phase_ptr());
+	}
+
+	// kinetics
+	if (use_ref.Get_kinetics_ptr() != NULL)
+	{
+		this->Set_Kinetics(use_ref.Get_kinetics_ptr()->Get_n_user(), use_ref.Get_kinetics_ptr());
+	}
+
+	// pp_assemblage
+	if (use_ref.Get_pp_assemblage_ptr() != NULL)
+	{
+		this->Set_PPassemblage(use_ref.Get_pp_assemblage_ptr()->Get_n_user(), use_ref.Get_pp_assemblage_ptr());
+	}
+
+	// ss_assemblage
+	if (use_ref.Get_ss_assemblage_ptr() != NULL)
+	{
+		this->Set_SSassemblage(use_ref.Get_ss_assemblage_ptr()->Get_n_user(), use_ref.Get_ss_assemblage_ptr());
+	}
+
+	// surface
+	if (use_ref.Get_surface_ptr() != NULL)
+	{
+		this->Set_Surface(use_ref.Get_surface_ptr()->Get_n_user(), use_ref.Get_surface_ptr());
+	}
+
+	// mix
+	if (use_ref.Get_mix_ptr() != NULL)
+	{
+		this->Set_Mix(use_ref.Get_mix_ptr()->Get_n_user(), use_ref.Get_mix_ptr());
+	}
+
+	// reaction
+	if (use_ref.Get_reaction_ptr() != NULL)
+	{
+		this->Set_Reaction(use_ref.Get_reaction_ptr()->Get_n_user(), use_ref.Get_reaction_ptr());
+	}
+
+	// reaction temperature
+	if (use_ref.Get_temperature_ptr() != NULL)
+	{
+		this->Set_Temperature(use_ref.Get_temperature_ptr()->Get_n_user(), use_ref.Get_temperature_ptr());
+	}
+
+	// reaction pressure
+	if (use_ref.Get_pressure_ptr() != NULL)
+	{
+		this->Set_Pressure(use_ref.Get_pressure_ptr()->Get_n_user(), use_ref.Get_pressure_ptr());
+	}
+}
 cxxStorageBin::~cxxStorageBin()
 {
 }
