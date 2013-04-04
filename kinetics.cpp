@@ -2173,7 +2173,8 @@ RESTART:
 				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
 			}
 			
-
+			// put remaining kinetic reaction in last_good_y for update
+			N_VScale(1.0, kinetics_y, cvode_last_good_y);
 			if (!cvode_update_reactants(i, nsaver))
 			{
 				warning_msg("FAIL 2 after successful integration in CVode");
@@ -3284,23 +3285,31 @@ cvode_update_reactants(int i, int nsaver)
 
 	for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
 	{
-		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);	
+		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+
+		// Adds reaction defined by last_good_y	
 		kinetics_comp_ptr->Set_moles(Ith(cvode_last_good_y, j + 1));
-		//kinetics_comp_ptr->Set_m(kinetics_comp_ptr->Get_m() - kinetics_comp_ptr->Get_moles());
+		// Reduces m
 		kinetics_comp_ptr->Set_m(m_original[j] - kinetics_comp_ptr->Get_moles());
 		m_original[j] = kinetics_comp_ptr->Get_m();
+		m_temp[j] = kinetics_comp_ptr->Get_m();
 		if (kinetics_comp_ptr->Get_m() < 0)
 		{
 			kinetics_comp_ptr->Set_moles(m_original[j]);
 			kinetics_comp_ptr->Set_m(0.0);
 		}
 	}
+	// calculates net reaction
 	calc_final_kinetic_reaction(kinetics_ptr);
+
+	// runs previous solution plus net reaction 
 	if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 1.0) ==	MASS_BALANCE)
 	{
 		error_msg("CVODE step was bad", STOP);
 		return false;
 	}
+
+	// saves result to reactants defined by saver
 	saver();
 
 	for (int j = 0; j < n_reactions; j++)
