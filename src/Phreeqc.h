@@ -375,6 +375,7 @@ public:
 
 	// kinetics.cpp -------------------------------
 	void cvode_init(void);
+	bool cvode_update_reactants(int i, int nsaver);
 	int run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction);
 	int set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 		LDBLE step_fraction);
