@@ -1,0 +1,48 @@
+# Note to use a database with -Vm defined for the CO2 species... 
+DATABASE ../database/phreeqc.dat
+PHASES 
+CO2(g) 
+CO2 = CO2 
+-analytic 108.3865 0.01985076 -6919.53 -40.45154 669365.0 
+-T_c 304.2 # critical T, K 
+-P_c 72.80 # critical P, atm 
+-Omega 0.225 # Pitzer acentric factor
+
+SOLUTION 1
+pH 7 charge 
+C(4) 1 CO2(g) 1.0 
+-pressure 10 
+END
+
+USE solution 1
+GAS_PHASE 1
+-fixed_volume 
+-volume 1e-6 
+CO2(g) 0 
+SAVE gas_phase 1
+
+SELECTED_OUTPUT; -reset false; -file gas_mod.inp; -high_precision true
+USER_PUNCH 
+2 sc$ = CHR$(59) 
+10 punch 'GAS_PHASE_MODIFY 1' + sc$ + ' -volume 1' + EOL$ 
+20 punch '-comp CO2(g)' + EOL$ 
+30 punch '-moles '+ STR$(1e6 * GAS("CO2(g)")) + EOL$ 
+END 
+
+
+# for viewing the layout of the GAS_PHASE_MODIFY datablock... 
+DUMP; -file dump; -gas_phase 1 
+END
+
+
+
+PRINT; -selected_out false
+INCLUDE$ gas_mod.inp 
+END
+DUMP
+	-append
+	-gas_phase 1 
+	
+END
+USE gas_phase 1; USE solution 1 
+END
