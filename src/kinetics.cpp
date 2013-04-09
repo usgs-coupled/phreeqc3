@@ -2096,7 +2096,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				}
 				long nsteps;
 				fprintf(stderr, "\n%s\n", CVodeGetReturnFlagName(flag));
-				int flag = CVodeGetNumSteps(kinetics_cvode_mem, &nsteps);
+				int flag1 = CVodeGetNumSteps(kinetics_cvode_mem, &nsteps);
 				fprintf(stderr, "CVODE continuing, code %d after %d steps at time %e\n", flag, nsteps, t);
 				//flag = CVodeGetNumSteps(cvode mem, &nsteps);
 				//flag = CVodeGetNumRhsEvals(cvode mem, &nfevals);
@@ -3341,8 +3341,13 @@ f(realtype t, N_Vector y, N_Vector ydot, void *f_data)
 			/*
 			   Ith(y,i + 1) = m_original[i];
 			 */
+			if (kinetics_ptr->Get_use_cvode())
+			{
+				return 1;
+			}
 			kinetics_comp_ptr->Set_moles(pThis->m_original[i]);
 			kinetics_comp_ptr->Set_m(0.0);
+
 		}
 	}
 	pThis->calc_final_kinetic_reaction(kinetics_ptr);
