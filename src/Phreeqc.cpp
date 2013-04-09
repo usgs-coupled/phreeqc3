@@ -1587,7 +1587,7 @@ void Phreeqc::init(void)
 	cvode_prev_good_time    = 0.0;
 	cvode_last_good_y       = NULL;
 	cvode_prev_good_y       = NULL;
-	kinetics_machEnv        = NULL;
+	//kinetics_machEnv        = NULL;
 	kinetics_y              = NULL;
 	kinetics_abstol         = NULL;
 	kinetics_cvode_mem      = NULL;

@@ -17,6 +17,7 @@
 #ifdef HASH
 #include <hash_map>
 #endif
+#define integertype long int
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -24,7 +25,13 @@
 #include <errno.h>
 #include <float.h>
 #include "phrqtype.h"
-#include "cvdense.h"	
+
+#include <cvode/cvode.h>             /* prototypes for CVODE fcts., consts. */
+#include <nvector/nvector_serial.h>  /* serial N_Vector types, fcts., macros */
+#include <cvode/cvode_dense.h>       /* prototype for CVDense */
+#include <sundials/sundials_dense.h> /* definitions DlsMat DENSE_ELEM */
+#include <sundials/sundials_types.h> /* definition of type realtype */
+	
 #include "runner.h"
 #include "dumper.h"
 #include "PHRQ_io.h"
@@ -376,6 +383,9 @@ public:
 	// kinetics.cpp -------------------------------
 	void cvode_init(void);
 	bool cvode_update_reactants(int i, int nsaver);
+	int check_cvode_flag(void *flagvalue, char *funcname, int opt);
+	static void cvode_error_handler(int error_code, const char *module,
+			const char *function, char *msg, void *eh_data);
 	int run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction);
 	int set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 		LDBLE step_fraction);
@@ -384,11 +394,16 @@ public:
 	int set_advection(int i, int use_mix, int use_kinetics, int nsaver);
 	int free_cvode(void);
 public:
-	static void f(integertype N, realtype t, N_Vector y, N_Vector ydot,
-		void *f_data);
-	static void Jac(integertype N, DenseMat J, RhsFn f, void *f_data, realtype t,
-		N_Vector y, N_Vector fy, N_Vector ewt, realtype h,
-		realtype uround, void *jac_data, long int *nfePtr,
+	//static void f(integertype N, realtype t, N_Vector y, N_Vector ydot,
+	//	void *f_data);
+	static int f(realtype t, N_Vector y, N_Vector ydot, void *f_data);
+	//static void Jac(integertype N, DenseMat J, RhsFn f, void *f_data, realtype t,
+	//	N_Vector y, N_Vector fy, N_Vector ewt, realtype h,
+	//	realtype uround, void *jac_data, long int *nfePtr,
+	//	N_Vector vtemp1, N_Vector vtemp2, N_Vector vtemp3);
+	static int  Jac(long int N, realtype t,
+		N_Vector y, N_Vector fy, DlsMat J, 
+		void *f_data,
 		N_Vector vtemp1, N_Vector vtemp2, N_Vector vtemp3);
 
 	int calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr);
@@ -1754,7 +1769,7 @@ public:
 	realtype cvode_prev_good_time;
 	N_Vector cvode_last_good_y;
 	N_Vector cvode_prev_good_y;
-	M_Env kinetics_machEnv;
+	//M_Env kinetics_machEnv;
 	N_Vector kinetics_y, kinetics_abstol;
 	void *kinetics_cvode_mem;
 	cxxSSassemblage *cvode_ss_assemblage_save;
