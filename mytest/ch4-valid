@@ -1,0 +1,18 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 1 pure water
+
+
+# add 0.014 mol CH4
+EQUILIBRIUM_PHASES
+CH4(g) 1 0.014
+
+
+SAVE solution 11
+END
+USE solution 11
+
+GAS_PHASE
+-fixed_pressure
+-pressure 1.013
+-temperature 25
+CH4(g) 0

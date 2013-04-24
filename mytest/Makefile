@@ -31,6 +31,7 @@ all: alkalinity.out \
 	cdmusic_related.out \
 	cd_ddl.out \
 	cell_operations.out \
+	ch4-valid.out \
 	co2.out \
 	colloid_U.out \
 	comments.out \

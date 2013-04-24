@@ -1,0 +1,257 @@
+   Input file: ch4-valid
+  Output file: ch4-valid.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION 1 pure water
+	EQUILIBRIUM_PHASES
+	CH4(g) 1 0.014
+	SAVE solution 11
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	pure water
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.007e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14
+   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00
+   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07
+H(0)         1.416e-025
+   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50      0.00    1.50  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	pure water
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+CH4(g)            0.99    -1.85     -2.84   1.400e-002           0 -1.400e-002
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.400e-002  1.400e-002
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.986      Charge balance
+                                       pe  =  -4.810      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99682
+                               Volume (L)  =   1.00411
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.039e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                       Total CO2 (mol/kg)  =  7.844e-009
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.59
+                               Iterations  =  15
+                                  Total H  = 1.110684e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.032e-007  1.032e-007    -6.986    -6.986    -0.000      0.00
+   OH-            9.809e-008  9.805e-008    -7.008    -7.009    -0.000     -4.14
+   H2O            5.551e+001  9.998e-001     1.744    -0.000     0.000     18.07
+C(-4)        1.400e-002
+   CH4            1.400e-002  1.400e-002    -1.854    -1.854     0.000     32.22
+C(4)         7.844e-009
+   HCO3-          6.364e-009  6.362e-009    -8.196    -8.196    -0.000     24.56
+   CO2            1.477e-009  1.477e-009    -8.831    -8.831     0.000     30.26
+   CO3-2          2.895e-012  2.891e-012   -11.538   -11.539    -0.001     -4.49
+H(0)         6.275e-008
+   H2             3.138e-008  3.138e-008    -7.503    -7.503     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -77.373   -77.373     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	CH4(g)            0.99     -1.85   -2.84  CH4	 Pressure  10.0 atm, phi 0.978.
+	CO2(g)           -7.37     -8.83   -1.46  CO2
+	H2(g)            -4.40     -7.50   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -74.48    -77.37   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	USE solution 11
+	GAS_PHASE
+	fixed_pressure
+	pressure 1.013
+	temperature 25
+	CH4(g) 0
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 11.	Solution after simulation 1.
+Using gas phase 1.	
+
+-----------------------------------Gas phase-----------------------------------
+
+Total pressure:  1.01      atmospheres          (Peng-Robinson calculation)
+    Gas volume:  3.02e-001 liters
+  Molar volume:  2.41e+001 liters/mole
+   P * Vm / RT:  0.99771  (Compressibility Factor Z) 
+
+                                                        Moles in gas
+                                            ----------------------------------
+Component         log P           P    phi     Initial       Final       Delta
+
+CH4(g)             0.01  1.013e+000  0.998  0.000e+000  1.255e-002  1.255e-002
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                1.451e-003  1.451e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.991      Charge balance
+                                       pe  =  -4.717      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 0
+                          Density (g/cm3)  =   0.99702
+                               Volume (L)  =   1.00308
+                        Activity of water  =   1.000
+                           Ionic strength  =  1.027e-007
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.217e-009
+                       Total CO2 (mol/kg)  =  4.995e-009
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  =  1.01
+                  Electrical balance (eq)  = -1.217e-009
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.59
+                               Iterations  =  14
+                                  Total H  = 1.110182e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   H+             1.021e-007  1.020e-007    -6.991    -6.991    -0.000      0.00
+   OH-            9.923e-008  9.919e-008    -7.003    -7.004    -0.000     -4.14
+   H2O            5.551e+001  1.000e+000     1.744    -0.000     0.000     18.07
+C(-4)        1.451e-003
+   CH4            1.451e-003  1.451e-003    -2.838    -2.838     0.000     32.22
+C(4)         4.995e-009
+   HCO3-          4.061e-009  4.060e-009    -8.391    -8.392    -0.000     24.56
+   CO2            9.314e-010  9.314e-010    -9.031    -9.031     0.000     30.26
+   CO3-2          1.869e-012  1.866e-012   -11.728   -11.729    -0.001     -4.49
+H(0)         3.996e-008
+   H2             1.998e-008  1.998e-008    -7.699    -7.699     0.000     28.61
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -76.981   -76.981     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	CH4(g)            0.00     -2.84   -2.84  CH4	 Pressure   1.0 atm, phi 0.998.
+	CO2(g)           -7.57     -9.03   -1.46  CO2
+	H2(g)            -4.60     -7.70   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	O2(g)           -74.09    -76.98   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.237 Seconds.
+-------------------------------
+
+No memory leaks

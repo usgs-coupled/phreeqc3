@@ -1005,7 +1005,10 @@ tidy_gas_phase(void)
 					}
 					V_m = calc_PR(phase_ptrs, P, gas_phase_ptr->Get_temperature(), 0);
 					gas_phase_ptr->Set_v_m(V_m);
-					gas_phase_ptr->Set_total_p(P);
+					if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
+					{
+						gas_phase_ptr->Set_total_p(P);
+					}
 					std::vector<cxxGasComp> gc = gas_phase_ptr->Get_gas_comps();
 					for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 					{
