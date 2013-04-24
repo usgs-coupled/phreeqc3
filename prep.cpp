@@ -4230,7 +4230,10 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 	}
 	if (gas_phase_ptr && iterations > 2)
 	{
-		gas_phase_ptr->Set_total_p(P);
+		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
+		{
+			gas_phase_ptr->Set_total_p(P);
+		}
 		gas_phase_ptr->Set_v_m(V_m);
 		return (OK);
 	}
