@@ -64,6 +64,7 @@ all: alkalinity.out \
 	fluorite.out \
 	gas.out \
 	gas_mod.out \
+	gas_phase_pressure.out \
 	gfw.out \
 	hard.tests.out \
 	high_mu.out \
@@ -93,6 +94,7 @@ all: alkalinity.out \
 	llnl.out \
 	local_min_pz.out \
 	mahoney.out \
+	MassWater.out \
 	membrane.out \
 	mgcl2mgso4_pz.out \
 	millero.out \
