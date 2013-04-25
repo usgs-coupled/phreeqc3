@@ -1219,7 +1219,7 @@ print_saturation_indices(void)
 		output_msg(sformatf("\t%-15s%7.2f%2s%8.2f%8.2f  %s",
 				   phases[i]->name, (double) si, pr_in, (double) iap, (double) lk,
 				   phases[i]->formula));
-		if (gas && phases[i]->pr_in && phases[i]->pr_p)
+		if (gas_in && phases[i]->pr_in && phases[i]->pr_p)
 		{
 			if (fabs(phases[i]->pr_p - pow(10, si) / phases[i]->pr_phi) > 0.1)
 			{
