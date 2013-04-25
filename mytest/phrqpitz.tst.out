@@ -508,8 +508,8 @@ Calcite           0.00    -8.37     -8.37
                       Temperature (deg C)  =  18.00
                   Electrical balance (eq)  =  -3.031e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -2.32
-                               Iterations  =  17
-                         Gamma iterations  =   6
+                               Iterations  =  11
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   1.65086
                          Density of water  =   0.99859
                                   Total H  = 1.110128e+02
@@ -791,8 +791,8 @@ Calcite           0.00    -8.37     -8.37
                       Temperature (deg C)  =  18.00
                   Electrical balance (eq)  =  -3.031e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -2.32
-                               Iterations  =  19
-                         Gamma iterations  =   6
+                               Iterations  =  12
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   1.65086
                          Density of water  =   0.99859
                                   Total H  = 1.110128e+02
@@ -954,6 +954,12 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	Pure water
 Using pure phase assemblage 1.	
 
@@ -966,8 +972,8 @@ Anhydrite         0.00    -4.22     -4.22    1.000e+01   9.997e+00  -3.307e-03
 Bischofite        0.00     4.46      4.46    1.000e+02   8.534e+01  -1.466e+01
 CO2(g)           -3.50    -4.96     -1.46    1.000e+01   1.000e+01   3.889e-04
 Carnallite        0.00     4.33      4.33    1.000e+01   9.944e+00  -5.579e-02
-Halite            0.00     1.57      1.57    1.000e+01   9.759e+00  -2.415e-01
-Kieserite        -0.00    -0.12     -0.12    1.000e+01   9.839e+00  -1.611e-01
+Halite           -0.00     1.57      1.57    1.000e+01   9.759e+00  -2.415e-01
+Kieserite         0.00    -0.12     -0.12    1.000e+01   9.839e+00  -1.611e-01
 Magnesite         0.00    -7.83     -7.83    1.000e+01   9.999e+00  -5.378e-04
 
 -----------------------------Solution composition------------------------------
@@ -987,18 +993,18 @@ Magnesite         0.00    -7.83     -7.83    1.000e+01   9.999e+00  -5.378e-04
                                        pH  =   6.010      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (uS/cm, 25 oC) = 1486374
-                          Density (g/cm3)  =   1.32349
-                               Volume (L)  =   3.05438
+                          Density (g/cm3)  =   1.32351
+                               Volume (L)  =   3.05433
                         Activity of water  =   0.338
                            Ionic strength  =   1.739e+01
                        Mass of water (kg)  =   2.593e+00
                  Total alkalinity (eq/kg)  =   4.148e-04
                        Total CO2 (mol/kg)  =   5.744e-05
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -7.693e-10
+                  Electrical balance (eq)  =  -7.513e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  56
-                         Gamma iterations  =  11
+                               Iterations  =  25
+                         Gamma iterations  =  25
                       Osmotic coefficient  =   3.46327
                          Density of water  =   0.99704
                                   Total H  = 2.878679e+02
@@ -1011,13 +1017,13 @@ Magnesite         0.00    -7.83     -7.83    1.000e+01   9.999e+00  -5.378e-04
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
    H+              5.320e-08   9.772e-07    -7.274    -6.010     1.264      0.00
-   OH-             4.862e-08   3.487e-09    -7.313    -8.458    -1.144     15.78
+   OH-             4.862e-08   3.487e-09    -7.313    -8.458    -1.144     15.77
    H2O             5.551e+01   3.382e-01     1.744    -0.471     0.000     18.07
 C(4)          5.744e-05
-   HCO3-           4.342e-05   1.728e-06    -4.362    -5.762    -1.400     59.38
+   HCO3-           4.342e-05   1.728e-06    -4.362    -5.762    -1.400     59.37
    MgCO3           1.242e-05   1.242e-05    -4.906    -4.906     0.000    -17.09
    CO2             1.461e-06   1.096e-05    -5.835    -4.960     0.875     30.26
-   CO3-2           1.448e-07   8.097e-11    -6.839   -10.092    -3.253     21.41
+   CO3-2           1.448e-07   8.097e-11    -6.839   -10.092    -3.253     21.40
 Ca            1.275e-03
    Ca+2            1.275e-03   4.841e-03    -2.894    -2.315     0.579    -10.05
 Cl            1.146e+01
@@ -1055,11 +1061,11 @@ S(6)          6.340e-02
 	Glauberite       -2.77     -8.02   -5.25  Na2Ca(SO4)2
 	Gypsum           -0.59     -5.17   -4.58  CaSO4:2H2O
 	H2O(g)           -1.97     -0.47    1.50  H2O
-	Halite            0.00      1.57    1.57  NaCl
+	Halite           -0.00      1.57    1.57  NaCl
 	Hexahydrite      -0.84     -2.48   -1.63  MgSO4:6H2O
 	Kainite          -1.00     -1.19   -0.19  KMgClSO4:3H2O
 	Kalicinite       -8.68    -18.74  -10.06  KHCO3
-	Kieserite        -0.00     -0.12   -0.12  MgSO4:H2O
+	Kieserite         0.00     -0.12   -0.12  MgSO4:H2O
 	Labile_S         -7.08    -12.75   -5.67  Na4Ca(SO4)3:2H2O
 	Leonhardite      -0.65     -1.54   -0.89  MgSO4:4H2O
 	Leonite          -4.74     -8.72   -3.98  K2Mg(SO4)2:4H2O
@@ -1151,43 +1157,40 @@ Beginning of batch-reaction calculations.
 Reaction step 1.
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205099e+00
+	 SI may be a local minimum.	Residual: 8.188047e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205099e+00
+	 SI may be a local minimum.	Residual: 8.188047e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205099e+00
+	 SI may be a local minimum.	Residual: 8.188047e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205099e+00
+	 SI may be a local minimum.	Residual: 8.188047e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205099e+00
+	 SI may be a local minimum.	Residual: 8.188047e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205099e+00
+	 SI may be a local minimum.	Residual: 8.188045e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205096e+00
+	 SI may be a local minimum.	Residual: 8.188029e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.205064e+00
+	 SI may be a local minimum.	Residual: 8.187862e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.204749e+00
+	 SI may be a local minimum.	Residual: 8.186200e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.201494e+00
+	 SI may be a local minimum.	Residual: 8.169429e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.164650e+00
+	 SI may be a local minimum.	Residual: 7.989597e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 1.144425e+00
-
-WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 1.725461e-01
+	 SI may be a local minimum.	Residual: 1.435838e-01
 
 Using solution 1.	Pure water
 Using pure phase assemblage 1.	
@@ -1224,10 +1227,10 @@ Gypsum            0.00    -4.58     -4.58    1.000e+01   9.965e+00  -3.504e-02
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -7.508e-10
+                  Electrical balance (eq)  =  -7.509e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  71
-                         Gamma iterations  =  19
+                               Iterations  =  54
+                         Gamma iterations  =  16
                       Osmotic coefficient  =   1.44086
                          Density of water  =   0.99704
                                   Total H  = 1.111526e+02
@@ -1372,8 +1375,8 @@ Halite            0.00     1.50      1.50    1.000e+02   9.391e+01  -6.093e+00
                       Temperature (deg C)  =   0.00
                   Electrical balance (eq)  =  -7.510e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   6
+                               Iterations  =  18
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   1.26409
                          Density of water  =   0.99984
                                   Total H  = 1.110124e+02
@@ -1437,8 +1440,8 @@ Halite            0.00     1.57      1.57    1.000e+02   9.390e+01  -6.100e+00
                       Temperature (deg C)  =  25.00
                   Electrical balance (eq)  =  -7.510e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   6
+                               Iterations  =  19
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   1.28126
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -1502,8 +1505,8 @@ Halite            0.00     1.56      1.56    1.000e+02   9.338e+01  -6.625e+00
                       Temperature (deg C)  = 100.00
                   Electrical balance (eq)  =  -7.510e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  22
-                         Gamma iterations  =   6
+                               Iterations  =  20
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   1.23751
                          Density of water  =   0.95835
                                   Total H  = 1.110124e+02
@@ -1542,35 +1545,35 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Halite            0.00     1.20      1.20    1.000e+02   9.216e+01  -7.844e+00
+Halite           -0.00     1.20      1.20    1.000e+02   9.216e+01  -7.843e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Cl                7.844e+00   7.844e+00
-	Na                7.844e+00   7.844e+00
+	Cl                7.843e+00   7.843e+00
+	Na                7.843e+00   7.843e+00
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   5.141      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 200 oC) = 1028398
-                          Density (g/cm3)  =   1.10914
-                               Volume (L)  =   1.31490
+       Specific Conductance (uS/cm, 200 oC) = 1028370
+                          Density (g/cm3)  =   1.10909
+                               Volume (L)  =   1.31494
                         Activity of water  =   0.741
-                           Ionic strength  =   7.844e+00
+                           Ionic strength  =   7.843e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   7.510e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  = 200.00
-                           Pressure (atm)  = 12.15
+                           Pressure (atm)  = 11.40
                   Electrical balance (eq)  =  -7.510e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  25
+                               Iterations  =  29
                          Gamma iterations  =   6
-                      Osmotic coefficient  =   1.05903
+                      Osmotic coefficient  =   1.05902
                          Density of water  =   0.86467
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
@@ -1581,20 +1584,20 @@ Halite            0.00     1.20      1.20    1.000e+02   9.216e+01  -7.844e+00
 	                               Unscaled    Log       Log         Log 
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             2.607e-06   5.047e-07    -5.584    -6.297    -0.713     -3.21
-   H+              2.606e-06   7.230e-06    -5.584    -5.141     0.443      0.00
-   H2O             5.551e+01   7.413e-01     1.744    -0.130     0.000     20.84
-Cl            7.844e+00
-   Cl-             7.844e+00   4.004e+00     0.895     0.602    -0.292     16.61
-Na            7.844e+00
-   Na+             7.844e+00   4.004e+00     0.895     0.602    -0.292      3.58
+   OH-             2.606e-06   5.047e-07    -5.584    -6.297    -0.713     -3.21
+   H+              2.606e-06   7.227e-06    -5.584    -5.141     0.443      0.00
+   H2O             5.551e+01   7.414e-01     1.744    -0.130     0.000     20.84
+Cl            7.843e+00
+   Cl-             7.843e+00   4.003e+00     0.894     0.602    -0.292     16.62
+Na            7.843e+00
+   Na+             7.843e+00   4.003e+00     0.894     0.602    -0.292      3.58
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(473 K,  12 atm)
+	Phase               SI   log IAP   log K(473 K,  11 atm)
 
 	H2O(g)            1.03     -0.13   -1.16  H2O
-	Halite            0.00      1.20    1.20  NaCl
+	Halite           -0.00      1.20    1.20  NaCl
 
 
 Reaction step 5.
@@ -1608,7 +1611,7 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Halite           -0.01     0.28      0.29    1.000e+02   8.991e+01  -1.009e+01
+Halite           -0.00     0.28      0.28    1.000e+02   8.991e+01  -1.009e+01
 
 -----------------------------Solution composition------------------------------
 
@@ -1621,9 +1624,9 @@ Halite           -0.01     0.28      0.29    1.000e+02   8.991e+01  -1.009e+01
 
                                        pH  =   4.522      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (uS/cm, 300 oC) = 25744
-                          Density (g/cm3)  =   0.87679
-                               Volume (L)  =   1.81287
+       Specific Conductance (uS/cm, 300 oC) = 25743
+                          Density (g/cm3)  =   0.87598
+                               Volume (L)  =   1.81456
                         Activity of water  =   0.768
                            Ionic strength  =   1.009e+01
                        Mass of water (kg)  =   1.000e+00
@@ -1631,11 +1634,11 @@ Halite           -0.01     0.28      0.29    1.000e+02   8.991e+01  -1.009e+01
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                       Temperature (deg C)  = 300.00
-                           Pressure (atm)  = 65.31
-                  Electrical balance (eq)  =  -7.510e-10
+                           Pressure (atm)  = 64.48
+                  Electrical balance (eq)  =  -7.509e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  32
-                         Gamma iterations  =   7
+                               Iterations  =  31
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   0.72648
                          Density of water  =   0.71233
                                   Total H  = 1.110124e+02
@@ -1647,20 +1650,20 @@ Halite           -0.01     0.28      0.29    1.000e+02   8.991e+01  -1.009e+01
 	                               Unscaled    Log       Log         Log 
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             1.417e-05   2.245e-07    -4.849    -6.649    -1.800    -53.70
-   H+              1.417e-05   3.009e-05    -4.849    -4.522     0.327      0.00
-   H2O             5.551e+01   7.680e-01     1.744    -0.115     0.000     25.29
+   OH-             1.416e-05   2.243e-07    -4.849    -6.649    -1.800    -53.75
+   H+              1.416e-05   3.007e-05    -4.849    -4.522     0.327      0.00
+   H2O             5.551e+01   7.679e-01     1.744    -0.115     0.000     25.29
 Cl            1.009e+01
-   Cl-             1.009e+01   1.382e+00     1.004     0.140    -0.863     14.77
+   Cl-             1.009e+01   1.382e+00     1.004     0.140    -0.863     14.87
 Na            1.009e+01
-   Na+             1.009e+01   1.382e+00     1.004     0.140    -0.863     25.78
+   Na+             1.009e+01   1.382e+00     1.004     0.140    -0.863     25.85
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(573 K,  65 atm)
+	Phase               SI   log IAP   log K(573 K,  64 atm)
 
 	H2O(g)            1.70     -0.11   -1.82  H2O
-	Halite            0.00      0.28    0.28  NaCl
+	Halite           -0.00      0.28    0.28  NaCl
 
 
 ------------------
@@ -1768,8 +1771,8 @@ Calcite           0.00    -8.41     -8.41    1.000e+01   9.998e+00  -1.741e-03
                       Temperature (deg C)  =  25.00
                   Electrical balance (eq)  =  -7.510e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  23
-                         Gamma iterations  =   6
+                               Iterations  =  18
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   0.95751
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -1911,8 +1914,8 @@ Halite            0.00     1.57      1.57    1.000e+01   3.902e+00  -6.098e+00
                       Temperature (deg C)  =  25.00
                   Electrical balance (eq)  =  -7.510e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  29
-                         Gamma iterations  =   7
+                               Iterations  =  26
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   1.28131
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -2012,10 +2015,10 @@ Calcite           0.00    -8.41     -8.41    1.000e+01   1.000e+01  -3.100e-04
                  Total alkalinity (eq/kg)  =   4.264e-03
                        Total CO2 (mol/kg)  =   4.269e-03
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -7.510e-10
+                  Electrical balance (eq)  =  -7.562e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
-                         Gamma iterations  =   6
+                               Iterations  =  10
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   0.92279
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -2115,10 +2118,10 @@ Calcite           0.00    -8.41     -8.41    1.000e+01   1.000e+01  -3.256e-04
                  Total alkalinity (eq/kg)  =   4.617e-03
                        Total CO2 (mol/kg)  =   4.555e-03
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -7.510e-10
+                  Electrical balance (eq)  =  -7.511e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
-                         Gamma iterations  =   6
+                               Iterations  =  12
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   0.97477
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -2218,10 +2221,10 @@ Calcite           0.00    -8.41     -8.41    1.000e+01   1.000e+01  -2.654e-04
                  Total alkalinity (eq/kg)  =   4.818e-03
                        Total CO2 (mol/kg)  =   4.765e-03
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -7.510e-10
+                  Electrical balance (eq)  =  -7.512e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
-                         Gamma iterations  =   6
+                               Iterations  =  11
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   1.04886
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -2321,10 +2324,10 @@ Calcite           0.00    -8.41     -8.41    1.000e+01   1.000e+01  -1.678e-04
                  Total alkalinity (eq/kg)  =   4.945e-03
                        Total CO2 (mol/kg)  =   4.937e-03
                       Temperature (deg C)  =  25.00
-                  Electrical balance (eq)  =  -7.510e-10
+                  Electrical balance (eq)  =  -7.511e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
-                         Gamma iterations  =   6
+                               Iterations  =  11
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   1.13540
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -2426,8 +2429,8 @@ Calcite           0.00    -8.41     -8.41    1.000e+01   1.000e+01  -5.636e-05
                       Temperature (deg C)  =  25.00
                   Electrical balance (eq)  =  -7.510e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  16
-                         Gamma iterations  =   6
+                               Iterations  =  11
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   1.23086
                          Density of water  =   0.99704
                                   Total H  = 1.110124e+02
@@ -2660,8 +2663,8 @@ Dolomite          0.00   -17.08    -17.08    1.000e+01   1.000e+01   5.039e-04
                       Temperature (deg C)  =  25.00
                   Electrical balance (eq)  =  -1.058e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
-                               Iterations  =  15
-                         Gamma iterations  =   6
+                               Iterations  =   7
+                         Gamma iterations  =   2
                       Osmotic coefficient  =   0.90363
                          Density of water  =   0.99704
                                   Total H  = 1.110145e+02
@@ -2679,7 +2682,7 @@ Dolomite          0.00   -17.08    -17.08    1.000e+01   1.000e+01   5.039e-04
 Br            8.729e-04
    Br-             8.729e-04   6.239e-04    -3.059    -3.205    -0.146     25.58
 C(4)          4.491e-04
-   HCO3-           4.272e-04   2.577e-04    -3.369    -3.589    -0.220     26.79
+   HCO3-           4.272e-04   2.577e-04    -3.369    -3.589    -0.220     26.78
    CO2             9.847e-06   1.096e-05    -5.007    -4.960     0.047     30.26
    CO3-2           6.155e-06   6.205e-07    -5.211    -6.207    -0.996     -0.19
    MgCO3           5.911e-06   5.911e-06    -5.228    -5.228     0.000    -17.09
@@ -2806,8 +2809,8 @@ Gypsum            0.00    -4.58     -4.58
                       Temperature (deg C)  =  25.00
                   Electrical balance (eq)  =  -1.058e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
-                               Iterations  =  31
-                         Gamma iterations  =   9
+                               Iterations  =  23
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   0.98937
                          Density of water  =   0.99704
                                   Total H  = 3.178299e+01
@@ -2954,8 +2957,8 @@ Halite            0.00     1.57      1.57
                       Temperature (deg C)  =  25.00
                   Electrical balance (eq)  =  -1.058e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
-                               Iterations  =  29
-                         Gamma iterations  =   7
+                               Iterations  =  36
+                         Gamma iterations  =   8
                       Osmotic coefficient  =   1.36934
                          Density of water  =   0.99704
                                   Total H  = 1.041048e+01
@@ -2967,7 +2970,7 @@ Halite            0.00     1.57      1.57
 	                               Unscaled    Log       Log         Log 
    Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
 
-   OH-             2.326e-07   9.679e-08    -6.633    -7.014    -0.381      5.23
+   OH-             2.326e-07   9.679e-08    -6.633    -7.014    -0.381      5.24
    H+              1.822e-08   7.716e-08    -7.739    -7.113     0.627      0.00
    H2O             5.551e+01   7.412e-01     1.744    -0.130     0.000     18.07
 Br            9.309e-03
@@ -3047,6 +3050,6 @@ Reading input data for simulation 18.
 -------------------------------------
 
 ------------------------------
-End of Run after 0.22 Seconds.
+End of Run after 0.35 Seconds.
 ------------------------------
 
