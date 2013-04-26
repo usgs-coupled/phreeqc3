@@ -1525,7 +1525,7 @@ status(int count, const char *str, bool rk_string)
 
 #ifndef NPP
 	t2 = clock();
-	if ((int) (1e3 / clocks_per_sec * (t2 - status_timer)) > status_interval)
+	if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) > status_interval)
 #endif
 	{
 		status_timer = t2;
