@@ -1,0 +1,19 @@
+DATABASE ../database/phreeqc.dat
+# cf HK3, fig 1
+PRINT; -reset false
+
+SOLUTION 1
+pH 7 charge
+C 0.025e3
+REACTION_PRESSURE 
+1 1500 in 15
+USER_GRAPH
+-axis_titles "log Vw" "log K (H2CO3)"
+-chart_title "pressure-dependent species dissociation"
+-connect_simulations false
+10 graph_x log10(Vm("H2O") / GFW("H2O"))
+20 graph_sy LK_SPECIES("HCO3-") - LK_SPECIES("CO2")
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1; 65

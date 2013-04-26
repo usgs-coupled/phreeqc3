@@ -111,6 +111,7 @@ all: alkalinity.out \
 	opa_col2.out \
 	org_gas.out \
 	oxygen.out \
+	p_dep_species.out \
 	phantom_surface.out \
 	phase_formula.out \
 	phreeqc.test.out \
