@@ -15,8 +15,8 @@
  * It is independent of the CVODE linear solver in use.            *
  *                                                                 *
  *******************************************************************/
-
-
+#include "nvector_serial.h"	
+#define Ith(v,i)	NV_Ith_S(v,i-1)
 /************************************************************/
 /******************* BEGIN Imports **************************/
 /************************************************************/
@@ -1342,17 +1342,23 @@ CVode(void *cvode_mem, realtype tout, N_Vector yout, realtype * t, int itask)
 	/*
 	 * check interpolation
 	 */
-	cvode_test = TRUE;
+	CVMEM cvode_test = TRUE;
 	f(N, tn, y, ftemp, f_data);
-	cvode_test = FALSE;
-	if (cvode_error == TRUE)
+	CVMEM cvode_test = FALSE;
+	if (CVMEM cvode_error == TRUE)
 	{
-		CVMEM warning_msg("End of cvode, Interpolated y Fail\n");
+		//CVMEM warning_msg("End of cvode, Interpolated y Fail\n");
+		fprintf(stderr, "End of cvode, Interpolated y Fail\n");
 		return (-1);
 	}
 	else
 	{
-		CVMEM warning_msg("End of cvode, Interpolated y OK\n");
+		//CVMEM warning_msg("End of cvode, Interpolated y OK\n");
+		//fprintf(stderr, "End of cvode, Interpolated y OK\n");
+		//for (int i = 0; i <= N; i++)
+		//{
+		//	fprintf(stderr, "%d %e\n", i, Ith(y, i));
+		//}
 	}
 #endif
 	return (istate);
@@ -2015,10 +2021,10 @@ CVStep(CVodeMem cv_mem)
 
 	CVCompleteStep(cv_mem);
 #ifdef DEBUG_CVODE
-	cvode_test = TRUE;
+	CVMEM cvode_test = TRUE;
 	f(N, tn, y, ftemp, f_data);
-	cvode_test = FALSE;
-	if (cvode_error == TRUE)
+	CVMEM cvode_test = FALSE;
+	if (CVMEM cvode_error == TRUE)
 	{
 		CVMEM warning_msg("After complete step, y Fail\n");
 	}
@@ -2026,10 +2032,10 @@ CVStep(CVodeMem cv_mem)
 	{
 		CVMEM warning_msg("After complete step, y OK\n");
 	}
-	cvode_test = TRUE;
+	CVMEM cvode_test = TRUE;
 	f(N, tn, zn[0], ftemp, f_data);
-	cvode_test = FALSE;
-	if (cvode_error == TRUE)
+	CVMEM cvode_test = FALSE;
+	if (CVMEM cvode_error == TRUE)
 	{
 		CVMEM warning_msg("After complete step, zn Fail\n");
 	}
