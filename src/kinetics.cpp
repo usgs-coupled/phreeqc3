@@ -108,7 +108,7 @@ calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
 			}
 			if (rate_moles == NAN)
 			{
-				error_string = sformatf( "Moles of reaction not SAVE'd for %s.",
+				error_string = sformatf( "Moles of reaction not SAVEed for %s.",
 						kinetics_comp_ptr->Get_rate_name().c_str());
 				error_msg(error_string, STOP);
 			}

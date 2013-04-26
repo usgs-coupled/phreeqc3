@@ -908,7 +908,7 @@ punch_calculate_values(void)
 			}
 			if (rate_moles == NAN)
 			{
-				error_string = sformatf( "Calculated value not SAVE'd for %s.",
+				error_string = sformatf( "Calculated value not SAVEed for %s.",
 					calculate_value_ptr->name);
 				error_msg(error_string, STOP);
 			}
@@ -1134,7 +1134,7 @@ calculate_values(void)
 		}
 		if (rate_moles == NAN)
 		{
-			error_string = sformatf( "Calculated value not SAVE'd for %s.",
+			error_string = sformatf( "Calculated value not SAVEed for %s.",
 					calculate_value[j]->name);
 			error_msg(error_string, STOP);
 		}
@@ -1181,7 +1181,7 @@ calculate_values(void)
 				}
 				if (rate_moles == NAN)
 				{
-					error_string = sformatf( "Calculated value not SAVE'd for %s.",
+					error_string = sformatf( "Calculated value not SAVEed for %s.",
 						calculate_value_ptr->name);
 					error_msg(error_string, STOP);
 				}
@@ -1244,7 +1244,7 @@ calculate_values(void)
 				}
 				if (rate_moles == NAN)
 				{
-					error_string = sformatf( "Calculated value not SAVE'd for %s.",
+					error_string = sformatf( "Calculated value not SAVEed for %s.",
 						calculate_value_ptr->name);
 					error_msg(error_string, STOP);
 				}
@@ -1316,7 +1316,7 @@ calculate_values(void)
 		}
 		if (rate_moles == NAN)
 		{
-			error_string = sformatf( "Calculated value not SAVE'd for %s.",
+			error_string = sformatf( "Calculated value not SAVEed for %s.",
 					calculate_value[j]->name);
 			error_msg(error_string, STOP);
 		}
