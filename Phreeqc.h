@@ -36,6 +36,9 @@
 #include "cxxMix.h"
 #include "Use.h"
 #include "Surface.h"
+#ifdef SWIG_SHARED_OBJ
+#include "thread.h"
+#endif
 
 class cxxNameDouble;
 class cxxKinetics;
