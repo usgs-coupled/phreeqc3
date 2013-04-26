@@ -538,7 +538,7 @@ print_gas_phase(void)
 	if (PR)
 		output_msg("          (Peng-Robinson calculation)\n");
 	else if (gas_phase_ptr->Get_total_p() >= 1500)
-		output_msg(" WARNING: Program's limit.\n");
+		output_msg(" WARNING: Program limit.\n");
 	else
 		output_msg(" \n");
 	output_msg(sformatf("    Gas volume: %10.2e liters\n",
@@ -547,7 +547,7 @@ print_gas_phase(void)
 		output_msg(sformatf("  Molar volume: %10.2e liters/mole",
 				    (double) (gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles())));
 	if (!numerical_fixed_volume && ((PR && gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles() <= 0.03) || (PR && gas_phase_ptr->Get_v_m() <= 0.03)))
-		output_msg(" WARNING: Program's limit for Peng-Robinson.\n");
+		output_msg(" WARNING: Program limit for Peng-Robinson.\n");
 	else
 		output_msg("\n");
 	if (PR)
@@ -626,7 +626,7 @@ print_gas_phase(void)
 				   (double) moles,
 				   (double) delta_moles));
 		if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x == 90)
-			output_msg("       WARNING: The pressure of H2O(g) is above program's limit: use the polynomial for log_k.\n");
+			output_msg("       WARNING: The pressure of H2O(g) is above the program limit: use the polynomial for log_k.\n");
 
 	}
 	output_msg("\n");

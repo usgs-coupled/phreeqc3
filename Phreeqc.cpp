@@ -1266,11 +1266,7 @@ void Phreeqc::init(void)
 	pr.hdf                  = FALSE;
 	pr.alkalinity           = FALSE;
 	status_on               = true;
-#ifdef NPP
-	status_interval         = 40;
-#else
 	status_interval         = 250;
-#endif
 	status_timer            = clock();
 	count_warnings          = 0;
 	/* ----------------------------------------------------------------------
