@@ -115,7 +115,7 @@ prep(void)
 	else
 	{
 /*
- *   If model is same, just update masses, don't rebuild unknowns and lists
+ *   If model is same, just update masses, don`t rebuild unknowns and lists
  */
 		quick_setup();
 	}
@@ -4213,8 +4213,12 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		B = b_sum * P / R_TK;
 		B_r = phase_ptr->pr_b / b_sum;
 		if (rz > B)
+		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
 				  log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
+			if (phi > 4.44)
+				phi = 4.44;
+		}
 		else
 			phi = -3.0; // fugacity coefficient > 0.05
 		phase_ptr->pr_phi = exp(phi);
@@ -4325,6 +4329,8 @@ adjust_setup_pure_phases(void)
 			si_org = comp_ptr->Get_si_org();
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
 			{
+				if (si_org > 3.5)
+					si_org = 3.5;
 				p = exp(si_org * LOG_10);
 				patm_x = p;
 				t = use.Get_solution_ptr()->Get_tc() + 273.15;
@@ -4731,6 +4737,8 @@ adjust_setup_solution(void)
 			phase_ptrs.push_back(phase_ptr);
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
 			{
+				if (x[i]->si > 3.5)
+					x[i]->si = 3.5;
 				p = exp(x[i]->si * LOG_10);
 				patm_x = p;
 				t = use.Get_solution_ptr()->Get_tc() + 273.15;
@@ -5298,7 +5306,7 @@ write_mb_eqn_x(void)
 	struct master *master_ptr;
 /*
  *   Rewrite any secondary master species flagged REWRITE
- *   Don't add in any pe reactions
+ *   Don`t add in any pe reactions
  */
 	count = 0;
 	repeat = TRUE;

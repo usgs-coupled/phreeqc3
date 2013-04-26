@@ -4702,7 +4702,7 @@ read_selected_output(void)
 				punch_close();
 				if (punch_open(file_name) != OK)
 				{
-					error_string = sformatf( "Can't open file, %s.", file_name);
+					error_string = sformatf( "Can`t open file, %s.", file_name);
 					input_error++;
 					error_msg(error_string, CONTINUE);
 				}
@@ -5038,7 +5038,7 @@ read_selected_output(void)
 		punch_close();
 		if (punch_open("selected.out") != OK)
 		{
-			error_string = sformatf( "Can't open file, %s.", "selected.out");
+			error_string = sformatf( "Can`t open file, %s.", "selected.out");
 			input_error++;
 			error_msg(error_string, CONTINUE);
 		}
@@ -7030,7 +7030,7 @@ read_surface(void)
 								|| temp_surface.Get_related_phases())
 							{
 								error_msg
-									("Can't transport surfaces related to phases or rates (yet).",
+									("Can`t transport surfaces related to phases or rates (yet).",
 									CONTINUE);
 								input_error++;
 							}
@@ -9095,7 +9095,7 @@ read_user_graph(void)
 			strcpy(file_name, next_char);
 			if (!OpenCSVFile(file_name))
 			{
-				error_string = sformatf( "Can't open file, %s. Give the full path + name, or copy the file to the working directory.", file_name);
+				error_string = sformatf( "Can`t open file, %s. Give the full path + name, or copy the file to the working directory.", file_name);
 				input_error++;
 				error_msg(error_string, CONTINUE);
 			}

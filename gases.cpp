@@ -554,6 +554,7 @@ calc_PR(void)
 			phase_ptr->pr_p = 0;
 			phase_ptr->pr_phi = 1;
 			phase_ptr->pr_si_f = 0.0;
+			//phase_ptr->logk[vm0] = 0.0; // ***
 			continue;
 		}	
 		phase_ptr->pr_p = phase_ptr->fraction_x * P;
@@ -568,12 +569,18 @@ calc_PR(void)
 		B = b_sum * P / R_TK;
 		B_r = phase_ptr->pr_b / b_sum;
 		if (rz > B)
+		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
 				  log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
+			if (phi > 4.44)
+				phi = 4.44;
+		}
 		else
 			phi = -3.0; // fugacity coefficient > 0.05
 		phase_ptr->pr_phi = exp(phi);
 		phase_ptr->pr_si_f = phi / LOG_10;										// pr_si_f updated
+		// ****
+		//phase_ptr->logk[vm0] = V_m * 1e3 * phase_ptr->fraction_x;
 		phase_ptr->pr_in = true;
 	}
 	return (V_m);

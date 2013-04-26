@@ -1525,7 +1525,7 @@ status(int count, const char *str, bool rk_string)
 
 #ifndef NPP
 	t2 = clock();
-	if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) > status_interval)
+	if ((int) (1e3 / clocks_per_sec * (t2 - status_timer)) > status_interval)
 #endif
 	{
 		status_timer = t2;
@@ -1725,7 +1725,7 @@ hsearch_multi(HashTable * Table, ENTRY item, ACTION action)
 /*    if (++Table->KeyCount / MUL(Table->SegmentCount,SegmentSize) > Table->MaxLoadFactor) */
 	if (++Table->KeyCount / ((Table->SegmentCount) << (SegmentSizeShift)) >
 		Table->MaxLoadFactor)
-		ExpandTable_multi(Table);	/* doesn't affect q     */
+		ExpandTable_multi(Table);	/* doesn`t affect q     */
 	return ((ENTRY *) q);
 }
 
