@@ -274,7 +274,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		{
 			if (!phrq_io->log_open("phreeqc.log"))
 			{
-				error_msg("Can't open log file, phreeqc.log.", STOP);
+				error_msg("Cannot open log file, phreeqc.log.", STOP);
 			}
 		}
 /*
@@ -356,7 +356,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		screen_msg(sformatf("Database file: %s\n\n", token));
 		strcpy(db_file, token);
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.0, compiled on March 16, 2013\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.0.2, compiled on April 9, 2013\n"));
 #endif
 		output_msg(sformatf("   Input file: %s\n", in_file));
 		output_msg(sformatf("  Output file: %s\n", out_file));
@@ -470,7 +470,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		{
 			if (!phrq_io->log_open("phreeqc.log"))
 			{
-				error_msg("Can't open log file, phreeqc.log.", STOP);
+				error_msg("Cannot open log file, phreeqc.log.", STOP);
 			}
 		}
 /*

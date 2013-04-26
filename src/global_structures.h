@@ -202,7 +202,7 @@ typedef struct Element
 	/*
 	 ** The user only sees the first two fields,
 	 ** as we pretend to pass back only a pointer to ENTRY.
-	 ** {S}he doesn't know what else is in here.
+	 ** {S}he doesn`t know what else is in here.
 	 */
 	const char *Key;
 	char *Data;

@@ -77,7 +77,7 @@ inverse_models(void)
 				netpath_file = fopen(string, "w");
 				if (netpath_file == NULL)
 				{
-					error_string = sformatf( "Cannot open file, %s.", string);
+					error_string = sformatf( "Can`t open file, %s.", string);
 					error_msg(error_string, STOP);
 				}
 				count_inverse_models = 0;
@@ -2879,7 +2879,7 @@ check_solns(struct inverse *inv_ptr)
 				   (size_t) max_column_count * sizeof(LDBLE));
 		}
 /*
- *   Can't Zero out epsilon constraint rows for other solutions because not sure which
+ *   Can`t Zero out epsilon constraint rows for other solutions because not sure which
  *   are which
  */
 
@@ -3922,7 +3922,7 @@ dump_netpath(struct inverse *inverse_ptr)
 	netpath_file = fopen(string.c_str(), "w");
 	if (netpath_file == NULL)
 	{
-		error_string = sformatf( "Cannot open file, %s.", inverse_ptr->netpath);
+		error_string = sformatf( "Can`t open file, %s.", inverse_ptr->netpath);
 		error_msg(error_string, STOP);
 	}
 	add_to_file("netpath.fil", inverse_ptr->netpath);
@@ -4741,7 +4741,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	model_file = fopen(string1.c_str(), "w");
 	if (model_file == NULL)
 	{
-		error_string = sformatf( "Cannot open file, %s.", string.c_str());
+		error_string = sformatf( "Can`t open file, %s.", string.c_str());
 		error_msg(error_string, STOP);
 	}
 	add_to_file("model.fil", string1.c_str());
@@ -5117,7 +5117,7 @@ add_to_file(const char *filename, const char *string)
 		model_file = fopen(filename, "w");
 		if (model_file == NULL)
 		{
-			error_string = sformatf( "Cannot open file, %s.", filename);
+			error_string = sformatf( "Can`t open file, %s.", filename);
 			error_msg(error_string, STOP);
 		}
 	}

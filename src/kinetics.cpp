@@ -241,9 +241,6 @@ calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
 		}
 	}
 	kinetics_ptr->Set_totals(elt_list_NameDouble());
-	
-	//std::cerr << "\n";
-	//kinetics_ptr->Get_totals().dump_raw(std::cerr, 1);
 	return (OK);
 }
 
@@ -2067,7 +2064,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			   ropt is an array used to communicate optional real input and output
 
 			   A pointer to CVODE problem memory is returned and stored in cvode_mem. */
-			/* Don't know what this does */
+			/* Don`t know what this does */
 			/*
 			   iopt[SLDET] = TRUE;
 			   cvode_mem = CVodeMalloc(n_reactions, f, 0.0, y, BDF, NEWTON, SV, &reltol, abstol, NULL, NULL, TRUE, iopt, ropt, machEnv);
@@ -2448,7 +2445,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			   ropt is an array used to communicate optional real input and output
 
 			   A pointer to CVODE problem memory is returned and stored in cvode_mem. */
-			/* Don't know what this does */
+			/* Don`t know what this does */
 			/*
 			   iopt[SLDET] = TRUE;
 			   cvode_mem = CVodeMalloc(n_reactions, f, 0.0, y, BDF, NEWTON, SV, &reltol, abstol, NULL, NULL, TRUE, iopt, ropt, machEnv);
@@ -3348,7 +3345,7 @@ cvode_update_reactants(int i, int nsaver, bool save_it)
 			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 			m_original[j] = kinetics_comp_ptr->Get_m();
 			m_temp[j] = kinetics_comp_ptr->Get_m();
-		}
+	}
 	}
 	return true;
 }

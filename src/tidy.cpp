@@ -2553,7 +2553,7 @@ tidy_solutions(void)
 {
 /*
  *   Define n_user for any solutions read by solution_spread that
- *   don't have n_user defined
+ *   don`t have n_user defined
  */
 	struct master *master_ptr;
 

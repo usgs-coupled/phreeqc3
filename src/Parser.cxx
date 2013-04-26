@@ -1163,7 +1163,7 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		}
 		else
 		{
-			if (flag_error) // don't throw error
+			if (flag_error) // don`t throw error
 			{
 				if (true)			// (database_file == NULL)
 				{

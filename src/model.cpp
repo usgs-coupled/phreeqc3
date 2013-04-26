@@ -2557,7 +2557,7 @@ calc_gas_pressures(void)
 	}
 	if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 	{
-		if (PR /*&& gas_unknown->gas_phase->total_p > 1 */ && iterations > 2)
+		if (PR /*&& gas_unknown->gas_phase->total_p > 1 */ && iterations > 0)
 		{
 			calc_PR(phase_ptrs, gas_phase_ptr->Get_total_p(), tk_x, 0);
 		}
@@ -2953,7 +2953,7 @@ reset(void)
 		&& calculating_deriv == FALSE)
 	{
 /*
- *   Don't take out more mineral than is present
+ *   Don`t take out more mineral than is present
  */
 		for (i = 0; i < count_unknowns; i++)
 		{
