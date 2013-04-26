@@ -241,6 +241,9 @@ calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
 		}
 	}
 	kinetics_ptr->Set_totals(elt_list_NameDouble());
+	
+	//std::cerr << "\n";
+	//kinetics_ptr->Get_totals().dump_raw(std::cerr, 1);
 	return (OK);
 }
 
@@ -2110,7 +2113,7 @@ RESTART:
 				warning_msg(error_string);
 
 				// run with last good y, update reactants
-				cvode_update_reactants(i, nsaver);
+				cvode_update_reactants(i, nsaver, true);
 
 				cvode_last_good_time = 0;
 				if (++m_iter >= kinetics_ptr->Get_bad_step_max())
@@ -2175,7 +2178,7 @@ RESTART:
 			
 			// put remaining kinetic reaction in last_good_y for update
 			N_VScale(1.0, kinetics_y, cvode_last_good_y);
-			if (!cvode_update_reactants(i, nsaver))
+			if (!cvode_update_reactants(i, nsaver, false))
 			{
 				warning_msg("FAIL 2 after successful integration in CVode");
 				flag = -1;
@@ -3278,7 +3281,7 @@ cvode_init(void)
 	return;
 }
 bool Phreeqc::
-cvode_update_reactants(int i, int nsaver)
+cvode_update_reactants(int i, int nsaver, bool save_it)
 {
 	cxxKinetics *kinetics_ptr = use.Get_kinetics_ptr();	
 	int n_reactions = (int) kinetics_ptr->Get_kinetics_comps().size();
@@ -3291,8 +3294,9 @@ cvode_update_reactants(int i, int nsaver)
 		kinetics_comp_ptr->Set_moles(Ith(cvode_last_good_y, j + 1));
 		// Reduces m
 		kinetics_comp_ptr->Set_m(m_original[j] - kinetics_comp_ptr->Get_moles());
-		m_original[j] = kinetics_comp_ptr->Get_m();
-		m_temp[j] = kinetics_comp_ptr->Get_m();
+        // Don't update until after calc_final_reaction
+		//m_original[j] = kinetics_comp_ptr->Get_m();
+		//m_temp[j] = kinetics_comp_ptr->Get_m();
 		if (kinetics_comp_ptr->Get_m() < 0)
 		{
 			kinetics_comp_ptr->Set_moles(m_original[j]);
@@ -3301,7 +3305,16 @@ cvode_update_reactants(int i, int nsaver)
 	}
 	// calculates net reaction
 	calc_final_kinetic_reaction(kinetics_ptr);
-
+	if (use.Get_pp_assemblage_ptr() != NULL)
+	{
+		Rxn_pp_assemblage_map[cvode_pp_assemblage_save->Get_n_user()] = *cvode_pp_assemblage_save;
+		use.Set_pp_assemblage_ptr(Utilities::Rxn_find(Rxn_pp_assemblage_map, cvode_pp_assemblage_save->Get_n_user()));
+	}
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
+		Rxn_ss_assemblage_map[cvode_ss_assemblage_save->Get_n_user()] = *cvode_ss_assemblage_save;
+		use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
+	}
 	// runs previous solution plus net reaction 
 	if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 1.0) ==	MASS_BALANCE)
 	{
@@ -3310,25 +3323,32 @@ cvode_update_reactants(int i, int nsaver)
 	}
 
 	// saves result to reactants defined by saver
-	saver();
+	if (save_it) 
+	{
+		saver();
 
-	cxxPPassemblage *pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, nsaver);
-	cxxSSassemblage *ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, nsaver);
-	if (cvode_pp_assemblage_save != NULL)
-	{
-		delete cvode_pp_assemblage_save;
-		cvode_pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
-	}
-	if (cvode_ss_assemblage_save != NULL)
-	{
-		delete cvode_ss_assemblage_save;
-		cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
-	}
+		cxxPPassemblage *pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, nsaver);
+		cxxSSassemblage *ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, nsaver);
+		if (cvode_pp_assemblage_save != NULL)
+		{
+			delete cvode_pp_assemblage_save;
+			cvode_pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
+		}
+		if (cvode_ss_assemblage_save != NULL)
+		{
+			delete cvode_ss_assemblage_save;
+			cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
+		}
 
-	for (int j = 0; j < n_reactions; j++)
-	{
-		Ith(cvode_last_good_y, j + 1) = 0.0;
-		Ith(cvode_prev_good_y, j + 1) = 0.0;
+		for (int j = 0; j < n_reactions; j++)
+		{
+			Ith(cvode_last_good_y, j + 1) = 0.0;
+			Ith(cvode_prev_good_y, j + 1) = 0.0;
+
+			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+			m_original[j] = kinetics_comp_ptr->Get_m();
+			m_temp[j] = kinetics_comp_ptr->Get_m();
+		}
 	}
 	return true;
 }
