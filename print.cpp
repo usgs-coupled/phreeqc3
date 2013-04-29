@@ -1219,10 +1219,27 @@ print_saturation_indices(void)
 		output_msg(sformatf("\t%-15s%7.2f%2s%8.2f%8.2f  %s",
 				   phases[i]->name, (double) si, pr_in, (double) iap, (double) lk,
 				   phases[i]->formula));
-		if (gas && phases[i]->pr_in && phases[i]->pr_p && (phases[i]->moles_x || state == 1))
+		if (gas && phases[i]->pr_in && phases[i]->pr_p)
 		{
-			output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
-				    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
+			if (phases[i]->moles_x || state == INITIAL_SOLUTION)
+			{
+				output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
+					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
+			} else 
+			{
+				for (int j = 0; j < count_unknowns; j++)
+				{
+					if (x[j]->type != PP)
+						continue;
+					if (!strcmp(x[j]->phase->name, phases[i]->name))
+					{
+						if (x[j]->moles)
+							output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
+								" Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
+						break;
+					}
+				}
+			}
 		}
 		output_msg("\n");
 	}
