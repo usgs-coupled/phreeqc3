@@ -1570,7 +1570,7 @@ initial_gas_phases(int print)
 			print_gas_phase();
  			if (PR /*&& use.Get_gas_phase_ptr()->total_p > 1.0*/)
  				warning_msg("While initializing gas phase composition by equilibrating:\n"
-				"         Found definitions of gas' critical temperature and pressure.\n"
+				"         Found definitions of gas` critical temperature and pressure.\n"
 				"         Going to use Peng-Robinson in subsequent calculations.\n");
 			xgas_save(n_user);
 			punch_all();

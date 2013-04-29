@@ -2842,7 +2842,7 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 	if (j < 1)
 	{
 		input_error++;
-		error_msg("Expecting numeric values for calculating the species' molar volume from the supcrt database.",
+		error_msg("Expecting numeric values for calculating the species molar volume from the supcrt database.",
 			CONTINUE);
 		return (ERROR);
 	}
