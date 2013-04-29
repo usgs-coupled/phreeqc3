@@ -1219,17 +1219,10 @@ print_saturation_indices(void)
 		output_msg(sformatf("\t%-15s%7.2f%2s%8.2f%8.2f  %s",
 				   phases[i]->name, (double) si, pr_in, (double) iap, (double) lk,
 				   phases[i]->formula));
-		if (gas_in && phases[i]->pr_in && phases[i]->pr_p)
+		if (gas && phases[i]->pr_in && phases[i]->pr_p && (phases[i]->moles_x || state == 1))
 		{
-			if (fabs(phases[i]->pr_p - pow(10, si) / phases[i]->pr_phi) > 0.1)
-			{
-				output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
-					    " Pressure ", (double) pow(10, si) / phases[i]->pr_phi, " atm, phi ", (double) phases[i]->pr_phi, "."));
-			} else
-			{
-				output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
-					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
-			}
+			output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
+				    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
 		}
 		output_msg("\n");
 	}
