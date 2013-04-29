@@ -40,6 +40,7 @@ N		NO3-	0.0	N		14.0067
 N(+5)		NO3-	0.0	N
 N(+3)		NO2-	0.0	N
 N(0)		N2	0.0	N
+# N(-3)	NH4+		NH4	14.0067
 Amm		AmmH+	0.0	AmmH		17.0
 B		H3BO3	0.0	B		10.81
 P		PO4-3	2.0	P		30.9738
@@ -117,7 +118,7 @@ Cl- = Cl-
 CO3-2 = CO3-2
 	-gamma	5.4	0.0
 	-dw	 0.955e-9
-	-Vm  5.224  0  0  -5.85  5.126  0  0.404  110  -5.74e-3  1 # supcrt modified
+	-Vm  6.95  0  0  -5.98  8.32  0  -0.115  167  -0.026  1 # supcrt modified
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
 	-dw	 1.07e-9
@@ -201,13 +202,13 @@ CO3-2 + H+ = HCO3-
 	-analytic	107.8871	0.03252849	-5151.79	-38.92561	563713.9
 	-gamma	5.4	0.0
 	-dw	 1.18e-9
-	-Vm  8.615  0  -12.21 0  1.667  0  0  264  0  1 # supcrt modified
+	-Vm  8.60  0  -12.0  0  1.643  0  0  167  0  1 # supcrt modified
 CO3-2 + 2 H+ = CO2 + H2O
 	-log_k	16.681
 	-delta_h -5.738	kcal
 	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
 	-dw	 1.92e-9
-	-Vm  21.78  -49.4  -91.7  31.96 # supcrt modified
+	-Vm  20.85  -46.93  -79.0  27.9  -0.193 # supcrt modified
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	-log_k	41.071
 	-delta_h -61.039 kcal
@@ -382,16 +383,15 @@ Mg+2 + F- = MgF+
 	Na+ + OH- = NaOH
 	-log_k	-10 # remove this complex
 Na+ + CO3-2 = NaCO3-
-	-log_k	0.65
-	-delta_h 0.7 kcal
+	-log_k	1.27
+	-delta_h 8.91 kcal
 	-dw 5.85e-10
-	-Vm  3.411  0  15.99  -8.20  2.258  0  4.06  0  -2.21e-2  1
-	-gamma	5.4	0.0
+	-Vm  3.99  0  15.3  -8.12  3.11  0  2.7  0  0.026  1
 Na+ + HCO3- = NaHCO3
-	-log_k  0.4
-	-delta_h  -0.4 kcal
+	-log_k  -0.25
+	-delta_h  -1 kcal
 	-dw 6.73e-10
-	-Vm  4.64
+	-Vm  0.51
 Na+ + SO4-2 = NaSO4-
 	-log_k	0.7
 	-delta_h 1.120	kcal
@@ -1056,8 +1056,9 @@ Pyrochroite
 	-log_k	15.2
 Halite
 	NaCl  =  Cl- + Na+
-	log_k	   1.570
-	-analytic -713.4616   -.1201241   37302.21    262.4583    -2106915.
+	log_k	  1.570
+	-delta_h  1.37
+	#-analytic -713.4616   -.1201241   37302.21    262.4583    -2106915.
 	-Vm 27.1
 Sylvite
 	KCl  = K+ + Cl-
@@ -1068,9 +1069,9 @@ CO2(g)
 	CO2 = CO2
 	-log_k	-1.468
 	-delta_h -4.776 kcal
-	-analytic  119.87356  2.185434e-2  -7337.8 -44.7652    669371
+	-analytic  109.534  1.9913e-2  -6986.04  -40.83  669370
 	-T_c  304.2 # critical T, K
-	-P_c   72.80 # critical P, atm
+	-P_c   72.86 # critical P, atm
 	-Omega 0.225 # acentric factor
 H2O(g)
 	H2O = H2O
