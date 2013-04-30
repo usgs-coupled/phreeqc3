@@ -4700,7 +4700,7 @@ read_selected_output(void)
 				strcpy(file_name, next_char);
 				have_punch_name = TRUE;
 				punch_close();
-				if (punch_open(file_name) != OK)
+				if (!punch_open(file_name))
 				{
 					error_string = sformatf( "Can`t open file, %s.", file_name);
 					input_error++;
@@ -5036,7 +5036,7 @@ read_selected_output(void)
 	if (!have_punch_name)
 	{
 		punch_close();
-		if (punch_open("selected.out") != OK)
+		if (!punch_open("selected.out"))
 		{
 			error_string = sformatf( "Can`t open file, %s.", "selected.out");
 			input_error++;
