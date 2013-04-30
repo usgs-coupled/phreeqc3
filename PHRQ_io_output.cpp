@@ -249,6 +249,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		strcpy(query, "Name of output file?");
 		ptr = default_name;
 		copy_token(token, &ptr, &l);
+		strcpy(token, default_name);
 		strcat(token, ".out");
 		std::ofstream * local_output_stream;
 		if (argc <= 1)
