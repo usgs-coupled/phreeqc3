@@ -1018,6 +1018,7 @@ initialize(void)
 		malloc_error();
 	zeros[0] = 0.0;
 	zeros_max = 1;
+	use_kinetics_limiter = false;
 
 	return;
 }

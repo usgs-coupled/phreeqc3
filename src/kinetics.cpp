@@ -143,6 +143,137 @@ calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
 	LDBLE coef;
 	struct phase *phase_ptr;
 	struct master *master_ptr;
+	int count= 0;
+/*
+ *   Go through list and generate list of elements and
+ *   coefficient of elements in reaction
+ */
+RESTART:   // if limiting rates, jump to here
+	count++;
+	kinetics_ptr->Get_totals().clear();
+	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
+	{
+		count_elts = 0;
+		paren_count = 0;
+		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
+		if (kinetics_comp_ptr->Get_moles() > m_temp[i])
+		{
+			kinetics_comp_ptr->Set_moles(m_temp[i]);
+			kinetics_comp_ptr->Set_m(0);
+		}
+		coef = kinetics_comp_ptr->Get_moles();
+		if (coef == 0.0)
+			continue;
+/*
+ *   Reactant is a pure phase, copy formula into token
+ */
+		cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
+		for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)	
+		{
+			std::string name = it->first;
+			LDBLE coef1 = it->second;
+			phase_ptr = NULL;
+			int k;
+			phase_ptr = phase_bsearch(name.c_str(), &k, FALSE);
+			if (phase_ptr != NULL)
+			{
+				add_elt_list(phase_ptr->next_elt,
+							 coef *coef1);
+			}
+			else
+			{
+				char * temp_name = string_duplicate(name.c_str());
+				char * ptr = temp_name;
+				get_elts_in_species(&ptr, coef * coef1);
+				free_check_null(temp_name);
+			}
+		}
+		if (use.Get_exchange_ptr() != NULL
+			&& use.Get_exchange_ptr()->Get_related_rate())
+		{
+			cxxExchange * exchange_ptr = use.Get_exchange_ptr();
+			for(size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
+			{
+				std::string name(exchange_ptr->Get_exchange_comps()[j].Get_rate_name());
+				if (name.size() > 0)
+				{
+					if (strcmp_nocase
+						(kinetics_comp_ptr->Get_rate_name().c_str(),
+						name.c_str()) == 0)
+					{
+						/* found kinetics component */
+						char * formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
+						char * ptr = formula;
+						get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion());
+						free_check_null(formula);
+					}
+				}
+			}
+
+		}
+		if (use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_related_rate())
+		{
+			for (size_t j = 0; j < use.Get_surface_ptr()->Get_surface_comps().size(); j++)
+			{
+				cxxSurfaceComp *surface_comp_ptr = &(use.Get_surface_ptr()->Get_surface_comps()[j]);
+				if (surface_comp_ptr->Get_rate_name().size() > 0)
+				{
+					if (strcmp_nocase
+						(kinetics_comp_ptr->Get_rate_name().c_str(),
+						surface_comp_ptr->Get_rate_name().c_str()) == 0)
+					{
+						/* found kinetics component */
+						char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
+						char *ptr = temp_formula;
+						/* Surface = 0 when m becomes low ...
+						*/
+						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
+							(kinetics_comp_ptr->Get_m()) < MIN_RELATED_SURFACE)
+						{
+							master_ptr = master_bsearch(ptr);
+							master_ptr->total = 0.0;
+						}
+						else
+						{
+							get_elts_in_species(&ptr, -coef * surface_comp_ptr->Get_phase_proportion());
+						}
+						free_check_null(temp_formula);
+					}
+				}
+			}
+		}
+		kinetics_comp_ptr->Set_moles_of_reaction(elt_list_NameDouble());
+		kinetics_ptr->Get_totals().add_extensive(kinetics_comp_ptr->Get_moles_of_reaction(), 1.0);	
+	}
+	if (count > 2)
+	{
+		fprintf(stderr, "Too many limit_rates-.\n");
+	}
+	else
+	{
+		if (limit_rates(kinetics_ptr))
+			goto RESTART;
+	}
+	if (count > 2)
+	{
+		fprintf(stderr, "Too many limit_rates+.\n");
+	}
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *	Go through kinetic components to
+ *	using extrapolated values, which were
+ *	stored in moles in run_kinetics
+ */
+	LDBLE coef;
+	struct phase *phase_ptr;
+	struct master *master_ptr;
 /*
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
@@ -243,7 +374,7 @@ calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
 	kinetics_ptr->Set_totals(elt_list_NameDouble());
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
@@ -3027,6 +3158,11 @@ f(integertype N, realtype t, N_Vector y, N_Vector ydot,
 			/*
 			   Ith(y,i + 1) = m_original[i];
 			 */
+			//if (kinetics_ptr->Get_use_cvode())
+			//{
+			//	pThis->cvode_error = TRUE;
+			//	return;
+			//}
 			kinetics_comp_ptr->Set_moles(pThis->m_original[i]);
 			kinetics_comp_ptr->Set_m(0.0);
 		}
@@ -3347,5 +3483,86 @@ cvode_update_reactants(int i, int nsaver, bool save_it)
 			m_temp[j] = kinetics_comp_ptr->Get_m();
 	}
 	}
+	return true;
+}
+/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+limit_rates(cxxKinetics *kinetics_ptr)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *	Go through kinetic components to
+ *	determine rates and
+ *	a list of elements and amounts in
+ *	the reaction.
+ */
+
+	// check if any small concentrations with negative rates
+	if (!use_kinetics_limiter)
+	{
+		return false;
+	}
+	std::vector<std::string> negative_rate;
+	cxxNameDouble::iterator it = kinetics_ptr->Get_totals().begin();
+	for ( ; it != kinetics_ptr->Get_totals().end(); it++)
+	{
+		if (total(it->first.c_str()) < 1e-10 && it->second < -1e-20)
+		{
+			//if (total(it->first.c_str()) > fabs(it->second))
+			//	continue;
+			negative_rate.push_back(it->first);
+		}
+	}
+	if (negative_rate.size() == 0) return false;
+
+	for (size_t j = 0; j < negative_rate.size(); j++)
+	{
+		std::string elt = negative_rate[j];
+		LDBLE positive_rates = 0;
+		LDBLE negative_rates = 0;
+		for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
+		{
+			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
+			cxxNameDouble::iterator it = kinetics_comp_ptr->Get_moles_of_reaction().find(elt);
+			if (it != kinetics_comp_ptr->Get_moles_of_reaction().end())
+			{
+				if (it->second >= 0.0)
+				{
+					positive_rates += it->second;
+				}
+				else
+				{
+					negative_rates += it->second;
+				}
+			}
+		}
+
+		// factor to reduce precipitation to equal dissolution
+		LDBLE limiter_fraction = 1.0;
+		if (negative_rates < 0.0)
+		{
+			limiter_fraction = fabs(positive_rates / negative_rates);
+				//limiter_fraction = fabs((0.9*total(elt.c_str()) + positive_rates) / negative_rates);
+		}
+		else
+		{
+			assert(false);
+		}
+
+		// Now limit precipitation
+		for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
+		{
+			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
+			cxxNameDouble::iterator it = kinetics_comp_ptr->Get_moles_of_reaction().find(elt);
+			if (it != kinetics_comp_ptr->Get_moles_of_reaction().end())
+			{
+				if (it->second < 0.0)
+				{
+					kinetics_comp_ptr->Set_moles(kinetics_comp_ptr->Get_moles() * limiter_fraction);
+				}
+			}
+		}
+	}
+
 	return true;
 }

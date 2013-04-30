@@ -397,6 +397,7 @@ public:
 	int calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr);
 	int calc_kinetic_reaction(cxxKinetics *kinetics_ptr,
 		LDBLE time_step);
+	bool limit_rates(cxxKinetics *kinetics_ptr);
 	int rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		LDBLE step_fraction);
 	int set_reaction(int i, int use_mix, int use_kinetics);
@@ -1169,6 +1170,7 @@ protected:
 	*   Kinetics
 	* ---------------------------------------------------------------------- */
 	std::map<int, cxxKinetics> Rxn_kinetics_map;
+	bool use_kinetics_limiter;
 
 	/*----------------------------------------------------------------------
 	*   Save
