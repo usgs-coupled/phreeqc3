@@ -44,16 +44,25 @@ PHRQ_io::
 // ---------------------------------------------------------------------- */
 // output ostream methods
 // ---------------------------------------------------------------------- */
+
+bool PHRQ_io::
+ofstream_open(std::ostream **os, const char *file_name, std::ios_base::openmode mode)
+{
+	std::ofstream *ofs = new std::ofstream(file_name, mode);
+	if (ofs && ofs->is_open())
+	{
+		*os = ofs;
+		return true;
+	}
+	return false;
+}
+
 /* ---------------------------------------------------------------------- */
 bool PHRQ_io::
 output_open(const char *file_name, std::ios_base::openmode mode)
 /* ---------------------------------------------------------------------- */
 {
-	if ((output_ostream = new std::ofstream(file_name, mode)) == NULL)
-	{
-		return false; // error
-	}
-	return true;
+	return ofstream_open(&output_ostream, file_name, mode);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -90,11 +99,7 @@ bool PHRQ_io::
 log_open(const char *file_name, std::ios_base::openmode mode)
 /* ---------------------------------------------------------------------- */
 {
-	if ((log_ostream = new std::ofstream(file_name, mode)) == NULL)
-	{
-		return false; // error
-	}
-	return true;
+	return ofstream_open(&log_ostream, file_name, mode);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -130,11 +135,7 @@ bool PHRQ_io::
 punch_open(const char *file_name, std::ios_base::openmode mode)
 /* ---------------------------------------------------------------------- */
 {
-	if ((punch_ostream = new std::ofstream(file_name, mode)) == NULL)
-	{
-		return false; // error
-	}
-	return true;
+	return ofstream_open(&punch_ostream, file_name, mode);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
@@ -174,7 +175,7 @@ error_open(const char *file_name, std::ios_base::openmode mode)
 {
 	if (file_name != NULL)
 	{
-		if ((error_ostream = new std::ofstream(file_name, mode)) == NULL)
+		if (!ofstream_open(&error_ostream, file_name, mode))
 		{
 			error_ostream = &std::cerr;
 			return false;
@@ -362,11 +363,7 @@ bool PHRQ_io::
 dump_open(const char *file_name, std::ios_base::openmode mode)
 /* ---------------------------------------------------------------------- */
 {
-	if ((dump_ostream = new std::ofstream(file_name, mode)) == NULL)
-	{
-		return false; // error
-	}
-	return true;
+	return ofstream_open(&dump_ostream, file_name, mode);
 }
 /* ---------------------------------------------------------------------- */
 void PHRQ_io::
