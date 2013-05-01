@@ -86,6 +86,7 @@ all: alkalinity.out \
 	jgb2col.out \
 	jgbcol.out \
 	joe.out \
+	kin_time.out \
 	kinex.out \
 	kinsurf.out \
 	krest.out \
