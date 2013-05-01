@@ -312,7 +312,8 @@ public:
 		tokgfw,
 		toksoln_vol,
 		tokequi_delta,
-		tokkin_delta
+		tokkin_delta,
+		tokkin_time
 	};
 
 #if !defined(PHREEQCI_GUI)
