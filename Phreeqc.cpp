@@ -1281,6 +1281,7 @@ void Phreeqc::init(void)
 	rate_m					= 0;
 	rate_m0					= 0;
 	rate_time				= 0;
+	rate_kin_time           = 1.0;
 	rate_sim_time_start		= 0;
 	rate_sim_time_end		= 0;
 	rate_sim_time			= 0;
@@ -2406,6 +2407,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	rate_m					= 0;
 	rate_m0					= 0;
 	rate_time				= 0;
+	rate_kin_time           = 1.0;
 	rate_sim_time_start		= 0;
 	rate_sim_time_end		= 0;
 	rate_sim_time			= 0;

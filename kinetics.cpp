@@ -2017,6 +2017,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  */
 	run_reactions_iterations = 0;
 	kin_time_x = kin_time;
+	rate_kin_time = kin_time;
 	nsaver = i;
 	if (state == TRANSPORT || state == PHAST)
 	{
@@ -2406,6 +2407,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  */
 	run_reactions_iterations = 0;
 	kin_time_x = kin_time;
+	rate_kin_time = kin_time;
 	nsaver = i;
 	if (state == TRANSPORT || state == PHAST)
 	{

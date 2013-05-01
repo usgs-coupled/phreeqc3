@@ -1504,7 +1504,7 @@ protected:
 	* ---------------------------------------------------------------------- */
 	struct rate *rates;
 	int count_rates;
-	LDBLE rate_m, rate_m0, rate_time, rate_sim_time_start,
+	LDBLE rate_m, rate_m0, rate_time, rate_kin_time, rate_sim_time_start,
 		rate_sim_time_end, rate_sim_time, rate_moles, initial_total_time;
 	std::vector<LDBLE> rate_p;
 	int count_rate_p;

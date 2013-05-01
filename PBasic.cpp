@@ -1303,6 +1303,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("KIN_DELTA");
 			break;
 
+		case tokkin_time:
+			output_msg("KIN_TIME");
+			break;
+
 		case toks_s:
 			output_msg("S_S");
 			break;
@@ -2218,6 +2222,12 @@ factor(struct LOC_exec * LINK)
 		{
 			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles_delta(str);
+		}
+		break;
+
+	case tokkin_time:
+		{
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rate_kin_time;
 		}
 		break;
 
@@ -6464,7 +6474,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gfw",                PBasic::tokgfw),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("soln_vol",           PBasic::toksoln_vol),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi_delta",         PBasic::tokequi_delta),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_time",           PBasic::tokkin_time)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
