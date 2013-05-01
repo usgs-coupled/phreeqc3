@@ -1,5 +1,75 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+	
+        --------
+        svn 7677
+        --------
+        Added KIN_TIME Basic function, which gives the
+        time interval in seconds of the last kinetic 
+        integration. KIN_DELTA("xxx")/KIN_TIME will give
+        the average rate over the time interval for 
+        reaction xxx.
+        
+        For example,
+        
+        KINETICS
+        Calcite
+        	-m 1
+        -step  864 8640
+        
+        KIN_TIME will return 864 after the first
+        step and 8640 after the second. The result of
+        KIN_TIME will be the same whether INCREMENTAL_
+        REACTIONS is true or false (although TOTAL_
+        TIME will differ).
+        
 
+       
+Version 3.0.3: April 30, 2013
+
+	Fixed errors in GAS_PHASE, -fixed_pressure used the
+	sum of the input pressures instead of the defined
+	total pressure in some cases, set upper limits in PR
+	calculations; revised Basic function LK_SPECIES;
+	logic for printing status line revised; fixed bug in
+	SOLUTION_SPREAD, mass of water was not read properly;
+	fixed problem with spaces in output file name;
+	revised logic for checking if opening files was
+	successful, old C-style check was incorrect; revised
+	molar volume definitions and selected parameters in
+	databases phreeqc.dat, Amm.dat, and pitzer.dat
+
+Version 3.0.2: April 4, 2013
+
+	Fixed an initialization error for activity of water
+	that caused slow convergence. Dump wrote a file that
+	caused read errors when some names exceeded 21
+	characters. Gas_phase_modify did not work correctly.
+
+Version 3.0.1: March 21, 2013
+
+	Fixed bug in printing of solid solutions that caused
+	a crash. The pressure dependence of log K in the
+	printout of the equilibrium phases assemblage in the
+	saturation index list was incorrect.
+
+Version 3.0.0: February 1, 2013
+
+	PHREEQC Version 3 is finally released. Major new
+	features include pressure dependence for geochemical
+	reactions, the nonideal gas formulation of Peng and
+	Robinson, and charting. All features of PHREEQC
+	Version 3 are documented in U.S. Geological Survey
+	Techniques and Methods 6-A43, “Description of input
+	and examples for PHREEQC Version 3--A computer
+	program for speciation, batch-reaction, one-
+	dimensional transport, and inverse geochemical
+	calculations”, available at
+	http://pubs.usgs.gov/tm/06/a43/. Features not
+	previously documented include Pitzer and SIT aqueous
+	models, CD-MUSIC surface complexation, isotopic
+	capabilities, and new keyword data blocks to
+	manipulate reactants, such as RUN_CELLS, DELETE,
+	COPY, _MODIFY, _RAW, and DUMP.
 
 ************************************************************
 ************************************************************
