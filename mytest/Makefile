@@ -64,6 +64,7 @@ all: alkalinity.out \
 	fixed_volume_gas_pz.out \
 	fluorite.out \
 	gas.out \
+	Gas_FixVolume.out \
 	gas_mod.out \
 	gas_phase_pressure.out \
 	gfw.out \

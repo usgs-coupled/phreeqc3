@@ -2361,6 +2361,7 @@ punch_gas_phase(void)
 	int i;
 	LDBLE p, total_moles, volume;
 	LDBLE moles;
+	bool PR = false;
 
 	if (punch.count_gases <= 0)
 		return (OK);
@@ -2368,20 +2369,34 @@ punch_gas_phase(void)
 	total_moles = 0.0;
 	volume = 0.0;
 	cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
+
 	if (gas_unknown != NULL && use.Get_gas_phase_ptr() != NULL)
 	{
+		if (gas_phase_ptr->Get_v_m() >= 0.01)
+		{
+			PR = true;
+		}
 		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 		{
-			gas_phase_ptr->Set_total_moles(gas_unknown->moles);
-			gas_phase_ptr->Set_volume(
-				gas_phase_ptr->Get_total_moles() * R_LITER_ATM * tk_x /
-				gas_phase_ptr->Get_total_p());
+			if (gas_unknown->moles >= 1e-12)
+			{
+				gas_phase_ptr->Set_total_moles(gas_unknown->moles);
+				gas_phase_ptr->Set_volume(
+					gas_phase_ptr->Get_total_moles() * R_LITER_ATM * tk_x /
+					gas_phase_ptr->Get_total_p());
+				if (PR)
+				{
+					gas_phase_ptr->Set_volume(gas_phase_ptr->Get_v_m() * gas_unknown->moles);
+				}
+			}
 		}
 		p = gas_phase_ptr->Get_total_p();
 		total_moles = gas_phase_ptr->Get_total_moles();
-		volume = total_moles * R_LITER_ATM * tk_x / gas_phase_ptr->Get_total_p();
- 		if (gas_phase_ptr->Get_v_m() > 0.03) 
- 			volume = 0.03 * gas_phase_ptr->Get_total_moles();
+		//volume = total_moles * R_LITER_ATM * tk_x / gas_phase_ptr->Get_total_p();
+ 		//if (gas_phase_ptr->Get_v_m() > 0.03) 
+ 		//	volume = 0.03 * gas_phase_ptr->Get_total_moles();
+		volume = gas_phase_ptr->Get_volume();
+
 	}
 	if (punch.high_precision == FALSE)
 	{
@@ -2425,7 +2440,6 @@ punch_gas_phase(void)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_ss_assemblage(void)

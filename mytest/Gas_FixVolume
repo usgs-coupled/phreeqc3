@@ -1,0 +1,38 @@
+DATABASE ../database/phreeqc.dat
+TITLE Volume gas test (example with only O2)
+
+SELECTED_OUTPUT
+        -reset false
+        -file Gas_FixVolume.sel
+        -simulation     true
+        -state          true
+        -si O2(g) 
+        -gas O2(g) 
+USER_PUNCH
+-headings pressure2 total_mol2 volume2  Mol_Vol
+-start
+   10 PUNCH GAS_P
+   20 GAS_MOL = GAS("O2(g)")
+   30 PUNCH GAS_MOL
+   40 PUNCH GAS_VM*GAS_MOL
+   50 PUNCH GAS_VM
+-end
+USER_PRINT
+   10 PRINT "Gas_p:            ", GAS_P
+   20 GAS_MOL = GAS("O2(g)")
+   30 PRINT "GAS(O2):          ", GAS_MOL
+   40 PRINT "GAS_VM:           ", GAS_VM
+   50 PRINT "GAS_VM*GAS(O2):   ", GAS_VM*GAS_MOL
+END
+
+SOLUTION 1
+# pure water
+END
+
+
+TITLE  O2 gas at fixed volume of 10 L and 1 atm
+USE solution 1
+GAS_PHASE 1 Fixed volume gas phase
+        -fixed_volume
+        -volume        10
+        O2(g)          1.0
