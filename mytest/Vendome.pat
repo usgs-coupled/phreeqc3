@@ -25,10 +25,10 @@
              0*    # N15
           -nan     # RS of N
           -nan     # DOX
-       4.80351     # HCO3
+       4.80483     # HCO3
              6     # PH
            inf     # H2CO3
-    0.00839493     # CO3
+    0.00839547     # CO3
            inf     # CARBONATES
           -nan     # FE2+
           -nan     # FE3+
@@ -75,10 +75,10 @@
              0*    # N15
           -nan     # RS of N
           -nan     # DOX
-       4.80351     # HCO3
+       4.80483     # HCO3
            6.5     # PH
            inf     # H2CO3
-    0.00839493     # CO3
+    0.00839547     # CO3
            inf     # CARBONATES
           -nan     # FE2+
           -nan     # FE3+
@@ -125,10 +125,10 @@
              0*    # N15
           -nan     # RS of N
           -nan     # DOX
-       4.80351     # HCO3
+       4.80483     # HCO3
           7.14     # PH
            inf     # H2CO3
-    0.00839493     # CO3
+    0.00839547     # CO3
            inf     # CARBONATES
           -nan     # FE2+
           -nan     # FE3+
@@ -175,10 +175,10 @@
              0*    # N15
           -nan     # RS of N
            inf     # DOX
-       4.80351     # HCO3
-       7.10266     # PH
+       4.80483     # HCO3
+       7.10242     # PH
            inf     # H2CO3
-    0.00839493     # CO3
+    0.00839547     # CO3
            inf     # CARBONATES
           -nan     # FE2+
           -nan     # FE3+
@@ -225,10 +225,10 @@
              0*    # N15
           -nan     # RS of N
           -nan     # DOX
-       4.80351     # HCO3
+       4.80483     # HCO3
            6.5     # PH
            inf     # H2CO3
-    0.00839493     # CO3
+    0.00839547     # CO3
            inf     # CARBONATES
           -nan     # FE2+
           -nan     # FE3+
@@ -275,10 +275,10 @@
              0*    # N15
           -nan     # RS of N
           -nan     # DOX
-       4.80351     # HCO3
+       4.80483     # HCO3
           7.14     # PH
            inf     # H2CO3
-    0.00839493     # CO3
+    0.00839547     # CO3
            inf     # CARBONATES
           -nan     # FE2+
           -nan     # FE3+
