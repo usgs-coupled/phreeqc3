@@ -2229,7 +2229,209 @@ mb_ss(void)
 	}
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+molalities(int allow_overflow)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Calculates la for master species
+ *   Calculates lm and moles from lk, lg, and la's of master species
+ *   Adjusts lm of h2 and o2.
+ */
+	int i, j;
+	LDBLE total_g;
+	struct rxn_token *rxn_ptr;
+/*
+ *   la for master species
+ */
+	for (i = 0; i < count_master; i++)
+	{
+		if (master[i]->in == REWRITE)
+		{
+			master[i]->s->la = master[i]->s->lm + master[i]->s->lg;
+		}
+	}
+	if (dl_type_x != cxxSurface::NO_DL)
+	{
+		s_h2o->tot_g_moles = s_h2o->moles;
+		s_h2o->tot_dh2o_moles = 0.0;
+	}
+	for (i = 0; i < count_s_x; i++)
+	{
+		if (s_x[i]->type > HPLUS && s_x[i]->type != EX
+			&& s_x[i]->type != SURF)
+			continue;
+/*
+ *   lm and moles for all aqueous species
+ */
+		s_x[i]->lm = s_x[i]->lk - s_x[i]->lg;
+		for (rxn_ptr = s_x[i]->rxn_x->token + 1; rxn_ptr->s != NULL;
+			 rxn_ptr++)
+		{
+			s_x[i]->lm += rxn_ptr->s->la * rxn_ptr->coef;
+			/*
+			if (isnan(rxn_ptr->s->la))
+			{
+				fprintf(stderr,"molalities la %s %e\n", rxn_ptr->s->name, rxn_ptr->s->la);
+			}
+			*/
+		}
+		if (s_x[i]->type == EX)
+		{
+			s_x[i]->moles = Utilities::safe_exp(s_x[i]->lm * LOG_10);
 
+		}
+		else if (s_x[i]->type == SURF)
+		{
+			s_x[i]->moles = Utilities::safe_exp(s_x[i]->lm * LOG_10);
+
+		}
+		else
+		{
+			s_x[i]->moles = under(s_x[i]->lm) * mass_water_aq_x;
+			//if (s_x[i]->moles / mass_water_aq_x > 100)
+			//{
+			//	log_msg(sformatf( "Overflow: %s\t%e\t%e\t%d\n",
+			//			   s_x[i]->name,
+			//			   (double) (s_x[i]->moles / mass_water_aq_x),
+			//			   (double) s_x[i]->lm, iterations));
+
+			//	if (iterations >= 0 && allow_overflow == FALSE)
+			//	{
+			//		return (ERROR);
+			//	}
+			//}
+
+		}
+	}
+/*
+ *   other terms for diffuse layer model
+ */
+	if (use.Get_surface_ptr() != NULL 
+		&& use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC
+		&& dl_type_x != cxxSurface::NO_DL)
+	{
+		calc_all_donnan();
+	}
+
+	struct species *s_ptr = NULL;
+	for (i = 0; i < count_s_x; i++)
+	{
+		s_ptr = s_x[i];
+		if (s_ptr->type > HPLUS && s_ptr->type != EX && s_ptr->type != SURF)
+			continue;
+		if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL	&& s_ptr->type <= HPLUS)
+		{
+			total_g = 0.0;
+			s_ptr->tot_dh2o_moles = 0.0;
+			for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+			{
+				cxxSurfaceCharge & charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+				cxxSpeciesDL & dl_ref = s_diff_layer[s_ptr->number][charge_ref.Get_name()];
+				cxxSurfDL & surf_dl_ref = charge_ref.Get_g_map()[s_ptr->z];
+
+				//s_diff_layer[is][charge_ref.Get_name()] = dl_ref
+				//charge_ref.Get_g_map()[s_ptr->z] = surf_dl
+/*
+ *   partially corrected formulation assumes mass of water in diffuse layer
+ *   is insignificant. Excess is calculated on the basis of moles_water_aq_x
+ *   instead of moles_water_bulk.
+ */
+				/* revised eq. 61 */
+				dl_ref.Set_g_moles(s_ptr->moles * s_ptr->erm_ddl *
+					(surf_dl_ref.Get_g() + charge_ref.Get_mass_water() / mass_water_aq_x));
+				if (s_ptr->moles > 1e-30)
+				{
+					dl_ref.Set_dg_g_moles(s_ptr->dg * dl_ref.Get_g_moles() / s_ptr->moles);
+				}
+
+				/*
+				 *  first term of 63 is summed for all surfaces in
+				 *  s_ptr->tot_g_moles. This sum is then used in
+				 *  the jacobian for species i
+				 */
+				total_g += surf_dl_ref.Get_g() + charge_ref.Get_mass_water() / mass_water_aq_x;
+				/* revised eq. 63, second term */
+				/* g.dg is dg/dx(-2y**2) or dg/d(ln y) */
+				dl_ref.Set_dx_moles(s_ptr->moles * s_ptr->erm_ddl * surf_dl_ref.Get_dg());
+				/* revised eq. 63, third term */
+				dl_ref.Set_dh2o_moles(-s_ptr->moles * s_ptr->erm_ddl *
+					charge_ref.Get_mass_water() / mass_water_aq_x);
+				s_ptr->tot_dh2o_moles += dl_ref.Get_dh2o_moles();
+
+				/* surface related to phase */
+				dl_ref.Set_drelated_moles(s_ptr->moles * s_ptr->erm_ddl * charge_ref.Get_specific_area() *
+					use.Get_surface_ptr()->Get_thickness() / mass_water_aq_x);
+			}
+			s_ptr->tot_g_moles = s_ptr->moles * (1 + total_g /* s_ptr->erm_ddl */ );
+
+			/* note that dg is for cb, act water, mu eqns */
+			/* dg_total_g for mole balance eqns */
+			/* dg_g_moles for surface cb */
+
+			if (s_ptr->moles > 1e-30)
+			{
+				s_ptr->dg_total_g =	s_ptr->dg * s_ptr->tot_g_moles / s_ptr->moles;
+			}
+			else
+			{
+				s_ptr->dg_total_g = 0.0;
+			}
+			if (debug_diffuse_layer == TRUE)
+			{
+				output_msg(sformatf( "%s\t%e\t%e\n", s_ptr->name,
+						   (double) s_ptr->moles,
+						   (double) s_ptr->tot_g_moles));
+				output_msg(sformatf( "\tg\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					output_msg(sformatf( "\t%e",
+							   (double) charge_ref.Get_g_map()[s_ptr->z].Get_g()));
+				}
+				output_msg(sformatf( "\n\tg_moles\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					int is = s_ptr->number;
+					output_msg(sformatf( "\t%e",
+						(double) s_diff_layer[is][charge_ref.Get_name()].Get_g_moles()));
+				}
+				output_msg(sformatf( "\n\tdg\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					output_msg(sformatf( "\t%e",
+							   (double) charge_ref.Get_g_map()[s_ptr->z].Get_dg()));
+				}
+				output_msg(sformatf( "\n\tdx_moles\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					int is = s_ptr->number;
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					output_msg(sformatf( "\t%e",
+						(double) s_diff_layer[is][charge_ref.Get_name()].Get_dx_moles()));
+				}
+				output_msg(sformatf( "\n\tdh2o_moles\t%e\n",
+						   (double) s_ptr->tot_dh2o_moles));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					int is = s_ptr->number;
+					output_msg(sformatf( "\t%e",
+						s_diff_layer[is][charge_ref.Get_name()].Get_dh2o_moles()));
+				}
+				output_msg(sformatf( "\n"));
+			}
+		}
+	}
+	calc_gas_pressures();
+	calc_ss_fractions();
+
+	return (OK);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 molalities(int allow_overflow)
@@ -2439,6 +2641,7 @@ molalities(int allow_overflow)
 
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 calc_gas_pressures(void)
