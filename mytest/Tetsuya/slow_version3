@@ -1,0 +1,89 @@
+DATABASE C:\Programs\phreeqc3-trunk\mytest\Tetsuya\DB.dat
+KNOBS
+    -iterations            200
+    -convergence_tolerance 1e-008
+    -tolerance             1e-015
+    -step_size             5
+    -pe_step_size          2
+SELECTED_OUTPUT
+    -reset                false
+USER_PUNCH
+-headings Charge H O pH Na K Ca Cl SO4 water CSH CH Aft Afm Calcite Gypsum Thaumasite Brucite Hydrotal Al Si Mg Fri BCar Mono Hemi
+-start
+10 punch charge_balance
+20 punch tot("H"),tot("O"),-LA("H+") tot("Na"),tot("K"),tot("Ca"),tot("Cl"),tot("S(6)"),TOT("water")
+30 punch EQUI("CSH_1.6"), EQUI("Portlandite"), EQUI("Ettringite"),  EQUI("Monosulfoaluminate"), EQUI("Calcite"),EQUI("Gypsum"), EQUI("Thaumasite"),EQUI("Brucite"), EQUI("Hydrotalcite"), tot("Al"), tot("Si"), tot("Mg"), EQUI("Friedel_Salt"),tot("C(4)"), EQUI("Monocarboaluminate"),  EQUI("Hemicarboaluminate")
+-end
+END
+SOLUTION 1
+    temp      20
+    pH        7 charge
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    Al        0
+    C(4)      0
+    Ca        0
+    Cl        0
+    K         0
+    Mg        0
+    Na        0
+    S(6)      0
+    Si        0
+    -water    612.4366 # kg
+END
+EQUILIBRIUM_PHASES 1
+    Brucite   0 0
+    CSH_1.6   0 0
+    Calcite   0 0
+    Ettringite 0 0
+    Friedel_Salt 0 0
+    Gypsum    0 0
+    Hemicarboaluminate 0 0
+    Hydrotalcite 0 0
+    Monocarboaluminate 0 0
+    Monosulfoaluminate 0 0
+    Portlandite 0 0.1596
+    Thaumasite 0 0
+END
+RUN_CELLS
+    -cells 1
+ END
+
+SOLUTION 1
+    temp      20
+    pH        12.9773 charge
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    Al        0
+    C(4)      0
+    Ca        13.3484
+    Cl        0
+    K         206.5273
+    Mg        0
+    Na        44.4795
+    S(6)      90.268
+    Si        0
+    -water    612.3184 # kg
+END
+EQUILIBRIUM_PHASES 1
+    Brucite   0 0
+    CSH_1.6   0 0
+    Calcite   0 0
+    Ettringite 0 52.7532
+    Friedel_Salt 0 0
+    Gypsum    0 61.6949
+    Hemicarboaluminate 0 0
+    Hydrotalcite 0 0
+    Monocarboaluminate 0 0
+    Monosulfoaluminate 0 0
+    Portlandite 0 49.2514
+    Thaumasite 0 0
+END
+RUN_CELLS
+    -cells 1
+ END
+

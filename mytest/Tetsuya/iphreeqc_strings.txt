@@ -1,0 +1,76 @@
+KNOBS
+-iterations 200
+-convergence_tolerance 1.0E-8
+-tolerance 1.0E-15
+-step_size 5.0
+-pe_step_size 2.0
+Selected_output
+-reset false
+User_punch
+-Heading Charge H O pH Na K Ca Cl SO4 water CSH CH Aft Afm Calcite Gypsum Thaumasite Brucite Hydrotal   Al Si Mg Fri BCar Mono Hemi
+10 punch charge_balance
+20 punch tot("H"),tot("O"),-LA("H+") tot("Na"),tot("K"),tot("Ca"),tot("Cl"),tot("S(6)"),TOT("water")
+30 punch EQUI("CSH_1.6"), EQUI("Portlandite"), EQUI("Ettringite"),  EQUI("Monosulfoaluminate"), EQUI("Calcite"),EQUI("Gypsum"), EQUI("Thaumasite"),EQUI("Brucite"), EQUI("Hydrotalcite"), tot("Al"), tot("Si"), tot("Mg"), EQUI("Friedel_Salt"),tot("C(4)"), EQUI("Monocarboaluminate"),  EQUI("Hemicarboaluminate")
+END
+Solution 1
+units mmol/kgw
+temp 20
+pH     7.0000      charge
+Na      0.0000
+K      0.0000
+Ca      0.0000
+Cl      0.0000
+S(6)      0.0000
+Al      0.0000
+Si      0.0000
+Mg      0.0000
+C(4)      0.0000
+water     612.4366
+END
+Equilibrium_phases 1
+CSH_1.6 0     0.0000
+Portlandite 0     0.1596
+Ettringite 0     0.0000
+Monosulfoaluminate 0     0.0000
+Calcite 0     0.0000
+Gypsum 0     0.0000
+Thaumasite 0     0.0000
+Brucite 0     0.0000
+Hydrotalcite 0     0.0000
+Friedel_Salt 0     0.0000
+Monocarboaluminate 0     0.0000
+Hemicarboaluminate 0     0.0000
+END
+Run_CELLS; -cells; 1; END
+
+Solution 1
+units mmol/kgw
+temp 20
+pH    12.9773      charge
+Na     44.4795
+K    206.5273
+Ca     13.3484
+Cl      0.0000
+S(6)     90.2680
+Al      0.0000
+Si      0.0000
+Mg      0.0000
+C(4)      0.0000
+water     612.3184
+END
+Equilibrium_phases 1
+CSH_1.6 0     0.0000
+Portlandite 0    49.2514
+Ettringite 0    52.7532
+Monosulfoaluminate 0     0.0000
+Calcite 0     0.0000
+Gypsum 0    61.6949
+Thaumasite 0     0.0000
+Brucite 0     0.0000
+Hydrotalcite 0     0.0000
+Friedel_Salt 0     0.0000
+Monocarboaluminate 0     0.0000
+Hemicarboaluminate 0     0.0000
+END
+Run_CELLS; -cells; 1; END
+
