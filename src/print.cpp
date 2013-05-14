@@ -1479,7 +1479,8 @@ print_species(void)
 					   (double) (species_list[i].s->lm +
 								 species_list[i].s->lg),
 					   (double) species_list[i].s->lg));
-			if (species_list[i].s->logk[vm_tc] || !strcmp(species_list[i].s->name, "H+"))
+			//if (species_list[i].s->logk[vm_tc] || !strcmp(species_list[i].s->name, "H+"))
+			if (species_list[i].s->logk[vm_tc] || species_list[i].s == s_hplus)
 				output_msg(sformatf("%10.2f\n",
 					   (double) species_list[i].s->logk[vm_tc]));
 			else
