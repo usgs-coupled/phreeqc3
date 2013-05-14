@@ -5315,26 +5315,6 @@ calc_delta_v(reaction *r_ptr, bool phase)
 /* ---------------------------------------------------------------------- */
 {
 /* calculate delta_v from molar volumes */
-#ifdef TONY
-	int p = -1;
-	LDBLE d_v = 0.0;
-
-	if (phase)
-		p = 1; /* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
-
-	for (size_t i = 0; r_ptr->token[i].name; i++)
-	{
-		if (!r_ptr->token[i].s)
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "H+"))
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "e-"))
-			continue;
-		else if (r_ptr->token[i].s->logk[vm_tc])
-			d_v += p * r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
-	}
-	return d_v;
-#else
 //dlp
 	LDBLE d_v = 0.0;
 
@@ -5345,12 +5325,12 @@ calc_delta_v(reaction *r_ptr, bool phase)
 		{
 			//if (!r_ptr->token[i].s)
 			//	continue;
-			if (!strcmp(r_ptr->token[i].s->name, "H+"))
-				continue;
-			if (!strcmp(r_ptr->token[i].s->name, "e-"))
-				continue;
-			else if (r_ptr->token[i].s->logk[vm_tc])
-				d_v += r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+			//if (!strcmp(r_ptr->token[i].s->name, "H+"))
+			//	continue;
+			//if (!strcmp(r_ptr->token[i].s->name, "e-"))
+			//	continue;
+			//else if (r_ptr->token[i].s->logk[vm_tc])
+			d_v += r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
 		}
 	}
 	else
@@ -5359,16 +5339,15 @@ calc_delta_v(reaction *r_ptr, bool phase)
 		{
 			if (!r_ptr->token[i].s)
 				continue;
-			if (!strcmp(r_ptr->token[i].s->name, "H+"))
-				continue;
-			if (!strcmp(r_ptr->token[i].s->name, "e-"))
-				continue;
-			else if (r_ptr->token[i].s->logk[vm_tc])
-				d_v += - r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+			//if (!strcmp(r_ptr->token[i].s->name, "H+"))
+			//	continue;
+			//if (!strcmp(r_ptr->token[i].s->name, "e-"))
+			//	continue;
+			//else if (r_ptr->token[i].s->logk[vm_tc])
+			d_v -= r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
 		}
 	}
 	return d_v;
-#endif
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -5397,11 +5376,14 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 		if (!r_ptr->token[i].s)
 			continue;
 		s_ptr = r_ptr->token[i].s;
-		if (!strcmp(s_ptr->name, "H+"))
+		//if (!strcmp(s_ptr->name, "H+"))
+		if (s_ptr == s_hplus)
 			continue;
-		if (!strcmp(s_ptr->name, "e-"))
+		//if (!strcmp(s_ptr->name, "e-"))
+		if (s_ptr == s_eminus)
 			continue;
-		if (!strcmp(s_ptr->name, "H2O"))
+		//if (!strcmp(s_ptr->name, "H2O"))
+		if (s_ptr == s_h2o)
 		{
 			d_v += r_ptr->token[i].coef * 18.016 / calc_rho_0(tc, pa);
 			continue;
@@ -5483,7 +5465,8 @@ calc_vm(LDBLE tc, LDBLE pa)
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
 	for (int i = 0; i < count_s_x; i++)
 	{
-		if (!strcmp(s_x[i]->name, "H2O"))
+		//if (!strcmp(s_x[i]->name, "H2O"))
+		if (s_x[i] == s_h2o)
 		{
 			s_x[i]->logk[vm_tc] = 18.016 / rho_0;
 			continue;
