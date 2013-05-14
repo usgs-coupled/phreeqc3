@@ -576,40 +576,11 @@ gammas(LDBLE mu)
 /*
  *   compute temperature dependence of a and b for debye-huckel
  */
-#ifdef PHREEQC2
-	LDBLE s1, s2, s3;
-	s1 = 374.11 - tc_x;
-	s2 = pow(s1, (LDBLE) 1.0 / (LDBLE) 3.0);
-	s3 = 1.0 + 0.1342489 * s2 - 3.946263e-03 * s1;
-	s3 = s3 / (3.1975 - 0.3151548 * s2 - 1.203374e-03 * s1 +
-			   7.48908e-13 * (s1 * s1 * s1 * s1));
-	s3 = sqrt(s3);
-	if (tk_x >= 373.15)
-	{
-		c1 = 5321.0 / tk_x + 233.76 -
-			tk_x * (tk_x * (8.292e-07 * tk_x - 1.417e-03) + 0.9297);
-	}
-	else
-	{
-		/* replaced by wateq4f expression
-		   c1=87.74-tc_x*(tc_x*(1.41e-06*tc_x-9.398e-04)+0.4008);
-		 */
-		c1 = 2727.586 + 0.6224107 * tk_x - 466.9151 * log(tk_x) -
-			52000.87 / tk_x;
-	}
-	c1 = sqrt(c1 * tk_x);
-	/* replaced by wateq4f expressions
-	   a=1824600.0*s3/(c1 * c1 * c1);
-	   b=50.29*s3/c1;
-	 */
-	a = 1824827.7 * s3 / (c1 * c1 * c1);
-	b = 50.2905 * s3 / c1;
-#else
 	// a and b are calc'd in calc_dielectrics(tc_x, patm_x);
 	k_temp(tc_x, patm_x);
 	a = DH_A;
 	b = DH_B;
-#endif
+
 	/*
 	 *   LLNL temperature dependence
 	 */
@@ -1008,37 +979,7 @@ ineq(int in_kode)
 			}
 		}
 	}
-/*
-* Slack unknown
-*/ 
 
-	if (slack && slack_unknown)
-	{
-		int n = slack_unknown->number;
-		// slack row
-		for (j = 0; j <= count_unknowns + 1; j++)
-		{
-			array[n * (count_unknowns + 1) + j] = 0.0;
-		}
-		// slack column
-		for (j = 0; j < count_unknowns; j++)
-		{
-			array[j * (count_unknowns + 1) + n] = 1.0;
-		}
-	}
-#ifdef SKIP
-	if (slack && slack_unknown)
-	{
-		for (j = 0; j < count_unknowns; j++)
-		{
-			if (x[j]->type == SLACK)
-			{
-				array[j * (count_unknowns + 1) + x[j]->number] = 1.0;
-				array[x[j]->mb_number * (count_unknowns + 1) + x[j]->number] = 1.0;
-			}
-		}
-	}
-#endif
 /*
  * Initialize space if necessary
  */
@@ -1173,17 +1114,6 @@ ineq(int in_kode)
 		if (iterations < aqueous_only)
 			continue;
 /*
- *   slack
- */
-		if (slack && slack_unknown && x[i]->type == SLACK)
-		{
-			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-				(void *) &(array[i * (count_unknowns + 1)]),
-				(size_t) (count_unknowns + 1) * sizeof(LDBLE));
-			back_eq[l_count_rows] = i;
-			l_count_rows++;
-		}
-/*
  *   Pure phases
  */
 		if (x[i]->type == PP)
@@ -1309,7 +1239,6 @@ ineq(int in_kode)
 			x[i]->type != ALK &&
 			x[i]->type != GAS_MOLES && x[i]->type != SS_MOLES
 			/* && x[i]->type != PP */
-			&& x[i]->type != SLACK
 			)
 		{
 			if (x[i]->type == PP && !comp_ptr->Get_force_equality())
@@ -4455,11 +4384,8 @@ set(int initial)
 
 	tc_x = solution_ptr->Get_tc();
 	tk_x = tc_x + 273.15;
-#ifdef PHREEQC2
+
 	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
-#else
-	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
-#endif
 
 /*
  *   H+, e-, H2O
@@ -4777,11 +4703,7 @@ sum_species(void)
 	ph_x = -s_hplus->la;
 	solution_pe_x = -s_eminus->la;
 	ah2o_x = exp(s_h2o->la * LOG_10);
-#ifdef PHREEQC2
-	ah2o_x = exp(s_h2o->la * LOG_10);
-#else
-	//ah2o_x = exp(s_h2o->la * LOG_10);
-#endif
+
 	density_x = 1.0;
 	if (s_o2 != NULL)
 		s_o2->moles = under(s_o2->lm) * mass_water_aq_x;
@@ -5000,9 +4922,7 @@ surface_model(void)
 				debug_model = TRUE;
 				debug_diffuse_layer = TRUE;
 			}
-#ifdef PHREEQC2
-			k_temp(tc_x, patm_x);
-#endif
+
 			gammas(mu_x);
 			molalities(TRUE);
 			mb_sums();

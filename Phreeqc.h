@@ -576,7 +576,6 @@ public:
 	int setup_exchange(void);
 	int setup_gas_phase(void);
 	int setup_fixed_volume_gas(void);
-	int setup_slack(void);
 	int setup_master_rxn(struct master **master_ptr_list,
 		const std::string &pe_rxn);
 	int setup_pure_phases(void);
@@ -1473,7 +1472,6 @@ protected:
 	struct unknown *solution_phase_boundary_unknown;
 	struct unknown *surface_unknown;
 	struct unknown *gas_unknown;
-	struct unknown *slack_unknown;
 	struct unknown *ss_unknown;
 	std::vector<struct unknown *> gas_unknowns;
 
@@ -1596,7 +1594,6 @@ protected:
 	int mass_water_switch;
 	int delay_mass_water;
 	bool dampen_ah2o;
-	bool slack;
 	LDBLE censor;
 	int aqueous_only;
 	int negative_concentrations;
@@ -1676,17 +1673,14 @@ protected:
 	struct system_species *sys;
 	int count_sys, max_sys;
 	LDBLE sys_tot;
-#ifdef PHREEQC2
-	LDBLE AA_basic, BB_basic, CC, I_m, rho_0;
-	LDBLE eps_r; // relative dielectric permittivity
-#else
+
 	LDBLE V_solutes, rho_0, kappa_0, p_sat/*, ah2o_x0*/;
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
 	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
 	LDBLE ZBrn; // Born function (-1/eps_r + 1) * 41.84004, for supcrt calc'n of molal volume
 	LDBLE dgdP; // dg / dP, pressure derivative of g-function, for supcrt calc'n of molal volume
-#endif
+
 	int need_temp_msg;
 	LDBLE solution_mass, solution_volume;
 

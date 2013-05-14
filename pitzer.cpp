@@ -1384,11 +1384,9 @@ set_pz(int initial)
 
 	tc_x = solution_ptr->Get_tc();
 	tk_x = tc_x + 273.15;
-#ifdef PHREEQC2
+
 	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
-#else
-	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
-#endif
+
 /*
  *   H+, e-, H2O
  */
