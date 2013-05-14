@@ -2290,18 +2290,18 @@ molalities(int allow_overflow)
 		else
 		{
 			s_x[i]->moles = under(s_x[i]->lm) * mass_water_aq_x;
-			//if (s_x[i]->moles / mass_water_aq_x > 100)
-			//{
-			//	log_msg(sformatf( "Overflow: %s\t%e\t%e\t%d\n",
-			//			   s_x[i]->name,
-			//			   (double) (s_x[i]->moles / mass_water_aq_x),
-			//			   (double) s_x[i]->lm, iterations));
+			if (s_x[i]->moles / mass_water_aq_x > 100)
+			{
+				log_msg(sformatf( "Overflow: %s\t%e\t%e\t%d\n",
+						   s_x[i]->name,
+						   (double) (s_x[i]->moles / mass_water_aq_x),
+						   (double) s_x[i]->lm, iterations));
 
-			//	if (iterations >= 0 && allow_overflow == FALSE)
-			//	{
-			//		return (ERROR);
-			//	}
-			//}
+				if (iterations >= 0 && allow_overflow == FALSE)
+				{
+					return (ERROR);
+				}
+			}
 
 		}
 	}
