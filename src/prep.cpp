@@ -71,7 +71,6 @@ prep(void)
 		setup_gas_phase();
 		setup_ss_assemblage();
 		setup_related_surface();
-		setup_slack();
 		tidy_redox();
 		if (get_input_errors() > 0)
 		{
@@ -2029,161 +2028,7 @@ convert_units(cxxSolution *solution_ptr)
 
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-convert_units(struct solution *solution_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Converts solution concentrations to moles/kg water
- *   Uses totals.input conc to calculate totals.moles.
- */
-	int i, l;
-	LDBLE sum_solutes;
-	char c;
-	struct master *master_ptr;
-	struct conc *tot_ptr;
-	char token[MAX_LENGTH];
-/*
- *   Convert units
- */
-	sum_solutes = exp(-solution_ptr->ph * LOG_10);
-	for (i = 0; solution_ptr->totals[i].description != NULL; i++)
-	{
-		master_ptr = master_bsearch(solution_ptr->totals[i].description);
-		if (master_ptr != NULL)
-		{
-			if (master_ptr->minor_isotope == TRUE)
-				continue;
-		}
-		tot_ptr = &(solution_ptr->totals[i]);
-		tot_ptr->moles = 0.0;
-		if (strcmp(tot_ptr->description, "H(1)") == 0 ||
-			strcmp(tot_ptr->description, "E") == 0)
-		{
-			continue;
-		}
-		if (tot_ptr->input_conc <= 0)
-			continue;
-/*
- *   Get gfw
- */
-		/* use given gfw if gfw > 0.0 */
-		/* use formula give with "as" */
-		if (tot_ptr->gfw <= 0.0)
-		{
-			if (tot_ptr->as != NULL)
-			{
-				/* use given chemical formula to calculate gfw */
-				if (compute_gfw(tot_ptr->as, &(tot_ptr->gfw)) == ERROR)
-				{
-					error_string = sformatf( "Could not compute gfw, %s.",
-							tot_ptr->as);
-					error_msg(error_string, CONTINUE);
-					input_error++;
-				}
-				if (strcmp(tot_ptr->description, "Alkalinity") == 0 &&
-					strcmp(tot_ptr->as, "CaCO3") == 0)
-				{
-					tot_ptr->gfw /= 2.;
-					error_string = sformatf(
-							"Equivalent wt for alkalinity should be Ca.5(CO3).5. Using %g g/eq.",
-							(double) tot_ptr->gfw);
-					warning_msg(error_string);
-				}
-				/* use gfw of master species */
-			}
-			else
-			{
-				char * temp_desc = string_duplicate(tot_ptr->description);
-				char *ptr = temp_desc;
-				copy_token(token, &ptr, &l);
-				master_ptr = master_bsearch(token);
-				free_check_null(temp_desc);
-				if (master_ptr != NULL)
-				{
-					/* use gfw for element redox state */
-					tot_ptr->gfw = master_ptr->gfw;
-				}
-				else
-				{
-					error_string = sformatf( "Could not find gfw, %s.",
-							tot_ptr->description);
-					error_msg(error_string, CONTINUE);
-					input_error++;
-					continue;
-				}
-			}
-		}
-/*
- *   Convert liters to kg solution
- */
-		tot_ptr->moles = tot_ptr->input_conc;
-		if (strstr(solution_ptr->units, "/l") != NULL)
-		{
-			tot_ptr->moles *= 1.0 / (solution_ptr->density);
-		}
-/*
- *   Convert milli or micro
- */
-		c = tot_ptr->units[0];
-		if (c == 'm')
-		{
-			tot_ptr->moles *= 1e-3;
-		}
-		else if (c == 'u')
-		{
-			tot_ptr->moles *= 1e-6;
-		}
-/*
- *   Sum grams of solute, convert from moles necessary
- */
-		if (strstr(tot_ptr->units, "g/kgs") != NULL ||
-			strstr(tot_ptr->units, "g/l") != NULL)
-		{
-			sum_solutes += tot_ptr->moles;
-		}
-		else if (strstr(tot_ptr->units, "Mol/kgs") != NULL ||
-				 strstr(tot_ptr->units, "Mol/l") != NULL ||
-				 strstr(tot_ptr->units, "eq/l") != NULL)
-		{
-			sum_solutes += (tot_ptr->moles) * (tot_ptr->gfw);
-		}
-/*
- *   Convert grams to moles, if necessary
- */
-		if (strstr(tot_ptr->units, "g/") != NULL && tot_ptr->gfw != 0.0)
-		{
-			tot_ptr->moles /= tot_ptr->gfw;
-		}
-	}
-/*
- *   Convert /kgs to /kgw
- */
-	if (strstr(solution_ptr->units, "kgs") != NULL ||
-		strstr(solution_ptr->units, "/l") != NULL)
-	{
-		mass_water_aq_x = 1.0 - 1e-3 * sum_solutes;
-		for (i = 0; solution_ptr->totals[i].description != NULL; i++)
-		{
-			solution_ptr->totals[i].moles /= mass_water_aq_x;
-		}
-	}
-/*
- *   Scale by mass of water in solution
- */
-	mass_water_aq_x = solution_ptr->mass_water;
-	for (i = 0; solution_ptr->totals[i].description != NULL; i++)
-	{
-		solution_ptr->totals[i].moles *= mass_water_aq_x;
-	}
 
-	solution_ptr->units = moles_per_kilogram_string;
-
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 struct master ** Phreeqc::
 get_list_master_ptrs(char *ptr, struct master *master_ptr)
@@ -3428,64 +3273,7 @@ setup_gas_phase(void)
 	return (OK);
 }
 
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-setup_slack(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Fill in data for slack unknown
- */
-	slack_unknown = NULL;
-	if (slack)
-	{
-		x[count_unknowns]->type = SLACK;
-		x[count_unknowns]->description = string_hsave("slack");
-		x[count_unknowns]->moles = 0.0;
-		x[count_unknowns]->number = count_unknowns;
-		slack_unknown = x[count_unknowns];
-		count_unknowns++;
-	}
-	return (OK);
-}
 
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-setup_slack(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Fill in data for slack unknown
- */
-
-	slack_unknown = NULL;
-	if (slack)
-	{
-		int i = count_unknowns;
-		int j;
-		for (j = 0; j < i; j++)
-		{
-			if (x[j]->type == MB)
-			{
-				x[count_unknowns]->type = SLACK;
-				x[count_unknowns]->description = string_hsave("slack");
-				x[count_unknowns]->moles = 0.0;
-				x[count_unknowns]->number = count_unknowns;
-				x[count_unknowns]->mb_number = j;
-				slack_unknown = x[count_unknowns];
-				count_unknowns++;
-			}
-		}
-		if (count_unknowns > i)
-		{
-			slack_unknown = x[i];
-		}
-	}
-	
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 setup_ss_assemblage(void)
@@ -4889,10 +4677,6 @@ setup_unknowns(void)
 	{
 		max_unknowns += count_s;
 	}
-/*
- *   One for slack
- */
-	max_unknowns++;
 
 /*
  *   Allocate space for pointer array and structures
@@ -5586,154 +5370,6 @@ calc_delta_v(reaction *r_ptr, bool phase)
 	return d_v;
 #endif
 }
-#ifdef PHREEQC2
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
-/* ---------------------------------------------------------------------- */
-{
-/* 
- * calculate log_k for a single phase, correct for pressure 
- */
-
-	reaction *r_ptr = (p_ptr->rxn_x ? p_ptr->rxn_x :\
-		(p_ptr->rxn_s ? p_ptr->rxn_s : NULL));
-	if (!r_ptr)
-		return 0.0;
-	if (!r_ptr->logk[vm0])
-		return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
-
-	LDBLE tc = TK - 273.15;
-	LDBLE kp_t, d_v = 0.0;
-
-	for (size_t i = 0; r_ptr->token[i].name; i++)
-	{
-		if (!r_ptr->token[i].s)
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "H+"))
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "e-"))
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "H2O"))
-		{
-				d_v += r_ptr->token[i].coef * 18.016 / calc_rho_0(tc, pa);
-		}
-		else if (r_ptr->token[i].s->logk[vm0])
-		{
-			d_v += r_ptr->token[i].coef * (r_ptr->token[i].s->logk[vm0] +\
-				(r_ptr->token[i].s->logk[vm1] + r_ptr->token[i].s->logk[vm2] * tc) * tc);
-			if (r_ptr->token[i].s->logk[kappa])
-			{
-				kp_t = r_ptr->token[i].s->logk[kappa];
-				d_v += kp_t * pa;
-			}
-		}
-	}
-	d_v -= p_ptr->logk[vm0] + (p_ptr->logk[vm1] * tc +	p_ptr->logk[vm2] * tc) * tc;
-	r_ptr->logk[delta_v] = d_v;
-
-	if (!strcmp(r_ptr->token[0].name, "H2O(g)"))
-		r_ptr->logk[delta_v] = 0.0;
-
-	return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
-}
-#ifdef SKIP_THIS_VM
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calc_vm(LDBLE tc, LDBLE pa)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *  Calculate molar volumes for aqueous species, using the millero parm's.
- *  Read.cpp copies millero[0..3] into logk[vm0 + 0..3], or reads them directly with -Vm.
- */
-	LDBLE kp_t;
-
-	/* S_v * Iv^0.5 is from Redlich and Meyer, Chem. Rev. 64, 221,
-	   Use mu_x for the volume averaged Iv, the difference is negligible....*/
-	LDBLE Sv_I = 0.5 * (1.444 + (0.016799 + (-8.4055e-6 + 5.5153e-7 * tc) * tc) * tc) * sqrt(mu_x);
-	// Sv_I = 0.0;
-	for (int i = 0; i < count_s_x; i++)
-	{
-		if (!strcmp(s_x[i]->name, "H2O"))
-		{
-			s_x[i]->logk[vm_tc] = 18.016 / rho_0;
-			continue;
-		}
-		if (!s_x[i]->logk[vm0])
-			continue;
-		/* the volume terms... */
-		s_x[i]->rxn_x->logk[vm_tc] = s_x[i]->logk[vm0] + (s_x[i]->logk[vm1] + s_x[i]->logk[vm2] * tc) * tc;
-		if (s_x[i]->logk[kappa])
-		{
-			kp_t = s_x[i]->logk[kappa];
-			//if (s_x[i]->z > 0)
-			//{
-			//	/* correct kappa of cations for temperature, but kappa should be <= 0, Table 43.6 */
-			//	kp_t += 4e-5 * (tc - 25);
-			//	if (kp_t > 0)
-			//		kp_t = 0;
-			//}
-			s_x[i]->rxn_x->logk[vm_tc] += kp_t * pa;
-		}
-
-		/* the ionic strength term * Iv^0.5... */
-		s_x[i]->rxn_x->logk[vm_tc] += 0.5 * s_x[i]->z * s_x[i]->z * Sv_I;
-		/* plus the volume terms * Iv, take mu_x for Iv... */
-		//s_x[i]->rxn_x->logk[vm_tc] += (s_x[i]->millero[3] + (s_x[i]->millero[4] + s_x[i]->millero[5] * tc) * tc) * mu_x;
-
-		/* for calculating delta_v of the reaction... */
-		s_search(s_x[i]->name)->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
-	}
-	return OK;
-}
-#endif 
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calc_vm(LDBLE tc, LDBLE pa)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *  Calculate molar volumes for aqueous species, using the millero parm's.
- *  Read.cpp copies millero[0..3] into logk[vm0 + 0..3], or reads them directly with -Vm.
- */
-	LDBLE I_v;
-
-	/* S_v * I_v^0.5 is from Redlich and Meyer, Chem. Rev. 64, 221,
-	   Use mu_x for the volume averaged Iv, the difference is negligible for mu < 10....*/
-	//if (mu_x > 0.7)
-	//{
-	//	calc_dens();
-	//	I_v = I_m / solution_volume;
-	//}
-	//else
-		I_v = mu_x;
-
-	LDBLE Sv_I = 0.5 * (1.444 + (0.016799 + (-8.4055e-6 + 5.5153e-7 * tc) * tc) * tc) * sqrt(I_v);
-	for (int i = 0; i < count_s_x; i++)
-	{
-		if (!strcmp(s_x[i]->name, "H2O"))
-		{
-			s_x[i]->logk[vm_tc] = 18.016 / rho_0;
-			continue;
-		}
-		if (!s_x[i]->logk[vm0])
-			continue;
-		/* the volume terms... */
-		s_x[i]->rxn_x->logk[vm_tc] = s_x[i]->logk[vm0] + (s_x[i]->logk[vm1] + s_x[i]->logk[vm2] * tc) * tc;
-		s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->logk[kappa] * pa;
-
-		/* the ionic strength term * Iv^0.5... */
-		s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * Sv_I;
-		/* plus the volume terms * Iv, take mu_x for Iv... */
-		//s_x[i]->rxn_x->logk[vm_tc] += (s_x[i]->millero[3] + (s_x[i]->millero[4] + s_x[i]->millero[5] * tc) * tc) * mu_x;
-
-		/* for calculating delta_v of the reaction... */
-		s_search(s_x[i]->name)->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
-	}
-	return OK;
-}
-#else
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
@@ -5912,7 +5548,7 @@ calc_vm(LDBLE tc, LDBLE pa)
 	}
 	return OK;
 }
-#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
@@ -5921,13 +5557,10 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 /*
  *  Calculates log k's for all species and pure_phases
  */
-#ifndef PHREEQC2
+
 	if (tc == current_tc && pa == current_pa && ((fabs(mu_x - current_mu) < 1e-3 * mu_x) || !mu_terms_in_logk))
 		return OK;
-#else
-	if (tc == current_tc && pa == current_pa)
-		return OK;
-#endif
+
 	int i;
 	LDBLE tempk = tc + 273.15;
 /*
@@ -5935,11 +5568,10 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
  */
 	/* calculate relative molar volumes for tc... */
 	rho_0 = calc_rho_0(tc, pa);
-#ifndef PHREEQC2
+
 	pa = patm_x;
-	//calc_dielectrics(tc_x, pa);
 	calc_dielectrics(tc, pa);
-#endif
+
 	calc_vm(tc, pa);
 
 	mu_terms_in_logk = false;
@@ -5960,17 +5592,13 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	{
 		if (phases[i]->in == TRUE)  
 		{
-#ifdef PHREEQC2
-			phases[i]->rxn_x->logk[delta_v] = calc_delta_v(phases[i]->rxn_x, true) -
-				(phases[i]->logk[vm0] + phases[i]->logk[vm1] * tc + phases[i]->logk[vm2] * tc * tc);
-			phases[i]->lk = k_calc(phases[i]->rxn_x->logk, tempk, pa * PASCAL_PER_ATM);
-#else
+
 			phases[i]->rxn_x->logk[delta_v] = calc_delta_v(phases[i]->rxn_x, true) -
 				phases[i]->logk[vm0];
 			if (phases[i]->rxn_x->logk[delta_v])
 				mu_terms_in_logk = true;
 			phases[i]->lk = k_calc(phases[i]->rxn_x->logk, tempk, pa * PASCAL_PER_ATM);
-#endif
+
 		}
 	}
 /*
@@ -6610,21 +6238,7 @@ build_min_surface(void)
 						 -comp_ptr->Get_formula_z() * comp_ptr->Get_phase_proportion());
 		count_elts = 0;
 		paren_count = 0;
-#ifdef SKIP
-		if (surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
-		{
-			/* Add formula for CD_MUSIC */
-			char * formula = string_duplicate(comp_ptr->Get_formula().c_str());
-			char *ptr1 = formula;
-			get_elts_in_species(&ptr1, 1.0);
-			free_check_null(formula);
-		}
-		else
-		{
-			/* Add master species for non CD_MUSIC */
-			add_elt_list(x[j]->master[0]->s->next_elt, 1.0);
-		}
-#endif
+
 		//
 		{
 			/* Add specified formula for all types of surfaces */

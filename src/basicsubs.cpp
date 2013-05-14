@@ -155,135 +155,7 @@ calc_SC(void)
 
 	return (SC);
 }
-#ifdef PHREEQC2
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_dens(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Calculates density based on the formulas and parameters from Millero,
- *   2000.
- *
- *   Millero, F.J. (2000) The equation of state of lakes. Aquatic geochemistry
- *   volume 6, pages 1-17
- */
-	int i;
-	/*
-	LDBLE rho_0;
-	LDBLE solution_mass, solution_volume;
-	*/
-	LDBLE rho_new, rho_old;
-	LDBLE M_T;
-	LDBLE a, b, c, d, e, f;
-	LDBLE phi_0_i, b_v_i, s_v_i, PHI_v, B_v, S_v;
-	/*
-	LDBLE k, I_m, I_v;
-	LDBLE AA_basic, BB, CC;
-	*/
-	LDBLE gfw;
-	int l_z;
-	struct species *s_ptr;
 
-  /* Density of pure water (UNESCO, 1983) */
-	//rho_0 = 999.842594 + (6.793952e-2 + (-9.095290e-3 + (1.001685e-4 + (-1.120083e-6 + 6.536332e-9 * tc_x) * tc_x) * tc_x) * tc_x) * tc_x;
-	//rho_0 = calc_rho_0(tc_x, patm_x); // done in k_temp
-	//rho_0 /= 1000;
-	s_v_i = 1.444 + (0.016799 + (-8.4055e-6 + 5.5153e-7 * tc_x) * tc_x) * tc_x;
-	rho_new = rho_0;
-	rho_old = 0.0;
-
-	M_T = 0.0;
-	I_m = 0.0;
-	PHI_v = 0.0;
-	B_v = 0.0;
-	S_v = 0.0;
-	for (i = 0; i < count_species_list; i++)
-	{
-		if (species_list[i].s->type != AQ)
-		  continue;
-		if (strcmp(species_list[i].s->name, "CO2") == 0)
-		  continue;
-
-		if (species_list[i].master_s->secondary != NULL)
-			gfw = species_list[i].master_s->secondary->gfw;
-		else
-			gfw = species_list[i].master_s->primary->gfw;
-
-		if (species_list[i].s->millero[0] == 0)
-			s_ptr = species_list[i].master_s;
-		else
-			s_ptr = species_list[i].s;
-
-		/* Special case: CO3-2 species */
-		if (strcmp(s_ptr->name, "CO3-2") == 0)
-		{
-			if (strstr(species_list[i].s->name, "HCO3") != NULL)
-			{
-				s_ptr = s_search("HCO3-");
-			} else if (strstr(species_list[i].s->name, "CO3") != NULL)
-			{
-				compute_gfw("CO3-2", &gfw);
-			}
-		}
-
-		l_z = abs((int) s_ptr->z);
-		a = s_ptr->millero[0];
-		b = s_ptr->millero[1];
-		c = s_ptr->millero[2];
-		d = s_ptr->millero[3];
-		e = s_ptr->millero[4];
-		f = s_ptr->millero[5];
-		phi_0_i = a + (b + c * tc_x) * tc_x;
-		b_v_i = d + (e + f * tc_x) * tc_x;
-
-		PHI_v += (species_list[i].s->moles * phi_0_i);
-		B_v += (species_list[i].s->moles * b_v_i);
-		S_v += (species_list[i].s->moles * l_z * (s_v_i * l_z / 2));
-		M_T += (species_list[i].s->moles * gfw);
-		I_m += (species_list[i].s->moles * (l_z * l_z));
-	}
-
-	/* If pure water then return rho_0 */
-	if (PHI_v == 0)
-		return rho_0;
-
-	solution_mass =  mass_water_aq_x * 1000 + M_T;
-	I_m /= 2;
-	AA_basic = M_T - rho_0 * PHI_v;
-	BB_basic = -rho_0 * S_v;
-	CC = -rho_0 * B_v;
-	rho_new = halve(f_rho, 0.5, 2.0, 1e-7);
-/* DP: End Replace Pickard iteration with interval halving */
-
-	/*if (isnan(rho_new) || rho_new > 1.99999) rho_new = 1.99999;*/
-	if (!PHR_ISFINITE(rho_new) || rho_new > 1.99999) rho_new = 1.99999;
-
-	return rho_new; /*(rho_new - rho_0) * 1e3; */
-}
-/* VP: Density End */
-/* DP: Function for interval halving */
-
-LDBLE Phreeqc::
-f_rho(LDBLE rho_old, void *cookie)
-/* ---------------------------------------------------------------------- */
-{
-	LDBLE rho, I_v;
-	Phreeqc * pThis;
-
-	pThis = (Phreeqc *) cookie;
-
-	pThis->solution_volume = pThis->solution_mass / rho_old / 1000;
-	rho = 1e3;
-	if (pThis->solution_volume != 0)
-	{
-		I_v = pThis->I_m / pThis->solution_volume; // Ionic Strength in mol/L
-		rho = (pThis->AA_basic + pThis->BB_basic * sqrt(I_v) + pThis->CC * I_v) / pThis->solution_volume;
-	}
-	rho = rho / 1000 + pThis->rho_0;
-	return (rho - rho_old);
-}
-#else
 /* VP: Density Start */
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -396,7 +268,7 @@ f_rho(LDBLE rho_old, void *cookie)
 	rho = rho + pThis->rho_0;
 	return (rho - rho_old);
 }
-#endif
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_solution_volume(void)
@@ -1471,45 +1343,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 	}
 	return (tot);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-sum_match_species(const char *mytemplate, const char *name)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-	LDBLE tot;
-	struct elt_list *next_elt;
 
-	count_elts = 0;
-	paren_count = 0;
-	tot = 0;
-	for (i = 0; i < count_s_x; i++)
-	{
-		if (match_elts_in_species(s_x[i]->name, mytemplate) == TRUE)
-		{
-			if (name == NULL)
-			{
-				tot += s_x[i]->moles;
-			}
-			else
-			{
-				for (next_elt = s_x[i]->next_elt; next_elt->elt != NULL;
-					 next_elt++)
-				{
-					if (strcmp(next_elt->elt->name, name) == 0)
-					{
-						tot += next_elt->coef * s_x[i]->moles;
-						break;
-					}
-				}
-			}
-		}
-	}
-	return (tot);
-}
-#else
-#ifndef SUM_SPECIES_METHOD_2
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 sum_match_species(const char *mytemplate, const char *name)
@@ -1559,73 +1393,8 @@ sum_match_species(const char *mytemplate, const char *name)
 	}
 	return (tot);
 }
-#else
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-sum_match_species(const char *mytemplate, const char *name)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-	LDBLE tot;
-	struct elt_list *next_elt;
 
-	count_elts = 0;
-	paren_count = 0;
-	tot = 0;
-	if (sum_species_map.find(mytemplate) == sum_species_map.end())
-	{
-		if (sum_species_map_db.find(mytemplate) == sum_species_map_db.end())
-		{
-			std::vector<std::string> species_list_db;
-			for (i = 0; i < count_s; i++)
-			{
-				struct species *s_ptr = s[i];
-				if (match_elts_in_species(s_ptr->name, mytemplate) == TRUE)
-				{
-					species_list_db.push_back(s_ptr->name);
-				}
-			}
-			sum_species_map_db[mytemplate] = species_list_db;
-		}
-		std::vector<std::string> &species_list = (sum_species_map_db.find(mytemplate))->second;
-		std::vector<std::string> species_list_x;
-		for (size_t i=0; i < species_list.size(); i++)
-		{
-			struct species *s_ptr = s_search(species_list[i].c_str());
-			if (s_ptr->in == TRUE)
-			{
-				species_list_x.push_back(species_list[i]);
-			}
-		}
-		sum_species_map[mytemplate] = species_list_x;
-	}
-	std::vector<std::string> &species_list = (sum_species_map.find(mytemplate))->second;
-	for (size_t i=0; i < species_list.size(); i++)
-	{
-		struct species *s_ptr = s_search(species_list[i].c_str());
-		if (s_ptr->in == FALSE) continue;
-		if (name == NULL)
-		{
-			tot += s_ptr->moles;
-		}
-		else
-		{
-			for (next_elt = s_ptr->next_elt; next_elt->elt != NULL;
-					next_elt++)
-			{
-				if (strcmp(next_elt->elt->name, name) == 0)
-				{
-					tot += next_elt->coef * s_ptr->moles;
-					break;
-				}
-			}
-		}
-	}
-	return (tot);
-}
 
-#endif
-#endif
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
