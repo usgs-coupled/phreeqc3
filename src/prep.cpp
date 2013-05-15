@@ -1804,17 +1804,20 @@ clear(void)
 /*
  *   Clear master species solution-dependent data
  */
+	const char * pe_str = string_hsave("pe");
 	for (i = 0; i < count_master; i++)
 	{
 		master[i]->in = FALSE;
 		master[i]->unknown = NULL;
 		if (solution_ptr->Get_initial_data())
 		{
-			master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
+			//master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
+			master[i]->pe_rxn = solution_ptr->Get_initial_data()->Get_default_pe();
 		}
 		else
 		{
-			master[i]->pe_rxn = string_hsave("pe");
+			//master[i]->pe_rxn = string_hsave("pe");
+			master[i]->pe_rxn = pe_str;
 		}
 /*
  *   copy primary reaction to secondary reaction

@@ -688,7 +688,8 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 				break;
 			if (parser.parse_couple(token) == OK)
 			{
-				initial_data_ptr->Set_default_pe(token);
+				const char * pe_str = string_hsave(token.c_str());
+				initial_data_ptr->Set_default_pe(pe_str);
 				cxxChemRxn temp_chem_reaction;
 				initial_data_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
 			}
