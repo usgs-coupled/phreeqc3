@@ -23,7 +23,7 @@ inverse_models(void)
  */
 	int n, print1;
 	char string[MAX_LENGTH];
-
+	if (count_inverse <= 0) return OK;
 	// Revert to previous headings after inverse modeling
 	std::vector<std::string> old_headings;
 	int i;
