@@ -3118,8 +3118,11 @@ unknown_alloc(void)
 	unknown_ptr->si = 0.0;
 	unknown_ptr->s = NULL;
 	unknown_ptr->exch_comp = NULL;
+	unknown_ptr->pp_assemblage_comp_ptr = NULL;
 	unknown_ptr->ss_name = NULL;
+	unknown_ptr->ss_ptr = NULL;
 	unknown_ptr->ss_comp_name = NULL;
+	unknown_ptr->ss_comp_ptr = NULL;
 	unknown_ptr->ss_comp_number = 0;
 	unknown_ptr->ss_in = FALSE;
 	unknown_ptr->surface_comp = NULL;

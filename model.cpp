@@ -2236,7 +2236,8 @@ mb_ss(void)
 	{
 		if (x[i]->type != SS_MOLES)
 			break;
-		cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
 		x[i]->ss_in = ss_ptr->Get_ss_in() ? TRUE : FALSE;
 	}
 	return (OK);
@@ -3798,8 +3799,10 @@ reset(void)
 			x[i]->moles -= delta[i];
 			if (x[i]->moles < MIN_TOTAL_SS && calculating_deriv == FALSE)
 				x[i]->moles = MIN_TOTAL_SS;
-			cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
-			cxxSScomp *comp_ptr = ss_ptr->Find(x[i]->ss_comp_name);
+			//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+			cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
+			//cxxSScomp *comp_ptr = ss_ptr->Find(x[i]->ss_comp_name);
+			cxxSScomp *comp_ptr = (cxxSScomp *) x[i]->ss_comp_ptr;
 			comp_ptr->Set_moles(x[i]->moles);
 /*   Pitzer gamma */
 		}
