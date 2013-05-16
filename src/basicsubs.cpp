@@ -823,7 +823,8 @@ equi_phase_delta(const char *phase_name)
 	}
 	else
 	{
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[j]->pp_assemblage_comp_ptr;
 		if (state != TRANSPORT && state != PHAST)
 		{
 			LDBLE delta_moles =
@@ -2890,14 +2891,17 @@ system_total_elt(const char *total_name)
 		{
 			if (x[i]->type != PP)
 				continue;
-			std::map<std::string, cxxPPassemblageComp>::iterator it;
-			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
-			if (it->second.Get_add_formula().size() > 0)
+			//std::map<std::string, cxxPPassemblageComp>::iterator it;
+			//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[i]->pp_assemblage_comp_ptr;
+			//if (it->second.Get_add_formula().size() > 0)
+			if (comp_ptr->Get_add_formula().size() > 0)
 				continue;
 			count_elts = 0;
 			paren_count = 0;
 			int j;
-			struct phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
+			//struct phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
+			struct phase * phase_ptr = x[i]->phase;
 			add_elt_list(phase_ptr->next_elt, x[i]->moles);
 			if (count_elts > 0)
 			{
@@ -3161,14 +3165,17 @@ system_total_elt_secondary(const char *total_name)
 		{
 			if (x[i]->type != PP)
 				continue;
-			std::map<std::string, cxxPPassemblageComp>::iterator it;
-			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
-			if (it->second.Get_add_formula().size() > 0)
+			//std::map<std::string, cxxPPassemblageComp>::iterator it;
+			//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[i]->pp_assemblage_comp_ptr;
+			//if (it->second.Get_add_formula().size() > 0)
+			if (comp_ptr->Get_add_formula().size() > 0)
 				continue;
 			count_elts = 0;
 			paren_count = 0;
 			int j;
-			struct phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
+			//struct phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
+			struct phase * phase_ptr = x[i]->phase;
 			add_elt_list(phase_ptr->next_sys_total,	 x[i]->moles);
 			if (count_elts > 0)
 			{

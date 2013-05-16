@@ -1283,7 +1283,8 @@ print_pp_assemblage(void)
 	{
 		if (x[j]->type != PP)
 			continue;
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);	
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;
 /*
  *   Print saturation index
  */
@@ -2646,7 +2647,8 @@ punch_pp_assemblage(void)
 			{
 				if (x == NULL || x[j]->type != PP)
 					continue;
-				cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+				//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+				cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;
 /*
  *   Print pure phase assemblage data
  */
