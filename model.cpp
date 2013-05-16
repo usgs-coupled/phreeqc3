@@ -407,7 +407,8 @@ check_residuals(void)
 		else if (x[i]->type == PP)
 		{
 			cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-			cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			if (comp_ptr->Get_add_formula().size() == 0)
 			{
 				if (x[i]->dissolve_only == TRUE)
@@ -930,11 +931,13 @@ ineq(int in_kode)
 
 			if (x[i]->type == PP)
 			{
-				std::map<std::string, cxxPPassemblageComp>::iterator it;
-				it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
-				assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
+				//std::map<std::string, cxxPPassemblageComp>::iterator it;
+				//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+				//assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
+				cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 				if (residual[i] > 0e-8 && x[i]->moles > 0 &&
-					it->second.Get_add_formula().size() == 0
+					//it->second.Get_add_formula().size() == 0
+					comp_ptr->Get_add_formula().size() == 0
 					&& x[i]->dissolve_only == FALSE)
 				{
 					/*
@@ -1118,22 +1121,27 @@ ineq(int in_kode)
  */
 		if (x[i]->type == PP)
 		{
-			std::map<std::string, cxxPPassemblageComp>::iterator it;
-			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			//std::map<std::string, cxxPPassemblageComp>::iterator it;
+			//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			
 			/* not in model, ignore */
 			if (x[i]->phase->in == FALSE)
-				continue;
-			if (it->second.Get_force_equality())
+				continue;		
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
+			//if (it->second.Get_force_equality())
+			if (comp_ptr->Get_force_equality())
 				continue;
 			/*   Undersaturated and no mass, ignore */
 			//if (x[i]->f > 1e-14/*0e-8*/ && x[i]->moles <= 0
 			if (x[i]->f > 0e-8 && x[i]->moles <= 0
-				&& it->second.Get_add_formula().size() == 0)
+				//&& it->second.Get_add_formula().size() == 0)
+					&& comp_ptr->Get_add_formula().size() == 0)
 			{
 				continue;
 			}
 			else if (x[i]->f < 0e-8 && x[i]->dissolve_only == TRUE
-					 && (x[i]->moles - it->second.Get_initial_moles() >= 0))
+					 //&& (x[i]->moles - it->second.Get_initial_moles() >= 0))
+					 && (x[i]->moles - comp_ptr->Get_initial_moles() >= 0))
 			{
 				continue;
 			}
@@ -1144,7 +1152,8 @@ ineq(int in_kode)
 					   (void *) &(array[i * (count_unknowns + 1)]),
 					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
-				if (it->second.Get_add_formula().size() == 0
+				//if (it->second.Get_add_formula().size() == 0
+				if (comp_ptr->Get_add_formula().size() == 0
 					&& x[i]->dissolve_only == FALSE)
 				{
 					res[l_count_rows] = 1.0;
@@ -1223,7 +1232,8 @@ ineq(int in_kode)
 		cxxPPassemblageComp *comp_ptr1 = NULL;
 		if (x[i]->type == PP)
 		{
-			comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 		}
 		if (x[i]->type == SURFACE && x[i]->phase_unknown != NULL)
 		{
@@ -1314,7 +1324,8 @@ ineq(int in_kode)
 		{
 			if (x[i]->type == PP)
 			{
-				comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+				//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+				comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 				/* not in model, ignore */
 				if (x[i]->phase->in == FALSE)
 					continue;
@@ -1410,7 +1421,8 @@ ineq(int in_kode)
 		{
 			if (x[i]->type == PP)
 			{
-				comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+				//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);			
+				comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 				if ((x[i]->moles <= 0.0 && x[i]->f > 0e-8 &&
 					 comp_ptr->Get_add_formula().size() == 0)
 					|| x[i]->phase->in == FALSE)
@@ -3103,7 +3115,8 @@ reset(void)
 				if (x[i]->dissolve_only == TRUE)
 				{
 					assert (x[i]->type == PP);
-					comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+					//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+					comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 					assert(comp_ptr);
 					if ((delta[i] < 0.0)
 						&& (-delta[i] >
@@ -3700,7 +3713,8 @@ reset(void)
 		}
 		else if (x[i]->type == PP)
 		{
-			comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			/*if (fabs(delta[i]) > epsilon) converge=FALSE; */
 			if (debug_model == TRUE)
 			{
@@ -4042,7 +4056,8 @@ residuals(void)
 		}
 		else if (x[i]->type == PP)
 		{
-			cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			residual[i] = x[i]->f * LOG_10;
 			if (comp_ptr->Get_add_formula().size() == 0)
 			{
@@ -5633,7 +5648,8 @@ set_inert_moles(void)
 	for (j = 0; j < count_unknowns; j++)
 	{
 		if (x[j]->type != PP) continue;
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[j]->pp_assemblage_comp_ptr;
 		if (comp_ptr->Get_precipitate_only())
 		{
 			x[j]->inert_moles = x[j]->moles;
@@ -5652,7 +5668,8 @@ unset_inert_moles()
 	for (j = 0; j < count_unknowns; j++)
 	{
 		if (x[j]->type != PP) continue;
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 		
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[j]->pp_assemblage_comp_ptr;
 		if (comp_ptr->Get_precipitate_only())
 		{
 			x[j]->moles += x[j]->inert_moles;
