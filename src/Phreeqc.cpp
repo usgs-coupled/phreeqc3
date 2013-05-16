@@ -1269,7 +1269,7 @@ void Phreeqc::init(void)
 	pr.hdf                  = FALSE;
 	pr.alkalinity           = FALSE;
 	status_on               = true;
-	status_interval         = 200;
+	status_interval         = 40;
 	status_timer            = clock();
 	count_warnings          = 0;
 	/* ----------------------------------------------------------------------
