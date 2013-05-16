@@ -262,7 +262,9 @@ quick_setup(void)
 		{
 			for (size_t k = 0; k < ss_ptrs[j]->Get_ss_comps().size(); k++)
 			{
+				x[i]->ss_ptr = ss_ptrs[j];
 				cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[k]);
+				x[i]->ss_comp_ptr = comp_ptr;
 				x[i]->moles = comp_ptr->Get_moles();
 				if (x[i]->moles <= 0)
 				{
@@ -331,7 +333,7 @@ quick_setup(void)
 				/* moles picked up from master->total */
 			}
 			else if (x[i]->type == SURFACE_CB1 || x[i]->type == SURFACE_CB2)
-			{
+			{				
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
 				x[i]->related_moles = charge_ptr->Get_grams();
 				x[i]->mass_water = charge_ptr->Get_mass_water();
@@ -663,7 +665,8 @@ build_ss_assemblage(void)
 	{
 		if (x[i]->type != SS_MOLES)
 			continue;
-		cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
 		assert(ss_ptr);
 		if (ss_ptr != ss_ptr_old)
 		{
@@ -3314,7 +3317,9 @@ setup_ss_assemblage(void)
 			comp_ptr->Set_initial_moles(x[count_unknowns]->moles);
 			x[count_unknowns]->ln_moles = log(x[count_unknowns]->moles);
 			x[count_unknowns]->ss_name = string_hsave(ss_ptrs[j]->Get_name().c_str());
+			x[count_unknowns]->ss_ptr =  ss_ptrs[j];
 			x[count_unknowns]->ss_comp_name = string_hsave(comp_ptr->Get_name().c_str());
+			x[count_unknowns]->ss_comp_ptr = comp_ptr;
 			x[count_unknowns]->ss_comp_number = (int) i;
 			x[count_unknowns]->phase = phase_ptr;
 			x[count_unknowns]->number = count_unknowns;
