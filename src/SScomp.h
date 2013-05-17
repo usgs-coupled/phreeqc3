@@ -43,7 +43,7 @@ class cxxSScomp: public PHRQ_base
 	LDBLE Get_dnb() const {return this->dnb;}
 	void Set_dnb(LDBLE t) {this->dnb = t;}
 
-	void multiply(double extensive);
+	void multiply(LDBLE extensive);
 
 protected:
 	std::string name;

@@ -504,7 +504,13 @@ calc_logk_s(const char *name)
 		{
 			l_logk[i] = 0.0;
 		}
-		select_log_k_expression(s_ptr->logk, l_logk);
+		if (s_ptr->moles)
+			select_log_k_expression(s_ptr->rxn_x->logk, l_logk);
+		else
+		{
+			// perhaps calculate species' delta_v if absent?
+			select_log_k_expression(s_ptr->rxn_s->logk, l_logk);
+		}
 		add_other_logk(l_logk, s_ptr->count_add_logk, s_ptr->add_logk);
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
 		return (lk);
@@ -1161,7 +1167,7 @@ get_calculate_value(const char *name)
 	}
 	if (rate_moles == NAN)
 	{
-		error_string = sformatf( "Calculated value not SAVE'd for %s.",
+		error_string = sformatf( "Calculated value not SAVEed for %s.",
 				calculate_value_ptr->name);
 		error_msg(error_string, STOP);
 	}

@@ -904,9 +904,9 @@ tidy_gas_phase(void)
 			assert(false);
 		}
 		cxxGasPhase *gas_phase_ptr = &(it->second);
-		//if (gas_phase_ptr->Get_new_def() != TRUE)
+		//if (!gas_phase_ptr->Get_new_def())
 		//	continue;
-		gas_phase_ptr->Set_new_def(false);
+		//gas_phase_ptr->Set_new_def(false);
 		PR = false;
 		P = 0.0;
 		std::vector<cxxGasComp> gc = gas_phase_ptr->Get_gas_comps();
@@ -928,7 +928,11 @@ tidy_gas_phase(void)
 				if (phase_ptr->t_c > 0 && phase_ptr->p_c > 0)
 					PR = true;
 			}
-/*
+			gas_phase_ptr->Set_pr_in(PR);
+			if (gas_phase_ptr->Get_new_def())
+			{
+				gas_phase_ptr->Set_new_def(false);
+				/*
  *   Fixed pressure
  */
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
@@ -960,7 +964,7 @@ tidy_gas_phase(void)
 			}
 			else
 			{
-/*
+					/*
  *   Fixed volume
  */
 				if (!gas_phase_ptr->Get_solution_equilibria())
@@ -984,9 +988,9 @@ tidy_gas_phase(void)
 					}
 				}
 			}
-		}
+
+
 		gas_phase_ptr->Set_gas_comps(gc);
-		gas_phase_ptr->Set_pr_in(PR);
 
 		if (PR && P > 0)
 		{
@@ -1002,7 +1006,10 @@ tidy_gas_phase(void)
 			}
 			V_m = calc_PR(phase_ptrs, P, gas_phase_ptr->Get_temperature(), 0);
 			gas_phase_ptr->Set_v_m(V_m);
+					if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
+					{
 			gas_phase_ptr->Set_total_p(P);
+					}
 			std::vector<cxxGasComp> gc = gas_phase_ptr->Get_gas_comps();
 			for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 			{
@@ -1020,7 +1027,7 @@ tidy_gas_phase(void)
 			}
 			gas_phase_ptr->Set_gas_comps(gc);
 		}
-/* 
+				/* 
  *   Duplicate gas phase, only if not solution equilibria
  */
 		if (!gas_phase_ptr->Get_solution_equilibria())
@@ -1036,6 +1043,8 @@ tidy_gas_phase(void)
 		else
 		{
 			gas_phase_ptr->Set_new_def(true);
+		}
+	}
 		}
 	}
 	return (OK);
@@ -2350,7 +2359,7 @@ tidy_species(void)
  *   Find valence of cation from coefficients of reaction components
  *   Changed to be coefficient of exchanger
  */
-			double exchange_coef = 0.0;
+			LDBLE exchange_coef = 0.0;
 			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
 			{
 				if (s[i]->rxn_s->token[j].s->type == EX)
@@ -2371,7 +2380,7 @@ tidy_species(void)
 		}
 		if (s[i]->type == SURF)
 		{
-			double surface_coef = 0.0;
+			LDBLE surface_coef = 0.0;
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
@@ -2545,7 +2554,7 @@ tidy_solutions(void)
 {
 /*
  *   Define n_user for any solutions read by solution_spread that
- *   don't have n_user defined
+ *   don`t have n_user defined
  */
 	struct master *master_ptr;
 

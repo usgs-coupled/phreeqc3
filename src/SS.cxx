@@ -482,7 +482,7 @@ cxxSS::add(const cxxSS & addee_in, LDBLE extensive)
 			if (Utilities::strcmp_nocase(this->ss_comps[i].Get_name().c_str(), 
 				addee.Get_ss_comps()[j].Get_name().c_str()) == 0)
 			{
-				double d = this->ss_comps[i].Get_initial_moles() + 
+				LDBLE d = this->ss_comps[i].Get_initial_moles() + 
 					addee.Get_ss_comps()[j].Get_initial_moles() * extensive;
 				this->ss_comps[i].Set_initial_moles(d);
 				d = this->ss_comps[i].Get_moles() + 
@@ -511,7 +511,7 @@ cxxSS::multiply(LDBLE extensive)
 	size_t i; 
 	for (i = 0; i < this->ss_comps.size(); i++)
 	{
-		double d = this->ss_comps[i].Get_initial_moles() * extensive;
+		LDBLE d = this->ss_comps[i].Get_initial_moles() * extensive;
 		this->ss_comps[i].Set_initial_moles(d);
 		d = this->ss_comps[i].Get_moles() * extensive;
 		this->ss_comps[i].Set_moles(d);

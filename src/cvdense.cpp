@@ -35,7 +35,7 @@
 #define CVMEM_MALLOC CVMEM 
 
 #include "phqalloc.h"
-/* WARNING don't include any headers below here */
+/* WARNING don`t include any headers below here */
 
 /* Error Messages */
 

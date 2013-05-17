@@ -82,11 +82,7 @@
  *                                                                *
  ******************************************************************/
 
-#ifdef USE_LONG_DOUBLE
-	typedef long double realtype;
-#else
-	typedef double realtype;
-#endif
+	typedef LDBLE realtype;
 	typedef long int integertype;
 
 #define SUNDIALS_FLOAT  0

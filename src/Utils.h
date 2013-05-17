@@ -6,7 +6,7 @@
 #include <ostream>				// std::ostream
 #include <istream>				// std::istream
 #include <map>					// std::map
-
+#include "phrqtype.h"
 namespace Utilities
 {
 
@@ -23,6 +23,6 @@ namespace Utilities
 
 	void squeeze_white(std::string & s_l);
 	double convert_time(double t, std::string in, std::string out);
-	double safe_exp(double t);
+	LDBLE safe_exp(LDBLE t);
 }
 #endif // UTILITIES_H_INCLUDED

@@ -51,6 +51,9 @@ public:
 	std::vector < LDBLE > &Get_d_params(void) {return d_params;};
 	const std::vector < LDBLE > &Get_d_params(void)const {return d_params;};
 	std::vector < std::string > &Get_c_params(void) {return c_params;};
+	cxxNameDouble &Get_moles_of_reaction(void) {return moles_of_reaction;}
+	const cxxNameDouble &Get_moles_of_reaction(void)const {return moles_of_reaction;}
+	void Set_moles_of_reaction(const cxxNameDouble nd) {moles_of_reaction = nd;}
 
 	void add(const cxxKineticsComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
@@ -67,6 +70,7 @@ public:
 	  // kinetics workspace variables
 	  LDBLE moles;
 	  LDBLE initial_moles;
+	  cxxNameDouble moles_of_reaction;
 	  const static std::vector < std::string > vopts;
   public:
 

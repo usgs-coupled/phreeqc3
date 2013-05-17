@@ -234,7 +234,7 @@ namespace zdg_ui2 {
 						 myCurve->Line->Width = (float) Curves[i]->Get_line_w();
 					 else
 						 myCurve->Line->IsVisible = false;
-					 /* hmm... dash/dot don't display well */
+					 /* hmm... dash/dot don`t display well */
 					 // myCurve->Line->Style = System::Drawing::Drawing2D::DashStyle::Dot;
 					 myCurve->Symbol->Fill = gcnew Fill( Color::FromName("White") );
 					 if (Curves[i]->Get_symbol_size() > 0.0)
@@ -283,13 +283,13 @@ namespace zdg_ui2 {
 				 // Make the Y axis scale red
 				 // myPane->YAxis->Scale->FontSpec->FontColor = Color::Red;
 				 // myPane->YAxis->Title->FontSpec->FontColor = Color::Red;
-				 // turn off the opposite tics so the Y tics don't show up on the Y2 axis
+				 // turn off the opposite tics so the Y tics don`t show up on the Y2 axis
 				 if (Y2show)
 				 {
 					 myPane->YAxis->MajorTic->IsOpposite = false;
 					 myPane->YAxis->MinorTic->IsOpposite = false;
 				 }
-				 // Don't display the Y zero line
+				 // Don`t display the Y zero line
 				 myPane->YAxis->MajorGrid->IsZeroLine = false;
 				 // Align the Y axis labels so they are flush to the axis
 				 myPane->YAxis->Scale->Align = AlignP::Inside;
@@ -325,10 +325,10 @@ namespace zdg_ui2 {
 					 // Make the Y2 axis scale blue
 					 // myPane->Y2Axis->Scale->FontSpec->FontColor = Color::Blue;
 					 // myPane->Y2Axis->Title->FontSpec->FontColor = Color::Blue;
-					 // turn off the opposite tics so the Y2 tics don't show up on the Y axis
+					 // turn off the opposite tics so the Y2 tics don`t show up on the Y axis
 					 myPane->Y2Axis->MajorTic->IsOpposite = false;
 					 myPane->Y2Axis->MinorTic->IsOpposite = false;
-					 // Don't display the Y2 axis grid lines
+					 // Don`t display the Y2 axis grid lines
 					 myPane->Y2Axis->MajorGrid->IsVisible = false;
 					 // Align the Y2 axis labels so they are flush to the axis
 					 myPane->Y2Axis->Scale->Align = AlignP::Inside;
@@ -876,7 +876,7 @@ namespace zdg_ui2 {
 				// Save GraphObjList
 				ZedGraph::GraphObjList ^GOL_copy = gcnew ZedGraph::GraphObjList(zg1->GraphPane->GraphObjList);
 
-				// Don't write red hint boxes
+				// Don`t write red hint boxes
 				zg1->GraphPane->GraphObjList = GOL_no_hints;
 
 				// Set background
@@ -1031,7 +1031,7 @@ namespace zdg_ui2 {
 						//		}
 						//	}
 						//}
-						/* explicitly reset the max in case of log scale, zedgraphs doesn't do this... */
+						/* explicitly reset the max in case of log scale, zedgraphs doesn`t do this... */
 						if ((fabs(chart->Get_axis_scale_x()[1] - NA) < 1e-3) && zg1->GraphPane->XAxis->Type == AxisType::Log)
 						{
 							double max = -1e99;

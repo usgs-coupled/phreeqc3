@@ -124,7 +124,7 @@ fpunchf_user(int user_index, const char *format, double d)
 		if (fpunchf_user_s_warning == 0)
 		{
 			error_string = sformatf(
-					"USER_PUNCH: Headings count doesn't match number of calls to PUNCH.\n");
+					"USER_PUNCH: Headings count does not match number of calls to PUNCH.\n");
 			warning_msg(error_string);
 			fpunchf_user_s_warning = 1;
 		}
@@ -157,7 +157,7 @@ fpunchf_user(int user_index, const char *format, char * d)
 		if (fpunchf_user_s_warning == 0)
 		{
 			error_string = sformatf(
-					"USER_PUNCH: Headings count doesn't match number of calls to PUNCH.\n");
+					"USER_PUNCH: Headings count does not match number of calls to PUNCH.\n");
 			warning_msg(error_string);
 			fpunchf_user_s_warning = 1;
 		}
@@ -249,6 +249,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		strcpy(query, "Name of output file?");
 		ptr = default_name;
 		copy_token(token, &ptr, &l);
+		strcpy(token, default_name);
 		strcat(token, ".out");
 		std::ofstream * local_output_stream;
 		if (argc <= 1)
@@ -274,7 +275,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		{
 			if (!phrq_io->log_open("phreeqc.log"))
 			{
-				error_msg("Can't open log file, phreeqc.log.", STOP);
+				error_msg("Cannot open log file, phreeqc.log.", STOP);
 			}
 		}
 /*
@@ -356,11 +357,14 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		screen_msg(sformatf("Database file: %s\n\n", token));
 		strcpy(db_file, token);
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.beta, compiled on August 6, 2012\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.0.2, compiled on April 9, 2013\n"));
 #endif
 		output_msg(sformatf("   Input file: %s\n", in_file));
 		output_msg(sformatf("  Output file: %s\n", out_file));
 		output_msg(sformatf("Database file: %s\n\n", token));
+#ifdef NPP
+		output_flush();
+#endif
 		/*
 		*   local cleanup
 		*/
@@ -467,7 +471,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		{
 			if (!phrq_io->log_open("phreeqc.log"))
 			{
-				error_msg("Can't open log file, phreeqc.log.", STOP);
+				error_msg("Cannot open log file, phreeqc.log.", STOP);
 			}
 		}
 /*
@@ -620,10 +624,10 @@ open_input_stream(char *query, char *default_name, std::ios_base::openmode mode,
 #else
 			phrq_io->Set_error_file(stderr);
 #endif
-			error_string = sformatf( "\nERROR: Can't open file, %s.\n", name);
+			error_string = sformatf( "\nERROR: Cannot open file, %s.\n", name);
 			screen_msg(error_string);
 #ifdef NPP
-			error_msg(sformatf( "\nERROR: Can't open file, %s.\n       Please check, and give the correct, full path + name.\n", name), STOP);
+			error_msg(sformatf( "\nERROR: Cannot open file, %s.\n       Please check, and give the correct, full path + name.\n", name), STOP);
 			break;
 #endif
 			error_flush();
@@ -696,7 +700,7 @@ open_output_stream(char *query, char *default_name, std::ios_base::openmode mode
 #else
 			phrq_io->Set_error_file(stderr);
 #endif
-			error_string = sformatf( "\nERROR: Can't open file, %s.\n", name);
+			error_string = sformatf( "\nERROR: Cannot open file, %s.\n", name);
 			screen_msg(error_string);
 			error_flush();
 			batch = FALSE;
@@ -769,7 +773,7 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 			phrq_io->Set_error_file(stderr);
 #endif
 			
-			error_string = sformatf( "\nERROR: Can't open file, %s.\n", name);
+			error_string = sformatf( "\nERROR: Cannot open file, %s.\n", name);
 			screen_msg(error_string);
 			error_flush();
 			batch = FALSE;

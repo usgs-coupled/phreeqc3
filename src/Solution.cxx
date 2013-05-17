@@ -992,7 +992,7 @@ cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble 
 	this->total_o = o_tot;
 	this->cb = charge;
 
-	// Don't bother to update activities?
+	// Don`t bother to update activities?
 	//this->Update(const_nd);
 	this->totals = const_nd;
 }

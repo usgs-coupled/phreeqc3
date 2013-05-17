@@ -969,6 +969,14 @@ dump_cpp(void)
 	phreeqc2cxxStorageBin(phreeqcBin);
 
 	std::ofstream fs(dump_file_name_cpp.c_str());
+	if (!fs.is_open())
+	{
+		error_string = sformatf( "Can`t open file, %s.", dump_file_name_cpp.c_str());
+		input_error++;
+		error_msg(error_string, CONTINUE);
+		return (OK);
+	}
+	
 	fs << "# Dumpfile" << "\n" << "# Transport simulation " << simul_tr << "  Shift " << transport_step << "\n" << "#" << "\n";
 	phreeqcBin.dump_raw(fs, 0);
 	fs << "END" << "\n";

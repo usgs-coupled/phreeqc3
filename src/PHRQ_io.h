@@ -54,6 +54,9 @@ public:
 	void push_istream(std::istream * cookie, bool auto_delete = true);
 	void clear_istream(void);
 
+	// helper
+	bool ofstream_open(std::ostream **os, const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
+
 	// output_ostream
 	virtual bool output_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
 	void output_flush(void);

@@ -169,7 +169,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	   but may give densities < 0 outside the limits, e.g. tc = 250, p = 2.5e3... */
 
 	/* The minimal pressure equals the saturation pressure... */
-	double tk = tc + 273.15;
+	LDBLE tk = tc + 273.15;
 	p_sat = exp(11.6702 - 3816.44 / (tk - 46.13));
 	if (ah2o_x <= 1.0)
 		p_sat *= ah2o_x;
@@ -180,11 +180,11 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	}
 	if (!use.Get_gas_phase_in())
 		patm_x = pa;
-	double pasc = pa * 1.01325e5;
-    double Rg = 0.461526e3; //J / kg / K
-	double Tref = 1386.0, Pref = 16.53e6; // K, Pa
-	double t_t = Tref / tk, p_p = pasc / Pref;
-	double ni[34] = {0.14632971213167,    -0.84548187169114,     -0.37563603672040e1,    0.33855169168385e1,
+	LDBLE pasc = pa * 1.01325e5;
+    LDBLE Rg = 0.461526e3; //J / kg / K
+	LDBLE Tref = 1386.0, Pref = 16.53e6; // K, Pa
+	LDBLE t_t = Tref / tk, p_p = pasc / Pref;
+	LDBLE ni[34] = {0.14632971213167,    -0.84548187169114,     -0.37563603672040e1,    0.33855169168385e1,
 					-0.95791963387872,     0.15772038513228,     -0.16616417199501e-1,   0.81214629983568e-3,
 					 0.28319080123804e-3,  -0.60706301565874e-3, -0.18990068218419e-1,  -0.32529748770505e-1,
 					-0.21841717175414e-1,  -0.52838357969930e-4, -0.47184321073267e-3,  -0.30001780793026e-3,
@@ -1378,14 +1378,11 @@ under(LDBLE xval)
 	{
 		return (0.0);
 	}
-/*	if (xval > MAX_LM) { */
-	if (xval > 3.)
+	if (xval > MAX_LM)  
 	{
-		return (1.0e3);
-/*		return ( pow (10.0, MAX_LM));*/
+		return ( MAX_M );
 	}
 	return (pow ((LDBLE) 10.0, xval));
-/*	return (exp(xval * LOG_10)) */;
 }
 #ifndef PHREEQCI_GUI
 /* ---------------------------------------------------------------------- */
@@ -1414,15 +1411,15 @@ status(int count, const char *str, bool rk_string)
 		status_on = true;
 		return (OK);
 	}
+#ifdef NPP
 	t2 = clock();
 	if (((state < ADVECTION && reaction_step < count_total_steps) || 
 		(state == ADVECTION && (advection_step < count_ad_shifts || cell_no < count_cells)) || 
-		(state == TRANSPORT && (transport_step < count_shifts || (mixrun < nmix &&
-		                        cell_no < count_cells))))
+		(state == TRANSPORT && (transport_step < count_shifts || (mixrun < nmix /*&&
+		                        cell_no < count_cells*/))))
 		&& (int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) < status_interval)
 		return (OK);
-	else
-		status_timer = t2;
+#endif
 
 	switch (state)
 	{
@@ -1436,13 +1433,13 @@ status(int count, const char *str, bool rk_string)
 
 				screen_string = screen_string.substr(0, 43);
 				screen_string.append(str);
-				screen_msg(screen_string.c_str());
+				status_string = screen_string;
 			}
 			else
 			{
 				screen_string = "\r";
 				screen_string.append(str);
-				screen_msg(screen_string.c_str());
+				status_string = screen_string;
 			}
 			status_on = true;
 		}
@@ -1454,7 +1451,8 @@ status(int count, const char *str, bool rk_string)
 		{
 			screen_string = "\r";
 			screen_string.append(str);
-			screen_msg(screen_string.c_str());		}
+			status_string = screen_string;
+		}
 		else
 		// print state
 		{
@@ -1513,16 +1511,26 @@ status(int count, const char *str, bool rk_string)
 			if (use.Get_kinetics_in() == TRUE)
 			{
 				screen_string = sformatf("%-15s%-27s%38s", sim_str, state_str, stdstr.c_str());
-				screen_msg(screen_string.c_str());
+				status_string = screen_string;
 			}
 			else
 			{
 				screen_string = sformatf("%-15s%-27s%1s%37s", sim_str, state_str, spin_str, stdstr.c_str());
-				screen_msg(screen_string.c_str());
+				status_string = screen_string;
 			}
 		}
 		status_on = true;
 		break;
+	}
+
+#ifndef NPP
+	t2 = clock();
+	if ((int) (1e3 / CLOCKS_PER_SEC * (t2 - status_timer)) > status_interval)
+#endif
+	{
+		status_timer = t2;
+		screen_msg(status_string.c_str());
+		status_string.clear();
 	}
 	return (OK);
 }
@@ -1717,7 +1725,7 @@ hsearch_multi(HashTable * Table, ENTRY item, ACTION action)
 /*    if (++Table->KeyCount / MUL(Table->SegmentCount,SegmentSize) > Table->MaxLoadFactor) */
 	if (++Table->KeyCount / ((Table->SegmentCount) << (SegmentSizeShift)) >
 		Table->MaxLoadFactor)
-		ExpandTable_multi(Table);	/* doesn't affect q     */
+		ExpandTable_multi(Table);	/* doesn`t affect q     */
 	return ((ENTRY *) q);
 }
 

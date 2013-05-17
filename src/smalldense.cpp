@@ -19,7 +19,7 @@
 #include "smalldense.h"
 #include "sundialstypes.h"
 #include "sundialsmath.h"
-/* WARNING don't include any headers below here */
+/* WARNING don`t include any headers below here */
 
 #define ZERO RCONST(0.0)
 #define ONE  RCONST(1.0)

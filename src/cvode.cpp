@@ -15,8 +15,8 @@
  * It is independent of the CVODE linear solver in use.            *
  *                                                                 *
  *******************************************************************/
-
-
+#include "nvector_serial.h"	
+#define Ith(v,i)	NV_Ith_S(v,i-1)
 /************************************************************/
 /******************* BEGIN Imports **************************/
 /************************************************************/
@@ -35,7 +35,7 @@
 #define CVMEM_MALLOC CVMEM  
 
 #include "phqalloc.h"
-/* WARNING don't include any headers below here */
+/* WARNING don`t include any headers below here */
 
 
 /************************************************************/
@@ -101,7 +101,7 @@
 #define HLB_FACTOR RCONST(100.0)
 #define HUB_FACTOR RCONST(0.1)
 #define H_BIAS     HALF
-#define MAX_ITERS  4
+#define MAX_ITERS  40
 
 /* CVSet */
 
@@ -1342,17 +1342,23 @@ CVode(void *cvode_mem, realtype tout, N_Vector yout, realtype * t, int itask)
 	/*
 	 * check interpolation
 	 */
-	cvode_test = TRUE;
+	CVMEM cvode_test = TRUE;
 	f(N, tn, y, ftemp, f_data);
-	cvode_test = FALSE;
-	if (cvode_error == TRUE)
+	CVMEM cvode_test = FALSE;
+	if (CVMEM cvode_error == TRUE)
 	{
-		CVMEM warning_msg("End of cvode, Interpolated y Fail\n");
+		//CVMEM warning_msg("End of cvode, Interpolated y Fail\n");
+		fprintf(stderr, "End of cvode, Interpolated y Fail\n");
 		return (-1);
 	}
 	else
 	{
-		CVMEM warning_msg("End of cvode, Interpolated y OK\n");
+		//CVMEM warning_msg("End of cvode, Interpolated y OK\n");
+		//fprintf(stderr, "End of cvode, Interpolated y OK\n");
+		//for (int i = 0; i <= N; i++)
+		//{
+		//	fprintf(stderr, "%d %e\n", i, Ith(y, i));
+		//}
 	}
 #endif
 	return (istate);
@@ -1680,10 +1686,11 @@ CVHin(CVodeMem cv_mem, realtype tout)
 
 	/* Set lower and upper bounds on h0, and take geometric mean 
 	   Exit with this value if the bounds cross each other       */
-
+	
 	hlb = HLB_FACTOR * tround;
 	hub = CVUpperBoundH0(cv_mem, tdist);
 	hg = RSqrt(hlb * hub);
+	hnew = hg;
 	if (hub < hlb)
 	{
 		if (sign == -1)
@@ -1848,11 +1855,13 @@ CVStep(CVodeMem cv_mem)
 	/* Looping point for attempts to take a step */
 	loop
 	{
+		bool predict_fail = false;
 		CVMEM cvode_test = TRUE;
 		f(N, tn, y, ftemp, f_data);
 		CVMEM cvode_test = FALSE;
 		if (CVMEM cvode_error == TRUE)
 		{
+			predict_fail = true;
 #ifdef DEBUG_CVODE
 			CVMEM warning_msg("Before predict, y Fail, time %e\n", tn);
 #endif
@@ -1910,6 +1919,10 @@ CVStep(CVodeMem cv_mem)
 		CVSet(cv_mem);
 
 		nflag = CVnls(cv_mem, nflag);
+		if (CVMEM cvode_error == TRUE || predict_fail)
+		{
+			nflag = -1;
+		}
 #ifdef DEBUG_CVODE
 		cvode_test = TRUE;
 		f(N, tn, y, ftemp, f_data);
@@ -1934,6 +1947,7 @@ CVStep(CVodeMem cv_mem)
 			CVMEM warning_msg("After CVnls, zn OK\n");
 		}
 #endif
+		//fprintf(stderr, "\nTime %e,\th %e\n", tn, h);
 		kflag = CVHandleNFlag(cv_mem, &nflag, saved_t, &ncf);
 		if (kflag == PREDICT_AGAIN)
 			continue;
@@ -2007,10 +2021,10 @@ CVStep(CVodeMem cv_mem)
 
 	CVCompleteStep(cv_mem);
 #ifdef DEBUG_CVODE
-	cvode_test = TRUE;
+	CVMEM cvode_test = TRUE;
 	f(N, tn, y, ftemp, f_data);
-	cvode_test = FALSE;
-	if (cvode_error == TRUE)
+	CVMEM cvode_test = FALSE;
+	if (CVMEM cvode_error == TRUE)
 	{
 		CVMEM warning_msg("After complete step, y Fail\n");
 	}
@@ -2018,10 +2032,10 @@ CVStep(CVodeMem cv_mem)
 	{
 		CVMEM warning_msg("After complete step, y OK\n");
 	}
-	cvode_test = TRUE;
+	CVMEM cvode_test = TRUE;
 	f(N, tn, zn[0], ftemp, f_data);
-	cvode_test = FALSE;
-	if (cvode_error == TRUE)
+	CVMEM cvode_test = FALSE;
+	if (CVMEM cvode_error == TRUE)
 	{
 		CVMEM warning_msg("After complete step, zn Fail\n");
 	}
@@ -2753,7 +2767,10 @@ CVnlsNewton(CVodeMem cv_mem, int nflag)
 
 		/* Do the Newton iteration */
 		ier = CVNewtonIteration(cv_mem);
-
+		if (CVMEM cvode_error == TRUE)
+		{
+			return (CONV_FAIL);
+		}
 		CVMEM cvode_test = TRUE;
 		f(N, tn, y, ftemp, f_data);
 		CVMEM cvode_test = FALSE;
@@ -3062,6 +3079,7 @@ CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr, int *kflagPtr,
 		CVMEM warning_msg("CVDoErrorTest");
 		/*exit(8); */
 		CVMEM error_msg("CVDoErrorTest", 1 /* STOP */ );
+		exit(4);
 	}
 	nfe++;
 	N_VScale(h, tempv, zn[1]);

@@ -2449,7 +2449,7 @@ read_kinetics(void)
 	}
 	else if (stdunits.size() > 0)
 	{
-		std::vector<double>::iterator it;
+		std::vector<LDBLE>::iterator it;
 		for (it = temp_kinetics.Get_steps().begin(); it != temp_kinetics.Get_steps().end(); it++)
 		{
 			*it = Utilities::convert_time(*it, stdunits, "s");
@@ -2842,7 +2842,7 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 	if (j < 1)
 	{
 		input_error++;
-		error_msg("Expecting numeric values for calculating the species' molar volume from the supcrt database.",
+		error_msg("Expecting numeric values for calculating the species molar volume from the supcrt database.",
 			CONTINUE);
 		return (ERROR);
 	}
@@ -4700,9 +4700,9 @@ read_selected_output(void)
 				strcpy(file_name, next_char);
 				have_punch_name = TRUE;
 				punch_close();
-				if (punch_open(file_name) != OK)
+				if (!punch_open(file_name))
 				{
-					error_string = sformatf( "Can't open file, %s.", file_name);
+					error_string = sformatf( "Can`t open file, %s.", file_name);
 					input_error++;
 					error_msg(error_string, CONTINUE);
 				}
@@ -5036,9 +5036,9 @@ read_selected_output(void)
 	if (!have_punch_name)
 	{
 		punch_close();
-		if (punch_open("selected.out") != OK)
+		if (!punch_open("selected.out"))
 		{
-			error_string = sformatf( "Can't open file, %s.", "selected.out");
+			error_string = sformatf( "Can`t open file, %s.", "selected.out");
 			input_error++;
 			error_msg(error_string, CONTINUE);
 		}
@@ -7030,7 +7030,7 @@ read_surface(void)
 								|| temp_surface.Get_related_phases())
 							{
 								error_msg
-									("Can't transport surfaces related to phases or rates (yet).",
+									("Can`t transport surfaces related to phases or rates (yet).",
 									CONTINUE);
 								input_error++;
 							}
@@ -9095,7 +9095,7 @@ read_user_graph(void)
 			strcpy(file_name, next_char);
 			if (!OpenCSVFile(file_name))
 			{
-				error_string = sformatf( "Can't open file, %s. Give the full path + name, or copy the file to the working directory.", file_name);
+				error_string = sformatf( "Can`t open file, %s. Give the full path + name, or copy the file to the working directory.", file_name);
 				input_error++;
 				error_msg(error_string, CONTINUE);
 			}

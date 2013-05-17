@@ -36,6 +36,9 @@
 #include "cxxMix.h"
 #include "Use.h"
 #include "Surface.h"
+#ifdef SWIG_SHARED_OBJ
+#include "thread.h"
+#endif
 
 class cxxNameDouble;
 class cxxKinetics;
@@ -376,6 +379,7 @@ public:
 
 	// kinetics.cpp -------------------------------
 	void cvode_init(void);
+	bool cvode_update_reactants(int i, int nsaver, bool save_it);
 	int run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction);
 	int set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 		LDBLE step_fraction);
@@ -394,6 +398,7 @@ public:
 	int calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr);
 	int calc_kinetic_reaction(cxxKinetics *kinetics_ptr,
 		LDBLE time_step);
+	bool limit_rates(cxxKinetics *kinetics_ptr);
 	int rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		LDBLE step_fraction);
 	int set_reaction(int i, int use_mix, int use_kinetics);
@@ -1168,6 +1173,7 @@ protected:
 	*   Kinetics
 	* ---------------------------------------------------------------------- */
 	std::map<int, cxxKinetics> Rxn_kinetics_map;
+	bool use_kinetics_limiter;
 
 	/*----------------------------------------------------------------------
 	*   Save
@@ -1514,6 +1520,7 @@ protected:
 	bool status_on;
 	clock_t status_interval;
 	clock_t status_timer;
+	std::string status_string;
 	int count_warnings;
 
 	/* ----------------------------------------------------------------------
@@ -1521,7 +1528,7 @@ protected:
 	* ---------------------------------------------------------------------- */
 	struct rate *rates;
 	int count_rates;
-	LDBLE rate_m, rate_m0, rate_time, rate_sim_time_start,
+	LDBLE rate_m, rate_m0, rate_time, rate_kin_time, rate_sim_time_start,
 		rate_sim_time_end, rate_sim_time, rate_moles, initial_total_time;
 	std::vector<LDBLE> rate_p;
 	int count_rate_p;

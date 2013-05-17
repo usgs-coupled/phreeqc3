@@ -76,7 +76,11 @@ model(void)
 	debug_model_save = debug_model;
 	pe_step_size_now = pe_step_size;
 	step_size_now = step_size;
+#ifdef NPP
 	if (!use.Get_kinetics_in()) status(0, NULL);
+#else
+	status(0, NULL);
+#endif
 	iterations = 0;
 	count_basis_change = count_infeasible = 0;
 	stop_program = FALSE;
@@ -2562,7 +2566,7 @@ calc_gas_pressures(void)
 	}
 	if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 	{
-		if (PR /*&& gas_unknown->gas_phase->total_p > 1 */ && iterations > 2)
+		if (PR /*&& gas_unknown->gas_phase->total_p > 1 */ && iterations > 0)
 		{
 			calc_PR(phase_ptrs, gas_phase_ptr->Get_total_p(), tk_x, 0);
 		}
@@ -2958,7 +2962,7 @@ reset(void)
 		&& calculating_deriv == FALSE)
 	{
 /*
- *   Don't take out more mineral than is present
+ *   Don`t take out more mineral than is present
  */
 		for (i = 0; i < (int) x.size(); i++)
 		{
@@ -3146,6 +3150,11 @@ reset(void)
 			else if (x[i]->type == AH2O)
 			{
 				down = up;
+				if (pitzer_model || sit_model)
+				  {
+				    up = 0.05;
+				    down = -0.03;
+			}
 			}
 			else if (x[i]->type == MH)
 			{
@@ -4673,9 +4682,9 @@ revise_guesses(void)
 						if (x[i]->moles > 1e101 || x[i]->moles < 1e-101 ||
 							x[i]->sum > 1e101 || x[i]->sum < 1e-101)
 						{
-							double d1 = log10(x[i]->moles);
-							double d2 = log10(x[i]->sum);
-							double d3 = d1 - d2;
+							LDBLE d1 = log10(x[i]->moles);
+							LDBLE d2 = log10(x[i]->sum);
+							LDBLE d3 = d1 - d2;
 							if (d3 > DBL_MAX_10_EXP/2)
 							{
 								d = pow(10.0, DBL_MAX_10_EXP/2.);
@@ -4689,7 +4698,7 @@ revise_guesses(void)
 						{
 							d = fabs(x[i]->moles / x[i]->sum);
 						}
-						double d1;
+						LDBLE d1;
 						if (d > 0)
 						{
 							d1 = weight * log10(d);
@@ -5334,7 +5343,7 @@ numerical_jacobian(void)
 			// avoid overflow
 			if (residual[j] > 1.0e101)
 			{
-				double t = pow(10.0, DBL_MAX_10_EXP - 50.0);
+			  LDBLE t = (LDBLE) pow((LDBLE) 10.0, (LDBLE) (DBL_MAX_10_EXP - 50.0));
 				if (residual[j]  > t)
 				{
 					array[j * ((int) x.size() + 1) + i] = -pow(10.0, DBL_MAX_10_EXP - 50.0);
@@ -5346,7 +5355,7 @@ numerical_jacobian(void)
 			}
 			else if (residual[j] < -1.0e101)
 			{
-				double t = pow(10.0, DBL_MIN_10_EXP + 50.0);
+				LDBLE t = pow((LDBLE) 10.0, (LDBLE) (DBL_MIN_10_EXP + 50.0));
 				if (residual[j]  < -t)
 				{
 					array[j * ((int) x.size() + 1) + i] = pow(10.0, DBL_MIN_10_EXP + 50.0);

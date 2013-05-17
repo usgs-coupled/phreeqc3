@@ -260,7 +260,7 @@ prep(void)
 		else
 		{
 	/*
-	 *   If model is same, just update masses, don't rebuild unknowns and lists
+ *   If model is same, just update masses, don`t rebuild unknowns and lists
 	 */
 			bool setup_ok = quick_setup();
 			if (!setup_ok)
@@ -4642,8 +4642,12 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		B = b_sum * P / R_TK;
 		B_r = phase_ptr->pr_b / b_sum;
 		if (rz > B)
+		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
 				  log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
+			if (phi > 4.44)
+				phi = 4.44;
+		}
 		else
 			phi = -3.0; // fugacity coefficient > 0.05
 		phase_ptr->pr_phi = exp(phi);
@@ -4659,7 +4663,10 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 	}
 	if (gas_phase_ptr && iterations > 2)
 	{
+		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
+		{
 		gas_phase_ptr->Set_total_p(P);
+		}
 		gas_phase_ptr->Set_v_m(V_m);
 		return (OK);
 	}
@@ -4756,6 +4763,8 @@ adjust_setup_pure_phases(void)
 			si_org = comp_ptr->Get_si_org();
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
 			{
+				if (si_org > 3.5)
+					si_org = 3.5;
 				p = exp(si_org * LOG_10);
 				patm_x = p;
 				t = use.Get_solution_ptr()->Get_tc() + 273.15;
@@ -5307,6 +5316,8 @@ adjust_setup_solution(void)
 			phase_ptrs.push_back(phase_ptr);
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
 			{
+				if (x[i]->si > 3.5)
+					x[i]->si = 3.5;
 				p = exp(x[i]->si * LOG_10);
 				patm_x = p;
 				t = use.Get_solution_ptr()->Get_tc() + 273.15;
@@ -5900,7 +5911,7 @@ write_mb_eqn_x(void)
 	struct master *master_ptr;
 /*
  *   Rewrite any secondary master species flagged REWRITE
- *   Don't add in any pe reactions
+ *   Don`t add in any pe reactions
  */
 	count = 0;
 	repeat = TRUE;
@@ -6125,7 +6136,7 @@ calc_delta_v(reaction *r_ptr, bool phase)
 /* ---------------------------------------------------------------------- */
 {
 /* calculate delta_v from molar volumes */
-
+#ifdef TONY
 	int p = -1;
 	LDBLE d_v = 0.0;
 
@@ -6144,6 +6155,41 @@ calc_delta_v(reaction *r_ptr, bool phase)
 			d_v += p * r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
 	}
 	return d_v;
+#else
+//dlp
+	LDBLE d_v = 0.0;
+
+	if (phase)
+	{
+		/* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
+		for (size_t i = 1; r_ptr->token[i].s /*|| r_ptr->token[i].s*/ ; i++)
+		{
+			//if (!r_ptr->token[i].s)
+			//	continue;
+			if (!strcmp(r_ptr->token[i].s->name, "H+"))
+				continue;
+			if (!strcmp(r_ptr->token[i].s->name, "e-"))
+				continue;
+			else if (r_ptr->token[i].s->logk[vm_tc])
+				d_v += r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+		}
+	}
+	else
+	{	
+		for (size_t i = 0; r_ptr->token[i].name /*|| r_ptr->token[i].s*/ ; i++)
+		{
+			if (!r_ptr->token[i].s)
+				continue;
+			if (!strcmp(r_ptr->token[i].s->name, "H+"))
+				continue;
+			if (!strcmp(r_ptr->token[i].s->name, "e-"))
+				continue;
+			else if (r_ptr->token[i].s->logk[vm_tc])
+				d_v += - r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+		}
+	}
+	return d_v;
+#endif
 }
 #ifdef PHREEQC2
 /* ---------------------------------------------------------------------- */

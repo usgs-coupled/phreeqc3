@@ -801,7 +801,8 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			break;
 		case 10:				/* water */
 			{
-				next_char = char_string;
+				//next_char = char_string;
+				//int j = copy_token(token, &next_char); // read identifier "water"
 				int j = copy_token(token, &next_char);
 				if (j == EMPTY)
 				{

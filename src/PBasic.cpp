@@ -1303,6 +1303,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("KIN_DELTA");
 			break;
 
+		case tokkin_time:
+			output_msg("KIN_TIME");
+			break;
+
 		case toks_s:
 			output_msg("S_S");
 			break;
@@ -1830,7 +1834,7 @@ findvar(struct LOC_exec *LINK)
 	long FORLIM;
 
 	if (LINK->t == NULL || LINK->t->kind != tokvar)
-		snerr(": can't find variable");
+		snerr(": can`t find variable");
 	v = LINK->t->UU.vp;
 	LINK->t = LINK->t->next;
 	if (LINK->t == NULL || LINK->t->kind != toklp)
@@ -2221,6 +2225,12 @@ factor(struct LOC_exec * LINK)
 		}
 		break;
 
+	case tokkin_time:
+		{
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rate_kin_time;
+		}
+		break;
+
 	case tokgas:
 		{
 			const char * str = stringfactor(STR1, LINK);
@@ -2470,28 +2480,28 @@ factor(struct LOC_exec * LINK)
 			LINK->t = LINK->t->next;
 			count_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
-				snerr(": can't find variable");
+				snerr(": can`t find variable");
 
 			/* return number of names of species */
 			LINK->t = LINK->t->next;
 			require(tokcomma, LINK);
 			names_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || names_varrec->stringvar != 1)
-				snerr(": can't find name of species");
+				snerr(": can`t find name of species");
 
 			/* return number of types of species */
 			LINK->t = LINK->t->next;
 			require(tokcomma, LINK);
 			types_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || types_varrec->stringvar != 1)
-				snerr(": can't find type of species");
+				snerr(": can`t find type of species");
 
 			/* return number of moles  of species */
 			LINK->t = LINK->t->next;
 			require(tokcomma, LINK);
 			moles_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
-				snerr(": can't find moles of species");
+				snerr(": can`t find moles of species");
 			LINK->t = LINK->t->next;
 			arg_num = 4;
 		}
@@ -3144,7 +3154,7 @@ factor(struct LOC_exec * LINK)
  		break;
 	case toklog10:
 		{
-			double t = realfactor(LINK);
+			LDBLE t = realfactor(LINK);
 			if (t > 0.0)
 			{
 				n.UU.val = log10(t);
@@ -5915,7 +5925,7 @@ P_trimname(register char * fn, register int len)
 	return fnbuf;
 }
 
-/* Pascal's "memavail" doesn't make much sense in Unix with virtual memory.
+/* Pascal's "memavail" doesn`t make much sense in Unix with virtual memory.
    We fix memory size as 10Meg as a reasonable compromise. */
 
 long PBasic::
@@ -5931,7 +5941,7 @@ maxavail(void)
 }
 
 /* Sets are stored as an array of longs.  S[0] is the size of the set;
-   S[N] is the N'th 32-bit chunk of the set.  S[0] equals the maximum
+   S[N] is the n`th 32-bit chunk of the set.  S[0] equals the maximum
    I such that S[I] is nonzero.  S[0] is zero for an empty set.  Within
    each long, bits are packed from lsb to msb.  The first bit of the
    set is the element with ordinal value 0.  (Thus, for a "set of 5..99",
@@ -6464,7 +6474,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gfw",                PBasic::tokgfw),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("soln_vol",           PBasic::toksoln_vol),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi_delta",         PBasic::tokequi_delta),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_time",           PBasic::tokkin_time)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

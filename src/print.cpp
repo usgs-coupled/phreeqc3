@@ -538,7 +538,7 @@ print_gas_phase(void)
 	if (PR)
 		output_msg("          (Peng-Robinson calculation)\n");
 	else if (gas_phase_ptr->Get_total_p() >= 1500)
-		output_msg(" WARNING: Program's limit.\n");
+		output_msg(" WARNING: Program limit.\n");
 	else
 		output_msg(" \n");
 	output_msg(sformatf("    Gas volume: %10.2e liters\n",
@@ -547,7 +547,7 @@ print_gas_phase(void)
 		output_msg(sformatf("  Molar volume: %10.2e liters/mole",
 				    (double) (gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles())));
 	if (!numerical_fixed_volume && ((PR && gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles() <= 0.03) || (PR && gas_phase_ptr->Get_v_m() <= 0.03)))
-		output_msg(" WARNING: Program's limit for Peng-Robinson.\n");
+		output_msg(" WARNING: Program limit for Peng-Robinson.\n");
 	else
 		output_msg("\n");
 	if (PR)
@@ -626,7 +626,7 @@ print_gas_phase(void)
 				   (double) moles,
 				   (double) delta_moles));
 		if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x == 90)
-			output_msg("       WARNING: The pressure of H2O(g) is above program's limit: use the polynomial for log_k.\n");
+			output_msg("       WARNING: The pressure of H2O(g) is above the program limit: use the polynomial for log_k.\n");
 
 	}
 	output_msg("\n");
@@ -1193,8 +1193,10 @@ print_saturation_indices(void)
 			PR_inprint = true;
 			phases[i]->pr_in = false;
 		}
-		reaction_ptr->logk[delta_v] = calc_delta_v(phases[i]->rxn_x, true) -
+		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
 			 phases[i]->logk[vm0];
+		if (reaction_ptr->logk[delta_v])
+				mu_terms_in_logk = true;
 		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		if (PR_inprint)
 			phases[i]->pr_in = true;
@@ -1218,10 +1220,29 @@ print_saturation_indices(void)
 				   phases[i]->name, (double) si, pr_in, (double) iap, (double) lk,
 				   phases[i]->formula));
 		if (gas && phases[i]->pr_in && phases[i]->pr_p)
+		{
+			if (phases[i]->moles_x || state == INITIAL_SOLUTION)
+			{
 			output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
 					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
+			} else 
+			{
+				size_t count_unknowns = x.size();
+				for (int j = 0; j < (int) count_unknowns; j++)
+				{
+					if (x[j]->type != PP)
+						continue;
+					if (!strcmp(x[j]->phase->name, phases[i]->name))
+					{
+						if (x[j]->moles)
+							output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
+								" Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
+						break;
+					}
+				}
+			}
+		}
 		output_msg("\n");
-
 	}
 	output_msg("\n\n");
 
@@ -1278,11 +1299,10 @@ print_pp_assemblage(void)
 		{
 			phase_ptr = x[j]->phase;
 			PR_inprint = false;
-			if (phase_ptr->pr_in)
-			{
-				PR_inprint = true;
-				phase_ptr->pr_in = false;
-			}
+			phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
+				phase_ptr->logk[vm0];
+			if (phase_ptr->rxn->logk[delta_v])
+				mu_terms_in_logk = true;
 			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
 			if (PR_inprint)
 				phase_ptr->pr_in = true;
@@ -2342,6 +2362,7 @@ punch_gas_phase(void)
 	int i;
 	LDBLE p, total_moles, volume;
 	LDBLE moles;
+	bool PR = false;
 
 	if (punch.count_gases <= 0)
 		return (OK);
@@ -2349,20 +2370,34 @@ punch_gas_phase(void)
 	total_moles = 0.0;
 	volume = 0.0;
 	cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
+
 	if (gas_unknown != NULL && use.Get_gas_phase_ptr() != NULL)
 	{
+		if (gas_phase_ptr->Get_v_m() >= 0.01)
+		{
+			PR = true;
+		}
 		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 		{
+			if (gas_unknown->moles >= 1e-12)
+			{
 			gas_phase_ptr->Set_total_moles(gas_unknown->moles);
 			gas_phase_ptr->Set_volume(
 				gas_phase_ptr->Get_total_moles() * R_LITER_ATM * tk_x /
 				gas_phase_ptr->Get_total_p());
+				if (PR)
+				{
+					gas_phase_ptr->Set_volume(gas_phase_ptr->Get_v_m() * gas_unknown->moles);
+		}
+			}
 		}
 		p = gas_phase_ptr->Get_total_p();
 		total_moles = gas_phase_ptr->Get_total_moles();
-		volume = total_moles * R_LITER_ATM * tk_x / gas_phase_ptr->Get_total_p();
- 		if (gas_phase_ptr->Get_v_m() > 0.03) 
- 			volume = 0.03 * gas_phase_ptr->Get_total_moles();
+		//volume = total_moles * R_LITER_ATM * tk_x / gas_phase_ptr->Get_total_p();
+ 		//if (gas_phase_ptr->Get_v_m() > 0.03) 
+ 		//	volume = 0.03 * gas_phase_ptr->Get_total_moles();
+		volume = gas_phase_ptr->Get_volume();
+
 	}
 	if (punch.high_precision == FALSE)
 	{
@@ -2406,7 +2441,6 @@ punch_gas_phase(void)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_ss_assemblage(void)
