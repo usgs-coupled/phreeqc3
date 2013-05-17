@@ -1284,7 +1284,8 @@ print_pp_assemblage(void)
 	{
 		if (x[j]->type != PP)
 			continue;
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);	
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;
 /*
  *   Print saturation index
  */
@@ -1480,7 +1481,8 @@ print_species(void)
 					   (double) ((*species_list)[i].s->lm +
 								 (*species_list)[i].s->lg),
 					   (double) (*species_list)[i].s->lg));
-			if ((*species_list)[i].s->logk[vm_tc] || !strcmp((*species_list)[i].s->name, "H+"))
+			//if ((*species_list)[i].s->logk[vm_tc] || !strcmp((*species_list)[i].s->name, "H+"))
+			if ((*species_list)[i].s->logk[vm_tc] || (*species_list)[i].s == s_hplus)
 				output_msg(sformatf("%10.2f\n",
 					   (double) (*species_list)[i].s->logk[vm_tc]));
 			else
@@ -2646,7 +2648,8 @@ punch_pp_assemblage(void)
 			{
 				if (x.size() == 0 || x[j]->type != PP)
 					continue;
-				cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+				//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
+				cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;
 /*
  *   Print pure phase assemblage data
  */

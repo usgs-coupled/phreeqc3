@@ -372,7 +372,7 @@ quick_setup(void)
 				it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
 				assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
 				cxxPPassemblageComp * comp_ptr = &(it->second);
-
+			x[i]->pp_assemblage_comp_ptr = comp_ptr;
 				x[i]->moles = comp_ptr->Get_moles();
 				/* A. Crapsi */
 				x[i]->si    = comp_ptr->Get_si();
@@ -436,7 +436,9 @@ quick_setup(void)
 			{
 				for (size_t k = 0; k < ss_ptrs[j]->Get_ss_comps().size(); k++)
 				{
+				x[i]->ss_ptr = ss_ptrs[j];
 					cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[k]);
+				x[i]->ss_comp_ptr = comp_ptr;
 					x[i]->moles = comp_ptr->Get_moles();
 					if (x[i]->moles <= 0)
 					{
@@ -505,7 +507,7 @@ quick_setup(void)
 					/* moles picked up from master->total */
 				}
 				else if (x[i]->type == SURFACE_CB1 || x[i]->type == SURFACE_CB2)
-				{
+			{				
 					cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
 					x[i]->related_moles = charge_ptr->Get_grams();
 					x[i]->mass_water = charge_ptr->Get_mass_water();
@@ -838,7 +840,8 @@ build_ss_assemblage(void)
 	{
 		if (x[i]->type != SS_MOLES)
 			continue;
-		cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
 		assert(ss_ptr);
 		if (ss_ptr != ss_ptr_old)
 		{
@@ -1129,7 +1132,8 @@ build_jacobian_sums(int k)
 				{
 					if (x[kk]->type != PP)
 						continue;
-					if (x[kk]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+					//if (x[kk]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+					if (strcmp_nocase(x[kk]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
 						break;
 				}
 
@@ -1187,7 +1191,8 @@ build_jacobian_sums(int k)
 						{
 							if (x[kk]->type != PP)
 								continue;
-							if (x[kk]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+							//if (x[kk]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+							if (strcmp_nocase(x[kk]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
 								break;
 						}
 						if (kk >= 0)
@@ -1681,7 +1686,8 @@ build_pure_phases(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 		if (comp_ptr->Get_add_formula().size() > 0)
 		{
 			char * char_name = string_duplicate(comp_ptr->Get_add_formula().c_str());
@@ -2024,17 +2030,20 @@ clear(void)
 /*
  *   Clear master species solution-dependent data
  */
+	const char * pe_str = string_hsave("pe");
 	for (i = 0; i < count_master; i++)
 	{
 		master[i]->in = FALSE;
 		master[i]->unknown = NULL;
 		if (solution_ptr->Get_initial_data())
 		{
-			master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
+			//master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
+			master[i]->pe_rxn = solution_ptr->Get_initial_data()->Get_default_pe();
 		}
 		else
 		{
-			master[i]->pe_rxn = string_hsave("pe");
+			//master[i]->pe_rxn = string_hsave("pe");
+			master[i]->pe_rxn = pe_str;
 		}
 /*
  *   copy primary reaction to secondary reaction
@@ -2123,7 +2132,8 @@ clear_model_eqn(void)
 		master[i]->unknown = NULL;
 		if (solution_ptr->Get_initial_data())
 		{
-			master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
+			//master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
+			master[i]->pe_rxn = solution_ptr->Get_initial_data()->Get_default_pe();
 		}
 		else
 		{
@@ -3695,7 +3705,9 @@ setup_ss_assemblage(void)
 			comp_ptr->Set_initial_moles(x[count_unknowns]->moles);
 			x[count_unknowns]->ln_moles = log(x[count_unknowns]->moles);
 			x[count_unknowns]->ss_name = string_hsave(ss_ptrs[j]->Get_name().c_str());
+			x[count_unknowns]->ss_ptr =  ss_ptrs[j];
 			x[count_unknowns]->ss_comp_name = string_hsave(comp_ptr->Get_name().c_str());
+			x[count_unknowns]->ss_comp_ptr = comp_ptr;
 			x[count_unknowns]->ss_comp_number = (int) i;
 			x[count_unknowns]->phase = phase_ptr;
 			x[count_unknowns]->number = count_unknowns;
@@ -4501,6 +4513,7 @@ setup_pure_phases(void)
 		x[count_unknowns]->type = PP;
 		x[count_unknowns]->description = string_hsave(comp_ptr->Get_name().c_str());
 		x[count_unknowns]->pp_assemblage_comp_name = x[count_unknowns]->description;
+		x[count_unknowns]->pp_assemblage_comp_ptr = comp_ptr;
 		x[count_unknowns]->moles = comp_ptr->Get_moles();
 		x[count_unknowns]->phase = phase_ptr;
 		x[count_unknowns]->si = comp_ptr->Get_si();
@@ -4541,7 +4554,8 @@ adjust_setup_pure_phases(void)
 		{
 			phase_ptr = x[i]->phase;
 			phase_ptrs.push_back(phase_ptr);
-			cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[i]->pp_assemblage_comp_ptr;
 			si_org = comp_ptr->Get_si_org();
 			if (phase_ptr->p_c > 0 && phase_ptr->t_c > 0)
 			{
@@ -5914,26 +5928,6 @@ calc_delta_v(reaction *r_ptr, bool phase)
 /* ---------------------------------------------------------------------- */
 {
 /* calculate delta_v from molar volumes */
-#ifdef TONY
-	int p = -1;
-	LDBLE d_v = 0.0;
-
-	if (phase)
-		p = 1; /* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
-
-	for (size_t i = 0; r_ptr->token[i].name; i++)
-	{
-		if (!r_ptr->token[i].s)
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "H+"))
-			continue;
-		if (!strcmp(r_ptr->token[i].s->name, "e-"))
-			continue;
-		else if (r_ptr->token[i].s->logk[vm_tc])
-			d_v += p * r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
-	}
-	return d_v;
-#else
 //dlp
 	LDBLE d_v = 0.0;
 
@@ -5944,11 +5938,11 @@ calc_delta_v(reaction *r_ptr, bool phase)
 		{
 			//if (!r_ptr->token[i].s)
 			//	continue;
-			if (!strcmp(r_ptr->token[i].s->name, "H+"))
-				continue;
-			if (!strcmp(r_ptr->token[i].s->name, "e-"))
-				continue;
-			else if (r_ptr->token[i].s->logk[vm_tc])
+			//if (!strcmp(r_ptr->token[i].s->name, "H+"))
+			//	continue;
+			//if (!strcmp(r_ptr->token[i].s->name, "e-"))
+			//	continue;
+			//else if (r_ptr->token[i].s->logk[vm_tc])
 				d_v += r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
 		}
 	}
@@ -5958,16 +5952,15 @@ calc_delta_v(reaction *r_ptr, bool phase)
 		{
 			if (!r_ptr->token[i].s)
 				continue;
-			if (!strcmp(r_ptr->token[i].s->name, "H+"))
-				continue;
-			if (!strcmp(r_ptr->token[i].s->name, "e-"))
-				continue;
-			else if (r_ptr->token[i].s->logk[vm_tc])
-				d_v += - r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
+			//if (!strcmp(r_ptr->token[i].s->name, "H+"))
+			//	continue;
+			//if (!strcmp(r_ptr->token[i].s->name, "e-"))
+			//	continue;
+			//else if (r_ptr->token[i].s->logk[vm_tc])
+			d_v -= r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
 		}
 	}
 	return d_v;
-#endif
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -5996,11 +5989,14 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 		if (!r_ptr->token[i].s)
 			continue;
 		s_ptr = r_ptr->token[i].s;
-		if (!strcmp(s_ptr->name, "H+"))
+		//if (!strcmp(s_ptr->name, "H+"))
+		if (s_ptr == s_hplus)
 			continue;
-		if (!strcmp(s_ptr->name, "e-"))
+		//if (!strcmp(s_ptr->name, "e-"))
+		if (s_ptr == s_eminus)
 			continue;
-		if (!strcmp(s_ptr->name, "H2O"))
+		//if (!strcmp(s_ptr->name, "H2O"))
+		if (s_ptr == s_h2o)
 		{
 			d_v += r_ptr->token[i].coef * 18.016 / calc_rho_0(tc, pa);
 			continue;
@@ -6082,7 +6078,8 @@ calc_vm(LDBLE tc, LDBLE pa)
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
 	for (int i = 0; i < (int) s_x.size(); i++)
 	{
-		if (!strcmp(s_x[i]->name, "H2O"))
+		//if (!strcmp(s_x[i]->name, "H2O"))
+		if (s_x[i] == s_h2o)
 		{
 			s_x[i]->logk[vm_tc] = 18.016 / rho_0;
 			continue;
@@ -6682,7 +6679,8 @@ build_min_exch(void)
 		{
 			if (x[k]->type != PP)
 				continue;
-			if (x[k]->phase->name == string_hsave(comp_ref.Get_phase_name().c_str()))
+			//if (x[k]->phase->name == string_hsave(comp_ref.Get_phase_name().c_str()))
+			if (strcmp_nocase(x[k]->phase->name, comp_ref.Get_phase_name().c_str()) == 0)
 				break;
 		}
 		if (j == -1)
@@ -6812,7 +6810,8 @@ build_min_surface(void)
 		{
 			if (x[k]->type != PP)
 				continue;
-			if (x[k]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+			//if (x[k]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+			if (strcmp_nocase(x[k]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
 				break;
 		}
 		if (j == -1)
@@ -6939,7 +6938,8 @@ setup_related_surface(void)
 				{
 					if (x[k]->type != PP)
 						continue;
-					if (x[k]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+					//if (x[k]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
+					if (strcmp_nocase(x[k]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
 						break;
 				}
 				if (k == -1)
@@ -6962,7 +6962,8 @@ setup_related_surface(void)
 				{
 					if (x[k]->type != PP)
 						continue;
-					if (x[k]->phase->name == string_hsave(comp_i_ptr->Get_phase_name().c_str()))
+					//if (x[k]->phase->name == string_hsave(comp_i_ptr->Get_phase_name().c_str()))
+					if (strcmp_nocase(x[k]->phase->name, comp_i_ptr->Get_phase_name().c_str()) == 0)
 						break;
 				}
 				if (k == -1)

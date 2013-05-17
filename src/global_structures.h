@@ -809,8 +809,11 @@ struct unknown
 	struct species *s;
 	const char * exch_comp;
 	const char *pp_assemblage_comp_name;
+	void *pp_assemblage_comp_ptr; 
 	const char * ss_name;
+	void *ss_ptr; 
 	const char * ss_comp_name;
+	void *ss_comp_ptr;
 	int ss_comp_number;
 	int ss_in;
 	const char *surface_comp;

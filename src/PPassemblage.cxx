@@ -281,7 +281,7 @@ cxxPPassemblage::add(const cxxPPassemblage & addee, LDBLE extensive)
 	//cxxNameDouble eltList;
 	this->eltList.add_extensive(addee.eltList, extensive);
 }
-
+#ifdef SKIP
 cxxPPassemblageComp * cxxPPassemblage::
 Find(const std::string name_in)
 {
@@ -303,6 +303,24 @@ Find(const std::string name_in)
 	}
 	return comp;
 }
+#endif
+cxxPPassemblageComp * cxxPPassemblage::
+Find(const std::string name_in)
+{
+	cxxPPassemblageComp * comp = NULL;
+	std::map<std::string, cxxPPassemblageComp>::iterator it;
+	it = this->pp_assemblage_comps.begin();
+	for ( ; it != this->pp_assemblage_comps.end(); it++)
+	{
+		if (Utilities::strcmp_nocase(name_in.c_str(), it->first.c_str()) == 0)
+		{
+			comp = &it->second;
+			break;
+		}
+	}
+	return comp;
+}
+
 const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("eltlist"),	        // 0
 	std::vector< std::string >::value_type("component"),	    // 1

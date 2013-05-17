@@ -115,7 +115,6 @@ Copy_from_phreeqc(void)
 	solution_phase_boundary_unknown_ME = phreeqc_ptr->solution_phase_boundary_unknown;
 	surface_unknown_ME		           = phreeqc_ptr->surface_unknown;
 	gas_unknown_ME			           = phreeqc_ptr->gas_unknown;
-	slack_unknown_ME		           = phreeqc_ptr->slack_unknown;
 	ss_unknown_ME			           = phreeqc_ptr->ss_unknown;
 	gas_unknowns_ME                    = phreeqc_ptr->gas_unknowns;
 
@@ -181,8 +180,7 @@ Copy_to_phreeqc(void)
 	phreeqc_ptr->pure_phase_unknown	             = pure_phase_unknown_ME;		     
 	phreeqc_ptr->solution_phase_boundary_unknown = solution_phase_boundary_unknown_ME; 
 	phreeqc_ptr->surface_unknown	             = surface_unknown_ME;		     
-	phreeqc_ptr->gas_unknown	                 = gas_unknown_ME;			
-	phreeqc_ptr->slack_unknown	                 = slack_unknown_ME;		     
+	phreeqc_ptr->gas_unknown	                 = gas_unknown_ME;			     
 	phreeqc_ptr->ss_unknown	                     = ss_unknown_ME;			     
 	phreeqc_ptr->gas_unknowns	                 = gas_unknowns_ME;                    
 

@@ -407,7 +407,8 @@ check_residuals(void)
 		else if (x[i]->type == PP)
 		{
 			cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-			cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			if (comp_ptr->Get_add_formula().size() == 0)
 			{
 				if (x[i]->dissolve_only == TRUE)
@@ -930,11 +931,13 @@ ineq(int in_kode)
 
 			if (x[i]->type == PP)
 			{
-				std::map<std::string, cxxPPassemblageComp>::iterator it;
-				it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
-				assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
+				//std::map<std::string, cxxPPassemblageComp>::iterator it;
+				//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+				//assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
+				cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 				if (residual[i] > 0e-8 && x[i]->moles > 0 &&
-					it->second.Get_add_formula().size() == 0
+					//it->second.Get_add_formula().size() == 0
+					comp_ptr->Get_add_formula().size() == 0
 					&& x[i]->dissolve_only == FALSE)
 				{
 					/*
@@ -1118,22 +1121,27 @@ ineq(int in_kode)
  */
 		if (x[i]->type == PP)
 		{
-			std::map<std::string, cxxPPassemblageComp>::iterator it;
-			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			//std::map<std::string, cxxPPassemblageComp>::iterator it;
+			//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			
 			/* not in model, ignore */
 			if (x[i]->phase->in == FALSE)
-				continue;
-			if (it->second.Get_force_equality())
+				continue;		
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
+			//if (it->second.Get_force_equality())
+			if (comp_ptr->Get_force_equality())
 				continue;
 			/*   Undersaturated and no mass, ignore */
 			//if (x[i]->f > 1e-14/*0e-8*/ && x[i]->moles <= 0
 			if (x[i]->f > 0e-8 && x[i]->moles <= 0
-				&& it->second.Get_add_formula().size() == 0)
+				//&& it->second.Get_add_formula().size() == 0)
+					&& comp_ptr->Get_add_formula().size() == 0)
 			{
 				continue;
 			}
 			else if (x[i]->f < 0e-8 && x[i]->dissolve_only == TRUE
-					 && (x[i]->moles - it->second.Get_initial_moles() >= 0))
+					 //&& (x[i]->moles - it->second.Get_initial_moles() >= 0))
+					 && (x[i]->moles - comp_ptr->Get_initial_moles() >= 0))
 			{
 				continue;
 			}
@@ -1144,7 +1152,8 @@ ineq(int in_kode)
 					   (void *) &(array[i * ((int) x.size() + 1)]),
 					   (size_t) ((int) x.size() + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
-				if (it->second.Get_add_formula().size() == 0
+				//if (it->second.Get_add_formula().size() == 0
+				if (comp_ptr->Get_add_formula().size() == 0
 					&& x[i]->dissolve_only == FALSE)
 				{
 					res[l_count_rows] = 1.0;
@@ -1223,7 +1232,8 @@ ineq(int in_kode)
 		cxxPPassemblageComp *comp_ptr1 = NULL;
 		if (x[i]->type == PP)
 		{
-			comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 		}
 		if (x[i]->type == SURFACE && x[i]->phase_unknown != NULL)
 		{
@@ -1314,7 +1324,8 @@ ineq(int in_kode)
 		{
 			if (x[i]->type == PP)
 			{
-				comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+				//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+				comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 				/* not in model, ignore */
 				if (x[i]->phase->in == FALSE)
 					continue;
@@ -1410,7 +1421,8 @@ ineq(int in_kode)
 		{
 			if (x[i]->type == PP)
 			{
-				comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+				//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);			
+				comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 				if ((x[i]->moles <= 0.0 && x[i]->f > 0e-8 &&
 					 comp_ptr->Get_add_formula().size() == 0)
 					|| x[i]->phase->in == FALSE)
@@ -2224,12 +2236,223 @@ mb_ss(void)
 	{
 		if (x[i]->type != SS_MOLES)
 			break;
-		cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+		cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
 		x[i]->ss_in = ss_ptr->Get_ss_in() ? TRUE : FALSE;
 	}
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+molalities(int allow_overflow)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Calculates la for master species
+ *   Calculates lm and moles from lk, lg, and la's of master species
+ *   Adjusts lm of h2 and o2.
+ */
+	int i, j;
+	LDBLE total_g;
+	struct rxn_token *rxn_ptr;
+/*
+ *   la for master species
+ */
+	/*
+	for (i = 0; i < count_master; i++)
+	{
+		if (master[i]->in == REWRITE)
+		{
+			master[i]->s->la = master[i]->s->lm + master[i]->s->lg;
+		}
+	}
+	*/
+	for (i = 0; i < (int) master_x.size(); i++)
+	{
+		if (master_x[i]->in == REWRITE)
+		{
+			master_x[i]->s->la = master_x[i]->s->lm + master_x[i]->s->lg;
+		}
+	}
+	if (dl_type_x != cxxSurface::NO_DL)
+	{
+		s_h2o->tot_g_moles = s_h2o->moles;
+		s_h2o->tot_dh2o_moles = 0.0;
+	}
+	for (i = 0; i < (int) s_x.size(); i++)
+	{
+		if (s_x[i]->type > HPLUS && s_x[i]->type != EX
+			&& s_x[i]->type != SURF)
+			continue;
+/*
+ *   lm and moles for all aqueous species
+ */
+		s_x[i]->lm = s_x[i]->lk - s_x[i]->lg;
+		for (rxn_ptr = s_x[i]->rxn_x->token + 1; rxn_ptr->s != NULL;
+			 rxn_ptr++)
+		{
+			s_x[i]->lm += rxn_ptr->s->la * rxn_ptr->coef;
+			/*
+			if (isnan(rxn_ptr->s->la))
+			{
+				fprintf(stderr,"molalities la %s %e\n", rxn_ptr->s->name, rxn_ptr->s->la);
+			}
+			*/
+		}
+		if (s_x[i]->type == EX)
+		{
+			s_x[i]->moles = Utilities::safe_exp(s_x[i]->lm * LOG_10);
 
+		}
+		else if (s_x[i]->type == SURF)
+		{
+			s_x[i]->moles = Utilities::safe_exp(s_x[i]->lm * LOG_10);
+
+		}
+		else
+		{
+			s_x[i]->moles = under(s_x[i]->lm) * mass_water_aq_x;
+			if (s_x[i]->moles / mass_water_aq_x > 100)
+			{
+				log_msg(sformatf( "Overflow: %s\t%e\t%e\t%d\n",
+						   s_x[i]->name,
+						   (double) (s_x[i]->moles / mass_water_aq_x),
+						   (double) s_x[i]->lm, iterations));
+
+				if (iterations >= 0 && allow_overflow == FALSE)
+				{
+					return (ERROR);
+				}
+			}
+
+		}
+	}
+/*
+ *   other terms for diffuse layer model
+ */
+	if (use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC
+		&& dl_type_x != cxxSurface::NO_DL)
+		calc_all_donnan();
+
+	for (i = 0; i < (int) s_x.size(); i++)
+	{
+		struct species *s_ptr = s_x[i];
+		if (s_ptr->type > HPLUS && s_ptr->type != EX && s_ptr->type != SURF)
+			continue;
+		if (use.Get_surface_ptr() != NULL && dl_type_x != cxxSurface::NO_DL	&& s_ptr->type <= HPLUS)
+		{
+			total_g = 0.0;
+			s_ptr->tot_dh2o_moles = 0.0;
+			for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+			{
+				//int is = s_ptr->number;
+				//cxxSurfaceCharge & charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+				cxxSurfaceCharge & charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+				cxxSpeciesDL & dl_ref = (*s_diff_layer)[s_ptr->number][charge_ref.Get_name()];
+				cxxSurfDL & surf_dl_ref = charge_ref.Get_g_map()[s_ptr->z];
+
+				//(*s_diff_layer)[is][charge_ref.Get_name()] = dl_ref
+				//charge_ref.Get_g_map()[s_ptr->z] = surf_dl
+/*
+ *   partially corrected formulation assumes mass of water in diffuse layer
+ *   is insignificant. Excess is calculated on the basis of moles_water_aq_x
+ *   instead of moles_water_bulk.
+ */
+				/* revised eq. 61 */
+				dl_ref.Set_g_moles(s_ptr->moles * s_ptr->erm_ddl *
+					(surf_dl_ref.Get_g() + charge_ref.Get_mass_water() / mass_water_aq_x));
+				if (s_ptr->moles > 1e-30)
+				{
+					dl_ref.Set_dg_g_moles(s_ptr->dg * dl_ref.Get_g_moles() /
+						s_ptr->moles);
+				}
+
+				/*
+				 *  first term of 63 is summed for all surfaces in
+				 *  s_ptr->tot_g_moles. This sum is then used in
+				 *  the jacobian for species i
+				 */
+				total_g += surf_dl_ref.Get_g() + charge_ref.Get_mass_water() / mass_water_aq_x;
+				/* revised eq. 63, second term */
+				/* g.dg is dg/dx(-2y**2) or dg/d(ln y) */
+				dl_ref.Set_dx_moles(s_ptr->moles * s_ptr->erm_ddl *	surf_dl_ref.Get_dg());
+				/* revised eq. 63, third term */
+				dl_ref.Set_dh2o_moles(-s_ptr->moles * s_ptr->erm_ddl *
+					charge_ref.Get_mass_water() / mass_water_aq_x);
+				s_ptr->tot_dh2o_moles += dl_ref.Get_dh2o_moles();
+
+				/* surface related to phase */
+				dl_ref.Set_drelated_moles(s_ptr->moles * s_ptr->erm_ddl * charge_ref.Get_specific_area() *
+					use.Get_surface_ptr()->Get_thickness() / mass_water_aq_x);
+			}
+			s_ptr->tot_g_moles = s_ptr->moles * (1 + total_g /* s_ptr->erm_ddl */ );
+
+			/* note that dg is for cb, act water, mu eqns */
+			/* dg_total_g for mole balance eqns */
+			/* dg_g_moles for surface cb */
+
+			if (s_ptr->moles > 1e-30)
+			{
+				s_ptr->dg_total_g =	s_ptr->dg * s_ptr->tot_g_moles / s_ptr->moles;
+			}
+			else
+			{
+				s_ptr->dg_total_g = 0.0;
+			}
+			if (debug_diffuse_layer == TRUE)
+			{
+				output_msg(sformatf( "%s\t%e\t%e\n", s_ptr->name,
+						   (double) s_ptr->moles,
+						   (double) s_ptr->tot_g_moles));
+				output_msg(sformatf( "\tg\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					output_msg(sformatf( "\t%e",
+							   (double) charge_ref.Get_g_map()[s_ptr->z].Get_g()));
+				}
+				output_msg(sformatf( "\n\tg_moles\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					int is = s_ptr->number;
+					output_msg(sformatf( "\t%e",
+						(double) (*s_diff_layer)[is][charge_ref.Get_name()].Get_g_moles()));
+				}
+				output_msg(sformatf( "\n\tdg\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					output_msg(sformatf( "\t%e",
+							   (double) charge_ref.Get_g_map()[s_ptr->z].Get_dg()));
+				}
+				output_msg(sformatf( "\n\tdx_moles\n"));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					int is = s_ptr->number;
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					output_msg(sformatf( "\t%e",
+						(double) (*s_diff_layer)[is][charge_ref.Get_name()].Get_dx_moles()));
+				}
+				output_msg(sformatf( "\n\tdh2o_moles\t%e\n",
+						   (double) s_ptr->tot_dh2o_moles));
+				for (j = 0; j < (int) use.Get_surface_ptr()->Get_surface_charges().size(); j++)
+				{
+					cxxSurfaceCharge &charge_ref = use.Get_surface_ptr()->Get_surface_charges()[j];
+					int is = s_ptr->number;
+					output_msg(sformatf( "\t%e",
+						(*s_diff_layer)[is][charge_ref.Get_name()].Get_dh2o_moles()));
+				}
+				output_msg(sformatf( "\n"));
+			}
+		}
+	}
+	calc_gas_pressures();
+	calc_ss_fractions();
+
+	return (OK);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 molalities(int allow_overflow)
@@ -2448,6 +2671,7 @@ molalities(int allow_overflow)
 
 	return (OK);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 calc_gas_pressures(void)
@@ -2909,7 +3133,8 @@ reset(void)
 				if (x[i]->dissolve_only == TRUE)
 				{
 					assert (x[i]->type == PP);
-					comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+					//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+					comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 					assert(comp_ptr);
 					if ((delta[i] < 0.0)
 						&& (-delta[i] >
@@ -3506,7 +3731,8 @@ reset(void)
 		}
 		else if (x[i]->type == PP)
 		{
-			comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			/*if (fabs(delta[i]) > epsilon) converge=FALSE; */
 			if (debug_model == TRUE)
 			{
@@ -3590,8 +3816,10 @@ reset(void)
 			x[i]->moles -= delta[i];
 			if (x[i]->moles < MIN_TOTAL_SS && calculating_deriv == FALSE)
 				x[i]->moles = MIN_TOTAL_SS;
-			cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
-			cxxSScomp *comp_ptr = ss_ptr->Find(x[i]->ss_comp_name);
+			//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
+			cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
+			//cxxSScomp *comp_ptr = ss_ptr->Find(x[i]->ss_comp_name);
+			cxxSScomp *comp_ptr = (cxxSScomp *) x[i]->ss_comp_ptr;
 			comp_ptr->Set_moles(x[i]->moles);
 /*   Pitzer gamma */
 		}
@@ -3848,7 +4076,8 @@ residuals(void)
 		}
 		else if (x[i]->type == PP)
 		{
-			cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			residual[i] = x[i]->f * LOG_10;
 			if (comp_ptr->Get_add_formula().size() == 0)
 			{
@@ -5439,7 +5668,8 @@ set_inert_moles(void)
 	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP) continue;
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[j]->pp_assemblage_comp_ptr;
 		if (comp_ptr->Get_precipitate_only())
 		{
 			x[j]->inert_moles = x[j]->moles;
@@ -5458,7 +5688,8 @@ unset_inert_moles()
 	for (j = 0; j < (int) x.size(); j++)
 	{
 		if (x[j]->type != PP) continue;
-		cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name); 		
+		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[j]->pp_assemblage_comp_ptr;
 		if (comp_ptr->Get_precipitate_only())
 		{
 			x[j]->moles += x[j]->inert_moles;
