@@ -169,7 +169,6 @@ tidy_model(void)
 		phases[i]->pr_p = 0.0;
 		phases[i]->pr_phi = 1.0;
 	}
-
 	/* named_log_k */
 	if (new_named_logk)
 	{
@@ -241,13 +240,7 @@ tidy_model(void)
 	if (new_exchange)
 	{
 		tidy_exchange();
-	}
-	if (new_exchange)
-	{
 		tidy_min_exchange();
-	}
-	if (new_exchange)
-	{
 		tidy_kin_exchange();
 	}
 /*
@@ -256,9 +249,6 @@ tidy_model(void)
 	if (new_surface)
 	{
 		tidy_min_surface();
-	}
-	if (new_surface)
-	{
 		tidy_kin_surface();
 	}
 /*
@@ -271,9 +261,6 @@ tidy_model(void)
 	if (new_model)
 	{
 		tidy_isotope_ratios();
-	}
-	if (new_model)
-	{
 		tidy_isotope_alphas();
 	}
 /*
@@ -328,84 +315,87 @@ tidy_model(void)
 /*
  *   make sure essential species are defined
  */
-	if (s_h2o == NULL)
+	if (new_model)
 	{
-		input_error++;
-		error_msg("H2O not defined.", STOP);
-	}
-	if (s_h2o->primary == NULL)
-	{
-		input_error++;
-		error_msg("H2O, primary master species for O, not defined.",
-				  CONTINUE);
-	}
-	if (s_h2o->secondary == NULL)
-	{
-		input_error++;
-		error_msg("H2O, secondary master species for O(-2), not defined.",
-				  CONTINUE);
-	}
-	if (s_hplus == NULL && s_h3oplus == NULL)
-	{
-		input_error++;
-		error_msg("Neither H+ nor H3O+ are defined in solution_species.",
-				  STOP);
-	}
-	else if (s_hplus == NULL && s_h3oplus != NULL)
-	{
-		s_hplus = s_h3oplus;
-		s_h3oplus = NULL;
-	}
-	else if (s_hplus != NULL && s_h3oplus == NULL)
-	{
-	}
-	else if (s_hplus != NULL && s_h3oplus != NULL)
-	{
-		input_error++;
-		error_msg("Cannot define both H+ and H3O+ in solution_species.",
-				  STOP);
-	}
-	if (s_hplus->primary == NULL)
-	{
-		input_error++;
-		error_msg("H3O+, primary master species for H, not defined.",
-				  CONTINUE);
-	}
-	if (s_hplus->secondary == NULL)
-	{
-		input_error++;
-		error_msg("H3O+, secondary master species for H(1), not defined.",
-				  CONTINUE);
-	}
-	if (s_eminus == NULL)
-	{
-		input_error++;
-		error_msg("e- not defined in solution_species.", CONTINUE);
-	}
-	if (s_eminus->primary == NULL)
-	{
-		input_error++;
-		error_msg("e-, primary master species for E-, not defined.",
-				  CONTINUE);
-	}
-	if (pitzer_model == FALSE || pitzer_pe == TRUE)
-	{
-		if (s_h2 == NULL)
+		if (s_h2o == NULL)
 		{
 			input_error++;
-			error_msg("H2(aq) not defined in solution_species.", CONTINUE);
+			error_msg("H2O not defined.", STOP);
 		}
-		if (s_o2 == NULL)
+		if (s_h2o->primary == NULL)
 		{
 			input_error++;
-			error_msg("O2(aq) not defined in solution_species.", CONTINUE);
+			error_msg("H2O, primary master species for O, not defined.",
+				CONTINUE);
 		}
-	}
-	element_h_one = element_store("H(1)");
-	if (element_h_one == NULL)
-	{
-		input_error++;
-		error_msg("H(1) not defined in solution_master_species.", CONTINUE);
+		if (s_h2o->secondary == NULL)
+		{
+			input_error++;
+			error_msg("H2O, secondary master species for O(-2), not defined.",
+				CONTINUE);
+		}
+		if (s_hplus == NULL && s_h3oplus == NULL)
+		{
+			input_error++;
+			error_msg("Neither H+ nor H3O+ are defined in solution_species.",
+				STOP);
+		}
+		else if (s_hplus == NULL && s_h3oplus != NULL)
+		{
+			s_hplus = s_h3oplus;
+			s_h3oplus = NULL;
+		}
+		else if (s_hplus != NULL && s_h3oplus == NULL)
+		{
+		}
+		else if (s_hplus != NULL && s_h3oplus != NULL)
+		{
+			input_error++;
+			error_msg("Cannot define both H+ and H3O+ in solution_species.",
+				STOP);
+		}
+		if (s_hplus->primary == NULL)
+		{
+			input_error++;
+			error_msg("H3O+, primary master species for H, not defined.",
+				CONTINUE);
+		}
+		if (s_hplus->secondary == NULL)
+		{
+			input_error++;
+			error_msg("H3O+, secondary master species for H(1), not defined.",
+				CONTINUE);
+		}
+		if (s_eminus == NULL)
+		{
+			input_error++;
+			error_msg("e- not defined in solution_species.", CONTINUE);
+		}
+		if (s_eminus->primary == NULL)
+		{
+			input_error++;
+			error_msg("e-, primary master species for E-, not defined.",
+				CONTINUE);
+		}
+		if (pitzer_model == FALSE || pitzer_pe == TRUE)
+		{
+			if (s_h2 == NULL)
+			{
+				input_error++;
+				error_msg("H2(aq) not defined in solution_species.", CONTINUE);
+			}
+			if (s_o2 == NULL)
+			{
+				input_error++;
+				error_msg("O2(aq) not defined in solution_species.", CONTINUE);
+			}
+		}
+		element_h_one = element_store("H(1)");
+		if (element_h_one == NULL)
+		{
+			input_error++;
+			error_msg("H(1) not defined in solution_master_species.", CONTINUE);
+		}
 	}
 /*
  *   Error check, program termination
