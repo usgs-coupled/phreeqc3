@@ -42,8 +42,11 @@ public:
 	std::set < int > & Get_reaction(void)		{ return(this->binList.Get_reaction().Get_numbers()); };
 	std::set < int > & Get_temperature(void)	{ return(this->binList.Get_temperature().Get_numbers()); };
 	std::set < int > & Get_pressure(void)		{ return(this->binList.Get_pressure().Get_numbers()); };
-	bool Get_on(void)							{return this->on;};
-	void Set_on(bool tf)						{this->on = tf;};
+	bool Get_on(void)							{ return this->on; };
+	void Set_on(bool tf)						{ this->on = tf; };
+
+	StorageBinList & Get_StorageBinList(void)   { return this->binList; };
+	void Set_StorageBinList(StorageBinList sbl) { this->binList = sbl; };
 protected:
 	std::string file_name;
 	bool append;
