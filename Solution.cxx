@@ -967,7 +967,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			cxxNameDouble::iterator jit = simple_this_totals.find(it->first);
 			if (jit != simple_this_totals.end())
 			{
-				if (it->second != 0)
+				if (it->second > 0 && jit->second > 0.0)
 				{
 					LDBLE f = jit->second / it->second;
 					if (f != 1)
