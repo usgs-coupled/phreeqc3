@@ -1,0 +1,23 @@
+DATABASE ../database/phreeqc.dat
+solution 1
+Na 10
+Cl 10
+pH 7 charge
+END 
+exchange 1
+CaX2 1
+END 
+run_cells
+-cells 1
+end
+ 
+solution_modify 1
+-totals
+Ca 0 # works with Ca 1e-100
+Cl 0
+END 
+KNOBS
+#-debug_model
+-debug_set
+run_cells
+-cells 1

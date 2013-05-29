@@ -169,6 +169,7 @@ all: alkalinity.out \
 	user_print.out \
 	using.out \
 	zn.test.out \
+	zero_modify.out \
 	ex1.out \
 	ex2.out \
 	ex3.out \
