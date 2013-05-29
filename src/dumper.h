@@ -46,6 +46,7 @@ public:
 	void Set_on(bool tf)						{ this->on = tf; };
 
 	StorageBinList & Get_StorageBinList(void)   { return this->binList; };
+	const StorageBinList & Get_StorageBinList(void)const   { return this->binList; };
 	void Set_StorageBinList(StorageBinList sbl) { this->binList = sbl; };
 protected:
 	std::string file_name;
