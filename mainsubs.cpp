@@ -631,6 +631,13 @@ initial_solutions(int print)
 			punch_all();
 			print_all();
 			/* free_model_allocs(); */
+// remove pr_in
+			for (int i = 0; i < count_unknowns; i++)
+			{
+				if (x[i]->type == SOLUTION_PHASE_BOUNDARY)
+					x[i]->phase->pr_in = false;
+			}
+
 			if (converge == ERROR || converge1 == ERROR)
 			{
 				error_msg("Model failed to converge for initial solution.",
@@ -1090,6 +1097,27 @@ reactions(void)
 	saver();
 
 	/* free_model_allocs(); */
+//// set pr_in to false for following steps...
+//	if (use.Get_pp_assemblage_in())
+//	{
+//		for (int i = 0; i < count_unknowns; i++)
+//		{
+//			if (x[i]->type == PP)
+//				x[i]->phase->pr_in = false;
+//		}
+//	}
+//	if (use.Get_gas_phase_in())
+//	{
+//		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
+//		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+//		{	
+//			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+//			int k;
+//			struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+//			assert(phase_ptr);
+//			phase_ptr->pr_in = false;
+//		}
+//	}
 	/* last_model.force_prep = TRUE; */
 	return (OK);
 }
@@ -2298,12 +2326,6 @@ run_simulations(void)
 			if (new_solution)
 			{
 				initial_solutions(TRUE);
-/* For further printout, remove Peng-Robinson equilibration (if done) */
-				for (int i = 0; i < count_phases; i++)
-				{
-					if (phases[i]->pr_in)
-						(phases[i]->pr_in) = FALSE;
-				}
 			}
 
 /*
