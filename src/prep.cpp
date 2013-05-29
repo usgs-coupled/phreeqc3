@@ -3825,7 +3825,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			kk = 0.37464 + oo * (1.54226 - 0.26992 * oo);
 			phase_ptr->pr_alpha = pow(1 + kk * (1 - sqrt(T_r)), 2);
 			phase_ptr->pr_tk = TK;
-			phase_ptr->pr_in = true;
+//			phase_ptr->pr_in = true;
 		}
 		if (phase_ptr->pr_tk != TK)
 		{
@@ -3834,7 +3834,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			kk = 0.37464 + oo * (1.54226 - 0.26992 * oo);
 			phase_ptr->pr_alpha = pow(1 + kk * (1 - sqrt(T_r)), 2);
 			phase_ptr->pr_tk = TK;
-			phase_ptr->pr_in = true;
+//			phase_ptr->pr_in = true;
 		}
 	}
 	for (i = 0; i < n_g; i++)
@@ -4513,7 +4513,6 @@ setup_solution(void)
 				  " or solution phase boundary constraints.", CONTINUE);
 		input_error++;
 	}
-
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

@@ -614,6 +614,7 @@ public:
 	char *sformatf(const char *format, ...);
 	int array_print(LDBLE * array_l, int row_count, int column_count,
 		int max_column_count);
+	int set_pr_in_false(void);
 	int print_all(void);
 	int print_exchange(void);
 	int print_gas_phase(void);

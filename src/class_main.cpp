@@ -236,6 +236,7 @@ main_method(int argc, char *argv[])
 	{
 		return errors;
 	}
+	output_close();
 	return 0;
 }
 #endif //TEST_COPY
@@ -253,7 +254,7 @@ write_banner(void)
 
 	/* version */
 #ifdef NPP
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.0.2");
+	len = sprintf(buffer, "* PHREEQC-%s *", "3.0.5");
 #else
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 #endif
@@ -277,7 +278,7 @@ write_banner(void)
 
 	/* date */
 #ifdef NPP
-	len = sprintf(buffer, "%s", "April 9, 2013");
+	len = sprintf(buffer, "%s", "May 11, 2013");
 #else
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 #endif

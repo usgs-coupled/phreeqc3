@@ -15,7 +15,6 @@ int Phreeqc::
 tidy_model(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
 	int n_user, last;
 	int new_named_logk;
 	/*
@@ -162,14 +161,7 @@ tidy_model(void)
 
 	}
 
-/* reset Peng-Robinson parms... */
-	for (i = 0; i < count_phases; i++)
-	{
-		phases[i]->pr_in = false;
-		phases[i]->pr_p = 0.0;
-		phases[i]->pr_phi = 1.0;
-	}
-	/* named_log_k */
+/* named_log_k */
 	if (new_named_logk)
 	{
 		tidy_logk();
@@ -212,13 +204,6 @@ tidy_model(void)
 	if (new_gas_phase)
 	{
 		tidy_gas_phase();
-	}
-/* reset Peng-Robinson parms... */
-	for (i = 0; i < count_phases; i++)
-	{
-		phases[i]->pr_in = false;
-		phases[i]->pr_p = 0.0;
-		phases[i]->pr_phi = 1.0;
 	}
 /*
  *   tidy pp_assemblage data

@@ -47,6 +47,34 @@ array_print(LDBLE * array_l, int row_count, int column_count,
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
+set_pr_in_false(void)
+/* ---------------------------------------------------------------------- */
+{
+	// set pr_in to false for subsequent steps...
+	if (use.Get_pp_assemblage_in())
+	{
+		for (int i = 0; i < count_unknowns; i++)
+		{
+			if (x[i]->type == PP)
+				x[i]->phase->pr_in = false;
+		}
+	}
+	if (use.Get_gas_phase_in() && use.Get_gas_phase_ptr())
+	{
+		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
+		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+		{	
+			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+			int k;
+			struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+			if (phase_ptr)
+				phase_ptr->pr_in = false;
+		}
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
 print_all(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -60,7 +88,10 @@ print_all(void)
  *   Makes sorted list including all species for each valence state
  */
 	if (pr.all == FALSE)
+	{
+		set_pr_in_false();
 		return (OK);
+	}
 	if (pr.surface == TRUE || pr.exchange == TRUE || pr.species == TRUE)
 	{
 		species_list_sort();
@@ -87,6 +118,7 @@ print_all(void)
 	print_species();
 	print_alkalinity();
 	print_saturation_indices();
+	set_pr_in_false();
 	return (OK);
 }
 
@@ -609,6 +641,7 @@ print_gas_phase(void)
 		if (fabs(delta_moles) <= MIN_TOTAL)
 			delta_moles = 0.0;
 		if (PR)
+		{
 			output_msg(sformatf("%-11s%12.2f%12.3e%7.3f%12.3e%12.3e%12.3e\n",
 				   phase_ptr->name,
 				   (double) lp,
@@ -617,6 +650,7 @@ print_gas_phase(void)
 				   (double) initial_moles, 
 				   (double) moles,
 				   (double) delta_moles));
+		}
 		else
 			output_msg(sformatf("%-18s%12.2f%12.3e%12.3e%12.3e%12.3e\n",
 				   phase_ptr->name,
@@ -1136,8 +1170,7 @@ print_saturation_indices(void)
 	LDBLE la_eminus;
 	struct rxn_token *rxn_ptr;
 	struct reaction *reaction_ptr;
-	const char *pr_in;
-	bool PR_inprint, gas = true;
+	bool gas = true;
  
 	if (pr.saturation_indices == FALSE || pr.all == FALSE)
 		return (OK);
@@ -1187,19 +1220,11 @@ print_saturation_indices(void)
 /*
  *   Print saturation index
  */
-		PR_inprint = false;
-		if (phases[i]->pr_in)
-		{
-			PR_inprint = true;
-			phases[i]->pr_in = false;
-		}
 		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
 			 phases[i]->logk[vm0];
 		if (reaction_ptr->logk[delta_v])
 				mu_terms_in_logk = true;
 		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
-		if (PR_inprint)
-			phases[i]->pr_in = true;
 		iap = 0.0;
 		for (rxn_ptr = reaction_ptr->token + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
@@ -1214,17 +1239,16 @@ print_saturation_indices(void)
 			}
 		}
 		si = -lk + iap;
-		pr_in = "  ";
 
-		output_msg(sformatf("\t%-15s%7.2f%2s%8.2f%8.2f  %s",
-				   phases[i]->name, (double) si, pr_in, (double) iap, (double) lk,
+		output_msg(sformatf("\t%-15s%7.2f  %8.2f%8.2f  %s",
+				   phases[i]->name, (double) si, (double) iap, (double) lk,
 				   phases[i]->formula));
 		if (gas && phases[i]->pr_in && phases[i]->pr_p)
 		{
 			if (phases[i]->moles_x || state == INITIAL_SOLUTION)
 			{
-				output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
-					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
+				output_msg(sformatf("\t%s%5.1f%s%5.3f",
+					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi));
 			} else 
 			{
 				for (int j = 0; j < count_unknowns; j++)
@@ -1234,8 +1258,8 @@ print_saturation_indices(void)
 					if (!strcmp(x[j]->phase->name, phases[i]->name))
 					{
 						if (x[j]->moles)
-							output_msg(sformatf("\t%s%5.1f%s%5.3f%s",
-								" Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi, "."));
+							output_msg(sformatf("\t%s%5.1f%s%5.3f",
+								" Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi));
 						break;
 					}
 				}
@@ -1260,8 +1284,6 @@ print_pp_assemblage(void)
 	char token[MAX_LENGTH];
 	struct rxn_token *rxn_ptr;
 	struct phase *phase_ptr;
-	bool PR_inprint;
-	const char *pr_in;
 
 	if (pr.pp_assemblage == FALSE || pr.all == FALSE)
 		return (OK);
@@ -1298,14 +1320,11 @@ print_pp_assemblage(void)
 		else
 		{
 			phase_ptr = x[j]->phase;
-			PR_inprint = false;
 			phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
 				phase_ptr->logk[vm0];
 			if (phase_ptr->rxn->logk[delta_v])
 				mu_terms_in_logk = true;
 			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
-			if (PR_inprint)
-				phase_ptr->pr_in = true;
 			for (rxn_ptr = phase_ptr->rxn->token + 1; rxn_ptr->s != NULL;
 				 rxn_ptr++)
 			{
@@ -1326,10 +1345,8 @@ print_pp_assemblage(void)
 			   si = -x[j]->phase->lk + iap;
 			   output_msg(OUTPUT_MESSAGE,"\t%-15s%7.2f%8.2f%8.2f", x[j]->phase->name, (double) si, (double) iap, (double) x[j]->phase->lk);
 			 */
-			pr_in = "  ";
-			output_msg(sformatf("%-14s%8.2f%2s%7.2f  %8.2f",
-					   x[j]->phase->name, (double) si, pr_in, (double) iap,
-					   (double) lk));
+			output_msg(sformatf("%-14s%8.2f  %7.2f  %8.2f",
+					   x[j]->phase->name, (double) si, (double) iap, (double) lk));
 		}
 /*
  *   Print pure phase assemblage data
