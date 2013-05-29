@@ -14,10 +14,11 @@ public:
 	StorageBinListItem(CParser & parser);
 	~StorageBinListItem(void);
 	void Set_defined(bool tf) { this->defined = tf; };
-	bool Get_defined(void) { return(this->defined); };
+	bool Get_defined(void)const { return(this->defined); };
 	void Augment(std::string token);
 	void Augment(int i);
 	std::set < int > &Get_numbers(void) { return(this->numbers); };
+	const std::set < int > &Get_numbers(void)const { return(this->numbers); };
 	void Clear(void) { this->numbers.clear(); };
 protected:
 	std::set < int > numbers;
@@ -45,6 +46,20 @@ public:
 	StorageBinListItem & Get_reaction(void)      { return(this->reaction); };
 	StorageBinListItem & Get_temperature(void)   { return(this->temperature); };
 	StorageBinListItem & Get_pressure(void)      { return(this->pressure); };
+	StorageBinListItem & Get_cell(void)          { return(this->cell); };
+
+	const StorageBinListItem & Get_solution(void)const      { return(this->solution); };
+	const StorageBinListItem & Get_pp_assemblage(void)const { return(this->pp_assemblage); };
+	const StorageBinListItem & Get_exchange(void)const      { return(this->exchange); };
+	const StorageBinListItem & Get_surface(void)const       { return(this->surface); };
+	const StorageBinListItem & Get_ss_assemblage(void)const { return(this->ss_assemblage); };
+	const StorageBinListItem & Get_gas_phase(void)const     { return(this->gas_phase); };
+	const StorageBinListItem & Get_kinetics(void)const      { return(this->kinetics); };
+	const StorageBinListItem & Get_mix(void)const           { return(this->mix); };
+	const StorageBinListItem & Get_reaction(void)const      { return(this->reaction); };
+	const StorageBinListItem & Get_temperature(void)const   { return(this->temperature); };
+	const StorageBinListItem & Get_pressure(void)const      { return(this->pressure); };
+	const StorageBinListItem & Get_cell(void)const          { return(this->cell); };
 protected:
 	// update GetAllItems() if StorageBinListItem is added/removed
 	StorageBinListItem solution;
@@ -59,6 +74,7 @@ protected:
 	StorageBinListItem temperature;
 	StorageBinListItem pressure;
 	const static std::vector < std::string > vopts;
+	StorageBinListItem cell; // not included in GetAllItems
 };
 
 

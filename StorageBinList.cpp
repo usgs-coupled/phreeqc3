@@ -110,6 +110,7 @@ StorageBinList::~StorageBinList(void)
 
 std::set<StorageBinListItem *> StorageBinList::GetAllItems(void)
 {
+	// don't include this->cell
 	std::set<StorageBinListItem *> items;
 	items.insert(&this->solution);
 	items.insert(&this->pp_assemblage);
@@ -146,7 +147,6 @@ bool StorageBinList::Read(CParser & parser)
 
 	bool useLastLine(false);
 	opt_save = CParser::OPT_DEFAULT;
-	StorageBinListItem cell_list;
 	for (;;)
 	{
 		int opt;
@@ -162,7 +162,6 @@ bool StorageBinList::Read(CParser & parser)
 
 		// Select StorageBinListItem
 		StorageBinListItem *item = NULL;
-		//StorageBinListItem cell_list;
 		switch (opt)
 		{
 		case 0:
@@ -201,7 +200,7 @@ bool StorageBinList::Read(CParser & parser)
 			break;
 		case 14:
 		case 15:
-			item = &cell_list;
+			item = &(this->Get_cell());
 			break;
 		case 17:
 		case 18:
@@ -290,15 +289,15 @@ bool StorageBinList::Read(CParser & parser)
 	}
 
 	// Now check to see if cell_list defined 
-	if (cell_list.Get_defined())
+	if (this->Get_cell().Get_defined())
 	{
-		if (cell_list.Get_numbers().empty())
+		if (this->Get_cell().Get_numbers().empty())
 		{
 			this->SetAll(true);
 		}
 		else
 		{
-			this->TransferAll(cell_list);
+			this->TransferAll(this->Get_cell());
 		}
 	}
 	return(return_value);
