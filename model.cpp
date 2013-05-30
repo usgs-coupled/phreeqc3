@@ -3617,7 +3617,7 @@ reset(void)
 						   (double) delta[i]));
 			}
 			d = mu_x + delta[i];
-			if (d < 1e-7)
+			if (d < 1e-11)
 			{
 				delta[i] = sqrt(mu_calc * mu_x) - mu_x;
 				mu_x = sqrt(mu_calc * mu_x);
@@ -3626,10 +3626,10 @@ reset(void)
 			{
 				mu_x += delta[i];
 			}
-			if (mu_x <= 1e-8)
-			{
-				mu_x = 1e-8;
-			}
+			//if (mu_x <= 1e-8)
+			//{
+			//	mu_x = 1e-8;
+			//}
 /*   Activity of water */
 		}
 		else if (x[i]->type == AH2O)
