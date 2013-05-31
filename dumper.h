@@ -17,7 +17,8 @@ public:
 	void SetAll(bool tf);
 	std::string Get_file_name(void)		{ return(this->file_name); };
 	void Set_file_name(std::string fn)	{ this->file_name = fn; };
-	bool Get_append(void)				{ return(this->append); };
+	bool Get_append(void)const			{ return(this->append); };
+	void Set_append(bool app)			{ this->append = app; };
 	bool Get_bool_solution(void)		{ return(this->binList.Get_solution().Get_defined()); };
 	bool Get_bool_pp_assemblage(void)	{ return(this->binList.Get_pp_assemblage().Get_defined()); };
 	bool Get_bool_exchange(void)		{ return(this->binList.Get_exchange().Get_defined()); };
@@ -35,7 +36,7 @@ public:
 	std::set < int > & Get_pp_assemblage(void)	{ return(this->binList.Get_pp_assemblage().Get_numbers()); };
 	std::set < int > & Get_exchange(void)		{ return(this->binList.Get_exchange().Get_numbers()); };
 	std::set < int > & Get_surface(void)		{ return(this->binList.Get_surface().Get_numbers()); };
-	std::set < int > & Get_ss_assemblage(void) { return(this->binList.Get_ss_assemblage().Get_numbers()); };
+	std::set < int > & Get_ss_assemblage(void)  { return(this->binList.Get_ss_assemblage().Get_numbers()); };
 	std::set < int > & Get_gas_phase(void)		{ return(this->binList.Get_gas_phase().Get_numbers()); };
 	std::set < int > & Get_kinetics(void)		{ return(this->binList.Get_kinetics().Get_numbers()); };
 	std::set < int > & Get_mix(void)			{ return(this->binList.Get_mix().Get_numbers()); };
