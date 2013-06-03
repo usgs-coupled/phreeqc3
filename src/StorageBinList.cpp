@@ -147,6 +147,9 @@ bool StorageBinList::Read(CParser & parser)
 
 	bool useLastLine(false);
 	opt_save = CParser::OPT_DEFAULT;
+	// reset cells
+	this->cell.Clear();
+	this->cell.Set_defined(false);
 	for (;;)
 	{
 		int opt;
