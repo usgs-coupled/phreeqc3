@@ -1,0 +1,65 @@
+database ../database/phreeqc.dat
+SOLUTION 1 (SampleID 20120312 PN1)
+
+    units mg/L
+    temp   57.6
+    pH     6.68
+    pe     0.851
+
+    Na     5107 
+    K      30.8 
+    N(-3)  35 as NH4+
+    Ca     120.2 
+    Mg     53.4 
+    Mn     0.009
+	Fe(+3) 0.6      
+    Fe(+2) 0.3
+
+    Cl     8054 
+    N(3)   0.005 as NO2-
+    S(6)   5 as SO4-2
+    Alkalinity 8.9 meq/L
+    Si     12
+END
+USE solution 1
+SELECTED_OUTPUT
+    -reset false
+    -file volume-zero.sel
+    -simulation false
+    -state true
+    -water false
+    -pH true
+    -pe true
+    -gases CO2(g) N2(g) H2S(g) CH4(g) O2(g) H2O(g)
+USER_PUNCH
+-heading gas_vm
+10 PUNCH gas_vm
+
+GAS_PHASE
+# equilibrium with methane at 129 bars
+-fixed_pressure
+-pressure 129
+-temperature 57.6
+
+CH4(g) 124.8
+CO2(g) 0.16
+
+SAVE solution 11
+END
+
+USE solution 11
+
+PRINT
+-gas false
+
+GAS_PHASE
+# equilibrium with methane at 129 bars
+-fixed_pressure
+-pressure 129
+-temperature 57.6
+
+CH4(g) 0
+CO2(g) 0
+END
+
+

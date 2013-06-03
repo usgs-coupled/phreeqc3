@@ -96,6 +96,7 @@ all: alkalinity.out \
 	lassin.out \
 	llnl.out \
 	local_min_pz.out \
+	low_t.out \
 	mahoney.out \
 	MassWater.out \
 	membrane.out \
@@ -105,6 +106,7 @@ all: alkalinity.out \
 	mmb.out \
 	mmb2.out \
 	modifyact.out \
+	modify_zero.out \
 	mu.out \
 	n3.out \
 	netpathxl.out \
@@ -168,6 +170,7 @@ all: alkalinity.out \
 	trim.out \
 	user_print.out \
 	using.out \
+	volume-zero.out \
 	zn.test.out \
 	zero_modify.out \
 	ex1.out \

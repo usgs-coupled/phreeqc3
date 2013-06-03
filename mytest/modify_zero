@@ -1,0 +1,20 @@
+DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.0.3-7671\database\phreeqc.dat
+solution 1
+Na 10
+Cl 10
+pH 7 charge
+ 
+exchange 1
+CaX2 1
+ 
+run_cells
+-cells 1
+end
+ 
+solution_modify 1
+-totals
+Ca 0 # works with Ca 1e-100
+Cl 0
+ 
+run_cells
+-cells 1
