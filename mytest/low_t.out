@@ -1,0 +1,214 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: low_t
+  Output file: low_t.out
+Database file: ../database/iso.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	SOLUTION_MASTER_SPECIES
+	ISOTOPES
+	ISOTOPE_RATIOS
+	ISOTOPE_ALPHAS
+	NAMED_EXPRESSIONS
+	CALCULATE_VALUES
+	CALCULATE_VALUES
+	SOLUTION_SPECIES
+	PHASES
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/iso.dat
+	SOLUTION 1
+		temp 25
+		[18O] 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------------Isotopes------------------------------------
+
+   Isotope	    Molality	       Moles	       Ratio	       Units
+
+         O	 5.53951e+01	 5.53951e+01
+     [18O]	 1.11078e-01	 1.11078e-01	 0.00000e+00	      permil
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.539514e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.002e-07   1.001e-07    -6.999    -6.999    -0.000     (0)  
+   H3O+            1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	H2(g)           -22.00    -25.15   -3.15  H2
+	H2O(g)           -1.51      0.00    1.51  H2O
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION_MODIFY 1
+		-temp -22.5
+		-total
+			[18O]  .1062
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	MIX 
+		1 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using mix 1.	
+
+Mixture 1.	
+
+	  1.000e+00 Solution 1	                                                       
+
+--------------------------------Isotope Ratios---------------------------------
+
+            Isotope Ratio	       Ratio	    Input Units
+
+     R(18O)              	 1.91714e-03	        -43.918  permil    
+     R(18O) H2O(l)       	 1.91714e-03	        -43.918  permil    
+     R(18O) OH-          	 1.84606e-03	        -79.362  permil    
+     R(18O) H3O+         	 1.96147e-03	         -21.81  permil    
+
+--------------------------------Isotope Alphas---------------------------------
+
+                                                              1000ln(Alpha)
+                                                         ----------------------
+     Isotope Ratio                   Solution alpha      Solution       -22.5 C
+
+Alpha 18O OH-/H2O(l)                        0.96293       -37.777       -37.777
+Alpha 18O H3O+/H2O(l)                        1.0231         22.86         22.86
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	[18O]             1.065e-01   1.062e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.031      Charge balance
+                                       pe  =  -8.328      Adjusted to redox equilibrium
+                        Activity of water  =   0.998
+                           Ionic strength  =   9.385e-09
+                       Mass of water (kg)  =   9.971e-01
+                 Total alkalinity (eq/kg)  =   1.085e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                      Temperature (deg C)  = -22.50
+                  Electrical balance (eq)  =  -1.082e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.58
+                               Iterations  =  16
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.539514e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             9.422e-09   9.421e-09    -8.026    -8.026    -0.000     (0)  
+   H3O+            9.312e-09   9.311e-09    -8.031    -8.031    -0.000      0.00
+   H2O             5.556e+01   9.981e-01     1.745    -0.001     0.000     18.16
+H(0)          9.786e-03
+   H2              4.893e-03   4.893e-03    -2.310    -2.310     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00  -105.995  -105.995     0.000     (0)  
+   O[18O]          0.000e+00   0.000e+00  -108.412  -108.412     0.000     (0)  
+[18O](-2)     1.065e-01
+   H2[18O]         1.065e-01   1.914e-03    -0.973    -2.718    -1.746     (0)  
+   H3[18O]+        1.827e-11   1.826e-11   -10.738   -10.738    -0.000     (0)  
+   [18O]H-         1.739e-11   1.739e-11   -10.760   -10.760    -0.000     (0)  
+[18O](0)      0.000e+00
+   O[18O]          0.000e+00   0.000e+00  -108.412  -108.412     0.000     (0)  
+   [18O]2          0.000e+00   0.000e+00  -111.430  -111.430     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(250 K,   1 atm)
+
+	[18O]2(g)      -109.70   -111.43   -1.73  [18O]2
+	H2(g)             0.60     -2.31   -2.91  H2
+	H2[18O](g)       -5.70     -2.72    2.98  H2[18O]
+	H2O(g)           -2.97     -0.00    2.97  H2O
+	O2(g)          -103.66   -106.00   -2.33  O2
+	O[18O](g)      -106.38   -108.71   -2.33  O[18O]
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+------------------------------
+End of Run after 0.11 Seconds.
+------------------------------
+
