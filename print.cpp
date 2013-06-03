@@ -59,7 +59,7 @@ set_pr_in_false(void)
 				x[i]->phase->pr_in = false;
 		}
 	}
-	if (use.Get_gas_phase_in() && use.Get_gas_phase_ptr())
+	if (use.Get_gas_phase_ptr())
 	{
 		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
@@ -84,14 +84,14 @@ print_all(void)
  *   Each routine is controlled by a variable in structure print.
  *   print.all == FALSE will turn off all prints.
  */
-/*
- *   Makes sorted list including all species for each valence state
- */
 	if (pr.all == FALSE)
 	{
 		set_pr_in_false();
 		return (OK);
 	}
+/*
+ *   Makes sorted list including all species for each valence state
+ */
 	if (pr.surface == TRUE || pr.exchange == TRUE || pr.species == TRUE)
 	{
 		species_list_sort();
@@ -118,7 +118,8 @@ print_all(void)
 	print_species();
 	print_alkalinity();
 	print_saturation_indices();
-	set_pr_in_false();
+	if (!pr.saturation_indices)
+		set_pr_in_false();
 	return (OK);
 }
 
@@ -1265,6 +1266,7 @@ print_saturation_indices(void)
 				}
 			}
 		}
+		phases[i]->pr_in = false;
 		output_msg("\n");
 	}
 	output_msg("\n\n");
@@ -2407,6 +2409,10 @@ punch_gas_phase(void)
 				{
 					gas_phase_ptr->Set_volume(gas_phase_ptr->Get_v_m() * gas_unknown->moles);
 				}
+			}
+			else
+			{
+				gas_phase_ptr->Set_volume(0);
 			}
 		}
 		p = gas_phase_ptr->Get_total_p();
