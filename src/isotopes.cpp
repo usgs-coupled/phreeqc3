@@ -492,7 +492,7 @@ add_isotopes(cxxSolution &solution_ref)
 			continue;
 		if (master_isotope_ptr->minor_isotope == FALSE)
 		{
-			total_moles = total(master_isotope_ptr->name);
+			total_moles = total(master_isotope_ptr->name) * mass_water_aq_x;
 			calculate_isotope_moles(master_isotope_ptr->elt, &solution_ref,
 									total_moles);
 		}
@@ -671,17 +671,17 @@ calculate_isotope_moles(struct element *elt_ptr,
 	{
 		total_o_x = m_major;
 	}
-	cxxNameDouble nd(solution_ptr->Get_totals());
-	cxxNameDouble::iterator iit = solution_ptr->Get_totals().begin();
-	for ( ; iit != solution_ptr->Get_totals().end(); iit++)
-	{
-		master_isotope_ptr = master_isotope_search(iit->first.c_str());
-		if (master_isotope_ptr == NULL)
-			continue;
-		if (master_isotope_ptr->elt != elt_ptr)
-			continue;
-		nd[iit->first] = master_isotope_ptr->moles;
-	}
+	//cxxNameDouble nd(solution_ptr->Get_totals());
+	//cxxNameDouble::iterator iit = solution_ptr->Get_totals().begin();
+	//for ( ; iit != solution_ptr->Get_totals().end(); iit++)
+	//{
+	//	master_isotope_ptr = master_isotope_search(iit->first.c_str());
+	//	if (master_isotope_ptr == NULL)
+	//		continue;
+	//	if (master_isotope_ptr->elt != elt_ptr)
+	//		continue;
+	//	nd[iit->first] = master_isotope_ptr->moles;
+	//}
 
 	return (OK);
 }

@@ -1,0 +1,126 @@
+DATABASE ../database/iso.dat
+# PRINT
+#-censor_species 1e-006
+RATES
+    H2O_evap
+-start
+10 rate = -1e-3
+100 moles = rate * time
+200 save moles
+300 put (moles, 4)
+-end
+    O2_equil
+-start
+10 O2_eq = 10 ^ (LK_PHASE("O2(g)") - 0.67)
+20 aO2 = act("O2")
+40 rate = parm(1) * (O2_eq - aO2)
+100 moles = rate * time
+200 save moles
+300 put (moles, 5)
+-end
+    CO2_equil
+-start
+10 CO2_eq = 10 ^ (LK_PHASE("CO2(g)") - 3.5)
+20 aCO2 = ACT("CO2")
+30 rate = parm(1) * (CO2_eq - aCO2)
+40 moles = rate * time
+50 save moles
+60 put (moles, 1)
+-end
+SOLUTION 1
+    temp      25
+    pH        7
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    C         2.6
+    Cl        14.8
+    O(0)      0.225
+    [13C]     -15.6
+    [14C]     5.6
+    D         8
+    [18O]     1
+    -water    1 # kg
+END
+MIX 1
+	1   260
+SAVE solution 1
+END
+
+USE solution 1
+KINETICS 1-10
+CO2_equil
+    -formula  CO2  1
+    -m        1
+    -m0       1
+    -parms    0.018
+    -tol      1e-008
+O2_equil
+    -formula  O2  1
+    -m        10
+    -m0       10
+    -parms    0.005
+    -tol      1e-008
+H2O_evap
+    -formula  H2O  1
+    -m        14095
+    -m0       14095
+    -tol      1e-008
+-steps       1 # 900 1200 1800 1800 1800 5400 7200 15900 11400
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+INCREMENTAL_REACTIONS True
+
+SELECTED_OUTPUT
+    -ph                   true
+    -alkalinity           true
+    -water                true
+END
+SOLUTION 1
+    temp      25
+    pH        7
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    C         2.6
+    Cl        14.8
+    O(0)      0.225
+    [13C]     -15.6
+    [14C]     5.6
+    D         8
+    [18O]     1
+    -water    260  # kg
+END
+USE solution 1
+KINETICS 1-10
+CO2_equil
+    -formula  CO2  1
+    -m        1
+    -m0       1
+    -parms    0.018
+    -tol      1e-008
+O2_equil
+    -formula  O2  1
+    -m        10
+    -m0       10
+    -parms    0.005
+    -tol      1e-008
+H2O_evap
+    -formula  H2O  1
+    -m        14095
+    -m0       14095
+    -tol      1e-008
+-steps       1 # 900 1200 1800 1800 1800 5400 7200 15900 11400
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+INCREMENTAL_REACTIONS True
+
+SELECTED_OUTPUT
+    -ph                   true
+    -alkalinity           true
+    -water                true
+END

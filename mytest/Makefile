@@ -305,7 +305,8 @@ all: alkalinity.out \
 	NaCl_temp.out \
 	NaCl-SO4.out \
 	NaKCl.out \
-	NaMgCl.out 
+	NaMgCl.out \
+	14C_isotopes.out
 # NaX.out
 
 clean:
