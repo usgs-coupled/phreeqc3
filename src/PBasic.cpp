@@ -3248,34 +3248,34 @@ factor(struct LOC_exec * LINK)
 			int int_part = (int) nmbr;
 			sprintf(token, "%d", int_part);
 			std::string std_num;
-			if (strlen(token) > length - width - decimal_width ||
-				length - width - decimal_width < 0)
-			{
-				// number too big for places left of the decimal or
-				// too many decimal places for length
-				// set a string for overflow
-				int i = 0;
-				std::string std_frac;
-				while (i < width && i < length)
-				{
-					std_frac.append("*");
-					i++;
-				}
-				std::string std_dec;
-				if (i < length && width > 0)
-				{
-					std_dec = ".";
-					i++;
-				}
-				std::string std_int;
-				while (i < length)
-				{
-					std_int.append("*");
-					i++;
-				}
-				std_num = std_int + std_dec + std_frac;
-			}
-			else
+			//if (strlen(token) > length - width - decimal_width ||
+			//	length - width - decimal_width < 0)
+			//{
+			//	// number too big for places left of the decimal or
+			//	// too many decimal places for length
+			//	// set a string for overflow
+			//	int i = 0;
+			//	std::string std_frac;
+			//	while (i < width && i < length)
+			//	{
+			//		std_frac.append("*");
+			//		i++;
+			//	}
+			//	std::string std_dec;
+			//	if (i < length && width > 0)
+			//	{
+			//		std_dec = ".";
+			//		i++;
+			//	}
+			//	std::string std_int;
+			//	while (i < length)
+			//	{
+			//		std_int.append("*");
+			//		i++;
+			//	}
+			//	std_num = std_int + std_dec + std_frac;
+			//}
+			//else
 			{
 				// print, no decimal if width is zero
 				sprintf(token, "%*.*f", length, width, nmbr);
