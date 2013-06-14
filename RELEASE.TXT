@@ -1,5 +1,43 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+        --------
+        svn 7766
+        --------
+        
+        Added new Basic function STR_F$(x, w, d) that produces
+	a string from a number with a given width (w) and
+	number of decimal places (d). w is the minimum width of
+	the string. The string is padded with spaces to the
+	left to produce a string of the specified width (w);
+	however, the string will be wider than w characters,
+	if the number does not fit in the specified width.
 
+
+Version 3.0.6: June 4, 2013
+        --------
+        svn 7757
+        --------
+        
+        Fixed bug intorduced in version 3.0.5 if two DELETE
+	keywords were used in a run. Fixed a bug with fixed-
+	pressure gas, where the volume was 1.0 even when no
+	moles of gas were present in the gas phase. Minor
+	optimizations for initialization of Peng-Robinson gas
+	data.
+        
+Version 3.0.5: May 31, 2013
+        --------
+        svn 7748
+        --------
+        
+        Optimizations for equilibrium phases, using pointers
+	instead of lookup function. Other optimizations for
+	SURFACE caclustions to limit uses of std::map find,
+	eliminate strcmps, and skip inverse setup when not
+	needed. Minor fix to Peng Robinson. Fixed bug with
+	SOLUTION_MODIFY wen a concentration was set to zero.
+	Removed lower limit on ionic strength.
+
+Version 3.0.4: May 14, 2013
         --------
         svn 7703
         --------
