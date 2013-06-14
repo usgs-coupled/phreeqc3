@@ -306,7 +306,8 @@ all: alkalinity.out \
 	NaCl-SO4.out \
 	NaKCl.out \
 	NaMgCl.out \
-	14C_isotopes.out
+	14C_isotopes.out \
+	str_f.out 
 # NaX.out
 
 clean:

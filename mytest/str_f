@@ -1,0 +1,29 @@
+DATABASE ../database/phreeqc.dat
+solution 1
+Na 10
+Cl 10
+pH 7 charge
+USER_PRINT
+10 x = -1000.0/3*2
+#20 PRINT "|" + STR_F$( "4.3", x) + "|"
+#30 PRINT "|" + STR_F$( "3.3", x) + "|"
+#40 PRINT "|" + STR_F$( "4.", x) + "|"
+#50 PRINT "|" + STR_F$( "3.", x) + "|"
+#60 PRINT "|" + STR_F$( ".1", x) + "|"
+#70 PRINT "|" + STR_F$( " .0", x) + "|"
+#80 PRINT "|" + STR_F$( "30.10", x) + "|"
+#90 PRINT "|" + STR_F$( "30", x) + "|"
+20 PRINT "|" + STR_F$(x, 9, 3) + "|"
+30 PRINT "|" + STR_F$(x, 8, 3) + "|"
+40 PRINT "|" + STR_F$(x, 7, 3) + "|"
+50 PRINT "|" + STR_F$(x, 4, 0) + "|"
+60 PRINT "|" + STR_F$(x, 3, 0) + "|"
+70 PRINT "|" + STR_F$(x, 0, 1) + "|"
+80 PRINT "|" + STR_F$(x, 10, 10) + "|"
+90 PRINT "|" + STR_F$(x, 0, 0) + "|"
+100 PRINT "|" + STR_F$(x, 30, 10) + "|"
+110 x = 1/3
+120 PRINT "|" + STR_F$(x, 12, 10) + "|"
+130 PRINT "|" + STR_F$(x, 11, 10) + "|"
+130 PRINT "|" + STR_F$(x, 11, 2) + "|"
+END
