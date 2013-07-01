@@ -3218,6 +3218,7 @@ factor(struct LOC_exec * LINK)
 		if (n.UU.sval == NULL)
 			PhreeqcPtr->malloc_error();
 		numtostr(n.UU.sval, realfactor(LINK));
+		break;
 
 	case tokstr_f_:
 		{		
