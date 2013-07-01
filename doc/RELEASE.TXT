@@ -1,5 +1,26 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
         --------
+        svn 7781
+        --------
+        
+        Basic function SYS("phases",...) returned 0.0, rather
+	than the maximum saturation index if the maximum
+	saturation index was less than zero. Now returns the
+	maximum saturation index even if it is less than zero.
+        
+        Added new Basic function STR_E$(x, w, d) that produces
+	a string with exponential format from a number with a
+	given width (w) and number of decimal places (d). w is
+	the minimum width of the string. The string is padded
+	with spaces to the left to produce a string of the
+	specified width (w); however, the string will be wider
+	than w characters, if the number does not fit in the
+	specified width. If x = 123456.789, then STR_E$(x,15,5)
+	produces the following on a Windows computer:
+	
+	   1.23457e+005
+	
+        --------
         svn 7766
         --------
         
@@ -8,8 +29,12 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	number of decimal places (d). w is the minimum width of
 	the string. The string is padded with spaces to the
 	left to produce a string of the specified width (w);
-	however, the string will be wider than w characters,
-	if the number does not fit in the specified width.
+	however, the string will be wider than w characters, if
+	the number does not fit in the specified width. If x =
+	123456.789, then STR_F$(x,15,5) produces the following
+	on a Windows computer:
+	
+	   123456.78900
 	
         --------
         svn 7763

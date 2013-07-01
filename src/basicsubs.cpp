@@ -2570,6 +2570,7 @@ system_total_si(void)
 	struct rxn_token *rxn_ptr;
 	char name[MAX_LENGTH];
 
+	sys_tot = -999.9;
 	for (i = 0; i < count_phases; i++)
 	{
 		if (phases[i]->in == FALSE || phases[i]->type != SOLID)

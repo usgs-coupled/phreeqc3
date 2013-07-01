@@ -1545,6 +1545,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokstr_f_:
 			output_msg("STR_F$");
 			break;
+		case tokstr_e_:
+			output_msg("STR_E$");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3158,14 +3161,14 @@ factor(struct LOC_exec * LINK)
 	case toklog10:
 		{
 			LDBLE t = realfactor(LINK);
-			if (t > 0.0)
+			//if (t > 0.0)
 			{
 				n.UU.val = log10(t);
 			}
-			else
-			{
-				n.UU.val = 0;
-			}
+			//else
+			//{
+			//	n.UU.val = 0;
+			//}
 		}
 		break;
   	case tokvm:
@@ -3236,48 +3239,13 @@ factor(struct LOC_exec * LINK)
 			// right parenthesis
 			require(tokrp, LINK);
 
-			// determine whether decimal point is needed
-			int decimal_width = (width > 0) ? 1 : 0;
-
 			// Make work space
 			int max_length = length < 256 ? 256 : length;
 			char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
 			if (token == NULL) PhreeqcPtr->malloc_error();
 
-			// Write formatted number
-			int int_part = (int) nmbr;
-			sprintf(token, "%d", int_part);
 			std::string std_num;
-			//if (strlen(token) > length - width - decimal_width ||
-			//	length - width - decimal_width < 0)
-			//{
-			//	// number too big for places left of the decimal or
-			//	// too many decimal places for length
-			//	// set a string for overflow
-			//	int i = 0;
-			//	std::string std_frac;
-			//	while (i < width && i < length)
-			//	{
-			//		std_frac.append("*");
-			//		i++;
-			//	}
-			//	std::string std_dec;
-			//	if (i < length && width > 0)
-			//	{
-			//		std_dec = ".";
-			//		i++;
-			//	}
-			//	std::string std_int;
-			//	while (i < length)
-			//	{
-			//		std_int.append("*");
-			//		i++;
-			//	}
-			//	std_num = std_int + std_dec + std_frac;
-			//}
-			//else
 			{
-				// print, no decimal if width is zero
 				sprintf(token, "%*.*f", length, width, nmbr);
 				std_num = token;
 			}
@@ -3291,134 +3259,51 @@ factor(struct LOC_exec * LINK)
 
 			// free work space
 			PhreeqcPtr->free_check_null(token);
-
 		}
 		break;
 
-#ifdef SKIP
-	case tokstr_f_:
+	case tokstr_e_:
 		{		
+			// left parenthesis
 			require(toklp, LINK);
 
-			const char * orig_string = stringfactor(STR1, LINK);
-			char * strf = PhreeqcPtr->string_duplicate(orig_string);
-			PhreeqcPtr->squeeze_white(strf);
-			int l = strlen(strf);
-
-			require(tokcomma, LINK);
-
+			// set number
 			LDBLE nmbr;
 			nmbr = realexpr(LINK);	
 
+			// set total length
+			require(tokcomma, LINK);
+			int length = (int) realexpr(LINK);
+
+			// set total length
+			require(tokcomma, LINK);
+			int width = (int) realexpr(LINK);
+
+			// right parenthesis
 			require(tokrp, LINK);
 
-			int decimal = -1;
-			int length = 0, width = 0;
-
-			for (int i = 0; i < l; i++)
-			{
-				if (PhreeqcPtr->isamong(strf[i], "0123456789"))
-				{
-					continue;
-				}
-				else if (strf[i] == '.')
-				{
-					if (decimal < 0) 
-					{
-						decimal = i;
-					}
-					else
-					{					
-						snerr(": More than one decimal point in STR_F$ format.");
-					}
-				} 
-				else 
-				{
-					snerr(": STR_F$ format must be l.w, where l and w are integers.");
-				}
-			}
-			
-			char *tokenf = (char *) PhreeqcPtr->PHRQ_calloc(l + 1, sizeof(char));
-			if (tokenf == NULL) PhreeqcPtr->malloc_error();
-			if (decimal < 0)
-			{
-				length = atoi(strf);
-			}
-			else
-			{
-				std::string std_s(strf);
-				int p = std_s.find(".");
-				if (p > 0)
-				{
-					std::string std_l = std_s.substr(0,p);
-					length = atoi(std_l.c_str());
-				}
-				std::string std_f = std_s.substr(p+1);
-				if (std_f.size() > 0)
-				{
-					width = atoi(std_f.c_str());
-				}
-			}
-
-			int int_part = (int) nmbr;
-			int decimal_width = (decimal >= 0) ? 1 : 0;
-			int max_length = length + width + decimal_width;
-			max_length = (max_length < 256) ? 256 : max_length;
-			char *token = (char *) PhreeqcPtr->PHRQ_calloc(max_length + 2, sizeof(char));
+			// Make work space
+			int max_length = length < 256 ? 256 : length;
+			char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
 			if (token == NULL) PhreeqcPtr->malloc_error();
 
 			std::string std_num;
-			sprintf(token, "%*d", length, int_part);
-			if (strlen(token) > length)
 			{
-				if (nmbr >= pow(10, length) || nmbr <= -pow(10, length - 1))
-				{
-					for (int i = 0; i < length; i++)
-					{
-						std_num.append("*");
-					}
-					if (decimal >= 0)
-					{
-						std_num.append(".");
-						for (int i = 0; i < width; i++)
-						{
-							std_num.append("*");
-						}
-					}
-				}
-			}
-			else
-			{
-				if (width > 0)
-				{
-					sprintf(token, "%*.*f", length + width + decimal_width, width, nmbr);
-					std_num = token;
-				}
-				else
-				{
-					sprintf(token, "%*d", length, int_part);
-					std_num = token;
-					if (decimal >= 0)
-					{
-						std_num.append(".");
-					}
-				}
+				sprintf(token, "%*.*e", length, width, nmbr);
+				std_num = token;
 			}
 
+			// set function value
 			n.UU.sval = (char *) PhreeqcPtr->PHRQ_calloc(std_num.size() + 2, sizeof(char));
 			if (n.UU.sval == NULL)
 				PhreeqcPtr->malloc_error();
-
 			strcpy(n.UU.sval, std_num.c_str());
-
-			PhreeqcPtr->free_check_null(tokenf);
-			PhreeqcPtr->free_check_null(token);
-
 			n.stringval = true;	
-			PhreeqcPtr->free_check_null(strf);
+
+			// free work space
+			PhreeqcPtr->free_check_null(token);
 		}
 		break;
-#endif
 	case tokval:
 		l_s = strfactor(LINK);
 		tok1 = LINK->t;
@@ -6681,7 +6566,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi_delta",         PBasic::tokequi_delta),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_time",           PBasic::tokkin_time),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_f$",             PBasic::tokstr_f_)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_f$",             PBasic::tokstr_f_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_e$",             PBasic::tokstr_e_)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
