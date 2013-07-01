@@ -314,7 +314,8 @@ public:
 		tokequi_delta,
 		tokkin_delta,
 		tokkin_time,
-		tokstr_f_
+		tokstr_f_,
+		tokstr_e_
 	};
 
 #if !defined(PHREEQCI_GUI)
