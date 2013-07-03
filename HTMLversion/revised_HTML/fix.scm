@@ -310,8 +310,6 @@
   (scale-fifty-percent "phreeqc3-328.png")
   (scale-fifty-percent "phreeqc3-329.png")
   (scale-fifty-percent "phreeqc3-330.png")
-  (scale-fifty-percent "phreeqc3-332.png")
-  (scale-fifty-percent "phreeqc3-333.png")
   (scale-fifty-percent "phreeqc3-334.png")
   (scale-fifty-percent "phreeqc3-335.png")
   (scale-fifty-percent "phreeqc3-337.png")
