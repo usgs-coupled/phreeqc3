@@ -97,10 +97,10 @@ hifts</STRONG>
 shifts</EM>
 --For advective-dispersive transport, <EM CLASS="Emphasis">
 shifts</EM>
- is the number of advective shifts or time steps, which is the number of times the solution in each cell will be shifted to the next higher or lower numbered cell; the total time simulated is <IMG SRC="phreeqc3-162.gif" ALIGN="BASELINE">
+ is the number of advective shifts or time steps, which is the number of times the solution in each cell will be shifted to the next higher or lower numbered cell; the total time simulated is <IMG SRC="phreeqc3-162.png" ALIGN="MIDDLE">
 . For purely diffusive transport,<EM CLASS="Emphasis">
  shifts</EM>
- is the number of diffusion periods that are simulated; the total diffusion time is <IMG SRC="phreeqc3-163.gif" ALIGN="BASELINE">
+ is the number of diffusion periods that are simulated; the total diffusion time is <IMG SRC="phreeqc3-163.png" ALIGN="MIDDLE">
 . Default is 1.</P>
 <P CLASS="Body-indent">
 <A NAME="50651137_pgfId-637686"></A>Line 3: <STRONG CLASS="Bold">
@@ -229,12 +229,12 @@ boundary_condition</STRONG>
  -b</STRONG>
 [<STRONG CLASS="Bold">
 oundary_condition</STRONG>
-]. Three types of boundary conditions are allowed at either end of the column (indicated by <IMG SRC="phreeqc3-164.gif" ALIGN="BASELINE">
+]. Three types of boundary conditions are allowed at either end of the column (indicated by <IMG SRC="phreeqc3-164.png" ALIGN="MIDDLE">
 ):</P>
 <P CLASS="Body2">
 <A NAME="50651137_pgfId-671522"></A><STRONG CLASS="Bold">
 constant</STRONG>
---Concentration is constant <IMG SRC="phreeqc3-165.gif" ALIGN="BASELINE">
+--Concentration is constant <IMG SRC="phreeqc3-165.png" ALIGN="MIDDLE">
 , also known as first type or Dirichlet boundary condition. C<Sub CLASS="Subscript">
 0</Sub>
  is the concentration outside the column (mol/kgw). Optionally, <STRONG CLASS="Bold">
@@ -247,7 +247,7 @@ nstant</STRONG>
 <P CLASS="Body2">
 <A NAME="50651137_pgfId-768999"></A><STRONG CLASS="Bold">
 closed</STRONG>
---No flux at boundary, v = 0 and <IMG SRC="phreeqc3-166.gif" ALIGN="BASELINE">
+--No flux at boundary, v = 0 and <IMG SRC="phreeqc3-166.png" ALIGN="MIDDLE">
 , also known as second type or Neumann boundary condition, where v is the flow velocity (m/s, meter per second). Optionally, <STRONG CLASS="Bold">
 cl</STRONG>
 [<STRONG CLASS="Bold">
@@ -258,7 +258,7 @@ osed</STRONG>
 <P CLASS="Body2">
 <A NAME="50651137_pgfId-637591"></A><STRONG CLASS="Bold">
 flux</STRONG>
---Flux boundary condition, <IMG SRC="phreeqc3-167.gif" ALIGN="BASELINE">
+--Flux boundary condition, <IMG SRC="phreeqc3-167.png" ALIGN="MIDDLE">
 , also known as third type or Cauchy boundary condition, where DL is the dispersion coefficient (m2/s). Optionally, <STRONG CLASS="Bold">
 f</STRONG>
 [<STRONG CLASS="Bold">
@@ -446,8 +446,8 @@ diffusion coefficient</EM>
 <EM CLASS="Emphasis">
 stagnant_cells </EM>
 [<EM CLASS="Emphasis">
-exchange_factor <IMG SRC="phreeqc3-168.gif" ALIGN="BASELINE">
- <IMG SRC="phreeqc3-169.gif" ALIGN="BASELINE">
+exchange_factor <IMG SRC="phreeqc3-168.png" ALIGN="MIDDLE">
+ <IMG SRC="phreeqc3-169.png" ALIGN="MIDDLE">
 </EM>
 ]</P>
 <P CLASS="Body1-indent">
@@ -457,10 +457,10 @@ exchange_factor <IMG SRC="phreeqc3-168.gif" ALIGN="BASELINE">
 stagnant_cells </EM>
 immobile cells. The immobile cells associated with a mobile cell are usually conceived to be a 1D column of cells in which solutes from the mobile cell diffuse laterally. However, the connections among the immobile cells can be defined freely with <A HREF="phreeqc3-27.htm#50651137_23725" CLASS="XRef">MIX</A> data blocks, which allows calculation of multidimensional diffusion processes (Appelo and Wersin, 2007) and radial diffusion (Appelo and others, 2008, see <A HREF="phreeqc3-76.htm#50651151_68313" CLASS="XRef">See Modeling Diffusion of HTO, 36Cl-, 22Na+, and Cs+ in a Radial Diffusion Cell</A>). The immobile cells associated with a mobile cell, <EM CLASS="Emphasis">
 cell</EM>
-, are numbered as follows: <IMG SRC="phreeqc3-170.gif" ALIGN="BASELINE">
+, are numbered as follows: <IMG SRC="phreeqc3-170.png" ALIGN="MIDDLE">
 , where <EM CLASS="Emphasis">
 cells </EM>
-is the number of mobile cells and <IMG SRC="phreeqc3-171.gif" ALIGN="BASELINE">
+is the number of mobile cells and <IMG SRC="phreeqc3-171.png" ALIGN="MIDDLE">
 . For each immobile cell, a solution (<A HREF="phreeqc3-41.htm#50651137_89789" CLASS="XRef">SOLUTION</A>, <A HREF="phreeqc3-44.htm#50651137_84297" CLASS="XRef">SOLUTION_SPREAD</A>, or <A HREF="phreeqc3-37.htm#50651137_81857" CLASS="XRef">SAVE</A> data block) must be defined, and either a <A HREF="phreeqc3-27.htm#50651137_23725" CLASS="XRef">MIX</A> data block or, for the first-order exchange model, the <EM CLASS="Emphasis">
 exchange_factor</EM>
  must be defined (only applicable if <EM CLASS="Emphasis">
@@ -496,20 +496,20 @@ MIX</STRONG>
 .</P>
 <P CLASS="Body1-indent">
 <A NAME="50651137_pgfId-766675"></A><EM CLASS="Emphasis">
-<IMG SRC="phreeqc3-172.gif" ALIGN="BASELINE">
+<IMG SRC="phreeqc3-172.png" ALIGN="MIDDLE">
 </EM>
 --Porosity in each mobile cell, expressed as a fraction of the total volume of mobile and immobile cells. The <EM CLASS="Emphasis">
-<IMG SRC="phreeqc3-173.gif" ALIGN="BASELINE">
+<IMG SRC="phreeqc3-173.png" ALIGN="MIDDLE">
 </EM>
  is used only if <EM CLASS="Emphasis">
 stagnant_cells</EM>
  is 1, in which case all mobile cells have the same porosity. Default is 0 (unitless).</P>
 <P CLASS="Body1-indent">
 <A NAME="50651137_pgfId-766682"></A><EM CLASS="Emphasis">
-<IMG SRC="phreeqc3-174.gif" ALIGN="BASELINE">
+<IMG SRC="phreeqc3-174.png" ALIGN="MIDDLE">
 </EM>
 --Porosity in each immobile cell, expressed as a fraction of the total volume of mobile and immobile cells. The <EM CLASS="Emphasis">
-<IMG SRC="phreeqc3-175.gif" ALIGN="BASELINE">
+<IMG SRC="phreeqc3-175.png" ALIGN="MIDDLE">
 </EM>
  is used only if <EM CLASS="Emphasis">
 stagnant_cells</EM>
@@ -531,9 +531,9 @@ diffusion coefficient</EM>
 temperature retardation factor</EM>
 , R<Sub CLASS="Subscript">
 T</Sub>
-, is defined as the ratio of the heat capacity of the total aquifer over the heat capacity of water in the pores, <IMG SRC="phreeqc3-176.gif" ALIGN="BASELINE">
-, where <IMG SRC="phreeqc3-177.gif" ALIGN="BASELINE">
- is the water filled porosity, <IMG SRC="phreeqc3-178.gif" ALIGN="BASELINE">
+, is defined as the ratio of the heat capacity of the total aquifer over the heat capacity of water in the pores, <IMG SRC="phreeqc3-176.png" ALIGN="MIDDLE">
+, where <IMG SRC="phreeqc3-177.png" ALIGN="MIDDLE">
+ is the water filled porosity, <IMG SRC="phreeqc3-178.png" ALIGN="MIDDLE">
  is density (kg/m<Sup CLASS="Superscript">
 3</Sup>
 , kilogram per cubic meter), <EM CLASS="Emphasis">
@@ -546,16 +546,16 @@ kg<Sup CLASS="Superscript">
 w</EM>
  and <EM CLASS="Emphasis">
 s</EM>
- indicate water and solid, respectively. The thermal diffusion coefficient, <IMG SRC="phreeqc3-179.gif" ALIGN="BASELINE">
-, can be estimated by using <IMG SRC="phreeqc3-180.gif" ALIGN="BASELINE">
-, where <IMG SRC="phreeqc3-181.gif" ALIGN="BASELINE">
+ indicate water and solid, respectively. The thermal diffusion coefficient, <IMG SRC="phreeqc3-179.png" ALIGN="MIDDLE">
+, can be estimated by using <IMG SRC="phreeqc3-180.png" ALIGN="MIDDLE">
+, where <IMG SRC="phreeqc3-181.png" ALIGN="MIDDLE">
  is the heat conductivity of the aquifer, including pore water and solid (kJ&#176;C<Sup CLASS="Superscript">
 -1</Sup>
 m<Sup CLASS="Superscript">
 -1</Sup>
 s<Sup CLASS="Superscript">
 -1</Sup>
-, kilojoule per degree Celsius, per meter per second). The value of <IMG SRC="phreeqc3-182.gif" ALIGN="BASELINE">
+, kilojoule per degree Celsius, per meter per second). The value of <IMG SRC="phreeqc3-182.png" ALIGN="MIDDLE">
  may be 100 to 1500 times larger than the aqueous diffusion coefficient, or about 1<EM CLASS="Emphasis">
 &#215;</EM>
 10<Sup CLASS="Superscript">
@@ -875,7 +875,7 @@ ulti_D</STRONG>
 </P>
 <P CLASS="Body2">
 <A NAME="50651137_pgfId-719675"></A><EM CLASS="Emphasis">
- <IMG SRC="phreeqc3-183.gif" ALIGN="BASELINE">
+ <IMG SRC="phreeqc3-183.png" ALIGN="MIDDLE">
 </EM>
 ,</P>
 <P CLASS="Body1-indent">
@@ -891,7 +891,7 @@ s</EM>
 -1</Sup>
 <EM CLASS="Emphasis">
 , </EM>
-mole per square meter per second); <IMG SRC="phreeqc3-184.gif" ALIGN="BASELINE">
+mole per square meter per second); <IMG SRC="phreeqc3-184.png" ALIGN="MIDDLE">
 <EM CLASS="Emphasis">
  is the (temperature corrected) tracer diffusion coefficient (m</EM>
 <Sup CLASS="Superscript">
@@ -935,8 +935,8 @@ w</Sub>
 <Sub CLASS="Subscript">
 w</Sub>
 )298 <EM CLASS="Emphasis">
- &#215; <IMG SRC="phreeqc3-185.gif" ALIGN="BASELINE">
- &#215; <IMG SRC="phreeqc3-186.gif" ALIGN="BASELINE">
+ &#215; <IMG SRC="phreeqc3-185.png" ALIGN="MIDDLE">
+ &#215; <IMG SRC="phreeqc3-186.png" ALIGN="MIDDLE">
 , </EM>
 </P>
 <P CLASS="Body1-indent">
@@ -1040,7 +1040,7 @@ w, i</Sub>
 &#949;</EM>
 n, where <EM CLASS="Emphasis">
 &#949;</EM>
- is the water filled (or the accessible) porosity (unitless), and n is an empirical exponent that varies from approximately 0.9 to 1.2 (Grathwohl, 1998; Van Loon and others, 2007) but may be higher for diffusion perpendicular to the bedding plane. The parameter <IMG SRC="phreeqc3-187.gif" ALIGN="BASELINE">
+ is the water filled (or the accessible) porosity (unitless), and n is an empirical exponent that varies from approximately 0.9 to 1.2 (Grathwohl, 1998; Van Loon and others, 2007) but may be higher for diffusion perpendicular to the bedding plane. The parameter <IMG SRC="phreeqc3-187.png" ALIGN="MIDDLE">
  (approximately 1 / <EM CLASS="Emphasis">
 &#949;</EM>
 wn) is the tortuosity factor, which accounts for the longer diffusion path for a particle in a porous media than in pure water. </P>
@@ -1075,7 +1075,7 @@ interlayer_D</STRONG>
 erlayer_D</STRONG>
 ] (as with all identifiers, case insensitive). The flux in the interlayers is calculated for the cations associated with X- (as defined with keyword <A HREF="phreeqc3-14.htm#50651137_84573" CLASS="XRef">EXCHANGE</A>): <BR>
 Ji = -<EM CLASS="Emphasis">
- <IMG SRC="phreeqc3-188.gif" ALIGN="BASELINE">
+ <IMG SRC="phreeqc3-188.png" ALIGN="MIDDLE">
 </EM>
  <EM CLASS="Emphasis">
 &#215; </EM>
@@ -1092,7 +1092,7 @@ is the flux (mol m<Sup CLASS="Superscript">
 s<Sup CLASS="Superscript">
 -1</Sup>
 ), Dw',i is the temperature corrected diffusion coefficient, <EM CLASS="Emphasis">
-<IMG SRC="phreeqc3-189.gif" ALIGN="BASELINE">
+<IMG SRC="phreeqc3-189.png" ALIGN="MIDDLE">
 </EM>
  is the interlayer tortuosity factor (unitless), mCEC is the concentration of total X-, mol(X-) / (m3 interlayer water), where (m3 interlayer water) = (m3 free pore water + m3 Donnan water) <EM CLASS="Emphasis">
 &#215;</EM>
@@ -1115,8 +1115,8 @@ T </EM>
 Dw' =<EM CLASS="Emphasis">
  (Dw</EM>
 )298 <EM CLASS="Emphasis">
- &#215; <IMG SRC="phreeqc3-190.gif" ALIGN="BASELINE">
- &#215; <IMG SRC="phreeqc3-191.gif" ALIGN="BASELINE">
+ &#215; <IMG SRC="phreeqc3-190.png" ALIGN="MIDDLE">
+ &#215; <IMG SRC="phreeqc3-191.png" ALIGN="MIDDLE">
 </EM>
 , where <EM CLASS="Emphasis">
 &#951; </EM>
@@ -1149,7 +1149,7 @@ interlayer_porosity_limit</EM>
 <A NAME="50651137_pgfId-636749"></A><EM CLASS="Emphasis">
 interlayer_tortuosity_factor</EM>
 --The tortuosity factor for interlayer diffusion, <EM CLASS="Emphasis">
-<IMG SRC="phreeqc3-192.gif" ALIGN="BASELINE">
+<IMG SRC="phreeqc3-192.png" ALIGN="MIDDLE">
 </EM>
  (unitless). Default is 100.0.</P>
 </DIV>
@@ -1167,7 +1167,7 @@ cells</EM>
 shifts</EM>
 /<EM CLASS="Emphasis">
 cells</EM>
- is 5). The total time of the simulation is 25 yr (year) (<IMG SRC="phreeqc3-193.gif" ALIGN="BASELINE">
+ is 5). The total time of the simulation is 25 yr (year) (<IMG SRC="phreeqc3-193.png" ALIGN="MIDDLE">
 ). The total length of the column is 6 m (four 1-m cells and one 2-m cell). </P>
 <P CLASS="BodyText">
 <A NAME="50651137_pgfId-663312"></A>At each shift, advection is simulated by moving solution <EM CLASS="Emphasis">
@@ -1208,15 +1208,15 @@ TRANSPORT</STRONG>
 stagnant_cells</EM>
  = 1), an exchange factor (<EM CLASS="Emphasis">
 exchange_factor</EM>
-) for the exchange between immobile and mobile cells, and the porosities <IMG SRC="phreeqc3-194.gif" ALIGN="BASELINE">
- and <IMG SRC="phreeqc3-195.gif" ALIGN="BASELINE">
+) for the exchange between immobile and mobile cells, and the porosities <IMG SRC="phreeqc3-194.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-195.png" ALIGN="MIDDLE">
  for the mobile and immobile cells.</P>
 <P CLASS="BodyText">
 <A NAME="50651137_pgfId-545908"></A>Thermal diffusion can be modeled for a stagnant zone with first-order exchange between mobile and immobile cells. Thermal exchange is calculated after subtracting the part of the exchange that is associated with hydrodynamic diffusion (see &#8220;Transport of Heat&#8221; in Parkhurst and Appelo, 1999). PHREEQC uses the value of the <EM CLASS="Emphasis">
 diffusion coefficient</EM>
  to find the correct heat exchange factor, and the value entered with identifier <STRONG CLASS="Bold">
 -diffusion_coefficient</STRONG>
- should be the same as has been used to calculate the exchange factor <IMG SRC="phreeqc3-196.gif" ALIGN="BASELINE">
+ should be the same as has been used to calculate the exchange factor <IMG SRC="phreeqc3-196.png" ALIGN="MIDDLE">
  (see equation 125 in Parkhurst and Appelo, 1999).</P>
 <P CLASS="BodyText">
 <A NAME="50651137_pgfId-765551"></A>Most of the information for advective-dispersive transport calculations must be entered with other keyword data blocks. Advective-dispersive transport assumes that solutions with numbers 1 through <EM CLASS="Emphasis">
@@ -1309,44 +1309,44 @@ Instead of concentration, as in Fick&#8217;s laws, the thermodynamic potential f
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-575371"></A><A NAME="50651137_57764"></A><IMG SRC="phreeqc3-197.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-575371"></A><A NAME="50651137_57764"></A><IMG SRC="phreeqc3-197.png" ALIGN="MIDDLE">
 ,             	(10)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50651137_pgfId-575372"></A>where Ji is the flux of species i (mol m-2s-1), ui is the mobility (m2 s-1V-1, square meter per second per volt), ci is the concentration (mol/m3), zi is charge number (unitless), <IMG SRC="phreeqc3-198.gif" ALIGN="BASELINE">
- is the gradient of the chemical potential (J mol-1m-1, joule per mole per meter), and similarly for the gradients of lnai and &#968;. If the electrical current is zero, <IMG SRC="phreeqc3-199.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-575372"></A>where Ji is the flux of species i (mol m-2s-1), ui is the mobility (m2 s-1V-1, square meter per second per volt), ci is the concentration (mol/m3), zi is charge number (unitless), <IMG SRC="phreeqc3-198.png" ALIGN="MIDDLE">
+ is the gradient of the chemical potential (J mol-1m-1, joule per mole per meter), and similarly for the gradients of lnai and &#968;. If the electrical current is zero, <IMG SRC="phreeqc3-199.png" ALIGN="MIDDLE">
 , <A HREF="phreeqc3-49.htm#50651137_57764" CLASS="XRef">equation 10</A> can be rearranged to solve for the gradient of the electrical potential:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-575390"></A><IMG SRC="phreeqc3-200.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-575390"></A><IMG SRC="phreeqc3-200.png" ALIGN="MIDDLE">
 ,                	(11)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-575334"></A>where the variables are linked with species j to indicate their origin from the zero-charge transfer condition. With ai = &#947;i ci/c0 and cid(lnci) = d(ci), the gradient of the activity becomes:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-575535"></A><IMG SRC="phreeqc3-201.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-575535"></A><IMG SRC="phreeqc3-201.png" ALIGN="MIDDLE">
 .                 	(12)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-575515"></A>And, finally, using the identity</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-587273"></A><IMG SRC="phreeqc3-202.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-587273"></A><IMG SRC="phreeqc3-202.png" ALIGN="MIDDLE">
 ,                	(13)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-575405"></A><A HREF="phreeqc3-49.htm#50651137_57764" CLASS="XRef">equation 10</A> can be recast completely in known model variables:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-575645"></A><A NAME="50651137_66275"></A><IMG SRC="phreeqc3-203.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-575645"></A><A NAME="50651137_66275"></A><IMG SRC="phreeqc3-203.png" ALIGN="MIDDLE">
 .               	(14)</H3>
 <P CLASS="BodyText">
 <A NAME="50651137_pgfId-575832"></A>Appelo and Wersin (2007) have shown that the thermodynamic potential gradients are the same in free pore water and in EDL water (the Donnan pore space); only the concentrations are different in the two water types. The concentration in the Donnan pore space is:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-636734"></A><IMG SRC="phreeqc3-204.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-636734"></A><IMG SRC="phreeqc3-204.png" ALIGN="MIDDLE">
 , 	(15)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-576668"></A>where erm_DDLi is the enrichment factor in the Donnan pore space, defined with identifier <STRONG CLASS="Bold">
@@ -1375,15 +1375,15 @@ true</STRONG>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-636712"></A>where ci is the concentration of species i (mol/m3 interlayer water), &#947;&#953; is the activity coefficient, defined with <STRONG CLASS="Bold">
 -gamma </STRONG>
-in keyword <A HREF="phreeqc3-16.htm#50651137_65476" CLASS="XRef">EXCHANGE_SPECIES</A>, &#946; is the equivalent fraction of the exchangeable species, and CEC is the exchange capacity (eq/m3, equivalent per cubic meter of interlayer water), defined as moles X- in keyword <A HREF="phreeqc3-14.htm#50651137_84573" CLASS="XRef">EXCHANGE</A> (the volume of interlayer water is calculated from the interlayer porosity, as explained below). For calculating the flux through the interlayer space, <IMG SRC="phreeqc3-205.gif" ALIGN="BASELINE">
- in <A HREF="phreeqc3-49.htm#50651137_66275" CLASS="XRef">equation 14</A> is replaced by <IMG SRC="phreeqc3-206.gif" ALIGN="BASELINE">
+in keyword <A HREF="phreeqc3-16.htm#50651137_65476" CLASS="XRef">EXCHANGE_SPECIES</A>, &#946; is the equivalent fraction of the exchangeable species, and CEC is the exchange capacity (eq/m3, equivalent per cubic meter of interlayer water), defined as moles X- in keyword <A HREF="phreeqc3-14.htm#50651137_84573" CLASS="XRef">EXCHANGE</A> (the volume of interlayer water is calculated from the interlayer porosity, as explained below). For calculating the flux through the interlayer space, <IMG SRC="phreeqc3-205.png" ALIGN="MIDDLE">
+ in <A HREF="phreeqc3-49.htm#50651137_66275" CLASS="XRef">equation 14</A> is replaced by <IMG SRC="phreeqc3-206.png" ALIGN="MIDDLE">
 .</P>
 <P CLASS="BodyText">
 <A NAME="50651137_pgfId-636696"></A>The actual mass transfer is found by multiplying the flux by the surface area, which PHREEQC calculates either from the amount of water in a cell and the cell length in a regular column, or from the mixing factor defined for stagnant cells, assuming a density of water of 1 kg/L. Thus, in a regular column, the surface area for diffusion between two cells i and j is</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-636700"></A><IMG SRC="phreeqc3-207.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-636700"></A><IMG SRC="phreeqc3-207.png" ALIGN="MIDDLE">
 , 	(17)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-636704"></A>where Aij is the surface area (m2), wfree is kgw defined with <STRONG CLASS="Bold">
@@ -1398,7 +1398,7 @@ in keyword <A HREF="phreeqc3-16.htm#50651137_65476" CLASS="XRef">EXCHANGE_SPECIE
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-636686"></A><A NAME="50651137_73453"></A><IMG SRC="phreeqc3-208.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-636686"></A><A NAME="50651137_73453"></A><IMG SRC="phreeqc3-208.png" ALIGN="MIDDLE">
 ,	(18)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-765693"></A>where mixf<Sub CLASS="Subscript">
@@ -1431,7 +1431,7 @@ w</Sub>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651137_pgfId-636662"></A><IMG SRC="phreeqc3-209.gif" ALIGN="BASELINE">
+<A NAME="50651137_pgfId-636662"></A><IMG SRC="phreeqc3-209.png" ALIGN="MIDDLE">
 ,	(19)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651137_pgfId-669053"></A>where &#949;IL is the porosity occupied by interlayer water, defined with identifier <STRONG CLASS="Bold">

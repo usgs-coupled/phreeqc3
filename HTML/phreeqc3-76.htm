@@ -23,7 +23,7 @@ Na<Sup CLASS="Superscript">
 <DIV>
 <MAP NAME="phreeqc3-333">
 </MAP>
-<IMG SRC="phreeqc3-333.gif" USEMAP="#phreeqc3-333">
+<IMG SRC="phreeqc3-333.png" USEMAP="#phreeqc3-333">
 </DIV>
 <P CLASS="BodyText">
 <A NAME="50651151_pgfId-1504124"></A>For calculating diffusion, one needs to account for the different diffusion coefficients of the tracers, the effect of the filters, and the properties of the clay. Figure 22 presents a schematic diagram of the processes in the clay (Appelo and others, 2010). The pores in the clay are lined with clay minerals that have a negative surface charge. The charge is partly neutralized by cations that are bound to the surface and partly by the electrostatic double layer that extends some distance into the pore. The double layer contains an excess of cations (counter-ions, in general) and a deficit of anions (co-ions, in general). In swelling clay minerals, such as montmorillonite, cations in the interlayer space also neutralize part of the negative charge. In comparison with concentration gradients that drive diffusion in free (uncharged) pore water, the gradient for a cation is magnified in the double layer, whereas the gradient for an anion is diminished, and the gradient for a neutral species remains the same. The charge in the double layer lowers the dielectric permittivity of the water, which enhances the ion-association of cations and anions into neutral species. Also, the viscosity of water may be higher than in free pore water. Where double layers overlap in pore constrictions, anions are impeded and forced to take longer paths, whereas cations and neutral species pass through unhindered.</P>
@@ -34,60 +34,60 @@ Na<Sup CLASS="Superscript">
 <P CLASS="BodyText">
 <A NAME="50651151_pgfId-1646036"></A>For a linear column, PHREEQC calculates diffusion automatically by using the parameters entered with identifier -multi_D in keyword <A HREF="phreeqc3-49.htm#50651137_87317" CLASS="XRef">TRANSPORT</A>. However, diffusion in the experiment is radial, and the filters have different properties than the clay. Also, the boundary solutions for the default (linear) column have a constant composition, whereas we want to know the concentration changes in these solutions during the diffusion experiment. All these experimental details can be simulated for a stagnant column by defining mixing factors among the individual cells with keyword <A HREF="phreeqc3-27.htm#50651137_23725" CLASS="XRef">MIX</A>.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1646061"></A>The mixing factors can be derived from Fick&#8217;s diffusion equations, <IMG SRC="phreeqc3-334.gif" ALIGN="BASELINE">
- and <IMG SRC="phreeqc3-335.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1646061"></A>The mixing factors can be derived from Fick&#8217;s diffusion equations, <IMG SRC="phreeqc3-334.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-335.png" ALIGN="MIDDLE">
 , which transform to finite differences for an arbitrarily shaped cell j:</P>
 <DIV>
 <MAP NAME="phreeqc3-336">
 </MAP>
-<IMG SRC="phreeqc3-336.gif" USEMAP="#phreeqc3-336">
+<IMG SRC="phreeqc3-336.png" USEMAP="#phreeqc3-336">
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651151_pgfId-1418073"></A><A NAME="50651151_40211"></A> <IMG SRC="phreeqc3-337.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1418073"></A><A NAME="50651151_40211"></A> <IMG SRC="phreeqc3-337.png" ALIGN="MIDDLE">
 ,	(44)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50651151_pgfId-1504169"></A>where <IMG SRC="phreeqc3-338.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1504169"></A>where <IMG SRC="phreeqc3-338.png" ALIGN="MIDDLE">
  is the concentration in cell <EM CLASS="Emphasis">
 j</EM>
- at the current time (mol/m3), <IMG SRC="phreeqc3-339.gif" ALIGN="BASELINE">
+ at the current time (mol/m3), <IMG SRC="phreeqc3-339.png" ALIGN="MIDDLE">
  is the concentration in cell <EM CLASS="Emphasis">
 j</EM>
- after the time step, Dw is the tracer diffusion coefficient (m2/s), <IMG SRC="phreeqc3-340.gif" ALIGN="BASELINE">
- is the time step (s), i is an adjacent cell, <IMG SRC="phreeqc3-341.gif" ALIGN="BASELINE">
- is the porosity over the interface of cells i and j (unitless), Gij is the geometrical factor that corrects for tortuosity of the porous medium (unitless), hij is the distance between midpoints of the cells (m), Aij is the shared surface area of cells i and j (m2), Vj is the volume of cell j (m3), and fbc is a factor for boundary cells (unitless). The summation is for all cells (up to n) adjacent to j. When hij is equal for all cells, a central difference algorithm is obtained that has second-order accuracy [O(h)2] (Appelo and others, 2008). It is therefore advantageous to make the grid regular. However, the same accuracy is achievable for a heterogeneous domain, even with widely variable gridsize, if the harmonic mean of the parameters in <IMG SRC="phreeqc3-342.gif" ALIGN="BASELINE">
+ after the time step, Dw is the tracer diffusion coefficient (m2/s), <IMG SRC="phreeqc3-340.png" ALIGN="MIDDLE">
+ is the time step (s), i is an adjacent cell, <IMG SRC="phreeqc3-341.png" ALIGN="MIDDLE">
+ is the porosity over the interface of cells i and j (unitless), Gij is the geometrical factor that corrects for tortuosity of the porous medium (unitless), hij is the distance between midpoints of the cells (m), Aij is the shared surface area of cells i and j (m2), Vj is the volume of cell j (m3), and fbc is a factor for boundary cells (unitless). The summation is for all cells (up to n) adjacent to j. When hij is equal for all cells, a central difference algorithm is obtained that has second-order accuracy [O(h)2] (Appelo and others, 2008). It is therefore advantageous to make the grid regular. However, the same accuracy is achievable for a heterogeneous domain, even with widely variable gridsize, if the harmonic mean of the parameters in <IMG SRC="phreeqc3-342.png" ALIGN="MIDDLE">
  is used. These parameters together, translate the tracer diffusion coefficient Dw into the effective diffusion coefficient De.</P>
 <P CLASS="BodyText">
 <A NAME="50651151_pgfId-1504179"></A>The harmonic mean can be derived in general (omitting the activity coefficient to simplify the formulas) as follows. The fluxes inside cells i and j and over the interface of the two cells must be the same and are given by:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651151_pgfId-1418095"></A><A NAME="50651151_78194"></A><IMG SRC="phreeqc3-343.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1418095"></A><A NAME="50651151_78194"></A><IMG SRC="phreeqc3-343.png" ALIGN="MIDDLE">
 ,	(45)</H3>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651151_pgfId-1418100"></A><A NAME="50651151_34933"></A><IMG SRC="phreeqc3-344.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1418100"></A><A NAME="50651151_34933"></A><IMG SRC="phreeqc3-344.png" ALIGN="MIDDLE">
 , and	(46)</H3>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651151_pgfId-1418105"></A><A NAME="50651151_77764"></A><IMG SRC="phreeqc3-345.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1418105"></A><A NAME="50651151_77764"></A><IMG SRC="phreeqc3-345.png" ALIGN="MIDDLE">
 ,	(47)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50651151_pgfId-1443041"></A>where h is the cell length (m), and cij is the concentration at the interface. Substituting <IMG SRC="phreeqc3-346.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1443041"></A>where h is the cell length (m), and cij is the concentration at the interface. Substituting <IMG SRC="phreeqc3-346.png" ALIGN="MIDDLE">
  = gi, in <A HREF="phreeqc3-76.htm#50651151_34933" CLASS="XRef">equation 46</A> and similarly in <A HREF="phreeqc3-76.htm#50651151_77764" CLASS="XRef">equation 47</A>, the two equations can be combined while eliminating the concentration cij to give:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651151_pgfId-1478346"></A><A NAME="50651151_79751"></A><IMG SRC="phreeqc3-347.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1478346"></A><A NAME="50651151_79751"></A><IMG SRC="phreeqc3-347.png" ALIGN="MIDDLE">
 .	(48)</H3>
 <P CLASS="BodyText">
 <A NAME="50651151_pgfId-1478348"></A>Multiplying the flux by the surface area, the time step, and the boundary factor, and dividing by the volume of the cell for which the concentration change is calculated (here, cell j), the mixing factor is obtained:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651151_pgfId-1442927"></A><A NAME="50651151_83544"></A><IMG SRC="phreeqc3-348.gif" ALIGN="BASELINE">
+<A NAME="50651151_pgfId-1442927"></A><A NAME="50651151_83544"></A><IMG SRC="phreeqc3-348.png" ALIGN="MIDDLE">
 ,	(49)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50651151_pgfId-1470781"></A>where fbc is 2 for cells in contact with a constant concentration cell, and 1 otherwise. When calculating mixf, Vj is set to 10<Sup CLASS="Superscript">
@@ -1887,12 +1887,12 @@ j</EM>
 <DIV>
 <MAP NAME="phreeqc3-349">
 </MAP>
-<IMG SRC="phreeqc3-349.gif" USEMAP="#phreeqc3-349">
+<IMG SRC="phreeqc3-349.png" USEMAP="#phreeqc3-349">
 </DIV>
 <DIV>
 <MAP NAME="phreeqc3-350">
 </MAP>
-<IMG SRC="phreeqc3-350.gif" USEMAP="#phreeqc3-350">
+<IMG SRC="phreeqc3-350.png" USEMAP="#phreeqc3-350">
 </DIV>
 <P CLASS="BodyText">
 <A NAME="50651151_pgfId-1694866"></A>The model simulates the experimental results very well (fig..24), except for Cs+. The calculated arrival time of Cs+ is almost 100 days later than observed and then the mass accumulates too slowly. This behavior of Cs+ has been found in many similar experiments. It has been modeled by increasing the diffusion coefficient and decreasing the sorption capacity for Cs+ relative to batch experiments; these adjustments can be easily incorporated in this example.</P>
@@ -1905,7 +1905,7 @@ j</EM>
 <DIV>
 <MAP NAME="phreeqc3-351">
 </MAP>
-<IMG SRC="phreeqc3-351.gif" USEMAP="#phreeqc3-351">
+<IMG SRC="phreeqc3-351.png" USEMAP="#phreeqc3-351">
 </DIV>
 <P CLASS="BodyText">
 <A NAME="50651151_pgfId-1509938"></A>Alternatively, and in line with the heterogeneous distribution of Cs+ in the clay after the experiment, the relatively fast arrival time can be modeled with a dual-porosity structure in which the pore space is subdivided into continuous and stagnant pores that can exchange by diffusion. The continuous pores allow Cs+ to move more rapidly through the clay than is calculated for a homogeneous medium, depending on the proportion, the flow velocity, and the diffusional exchange with the stagnant pores. With <A HREF="phreeqc3-76.htm#50651151_83544" CLASS="XRef">equation 49</A>, and some effort, the dual-porosity structure can be introduced in the Basic program. Otherwise, the C program that is given as supplementary information in Appelo and others (2010) can be used. Similarly to the Basic program, the C program writes a complete PHREEQC input file for diffusion of Cs+, but in a dual porosity clay; in addition, the program permits distributing the surface and exchange sites differently between the stagnant and continuous pores.</P>
