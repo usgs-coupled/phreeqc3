@@ -1,0 +1,23 @@
+Fixing up html:
+
+===> change gif to png:
+foreach i (*.htm)
+foreach? echo $i
+foreach? sed "s/gif/png/g" $i > t
+foreach? mv t $i
+foreach? end
+
+===> change BASELINE to MIDDLE:
+foreach i (*.htm)
+foreach? echo $i
+foreach? sed "s/ig\.\./ig\. /g" $i > t
+foreach? mv t $i
+foreach? end
+
+
+===> change fig.. to fig. :
+foreach i (*.htm)
+foreach? echo $i
+foreach? sed "s/ig\.\./ig\. /g" $i > t
+foreach? mv t $i
+foreach? end

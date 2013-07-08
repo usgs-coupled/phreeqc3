@@ -7,36 +7,36 @@
 <TITLE> Example 9--Kinetic Oxidation of Dissolved Ferrous Iron With Oxygen</TITLE><HR><P> | <A HREF="phreeqc3-65.htm">Next</A> || <A HREF="phreeqc3-63.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50651151_pgfId-1676997"></A>Example 9--<A NAME="50651151_39217"></A>Kinetic Oxidation of Dissolved Ferrous Iron With Oxygen</H2>
+<A NAME="50606095_pgfId-1676997"></A>Example 9--<A NAME="50606095_39217"></A>Kinetic Oxidation of Dissolved Ferrous Iron With Oxygen</H2>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1340373"></A>Kinetic rate expressions can be defined in a completely general way in PHREEQC by using Basic statements in the <A HREF="phreeqc3-32.htm#50651137_97907" CLASS="XRef">RATES</A> data block. The rate expressions can be used in batch-reaction and transport calculations with the <A HREF="phreeqc3-24.htm#50651137_55637" CLASS="XRef">KINETICS</A> data block. For transport calculations (<A HREF="phreeqc3-6.htm#50651137_87438" CLASS="XRef">ADVECTION</A> or <A HREF="phreeqc3-49.htm#50651137_87317" CLASS="XRef">TRANSPORT</A>), kinetic reactions can be defined cell by cell by the number range following the <A HREF="phreeqc3-24.htm#50651137_55637" CLASS="XRef">KINETICS</A> keyword (<A HREF="phreeqc3-24.htm#50651137_55637" CLASS="XRef">KINETICS</A> <EM CLASS="Emphasis">
+<A NAME="50606095_pgfId-1340373"></A>Kinetic rate expressions can be defined in a completely general way in PHREEQC by using Basic statements in the <A HREF="phreeqc3-32.htm#50606081_97907" CLASS="XRef">RATES</A> data block. The rate expressions can be used in batch-reaction and transport calculations with the <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> data block. For transport calculations (<A HREF="phreeqc3-6.htm#50606081_87438" CLASS="XRef">ADVECTION</A> or <A HREF="phreeqc3-49.htm#50606081_87317" CLASS="XRef">TRANSPORT</A>), kinetic reactions can be defined cell by cell by the number range following the <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> keyword (<A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> <EM CLASS="Emphasis">
 m-n</EM>
 ). The rate expressions are integrated with an embedded (up to) 5th-order Runge-Kutta-Fehlberg algorithm, or with a stiff, variable-order, variable-step multistep solver (Cohen and Hindmarsh, 1996). Equilibrium is calculated before a kinetic calculation is initiated and again when a kinetic reaction increment is added. Equilibrium includes solution species equilibrium; exchange-, equilibrium-phase-, solid-solution-, and surface-assemblage equilibrium; and gas-phase equilibrium. A check is performed to ensure that the difference between estimates of the integrated rate over a time interval is smaller than a user-defined tolerance. If the tolerance is not satisfied, then the integration over the time interval is automatically restarted with a smaller time interval. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1684011"></A>Kinetic reactions between solids and the aqueous phase can be calculated without modification of the database. PHREEQC also can calculate kinetic reactions among aqueous species that are normally assumed to be in equilibrium, but this requires that the database be redefined with separate <A HREF="phreeqc3-42.htm#50651137_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> for the aqueous species that react kinetically. Example 9 illustrates the procedure for decoupling two valence states of an element (iron) and shows how PHREEQC can be used to calculate the kinetic oxidation of Fe<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-1684011"></A>Kinetic reactions between solids and the aqueous phase can be calculated without modification of the database. PHREEQC also can calculate kinetic reactions among aqueous species that are normally assumed to be in equilibrium, but this requires that the database be redefined with separate <A HREF="phreeqc3-42.htm#50606081_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> for the aqueous species that react kinetically. Example 9 illustrates the procedure for decoupling two valence states of an element (iron) and shows how PHREEQC can be used to calculate the kinetic oxidation of Fe<Sup CLASS="Superscript">
 +2</Sup>
  to Fe<Sup CLASS="Superscript">
 +3</Sup>
  in water.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1684015"></A>The rate of oxidation of Fe<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-1684015"></A>The rate of oxidation of Fe<Sup CLASS="Superscript">
 +2</Sup>
  by O<Sub CLASS="Subscript">
 2</Sub>
  in water is given by (Singer and Stumm, 1970):</P>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50651151_pgfId-338698"></A><A NAME="50651151_32974"></A><IMG SRC="phreeqc3-234.png" ALIGN="MIDDLE">
+<A NAME="50606095_pgfId-338698"></A><A NAME="50606095_32974"></A><IMG SRC="phreeqc3-234.png" ALIGN="MIDDLE">
 ,	(22)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50651151_pgfId-338705"></A>where <EM CLASS="Emphasis">
+<A NAME="50606095_pgfId-338705"></A>where <EM CLASS="Emphasis">
 t</EM>
  is time in seconds, <IMG SRC="phreeqc3-235.png" ALIGN="MIDDLE">
  is the activity of the hydroxyl ion, <IMG SRC="phreeqc3-236.png" ALIGN="MIDDLE">
  is the total molality of ferrous iron in solution, and <IMG SRC="phreeqc3-237.png" ALIGN="MIDDLE">
 is the oxygen partial pressure (atm).</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-338709"></A>The time for complete oxidation of ferrous iron is a matter of minutes in an aerated solution when pH is above 7.0. However, Fe<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-338709"></A>The time for complete oxidation of ferrous iron is a matter of minutes in an aerated solution when pH is above 7.0. However, Fe<Sup CLASS="Superscript">
 +3</Sup>
  forms solute complexes with OH<Sup CLASS="Superscript">
 -</Sup>
@@ -46,414 +46,414 @@ is the oxygen partial pressure (atm).</P>
 2</Sub>
  at pH = 7.0 through which air is bubbled; the change in solution composition over time is calculated.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1601661"></A>The calculation requires the uncoupling of equilibrium among the Fe(2) and Fe(3) species. Two new &#8220;elements&#8221; are defined in <A HREF="phreeqc3-42.htm#50651137_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>--&#8220;Fe_di&#8221;, which corresponds to Fe(2), and &#8220;Fe_tri&#8221;, which corresponds to Fe(3). The master species for these elements are defined to be Fe_di+2 and Fe_tri+3, and all solution species, phases, exchange species, and surface species must be rewritten using these new elements and master species. A few of the transcriptions are shown in <A HREF="phreeqc3-64.htm#50651151_10607" CLASS="XRef">table 28</A>, which gives the partial input file for this example. <A NAME="50651151_26557"></A>     </P>
+<A NAME="50606095_pgfId-1601661"></A>The calculation requires the uncoupling of equilibrium among the Fe(2) and Fe(3) species. Two new &#8220;elements&#8221; are defined in <A HREF="phreeqc3-42.htm#50606081_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>--&#8220;Fe_di&#8221;, which corresponds to Fe(2), and &#8220;Fe_tri&#8221;, which corresponds to Fe(3). The master species for these elements are defined to be Fe_di+2 and Fe_tri+3, and all solution species, phases, exchange species, and surface species must be rewritten using these new elements and master species. A few of the transcriptions are shown in <A HREF="phreeqc3-64.htm#50606095_10607" CLASS="XRef">table 28</A>, which gives the partial input file for this example. <A NAME="50606095_26557"></A>     </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50651151_pgfId-1601923"></A>Table 28. <A NAME="50651151_10607"></A>Partial input file for example 9.</P>
+<A NAME="50606095_pgfId-1601923"></A>Table 28. <A NAME="50606095_10607"></A>Partial input file for example 9.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601763"></A>TITLE Example 9.--Kinetically controlled oxidation of ferrous </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601763"></A>TITLE Example 9.--Kinetically controlled oxidation of ferrous </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601765"></A>                  iron. Decoupled valence states of iron.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601765"></A>                  iron. Decoupled valence states of iron.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601767"></A>SOLUTION_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601767"></A>SOLUTION_MASTER_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601769"></A>Fe_di              Fe_di+2    0.0     Fe_di              55.847</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601769"></A>Fe_di              Fe_di+2    0.0     Fe_di              55.847</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601771"></A>Fe_tri             Fe_tri+3   0.0     Fe_tri             55.847</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601771"></A>Fe_tri             Fe_tri+3   0.0     Fe_tri             55.847</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601773"></A>SOLUTION_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601773"></A>SOLUTION_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601775"></A>Fe_di+2 = Fe_di+2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601775"></A>Fe_di+2 = Fe_di+2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601777"></A>        log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601777"></A>        log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601779"></A>Fe_tri+3 = Fe_tri+3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601779"></A>Fe_tri+3 = Fe_tri+3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601781"></A>        log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601781"></A>        log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601783"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601783"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1601785"></A># Fe+2 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1601785"></A># Fe+2 species</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1642777"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1642777"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1642775"></A>Fe_di+2 + H2O = Fe_diOH+ + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1642775"></A>Fe_di+2 + H2O = Fe_diOH+ + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748649"></A>        log_k   -9.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748649"></A>        log_k   -9.5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748647"></A>        delta_h 13.20   kcal</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748647"></A>        delta_h 13.20   kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748645"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748645"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748643"></A>#... and also other Fe+2 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748643"></A>#... and also other Fe+2 species</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748641"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748641"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748639"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748639"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748637"></A># Fe+3 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748637"></A># Fe+3 species</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748635"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748635"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748633"></A>Fe_tri+3 + H2O = Fe_triOH+2 + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748633"></A>Fe_tri+3 + H2O = Fe_triOH+2 + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748631"></A>        log_k   -2.19</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748631"></A>        log_k   -2.19</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748629"></A>        delta_h 10.4    kcal</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748629"></A>        delta_h 10.4    kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748627"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748627"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748625"></A>#... and also other Fe+3 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748625"></A>#... and also other Fe+3 species</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748623"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748623"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748621"></A>PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748621"></A>PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748619"></A>Goethite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748619"></A>Goethite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748617"></A>        Fe_triOOH + 3 H+ = Fe_tri+3 + 2 H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748617"></A>        Fe_triOOH + 3 H+ = Fe_tri+3 + 2 H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748615"></A>        log_k   -1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748615"></A>        log_k   -1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748613"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748613"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748611"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748611"></A>SOLUTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748609"></A>        pH  7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748609"></A>        pH  7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748607"></A>        pe 10.0  O2(g) -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748607"></A>        pe 10.0  O2(g) -0.67</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748605"></A>        Fe_di  0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748605"></A>        Fe_di  0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748603"></A>        Na  10.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748603"></A>        Na  10.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748601"></A>        Cl  10.  charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748601"></A>        Cl  10.  charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748599"></A>EQUILIBRIUM_PHASES 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748599"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748597"></A>        O2(g)           -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748597"></A>        O2(g)           -0.67</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748595"></A>RATES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748595"></A>RATES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748593"></A>Fe_di_ox</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748593"></A>Fe_di_ox</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748591"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748591"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748589"></A>  10  Fe_di = TOT(&quot;Fe_di&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748589"></A>  10  Fe_di = TOT(&quot;Fe_di&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748587"></A>  20  if (Fe_di &lt;= 0) then goto 200</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748587"></A>  20  if (Fe_di &lt;= 0) then goto 200</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748585"></A>  30  p_o2 = SR(&quot;O2(g)&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748585"></A>  30  p_o2 = SR(&quot;O2(g)&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748583"></A>  40  moles = (2.91e-9 + 1.33e12 * (ACT(&quot;OH-&quot;))^2 * p_o2) * Fe_di * TIME</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748583"></A>  40  moles = (2.91e-9 + 1.33e12 * (ACT(&quot;OH-&quot;))^2 * p_o2) * Fe_di * TIME</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748581"></A>  200 SAVE moles</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748581"></A>  200 SAVE moles</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748579"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748579"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748577"></A>KINETICS 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748577"></A>KINETICS 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748575"></A>Fe_di_ox</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748575"></A>Fe_di_ox</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748573"></A>        -formula  Fe_di  -1.0  Fe_tri  1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748573"></A>        -formula  Fe_di  -1.0  Fe_tri  1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748571"></A>        -steps 100 400 3100 10800 21600 5.04e4 8.64e4 1.728e5 1.728e5 1.728e5 1.728e5 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748571"></A>        -steps 100 400 3100 10800 21600 5.04e4 8.64e4 1.728e5 1.728e5 1.728e5 1.728e5 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748569"></A>        -step_divide 1e-4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748569"></A>        -step_divide 1e-4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748567"></A>INCREMENTAL_REACTIONS true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748567"></A>INCREMENTAL_REACTIONS true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748565"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748565"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748563"></A>        -file ex9.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748563"></A>        -file ex9.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748561"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748561"></A>        -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748559"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748559"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748557"></A>        -headings Days  Fe(2)  Fe(3)  pH  si_goethite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748557"></A>        -headings Days  Fe(2)  Fe(3)  pH  si_goethite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748555"></A>  10 PUNCH SIM_TIME / 3600 / 24, TOT(&quot;Fe_di&quot;)*1e6, TOT(&quot;Fe_tri&quot;)*1e6, -LA(&quot;H+&quot;),&#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748555"></A>  10 PUNCH SIM_TIME / 3600 / 24, TOT(&quot;Fe_di&quot;)*1e6, TOT(&quot;Fe_tri&quot;)*1e6, -LA(&quot;H+&quot;),&#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748553"></A>	SI(&quot;Goethite&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748553"></A>	SI(&quot;Goethite&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748551"></A>USER_GRAPH Example 9</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748551"></A>USER_GRAPH Example 9</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748549"></A>        -headings _time_ Fe(2) Fe(3) pH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748549"></A>        -headings _time_ Fe(2) Fe(3) pH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748547"></A>        -chart_title &quot;Oxidation of Ferrous Iron&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748547"></A>        -chart_title &quot;Oxidation of Ferrous Iron&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748545"></A>        -axis_titles &quot;Time, in days&quot; &quot;Micromole per kilogram water&quot; &quot;pH&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748545"></A>        -axis_titles &quot;Time, in days&quot; &quot;Micromole per kilogram water&quot; &quot;pH&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748543"></A>        -axis_scale secondary_y_axis 4.0 7.0 1.0 0.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748543"></A>        -axis_scale secondary_y_axis 4.0 7.0 1.0 0.5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748541"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748541"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748539"></A>  10 GRAPH_X TOTAL_TIME / 3600 / 24 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748539"></A>  10 GRAPH_X TOTAL_TIME / 3600 / 24 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748537"></A>  20 GRAPH_Y TOT(&quot;Fe_tri&quot;)*1e6, TOT(&quot;Fe_di&quot;)*1e6 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748537"></A>  20 GRAPH_Y TOT(&quot;Fe_tri&quot;)*1e6, TOT(&quot;Fe_di&quot;)*1e6 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748535"></A>  30 GRAPH_SY -LA(&quot;H+&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748535"></A>  30 GRAPH_SY -LA(&quot;H+&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748533"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748533"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1748531"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1748531"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1601753"></A>The <A HREF="phreeqc3-41.htm#50651137_30253" CLASS="XRef">SOLUTION</A> data block defines a sodium chloride solution that has 0.1 mmol/kgw ferrous iron (Fe_di) and is in equilibrium with atmospheric oxygen. The <A HREF="phreeqc3-13.htm#50651137_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block specifies that all batch-reaction solutions will also be in equilibrium with atmospheric oxygen; thus, there is a continuous supply of oxygen for oxidation of ferrous iron.</P>
+<A NAME="50606095_pgfId-1601753"></A>The <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> data block defines a sodium chloride solution that has 0.1 mmol/kgw ferrous iron (Fe_di) and is in equilibrium with atmospheric oxygen. The <A HREF="phreeqc3-13.htm#50606081_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block specifies that all batch-reaction solutions will also be in equilibrium with atmospheric oxygen; thus, there is a continuous supply of oxygen for oxidation of ferrous iron.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-338792"></A>In the <A HREF="phreeqc3-32.htm#50651137_97907" CLASS="XRef">RATES</A> data block, the rate expression is designated with the name &#8220;Fe_di_ox&#8221; and defined according to <A HREF="phreeqc3-64.htm#50651151_32974" CLASS="XRef">equation 22</A>. Note the use of the special Basic function &#8220;TOT&#8221; to obtain the total concentration (molality) of ferrous iron (line 10), &#8220;SR&#8221; to obtain the saturation ratio, or, in the case of a gas, the partial pressure, here of oxygen (line 30), and &#8220;ACT&#8221; to obtain the activity of OH<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-338792"></A>In the <A HREF="phreeqc3-32.htm#50606081_97907" CLASS="XRef">RATES</A> data block, the rate expression is designated with the name &#8220;Fe_di_ox&#8221; and defined according to <A HREF="phreeqc3-64.htm#50606095_32974" CLASS="XRef">equation 22</A>. Note the use of the special Basic function &#8220;TOT&#8221; to obtain the total concentration (molality) of ferrous iron (line 10), &#8220;SR&#8221; to obtain the saturation ratio, or, in the case of a gas, the partial pressure, here of oxygen (line 30), and &#8220;ACT&#8221; to obtain the activity of OH<Sup CLASS="Superscript">
 -</Sup>
  (line 40). Line 40 defines the moles of reaction. Notice also that the variable <EM CLASS="Emphasis">
 moles</EM>
  is calculated by multiplying the rate times the current time interval (TIME) and that the rate definition ends with a SAVE statement. The SAVE and TIME statements must be included in a rate definition; they specify the moles that reacted over the time (sub-)interval. The interval given by TIME is an internal PHREEQC variable that is adapted automatically by the code to obtain the required accuracy of the integration.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-338799"></A>In the <A HREF="phreeqc3-24.htm#50651137_55637" CLASS="XRef">KINETICS</A> data block, the rate expression named &#8220;Fe_di_ox&#8221; is invoked and parameters are defined. When the rate name in the <A HREF="phreeqc3-24.htm#50651137_55637" CLASS="XRef">KINETICS</A> data block is identical to a mineral name that is defined under <A HREF="phreeqc3-29.htm#50651137_84418" CLASS="XRef">PHASES</A>, the stoichiometry of that mineral will be used in the reaction. However, because no mineral is associated with the rate name of this example, the identifier <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-338799"></A>In the <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> data block, the rate expression named &#8220;Fe_di_ox&#8221; is invoked and parameters are defined. When the rate name in the <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> data block is identical to a mineral name that is defined under <A HREF="phreeqc3-29.htm#50606081_84418" CLASS="XRef">PHASES</A>, the stoichiometry of that mineral will be used in the reaction. However, because no mineral is associated with the rate name of this example, the identifier <STRONG CLASS="Bold">
 -formula</STRONG>
  must be used to specify the reaction stoichiometry. The reaction involves loss of Fe_di [equivalent to Fe(2)] from solution as indicated by the stoichiometric coefficient of -1.0. The loss is balanced by a gain in solution of Fe_tri [equivalent to Fe(3)] with a stoichiometric coefficient of +1.0. Note that the formula contains only the elements for which the mass changes in the system. Thus, the overall kinetic reaction of the example is <IMG SRC="phreeqc3-238.png" ALIGN="MIDDLE">
-, but the reaction of protons and oxygen to form water does not change the total mass of hydrogen or oxygen in the system. Hydrogen and oxygen are therefore not included in the formula. In <A HREF="phreeqc3-64.htm#50651151_10607" CLASS="XRef">table 28</A>, the phase O2(g) in <A HREF="phreeqc3-13.htm#50651137_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> allows dissolved oxygen to be maintained in equilibrium with atmospheric oxygen gas. In a system closed to oxygen, the dissolved oxygen would be partly consumed.</P>
+, but the reaction of protons and oxygen to form water does not change the total mass of hydrogen or oxygen in the system. Hydrogen and oxygen are therefore not included in the formula. In <A HREF="phreeqc3-64.htm#50606095_10607" CLASS="XRef">table 28</A>, the phase O2(g) in <A HREF="phreeqc3-13.htm#50606081_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> allows dissolved oxygen to be maintained in equilibrium with atmospheric oxygen gas. In a system closed to oxygen, the dissolved oxygen would be partly consumed.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-338815"></A>The identifier <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-338815"></A>The identifier <STRONG CLASS="Bold">
 -steps</STRONG>
- in the <A HREF="phreeqc3-24.htm#50651137_55637" CLASS="XRef">KINETICS</A> data block gives the time step(s) over which the kinetic reactions must be integrated. When <A HREF="phreeqc3-19.htm#50651137_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A><STRONG CLASS="Bold">
+ in the <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> data block gives the time step(s) over which the kinetic reactions must be integrated. When <A HREF="phreeqc3-19.htm#50606081_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A><STRONG CLASS="Bold">
  true </STRONG>
 is used, each time step increments the total time to be simulated, and the results from the previous time step are used as the starting point for the current time step. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1340316"></A>The <A HREF="phreeqc3-38.htm#50651137_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies the file name of the selected-output file and eliminates all default printing to that file (<STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1340316"></A>The <A HREF="phreeqc3-38.htm#50606081_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies the file name of the selected-output file and eliminates all default printing to that file (<STRONG CLASS="Bold">
 -reset</STRONG>
- false). The only output to the selected-output file in this example is defined with the <A HREF="phreeqc3-53.htm#50651137_56415" CLASS="XRef">USER_PUNCH</A> data block. The Basic program in <A HREF="phreeqc3-53.htm#50651137_56415" CLASS="XRef">USER_PUNCH</A> specifies that the following be printed after each kinetic time step (<STRONG CLASS="Bold">
+ false). The only output to the selected-output file in this example is defined with the <A HREF="phreeqc3-53.htm#50606081_56415" CLASS="XRef">USER_PUNCH</A> data block. The Basic program in <A HREF="phreeqc3-53.htm#50606081_56415" CLASS="XRef">USER_PUNCH</A> specifies that the following be printed after each kinetic time step (<STRONG CLASS="Bold">
 -steps </STRONG>
 defines 11 kinetic time steps): the cumulative time of the simulation, in days; the total ferrous and ferric iron, in <EM CLASS="symbol">
 &#956;</EM>
-mol/kgw; the pH; and the saturation index of goethite. The results also are plotted with <A HREF="phreeqc3-51.htm#50651137_26121" CLASS="XRef">USER_GRAPH</A>, and the points can be saved to a file by right-clicking the mouse when the cursor is inside the chart area.</P>
+mol/kgw; the pH; and the saturation index of goethite. The results also are plotted with <A HREF="phreeqc3-51.htm#50606081_26121" CLASS="XRef">USER_GRAPH</A>, and the points can be saved to a file by right-clicking the mouse when the cursor is inside the chart area.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1684175"></A>When the input file is run, two warning messages are generated during the integration. If the integration time interval is too large, it is possible that the initial estimates of kinetic reaction increments produce negative solution concentrations. When this happens, the program prints a warning message, decreases the size of the time interval, and restarts the integration. The messages are warnings, not errors, and the program successfully completes the calculation. It is possible to eliminate the warning messages by reducing the initial integration interval. No warning messages are printed if the identifier <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1684175"></A>When the input file is run, two warning messages are generated during the integration. If the integration time interval is too large, it is possible that the initial estimates of kinetic reaction increments produce negative solution concentrations. When this happens, the program prints a warning message, decreases the size of the time interval, and restarts the integration. The messages are warnings, not errors, and the program successfully completes the calculation. It is possible to eliminate the warning messages by reducing the initial integration interval. No warning messages are printed if the identifier <STRONG CLASS="Bold">
 -step_divide</STRONG>
- 100 is used (<A HREF="phreeqc3-24.htm#50651137_55637" CLASS="XRef">KINETICS</A>), which divides the initial (overall) time step by 100. Likewise, no warning messages are printed if the identifier <STRONG CLASS="Bold">
+ 100 is used (<A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A>), which divides the initial (overall) time step by 100. Likewise, no warning messages are printed if the identifier <STRONG CLASS="Bold">
 -step_divide</STRONG>
  1e-7 is used, which causes the reaction increment to be less than 1&#215;10<Sup CLASS="Superscript">
 -7</Sup>
@@ -465,7 +465,7 @@ mol/kgw; the pH; and the saturation index of goethite. The results also are plot
 -step_divide</STRONG>
  100, and about 10 times longer than not using <STRONG CLASS="Bold">
 -step_divide </STRONG>
-at all. Figure 10 shows the concentration of total Fe(2), total Fe(3), and pH in the reaction vessel over the 10 days of the simulation. It can be seen that the pH rapidly decreases at the beginning of the reaction. The slope of Fe(2) against time is initially steep, but lessens as the reaction progresses, which is consistent with <A HREF="phreeqc3-64.htm#50651151_32974" CLASS="XRef">equation 22</A>.When the experiment is performed in reality in an unbuffered solution, it is noted that the pH initially rises. This rise in pH is consistent with slowly forming hydroxy-complexes of Fe(3). Because the oxidation reaction by itself consumes protons, the pH would initially rise if the hydroxy-complexes that lower the pH form slowly. Such kinetic formation of aqueous complexes also could be included in PHREEQC simulations, but it would require that the hydroxy-complexes of Fe(3) also be defined by using a separate <A HREF="phreeqc3-42.htm#50651137_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and that a rate expression be defined for the kinetic formation of the complexes.</P>
+at all. Figure 10 shows the concentration of total Fe(2), total Fe(3), and pH in the reaction vessel over the 10 days of the simulation. It can be seen that the pH rapidly decreases at the beginning of the reaction. The slope of Fe(2) against time is initially steep, but lessens as the reaction progresses, which is consistent with <A HREF="phreeqc3-64.htm#50606095_32974" CLASS="XRef">equation 22</A>.When the experiment is performed in reality in an unbuffered solution, it is noted that the pH initially rises. This rise in pH is consistent with slowly forming hydroxy-complexes of Fe(3). Because the oxidation reaction by itself consumes protons, the pH would initially rise if the hydroxy-complexes that lower the pH form slowly. Such kinetic formation of aqueous complexes also could be included in PHREEQC simulations, but it would require that the hydroxy-complexes of Fe(3) also be defined by using a separate <A HREF="phreeqc3-42.htm#50606081_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and that a rate expression be defined for the kinetic formation of the complexes.</P>
 <DIV>
 <MAP NAME="phreeqc3-239">
 </MAP>
