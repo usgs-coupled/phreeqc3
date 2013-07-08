@@ -10,7 +10,7 @@ foreach? end
 ===> change BASELINE to MIDDLE:
 foreach i (*.htm)
 foreach? echo $i
-foreach? sed "s/ig\.\./ig\. /g" $i > t
+foreach? sed "s/BASELINE/MIDDLE/g" $i > t
 foreach? mv t $i
 foreach? end
 
@@ -21,3 +21,5 @@ foreach? echo $i
 foreach? sed "s/ig\.\./ig\. /g" $i > t
 foreach? mv t $i
 foreach? end
+
+Remove part of phreeqc3.htm with major headings (at end of htm file). Fonts are weird and section is not needed.
