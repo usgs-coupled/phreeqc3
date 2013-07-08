@@ -7,62 +7,62 @@
 <TITLE> Example 16--Inverse Modeling of Sierra Spring Waters</TITLE><HR><P> | <A HREF="phreeqc3-72.htm">Next</A> || <A HREF="phreeqc3-70.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50651151_pgfId-340617"></A>Example 16--<A NAME="50651151_75769"></A>Inverse Modeling of Sierra Spring Waters</H2>
+<A NAME="50606095_pgfId-340617"></A>Example 16--<A NAME="50606095_75769"></A>Inverse Modeling of Sierra Spring Waters</H2>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1413115"></A>This example repeats the inverse modeling calculations of the chemical evolution of spring-water compositions in the Sierra Nevada that are described in a classic paper by Garrels and Mackenzie (1967). The same example is described in the manual for the inverse-modeling program netpath (Plummer and others, 1991 and 1994). The example uses two spring-water compositions, one from an ephemeral spring, which is less chemically evolved, and one from a perennial spring, which probably has had a longer residence time in the subsoil. The differences in composition between the ephemeral spring and the perennial spring are assumed to be caused by reactions between the water and the minerals and gases it contacts. The object of inverse modeling in this example is to find sets of minerals and gases that, when reacted in appropriate amounts, account for the differences in composition between the two solutions</P>
+<A NAME="50606095_pgfId-1413115"></A>This example repeats the inverse modeling calculations of the chemical evolution of spring-water compositions in the Sierra Nevada that are described in a classic paper by Garrels and Mackenzie (1967). The same example is described in the manual for the inverse-modeling program netpath (Plummer and others, 1991 and 1994). The example uses two spring-water compositions, one from an ephemeral spring, which is less chemically evolved, and one from a perennial spring, which probably has had a longer residence time in the subsoil. The differences in composition between the ephemeral spring and the perennial spring are assumed to be caused by reactions between the water and the minerals and gases it contacts. The object of inverse modeling in this example is to find sets of minerals and gases that, when reacted in appropriate amounts, account for the differences in composition between the two solutions</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1691102"></A>netpath (Plummer and others, 1991 and 1994) and PHREEQC are both capable of performing inverse-modeling calculations. netpath has the advantage relative to PHREEQC that it provides isotope fractionation and carbon-14 dating, whereas PHREEQC, in inverse models, can only calculate isotope mole-balances. PHREEQC can calculate isotope fractionation in forward models (see <A HREF="phreeqc3-75.htm#50651151_33272" CLASS="XRef">See Distribution of Isotopes Between Water and Calcite</A>), but this requires a separate simulation and a more complicated setup than NETPATH. The major advantage of inverse modeling with PHREEQC relative to netpath is the capability to include uncertainties in the analytical data that are used in the calculation of inverse models. This capability produces inverse models that are more robust, that is, small changes in input data do not produce large differences in model-calculated mole transfers. Another advantage of PHREEQC is that any set of elements may be included in the inverse-modeling calculations, whereas netpath is limited to a selected, though relatively comprehensive, set of elements.</P>
+<A NAME="50606095_pgfId-1691102"></A>netpath (Plummer and others, 1991 and 1994) and PHREEQC are both capable of performing inverse-modeling calculations. netpath has the advantage relative to PHREEQC that it provides isotope fractionation and carbon-14 dating, whereas PHREEQC, in inverse models, can only calculate isotope mole-balances. PHREEQC can calculate isotope fractionation in forward models (see <A HREF="phreeqc3-75.htm#50606095_33272" CLASS="XRef">See Distribution of Isotopes Between Water and Calcite</A>), but this requires a separate simulation and a more complicated setup than NETPATH. The major advantage of inverse modeling with PHREEQC relative to netpath is the capability to include uncertainties in the analytical data that are used in the calculation of inverse models. This capability produces inverse models that are more robust, that is, small changes in input data do not produce large differences in model-calculated mole transfers. Another advantage of PHREEQC is that any set of elements may be included in the inverse-modeling calculations, whereas netpath is limited to a selected, though relatively comprehensive, set of elements.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1691509"></A>The analytical data for the two springs are given in <A HREF="phreeqc3-71.htm#50651151_95386" CLASS="XRef">table 45</A>. The chemical compositions of minerals and gases postulated to react by Garrels and Mackenzie (1967) and their mole transfers are given in <A HREF="phreeqc3-71.htm#50651151_11695" CLASS="XRef">table 46</A>. The selection of the identity and composition of the reactive phases, and the variation in space and time, is the most difficult part of inverse modeling. In general, the selection is made by knowledge of the  flow system and the mineralogy along the flow path, although microscopic and chemical analysis of the aquifer material and isotopic composition of the water and minerals may provide additional insight for the selection of reactants. It is not necessary to know exactly which minerals are reacting, but it is necessary to have a comprehensive list of potential reactants. </P>
+<A NAME="50606095_pgfId-1691509"></A>The analytical data for the two springs are given in <A HREF="phreeqc3-71.htm#50606095_95386" CLASS="XRef">table 45</A>. The chemical compositions of minerals and gases postulated to react by Garrels and Mackenzie (1967) and their mole transfers are given in <A HREF="phreeqc3-71.htm#50606095_11695" CLASS="XRef">table 46</A>. The selection of the identity and composition of the reactive phases, and the variation in space and time, is the most difficult part of inverse modeling. In general, the selection is made by knowledge of the  flow system and the mineralogy along the flow path, although microscopic and chemical analysis of the aquifer material and isotopic composition of the water and minerals may provide additional insight for the selection of reactants. It is not necessary to know exactly which minerals are reacting, but it is necessary to have a comprehensive list of potential reactants. </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50651151_pgfId-1691590"></A>Table 45. <A NAME="50651151_95386"></A>Analytical data for spring waters in example 16.</P>
+<A NAME="50606095_pgfId-1691590"></A>Table 45. <A NAME="50606095_95386"></A>Analytical data for spring waters in example 16.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50651151_pgfId-1691591"></A>[Analyses in millimoles per liter from Garrels and Mackenzie (1967)]</P>
+<A NAME="50606095_pgfId-1691591"></A>[Analyses in millimoles per liter from Garrels and Mackenzie (1967)]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691611"></A>Spring</P>
+<A NAME="50606095_pgfId-1691611"></A>Spring</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691613"></A>pH</P>
+<A NAME="50606095_pgfId-1691613"></A>pH</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691615"></A>SiO<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691615"></A>SiO<Sub CLASS="Subscript">
 2</Sub>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691617"></A>Ca<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-1691617"></A>Ca<Sup CLASS="Superscript">
 2+</Sup>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691619"></A>Mg<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-1691619"></A>Mg<Sup CLASS="Superscript">
 2+</Sup>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691621"></A>Na<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-1691621"></A>Na<Sup CLASS="Superscript">
 +</Sup>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691623"></A>K<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-1691623"></A>K<Sup CLASS="Superscript">
 +</Sup>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691625"></A>HCO<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691625"></A>HCO<Sub CLASS="Subscript">
 3</Sub>
 <Sup CLASS="Superscript">
 -</Sup>
@@ -70,7 +70,7 @@
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691627"></A>SO<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691627"></A>SO<Sub CLASS="Subscript">
 4</Sub>
 <Sup CLASS="Superscript">
 2-</Sup>
@@ -78,7 +78,7 @@
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691629"></A>Cl<Sup CLASS="Superscript">
+<A NAME="50606095_pgfId-1691629"></A>Cl<Sup CLASS="Superscript">
 -</Sup>
 </P>
 </TH>
@@ -86,120 +86,120 @@
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691631"></A>Ephemeral spring</P>
+<A NAME="50606095_pgfId-1691631"></A>Ephemeral spring</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691633"></A>6.2</LI>
+<A NAME="50606095_pgfId-1691633"></A>6.2</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691635"></A>0.273</LI>
+<A NAME="50606095_pgfId-1691635"></A>0.273</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691637"></A>0.078</LI>
+<A NAME="50606095_pgfId-1691637"></A>0.078</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691639"></A>0.029</LI>
+<A NAME="50606095_pgfId-1691639"></A>0.029</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691641"></A>0.134</LI>
+<A NAME="50606095_pgfId-1691641"></A>0.134</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691643"></A>0.028</LI>
+<A NAME="50606095_pgfId-1691643"></A>0.028</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691645"></A>0.328</LI>
+<A NAME="50606095_pgfId-1691645"></A>0.328</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691647"></A>0.010</LI>
+<A NAME="50606095_pgfId-1691647"></A>0.010</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691649"></A>0.014</LI>
+<A NAME="50606095_pgfId-1691649"></A>0.014</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691651"></A>Perennial spring</P>
+<A NAME="50606095_pgfId-1691651"></A>Perennial spring</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691653"></A>6.8</LI>
+<A NAME="50606095_pgfId-1691653"></A>6.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691655"></A>0.410</LI>
+<A NAME="50606095_pgfId-1691655"></A>0.410</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691657"></A>0.260</LI>
+<A NAME="50606095_pgfId-1691657"></A>0.260</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691659"></A>0.071</LI>
+<A NAME="50606095_pgfId-1691659"></A>0.071</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691661"></A>0.259</LI>
+<A NAME="50606095_pgfId-1691661"></A>0.259</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691663"></A>0.040</LI>
+<A NAME="50606095_pgfId-1691663"></A>0.040</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691665"></A>0.895</LI>
+<A NAME="50606095_pgfId-1691665"></A>0.895</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691667"></A>0.025</LI>
+<A NAME="50606095_pgfId-1691667"></A>0.025</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50651151_pgfId-1691669"></A>0.030</LI>
+<A NAME="50606095_pgfId-1691669"></A>0.030</LI>
 </UL>
 </TD>
 </TR>
@@ -207,46 +207,46 @@
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50651151_pgfId-1691891"></A>Table 46. <A NAME="50651151_11695"></A>Reactant compositions and mole transfers given by Garrels and Mackenzie (1967).</P>
+<A NAME="50606095_pgfId-1691891"></A>Table 46. <A NAME="50606095_11695"></A>Reactant compositions and mole transfers given by Garrels and Mackenzie (1967).</P>
 <P CLASS="TableHeadnote">
-<A NAME="50651151_pgfId-1691892"></A>[Mole transfer in millimoles per kilogram water, positive numbers indicate dissolution and negative numbers indicate precipitation]</P>
+<A NAME="50606095_pgfId-1691892"></A>[Mole transfer in millimoles per kilogram water, positive numbers indicate dissolution and negative numbers indicate precipitation]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691898"></A>Reactant</P>
+<A NAME="50606095_pgfId-1691898"></A>Reactant</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691900"></A>Composition</P>
+<A NAME="50606095_pgfId-1691900"></A>Composition</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50651151_pgfId-1691902"></A>Mole transfer</P>
+<A NAME="50606095_pgfId-1691902"></A>Mole transfer</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691904"></A>Halite</P>
+<A NAME="50606095_pgfId-1691904"></A>Halite</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691906"></A>NaCl</P>
+<A NAME="50606095_pgfId-1691906"></A>NaCl</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691908"></A>0.016</H6>
+<A NAME="50606095_pgfId-1691908"></A>0.016</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691910"></A>Gypsum</P>
+<A NAME="50606095_pgfId-1691910"></A>Gypsum</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691912"></A>CaSO<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691912"></A>CaSO<Sub CLASS="Subscript">
 4</Sub>
 <Sup CLASS="Superscript">
 .</Sup>
@@ -256,17 +256,17 @@ O</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691914"></A>0.015</H6>
+<A NAME="50606095_pgfId-1691914"></A>0.015</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691916"></A>Kaolinite</P>
+<A NAME="50606095_pgfId-1691916"></A>Kaolinite</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691918"></A>Al<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691918"></A>Al<Sub CLASS="Subscript">
 2</Sub>
 Si<Sub CLASS="Subscript">
 2</Sub>
@@ -278,17 +278,17 @@ O<Sub CLASS="Subscript">
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691920"></A>-0.033</H6>
+<A NAME="50606095_pgfId-1691920"></A>-0.033</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691922"></A>Ca-Montmorillonite</P>
+<A NAME="50606095_pgfId-1691922"></A>Ca-Montmorillonite</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691924"></A>Ca<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691924"></A>Ca<Sub CLASS="Subscript">
 0.17</Sub>
 Al<Sub CLASS="Subscript">
 2.33</Sub>
@@ -302,65 +302,65 @@ O<Sub CLASS="Subscript">
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691926"></A>-0.081</H6>
+<A NAME="50606095_pgfId-1691926"></A>-0.081</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691928"></A>CO2gas</P>
+<A NAME="50606095_pgfId-1691928"></A>CO2gas</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691930"></A>CO<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691930"></A>CO<Sub CLASS="Subscript">
 2</Sub>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691932"></A>0.427</H6>
+<A NAME="50606095_pgfId-1691932"></A>0.427</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691934"></A>Calcite</P>
+<A NAME="50606095_pgfId-1691934"></A>Calcite</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691936"></A>CaCO<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691936"></A>CaCO<Sub CLASS="Subscript">
 3</Sub>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691938"></A>0.115</H6>
+<A NAME="50606095_pgfId-1691938"></A>0.115</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691940"></A>Silica</P>
+<A NAME="50606095_pgfId-1691940"></A>Silica</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691942"></A>SiO<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691942"></A>SiO<Sub CLASS="Subscript">
 2</Sub>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691944"></A>0.0</H6>
+<A NAME="50606095_pgfId-1691944"></A>0.0</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691946"></A>Biotite</P>
+<A NAME="50606095_pgfId-1691946"></A>Biotite</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691948"></A>KMg<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691948"></A>KMg<Sub CLASS="Subscript">
 3</Sub>
 AlSi<Sub CLASS="Subscript">
 3</Sub>
@@ -372,17 +372,17 @@ O<Sub CLASS="Subscript">
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691950"></A>0.014</H6>
+<A NAME="50606095_pgfId-1691950"></A>0.014</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691952"></A>Plagioclase</P>
+<A NAME="50606095_pgfId-1691952"></A>Plagioclase</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50651151_pgfId-1691954"></A>Na<Sub CLASS="Subscript">
+<A NAME="50606095_pgfId-1691954"></A>Na<Sub CLASS="Subscript">
 0.62</Sub>
 Ca<Sub CLASS="Subscript">
 0.38</Sub>
@@ -396,184 +396,184 @@ O<Sub CLASS="Subscript">
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50651151_pgfId-1691956"></A>0.175</H6>
+<A NAME="50606095_pgfId-1691956"></A>0.175</H6>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1616967"></A>The input file for this example is given in <A HREF="phreeqc3-71.htm#50651151_47178" CLASS="XRef">table 47</A>. The <A HREF="phreeqc3-44.htm#50651137_84297" CLASS="XRef">SOLUTION_SPREAD</A> data block is used to define the two spring waters. The <A HREF="phreeqc3-20.htm#50651137_11066" CLASS="XRef">INVERSE_MODELING</A> data block defines the inverse-modeling calculations, including the solutions and phases to be used, the mole-balance equations, the uncertainty limits, whether all or only &#8220;minimal&#8221; models will be printed, and whether ranges of mole transfer that are consistent with the uncertainty limits will be calculated. A series of identifiers (sub-keywords preceded by a hyphen) specify the characteristics of the inverse model.  </P>
+<A NAME="50606095_pgfId-1616967"></A>The input file for this example is given in <A HREF="phreeqc3-71.htm#50606095_47178" CLASS="XRef">table 47</A>. The <A HREF="phreeqc3-44.htm#50606081_84297" CLASS="XRef">SOLUTION_SPREAD</A> data block is used to define the two spring waters. The <A HREF="phreeqc3-20.htm#50606081_11066" CLASS="XRef">INVERSE_MODELING</A> data block defines the inverse-modeling calculations, including the solutions and phases to be used, the mole-balance equations, the uncertainty limits, whether all or only &#8220;minimal&#8221; models will be printed, and whether ranges of mole transfer that are consistent with the uncertainty limits will be calculated. A series of identifiers (sub-keywords preceded by a hyphen) specify the characteristics of the inverse model.  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50651151_pgfId-1634886"></A>Table 47. <A NAME="50651151_47178"></A>Input file for example 16.</P>
+<A NAME="50606095_pgfId-1634886"></A>Table 47. <A NAME="50606095_47178"></A>Input file for example 16.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634888"></A>TITLE Example 16.--Inverse modeling of Sierra springs</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634888"></A>TITLE Example 16.--Inverse modeling of Sierra springs</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634890"></A>SOLUTION_SPREAD</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634890"></A>SOLUTION_SPREAD</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634892"></A>       -units mmol/L</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634892"></A>       -units mmol/L</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634894"></A># &quot;&#92;t&quot; indicates tab</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634894"></A># &quot;&#92;t&quot; indicates tab</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634896"></A>Number&#92;t  pH&#92;t     Si&#92;t      Ca&#92;t      Mg&#92;t      Na&#92;t       K&#92;t Alkalinity&#92;t   S(6)&#92;t      Cl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634896"></A>Number&#92;t  pH&#92;t     Si&#92;t      Ca&#92;t      Mg&#92;t      Na&#92;t       K&#92;t Alkalinity&#92;t   S(6)&#92;t      Cl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634898"></A>1&#92;t      6.2&#92;t  0.273&#92;t   0.078&#92;t   0.029&#92;t   0.134&#92;t   0.028&#92;t      0.328&#92;t   0.01&#92;t   0.014</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634898"></A>1&#92;t      6.2&#92;t  0.273&#92;t   0.078&#92;t   0.029&#92;t   0.134&#92;t   0.028&#92;t      0.328&#92;t   0.01&#92;t   0.014</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634900"></A>2&#92;t      6.8&#92;t  0.41 &#92;t   0.26 &#92;t   0.071&#92;t   0.259&#92;t   0.04 &#92;t      0.895&#92;t   0.025&#92;t  0.03 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634900"></A>2&#92;t      6.8&#92;t  0.41 &#92;t   0.26 &#92;t   0.071&#92;t   0.259&#92;t   0.04 &#92;t      0.895&#92;t   0.025&#92;t  0.03 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634902"></A>INVERSE_MODELING 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634902"></A>INVERSE_MODELING 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1634904"></A>        -solutions 1 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1634904"></A>        -solutions 1 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692221"></A>        -uncertainty 0.025</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692221"></A>        -uncertainty 0.025</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692219"></A>        -balances</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692219"></A>        -balances</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692217"></A>                Ca      0.05     0.025</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692217"></A>                Ca      0.05     0.025</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756266"></A>        -phases</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756266"></A>        -phases</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756264"></A>                Halite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756264"></A>                Halite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756262"></A>                Gypsum</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756262"></A>                Gypsum</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756260"></A>                Kaolinite               precip</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756260"></A>                Kaolinite               precip</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756258"></A>                Ca-montmorillonite      precip</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756258"></A>                Ca-montmorillonite      precip</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756256"></A>                CO2(g)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756256"></A>                CO2(g)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756254"></A>                Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756254"></A>                Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756252"></A>                Chalcedony              precip</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756252"></A>                Chalcedony              precip</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756250"></A>                Biotite                 dissolve</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756250"></A>                Biotite                 dissolve</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756248"></A>                Plagioclase             dissolve</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756248"></A>                Plagioclase             dissolve</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756246"></A>        -range</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756246"></A>        -range</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756244"></A>PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756244"></A>PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756242"></A>Biotite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756242"></A>Biotite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756240"></A>   KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756240"></A>   KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756238"></A>        log_k  0.0      # No log_k, Inverse modeling only</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756238"></A>        log_k  0.0      # No log_k, Inverse modeling only</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756236"></A>Plagioclase</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756236"></A>Plagioclase</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756234"></A>    Na0.62Ca0.38Al1.38Si2.62O8 + 5.52 H+ + 2.48H2O =&#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756234"></A>    Na0.62Ca0.38Al1.38Si2.62O8 + 5.52 H+ + 2.48H2O =&#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756232"></A>                0.62Na+ + 0.38Ca+2 + 1.38Al+3 + 2.62H4SiO4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756232"></A>                0.62Na+ + 0.38Ca+2 + 1.38Al+3 + 2.62H4SiO4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756230"></A>        log_k  0.0      # No log_k, Inverse modeling only</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756230"></A>        log_k  0.0      # No log_k, Inverse modeling only</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756228"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756228"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1655485"></A>The identifier <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1655485"></A>The identifier <STRONG CLASS="Bold">
 -solutions </STRONG>
-selects the solutions to be used by solution number. Two or more solution numbers must be listed after the identifier. If only two solution numbers are given, the second solution is assumed to evolve from the first solution. If more than two solution numbers are given, the last solution listed is assumed to evolve from a mixture of the preceding solutions. The solutions to be used in inverse modeling are defined in the same way as any solutions used in PHREEQC models. Usually the analytical data are entered in the <A HREF="phreeqc3-41.htm#50651137_30253" CLASS="XRef">SOLUTION</A> or <A HREF="phreeqc3-44.htm#50651137_84297" CLASS="XRef">SOLUTION_SPREAD</A> data block, but solutions defined by batch-reaction calculations in the current or previous simulations may be used if they are saved with the <A HREF="phreeqc3-37.htm#50651137_81857" CLASS="XRef">SAVE</A> keyword. </P>
+selects the solutions to be used by solution number. Two or more solution numbers must be listed after the identifier. If only two solution numbers are given, the second solution is assumed to evolve from the first solution. If more than two solution numbers are given, the last solution listed is assumed to evolve from a mixture of the preceding solutions. The solutions to be used in inverse modeling are defined in the same way as any solutions used in PHREEQC models. Usually the analytical data are entered in the <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> or <A HREF="phreeqc3-44.htm#50606081_84297" CLASS="XRef">SOLUTION_SPREAD</A> data block, but solutions defined by batch-reaction calculations in the current or previous simulations may be used if they are saved with the <A HREF="phreeqc3-37.htm#50606081_81857" CLASS="XRef">SAVE</A> keyword. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1411901"></A>The <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1411901"></A>The <STRONG CLASS="Bold">
 -uncertainty</STRONG>
  identifier sets the default uncertainty limit for each analytical datum. In this example a fractional uncertainty limit of 0.025 (2.5 percent, default is 5 percent) is assumed for all of the analytical data except pH. By default, the uncertainty limit for pH is 0.05 unit. The uncertainty limit for pH can be set to an absolute value (standard units) with the <STRONG CLASS="Bold">
 -balances</STRONG>
@@ -581,702 +581,702 @@ selects the solutions to be used by solution number. Two or more solution number
 -balances</STRONG>
  identifier. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1411862"></A>By default, every inverse model includes mole-balance equations for every element in any of the phases included in <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1411862"></A>By default, every inverse model includes mole-balance equations for every element in any of the phases included in <STRONG CLASS="Bold">
 -phases</STRONG>
  (except hydrogen and oxygen). If mole-balance equations are needed for elements not in the phases, that is, for elements with no source or sink (conservative mixing), the <STRONG CLASS="Bold">
 -balances</STRONG>
- identifier must be used to include those elements in the inverse-modeling equations (see <A HREF="phreeqc3-72.htm#50651151_83128" CLASS="XRef">See Inverse Modeling With Evaporation</A>). In addition, the <STRONG CLASS="Bold">
+ identifier must be used to include those elements in the inverse-modeling equations (see <A HREF="phreeqc3-72.htm#50606095_83128" CLASS="XRef">See Inverse Modeling With Evaporation</A>). In addition, the <STRONG CLASS="Bold">
 -balances</STRONG>
  identifier can be used to specify uncertainty limits for an element in each solution, as noted before. For demonstration, the uncertainty limit for calcium is set to 0.05 (5 percent) in solution 1 and 0.025 (2.5 percent) in solution 2 in example 16. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1411789"></A>The phases to be used in the inverse-modeling calculations are defined with the <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1411789"></A>The phases to be used in the inverse-modeling calculations are defined with the <STRONG CLASS="Bold">
 -phases</STRONG>
  identifier, and may be constrained to dissolve only or precipitate only. In this example, kaolinite, Ca-montmorillonite, and chalcedony (SiO<Sub CLASS="Subscript">
 2</Sub>
 ) are forced to precipitate only. Biotite and plagioclase are forced to dissolve (positive mole transfer) if they are present in an inverse model. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1411738"></A>All of the phases used in inverse modeling must have been defined in the <A HREF="phreeqc3-29.htm#50651137_84418" CLASS="XRef">PHASES</A> data block or as species in the <A HREF="phreeqc3-16.htm#50651137_65476" CLASS="XRef">EXCHANGE_SPECIES</A> data block, either in the database file or in the input file. Thus, all phases defined in the database files are available for use in inverse modeling. Because biotite and plagioclase are not in the default database file <EM CLASS="Emphasis">
+<A NAME="50606095_pgfId-1411738"></A>All of the phases used in inverse modeling must have been defined in the <A HREF="phreeqc3-29.htm#50606081_84418" CLASS="XRef">PHASES</A> data block or as species in the <A HREF="phreeqc3-16.htm#50606081_65476" CLASS="XRef">EXCHANGE_SPECIES</A> data block, either in the database file or in the input file. Thus, all phases defined in the database files are available for use in inverse modeling. Because biotite and plagioclase are not in the default database file <EM CLASS="Emphasis">
 phreeqc.dat,</EM>
- they are defined explicitly in the <A HREF="phreeqc3-29.htm#50651137_84418" CLASS="XRef">PHASES</A> data block in the input file. For simplicity, the log <EM CLASS="Emphasis">
+ they are defined explicitly in the <A HREF="phreeqc3-29.htm#50606081_84418" CLASS="XRef">PHASES</A> data block in the input file. For simplicity, the log <EM CLASS="Emphasis">
 K</EM>
-s are set to zero for these phases, which does not affect inverse modeling because only the mineral stoichiometry is used. However, the saturation indices calculated for these phases will be spurious. The phases used in inverse modeling must have a charge-balanced reaction because of the charge-balance constraint for each solution. Each solution is adjusted to charge balance by adjusting the concentrations of the elements within their uncertainty limits while minimizing the objective function of the optimization method (see Parkhurst and Appelo, 1999, &#8220;Equations and Numerical Method for Inverse Modeling&#8221;). If a solution cannot be charge balanced, the solution will be noted in the output and the program will indicate that models cannot be found. Note that the reaction for plagioclase (<A HREF="phreeqc3-71.htm#50651151_47178" CLASS="XRef">table 47</A>) is written on two lines, but interpreted to be on a single line because of the backslash &#8220;&#92;&#8221; at the end of the first line. The <STRONG CLASS="Bold">
+s are set to zero for these phases, which does not affect inverse modeling because only the mineral stoichiometry is used. However, the saturation indices calculated for these phases will be spurious. The phases used in inverse modeling must have a charge-balanced reaction because of the charge-balance constraint for each solution. Each solution is adjusted to charge balance by adjusting the concentrations of the elements within their uncertainty limits while minimizing the objective function of the optimization method (see Parkhurst and Appelo, 1999, &#8220;Equations and Numerical Method for Inverse Modeling&#8221;). If a solution cannot be charge balanced, the solution will be noted in the output and the program will indicate that models cannot be found. Note that the reaction for plagioclase (<A HREF="phreeqc3-71.htm#50606095_47178" CLASS="XRef">table 47</A>) is written on two lines, but interpreted to be on a single line because of the backslash &#8220;&#92;&#8221; at the end of the first line. The <STRONG CLASS="Bold">
 -range</STRONG>
  identifier indicates that for each model the range of mole transfers will be calculated as constrained by the uncertainty limits.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1459342"></A>In each inverse model, linear equations are solved for the mole balances of each element or valence state, the alkalinity balance, the electron balance, the water balance in the system, and the charge balance for each solution. The unknowns in the set of linear equations are the mole transfers for phases and redox reactions, and the concentration adjustments for each element in each solution, including alkalinity and pH (but excluding hydrogen and oxygen).</P>
+<A NAME="50606095_pgfId-1459342"></A>In each inverse model, linear equations are solved for the mole balances of each element or valence state, the alkalinity balance, the electron balance, the water balance in the system, and the charge balance for each solution. The unknowns in the set of linear equations are the mole transfers for phases and redox reactions, and the concentration adjustments for each element in each solution, including alkalinity and pH (but excluding hydrogen and oxygen).</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1459335"></A>Results for the two inverse models found in this example are shown in <A HREF="phreeqc3-71.htm#50651151_21461" CLASS="XRef">table 48</A>. The results begin with a listing of three columns for each solution showing concentrations in mol/kgw or pH of the original solution (column headed by Input), the added uncertainty (column Delta), and the sum of the two (column Input+Delta).  </P>
+<A NAME="50606095_pgfId-1459335"></A>Results for the two inverse models found in this example are shown in <A HREF="phreeqc3-71.htm#50606095_21461" CLASS="XRef">table 48</A>. The results begin with a listing of three columns for each solution showing concentrations in mol/kgw or pH of the original solution (column headed by Input), the added uncertainty (column Delta), and the sum of the two (column Input+Delta).  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50651151_pgfId-1692540"></A>Table 48. <A NAME="50651151_21461"></A>Selected output for example 16.</P>
+<A NAME="50606095_pgfId-1692540"></A>Table 48. <A NAME="50606095_21461"></A>Selected output for example 16.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692542"></A>Solution 1: </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692542"></A>Solution 1: </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692544"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692544"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692546"></A>                         Input          Delta    Input+Delta</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692546"></A>                         Input          Delta    Input+Delta</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692548"></A>             pH      6.200e+00  +   1.246e-02  =   6.212e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692548"></A>             pH      6.200e+00  +   1.246e-02  =   6.212e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692550"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692550"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692552"></A>     Alkalinity      3.280e-04  +   5.500e-06  =   3.335e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692552"></A>     Alkalinity      3.280e-04  +   5.500e-06  =   3.335e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692554"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692554"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692556"></A>           C(4)      7.825e-04  +   0.000e+00  =   7.825e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692556"></A>           C(4)      7.825e-04  +   0.000e+00  =   7.825e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692558"></A>             Ca      7.800e-05  +  -3.900e-06  =   7.410e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692558"></A>             Ca      7.800e-05  +  -3.900e-06  =   7.410e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692560"></A>             Cl      1.400e-05  +   0.000e+00  =   1.400e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692560"></A>             Cl      1.400e-05  +   0.000e+00  =   1.400e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692562"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692562"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692564"></A>              K      2.800e-05  +  -7.000e-07  =   2.730e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692564"></A>              K      2.800e-05  +  -7.000e-07  =   2.730e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692566"></A>             Mg      2.900e-05  +   0.000e+00  =   2.900e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692566"></A>             Mg      2.900e-05  +   0.000e+00  =   2.900e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692568"></A>             Na      1.340e-04  +   0.000e+00  =   1.340e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692568"></A>             Na      1.340e-04  +   0.000e+00  =   1.340e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692570"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692570"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692572"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692572"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692574"></A>           S(6)      1.000e-05  +   0.000e+00  =   1.000e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692574"></A>           S(6)      1.000e-05  +   0.000e+00  =   1.000e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692576"></A>             Si      2.730e-04  +   0.000e+00  =   2.730e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692576"></A>             Si      2.730e-04  +   0.000e+00  =   2.730e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692578"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692578"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692580"></A>Solution 2: </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692580"></A>Solution 2: </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692582"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692582"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692584"></A>                         Input          Delta    Input+Delta</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692584"></A>                         Input          Delta    Input+Delta</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692586"></A>             pH      6.800e+00  +  -3.407e-03  =   6.797e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692586"></A>             pH      6.800e+00  +  -3.407e-03  =   6.797e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692588"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692588"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692590"></A>     Alkalinity      8.951e-04  +  -1.796e-06  =   8.933e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692590"></A>     Alkalinity      8.951e-04  +  -1.796e-06  =   8.933e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692592"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692592"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692594"></A>           C(4)      1.199e-03  +   0.000e+00  =   1.199e-03</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692594"></A>           C(4)      1.199e-03  +   0.000e+00  =   1.199e-03</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692596"></A>             Ca      2.600e-04  +   6.501e-06  =   2.665e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692596"></A>             Ca      2.600e-04  +   6.501e-06  =   2.665e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692598"></A>             Cl      3.000e-05  +   0.000e+00  =   3.000e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692598"></A>             Cl      3.000e-05  +   0.000e+00  =   3.000e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692600"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692600"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692602"></A>              K      4.000e-05  +   1.000e-06  =   4.100e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692602"></A>              K      4.000e-05  +   1.000e-06  =   4.100e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692604"></A>             Mg      7.101e-05  +  -8.979e-07  =   7.011e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692604"></A>             Mg      7.101e-05  +  -8.979e-07  =   7.011e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692606"></A>             Na      2.590e-04  +   0.000e+00  =   2.590e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692606"></A>             Na      2.590e-04  +   0.000e+00  =   2.590e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692608"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692608"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692610"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692610"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692612"></A>           S(6)      2.500e-05  +   0.000e+00  =   2.500e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692612"></A>           S(6)      2.500e-05  +   0.000e+00  =   2.500e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692614"></A>             Si      4.100e-04  +   0.000e+00  =   4.100e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692614"></A>             Si      4.100e-04  +   0.000e+00  =   4.100e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692616"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692616"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692618"></A>Solution fractions:                   Minimum        Maximum</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692618"></A>Solution fractions:                   Minimum        Maximum</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692620"></A>   Solution   1      1.000e+00      1.000e+00      1.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692620"></A>   Solution   1      1.000e+00      1.000e+00      1.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692622"></A>   Solution   2      1.000e+00      1.000e+00      1.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692622"></A>   Solution   2      1.000e+00      1.000e+00      1.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692624"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692624"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692626"></A>Phase mole transfers:                 Minimum        Maximum</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692626"></A>Phase mole transfers:                 Minimum        Maximum</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692628"></A>         Halite      1.600e-05      1.490e-05      1.710e-05   NaCl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692628"></A>         Halite      1.600e-05      1.490e-05      1.710e-05   NaCl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1692630"></A>         Gypsum      1.500e-05      1.413e-05      1.588e-05   CaSO4:2H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1692630"></A>         Gypsum      1.500e-05      1.413e-05      1.588e-05   CaSO4:2H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1693286"></A>      Kaolinite     -3.392e-05     -5.587e-05     -1.224e-05   Al2Si2O5(OH)4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1693286"></A>      Kaolinite     -3.392e-05     -5.587e-05     -1.224e-05   Al2Si2O5(OH)4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1693284"></A>Ca-Montmorillon     -8.090e-05     -1.100e-04     -5.154e-05   Ca0.165Al2.33Si3.67O10(OH)2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1693284"></A>Ca-Montmorillon     -8.090e-05     -1.100e-04     -5.154e-05   Ca0.165Al2.33Si3.67O10(OH)2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1693282"></A>         CO2(g)      2.928e-04      2.363e-04      3.563e-04   CO2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1693282"></A>         CO2(g)      2.928e-04      2.363e-04      3.563e-04   CO2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1693280"></A>        Calcite      1.240e-04      1.007e-04      1.309e-04   CaCO3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1693280"></A>        Calcite      1.240e-04      1.007e-04      1.309e-04   CaCO3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1693278"></A>        Biotite      1.370e-05      1.317e-05      1.370e-05   KMg3AlSi3O10(OH)2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1693278"></A>        Biotite      1.370e-05      1.317e-05      1.370e-05   KMg3AlSi3O10(OH)2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1693276"></A>    Plagioclase      1.758e-04      1.582e-04      1.935e-04   Na0.62Ca0.38Al1.38Si2.62O8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1693276"></A>    Plagioclase      1.758e-04      1.582e-04      1.935e-04   Na0.62Ca0.38Al1.38Si2.62O8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1693274"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1693274"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1757005"></A>Redox mole transfers:    </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1757005"></A>Redox mole transfers:    </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1757003"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1757003"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1757001"></A>Sum of residuals (epsilons in documentation):         5.574e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1757001"></A>Sum of residuals (epsilons in documentation):         5.574e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756999"></A>Sum of delta/uncertainty limit:                       5.574e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756999"></A>Sum of delta/uncertainty limit:                       5.574e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756997"></A>Maximum fractional error in element concentration:    5.000e-02</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756997"></A>Maximum fractional error in element concentration:    5.000e-02</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756995"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756995"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756993"></A>Model contains minimum number of phases.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756993"></A>Model contains minimum number of phases.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756991"></A>===============================================================================</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756991"></A>===============================================================================</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756989"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756989"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756987"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756987"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756985"></A>Solution 1: </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756985"></A>Solution 1: </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756983"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756983"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756981"></A>                         Input          Delta    Input+Delta</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756981"></A>                         Input          Delta    Input+Delta</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756979"></A>             pH      6.200e+00  +   1.246e-02  =   6.212e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756979"></A>             pH      6.200e+00  +   1.246e-02  =   6.212e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756977"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756977"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756975"></A>     Alkalinity      3.280e-04  +   5.500e-06  =   3.335e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756975"></A>     Alkalinity      3.280e-04  +   5.500e-06  =   3.335e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756973"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756973"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756971"></A>           C(4)      7.825e-04  +   0.000e+00  =   7.825e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756971"></A>           C(4)      7.825e-04  +   0.000e+00  =   7.825e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756969"></A>             Ca      7.800e-05  +  -3.900e-06  =   7.410e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756969"></A>             Ca      7.800e-05  +  -3.900e-06  =   7.410e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756967"></A>             Cl      1.400e-05  +   0.000e+00  =   1.400e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756967"></A>             Cl      1.400e-05  +   0.000e+00  =   1.400e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756965"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756965"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756963"></A>              K      2.800e-05  +  -7.000e-07  =   2.730e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756963"></A>              K      2.800e-05  +  -7.000e-07  =   2.730e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756961"></A>             Mg      2.900e-05  +   0.000e+00  =   2.900e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756961"></A>             Mg      2.900e-05  +   0.000e+00  =   2.900e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756959"></A>             Na      1.340e-04  +   0.000e+00  =   1.340e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756959"></A>             Na      1.340e-04  +   0.000e+00  =   1.340e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756957"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756957"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756955"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756955"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756953"></A>           S(6)      1.000e-05  +   0.000e+00  =   1.000e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756953"></A>           S(6)      1.000e-05  +   0.000e+00  =   1.000e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756951"></A>             Si      2.730e-04  +   0.000e+00  =   2.730e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756951"></A>             Si      2.730e-04  +   0.000e+00  =   2.730e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756949"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756949"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756947"></A>Solution 2: </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756947"></A>Solution 2: </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756945"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756945"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756943"></A>                         Input          Delta    Input+Delta</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756943"></A>                         Input          Delta    Input+Delta</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756941"></A>             pH      6.800e+00  +  -3.407e-03  =   6.797e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756941"></A>             pH      6.800e+00  +  -3.407e-03  =   6.797e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756939"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756939"></A>             Al      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756937"></A>     Alkalinity      8.951e-04  +  -1.796e-06  =   8.933e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756937"></A>     Alkalinity      8.951e-04  +  -1.796e-06  =   8.933e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756935"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756935"></A>          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756933"></A>           C(4)      1.199e-03  +   0.000e+00  =   1.199e-03</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756933"></A>           C(4)      1.199e-03  +   0.000e+00  =   1.199e-03</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756931"></A>             Ca      2.600e-04  +   6.501e-06  =   2.665e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756931"></A>             Ca      2.600e-04  +   6.501e-06  =   2.665e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756929"></A>             Cl      3.000e-05  +   0.000e+00  =   3.000e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756929"></A>             Cl      3.000e-05  +   0.000e+00  =   3.000e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756927"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756927"></A>           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756925"></A>              K      4.000e-05  +   1.000e-06  =   4.100e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756925"></A>              K      4.000e-05  +   1.000e-06  =   4.100e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756923"></A>             Mg      7.101e-05  +  -8.980e-07  =   7.011e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756923"></A>             Mg      7.101e-05  +  -8.980e-07  =   7.011e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756921"></A>             Na      2.590e-04  +   0.000e+00  =   2.590e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756921"></A>             Na      2.590e-04  +   0.000e+00  =   2.590e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756919"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756919"></A>           O(0)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756917"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756917"></A>          S(-2)      0.000e+00  +   0.000e+00  =   0.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756915"></A>           S(6)      2.500e-05  +   0.000e+00  =   2.500e-05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756915"></A>           S(6)      2.500e-05  +   0.000e+00  =   2.500e-05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756913"></A>             Si      4.100e-04  +   0.000e+00  =   4.100e-04</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756913"></A>             Si      4.100e-04  +   0.000e+00  =   4.100e-04</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756911"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756911"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756909"></A>Solution fractions:                   Minimum        Maximum</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756909"></A>Solution fractions:                   Minimum        Maximum</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756907"></A>   Solution   1      1.000e+00      1.000e+00      1.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756907"></A>   Solution   1      1.000e+00      1.000e+00      1.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756905"></A>   Solution   2      1.000e+00      1.000e+00      1.000e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756905"></A>   Solution   2      1.000e+00      1.000e+00      1.000e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756903"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756903"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756901"></A>Phase mole transfers:                 Minimum        Maximum</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756901"></A>Phase mole transfers:                 Minimum        Maximum</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756899"></A>         Halite      1.600e-05      1.490e-05      1.710e-05   NaCl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756899"></A>         Halite      1.600e-05      1.490e-05      1.710e-05   NaCl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756897"></A>         Gypsum      1.500e-05      1.413e-05      1.588e-05   CaSO4:2H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756897"></A>         Gypsum      1.500e-05      1.413e-05      1.588e-05   CaSO4:2H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756895"></A>      Kaolinite     -1.282e-04     -1.403e-04     -1.159e-04   Al2Si2O5(OH)4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756895"></A>      Kaolinite     -1.282e-04     -1.403e-04     -1.159e-04   Al2Si2O5(OH)4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756893"></A>         CO2(g)      3.061e-04      2.490e-04      3.703e-04   CO2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756893"></A>         CO2(g)      3.061e-04      2.490e-04      3.703e-04   CO2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756891"></A>        Calcite      1.106e-04      8.680e-05      1.182e-04   CaCO3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756891"></A>        Calcite      1.106e-04      8.680e-05      1.182e-04   CaCO3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756889"></A>     Chalcedony     -1.084e-04     -1.473e-04     -6.906e-05   SiO2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756889"></A>     Chalcedony     -1.084e-04     -1.473e-04     -6.906e-05   SiO2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756887"></A>        Biotite      1.370e-05      1.317e-05      1.370e-05   KMg3AlSi3O10(OH)2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756887"></A>        Biotite      1.370e-05      1.317e-05      1.370e-05   KMg3AlSi3O10(OH)2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756885"></A>    Plagioclase      1.758e-04      1.582e-04      1.935e-04   Na0.62Ca0.38Al1.38Si2.62O8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756885"></A>    Plagioclase      1.758e-04      1.582e-04      1.935e-04   Na0.62Ca0.38Al1.38Si2.62O8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756883"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756883"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756881"></A>Redox mole transfers:    </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756881"></A>Redox mole transfers:    </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756879"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756879"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756877"></A>Sum of residuals (epsilons in documentation):         5.574e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756877"></A>Sum of residuals (epsilons in documentation):         5.574e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756875"></A>Sum of delta/uncertainty limit:                       5.574e+00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756875"></A>Sum of delta/uncertainty limit:                       5.574e+00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756873"></A>Maximum fractional error in element concentration:    5.000e-02</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756873"></A>Maximum fractional error in element concentration:    5.000e-02</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756871"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756871"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756869"></A>Model contains minimum number of phases.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756869"></A>Model contains minimum number of phases.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756867"></A>===============================================================================</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756867"></A>===============================================================================</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756865"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756865"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756863"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756863"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756861"></A>Summary of inverse modeling:</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756861"></A>Summary of inverse modeling:</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756859"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756859"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756857"></A>        Number of models found: 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756857"></A>        Number of models found: 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756855"></A>        Number of minimal models found: 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756855"></A>        Number of minimal models found: 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756853"></A>        Number of infeasible sets of phases saved: 20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756853"></A>        Number of infeasible sets of phases saved: 20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50651151_pgfId-1756851"></A>        Number of calls to cl1: 62</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756851"></A>        Number of calls to cl1: 62</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1459336"></A>Next, the relative fractions of each solution in the inverse model are printed. With only two solutions in the model, the fraction for each solution will be 1.0, usually. The fractions are derived from the mole balance on water, so if hydrated minerals consume or produce significant amounts of water or if evaporation is modeled (see <A HREF="phreeqc3-72.htm#50651151_83128" CLASS="XRef">See Inverse Modeling With Evaporation</A>), the numbers may not sum to 1.0. In this example, all fractions are 1.0 because the amount of water from gypsum dissolution is too small to affect the four digits used for printing of the mixing fractions. The second and third columns of the block give the minimum and maximum fractional values that can be attained within the uncertainty limits. These two columns are printed if the <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1459336"></A>Next, the relative fractions of each solution in the inverse model are printed. With only two solutions in the model, the fraction for each solution will be 1.0, usually. The fractions are derived from the mole balance on water, so if hydrated minerals consume or produce significant amounts of water or if evaporation is modeled (see <A HREF="phreeqc3-72.htm#50606095_83128" CLASS="XRef">See Inverse Modeling With Evaporation</A>), the numbers may not sum to 1.0. In this example, all fractions are 1.0 because the amount of water from gypsum dissolution is too small to affect the four digits used for printing of the mixing fractions. The second and third columns of the block give the minimum and maximum fractional values that can be attained within the uncertainty limits. These two columns are printed if the <STRONG CLASS="Bold">
 -range</STRONG>
  identifier is used. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1410561"></A>The next block of data lists the phase mole transfers. The first column contains the optimized transfers, which, when added to the adjusted concentrations in solution 1, exactly reproduce the adjusted concentrations in solution 2. Positive mole transfers indicate dissolution; negative mole transfers indicate precipitation. The second and third columns of the mole transfers are minimum and maximum values that can be attained within the uncertainty limits. These two columns are printed if the <STRONG CLASS="Bold">
+<A NAME="50606095_pgfId-1410561"></A>The next block of data lists the phase mole transfers. The first column contains the optimized transfers, which, when added to the adjusted concentrations in solution 1, exactly reproduce the adjusted concentrations in solution 2. Positive mole transfers indicate dissolution; negative mole transfers indicate precipitation. The second and third columns of the mole transfers are minimum and maximum values that can be attained within the uncertainty limits. These two columns are printed if the <STRONG CLASS="Bold">
 -range</STRONG>
  identifier is used. In general, these minima and maxima are highly correlated; that is, obtaining a maximum mole transfer of one phase may require a minimum mole transfer of another phase as well as maximum adjustments of element concentrations.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1557799"></A>No redox mole transfers were calculated in this inverse model. Consequently, the block headed by &#8220;Redox mole transfers&#8221; is empty. </P>
+<A NAME="50606095_pgfId-1557799"></A>No redox mole transfers were calculated in this inverse model. Consequently, the block headed by &#8220;Redox mole transfers&#8221; is empty. </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1557800"></A>The next block of data prints the extent to which the analytical data were adjusted. If no adjustments were made, the three printed numbers would be zero. In <A HREF="phreeqc3-71.htm#50651151_21461" CLASS="XRef">table 48</A>, the third number gives the &#8220;Maximum fractional error in an element concentration&#8221; as 0.05, which, in both models, is the maximum permitted error of 5 percent and applies to Ca in solution 1. The second number, the &#8220;Sum of delta/uncertainty limit&#8221;, is the sum of all the numbers listed in the column labeled with &#8220;Delta&#8221;, divided by the corresponding uncertainty limit. The first number, the &#8220;Sum of residuals&#8221;, sums up the same values after multiplication with the fraction of the solution (in this example, because the fractions of the solutions are 1, the first and second numbers are the same). This &#8220;Sum of residuals&#8221; is minimized by the Simplex algorithm in PHREEQC. If no inverse model can be found with a proper subset of the solutions and phases in this model, the model is a &#8220;minimal model&#8221;, and the statement &#8220;Model contains minimum number of phases&#8221; is printed.</P>
+<A NAME="50606095_pgfId-1557800"></A>The next block of data prints the extent to which the analytical data were adjusted. If no adjustments were made, the three printed numbers would be zero. In <A HREF="phreeqc3-71.htm#50606095_21461" CLASS="XRef">table 48</A>, the third number gives the &#8220;Maximum fractional error in an element concentration&#8221; as 0.05, which, in both models, is the maximum permitted error of 5 percent and applies to Ca in solution 1. The second number, the &#8220;Sum of delta/uncertainty limit&#8221;, is the sum of all the numbers listed in the column labeled with &#8220;Delta&#8221;, divided by the corresponding uncertainty limit. The first number, the &#8220;Sum of residuals&#8221;, sums up the same values after multiplication with the fraction of the solution (in this example, because the fractions of the solutions are 1, the first and second numbers are the same). This &#8220;Sum of residuals&#8221; is minimized by the Simplex algorithm in PHREEQC. If no inverse model can be found with a proper subset of the solutions and phases in this model, the model is a &#8220;minimal model&#8221;, and the statement &#8220;Model contains minimum number of phases&#8221; is printed.</P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1662045"></A>Finally, a short summary of the calculations is printed. The summary includes the number of models, the number of minimal models (models with a minimum number of phases), the number of infeasible models that were tested, and the number of calls to the inequality equations solver, cl1 (calculation time is generally proportional to the number of calls to cl1). </P>
+<A NAME="50606095_pgfId-1662045"></A>Finally, a short summary of the calculations is printed. The summary includes the number of models, the number of minimal models (models with a minimum number of phases), the number of infeasible models that were tested, and the number of calls to the inequality equations solver, cl1 (calculation time is generally proportional to the number of calls to cl1). </P>
 <P CLASS="BodyText">
-<A NAME="50651151_pgfId-1662046"></A>The results of the example show that two inverse models exist using the phases suggested by Garrels and Mackenzie (1967). The main reactions are dissolution of calcite, plagioclase and carbon dioxide; kaolinite and Ca-montmorillonite precipitate in the first model, and kaolinite and chalcedony precipitate in the second model. Small amounts of halite, gypsum, and biotite dissolution are required in the models. The results of Garrels and Mackenzie (1967) fall within the range of mole transfers calculated in the first model of PHREEQC for all phases except carbon dioxide. The carbon dioxide mole transfer differs from Garrels and Mackenzie (1967) because they did not account for the dissolved carbon dioxide in the spring waters. Garrels and Mackenzie (1967) also ignored a small discrepancy in the mole balance for potassium. PHREEQC avoids this imbalance by adjusting concentrations in the two solutions. The PHREEQC calculations show that two inverse models can be found by adjusting concentrations by no more than the specified uncertainty limits (5 percent for Ca in solution 1). The PHREEQC calculations show the discrepancy in potassium can be accounted for by minor adjustments of concentrations, which indicates the discrepancy is not significant. This assessment of significance would be difficult without the uncertainty capabilities of inverse modeling with PHREEQC. The results of PHREEQC are concordant with the results of netpath. </P>
+<A NAME="50606095_pgfId-1662046"></A>The results of the example show that two inverse models exist using the phases suggested by Garrels and Mackenzie (1967). The main reactions are dissolution of calcite, plagioclase and carbon dioxide; kaolinite and Ca-montmorillonite precipitate in the first model, and kaolinite and chalcedony precipitate in the second model. Small amounts of halite, gypsum, and biotite dissolution are required in the models. The results of Garrels and Mackenzie (1967) fall within the range of mole transfers calculated in the first model of PHREEQC for all phases except carbon dioxide. The carbon dioxide mole transfer differs from Garrels and Mackenzie (1967) because they did not account for the dissolved carbon dioxide in the spring waters. Garrels and Mackenzie (1967) also ignored a small discrepancy in the mole balance for potassium. PHREEQC avoids this imbalance by adjusting concentrations in the two solutions. The PHREEQC calculations show that two inverse models can be found by adjusting concentrations by no more than the specified uncertainty limits (5 percent for Ca in solution 1). The PHREEQC calculations show the discrepancy in potassium can be accounted for by minor adjustments of concentrations, which indicates the discrepancy is not significant. This assessment of significance would be difficult without the uncertainty capabilities of inverse modeling with PHREEQC. The results of PHREEQC are concordant with the results of netpath. </P>
 <HR><P> | <A HREF="phreeqc3-72.htm">Next</A> || <A HREF="phreeqc3-70.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
