@@ -1,4 +1,67 @@
-Version @PHREEQC_VER@: @PHREEQC_DATE@
+Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+        --------
+        svn 7829
+        --------
+        
+        Added Basic fuction EQ_FRAC that returns the
+        equivalent fraction of a surface or exchange
+        species. The three arguments are
+        (1) Species name (input),
+        (2) Equivalents of exchange or surface sites
+            per mole of the species (output),
+        (3) The name of the surface or exchange site
+            (output).
+        For example,
+        
+        10 f = EQ_FRAC("AlX3", eq, x$)
+        
+        f = equivlalent fraction of AlX3 relative to 
+            total equivalents of X sites.
+        eq = 3.0
+        x$ = "X"
+        
+        If the species name is not found to be a surface
+        or exchange species, the return value is 0,
+        the second argument is set to 0, and the third
+        argument is set to an empty string.
+        
+        Also added synonyms for Basic functions 
+        PHASE_FORMULA and SPECIES_FORMULA with trailing
+        $ signs--PHASE_FORMULA$ and SPECIES_FORMULA$. 
+        To be consistent with Basic, the functions should 
+        have $ signs because they return strings.
+        
+        
+        --------
+        svn 7828
+        --------
+        
+        Added Basic fuction SPECIES_FORMULA that returns the
+        stoichiometry of an aqueous, exchange, or surface 
+        species. The function returns a string: "aq" for 
+        aqueous, "ex" for exchange, "surf" for surface, 
+        and "none" if there is no species of that name.
+        The four arguments are
+        (1) the name of the species (input),
+        (2) the number of elements, including charge (output),
+        (3) an string array of element names (output),
+        (4) a number array of coefficients corresponding to the elements (output).
+        The following example:
+        
+10   name$ = "AlX3"        
+20   ty$ = SPECIES_FORMULA(name$, count_s, elt$, coef)
+20   print pad(name$, 15), ty$
+30   for j = 1 to count_s
+40     print pad(blank$, 5), pad(elt$(j),5), str_f$(coef(j), 5, 0)
+50   next j       
+	
+	Produces the following output:
+	
+AlX3            ex 
+      Al        1 
+      X         3 
+      charge     0 	
+	
         --------
         svn 7781
         --------

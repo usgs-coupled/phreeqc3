@@ -1495,10 +1495,12 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("ISO_UNIT");
 			break;
 		case tokphase_formula:
-			output_msg("PHASE_FORMULA");
+		case tokphase_formula_:
+			output_msg("PHASE_FORMULA$");
 			break;
 		case tokspecies_formula:
-			output_msg("SPECIES_FORMULA");
+		case tokspecies_formula_:
+			output_msg("SPECIES_FORMULA$");
 			break;			
 		case toklist_s_s:
 			output_msg("LIST_S_S");
@@ -1550,6 +1552,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 			break;
 		case tokstr_e_:
 			output_msg("STR_E$");
+			break;
+		case tokeq_frac:
+			output_msg("EQ_FRAC");
 			break;
 		}
 		l_buf = l_buf->next;
@@ -2695,6 +2700,7 @@ factor(struct LOC_exec * LINK)
 		}
 
 	case tokphase_formula:
+	case tokphase_formula_:
 		{
 			require(toklp, LINK);
 			std::string phase_name(stringfactor(STR1, LINK));
@@ -2800,6 +2806,7 @@ factor(struct LOC_exec * LINK)
 			break;
 		}
 	case tokspecies_formula:
+	case tokspecies_formula_:
 		{
 			require(toklp, LINK);
 			std::string species_name(stringfactor(STR1, LINK));
@@ -3392,6 +3399,58 @@ factor(struct LOC_exec * LINK)
 
 			// free work space
 			PhreeqcPtr->free_check_null(token);
+		}
+		break;
+	case tokeq_frac:
+		{			
+			// left parenthesis
+			require(toklp, LINK);
+
+			// species name
+			std::string species_name(stringfactor(STR1, LINK));
+
+			require(tokcomma, LINK);
+
+			// equivalents
+			count_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+				snerr(": Cannot find equivalents variable");
+
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+
+			// exchange or surface element 
+			varrec *elt_varrec = NULL;
+			elt_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || elt_varrec->stringvar != 1)
+				snerr(": Cannot find element string variable");
+			free_dim_stringvar(elt_varrec);
+
+			// right parenthesis
+			LINK->t = LINK->t->next;
+			require(tokrp, LINK);
+
+			// Make work space
+			//int max_length = length < 256 ? 256 : length;
+			//char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
+			//if (token == NULL) PhreeqcPtr->malloc_error();
+
+			// set function value
+			LDBLE eq;
+			std::string elt_name;
+
+			// return equivalent fraction
+			n.UU.val = PhreeqcPtr->equivalent_fraction(species_name.c_str(), &eq, elt_name);
+
+			// set equivalents
+			*count_varrec->UU.U0.val = eq;
+
+			// set element name
+			size_t l = elt_name.size();
+			l = l < 256 ? 256 : l + 1;
+			char * token = (char *) PhreeqcPtr->PHRQ_malloc( l, sizeof(char));
+			strcpy(token, elt_name.c_str());
+			*elt_varrec->UU.U1.sval = token;
 		}
 		break;
 	case tokval:
@@ -6638,6 +6697,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso",                PBasic::tokiso),	     
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso_unit",           PBasic::tokiso_unit),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula",      PBasic::tokphase_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula$",     PBasic::tokphase_formula_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("list_s_s",           PBasic::toklist_s_s),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_p",               PBasic::tokpr_p),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_phi",             PBasic::tokpr_phi),
@@ -6658,7 +6718,9 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_time",           PBasic::tokkin_time),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_f$",             PBasic::tokstr_f_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_e$",             PBasic::tokstr_e_),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula",    PBasic::tokspecies_formula)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula",    PBasic::tokspecies_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac)
 
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);

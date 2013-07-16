@@ -295,7 +295,9 @@ public:
 		tokceil,
 		tokfloor,
 		tokphase_formula,
+		tokphase_formula_,
 		tokspecies_formula,
+		tokspecies_formula_,
 		toklist_s_s,
 		tokpr_p,
 		tokpr_phi,
@@ -316,7 +318,8 @@ public:
 		tokkin_delta,
 		tokkin_time,
 		tokstr_f_,
-		tokstr_e_
+		tokstr_e_,
+		tokeq_frac
 	};
 
 #if !defined(PHREEQCI_GUI)

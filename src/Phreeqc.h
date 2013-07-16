@@ -98,6 +98,7 @@ public:
 	LDBLE diff_layer_total(const char *total_name, const char *surface_name);
 	LDBLE equi_phase(const char *phase_name);
 	LDBLE equi_phase_delta(const char *phase_name);
+	LDBLE equivalent_fraction(const char *name, LDBLE *eq, std::string &elt_name);
 	LDBLE find_gas_comp(const char *gas_comp_name);
 	LDBLE find_gas_p(void);
 	LDBLE find_gas_vm(void);
