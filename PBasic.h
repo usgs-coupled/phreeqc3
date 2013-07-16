@@ -295,6 +295,7 @@ public:
 		tokceil,
 		tokfloor,
 		tokphase_formula,
+		tokspecies_formula,
 		toklist_s_s,
 		tokpr_p,
 		tokpr_phi,

@@ -128,6 +128,7 @@ public:
 	LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 		char ***types, LDBLE ** moles);
 	std::string phase_formula(std::string phase_name, cxxNameDouble &stoichiometry);
+	std::string species_formula(std::string phase_name, cxxNameDouble &stoichiometry);
 	LDBLE list_ss(std::string ss_name, cxxNameDouble &composition);
 	int system_total_elements(void);
 	int system_total_si(void);
