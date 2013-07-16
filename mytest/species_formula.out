@@ -1,0 +1,498 @@
+   Input file: species_formula
+  Output file: species_formula.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION 1
+		Na	1
+		Cl	1
+		Al	2
+		S(6)	3
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               2.000e-003  2.000e-003
+	Cl               1.000e-003  1.000e-003
+	Na               1.000e-003  1.000e-003
+	S(6)             3.000e-003  3.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (uS/cm, 25 oC) = 530
+                          Density (g/cm3)  =   0.99752
+                               Volume (L)  =   1.00322
+                        Activity of water  =   1.000
+                           Ionic strength  =  7.937e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  7.775e-003
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -7.775e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -78.60
+                               Iterations  =   8
+                                  Total H  = 1.110202e+002
+                                  Total O  = 5.552599e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.113e-007  1.012e-007    -6.954    -6.995    -0.041     -4.05
+   H+             1.086e-007  1.000e-007    -6.964    -7.000    -0.036      0.00
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.07
+Al           2.000e-003
+   Al(OH)4-       1.844e-003  1.681e-003    -2.734    -2.774    -0.040     (0)  
+   Al(OH)3        8.902e-005  8.919e-005    -4.050    -4.050     0.001     (0)  
+   Al(OH)2+       6.626e-005  6.054e-005    -4.179    -4.218    -0.039     (0)  
+   AlOH+2         1.109e-006  7.725e-007    -5.955    -6.112    -0.157    -27.52
+   AlSO4+         5.594e-008  5.100e-008    -7.252    -7.292    -0.040     (0)  
+   Al+3           1.639e-008  7.778e-009    -7.785    -8.109    -0.324    -43.96
+   Al(SO4)2-      3.669e-009  3.345e-009    -8.435    -8.476    -0.040     (0)  
+   AlHSO4+2       6.568e-016  4.523e-016   -15.183   -15.345    -0.162     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  9.100e-004    -3.000    -3.041    -0.041     18.13
+H(0)         1.413e-025
+   H2             7.067e-026  7.079e-026   -25.151   -25.150     0.001     28.61
+Na           1.000e-003
+   Na+            9.897e-004  9.028e-004    -3.004    -3.044    -0.040     -1.33
+   NaSO4-         1.027e-005  9.383e-006    -4.988    -5.028    -0.039     18.58
+   NaOH           9.120e-021  9.136e-021   -20.040   -20.039     0.001     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.081   -42.080     0.001     30.40
+S(6)         3.000e-003
+   SO4-2          2.990e-003  2.074e-003    -2.524    -2.683    -0.159     14.23
+   NaSO4-         1.027e-005  9.383e-006    -4.988    -5.028    -0.039     18.58
+   AlSO4+         5.594e-008  5.100e-008    -7.252    -7.292    -0.040     (0)  
+   HSO4-          2.213e-008  2.016e-008    -7.655    -7.695    -0.041     40.33
+   Al(SO4)2-      3.669e-009  3.345e-009    -8.435    -8.476    -0.040     (0)  
+   AlHSO4+2       6.568e-016  4.523e-016   -15.183   -15.345    -0.162     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        2.09     12.89   10.80  Al(OH)3
+	Gibbsite          4.78     12.89    8.11  Al(OH)3
+	H2(g)           -22.05    -25.15   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	Halite           -7.66     -6.09    1.57  NaCl
+	O2(g)           -39.19    -42.08   -2.89  O2
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	EXCHANGE 1
+		CaX2 0.5
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SURFACE 1
+		Hfo_wOH  .01 600 1
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	USE solution 1
+	USE exchange 1
+	USE surface 1
+	USER_PRINT
+	10 t = SYS("aq", count, name$, type$, moles)
+	20 for i = 1 to count
+	30   ty$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+	40   print pad(name$(i), 15), pad(type$(i), 5), str_e$(moles(i), 15,2), "   ", ty$
+	50   for j = 1 to count_s
+	60     print pad(blank$, 5), pad(elt$(j),5), str_f$(coef(j), 5, 0)
+	70   next j
+	80 next i
+	110 t = SYS("ex", count, name$, type$, moles)
+	120 for i = 1 to count
+	130   ty$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+	140   PRINT pad(name$(i), 15), pad(type$(i), 5), str_e$(moles(i), 15,2), "   ", ty$
+	145   f = EQ_FRAC(name$(i), equiv, ex_name$)
+	147   PRINT "      equivalent fraction:", f, MOL(name$(i))*equiv/TOT(ex_name$), ex_name$, equiv, MOL(name$(i)), TOT(ex_name$)
+	150   for j = 1 to count_s
+	160     PRINT PAD(blank$, 5), PAD(elt$(j),5), STR_F$(coef(j), 5, 0)
+	170   next j
+	180 next i
+	210 t = SYS("surf", count, name$, type$, moles)
+	220 for i = 1 to count
+	230   ty$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+	240   PRINT pad(name$(i), 15), pad(type$(i), 5), str_e$(moles(i), 15,2), "   ", ty$
+	245   f = EQ_FRAC(name$(i), equiv, ex_name$)
+	247   PRINT "      equivalent fraction:", f, MOL(name$(i))*equiv/TOT(ex_name$), ex_name$, equiv, MOL(name$(i)), TOT(ex_name$)
+	250   for j = 1 to count_s
+	260     PRINT PAD(blank$, 5), PAD(elt$(j),5), STR_F$(coef(j), 5, 0)
+	270   next j
+	280 next i
+	300 n$ = "AbX4"
+	310 ty$ = SPECIES_FORMULA$(n$, count_s, elt$, coef)
+	320 PRINT n$, ty$, count_s
+	400 f = EQ_FRAC(n$, equiv, ex_name$)
+	410 PRINT n$, f, equiv, ex_name$
+	420 n$ = "AlOH4-"
+	430 f = EQ_FRAC(n$, equiv, ex_name$)
+	440 PRINT n$, f, equiv, "/" + ex_name$ + "/"
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using exchange 1.	
+Using surface 1.	
+
+----------------------------------User print-----------------------------------
+
+SO4-2           aq          2.72e-003     aq 
+      O         4 
+      S         1 
+      charge    -2 
+Al(OH)4-        aq          1.98e-003     aq 
+      Al        1 
+      H         4 
+      O         4 
+      charge    -1 
+Cl-             aq          1.00e-003     aq 
+      Cl        1 
+      charge    -1 
+Ca+2            aq          2.99e-004     aq 
+      Ca        1 
+      charge     2 
+CaSO4           aq          7.09e-005     aq 
+      Ca        1 
+      O         4 
+      S         1 
+      charge     0 
+Na+             aq          4.16e-005     aq 
+      Na        1 
+      charge     1 
+Al(OH)3         aq          1.25e-005     aq 
+      Al        1 
+      H         3 
+      O         3 
+      charge     0 
+Al(OH)2+        aq          1.21e-006     aq 
+      Al        1 
+      H         2 
+      O         2 
+      charge     1 
+OH-             aq          8.52e-007     aq 
+      H         1 
+      O         1 
+      charge    -1 
+NaSO4-          aq          3.97e-007     aq 
+      Na        1 
+      O         4 
+      S         1 
+      charge    -1 
+CaOH+           aq          2.93e-009     aq 
+      Ca        1 
+      H         1 
+      O         1 
+      charge     1 
+HSO4-           aq          2.64e-009     aq 
+      H         1 
+      O         4 
+      S         1 
+      charge    -1 
+AlOH+2          aq          2.62e-009     aq 
+      Al        1 
+      H         1 
+      O         1 
+      charge     2 
+AlSO4+          aq          1.59e-011     aq 
+      Al        1 
+      O         4 
+      S         1 
+      charge     1 
+CaHSO4+         aq          6.67e-012     aq 
+      Ca        1 
+      H         1 
+      O         4 
+      S         1 
+      charge     1 
+Al+3            aq          5.02e-012     aq 
+      Al        1 
+      charge     3 
+Al(SO4)2-       aq          9.59e-013     aq 
+      Al        1 
+      O         8 
+      S         2 
+      charge    -1 
+H2              aq          8.68e-016     aq 
+      H         2 
+      charge     0 
+AlHSO4+2        aq          2.42e-020     aq 
+      Al        1 
+      H         1 
+      O         4 
+      S         1 
+      charge     2 
+NaOH            aq          2.95e-021     aq 
+      H         1 
+      Na        1 
+      O         1 
+      charge     0 
+HS-             aq          2.77e-025     aq 
+      H         1 
+      S         1 
+      charge    -1 
+H2S             aq          2.87e-026     aq 
+      H         2 
+      S         1 
+      charge     0 
+S-2             aq          3.34e-030     aq 
+      S         1 
+      charge    -2 
+O2              aq          0.00e+000     aq 
+      O         2 
+      charge     0 
+CaX2            ex          5.00e-001     ex 
+      equivalent fraction:  9.9903e-001  9.9903e-001 X            2  4.9952e-001  1.0000e+000 
+      Ca        1 
+      X         2 
+      charge     0 
+NaX             ex          9.58e-004     ex 
+      equivalent fraction:  9.5796e-004  9.5796e-004 X            1  9.5797e-004  1.0000e+000 
+      Na        1 
+      X         1 
+      charge     0 
+AlOHX2          ex          5.39e-006     ex 
+      equivalent fraction:  1.0779e-005  1.0779e-005 X            2  5.3893e-006  1.0000e+000 
+      Al        1 
+      H         1 
+      O         1 
+      X         2 
+      charge     0 
+AlX3            ex          5.24e-008     ex 
+      equivalent fraction:  1.5713e-007  1.5713e-007 X            3  5.2377e-008  1.0000e+000 
+      Al        1 
+      X         3 
+      charge     0 
+Hfo_wOH         surf        7.42e-003     surf 
+      equivalent fraction:  7.4161e-001  7.4161e-001 Hfo_w            1  7.4161e-003  1.0000e-002 
+      H         1 
+      Hfo_w     1 
+      O         1 
+      charge     0 
+Hfo_wOH2+       surf        1.28e-003     surf 
+      equivalent fraction:  1.2784e-001  1.2784e-001 Hfo_w            1  1.2784e-003  1.0000e-002 
+      H         2 
+      Hfo_w     1 
+      O         1 
+      charge     1 
+Hfo_wO-         surf        9.86e-004     surf 
+      equivalent fraction:  9.8558e-002  9.8558e-002 Hfo_w            1  9.8559e-004  1.0000e-002 
+      Hfo_w     1 
+      O         1 
+      charge    -1 
+Hfo_wOHSO4-2    surf        1.89e-004     surf 
+      equivalent fraction:  1.8922e-002  1.8922e-002 Hfo_w            1  1.8922e-004  1.0000e-002 
+      H         1 
+      Hfo_w     1 
+      O         5 
+      S         1 
+      charge    -2 
+Hfo_wOCa+       surf        1.14e-004     surf 
+      equivalent fraction:  1.1439e-002  1.1439e-002 Hfo_w            1  1.1439e-004  1.0000e-002 
+      Ca        1 
+      Hfo_w     1 
+      O         1 
+      charge     1 
+Hfo_wSO4-       surf        1.63e-005     surf 
+      equivalent fraction:  1.6349e-003  1.6349e-003 Hfo_w            1  1.6349e-005  1.0000e-002 
+      Hfo_w     1 
+      O         4 
+      S         1 
+      charge    -1 
+AbX4 none            0 
+AbX4            0            0  
+AlOH4-            0            0 // 
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 1.239e-005  Surface charge, eq
+	 1.992e-003  sigma, C/m**2
+	 9.974e-003  psi, V
+	-3.882e-001  -F*psi/RT
+	 6.783e-001  exp(-F*psi/RT)
+	 6.000e+002  specific area, m**2/g
+	 6.000e+002  m**2 for  1.000e+000 g
+
+
+Hfo_w         
+	 1.000e-002  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH          7.416e-003       0.742  7.416e-003      -2.130
+	Hfo_wOH2+        1.278e-003       0.128  1.278e-003      -2.893
+	Hfo_wO-          9.856e-004       0.099  9.856e-004      -3.006
+	Hfo_wOHSO4-2     1.892e-004       0.019  1.892e-004      -3.723
+	Hfo_wOCa+        1.144e-004       0.011  1.144e-004      -3.942
+	Hfo_wSO4-        1.635e-005       0.002  1.635e-005      -4.787
+
+-----------------------------Exchange composition------------------------------
+
+X               1.000e+000 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2             4.995e-001  9.990e-001  9.990e-001    -0.154
+	NaX              9.580e-004  9.580e-004  9.580e-004    -0.039
+	AlOHX2           5.389e-006  1.078e-005  1.078e-005    -0.154
+	AlX3             5.238e-008  1.571e-007  1.571e-007    -0.317
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al               1.995e-003  1.995e-003
+	Ca               3.701e-004  3.701e-004
+	Cl               1.000e-003  1.000e-003
+	Na               4.204e-005  4.204e-005
+	S                2.794e-003  2.794e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.885      Charge balance
+                                       pe  =  -1.930      Adjusted to redox equilibrium
+       Specific Conductance (uS/cm, 25 oC) = 480
+                          Density (g/cm3)  =   0.99750
+                               Volume (L)  =   1.00319
+                        Activity of water  =   1.000
+                           Ionic strength  =  7.557e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  7.964e-003
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -7.787e-003
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  = -85.86
+                               Iterations  =  21
+                                  Total H  = 1.110200e+002
+                                  Total O  = 5.552518e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            8.520e-007  7.765e-007    -6.070    -6.110    -0.040     -4.05
+   H+             1.414e-008  1.303e-008    -7.850    -7.885    -0.035      0.00
+   H2O            5.551e+001  9.999e-001     1.744    -0.000     0.000     18.07
+Al           1.995e-003
+   Al(OH)4-       1.981e-003  1.810e-003    -2.703    -2.742    -0.039     (0)  
+   Al(OH)3        1.249e-005  1.252e-005    -4.903    -4.903     0.001     (0)  
+   Al(OH)2+       1.210e-006  1.107e-006    -5.917    -5.956    -0.038     (0)  
+   AlOH+2         2.623e-009  1.842e-009    -8.581    -8.735    -0.154    -27.53
+   AlSO4+         1.593e-011  1.455e-011   -10.798   -10.837    -0.039     (0)  
+   Al+3           5.020e-012  2.417e-012   -11.299   -11.617    -0.317    -43.97
+   Al(SO4)2-      9.587e-013  8.758e-013   -12.018   -12.058    -0.039     (0)  
+   AlHSO4+2       2.422e-020  1.681e-020   -19.616   -19.774    -0.159     (0)  
+Ca           3.701e-004
+   Ca+2           2.991e-004  2.099e-004    -3.524    -3.678    -0.154    -17.97
+   CaSO4          7.092e-005  7.104e-005    -4.149    -4.148     0.001      7.50
+   CaOH+          2.927e-009  2.672e-009    -8.534    -8.573    -0.040     (0)  
+   CaHSO4+        6.668e-012  6.086e-012   -11.176   -11.216    -0.040     (0)  
+Cl           1.000e-003
+   Cl-            1.000e-003  9.119e-004    -3.000    -3.040    -0.040     18.13
+H(0)         1.736e-015
+   H2             8.681e-016  8.696e-016   -15.061   -15.061     0.001     28.61
+Na           4.204e-005
+   Na+            4.164e-005  3.805e-005    -4.381    -4.420    -0.039     -1.33
+   NaSO4-         3.966e-007  3.631e-007    -6.402    -6.440    -0.038     18.57
+   NaOH           2.950e-021  2.955e-021   -20.530   -20.529     0.001     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -62.259   -62.259     0.001     30.40
+S(-2)        3.057e-025
+   HS-            2.769e-025  2.524e-025   -24.558   -24.598    -0.040     20.66
+   H2S            2.871e-026  2.876e-026   -25.542   -25.541     0.001     37.16
+   S-2            3.343e-030  2.339e-030   -29.476   -29.631    -0.155     (0)  
+S(6)         2.794e-003
+   SO4-2          2.723e-003  1.904e-003    -2.565    -2.720    -0.155     14.22
+   CaSO4          7.092e-005  7.104e-005    -4.149    -4.148     0.001      7.50
+   NaSO4-         3.966e-007  3.631e-007    -6.402    -6.440    -0.038     18.57
+   HSO4-          2.643e-009  2.412e-009    -8.578    -8.618    -0.040     40.33
+   AlSO4+         1.593e-011  1.455e-011   -10.798   -10.837    -0.039     (0)  
+   CaHSO4+        6.668e-012  6.086e-012   -11.176   -11.216    -0.040     (0)  
+   Al(SO4)2-      9.587e-013  8.758e-013   -12.018   -12.058    -0.039     (0)  
+   AlHSO4+2       2.422e-020  1.681e-020   -19.616   -19.774    -0.159     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI   log IAP   log K(298 K,   1 atm)
+
+	Al(OH)3(a)        1.24     12.04   10.80  Al(OH)3
+	Anhydrite        -2.12     -6.40   -4.28  CaSO4
+	Gibbsite          3.93     12.04    8.11  Al(OH)3
+	Gypsum           -1.82     -6.40   -4.58  CaSO4:2H2O
+	H2(g)           -11.96    -15.06   -3.10  H2
+	H2O(g)           -1.50     -0.00    1.50  H2O
+	H2S(g)          -24.49    -32.48   -7.99  H2S
+	Halite           -9.03     -7.46    1.57  NaCl
+	O2(g)           -59.37    -62.26   -2.89  O2
+	Sulfur          -18.51    -13.63    4.88  S
+
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+-------------------------------
+End of Run after 0.237 Seconds.
+-------------------------------
+

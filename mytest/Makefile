@@ -122,6 +122,7 @@ all: alkalinity.out \
 	phrqpitz.tst.out \
 	pitzalphas.out \
 	pitzer_fail.out \
+	pitzer_redef.out \
 	pitzgas.out \
 	precipitate_only.out \
 	pressure_si.out \
@@ -139,6 +140,7 @@ all: alkalinity.out \
 	solid_solution.out \
 	solid_solution_pz.out \
 	solution_s.out \
+	species_formula.out \
 	spread_solution.out \
 	sc1.out \
 	sc2.out \

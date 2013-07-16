@@ -1,0 +1,53 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 1
+	Na	1
+	Cl	1
+	Al	2
+	S(6)	3
+END
+EXCHANGE 1
+	CaX2 0.5
+END
+SURFACE 1
+	Hfo_wOH  .01 600 1
+END
+USE solution 1
+USE exchange 1
+USE surface 1
+USER_PRINT
+10 t = SYS("aq", count, name$, type$, moles)
+20 for i = 1 to count
+30   ty$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+40   print pad(name$(i), 15), pad(type$(i), 5), str_e$(moles(i), 15,2), "   ", ty$
+50   for j = 1 to count_s
+60     print pad(blank$, 5), pad(elt$(j),5), str_f$(coef(j), 5, 0)
+70   next j
+80 next i
+110 t = SYS("ex", count, name$, type$, moles)
+120 for i = 1 to count
+130   ty$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+140   PRINT pad(name$(i), 15), pad(type$(i), 5), str_e$(moles(i), 15,2), "   ", ty$
+145   f = EQ_FRAC(name$(i), equiv, ex_name$)
+147   PRINT "      equivalent fraction:", f, MOL(name$(i))*equiv/TOT(ex_name$), ex_name$, equiv, MOL(name$(i)), TOT(ex_name$)
+150   for j = 1 to count_s
+160     PRINT PAD(blank$, 5), PAD(elt$(j),5), STR_F$(coef(j), 5, 0)
+170   next j
+180 next i
+210 t = SYS("surf", count, name$, type$, moles)
+220 for i = 1 to count
+230   ty$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+240   PRINT pad(name$(i), 15), pad(type$(i), 5), str_e$(moles(i), 15,2), "   ", ty$
+245   f = EQ_FRAC(name$(i), equiv, ex_name$)
+247   PRINT "      equivalent fraction:", f, MOL(name$(i))*equiv/TOT(ex_name$), ex_name$, equiv, MOL(name$(i)), TOT(ex_name$)
+250   for j = 1 to count_s
+260     PRINT PAD(blank$, 5), PAD(elt$(j),5), STR_F$(coef(j), 5, 0)
+270   next j
+280 next i
+300 n$ = "AbX4"
+310 ty$ = SPECIES_FORMULA$(n$, count_s, elt$, coef)
+320 PRINT n$, ty$, count_s
+400 f = EQ_FRAC(n$, equiv, ex_name$)
+410 PRINT n$, f, equiv, ex_name$
+420 n$ = "AlOH4-"
+430 f = EQ_FRAC(n$, equiv, ex_name$)
+440 PRINT n$, f, equiv, "/" + ex_name$ + "/"
