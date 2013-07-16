@@ -7,9 +7,9 @@
 <TITLE> Example 12--Advective and Diffusive Flux of Heat and Solutes</TITLE><HR><P> | <A HREF="phreeqc3-68.htm">Next</A> || <A HREF="phreeqc3-66.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50606095_pgfId-339226"></A>Example 12--<A NAME="50606095_12946"></A>Advective and Diffusive Flux of Heat and Solutes</H2>
+<A NAME="50470927_pgfId-339226"></A>Example 12--<A NAME="50470927_12946"></A>Advective and Diffusive Flux of Heat and Solutes</H2>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1606169"></A>The following example demonstrates the capability of PHREEQC to calculate transient transport of heat and solutes in a column or along a 1D flowline. A column is initially filled with a dilute KCl solution at 25 &#176;C in equilibrium with a cation exchanger. A KNO<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1606169"></A>The following example demonstrates the capability of PHREEQC to calculate transient transport of heat and solutes in a column or along a 1D flowline. A column is initially filled with a dilute KCl solution at 25 &#176;C in equilibrium with a cation exchanger. A KNO<Sub CLASS="Subscript">
 3</Sub>
  solution then advects into the column and establishes a new temperature of 0 &#176;C. Subsequently, a sodium chloride solution at 24 &#176;C is allowed to diffuse from both ends of the column, assuming no heat is lost through the column walls. At one end, a constant boundary condition is imposed, and at the other end, the final cell is filled with the sodium chloride solution and a closed boundary condition is prescribed. For the column end with a constant boundary condition, an analytical solution is compared with PHREEQC results, for unretarded Cl<Sup CLASS="Superscript">
 -</Sup>
@@ -21,603 +21,603 @@
 R</EM>
  = 3.0). Finally, the second-order accuracy of the numerical method is verified by increasing the number of cells by a factor of three and demonstrating a decrease in the error of the numerical solution by approximately one order of magnitude relative to the analytical solution.</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1606423"></A>The input file for example 12 is shown in <A HREF="phreeqc3-67.htm#50606095_82977" CLASS="XRef">table 31</A>. The <A HREF="phreeqc3-16.htm#50606081_65476" CLASS="XRef">EXCHANGE_SPECIES</A> data block is used (1) to make the exchange constant for KX equal to NaX (log_k = 0.0), (2) to effectively remove the possibility of hydrogen ion exchange, and (3) to set activity coefficients for exchange species equal to their aqueous counterparts (<STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1606423"></A>The input file for example 12 is shown in <A HREF="phreeqc3-67.htm#50470927_82977" CLASS="XRef">table 31</A>. The <A HREF="phreeqc3-16.htm#50470913_65476" CLASS="XRef">EXCHANGE_SPECIES</A> data block is used (1) to make the exchange constant for KX equal to NaX (log_k = 0.0), (2) to effectively remove the possibility of hydrogen ion exchange, and (3) to set activity coefficients for exchange species equal to their aqueous counterparts (<STRONG CLASS="Bold">
 -gamma</STRONG>
  identifier), so that the exchange between Na<Sup CLASS="Superscript">
 +</Sup>
  and K<Sup CLASS="Superscript">
 +</Sup>
- is linear and the retardation is constant. The influent, <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> 0, is defined with temperature 0 &#176;C and 24 mmol/kgw KNO<Sub CLASS="Subscript">
+ is linear and the retardation is constant. The influent, <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> 0, is defined with temperature 0 &#176;C and 24 mmol/kgw KNO<Sub CLASS="Subscript">
 3</Sub>
-. All solutions are defined to be in equilibrium with atmospheric oxygen partial pressure. The column is discretized in 60 cells, which are filled initially with a 1-&#956;mol/kgw KCl solution (<A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> 1-60). Each cell has 48 mmol of exchange sites, which are defined to contain only potassium by the data block <A HREF="phreeqc3-14.htm#50606081_84573" CLASS="XRef">EXCHANGE</A> 1-60.  </P>
+. All solutions are defined to be in equilibrium with atmospheric oxygen partial pressure. The column is discretized in 60 cells, which are filled initially with a 1-&#956;mol/kgw KCl solution (<A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> 1-60). Each cell has 48 mmol of exchange sites, which are defined to contain only potassium by the data block <A HREF="phreeqc3-14.htm#50470913_84573" CLASS="XRef">EXCHANGE</A> 1-60.  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1685068"></A>Table 31. <A NAME="50606095_82977"></A>Input file for example 12.</P>
+<A NAME="50470927_pgfId-1685068"></A>Table 31. <A NAME="50470927_82977"></A>Input file for example 12.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685070"></A>TITLE Example 12.--Advective and diffusive transport of heat and solutes.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685070"></A>TITLE Example 12.--Advective and diffusive transport of heat and solutes.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685072"></A>      Two different boundary conditions at column ends.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685072"></A>      Two different boundary conditions at column ends.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685074"></A>      After diffusion temperature should equal Na-conc in mmol/l.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685074"></A>      After diffusion temperature should equal Na-conc in mmol/l.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685076"></A>SOLUTION 0   24.0 mM KNO3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685076"></A>SOLUTION 0   24.0 mM KNO3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685078"></A>    units mol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685078"></A>    units mol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685080"></A>    temp  0     # Incoming solution 0C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685080"></A>    temp  0     # Incoming solution 0C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685082"></A>    pH    7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685082"></A>    pH    7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685084"></A>    pe   12.0   O2(g) -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685084"></A>    pe   12.0   O2(g) -0.67</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685086"></A>    K    24.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685086"></A>    K    24.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685088"></A>    N(5) 24.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685088"></A>    N(5) 24.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685090"></A>SOLUTION 1-60   0.001 mM KCl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685090"></A>SOLUTION 1-60   0.001 mM KCl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685092"></A>    units mol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685092"></A>    units mol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685094"></A>    temp 25    # Column is at 25C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685094"></A>    temp 25    # Column is at 25C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1685096"></A>    pH   7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1685096"></A>    pH   7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751466"></A>    pe  12.0   O2(g) -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751466"></A>    pe  12.0   O2(g) -0.67</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751464"></A>    K    1e-6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751464"></A>    K    1e-6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751462"></A>    Cl   1e-6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751462"></A>    Cl   1e-6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751460"></A>EXCHANGE_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751460"></A>EXCHANGE_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751458"></A>    Na+ + X- = NaX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751458"></A>    Na+ + X- = NaX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751456"></A>    log_k       0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751456"></A>    log_k       0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751454"></A>    -gamma      4.0     0.075</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751454"></A>    -gamma      4.0     0.075</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751452"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751452"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751450"></A>    H+ + X- = HX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751450"></A>    H+ + X- = HX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751448"></A>    log_k       -99.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751448"></A>    log_k       -99.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751446"></A>    -gamma      9.0     0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751446"></A>    -gamma      9.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751444"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751444"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751442"></A>    K+ + X- = KX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751442"></A>    K+ + X- = KX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751440"></A>    log_k       0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751440"></A>    log_k       0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751438"></A>    gamma       3.5     0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751438"></A>    gamma       3.5     0.015</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751436"></A>EXCHANGE 1-60</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751436"></A>EXCHANGE 1-60</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751434"></A>    KX    0.048</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751434"></A>    KX    0.048</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751432"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751432"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751430"></A>   -reset   false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751430"></A>   -reset   false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751428"></A>   -selected_output false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751428"></A>   -selected_output false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751426"></A>   -status false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751426"></A>   -status false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751424"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751424"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751422"></A>   -file    ex12.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751422"></A>   -file    ex12.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751420"></A>   -reset   false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751420"></A>   -reset   false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751418"></A>   -dist    true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751418"></A>   -dist    true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751416"></A>   -high_precision  true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751416"></A>   -high_precision  true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751414"></A>   -temp    true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751414"></A>   -temp    true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751412"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751412"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751410"></A>        -head Na_mmol K_mmol Cl_mmol</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751410"></A>        -head Na_mmol K_mmol Cl_mmol</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751408"></A>  10 PUNCH TOT(&quot;Na&quot;)*1000, TOT(&quot;K&quot;)*1000, TOT(&quot;Cl&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751408"></A>  10 PUNCH TOT(&quot;Na&quot;)*1000, TOT(&quot;K&quot;)*1000, TOT(&quot;Cl&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751406"></A>TRANSPORT           # Make column temperature 0C, displace Cl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751406"></A>TRANSPORT           # Make column temperature 0C, displace Cl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751404"></A>   -cells   60</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751404"></A>   -cells   60</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751402"></A>   -shifts  60</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751402"></A>   -shifts  60</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751400"></A>   -flow_direction  forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751400"></A>   -flow_direction  forward</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751398"></A>   -boundary_conditions flux  flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751398"></A>   -boundary_conditions flux  flux</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751396"></A>   -lengths 0.333333</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751396"></A>   -lengths 0.333333</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751394"></A>   -dispersivities        0.0     # No dispersion</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751394"></A>   -dispersivities        0.0     # No dispersion</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751392"></A>   -diffusion_coefficient 0.0     # No diffusion</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751392"></A>   -diffusion_coefficient 0.0     # No diffusion</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751390"></A>   -thermal_diffusion     1.0     # No retardation for heat</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751390"></A>   -thermal_diffusion     1.0     # No retardation for heat</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751388"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751388"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751386"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751386"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751384"></A>SOLUTION 0   Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751384"></A>SOLUTION 0   Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751382"></A>    units  mol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751382"></A>    units  mol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751380"></A>    temp 24</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751380"></A>    temp 24</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751378"></A>    pH  7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751378"></A>    pH  7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751376"></A>    pe  12.0   O2(g) -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751376"></A>    pe  12.0   O2(g) -0.67</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751374"></A>    Na  24.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751374"></A>    Na  24.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751372"></A>    Cl  24.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751372"></A>    Cl  24.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751370"></A>SOLUTION 58-60  Same as soln 0 in cell 20 at closed column end (second type boundary cond)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751370"></A>SOLUTION 58-60  Same as soln 0 in cell 20 at closed column end (second type boundary cond)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751368"></A>    units  mol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751368"></A>    units  mol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751366"></A>    temp 24</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751366"></A>    temp 24</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751364"></A>    pH  7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751364"></A>    pH  7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751362"></A>    pe  12.0   O2(g) -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751362"></A>    pe  12.0   O2(g) -0.67</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751360"></A>    Na  24.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751360"></A>    Na  24.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751358"></A>    Cl  24.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751358"></A>    Cl  24.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751356"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751356"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751354"></A>EXCHANGE 58-60</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751354"></A>EXCHANGE 58-60</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751352"></A>    NaX  0.048</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751352"></A>    NaX  0.048</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751350"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751350"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751348"></A>   -selected_output true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751348"></A>   -selected_output true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751346"></A>TRANSPORT            # Diffuse 24C, NaCl solution from column end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751346"></A>TRANSPORT            # Diffuse 24C, NaCl solution from column end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751344"></A>   -shifts 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751344"></A>   -shifts 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751342"></A>   -flow_direction         diffusion</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751342"></A>   -flow_direction         diffusion</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751340"></A>   -boundary_conditions    constant  closed</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751340"></A>   -boundary_conditions    constant  closed</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751338"></A>   -thermal_diffusion      3.0       # heat is retarded equal to Na</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751338"></A>   -thermal_diffusion      3.0       # heat is retarded equal to Na</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751336"></A>   -diffusion_coefficient  0.3e-9    # m^2/s</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751336"></A>   -diffusion_coefficient  0.3e-9    # m^2/s</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751334"></A>   -time_step              1.0e+10   # 317 years give 19 mixes</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751334"></A>   -time_step              1.0e+10   # 317 years give 19 mixes</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751332"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751332"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751330"></A>USER_GRAPH 1 Example 12</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751330"></A>USER_GRAPH 1 Example 12</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751328"></A>   -headings Na Cl Temp Analytical</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751328"></A>   -headings Na Cl Temp Analytical</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751326"></A>   -chart_title &quot;Diffusion of Solutes and Heat&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751326"></A>   -chart_title &quot;Diffusion of Solutes and Heat&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751324"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;, &quot;Degrees celsius&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751324"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;, &quot;Degrees celsius&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751322"></A>   -axis_scale x_axis 0 20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751322"></A>   -axis_scale x_axis 0 20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751320"></A>   -axis_scale y_axis 0 25</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751320"></A>   -axis_scale y_axis 0 25</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751318"></A>   -axis_scale sy_axis 0 25</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751318"></A>   -axis_scale sy_axis 0 25</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751316"></A>   -initial_solutions false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751316"></A>   -initial_solutions false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751314"></A>   -plot_concentration_vs x</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751314"></A>   -plot_concentration_vs x</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751312"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751312"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751310"></A>  10 x = DIST</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751310"></A>  10 x = DIST</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751308"></A>  20 PLOT_XY x, TOT(&quot;Na&quot;)*1000, symbol = Plus</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751308"></A>  20 PLOT_XY x, TOT(&quot;Na&quot;)*1000, symbol = Plus</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751306"></A>  30 PLOT_XY x, TOT(&quot;Cl&quot;)*1000, symbol = Plus</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751306"></A>  30 PLOT_XY x, TOT(&quot;Cl&quot;)*1000, symbol = Plus</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751304"></A>  40 PLOT_XY x, TC, symbol = XCross, color = Magenta, symbol_size = 8, y-axis 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751304"></A>  40 PLOT_XY x, TC, symbol = XCross, color = Magenta, symbol_size = 8, y-axis 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751302"></A>  50 if (x &gt; 10 OR SIM_TIME &lt;= 0) THEN END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751302"></A>  50 if (x &gt; 10 OR SIM_TIME &lt;= 0) THEN END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751300"></A>  60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751300"></A>  60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751298"></A>  70 READ a1, a2, a3, a4, a5, a6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751298"></A>  70 READ a1, a2, a3, a4, a5, a6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751296"></A># Calculate and plot Cl analytical...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751296"></A># Calculate and plot Cl analytical...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751294"></A>  80 z = x / (2 * SQRT(3e-10 * SIM_TIME / 1.0))</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751294"></A>  80 z = x / (2 * SQRT(3e-10 * SIM_TIME / 1.0))</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751292"></A>  90 GOSUB 2000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751292"></A>  90 GOSUB 2000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751290"></A>  100 PLOT_XY x, 24 * erfc, color = Blue, symbol = Circle, symbol_size = 10,&#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751290"></A>  100 PLOT_XY x, 24 * erfc, color = Blue, symbol = Circle, symbol_size = 10,&#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751288"></A>                            line_width = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751288"></A>                            line_width = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751286"></A># Calculate and plot 3 times retarded Na and temperature analytical...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751286"></A># Calculate and plot 3 times retarded Na and temperature analytical...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751284"></A>  110 z = z * SQRT(3.0)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751284"></A>  110 z = z * SQRT(3.0)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751282"></A>  120 GOSUB 2000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751282"></A>  120 GOSUB 2000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751280"></A>  130 PLOT_XY x, 24 * erfc, color = Blue, symbol = Circle, symbol_size = 10,&#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751280"></A>  130 PLOT_XY x, 24 * erfc, color = Blue, symbol = Circle, symbol_size = 10,&#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751278"></A>                            line_width = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751278"></A>                            line_width = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751276"></A>  140 END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751276"></A>  140 END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751274"></A>  2000 REM calculate erfc...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751274"></A>  2000 REM calculate erfc...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751272"></A>  2050 b = 1 / (1 + a6 * z)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751272"></A>  2050 b = 1 / (1 + a6 * z)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751270"></A>  2060 erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(-(z * z))</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751270"></A>  2060 erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(-(z * z))</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751268"></A>  2080 RETURN</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751268"></A>  2080 RETURN</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751266"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751266"></A>   -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1751264"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1751264"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1453533"></A>The <A HREF="phreeqc3-49.htm#50606081_87317" CLASS="XRef">TRANSPORT</A> data block defines cell lengths of 1 m (<STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1453533"></A>The <A HREF="phreeqc3-49.htm#50470913_87317" CLASS="XRef">TRANSPORT</A> data block defines cell lengths of 1 m (<STRONG CLASS="Bold">
 -lengths </STRONG>
 1), no dispersion (<STRONG CLASS="Bold">
 -dispersivities</STRONG>
@@ -625,7 +625,7 @@ R</EM>
 -diffusion_coefficient</STRONG>
  0), and no retardation for temperature (<STRONG CLASS="Bold">
 -thermal_diffusion</STRONG>
- 1). <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> 0 is shifted 60 times into the column (<STRONG CLASS="Bold">
+ 1). <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> 0 is shifted 60 times into the column (<STRONG CLASS="Bold">
 -shifts</STRONG>
  60, <STRONG CLASS="Bold">
 -flow_direction</STRONG>
@@ -633,13 +633,13 @@ R</EM>
 -boundary_conditions</STRONG>
  flux flux). In this initial advective-dispersive transport simulation, no exchange occurs because the exchange sites are already completely filled with potassium, and the concentrations and temperatures in the 60 cells evolve to 24 mmol/kgw KNO<Sub CLASS="Subscript">
 3</Sub>
- and 0 &#176;C. This result could be more easily achieved with <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> data blocks directly, but the simulation demonstrates how transient boundary and flow conditions can be represented. The dissolved and solid compositions and the temperature of each cell of the column is automatically saved after each shift in the advective-dispersive transport simulation. The keyword <A HREF="phreeqc3-31.htm#50606081_92102" CLASS="XRef">PRINT</A> is used to exclude all printing to the output file (<STRONG CLASS="Bold">
+ and 0 &#176;C. This result could be more easily achieved with <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> data blocks directly, but the simulation demonstrates how transient boundary and flow conditions can be represented. The dissolved and solid compositions and the temperature of each cell of the column is automatically saved after each shift in the advective-dispersive transport simulation. The keyword <A HREF="phreeqc3-31.htm#50470913_92102" CLASS="XRef">PRINT</A> is used to exclude all printing to the output file (<STRONG CLASS="Bold">
 -reset</STRONG>
  false).</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-341853"></A>In the next advective-dispersive transport simulation, diffusion is calculated from the column ends. The column composition and temperatures are initially the conditions produced by the first advective-dispersive transport calculation, except that an NaCl solution is now defined as solution 0, which diffuses into the top of the column, and as solution 60, which diffuses from the bottom of the column. The new <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> 0 is defined with a temperature of 24 &#176;C and with 24 mmol/kgw NaCl. The last cell (<A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> 60) also is defined to have this solution composition and temperature. The exchanger in cell 60 is defined to be in equilibrium with the new solution composition in cell 60 (<A HREF="phreeqc3-14.htm#50606081_84573" CLASS="XRef">EXCHANGE</A> 60).</P>
+<A NAME="50470927_pgfId-341853"></A>In the next advective-dispersive transport simulation, diffusion is calculated from the column ends. The column composition and temperatures are initially the conditions produced by the first advective-dispersive transport calculation, except that an NaCl solution is now defined as solution 0, which diffuses into the top of the column, and as solution 60, which diffuses from the bottom of the column. The new <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> 0 is defined with a temperature of 24 &#176;C and with 24 mmol/kgw NaCl. The last cell (<A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> 60) also is defined to have this solution composition and temperature. The exchanger in cell 60 is defined to be in equilibrium with the new solution composition in cell 60 (<A HREF="phreeqc3-14.htm#50470913_84573" CLASS="XRef">EXCHANGE</A> 60).</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643226"></A>The <A HREF="phreeqc3-49.htm#50606081_87317" CLASS="XRef">TRANSPORT</A> data block defines one diffusive transport period (<STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1643226"></A>The <A HREF="phreeqc3-49.htm#50470913_87317" CLASS="XRef">TRANSPORT</A> data block defines one diffusive transport period (<STRONG CLASS="Bold">
 -shifts</STRONG>
  1; <STRONG CLASS="Bold">
 -flow_direction</STRONG>
@@ -675,7 +675,7 @@ Na<Sup CLASS="Superscript">
 +</Sup>
  = 3.0, which is numerically equal to the temperature retardation.</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643237"></A>The <A HREF="phreeqc3-38.htm#50606081_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies the name of the selected-output file to be <EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-1643237"></A>The <A HREF="phreeqc3-38.htm#50470913_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies the name of the selected-output file to be <EM CLASS="Emphasis">
 ex12.sel</EM>
 . The identifier &#8220;<STRONG CLASS="Bold">
 -high_precision </STRONG>
@@ -683,9 +683,9 @@ true&#8221; is used to obtain an increased number of digits in the printing, and
 -dist</STRONG>
  and <STRONG CLASS="Bold">
 -temp </STRONG>
-specify that the distance and temperature of each cell will be printed to the file. The <A HREF="phreeqc3-53.htm#50606081_56415" CLASS="XRef">USER_PUNCH</A> data block is used to print concentrations of sodium, potassium, and chloride to the selected-output file in units of mmol/kgw, and <A HREF="phreeqc3-51.htm#50606081_26121" CLASS="XRef">USER_GRAPH</A> plots the data. </P>
+specify that the distance and temperature of each cell will be printed to the file. The <A HREF="phreeqc3-53.htm#50470913_56415" CLASS="XRef">USER_PUNCH</A> data block is used to print concentrations of sodium, potassium, and chloride to the selected-output file in units of mmol/kgw, and <A HREF="phreeqc3-51.htm#50470913_26121" CLASS="XRef">USER_GRAPH</A> plots the data. </P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643244"></A>In the model, the temperature is calculated with the (linear) retardation formula; however, the Na<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1643244"></A>In the model, the temperature is calculated with the (linear) retardation formula; however, the Na<Sup CLASS="Superscript">
 +</Sup>
  concentration is calculated by the cation-exchange reactions. Even though the Na<Sup CLASS="Superscript">
 +</Sup>
@@ -712,16 +712,16 @@ t</EM>
  &gt; 0 the analytical solution is</P>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50606095_pgfId-1643248"></A><IMG SRC="phreeqc3-256.png" ALIGN="MIDDLE">
+<A NAME="50470927_pgfId-1643248"></A><IMG SRC="phreeqc3-256.png" ALIGN="MIDDLE">
 ,	(23)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50606095_pgfId-1643249"></A>where De is the effective diffusion coefficient and R is the retardation factor.</P>
+<A NAME="50470927_pgfId-1643249"></A>where De is the effective diffusion coefficient and R is the retardation factor.</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643250"></A>The PHREEQC results are compared with the analytical solution for Cl<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1643250"></A>The PHREEQC results are compared with the analytical solution for Cl<Sup CLASS="Superscript">
 -</Sup>
  and for temperature and Na<Sup CLASS="Superscript">
 +</Sup>
- in figure.13 and show excellent agreement. Notice that diffusion of Cl<Sup CLASS="Superscript">
+ in figure 13 and show excellent agreement. Notice that diffusion of Cl<Sup CLASS="Superscript">
 -</Sup>
  from the column ends has not yet &#8220;touched&#8221; in the mid-section, so that the column is still effectively infinite and the analytical solution is appropriate. Although both ends of the column started with the same temperature and concentration, at<EM CLASS="Emphasis">
  x</EM>
@@ -733,128 +733,90 @@ x</EM>
 <DIV>
 <MAP NAME="phreeqc3-257">
 </MAP>
-<IMG SRC="phreeqc3-257.png" style="width:60%" USEMAP="#phreeqc3-257">
+<IMG SRC="phreeqc3-257.png" style="width:65%" USEMAP="#phreeqc3-257">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1685327"></A>Because this example has an analytical solution, it is possible to verify the second-order accuracy of the numerical algorithms used in PHREEQC. For a second-order method, decreasing the cell size by a factor of three should improve the results by about a factor of nine. The deviations from the analytical solution at the end of the time step are calculated at distances from 0.5 to 8.5 m in 0.5 m increments. The results are shown in <A HREF="phreeqc3-67.htm#50606095_37620" CLASS="XRef">table 32</A>. As expected for a second-order method, the deviations from the analytical solution decreased by approximately an order of magnitude when the cell size was decreased by a factor of three.</P>
+<A NAME="50470927_pgfId-1685327"></A>Because this example has an analytical solution, it is possible to verify the second-order accuracy of the numerical algorithms used in PHREEQC. For a second-order method, decreasing the cell size by a factor of three should improve the results by about a factor of nine. The deviations from the analytical solution at the end of the time step are calculated at distances from 0.5 to 8.5 m in 0.5 m increments. The results are shown in <A HREF="phreeqc3-67.htm#50470927_37620" CLASS="XRef">table 32</A>. As expected for a second-order method, the deviations from the analytical solution decreased by approximately an order of magnitude when the cell size was decreased by a factor of three.</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1643261"></A>Table 32. <A NAME="50606095_37620"></A>Numerical errors relative to the analytical solution for example 12 for a 20-cell and a 60-cell model.</P>
+<A NAME="50470927_pgfId-1643261"></A>Table 32. <A NAME="50470927_37620"></A>Numerical errors relative to the analytical solution for example 12 for a 20-cell and a 60-cell model.</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="2" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643273"></A>Distance</P>
+<A NAME="50470927_pgfId-1643273"></A>Distance</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="2">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643275"></A>Error in Cl concentration</P>
+<A NAME="50470927_pgfId-1643275"></A>Error in Cl concentration</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643279"></A>&nbsp;</P>
+<A NAME="50470927_pgfId-1643279"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="2">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643281"></A>Error in Na concentration</P>
+<A NAME="50470927_pgfId-1643281"></A>Error in Na concentration</P>
 </TH>
 </TR>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643287"></A>20-cell model</P>
+<A NAME="50470927_pgfId-1643287"></A>20-cell model</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643289"></A>60-cell model</P>
+<A NAME="50470927_pgfId-1643289"></A>60-cell model</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643291"></A>&nbsp;</P>
+<A NAME="50470927_pgfId-1643291"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643293"></A>20-cell model</P>
+<A NAME="50470927_pgfId-1643293"></A>20-cell model</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-1643295"></A>60-Cell model</P>
+<A NAME="50470927_pgfId-1643295"></A>60-Cell model</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643297"></A> 0.5</LI>
+<A NAME="50470927_pgfId-1643297"></A> 0.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643299"></A>3.32e-05</LI>
+<A NAME="50470927_pgfId-1643299"></A>3.32e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643301"></A>3.03e-06</LI>
+<A NAME="50470927_pgfId-1643301"></A>3.03e-06</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643303"></A>&nbsp;</LI>
+<A NAME="50470927_pgfId-1643303"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643305"></A>5.75e-04</LI>
+<A NAME="50470927_pgfId-1643305"></A>5.75e-04</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643307"></A>4.42e-05</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643309"></A> 1.5</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643311"></A>8.17e-05</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643313"></A>7.66e-06</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643315"></A>&nbsp;</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643317"></A>5.54e-04</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643319"></A>6.08e-05</LI>
+<A NAME="50470927_pgfId-1643307"></A>4.42e-05</LI>
 </UL>
 </TD>
 </TR>
@@ -862,75 +824,37 @@ x</EM>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643321"></A> 2.5</LI>
+<A NAME="50470927_pgfId-1643309"></A> 1.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643323"></A>9.18e-05</LI>
+<A NAME="50470927_pgfId-1643311"></A>8.17e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643325"></A>9.09e-06</LI>
+<A NAME="50470927_pgfId-1643313"></A>7.66e-06</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643327"></A>&nbsp;</LI>
+<A NAME="50470927_pgfId-1643315"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643329"></A>8.29e-05</LI>
+<A NAME="50470927_pgfId-1643317"></A>5.54e-04</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643331"></A>1.43e-05</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643333"></A> 3.5</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643335"></A>7.15e-05</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643337"></A>7.65e-06</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643339"></A>&nbsp;</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643341"></A>-5.07e-05</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643343"></A>-5.64e-06</LI>
+<A NAME="50470927_pgfId-1643319"></A>6.08e-05</LI>
 </UL>
 </TD>
 </TR>
@@ -938,75 +862,37 @@ x</EM>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643345"></A> 4.5</LI>
+<A NAME="50470927_pgfId-1643321"></A> 2.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643347"></A>4.24e-05</LI>
+<A NAME="50470927_pgfId-1643323"></A>9.18e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643349"></A>4.98e-06</LI>
+<A NAME="50470927_pgfId-1643325"></A>9.09e-06</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643351"></A>&nbsp;</LI>
+<A NAME="50470927_pgfId-1643327"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643353"></A>-2.54e-05</LI>
+<A NAME="50470927_pgfId-1643329"></A>8.29e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643355"></A>-3.26e-06</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643357"></A> 5.5</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643359"></A>2.00e-05</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643361"></A>2.61e-06</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643363"></A>&nbsp;</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643365"></A>-5.44e-06</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643367"></A>-6.27e-07</LI>
+<A NAME="50470927_pgfId-1643331"></A>1.43e-05</LI>
 </UL>
 </TD>
 </TR>
@@ -1014,75 +900,37 @@ x</EM>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643369"></A> 6.5</LI>
+<A NAME="50470927_pgfId-1643333"></A> 3.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643371"></A>7.81e-06</LI>
+<A NAME="50470927_pgfId-1643335"></A>7.15e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643373"></A>1.12e-06</LI>
+<A NAME="50470927_pgfId-1643337"></A>7.65e-06</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643375"></A>&nbsp;</LI>
+<A NAME="50470927_pgfId-1643339"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643377"></A>-7.20e-07</LI>
+<A NAME="50470927_pgfId-1643341"></A>-5.07e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643379"></A>-6.15e-08</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643381"></A> 7.5</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643383"></A>2.55e-06</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643385"></A>3.97e-07</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643387"></A>&nbsp;</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643389"></A>-6.77e-08</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643391"></A>-3.48e-09</LI>
+<A NAME="50470927_pgfId-1643343"></A>-5.64e-06</LI>
 </UL>
 </TD>
 </TR>
@@ -1090,37 +938,189 @@ x</EM>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643393"></A> 8.5</LI>
+<A NAME="50470927_pgfId-1643345"></A> 4.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643395"></A>5.58e-07</LI>
+<A NAME="50470927_pgfId-1643347"></A>4.24e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643397"></A>7.65e-08</LI>
+<A NAME="50470927_pgfId-1643349"></A>4.98e-06</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643399"></A>&nbsp;</LI>
+<A NAME="50470927_pgfId-1643351"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643401"></A>-4.90e-09</LI>
+<A NAME="50470927_pgfId-1643353"></A>-2.54e-05</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1643403"></A>-1.21e-10</LI>
+<A NAME="50470927_pgfId-1643355"></A>-3.26e-06</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643357"></A> 5.5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643359"></A>2.00e-05</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643361"></A>2.61e-06</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643363"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643365"></A>-5.44e-06</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643367"></A>-6.27e-07</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643369"></A> 6.5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643371"></A>7.81e-06</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643373"></A>1.12e-06</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643375"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643377"></A>-7.20e-07</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643379"></A>-6.15e-08</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643381"></A> 7.5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643383"></A>2.55e-06</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643385"></A>3.97e-07</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643387"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643389"></A>-6.77e-08</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643391"></A>-3.48e-09</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643393"></A> 8.5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643395"></A>5.58e-07</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643397"></A>7.65e-08</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643399"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643401"></A>-4.90e-09</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1643403"></A>-1.21e-10</LI>
 </UL>
 </TD>
 </TR>
