@@ -7,70 +7,70 @@
 <TITLE> Example 15--1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption</TITLE><HR><P> | <A HREF="phreeqc3-71.htm">Next</A> || <A HREF="phreeqc3-69.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50606095_pgfId-339993"></A>Example 15--<A NAME="50606095_40270"></A>1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption</H2>
+<A NAME="50470927_pgfId-339993"></A>Example 15--<A NAME="50470927_40270"></A>1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption</H2>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-339994"></A>A test problem for advective-dispersive-reactive transport was developed by Tebes-Stevens and Valocchi (1997) and Tebes-Stevens and others (1998). Although based on relatively simple speciation chemistry, the solution to the problem demonstrates several interacting chemical processes that are common to many environmental problems: bacterially mediated degradation of an organic substrate; bacterial cell growth and decay; metal sorption; and aqueous speciation, including metal-ligand complexation. In this example, the test problem is solved with PHREEQC, which produces results almost identical to those of Tebes-Stevens and Valocchi (1997) and Tebes-Stevens and others (1998). </P>
+<A NAME="50470927_pgfId-339994"></A>A test problem for advective-dispersive-reactive transport was developed by Tebes-Stevens and Valocchi (1997) and Tebes-Stevens and others (1998). Although based on relatively simple speciation chemistry, the solution to the problem demonstrates several interacting chemical processes that are common to many environmental problems: bacterially mediated degradation of an organic substrate; bacterial cell growth and decay; metal sorption; and aqueous speciation, including metal-ligand complexation. In this example, the test problem is solved with PHREEQC, which produces results almost identical to those of Tebes-Stevens and Valocchi (1997) and Tebes-Stevens and others (1998). </P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-339995"></A>The test problem models the transport processes when a pulse of water containing NTA (nitrylotriacetate) and cobalt is injected into a column. The problem includes advection and dispersion in the column, aqueous equilibrium reactions, and kinetic reactions for NTA degradation, growth of biomass, and cobalt sorption.</P>
+<A NAME="50470927_pgfId-339995"></A>The test problem models the transport processes when a pulse of water containing NTA (nitrylotriacetate) and cobalt is injected into a column. The problem includes advection and dispersion in the column, aqueous equilibrium reactions, and kinetic reactions for NTA degradation, growth of biomass, and cobalt sorption.</P>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-345362"></A><A NAME="50606095_43867"></A>Transport Parameters</H4>
+<A NAME="50470927_pgfId-345362"></A><A NAME="50470927_43867"></A>Transport Parameters</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-345396"></A>The dimensions and hydraulic properties of the column are given in <A HREF="phreeqc3-70.htm#50606095_95408" CLASS="XRef">table 38</A>. </P>
+<A NAME="50470927_pgfId-345396"></A>The dimensions and hydraulic properties of the column are given in <A HREF="phreeqc3-70.htm#50470927_95408" CLASS="XRef">table 38</A>. </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1546793"></A>Table 38. <STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1546793"></A>Table 38. <STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50606095_95408"></A>Hydraulic and physical properties of the column in example 15.</P>
+<A NAME="50470927_95408"></A>Hydraulic and physical properties of the column in example 15.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50606095_pgfId-1531258"></A>[m, meter; g/m<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1531258"></A>[m, meter; g/m<Sup CLASS="Superscript">
 3</Sup>
 , gram per cubic meter; g/L, gram per liter; m/h, meter per hour]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-370384"></A>Property</P>
+<A NAME="50470927_pgfId-370384"></A>Property</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50606095_pgfId-370386"></A>Value</P>
+<A NAME="50470927_pgfId-370386"></A>Value</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-370420"></A>Length of column</P>
+<A NAME="50470927_pgfId-370420"></A>Length of column</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50606095_pgfId-370422"></A>10.0 m</LI>
+<A NAME="50470927_pgfId-370422"></A>10.0 m</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-370424"></A>Porosity, unitless</P>
+<A NAME="50470927_pgfId-370424"></A>Porosity, unitless</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50606095_pgfId-370426"></A>0.4</LI>
+<A NAME="50470927_pgfId-370426"></A>0.4</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-370428"></A>Bulk density</P>
+<A NAME="50470927_pgfId-370428"></A>Bulk density</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50606095_pgfId-370430"></A>1.5e6 g/m<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-370430"></A>1.5e6 g/m<Sup CLASS="Superscript">
 3</Sup>
 </LI>
 </UL>
@@ -79,36 +79,36 @@
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-370432"></A>Grams of sediment per liter (from porosity and bulk density)</P>
+<A NAME="50470927_pgfId-370432"></A>Grams of sediment per liter (from porosity and bulk density)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50606095_pgfId-370434"></A>3.75e3 g/L</LI>
+<A NAME="50470927_pgfId-370434"></A>3.75e3 g/L</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-370436"></A>Pore-water velocity</P>
+<A NAME="50470927_pgfId-370436"></A>Pore-water velocity</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50606095_pgfId-370438"></A>1.0 m/h</LI>
+<A NAME="50470927_pgfId-370438"></A>1.0 m/h</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-370440"></A>Longitudinal dispersivity</P>
+<A NAME="50470927_pgfId-370440"></A>Longitudinal dispersivity</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50606095_pgfId-370442"></A>0.05 m</LI>
+<A NAME="50470927_pgfId-370442"></A>0.05 m</LI>
 </UL>
 </TD>
 </TR>
@@ -116,11 +116,11 @@
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-345397"></A><A NAME="50606095_91438"></A>Aqueous Model</H4>
+<A NAME="50470927_pgfId-345397"></A><A NAME="50470927_91438"></A>Aqueous Model</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1530250"></A>Tebes-Stevens and Valocchi (1997) defined an aqueous model to be used for this test problem that includes the identity of the aqueous species and log <EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-1530250"></A>Tebes-Stevens and Valocchi (1997) defined an aqueous model to be used for this test problem that includes the identity of the aqueous species and log <EM CLASS="Emphasis">
 K</EM>
-s of the species; activity coefficients were assumed to be 1.0. The database file in <A HREF="phreeqc3-70.htm#50606095_31710" CLASS="XRef">table 39</A> was constructed on the basis of their aqueous model. For the PHREEQC simulation, NTA was defined as a new &#8220;element&#8221; in the <A HREF="phreeqc3-42.htm#50606081_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> data block named &#8220;Nta&#8221;. From this point on &#8220;NTA&#8221; will be referred to as &#8220;Nta&#8221; for consistency with the PHREEQC notation. The gram formula weight of Nta in <A HREF="phreeqc3-42.htm#50606081_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> is immaterial if input units are moles in the <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> data block, and is simply set to 1. The aqueous complexes of Nta are defined in the <A HREF="phreeqc3-43.htm#50606081_96148" CLASS="XRef">SOLUTION_SPECIES</A> data block. Note that the activity coefficients of all aqueous species are defined with a large value for the <EM CLASS="Emphasis">
+s of the species; activity coefficients were assumed to be 1.0. The database file in <A HREF="phreeqc3-70.htm#50470927_31710" CLASS="XRef">table 39</A> was constructed on the basis of their aqueous model. For the PHREEQC simulation, NTA was defined as a new &#8220;element&#8221; in the <A HREF="phreeqc3-42.htm#50470913_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> data block named &#8220;Nta&#8221;. From this point on &#8220;NTA&#8221; will be referred to as &#8220;Nta&#8221; for consistency with the PHREEQC notation. The gram formula weight of Nta in <A HREF="phreeqc3-42.htm#50470913_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> is immaterial if input units are moles in the <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> data block, and is simply set to 1. The aqueous complexes of Nta are defined in the <A HREF="phreeqc3-43.htm#50470913_96148" CLASS="XRef">SOLUTION_SPECIES</A> data block. Note that the activity coefficients of all aqueous species are defined with a large value for the <EM CLASS="Emphasis">
 a</EM>
  parameter (1&#215;10<Sup CLASS="Superscript">
 7</Sup>
@@ -130,344 +130,344 @@ a</EM>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1655380"></A>Table 39. <A NAME="50606095_31710"></A>Database for example 15.</P>
+<A NAME="50470927_pgfId-1655380"></A>Table 39. <A NAME="50470927_31710"></A>Database for example 15.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655382"></A>SOLUTION_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655382"></A>SOLUTION_MASTER_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655384"></A>C        CO2            2.0     61.0173         12.0111</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655384"></A>C        CO2            2.0     61.0173         12.0111</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655386"></A>Cl       Cl-            0.0     Cl              35.453</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655386"></A>Cl       Cl-            0.0     Cl              35.453</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655388"></A>Co       Co+2           0.0     58.93           58.93   </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655388"></A>Co       Co+2           0.0     58.93           58.93   </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655390"></A>E        e-             0.0     0.0             0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655390"></A>E        e-             0.0     0.0             0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655392"></A>H        H+             -1.     1.008           1.008</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655392"></A>H        H+             -1.     1.008           1.008</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655394"></A>H(0)     H2             0.0     1.008</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655394"></A>H(0)     H2             0.0     1.008</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655396"></A>H(1)     H+             -1.     1.008</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655396"></A>H(1)     H+             -1.     1.008</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655398"></A>N        NH4+           0.0     14.0067         14.0067</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655398"></A>N        NH4+           0.0     14.0067         14.0067</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655400"></A>Na       Na+            0.0     Na              22.9898</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655400"></A>Na       Na+            0.0     Na              22.9898</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655402"></A>Nta      Nta-3          3.0     1.              1.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655402"></A>Nta      Nta-3          3.0     1.              1.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655404"></A>O        H2O            0.0     16.00           16.00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655404"></A>O        H2O            0.0     16.00           16.00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655406"></A>O(-2)    H2O            0.0     18.016</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655406"></A>O(-2)    H2O            0.0     18.016</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655408"></A>O(0)     O2             0.0     16.00</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655408"></A>O(0)     O2             0.0     16.00</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655410"></A>SOLUTION_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655410"></A>SOLUTION_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655412"></A>2H2O = O2 + 4H+ + 4e- </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655412"></A>2H2O = O2 + 4H+ + 4e- </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655414"></A>        log_k   -86.08; -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655414"></A>        log_k   -86.08; -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655416"></A>2 H+ + 2 e- = H2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655416"></A>2 H+ + 2 e- = H2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655418"></A>        log_k   -3.15;  -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655418"></A>        log_k   -3.15;  -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655420"></A>H+ = H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655420"></A>H+ = H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655422"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655422"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655424"></A>e- = e-</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655424"></A>e- = e-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655426"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655426"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655428"></A>H2O = H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655428"></A>H2O = H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655430"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655430"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655432"></A>CO2 = CO2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655432"></A>CO2 = CO2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655434"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655434"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655436"></A>Na+ = Na+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655436"></A>Na+ = Na+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655438"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655438"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655440"></A>Cl- = Cl-</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655440"></A>Cl- = Cl-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655442"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655442"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655444"></A>Co+2 = Co+2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655444"></A>Co+2 = Co+2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655446"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655446"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655448"></A>NH4+ = NH4+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655448"></A>NH4+ = NH4+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655450"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655450"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655452"></A>Nta-3 = Nta-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655452"></A>Nta-3 = Nta-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655454"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655454"></A>        log_k   0.0;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655456"></A>Nta-3 + 3H+ = H3Nta</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655456"></A>Nta-3 + 3H+ = H3Nta</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1655458"></A>        log_k   14.9;   -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1655458"></A>        log_k   14.9;   -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754108"></A>Nta-3 + 2H+ = H2Nta-</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754108"></A>Nta-3 + 2H+ = H2Nta-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754106"></A>        log_k   13.3;   -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754106"></A>        log_k   13.3;   -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754104"></A>Nta-3 + H+ = HNta-2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754104"></A>Nta-3 + H+ = HNta-2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754102"></A>        log_k   10.3;   -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754102"></A>        log_k   10.3;   -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754100"></A>Nta-3 + Co+2 = CoNta-</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754100"></A>Nta-3 + Co+2 = CoNta-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754098"></A>        log_k   11.7;   -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754098"></A>        log_k   11.7;   -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754096"></A>2 Nta-3 + Co+2 = CoNta2-4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754096"></A>2 Nta-3 + Co+2 = CoNta2-4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754094"></A>        log_k   14.5;   -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754094"></A>        log_k   14.5;   -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754092"></A>Nta-3 + Co+2 + H2O = CoOHNta-2 + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754092"></A>Nta-3 + Co+2 + H2O = CoOHNta-2 + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754090"></A>        log_k   0.5;    -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754090"></A>        log_k   0.5;    -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754088"></A>Co+2 + H2O = CoOH+ + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754088"></A>Co+2 + H2O = CoOH+ + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754086"></A>        log_k   -9.7;   -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754086"></A>        log_k   -9.7;   -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754084"></A>Co+2 + 2H2O = Co(OH)2 + 2H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754084"></A>Co+2 + 2H2O = Co(OH)2 + 2H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754082"></A>        log_k   -22.9;  -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754082"></A>        log_k   -22.9;  -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754080"></A>Co+2 + 3H2O = Co(OH)3- + 3H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754080"></A>Co+2 + 3H2O = Co(OH)3- + 3H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754078"></A>        log_k   -31.5;  -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754078"></A>        log_k   -31.5;  -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754076"></A>CO2 + H2O = HCO3- + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754076"></A>CO2 + H2O = HCO3- + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754074"></A>        log_k   -6.35;  -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754074"></A>        log_k   -6.35;  -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754072"></A>CO2 + H2O = CO3-2 + 2H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754072"></A>CO2 + H2O = CO3-2 + 2H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754070"></A>        log_k   -16.68; -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754070"></A>        log_k   -16.68; -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754068"></A>NH4+ = NH3 + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754068"></A>NH4+ = NH3 + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754066"></A>        log_k   -9.3;   -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754066"></A>        log_k   -9.3;   -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754064"></A>H2O = OH- +  H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754064"></A>H2O = OH- +  H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754062"></A>        log_k   -14.0;  -gamma  1e7   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754062"></A>        log_k   -14.0;  -gamma  1e7   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1754060"></A>END          </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1754060"></A>END          </Pre>
 </TD>
 </TR>
 </TABLE>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-340109"></A><A NAME="50606095_40152"></A>Initial and Boundary Conditions</H4>
+<A NAME="50470927_pgfId-340109"></A><A NAME="50470927_40152"></A>Initial and Boundary Conditions</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1413539"></A>The background concentrations in the column are listed in <A HREF="phreeqc3-70.htm#50606095_84769" CLASS="XRef">table 40</A>. The column contains no Nta or cobalt initially, but has a biomass of 1.36&#215;10<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1413539"></A>The background concentrations in the column are listed in <A HREF="phreeqc3-70.htm#50470927_84769" CLASS="XRef">table 40</A>. The column contains no Nta or cobalt initially, but has a biomass of 1.36&#215;10<Sup CLASS="Superscript">
 -4</Sup>
- g/L. A flux boundary condition is applied at the inlet of the column, and for the first 20 h (hours), a solution with Nta and cobalt enters the column; the concentrations in the pulse also are given in <A HREF="phreeqc3-70.htm#50606095_84769" CLASS="XRef">table 40</A>. After 20 h, the background solution is introduced at the inlet until the experiment ends after 75 h. Na and Cl were not in the original problem definition but were added for charge balancing sorption reactions for PHREEQC (see <A HREF="phreeqc3-70.htm#50606095_53998" CLASS="XRef">Sorption Reactions</A>).</P>
+ g/L. A flux boundary condition is applied at the inlet of the column, and for the first 20 h (hours), a solution with Nta and cobalt enters the column; the concentrations in the pulse also are given in <A HREF="phreeqc3-70.htm#50470927_84769" CLASS="XRef">table 40</A>. After 20 h, the background solution is introduced at the inlet until the experiment ends after 75 h. Na and Cl were not in the original problem definition but were added for charge balancing sorption reactions for PHREEQC (see <A HREF="phreeqc3-70.htm#50470927_53998" CLASS="XRef">Sorption Reactions</A>).</P>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-1557344"></A><A NAME="50606095_47132"></A>Kinetic Degradation of Nta and Cell Growth</H4>
+<A NAME="50470927_pgfId-1557344"></A><A NAME="50470927_47132"></A>Kinetic Degradation of Nta and Cell Growth</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1557345"></A>Nta is assumed to degrade in the presence of biomass and oxygen by the reaction:</P>
-<Pre CLASS="ComputerOutput10"><A NAME="50606095_pgfId-1688774"></A>HNta<Sup CLASS="Superscript">2-</Sup>
+<A NAME="50470927_pgfId-1557345"></A>Nta is assumed to degrade in the presence of biomass and oxygen by the reaction:</P>
+<Pre CLASS="ComputerOutput10"><A NAME="50470927_pgfId-1688774"></A>HNta<Sup CLASS="Superscript">2-</Sup>
  + 1.62O<Sub CLASS="Subscript">2</Sub>
  + 1.272H<Sub CLASS="Subscript">2</Sub>
 O + 2.424H<Sup CLASS="Superscript">+</Sup>
@@ -479,9 +479,9 @@ CO<Sub CLASS="Subscript">3</Sub>
  + 0.424NH<Sub CLASS="Subscript">4</Sub>
 <Sup CLASS="Superscript">+</Sup>
 .</Pre>
-<Pre CLASS="ComputerOutput10"><A NAME="50606095_pgfId-1688804"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerOutput10"><A NAME="50470927_pgfId-1688804"></A>&nbsp;</Pre>
 <P CLASS="BodyTextFlush">
-<A NAME="50606095_pgfId-1688176"></A>PHREEQC requires kinetic reactants to be defined solely by the moles of each element that enter or leave the solution because of the reaction. Furthermore, the reactants should be charge balanced (no net charge should enter or leave the solution). The Nta reaction converts 1 mol HNta<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688176"></A>PHREEQC requires kinetic reactants to be defined solely by the moles of each element that enter or leave the solution because of the reaction. Furthermore, the reactants should be charge balanced (no net charge should enter or leave the solution). The Nta reaction converts 1 mol HNta<Sup CLASS="Superscript">
 2-</Sup>
  (C<Sub CLASS="Subscript">
 6</Sub>
@@ -503,84 +503,84 @@ O<Sub CLASS="Subscript">
 2</Sub>
 N, minus the sum of the elements on the left-hand side of the equation. The corresponding change in aqueous element concentrations per mole of HNta<Sup CLASS="Superscript">
 2-</Sup>
- reaction is given in <A HREF="phreeqc3-70.htm#50606095_41892" CLASS="XRef">table 41</A> (positive coefficients indicate an increase in aqueous concentration, and negative coefficients indicate a decrease in aqueous concentration).</P>
+ reaction is given in <A HREF="phreeqc3-70.htm#50470927_41892" CLASS="XRef">table 41</A> (positive coefficients indicate an increase in aqueous concentration, and negative coefficients indicate a decrease in aqueous concentration).</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1688441"></A>Table 40. <A NAME="50606095_84769"></A>Concentration data for example 15.</P>
+<A NAME="50470927_pgfId-1688441"></A>Table 40. <A NAME="50470927_84769"></A>Concentration data for example 15.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50606095_pgfId-1688442"></A>[g/L, gram per liter; mol/L, mole per liter; Nta, nitrylotriacetate; ---, absent in pulse]</P>
+<A NAME="50470927_pgfId-1688442"></A>[g/L, gram per liter; mol/L, mole per liter; Nta, nitrylotriacetate; ---, absent in pulse]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688450"></A>Constituent</P>
+<A NAME="50470927_pgfId-1688450"></A>Constituent</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688452"></A>Type</P>
+<A NAME="50470927_pgfId-1688452"></A>Type</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688454"></A>Pulse <BR>
+<A NAME="50470927_pgfId-1688454"></A>Pulse <BR>
 concentration </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688456"></A>Background <BR>
+<A NAME="50470927_pgfId-1688456"></A>Background <BR>
 concentration</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688458"></A>H<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688458"></A>H<Sup CLASS="Superscript">
 +</Sup>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688460"></A>Aqueous</P>
+<A NAME="50470927_pgfId-1688460"></A>Aqueous</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688462"></A>10.0e-6 mol/L</LI>
+<A NAME="50470927_pgfId-1688462"></A>10.0e-6 mol/L</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688464"></A>10.0e-6 mol/L</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688466"></A>Total C</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688468"></A>Aqueous</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688470"></A>4.9e-7 mol/L</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688472"></A>4.9e-7 mol/L</LI>
+<A NAME="50470927_pgfId-1688464"></A>10.0e-6 mol/L</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688474"></A>NH<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1688466"></A>Total C</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50470927_pgfId-1688468"></A>Aqueous</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1688470"></A>4.9e-7 mol/L</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1688472"></A>4.9e-7 mol/L</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50470927_pgfId-1688474"></A>NH<Sub CLASS="Subscript">
 4</Sub>
 <Sup CLASS="Superscript">
 +</Sup>
@@ -588,49 +588,49 @@ concentration</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688476"></A>Aqueous</P>
+<A NAME="50470927_pgfId-1688476"></A>Aqueous</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688478"></A>0.0</LI>
+<A NAME="50470927_pgfId-1688478"></A>0.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688480"></A>0.0</LI>
+<A NAME="50470927_pgfId-1688480"></A>0.0</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688482"></A>O<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1688482"></A>O<Sub CLASS="Subscript">
 2</Sub>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688484"></A>Aqueous</P>
+<A NAME="50470927_pgfId-1688484"></A>Aqueous</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688486"></A>3.125e-5 mol/L</LI>
+<A NAME="50470927_pgfId-1688486"></A>3.125e-5 mol/L</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688488"></A>3.125e-5 mol/L</LI>
+<A NAME="50470927_pgfId-1688488"></A>3.125e-5 mol/L</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688490"></A>Nta<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1688490"></A>Nta<Sub CLASS="Subscript">
 3</Sub>
 <Sup CLASS="Superscript">
 -</Sup>
@@ -638,150 +638,150 @@ concentration</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688492"></A>Aqueous</P>
+<A NAME="50470927_pgfId-1688492"></A>Aqueous</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688494"></A>5.23e-6 mol/L</LI>
+<A NAME="50470927_pgfId-1688494"></A>5.23e-6 mol/L</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688496"></A>0.0</LI>
+<A NAME="50470927_pgfId-1688496"></A>0.0</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688498"></A>Co<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688498"></A>Co<Sup CLASS="Superscript">
 2+</Sup>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688500"></A>Aqueous</P>
+<A NAME="50470927_pgfId-1688500"></A>Aqueous</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688502"></A>5.23e-6 mol/L</LI>
+<A NAME="50470927_pgfId-1688502"></A>5.23e-6 mol/L</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688504"></A>0.0</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688506"></A>Na</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688508"></A>Aqueous</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688510"></A>1.0e-3 mol/L</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688512"></A>1.0e-3 mol/L</LI>
+<A NAME="50470927_pgfId-1688504"></A>0.0</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688514"></A>Cl</P>
+<A NAME="50470927_pgfId-1688506"></A>Na</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688516"></A>Aqueous</P>
+<A NAME="50470927_pgfId-1688508"></A>Aqueous</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688518"></A>1.0e-3 mol/L</LI>
+<A NAME="50470927_pgfId-1688510"></A>1.0e-3 mol/L</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688520"></A>1.0e-3 mol/L</LI>
+<A NAME="50470927_pgfId-1688512"></A>1.0e-3 mol/L</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688522"></A>Biomass</P>
+<A NAME="50470927_pgfId-1688514"></A>Cl</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688524"></A>Immobile</P>
+<A NAME="50470927_pgfId-1688516"></A>Aqueous</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1688518"></A>1.0e-3 mol/L</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50470927_pgfId-1688520"></A>1.0e-3 mol/L</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50470927_pgfId-1688522"></A>Biomass</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50470927_pgfId-1688524"></A>Immobile</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688526"></A>---</H6>
+<A NAME="50470927_pgfId-1688526"></A>---</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688528"></A>1.36e-4 g/L</LI>
+<A NAME="50470927_pgfId-1688528"></A>1.36e-4 g/L</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688530"></A>CoNta<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1688530"></A>CoNta<Sub CLASS="Subscript">
 (ads)</Sub>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688532"></A>Immobile</P>
+<A NAME="50470927_pgfId-1688532"></A>Immobile</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688534"></A>---</H6>
+<A NAME="50470927_pgfId-1688534"></A>---</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688536"></A>0.0</LI>
+<A NAME="50470927_pgfId-1688536"></A>0.0</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688538"></A>Co<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1688538"></A>Co<Sub CLASS="Subscript">
 (ads)</Sub>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688540"></A>Immobile</P>
+<A NAME="50470927_pgfId-1688540"></A>Immobile</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688542"></A>---</H6>
+<A NAME="50470927_pgfId-1688542"></A>---</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-1688544"></A>0.0</LI>
+<A NAME="50470927_pgfId-1688544"></A>0.0</LI>
 </UL>
 </TD>
 </TR>
@@ -789,78 +789,78 @@ concentration</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1688289"></A>Table 41. <A NAME="50606095_41892"></A>Reaction stoichiometry for oxidation of Nta (nitrylotriacetate).</P>
+<A NAME="50470927_pgfId-1688289"></A>Table 41. <A NAME="50470927_41892"></A>Reaction stoichiometry for oxidation of Nta (nitrylotriacetate).</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688293"></A>Component</P>
+<A NAME="50470927_pgfId-1688293"></A>Component</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688295"></A>Coefficient</P>
+<A NAME="50470927_pgfId-1688295"></A>Coefficient</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688297"></A>Nta</P>
+<A NAME="50470927_pgfId-1688297"></A>Nta</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688299"></A>-1.0</H6>
+<A NAME="50470927_pgfId-1688299"></A>-1.0</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688301"></A>C</P>
+<A NAME="50470927_pgfId-1688301"></A>C</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688303"></A>3.12</H6>
+<A NAME="50470927_pgfId-1688303"></A>3.12</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688305"></A>H</P>
+<A NAME="50470927_pgfId-1688305"></A>H</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688307"></A>1.968</H6>
+<A NAME="50470927_pgfId-1688307"></A>1.968</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688309"></A>O</P>
+<A NAME="50470927_pgfId-1688309"></A>O</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688311"></A>4.848</H6>
+<A NAME="50470927_pgfId-1688311"></A>4.848</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688313"></A>N</P>
+<A NAME="50470927_pgfId-1688313"></A>N</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-35-">
-<A NAME="50606095_pgfId-1688315"></A>0.424</H6>
+<A NAME="50470927_pgfId-1688315"></A>0.424</H6>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-340259"></A>The following multiplicative Monod rate expression is used to describe the rate of Nta degradation:</P>
+<A NAME="50470927_pgfId-340259"></A>The following multiplicative Monod rate expression is used to describe the rate of Nta degradation:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50606095_pgfId-340263"></A><IMG SRC="phreeqc3-267.png" ALIGN="MIDDLE">
+<A NAME="50470927_pgfId-340263"></A><IMG SRC="phreeqc3-267.png" ALIGN="MIDDLE">
 , 	(30)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50606095_pgfId-340270"></A>where <IMG SRC="phreeqc3-268.png" ALIGN="MIDDLE">
+<A NAME="50470927_pgfId-340270"></A>where <IMG SRC="phreeqc3-268.png" ALIGN="MIDDLE">
  is the rate of HNta<Sup CLASS="Superscript">
 2-</Sup>
  degradation (mol L<Sup CLASS="Superscript">
@@ -879,42 +879,42 @@ c</EM>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50606095_pgfId-340283"></A><IMG SRC="phreeqc3-273.png" ALIGN="MIDDLE">
+<A NAME="50470927_pgfId-340283"></A><IMG SRC="phreeqc3-273.png" ALIGN="MIDDLE">
 ,	(31)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50606095_pgfId-340287"></A>where <IMG SRC="phreeqc3-274.png" ALIGN="MIDDLE">
+<A NAME="50470927_pgfId-340287"></A>where <IMG SRC="phreeqc3-274.png" ALIGN="MIDDLE">
  is the rate of cell growth (g L-1h-1), <EM CLASS="Emphasis">
 Y</EM>
  is the microbial yield coefficient (g cells/mol Nta), and <EM CLASS="Emphasis">
 b</EM>
  is the first-order biomass decay coefficient (h<Sup CLASS="Superscript">
 -1</Sup>
-). The parameter values for these equations are listed in <A HREF="phreeqc3-70.htm#50606095_19932" CLASS="XRef">table 42</A>.</P>
+). The parameter values for these equations are listed in <A HREF="phreeqc3-70.htm#50470927_19932" CLASS="XRef">table 42</A>.</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1546766"></A>Table 42. <A NAME="50606095_19932"></A>Kinetic rate parameters used in example 15.</P>
+<A NAME="50470927_pgfId-1546766"></A>Table 42. <A NAME="50470927_19932"></A>Kinetic rate parameters used in example 15.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50606095_pgfId-1531458"></A>[mol, mole; L, liter; g, gram; h, hour]</P>
+<A NAME="50470927_pgfId-1531458"></A>[mol, mole; L, liter; g, gram; h, hour]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-385988"></A>Parameter</P>
+<A NAME="50470927_pgfId-385988"></A>Parameter</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-385990"></A>Description</P>
+<A NAME="50470927_pgfId-385990"></A>Description</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-385992"></A>Parameter value</P>
+<A NAME="50470927_pgfId-385992"></A>Parameter value</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-385994"></A><EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-385994"></A><EM CLASS="Emphasis">
 K</EM>
 <Sub CLASS="Subscript">
 s</Sub>
@@ -922,19 +922,19 @@ s</Sub>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-385996"></A>Half-saturation constant for donor</P>
+<A NAME="50470927_pgfId-385996"></A>Half-saturation constant for donor</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-385998"></A>7.64e-7 mol/L</LI>
+<A NAME="50470927_pgfId-385998"></A>7.64e-7 mol/L</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386000"></A><EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-386000"></A><EM CLASS="Emphasis">
 K</EM>
 <Sub CLASS="Subscript">
 a</Sub>
@@ -942,19 +942,19 @@ a</Sub>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386002"></A>Half-saturation constant for acceptor</P>
+<A NAME="50470927_pgfId-386002"></A>Half-saturation constant for acceptor</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-386004"></A>6.25e-6 mol/L</LI>
+<A NAME="50470927_pgfId-386004"></A>6.25e-6 mol/L</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386006"></A><EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-386006"></A><EM CLASS="Emphasis">
 q</EM>
 <Sub CLASS="Subscript">
 m</Sub>
@@ -962,48 +962,48 @@ m</Sub>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386008"></A>Maximum specific rate of substrate utilization</P>
+<A NAME="50470927_pgfId-386008"></A>Maximum specific rate of substrate utilization</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-386010"></A>1.418e-3 mol Nta/g cells/h</LI>
+<A NAME="50470927_pgfId-386010"></A>1.418e-3 mol Nta/g cells/h</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386012"></A><EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-386012"></A><EM CLASS="Emphasis">
 Y</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386014"></A>Microbial yield coefficient</P>
+<A NAME="50470927_pgfId-386014"></A>Microbial yield coefficient</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-386016"></A>65.14 g cells/mol Nta</LI>
+<A NAME="50470927_pgfId-386016"></A>65.14 g cells/mol Nta</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386018"></A><EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-386018"></A><EM CLASS="Emphasis">
 b</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-386020"></A>First-order microbial decay coefficient</P>
+<A NAME="50470927_pgfId-386020"></A>First-order microbial decay coefficient</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50606095_pgfId-386022"></A>0.00208 h<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-386022"></A>0.00208 h<Sup CLASS="Superscript">
 -1</Sup>
 </LI>
 </UL>
@@ -1012,9 +1012,9 @@ b</EM>
 </TABLE>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-340335"></A><A NAME="50606095_53998"></A>Sorption Reactions</H4>
+<A NAME="50470927_pgfId-340335"></A><A NAME="50470927_53998"></A>Sorption Reactions</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-340336"></A>Tebes-Stevens and Valocchi (1997) defined kinetic sorption reactions for Co<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-340336"></A>Tebes-Stevens and Valocchi (1997) defined kinetic sorption reactions for Co<Sup CLASS="Superscript">
 2+</Sup>
  and CoNta<Sup CLASS="Superscript">
 -</Sup>
@@ -1023,10 +1023,10 @@ b</EM>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50606095_pgfId-340340"></A><IMG SRC="phreeqc3-275.png" ALIGN="MIDDLE">
+<A NAME="50470927_pgfId-340340"></A><IMG SRC="phreeqc3-275.png" ALIGN="MIDDLE">
 ,	(32)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50606095_pgfId-340344"></A>where <EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-340344"></A>where <EM CLASS="Emphasis">
 i</EM>
  is either Co<Sup CLASS="Superscript">
 2+</Sup>
@@ -1040,7 +1040,7 @@ i</Sub>
  is the mass transfer coefficient (h<Sup CLASS="Superscript">
 -1</Sup>
 ), and <IMG SRC="phreeqc3-277.png" ALIGN="MIDDLE">
- is the distribution coefficient (L/g, liter per gram). The values of the coefficients are given in <A HREF="phreeqc3-70.htm#50606095_32866" CLASS="XRef">table 43</A>. The values of <EM CLASS="Emphasis">
+ is the distribution coefficient (L/g, liter per gram). The values of the coefficients are given in <A HREF="phreeqc3-70.htm#50470927_32866" CLASS="XRef">table 43</A>. The values of <EM CLASS="Emphasis">
 K</EM>
 <Sub CLASS="Subscript">
 d</Sub>
@@ -1048,32 +1048,32 @@ d</Sub>
 2+</Sup>
  and CoNta<Sup CLASS="Superscript">
 -</Sup>
-, respectively. Because the sorption reactions are defined to be kinetic, the initial moles of these reactants and the rates of reaction are defined with <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> and <A HREF="phreeqc3-32.htm#50606081_97907" CLASS="XRef">RATES</A> data blocks; no surface definitions (<A HREF="phreeqc3-45.htm#50606081_56392" CLASS="XRef">SURFACE</A>, <A HREF="phreeqc3-46.htm#50606081_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, or <A HREF="phreeqc3-47.htm#50606081_92844" CLASS="XRef">SURFACE_SPECIES</A>) are needed. Furthermore, all kinetic reactants are immobile, so that the sorbed species are not transported.</P>
+, respectively. Because the sorption reactions are defined to be kinetic, the initial moles of these reactants and the rates of reaction are defined with <A HREF="phreeqc3-24.htm#50470913_55637" CLASS="XRef">KINETICS</A> and <A HREF="phreeqc3-32.htm#50470913_97907" CLASS="XRef">RATES</A> data blocks; no surface definitions (<A HREF="phreeqc3-45.htm#50470913_56392" CLASS="XRef">SURFACE</A>, <A HREF="phreeqc3-46.htm#50470913_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, or <A HREF="phreeqc3-47.htm#50470913_92844" CLASS="XRef">SURFACE_SPECIES</A>) are needed. Furthermore, all kinetic reactants are immobile, so that the sorbed species are not transported.</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1688869"></A>Table 43. <A NAME="50606095_32866"></A>Sorption coefficients for Co<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688869"></A>Table 43. <A NAME="50470927_32866"></A>Sorption coefficients for Co<Sup CLASS="Superscript">
 2+</Sup>
  and CoNta<Sup CLASS="Superscript">
 -</Sup>
 .</P>
 <P CLASS="TableHeadnote">
-<A NAME="50606095_pgfId-1688870"></A>[h, hour; L/g, liter per gram]</P>
+<A NAME="50470927_pgfId-1688870"></A>[h, hour; L/g, liter per gram]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688876"></A>Species</P>
+<A NAME="50470927_pgfId-1688876"></A>Species</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688878"></A>k<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1688878"></A>k<Sub CLASS="Subscript">
 m</Sub>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50606095_pgfId-1688880"></A>K<Sub CLASS="Subscript">
+<A NAME="50470927_pgfId-1688880"></A>K<Sub CLASS="Subscript">
 d</Sub>
 </P>
 </TH>
@@ -1081,42 +1081,42 @@ d</Sub>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688882"></A>Co<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688882"></A>Co<Sup CLASS="Superscript">
 2+</Sup>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptCenter">
-<A NAME="50606095_pgfId-1688884"></A>1 h<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688884"></A>1 h<Sup CLASS="Superscript">
 -1</Sup>
 </H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50606095_pgfId-1688886"></A>5.07e-3 L/g</H6>
+<A NAME="50470927_pgfId-1688886"></A>5.07e-3 L/g</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50606095_pgfId-1688888"></A>CoNta<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688888"></A>CoNta<Sup CLASS="Superscript">
 -</Sup>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptCenter">
-<A NAME="50606095_pgfId-1688890"></A>1 h<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1688890"></A>1 h<Sup CLASS="Superscript">
 -1</Sup>
 </H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-25-">
-<A NAME="50606095_pgfId-1688892"></A>5.33e-4 L/g</H6>
+<A NAME="50470927_pgfId-1688892"></A>5.33e-4 L/g</H6>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-340381"></A>When modeling with PHREEQC, kinetic reactants must be charge balanced. For sorption of Co<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-340381"></A>When modeling with PHREEQC, kinetic reactants must be charge balanced. For sorption of Co<Sup CLASS="Superscript">
 2+</Sup>
  and CoNta<Sup CLASS="Superscript">
 -</Sup>
@@ -1131,1054 +1131,1054 @@ i</Sub>
  g/L. </P>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-340385"></A><A NAME="50606095_78435"></A>Input File</H4>
+<A NAME="50470927_pgfId-340385"></A><A NAME="50470927_78435"></A>Input File</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-340389"></A><A HREF="phreeqc3-70.htm#50606095_34043" CLASS="XRef">See Input file for example 15.</A> shows the input file derived from the preceding problem definition. Although rates have been given in units of mol L-1h-1, rates in PHREEQC are always mol/s (mole per second), and all rates have been adjusted to seconds in the definition of rate expressions in the input file. The density of water is assumed to be 1 kg/L.  </P>
+<A NAME="50470927_pgfId-340389"></A><A HREF="phreeqc3-70.htm#50470927_34043" CLASS="XRef">See Input file for example 15.</A> shows the input file derived from the preceding problem definition. Although rates have been given in units of mol L-1h-1, rates in PHREEQC are always mol/s (mole per second), and all rates have been adjusted to seconds in the definition of rate expressions in the input file. The density of water is assumed to be 1 kg/L.  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50606095_pgfId-1689390"></A>Table 44. <A NAME="50606095_34043"></A>Input file for example 15.</P>
+<A NAME="50470927_pgfId-1689390"></A>Table 44. <A NAME="50470927_34043"></A>Input file for example 15.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689392"></A>DATABASE ex15.dat</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689392"></A>DATABASE ex15.dat</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689394"></A>TITLE Example 15.--1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689394"></A>TITLE Example 15.--1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689396"></A>***********</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689396"></A>***********</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689398"></A>PLEASE NOTE: This problem requires database file ex15.dat!!</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689398"></A>PLEASE NOTE: This problem requires database file ex15.dat!!</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689400"></A>***********</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689400"></A>***********</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689402"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689402"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689404"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689404"></A>        -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689406"></A>        -echo_input true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689406"></A>        -echo_input true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689408"></A>		-status false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689408"></A>		-status false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689410"></A>SOLUTION 0 Pulse solution with NTA and cobalt</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689410"></A>SOLUTION 0 Pulse solution with NTA and cobalt</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1689412"></A>        units umol/L</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1689412"></A>        units umol/L</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756047"></A>        pH      6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756047"></A>        pH      6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756045"></A>        C       .49</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756045"></A>        C       .49</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756043"></A>        O(0)    62.5 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756043"></A>        O(0)    62.5 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756041"></A>        Nta     5.23</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756041"></A>        Nta     5.23</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756039"></A>        Co      5.23</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756039"></A>        Co      5.23</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756037"></A>        Na      1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756037"></A>        Na      1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756035"></A>        Cl      1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756035"></A>        Cl      1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756033"></A>SOLUTION 1-10 Background solution initially filling column</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756033"></A>SOLUTION 1-10 Background solution initially filling column</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756031"></A>        units umol/L</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756031"></A>        units umol/L</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756029"></A>        pH      6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756029"></A>        pH      6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756027"></A>        C       .49</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756027"></A>        C       .49</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756025"></A>        O(0)    62.5 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756025"></A>        O(0)    62.5 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756023"></A>        Na      1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756023"></A>        Na      1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756021"></A>        Cl      1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756021"></A>        Cl      1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756019"></A>COPY solution 0 100 # for use later on, and in</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756019"></A>COPY solution 0 100 # for use later on, and in</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756017"></A>COPY solution 1 101 # 20 cells model</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756017"></A>COPY solution 1 101 # 20 cells model</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756015"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756015"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756013"></A>RATES Rate expressions for the four kinetic reactions</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756013"></A>RATES Rate expressions for the four kinetic reactions</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756011"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756011"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756009"></A>        HNTA-2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756009"></A>        HNTA-2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756007"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756007"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756005"></A>10 Ks = 7.64e-7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756005"></A>10 Ks = 7.64e-7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756003"></A>20 Ka = 6.25e-6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756003"></A>20 Ka = 6.25e-6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1756001"></A>30 qm = 1.407e-3/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1756001"></A>30 qm = 1.407e-3/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755999"></A>40 f1 = MOL(&quot;HNta-2&quot;)/(Ks + MOL(&quot;HNta-2&quot;))</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755999"></A>40 f1 = MOL(&quot;HNta-2&quot;)/(Ks + MOL(&quot;HNta-2&quot;))</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755997"></A>50 f2 = MOL(&quot;O2&quot;)/(Ka + MOL(&quot;O2&quot;))</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755997"></A>50 f2 = MOL(&quot;O2&quot;)/(Ka + MOL(&quot;O2&quot;))</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755995"></A>60 rate = -qm * KIN(&quot;Biomass&quot;) * f1 * f2 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755995"></A>60 rate = -qm * KIN(&quot;Biomass&quot;) * f1 * f2 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755993"></A>70 moles = rate * TIME</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755993"></A>70 moles = rate * TIME</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755991"></A>80 PUT(rate, 1)   # save the rate for use in Biomass rate calculation</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755991"></A>80 PUT(rate, 1)   # save the rate for use in Biomass rate calculation</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755989"></A>90 SAVE moles</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755989"></A>90 SAVE moles</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755987"></A>        -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755987"></A>        -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755985"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755985"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755983"></A>        Biomass</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755983"></A>        Biomass</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755981"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755981"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755979"></A>10 Y = 65.14</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755979"></A>10 Y = 65.14</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755977"></A>20 b = 0.00208/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755977"></A>20 b = 0.00208/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755975"></A>30 rate = GET(1)  # uses rate calculated in HTNA-2 rate calculation</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755975"></A>30 rate = GET(1)  # uses rate calculated in HTNA-2 rate calculation</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755973"></A>40 rate = -Y*rate -b*M</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755973"></A>40 rate = -Y*rate -b*M</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755971"></A>50 moles = -rate * TIME</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755971"></A>50 moles = -rate * TIME</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755969"></A>60 if (M + moles) &lt; 0 then moles = -M</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755969"></A>60 if (M + moles) &lt; 0 then moles = -M</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755967"></A>70 SAVE moles</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755967"></A>70 SAVE moles</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755965"></A>        -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755965"></A>        -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755963"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755963"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755961"></A>        Co_sorption</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755961"></A>        Co_sorption</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755959"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755959"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755957"></A>10 km = 1/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755957"></A>10 km = 1/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755955"></A>20 kd = 5.07e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755955"></A>20 kd = 5.07e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755953"></A>30 solids = 3.75e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755953"></A>30 solids = 3.75e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755951"></A>40 rate = -km*(MOL(&quot;Co+2&quot;) - (M/solids)/kd)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755951"></A>40 rate = -km*(MOL(&quot;Co+2&quot;) - (M/solids)/kd)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755949"></A>50 moles = rate * TIME</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755949"></A>50 moles = rate * TIME</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755947"></A>60 if (M - moles) &lt; 0 then moles = M</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755947"></A>60 if (M - moles) &lt; 0 then moles = M</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755945"></A>70 SAVE moles</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755945"></A>70 SAVE moles</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755943"></A>        -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755943"></A>        -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755941"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755941"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755939"></A>        CoNta_sorption</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755939"></A>        CoNta_sorption</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755937"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755937"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755935"></A>10 km = 1/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755935"></A>10 km = 1/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755933"></A>20 kd = 5.33e-4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755933"></A>20 kd = 5.33e-4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755931"></A>30 solids = 3.75e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755931"></A>30 solids = 3.75e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755929"></A>40 rate = -km*(MOL(&quot;CoNta-&quot;) - (M/solids)/kd)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755929"></A>40 rate = -km*(MOL(&quot;CoNta-&quot;) - (M/solids)/kd)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755927"></A>50 moles = rate * TIME</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755927"></A>50 moles = rate * TIME</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755925"></A>60 if (M - moles) &lt; 0 then moles = M</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755925"></A>60 if (M - moles) &lt; 0 then moles = M</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755923"></A>70 SAVE moles</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755923"></A>70 SAVE moles</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755921"></A>        -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755921"></A>        -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755919"></A>KINETICS 1-10 Four kinetic reactions for all cells</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755919"></A>KINETICS 1-10 Four kinetic reactions for all cells</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755917"></A>        HNTA-2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755917"></A>        HNTA-2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755915"></A>                -formula C -3.12 H -1.968 O -4.848 N -0.424 Nta 1.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755915"></A>                -formula C -3.12 H -1.968 O -4.848 N -0.424 Nta 1.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755913"></A>        Biomass</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755913"></A>        Biomass</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755911"></A>                -formula        H 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755911"></A>                -formula        H 0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755909"></A>                -m              1.36e-4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755909"></A>                -m              1.36e-4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755907"></A>        Co_sorption</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755907"></A>        Co_sorption</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755905"></A>                -formula CoCl2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755905"></A>                -formula CoCl2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755903"></A>                -m      0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755903"></A>                -m      0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755901"></A>                -tol 1e-11</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755901"></A>                -tol 1e-11</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755899"></A>        CoNta_sorption</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755899"></A>        CoNta_sorption</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755897"></A>                -formula NaCoNta</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755897"></A>                -formula NaCoNta</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755895"></A>                -m      0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755895"></A>                -m      0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755893"></A>                -tol 1e-11</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755893"></A>                -tol 1e-11</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755891"></A>COPY kinetics 1 101 # to use with 20 cells                </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755891"></A>COPY kinetics 1 101 # to use with 20 cells                </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755889"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755889"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755887"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755887"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755885"></A>        -file   ex15.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755885"></A>        -file   ex15.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755883"></A>        -mol    Nta-3 CoNta- HNta-2 Co+2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755883"></A>        -mol    Nta-3 CoNta- HNta-2 Co+2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755881"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755881"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755879"></A>        -headings        hours   Co_sorb CoNta_sorb      Biomass</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755879"></A>        -headings        hours   Co_sorb CoNta_sorb      Biomass</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755877"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755877"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755875"></A>  10 punch TOTAL_TIME/3600 + 3600/2/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755875"></A>  10 punch TOTAL_TIME/3600 + 3600/2/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755873"></A>  20 punch KIN(&quot;Co_sorption&quot;)/3.75e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755873"></A>  20 punch KIN(&quot;Co_sorption&quot;)/3.75e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755871"></A>  30 punch KIN(&quot;CoNta_sorption&quot;)/3.75e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755871"></A>  30 punch KIN(&quot;CoNta_sorption&quot;)/3.75e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755869"></A>  40 punch KIN(&quot;Biomass&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755869"></A>  40 punch KIN(&quot;Biomass&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755867"></A>USER_GRAPH 1 Example 15</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755867"></A>USER_GRAPH 1 Example 15</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755865"></A>        -headings 10_cells: Co+2 CoNTA- HNTA-2 pH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755865"></A>        -headings 10_cells: Co+2 CoNTA- HNTA-2 pH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755863"></A>        -chart_title &quot;Kinetic Biodegradation, Cell Growth, and Sorption: Dissolved Species&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755863"></A>        -chart_title &quot;Kinetic Biodegradation, Cell Growth, and Sorption: Dissolved Species&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755861"></A>        -axis_titles &quot;Time, in hours&quot; &quot;Micromoles per kilogram water&quot; &quot;pH&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755861"></A>        -axis_titles &quot;Time, in hours&quot; &quot;Micromoles per kilogram water&quot; &quot;pH&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755859"></A>        -axis_scale x_axis 0 75</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755859"></A>        -axis_scale x_axis 0 75</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755857"></A>        -axis_scale y_axis 0 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755857"></A>        -axis_scale y_axis 0 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755855"></A>        -axis_scale secondary_y_axis 5.799 6.8 0.2 0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755855"></A>        -axis_scale secondary_y_axis 5.799 6.8 0.2 0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755853"></A>        -plot_concentration_vs t</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755853"></A>        -plot_concentration_vs t</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755851"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755851"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755849"></A>  10 x = TOTAL_TIME/3600 + 3600/2/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755849"></A>  10 x = TOTAL_TIME/3600 + 3600/2/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755847"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755847"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755845"></A>  30 PLOT_XY x, MOL(&quot;Co+2&quot;) * 1e6, color = Red, line_width = 0, symbol_size = 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755845"></A>  30 PLOT_XY x, MOL(&quot;Co+2&quot;) * 1e6, color = Red, line_width = 0, symbol_size = 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755843"></A>  40 PLOT_XY x, MOL(&quot;CoNta-&quot;) * 1e6, color = Green, line_width = 0, symbol_size = 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755843"></A>  40 PLOT_XY x, MOL(&quot;CoNta-&quot;) * 1e6, color = Green, line_width = 0, symbol_size = 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755841"></A>  50 PLOT_XY x, MOL(&quot;HNta-2&quot;) * 1e6, color = Blue, line_width = 0, symbol_size = 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755841"></A>  50 PLOT_XY x, MOL(&quot;HNta-2&quot;) * 1e6, color = Blue, line_width = 0, symbol_size = 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755839"></A>  60 PLOT_XY x, -LA(&quot;H+&quot;), y-axis = 2, color = Magenta, line_width = 0, symbol_size = 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755839"></A>  60 PLOT_XY x, -LA(&quot;H+&quot;), y-axis = 2, color = Magenta, line_width = 0, symbol_size = 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755837"></A>        -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755837"></A>        -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755835"></A>USER_GRAPH 2 Example 15</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755835"></A>USER_GRAPH 2 Example 15</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755833"></A>        -headings 10_cells: Co+2 CoNTA- Biomass</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755833"></A>        -headings 10_cells: Co+2 CoNTA- Biomass</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755831"></A>        -chart_title &quot;Kinetic Biodegradation, Cell Growth, and Sorption: Sorbed Species&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755831"></A>        -chart_title &quot;Kinetic Biodegradation, Cell Growth, and Sorption: Sorbed Species&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755829"></A>        -axis_titles &quot;Time, in hours&quot;  &quot;Nanomoles per kilogram water&quot; &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755829"></A>        -axis_titles &quot;Time, in hours&quot;  &quot;Nanomoles per kilogram water&quot; &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755827"></A>             &quot;Biomass, in milligrams per liter&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755827"></A>             &quot;Biomass, in milligrams per liter&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755825"></A>        -axis_scale x_axis 0 75</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755825"></A>        -axis_scale x_axis 0 75</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755823"></A>        -axis_scale y_axis 0 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755823"></A>        -axis_scale y_axis 0 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755821"></A>        -axis_scale secondary_y_axis 0 0.4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755821"></A>        -axis_scale secondary_y_axis 0 0.4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755819"></A>        -plot_concentration_vs t</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755819"></A>        -plot_concentration_vs t</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755817"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755817"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755815"></A>  10 x = TOTAL_TIME/3600 + 3600/2/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755815"></A>  10 x = TOTAL_TIME/3600 + 3600/2/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755813"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755813"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755811"></A>  30 PLOT_XY x, KIN(&quot;Co_sorption&quot;) / 3.75e3 * 1e9, color = Red, line_width = 0, symbol_size = 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755811"></A>  30 PLOT_XY x, KIN(&quot;Co_sorption&quot;) / 3.75e3 * 1e9, color = Red, line_width = 0, symbol_size = 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755809"></A>  40 PLOT_XY x, KIN(&quot;CoNta_sorption&quot;) / 3.75e3 * 1e9, color = Green, line_width = 0, &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755809"></A>  40 PLOT_XY x, KIN(&quot;CoNta_sorption&quot;) / 3.75e3 * 1e9, color = Green, line_width = 0, &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755807"></A>       symbol_size = 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755807"></A>       symbol_size = 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755805"></A>  50 PLOT_XY x, KIN(&quot;Biomass&quot;) * 1e3, y-axis = 2, color = Magenta, line_width = 0, &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755805"></A>  50 PLOT_XY x, KIN(&quot;Biomass&quot;) * 1e3, y-axis = 2, color = Magenta, line_width = 0, &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755803"></A>       symbol_size = 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755803"></A>       symbol_size = 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755801"></A>        -end          -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755801"></A>        -end          -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755799"></A>TRANSPORT First 20 hours have NTA and cobalt in infilling solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755799"></A>TRANSPORT First 20 hours have NTA and cobalt in infilling solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755797"></A>        -cells                10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755797"></A>        -cells                10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755795"></A>        -lengths              1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755795"></A>        -lengths              1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755793"></A>        -shifts               20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755793"></A>        -shifts               20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755791"></A>        -time_step            3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755791"></A>        -time_step            3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755789"></A>        -flow_direction       forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755789"></A>        -flow_direction       forward</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755787"></A>        -boundary_conditions  flux flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755787"></A>        -boundary_conditions  flux flux</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755785"></A>        -dispersivities       .05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755785"></A>        -dispersivities       .05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755783"></A>        -correct_disp         true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755783"></A>        -correct_disp         true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755781"></A>        -diffusion_coefficient 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755781"></A>        -diffusion_coefficient 0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755779"></A>        -punch_cells          10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755779"></A>        -punch_cells          10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755777"></A>        -punch_frequency      1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755777"></A>        -punch_frequency      1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755775"></A>        -print_cells          10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755775"></A>        -print_cells          10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755773"></A>        -print_frequency      5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755773"></A>        -print_frequency      5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755771"></A>     </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755771"></A>     </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755769"></A>COPY solution 101 0 # initial column solution becomes influent</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755769"></A>COPY solution 101 0 # initial column solution becomes influent</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755767"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755767"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755765"></A>TRANSPORT Last 55 hours with background infilling solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755765"></A>TRANSPORT Last 55 hours with background infilling solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755763"></A>        -shifts               55</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755763"></A>        -shifts               55</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755761"></A>COPY cell 100 0 # for the 20 cell model...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755761"></A>COPY cell 100 0 # for the 20 cell model...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755759"></A>COPY cell 101 1-20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755759"></A>COPY cell 101 1-20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755757"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755757"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755755"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755755"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755753"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755753"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755751"></A>  10 punch TOTAL_TIME/3600 + 3600/4/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755751"></A>  10 punch TOTAL_TIME/3600 + 3600/4/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755749"></A>  20 punch KIN(&quot;Co_sorption&quot;)/3.75e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755749"></A>  20 punch KIN(&quot;Co_sorption&quot;)/3.75e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755747"></A>  30 punch KIN(&quot;CoNta_sorption&quot;)/3.75e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755747"></A>  30 punch KIN(&quot;CoNta_sorption&quot;)/3.75e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755745"></A>  40 punch KIN(&quot;Biomass&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755745"></A>  40 punch KIN(&quot;Biomass&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755743"></A>        -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755743"></A>        -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755741"></A>USER_GRAPH 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755741"></A>USER_GRAPH 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755739"></A>        -headings 20_cells: Co+2 CoNTA- HNTA-2 pH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755739"></A>        -headings 20_cells: Co+2 CoNTA- HNTA-2 pH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755737"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755737"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755735"></A>  10 x = TOTAL_TIME/3600 + 3600/4/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755735"></A>  10 x = TOTAL_TIME/3600 + 3600/4/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755733"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755733"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755731"></A>  30 PLOT_XY x, MOL(&quot;Co+2&quot;) * 1e6, color = Red, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755731"></A>  30 PLOT_XY x, MOL(&quot;Co+2&quot;) * 1e6, color = Red, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755729"></A>  40 PLOT_XY x, MOL(&quot;CoNta-&quot;) * 1e6, color = Green, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755729"></A>  40 PLOT_XY x, MOL(&quot;CoNta-&quot;) * 1e6, color = Green, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755727"></A>  50 PLOT_XY x, MOL(&quot;HNta-2&quot;) * 1e6, color = Blue, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755727"></A>  50 PLOT_XY x, MOL(&quot;HNta-2&quot;) * 1e6, color = Blue, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755725"></A>  60 PLOT_XY x, -LA(&quot;H+&quot;), y-axis = 2, color = Magenta, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755725"></A>  60 PLOT_XY x, -LA(&quot;H+&quot;), y-axis = 2, color = Magenta, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755723"></A>        -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755723"></A>        -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755721"></A>USER_GRAPH 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755721"></A>USER_GRAPH 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755719"></A>        -headings 20_cells: Co+2 CoNTA- Biomass</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755719"></A>        -headings 20_cells: Co+2 CoNTA- Biomass</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755717"></A>        -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755717"></A>        -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755715"></A>  10 x = TOTAL_TIME/3600 + 3600/4/3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755715"></A>  10 x = TOTAL_TIME/3600 + 3600/4/3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755713"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755713"></A>  20 PLOT_XY -1, -1, line_width = 0, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755711"></A>  30 PLOT_XY x, KIN(&quot;Co_sorption&quot;) / 3.75e3 * 1e9, color = Red, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755711"></A>  30 PLOT_XY x, KIN(&quot;Co_sorption&quot;) / 3.75e3 * 1e9, color = Red, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755709"></A>  40 PLOT_XY x, KIN(&quot;CoNta_sorption&quot;) / 3.75e3 * 1e9, color = Green, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755709"></A>  40 PLOT_XY x, KIN(&quot;CoNta_sorption&quot;) / 3.75e3 * 1e9, color = Green, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755707"></A>  60 PLOT_XY x, KIN(&quot;Biomass&quot;) * 1e3, y-axis = 2, color = Magenta, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755707"></A>  60 PLOT_XY x, KIN(&quot;Biomass&quot;) * 1e3, y-axis = 2, color = Magenta, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755705"></A>        -end        </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755705"></A>        -end        </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755703"></A>TRANSPORT First 20 hours have NTA and cobalt in infilling solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755703"></A>TRANSPORT First 20 hours have NTA and cobalt in infilling solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755701"></A>        -cells                20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755701"></A>        -cells                20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755699"></A>        -lengths              0.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755699"></A>        -lengths              0.5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755697"></A>        -shifts               40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755697"></A>        -shifts               40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755695"></A>        -initial_time         0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755695"></A>        -initial_time         0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755693"></A>        -time_step            1800</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755693"></A>        -time_step            1800</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755691"></A>        -flow_direction       forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755691"></A>        -flow_direction       forward</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755689"></A>        -boundary_conditions  flux  flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755689"></A>        -boundary_conditions  flux  flux</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755687"></A>        -dispersivities       .05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755687"></A>        -dispersivities       .05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755685"></A>        -correct_disp         true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755685"></A>        -correct_disp         true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755683"></A>        -diffusion_coefficient 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755683"></A>        -diffusion_coefficient 0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755681"></A>        -punch_cells          20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755681"></A>        -punch_cells          20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755679"></A>        -punch_frequency      2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755679"></A>        -punch_frequency      2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755677"></A>        -print_cells          20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755677"></A>        -print_cells          20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755675"></A>        -print_frequency      10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755675"></A>        -print_frequency      10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755673"></A>COPY cell 101 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755673"></A>COPY cell 101 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755671"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755671"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755669"></A>TRANSPORT Last 55 hours with background infilling solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755669"></A>TRANSPORT Last 55 hours with background infilling solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755667"></A>        -shifts               110</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755667"></A>        -shifts               110</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50606095_pgfId-1755665"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50470927_pgfId-1755665"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1316637"></A>The 10-meter column was discretized with 10 cells of 1 meter each. The first two <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> data blocks (<A HREF="phreeqc3-70.htm#50606095_34043" CLASS="XRef">table 44</A>) define the infilling solution and the initial solution in cells 1 through 10. The solutions are copied to solution 100 and 101, to be used later in the 20-cell model. </P>
+<A NAME="50470927_pgfId-1316637"></A>The 10-meter column was discretized with 10 cells of 1 meter each. The first two <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> data blocks (<A HREF="phreeqc3-70.htm#50470927_34043" CLASS="XRef">table 44</A>) define the infilling solution and the initial solution in cells 1 through 10. The solutions are copied to solution 100 and 101, to be used later in the 20-cell model. </P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643833"></A>The <A HREF="phreeqc3-32.htm#50606081_97907" CLASS="XRef">RATES</A> data block defines the rate expressions for four kinetic reactions: HNta-2, Biomass, Co_sorption, and CoNta_sorption. The rate expressions are initiated with <STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1643833"></A>The <A HREF="phreeqc3-32.htm#50470913_97907" CLASS="XRef">RATES</A> data block defines the rate expressions for four kinetic reactions: HNta-2, Biomass, Co_sorption, and CoNta_sorption. The rate expressions are initiated with <STRONG CLASS="Bold">
 -start</STRONG>
 , defined with numbered Basic-language statements, and terminated with <STRONG CLASS="Bold">
 -end</STRONG>
 . The last statement of each expression is <STRONG CLASS="Bold">
 SAVE</STRONG>
- followed by a variable name. This variable is the number of moles of reaction over the time subinterval and is calculated from an instantaneous rate (mol/s) times the length of the time subinterval (s), which is given by the variable &#8220;TIME&#8221;. Lines 30 and 20 in the first and second rate expressions and line 10 in the third and fourth rate expressions adjust parameters to units of seconds from units of hours. The function &#8220;MOL&#8221; returns the concentration of a species (mol/kgw), the function &#8220;M&#8221; returns the moles of the reactant for which the rate expression is being calculated, and &#8220;KIN&#8221; returns the moles of the specified kinetic reactant. The functions &#8220;PUT&#8221; and &#8220;GET&#8221; are used to save and retrieve a term that is common to both the HNta-2 and Biomass rate expressions (see also <A HREF="phreeqc3-61.htm#50606095_49505" CLASS="XRef">See Reaction-Path Calculations</A>).</P>
+ followed by a variable name. This variable is the number of moles of reaction over the time subinterval and is calculated from an instantaneous rate (mol/s) times the length of the time subinterval (s), which is given by the variable &#8220;TIME&#8221;. Lines 30 and 20 in the first and second rate expressions and line 10 in the third and fourth rate expressions adjust parameters to units of seconds from units of hours. The function &#8220;MOL&#8221; returns the concentration of a species (mol/kgw), the function &#8220;M&#8221; returns the moles of the reactant for which the rate expression is being calculated, and &#8220;KIN&#8221; returns the moles of the specified kinetic reactant. The functions &#8220;PUT&#8221; and &#8220;GET&#8221; are used to save and retrieve a term that is common to both the HNta-2 and Biomass rate expressions (see also <A HREF="phreeqc3-61.htm#50470927_49505" CLASS="XRef">See Reaction-Path Calculations</A>).</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643840"></A>The <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> data block defines the names of the rate expressions that apply to each cell; cells 1 through 10 are defined simultaneously in this example. For each rate expression that applies to a cell, the formula of the reactant (<STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1643840"></A>The <A HREF="phreeqc3-24.htm#50470913_55637" CLASS="XRef">KINETICS</A> data block defines the names of the rate expressions that apply to each cell; cells 1 through 10 are defined simultaneously in this example. For each rate expression that applies to a cell, the formula of the reactant (<STRONG CLASS="Bold">
 -formula</STRONG>
 ) and the moles of the reactant initially present (<STRONG CLASS="Bold">
 -m</STRONG>
 , if needed to be different from the default of 1 mol) are defined. It is also possible to define a tolerance (<STRONG CLASS="Bold">
 -tol</STRONG>
-), in moles, for the accuracy of the numerical integration for a rate expression. Note that the HNta-2 rate expression generates a negative rate, so that elements with positive coefficients in the formula are removed from solution and negative coefficients add elements to solution. The biomass reaction adds &#8220;H  0.0&#8221;, or zero moles of hydrogen; in other words, it does not add or remove anything from solution. The assimilation of carbon and nutrients that is associated with biomass growth is ignored in this simulation. Also, the kinetics block is copied to <A HREF="phreeqc3-24.htm#50606081_55637" CLASS="XRef">KINETICS</A> 101, for use in the 20-cell model.</P>
+), in moles, for the accuracy of the numerical integration for a rate expression. Note that the HNta-2 rate expression generates a negative rate, so that elements with positive coefficients in the formula are removed from solution and negative coefficients add elements to solution. The biomass reaction adds &#8220;H  0.0&#8221;, or zero moles of hydrogen; in other words, it does not add or remove anything from solution. The assimilation of carbon and nutrients that is associated with biomass growth is ignored in this simulation. Also, the kinetics block is copied to <A HREF="phreeqc3-24.htm#50470913_55637" CLASS="XRef">KINETICS</A> 101, for use in the 20-cell model.</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643844"></A>The <A HREF="phreeqc3-38.htm#50606081_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block punches the molalities of the aqueous species Nta-3, CoNta-, HNta-2 and Co+2 to the file <EM CLASS="Emphasis">
+<A NAME="50470927_pgfId-1643844"></A>The <A HREF="phreeqc3-38.htm#50470913_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block punches the molalities of the aqueous species Nta-3, CoNta-, HNta-2 and Co+2 to the file <EM CLASS="Emphasis">
 ex15.sel</EM>
-. To each line in the file, the <A HREF="phreeqc3-53.htm#50606081_56415" CLASS="XRef">USER_PUNCH</A> data block appends the time (in hours), the sorbed concentrations converted to mol/g sediment, and the biomass. <A HREF="phreeqc3-51.htm#50606081_26121" CLASS="XRef">USER_GRAPH</A> plots the concentrations as symbols without lines to facilitate the comparison with the 20-cell model.</P>
+. To each line in the file, the <A HREF="phreeqc3-53.htm#50470913_56415" CLASS="XRef">USER_PUNCH</A> data block appends the time (in hours), the sorbed concentrations converted to mol/g sediment, and the biomass. <A HREF="phreeqc3-51.htm#50470913_26121" CLASS="XRef">USER_GRAPH</A> plots the concentrations as symbols without lines to facilitate the comparison with the 20-cell model.</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643854"></A>The first <A HREF="phreeqc3-49.htm#50606081_87317" CLASS="XRef">TRANSPORT</A> data block defines the first 20 h of the experiment, during which Nta and cobalt are added at the column inlet. The column is defined to have 10 cells (<STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1643854"></A>The first <A HREF="phreeqc3-49.htm#50470913_87317" CLASS="XRef">TRANSPORT</A> data block defines the first 20 h of the experiment, during which Nta and cobalt are added at the column inlet. The column is defined to have 10 cells (<STRONG CLASS="Bold">
 -cells</STRONG>
 ) of length 1 m (<STRONG CLASS="Bold">
 -lengths</STRONG>
@@ -2204,17 +2204,17 @@ ex15.sel</EM>
 -print_frequency</STRONG>
 ).</P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1643822"></A>At the end of the first advective-dispersive transport simulation, the initial column solution, which was stored as <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> 101, is copied to <A HREF="phreeqc3-41.htm#50606081_30253" CLASS="XRef">SOLUTION</A> 0, to become the influent for the next transport simulation. The second <A HREF="phreeqc3-49.htm#50606081_87317" CLASS="XRef">TRANSPORT</A> data block defines the final 55 h of the experiment, during which Nta and cobalt are not present in the infilling solution. All parameters are the same as in the previous <A HREF="phreeqc3-49.htm#50606081_87317" CLASS="XRef">TRANSPORT</A> data block; only the number of transport steps (<STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1643822"></A>At the end of the first advective-dispersive transport simulation, the initial column solution, which was stored as <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> 101, is copied to <A HREF="phreeqc3-41.htm#50470913_30253" CLASS="XRef">SOLUTION</A> 0, to become the influent for the next transport simulation. The second <A HREF="phreeqc3-49.htm#50470913_87317" CLASS="XRef">TRANSPORT</A> data block defines the final 55 h of the experiment, during which Nta and cobalt are not present in the infilling solution. All parameters are the same as in the previous <A HREF="phreeqc3-49.htm#50470913_87317" CLASS="XRef">TRANSPORT</A> data block; only the number of transport steps (<STRONG CLASS="Bold">
 -shifts</STRONG>
 ) is increased to 55.</P>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-1316350"></A><A NAME="50606095_52142"></A>Grid Convergence</H4>
+<A NAME="50470927_pgfId-1316350"></A><A NAME="50470927_52142"></A>Grid Convergence</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1444617"></A>With advective-dispersive-reactive transport simulations, it is always necessary to check the numerical accuracy of the results. In general, analytical solutions will not be available for these complex simulations, so the only test of numerical accuracy is to refine the grid and time step, rerun the simulation, and compare the results. If simulations on two different grids give similar results, there is some assurance that the numerical errors are relatively small. If simulations on two different grids give significantly different results, the grid must be refined again and the process repeated. Unfortunately, doubling the grid size at least quadruples the number of solution calculations that must be made because the number of cells doubles and the time step is halved. If the cell size approaches the size of the dispersivity, it may require even more solution calculations because the number of mix steps in the dispersion calculation will increase as well. </P>
+<A NAME="50470927_pgfId-1444617"></A>With advective-dispersive-reactive transport simulations, it is always necessary to check the numerical accuracy of the results. In general, analytical solutions will not be available for these complex simulations, so the only test of numerical accuracy is to refine the grid and time step, rerun the simulation, and compare the results. If simulations on two different grids give similar results, there is some assurance that the numerical errors are relatively small. If simulations on two different grids give significantly different results, the grid must be refined again and the process repeated. Unfortunately, doubling the grid size at least quadruples the number of solution calculations that must be made because the number of cells doubles and the time step is halved. If the cell size approaches the size of the dispersivity, it may require even more solution calculations because the number of mix steps in the dispersion calculation will increase as well. </P>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1413503"></A>To test grid convergence in this example, the number of cells in the column were doubled. All keyword data blocks that defined compositions for the range 1 through 10 were changed to 1 through 20. In addition, the parameters for advective-dispersive transport were adjusted to be consistent with the new number of cells. The final <A HREF="phreeqc3-49.htm#50606081_87317" CLASS="XRef">TRANSPORT</A> data block in <A HREF="phreeqc3-70.htm#50606095_34043" CLASS="XRef">table 44</A> defines the 20-cell model. The number of cells and number of shifts are doubled; the cell length and time step are halved. To print information for the same location as the 10-cell model (the end of the column), the <STRONG CLASS="Bold">
+<A NAME="50470927_pgfId-1413503"></A>To test grid convergence in this example, the number of cells in the column were doubled. All keyword data blocks that defined compositions for the range 1 through 10 were changed to 1 through 20. In addition, the parameters for advective-dispersive transport were adjusted to be consistent with the new number of cells. The final <A HREF="phreeqc3-49.htm#50470913_87317" CLASS="XRef">TRANSPORT</A> data block in <A HREF="phreeqc3-70.htm#50470927_34043" CLASS="XRef">table 44</A> defines the 20-cell model. The number of cells and number of shifts are doubled; the cell length and time step are halved. To print information for the same location as the 10-cell model (the end of the column), the <STRONG CLASS="Bold">
 -punch_cells</STRONG>
  and <STRONG CLASS="Bold">
 -print_cells</STRONG>
@@ -2222,13 +2222,13 @@ ex15.sel</EM>
 -punch_frequency</STRONG>
  is set to every 2 shifts, <STRONG CLASS="Bold">
 -print_frequency</STRONG>
- is set to every 10 shifts, and the time step for going from the cell-midpoint to the column-end is halved on line 10 in <A HREF="phreeqc3-53.htm#50606081_56415" CLASS="XRef">USER_PUNCH</A>. </P>
+ is set to every 10 shifts, and the time step for going from the cell-midpoint to the column-end is halved on line 10 in <A HREF="phreeqc3-53.htm#50470913_56415" CLASS="XRef">USER_PUNCH</A>. </P>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50606095_pgfId-340587"></A><A NAME="50606095_44292"></A>Results</H4>
+<A NAME="50470927_pgfId-340587"></A><A NAME="50470927_44292"></A>Results</H4>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1413421"></A>The distributions of aqueous and immobile constituents in the column at the end of 75 h are shown in figures <A HREF="examples.htm#50606095_23955" CLASS="XRef">See Dissolved concentrations and pH values at the outlet of the column for Nta and cobalt transport simulations with 10 (symbols) and 20 cells (lines).</A> and <A HREF="examples.htm#50606095_18547" CLASS="XRef">See Concentrations of sorbed species and biomass at the outlet of the column for Nta and cobalt transport simulations with 10 (symbols) and 20 cells (lines).</A> for the 10- and 20-cell models. In the experiment, two pore volumes of water with Nta and cobalt were introduced to the column over the first 20 h and then followed by 5.5 pore volumes of background water over the next 55 h. At 10 h, HNta<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1413421"></A>The distributions of aqueous and immobile constituents in the column at the end of 75 h are shown in figures <A HREF="examples.htm#50470927_23955" CLASS="XRef">See Dissolved concentrations and pH values at the outlet of the column for Nta and cobalt transport simulations with 10 (symbols) and 20 cells (lines).</A> and <A HREF="examples.htm#50470927_18547" CLASS="XRef">See Concentrations of sorbed species and biomass at the outlet of the column for Nta and cobalt transport simulations with 10 (symbols) and 20 cells (lines).</A> for the 10- and 20-cell models. In the experiment, two pore volumes of water with Nta and cobalt were introduced to the column over the first 20 h and then followed by 5.5 pore volumes of background water over the next 55 h. At 10 h, HNta<Sup CLASS="Superscript">
 2-</Sup>
  begins to appear at the column outlet along with a rise in the pH (fig. 16). If Nta and cobalt were conservative and dispersion were negligible, the graph would show square pulses that increase at 10 h and decrease at 30 h. However, the movement of the Nta and cobalt is retarded relative to conservative movement by the sorption reactions, and small concentrations arrive early because of dispersion. The peak in Nta and cobalt concentrations occurs in the CoNta<Sup CLASS="Superscript">
 -</Sup>
@@ -2238,10 +2238,10 @@ ex15.sel</EM>
 <DIV>
 <MAP NAME="phreeqc3-278">
 </MAP>
-<IMG SRC="phreeqc3-278.png" style="width:60%" USEMAP="#phreeqc3-278">
+<IMG SRC="phreeqc3-278.png" style="width:65%" USEMAP="#phreeqc3-278">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1413411"></A>In figure.17, solid-phase concentrations are plotted against time for concentrations in the last cell of the column. The sorbed CoNta<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1413411"></A>In figure 17, solid-phase concentrations are plotted against time for concentrations in the last cell of the column. The sorbed CoNta<Sup CLASS="Superscript">
 -</Sup>
  concentration peaks between 30 and 40 h and lags slightly behind the peak in the dissolved concentration of the CoNta<Sup CLASS="Superscript">
 -</Sup>
@@ -2261,10 +2261,10 @@ d</Sub>
 <DIV>
 <MAP NAME="phreeqc3-279">
 </MAP>
-<IMG SRC="phreeqc3-279.png" style="width:60%" USEMAP="#phreeqc3-279">
+<IMG SRC="phreeqc3-279.png" style="width:65%" USEMAP="#phreeqc3-279">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50606095_pgfId-1531367"></A>Both the 10-cell and the 20-cell models give similar results, which indicates that the numerical errors in the advective-dispersive transport simulation are relatively small; furthermore, the results are very similar to results given by Tebes-Stevens and Valocchi (1997) and Tebes-Stevens and others (1998). However, Tebes-Stevens and Valocchi (1997) included another part to their test problem that increased the rate constants for the sorption reactions from 1 to 1,000 h<Sup CLASS="Superscript">
+<A NAME="50470927_pgfId-1531367"></A>Both the 10-cell and the 20-cell models give similar results, which indicates that the numerical errors in the advective-dispersive transport simulation are relatively small; furthermore, the results are very similar to results given by Tebes-Stevens and Valocchi (1997) and Tebes-Stevens and others (1998). However, Tebes-Stevens and Valocchi (1997) included another part to their test problem that increased the rate constants for the sorption reactions from 1 to 1,000 h<Sup CLASS="Superscript">
 -1</Sup>
 . The increased rate constants generate a stiff set of partial differential equations, which are equations that describe processes that occur on very different time scales. The stiff problem, with very fast sorption reactions, proved intractable for the explicit Runge-Kutta algorithm, but can be solved with the -cvode algorithm. With -cvode, the calculation of the slow sorption column takes about four times longer than with Runge-Kutta and calculation of the fast sorption column is about six times longer than for slow sorption. Another way to solve the stiff problem is to introduce the fast kinetic sorption reaction as an equilibrium process, which constitutes instantaneous rates. However, even with equilibrium sorption, grid convergence was computationally much more intensive; it was necessary to use 100 cells or more to arrive at a satisfactory solution. As an estimate of relative CPU times, the 20-cell model took 2.7 times the CPU time of the 10-cell model. A 200-cell model took approximately 600 times the CPU time of the 10-cell model.</P>
 </DIV>
