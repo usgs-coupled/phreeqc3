@@ -1,4 +1,4 @@
-#if defined(WIN32)
+#if defined(WIN32) && !defined(__GNUC__)
 #include <windows.h>
 #if defined(PHREEQCI_GUI)
 #include "../../resource.h"
