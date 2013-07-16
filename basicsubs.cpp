@@ -841,6 +841,37 @@ equi_phase_delta(const char *phase_name)
 	}
 	return (0);
 }
+
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+equivalent_fraction(const char *name, LDBLE *eq, std::string &elt_name)
+/* ---------------------------------------------------------------------- */
+{
+	struct species *s_ptr = s_search(name);
+	*eq = 0;
+	elt_name.clear();
+	LDBLE f = 0;
+	if (s_ptr != NULL && (s_ptr->type == EX || s_ptr->type == SURF))
+	{
+		*eq = s_ptr->equiv;
+		struct elt_list *next_elt;
+		LDBLE tot=0.0;
+		for (next_elt = s_ptr->next_elt; next_elt->elt != NULL;	next_elt++)
+		{
+			if (next_elt->elt->master->s->type == SURF ||
+				next_elt->elt->master->s->type == EX)
+			{
+				tot = total_mole(next_elt->elt->name);
+				elt_name = next_elt->elt->name;
+			}
+		}
+		if (s_ptr->in == TRUE && tot > 0.0)
+		{
+			f = s_ptr->moles * s_ptr->equiv / tot; 
+		}
+	}
+	return f;
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 find_gas_comp(const char *gas_comp_name)
