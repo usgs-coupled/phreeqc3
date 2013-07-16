@@ -2448,7 +2448,7 @@ species_formula(std::string phase_name, cxxNameDouble &stoichiometry)
  */
 	stoichiometry.clear();
 	std::string formula;
-	formula = "aq";
+	formula = "none";
 	struct species *s_ptr = s_search(phase_name.c_str());
 	if (s_ptr != NULL)
 	{
@@ -2462,6 +2462,10 @@ species_formula(std::string phase_name, cxxNameDouble &stoichiometry)
 		else if (s_ptr->type == SURF)
 		{
 			formula = "surf";
+		}
+		else
+		{
+			formula = "aq";
 		}
 	}
 	return (formula);
