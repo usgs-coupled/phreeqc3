@@ -204,8 +204,10 @@ pitzer_tidy(void)
 	IC = ISPEC(string2);
 	for (i = 0; i < count_pitz_param; i++)
 	{
-		if (pitz_params[i]->species[0] == string1 &&
-			pitz_params[i]->species[1] == string2)
+		if ((pitz_params[i]->species[0] == string1 &&
+			pitz_params[i]->species[1] == string2) ||
+			(pitz_params[i]->species[0] == string2 &&
+			pitz_params[i]->species[1] == string1) )
 		{
 			switch (pitz_params[i]->type)
 			{
