@@ -2437,6 +2437,35 @@ phase_formula(std::string phase_name, cxxNameDouble &stoichiometry)
 
 	return (formula);
 }
+/* ---------------------------------------------------------------------- */
+std::string Phreeqc::
+species_formula(std::string phase_name, cxxNameDouble &stoichiometry)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Returns formula of mineral
+ *   Also returns arrays of elements and stoichiometry in elts_arg and coef_arg
+ */
+	stoichiometry.clear();
+	std::string formula;
+	formula = "aq";
+	struct species *s_ptr = s_search(phase_name.c_str());
+	if (s_ptr != NULL)
+	{
+		cxxNameDouble nd(s_ptr->next_elt);
+		stoichiometry = nd;
+		stoichiometry["charge"] = s_ptr->z;
+		if (s_ptr->type == EX)
+		{
+			formula = "ex";
+		}
+		else if (s_ptr->type == SURF)
+		{
+			formula = "surf";
+		}
+	}
+	return (formula);
+}
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
