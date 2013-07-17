@@ -3440,15 +3440,15 @@ factor(struct LOC_exec * LINK)
 			std::string elt_name;
 
 			// return equivalent fraction
-			n.UU.val = PhreeqcPtr->equivalent_fraction(species_name.c_str(), &eq, elt_name);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equivalent_fraction(species_name.c_str(), &eq, elt_name);
 
 			// set equivalents
-			*count_varrec->UU.U0.val = eq;
+			*count_varrec->UU.U0.val = (parse_all) ? 1 : eq;
 
 			// set element name
 			size_t l = elt_name.size();
 			l = l < 256 ? 256 : l + 1;
-			char * token = (char *) PhreeqcPtr->PHRQ_malloc( l, sizeof(char));
+			char * token = (char *) PhreeqcPtr->PHRQ_malloc( l * sizeof(char));
 			strcpy(token, elt_name.c_str());
 			*elt_varrec->UU.U1.sval = token;
 		}

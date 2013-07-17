@@ -28,6 +28,7 @@ pitzer_init(void)
 
 	ICON = TRUE;
 	OTEMP = -100.;
+	OPRESS = -100.;
 	for (i = 0; i < 23; i++)
 	{
 		BK[i] = 0.0;
@@ -58,6 +59,7 @@ pitzer_tidy(void)
 	* Ensure new parameters are calculated
 	*/
 	OTEMP = -100.;
+	OPRESS = -100.;
 	/*
 	 *  allocate pointers to species structures
 	 */
@@ -740,9 +742,10 @@ C
 	int i;
 	LDBLE TR = 298.15;
 
-	if (fabs(TK - OTEMP) < 0.001e0)
+	if (fabs(TK - OTEMP) < 0.001e0 && fabs(patm_x - OPRESS) < 0.001)
 		return OK;
 	OTEMP = TK;
+	OPRESS = patm_x;
 /*
 C     Set DW0
 */
