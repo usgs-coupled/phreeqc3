@@ -406,7 +406,6 @@ check_residuals(void)
 		}
 		else if (x[i]->type == PP)
 		{
-			cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 			//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
 			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			if (comp_ptr->Get_add_formula().size() == 0)
@@ -3088,7 +3087,6 @@ reset(void)
 /*
  *   Calculate interphase mass transfers
  */
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	cxxPPassemblageComp * comp_ptr;
 
 	step_up = log(step_size_now);
@@ -3799,9 +3797,6 @@ reset(void)
 			x[i]->moles -= delta[i];
 			if (x[i]->moles < MIN_TOTAL_SS && calculating_deriv == FALSE)
 				x[i]->moles = MIN_TOTAL_SS;
-			//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
-			cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
-			//cxxSScomp *comp_ptr = ss_ptr->Find(x[i]->ss_comp_name);
 			cxxSScomp *comp_ptr = (cxxSScomp *) x[i]->ss_comp_ptr;
 			comp_ptr->Set_moles(x[i]->moles);
 /*   Pitzer gamma */
@@ -3873,7 +3868,6 @@ residuals(void)
 	LDBLE sigmaddl, negfpsirt;
 	int print_fail;
 	std::vector<LDBLE> cd_psi;
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	print_fail = FALSE;
 	sum_residual = 0.0;
 	sigmaddl = 0;
@@ -5646,7 +5640,6 @@ set_inert_moles(void)
 {
 	int j;
 	if (use.Get_pp_assemblage_ptr() == NULL) return;
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	
 	for (j = 0; j < count_unknowns; j++)
 	{
@@ -5667,7 +5660,6 @@ unset_inert_moles()
 {
 	int j;
 	if (use.Get_pp_assemblage_ptr() == NULL) return;
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	for (j = 0; j < count_unknowns; j++)
 	{
 		if (x[j]->type != PP) continue;

@@ -2951,7 +2951,6 @@ system_total_elt(const char *total_name)
  */
 	if (use.Get_pp_assemblage_in() == TRUE && use.Get_pp_assemblage_ptr() != NULL)
 	{
-		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 		for (i = 0; i < count_unknowns; i++)
 		{
 			if (x[i]->type != PP)
@@ -3225,7 +3224,6 @@ system_total_elt_secondary(const char *total_name)
  */
 	if (use.Get_pp_assemblage_in() == TRUE && use.Get_pp_assemblage_ptr() != NULL)
 	{
-		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 		for (i = 0; i < count_unknowns; i++)
 		{
 			if (x[i]->type != PP)
