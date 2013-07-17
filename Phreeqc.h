@@ -1799,7 +1799,7 @@ protected:
 	struct theta_param **theta_params;
 	int count_theta_param, max_theta_param;
 	int use_etheta;
-	LDBLE OTEMP;
+	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
 	struct species **spec, **cations, **anions, **neutrals;
 	int count_cations, count_anions, count_neutrals;

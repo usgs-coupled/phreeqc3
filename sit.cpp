@@ -17,6 +17,7 @@ sit_init(void)
 	space((void **) ((void *) &sit_params), INIT, &max_sit_param,
 		  sizeof(struct pitz_param *));
 	OTEMP = -100.;
+	OPRESS = -100.;
 	return OK;
 }
 
@@ -33,6 +34,7 @@ sit_tidy(void)
 	* Ensure new parameters are calculated
 	*/
 	OTEMP = -100.;
+	OPRESS = -100.;
 	/*
 	 *  allocate pointers to species structures
 	 */
@@ -1333,8 +1335,10 @@ C
 	int i;
 	LDBLE TR = 298.15;
 
-	if (fabs(TK - OTEMP) < 0.001e0)	return OK; 
+	if (fabs(TK - OTEMP) < 0.001e0 && fabs(patm_x - OPRESS) < 0.001)
+		return OK;
 	OTEMP = TK;
+	OPRESS = patm_x;
 /*
 C     Set DW0
 */
