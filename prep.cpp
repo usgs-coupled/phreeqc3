@@ -1435,7 +1435,6 @@ build_pure_phases(void)
 	if (pure_phase_unknown == NULL)
 		return (OK);
 
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 /*
  *   Calculate inverse saturation index
  */
@@ -4114,7 +4113,6 @@ adjust_setup_pure_phases(void)
 
 	if (use.Get_pp_assemblage_ptr() == NULL)
 		return (OK);
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 /*
  *   Adjust si for gases
  */

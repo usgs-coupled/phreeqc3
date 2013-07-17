@@ -1291,7 +1291,6 @@ print_pp_assemblage(void)
 		return (OK);
 	if (pure_phase_unknown == NULL)
 		return (OK);
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 /*
  *   Print heading
  */
@@ -2659,7 +2658,6 @@ punch_pp_assemblage(void)
  */
 	int i, j;
 	LDBLE moles, delta_moles;
-	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	for (i = 0; i < punch.count_pure_phases; i++)
 	{
 		delta_moles = 0;
