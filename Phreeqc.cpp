@@ -2276,7 +2276,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_theta_param		= 0;
 	max_theta_param			= 100;
 	use_etheta				= TRUE;
-	OTEMP					= 0.0;
+	OTEMP					= -100.0;
+	OPRESS					= -100.0;
 	A0                      = 0;	
 	spec                    = NULL;
 	cations                 = NULL;

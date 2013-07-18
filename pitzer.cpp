@@ -199,7 +199,7 @@ pitzer_tidy(void)
 		}
 	}
 	/*
-	 * McGinnis data
+	 * MacInnes data
 	 */
 	string1 = string_hsave("K+");
 	string2 = string_hsave("Cl-");
@@ -742,10 +742,8 @@ C
 	int i;
 	LDBLE TR = 298.15;
 
-	if (fabs(TK - OTEMP) < 0.001e0 && fabs(patm_x - OPRESS) < 0.001)
+	if (fabs(TK - OTEMP) < 0.001e0 && fabs(patm_x - OPRESS) < 0.1)
 		return OK;
-	OTEMP = TK;
-	OPRESS = patm_x;
 /*
 C     Set DW0
 */
@@ -758,8 +756,11 @@ C     Set DW0
 	{
 		calc_pitz_param(pitz_params[i], TK, TR);
 	}
-	DC0 = DC(TK);
-	if (fabs(TK - TR) < 0.001e0)
+	//DC0 = DC(TK);
+	calc_dielectrics(TK - 273.15, patm_x);
+	DC0 = eps_r;
+	// Only at 1.0 atm??? if (fabs(TK - TR) < 0.001 && fabs(patm_x - OPRESS) < 0.1)
+	if (fabs(TK - TR) < 0.001 && fabs(patm_x - 1.0) < 0.1)
 	{
 		A0 = 0.392e0;
 		//Cite Jonathan Toner
@@ -768,10 +769,14 @@ C     Set DW0
 	}
 	else
 	{
-		DC0 = DC(TK);
+		//DC0 = DC(TK);
+		calc_dielectrics(TK - 273.15, patm_x);
+		DC0 = eps_r;
 		A0 = 1.400684e6 * sqrt(DW0 / (pow((DC0 * TK), (LDBLE) 3.0e0)));
 		/*A0=1.400684D6*(DW0/(DC0*TK)**3.0D0)**0.5D0 */
 	}
+	OTEMP = TK;
+	OPRESS = patm_x;
 	return OK;
 }
 

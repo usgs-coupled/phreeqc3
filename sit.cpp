@@ -1335,10 +1335,7 @@ C
 	int i;
 	LDBLE TR = 298.15;
 
-	if (fabs(TK - OTEMP) < 0.001e0 && fabs(patm_x - OPRESS) < 0.001)
-		return OK;
-	OTEMP = TK;
-	OPRESS = patm_x;
+	if (fabs(TK - OTEMP) < 0.001 && fabs(patm_x - OPRESS) < 0.1)	return OK; 
 /*
 C     Set DW0
 */
@@ -1348,7 +1345,8 @@ C     Set DW0
 		calc_sit_param(sit_params[i], TK, TR);
 	}
 	DC0 = DC(TK);
-	if (fabs(TK - TR) < 0.001e0)
+	// Only at 1.0 atm??? if (fabs(TK - TR) < 0.001 && fabs(patm_x - OPRESS) < 0.1)
+	if (fabs(TK - TR) < 0.001 && fabs(patm_x - 1.0) < 0.1)
 	{
 		sit_A0 = 0.392e0;
 	}
@@ -1358,5 +1356,7 @@ C     Set DW0
 		sit_A0 = 1.400684e6 * sqrt(DW0 / (pow((DC0 * TK), (LDBLE) 3.0e0)));
 		/*sit_A0=1.400684D6*(DW0/(DC0*TK)**3.0D0)**0.5D0 */
 	}
+	OTEMP = TK;
+	OPRESS = patm_x;
 	return OK;
 }
