@@ -738,43 +738,18 @@ C
 C     SUBROUTINE TO CALUCLATE TEMPERATURE DEPENDENCE OF PITZER PARAMETER
 C
 */
-	LDBLE DC0;
 	int i;
 	LDBLE TR = 298.15;
 
-	if (fabs(TK - OTEMP) < 0.001e0 && fabs(patm_x - OPRESS) < 0.1)
+	if (fabs(TK - OTEMP) < 0.001 && fabs(patm_x - OPRESS) < 0.1)
 		return OK;
-/*
-C     Set DW0
-*/
-	//DW(TK);
-	//rho_0 = DW0;
-	//patm_x = VP;
 	DW0 = rho_0 = calc_rho_0(TK - 273.15, patm_x);
 	VP = patm_x;
 	for (i = 0; i < count_pitz_param; i++)
 	{
 		calc_pitz_param(pitz_params[i], TK, TR);
 	}
-	//DC0 = DC(TK);
 	calc_dielectrics(TK - 273.15, patm_x);
-	DC0 = eps_r;
-	// Only at 1.0 atm??? if (fabs(TK - TR) < 0.001 && fabs(patm_x - OPRESS) < 0.1)
-	if (fabs(TK - TR) < 0.001 && fabs(patm_x - 1.0) < 0.1)
-	{
-		A0 = 0.392e0;
-		//Cite Jonathan Toner
-		//A0 = 86.6836498e0 + (TK)*0.084879594e0 - (0.0000888785e0)*pow(TK,(LDBLE) 2.0e0) + (4.88096e-8)*pow(TK,(LDBLE) 3.0e0) - (1327.31477e0/(TK)) - 17.6460172e0*log(TK);
-
-	}
-	else
-	{
-		//DC0 = DC(TK);
-		calc_dielectrics(TK - 273.15, patm_x);
-		DC0 = eps_r;
-		A0 = 1.400684e6 * sqrt(DW0 / (pow((DC0 * TK), (LDBLE) 3.0e0)));
-		/*A0=1.400684D6*(DW0/(DC0*TK)**3.0D0)**0.5D0 */
-	}
 	OTEMP = TK;
 	OPRESS = patm_x;
 	return OK;
