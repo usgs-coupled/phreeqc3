@@ -835,7 +835,7 @@ pitzer(void)
 	   CSUM, PHIMAC, OSMOT, BMXP, ETHEAP, CMX, BMX, PHI,
 	   BMXPHI, PHIPHI, AW, A, B;
 	 */
-	LDBLE CONV, XI, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
+	LDBLE CONV, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
 		B;
 	LDBLE I, TK;
 	int LNEUT;
@@ -845,7 +845,6 @@ pitzer(void)
 	   C
 	 */
 	CONV = 1.0 / log(10.0);
-	XI = 0.0e0;
 	XX = 0.0e0;
 	OSUM = 0.0e0;
 	LNEUT = FALSE;
@@ -898,12 +897,9 @@ pitzer(void)
 		if (IPRSNT[i] == TRUE)
 		{
 			XX = XX + M[i] * fabs(spec[i]->z);
-			XI = XI + M[i] * spec[i]->z * spec[i]->z;
 			OSUM = OSUM + M[i];
 		}
 	}
-	I = XI / 2.0e0;
-	I = mu_x;  // Added equation for MU
 	/*
 	   C
 	   C     EQUATION (8)
