@@ -108,7 +108,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	LDBLE Tc = 647.096, th = 1 - T / Tc;
 	LDBLE b1 = 1.99274064, b2 = 1.09965342, b3 = -0.510839303,
 		b4 = -1.75493479, b5 = -45.5170352, b6 = -6.7469445e5;
-    rho_0 = 322.0 * (1.0 + b1 * pow(th, (LDBLE) 1./3.) + b2 * pow(th, (LDBLE) 2./3.) + b3 * pow(th, (LDBLE) 5./3.) +\
+    rho_0_sat = 322.0 * (1.0 + b1 * pow(th, (LDBLE) 1./3.) + b2 * pow(th, (LDBLE) 2./3.) + b3 * pow(th, (LDBLE) 5./3.) +\
                b4 * pow(th, (LDBLE) 16./3.) + b5 * pow(th, (LDBLE) 43./3.) + b6 * pow(th, (LDBLE) 110./3));
 	//pressure...
 	LDBLE p0 =  5.1880000E-02 + tc * (-4.1885519E-04 + tc * ( 6.6780748E-06 + tc * (-3.6648699E-08 + tc *  8.3501912E-11)));
@@ -128,7 +128,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 	if (!use.Get_gas_phase_in())
 		patm_x = pa;
 	pa -= (p_sat - 1e-6);
-	rho_0 += pa * (p0 + pa * (p1 + pa * (p2 + sqrt(pa) * p3)));
+	rho_0 = rho_0_sat + pa * (p0 + pa * (p1 + pa * (p2 + sqrt(pa) * p3)));
 	if (rho_0 < 0.01)
 		rho_0 = 0.01;
 
@@ -159,8 +159,8 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
     LDBLE d1000 = u1 * exp(T * (u2 + T * u3)); // relative dielectric constant at 1000 bar
     LDBLE c = u4 + u5 / (u6 + T);
     LDBLE b = u7 + u8 / T + u9 * T;
-	pa *= 1.01325; // pa in bar
-    eps_r = d1000 + c * log((b + pa) / (b + 1e3)); // relative dielectric constant
+	LDBLE pb = pa * 1.01325; // pa in bar
+    eps_r = d1000 + c * log((b + pb) / (b + 1e3)); // relative dielectric constant
 
 	/* qe^2 / (eps_r * kB * T) = 4.803204e-10**2 / 1.38065e-16 / (eps_r * T)
 	                           = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
@@ -170,14 +170,20 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 
 	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
 
+	/* A0 in pitzer */
+	if (pitzer_model || sit_model)
+	{
+		A0 = DH_B * e2_DkT / 6.0;
+	}
+
 	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
-	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pa) * 1.01325 / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
+	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pb) * 1.01325 / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
 
 	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
 
 	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
 	ZBrn = (- 1 / eps_r + 1.0) * 41.84004;
-	QBrn = c / (b + pa) / eps_r / eps_r * 41.84004;
+	QBrn = c / (b + pb) / eps_r / eps_r * 41.84004;
 	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at tc < 300)...
 	   and, dgdP is small. Better, adapt Wref to experimental Vm's */
 	dgdP = 0;
@@ -192,7 +198,7 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	//	dgdP = - sa * sb * pow(1.0 - rho_0, sb - 1.0) * rho_0 * kappa_0 / 1.01325;
 
 	//	LDBLE ft = pow((tc - 155.0)/300.0, 4.8) + csc[1] * pow((tc - 155.0)/300.0, 16.0);
-	//	LDBLE dfdP   = ft * (-3.0 * csc[2] * pow(1000.0 - pa, 2) - 4.0 * csc[3] * pow(1000.0 - pa, 3)); 
+	//	LDBLE dfdP   = ft * (-3.0 * csc[2] * pow(1000.0 - pb, 2) - 4.0 * csc[3] * pow(1000.0 - pb, 3)); 
 	//	dgdP -= dfdP;
 	//}
 

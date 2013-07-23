@@ -1677,7 +1677,7 @@ protected:
 	int count_sys, max_sys;
 	LDBLE sys_tot;
 
-	LDBLE V_solutes, rho_0, kappa_0, p_sat/*, ah2o_x0*/;
+	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
 	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume

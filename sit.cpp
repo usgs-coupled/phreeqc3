@@ -1331,7 +1331,6 @@ C
 C     SUBROUTINE TO CALUCLATE TEMPERATURE DEPENDENCE OF PITZER PARAMETER
 C
 */
-	LDBLE DC0;
 	int i;
 	LDBLE TR = 298.15;
 
@@ -1339,23 +1338,14 @@ C
 /*
 C     Set DW0
 */
-	DW(TK);
+	DW0 = rho_0 = calc_rho_0(TK - 273.15, patm_x);
+	VP = patm_x;
 	for (i = 0; i < count_sit_param; i++)
 	{
 		calc_sit_param(sit_params[i], TK, TR);
 	}
-	DC0 = DC(TK);
-	// Only at 1.0 atm??? if (fabs(TK - TR) < 0.001 && fabs(patm_x - OPRESS) < 0.1)
-	if (fabs(TK - TR) < 0.001 && fabs(patm_x - 1.0) < 0.1)
-	{
-		sit_A0 = 0.392e0;
-	}
-	else
-	{
-		DC0 = DC(TK);
-		sit_A0 = 1.400684e6 * sqrt(DW0 / (pow((DC0 * TK), (LDBLE) 3.0e0)));
-		/*sit_A0=1.400684D6*(DW0/(DC0*TK)**3.0D0)**0.5D0 */
-	}
+	calc_dielectrics(TK - 273.15, patm_x);
+	sit_A0 = A0;
 	OTEMP = TK;
 	OPRESS = patm_x;
 	return OK;
