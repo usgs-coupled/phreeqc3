@@ -223,6 +223,8 @@ void Phreeqc::init(void)
 	last_model.count_surface_charge = -1;
 	last_model.surface_charge       = NULL;
 
+	current_selected_output         = NULL;
+#ifdef SKIP
 	//struct punch punch;
 /*
  *	 Initialize punch
@@ -266,7 +268,7 @@ void Phreeqc::init(void)
 	punch.user_punch		= TRUE;
 	punch.charge_balance	= FALSE;
 	punch.percent_error		= FALSE;
-
+#endif
 	// auto Rxn_temperature_map;
 	// auto Rxn_pressure_map;
 
@@ -728,7 +730,7 @@ void Phreeqc::init(void)
 	llnl_count_bdot			= 0;
 	llnl_co2_coefs			= 0;
 	llnl_count_co2_coefs	= 0;
-	selected_output_file_name = NULL;
+	//selected_output_file_name = NULL;
 	dump_file_name			= NULL;
 	remove_unstable_phases  = FALSE;
 	// auto screen_string;
@@ -770,7 +772,7 @@ void Phreeqc::init(void)
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;
 	user_database			= NULL;
-	have_punch_name			= FALSE;
+	//have_punch_name			= FALSE;
 	print_density		    = 0;
 	zeros                   = NULL;	
 	zeros_max			    = 1;
@@ -1938,6 +1940,11 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		if (llnl_co2_coefs == NULL) malloc_error();
 		memcpy(llnl_co2_coefs, pSrc->llnl_co2_coefs, (size_t) llnl_count_co2_coefs * sizeof(LDBLE));
 	}
+
+	// Not implemented for now
+	//SelectedOutput_map = pSrc->SelectedOutput_map;
+	SelectedOutput_map.clear();
+
 	//selected_output_file_name = NULL;
 	//dump_file_name			= NULL;
 	//remove_unstable_phases  = FALSE;
@@ -2047,7 +2054,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;
 	user_database			= string_duplicate(pSrc->user_database);
-	have_punch_name			= pSrc->have_punch_name;
+	//have_punch_name			= pSrc->have_punch_name;
 	print_density		    = pSrc->print_density;
 #ifdef SKIP
 	zeros                   = NULL;	

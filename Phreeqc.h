@@ -28,6 +28,7 @@
 #include "runner.h"
 #include "dumper.h"
 #include "PHRQ_io.h"
+#include "SelectedOutput.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
@@ -1139,7 +1140,7 @@ protected:
 	* ---------------------------------------------------------------------- */
 
 	struct model last_model;
-	struct punch punch;
+	//struct punch punch;
 
 	/* ----------------------------------------------------------------------
 	*   Temperatures
@@ -1609,7 +1610,10 @@ protected:
 	int llnl_count_temp, llnl_count_adh, llnl_count_bdh, llnl_count_bdot,
 		llnl_count_co2_coefs;
 
-	char *selected_output_file_name;
+	//char *selected_output_file_name;
+	std::map<int, SelectedOutput> SelectedOutput_map;
+	SelectedOutput * current_selected_output;
+
 	char *dump_file_name;
 	int remove_unstable_phases;
 	std::string screen_string;
@@ -1661,7 +1665,7 @@ protected:
 	int first_read_input;
 	char *user_database;
 
-	int have_punch_name;
+	//int have_punch_name;
 	/* VP: Density Start */
 	int print_density;
 	/* VP: Density End */

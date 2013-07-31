@@ -810,21 +810,24 @@ punch_isotopes(void)
 /*
  *   Punch isotope ratios relative to standards
  */
-	int i;
+	//int i;
 	LDBLE iso;
 	struct isotope_ratio *isotope_ratio_ptr;
 	struct master_isotope *master_isotope_ptr;
 
-	if (punch.in == FALSE || punch.isotopes == FALSE)
-		return (OK);
-	if (punch.count_isotopes == 0)
-		return (OK);
-	for (i = 0; i < punch.count_isotopes; i++)
+	//if (punch.in == FALSE || punch.isotopes == FALSE)
+	//	return (OK);
+	if (current_selected_output->Get_isotopes().size() == 0)
+		return(OK);
+	//if (punch.count_isotopes == 0)
+	//	return (OK);
+	//for (i = 0; i < punch.count_isotopes; i++)
+	for (size_t i = 0; i < current_selected_output->Get_isotopes().size(); i++)
 	{
 		iso = MISSING;
 		if (state == INITIAL_SOLUTION)
 		{
-			isotope_ratio_ptr = isotope_ratio_search(punch.isotopes[i].name);
+			isotope_ratio_ptr = isotope_ratio_search(current_selected_output->Get_isotopes()[i].first.c_str());
 			if (isotope_ratio_ptr != NULL)
 			{
 				master_isotope_ptr =
@@ -838,20 +841,20 @@ punch_isotopes(void)
 		}
 		else
 		{
-			isotope_ratio_ptr = isotope_ratio_search(punch.isotopes[i].name);
+			isotope_ratio_ptr = isotope_ratio_search(current_selected_output->Get_isotopes()[i].first.c_str());
 			if (isotope_ratio_ptr != NULL)
 			{
 				iso = isotope_ratio_ptr->converted_ratio;
 			}
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("I_%s", punch.isotopes[i].name), "%12.4e\t",
+			fpunchf(sformatf("I_%s", current_selected_output->Get_isotopes()[i].first.c_str()), "%12.4e\t",
 				(double) iso);
 		}
 		else
 		{
-			fpunchf(sformatf("I_%s", punch.isotopes[i].name), "%20.12e\t",
+			fpunchf(sformatf("I_%s", current_selected_output->Get_isotopes()[i].first.c_str()), "%20.12e\t",
 				(double) iso);
 		}
 
@@ -867,20 +870,23 @@ punch_calculate_values(void)
 /*
  *   Punch calculate values
  */
-	int i;
+	//int i;
 	LDBLE result;
 	struct calculate_value *calculate_value_ptr;
 	char l_command[] = "run";
 
-	if (punch.in == FALSE || punch.calculate_values == FALSE)
-		return (OK);
-	if (punch.count_calculate_values == 0)
-		return (OK);
-	for (i = 0; i < punch.count_calculate_values; i++)
+	if (current_selected_output->Get_calculate_values().size() == 0)
+		return OK;
+	//if (punch.in == FALSE || punch.calculate_values == FALSE)
+	//	return (OK);
+	//if (punch.count_calculate_values == 0)
+	//	return (OK);
+	//for (i = 0; i < punch.count_calculate_values; i++)
+	for (size_t i = 0; i < current_selected_output->Get_calculate_values().size(); i++)
 	{
 		result = MISSING;
 		calculate_value_ptr =
-			calculate_value_search(punch.calculate_values[i].name);
+			calculate_value_search(current_selected_output->Get_calculate_values()[i].first.c_str());
 		if (calculate_value_ptr->calculated == FALSE)
 		{
 			rate_moles = NAN;
@@ -922,14 +928,14 @@ punch_calculate_values(void)
 		{
 			result = calculate_value_ptr->value;
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("V_%s", punch.calculate_values[i].name),
+			fpunchf(sformatf("V_%s", current_selected_output->Get_calculate_values()[i].first),
 				"%12.4e\t", (double) result);
 		}
 		else
 		{
-			fpunchf(sformatf("V_%s", punch.calculate_values[i].name),
+			fpunchf(sformatf("V_%s", current_selected_output->Get_calculate_values()[i].first),
 				"%20.12e\t", (double) result);
 		}
 	}

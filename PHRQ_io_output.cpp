@@ -67,7 +67,7 @@ get_forward_output_to_log(void)
 void Phreeqc::
 fpunchf_heading(const char *name)
 {
-	if (pr.punch == TRUE && punch.in == TRUE)
+	if (pr.punch == TRUE && current_selected_output != NULL)
 	{
 		punch_msg(name);
 	}
