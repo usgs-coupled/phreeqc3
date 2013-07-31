@@ -26,7 +26,7 @@ inverse_models(void)
 	if (count_inverse <= 0) return OK;
 	// Revert to previous headings after inverse modeling
 	std::vector<std::string> old_headings;
-	int i;
+	//int i;
 
 	//for (i = 0; i < user_punch_count_headings; i++)
 	//{
@@ -2076,6 +2076,87 @@ int Phreeqc::
 punch_model_heading(struct inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
+	/*
+	*   Prints model headings to selected output file
+	*/
+	int i;
+	char token[MAX_LENGTH];
+
+	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
+	{
+		// set punch file
+		current_selected_output = &(so_it->second);
+		if (pr.punch == FALSE ||
+			current_selected_output == NULL || 
+			current_selected_output->punch_ostream == NULL ||
+			!current_selected_output->Get_inverse() ||
+			!current_selected_output->Get_active())
+			continue;
+		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
+
+		int l = (!current_selected_output->Get_high_precision()) ? 15 : 20;
+		inverse_heading_names.clear();
+		/*
+		*  Print sum of residuals and maximum fractional error
+		*/
+		inverse_heading_names.push_back(sformatf("%*s\t", l, "Sum_resid"));
+		inverse_heading_names.push_back(sformatf("%*s\t", l, "Sum_Delta/U"));
+		inverse_heading_names.push_back(sformatf("%*s\t", l, "MaxFracErr"));
+
+		/*
+		*   Print solution numbers
+		*/
+		for (i = 0; i < inv_ptr->count_solns; i++)
+		{
+			sprintf(token, "Soln_%d", inv_ptr->solns[i]);
+			std::string tok1(token);
+			tok1.append("_min");
+			std::string tok2(token);
+			tok2.append("_max");
+
+			inverse_heading_names.push_back(sformatf("%*s\t", l, token));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
+		}
+		/*
+		*   Print phase names
+		*/
+		for (i = col_phases; i < col_redox; i++)
+		{
+
+			std::string tok1(col_name[i]);
+			tok1.append("_max");
+			std::string tok2(col_name[i]);
+			tok2.append("_max");
+
+			inverse_heading_names.push_back(sformatf("%*s\t", l, col_name[i]));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
+		}
+
+		size_t j;
+		for (j = 0; j < inverse_heading_names.size(); j++)
+		{
+			fpunchf_heading(inverse_heading_names[j].c_str());
+			//user_punch_headings[j] = string_hsave(heading_names[j].c_str());
+		}
+		fpunchf_heading("\n");
+	}
+	current_selected_output = NULL;
+	phrq_io->Set_punch_ostream(NULL);
+	/*
+	*   Flush buffer after each model
+	*/
+	punch_flush();
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+punch_model_heading(struct inverse *inv_ptr)
+/* ---------------------------------------------------------------------- */
+{
 /*
  *   Prints model headings to selected output file
  */
@@ -2163,7 +2244,7 @@ punch_model_heading(struct inverse *inv_ptr)
 	punch_flush();
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_model(struct inverse *inv_ptr)
