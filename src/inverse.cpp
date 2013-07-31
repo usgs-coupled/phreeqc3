@@ -27,10 +27,11 @@ inverse_models(void)
 	// Revert to previous headings after inverse modeling
 	std::vector<std::string> old_headings;
 	int i;
-	for (i = 0; i < user_punch_count_headings; i++)
-	{
-		old_headings.push_back(user_punch_headings[i]);
-	}
+
+	//for (i = 0; i < user_punch_count_headings; i++)
+	//{
+	//	old_headings.push_back(user_punch_headings[i]);
+	//}
 
 	array1 = NULL;
 	inv_zero = NULL;
@@ -134,15 +135,15 @@ inverse_models(void)
 		}
 	}
 
-	user_punch_count_headings = (int) old_headings.size();
-	user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
-		(size_t) (user_punch_count_headings + 1) * sizeof(char *));
-	if (user_punch_headings == NULL)
-		malloc_error();
-	for (i = 0; i < user_punch_count_headings; i++)
-	{
-		user_punch_headings[i] = string_hsave(old_headings[i].c_str());
-	}
+	//user_punch_count_headings = (int) old_headings.size();
+	//user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
+	//	(size_t) (user_punch_count_headings + 1) * sizeof(char *));
+	//if (user_punch_headings == NULL)
+	//	malloc_error();
+	//for (i = 0; i < user_punch_count_headings; i++)
+	//{
+	//	user_punch_headings[i] = string_hsave(old_headings[i].c_str());
+	//}
 	return (OK);
 }
 
@@ -2082,6 +2083,7 @@ punch_model_heading(struct inverse *inv_ptr)
 	char token[MAX_LENGTH];
 	//if (/*punch.in == FALSE ||*/ pr.punch == FALSE || punch.inverse == FALSE)
 	//	return (OK);
+	std::vector<std::string> heading_names;
 	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
 	for ( ; so_it != SelectedOutput_map.end(); so_it++)
 	{
@@ -2095,9 +2097,8 @@ punch_model_heading(struct inverse *inv_ptr)
 			continue;
 		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
 
-		std::vector<std::string> heading_names;
 		int l = (!current_selected_output->Get_high_precision()) ? 15 : 20;
-
+		heading_names.clear();
 		/*
 		*  Print sum of residuals and maximum fractional error
 		*/
@@ -2140,21 +2141,22 @@ punch_model_heading(struct inverse *inv_ptr)
 		size_t j;
 
 		// punch headings
-		user_punch_count_headings = (int) heading_names.size();
-		user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
-			(size_t) (user_punch_count_headings + 1) * sizeof(char *));
-		if (user_punch_headings == NULL)
-			malloc_error();
+		//user_punch_count_headings = (int) heading_names.size();
+		//user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
+		//	(size_t) (user_punch_count_headings + 1) * sizeof(char *));
+		//if (user_punch_headings == NULL)
+		//	malloc_error();
 
 		for (j = 0; j < heading_names.size(); j++)
 		{
 			fpunchf_heading(heading_names[j].c_str());
-			user_punch_headings[j] = string_hsave(heading_names[j].c_str());
+			//user_punch_headings[j] = string_hsave(heading_names[j].c_str());
 		}
 		fpunchf_heading("\n");
 	}
 	current_selected_output = NULL;
 	phrq_io->Set_punch_ostream(NULL);
+	inverse_heading_names = heading_names;
 /*
  *   Flush buffer after each model
  */
@@ -2174,6 +2176,11 @@ punch_model(struct inverse *inv_ptr)
 	LDBLE d1, d2, d3;
 	//if (punch.in == FALSE || pr.punch == FALSE || punch.inverse == FALSE)
 	//	return (OK);
+
+	UserPunch temp_user_punch;
+	current_user_punch = & temp_user_punch;
+	temp_user_punch.Set_headings(inverse_heading_names);
+
 	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
 	for ( ; so_it != SelectedOutput_map.end(); so_it++)
 	{
@@ -2185,7 +2192,7 @@ punch_model(struct inverse *inv_ptr)
 			!current_selected_output->Get_active())
 			continue;
 		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
-
+		
 		n_user_punch_index = 0;
 		/*
 		*   write residual info

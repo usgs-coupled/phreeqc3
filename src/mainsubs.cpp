@@ -191,6 +191,7 @@ initialize(void)
 	user_print->varbase = NULL;
 	user_print->loopbase = NULL;
 
+#ifdef SKIP
 	// user_punch
 	user_punch = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
 	if (user_punch == NULL)
@@ -203,6 +204,7 @@ initialize(void)
 	if (user_punch_headings == NULL)
 		malloc_error();
 	user_punch_count_headings = 0;
+#endif
 #if defined PHREEQ98
 /*
  *   user_graph

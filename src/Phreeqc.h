@@ -29,6 +29,7 @@
 #include "dumper.h"
 #include "PHRQ_io.h"
 #include "SelectedOutput.h"
+#include "UserPunch.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
@@ -1515,9 +1516,9 @@ protected:
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
 	struct rate *user_print;
-	struct rate *user_punch;
-	const char **user_punch_headings;
-	int user_punch_count_headings;
+	//struct rate *user_punch;
+	//const char **user_punch_headings;
+	//int user_punch_count_headings;
 	int n_user_punch_index;
 
 	int fpunchf_user_s_warning;
@@ -1613,6 +1614,9 @@ protected:
 	//char *selected_output_file_name;
 	std::map<int, SelectedOutput> SelectedOutput_map;
 	SelectedOutput * current_selected_output;
+	
+	std::map <int, UserPunch> UserPunch_map;
+	UserPunch * current_user_punch;
 
 	char *dump_file_name;
 	int remove_unstable_phases;
@@ -1744,6 +1748,7 @@ protected:
 	FILE *netpath_file;
 	int count_inverse_models, count_pat_solutions;
 	int min_position[32], max_position[32], now[32];
+	std::vector <std::string> inverse_heading_names;
 
 	/* kinetics.cpp ------------------------------- */
 public:

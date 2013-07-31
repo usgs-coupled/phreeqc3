@@ -206,14 +206,17 @@ clean_up(void)
 		(struct name_master *) free_check_null(punch.calculate_values);
 #endif
 	SelectedOutput_map.clear();
+	UserPunch_map.clear();
 
 /*  user_print and user_punch */
 	rate_free(user_print);
+#ifdef SKIP
 	rate_free(user_punch);
 	user_print = (struct rate *) free_check_null(user_print);
 
 	user_punch = (struct rate *) free_check_null(user_punch);
 	user_punch_headings = (const char **) free_check_null(user_punch_headings);
+#endif
 
 	/*
 	   Free llnl aqueous model parameters
