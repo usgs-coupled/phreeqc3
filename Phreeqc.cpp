@@ -224,6 +224,7 @@ void Phreeqc::init(void)
 	last_model.surface_charge       = NULL;
 
 	current_selected_output         = NULL;
+	current_user_punch              = NULL;
 #ifdef SKIP
 	//struct punch punch;
 /*
@@ -640,9 +641,11 @@ void Phreeqc::init(void)
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
 	user_print				= NULL;
+#ifdef SKIP
 	user_punch				= NULL;
 	user_punch_headings		= NULL;
 	user_punch_count_headings = 0;
+#endif
 	n_user_punch_index      = 0;
 	fpunchf_user_s_warning  = 0;
 	fpunchf_user_buffer[0]  = 0;
@@ -1789,6 +1792,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		user_print->varbase = NULL;
 		user_print->loopbase = NULL;
 	}
+
+	// For now, User Punch is not copied
+#ifdef SKIP
 	/*
 		user_punch				= NULL;
 	*/
@@ -1819,6 +1825,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			user_punch_headings[i] = string_hsave(pSrc->user_punch_headings[i]);
 		}
 	}
+#endif
 	n_user_punch_index      = pSrc->n_user_punch_index;
 	fpunchf_user_s_warning  = pSrc->fpunchf_user_s_warning;
 	//fpunchf_user_buffer[0]  = 0;

@@ -1784,6 +1784,11 @@ tidy_punch(void)
 			current_selected_output->punch_ostream == NULL)
 			continue;
 		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
+		
+		// UserPunch
+		std::map < int, UserPunch >::iterator up_it = UserPunch_map.find(current_selected_output->Get_n_user());
+		current_user_punch = up_it == UserPunch_map.end() ? NULL : &(up_it->second);
+
 		int l;
 		SelectedOutput *so_ptr = &so_it->second;
 		if (so_ptr->Get_high_precision() == false)
@@ -2187,7 +2192,14 @@ tidy_punch(void)
 			}
 
 			/* user_punch */
-			// TODO, implement user_punch n TODO
+			if (current_user_punch != NULL)
+			{
+				for (size_t i = 0; i < current_user_punch->Get_headings().size(); i++)
+				{
+					fpunchf_heading(sformatf("%*s\t", l, current_user_punch->Get_headings()[i].c_str()));
+				}
+			}
+			fpunchf_heading("\n");
 			//if (punch.user_punch == TRUE)
 			//{
 			//	for (i = 0; i < user_punch_count_headings; i++)
@@ -2195,7 +2207,7 @@ tidy_punch(void)
 			//		fpunchf_heading(sformatf("%*s\t", l, user_punch_headings[i]));
 			//	}
 			//}
-			fpunchf_heading("\n");
+			//fpunchf_heading("\n");
 
 			so_ptr->Set_new_def(false);
 			pr.punch = punch_save;
@@ -2204,6 +2216,7 @@ tidy_punch(void)
 		punch_flush();
 	}
 	current_selected_output = NULL;
+	current_user_punch = NULL;
 	phrq_io->Set_punch_ostream(NULL);
 	return (OK);
 }

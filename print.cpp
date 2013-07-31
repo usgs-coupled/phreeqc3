@@ -175,6 +175,11 @@ punch_all(void)
 			current_selected_output->punch_ostream == NULL)
 			continue;
 		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
+
+		// UserPunch
+		std::map < int, UserPunch >::iterator up_it = UserPunch_map.find(current_selected_output->Get_n_user());
+		current_user_punch = up_it == UserPunch_map.end() ? NULL : &(up_it->second);
+
 		punch_identifiers();
 		punch_totals();
 		punch_molalities();
@@ -199,6 +204,7 @@ punch_all(void)
 		punch_flush();
 	}
 	current_selected_output = NULL;
+	current_user_punch = NULL;
 	phrq_io->Set_punch_ostream(NULL);
 	return (OK);
 }
@@ -3191,6 +3197,11 @@ punch_user_punch(void)
 	n_user_punch_index = 0;
 	//if (punch.user_punch == FALSE)
 	//	return (OK);
+	if (current_user_punch == NULL)
+		return OK;
+
+	struct rate * user_punch = current_user_punch->Get_rate();
+
 	if (user_punch->commands == NULL)
 		return (OK);
 	if (user_punch->new_def == TRUE)

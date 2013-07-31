@@ -17,6 +17,7 @@
 #include "cxxKinetics.h"
 #include "Solution.h"
 #include "SelectedOutput.h"
+#include "UserPunch.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -9211,7 +9212,155 @@ read_user_print(void)
 /*	output_msg(sformatf( "%s", rates[0].commands));
  */ return (return_value);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_user_punch(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads basic code with which to calculate rates
+ *
+ *      Arguments:
+ *	 none
+ *
+ *      Returns:
+ *	 KEYWORD if keyword encountered, input_error may be incremented if
+ *		    a keyword is encountered in an unexpected position
+ *	 EOF     if eof encountered while reading mass balance concentrations
+ *	 ERROR   if error occurred reading data
+ *
+ */
+	int length, line_length;
+	int return_value, opt, opt_save;
+	std::string stdtoken;
+	char *next_char;
+	const char *opt_list[] = {
+		"start",				/* 0 */
+		"end",					/* 1 */
+		"heading",				/* 2 */
+		"headings"				/* 3 */
+	};
+	int count_opt_list = 4;
 
+	opt_save = OPTION_DEFAULT;
+/*
+ *   Read lines
+ */
+
+	int n_user, n_user_end;
+	char *description;
+	char *ptr;
+	ptr = line;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+
+	UserPunch temp_user_punch;
+	temp_user_punch.Set_PhreeqcPtr(this);
+	temp_user_punch.Set_n_user(n_user);
+	temp_user_punch.Set_n_user_end(n_user_end);
+	temp_user_punch.Set_description(description);
+	free_check_null(description);
+
+	//std::map < int, UserPunch >::iterator up = UserPunch_map.find(n_user);
+	//if (up != UserPunch_map.end())
+	//{
+	//	UserPunch_map.erase(up);
+	//}
+	
+	// Malloc rate structure
+	struct rate *r = (struct rate *) PHRQ_malloc(sizeof(struct rate));
+	if (r == NULL) malloc_error();
+	r->new_def = TRUE;
+	r->linebase = NULL;
+	r->varbase = NULL;
+	r->loopbase = NULL;
+	r->name = string_hsave("user defined Basic punch routine");
+
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		if (opt == OPTION_DEFAULT)
+		{
+			opt = opt_save;
+		}
+		opt_save = OPTION_DEFAULT;
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in USER_PUNCH keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		case 0:				/* start */
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 1:				/* end */
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 2:				/* headings */
+		case 3:				/* heading */
+			while (copy_token(stdtoken, &next_char) != EMPTY)
+			{
+				temp_user_punch.Get_headings().push_back(stdtoken);
+			}
+			break;
+		case OPTION_DEFAULT:	/* read first command */
+			{
+				r->commands = (char *) PHRQ_malloc(sizeof(char));
+				if (r->commands == NULL) malloc_error();
+				r->commands[0] = '\0';
+			}
+			//rate_free(user_punch);
+			//user_punch->new_def = TRUE;
+			//user_punch->commands = (char *) PHRQ_malloc(sizeof(char));
+			//if (user_punch->commands == NULL)
+			//	malloc_error();
+			//user_punch->commands[0] = '\0';
+			//user_punch->linebase = NULL;
+			//user_punch->varbase = NULL;
+			//user_punch->loopbase = NULL;
+			//user_punch->name =
+			//	string_hsave("user defined Basic punch routine");
+		case OPT_1:			/* read command */
+			length = (int) strlen(r->commands);
+			line_length = (int) strlen(line);
+			r->commands = (char *) PHRQ_realloc(r->commands,
+				(size_t) (length + line_length + 2) * sizeof(char));
+			if (r->commands == NULL) malloc_error();
+
+			r->commands[length] = ';';
+			r->commands[length + 1] = '\0';
+			strcat((r->commands), line);
+			//length = (int) strlen(user_punch->commands);
+			//line_length = (int) strlen(line);
+			//user_punch->commands =
+			//	(char *) PHRQ_realloc(user_punch->commands,
+			//						  (size_t) (length + line_length +
+			//									2) * sizeof(char));
+			//if (user_punch->commands == NULL)
+			//	malloc_error();
+			//user_punch->commands[length] = ';';
+			//user_punch->commands[length + 1] = '\0';
+			//strcat((user_punch->commands), line);
+			opt_save = OPT_1;
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	
+	UserPunch_map[n_user] = temp_user_punch;
+	UserPunch_map[n_user].Set_rate(r);
+
+	return (return_value);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_user_punch(void)
@@ -9323,7 +9472,7 @@ read_user_punch(void)
 	}
 	return (return_value);
 }
-
+#endif
 #if defined PHREEQ98 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
