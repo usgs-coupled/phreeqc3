@@ -219,6 +219,9 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	s_oss << indent1;
 	s_oss << "-temp                      " << this->tc << "\n";
 
+	s_oss << indent1;
+	s_oss << "-pressure                  " << this->patm << "\n";
+
 	// new identifier
 	s_oss << indent1;
 	s_oss << "-total_h                   " << this->total_h << "\n";
@@ -880,12 +883,21 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				this->density = 1.0;
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for density.",
-								 PHRQ_io::OT_CONTINUE);
+					PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+		case 22:				// pressure
+			if (!(parser.get_iss() >> this->patm))
+			{
+				this->patm = 1.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for pressure.",
+					PHRQ_io::OT_CONTINUE);
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 		}
-
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
 	}
@@ -1392,6 +1404,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("total_alk"),	                        // 18
 	std::vector< std::string >::value_type("cb"),	                                // 19
 	std::vector< std::string >::value_type("charge_balance"),	                    // 20
-	std::vector< std::string >::value_type("density") 	                            // 21
+	std::vector< std::string >::value_type("density"),	                            // 21
+	std::vector< std::string >::value_type("pressure") 	                            // 22
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
