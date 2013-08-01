@@ -113,7 +113,9 @@ void Phreeqc::
 fpunchf_user(int user_index, const char *format, double d)
 {
 	const char *name;
-
+	
+	if (current_user_punch == NULL)
+		return;
 	// check headings
 	//if (user_index < user_punch_count_headings)
 	int user_punch_count_headings = (int) current_user_punch->Get_headings().size();
@@ -150,6 +152,8 @@ fpunchf_user(int user_index, const char *format, char * d)
 {
 	const char *name;
 	
+	if (current_user_punch == NULL)
+		return;
 	int user_punch_count_headings = (int) current_user_punch->Get_headings().size();
 	// check headings
 	if (user_index < user_punch_count_headings)

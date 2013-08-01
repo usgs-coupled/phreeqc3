@@ -4968,7 +4968,7 @@ read_selected_output(void)
 		case 44:				/* selected_out */
 		case 45:				/* selected_output */
 			temp_selected_output.Set_new_def(true);
-			warning_msg("Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output");
+			//warning_msg("Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output");
 			value = get_true_false(next_char, TRUE);
 			temp_selected_output.Set_active(value!=FALSE);
 			opt_save = OPTION_ERROR;

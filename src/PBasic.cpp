@@ -472,26 +472,35 @@ numtostr(char * Result, LDBLE n)
 /*  if ((n != 0 && fabs(n) < 1e-2) || fabs(n) >= 1e12) { */
 	if (ceil(n) == floor(n))
 	{
+		//if (PhreeqcPtr->current_selected_output != NULL &&
+		//	!PhreeqcPtr->current_selected_output->Get_high_precision())
+		//{
+		//	sprintf(l_s, "%12.0f", (double) n);
+		//}
+		//else
+		//{
+		//	sprintf(l_s, "%20.0f", (double) n);
+		//}
 		if (PhreeqcPtr->current_selected_output != NULL &&
-			!PhreeqcPtr->current_selected_output->Get_high_precision())
+			PhreeqcPtr->current_selected_output->Get_high_precision())
 		{
-			sprintf(l_s, "%12.0f", (double) n);
+			sprintf(l_s, "%20.0f", (double) n);
 		}
 		else
 		{
-			sprintf(l_s, "%20.0f", (double) n);
+			sprintf(l_s, "%12.0f", (double) n);
 		}
 	}
 	else
 	{
 		if (PhreeqcPtr->current_selected_output != NULL &&
-			!PhreeqcPtr->current_selected_output->Get_high_precision())
+			PhreeqcPtr->current_selected_output->Get_high_precision())
 		{
-			sprintf(l_s, "%12.4e", (double) n);
+			sprintf(l_s, "%20.4e", (double) n);
 		}
 		else
 		{
-			sprintf(l_s, "%20.12e", (double) n);
+			sprintf(l_s, "%12.12e", (double) n);
 		}
 	}
 	i = (int) strlen(l_s) + 1;
@@ -4423,13 +4432,13 @@ cmdpunch(struct LOC_exec *LINK)
 			PhreeqcPtr->PHRQ_free(n.UU.sval);
 		}
 		else if (PhreeqcPtr->current_selected_output != NULL &&
-				!PhreeqcPtr->current_selected_output->Get_high_precision())
+				PhreeqcPtr->current_selected_output->Get_high_precision())
 		{
-			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.4e\t", (double) n.UU.val);
+			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.4e\t", (double) n.UU.val);
 		}
 		else
 		{
-			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.12e\t", (double) n.UU.val);
+			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.12e\t", (double) n.UU.val);
 		}
 		++PhreeqcPtr->n_user_punch_index;
 	}
