@@ -4970,7 +4970,7 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			warning_msg("Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output");
 			value = get_true_false(next_char, TRUE);
-			temp_selected_output.Set_punch(value!=FALSE);
+			temp_selected_output.Set_active(value!=FALSE);
 			opt_save = OPTION_ERROR;
 			break;
 		case 49:				/* active */

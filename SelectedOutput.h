@@ -42,7 +42,7 @@ public:
 	bool Get_charge_balance(void)                              {return this->charge_balance;}
 	bool Get_percent_error(void)                               {return this->percent_error;}
 	bool Get_inverse(void)                                     {return this->inverse;}
-	bool Get_punch(void)                                       {return this->punch;}
+	//bool Get_punch(void)                                       {return this->punch;}
 	bool Get_active(void)                                      {return this->active;}
 
 	void Set_file_name(int i);
@@ -67,7 +67,7 @@ public:
 	void Set_charge_balance(bool tf)                           {this->charge_balance = tf;}
 	void Set_percent_error(bool tf)                            {this->percent_error = tf;}
 	void Set_inverse(bool tf)                                  {this->inverse = tf;}
-	void Set_punch(bool tf)                                    {this->punch = tf;}
+	//void Set_punch(bool tf)                                    {this->punch = tf;}
 	void Set_active(bool tf)                                   {this->active = tf;}
 
 	std::string file_name;
@@ -103,6 +103,6 @@ public:
 	bool charge_balance;
 	bool percent_error;
 	bool inverse;
-	bool punch;
+	//bool punch;
 };
 #endif // !defined(SELECTEDOUTPUT_H_INCLUDED)

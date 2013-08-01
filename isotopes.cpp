@@ -930,12 +930,12 @@ punch_calculate_values(void)
 		}
 		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("V_%s", current_selected_output->Get_calculate_values()[i].first),
+		  fpunchf(sformatf("V_%s", current_selected_output->Get_calculate_values()[i].first.c_str()),
 				"%12.4e\t", (double) result);
 		}
 		else
 		{
-			fpunchf(sformatf("V_%s", current_selected_output->Get_calculate_values()[i].first),
+		  fpunchf(sformatf("V_%s", current_selected_output->Get_calculate_values()[i].first.c_str()),
 				"%20.12e\t", (double) result);
 		}
 	}
