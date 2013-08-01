@@ -106,6 +106,7 @@ all: alkalinity.out \
 	mmb.out \
 	mmb2.out \
 	modifyact.out \
+	modify_test.out \
 	modify_zero.out \
 	mu.out \
 	n3.out \
