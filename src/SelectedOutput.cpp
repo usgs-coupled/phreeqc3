@@ -38,7 +38,7 @@ SelectedOutput::SelectedOutput(int n, PHRQ_io *io)
 	this->user_punch       = true;
 	this->charge_balance   = false;
 	this->percent_error    = false;
-	this->punch            = false;
+	//this->punch            = false;
 
 }
 

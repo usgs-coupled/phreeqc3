@@ -1033,7 +1033,7 @@ dump_cpp(void)
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_molalities().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_molalities()[i].first.size());
+				sprintf(token, "  %s", current_selected_output->Get_molalities()[i].first.c_str());
 				fs << token;
 			}
 			sprintf(token, "\n");
@@ -1151,7 +1151,7 @@ dump_cpp(void)
 	}
 	sprintf(token, "\t-length\n");
 	fs << token;
-	for (size_t i = 0; i < count_cells; i++)
+	for (int i = 0; i < count_cells; i++)
 	{
 		sprintf(token, "%12.3e", (double) cell_data[i].length);
 		fs << token;
@@ -1165,7 +1165,7 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-disp\n");
 	fs << token;
-	for (size_t i = 0; i < count_cells; i++)
+	for (int i = 0; i < count_cells; i++)
 	{
 		if (current_selected_output != NULL && !current_selected_output->Get_high_precision())
 		{
@@ -1192,7 +1192,7 @@ dump_cpp(void)
 	else
 		j = count_cells;
 	l = 0;
-	for (size_t i = 0; i < j; i++)
+	for (int i = 0; i < j; i++)
 	{
 		if (cell_data[i].punch != TRUE)
 			continue;
@@ -1214,7 +1214,7 @@ dump_cpp(void)
 	else
 		j = count_cells;
 	l = 0;
-	for (size_t i = 0; i < j; i++)
+	for (int i = 0; i < j; i++)
 	{
 		if (cell_data[i].print != TRUE)
 			continue;
