@@ -225,6 +225,7 @@ void Phreeqc::init(void)
 
 	current_selected_output         = NULL;
 	current_user_punch              = NULL;
+	high_precision                  = false;
 #ifdef SKIP
 	//struct punch punch;
 /*
@@ -1158,6 +1159,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
  *	 Initialize punch
  */
 	//-- skip punch, accept init
+	high_precision = pSrc->high_precision;
 
 	Rxn_temperature_map = pSrc->Rxn_temperature_map;
 	Rxn_pressure_map = pSrc->Rxn_pressure_map;

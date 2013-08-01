@@ -1142,6 +1142,7 @@ protected:
 
 	struct model last_model;
 	//struct punch punch;
+	bool high_precision;
 
 	/* ----------------------------------------------------------------------
 	*   Temperatures
