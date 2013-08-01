@@ -4941,6 +4941,10 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			value = get_true_false(next_char, TRUE);
 			temp_selected_output.Set_high_precision(value!=FALSE);
+			if (n_user == 1)
+			{
+				high_precision = (value != FALSE);
+			}
 			if (value == TRUE)
 			{
 				convergence_tolerance = 1e-12;
