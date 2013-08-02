@@ -1779,20 +1779,81 @@ tidy_punch(void)
 	for ( ; so_it != SelectedOutput_map.end(); so_it++)
 	{
 		current_selected_output = &(so_it->second);
-		if (pr.punch == FALSE ||
-			current_selected_output == NULL || 
-			!current_selected_output->Get_active() ||
+		if (current_selected_output == NULL || 
 			current_selected_output->punch_ostream == NULL)
 			continue;
+
+
+		/* totals */
+
+		for (size_t i = 0; i < current_selected_output->Get_totals().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_totals()[i];
+			pair_ptr.second = master_bsearch(pair_ptr.first.c_str());
+		}
+
+		/* molalities */
+		for (size_t i = 0; i < current_selected_output->Get_molalities().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_molalities()[i];
+			pair_ptr.second = s_search(pair_ptr.first.c_str());
+		}
+
+		/* log activities */
+
+		//for (i = 0; i < punch.count_activities; i++)
+		for (size_t i = 0; i < current_selected_output->Get_activities().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_activities()[i];
+			pair_ptr.second = s_search(pair_ptr.first.c_str());
+		}
+
+		/* equilibrium phases */
+
+		//for (i = 0; i < punch.count_pure_phases; i++)
+		for (size_t i = 0; i < current_selected_output->Get_pure_phases().size(); i++)
+		{
+			int j;
+			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_pure_phases()[i];
+			pair_ptr.second = phase_bsearch(pair_ptr.first.c_str(), &j, FALSE);
+		}
+
+		/* saturation indices */
+
+		//for (i = 0; i < punch.count_si; i++)
+		for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
+		{
+			int j;
+			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_si()[i];
+			pair_ptr.second = phase_bsearch(pair_ptr.first.c_str(), &j, FALSE);
+		}
+
+		/* gases */
+
+		//for (i = 0; i < punch.count_gases; i++)
+		for (size_t i = 0; i < current_selected_output->Get_gases().size(); i++)
+		{
+			int j;
+			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_gases()[i];
+			pair_ptr.second = phase_bsearch(pair_ptr.first.c_str(), &j, FALSE);
+		}
+	}
+	/*
+	*  Always write new headings when SELECTED_OUTPUT is read
+	*/
+	so_it = SelectedOutput_map.begin(); 
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
+	{
+		current_selected_output = &(so_it->second);
+		if (current_selected_output == NULL || 
+			current_selected_output->punch_ostream == NULL ||
+			!current_selected_output->Get_new_def())
+			continue;
 		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
-		
-		// UserPunch
-		std::map < int, UserPunch >::iterator up_it = UserPunch_map.find(current_selected_output->Get_n_user());
-		current_user_punch = up_it == UserPunch_map.end() ? NULL : &(up_it->second);
+
 
 		int l;
-		SelectedOutput *so_ptr = &so_it->second;
-		if (so_ptr->Get_high_precision() == false)
+		if (current_selected_output->Get_high_precision() == false)
 		{
 			l = 12;
 		}
@@ -1800,422 +1861,358 @@ tidy_punch(void)
 		{
 			l = 20;
 		}
-		//if (punch.in == TRUE)
-		//{
-			/* totals */
+		// UserPunch
+		std::map < int, UserPunch >::iterator up_it = UserPunch_map.find(current_selected_output->Get_n_user());
+		current_user_punch = up_it == UserPunch_map.end() ? NULL : &(up_it->second);
 
-			for (size_t i = 0; i < so_ptr->Get_totals().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ptr = so_ptr->Get_totals()[i];
-				pair_ptr.second = master_bsearch(pair_ptr.first.c_str());
-				//punch.totals[i].master = master_bsearch(punch.totals[i].name);
-			}
+		punch_save = pr.punch;
+		pr.punch = TRUE;
+		phrq_io->Set_punch_on(true);
 
-			/* molalities */
-			for (size_t i = 0; i < so_ptr->Get_molalities().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ptr = so_ptr->Get_molalities()[i];
-				pair_ptr.second = s_search(pair_ptr.first.c_str());
-				//punch.molalities[i].s = s_search(punch.molalities[i].name);
-			}
+		/* constant stuff, sim, pH, etc. */
 
-			/* log activities */
-
-			//for (i = 0; i < punch.count_activities; i++)
-			for (size_t i = 0; i < so_ptr->Get_activities().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ptr = so_ptr->Get_activities()[i];
-				pair_ptr.second = s_search(pair_ptr.first.c_str());
-				//punch.activities[i].s = s_search(punch.activities[i].name);
-			}
-
-			/* equilibrium phases */
-
-			//for (i = 0; i < punch.count_pure_phases; i++)
-			for (size_t i = 0; i < so_ptr->Get_pure_phases().size(); i++)
-			{
-				int j;
-				std::pair< std::string, void *> &pair_ptr = so_ptr->Get_pure_phases()[i];
-				pair_ptr.second = phase_bsearch(pair_ptr.first.c_str(), &j, FALSE);
-				//punch.pure_phases[i].phase =
-				//	phase_bsearch(punch.pure_phases[i].name, &j, FALSE);
-			}
-
-			/* saturation indices */
-
-			//for (i = 0; i < punch.count_si; i++)
-			for (size_t i = 0; i < so_ptr->Get_si().size(); i++)
-			{
-				int j;
-				std::pair< std::string, void *> &pair_ptr = so_ptr->Get_si()[i];
-				pair_ptr.second = phase_bsearch(pair_ptr.first.c_str(), &j, FALSE);
-				//punch.si[i].phase = phase_bsearch(punch.si[i].name, &j, FALSE);
-			}
-
-			/* gases */
-
-			//for (i = 0; i < punch.count_gases; i++)
-			for (size_t i = 0; i < so_ptr->Get_gases().size(); i++)
-			{
-				int j;
-				std::pair< std::string, void *> &pair_ptr = so_ptr->Get_gases()[i];
-				pair_ptr.second = phase_bsearch(pair_ptr.first.c_str(), &j, FALSE);
-				//punch.gases[i].phase =
-				//	phase_bsearch(punch.gases[i].name, &j, FALSE);
-			}
-		//}
-		/*
-		*  Always write new headings when SELECTED_OUTPUT is read
-		*/
-		if (so_ptr->Get_new_def())
+		if (current_selected_output->Get_sim() == TRUE)
 		{
-			punch_save = pr.punch;
-			pr.punch = TRUE;
-			phrq_io->Set_punch_on(true);
-
-			/* constant stuff, sim, pH, etc. */
-
-			if (so_ptr->Get_sim() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "sim"));
-			}
-			if (so_ptr->Get_state() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "state"));
-			}
-			if (so_ptr->Get_soln() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "soln"));
-			}
-			if (so_ptr->Get_dist() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "dist_x"));
-			}
-			if (so_ptr->Get_time() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "time"));
-			}
-			if (so_ptr->Get_step() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "step"));
-			}
-			if (so_ptr->Get_ph() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "pH"));
-			}
-			if (so_ptr->Get_pe() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "pe"));
-			}
-			if (so_ptr->Get_rxn() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "reaction"));
-			}
-			if (so_ptr->Get_temp() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "temp"));
-			}
-			if (so_ptr->Get_alk() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "Alk"));
-			}
-			if (so_ptr->Get_mu() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "mu"));
-			}
-			if (so_ptr->Get_water() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "mass_H2O"));
-			}
-			if (so_ptr->Get_charge_balance() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "charge"));
-			}
-			if (so_ptr->Get_percent_error() == TRUE)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "pct_err"));
-			}
-			/* totals */
-
-			//for (i = 0; i < punch.count_totals; i++)
-			for (size_t i = 0; i < so_ptr->Get_totals().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_totals()[i];
-				fpunchf_heading(sformatf("%*s\t", l, pair_ref.first.c_str()));
-				if (pair_ref.second == NULL)
-				{
-					error_string = sformatf( "Did not find master species,"
-						" %s.", pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				//fpunchf_heading(sformatf("%*s\t", l, punch.totals[i].name));
-				//if (punch.totals[i].master == NULL)
-				//{
-				//	error_string = sformatf( "Did not find master species,"
-				//		" %s.", punch.totals[i].name);
-				//	warning_msg(error_string);
-				//}
-			}
-
-			/* molalities */
-
-			//for (i = 0; i < punch.count_molalities; i++)
-			for (size_t i = 0; i < so_ptr->Get_molalities().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_molalities()[i];
-				std::string name = "m_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				if (pair_ref.second == NULL)
-				{
-					error_string = sformatf( "Did not find species,"
-						" %s.", pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				//strcpy(token, "m_");
-				//strcat(token, punch.molalities[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-				//if (punch.molalities[i].s == NULL)
-				//{
-				//	error_string = sformatf( "Did not find species,"
-				//		" %s.", punch.molalities[i].name);
-				//	warning_msg(error_string);
-				//}
-			}
-
-			/* log activities */
-
-			//for (i = 0; i < punch.count_activities; i++)
-			for (size_t i = 0; i < so_ptr->Get_activities().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_activities()[i];
-				std::string name = "la_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				if (pair_ref.second == NULL)
-				{
-					error_string = sformatf( "Did not find species,"
-						" %s.", pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				//strcpy(token, "la_");
-				//strcat(token, punch.activities[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-				//if (punch.activities[i].s == NULL)
-				//{
-				//	error_string = sformatf( "Did not find species, "
-				//		"%s.", punch.activities[i].name);
-				//	warning_msg(error_string);
-				//}
-			}
-
-			/* equilibrium phases */
-
-			//for (i = 0; i < punch.count_pure_phases; i++)
-			for (size_t i = 0; i < so_ptr->Get_pure_phases().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_pure_phases()[i];
-				fpunchf_heading(sformatf("%*s\t", l, pair_ref.first.c_str()));
-				std::string name = "d_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				if (pair_ref.second == NULL)
-				{
-					error_string = sformatf( "Did not find phase,"
-						" %s.", pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				//strcpy(token, "d_");
-				//strcat(token, punch.pure_phases[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, punch.pure_phases[i].name));
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-				//if (punch.pure_phases[i].phase == NULL)
-				//{
-				//	error_string = sformatf( "Did not find phase, "
-				//		"%s.", punch.pure_phases[i].name);
-				//	warning_msg(error_string);
-				//}
-			}
-
-			/* saturation indices */
-
-			//for (i = 0; i < punch.count_si; i++)
-			for (size_t i = 0; i < so_ptr->Get_si().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_si()[i];
-				std::string name = "si_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				if (pair_ref.second == NULL)
-				{
-					error_string = sformatf( "Did not find phase,"
-						" %s.", pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				//strcpy(token, "si_");
-				//strcat(token, punch.si[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-				//if (punch.si[i].phase == NULL)
-				//{
-				//	error_string = sformatf( "Did not find phase, "
-				//		"%s.", punch.si[i].name);
-				//	warning_msg(error_string);
-				//}
-			}
-
-			/* gases */
-
-			//if (punch.count_gases > 0)
-			if (so_ptr->Get_gases().size() > 0)
-			{
-				fpunchf_heading(sformatf("%*s\t", l, "pressure"));
-				fpunchf_heading(sformatf("%*s\t", l, "total mol"));
-				fpunchf_heading(sformatf("%*s\t", l, "volume"));
-			}
-			//for (i = 0; i < punch.count_gases; i++)
-			for (size_t i = 0; i < so_ptr->Get_gases().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_gases()[i];
-				std::string name = "g_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				if (pair_ref.second == NULL)
-				{
-					error_string = sformatf( "Did not find phase,"
-						" %s.", pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				//strcpy(token, "g_");
-				//strcat(token, punch.gases[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-				//if (punch.gases[i].phase == NULL)
-				//{
-				//	error_string = sformatf( "Did not find phase, "
-				//		"%s.", punch.gases[i].name);
-				//	warning_msg(error_string);
-				//}
-			}
-
-			/* kinetics */
-
-			//for (i = 0; i < punch.count_kinetics; i++)
-			for (size_t i = 0; i < so_ptr->Get_kinetics().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_kinetics()[i];
-				std::string name = "k_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				name = "dk_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				//strcpy(token, "k_");
-				//strcat(token, punch.kinetics[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-				//strcpy(token, "dk_");
-				//strcat(token, punch.kinetics[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-			}
-
-			/* solid solutions */
-
-			//for (i = 0; i < punch.count_s_s; i++)
-			for (size_t i = 0; i < so_ptr->Get_s_s().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_s_s()[i];
-				std::string name = "ss_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				//strcpy(token, "s_");
-				//strcat(token, punch.s_s[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-			}
-
-			/* isotopes */
-
-			//for (i = 0; i < punch.count_isotopes; i++)
-			for (size_t i = 0; i < so_ptr->Get_isotopes().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_isotopes()[i];
-				if (isotope_ratio_search(pair_ref.first.c_str()) == NULL)
-				{
-					error_string = sformatf(
-						"Did not find isotope_ratio definition for "
-						"%s in -isotopes of SELECTED_OUTPUT.\n%s must be defined in ISOTOPE_RATIO data block.",
-						pair_ref.first.c_str(), pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				std::string name = "I_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				//if (isotope_ratio_search(punch.isotopes[i].name) == NULL)
-				//{
-				//	error_string = sformatf(
-				//		"Did not find isotope_ratio definition for "
-				//		"%s in -isotopes of SELECTED_OUTPUT.\n%s must be defined in ISOTOPE_RATIO data block.",
-				//		punch.isotopes[i].name, punch.isotopes[i].name);
-				//	warning_msg(error_string);
-				//}
-				//strcpy(token, "I_");
-				//strcat(token, punch.isotopes[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-			}
-
-			/* calculate_values */
-
-			//for (i = 0; i < punch.count_calculate_values; i++)
-			for (size_t i = 0; i < so_ptr->Get_calculate_values().size(); i++)
-			{
-				std::pair< std::string, void *> &pair_ref = so_ptr->Get_calculate_values()[i];
-				if (calculate_value_search(pair_ref.first.c_str()) == NULL)
-				{
-					error_string = sformatf(
-						"Did not find calculate_values definition for "
-						"%s in -calculate_values of SELECTED_OUTPUT.\n%s must be defined in CALCULATE_VALUES data block.",
-						pair_ref.first.c_str(),
-						pair_ref.first.c_str());
-					warning_msg(error_string);
-				}
-				std::string name = "V_";
-				name.append(pair_ref.first);
-				fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
-				//if (calculate_value_search(punch.calculate_values[i].name) == NULL)
-				//{
-				//	error_string = sformatf(
-				//		"Did not find calculate_values definition for "
-				//		"%s in -calculate_values of SELECTED_OUTPUT.\n%s must be defined in CALCULATE_VALUES data block.",
-				//		punch.calculate_values[i].name,
-				//		punch.calculate_values[i].name);
-				//	warning_msg(error_string);
-				//}
-				//strcpy(token, "V_");
-				//strcat(token, punch.calculate_values[i].name);
-				//fpunchf_heading(sformatf("%*s\t", l, token));
-			}
-
-			/* user_punch */
-			if (current_user_punch != NULL)
-			{
-				for (size_t i = 0; i < current_user_punch->Get_headings().size(); i++)
-				{
-					fpunchf_heading(sformatf("%*s\t", l, current_user_punch->Get_headings()[i].c_str()));
-				}
-			}
-			fpunchf_heading("\n");
-			//if (punch.user_punch == TRUE)
-			//{
-			//	for (i = 0; i < user_punch_count_headings; i++)
-			//	{
-			//		fpunchf_heading(sformatf("%*s\t", l, user_punch_headings[i]));
-			//	}
-			//}
-			//fpunchf_heading("\n");
-
-			so_ptr->Set_new_def(false);
-			pr.punch = punch_save;
-			phrq_io->Set_punch_on(pr.punch == TRUE);
+			fpunchf_heading(sformatf("%*s\t", l, "sim"));
 		}
+		if (current_selected_output->Get_state() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "state"));
+		}
+		if (current_selected_output->Get_soln() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "soln"));
+		}
+		if (current_selected_output->Get_dist() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "dist_x"));
+		}
+		if (current_selected_output->Get_time() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "time"));
+		}
+		if (current_selected_output->Get_step() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "step"));
+		}
+		if (current_selected_output->Get_ph() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "pH"));
+		}
+		if (current_selected_output->Get_pe() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "pe"));
+		}
+		if (current_selected_output->Get_rxn() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "reaction"));
+		}
+		if (current_selected_output->Get_temp() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "temp"));
+		}
+		if (current_selected_output->Get_alk() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "Alk"));
+		}
+		if (current_selected_output->Get_mu() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "mu"));
+		}
+		if (current_selected_output->Get_water() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "mass_H2O"));
+		}
+		if (current_selected_output->Get_charge_balance() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "charge"));
+		}
+		if (current_selected_output->Get_percent_error() == TRUE)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "pct_err"));
+		}
+		/* totals */
+
+		//for (i = 0; i < punch.count_totals; i++)
+		for (size_t i = 0; i < current_selected_output->Get_totals().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_totals()[i];
+			fpunchf_heading(sformatf("%*s\t", l, pair_ref.first.c_str()));
+			if (pair_ref.second == NULL)
+			{
+				error_string = sformatf( "Did not find master species,"
+					" %s.", pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			//fpunchf_heading(sformatf("%*s\t", l, punch.totals[i].name));
+			//if (punch.totals[i].master == NULL)
+			//{
+			//	error_string = sformatf( "Did not find master species,"
+			//		" %s.", punch.totals[i].name);
+			//	warning_msg(error_string);
+			//}
+		}
+
+		/* molalities */
+
+		//for (i = 0; i < punch.count_molalities; i++)
+		for (size_t i = 0; i < current_selected_output->Get_molalities().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_molalities()[i];
+			std::string name = "m_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			if (pair_ref.second == NULL)
+			{
+				error_string = sformatf( "Did not find species,"
+					" %s.", pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			//strcpy(token, "m_");
+			//strcat(token, punch.molalities[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+			//if (punch.molalities[i].s == NULL)
+			//{
+			//	error_string = sformatf( "Did not find species,"
+			//		" %s.", punch.molalities[i].name);
+			//	warning_msg(error_string);
+			//}
+		}
+
+		/* log activities */
+
+		//for (i = 0; i < punch.count_activities; i++)
+		for (size_t i = 0; i < current_selected_output->Get_activities().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_activities()[i];
+			std::string name = "la_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			if (pair_ref.second == NULL)
+			{
+				error_string = sformatf( "Did not find species,"
+					" %s.", pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			//strcpy(token, "la_");
+			//strcat(token, punch.activities[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+			//if (punch.activities[i].s == NULL)
+			//{
+			//	error_string = sformatf( "Did not find species, "
+			//		"%s.", punch.activities[i].name);
+			//	warning_msg(error_string);
+			//}
+		}
+
+		/* equilibrium phases */
+
+		//for (i = 0; i < punch.count_pure_phases; i++)
+		for (size_t i = 0; i < current_selected_output->Get_pure_phases().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_pure_phases()[i];
+			fpunchf_heading(sformatf("%*s\t", l, pair_ref.first.c_str()));
+			std::string name = "d_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			if (pair_ref.second == NULL)
+			{
+				error_string = sformatf( "Did not find phase,"
+					" %s.", pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			//strcpy(token, "d_");
+			//strcat(token, punch.pure_phases[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, punch.pure_phases[i].name));
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+			//if (punch.pure_phases[i].phase == NULL)
+			//{
+			//	error_string = sformatf( "Did not find phase, "
+			//		"%s.", punch.pure_phases[i].name);
+			//	warning_msg(error_string);
+			//}
+		}
+
+		/* saturation indices */
+
+		//for (i = 0; i < punch.count_si; i++)
+		for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_si()[i];
+			std::string name = "si_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			if (pair_ref.second == NULL)
+			{
+				error_string = sformatf( "Did not find phase,"
+					" %s.", pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			//strcpy(token, "si_");
+			//strcat(token, punch.si[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+			//if (punch.si[i].phase == NULL)
+			//{
+			//	error_string = sformatf( "Did not find phase, "
+			//		"%s.", punch.si[i].name);
+			//	warning_msg(error_string);
+			//}
+		}
+
+		/* gases */
+
+		//if (punch.count_gases > 0)
+		if (current_selected_output->Get_gases().size() > 0)
+		{
+			fpunchf_heading(sformatf("%*s\t", l, "pressure"));
+			fpunchf_heading(sformatf("%*s\t", l, "total mol"));
+			fpunchf_heading(sformatf("%*s\t", l, "volume"));
+		}
+		//for (i = 0; i < punch.count_gases; i++)
+		for (size_t i = 0; i < current_selected_output->Get_gases().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_gases()[i];
+			std::string name = "g_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			if (pair_ref.second == NULL)
+			{
+				error_string = sformatf( "Did not find phase,"
+					" %s.", pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			//strcpy(token, "g_");
+			//strcat(token, punch.gases[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+			//if (punch.gases[i].phase == NULL)
+			//{
+			//	error_string = sformatf( "Did not find phase, "
+			//		"%s.", punch.gases[i].name);
+			//	warning_msg(error_string);
+			//}
+		}
+
+		/* kinetics */
+
+		//for (i = 0; i < punch.count_kinetics; i++)
+		for (size_t i = 0; i < current_selected_output->Get_kinetics().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_kinetics()[i];
+			std::string name = "k_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			name = "dk_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			//strcpy(token, "k_");
+			//strcat(token, punch.kinetics[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+			//strcpy(token, "dk_");
+			//strcat(token, punch.kinetics[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+		}
+
+		/* solid solutions */
+
+		//for (i = 0; i < punch.count_s_s; i++)
+		for (size_t i = 0; i < current_selected_output->Get_s_s().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_s_s()[i];
+			std::string name = "s_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			//strcpy(token, "s_");
+			//strcat(token, punch.s_s[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+		}
+
+		/* isotopes */
+
+		//for (i = 0; i < punch.count_isotopes; i++)
+		for (size_t i = 0; i < current_selected_output->Get_isotopes().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_isotopes()[i];
+			if (isotope_ratio_search(pair_ref.first.c_str()) == NULL)
+			{
+				error_string = sformatf(
+					"Did not find isotope_ratio definition for "
+					"%s in -isotopes of SELECTED_OUTPUT.\n%s must be defined in ISOTOPE_RATIO data block.",
+					pair_ref.first.c_str(), pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			std::string name = "I_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			//if (isotope_ratio_search(punch.isotopes[i].name) == NULL)
+			//{
+			//	error_string = sformatf(
+			//		"Did not find isotope_ratio definition for "
+			//		"%s in -isotopes of SELECTED_OUTPUT.\n%s must be defined in ISOTOPE_RATIO data block.",
+			//		punch.isotopes[i].name, punch.isotopes[i].name);
+			//	warning_msg(error_string);
+			//}
+			//strcpy(token, "I_");
+			//strcat(token, punch.isotopes[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+		}
+
+		/* calculate_values */
+
+		//for (i = 0; i < punch.count_calculate_values; i++)
+		for (size_t i = 0; i < current_selected_output->Get_calculate_values().size(); i++)
+		{
+			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_calculate_values()[i];
+			if (calculate_value_search(pair_ref.first.c_str()) == NULL)
+			{
+				error_string = sformatf(
+					"Did not find calculate_values definition for "
+					"%s in -calculate_values of SELECTED_OUTPUT.\n%s must be defined in CALCULATE_VALUES data block.",
+					pair_ref.first.c_str(),
+					pair_ref.first.c_str());
+				warning_msg(error_string);
+			}
+			std::string name = "V_";
+			name.append(pair_ref.first);
+			fpunchf_heading(sformatf("%*s\t", l, name.c_str()));
+			//if (calculate_value_search(punch.calculate_values[i].name) == NULL)
+			//{
+			//	error_string = sformatf(
+			//		"Did not find calculate_values definition for "
+			//		"%s in -calculate_values of SELECTED_OUTPUT.\n%s must be defined in CALCULATE_VALUES data block.",
+			//		punch.calculate_values[i].name,
+			//		punch.calculate_values[i].name);
+			//	warning_msg(error_string);
+			//}
+			//strcpy(token, "V_");
+			//strcat(token, punch.calculate_values[i].name);
+			//fpunchf_heading(sformatf("%*s\t", l, token));
+		}
+
+		/* user_punch */
+		if (current_user_punch != NULL && current_selected_output->Get_user_punch())
+		{
+			for (size_t i = 0; i < current_user_punch->Get_headings().size(); i++)
+			{
+				fpunchf_heading(sformatf("%*s\t", l, current_user_punch->Get_headings()[i].c_str()));
+			}
+		}
+		fpunchf_heading("\n");
+		//if (punch.user_punch == TRUE)
+		//{
+		//	for (i = 0; i < user_punch_count_headings; i++)
+		//	{
+		//		fpunchf_heading(sformatf("%*s\t", l, user_punch_headings[i]));
+		//	}
+		//}
+		//fpunchf_heading("\n");
+
+		current_selected_output->Set_new_def(false);
+		pr.punch = punch_save;
+		phrq_io->Set_punch_on(pr.punch == TRUE);
+
 		punch_flush();
 	}
+
 	current_selected_output = NULL;
 	current_user_punch = NULL;
 	phrq_io->Set_punch_ostream(NULL);
