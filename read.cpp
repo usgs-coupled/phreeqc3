@@ -4674,6 +4674,28 @@ read_selected_output(void)
 
 	// find if it exists
 	std::map< int, SelectedOutput >::iterator so = SelectedOutput_map.find(n_user);
+	if (so != SelectedOutput_map.end())
+	{
+		SelectedOutput & so_ref = so->second;
+		temp_selected_output.inverse          = so_ref.inverse;
+		temp_selected_output.sim              = so_ref.sim;
+		temp_selected_output.state            = so_ref.state;
+		temp_selected_output.soln             = so_ref.soln;
+		temp_selected_output.dist             = so_ref.dist;
+		temp_selected_output.time             = so_ref.time;
+		temp_selected_output.step             = so_ref.step;
+		temp_selected_output.rxn              = so_ref.rxn;
+		temp_selected_output.temp             = so_ref.temp;
+		temp_selected_output.ph               = so_ref.ph;
+		temp_selected_output.pe               = so_ref.pe;
+		temp_selected_output.alk              = so_ref.alk;
+		temp_selected_output.mu               = so_ref.mu;
+		temp_selected_output.water            = so_ref.water;
+		temp_selected_output.high_precision   = so_ref.high_precision;
+		temp_selected_output.user_punch       = so_ref.user_punch;
+		temp_selected_output.charge_balance   = so_ref.charge_balance;
+		temp_selected_output.percent_error    = so_ref.percent_error;
+	}
 
 	CParser parser(this->phrq_io);
 
