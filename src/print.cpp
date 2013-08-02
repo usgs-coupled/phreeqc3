@@ -3197,7 +3197,7 @@ punch_user_punch(void)
 	n_user_punch_index = 0;
 	//if (punch.user_punch == FALSE)
 	//	return (OK);
-	if (current_user_punch == NULL)
+	if (current_user_punch == NULL || !current_selected_output->Get_user_punch())
 		return OK;
 
 	struct rate * user_punch = current_user_punch->Get_rate();

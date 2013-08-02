@@ -4677,6 +4677,7 @@ read_selected_output(void)
 	if (so != SelectedOutput_map.end())
 	{
 		SelectedOutput & so_ref = so->second;
+		temp_selected_output.active           = so_ref.active;
 		temp_selected_output.inverse          = so_ref.inverse;
 		temp_selected_output.sim              = so_ref.sim;
 		temp_selected_output.state            = so_ref.state;
@@ -4974,10 +4975,12 @@ read_selected_output(void)
 			opt_save = OPTION_ERROR;
 			break;
 		case 39:				/* user_punch */
-			temp_selected_output.Set_new_def(true);
 			value = get_true_false(next_char, TRUE);
 			temp_selected_output.Set_user_punch(value!=FALSE);
-			opt_save = OPTION_ERROR;
+			if (so != SelectedOutput_map.end())
+			{
+				so->second.Set_user_punch(value!=FALSE);
+			}			opt_save = OPTION_ERROR;
 			break;
 		case 42:				/* charge_balance */
 			temp_selected_output.Set_new_def(true);
@@ -4993,12 +4996,11 @@ read_selected_output(void)
 			break;
 		case 44:				/* selected_out */
 		case 45:				/* selected_output */
-			temp_selected_output.Set_new_def(true);
 			//warning_msg("Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output");
-			value = get_true_false(next_char, TRUE);
-			temp_selected_output.Set_active(value!=FALSE);
-			opt_save = OPTION_ERROR;
-			break;
+			//value = get_true_false(next_char, TRUE);
+			//temp_selected_output.Set_active(value!=FALSE);
+			//opt_save = OPTION_ERROR;
+			//break;
 		case 49:				/* active */
 			value = get_true_false(next_char, TRUE);
 			temp_selected_output.Set_active(value!=FALSE);
