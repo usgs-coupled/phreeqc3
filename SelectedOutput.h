@@ -103,6 +103,5 @@ public:
 	bool charge_balance;
 	bool percent_error;
 	bool inverse;
-	//bool punch;
 };
 #endif // !defined(SELECTEDOUTPUT_H_INCLUDED)
