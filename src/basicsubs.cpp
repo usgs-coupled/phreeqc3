@@ -3613,6 +3613,12 @@ basic_callback(double x1, double x2, char * str)
 }
 
 void 
+Phreeqc::register_basic_callback(double ( *cookie)(double *x1, double *x2, char *str))
+{
+	this->basic_callback_ptr = cookie;
+}
+
+void 
 Phreeqc::register_fortran_basic_callback(double ( *cookie)(double *x1, double *x2, char *str, int l))
 {
 	this->basic_fortran_callback_ptr = cookie;
