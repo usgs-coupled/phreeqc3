@@ -319,7 +319,9 @@ public:
 		tokkin_time,
 		tokstr_f_,
 		tokstr_e_,
-		tokeq_frac
+		tokeq_frac,
+		tokequiv_frac,
+		tokcallback
 	};
 
 #if !defined(PHREEQCI_GUI)

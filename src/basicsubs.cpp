@@ -3599,3 +3599,21 @@ basic_free(void)
 	delete this->basic_interpreter;
 }
 
+double Phreeqc::
+basic_callback(double x1, double x2, char * str)
+{
+	double local_x1 = x1;
+	double local_x2 = x2;
+
+	if (basic_fortran_callback_ptr != NULL)
+	{
+		return (*basic_fortran_callback_ptr) (&local_x1, &local_x2, str, strlen(str));
+	}
+	return 0;
+}
+
+void 
+Phreeqc::register_fortran_basic_callback(double ( *cookie)(double *x1, double *x2, char *str, int l))
+{
+	this->basic_fortran_callback_ptr = cookie;
+}
