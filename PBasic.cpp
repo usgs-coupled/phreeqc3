@@ -1554,7 +1554,11 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("STR_E$");
 			break;
 		case tokeq_frac:
+		case tokequiv_frac:
 			output_msg("EQ_FRAC");
+			break;
+		case tokcallback:
+			output_msg("CALLBACK");
 			break;
 		}
 		l_buf = l_buf->next;
@@ -3451,6 +3455,33 @@ factor(struct LOC_exec * LINK)
 			char * token = (char *) PhreeqcPtr->PHRQ_malloc( l * sizeof(char));
 			strcpy(token, elt_name.c_str());
 			*elt_varrec->UU.U1.sval = token;
+		}
+		break;
+	case tokcallback:
+		{		
+			double x1, x2;
+			char * str;
+
+			// left parenthesis
+			require(toklp, LINK);
+
+			// first double arugument
+			x1 = realfactor(LINK);
+			require(tokcomma, LINK);
+
+			// second double arugument
+			x2 = realfactor(LINK);
+			require(tokcomma, LINK);
+			
+			// string arugument
+			str = strexpr(LINK);
+
+			require(tokrp, LINK);
+
+			// call callback Basic function
+
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x2, str);
+
 		}
 		break;
 	case tokval:
@@ -6720,8 +6751,9 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_e$",             PBasic::tokstr_e_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula",    PBasic::tokspecies_formula),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac)
-
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokequiv_frac),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

@@ -802,6 +802,8 @@ void Phreeqc::init(void)
 	s_pTail                 = NULL;
 	/* Basic */
 	basic_interpreter       = NULL;
+	basic_fortran_callback_ptr  = NULL;
+
 	/* cl1.cpp ------------------------------- */
 	x_arg                   = NULL; 
 	res_arg                 = NULL; 

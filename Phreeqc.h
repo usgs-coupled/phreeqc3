@@ -82,6 +82,8 @@ public:
 	int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
 	int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
 	void basic_free(void);
+	double basic_callback(double x1, double x2, char * str);
+	void register_fortran_basic_callback(double ( *cookie)(double *x1, double *x2, char *str, int l));
 
 	LDBLE activity(const char *species_name);
 	LDBLE activity_coefficient(const char *species_name);
@@ -1692,6 +1694,7 @@ protected:
 
 	/* Basic */
 	PBasic * basic_interpreter;
+	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, int l);
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
