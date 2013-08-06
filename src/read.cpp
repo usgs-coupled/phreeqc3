@@ -4674,7 +4674,7 @@ read_selected_output(void)
 
 	// find if it exists
 	std::map< int, SelectedOutput >::iterator so = SelectedOutput_map.find(n_user);
-	if (so != SelectedOutput_map.end())
+	if (so != SelectedOutput_map.end() && n_user == 1)
 	{
 		SelectedOutput & so_ref = so->second;
 		temp_selected_output.active           = so_ref.active;
@@ -4696,6 +4696,10 @@ read_selected_output(void)
 		temp_selected_output.user_punch       = so_ref.user_punch;
 		temp_selected_output.charge_balance   = so_ref.charge_balance;
 		temp_selected_output.percent_error    = so_ref.percent_error;
+	}
+	else
+	{
+		temp_selected_output.Reset(false);
 	}
 
 	CParser parser(this->phrq_io);
