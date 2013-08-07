@@ -3605,6 +3605,10 @@ basic_callback(double x1, double x2, char * str)
 	double local_x1 = x1;
 	double local_x2 = x2;
 
+	if (basic_callback_ptr != NULL)
+	{
+		return (*basic_callback_ptr) (x1, x2, (const char *) str);
+	}
 	if (basic_fortran_callback_ptr != NULL)
 	{
 		return (*basic_fortran_callback_ptr) (&local_x1, &local_x2, str, strlen(str));
@@ -3613,7 +3617,7 @@ basic_callback(double x1, double x2, char * str)
 }
 
 void 
-Phreeqc::register_basic_callback(double ( *cookie)(double *x1, double *x2, char *str))
+Phreeqc::register_basic_callback(double ( *cookie)(double x1, double x2, const char *str))
 {
 	this->basic_callback_ptr = cookie;
 }
