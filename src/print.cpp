@@ -1206,7 +1206,7 @@ print_saturation_indices(void)
  *   Print heading
  */
 	print_centered("Saturation indices");
-	output_msg(sformatf("\t%-15s%9s%8s%9s%3d%4s%3d%4s\n\n", "Phase", "SI  ",
+	output_msg(sformatf("\t%-15s%9s%8s%9s%3d%4s%3d%4s\n\n", "Phase", "SI**",
 			   "log IAP", "log K(", int(tk_x), " K, ", int(floor(patm_x + 0.5)), " atm)"));
 
 	for (i = 0; i < count_phases; i++)
@@ -1269,6 +1269,9 @@ print_saturation_indices(void)
 		phases[i]->pr_in = false;
 		output_msg("\n");
 	}
+	output_msg(sformatf("\n%s\n%s", 
+		"**For a gas, the value is log10(fugacity). For an ideal gas, fugacity equals partial pressure.",
+		"For a Peng-Robinson gas, fugacity = (P * phi / 1 atm); P and phi are printed at end of line."));
 	output_msg("\n\n");
 
 	return (OK);
