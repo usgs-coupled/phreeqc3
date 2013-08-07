@@ -83,7 +83,7 @@ public:
 	int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
 	void basic_free(void);
 	double basic_callback(double x1, double x2, char * str);
-	void register_basic_callback(double ( *cookie)(double *x1, double *x2, char *str));
+	void register_basic_callback(double ( *cookie)(double x1, double x2, const char *str));
 	void register_fortran_basic_callback(double ( *cookie)(double *x1, double *x2, char *str, int l));
 
 	LDBLE activity(const char *species_name);
@@ -1695,7 +1695,7 @@ protected:
 
 	/* Basic */
 	PBasic * basic_interpreter;
-	double (*basic_callback_ptr) (double *x1, double *x2, char *str);
+	double (*basic_callback_ptr) (double x1, double x2, const char *str);
 	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, int l);
 
 	/* cl1.cpp ------------------------------- */
@@ -1912,7 +1912,12 @@ protected:
 
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
+public:
+	static const struct const_iso iso_defaults[];
+	static const int count_iso_defaults;
+};
 #endif /* _INC_PHREEQC_H */
+
 #ifndef _INC_ISFINITE_H
 #define _INC_ISFINITE_H
 	/*********************************
@@ -1938,11 +1943,7 @@ protected:
 #else
 #  define PHR_ISFINITE(x) ( ((x) == 0.0) || (((x) == (x)) && ((x) != (2.0 * (x)))) )
 #endif
-
-public:
-	static const struct const_iso iso_defaults[];
-	static const int count_iso_defaults;
-};
+#endif // _INC_ISFINITE_H
 
 namespace Utilities
 {
@@ -2093,4 +2094,3 @@ void PhreeqcIWait(Phreeqc *phreeqc);
 	char * _string_duplicate(const char *token, const char *szFileName, int nLine);
 #endif
 
-#endif
