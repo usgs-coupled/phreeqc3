@@ -1,9 +1,75 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
         --------
+        svn 7884
+        --------
+        IPHREEQC: added a Basic function, CALLBACK, which
+        allows data be passed to and from the calling
+        program. The new IPhreeqc method is 
+        
+        for C,
+        iresult = SetBasicCallback(ID, function name)
+        
+        and for Fortran,
+        iresult = SetBasicFortranCallback(ID, function name)
+        
+        The two methods are necessary because arguments
+        are handled differenctly between C and Fortran.
+        
+        The function for C must be of the form
+        double my_callback(double *, double *, char *)
+        
+        For Fortran the function must be of the form
+        double precision my_callback(double precision,
+        double precision, character(*))
+        
+        As an example, to get the current time for 
+        a calculation, the callback could be used as follows:
+        
+        Basic:
+        10 date = CALLBACK(dummy, dummy, "Year")
+        
+        Fortran after registering my_callback by using
+        SetBasicFortranCallback
+        
+        double precision function my_callback(x1, x2, string)
+        USE date_module, only: year
+        double precision x1, x2, my_callback
+        character(*) string
+        if (string .eq. "Year") then
+        	return dble(year)
+        endif
+        end
+        
+        
+
+        --------
+        svn 7867
+        --------
+        
+        SOLUTION_MODIFY and SOLUTION_RAW were missing the 
+        -pressure identifier. It has now been added.
+ 
+        --------
+        svn 7857
+        --------
+         
+        Trapped error when solid-solution components were
+        not defined correctly.
+ 
+        --------
+        svn 7855
+        --------
+        
+        Error in pressure dependence when Pitzer or SIT 
+        aqueous models were used. The pressure dependence
+        was not calculated if the pressure was changed, 
+        but the temperature was not. 
+        
+        --------
         svn 7829
         --------
         
-        Added Basic fuction EQ_FRAC that returns the
+        Added Basic fuction EQUIV_FRAC that returns the
         equivalent fraction of a surface or exchange
         species. The three arguments are
         (1) Species name (input),
@@ -13,7 +79,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
             (output).
         For example,
         
-        10 f = EQ_FRAC("AlX3", eq, x$)
+        10 f = EQUIV_FRAC("AlX3", eq, x$)
         
         f = equivlalent fraction of AlX3 relative to 
             total equivalents of X sites.
