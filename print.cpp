@@ -1270,8 +1270,8 @@ print_saturation_indices(void)
 		output_msg("\n");
 	}
 	output_msg(sformatf("\n%s\n%s", 
-		"**For a gas, the value is log10(fugacity). For an ideal gas, fugacity equals partial pressure.",
-		"For a Peng-Robinson gas, fugacity = (P * phi / 1 atm); P and phi are printed at end of line."));
+		"**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.",
+		"For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm"));
 	output_msg("\n\n");
 
 	return (OK);
