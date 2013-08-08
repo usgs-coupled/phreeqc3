@@ -216,10 +216,11 @@ get_all_components(void)
 #endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-store_tally_table(LDBLE * l_array, int row_dim, int col_dim, LDBLE fill_factor)
+store_tally_table(LDBLE * l_array, int row_dim_in, int col_dim, LDBLE fill_factor)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
+	int row_dim = row_dim_in + 1;
 	if (tally_table == NULL)
 	{
 		input_error++;
