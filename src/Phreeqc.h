@@ -1946,6 +1946,8 @@ public:
 #endif
 #endif // _INC_ISFINITE_H
 
+#ifndef _INC_UTILITIES_NAMESPACE_H
+#define _INC_UTILITIES_NAMESPACE_H
 namespace Utilities
 {
 	LDBLE get_nan(void);
@@ -2095,3 +2097,4 @@ void PhreeqcIWait(Phreeqc *phreeqc);
 	char * _string_duplicate(const char *token, const char *szFileName, int nLine);
 #endif
 
+#endif //_INC_UTILITIES_NAMESPACE_H
