@@ -803,6 +803,7 @@ void Phreeqc::init(void)
 	/* Basic */
 	basic_interpreter       = NULL;
 	basic_callback_ptr      = NULL;
+	basic_callback_cookie   = NULL;
 	basic_fortran_callback_ptr  = NULL;
 
 	/* cl1.cpp ------------------------------- */
