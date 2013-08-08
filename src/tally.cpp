@@ -274,6 +274,15 @@ store_tally_table(LDBLE * l_array, int row_dim, int col_dim, LDBLE fill_factor)
 				tally_table[i].total[2][j].moles / fill_factor;
 		}
 	}
+
+	/*
+	 * Add row for total moles of reactant
+	 */
+	for (i = 0; i < count_tally_table_columns; i++)
+	{
+		l_array[i * row_dim + count_tally_table_rows] =
+				tally_table[i].moles / fill_factor;
+	}
 	return (OK);
 }
 
@@ -622,6 +631,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				count_elts = 0;
 				paren_count = 0;
 				moles = it->second.Get_moles();
+				tally_table[i].moles = moles;
 				add_elt_list(tally_table[i].formula, moles);
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
@@ -710,6 +720,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 					break;
 				count_elts = 0;
 				paren_count = 0;
+				tally_table[i].moles = moles;
 				add_elt_list(tally_table[i].formula, moles);
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
@@ -732,8 +743,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 					int k;
 					struct phase *phase_ptr = phase_bsearch((*gc)[l].Get_phase_name().c_str(), &k, FALSE);
 
-					add_elt_list(phase_ptr->next_elt,
-						(*gc)[l].Get_moles());
+					add_elt_list(phase_ptr->next_elt, (*gc)[l].Get_moles());
 				}
 				qsort(elt_list, (size_t) count_elts,
 					(size_t) sizeof(struct elt_list), elt_list_compare);
@@ -765,6 +775,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				if (j >= kinetics_ptr->Get_kinetics_comps().size())
 					break;
 				moles = kinetics_comp_ptr->Get_m();
+				tally_table[i].moles = moles;
 				count_elts = 0;
 				paren_count = 0;
 				add_elt_list(tally_table[i].formula, moles);
