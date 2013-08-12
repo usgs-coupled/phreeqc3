@@ -1,19 +1,6 @@
 # Mirabilite/Thenardite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
-DATABASE c:\phreeqc\database\pitzer.dat
-PITZER
-# optimized on the Holmes and Mesmer gamma's and osmo's
--B0;  Na+  SO4-2  2.73E-02  0  -5.8  9.89E-03  0  -1.563E+05
--B1;  Na+  SO4-2  0.956  2.663e3  0  1.158e-2  0  -3.194e5
--C0;  Na+  SO4-2  3.418e-3  -384  0  -8.451e-4  0  5.177e4
-PHASES
-Mirabilite
-	Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
-	-analytic  -3862.234  -1.19856  93713.54  1577.756
-	Vm 216
-Thenardite
-	Na2SO4 = 2 Na+ + SO4-2
-	-analytical_expression  -2.215  1.552e-2  0  0  0  -3.086e-5 # 34 - 215 oC
- Vm 52.9
+DATABASE pitzer.dat
+INCLUDE$ Pabalan.dat
 
 SOLUTION 1
 

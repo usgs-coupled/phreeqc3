@@ -1,28 +1,6 @@
-DATABASE c:\phreeqc\database\pitzer.dat
-PITZER
-# Coefficients from Pabalan and Pitzer, 1987, GCA 51, 2429.
--B0
-  # Mg+2      Cl-       0.35235       0	   0	  -1.943E-4
-  Mg+2  Cl-  0.351  0  0  -9.32e-4  5.94e-7
--B1
-  # Mg+2      Cl-       1.6815	0	   0	   3.6525E-3
-  Mg+2  Cl-  1.65  0  0  -1.09e-2  2.60e-5
--C0
-  # Mg+2      Cl-       0.00519       0	   0	-1.64933E-4
-  Mg+2  Cl-  0.00651  0  0  -2.50e-4  2.418e-7
-PHASES
-Bischofite
-	MgCl2:6H2O  =  Mg+2 + 2 Cl- + 6 H2O
-	log_k	   4.455
-	-analytical_expression  7.526  -1.114e-2  115.7
-	Vm 127.1
-MgCl2_4H2O
-	MgCl2:4H2O  =  Mg+2 + 2 Cl- + 4 H2O
-	-analytical_expression  12.98  -2.013e-2
-MgCl2_2H2O
-	MgCl2:2H2O  =  Mg+2 + 2 Cl- + 2 H2O
-	-analytical_expression  -10.273  0  7.403e3
-
+DATABASE pitzer.dat
+INCLUDE$ Pabalan.dat
+# 
 SOLUTION 1
 
 REACTION_TEMPERATURE 

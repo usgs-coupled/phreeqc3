@@ -1,43 +1,26 @@
 # Halite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
-DATABASE c:\phreeqc\database\pitzer.dat
-PITZER
--B0;  Na+  Cl-  7.552E-2  0  1.518  -6.257E-3  3.052E-6
--B1;  Na+  Cl-  0.2771  -819.8  -5.793  1.358e-2  -4.281e-6
--C0;  Na+  Cl-  1.454e-3   -93.29  0  -5.194e-4  3.282e-7  1.112e4  
-PHASES
-Halite
-	NaCl  =  Cl- + Na+
-	log_k	   1.570
-	-delta_h  1.37
-	-analytical_expression  -0.388  1.97e-2   511   -1.167  -4.88e4  -2.4432e-5
-	-Vm 27.1
-
-# comment lines above, rerun with phreeqc.dat and uncommented Halite definition...
-# PHASES
-# Halite  # phreeqc.dat
-	# NaCl  =  Cl- + Na+
-	# log_k	  1.570
-	# -delta_h  1.37
-	# -Vm 27.1
-
+DATABASE pitzer.dat
+INCLUDE$ Pabalan.dat
 
 SOLUTION 1
 
 EQUILIBRIUM_PHASES 1
  Halite 0 20
 REACTION_TEMPERATURE 1
-25 50 75 100 125 150 175 200 225 250 275 300
+0, 5, 10 , 15 , 20 , 25 , 30 , 40 , 50 , 60 , 70 , 75 , 80 , 90 , 100, 110, 125, 150, 175, 200, 225, 250, 275, 300
 
 USER_GRAPH 1
 -chart_title "Halite solubility"
--axis_titles "mol NaCl / kgw" "temperature / oC"
-10 data 6.162, 6.293, 6.465, 6.677, 6.948, 7.21, 7.582, 7.983, 8.465, 9.017, 9.668, 10.43
-20 dim c(20)
-30 for i = 1 to 12
+-axis_titles "temperature / oC" "mol NaCl / kgw"
+-axis_scale y_axis 6 11
+
+10 data 6.097, 6.099, 6.106, 6.117, 6.131, 6.146, 6.168, 6.216, 6.275, 6.341, 6.416, 6.460, 6.498, 6.587, 6.680, 6.778, 6.935, 7.198, 7.573, 7.973, 8.435, 8.989, 9.649, 10.413
+20 dim c(24)
+30 for i = 1 to 24
 40   read c(i)
 50 next i
-60 plot_xy c(step_no), tc, line_width = 0, color = Red
-70 plot_xy tot("Na"), tc, symbol_size = 0, color = Red
+60 plot_xy tc, c(step_no), line_width = 0, color = Red
+70 plot_xy tc, tot("Na"),  symbol_size = 0, color = Red
 -end
 PRINT; -reset false; -status false
 END
