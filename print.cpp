@@ -171,10 +171,10 @@ punch_all(void)
 		current_selected_output = &(so_it->second);
 		if (pr.punch == FALSE ||
 			current_selected_output == NULL ||
-			!current_selected_output->Get_active() || 
-			current_selected_output->punch_ostream == NULL)
+			!current_selected_output->Get_active() /* || 
+			current_selected_output->Get_punch_ostream() == NULL*/)
 			continue;
-		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
+		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
 
 		// UserPunch
 		std::map < int, UserPunch >::iterator up_it = UserPunch_map.find(current_selected_output->Get_n_user());

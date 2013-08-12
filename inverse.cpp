@@ -2089,11 +2089,11 @@ punch_model_heading(struct inverse *inv_ptr)
 		current_selected_output = &(so_it->second);
 		if (pr.punch == FALSE ||
 			current_selected_output == NULL || 
-			current_selected_output->punch_ostream == NULL ||
+			current_selected_output->Get_punch_ostream() == NULL ||
 			!current_selected_output->Get_inverse() ||
 			!current_selected_output->Get_active())
 			continue;
-		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
+		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
 
 		int l = (!current_selected_output->Get_high_precision()) ? 15 : 20;
 		inverse_heading_names.clear();
@@ -2268,11 +2268,11 @@ punch_model(struct inverse *inv_ptr)
 		current_selected_output = &(so_it->second);
 		if (pr.punch == FALSE ||
 			current_selected_output == NULL || 
-			current_selected_output->punch_ostream == NULL ||
+			current_selected_output->Get_punch_ostream() == NULL ||
 			!current_selected_output->Get_inverse() ||
 			!current_selected_output->Get_active())
 			continue;
-		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
+		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
 		
 		n_user_punch_index = 0;
 		/*

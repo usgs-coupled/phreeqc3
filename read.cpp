@@ -4674,30 +4674,32 @@ read_selected_output(void)
 
 	// find if it exists
 	std::map< int, SelectedOutput >::iterator so = SelectedOutput_map.find(n_user);
-	if (so != SelectedOutput_map.end() && n_user == 1)
+	if (so != SelectedOutput_map.end())
 	{
 		SelectedOutput & so_ref = so->second;
-		temp_selected_output.active           = so_ref.active;
-		temp_selected_output.inverse          = so_ref.inverse;
-		temp_selected_output.sim              = so_ref.sim;
-		temp_selected_output.state            = so_ref.state;
-		temp_selected_output.soln             = so_ref.soln;
-		temp_selected_output.dist             = so_ref.dist;
-		temp_selected_output.time             = so_ref.time;
-		temp_selected_output.step             = so_ref.step;
-		temp_selected_output.rxn              = so_ref.rxn;
-		temp_selected_output.temp             = so_ref.temp;
-		temp_selected_output.ph               = so_ref.ph;
-		temp_selected_output.pe               = so_ref.pe;
-		temp_selected_output.alk              = so_ref.alk;
-		temp_selected_output.mu               = so_ref.mu;
-		temp_selected_output.water            = so_ref.water;
-		temp_selected_output.high_precision   = so_ref.high_precision;
-		temp_selected_output.user_punch       = so_ref.user_punch;
-		temp_selected_output.charge_balance   = so_ref.charge_balance;
-		temp_selected_output.percent_error    = so_ref.percent_error;
+		temp_selected_output.Set_active           ( so_ref.Get_active() );
+		temp_selected_output.Set_inverse          ( so_ref.Get_inverse() );
+		temp_selected_output.Set_sim              ( so_ref.Get_sim() );
+		temp_selected_output.Set_state            ( so_ref.Get_state() );
+		temp_selected_output.Set_soln             ( so_ref.Get_soln() );
+		temp_selected_output.Set_dist             ( so_ref.Get_dist() );
+		temp_selected_output.Set_time             ( so_ref.Get_time() );
+		temp_selected_output.Set_step             ( so_ref.Get_step() );
+		temp_selected_output.Set_rxn              ( so_ref.Get_rxn() );
+		temp_selected_output.Set_temp             ( so_ref.Get_temp() );
+		temp_selected_output.Set_ph               ( so_ref.Get_ph() );
+		temp_selected_output.Set_pe               ( so_ref.Get_pe() );
+		temp_selected_output.Set_alk              ( so_ref.Get_alk() );
+		temp_selected_output.Set_mu               ( so_ref.Get_mu() );
+		temp_selected_output.Set_water            ( so_ref.Get_water() );
+		temp_selected_output.Set_high_precision   ( so_ref.Get_high_precision() );
+		temp_selected_output.Set_user_punch       ( so_ref.Get_user_punch() );
+		temp_selected_output.Set_charge_balance   ( so_ref.Get_charge_balance() );
+		temp_selected_output.Set_percent_error    ( so_ref.Get_percent_error() );
+		temp_selected_output.Set_have_punch_name  ( so_ref.Get_have_punch_name() );
+		temp_selected_output.Set_file_name        ( so_ref.Get_file_name() );
 	}
-	else
+	else if(n_user != 1)
 	{
 		temp_selected_output.Reset(false);
 	}
@@ -4737,6 +4739,7 @@ read_selected_output(void)
 			{
 				strcpy(file_name, next_char);
 				temp_selected_output.Set_file_name(file_name);
+				temp_selected_output.Set_have_punch_name(true);
 			}
 			opt_save = OPTION_ERROR;
 			break;
@@ -5019,7 +5022,7 @@ read_selected_output(void)
 			break;
 	}
 	
-	if (temp_selected_output.Get_new_def())
+	if (temp_selected_output.Get_new_def() || so == SelectedOutput_map.end())
 	{
 
 		// delete if exists
@@ -5031,16 +5034,17 @@ read_selected_output(void)
 		// store new selected output
 		SelectedOutput_map[n_user] = temp_selected_output;
 
-		// open file
-		std::ofstream *ofs = new std::ofstream(temp_selected_output.Get_file_name().c_str(), std::ios_base::out );
-		if (ofs && ofs->is_open())
+		if (punch_open(SelectedOutput_map[n_user].Get_file_name().c_str(), n_user))
 		{
-			SelectedOutput_map[n_user].Set_punch_ostream(ofs);
-
+			if (this->phrq_io)
+			{
+				SelectedOutput_map[n_user].Set_punch_ostream(this->phrq_io->Get_punch_ostream());
+				this->phrq_io->Set_punch_ostream(NULL);
+			}
 		}
 		else
 		{
-			error_string = sformatf( "Can`t open file, %s.", file_name);
+			error_string = sformatf( "Can`t open file, %s.", SelectedOutput_map[n_user].Get_file_name().c_str());
 			input_error++;
 			error_msg(error_string, CONTINUE);
 		}

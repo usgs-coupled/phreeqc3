@@ -985,11 +985,11 @@ output_msg(const char * str)
 
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
-punch_open(const char *file_name)
+punch_open(const char *file_name, int n_user)
 /* ---------------------------------------------------------------------- */
 {
 	if (phrq_io)
-		return this->phrq_io->punch_open(file_name);
+		return this->phrq_io->punch_open(file_name, std::ios_base::out, n_user);
 	return false;
 }
 /* ---------------------------------------------------------------------- */
