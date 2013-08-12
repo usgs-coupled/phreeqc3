@@ -1,4 +1,70 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+
+        --------
+        svn ****
+        --------
+        
+        A revised version of the manual is now  distributed as a
+	compiled HTML file (phreeqc3.chm). It has corrections and
+	new features highlighted in forest green.
+
+        --------
+        svn ****
+        --------
+        
+        Now can have multiple SELECTED_OUTPUT n and USER_PUNCH n.
+	SELECTED_OUTPUT 1 has the same functionality as previous
+	versions of SELECTED_OUTPUT, with a set of default print
+	definitions. SELECTED_OUTPUT n, where n is not equal to 1,
+	has no fields initially defined; it is equivalent to an
+	automatic -reset false.
+        
+        A file may be defined for each SELECTED_OUTPUT n that will
+	recieve the output from the data block. Using i to
+	represent a specific integer, USER_PUNCH i will write to
+	the file defined for SELECTED_OUTPUT i. If USER_PUNCH i is
+	defined, but SELECTED_OUTPUT i is not, then no data will
+	be written from USER_PUNCH i.
+        
+        Printing to the selected-output files is controlled 
+        by three identifiers. PRINT; -selected_output true/false
+        will enable/disable printing of all selected-output 
+        files. For an individual SELECTED_OUTPUT i definition,
+        -active true/false will enable/disable both 
+        SELECTED_OUTPUT i and USER_PUNCH i. Again for 
+        SELECTED_OUTPUT i, -user_punch true/false will enable/
+        disable the USER_PUNCH i data (rarely used).
+        
+        If SELECTED_OUTPUT i has been defined, a new data block
+        of SELECTED_OUTPUT i will retain the previous definition
+        if only -active and (or) -user_punch are defined. Defining
+        any other identifier will cause the old definiton
+        to be removed and its file closed; the data for 
+        SELECTED_OUTPUT i will be defined entirely by the new 
+        data block. 
+        
+        --------
+        svn 7896
+        --------
+        
+        The manual wording was wrong or confusing in some places
+	regarding the difference between fugacity (F) and
+	(partial) pressure (P) of a gas. For ideal gases, P = F.
+	However for Peng-Robinson gases F = P * phi / 1 atm
+	(unitless).
+        
+        In EQUILIBRIUM_PHASES, the target saturation index for a
+	gas is log10(P). In SELECTED_OUTPUT -saturation_index, for
+	gases, the value printed will be the fugacity. For Basic
+	functions SI and SR, the values are based on the fugacity.
+	P and phi can be obtained with the Basic functions 
+	PR_P and PR_PHI.
+	
+	For the Saturation Index block of the output file,
+	the SI for a gas is its fugacity. However, for
+	Peng-Robinson gases, P and phi are appended to the
+	output line.
+        
         --------
         svn 7884
         --------
@@ -7,16 +73,19 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
         program. The new IPhreeqc method is 
         
         for C,
-        iresult = SetBasicCallback(ID, function name)
+        iresult = SetBasicCallback(ID, function name, cookie)
         
         and for Fortran,
         iresult = SetBasicFortranCallback(ID, function name)
         
         The two methods are necessary because arguments
         are handled differenctly between C and Fortran.
+        The void pointer cookie in the C callback can be 
+        used to allow the user-defined callback function 
+        to find necessary data.
         
-        The function for C must be of the form
-        double my_callback(double *, double *, char *)
+        The user-defined function for C must be of the form
+        double my_callback(double, double, const char *, void *)
         
         For Fortran the function must be of the form
         double precision my_callback(double precision,
@@ -40,7 +109,10 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
         endif
         end
         
-        
+        A usage of the callback feature has been added to the
+	IPhreeqc example advect for Fortran, C, and C++.
+	Additional documentation is in the .chm documentation
+	files for IPhreeqc.
 
         --------
         svn 7867
@@ -61,7 +133,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
         --------
         
         Error in pressure dependence when Pitzer or SIT 
-        aqueous models were used. The pressure dependence
+        aqueous model was used. The pressure dependence
         was not calculated if the pressure was changed, 
         but the temperature was not. 
         
