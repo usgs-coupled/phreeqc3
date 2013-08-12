@@ -1,32 +1,10 @@
-#DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/pitzer.dat
-PITZER
-# Coefficients from Pabalan and Pitzer, 1987, GCA 51, 2429.
--B0;  K+  Cl-  0.04808  -758.48  -4.7062 0.010072  -3.7599e-6
--B1;  K+  Cl-  0.2168  0  -6.895  2.262e-2  -9.293e-6  -1e5
--C0;  K+  Cl-  -7.88E-04  91.27  0.58643  -1.298e-3  4.9567e-7
-# -THETA Cl- SO4-3  0.03
--B0;  K+  SO4-2  3.17e-2  0  0  9.28e-4
--B1;  K+  SO4-2  0.756  -1.514e4  -80.3  0.1091
--C0;  K+  SO4-2  8.18e-3  -625  -3.30  4.06e-3
-
-PHASES
-Arcanite
-	K2SO4  =  SO4-2 + 2 K+
-	log_k	   -1.776; -delta_h 5 kcal # Freyer and Voigt, 2004, GCA 68, 307
-	 -analytical_expression  674.28  0.30434  -1.8037e4  -280.305  0  -1.44055e-4
-	-Vm 65.5
-Sylvite
-	KCl  = K+ + Cl-
-	log_k	   0.90
-	-delta_h 16
-	-analyt  -50.571  9.8815e-2  1.3135e4  0  -1.3754e6  -7.393e-5
-	Vm 37.5
+INCLUDE$ Pabalan.dat
 
 SOLUTION 1
  pH 7 charge
  K 4e3
- S(6) 2e3
+ S 2e3
 REACTION 1
  KCl 1 K2SO4 -1; 1e-4 11*1 0.99989
 INCREMENTAL_REACTIONS true
@@ -46,7 +24,20 @@ USER_GRAPH 1
 30 graph_sy SI("Sylvite")
 -end
 #PRINT; -reset false; -status false
-PRINT; -status false
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE 2
+ 30
+USER_GRAPH 1
+-headings x 30.oC(Arcanite) SI("Sylvite")
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE 2
+ 75
+USER_GRAPH 1
+-headings x 75.oC(Arcanite) SI("Sylvite")
 END
 
 USE solution 1; USE equilibrium_phases 1; USE reaction 1

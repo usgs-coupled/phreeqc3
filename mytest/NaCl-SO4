@@ -1,39 +1,16 @@
-#DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/pitzer.dat
-PITZER
-# Coefficients from Pabalan and Pitzer, 1987, GCA 51, 2429.
--B0;  Na+  Cl-  7.552E-2  0  1.518  -6.257E-3  3.052E-6
--B1;  Na+  Cl-  0.2771  -819.8  -5.793  1.358e-2  -4.281e-6
--C0;  Na+  Cl-  1.454e-3   -93.29  0  -5.194e-4  3.282e-7  1.112e4  
--B0;  Na+  SO4-2  2.73E-02  0  -5.8  9.89E-03  0  -1.563E+05
--B1;  Na+  SO4-2  0.956  2.663e3  0  1.158e-2  0  -3.194e5
--C0;  Na+  SO4-2  3.418e-3  -384  0  -8.451e-4  0  5.177e4
-# -THETA Cl- SO4-3  0.03
-PHASES
-Mirabilite
-	Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
-	-analytic  -3862.234  -1.19856  93713.54  1577.756
-	Vm 216
-Thenardite
-	Na2SO4 = 2 Na+ + SO4-2
-	-analytical_expression  -2.215  1.552e-2  0  0  0  -3.086e-5 # 34 - 215 oC
- Vm 52.9
-Halite
-	NaCl  =  Cl- + Na+
-	log_k	   1.570
-	-delta_h  1.37
-	-analytical_expression  -0.388  1.97e-2   511   -1.167  -4.88e4  -2.4432e-5
-	-Vm 27.1
+INCLUDE$ Pabalan.dat
+#PRINT; -reset false
 
 SOLUTION 1
  pH 7 charge
  Na 4.001e3
- S(6) 2e3
+ S 2e3
  Cl 1
 REACTION 1
- NaCl 1.5 Na2SO4 -1; 1e-4 11*1 0.99989
+ NaCl 1.5 Na2SO4 -1; 1e-4 11*1 0.9998
 INCREMENTAL_REACTIONS true
-REACTION_TEMPERATURE 
+REACTION_TEMPERATURE
 15
 EQUILIBRIUM_PHASES
 Mirabilite 0 10
@@ -48,7 +25,6 @@ USER_GRAPH 1
 20 graph_y tot("Cl")
 30 graph_sy SI("Halite")
 -end
-PRINT; -status false
 END
 
 USE solution 1
@@ -58,7 +34,7 @@ Halite 0 0
 REACTION 2
  NaCl 1 Na2SO4 -1; 1e-4 11*1 0.99989
 REACTION_TEMPERATURE 2
- 199
+ 200
 USER_GRAPH 1
--headings x 199.oC(Thenardite) SI("Halite")
+-headings x 200.oC(Thenardite) SI("Halite")
 END

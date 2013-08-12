@@ -1,29 +1,7 @@
 # Halite?sylvite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
-#DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/pitzer.dat
-PITZER
--B0;  Na+  Cl-  7.552E-2  0  1.518  -6.257E-3  3.052E-6
--B1;  Na+  Cl-  0.2771  -819.8  -5.793  1.358e-2  -4.281e-6
--C0;  Na+  Cl-  1.454e-3   -93.29  0  -5.194e-4  3.282e-7  1.112e4  
--B0;  K+  Cl-  0.04808  -758.48  -4.7062 0.010072  -3.7599e-6
--B1;  K+  Cl-  0.2168  0  -6.895  2.262e-2  -9.293e-6  -1e5
--C0;  K+  Cl-  -7.88E-04  91.27  0.58643  -1.298e-3  4.9567e-7
--PSI;  Na+  K+  Cl-  -0.0018 0 0 2.06e-5
-
-PHASES
-Sylvite
-	KCl  = K+ + Cl-
-	log_k	   0.90
-	-delta_h 16
-	-analyt  -50.571  9.8815e-2  1.3135e4  0  -1.3754e6  -7.393e-5
-	Vm 37.5
-Halite
-	NaCl  =  Cl- + Na+
-	log_k	   1.570
-	-delta_h  1.37
-	-analytical_expression  -0.388  1.97e-2   511   -1.167  -4.88e4  -2.4432e-5
-	-Vm 27.1
-
+INCLUDE$ Pabalan.dat
+# 
 SOLUTION 1
  pH 7 charge
  K 11e3; Cl 11e3
@@ -38,12 +16,12 @@ USER_GRAPH 1
 -headings x 0.oC
 -chart_title "Halite/Sylvite solubility curves"
 -axis_titles "mol KCl / kgw" "mol NaCl / kgw"
-#-plot_csv_file NaKCl.csv
+-plot_csv_file NaKCl.csv
 10 graph_x tot("K")
 20 graph_y tot("Na")
 # 30 graph_sy SI("Halite"), SI("Sylvite")
 -end
-PRINT; -status false
+#PRINT; -reset false; -status false
 END
 
 USE solution 1; USE equilibrium_phases 1; USE reaction 1

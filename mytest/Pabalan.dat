@@ -1,0 +1,166 @@
+PRINT; -warnings 0; -echo_input false
+SOLUTION_SPECIES
+Na+ = Na+
+  -dw   1.33e-9
+  -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # supcrt modified
+SO4-2 = SO4-2
+  -dw   1.07e-9
+  -Vm  -7.77  43.17  141.1  -42.45  3.794  0  4.97  26.5  -5.77e-2  0.45 # supcrt modified
+CO3-2 = CO3-2
+  -dw   0.955e-9
+  -Vm   4.91  0  0  -5.41  4.76  0  0.386  89.7  -1.57e-2  1
+CO3-2 + H+ = HCO3-
+  -analytical_expression  107.8975  0.03252849  -5151.79  -38.92561  563713.9
+  -dw   1.18e-9
+  -Vm   8.54  0  -11.7  0  1.6  0  0  116  0  1
+
+PITZER
+-B0;  Cl-  K+  0.04808  -758.48  -4.7062 0.010072  -3.7599e-6
+-B1;  Cl-  K+  0.2168  0  -6.895  2.262e-2  -9.293e-6  -1e5
+-C0;  Cl-  K+  -7.88E-04  91.27  0.58643  -1.298e-3  4.9567e-7
+
+-B0;  Cl-  Mg+2  0.351  0  0  -9.32e-4  5.94e-7
+-B1;  Cl-  Mg+2  1.65  0  0  -1.09e-2  2.60e-5
+-C0;  Cl-  Mg+2  0.00651  0  0  -2.50e-4  2.418e-7
+
+-B0;  Cl-  Na+  7.534e-2   9598.4   35.48  -5.8731e-2   1.798e-5  -5e5
+-B1;  Cl-  Na+  0.2769  1.377e4  46.8  -6.9512e-2  2e-5  -7.4823e5
+-C0;  Cl-  Na+  1.48e-3  -120.5  -0.2081  0  1.166E-07  11121  
+
+# K+ and SO4-2 recalc'd from Holmes and Mesmer
+-B0;  K+  SO4-2  3.17e-2  0  0  9.28e-4
+-B1;  K+  SO4-2  0.756  -1.514e4  -80.3  0.1091
+-C0;  K+  SO4-2  8.18e-3  -625  -3.30  4.06e-3
+
+-B0;  Mg+2  SO4-2  0.2135  -951  0  -2.34e-2  2.28e-5
+-B1;  Mg+2  SO4-2  3.367  -5.78E+03  0 -1.48E-01  1.576E-04
+-B2;  Mg+2  SO4-2  -32.45  0  -3.236e3  21.812  -1.8859e-2
+-C0;  Mg+2  SO4-2  2.875e-2  0  -2.084  1.1428e-2  -8.228e-6
+
+-B0;  Na+  SO4-2  2.73e-02  0  -5.8  9.89e-03  0  -1.563e+05
+-B1;  Na+  SO4-2  0.956  2.663e3  0  1.158e-2  0  -3.194e5
+-C0;  Na+  SO4-2  3.418e-3  -384  0  -8.451e-4  0  5.177e4
+
+# gamma's and osmotic coeff's from Holmes et al., 1994, JCT 26, 271. CaCl2 < 5.1 M
+-B0;  Ca+2  Cl-  0.3159  0  0  -3.27e-4  1.4e-7
+-B1;  Ca+2  Cl-  1.614  0  0  7.63e-3  -8.19e-7
+-B2;  Ca+2  Cl-  -1.13  0  0  -0.0476
+-C0;  Ca+2  Cl-  1.4e-4  -57  -0.098  -7.83e-4  7.18e-7
+# # #
+
+-PSI # recalc'd from P&P, Table 3
+  Cl-  K+   Mg+2  -0.022  -14.27
+  Cl-  K+   Na+    -0.0015 0 0 1.8e-5
+  Cl-  K+   SO4-2  -1e-3
+  Cl-  Mg+2  Na+  -0.012  -9.51
+  Cl-  Mg+2  SO4-2  -0.008 32.63
+  Cl-  Na+   SO4-2  0 #  0.0014 in Pitzer.dat
+
+# from anhydrite/gypsum/glauberite in Na2SO4/NaCl solutions, 0.5 - 200 oC
+-B0;  Ca+2  SO4-2   0
+-B1;  Ca+2  SO4-2   3.617  0  0  5.32e-3
+-B2;  Ca+2  SO4-2  -67.73  0  0  0.49  -1.2e-3
+-C0;  Ca+2  SO4-2   0.157
+-THETA;  Ca+2  Na+  6.83e-2  0  0  3.38e-4  5.5e-7
+-THETA; Cl-  SO4-2  0.03
+-PSI
+ Ca+2  Cl-  SO4-2  -0.11  0  0  -1.43e-3
+ Ca+2  Cl-  Na+    -8.3e-3  0  0  -8.3e-5
+ Cl-   Na+  SO4-2   0
+ Ca+2  Na+  SO4-2  -0.055  52.8
+
+# from anhydrite/goergeyite/syngenite in K2SO4, 100 - 200 oC
+-PSI;  Ca+2  K+  SO4-2  -0.0526
+-THETA;  Ca+2  K+  -3e-3  0  0  2.12e-4 # 0.032
+
+
+PHASES
+Anhydrite
+	CaSO4 = Ca+2 + SO4-2
+	-analytical_expression  5.533  -2.265e-2  -912.1
+	-Vm 46.1 # 136.14 / 2.95
+Arcanite
+	K2SO4  =  SO4-2 + 2 K+
+	log_k	   -1.776; -delta_h 5 kcal
+	-analytical_expression  674.28  0.304347  -18037  -280.305  0  -1.44055e-4
+	# Note, the Linke and Seidell data may give subsaturation in other xpt's, SI = -0.06
+	-Vm 65.5
+Bischofite
+	MgCl2:6H2O  =  Mg+2 + 2 Cl- + 6 H2O
+	log_k	   4.455
+	-analytical_expression  7.526  -1.114e-2  115.7
+	Vm 127.1
+Carnallite
+	KMgCl3:6H2O  =  K+ + Mg++ + 3Cl- + 6H2O
+	log_k	 4.35; -delta_h 1.17
+	-analytical_expression  24.06  -3.11e-2  -3.09e3
+	Vm 173.7
+Epsomite
+	MgSO4:7H2O  =  Mg+2 + SO4-2 + 7 H2O
+	log_k	   -1.881
+	 -analytical_expression  4.479  -6.99e-3  -1.265e3
+	Vm 147
+Glaserite
+	NaK3(SO4)2 =  Na+ + 3K+ + 2SO4-2
+	log_k	   -3.803
+	-delta_h 25
+	-Vm 147
+Glauberite
+	Na2Ca(SO4)2  =  Ca+2 + 2 Na+ + 2 SO4-2
+	log_k	-5.31
+	-analytical_expression  216.03  0  -9180.4  -77.022
+	-Vm 100.4
+Goergeyite
+	K2Ca5(SO4)6H2O = 2K+ + 5Ca+2 + 6SO4-2 + H2O
+	log_k -29.5
+	-analytical_expression  1058.62  0  -52300  -368.7555
+	-Vm  295.9
+Gypsum
+	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
+	-log_k	-4.58
+	-delta_h -0.109 kcal
+	# -analytical_expression  93.7  5.99E-03  -4e3  -35.019 # phreeqc.dat
+	-analytical_expression  85.292  0  -3984.9  -30.937 # pitzer.dat
+	-Vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
+Halite
+	NaCl  =  Cl- + Na+
+	log_k  1.570
+	-analytical_expression 0  2.005e-2  105.7 -0.9782  0 -2.6308e-5
+	-Vm 27.1
+Hexahydrite
+	MgSO4:6H2O  =  Mg+2 + SO4-2 + 6 H2O
+	log_k	   -1.635
+	 -analytical_expression  -0.733  -2.80e-3  -8.57e-3
+	Vm 132
+Kieserite
+	MgSO4:H2O  =  Mg+2 + SO4-2 + H2O
+	log_k	   -0.123
+	 -analytical_expression  47.24  -0.12077  -5.356e3  0  0  7.272e-5
+	Vm 53.8
+MgCl2_2H2O
+	MgCl2:2H2O  =  Mg+2 + 2 Cl- + 2 H2O
+	-analytical_expression  -10.273  0  7.403e3
+MgCl2_4H2O
+	MgCl2:4H2O  =  Mg+2 + 2 Cl- + 4 H2O
+	-analytical_expression  12.98  -2.013e-2
+Mirabilite
+	Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
+	-analytical_expression  -301.9326  -0.16232  0  141.078
+	Vm 216
+Sylvite
+	KCl  = K+ + Cl-
+	log_k	   0.90
+	-delta_h 8
+	-analytical_expression  -50.571  9.8815e-2  1.3135e4  0  -1.3754e6  -7.393e-5
+	Vm 37.5
+Syngenite
+	K2Ca(SO4)2:H2O  =  2K+ + Ca+2 + 2SO4-2 + H2O
+	log_k	    -6.4 
+	-delta_h   -33.2
+	-Vm  127.3
+Thenardite
+	Na2SO4 = 2 Na+ + SO4-2
+	-analytical_expression  -2.215  1.552e-2  0  0  0  -3.086e-5 # 34 - 215 oC
+	-Vm 52.9
+
+PRINT; -echo_input true

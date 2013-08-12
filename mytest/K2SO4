@@ -1,18 +1,6 @@
 # Arcanite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
-#DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/pitzer.dat
-PITZER
-# optimized on Holmes and Mesmer gamma's
--B0;  K+  SO4-2  3.17e-2  0  0  9.28e-4
--B1;  K+  SO4-2  0.756  -1.514e4  -80.3  0.1091
--C0;  K+  SO4-2  8.18e-3  -625  -3.30  4.06e-3
-
-PHASES
-Arcanite
-	K2SO4  =  SO4-2 + 2 K+
-	log_k	   -1.776; -delta_h 5 kcal # Freyer and Voigt, 2004, GCA 68, 307
-	 -analytical_expression  674.28  0.30434  -1.8037e4  -280.305  0  -1.44055e-4
-	-Vm 65.5
+INCLUDE$ Pabalan.dat
 
 SOLUTION 1
 EQUILIBRIUM_PHASES 1
@@ -33,5 +21,4 @@ USER_GRAPH 1
 70 plot_xy tot("S"), tc, symbol_size = 0, color = Red
 -end
 #PRINT; -reset false; -status false
-PRINT; -status false
 END

@@ -1,0 +1,70 @@
+# CaSO4 in Na2SO4, data from Freyer and Voigt
+DATABASE ../database/pitzer.dat
+INCLUDE$ Pabalan.dat
+#PRINT; -reset false
+
+SOLUTION 1
+ -temp 25; pH 7 charge
+END
+PRINT; -reset false
+ 
+USE solution 1
+REACTION
+  Na 2 Ca -1; 0 1e-4 0.02 40*0.0994974999
+INCREMENTAL_REACTIONS true
+EQUILIBRIUM_PHASES
+Gypsum 0 4.00;
+Mirabilite 0 0
+USER_GRAPH 
+-connect_simulations false
+-plot_tsv_file gyps_Na2SO4.csv
+-axis_titles "Na2SO4 / (mol/kgw)" "CaSO4 / (mol/kgw)"
+40 graph_x tot("Na") / 2
+60 graph_y tot("Ca")/1
+END
+
+REACTION_TEMPERATURE
+ 40
+USE solution 1; USE reaction 1
+EQUILIBRIUM_PHASES
+Gypsum 0 4.00;
+Glauberite 0 0
+Thenardite 0 0
+END
+ 
+REACTION_TEMPERATURE
+ 55
+USE solution 1; USE reaction 1
+EQUILIBRIUM_PHASES
+Gypsum 0 4.00;
+Glauberite 0 0
+Thenardite 0 0
+END
+
+REACTION_TEMPERATURE
+ 70
+USE solution 1; USE reaction 1
+EQUILIBRIUM_PHASES
+Gypsum 0 4.00;
+Glauberite 0 0
+Thenardite 0 0
+END
+
+REACTION_TEMPERATURE
+ 85
+USE solution 1; USE reaction 1
+EQUILIBRIUM_PHASES
+Gypsum 0 4.00;
+Anhydrite 0 0 
+Glauberite 0 0
+Thenardite 0 0
+END
+
+REACTION_TEMPERATURE
+ 100
+USE solution 1; USE reaction 1
+EQUILIBRIUM_PHASES
+Anhydrite 0 4.00;
+Glauberite 0 0
+Thenardite 0 0
+END

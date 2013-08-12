@@ -1,34 +1,7 @@
-#DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/pitzer.dat
-PITZER
-# Coefficients from Pabalan and Pitzer, 1987, GCA 51, 2429.
-PITZER
--B0
-  Mg+2  SO4-2  0.2135  -951  0  -2.34e-2  2.28e-5
--B1
-  Mg+2  SO4-2  3.367  -5.78E+03  0 -1.48E-01  1.576E-04
--B2
-  Mg+2  SO4-2  -32.45  0  -3.236e3  21.812  -1.8859e-2
--C0
-  Mg+2  SO4-2  2.875e-2  0  -2.084  1.1428e-2  -8.228e-6
-SOLUTION 1
+INCLUDE$ Pabalan.dat
 
-PHASES
-Epsomite
-	MgSO4:7H2O  =  Mg+2 + SO4-2 + 7 H2O
-	log_k	   -1.881
-	 -analytical_expression  4.479  -6.99e-3  -1.265e3
-	Vm 147
-Hexahydrite
-	MgSO4:6H2O  =  Mg+2 + SO4-2 + 6 H2O
-	log_k	   -1.635
-	 -analytical_expression  -0.733  -2.80e-3  -8.57e-3
-	Vm 132
-Kieserite
-	MgSO4:H2O  =  Mg+2 + SO4-2 + H2O
-	log_k	   -0.123
-	 -analytical_expression  47.24  -0.12077  -5.356e3  0  0  7.272e-5
-	Vm 53.8
+SOLUTION 1
 REACTION_TEMPERATURE 
 0, 25, 30, 35, 40, 45, 50#, 55, 60, 65, 70, 100, 120, 140, 160, 170, 180, 190, 200
 EQUILIBRIUM_PHASES
@@ -43,7 +16,7 @@ USER_GRAPH 1
 -plot_csv_file MgSO4.csv
 10 plot_xy tc, tot("Mg"), symbol_size = 0
 -end
-PRINT;  -status false
+#PRINT; -reset false; -status false
 END
 
 USE solution 1

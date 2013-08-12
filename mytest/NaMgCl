@@ -1,42 +1,14 @@
-#DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/pitzer.dat
-PITZER
-# Coefficients from Pabalan and Pitzer, 1987, GCA 51, 2429.
--B0;  Na+  Cl-  7.552E-2  0  1.518  -6.257E-3  3.052E-6
--B1;  Na+  Cl-  0.2771  -819.8  -5.793  1.358e-2  -4.281e-6
--C0;  Na+  Cl-  1.454e-3   -93.29  0  -5.194e-4  3.282e-7  1.112e4  
-PHASES
-Halite  # Pitzer
-	NaCl  =  Cl- + Na+
-	log_k	   1.570
-	-analytical_expression  -0.388  1.97e-2   511   -1.167  -4.88e4  -2.4432e-5
-	-Vm 27.1
-
-PITZER
--B0;  Mg+2  Cl-  0.351  0  0  -9.32e-4  5.94e-7
--B1;  Mg+2  Cl-  1.65  0  0  -1.09e-2  2.60e-5
--C0;  Mg+2  Cl-  0.00651  0  0  -2.50e-4  2.418e-7
--PSI; Na+  Mg+2  Cl-  -0.012  -9.51
-PHASES
-Bischofite
-	MgCl2:6H2O  =  Mg+2 + 2 Cl- + 6 H2O
-	log_k	   4.455
-	-analytical_expression  7.526  -1.114e-2  115.7
-	Vm 127.1
-MgCl2_4H2O
-	MgCl2:4H2O  =  Mg+2 + 2 Cl- + 4 H2O
-	-analytical_expression  12.98  -2.013e-2
-MgCl2_2H2O
-	MgCl2:2H2O  =  Mg+2 + 2 Cl- + 2 H2O
-	-analytical_expression  -10.273  0  7.403e3
-
+INCLUDE$ Pabalan.dat
+# 
 SOLUTION 1
- Na 7 charge; Cl 7 Halite; -temp 0
+ pH 7 charge; -temp 0
 EQUILIBRIUM_PHASES 1
  Halite
  Bischofite 0 0
 REACTION 1
- MgCl2 1; 13.9 in 20
+ MgCl2 1; 0 9*1
+INCREMENTAL_REACTIONS true
 USER_GRAPH 
 -headings x 0.oC SI("Bischofite")
 -chart_title "Halite saturation curves"
@@ -44,44 +16,45 @@ USER_GRAPH
 -axis_scale x_axis 0 8
 -axis_scale y_axis 0 16
 -axis_scale sy_axis -7 1
--initial true
 10 graph_x tot("Na")
 20 graph_y tot("Mg")
 30 if sim_no = 1 and step_no > 0 then graph_sy SI("Bischofite")
 -end
-PRINT; -status false; -warnings 0
+#PRINT; -reset false
 END
 
 # USE equilibrium_phases 1; USE reaction 1
 # SOLUTION 1
- # Na 7 charge; Cl 7 Halite; -temp 55
+ # pH 7 charge; -temp 55
 # USER_GRAPH 
 # -headings x 55.oC SI_Bischofite
 # END
 
 USE equilibrium_phases 1; USE reaction 1
 SOLUTION 1
- Na 7 charge; Cl 7 Halite; -temp 100
+ pH 7 charge; -temp 100
 USER_GRAPH 
 -headings x 100.oC SI_Bischofite
 END
 
-# USE reaction 1
+# REACTION 1
+ # MgCl2 1; 0 13*1
 # EQUILIBRIUM_PHASES 1
  # Halite
  # MgCl2_4H2O 0 0
 # SOLUTION 1
- # Na 7 charge; Cl 7 Halite; -temp 150
+ # pH 7 charge; -temp 150
 # USER_GRAPH 
 # -headings x 150.oC
 # END
 
-USE reaction 1
+REACTION 1
+ MgCl2 1; 0 15*1
 EQUILIBRIUM_PHASES 1
  Halite
  MgCl2_2H2O 0 0
 SOLUTION 1
- Na 7 charge; Cl 7 Halite; -temp 200
+ pH 7 charge; -temp 200
 USER_GRAPH 
 -headings x 200.oC SI("MgCl2_2H2O")
 10 graph_x tot("Na")
