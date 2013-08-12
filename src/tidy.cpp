@@ -1779,8 +1779,7 @@ tidy_punch(void)
 	for ( ; so_it != SelectedOutput_map.end(); so_it++)
 	{
 		current_selected_output = &(so_it->second);
-		if (current_selected_output == NULL || 
-			current_selected_output->punch_ostream == NULL)
+		if (current_selected_output == NULL)
 			continue;
 
 
@@ -1846,10 +1845,9 @@ tidy_punch(void)
 	{
 		current_selected_output = &(so_it->second);
 		if (current_selected_output == NULL || 
-			current_selected_output->punch_ostream == NULL ||
 			!current_selected_output->Get_new_def())
 			continue;
-		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
+		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
 
 
 		int l;

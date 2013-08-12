@@ -232,7 +232,7 @@ public:
 	void output_msg(const char * str);
 
 	// punch_ostream
-	bool punch_open(const char *file_name);
+	bool punch_open(const char *file_name, int n_user);
 	void punch_flush(void);
 	void punch_close(void);
 	void punch_msg(const char * str);
